@@ -9,12 +9,12 @@ namespace ouzel
 {
     namespace assets
     {
-        class LoaderOBJ: public Loader
+        class LoaderGLTF: public Loader
         {
         public:
-            static const uint32_t TYPE = Loader::MESH;
+            static const uint32_t TYPE = Loader::SKINNED_MESH;
 
-            LoaderOBJ();
+            LoaderGLTF();
             virtual bool loadAsset(const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps = true) override;
         };
     } // namespace assets

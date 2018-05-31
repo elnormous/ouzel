@@ -802,6 +802,12 @@
 		30ADCBBB1E9A9550000DC9AC /* RenderDeviceMetalTVOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30ADCBB91E9A9550000DC9AC /* RenderDeviceMetalTVOS.mm */; };
 		30ADCBBE1E9A957C000DC9AC /* RenderDeviceMetalIOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30ADCBBC1E9A957C000DC9AC /* RenderDeviceMetalIOS.hpp */; };
 		30ADCBBF1E9A957C000DC9AC /* RenderDeviceMetalIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30ADCBBD1E9A957C000DC9AC /* RenderDeviceMetalIOS.mm */; };
+		30AEFA0C20C0A90400CDFD33 /* LoaderGLTF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30AEFA0A20C0A90400CDFD33 /* LoaderGLTF.cpp */; };
+		30AEFA0D20C0A90400CDFD33 /* LoaderGLTF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30AEFA0A20C0A90400CDFD33 /* LoaderGLTF.cpp */; };
+		30AEFA0E20C0A90400CDFD33 /* LoaderGLTF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30AEFA0A20C0A90400CDFD33 /* LoaderGLTF.cpp */; };
+		30AEFA0F20C0A90400CDFD33 /* LoaderGLTF.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30AEFA0B20C0A90400CDFD33 /* LoaderGLTF.hpp */; };
+		30AEFA1020C0A90400CDFD33 /* LoaderGLTF.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30AEFA0B20C0A90400CDFD33 /* LoaderGLTF.hpp */; };
+		30AEFA1120C0A90400CDFD33 /* LoaderGLTF.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30AEFA0B20C0A90400CDFD33 /* LoaderGLTF.hpp */; };
 		30B328841C4E9EAC00040927 /* Ease.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30B328821C4E9EAC00040927 /* Ease.cpp */; };
 		30B328851C4E9EAC00040927 /* Ease.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30B328821C4E9EAC00040927 /* Ease.cpp */; };
 		30B328861C4E9EAC00040927 /* Ease.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30B328821C4E9EAC00040927 /* Ease.cpp */; };
@@ -1231,6 +1237,8 @@
 		30ADCBB91E9A9550000DC9AC /* RenderDeviceMetalTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RenderDeviceMetalTVOS.mm; sourceTree = "<group>"; };
 		30ADCBBC1E9A957C000DC9AC /* RenderDeviceMetalIOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderDeviceMetalIOS.hpp; sourceTree = "<group>"; };
 		30ADCBBD1E9A957C000DC9AC /* RenderDeviceMetalIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RenderDeviceMetalIOS.mm; sourceTree = "<group>"; };
+		30AEFA0A20C0A90400CDFD33 /* LoaderGLTF.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LoaderGLTF.cpp; sourceTree = "<group>"; };
+		30AEFA0B20C0A90400CDFD33 /* LoaderGLTF.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LoaderGLTF.hpp; sourceTree = "<group>"; };
 		30B328821C4E9EAC00040927 /* Ease.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Ease.cpp; sourceTree = "<group>"; };
 		30B328831C4E9EAC00040927 /* Ease.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Ease.hpp; sourceTree = "<group>"; };
 		30B546531D90575B00E45DB6 /* RadioButtonGroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RadioButtonGroup.cpp; sourceTree = "<group>"; };
@@ -1800,6 +1808,8 @@
 				30519CBF1F9B53B700AF3DC4 /* LoaderBMF.hpp */,
 				3022617F1FDB8C59005279FC /* LoaderCollada.cpp */,
 				302261801FDB8C59005279FC /* LoaderCollada.hpp */,
+				30AEFA0A20C0A90400CDFD33 /* LoaderGLTF.cpp */,
+				30AEFA0B20C0A90400CDFD33 /* LoaderGLTF.hpp */,
 				30519CCE1F9B53CB00AF3DC4 /* LoaderImage.cpp */,
 				30519CCF1F9B53CB00AF3DC4 /* LoaderImage.hpp */,
 				30519CE61F9B53F500AF3DC4 /* LoaderMTL.cpp */,
@@ -1970,6 +1980,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30AEFA0F20C0A90400CDFD33 /* LoaderGLTF.hpp in Headers */,
 				3047F75A1C4C4FBA00774E3D /* Scale.hpp in Headers */,
 				30575A931C38BD370009C8A7 /* Box2.hpp in Headers */,
 				30EF36671CA845DC00F04F29 /* ComboBox.hpp in Headers */,
@@ -2129,6 +2140,7 @@
 				3047F75B1C4C4FBA00774E3D /* Scale.hpp in Headers */,
 				30575A941C38BD370009C8A7 /* Box2.hpp in Headers */,
 				30EF36681CA845DC00F04F29 /* ComboBox.hpp in Headers */,
+				30AEFA1120C0A90400CDFD33 /* LoaderGLTF.hpp in Headers */,
 				3072370F1FAFDAB8002EA399 /* JSON.hpp in Headers */,
 				303821381D81876E00677CAB /* BlendStateResourceEmpty.hpp in Headers */,
 				30216B781ED464730073E3D5 /* Material.hpp in Headers */,
@@ -2310,6 +2322,7 @@
 				3047F7721C4D2C3900774E3D /* Parallel.hpp in Headers */,
 				3009341F1C88698500CC50D3 /* Window.hpp in Headers */,
 				30519CA51F97EEB700AF3DC4 /* MeshData.hpp in Headers */,
+				30AEFA1020C0A90400CDFD33 /* LoaderGLTF.hpp in Headers */,
 				30519CCC1F9B53C100AF3DC4 /* LoaderTTF.hpp in Headers */,
 				304A8E711C237C70008B1151 /* Vector2.hpp in Headers */,
 				30EF364E1CA76ACD00F04F29 /* ScrollArea.hpp in Headers */,
@@ -2686,6 +2699,7 @@
 				303821331D81876E00677CAB /* BlendStateResourceEmpty.cpp in Sources */,
 				305B68D31ED1B31D003352A2 /* Timer.cpp in Sources */,
 				30381F6D1D80A3EC00677CAB /* BufferResourceOGL.cpp in Sources */,
+				30AEFA0C20C0A90400CDFD33 /* LoaderGLTF.cpp in Sources */,
 				30A9C1321CAE80570084C4BF /* Localization.cpp in Sources */,
 				303820001D80A40700677CAB /* RenderDeviceMetal.mm in Sources */,
 				30575ACE1C3B175D0009C8A7 /* Label.cpp in Sources */,
@@ -2844,6 +2858,7 @@
 				303B04C41E207B7800011CBE /* OpenGLView.m in Sources */,
 				303821351D81876E00677CAB /* BlendStateResourceEmpty.cpp in Sources */,
 				305B68D51ED1B31D003352A2 /* Timer.cpp in Sources */,
+				30AEFA0E20C0A90400CDFD33 /* LoaderGLTF.cpp in Sources */,
 				303820021D80A40700677CAB /* RenderDeviceMetal.mm in Sources */,
 				30A9C1331CAE80570084C4BF /* Localization.cpp in Sources */,
 				303B764B1C355A3B00FEDE92 /* ImageData.cpp in Sources */,
@@ -2999,6 +3014,7 @@
 				30DADE9C1C5167BC001A63B4 /* Cache.cpp in Sources */,
 				30519CB91F9B53AB00AF3DC4 /* LoaderWave.cpp in Sources */,
 				303B04BC1E207B6D00011CBE /* OpenGLView.m in Sources */,
+				30AEFA0D20C0A90400CDFD33 /* LoaderGLTF.cpp in Sources */,
 				30ADCBB61E9A9479000DC9AC /* RenderDeviceMetalMacOS.mm in Sources */,
 				303821341D81876E00677CAB /* BlendStateResourceEmpty.cpp in Sources */,
 				303820011D80A40700677CAB /* RenderDeviceMetal.mm in Sources */,

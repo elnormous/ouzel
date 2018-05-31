@@ -44,6 +44,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/assets/Loader.cpp \
 	$(ROOT_DIR)/../ouzel/assets/LoaderBMF.cpp \
 	$(ROOT_DIR)/../ouzel/assets/LoaderCollada.cpp \
+	$(ROOT_DIR)/../ouzel/assets/LoaderGLTF.cpp \
 	$(ROOT_DIR)/../ouzel/assets/LoaderImage.cpp \
 	$(ROOT_DIR)/../ouzel/assets/LoaderMTL.cpp \
 	$(ROOT_DIR)/../ouzel/assets/LoaderOBJ.cpp \
