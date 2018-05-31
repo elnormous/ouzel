@@ -12,7 +12,7 @@ namespace ouzel
         class LoaderCollada: public Loader
         {
         public:
-            static const uint32_t TYPE = Loader::MODEL;
+            static const uint32_t TYPE = Loader::SKINNED_MESH;
 
             LoaderCollada();
             virtual bool loadAsset(const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps = true) override;

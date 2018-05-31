@@ -508,7 +508,7 @@ namespace ouzel
 
             if (i == meshData.end())
             {
-                loadAsset(Loader::MODEL, filename, mipmaps);
+                loadAsset(Loader::MESH, filename, mipmaps);
 
                 i = meshData.find(filename);
 

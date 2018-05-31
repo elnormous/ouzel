@@ -20,10 +20,10 @@ namespace ouzel
             {
                 NONE,
                 FONT,
-                MODEL,
+                MESH,
+                SKINNED_MESH,
                 IMAGE,
                 MATERIAL,
-                OBJECT,
                 PARTICLE_SYSTEM,
                 SPRITE,
                 SOUND
