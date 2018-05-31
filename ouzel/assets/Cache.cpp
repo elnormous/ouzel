@@ -26,6 +26,7 @@ namespace ouzel
         {
             addLoader(&loaderBMF);
             addLoader(&loaderCollada);
+            addLoader(&loaderGLTF);
             addLoader(&loaderImage);
             addLoader(&loaderMTL);
             addLoader(&loaderOBJ);
@@ -39,9 +40,7 @@ namespace ouzel
         Cache::~Cache()
         {
             for (Loader* loader : loaders)
-            {
                 loader->cache = nullptr;
-            }
         }
 
         void Cache::clear()

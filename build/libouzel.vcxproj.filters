@@ -445,6 +445,9 @@
     <ClCompile Include="..\ouzel\input\InputSystem.cpp">
       <Filter>ouzel\input</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\assets\LoaderGLTF.cpp">
+      <Filter>ouzel\assets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\animators\Animator.hpp">
@@ -932,6 +935,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\CommandBuffer.hpp">
       <Filter>ouzel\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\assets\LoaderGLTF.hpp">
+      <Filter>ouzel\assets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
