@@ -409,15 +409,16 @@ namespace ouzel
                         else if (vertexIndices.size() == 3)
                         {
                             for (uint32_t vertexIndex : vertexIndices)
-                            {
                                 indices.push_back(vertexIndex);
-                            }
                         }
                         else
                         {
-                            // TODO: implement
-                            Log(Log::Level::ERR) << "Non-triangle faces are not supported";
-                            return false;
+                            for (uint32_t index = 0; index < vertexIndices.size() - 2; ++index)
+                            {
+                                indices.push_back(vertexIndices[0]);
+                                indices.push_back(vertexIndices[index + 1]);
+                                indices.push_back(vertexIndices[index + 2]);
+                            }
                         }
                     }
                     else
