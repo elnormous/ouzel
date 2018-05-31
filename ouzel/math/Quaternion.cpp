@@ -7,9 +7,6 @@
 
 namespace ouzel
 {
-    const Quaternion Quaternion::IDENTITY(0.0F, 0.0F, 0.0F, 1.0F);
-    const Quaternion Quaternion::ZERO(0.0F, 0.0F, 0.0F, 0.0F);
-
     float Quaternion::getNorm()
     {
         float n = x * x + y * y + z * z + w * w;

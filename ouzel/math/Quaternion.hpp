@@ -10,9 +10,6 @@ namespace ouzel
     class Quaternion
     {
     public:
-        static const Quaternion IDENTITY;
-        static const Quaternion ZERO;
-
         float x = 0.0F;
         float y = 0.0F;
         float z = 0.0F;
@@ -30,6 +27,16 @@ namespace ouzel
         Quaternion(const Quaternion& copy):
             x(copy.x), y(copy.y), z(copy.z), w(copy.w)
         {
+        }
+
+        static Quaternion zero()
+        {
+            return Quaternion(0.0F, 0.0F, 0.0F, 0.0F);
+        }
+
+        static Quaternion identity()
+        {
+            return Quaternion(0.0F, 0.0F, 0.0F, 1.0F);
         }
 
         Quaternion operator*(const Quaternion& q) const

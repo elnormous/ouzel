@@ -171,7 +171,7 @@ namespace ouzel
             bool worldHidden = false;
 
             Vector3 position;
-            Quaternion rotation = Quaternion::IDENTITY;
+            Quaternion rotation = Quaternion::identity();
             Vector3 scale = Vector3(1.0F, 1.0F, 1.0F);
             float opacity = 1.0F;
             int32_t order = 0;
