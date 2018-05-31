@@ -263,9 +263,6 @@ namespace ouzel
                         skipLine(data, iterator);
 
                         material.reset();
-                        positions.clear();
-                        texCoords.clear();
-                        normals.clear();
                         vertices.clear();
                         indices.clear();
                         boundingBox.reset();
