@@ -265,6 +265,7 @@ namespace ouzel
                         material.reset();
                         vertices.clear();
                         indices.clear();
+                        vertexMap.clear();
                         boundingBox.reset();
                         ++objectCount;
                     }
