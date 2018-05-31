@@ -1,50 +1,50 @@
 // Copyright (C) 2018 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "ModelRenderer.hpp"
+#include "MeshRenderer.hpp"
 #include "core/Engine.hpp"
 
 namespace ouzel
 {
     namespace scene
     {
-        ModelRenderer::ModelRenderer():
+        MeshRenderer::MeshRenderer():
             Component(CLASS)
         {
             whitePixelTexture = engine->getCache()->getTexture(graphics::TEXTURE_WHITE_PIXEL);
         }
 
-        ModelRenderer::ModelRenderer(const ModelData& modelData):
+        MeshRenderer::MeshRenderer(const MeshData& meshData):
             Component(CLASS)
         {
-            init(modelData);
+            init(meshData);
         }
 
-        ModelRenderer::ModelRenderer(const std::string& filename, bool mipmaps):
+        MeshRenderer::MeshRenderer(const std::string& filename, bool mipmaps):
             Component(CLASS)
         {
             init(filename, mipmaps);
         }
 
-        bool ModelRenderer::init(const ModelData& modelData)
+        bool MeshRenderer::init(const MeshData& meshData)
         {
-            boundingBox = modelData.boundingBox;
-            material = modelData.material;
-            indexCount = modelData.indexCount;
-            indexSize = modelData.indexSize;
-            indexBuffer = modelData.indexBuffer;
-            vertexBuffer = modelData.vertexBuffer;
+            boundingBox = meshData.boundingBox;
+            material = meshData.material;
+            indexCount = meshData.indexCount;
+            indexSize = meshData.indexSize;
+            indexBuffer = meshData.indexBuffer;
+            vertexBuffer = meshData.vertexBuffer;
 
             return true;
         }
 
-        bool ModelRenderer::init(const std::string& filename, bool mipmaps)
+        bool MeshRenderer::init(const std::string& filename, bool mipmaps)
         {
-            //const ModelData& modelData = engine->getCache()->
+            //const MeshData& meshData = engine->getCache()->
             return true;
         }
 
-        void ModelRenderer::draw(const Matrix4& transformMatrix,
+        void MeshRenderer::draw(const Matrix4& transformMatrix,
                                  float opacity,
                                  const Matrix4& renderViewProjection,
                                  bool wireframe)

@@ -152,8 +152,8 @@
     <ClCompile Include="..\ouzel\scene\Component.cpp" />
     <ClCompile Include="..\ouzel\scene\Layer.cpp" />
     <ClCompile Include="..\ouzel\scene\Light.cpp" />
-    <ClCompile Include="..\ouzel\scene\ModelData.cpp" />
-    <ClCompile Include="..\ouzel\scene\ModelRenderer.cpp" />
+    <ClCompile Include="..\ouzel\scene\MeshData.cpp" />
+    <ClCompile Include="..\ouzel\scene\MeshRenderer.cpp" />
     <ClCompile Include="..\ouzel\scene\ParticleSystem.cpp" />
     <ClCompile Include="..\ouzel\scene\ParticleSystemData.cpp" />
     <ClCompile Include="..\ouzel\scene\Scene.cpp" />
@@ -315,8 +315,8 @@
     <ClInclude Include="..\ouzel\scene\Component.hpp" />
     <ClInclude Include="..\ouzel\scene\Layer.hpp" />
     <ClInclude Include="..\ouzel\scene\Light.hpp" />
-    <ClInclude Include="..\ouzel\scene\ModelData.hpp" />
-    <ClInclude Include="..\ouzel\scene\ModelRenderer.hpp" />
+    <ClInclude Include="..\ouzel\scene\MeshData.hpp" />
+    <ClInclude Include="..\ouzel\scene\MeshRenderer.hpp" />
     <ClInclude Include="..\ouzel\scene\ParticleSystem.hpp" />
     <ClInclude Include="..\ouzel\scene\ParticleSystemData.hpp" />
     <ClInclude Include="..\ouzel\scene\Scene.hpp" />

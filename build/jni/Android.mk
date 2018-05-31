@@ -135,8 +135,8 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/scene/Component.cpp \
     ../../ouzel/scene/Layer.cpp \
     ../../ouzel/scene/Light.cpp \
-    ../../ouzel/scene/ModelData.cpp \
-    ../../ouzel/scene/ModelRenderer.cpp \
+    ../../ouzel/scene/MeshData.cpp \
+    ../../ouzel/scene/MeshRenderer.cpp \
     ../../ouzel/scene/ParticleSystem.cpp \
     ../../ouzel/scene/ParticleSystemData.cpp \
     ../../ouzel/scene/Scene.cpp \

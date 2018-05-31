@@ -60,12 +60,12 @@
 		301EB3AD1CCD77F600466E92 /* TextRenderer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 301EB3A91CCD77F600466E92 /* TextRenderer.hpp */; };
 		301EB3AE1CCD77F600466E92 /* TextRenderer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 301EB3A91CCD77F600466E92 /* TextRenderer.hpp */; };
 		301EB3AF1CCD77F600466E92 /* TextRenderer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 301EB3A91CCD77F600466E92 /* TextRenderer.hpp */; };
-		30216B631ED462B80073E3D5 /* ModelRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30216B611ED462B80073E3D5 /* ModelRenderer.cpp */; };
-		30216B641ED462B80073E3D5 /* ModelRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30216B611ED462B80073E3D5 /* ModelRenderer.cpp */; };
-		30216B651ED462B80073E3D5 /* ModelRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30216B611ED462B80073E3D5 /* ModelRenderer.cpp */; };
-		30216B661ED462B80073E3D5 /* ModelRenderer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30216B621ED462B80073E3D5 /* ModelRenderer.hpp */; };
-		30216B671ED462B80073E3D5 /* ModelRenderer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30216B621ED462B80073E3D5 /* ModelRenderer.hpp */; };
-		30216B681ED462B80073E3D5 /* ModelRenderer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30216B621ED462B80073E3D5 /* ModelRenderer.hpp */; };
+		30216B631ED462B80073E3D5 /* MeshRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30216B611ED462B80073E3D5 /* MeshRenderer.cpp */; };
+		30216B641ED462B80073E3D5 /* MeshRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30216B611ED462B80073E3D5 /* MeshRenderer.cpp */; };
+		30216B651ED462B80073E3D5 /* MeshRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30216B611ED462B80073E3D5 /* MeshRenderer.cpp */; };
+		30216B661ED462B80073E3D5 /* MeshRenderer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30216B621ED462B80073E3D5 /* MeshRenderer.hpp */; };
+		30216B671ED462B80073E3D5 /* MeshRenderer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30216B621ED462B80073E3D5 /* MeshRenderer.hpp */; };
+		30216B681ED462B80073E3D5 /* MeshRenderer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30216B621ED462B80073E3D5 /* MeshRenderer.hpp */; };
 		30216B731ED464730073E3D5 /* Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30216B711ED464730073E3D5 /* Material.cpp */; };
 		30216B741ED464730073E3D5 /* Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30216B711ED464730073E3D5 /* Material.cpp */; };
 		30216B751ED464730073E3D5 /* Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30216B711ED464730073E3D5 /* Material.cpp */; };
@@ -544,12 +544,12 @@
 		304F92A81F4D89C50063EEC0 /* Network.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304F92A41F4D89C50063EEC0 /* Network.hpp */; };
 		304F92A91F4D89C50063EEC0 /* Network.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304F92A41F4D89C50063EEC0 /* Network.hpp */; };
 		304F92AA1F4D89C50063EEC0 /* Network.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304F92A41F4D89C50063EEC0 /* Network.hpp */; };
-		30519CA11F97EEB700AF3DC4 /* ModelData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30519C9F1F97EEB700AF3DC4 /* ModelData.cpp */; };
-		30519CA21F97EEB700AF3DC4 /* ModelData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30519C9F1F97EEB700AF3DC4 /* ModelData.cpp */; };
-		30519CA31F97EEB700AF3DC4 /* ModelData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30519C9F1F97EEB700AF3DC4 /* ModelData.cpp */; };
-		30519CA41F97EEB700AF3DC4 /* ModelData.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30519CA01F97EEB700AF3DC4 /* ModelData.hpp */; };
-		30519CA51F97EEB700AF3DC4 /* ModelData.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30519CA01F97EEB700AF3DC4 /* ModelData.hpp */; };
-		30519CA61F97EEB700AF3DC4 /* ModelData.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30519CA01F97EEB700AF3DC4 /* ModelData.hpp */; };
+		30519CA11F97EEB700AF3DC4 /* MeshData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30519C9F1F97EEB700AF3DC4 /* MeshData.cpp */; };
+		30519CA21F97EEB700AF3DC4 /* MeshData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30519C9F1F97EEB700AF3DC4 /* MeshData.cpp */; };
+		30519CA31F97EEB700AF3DC4 /* MeshData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30519C9F1F97EEB700AF3DC4 /* MeshData.cpp */; };
+		30519CA41F97EEB700AF3DC4 /* MeshData.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30519CA01F97EEB700AF3DC4 /* MeshData.hpp */; };
+		30519CA51F97EEB700AF3DC4 /* MeshData.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30519CA01F97EEB700AF3DC4 /* MeshData.hpp */; };
+		30519CA61F97EEB700AF3DC4 /* MeshData.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30519CA01F97EEB700AF3DC4 /* MeshData.hpp */; };
 		30519CAF1F9B4E3E00AF3DC4 /* Loader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30519CAB1F9B4E3E00AF3DC4 /* Loader.hpp */; };
 		30519CB01F9B4E3E00AF3DC4 /* Loader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30519CAB1F9B4E3E00AF3DC4 /* Loader.hpp */; };
 		30519CB11F9B4E3E00AF3DC4 /* Loader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30519CAB1F9B4E3E00AF3DC4 /* Loader.hpp */; };
@@ -935,8 +935,8 @@
 		301EB3A11CCD691800466E92 /* Component.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Component.hpp; sourceTree = "<group>"; };
 		301EB3A81CCD77F600466E92 /* TextRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextRenderer.cpp; sourceTree = "<group>"; };
 		301EB3A91CCD77F600466E92 /* TextRenderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextRenderer.hpp; sourceTree = "<group>"; };
-		30216B611ED462B80073E3D5 /* ModelRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModelRenderer.cpp; sourceTree = "<group>"; };
-		30216B621ED462B80073E3D5 /* ModelRenderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ModelRenderer.hpp; sourceTree = "<group>"; };
+		30216B611ED462B80073E3D5 /* MeshRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MeshRenderer.cpp; sourceTree = "<group>"; };
+		30216B621ED462B80073E3D5 /* MeshRenderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MeshRenderer.hpp; sourceTree = "<group>"; };
 		30216B711ED464730073E3D5 /* Material.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Material.cpp; sourceTree = "<group>"; };
 		30216B721ED464730073E3D5 /* Material.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Material.hpp; sourceTree = "<group>"; };
 		30216B7E1ED5C3900073E3D5 /* Plane.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Plane.cpp; sourceTree = "<group>"; };
@@ -1125,8 +1125,8 @@
 		304E763F1F70AC570025C0DB /* DefaultConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DefaultConfig.h; sourceTree = "<group>"; };
 		304F92A31F4D89C50063EEC0 /* Network.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Network.cpp; sourceTree = "<group>"; };
 		304F92A41F4D89C50063EEC0 /* Network.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Network.hpp; sourceTree = "<group>"; };
-		30519C9F1F97EEB700AF3DC4 /* ModelData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModelData.cpp; sourceTree = "<group>"; };
-		30519CA01F97EEB700AF3DC4 /* ModelData.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ModelData.hpp; sourceTree = "<group>"; };
+		30519C9F1F97EEB700AF3DC4 /* MeshData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MeshData.cpp; sourceTree = "<group>"; };
+		30519CA01F97EEB700AF3DC4 /* MeshData.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MeshData.hpp; sourceTree = "<group>"; };
 		30519CAB1F9B4E3E00AF3DC4 /* Loader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Loader.hpp; sourceTree = "<group>"; };
 		30519CB21F9B506F00AF3DC4 /* Loader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Loader.cpp; sourceTree = "<group>"; };
 		30519CB61F9B53AB00AF3DC4 /* LoaderWave.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LoaderWave.cpp; sourceTree = "<group>"; };
@@ -1437,10 +1437,10 @@
 				30575AA51C39D1FF0009C8A7 /* Layer.hpp */,
 				3066725E1F964A77004515F2 /* Light.cpp */,
 				3066725F1F964A77004515F2 /* Light.hpp */,
-				30519C9F1F97EEB700AF3DC4 /* ModelData.cpp */,
-				30519CA01F97EEB700AF3DC4 /* ModelData.hpp */,
-				30216B611ED462B80073E3D5 /* ModelRenderer.cpp */,
-				30216B621ED462B80073E3D5 /* ModelRenderer.hpp */,
+				30519C9F1F97EEB700AF3DC4 /* MeshData.cpp */,
+				30519CA01F97EEB700AF3DC4 /* MeshData.hpp */,
+				30216B611ED462B80073E3D5 /* MeshRenderer.cpp */,
+				30216B621ED462B80073E3D5 /* MeshRenderer.hpp */,
 				304A8E941C26EDFB008B1151 /* ParticleSystem.cpp */,
 				304A8E951C26EDFB008B1151 /* ParticleSystem.hpp */,
 				302511AF1CD3CA2200D04209 /* ParticleSystemData.cpp */,
@@ -2051,7 +2051,7 @@
 				303B75621C2A3CBF00FEDE92 /* Actor.hpp in Headers */,
 				303696EF1E32DE08007F4211 /* Shader.hpp in Headers */,
 				3047F77B1C4D39C500774E3D /* Repeat.hpp in Headers */,
-				30519CA41F97EEB700AF3DC4 /* ModelData.hpp in Headers */,
+				30519CA41F97EEB700AF3DC4 /* MeshData.hpp in Headers */,
 				3047F7621C4C60B900774E3D /* Fade.hpp in Headers */,
 				3072370D1FAFDAB8002EA399 /* JSON.hpp in Headers */,
 				3039335A1E5C446E000C9A8E /* ImageDataSTB.hpp in Headers */,
@@ -2118,7 +2118,7 @@
 				30B328881C4E9EAC00040927 /* Ease.hpp in Headers */,
 				305B998D1C41EFFA008589E1 /* Menu.hpp in Headers */,
 				305B99A01C42A695008589E1 /* BMFont.hpp in Headers */,
-				30216B661ED462B80073E3D5 /* ModelRenderer.hpp in Headers */,
+				30216B661ED462B80073E3D5 /* MeshRenderer.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2269,13 +2269,13 @@
 				30381F161D8094F100677CAB /* BufferResource.hpp in Headers */,
 				30419DEE1D162BDC00A63759 /* Sound.hpp in Headers */,
 				306672651F964A77004515F2 /* Light.hpp in Headers */,
-				30519CA61F97EEB700AF3DC4 /* ModelData.hpp in Headers */,
+				30519CA61F97EEB700AF3DC4 /* MeshData.hpp in Headers */,
 				30EF36581CA76AE200F04F29 /* ScrollBar.hpp in Headers */,
 				30EA71201D52783000AE8C3E /* EngineTVOS.hpp in Headers */,
 				30B328891C4E9EAC00040927 /* Ease.hpp in Headers */,
 				305B998E1C41EFFA008589E1 /* Menu.hpp in Headers */,
 				305B99A11C42A695008589E1 /* BMFont.hpp in Headers */,
-				30216B681ED462B80073E3D5 /* ModelRenderer.hpp in Headers */,
+				30216B681ED462B80073E3D5 /* MeshRenderer.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2309,7 +2309,7 @@
 				30C758B91F4A0309008499DC /* RenderDevice.hpp in Headers */,
 				3047F7721C4D2C3900774E3D /* Parallel.hpp in Headers */,
 				3009341F1C88698500CC50D3 /* Window.hpp in Headers */,
-				30519CA51F97EEB700AF3DC4 /* ModelData.hpp in Headers */,
+				30519CA51F97EEB700AF3DC4 /* MeshData.hpp in Headers */,
 				30519CCC1F9B53C100AF3DC4 /* LoaderTTF.hpp in Headers */,
 				304A8E711C237C70008B1151 /* Vector2.hpp in Headers */,
 				30EF364E1CA76ACD00F04F29 /* ScrollArea.hpp in Headers */,
@@ -2333,7 +2333,7 @@
 				30B328871C4E9EAC00040927 /* Ease.hpp in Headers */,
 				3049DCE81EDCD1FA0000997A /* CursorResourceMacOS.hpp in Headers */,
 				30EF36561CA76AE200F04F29 /* ScrollBar.hpp in Headers */,
-				30216B671ED462B80073E3D5 /* ModelRenderer.hpp in Headers */,
+				30216B671ED462B80073E3D5 /* MeshRenderer.hpp in Headers */,
 				30575AA91C39D1FF0009C8A7 /* Layer.hpp in Headers */,
 				303B754C1C2A3CA200FEDE92 /* ImageData.hpp in Headers */,
 				3038200A1D80A40700677CAB /* ShaderResourceMetal.hpp in Headers */,
@@ -2599,7 +2599,7 @@
 				3047F7681C4D2C2000774E3D /* Sequence.cpp in Sources */,
 				30A883641E7432DA004A033F /* Archive.cpp in Sources */,
 				303B75631C2A3CBF00FEDE92 /* ParticleSystem.cpp in Sources */,
-				30519CA11F97EEB700AF3DC4 /* ModelData.cpp in Sources */,
+				30519CA11F97EEB700AF3DC4 /* MeshData.cpp in Sources */,
 				30419DEA1D162BDC00A63759 /* Sound.cpp in Sources */,
 				30575A9F1C39CB790009C8A7 /* Scene.cpp in Sources */,
 				303B76091C34A92B00FEDE92 /* InputManager.cpp in Sources */,
@@ -2657,7 +2657,7 @@
 				304F92A51F4D89C50063EEC0 /* Network.cpp in Sources */,
 				3009341D1C88698500CC50D3 /* Window.cpp in Sources */,
 				30B328851C4E9EAC00040927 /* Ease.cpp in Sources */,
-				30216B631ED462B80073E3D5 /* ModelRenderer.cpp in Sources */,
+				30216B631ED462B80073E3D5 /* MeshRenderer.cpp in Sources */,
 				30381F111D8094F100677CAB /* BufferResource.cpp in Sources */,
 				30CC89F9203C5DFB00E2C8C3 /* File.cpp in Sources */,
 				3067D7A5209B450F008DF6AF /* InputSystem.cpp in Sources */,
@@ -2756,7 +2756,7 @@
 				30A883661E7432DA004A033F /* Archive.cpp in Sources */,
 				3047F7691C4D2C2000774E3D /* Sequence.cpp in Sources */,
 				30419DEB1D162BDC00A63759 /* Sound.cpp in Sources */,
-				30519CA31F97EEB700AF3DC4 /* ModelData.cpp in Sources */,
+				30519CA31F97EEB700AF3DC4 /* MeshData.cpp in Sources */,
 				30724D861F353A1800D915ED /* ViewTVOS.mm in Sources */,
 				303B76371C355A3B00FEDE92 /* ParticleSystem.cpp in Sources */,
 				30575AA01C39CB790009C8A7 /* Scene.cpp in Sources */,
@@ -2817,7 +2817,7 @@
 				30381F131D8094F100677CAB /* BufferResource.cpp in Sources */,
 				30B328861C4E9EAC00040927 /* Ease.cpp in Sources */,
 				3098A5601EA01CA900528A54 /* GamepadTVOS.mm in Sources */,
-				30216B651ED462B80073E3D5 /* ModelRenderer.cpp in Sources */,
+				30216B651ED462B80073E3D5 /* MeshRenderer.cpp in Sources */,
 				3067D7A7209B450F008DF6AF /* InputSystem.cpp in Sources */,
 				30CC89FB203C5DFB00E2C8C3 /* File.cpp in Sources */,
 				30519CB51F9B506F00AF3DC4 /* Loader.cpp in Sources */,
@@ -2909,14 +2909,14 @@
 				30381FB61D80A3F900677CAB /* AudioDeviceAL.cpp in Sources */,
 				303821581D81876E00677CAB /* TextureResourceEmpty.cpp in Sources */,
 				303820871D816C9E00677CAB /* WindowResourceMacOS.mm in Sources */,
-				30216B641ED462B80073E3D5 /* ModelRenderer.cpp in Sources */,
+				30216B641ED462B80073E3D5 /* MeshRenderer.cpp in Sources */,
 				30575ABC1C39D9850009C8A7 /* ActorContainer.cpp in Sources */,
 				30EF36531CA76AE200F04F29 /* ScrollBar.cpp in Sources */,
 				3098A55A1EA01C8A00528A54 /* InputManagerMacOS.mm in Sources */,
 				30575AA61C39D1FF0009C8A7 /* Layer.cpp in Sources */,
 				30A883651E7432DA004A033F /* Archive.cpp in Sources */,
 				30A9C13A1CAEBA540084C4BF /* Language.cpp in Sources */,
-				30519CA21F97EEB700AF3DC4 /* ModelData.cpp in Sources */,
+				30519CA21F97EEB700AF3DC4 /* MeshData.cpp in Sources */,
 				30419DE91D162BDC00A63759 /* Sound.cpp in Sources */,
 				304B27551C9384A600BA162D /* Size3.cpp in Sources */,
 				303B76081C34A92B00FEDE92 /* InputManager.cpp in Sources */,

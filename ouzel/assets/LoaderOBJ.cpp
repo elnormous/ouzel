@@ -248,9 +248,9 @@ namespace ouzel
                     {
                         if (objectCount)
                         {
-                            scene::ModelData modelData;
-                            if (!modelData.init(boundingBox, indices, vertices, material)) return false;
-                            engine->getCache()->setModelData(name, modelData);
+                            scene::MeshData meshData;
+                            if (!meshData.init(boundingBox, indices, vertices, material)) return false;
+                            engine->getCache()->setMeshData(name, meshData);
                         }
 
                         if (!skipWhitespaces(data, iterator) ||
@@ -437,9 +437,9 @@ namespace ouzel
 
             if (objectCount)
             {
-                scene::ModelData modelData;
-                if (!modelData.init(boundingBox, indices, vertices, material)) return false;
-                engine->getCache()->setModelData(name, modelData);
+                scene::MeshData meshData;
+                if (!meshData.init(boundingBox, indices, vertices, material)) return false;
+                engine->getCache()->setMeshData(name, meshData);
             }
 
             return true;

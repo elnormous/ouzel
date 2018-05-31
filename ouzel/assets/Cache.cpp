@@ -53,7 +53,7 @@ namespace ouzel
             releaseSpriteData();
             releaseFonts();
             releaseMaterials();
-            releaseModelData();
+            releaseMeshData();
         }
 
         void Cache::addLoader(Loader* loader)
@@ -502,32 +502,32 @@ namespace ouzel
             materials.clear();
         }
 
-        const scene::ModelData& Cache::getModelData(const std::string& filename, bool mipmaps) const
+        const scene::MeshData& Cache::getMeshData(const std::string& filename, bool mipmaps) const
         {
-            auto i = modelData.find(filename);
+            auto i = meshData.find(filename);
 
-            if (i == modelData.end())
+            if (i == meshData.end())
             {
                 loadAsset(Loader::MODEL, filename, mipmaps);
 
-                i = modelData.find(filename);
+                i = meshData.find(filename);
 
-                if (i == modelData.end())
+                if (i == meshData.end())
                 {
-                    scene::ModelData newModelData;
-                    i = modelData.insert(std::make_pair(filename, newModelData)).first;
+                    scene::MeshData newMeshData;
+                    i = meshData.insert(std::make_pair(filename, newMeshData)).first;
                 }
             }
 
             return i->second;
         }
 
-        void Cache::setModelData(const std::string& filename, const scene::ModelData& newModelData)
+        void Cache::setMeshData(const std::string& filename, const scene::MeshData& newMeshData)
         {
-            modelData[filename] = newModelData;
+            meshData[filename] = newMeshData;
         }
 
-        void Cache::releaseModelData()
+        void Cache::releaseMeshData()
         {
             particleSystemData.clear();
         }
