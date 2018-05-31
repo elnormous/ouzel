@@ -76,30 +76,21 @@ namespace ouzel
 
             const Matrix4& getLocalTransform() const
             {
-                if (localTransformDirty)
-                {
-                    calculateLocalTransform();
-                }
+                if (localTransformDirty) calculateLocalTransform();
 
                 return localTransform;
             }
 
             const Matrix4& getTransform() const
             {
-                if (transformDirty)
-                {
-                    calculateTransform();
-                }
+                if (transformDirty) calculateTransform();
 
                 return transform;
             }
 
             const Matrix4& getInverseTransform() const
             {
-                if (inverseTransformDirty)
-                {
-                    calculateInverseTransform();
-                }
+                if (inverseTransformDirty) calculateInverseTransform();
 
                 return inverseTransform;
             }

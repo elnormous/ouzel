@@ -275,11 +275,11 @@ namespace ouzel
 
             localTransform *= rotationMatrix;
 
-            Vector3 realScale = Vector3(scale.x * (flipX ? -1.0F : 1.0F),
-                                        scale.y * (flipY ? -1.0F : 1.0F),
-                                        scale.z);
+            Vector3 finalScale = Vector3(scale.x * (flipX ? -1.0F : 1.0F),
+                                         scale.y * (flipY ? -1.0F : 1.0F),
+                                         scale.z);
 
-            localTransform.scale(realScale);
+            localTransform.scale(finalScale);
 
             localTransformDirty = false;
         }
