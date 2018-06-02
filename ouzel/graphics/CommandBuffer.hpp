@@ -18,6 +18,8 @@ namespace ouzel
         {
             enum Type
             {
+                INIT_RENDER_TARGET,
+                SET_RENDER_TARGET_PARAMETERS,
                 SET_RENDER_TARGET,
                 CLEAR,
                 BLIT,
@@ -38,7 +40,7 @@ namespace ouzel
                 SET_SHADER_CONSTANTS,
                 INIT_TEXTURE,
                 SET_TEXTURE_DATA,
-                SET_TEXTURE_FLAGS,
+                SET_TEXTURE_PARAMETERS,
                 SET_TEXTURES
             };
 
@@ -48,6 +50,28 @@ namespace ouzel
             }
 
             const Type type;
+        };
+
+        struct InitRenderTargetCommand: public Command
+        {
+            InitRenderTargetCommand(TextureResource* initRenderTarget):
+                Command(Command::Type::INIT_RENDER_TARGET),
+                renderTarget(initRenderTarget)
+            {
+            }
+
+            TextureResource* renderTarget;
+        };
+
+        struct SetRenderTargetParametersCommand: public Command
+        {
+            SetRenderTargetParametersCommand(TextureResource* initRenderTarget):
+                Command(Command::Type::SET_RENDER_TARGET_PARAMETERS),
+                renderTarget(initRenderTarget)
+            {
+            }
+
+            TextureResource* renderTarget;
         };
 
         struct SetRenderTargetCommand: public Command
@@ -365,10 +389,10 @@ namespace ouzel
             TextureResource* texture;
         };
 
-        struct SetTextureFlagsCommand: public Command
+        struct SetTextureParametersCommand: public Command
         {
-            SetTextureFlagsCommand(TextureResource* initTexture):
-                Command(Command::Type::SET_TEXTURE_FLAGS),
+            SetTextureParametersCommand(TextureResource* initTexture):
+                Command(Command::Type::SET_TEXTURE_PARAMETERS),
                 texture(initTexture)
             {
             }
@@ -493,6 +517,8 @@ namespace ouzel
 
                 switch (command->type)
                 {
+                    case Command::Type::INIT_RENDER_TARGET: position += deleteCommand(static_cast<InitRenderTargetCommand*>(command)); break;
+                    case Command::Type::SET_RENDER_TARGET_PARAMETERS: position += deleteCommand(static_cast<SetRenderTargetParametersCommand*>(command)); break;
                     case Command::Type::SET_RENDER_TARGET: position += deleteCommand(static_cast<SetRenderTargetCommand*>(command)); break;
                     case Command::Type::CLEAR: position += deleteCommand(static_cast<ClearCommand*>(command)); break;
                     case Command::Type::SET_CULL_MODE: position += deleteCommand(static_cast<SetCullModeCommad*>(command)); break;
@@ -511,7 +537,7 @@ namespace ouzel
                     case Command::Type::SET_SHADER_CONSTANTS: position += deleteCommand(static_cast<SetShaderConstantsCommand*>(command)); break;
                     case Command::Type::INIT_TEXTURE: position += deleteCommand(static_cast<InitTextureCommand*>(command)); break;
                     case Command::Type::SET_TEXTURE_DATA: position += deleteCommand(static_cast<SetTextureDataCommand*>(command)); break;
-                    case Command::Type::SET_TEXTURE_FLAGS: position += deleteCommand(static_cast<SetTextureFlagsCommand*>(command)); break;
+                    case Command::Type::SET_TEXTURE_PARAMETERS: position += deleteCommand(static_cast<SetTextureParametersCommand*>(command)); break;
                     case Command::Type::SET_TEXTURES: position += deleteCommand(static_cast<SetTexturesCommand*>(command)); break;
                     default: break;
                 }
@@ -553,6 +579,8 @@ namespace ouzel
 
                     switch (command->type)
                     {
+                        case Command::Type::INIT_RENDER_TARGET: offset += moveCommand(static_cast<InitRenderTargetCommand*>(command), newBuffer + offset); break;
+                        case Command::Type::SET_RENDER_TARGET_PARAMETERS: offset += moveCommand(static_cast<SetRenderTargetParametersCommand*>(command), newBuffer + offset); break;
                         case Command::Type::SET_RENDER_TARGET: offset += moveCommand(static_cast<SetRenderTargetCommand*>(command), newBuffer + offset); break;
                         case Command::Type::CLEAR: offset += moveCommand(static_cast<ClearCommand*>(command), newBuffer + offset); break;
                         case Command::Type::SET_CULL_MODE: offset += moveCommand(static_cast<SetCullModeCommad*>(command), newBuffer + offset); break;
@@ -571,7 +599,7 @@ namespace ouzel
                         case Command::Type::SET_SHADER_CONSTANTS: offset += moveCommand(static_cast<SetShaderConstantsCommand*>(command), newBuffer + offset); break;
                         case Command::Type::INIT_TEXTURE: offset += moveCommand(static_cast<InitTextureCommand*>(command), newBuffer + offset); break;
                         case Command::Type::SET_TEXTURE_DATA: offset += moveCommand(static_cast<SetTextureDataCommand*>(command), newBuffer + offset); break;
-                        case Command::Type::SET_TEXTURE_FLAGS: offset += moveCommand(static_cast<SetTextureFlagsCommand*>(command), newBuffer + offset); break;
+                        case Command::Type::SET_TEXTURE_PARAMETERS: offset += moveCommand(static_cast<SetTextureParametersCommand*>(command), newBuffer + offset); break;
                         case Command::Type::SET_TEXTURES: offset += moveCommand(static_cast<SetTexturesCommand*>(command), newBuffer + offset); break;
                         default: assert(false);
                     }
@@ -589,6 +617,8 @@ namespace ouzel
 
                     switch (command->type)
                     {
+                        case Command::Type::INIT_RENDER_TARGET: offset += deleteCommand(static_cast<InitRenderTargetCommand*>(command)); break;
+                        case Command::Type::SET_RENDER_TARGET_PARAMETERS: offset += deleteCommand(static_cast<SetRenderTargetParametersCommand*>(command)); break;
                         case Command::Type::SET_RENDER_TARGET: offset += deleteCommand(static_cast<SetRenderTargetCommand*>(command)); break;
                         case Command::Type::CLEAR: offset += deleteCommand(static_cast<ClearCommand*>(command)); break;
                         case Command::Type::SET_CULL_MODE: offset += deleteCommand(static_cast<SetCullModeCommad*>(command)); break;
@@ -607,7 +637,7 @@ namespace ouzel
                         case Command::Type::SET_SHADER_CONSTANTS: offset += deleteCommand(static_cast<SetShaderConstantsCommand*>(command)); break;
                         case Command::Type::INIT_TEXTURE: offset += deleteCommand(static_cast<InitTextureCommand*>(command)); break;
                         case Command::Type::SET_TEXTURE_DATA: offset += deleteCommand(static_cast<SetTextureDataCommand*>(command)); break;
-                        case Command::Type::SET_TEXTURE_FLAGS: offset += deleteCommand(static_cast<SetTextureFlagsCommand*>(command)); break;
+                        case Command::Type::SET_TEXTURE_PARAMETERS: offset += deleteCommand(static_cast<SetTextureParametersCommand*>(command)); break;
                         case Command::Type::SET_TEXTURES: offset += deleteCommand(static_cast<SetTexturesCommand*>(command)); break;
                         default: assert(false);
                     }
