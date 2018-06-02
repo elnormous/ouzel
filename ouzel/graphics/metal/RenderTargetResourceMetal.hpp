@@ -3,16 +3,13 @@
 
 #pragma once
 
-#include "graphics/BufferResource.hpp"
-
 namespace ouzel
 {
     namespace graphics
     {
-        class BufferResourceEmpty: public BufferResource
+        class RenderTargetResourceMetal
         {
         public:
-            BufferResourceEmpty();
         };
     } // namespace graphics
 } // namespace ouzel
