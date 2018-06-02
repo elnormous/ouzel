@@ -69,12 +69,14 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/graphics/empty/BlendStateResourceEmpty.cpp \
     ../../ouzel/graphics/empty/BufferResourceEmpty.cpp \
     ../../ouzel/graphics/empty/RenderDeviceEmpty.cpp \
+	../../ouzel/graphics/empty/RenderTargetResourceEmpty.cpp \
     ../../ouzel/graphics/empty/ShaderResourceEmpty.cpp \
     ../../ouzel/graphics/empty/TextureResourceEmpty.cpp \
     ../../ouzel/graphics/opengl/android/RenderDeviceOGLAndroid.cpp \
     ../../ouzel/graphics/opengl/BlendStateResourceOGL.cpp \
     ../../ouzel/graphics/opengl/BufferResourceOGL.cpp \
     ../../ouzel/graphics/opengl/RenderDeviceOGL.cpp \
+	../../ouzel/graphics/opengl/RenderTargetResourceOGL.cpp \
     ../../ouzel/graphics/opengl/ShaderResourceOGL.cpp \
     ../../ouzel/graphics/opengl/TextureResourceOGL.cpp \
     ../../ouzel/graphics/BlendState.cpp \
@@ -86,6 +88,8 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/graphics/Material.cpp \
     ../../ouzel/graphics/Renderer.cpp \
     ../../ouzel/graphics/RenderDevice.cpp \
+	../../ouzel/graphics/RenderTarget.cpp \
+	../../ouzel/graphics/RenderTargetResource.cpp \
     ../../ouzel/graphics/Shader.cpp \
     ../../ouzel/graphics/ShaderResource.cpp \
     ../../ouzel/graphics/Texture.cpp \
