@@ -4,9 +4,9 @@
 #pragma once
 
 #include <cassert>
-#include "graphics/RenderResource.hpp"
 #include "graphics/BlendState.hpp"
 #include "graphics/Buffer.hpp"
+#include "graphics/RenderTarget.hpp"
 #include "graphics/Shader.hpp"
 #include "graphics/Texture.hpp"
 
@@ -54,24 +54,26 @@ namespace ouzel
 
         struct InitRenderTargetCommand: public Command
         {
-            InitRenderTargetCommand(TextureResource* initRenderTarget):
+            InitRenderTargetCommand(RenderTarget* initRenderTarget):
                 Command(Command::Type::INIT_RENDER_TARGET),
                 renderTarget(initRenderTarget)
             {
             }
 
-            TextureResource* renderTarget;
+            RenderTarget* renderTarget;
+            uint32_t width;
+            uint32_t height;
         };
 
         struct SetRenderTargetParametersCommand: public Command
         {
-            SetRenderTargetParametersCommand(TextureResource* initRenderTarget):
+            SetRenderTargetParametersCommand(RenderTarget* initRenderTarget):
                 Command(Command::Type::SET_RENDER_TARGET_PARAMETERS),
                 renderTarget(initRenderTarget)
             {
             }
 
-            TextureResource* renderTarget;
+            RenderTarget* renderTarget;
         };
 
         struct SetRenderTargetCommand: public Command
