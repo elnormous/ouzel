@@ -6,11 +6,11 @@
 #include "graphics/Renderer.hpp"
 #include "graphics/Vertex.hpp"
 #include "graphics/CommandBuffer.hpp"
-#include "graphics/RenderResource.hpp"
-#include "graphics/BlendState.hpp"
-#include "graphics/Buffer.hpp"
-#include "graphics/Shader.hpp"
-#include "graphics/Texture.hpp"
+#include "graphics/BlendStateResource.hpp"
+#include "graphics/BufferResource.hpp"
+#include "graphics/RenderTargetResource.hpp"
+#include "graphics/ShaderResource.hpp"
+#include "graphics/TextureResource.hpp"
 #include "thread/Condition.hpp"
 #include "thread/Mutex.hpp"
 
@@ -116,9 +116,10 @@ namespace ouzel
             virtual void setSize(const Size2& newSize);
 
             virtual BlendStateResource* createBlendState() = 0;
-            virtual TextureResource* createTexture() = 0;
-            virtual ShaderResource* createShader() = 0;
             virtual BufferResource* createBuffer() = 0;
+            virtual RenderTargetResource* createRenderTarget() = 0;
+            virtual ShaderResource* createShader() = 0;
+            virtual TextureResource* createTexture() = 0;
             virtual void deleteResource(RenderResource* resource);
 
             virtual bool processCommands(CommandBuffer& commands) = 0;

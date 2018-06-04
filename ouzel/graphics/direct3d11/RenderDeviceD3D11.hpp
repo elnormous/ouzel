@@ -68,9 +68,10 @@ namespace ouzel
             void main();
 
             virtual BlendStateResource* createBlendState() override;
-            virtual TextureResource* createTexture() override;
-            virtual ShaderResource* createShader() override;
             virtual BufferResource* createBuffer() override;
+            virtual RenderTargetResource* createRenderTarget() override;
+            virtual ShaderResource* createShader() override;
+            virtual TextureResource* createTexture() override;
 
             IDXGIOutput* getOutput() const;
 

@@ -3,13 +3,16 @@
 
 #pragma once
 
+#include "graphics/RenderTargetResource.hpp"
+
 namespace ouzel
 {
     namespace graphics
     {
-        class RenderTargetResourceMetal
+        class RenderTargetResourceMetal: public RenderTargetResource
         {
         public:
+            RenderTargetResourceMetal() {}
         };
     } // namespace graphics
 } // namespace ouzel

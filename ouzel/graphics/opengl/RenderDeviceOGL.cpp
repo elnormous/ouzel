@@ -35,10 +35,11 @@
 #endif
 
 #include "RenderDeviceOGL.hpp"
-#include "TextureResourceOGL.hpp"
-#include "ShaderResourceOGL.hpp"
-#include "BufferResourceOGL.hpp"
 #include "BlendStateResourceOGL.hpp"
+#include "BufferResourceOGL.hpp"
+#include "RenderTargetResourceOGL.hpp"
+#include "ShaderResourceOGL.hpp"
+#include "TextureResourceOGL.hpp"
 #include "core/Engine.hpp"
 #include "core/Window.hpp"
 #include "assets/Cache.hpp"
@@ -1487,13 +1488,22 @@ namespace ouzel
             return blendState;
         }
 
-        TextureResource* RenderDeviceOGL::createTexture()
+        BufferResource* RenderDeviceOGL::createBuffer()
         {
             Lock lock(resourceMutex);
 
-            TextureResource* texture = new TextureResourceOGL(*this);
-            resources.push_back(std::unique_ptr<RenderResource>(texture));
-            return texture;
+            BufferResource* buffer = new BufferResourceOGL(*this);
+            resources.push_back(std::unique_ptr<RenderResource>(buffer));
+            return buffer;
+        }
+
+        RenderTargetResource* RenderDeviceOGL::createRenderTarget()
+        {
+            Lock lock(resourceMutex);
+
+            RenderTargetResource* renderTarget = new RenderTargetResourceOGL();
+            resources.push_back(std::unique_ptr<RenderResource>(renderTarget));
+            return renderTarget;
         }
 
         ShaderResource* RenderDeviceOGL::createShader()
@@ -1505,13 +1515,13 @@ namespace ouzel
             return shader;
         }
 
-        BufferResource* RenderDeviceOGL::createBuffer()
+        TextureResource* RenderDeviceOGL::createTexture()
         {
             Lock lock(resourceMutex);
 
-            BufferResource* buffer = new BufferResourceOGL(*this);
-            resources.push_back(std::unique_ptr<RenderResource>(buffer));
-            return buffer;
+            TextureResource* texture = new TextureResourceOGL(*this);
+            resources.push_back(std::unique_ptr<RenderResource>(texture));
+            return texture;
         }
 
         void* RenderDeviceOGL::getProcAddress(const std::string& name) const
