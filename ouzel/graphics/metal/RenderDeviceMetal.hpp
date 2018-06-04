@@ -101,9 +101,10 @@ namespace ouzel
             virtual bool generateScreenshot(const std::string& filename) override;
 
             virtual BlendStateResource* createBlendState() override;
-            virtual TextureResource* createTexture() override;
-            virtual ShaderResource* createShader() override;
             virtual BufferResource* createBuffer() override;
+            virtual RenderTargetResource* createRenderTarget() override;
+            virtual ShaderResource* createShader() override;
+            virtual TextureResource* createTexture() override;
 
             class PipelineStateDesc
             {

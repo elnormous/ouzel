@@ -3,9 +3,10 @@
 
 #include "RenderDeviceEmpty.hpp"
 #include "BlendStateResourceEmpty.hpp"
-#include "TextureResourceEmpty.hpp"
-#include "ShaderResourceEmpty.hpp"
 #include "BufferResourceEmpty.hpp"
+#include "RenderTargetResourceEmpty.hpp"
+#include "ShaderResourceEmpty.hpp"
+#include "TextureResourceEmpty.hpp"
 #include "core/Engine.hpp"
 #include "thread/Lock.hpp"
 #include "assets/Cache.hpp"
@@ -77,13 +78,22 @@ namespace ouzel
             return blendState;
         }
 
-        TextureResource* RenderDeviceEmpty::createTexture()
+        BufferResource* RenderDeviceEmpty::createBuffer()
         {
             Lock lock(resourceMutex);
 
-            TextureResource* texture(new TextureResourceEmpty());
-            resources.push_back(std::unique_ptr<RenderResource>(texture));
-            return texture;
+            BufferResource* buffer = new BufferResourceEmpty();
+            resources.push_back(std::unique_ptr<RenderResource>(buffer));
+            return buffer;
+        }
+
+        RenderTargetResource* RenderDeviceEmpty::createRenderTarget()
+        {
+            Lock lock(resourceMutex);
+
+            RenderTargetResource* renderTarget = new RenderTargetResourceEmpty();
+            resources.push_back(std::unique_ptr<RenderResource>(renderTarget));
+            return renderTarget;
         }
 
         ShaderResource* RenderDeviceEmpty::createShader()
@@ -95,13 +105,13 @@ namespace ouzel
             return shader;
         }
 
-        BufferResource* RenderDeviceEmpty::createBuffer()
+        TextureResource* RenderDeviceEmpty::createTexture()
         {
             Lock lock(resourceMutex);
 
-            BufferResource* buffer = new BufferResourceEmpty();
-            resources.push_back(std::unique_ptr<RenderResource>(buffer));
-            return buffer;
+            TextureResource* texture(new TextureResourceEmpty());
+            resources.push_back(std::unique_ptr<RenderResource>(texture));
+            return texture;
         }
     } // namespace graphics
 } // namespace ouzel

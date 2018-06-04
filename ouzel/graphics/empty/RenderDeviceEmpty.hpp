@@ -27,9 +27,10 @@ namespace ouzel
             virtual bool processCommands(CommandBuffer& commands) override;
 
             virtual BlendStateResource* createBlendState() override;
+            virtual BufferResource* createBuffer() override;
+            virtual RenderTargetResource* createRenderTarget() override;
             virtual TextureResource* createTexture() override;
             virtual ShaderResource* createShader() override;
-            virtual BufferResource* createBuffer() override;
         };
     } // namespace graphics
 } // namespace ouzel

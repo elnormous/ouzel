@@ -8,9 +8,10 @@
 #if OUZEL_COMPILE_METAL
 
 #include "RenderDeviceMetal.hpp"
-#include "TextureResourceMetal.hpp"
-#include "ShaderResourceMetal.hpp"
 #include "BufferResourceMetal.hpp"
+#include "RenderTargetResourceMetal.hpp"
+#include "ShaderResourceMetal.hpp"
+#include "TextureResourceMetal.hpp"
 #include "BlendStateResourceMetal.hpp"
 #include "events/EventDispatcher.hpp"
 
@@ -999,13 +1000,22 @@ namespace ouzel
             return blendState;
         }
 
-        TextureResource* RenderDeviceMetal::createTexture()
+        BufferResource* RenderDeviceMetal::createBuffer()
         {
             Lock lock(resourceMutex);
 
-            TextureResource* texture = new TextureResourceMetal(*this);
-            resources.push_back(std::unique_ptr<RenderResource>(texture));
-            return texture;
+            BufferResource* buffer = new BufferResourceMetal(*this);
+            resources.push_back(std::unique_ptr<RenderResource>(buffer));
+            return buffer;
+        }
+
+        RenderTargetResource* RenderDeviceMetal::createRenderTarget()
+        {
+            Lock lock(resourceMutex);
+
+            RenderTargetResource* renderTarget = new RenderTargetResourceMetal();
+            resources.push_back(std::unique_ptr<RenderResource>(renderTarget));
+            return renderTarget;
         }
 
         ShaderResource* RenderDeviceMetal::createShader()
@@ -1017,13 +1027,13 @@ namespace ouzel
             return shader;
         }
 
-        BufferResource* RenderDeviceMetal::createBuffer()
+        TextureResource* RenderDeviceMetal::createTexture()
         {
             Lock lock(resourceMutex);
 
-            BufferResource* buffer = new BufferResourceMetal(*this);
-            resources.push_back(std::unique_ptr<RenderResource>(buffer));
-            return buffer;
+            TextureResource* texture = new TextureResourceMetal(*this);
+            resources.push_back(std::unique_ptr<RenderResource>(texture));
+            return texture;
         }
 
         MTLRenderPipelineStatePtr RenderDeviceMetal::getPipelineState(const PipelineStateDesc& desc)

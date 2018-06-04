@@ -9,9 +9,10 @@
 
 #include "RenderDeviceD3D11.hpp"
 #include "BlendStateResourceD3D11.hpp"
-#include "TextureResourceD3D11.hpp"
-#include "ShaderResourceD3D11.hpp"
 #include "BufferResourceD3D11.hpp"
+#include "RenderTargetResourceD3D11.hpp"
+#include "ShaderResourceD3D11.hpp"
+#include "TextureResourceD3D11.hpp"
 #include "direct3d11/TexturePSD3D11.h"
 #include "direct3d11/TextureVSD3D11.h"
 #include "direct3d11/ColorPSD3D11.h"
@@ -1073,13 +1074,22 @@ namespace ouzel
             return blendState;
         }
 
-        TextureResource* RenderDeviceD3D11::createTexture()
+        BufferResource* RenderDeviceD3D11::createBuffer()
         {
             Lock lock(resourceMutex);
 
-            TextureResource* texture = new TextureResourceD3D11(*this);
-            resources.push_back(std::unique_ptr<RenderResource>(texture));
-            return texture;
+            BufferResource* buffer = new BufferResourceD3D11(*this);
+            resources.push_back(std::unique_ptr<RenderResource>(buffer));
+            return buffer;
+        }
+
+        RenderTargetResource* RenderDeviceD3D11::createRenderTarget()
+        {
+            Lock lock(resourceMutex);
+
+            RenderTargetResource* renderTarget = new RenderTargetResourceD3D11();
+            resources.push_back(std::unique_ptr<RenderResource>(renderTarget));
+            return renderTarget;
         }
 
         ShaderResource* RenderDeviceD3D11::createShader()
@@ -1091,13 +1101,13 @@ namespace ouzel
             return shader;
         }
 
-        BufferResource* RenderDeviceD3D11::createBuffer()
+        TextureResource* RenderDeviceD3D11::createTexture()
         {
             Lock lock(resourceMutex);
 
-            BufferResource* buffer = new BufferResourceD3D11(*this);
-            resources.push_back(std::unique_ptr<RenderResource>(buffer));
-            return buffer;
+            TextureResource* texture = new TextureResourceD3D11(*this);
+            resources.push_back(std::unique_ptr<RenderResource>(texture));
+            return texture;
         }
 
         bool RenderDeviceD3D11::resizeBackBuffer(UINT newWidth, UINT newHeight)
