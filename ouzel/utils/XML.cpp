@@ -596,9 +596,7 @@ namespace ouzel
                             {
                                 Node node;
                                 if (!node.parse(str, iterator, preserveWhitespaces, preserveComments, preserveProcessingInstructions))
-                                {
                                     return false;
-                                }
 
                                 if ((preserveComments || node.getType() != Type::COMMENT) &&
                                     (preserveProcessingInstructions || node.getType() != Type::PROCESSING_INSTRUCTION))
@@ -768,9 +766,7 @@ namespace ouzel
             std::vector<uint8_t> data;
 
             if (!engine->getFileSystem()->readFile(filename, data))
-            {
                 return false;
-            }
 
             return init(data,
                         preserveWhitespaces,
@@ -815,9 +811,7 @@ namespace ouzel
                                 preserveWhitespaces,
                                 preserveComments,
                                 preserveProcessingInstructions))
-                {
                     return false;
-                }
 
                 if ((preserveComments || node.getType() != Node::Type::COMMENT) &&
                     (preserveProcessingInstructions || node.getType() != Node::Type::PROCESSING_INSTRUCTION))

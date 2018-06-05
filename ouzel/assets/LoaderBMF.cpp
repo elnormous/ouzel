@@ -18,9 +18,7 @@ namespace ouzel
         {
             std::shared_ptr<BMFont> font = std::make_shared<BMFont>();
             if (!font->init(data, mipmaps))
-            {
                 return false;
-            }
 
             cache->setFont(filename, font);
 

@@ -52,9 +52,7 @@ namespace ouzel
         bool AudioDeviceXA2::init(bool debugAudio)
         {
             if (!AudioDevice::init(debugAudio))
-            {
                 return false;
-            }
 
             xAudio2Library = LoadLibraryA(XAUDIO2_DLL_28);
 
@@ -220,15 +218,10 @@ namespace ouzel
 
                 if (!running) break;
 
-                if (!process())
-                {
-                    return;
-                }
+                if (!process()) return;
 
                 if (!getData(bufferSize / (channels * sizeof(float)), data[nextBuffer]))
-                {
                     return;
-                }
 
                 XAUDIO2_BUFFER bufferData;
                 bufferData.Flags = 0;

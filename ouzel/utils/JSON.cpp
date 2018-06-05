@@ -165,9 +165,7 @@ namespace ouzel
 
                 Value value;
                 if (!value.parseValue(tokens, iterator))
-                {
                     return false;
-                }
 
                 objectValue[key] = value;
             }
@@ -231,9 +229,7 @@ namespace ouzel
 
                 Value value;
                 if (!value.parseValue(tokens, iterator))
-                {
                     return false;
-                }
 
                 arrayValue.push_back(value);
             }
@@ -362,9 +358,7 @@ namespace ouzel
             std::vector<uint8_t> data;
 
             if (!engine->getFileSystem()->readFile(filename, data))
-            {
                 return false;
-            }
 
             return init(data);
         }
@@ -612,9 +606,7 @@ namespace ouzel
             }
 
             if (!tokenize(str, tokens))
-            {
                 return false;
-            }
 
             std::vector<Token>::const_iterator iterator = tokens.cbegin();
 

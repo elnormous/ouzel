@@ -48,9 +48,7 @@ namespace ouzel
 
         if (!active ||
             !renderer->getDevice()->process())
-        {
             return false;
-        }
 
         // TODO: check for result of the AudioDevice::process
         audio->getDevice()->process();

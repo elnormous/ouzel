@@ -18,9 +18,7 @@ namespace ouzel
         {
             std::shared_ptr<TTFont> font = std::make_shared<TTFont>();
             if (!font->init(data, mipmaps))
-            {
                 return false;
-            }
 
             cache->setFont(filename, font);
 

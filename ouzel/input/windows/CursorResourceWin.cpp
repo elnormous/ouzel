@@ -21,9 +21,7 @@ namespace ouzel
         bool CursorResourceWin::init(SystemCursor newSystemCursor)
         {
             if (!CursorResource::init(newSystemCursor))
-            {
                 return false;
-            }
 
             if (cursor)
             {
@@ -81,9 +79,7 @@ namespace ouzel
                                       newSize,
                                       newPixelFormat,
                                       newHotSpot))
-            {
                 return false;
-            }
 
             if (cursor)
             {

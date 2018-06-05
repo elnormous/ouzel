@@ -83,9 +83,7 @@ static void handleMouseButtonEvent(UINT msg, WPARAM wParam, LPARAM lParam)
             return;
     }
     else
-    {
         return;
-    }
 
     if (msg == WM_LBUTTONDOWN || msg == WM_RBUTTONDOWN || msg == WM_MBUTTONDOWN || msg == WM_XBUTTONDOWN)
     {
@@ -277,9 +275,8 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
         {
             // Erase background only for the Empty renderer
             if (ouzel::engine->getRenderer()->getDevice()->getDriver() != ouzel::graphics::Renderer::Driver::EMPTY)
-            {
                 return TRUE;
-            }
+
             break;
         }
         case WM_SYSCOMMAND:
@@ -354,9 +351,7 @@ namespace ouzel
                                   newTitle,
                                   newHighDpi,
                                   depth))
-        {
             return false;
-        }
 
         if (highDpi)
         {

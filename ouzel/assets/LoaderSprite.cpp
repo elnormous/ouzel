@@ -24,24 +24,18 @@ namespace ouzel
             json::Data document;
 
             if (!document.init(data))
-            {
                 return false;
-            }
 
             if (!document.hasMember("meta") ||
                 !document.hasMember("frames"))
-            {
                 return false;
-            }
 
             const json::Value& metaObject = document["meta"];
 
             spriteData.texture = engine->getCache()->getTexture(metaObject["image"].asString(), mipmaps);
 
             if (!spriteData.texture)
-            {
                 return false;
-            }
 
             const json::Value& framesArray = document["frames"];
 

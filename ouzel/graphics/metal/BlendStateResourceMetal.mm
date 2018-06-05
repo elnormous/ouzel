@@ -64,9 +64,7 @@ namespace ouzel
                                           newAlphaBlendSource, newAlphaBlendDest,
                                           newAlphaOperation,
                                           newColorMask))
-            {
                 return false;
-            }
 
             rgbBlendOperation = getBlendOperation(colorOperation);
             alphaBlendOperation = getBlendOperation(alphaOperation);

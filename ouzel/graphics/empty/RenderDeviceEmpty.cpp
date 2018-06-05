@@ -37,9 +37,7 @@ namespace ouzel
                                     newVerticalSync,
                                     newDepth,
                                     newDebugRenderer))
-            {
                 return false;
-            }
 
             std::shared_ptr<Shader> textureShader = std::make_shared<Shader>();
 

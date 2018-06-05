@@ -263,9 +263,7 @@ namespace ouzel
                          APPLICATION_NAME,
                          highDpi,
                          depth))
-        {
             return false;
-        }
 
         if (!renderer->init(&window,
                             window.getResolution(),
@@ -275,50 +273,32 @@ namespace ouzel
                             verticalSync,
                             depth,
                             debugRenderer))
-        {
             return false;
-        }
 
         if (audioDriver == audio::Audio::Driver::DEFAULT)
         {
             auto availableDrivers = audio::Audio::getAvailableAudioDrivers();
 
             if (availableDrivers.find(audio::Audio::Driver::COREAUDIO) != availableDrivers.end())
-            {
                 audioDriver = audio::Audio::Driver::COREAUDIO;
-            }
             else if (availableDrivers.find(audio::Audio::Driver::ALSA) != availableDrivers.end())
-            {
                 audioDriver = audio::Audio::Driver::ALSA;
-            }
             else if (availableDrivers.find(audio::Audio::Driver::OPENAL) != availableDrivers.end())
-            {
                 audioDriver = audio::Audio::Driver::OPENAL;
-            }
             else if (availableDrivers.find(audio::Audio::Driver::XAUDIO2) != availableDrivers.end())
-            {
                 audioDriver = audio::Audio::Driver::XAUDIO2;
-            }
             else if (availableDrivers.find(audio::Audio::Driver::DIRECTSOUND) != availableDrivers.end())
-            {
                 audioDriver = audio::Audio::Driver::DIRECTSOUND;
-            }
             else if (availableDrivers.find(audio::Audio::Driver::OPENSL) != availableDrivers.end())
-            {
                 audioDriver = audio::Audio::Driver::OPENSL;
-            }
             else
-            {
                 audioDriver = audio::Audio::Driver::EMPTY;
-            }
         }
 
         audio.reset(new audio::Audio(audioDriver));
 
         if (!audio->init(debugAudio))
-        {
             return false;
-        }
 
 #if OUZEL_PLATFORM_MACOS
         inputManager.reset(new input::InputManagerMacOS());
@@ -341,14 +321,10 @@ namespace ouzel
 #endif
 
         if (!inputManager->init())
-        {
             return false;
-        }
 
         if (!network.init())
-        {
             return false;
-        }
 
         return true;
     }

@@ -137,9 +137,7 @@ namespace ouzel
                                     newVerticalSync,
                                     newDepth,
                                     newDebugRenderer))
-            {
                 return false;
-            }
 
             inflightSemaphore = dispatch_semaphore_create(BUFFER_COUNT);
 
@@ -960,9 +958,7 @@ namespace ouzel
         bool RenderDeviceMetal::generateScreenshot(const std::string& filename)
         {
             if (!currentMetalTexture)
-            {
                 return false;
-            }
 
             NSUInteger width = static_cast<NSUInteger>(currentMetalTexture.width);
             NSUInteger height = static_cast<NSUInteger>(currentMetalTexture.height);

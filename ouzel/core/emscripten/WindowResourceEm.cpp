@@ -39,9 +39,7 @@ namespace ouzel
                                   newTitle,
                                   newHighDpi,
                                   depth))
-        {
             return false;
-        }
 
         if (size.width <= 0.0F || size.height <= 0.0F)
         {

@@ -136,10 +136,7 @@ namespace ouzel
                 Layer* layer = *i;
                 std::pair<Actor*, ouzel::Vector3> result = layer->pickActor(position, renderTargets);
 
-                if (result.first)
-                {
-                    return result;
-                }
+                if (result.first) return result;
             }
 
             return std::make_pair(nullptr, Vector3());

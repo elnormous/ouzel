@@ -433,17 +433,11 @@ namespace ouzel
                 assert(type == Type::OBJECT || type == Type::ARRAY);
 
                 if (type == Type::OBJECT)
-                {
                     return objectValue.find(key) != objectValue.end();
-                }
                 else if (type == Type::ARRAY)
-                {
                     return key < arrayValue.size();
-                }
                 else
-                {
                     return false;
-                }
             }
 
             inline bool hasElement(const std::string& key) const

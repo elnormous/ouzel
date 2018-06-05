@@ -350,9 +350,7 @@ namespace ouzel
                                        newVerticalSync,
                                        newDepth,
                                        newDebugRenderer))
-            {
                 return false;
-            }
 
             if (!wglMakeCurrent(deviceContext, nullptr))
             {

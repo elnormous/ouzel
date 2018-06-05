@@ -34,9 +34,7 @@ namespace ouzel
                                   newTitle,
                                   newHighDpi,
                                   depth))
-        {
             return false;
-        }
 
         display = vc_dispmanx_display_open(0);
         if (display == DISPMANX_NO_HANDLE)

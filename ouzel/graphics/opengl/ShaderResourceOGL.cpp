@@ -44,9 +44,7 @@ namespace ouzel
                                       newVertexShaderDataAlignment,
                                       newFragmentShaderFunction,
                                       newVertexShaderFunction))
-            {
                 return false;
-            }
 
             if (programId)
             {

@@ -45,9 +45,7 @@ namespace ouzel
         bool AudioDeviceSL::init(bool debugAudio)
         {
             if (!AudioDevice::init(debugAudio))
-            {
                 return false;
-            }
 
             const SLuint32 engineMixIIDCount = 1;
             const SLInterfaceID engineMixIID = SL_IID_ENGINE;
@@ -166,9 +164,7 @@ namespace ouzel
             }
 
             if (!getData(bufferSize / (channels * sizeof(int16_t)), data))
-            {
                 return false;
-            }
 
             if ((*bufferQueue)->Enqueue(bufferQueue, data.data(), data.size()) != SL_RESULT_SUCCESS)
             {
@@ -187,20 +183,13 @@ namespace ouzel
 
         void AudioDeviceSL::enqueue(SLAndroidSimpleBufferQueueItf bufferQueue)
         {
-            if (!process())
-            {
-                return;
-            }
+            if (!process()) return;
 
             if (!getData(bufferSize / (channels * sizeof(int16_t)), data))
-            {
                 return;
-            }
 
             if ((*bufferQueue)->Enqueue(bufferQueue, data.data(), data.size()) != SL_RESULT_SUCCESS)
-            {
                 ouzel::Log(ouzel::Log::Level::ERR) << "Failed to enqueue OpenSL data";
-            }
         }
     } // namespace audio
 } // namespace ouzel

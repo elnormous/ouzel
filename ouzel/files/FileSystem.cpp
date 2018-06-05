@@ -271,9 +271,7 @@ namespace ouzel
             for (const auto& archive : archives)
             {
                 if (archive->readFile(filename, data))
-                {
                     return true;
-                }
             }
         }
 
@@ -337,18 +335,12 @@ namespace ouzel
                 for (const std::string& path : resourcePaths)
                 {
                     if (isAbsolutePath(path)) // if resource path is absolute
-                    {
                         str = path + DIRECTORY_SEPARATOR + filename;
-                    }
                     else
-                    {
                         str = appPath + DIRECTORY_SEPARATOR + path + DIRECTORY_SEPARATOR + filename;
-                    }
 
                     if (fileExists(str))
-                    {
                         return true;
-                    }
                 }
             }
 
@@ -370,9 +362,7 @@ namespace ouzel
 
         struct stat buf;
         if (stat(dirname.c_str(), &buf) != 0)
-        {
             return false;
-        }
 
         return (buf.st_mode & S_IFMT) == S_IFDIR;
     }
@@ -393,9 +383,7 @@ namespace ouzel
 
         struct stat buf;
         if (stat(filename.c_str(), &buf) != 0)
-        {
             return false;
-        }
 
         return (buf.st_mode & S_IFMT) == S_IFREG;
     }
@@ -405,36 +393,26 @@ namespace ouzel
         if (isAbsolutePath(filename))
         {
             if (fileExists(filename))
-            {
                 return filename;
-            }
         }
         else
         {
             std::string str = appPath + DIRECTORY_SEPARATOR + filename;
 
             if (fileExists(str))
-            {
                 return str;
-            }
 
             if (searchResources)
             {
                 for (const std::string& path : resourcePaths)
                 {
                     if (isAbsolutePath(path)) // if resource path is absolute
-                    {
                         str = path + DIRECTORY_SEPARATOR + filename;
-                    }
                     else
-                    {
                         str = appPath + DIRECTORY_SEPARATOR + path + DIRECTORY_SEPARATOR + filename;
-                    }
 
                     if (fileExists(str))
-                    {
                         return str;
-                    }
                 }
             }
         }
@@ -493,13 +471,9 @@ namespace ouzel
         size_t pos = path.find_last_of("/\\");
 
         if (pos != std::string::npos)
-        {
             return path.substr(pos + 1);
-        }
         else
-        {
             return path;
-        }
     }
 
     std::string FileSystem::getDirectoryPart(const std::string& path)

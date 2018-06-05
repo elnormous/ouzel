@@ -124,9 +124,7 @@ namespace ouzel
                                       newVertexShaderDataAlignment,
                                       newFragmentShaderFunction,
                                       newVertexShaderFunction))
-            {
                 return false;
-            }
 
             if (fragmentShader) fragmentShader->Release();
 

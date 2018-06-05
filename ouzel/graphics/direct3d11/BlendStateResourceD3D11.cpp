@@ -71,9 +71,7 @@ namespace ouzel
                                           newAlphaBlendSource, newAlphaBlendDest,
                                           newAlphaOperation,
                                           newColorMask))
-            {
                 return false;
-            }
 
             // Blending state
             D3D11_BLEND_DESC blendStateDesc;

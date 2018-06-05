@@ -182,9 +182,7 @@ namespace ouzel
             }
 
             if (!propagate)
-            {
                 break;
-            }
         }
     }
 

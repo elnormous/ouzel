@@ -51,9 +51,7 @@ namespace ouzel
                                   newTitle,
                                   newHighDpi,
                                   depth))
-        {
             return false;
-        }
 
         // open a connection to the X server
         display = XOpenDisplay(nullptr);

@@ -90,9 +90,7 @@ namespace ouzel
                                        newMipmaps,
                                        newSampleCount,
                                        newPixelFormat))
-            {
                 return false;
-            }
 
             if (!createTexture())
                 return false;
@@ -116,9 +114,7 @@ namespace ouzel
                                        newFlags,
                                        newMipmaps,
                                        newPixelFormat))
-            {
                 return false;
-            }
 
             if (!createTexture())
                 return false;
@@ -135,9 +131,7 @@ namespace ouzel
                                        newSize,
                                        newFlags,
                                        newPixelFormat))
-            {
                 return false;
-            }
 
             if (!createTexture())
                 return false;
@@ -148,9 +142,7 @@ namespace ouzel
         bool TextureResourceD3D11::setSize(const Size2& newSize)
         {
             if (!TextureResource::setSize(newSize))
-            {
                 return false;
-            }
 
             if (!texture ||
                 static_cast<UINT>(size.width) != width ||
@@ -247,9 +239,7 @@ namespace ouzel
         bool TextureResourceD3D11::setFilter(Texture::Filter newFilter)
         {
             if (!TextureResource::setFilter(newFilter))
-            {
                 return false;
-            }
 
             return updateSamplerState();
         }
@@ -257,9 +247,7 @@ namespace ouzel
         bool TextureResourceD3D11::setAddressX(Texture::Address newAddressX)
         {
             if (!TextureResource::setAddressX(newAddressX))
-            {
                 return false;
-            }
 
             return updateSamplerState();
         }
@@ -267,9 +255,7 @@ namespace ouzel
         bool TextureResourceD3D11::setAddressY(Texture::Address newAddressY)
         {
             if (!TextureResource::setAddressY(newAddressY))
-            {
                 return false;
-            }
 
             return updateSamplerState();
         }
@@ -277,9 +263,7 @@ namespace ouzel
         bool TextureResourceD3D11::setMaxAnisotropy(uint32_t newMaxAnisotropy)
         {
             if (!TextureResource::setMaxAnisotropy(newMaxAnisotropy))
-            {
                 return false;
-            }
 
             return updateSamplerState();
         }
@@ -287,9 +271,7 @@ namespace ouzel
         bool TextureResourceD3D11::setClearColorBuffer(bool clear)
         {
             if (!TextureResource::setClearColorBuffer(clear))
-            {
                 return false;
-            }
 
             clearFrameBufferView = clearColorBuffer;
 
@@ -299,9 +281,7 @@ namespace ouzel
         bool TextureResourceD3D11::setClearDepthBuffer(bool clear)
         {
             if (!TextureResource::setClearDepthBuffer(clear))
-            {
                 return false;
-            }
 
             clearDepthBufferView = clearDepthBuffer;
 
@@ -311,9 +291,7 @@ namespace ouzel
         bool TextureResourceD3D11::setClearColor(Color color)
         {
             if (!TextureResource::setClearColor(color))
-            {
                 return false;
-            }
 
             frameBufferClearColor[0] = clearColor.normR();
             frameBufferClearColor[1] = clearColor.normG();

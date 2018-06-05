@@ -157,9 +157,7 @@ namespace ouzel
                               newVerticalSync,
                               newDepth,
                               newDebugRenderer))
-            {
                 return false;
-            }
 
             std::shared_ptr<BlendState> noBlendState = std::make_shared<BlendState>();
 

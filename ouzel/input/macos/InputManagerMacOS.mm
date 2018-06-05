@@ -226,13 +226,9 @@ namespace ouzel
             auto i = maskMap.find(keyCode);
 
             if (i != maskMap.end())
-            {
                 return i->second;
-            }
             else
-            {
                 return 0;
-            }
         }
 
         uint32_t InputManagerMacOS::getModifiers(NSUInteger modifierFlags, NSUInteger pressedMouseButtons)

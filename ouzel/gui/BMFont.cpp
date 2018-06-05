@@ -158,9 +158,7 @@ namespace ouzel
     {
         std::vector<uint8_t> data;
         if (!engine->getFileSystem()->readFile(filename, data))
-        {
             return false;
-        }
 
         return init(data, mipmaps);
     }

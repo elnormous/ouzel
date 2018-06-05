@@ -24,9 +24,7 @@ namespace ouzel
         {
             std::vector<uint8_t> newData;
             if (!engine->getFileSystem()->readFile(filename, newData))
-            {
                 return false;
-            }
 
             return init(newData, newPixelFormat);
         }

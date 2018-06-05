@@ -8,7 +8,7 @@ namespace ouzel
     namespace graphics
     {
         class Texture;
-        
+
         class RenderTarget final
         {
         public:

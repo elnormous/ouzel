@@ -184,9 +184,7 @@ namespace ouzel
             for (Component* component : components)
             {
                 if (component->pointOn(localPosition))
-                {
                     return true;
-                }
             }
 
             return false;
@@ -210,9 +208,7 @@ namespace ouzel
             for (Component* component : components)
             {
                 if (component->shapeOverlaps(transformedEdges))
-                {
                     return true;
-                }
             }
 
             return false;

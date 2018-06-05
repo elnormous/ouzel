@@ -43,9 +43,7 @@ namespace ouzel
                                          newVerticalSync,
                                          newDepth,
                                          newDebugRenderer))
-            {
                 return false;
-            }
 
             MetalView* view = (MetalView*)static_cast<WindowResourceIOS*>(newWindow->getResource())->getNativeView();
 
