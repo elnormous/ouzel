@@ -289,13 +289,9 @@ namespace ouzel
             auto i = keyMap.find(key);
 
             if (i != keyMap.end())
-            {
                 return i->second;
-            }
             else
-            {
                 return KeyboardKey::NONE;
-            }
         }
 
         uint32_t InputManagerEm::getKeyboardModifiers(const EmscriptenKeyboardEvent* keyboardEvent)

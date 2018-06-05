@@ -35,9 +35,7 @@ static OSStatus outputCallback(void* inRefCon,
     ouzel::audio::AudioDeviceCA* audioDeviceCA = static_cast<ouzel::audio::AudioDeviceCA*>(inRefCon);
 
     if (!audioDeviceCA->outputCallback(ioData))
-    {
         return -1;
-    }
 
     return noErr;
 }

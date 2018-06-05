@@ -557,9 +557,7 @@ namespace ouzel
                 for (const std::string& extension : extensions)
                 {
                     if (extension == "GL_EXT_texture_filter_anisotropic")
-                    {
                         anisotropicFilteringSupported = true;
-                    }
                 }
 
 #if OUZEL_OPENGL_INTERFACE_EAGL

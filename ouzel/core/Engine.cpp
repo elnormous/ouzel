@@ -101,25 +101,15 @@ namespace ouzel
         if (!graphicsDriverValue.empty())
         {
             if (graphicsDriverValue == "default")
-            {
                 graphicsDriver = ouzel::graphics::Renderer::Driver::DEFAULT;
-            }
             else if (graphicsDriverValue == "empty")
-            {
                 graphicsDriver = ouzel::graphics::Renderer::Driver::EMPTY;
-            }
             else if (graphicsDriverValue == "opengl")
-            {
                 graphicsDriver = ouzel::graphics::Renderer::Driver::OPENGL;
-            }
             else if (graphicsDriverValue == "direct3d11")
-            {
                 graphicsDriver = ouzel::graphics::Renderer::Driver::DIRECT3D11;
-            }
             else if (graphicsDriverValue == "metal")
-            {
                 graphicsDriver = ouzel::graphics::Renderer::Driver::METAL;
-            }
             else
             {
                 ouzel::Log(ouzel::Log::Level::WARN) << "Invalid graphics driver specified";
@@ -140,21 +130,13 @@ namespace ouzel
         if (!textureFilterValue.empty())
         {
             if (textureFilterValue == "point")
-            {
                 textureFilter = ouzel::graphics::Texture::Filter::POINT;
-            }
             else if (textureFilterValue == "linear")
-            {
                 textureFilter = ouzel::graphics::Texture::Filter::LINEAR;
-            }
             else if (textureFilterValue == "bilinear")
-            {
                 textureFilter = ouzel::graphics::Texture::Filter::BILINEAR;
-            }
             else if (textureFilterValue == "trilinear")
-            {
                 textureFilter = ouzel::graphics::Texture::Filter::TRILINEAR;
-            }
             else
             {
                 ouzel::Log(ouzel::Log::Level::WARN) << "Invalid texture filter specified";
@@ -191,37 +173,21 @@ namespace ouzel
         if (!audioDriverValue.empty())
         {
             if (audioDriverValue == "default")
-            {
                 audioDriver = ouzel::audio::Audio::Driver::DEFAULT;
-            }
             else if (audioDriverValue == "empty")
-            {
                 audioDriver = ouzel::audio::Audio::Driver::EMPTY;
-            }
             else if (audioDriverValue == "openal")
-            {
                 audioDriver = ouzel::audio::Audio::Driver::OPENAL;
-            }
             else if (audioDriverValue == "directsound")
-            {
                 audioDriver = ouzel::audio::Audio::Driver::DIRECTSOUND;
-            }
             else if (audioDriverValue == "xaudio2")
-            {
                 audioDriver = ouzel::audio::Audio::Driver::XAUDIO2;
-            }
             else if (audioDriverValue == "opensl")
-            {
                 audioDriver = ouzel::audio::Audio::Driver::OPENSL;
-            }
             else if (audioDriverValue == "coreaudio")
-            {
                 audioDriver = ouzel::audio::Audio::Driver::COREAUDIO;
-            }
             else if (audioDriverValue == "alsa")
-            {
                 audioDriver = ouzel::audio::Audio::Driver::ALSA;
-            }
             else
             {
                 ouzel::Log(ouzel::Log::Level::WARN) << "Invalid audio driver specified";
@@ -237,21 +203,13 @@ namespace ouzel
             auto availableDrivers = graphics::Renderer::getAvailableRenderDrivers();
 
             if (availableDrivers.find(graphics::Renderer::Driver::METAL) != availableDrivers.end())
-            {
                 graphicsDriver = graphics::Renderer::Driver::METAL;
-            }
             else if (availableDrivers.find(graphics::Renderer::Driver::DIRECT3D11) != availableDrivers.end())
-            {
                 graphicsDriver = graphics::Renderer::Driver::DIRECT3D11;
-            }
             else if (availableDrivers.find(graphics::Renderer::Driver::OPENGL) != availableDrivers.end())
-            {
                 graphicsDriver = graphics::Renderer::Driver::OPENGL;
-            }
             else
-            {
                 graphicsDriver = graphics::Renderer::Driver::EMPTY;
-            }
         }
 
         renderer.reset(new graphics::Renderer(graphicsDriver));

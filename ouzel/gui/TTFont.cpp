@@ -133,9 +133,7 @@ namespace ouzel
                 charDesc.advance = static_cast<float>(advance * s);
 
                 if (!chars.empty())
-                {
                     width += SPACING;
-                }
 
                 chars[c] = charDesc;
             }

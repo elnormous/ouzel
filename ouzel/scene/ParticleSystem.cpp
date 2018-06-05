@@ -56,13 +56,9 @@ namespace ouzel
 
                 if (particleSystemData.positionType == ParticleSystemData::PositionType::FREE ||
                     particleSystemData.positionType == ParticleSystemData::PositionType::PARENT)
-                {
                     transform = renderViewProjection;
-                }
                 else if (particleSystemData.positionType == ParticleSystemData::PositionType::GROUPED)
-                {
                     transform = renderViewProjection * transformMatrix;
-                }
 
                 float colorVector[] = {1.0F, 1.0F, 1.0F, opacity};
 
@@ -400,9 +396,7 @@ namespace ouzel
         void ParticleSystem::emitParticles(uint32_t count)
         {
             if (particleCount + count > particleSystemData.maxParticles)
-            {
                 count = particleSystemData.maxParticles - particleCount;
-            }
 
             if (count && actor)
             {

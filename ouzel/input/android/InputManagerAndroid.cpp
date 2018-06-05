@@ -112,13 +112,9 @@ namespace ouzel
             auto i = keyMap.find(keyCode);
 
             if (i != keyMap.end())
-            {
                 return i->second;
-            }
             else
-            {
                 return KeyboardKey::NONE;
-            }
         }
 
         InputManagerAndroid::InputManagerAndroid()

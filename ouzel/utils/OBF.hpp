@@ -376,9 +376,7 @@ namespace ouzel
                     auto i = objectValue.find(key);
 
                     if (i != objectValue.end())
-                    {
                         return i->second;
-                    }
                 }
                 else if (type == Type::ARRAY)
                 {
@@ -414,9 +412,7 @@ namespace ouzel
                 auto i = dictionaryValue.find(key);
 
                 if (i != dictionaryValue.end())
-                {
                     return i->second;
-                }
 
                 return Value();
             }

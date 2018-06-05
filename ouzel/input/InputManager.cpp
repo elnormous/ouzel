@@ -34,13 +34,9 @@ namespace ouzel
             Lock lock(resourceMutex);
 
             if (cursor)
-            {
                 currentCursorResource = cursor->getResource();
-            }
             else
-            {
                 currentCursorResource = nullptr;
-            }
 
             engine->executeOnMainThread(std::bind(&InputManager::activateCursorResource,
                                                   this,

@@ -75,9 +75,7 @@
 -(id)initWithEngine:(ouzel::EngineTVOS*)initEngine
 {
     if (self = [super init])
-    {
         engine = initEngine;
-    }
 
     return self;
 }

@@ -23,9 +23,7 @@
 -(id)initWithWindow:(ouzel::WindowResourceMacOS*)initWindow
 {
     if (self = [super init])
-    {
         window = initWindow;
-    }
 
     return self;
 }

@@ -154,9 +154,7 @@ namespace ouzel
             }
 
             if (device->GetFeatureLevel() < D3D_FEATURE_LEVEL_10_0)
-            {
                 npotTexturesSupported = false;
-            }
 
             IDXGIDevice* dxgiDevice;
             IDXGIFactory* factory;

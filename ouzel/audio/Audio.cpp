@@ -104,9 +104,7 @@ namespace ouzel
         Audio::~Audio()
         {
             for (Listener* listener : listeners)
-            {
                 listener->audio = nullptr;
-            }
         }
 
         bool Audio::init(bool debugAudio)

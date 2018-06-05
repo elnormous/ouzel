@@ -26,9 +26,7 @@
 -(id)initWithInput:(ouzel::input::InputManagerTVOS*)initInput
 {
     if (self = [super init])
-    {
         input = initInput;
-    }
 
     return self;
 }
@@ -64,13 +62,9 @@ namespace ouzel
             auto i = keyMap.find(keyCode);
 
             if (i != keyMap.end())
-            {
                 return i->second;
-            }
             else
-            {
                 return KeyboardKey::NONE;
-            }
         }
 
         InputManagerTVOS::InputManagerTVOS()

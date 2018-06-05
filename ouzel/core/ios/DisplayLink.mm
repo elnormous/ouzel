@@ -15,9 +15,7 @@
 -(id)initWithRenderDevice:(ouzel::graphics::RenderDevice*)initRenderDevice
 {
     if (self = [super init])
-    {
         renderDevice = initRenderDevice;
-    }
 
     return self;
 }

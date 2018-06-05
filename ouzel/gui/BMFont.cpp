@@ -645,9 +645,7 @@ namespace ouzel
         auto i = kern.find(std::make_pair(first, second));
 
         if (i != kern.end())
-        {
             return i->second;
-        }
 
         return 0;
     }

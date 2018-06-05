@@ -15,9 +15,7 @@ namespace ouzel
     EventDispatcher::~EventDispatcher()
     {
         for (EventHandler* eventHandler : eventHandlerAddSet)
-        {
             eventHandler->eventDispatcher = nullptr;
-        }
 
         for (EventHandler* eventHandler : eventHandlers)
         {
@@ -208,9 +206,7 @@ namespace ouzel
     void EventDispatcher::removeEventHandler(EventHandler* eventHandler)
     {
         if (eventHandler->eventDispatcher == this)
-        {
             eventHandler->eventDispatcher = nullptr;
-        }
 
         eventHandlerDeleteSet.insert(eventHandler);
 

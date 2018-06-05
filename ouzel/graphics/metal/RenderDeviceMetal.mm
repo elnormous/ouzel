@@ -359,9 +359,7 @@ namespace ouzel
                 }
             }
             else
-            {
                 renderPassDescriptor.depthAttachment.texture = nil;
-            }
 
             dispatch_semaphore_wait(inflightSemaphore, DISPATCH_TIME_FOREVER);
 
@@ -889,9 +887,7 @@ namespace ouzel
                                                        currentShader->getVertexShaderAlignment()) * currentShader->getVertexShaderAlignment(); // round up to nearest aligned pointer
 
                         if (shaderConstantBuffer.offset + getVectorSize(shaderData) > BUFFER_SIZE)
-                        {
                             shaderConstantBuffer.offset = 0;
-                        }
 
                         std::copy(reinterpret_cast<const char*>(shaderData.data()),
                                   reinterpret_cast<const char*>(shaderData.data()) + static_cast<uint32_t>(sizeof(float) * shaderData.size()),
