@@ -276,7 +276,7 @@ namespace ouzel
             bool hasBOM() const { return bom; }
             void setBOM(bool newBOM) { bom = newBOM; }
 
-        protected:
+        private:
             bool bom = false;
         };
     } // namespace json
