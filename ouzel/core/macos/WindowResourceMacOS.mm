@@ -111,9 +111,7 @@ namespace ouzel
                                   newTitle,
                                   newHighDpi,
                                   depth))
-        {
             return false;
-        }
 
         screen = [NSScreen mainScreen];
         displayId = [[[screen deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];

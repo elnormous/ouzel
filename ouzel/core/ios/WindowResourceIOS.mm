@@ -128,9 +128,7 @@ namespace ouzel
                                   newTitle,
                                   newHighDpi,
                                   depth))
-        {
             return false;
-        }
 
         screen = [UIScreen mainScreen];
 

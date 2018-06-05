@@ -27,9 +27,7 @@ namespace ouzel
         mipmaps = newMipmaps;
 
         if (!engine->getFileSystem()->readFile(engine->getFileSystem()->getPath(filename), data))
-        {
             return false;
-        }
 
         if (!stbtt_InitFont(&font, data.data(), stbtt_GetFontOffsetForIndex(data.data(), 0)))
         {

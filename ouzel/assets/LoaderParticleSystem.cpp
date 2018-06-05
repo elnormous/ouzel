@@ -25,15 +25,11 @@ namespace ouzel
             json::Data document;
 
             if (!document.init(data))
-            {
                 return false;
-            }
 
             if (!document.hasMember("textureFileName") ||
                 !document.hasMember("configName"))
-            {
                 return false;
-            }
 
             particleSystemData.name = document["configName"].asString();
 

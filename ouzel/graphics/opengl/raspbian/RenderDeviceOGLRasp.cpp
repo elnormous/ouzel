@@ -165,9 +165,7 @@ namespace ouzel
                                        newVerticalSync,
                                        newDepth,
                                        newDebugRenderer))
-            {
                 return false;
-            }
 
             if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
             {

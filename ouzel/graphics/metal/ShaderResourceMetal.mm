@@ -115,9 +115,7 @@ namespace ouzel
                                       newVertexShaderDataAlignment,
                                       newFragmentShaderFunction,
                                       newVertexShaderFunction))
-            {
                 return false;
-            }
 
             uint32_t index = 0;
             NSUInteger offset = 0;

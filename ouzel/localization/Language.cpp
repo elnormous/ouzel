@@ -24,9 +24,7 @@ namespace ouzel
         std::vector<uint8_t> data;
 
         if (!engine->getFileSystem()->readFile(filename, data))
-        {
             return false;
-        }
 
         return init(data);
     }
@@ -39,9 +37,7 @@ namespace ouzel
         uint32_t offset = 0;
 
         if (data.size() < 5 * sizeof(uint32_t))
-        {
             return false;
-        }
 
         uint32_t magic = *reinterpret_cast<const uint32_t*>(data.data() + offset);
         offset += sizeof(magic);
@@ -85,9 +81,7 @@ namespace ouzel
         offset = stringsOffset;
 
         if (data.size() < offset + 2 * sizeof(uint32_t) * stringCount)
-        {
             return false;
-        }
 
         for (uint32_t i = 0; i < stringCount; ++i)
         {
@@ -101,9 +95,7 @@ namespace ouzel
         offset = translationsOffset;
 
         if (data.size() < offset + 2 * sizeof(uint32_t) * stringCount)
-        {
             return false;
-        }
 
         for (uint32_t i = 0; i < stringCount; ++i)
         {
@@ -118,9 +110,7 @@ namespace ouzel
         {
             if (data.size() < translations[i].stringOffset + translations[i].stringLength ||
                 data.size() < translations[i].translationOffset + translations[i].translationLength)
-            {
                 return false;
-            }
 
             std::string str(reinterpret_cast<const char*>(data.data() + translations[i].stringOffset), translations[i].stringLength);
             std::string translation(reinterpret_cast<const char*>(data.data() + translations[i].translationOffset), translations[i].translationLength);
@@ -136,12 +126,8 @@ namespace ouzel
         auto i = strings.find(str);
 
         if (i != strings.end())
-        {
             return i->second;
-        }
         else
-        {
             return str;
-        }
     }
 }

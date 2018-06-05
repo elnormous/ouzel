@@ -80,9 +80,7 @@ namespace ouzel
         {
             std::vector<uint8_t> data;
             if (!fileSystem.readFile(filename, data))
-            {
                 return false;
-            }
 
             std::string extension = fileSystem.getExtensionPart(filename);
             std::transform(extension.begin(), extension.end(), extension.begin(), [](unsigned char c){ return std::tolower(c); });
@@ -105,9 +103,7 @@ namespace ouzel
         {
             std::vector<uint8_t> data;
             if (!fileSystem.readFile(filename, data))
-            {
                 return false;
-            }
 
             std::string extension = fileSystem.getExtensionPart(filename);
             std::transform(extension.begin(), extension.end(), extension.begin(), [](unsigned char c){ return std::tolower(c); });
@@ -269,9 +265,7 @@ namespace ouzel
                 newSpriteData.texture = getTexture(filename, mipmaps);
 
                 if (newSpriteData.texture)
-                {
                     return false;
-                }
 
                 Size2 spriteSize = Size2(newSpriteData.texture->getSize().width / spritesX,
                                          newSpriteData.texture->getSize().height / spritesY);

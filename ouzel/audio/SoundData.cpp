@@ -21,9 +21,7 @@ namespace ouzel
         {
             std::vector<uint8_t> data;
             if (!engine->getFileSystem()->readFile(filename, data))
-            {
                 return false;
-            }
 
             return init(data);
         }
@@ -38,9 +36,7 @@ namespace ouzel
             uint32_t neededFrames = static_cast<uint32_t>(frames * pitch * sampleRate / neededSampleRate);
 
             if (!readData(stream, neededFrames, tempData))
-            {
                 return false;
-            }
 
             if (pitch != 1.0F)
             {

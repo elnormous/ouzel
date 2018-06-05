@@ -70,9 +70,7 @@ namespace ouzel
                                          newVerticalSync,
                                          newDepth,
                                          newDebugRenderer))
-            {
                 return false;
-            }
 
             WindowResourceMacOS* windowMacOS = static_cast<WindowResourceMacOS*>(newWindow->getResource());
 

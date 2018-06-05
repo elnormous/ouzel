@@ -90,9 +90,7 @@ namespace ouzel
             }
 
             if (!Actor::removeChild(actor))
-            {
                 return false;
-            }
 
             return true;
         }

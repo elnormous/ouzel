@@ -114,9 +114,7 @@ namespace ouzel
                 Actor* child = *i;
 
                 if (child == actor || (recursive && child->hasChild(actor, true)))
-                {
                     return true;
-                }
             }
 
             return false;

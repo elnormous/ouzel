@@ -187,14 +187,10 @@ namespace ouzel
                                        newVerticalSync,
                                        newDepth,
                                        newDebugRenderer))
-            {
                 return false;
-            }
 
             if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
-            {
                 Log(Log::Level::ERR) << "Failed to unset EGL context";
-            }
 
             running = true;
             renderThread = Thread(std::bind(&RenderDeviceOGLAndroid::main, this), "Render");
@@ -329,9 +325,7 @@ namespace ouzel
                 for (const std::unique_ptr<RenderResource>& resource : resources)
                 {
                     if (!resource->reload())
-                    {
                         return false;
-                    }
                 }
             }
 

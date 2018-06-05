@@ -38,9 +38,7 @@ namespace ouzel
             }
 
             if (decodeUInt32Little(&signature) == 0x02014b50) // central directory
-            {
                 break;
-            }
 
             if (decodeUInt32Little(&signature) != 0x04034b50)
             {

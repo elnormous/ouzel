@@ -79,9 +79,7 @@ namespace ouzel
         bool AudioDeviceAL::init(bool debugAudio)
         {
             if (!AudioDevice::init(debugAudio))
-            {
                 return false;
-            }
 
             const ALCchar* deviceName = alcGetString(nullptr, ALC_DEFAULT_DEVICE_SPECIFIER);
 
@@ -209,9 +207,7 @@ namespace ouzel
         bool AudioDeviceAL::process()
         {
             if (!AudioDevice::process())
-            {
                 return false;
-            }
 
             alcMakeContextCurrent(context);
 
@@ -242,9 +238,7 @@ namespace ouzel
                 }
 
                 if (!getData(bufferSize / (channels * sizeof(int16_t)), data))
-                {
                     return false;
-                }
 
                 alBufferData(bufferIds[nextBuffer], format,
                              data.data(),
@@ -283,12 +277,7 @@ namespace ouzel
         {
 #if OUZEL_MULTITHREADED
             while (running)
-            {
-                if (!process())
-                {
-                    break;
-                }
-            }
+                if (!process()) break;
 #endif
         }
     } // namespace audio

@@ -156,9 +156,7 @@ namespace ouzel
                                        newVerticalSync,
                                        newDepth,
                                        newDebugRenderer))
-            {
                 return false;
-            }
 
             running = true;
             renderThread = Thread(std::bind(&RenderDeviceOGLLinux::main, this), "Render");

@@ -126,9 +126,7 @@ namespace ouzel
                                     newVerticalSync,
                                     newDepth,
                                     newDebugRenderer))
-            {
                 return false;
-            }
 
             UINT deviceCreationFlags = 0;
 
@@ -201,9 +199,7 @@ namespace ouzel
                     return false;
                 }
                 else if (qualityLevels)
-                {
                     break;
-                }
             }
 
             if (supportedSampleCount != sampleCount)
@@ -404,9 +400,7 @@ namespace ouzel
 
             if (!resizeBackBuffer(static_cast<UINT>(size.width),
                                   static_cast<UINT>(size.height)))
-            {
                 return;
-            }
         }
 
         bool RenderDeviceD3D11::setFullscreen(bool newFullscreen)
@@ -446,9 +440,7 @@ namespace ouzel
                             TextureResourceD3D11* renderTargetD3D11 = static_cast<TextureResourceD3D11*>(setRenderTargetCommand->renderTarget);
 
                             if (!renderTargetD3D11->getRenderTargetView())
-                            {
                                 continue;
-                            }
 
                             newRenderTargetView = renderTargetD3D11->getRenderTargetView();
                             newDepthStencilView = renderTargetD3D11->getDepthStencilView();
@@ -482,9 +474,7 @@ namespace ouzel
                             TextureResourceD3D11* renderTargetD3D11 = static_cast<TextureResourceD3D11*>(clearCommand->renderTarget);
 
                             if (!renderTargetD3D11->getRenderTargetView())
-                            {
                                 continue;
-                            }
 
                             renderTargetWidth = renderTargetD3D11->getWidth();
                             renderTargetHeight = renderTargetD3D11->getHeight();
@@ -807,9 +797,7 @@ namespace ouzel
                         if (!uploadBuffer(currentShader->getFragmentShaderConstantBuffer(),
                                         shaderData.data(),
                                         static_cast<uint32_t>(sizeof(float) * shaderData.size())))
-                        {
                             return false;
-                        }
 
                         ID3D11Buffer* fragmentShaderConstantBuffers[1] = {currentShader->getFragmentShaderConstantBuffer()};
                         context->PSSetConstantBuffers(0, 1, fragmentShaderConstantBuffers);
@@ -842,9 +830,7 @@ namespace ouzel
                         if (!uploadBuffer(currentShader->getVertexShaderConstantBuffer(),
                                           shaderData.data(),
                                           static_cast<uint32_t>(sizeof(float) * shaderData.size())))
-                        {
                             return false;
-                        }
 
                         ID3D11Buffer* vertexShaderConstantBuffers[1] = {currentShader->getVertexShaderConstantBuffer()};
                         context->VSSetConstantBuffers(0, 1, vertexShaderConstantBuffers);
@@ -920,9 +906,7 @@ namespace ouzel
                     hr = output->GetDesc(&outputDesc);
 
                     if (SUCCEEDED(hr) && outputDesc.Monitor == monitor)
-                    {
                         return output;
-                    }
 
                     output->Release();
                 }
@@ -939,10 +923,7 @@ namespace ouzel
 
             IDXGIOutput* output = getOutput();
 
-            if (!output)
-            {
-                return result;
-            }
+            if (!output) return result;
 
             UINT numModes = 0;
             DXGI_FORMAT format = DXGI_FORMAT_R8G8B8A8_UNORM;

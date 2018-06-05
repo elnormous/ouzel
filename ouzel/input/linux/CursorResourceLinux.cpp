@@ -30,9 +30,7 @@ namespace ouzel
         bool CursorResourceLinux::init(SystemCursor newSystemCursor)
         {
             if (!CursorResource::init(newSystemCursor))
-            {
                 return false;
-            }
 
             WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
             Display* display = windowLinux->getDisplay();
@@ -82,9 +80,7 @@ namespace ouzel
                                       newSize,
                                       newPixelFormat,
                                       newHotSpot))
-            {
                 return false;
-            }
 
             WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
             Display* display = windowLinux->getDisplay();

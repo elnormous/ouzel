@@ -246,10 +246,7 @@ namespace ouzel
 
             texture = particleSystemData.texture;
 
-            if (!texture)
-            {
-                return false;
-            }
+            if (!texture) return false;
 
             createParticleMesh();
             resume();
@@ -263,10 +260,7 @@ namespace ouzel
 
             texture = particleSystemData.texture;
 
-            if (!texture)
-            {
-                return false;
-            }
+            if (!texture) return false;
 
             createParticleMesh();
             resume();
@@ -397,9 +391,7 @@ namespace ouzel
                 }
 
                 if (!vertexBuffer->setData(vertices.data(), static_cast<uint32_t>(getVectorSize(vertices))))
-                {
                     return false;
-                }
             }
 
             return true;

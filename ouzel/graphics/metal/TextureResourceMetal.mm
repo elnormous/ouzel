@@ -90,14 +90,9 @@ namespace ouzel
                                        newMipmaps,
                                        newSampleCount,
                                        newPixelFormat))
-            {
                 return false;
-            }
 
-            if (!createTexture())
-            {
-                return false;
-            }
+            if (!createTexture()) return false;
 
             colorBufferLoadAction = clearColorBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
             depthBufferLoadAction = clearDepthBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
@@ -126,14 +121,9 @@ namespace ouzel
                                        newFlags,
                                        newMipmaps,
                                        newPixelFormat))
-            {
                 return false;
-            }
 
-            if (!createTexture())
-            {
-                return false;
-            }
+            if (!createTexture()) return false;
 
             if (!(flags & Texture::RENDER_TARGET))
             {
@@ -194,10 +184,7 @@ namespace ouzel
                 static_cast<NSUInteger>(size.width) != width ||
                 static_cast<NSUInteger>(size.height) != height)
             {
-                if (!createTexture())
-                {
-                    return false;
-                }
+                if (!createTexture()) return false;
             }
 
             return true;
@@ -212,10 +199,7 @@ namespace ouzel
                 static_cast<NSUInteger>(size.width) != width ||
                 static_cast<NSUInteger>(size.height) != height)
             {
-                if (!createTexture())
-                {
-                    return false;
-                }
+                if (!createTexture()) return false;
             }
 
             if (!(flags & Texture::RENDER_TARGET))

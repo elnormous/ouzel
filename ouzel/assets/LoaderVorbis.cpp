@@ -18,9 +18,7 @@ namespace ouzel
         {
             std::shared_ptr<audio::SoundData> soundData = std::make_shared<audio::SoundDataVorbis>();
             if (!soundData->init(data))
-            {
                 return false;
-            }
 
             cache->setSoundData(filename, soundData);
 

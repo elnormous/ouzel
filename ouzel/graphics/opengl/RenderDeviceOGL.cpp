@@ -361,9 +361,7 @@ namespace ouzel
                                     newVerticalSync,
                                     newDepth,
                                     newDebugRenderer))
-            {
                 return false;
-            }
 
             frameBufferWidth = static_cast<GLsizei>(size.width);
             frameBufferHeight = static_cast<GLsizei>(size.height);
@@ -1073,9 +1071,7 @@ namespace ouzel
                         }
 
                         if (!setCullFace(cullFace != GL_NONE, cullFace))
-                        {
                             return false;
-                        }
 
                         break;
                     }
@@ -1365,9 +1361,7 @@ namespace ouzel
                             if (!setUniform(fragmentShaderConstantLocation.location,
                                             fragmentShaderConstantLocation.dataType,
                                             fragmentShaderConstant.data()))
-                            {
                                 return false;
-                            }
                         }
 
                         // vertex shader constants
@@ -1387,9 +1381,7 @@ namespace ouzel
                             if (!setUniform(vertexShaderConstantLocation.location,
                                             vertexShaderConstantLocation.dataType,
                                             vertexShaderConstant.data()))
-                            {
                                 return false;
-                            }
                         }
 
                         break;
@@ -1424,10 +1416,7 @@ namespace ouzel
                 commands.pop();
             }
 
-            if (!swapBuffers())
-            {
-                return false;
-            }
+            if (!swapBuffers()) return false;
 
             return true;
         }
@@ -1538,13 +1527,9 @@ namespace ouzel
                 result != reinterpret_cast<void*>(2) &&
                 result != reinterpret_cast<void*>(3) &&
                 result != reinterpret_cast<void*>(-1))
-            {
                 return result;
-            }
             else
-            {
                 return nullptr;
-            }
 #else
             OUZEL_UNUSED(name);
             return nullptr;

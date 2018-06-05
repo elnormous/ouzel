@@ -228,9 +228,7 @@ namespace ouzel
                                        newMipmaps,
                                        newSampleCount,
                                        newPixelFormat))
-            {
                 return false;
-            }
 
             clearMask = 0;
             if (clearColorBuffer) clearMask |= GL_COLOR_BUFFER_BIT;
@@ -289,9 +287,7 @@ namespace ouzel
                                        newFlags,
                                        newMipmaps,
                                        newPixelFormat))
-            {
                 return false;
-            }
 
             if (!createTexture())
                 return false;
@@ -349,9 +345,7 @@ namespace ouzel
                                        newSize,
                                        newFlags,
                                        newPixelFormat))
-            {
                 return false;
-            }
 
             if (!createTexture())
                 return false;
@@ -786,9 +780,7 @@ namespace ouzel
         bool TextureResourceOGL::setClearDepthBuffer(bool clear)
         {
             if (!TextureResource::setClearDepthBuffer(clear))
-            {
                 return false;
-            }
 
             if (clearDepthBuffer)
                 clearMask |= GL_DEPTH_BUFFER_BIT;

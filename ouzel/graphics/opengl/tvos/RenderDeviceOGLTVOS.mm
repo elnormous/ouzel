@@ -93,9 +93,7 @@ namespace ouzel
                                        newVerticalSync,
                                        newDepth,
                                        newDebugRenderer))
-            {
                 return false;
-            }
 
             if (!createFrameBuffer())
                 return false;

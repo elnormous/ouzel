@@ -245,10 +245,7 @@ namespace ouzel
                     {
                         ssize_t bytesRead = read(inputDevice.getFd(), TEMP_BUFFER, sizeof(TEMP_BUFFER));
 
-                        if (bytesRead == -1)
-                        {
-                            continue;
-                        }
+                        if (bytesRead == -1) continue;
 
                         for (ssize_t i = 0; i < bytesRead - static_cast<ssize_t>(sizeof(input_event)) + 1; i += sizeof(input_event))
                         {

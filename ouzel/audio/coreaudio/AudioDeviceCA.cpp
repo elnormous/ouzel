@@ -95,9 +95,7 @@ namespace ouzel
         bool AudioDeviceCA::init(bool debugAudio)
         {
             if (!AudioDevice::init(debugAudio))
-            {
                 return false;
-            }
 
             OSStatus result;
 
@@ -342,18 +340,14 @@ namespace ouzel
         bool AudioDeviceCA::outputCallback(AudioBufferList* ioData)
         {
             if (!process())
-            {
                 return false;
-            }
 
             for (UInt32 i = 0; i < ioData->mNumberBuffers; ++i)
             {
                 AudioBuffer* buffer = &ioData->mBuffers[i];
 
                 if (!getData(buffer->mDataByteSize / (sampleSize * channels), data))
-                {
                     return false;
-                }
 
                 std::copy(data.begin(), data.end(), static_cast<uint8_t*>(buffer->mData));
             }

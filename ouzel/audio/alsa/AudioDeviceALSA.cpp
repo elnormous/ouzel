@@ -31,9 +31,7 @@ namespace ouzel
         bool AudioDeviceALSA::init(bool debugAudio)
         {
             if (!AudioDevice::init(debugAudio))
-            {
                 return false;
-            }
 
             int err;
             if ((err = snd_pcm_open(&playbackHandle, "default", SND_PCM_STREAM_PLAYBACK, 0)) < 0)
@@ -187,10 +185,7 @@ namespace ouzel
             {
                 int err;
 
-                if (!process())
-                {
-                    break;
-                }
+                if (!process()) break;
 
                 snd_pcm_sframes_t frames;
 
@@ -223,14 +218,10 @@ namespace ouzel
                 }
 
                 if (static_cast<snd_pcm_uframes_t>(frames) < periodSize)
-                {
                     continue;
-                }
 
                 if (!getData(frames, data))
-                {
                     break;
-                }
 
                 if ((err = snd_pcm_writei(playbackHandle, data.data(), frames)) < 0)
                 {

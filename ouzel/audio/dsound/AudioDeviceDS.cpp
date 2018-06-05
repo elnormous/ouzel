@@ -52,9 +52,7 @@ namespace ouzel
         bool AudioDeviceDS::init(bool debugAudio)
         {
             if (!AudioDevice::init(debugAudio))
-            {
                 return false;
-            }
 
             HRESULT hr = DirectSoundEnumerateW(enumCallback, this);
             if (FAILED(hr))
@@ -208,10 +206,7 @@ namespace ouzel
 
                     ResetEvent(notifyEvents[nextBuffer]);
 
-                    if (!process())
-                    {
-                        break;
-                    }
+                    if (!process()) break;
 
                     uint8_t* bufferPointer;
                     DWORD lockedBufferSize;
@@ -223,9 +218,7 @@ namespace ouzel
                     }
 
                     if (!getData(lockedBufferSize / (channels * sizeof(int16_t)), data))
-                    {
                         break;
-                    }
 
                     std::copy(data.begin(), data.end(), bufferPointer);
 

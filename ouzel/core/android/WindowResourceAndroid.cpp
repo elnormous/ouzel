@@ -32,9 +32,7 @@ namespace ouzel
                                   newTitle,
                                   newHighDpi,
                                   depth))
-        {
             return false;
-        }
 
         EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(engine);
         JavaVM* javaVM = engineAndroid->getJavaVM();
