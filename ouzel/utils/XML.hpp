@@ -86,7 +86,7 @@ namespace ouzel
 
             inline const std::vector<Node>& getChildren() const { return children; }
 
-        protected:
+        private:
             bool bom = false;
             std::vector<Node> children;
         };

@@ -91,6 +91,8 @@ namespace ouzel
         bool debugAudio = false;
 
         defaultSettings.init("settings.ini");
+
+        //if (fileSystem.fileExists(fileSystem.getStorageDirectory() + FileSystem::DIRECTORY_SEPARATOR + "settings.ini"))
         userSettings.init(fileSystem.getStorageDirectory() + FileSystem::DIRECTORY_SEPARATOR + "settings.ini");
 
         const ini::Section& userEngineSection = userSettings.getSection("engine");
