@@ -52,9 +52,7 @@ namespace ouzel
                 vertexShaderAlignment = 0;
 
                 for (const Shader::ConstantInfo& info : newVertexShaderConstantInfo)
-                {
                     vertexShaderAlignment += info.size;
-                }
             }
 
             fragmentShaderFunction = newFragmentShaderFunction;

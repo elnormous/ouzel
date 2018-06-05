@@ -45,9 +45,7 @@ namespace ouzel
                 Audio::resample(tempData, srcFrames, resampledData, frames, channels);
             }
             else
-            {
                 resampledData = tempData;
-            }
 
             if (neededChannels != channels)
             {
@@ -228,9 +226,7 @@ namespace ouzel
                 }
             }
             else
-            {
                 result = resampledData;
-            }
 
             return true;
         }

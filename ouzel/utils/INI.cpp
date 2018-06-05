@@ -37,9 +37,7 @@ namespace ouzel
         {
             auto valueIterator = values.find(key);
             if (valueIterator != values.end())
-            {
                 return valueIterator->second;
-            }
 
             return std::string();
         }
@@ -49,9 +47,7 @@ namespace ouzel
             auto valueIterator = values.find(key);
 
             if (valueIterator != values.end())
-            {
                 return valueIterator->second;
-            }
 
             return defaultValue;
         }
@@ -382,9 +378,7 @@ namespace ouzel
         {
             auto sectionIterator = sections.find(name);
             if (sectionIterator != sections.end())
-            {
                 return sectionIterator->second;
-            }
 
             return Section();
         }

@@ -162,13 +162,9 @@ namespace ouzel
             {
                 // don't delete white pixel texture
                 if (i->first == graphics::TEXTURE_WHITE_PIXEL)
-                {
                     ++i;
-                }
                 else
-                {
                     i = textures.erase(i);
-                }
             }
         }
 
@@ -200,13 +196,9 @@ namespace ouzel
                 // don't delete default shaders
                 if (i->first == graphics::SHADER_COLOR ||
                     i->first == graphics::SHADER_TEXTURE)
-                {
                     ++i;
-                }
                 else
-                {
                     i = shaders.erase(i);
-                }
             }
         }
 
@@ -240,13 +232,9 @@ namespace ouzel
                     i->first == graphics::BLEND_ADD ||
                     i->first == graphics::BLEND_MULTIPLY ||
                     i->first == graphics::BLEND_ALPHA)
-                {
                     ++i;
-                }
                 else
-                {
                     i = blendStates.erase(i);
-                }
             }
         }
 

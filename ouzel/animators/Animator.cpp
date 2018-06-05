@@ -22,9 +22,7 @@ namespace ouzel
             if (parent) parent->removeAnimator(this);
 
             for (const auto& animator : animators)
-            {
                 animator->parent = nullptr;
-            }
         }
 
         void Animator::update(float delta)

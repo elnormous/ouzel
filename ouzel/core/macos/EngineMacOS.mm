@@ -76,9 +76,7 @@
 -(id)initWithEngine:(ouzel::EngineMacOS*)initEngine
 {
     if (self = [super init])
-    {
         engine = initEngine;
-    }
 
     return self;
 }

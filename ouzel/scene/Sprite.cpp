@@ -350,9 +350,7 @@ namespace ouzel
                             break;
                         }
                         else
-                        {
                             currentTime -= length;
-                        }
                     }
                 }
             }

@@ -75,9 +75,7 @@
 -(id)initWithEngine:(ouzel::EngineIOS*)initEngine
 {
     if (self = [super init])
-    {
         engine = initEngine;
-    }
 
     return self;
 }

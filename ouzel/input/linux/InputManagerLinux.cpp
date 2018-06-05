@@ -217,13 +217,9 @@ namespace ouzel
             auto i = keyMap.find(keyCode);
 
             if (i != keyMap.end())
-            {
                 return i->second;
-            }
             else
-            {
                 return KeyboardKey::NONE;
-            }
         }
 
         uint32_t InputManagerLinux::getModifiers(unsigned int state)
@@ -360,9 +356,7 @@ namespace ouzel
                     if (!currentCursor) currentCursor = emptyCursor;
                 }
                 else
-                {
                     currentCursor = None;
-                }
 
                 if (cursorVisible)
                 {

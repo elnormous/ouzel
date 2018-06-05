@@ -437,9 +437,7 @@ namespace ouzel
                     renderPassDescriptor.depthAttachment.texture = depthTexture;
                 }
                 else
-                {
                     renderPassDescriptor.depthAttachment.texture = nil;
-                }
             }
 
             return true;

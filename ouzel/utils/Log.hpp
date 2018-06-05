@@ -77,9 +77,7 @@ namespace ouzel
         Log& operator<<(const std::string& val)
         {
             if (level <= threshold)
-            {
                 s += val;
-            }
 
             return *this;
         }
@@ -87,9 +85,7 @@ namespace ouzel
         Log& operator<<(const char* val)
         {
             if (level <= threshold)
-            {
                 s += val;
-            }
 
             return *this;
         }
@@ -97,9 +93,7 @@ namespace ouzel
         Log& operator<<(char* val)
         {
             if (level <= threshold)
-            {
                 s += val;
-            }
 
             return *this;
         }

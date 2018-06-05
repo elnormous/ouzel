@@ -826,9 +826,7 @@ namespace ouzel
                             return false;
                         }
                         else
-                        {
                             rootTagFound = true;
-                        }
                     }
                 }
             }

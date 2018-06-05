@@ -23,9 +23,7 @@
 -(id)initWithWindow:(ouzel::WindowResourceIOS*)initWindow
 {
     if (self = [super init])
-    {
         window = initWindow;
-    }
 
     return self;
 }
@@ -183,9 +181,7 @@ namespace ouzel
             resolution = size * contentScale;
         }
         else
-        {
             resolution = size;
-        }
 
         return true;
     }

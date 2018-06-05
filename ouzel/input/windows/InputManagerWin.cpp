@@ -175,13 +175,9 @@ namespace ouzel
             auto i = keyMap.find(keyCode);
 
             if (i != keyMap.end())
-            {
                 return i->second;
-            }
             else
-            {
                 return KeyboardKey::NONE;
-            }
         }
 
         uint32_t InputManagerWin::getModifiers(WPARAM wParam)
@@ -319,13 +315,9 @@ namespace ouzel
             CursorResourceWin* cursorWin = static_cast<CursorResourceWin*>(resource);
 
             if (cursorWin)
-            {
                 currentCursor = cursorWin->getNativeCursor();
-            }
             else
-            {
                 currentCursor = defaultCursor;
-            }
 
             updateCursor();
         }
@@ -498,9 +490,7 @@ namespace ouzel
                                                 // Compare the VID/PID to the DInput device
                                                 DWORD dwVidPid = MAKELONG(dwVid, dwPid);
                                                 if (dwVidPid == didInstance->guidProduct.Data1)
-                                                {
                                                     isXInputDevice = true;
-                                                }
                                             }
                                         }
 
