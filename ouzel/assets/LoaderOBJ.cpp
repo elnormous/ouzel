@@ -328,7 +328,7 @@ namespace ouzel
                     {
                         std::vector<uint32_t> vertexIndices;
 
-                        std::tuple<uint32_t, uint32_t, uint32_t> i = std::make_tuple(0, 0, 0);
+                        std::tuple<int32_t, int32_t, int32_t> i = std::make_tuple(0, 0, 0);
                         int32_t positionIndex = 0, texCoordIndex = 0, normalIndex = 0;
 
                         for (;;)
@@ -341,44 +341,67 @@ namespace ouzel
                                 return false;
                             }
 
-                            if (!parseInt32(data, iterator, positionIndex) ||
-                                !parseToken(data, iterator, '/') ||
-                                !parseInt32(data, iterator, texCoordIndex) ||
-                                !parseToken(data, iterator, '/') ||
-                                !parseInt32(data, iterator, normalIndex))
+                            if (!parseInt32(data, iterator, positionIndex))
                             {
-                                Log(Log::Level::ERR) << "Failed to parse face";
+                                Log(Log::Level::ERR) << "Failed to parse vertex position index";
                                 return false;
                             }
 
                             if (positionIndex < 0)
-                                std::get<0>(i) = static_cast<uint32_t>(static_cast<long>(positions.size()) + positionIndex);
-                            else if (positionIndex > 0)
-                                std::get<0>(i) = static_cast<uint32_t>(positionIndex - 1);
-                            else
+                                positionIndex = static_cast<int32_t>(positions.size()) + positionIndex + 1;
+
+                            if (positionIndex < 1 || positionIndex > static_cast<int32_t>(positions.size()))
                             {
-                                Log(Log::Level::ERR) << "Failed to parse face";
+                                Log(Log::Level::ERR) << "Invalid position index";
                                 return false;
                             }
 
-                            if (texCoordIndex < 0)
-                                std::get<1>(i) = static_cast<uint32_t>(static_cast<long>(texCoords.size()) + texCoordIndex);
-                            else if (texCoordIndex > 0)
-                                std::get<1>(i) = static_cast<uint32_t>(texCoordIndex - 1);
-                            else
-                            {
-                                Log(Log::Level::ERR) << "Failed to parse face";
-                                return false;
-                            }
+                            std::get<0>(i) = positionIndex;
 
-                            if (normalIndex < 0)
-                                std::get<2>(i) = static_cast<uint32_t>(static_cast<long>(normals.size()) + normalIndex);
-                            else if (normalIndex > 0)
-                                std::get<2>(i) = static_cast<uint32_t>(normalIndex - 1);
-                            else
+                            // has texture coordinates
+                            if (parseToken(data, iterator, '/'))
                             {
-                                Log(Log::Level::ERR) << "Failed to parse face";
-                                return false;
+                                // two slashes in a row indicates no texture coordinates
+                                if (iterator != data.end() && *iterator != '/')
+                                {
+                                    if (!parseInt32(data, iterator, texCoordIndex))
+                                    {
+                                        Log(Log::Level::ERR) << "Failed to parse texture coordinate index";
+                                        return false;
+                                    }
+
+                                    if (texCoordIndex < 0)
+                                        texCoordIndex = static_cast<int32_t>(texCoords.size()) + texCoordIndex + 1;
+
+                                    if (texCoordIndex < 1 || texCoordIndex > static_cast<int32_t>(texCoords.size()))
+                                    {
+                                        Log(Log::Level::ERR) << "Invalid texture coordinate index";
+                                        return false;
+                                    }
+
+                                    std::get<1>(i) = texCoordIndex;
+                                }
+
+                                // has normal
+                                if (parseToken(data, iterator, '/'))
+                                {
+                                    if (!parseInt32(data, iterator, normalIndex))
+                                    {
+                                        Log(Log::Level::ERR) << "Failed to parse normal index";
+                                        return false;
+                                    }
+
+                                    if (normalIndex < 0)
+                                        normalIndex = static_cast<int32_t>(normals.size()) + normalIndex + 1;
+
+                                    if (normalIndex < 1 || normalIndex > static_cast<int32_t>(normals.size()))
+                                    {
+                                        Log(Log::Level::ERR) << "Invalid normal index";
+                                        return false;
+                                    }
+
+                                    std::get<2>(i) = normalIndex;
+                                }
                             }
 
                             uint32_t index = 0;
@@ -394,10 +417,10 @@ namespace ouzel
                                 vertexMap[i] = index;
 
                                 graphics::Vertex vertex;
-                                vertex.position = positions[std::get<0>(i)];
-                                vertex.texCoords[0] = texCoords[std::get<1>(i)];
+                                if (std::get<0>(i) >= 1) vertex.position = positions[static_cast<size_t>(std::get<0>(i) - 1)];
+                                if (std::get<1>(i) >= 1) vertex.texCoords[0] = texCoords[static_cast<size_t>(std::get<1>(i) - 1)];
                                 vertex.color = Color::WHITE;
-                                vertex.normal = normals[std::get<2>(i)];
+                                if (std::get<2>(i) >= 1) vertex.normal = normals[static_cast<size_t>(std::get<2>(i) - 1)];
                                 vertices.push_back(vertex);
                                 boundingBox.insertPoint(vertex.position);
                             }
