@@ -328,7 +328,7 @@ namespace ouzel
                     {
                         std::vector<uint32_t> vertexIndices;
 
-                        std::tuple<int32_t, int32_t, int32_t> i = std::make_tuple(0, 0, 0);
+                        std::tuple<uint32_t, uint32_t, uint32_t> i = std::make_tuple(0, 0, 0);
                         int32_t positionIndex = 0, texCoordIndex = 0, normalIndex = 0;
 
                         for (;;)
@@ -356,7 +356,7 @@ namespace ouzel
                                 return false;
                             }
 
-                            std::get<0>(i) = positionIndex;
+                            std::get<0>(i) = static_cast<uint32_t>(positionIndex);
 
                             // has texture coordinates
                             if (parseToken(data, iterator, '/'))
@@ -379,7 +379,7 @@ namespace ouzel
                                         return false;
                                     }
 
-                                    std::get<1>(i) = texCoordIndex;
+                                    std::get<1>(i) = static_cast<uint32_t>(texCoordIndex);
                                 }
 
                                 // has normal
@@ -400,30 +400,28 @@ namespace ouzel
                                         return false;
                                     }
 
-                                    std::get<2>(i) = normalIndex;
+                                    std::get<2>(i) = static_cast<uint32_t>(normalIndex);
                                 }
                             }
 
                             uint32_t index = 0;
 
                             auto vertexIterator = vertexMap.find(i);
-                            if (vertexIterator != vertexMap.end())
-                            {
-                                index = vertexIterator->second;
-                            }
-                            else
+                            if (vertexIterator == vertexMap.end())
                             {
                                 index = static_cast<uint32_t>(vertices.size());
                                 vertexMap[i] = index;
 
                                 graphics::Vertex vertex;
-                                if (std::get<0>(i) >= 1) vertex.position = positions[static_cast<size_t>(std::get<0>(i) - 1)];
-                                if (std::get<1>(i) >= 1) vertex.texCoords[0] = texCoords[static_cast<size_t>(std::get<1>(i) - 1)];
+                                if (std::get<0>(i) >= 1) vertex.position = positions[std::get<0>(i) - 1];
+                                if (std::get<1>(i) >= 1) vertex.texCoords[0] = texCoords[std::get<1>(i) - 1];
                                 vertex.color = Color::WHITE;
-                                if (std::get<2>(i) >= 1) vertex.normal = normals[static_cast<size_t>(std::get<2>(i) - 1)];
+                                if (std::get<2>(i) >= 1) vertex.normal = normals[std::get<2>(i) - 1];
                                 vertices.push_back(vertex);
                                 boundingBox.insertPoint(vertex.position);
                             }
+                            else
+                                index = vertexIterator->second;
 
                             vertexIndices.push_back(index);
                         }
