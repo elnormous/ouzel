@@ -176,7 +176,7 @@ namespace ouzel
                             name = "position0";
                             break;
                         case Vertex::Attribute::Usage::POSITION_TRANSFORMED:
-                            name = "positionT";
+                            name = "positionT0";
                             break;
                         case Vertex::Attribute::Usage::POINT_SIZE:
                             name = "pointSize0";
