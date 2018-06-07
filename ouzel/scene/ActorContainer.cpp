@@ -29,9 +29,7 @@ namespace ouzel
             assert(actor);
 
             if (actor->parent)
-            {
                 actor->parent->removeChild(actor);
-            }
 
             actor->parent = this;
             actor->setLayer(layer);
@@ -60,9 +58,7 @@ namespace ouzel
             });
 
             if (ownedIterator != ownedChildren.end())
-            {
                 ownedChildren.erase(ownedIterator);
-            }
 
             return result;
         }
@@ -125,9 +121,7 @@ namespace ouzel
             entered = true;
 
             for (Actor* actor : children)
-            {
                 actor->enter();
-            }
         }
 
         void ActorContainer::leave()
@@ -135,9 +129,7 @@ namespace ouzel
             entered = false;
 
             for (Actor* actor : children)
-            {
                 actor->leave();
-            }
         }
 
         void ActorContainer::setLayer(Layer* newLayer)
@@ -145,9 +137,7 @@ namespace ouzel
             layer = newLayer;
 
             for (Actor* actor : children)
-            {
                 actor->setLayer(layer);
-            }
         }
 
         void ActorContainer::findActors(const Vector2& position, std::vector<std::pair<Actor*, Vector3>>& actors) const

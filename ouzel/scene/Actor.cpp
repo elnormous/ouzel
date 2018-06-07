@@ -24,9 +24,7 @@ namespace ouzel
             if (parent) parent->removeChild(this);
 
             for (const auto& component : components)
-            {
                 component->setActor(nullptr);
-            }
         }
 
         void Actor::visit(std::vector<Actor*>& drawQueue,
@@ -39,15 +37,8 @@ namespace ouzel
             worldOrder = parentOrder + order;
             worldHidden = parentHidden || hidden;
 
-            if (parentTransformDirty)
-            {
-                updateTransform(newParentTransform);
-            }
-
-            if (transformDirty)
-            {
-                calculateTransform();
-            }
+            if (parentTransformDirty) updateTransform(newParentTransform);
+            if (transformDirty) calculateTransform();
 
             if (!worldHidden)
             {
@@ -65,9 +56,7 @@ namespace ouzel
             }
 
             for (Actor* actor : children)
-            {
                 actor->visit(drawQueue, transform, updateChildrenTransform, camera, worldOrder, worldHidden);
-            }
 
             updateChildrenTransform = false;
         }
@@ -218,9 +207,7 @@ namespace ouzel
         {
             localTransformDirty = transformDirty = inverseTransformDirty = true;
             for (Component* component : components)
-            {
                 component->updateTransform();
-            }
         }
 
         void Actor::updateTransform(const Matrix4& newParentTransform)
@@ -228,9 +215,7 @@ namespace ouzel
             parentTransform = newParentTransform;
             transformDirty = inverseTransformDirty = true;
             for (Component* component : components)
-            {
                 component->updateTransform();
-            }
         }
 
         Vector3 Actor::getWorldPosition() const
@@ -329,9 +314,7 @@ namespace ouzel
             });
 
             if (ownedIterator != ownedComponents.end())
-            {
                 ownedComponents.erase(ownedIterator);
-            }
 
             return result;
         }
@@ -347,9 +330,7 @@ namespace ouzel
             ActorContainer::setLayer(newLayer);
 
             for (Component* component : components)
-            {
                 component->setLayer(newLayer);
-            }
         }
 
         std::vector<Component*> Actor::getComponents(uint32_t cls) const
@@ -359,9 +340,7 @@ namespace ouzel
             for (Component* component : components)
             {
                 if (component->getClass() == cls)
-                {
                     result.push_back(component);
-                }
             }
 
             return result;
@@ -374,9 +353,7 @@ namespace ouzel
             for (Component* component : components)
             {
                 if (!component->isHidden())
-                {
                     boundingBox.merge(component->getBoundingBox());
-                }
             }
 
             return boundingBox;
