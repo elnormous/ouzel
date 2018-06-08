@@ -156,7 +156,7 @@ namespace ouzel
 #endif
         }
 
-        static bool setCurrentThreadName(const std::string& name);
+        static void setCurrentThreadName(const std::string& name);
 
         struct State
         {
