@@ -4,6 +4,7 @@
 #ifdef __APPLE__
 #include <sys/time.h>
 #endif
+#include <stdexcept>
 #include "Condition.hpp"
 
 namespace ouzel
@@ -13,7 +14,8 @@ namespace ouzel
 #if defined(_WIN32)
         InitializeConditionVariable(&conditionVariable);
 #else
-        pthread_cond_init(&condition, NULL);
+        if (pthread_cond_init(&condition, NULL) != 0)
+            throw std::runtime_error("Failed to initialize condition");
 #endif
     }
 

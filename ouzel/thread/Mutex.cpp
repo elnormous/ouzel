@@ -1,6 +1,7 @@
 // Copyright (C) 2018 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <stdexcept>
 #include "Mutex.hpp"
 
 namespace ouzel
@@ -10,7 +11,8 @@ namespace ouzel
 #if defined(_WIN32)
         InitializeCriticalSection(&criticalSection);
 #else
-        pthread_mutex_init(&mutex, nullptr);
+        if (pthread_mutex_init(&mutex, nullptr) != 0)
+            throw std::runtime_error("Failed to initialize mutex");
 #endif
     }
 
