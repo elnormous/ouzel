@@ -24,9 +24,7 @@ namespace ouzel
             Animator::play();
 
             if (targetActor)
-            {
                 startPosition = targetActor->getPosition();
-            }
         }
 
         void Shake::updateProgress()

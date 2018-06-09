@@ -16,9 +16,7 @@ namespace ouzel
                 addAnimator(animator);
 
                 if (animator->getLength() > length)
-                {
                     length = animator->getLength();
-                }
             }
         }
 
@@ -30,9 +28,7 @@ namespace ouzel
                 addAnimator(animator.get());
 
                 if (animator->getLength() > length)
-                {
                     length = animator->getLength();
-                }
             }
         }
 
@@ -45,13 +41,9 @@ namespace ouzel
                 float animationLength = animator->getLength();
 
                 if (animationLength <= 0.0F || currentTime > animationLength)
-                {
                     animator->setProgress(1.0F);
-                }
                 else
-                {
                     animator->setProgress(currentTime / animationLength);
-                }
             }
         }
     } // namespace scene

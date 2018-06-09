@@ -31,9 +31,7 @@ namespace ouzel
             Animator::updateProgress();
 
             if (targetActor)
-            {
                 targetActor->setOpacity(startOpacity + (diff * progress));
-            }
         }
     } // namespace scene
 } // namespace ouzel

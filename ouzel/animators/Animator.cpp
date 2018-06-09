@@ -80,14 +80,10 @@ namespace ouzel
             targetActor = actor;
 
             if (!targetActor && parent)
-            {
                 targetActor = parent->getTargetActor();
-            }
 
             for (const auto& animator : animators)
-            {
                 animator->play();
-            }
         }
 
         void Animator::resume()
@@ -100,9 +96,7 @@ namespace ouzel
             running = false;
 
             if (resetAnimation)
-            {
                 reset();
-            }
         }
 
         void Animator::reset()
@@ -158,9 +152,7 @@ namespace ouzel
             });
 
             if (ownedIterator != ownedAnimators.end())
-            {
                 ownedAnimators.erase(ownedIterator);
-            }
 
             return result;
         }

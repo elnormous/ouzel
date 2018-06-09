@@ -31,9 +31,7 @@ namespace ouzel
             Animator::updateProgress();
 
             if (targetActor)
-            {
                 targetActor->setScale(startScale + (diff * progress));
-            }
         }
     } // namespace scene
 } // namespace ouzel

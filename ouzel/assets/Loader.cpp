@@ -14,17 +14,13 @@ namespace ouzel
             type(initType), extensions(initExtensions)
         {
             for (std::string& extension : extensions)
-            {
                 std::transform(extension.begin(), extension.end(), extension.begin(), [](unsigned char c){ return std::tolower(c); });
-            }
         }
 
         Loader::~Loader()
         {
             if (cache)
-            {
                 cache->removeLoader(this);
-            }
         }
     } // namespace assets
 } // namespace ouzel

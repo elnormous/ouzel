@@ -118,9 +118,7 @@ namespace ouzel
             std::vector<AudioDevice::RenderCommand> renderCommands;
 
             for (Listener* listener : listeners)
-            {
                 renderCommands.push_back(listener->getRenderCommand());
-            }
 
             device->setRenderCommands(renderCommands);
 
@@ -151,9 +149,7 @@ namespace ouzel
                 auto i = std::find(listeners.begin(), listeners.end(), listener);
 
                 if (i != listeners.end())
-                {
                     listeners.erase(i);
-                }
             }
         }
 
@@ -195,9 +191,7 @@ namespace ouzel
 
                     // fill the last frame of the destination with the last frame of the source
                     for (uint32_t channel = 0; channel < channels; ++channel)
-                    {
                         dst[(dstFrames - 1) * channels + channel] = src[(srcFrames - 1) * channels + channel];
-                    }
                 }
             }
         }
