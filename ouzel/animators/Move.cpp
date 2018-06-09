@@ -31,9 +31,7 @@ namespace ouzel
             Animator::updateProgress();
 
             if (targetActor)
-            {
                 targetActor->setPosition(startPosition + (diff * progress));
-            }
         }
     } // namespace scene
 } // namespace ouzel

@@ -80,9 +80,7 @@ namespace ouzel
                     for (const json::Value& triangleObject : trianglesObject.asArray())
                     {
                         for (const json::Value& indexObject : triangleObject.asArray())
-                        {
                             indices.push_back(static_cast<uint16_t>(indexObject.asUInt32()));
-                        }
                     }
 
                     // reverse the vertices, so that they are counterclockwise

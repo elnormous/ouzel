@@ -32,9 +32,7 @@ namespace ouzel
             Animator::updateProgress();
 
             if (targetActor)
-            {
                 targetActor->setRotation(startRotation + diff * progress);
-            }
         }
     } // namespace scene
 } // namespace ouzel

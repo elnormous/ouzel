@@ -152,9 +152,7 @@ namespace ouzel
             if (!processRenderCommands(frames, buffers[buffer])) return false;
 
             for (float& f : buffers[buffer])
-            {
                 f = clamp(f, -1.0F, 1.0F);
-            }
 
             switch (sampleFormat)
             {

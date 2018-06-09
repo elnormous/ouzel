@@ -124,9 +124,7 @@ namespace ouzel
         bool Cache::loadAssets(const std::vector<std::string>& filenames, bool mipmaps) const
         {
             for (const std::string& filename : filenames)
-            {
                 loadAsset(filename, mipmaps);
-            }
 
             return true;
         }
