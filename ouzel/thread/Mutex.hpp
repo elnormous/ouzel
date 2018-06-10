@@ -26,9 +26,9 @@ namespace ouzel
         Mutex(Mutex&&) = delete;
         Mutex& operator=(Mutex&&) = delete;
 
-        bool lock();
+        void lock();
         bool tryLock();
-        bool unlock();
+        void unlock();
 
     protected:
 #if defined(_WIN32)

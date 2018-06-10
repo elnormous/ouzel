@@ -20,8 +20,8 @@ namespace ouzel
         Condition(Condition&&) = delete;
         Condition& operator=(Condition&&) = delete;
 
-        bool signal();
-        bool broadcast();
+        void signal();
+        void broadcast();
         bool wait(Lock& lock);
         bool wait(Lock& lock, std::chrono::steady_clock::duration duration);
 

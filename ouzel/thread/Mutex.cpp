@@ -25,13 +25,13 @@ namespace ouzel
 #endif
     }
 
-    bool Mutex::lock()
+    void Mutex::lock()
     {
 #if defined(_WIN32)
         EnterCriticalSection(&criticalSection);
-        return true;
 #else
-        return pthread_mutex_lock(&mutex) == 0;
+        if (pthread_mutex_lock(&mutex) != 0)
+            throw std::runtime_error("Failed to lock mutex");
 #endif
     }
 
@@ -44,13 +44,13 @@ namespace ouzel
 #endif
     }
 
-    bool Mutex::unlock()
+    void Mutex::unlock()
     {
 #if defined(_WIN32)
         LeaveCriticalSection(&criticalSection);
-        return true;
 #else
-        return pthread_mutex_unlock(&mutex) == 0;
+        if (pthread_mutex_unlock(&mutex) != 0)
+            throw std::runtime_error("Failed to unlock mutex");
 #endif
     }
 }
