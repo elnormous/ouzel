@@ -133,7 +133,7 @@ namespace ouzel
 #if defined(_WIN32)
             return handle != nullptr;
 #else
-            return thread != 0;
+            return initialized;
 #endif
         }
 
@@ -170,7 +170,8 @@ namespace ouzel
         HANDLE handle = nullptr;
         DWORD threadId = 0;
 #else
-        pthread_t thread = 0;
+        pthread_t thread;
+        bool initialized = false;
 #endif
     };
 }

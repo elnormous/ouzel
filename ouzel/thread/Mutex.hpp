@@ -35,6 +35,7 @@ namespace ouzel
         CRITICAL_SECTION criticalSection;
 #else
         pthread_mutex_t mutex;
+        bool initialized = false;
 #endif
     };
 }
