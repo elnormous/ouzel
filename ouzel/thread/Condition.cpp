@@ -26,23 +26,23 @@ namespace ouzel
 #endif
     }
 
-    bool Condition::signal()
+    void Condition::signal()
     {
 #if defined(_WIN32)
         WakeConditionVariable(&conditionVariable);
-        return true;
 #else
-        return pthread_cond_signal(&condition) == 0;
+        if (pthread_cond_signal(&condition) != 0)
+            throw std::runtime_error("Failed to signal condition variable");
 #endif
     }
 
-    bool Condition::broadcast()
+    void Condition::broadcast()
     {
 #if defined(_WIN32)
         WakeAllConditionVariable(&conditionVariable);
-        return true;
 #else
-        return pthread_cond_broadcast(&condition) == 0;
+        if (pthread_cond_broadcast(&condition) != 0)
+            throw std::runtime_error("Failed to broadcast condition variable");
 #endif
     }
 

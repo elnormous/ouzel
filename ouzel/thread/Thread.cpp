@@ -106,12 +106,14 @@ namespace ouzel
         return *this;
     }
 
-    bool Thread::join()
+    void Thread::join()
     {
 #if defined(_WIN32)
-        return handle ? (WaitForSingleObject(handle, INFINITE) != WAIT_FAILED) : false;
+        if (!handle || WaitForSingleObject(handle, INFINITE) == WAIT_FAILED)
+            throw std::runtime_error("Failed to join thread");
 #else
-        return thread ? (pthread_join(thread, nullptr) == 0) : false;
+        if (!thread || pthread_join(thread, nullptr) != 0)
+            throw std::runtime_error("Failed to join thread");
 #endif
     }
 
