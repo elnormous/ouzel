@@ -103,7 +103,6 @@ namespace ouzel
         Thread(Thread&& other);
         Thread& operator=(Thread&& other);
 
-        bool run();
         bool join();
 
         int32_t getPriority() const
