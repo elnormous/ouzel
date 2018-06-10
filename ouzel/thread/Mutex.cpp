@@ -13,6 +13,8 @@ namespace ouzel
 #else
         if (pthread_mutex_init(&mutex, nullptr) != 0)
             throw std::runtime_error("Failed to initialize mutex");
+
+        initialized = true;
 #endif
     }
 
@@ -21,7 +23,7 @@ namespace ouzel
 #if defined(_WIN32)
         DeleteCriticalSection(&criticalSection);
 #else
-        pthread_mutex_destroy(&mutex);
+        if (initialized) pthread_mutex_destroy(&mutex);
 #endif
     }
 

@@ -30,6 +30,7 @@ namespace ouzel
         CONDITION_VARIABLE conditionVariable;
 #else
         pthread_cond_t condition;
+        bool initialized = false;
 #endif
     };
 }

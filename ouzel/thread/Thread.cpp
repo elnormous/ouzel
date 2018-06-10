@@ -51,6 +51,8 @@ namespace ouzel
 #else
         if (pthread_create(&thread, NULL, threadFunction, state.get()) != 0)
             throw std::runtime_error("Failed to initialize thread");
+
+        initialized = true;
 #endif
     }
 
@@ -63,7 +65,7 @@ namespace ouzel
             CloseHandle(handle);
         }
 #else
-        if (thread) pthread_join(thread, nullptr);
+        if (initialized) pthread_join(thread, nullptr);
 #endif
     }
 
@@ -76,7 +78,9 @@ namespace ouzel
         other.threadId = 0;
 #else
         thread = other.thread;
-        other.thread = 0;
+        initialized = other.initialized;
+        other.initialized = false;
+
 #endif
         state = std::move(other.state);
     }
@@ -98,7 +102,8 @@ namespace ouzel
 #else
             if (thread) pthread_join(thread, nullptr);
             thread = other.thread;
-            other.thread = 0;
+            initialized = other.initialized;
+            other.initialized = false;
 #endif
             state = std::move(other.state);
         }

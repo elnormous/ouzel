@@ -16,13 +16,15 @@ namespace ouzel
 #else
         if (pthread_cond_init(&condition, NULL) != 0)
             throw std::runtime_error("Failed to initialize condition");
+
+        initialized = true;
 #endif
     }
 
     Condition::~Condition()
     {
 #if !defined(_WIN32)
-        pthread_cond_destroy(&condition);
+        if (initialized) pthread_cond_destroy(&condition);
 #endif
     }
 
