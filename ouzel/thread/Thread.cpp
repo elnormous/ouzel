@@ -117,7 +117,7 @@ namespace ouzel
         if (!handle || WaitForSingleObject(handle, INFINITE) == WAIT_FAILED)
             throw std::runtime_error("Failed to join thread");
 #else
-        if (!thread || pthread_join(thread, nullptr) != 0)
+        if (!initialized || pthread_join(thread, nullptr) != 0)
             throw std::runtime_error("Failed to join thread");
 
         initialized = false;
