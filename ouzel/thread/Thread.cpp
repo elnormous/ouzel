@@ -100,7 +100,7 @@ namespace ouzel
             other.handle = nullptr;
             other.threadId = 0;
 #else
-            if (thread) pthread_join(thread, nullptr);
+            if (initialized) pthread_join(thread, nullptr);
             thread = other.thread;
             initialized = other.initialized;
             other.initialized = false;
