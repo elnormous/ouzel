@@ -125,10 +125,14 @@ namespace ouzel
 
     bool EngineTVOS::openURL(const std::string& url)
     {
-        NSString* nsStringURL = [NSString stringWithUTF8String:url.c_str()];
-        NSURL* nsURL = [NSURL URLWithString:nsStringURL];
+        executeOnMainThread([url](){
+            NSString* nsStringURL = [NSString stringWithUTF8String:url.c_str()];
+            NSURL* nsURL = [NSURL URLWithString:nsStringURL];
 
-        return [[UIApplication sharedApplication] openURL:nsURL] == YES;
+            [[UIApplication sharedApplication] openURL:nsURL];
+        });
+
+        return true;
     }
 
     void EngineTVOS::setScreenSaverEnabled(bool newScreenSaverEnabled)
