@@ -25,35 +25,31 @@ namespace ouzel
     {
         Network::Network()
         {
+#ifdef _WIN32
+            WORD sockVersion = MAKEWORD(2, 2);
+            WSADATA wsaData;
+            int error = WSAStartup(sockVersion, &wsaData);
+            if (error != 0)
+                throw std::runtime_error("Failed to start WinSock failed, error: " + std::to_string(error));
+
+            if (wsaData.wVersion != sockVersion)
+            {
+                throw std::runtime_error("Incorrect WinSock version");
+                WSACleanup();
+            }
+#endif
         }
 
         Network::~Network()
         {
 #ifdef _WIN32
             if (endpoint != INVALID_SOCKET)
-            {
-                int result = closesocket(endpoint);
-
-                if (result < 0)
-                {
-                    int error = WSAGetLastError();
-                    Log(Log::Level::ERR) << "Failed to close socket, error: " << error;
-                }
-            }
+                closesocket(endpoint);
 
             WSACleanup();
 #else
             if (endpoint != -1)
-            {
-                int result = close(endpoint);
-
-                if (result < 0)
-                {
-                    int error = errno;
-                    Log(Log::Level::ERR) << "Failed to close socket, error: " << error;
-                }
-            }
-
+                close(endpoint);
 #endif
         }
 
@@ -83,24 +79,6 @@ namespace ouzel
 
         bool Network::init()
         {
-#ifdef _WIN32
-            WORD sockVersion = MAKEWORD(2, 2);
-            WSADATA wsaData;
-            int error = WSAStartup(sockVersion, &wsaData);
-            if (error != 0)
-            {
-                Log(Log::Level::ERR) << "Failed to start Winsock failed, error: " << error;
-                return false;
-            }
-
-            if (wsaData.wVersion != sockVersion)
-            {
-                Log(Log::Level::ERR) << "Incorrect Winsock version";
-                WSACleanup();
-                return false;
-            }
-#endif
-
             return true;
         }
 
