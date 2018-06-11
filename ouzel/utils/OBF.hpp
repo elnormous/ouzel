@@ -381,9 +381,7 @@ namespace ouzel
                 else if (type == Type::ARRAY)
                 {
                     if (key < arrayValue.size())
-                    {
                         return arrayValue[key];
-                    }
                 }
 
                 return Value();
@@ -394,13 +392,10 @@ namespace ouzel
                 assert(type == Type::OBJECT || type == Type::ARRAY);
 
                 if (type == Type::OBJECT)
-                {
                     return objectValue[key];
-                }
                 else
                 {
                     type = Type::ARRAY;
-
                     return arrayValue[key];
                 }
             }

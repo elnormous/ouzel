@@ -225,15 +225,11 @@ namespace ouzel
         {
             if (keyboardKeyStates[static_cast<uint32_t>(KeyboardKey::LEFT_SHIFT)] &&
                 (GetKeyState(VK_LSHIFT) & 0x8000) == 0)
-            {
                 keyRelease(KeyboardKey::LEFT_SHIFT, 0);
-            }
 
             if (keyboardKeyStates[static_cast<uint32_t>(KeyboardKey::RIGHT_SHIFT)] &&
                 (GetKeyState(VK_RSHIFT) & 0x8000) == 0)
-            {
                 keyRelease(KeyboardKey::RIGHT_SHIFT, 0);
-            }
 
             for (DWORD userIndex = 0; userIndex < XUSER_MAX_COUNT; ++userIndex)
             {
@@ -277,24 +273,18 @@ namespace ouzel
                         });
 
                         if (i != gamepads.end())
-                        {
                             gamepads.erase(i);
-                        }
                     }
                 }
                 else
-                {
                     Log(Log::Level::WARN) << "Failed to get state for gamepad " << userIndex;
-                }
             }
 
             for (auto i = gamepadsDI.begin(); i != gamepadsDI.end();)
             {
                 GamepadDI* gamepadDI = *i;
                 if (gamepadDI->update())
-                {
                     ++i;
-                }
                 else
                 {
                     Event event;
@@ -340,13 +330,9 @@ namespace ouzel
 
             engine->executeOnMainThread([this, visible] {
                 if (visible)
-                {
                     SetCursor(currentCursor);
-                }
                 else
-                {
                     SetCursor(nullptr);
-                }
             });
         }
 
@@ -374,14 +360,10 @@ namespace ouzel
                     rect.bottom = centerY + 1;
 
                     if (!ClipCursor(&rect))
-                    {
                         Log(Log::Level::ERR) << "Failed to grab pointer";
-                    }
                 }
                 else
-                {
                     ClipCursor(nullptr);
-                }
             });
             cursorLocked = locked;
         }
@@ -412,9 +394,7 @@ namespace ouzel
         {
             HRESULT hr = directInput->EnumDevices(DI8DEVCLASS_GAMECTRL, enumDevicesCallback, this, DIEDFL_ATTACHEDONLY);
             if (FAILED(hr))
-            {
                 Log(Log::Level::ERR) << "Failed to enumerate devices, error: " << hr;
-            }
         }
 
         void InputManagerWin::handleDeviceConnect(const DIDEVICEINSTANCEW* didInstance)
@@ -426,9 +406,7 @@ namespace ouzel
                                           __uuidof(IWbemLocator), reinterpret_cast<LPVOID*>(&wbemLocator));
 
             if (FAILED(hr))
-            {
                 Log(Log::Level::ERR) << "Failed to create WMI locator instance, error: " << hr;
-            }
             else
             {
                 BSTR namespaceStr = SysAllocString(L"\\\\.\\root\\cimv2");
@@ -442,26 +420,20 @@ namespace ouzel
                                                     0L, nullptr, nullptr, &wbemServices);
 
                     if (FAILED(hr))
-                    {
                         Log(Log::Level::ERR) << "Failed to create a connection to the WMI namespace, error: " << hr;
-                    }
                     else
                     {
                         hr = CoSetProxyBlanket(wbemServices, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, nullptr,
                                                RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE, nullptr, EOAC_NONE);
 
                         if (FAILED(hr))
-                        {
                             Log(Log::Level::ERR) << "Failed to set authentication information, error: " << hr;
-                        }
                         else
                         {
                             IEnumWbemClassObject* enumDevices = nullptr;
                             hr = wbemServices->CreateInstanceEnum(className, 0, nullptr, &enumDevices);
                             if (FAILED(hr))
-                            {
                                 Log(Log::Level::ERR) << "Failed to create the device enumerator, error: " << hr;
-                            }
                             else
                             {
                                 // Get 20 at a time
@@ -549,13 +521,9 @@ namespace ouzel
         void InputManagerWin::updateCursor()
         {
             if (cursorVisible)
-            {
                 SetCursor(currentCursor);
-            }
             else
-            {
                 SetCursor(nullptr);
-            }
         }
     } // namespace input
 } // namespace ouzel

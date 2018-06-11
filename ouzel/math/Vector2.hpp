@@ -191,9 +191,8 @@ namespace ouzel
         inline bool operator<(const Vector2& vec) const
         {
             if (x == vec.x)
-            {
                 return y < vec.y;
-            }
+
             return x < vec.x;
         }
 

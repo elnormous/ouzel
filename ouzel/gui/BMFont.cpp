@@ -210,9 +210,7 @@ namespace ouzel
                         }
 
                         if (key == "file")
-                        {
                             fontTexture = engine->getCache()->getTexture(value, mipmaps);
-                        }
                     }
                 }
                 else if (keyword == "common")
@@ -533,9 +531,7 @@ namespace ouzel
                     }
                 }
                 else
-                {
                     skipLine(data, iterator);
-                }
             }
         }
 
@@ -602,9 +598,7 @@ namespace ouzel
                                                     color, textCoords[3], Vector3(0.0F, 0.0F, -1.0F)));
 
                 if ((i + 1) != utf32Text.end())
-                {
                     position.x += static_cast<float>(getKerningPair(*i, *(i + 1)));
-                }
 
                 position.x += f.xAdvance;
             }
@@ -617,9 +611,7 @@ namespace ouzel
                 position.y += lineHeight;
 
                 for (size_t c = firstChar; c < vertices.size(); ++c)
-                {
                     vertices[c].position.x -= lineWidth * anchor.x;
-                }
 
                 firstChar = vertices.size();
             }

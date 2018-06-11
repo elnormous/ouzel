@@ -39,15 +39,11 @@ namespace ouzel
 
             CFNumberRef vendor = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDVendorIDKey)));
             if (vendor)
-            {
                 CFNumberGetValue(vendor, kCFNumberSInt32Type, &vendorId);
-            }
 
             CFNumberRef product = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductIDKey)));
             if (product)
-            {
                 CFNumberGetValue(product, kCFNumberSInt32Type, &productId);
-            }
 
             uint32_t leftThumbXMap = 0;
             uint32_t leftThumbYMap = 0;
@@ -279,9 +275,7 @@ namespace ouzel
                 element.usage = IOHIDElementGetUsage(element.element);
 
                 if (element.usage > 0 && element.usage < 25)
-                {
                     element.button = usageMap[element.usage - 1];
-                }
 
                 if ((element.type == kIOHIDElementTypeInput_Misc || element.type == kIOHIDElementTypeInput_Axis) &&
                     element.usagePage == kHIDPage_GenericDesktop)
@@ -326,9 +320,7 @@ namespace ouzel
                     if (element.button != GamepadButton::NONE &&
                         (element.button != GamepadButton::LEFT_TRIGGER || !leftThumbX) && // don't send digital trigger if analog trigger exists
                         (element.button != GamepadButton::RIGHT_TRIGGER || !rightThumbY))
-                    {
                         handleButtonValueChange(element.button, newValue > 0, (newValue > 0) ? 1.0F : 0.0F);
-                    }
                 }
                 else if (elementRef == leftThumbX)
                 {
@@ -413,13 +405,9 @@ namespace ouzel
             else // thumbstick is 0
             {
                 if (oldValue > newValue)
-                {
                     handleButtonValueChange(positiveButton, false, 0.0F);
-                }
                 else
-                {
                     handleButtonValueChange(negativeButton, false, 0.0F);
-                }
             }
         }
     } // namespace input

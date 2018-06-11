@@ -246,9 +246,7 @@ namespace ouzel
                 }
             }
             else
-            {
                 pixelFormat = ChoosePixelFormat(deviceContext, &pixelFormatDesc);
-            }
 
             if (!pixelFormat)
             {
@@ -291,9 +289,7 @@ namespace ouzel
                 }
             }
             else
-            {
                 renderContext = wglCreateContext(deviceContext);
-            }
 
             if (!renderContext)
             {

@@ -93,13 +93,9 @@ namespace ouzel
             else // thumbstick is 0
             {
                 if (oldValue > newValue)
-                {
                     handleButtonValueChange(positiveButton, false, 0.0F);
-                }
                 else
-                {
                     handleButtonValueChange(negativeButton, false, 0.0F);
-                }
             }
         }
     } // namespace input

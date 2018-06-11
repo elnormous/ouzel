@@ -262,9 +262,7 @@ namespace ouzel
                                                        object:nil];
 
             for (GCController* controller in [GCController controllers])
-            {
                 handleGamepadConnected(controller);
-            }
 
             startGamepadDiscovery();
         }
@@ -275,9 +273,7 @@ namespace ouzel
             resources.clear();
 
             if (connectDelegate)
-            {
                 [connectDelegate release];
-            }
 
             if (hidManager)
             {
@@ -514,9 +510,7 @@ namespace ouzel
                 });
 
                 if (gamepadIterator != gamepads.end())
-                {
                     gamepads.erase(gamepadIterator);
-                }
             }
         }
 
@@ -527,15 +521,11 @@ namespace ouzel
 
             CFNumberRef vendor = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDVendorIDKey)));
             if (vendor)
-            {
                 CFNumberGetValue(vendor, kCFNumberSInt32Type, &vendorId);
-            }
 
             CFNumberRef product = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductIDKey)));
             if (product)
-            {
                 CFNumberGetValue(product, kCFNumberSInt32Type, &productId);
-            }
 
             bool supportsGameController = (vendorId == 0x1038 && productId == 0x1420) || // SteelSeries Nimbus
                                           (vendorId == 0x0F0D && productId == 0x0090); // Horipad Ultimate
@@ -581,9 +571,7 @@ namespace ouzel
                 });
 
                 if (gamepadIterator != gamepads.end())
-                {
                     gamepads.erase(gamepadIterator);
-                }
             }
         }
     } // namespace input

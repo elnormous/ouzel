@@ -147,9 +147,7 @@ namespace ouzel
             };
 
             if (controller.vendorName)
-            {
                 name = [controller.vendorName cStringUsingEncoding:NSASCIIStringEncoding];
-            }
 
             attached = (controller.isAttachedToDevice == YES);
         }

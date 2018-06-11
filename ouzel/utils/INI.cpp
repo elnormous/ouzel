@@ -158,9 +158,7 @@ namespace ouzel
             for (auto iterator = str.begin(); iterator != str.end();)
             {
                 if (*iterator == '\n' || *iterator == '\r' || *iterator == ' ' || *iterator == '\t') // line starts with a whitespace
-                {
                     ++iterator; // skip the white space
-                }
                 else if (*iterator == '[') // section
                 {
                     ++iterator; // skip the left bracket
@@ -193,9 +191,7 @@ namespace ouzel
                             for (;;)
                             {
                                 if (iterator == str.end())
-                                {
                                     break;
-                                }
                                 else if (*iterator == '\n' || *iterator == '\r')
                                 {
                                     ++iterator; // skip the newline
@@ -207,9 +203,7 @@ namespace ouzel
                             break;
                         }
                         else if (*iterator == ']')
-                        {
                             parsedSection = true;
-                        }
                         else if (*iterator != ' ' && *iterator != '\t')
                         {
                             if (parsedSection)
@@ -220,9 +214,7 @@ namespace ouzel
                         }
 
                         if (!parsedSection)
-                        {
                             sectionUtf32.push_back(*iterator);
-                        }
 
                         ++iterator;
                     }
@@ -257,9 +249,7 @@ namespace ouzel
                     for (;;)
                     {
                         if (iterator == str.end())
-                        {
                             break;
-                        }
                         else if (*iterator == '\r' || *iterator == '\n')
                         {
                             ++iterator; // skip the newline
@@ -268,9 +258,7 @@ namespace ouzel
                         else if (*iterator == '=')
                         {
                             if (!parsedKey)
-                            {
                                 parsedKey = true;
-                            }
                             else
                             {
                                 Log(Log::Level::ERR) << "Unexpected character";
@@ -284,9 +272,7 @@ namespace ouzel
                             for (;;)
                             {
                                 if (iterator == str.end())
-                                {
                                     break;
-                                }
                                 else if (*iterator == '\r' || *iterator == '\n')
                                 {
                                     ++iterator; // skip the newline
@@ -300,13 +286,9 @@ namespace ouzel
                         else
                         {
                             if (!parsedKey)
-                            {
                                 keyUtf32.push_back(*iterator);
-                            }
                             else
-                            {
                                 valueUtf32.push_back(*iterator);
-                            }
                         }
 
                         ++iterator;
@@ -347,9 +329,7 @@ namespace ouzel
 
             auto i = sections.find("");
             if (i != sections.end())
-            {
                 i->second.encode(data);
-            }
 
             for (const auto& section : sections)
             {

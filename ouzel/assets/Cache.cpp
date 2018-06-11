@@ -171,13 +171,10 @@ namespace ouzel
             auto i = shaders.find(shaderName);
 
             if (i != shaders.end())
-            {
                 return i->second;
-            }
             else
             {
                 i = shaders.insert(std::make_pair(shaderName, nullptr)).first;
-
                 return i->second;
             }
         }
@@ -205,13 +202,10 @@ namespace ouzel
             auto i = blendStates.find(blendStateName);
 
             if (i != blendStates.end())
-            {
                 return i->second;
-            }
             else
             {
                 i = blendStates.insert(std::make_pair(blendStateName, nullptr)).first;
-
                 return i->second;
             }
         }
@@ -278,9 +272,7 @@ namespace ouzel
                 spriteData[filename] = newSpriteData;
             }
             else
-            {
                 return loadAsset(Loader::SPRITE, filename, mipmaps);
-            }
 
             return true;
         }
@@ -292,9 +284,7 @@ namespace ouzel
             auto i = spriteData.find(filename);
 
             if (i != spriteData.end())
-            {
                 return i->second;
-            }
             else
             {
                 if (std::find(loaderImage.extensions.begin(), loaderImage.extensions.end(),

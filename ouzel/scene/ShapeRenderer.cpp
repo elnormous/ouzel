@@ -199,9 +199,7 @@ namespace ouzel
                     command.indexCount = segments + 1;
 
                     for (uint16_t i = 0; i < segments; ++i)
-                    {
                         indices.push_back(startVertex + i);
-                    }
 
                     indices.push_back(startVertex);
 
@@ -226,9 +224,7 @@ namespace ouzel
                     }
 
                     for (const graphics::Vertex& vertex : vertices)
-                    {
                         boundingBox.insertPoint(vertex.position);
-                    }
 
                     command.indexCount = segments * 6;
 
@@ -430,9 +426,7 @@ namespace ouzel
                 command.mode = graphics::Renderer::DrawMode::TRIANGLE_LIST;
 
                 for (uint16_t i = 0; i < edges.size(); ++i)
-                {
                     vertices.push_back(graphics::Vertex(edges[i], color, Vector2(), Vector3(0.0F, 0.0F, -1.0F)));
-                }
 
                 command.indexCount = static_cast<uint32_t>(edges.size() - 2) * 3;
 
@@ -444,9 +438,7 @@ namespace ouzel
                 }
 
                 for (uint16_t i = 0; i < edges.size(); ++i)
-                {
                     boundingBox.insertPoint(edges[i]);
-                }
             }
             else
             {
@@ -455,23 +447,17 @@ namespace ouzel
                     command.mode = graphics::Renderer::DrawMode::LINE_STRIP;
 
                     for (uint16_t i = 0; i < edges.size(); ++i)
-                    {
                         vertices.push_back(graphics::Vertex(edges[i], color, Vector2(), Vector3(0.0F, 0.0F, -1.0F)));
-                    }
 
                     command.indexCount = static_cast<uint32_t>(edges.size()) + 1;
 
                     for (uint16_t i = 0; i < edges.size(); ++i)
-                    {
                         indices.push_back(startVertex + i);
-                    }
 
                     indices.push_back(startVertex);
 
                     for (uint16_t i = 0; i < edges.size(); ++i)
-                    {
                         boundingBox.insertPoint(edges[i]);
-                    }
                 }
                 else
                 {
@@ -491,9 +477,8 @@ namespace ouzel
             std::vector<uint32_t> ret;
             ret.push_back(1);
             for (uint32_t i = 0; i < row; ++i)
-            {
                 ret.push_back(ret[i] * (row - i) / (i + 1));
-            }
+
             return ret;
         }
 

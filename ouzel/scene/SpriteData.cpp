@@ -79,9 +79,7 @@ namespace ouzel
             indexCount = static_cast<uint32_t>(indices.size());
 
             for (const graphics::Vertex& vertex : vertices)
-            {
                 boundingBox.insertPoint(vertex.position);
-            }
 
             indexBuffer = std::make_shared<graphics::Buffer>();
             indexBuffer->init(graphics::Buffer::Usage::INDEX, 0, indices.data(), static_cast<uint32_t>(getVectorSize(indices)));
@@ -102,9 +100,7 @@ namespace ouzel
             indexCount = static_cast<uint32_t>(indices.size());
 
             for (const graphics::Vertex& vertex : vertices)
-            {
                 boundingBox.insertPoint(vertex.position);
-            }
 
             // TODO: fix
             Vector2 finalOffset(-sourceSize.width * pivot.x + sourceOffset.x,

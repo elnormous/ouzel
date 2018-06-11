@@ -96,9 +96,7 @@ namespace ouzel
                                                        object:nil];
 
             for (GCController* controller in [GCController controllers])
-            {
                 handleGamepadConnected(controller);
-            }
 
             startGamepadDiscovery();
 

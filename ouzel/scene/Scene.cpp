@@ -77,9 +77,7 @@ namespace ouzel
             if (layerIterator != layers.end())
             {
                 if (entered)
-                {
                     layer->leave();
-                }
 
                 layers.erase(layerIterator);
 
@@ -93,9 +91,7 @@ namespace ouzel
             });
 
             if (ownedIterator != ownedLayers.end())
-            {
                 ownedLayers.erase(ownedIterator);
-            }
 
             return result;
         }
@@ -105,9 +101,7 @@ namespace ouzel
             if (entered)
             {
                 for (Layer* layer : layers)
-                {
                     layer->leave();
-                }
             }
 
             layers.clear();
@@ -178,9 +172,7 @@ namespace ouzel
             engine->getEventDispatcher()->addEventHandler(&eventHandler);
 
             for (Layer* layer : layers)
-            {
                 layer->enter();
-            }
         }
 
         void Scene::leave()
@@ -190,17 +182,13 @@ namespace ouzel
             eventHandler.remove();
 
             for (Layer* layer : layers)
-            {
                 layer->leave();
-            }
         }
 
         bool Scene::handleWindow(Event::Type type, const WindowEvent&)
         {
             if (type == Event::Type::RESOLUTION_CHANGE)
-            {
                 recalculateProjection();
-            }
 
             return true;
         }
@@ -232,9 +220,7 @@ namespace ouzel
                     auto i = pointerDownOnActors.find(0);
 
                     if (i != pointerDownOnActors.end())
-                    {
                         pointerDragActor(0, i->second.first, event.position, event.difference, i->second.second);
-                    }
                     break;
                 }
                 default:
@@ -271,9 +257,7 @@ namespace ouzel
                     auto i = pointerDownOnActors.find(event.touchId);
 
                     if (i != pointerDownOnActors.end())
-                    {
                         pointerDragActor(event.touchId, i->second.first, event.position, event.difference, i->second.second);
-                    }
                     break;
                 }
                 case Event::Type::TOUCH_CANCEL:

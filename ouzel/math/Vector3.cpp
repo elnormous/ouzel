@@ -152,9 +152,7 @@ namespace ouzel
     void Vector3::smooth(const Vector3& target, float elapsedTime, float responseTime)
     {
         if (elapsedTime > 0)
-        {
             *this += (target - *this) * (elapsedTime / (elapsedTime + responseTime));
-        }
     }
 
     float Vector3::getMin() const

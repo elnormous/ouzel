@@ -83,9 +83,7 @@ namespace ouzel
                 }
 
                 if (!isNameChar(*iterator))
-                {
                     break;
-                }
                 else
                 {
                     result += utf32ToUtf8(*iterator);
@@ -130,9 +128,7 @@ namespace ouzel
                     break;
                 }
                 else
-                {
                     value.push_back(static_cast<char>(*iterator));
-                }
             }
 
             if (value.empty())
@@ -142,25 +138,15 @@ namespace ouzel
             }
 
             if (value == "quot")
-            {
                 result = "\"";
-            }
             else if (value == "amp")
-            {
                 result = "&";
-            }
             else if (value == "apos")
-            {
                 result = "'";
-            }
             else if (value == "lt")
-            {
                 result = "<";
-            }
             else if (value == "gt")
-            {
                 result = ">";
-            }
             else if (value[0] == '#')
             {
                 if (value.length() < 2)
@@ -600,9 +586,7 @@ namespace ouzel
 
                                 if ((preserveComments || node.getType() != Type::COMMENT) &&
                                     (preserveProcessingInstructions || node.getType() != Type::PROCESSING_INSTRUCTION))
-                                {
                                     children.push_back(node);
-                                }
                             }
                         }
                     }
@@ -618,9 +602,7 @@ namespace ouzel
                 {
                     if (iterator == str.end() || // end of a file
                         *iterator == '<') // start of a tag
-                    {
                         break;
-                    }
                     else if (*iterator == '&')
                     {
                         std::string entity;
@@ -664,9 +646,7 @@ namespace ouzel
                     data.insert(data.end(), value.begin(), value.end());
 
                     if (attributes.empty())
-                    {
                         data.insert(data.end(), ' ');
-                    }
                     else
                     {
                         for (const auto& attribute : attributes)
@@ -685,9 +665,7 @@ namespace ouzel
                     data.insert(data.end(), value.begin(), value.end());
 
                     if (attributes.empty())
-                    {
                         data.insert(data.end(), ' ');
-                    }
                     else
                     {
                         for (const auto& attribute : attributes)
@@ -700,17 +678,13 @@ namespace ouzel
                     }
 
                     if (children.empty())
-                    {
                         data.insert(data.end(), {'/', '>'});
-                    }
                     else
                     {
                         data.insert(data.end(), '>');
 
                         for (const Node& node : children)
-                        {
                             node.encode(data);
-                        }
 
                         data.insert(data.end(), {'<', '/'});
                         data.insert(data.end(), value.begin(), value.end());
@@ -725,9 +699,7 @@ namespace ouzel
             }
 
             for (const Node& node : children)
-            {
                 node.encode(data);
-            }
 
             return true;
         }
@@ -856,9 +828,7 @@ namespace ouzel
             if (bom) data.insert(data.end(), {0xEF, 0xBB, 0xBF});
 
             for (const Node& node : children)
-            {
                 if (!node.encode(data)) return false;
-            }
 
             return true;
         }

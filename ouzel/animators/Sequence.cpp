@@ -40,9 +40,7 @@ namespace ouzel
                 currentAnimator->play();
             }
             else
-            {
                 currentAnimator = nullptr;
-            }
         }
 
         void Sequence::updateProgress()

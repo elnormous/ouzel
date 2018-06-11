@@ -36,18 +36,14 @@ namespace ouzel
             if (enabled)
             {
                 if (!selectedWidget && !widgets.empty())
-                {
                     selectWidget(widgets.front());
-                }
             }
             else
             {
                 selectedWidget = nullptr;
 
                 for (Widget* childWidget : widgets)
-                {
                     childWidget->setSelected(false);
-                }
             }
         }
 
@@ -58,17 +54,13 @@ namespace ouzel
             if (widget)
             {
                 if (widget->menu)
-                {
                     widget->menu->removeChild(widget);
-                }
 
                 widget->menu = this;
                 widgets.push_back(widget);
 
                 if (!selectedWidget)
-                {
                     selectWidget(widget);
-                }
             }
         }
 
@@ -85,9 +77,7 @@ namespace ouzel
             }
 
             if (selectedWidget == actor)
-            {
                 selectWidget(nullptr);
-            }
 
             if (!Actor::removeChild(actor))
                 return false;
@@ -109,9 +99,7 @@ namespace ouzel
                     childWidget->setSelected(true);
                 }
                 else
-                {
                     childWidget->setSelected(false);
-                }
             }
         }
 
@@ -258,9 +246,7 @@ namespace ouzel
             if (type == Event::Type::ACTOR_ENTER)
             {
                 if (std::find(widgets.begin(), widgets.end(), event.actor) != widgets.end())
-                {
                     selectWidget(static_cast<Widget*>(event.actor));
-                }
             }
 
             return true;

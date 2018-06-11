@@ -31,15 +31,11 @@ namespace ouzel
             }
 
             if (ioctl(fd, EVIOCGRAB, reinterpret_cast<void*>(1)) == -1)
-            {
                 Log(Log::Level::WARN) << "Failed to grab device";
-            }
 
             char deviceName[256];
             if (ioctl(fd, EVIOCGNAME(sizeof(deviceName) - 1), deviceName) == -1)
-            {
                 Log(Log::Level::WARN) << "Failed to get device name";
-            }
             else
             {
                 name = deviceName;
@@ -132,9 +128,7 @@ namespace ouzel
             if (fd != -1)
             {
                 if (ioctl(fd, EVIOCGRAB, reinterpret_cast<void*>(0)) == -1)
-                {
                     Log(Log::Level::WARN) << "Failed to release device";
-                }
 
                 close(fd);
             }

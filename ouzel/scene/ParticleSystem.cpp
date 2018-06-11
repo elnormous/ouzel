@@ -229,9 +229,7 @@ namespace ouzel
                 else if (particleSystemData.positionType == ParticleSystemData::PositionType::GROUPED)
                 {
                     for (uint32_t i = 0; i < particleCount; i++)
-                    {
                         boundingBox.insertPoint(particles[i].position);
-                    }
                 }
             }
         }
@@ -347,13 +345,9 @@ namespace ouzel
                     Vector2 position;
 
                     if (particleSystemData.positionType == ParticleSystemData::PositionType::FREE)
-                    {
                         position = particles[i].position;
-                    }
                     else if (particleSystemData.positionType == ParticleSystemData::PositionType::PARENT)
-                    {
                         position = actor->getPosition() + particles[i].position;
-                    }
 
                     float size_2 = particles[i].size / 2.0F;
                     Vector2 v1(-size_2, -size_2);
@@ -403,13 +397,9 @@ namespace ouzel
                 Vector2 position;
 
                 if (particleSystemData.positionType == ParticleSystemData::PositionType::FREE)
-                {
                     position = actor->convertLocalToWorld(Vector2());
-                }
                 else if (particleSystemData.positionType == ParticleSystemData::PositionType::PARENT)
-                {
                     position = actor->convertLocalToWorld(Vector2()) - actor->getPosition();
-                }
 
                 for (uint32_t i = particleCount; i < particleCount + count; ++i)
                 {

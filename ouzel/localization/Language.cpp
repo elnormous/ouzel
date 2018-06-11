@@ -45,13 +45,9 @@ namespace ouzel
         uint32_t (*decodeUInt32)(const void*) = nullptr;
 
         if (magic == MAGIC_BIG)
-        {
             decodeUInt32 = decodeUInt32Big;
-        }
         else if (magic == MAGIC_LITTLE)
-        {
             decodeUInt32 = decodeUInt32Little;
-        }
         else
         {
             Log(Log::Level::ERR) << "Wrong magic " << magic;

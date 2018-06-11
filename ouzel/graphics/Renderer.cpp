@@ -66,9 +66,7 @@ namespace ouzel
 
 #if OUZEL_COMPILE_METAL
                 if (RenderDeviceMetal::available())
-                {
                     availableDrivers.insert(Driver::METAL);
-                }
 #endif
             }
 

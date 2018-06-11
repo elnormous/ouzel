@@ -378,9 +378,7 @@ namespace ouzel
             uint32_t size = sizeof(lengthData);
 
             for (const auto& i : value)
-            {
                 size += i.encode(buffer);
-            }
 
             return size;
         }
