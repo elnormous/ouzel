@@ -21,9 +21,7 @@
 -(BOOL)application:(__unused UIApplication*)application didFinishLaunchingWithOptions:(__unused NSDictionary*)launchOptions
 {
     if (ouzel::engine)
-    {
         ouzel::engine->start();
-    }
 
     return YES;
 }
@@ -93,9 +91,7 @@ namespace ouzel
         argc(initArgc), argv(initArgv)
     {
         for (int i = 0; i < initArgc; ++i)
-        {
             args.push_back(initArgv[i]);
-        }
 
         executeHanlder = [[ExecuteHandler alloc] initWithEngine:this];
     }

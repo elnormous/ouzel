@@ -230,9 +230,7 @@ namespace ouzel
                         float attenuation = minDistance / (minDistance + rolloffFactor * (distance - minDistance)); // inverse distance
 
                         for (float& volume : channelVolume)
-                        {
                             volume *= attenuation;
-                        }
 
                         if (channelVolume.size() > 1)
                         {
@@ -251,12 +249,8 @@ namespace ouzel
                     }
 
                     for (uint32_t frame = 0; frame < result.size() / channels; ++frame)
-                    {
                         for (uint32_t channel = 0; channel < channels; ++channel)
-                        {
                             result[frame * channels + channel] *= channelVolume[channel];
-                        }
-                    }
                 }
             }
 

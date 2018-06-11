@@ -236,9 +236,7 @@ namespace ouzel
 
                 HRESULT hr = sourceVoice->SubmitSourceBuffer(&bufferData);
                 if (FAILED(hr))
-                {
                     Log(Log::Level::ERR) << "Failed to upload sound data, error: " << hr;
-                }
 
                 nextBuffer = (nextBuffer == 0) ? 1 : 0;
 

@@ -31,9 +31,7 @@ namespace ouzel
         NSString* identifier = [[NSBundle mainBundle] bundleIdentifier];
 
         if (!identifier)
-        {
             identifier = [NSString stringWithFormat:@"%s.%s", DEVELOPER_NAME.c_str(), APPLICATION_NAME.c_str()];
-        }
 
         NSURL* path = [applicationSupportDirectory URLByAppendingPathComponent:identifier];
 

@@ -75,25 +75,19 @@
 -(void)pressesBegan:(NSSet<UIPress*>*)presses withEvent:(__unused UIPressesEvent*)event
 {
     for (UIPress* press in presses)
-    {
         ouzel::engine->getInputManager()->keyPress(ouzel::input::InputManagerIOS::convertKeyCode(press.type), 0);
-    }
 }
 
 -(void)pressesEnded:(NSSet<UIPress*>*)presses withEvent:(__unused UIPressesEvent*)event
 {
     for (UIPress* press in presses)
-    {
         ouzel::engine->getInputManager()->keyRelease(ouzel::input::InputManagerIOS::convertKeyCode(press.type), 0);
-    }
 }
 
 -(void)pressesCancelled:(NSSet<UIPress*>*)presses withEvent:(__unused UIPressesEvent*)event
 {
     for (UIPress* press in presses)
-    {
         ouzel::engine->getInputManager()->keyRelease(ouzel::input::InputManagerIOS::convertKeyCode(press.type), 0);
-    }
 }
 
 @end

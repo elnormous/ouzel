@@ -50,9 +50,8 @@ namespace ouzel
             Log(Log::Level::INFO) << "Application directory: " << appPath;
         }
         else
-        {
             Log(Log::Level::ERR) << "Failed to get current directory";
-        }
+
 #elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
         CFBundleRef bundle = CFBundleGetMainBundle(); // [NSBundle mainBundle]
         CFURLRef path = CFBundleCopyResourcesDirectoryURL(bundle); // [bundle resourceURL]
@@ -66,9 +65,8 @@ namespace ouzel
             Log(Log::Level::INFO) << "Application directory: " << appPath;
         }
         else
-        {
             Log(Log::Level::ERR) << "Failed to get current directory";
-        }
+
 #elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
         char executableDirectory[1024];
 
@@ -78,9 +76,8 @@ namespace ouzel
             Log(Log::Level::INFO) << "Application directory: " << appPath;
         }
         else
-        {
             Log(Log::Level::ERR) << "Failed to get current directory";
-        }
+
 #endif
     }
 
@@ -143,9 +140,7 @@ namespace ouzel
         char* homeDirectory = getenv("XDG_DATA_HOME");
 
         if (homeDirectory)
-        {
             path = homeDirectory;
-        }
         else
         {
             struct passwd pwent;
@@ -154,9 +149,7 @@ namespace ouzel
             int e;
 
             while ((e = getpwuid_r(getuid(), &pwent, buffer.data(), buffer.size(), &pwentp)) == ERANGE)
-            {
                 buffer.resize(buffer.size() * 2);
-            }
 
             if (e != 0)
             {
@@ -164,9 +157,7 @@ namespace ouzel
                 return "";
             }
             else
-            {
                 path = pwent.pw_dir;
-            }
         }
 
         path += DIRECTORY_SEPARATOR + "." + DEVELOPER_NAME;
@@ -325,17 +316,13 @@ namespace ouzel
     bool FileSystem::resourceFileExists(const std::string& filename) const
     {
         if (isAbsolutePath(filename))
-        {
             return fileExists(filename);
-        }
         else
         {
             std::string str = appPath + DIRECTORY_SEPARATOR + filename;
 
             if (fileExists(str))
-            {
                 return true;
-            }
             else
             {
                 for (const std::string& path : resourcePaths)
@@ -431,9 +418,7 @@ namespace ouzel
         auto i = std::find(resourcePaths.begin(), resourcePaths.end(), path);
 
         if (i == resourcePaths.end())
-        {
             resourcePaths.push_back(path);
-        }
     }
 
     void FileSystem::addArchive(Archive* archive)
@@ -465,9 +450,7 @@ namespace ouzel
         size_t pos = path.find_last_of('.');
 
         if (pos != std::string::npos)
-        {
             return path.substr(pos + 1);
-        }
 
         return std::string();
     }
@@ -487,9 +470,7 @@ namespace ouzel
         size_t pos = path.find_last_of("/\\");
 
         if (pos != std::string::npos)
-        {
             return path.substr(0, pos);
-        }
 
         return std::string();
     }

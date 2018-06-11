@@ -17,9 +17,7 @@ namespace ouzel
         StreamVorbis::~StreamVorbis()
         {
             if (vorbisStream)
-            {
                 stb_vorbis_close(vorbisStream);
-            }
         }
 
         void StreamVorbis::reset()

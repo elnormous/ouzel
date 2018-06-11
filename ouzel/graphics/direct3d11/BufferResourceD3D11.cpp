@@ -42,9 +42,7 @@ namespace ouzel
                 return false;
 
             if (!buffer || data.size() > bufferSize)
-            {
                 createBuffer(static_cast<UINT>(data.size()));
-            }
             else
             {
                 if (!data.empty())
@@ -106,9 +104,7 @@ namespace ouzel
                 HRESULT hr;
 
                 if (data.empty())
-                {
                     hr = renderDeviceD3D11.getDevice()->CreateBuffer(&bufferDesc, nullptr, &buffer);
-                }
                 else
                 {
                     D3D11_SUBRESOURCE_DATA bufferResourceData;

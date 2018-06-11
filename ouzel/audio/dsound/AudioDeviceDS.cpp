@@ -33,15 +33,12 @@ namespace ouzel
         {
             running = false;
             for (HANDLE notifyEvent : notifyEvents)
-            {
                 SetEvent(notifyEvent);
-            }
+
             if (audioThread.isJoinable()) audioThread.join();
 
             for (HANDLE notifyEvent : notifyEvents)
-            {
                 if (notifyEvent != INVALID_HANDLE_VALUE) CloseHandle(notifyEvent);
-            }
 
             if (notify) notify->Release();
             if (buffer) buffer->Release();

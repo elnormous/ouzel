@@ -36,13 +36,9 @@ static void handleKeyEvent(UINT msg, WPARAM wParam, LPARAM lParam)
     }
 
     if (msg == WM_KEYDOWN || msg == WM_SYSKEYDOWN)
-    {
         ouzel::engine->getInputManager()->keyPress(ouzel::input::InputManagerWin::convertKeyCode(key), 0);
-    }
     else if (msg == WM_KEYUP || msg == WM_SYSKEYUP)
-    {
         ouzel::engine->getInputManager()->keyRelease(ouzel::input::InputManagerWin::convertKeyCode(key), 0);
-    }
 }
 
 static void handleMouseMoveEvent(UINT, WPARAM wParam, LPARAM lParam)
@@ -62,17 +58,11 @@ static void handleMouseButtonEvent(UINT msg, WPARAM wParam, LPARAM lParam)
     ouzel::input::MouseButton button;
 
     if (msg == WM_LBUTTONDOWN || msg == WM_LBUTTONUP)
-    {
         button = ouzel::input::MouseButton::LEFT;
-    }
     else if (msg == WM_RBUTTONDOWN || msg == WM_RBUTTONUP)
-    {
         button = ouzel::input::MouseButton::RIGHT;
-    }
     else if (msg == WM_MBUTTONDOWN || msg == WM_MBUTTONUP)
-    {
         button = ouzel::input::MouseButton::MIDDLE;
-    }
     else if (msg == WM_XBUTTONDOWN || msg == WM_XBUTTONUP)
     {
         if (GET_XBUTTON_WPARAM(wParam) == XBUTTON1)
@@ -86,17 +76,13 @@ static void handleMouseButtonEvent(UINT msg, WPARAM wParam, LPARAM lParam)
         return;
 
     if (msg == WM_LBUTTONDOWN || msg == WM_RBUTTONDOWN || msg == WM_MBUTTONDOWN || msg == WM_XBUTTONDOWN)
-    {
         ouzel::engine->getInputManager()->mouseButtonPress(button,
                                                            ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
                                                            ouzel::input::InputManagerWin::getModifiers(wParam));
-    }
     else if (msg == WM_LBUTTONUP || msg == WM_RBUTTONUP || msg == WM_MBUTTONUP || msg == WM_XBUTTONUP)
-    {
         ouzel::engine->getInputManager()->mouseButtonRelease(button,
                                                              ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
                                                              ouzel::input::InputManagerWin::getModifiers(wParam));
-    }
 }
 
 static void handleMouseWheelEvent(UINT msg, WPARAM wParam, LPARAM lParam)
@@ -154,14 +140,10 @@ static void handleTouchEvent(WPARAM wParam, LPARAM lParam)
         }
 
         if (!CloseTouchInputHandle(reinterpret_cast<HTOUCHINPUT>(lParam)))
-        {
             ouzel::Log(ouzel::Log::Level::ERR) << "Failed to close touch input handle";
-        }
     }
     else
-    {
         ouzel::Log(ouzel::Log::Level::ERR) << "Failed to get touch info";
-    }
 }
 
 static const LONG_PTR SIGNATURE_MASK = 0x0FFFFFF00;
@@ -176,13 +158,12 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
     {
         case WM_ACTIVATEAPP:
         {
-            if (wParam)
+            if (ouzel::engine)
             {
-                if (ouzel::engine) ouzel::engine->resume();
-            }
-            else
-            {
-                if (ouzel::engine) ouzel::engine->pause();
+                if (wParam)
+                    ouzel::engine->resume();
+                else
+                    ouzel::engine->pause();
             }
             break;
         }
@@ -326,14 +307,10 @@ namespace ouzel
     WindowResourceWin::~WindowResourceWin()
     {
         if (window)
-        {
             DestroyWindow(window);
-        }
 
         if (windowClass)
-        {
             UnregisterClassW(WINDOW_CLASS_NAME, GetModuleHandleW(nullptr));
-        }
     }
 
     bool WindowResourceWin::init(const Size2& newSize,
@@ -363,9 +340,7 @@ namespace ouzel
                 SetProcessDpiAwarenessProc setProcessDpiAwareness = reinterpret_cast<SetProcessDpiAwarenessProc>(GetProcAddress(shcore, "SetProcessDpiAwareness"));
 
                 if (setProcessDpiAwareness)
-                {
                     setProcessDpiAwareness(2); // PROCESS_PER_MONITOR_DPI_AWARE
-                }
             }
         }
 
@@ -382,13 +357,9 @@ namespace ouzel
         wc.hIcon = LoadIconW(instance, MAKEINTRESOURCEW(101));
         wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
         if (engine->getRenderer()->getDevice()->getDriver() == graphics::Renderer::Driver::EMPTY)
-        {
             wc.hbrBackground = static_cast<HBRUSH>(GetStockObject(COLOR_WINDOW));
-        }
         else
-        {
             wc.hbrBackground = static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH));
-        }
         wc.lpszMenuName = nullptr;
         wc.lpszClassName = WINDOW_CLASS_NAME;
         wc.hIconSm = nullptr;
@@ -403,9 +374,7 @@ namespace ouzel
         windowWindowedStyle = WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_CLIPSIBLINGS | WS_BORDER | WS_DLGFRAME | WS_THICKFRAME | WS_GROUP | WS_TABSTOP;
 
         if (resizable)
-        {
             windowWindowedStyle |= WS_SIZEBOX | WS_MAXIMIZEBOX;
-        }
 
         windowFullscreenStyle = WS_CLIPSIBLINGS | WS_GROUP | WS_TABSTOP;
 
@@ -443,9 +412,7 @@ namespace ouzel
         monitor = MonitorFromWindow(window, MONITOR_DEFAULTTONEAREST);
 
         if (fullscreen)
-        {
             switchFullscreen(fullscreen);
-        }
 
         GetClientRect(window, &windowRect);
         size.width = static_cast<float>(windowRect.right - windowRect.left);
@@ -453,9 +420,7 @@ namespace ouzel
         resolution = size;
 
         if (!RegisterTouchWindow(window, 0))
-        {
             Log(Log::Level::WARN) << "Failed to enable touch for window";
-        }
 
         ShowWindow(window, SW_SHOW);
         SetWindowLongPtr(window, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
@@ -488,9 +453,7 @@ namespace ouzel
 
         Lock lock(listenerMutex);
         if (listener)
-        {
             listener->onResolutionChange(resolution);
-        }
     }
 
     void WindowResourceWin::setTitle(const std::string& newTitle)

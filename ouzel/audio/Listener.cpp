@@ -32,9 +32,7 @@ namespace ouzel
             AudioDevice::RenderCommand renderCommand;
 
             for (SoundInput* input : inputs)
-            {
                 input->addRenderCommands(renderCommand.renderCommands);
-            }
 
             if (transformDirty && actor)
             {

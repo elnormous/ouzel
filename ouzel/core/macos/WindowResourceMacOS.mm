@@ -71,15 +71,10 @@ namespace ouzel
         if (exclusiveFullscreen && fullscreen)
         {
             if (CGDisplayRelease(displayId) != kCGErrorSuccess)
-            {
                 Log(Log::Level::ERR) << "Failed to release the main display";
-            }
         }
 
-        if (view)
-        {
-            [view release];
-        }
+        if (view) [view release];
 
         if (window)
         {
@@ -88,10 +83,7 @@ namespace ouzel
             [window release];
         }
 
-        if (windowDelegate)
-        {
-            [windowDelegate release];
-        }
+        if (windowDelegate) [windowDelegate release];
     }
 
     bool WindowResourceMacOS::init(const Size2& newSize,
@@ -137,9 +129,7 @@ namespace ouzel
         windowStyleMask = NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask;
 
         if (resizable)
-        {
             windowStyleMask |= NSResizableWindowMask;
-        }
 
         window  = [[NSWindow alloc] initWithContentRect:frame
                                               styleMask:windowStyleMask
@@ -159,9 +149,7 @@ namespace ouzel
             if (fullscreen)
             {
                 if (CGDisplayCapture(displayId) != kCGErrorSuccess)
-                {
                     Log(Log::Level::ERR) << "Failed to capture the main display";
-                }
 
                 windowRect = frame;
                 [window setStyleMask:NSBorderlessWindowMask];
@@ -176,9 +164,7 @@ namespace ouzel
         else
         {
             if (fullscreen)
-            {
                 [window toggleFullScreen:nil];
-            }
         }
 
         [window setTitle:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:title.c_str()])];
@@ -284,9 +270,7 @@ namespace ouzel
                 if (newFullscreen)
                 {
                     if (CGDisplayCapture(displayId) != kCGErrorSuccess)
-                    {
                         Log(Log::Level::ERR) << "Failed to capture the main display";
-                    }
 
                     windowRect = [window frame];
                     [window setStyleMask:NSBorderlessWindowMask];
@@ -304,9 +288,7 @@ namespace ouzel
                     [window setFrame:windowRect display:YES animate:NO];
 
                     if (CGDisplayRelease(displayId) != kCGErrorSuccess)
-                    {
                         Log(Log::Level::ERR) << "Failed to release the main display";
-                    }
                 }
             }
             else
@@ -315,9 +297,7 @@ namespace ouzel
                 bool isFullscreen = (options & NSApplicationPresentationFullScreen) > 0;
 
                 if (isFullscreen != newFullscreen)
-                {
                     [window toggleFullScreen:nil];
-                }
             }
         }
 

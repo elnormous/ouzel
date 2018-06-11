@@ -88,28 +88,20 @@ namespace ouzel
             resources.clear();
 
             for (const ShaderConstantBuffer& shaderConstantBuffer : shaderConstantBuffers)
-            {
                 [shaderConstantBuffer.buffer release];
-            }
 
             for (id<MTLDepthStencilState> depthStencilState : depthStencilStates)
-            {
                 if (depthStencilState) [depthStencilState release];
-            }
 
             for (const auto& samplerState : samplerStates)
-            {
                 [samplerState.second release];
-            }
 
             if (depthTexture) [depthTexture release];
 
             if (msaaTexture) [msaaTexture release];
 
             for (const auto& pipelineState : pipelineStates)
-            {
                 [pipelineState.second release];
-            }
 
             if (commandQueue) [commandQueue release];
 
@@ -326,9 +318,7 @@ namespace ouzel
                 renderPassDescriptor.colorAttachments[0].resolveTexture = currentMetalTexture;
             }
             else
-            {
                 renderPassDescriptor.colorAttachments[0].texture = currentMetalTexture;
-            }
 
             if (depth)
             {
@@ -925,9 +915,7 @@ namespace ouzel
                                 [currentRenderCommandEncoder setFragmentSamplerState:textureMetal->getSamplerState() atIndex:layer];
                             }
                             else
-                            {
                                 [currentRenderCommandEncoder setFragmentTexture:nil atIndex:layer];
-                            }
                         }
 
                         break;
@@ -1035,9 +1023,7 @@ namespace ouzel
             auto pipelineStateIterator = pipelineStates.find(desc);
 
             if (pipelineStateIterator != pipelineStates.end())
-            {
                 return pipelineStateIterator->second;
-            }
             else
             {
                 MTLRenderPipelineDescriptor* pipelineStateDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
@@ -1096,9 +1082,7 @@ namespace ouzel
             auto samplerStatesIterator = samplerStates.find(descriptor);
 
             if (samplerStatesIterator != samplerStates.end())
-            {
                 return samplerStatesIterator->second;
-            }
             else
             {
                 MTLSamplerDescriptor* samplerDescriptor = [MTLSamplerDescriptor new];

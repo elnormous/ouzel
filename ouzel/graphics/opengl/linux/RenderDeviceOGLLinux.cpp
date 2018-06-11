@@ -31,9 +31,7 @@ namespace ouzel
             if (windowLinux->getDisplay() && context)
             {
                 if (!glXMakeCurrent(windowLinux->getDisplay(), None, nullptr))
-                {
                     Log(Log::Level::ERR) << "Failed to unset GLX context";
-                }
 
                 glXDestroyContext(windowLinux->getDisplay(), context);
             }
@@ -113,9 +111,7 @@ namespace ouzel
                 }
             }
             else
-            {
                 Log(Log::Level::ERR) << "Failed to get frame buffer";
-            }
 
             if (!context)
             {
@@ -144,9 +140,7 @@ namespace ouzel
             PFNGLXSWAPINTERVALEXTPROC glXSwapIntervalEXT = reinterpret_cast<PFNGLXSWAPINTERVALEXTPROC>(glXGetProcAddress(reinterpret_cast<const GLubyte*>("glXSwapIntervalEXT")));
 
             if (glXSwapIntervalEXT)
-            {
                 glXSwapIntervalEXT(windowLinux->getDisplay(), windowLinux->getNativeWindow(), newVerticalSync ? 1 : 0);
-            }
 
             if (!RenderDeviceOGL::init(newWindow,
                                        newSize,
@@ -210,10 +204,7 @@ namespace ouzel
 
         void RenderDeviceOGLLinux::main()
         {
-            while (running)
-            {
-                process();
-            }
+            while (running) process();
         }
     } // namespace graphics
 } // namespace ouzel

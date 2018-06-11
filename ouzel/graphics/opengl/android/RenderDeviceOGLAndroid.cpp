@@ -24,30 +24,22 @@ namespace ouzel
             if (context)
             {
                 if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
-                {
                     Log(Log::Level::ERR) << "Failed to unset EGL context";
-                }
 
                 if (!eglDestroyContext(display, context))
-                {
                     Log(Log::Level::ERR) << "Failed to destroy EGL context";
-                }
             }
 
             if (surface)
             {
                 if (!eglDestroySurface(display, surface))
-                {
                     Log(Log::Level::ERR) << "Failed to destroy EGL surface";
-                }
             }
 
             if (display)
             {
                 if (!eglTerminate(display))
-                {
                     Log(Log::Level::ERR) << "Failed to terminate EGL";
-                }
             }
         }
 
@@ -330,9 +322,7 @@ namespace ouzel
             }
 
             if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
-            {
                 Log(Log::Level::ERR) << "Failed to unset EGL context";
-            }
 
             running = true;
             renderThread = Thread(std::bind(&RenderDeviceOGLAndroid::main, this), "Render");
@@ -349,14 +339,10 @@ namespace ouzel
             if (context)
             {
                 if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
-                {
                     Log(Log::Level::ERR) << "Failed to unset EGL context";
-                }
 
                 if (!eglDestroyContext(display, context))
-                {
                     Log(Log::Level::ERR) << "Failed to destroy EGL context";
-                }
 
                 context = nullptr;
             }
@@ -364,9 +350,7 @@ namespace ouzel
             if (surface)
             {
                 if (!eglDestroySurface(display, surface))
-                {
                     Log(Log::Level::ERR) << "Failed to destroy EGL surface";
-                }
 
                 surface = nullptr;
             }
@@ -398,15 +382,10 @@ namespace ouzel
 
         void RenderDeviceOGLAndroid::main()
         {
-            while (running)
-            {
-                process();
-            }
+            while (running) process();
 
             if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
-            {
                 Log(Log::Level::ERR) << "Failed to unset EGL context, error: " << eglGetError();
-            }
         }
     } // namespace graphics
 } // namespace ouzel

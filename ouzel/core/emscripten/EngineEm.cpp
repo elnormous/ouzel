@@ -12,9 +12,7 @@
 static void loop(void* arg)
 {
     if (!reinterpret_cast<ouzel::EngineEm*>(arg)->step())
-    {
         emscripten_cancel_main_loop();
-    }
 }
 
 namespace ouzel
@@ -22,17 +20,13 @@ namespace ouzel
     EngineEm::EngineEm(int argc, char* argv[])
     {
         for (int i = 0; i < argc; ++i)
-        {
             args.push_back(argv[i]);
-        }
     }
 
     int EngineEm::run()
     {
         if (!init())
-        {
             return EXIT_FAILURE;
-        }
 
         start();
 

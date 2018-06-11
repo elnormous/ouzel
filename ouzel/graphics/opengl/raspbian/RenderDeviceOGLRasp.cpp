@@ -28,30 +28,22 @@ namespace ouzel
             if (context)
             {
                 if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
-                {
                     Log(Log::Level::ERR) << "Failed to unset EGL context, error: " << eglGetError();
-                }
 
                 if (!eglDestroyContext(display, context))
-                {
                     Log(Log::Level::ERR) << "Failed to destroy EGL context, error: " << eglGetError();
-                }
             }
 
             if (surface)
             {
                 if (!eglDestroySurface(display, surface))
-                {
                     Log(Log::Level::ERR) << "Failed to destroy EGL surface, error: " << eglGetError();
-                }
             }
 
             if (display)
             {
                 if (!eglTerminate(display))
-                {
                     Log(Log::Level::ERR) << "Failed to terminate EGL";
-                }
             }
         }
 
@@ -203,15 +195,10 @@ namespace ouzel
 
         void RenderDeviceOGLRasp::main()
         {
-            while (running)
-            {
-                process();
-            }
+            while (running) process();
 
             if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
-            {
                 Log(Log::Level::ERR) << "Failed to unset EGL context, error: " << eglGetError();
-            }
         }
     } // namespace graphics
 } // namespace ouzel

@@ -45,9 +45,7 @@ namespace ouzel
             if (displayLink)
             {
                 if (CVDisplayLinkStop(displayLink) != kCVReturnSuccess)
-                {
                     Log(Log::Level::ERR) << "Failed to stop display link";
-                }
 
                 CVDisplayLinkRelease(displayLink);
             }
@@ -138,9 +136,7 @@ namespace ouzel
                     if (displayLink)
                     {
                         if (CVDisplayLinkStop(displayLink) != kCVReturnSuccess)
-                        {
                             Log(Log::Level::ERR) << "Failed to stop display link";
-                        }
 
                         CVDisplayLinkRelease(displayLink);
                         displayLink = nullptr;

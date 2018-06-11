@@ -144,9 +144,7 @@ namespace ouzel
         ALooper_acquire(looper);
         pipe(fd);
         if (ALooper_addFd(looper, fd[0], ALOOPER_POLL_CALLBACK, ALOOPER_EVENT_INPUT, looperCallback, this) != 1)
-        {
             Log(Log::Level::ERR) << "Failed to add looper file descriptor";
-        }
     }
 
     void EngineAndroid::onSurfaceCreated(jobject newSurface)
@@ -251,9 +249,7 @@ namespace ouzel
     int EngineAndroid::run()
     {
         if (!init())
-        {
             return EXIT_FAILURE;
-        }
 
         start();
 
@@ -270,9 +266,7 @@ namespace ouzel
 
         char message = 1;
         if (write(fd[1], &message, sizeof(message)) == -1)
-        {
             Log(Log::Level::ERR) << "Failed to write to pipe";
-        }
     }
 
     bool EngineAndroid::openURL(const std::string& url)
@@ -322,13 +316,9 @@ namespace ouzel
             }
 
             if (newScreenSaverEnabled)
-            {
                 jniEnv->CallVoidMethod(androidWindow, clearFlagsMethod, AWINDOW_FLAG_KEEP_SCREEN_ON);
-            }
             else
-            {
                 jniEnv->CallVoidMethod(androidWindow, addFlagsMethod, AWINDOW_FLAG_KEEP_SCREEN_ON);
-            }
         });
     }
 
@@ -357,9 +347,7 @@ namespace ouzel
         attachArgs.name = nullptr; // thread name
         attachArgs.group = nullptr; // thread group
         if (javaVM->AttachCurrentThread(&jniEnv, &attachArgs) != JNI_OK)
-        {
             Log(Log::Level::ERR) << "Failed to attach current thread to Java VM";
-        }
 
         Engine::main();
 
