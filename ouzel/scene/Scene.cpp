@@ -118,9 +118,7 @@ namespace ouzel
         void Scene::recalculateProjection()
         {
             for (Layer* layer : layers)
-            {
                 layer->recalculateProjection();
-            }
         }
 
         std::pair<Actor*, ouzel::Vector3> Scene::pickActor(const Vector2& position, bool renderTargets) const
