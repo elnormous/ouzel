@@ -145,10 +145,14 @@ namespace ouzel
 
     bool EngineMacOS::openURL(const std::string& url)
     {
-        NSString* nsStringURL = [NSString stringWithUTF8String:url.c_str()];
-        NSURL* nsURL = [NSURL URLWithString:nsStringURL];
+        executeOnMainThread([url](){
+            NSString* nsStringURL = [NSString stringWithUTF8String:url.c_str()];
+            NSURL* nsURL = [NSURL URLWithString:nsStringURL];
 
-        return [[NSWorkspace sharedWorkspace] openURL:nsURL] == YES;
+            [[NSWorkspace sharedWorkspace] openURL:nsURL];
+        });
+
+        return true;
     }
 
     void EngineMacOS::setScreenSaverEnabled(bool newScreenSaverEnabled)
