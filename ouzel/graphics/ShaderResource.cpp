@@ -32,9 +32,7 @@ namespace ouzel
             vertexShaderConstantInfo = newVertexShaderConstantInfo;
 
             if (newFragmentShaderDataAlignment)
-            {
                 fragmentShaderAlignment = newFragmentShaderDataAlignment;
-            }
             else
             {
                 fragmentShaderAlignment = 0;
@@ -44,9 +42,7 @@ namespace ouzel
             }
 
             if (newVertexShaderDataAlignment)
-            {
                 vertexShaderAlignment = newVertexShaderDataAlignment;
-            }
             else
             {
                 vertexShaderAlignment = 0;

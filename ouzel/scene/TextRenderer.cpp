@@ -123,9 +123,7 @@ namespace ouzel
                 needsMeshUpdate = true;
 
                 for (const graphics::Vertex& vertex : vertices)
-                {
                     boundingBox.insertPoint(Vector2(vertex.position.x, vertex.position.y));
-                }
             }
             else
             {

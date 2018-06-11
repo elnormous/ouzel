@@ -88,9 +88,7 @@ namespace ouzel
 
         std::set<uint32_t> glyphs;
         for (uint32_t i : utf32Text)
-        {
             glyphs.insert(i);
-        }
 
         uint16_t width = 0;
         uint16_t height = 0;
@@ -239,9 +237,7 @@ namespace ouzel
                 position.y += fontSize + lineGap;
 
                 for (size_t c = firstChar; c < vertices.size(); ++c)
-                {
                     vertices[c].position.x -= lineWidth * anchor.x;
-                }
 
                 firstChar = vertices.size();
             }
@@ -250,9 +246,7 @@ namespace ouzel
         float textHeight = position.y;
 
         for (size_t c = 0; c < vertices.size(); ++c)
-        {
             vertices[c].position.y += textHeight * (1.0F - anchor.y);
-        }
 
         return true;
     }

@@ -518,17 +518,13 @@ namespace ouzel
                 const GLubyte* extensionPtr = glGetString(GL_EXTENSIONS);
 
                 if (checkOpenGLError() || !extensionPtr)
-                {
                     Log(Log::Level::WARN) << "Failed to get OpenGL extensions";
-                }
                 else
                 {
                     std::istringstream extensionStringStream(reinterpret_cast<const char*>(extensionPtr));
 
                     for (std::string extension; extensionStringStream >> extension;)
-                    {
                         extensions.push_back(extension);
-                    }
                 }
             }
 

@@ -341,9 +341,7 @@ namespace ouzel
 
                 hr = device->SetProperty(DIPROP_AUTOCENTER, &propertyAutoCenter.diph);
                 if (FAILED(hr))
-                {
                     Log(Log::Level::WARN) << "Failed to set DirectInput device autocenter property, error: " << hr;
-                }
             }
 
             hr = device->EnumObjects(enumObjectsCallback, this, DIDFT_ALL);
@@ -363,18 +361,14 @@ namespace ouzel
             hr = device->SetProperty(DIPROP_BUFFERSIZE, &propertyBufferSize.diph);
 
             if (hr == DI_POLLEDDEVICE)
-            {
                 buffered = false;
-            }
             else if (FAILED(hr))
             {
                 Log(Log::Level::ERR) << "Failed to set DirectInput device buffer size property, error: " << hr;
                 return;
             }
             else
-            {
                 buffered = true;
-            }
         }
 
         GamepadDI::~GamepadDI()
@@ -383,9 +377,7 @@ namespace ouzel
             {
                 HRESULT hr = device->Unacquire();
                 if (FAILED(hr))
-                {
                     Log(Log::Level::ERR) << "Failed to unacquire DirectInput device, error: " << hr;
-                }
                 device->Release();
             }
         }
@@ -726,13 +718,9 @@ namespace ouzel
                 else // thumbstick is 0
                 {
                     if (oldValue > newValue)
-                    {
                         handleButtonValueChange(positiveButton, false, 0.0F);
-                    }
                     else
-                    {
                         handleButtonValueChange(negativeButton, false, 0.0F);
-                    }
                 }
             }
         }
@@ -765,9 +753,7 @@ namespace ouzel
                 // Set the range for the axis
                 HRESULT hr = device->SetProperty(DIPROP_DEADZONE, &propertyDeadZone.diph);
                 if (FAILED(hr))
-                {
                     Log(Log::Level::WARN) << "Failed to set DirectInput device dead zone property, error: " << hr;
-                }
 
                 DIPROPRANGE propertyAxisRange;
                 propertyAxisRange.diph.dwSize = sizeof(propertyAxisRange);

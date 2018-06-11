@@ -223,16 +223,12 @@ namespace ouzel
             FD_ZERO(&rfds);
 
             for (const EventDevice& inputDevice : inputDevices)
-            {
                 FD_SET(inputDevice.getFd(), &rfds);
-            }
 
             int retval = select(maxFd + 1, &rfds, nullptr, nullptr, &tv);
 
             if (retval == -1)
-            {
                 Log(Log::Level::ERR) << "Select failed";
-            }
             else if (retval > 0)
             {
                 for (const EventDevice& inputDevice : inputDevices)
@@ -270,13 +266,9 @@ namespace ouzel
                                     Vector2 absolutePos = cursorPosition;
 
                                     if (event->code == ABS_X)
-                                    {
                                         absolutePos.x = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(event->value), 0.0F)).x;
-                                    }
                                     else if (event->code == ABS_Y)
-                                    {
                                         absolutePos.y = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(0.0F, static_cast<float>(event->value))).y;
-                                    }
 
                                     mouseMove(absolutePos, getModifiers());
                                 }
@@ -285,13 +277,9 @@ namespace ouzel
                                     Vector2 relativePos;
 
                                     if (event->code == REL_X)
-                                    {
                                         relativePos.x = static_cast<float>(event->value);
-                                    }
                                     else if (event->code == REL_Y)
-                                    {
                                         relativePos.y = static_cast<float>(event->value);
-                                    }
 
                                     mouseRelativeMove(engine->getWindow()->convertWindowToNormalizedLocation(relativePos), getModifiers());
                                 }

@@ -292,14 +292,10 @@ namespace ouzel
                     XISelectEvents(display, window, &eventMask, 1);
                 }
                 else
-                {
                     Log(Log::Level::WARN) << "XInput2 not supported";
-                }
             }
             else
-            {
                 Log(Log::Level::WARN) << "XInput not supported";
-            }
 
             DIR* dir = opendir("/dev/input");
 
@@ -361,18 +357,12 @@ namespace ouzel
                 if (cursorVisible)
                 {
                     if (currentCursor)
-                    {
                         XDefineCursor(display, window, currentCursor);
-                    }
                     else
-                    {
                         XUndefineCursor(display, window);
-                    }
                 }
                 else
-                {
                     XDefineCursor(display, window, emptyCursor);
-                }
             }
         }
 
@@ -402,18 +392,12 @@ namespace ouzel
                     if (visible)
                     {
                         if (currentCursor)
-                        {
                             XDefineCursor(display, window, currentCursor);
-                        }
                         else
-                        {
                             XUndefineCursor(display, window);
-                        }
                     }
                     else
-                    {
                         XDefineCursor(display, window, emptyCursor);
-                    }
 
                     XFlush(display);
                 });
@@ -438,14 +422,10 @@ namespace ouzel
                                      ButtonPressMask | ButtonReleaseMask | PointerMotionMask | FocusChangeMask,
                                      GrabModeAsync, GrabModeAsync,
                                      None, None, CurrentTime) != GrabSuccess)
-                    {
                         Log(Log::Level::ERR) << "Failed to grab pointer";
-                    }
                 }
                 else
-                {
                     XUngrabPointer(display, CurrentTime);
-                }
 
                 XSync(display, False);
             });

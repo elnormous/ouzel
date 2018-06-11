@@ -55,9 +55,7 @@ namespace ouzel
                 updateProgress();
             }
             else
-            {
                 updateCallback.remove();
-            }
         }
 
         void Animator::start()

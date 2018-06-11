@@ -363,9 +363,7 @@ namespace ouzel
         std::string result;
 
         if (c <= 0x7f)
-        {
             result.push_back(static_cast<char>(c));
-        }
         else if (c <= 0x7ff)
         {
             result.push_back(static_cast<char>(0xc0 | ((c >> 6) & 0x1f)));
@@ -395,9 +393,7 @@ namespace ouzel
         for (auto i = text.begin(); i != text.end(); ++i)
         {
             if (*i <= 0x7f)
-            {
                 result.push_back(static_cast<char>(*i));
-            }
             else if (*i <= 0x7ff)
             {
                 result.push_back(static_cast<char>(0xc0 | ((*i >> 6) & 0x1f)));

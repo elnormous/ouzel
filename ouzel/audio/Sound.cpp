@@ -208,9 +208,7 @@ namespace ouzel
             if (soundData && stream)
             {
                 if (!stream->isPlaying())
-                {
                     result.clear();
-                }
                 else
                 {
                     if (stream->getShouldReset())

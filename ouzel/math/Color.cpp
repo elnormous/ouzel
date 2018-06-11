@@ -44,9 +44,7 @@ namespace ouzel
                 result |= 0xff; // alpha
             }
             else
-            {
                 result = static_cast<uint32_t>(std::stoul(value));
-            }
         }
 
         return result;

@@ -240,9 +240,7 @@ namespace ouzel
             auto i = touchPositions.find(touchId);
 
             if (i != touchPositions.end())
-            {
                 touchPositions.erase(i);
-            }
 
             engine->getEventDispatcher()->postEvent(event);
         }
@@ -274,9 +272,7 @@ namespace ouzel
             auto i = touchPositions.find(touchId);
 
             if (i != touchPositions.end())
-            {
                 touchPositions.erase(i);
-            }
 
             engine->getEventDispatcher()->postEvent(event);
         }

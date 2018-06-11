@@ -144,9 +144,7 @@ namespace ouzel
                     if (length > 0.0F)
                     {
                         if (length > currentTime)
-                        {
                             break;
-                        }
                         else
                         {
                             if (currentAnimation->repeat)
@@ -334,9 +332,7 @@ namespace ouzel
                 if (length > 0.0F)
                 {
                     if (length > currentTime)
-                    {
                         break;
-                    }
                     else
                     {
                         if (currentAnimation->repeat)
@@ -373,9 +369,7 @@ namespace ouzel
                 boundingBox += offset;
             }
             else
-            {
                 boundingBox.reset();
-            }
         }
     } // namespace scene
 } // namespace ouzel

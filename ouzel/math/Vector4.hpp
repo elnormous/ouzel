@@ -251,9 +251,8 @@ namespace ouzel
                 if (y == vec.y)
                 {
                     if (z == vec.z)
-                    {
                         return w < vec.w;
-                    }
+
                     return z < vec.z;
                 }
                 return y < vec.y;

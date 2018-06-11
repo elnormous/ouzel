@@ -169,10 +169,7 @@ namespace ouzel
 
         void RenderDeviceMetalMacOS::renderCallback()
         {
-            if (running)
-            {
-                process();
-            }
+            if (running) process();
         }
     } // namespace graphics
 } // namespace ouzel

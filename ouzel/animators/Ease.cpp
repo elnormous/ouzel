@@ -220,9 +220,7 @@ namespace ouzel
         static float bounceOut(float t)
         {
             if (t < (1.0F / 2.75F))
-            {
                 return 7.5625F * t * t;
-            }
             else if (t < (2.0F / 2.75F))
             {
                 t -= 1.5F / 2.75F;

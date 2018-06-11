@@ -20,13 +20,9 @@ namespace ouzel
             }
 
             if (iterator->type == Token::Type::LEFT_BRACE)
-            {
                 return parseObject(tokens, iterator);
-            }
             else if (iterator->type == Token::Type::LEFT_BRACKET)
-            {
                 return parseArray(tokens, iterator);
-            }
             else if (iterator->type == Token::Type::LITERAL_NUMBER)
             {
                 type = Type::NUMBER;
@@ -113,9 +109,7 @@ namespace ouzel
                 }
 
                 if (first)
-                {
                     first = false;
-                }
                 else
                 {
                     if (iterator->type != Token::Type::COMMA)
@@ -209,9 +203,7 @@ namespace ouzel
                 }
 
                 if (first)
-                {
                     first = false;
-                }
                 else
                 {
                     if (iterator->type != Token::Type::COMMA)
@@ -286,9 +278,7 @@ namespace ouzel
                 case Type::OBJECT:
                 {
                     if (nullValue)
-                    {
                         data.insert(data.end(), {'n', 'u', 'l', 'l'});
-                    }
                     else
                     {
                         data.push_back('{');
@@ -530,9 +520,7 @@ namespace ouzel
                             return false;
                         }
                         else
-                        {
                             token.value.push_back(*iterator);
-                        }
                     }
                 }
                 else if ((*iterator >= 'a' && *iterator <= 'z') ||
@@ -552,9 +540,7 @@ namespace ouzel
                     std::map<std::vector<uint32_t>, Token::Type>::const_iterator keywordIterator;
 
                     if ((keywordIterator = keywordMap.find(token.value)) != keywordMap.end())
-                    {
                         token.type = keywordIterator->second;
-                    }
                     else
                     {
                         Log(Log::Level::ERR) << "Unknown keyword";

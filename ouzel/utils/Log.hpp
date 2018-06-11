@@ -67,9 +67,7 @@ namespace ouzel
         template<typename T> Log& operator<<(T val)
         {
             if (level <= threshold)
-            {
                 s += std::to_string(val);
-            }
 
             return *this;
         }
@@ -122,9 +120,7 @@ namespace ouzel
         Log& operator<<(const Size2& val)
         {
             if (level <= threshold)
-            {
                 s += std::to_string(val.width) + "," + std::to_string(val.height);
-            }
 
             return *this;
         }
@@ -132,10 +128,8 @@ namespace ouzel
         Log& operator<<(const Size3& val)
         {
             if (level <= threshold)
-            {
                 s += std::to_string(val.width) + "," + std::to_string(val.height) + "," +
                     std::to_string(val.depth);
-            }
 
             return *this;
         }
@@ -143,9 +137,7 @@ namespace ouzel
         Log& operator<<(const Vector2& val)
         {
             if (level <= threshold)
-            {
                 s += std::to_string(val.x) + "," + std::to_string(val.y);
-            }
 
             return *this;
         }

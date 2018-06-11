@@ -257,15 +257,11 @@ namespace ouzel
             int result = emscripten_get_num_gamepads();
 
             if (result == EMSCRIPTEN_RESULT_NOT_SUPPORTED)
-            {
                 Log(Log::Level::INFO) << "Gamepads not supported";
-            }
             else
             {
                 for (long index = 0; index < result; ++index)
-                {
                     handleGamepadConnected(index);
-                }
             }
 
             return true;
@@ -328,9 +324,7 @@ namespace ouzel
 
             engine->executeOnMainThread([visible] {
                 if (!visible)
-                {
                     emscripten_hide_mouse();
-                }
                 else
                 {
                     // TODO: replace this with emscripten_show_mouse when https://github.com/kripken/emscripten/issues/4614 is merged
@@ -356,13 +350,9 @@ namespace ouzel
         {
             engine->executeOnMainThread([locked] {
                 if (locked)
-                {
                     emscripten_request_pointerlock(nullptr, false);
-                }
                 else
-                {
                     emscripten_exit_pointerlock();
-                }
             });
         }
 
