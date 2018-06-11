@@ -13,7 +13,7 @@
 {
     if (self = [super initWithFrame:frameRect])
     {
-        self.opaque          = YES;
+        self.opaque = YES;
         self.backgroundColor = nil;
 
         CAMetalLayer* metalLayer = (CAMetalLayer*)self.layer;

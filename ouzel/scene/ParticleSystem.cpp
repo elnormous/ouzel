@@ -317,9 +317,9 @@ namespace ouzel
                                                     Vector2(0.0F, 1.0F), Vector3(0.0F, 0.0F, -1.0F)));
                 vertices.push_back(graphics::Vertex(Vector3(1.0F, -1.0F, 0.0F), Color::WHITE,
                                                     Vector2(1.0F, 1.0F), Vector3(0.0F, 0.0F, -1.0F)));
-                vertices.push_back(graphics::Vertex(Vector3(-1.0F, 1.0F, 0.0F),  Color::WHITE,
+                vertices.push_back(graphics::Vertex(Vector3(-1.0F, 1.0F, 0.0F), Color::WHITE,
                                                     Vector2(0.0F, 0.0F), Vector3(0.0F, 0.0F, -1.0F)));
-                vertices.push_back(graphics::Vertex(Vector3(1.0F, 1.0F, 0.0F),  Color::WHITE,
+                vertices.push_back(graphics::Vertex(Vector3(1.0F, 1.0F, 0.0F), Color::WHITE,
                                                     Vector2(1.0F, 0.0F), Vector3(0.0F, 0.0F, -1.0F)));
             }
 

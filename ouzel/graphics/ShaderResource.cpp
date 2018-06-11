@@ -54,7 +54,7 @@ namespace ouzel
             fragmentShaderFunction = newFragmentShaderFunction;
             vertexShaderFunction = newVertexShaderFunction;
 
-            return  true;
+            return true;
         }
     } // namespace graphics
 } // namespace ouzel
