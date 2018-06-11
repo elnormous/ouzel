@@ -4,7 +4,6 @@
 #include "core/Setup.h"
 
 #include <algorithm>
-#include <fstream>
 #include <sys/stat.h>
 #if OUZEL_PLATFORM_WINDOWS
 #include <Windows.h>
@@ -23,6 +22,7 @@ extern "C" id NSTemporaryDirectory();
 #endif
 
 #include "FileSystem.hpp"
+#include "File.hpp"
 #include "Archive.hpp"
 #include "utils/Log.hpp"
 
@@ -238,11 +238,11 @@ namespace ouzel
 
     bool FileSystem::readFile(const std::string& filename, std::vector<uint8_t>& data, bool searchResources) const
     {
+        char buffer[1024];
+
 #if OUZEL_PLATFORM_ANDROID
         if (!isAbsolutePath(filename))
         {
-            char buffer[1024];
-
             EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(engine);
 
             AAsset* asset = AAssetManager_open(engineAndroid->getAssetManager(), filename.c_str(), AASSET_MODE_STREAMING);
@@ -256,9 +256,7 @@ namespace ouzel
             int bytesRead = 0;
 
             while ((bytesRead = AAsset_read(asset, buffer, sizeof(buffer))) > 0)
-            {
                 data.insert(data.end(), reinterpret_cast<uint8_t*>(buffer), reinterpret_cast<uint8_t*>(buffer + bytesRead));
-            }
 
             AAsset_close(asset);
 
@@ -284,34 +282,42 @@ namespace ouzel
             return false;
         }
 
-        std::ifstream file(path, std::ios::binary);
+        File file;
 
-        if (!file)
+        if (!file.open(path, File::Mode::READ))
         {
             Log(Log::Level::ERR) << "Failed to open file " << path;
             return false;
         }
 
-        std::streampos start = file.tellg();
-        file.seekg(0, std::ios::end);
-        data.resize(static_cast<size_t>(file.tellg() - start));
-        file.seekg(0, std::ios_base::beg);
-        data.assign(std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());
+        uint32_t size;
+        while (file.read(buffer, sizeof(buffer), size))
+        {
+            if (size == 0) break;
+            data.insert(data.end(), buffer, buffer + size);
+        }
 
         return true;
     }
 
     bool FileSystem::writeFile(const std::string& filename, const std::vector<uint8_t>& data) const
     {
-        std::ofstream file(filename, std::ios::binary);
+        File file;
 
-        if (!file)
+        if (!file.open(filename, File::Mode::WRITE | File::Mode::CREATE))
         {
             Log(Log::Level::ERR) << "Failed to open file " << filename;
             return false;
         }
 
-        file.write(reinterpret_cast<const char*>(data.data()), static_cast<std::streamsize>(data.size()));
+        uint32_t offset = 0;
+        uint32_t written;
+
+        while (file.write(data.data() + offset, static_cast<uint32_t>(data.size()) - offset, written))
+        {
+            offset += written;
+            if (offset >= data.size()) break;
+        }
 
         return true;
     }
