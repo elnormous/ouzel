@@ -96,7 +96,7 @@ namespace ouzel
         int ascent;
         int descent;
         int lineGap;
-        stbtt_GetFontVMetrics(&font,  &ascent, &descent, &lineGap);
+        stbtt_GetFontVMetrics(&font, &ascent, &descent, &lineGap);
 
         for (uint32_t c : glyphs)
         {

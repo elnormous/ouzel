@@ -131,11 +131,11 @@ namespace ouzel
         if (resizable)
             windowStyleMask |= NSResizableWindowMask;
 
-        window  = [[NSWindow alloc] initWithContentRect:frame
-                                              styleMask:windowStyleMask
-                                                backing:NSBackingStoreBuffered
-                                                  defer:NO
-                                                 screen:screen];
+        window = [[NSWindow alloc] initWithContentRect:frame
+                                             styleMask:windowStyleMask
+                                               backing:NSBackingStoreBuffered
+                                                 defer:NO
+                                                screen:screen];
         [window setReleasedWhenClosed:NO];
 
         window.acceptsMouseMovedEvents = YES;

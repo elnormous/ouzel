@@ -152,7 +152,7 @@ namespace ouzel
 
         static void imageA8Downsample2x2(uint32_t width, uint32_t height, uint32_t pitch, const uint8_t* src, uint8_t* dst)
         {
-            const uint32_t dstWidth  = width >> 1;
+            const uint32_t dstWidth = width >> 1;
             const uint32_t dstHeight = height >> 1;
 
             if (dstWidth > 0 && dstHeight > 0)
@@ -207,7 +207,7 @@ namespace ouzel
 
         static void imageR8Downsample2x2(uint32_t width, uint32_t height, uint32_t pitch, const uint8_t* src, uint8_t* dst)
         {
-            const uint32_t dstWidth  = width >> 1;
+            const uint32_t dstWidth = width >> 1;
             const uint32_t dstHeight = height >> 1;
 
             if (dstWidth > 0 && dstHeight > 0)
@@ -262,7 +262,7 @@ namespace ouzel
 
         static void imageRG8Downsample2x2(uint32_t width, uint32_t height, uint32_t pitch, const uint8_t* src, uint8_t* dst)
         {
-            const uint32_t dstWidth  = width >> 1;
+            const uint32_t dstWidth = width >> 1;
             const uint32_t dstHeight = height >> 1;
 
             if (dstWidth > 0 && dstHeight > 0)
@@ -348,7 +348,7 @@ namespace ouzel
 
         static void imageRGBA8Downsample2x2(uint32_t width, uint32_t height, uint32_t pitch, const uint8_t* src, uint8_t* dst)
         {
-            const uint32_t dstWidth  = width >> 1;
+            const uint32_t dstWidth = width >> 1;
             const uint32_t dstHeight = height >> 1;
 
             if (dstWidth > 0 && dstHeight > 0)

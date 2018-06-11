@@ -646,7 +646,7 @@ namespace ouzel
                             case Renderer::DrawMode::LINE_STRIP: topology = D3D_PRIMITIVE_TOPOLOGY_LINESTRIP; break;
                             case Renderer::DrawMode::TRIANGLE_LIST: topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST; break;
                             case Renderer::DrawMode::TRIANGLE_STRIP: topology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP; break;
-                            default: Log(Log::Level::ERR) << "Invalid draw mode";  return false;
+                            default: Log(Log::Level::ERR) << "Invalid draw mode"; return false;
                         }
 
                         context->IASetPrimitiveTopology(topology);

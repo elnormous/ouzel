@@ -53,7 +53,7 @@ namespace ouzel
             inline MTLFunctionPtr getFragmentShader() const { return fragmentShader; }
             inline MTLFunctionPtr getVertexShader() const { return vertexShader; }
 
-            inline MTLVertexDescriptorPtr getVertexDescriptor() const { return vertexDescriptor;  }
+            inline MTLVertexDescriptorPtr getVertexDescriptor() const { return vertexDescriptor; }
 
             inline uint32_t getFragmentShaderConstantBufferSize() const { return fragmentShaderConstantSize; }
             inline uint32_t getVertexShaderConstantBufferSize() const { return vertexShaderConstantSize; }
