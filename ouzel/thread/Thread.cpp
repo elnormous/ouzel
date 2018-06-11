@@ -119,6 +119,8 @@ namespace ouzel
 #else
         if (!thread || pthread_join(thread, nullptr) != 0)
             throw std::runtime_error("Failed to join thread");
+
+        initialized = false;
 #endif
     }
 
