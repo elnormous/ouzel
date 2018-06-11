@@ -304,9 +304,7 @@ namespace ouzel
         bool TextureResourceD3D11::createTexture()
         {
             if (texture)
-            {
                 texture->Release();
-            }
 
             if (resourceView)
             {

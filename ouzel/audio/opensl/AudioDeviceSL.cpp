@@ -27,19 +27,13 @@ namespace ouzel
         AudioDeviceSL::~AudioDeviceSL()
         {
             if (playerObject)
-            {
                 (*playerObject)->Destroy(playerObject);
-            }
 
             if (outputMixObject)
-            {
                 (*outputMixObject)->Destroy(outputMixObject);
-            }
 
             if (engineObject)
-            {
                 (*engineObject)->Destroy(engineObject);
-            }
         }
 
         bool AudioDeviceSL::init(bool debugAudio)

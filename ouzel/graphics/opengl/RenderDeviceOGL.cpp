@@ -369,13 +369,9 @@ namespace ouzel
             const GLubyte* deviceName = glGetString(GL_RENDERER);
 
             if (checkOpenGLError() || !deviceName)
-            {
                 Log(Log::Level::WARN) << "Failed to get OpenGL renderer";
-            }
             else
-            {
                 Log(Log::Level::INFO) << "Using " << reinterpret_cast<const char*>(deviceName) << " for rendering";
-            }
 
             glBlendFuncSeparateProc = reinterpret_cast<PFNGLBLENDFUNCSEPARATEPROC >(getProcAddress("glBlendFuncSeparate"));
             glBlendEquationSeparateProc = reinterpret_cast<PFNGLBLENDEQUATIONSEPARATEPROC>(getProcAddress("glBlendEquationSeparate"));
@@ -506,9 +502,7 @@ namespace ouzel
                 glGetIntegerv(GL_NUM_EXTENSIONS, &extensionCount);
 
                 if (checkOpenGLError())
-                {
                     Log(Log::Level::WARN) << "Failed to get OpenGL extension count";
-                }
                 else
                 {
                     for (GLuint i = 0; i < static_cast<GLuint>(extensionCount); ++i)

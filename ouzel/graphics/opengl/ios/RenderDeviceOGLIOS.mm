@@ -135,15 +135,11 @@ namespace ouzel
                 }
 
                 if (apiMajorVersion >= 3)
-                {
                     glBlitFramebufferProc(0, 0, frameBufferWidth, frameBufferHeight,
                                           0, 0, frameBufferWidth, frameBufferHeight,
                                           GL_COLOR_BUFFER_BIT, GL_NEAREST);
-                }
                 else
-                {
                     glResolveMultisampleFramebufferAPPLE();
-                }
 
                 if (checkOpenGLError())
                 {
@@ -212,9 +208,7 @@ namespace ouzel
                 glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, msaaColorRenderBufferId);
 
                 if (depth)
-                {
                     glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBufferId);
-                }
 
                 if (glCheckFramebufferStatusProc(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
                 {
@@ -246,9 +240,7 @@ namespace ouzel
                                               GL_RENDERBUFFER, resolveColorRenderBufferId);
 
                 if (depth)
-                {
                     glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBufferId);
-                }
 
                 if (glCheckFramebufferStatusProc(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
                 {

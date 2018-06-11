@@ -23,9 +23,7 @@ namespace ouzel
             AudioDevice::RenderCommand renderCommand;
 
             for (SoundInput* input : inputs)
-            {
                 input->addRenderCommands(renderCommand.renderCommands);
-            }
 
             renderCommand.attributeCallback = std::bind(&Mixer::setAttributes,
                                                         std::placeholders::_1,

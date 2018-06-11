@@ -59,24 +59,16 @@ namespace ouzel
         TextureResourceMetal::~TextureResourceMetal()
         {
             if (msaaTexture)
-            {
                 [msaaTexture release];
-            }
 
             if (renderPassDescriptor)
-            {
                 [renderPassDescriptor release];
-            }
 
             if (texture)
-            {
                 [texture release];
-            }
 
             if (samplerState)
-            {
                 [samplerState release];
-            }
         }
 
         bool TextureResourceMetal::init(const Size2& newSize,

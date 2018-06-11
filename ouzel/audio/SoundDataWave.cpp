@@ -48,9 +48,7 @@ namespace ouzel
             offset += 4;
 
             if (newData.size() != length + 8)
-            {
                 Log(Log::Level::ERR) << "Failed to load sound file, size mismatch";
-            }
 
             if (newData[offset + 0] != 'W' ||
                 newData[offset + 1] != 'A' ||
@@ -161,26 +159,20 @@ namespace ouzel
                 if (bitsPerSample == 8)
                 {
                     for (uint32_t i = 0; i < samples; ++i)
-                    {
                         data[i] = 2.0F * static_cast<float>(soundData[i]) / 255.0F - 1.0F;
-                    }
                 }
                 else if (bitsPerSample == 16)
                 {
                     for (uint32_t i = 0; i < samples; ++i)
-                    {
                         data[i] = static_cast<float>(static_cast<int16_t>(soundData[i * 2] |
                                                                           (soundData[i * 2 + 1] << 8))) / 32767.0F;
-                    }
                 }
                 else if (bitsPerSample == 24)
                 {
                     for (uint32_t i = 0; i < samples; ++i)
-                    {
                         data[i] = static_cast<float>(static_cast<int32_t>((soundData[i * 3] << 8) |
                                                                           (soundData[i * 3 + 1] << 16) |
                                                                           (soundData[i * 3 + 2] << 24))) / 2147483648.0F;
-                    }
                 }
                 else
                 {
@@ -193,9 +185,7 @@ namespace ouzel
                 if (bitsPerSample == 32)
                 {
                     for (uint32_t i = 0; i < samples; ++i)
-                    {
                         data[i] = reinterpret_cast<float*>(soundData.data())[i];
-                    }
                 }
                 else
                 {

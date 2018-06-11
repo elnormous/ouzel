@@ -46,9 +46,7 @@ namespace ouzel
                 alDeleteSources(1, &sourceId);
 
                 if (checkOpenALError())
-                {
                     Log(Log::Level::ERR) << "Failed to delete OpenAL source";
-                }
             }
 
             for (ALuint bufferId : bufferIds)
@@ -58,9 +56,7 @@ namespace ouzel
                     alDeleteBuffers(1, &bufferId);
 
                     if (checkOpenALError())
-                    {
                         Log(Log::Level::ERR) << "Failed to delete OpenAL buffer";
-                    }
                 }
             }
 
@@ -71,9 +67,7 @@ namespace ouzel
             }
 
             if (device)
-            {
                 alcCloseDevice(device);
-            }
         }
 
         bool AudioDeviceAL::init(bool debugAudio)
@@ -84,9 +78,7 @@ namespace ouzel
             const ALCchar* deviceName = alcGetString(nullptr, ALC_DEFAULT_DEVICE_SPECIFIER);
 
             if (deviceName)
-            {
                 Log(Log::Level::INFO) << "Using " << deviceName << " for audio";
-            }
 
             device = alcOpenDevice(deviceName);
 
@@ -127,9 +119,7 @@ namespace ouzel
 #endif
 
             if (checkOpenALError())
-            {
                 Log(Log::Level::WARN) << "Failed to get OpenAL enum values";
-            }
 
             alGenSources(1, &sourceId);
 

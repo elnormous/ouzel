@@ -93,9 +93,7 @@ namespace ouzel
     EngineMacOS::EngineMacOS(int argc, char* argv[])
     {
         for (int i = 0; i < argc; ++i)
-        {
             args.push_back(argv[i]);
-        }
 
         executeHanlder = [[ExecuteHandler alloc] initWithEngine:this];
     }
@@ -165,9 +163,7 @@ namespace ouzel
                 if (noSleepAssertionID)
                 {
                     if (IOPMAssertionRelease(noSleepAssertionID) != kIOReturnSuccess)
-                    {
                         Log(Log::Level::ERR) << "Failed to enable screen saver";
-                    }
 
                     noSleepAssertionID = 0;
                 }
@@ -180,9 +176,7 @@ namespace ouzel
 
                     if (IOPMAssertionCreateWithName(kIOPMAssertionTypePreventUserIdleDisplaySleep,
                                                     kIOPMAssertionLevelOn, reasonForActivity, &noSleepAssertionID) != kIOReturnSuccess)
-                    {
                         Log(Log::Level::ERR) << "Failed to disable screen saver";
-                    }
                 }
             }
         });

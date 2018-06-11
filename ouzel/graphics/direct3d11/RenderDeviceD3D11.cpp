@@ -50,63 +50,41 @@ namespace ouzel
             for (ID3D11DepthStencilState* depthStencilState : depthStencilStates)
             {
                 if (depthStencilState)
-                {
                     depthStencilState->Release();
-                }
             }
 
             if (depthStencilView)
-            {
                 depthStencilView->Release();
-            }
 
             if (depthStencilTexture)
-            {
                 depthStencilTexture->Release();
-            }
 
             for (ID3D11RasterizerState* rasterizerState : rasterizerStates)
             {
                 if (rasterizerState)
-                {
                     rasterizerState->Release();
-                }
             }
 
             for (const auto& samplerState : samplerStates)
-            {
                 samplerState.second->Release();
-            }
 
             if (renderTargetView)
-            {
                 renderTargetView->Release();
-            }
 
             if (backBuffer)
-            {
                 backBuffer->Release();
-            }
 
             if (swapChain)
-            {
                 swapChain->Release();
-            }
 
             if (adapter)
-            {
                 adapter->Release();
-            }
 
             if (context)
-            {
                 context->Release();
-            }
 
             if (device)
-            {
                 device->Release();
-            }
         }
 
         bool RenderDeviceD3D11::init(Window* newWindow,
@@ -131,9 +109,7 @@ namespace ouzel
             UINT deviceCreationFlags = 0;
 
             if (debugRenderer)
-            {
                 deviceCreationFlags |= D3D11_CREATE_DEVICE_DEBUG;
-            }
 
             HRESULT hr = D3D11CreateDevice(
                 nullptr, // adapter
@@ -171,9 +147,7 @@ namespace ouzel
             DXGI_ADAPTER_DESC adapterDesc;
             hr = adapter->GetDesc(&adapterDesc);
             if (FAILED(hr))
-            {
                 Log(Log::Level::ERR) << "Failed to get the DXGI adapter description, error: " << hr;
-            }
             else
             {
                 char deviceName[256];
@@ -405,9 +379,7 @@ namespace ouzel
         {
             executeOnRenderThread([newFullscreen, this]() {
                 if (FAILED(swapChain->SetFullscreenState(newFullscreen ? TRUE : FALSE, nullptr)))
-                {
                     Log(Log::Level::ERR) << "Failed to set fullscreen state";
-                }
             });
 
             return true;
@@ -506,14 +478,10 @@ namespace ouzel
                         context->RSSetViewports(1, &viewport);
 
                         if (newClearFrameBufferView)
-                        {
                             context->ClearRenderTargetView(newRenderTargetView, newClearColor);
-                        }
 
                         if (newClearDepthBufferView)
-                        {
                             context->ClearDepthStencilView(newDepthStencilView, D3D11_CLEAR_DEPTH, newClearDepth, 0);
-                        }
 
                         break;
                     }
@@ -1017,9 +985,7 @@ namespace ouzel
                 resolveTexture->Release();
             }
             else
-            {
                 context->CopyResource(texture, backBuffer);
-            }
 
             D3D11_MAPPED_SUBRESOURCE mappedSubresource;
             hr = context->Map(texture, 0, D3D11_MAP_READ, 0, &mappedSubresource);
@@ -1199,17 +1165,13 @@ namespace ouzel
             auto samplerStatesIterator = samplerStates.find(desc);
 
             if (samplerStatesIterator != samplerStates.end())
-            {
                 return samplerStatesIterator->second;
-            }
             else
             {
                 D3D11_SAMPLER_DESC samplerStateDesc;
 
                 if (desc.maxAnisotropy > 1)
-                {
                     samplerStateDesc.Filter = D3D11_FILTER_ANISOTROPIC;
-                }
                 else
                 {
                     switch (desc.filter)
@@ -1286,10 +1248,7 @@ namespace ouzel
 
         void RenderDeviceD3D11::main()
         {
-            while (running)
-            {
-                process();
-            }
+            while (running) process();
         }
     } // namespace graphics
 } // namespace ouzel
