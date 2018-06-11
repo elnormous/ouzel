@@ -225,9 +225,7 @@ namespace ouzel
                         diffuseTexture = engine->getCache()->getTexture(value, mipmaps);
                     }
                     else if (keyword == "Ka") // ambient color
-                    {
                         skipLine(data, iterator);
-                    }
                     else if (keyword == "Kd") // diffuse color
                     {
                         float color[4];
@@ -249,13 +247,9 @@ namespace ouzel
                         diffuseColor = Color(color);
                     }
                     else if (keyword == "Ks") // specular color
-                    {
                         skipLine(data, iterator);
-                    }
                     else if (keyword == "Ke") // emissive color
-                    {
                         skipLine(data, iterator);
-                    }
                     else if (keyword == "d") // opacity
                     {
                         if (!skipWhitespaces(data, iterator) ||
