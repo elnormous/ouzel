@@ -57,6 +57,20 @@ namespace ouzel
     bool File::open(const std::string& filename, int mode)
     {
 #if OUZEL_PLATFORM_WINDOWS
+        if (file != INVALID_HANDLE_VALUE)
+        {
+            CloseHandle(file);
+            file = INVALID_HANDLE_VALUE;
+        }
+#else
+        if (fd != -1)
+        {
+            ::close(fd);
+            fd = -1;
+        }
+#endif
+
+#if OUZEL_PLATFORM_WINDOWS
         DWORD access = 0;
         if (mode & READ) access |= GENERIC_READ;
         if (mode & WRITE) access |= GENERIC_WRITE;
