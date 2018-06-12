@@ -45,8 +45,8 @@ namespace ouzel
         File(File&&);
         File& operator=(File&&);
 
-        bool open(const std::string& filename, int mode);
-        bool close();
+        void open(const std::string& filename, int mode);
+        void close();
 
         inline bool isOpen() const
         {
