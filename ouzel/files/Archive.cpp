@@ -31,11 +31,7 @@ namespace ouzel
         {
             uint32_t signature;
 
-            if (!file.read(&signature, sizeof(signature)))
-            {
-                Log(Log::Level::ERR) << "Failed to read signature";
-                return false;
-            }
+            file.readAll(&signature, sizeof(signature));
 
             if (decodeUInt32Little(&signature) == 0x02014b50) // central directory
                 break;
@@ -48,26 +44,14 @@ namespace ouzel
 
             uint8_t version[2];
 
-            if (!file.read(version, sizeof(version)))
-            {
-                Log(Log::Level::ERR) << "Failed to read version";
-                return false;
-            }
+            file.readAll(version, sizeof(version));
 
             uint16_t flags;
 
-            if (!file.read(&flags, sizeof(flags)))
-            {
-                Log(Log::Level::ERR) << "Failed to read flags";
-                return false;
-            }
+            file.readAll(&flags, sizeof(flags));
 
             uint16_t compression;
-            if (!file.read(&compression, sizeof(compression)))
-            {
-                Log(Log::Level::ERR) << "Failed to read compression";
-                return false;
-            }
+            file.readAll(&compression, sizeof(compression));
 
             if (compression != 0x00)
             {
@@ -75,75 +59,35 @@ namespace ouzel
                 return false;
             }
 
-            if (!file.seek(4, File::CURRENT))
-            {
-                Log(Log::Level::ERR) << "Failed to skip file modification time";
-                return false;
-            }
-
-            if (!file.seek(4, File::CURRENT))
-            {
-                Log(Log::Level::ERR) << "Failed to skip CRC-32";
-                return false;
-            }
+            file.seek(4, File::CURRENT); // skip modification time
+            file.seek(4, File::CURRENT); // skip CRC-32
 
             uint32_t compressedSize;
-            if (!file.read(&compressedSize, sizeof(compressedSize)))
-            {
-                Log(Log::Level::ERR) << "Failed to read compressed size";
-                return false;
-            }
+            file.readAll(&compressedSize, sizeof(compressedSize));
 
             uint32_t uncompressedSize;
-            if (!file.read(&uncompressedSize, sizeof(uncompressedSize)))
-            {
-                Log(Log::Level::ERR) << "Failed to read compressed size";
-                return false;
-            }
+            file.readAll(&uncompressedSize, sizeof(uncompressedSize));
 
             uint16_t fileNameLength;
-            if (!file.read(&fileNameLength, sizeof(fileNameLength)))
-            {
-                Log(Log::Level::ERR) << "Failed to read file name length";
-                return false;
-            }
+            file.readAll(&fileNameLength, sizeof(fileNameLength));
 
             uint16_t extraFieldLength;
-            if (!file.read(&extraFieldLength, sizeof(extraFieldLength)))
-            {
-                Log(Log::Level::ERR) << "Failed to read compression";
-                return false;
-            }
+            file.readAll(&extraFieldLength, sizeof(extraFieldLength));
 
-            char* name = new char[decodeUInt16Little(&fileNameLength) + 1];
+            std::vector<char> name(decodeUInt16Little(&fileNameLength) + 1);
 
-            if (!file.read(name, decodeUInt16Little(&fileNameLength)))
-            {
-                delete[] name;
-                Log(Log::Level::ERR) << "Failed to read file name";
-                return false;
-            }
+            file.readAll(name.data(), decodeUInt16Little(&fileNameLength));
 
             name[decodeUInt16Little(&fileNameLength)] = '\0';
 
-            Entry& entry = entries[name];
+            Entry& entry = entries[name.data()];
             entry.size = decodeUInt32Little(&uncompressedSize);
 
-            delete[] name;
-
-            if (!file.seek(decodeUInt16Little(&extraFieldLength), File::CURRENT))
-            {
-                Log(Log::Level::ERR) << "Failed to skip extra field";
-                return false;
-            }
+            file.seek(decodeUInt16Little(&extraFieldLength), File::CURRENT); // skip extra field
 
             entry.offset = file.getOffset();
 
-            if (!file.seek(decodeInt32Little(&uncompressedSize), File::CURRENT))
-            {
-                Log(Log::Level::ERR) << "Failed to skip uncompressed size";
-                return false;
-            }
+            file.seek(decodeInt32Little(&uncompressedSize), File::CURRENT); // skip uncompressed size
         }
 
         return true;
@@ -155,19 +99,11 @@ namespace ouzel
 
         if (i == entries.end()) return false;
 
-        if (!file.seek(static_cast<int32_t>(i->second.offset), File::BEGIN))
-        {
-            Log(Log::Level::ERR) << "Failed to seek file";
-            return false;
-        }
+        file.seek(static_cast<int32_t>(i->second.offset), File::BEGIN);
 
         data.resize(i->second.size);
 
-        if (!file.read(data.data(), i->second.size))
-        {
-            Log(Log::Level::ERR) << "Failed to read file";
-            return false;
-        }
+        file.readAll(data.data(), i->second.size);
 
         return true;
     }
