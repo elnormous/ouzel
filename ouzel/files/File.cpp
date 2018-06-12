@@ -22,7 +22,11 @@ namespace ouzel
 
     File::~File()
     {
-        close();
+#if OUZEL_PLATFORM_WINDOWS
+        if (file != INVALID_HANDLE_VALUE) CloseHandle(file);
+#else
+        if (fd != -1) ::close(fd);
+#endif
     }
 
     File::File(File&& other)
