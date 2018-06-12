@@ -141,7 +141,7 @@ namespace ouzel
 
             if (!file.seek(decodeInt32Little(&uncompressedSize), File::CURRENT))
             {
-                Log(Log::Level::ERR) << "Failed to skip extra field";
+                Log(Log::Level::ERR) << "Failed to skip uncompressed size";
                 return false;
             }
         }
