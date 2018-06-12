@@ -16,7 +16,7 @@ namespace ouzel
     {
         friend Engine;
     public:
-        ~FileSystem() = default;
+        ~FileSystem();
 
         FileSystem(const FileSystem&) = delete;
         FileSystem& operator=(const FileSystem&) = delete;

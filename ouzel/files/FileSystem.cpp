@@ -81,6 +81,12 @@ namespace ouzel
 #endif
     }
 
+    FileSystem::~FileSystem()
+    {
+        for (Archive* archive : archives)
+            archive->fileSystem = nullptr;
+    }
+
     std::string FileSystem::getStorageDirectory(bool user) const
     {
 #if OUZEL_PLATFORM_WINDOWS
@@ -229,6 +235,15 @@ namespace ouzel
 
     bool FileSystem::readFile(const std::string& filename, std::vector<uint8_t>& data, bool searchResources) const
     {
+        if (searchResources)
+        {
+            for (const auto& archive : archives)
+            {
+                if (archive->readFile(filename, data))
+                    return true;
+            }
+        }
+
         char buffer[1024];
 
 #if OUZEL_PLATFORM_ANDROID
@@ -255,15 +270,6 @@ namespace ouzel
         }
 #endif
 
-        if (searchResources)
-        {
-            for (const auto& archive : archives)
-            {
-                if (archive->readFile(filename, data))
-                    return true;
-            }
-        }
-
         std::string path = getPath(filename, searchResources);
 
         // file does not exist
@@ -281,10 +287,8 @@ namespace ouzel
             return false;
         }
 
-        uint32_t size;
-        while (file.read(buffer, sizeof(buffer), size))
+        while (uint32_t size = file.read(buffer, sizeof(buffer)))
         {
-            if (size == 0) break;
             data.insert(data.end(), buffer, buffer + size);
         }
 
@@ -302,12 +306,11 @@ namespace ouzel
         }
 
         uint32_t offset = 0;
-        uint32_t written;
 
-        while (file.write(data.data() + offset, static_cast<uint32_t>(data.size()) - offset, written))
+        while (offset < data.size())
         {
+            uint32_t written = file.write(data.data() + offset, static_cast<uint32_t>(data.size()) - offset);
             offset += written;
-            if (offset >= data.size()) break;
         }
 
         return true;

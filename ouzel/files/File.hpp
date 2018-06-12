@@ -57,11 +57,11 @@ namespace ouzel
 #endif
         }
 
-        bool read(void* buffer, uint32_t size) const;
-        bool read(void* buffer, uint32_t size, uint32_t& bytesRead) const;
-        bool write(const void* buffer, uint32_t size) const;
-        bool write(const void* buffer, uint32_t size, uint32_t& bytesWritten) const;
-        bool seek(int32_t offset, int method) const;
+        uint32_t read(void* buffer, uint32_t size) const;
+        void readAll(void* buffer, uint32_t size) const;
+        uint32_t write(const void* buffer, uint32_t size) const;
+        void writeAll(const void* buffer, uint32_t size) const;
+        void seek(int32_t offset, int method) const;
         uint32_t getOffset() const;
 
     private:

@@ -15,6 +15,8 @@ std::string APPLICATION_NAME = "samples";
 
 using namespace ouzel;
 
+ouzel::Archive archive;
+
 void ouzelMain(const std::vector<std::string>& args)
 {
     // disable screen saver
@@ -35,21 +37,20 @@ void ouzelMain(const std::vector<std::string>& args)
             auto nextArg = ++arg;
 
             if (nextArg != args.end())
-            {
                 sample = *nextArg;
-            }
             else
-            {
                 ouzel::Log(ouzel::Log::Level::WARN) << "No sample specified";
-            }
         }
         else
-        {
             ouzel::Log(ouzel::Log::Level::WARN) << "Invalid argument \"" << *arg << "\"";
-        }
     }
 
     engine->getFileSystem()->addResourcePath("Resources");
+
+#if !OUZEL_PLATFORM_ANDROID
+    archive.open("gui.zip");
+    engine->getFileSystem()->addArchive(&archive);
+#endif
 
     engine->getRenderer()->setClearColor(ouzel::Color(64, 0, 0));
 

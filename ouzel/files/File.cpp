@@ -110,82 +110,104 @@ namespace ouzel
 #endif
     }
 
-    bool File::read(void* buffer, uint32_t size) const
+    uint32_t File::read(void* buffer, uint32_t size) const
+    {
+#if OUZEL_PLATFORM_WINDOWS
+        if (file == INVALID_HANDLE_VALUE)
+            throw std::runtime_error("File is not open");
+
+        DWORD n;
+        if (!ReadFile(file, buffer, size, &n, nullptr))
+            throw std::runtime_error("Failed to read from file");
+
+        return static_cast<uint32_t>(n);
+#else
+        if (fd == -1)
+            throw std::runtime_error("File is not open");
+
+        ssize_t ret = ::read(fd, buffer, size);
+
+        if (ret == -1)
+            throw std::runtime_error("Failed to read from file");
+
+        return static_cast<uint32_t>(ret);
+#endif
+    }
+
+    void File::readAll(void* buffer, uint32_t size) const
     {
         uint8_t* dest = static_cast<uint8_t*>(buffer);
-        uint32_t bytesRead;
 
-        for (; size > 0; size -= bytesRead, dest += bytesRead)
+        while (size > 0)
         {
-            if (!read(dest, size, bytesRead)) return false;
-            if (bytesRead == 0) return false;
-        }
+            uint32_t bytesRead = read(dest, size);
 
-        return true;
+            if (bytesRead == 0)
+                throw std::runtime_error("End of file reached");
+
+            size -= bytesRead;
+            dest += bytesRead;
+        }
     }
 
-    bool File::read(void* buffer, uint32_t size, uint32_t& bytesRead) const
+    uint32_t File::write(const void* buffer, uint32_t size) const
     {
 #if OUZEL_PLATFORM_WINDOWS
-        if (file == INVALID_HANDLE_VALUE) return false;
+        if (file == INVALID_HANDLE_VALUE)
+            throw std::runtime_error("File is not open");
+
         DWORD n;
-        BOOL ret = ReadFile(file, buffer, size, &n, nullptr);
-        bytesRead = static_cast<uint32_t>(n);
-        return ret != 0;
+        if (!WriteFile(file, buffer, size, &n, nullptr))
+            throw std::runtime_error("Failed to write to file");
+
+        return static_cast<uint32_t>(n);
 #else
-        if (fd == -1) return false;
-        ssize_t ret = ::read(fd, buffer, size);
-        bytesRead = static_cast<uint32_t>(ret);
-        return ret != -1;
+        if (fd == -1)
+            throw std::runtime_error("File is not open");
+
+        ssize_t ret = ::write(fd, buffer, size);
+
+        if (ret == -1)
+            throw std::runtime_error("Failed to write to file");
+
+        return static_cast<uint32_t>(ret);
 #endif
     }
 
-    bool File::write(const void* buffer, uint32_t size) const
+    void File::writeAll(const void* buffer, uint32_t size) const
     {
         const uint8_t* src = static_cast<const uint8_t*>(buffer);
-        uint32_t bytesWritten;
 
-        for (; size > 0; size -= bytesWritten, src += bytesWritten)
+        while (size > 0)
         {
-            if (!write(src, size, bytesWritten)) return false;
-            if (bytesWritten == 0) return false;
+            uint32_t bytesWritten = write(src, size);
+            size -= bytesWritten;
+            src += bytesWritten;
         }
-
-        return true;
     }
 
-    bool File::write(const void* buffer, uint32_t size, uint32_t& bytesWritten) const
+    void File::seek(int32_t offset, int method) const
     {
 #if OUZEL_PLATFORM_WINDOWS
-        if (file == INVALID_HANDLE_VALUE) return false;
-        DWORD n;
-        BOOL ret = WriteFile(file, buffer, size, &n, nullptr);
-        bytesWritten = static_cast<uint32_t>(n);
-        return ret != 0;
-#else
-        if (fd == -1) return false;
-        ssize_t ret = ::write(fd, buffer, size);
-        bytesWritten = static_cast<uint32_t>(ret);
-        return ret != -1;
-#endif
-    }
+        if (file == INVALID_HANDLE_VALUE)
+            throw std::runtime_error("File is not open");
 
-    bool File::seek(int32_t offset, int method) const
-    {
-#if OUZEL_PLATFORM_WINDOWS
-        if (file == INVALID_HANDLE_VALUE) return false;
         DWORD moveMethod = 0;
         if (method == BEGIN) moveMethod = FILE_BEGIN;
         else if (method == CURRENT) moveMethod = FILE_CURRENT;
         else if (method == END) moveMethod = FILE_END;
-        return SetFilePointer(file, offset, nullptr, moveMethod) != 0;
+        if (SetFilePointer(file, offset, nullptr, moveMethod) == 0)
+            throw std::runtime_error("Failed to seek file");
 #else
-        if (fd == -1) return false;
+        if (fd == -1)
+            throw std::runtime_error("File is not open");
+
         int whence = 0;
         if (method == BEGIN) whence = SEEK_SET;
         else if (method == CURRENT) whence = SEEK_CUR;
         else if (method == END) whence = SEEK_END;
-        return lseek(fd, offset, whence) != -1;
+        if (lseek(fd, offset, whence) == -1)
+            throw std::runtime_error("Failed to seek file");
 #endif
     }
 
