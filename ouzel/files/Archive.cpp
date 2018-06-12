@@ -21,7 +21,7 @@ namespace ouzel
 
     bool Archive::open(const std::string& filename)
     {
-        file.open(engine->getFileSystem()->getPath(filename, false), File::READ);
+        file.open(engine->getFileSystem()->getPath(filename), File::READ);
 
         for (;;)
         {
