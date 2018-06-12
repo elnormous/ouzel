@@ -281,11 +281,7 @@ namespace ouzel
 
         File file;
 
-        if (!file.open(path, File::Mode::READ))
-        {
-            Log(Log::Level::ERR) << "Failed to open file " << path;
-            return false;
-        }
+        file.open(path, File::Mode::READ);
 
         while (uint32_t size = file.read(buffer, sizeof(buffer)))
         {
@@ -299,11 +295,7 @@ namespace ouzel
     {
         File file;
 
-        if (!file.open(filename, File::Mode::WRITE | File::Mode::CREATE))
-        {
-            Log(Log::Level::ERR) << "Failed to open file " << filename;
-            return false;
-        }
+        file.open(filename, File::Mode::WRITE | File::Mode::CREATE);
 
         uint32_t offset = 0;
 

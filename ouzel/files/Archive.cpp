@@ -21,11 +21,7 @@ namespace ouzel
 
     bool Archive::open(const std::string& filename)
     {
-        if (!file.open(engine->getFileSystem()->getPath(filename, false), File::READ))
-        {
-            Log(Log::Level::ERR) << "Failed to open file " << filename;
-            return false;
-        }
+        file.open(engine->getFileSystem()->getPath(filename, false), File::READ);
 
         for (;;)
         {
