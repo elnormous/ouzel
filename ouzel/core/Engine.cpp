@@ -114,7 +114,7 @@ namespace ouzel
                 graphicsDriver = ouzel::graphics::Renderer::Driver::METAL;
             else
             {
-                ouzel::Log(ouzel::Log::Level::WARN) << "Invalid graphics driver specified";
+                ouzel::Log(ouzel::Log::Level::ERR) << "Invalid graphics driver specified";
                 return false;
             }
         }
@@ -141,7 +141,7 @@ namespace ouzel
                 textureFilter = ouzel::graphics::Texture::Filter::TRILINEAR;
             else
             {
-                ouzel::Log(ouzel::Log::Level::WARN) << "Invalid texture filter specified";
+                ouzel::Log(ouzel::Log::Level::ERR) << "Invalid texture filter specified";
                 return false;
             }
         }
@@ -192,7 +192,7 @@ namespace ouzel
                 audioDriver = ouzel::audio::Audio::Driver::ALSA;
             else
             {
-                ouzel::Log(ouzel::Log::Level::WARN) << "Invalid audio driver specified";
+                ouzel::Log(ouzel::Log::Level::ERR) << "Invalid audio driver specified";
                 return false;
             }
         }
