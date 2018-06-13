@@ -7,6 +7,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #endif
+#include <stdexcept>
 #include "File.hpp"
 
 namespace ouzel
