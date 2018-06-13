@@ -11,10 +11,16 @@ namespace ouzel
 {
     namespace network
     {
-        class Client
+        class Client final
         {
         public:
-            ~Client() {}
+            ~Client();
+
+            Client(const Client&) = delete;
+            Client& operator=(const Client&) = delete;
+
+            Client(Client&& other);
+            Client& operator=(Client&& other);
 
             bool disconnect();
 

@@ -27,6 +27,12 @@ namespace ouzel
             Network();
             ~Network();
 
+            Network(const Network&) = delete;
+            Network& operator=(const Network&) = delete;
+
+            Network(Network&&) = delete;
+            Network& operator=(Network&&) = delete;
+
             static bool getAddress(const std::string& address, uint32_t& result);
 
             bool listen(const std::string& address, uint16_t port);
