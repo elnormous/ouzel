@@ -24,10 +24,8 @@ namespace ouzel
         Archive(const Archive&) = delete;
         Archive& operator=(const Archive&) = delete;
 
-        Archive(Archive&&) = delete;
-        Archive& operator=(Archive&&) = delete;
-
-        bool open(const std::string& filename);
+        Archive(Archive&& other);
+        Archive& operator=(Archive&& other);
 
         bool readFile(const std::string& filename, std::vector<uint8_t>& data) const;
 
