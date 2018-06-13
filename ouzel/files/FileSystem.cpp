@@ -267,7 +267,7 @@ namespace ouzel
 
             AAsset_close(asset);
 
-            return true;
+            return;
         }
 #endif
 
@@ -280,9 +280,7 @@ namespace ouzel
         File file(path, File::Mode::READ);
 
         while (uint32_t size = file.read(buffer, sizeof(buffer)))
-        {
             data.insert(data.end(), buffer, buffer + size);
-        }
     }
 
     void FileSystem::writeFile(const std::string& filename, const std::vector<uint8_t>& data) const
