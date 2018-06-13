@@ -62,7 +62,7 @@ namespace ouzel
             inline const std::shared_ptr<graphics::BlendState>& getBlendState() const { return blendState; }
             inline void setBlendState(const std::shared_ptr<graphics::BlendState>& newBlendState)  { blendState = newBlendState; }
 
-        protected:
+        private:
             struct DrawCommand
             {
                 graphics::Renderer::DrawMode mode;

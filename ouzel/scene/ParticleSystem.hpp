@@ -47,7 +47,7 @@ namespace ouzel
             inline void setPositionType(ParticleSystemData::PositionType newPositionType) { particleSystemData.positionType = newPositionType; }
             inline ParticleSystemData::PositionType getPositionType() const { return particleSystemData.positionType; }
 
-        protected:
+        private:
             void update(float delta);
 
             bool createParticleMesh();

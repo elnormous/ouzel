@@ -30,7 +30,7 @@ namespace ouzel
         bool tryLock();
         void unlock();
 
-    protected:
+    private:
 #if defined(_WIN32)
         CRITICAL_SECTION criticalSection;
 #else

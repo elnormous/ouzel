@@ -30,7 +30,7 @@ namespace ouzel
             virtual const std::shared_ptr<graphics::Material>& getMaterial() const { return material; }
             virtual void setMaterial(const std::shared_ptr<graphics::Material>& newMaterial) { material = newMaterial; }
 
-        protected:
+        private:
             std::shared_ptr<graphics::Material> material;
             uint32_t indexCount = 0;
             uint32_t indexSize = 0;
