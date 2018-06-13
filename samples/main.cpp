@@ -48,7 +48,7 @@ void ouzelMain(const std::vector<std::string>& args)
     engine->getFileSystem()->addResourcePath("Resources");
 
 #if !OUZEL_PLATFORM_ANDROID
-    archive.open("gui.zip");
+    archive = ouzel::Archive("gui.zip");
     engine->getFileSystem()->addArchive(&archive);
 #endif
 

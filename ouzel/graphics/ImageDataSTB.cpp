@@ -23,8 +23,7 @@ namespace ouzel
                                 PixelFormat newPixelFormat)
         {
             std::vector<uint8_t> newData;
-            if (!engine->getFileSystem()->readFile(filename, newData))
-                return false;
+            engine->getFileSystem()->readFile(filename, newData);
 
             return init(newData, newPixelFormat);
         }

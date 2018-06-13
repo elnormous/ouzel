@@ -4,6 +4,7 @@
 #include "core/Setup.h"
 
 #include <algorithm>
+#include <stdexcept>
 #include <sys/stat.h>
 #if OUZEL_PLATFORM_WINDOWS
 #include <Windows.h>
@@ -233,14 +234,17 @@ namespace ouzel
 #endif
     }
 
-    bool FileSystem::readFile(const std::string& filename, std::vector<uint8_t>& data, bool searchResources) const
+    void FileSystem::readFile(const std::string& filename, std::vector<uint8_t>& data, bool searchResources) const
     {
         if (searchResources)
         {
             for (const auto& archive : archives)
             {
-                if (archive->readFile(filename, data))
-                    return true;
+                if (archive->fileExists(filename))
+                {
+                    archive->readFile(filename, data);
+                    return;
+                }
             }
         }
 
@@ -254,10 +258,7 @@ namespace ouzel
             AAsset* asset = AAssetManager_open(engineAndroid->getAssetManager(), filename.c_str(), AASSET_MODE_STREAMING);
 
             if (!asset)
-            {
-                Log(Log::Level::ERR) << "Failed to open file " << filename;
-                return false;
-            }
+                throw std::runtime_error("Failed to open file " + filename);
 
             int bytesRead = 0;
 
@@ -274,10 +275,7 @@ namespace ouzel
 
         // file does not exist
         if (path.empty())
-        {
-            Log(Log::Level::ERR) << "Failed to find file " << filename;
-            return false;
-        }
+            throw std::runtime_error("Failed to find file " + filename);
 
         File file(path, File::Mode::READ);
 
@@ -285,11 +283,9 @@ namespace ouzel
         {
             data.insert(data.end(), buffer, buffer + size);
         }
-
-        return true;
     }
 
-    bool FileSystem::writeFile(const std::string& filename, const std::vector<uint8_t>& data) const
+    void FileSystem::writeFile(const std::string& filename, const std::vector<uint8_t>& data) const
     {
         File file(filename, File::Mode::WRITE | File::Mode::CREATE);
 
@@ -300,8 +296,6 @@ namespace ouzel
             uint32_t written = file.write(data.data() + offset, static_cast<uint32_t>(data.size()) - offset);
             offset += written;
         }
-
-        return true;
     }
 
     bool FileSystem::resourceFileExists(const std::string& filename) const
