@@ -92,8 +92,14 @@ namespace ouzel
 
         defaultSettings.init("settings.ini");
 
-        //if (fileSystem.fileExists(fileSystem.getStorageDirectory() + FileSystem::DIRECTORY_SEPARATOR + "settings.ini"))
-        userSettings.init(fileSystem.getStorageDirectory() + FileSystem::DIRECTORY_SEPARATOR + "settings.ini");
+        try
+        {
+            userSettings.init(fileSystem.getStorageDirectory() + FileSystem::DIRECTORY_SEPARATOR + "settings.ini");
+        }
+        catch (const std::exception&)
+        {
+            Log(Log::Level::INFO) << "User settings not provided";
+        }
 
         const ini::Section& userEngineSection = userSettings.getSection("engine");
         const ini::Section& defaultEngineSection = defaultSettings.getSection("engine");

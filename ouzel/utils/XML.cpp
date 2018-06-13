@@ -736,9 +736,7 @@ namespace ouzel
                         bool preserveProcessingInstructions)
         {
             std::vector<uint8_t> data;
-
-            if (!engine->getFileSystem()->readFile(filename, data))
-                return false;
+            engine->getFileSystem()->readFile(filename, data);
 
             return init(data,
                         preserveWhitespaces,
@@ -815,10 +813,11 @@ namespace ouzel
         bool Data::save(const std::string& filename) const
         {
             std::vector<uint8_t> data;
-
             if (!encode(data)) return false;
 
-            return engine->getFileSystem()->writeFile(filename, data);
+            engine->getFileSystem()->writeFile(filename, data);
+
+            return true;
         }
 
         bool Data::encode(std::vector<uint8_t>& data) const

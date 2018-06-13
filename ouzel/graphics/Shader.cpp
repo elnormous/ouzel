@@ -38,14 +38,10 @@ namespace ouzel
             vertexShaderFilename = newVertexShader;
 
             std::vector<uint8_t> fragmentShaderData;
-
-            if (!engine->getFileSystem()->readFile(newFragmentShader, fragmentShaderData))
-                return false;
+            engine->getFileSystem()->readFile(newFragmentShader, fragmentShaderData);
 
             std::vector<uint8_t> vertexShaderData;
-
-            if (!engine->getFileSystem()->readFile(newVertexShader, vertexShaderData))
-                return false;
+            engine->getFileSystem()->readFile(newVertexShader, vertexShaderData);
 
             RenderDevice* renderDevice = engine->getRenderer()->getDevice();
 

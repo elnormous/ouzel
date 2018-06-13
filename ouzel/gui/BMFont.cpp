@@ -157,8 +157,7 @@ namespace ouzel
     bool BMFont::init(const std::string& filename, bool mipmaps)
     {
         std::vector<uint8_t> data;
-        if (!engine->getFileSystem()->readFile(filename, data))
-            return false;
+        engine->getFileSystem()->readFile(filename, data);
 
         return init(data, mipmaps);
     }

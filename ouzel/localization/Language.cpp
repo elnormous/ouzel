@@ -22,9 +22,7 @@ namespace ouzel
     bool Language::init(const std::string& filename)
     {
         std::vector<uint8_t> data;
-
-        if (!engine->getFileSystem()->readFile(filename, data))
-            return false;
+        engine->getFileSystem()->readFile(filename, data);
 
         return init(data);
     }
