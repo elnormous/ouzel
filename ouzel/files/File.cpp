@@ -18,7 +18,32 @@ namespace ouzel
 
     File::File(const std::string& filename, int mode)
     {
-        open(filename, mode);
+#if OUZEL_PLATFORM_WINDOWS
+        DWORD access = 0;
+        if (mode & READ) access |= GENERIC_READ;
+        if (mode & WRITE) access |= GENERIC_WRITE;
+        if (mode & APPEND) access |= FILE_APPEND_DATA;
+        DWORD createDisposition = (mode & CREATE) ? OPEN_ALWAYS : OPEN_EXISTING;
+
+        WCHAR buffer[MAX_PATH];
+        if (MultiByteToWideChar(CP_UTF8, 0, filename.c_str(), -1, buffer, MAX_PATH) == 0)
+            throw std::runtime_error("Failed to convert the filename to wide char");
+
+        file = CreateFileW(buffer, access, 0, nullptr, createDisposition, FILE_ATTRIBUTE_NORMAL, nullptr);
+        if (file == INVALID_HANDLE_VALUE)
+            throw std::runtime_error("Failed to open file");
+#else
+        int access = 0;
+        if ((mode & READ) && (mode & WRITE)) access |= O_RDWR;
+        else if (mode & READ) access |= O_RDONLY;
+        else if (mode & WRITE) access |= O_WRONLY;
+        if (mode & CREATE) access |= O_CREAT;
+        if (mode & APPEND) access |= O_APPEND;
+
+        fd = open(filename.c_str(), access, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+        if (fd == -1)
+            throw std::runtime_error("Failed to open file");
+#endif
     }
 
     File::~File()
@@ -26,7 +51,7 @@ namespace ouzel
 #if OUZEL_PLATFORM_WINDOWS
         if (file != INVALID_HANDLE_VALUE) CloseHandle(file);
 #else
-        if (fd != -1) ::close(fd);
+        if (fd != -1) close(fd);
 #endif
     }
 
@@ -50,66 +75,13 @@ namespace ouzel
             file = other.file;
             other.file = nullptr;
 #else
-            if (fd != -1) ::close(fd);
+            if (fd != -1) close(fd);
             fd = other.fd;
             other.fd = -1;
 #endif
         }
 
         return *this;
-    }
-
-    void File::open(const std::string& filename, int mode)
-    {
-#if OUZEL_PLATFORM_WINDOWS
-        if (file != INVALID_HANDLE_VALUE)
-        {
-            CloseHandle(file);
-            file = INVALID_HANDLE_VALUE;
-        }
-#else
-        if (fd != -1)
-        {
-            ::close(fd);
-            fd = -1;
-        }
-#endif
-
-#if OUZEL_PLATFORM_WINDOWS
-        DWORD access = 0;
-        if (mode & READ) access |= GENERIC_READ;
-        if (mode & WRITE) access |= GENERIC_WRITE;
-        if (mode & APPEND) access |= FILE_APPEND_DATA;
-        DWORD createDisposition = (mode & CREATE) ? OPEN_ALWAYS : OPEN_EXISTING;
-
-        WCHAR buffer[MAX_PATH];
-        if (MultiByteToWideChar(CP_UTF8, 0, filename.c_str(), -1, buffer, MAX_PATH) == 0)
-            throw std::runtime_error("Failed to convert the filename to wide char");
-
-        file = CreateFileW(buffer, access, 0, nullptr, createDisposition, FILE_ATTRIBUTE_NORMAL, nullptr);
-        if (file == INVALID_HANDLE_VALUE)
-            throw std::runtime_error("Failed to open file");
-#else
-        int access = 0;
-        if ((mode & READ) && (mode & WRITE)) access |= O_RDWR;
-        else if (mode & READ) access |= O_RDONLY;
-        else if (mode & WRITE) access |= O_WRONLY;
-        if (mode & CREATE) access |= O_CREAT;
-        if (mode & APPEND) access |= O_APPEND;
-
-        fd = ::open(filename.c_str(), access, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-        if (fd == -1)
-            throw std::runtime_error("Failed to open file");
-#endif
-    }
-
-    void File::close()
-    {
-#if OUZEL_PLATFORM_WINDOWS
-        if (file != INVALID_HANDLE_VALUE) CloseHandle(file);
-#else
-        if (fd != -1) ::close(fd);
-#endif
     }
 
     uint32_t File::read(void* buffer, uint32_t size) const

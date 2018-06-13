@@ -279,9 +279,7 @@ namespace ouzel
             return false;
         }
 
-        File file;
-
-        file.open(path, File::Mode::READ);
+        File file(path, File::Mode::READ);
 
         while (uint32_t size = file.read(buffer, sizeof(buffer)))
         {
@@ -293,9 +291,7 @@ namespace ouzel
 
     bool FileSystem::writeFile(const std::string& filename, const std::vector<uint8_t>& data) const
     {
-        File file;
-
-        file.open(filename, File::Mode::WRITE | File::Mode::CREATE);
+        File file(filename, File::Mode::WRITE | File::Mode::CREATE);
 
         uint32_t offset = 0;
 

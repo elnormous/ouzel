@@ -23,7 +23,7 @@ namespace ouzel
     {
         entries.clear();
 
-        file.open(engine->getFileSystem()->getPath(filename), File::READ);
+        file = File(engine->getFileSystem()->getPath(filename), File::READ);
 
         for (;;)
         {
