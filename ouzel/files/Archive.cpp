@@ -1,6 +1,7 @@
 // Copyright (C) 2018 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <stdexcept>
 #include "Archive.hpp"
 #include "FileSystem.hpp"
 #include "core/Engine.hpp"
@@ -11,18 +12,6 @@ namespace ouzel
 {
     Archive::Archive(const std::string& filename)
     {
-        open(filename);
-    }
-
-    Archive::~Archive()
-    {
-        if (fileSystem) fileSystem->removeArchive(this);
-    }
-
-    bool Archive::open(const std::string& filename)
-    {
-        entries.clear();
-
         file = File(engine->getFileSystem()->getPath(filename), File::READ);
 
         for (;;)
@@ -35,10 +24,7 @@ namespace ouzel
                 break;
 
             if (decodeUInt32Little(&signature) != 0x04034b50)
-            {
-                Log(Log::Level::ERR) << "Bad signature";
-                return false;
-            }
+                throw std::runtime_error("Bad signature");
 
             uint8_t version[2];
 
@@ -52,10 +38,7 @@ namespace ouzel
             file.readAll(&compression, sizeof(compression));
 
             if (compression != 0x00)
-            {
-                Log(Log::Level::ERR) << "Unsupported compression";
-                return false;
-            }
+                throw std::runtime_error("Unsupported compression");
 
             file.seek(4, File::CURRENT); // skip modification time
             file.seek(4, File::CURRENT); // skip CRC-32
@@ -87,8 +70,43 @@ namespace ouzel
 
             file.seek(decodeInt32Little(&uncompressedSize), File::CURRENT); // skip uncompressed size
         }
+    }
 
-        return true;
+    Archive::~Archive()
+    {
+        if (fileSystem) fileSystem->removeArchive(this);
+    }
+
+    Archive::Archive(Archive&& other)
+    {
+        if (other.fileSystem)
+        {
+            other.fileSystem->addArchive(this);
+            other.fileSystem->removeArchive(&other);
+        }
+
+        file = std::move(other.file);
+        entries = std::move(other.entries);
+    }
+
+    Archive& Archive::operator=(Archive&& other)
+    {
+        if (&other != this)
+        {
+            if (fileSystem) fileSystem->removeArchive(this);
+
+            if (other.fileSystem)
+            {
+                other.fileSystem->addArchive(this);
+                other.fileSystem->removeArchive(&other);
+            }
+
+            fileSystem = other.fileSystem;
+            file = std::move(other.file);
+            entries = std::move(other.entries);
+        }
+
+        return *this;
     }
 
     bool Archive::readFile(const std::string& filename, std::vector<uint8_t>& data) const
