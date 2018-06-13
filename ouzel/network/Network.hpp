@@ -29,8 +29,6 @@ namespace ouzel
 
             static bool getAddress(const std::string& address, uint32_t& result);
 
-            bool init();
-
             bool listen(const std::string& address, uint16_t port);
             bool connect(const std::string& address, uint16_t port);
             bool disconnect();
