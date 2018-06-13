@@ -45,9 +45,6 @@ namespace ouzel
         File(File&&);
         File& operator=(File&&);
 
-        void open(const std::string& filename, int mode);
-        void close();
-
         inline bool isOpen() const
         {
 #if OUZEL_PLATFORM_WINDOWS
