@@ -74,11 +74,6 @@ namespace ouzel
             return true;
         }
 
-        bool Network::init()
-        {
-            return true;
-        }
-
         bool Network::listen(const std::string& address, uint16_t port)
         {
             return true;
