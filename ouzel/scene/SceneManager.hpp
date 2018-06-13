@@ -63,6 +63,8 @@ namespace ouzel
 
         protected:
             SceneManager();
+
+        private:
             void update();
             void executeAllOnUpdateThread();
 

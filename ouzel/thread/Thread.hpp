@@ -163,7 +163,7 @@ namespace ouzel
             std::string name;
         };
 
-    protected:
+    private:
         std::unique_ptr<State> state;
 
 #if defined(_WIN32)

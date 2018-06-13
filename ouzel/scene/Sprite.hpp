@@ -64,7 +64,7 @@ namespace ouzel
             void setAnimationProgress(float progress);
             void setAnimationTime(float time);
 
-        protected:
+        private:
             void updateBoundingBox();
 
             std::shared_ptr<graphics::Material> material;

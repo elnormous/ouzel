@@ -25,7 +25,7 @@ namespace ouzel
         bool wait(Lock& lock);
         bool wait(Lock& lock, std::chrono::steady_clock::duration duration);
 
-    protected:
+    private:
 #if defined(_WIN32)
         CONDITION_VARIABLE conditionVariable;
 #else

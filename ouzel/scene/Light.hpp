@@ -27,6 +27,7 @@ namespace ouzel
         protected:
             virtual void setLayer(Layer* newLayer) override;
 
+        private:
             Type type;
         };
     } // namespace scene
