@@ -41,12 +41,12 @@ namespace ouzel
 
             inline const std::vector<Node>& getChildren() const { return children; }
 
-            bool parse(const std::vector<uint32_t>& str,
+            void parse(const std::vector<uint32_t>& str,
                        std::vector<uint32_t>::const_iterator& iterator,
                        bool preserveWhitespaces = false,
                        bool preserveComments = false,
                        bool preserveProcessingInstructions = false);
-            bool encode(std::vector<uint8_t>& data) const;
+            void encode(std::vector<uint8_t>& data) const;
 
         protected:
             Type type = Type::NONE;
@@ -69,17 +69,17 @@ namespace ouzel
                  bool preserveComments = false,
                  bool preserveProcessingInstructions = false);
 
-            bool init(const std::string& filename,
+            void init(const std::string& filename,
                       bool preserveWhitespaces = false,
                       bool preserveComments = false,
                       bool preserveProcessingInstructions = false);
-            bool init(const std::vector<uint8_t>& data,
+            void init(const std::vector<uint8_t>& data,
                       bool preserveWhitespaces = false,
                       bool preserveComments = false,
                       bool preserveProcessingInstructions = false);
 
-            bool save(const std::string& filename) const;
-            bool encode(std::vector<uint8_t>& data) const;
+            void save(const std::string& filename) const;
+            void encode(std::vector<uint8_t>& data) const;
 
             inline bool hasBOM() const { return bom; }
             inline void setBOM(bool newBOM) { bom = newBOM; }

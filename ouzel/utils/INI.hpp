@@ -33,7 +33,7 @@ namespace ouzel
             bool deleteValue(const std::string& key);
 
         protected:
-            bool encode(std::vector<uint8_t>& data) const;
+            void encode(std::vector<uint8_t>& data) const;
 
             std::string name;
             std::map<std::string, std::string> values;
@@ -48,8 +48,8 @@ namespace ouzel
 
             void init(const std::string& filename);
             void init(const std::vector<uint8_t>& data);
-            bool save(const std::string& filename) const;
-            bool encode(std::vector<uint8_t>& data) const;
+            void save(const std::string& filename) const;
+            void encode(std::vector<uint8_t>& data) const;
 
             inline const std::map<std::string, Section>& getSections() const { return sections; }
             bool hasSection(const std::string& name) const;
