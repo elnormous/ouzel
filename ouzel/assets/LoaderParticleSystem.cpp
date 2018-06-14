@@ -23,9 +23,7 @@ namespace ouzel
             scene::ParticleSystemData particleSystemData;
 
             json::Data document;
-
-            if (!document.init(data))
-                return false;
+            document.init(data);
 
             if (!document.hasMember("textureFileName") ||
                 !document.hasMember("configName"))
