@@ -70,7 +70,7 @@ namespace ouzel
             return false;
         }
 
-        bool Section::encode(std::vector<uint8_t>& data) const
+        void Section::encode(std::vector<uint8_t>& data) const
         {
             if (!name.empty())
             {
@@ -87,8 +87,6 @@ namespace ouzel
                 data.insert(data.end(), value.second.begin(), value.second.end());
                 data.push_back('\n');
             }
-
-            return true;
         }
 
         Data::Data()
@@ -292,17 +290,15 @@ namespace ouzel
             }
         }
 
-        bool Data::save(const std::string& filename) const
+        void Data::save(const std::string& filename) const
         {
             std::vector<uint8_t> data;
-            if (!encode(data)) return false;
+            encode(data);
 
             engine->getFileSystem()->writeFile(filename, data);
-
-            return true;
         }
 
-        bool Data::encode(std::vector<uint8_t>& data) const
+        void Data::encode(std::vector<uint8_t>& data) const
         {
             data.clear();
 
@@ -315,13 +311,8 @@ namespace ouzel
             for (const auto& section : sections)
             {
                 if (!section.first.empty())
-                {
-                    if (!section.second.encode(data))
-                        return false;
-                }
+                    section.second.encode(data);
             }
-
-            return true;
         }
 
         bool Data::hasSection(const std::string& section) const

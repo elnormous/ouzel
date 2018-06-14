@@ -243,13 +243,13 @@ namespace ouzel
             }
 
         protected:
-            bool parseValue(const std::vector<Token>& tokens,
+            void parseValue(const std::vector<Token>& tokens,
                             std::vector<Token>::const_iterator& iterator);
-            bool parseObject(const std::vector<Token>& tokens,
+            void parseObject(const std::vector<Token>& tokens,
                              std::vector<Token>::const_iterator& iterator);
-            bool parseArray(const std::vector<Token>& tokens,
+            void parseArray(const std::vector<Token>& tokens,
                             std::vector<Token>::const_iterator& iterator);
-            bool encodeValue(std::vector<uint8_t>& data) const;
+            void encodeValue(std::vector<uint8_t>& data) const;
 
             Type type = Type::NONE;
             bool boolValue = false;
@@ -270,8 +270,8 @@ namespace ouzel
             void init(const std::string& filename);
             void init(const std::vector<uint8_t>& data);
 
-            bool save(const std::string& filename) const;
-            bool encode(std::vector<uint8_t>& data) const;
+            void save(const std::string& filename) const;
+            void encode(std::vector<uint8_t>& data) const;
 
             bool hasBOM() const { return bom; }
             void setBOM(bool newBOM) { bom = newBOM; }

@@ -4,21 +4,17 @@
 #include <stdexcept>
 #include "JSON.hpp"
 #include "core/Engine.hpp"
-#include "Log.hpp"
 #include "Utils.hpp"
 
 namespace ouzel
 {
     namespace json
     {
-        bool Value::parseValue(const std::vector<Token>& tokens,
-                               std::vector<Token>::const_iterator&iterator)
+        void Value::parseValue(const std::vector<Token>& tokens,
+                               std::vector<Token>::const_iterator& iterator)
         {
             if (iterator == tokens.end())
-            {
-                Log(Log::Level::ERR) << "Unexpected end of data";
-                return false;
-            }
+                throw std::runtime_error("Unexpected end of data");
 
             if (iterator->type == Token::Type::LEFT_BRACE)
                 return parseObject(tokens, iterator);
@@ -33,16 +29,10 @@ namespace ouzel
             else if (iterator->type == Token::Type::OPERATOR_MINUS)
             {
                 if (++iterator == tokens.end())
-                {
-                    Log(Log::Level::ERR) << "Unexpected end of data";
-                    return false;
-                }
+                    throw std::runtime_error("Unexpected end of data");
 
                 if (iterator->type != Token::Type::LITERAL_NUMBER)
-                {
-                    Log(Log::Level::ERR) << "Expected a number";
-                    return false;
-                }
+                    throw std::runtime_error("Expected a number");
 
                 type = Type::NUMBER;
                 doubleValue = -std::stod(utf32ToUtf8(iterator->value));
@@ -68,28 +58,17 @@ namespace ouzel
                 ++iterator;
             }
             else
-            {
-                Log(Log::Level::ERR) << "Expected a value";
-                return false;
-            }
-
-            return true;
+                throw std::runtime_error("Expected a value");
         }
 
-        bool Value::parseObject(const std::vector<Token>& tokens,
-                                std::vector<Token>::const_iterator&iterator)
+        void Value::parseObject(const std::vector<Token>& tokens,
+                                std::vector<Token>::const_iterator& iterator)
         {
             if (iterator == tokens.end())
-            {
-                Log(Log::Level::ERR) << "Unexpected end of data";
-                return false;
-            }
+                throw std::runtime_error("Unexpected end of data");
 
             if (iterator->type != Token::Type::LEFT_BRACE)
-            {
-                Log(Log::Level::ERR) << "Expected a left brace";
-                return false;
-            }
+                throw std::runtime_error("Expected a left brace");
 
             ++iterator; // skip the left brace
 
@@ -98,10 +77,7 @@ namespace ouzel
             for (;;)
             {
                 if (iterator == tokens.end())
-                {
-                    Log(Log::Level::ERR) << "Unexpected end of data";
-                    return false;
-                }
+                    throw std::runtime_error("Unexpected end of data");
 
                 if (iterator->type == Token::Type::RIGHT_BRACE)
                 {
@@ -114,76 +90,46 @@ namespace ouzel
                 else
                 {
                     if (iterator->type != Token::Type::COMMA)
-                    {
-                        Log(Log::Level::ERR) << "Expected a comma";
-                        return false;
-                    }
+                        throw std::runtime_error("Expected a comma");
 
                     if (++iterator == tokens.end())
-                    {
-                        Log(Log::Level::ERR) << "Unexpected end of data";
-                        return false;
-                    }
+                        throw std::runtime_error("Unexpected end of data");
                 }
 
                 if (iterator->type != Token::Type::LITERAL_STRING)
-                {
-                    Log(Log::Level::ERR) << "Expected a string literal";
-                    return false;
-                }
+                    throw std::runtime_error("Expected a string literal");
 
                 std::string key = utf32ToUtf8(iterator->value);
 
                 if (objectValue.find(key) != objectValue.end())
-                {
-                    Log(Log::Level::ERR) << "Duplicate key value";
-                    return false;
-                }
+                    throw std::runtime_error("Duplicate key value");
 
                 if (++iterator == tokens.end())
-                {
-                    Log(Log::Level::ERR) << "Unexpected end of data";
-                    return false;
-                }
+                    throw std::runtime_error("Unexpected end of data");
 
                 if (iterator->type != Token::Type::COLON)
-                {
-                    Log(Log::Level::ERR) << "Expected a colon";
-                    return false;
-                }
+                    throw std::runtime_error("Expected a colon");
 
                 if (++iterator == tokens.end())
-                {
-                    Log(Log::Level::ERR) << "Unexpected end of data";
-                    return false;
-                }
+                    throw std::runtime_error("Unexpected end of data");
 
                 Value value;
-                if (!value.parseValue(tokens, iterator))
-                    return false;
+                value.parseValue(tokens, iterator);
 
                 objectValue[key] = value;
             }
 
             type = Type::OBJECT;
-
-            return true;
         }
 
-        bool Value::parseArray(const std::vector<Token>& tokens,
-                               std::vector<Token>::const_iterator&iterator)
+        void Value::parseArray(const std::vector<Token>& tokens,
+                               std::vector<Token>::const_iterator& iterator)
         {
             if (iterator == tokens.end())
-            {
-                Log(Log::Level::ERR) << "Unexpected end of data";
-                return false;
-            }
+                throw std::runtime_error("Unexpected end of data");
 
             if (iterator->type != Token::Type::LEFT_BRACKET)
-            {
-                Log(Log::Level::ERR) << "Expected a left bracket";
-                return false;
-            }
+                throw std::runtime_error("Expected a left bracket");
 
             ++iterator; // skip the left bracket
 
@@ -192,10 +138,7 @@ namespace ouzel
             for (;;)
             {
                 if (iterator == tokens.end())
-                {
-                    Log(Log::Level::ERR) << "Unexpected end of data";
-                    return false;
-                }
+                    throw std::runtime_error("Unexpected end of data");
 
                 if (iterator->type == Token::Type::RIGHT_BRACKET)
                 {
@@ -208,31 +151,22 @@ namespace ouzel
                 else
                 {
                     if (iterator->type != Token::Type::COMMA)
-                    {
-                        Log(Log::Level::ERR) << "Expected a comma";
-                        return false;
-                    }
+                        throw std::runtime_error("Expected a comma");
 
                     if (++iterator == tokens.end())
-                    {
-                        Log(Log::Level::ERR) << "Unexpected end of data";
-                        return false;
-                    }
+                        throw std::runtime_error("Unexpected end of data");
                 }
 
                 Value value;
-                if (!value.parseValue(tokens, iterator))
-                    return false;
+                value.parseValue(tokens, iterator);
 
                 arrayValue.push_back(value);
             }
 
             type = Type::ARRAY;
-
-            return true;
         }
 
-        static bool encodeString(std::vector<uint8_t>& data,
+        static void encodeString(std::vector<uint8_t>& data,
                                  const std::vector<uint32_t>& str)
         {
             for (uint32_t c : str)
@@ -257,11 +191,9 @@ namespace ouzel
                     data.insert(data.end(), encoded.begin(), encoded.end());
                 }
             }
-
-            return true;
         }
 
-        bool Value::encodeValue(std::vector<uint8_t>& data) const
+        void Value::encodeValue(std::vector<uint8_t>& data) const
         {
             switch (type)
             {
@@ -273,7 +205,7 @@ namespace ouzel
                 }
                 case Type::STRING:
                     data.push_back('"');
-                    if (!encodeString(data, utf8ToUtf32(stringValue))) return false;
+                    encodeString(data, utf8ToUtf32(stringValue));
                     data.push_back('"');
                     break;
                 case Type::OBJECT:
@@ -292,7 +224,7 @@ namespace ouzel
                             else data.push_back(',');
 
                             data.push_back('"');
-                            if (!encodeString(data, utf8ToUtf32(value.first))) return false;
+                            encodeString(data, utf8ToUtf32(value.first));
                             data.insert(data.end(), {'"', ':'});
                             value.second.encodeValue(data);
                         }
@@ -323,10 +255,8 @@ namespace ouzel
                     else data.insert(data.end(), {'f', 'a', 'l', 's', 'e'});
                     break;
                 default:
-                    return false;
+                    throw std::runtime_error("Unknown value type");
             }
-
-            return true;
         }
 
         Data::Data():
@@ -564,23 +494,21 @@ namespace ouzel
             parseValue(tokens, iterator);
         }
 
-        bool Data::save(const std::string& filename) const
+        void Data::save(const std::string& filename) const
         {
             std::vector<uint8_t> data;
-            if (!encode(data)) return false;
+            encode(data);
 
             engine->getFileSystem()->writeFile(filename, data);
-
-            return true;
         }
 
-        bool Data::encode(std::vector<uint8_t>& data) const
+        void Data::encode(std::vector<uint8_t>& data) const
         {
             data.clear();
 
             if (bom) data.insert(data.end(), {0xEF, 0xBB, 0xBF});
 
-            return encodeValue(data);
+            encodeValue(data);
         }
     } // namespace json
 } // namespace ouzel
