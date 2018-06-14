@@ -13,8 +13,8 @@ namespace ouzel
     class Language final
     {
     public:
-        bool init(const std::string& filename);
-        bool init(const std::vector<uint8_t>& data);
+        void init(const std::string& filename);
+        void init(const std::vector<uint8_t>& data);
 
         std::string getString(const std::string& str);
 
