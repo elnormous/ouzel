@@ -12,7 +12,7 @@ GUISample::GUISample():
     fullscreenButton("button.png", "button_selected.png", "button_down.png", "", "Fullscreen", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
     checkBox("checkbox.png", "", "", "", "tick.png"),
     label1("checkbox test", "AmosisTechnik.ttf", 24.0F, Color::WHITE, Vector2(0.0F, 0.5F)),
-    label2(engine->getLocalization()->getString("Ouzel"), "ArialBlack.fnt"),
+    label2("", "ArialBlack.fnt"),
     label3("UTF-8 ĀāČč\nNew line", "ArialBlack.fnt", 1.0F, Color::WHITE, Vector2(0.0F, 0.5F)),
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
 {
@@ -44,6 +44,8 @@ GUISample::GUISample():
 
     engine->getLocalization()->addLanguage("latvian", "lv.mo");
     engine->getLocalization()->setLanguage("latvian");
+
+    label2.setText(engine->getLocalization()->getString("Ouzel"));
 
     label2.setPosition(Vector2(10.0F, 0.0F));
     guiLayer.addChild(&label2);

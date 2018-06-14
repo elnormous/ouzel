@@ -1,11 +1,11 @@
 // Copyright (C) 2018 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <stdexcept>
 #include <vector>
 #include "Language.hpp"
 #include "core/Engine.hpp"
 #include "files/FileSystem.hpp"
-#include "utils/Log.hpp"
 #include "utils/Utils.hpp"
 
 namespace ouzel
@@ -19,15 +19,15 @@ namespace ouzel
         uint32_t translationOffset;
     };
 
-    bool Language::init(const std::string& filename)
+    void Language::init(const std::string& filename)
     {
         std::vector<uint8_t> data;
         engine->getFileSystem()->readFile(filename, data);
 
-        return init(data);
+        init(data);
     }
 
-    bool Language::init(const std::vector<uint8_t>& data)
+    void Language::init(const std::vector<uint8_t>& data)
     {
         const unsigned long MAGIC_BIG = 0xde120495;
         const unsigned long MAGIC_LITTLE = 0x950412de;
@@ -35,7 +35,7 @@ namespace ouzel
         uint32_t offset = 0;
 
         if (data.size() < 5 * sizeof(uint32_t))
-            return false;
+            throw std::runtime_error("Not enough data");
 
         uint32_t magic = *reinterpret_cast<const uint32_t*>(data.data() + offset);
         offset += sizeof(magic);
@@ -47,19 +47,13 @@ namespace ouzel
         else if (magic == MAGIC_LITTLE)
             decodeUInt32 = decodeUInt32Little;
         else
-        {
-            Log(Log::Level::ERR) << "Wrong magic " << magic;
-            return false;
-        }
+            throw std::runtime_error("Wrong magic " + std::to_string(magic));
 
         uint32_t revision = decodeUInt32(data.data() + offset);
         offset += sizeof(revision);
 
         if (revision != 0)
-        {
-            Log(Log::Level::ERR) << "Unsupported revision " << revision;
-            return false;
-        }
+            throw std::runtime_error("Unsupported revision " + std::to_string(revision));
 
         uint32_t stringCount = decodeUInt32(data.data() + offset);
         offset += sizeof(stringCount);
@@ -75,7 +69,7 @@ namespace ouzel
         offset = stringsOffset;
 
         if (data.size() < offset + 2 * sizeof(uint32_t) * stringCount)
-            return false;
+            throw std::runtime_error("Not enough data");
 
         for (uint32_t i = 0; i < stringCount; ++i)
         {
@@ -89,7 +83,7 @@ namespace ouzel
         offset = translationsOffset;
 
         if (data.size() < offset + 2 * sizeof(uint32_t) * stringCount)
-            return false;
+            throw std::runtime_error("Not enough data");
 
         for (uint32_t i = 0; i < stringCount; ++i)
         {
@@ -104,15 +98,13 @@ namespace ouzel
         {
             if (data.size() < translations[i].stringOffset + translations[i].stringLength ||
                 data.size() < translations[i].translationOffset + translations[i].translationLength)
-                return false;
+                throw std::runtime_error("Not enough data");
 
             std::string str(reinterpret_cast<const char*>(data.data() + translations[i].stringOffset), translations[i].stringLength);
             std::string translation(reinterpret_cast<const char*>(data.data() + translations[i].translationOffset), translations[i].translationLength);
 
             strings[str] = translation;
         }
-
-        return true;
     }
 
     std::string Language::getString(const std::string& str)
