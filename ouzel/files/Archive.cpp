@@ -5,7 +5,6 @@
 #include "Archive.hpp"
 #include "FileSystem.hpp"
 #include "core/Engine.hpp"
-#include "utils/Log.hpp"
 #include "utils/Utils.hpp"
 
 namespace ouzel
