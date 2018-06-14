@@ -267,8 +267,8 @@ namespace ouzel
             Data(const std::string& filename);
             Data(const std::vector<uint8_t>& data);
 
-            bool init(const std::string& filename);
-            bool init(const std::vector<uint8_t>& data);
+            void init(const std::string& filename);
+            void init(const std::vector<uint8_t>& data);
 
             bool save(const std::string& filename) const;
             bool encode(std::vector<uint8_t>& data) const;

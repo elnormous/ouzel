@@ -1,6 +1,7 @@
 // Copyright (C) 2018 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <stdexcept>
 #include "JSON.hpp"
 #include "core/Engine.hpp"
 #include "Log.hpp"
@@ -343,12 +344,12 @@ namespace ouzel
             init(data);
         }
 
-        bool Data::init(const std::string& filename)
+        void Data::init(const std::string& filename)
         {
             std::vector<uint8_t> data;
             engine->getFileSystem()->readFile(filename, data);
 
-            return init(data);
+            init(data);
         }
 
         static inline bool isWhitespace(uint32_t c)
@@ -361,9 +362,9 @@ namespace ouzel
             return c <= 0x1F;
         }
 
-        static bool tokenize(const std::vector<uint32_t>& str, std::vector<Token>& tokens)
+        static std::vector<Token> tokenize(const std::vector<uint32_t>& str)
         {
-            tokens.clear();
+            std::vector<Token> tokens;
 
             static const std::map<std::vector<uint32_t>, Token::Type> keywordMap = {
                 {{'t', 'r', 'u', 'e'}, Token::Type::KEYWORD_TRUE},
@@ -423,18 +424,12 @@ namespace ouzel
                         token.value.push_back(*iterator);
 
                         if (++iterator == str.end() || *iterator != '+' || *iterator != '-')
-                        {
-                            Log(Log::Level::ERR) << "Invalid exponent";
-                            return false;
-                        }
+                            throw std::runtime_error("Invalid exponent");
 
                         token.value.push_back(*iterator);
 
                         if (++iterator == str.end() || *iterator < '0' || *iterator > '9')
-                        {
-                            Log(Log::Level::ERR) << "Invalid exponent";
-                            return false;
-                        }
+                            throw std::runtime_error("Invalid exponent");
 
                         while (iterator != str.end() &&
                                (*iterator >= '0' && *iterator <= '9'))
@@ -451,10 +446,7 @@ namespace ouzel
                     for (;;)
                     {
                         if (++iterator == str.end())
-                        {
-                            Log(Log::Level::ERR) << "Unterminated string literal";
-                            return false;
-                        }
+                            throw std::runtime_error("Unterminated string literal");
 
                         if (*iterator == '"')
                         {
@@ -464,10 +456,7 @@ namespace ouzel
                         else if (*iterator == '\\')
                         {
                             if (++iterator == str.end())
-                            {
-                                Log(Log::Level::ERR) << "Unterminated string literal";
-                                return false;
-                            }
+                                throw std::runtime_error("Unterminated string literal");
 
                             if (*iterator == '"') token.value.push_back('"');
                             else if (*iterator == '\\') token.value.push_back('\\');
@@ -480,10 +469,7 @@ namespace ouzel
                             else if (*iterator == 'u')
                             {
                                 if (std::distance<std::vector<uint32_t>::const_iterator>(++iterator, str.end()) < 4)
-                                {
-                                    Log(Log::Level::ERR) << "Unexpected end of data";
-                                    return false;
-                                }
+                                    throw std::runtime_error("Unexpected end of data");
 
                                 uint32_t c = 0;
 
@@ -495,28 +481,18 @@ namespace ouzel
                                     else if (*iterator >= 'a' && *iterator <='f') code = static_cast<uint8_t>(*iterator) - 'a' + 10;
                                     else if (*iterator >= 'A' && *iterator <='F') code = static_cast<uint8_t>(*iterator) - 'A' + 10;
                                     else
-                                    {
-                                        Log(Log::Level::ERR) << "Invalid character code";
-                                        return false;
-                                    }
+                                        throw std::runtime_error("Invalid character code");
+
                                     c = (c << 4) | code;
                                 }
 
                                 token.value.push_back(c);
-
-                                return false;
                             }
                             else
-                            {
-                                Log(Log::Level::ERR) << "Unrecognized escape character";
-                                return false;
-                            }
+                                throw std::runtime_error("Unrecognized escape character");
                         }
                         else if (isControlChar(*iterator))
-                        {
-                            Log(Log::Level::ERR) << "Unterminated string literal";
-                            return false;
-                        }
+                            throw std::runtime_error("Unterminated string literal");
                         else
                             token.value.push_back(*iterator);
                     }
@@ -540,10 +516,7 @@ namespace ouzel
                     if ((keywordIterator = keywordMap.find(token.value)) != keywordMap.end())
                         token.type = keywordIterator->second;
                     else
-                    {
-                        Log(Log::Level::ERR) << "Unknown keyword";
-                        return false;
-                    }
+                        throw std::runtime_error("Unknown keyword");
                 }
                 else if (*iterator == '-')
                 {
@@ -557,21 +530,16 @@ namespace ouzel
                     continue;
                 }
                 else
-                {
-                    Log(Log::Level::ERR) << "Unknown character";
-                    return false;
-                }
+                    throw std::runtime_error("Unknown character");
 
                 tokens.push_back(token);
             }
 
-            return true;
+            return tokens;
         }
 
-        bool Data::init(const std::vector<uint8_t>& data)
+        void Data::init(const std::vector<uint8_t>& data)
         {
-            std::vector<Token> tokens;
-
             std::vector<uint32_t> str;
 
             // BOM
@@ -589,12 +557,11 @@ namespace ouzel
                 str = utf8ToUtf32(data);
             }
 
-            if (!tokenize(str, tokens))
-                return false;
+            std::vector<Token> tokens = tokenize(str);
 
             std::vector<Token>::const_iterator iterator = tokens.cbegin();
 
-            return parseValue(tokens, iterator);
+            parseValue(tokens, iterator);
         }
 
         bool Data::save(const std::string& filename) const

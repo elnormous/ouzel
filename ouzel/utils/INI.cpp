@@ -4,9 +4,9 @@
 #include <cctype>
 #include <algorithm>
 #include <iterator>
+#include <stdexcept>
 #include "INI.hpp"
 #include "core/Engine.hpp"
-#include "utils/Log.hpp"
 #include "utils/Utils.hpp"
 
 namespace ouzel
@@ -105,12 +105,12 @@ namespace ouzel
             init(data);
         }
 
-        bool Data::init(const std::string& filename)
+        void Data::init(const std::string& filename)
         {
             std::vector<uint8_t> data;
             engine->getFileSystem()->readFile(filename, data);
 
-            return init(data);
+            init(data);
         }
 
         static inline std::vector<uint32_t>& ltrimUtf32(std::vector<uint32_t>& s)
@@ -132,7 +132,7 @@ namespace ouzel
             return ltrimUtf32(rtrimUtf32(s));
         }
 
-        bool Data::init(const std::vector<uint8_t>& data)
+        void Data::init(const std::vector<uint8_t>& data)
         {
             std::vector<uint32_t> str;
 
@@ -169,10 +169,8 @@ namespace ouzel
                         if (iterator == str.end() || *iterator == '\n' || *iterator == '\r')
                         {
                             if (!parsedSection)
-                            {
-                                Log(Log::Level::ERR) << "Unexpected end of section";
-                                return false;
-                            }
+                                throw std::runtime_error("Unexpected end of section");
+
                             ++iterator; // skip the newline
                             break;
                         }
@@ -181,10 +179,7 @@ namespace ouzel
                             ++iterator; // skip the semicolon
 
                             if (!parsedSection)
-                            {
-                                Log(Log::Level::ERR) << "Unexpected comment";
-                                return false;
-                            }
+                                throw std::runtime_error("Unexpected comment");
 
                             for (;;)
                             {
@@ -205,10 +200,7 @@ namespace ouzel
                         else if (*iterator != ' ' && *iterator != '\t')
                         {
                             if (parsedSection)
-                            {
-                                Log(Log::Level::ERR) << "Unexpected character after section";
-                                return false;
-                            }
+                                throw std::runtime_error("Unexpected character after section");
                         }
 
                         if (!parsedSection)
@@ -218,10 +210,7 @@ namespace ouzel
                     }
 
                     if (sectionUtf32.empty())
-                    {
-                        Log(Log::Level::ERR) << "Invalid section name";
-                        return false;
-                    }
+                        throw std::runtime_error("Invalid section name");
 
                     std::string sectionName = utf32ToUtf8(sectionUtf32);
 
@@ -258,10 +247,7 @@ namespace ouzel
                             if (!parsedKey)
                                 parsedKey = true;
                             else
-                            {
-                                Log(Log::Level::ERR) << "Unexpected character";
-                                return false;
-                            }
+                                throw std::runtime_error("Unexpected character");
                         }
                         else if (*iterator == ';')
                         {
@@ -293,10 +279,7 @@ namespace ouzel
                     }
 
                     if (keyUtf32.empty())
-                    {
-                        Log(Log::Level::ERR) << "Invalid key name";
-                        return false;
-                    }
+                        throw std::runtime_error("Invalid key name");
 
                     keyUtf32 = trimUtf32(keyUtf32);
                     valueUtf32 = trimUtf32(valueUtf32);
@@ -307,8 +290,6 @@ namespace ouzel
                     section->values[key] = value;
                 }
             }
-
-            return true;
         }
 
         bool Data::save(const std::string& filename) const
