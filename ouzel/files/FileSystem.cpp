@@ -96,12 +96,11 @@ namespace ouzel
 
         HRESULT hr = SHGetFolderPathW(nullptr, (user ? CSIDL_LOCAL_APPDATA : CSIDL_COMMON_APPDATA) | CSIDL_FLAG_CREATE, nullptr, SHGFP_TYPE_CURRENT, szBuffer);
         if (FAILED(hr))
-        {
-            Log(Log::Level::ERR) << "Failed to get the path of the AppData directory, error: " << hr;
-            return "";
-        }
+            throw FileError("Failed to get the path of the AppData directory, error: " + std::to_string(hr));
 
-        WideCharToMultiByte(CP_UTF8, 0, szBuffer, -1, appDataDirectory, sizeof(appDataDirectory), nullptr, nullptr);
+        if (WideCharToMultiByte(CP_UTF8, 0, szBuffer, -1, appDataDirectory, sizeof(appDataDirectory), nullptr, nullptr) == 0)
+            throw FileError("Failed to convert wide char to UTF-8");
+
         std::string path = appDataDirectory;
 
         path += DIRECTORY_SEPARATOR + DEVELOPER_NAME;
@@ -109,16 +108,10 @@ namespace ouzel
         if (!directoryExists(path))
         {
             if (MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, szBuffer, MAX_PATH) == 0)
-            {
-                Log(Log::Level::ERR) << "Failed to convert UTF-8 to wide char";
-                return "";
-            }
+                throw FileError("Failed to convert UTF-8 to wide char");
 
             if (!CreateDirectoryW(szBuffer, nullptr))
-            {
-                Log(Log::Level::ERR) << "Failed to create directory " << path;
-                return "";
-            }
+                throw FileError("Failed to create directory " + path);
         }
 
         path += DIRECTORY_SEPARATOR + APPLICATION_NAME;
@@ -126,16 +119,10 @@ namespace ouzel
         if (!directoryExists(path))
         {
             if (MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, szBuffer, MAX_PATH) == 0)
-            {
-                Log(Log::Level::ERR) << "Failed to convert UTF-8 to wide char";
-                return "";
-            }
+                throw FileError("Failed to convert UTF-8 to wide char");
 
             if (!CreateDirectoryW(szBuffer, nullptr))
-            {
-                Log(Log::Level::ERR) << "Failed to create directory " << path;
-                return "";
-            }
+                throw FileError("Failed to create directory " + path);
         }
 
         return path;
@@ -159,10 +146,7 @@ namespace ouzel
                 buffer.resize(buffer.size() * 2);
 
             if (e != 0)
-            {
-                Log(Log::Level::ERR) << "Failed to get home directory";
-                return "";
-            }
+                throw FileError("Failed to get home directory");
             else
                 path = pwent.pw_dir;
         }
@@ -172,10 +156,7 @@ namespace ouzel
         if (!directoryExists(path))
         {
             if (mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) != 0)
-            {
-                Log(Log::Level::ERR) << "Failed to create directory " << path;
-                return "";
-            }
+                throw FileError("Failed to create directory " + path);
         }
 
         path += DIRECTORY_SEPARATOR + APPLICATION_NAME;
@@ -183,10 +164,7 @@ namespace ouzel
         if (!directoryExists(path))
         {
             if (mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) != 0)
-            {
-                Log(Log::Level::ERR) << "Failed to create directory " << path;
-                return "";
-            }
+                throw FileError("Failed to create directory " + path);
         }
 
         return path;
@@ -207,10 +185,7 @@ namespace ouzel
         if (GetTempPathW(MAX_PATH, szBuffer))
         {
             if (WideCharToMultiByte(CP_UTF8, 0, szBuffer, -1, tempDirectory, sizeof(tempDirectory), nullptr, nullptr) == 0)
-            {
-                Log(Log::Level::ERR) << "Failed to convert UTF-8 to wide char";
-                return "";
-            }
+                throw FileError("Failed to convert wide char to UTF-8");
 
             return tempDirectory;
         }
@@ -463,10 +438,8 @@ namespace ouzel
 #if OUZEL_PLATFORM_WINDOWS
         WCHAR szBuffer[MAX_PATH];
         if (MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, szBuffer, MAX_PATH) == 0)
-        {
-            Log(Log::Level::ERR) << "Failed to convert UTF-8 to wide char";
-            return false;
-        }
+            throw FileError("Failed to convert UTF-8 to wide char");
+
         return PathIsRelativeW(szBuffer) == FALSE;
 #else
         return !path.empty() && path[0] == '/';
