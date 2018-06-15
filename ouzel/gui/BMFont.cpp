@@ -3,11 +3,11 @@
 
 #include <string>
 #include <iterator>
+#include <stdexcept>
 #include "BMFont.hpp"
 #include "core/Engine.hpp"
 #include "files/FileSystem.hpp"
 #include "assets/Cache.hpp"
-#include "utils/Log.hpp"
 #include "utils/Utils.hpp"
 
 namespace ouzel
@@ -27,11 +27,9 @@ namespace ouzel
         return c <= 0x1F;
     }
 
-    static bool skipWhitespaces(const std::vector<uint8_t>& str,
+    static void skipWhitespaces(const std::vector<uint8_t>& str,
                                 std::vector<uint8_t>::const_iterator& iterator)
     {
-        if (iterator == str.end()) return false;
-
         for (;;)
         {
             if (iterator == str.end()) break;
@@ -41,8 +39,6 @@ namespace ouzel
             else
                 break;
         }
-
-        return true;
     }
 
     static void skipLine(const std::vector<uint8_t>& str,
@@ -62,11 +58,10 @@ namespace ouzel
         }
     }
 
-    static bool parseString(const std::vector<uint8_t>& str,
-                            std::vector<uint8_t>::const_iterator& iterator,
-                            std::string& result)
+    static std::string parseString(const std::vector<uint8_t>& str,
+                                   std::vector<uint8_t>::const_iterator& iterator)
     {
-        result.clear();
+        std::string result;
 
         if (*iterator == '"')
         {
@@ -82,14 +77,13 @@ namespace ouzel
                     ++iterator;
                     break;
                 }
-                if (iterator == str.end()) return false;
+                if (iterator == str.end())
+                    throw std::runtime_error("Unterminated string");
 
                 result.push_back(static_cast<char>(*iterator));
 
                 ++iterator;
             }
-
-            return true;
         }
         else
         {
@@ -102,15 +96,17 @@ namespace ouzel
                 ++iterator;
             }
 
-            return !result.empty();
+            if (result.empty())
+                throw std::runtime_error("Invalid string");
         }
+
+        return result;
     }
 
-    static bool parseInt(const std::vector<uint8_t>& str,
-                         std::vector<uint8_t>::const_iterator& iterator,
-                         std::string& result)
+    static std::string parseInt(const std::vector<uint8_t>& str,
+                                std::vector<uint8_t>::const_iterator& iterator)
     {
-        result.clear();
+        std::string result;
         uint32_t length = 1;
 
         if (iterator != str.end() && *iterator == '-')
@@ -129,20 +125,20 @@ namespace ouzel
             ++iterator;
         }
 
-        if (result.length() < length) return false;
+        if (result.length() < length)
+            throw std::runtime_error("Invalid integer");
 
-        return true;
+        return result;
     }
 
-    static bool parseToken(const std::vector<uint8_t>& str,
-                           std::vector<uint8_t>::const_iterator& iterator,
-                           char token)
+    static void expectToken(const std::vector<uint8_t>& str,
+                            std::vector<uint8_t>::const_iterator& iterator,
+                            char token)
     {
-        if (iterator == str.end() || *iterator != static_cast<uint8_t>(token)) return false;
+        if (iterator == str.end() || *iterator != static_cast<uint8_t>(token))
+            throw std::runtime_error("Unexpected token");
 
         ++iterator;
-
-        return true;
     }
 
     BMFont::BMFont()
@@ -154,15 +150,15 @@ namespace ouzel
         init(filename, mipmaps);
     }
 
-    bool BMFont::init(const std::string& filename, bool mipmaps)
+    void BMFont::init(const std::string& filename, bool mipmaps)
     {
         std::vector<uint8_t> data;
         engine->getFileSystem()->readFile(filename, data);
 
-        return init(data, mipmaps);
+        init(data, mipmaps);
     }
 
-    bool BMFont::init(const std::vector<uint8_t>& data, bool mipmaps)
+    void BMFont::init(const std::vector<uint8_t>& data, bool mipmaps)
     {
         std::vector<uint8_t>::const_iterator iterator = data.begin();
 
@@ -181,12 +177,8 @@ namespace ouzel
             }
             else
             {
-                if (!skipWhitespaces(data, iterator) ||
-                    !parseString(data, iterator, keyword))
-                {
-                    Log(Log::Level::ERR) << "Failed to parse keyword";
-                    return false;
-                }
+                skipWhitespaces(data, iterator);
+                keyword = parseString(data, iterator);
 
                 if (keyword == "page")
                 {
@@ -194,19 +186,11 @@ namespace ouzel
                     {
                         if (iterator == data.end() || isNewline(*iterator)) break;
 
-                        if (!skipWhitespaces(data, iterator) ||
-                            !parseString(data, iterator, key))
-                        {
-                            Log(Log::Level::ERR) << "Failed to parse page";
-                            return false;
-                        }
+                        skipWhitespaces(data, iterator);
+                        key = parseString(data, iterator);
 
-                        if (!parseToken(data, iterator, '=') ||
-                            !parseString(data, iterator, value))
-                        {
-                            Log(Log::Level::ERR) << "Failed to parse page";
-                            return false;
-                        }
+                        expectToken(data, iterator, '=');
+                        value = parseString(data, iterator);
 
                         if (key == "file")
                             fontTexture = engine->getCache()->getTexture(value, mipmaps);
@@ -218,87 +202,43 @@ namespace ouzel
                     {
                         if (iterator == data.end() || isNewline(*iterator)) break;
 
-                        if (!skipWhitespaces(data, iterator) ||
-                            !parseString(data, iterator, key))
-                        {
-                            Log(Log::Level::ERR) << "Failed to parse common";
-                            return false;
-                        }
+                        skipWhitespaces(data, iterator);
+                        key = parseString(data, iterator);
 
-                        if (!parseToken(data, iterator, '='))
-                        {
-                            Log(Log::Level::ERR) << "Failed to parse common";
-                            return false;
-                        }
+                        expectToken(data, iterator, '=');
 
                         if (key == "lineHeight")
                         {
-                            if (!parseInt(data, iterator, value))
-                            {
-                                Log(Log::Level::ERR) << "Failed to parse lineHeight";
-                                return false;
-                            }
-
+                            value = parseInt(data, iterator);
                             lineHeight = static_cast<uint16_t>(std::stoi(value));
                         }
                         else if (key == "base")
                         {
-                            if (!parseInt(data, iterator, value))
-                            {
-                                Log(Log::Level::ERR) << "Failed to parse base";
-                                return false;
-                            }
-
+                            value = parseInt(data, iterator);
                             base = static_cast<uint16_t>(std::stoi(value));
                         }
                         else if (key == "scaleW")
                         {
-                            if (!parseInt(data, iterator, value))
-                            {
-                                Log(Log::Level::ERR) << "Failed to parse scaleW";
-                                return false;
-                            }
-
+                            value = parseInt(data, iterator);
                             width = static_cast<uint16_t>(std::stoi(value));
                         }
                         else if (key == "scaleH")
                         {
-                            if (!parseInt(data, iterator, value))
-                            {
-                                Log(Log::Level::ERR) << "Failed to parse scaleH";
-                                return false;
-                            }
-
+                            value = parseInt(data, iterator);
                             height = static_cast<uint16_t>(std::stoi(value));
                         }
                         else if (key == "pages")
                         {
-                            if (!parseInt(data, iterator, value))
-                            {
-                                Log(Log::Level::ERR) << "Failed to parse pages";
-                                return false;
-                            }
-
+                            value = parseInt(data, iterator);
                             pages = static_cast<uint16_t>(std::stoi(value));
                         }
                         else if (key == "outline")
                         {
-                            if (!parseInt(data, iterator, value))
-                            {
-                                Log(Log::Level::ERR) << "Failed to parse outline";
-                                return false;
-                            }
-
+                            value = parseInt(data, iterator);
                             outline = static_cast<uint16_t>(std::stoi(value));
                         }
                         else
-                        {
-                            if (!parseString(data, iterator, value))
-                            {
-                                Log(Log::Level::ERR) << "Failed to parse common";
-                                return false;
-                            }
-                        }
+                            value = parseString(data, iterator);
                     }
                 }
                 else if (keyword == "char")
@@ -310,117 +250,58 @@ namespace ouzel
                     {
                         if (iterator == data.end() || isNewline(*iterator)) break;
 
-                        if (!skipWhitespaces(data, iterator) ||
-                            !parseString(data, iterator, key))
-                        {
-                            Log(Log::Level::ERR) << "Failed to parse char";
-                            return false;
-                        }
+                        skipWhitespaces(data, iterator);
+                        key = parseString(data, iterator);
 
-                        if (!parseToken(data, iterator, '='))
-                        {
-                            Log(Log::Level::ERR) << "Failed to parse char";
-                            return false;
-                        }
+                        expectToken(data, iterator, '=');
 
                         if (key == "id")
                         {
-                            if (!parseInt(data, iterator, value))
-                            {
-                                Log(Log::Level::ERR) << "Failed to parse id";
-                                return false;
-                            }
-
+                            value = parseInt(data, iterator);
                             charId = static_cast<uint32_t>(std::stoul(value));
                         }
                         else if (key == "x")
                         {
-                            if (!parseInt(data, iterator, value))
-                            {
-                                Log(Log::Level::ERR) << "Failed to parse x";
-                                return false;
-                            }
-
+                            value = parseInt(data, iterator);
                             c.x = static_cast<int16_t>(std::stoi(value));
                         }
                         else if (key == "y")
                         {
-                            if (!parseInt(data, iterator, value))
-                            {
-                                Log(Log::Level::ERR) << "Failed to parse y";
-                                return false;
-                            }
-
+                            value = parseInt(data, iterator);
                             c.y = static_cast<int16_t>(std::stoi(value));
                         }
                         else if (key == "width")
                         {
-                            if (!parseInt(data, iterator, value))
-                            {
-                                Log(Log::Level::ERR) << "Failed to parse width";
-                                return false;
-                            }
-
+                            value = parseInt(data, iterator);
                             c.width = static_cast<int16_t>(std::stoi(value));
                         }
                         else if (key == "height")
                         {
-                            if (!parseInt(data, iterator, value))
-                            {
-                                Log(Log::Level::ERR) << "Failed to parse height";
-                                return false;
-                            }
-
+                            value = parseInt(data, iterator);
                             c.height = static_cast<int16_t>(std::stoi(value));
                         }
                         else if (key == "xoffset")
                         {
-                            if (!parseInt(data, iterator, value))
-                            {
-                                Log(Log::Level::ERR) << "Failed to parse xoffset";
-                                return false;
-                            }
-
+                            value = parseInt(data, iterator);
                             c.xOffset = static_cast<int16_t>(std::stoi(value));
                         }
                         else if (key == "yoffset")
                         {
-                            if (!parseInt(data, iterator, value))
-                            {
-                                Log(Log::Level::ERR) << "Failed to parse yoffset";
-                                return false;
-                            }
-
+                            value = parseInt(data, iterator);
                             c.yOffset = static_cast<int16_t>(std::stoi(value));
                         }
                         else if (key == "xadvance")
                         {
-                            if (!parseInt(data, iterator, value))
-                            {
-                                Log(Log::Level::ERR) << "Failed to parse xadvance";
-                                return false;
-                            }
-
+                            value = parseInt(data, iterator);
                             c.xAdvance = static_cast<int16_t>(std::stoi(value));
                         }
                         else if (key == "page")
                         {
-                            if (!parseInt(data, iterator, value))
-                            {
-                                Log(Log::Level::ERR) << "Failed to parse page";
-                                return false;
-                            }
-
+                            value = parseInt(data, iterator);
                             c.page = static_cast<int16_t>(std::stoi(value));
                         }
                         else
-                        {
-                            if (!parseString(data, iterator, value))
-                            {
-                                Log(Log::Level::ERR) << "Failed to parse char";
-                                return false;
-                            }
-                        }
+                            value = parseString(data, iterator);
                     }
 
                     chars.insert(std::unordered_map<int32_t, CharDescriptor>::value_type(charId, c));
@@ -431,37 +312,18 @@ namespace ouzel
                     {
                         if (iterator == data.end() || isNewline(*iterator)) break;
 
-                        if (!skipWhitespaces(data, iterator) ||
-                            !parseString(data, iterator, key))
-                        {
-                            Log(Log::Level::ERR) << "Failed to parse kernings";
-                            return false;
-                        }
+                        skipWhitespaces(data, iterator);
+                        key = parseString(data, iterator);
 
-                        if (!parseToken(data, iterator, '='))
-                        {
-                            Log(Log::Level::ERR) << "Failed to parse kernings";
-                            return false;
-                        }
+                        expectToken(data, iterator, '=');
 
                         if (key == "count")
                         {
-                            if (!parseInt(data, iterator, value))
-                            {
-                                Log(Log::Level::ERR) << "Failed to parse count";
-                                return false;
-                            }
-
+                            value = parseInt(data, iterator);
                             kernCount = static_cast<uint16_t>(std::stoi(value));
                         }
                         else
-                        {
-                            if (!parseString(data, iterator, value))
-                            {
-                                Log(Log::Level::ERR) << "Failed to parse kernings";
-                                return false;
-                            }
-                        }
+                            value = parseString(data, iterator);
                     }
                 }
                 else if (keyword == "kerning")
@@ -474,57 +336,28 @@ namespace ouzel
                     {
                         if (iterator == data.end() || isNewline(*iterator)) break;
 
-                        if (!skipWhitespaces(data, iterator) ||
-                            !parseString(data, iterator, key))
-                        {
-                            Log(Log::Level::ERR) << "Failed to parse kerning";
-                            return false;
-                        }
+                        skipWhitespaces(data, iterator);
+                        key = parseString(data, iterator);
 
-                        if (!parseToken(data, iterator, '='))
-                        {
-                            Log(Log::Level::ERR) << "Failed to parse kerning";
-                            return false;
-                        }
+                        expectToken(data, iterator, '=');
 
                         if (key == "first")
                         {
-                            if (!parseInt(data, iterator, value))
-                            {
-                                Log(Log::Level::ERR) << "Failed to parse lineHeight";
-                                return false;
-                            }
-
+                            value = parseInt(data, iterator);
                             first = static_cast<uint32_t>(std::stoul(value));
                         }
                         else if (key == "second")
                         {
-                            if (!parseInt(data, iterator, value))
-                            {
-                                Log(Log::Level::ERR) << "Failed to parse base";
-                                return false;
-                            }
-
+                            value = parseInt(data, iterator);
                             second = static_cast<uint32_t>(std::stoul(value));
                         }
                         else if (key == "amount")
                         {
-                            if (!parseInt(data, iterator, value))
-                            {
-                                Log(Log::Level::ERR) << "Failed to parse scaleW";
-                                return false;
-                            }
-
+                            value = parseInt(data, iterator);
                             amount = static_cast<int16_t>(std::stoi(value));
                         }
                         else
-                        {
-                            if (!parseString(data, iterator, value))
-                            {
-                                Log(Log::Level::ERR) << "Failed to parse kerning";
-                                return false;
-                            }
-                        }
+                            value = parseString(data, iterator);
 
                         kern[std::make_pair(first, second)] = amount;
                     }
@@ -533,8 +366,6 @@ namespace ouzel
                     skipLine(data, iterator);
             }
         }
-
-        return true;
     }
 
     bool BMFont::getVertices(const std::string& text,
