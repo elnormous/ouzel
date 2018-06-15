@@ -2,12 +2,11 @@
 // This file is part of the Ouzel engine.
 
 #include <cassert>
-
+#include <stdexcept>
 #define STB_TRUETYPE_IMPLEMENTATION
 #include "TTFont.hpp"
 #include "core/Engine.hpp"
 #include "files/FileSystem.hpp"
-#include "utils/Log.hpp"
 #include "utils/Utils.hpp"
 
 namespace ouzel
@@ -21,7 +20,7 @@ namespace ouzel
         init(filename, initMipmaps);
     }
 
-    bool TTFont::init(const std::string & filename, bool newMipmaps)
+    void TTFont::init(const std::string & filename, bool newMipmaps)
     {
         loaded = false;
         mipmaps = newMipmaps;
@@ -29,31 +28,21 @@ namespace ouzel
         engine->getFileSystem()->readFile(engine->getFileSystem()->getPath(filename), data);
 
         if (!stbtt_InitFont(&font, data.data(), stbtt_GetFontOffsetForIndex(data.data(), 0)))
-        {
-            Log(Log::Level::ERR) << "Failed to load font";
-            return false;
-        }
+            throw std::runtime_error("Failed to load font");
 
         loaded = true;
-
-        return true;
     }
 
-    bool TTFont::init(const std::vector<uint8_t>& newData, bool newMipmaps)
+    void TTFont::init(const std::vector<uint8_t>& newData, bool newMipmaps)
     {
         loaded = false;
         data = newData;
         mipmaps = newMipmaps;
 
         if (!stbtt_InitFont(&font, data.data(), stbtt_GetFontOffsetForIndex(data.data(), 0)))
-        {
-            Log(Log::Level::ERR) << "Failed to load font";
-            return false;
-        }
+            throw std::runtime_error("Failed to load font");
 
         loaded = true;
-
-        return true;
     }
 
     bool TTFont::getVertices(const std::string& text,
