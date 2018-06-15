@@ -4,7 +4,6 @@
 #include "LoaderCollada.hpp"
 #include "core/Engine.hpp"
 #include "scene/MeshData.hpp"
-#include "utils/Log.hpp"
 #include "utils/XML.hpp"
 
 namespace ouzel
@@ -22,18 +21,12 @@ namespace ouzel
             colladaData.init(data);
 
             if (colladaData.getChildren().empty())
-            {
-                Log(Log::Level::ERR) << "Invalid collada Collada file";
-                return false;
-            }
+                throw std::runtime_error("Invalid collada Collada file");
 
             xml::Node rootNode = colladaData.getChildren().front();
 
             if (rootNode.getValue() != "COLLADA")
-            {
-                Log(Log::Level::ERR) << "Invalid collada Collada file";
-                return false;
-            }
+                throw std::runtime_error("Invalid collada Collada file");
 
             scene::MeshData meshData;
 

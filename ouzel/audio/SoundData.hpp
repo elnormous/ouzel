@@ -28,8 +28,8 @@ namespace ouzel
             SoundData(SoundData&&) = delete;
             SoundData& operator=(SoundData&&) = delete;
 
-            virtual bool init(const std::string& filename);
-            virtual bool init(const std::vector<uint8_t>& newData);
+            virtual void init(const std::string& filename);
+            virtual void init(const std::vector<uint8_t>& newData);
 
             virtual std::shared_ptr<Stream> createStream() = 0;
             bool getData(Stream* stream, uint32_t frames, uint32_t neededChannels, uint32_t neededSampleRate, float pitch, std::vector<float>& result);

@@ -17,7 +17,7 @@ namespace ouzel
         public:
             SoundDataWave();
 
-            virtual bool init(const std::vector<uint8_t>& newData) override;
+            virtual void init(const std::vector<uint8_t>& newData) override;
 
             virtual std::shared_ptr<Stream> createStream() override;
 
