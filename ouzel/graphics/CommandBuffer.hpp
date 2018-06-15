@@ -473,7 +473,7 @@ namespace ouzel
                 }
             }
 
-            template <class T> void push(const T& command)
+            template<typename T> void push(const T& command)
             {
                 static_assert(std::is_base_of<Command, T>::value, "Not derived from Command");
 
@@ -556,14 +556,14 @@ namespace ouzel
             }
 
         private:
-            template<class T> uint32_t deleteCommand(T* command)
+            template<typename T> uint32_t deleteCommand(T* command)
             {
                 (void)command; // silence the unreferenced parameter warning in Visual Studio
                 command->~T();
                 return sizeof(*command);
             }
 
-            template<class T> uint32_t moveCommand(T* command, void* newPointer)
+            template<typename T> uint32_t moveCommand(T* command, void* newPointer)
             {
                 (void)command; // silence the unreferenced parameter warning in Visual Studio
                 new (newPointer) T(std::move(*command));

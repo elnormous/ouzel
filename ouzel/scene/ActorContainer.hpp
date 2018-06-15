@@ -28,12 +28,12 @@ namespace ouzel
 
             virtual void addChild(Actor* actor);
 
-            template<class T> void addChild(const std::unique_ptr<T>& actor)
+            template<typename T> void addChild(const std::unique_ptr<T>& actor)
             {
                 addChild(actor.get());
             }
 
-            template<class T> void addChild(std::unique_ptr<T>&& actor)
+            template<typename T> void addChild(std::unique_ptr<T>&& actor)
             {
                 addChild(actor.get());
                 ownedChildren.push_back(std::move(actor));
@@ -41,7 +41,7 @@ namespace ouzel
 
             virtual bool removeChild(Actor* actor);
 
-            template<class T> bool removeChild(const std::unique_ptr<T>& actor)
+            template<typename T> bool removeChild(const std::unique_ptr<T>& actor)
             {
                 return removeChild(actor.get());
             }

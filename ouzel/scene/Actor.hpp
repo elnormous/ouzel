@@ -108,12 +108,12 @@ namespace ouzel
 
             void addComponent(Component* component);
 
-            template<class T> void addComponent(const std::unique_ptr<T>& component)
+            template<typename T> void addComponent(const std::unique_ptr<T>& component)
             {
                 addComponent(component.get());
             }
 
-            template<class T> void addComponent(std::unique_ptr<T>&& component)
+            template<typename T> void addComponent(std::unique_ptr<T>&& component)
             {
                 addComponent(component.get());
                 ownedComponents.push_back(std::move(component));
@@ -121,7 +121,7 @@ namespace ouzel
 
             bool removeComponent(Component* component);
 
-            template<class T> void removeComponent(const std::unique_ptr<T>& component)
+            template<typename T> void removeComponent(const std::unique_ptr<T>& component)
             {
                 removeComponent(component.get());
             }
