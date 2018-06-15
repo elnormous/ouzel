@@ -17,17 +17,16 @@ namespace ouzel
         {
         }
 
-        bool SoundData::init(const std::string& filename)
+        void SoundData::init(const std::string& filename)
         {
             std::vector<uint8_t> data;
             engine->getFileSystem()->readFile(filename, data);
 
-            return init(data);
+            init(data);
         }
 
-        bool SoundData::init(const std::vector<uint8_t>&)
+        void SoundData::init(const std::vector<uint8_t>&)
         {
-            return true;
         }
 
         bool SoundData::getData(Stream* stream, uint32_t frames, uint32_t neededChannels, uint32_t neededSampleRate, float pitch, std::vector<float>& result)
