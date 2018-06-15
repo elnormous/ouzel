@@ -216,9 +216,7 @@ namespace ouzel
             for (const auto& archive : archives)
             {
                 if (archive->fileExists(filename))
-                {
                     return archive->readFile(filename);
-                }
             }
         }
 
