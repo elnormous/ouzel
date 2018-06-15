@@ -55,7 +55,7 @@ namespace ouzel
         return x * 57.29577951F;
     }
 
-    template<class T>
+    template<typename T>
     inline T clamp(T x, T lo, T hi)
     {
         return (x < lo) ? lo : ((x > hi) ? hi : x);

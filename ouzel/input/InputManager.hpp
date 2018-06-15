@@ -230,7 +230,7 @@ namespace ouzel
             InputManager(InputManager&&) = delete;
             InputManager& operator=(InputManager&&) = delete;
 
-            template<class T>
+            template<typename T>
             void setCursor(const std::unique_ptr<T>& cursor)
             {
                 setCurrentCursor(cursor.get());
