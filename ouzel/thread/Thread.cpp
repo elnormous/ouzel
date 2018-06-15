@@ -1,8 +1,8 @@
 // Copyright (C) 2018 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <stdexcept>
 #include "Thread.hpp"
+#include "utils/Errors.hpp"
 
 #if defined(_WIN32)
 static const DWORD MS_VC_EXCEPTION = 0x406D1388;
@@ -47,10 +47,10 @@ namespace ouzel
 #if defined(_WIN32)
         handle = CreateThread(nullptr, 0, threadFunction, state.get(), 0, &threadId);
         if (handle == nullptr)
-            throw std::runtime_error("Failed to initialize thread");
+            throw ThreadError("Failed to initialize thread");
 #else
         if (pthread_create(&thread, NULL, threadFunction, state.get()) != 0)
-            throw std::runtime_error("Failed to initialize thread");
+            throw ThreadError("Failed to initialize thread");
 
         initialized = true;
 #endif
@@ -115,10 +115,10 @@ namespace ouzel
     {
 #if defined(_WIN32)
         if (!handle || WaitForSingleObject(handle, INFINITE) == WAIT_FAILED)
-            throw std::runtime_error("Failed to join thread");
+            throw ThreadError("Failed to join thread");
 #else
         if (!initialized || pthread_join(thread, nullptr) != 0)
-            throw std::runtime_error("Failed to join thread");
+            throw ThreadError("Failed to join thread");
 
         initialized = false;
 #endif
@@ -143,10 +143,10 @@ namespace ouzel
 #else
 #ifdef __APPLE__
         if (pthread_setname_np(name.c_str()) != 0)
-            throw std::runtime_error("Failed to set thread name");
+            throw ThreadError("Failed to set thread name");
 #elif defined(__linux__) || defined(__ANDROID__)
         if (pthread_setname_np(pthread_self(), name.c_str()) != 0)
-            throw std::runtime_error("Failed to set thread name");
+            throw ThreadError("Failed to set thread name");
 #endif
 #endif
     }

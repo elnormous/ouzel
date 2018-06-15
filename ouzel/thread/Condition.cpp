@@ -4,8 +4,8 @@
 #ifdef __APPLE__
 #include <sys/time.h>
 #endif
-#include <stdexcept>
 #include "Condition.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -15,7 +15,7 @@ namespace ouzel
         InitializeConditionVariable(&conditionVariable);
 #else
         if (pthread_cond_init(&condition, NULL) != 0)
-            throw std::runtime_error("Failed to initialize condition");
+            throw ThreadError("Failed to initialize condition");
 
         initialized = true;
 #endif
@@ -34,7 +34,7 @@ namespace ouzel
         WakeConditionVariable(&conditionVariable);
 #else
         if (pthread_cond_signal(&condition) != 0)
-            throw std::runtime_error("Failed to signal condition variable");
+            throw ThreadError("Failed to signal condition variable");
 #endif
     }
 
@@ -44,7 +44,7 @@ namespace ouzel
         WakeAllConditionVariable(&conditionVariable);
 #else
         if (pthread_cond_broadcast(&condition) != 0)
-            throw std::runtime_error("Failed to broadcast condition variable");
+            throw ThreadError("Failed to broadcast condition variable");
 #endif
     }
 

@@ -6,6 +6,7 @@
 #include "Setup.h"
 #include "utils/Log.hpp"
 #include "utils/INI.hpp"
+#include "utils/Errors.hpp"
 #include "utils/Utils.hpp"
 #include "graphics/Renderer.hpp"
 #include "graphics/RenderDevice.hpp"
@@ -96,7 +97,7 @@ namespace ouzel
         {
             userSettings.init(fileSystem.getStorageDirectory() + FileSystem::DIRECTORY_SEPARATOR + "settings.ini");
         }
-        catch (const std::exception&)
+        catch (const FileError&)
         {
             Log(Log::Level::INFO) << "User settings not provided";
         }

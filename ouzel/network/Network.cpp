@@ -17,6 +17,7 @@
 #endif
 #include "Network.hpp"
 #include "Client.hpp"
+#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
@@ -30,10 +31,10 @@ namespace ouzel
             WSADATA wsaData;
             int error = WSAStartup(sockVersion, &wsaData);
             if (error != 0)
-                throw std::runtime_error("Failed to start WinSock failed, error: " + std::to_string(error));
+                throw NetworkError("Failed to start WinSock failed, error: " + std::to_string(error));
 
             if (wsaData.wVersion != sockVersion)
-                throw std::runtime_error("Incorrect WinSock version");
+                throw NetworkError("Incorrect WinSock version");
 #endif
         }
 

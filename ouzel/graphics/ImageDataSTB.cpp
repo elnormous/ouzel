@@ -1,10 +1,10 @@
 // Copyright (C) 2018 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <stdexcept>
 #include "ImageDataSTB.hpp"
 #include "core/Engine.hpp"
 #include "files/FileSystem.hpp"
+#include "utils/Errors.hpp"
 #define STBI_NO_PSD
 #define STBI_NO_HDR
 #define STBI_NO_PIC
@@ -47,7 +47,7 @@ namespace ouzel
             stbi_uc* tempData = stbi_load_from_memory(newData.data(), static_cast<int>(newData.size()), &width, &height, &comp, reqComp);
 
             if (!tempData)
-                throw std::runtime_error("Failed to load texture, reason: " + std::string(stbi_failure_reason()));
+                throw ParseError("Failed to load texture, reason: " + std::string(stbi_failure_reason()));
 
             if (reqComp != STBI_default) comp = reqComp;
 
@@ -59,7 +59,7 @@ namespace ouzel
                 case STBI_rgb_alpha: pixelFormat = PixelFormat::RGBA8_UNORM; pixelSize = 4; break;
                 default:
                     stbi_image_free(tempData);
-                    throw std::runtime_error("Unknown pixel size");
+                    throw ParseError("Unknown pixel size");
             }
 
             data.assign(tempData, tempData + (width * height * pixelSize));
@@ -77,7 +77,7 @@ namespace ouzel
             int height = static_cast<int>(size.height);
 
             if (!stbi_write_png(newFilename.c_str(), width, height, depth, data.data(), width * depth))
-                throw std::runtime_error("Failed to save image to file");
+                throw ParseError("Failed to save image to file");
         }
 
     } // namespace graphics

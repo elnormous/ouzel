@@ -7,8 +7,8 @@
 #include <fcntl.h>
 #include <unistd.h>
 #endif
-#include <stdexcept>
 #include "File.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -27,11 +27,11 @@ namespace ouzel
 
         WCHAR buffer[MAX_PATH];
         if (MultiByteToWideChar(CP_UTF8, 0, filename.c_str(), -1, buffer, MAX_PATH) == 0)
-            throw std::runtime_error("Failed to convert the filename to wide char");
+            throw FileError("Failed to convert the filename to wide char");
 
         file = CreateFileW(buffer, access, 0, nullptr, createDisposition, FILE_ATTRIBUTE_NORMAL, nullptr);
         if (file == INVALID_HANDLE_VALUE)
-            throw std::runtime_error("Failed to open file");
+            throw FileError("Failed to open file");
 #else
         int access = 0;
         if ((mode & READ) && (mode & WRITE)) access |= O_RDWR;
@@ -42,7 +42,7 @@ namespace ouzel
 
         fd = open(filename.c_str(), access, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
         if (fd == -1)
-            throw std::runtime_error("Failed to open file");
+            throw FileError("Failed to open file");
 #endif
     }
 
@@ -88,21 +88,21 @@ namespace ouzel
     {
 #if OUZEL_PLATFORM_WINDOWS
         if (file == INVALID_HANDLE_VALUE)
-            throw std::runtime_error("File is not open");
+            throw FileError("File is not open");
 
         DWORD n;
         if (!ReadFile(file, buffer, size, &n, nullptr))
-            throw std::runtime_error("Failed to read from file");
+            throw FileError("Failed to read from file");
 
         return static_cast<uint32_t>(n);
 #else
         if (fd == -1)
-            throw std::runtime_error("File is not open");
+            throw FileError("File is not open");
 
         ssize_t ret = ::read(fd, buffer, size);
 
         if (ret == -1)
-            throw std::runtime_error("Failed to read from file");
+            throw FileError("Failed to read from file");
 
         return static_cast<uint32_t>(ret);
 #endif
@@ -117,7 +117,7 @@ namespace ouzel
             uint32_t bytesRead = read(dest, size);
 
             if (bytesRead == 0)
-                throw std::runtime_error("End of file reached");
+                throw FileError("End of file reached");
 
             size -= bytesRead;
             dest += bytesRead;
@@ -128,21 +128,21 @@ namespace ouzel
     {
 #if OUZEL_PLATFORM_WINDOWS
         if (file == INVALID_HANDLE_VALUE)
-            throw std::runtime_error("File is not open");
+            throw FileError("File is not open");
 
         DWORD n;
         if (!WriteFile(file, buffer, size, &n, nullptr))
-            throw std::runtime_error("Failed to write to file");
+            throw FileError("Failed to write to file");
 
         return static_cast<uint32_t>(n);
 #else
         if (fd == -1)
-            throw std::runtime_error("File is not open");
+            throw FileError("File is not open");
 
         ssize_t ret = ::write(fd, buffer, size);
 
         if (ret == -1)
-            throw std::runtime_error("Failed to write to file");
+            throw FileError("Failed to write to file");
 
         return static_cast<uint32_t>(ret);
 #endif
@@ -164,24 +164,24 @@ namespace ouzel
     {
 #if OUZEL_PLATFORM_WINDOWS
         if (file == INVALID_HANDLE_VALUE)
-            throw std::runtime_error("File is not open");
+            throw FileError("File is not open");
 
         DWORD moveMethod = 0;
         if (method == BEGIN) moveMethod = FILE_BEGIN;
         else if (method == CURRENT) moveMethod = FILE_CURRENT;
         else if (method == END) moveMethod = FILE_END;
         if (SetFilePointer(file, offset, nullptr, moveMethod) == 0)
-            throw std::runtime_error("Failed to seek file");
+            throw FileError("Failed to seek file");
 #else
         if (fd == -1)
-            throw std::runtime_error("File is not open");
+            throw FileError("File is not open");
 
         int whence = 0;
         if (method == BEGIN) whence = SEEK_SET;
         else if (method == CURRENT) whence = SEEK_CUR;
         else if (method == END) whence = SEEK_END;
         if (lseek(fd, offset, whence) == -1)
-            throw std::runtime_error("Failed to seek file");
+            throw FileError("Failed to seek file");
 #endif
     }
 

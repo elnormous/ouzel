@@ -2,11 +2,11 @@
 // This file is part of the Ouzel engine.
 
 #include <iterator>
-#include <stdexcept>
 #include <string>
 #include "LoaderMTL.hpp"
 #include "Cache.hpp"
 #include "core/Engine.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -73,7 +73,7 @@ namespace ouzel
             }
 
             if (result.empty())
-                throw std::runtime_error("Invalid string");
+                throw ParseError("Invalid string");
 
             return result;
         }
