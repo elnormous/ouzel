@@ -18,8 +18,7 @@ namespace ouzel
         bool LoaderImage::loadAsset(const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
         {
             graphics::ImageDataSTB image;
-            if (!image.init(data))
-                return false;
+            image.init(data);
 
             std::shared_ptr<graphics::Texture> texture(new graphics::Texture());
 

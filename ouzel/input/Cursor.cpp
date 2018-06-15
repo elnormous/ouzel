@@ -46,8 +46,7 @@ namespace ouzel
         {
             // TODO: load with asset loader
             graphics::ImageDataSTB image;
-            if (!image.init(filename))
-                return false;
+            image.init(filename);
 
             return init(image.getData(),
                         image.getSize(),
