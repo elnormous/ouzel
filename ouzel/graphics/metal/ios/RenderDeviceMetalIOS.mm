@@ -9,7 +9,6 @@
 #include "MetalView.h"
 #include "core/Window.hpp"
 #include "core/ios/WindowResourceIOS.hpp"
-#include "utils/Log.hpp"
 
 namespace ouzel
 {

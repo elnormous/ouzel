@@ -4,7 +4,6 @@
 #include <algorithm>
 #include "RenderDevice.hpp"
 #include "thread/Lock.hpp"
-#include "utils/Log.hpp"
 
 namespace ouzel
 {
