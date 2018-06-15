@@ -4,7 +4,6 @@
 #include "core/Setup.h"
 
 #include <algorithm>
-#include <stdexcept>
 #include <sys/stat.h>
 #if OUZEL_PLATFORM_WINDOWS
 #include <Windows.h>
@@ -25,6 +24,7 @@ extern "C" id NSTemporaryDirectory();
 #include "FileSystem.hpp"
 #include "File.hpp"
 #include "Archive.hpp"
+#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
 #if OUZEL_PLATFORM_WINDOWS || OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
@@ -258,7 +258,7 @@ namespace ouzel
             AAsset* asset = AAssetManager_open(engineAndroid->getAssetManager(), filename.c_str(), AASSET_MODE_STREAMING);
 
             if (!asset)
-                throw std::runtime_error("Failed to open file " + filename);
+                throw FileError("Failed to open file " + filename);
 
             int bytesRead = 0;
 
@@ -275,7 +275,7 @@ namespace ouzel
 
         // file does not exist
         if (path.empty())
-            throw std::runtime_error("Failed to find file " + filename);
+            throw FileError("Failed to find file " + filename);
 
         File file(path, File::Mode::READ);
 

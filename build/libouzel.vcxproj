@@ -340,6 +340,7 @@
     <ClInclude Include="..\ouzel\thread\Lock.hpp" />
     <ClInclude Include="..\ouzel\thread\Mutex.hpp" />
     <ClInclude Include="..\ouzel\thread\Thread.hpp" />
+    <ClInclude Include="..\ouzel\utils\Errors.hpp" />
     <ClInclude Include="..\ouzel\utils\INI.hpp" />
     <ClInclude Include="..\ouzel\utils\JSON.hpp" />
     <ClInclude Include="..\ouzel\utils\Log.hpp" />

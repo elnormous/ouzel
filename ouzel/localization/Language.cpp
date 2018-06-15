@@ -1,11 +1,11 @@
 // Copyright (C) 2018 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <stdexcept>
 #include <vector>
 #include "Language.hpp"
 #include "core/Engine.hpp"
 #include "files/FileSystem.hpp"
+#include "utils/Errors.hpp"
 #include "utils/Utils.hpp"
 
 namespace ouzel
@@ -35,7 +35,7 @@ namespace ouzel
         uint32_t offset = 0;
 
         if (data.size() < 5 * sizeof(uint32_t))
-            throw std::runtime_error("Not enough data");
+            throw ParseError("Not enough data");
 
         uint32_t magic = *reinterpret_cast<const uint32_t*>(data.data() + offset);
         offset += sizeof(magic);
@@ -47,13 +47,13 @@ namespace ouzel
         else if (magic == MAGIC_LITTLE)
             decodeUInt32 = decodeUInt32Little;
         else
-            throw std::runtime_error("Wrong magic " + std::to_string(magic));
+            throw ParseError("Wrong magic " + std::to_string(magic));
 
         uint32_t revision = decodeUInt32(data.data() + offset);
         offset += sizeof(revision);
 
         if (revision != 0)
-            throw std::runtime_error("Unsupported revision " + std::to_string(revision));
+            throw ParseError("Unsupported revision " + std::to_string(revision));
 
         uint32_t stringCount = decodeUInt32(data.data() + offset);
         offset += sizeof(stringCount);
@@ -69,7 +69,7 @@ namespace ouzel
         offset = stringsOffset;
 
         if (data.size() < offset + 2 * sizeof(uint32_t) * stringCount)
-            throw std::runtime_error("Not enough data");
+            throw ParseError("Not enough data");
 
         for (uint32_t i = 0; i < stringCount; ++i)
         {
@@ -83,7 +83,7 @@ namespace ouzel
         offset = translationsOffset;
 
         if (data.size() < offset + 2 * sizeof(uint32_t) * stringCount)
-            throw std::runtime_error("Not enough data");
+            throw ParseError("Not enough data");
 
         for (uint32_t i = 0; i < stringCount; ++i)
         {
@@ -98,7 +98,7 @@ namespace ouzel
         {
             if (data.size() < translations[i].stringOffset + translations[i].stringLength ||
                 data.size() < translations[i].translationOffset + translations[i].translationLength)
-                throw std::runtime_error("Not enough data");
+                throw ParseError("Not enough data");
 
             std::string str(reinterpret_cast<const char*>(data.data() + translations[i].stringOffset), translations[i].stringLength);
             std::string translation(reinterpret_cast<const char*>(data.data() + translations[i].translationOffset), translations[i].translationLength);

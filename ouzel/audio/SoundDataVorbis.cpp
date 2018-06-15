@@ -1,10 +1,10 @@
 // Copyright (C) 2018 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <stdexcept>
 #include "SoundDataVorbis.hpp"
 #include "StreamVorbis.hpp"
 #include "files/FileSystem.hpp"
+#include "utils/Errors.hpp"
 #include "utils/Utils.hpp"
 #include "stb_vorbis.c"
 
@@ -23,7 +23,7 @@ namespace ouzel
             stb_vorbis* vorbisStream = stb_vorbis_open_memory(data.data(), static_cast<int>(data.size()), nullptr, nullptr);
 
             if (!vorbisStream)
-                throw std::runtime_error("Failed to load Vorbis stream");
+                throw ParseError("Failed to load Vorbis stream");
 
             stb_vorbis_info info = stb_vorbis_get_info(vorbisStream);
 

@@ -600,6 +600,9 @@
     <ClInclude Include="..\ouzel\graphics\ImageDataSTB.hpp">
       <Filter>ouzel\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\utils\Errors.hpp">
+      <Filter>ouzel\utils</Filter>
+    </ClInclude>
     <ClInclude Include="..\ouzel\utils\INI.hpp">
       <Filter>ouzel\utils</Filter>
     </ClInclude>

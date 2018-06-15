@@ -2,11 +2,11 @@
 // This file is part of the Ouzel engine.
 
 #include <cassert>
-#include <stdexcept>
 #define STB_TRUETYPE_IMPLEMENTATION
 #include "TTFont.hpp"
 #include "core/Engine.hpp"
 #include "files/FileSystem.hpp"
+#include "utils/Errors.hpp"
 #include "utils/Utils.hpp"
 
 namespace ouzel
@@ -28,7 +28,7 @@ namespace ouzel
         engine->getFileSystem()->readFile(engine->getFileSystem()->getPath(filename), data);
 
         if (!stbtt_InitFont(&font, data.data(), stbtt_GetFontOffsetForIndex(data.data(), 0)))
-            throw std::runtime_error("Failed to load font");
+            throw ParseError("Failed to load font");
 
         loaded = true;
     }
@@ -40,7 +40,7 @@ namespace ouzel
         mipmaps = newMipmaps;
 
         if (!stbtt_InitFont(&font, data.data(), stbtt_GetFontOffsetForIndex(data.data(), 0)))
-            throw std::runtime_error("Failed to load font");
+            throw ParseError("Failed to load font");
 
         loaded = true;
     }

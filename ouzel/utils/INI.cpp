@@ -4,9 +4,9 @@
 #include <cctype>
 #include <algorithm>
 #include <iterator>
-#include <stdexcept>
 #include "INI.hpp"
 #include "core/Engine.hpp"
+#include "Errors.hpp"
 #include "utils/Utils.hpp"
 
 namespace ouzel
@@ -167,7 +167,7 @@ namespace ouzel
                         if (iterator == str.end() || *iterator == '\n' || *iterator == '\r')
                         {
                             if (!parsedSection)
-                                throw std::runtime_error("Unexpected end of section");
+                                throw ParseError("Unexpected end of section");
 
                             ++iterator; // skip the newline
                             break;
@@ -177,7 +177,7 @@ namespace ouzel
                             ++iterator; // skip the semicolon
 
                             if (!parsedSection)
-                                throw std::runtime_error("Unexpected comment");
+                                throw ParseError("Unexpected comment");
 
                             for (;;)
                             {
@@ -198,7 +198,7 @@ namespace ouzel
                         else if (*iterator != ' ' && *iterator != '\t')
                         {
                             if (parsedSection)
-                                throw std::runtime_error("Unexpected character after section");
+                                throw ParseError("Unexpected character after section");
                         }
 
                         if (!parsedSection)
@@ -208,7 +208,7 @@ namespace ouzel
                     }
 
                     if (sectionUtf32.empty())
-                        throw std::runtime_error("Invalid section name");
+                        throw ParseError("Invalid section name");
 
                     std::string sectionName = utf32ToUtf8(sectionUtf32);
 
@@ -245,7 +245,7 @@ namespace ouzel
                             if (!parsedKey)
                                 parsedKey = true;
                             else
-                                throw std::runtime_error("Unexpected character");
+                                throw ParseError("Unexpected character");
                         }
                         else if (*iterator == ';')
                         {
@@ -277,7 +277,7 @@ namespace ouzel
                     }
 
                     if (keyUtf32.empty())
-                        throw std::runtime_error("Invalid key name");
+                        throw ParseError("Invalid key name");
 
                     keyUtf32 = trimUtf32(keyUtf32);
                     valueUtf32 = trimUtf32(valueUtf32);

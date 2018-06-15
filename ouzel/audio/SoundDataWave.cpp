@@ -2,10 +2,10 @@
 // This file is part of the Ouzel engine.
 
 #include <iterator>
-#include <stdexcept>
 #include "SoundDataWave.hpp"
 #include "StreamWave.hpp"
 #include "files/FileSystem.hpp"
+#include "utils/Errors.hpp"
 #include "utils/Utils.hpp"
 
 enum WaveFormat
@@ -27,13 +27,13 @@ namespace ouzel
             uint32_t offset = 0;
 
             if (newData.size() < 16) // RIFF + size + WAVE
-                throw std::runtime_error("Failed to load sound file, file too small");
+                throw ParseError("Failed to load sound file, file too small");
 
             if (newData[offset + 0] != 'R' ||
                 newData[offset + 1] != 'I' ||
                 newData[offset + 2] != 'F' ||
                 newData[offset + 3] != 'F')
-                throw std::runtime_error("Failed to load sound file, not a RIFF format");
+                throw ParseError("Failed to load sound file, not a RIFF format");
 
             offset += 4;
 
@@ -42,13 +42,13 @@ namespace ouzel
             offset += 4;
 
             if (newData.size() != length + 8)
-                throw std::runtime_error("Failed to load sound file, size mismatch");
+                throw ParseError("Failed to load sound file, size mismatch");
 
             if (newData[offset + 0] != 'W' ||
                 newData[offset + 1] != 'A' ||
                 newData[offset + 2] != 'V' ||
                 newData[offset + 3] != 'E')
-                throw std::runtime_error("Failed to load sound file, not a WAVE file");
+                throw ParseError("Failed to load sound file, not a WAVE file");
 
             offset += 4;
 
@@ -62,7 +62,7 @@ namespace ouzel
             while (offset < newData.size())
             {
                 if (newData.size() < offset + 8)
-                    throw std::runtime_error("Failed to load sound file, not enough data to read chunk");
+                    throw ParseError("Failed to load sound file, not enough data to read chunk");
 
                 uint8_t chunkHeader[4];
                 chunkHeader[0] = newData[offset + 0];
@@ -76,12 +76,12 @@ namespace ouzel
                 offset += 4;
 
                 if (newData.size() < offset + chunkSize)
-                    throw std::runtime_error("Failed to load sound file, not enough data to read chunk");
+                    throw ParseError("Failed to load sound file, not enough data to read chunk");
 
                 if (chunkHeader[0] == 'f' && chunkHeader[1] == 'm' && chunkHeader[2] == 't' && chunkHeader[3] == ' ')
                 {
                     if (chunkSize < 16)
-                        throw std::runtime_error("Failed to load sound file, not enough data to read chunk");
+                        throw ParseError("Failed to load sound file, not enough data to read chunk");
 
                     uint32_t i = offset;
 
@@ -114,14 +114,14 @@ namespace ouzel
             }
 
             if (!formatChunkFound)
-                throw std::runtime_error("Failed to load sound file, failed to find a format chunk");
+                throw ParseError("Failed to load sound file, failed to find a format chunk");
 
             if (!dataChunkFound)
-                throw std::runtime_error("Failed to load sound file, failed to find a data chunk");
+                throw ParseError("Failed to load sound file, failed to find a data chunk");
 
             if (bitsPerSample != 8 && bitsPerSample != 16 &&
                 bitsPerSample != 24 && bitsPerSample != 32)
-                throw std::runtime_error("Failed to load sound file, unsupported bit depth");
+                throw ParseError("Failed to load sound file, unsupported bit depth");
 
             uint32_t bytesPerSample = bitsPerSample / 8;
             uint32_t samples = static_cast<uint32_t>(soundData.size() / bytesPerSample);
@@ -148,7 +148,7 @@ namespace ouzel
                                                                           (soundData[i * 3 + 2] << 24))) / 2147483648.0F;
                 }
                 else
-                    throw std::runtime_error("Failed to load sound file, unsupported bit depth");
+                    throw ParseError("Failed to load sound file, unsupported bit depth");
             }
             else if (formatTag == IEEE_FLOAT)
             {
@@ -158,10 +158,10 @@ namespace ouzel
                         data[i] = reinterpret_cast<float*>(soundData.data())[i];
                 }
                 else
-                    throw std::runtime_error("Failed to load sound file, unsupported bit depth");
+                    throw ParseError("Failed to load sound file, unsupported bit depth");
             }
             else
-                throw std::runtime_error("Failed to load sound file, unsupported format");
+                throw ParseError("Failed to load sound file, unsupported format");
         }
 
         std::shared_ptr<Stream> SoundDataWave::createStream()

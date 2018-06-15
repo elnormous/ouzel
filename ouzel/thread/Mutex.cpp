@@ -1,8 +1,8 @@
 // Copyright (C) 2018 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <stdexcept>
 #include "Mutex.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -12,7 +12,7 @@ namespace ouzel
         InitializeCriticalSection(&criticalSection);
 #else
         if (pthread_mutex_init(&mutex, nullptr) != 0)
-            throw std::runtime_error("Failed to initialize mutex");
+            throw ThreadError("Failed to initialize mutex");
 
         initialized = true;
 #endif
@@ -33,7 +33,7 @@ namespace ouzel
         EnterCriticalSection(&criticalSection);
 #else
         if (pthread_mutex_lock(&mutex) != 0)
-            throw std::runtime_error("Failed to lock mutex");
+            throw ThreadError("Failed to lock mutex");
 #endif
     }
 
@@ -52,7 +52,7 @@ namespace ouzel
         LeaveCriticalSection(&criticalSection);
 #else
         if (pthread_mutex_unlock(&mutex) != 0)
-            throw std::runtime_error("Failed to unlock mutex");
+            throw ThreadError("Failed to unlock mutex");
 #endif
     }
 }
