@@ -54,8 +54,7 @@ namespace ouzel
                            PixelFormat newPixelFormat)
         {
             ImageDataSTB image;
-            if (!image.init(filename, newPixelFormat))
-                return false;
+            image.init(filename, newPixelFormat);
 
             size = image.getSize();
             flags = newFlags;

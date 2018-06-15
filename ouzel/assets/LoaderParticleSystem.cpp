@@ -7,7 +7,6 @@
 #include "files/FileSystem.hpp"
 #include "scene/ParticleSystemData.hpp"
 #include "utils/JSON.hpp"
-#include "utils/Log.hpp"
 
 namespace ouzel
 {
