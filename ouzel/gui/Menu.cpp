@@ -6,7 +6,6 @@
 #include "core/Engine.hpp"
 #include "events/EventDispatcher.hpp"
 #include "input/InputManager.hpp"
-#include "utils/Log.hpp"
 
 namespace ouzel
 {
