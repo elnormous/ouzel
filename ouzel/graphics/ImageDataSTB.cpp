@@ -22,10 +22,7 @@ namespace ouzel
         void ImageDataSTB::init(const std::string& filename,
                                 PixelFormat newPixelFormat)
         {
-            std::vector<uint8_t> newData;
-            engine->getFileSystem()->readFile(filename, newData);
-
-            return init(newData, newPixelFormat);
+            return init(engine->getFileSystem()->readFile(filename), newPixelFormat);
         }
 
         void ImageDataSTB::init(const std::vector<uint8_t>& newData,

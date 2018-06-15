@@ -588,10 +588,7 @@ namespace ouzel
                         bool preserveComments,
                         bool preserveProcessingInstructions)
         {
-            std::vector<uint8_t> data;
-            engine->getFileSystem()->readFile(filename, data);
-
-            init(data,
+            init(engine->getFileSystem()->readFile(filename),
                  preserveWhitespaces,
                  preserveComments,
                  preserveProcessingInstructions);

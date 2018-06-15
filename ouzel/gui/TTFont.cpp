@@ -25,7 +25,7 @@ namespace ouzel
         loaded = false;
         mipmaps = newMipmaps;
 
-        engine->getFileSystem()->readFile(engine->getFileSystem()->getPath(filename), data);
+        data = engine->getFileSystem()->readFile(engine->getFileSystem()->getPath(filename));
 
         if (!stbtt_InitFont(&font, data.data(), stbtt_GetFontOffsetForIndex(data.data(), 0)))
             throw ParseError("Failed to load font");

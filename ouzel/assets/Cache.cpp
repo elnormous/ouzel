@@ -78,8 +78,7 @@ namespace ouzel
 
         bool Cache::loadAsset(uint32_t loaderType, const std::string& filename, bool mipmaps) const
         {
-            std::vector<uint8_t> data;
-            fileSystem.readFile(filename, data);
+            std::vector<uint8_t> data = fileSystem.readFile(filename);
 
             std::string extension = fileSystem.getExtensionPart(filename);
             std::transform(extension.begin(), extension.end(), extension.begin(), [](unsigned char c){ return std::tolower(c); });
@@ -100,8 +99,7 @@ namespace ouzel
 
         bool Cache::loadAsset(const std::string& filename, bool mipmaps) const
         {
-            std::vector<uint8_t> data;
-            fileSystem.readFile(filename, data);
+            std::vector<uint8_t> data = fileSystem.readFile(filename);
 
             std::string extension = fileSystem.getExtensionPart(filename);
             std::transform(extension.begin(), extension.end(), extension.begin(), [](unsigned char c){ return std::tolower(c); });

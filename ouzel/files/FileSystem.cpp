@@ -209,7 +209,7 @@ namespace ouzel
 #endif
     }
 
-    void FileSystem::readFile(const std::string& filename, std::vector<uint8_t>& data, bool searchResources) const
+    std::vector<uint8_t> FileSystem::readFile(const std::string& filename, bool searchResources) const
     {
         if (searchResources)
         {
@@ -217,12 +217,12 @@ namespace ouzel
             {
                 if (archive->fileExists(filename))
                 {
-                    archive->readFile(filename, data);
-                    return;
+                    return archive->readFile(filename);
                 }
             }
         }
 
+        std::vector<uint8_t> data;
         char buffer[1024];
 
 #if OUZEL_PLATFORM_ANDROID
@@ -242,7 +242,7 @@ namespace ouzel
 
             AAsset_close(asset);
 
-            return;
+            return data;
         }
 #endif
 
@@ -256,6 +256,8 @@ namespace ouzel
 
         while (uint32_t size = file.read(buffer, sizeof(buffer)))
             data.insert(data.end(), buffer, buffer + size);
+
+        return data;
     }
 
     void FileSystem::writeFile(const std::string& filename, const std::vector<uint8_t>& data) const
