@@ -13,6 +13,8 @@ namespace ouzel
         class ImageDataSTB: public ImageData
         {
         public:
+            ImageDataSTB() {}
+
             void init(const std::string& filename,
                       PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
             void init(const std::vector<uint8_t>& newData,
