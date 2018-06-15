@@ -108,11 +108,14 @@ namespace ouzel
         return *this;
     }
 
-    bool Archive::readFile(const std::string& filename, std::vector<uint8_t>& data) const
+    std::vector<uint8_t> Archive::readFile(const std::string& filename) const
     {
+        std::vector<uint8_t> data;
+
         auto i = entries.find(filename);
 
-        if (i == entries.end()) return false;
+        if (i == entries.end())
+            throw FileError("File " + filename + " does not exist");
 
         file.seek(static_cast<int32_t>(i->second.offset), File::BEGIN);
 
@@ -120,7 +123,7 @@ namespace ouzel
 
         file.readAll(data.data(), i->second.size);
 
-        return true;
+        return data;
     }
 
     bool Archive::fileExists(const std::string& filename) const

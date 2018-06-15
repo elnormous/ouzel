@@ -19,10 +19,7 @@ namespace ouzel
 
         void SoundData::init(const std::string& filename)
         {
-            std::vector<uint8_t> data;
-            engine->getFileSystem()->readFile(filename, data);
-
-            init(data);
+            init(engine->getFileSystem()->readFile(filename));
         }
 
         void SoundData::init(const std::vector<uint8_t>&)

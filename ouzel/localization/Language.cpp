@@ -21,10 +21,7 @@ namespace ouzel
 
     void Language::init(const std::string& filename)
     {
-        std::vector<uint8_t> data;
-        engine->getFileSystem()->readFile(filename, data);
-
-        init(data);
+        init(engine->getFileSystem()->readFile(filename));
     }
 
     void Language::init(const std::vector<uint8_t>& data)

@@ -27,7 +27,7 @@ namespace ouzel
         Archive(Archive&& other);
         Archive& operator=(Archive&& other);
 
-        bool readFile(const std::string& filename, std::vector<uint8_t>& data) const;
+        std::vector<uint8_t> readFile(const std::string& filename) const;
 
         bool fileExists(const std::string& filename) const;
 
