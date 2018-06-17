@@ -457,12 +457,10 @@
     <ClCompile Include="..\ouzel\graphics\empty\RenderTargetResourceEmpty.cpp">
       <Filter>ouzel\graphics\empty</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\d3d11\RenderTargetResourceD3D11.cpp">
-      <Filter>ouzel\graphics\d3d11</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\graphics\opengl\RenderTargetResourceOGL.cpp">
       <Filter>ouzel\graphics\opengl</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\direct3d11\RenderTargetResourceD3D11.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\animators\Animator.hpp">
@@ -957,15 +955,9 @@
     <ClInclude Include="..\ouzel\assets\LoaderGLTF.hpp">
       <Filter>ouzel\assets</Filter>
     </ClInclude>
-    <ClCompile Include="..\ouzel\graphics\empty\RenderTargetResourceEmpty.hpp">
-      <Filter>ouzel\graphics\empty</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\d3d11\RenderTargetResourceD3D11.hpp">
-      <Filter>ouzel\graphics\d3d11</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\opengl\RenderTargetResourceOGL.hpp">
-      <Filter>ouzel\graphics\opengl</Filter>
-    </ClCompile>
+    <ClInclude Include="..\ouzel\graphics\direct3d11\RenderTargetResourceD3D11.hpp" />
+    <ClInclude Include="..\ouzel\graphics\empty\RenderTargetResourceEmpty.hpp" />
+    <ClInclude Include="..\ouzel\graphics\opengl\RenderTargetResourceOGL.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ouzel">
