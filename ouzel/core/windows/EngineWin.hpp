@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <Windows.h>
 #include "core/Engine.hpp"
 
 namespace ouzel

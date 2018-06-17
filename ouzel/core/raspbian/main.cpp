@@ -1,6 +1,7 @@
 // Copyright (C) 2018 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <cstdlib>
 #include "EngineRasp.hpp"
 #include "utils/Log.hpp"
 
