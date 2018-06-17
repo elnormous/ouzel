@@ -8,6 +8,7 @@
 #include "core/Engine.hpp"
 #include "events/EventDispatcher.hpp"
 #include "input/android/InputManagerAndroid.hpp"
+#include "utils/Log.hpp"
 
 static std::unique_ptr<ouzel::EngineAndroid> engine;
 
@@ -30,9 +31,21 @@ extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onCrea
 
 extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onSurfaceCreated(JNIEnv*, jclass, jobject surface)
 {
-    engine->onSurfaceCreated(surface);
+    try
+    {
+        engine->onSurfaceCreated(surface);
 
-    if (!engine->isActive()) engine->run();
+        if (!engine->isActive()) engine->run();
+    }
+    catch (const std::exception& e)
+    {
+        ouzel::Log(ouzel::Log::Level::ERR) << e.what();
+        return EXIT_FAILURE;
+    }
+    catch (...)
+    {
+        return EXIT_FAILURE;
+    }
 }
 
 extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onSurfaceDestroyed(JNIEnv*, jclass)
