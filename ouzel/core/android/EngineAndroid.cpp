@@ -246,14 +246,12 @@ namespace ouzel
         }
     }
 
-    int EngineAndroid::run()
+    void EngineAndroid::run()
     {
         if (!init())
-            return EXIT_FAILURE;
+            return;
 
         start();
-
-        return EXIT_SUCCESS;
     }
 
     void EngineAndroid::executeOnMainThread(const std::function<void(void)>& func)
