@@ -51,7 +51,7 @@ namespace ouzel
             Log(Log::Level::INFO) << "Application directory: " << appPath;
         }
         else
-            Log(Log::Level::ERR) << "Failed to get current directory";
+            throw FileError("Failed to get current directory");
 
 #elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
         CFBundleRef bundle = CFBundleGetMainBundle(); // [NSBundle mainBundle]
@@ -66,7 +66,7 @@ namespace ouzel
             Log(Log::Level::INFO) << "Application directory: " << appPath;
         }
         else
-            Log(Log::Level::ERR) << "Failed to get current directory";
+            throw FileError("Failed to get current directory");
 
 #elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
         char executableDirectory[1024];
@@ -77,8 +77,7 @@ namespace ouzel
             Log(Log::Level::INFO) << "Application directory: " << appPath;
         }
         else
-            Log(Log::Level::ERR) << "Failed to get current directory";
-
+            throw FileError("Failed to get current directory");
 #endif
     }
 
