@@ -14,6 +14,7 @@
 #include "graphics/RenderDevice.hpp"
 #include "input/linux/InputManagerLinux.hpp"
 #include "thread/Lock.hpp"
+#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
@@ -25,16 +26,13 @@ namespace ouzel
             args.push_back(initArgv[i]);
     }
 
-    int EngineLinux::run()
+    void EngineLinux::run()
     {
         if (!XInitThreads())
-        {
-            Log(Log::Level::ERR) << "Failed to initialize thread support";
-            return false;
-        }
+            throw SystemError("Failed to initialize thread support");
 
         if (!init())
-            return EXIT_FAILURE;
+            return;
 
         start();
 
@@ -157,8 +155,6 @@ namespace ouzel
         }
 
         exit();
-
-        return EXIT_SUCCESS;
     }
 
     void EngineLinux::executeOnMainThread(const std::function<void(void)>& func)

@@ -17,7 +17,7 @@ namespace ouzel
         EngineTVOS(int initArgc, char* initArgv[]);
         virtual ~EngineTVOS();
 
-        virtual int run() override;
+        virtual void run() override;
 
         virtual void executeOnMainThread(const std::function<void(void)>& func) override;
 

@@ -16,10 +16,10 @@ namespace ouzel
             args.push_back(argv[i]);
     }
 
-    int EngineRasp::run()
+    void EngineRasp::run()
     {
         if (!init())
-            return EXIT_FAILURE;
+            return;
 
         start();
 
@@ -33,8 +33,6 @@ namespace ouzel
         }
 
         exit();
-
-        return EXIT_SUCCESS;
     }
 
     void EngineRasp::executeOnMainThread(const std::function<void(void)>& func)

@@ -16,10 +16,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
         if (argv) LocalFree(argv);
 
-        int result = engine->run();
+        engine->run();
         engine.reset(); // must release engine instance before exit on Windows
-
-        return result;
+        return EXIT_SUCCESS;
     }
     catch (const std::exception& e)
     {

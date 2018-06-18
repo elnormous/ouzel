@@ -23,16 +23,14 @@ namespace ouzel
             args.push_back(argv[i]);
     }
 
-    int EngineEm::run()
+    void EngineEm::run()
     {
         if (!init())
-            return EXIT_FAILURE;
+            return;
 
         start();
 
         emscripten_set_main_loop_arg(loop, this, 0, 1);
-
-        return EXIT_SUCCESS;
     }
 
     bool EngineEm::step()

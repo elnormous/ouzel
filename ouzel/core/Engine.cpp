@@ -293,11 +293,6 @@ namespace ouzel
         return true;
     }
 
-    int Engine::run()
-    {
-        return EXIT_SUCCESS;
-    }
-
     void Engine::start()
     {
         if (!active)

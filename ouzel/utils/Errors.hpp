@@ -21,12 +21,18 @@ namespace ouzel
         explicit NetworkError(const char* str): std::runtime_error(str) {}
     };
 
-
     class ParseError: public std::runtime_error
     {
     public:
         explicit ParseError(const std::string& str): std::runtime_error(str) {}
         explicit ParseError(const char* str): std::runtime_error(str) {}
+    };
+
+    class SystemError: public std::runtime_error
+    {
+    public:
+        explicit SystemError(const std::string& str): std::runtime_error(str) {}
+        explicit SystemError(const char* str): std::runtime_error(str) {}
     };
 
     class ThreadError: public std::runtime_error
