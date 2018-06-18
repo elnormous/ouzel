@@ -7,6 +7,7 @@
 #include "WindowResourceWin.hpp"
 #include "input/windows/InputManagerWin.hpp"
 #include "thread/Lock.hpp"
+#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
 const DWORD MS_VC_EXCEPTION = 0x406D1388;
@@ -58,14 +59,11 @@ namespace ouzel
         }
     }
 
-    int EngineWin::run()
+    void EngineWin::run()
     {
         HRESULT hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
         if (FAILED(hr))
-        {
-            Log(Log::Level::ERR) << "Failed to initialize COM, error: " << hr;
-            return EXIT_FAILURE;
-        }
+            throw SystemError("Failed to initialize COM, error: " + std::to_string(hr));
 
 #ifdef DEBUG
         if (!AllocConsole())
@@ -73,7 +71,7 @@ namespace ouzel
 #endif
 
         if (!init())
-            return EXIT_FAILURE;
+            return;
 
         start();
 
@@ -109,8 +107,7 @@ namespace ouzel
                 else if (ret == -1)
                 {
                     exit();
-                    Log(Log::Level::ERR) << "Failed to get message";
-                    return EXIT_FAILURE;
+                    throw SystemError("Failed to get message");
                 }
                 else
                 {
@@ -123,8 +120,6 @@ namespace ouzel
         }
 
         exit();
-
-        return EXIT_SUCCESS;
     }
 
     void EngineWin::executeOnMainThread(const std::function<void(void)>& func)

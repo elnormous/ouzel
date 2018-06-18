@@ -101,13 +101,11 @@ namespace ouzel
         if (executeHanlder) [executeHanlder release];
     }
 
-    int EngineIOS::run()
+    void EngineIOS::run()
     {
         NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-        int ret = UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
+        UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
         [pool release];
-
-        return ret;
     }
 
     void EngineIOS::executeOnMainThread(const std::function<void(void)>& func)

@@ -56,7 +56,7 @@ namespace ouzel
         inline const ini::Data& getDefaultSettings() const { return defaultSettings; }
         inline const ini::Data& getUserSettings() const { return userSettings; }
 
-        virtual int run();
+        virtual void run() = 0;
         void start();
         void pause();
         void resume();

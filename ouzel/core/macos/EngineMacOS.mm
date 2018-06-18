@@ -103,7 +103,7 @@ namespace ouzel
         if (executeHanlder) [executeHanlder release];
     }
 
-    int EngineMacOS::run()
+    void EngineMacOS::run()
     {
         NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 
@@ -128,8 +128,6 @@ namespace ouzel
         [application run];
 
         [pool release];
-
-        return EXIT_SUCCESS;
     }
 
     void EngineMacOS::executeOnMainThread(const std::function<void(void)>& func)
