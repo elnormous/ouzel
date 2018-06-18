@@ -120,10 +120,7 @@ namespace ouzel
             else if (graphicsDriverValue == "metal")
                 graphicsDriver = ouzel::graphics::Renderer::Driver::METAL;
             else
-            {
-                ouzel::Log(ouzel::Log::Level::ERR) << "Invalid graphics driver specified";
-                return false;
-            }
+                throw ConfigError("Invalid graphics driver specified");
         }
 
         std::string widthValue = userEngineSection.getValue("width", defaultEngineSection.getValue("width"));
@@ -147,10 +144,7 @@ namespace ouzel
             else if (textureFilterValue == "trilinear")
                 textureFilter = ouzel::graphics::Texture::Filter::TRILINEAR;
             else
-            {
-                ouzel::Log(ouzel::Log::Level::ERR) << "Invalid texture filter specified";
-                return false;
-            }
+                throw ConfigError("Invalid texture filter specified");
         }
 
         std::string maxAnisotropyValue = userEngineSection.getValue("maxAnisotropy", defaultEngineSection.getValue("maxAnisotropy"));
@@ -198,10 +192,7 @@ namespace ouzel
             else if (audioDriverValue == "alsa")
                 audioDriver = ouzel::audio::Audio::Driver::ALSA;
             else
-            {
-                ouzel::Log(ouzel::Log::Level::ERR) << "Invalid audio driver specified";
-                return false;
-            }
+                throw ConfigError("Invalid audio driver specified");
         }
 
         std::string debugAudioValue = userEngineSection.getValue("debugAudio", defaultEngineSection.getValue("debugAudio"));
