@@ -5,6 +5,7 @@
 #import <IOKit/pwr_mgt/IOPMLib.h>
 #include "EngineMacOS.hpp"
 #include "thread/Lock.hpp"
+#include "utils/Errors.hpp"
 
 @interface AppDelegate: NSObject<NSApplicationDelegate>
 
