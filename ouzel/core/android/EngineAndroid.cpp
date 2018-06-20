@@ -10,6 +10,7 @@
 #include "events/EventDispatcher.hpp"
 #include "graphics/opengl/android/RenderDeviceOGLAndroid.hpp"
 #include "thread/Lock.hpp"
+#include "utils/Errors.hpp"
 
 static int looperCallback(int fd, int events, void* data)
 {
