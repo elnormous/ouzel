@@ -56,10 +56,8 @@ namespace ouzel
         if (func) func();
     }
 
-    bool EngineEm::openURL(const std::string& url)
+    void EngineEm::openURL(const std::string& url)
     {
         EM_ASM_ARGS({window.open(Pointer_stringify($0));}, url.c_str());
-
-        return true;
     }
 }

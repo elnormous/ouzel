@@ -117,7 +117,7 @@ namespace ouzel
         [executeHanlder performSelectorOnMainThread:@selector(executeAll) withObject:nil waitUntilDone:NO];
     }
 
-    bool EngineIOS::openURL(const std::string& url)
+    void EngineIOS::openURL(const std::string& url)
     {
         executeOnMainThread([url](){
             NSString* nsStringURL = [NSString stringWithUTF8String:url.c_str()];
@@ -125,8 +125,6 @@ namespace ouzel
 
             [[UIApplication sharedApplication] openURL:nsURL];
         });
-
-        return true;
     }
 
     void EngineIOS::setScreenSaverEnabled(bool newScreenSaverEnabled)

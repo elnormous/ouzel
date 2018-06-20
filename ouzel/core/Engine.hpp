@@ -69,7 +69,7 @@ namespace ouzel
 
         virtual void executeOnMainThread(const std::function<void(void)>& func) = 0;
 
-        virtual bool openURL(const std::string& url);
+        virtual void openURL(const std::string& url);
 
         virtual void setScreenSaverEnabled(bool newScreenSaverEnabled);
         bool isScreenSaverEnabled() const { return screenSaverEnabled; }

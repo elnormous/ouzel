@@ -15,7 +15,6 @@
 #include "input/linux/InputManagerLinux.hpp"
 #include "thread/Lock.hpp"
 #include "utils/Errors.hpp"
-#include "utils/Log.hpp"
 
 namespace ouzel
 {
@@ -177,16 +176,14 @@ namespace ouzel
         executeQueue.push(func);
 
         if (!XSendEvent(windowLinux->getDisplay(), windowLinux->getNativeWindow(), False, NoEventMask, &event))
-            Log(Log::Level::ERR) << "Failed to send X11 delete message";
+            throw SystemError("Failed to send X11 delete message");
 
         XFlush(windowLinux->getDisplay());
     }
 
-    bool EngineLinux::openURL(const std::string& url)
+    void EngineLinux::openURL(const std::string& url)
     {
 		::exit(execl("/usr/bin/xdg-open", "xdg-open", url.c_str(), nullptr));
-
-		return true;
 	}
 
 	void EngineLinux::setScreenSaverEnabled(bool newScreenSaverEnabled)

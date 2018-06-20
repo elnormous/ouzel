@@ -10,7 +10,6 @@
 #include "events/EventDispatcher.hpp"
 #include "graphics/opengl/android/RenderDeviceOGLAndroid.hpp"
 #include "thread/Lock.hpp"
-#include "utils/Log.hpp"
 
 static int looperCallback(int fd, int events, void* data)
 {
@@ -18,10 +17,7 @@ static int looperCallback(int fd, int events, void* data)
     {
         char message;
         if (read(fd, &message, sizeof(message)) == -1)
-        {
-            ouzel::Log(ouzel::Log::Level::ERR) << "Failed to read from pipe";
-            return 0;
-        }
+            throw SystemError("Failed to read from pipe");
 
         ouzel::EngineAndroid* engineAndroid = static_cast<ouzel::EngineAndroid*>(data);
         engineAndroid->executeAll();
@@ -40,10 +36,7 @@ namespace ouzel
         JNIEnv* jniEnv;
 
         if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-        {
-            Log(Log::Level::ERR) << "Failed to get JNI environment";
-            return;
-        }
+            throw SystemError("Failed to get JNI environment");
 
         uriClass = jniEnv->FindClass("android/net/Uri");
         uriClass = static_cast<jclass>(jniEnv->NewGlobalRef(uriClass));
@@ -60,10 +53,7 @@ namespace ouzel
         JNIEnv* jniEnv;
 
         if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-        {
-            Log(Log::Level::ERR) << "Failed to get JNI environment";
-            return;
-        }
+            throw SystemError("Failed to get JNI environment");
 
         if (mainActivity) jniEnv->DeleteGlobalRef(mainActivity);
         if (androidWindow) jniEnv->DeleteGlobalRef(androidWindow);
@@ -80,10 +70,7 @@ namespace ouzel
         JNIEnv* jniEnv;
 
         if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-        {
-            Log(Log::Level::ERR) << "Failed to get JNI environment";
-            return;
-        }
+            throw SystemError("Failed to get JNI environment");
 
         mainActivity = jniEnv->NewGlobalRef(initMainActivity);
 
@@ -144,7 +131,7 @@ namespace ouzel
         ALooper_acquire(looper);
         pipe(fd);
         if (ALooper_addFd(looper, fd[0], ALOOPER_POLL_CALLBACK, ALOOPER_EVENT_INPUT, looperCallback, this) != 1)
-            Log(Log::Level::ERR) << "Failed to add looper file descriptor";
+            throw SystemError("Failed to add looper file descriptor");
     }
 
     void EngineAndroid::onSurfaceCreated(jobject newSurface)
@@ -152,10 +139,7 @@ namespace ouzel
         JNIEnv* jniEnv;
 
         if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-        {
-            Log(Log::Level::ERR) << "Failed to get JNI environment";
-            return;
-        }
+            throw SystemError("Failed to get JNI environment");
 
         if (surface) jniEnv->DeleteGlobalRef(surface);
         surface = jniEnv->NewGlobalRef(newSurface);
@@ -182,10 +166,7 @@ namespace ouzel
         JNIEnv* jniEnv;
 
         if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-        {
-            Log(Log::Level::ERR) << "Failed to get JNI environment";
-            return;
-        }
+            throw SystemError("Failed to get JNI environment");
 
         jint newOrientation = jniEnv->GetIntField(newConfig, orientationField);
 
@@ -218,10 +199,7 @@ namespace ouzel
         JNIEnv* jniEnv;
 
         if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-        {
-            Log(Log::Level::ERR) << "Failed to get JNI environment";
-            return;
-        }
+            throw SystemError("Failed to get JNI environment");
 
         if (surface)
         {
@@ -264,19 +242,16 @@ namespace ouzel
 
         char message = 1;
         if (write(fd[1], &message, sizeof(message)) == -1)
-            Log(Log::Level::ERR) << "Failed to write to pipe";
+            throw SystemError("Failed to write to pipe");
     }
 
-    bool EngineAndroid::openURL(const std::string& url)
+    void EngineAndroid::openURL(const std::string& url)
     {
         executeOnMainThread([url, this]() {
             JNIEnv* jniEnv;
 
             if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-            {
-                Log(Log::Level::ERR) << "Failed to get JNI environment";
-                return;
-            }
+                throw SystemError("Failed to get JNI environment");
 
             jstring actionString = jniEnv->NewStringUTF("android.intent.action.VIEW");
             jstring urlString = jniEnv->NewStringUTF(url.c_str());
@@ -292,9 +267,10 @@ namespace ouzel
 
             if (jniEnv->ExceptionCheck())
             {
-                Log(Log::Level::ERR) << "Failed to open URL";
                 jniEnv->ExceptionClear();
+                throw SystemError("Failed to open URL");
             }
+                
         });
 
         return true;
@@ -308,10 +284,7 @@ namespace ouzel
             JNIEnv* jniEnv;
 
             if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-            {
-                Log(Log::Level::ERR) << "Failed to get JNI environment";
-                return;
-            }
+                throw SystemError("Failed to get JNI environment");
 
             if (newScreenSaverEnabled)
                 jniEnv->CallVoidMethod(androidWindow, clearFlagsMethod, AWINDOW_FLAG_KEEP_SCREEN_ON);
@@ -345,11 +318,11 @@ namespace ouzel
         attachArgs.name = nullptr; // thread name
         attachArgs.group = nullptr; // thread group
         if (javaVM->AttachCurrentThread(&jniEnv, &attachArgs) != JNI_OK)
-            Log(Log::Level::ERR) << "Failed to attach current thread to Java VM";
+            throw SystemError("Failed to attach current thread to Java VM");
 
         Engine::main();
 
         if (javaVM->DetachCurrentThread() != JNI_OK)
-            Log(Log::Level::ERR) << "Failed to detach current thread from Java VM";
+            throw SystemError("Failed to detach current thread from Java VM");
     }
 }
