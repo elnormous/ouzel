@@ -33,11 +33,11 @@ namespace ouzel
             Network(Network&&) = delete;
             Network& operator=(Network&&) = delete;
 
-            static bool getAddress(const std::string& address, uint32_t& result);
+            static void getAddress(const std::string& address, uint32_t& result);
 
-            bool listen(const std::string& address, uint16_t port);
-            bool connect(const std::string& address, uint16_t port);
-            bool disconnect();
+            void listen(const std::string& address, uint16_t port);
+            void connect(const std::string& address, uint16_t port);
+            void disconnect();
 
         private:
 #ifdef _WIN32
