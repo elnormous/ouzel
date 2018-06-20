@@ -18,7 +18,7 @@ static int looperCallback(int fd, int events, void* data)
     {
         char message;
         if (read(fd, &message, sizeof(message)) == -1)
-            throw SystemError("Failed to read from pipe");
+            throw ouzel::SystemError("Failed to read from pipe");
 
         ouzel::EngineAndroid* engineAndroid = static_cast<ouzel::EngineAndroid*>(data);
         engineAndroid->executeAll();
@@ -273,8 +273,6 @@ namespace ouzel
             }
                 
         });
-
-        return true;
     }
 
     void EngineAndroid::setScreenSaverEnabled(bool newScreenSaverEnabled)
