@@ -4,9 +4,9 @@
 #include <algorithm>
 #include "Engine.hpp"
 #include "Setup.h"
-#include "utils/Log.hpp"
 #include "utils/INI.hpp"
 #include "utils/Errors.hpp"
+#include "utils/Log.hpp"
 #include "utils/Utils.hpp"
 #include "graphics/Renderer.hpp"
 #include "graphics/RenderDevice.hpp"
@@ -399,9 +399,8 @@ namespace ouzel
 #endif
     }
 
-    bool Engine::openURL(const std::string&)
+    void Engine::openURL(const std::string&)
     {
-        return false;
     }
 
     void Engine::setScreenSaverEnabled(bool newScreenSaverEnabled)

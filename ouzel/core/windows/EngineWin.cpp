@@ -153,16 +153,14 @@ namespace ouzel
         }
     }
 
-    bool EngineWin::openURL(const std::string& url)
+    void EngineWin::openURL(const std::string& url)
     {
         wchar_t urlBuffer[256];
         if (MultiByteToWideChar(CP_UTF8, 0, url.c_str(), -1, urlBuffer, 256) == 0)
-        {
-            Log(Log::Level::ERR) << "Failed to convert UTF-8 to wide char";
-            return false;
-        }
+            throw SystemError("Failed to convert UTF-8 to wide char");
 
         intptr_t result = reinterpret_cast<intptr_t>(ShellExecuteW(nullptr, L"open", urlBuffer, nullptr, nullptr, SW_SHOWNORMAL));
-        return result > 32;
+        if (result <= 32)
+            throw SystemError("Failed to execute open");
     }
 }

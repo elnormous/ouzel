@@ -5,7 +5,6 @@
 #import <IOKit/pwr_mgt/IOPMLib.h>
 #include "EngineMacOS.hpp"
 #include "thread/Lock.hpp"
-#include "utils/Log.hpp"
 
 @interface AppDelegate: NSObject<NSApplicationDelegate>
 
@@ -139,7 +138,7 @@ namespace ouzel
         [executeHanlder performSelectorOnMainThread:@selector(executeAll) withObject:nil waitUntilDone:NO];
     }
 
-    bool EngineMacOS::openURL(const std::string& url)
+    void EngineMacOS::openURL(const std::string& url)
     {
         executeOnMainThread([url](){
             NSString* nsStringURL = [NSString stringWithUTF8String:url.c_str()];
@@ -147,8 +146,6 @@ namespace ouzel
 
             [[NSWorkspace sharedWorkspace] openURL:nsURL];
         });
-
-        return true;
     }
 
     void EngineMacOS::setScreenSaverEnabled(bool newScreenSaverEnabled)
@@ -161,7 +158,7 @@ namespace ouzel
                 if (noSleepAssertionID)
                 {
                     if (IOPMAssertionRelease(noSleepAssertionID) != kIOReturnSuccess)
-                        Log(Log::Level::ERR) << "Failed to enable screen saver";
+                        throw SystemError("Failed to enable screen saver");
 
                     noSleepAssertionID = 0;
                 }
@@ -174,7 +171,7 @@ namespace ouzel
 
                     if (IOPMAssertionCreateWithName(kIOPMAssertionTypePreventUserIdleDisplaySleep,
                                                     kIOPMAssertionLevelOn, reasonForActivity, &noSleepAssertionID) != kIOReturnSuccess)
-                        Log(Log::Level::ERR) << "Failed to disable screen saver";
+                        throw SystemError("Failed to disable screen saver");
                 }
             }
         });
