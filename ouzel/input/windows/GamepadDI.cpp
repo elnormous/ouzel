@@ -36,7 +36,7 @@ namespace ouzel
 
             HRESULT hr = directInput->CreateDevice(instance->guidInstance, &device, nullptr);
             if (FAILED(hr))
-                throw SystemError("Failed to create DirectInput device, error: " + std::to_string(hr);
+                throw SystemError("Failed to create DirectInput device, error: " + std::to_string(hr));
 
             if (vendorId == 0x054C && productId == 0x0268) // Playstation 3 controller
             {
@@ -349,9 +349,7 @@ namespace ouzel
         {
             if (device)
             {
-                HRESULT hr = device->Unacquire();
-                if (FAILED(hr))
-                    throw SystemError("Failed to unacquire DirectInput device, error: " + std::to_string(hr));
+                device->Unacquire();
                 device->Release();
             }
         }
