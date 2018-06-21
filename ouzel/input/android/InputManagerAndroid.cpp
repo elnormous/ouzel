@@ -143,10 +143,10 @@ namespace ouzel
         {
             JNIEnv* jniEnv;
 
-            if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-                throw SystemError("Failed to get JNI environment");
-
-            if (inputDeviceClass) jniEnv->DeleteGlobalRef(inputDeviceClass);
+            if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) == JNI_OK)
+            {
+                if (inputDeviceClass) jniEnv->DeleteGlobalRef(inputDeviceClass);
+            }
         }
 
         jboolean InputManagerAndroid::handleTouchEvent(jobject event)
