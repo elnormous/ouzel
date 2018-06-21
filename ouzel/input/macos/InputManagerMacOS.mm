@@ -14,6 +14,7 @@
 #include "core/Engine.hpp"
 #include "events/EventDispatcher.hpp"
 #include "thread/Lock.hpp"
+#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
 typedef struct CF_BRIDGED_TYPE(id) __IOHIDServiceClient * IOHIDServiceClientRef;
@@ -295,7 +296,7 @@ namespace ouzel
             IOHIDManagerSetDeviceMatchingMultiple(hidManager, (CFArrayRef)criteria);
             IOReturn ret = IOHIDManagerOpen(hidManager, kIOHIDOptionsTypeNone);
             if (ret != kIOReturnSuccess)
-                throw SystemError("Failed to initialize HID manager, error: " std::to_string(ret));
+                throw SystemError("Failed to initialize HID manager, error: " + std::to_string(ret));
 
             IOHIDManagerRegisterDeviceMatchingCallback(hidManager, deviceAdded, this);
             IOHIDManagerRegisterDeviceRemovalCallback(hidManager, deviceRemoved, this);
