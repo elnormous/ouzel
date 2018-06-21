@@ -5,7 +5,7 @@
 #include "core/Engine.hpp"
 #include "core/Setup.h"
 #include "events/EventDispatcher.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 static const float THUMB_DEADZONE = 0.2F;
 
@@ -24,10 +24,7 @@ namespace ouzel
         {
             IOReturn ret = IOHIDDeviceOpen(device, kIOHIDOptionsTypeNone);
             if (ret != kIOReturnSuccess)
-            {
-                Log(Log::Level::ERR) << "Failed to open HID device, error: " << ret;
-                return;
-            }
+                throw SystemError("Failed to open HID device, error: " + std::to_string(ret));
 
             CFStringRef productName = static_cast<CFStringRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey)));
             if (productName)

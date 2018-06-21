@@ -5,7 +5,7 @@
 
 #include <Foundation/Foundation.h>
 #include "FileSystemApple.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 #if OUZEL_PLATFORM_MACOS
 extern std::string DEVELOPER_NAME;
@@ -23,10 +23,7 @@ namespace ouzel
         NSURL* applicationSupportDirectory = [fileManager URLForDirectory:NSApplicationSupportDirectory inDomain:user ? NSUserDomainMask : NSLocalDomainMask appropriateForURL:nil create:YES error:&error];
 
         if (!applicationSupportDirectory)
-        {
-            Log(Log::Level::ERR) << "Failed to get application support directory";
-            return "";
-        }
+            throw SystemError("Failed to get application support directory");
 
         NSString* identifier = [[NSBundle mainBundle] bundleIdentifier];
 
@@ -45,10 +42,7 @@ namespace ouzel
         NSURL* documentDirectory = [fileManager URLForDirectory:NSDocumentDirectory inDomain:user ? NSUserDomainMask : NSLocalDomainMask appropriateForURL:nil create:YES error:&error];
 
         if (!documentDirectory)
-        {
-            Log(Log::Level::ERR) << "Failed to get document directory";
-            return "";
-        }
+            throw SystemError("Failed to get document directory");
 
         return [[documentDirectory path] UTF8String];
 #endif

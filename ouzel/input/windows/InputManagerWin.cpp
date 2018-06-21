@@ -418,20 +418,20 @@ namespace ouzel
                                                     0L, nullptr, nullptr, &wbemServices);
 
                     if (FAILED(hr))
-                        Log(Log::Level::ERR) << "Failed to create a connection to the WMI namespace, error: " << hr;
+                        throw SystemError("Failed to create a connection to the WMI namespace, error: " + std::to_string(hr));
                     else
                     {
                         hr = CoSetProxyBlanket(wbemServices, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, nullptr,
                                                RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE, nullptr, EOAC_NONE);
 
                         if (FAILED(hr))
-                            Log(Log::Level::ERR) << "Failed to set authentication information, error: " << hr;
+                            throw SystemError("Failed to set authentication information, error: " + std::to_string(hr));
                         else
                         {
                             IEnumWbemClassObject* enumDevices = nullptr;
                             hr = wbemServices->CreateInstanceEnum(className, 0, nullptr, &enumDevices);
                             if (FAILED(hr))
-                                Log(Log::Level::ERR) << "Failed to create the device enumerator, error: " << hr;
+                                throw SystemError("Failed to create the device enumerator, error: " + std::to_string(hr));
                             else
                             {
                                 // Get 20 at a time

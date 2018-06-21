@@ -6,7 +6,7 @@
 #include <emscripten.h>
 #include <emscripten/html5.h>
 #include "GamepadEm.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 static const float THUMB_DEADZONE = 0.2F;
 
@@ -47,10 +47,7 @@ namespace ouzel
             EmscriptenGamepadEvent event;
 
             if (emscripten_get_gamepad_status(index, &event) != EMSCRIPTEN_RESULT_SUCCESS)
-            {
-                Log(Log::Level::ERR) << "Failed to get gamepad status";
-                return;
-            }
+                throw SystemError("Failed to get gamepad status");
 
             for (int i = 0; i < event.numAxes && i <= 3; ++i)
             {
