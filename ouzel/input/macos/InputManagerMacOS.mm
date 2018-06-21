@@ -295,10 +295,7 @@ namespace ouzel
             IOHIDManagerSetDeviceMatchingMultiple(hidManager, (CFArrayRef)criteria);
             IOReturn ret = IOHIDManagerOpen(hidManager, kIOHIDOptionsTypeNone);
             if (ret != kIOReturnSuccess)
-            {
-                Log(Log::Level::ERR) << "Failed to initialize HID manager, error: " << ret;
-                return false;
-            }
+                throw SystemError("Failed to initialize HID manager, error: " std::to_string(ret));
 
             IOHIDManagerRegisterDeviceMatchingCallback(hidManager, deviceAdded, this);
             IOHIDManagerRegisterDeviceRemovalCallback(hidManager, deviceRemoved, this);

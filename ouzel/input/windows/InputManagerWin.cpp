@@ -14,6 +14,7 @@
 #include "core/windows/WindowResourceWin.hpp"
 #include "events/EventDispatcher.hpp"
 #include "thread/Lock.hpp"
+#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
 static BOOL CALLBACK enumDevicesCallback(const DIDEVICEINSTANCEW* didInstance, VOID* context)
@@ -213,10 +214,7 @@ namespace ouzel
             HINSTANCE instance = GetModuleHandleW(nullptr);
             HRESULT hr = DirectInput8Create(instance, DIRECTINPUT_VERSION, IID_IDirectInput8W, reinterpret_cast<LPVOID*>(&directInput), nullptr);
             if (FAILED(hr))
-            {
-                Log(Log::Level::ERR) << "Failed to initialize DirectInput, error: hr" << hr;
-                return false;
-            }
+                throw SystemError("Failed to initialize DirectInput, error: " + std::to_string(hr));
 
             return true;
         }
@@ -360,7 +358,7 @@ namespace ouzel
                     rect.bottom = centerY + 1;
 
                     if (!ClipCursor(&rect))
-                        Log(Log::Level::ERR) << "Failed to grab pointer";
+                        throw SystemError("Failed to grab pointer");
                 }
                 else
                     ClipCursor(nullptr);
@@ -394,7 +392,7 @@ namespace ouzel
         {
             HRESULT hr = directInput->EnumDevices(DI8DEVCLASS_GAMECTRL, enumDevicesCallback, this, DIEDFL_ATTACHEDONLY);
             if (FAILED(hr))
-                Log(Log::Level::ERR) << "Failed to enumerate devices, error: " << hr;
+                throw SystemError("Failed to enumerate devices, error: " + std::to_string(hr));
         }
 
         void InputManagerWin::handleDeviceConnect(const DIDEVICEINSTANCEW* didInstance)
@@ -406,7 +404,7 @@ namespace ouzel
                                           __uuidof(IWbemLocator), reinterpret_cast<LPVOID*>(&wbemLocator));
 
             if (FAILED(hr))
-                Log(Log::Level::ERR) << "Failed to create WMI locator instance, error: " << hr;
+                throw SystemError("Failed to create WMI locator instance, error: " + std::to_string(hr));
             else
             {
                 BSTR namespaceStr = SysAllocString(L"\\\\.\\root\\cimv2");

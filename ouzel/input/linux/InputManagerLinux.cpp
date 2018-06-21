@@ -16,6 +16,7 @@
 #include "core/Engine.hpp"
 #include "core/linux/WindowResourceLinux.hpp"
 #include "thread/Lock.hpp"
+#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
@@ -300,10 +301,7 @@ namespace ouzel
             DIR* dir = opendir("/dev/input");
 
             if (!dir)
-            {
-                Log(Log::Level::ERR) << "Failed to open directory";
-                return false;
-            }
+                throw SystemError("Failed to open directory");
 
             dirent ent;
             dirent* p;
@@ -422,7 +420,7 @@ namespace ouzel
                                      ButtonPressMask | ButtonReleaseMask | PointerMotionMask | FocusChangeMask,
                                      GrabModeAsync, GrabModeAsync,
                                      None, None, CurrentTime) != GrabSuccess)
-                        Log(Log::Level::ERR) << "Failed to grab pointer";
+                        throw SystemError("Failed to grab pointer");
                 }
                 else
                     XUngrabPointer(display, CurrentTime);
