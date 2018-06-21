@@ -237,7 +237,6 @@ namespace ouzel
     {
         {
             Lock lock(executeMutex);
-
             executeQueue.push(func);
         }
 
@@ -271,7 +270,6 @@ namespace ouzel
                 jniEnv->ExceptionClear();
                 throw SystemError("Failed to open URL");
             }
-                
         });
     }
 
