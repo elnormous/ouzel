@@ -53,14 +53,15 @@ namespace ouzel
 
         JNIEnv* jniEnv;
 
-        if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-            throw SystemError("Failed to get JNI environment");
+        if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) == JNI_OK)
+        {
+            if (mainActivity) jniEnv->DeleteGlobalRef(mainActivity);
+            if (androidWindow) jniEnv->DeleteGlobalRef(androidWindow);
+            if (surface) jniEnv->DeleteGlobalRef(surface);
+            if (intentClass) jniEnv->DeleteGlobalRef(intentClass);
+            if (uriClass) jniEnv->DeleteGlobalRef(uriClass);
+        }
 
-        if (mainActivity) jniEnv->DeleteGlobalRef(mainActivity);
-        if (androidWindow) jniEnv->DeleteGlobalRef(androidWindow);
-        if (surface) jniEnv->DeleteGlobalRef(surface);
-        if (intentClass) jniEnv->DeleteGlobalRef(intentClass);
-        if (uriClass) jniEnv->DeleteGlobalRef(uriClass);
         if (looper) ALooper_release(looper);
         if (fd[0]) close(fd[0]);
         if (fd[1]) close(fd[1]);
