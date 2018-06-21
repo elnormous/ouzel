@@ -6,7 +6,7 @@
 #include "CursorResourceLinux.hpp"
 #include "core/Engine.hpp"
 #include "core/linux/WindowResourceLinux.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -99,10 +99,7 @@ namespace ouzel
                 XcursorImage* cursorImage = XcursorImageCreate(width, height);
 
                 if (!cursorImage)
-                {
-                    Log(Log::Level::ERR) << "Failed to create cursor image";
-                    return false;
-                }
+                    throw SystemError("Failed to create cursor image");
 
                 cursorImage->xhot = static_cast<int>(hotSpot.x);
                 cursorImage->yhot = height - static_cast<int>(hotSpot.y) - 1;

@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "CursorResourceWin.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -58,10 +58,7 @@ namespace ouzel
             }
 
             if (!cursor)
-            {
-                Log(Log::Level::ERR) << "Failed to load cursor";
-                return false;
-            }
+                throw SystemError("Failed to load cursor");
 
             shared = true;
 
@@ -116,17 +113,13 @@ namespace ouzel
                 ReleaseDC(nullptr, dc);
 
                 if (!color)
-                {
-                    Log(Log::Level::ERR) << "Failed to create RGBA bitmap";
-                    return false;
-                }
+                    throw SystemError("Failed to create RGBA bitmap");
 
                 HBITMAP mask = CreateBitmap(width, height, 1, 1, nullptr);
                 if (!mask)
                 {
-                    Log(Log::Level::ERR) << "Failed to create mask bitmap";
                     DeleteObject(color);
-                    return false;
+                    throw SystemError("Failed to create mask bitmap");
                 }
 
                 for (LONG i = 0; i < width * height; ++i)
@@ -151,10 +144,7 @@ namespace ouzel
                 DeleteObject(mask);
 
                 if (!cursor)
-                {
-                    Log(Log::Level::ERR) << "Failed to create cursor";
-                    return false;
-                }
+                    throw SystemError("Failed to create cursor");
 
                 shared = false;
             }

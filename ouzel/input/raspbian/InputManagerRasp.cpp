@@ -11,6 +11,7 @@
 #include "InputManagerRasp.hpp"
 #include "core/Engine.hpp"
 #include "core/Window.hpp"
+#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
 static char TEMP_BUFFER[256];
@@ -185,10 +186,7 @@ namespace ouzel
             DIR* dir = opendir("/dev/input");
 
             if (!dir)
-            {
-                Log(Log::Level::ERR) << "Failed to open directory";
-                return false;
-            }
+                throw SystemError("Failed to open directory");
 
             dirent ent;
             dirent* p;
@@ -228,7 +226,7 @@ namespace ouzel
             int retval = select(maxFd + 1, &rfds, nullptr, nullptr, &tv);
 
             if (retval == -1)
-                Log(Log::Level::ERR) << "Select failed";
+                throw SystemError("Select failed");
             else if (retval > 0)
             {
                 for (const EventDevice& inputDevice : inputDevices)
