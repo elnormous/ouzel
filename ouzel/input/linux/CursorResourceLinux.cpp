@@ -27,10 +27,9 @@ namespace ouzel
             }
         }
 
-        bool CursorResourceLinux::init(SystemCursor newSystemCursor)
+        void CursorResourceLinux::init(SystemCursor newSystemCursor)
         {
-            if (!CursorResource::init(newSystemCursor))
-                return false;
+            CursorResource::init(newSystemCursor);
 
             WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
             Display* display = windowLinux->getDisplay();
@@ -67,20 +66,17 @@ namespace ouzel
             }
 
             reactivate();
-
-            return true;
         }
 
-        bool CursorResourceLinux::init(const std::vector<uint8_t>& newData,
+        void CursorResourceLinux::init(const std::vector<uint8_t>& newData,
                                        const Size2& newSize,
                                        graphics::PixelFormat newPixelFormat,
                                        const Vector2& newHotSpot)
         {
-            if (!CursorResource::init(newData,
-                                      newSize,
-                                      newPixelFormat,
-                                      newHotSpot))
-                return false;
+            CursorResource::init(newData,
+                                 newSize,
+                                 newPixelFormat,
+                                 newHotSpot)
 
             WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
             Display* display = windowLinux->getDisplay();
@@ -124,8 +120,6 @@ namespace ouzel
             }
 
             reactivate();
-
-            return true;
         }
     } // namespace input
 } // namespace ouzel

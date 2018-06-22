@@ -283,7 +283,7 @@ namespace ouzel
             }
         }
 
-        bool InputManagerMacOS::init()
+        void InputManagerMacOS::init()
         {
             NSArray* criteria = @[
                                   @{@kIOHIDDeviceUsagePageKey: @(kHIDPage_GenericDesktop), @kIOHIDDeviceUsageKey: @(kHIDUsage_GD_Joystick)},
@@ -323,8 +323,6 @@ namespace ouzel
 
             [image release];
             [rep release];
-
-            return true;
         }
 
         void InputManagerMacOS::activateCursorResource(CursorResource* resource)

@@ -250,7 +250,7 @@ namespace ouzel
             }
         }
 
-        bool InputManagerLinux::init()
+        void InputManagerLinux::init()
         {
             WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
             ::Window window = windowLinux->getNativeWindow();
@@ -322,8 +322,6 @@ namespace ouzel
             }
 
             closedir(dir);
-
-            return true;
         }
 
         void InputManagerLinux::update()

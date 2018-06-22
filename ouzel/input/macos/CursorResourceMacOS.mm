@@ -17,10 +17,9 @@ namespace ouzel
             if (cursor) [cursor release];
         }
 
-        bool CursorResourceMacOS::init(SystemCursor newSystemCursor)
+        void CursorResourceMacOS::init(SystemCursor newSystemCursor)
         {
-            if (!CursorResource::init(newSystemCursor))
-                return false;
+            CursorResource::init(newSystemCursor);
 
             if (cursor)
             {
@@ -56,20 +55,17 @@ namespace ouzel
             if (cursor) [cursor retain];
 
             reactivate();
-
-            return true;
         }
 
-        bool CursorResourceMacOS::init(const std::vector<uint8_t>& newData,
+        void CursorResourceMacOS::init(const std::vector<uint8_t>& newData,
                                        const Size2& newSize,
                                        graphics::PixelFormat newPixelFormat,
                                        const Vector2& newHotSpot)
         {
-            if (!CursorResource::init(newData,
-                                      newSize,
-                                      newPixelFormat,
-                                      newHotSpot))
-                return false;
+            CursorResource::init(newData,
+                                 newSize,
+                                 newPixelFormat,
+                                 newHotSpot);
 
             if (cursor)
             {
@@ -110,8 +106,6 @@ namespace ouzel
             }
 
             reactivate();
-
-            return true;
         }
     } // namespace input
 } // namespace ouzel

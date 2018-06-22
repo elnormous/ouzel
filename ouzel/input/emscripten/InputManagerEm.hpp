@@ -39,7 +39,7 @@ namespace ouzel
 
         private:
             InputManagerEm();
-            virtual bool init() override;
+            virtual void init() override;
 
             bool cursorVisible = true;
             bool cursorLocked = false;

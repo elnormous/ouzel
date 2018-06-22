@@ -278,8 +278,7 @@ namespace ouzel
         inputManager.reset(new input::InputManager());
 #endif
 
-        if (!inputManager->init())
-            return false;
+        inputManager->init();
 
         return true;
     }

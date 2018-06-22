@@ -275,7 +275,7 @@ namespace ouzel
 
         protected:
             InputManager();
-            virtual bool init();
+            virtual void init();
 
             void setCurrentCursor(Cursor* cursor);
             virtual void activateCursorResource(CursorResource* resource);

@@ -24,9 +24,8 @@ namespace ouzel
         {
         }
 
-        bool InputManager::init()
+        void InputManager::init()
         {
-            return true;
         }
 
         void InputManager::setCurrentCursor(Cursor* cursor)

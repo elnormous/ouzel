@@ -20,8 +20,8 @@ namespace ouzel
             explicit CursorResource(InputManager& initInputManager);
             virtual ~CursorResource();
 
-            virtual bool init(SystemCursor newSystemCursor);
-            virtual bool init(const std::vector<uint8_t>& newData,
+            virtual void init(SystemCursor newSystemCursor);
+            virtual void init(const std::vector<uint8_t>& newData,
                               const Size2& newSize,
                               graphics::PixelFormat newPixelFormat,
                               const Vector2& newHotSpot);
