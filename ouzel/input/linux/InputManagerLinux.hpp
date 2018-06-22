@@ -39,7 +39,7 @@ namespace ouzel
 
         private:
             InputManagerLinux();
-            virtual bool init() override;
+            virtual void init() override;
 
             void update();
 

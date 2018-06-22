@@ -209,14 +209,12 @@ namespace ouzel
             if (directInput) directInput->Release();
         }
 
-        bool InputManagerWin::init()
+        void InputManagerWin::init()
         {
             HINSTANCE instance = GetModuleHandleW(nullptr);
             HRESULT hr = DirectInput8Create(instance, DIRECTINPUT_VERSION, IID_IDirectInput8W, reinterpret_cast<LPVOID*>(&directInput), nullptr);
             if (FAILED(hr))
                 throw SystemError("Failed to initialize DirectInput, error: " + std::to_string(hr));
-
-            return true;
         }
 
         void InputManagerWin::update()

@@ -81,7 +81,7 @@ namespace ouzel
             }
         }
 
-        bool InputManagerIOS::init()
+        void InputManagerIOS::init()
         {
             connectDelegate = [[ConnectDelegate alloc] initWithInput:this];
 
@@ -99,8 +99,6 @@ namespace ouzel
                 handleGamepadConnected(controller);
 
             startGamepadDiscovery();
-
-            return true;
         }
 
         void InputManagerIOS::startGamepadDiscovery()

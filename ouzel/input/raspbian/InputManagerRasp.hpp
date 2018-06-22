@@ -21,7 +21,7 @@ namespace ouzel
             friend EngineRasp;
         private:
             InputManagerRasp();
-            virtual bool init() override;
+            virtual void init() override;
 
             void update();
 

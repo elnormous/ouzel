@@ -58,7 +58,7 @@ namespace ouzel
 
         private:
             InputManagerMacOS();
-            virtual bool init() override;
+            virtual void init() override;
 
             virtual void activateCursorResource(CursorResource* resource) override;
             virtual CursorResource* createCursorResource() override;

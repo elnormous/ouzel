@@ -17,14 +17,12 @@ namespace ouzel
         {
         }
 
-        bool CursorResource::init(SystemCursor newSystemCursor)
+        void CursorResource::init(SystemCursor newSystemCursor)
         {
             systemCursor = newSystemCursor;
-
-            return true;
         }
 
-        bool CursorResource::init(const std::vector<uint8_t>& newData,
+        void CursorResource::init(const std::vector<uint8_t>& newData,
                                   const Size2& newSize,
                                   graphics::PixelFormat newPixelFormat,
                                   const Vector2& newHotSpot)
@@ -33,8 +31,6 @@ namespace ouzel
             size = newSize;
             pixelFormat = newPixelFormat;
             hotSpot = newHotSpot;
-
-            return true;
         }
 
         void CursorResource::reactivate()

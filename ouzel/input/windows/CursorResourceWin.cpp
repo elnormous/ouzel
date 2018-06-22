@@ -18,10 +18,9 @@ namespace ouzel
             if (cursor && !shared) DestroyCursor(cursor);
         }
 
-        bool CursorResourceWin::init(SystemCursor newSystemCursor)
+        void CursorResourceWin::init(SystemCursor newSystemCursor)
         {
-            if (!CursorResource::init(newSystemCursor))
-                return false;
+            CursorResource::init(newSystemCursor);
 
             if (cursor)
             {
@@ -63,20 +62,17 @@ namespace ouzel
             shared = true;
 
             reactivate();
-
-            return true;
         }
 
-        bool CursorResourceWin::init(const std::vector<uint8_t>& newData,
+        void CursorResourceWin::init(const std::vector<uint8_t>& newData,
                                      const Size2& newSize,
                                      graphics::PixelFormat newPixelFormat,
                                      const Vector2& newHotSpot)
         {
-            if (!CursorResource::init(newData,
-                                      newSize,
-                                      newPixelFormat,
-                                      newHotSpot))
-                return false;
+            CursorResource::init(newData,
+                                 newSize,
+                                 newPixelFormat,
+                                 newHotSpot);
 
             if (cursor)
             {
@@ -150,8 +146,6 @@ namespace ouzel
             }
 
             reactivate();
-
-            return true;
         }
     } // namespace input
 } // namespace ouzel
