@@ -9,7 +9,7 @@
 #include "input/macos/InputManagerMacOS.hpp"
 #include "core/Engine.hpp"
 #include "thread/Lock.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 @interface WindowDelegate: NSObject<NSWindowDelegate>
 {
@@ -71,7 +71,7 @@ namespace ouzel
         if (exclusiveFullscreen && fullscreen)
         {
             if (CGDisplayRelease(displayId) != kCGErrorSuccess)
-                Log(Log::Level::ERR) << "Failed to release the main display";
+                throw SystemError("Failed to release the main display");
         }
 
         if (view) [view release];
@@ -149,7 +149,7 @@ namespace ouzel
             if (fullscreen)
             {
                 if (CGDisplayCapture(displayId) != kCGErrorSuccess)
-                    Log(Log::Level::ERR) << "Failed to capture the main display";
+                    throw SystemError("Failed to capture the main display");
 
                 windowRect = frame;
                 [window setStyleMask:NSBorderlessWindowMask];
@@ -189,8 +189,7 @@ namespace ouzel
                 break;
 #endif
             default:
-                Log(Log::Level::ERR) << "Unsupported render driver";
-                return false;
+                throw SystemError("Unsupported render driver");
         }
 
         [view setAcceptsTouchEvents:YES];
@@ -270,7 +269,7 @@ namespace ouzel
                 if (newFullscreen)
                 {
                     if (CGDisplayCapture(displayId) != kCGErrorSuccess)
-                        Log(Log::Level::ERR) << "Failed to capture the main display";
+                        throw SystemError("Failed to capture the main display");
 
                     windowRect = [window frame];
                     [window setStyleMask:NSBorderlessWindowMask];
@@ -288,7 +287,7 @@ namespace ouzel
                     [window setFrame:windowRect display:YES animate:NO];
 
                     if (CGDisplayRelease(displayId) != kCGErrorSuccess)
-                        Log(Log::Level::ERR) << "Failed to release the main display";
+                        throw SystemError("Failed to release the main display");
                 }
             }
             else

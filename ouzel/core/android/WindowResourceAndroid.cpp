@@ -4,7 +4,7 @@
 #include "WindowResourceAndroid.hpp"
 #include "EngineAndroid.hpp"
 #include "thread/Lock.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -39,10 +39,7 @@ namespace ouzel
         JNIEnv* jniEnv;
 
         if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-        {
-            Log(Log::Level::ERR) << "Failed to get JNI environment";
-            return false;
-        }
+            throw SystemError("Failed to get JNI environment");
 
         window = ANativeWindow_fromSurface(jniEnv, engineAndroid->getSurface());
 
@@ -73,10 +70,7 @@ namespace ouzel
         JNIEnv* jniEnv;
 
         if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-        {
-            Log(Log::Level::ERR) << "Failed to get JNI environment";
-            return;
-        }
+            throw SystemError("Failed to get JNI environment");
 
         if (window) ANativeWindow_release(window);
         window = ANativeWindow_fromSurface(jniEnv, surface);
