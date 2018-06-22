@@ -9,7 +9,7 @@
 #include "core/Engine.hpp"
 #include "events/EventDispatcher.hpp"
 #include "thread/Lock.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 @interface ViewController: UIViewController
 {
@@ -161,8 +161,7 @@ namespace ouzel
                 break;
 #endif
             default:
-                Log(Log::Level::ERR) << "Unsupported render driver";
-                return false;
+                throw SystemError("Unsupported render driver");
         }
 
         textField = [[UITextField alloc] init];

@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "WindowResourceRasp.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -38,19 +38,13 @@ namespace ouzel
 
         display = vc_dispmanx_display_open(0);
         if (display == DISPMANX_NO_HANDLE)
-        {
-            Log(Log::Level::ERR) << "Failed to open display";
-            return false;
-        }
+            throw SystemError("Failed to open display");
 
         DISPMANX_MODEINFO_T modeInfo;
         int32_t success = vc_dispmanx_display_get_info(display, &modeInfo);
 
         if (success < 0)
-        {
-            Log(Log::Level::ERR) << "Failed to get display size";
-            return false;
-        }
+            throw SystemError("Failed to get display size");
 
         VC_RECT_T dstRect;
         dstRect.x = 0;
@@ -67,10 +61,7 @@ namespace ouzel
         DISPMANX_UPDATE_HANDLE_T dispmanUpdate = vc_dispmanx_update_start(0);
 
         if (dispmanUpdate == DISPMANX_NO_HANDLE)
-        {
-            Log(Log::Level::ERR) << "Failed to start display update";
-            return false;
-        }
+            throw SystemError("Failed to start display update");
 
         DISPMANX_ELEMENT_HANDLE_T dispmanElement = vc_dispmanx_element_add(dispmanUpdate, display,
                                                                            0, &dstRect, 0,

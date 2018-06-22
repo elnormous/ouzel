@@ -76,7 +76,7 @@ namespace ouzel
             CursorResource::init(newData,
                                  newSize,
                                  newPixelFormat,
-                                 newHotSpot)
+                                 newHotSpot);
 
             WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
             Display* display = windowLinux->getDisplay();

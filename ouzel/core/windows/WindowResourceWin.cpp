@@ -11,6 +11,7 @@
 #include "graphics/RenderDevice.hpp"
 #include "graphics/direct3d11/RenderDeviceD3D11.hpp"
 #include "thread/Lock.hpp"
+#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
 static void handleKeyEvent(UINT msg, WPARAM wParam, LPARAM lParam)
@@ -140,10 +141,10 @@ static void handleTouchEvent(WPARAM wParam, LPARAM lParam)
         }
 
         if (!CloseTouchInputHandle(reinterpret_cast<HTOUCHINPUT>(lParam)))
-            ouzel::Log(ouzel::Log::Level::ERR) << "Failed to close touch input handle";
+            throw SystemError("Failed to close touch input handle");
     }
     else
-        ouzel::Log(ouzel::Log::Level::ERR) << "Failed to get touch info";
+        throw SystemError("Failed to get touch info");
 }
 
 static const LONG_PTR SIGNATURE_MASK = 0x0FFFFFF00;
@@ -366,10 +367,7 @@ namespace ouzel
 
         windowClass = RegisterClassExW(&wc);
         if (!windowClass)
-        {
-            Log(Log::Level::ERR) << "Failed to register window class";
-            return false;
-        }
+            throw SystemError("Failed to register window class");
 
         windowWindowedStyle = WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_CLIPSIBLINGS | WS_BORDER | WS_DLGFRAME | WS_THICKFRAME | WS_GROUP | WS_TABSTOP;
 
@@ -395,19 +393,13 @@ namespace ouzel
         wchar_t titleBuffer[256] = L"";
 
         if (!title.empty() && MultiByteToWideChar(CP_UTF8, 0, title.c_str(), -1, titleBuffer, 256) == 0)
-        {
-            Log(Log::Level::ERR) << "Failed to convert UTF-8 to wide char";
-            return false;
-        }
+            throw SystemError("Failed to convert UTF-8 to wide char");
 
         window = CreateWindowExW(windowExStyle, WINDOW_CLASS_NAME, titleBuffer, windowStyle,
                                  x, y, width, height, nullptr, nullptr, instance, nullptr);
 
         if (!window)
-        {
-            Log(Log::Level::ERR) << "Failed to create window";
-            return false;
-        }
+            throw SystemError("Failed to create window");
 
         monitor = MonitorFromWindow(window, MONITOR_DEFAULTTONEAREST);
 
@@ -463,10 +455,7 @@ namespace ouzel
             wchar_t titleBuffer[256] = L"";
 
             if (!newTitle.empty() && MultiByteToWideChar(CP_UTF8, 0, newTitle.c_str(), -1, titleBuffer, 256) == 0)
-            {
-                Log(Log::Level::ERR) << "Failed to convert UTF-8 to wide char";
-                return;
-            }
+                throw SystemError("Failed to convert UTF-8 to wide char");
 
             SetWindowTextW(window, titleBuffer);
         }

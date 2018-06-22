@@ -12,7 +12,7 @@
 #include "EngineLinux.hpp"
 #include "graphics/RenderDevice.hpp"
 #include "thread/Lock.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 static const long _NET_WM_STATE_TOGGLE = 2;
 
@@ -57,10 +57,7 @@ namespace ouzel
         display = XOpenDisplay(nullptr);
 
         if (!display)
-        {
-            Log(Log::Level::ERR) << "Failed to open display";
-            return false;
-        }
+            throw SystemError("Failed to open display");
 
         Screen* screen = XDefaultScreenOfDisplay(display);
         int screenIndex = XScreenNumberOfScreen(screen);
@@ -105,15 +102,10 @@ namespace ouzel
 
                 visualInfo = glXChooseVisual(display, screenIndex, doubleBuffer);
                 if (!visualInfo)
-                {
-                    Log(Log::Level::ERR) << "Failed to choose visual";
-                    return false;
-                }
+                    throw SystemError("Failed to choose visual");
+
                 if (visualInfo->c_class != TrueColor)
-                {
-                    Log(Log::Level::ERR) << "TrueColor visual required for this program";
-                    return false;
-                }
+                    throw SystemError("TrueColor visual required for this program");
 
                 // create an X colormap since probably not using default visual
                 Colormap cmap = XCreateColormap(display, RootWindow(display, visualInfo->screen), visualInfo->visual, AllocNone);
@@ -130,8 +122,7 @@ namespace ouzel
             }
 #endif
             default:
-                Log(Log::Level::ERR) << "Unsupported render driver";
-                return false;
+                throw SystemError("Unsupported render driver");
         }
 
         EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
@@ -191,7 +182,7 @@ namespace ouzel
         event.xclient.data.l[3] = 0; // unused
         event.xclient.data.l[4] = 0; // unused
         if (!XSendEvent(display, window, False, NoEventMask, &event))
-            Log(Log::Level::ERR) << "Failed to send X11 delete message";
+            throw SystemError("Failed to send X11 delete message");
     }
 
     void WindowResourceLinux::setSize(const Size2& newSize)
@@ -251,7 +242,7 @@ namespace ouzel
         event.xclient.data.l[4] = 0; // unused
 
         if (!XSendEvent(display, DefaultRootWindow(display), 0, SubstructureRedirectMask | SubstructureNotifyMask, &event))
-            Log(Log::Level::ERR) << "Failed to send X11 fullscreen message";
+            throw SystemError("Failed to send X11 fullscreen message");
 
         return true;
     }
