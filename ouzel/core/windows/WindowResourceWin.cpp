@@ -141,10 +141,10 @@ static void handleTouchEvent(WPARAM wParam, LPARAM lParam)
         }
 
         if (!CloseTouchInputHandle(reinterpret_cast<HTOUCHINPUT>(lParam)))
-            throw SystemError("Failed to close touch input handle");
+            throw ouzel::SystemError("Failed to close touch input handle");
     }
     else
-        throw SystemError("Failed to get touch info");
+        throw ouzel::SystemError("Failed to get touch info");
 }
 
 static const LONG_PTR SIGNATURE_MASK = 0x0FFFFFF00;
