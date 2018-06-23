@@ -214,14 +214,13 @@ namespace ouzel
 
         renderer.reset(new graphics::Renderer(graphicsDriver));
 
-        if (!window.init(size,
-                         resizable,
-                         fullscreen,
-                         exclusiveFullscreen,
-                         APPLICATION_NAME,
-                         highDpi,
-                         depth))
-            return false;
+        window.init(size,
+                    resizable,
+                    fullscreen,
+                    exclusiveFullscreen,
+                    APPLICATION_NAME,
+                    highDpi,
+                    depth);
 
         if (!renderer->init(&window,
                             window.getResolution(),

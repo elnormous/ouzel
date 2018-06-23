@@ -55,7 +55,7 @@ namespace ouzel
 
     protected:
         Window();
-        virtual bool init(const Size2& newSize,
+        virtual void init(const Size2& newSize,
                           bool newResizable,
                           bool newFullscreen,
                           bool newExclusiveFullscreen,

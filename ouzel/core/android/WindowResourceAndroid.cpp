@@ -17,7 +17,7 @@ namespace ouzel
         if (window) ANativeWindow_release(window);
     }
 
-    bool WindowResourceAndroid::init(const Size2& newSize,
+    void WindowResourceAndroid::init(const Size2& newSize,
                                      bool newResizable,
                                      bool newFullscreen,
                                      bool newExclusiveFullscreen,
@@ -25,14 +25,13 @@ namespace ouzel
                                      bool newHighDpi,
                                      bool depth)
     {
-        if (!WindowResource::init(newSize,
-                                  newResizable,
-                                  newFullscreen,
-                                  newExclusiveFullscreen,
-                                  newTitle,
-                                  newHighDpi,
-                                  depth))
-            return false;
+        WindowResource::init(newSize,
+                             newResizable,
+                             newFullscreen,
+                             newExclusiveFullscreen,
+                             newTitle,
+                             newHighDpi,
+                             depth);
 
         EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(engine);
         JavaVM* javaVM = engineAndroid->getJavaVM();
@@ -46,8 +45,6 @@ namespace ouzel
         size.width = static_cast<float>(ANativeWindow_getWidth(window));
         size.height = static_cast<float>(ANativeWindow_getHeight(window));
         resolution = size;
-
-        return true;
     }
 
     void WindowResourceAndroid::handleResize(const Size2& newSize)

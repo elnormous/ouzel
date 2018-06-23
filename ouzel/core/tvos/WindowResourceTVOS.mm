@@ -55,7 +55,7 @@ namespace ouzel
         if (window) [window release];
     }
 
-    bool WindowResourceTVOS::init(const Size2& newSize,
+    void WindowResourceTVOS::init(const Size2& newSize,
                                   bool newResizable,
                                   bool newFullscreen,
                                   bool newExclusiveFullscreen,
@@ -63,14 +63,13 @@ namespace ouzel
                                   bool newHighDpi,
                                   bool depth)
     {
-        if (!WindowResource::init(newSize,
-                                  newResizable,
-                                  newFullscreen,
-                                  newExclusiveFullscreen,
-                                  newTitle,
-                                  newHighDpi,
-                                  depth))
-            return false;
+        WindowResource::init(newSize,
+                             newResizable,
+                             newFullscreen,
+                             newExclusiveFullscreen,
+                             newTitle,
+                             newHighDpi,
+                             depth);
 
         screen = [UIScreen mainScreen];
 
@@ -120,8 +119,6 @@ namespace ouzel
         }
         else
             resolution = size;
-
-        return true;
     }
 
     void WindowResourceTVOS::handleResize(const Size2& newSize)
