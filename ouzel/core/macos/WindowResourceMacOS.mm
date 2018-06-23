@@ -86,7 +86,7 @@ namespace ouzel
         if (windowDelegate) [windowDelegate release];
     }
 
-    bool WindowResourceMacOS::init(const Size2& newSize,
+    void WindowResourceMacOS::init(const Size2& newSize,
                                    bool newResizable,
                                    bool newFullscreen,
                                    bool newExclusiveFullscreen,
@@ -94,14 +94,13 @@ namespace ouzel
                                    bool newHighDpi,
                                    bool depth)
     {
-        if (!WindowResource::init(newSize,
-                                  newResizable,
-                                  newFullscreen,
-                                  newExclusiveFullscreen,
-                                  newTitle,
-                                  newHighDpi,
-                                  depth))
-            return false;
+        WindowResource::init(newSize,
+                             newResizable,
+                             newFullscreen,
+                             newExclusiveFullscreen,
+                             newTitle,
+                             newHighDpi,
+                             depth);
 
         screen = [NSScreen mainScreen];
         displayId = [[[screen deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
@@ -211,8 +210,6 @@ namespace ouzel
             contentScale = 1.0F;
             resolution = size;
         }
-
-        return true;
     }
 
     void WindowResourceMacOS::close()

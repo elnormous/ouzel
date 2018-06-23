@@ -314,7 +314,7 @@ namespace ouzel
             UnregisterClassW(WINDOW_CLASS_NAME, GetModuleHandleW(nullptr));
     }
 
-    bool WindowResourceWin::init(const Size2& newSize,
+    void WindowResourceWin::init(const Size2& newSize,
                                  bool newResizable,
                                  bool newFullscreen,
                                  bool newExclusiveFullscreen,
@@ -322,14 +322,13 @@ namespace ouzel
                                  bool newHighDpi,
                                  bool depth)
     {
-        if (!WindowResource::init(newSize,
-                                  newResizable,
-                                  newFullscreen,
-                                  newExclusiveFullscreen,
-                                  newTitle,
-                                  newHighDpi,
-                                  depth))
-            return false;
+        WindowResource::init(newSize,
+                             newResizable,
+                             newFullscreen,
+                             newExclusiveFullscreen,
+                             newTitle,
+                             newHighDpi,
+                             depth);
 
         if (highDpi)
         {
@@ -416,8 +415,6 @@ namespace ouzel
 
         ShowWindow(window, SW_SHOW);
         SetWindowLongPtr(window, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
-
-        return true;
     }
 
     void WindowResourceWin::close()

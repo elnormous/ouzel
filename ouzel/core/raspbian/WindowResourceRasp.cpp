@@ -19,7 +19,7 @@ namespace ouzel
         bcm_host_deinit();
     }
 
-    bool WindowResourceRasp::init(const Size2& newSize,
+    void WindowResourceRasp::init(const Size2& newSize,
                                   bool newResizable,
                                   bool newFullscreen,
                                   bool newExclusiveFullscreen,
@@ -27,14 +27,13 @@ namespace ouzel
                                   bool newHighDpi,
                                   bool depth)
     {
-        if (!WindowResource::init(newSize,
-                                  newResizable,
-                                  newFullscreen,
-                                  newExclusiveFullscreen,
-                                  newTitle,
-                                  newHighDpi,
-                                  depth))
-            return false;
+        WindowResource::init(newSize,
+                             newResizable,
+                             newFullscreen,
+                             newExclusiveFullscreen,
+                             newTitle,
+                             newHighDpi,
+                             depth);
 
         display = vc_dispmanx_display_open(0);
         if (display == DISPMANX_NO_HANDLE)
@@ -76,7 +75,5 @@ namespace ouzel
         size.width = static_cast<float>(modeInfo.width);
         size.height = static_cast<float>(modeInfo.height);
         resolution = size;
-
-        return true;
     }
 }

@@ -36,7 +36,7 @@ namespace ouzel
         }
     }
 
-    bool WindowResourceLinux::init(const Size2& newSize,
+    void WindowResourceLinux::init(const Size2& newSize,
                                    bool newResizable,
                                    bool newFullscreen,
                                    bool newExclusiveFullscreen,
@@ -44,14 +44,13 @@ namespace ouzel
                                    bool newHighDpi,
                                    bool depth)
     {
-        if (!WindowResource::init(newSize,
-                                  newResizable,
-                                  newFullscreen,
-                                  newExclusiveFullscreen,
-                                  newTitle,
-                                  newHighDpi,
-                                  depth))
-            return false;
+        WindowResource::init(newSize,
+                             newResizable,
+                             newFullscreen,
+                             newExclusiveFullscreen,
+                             newTitle,
+                             newHighDpi,
+                             depth);
 
         // open a connection to the X server
         display = XOpenDisplay(nullptr);
@@ -161,8 +160,6 @@ namespace ouzel
         executeAtom = XInternAtom(display, "OUZEL_EXECUTE", False);
 
         if (fullscreen) toggleFullscreen();
-
-        return true;
     }
 
     void WindowResourceLinux::close()

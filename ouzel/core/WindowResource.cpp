@@ -10,7 +10,7 @@ namespace ouzel
     {
     }
 
-    bool WindowResource::init(const Size2& newSize,
+    void WindowResource::init(const Size2& newSize,
                               bool newResizable,
                               bool newFullscreen,
                               bool newExclusiveFullscreen,
@@ -24,8 +24,6 @@ namespace ouzel
         exclusiveFullscreen = newExclusiveFullscreen;
         highDpi = newHighDpi;
         title = newTitle;
-
-        return true;
     }
 
     void WindowResource::close()
