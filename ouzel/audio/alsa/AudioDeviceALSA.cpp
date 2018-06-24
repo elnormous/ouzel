@@ -63,7 +63,7 @@ namespace ouzel
                 sampleFormat = Audio::SampleFormat::SINT16;
             }
             else
-                throw SystemError("No supported format";
+                throw SystemError("No supported format");
 
             if ((err = snd_pcm_hw_params_set_rate(playbackHandle, hwParams, sampleRate, 0)) < 0)
                 throw SystemError("Failed to set sample rate, error: " + std::to_string(err));
@@ -123,7 +123,7 @@ namespace ouzel
             {
                 int err;
 
-                if (!process()) break;
+                process();
 
                 snd_pcm_sframes_t frames;
 

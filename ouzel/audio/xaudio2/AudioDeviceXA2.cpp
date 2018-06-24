@@ -95,7 +95,7 @@ namespace ouzel
                     apiMinorVersion = 7;
                 }
                 else
-                    throw SystemError("Failed to load " << XAUDIO2_DLL_27;
+                    throw SystemError("Failed to load " + std::string(XAUDIO2_DLL_27));
 
                 const UINT XAUDIO2_DEBUG_ENGINE = 0x0001;
 
@@ -172,8 +172,6 @@ namespace ouzel
 
             running = true;
             audioThread = Thread(std::bind(&AudioDeviceXA2::run, this), "Audio");
-
-            return true;
         }
 
         void AudioDeviceXA2::run()
@@ -185,7 +183,7 @@ namespace ouzel
 
                 if (!running) break;
 
-                if (!process()) return;
+                process();
 
                 if (!getData(bufferSize / (channels * sizeof(float)), data[nextBuffer]))
                     throw SystemError("Failed to get data");
@@ -240,7 +238,7 @@ namespace ouzel
 
         void AudioDeviceXA2::OnVoiceError(void*, HRESULT error)
         {
-            throw SystemError("Xaudio2 voice error: " << error;
+            throw SystemError("Xaudio2 voice error: " + std::to_string(error));
         }
     } // namespace audio
 } // namespace ouzel
