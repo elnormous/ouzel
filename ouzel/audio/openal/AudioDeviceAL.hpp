@@ -84,14 +84,14 @@ namespace ouzel
 
             virtual ~AudioDeviceAL();
 
-            virtual bool process() override;
+            virtual void process() override;
 
             inline ALCdevice* getDevice() const { return device; }
             inline ALCcontext* getContext() const { return context; }
 
         protected:
             AudioDeviceAL();
-            virtual bool init(bool debugAudio) override;
+            virtual void init(bool debugAudio) override;
 
             void run();
 

@@ -27,7 +27,7 @@ namespace ouzel
             AudioDevice(AudioDevice&&) = delete;
             AudioDevice& operator=(AudioDevice&&) = delete;
 
-            virtual bool process();
+            virtual void process();
 
             inline uint16_t getAPIMajorVersion() const { return apiMajorVersion; }
             inline uint16_t getAPIMinorVersion() const { return apiMinorVersion; }
@@ -58,7 +58,7 @@ namespace ouzel
 
         protected:
             explicit AudioDevice(Audio::Driver initDriver);
-            virtual bool init(bool debugAudio);
+            virtual void init(bool debugAudio);
 
             void executeAll();
             bool getData(uint32_t frames, std::vector<uint8_t>& result);

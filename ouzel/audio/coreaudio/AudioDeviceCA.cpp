@@ -11,6 +11,7 @@ extern "C" id const AVAudioSessionCategoryAmbient;
 #endif
 
 #include "AudioDeviceCA.hpp"
+#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
 #if OUZEL_PLATFORM_MACOS
@@ -34,8 +35,19 @@ static OSStatus outputCallback(void* inRefCon,
 {
     ouzel::audio::AudioDeviceCA* audioDeviceCA = static_cast<ouzel::audio::AudioDeviceCA*>(inRefCon);
 
-    if (!audioDeviceCA->outputCallback(ioData))
+    try
+    {
+        audioDeviceCA->outputCallback(ioData);
+    }
+    catch (const std::exception& e)
+    {
+        ouzel::Log(ouzel::Log::Level::ERR) << e.what();
         return -1;
+    }
+    catch (...)
+    {
+        return -1;
+    }
 
     return noErr;
 }
@@ -90,10 +102,9 @@ namespace ouzel
 #endif
         }
 
-        bool AudioDeviceCA::init(bool debugAudio)
+        void AudioDeviceCA::init(bool debugAudio)
         {
-            if (!AudioDevice::init(debugAudio))
-                return false;
+            AudioDevice::init(debugAudio);
 
             OSStatus result;
 
@@ -106,10 +117,7 @@ namespace ouzel
 
             result = AudioObjectAddPropertyListener(kAudioObjectSystemObject, &deviceListAddress, deviceListChanged, this);
             if (result != noErr)
-            {
-                Log(Log::Level::ERR) << "Failed to add CoreAudio property listener, error: " << result;
-                return false;
-            }
+                throw SystemError("Failed to add CoreAudio property listener, error: " + std::to_string(result));
 
             static const AudioObjectPropertyAddress defaultDeviceAddress = {
                 kAudioHardwarePropertyDefaultOutputDevice,
@@ -122,10 +130,7 @@ namespace ouzel
                                                 0, nullptr, &size, &deviceId);
 
             if (result != noErr)
-            {
-                Log(Log::Level::ERR) << "Failed to get CoreAudio output device, error: " << result;
-                return false;
-            }
+                throw SystemError("Failed to get CoreAudio output device, error: " + std::to_string(result));
 
             static const AudioObjectPropertyAddress aliveAddress = {
                 kAudioDevicePropertyDeviceIsAlive,
@@ -138,16 +143,10 @@ namespace ouzel
             result = AudioObjectGetPropertyData(deviceId, &aliveAddress, 0, nullptr, &size, &alive);
 
             if (result != noErr)
-            {
-                Log(Log::Level::ERR) << "Failed to get CoreAudio device status, error: " << result;
-                return false;
-            }
+                throw SystemError("Failed to get CoreAudio device status, error: " + std::to_string(result));
 
             if (!alive)
-            {
-                Log(Log::Level::ERR) << "Requested CoreAudio device is not alive, error: " << result;
-                return false;
-            }
+                throw SystemError("Requested CoreAudio device is not alive, error: " + std::to_string(result));
 
             static const AudioObjectPropertyAddress hogModeAddress = {
                 kAudioDevicePropertyHogMode,
@@ -160,16 +159,10 @@ namespace ouzel
             result = AudioObjectGetPropertyData(deviceId, &hogModeAddress, 0, nullptr, &size, &pid);
 
             if (result != noErr)
-            {
-                Log(Log::Level::ERR) << "Failed to check if CoreAudio device is in hog mode, error: " << result;
-                return false;
-            }
+                throw SystemError("Failed to check if CoreAudio device is in hog mode, error: " + std::to_string(result));
 
             if (pid != -1)
-            {
-                Log(Log::Level::ERR) << "Requested CoreAudio device is being hogged";
-                return false;
-            }
+                throw SystemError("Requested CoreAudio device is being hogged");
 
             static const AudioObjectPropertyAddress nameAddress = {
                 kAudioObjectPropertyName,
@@ -184,10 +177,7 @@ namespace ouzel
                                                 0, nullptr, &size, &tempStringRef);
 
             if (result != noErr)
-            {
-                Log(Log::Level::ERR) << "Failed to get CoreAudio device name, error: " << result;
-                return false;
-            }
+                throw SystemError("Failed to get CoreAudio device name, error: " + std::to_string(result));
 
             if (tempStringRef)
             {
@@ -221,28 +211,19 @@ namespace ouzel
             audioComponent = AudioComponentFindNext(nullptr, &desc);
 
             if (!audioComponent)
-            {
-                Log(Log::Level::ERR) << "Failed to find requested CoreAudio component";
-                return false;
-            }
+                throw SystemError("Failed to find requested CoreAudio component");
 
 #if OUZEL_PLATFORM_MACOS
             result = AudioObjectAddPropertyListener(deviceId, &aliveAddress, deviceUnplugged, this);
 
             if (result != noErr)
-            {
-                Log(Log::Level::ERR) << "Failed to add CoreAudio property listener, error: " << result;
-                return false;
-            }
+                throw SystemError("Failed to add CoreAudio property listener, error: " + std::to_string(result));
 #endif
 
             result = AudioComponentInstanceNew(audioComponent, &audioUnit);
 
             if (result != noErr)
-            {
-                Log(Log::Level::ERR) << "Failed to create CoreAudio component instance, error: " << result;
-                return false;
-            }
+                throw SystemError("Failed to create CoreAudio component instance, error: " + std::to_string(result));
 
 #if OUZEL_PLATFORM_MACOS
             result = AudioUnitSetProperty(audioUnit,
@@ -252,10 +233,7 @@ namespace ouzel
                                           sizeof(AudioDeviceID));
 
             if (result != noErr)
-            {
-                Log(Log::Level::ERR) << "Failed to set CoreAudio unit property, error: " << result;
-                return false;
-            }
+                throw SystemError("Failed to set CoreAudio unit property, error: " + std::to_string(result));
 #endif
 
             const AudioUnitElement bus = 0;
@@ -287,10 +265,7 @@ namespace ouzel
                                               kAudioUnitScope_Input, bus, &streamDescription, sizeof(streamDescription));
 
                 if (result != noErr)
-                {
-                    Log(Log::Level::ERR) << "Failed to set CoreAudio unit stream format, error: " << result;
-                    return false;
-                }
+                    throw SystemError("Failed to set CoreAudio unit stream format, error: " + std::to_string(result));
                 else
                 {
                     sampleFormat = Audio::SampleFormat::SINT16;
@@ -311,46 +286,32 @@ namespace ouzel
                                           kAudioUnitScope_Input, bus, &callback, sizeof(callback));
 
             if (result != noErr)
-            {
-                Log(Log::Level::ERR) << "Failed to set CoreAudio unit output callback, error: " << result;
-                return false;
-            }
+                throw SystemError("Failed to set CoreAudio unit output callback, error: " + std::to_string(result));
 
             result = AudioUnitInitialize(audioUnit);
 
             if (result != noErr)
-            {
-                Log(Log::Level::ERR) << "Failed to initialize CoreAudio unit, error: " << result;
-                return false;
-            }
+                throw SystemError("Failed to initialize CoreAudio unit, error: " + std::to_string(result));
 
             result = AudioOutputUnitStart(audioUnit);
 
             if (result != noErr)
-            {
-                Log(Log::Level::ERR) << "Failed to start CoreAudio output unit, error: " << result;
-                return false;
-            }
-
-            return true;
+                throw SystemError("Failed to start CoreAudio output unit, error: " + std::to_string(result));
         }
 
-        bool AudioDeviceCA::outputCallback(AudioBufferList* ioData)
+        void AudioDeviceCA::outputCallback(AudioBufferList* ioData)
         {
-            if (!process())
-                return false;
+            process();
 
             for (UInt32 i = 0; i < ioData->mNumberBuffers; ++i)
             {
                 AudioBuffer* buffer = &ioData->mBuffers[i];
 
                 if (!getData(buffer->mDataByteSize / (sampleSize * channels), data))
-                    return false;
+                    throw SystemError("Failed to get data");
 
                 std::copy(data.begin(), data.end(), static_cast<uint8_t*>(buffer->mData));
             }
-
-            return true;
         }
     } // namespace audio
 } // namespace ouzel
