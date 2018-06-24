@@ -84,79 +84,89 @@ namespace ouzel
         return *this;
     }
 
-    uint32_t File::read(void* buffer, uint32_t size) const
+    uint32_t File::read(void* buffer, uint32_t size, bool all) const
     {
-#if OUZEL_PLATFORM_WINDOWS
-        if (file == INVALID_HANDLE_VALUE)
-            throw FileError("File is not open");
-
-        DWORD n;
-        if (!ReadFile(file, buffer, size, &n, nullptr))
-            throw FileError("Failed to read from file");
-
-        return static_cast<uint32_t>(n);
-#else
-        if (fd == -1)
-            throw FileError("File is not open");
-
-        ssize_t ret = ::read(fd, buffer, size);
-
-        if (ret == -1)
-            throw FileError("Failed to read from file");
-
-        return static_cast<uint32_t>(ret);
-#endif
-    }
-
-    void File::readAll(void* buffer, uint32_t size) const
-    {
-        uint8_t* dest = static_cast<uint8_t*>(buffer);
-
-        while (size > 0)
+        if (all)
         {
-            uint32_t bytesRead = read(dest, size);
+            uint8_t* dest = static_cast<uint8_t*>(buffer);
+            uint32_t remaining = size;
 
-            if (bytesRead == 0)
-                throw FileError("End of file reached");
+            while (remaining > 0)
+            {
+                uint32_t bytesRead = read(dest, remaining);
 
-            size -= bytesRead;
-            dest += bytesRead;
+                if (bytesRead == 0)
+                    throw FileError("End of file reached");
+
+                remaining -= bytesRead;
+                dest += bytesRead;
+            }
+
+            return size;
+        }
+        else
+        {
+#if OUZEL_PLATFORM_WINDOWS
+            if (file == INVALID_HANDLE_VALUE)
+                throw FileError("File is not open");
+
+            DWORD n;
+            if (!ReadFile(file, buffer, size, &n, nullptr))
+                throw FileError("Failed to read from file");
+
+            return static_cast<uint32_t>(n);
+#else
+            if (fd == -1)
+                throw FileError("File is not open");
+
+            ssize_t ret = ::read(fd, buffer, size);
+
+            if (ret == -1)
+                throw FileError("Failed to read from file");
+
+            return static_cast<uint32_t>(ret);
+#endif
         }
     }
 
-    uint32_t File::write(const void* buffer, uint32_t size) const
+    uint32_t File::write(const void* buffer, uint32_t size, bool all) const
     {
-#if OUZEL_PLATFORM_WINDOWS
-        if (file == INVALID_HANDLE_VALUE)
-            throw FileError("File is not open");
-
-        DWORD n;
-        if (!WriteFile(file, buffer, size, &n, nullptr))
-            throw FileError("Failed to write to file");
-
-        return static_cast<uint32_t>(n);
-#else
-        if (fd == -1)
-            throw FileError("File is not open");
-
-        ssize_t ret = ::write(fd, buffer, size);
-
-        if (ret == -1)
-            throw FileError("Failed to write to file");
-
-        return static_cast<uint32_t>(ret);
-#endif
-    }
-
-    void File::writeAll(const void* buffer, uint32_t size) const
-    {
-        const uint8_t* src = static_cast<const uint8_t*>(buffer);
-
-        while (size > 0)
+        if (all)
         {
-            uint32_t bytesWritten = write(src, size);
-            size -= bytesWritten;
-            src += bytesWritten;
+            const uint8_t* src = static_cast<const uint8_t*>(buffer);
+            uint32_t remaining = size;
+
+            while (remaining > 0)
+            {
+                uint32_t bytesWritten = write(src, remaining);
+                remaining -= bytesWritten;
+                src += bytesWritten;
+            }
+
+            return size;
+        }
+        else
+        {
+#if OUZEL_PLATFORM_WINDOWS
+            if (file == INVALID_HANDLE_VALUE)
+                throw FileError("File is not open");
+
+            DWORD n;
+            if (!WriteFile(file, buffer, size, &n, nullptr))
+                throw FileError("Failed to write to file");
+
+            return static_cast<uint32_t>(n);
+#else
+            if (fd == -1)
+                throw FileError("File is not open");
+
+            ssize_t ret = ::write(fd, buffer, size);
+
+            if (ret == -1)
+                throw FileError("Failed to write to file");
+
+            return static_cast<uint32_t>(ret);
+#endif
         }
     }
 
