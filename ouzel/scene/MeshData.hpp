@@ -16,7 +16,7 @@ namespace ouzel
         class MeshData
         {
         public:
-            bool init(Box3 newBoundingBox,
+            void init(Box3 newBoundingBox,
                       const std::vector<uint32_t> indices,
                       const std::vector<graphics::Vertex>& vertices,
                       const std::shared_ptr<graphics::Material>& newMaterial);

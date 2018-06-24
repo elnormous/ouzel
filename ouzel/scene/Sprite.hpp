@@ -29,11 +29,11 @@ namespace ouzel
                             uint32_t spritesX = 1, uint32_t spritesY = 1,
                             const Vector2& pivot = Vector2(0.5F, 0.5F));
 
-            bool init(const SpriteData& spriteData);
-            bool init(const std::string& filename, bool mipmaps = true,
+            void init(const SpriteData& spriteData);
+            void init(const std::string& filename, bool mipmaps = true,
                       uint32_t spritesX = 1, uint32_t spritesY = 1,
                       const Vector2& pivot = Vector2(0.5F, 0.5F));
-            bool init(std::shared_ptr<graphics::Texture> newTexture,
+            void init(std::shared_ptr<graphics::Texture> newTexture,
                       uint32_t spritesX = 1, uint32_t spritesY = 1,
                       const Vector2& pivot = Vector2(0.5F, 0.5F));
 

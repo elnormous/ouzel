@@ -47,7 +47,7 @@ namespace ouzel
             init(texture, spritesX, spritesY, pivot);
         }
 
-        bool Sprite::init(const SpriteData& spriteData)
+        void Sprite::init(const SpriteData& spriteData)
         {
             material = std::make_shared<graphics::Material>();
             material->cullMode = graphics::Renderer::CullMode::NONE;
@@ -62,11 +62,9 @@ namespace ouzel
             currentAnimation = animationQueue.begin();
 
             updateBoundingBox();
-
-            return true;
         }
 
-        bool Sprite::init(const std::string& filename, bool mipmaps,
+        void Sprite::init(const std::string& filename, bool mipmaps,
                           uint32_t spritesX, uint32_t spritesY,
                           const Vector2& pivot)
         {
@@ -85,11 +83,9 @@ namespace ouzel
             currentAnimation = animationQueue.begin();
 
             updateBoundingBox();
-
-            return true;
         }
 
-        bool Sprite::init(std::shared_ptr<graphics::Texture> newTexture,
+        void Sprite::init(std::shared_ptr<graphics::Texture> newTexture,
                           uint32_t spritesX, uint32_t spritesY,
                           const Vector2& pivot)
         {
@@ -127,8 +123,6 @@ namespace ouzel
             currentAnimation = animationQueue.begin();
 
             updateBoundingBox();
-
-            return true;
         }
 
         void Sprite::update(float delta)

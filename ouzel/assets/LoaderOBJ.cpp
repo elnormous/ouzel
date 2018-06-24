@@ -235,7 +235,7 @@ namespace ouzel
                         if (objectCount)
                         {
                             scene::MeshData meshData;
-                            if (!meshData.init(boundingBox, indices, vertices, material)) return false;
+                            meshData.init(boundingBox, indices, vertices, material);
                             engine->getCache()->setMeshData(name, meshData);
                         }
 
@@ -400,7 +400,7 @@ namespace ouzel
             if (objectCount)
             {
                 scene::MeshData meshData;
-                if (!meshData.init(boundingBox, indices, vertices, material)) return false;
+                meshData.init(boundingBox, indices, vertices, material);
                 engine->getCache()->setMeshData(name, meshData);
             }
 

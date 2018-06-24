@@ -14,6 +14,13 @@ namespace ouzel
         explicit ConfigError(const char* str): std::runtime_error(str) {}
     };
 
+    class DataError: public std::runtime_error
+    {
+    public:
+        explicit DataError(const std::string& str): std::runtime_error(str) {}
+        explicit DataError(const char* str): std::runtime_error(str) {}
+    };
+
     class FileError: public std::runtime_error
     {
     public:
