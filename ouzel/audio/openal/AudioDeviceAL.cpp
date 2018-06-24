@@ -13,7 +13,6 @@ extern "C" id const AVAudioSessionCategoryAmbient;
 #include "AudioDeviceAL.hpp"
 #include "core/Engine.hpp"
 #include "utils/Errors.hpp"
-#include "utils/Log.hpp"
 
 namespace ouzel
 {
@@ -47,8 +46,7 @@ namespace ouzel
                 alSourcei(sourceId, AL_BUFFER, 0);
                 alDeleteSources(1, &sourceId);
 
-                if (checkOpenALError())
-                    Log(Log::Level::ERR) << "Failed to delete OpenAL source";
+                checkOpenALError();
             }
 
             for (ALuint bufferId : bufferIds)
@@ -57,8 +55,7 @@ namespace ouzel
                 {
                     alDeleteBuffers(1, &bufferId);
 
-                    if (checkOpenALError())
-                        Log(Log::Level::ERR) << "Failed to delete OpenAL buffer";
+                    checkOpenALError();
                 }
             }
 
