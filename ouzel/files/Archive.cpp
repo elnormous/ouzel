@@ -17,7 +17,7 @@ namespace ouzel
         {
             uint32_t signature;
 
-            file.readAll(&signature, sizeof(signature));
+            file.read(&signature, sizeof(signature), true);
 
             if (decodeUInt32Little(&signature) == 0x02014b50) // central directory
                 break;
@@ -27,14 +27,14 @@ namespace ouzel
 
             uint8_t version[2];
 
-            file.readAll(version, sizeof(version));
+            file.read(version, sizeof(version), true);
 
             uint16_t flags;
 
-            file.readAll(&flags, sizeof(flags));
+            file.read(&flags, sizeof(flags), true);
 
             uint16_t compression;
-            file.readAll(&compression, sizeof(compression));
+            file.read(&compression, sizeof(compression), true);
 
             if (compression != 0x00)
                 throw ParseError("Unsupported compression");
@@ -43,20 +43,20 @@ namespace ouzel
             file.seek(4, File::CURRENT); // skip CRC-32
 
             uint32_t compressedSize;
-            file.readAll(&compressedSize, sizeof(compressedSize));
+            file.read(&compressedSize, sizeof(compressedSize), true);
 
             uint32_t uncompressedSize;
-            file.readAll(&uncompressedSize, sizeof(uncompressedSize));
+            file.read(&uncompressedSize, sizeof(uncompressedSize), true);
 
             uint16_t fileNameLength;
-            file.readAll(&fileNameLength, sizeof(fileNameLength));
+            file.read(&fileNameLength, sizeof(fileNameLength), true);
 
             uint16_t extraFieldLength;
-            file.readAll(&extraFieldLength, sizeof(extraFieldLength));
+            file.read(&extraFieldLength, sizeof(extraFieldLength), true);
 
             std::vector<char> name(decodeUInt16Little(&fileNameLength) + 1);
 
-            file.readAll(name.data(), decodeUInt16Little(&fileNameLength));
+            file.read(name.data(), decodeUInt16Little(&fileNameLength), true);
 
             name[decodeUInt16Little(&fileNameLength)] = '\0';
 
@@ -121,7 +121,7 @@ namespace ouzel
 
         data.resize(i->second.size);
 
-        file.readAll(data.data(), i->second.size);
+        file.read(data.data(), i->second.size, true);
 
         return data;
     }

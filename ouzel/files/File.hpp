@@ -54,10 +54,8 @@ namespace ouzel
 #endif
         }
 
-        uint32_t read(void* buffer, uint32_t size) const;
-        void readAll(void* buffer, uint32_t size) const;
-        uint32_t write(const void* buffer, uint32_t size) const;
-        void writeAll(const void* buffer, uint32_t size) const;
+        uint32_t read(void* buffer, uint32_t size, bool all = false) const;
+        uint32_t write(const void* buffer, uint32_t size, bool all = false) const;
         void seek(int32_t offset, int method) const;
         uint32_t getOffset() const;
 
