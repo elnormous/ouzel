@@ -239,7 +239,7 @@ namespace ouzel
         {
         }
 
-        bool InputManagerEm::init()
+        void InputManagerEm::init()
         {
             emscripten_set_keypress_callback(nullptr, this, true, emKeyCallback);
             emscripten_set_keydown_callback(nullptr, this, true, emKeyCallback);
@@ -263,8 +263,6 @@ namespace ouzel
                 for (long index = 0; index < result; ++index)
                     handleGamepadConnected(index);
             }
-
-            return true;
         }
 
         InputManagerEm::~InputManagerEm()
