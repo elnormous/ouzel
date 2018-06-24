@@ -34,8 +34,8 @@ namespace ouzel
                               const Matrix4& renderViewProjection,
                               bool wireframe) override;
 
-            bool init(const ParticleSystemData& newParticleSystemData);
-            bool init(const std::string& filename);
+            void init(const ParticleSystemData& newParticleSystemData);
+            void init(const std::string& filename);
 
             void resume();
             void stop();

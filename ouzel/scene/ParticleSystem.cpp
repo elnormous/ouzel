@@ -11,6 +11,7 @@
 #include "Layer.hpp"
 #include "scene/Camera.hpp"
 #include "graphics/BufferResource.hpp"
+#include "utils/Errors.hpp"
 #include "utils/Utils.hpp"
 #include "math/MathUtils.hpp"
 
@@ -234,32 +235,30 @@ namespace ouzel
             }
         }
 
-        bool ParticleSystem::init(const ParticleSystemData& newParticleSystemData)
+        void ParticleSystem::init(const ParticleSystemData& newParticleSystemData)
         {
             particleSystemData = newParticleSystemData;
 
             texture = particleSystemData.texture;
 
-            if (!texture) return false;
+            if (!texture)
+                throw DataError("Paricle system data has no texture");
 
             createParticleMesh();
             resume();
-
-            return true;
         }
 
-        bool ParticleSystem::init(const std::string& filename)
+        void ParticleSystem::init(const std::string& filename)
         {
             particleSystemData = engine->getCache()->getParticleSystemData(filename);
 
             texture = particleSystemData.texture;
 
-            if (!texture) return false;
+            if (!texture)
+                throw DataError("Paricle system data has no texture");
 
             createParticleMesh();
             resume();
-
-            return true;
         }
 
         void ParticleSystem::resume()

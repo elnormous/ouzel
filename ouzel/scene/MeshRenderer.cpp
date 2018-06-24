@@ -26,7 +26,7 @@ namespace ouzel
             init(filename, mipmaps);
         }
 
-        bool MeshRenderer::init(const MeshData& meshData)
+        void MeshRenderer::init(const MeshData& meshData)
         {
             boundingBox = meshData.boundingBox;
             material = meshData.material;
@@ -34,14 +34,11 @@ namespace ouzel
             indexSize = meshData.indexSize;
             indexBuffer = meshData.indexBuffer;
             vertexBuffer = meshData.vertexBuffer;
-
-            return true;
         }
 
-        bool MeshRenderer::init(const std::string& filename, bool mipmaps)
+        void MeshRenderer::init(const std::string& filename, bool mipmaps)
         {
             //const MeshData& meshData = engine->getCache()->
-            return true;
         }
 
         void MeshRenderer::draw(const Matrix4& transformMatrix,
