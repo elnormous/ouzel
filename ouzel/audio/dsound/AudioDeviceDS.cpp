@@ -169,7 +169,7 @@ namespace ouzel
 
                     ResetEvent(notifyEvents[nextBuffer]);
 
-                    if (!process()) break;
+                    process();
 
                     uint8_t* bufferPointer;
                     DWORD lockedBufferSize;
