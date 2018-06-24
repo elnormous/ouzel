@@ -25,7 +25,7 @@ namespace ouzel
 
         protected:
             AudioDeviceXA2();
-            virtual bool init(bool debugAudio) override;
+            virtual void init(bool debugAudio) override;
 
             void run();
 

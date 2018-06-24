@@ -90,7 +90,7 @@ namespace ouzel
 
         protected:
             explicit Audio(Driver driver);
-            bool init(bool debugAudio);
+            void init(bool debugAudio);
 
             std::unique_ptr<AudioDevice> device;
 

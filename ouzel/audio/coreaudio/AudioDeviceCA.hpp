@@ -25,11 +25,11 @@ namespace ouzel
         public:
             virtual ~AudioDeviceCA();
 
-            bool outputCallback(AudioBufferList* ioData);
+            void outputCallback(AudioBufferList* ioData);
 
         protected:
             AudioDeviceCA();
-            virtual bool init(bool debugAudio) override;
+            virtual void init(bool debugAudio) override;
 
         private:
 #if OUZEL_PLATFORM_MACOS

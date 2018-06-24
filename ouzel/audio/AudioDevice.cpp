@@ -20,16 +20,13 @@ namespace ouzel
         {
         }
 
-        bool AudioDevice::init(bool)
+        void AudioDevice::init(bool)
         {
-            return true;
         }
 
-        bool AudioDevice::process()
+        void AudioDevice::process()
         {
             executeAll();
-
-            return true;
         }
 
         void AudioDevice::setRenderCommands(const std::vector<RenderCommand>& newRenderCommands)

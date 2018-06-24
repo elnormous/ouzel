@@ -107,10 +107,9 @@ namespace ouzel
                 listener->audio = nullptr;
         }
 
-        bool Audio::init(bool debugAudio)
+        void Audio::init(bool debugAudio)
         {
             device->init(debugAudio);
-            return true;
         }
 
         bool Audio::update()
