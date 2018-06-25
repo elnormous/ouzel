@@ -24,7 +24,7 @@ namespace ouzel
             virtual bool isAbsoluteDpadValues() const override;
 
             virtual int32_t getPlayerIndex() const override;
-            virtual bool setPlayerIndex(int32_t playerIndex) override;
+            virtual void setPlayerIndex(int32_t playerIndex) override;
 
             inline GCControllerPtr getController() const { return controller; }
 

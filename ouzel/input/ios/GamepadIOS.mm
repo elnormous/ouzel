@@ -172,7 +172,7 @@ namespace ouzel
             return static_cast<int32_t>(controller.playerIndex);
         }
 
-        bool GamepadIOS::setPlayerIndex(int32_t playerIndex)
+        void GamepadIOS::setPlayerIndex(int32_t playerIndex)
         {
             switch (playerIndex)
             {
@@ -192,8 +192,6 @@ namespace ouzel
                     controller.playerIndex = GCControllerPlayerIndexUnset;
                     break;
             }
-
-            return true;
         }
     } // namespace input
 } // namespace ouzel

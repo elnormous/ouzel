@@ -275,14 +275,12 @@ namespace ouzel
             engine->getEventDispatcher()->postEvent(event);
         }
 
-        bool InputManager::showVirtualKeyboard()
+        void InputManager::showVirtualKeyboard()
         {
-            return false;
         }
 
-        bool InputManager::hideVirtualKeyboard()
+        void InputManager::hideVirtualKeyboard()
         {
-            return false;
         }
     } // namespace input
 } // namespace ouzel

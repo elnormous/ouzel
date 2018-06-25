@@ -42,7 +42,7 @@ namespace ouzel
                           const std::string& newTitle,
                           bool newHighDpi,
                           bool depth) override;
-        virtual bool toggleFullscreen();
+        virtual void toggleFullscreen();
         void handleResize(const Size2& newSize);
 
         XVisualInfo* visualInfo = nullptr;

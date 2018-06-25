@@ -44,7 +44,7 @@ namespace ouzel
             virtual bool isAbsoluteDpadValues() const;
 
             virtual int32_t getPlayerIndex() const;
-            virtual bool setPlayerIndex(int32_t playerIndex);
+            virtual void setPlayerIndex(int32_t playerIndex);
 
             virtual const ButtonState& getButtonState(GamepadButton button) const;
 
