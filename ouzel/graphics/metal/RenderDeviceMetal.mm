@@ -1047,9 +1047,7 @@ namespace ouzel
                 if (error || !pipelineState)
                 {
                     if (pipelineState) [pipelineState release];
-
-                    Log(Log::Level::ERR) << "Failed to created Metal pipeline state";
-                    return nil;
+                    throw SystemError("Failed to created Metal pipeline state");
                 }
 
                 pipelineStates[desc] = pipelineState;
@@ -1124,10 +1122,7 @@ namespace ouzel
                 [samplerDescriptor release];
 
                 if (!samplerState)
-                {
-                    Log(Log::Level::ERR) << "Failed to create Metal sampler state";
-                    return nil;
-                }
+                    throw SystemError("Failed to create Metal sampler state");
 
                 samplerStates[descriptor] = samplerState;
 
