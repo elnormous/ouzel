@@ -582,7 +582,7 @@ namespace ouzel
             virtual bool processCommands(CommandBuffer& commands) override;
             virtual void lockContext();
             virtual void swapBuffers();
-            virtual bool generateScreenshot(const std::string& filename) override;
+            virtual void generateScreenshot(const std::string& filename) override;
 
             virtual BlendStateResource* createBlendState() override;
             virtual BufferResource* createBuffer() override;

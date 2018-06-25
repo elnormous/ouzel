@@ -1407,7 +1407,7 @@ namespace ouzel
         {
         }
 
-        bool RenderDeviceOGL::generateScreenshot(const std::string& filename)
+        void RenderDeviceOGL::generateScreenshot(const std::string& filename)
         {
             bindFrameBuffer(frameBufferId);
 
@@ -1418,10 +1418,7 @@ namespace ouzel
             glReadPixels(0, 0, frameBufferWidth, frameBufferHeight, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
 
             if (checkOpenGLError())
-            {
-                Log(Log::Level::ERR) << "Failed to read pixels from frame buffer";
-                return false;
-            }
+                throw SystemError("Failed to read pixels from frame buffer");
 
             uint32_t temp;
             uint32_t* rgba = reinterpret_cast<uint32_t*>(data.data());
@@ -1436,12 +1433,7 @@ namespace ouzel
             }
 
             if (!stbi_write_png(filename.c_str(), frameBufferWidth, frameBufferHeight, pixelSize, data.data(), frameBufferWidth * pixelSize))
-            {
-                Log(Log::Level::ERR) << "Failed to save image to file";
-                return false;
-            }
-
-            return true;
+                throw FileError("Failed to save image to file");
         }
 
         BlendStateResource* RenderDeviceOGL::createBlendState()

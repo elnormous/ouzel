@@ -123,7 +123,7 @@ namespace ouzel
             virtual void deleteResource(RenderResource* resource);
 
             virtual bool processCommands(CommandBuffer& commands) = 0;
-            virtual bool generateScreenshot(const std::string& filename);
+            virtual void generateScreenshot(const std::string& filename);
 
             Renderer::Driver driver;
 
