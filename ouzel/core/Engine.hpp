@@ -38,7 +38,7 @@ namespace ouzel
         Engine(Engine&&) = delete;
         Engine& operator=(Engine&&) = delete;
 
-        bool init();
+        void init();
 
         inline const std::vector<std::string>& getArgs() const { return args; }
 

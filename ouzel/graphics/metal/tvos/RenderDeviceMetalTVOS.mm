@@ -25,7 +25,7 @@ namespace ouzel
             flushCommands();
         }
 
-        bool RenderDeviceMetalTVOS::init(Window* newWindow,
+        void RenderDeviceMetalTVOS::init(Window* newWindow,
                                          const Size2& newSize,
                                          uint32_t newSampleCount,
                                          Texture::Filter newTextureFilter,
@@ -34,15 +34,14 @@ namespace ouzel
                                          bool newDepth,
                                          bool newDebugRenderer)
         {
-            if (!RenderDeviceMetal::init(newWindow,
-                                         newSize,
-                                         newSampleCount,
-                                         newTextureFilter,
-                                         newMaxAnisotropy,
-                                         newVerticalSync,
-                                         newDepth,
-                                         newDebugRenderer))
-                return false;
+            RenderDeviceMetal::init(newWindow,
+                                    newSize,
+                                    newSampleCount,
+                                    newTextureFilter,
+                                    newMaxAnisotropy,
+                                    newVerticalSync,
+                                    newDepth,
+                                    newDebugRenderer);
 
             MetalView* view = (MetalView*)static_cast<WindowResourceTVOS*>(newWindow->getResource())->getNativeView();
 
@@ -54,8 +53,6 @@ namespace ouzel
             colorFormat = metalLayer.pixelFormat;
 
             displayLink.start(verticalSync);
-
-            return true;
         }
     } // namespace graphics
 } // namespace ouzel

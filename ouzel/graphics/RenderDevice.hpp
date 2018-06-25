@@ -103,7 +103,7 @@ namespace ouzel
         protected:
             explicit RenderDevice(Renderer::Driver initDriver);
 
-            virtual bool init(Window* newWindow,
+            virtual void init(Window* newWindow,
                               const Size2& newSize,
                               uint32_t newSampleCount,
                               Texture::Filter newTextureFilter,

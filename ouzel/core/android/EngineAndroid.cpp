@@ -228,9 +228,7 @@ namespace ouzel
 
     void EngineAndroid::run()
     {
-        if (!init())
-            return;
-
+        init();
         start();
     }
 

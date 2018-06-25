@@ -25,9 +25,7 @@ namespace ouzel
 
     void EngineEm::run()
     {
-        if (!init())
-            return;
-
+        init();
         start();
 
         emscripten_set_main_loop_arg(loop, this, 0, 1);

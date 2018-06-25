@@ -8,6 +8,7 @@
 #include "RenderDeviceOGLRasp.hpp"
 #include "core/Engine.hpp"
 #include "core/raspbian/WindowResourceRasp.hpp"
+#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
@@ -27,27 +28,18 @@ namespace ouzel
 
             if (context)
             {
-                if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
-                    Log(Log::Level::ERR) << "Failed to unset EGL context, error: " << eglGetError();
-
-                if (!eglDestroyContext(display, context))
-                    Log(Log::Level::ERR) << "Failed to destroy EGL context, error: " << eglGetError();
+                eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
+                eglDestroyContext(display, context);
             }
 
             if (surface)
-            {
-                if (!eglDestroySurface(display, surface))
-                    Log(Log::Level::ERR) << "Failed to destroy EGL surface, error: " << eglGetError();
-            }
+                eglDestroySurface(display, surface);
 
             if (display)
-            {
-                if (!eglTerminate(display))
-                    Log(Log::Level::ERR) << "Failed to terminate EGL";
-            }
+                eglTerminate(display);
         }
 
-        bool RenderDeviceOGLRasp::init(Window* newWindow,
+        void RenderDeviceOGLRasp::init(Window* newWindow,
                                        const Size2& newSize,
                                        uint32_t newSampleCount,
                                        Texture::Filter newTextureFilter,
@@ -59,16 +51,10 @@ namespace ouzel
             display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
 
             if (!display)
-            {
-                Log(Log::Level::ERR) << "Failed to get display, error: " << eglGetError();
-                return false;
-            }
+                throw SystemError("Failed to get display, error: " + std::to_string(eglGetError()));
 
             if (!eglInitialize(display, nullptr, nullptr))
-            {
-                Log(Log::Level::ERR) << "Failed to initialize EGL, error: " << eglGetError();
-                return false;
-            }
+                throw SystemError("Failed to initialize EGL, error: " + std::to_string(eglGetError()));
 
             const EGLint attributeList[] =
             {
@@ -85,25 +71,16 @@ namespace ouzel
             EGLConfig config;
             EGLint numConfig;
             if (!eglChooseConfig(display, attributeList, &config, 1, &numConfig))
-            {
-                Log(Log::Level::ERR) << "Failed to choose EGL config, error: " << eglGetError();
-                return false;
-            }
+                throw SystemError("Failed to choose EGL config, error: " + std::to_string(eglGetError()));
 
             if (!eglBindAPI(EGL_OPENGL_ES_API))
-            {
-                Log(Log::Level::ERR) << "Failed to bind OpenGL ES API, error: " << eglGetError();
-                return false;
-            }
+                throw SystemError("Failed to bind OpenGL ES API, error: " + std::to_string(eglGetError()));
 
             WindowResourceRasp* windowRasp = static_cast<WindowResourceRasp*>(newWindow->getResource());
 
             surface = eglCreateWindowSurface(display, config, reinterpret_cast<EGLNativeWindowType>(&windowRasp->getNativeWindow()), nullptr);
             if (surface == EGL_NO_SURFACE)
-            {
-                Log(Log::Level::ERR) << "Failed to create EGL window surface, error: " << eglGetError();
-                return false;
-            }
+                throw SystemError("Failed to create EGL window surface, error: " + std::to_string(eglGetError()));
 
             for (EGLint version = 3; version >= 2; --version)
             {
@@ -132,43 +109,28 @@ namespace ouzel
             }
 
             if (context == EGL_NO_CONTEXT)
-            {
-                Log(Log::Level::ERR) << "Failed to create EGL context, error: " << eglGetError();
-                return false;
-            }
+                throw SystemError("Failed to create EGL context, error: " + std::to_string(eglGetError()));
 
             if (!eglMakeCurrent(display, surface, surface, context))
-            {
-                Log(Log::Level::ERR) << "Failed to set current EGL context, error: " << eglGetError();
-                return false;
-            }
+                throw SystemError("Failed to set current EGL context, error: " + std::to_string(eglGetError()));
 
             if (!eglSwapInterval(display, newVerticalSync ? 1 : 0))
-            {
-                Log(Log::Level::ERR) << "Failed to set EGL frame interval, error: " << eglGetError();
-                return false;
-            }
+                throw SystemError("Failed to set EGL frame interval, error: " + std::to_string(eglGetError()));
 
-            if (!RenderDeviceOGL::init(newWindow,
-                                       newSize,
-                                       newSampleCount,
-                                       newTextureFilter,
-                                       newMaxAnisotropy,
-                                       newVerticalSync,
-                                       newDepth,
-                                       newDebugRenderer))
-                return false;
+            RenderDeviceOGL::init(newWindow,
+                                  newSize,
+                                  newSampleCount,
+                                  newTextureFilter,
+                                  newMaxAnisotropy,
+                                  newVerticalSync,
+                                  newDepth,
+                                  newDebugRenderer);
 
             if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
-            {
-                Log(Log::Level::ERR) << "Failed to unset EGL context, error: " << eglGetError();
-                return false;
-            }
+                throw SystemError("Failed to unset EGL context, error: " + std::to_string(eglGetError()));
 
             running = true;
             renderThread = Thread(std::bind(&RenderDeviceOGLRasp::main, this), "Render");
-
-            return true;
         }
 
         bool RenderDeviceOGLRasp::lockContext()

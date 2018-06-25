@@ -10,6 +10,7 @@
 #include "RenderDeviceOGLLinux.hpp"
 #include "core/Engine.hpp"
 #include "core/linux/WindowResourceLinux.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -30,14 +31,12 @@ namespace ouzel
 
             if (windowLinux->getDisplay() && context)
             {
-                if (!glXMakeCurrent(windowLinux->getDisplay(), None, nullptr))
-                    Log(Log::Level::ERR) << "Failed to unset GLX context";
-
+                glXMakeCurrent(windowLinux->getDisplay(), None, nullptr);
                 glXDestroyContext(windowLinux->getDisplay(), context);
             }
         }
 
-        bool RenderDeviceOGLLinux::init(Window* newWindow,
+        void RenderDeviceOGLLinux::init(Window* newWindow,
                                         const Size2& newSize,
                                         uint32_t newSampleCount,
                                         Texture::Filter newTextureFilter,
@@ -51,10 +50,7 @@ namespace ouzel
             // make sure OpenGL's GLX extension supported
             int dummy;
             if (!glXQueryExtension(windowLinux->getDisplay(), &dummy, &dummy))
-            {
-                Log(Log::Level::ERR) << "X server has no OpenGL GLX extension";
-                return false;
-            }
+                throw SystemError("X server has no OpenGL GLX extension");
 
             Screen* screen = XDefaultScreenOfDisplay(windowLinux->getDisplay());
             int screenIndex = XScreenNumberOfScreen(screen);
@@ -110,8 +106,6 @@ namespace ouzel
                     }
                 }
             }
-            else
-                Log(Log::Level::ERR) << "Failed to get frame buffer";
 
             if (!context)
             {
@@ -124,38 +118,29 @@ namespace ouzel
                     Log(Log::Level::INFO) << "GLX OpenGL 2 context created";
                 }
                 else
-                {
-                    Log(Log::Level::ERR) << "Failed to create GLX context";
-                    return false;
-                }
+                    throw SystemError("Failed to create GLX context");
             }
 
             // bind the rendering context to the window
             if (!glXMakeCurrent(windowLinux->getDisplay(), windowLinux->getNativeWindow(), context))
-            {
-                Log(Log::Level::ERR) << "Failed to make GLX context current";
-                return false;
-            }
+                throw SystemError("Failed to make GLX context current");
 
             PFNGLXSWAPINTERVALEXTPROC glXSwapIntervalEXT = reinterpret_cast<PFNGLXSWAPINTERVALEXTPROC>(glXGetProcAddress(reinterpret_cast<const GLubyte*>("glXSwapIntervalEXT")));
 
             if (glXSwapIntervalEXT)
                 glXSwapIntervalEXT(windowLinux->getDisplay(), windowLinux->getNativeWindow(), newVerticalSync ? 1 : 0);
 
-            if (!RenderDeviceOGL::init(newWindow,
-                                       newSize,
-                                       newSampleCount,
-                                       newTextureFilter,
-                                       newMaxAnisotropy,
-                                       newVerticalSync,
-                                       newDepth,
-                                       newDebugRenderer))
-                return false;
+            RenderDeviceOGL::init(newWindow,
+                                  newSize,
+                                  newSampleCount,
+                                  newTextureFilter,
+                                  newMaxAnisotropy,
+                                  newVerticalSync,
+                                  newDepth,
+                                  newDebugRenderer);
 
             running = true;
             renderThread = Thread(std::bind(&RenderDeviceOGLLinux::main, this), "Render");
-
-            return true;
         }
 
         std::vector<Size2> RenderDeviceOGLLinux::getSupportedResolutions() const

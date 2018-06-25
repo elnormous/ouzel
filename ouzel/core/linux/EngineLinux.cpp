@@ -30,9 +30,7 @@ namespace ouzel
         if (!XInitThreads())
             throw SystemError("Failed to initialize thread support");
 
-        if (!init())
-            return;
-
+        init();
         start();
 
         XEvent event;

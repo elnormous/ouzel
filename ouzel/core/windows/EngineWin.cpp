@@ -70,9 +70,7 @@ namespace ouzel
             Log(Log::Level::INFO) << "Attached to console";
 #endif
 
-        if (!init())
-            return;
-
+        init();
         start();
 
         input::InputManagerWin* inputWin = static_cast<input::InputManagerWin*>(inputManager.get());

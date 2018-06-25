@@ -50,7 +50,7 @@ namespace ouzel
         protected:
             RenderDeviceD3D11();
 
-            virtual bool init(Window* newWindow,
+            virtual void init(Window* newWindow,
                               const Size2& newSize,
                               uint32_t newSampleCount,
                               Texture::Filter newTextureFilter,

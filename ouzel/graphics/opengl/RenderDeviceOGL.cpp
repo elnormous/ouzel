@@ -44,6 +44,7 @@
 #include "core/Window.hpp"
 #include "assets/Cache.hpp"
 #include "thread/Lock.hpp"
+#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"
 #include "stb_image_write.h"
@@ -344,7 +345,7 @@ namespace ouzel
             resources.clear();
         }
 
-        bool RenderDeviceOGL::init(Window* newWindow,
+        void RenderDeviceOGL::init(Window* newWindow,
                                    const Size2& newSize,
                                    uint32_t newSampleCount,
                                    Texture::Filter newTextureFilter,
@@ -353,15 +354,14 @@ namespace ouzel
                                    bool newDepth,
                                    bool newDebugRenderer)
         {
-            if (!RenderDevice::init(newWindow,
-                                    newSize,
-                                    newSampleCount,
-                                    newTextureFilter,
-                                    newMaxAnisotropy,
-                                    newVerticalSync,
-                                    newDepth,
-                                    newDebugRenderer))
-                return false;
+            RenderDevice::init(newWindow,
+                               newSize,
+                               newSampleCount,
+                               newTextureFilter,
+                               newMaxAnisotropy,
+                               newVerticalSync,
+                               newDepth,
+                               newDebugRenderer);
 
             frameBufferWidth = static_cast<GLsizei>(size.width);
             frameBufferHeight = static_cast<GLsizei>(size.height);
@@ -734,8 +734,7 @@ namespace ouzel
                     break;
 #endif
                 default:
-                    Log(Log::Level::ERR) << "Unsupported OpenGL version";
-                    return false;
+                    throw SystemError("Unsupported OpenGL version");
             }
 
             engine->getCache()->setShader(SHADER_TEXTURE, textureShader);
@@ -784,8 +783,7 @@ namespace ouzel
                     break;
 #endif
                 default:
-                    Log(Log::Level::ERR) << "Unsupported OpenGL version";
-                    return false;
+                    throw SystemError("Unsupported OpenGL version");
             }
 
             engine->getCache()->setShader(SHADER_COLOR, colorShader);
@@ -794,10 +792,7 @@ namespace ouzel
             glDepthFunc(GL_LEQUAL);
 
             if (checkOpenGLError())
-            {
-                Log(Log::Level::ERR) << "Failed to set depth function";
-                return false;
-            }
+                throw SystemError("Failed to set depth function");
 
 #if !OUZEL_SUPPORTS_OPENGLES
             if (sampleCount > 1)
@@ -805,10 +800,7 @@ namespace ouzel
                 glEnable(GL_MULTISAMPLE);
 
                 if (checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to enable multi-sampling";
-                    return false;
-                }
+                    throw SystemError("Failed to enable multi-sampling");
             }
 #endif
 
@@ -822,8 +814,6 @@ namespace ouzel
             frameBufferClearColor[3] = clearColor.normA();
 
             if (glGenVertexArraysProc) glGenVertexArraysProc(1, &vertexArrayId);
-
-            return true;
         }
 
         void RenderDeviceOGL::setClearColorBuffer(bool clear)

@@ -32,7 +32,7 @@ namespace ouzel
             virtual ~RenderDeviceOGLTVOS();
 
         private:
-            virtual bool init(Window* newWindow,
+            virtual void init(Window* newWindow,
                               const Size2& newSize,
                               uint32_t newSampleCount,
                               Texture::Filter newTextureFilter,
@@ -45,7 +45,7 @@ namespace ouzel
             virtual bool lockContext() override;
             virtual bool swapBuffers() override;
 
-            bool createFrameBuffer();
+            void createFrameBuffer();
 
             EAGLContextPtr context = nil;
             CAEAGLLayerPtr eaglLayer = nil;

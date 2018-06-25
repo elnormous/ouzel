@@ -18,9 +18,7 @@ namespace ouzel
 
     void EngineRasp::run()
     {
-        if (!init())
-            return;
-
+        init();
         start();
 
         input::InputManagerRasp* inputRasp = static_cast<input::InputManagerRasp*>(inputManager.get());
