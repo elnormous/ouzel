@@ -19,6 +19,7 @@
 #include "direct3d11/ColorVSD3D11.h"
 #include "core/Engine.hpp"
 #include "thread/Lock.hpp"
+#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 #include "core/windows/WindowResourceWin.hpp"
 #include "stb_image_write.h"
@@ -87,7 +88,7 @@ namespace ouzel
                 device->Release();
         }
 
-        bool RenderDeviceD3D11::init(Window* newWindow,
+        void RenderDeviceD3D11::init(Window* newWindow,
                                      const Size2& newSize,
                                      uint32_t newSampleCount,
                                      Texture::Filter newTextureFilter,
@@ -96,15 +97,14 @@ namespace ouzel
                                      bool newDepth,
                                      bool newDebugRenderer)
         {
-            if (!RenderDevice::init(newWindow,
-                                    newSize,
-                                    newSampleCount,
-                                    newTextureFilter,
-                                    newMaxAnisotropy,
-                                    newVerticalSync,
-                                    newDepth,
-                                    newDebugRenderer))
-                return false;
+            RenderDevice::init(newWindow,
+                               newSize,
+                               newSampleCount,
+                               newTextureFilter,
+                               newMaxAnisotropy,
+                               newVerticalSync,
+                               newDepth,
+                               newDebugRenderer);
 
             UINT deviceCreationFlags = 0;
 
@@ -124,10 +124,7 @@ namespace ouzel
                 &context);
 
             if (FAILED(hr))
-            {
-                Log(Log::Level::ERR) << "Failed to create the Direct3D 11 device, error: " << hr;
-                return false;
-            }
+                throw SystemError("Failed to create the Direct3D 11 device, error: " + std::to_string(hr));
 
             if (device->GetFeatureLevel() < D3D_FEATURE_LEVEL_10_0)
                 npotTexturesSupported = false;
@@ -139,15 +136,12 @@ namespace ouzel
             dxgiDevice->GetParent(IID_IDXGIAdapter, reinterpret_cast<void**>(&adapter));
             hr = adapter->GetParent(IID_IDXGIFactory, reinterpret_cast<void**>(&factory));
             if (FAILED(hr))
-            {
-                Log(Log::Level::ERR) << "Failed to get the DXGI factory, error: " << hr;
-                return false;
-            }
+                throw SystemError("Failed to get the DXGI factory, error: " + std::to_string(hr));
 
             DXGI_ADAPTER_DESC adapterDesc;
             hr = adapter->GetDesc(&adapterDesc);
             if (FAILED(hr))
-                Log(Log::Level::ERR) << "Failed to get the DXGI adapter description, error: " << hr;
+                throw SystemError("Failed to get the DXGI adapter description, error: " + std::to_string(hr));
             else
             {
                 char deviceName[256];
@@ -166,10 +160,7 @@ namespace ouzel
             {
                 hr = device->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, supportedSampleCount, &qualityLevels);
                 if (FAILED(hr))
-                {
-                    Log(Log::Level::WARN) << "Failed to check Direct3D 11 multisample quality levels, error: " << hr;
-                    return false;
-                }
+                    throw SystemError("Failed to check Direct3D 11 multisample quality levels, error: " + std::to_string(hr));
                 else if (qualityLevels)
                     break;
             }
@@ -201,10 +192,7 @@ namespace ouzel
 
             hr = factory->CreateSwapChain(device, &swapChainDesc, &swapChain);
             if (FAILED(hr))
-            {
-                Log(Log::Level::ERR) << "Failed to create the Direct3D 11 swap chain, error: " << hr;
-                return false;
-            }
+                throw SystemError("Failed to create the Direct3D 11 swap chain, error: " + std::to_string(hr));
 
             factory->MakeWindowAssociation(windowWin->getNativeWindow(), DXGI_MWA_NO_ALT_ENTER);
 
@@ -214,17 +202,11 @@ namespace ouzel
             // Backbuffer
             hr = swapChain->GetBuffer(0, IID_ID3D11Texture2D, reinterpret_cast<void**>(&backBuffer));
             if (FAILED(hr))
-            {
-                Log(Log::Level::ERR) << "Failed to retrieve Direct3D 11 backbuffer, error: " << hr;
-                return false;
-            }
+                throw SystemError("Failed to retrieve Direct3D 11 backbuffer, error: " + std::to_string(hr));
 
             hr = device->CreateRenderTargetView(backBuffer, nullptr, &renderTargetView);
             if (FAILED(hr))
-            {
-                Log(Log::Level::ERR) << "Failed to create Direct3D 11 render target view, error: " << hr;
-                return false;
-            }
+                throw SystemError("Failed to create Direct3D 11 render target view, error: " + std::to_string(hr));
 
             // Rasterizer state
             D3D11_RASTERIZER_DESC rasterStateDesc;
@@ -255,10 +237,7 @@ namespace ouzel
 
                         hr = device->CreateRasterizerState(&rasterStateDesc, &rasterizerStates[rasterStateIndex]);
                         if (FAILED(hr))
-                        {
-                            Log(Log::Level::ERR) << "Failed to create Direct3D 11 rasterizer state, error: " << hr;
-                            return false;
-                        }
+                            throw SystemError("Failed to create Direct3D 11 rasterizer state, error: " + std::to_string(hr));
 
                         ++rasterStateIndex;
                     }
@@ -289,10 +268,7 @@ namespace ouzel
 
                     hr = device->CreateDepthStencilState(&depthStencilStateDesc, &depthStencilStates[depthStencilStateIndex]);
                     if (FAILED(hr))
-                    {
-                        Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil state, error: " << hr;
-                        return false;
-                    }
+                        throw SystemError("Failed to create Direct3D 11 depth stencil state, error: " + std::to_string(hr));
 
                     ++depthStencilStateIndex;
                 }
@@ -314,17 +290,11 @@ namespace ouzel
                 depthStencilDesc.MiscFlags = 0;
                 hr = device->CreateTexture2D(&depthStencilDesc, nullptr, &depthStencilTexture);
                 if (FAILED(hr))
-                {
-                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil texture, error: " << hr;
-                    return false;
-                }
+                    throw SystemError("Failed to create Direct3D 11 depth stencil texture, error: " + std::to_string(hr));
 
                 hr = device->CreateDepthStencilView(depthStencilTexture, nullptr, &depthStencilView);
                 if (FAILED(hr))
-                {
-                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil view, error: " << hr;
-                    return false;
-                }
+                    throw SystemError("Failed to create Direct3D 11 depth stencil view, error: " + std::to_string(hr));
             }
 
             std::shared_ptr<Shader> textureShader = std::make_shared<Shader>();
@@ -352,8 +322,6 @@ namespace ouzel
 
             running = true;
             renderThread = Thread(std::bind(&RenderDeviceD3D11::main, this), "Render");
-
-            return true;
         }
 
         void RenderDeviceD3D11::setClearColor(Color color)
@@ -896,9 +864,8 @@ namespace ouzel
             HRESULT hr = output->GetDisplayModeList(format, 0, &numModes, nullptr);
             if (FAILED(hr))
             {
-                Log(Log::Level::ERR) << "Failed to get display mode list, error: " << hr;
                 output->Release();
-                return result;
+                throw SystemError("Failed to get display mode list, error: " + std::to_string(hr));
             }
 
             if (numModes > 0)
