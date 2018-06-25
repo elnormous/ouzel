@@ -126,7 +126,7 @@ namespace ouzel
             virtual void setClearDepthBuffer(bool clear) override;
             virtual void setClearColor(Color color) override;
 
-            virtual bool process() override;
+            virtual void process() override;
 
             bool isTextureBaseLevelSupported() const { return textureBaseLevelSupported; }
             bool isTextureMaxLevelSupported() const { return textureMaxLevelSupported; }

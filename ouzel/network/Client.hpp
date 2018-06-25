@@ -21,7 +21,7 @@ namespace ouzel
             Client(Client&& other);
             Client& operator=(Client&& other);
 
-            bool disconnect();
+            void disconnect();
 
         private:
 #ifdef _WIN32

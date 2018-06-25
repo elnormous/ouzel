@@ -41,7 +41,7 @@ namespace ouzel
                                    float& gain,
                                    float& rolloffFactor)> attributeCallback;
 
-                std::function<bool(uint32_t frames,
+                std::function<void(uint32_t frames,
                                    uint16_t channels,
                                    uint32_t sampleRate,
                                    const Vector3& listenerPosition,
@@ -60,10 +60,10 @@ namespace ouzel
             virtual void init(bool debugAudio);
 
             void executeAll();
-            bool getData(uint32_t frames, std::vector<uint8_t>& result);
-            bool processRenderCommands(uint32_t frames,
+            void getData(uint32_t frames, std::vector<uint8_t>& result);
+            void processRenderCommands(uint32_t frames,
                                        std::vector<float>& result);
-            bool processRenderCommand(const RenderCommand& renderCommand,
+            void processRenderCommand(const RenderCommand& renderCommand,
                                       uint32_t frames,
                                       Vector3 listenerPosition,
                                       Quaternion listenerRotation,

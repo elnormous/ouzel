@@ -44,7 +44,7 @@ namespace ouzel
         loaded = true;
     }
 
-    bool TTFont::getVertices(const std::string& text,
+    void TTFont::getVertices(const std::string& text,
                              const Color& color,
                              float fontSize,
                              const Vector2& anchor,
@@ -52,7 +52,8 @@ namespace ouzel
                              std::vector<graphics::Vertex>& vertices,
                              std::shared_ptr<graphics::Texture>& texture)
     {
-        if (!loaded) return false;
+        if (!loaded)
+            throw DataError("Font not loaded");
 
         static const uint32_t SPACING = 2;
 
@@ -234,7 +235,5 @@ namespace ouzel
 
         for (size_t c = 0; c < vertices.size(); ++c)
             vertices[c].position.y += textHeight * (1.0F - anchor.y);
-
-        return true;
     }
 }

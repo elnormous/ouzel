@@ -44,7 +44,7 @@ namespace ouzel
             previousFrameTime = std::chrono::steady_clock::now();
         }
 
-        bool RenderDevice::process()
+        void RenderDevice::process()
         {
             std::chrono::steady_clock::time_point currentTime = std::chrono::steady_clock::now();
             auto diff = std::chrono::duration_cast<std::chrono::nanoseconds>(currentTime - previousFrameTime);
@@ -86,8 +86,6 @@ namespace ouzel
             executeAll();
 
             processCommands(*renderBuffer);
-
-            return true;
         }
 
         void RenderDevice::setClearColorBuffer(bool clear)

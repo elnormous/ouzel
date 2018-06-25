@@ -31,13 +31,13 @@ namespace ouzel
             virtual void init(const std::vector<uint8_t>& newData);
 
             virtual std::shared_ptr<Stream> createStream() = 0;
-            bool getData(Stream* stream, uint32_t frames, uint32_t neededChannels, uint32_t neededSampleRate, float pitch, std::vector<float>& result);
+            void getData(Stream* stream, uint32_t frames, uint32_t neededChannels, uint32_t neededSampleRate, float pitch, std::vector<float>& result);
 
             inline uint16_t getChannels() const { return channels; }
             inline uint32_t getSampleRate() const { return sampleRate; }
 
         protected:
-            virtual bool readData(Stream* stream, uint32_t frames, std::vector<float>& result) = 0;
+            virtual void readData(Stream* stream, uint32_t frames, std::vector<float>& result) = 0;
 
             uint16_t channels = 0;
             uint32_t sampleRate = 0;

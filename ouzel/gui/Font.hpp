@@ -26,7 +26,7 @@ namespace ouzel
         Font(Font&&) = delete;
         Font& operator=(Font&&) = delete;
 
-        virtual bool getVertices(const std::string& text,
+        virtual void getVertices(const std::string& text,
                                  const Color& color,
                                  float fontSize,
                                  const Vector2& anchor,

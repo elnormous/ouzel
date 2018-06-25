@@ -21,7 +21,7 @@ namespace ouzel
             virtual std::shared_ptr<Stream> createStream() override;
 
         protected:
-            virtual bool readData(Stream* stream, uint32_t frames, std::vector<float>& result) override;
+            virtual void readData(Stream* stream, uint32_t frames, std::vector<float>& result) override;
 
             std::vector<float> data;
         };

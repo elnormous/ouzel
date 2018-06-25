@@ -37,7 +37,7 @@ namespace ouzel
             inline MTLBufferPtr getBuffer() const { return buffer; }
 
         private:
-            bool createBuffer(NSUInteger newSize);
+            void createBuffer(NSUInteger newSize);
 
             RenderDeviceMetal& renderDeviceMetal;
 

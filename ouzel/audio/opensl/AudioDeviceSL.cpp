@@ -119,8 +119,7 @@ namespace ouzel
             if ((*bufferQueue)->RegisterCallback(bufferQueue, playerCallback, this) != SL_RESULT_SUCCESS)
                 throw SystemError("Failed to register OpenSL buffer queue callback");
 
-            if (!getData(bufferSize / (channels * sizeof(int16_t)), data))
-                throw SystemError("Failed to get data");
+            getData(bufferSize / (channels * sizeof(int16_t)), data);
 
             if ((*bufferQueue)->Enqueue(bufferQueue, data.data(), data.size()) != SL_RESULT_SUCCESS)
                 throw SystemError("Failed to enqueue OpenSL data");
@@ -133,8 +132,7 @@ namespace ouzel
         {
             process();
 
-            if (!getData(bufferSize / (channels * sizeof(int16_t)), data))
-                throw SystemError("Failed to get data");
+            getData(bufferSize / (channels * sizeof(int16_t)), data);
 
             if ((*bufferQueue)->Enqueue(bufferQueue, data.data(), data.size()) != SL_RESULT_SUCCESS)
                 throw SystemError("Failed to enqueue OpenSL data");

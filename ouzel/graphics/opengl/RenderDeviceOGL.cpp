@@ -855,11 +855,13 @@ namespace ouzel
             frameBufferHeight = static_cast<GLsizei>(size.height);
         }
 
-        bool RenderDeviceOGL::process()
+        void RenderDeviceOGL::process()
         {
             lockContext();
 
-            return RenderDevice::process();
+            RenderDevice::process();
+
+            swapBuffers();
         }
 
         static bool setUniform(GLint location, DataType dataType, const void* data)
@@ -1356,8 +1358,6 @@ namespace ouzel
 
                 commands.pop();
             }
-
-            swapBuffers();
         }
 
         void RenderDeviceOGL::lockContext()

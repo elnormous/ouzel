@@ -16,7 +16,7 @@ namespace ouzel
         void init(const std::string& filename, bool newMipmaps = true);
         void init(const std::vector<uint8_t>& newData, bool newMipmaps = true);
 
-        virtual bool getVertices(const std::string& text,
+        virtual void getVertices(const std::string& text,
                                  const Color& color,
                                  float fontSize,
                                  const Vector2& anchor,
