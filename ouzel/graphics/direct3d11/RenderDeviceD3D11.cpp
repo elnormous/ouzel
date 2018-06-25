@@ -885,15 +885,12 @@ namespace ouzel
             return result;
         }
 
-        bool RenderDeviceD3D11::generateScreenshot(const std::string& filename)
+        void RenderDeviceD3D11::generateScreenshot(const std::string& filename)
         {
             ID3D11Texture2D* backBufferTexture;
             HRESULT hr = backBuffer->QueryInterface(IID_ID3D11Texture2D, reinterpret_cast<void**>(&backBufferTexture));
             if (FAILED(hr))
-            {
-                Log(Log::Level::ERR) << "Failed to get Direct3D 11 back buffer texture, error: " << hr;
-                return false;
-            }
+                throw SystemError("Failed to get Direct3D 11 back buffer texture, error: " + std::to_string(hr));
 
             D3D11_TEXTURE2D_DESC backBufferDesc;
             backBufferTexture->GetDesc(&backBufferDesc);
@@ -916,10 +913,7 @@ namespace ouzel
             hr = device->CreateTexture2D(&textureDesc, nullptr, &texture);
 
             if (FAILED(hr))
-            {
-                Log(Log::Level::ERR) << "Failed to create Direct3D 11 texture, error: " << hr;
-                return false;
-            }
+                throw SystemError("Failed to create Direct3D 11 texture, error: " + std::to_string(hr));
 
             if (backBufferDesc.SampleDesc.Count > 1)
             {
@@ -943,8 +937,7 @@ namespace ouzel
                 if (FAILED(hr))
                 {
                     texture->Release();
-                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 texture, error: " << hr;
-                    return false;
+                    throw SystemError("Failed to create Direct3D 11 texture, error: " + std::to_string(hr));
                 }
 
                 context->ResolveSubresource(resolveTexture, 0, backBuffer, 0, DXGI_FORMAT_R8G8B8A8_UNORM);
@@ -959,22 +952,18 @@ namespace ouzel
             if (FAILED(hr))
             {
                 texture->Release();
-                Log(Log::Level::ERR) << "Failed to map Direct3D 11 resource, error: " << hr;
-                return false;
+                throw SystemError("Failed to map Direct3D 11 resource, error: " + std::to_string(hr));
             }
 
             if (!stbi_write_png(filename.c_str(), textureDesc.Width, textureDesc.Height, 4, mappedSubresource.pData, static_cast<int>(mappedSubresource.RowPitch)))
             {
                 context->Unmap(texture, 0);
                 texture->Release();
-                Log(Log::Level::ERR) << "Failed to save screenshot to file";
-                return false;
+                throw FileError("Failed to save screenshot to file");
             }
 
             context->Unmap(texture, 0);
             texture->Release();
-
-            return true;
         }
 
         BlendStateResource* RenderDeviceD3D11::createBlendState()

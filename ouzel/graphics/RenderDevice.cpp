@@ -152,9 +152,8 @@ namespace ouzel
 #endif
         }
 
-        bool RenderDevice::generateScreenshot(const std::string&)
+        void RenderDevice::generateScreenshot(const std::string&)
         {
-            return true;
         }
 
         void RenderDevice::executeOnRenderThread(const std::function<void(void)>& func)

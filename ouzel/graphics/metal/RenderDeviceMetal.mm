@@ -925,10 +925,10 @@ namespace ouzel
             return true;
         }
 
-        bool RenderDeviceMetal::generateScreenshot(const std::string& filename)
+        void RenderDeviceMetal::generateScreenshot(const std::string& filename)
         {
             if (!currentMetalTexture)
-                return false;
+                throw SystemError("No back buffer");
 
             NSUInteger width = static_cast<NSUInteger>(currentMetalTexture.width);
             NSUInteger height = static_cast<NSUInteger>(currentMetalTexture.height);
@@ -949,12 +949,7 @@ namespace ouzel
             }
 
             if (!stbi_write_png(filename.c_str(), static_cast<int>(width), static_cast<int>(height), 4, data.get(), static_cast<int>(width * 4)))
-            {
-                Log(Log::Level::ERR) << "Failed to save image to file";
-                return false;
-            }
-
-            return true;
+                throw FileError("Failed to save image to file");
         }
 
         BlendStateResource* RenderDeviceMetal::createBlendState()

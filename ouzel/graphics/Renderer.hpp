@@ -104,7 +104,7 @@ namespace ouzel
 
             inline const Size2& getSize() const { return size; }
 
-            bool saveScreenshot(const std::string& filename);
+            void saveScreenshot(const std::string& filename);
 
             bool addSetRenderTargetCommand(const std::shared_ptr<Texture>& renderTarget);
             bool addClearCommand(const std::shared_ptr<Texture>& renderTarget);

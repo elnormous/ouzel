@@ -251,11 +251,9 @@ namespace ouzel
             executeOnRenderThread(std::bind(&RenderDevice::setSize, device.get(), size));
         }
 
-        bool Renderer::saveScreenshot(const std::string& filename)
+        void Renderer::saveScreenshot(const std::string& filename)
         {
             executeOnRenderThread(std::bind(&RenderDevice::generateScreenshot, device.get(), filename));
-
-            return true;
         }
 
         bool Renderer::addSetRenderTargetCommand(const std::shared_ptr<Texture>& renderTarget)
