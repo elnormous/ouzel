@@ -19,7 +19,7 @@ namespace ouzel
             RenderResource(RenderResource&&) = delete;
             RenderResource& operator=(RenderResource&&) = delete;
 
-            virtual bool reload() { return true; }
+            virtual void reload() {}
         };
     } // namespace graphics
 } // namespace ouzel

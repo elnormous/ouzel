@@ -56,20 +56,19 @@ namespace ouzel
         {
         }
 
-        bool BlendStateResourceOGL::init(bool newEnableBlending,
+        void BlendStateResourceOGL::init(bool newEnableBlending,
                                          BlendState::Factor newColorBlendSource, BlendState::Factor newColorBlendDest,
                                          BlendState::Operation newColorOperation,
                                          BlendState::Factor newAlphaBlendSource, BlendState::Factor newAlphaBlendDest,
                                          BlendState::Operation newAlphaOperation,
                                          uint8_t newColorMask)
         {
-            if (!BlendStateResource::init(newEnableBlending,
-                                          newColorBlendSource, newColorBlendDest,
-                                          newColorOperation,
-                                          newAlphaBlendSource, newAlphaBlendDest,
-                                          newAlphaOperation,
-                                          newColorMask))
-                return false;
+            BlendStateResource::init(newEnableBlending,
+                                     newColorBlendSource, newColorBlendDest,
+                                     newColorOperation,
+                                     newAlphaBlendSource, newAlphaBlendDest,
+                                     newAlphaOperation,
+                                     newColorMask);
 
             modeRGB = getBlendOperation(colorOperation);
             modeAlpha = getBlendOperation(alphaOperation);
@@ -85,8 +84,6 @@ namespace ouzel
             greenMask = (colorMask & BlendState::COLOR_MASK_GREEN) ? GL_TRUE : GL_FALSE;
             blueMask = (colorMask & BlendState::COLOR_MASK_BLUE) ? GL_TRUE : GL_FALSE;
             alphaMask = (colorMask & BlendState::COLOR_MASK_ALPHA) ? GL_TRUE : GL_FALSE;
-
-            return true;
         }
     } // namespace graphics
 } // namespace ouzel

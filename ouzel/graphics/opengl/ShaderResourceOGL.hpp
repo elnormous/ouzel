@@ -33,7 +33,7 @@ namespace ouzel
             explicit ShaderResourceOGL(RenderDeviceOGL& initRenderDeviceOGL);
             virtual ~ShaderResourceOGL();
 
-            virtual bool init(const std::vector<uint8_t>& newFragmentShader,
+            virtual void init(const std::vector<uint8_t>& newFragmentShader,
                               const std::vector<uint8_t>& newVertexShader,
                               const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
                               const std::vector<Shader::ConstantInfo>& newFragmentShaderConstantInfo,
@@ -43,7 +43,7 @@ namespace ouzel
                               const std::string& newFragmentShaderFunction = "",
                               const std::string& newVertexShaderFunction = "") override;
 
-            virtual bool reload() override;
+            virtual void reload() override;
 
             struct Location
             {
@@ -57,9 +57,9 @@ namespace ouzel
             inline GLuint getProgramId() const { return programId; }
 
         private:
-            bool compileShader();
-            void printShaderMessage(GLuint shaderId);
-            void printProgramMessage();
+            void compileShader();
+            std::string getShaderMessage(GLuint shaderId);
+            std::string getProgramMessage();
 
             RenderDeviceOGL& renderDeviceOGL;
 

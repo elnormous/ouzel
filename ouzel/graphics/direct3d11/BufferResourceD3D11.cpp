@@ -7,7 +7,7 @@
 
 #include "BufferResourceD3D11.hpp"
 #include "RenderDeviceD3D11.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -23,23 +23,18 @@ namespace ouzel
             if (buffer) buffer->Release();
         }
 
-        bool BufferResourceD3D11::init(Buffer::Usage newUsage, uint32_t newFlags,
+        void BufferResourceD3D11::init(Buffer::Usage newUsage, uint32_t newFlags,
                                        const std::vector<uint8_t>& newData,
                                        uint32_t newSize)
         {
-            if (!BufferResource::init(newUsage, newFlags, newData, newSize))
-                return false;
+            BufferResource::init(newUsage, newFlags, newData, newSize);
 
-            if (!createBuffer(newSize))
-                return false;
-
-            return true;
+            createBuffer(newSize);
         }
 
-        bool BufferResourceD3D11::setData(const std::vector<uint8_t>& newData)
+        void BufferResourceD3D11::setData(const std::vector<uint8_t>& newData)
         {
-            if (!BufferResource::setData(newData))
-                return false;
+            BufferResource::setData(newData);
 
             if (!buffer || data.size() > bufferSize)
                 createBuffer(static_cast<UINT>(data.size()));
@@ -54,21 +49,16 @@ namespace ouzel
 
                     HRESULT hr = renderDeviceD3D11.getContext()->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource);
                     if (FAILED(hr))
-                    {
-                        Log(Log::Level::ERR) << "Failed to lock Direct3D 11 buffer, error: " << hr;
-                        return false;
-                    }
+                        throw DataError("Failed to lock Direct3D 11 buffer, error: " + std::to_string(hr));
 
                     std::copy(data.begin(), data.end(), static_cast<uint8_t*>(mappedSubresource.pData));
 
                     renderDeviceD3D11.getContext()->Unmap(buffer, 0);
                 }
             }
-
-            return true;
         }
 
-        bool BufferResourceD3D11::createBuffer(UINT newSize)
+        void BufferResourceD3D11::createBuffer(UINT newSize)
         {
             if (buffer)
             {
@@ -93,8 +83,7 @@ namespace ouzel
                         bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
                         break;
                     default:
-                        Log(Log::Level::ERR) << "Unsupported buffer type";
-                        return false;
+                        throw DataError("Unsupported buffer type");
                 }
 
                 bufferDesc.CPUAccessFlags = (flags & Texture::DYNAMIC) ? D3D11_CPU_ACCESS_WRITE : 0;
@@ -116,13 +105,8 @@ namespace ouzel
                 }
 
                 if (FAILED(hr))
-                {
-                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 buffer, error: " << hr;
-                    return false;
-                }
+                    throw DataError("Failed to create Direct3D 11 buffer, error: " + std::to_string(hr));
             }
-
-            return true;
         }
     } // namespace graphics
 } // namespace ouzel

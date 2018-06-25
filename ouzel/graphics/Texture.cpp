@@ -38,7 +38,7 @@ namespace ouzel
             if ((flags & RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
                 throw DataError("Invalid mip map count");
 
-            engine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(TextureResource::*)(const Size2&, uint32_t, uint32_t, uint32_t, PixelFormat)>(&TextureResource::init),
+            engine->getRenderer()->executeOnRenderThread(std::bind(static_cast<void(TextureResource::*)(const Size2&, uint32_t, uint32_t, uint32_t, PixelFormat)>(&TextureResource::init),
                                                                    resource,
                                                                    newSize,
                                                                    newFlags,
@@ -64,7 +64,7 @@ namespace ouzel
             if ((flags & RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
                 throw DataError("Invalid mip map count");
 
-            engine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(TextureResource::*)(const std::vector<uint8_t>&, const Size2&, uint32_t, uint32_t, PixelFormat)>(&TextureResource::init),
+            engine->getRenderer()->executeOnRenderThread(std::bind(static_cast<void(TextureResource::*)(const std::vector<uint8_t>&, const Size2&, uint32_t, uint32_t, PixelFormat)>(&TextureResource::init),
                                                                    resource,
                                                                    image.getData(),
                                                                    image.getSize(),
@@ -88,7 +88,7 @@ namespace ouzel
             if ((flags & RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
                 throw DataError("Invalid mip map count");
 
-            engine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(TextureResource::*)(const std::vector<uint8_t>&, const Size2&, uint32_t, uint32_t, PixelFormat)>(&TextureResource::init),
+            engine->getRenderer()->executeOnRenderThread(std::bind(static_cast<void(TextureResource::*)(const std::vector<uint8_t>&, const Size2&, uint32_t, uint32_t, PixelFormat)>(&TextureResource::init),
                                                                    resource,
                                                                    newData,
                                                                    newSize,
@@ -111,7 +111,7 @@ namespace ouzel
             if ((flags & RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
                 throw DataError("Invalid mip map count");
 
-            engine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(TextureResource::*)(const std::vector<Level>&, const Size2&, uint32_t, PixelFormat)>(&TextureResource::init),
+            engine->getRenderer()->executeOnRenderThread(std::bind(static_cast<void(TextureResource::*)(const std::vector<Level>&, const Size2&, uint32_t, PixelFormat)>(&TextureResource::init),
                                                                    resource,
                                                                    newLevels,
                                                                    newSize,
@@ -124,6 +124,9 @@ namespace ouzel
             if (!(flags & Texture::DYNAMIC))
                 throw DataError("Texture is not dynamic");
 
+            if (newSize.width <= 0.0F || newSize.height <= 0.0F)
+                throw DataError("Invalid texture size");
+
             size = newSize;
 
             engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setSize,
@@ -135,6 +138,9 @@ namespace ouzel
         {
             if (!(flags & Texture::DYNAMIC) || flags & Texture::RENDER_TARGET)
                 throw DataError("Texture is not dynamic");
+
+            if (newSize.width <= 0.0F || newSize.height <= 0.0F)
+                throw DataError("Invalid texture size");
 
             size = newSize;
 

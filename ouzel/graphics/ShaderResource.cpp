@@ -15,7 +15,7 @@ namespace ouzel
         {
         }
 
-        bool ShaderResource::init(const std::vector<uint8_t>& newFragmentShader,
+        void ShaderResource::init(const std::vector<uint8_t>& newFragmentShader,
                                   const std::vector<uint8_t>& newVertexShader,
                                   const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
                                   const std::vector<Shader::ConstantInfo>& newFragmentShaderConstantInfo,
@@ -53,8 +53,6 @@ namespace ouzel
 
             fragmentShaderFunction = newFragmentShaderFunction;
             vertexShaderFunction = newVertexShaderFunction;
-
-            return true;
         }
     } // namespace graphics
 } // namespace ouzel

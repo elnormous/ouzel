@@ -19,11 +19,11 @@ namespace ouzel
         public:
             virtual ~BufferResource();
 
-            virtual bool init(Buffer::Usage newUsage, uint32_t newFlags,
+            virtual void init(Buffer::Usage newUsage, uint32_t newFlags,
                               const std::vector<uint8_t>& newData,
                               uint32_t newSize);
 
-            virtual bool setData(const std::vector<uint8_t>& newData);
+            virtual void setData(const std::vector<uint8_t>& newData);
 
             inline uint32_t getFlags() const { return flags; }
             inline Buffer::Usage getUsage() const { return usage; }

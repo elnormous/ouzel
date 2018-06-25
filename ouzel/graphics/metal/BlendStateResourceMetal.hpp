@@ -27,7 +27,7 @@ namespace ouzel
         public:
             BlendStateResourceMetal();
 
-            virtual bool init(bool newEnableBlending,
+            virtual void init(bool newEnableBlending,
                               BlendState::Factor newColorBlendSource, BlendState::Factor newColorBlendDest,
                               BlendState::Operation newColorOperation,
                               BlendState::Factor newAlphaBlendSource, BlendState::Factor newAlphaBlendDest,

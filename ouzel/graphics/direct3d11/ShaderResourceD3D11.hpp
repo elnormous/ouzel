@@ -23,7 +23,7 @@ namespace ouzel
             explicit ShaderResourceD3D11(RenderDeviceD3D11& initRenderDeviceD3D11);
             virtual ~ShaderResourceD3D11();
 
-            virtual bool init(const std::vector<uint8_t>& newFragmentShader,
+            virtual void init(const std::vector<uint8_t>& newFragmentShader,
                               const std::vector<uint8_t>& newVertexShader,
                               const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
                               const std::vector<Shader::ConstantInfo>& newFragmentShaderConstantInfo,

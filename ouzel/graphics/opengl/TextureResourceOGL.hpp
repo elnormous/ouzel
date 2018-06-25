@@ -33,32 +33,32 @@ namespace ouzel
             explicit TextureResourceOGL(RenderDeviceOGL& initRenderDeviceOGL);
             virtual ~TextureResourceOGL();
 
-            virtual bool init(const Size2& newSize,
+            virtual void init(const Size2& newSize,
                               uint32_t newFlags = 0,
                               uint32_t newMipmaps = 0,
                               uint32_t newSampleCount = 1,
                               PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM) override;
-            virtual bool init(const std::vector<uint8_t>& newData,
+            virtual void init(const std::vector<uint8_t>& newData,
                               const Size2& newSize,
                               uint32_t newFlags = 0,
                               uint32_t newMipmaps = 0,
                               PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM) override;
-            virtual bool init(const std::vector<Texture::Level>& newLevels,
+            virtual void init(const std::vector<Texture::Level>& newLevels,
                               const Size2& newSize,
                               uint32_t newFlags = 0,
                               PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM) override;
 
-            virtual bool reload() override;
+            virtual void reload() override;
 
-            virtual bool setSize(const Size2& newSize) override;
-            virtual bool setData(const std::vector<uint8_t>& newData, const Size2& newSize) override;
-            virtual bool setFilter(Texture::Filter newFilter) override;
-            virtual bool setAddressX(Texture::Address newAddressX) override;
-            virtual bool setAddressY(Texture::Address newAddressY) override;
-            virtual bool setMaxAnisotropy(uint32_t newMaxAnisotropy) override;
-            virtual bool setClearColorBuffer(bool clear) override;
-            virtual bool setClearDepthBuffer(bool clear) override;
-            virtual bool setClearColor(Color color) override;
+            virtual void setSize(const Size2& newSize) override;
+            virtual void setData(const std::vector<uint8_t>& newData, const Size2& newSize) override;
+            virtual void setFilter(Texture::Filter newFilter) override;
+            virtual void setAddressX(Texture::Address newAddressX) override;
+            virtual void setAddressY(Texture::Address newAddressY) override;
+            virtual void setMaxAnisotropy(uint32_t newMaxAnisotropy) override;
+            virtual void setClearColorBuffer(bool clear) override;
+            virtual void setClearDepthBuffer(bool clear) override;
+            virtual void setClearColor(Color color) override;
 
             inline GLuint getTextureId() const { return textureId; }
 
@@ -70,8 +70,8 @@ namespace ouzel
             inline const GLfloat* getFrameBufferClearColor() const { return frameBufferClearColor; }
 
         private:
-            bool createTexture();
-            bool setTextureParameters();
+            void createTexture();
+            void setTextureParameters();
 
             RenderDeviceOGL& renderDeviceOGL;
 

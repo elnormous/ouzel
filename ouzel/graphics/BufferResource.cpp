@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "BufferResource.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -15,27 +16,24 @@ namespace ouzel
         {
         }
 
-        bool BufferResource::init(Buffer::Usage newUsage, uint32_t newFlags,
+        void BufferResource::init(Buffer::Usage newUsage, uint32_t newFlags,
                                   const std::vector<uint8_t>& newData,
                                   uint32_t)
         {
             usage = newUsage;
             flags = newFlags;
             data = newData;
-
-            return true;
         }
 
-        bool BufferResource::setData(const std::vector<uint8_t>& newData)
+        void BufferResource::setData(const std::vector<uint8_t>& newData)
         {
             if (!(flags & Buffer::DYNAMIC))
-                return false;
+                throw DataError("Buffer is not dynamic");
 
-            if (newData.empty()) return false;
+            if (newData.empty())
+                throw DataError("Data is empty");
 
             data = newData;
-
-            return true;
         }
     } // namespace graphics
 } // namespace ouzel
