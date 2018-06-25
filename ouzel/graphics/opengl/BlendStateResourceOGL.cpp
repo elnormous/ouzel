@@ -30,7 +30,6 @@ namespace ouzel
                 case BlendState::Factor::BLEND_FACTOR: return GL_CONSTANT_COLOR;
                 case BlendState::Factor::INV_BLEND_FACTOR: return GL_ONE_MINUS_CONSTANT_COLOR;
                 default:
-                    Log(Log::Level::ERR) << "Unsupported blend factor";
                     return GL_NONE;
             }
         }
@@ -47,7 +46,6 @@ namespace ouzel
                 case BlendState::Operation::MAX: return GL_MAX;
 #endif
                 default:
-                    Log(Log::Level::ERR) << "Unsupported blend operation";
                     return GL_NONE;
             }
         }
