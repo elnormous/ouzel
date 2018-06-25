@@ -44,8 +44,7 @@ namespace ouzel
                 alSourceStop(sourceId);
                 alSourcei(sourceId, AL_BUFFER, 0);
                 alDeleteSources(1, &sourceId);
-
-                checkOpenALError();
+                alGetError();
             }
 
             for (ALuint bufferId : bufferIds)
@@ -53,8 +52,7 @@ namespace ouzel
                 if (bufferId)
                 {
                     alDeleteBuffers(1, &bufferId);
-
-                    checkOpenALError();
+                    alGetError();
                 }
             }
 
@@ -79,8 +77,13 @@ namespace ouzel
 
             device = alcOpenDevice(deviceName);
 
-            if (!device || checkALCError())
+            if (!device)
                 throw SystemError("Failed to create OpenAL device");
+
+            ALCenum alcError;
+
+            if ((alcError = alcGetError(device)) != ALC_NO_ERROR)
+                throw SystemError("Failed to create OpenAL device, error: " + std::to_string(alcError));
 
             int capabilities[] =
             {
@@ -91,13 +94,13 @@ namespace ouzel
 
             context = alcCreateContext(device, capabilities);
 
-            if (checkALCError())
-                throw SystemError("Failed to create OpenAL context");
+            if ((alcError = alcGetError(device)) != ALC_NO_ERROR)
+                throw SystemError("Failed to create OpenAL context, error: " + std::to_string(alcError));
 
             alcMakeContextCurrent(context);
 
-            if (checkALCError())
-                throw SystemError("Failed to make OpenAL context current");
+            if ((alcError = alcGetError(device)) != ALC_NO_ERROR)
+                throw SystemError("Failed to make OpenAL context current, error: " + std::to_string(alcError));
 
 #if !OUZEL_PLATFORM_EMSCRIPTEN
             format40 = alGetEnumValue("AL_FORMAT_QUAD16");
@@ -105,19 +108,20 @@ namespace ouzel
             format61 = alGetEnumValue("AL_FORMAT_61CHN16");
             format71 = alGetEnumValue("AL_FORMAT_71CHN16");
 #endif
+            ALenum error;
 
-            if (checkOpenALError())
+            if ((error = alGetError()) != AL_NO_ERROR)
                 Log(Log::Level::WARN) << "Failed to get OpenAL enum values";
 
             alGenSources(1, &sourceId);
 
-            if (checkOpenALError())
-                throw SystemError("Failed to create OpenAL source");
+            if ((error = alGetError()) != AL_NO_ERROR)
+                throw SystemError("Failed to create OpenAL source, error" + std::to_string(error));
 
             alGenBuffers(2, bufferIds);
 
-            if (checkOpenALError())
-                throw SystemError("Failed to create OpenAL buffers");
+            if ((error = alGetError()) != AL_NO_ERROR)
+                throw SystemError("Failed to create OpenAL buffers, error" + std::to_string(error));
 
             switch (channels)
             {
@@ -151,13 +155,13 @@ namespace ouzel
 
             alSourceQueueBuffers(sourceId, 2, bufferIds);
 
-            if (checkOpenALError())
-                throw SystemError("Failed to queue OpenAL buffers");
+            if ((error = alGetError()) != AL_NO_ERROR)
+                throw SystemError("Failed to queue OpenAL buffers, error" + std::to_string(error));
 
             alSourcePlay(sourceId);
 
-            if (checkOpenALError())
-                throw SystemError("Failed to play OpenAL source");
+            if ((error = alGetError()) != AL_NO_ERROR)
+                throw SystemError("Failed to play OpenAL source, error" + std::to_string(error));
 
 #if OUZEL_MULTITHREADED
             running = true;
@@ -171,22 +175,26 @@ namespace ouzel
 
             alcMakeContextCurrent(context);
 
-            if (checkALCError())
-                throw SystemError("Failed to make OpenAL context current");
+            ALCenum alcError;
+
+            if ((alcError = alcGetError(device)) != ALC_NO_ERROR)
+                throw SystemError("Failed to make OpenAL context current, error: " + std::to_string(alcError));
 
             ALint buffersProcessed;
             alGetSourcei(sourceId, AL_BUFFERS_PROCESSED, &buffersProcessed);
 
-            if (checkOpenALError())
-                throw SystemError("Failed to get processed buffer count");
+            ALenum error;
+
+            if ((error = alGetError()) != AL_NO_ERROR)
+                throw SystemError("Failed to get processed buffer count, error" + std::to_string(error));
 
             // requeue all processed buffers
             for (; buffersProcessed > 0; --buffersProcessed)
             {
                 alSourceUnqueueBuffers(sourceId, 1, &bufferIds[nextBuffer]);
 
-                if (checkOpenALError())
-                    throw SystemError("Failed to unqueue OpenAL buffer");
+                if ((error = alGetError()) != AL_NO_ERROR)
+                    throw SystemError("Failed to unqueue OpenAL buffer, error" + std::to_string(error));
 
                 if (!getData(bufferSize / (channels * sizeof(int16_t)), data))
                     throw SystemError("Failed to get data");
@@ -198,8 +206,8 @@ namespace ouzel
 
                 alSourceQueueBuffers(sourceId, 1, &bufferIds[nextBuffer]);
 
-                if (checkOpenALError())
-                    throw SystemError("Failed to queue OpenAL buffer");
+                if ((error = alGetError()) != AL_NO_ERROR)
+                    throw SystemError("Failed to queue OpenAL buffer, error" + std::to_string(error));
 
                 ALint state;
                 alGetSourcei(sourceId, AL_SOURCE_STATE, &state);
@@ -207,8 +215,8 @@ namespace ouzel
                 {
                     alSourcePlay(sourceId);
 
-                    if (checkOpenALError())
-                        throw SystemError("Failed to play OpenAL source");
+                    if ((error = alGetError()) != AL_NO_ERROR)
+                        throw SystemError("Failed to play OpenAL source, error" + std::to_string(error));
                 }
 
                 // swap the buffer
