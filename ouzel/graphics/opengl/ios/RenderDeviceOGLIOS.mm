@@ -101,18 +101,13 @@ namespace ouzel
             createFrameBuffer();
         }
 
-        bool RenderDeviceOGLIOS::lockContext()
+        void RenderDeviceOGLIOS::lockContext()
         {
             if (![EAGLContext setCurrentContext:context])
-            {
-                Log(Log::Level::ERR) << "Failed to set current OpenGL context";
-                return false;
-            }
-
-            return true;
+                throw SystemError("Failed to set current OpenGL context");
         }
 
-        bool RenderDeviceOGLIOS::swapBuffers()
+        void RenderDeviceOGLIOS::swapBuffers()
         {
             if (sampleCount > 1)
             {
@@ -120,10 +115,7 @@ namespace ouzel
                 glBindFramebufferProc(GL_READ_FRAMEBUFFER_APPLE, msaaFrameBufferId); // read from MSAA frame buffer
 
                 if (checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to bind MSAA frame buffer";
-                    return false;
-                }
+                    throw SystemError("Failed to bind MSAA frame buffer");
 
                 if (apiMajorVersion >= 3)
                     glBlitFramebufferProc(0, 0, frameBufferWidth, frameBufferHeight,
@@ -133,20 +125,14 @@ namespace ouzel
                     glResolveMultisampleFramebufferAPPLE();
 
                 if (checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to blit MSAA texture";
-                    return false;
-                }
+                    throw SystemError("Failed to blit MSAA texture");
 
                 // reset framebuffer
                 const GLenum discard[] = {GL_COLOR_ATTACHMENT0, GL_DEPTH_ATTACHMENT};
                 glDiscardFramebufferEXT(GL_READ_FRAMEBUFFER_APPLE, 1, discard);
 
                 if (checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to discard render buffers";
-                    return false;
-                }
+                    throw SystemError("Failed to discard render buffers");
 
                 stateCache.frameBufferId = resolveFrameBufferId;
             }
@@ -154,8 +140,6 @@ namespace ouzel
             glBindRenderbufferProc(GL_RENDERBUFFER, resolveColorRenderBufferId);
 
             [context presentRenderbuffer:GL_RENDERBUFFER];
-
-            return true;
         }
 
         void RenderDeviceOGLIOS::createFrameBuffer()

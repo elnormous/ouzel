@@ -857,7 +857,7 @@ namespace ouzel
 
         bool RenderDeviceOGL::process()
         {
-            if (!lockContext()) return false;
+            lockContext();
 
             return RenderDevice::process();
         }
@@ -1394,19 +1394,17 @@ namespace ouzel
                 commands.pop();
             }
 
-            if (!swapBuffers()) return false;
+            swapBuffers();
 
             return true;
         }
 
-        bool RenderDeviceOGL::lockContext()
+        void RenderDeviceOGL::lockContext()
         {
-            return true;
         }
 
-        bool RenderDeviceOGL::swapBuffers()
+        void RenderDeviceOGL::swapBuffers()
         {
-            return true;
         }
 
         bool RenderDeviceOGL::generateScreenshot(const std::string& filename)

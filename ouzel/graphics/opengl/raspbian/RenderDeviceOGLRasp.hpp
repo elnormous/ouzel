@@ -34,8 +34,8 @@ namespace ouzel
                               bool newDepth,
                               bool newDebugRenderer) override;
 
-            virtual bool lockContext() override;
-            virtual bool swapBuffers() override;
+            virtual void lockContext() override;
+            virtual void swapBuffers() override;
             void main();
 
             EGLDisplay display = 0;

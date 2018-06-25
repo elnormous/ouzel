@@ -165,26 +165,19 @@ namespace ouzel
             return result;
         }
 
-        bool RenderDeviceOGLLinux::lockContext()
+        void RenderDeviceOGLLinux::lockContext()
         {
             WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(window->getResource());
 
             if (!glXMakeCurrent(windowLinux->getDisplay(), windowLinux->getNativeWindow(), context))
-            {
-                Log(Log::Level::ERR) << "Failed to make GLX context current";
-                return false;
-            }
-
-            return true;
+                throw SystemError("Failed to make GLX context current");
         }
 
-        bool RenderDeviceOGLLinux::swapBuffers()
+        void RenderDeviceOGLLinux::swapBuffers()
         {
             WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(window->getResource());
 
             glXSwapBuffers(windowLinux->getDisplay(), windowLinux->getNativeWindow());
-
-            return true;
         }
 
         void RenderDeviceOGLLinux::main()

@@ -580,8 +580,8 @@ namespace ouzel
             virtual void setSize(const Size2& newSize) override;
 
             virtual bool processCommands(CommandBuffer& commands) override;
-            virtual bool lockContext();
-            virtual bool swapBuffers();
+            virtual void lockContext();
+            virtual void swapBuffers();
             virtual bool generateScreenshot(const std::string& filename) override;
 
             virtual BlendStateResource* createBlendState() override;

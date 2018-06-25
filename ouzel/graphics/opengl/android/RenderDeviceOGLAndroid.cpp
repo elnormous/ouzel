@@ -125,7 +125,7 @@ namespace ouzel
 
             if (!eglQuerySurface(display, surface, EGL_WIDTH, &surfaceWidth) ||
                 !eglQuerySurface(display, surface, EGL_HEIGHT, &surfaceHeight))
-                throw SystemError("Failed to get query window size " + std::to_string(eglGetError()));
+                throw SystemError("Failed to get query window size, error: " + std::to_string(eglGetError()));
 
             frameBufferWidth = surfaceWidth;
             frameBufferHeight = surfaceHeight;
@@ -317,26 +317,16 @@ namespace ouzel
             return true;
         }
 
-        bool RenderDeviceOGLAndroid::lockContext()
+        void RenderDeviceOGLAndroid::lockContext()
         {
             if (!eglMakeCurrent(display, surface, surface, context))
-            {
-                Log(Log::Level::ERR) << "Failed to set current EGL context, error: " << eglGetError();
-                return false;
-            }
-
-            return true;
+                throw SystemError("Failed to set current EGL context, error: " + std::to_string(eglGetError()));
         }
 
-        bool RenderDeviceOGLAndroid::swapBuffers()
+        void RenderDeviceOGLAndroid::swapBuffers()
         {
             if (eglSwapBuffers(display, surface) != EGL_TRUE)
-            {
-                Log(Log::Level::ERR) << "Failed to swap buffers " << eglGetError();
-                return false;
-            }
-
-            return true;
+                throw SystemError("Failed to swap buffers, error: " + std::to_string(eglGetError()));
         }
 
         void RenderDeviceOGLAndroid::main()
