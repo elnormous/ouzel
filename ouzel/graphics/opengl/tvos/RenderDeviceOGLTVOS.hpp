@@ -42,8 +42,8 @@ namespace ouzel
                               bool newDebugRenderer) override;
 
             virtual void setSize(const Size2& newSize) override;
-            virtual bool lockContext() override;
-            virtual bool swapBuffers() override;
+            virtual void lockContext() override;
+            virtual void swapBuffers() override;
 
             void createFrameBuffer();
 

@@ -192,18 +192,14 @@ namespace ouzel
             return result;
         }
 
-        bool RenderDeviceOGLMacOS::lockContext()
+        void RenderDeviceOGLMacOS::lockContext()
         {
             [openGLContext makeCurrentContext];
-
-            return true;
         }
 
-        bool RenderDeviceOGLMacOS::swapBuffers()
+        void RenderDeviceOGLMacOS::swapBuffers()
         {
             [openGLContext flushBuffer];
-
-            return true;
         }
 
         bool RenderDeviceOGLMacOS::handleWindow(Event::Type type, const WindowEvent& event)

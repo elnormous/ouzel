@@ -133,26 +133,16 @@ namespace ouzel
             renderThread = Thread(std::bind(&RenderDeviceOGLRasp::main, this), "Render");
         }
 
-        bool RenderDeviceOGLRasp::lockContext()
+        void RenderDeviceOGLRasp::lockContext()
         {
             if (!eglMakeCurrent(display, surface, surface, context))
-            {
-                Log(Log::Level::ERR) << "Failed to set current EGL context, error: " << eglGetError();
-                return false;
-            }
-
-            return true;
+                throw SystemError("Failed to set current EGL context, error: " + std::to_string(eglGetError()));
         }
 
-        bool RenderDeviceOGLRasp::swapBuffers()
+        void RenderDeviceOGLRasp::swapBuffers()
         {
             if (eglSwapBuffers(display, surface) != EGL_TRUE)
-            {
-                Log(Log::Level::ERR) << "Failed to swap buffers, error: " << eglGetError();
-                return false;
-            }
-
-            return true;
+                throw SystemError("Failed to swap buffers, error: " + std::to_string(eglGetError()));
         }
 
         void RenderDeviceOGLRasp::main()
