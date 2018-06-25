@@ -4,7 +4,6 @@
 #include "GamepadXI.hpp"
 #include "InputManagerWin.hpp"
 #include "core/Engine.hpp"
-#include "utils/Log.hpp"
 
 namespace ouzel
 {

@@ -12,7 +12,6 @@
 #include "core/Engine.hpp"
 #include "core/Window.hpp"
 #include "utils/Errors.hpp"
-#include "utils/Log.hpp"
 
 static char TEMP_BUFFER[256];
 

@@ -6,7 +6,6 @@
 #if OUZEL_COMPILE_OPENGL
 
 #include "BlendStateResourceOGL.hpp"
-#include "utils/Log.hpp"
 
 namespace ouzel
 {
