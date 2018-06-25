@@ -43,7 +43,6 @@
 #include "core/Window.hpp"
 #include "assets/Cache.hpp"
 #include "thread/Lock.hpp"
-#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"
 #include "stb_image_write.h"
@@ -957,8 +956,7 @@ namespace ouzel
                         else
                             newFrameBufferId = frameBufferId;
 
-                        if (!bindFrameBuffer(newFrameBufferId))
-                            throw DataError("Failed to bind frame buffer");
+                        bindFrameBuffer(newFrameBufferId);
 
                         // TODO: update cull mode
 
@@ -1002,13 +1000,11 @@ namespace ouzel
 
                         if (newClearMask)
                         {
-                            if (!bindFrameBuffer(newFrameBufferId))
-                                throw DataError("Failed to bind frame buffer");
+                            bindFrameBuffer(newFrameBufferId);
 
-                            if (!setViewport(0, 0,
-                                             renderTargetWidth,
-                                             renderTargetHeight))
-                                throw DataError("Failed to set viewport");
+                            setViewport(0, 0,
+                                        renderTargetWidth,
+                                        renderTargetHeight);
 
                             setScissorTest(false, 0, 0, renderTargetWidth, renderTargetHeight);
 
@@ -1047,8 +1043,7 @@ namespace ouzel
                             default: throw DataError("Invalid cull mode");
                         }
 
-                        if (!setCullFace(cullFace != GL_NONE, cullFace))
-                            throw DataError("Failed to set cull face");
+                        setCullFace(cullFace != GL_NONE, cullFace);
 
                         break;
                     }
@@ -1120,28 +1115,23 @@ namespace ouzel
 
                         if (blendStateOGL)
                         {
-                            if (!setBlendState(blendStateOGL->isGLBlendEnabled(),
-                                               blendStateOGL->getModeRGB(),
-                                               blendStateOGL->getModeAlpha(),
-                                               blendStateOGL->getSourceFactorRGB(),
-                                               blendStateOGL->getDestFactorRGB(),
-                                               blendStateOGL->getSourceFactorAlpha(),
-                                               blendStateOGL->getDestFactorAlpha()))
-                                throw DataError("Failed to set blend state");
+                            setBlendState(blendStateOGL->isGLBlendEnabled(),
+                                          blendStateOGL->getModeRGB(),
+                                          blendStateOGL->getModeAlpha(),
+                                          blendStateOGL->getSourceFactorRGB(),
+                                          blendStateOGL->getDestFactorRGB(),
+                                          blendStateOGL->getSourceFactorAlpha(),
+                                          blendStateOGL->getDestFactorAlpha());
 
-                            if (!setColorMask(blendStateOGL->getRedMask(),
-                                              blendStateOGL->getGreenMask(),
-                                              blendStateOGL->getBlueMask(),
-                                              blendStateOGL->getAlphaMask()))
-                                throw DataError("Failed to set color mask");
+                            setColorMask(blendStateOGL->getRedMask(),
+                                         blendStateOGL->getGreenMask(),
+                                         blendStateOGL->getBlueMask(),
+                                         blendStateOGL->getAlphaMask());
                         }
                         else
                         {
-                            if (!setBlendState(false, 0, 0, 0, 0, 0, 0))
-                                throw DataError("Failed to set blend state");
-
-                            if (!setColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE))
-                                throw DataError("Failed to set color mask");
+                            setBlendState(false, 0, 0, 0, 0, 0, 0);
+                            setColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
                         }
 
                         if (shaderOGL)
@@ -1181,11 +1171,8 @@ namespace ouzel
                             default: throw DataError("Invalid draw mode");
                         }
 
-                        if (!bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId()))
-                            throw DataError("Failed to bind buffer");
-
-                        if (!bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId()))
-                            throw DataError("Failed to bind buffer");
+                        bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId());
+                        bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId());
 
                         GLuint vertexOffset = 0;
 
@@ -1355,12 +1342,9 @@ namespace ouzel
                             TextureResourceOGL* textureOGL = static_cast<TextureResourceOGL*>(setTexturesCommand->textures[layer]);
 
                             if (textureOGL)
-                            {
-                                if (!bindTexture(textureOGL->getTextureId(), layer))
-                                    throw DataError("Failed to bind texture");
-                            }
-                            else if (!bindTexture(0, layer))
-                                throw DataError("Failed to bind tecture");
+                                bindTexture(textureOGL->getTextureId(), layer);
+                            else
+                                bindTexture(0, layer);
                         }
 
                         break;
