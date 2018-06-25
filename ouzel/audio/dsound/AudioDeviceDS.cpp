@@ -176,7 +176,7 @@ namespace ouzel
                     if (FAILED(hr))
                         throw SystemError("Failed to lock DirectSound buffer, error: " + std::to_string(hr));
 
-                    etData(lockedBufferSize / (channels * sizeof(int16_t)), data);
+                    getData(lockedBufferSize / (channels * sizeof(int16_t)), data);
 
                     std::copy(data.begin(), data.end(), bufferPointer);
 
