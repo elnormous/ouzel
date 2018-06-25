@@ -224,7 +224,11 @@ namespace ouzel
 
     void WindowResourceLinux::toggleFullscreen()
     {
-        if (!stateAtom || !stateFullscreenAtom) return false;
+        if (!stateAtom)
+            throw SystemError("State atom is null");
+
+        if (!stateFullscreenAtom)
+            throw SystemError("Fullscreen state atom is null");
 
         XEvent event;
         event.type = ClientMessage;
