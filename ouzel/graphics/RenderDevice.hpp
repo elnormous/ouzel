@@ -120,7 +120,7 @@ namespace ouzel
             virtual TextureResource* createTexture() = 0;
             virtual void deleteResource(RenderResource* resource);
 
-            virtual bool processCommands(CommandBuffer& commands) = 0;
+            virtual void processCommands(CommandBuffer& commands) = 0;
             virtual void generateScreenshot(const std::string& filename);
 
             Renderer::Driver driver;

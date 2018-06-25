@@ -59,9 +59,8 @@ namespace ouzel
             engine->getCache()->setShader(SHADER_COLOR, colorShader);
         }
 
-        bool RenderDeviceEmpty::processCommands(CommandBuffer&)
+        void RenderDeviceEmpty::processCommands(CommandBuffer&)
         {
-            return true;
         }
 
         BlendStateResource* RenderDeviceEmpty::createBlendState()

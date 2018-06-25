@@ -20,9 +20,20 @@ static CVReturn renderCallback(CVDisplayLinkRef,
 {
     @autoreleasepool
     {
-        ouzel::graphics::RenderDeviceOGLMacOS* renderDevice = static_cast<ouzel::graphics::RenderDeviceOGLMacOS*>(userInfo);
-
-        renderDevice->renderCallback();
+        try
+        {
+            ouzel::graphics::RenderDeviceOGLMacOS* renderDevice = static_cast<ouzel::graphics::RenderDeviceOGLMacOS*>(userInfo);
+            renderDevice->renderCallback();
+        }
+        catch (const std::exception& e)
+        {
+            ouzel::Log(ouzel::Log::Level::ERR) << e.what();
+            return kCVReturnError;
+        }
+        catch (...)
+        {
+            return kCVReturnError;
+        }
     }
 
     return kCVReturnSuccess;

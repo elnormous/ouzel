@@ -97,7 +97,7 @@ namespace ouzel
 
             virtual void setSize(const Size2& newSize) override;
 
-            virtual bool processCommands(CommandBuffer& commands) override;
+            virtual void processCommands(CommandBuffer& commands) override;
             virtual void generateScreenshot(const std::string& filename) override;
 
             virtual BlendStateResource* createBlendState() override;

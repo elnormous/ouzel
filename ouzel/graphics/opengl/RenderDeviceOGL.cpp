@@ -920,7 +920,7 @@ namespace ouzel
             return true;
         }
 
-        bool RenderDeviceOGL::processCommands(CommandBuffer& commands)
+        void RenderDeviceOGL::processCommands(CommandBuffer& commands)
         {
             ShaderResourceOGL* currentShader = nullptr;
 
@@ -929,10 +929,7 @@ namespace ouzel
                 glBindVertexArrayProc(vertexArrayId);
 
                 if (checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to bind vertex array";
-                    return false;
-                }
+                    throw DataError("Failed to bind vertex array");
             }
 
             while (Command* command = commands.front())
@@ -958,7 +955,7 @@ namespace ouzel
                             newFrameBufferId = frameBufferId;
 
                         if (!bindFrameBuffer(newFrameBufferId))
-                            return false;
+                            throw DataError("Failed to bind frame buffer");
 
                         // TODO: update cull mode
 
@@ -1003,12 +1000,12 @@ namespace ouzel
                         if (newClearMask)
                         {
                             if (!bindFrameBuffer(newFrameBufferId))
-                                return false;
+                                throw DataError("Failed to bind frame buffer");
 
                             if (!setViewport(0, 0,
                                              renderTargetWidth,
                                              renderTargetHeight))
-                                return false;
+                                throw DataError("Failed to set viewport");
 
                             setScissorTest(false, 0, 0, renderTargetWidth, renderTargetHeight);
 
@@ -1025,10 +1022,7 @@ namespace ouzel
                             glClear(newClearMask);
 
                             if (checkOpenGLError())
-                            {
-                                Log(Log::Level::ERR) << "Failed to clear frame buffer";
-                                return false;
-                            }
+                                throw DataError("Failed to clear frame buffer");
                         }
 
                         break;
@@ -1045,11 +1039,11 @@ namespace ouzel
                             case Renderer::CullMode::NONE: cullFace = GL_NONE; break;
                             case Renderer::CullMode::FRONT: cullFace = ((stateCache.frameBufferId != frameBufferId) ? GL_FRONT : GL_BACK); break; // flip the faces, because of the flipped y-axis
                             case Renderer::CullMode::BACK: cullFace = ((stateCache.frameBufferId != frameBufferId) ? GL_BACK : GL_FRONT); break;
-                            default: Log(Log::Level::ERR) << "Invalid cull mode"; return false;
+                            default: throw DataError("Invalid cull mode");
                         }
 
                         if (!setCullFace(cullFace != GL_NONE, cullFace))
-                            return false;
+                            throw DataError("Failed to set cull face");
 
                         break;
                     }
@@ -1060,10 +1054,7 @@ namespace ouzel
 
 #if OUZEL_SUPPORTS_OPENGLES
                         if (setFillModeCommad->fillMode != Renderer::FillMode::SOLID)
-                        {
-                            Log(Log::Level::ERR) << "Unsupported fill mode";
-                            return false;
-                        }
+                            throw DataError("Unsupported fill mode");
 #else
                         GLenum fillMode = GL_NONE;
 
@@ -1071,7 +1062,7 @@ namespace ouzel
                         {
                             case Renderer::FillMode::SOLID: fillMode = GL_FILL; break;
                             case Renderer::FillMode::WIREFRAME: fillMode = GL_LINE; break;
-                            default: Log(Log::Level::ERR) << "Invalid fill mode"; return false;
+                            default: throw DataError("Invalid fill mode");
                         }
 
                         setPolygonFillMode(fillMode);
@@ -1131,21 +1122,21 @@ namespace ouzel
                                                blendStateOGL->getDestFactorRGB(),
                                                blendStateOGL->getSourceFactorAlpha(),
                                                blendStateOGL->getDestFactorAlpha()))
-                                return false;
+                                throw DataError("Failed to set blend state");
 
                             if (!setColorMask(blendStateOGL->getRedMask(),
                                               blendStateOGL->getGreenMask(),
                                               blendStateOGL->getBlueMask(),
                                               blendStateOGL->getAlphaMask()))
-                                return false;
+                                throw DataError("Failed to set color mask");
                         }
                         else
                         {
                             if (!setBlendState(false, 0, 0, 0, 0, 0, 0))
-                                return false;
+                                throw DataError("Failed to set blend state");
 
                             if (!setColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE))
-                                return false;
+                                throw DataError("Failed to set color mask");
                         }
 
                         if (shaderOGL)
@@ -1182,14 +1173,14 @@ namespace ouzel
                             case Renderer::DrawMode::LINE_STRIP: mode = GL_LINE_STRIP; break;
                             case Renderer::DrawMode::TRIANGLE_LIST: mode = GL_TRIANGLES; break;
                             case Renderer::DrawMode::TRIANGLE_STRIP: mode = GL_TRIANGLE_STRIP; break;
-                            default: Log(Log::Level::ERR) << "Invalid draw mode"; return false;
+                            default: throw DataError("Invalid draw mode");
                         }
 
                         if (!bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId()))
-                            return false;
+                            throw DataError("Failed to bind buffer");
 
                         if (!bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId()))
-                            return false;
+                            throw DataError("Failed to bind buffer");
 
                         GLuint vertexOffset = 0;
 
@@ -1209,10 +1200,7 @@ namespace ouzel
                         }
 
                         if (RenderDeviceOGL::checkOpenGLError())
-                        {
-                            Log(Log::Level::ERR) << "Failed to update vertex attributes";
-                            return false;
-                        }
+                            throw DataError("Failed to update vertex attributes");
 
                         assert(drawCommand->indexCount);
                         assert(indexBufferOGL->getSize());
@@ -1224,9 +1212,7 @@ namespace ouzel
                         {
                             case 2: indexType = GL_UNSIGNED_SHORT; break;
                             case 4: indexType = GL_UNSIGNED_INT; break;
-                            default:
-                                Log(Log::Level::ERR) << "Invalid index size";
-                                return false;
+                            default: throw DataError("Invalid index size");
                         }
 
                         glDrawElements(mode,
@@ -1235,10 +1221,7 @@ namespace ouzel
                                        static_cast<const char*>(nullptr) + (drawCommand->startIndex * drawCommand->indexSize));
 
                         if (checkOpenGLError())
-                        {
-                            Log(Log::Level::ERR) << "Failed to draw elements";
-                            return false;
-                        }
+                            throw DataError("Failed to draw elements");
 
                         break;
                     }
@@ -1317,19 +1300,13 @@ namespace ouzel
                         const SetShaderConstantsCommand* setShaderConstantsCommand = static_cast<const SetShaderConstantsCommand*>(command);
 
                         if (!currentShader)
-                        {
-                            Log(Log::Level::ERR) << "No shader set";
-                            return false;
-                        }
+                            throw DataError("No shader set");
 
                         // pixel shader constants
                         const std::vector<ShaderResourceOGL::Location>& fragmentShaderConstantLocations = currentShader->getFragmentShaderConstantLocations();
 
                         if (setShaderConstantsCommand->fragmentShaderConstants.size() > fragmentShaderConstantLocations.size())
-                        {
-                            Log(Log::Level::ERR) << "Invalid pixel shader constant size";
-                            return false;
-                        }
+                            throw DataError("Invalid pixel shader constant size");
 
                         for (size_t i = 0; i < setShaderConstantsCommand->fragmentShaderConstants.size(); ++i)
                         {
@@ -1339,17 +1316,14 @@ namespace ouzel
                             if (!setUniform(fragmentShaderConstantLocation.location,
                                             fragmentShaderConstantLocation.dataType,
                                             fragmentShaderConstant.data()))
-                                return false;
+                                throw DataError("Failed to set uniform");
                         }
 
                         // vertex shader constants
                         const std::vector<ShaderResourceOGL::Location>& vertexShaderConstantLocations = currentShader->getVertexShaderConstantLocations();
 
                         if (setShaderConstantsCommand->vertexShaderConstants.size() > vertexShaderConstantLocations.size())
-                        {
-                            Log(Log::Level::ERR) << "Invalid vertex shader constant size";
-                            return false;
-                        }
+                            throw DataError("Invalid vertex shader constant size");
 
                         for (size_t i = 0; i < setShaderConstantsCommand->vertexShaderConstants.size(); ++i)
                         {
@@ -1359,7 +1333,7 @@ namespace ouzel
                             if (!setUniform(vertexShaderConstantLocation.location,
                                             vertexShaderConstantLocation.dataType,
                                             vertexShaderConstant.data()))
-                                return false;
+                                throw DataError("Failed to set uniform");
                         }
 
                         break;
@@ -1375,28 +1349,24 @@ namespace ouzel
 
                             if (textureOGL)
                             {
-                                if (!textureOGL->getTextureId())
-                                    return false;
-
                                 if (!bindTexture(textureOGL->getTextureId(), layer))
-                                    return false;
+                                    throw DataError("Failed to bind texture");
                             }
                             else if (!bindTexture(0, layer))
-                                return false;
+                                throw DataError("Failed to bind tecture");
                         }
 
                         break;
                     }
 
-                    default: return false;
+                    default:
+                        throw DataError("Invalid command");
                 }
 
                 commands.pop();
             }
 
             swapBuffers();
-
-            return true;
         }
 
         void RenderDeviceOGL::lockContext()

@@ -350,7 +350,7 @@ namespace ouzel
             });
         }
 
-        bool RenderDeviceD3D11::processCommands(CommandBuffer& commands)
+        void RenderDeviceD3D11::processCommands(CommandBuffer& commands)
         {
             std::vector<float> shaderData;
 
@@ -460,7 +460,7 @@ namespace ouzel
                             case Renderer::CullMode::NONE: cullModeIndex = 0; break;
                             case Renderer::CullMode::FRONT: cullModeIndex = 1; break;
                             case Renderer::CullMode::BACK: cullModeIndex = 2; break;
-                            default: Log(Log::Level::ERR) << "Invalid cull mode"; return false;
+                            default: throw SystemError("Invalid cull mode");
                         }
 
                         uint32_t rasterizerStateIndex = fillModeIndex * 6 + scissorEnableIndex * 3 + cullModeIndex;
@@ -477,7 +477,7 @@ namespace ouzel
                         {
                             case Renderer::FillMode::SOLID: fillModeIndex = 0; break;
                             case Renderer::FillMode::WIREFRAME: fillModeIndex = 1; break;
-                            default: Log(Log::Level::ERR) << "Invalid fill mode"; return false;
+                            default: throw SystemError("Invalid fill mode");
                         }
 
                         uint32_t rasterizerStateIndex = fillModeIndex * 6 + scissorEnableIndex * 3 + cullModeIndex;
@@ -596,8 +596,7 @@ namespace ouzel
                             case 4: indexFormat = DXGI_FORMAT_R32_UINT; break;
                             default:
                                 indexFormat = DXGI_FORMAT_UNKNOWN;
-                                Log(Log::Level::ERR) << "Invalid index size";
-                                return false;
+                                throw SystemError("Invalid index size");
                         }
 
                         context->IASetIndexBuffer(indexBufferD3D11->getBuffer(), indexFormat, 0);
@@ -611,7 +610,7 @@ namespace ouzel
                             case Renderer::DrawMode::LINE_STRIP: topology = D3D_PRIMITIVE_TOPOLOGY_LINESTRIP; break;
                             case Renderer::DrawMode::TRIANGLE_LIST: topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST; break;
                             case Renderer::DrawMode::TRIANGLE_STRIP: topology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP; break;
-                            default: Log(Log::Level::ERR) << "Invalid draw mode"; return false;
+                            default: throw SystemError("Invalid draw mode");
                         }
 
                         context->IASetPrimitiveTopology(topology);
@@ -695,19 +694,13 @@ namespace ouzel
                         const SetShaderConstantsCommand* setShaderConstantsCommand = static_cast<const SetShaderConstantsCommand*>(command);
 
                         if (!currentShader)
-                        {
-                            Log(Log::Level::ERR) << "No shader set";
-                            return false;
-                        }
+                            throw SystemError("No shader set");
 
                         // pixel shader constants
                         const std::vector<ShaderResourceD3D11::Location>& fragmentShaderConstantLocations = currentShader->getFragmentShaderConstantLocations();
 
                         if (setShaderConstantsCommand->fragmentShaderConstants.size() > fragmentShaderConstantLocations.size())
-                        {
-                            Log(Log::Level::ERR) << "Invalid pixel shader constant size";
-                            return false;
-                        }
+                            throw SystemError("Invalid pixel shader constant size");
 
                         shaderData.clear();
 
@@ -717,18 +710,14 @@ namespace ouzel
                             const std::vector<float>& fragmentShaderConstant = setShaderConstantsCommand->fragmentShaderConstants[i];
 
                             if (sizeof(float) * fragmentShaderConstant.size() != fragmentShaderConstantLocation.size)
-                            {
-                                Log(Log::Level::ERR) << "Invalid pixel shader constant size";
-                                return false;
-                            }
+                                throw SystemError("Invalid pixel shader constant size");
 
                             shaderData.insert(shaderData.end(), fragmentShaderConstant.begin(), fragmentShaderConstant.end());
                         }
 
-                        if (!uploadBuffer(currentShader->getFragmentShaderConstantBuffer(),
-                                        shaderData.data(),
-                                        static_cast<uint32_t>(sizeof(float) * shaderData.size())))
-                            return false;
+                        uploadBuffer(currentShader->getFragmentShaderConstantBuffer(),
+                                     shaderData.data(),
+                                     static_cast<uint32_t>(sizeof(float) * shaderData.size()));
 
                         ID3D11Buffer* fragmentShaderConstantBuffers[1] = {currentShader->getFragmentShaderConstantBuffer()};
                         context->PSSetConstantBuffers(0, 1, fragmentShaderConstantBuffers);
@@ -737,10 +726,7 @@ namespace ouzel
                         const std::vector<ShaderResourceD3D11::Location>& vertexShaderConstantLocations = currentShader->getVertexShaderConstantLocations();
 
                         if (setShaderConstantsCommand->vertexShaderConstants.size() > vertexShaderConstantLocations.size())
-                        {
-                            Log(Log::Level::ERR) << "Invalid vertex shader constant size";
-                            return false;
-                        }
+                            throw SystemError("Invalid vertex shader constant size");
 
                         shaderData.clear();
 
@@ -750,18 +736,14 @@ namespace ouzel
                             const std::vector<float>& vertexShaderConstant = setShaderConstantsCommand->vertexShaderConstants[i];
 
                             if (sizeof(float) * vertexShaderConstant.size() != vertexShaderConstantLocation.size)
-                            {
-                                Log(Log::Level::ERR) << "Invalid pixel shader constant size";
-                                return false;
-                            }
+                                throw SystemError("Invalid pixel shader constant size");
 
                             shaderData.insert(shaderData.end(), vertexShaderConstant.begin(), vertexShaderConstant.end());
                         }
 
-                        if (!uploadBuffer(currentShader->getVertexShaderConstantBuffer(),
-                                          shaderData.data(),
-                                          static_cast<uint32_t>(sizeof(float) * shaderData.size())))
-                            return false;
+                        uploadBuffer(currentShader->getVertexShaderConstantBuffer(),
+                                     shaderData.data(),
+                                     static_cast<uint32_t>(sizeof(float) * shaderData.size()));
 
                         ID3D11Buffer* vertexShaderConstantBuffers[1] = {currentShader->getVertexShaderConstantBuffer()};
                         context->VSSetConstantBuffers(0, 1, vertexShaderConstantBuffers);
@@ -782,10 +764,6 @@ namespace ouzel
 
                             if (textureD3D11)
                             {
-                                if (!textureD3D11->getResourceView() ||
-                                    !textureD3D11->getSamplerState())
-                                    return false;
-
                                 resourceViews[layer] = textureD3D11->getResourceView();
                                 samplers[layer] = textureD3D11->getSamplerState();
                             }
@@ -802,15 +780,14 @@ namespace ouzel
                         break;
                     }
 
-                    default: return false;
+                    default:
+                        throw SystemError("Invalid command");
                 }
 
                 commands.pop();
             }
 
             swapChain->Present(swapInterval, 0);
-
-            return true;
         }
 
         IDXGIOutput* RenderDeviceD3D11::getOutput() const
@@ -820,10 +797,7 @@ namespace ouzel
             HMONITOR monitor = windowWin->getMonitor();
 
             if (!monitor)
-            {
-                Log(Log::Level::ERR) << "Window is not on any monitor";
-                return nullptr;
-            }
+                throw SystemError("Window is not on any monitor");
 
             UINT i = 0;
             IDXGIOutput* output;
@@ -1079,21 +1053,16 @@ namespace ouzel
             }
         }
 
-        bool RenderDeviceD3D11::uploadBuffer(ID3D11Buffer* buffer, const void* data, uint32_t dataSize)
+        void RenderDeviceD3D11::uploadBuffer(ID3D11Buffer* buffer, const void* data, uint32_t dataSize)
         {
             D3D11_MAPPED_SUBRESOURCE mappedSubresource;
             HRESULT hr = context->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource);
             if (FAILED(hr))
-            {
-                Log(Log::Level::ERR) << "Failed to lock Direct3D 11 buffer, error: " << hr;
-                return false;
-            }
+                throw SystemError("Failed to lock Direct3D 11 buffer, error: " + std::to_string(hr));
 
             std::copy(static_cast<const uint8_t*>(data), static_cast<const uint8_t*>(data) + dataSize, static_cast<uint8_t*>(mappedSubresource.pData));
 
             context->Unmap(buffer, 0);
-
-            return true;
         }
 
         ID3D11SamplerState* RenderDeviceD3D11::getSamplerState(const SamplerStateDesc& desc)
@@ -1171,10 +1140,7 @@ namespace ouzel
 
                 HRESULT hr = device->CreateSamplerState(&samplerStateDesc, &samplerState);
                 if (FAILED(hr))
-                {
-                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 sampler state, error: " << hr;
-                    return nullptr;
-                }
+                    throw SystemError("Failed to create Direct3D 11 sampler state, error: " + std::to_string(hr));
 
                 samplerStates[desc] = samplerState;
 

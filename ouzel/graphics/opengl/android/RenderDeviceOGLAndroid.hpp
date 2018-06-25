@@ -23,8 +23,8 @@ namespace ouzel
         public:
             virtual ~RenderDeviceOGLAndroid();
 
-            bool reload();
-            bool destroy();
+            void reload();
+            void destroy();
 
         private:
             virtual void init(Window* newWindow,
