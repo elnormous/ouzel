@@ -32,9 +32,8 @@ namespace ouzel
             return -1;
         }
 
-        bool Gamepad::setPlayerIndex(int32_t)
+        void Gamepad::setPlayerIndex(int32_t)
         {
-            return false;
         }
 
         const Gamepad::ButtonState& Gamepad::getButtonState(GamepadButton button) const

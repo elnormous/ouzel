@@ -122,26 +122,22 @@ namespace ouzel
             }
         }
 
-        bool InputManagerIOS::showVirtualKeyboard()
+        void InputManagerIOS::showVirtualKeyboard()
         {
             engine->executeOnMainThread([]() {
                 WindowResourceIOS* windowIOS = static_cast<WindowResourceIOS*>(engine->getWindow()->getResource());
                 UITextField* textField = windowIOS->getTextField();
                 [textField becomeFirstResponder];
             });
-
-            return true;
         }
 
-        bool InputManagerIOS::hideVirtualKeyboard()
+        void InputManagerIOS::hideVirtualKeyboard()
         {
             engine->executeOnMainThread([]() {
                 WindowResourceIOS* windowIOS = static_cast<WindowResourceIOS*>(engine->getWindow()->getResource());
                 UITextField* textField = windowIOS->getTextField();
                 [textField resignFirstResponder];
             });
-
-            return true;
         }
 
         void InputManagerIOS::handleGamepadDiscoveryCompleted()

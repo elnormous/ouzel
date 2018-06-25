@@ -222,7 +222,7 @@ namespace ouzel
         WindowResource::setTitle(newTitle);
     }
 
-    bool WindowResourceLinux::toggleFullscreen()
+    void WindowResourceLinux::toggleFullscreen()
     {
         if (!stateAtom || !stateFullscreenAtom) return false;
 
@@ -239,8 +239,6 @@ namespace ouzel
 
         if (!XSendEvent(display, DefaultRootWindow(display), 0, SubstructureRedirectMask | SubstructureNotifyMask, &event))
             throw SystemError("Failed to send X11 fullscreen message");
-
-        return true;
     }
 
     void WindowResourceLinux::handleResize(const Size2& newSize)
