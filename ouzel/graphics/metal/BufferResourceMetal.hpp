@@ -29,11 +29,11 @@ namespace ouzel
             explicit BufferResourceMetal(RenderDeviceMetal& initRenderDeviceMetal);
             virtual ~BufferResourceMetal();
 
-            virtual bool init(Buffer::Usage newUsage, uint32_t newFlags,
+            virtual void init(Buffer::Usage newUsage, uint32_t newFlags,
                               const std::vector<uint8_t>& newData,
                               uint32_t newSize) override;
 
-            virtual bool setData(const std::vector<uint8_t>& newData) override;
+            virtual void setData(const std::vector<uint8_t>& newData) override;
 
             inline MTLBufferPtr getBuffer() const { return buffer; }
 

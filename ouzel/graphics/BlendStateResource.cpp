@@ -15,7 +15,7 @@ namespace ouzel
         {
         }
 
-        bool BlendStateResource::init(bool newEnableBlending,
+        void BlendStateResource::init(bool newEnableBlending,
                                       BlendState::Factor newColorBlendSource, BlendState::Factor newColorBlendDest,
                                       BlendState::Operation newColorOperation,
                                       BlendState::Factor newAlphaBlendSource, BlendState::Factor newAlphaBlendDest,
@@ -30,8 +30,6 @@ namespace ouzel
             alphaBlendDest = newAlphaBlendDest;
             alphaOperation = newAlphaOperation;
             colorMask = newColorMask;
-
-            return true;
         }
     } // namespace graphics
 } // namespace ouzel

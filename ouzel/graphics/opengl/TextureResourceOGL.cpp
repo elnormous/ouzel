@@ -8,7 +8,7 @@
 #include "TextureResourceOGL.hpp"
 #include "RenderDeviceOGL.hpp"
 #include "utils/Utils.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -217,18 +217,17 @@ namespace ouzel
             }
         }
 
-        bool TextureResourceOGL::init(const Size2& newSize,
+        void TextureResourceOGL::init(const Size2& newSize,
                                       uint32_t newFlags,
                                       uint32_t newMipmaps,
                                       uint32_t newSampleCount,
                                       PixelFormat newPixelFormat)
         {
-            if (!TextureResource::init(newSize,
-                                       newFlags,
-                                       newMipmaps,
-                                       newSampleCount,
-                                       newPixelFormat))
-                return false;
+            TextureResource::init(newSize,
+                                  newFlags,
+                                  newMipmaps,
+                                  newSampleCount,
+                                  newPixelFormat);
 
             clearMask = 0;
             if (clearColorBuffer) clearMask |= GL_COLOR_BUFFER_BIT;
@@ -239,8 +238,7 @@ namespace ouzel
             frameBufferClearColor[2] = clearColor.normB();
             frameBufferClearColor[3] = clearColor.normA();
 
-            if (!createTexture())
-                return false;
+            createTexture();
 
             renderDeviceOGL.bindTexture(textureId, 0);
 
@@ -252,10 +250,7 @@ namespace ouzel
                     if (renderDeviceOGL.isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
 
                     if (RenderDeviceOGL::checkOpenGLError())
-                    {
-                        Log(Log::Level::ERR) << "Failed to set texture base and max levels";
-                        return false;
-                    }
+                        throw DataError("Failed to set texture base and max levels");
                 }
 
                 for (size_t level = 0; level < levels.size(); ++level)
@@ -267,30 +262,25 @@ namespace ouzel
                 }
 
                 if (RenderDeviceOGL::checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to set texture size";
-                    return false;
-                }
+                    throw DataError("Failed to set texture size");
             }
 
-            return setTextureParameters();
+            setTextureParameters();
         }
 
-        bool TextureResourceOGL::init(const std::vector<uint8_t>& newData,
+        void TextureResourceOGL::init(const std::vector<uint8_t>& newData,
                                       const Size2& newSize,
                                       uint32_t newFlags,
                                       uint32_t newMipmaps,
                                       PixelFormat newPixelFormat)
         {
-            if (!TextureResource::init(newData,
-                                       newSize,
-                                       newFlags,
-                                       newMipmaps,
-                                       newPixelFormat))
-                return false;
+            TextureResource::init(newData,
+                                  newSize,
+                                  newFlags,
+                                  newMipmaps,
+                                  newPixelFormat);
 
-            if (!createTexture())
-                return false;
+            createTexture();
 
             renderDeviceOGL.bindTexture(textureId, 0);
 
@@ -302,10 +292,7 @@ namespace ouzel
                     if (renderDeviceOGL.isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
 
                     if (RenderDeviceOGL::checkOpenGLError())
-                    {
-                        Log(Log::Level::ERR) << "Failed to set texture base and max levels";
-                        return false;
-                    }
+                        throw DataError("Failed to set texture base and max levels");
                 }
 
                 for (size_t level = 0; level < levels.size(); ++level)
@@ -327,28 +314,23 @@ namespace ouzel
                 }
 
                 if (RenderDeviceOGL::checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to upload texture data";
-                    return false;
-                }
+                    throw DataError("Failed to upload texture data");
             }
 
-            return setTextureParameters();
+            setTextureParameters();
         }
 
-        bool TextureResourceOGL::init(const std::vector<Texture::Level>& newLevels,
+        void TextureResourceOGL::init(const std::vector<Texture::Level>& newLevels,
                                       const Size2& newSize,
                                       uint32_t newFlags,
                                       PixelFormat newPixelFormat)
         {
-            if (!TextureResource::init(newLevels,
-                                       newSize,
-                                       newFlags,
-                                       newPixelFormat))
-                return false;
+            TextureResource::init(newLevels,
+                                  newSize,
+                                  newFlags,
+                                  newPixelFormat);
 
-            if (!createTexture())
-                return false;
+            createTexture();
 
             renderDeviceOGL.bindTexture(textureId, 0);
 
@@ -360,10 +342,7 @@ namespace ouzel
                     if (renderDeviceOGL.isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
 
                     if (RenderDeviceOGL::checkOpenGLError())
-                    {
-                        Log(Log::Level::ERR) << "Failed to set texture base and max levels";
-                        return false;
-                    }
+                        throw DataError("Failed to set texture base and max levels");
                 }
 
                 for (size_t level = 0; level < levels.size(); ++level)
@@ -385,16 +364,13 @@ namespace ouzel
                 }
 
                 if (RenderDeviceOGL::checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to upload texture data";
-                    return false;
-                }
+                    throw DataError("Failed to upload texture data");
             }
 
-            return setTextureParameters();
+            setTextureParameters();
         }
 
-        bool TextureResourceOGL::reload()
+        void TextureResourceOGL::reload()
         {
             textureId = 0;
             depthTextureId = 0;
@@ -402,8 +378,7 @@ namespace ouzel
             colorBufferId = 0;
             depthBufferId = 0;
 
-            if (!createTexture())
-                return false;
+            createTexture();
 
             renderDeviceOGL.bindTexture(textureId, 0);
 
@@ -415,10 +390,7 @@ namespace ouzel
                     if (renderDeviceOGL.isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
 
                     if (RenderDeviceOGL::checkOpenGLError())
-                    {
-                        Log(Log::Level::ERR) << "Failed to set texture base and max levels";
-                        return false;
-                    }
+                        throw DataError("Failed to set texture base and max levels");
                 }
 
                 for (size_t level = 0; level < levels.size(); ++level)
@@ -440,25 +412,18 @@ namespace ouzel
                 }
 
                 if (RenderDeviceOGL::checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to upload texture data";
-                    return false;
-                }
+                    throw DataError("Failed to upload texture data");
             }
 
-            return setTextureParameters();
+            setTextureParameters();
         }
 
-        bool TextureResourceOGL::setSize(const Size2& newSize)
+        void TextureResourceOGL::setSize(const Size2& newSize)
         {
-            if (!TextureResource::setSize(newSize))
-                return false;
+            TextureResource::setSize(newSize);
 
             if (!textureId)
-            {
-                Log(Log::Level::ERR) << "Texture not initialized";
-                return false;
-            }
+                throw DataError("Texture not initialized");
 
             renderDeviceOGL.bindTexture(textureId, 0);
 
@@ -494,10 +459,7 @@ namespace ouzel
                     }
 
                     if (RenderDeviceOGL::checkOpenGLError())
-                    {
-                        Log(Log::Level::ERR) << "Failed to create render buffer";
-                        return false;
-                    }
+                        throw DataError("Failed to create render buffer");
                 }
                 else
                 {
@@ -507,10 +469,7 @@ namespace ouzel
                         if (renderDeviceOGL.isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
 
                         if (RenderDeviceOGL::checkOpenGLError())
-                        {
-                            Log(Log::Level::ERR) << "Failed to set texture base and max levels";
-                            return false;
-                        }
+                            throw DataError("Failed to set texture base and max levels");
                     }
 
                     for (size_t level = 0; level < levels.size(); ++level)
@@ -524,26 +483,17 @@ namespace ouzel
                     }
 
                     if (RenderDeviceOGL::checkOpenGLError())
-                    {
-                        Log(Log::Level::ERR) << "Failed to set texture size";
-                        return false;
-                    }
+                        throw DataError("Failed to set texture size");
                 }
             }
-
-            return true;
         }
 
-        bool TextureResourceOGL::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
+        void TextureResourceOGL::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
         {
-            if (!TextureResource::setData(newData, newSize))
-                return false;
+            TextureResource::setData(newData, newSize);
 
             if (!textureId)
-            {
-                Log(Log::Level::ERR) << "Texture not initialized";
-                return false;
-            }
+                throw DataError("Texture not initialized");
 
             renderDeviceOGL.bindTexture(textureId, 0);
 
@@ -561,10 +511,7 @@ namespace ouzel
                         if (renderDeviceOGL.isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
 
                         if (RenderDeviceOGL::checkOpenGLError())
-                        {
-                            Log(Log::Level::ERR) << "Failed to set texture base and max levels";
-                            return false;
-                        }
+                            throw DataError("Failed to set texture base and max levels");
                     }
 
                     for (size_t level = 0; level < levels.size(); ++level)
@@ -605,25 +552,16 @@ namespace ouzel
                 }
 
                 if (RenderDeviceOGL::checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to upload texture data";
-                    return false;
-                }
+                    throw DataError("Failed to upload texture data");
             }
-
-            return true;
         }
 
-        bool TextureResourceOGL::setFilter(Texture::Filter newFilter)
+        void TextureResourceOGL::setFilter(Texture::Filter newFilter)
         {
-            if (!TextureResource::setFilter(newFilter))
-                return false;
+            TextureResource::setFilter(newFilter);
 
             if (!textureId)
-            {
-                Log(Log::Level::ERR) << "Texture not initialized";
-                return false;
-            }
+                throw DataError("Texture not initialized");
 
             renderDeviceOGL.bindTexture(textureId, 0);
 
@@ -649,28 +587,19 @@ namespace ouzel
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                     break;
                 default:
-                    return false;
+                    throw DataError("Invalid texture filter");
             }
 
             if (RenderDeviceOGL::checkOpenGLError())
-            {
-                Log(Log::Level::ERR) << "Failed to set texture filter";
-                return false;
-            }
-
-            return true;
+                throw DataError("Failed to set texture filter");
         }
 
-        bool TextureResourceOGL::setAddressX(Texture::Address newAddressX)
+        void TextureResourceOGL::setAddressX(Texture::Address newAddressX)
         {
-            if (!TextureResource::setAddressX(newAddressX))
-                return false;
+            TextureResource::setAddressX(newAddressX);
 
             if (!textureId)
-            {
-                Log(Log::Level::ERR) << "Texture not initialized";
-                return false;
-            }
+                throw DataError("Texture not initialized");
 
             renderDeviceOGL.bindTexture(textureId, 0);
 
@@ -686,28 +615,19 @@ namespace ouzel
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
                     break;
                 default:
-                    return false;
+                    throw DataError("Invalid texture address mode");
             }
 
             if (RenderDeviceOGL::checkOpenGLError())
-            {
-                Log(Log::Level::ERR) << "Failed to set texture wrap mode";
-                return false;
-            }
-
-            return true;
+                throw DataError("Failed to set texture wrap mode");
         }
 
-        bool TextureResourceOGL::setAddressY(Texture::Address newAddressY)
+        void TextureResourceOGL::setAddressY(Texture::Address newAddressY)
         {
-            if (!TextureResource::setAddressY(newAddressY))
-                return false;
+            TextureResource::setAddressY(newAddressY);
 
             if (!textureId)
-            {
-                Log(Log::Level::ERR) << "Texture not initialized";
-                return false;
-            }
+                throw DataError("Texture not initialized");
 
             renderDeviceOGL.bindTexture(textureId, 0);
 
@@ -723,28 +643,19 @@ namespace ouzel
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
                     break;
                 default:
-                    return false;
+                    throw DataError("Invalid texture address mode");
             }
 
             if (RenderDeviceOGL::checkOpenGLError())
-            {
-                Log(Log::Level::ERR) << "Failed to set texture wrap mode";
-                return false;
-            }
-
-            return true;
+                throw DataError("Failed to set texture wrap mode");
         }
 
-        bool TextureResourceOGL::setMaxAnisotropy(uint32_t newMaxAnisotropy)
+        void TextureResourceOGL::setMaxAnisotropy(uint32_t newMaxAnisotropy)
         {
-            if (!TextureResource::setMaxAnisotropy(newMaxAnisotropy))
-                return false;
+            TextureResource::setMaxAnisotropy(newMaxAnisotropy);
 
             if (!textureId)
-            {
-                Log(Log::Level::ERR) << "Texture not initialized";
-                return false;
-            }
+                throw DataError("Texture not initialized");
 
             renderDeviceOGL.bindTexture(textureId, 0);
 
@@ -755,55 +666,41 @@ namespace ouzel
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, static_cast<GLint>(finalMaxAnisotropy));
 
                 if (RenderDeviceOGL::checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to set texture max anisotrophy";
-                    return false;
-                }
+                    throw DataError("Failed to set texture max anisotrophy");
             }
-
-            return true;
         }
 
-        bool TextureResourceOGL::setClearColorBuffer(bool clear)
+        void TextureResourceOGL::setClearColorBuffer(bool clear)
         {
-            if (!TextureResource::setClearColorBuffer(clear))
-                return false;
+            TextureResource::setClearColorBuffer(clear);
 
             if (clearColorBuffer)
                 clearMask |= GL_COLOR_BUFFER_BIT;
             else
                 clearMask &= ~static_cast<GLbitfield>(GL_COLOR_BUFFER_BIT);
-
-            return true;
         }
 
-        bool TextureResourceOGL::setClearDepthBuffer(bool clear)
+        void TextureResourceOGL::setClearDepthBuffer(bool clear)
         {
-            if (!TextureResource::setClearDepthBuffer(clear))
-                return false;
+            TextureResource::setClearDepthBuffer(clear);
 
             if (clearDepthBuffer)
                 clearMask |= GL_DEPTH_BUFFER_BIT;
             else
                 clearMask &= ~static_cast<GLbitfield>(GL_DEPTH_BUFFER_BIT);
-
-            return true;
         }
 
-        bool TextureResourceOGL::setClearColor(Color color)
+        void TextureResourceOGL::setClearColor(Color color)
         {
-            if (!TextureResource::setClearColor(color))
-                return false;
+            TextureResource::setClearColor(color);
 
             frameBufferClearColor[0] = clearColor.normR();
             frameBufferClearColor[1] = clearColor.normG();
             frameBufferClearColor[2] = clearColor.normB();
             frameBufferClearColor[3] = clearColor.normA();
-
-            return true;
         }
 
-        bool TextureResourceOGL::createTexture()
+        void TextureResourceOGL::createTexture()
         {
             if (depthBufferId)
             {
@@ -838,10 +735,7 @@ namespace ouzel
             glGenTextures(1, &textureId);
 
             if (RenderDeviceOGL::checkOpenGLError())
-            {
-                Log(Log::Level::ERR) << "Failed to create texture";
-                return false;
-            }
+                throw DataError("Failed to create texture");
 
             renderDeviceOGL.bindTexture(textureId, 0);
 
@@ -851,36 +745,24 @@ namespace ouzel
             oglInternalPixelFormat = getOGLInternalPixelFormat(pixelFormat, renderDeviceOGL.getAPIMajorVersion());
 
             if (oglInternalPixelFormat == GL_NONE)
-            {
-                Log(Log::Level::ERR) << "Invalid pixel format";
-                return false;
-            }
+                throw DataError("Invalid pixel format");
 
             oglPixelFormat = getOGLPixelFormat(pixelFormat);
 
             if (oglPixelFormat == GL_NONE)
-            {
-                Log(Log::Level::ERR) << "Invalid pixel format";
-                return false;
-            }
+                throw DataError("Invalid pixel format");
 
             oglPixelType = getOGLPixelType(pixelFormat);
 
             if (oglPixelType == GL_NONE)
-            {
-                Log(Log::Level::ERR) << "Invalid pixel format";
-                return false;
-            }
+                throw DataError("Invalid pixel format");
 
             if ((flags & Texture::RENDER_TARGET) && renderDeviceOGL.isRenderTargetsSupported())
             {
                 glGenFramebuffersProc(1, &frameBufferId);
 
                 if (RenderDeviceOGL::checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to create frame buffer";
-                    return false;
-                }
+                    throw DataError("Failed to create frame buffer");
 
                 renderDeviceOGL.bindFrameBuffer(frameBufferId);
 
@@ -954,23 +836,15 @@ namespace ouzel
                     }
 
                     if (glCheckFramebufferStatusProc(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-                    {
-                        Log(Log::Level::ERR) << "Failed to create frame buffer";
-                        return false;
-                    }
+                        throw DataError("Failed to create frame buffer");
 
                     if (RenderDeviceOGL::checkOpenGLError())
-                    {
-                        Log(Log::Level::ERR) << "Failed to create frame buffer";
-                        return false;
-                    }
+                        throw DataError("Failed to create frame buffer");
                 }
             }
-
-            return true;
         }
 
-        bool TextureResourceOGL::setTextureParameters()
+        void TextureResourceOGL::setTextureParameters()
         {
             renderDeviceOGL.bindTexture(textureId, 0);
 
@@ -996,14 +870,11 @@ namespace ouzel
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                     break;
                 default:
-                    return false;
+                    throw DataError("Invalid texture filter");
             }
 
             if (RenderDeviceOGL::checkOpenGLError())
-            {
-                Log(Log::Level::ERR) << "Failed to set texture filter";
-                return false;
-            }
+                throw DataError("Failed to set texture filter");
 
             switch (addressX)
             {
@@ -1017,14 +888,11 @@ namespace ouzel
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
                     break;
                 default:
-                    return false;
+                    throw DataError("Invalid texture address mode");
             }
 
             if (RenderDeviceOGL::checkOpenGLError())
-            {
-                Log(Log::Level::ERR) << "Failed to set texture wrap mode";
-                return false;
-            }
+                throw DataError("Failed to set texture wrap mode");
 
             switch (addressY)
             {
@@ -1038,14 +906,11 @@ namespace ouzel
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
                     break;
                 default:
-                    return false;
+                    throw DataError("Invalid texture address mode");
             }
 
             if (RenderDeviceOGL::checkOpenGLError())
-            {
-                Log(Log::Level::ERR) << "Failed to set texture wrap mode";
-                return false;
-            }
+                throw DataError("Failed to set texture wrap mode");
 
             uint32_t finalMaxAnisotropy = (maxAnisotropy == 0) ? renderDeviceOGL.getMaxAnisotropy() : maxAnisotropy;
 
@@ -1054,13 +919,8 @@ namespace ouzel
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, static_cast<GLint>(finalMaxAnisotropy));
 
                 if (RenderDeviceOGL::checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to set texture max anisotrophy";
-                    return false;
-                }
+                    throw DataError("Failed to set texture max anisotrophy");
             }
-
-            return true;
         }
     } // namespace graphics
 } // namespace ouzel

@@ -7,7 +7,7 @@
 
 #include "BlendStateResourceD3D11.hpp"
 #include "RenderDeviceD3D11.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -58,20 +58,19 @@ namespace ouzel
             }
         }
 
-        bool BlendStateResourceD3D11::init(bool newEnableBlending,
+        void BlendStateResourceD3D11::init(bool newEnableBlending,
                                            BlendState::Factor newColorBlendSource, BlendState::Factor newColorBlendDest,
                                            BlendState::Operation newColorOperation,
                                            BlendState::Factor newAlphaBlendSource, BlendState::Factor newAlphaBlendDest,
                                            BlendState::Operation newAlphaOperation,
                                            uint8_t newColorMask)
         {
-            if (!BlendStateResource::init(newEnableBlending,
-                                          newColorBlendSource, newColorBlendDest,
-                                          newColorOperation,
-                                          newAlphaBlendSource, newAlphaBlendDest,
-                                          newAlphaOperation,
-                                          newColorMask))
-                return false;
+            BlendStateResource::init(newEnableBlending,
+                                     newColorBlendSource, newColorBlendDest,
+                                     newColorOperation,
+                                     newAlphaBlendSource, newAlphaBlendDest,
+                                     newAlphaOperation,
+                                     newColorMask);
 
             // Blending state
             D3D11_BLEND_DESC blendStateDesc;
@@ -97,12 +96,7 @@ namespace ouzel
 
             HRESULT hr = renderDeviceD3D11.getDevice()->CreateBlendState(&blendStateDesc, &blendState);
             if (FAILED(hr))
-            {
-                Log(Log::Level::ERR) << "Failed to create Direct3D 11 blend state, error: " << hr;
-                return false;
-            }
-
-            return true;
+                throw DataError("Failed to create Direct3D 11 blend state, error: " + std::to_string(hr));
         }
     } // namespace graphics
 } // namespace ouzel

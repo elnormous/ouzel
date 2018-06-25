@@ -7,7 +7,7 @@
 
 #include "BufferResourceOGL.hpp"
 #include "RenderDeviceOGL.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -24,22 +24,20 @@ namespace ouzel
                 renderDeviceOGL.deleteBuffer(bufferId);
         }
 
-        bool BufferResourceOGL::init(Buffer::Usage newUsage, uint32_t newFlags,
+        void BufferResourceOGL::init(Buffer::Usage newUsage, uint32_t newFlags,
                                      const std::vector<uint8_t>& newData,
                                      uint32_t newSize)
         {
-            if (!BufferResource::init(newUsage, newFlags, newData, newSize))
-                return false;
+            BufferResource::init(newUsage, newFlags, newData, newSize);
 
-            if (!createBuffer())
-                return false;
+            createBuffer();
 
             bufferSize = static_cast<GLsizeiptr>(newSize);
 
             if (bufferSize > 0)
             {
                 if (!renderDeviceOGL.bindBuffer(bufferType, bufferId))
-                    return false;
+                    throw DataError("Failed to bind buffer");
 
                 if (data.empty())
                     glBufferDataProc(bufferType, bufferSize, nullptr,
@@ -49,26 +47,20 @@ namespace ouzel
                                      (flags & Texture::DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
                 if (RenderDeviceOGL::checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to create buffer";
-                    return false;
-                }
+                    throw DataError("Failed to create buffer");
             }
-
-            return true;
         }
 
-        bool BufferResourceOGL::reload()
+        void BufferResourceOGL::reload()
         {
             bufferId = 0;
 
-            if (!createBuffer())
-                return false;
+            createBuffer();
 
             if (bufferSize > 0)
             {
                 if (!renderDeviceOGL.bindBuffer(bufferType, bufferId))
-                    return false;
+                    throw DataError("Failed to bind buffer");
 
                 if (data.empty())
                     glBufferDataProc(bufferType, bufferSize, nullptr,
@@ -78,28 +70,19 @@ namespace ouzel
                                      (flags & Texture::DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
                 if (RenderDeviceOGL::checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to create buffer";
-                    return false;
-                }
+                    throw DataError("Failed to create buffer");
             }
-
-            return true;
         }
 
-        bool BufferResourceOGL::setData(const std::vector<uint8_t>& newData)
+        void BufferResourceOGL::setData(const std::vector<uint8_t>& newData)
         {
-            if (!BufferResource::setData(newData))
-                return false;
+            BufferResource::setData(newData);
 
             if (!bufferId)
-            {
-                Log(Log::Level::ERR) << "Buffer not initialized";
-                return false;
-            }
+                throw DataError("Buffer not initialized");
 
             if (!renderDeviceOGL.bindBuffer(bufferType, bufferId))
-                return false;
+                throw DataError("Failed to bind buffer");
 
             if (static_cast<GLsizeiptr>(data.size()) > bufferSize)
             {
@@ -109,36 +92,25 @@ namespace ouzel
                                  (flags & Texture::DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
                 if (RenderDeviceOGL::checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to create buffer";
-                    return false;
-                }
+                    throw DataError("Failed to create buffer");
             }
             else
             {
                 glBufferSubDataProc(bufferType, 0, static_cast<GLsizeiptr>(data.size()), data.data());
 
                 if (RenderDeviceOGL::checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to upload buffer";
-                    return false;
-                }
+                    throw DataError("Failed to upload buffer");
             }
-
-            return true;
         }
 
-        bool BufferResourceOGL::createBuffer()
+        void BufferResourceOGL::createBuffer()
         {
             if (bufferId) renderDeviceOGL.deleteBuffer(bufferId);
 
             glGenBuffersProc(1, &bufferId);
 
             if (RenderDeviceOGL::checkOpenGLError())
-            {
-                Log(Log::Level::ERR) << "Failed to create buffer";
-                return false;
-            }
+                throw DataError("Failed to create buffer");
 
             switch (usage)
             {
@@ -150,11 +122,8 @@ namespace ouzel
                     break;
                 default:
                     bufferType = 0;
-                    Log(Log::Level::ERR) << "Unsupported buffer type";
-                    return false;
+                    throw DataError("Unsupported buffer type");
             }
-
-            return true;
         }
     } // namespace graphics
 } // namespace ouzel

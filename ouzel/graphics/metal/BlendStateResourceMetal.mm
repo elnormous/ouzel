@@ -51,20 +51,19 @@ namespace ouzel
             return MTLBlendOperationAdd;
         }
 
-        bool BlendStateResourceMetal::init(bool newEnableBlending,
+        void BlendStateResourceMetal::init(bool newEnableBlending,
                                            BlendState::Factor newColorBlendSource, BlendState::Factor newColorBlendDest,
                                            BlendState::Operation newColorOperation,
                                            BlendState::Factor newAlphaBlendSource, BlendState::Factor newAlphaBlendDest,
                                            BlendState::Operation newAlphaOperation,
                                            uint8_t newColorMask)
         {
-            if (!BlendStateResource::init(newEnableBlending,
-                                          newColorBlendSource, newColorBlendDest,
-                                          newColorOperation,
-                                          newAlphaBlendSource, newAlphaBlendDest,
-                                          newAlphaOperation,
-                                          newColorMask))
-                return false;
+            BlendStateResource::init(newEnableBlending,
+                                     newColorBlendSource, newColorBlendDest,
+                                     newColorOperation,
+                                     newAlphaBlendSource, newAlphaBlendDest,
+                                     newAlphaOperation,
+                                     newColorMask);
 
             rgbBlendOperation = getBlendOperation(colorOperation);
             alphaBlendOperation = getBlendOperation(alphaOperation);
@@ -79,8 +78,6 @@ namespace ouzel
             if (colorMask & BlendState::COLOR_MASK_GREEN) colorWriteMask |= MTLColorWriteMaskGreen;
             if (colorMask & BlendState::COLOR_MASK_BLUE) colorWriteMask |= MTLColorWriteMaskBlue;
             if (colorMask & BlendState::COLOR_MASK_ALPHA) colorWriteMask |= MTLColorWriteMaskAlpha;
-
-            return true;
         }
     } // namespace graphics
 } // namespace ouzel

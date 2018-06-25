@@ -33,19 +33,19 @@ namespace ouzel
             explicit BufferResourceOGL(RenderDeviceOGL& initRenderDeviceOGL);
             virtual ~BufferResourceOGL();
 
-            virtual bool init(Buffer::Usage newUsage, uint32_t newFlags,
+            virtual void init(Buffer::Usage newUsage, uint32_t newFlags,
                               const std::vector<uint8_t>& newData,
                               uint32_t newSize) override;
 
-            virtual bool reload() override;
+            virtual void reload() override;
 
-            virtual bool setData(const std::vector<uint8_t>& newData) override;
+            virtual void setData(const std::vector<uint8_t>& newData) override;
 
             inline GLuint getBufferId() const { return bufferId; }
             inline GLuint getBufferType() const { return bufferType; }
 
         private:
-            bool createBuffer();
+            void createBuffer();
 
             RenderDeviceOGL& renderDeviceOGL;
 

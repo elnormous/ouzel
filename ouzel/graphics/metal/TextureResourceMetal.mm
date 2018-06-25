@@ -8,7 +8,7 @@
 #include "TextureResourceMetal.hpp"
 #include "RenderDeviceMetal.hpp"
 #include "math/MathUtils.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -71,20 +71,19 @@ namespace ouzel
                 [samplerState release];
         }
 
-        bool TextureResourceMetal::init(const Size2& newSize,
+        void TextureResourceMetal::init(const Size2& newSize,
                                         uint32_t newFlags,
                                         uint32_t newMipmaps,
                                         uint32_t newSampleCount,
                                         PixelFormat newPixelFormat)
         {
-            if (!TextureResource::init(newSize,
-                                       newFlags,
-                                       newMipmaps,
-                                       newSampleCount,
-                                       newPixelFormat))
-                return false;
+            TextureResource::init(newSize,
+                                  newFlags,
+                                  newMipmaps,
+                                  newSampleCount,
+                                  newPixelFormat);
 
-            if (!createTexture()) return false;
+            createTexture();
 
             colorBufferLoadAction = clearColorBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
             depthBufferLoadAction = clearDepthBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
@@ -102,20 +101,19 @@ namespace ouzel
             return updateSamplerState();
         }
 
-        bool TextureResourceMetal::init(const std::vector<uint8_t>& newData,
+        void TextureResourceMetal::init(const std::vector<uint8_t>& newData,
                                         const Size2& newSize,
                                         uint32_t newFlags,
                                         uint32_t newMipmaps,
                                         PixelFormat newPixelFormat)
         {
-            if (!TextureResource::init(newData,
-                                       newSize,
-                                       newFlags,
-                                       newMipmaps,
-                                       newPixelFormat))
-                return false;
+            TextureResource::init(newData,
+                                  newSize,
+                                  newFlags,
+                                  newMipmaps,
+                                  newPixelFormat);
 
-            if (!createTexture()) return false;
+            createTexture();
 
             if (!(flags & Texture::RENDER_TARGET))
             {
@@ -132,22 +130,20 @@ namespace ouzel
                 }
             }
 
-            return updateSamplerState();
+            updateSamplerState();
         }
 
-        bool TextureResourceMetal::init(const std::vector<Texture::Level>& newLevels,
+        void TextureResourceMetal::init(const std::vector<Texture::Level>& newLevels,
                                         const Size2& newSize,
                                         uint32_t newFlags,
                                         PixelFormat newPixelFormat)
         {
-            if (!TextureResource::init(newLevels,
-                                       newSize,
-                                       newFlags,
-                                       newPixelFormat))
-                return false;
+            TextureResource::init(newLevels,
+                                  newSize,
+                                  newFlags,
+                                  newPixelFormat);
 
-            if (!createTexture())
-                return false;
+            createTexture();
 
             if (!(flags & Texture::RENDER_TARGET))
             {
@@ -167,32 +163,24 @@ namespace ouzel
             return updateSamplerState();
         }
 
-        bool TextureResourceMetal::setSize(const Size2& newSize)
+        void TextureResourceMetal::setSize(const Size2& newSize)
         {
-            if (!TextureResource::setSize(newSize))
-                return false;
+            TextureResource::setSize(newSize);
 
             if (!texture ||
                 static_cast<NSUInteger>(size.width) != width ||
                 static_cast<NSUInteger>(size.height) != height)
-            {
-                if (!createTexture()) return false;
-            }
-
-            return true;
+                createTexture();
         }
 
-        bool TextureResourceMetal::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
+        void TextureResourceMetal::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
         {
-            if (!TextureResource::setData(newData, newSize))
-                return false;
+            TextureResource::setData(newData, newSize);
 
             if (!texture ||
                 static_cast<NSUInteger>(size.width) != width ||
                 static_cast<NSUInteger>(size.height) != height)
-            {
-                if (!createTexture()) return false;
-            }
+                createTexture();
 
             if (!(flags & Texture::RENDER_TARGET))
             {
@@ -208,98 +196,74 @@ namespace ouzel
                     }
                 }
             }
-
-            return true;
         }
 
-        bool TextureResourceMetal::setFilter(Texture::Filter newFilter)
+        void TextureResourceMetal::setFilter(Texture::Filter newFilter)
         {
-            if (!TextureResource::setFilter(newFilter))
-                return false;
+            TextureResource::setFilter(newFilter);
 
-            return updateSamplerState();
+            updateSamplerState();
         }
 
-        bool TextureResourceMetal::setAddressX(Texture::Address newAddressX)
+        void TextureResourceMetal::setAddressX(Texture::Address newAddressX)
         {
-            if (!TextureResource::setAddressX(newAddressX))
-                return false;
+            TextureResource::setAddressX(newAddressX);
 
-            return updateSamplerState();
+            updateSamplerState();
         }
 
-        bool TextureResourceMetal::setAddressY(Texture::Address newAddressY)
+        void TextureResourceMetal::setAddressY(Texture::Address newAddressY)
         {
-            if (!TextureResource::setAddressY(newAddressY))
-                return false;
+            TextureResource::setAddressY(newAddressY);
 
-            return updateSamplerState();
+            updateSamplerState();
         }
 
-        bool TextureResourceMetal::setMaxAnisotropy(uint32_t newMaxAnisotropy)
+        void TextureResourceMetal::setMaxAnisotropy(uint32_t newMaxAnisotropy)
         {
-            if (!TextureResource::setMaxAnisotropy(newMaxAnisotropy))
-                return false;
+            TextureResource::setMaxAnisotropy(newMaxAnisotropy);
 
-            return updateSamplerState();
+            updateSamplerState();
         }
 
-        bool TextureResourceMetal::setClearColorBuffer(bool clear)
+        void TextureResourceMetal::setClearColorBuffer(bool clear)
         {
-            if (!TextureResource::setClearColorBuffer(clear))
-                return false;
+            TextureResource::setClearColorBuffer(clear);
 
             colorBufferLoadAction = clearColorBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
-
-            return true;
         }
 
-        bool TextureResourceMetal::setClearDepthBuffer(bool clear)
+        void TextureResourceMetal::setClearDepthBuffer(bool clear)
         {
-            if (!TextureResource::setClearDepthBuffer(clear))
-                return false;
+            TextureResource::setClearDepthBuffer(clear);
 
             depthBufferLoadAction = clearDepthBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
-
-            return true;
         }
 
-        bool TextureResourceMetal::setClearColor(Color color)
+        void TextureResourceMetal::setClearColor(Color color)
         {
-            if (!TextureResource::setClearColor(color))
-                return false;
+            TextureResource::setClearColor(color);
 
             if (!renderPassDescriptor)
-            {
-                Log(Log::Level::ERR) << "Render pass descriptor not initialized";
-                return false;
-            }
+                throw DataError("Render pass descriptor not initialized");
 
             renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.normR(),
                                                                                     clearColor.normG(),
                                                                                     clearColor.normB(),
                                                                                     clearColor.normA());
-
-            return true;
         }
 
-        bool TextureResourceMetal::setClearDepth(float clear)
+        void TextureResourceMetal::setClearDepth(float clear)
         {
-            if (!TextureResource::setClearDepth(clear))
-                return false;
+            TextureResource::setClearDepth(clear);
 
             if (!renderPassDescriptor)
-            {
-                Log(Log::Level::ERR) << "Render pass descriptor not initialized";
-                return false;
-            }
+                throw DataError("Render pass descriptor not initialized");
 
             renderPassDescriptor.depthAttachment.clearDepth = clearDepth;
-
-            return true;
         }
 
-        bool TextureResourceMetal::createTexture()
+        void TextureResourceMetal::createTexture()
         {
             if (texture)
             {
@@ -333,10 +297,7 @@ namespace ouzel
                 MTLPixelFormat metalPixelFormat = getMetalPixelFormat(pixelFormat);
 
                 if (metalPixelFormat == MTLPixelFormatInvalid)
-                {
-                    Log(Log::Level::ERR) << "Invalid pixel format";
-                    return false;
-                }
+                    throw DataError("Invalid pixel format");
 
                 MTLTextureDescriptor* textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:metalPixelFormat
                                                                                                              width:width
@@ -358,10 +319,7 @@ namespace ouzel
                 texture = [renderDeviceMetal.getDevice() newTextureWithDescriptor:textureDescriptor];
 
                 if (!texture)
-                {
-                    Log(Log::Level::ERR) << "Failed to create Metal texture";
-                    return false;
-                }
+                    throw DataError("Failed to create Metal texture");
             }
 
             if (flags & Texture::RENDER_TARGET)
@@ -369,10 +327,7 @@ namespace ouzel
                 renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
 
                 if (!renderPassDescriptor)
-                {
-                    Log(Log::Level::ERR) << "Failed to create Metal render pass descriptor";
-                    return false;
-                }
+                    throw DataError("Failed to create Metal render pass descriptor");
 
                 if (sampleCount > 1)
                 {
@@ -388,10 +343,7 @@ namespace ouzel
                     msaaTexture = [renderDeviceMetal.getDevice() newTextureWithDescriptor:textureDescriptor];
 
                     if (!msaaTexture)
-                    {
-                        Log(Log::Level::ERR) << "Failed to create MSAA texture";
-                        return false;
-                    }
+                        throw DataError("Failed to create MSAA texture");
 
                     renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionMultisampleResolve;
                     renderPassDescriptor.colorAttachments[0].texture = msaaTexture;
@@ -421,21 +373,16 @@ namespace ouzel
                     depthTexture = [renderDeviceMetal.getDevice() newTextureWithDescriptor:textureDescriptor];
 
                     if (!depthTexture)
-                    {
-                        Log(Log::Level::ERR) << "Failed to create depth texture";
-                        return false;
-                    }
+                        throw DataError("Failed to create depth texture");
 
                     renderPassDescriptor.depthAttachment.texture = depthTexture;
                 }
                 else
                     renderPassDescriptor.depthAttachment.texture = nil;
             }
-
-            return true;
         }
 
-        bool TextureResourceMetal::updateSamplerState()
+        void TextureResourceMetal::updateSamplerState()
         {
             RenderDeviceMetal::SamplerStateDescriptor samplerDescriptor;
             samplerDescriptor.filter = (filter == Texture::Filter::DEFAULT) ? renderDeviceMetal.getTextureFilter() : filter;
@@ -447,14 +394,9 @@ namespace ouzel
             samplerState = renderDeviceMetal.getSamplerState(samplerDescriptor);
 
             if (!samplerState)
-            {
-                Log(Log::Level::ERR) << "Failed to get Metal sampler state";
-                return false;
-            }
+                throw DataError("Failed to get Metal sampler state");
 
             [samplerState retain];
-
-            return true;
         }
     } // namespace graphics
 } // namespace ouzel
