@@ -35,8 +35,7 @@ namespace ouzel
 
             if (bufferSize > 0)
             {
-                if (!renderDeviceOGL.bindBuffer(bufferType, bufferId))
-                    throw DataError("Failed to bind buffer");
+                renderDeviceOGL.bindBuffer(bufferType, bufferId);
 
                 if (data.empty())
                     glBufferDataProc(bufferType, bufferSize, nullptr,
@@ -60,8 +59,7 @@ namespace ouzel
 
             if (bufferSize > 0)
             {
-                if (!renderDeviceOGL.bindBuffer(bufferType, bufferId))
-                    throw DataError("Failed to bind buffer");
+                renderDeviceOGL.bindBuffer(bufferType, bufferId);
 
                 if (data.empty())
                     glBufferDataProc(bufferType, bufferSize, nullptr,
@@ -84,8 +82,7 @@ namespace ouzel
             if (!bufferId)
                 throw DataError("Buffer not initialized");
 
-            if (!renderDeviceOGL.bindBuffer(bufferType, bufferId))
-                throw DataError("Failed to bind buffer");
+            renderDeviceOGL.bindBuffer(bufferType, bufferId);
 
             if (static_cast<GLsizeiptr>(data.size()) > bufferSize)
             {
