@@ -338,9 +338,8 @@ namespace ouzel
         {
             RenderDevice::setSize(newSize);
 
-            if (!resizeBackBuffer(static_cast<UINT>(size.width),
-                                  static_cast<UINT>(size.height)))
-                return;
+            resizeBackBuffer(static_cast<UINT>(size.width),
+                             static_cast<UINT>(size.height));
         }
 
         bool RenderDeviceD3D11::setFullscreen(bool newFullscreen)
@@ -1011,7 +1010,7 @@ namespace ouzel
             return texture;
         }
 
-        bool RenderDeviceD3D11::resizeBackBuffer(UINT newWidth, UINT newHeight)
+        void RenderDeviceD3D11::resizeBackBuffer(UINT newWidth, UINT newHeight)
         {
             if (frameBufferWidth != newWidth || frameBufferHeight != newHeight)
             {
@@ -1041,24 +1040,15 @@ namespace ouzel
 
                 HRESULT hr = swapChain->ResizeBuffers(0, newWidth, newHeight, DXGI_FORMAT_UNKNOWN, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
                 if (FAILED(hr))
-                {
-                    Log(Log::Level::ERR) << "Failed to resize Direct3D 11 backbuffer, error: " << hr;
-                    return false;
-                }
+                    throw SystemError("Failed to resize Direct3D 11 backbuffer, error: " + std::to_string(hr));
 
                 hr = swapChain->GetBuffer(0, IID_ID3D11Texture2D, reinterpret_cast<void**>(&backBuffer));
                 if (FAILED(hr))
-                {
-                    Log(Log::Level::ERR) << "Failed to retrieve Direct3D 11 backbuffer, error: " << hr;
-                    return false;
-                }
+                    throw SystemError("Failed to retrieve Direct3D 11 backbuffer, error: " + std::to_string(hr));
 
                 hr = device->CreateRenderTargetView(backBuffer, nullptr, &renderTargetView);
                 if (FAILED(hr))
-                {
-                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 render target view, error: " << hr;
-                    return false;
-                }
+                    throw SystemError("Failed to create Direct3D 11 render target view, error: " + std::to_string(hr));
 
                 D3D11_TEXTURE2D_DESC desc;
                 backBuffer->GetDesc(&desc);
@@ -1079,24 +1069,16 @@ namespace ouzel
                     depthStencilDesc.MiscFlags = 0;
                     hr = device->CreateTexture2D(&depthStencilDesc, nullptr, &depthStencilTexture);
                     if (FAILED(hr))
-                    {
-                        Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil texture, error: " << hr;
-                        return false;
-                    }
+                        throw SystemError("Failed to create Direct3D 11 depth stencil texture, error: " + std::to_string(hr));
 
                     hr = device->CreateDepthStencilView(depthStencilTexture, nullptr, &depthStencilView);
                     if (FAILED(hr))
-                    {
-                        Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil view, error: " << hr;
-                        return false;
-                    }
+                        throw SystemError("Failed to create Direct3D 11 depth stencil view, error: " + std::to_string(hr));
                 }
 
                 frameBufferWidth = desc.Width;
                 frameBufferHeight = desc.Height;
             }
-
-            return true;
         }
 
         bool RenderDeviceD3D11::uploadBuffer(ID3D11Buffer* buffer, const void* data, uint32_t dataSize)
