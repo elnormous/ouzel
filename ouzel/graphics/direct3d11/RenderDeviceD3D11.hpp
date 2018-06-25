@@ -61,9 +61,9 @@ namespace ouzel
 
             virtual void setSize(const Size2& newSize);
 
-            virtual bool processCommands(CommandBuffer& commands) override;
+            virtual void processCommands(CommandBuffer& commands) override;
             void resizeBackBuffer(UINT newWidth, UINT newHeight);
-            bool uploadBuffer(ID3D11Buffer* buffer, const void* data, uint32_t dataSize);
+            void uploadBuffer(ID3D11Buffer* buffer, const void* data, uint32_t dataSize);
             virtual void generateScreenshot(const std::string& filename) override;
             void main();
 
