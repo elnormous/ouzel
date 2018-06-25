@@ -62,21 +62,21 @@ namespace ouzel
             Texture(Texture&&) = delete;
             Texture& operator=(Texture&&) = delete;
 
-            bool init(const Size2& newSize,
+            void init(const Size2& newSize,
                       uint32_t newFlags = 0,
                       uint32_t newMipmaps = 0,
                       uint32_t newSampleCount = 1,
                       PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
-            bool init(const std::string& filename,
+            void init(const std::string& filename,
                       uint32_t newFlags = 0,
                       uint32_t newMipmaps = 0,
                       PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
-            bool init(const std::vector<uint8_t>& newData,
+            void init(const std::vector<uint8_t>& newData,
                       const Size2& newSize,
                       uint32_t newFlags = 0,
                       uint32_t newMipmaps = 0,
                       PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
-            bool init(const std::vector<Level>& newLevels,
+            void init(const std::vector<Level>& newLevels,
                       const Size2& newSize,
                       uint32_t newFlags = 0,
                       PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
@@ -84,24 +84,24 @@ namespace ouzel
             inline TextureResource* getResource() const { return resource; }
 
             inline const Size2& getSize() const { return size; }
-            bool setSize(const Size2& newSize);
+            void setSize(const Size2& newSize);
 
-            bool setData(const std::vector<uint8_t>& newData, const Size2& newSize);
+            void setData(const std::vector<uint8_t>& newData, const Size2& newSize);
 
             inline uint32_t getFlags() const { return flags; }
             inline uint32_t getMipmaps() const { return mipmaps; }
 
             inline Filter getFilter() const { return filter; }
-            bool setFilter(Filter newFilter);
+            void setFilter(Filter newFilter);
 
             inline Address getAddressX() const { return addressX; }
-            bool setAddressX(Address newAddressX);
+            void setAddressX(Address newAddressX);
 
             inline Address getAddressY() const { return addressY; }
-            bool setAddressY(Address newAddressY);
+            void setAddressY(Address newAddressY);
 
             inline uint32_t getMaxAnisotropy() const { return maxAnisotropy; }
-            bool setMaxAnisotropy(uint32_t newMaxAnisotropy);
+            void setMaxAnisotropy(uint32_t newMaxAnisotropy);
 
             inline uint32_t getSampleCount() const { return sampleCount; }
 

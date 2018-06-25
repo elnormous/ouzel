@@ -21,9 +21,7 @@ namespace ouzel
             image.init(data);
 
             std::shared_ptr<graphics::Texture> texture(new graphics::Texture());
-
-            if (!texture->init(image.getData(), image.getSize(), 0, mipmaps ? 0 : 1, image.getPixelFormat()))
-                return false;
+            texture->init(image.getData(), image.getSize(), 0, mipmaps ? 0 : 1, image.getPixelFormat());
 
             cache->setTexture(filename, texture);
 

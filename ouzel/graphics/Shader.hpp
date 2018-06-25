@@ -39,7 +39,7 @@ namespace ouzel
             Shader(Shader&&) = delete;
             Shader& operator=(Shader&&) = delete;
 
-            bool init(const std::vector<uint8_t>& newFragmentShader,
+            void init(const std::vector<uint8_t>& newFragmentShader,
                       const std::vector<uint8_t>& newVertexShader,
                       const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
                       const std::vector<ConstantInfo>& newFragmentShaderConstantInfo,
@@ -48,7 +48,7 @@ namespace ouzel
                       uint32_t newVertexShaderDataAlignment = 0,
                       const std::string& fragmentShaderFunction = "",
                       const std::string& vertexShaderFunction = "");
-            bool init(const std::string& newFragmentShader,
+            void init(const std::string& newFragmentShader,
                       const std::string& newVertexShader,
                       const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
                       const std::vector<ConstantInfo>& newFragmentShaderConstantInfo,

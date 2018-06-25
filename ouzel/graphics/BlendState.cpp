@@ -21,7 +21,7 @@ namespace ouzel
             if (engine && resource) engine->getRenderer()->getDevice()->deleteResource(resource);
         }
 
-        bool BlendState::init(bool newEnableBlending,
+        void BlendState::init(bool newEnableBlending,
                               Factor newColorBlendSource, Factor newColorBlendDest,
                               Operation newColorOperation,
                               Factor newAlphaBlendSource, Factor newAlphaBlendDest,
@@ -39,13 +39,13 @@ namespace ouzel
 
             RenderDevice* renderDevice = engine->getRenderer()->getDevice();
 
-            return renderDevice->addCommand(InitBlendStateCommand(resource,
-                                                                  newEnableBlending,
-                                                                  newColorBlendSource, newColorBlendDest,
-                                                                  newColorOperation,
-                                                                  newAlphaBlendSource, newAlphaBlendDest,
-                                                                  newAlphaOperation,
-                                                                  newColorMask));
+            renderDevice->addCommand(InitBlendStateCommand(resource,
+                                                           newEnableBlending,
+                                                           newColorBlendSource, newColorBlendDest,
+                                                           newColorOperation,
+                                                           newAlphaBlendSource, newAlphaBlendDest,
+                                                           newAlphaOperation,
+                                                           newColorMask));
         }
     } // namespace graphics
 } // namespace ouzel

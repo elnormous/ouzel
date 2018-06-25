@@ -6,6 +6,7 @@
 #include "Renderer.hpp"
 #include "RenderDevice.hpp"
 #include "core/Engine.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -21,7 +22,7 @@ namespace ouzel
             if (engine && resource) engine->getRenderer()->getDevice()->deleteResource(resource);
         }
 
-        bool Buffer::init(Usage newUsage, uint32_t newFlags, uint32_t newSize)
+        void Buffer::init(Usage newUsage, uint32_t newFlags, uint32_t newSize)
         {
             usage = newUsage;
             flags = newFlags;
@@ -29,26 +30,26 @@ namespace ouzel
 
             RenderDevice* renderDevice = engine->getRenderer()->getDevice();
 
-            return renderDevice->addCommand(InitBufferCommand(resource,
-                                                              newUsage,
-                                                              newFlags,
-                                                              std::vector<uint8_t>(),
-                                                              newSize));
+            renderDevice->addCommand(InitBufferCommand(resource,
+                                                       newUsage,
+                                                       newFlags,
+                                                       std::vector<uint8_t>(),
+                                                       newSize));
         }
 
-        bool Buffer::init(Usage newUsage, uint32_t newFlags, const void* newData, uint32_t newSize)
+        void Buffer::init(Usage newUsage, uint32_t newFlags, const void* newData, uint32_t newSize)
         {
-            return init(newUsage,
-                        newFlags,
-                        std::vector<uint8_t>(static_cast<const uint8_t*>(newData),
-                                             static_cast<const uint8_t*>(newData) + newSize),
-                        newSize);
+            init(newUsage,
+                 newFlags,
+                 std::vector<uint8_t>(static_cast<const uint8_t*>(newData),
+                                      static_cast<const uint8_t*>(newData) + newSize),
+                 newSize);
         }
 
-        bool Buffer::init(Usage newUsage, uint32_t newFlags, const std::vector<uint8_t>& newData, uint32_t newSize)
+        void Buffer::init(Usage newUsage, uint32_t newFlags, const std::vector<uint8_t>& newData, uint32_t newSize)
         {
             if (!newData.empty() && newSize != newData.size())
-                return false;
+                throw DataError("Invalid buffer data");
 
             usage = newUsage;
             flags = newFlags;
@@ -56,35 +57,36 @@ namespace ouzel
 
             RenderDevice* renderDevice = engine->getRenderer()->getDevice();
 
-            return renderDevice->addCommand(InitBufferCommand(resource,
-                                                              newUsage,
-                                                              newFlags,
-                                                              newData,
-                                                              newSize));
+            renderDevice->addCommand(InitBufferCommand(resource,
+                                                       newUsage,
+                                                       newFlags,
+                                                       newData,
+                                                       newSize));
         }
 
-        bool Buffer::setData(const void* newData, uint32_t newSize)
+        void Buffer::setData(const void* newData, uint32_t newSize)
         {
             RenderDevice* renderDevice = engine->getRenderer()->getDevice();
 
-            return renderDevice->addCommand(SetBufferDataCommand(resource,
-                                                                 std::vector<uint8_t>(static_cast<const uint8_t*>(newData),
-                                                                                      static_cast<const uint8_t*>(newData) + newSize)));
+            renderDevice->addCommand(SetBufferDataCommand(resource,
+                                                          std::vector<uint8_t>(static_cast<const uint8_t*>(newData),
+                                                                               static_cast<const uint8_t*>(newData) + newSize)));
         }
 
-        bool Buffer::setData(const std::vector<uint8_t>& newData)
+        void Buffer::setData(const std::vector<uint8_t>& newData)
         {
             if (!(flags & Buffer::DYNAMIC))
-                return false;
+                throw DataError("Buffer is not dynamic");
 
-            if (newData.empty()) return false;
+            if (newData.empty())
+                throw DataError("Invalid buffer data");
 
             if (newData.size() > size) size = static_cast<uint32_t>(newData.size());
 
             RenderDevice* renderDevice = engine->getRenderer()->getDevice();
 
-            return renderDevice->addCommand(SetBufferDataCommand(resource,
-                                                                 newData));
+            renderDevice->addCommand(SetBufferDataCommand(resource,
+                                                          newData));
         }
     } // namespace graphics
 } // namespace ouzel

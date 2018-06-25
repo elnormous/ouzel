@@ -36,12 +36,12 @@ namespace ouzel
             Buffer(Buffer&&) = delete;
             Buffer& operator=(Buffer&&) = delete;
 
-            bool init(Usage newUsage, uint32_t newFlags, uint32_t newSize = 0);
-            bool init(Usage newUsage, uint32_t newFlags, const void* newData, uint32_t newSize);
-            bool init(Usage newUsage, uint32_t newFlags, const std::vector<uint8_t>& newData, uint32_t newSize);
+            void init(Usage newUsage, uint32_t newFlags, uint32_t newSize = 0);
+            void init(Usage newUsage, uint32_t newFlags, const void* newData, uint32_t newSize);
+            void init(Usage newUsage, uint32_t newFlags, const std::vector<uint8_t>& newData, uint32_t newSize);
 
-            bool setData(const void* newData, uint32_t newSize);
-            bool setData(const std::vector<uint8_t>& newData);
+            void setData(const void* newData, uint32_t newSize);
+            void setData(const std::vector<uint8_t>& newData);
 
             inline BufferResource* getResource() const { return resource; }
 
