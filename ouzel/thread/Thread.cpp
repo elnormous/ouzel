@@ -124,6 +124,33 @@ namespace ouzel
 #endif
     }
 
+    int32_t Thread::getPriority() const
+    {
+#if defined(_WIN32)
+        return GetThreadPriority(handle);
+#else
+        int policy;
+        sched_param param;
+        if (pthread_getschedparam(thread, &policy, &param) != 0)
+            throw ThreadError("Failed to get thread priority");
+
+        return param.sched_priority;
+#endif
+    }
+
+    void Thread::setPriority(int32_t priority)
+    {
+#if defined(_WIN32)
+        if (!SetThreadPriority(handle, priority))
+            throw ThreadError("Failed to set thread priority");
+#else
+        sched_param param;
+        param.sched_priority = priority;
+        if (pthread_setschedparam(thread, SCHED_RR, &param) != 0)
+            throw ThreadError("Failed to set thread priority");
+#endif
+    }
+
     void Thread::setCurrentThreadName(const std::string& name)
     {
 #if defined(_MSC_VER)

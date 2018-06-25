@@ -105,28 +105,8 @@ namespace ouzel
 
         void join();
 
-        int32_t getPriority() const
-        {
-#if defined(_WIN32)
-            return GetThreadPriority(handle);
-#else
-            int policy;
-            sched_param param;
-            if (pthread_getschedparam(thread, &policy, &param) == 0) return param.sched_priority;
-            return 0;
-#endif
-        }
-
-        bool setPriority(int32_t priority)
-        {
-#if defined(_WIN32)
-            return SetThreadPriority(handle, priority) != 0;
-#else
-            sched_param param;
-            param.sched_priority = priority;
-            return pthread_setschedparam(thread, SCHED_RR, &param) == 0;
-#endif
-        }
+        int32_t getPriority() const;
+        void setPriority(int32_t priority);
 
         inline bool isJoinable() const
         {
