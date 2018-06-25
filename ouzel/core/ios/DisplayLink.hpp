@@ -34,8 +34,8 @@ namespace ouzel
         DisplayLink(DisplayLink&&) = delete;
         DisplayLink& operator=(DisplayLink&&) = delete;
 
-        bool start(bool initVerticalSync);
-        bool stop();
+        void start(bool initVerticalSync);
+        void stop();
 
     private:
         void main();

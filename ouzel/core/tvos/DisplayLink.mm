@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "DisplayLink.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 @interface DisplayLinkHandler: NSObject
 {
@@ -41,7 +41,7 @@ namespace ouzel
         [displayLink release];
     }
 
-    bool DisplayLink::start(bool initVerticalSync)
+    void DisplayLink::start(bool initVerticalSync)
     {
         verticalSync = initVerticalSync;
 
@@ -51,21 +51,17 @@ namespace ouzel
 
             displayLink = [CADisplayLink displayLinkWithTarget:displayLinkHandler selector:@selector(draw:)];
             if (!displayLink)
-            {
-                ouzel::Log(ouzel::Log::Level::ERR) << "Failed to create display link";
-                return false;
-            }
+                throw SystemError("Failed to create display link");
+
             [displayLink setFrameInterval:1.0F];
         }
 
         running = true;
 
         renderThread = Thread(std::bind(&DisplayLink::main, this), "Render");
-
-        return true;
     }
 
-    bool DisplayLink::stop()
+    void DisplayLink::stop()
     {
         running = false;
         if (runLoop)
@@ -73,8 +69,6 @@ namespace ouzel
             CFRunLoopStop([runLoop getCFRunLoop]);
             runLoop = nil;
         }
-
-        return true;
     }
 
     void DisplayLink::main()
