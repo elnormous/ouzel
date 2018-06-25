@@ -10,6 +10,7 @@
 #include "core/Engine.hpp"
 #include "core/linux/WindowResourceLinux.hpp"
 #include "utils/Errors.hpp"
+#include "utils/Log.hpp"
 
 namespace ouzel
 {
