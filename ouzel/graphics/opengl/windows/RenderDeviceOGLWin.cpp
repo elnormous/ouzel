@@ -12,6 +12,7 @@
 #include "core/Engine.hpp"
 #include "core/windows/WindowResourceWin.hpp"
 #include "utils/Errors.hpp"
+#include "utils/Log.hpp"
 
 static const LPCWSTR TEMP_WINDOW_CLASS_NAME = L"TempWindow";
 
