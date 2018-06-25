@@ -25,12 +25,11 @@ namespace ouzel
         {
         }
 
-        bool SoundData::getData(Stream* stream, uint32_t frames, uint32_t neededChannels, uint32_t neededSampleRate, float pitch, std::vector<float>& result)
+        void SoundData::getData(Stream* stream, uint32_t frames, uint32_t neededChannels, uint32_t neededSampleRate, float pitch, std::vector<float>& result)
         {
             uint32_t neededFrames = static_cast<uint32_t>(frames * pitch * sampleRate / neededSampleRate);
 
-            if (!readData(stream, neededFrames, tempData))
-                return false;
+            readData(stream, neededFrames, tempData);
 
             if (pitch != 1.0F)
             {
@@ -221,8 +220,6 @@ namespace ouzel
             }
             else
                 result = resampledData;
-
-            return true;
         }
     } // namespace audio
 } // namespace ouzel

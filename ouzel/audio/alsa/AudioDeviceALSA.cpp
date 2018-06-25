@@ -151,8 +151,7 @@ namespace ouzel
                 if (static_cast<snd_pcm_uframes_t>(frames) < periodSize)
                     continue;
 
-                if (!getData(frames, data))
-                    break;
+                getData(frames, data);
 
                 if ((err = snd_pcm_writei(playbackHandle, data.data(), frames)) < 0)
                 {

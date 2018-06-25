@@ -29,7 +29,7 @@ namespace ouzel
             std::string getValue(const std::string& key) const;
             const std::string& getValue(const std::string& key, const std::string& defaultValue) const;
             void setValue(const std::string& key, const std::string& value);
-            bool deleteValue(const std::string& key);
+            void deleteValue(const std::string& key);
 
         protected:
             void encode(std::vector<uint8_t>& data) const;
@@ -55,7 +55,7 @@ namespace ouzel
             Section& getSection(const std::string& name);
             Section getSection(const std::string& name) const;
             void setSection(const std::string& name, const Section& section);
-            bool deleteSection(const std::string& name);
+            void deleteSection(const std::string& name);
 
             bool hasBOM() const { return bom; }
             void setBOM(bool newBOM) { bom = newBOM; }

@@ -111,7 +111,7 @@ namespace ouzel
             device->init(debugAudio);
         }
 
-        bool Audio::update()
+        void Audio::update()
         {
             std::vector<AudioDevice::RenderCommand> renderCommands;
 
@@ -119,8 +119,6 @@ namespace ouzel
                 renderCommands.push_back(listener->getRenderCommand());
 
             device->setRenderCommands(renderCommands);
-
-            return true;
         }
 
         void Audio::executeOnAudioThread(const std::function<void(void)>& func)

@@ -67,7 +67,7 @@ namespace ouzel
             spatialized = newSpatialized;
         }
 
-        bool Sound::play(bool repeatSound)
+        void Sound::play(bool repeatSound)
         {
             if (actor) position = actor->getWorldPosition();
 
@@ -83,19 +83,15 @@ namespace ouzel
                 stream->setRepeating(repeatSound);
                 stream->setPlaying(true);
             }
-
-            return true;
         }
 
-        bool Sound::pause()
+        void Sound::pause()
         {
             playing = false;
             if (stream) stream->setPlaying(false);
-
-            return true;
         }
 
-        bool Sound::stop()
+        void Sound::stop()
         {
             playing = false;
             if (stream)
@@ -103,8 +99,6 @@ namespace ouzel
                 stream->setPlaying(false);
                 stream->setShouldReset(true);
             }
-
-            return true;
         }
 
         void Sound::addRenderCommands(std::vector<AudioDevice::RenderCommand>& renderCommands)
@@ -186,7 +180,7 @@ namespace ouzel
             rolloffFactor *= rolloffScale;
         }
 
-        bool Sound::render(uint32_t frames,
+        void Sound::render(uint32_t frames,
                            uint16_t channels,
                            uint32_t sampleRate,
                            const Vector3& listenerPosition,
@@ -248,8 +242,6 @@ namespace ouzel
                             result[frame * channels + channel] *= channelVolume[channel];
                 }
             }
-
-            return true;
         }
     } // namespace audio
 } // namespace ouzel

@@ -46,7 +46,7 @@ namespace ouzel
                 std::copy(data.begin(), data.end(), static_cast<uint8_t*>([buffer contents]));
         }
 
-        bool BufferResourceMetal::createBuffer(NSUInteger newSize)
+        void BufferResourceMetal::createBuffer(NSUInteger newSize)
         {
             if (buffer)
             {
@@ -64,8 +64,6 @@ namespace ouzel
                 if (!buffer)
                     throw DataError("Failed to create Metal buffer");
             }
-
-            return true;
         }
     } // namespace graphics
 } // namespace ouzel

@@ -197,8 +197,7 @@ namespace ouzel
                 if ((error = alGetError()) != AL_NO_ERROR)
                     throw SystemError("Failed to unqueue OpenAL buffer, error" + std::to_string(error));
 
-                if (!getData(bufferSize / (channels * sizeof(int16_t)), data))
-                    throw SystemError("Failed to get data");
+                getData(bufferSize / (channels * sizeof(int16_t)), data);
 
                 alBufferData(bufferIds[nextBuffer], format,
                              data.data(),

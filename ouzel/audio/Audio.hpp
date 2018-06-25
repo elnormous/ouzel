@@ -76,7 +76,7 @@ namespace ouzel
 
             inline AudioDevice* getDevice() const { return device.get(); }
 
-            bool update();
+            void update();
 
             void executeOnAudioThread(const std::function<void(void)>& func);
 

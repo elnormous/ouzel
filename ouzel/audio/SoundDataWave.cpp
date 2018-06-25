@@ -168,7 +168,7 @@ namespace ouzel
             return std::make_shared<StreamWave>();
         }
 
-        bool SoundDataWave::readData(Stream* stream, uint32_t frames, std::vector<float>& result)
+        void SoundDataWave::readData(Stream* stream, uint32_t frames, std::vector<float>& result)
         {
             StreamWave* streamWave = static_cast<StreamWave*>(stream);
 
@@ -206,8 +206,6 @@ namespace ouzel
             if ((data.size() - streamWave->getOffset()) == 0) streamWave->reset();
 
             std::fill(result.begin() + totalSize, result.end(), 0.0F);
-
-            return true;
         }
     } // namespace audio
 } // namespace ouzel

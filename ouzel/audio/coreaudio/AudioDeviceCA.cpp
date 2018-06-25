@@ -306,8 +306,7 @@ namespace ouzel
             {
                 AudioBuffer* buffer = &ioData->mBuffers[i];
 
-                if (!getData(buffer->mDataByteSize / (sampleSize * channels), data))
-                    throw SystemError("Failed to get data");
+                getData(buffer->mDataByteSize / (sampleSize * channels), data);
 
                 std::copy(data.begin(), data.end(), static_cast<uint8_t*>(buffer->mData));
             }

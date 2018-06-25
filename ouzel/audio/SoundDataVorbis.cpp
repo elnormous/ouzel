@@ -37,7 +37,7 @@ namespace ouzel
             return std::make_shared<StreamVorbis>(data);
         }
 
-        bool SoundDataVorbis::readData(Stream* stream, uint32_t frames, std::vector<float>& result)
+        void SoundDataVorbis::readData(Stream* stream, uint32_t frames, std::vector<float>& result)
         {
             StreamVorbis* streamVorbis = static_cast<StreamVorbis*>(stream);
 
@@ -63,8 +63,6 @@ namespace ouzel
                 stream->reset();
 
             std::fill(result.begin() + totalSize, result.end(), 0.0F);
-
-            return true;
         }
     } // namespace audio
 } // namespace ouzel

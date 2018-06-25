@@ -184,8 +184,7 @@ namespace ouzel
 
                 process();
 
-                if (!getData(bufferSize / (channels * sizeof(float)), data[nextBuffer]))
-                    throw SystemError("Failed to get data");
+                getData(bufferSize / (channels * sizeof(float)), data[nextBuffer]);
 
                 XAUDIO2_BUFFER bufferData;
                 bufferData.Flags = 0;

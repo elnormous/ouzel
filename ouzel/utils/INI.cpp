@@ -56,17 +56,12 @@ namespace ouzel
             values[key] = value;
         }
 
-        bool Section::deleteValue(const std::string& key)
+        void Section::deleteValue(const std::string& key)
         {
             auto valueIterator = values.find(key);
 
             if (valueIterator != values.end())
-            {
                 values.erase(valueIterator);
-                return true;
-            }
-
-            return false;
         }
 
         void Section::encode(std::vector<uint8_t>& data) const
@@ -336,16 +331,11 @@ namespace ouzel
             sections[name] = section;
         }
 
-        bool Data::deleteSection(const std::string& name)
+        void Data::deleteSection(const std::string& name)
         {
             auto sectionIterator = sections.find(name);
             if (sectionIterator != sections.end())
-            {
                 sections.erase(sectionIterator);
-                return true;
-            }
-
-            return false;
         }
     } // namespace ini
 } // namespace ouzel

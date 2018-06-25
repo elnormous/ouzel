@@ -47,7 +47,7 @@ namespace ouzel
             virtual void setClearDepth(float newClearDepth);
             inline float getClearDepth() const { return clearDepth; }
 
-            virtual bool process();
+            virtual void process();
 
             inline const Size2& getSize() const { return size; }
             inline uint32_t getSampleCount() const { return sampleCount; }

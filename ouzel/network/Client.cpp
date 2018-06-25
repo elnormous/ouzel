@@ -60,9 +60,8 @@ namespace ouzel
             return *this;
         }
 
-        bool Client::disconnect()
+        void Client::disconnect()
         {
-            return true;
         }
     } // namespace network
 } // namespace ouzel
