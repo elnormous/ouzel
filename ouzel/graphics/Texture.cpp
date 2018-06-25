@@ -7,6 +7,7 @@
 #include "RenderDevice.hpp"
 #include "ImageDataSTB.hpp"
 #include "core/Engine.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -22,7 +23,7 @@ namespace ouzel
             if (engine && resource) engine->getRenderer()->getDevice()->deleteResource(resource);
         }
 
-        bool Texture::init(const Size2& newSize,
+        void Texture::init(const Size2& newSize,
                            uint32_t newFlags,
                            uint32_t newMipmaps,
                            uint32_t newSampleCount,
@@ -34,8 +35,8 @@ namespace ouzel
             sampleCount = newSampleCount;
             pixelFormat = newPixelFormat;
 
-            if ((flags & DYNAMIC || flags & RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
-                return false;
+            if ((flags & RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
+                throw DataError("Invalid mip map count");
 
             engine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(TextureResource::*)(const Size2&, uint32_t, uint32_t, uint32_t, PixelFormat)>(&TextureResource::init),
                                                                    resource,
@@ -44,11 +45,9 @@ namespace ouzel
                                                                    newMipmaps,
                                                                    newSampleCount,
                                                                    newPixelFormat));
-
-            return true;
         }
 
-        bool Texture::init(const std::string& filename,
+        void Texture::init(const std::string& filename,
                            uint32_t newFlags,
                            uint32_t newMipmaps,
                            PixelFormat newPixelFormat)
@@ -62,8 +61,8 @@ namespace ouzel
             sampleCount = 1;
             pixelFormat = image.getPixelFormat();
 
-            if ((flags & DYNAMIC || flags & RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
-                return false;
+            if ((flags & RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
+                throw DataError("Invalid mip map count");
 
             engine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(TextureResource::*)(const std::vector<uint8_t>&, const Size2&, uint32_t, uint32_t, PixelFormat)>(&TextureResource::init),
                                                                    resource,
@@ -72,11 +71,9 @@ namespace ouzel
                                                                    newFlags,
                                                                    newMipmaps,
                                                                    image.getPixelFormat()));
-
-            return true;
         }
 
-        bool Texture::init(const std::vector<uint8_t>& newData,
+        void Texture::init(const std::vector<uint8_t>& newData,
                            const Size2& newSize,
                            uint32_t newFlags,
                            uint32_t newMipmaps,
@@ -88,8 +85,8 @@ namespace ouzel
             sampleCount = 1;
             pixelFormat = newPixelFormat;
 
-            if ((flags & DYNAMIC || flags & RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
-                return false;
+            if ((flags & RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
+                throw DataError("Invalid mip map count");
 
             engine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(TextureResource::*)(const std::vector<uint8_t>&, const Size2&, uint32_t, uint32_t, PixelFormat)>(&TextureResource::init),
                                                                    resource,
@@ -98,11 +95,9 @@ namespace ouzel
                                                                    newFlags,
                                                                    newMipmaps,
                                                                    newPixelFormat));
-
-            return true;
         }
 
-        bool Texture::init(const std::vector<Level>& newLevels,
+        void Texture::init(const std::vector<Level>& newLevels,
                            const Size2& newSize,
                            uint32_t newFlags,
                            PixelFormat newPixelFormat)
@@ -113,8 +108,8 @@ namespace ouzel
             sampleCount = 1;
             pixelFormat = newPixelFormat;
 
-            if ((flags & DYNAMIC || flags & RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
-                return false;
+            if ((flags & RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
+                throw DataError("Invalid mip map count");
 
             engine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(TextureResource::*)(const std::vector<Level>&, const Size2&, uint32_t, PixelFormat)>(&TextureResource::init),
                                                                    resource,
@@ -122,28 +117,24 @@ namespace ouzel
                                                                    newSize,
                                                                    newFlags,
                                                                    newPixelFormat));
-
-            return true;
         }
 
-        bool Texture::setSize(const Size2& newSize)
+        void Texture::setSize(const Size2& newSize)
         {
             if (!(flags & Texture::DYNAMIC))
-                return false;
+                throw DataError("Texture is not dynamic");
 
             size = newSize;
 
             engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setSize,
                                                                    resource,
                                                                    newSize));
-
-            return true;
         }
 
-        bool Texture::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
+        void Texture::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
         {
             if (!(flags & Texture::DYNAMIC) || flags & Texture::RENDER_TARGET)
-                return false;
+                throw DataError("Texture is not dynamic");
 
             size = newSize;
 
@@ -151,52 +142,42 @@ namespace ouzel
                                                                    resource,
                                                                    newData,
                                                                    newSize));
-
-            return true;
         }
 
-        bool Texture::setFilter(Filter newFilter)
+        void Texture::setFilter(Filter newFilter)
         {
             filter = newFilter;
 
             engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setFilter,
                                                                    resource,
                                                                    newFilter));
-
-            return true;
         }
 
-        bool Texture::setAddressX(Address newAddressX)
+        void Texture::setAddressX(Address newAddressX)
         {
             addressX = newAddressX;
 
             engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setAddressX,
                                                                    resource,
                                                                    newAddressX));
-
-            return true;
         }
 
-        bool Texture::setAddressY(Address newAddressY)
+        void Texture::setAddressY(Address newAddressY)
         {
             addressY = newAddressY;
 
             engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setAddressY,
                                                                    resource,
                                                                    newAddressY));
-
-            return true;
         }
 
-        bool Texture::setMaxAnisotropy(uint32_t newMaxAnisotropy)
+        void Texture::setMaxAnisotropy(uint32_t newMaxAnisotropy)
         {
             maxAnisotropy = newMaxAnisotropy;
 
             engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setMaxAnisotropy,
                                                                    resource,
                                                                    newMaxAnisotropy));
-
-            return true;
         }
 
         void Texture::setClearColorBuffer(bool clear)

@@ -58,7 +58,7 @@ namespace ouzel
             BlendState(BlendState&&) = delete;
             BlendState& operator=(BlendState&&) = delete;
 
-            bool init(bool newEnableBlending,
+            void init(bool newEnableBlending,
                       Factor newColorBlendSource, Factor newColorBlendDest,
                       Operation newColorOperation,
                       Factor newAlphaBlendSource, Factor newAlphaBlendDest,

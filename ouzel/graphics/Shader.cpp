@@ -22,7 +22,7 @@ namespace ouzel
             if (engine && resource) engine->getRenderer()->getDevice()->deleteResource(resource);
         }
 
-        bool Shader::init(const std::string& newFragmentShader,
+        void Shader::init(const std::string& newFragmentShader,
                           const std::string& newVertexShader,
                           const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
                           const std::vector<ConstantInfo>& newFragmentShaderConstantInfo,
@@ -42,19 +42,19 @@ namespace ouzel
 
             RenderDevice* renderDevice = engine->getRenderer()->getDevice();
 
-            return renderDevice->addCommand(InitShaderCommand(resource,
-                                                              fragmentShaderData,
-                                                              vertexShaderData,
-                                                              newVertexAttributes,
-                                                              newFragmentShaderConstantInfo,
-                                                              newVertexShaderConstantInfo,
-                                                              newFragmentShaderDataAlignment,
-                                                              newVertexShaderDataAlignment,
-                                                              newFragmentShaderFunction,
-                                                              newVertexShaderFunction));
+            renderDevice->addCommand(InitShaderCommand(resource,
+                                                       fragmentShaderData,
+                                                       vertexShaderData,
+                                                       newVertexAttributes,
+                                                       newFragmentShaderConstantInfo,
+                                                       newVertexShaderConstantInfo,
+                                                       newFragmentShaderDataAlignment,
+                                                       newVertexShaderDataAlignment,
+                                                       newFragmentShaderFunction,
+                                                       newVertexShaderFunction));
         }
 
-        bool Shader::init(const std::vector<uint8_t>& newFragmentShader,
+        void Shader::init(const std::vector<uint8_t>& newFragmentShader,
                           const std::vector<uint8_t>& newVertexShader,
                           const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
                           const std::vector<Shader::ConstantInfo>& newFragmentShaderConstantInfo,
@@ -70,16 +70,16 @@ namespace ouzel
 
             RenderDevice* renderDevice = engine->getRenderer()->getDevice();
 
-            return renderDevice->addCommand(InitShaderCommand(resource,
-                                                              newFragmentShader,
-                                                              newVertexShader,
-                                                              newVertexAttributes,
-                                                              newFragmentShaderConstantInfo,
-                                                              newVertexShaderConstantInfo,
-                                                              newFragmentShaderDataAlignment,
-                                                              newVertexShaderDataAlignment,
-                                                              newFragmentShaderFunction,
-                                                              newVertexShaderFunction));
+            renderDevice->addCommand(InitShaderCommand(resource,
+                                                       newFragmentShader,
+                                                       newVertexShader,
+                                                       newVertexAttributes,
+                                                       newFragmentShaderConstantInfo,
+                                                       newVertexShaderConstantInfo,
+                                                       newFragmentShaderDataAlignment,
+                                                       newVertexShaderDataAlignment,
+                                                       newFragmentShaderFunction,
+                                                       newVertexShaderFunction));
         }
 
         const std::set<Vertex::Attribute::Usage>& Shader::getVertexAttributes() const

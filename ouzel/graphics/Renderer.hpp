@@ -106,26 +106,26 @@ namespace ouzel
 
             void saveScreenshot(const std::string& filename);
 
-            bool addSetRenderTargetCommand(const std::shared_ptr<Texture>& renderTarget);
-            bool addClearCommand(const std::shared_ptr<Texture>& renderTarget);
-            bool addSetCullModeCommad(Renderer::CullMode cullMode);
-            bool addSetFillModeCommad(Renderer::FillMode fillMode);
-            bool addSetScissorTestCommand(bool enabled, const Rect& rectangle);
-            bool addSetViewportCommand(const Rect& viewport);
-            bool addSetDepthStateCommand(bool depthTest, bool depthWrite);
-            bool addSetPipelineStateCommand(const std::shared_ptr<BlendState>& blendState,
+            void addSetRenderTargetCommand(const std::shared_ptr<Texture>& renderTarget);
+            void addClearCommand(const std::shared_ptr<Texture>& renderTarget);
+            void addSetCullModeCommad(Renderer::CullMode cullMode);
+            void addSetFillModeCommad(Renderer::FillMode fillMode);
+            void addSetScissorTestCommand(bool enabled, const Rect& rectangle);
+            void addSetViewportCommand(const Rect& viewport);
+            void addSetDepthStateCommand(bool depthTest, bool depthWrite);
+            void addSetPipelineStateCommand(const std::shared_ptr<BlendState>& blendState,
                                             const std::shared_ptr<Shader>& shader);
-            bool addDrawCommand(const std::shared_ptr<Buffer>& indexBuffer,
+            void addDrawCommand(const std::shared_ptr<Buffer>& indexBuffer,
                                 uint32_t indexCount,
                                 uint32_t indexSize,
                                 const std::shared_ptr<Buffer>& vertexBuffer,
                                 DrawMode drawMode,
                                 uint32_t startIndex);
-            bool addPushDebugMarkerCommand(const std::string& name);
-            bool addPopDebugMarkerCommand();
-            bool addSetShaderConstantsCommand(std::vector<std::vector<float>> fragmentShaderConstants,
+            void addPushDebugMarkerCommand(const std::string& name);
+            void addPopDebugMarkerCommand();
+            void addSetShaderConstantsCommand(std::vector<std::vector<float>> fragmentShaderConstants,
                                               std::vector<std::vector<float>> vertexShaderConstants);
-            bool addSetTexturesCommand(const std::vector<std::shared_ptr<Texture>>& textures);
+            void addSetTexturesCommand(const std::vector<std::shared_ptr<Texture>>& textures);
 
         protected:
             explicit Renderer(Driver driver);

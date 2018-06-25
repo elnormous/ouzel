@@ -379,8 +379,7 @@ namespace ouzel
                     vertices[i * 4 + 3].color = color;
                 }
 
-                if (!vertexBuffer->setData(vertices.data(), static_cast<uint32_t>(getVectorSize(vertices))))
-                    return false;
+                vertexBuffer->setData(vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)));
             }
 
             return true;
