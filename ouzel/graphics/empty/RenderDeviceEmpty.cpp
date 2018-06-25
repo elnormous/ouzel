@@ -20,7 +20,7 @@ namespace ouzel
         {
         }
 
-        bool RenderDeviceEmpty::init(Window* newWindow,
+        void RenderDeviceEmpty::init(Window* newWindow,
                                      const Size2& newSize,
                                      uint32_t newSampleCount,
                                      Texture::Filter newTextureFilter,
@@ -29,15 +29,14 @@ namespace ouzel
                                      bool newDepth,
                                      bool newDebugRenderer)
         {
-            if (!RenderDevice::init(newWindow,
-                                    newSize,
-                                    newSampleCount,
-                                    newTextureFilter,
-                                    newMaxAnisotropy,
-                                    newVerticalSync,
-                                    newDepth,
-                                    newDebugRenderer))
-                return false;
+            RenderDevice::init(newWindow,
+                               newSize,
+                               newSampleCount,
+                               newTextureFilter,
+                               newMaxAnisotropy,
+                               newVerticalSync,
+                               newDepth,
+                               newDebugRenderer);
 
             std::shared_ptr<Shader> textureShader = std::make_shared<Shader>();
 
@@ -58,8 +57,6 @@ namespace ouzel
                               {{"modelViewProj", DataType::FLOAT_MATRIX4}});
 
             engine->getCache()->setShader(SHADER_COLOR, colorShader);
-
-            return true;
         }
 
         bool RenderDeviceEmpty::processCommands(CommandBuffer&)

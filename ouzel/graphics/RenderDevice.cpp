@@ -23,7 +23,7 @@ namespace ouzel
         {
         }
 
-        bool RenderDevice::init(Window* newWindow,
+        void RenderDevice::init(Window* newWindow,
                                 const Size2& newSize,
                                 uint32_t newSampleCount,
                                 Texture::Filter newTextureFilter,
@@ -43,8 +43,6 @@ namespace ouzel
             clearColor = Color::BLACK;
 
             previousFrameTime = std::chrono::steady_clock::now();
-
-            return true;
         }
 
         bool RenderDevice::process()

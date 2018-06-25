@@ -136,7 +136,7 @@ namespace ouzel
         {
         }
 
-        bool Renderer::init(Window* newWindow,
+        void Renderer::init(Window* newWindow,
                             const Size2& newSize,
                             uint32_t newSampleCount,
                             Texture::Filter newTextureFilter,
@@ -147,15 +147,14 @@ namespace ouzel
         {
             size = newSize;
 
-            if (!device->init(newWindow,
-                              newSize,
-                              newSampleCount,
-                              newTextureFilter,
-                              newMaxAnisotropy,
-                              newVerticalSync,
-                              newDepth,
-                              newDebugRenderer))
-                return false;
+            device->init(newWindow,
+                         newSize,
+                         newSampleCount,
+                         newTextureFilter,
+                         newMaxAnisotropy,
+                         newVerticalSync,
+                         newDepth,
+                         newDebugRenderer);
 
             std::shared_ptr<BlendState> noBlendState = std::make_shared<BlendState>();
 
@@ -210,8 +209,6 @@ namespace ouzel
             std::shared_ptr<Texture> whitePixelTexture = std::make_shared<Texture>();
             whitePixelTexture->init({255, 255, 255, 255}, Size2(1.0F, 1.0F), 0, 1);
             engine->getCache()->setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
-
-            return true;
         }
 
         void Renderer::executeOnRenderThread(const std::function<void(void)>& func)

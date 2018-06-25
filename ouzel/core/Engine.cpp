@@ -72,7 +72,7 @@ namespace ouzel
         engine = nullptr;
     }
 
-    bool Engine::init()
+    void Engine::init()
     {
         Thread::setCurrentThreadName("Main");
 
@@ -222,15 +222,14 @@ namespace ouzel
                     highDpi,
                     depth);
 
-        if (!renderer->init(&window,
-                            window.getResolution(),
-                            sampleCount,
-                            textureFilter,
-                            maxAnisotropy,
-                            verticalSync,
-                            depth,
-                            debugRenderer))
-            return false;
+        renderer->init(&window,
+                       window.getResolution(),
+                       sampleCount,
+                       textureFilter,
+                       maxAnisotropy,
+                       verticalSync,
+                       depth,
+                       debugRenderer);
 
         if (audioDriver == audio::Audio::Driver::DEFAULT)
         {
@@ -277,8 +276,6 @@ namespace ouzel
 #endif
 
         inputManager->init();
-
-        return true;
     }
 
     void Engine::start()

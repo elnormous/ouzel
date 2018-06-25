@@ -25,7 +25,7 @@ namespace ouzel
 
         private:
             RenderDeviceOGLRasp();
-            virtual bool init(Window* newWindow,
+            virtual void init(Window* newWindow,
                               const Size2& newSize,
                               uint32_t newSampleCount,
                               Texture::Filter newTextureFilter,

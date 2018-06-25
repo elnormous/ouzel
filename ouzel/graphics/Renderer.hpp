@@ -129,7 +129,7 @@ namespace ouzel
 
         protected:
             explicit Renderer(Driver driver);
-            bool init(Window* newWindow,
+            void init(Window* newWindow,
                       const Size2& newSize,
                       uint32_t newSampleCount,
                       Texture::Filter newTextureFilter,

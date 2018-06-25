@@ -8,6 +8,7 @@
 #include "RenderDeviceOGLTVOS.hpp"
 #include "core/Window.hpp"
 #include "core/tvos/WindowResourceTVOS.hpp"
+#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
@@ -37,7 +38,7 @@ namespace ouzel
             }
         }
 
-        bool RenderDeviceOGLTVOS::init(Window* newWindow,
+        void RenderDeviceOGLTVOS::init(Window* newWindow,
                                        const Size2& newSize,
                                        uint32_t newSampleCount,
                                        Texture::Filter newTextureFilter,
@@ -73,34 +74,24 @@ namespace ouzel
                     Log(Log::Level::INFO) << "EAGL OpenGL ES 2 context created";
                 }
                 else
-                {
-                    Log(Log::Level::ERR) << "Failed to create EAGL context";
-                    return false;
-                }
+                    throw SystemError("Failed to create EAGL context");
             }
 
             if (![EAGLContext setCurrentContext:context])
-            {
-                Log(Log::Level::ERR) << "Failed to set current EAGL context";
-                return false;
-            }
+                throw SystemError("Failed to set current EAGL context");
 
-            if (!RenderDeviceOGL::init(newWindow,
-                                       newSize,
-                                       newSampleCount,
-                                       newTextureFilter,
-                                       newMaxAnisotropy,
-                                       newVerticalSync,
-                                       newDepth,
-                                       newDebugRenderer))
-                return false;
+            RenderDeviceOGL::init(newWindow,
+                                  newSize,
+                                  newSampleCount,
+                                  newTextureFilter,
+                                  newMaxAnisotropy,
+                                  newVerticalSync,
+                                  newDepth,
+                                  newDebugRenderer);
 
-            if (!createFrameBuffer())
-                return false;
+            createFrameBuffer();
 
             displayLink.start(verticalSync);
-
-            return true;
         }
 
         void RenderDeviceOGLTVOS::setSize(const Size2& newSize)
@@ -167,7 +158,7 @@ namespace ouzel
             return true;
         }
 
-        bool RenderDeviceOGLTVOS::createFrameBuffer()
+        void RenderDeviceOGLTVOS::createFrameBuffer()
         {
             if (sampleCount > 1)
             {
@@ -183,11 +174,10 @@ namespace ouzel
                 glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
                                               GL_RENDERBUFFER, resolveColorRenderBufferId);
 
-                if (glCheckFramebufferStatusProc(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-                {
-                    Log(Log::Level::ERR) << "Failed to create framebuffer object " << glCheckFramebufferStatusProc(GL_FRAMEBUFFER);
-                    return false;
-                }
+                GLenum status = glCheckFramebufferStatusProc(GL_FRAMEBUFFER);
+
+                if (status != GL_FRAMEBUFFER_COMPLETE)
+                    throw SystemError("Failed to create framebuffer object, status: " + std::to_string(status));
 
                 // create MSAA frame buffer
                 if (!msaaFrameBufferId) glGenFramebuffers(1, &msaaFrameBufferId);
@@ -210,11 +200,10 @@ namespace ouzel
                 if (depth)
                     glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBufferId);
 
-                if (glCheckFramebufferStatusProc(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-                {
-                    Log(Log::Level::ERR) << "Failed to create framebuffer object " << glCheckFramebufferStatusProc(GL_FRAMEBUFFER);
-                    return false;
-                }
+                status = glCheckFramebufferStatusProc(GL_FRAMEBUFFER);
+
+                if (status != GL_FRAMEBUFFER_COMPLETE)
+                    throw SystemError("Failed to create framebuffer object, status: " + std::to_string(status));
 
                 frameBufferId = msaaFrameBufferId;
             }
@@ -242,16 +231,13 @@ namespace ouzel
                 if (depth)
                     glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBufferId);
 
-                if (glCheckFramebufferStatusProc(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-                {
-                    Log(Log::Level::ERR) << "Failed to create framebuffer object " << glCheckFramebufferStatusProc(GL_FRAMEBUFFER);
-                    return false;
-                }
+                GLenum status = glCheckFramebufferStatusProc(GL_FRAMEBUFFER);
+
+                if (status != GL_FRAMEBUFFER_COMPLETE)
+                    throw SystemError("Failed to create framebuffer object, status: " + std::to_string(status));
 
                 frameBufferId = resolveFrameBufferId;
             }
-
-            return true;
         }
     } // namespace graphics
 } // namespace ouzel

@@ -7,6 +7,7 @@
 
 #include "RenderDeviceOGLEm.hpp"
 #include "core/Engine.hpp"
+#include "utils/Errors.hpp"
 #include "utils/Utils.hpp"
 
 namespace ouzel
@@ -22,7 +23,7 @@ namespace ouzel
             }
         }
 
-        bool RenderDeviceOGLEm::init(Window* newWindow,
+        void RenderDeviceOGLEm::init(Window* newWindow,
                                      const Size2& newSize,
                                      uint32_t newSampleCount,
                                      Texture::Filter newTextureFilter,
@@ -45,29 +46,23 @@ namespace ouzel
             webGLContext = emscripten_webgl_create_context(0, &attrs);
 
             if (!webGLContext)
-            {
-                Log(Log::Level::ERR) << "Failed to create WebGL context";
-                return false;
-            }
+                throw SystemError("Failed to create WebGL context");
 
             EMSCRIPTEN_RESULT res = emscripten_webgl_make_context_current(webGLContext);
 
             if (res != EMSCRIPTEN_RESULT_SUCCESS)
-            {
-                Log(Log::Level::ERR) << "Failed to make WebGL context current";
-                return false;
-            }
+                throw SystemError("Failed to make WebGL context current");
 
             emscripten_set_main_loop_timing(newVerticalSync ? EM_TIMING_RAF : EM_TIMING_SETTIMEOUT, 1);
 
-            return RenderDeviceOGL::init(newWindow,
-                                         newSize,
-                                         newSampleCount,
-                                         newTextureFilter,
-                                         newMaxAnisotropy,
-                                         newVerticalSync,
-                                         newDepth,
-                                         newDebugRenderer);
+            RenderDeviceOGL::init(newWindow,
+                                  newSize,
+                                  newSampleCount,
+                                  newTextureFilter,
+                                  newMaxAnisotropy,
+                                  newVerticalSync,
+                                  newDepth,
+                                  newDebugRenderer);
         }
 
         bool RenderDeviceOGLEm::lockContext()

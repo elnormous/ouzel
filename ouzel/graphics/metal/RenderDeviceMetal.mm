@@ -49,6 +49,7 @@
 #include "core/Engine.hpp"
 #include "assets/Cache.hpp"
 #include "thread/Lock.hpp"
+#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"
 #include "stb_image_write.h"
@@ -112,7 +113,7 @@ namespace ouzel
             if (currentMetalTexture) [currentMetalTexture release];
         }
 
-        bool RenderDeviceMetal::init(Window* newWindow,
+        void RenderDeviceMetal::init(Window* newWindow,
                                      const Size2& newSize,
                                      uint32_t newSampleCount,
                                      Texture::Filter newTextureFilter,
@@ -121,25 +122,21 @@ namespace ouzel
                                      bool newDepth,
                                      bool newDebugRenderer)
         {
-            if (!RenderDevice::init(newWindow,
-                                    newSize,
-                                    newSampleCount,
-                                    newTextureFilter,
-                                    newMaxAnisotropy,
-                                    newVerticalSync,
-                                    newDepth,
-                                    newDebugRenderer))
-                return false;
+            RenderDevice::init(newWindow,
+                               newSize,
+                               newSampleCount,
+                               newTextureFilter,
+                               newMaxAnisotropy,
+                               newVerticalSync,
+                               newDepth,
+                               newDebugRenderer);
 
             inflightSemaphore = dispatch_semaphore_create(BUFFER_COUNT);
 
             device = MTLCreateSystemDefaultDevice();
 
             if (!device)
-            {
-                Log(Log::Level::ERR) << "Failed to create Metal device";
-                return false;
-            }
+                throw SystemError("Failed to create Metal device");
 
             if (device.name)
                 Log(Log::Level::INFO) << "Using " << [device.name cStringUsingEncoding:NSUTF8StringEncoding] << " for rendering";
@@ -147,10 +144,7 @@ namespace ouzel
             commandQueue = [device newCommandQueue];
 
             if (!commandQueue)
-            {
-                Log(Log::Level::ERR) << "Failed to create Metal command queue";
-                return false;
-            }
+                throw SystemError("Failed to create Metal command queue");
 
             if (depth) depthFormat = MTLPixelFormatDepth32Float;
 
@@ -174,10 +168,7 @@ namespace ouzel
             renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
 
             if (!renderPassDescriptor)
-            {
-                Log(Log::Level::ERR) << "Failed to create Metal render pass descriptor";
-                return false;
-            }
+                throw SystemError("Failed to create Metal render pass descriptor");
 
             renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
             renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.normR(),
@@ -219,15 +210,10 @@ namespace ouzel
                                                                   options:MTLResourceCPUCacheModeWriteCombined];
 
                 if (!shaderConstantBuffer.buffer)
-                {
-                    Log(Log::Level::ERR) << "Failed to create Metal buffer";
-                    return false;
-                }
+                    throw SystemError("Failed to create Metal buffer");
 
                 shaderConstantBuffers.push_back(shaderConstantBuffer);
             }
-
-            return true;
         }
 
         void RenderDeviceMetal::setClearColorBuffer(bool clear)
