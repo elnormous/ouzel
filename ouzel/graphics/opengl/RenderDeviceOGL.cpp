@@ -864,7 +864,7 @@ namespace ouzel
             swapBuffers();
         }
 
-        static bool setUniform(GLint location, DataType dataType, const void* data)
+        static void setUniform(GLint location, DataType dataType, const void* data)
         {
             switch (dataType)
             {
@@ -872,28 +872,28 @@ namespace ouzel
                     glUniform1ivProc(location, 1, reinterpret_cast<const GLint*>(data));
                     break;
                 case DataType::UNSIGNED_INTEGER:
-                    if (!glUniform1uivProc) return false;
+                    if (!glUniform1uivProc) throw DataError("Unsupported uniform size");
                     glUniform1uivProc(location, 1, reinterpret_cast<const GLuint*>(data));
                     break;
                 case DataType::INTEGER_VECTOR2:
                     glUniform2ivProc(location, 1, reinterpret_cast<const GLint*>(data));
                     break;
                 case DataType::UNSIGNED_INTEGER_VECTOR2:
-                    if (!glUniform2uivProc) return false;
+                    if (!glUniform2uivProc) throw DataError("Unsupported uniform size");
                     glUniform2uivProc(location, 1, reinterpret_cast<const GLuint*>(data));
                     break;
                 case DataType::INTEGER_VECTOR3:
                     glUniform3ivProc(location, 1, reinterpret_cast<const GLint*>(data));
                     break;
                 case DataType::UNSIGNED_INTEGER_VECTOR3:
-                    if (!glUniform3uivProc) return false;
+                    if (!glUniform3uivProc) throw DataError("Unsupported uniform size");
                     glUniform3uivProc(location, 1, reinterpret_cast<const GLuint*>(data));
                     break;
                 case DataType::INTEGER_VECTOR4:
                     glUniform4ivProc(location, 1, reinterpret_cast<const GLint*>(data));
                     break;
                 case DataType::UNSIGNED_INTEGER_VECTOR4:
-                    if (!glUniform4uivProc) return false;
+                    if (!glUniform4uivProc) throw DataError("Unsupported uniform size");
                     glUniform4uivProc(location, 1, reinterpret_cast<const GLuint*>(data));
                     break;
                 case DataType::FLOAT:
@@ -915,11 +915,8 @@ namespace ouzel
                     glUniformMatrix4fvProc(location, 1, GL_FALSE, reinterpret_cast<const GLfloat*>(data));
                     break;
                 default:
-                    Log(Log::Level::ERR) << "Unsupported uniform size";
-                    return false;
+                    throw DataError("Unsupported uniform size");
             }
-
-            return true;
         }
 
         void RenderDeviceOGL::processCommands(CommandBuffer& commands)
@@ -1309,10 +1306,9 @@ namespace ouzel
                             const ShaderResourceOGL::Location& fragmentShaderConstantLocation = fragmentShaderConstantLocations[i];
                             const std::vector<float>& fragmentShaderConstant = setShaderConstantsCommand->fragmentShaderConstants[i];
 
-                            if (!setUniform(fragmentShaderConstantLocation.location,
-                                            fragmentShaderConstantLocation.dataType,
-                                            fragmentShaderConstant.data()))
-                                throw DataError("Failed to set uniform");
+                            setUniform(fragmentShaderConstantLocation.location,
+                                       fragmentShaderConstantLocation.dataType,
+                                       fragmentShaderConstant.data());
                         }
 
                         // vertex shader constants
@@ -1326,10 +1322,9 @@ namespace ouzel
                             const ShaderResourceOGL::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
                             const std::vector<float>& vertexShaderConstant = setShaderConstantsCommand->vertexShaderConstants[i];
 
-                            if (!setUniform(vertexShaderConstantLocation.location,
-                                            vertexShaderConstantLocation.dataType,
-                                            vertexShaderConstant.data()))
-                                throw DataError("Failed to set uniform");
+                            setUniform(vertexShaderConstantLocation.location,
+                                       vertexShaderConstantLocation.dataType,
+                                       vertexShaderConstant.data());
                         }
 
                         break;
