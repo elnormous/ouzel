@@ -113,8 +113,10 @@ namespace ouzel
                 glBindFramebufferProc(GL_DRAW_FRAMEBUFFER_APPLE, resolveFrameBufferId); // draw to resolve frame buffer
                 glBindFramebufferProc(GL_READ_FRAMEBUFFER_APPLE, frameBufferId); // read from FBO
 
-                if (checkOpenGLError())
-                    throw SystemError("Failed to bind MSAA frame buffer");
+                GLenum error;
+
+                if ((error = glGetError()) != GL_NO_ERROR)
+                    throw SystemError("Failed to bind MSAA frame buffer, error: " + std::to_string(error));
 
                 if (apiMajorVersion >= 3)
                     glBlitFramebufferProc(0, 0, frameBufferWidth, frameBufferHeight,
@@ -123,15 +125,15 @@ namespace ouzel
                 else
                     glResolveMultisampleFramebufferAPPLE();
 
-                if (checkOpenGLError())
-                    throw SystemError("Failed to blit MSAA texture");
+                if ((error = glGetError()) != GL_NO_ERROR)
+                    throw SystemError("Failed to blit MSAA texture, error: " + std::to_string(error));
 
                 // reset framebuffer
                 const GLenum discard[] = {GL_COLOR_ATTACHMENT0, GL_DEPTH_ATTACHMENT};
                 glDiscardFramebufferEXT(GL_READ_FRAMEBUFFER_APPLE, 1, discard);
 
-                if (checkOpenGLError())
-                    throw SystemError("Failed to discard render buffers");
+                if ((error = glGetError()) != GL_NO_ERROR)
+                    throw SystemError("Failed to discard render buffers, error: " + std::to_string(error));
 
                 stateCache.frameBufferId = resolveFrameBufferId;
             }

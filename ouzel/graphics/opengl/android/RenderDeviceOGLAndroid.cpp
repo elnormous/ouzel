@@ -237,8 +237,10 @@ namespace ouzel
             glDisable(GL_DITHER);
             glDepthFunc(GL_LEQUAL);
 
-            if (checkOpenGLError())
-                throw SystemError("Failed to set depth function");
+            GLenum error;
+
+            if ((error = glGetError()) != GL_NO_ERROR)
+                throw SystemError("Failed to set depth function, error: " + std::to_string(error));
 
             if (glGenVertexArraysProc) glGenVertexArraysProc(1, &vertexArrayId);
 

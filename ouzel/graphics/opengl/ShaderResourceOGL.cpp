@@ -121,8 +121,10 @@ namespace ouzel
             if (status == GL_FALSE)
                 throw DataError("Failed to compile pixel shader, error: " + getShaderMessage(fragmentShaderId));
 
-            if (RenderDeviceOGL::checkOpenGLError())
-                throw DataError("Failed to get shader compile status");
+            GLenum error;
+            
+            if ((error = glGetError()) != GL_NO_ERROR)
+                throw DataError("Failed to get shader compile status, error: " + std::to_string(error));
 
             vertexShaderId = glCreateShaderProc(GL_VERTEX_SHADER);
 
@@ -199,8 +201,8 @@ namespace ouzel
             if (status == GL_FALSE)
                 throw DataError("Failed to link shader" + getProgramMessage());
 
-            if (RenderDeviceOGL::checkOpenGLError())
-                throw DataError("Failed to get shader link status");
+            if ((error = glGetError()) != GL_NO_ERROR)
+                throw DataError("Failed to get shader link status, error: " + std::to_string(error));
 
             glDetachShaderProc(programId, vertexShaderId);
             glDeleteShaderProc(vertexShaderId);
@@ -210,8 +212,8 @@ namespace ouzel
             glDeleteShaderProc(fragmentShaderId);
             fragmentShaderId = 0;
 
-            if (RenderDeviceOGL::checkOpenGLError())
-                throw DataError("Failed to detach shader");
+            if ((error = glGetError()) != GL_NO_ERROR)
+                throw DataError("Failed to detach shader, error: " + std::to_string(error));
 
             renderDeviceOGL.useProgram(programId);
 
@@ -221,8 +223,8 @@ namespace ouzel
             GLint texture1Location = glGetUniformLocationProc(programId, "texture1");
             if (texture1Location != -1) glUniform1iProc(texture1Location, 1);
 
-            if (RenderDeviceOGL::checkOpenGLError())
-                throw DataError("Failed to get uniform location");
+            if ((error = glGetError()) != GL_NO_ERROR)
+                throw DataError("Failed to get uniform location, error: " + std::to_string(error));
 
             if (!fragmentShaderConstantInfo.empty())
             {
@@ -233,7 +235,10 @@ namespace ouzel
                 {
                     GLint location = glGetUniformLocationProc(programId, info.name.c_str());
 
-                    if (location == -1 || RenderDeviceOGL::checkOpenGLError())
+                    if ((error = glGetError()) != GL_NO_ERROR)
+                        throw DataError("Failed to get OpenGL uniform location, error: " + std::to_string(error));
+
+                    if (location == -1)
                         throw DataError("Failed to get OpenGL uniform location");
 
                     fragmentShaderConstantLocations.push_back({location, info.dataType});
@@ -249,7 +254,10 @@ namespace ouzel
                 {
                     GLint location = glGetUniformLocationProc(programId, info.name.c_str());
 
-                    if (location == -1 || RenderDeviceOGL::checkOpenGLError())
+                    if ((error = glGetError()) != GL_NO_ERROR)
+                        throw DataError("Failed to get OpenGL uniform location, error: " + std::to_string(error));
+
+                    if (location == -1)
                         throw DataError("Failed to get OpenGL uniform location");
 
                     vertexShaderConstantLocations.push_back({location, info.dataType});
