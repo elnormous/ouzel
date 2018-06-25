@@ -47,10 +47,7 @@ namespace ouzel
                 windowClass = RegisterClassW(&wc);
 
                 if (!windowClass)
-                {
-                    Log(Log::Level::ERR) << "Failed to register window class";
-                    return;
-                }
+                    throw SystemError("Failed to register window class");
 
                 window = CreateWindowW(TEMP_WINDOW_CLASS_NAME, L"TempWindow", 0,
                                        CW_USEDEFAULT, CW_USEDEFAULT,
@@ -58,10 +55,7 @@ namespace ouzel
                                        0, 0, hInstance, 0);
 
                 if (!window)
-                {
-                    Log(Log::Level::ERR) << "Failed to create window";
-                    return;
-                }
+                    throw SystemError("Failed to create window");
 
                 deviceContext = GetDC(window);
 
@@ -96,30 +90,18 @@ namespace ouzel
                 int pixelFormat = ChoosePixelFormat(deviceContext, &pixelFormatDesc);
 
                 if (!pixelFormat)
-                {
-                    Log(Log::Level::ERR) << "Failed to choose pixel format";
-                    return;
-                }
+                    throw SystemError("Failed to choose pixel format");
 
                 if (!SetPixelFormat(deviceContext, pixelFormat, &pixelFormatDesc))
-                {
-                    Log(Log::Level::ERR) << "Failed to set pixel format";
-                    return;
-                }
+                    throw SystemError("Failed to set pixel format");
 
                 renderContext = wglCreateContext(deviceContext);
 
                 if (!renderContext)
-                {
-                    Log(Log::Level::ERR) << "Failed to create OpenGL context";
-                    return;
-                }
+                    throw SystemError("Failed to create OpenGL context");
 
                 if (!wglMakeCurrent(deviceContext, renderContext))
-                {
-                    Log(Log::Level::ERR) << "Failed to set current OpenGL context";
-                    return;
-                }
+                    throw SystemError("Failed to set current OpenGL context");
             }
 
             ~TempContext()

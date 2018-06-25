@@ -45,7 +45,7 @@ namespace ouzel
             };
 
             ID3D11SamplerState* getSamplerState(const SamplerStateDesc& desc);
-            bool setFullscreen(bool newFullscreen);
+            void setFullscreen(bool newFullscreen);
 
         protected:
             RenderDeviceD3D11();

@@ -17,10 +17,7 @@ namespace ouzel
         RenderDeviceOGLEm::~RenderDeviceOGLEm()
         {
             if (webGLContext)
-            {
-                if (emscripten_webgl_destroy_context(webGLContext) != EMSCRIPTEN_RESULT_SUCCESS)
-                    Log(Log::Level::ERR) << "Failed to destroy WebGL context";
-            }
+                emscripten_webgl_destroy_context(webGLContext);
         }
 
         void RenderDeviceOGLEm::init(Window* newWindow,
