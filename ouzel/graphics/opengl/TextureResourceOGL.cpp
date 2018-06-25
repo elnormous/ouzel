@@ -248,8 +248,10 @@ namespace ouzel
                     if (renderDeviceOGL.isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
                     if (renderDeviceOGL.isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
 
-                    if (RenderDeviceOGL::checkOpenGLError())
-                        throw DataError("Failed to set texture base and max levels");
+                    GLenum error;
+
+                    if ((error = glGetError()) != GL_NO_ERROR)
+                        throw DataError("Failed to set texture base and max levels, error: " + std::to_string(error));
                 }
 
                 for (size_t level = 0; level < levels.size(); ++level)
@@ -260,8 +262,10 @@ namespace ouzel
                                  oglPixelFormat, oglPixelType, nullptr);
                 }
 
-                if (RenderDeviceOGL::checkOpenGLError())
-                    throw DataError("Failed to set texture size");
+                GLenum error;
+
+                if ((error = glGetError()) != GL_NO_ERROR)
+                    throw DataError("Failed to set texture size, error: " + std::to_string(error));
             }
 
             setTextureParameters();
@@ -290,8 +294,10 @@ namespace ouzel
                     if (renderDeviceOGL.isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
                     if (renderDeviceOGL.isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
 
-                    if (RenderDeviceOGL::checkOpenGLError())
-                        throw DataError("Failed to set texture base and max levels");
+                    GLenum error;
+
+                    if ((error = glGetError()) != GL_NO_ERROR)
+                        throw DataError("Failed to set texture base and max levels, error: " + std::to_string(error));
                 }
 
                 for (size_t level = 0; level < levels.size(); ++level)
@@ -312,8 +318,10 @@ namespace ouzel
                     }
                 }
 
-                if (RenderDeviceOGL::checkOpenGLError())
-                    throw DataError("Failed to upload texture data");
+                GLenum error;
+
+                if ((error = glGetError()) != GL_NO_ERROR)
+                    throw DataError("Failed to upload texture data, error: " + std::to_string(error));
             }
 
             setTextureParameters();
@@ -340,8 +348,10 @@ namespace ouzel
                     if (renderDeviceOGL.isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
                     if (renderDeviceOGL.isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
 
-                    if (RenderDeviceOGL::checkOpenGLError())
-                        throw DataError("Failed to set texture base and max levels");
+                    GLenum error;
+
+                    if ((error = glGetError()) != GL_NO_ERROR)
+                        throw DataError("Failed to set texture base and max levels, error: " + std::to_string(error));
                 }
 
                 for (size_t level = 0; level < levels.size(); ++level)
@@ -362,8 +372,10 @@ namespace ouzel
                     }
                 }
 
-                if (RenderDeviceOGL::checkOpenGLError())
-                    throw DataError("Failed to upload texture data");
+                GLenum error;
+
+                if ((error = glGetError()) != GL_NO_ERROR)
+                    throw DataError("Failed to upload texture data, error: " + std::to_string(error));
             }
 
             setTextureParameters();
@@ -388,8 +400,10 @@ namespace ouzel
                     if (renderDeviceOGL.isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
                     if (renderDeviceOGL.isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
 
-                    if (RenderDeviceOGL::checkOpenGLError())
-                        throw DataError("Failed to set texture base and max levels");
+                    GLenum error;
+
+                    if ((error = glGetError()) != GL_NO_ERROR)
+                        throw DataError("Failed to set texture base and max levels, error: " + std::to_string(error));
                 }
 
                 for (size_t level = 0; level < levels.size(); ++level)
@@ -410,8 +424,10 @@ namespace ouzel
                     }
                 }
 
-                if (RenderDeviceOGL::checkOpenGLError())
-                    throw DataError("Failed to upload texture data");
+                GLenum error;
+
+                if ((error = glGetError()) != GL_NO_ERROR)
+                    throw DataError("Failed to upload texture data, error: " + std::to_string(error));
             }
 
             setTextureParameters();
@@ -457,8 +473,10 @@ namespace ouzel
                         }
                     }
 
-                    if (RenderDeviceOGL::checkOpenGLError())
-                        throw DataError("Failed to create render buffer");
+                    GLenum error;
+
+                    if ((error = glGetError()) != GL_NO_ERROR)
+                        throw DataError("Failed to create render buffer, error: " + std::to_string(error));
                 }
                 else
                 {
@@ -467,8 +485,10 @@ namespace ouzel
                         if (renderDeviceOGL.isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
                         if (renderDeviceOGL.isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
 
-                        if (RenderDeviceOGL::checkOpenGLError())
-                            throw DataError("Failed to set texture base and max levels");
+                        GLenum error;
+
+                        if ((error = glGetError()) != GL_NO_ERROR)
+                            throw DataError("Failed to set texture base and max levels, error: " + std::to_string(error));
                     }
 
                     for (size_t level = 0; level < levels.size(); ++level)
@@ -481,8 +501,10 @@ namespace ouzel
                                      nullptr);
                     }
 
-                    if (RenderDeviceOGL::checkOpenGLError())
-                        throw DataError("Failed to set texture size");
+                    GLenum error;
+
+                    if ((error = glGetError()) != GL_NO_ERROR)
+                        throw DataError("Failed to set texture size, error: " + std::to_string(error));
                 }
             }
         }
@@ -509,8 +531,10 @@ namespace ouzel
                         if (renderDeviceOGL.isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
                         if (renderDeviceOGL.isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
 
-                        if (RenderDeviceOGL::checkOpenGLError())
-                            throw DataError("Failed to set texture base and max levels");
+                        GLenum error;
+
+                        if ((error = glGetError()) != GL_NO_ERROR)
+                            throw DataError("Failed to set texture base and max levels, error: " + std::to_string(error));
                     }
 
                     for (size_t level = 0; level < levels.size(); ++level)
@@ -550,8 +574,10 @@ namespace ouzel
                     }
                 }
 
-                if (RenderDeviceOGL::checkOpenGLError())
-                    throw DataError("Failed to upload texture data");
+                GLenum error;
+
+                if ((error = glGetError()) != GL_NO_ERROR)
+                    throw DataError("Failed to upload texture data, error: " + std::to_string(error));
             }
         }
 
@@ -589,8 +615,10 @@ namespace ouzel
                     throw DataError("Invalid texture filter");
             }
 
-            if (RenderDeviceOGL::checkOpenGLError())
-                throw DataError("Failed to set texture filter");
+            GLenum error;
+
+            if ((error = glGetError()) != GL_NO_ERROR)
+                throw DataError("Failed to set texture filter, error: " + std::to_string(error));
         }
 
         void TextureResourceOGL::setAddressX(Texture::Address newAddressX)
@@ -617,8 +645,10 @@ namespace ouzel
                     throw DataError("Invalid texture address mode");
             }
 
-            if (RenderDeviceOGL::checkOpenGLError())
-                throw DataError("Failed to set texture wrap mode");
+            GLenum error;
+
+            if ((error = glGetError()) != GL_NO_ERROR)
+                throw DataError("Failed to set texture wrap mode, error: " + std::to_string(error));
         }
 
         void TextureResourceOGL::setAddressY(Texture::Address newAddressY)
@@ -645,8 +675,10 @@ namespace ouzel
                     throw DataError("Invalid texture address mode");
             }
 
-            if (RenderDeviceOGL::checkOpenGLError())
-                throw DataError("Failed to set texture wrap mode");
+            GLenum error;
+
+            if ((error = glGetError()) != GL_NO_ERROR)
+                throw DataError("Failed to set texture wrap mode, error: " + std::to_string(error));
         }
 
         void TextureResourceOGL::setMaxAnisotropy(uint32_t newMaxAnisotropy)
@@ -664,8 +696,10 @@ namespace ouzel
             {
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, static_cast<GLint>(finalMaxAnisotropy));
 
-                if (RenderDeviceOGL::checkOpenGLError())
-                    throw DataError("Failed to set texture max anisotrophy");
+                GLenum error;
+
+                if ((error = glGetError()) != GL_NO_ERROR)
+                    throw DataError("Failed to set texture max anisotrophy, error: " + std::to_string(error));
             }
         }
 
@@ -733,8 +767,10 @@ namespace ouzel
 
             glGenTextures(1, &textureId);
 
-            if (RenderDeviceOGL::checkOpenGLError())
-                throw DataError("Failed to create texture");
+            GLenum error;
+
+            if ((error = glGetError()) != GL_NO_ERROR)
+                throw DataError("Failed to create texture, error: " + std::to_string(error));
 
             renderDeviceOGL.bindTexture(textureId, 0);
 
@@ -760,8 +796,8 @@ namespace ouzel
             {
                 glGenFramebuffersProc(1, &frameBufferId);
 
-                if (RenderDeviceOGL::checkOpenGLError())
-                    throw DataError("Failed to create frame buffer");
+                if ((error = glGetError()) != GL_NO_ERROR)
+                    throw DataError("Failed to create frame buffer, error: " + std::to_string(error));
 
                 renderDeviceOGL.bindFrameBuffer(frameBufferId);
 
@@ -837,8 +873,8 @@ namespace ouzel
                     if (glCheckFramebufferStatusProc(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
                         throw DataError("Failed to create frame buffer");
 
-                    if (RenderDeviceOGL::checkOpenGLError())
-                        throw DataError("Failed to create frame buffer");
+                    if ((error = glGetError()) != GL_NO_ERROR)
+                        throw DataError("Failed to create frame buffer, error: " + std::to_string(error));
                 }
             }
         }
@@ -872,8 +908,10 @@ namespace ouzel
                     throw DataError("Invalid texture filter");
             }
 
-            if (RenderDeviceOGL::checkOpenGLError())
-                throw DataError("Failed to set texture filter");
+            GLenum error;
+
+            if ((error = glGetError()) != GL_NO_ERROR)
+                throw DataError("Failed to set texture filter, error: " + std::to_string(error));
 
             switch (addressX)
             {
@@ -890,8 +928,8 @@ namespace ouzel
                     throw DataError("Invalid texture address mode");
             }
 
-            if (RenderDeviceOGL::checkOpenGLError())
-                throw DataError("Failed to set texture wrap mode");
+            if ((error = glGetError()) != GL_NO_ERROR)
+                throw DataError("Failed to set texture wrap mode, error: " + std::to_string(error));
 
             switch (addressY)
             {
@@ -908,8 +946,8 @@ namespace ouzel
                     throw DataError("Invalid texture address mode");
             }
 
-            if (RenderDeviceOGL::checkOpenGLError())
-                throw DataError("Failed to set texture wrap mode");
+            if ((error = glGetError()) != GL_NO_ERROR)
+                throw DataError("Failed to set texture wrap mode, error: " + std::to_string(error));
 
             uint32_t finalMaxAnisotropy = (maxAnisotropy == 0) ? renderDeviceOGL.getMaxAnisotropy() : maxAnisotropy;
 
@@ -917,8 +955,8 @@ namespace ouzel
             {
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, static_cast<GLint>(finalMaxAnisotropy));
 
-                if (RenderDeviceOGL::checkOpenGLError())
-                    throw DataError("Failed to set texture max anisotrophy");
+                if ((error = glGetError()) != GL_NO_ERROR)
+                    throw DataError("Failed to set texture max anisotrophy, error: " + std::to_string(error));
             }
         }
     } // namespace graphics

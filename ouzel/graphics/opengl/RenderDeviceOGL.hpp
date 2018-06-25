@@ -128,32 +128,6 @@ namespace ouzel
 
             virtual bool process() override;
 
-            static inline bool checkOpenGLError()
-            {
-                GLenum error = glGetError();
-
-                if (error != GL_NO_ERROR)
-                {
-                    const char* errorStr;
-
-                    switch (error)
-                    {
-                        case GL_INVALID_ENUM: errorStr = "GL_INVALID_ENUM"; break;
-                        case GL_INVALID_VALUE: errorStr = "GL_INVALID_VALUE"; break;
-                        case GL_INVALID_OPERATION: errorStr = "GL_INVALID_OPERATION"; break;
-                        case GL_OUT_OF_MEMORY: errorStr = "GL_OUT_OF_MEMORY"; break;
-                        case GL_INVALID_FRAMEBUFFER_OPERATION: errorStr = "GL_INVALID_FRAMEBUFFER_OPERATION"; break;
-                        default: errorStr = "Unknown error"; break;
-                    }
-
-                    Log(Log::Level::ERR) << "OpenGL error: " << errorStr << " (" << error << ")";
-
-                    return true;
-                }
-
-                return false;
-            }
-
             bool isTextureBaseLevelSupported() const { return textureBaseLevelSupported; }
             bool isTextureMaxLevelSupported() const { return textureMaxLevelSupported; }
 
@@ -165,9 +139,11 @@ namespace ouzel
                     glBindTexture(GL_TEXTURE_2D, textureId);
                     stateCache.textureId[layer] = textureId;
 
-                    if (checkOpenGLError())
+                    GLenum error;
+
+                    if ((error = glGetError()) != GL_NO_ERROR)
                     {
-                        Log(Log::Level::ERR) << "Failed to bind texture";
+                        Log(Log::Level::ERR) << "Failed to bind texture, error: " + std::to_string(error);
                         return false;
                     }
                 }
@@ -182,9 +158,11 @@ namespace ouzel
                     glUseProgramProc(programId);
                     stateCache.programId = programId;
 
-                    if (checkOpenGLError())
+                    GLenum error;
+
+                    if ((error = glGetError()) != GL_NO_ERROR)
                     {
-                        Log(Log::Level::ERR) << "Failed to bind program";
+                        Log(Log::Level::ERR) << "Failed to bind program, error: " + std::to_string(error);
                         return false;
                     }
                 }
@@ -199,9 +177,11 @@ namespace ouzel
                     glBindFramebufferProc(GL_FRAMEBUFFER, bufferId);
                     stateCache.frameBufferId = bufferId;
 
-                    if (checkOpenGLError())
+                    GLenum error;
+
+                    if ((error = glGetError()) != GL_NO_ERROR)
                     {
-                        Log(Log::Level::ERR) << "Failed to bind frame buffer";
+                        Log(Log::Level::ERR) << "Failed to bind frame buffer, error: " + std::to_string(error);
                         return false;
                     }
                 }
@@ -218,9 +198,11 @@ namespace ouzel
                     glBindBufferProc(bufferType, bufferId);
                     currentBufferId = bufferId;
 
-                    if (checkOpenGLError())
+                    GLenum error;
+
+                    if ((error = glGetError()) != GL_NO_ERROR)
                     {
-                        Log(Log::Level::ERR) << "Failed to bind element array buffer";
+                        Log(Log::Level::ERR) << "Failed to bind element array buffer, error: " + std::to_string(error);
                         return false;
                     }
                 }
@@ -241,9 +223,11 @@ namespace ouzel
                     else
                         glDisable(GL_SCISSOR_TEST);
 
-                    if (checkOpenGLError())
+                    GLenum error;
+
+                    if ((error = glGetError()) != GL_NO_ERROR)
                     {
-                        Log(Log::Level::ERR) << "Failed to set scissor test";
+                        Log(Log::Level::ERR) << "Failed to set scissor test, error: " + std::to_string(error);
                         return false;
                     }
 
@@ -264,9 +248,11 @@ namespace ouzel
                         stateCache.scissorHeight = height;
                     }
 
-                    if (checkOpenGLError())
+                    GLenum error;
+
+                    if ((error = glGetError()) != GL_NO_ERROR)
                     {
-                        Log(Log::Level::ERR) << "Failed to set scissor test";
+                        Log(Log::Level::ERR) << "Failed to set scissor test, error: " + std::to_string(error);
                         return false;
                     }
                 }
@@ -280,9 +266,11 @@ namespace ouzel
                 {
                     glDepthMask(flag ? GL_TRUE : GL_FALSE);
 
-                    if (checkOpenGLError())
+                    GLenum error;
+
+                    if ((error = glGetError()) != GL_NO_ERROR)
                     {
-                        Log(Log::Level::ERR) << "Failed to change depth mask state";
+                        Log(Log::Level::ERR) << "Failed to change depth mask state, error: " + std::to_string(error);
                         return false;
                     }
 
@@ -301,9 +289,11 @@ namespace ouzel
                     else
                         glDisable(GL_DEPTH_TEST);
 
-                    if (checkOpenGLError())
+                    GLenum error;
+
+                    if ((error = glGetError()) != GL_NO_ERROR)
                     {
-                        Log(Log::Level::ERR) << "Failed to change depth test state";
+                        Log(Log::Level::ERR) << "Failed to change depth test state, error: " + std::to_string(error);
                         return false;
                     }
 
@@ -329,9 +319,11 @@ namespace ouzel
                     stateCache.viewportWidth = width;
                     stateCache.viewportHeight = height;
 
-                    if (checkOpenGLError())
+                    GLenum error;
+
+                    if ((error = glGetError()) != GL_NO_ERROR)
                     {
-                        Log(Log::Level::ERR) << "Failed to set viewport";
+                        Log(Log::Level::ERR) << "Failed to set viewport, error: " + std::to_string(error);
                         return false;
                     }
                 }
@@ -356,9 +348,11 @@ namespace ouzel
 
                     stateCache.blendEnabled = blendEnabled;
 
-                    if (checkOpenGLError())
+                    GLenum error;
+
+                    if ((error = glGetError()) != GL_NO_ERROR)
                     {
-                        Log(Log::Level::ERR) << "Failed to enable blend state";
+                        Log(Log::Level::ERR) << "Failed to enable blend state, error: " + std::to_string(error);
                         return false;
                     }
                 }
@@ -391,9 +385,11 @@ namespace ouzel
                         stateCache.blendDestFactorAlpha = dfactorAlpha;
                     }
 
-                    if (checkOpenGLError())
+                    GLenum error;
+
+                    if ((error = glGetError()) != GL_NO_ERROR)
                     {
-                        Log(Log::Level::ERR) << "Failed to set blend state";
+                        Log(Log::Level::ERR) << "Failed to set blend state, error: " + std::to_string(error);
                         return false;
                     }
                 }
@@ -418,9 +414,11 @@ namespace ouzel
                     stateCache.blueMask = blueMask;
                     stateCache.alphaMask = alphaMask;
 
-                    if (checkOpenGLError())
+                    GLenum error;
+
+                    if ((error = glGetError()) != GL_NO_ERROR)
                     {
-                        Log(Log::Level::ERR) << "Failed to set color mask";
+                        Log(Log::Level::ERR) << "Failed to set color mask, error: " + std::to_string(error);
                         return false;
                     }
                 }
@@ -440,9 +438,11 @@ namespace ouzel
 
                     stateCache.cullEnabled = cullEnabled;
 
-                    if (checkOpenGLError())
+                    GLenum error;
+
+                    if ((error = glGetError()) != GL_NO_ERROR)
                     {
-                        Log(Log::Level::ERR) << "Failed to enable cull face";
+                        Log(Log::Level::ERR) << "Failed to enable cull face, error: " + std::to_string(error);
                         return false;
                     }
                 }
@@ -455,9 +455,11 @@ namespace ouzel
                         stateCache.cullFace = cullFace;
                     }
 
-                    if (checkOpenGLError())
+                    GLenum error;
+
+                    if ((error = glGetError()) != GL_NO_ERROR)
                     {
-                        Log(Log::Level::ERR) << "Failed to set cull face";
+                        Log(Log::Level::ERR) << "Failed to set cull face, error: " + std::to_string(error);
                         return false;
                     }
                 }
@@ -477,9 +479,11 @@ namespace ouzel
 
                     stateCache.clearDepth = clearDepthValue;
 
-                    if (checkOpenGLError())
+                    GLenum error;
+
+                    if ((error = glGetError()) != GL_NO_ERROR)
                     {
-                        Log(Log::Level::ERR) << "Failed to enable cull face";
+                        Log(Log::Level::ERR) << "Failed to enable cull face, error: " + std::to_string(error);
                         return false;
                     }
                 }
@@ -498,9 +502,11 @@ namespace ouzel
 
                     memcpy(stateCache.clearColor, clearColorValue, sizeof(stateCache.clearColor));
 
-                    if (checkOpenGLError())
+                    GLenum error;
+
+                    if ((error = glGetError()) != GL_NO_ERROR)
                     {
-                        Log(Log::Level::ERR) << "Failed to enable cull face";
+                        Log(Log::Level::ERR) << "Failed to enable cull face, error: " + std::to_string(error);
                         return false;
                     }
                 }
@@ -553,9 +559,11 @@ namespace ouzel
 
                     stateCache.polygonFillMode = polygonFillMode;
 
-                    if (checkOpenGLError())
+                    GLenum error;
+                    
+                    if ((error = glGetError()) != GL_NO_ERROR)
                     {
-                        Log(Log::Level::ERR) << "Failed to set blend state";
+                        Log(Log::Level::ERR) << "Failed to set blend state, error: " + std::to_string(error);
                         return false;
                     }
                 }

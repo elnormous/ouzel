@@ -45,8 +45,10 @@ namespace ouzel
                     glBufferDataProc(bufferType, bufferSize, data.data(),
                                      (flags & Texture::DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
-                if (RenderDeviceOGL::checkOpenGLError())
-                    throw DataError("Failed to create buffer");
+                GLenum error;
+
+                if ((error = glGetError()) != GL_NO_ERROR)
+                    throw DataError("Failed to create buffer, error: " + std::to_string(error));
             }
         }
 
@@ -68,8 +70,10 @@ namespace ouzel
                     glBufferDataProc(bufferType, bufferSize, data.data(),
                                      (flags & Texture::DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
-                if (RenderDeviceOGL::checkOpenGLError())
-                    throw DataError("Failed to create buffer");
+                GLenum error;
+
+                if ((error = glGetError()) != GL_NO_ERROR)
+                    throw DataError("Failed to create buffer, error: " + std::to_string(error));
             }
         }
 
@@ -90,15 +94,19 @@ namespace ouzel
                 glBufferDataProc(bufferType, bufferSize, data.data(),
                                  (flags & Texture::DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
-                if (RenderDeviceOGL::checkOpenGLError())
-                    throw DataError("Failed to create buffer");
+                GLenum error;
+
+                if ((error = glGetError()) != GL_NO_ERROR)
+                    throw DataError("Failed to create buffer, error: " + std::to_string(error));
             }
             else
             {
                 glBufferSubDataProc(bufferType, 0, static_cast<GLsizeiptr>(data.size()), data.data());
 
-                if (RenderDeviceOGL::checkOpenGLError())
-                    throw DataError("Failed to upload buffer");
+                GLenum error;
+
+                if ((error = glGetError()) != GL_NO_ERROR)
+                    throw DataError("Failed to upload buffer, error: " + std::to_string(error));
             }
         }
 
@@ -108,8 +116,10 @@ namespace ouzel
 
             glGenBuffersProc(1, &bufferId);
 
-            if (RenderDeviceOGL::checkOpenGLError())
-                throw DataError("Failed to create buffer");
+            GLenum error;
+            
+            if ((error = glGetError()) != GL_NO_ERROR)
+                throw DataError("Failed to create buffer, error: " + std::to_string(error));
 
             switch (usage)
             {

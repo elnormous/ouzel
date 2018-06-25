@@ -367,7 +367,9 @@ namespace ouzel
 
             const GLubyte* deviceName = glGetString(GL_RENDERER);
 
-            if (checkOpenGLError() || !deviceName)
+            GLenum error;
+
+            if ((error = glGetError()) != GL_NO_ERROR || !deviceName)
                 Log(Log::Level::WARN) << "Failed to get OpenGL renderer";
             else
                 Log(Log::Level::INFO) << "Using " << reinterpret_cast<const char*>(deviceName) << " for rendering";
@@ -500,8 +502,8 @@ namespace ouzel
                 GLint extensionCount;
                 glGetIntegerv(GL_NUM_EXTENSIONS, &extensionCount);
 
-                if (checkOpenGLError())
-                    Log(Log::Level::WARN) << "Failed to get OpenGL extension count";
+                if ((error = glGetError()) != GL_NO_ERROR)
+                    Log(Log::Level::WARN) << "Failed to get OpenGL extension count, error: " + std::to_string(error);
                 else
                 {
                     for (GLuint i = 0; i < static_cast<GLuint>(extensionCount); ++i)
@@ -516,7 +518,7 @@ namespace ouzel
             {
                 const GLubyte* extensionPtr = glGetString(GL_EXTENSIONS);
 
-                if (checkOpenGLError() || !extensionPtr)
+                if ((error = glGetError()) != GL_NO_ERROR || !extensionPtr)
                     Log(Log::Level::WARN) << "Failed to get OpenGL extensions";
                 else
                 {
@@ -790,16 +792,16 @@ namespace ouzel
             glDisable(GL_DITHER);
             glDepthFunc(GL_LEQUAL);
 
-            if (checkOpenGLError())
-                throw SystemError("Failed to set depth function");
+            if ((error = glGetError()) != GL_NO_ERROR)
+                throw SystemError("Failed to set depth function, error: " + std::to_string(error));
 
 #if !OUZEL_SUPPORTS_OPENGLES
             if (sampleCount > 1)
             {
                 glEnable(GL_MULTISAMPLE);
 
-                if (checkOpenGLError())
-                    throw SystemError("Failed to enable multi-sampling");
+                if ((error = glGetError()) != GL_NO_ERROR)
+                    throw SystemError("Failed to enable multi-sampling, error: " + std::to_string(error));
             }
 #endif
 
@@ -927,8 +929,10 @@ namespace ouzel
             {
                 glBindVertexArrayProc(vertexArrayId);
 
-                if (checkOpenGLError())
-                    throw DataError("Failed to bind vertex array");
+                GLenum error;
+
+                if ((error = glGetError()) != GL_NO_ERROR)
+                    throw DataError("Failed to bind vertex array, error: " + std::to_string(error));
             }
 
             while (Command* command = commands.front())
@@ -1020,8 +1024,10 @@ namespace ouzel
 
                             glClear(newClearMask);
 
-                            if (checkOpenGLError())
-                                throw DataError("Failed to clear frame buffer");
+                            GLenum error;
+
+                            if ((error = glGetError()) != GL_NO_ERROR)
+                                throw DataError("Failed to clear frame buffer, error: " + std::to_string(error));
                         }
 
                         break;
@@ -1198,8 +1204,10 @@ namespace ouzel
                             vertexOffset += getDataTypeSize(vertexAttribute.dataType);
                         }
 
-                        if (RenderDeviceOGL::checkOpenGLError())
-                            throw DataError("Failed to update vertex attributes");
+                        GLenum error;
+
+                        if ((error = glGetError()) != GL_NO_ERROR)
+                            throw DataError("Failed to update vertex attributes, error: " + std::to_string(error));
 
                         assert(drawCommand->indexCount);
                         assert(indexBufferOGL->getSize());
@@ -1219,8 +1227,8 @@ namespace ouzel
                                        indexType,
                                        static_cast<const char*>(nullptr) + (drawCommand->startIndex * drawCommand->indexSize));
 
-                        if (checkOpenGLError())
-                            throw DataError("Failed to draw elements");
+                        if ((error = glGetError()) != GL_NO_ERROR)
+                            throw DataError("Failed to draw elements, error: " + std::to_string(error));
 
                         break;
                     }
@@ -1386,8 +1394,10 @@ namespace ouzel
 
             glReadPixels(0, 0, frameBufferWidth, frameBufferHeight, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
 
-            if (checkOpenGLError())
-                throw SystemError("Failed to read pixels from frame buffer");
+            GLenum error;
+            
+            if ((error = glGetError()) != GL_NO_ERROR)
+                throw SystemError("Failed to read pixels from frame buffer, error: " + std::to_string(error));
 
             uint32_t temp;
             uint32_t* rgba = reinterpret_cast<uint32_t*>(data.data());
