@@ -20,7 +20,7 @@ namespace ouzel
 
         bool GamepadXI::update()
         {
-            const XINPUT_STATE& newState;
+            XINPUT_STATE newState;
             ZeroMemory(&newState, sizeof(XINPUT_STATE));
 
             DWORD result = XInputGetState(playerIndex, &newState);
