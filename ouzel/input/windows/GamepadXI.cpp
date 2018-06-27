@@ -18,8 +18,24 @@ namespace ouzel
             ZeroMemory(&vibration, sizeof(XINPUT_VIBRATION));
         }
 
-        void GamepadXI::update(const XINPUT_STATE& newState)
+        bool GamepadXI::update()
         {
+            const XINPUT_STATE& newState;
+            ZeroMemory(&newState, sizeof(XINPUT_STATE));
+
+            DWORD result = XInputGetState(playerIndex, &newState);
+
+            if (result != ERROR_SUCCESS)
+            {
+                if (result == ERROR_DEVICE_NOT_CONNECTED)
+                    return false;
+                else
+                {
+                    Log(Log::Level::WARN) << "Failed to get state for gamepad " << playerIndex;
+                    return false;
+                }
+            }
+
             if (newState.dwPacketNumber > state.dwPacketNumber)
             {
                 // buttons
@@ -63,6 +79,8 @@ namespace ouzel
 
                 state = newState;
             }
+
+            return true;
         }
 
         int32_t GamepadXI::getPlayerIndex() const
