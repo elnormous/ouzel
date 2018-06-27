@@ -230,7 +230,7 @@ namespace ouzel
 
             for (DWORD userIndex = 0; userIndex < XUSER_MAX_COUNT; ++userIndex)
             {
-                GamepadDI* gamepadXI = gamepadsXI[userIndex];
+                GamepadXI* gamepadXI = gamepadsXI[userIndex];
 
                 if (gamepadXI && !gamepadXI->update())
                 {
