@@ -228,7 +228,7 @@ namespace ouzel
                     Log(Log::Level::WARN) << "Failed to get state for gamepad " << userIndex;
             }
 
-            HRESULT hr = directInput->EnumDevices(DI8DEVCLASS_GAMECTRL, enumDevicesCallback, this, DIEDFL_ATTACHEDONLY);
+            hr = directInput->EnumDevices(DI8DEVCLASS_GAMECTRL, enumDevicesCallback, this, DIEDFL_ATTACHEDONLY);
             if (FAILED(hr))
                 throw SystemError("Failed to enumerate devices, error: " + std::to_string(hr));
         }
