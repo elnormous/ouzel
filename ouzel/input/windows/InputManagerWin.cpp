@@ -255,31 +255,41 @@ namespace ouzel
             {
                 GamepadXI* gamepadXI = gamepadsXI[userIndex];
 
-                if (gamepadXI && !gamepadXI->update())
+                if (gamepadXI)
                 {
-                    Event event;
-                    event.type = Event::Type::GAMEPAD_DISCONNECT;
-                    event.gamepadEvent.gamepad = gamepadXI;
+                    try
+                    {
+                        gamepadXI->update();
+                    }
+                    catch (...)
+                    {
+                        Event event;
+                        event.type = Event::Type::GAMEPAD_DISCONNECT;
+                        event.gamepadEvent.gamepad = gamepadXI;
 
-                    engine->getEventDispatcher()->postEvent(event);
+                        engine->getEventDispatcher()->postEvent(event);
 
-                    gamepadsXI[userIndex] = nullptr;
+                        gamepadsXI[userIndex] = nullptr;
 
-                    auto gamepadIterator = std::find_if(gamepads.begin(), gamepads.end(), [gamepadXI](const std::unique_ptr<Gamepad>& gamepad) {
-                        return gamepadXI == gamepad.get();
-                    });
+                        auto gamepadIterator = std::find_if(gamepads.begin(), gamepads.end(), [gamepadXI](const std::unique_ptr<Gamepad>& gamepad) {
+                            return gamepadXI == gamepad.get();
+                        });
 
-                    if (gamepadIterator != gamepads.end())
-                        gamepads.erase(gamepadIterator);
+                        if (gamepadIterator != gamepads.end())
+                            gamepads.erase(gamepadIterator);
+                    }
                 }
             }
 
             for (auto i = gamepadsDI.begin(); i != gamepadsDI.end();)
             {
                 GamepadDI* gamepadDI = *i;
-                if (gamepadDI->update())
+                try
+                {
+                    gamepadDI->update();
                     ++i;
-                else
+                }
+                catch (...)
                 {
                     Event event;
                     event.type = Event::Type::GAMEPAD_DISCONNECT;

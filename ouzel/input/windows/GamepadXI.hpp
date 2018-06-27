@@ -16,7 +16,7 @@ namespace ouzel
         {
             friend InputManagerWin;
         public:
-            bool update();
+            void update();
 
             virtual int32_t getPlayerIndex() const override;
 

@@ -353,7 +353,7 @@ namespace ouzel
             }
         }
 
-        bool GamepadDI::update()
+        void GamepadDI::update()
         {
             HRESULT result = device->Poll();
 
@@ -379,7 +379,7 @@ namespace ouzel
             *reinterpret_cast<LONG*>(reinterpret_cast<uint8_t*>(&state) + offset) = value;
         }
 
-        bool GamepadDI::checkInputBuffered()
+        void GamepadDI::checkInputBuffered()
         {
             DWORD eventCount = INPUT_QUEUE_SIZE;
             DIDEVICEOBJECTDATA events[INPUT_QUEUE_SIZE];
@@ -520,11 +520,9 @@ namespace ouzel
                     setAxisValue(diState, rightTrigger.offset, events[e].dwData);
                 }
             }
-
-            return true;
         }
 
-        bool GamepadDI::checkInputPolled()
+        void GamepadDI::checkInputPolled()
         {
             DIJOYSTATE2 newDIState;
 
@@ -647,8 +645,6 @@ namespace ouzel
             }
 
             diState = newDIState;
-
-            return true;
         }
 
         void GamepadDI::checkThumbAxisChange(LONG oldValue, LONG newValue,
