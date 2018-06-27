@@ -230,35 +230,24 @@ namespace ouzel
 
             for (DWORD userIndex = 0; userIndex < XUSER_MAX_COUNT; ++userIndex)
             {
-                if (gamepadsXI[userIndex])
+                GamepadDI* gamepadXI = gamepadsXI[userIndex];
+
+                if (gamepadXI && !gamepadXI->update())
                 {
-                    GamepadXI* gamepadXI = gamepadsXI[userIndex];
-                    XINPUT_STATE state;
-                    ZeroMemory(&state, sizeof(XINPUT_STATE));
+                    Event event;
+                    event.type = Event::Type::GAMEPAD_DISCONNECT;
+                    event.gamepadEvent.gamepad = gamepadXI;
 
-                    DWORD result = XInputGetState(userIndex, &state);
+                    engine->getEventDispatcher()->postEvent(event);
 
-                    if (result == ERROR_SUCCESS)
-                        gamepadXI->update(state);
-                    else if (result == ERROR_DEVICE_NOT_CONNECTED)
-                    {
-                        Event event;
-                        event.type = Event::Type::GAMEPAD_DISCONNECT;
-                        event.gamepadEvent.gamepad = gamepadXI;
+                    gamepadsXI[userIndex] = nullptr;
 
-                        engine->getEventDispatcher()->postEvent(event);
+                    auto gamepadIterator = std::find_if(gamepads.begin(), gamepads.end(), [gamepadXI](const std::unique_ptr<Gamepad>& gamepad) {
+                        return gamepadXI == gamepad.get();
+                    });
 
-                        gamepadsXI[userIndex] = nullptr;
-
-                        std::vector<std::unique_ptr<Gamepad>>::iterator i = std::find_if(gamepads.begin(), gamepads.end(), [gamepadXI](const std::unique_ptr<Gamepad>& gamepad) {
-                            return gamepadXI == gamepad.get();
-                        });
-
-                        if (i != gamepads.end())
-                            gamepads.erase(i);
-                    }
-                    else
-                        Log(Log::Level::WARN) << "Failed to get state for gamepad " << userIndex;
+                    if (gamepadIterator != gamepads.end())
+                        gamepads.erase(gamepadIterator);
                 }
             }
 
@@ -276,6 +265,13 @@ namespace ouzel
                     engine->getEventDispatcher()->postEvent(event);
 
                     i = gamepadsDI.erase(i);
+
+                    auto gamepadIterator = std::find_if(gamepads.begin(), gamepads.end(), [gamepadDI](const std::unique_ptr<Gamepad>& gamepad) {
+                        return gamepadDI == gamepad.get();
+                    });
+
+                    if (gamepadIterator != gamepads.end())
+                        gamepads.erase(gamepadIterator);
                 }
             }
         }
