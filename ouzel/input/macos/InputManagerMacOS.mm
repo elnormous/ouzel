@@ -264,26 +264,6 @@ namespace ouzel
             for (GCController* controller in [GCController controllers])
                 handleGamepadConnected(controller);
 
-            startGamepadDiscovery();
-        }
-
-        InputManagerMacOS::~InputManagerMacOS()
-        {
-            resourceDeleteSet.clear();
-            resources.clear();
-
-            if (connectDelegate)
-                [connectDelegate release];
-
-            if (hidManager)
-            {
-                IOHIDManagerClose(hidManager, kIOHIDOptionsTypeNone);
-                CFRelease(hidManager);
-            }
-        }
-
-        void InputManagerMacOS::init()
-        {
             NSArray* criteria = @[
                                   @{@kIOHIDDeviceUsagePageKey: @(kHIDPage_GenericDesktop), @kIOHIDDeviceUsageKey: @(kHIDUsage_GD_Joystick)},
                                   @{@kIOHIDDeviceUsagePageKey: @(kHIDPage_GenericDesktop), @kIOHIDDeviceUsageKey: @(kHIDUsage_GD_GamePad)},
@@ -322,6 +302,26 @@ namespace ouzel
 
             [image release];
             [rep release];
+            
+            discovering = true;
+
+            [GCController startWirelessControllerDiscoveryWithCompletionHandler:
+             ^(void){ handleGamepadDiscoveryCompleted(); }];
+        }
+
+        InputManagerMacOS::~InputManagerMacOS()
+        {
+            resourceDeleteSet.clear();
+            resources.clear();
+
+            if (connectDelegate)
+                [connectDelegate release];
+
+            if (hidManager)
+            {
+                IOHIDManagerClose(hidManager, kIOHIDOptionsTypeNone);
+                CFRelease(hidManager);
+            }
         }
 
         void InputManagerMacOS::activateCursorResource(CursorResource* resource)

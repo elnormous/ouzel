@@ -236,10 +236,6 @@ namespace ouzel
 
         InputManagerEm::InputManagerEm()
         {
-        }
-
-        void InputManagerEm::init()
-        {
             emscripten_set_keypress_callback(nullptr, this, true, emKeyCallback);
             emscripten_set_keydown_callback(nullptr, this, true, emKeyCallback);
             emscripten_set_keyup_callback(nullptr, this, true, emKeyCallback);

@@ -41,7 +41,6 @@ namespace ouzel
 
         private:
             InputManagerWin();
-            virtual void init() override;
 
             virtual void activateCursorResource(CursorResource* resource) override;
             virtual CursorResource* createCursorResource() override;

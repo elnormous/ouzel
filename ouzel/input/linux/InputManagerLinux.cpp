@@ -237,20 +237,6 @@ namespace ouzel
 
         InputManagerLinux::InputManagerLinux()
         {
-        }
-
-        InputManagerLinux::~InputManagerLinux()
-        {
-            if (engine)
-            {
-                WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
-                Display* display = windowLinux->getDisplay();
-                if (emptyCursor != None) XFreeCursor(display, emptyCursor);
-            }
-        }
-
-        void InputManagerLinux::init()
-        {
             WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
             ::Window window = windowLinux->getNativeWindow();
             Display* display = windowLinux->getDisplay();
@@ -321,6 +307,16 @@ namespace ouzel
             }
 
             closedir(dir);
+        }
+
+        InputManagerLinux::~InputManagerLinux()
+        {
+            if (engine)
+            {
+                WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
+                Display* display = windowLinux->getDisplay();
+                if (emptyCursor != None) XFreeCursor(display, emptyCursor);
+            }
         }
 
         void InputManagerLinux::update()

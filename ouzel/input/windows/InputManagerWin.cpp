@@ -198,6 +198,39 @@ namespace ouzel
         {
             std::fill(std::begin(gamepadsXI), std::end(gamepadsXI), nullptr);
             currentCursor = defaultCursor = LoadCursor(nullptr, IDC_ARROW);
+
+            HINSTANCE instance = GetModuleHandleW(nullptr);
+            HRESULT hr = DirectInput8Create(instance, DIRECTINPUT_VERSION, IID_IDirectInput8W, reinterpret_cast<LPVOID*>(&directInput), nullptr);
+            if (FAILED(hr))
+                throw SystemError("Failed to initialize DirectInput, error: " + std::to_string(hr));
+
+            for (DWORD userIndex = 0; userIndex < XUSER_MAX_COUNT; ++userIndex)
+            {
+                XINPUT_STATE state;
+                ZeroMemory(&state, sizeof(XINPUT_STATE));
+
+                DWORD result = XInputGetState(userIndex, &state);
+
+                if (result == ERROR_SUCCESS)
+                {
+                    std::unique_ptr<GamepadXI> gamepad(new GamepadXI(userIndex));
+                    gamepadsXI[userIndex] = gamepad.get();
+
+                    Event event;
+                    event.type = Event::Type::GAMEPAD_CONNECT;
+                    event.gamepadEvent.gamepad = gamepad.get();
+
+                    gamepads.push_back(std::move(gamepad));
+
+                    engine->getEventDispatcher()->postEvent(event);
+                }
+                else if (result != ERROR_DEVICE_NOT_CONNECTED)
+                    Log(Log::Level::WARN) << "Failed to get state for gamepad " << userIndex;
+            }
+
+            HRESULT hr = directInput->EnumDevices(DI8DEVCLASS_GAMECTRL, enumDevicesCallback, this, DIEDFL_ATTACHEDONLY);
+            if (FAILED(hr))
+                throw SystemError("Failed to enumerate devices, error: " + std::to_string(hr));
         }
 
         InputManagerWin::~InputManagerWin()
@@ -206,16 +239,6 @@ namespace ouzel
             resources.clear();
 
             if (directInput) directInput->Release();
-        }
-
-        void InputManagerWin::init()
-        {
-            HINSTANCE instance = GetModuleHandleW(nullptr);
-            HRESULT hr = DirectInput8Create(instance, DIRECTINPUT_VERSION, IID_IDirectInput8W, reinterpret_cast<LPVOID*>(&directInput), nullptr);
-            if (FAILED(hr))
-                throw SystemError("Failed to initialize DirectInput, error: " + std::to_string(hr));
-
-            startGamepadDiscovery();
         }
 
         void InputManagerWin::update()

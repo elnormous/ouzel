@@ -38,7 +38,6 @@ namespace ouzel
 
         private:
             InputManagerEm();
-            virtual void init() override;
 
             bool cursorVisible = true;
             bool cursorLocked = false;

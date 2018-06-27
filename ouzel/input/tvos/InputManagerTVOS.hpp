@@ -37,7 +37,6 @@ namespace ouzel
 
         private:
             InputManagerTVOS();
-            virtual void init() override;
 
             id connectDelegate = nil;
 
