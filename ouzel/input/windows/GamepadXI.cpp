@@ -3,7 +3,7 @@
 #include "GamepadXI.hpp"
 #include "InputManagerWin.hpp"
 #include "core/Engine.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -19,7 +19,7 @@ namespace ouzel
             ZeroMemory(&vibration, sizeof(XINPUT_VIBRATION));
         }
 
-        bool GamepadXI::update()
+        void GamepadXI::update()
         {
             XINPUT_STATE newState;
             ZeroMemory(&newState, sizeof(XINPUT_STATE));
@@ -29,12 +29,9 @@ namespace ouzel
             if (result != ERROR_SUCCESS)
             {
                 if (result == ERROR_DEVICE_NOT_CONNECTED)
-                    return false;
+                    throw SystemError("Gamepad " + std::to_string(playerIndex) + " disconnected");
                 else
-                {
-                    Log(Log::Level::WARN) << "Failed to get state for gamepad " << playerIndex;
-                    return false;
-                }
+                    throw SystemError("Failed to get state for gamepad " + std::to_string(playerIndex));
             }
 
             if (newState.dwPacketNumber > state.dwPacketNumber)
@@ -80,8 +77,6 @@ namespace ouzel
 
                 state = newState;
             }
-
-            return true;
         }
 
         int32_t GamepadXI::getPlayerIndex() const
