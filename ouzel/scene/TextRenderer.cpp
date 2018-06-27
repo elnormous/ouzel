@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "TextRenderer.hpp"
 #include "core/Engine.hpp"
@@ -35,9 +34,6 @@ namespace ouzel
             vertexBuffer = std::make_shared<graphics::Buffer>();
             vertexBuffer->init(graphics::Buffer::Usage::VERTEX, graphics::Buffer::DYNAMIC);
 
-            meshBuffer = std::make_shared<graphics::MeshBuffer>();
-            meshBuffer->init(sizeof(uint16_t), indexBuffer, vertexBuffer);
-
             font = engine->getCache()->getFont(fontFile, mipmaps);
 
             updateText();
@@ -67,24 +63,12 @@ namespace ouzel
         void TextRenderer::draw(const Matrix4& transformMatrix,
                                 float opacity,
                                 const Matrix4& renderViewProjection,
-                                const std::shared_ptr<graphics::Texture>& renderTarget,
-                                const Rect& renderViewport,
-                                bool depthWrite,
-                                bool depthTest,
-                                bool wireframe,
-                                bool scissorTest,
-                                const Rect& scissorRectangle)
+                                bool wireframe)
         {
             Component::draw(transformMatrix,
                             opacity,
                             renderViewProjection,
-                            renderTarget,
-                            renderViewport,
-                            depthWrite,
-                            depthTest,
-                            wireframe,
-                            scissorTest,
-                            scissorRectangle);
+                            wireframe);
 
             if (needsMeshUpdate)
             {
@@ -97,29 +81,23 @@ namespace ouzel
             Matrix4 modelViewProj = renderViewProjection * transformMatrix;
             float colorVector[] = {color.normR(), color.normG(), color.normB(), color.normA() * opacity};
 
-            std::vector<std::vector<float>> pixelShaderConstants(1);
-            pixelShaderConstants[0] = {std::begin(colorVector), std::end(colorVector)};
+            std::vector<std::vector<float>> fragmentShaderConstants(1);
+            fragmentShaderConstants[0] = {std::begin(colorVector), std::end(colorVector)};
 
             std::vector<std::vector<float>> vertexShaderConstants(1);
             vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
 
-            engine->getRenderer()->addDrawCommand({wireframe ? whitePixelTexture : texture},
-                                                  shader,
-                                                  pixelShaderConstants,
-                                                  vertexShaderConstants,
-                                                  blendState,
-                                                  meshBuffer,
+            engine->getRenderer()->addSetCullModeCommad(graphics::Renderer::CullMode::NONE);
+            engine->getRenderer()->addSetPipelineStateCommand(blendState, shader);
+            engine->getRenderer()->addSetShaderConstantsCommand(fragmentShaderConstants,
+                                                                vertexShaderConstants);
+            engine->getRenderer()->addSetTexturesCommand({wireframe ? whitePixelTexture : texture});
+            engine->getRenderer()->addDrawCommand(indexBuffer,
                                                   static_cast<uint32_t>(indices.size()),
+                                                  sizeof(uint16_t),
+                                                  vertexBuffer,
                                                   graphics::Renderer::DrawMode::TRIANGLE_LIST,
-                                                  0,
-                                                  renderTarget,
-                                                  renderViewport,
-                                                  depthWrite,
-                                                  depthTest,
-                                                  wireframe,
-                                                  scissorTest,
-                                                  scissorRectangle,
-                                                  graphics::Renderer::CullMode::NONE);
+                                                  0);
         }
 
         void TextRenderer::setText(const std::string& newText)
@@ -144,9 +122,7 @@ namespace ouzel
                 needsMeshUpdate = true;
 
                 for (const graphics::Vertex& vertex : vertices)
-                {
                     boundingBox.insertPoint(Vector2(vertex.position.x, vertex.position.y));
-                }
             }
             else
             {

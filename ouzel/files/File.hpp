@@ -1,9 +1,10 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
 #include <string>
+
+#include "core/Setup.h"
 
 #if OUZEL_PLATFORM_WINDOWS
 #include <Windows.h>
@@ -43,9 +44,6 @@ namespace ouzel
         File(File&&);
         File& operator=(File&&);
 
-        bool open(const std::string& filename, int mode);
-        bool close();
-
         inline bool isOpen() const
         {
 #if OUZEL_PLATFORM_WINDOWS
@@ -55,11 +53,9 @@ namespace ouzel
 #endif
         }
 
-        bool read(void* buffer, uint32_t size) const;
-        bool read(void* buffer, uint32_t size, uint32_t& bytesRead) const;
-        bool write(const void* buffer, uint32_t size) const;
-        bool write(const void* buffer, uint32_t size, uint32_t& bytesWritten) const;
-        bool seek(int32_t offset, int method) const;
+        uint32_t read(void* buffer, uint32_t size, bool all = false) const;
+        uint32_t write(const void* buffer, uint32_t size, bool all = false) const;
+        void seek(int32_t offset, int method) const;
         uint32_t getOffset() const;
 
     private:

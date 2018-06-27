@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -38,7 +37,7 @@ namespace ouzel
         Engine(Engine&&) = delete;
         Engine& operator=(Engine&&) = delete;
 
-        bool init();
+        void init();
 
         inline const std::vector<std::string>& getArgs() const { return args; }
 
@@ -49,14 +48,14 @@ namespace ouzel
         inline graphics::Renderer* getRenderer() const { return renderer.get(); }
         inline audio::Audio* getAudio() const { return audio.get(); }
         inline scene::SceneManager* getSceneManager() { return &sceneManager; }
-        inline input::Input* getInput() const { return input.get(); }
+        inline input::InputManager* getInputManager() const { return inputManager.get(); }
         inline Localization* getLocalization() { return &localization; }
         inline network::Network* getNetwork() { return &network; }
 
         inline const ini::Data& getDefaultSettings() const { return defaultSettings; }
         inline const ini::Data& getUserSettings() const { return userSettings; }
 
-        virtual int run();
+        virtual void run() = 0;
         void start();
         void pause();
         void resume();
@@ -69,7 +68,7 @@ namespace ouzel
 
         virtual void executeOnMainThread(const std::function<void(void)>& func) = 0;
 
-        virtual bool openURL(const std::string& url);
+        virtual void openURL(const std::string& url);
 
         virtual void setScreenSaverEnabled(bool newScreenSaverEnabled);
         bool isScreenSaverEnabled() const { return screenSaverEnabled; }
@@ -82,7 +81,7 @@ namespace ouzel
         Window window;
         std::unique_ptr<graphics::Renderer> renderer;
         std::unique_ptr<audio::Audio> audio;
-        std::unique_ptr<input::Input> input;
+        std::unique_ptr<input::InputManager> inputManager;
         Localization localization;
         assets::Cache cache;
         scene::SceneManager sceneManager;

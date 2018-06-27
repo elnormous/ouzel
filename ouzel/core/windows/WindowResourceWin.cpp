@@ -1,16 +1,16 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <windowsx.h>
 #include "WindowResourceWin.hpp"
 #include "EngineWin.hpp"
 #include "core/Engine.hpp"
 #include "core/Window.hpp"
-#include "input/windows/InputWin.hpp"
+#include "input/windows/InputManagerWin.hpp"
 #include "graphics/Renderer.hpp"
 #include "graphics/RenderDevice.hpp"
 #include "graphics/direct3d11/RenderDeviceD3D11.hpp"
 #include "thread/Lock.hpp"
+#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
 static void handleKeyEvent(UINT msg, WPARAM wParam, LPARAM lParam)
@@ -36,13 +36,9 @@ static void handleKeyEvent(UINT msg, WPARAM wParam, LPARAM lParam)
     }
 
     if (msg == WM_KEYDOWN || msg == WM_SYSKEYDOWN)
-    {
-        ouzel::engine->getInput()->keyPress(ouzel::input::InputWin::convertKeyCode(key), 0);
-    }
+        ouzel::engine->getInputManager()->keyPress(ouzel::input::InputManagerWin::convertKeyCode(key), 0);
     else if (msg == WM_KEYUP || msg == WM_SYSKEYUP)
-    {
-        ouzel::engine->getInput()->keyRelease(ouzel::input::InputWin::convertKeyCode(key), 0);
-    }
+        ouzel::engine->getInputManager()->keyRelease(ouzel::input::InputManagerWin::convertKeyCode(key), 0);
 }
 
 static void handleMouseMoveEvent(UINT, WPARAM wParam, LPARAM lParam)
@@ -50,8 +46,8 @@ static void handleMouseMoveEvent(UINT, WPARAM wParam, LPARAM lParam)
     ouzel::Vector2 position(static_cast<float>(GET_X_LPARAM(lParam)),
                             static_cast<float>(GET_Y_LPARAM(lParam)));
 
-    ouzel::engine->getInput()->mouseMove(ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
-                                               ouzel::input::InputWin::getModifiers(wParam));
+    ouzel::engine->getInputManager()->mouseMove(ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
+                                                ouzel::input::InputManagerWin::getModifiers(wParam));
 }
 
 static void handleMouseButtonEvent(UINT msg, WPARAM wParam, LPARAM lParam)
@@ -62,17 +58,11 @@ static void handleMouseButtonEvent(UINT msg, WPARAM wParam, LPARAM lParam)
     ouzel::input::MouseButton button;
 
     if (msg == WM_LBUTTONDOWN || msg == WM_LBUTTONUP)
-    {
         button = ouzel::input::MouseButton::LEFT;
-    }
     else if (msg == WM_RBUTTONDOWN || msg == WM_RBUTTONUP)
-    {
         button = ouzel::input::MouseButton::RIGHT;
-    }
     else if (msg == WM_MBUTTONDOWN || msg == WM_MBUTTONUP)
-    {
         button = ouzel::input::MouseButton::MIDDLE;
-    }
     else if (msg == WM_XBUTTONDOWN || msg == WM_XBUTTONUP)
     {
         if (GET_XBUTTON_WPARAM(wParam) == XBUTTON1)
@@ -83,22 +73,16 @@ static void handleMouseButtonEvent(UINT msg, WPARAM wParam, LPARAM lParam)
             return;
     }
     else
-    {
         return;
-    }
 
     if (msg == WM_LBUTTONDOWN || msg == WM_RBUTTONDOWN || msg == WM_MBUTTONDOWN || msg == WM_XBUTTONDOWN)
-    {
-        ouzel::engine->getInput()->mouseButtonPress(button,
-                                                          ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
-                                                          ouzel::input::InputWin::getModifiers(wParam));
-    }
+        ouzel::engine->getInputManager()->mouseButtonPress(button,
+                                                           ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
+                                                           ouzel::input::InputManagerWin::getModifiers(wParam));
     else if (msg == WM_LBUTTONUP || msg == WM_RBUTTONUP || msg == WM_MBUTTONUP || msg == WM_XBUTTONUP)
-    {
-        ouzel::engine->getInput()->mouseButtonRelease(button,
-                                                            ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
-                                                            ouzel::input::InputWin::getModifiers(wParam));
-    }
+        ouzel::engine->getInputManager()->mouseButtonRelease(button,
+                                                             ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
+                                                             ouzel::input::InputManagerWin::getModifiers(wParam));
 }
 
 static void handleMouseWheelEvent(UINT msg, WPARAM wParam, LPARAM lParam)
@@ -109,16 +93,16 @@ static void handleMouseWheelEvent(UINT msg, WPARAM wParam, LPARAM lParam)
     if (msg == WM_MOUSEWHEEL)
     {
         short param = static_cast<short>(HIWORD(wParam));
-        ouzel::engine->getInput()->mouseScroll(ouzel::Vector2(0.0F, -static_cast<float>(param) / static_cast<float>(WHEEL_DELTA)),
-                                                     ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
-                                                     ouzel::input::InputWin::getModifiers(wParam));
+        ouzel::engine->getInputManager()->mouseScroll(ouzel::Vector2(0.0F, -static_cast<float>(param) / static_cast<float>(WHEEL_DELTA)),
+                                                      ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
+                                                      ouzel::input::InputManagerWin::getModifiers(wParam));
     }
     else if (msg == WM_MOUSEHWHEEL)
     {
         short param = static_cast<short>(HIWORD(wParam));
-        ouzel::engine->getInput()->mouseScroll(ouzel::Vector2(static_cast<float>(param) / static_cast<float>(WHEEL_DELTA), 0.0F),
-                                                     ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
-                                                     ouzel::input::InputWin::getModifiers(wParam));
+        ouzel::engine->getInputManager()->mouseScroll(ouzel::Vector2(static_cast<float>(param) / static_cast<float>(WHEEL_DELTA), 0.0F),
+                                                      ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
+                                                      ouzel::input::InputManagerWin::getModifiers(wParam));
     }
 }
 
@@ -138,32 +122,28 @@ static void handleTouchEvent(WPARAM wParam, LPARAM lParam)
 
             if (touch.dwFlags & TOUCHEVENTF_DOWN)
             {
-                ouzel::engine->getInput()->touchBegin(touch.dwID,
-                                                            ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
+                ouzel::engine->getInputManager()->touchBegin(touch.dwID,
+                                                             ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
             }
 
             if (touch.dwFlags & TOUCHEVENTF_UP)
             {
-                ouzel::engine->getInput()->touchEnd(touch.dwID,
-                                                          ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
+                ouzel::engine->getInputManager()->touchEnd(touch.dwID,
+                                                           ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
             }
 
             if (touch.dwFlags & TOUCHEVENTF_MOVE)
             {
-                ouzel::engine->getInput()->touchMove(touch.dwID,
-                                                           ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
+                ouzel::engine->getInputManager()->touchMove(touch.dwID,
+                                                            ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
             }
         }
 
         if (!CloseTouchInputHandle(reinterpret_cast<HTOUCHINPUT>(lParam)))
-        {
-            ouzel::Log(ouzel::Log::Level::ERR) << "Failed to close touch input handle";
-        }
+            throw ouzel::SystemError("Failed to close touch input handle");
     }
     else
-    {
-        ouzel::Log(ouzel::Log::Level::ERR) << "Failed to get touch info";
-    }
+        throw ouzel::SystemError("Failed to get touch info");
 }
 
 static const LONG_PTR SIGNATURE_MASK = 0x0FFFFFF00;
@@ -178,13 +158,12 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
     {
         case WM_ACTIVATEAPP:
         {
-            if (wParam)
+            if (ouzel::engine)
             {
-                if (ouzel::engine) ouzel::engine->resume();
-            }
-            else
-            {
-                if (ouzel::engine) ouzel::engine->pause();
+                if (wParam)
+                    ouzel::engine->resume();
+                else
+                    ouzel::engine->pause();
             }
             break;
         }
@@ -243,7 +222,7 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
         {
             if (LOWORD(lParam) == HTCLIENT)
             {
-                ouzel::input::InputWin* inputWin = static_cast<ouzel::input::InputWin*>(ouzel::engine->getInput());
+                ouzel::input::InputManagerWin* inputWin = static_cast<ouzel::input::InputManagerWin*>(ouzel::engine->getInputManager());
                 inputWin->updateCursor();
                 return TRUE;
             }
@@ -277,9 +256,8 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
         {
             // Erase background only for the Empty renderer
             if (ouzel::engine->getRenderer()->getDevice()->getDriver() != ouzel::graphics::Renderer::Driver::EMPTY)
-            {
                 return TRUE;
-            }
+
             break;
         }
         case WM_SYSCOMMAND:
@@ -329,17 +307,13 @@ namespace ouzel
     WindowResourceWin::~WindowResourceWin()
     {
         if (window)
-        {
             DestroyWindow(window);
-        }
 
         if (windowClass)
-        {
             UnregisterClassW(WINDOW_CLASS_NAME, GetModuleHandleW(nullptr));
-        }
     }
 
-    bool WindowResourceWin::init(const Size2& newSize,
+    void WindowResourceWin::init(const Size2& newSize,
                                  bool newResizable,
                                  bool newFullscreen,
                                  bool newExclusiveFullscreen,
@@ -347,16 +321,13 @@ namespace ouzel
                                  bool newHighDpi,
                                  bool depth)
     {
-        if (!WindowResource::init(newSize,
-                                  newResizable,
-                                  newFullscreen,
-                                  newExclusiveFullscreen,
-                                  newTitle,
-                                  newHighDpi,
-                                  depth))
-        {
-            return false;
-        }
+        WindowResource::init(newSize,
+                             newResizable,
+                             newFullscreen,
+                             newExclusiveFullscreen,
+                             newTitle,
+                             newHighDpi,
+                             depth);
 
         if (highDpi)
         {
@@ -368,9 +339,7 @@ namespace ouzel
                 SetProcessDpiAwarenessProc setProcessDpiAwareness = reinterpret_cast<SetProcessDpiAwarenessProc>(GetProcAddress(shcore, "SetProcessDpiAwareness"));
 
                 if (setProcessDpiAwareness)
-                {
                     setProcessDpiAwareness(2); // PROCESS_PER_MONITOR_DPI_AWARE
-                }
             }
         }
 
@@ -387,30 +356,21 @@ namespace ouzel
         wc.hIcon = LoadIconW(instance, MAKEINTRESOURCEW(101));
         wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
         if (engine->getRenderer()->getDevice()->getDriver() == graphics::Renderer::Driver::EMPTY)
-        {
             wc.hbrBackground = static_cast<HBRUSH>(GetStockObject(COLOR_WINDOW));
-        }
         else
-        {
             wc.hbrBackground = static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH));
-        }
         wc.lpszMenuName = nullptr;
         wc.lpszClassName = WINDOW_CLASS_NAME;
         wc.hIconSm = nullptr;
 
         windowClass = RegisterClassExW(&wc);
         if (!windowClass)
-        {
-            Log(Log::Level::ERR) << "Failed to register window class";
-            return false;
-        }
+            throw SystemError("Failed to register window class");
 
         windowWindowedStyle = WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_CLIPSIBLINGS | WS_BORDER | WS_DLGFRAME | WS_THICKFRAME | WS_GROUP | WS_TABSTOP;
 
         if (resizable)
-        {
             windowWindowedStyle |= WS_SIZEBOX | WS_MAXIMIZEBOX;
-        }
 
         windowFullscreenStyle = WS_CLIPSIBLINGS | WS_GROUP | WS_TABSTOP;
 
@@ -431,26 +391,18 @@ namespace ouzel
         wchar_t titleBuffer[256] = L"";
 
         if (!title.empty() && MultiByteToWideChar(CP_UTF8, 0, title.c_str(), -1, titleBuffer, 256) == 0)
-        {
-            Log(Log::Level::ERR) << "Failed to convert UTF-8 to wide char";
-            return false;
-        }
+            throw SystemError("Failed to convert UTF-8 to wide char");
 
         window = CreateWindowExW(windowExStyle, WINDOW_CLASS_NAME, titleBuffer, windowStyle,
                                  x, y, width, height, nullptr, nullptr, instance, nullptr);
 
         if (!window)
-        {
-            Log(Log::Level::ERR) << "Failed to create window";
-            return false;
-        }
+            throw SystemError("Failed to create window");
 
         monitor = MonitorFromWindow(window, MONITOR_DEFAULTTONEAREST);
 
         if (fullscreen)
-        {
             switchFullscreen(fullscreen);
-        }
 
         GetClientRect(window, &windowRect);
         size.width = static_cast<float>(windowRect.right - windowRect.left);
@@ -458,14 +410,10 @@ namespace ouzel
         resolution = size;
 
         if (!RegisterTouchWindow(window, 0))
-        {
             Log(Log::Level::WARN) << "Failed to enable touch for window";
-        }
 
         ShowWindow(window, SW_SHOW);
         SetWindowLongPtr(window, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
-
-        return true;
     }
 
     void WindowResourceWin::close()
@@ -493,9 +441,7 @@ namespace ouzel
 
         Lock lock(listenerMutex);
         if (listener)
-        {
             listener->onResolutionChange(resolution);
-        }
     }
 
     void WindowResourceWin::setTitle(const std::string& newTitle)
@@ -505,10 +451,7 @@ namespace ouzel
             wchar_t titleBuffer[256] = L"";
 
             if (!newTitle.empty() && MultiByteToWideChar(CP_UTF8, 0, newTitle.c_str(), -1, titleBuffer, 256) == 0)
-            {
-                Log(Log::Level::ERR) << "Failed to convert UTF-8 to wide char";
-                return;
-            }
+                throw SystemError("Failed to convert UTF-8 to wide char");
 
             SetWindowTextW(window, titleBuffer);
         }

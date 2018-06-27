@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "BlendStateResource.hpp"
 
@@ -15,7 +14,7 @@ namespace ouzel
         {
         }
 
-        bool BlendStateResource::init(bool newEnableBlending,
+        void BlendStateResource::init(bool newEnableBlending,
                                       BlendState::Factor newColorBlendSource, BlendState::Factor newColorBlendDest,
                                       BlendState::Operation newColorOperation,
                                       BlendState::Factor newAlphaBlendSource, BlendState::Factor newAlphaBlendDest,
@@ -30,8 +29,6 @@ namespace ouzel
             alphaBlendDest = newAlphaBlendDest;
             alphaOperation = newAlphaOperation;
             colorMask = newColorMask;
-
-            return true;
         }
     } // namespace graphics
 } // namespace ouzel

@@ -1,17 +1,17 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <algorithm>
 #include "AudioDevice.hpp"
 #include "math/MathUtils.hpp"
 #include "thread/Lock.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
     namespace audio
     {
-        AudioDevice::AudioDevice(Audio::Driver aDriver):
-            driver(aDriver)
+        AudioDevice::AudioDevice(Audio::Driver initDriver):
+            driver(initDriver)
         {
             buffers.resize(1000);
         }
@@ -20,16 +20,13 @@ namespace ouzel
         {
         }
 
-        bool AudioDevice::init(bool)
+        void AudioDevice::init(bool)
         {
-            return true;
         }
 
-        bool AudioDevice::process()
+        void AudioDevice::process()
         {
             executeAll();
-
-            return true;
         }
 
         void AudioDevice::setRenderCommands(const std::vector<RenderCommand>& newRenderCommands)
@@ -39,7 +36,7 @@ namespace ouzel
             renderQueue = newRenderCommands;
         }
 
-        bool AudioDevice::processRenderCommands(uint32_t frames, std::vector<float>& result)
+        void AudioDevice::processRenderCommands(uint32_t frames, std::vector<float>& result)
         {
             std::vector<RenderCommand> renderCommands;
 
@@ -50,21 +47,21 @@ namespace ouzel
             }
 
             uint32_t buffer = currentBuffer;
-            if (++currentBuffer > buffers.size()) return true; // out of buffers
+            if (++currentBuffer > buffers.size()) return; // out of buffers
 
             buffers[buffer].resize(frames * channels);
             std::fill(buffers[buffer].begin(), buffers[buffer].end(), 0.0F);
 
             for (const RenderCommand& renderCommand : renderCommands)
             {
-                if (!processRenderCommand(renderCommand,
-                                          frames,
-                                          Vector3(), // listener position
-                                          Quaternion(), // listener rotation
-                                          1.0F, // pitch
-                                          1.0F, // gain
-                                          1.0F, // rolloff factor
-                                          buffers[buffer])) return false;
+                processRenderCommand(renderCommand,
+                                     frames,
+                                     Vector3(), // listener position
+                                     Quaternion(), // listener rotation
+                                     1.0F, // pitch
+                                     1.0F, // gain
+                                     1.0F, // rolloff factor
+                                     buffers[buffer]);
 
                 if (buffers[buffer].size() > result.size()) result.resize(buffers[buffer].size(), 0.0F);
 
@@ -74,11 +71,9 @@ namespace ouzel
                     result[i] += buffers[buffer][i];
                 }
             }
-
-            return true;
         }
 
-        bool AudioDevice::processRenderCommand(const RenderCommand& renderCommand,
+        void AudioDevice::processRenderCommand(const RenderCommand& renderCommand,
                                                uint32_t frames,
                                                Vector3 listenerPosition,
                                                Quaternion listenerRotation,
@@ -89,7 +84,7 @@ namespace ouzel
         {
             uint32_t buffer = currentBuffer;
 
-            if (++currentBuffer > buffers.size()) return true; // out of buffers
+            if (++currentBuffer > buffers.size()) return; // out of buffers
 
             buffers[buffer].resize(frames * channels);
             std::fill(buffers[buffer].begin(), buffers[buffer].end(), 0.0F);
@@ -125,36 +120,32 @@ namespace ouzel
 
             if (renderCommand.renderCallback)
             {
-                if (!renderCommand.renderCallback(frames,
-                                                  channels,
-                                                  sampleRate,
-                                                  listenerPosition,
-                                                  listenerRotation,
-                                                  pitch,
-                                                  gain,
-                                                  rolloffFactor,
-                                                  result)) return false;
+                renderCommand.renderCallback(frames,
+                                             channels,
+                                             sampleRate,
+                                             listenerPosition,
+                                             listenerRotation,
+                                             pitch,
+                                             gain,
+                                             rolloffFactor,
+                                             result);
             }
-
-            return true;
         }
 
-        bool AudioDevice::getData(uint32_t frames, std::vector<uint8_t>& result)
+        void AudioDevice::getData(uint32_t frames, std::vector<uint8_t>& result)
         {
             currentBuffer = 0;
             uint32_t buffer = currentBuffer;
 
-            if (++currentBuffer > buffers.size()) return true; // out of buffers
+            if (++currentBuffer > buffers.size()) return; // out of buffers
 
             buffers[buffer].resize(frames * channels);
             std::fill(buffers[buffer].begin(), buffers[buffer].end(), 0.0F);
 
-            if (!processRenderCommands(frames, buffers[buffer])) return false;
+            processRenderCommands(frames, buffers[buffer]);
 
             for (float& f : buffers[buffer])
-            {
                 f = clamp(f, -1.0F, 1.0F);
-            }
 
             switch (sampleFormat)
             {
@@ -178,10 +169,8 @@ namespace ouzel
                     break;
                 }
                 default:
-                    return false;
+                    throw DataError("Invalid sample format");
             }
-
-            return true;
         }
 
         void AudioDevice::executeOnAudioThread(const std::function<void(void)>& func)
@@ -205,10 +194,7 @@ namespace ouzel
                     executeQueue.pop();
                 }
 
-                if (func)
-                {
-                    func();
-                }
+                if (func) func();
             }
         }
     } // namespace audio

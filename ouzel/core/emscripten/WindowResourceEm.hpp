@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -19,7 +18,7 @@ namespace ouzel
 
     protected:
         WindowResourceEm();
-        virtual bool init(const Size2& newSize,
+        virtual void init(const Size2& newSize,
                           bool newResizable,
                           bool newFullscreen,
                           bool newExclusiveFullscreen,

@@ -1,11 +1,10 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #import <Cocoa/Cocoa.h>
 #import <IOKit/pwr_mgt/IOPMLib.h>
 #include "EngineMacOS.hpp"
 #include "thread/Lock.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 @interface AppDelegate: NSObject<NSApplicationDelegate>
 
@@ -58,11 +57,32 @@
     ouzel::engine->pause();
 }
 
+-(void)handleQuit:(__unused id)sender
+{
+    [[NSApplication sharedApplication] terminate:nil];
+}
+
+@end
+
+@interface ExecuteHandler: NSObject
+{
+    ouzel::EngineMacOS* engine;
+}
+@end
+
+@implementation ExecuteHandler
+
+-(id)initWithEngine:(ouzel::EngineMacOS*)initEngine
+{
+    if (self = [super init])
+        engine = initEngine;
+
+    return self;
+}
+
 -(void)executeAll
 {
-    ouzel::EngineMacOS* engineMacOS = static_cast<ouzel::EngineMacOS*>(ouzel::engine);
-
-    engineMacOS->executeAll();
+    engine->executeAll();
 }
 
 @end
@@ -72,23 +92,41 @@ namespace ouzel
     EngineMacOS::EngineMacOS(int argc, char* argv[])
     {
         for (int i = 0; i < argc; ++i)
-        {
             args.push_back(argv[i]);
-        }
+
+        executeHanlder = [[ExecuteHandler alloc] initWithEngine:this];
     }
 
-    int EngineMacOS::run()
+    EngineMacOS::~EngineMacOS()
+    {
+        if (executeHanlder) [executeHanlder release];
+    }
+
+    void EngineMacOS::run()
     {
         NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 
         NSApplication* application = [NSApplication sharedApplication];
         [application activateIgnoringOtherApps:YES];
         [application setDelegate:[[[AppDelegate alloc] init] autorelease]];
+
+        NSMenu* mainMenu = [[[NSMenu alloc] initWithTitle:@"Main Menu"] autorelease];
+
+        NSMenuItem* mainMenuItem = [[[NSMenuItem alloc] init] autorelease];
+        [mainMenu addItem:mainMenuItem];
+
+        NSMenu* subMenu = [[[NSMenu alloc] init] autorelease];
+        [mainMenuItem setSubmenu:subMenu];
+
+        NSMenuItem* quitItem = [[[NSMenuItem alloc] initWithTitle:@"Quit" action:@selector(handleQuit:) keyEquivalent:@"q"] autorelease];
+        [quitItem setTarget: [application delegate]];
+        [subMenu addItem:quitItem];
+
+        application.mainMenu = mainMenu;
+
         [application run];
 
         [pool release];
-
-        return EXIT_SUCCESS;
     }
 
     void EngineMacOS::executeOnMainThread(const std::function<void(void)>& func)
@@ -97,17 +135,17 @@ namespace ouzel
 
         executeQueue.push(func);
 
-        NSApplication* application = [NSApplication sharedApplication];
-        NSObject* delegate = application.delegate;
-        [delegate performSelectorOnMainThread:@selector(executeAll) withObject:nil waitUntilDone:NO];
+        [executeHanlder performSelectorOnMainThread:@selector(executeAll) withObject:nil waitUntilDone:NO];
     }
 
-    bool EngineMacOS::openURL(const std::string& url)
+    void EngineMacOS::openURL(const std::string& url)
     {
-        NSString* nsStringURL = [NSString stringWithUTF8String:url.c_str()];
-        NSURL* nsURL = [NSURL URLWithString:nsStringURL];
+        executeOnMainThread([url](){
+            NSString* nsStringURL = [NSString stringWithUTF8String:url.c_str()];
+            NSURL* nsURL = [NSURL URLWithString:nsStringURL];
 
-        return [[NSWorkspace sharedWorkspace] openURL:nsURL] == YES;
+            [[NSWorkspace sharedWorkspace] openURL:nsURL];
+        });
     }
 
     void EngineMacOS::setScreenSaverEnabled(bool newScreenSaverEnabled)
@@ -120,9 +158,7 @@ namespace ouzel
                 if (noSleepAssertionID)
                 {
                     if (IOPMAssertionRelease(noSleepAssertionID) != kIOReturnSuccess)
-                    {
-                        Log(Log::Level::ERR) << "Failed to enable screen saver";
-                    }
+                        throw SystemError("Failed to enable screen saver");
 
                     noSleepAssertionID = 0;
                 }
@@ -135,9 +171,7 @@ namespace ouzel
 
                     if (IOPMAssertionCreateWithName(kIOPMAssertionTypePreventUserIdleDisplaySleep,
                                                     kIOPMAssertionLevelOn, reasonForActivity, &noSleepAssertionID) != kIOReturnSuccess)
-                    {
-                        Log(Log::Level::ERR) << "Failed to disable screen saver";
-                    }
+                        throw SystemError("Failed to disable screen saver");
                 }
             }
         });
@@ -162,19 +196,13 @@ namespace ouzel
             {
                 Lock lock(executeMutex);
 
-                if (executeQueue.empty())
-                {
-                    break;
-                }
+                if (executeQueue.empty()) break;
 
                 func = std::move(executeQueue.front());
                 executeQueue.pop();
             }
 
-            if (func)
-            {
-                func();
-            }
+            if (func) func();
         }
     }
 }

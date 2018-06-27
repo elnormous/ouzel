@@ -1,11 +1,10 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "core/Setup.h"
 
 #include <Foundation/Foundation.h>
 #include "FileSystemApple.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 #if OUZEL_PLATFORM_MACOS
 extern std::string DEVELOPER_NAME;
@@ -23,17 +22,12 @@ namespace ouzel
         NSURL* applicationSupportDirectory = [fileManager URLForDirectory:NSApplicationSupportDirectory inDomain:user ? NSUserDomainMask : NSLocalDomainMask appropriateForURL:nil create:YES error:&error];
 
         if (!applicationSupportDirectory)
-        {
-            Log(Log::Level::ERR) << "Failed to get application support directory";
-            return "";
-        }
+            throw SystemError("Failed to get application support directory");
 
         NSString* identifier = [[NSBundle mainBundle] bundleIdentifier];
 
         if (!identifier)
-        {
             identifier = [NSString stringWithFormat:@"%s.%s", DEVELOPER_NAME.c_str(), APPLICATION_NAME.c_str()];
-        }
 
         NSURL* path = [applicationSupportDirectory URLByAppendingPathComponent:identifier];
 
@@ -47,10 +41,7 @@ namespace ouzel
         NSURL* documentDirectory = [fileManager URLForDirectory:NSDocumentDirectory inDomain:user ? NSUserDomainMask : NSLocalDomainMask appropriateForURL:nil create:YES error:&error];
 
         if (!documentDirectory)
-        {
-            Log(Log::Level::ERR) << "Failed to get document directory";
-            return "";
-        }
+            throw SystemError("Failed to get document directory");
 
         return [[documentDirectory path] UTF8String];
 #endif

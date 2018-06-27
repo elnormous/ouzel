@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -14,15 +13,6 @@ namespace ouzel
     class Vector3
     {
     public:
-        static const Vector3 ZERO;
-        static const Vector3 ONE;
-        static const Vector3 UNIT_X;
-        static const Vector3 UNIT_Y;
-        static const Vector3 UNIT_Z;
-        static const Vector3 NEGATIVE_UNIT_X;
-        static const Vector3 NEGATIVE_UNIT_Y;
-        static const Vector3 NEGATIVE_UNIT_Z;
-
         float x = 0.0F;
         float y = 0.0F;
         float z = 0.0F;
@@ -35,8 +25,6 @@ namespace ouzel
             x(initX), y(initY), z(initZ)
         {
         }
-
-        Vector3(const Vector3& p1, const Vector3& p2);
 
         Vector3(const Vector3& copy):
             x(copy.x), y(copy.y), z(copy.z)
@@ -161,13 +149,6 @@ namespace ouzel
             z = newZ;
         }
 
-        void set(const Vector3& p1, const Vector3& p2)
-        {
-            x = p2.x - p1.x;
-            y = p2.y - p1.y;
-            z = p2.z - p1.z;
-        }
-
         void subtract(const Vector3& vec)
         {
             x -= vec.x;
@@ -250,9 +231,8 @@ namespace ouzel
             if (x == vec.x)
             {
                 if (y == vec.y)
-                {
                     return z < vec.z;
-                }
+
                 return y < vec.y;
             }
             return x < vec.x;

@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -51,10 +50,7 @@ namespace ouzel
         static inline bool makeFrustumPlane(float a, float b, float c, float d, Plane& plane)
         {
             float n = sqrtf(a * a + b * b + c * c);
-            if (n < EPSILON)
-            {
-                return false;
-            }
+            if (n < EPSILON) return false;
 
             n = 1.0F / n;
             plane = Plane(a * n, b * n, c * n, d * n);

@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "Color.hpp"
 #include "Vector3.hpp"
@@ -33,13 +32,9 @@ namespace ouzel
                         if ((c >= '0' && c <= '9') ||
                             (c >= 'a' && c <= 'f') ||
                             (c >= 'A' && c <= 'F'))
-                        {
                             currentValue += c;
-                        }
                         else
-                        {
                             currentValue += "0";
-                        }
                     }
 
                     result |= (static_cast<uint32_t>(std::stoul(currentValue, 0, 16))) << ((3 - component) * 8);
@@ -48,9 +43,7 @@ namespace ouzel
                 result |= 0xff; // alpha
             }
             else
-            {
                 result = static_cast<uint32_t>(std::stoul(value));
-            }
         }
 
         return result;

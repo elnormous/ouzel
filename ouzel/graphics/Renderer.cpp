@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "core/Setup.h"
 #include "Renderer.hpp"
@@ -8,11 +7,11 @@
 #include "TextureResource.hpp"
 #include "ShaderResource.hpp"
 #include "BlendStateResource.hpp"
-#include "MeshBufferResource.hpp"
 #include "BufferResource.hpp"
 #include "events/EventHandler.hpp"
 #include "events/EventDispatcher.hpp"
 #include "core/Window.hpp"
+#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
 #if OUZEL_PLATFORM_MACOS
@@ -67,9 +66,7 @@ namespace ouzel
 
 #if OUZEL_COMPILE_METAL
                 if (RenderDeviceMetal::available())
-                {
                     availableDrivers.insert(Driver::METAL);
-                }
 #endif
             }
 
@@ -139,7 +136,7 @@ namespace ouzel
         {
         }
 
-        bool Renderer::init(Window* newWindow,
+        void Renderer::init(Window* newWindow,
                             const Size2& newSize,
                             uint32_t newSampleCount,
                             Texture::Filter newTextureFilter,
@@ -150,17 +147,14 @@ namespace ouzel
         {
             size = newSize;
 
-            if (!device->init(newWindow,
-                              newSize,
-                              newSampleCount,
-                              newTextureFilter,
-                              newMaxAnisotropy,
-                              newVerticalSync,
-                              newDepth,
-                              newDebugRenderer))
-            {
-                return false;
-            }
+            device->init(newWindow,
+                         newSize,
+                         newSampleCount,
+                         newTextureFilter,
+                         newMaxAnisotropy,
+                         newVerticalSync,
+                         newDepth,
+                         newDebugRenderer);
 
             std::shared_ptr<BlendState> noBlendState = std::make_shared<BlendState>();
 
@@ -215,8 +209,6 @@ namespace ouzel
             std::shared_ptr<Texture> whitePixelTexture = std::make_shared<Texture>();
             whitePixelTexture->init({255, 255, 255, 255}, Size2(1.0F, 1.0F), 0, 1);
             engine->getCache()->setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
-
-            return true;
         }
 
         void Renderer::executeOnRenderThread(const std::function<void(void)>& func)
@@ -259,91 +251,99 @@ namespace ouzel
             executeOnRenderThread(std::bind(&RenderDevice::setSize, device.get(), size));
         }
 
-        bool Renderer::saveScreenshot(const std::string& filename)
+        void Renderer::saveScreenshot(const std::string& filename)
         {
             executeOnRenderThread(std::bind(&RenderDevice::generateScreenshot, device.get(), filename));
-
-            return true;
         }
 
-        bool Renderer::addClearCommand(const std::shared_ptr<Texture>& renderTarget)
+        void Renderer::addSetRenderTargetCommand(const std::shared_ptr<Texture>& renderTarget)
         {
-            RenderDevice::Command clearCommand;
-            clearCommand.type = RenderDevice::Command::CLEAR;
-            clearCommand.renderTarget = renderTarget ? renderTarget->getResource() : nullptr;
-
-            return device->addCommand(std::move(clearCommand));
+            device->addCommand(SetRenderTargetCommand(renderTarget ? renderTarget->getResource() : nullptr));
         }
 
-        bool Renderer::addDrawCommand(const std::vector<std::shared_ptr<Texture>>& textures,
-                                      const std::shared_ptr<Shader>& shader,
-                                      const std::vector<std::vector<float>>& pixelShaderConstants,
-                                      const std::vector<std::vector<float>>& vertexShaderConstants,
-                                      const std::shared_ptr<BlendState>& blendState,
-                                      const std::shared_ptr<MeshBuffer>& meshBuffer,
+        void Renderer::addClearCommand(const std::shared_ptr<Texture>& renderTarget)
+        {
+            device->addCommand(ClearCommand(renderTarget ? renderTarget->getResource() : nullptr));
+        }
+
+        void Renderer::addSetCullModeCommad(Renderer::CullMode cullMode)
+        {
+            device->addCommand(SetCullModeCommad(cullMode));
+        }
+
+        void Renderer::addSetFillModeCommad(Renderer::FillMode fillMode)
+        {
+            device->addCommand(SetFillModeCommad(fillMode));
+        }
+
+        void Renderer::addSetScissorTestCommand(bool enabled, const Rect& rectangle)
+        {
+            device->addCommand(SetScissorTestCommand(enabled, rectangle));
+        }
+
+        void Renderer::addSetViewportCommand(const Rect& viewport)
+        {
+            device->addCommand(SetViewportCommand(viewport));
+        }
+
+        void Renderer::addSetDepthStateCommand(bool depthTest, bool depthWrite)
+        {
+            device->addCommand(SetDepthStateCommand(depthTest, depthWrite));
+        }
+
+        void Renderer::addSetPipelineStateCommand(const std::shared_ptr<BlendState>& blendState,
+                                                  const std::shared_ptr<Shader>& shader)
+        {
+            device->addCommand(SetPipelineStateCommand(blendState ? blendState->getResource() : nullptr,
+                                                       shader ? shader->getResource() : nullptr));
+        }
+
+        void Renderer::addDrawCommand(const std::shared_ptr<Buffer>& indexBuffer,
                                       uint32_t indexCount,
+                                      uint32_t indexSize,
+                                      const std::shared_ptr<Buffer>& vertexBuffer,
                                       DrawMode drawMode,
-                                      uint32_t startIndex,
-                                      const std::shared_ptr<Texture>& renderTarget,
-                                      const Rect& viewport,
-                                      bool depthWrite,
-                                      bool depthTest,
-                                      bool wireframe,
-                                      bool scissorTest,
-                                      const Rect& scissorRectangle,
-                                      CullMode cullMode)
+                                      uint32_t startIndex)
         {
-            if (!shader)
-            {
-                Log(Log::Level::ERR) << "No shader passed to render queue";
-                return false;
-            }
+            if (!indexBuffer || !vertexBuffer)
+                throw DataError("Invalid mesh buffer passed to render queue");
 
-            if (!blendState)
-            {
-                Log(Log::Level::ERR) << "No blend state passed to render queue";
-                return false;
-            }
+            device->addCommand(DrawCommand(indexBuffer->getResource(),
+                                           indexCount,
+                                           indexSize,
+                                           vertexBuffer->getResource(),
+                                           drawMode,
+                                           startIndex));
+        }
 
-            if (!meshBuffer || !meshBuffer->getIndexBuffer() || !meshBuffer->getVertexBuffer())
-            {
-                Log(Log::Level::ERR) << "Invalid mesh buffer passed to render queue";
-                return false;
-            }
+        void Renderer::addPushDebugMarkerCommand(const std::string& name)
+        {
+            device->addCommand(PushDebugMarkerCommand(name));
+        }
 
-            std::vector<TextureResource*> drawTextures;
+        void Renderer::addPopDebugMarkerCommand()
+        {
+            device->addCommand(PopDebugMarkerCommand());
+        }
 
-            for (const std::shared_ptr<Texture>& texture : textures)
-            {
-                drawTextures.push_back(texture ? texture->getResource() : nullptr);
-            }
+        void Renderer::addSetShaderConstantsCommand(std::vector<std::vector<float>> fragmentShaderConstants,
+                                                    std::vector<std::vector<float>> vertexShaderConstants)
+        {
+            device->addCommand(SetShaderConstantsCommand(fragmentShaderConstants,
+                                                         vertexShaderConstants));
+        }
 
-            RenderDevice::Command drawCommand;
-            drawCommand.type = RenderDevice::Command::DRAW;
+        void Renderer::addSetTexturesCommand(const std::vector<std::shared_ptr<Texture>>& textures)
+        {
+            TextureResource* newTextures[Texture::LAYERS];
 
             for (uint32_t i = 0; i < Texture::LAYERS; ++i)
             {
-                drawCommand.textures[i] = (i < drawTextures.size()) ? drawTextures[i] : nullptr;
+                Texture* texture = (i < textures.size()) ? textures[i].get() : nullptr;
+                newTextures[i] = texture ? texture->getResource() : nullptr;
             }
 
-            drawCommand.shader = shader->getResource();
-            drawCommand.pixelShaderConstants = pixelShaderConstants;
-            drawCommand.vertexShaderConstants = vertexShaderConstants;
-            drawCommand.blendState = blendState->getResource();
-            drawCommand.meshBuffer = meshBuffer->getResource();
-            drawCommand.indexCount = indexCount;
-            drawCommand.drawMode = drawMode;
-            drawCommand.startIndex = startIndex;
-            drawCommand.renderTarget = renderTarget ? renderTarget->getResource() : nullptr;
-            drawCommand.viewport = viewport;
-            drawCommand.depthWrite = depthWrite;
-            drawCommand.depthTest = depthTest;
-            drawCommand.wireframe = wireframe;
-            drawCommand.scissorTest = scissorTest;
-            drawCommand.scissorRectangle = scissorRectangle;
-            drawCommand.cullMode = cullMode;
-
-            return device->addCommand(std::move(drawCommand));
+            device->addCommand(SetTexturesCommand(newTextures));
         }
     } // namespace graphics
 } // namespace ouzel

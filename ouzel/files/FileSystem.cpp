@@ -1,10 +1,8 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "core/Setup.h"
 
 #include <algorithm>
-#include <fstream>
 #include <sys/stat.h>
 #if OUZEL_PLATFORM_WINDOWS
 #include <Windows.h>
@@ -23,7 +21,9 @@ extern "C" id NSTemporaryDirectory();
 #endif
 
 #include "FileSystem.hpp"
+#include "File.hpp"
 #include "Archive.hpp"
+#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
 #if OUZEL_PLATFORM_WINDOWS || OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
@@ -50,9 +50,8 @@ namespace ouzel
             Log(Log::Level::INFO) << "Application directory: " << appPath;
         }
         else
-        {
-            Log(Log::Level::ERR) << "Failed to get current directory";
-        }
+            throw FileError("Failed to get current directory");
+
 #elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
         CFBundleRef bundle = CFBundleGetMainBundle(); // [NSBundle mainBundle]
         CFURLRef path = CFBundleCopyResourcesDirectoryURL(bundle); // [bundle resourceURL]
@@ -66,9 +65,8 @@ namespace ouzel
             Log(Log::Level::INFO) << "Application directory: " << appPath;
         }
         else
-        {
-            Log(Log::Level::ERR) << "Failed to get current directory";
-        }
+            throw FileError("Failed to get current directory");
+
 #elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
         char executableDirectory[1024];
 
@@ -78,10 +76,14 @@ namespace ouzel
             Log(Log::Level::INFO) << "Application directory: " << appPath;
         }
         else
-        {
-            Log(Log::Level::ERR) << "Failed to get current directory";
-        }
+            throw FileError("Failed to get current directory");
 #endif
+    }
+
+    FileSystem::~FileSystem()
+    {
+        for (Archive* archive : archives)
+            archive->fileSystem = nullptr;
     }
 
     std::string FileSystem::getStorageDirectory(bool user) const
@@ -92,12 +94,11 @@ namespace ouzel
 
         HRESULT hr = SHGetFolderPathW(nullptr, (user ? CSIDL_LOCAL_APPDATA : CSIDL_COMMON_APPDATA) | CSIDL_FLAG_CREATE, nullptr, SHGFP_TYPE_CURRENT, szBuffer);
         if (FAILED(hr))
-        {
-            Log(Log::Level::ERR) << "Failed to get the path of the AppData directory, error: " << hr;
-            return "";
-        }
+            throw FileError("Failed to get the path of the AppData directory, error: " + std::to_string(hr));
 
-        WideCharToMultiByte(CP_UTF8, 0, szBuffer, -1, appDataDirectory, sizeof(appDataDirectory), nullptr, nullptr);
+        if (WideCharToMultiByte(CP_UTF8, 0, szBuffer, -1, appDataDirectory, sizeof(appDataDirectory), nullptr, nullptr) == 0)
+            throw FileError("Failed to convert wide char to UTF-8");
+
         std::string path = appDataDirectory;
 
         path += DIRECTORY_SEPARATOR + DEVELOPER_NAME;
@@ -105,16 +106,10 @@ namespace ouzel
         if (!directoryExists(path))
         {
             if (MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, szBuffer, MAX_PATH) == 0)
-            {
-                Log(Log::Level::ERR) << "Failed to convert UTF-8 to wide char";
-                return "";
-            }
+                throw FileError("Failed to convert UTF-8 to wide char");
 
             if (!CreateDirectoryW(szBuffer, nullptr))
-            {
-                Log(Log::Level::ERR) << "Failed to create directory " << path;
-                return "";
-            }
+                throw FileError("Failed to create directory " + path);
         }
 
         path += DIRECTORY_SEPARATOR + APPLICATION_NAME;
@@ -122,16 +117,10 @@ namespace ouzel
         if (!directoryExists(path))
         {
             if (MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, szBuffer, MAX_PATH) == 0)
-            {
-                Log(Log::Level::ERR) << "Failed to convert UTF-8 to wide char";
-                return "";
-            }
+                throw FileError("Failed to convert UTF-8 to wide char");
 
             if (!CreateDirectoryW(szBuffer, nullptr))
-            {
-                Log(Log::Level::ERR) << "Failed to create directory " << path;
-                return "";
-            }
+                throw FileError("Failed to create directory " + path);
         }
 
         return path;
@@ -143,9 +132,7 @@ namespace ouzel
         char* homeDirectory = getenv("XDG_DATA_HOME");
 
         if (homeDirectory)
-        {
             path = homeDirectory;
-        }
         else
         {
             struct passwd pwent;
@@ -154,19 +141,12 @@ namespace ouzel
             int e;
 
             while ((e = getpwuid_r(getuid(), &pwent, buffer.data(), buffer.size(), &pwentp)) == ERANGE)
-            {
                 buffer.resize(buffer.size() * 2);
-            }
 
             if (e != 0)
-            {
-                Log(Log::Level::ERR) << "Failed to get home directory";
-                return "";
-            }
+                throw FileError("Failed to get home directory");
             else
-            {
                 path = pwent.pw_dir;
-            }            
         }
 
         path += DIRECTORY_SEPARATOR + "." + DEVELOPER_NAME;
@@ -174,10 +154,7 @@ namespace ouzel
         if (!directoryExists(path))
         {
             if (mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) != 0)
-            {
-                Log(Log::Level::ERR) << "Failed to create directory " << path;
-                return "";
-            }
+                throw FileError("Failed to create directory " + path);
         }
 
         path += DIRECTORY_SEPARATOR + APPLICATION_NAME;
@@ -185,10 +162,7 @@ namespace ouzel
         if (!directoryExists(path))
         {
             if (mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) != 0)
-            {
-                Log(Log::Level::ERR) << "Failed to create directory " << path;
-                return "";
-            }
+                throw FileError("Failed to create directory " + path);
         }
 
         return path;
@@ -209,10 +183,7 @@ namespace ouzel
         if (GetTempPathW(MAX_PATH, szBuffer))
         {
             if (WideCharToMultiByte(CP_UTF8, 0, szBuffer, -1, tempDirectory, sizeof(tempDirectory), nullptr, nullptr) == 0)
-            {
-                Log(Log::Level::ERR) << "Failed to convert UTF-8 to wide char";
-                return "";
-            }
+                throw FileError("Failed to convert wide char to UTF-8");
 
             return tempDirectory;
         }
@@ -236,119 +207,89 @@ namespace ouzel
 #endif
     }
 
-    bool FileSystem::readFile(const std::string& filename, std::vector<uint8_t>& data, bool searchResources) const
+    std::vector<uint8_t> FileSystem::readFile(const std::string& filename, bool searchResources) const
     {
+        if (searchResources)
+        {
+            for (const auto& archive : archives)
+            {
+                if (archive->fileExists(filename))
+                    return archive->readFile(filename);
+            }
+        }
+
+        std::vector<uint8_t> data;
+        char buffer[1024];
+
 #if OUZEL_PLATFORM_ANDROID
         if (!isAbsolutePath(filename))
         {
-            char buffer[1024];
-
             EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(engine);
 
             AAsset* asset = AAssetManager_open(engineAndroid->getAssetManager(), filename.c_str(), AASSET_MODE_STREAMING);
 
             if (!asset)
-            {
-                Log(Log::Level::ERR) << "Failed to open file " << filename;
-                return false;
-            }
+                throw FileError("Failed to open file " + filename);
 
             int bytesRead = 0;
 
             while ((bytesRead = AAsset_read(asset, buffer, sizeof(buffer))) > 0)
-            {
                 data.insert(data.end(), reinterpret_cast<uint8_t*>(buffer), reinterpret_cast<uint8_t*>(buffer + bytesRead));
-            }
 
             AAsset_close(asset);
 
-            return true;
+            return data;
         }
 #endif
-
-        if (searchResources)
-        {
-            for (const auto& archive : archives)
-            {
-                if (archive->readFile(filename, data))
-                {
-                    return true;
-                }
-            }
-        }
 
         std::string path = getPath(filename, searchResources);
 
         // file does not exist
         if (path.empty())
-        {
-            Log(Log::Level::ERR) << "Failed to find file " << filename;
-            return false;
-        }
+            throw FileError("Failed to find file " + filename);
 
-        std::ifstream file(path, std::ios::binary);
+        File file(path, File::Mode::READ);
 
-        if (!file)
-        {
-            Log(Log::Level::ERR) << "Failed to open file " << path;
-            return false;
-        }
+        while (uint32_t size = file.read(buffer, sizeof(buffer)))
+            data.insert(data.end(), buffer, buffer + size);
 
-        std::streampos start = file.tellg();
-        file.seekg(0, std::ios::end);
-        data.resize(static_cast<size_t>(file.tellg() - start));
-        file.seekg(0, std::ios_base::beg);
-        data.assign(std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());
-
-        return true;
+        return data;
     }
 
-    bool FileSystem::writeFile(const std::string& filename, const std::vector<uint8_t>& data) const
+    void FileSystem::writeFile(const std::string& filename, const std::vector<uint8_t>& data) const
     {
-        std::ofstream file(filename, std::ios::binary);
+        File file(filename, File::Mode::WRITE | File::Mode::CREATE);
 
-        if (!file)
+        uint32_t offset = 0;
+
+        while (offset < data.size())
         {
-            Log(Log::Level::ERR) << "Failed to open file " << filename;
-            return false;
+            uint32_t written = file.write(data.data() + offset, static_cast<uint32_t>(data.size()) - offset);
+            offset += written;
         }
-
-        file.write(reinterpret_cast<const char*>(data.data()), static_cast<std::streamsize>(data.size()));
-
-        return true;
     }
 
     bool FileSystem::resourceFileExists(const std::string& filename) const
     {
         if (isAbsolutePath(filename))
-        {
             return fileExists(filename);
-        }
         else
         {
             std::string str = appPath + DIRECTORY_SEPARATOR + filename;
 
             if (fileExists(str))
-            {
                 return true;
-            }
             else
             {
                 for (const std::string& path : resourcePaths)
                 {
                     if (isAbsolutePath(path)) // if resource path is absolute
-                    {
                         str = path + DIRECTORY_SEPARATOR + filename;
-                    }
                     else
-                    {
                         str = appPath + DIRECTORY_SEPARATOR + path + DIRECTORY_SEPARATOR + filename;
-                    }
 
                     if (fileExists(str))
-                    {
                         return true;
-                    }
                 }
             }
 
@@ -370,9 +311,7 @@ namespace ouzel
 
         struct stat buf;
         if (stat(dirname.c_str(), &buf) != 0)
-        {
             return false;
-        }
 
         return (buf.st_mode & S_IFMT) == S_IFDIR;
     }
@@ -393,9 +332,7 @@ namespace ouzel
 
         struct stat buf;
         if (stat(filename.c_str(), &buf) != 0)
-        {
             return false;
-        }
 
         return (buf.st_mode & S_IFMT) == S_IFREG;
     }
@@ -405,36 +342,26 @@ namespace ouzel
         if (isAbsolutePath(filename))
         {
             if (fileExists(filename))
-            {
                 return filename;
-            }
         }
         else
         {
             std::string str = appPath + DIRECTORY_SEPARATOR + filename;
 
             if (fileExists(str))
-            {
                 return str;
-            }
 
             if (searchResources)
             {
                 for (const std::string& path : resourcePaths)
                 {
                     if (isAbsolutePath(path)) // if resource path is absolute
-                    {
                         str = path + DIRECTORY_SEPARATOR + filename;
-                    }
                     else
-                    {
                         str = appPath + DIRECTORY_SEPARATOR + path + DIRECTORY_SEPARATOR + filename;
-                    }
 
                     if (fileExists(str))
-                    {
                         return str;
-                    }
                 }
             }
         }
@@ -447,9 +374,7 @@ namespace ouzel
         auto i = std::find(resourcePaths.begin(), resourcePaths.end(), path);
 
         if (i == resourcePaths.end())
-        {
             resourcePaths.push_back(path);
-        }
     }
 
     void FileSystem::addArchive(Archive* archive)
@@ -481,9 +406,7 @@ namespace ouzel
         size_t pos = path.find_last_of('.');
 
         if (pos != std::string::npos)
-        {
             return path.substr(pos + 1);
-        }
 
         return std::string();
     }
@@ -493,13 +416,9 @@ namespace ouzel
         size_t pos = path.find_last_of("/\\");
 
         if (pos != std::string::npos)
-        {
             return path.substr(pos + 1);
-        }
         else
-        {
             return path;
-        }
     }
 
     std::string FileSystem::getDirectoryPart(const std::string& path)
@@ -507,9 +426,7 @@ namespace ouzel
         size_t pos = path.find_last_of("/\\");
 
         if (pos != std::string::npos)
-        {
             return path.substr(0, pos);
-        }
 
         return std::string();
     }
@@ -519,10 +436,8 @@ namespace ouzel
 #if OUZEL_PLATFORM_WINDOWS
         WCHAR szBuffer[MAX_PATH];
         if (MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, szBuffer, MAX_PATH) == 0)
-        {
-            Log(Log::Level::ERR) << "Failed to convert UTF-8 to wide char";
-            return false;
-        }
+            throw FileError("Failed to convert UTF-8 to wide char");
+
         return PathIsRelativeW(szBuffer) == FALSE;
 #else
         return !path.empty() && path[0] == '/';

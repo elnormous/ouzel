@@ -1,12 +1,11 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "RenderDeviceEmpty.hpp"
 #include "BlendStateResourceEmpty.hpp"
-#include "TextureResourceEmpty.hpp"
-#include "ShaderResourceEmpty.hpp"
-#include "MeshBufferResourceEmpty.hpp"
 #include "BufferResourceEmpty.hpp"
+#include "RenderTargetResourceEmpty.hpp"
+#include "ShaderResourceEmpty.hpp"
+#include "TextureResourceEmpty.hpp"
 #include "core/Engine.hpp"
 #include "thread/Lock.hpp"
 #include "assets/Cache.hpp"
@@ -20,7 +19,7 @@ namespace ouzel
         {
         }
 
-        bool RenderDeviceEmpty::init(Window* newWindow,
+        void RenderDeviceEmpty::init(Window* newWindow,
                                      const Size2& newSize,
                                      uint32_t newSampleCount,
                                      Texture::Filter newTextureFilter,
@@ -29,17 +28,14 @@ namespace ouzel
                                      bool newDepth,
                                      bool newDebugRenderer)
         {
-            if (!RenderDevice::init(newWindow,
-                                    newSize,
-                                    newSampleCount,
-                                    newTextureFilter,
-                                    newMaxAnisotropy,
-                                    newVerticalSync,
-                                    newDepth,
-                                    newDebugRenderer))
-            {
-                return false;
-            }
+            RenderDevice::init(newWindow,
+                               newSize,
+                               newSampleCount,
+                               newTextureFilter,
+                               newMaxAnisotropy,
+                               newVerticalSync,
+                               newDepth,
+                               newDebugRenderer);
 
             std::shared_ptr<Shader> textureShader = std::make_shared<Shader>();
 
@@ -60,13 +56,10 @@ namespace ouzel
                               {{"modelViewProj", DataType::FLOAT_MATRIX4}});
 
             engine->getCache()->setShader(SHADER_COLOR, colorShader);
-
-            return true;
         }
 
-        bool RenderDeviceEmpty::processCommands(const std::vector<Command>&)
+        void RenderDeviceEmpty::processCommands(CommandBuffer&)
         {
-            return true;
         }
 
         BlendStateResource* RenderDeviceEmpty::createBlendState()
@@ -78,13 +71,22 @@ namespace ouzel
             return blendState;
         }
 
-        TextureResource* RenderDeviceEmpty::createTexture()
+        BufferResource* RenderDeviceEmpty::createBuffer()
         {
             Lock lock(resourceMutex);
 
-            TextureResource* texture(new TextureResourceEmpty());
-            resources.push_back(std::unique_ptr<RenderResource>(texture));
-            return texture;
+            BufferResource* buffer = new BufferResourceEmpty();
+            resources.push_back(std::unique_ptr<RenderResource>(buffer));
+            return buffer;
+        }
+
+        RenderTargetResource* RenderDeviceEmpty::createRenderTarget()
+        {
+            Lock lock(resourceMutex);
+
+            RenderTargetResource* renderTarget = new RenderTargetResourceEmpty();
+            resources.push_back(std::unique_ptr<RenderResource>(renderTarget));
+            return renderTarget;
         }
 
         ShaderResource* RenderDeviceEmpty::createShader()
@@ -96,22 +98,13 @@ namespace ouzel
             return shader;
         }
 
-        MeshBufferResource* RenderDeviceEmpty::createMeshBuffer()
+        TextureResource* RenderDeviceEmpty::createTexture()
         {
             Lock lock(resourceMutex);
 
-            MeshBufferResource* meshBuffer = new MeshBufferResourceEmpty();
-            resources.push_back(std::unique_ptr<RenderResource>(meshBuffer));
-            return meshBuffer;
-        }
-
-        BufferResource* RenderDeviceEmpty::createBuffer()
-        {
-            Lock lock(resourceMutex);
-
-            BufferResource* buffer = new BufferResourceEmpty();
-            resources.push_back(std::unique_ptr<RenderResource>(buffer));
-            return buffer;
+            TextureResource* texture(new TextureResourceEmpty());
+            resources.push_back(std::unique_ptr<RenderResource>(texture));
+            return texture;
         }
     } // namespace graphics
 } // namespace ouzel

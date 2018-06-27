@@ -1,8 +1,7 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "Cursor.hpp"
-#include "Input.hpp"
+#include "InputManager.hpp"
 #include "CursorResource.hpp"
 #include "core/Engine.hpp"
 #include "graphics/ImageDataSTB.hpp"
@@ -13,7 +12,7 @@ namespace ouzel
     {
         Cursor::Cursor()
         {
-            resource = engine->getInput()->createCursorResource();
+            resource = engine->getInputManager()->createCursorResource();
         }
 
         Cursor::Cursor(SystemCursor systemCursor):
@@ -30,46 +29,39 @@ namespace ouzel
 
         Cursor::~Cursor()
         {
-            if (engine && resource) engine->getInput()->deleteCursorResource(resource);
+            if (engine && resource) engine->getInputManager()->deleteCursorResource(resource);
         }
 
-        bool Cursor::init(SystemCursor systemCursor)
+        void Cursor::init(SystemCursor systemCursor)
         {
-            engine->executeOnMainThread(std::bind(static_cast<bool(CursorResource::*)(SystemCursor)>(&CursorResource::init),
+            engine->executeOnMainThread(std::bind(static_cast<void(CursorResource::*)(SystemCursor)>(&CursorResource::init),
                                                   resource,
                                                   systemCursor));
-
-            return true;
         }
 
-        bool Cursor::init(const std::string& filename, const Vector2& hotSpot)
+        void Cursor::init(const std::string& filename, const Vector2& hotSpot)
         {
             // TODO: load with asset loader
             graphics::ImageDataSTB image;
-            if (!image.init(filename))
-            {
-                return false;
-            }
+            image.init(filename);
 
-            return init(image.getData(),
-                        image.getSize(),
-                        image.getPixelFormat(),
-                        hotSpot);
+            init(image.getData(),
+                 image.getSize(),
+                 image.getPixelFormat(),
+                 hotSpot);
         }
 
-        bool Cursor::init(const std::vector<uint8_t>& data,
+        void Cursor::init(const std::vector<uint8_t>& data,
                           const Size2& size,
                           graphics::PixelFormat pixelFormat,
                           const Vector2& hotSpot)
         {
-            engine->executeOnMainThread(std::bind(static_cast<bool(CursorResource::*)(const std::vector<uint8_t>&, const Size2&, graphics::PixelFormat, const Vector2&)>(&CursorResource::init),
+            engine->executeOnMainThread(std::bind(static_cast<void(CursorResource::*)(const std::vector<uint8_t>&, const Size2&, graphics::PixelFormat, const Vector2&)>(&CursorResource::init),
                                                   resource,
                                                   data,
                                                   size,
                                                   pixelFormat,
                                                   hotSpot));
-
-            return true;
         }
     } // namespace input
 } // namespace ouzel

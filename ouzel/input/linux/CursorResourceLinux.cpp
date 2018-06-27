@@ -1,19 +1,18 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <X11/cursorfont.h>
 #include <X11/Xcursor/Xcursor.h>
 #include "CursorResourceLinux.hpp"
 #include "core/Engine.hpp"
 #include "core/linux/WindowResourceLinux.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
     namespace input
     {
-        CursorResourceLinux::CursorResourceLinux(Input* initInput):
-            CursorResource(initInput)
+        CursorResourceLinux::CursorResourceLinux(InputManager& initInputManager):
+            CursorResource(initInputManager)
         {
         }
 
@@ -27,12 +26,9 @@ namespace ouzel
             }
         }
 
-        bool CursorResourceLinux::init(SystemCursor newSystemCursor)
+        void CursorResourceLinux::init(SystemCursor newSystemCursor)
         {
-            if (!CursorResource::init(newSystemCursor))
-            {
-                return false;
-            }
+            CursorResource::init(newSystemCursor);
 
             WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
             Display* display = windowLinux->getDisplay();
@@ -69,22 +65,17 @@ namespace ouzel
             }
 
             reactivate();
-
-            return true;
         }
 
-        bool CursorResourceLinux::init(const std::vector<uint8_t>& newData,
+        void CursorResourceLinux::init(const std::vector<uint8_t>& newData,
                                        const Size2& newSize,
                                        graphics::PixelFormat newPixelFormat,
                                        const Vector2& newHotSpot)
         {
-            if (!CursorResource::init(newData,
-                                      newSize,
-                                      newPixelFormat,
-                                      newHotSpot))
-            {
-                return false;
-            }
+            CursorResource::init(newData,
+                                 newSize,
+                                 newPixelFormat,
+                                 newHotSpot);
 
             WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
             Display* display = windowLinux->getDisplay();
@@ -103,10 +94,7 @@ namespace ouzel
                 XcursorImage* cursorImage = XcursorImageCreate(width, height);
 
                 if (!cursorImage)
-                {
-                    Log(Log::Level::ERR) << "Failed to create cursor image";
-                    return false;
-                }
+                    throw SystemError("Failed to create cursor image");
 
                 cursorImage->xhot = static_cast<int>(hotSpot.x);
                 cursorImage->yhot = height - static_cast<int>(hotSpot.y) - 1;
@@ -131,8 +119,6 @@ namespace ouzel
             }
 
             reactivate();
-
-            return true;
         }
     } // namespace input
 } // namespace ouzel

@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "LoaderParticleSystem.hpp"
 #include "Cache.hpp"
@@ -7,7 +6,6 @@
 #include "files/FileSystem.hpp"
 #include "scene/ParticleSystemData.hpp"
 #include "utils/JSON.hpp"
-#include "utils/Log.hpp"
 
 namespace ouzel
 {
@@ -23,17 +21,11 @@ namespace ouzel
             scene::ParticleSystemData particleSystemData;
 
             json::Data document;
-
-            if (!document.init(data))
-            {
-                return false;
-            }
+            document.init(data);
 
             if (!document.hasMember("textureFileName") ||
                 !document.hasMember("configName"))
-            {
                 return false;
-            }
 
             particleSystemData.name = document["configName"].asString();
 

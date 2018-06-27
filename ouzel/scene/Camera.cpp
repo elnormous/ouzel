@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <cassert>
 #include <algorithm>
@@ -142,20 +141,14 @@ namespace ouzel
 
         const Matrix4& Camera::getViewProjection() const
         {
-            if (viewProjectionDirty)
-            {
-                calculateViewProjection();
-            }
+            if (viewProjectionDirty) calculateViewProjection();
 
             return viewProjection;
         }
 
         const Matrix4& Camera::getRenderViewProjection() const
         {
-            if (viewProjectionDirty)
-            {
-                calculateViewProjection();
-            }
+            if (viewProjectionDirty) calculateViewProjection();
 
             return renderViewProjection;
         }
@@ -179,9 +172,7 @@ namespace ouzel
             {
                 viewProjection = projection * actor->getInverseTransform();
 
-                renderViewProjection = viewProjection;
-
-                renderViewProjection = engine->getRenderer()->getDevice()->getProjectionTransform(renderTarget != nullptr) * renderViewProjection;
+                renderViewProjection = engine->getRenderer()->getDevice()->getProjectionTransform(renderTarget != nullptr) * viewProjection;
 
                 viewProjectionDirty = false;
             }
@@ -191,7 +182,7 @@ namespace ouzel
         {
             // convert window normalized to viewport clip position
             Vector3 result = Vector3(((normalizedPosition.x - viewport.position.x) / viewport.size.width - 0.5F) * 2.0F,
-                                     ((normalizedPosition.y - viewport.position.y) / viewport.size.height - 0.5F) * 2.0F,
+                                     (((1.0F - normalizedPosition.y) - viewport.position.y) / viewport.size.height - 0.5F) * 2.0F,
                                      0.0F);
 
             getInverseViewProjection().transformPoint(result);
@@ -206,7 +197,7 @@ namespace ouzel
 
             // convert viewport clip position to window normalized
             return Vector2((result.x / 2.0F + 0.5F) * viewport.size.width + viewport.position.x,
-                           (result.y / 2.0F + 0.5F) * viewport.size.height + viewport.position.y);
+                           1.0F - ((result.y / 2.0F + 0.5F) * viewport.size.height + viewport.position.y));
         }
 
         bool Camera::checkVisibility(const Matrix4& boxTransform, const Box3& box) const

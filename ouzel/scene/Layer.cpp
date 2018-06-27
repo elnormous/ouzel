@@ -1,6 +1,6 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <cassert>
 #include <algorithm>
 #include "Layer.hpp"
 #include "core/Engine.hpp"
@@ -23,11 +23,6 @@ namespace ouzel
         Layer::~Layer()
         {
             if (scene) scene->removeLayer(this);
-
-            for (Camera* camera : cameras)
-            {
-                camera->setLayer(nullptr);
-            }
         }
 
         void Layer::draw()
@@ -37,9 +32,11 @@ namespace ouzel
                 std::vector<Actor*> drawQueue;
 
                 for (Actor* actor : children)
-                {
-                    actor->visit(drawQueue, Matrix4::IDENTITY, false, camera, 0, false);
-                }
+                    actor->visit(drawQueue, Matrix4::identity(), false, camera, 0, false);
+
+                engine->getRenderer()->addSetRenderTargetCommand(camera->getRenderTarget());
+                engine->getRenderer()->addSetViewportCommand(camera->getRenderViewport());
+                engine->getRenderer()->addSetDepthStateCommand(camera->getDepthTest(), camera->getDepthWrite());
 
                 for (Actor* actor : drawQueue)
                 {
@@ -47,24 +44,26 @@ namespace ouzel
 
                     if (camera->getWireframe())
                     {
+                        engine->getRenderer()->addSetFillModeCommad(graphics::Renderer::FillMode::WIREFRAME);
                         actor->draw(camera, true);
+                        engine->getRenderer()->addSetFillModeCommad(graphics::Renderer::FillMode::SOLID);
                     }
                 }
             }
         }
 
-        void Layer::addChildActor(Actor* actor)
+        void Layer::addChild(Actor* actor)
         {
-            ActorContainer::addChildActor(actor);
+            ActorContainer::addChild(actor);
 
             if (actor)
-            {
-                actor->updateTransform(Matrix4::IDENTITY);
-            }
+                actor->updateTransform(Matrix4::identity());
         }
 
         void Layer::addCamera(Camera* camera)
         {
+            assert(camera);
+
             cameras.push_back(camera);
         }
 
@@ -73,13 +72,13 @@ namespace ouzel
             auto i = std::find(cameras.begin(), cameras.end(), camera);
 
             if (i != cameras.end())
-            {
                 cameras.erase(i);
-            }
         }
 
         void Layer::addLight(Light* light)
         {
+            assert(light);
+
             lights.push_back(light);
         }
 
@@ -88,9 +87,7 @@ namespace ouzel
             auto i = std::find(lights.begin(), lights.end(), light);
 
             if (i != lights.end())
-            {
                 lights.erase(i);
-            }
         }
 
         std::pair<Actor*, ouzel::Vector3> Layer::pickActor(const Vector2& position, bool renderTargets) const
@@ -150,9 +147,7 @@ namespace ouzel
                     worldEdges.reserve(edges.size());
 
                     for (const Vector2& edge : edges)
-                    {
                         worldEdges.push_back(camera->convertNormalizedToWorld(edge));
-                    }
 
                     std::vector<Actor*> actors;
                     findActors(worldEdges, actors);
@@ -172,9 +167,7 @@ namespace ouzel
         void Layer::recalculateProjection()
         {
             for (Camera* camera : cameras)
-            {
                 camera->recalculateProjection();
-            }
         }
 
         void Layer::enter()

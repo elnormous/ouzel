@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -36,14 +35,14 @@ namespace ouzel
 
     protected:
         WindowResourceLinux();
-        virtual bool init(const Size2& newSize,
+        virtual void init(const Size2& newSize,
                           bool newResizable,
                           bool newFullscreen,
                           bool newExclusiveFullscreen,
                           const std::string& newTitle,
                           bool newHighDpi,
                           bool depth) override;
-        virtual bool toggleFullscreen();
+        virtual void toggleFullscreen();
         void handleResize(const Size2& newSize);
 
         XVisualInfo* visualInfo = nullptr;

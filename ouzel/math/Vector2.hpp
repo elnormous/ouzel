@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -14,13 +13,6 @@ namespace ouzel
     class Vector2
     {
     public:
-        static const Vector2 ZERO;
-        static const Vector2 ONE;
-        static const Vector2 UNIT_X;
-        static const Vector2 UNIT_Y;
-        static const Vector2 NEGATIVE_UNIT_X;
-        static const Vector2 NEGATIVE_UNIT_Y;
-
         float x = 0.0F;
         float y = 0.0F;
 
@@ -32,8 +24,6 @@ namespace ouzel
             x(initX), y(initY)
         {
         }
-
-        Vector2(const Vector2& p1, const Vector2& p2);
 
         Vector2(const Vector2& copy):
             x(copy.x), y(copy.y)
@@ -127,12 +117,6 @@ namespace ouzel
             y = newY;
         }
 
-        void set(const Vector2& p1, const Vector2& p2)
-        {
-            x = p2.x - p1.x;
-            y = p2.y - p1.y;
-        }
-
         void subtract(const Vector2& vec)
         {
             x -= vec.x;
@@ -206,9 +190,8 @@ namespace ouzel
         inline bool operator<(const Vector2& vec) const
         {
             if (x == vec.x)
-            {
                 return y < vec.y;
-            }
+
             return x < vec.x;
         }
 

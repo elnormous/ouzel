@@ -1,7 +1,7 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "Mutex.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -10,7 +10,10 @@ namespace ouzel
 #if defined(_WIN32)
         InitializeCriticalSection(&criticalSection);
 #else
-        pthread_mutex_init(&mutex, nullptr);
+        if (pthread_mutex_init(&mutex, nullptr) != 0)
+            throw ThreadError("Failed to initialize mutex");
+
+        initialized = true;
 #endif
     }
 
@@ -19,17 +22,17 @@ namespace ouzel
 #if defined(_WIN32)
         DeleteCriticalSection(&criticalSection);
 #else
-        pthread_mutex_destroy(&mutex);
+        if (initialized) pthread_mutex_destroy(&mutex);
 #endif
     }
 
-    bool Mutex::lock()
+    void Mutex::lock()
     {
 #if defined(_WIN32)
         EnterCriticalSection(&criticalSection);
-        return true;
 #else
-        return pthread_mutex_lock(&mutex) == 0;
+        if (pthread_mutex_lock(&mutex) != 0)
+            throw ThreadError("Failed to lock mutex");
 #endif
     }
 
@@ -42,13 +45,13 @@ namespace ouzel
 #endif
     }
 
-    bool Mutex::unlock()
+    void Mutex::unlock()
     {
 #if defined(_WIN32)
         LeaveCriticalSection(&criticalSection);
-        return true;
 #else
-        return pthread_mutex_unlock(&mutex) == 0;
+        if (pthread_mutex_unlock(&mutex) != 0)
+            throw ThreadError("Failed to unlock mutex");
 #endif
     }
 }

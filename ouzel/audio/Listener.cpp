@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "Listener.hpp"
 #include "Audio.hpp"
@@ -32,9 +31,7 @@ namespace ouzel
             AudioDevice::RenderCommand renderCommand;
 
             for (SoundInput* input : inputs)
-            {
                 input->addRenderCommands(renderCommand.renderCommands);
-            }
 
             if (transformDirty && actor)
             {

@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "core/Setup.h"
 
@@ -8,13 +7,13 @@
 #include "TextureResourceOGL.hpp"
 #include "RenderDeviceOGL.hpp"
 #include "utils/Utils.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        TextureResourceOGL::TextureResourceOGL(RenderDeviceOGL* initRenderDeviceOGL):
+        TextureResourceOGL::TextureResourceOGL(RenderDeviceOGL& initRenderDeviceOGL):
             renderDeviceOGL(initRenderDeviceOGL)
         {
         }
@@ -22,22 +21,22 @@ namespace ouzel
         TextureResourceOGL::~TextureResourceOGL()
         {
             if (depthBufferId)
-            {
-                renderDeviceOGL->deleteRenderBuffer(depthBufferId);
-            }
+                renderDeviceOGL.deleteRenderBuffer(depthBufferId);
+
+            if (colorBufferId)
+                renderDeviceOGL.deleteRenderBuffer(colorBufferId);
 
             if (frameBufferId)
-            {
-                renderDeviceOGL->deleteFrameBuffer(frameBufferId);
-            }
+                renderDeviceOGL.deleteFrameBuffer(frameBufferId);
+
+            if (depthTextureId)
+                renderDeviceOGL.deleteTexture(depthTextureId);
 
             if (textureId)
-            {
-                renderDeviceOGL->deleteTexture(textureId);
-            }
+                renderDeviceOGL.deleteTexture(textureId);
         }
 
-        static GLint getOGLInternalPixelFormat(PixelFormat pixelFormat, uint32_t openGLVersion)
+        static GLenum getOGLInternalPixelFormat(PixelFormat pixelFormat, uint32_t openGLVersion)
         {
 #if OUZEL_SUPPORTS_OPENGLES
             if (openGLVersion >= 3)
@@ -217,20 +216,17 @@ namespace ouzel
             }
         }
 
-        bool TextureResourceOGL::init(const Size2& newSize,
+        void TextureResourceOGL::init(const Size2& newSize,
                                       uint32_t newFlags,
                                       uint32_t newMipmaps,
                                       uint32_t newSampleCount,
                                       PixelFormat newPixelFormat)
         {
-            if (!TextureResource::init(newSize,
-                                       newFlags,
-                                       newMipmaps,
-                                       newSampleCount,
-                                       newPixelFormat))
-            {
-                return false;
-            }
+            TextureResource::init(newSize,
+                                  newFlags,
+                                  newMipmaps,
+                                  newSampleCount,
+                                  newPixelFormat);
 
             clearMask = 0;
             if (clearColorBuffer) clearMask |= GL_COLOR_BUFFER_BIT;
@@ -241,240 +237,210 @@ namespace ouzel
             frameBufferClearColor[2] = clearColor.normB();
             frameBufferClearColor[3] = clearColor.normA();
 
-            if (!createTexture())
-            {
-                return false;
-            }
+            createTexture();
 
-            renderDeviceOGL->bindTexture(textureId, 0);
+            renderDeviceOGL.bindTexture(textureId, 0);
 
             if (!(flags & Texture::RENDER_TARGET))
             {
                 if (!levels.empty())
                 {
-                    if (renderDeviceOGL->isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-                    if (renderDeviceOGL->isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
+                    if (renderDeviceOGL.isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+                    if (renderDeviceOGL.isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
 
-                    if (RenderDeviceOGL::checkOpenGLError())
-                    {
-                        Log(Log::Level::ERR) << "Failed to set texture base and max levels";
-                        return false;
-                    }
+                    GLenum error;
+
+                    if ((error = glGetError()) != GL_NO_ERROR)
+                        throw DataError("Failed to set texture base and max levels, error: " + std::to_string(error));
                 }
 
                 for (size_t level = 0; level < levels.size(); ++level)
                 {
-                    glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
+                    glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
                                  static_cast<GLsizei>(levels[level].size.width),
                                  static_cast<GLsizei>(levels[level].size.height), 0,
                                  oglPixelFormat, oglPixelType, nullptr);
                 }
 
-                if (RenderDeviceOGL::checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to set texture size";
-                    return false;
-                }
+                GLenum error;
+
+                if ((error = glGetError()) != GL_NO_ERROR)
+                    throw DataError("Failed to set texture size, error: " + std::to_string(error));
             }
 
-            return setTextureParameters();
+            setTextureParameters();
         }
 
-        bool TextureResourceOGL::init(const std::vector<uint8_t>& newData,
+        void TextureResourceOGL::init(const std::vector<uint8_t>& newData,
                                       const Size2& newSize,
                                       uint32_t newFlags,
                                       uint32_t newMipmaps,
                                       PixelFormat newPixelFormat)
         {
-            if (!TextureResource::init(newData,
-                                       newSize,
-                                       newFlags,
-                                       newMipmaps,
-                                       newPixelFormat))
-            {
-                return false;
-            }
+            TextureResource::init(newData,
+                                  newSize,
+                                  newFlags,
+                                  newMipmaps,
+                                  newPixelFormat);
 
-            if (!createTexture())
-            {
-                return false;
-            }
+            createTexture();
 
-            renderDeviceOGL->bindTexture(textureId, 0);
+            renderDeviceOGL.bindTexture(textureId, 0);
 
             if (!(flags & Texture::RENDER_TARGET))
             {
                 if (!levels.empty())
                 {
-                    if (renderDeviceOGL->isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-                    if (renderDeviceOGL->isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
+                    if (renderDeviceOGL.isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+                    if (renderDeviceOGL.isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
 
-                    if (RenderDeviceOGL::checkOpenGLError())
-                    {
-                        Log(Log::Level::ERR) << "Failed to set texture base and max levels";
-                        return false;
-                    }
+                    GLenum error;
+
+                    if ((error = glGetError()) != GL_NO_ERROR)
+                        throw DataError("Failed to set texture base and max levels, error: " + std::to_string(error));
                 }
 
                 for (size_t level = 0; level < levels.size(); ++level)
                 {
                     if (!levels[level].data.empty())
                     {
-                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
+                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
                                      static_cast<GLsizei>(levels[level].size.width),
                                      static_cast<GLsizei>(levels[level].size.height), 0,
                                      oglPixelFormat, oglPixelType, levels[level].data.data());
                     }
                     else
                     {
-                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
+                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
                                      static_cast<GLsizei>(levels[level].size.width),
                                      static_cast<GLsizei>(levels[level].size.height), 0,
                                      oglPixelFormat, oglPixelType, nullptr);
                     }
                 }
 
-                if (RenderDeviceOGL::checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to upload texture data";
-                    return false;
-                }
+                GLenum error;
+
+                if ((error = glGetError()) != GL_NO_ERROR)
+                    throw DataError("Failed to upload texture data, error: " + std::to_string(error));
             }
 
-            return setTextureParameters();
+            setTextureParameters();
         }
 
-        bool TextureResourceOGL::init(const std::vector<Texture::Level>& newLevels,
+        void TextureResourceOGL::init(const std::vector<Texture::Level>& newLevels,
                                       const Size2& newSize,
                                       uint32_t newFlags,
                                       PixelFormat newPixelFormat)
         {
-            if (!TextureResource::init(newLevels,
-                                       newSize,
-                                       newFlags,
-                                       newPixelFormat))
-            {
-                return false;
-            }
+            TextureResource::init(newLevels,
+                                  newSize,
+                                  newFlags,
+                                  newPixelFormat);
 
-            if (!createTexture())
-            {
-                return false;
-            }
+            createTexture();
 
-            renderDeviceOGL->bindTexture(textureId, 0);
+            renderDeviceOGL.bindTexture(textureId, 0);
 
             if (!(flags & Texture::RENDER_TARGET))
             {
                 if (!levels.empty())
                 {
-                    if (renderDeviceOGL->isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-                    if (renderDeviceOGL->isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
+                    if (renderDeviceOGL.isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+                    if (renderDeviceOGL.isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
 
-                    if (RenderDeviceOGL::checkOpenGLError())
-                    {
-                        Log(Log::Level::ERR) << "Failed to set texture base and max levels";
-                        return false;
-                    }
+                    GLenum error;
+
+                    if ((error = glGetError()) != GL_NO_ERROR)
+                        throw DataError("Failed to set texture base and max levels, error: " + std::to_string(error));
                 }
 
                 for (size_t level = 0; level < levels.size(); ++level)
                 {
                     if (!levels[level].data.empty())
                     {
-                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
+                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
                                      static_cast<GLsizei>(levels[level].size.width),
                                      static_cast<GLsizei>(levels[level].size.height), 0,
                                      oglPixelFormat, oglPixelType, levels[level].data.data());
                     }
                     else
                     {
-                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
+                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
                                      static_cast<GLsizei>(levels[level].size.width),
                                      static_cast<GLsizei>(levels[level].size.height), 0,
                                      oglPixelFormat, oglPixelType, nullptr);
                     }
                 }
 
-                if (RenderDeviceOGL::checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to upload texture data";
-                    return false;
-                }
+                GLenum error;
+
+                if ((error = glGetError()) != GL_NO_ERROR)
+                    throw DataError("Failed to upload texture data, error: " + std::to_string(error));
             }
 
-            return setTextureParameters();
+            setTextureParameters();
         }
 
-        bool TextureResourceOGL::reload()
+        void TextureResourceOGL::reload()
         {
             textureId = 0;
+            depthTextureId = 0;
             frameBufferId = 0;
+            colorBufferId = 0;
             depthBufferId = 0;
 
-            if (!createTexture())
-            {
-                return false;
-            }
+            createTexture();
 
-            renderDeviceOGL->bindTexture(textureId, 0);
+            renderDeviceOGL.bindTexture(textureId, 0);
 
             if (!(flags & Texture::RENDER_TARGET))
             {
                 if (!levels.empty())
                 {
-                    if (renderDeviceOGL->isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-                    if (renderDeviceOGL->isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
+                    if (renderDeviceOGL.isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+                    if (renderDeviceOGL.isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
 
-                    if (RenderDeviceOGL::checkOpenGLError())
-                    {
-                        Log(Log::Level::ERR) << "Failed to set texture base and max levels";
-                        return false;
-                    }
+                    GLenum error;
+
+                    if ((error = glGetError()) != GL_NO_ERROR)
+                        throw DataError("Failed to set texture base and max levels, error: " + std::to_string(error));
                 }
 
                 for (size_t level = 0; level < levels.size(); ++level)
                 {
                     if (!levels[level].data.empty())
                     {
-                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
+                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
                                      static_cast<GLsizei>(levels[level].size.width),
                                      static_cast<GLsizei>(levels[level].size.height), 0,
                                      oglPixelFormat, oglPixelType, levels[level].data.data());
                     }
                     else
                     {
-                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
+                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
                                      static_cast<GLsizei>(levels[level].size.width),
                                      static_cast<GLsizei>(levels[level].size.height), 0,
                                      oglPixelFormat, oglPixelType, nullptr);
                     }
                 }
 
-                if (RenderDeviceOGL::checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to upload texture data";
-                    return false;
-                }
+                GLenum error;
+
+                if ((error = glGetError()) != GL_NO_ERROR)
+                    throw DataError("Failed to upload texture data, error: " + std::to_string(error));
             }
 
-            return setTextureParameters();
+            setTextureParameters();
         }
 
-        bool TextureResourceOGL::setSize(const Size2& newSize)
+        void TextureResourceOGL::setSize(const Size2& newSize)
         {
-            if (!TextureResource::setSize(newSize))
-            {
-                return false;
-            }
+            TextureResource::setSize(newSize);
 
             if (!textureId)
-            {
-                Log(Log::Level::ERR) << "Texture not initialized";
-                return false;
-            }
+                throw DataError("Texture not initialized");
 
-            renderDeviceOGL->bindTexture(textureId, 0);
+            renderDeviceOGL.bindTexture(textureId, 0);
 
             if (static_cast<GLsizei>(size.width) != width ||
                 static_cast<GLsizei>(size.height) != height)
@@ -484,7 +450,8 @@ namespace ouzel
 
                 if (flags & Texture::RENDER_TARGET)
                 {
-                    glTexImage2D(GL_TEXTURE_2D, 0, oglInternalPixelFormat,
+                    // TODO: fix this by resizing all the render buffers and textures
+                    glTexImage2D(GL_TEXTURE_2D, 0, static_cast<GLint>(oglInternalPixelFormat),
                                  width, height, 0,
                                  oglPixelFormat, oglPixelType, nullptr);
 
@@ -492,7 +459,7 @@ namespace ouzel
                     {
                         glBindRenderbufferProc(GL_RENDERBUFFER, depthBufferId);
 
-                        if (sampleCount > 1 && renderDeviceOGL->isMultisamplingSupported())
+                        if (sampleCount > 1 && renderDeviceOGL.isMultisamplingSupported())
                         {
                             glRenderbufferStorageMultisampleProc(GL_RENDERBUFFER,
                                                                  static_cast<GLsizei>(sampleCount),
@@ -506,61 +473,50 @@ namespace ouzel
                         }
                     }
 
-                    if (RenderDeviceOGL::checkOpenGLError())
-                    {
-                        Log(Log::Level::ERR) << "Failed to create render buffer";
-                        return false;
-                    }
+                    GLenum error;
+
+                    if ((error = glGetError()) != GL_NO_ERROR)
+                        throw DataError("Failed to create render buffer, error: " + std::to_string(error));
                 }
                 else
                 {
                     if (!levels.empty())
                     {
-                        if (renderDeviceOGL->isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-                        if (renderDeviceOGL->isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
+                        if (renderDeviceOGL.isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+                        if (renderDeviceOGL.isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
 
-                        if (RenderDeviceOGL::checkOpenGLError())
-                        {
-                            Log(Log::Level::ERR) << "Failed to set texture base and max levels";
-                            return false;
-                        }
+                        GLenum error;
+
+                        if ((error = glGetError()) != GL_NO_ERROR)
+                            throw DataError("Failed to set texture base and max levels, error: " + std::to_string(error));
                     }
 
                     for (size_t level = 0; level < levels.size(); ++level)
                     {
                         // resize all the mip levels
-                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
+                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
                                      static_cast<GLsizei>(levels[level].size.width),
                                      static_cast<GLsizei>(levels[level].size.height), 0,
                                      oglPixelFormat, oglPixelType,
                                      nullptr);
                     }
 
-                    if (RenderDeviceOGL::checkOpenGLError())
-                    {
-                        Log(Log::Level::ERR) << "Failed to set texture size";
-                        return false;
-                    }
+                    GLenum error;
+
+                    if ((error = glGetError()) != GL_NO_ERROR)
+                        throw DataError("Failed to set texture size, error: " + std::to_string(error));
                 }
             }
-
-            return true;
         }
 
-        bool TextureResourceOGL::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
+        void TextureResourceOGL::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
         {
-            if (!TextureResource::setData(newData, newSize))
-            {
-                return false;
-            }
+            TextureResource::setData(newData, newSize);
 
             if (!textureId)
-            {
-                Log(Log::Level::ERR) << "Texture not initialized";
-                return false;
-            }
+                throw DataError("Texture not initialized");
 
-            renderDeviceOGL->bindTexture(textureId, 0);
+            renderDeviceOGL.bindTexture(textureId, 0);
 
             if (!(flags & Texture::RENDER_TARGET))
             {
@@ -572,14 +528,13 @@ namespace ouzel
 
                     if (!levels.empty())
                     {
-                        if (renderDeviceOGL->isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-                        if (renderDeviceOGL->isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
+                        if (renderDeviceOGL.isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+                        if (renderDeviceOGL.isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
 
-                        if (RenderDeviceOGL::checkOpenGLError())
-                        {
-                            Log(Log::Level::ERR) << "Failed to set texture base and max levels";
-                            return false;
-                        }
+                        GLenum error;
+
+                        if ((error = glGetError()) != GL_NO_ERROR)
+                            throw DataError("Failed to set texture base and max levels, error: " + std::to_string(error));
                     }
 
                     for (size_t level = 0; level < levels.size(); ++level)
@@ -587,7 +542,7 @@ namespace ouzel
                         if (!levels[level].data.empty())
                         {
                             // resize and fill all the mip levels with data
-                            glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
+                            glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
                                          static_cast<GLsizei>(levels[level].size.width),
                                          static_cast<GLsizei>(levels[level].size.height), 0,
                                          oglPixelFormat, oglPixelType,
@@ -596,7 +551,7 @@ namespace ouzel
                         else
                         {
                             // resize all the mip levels
-                            glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
+                            glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
                                          static_cast<GLsizei>(levels[level].size.width),
                                          static_cast<GLsizei>(levels[level].size.height), 0,
                                          oglPixelFormat, oglPixelType,
@@ -619,32 +574,23 @@ namespace ouzel
                     }
                 }
 
-                if (RenderDeviceOGL::checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to upload texture data";
-                    return false;
-                }
-            }
+                GLenum error;
 
-            return true;
+                if ((error = glGetError()) != GL_NO_ERROR)
+                    throw DataError("Failed to upload texture data, error: " + std::to_string(error));
+            }
         }
 
-        bool TextureResourceOGL::setFilter(Texture::Filter newFilter)
+        void TextureResourceOGL::setFilter(Texture::Filter newFilter)
         {
-            if (!TextureResource::setFilter(newFilter))
-            {
-                return false;
-            }
+            TextureResource::setFilter(newFilter);
 
             if (!textureId)
-            {
-                Log(Log::Level::ERR) << "Texture not initialized";
-                return false;
-            }
+                throw DataError("Texture not initialized");
 
-            renderDeviceOGL->bindTexture(textureId, 0);
+            renderDeviceOGL.bindTexture(textureId, 0);
 
-            Texture::Filter finalFilter = (filter == Texture::Filter::DEFAULT) ? renderDeviceOGL->getTextureFilter() : filter;
+            Texture::Filter finalFilter = (filter == Texture::Filter::DEFAULT) ? renderDeviceOGL.getTextureFilter() : filter;
 
             switch (finalFilter)
             {
@@ -666,32 +612,23 @@ namespace ouzel
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                     break;
                 default:
-                    return false;
+                    throw DataError("Invalid texture filter");
             }
 
-            if (RenderDeviceOGL::checkOpenGLError())
-            {
-                Log(Log::Level::ERR) << "Failed to set texture filter";
-                return false;
-            }
+            GLenum error;
 
-            return true;
+            if ((error = glGetError()) != GL_NO_ERROR)
+                throw DataError("Failed to set texture filter, error: " + std::to_string(error));
         }
 
-        bool TextureResourceOGL::setAddressX(Texture::Address newAddressX)
+        void TextureResourceOGL::setAddressX(Texture::Address newAddressX)
         {
-            if (!TextureResource::setAddressX(newAddressX))
-            {
-                return false;
-            }
+            TextureResource::setAddressX(newAddressX);
 
             if (!textureId)
-            {
-                Log(Log::Level::ERR) << "Texture not initialized";
-                return false;
-            }
+                throw DataError("Texture not initialized");
 
-            renderDeviceOGL->bindTexture(textureId, 0);
+            renderDeviceOGL.bindTexture(textureId, 0);
 
             switch (addressX)
             {
@@ -705,32 +642,23 @@ namespace ouzel
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
                     break;
                 default:
-                    return false;
+                    throw DataError("Invalid texture address mode");
             }
 
-            if (RenderDeviceOGL::checkOpenGLError())
-            {
-                Log(Log::Level::ERR) << "Failed to set texture wrap mode";
-                return false;
-            }
+            GLenum error;
 
-            return true;
+            if ((error = glGetError()) != GL_NO_ERROR)
+                throw DataError("Failed to set texture wrap mode, error: " + std::to_string(error));
         }
 
-        bool TextureResourceOGL::setAddressY(Texture::Address newAddressY)
+        void TextureResourceOGL::setAddressY(Texture::Address newAddressY)
         {
-            if (!TextureResource::setAddressY(newAddressY))
-            {
-                return false;
-            }
+            TextureResource::setAddressY(newAddressY);
 
             if (!textureId)
-            {
-                Log(Log::Level::ERR) << "Texture not initialized";
-                return false;
-            }
+                throw DataError("Texture not initialized");
 
-            renderDeviceOGL->bindTexture(textureId, 0);
+            renderDeviceOGL.bindTexture(textureId, 0);
 
             switch (addressY)
             {
@@ -744,219 +672,218 @@ namespace ouzel
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
                     break;
                 default:
-                    return false;
+                    throw DataError("Invalid texture address mode");
             }
 
-            if (RenderDeviceOGL::checkOpenGLError())
-            {
-                Log(Log::Level::ERR) << "Failed to set texture wrap mode";
-                return false;
-            }
+            GLenum error;
 
-            return true;
+            if ((error = glGetError()) != GL_NO_ERROR)
+                throw DataError("Failed to set texture wrap mode, error: " + std::to_string(error));
         }
 
-        bool TextureResourceOGL::setMaxAnisotropy(uint32_t newMaxAnisotropy)
+        void TextureResourceOGL::setMaxAnisotropy(uint32_t newMaxAnisotropy)
         {
-            if (!TextureResource::setMaxAnisotropy(newMaxAnisotropy))
-            {
-                return false;
-            }
+            TextureResource::setMaxAnisotropy(newMaxAnisotropy);
 
             if (!textureId)
-            {
-                Log(Log::Level::ERR) << "Texture not initialized";
-                return false;
-            }
+                throw DataError("Texture not initialized");
 
-            renderDeviceOGL->bindTexture(textureId, 0);
+            renderDeviceOGL.bindTexture(textureId, 0);
 
-            uint32_t finalMaxAnisotropy = (maxAnisotropy == 0) ? renderDeviceOGL->getMaxAnisotropy() : maxAnisotropy;
+            uint32_t finalMaxAnisotropy = (maxAnisotropy == 0) ? renderDeviceOGL.getMaxAnisotropy() : maxAnisotropy;
 
-            if (finalMaxAnisotropy > 1 && renderDeviceOGL->isAnisotropicFilteringSupported())
+            if (finalMaxAnisotropy > 1 && renderDeviceOGL.isAnisotropicFilteringSupported())
             {
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, static_cast<GLint>(finalMaxAnisotropy));
 
-                if (RenderDeviceOGL::checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to set texture max anisotrophy";
-                    return false;
-                }
-            }
+                GLenum error;
 
-            return true;
+                if ((error = glGetError()) != GL_NO_ERROR)
+                    throw DataError("Failed to set texture max anisotrophy, error: " + std::to_string(error));
+            }
         }
 
-        bool TextureResourceOGL::setClearColorBuffer(bool clear)
+        void TextureResourceOGL::setClearColorBuffer(bool clear)
         {
-            if (!TextureResource::setClearColorBuffer(clear))
-            {
-                return false;
-            }
+            TextureResource::setClearColorBuffer(clear);
 
             if (clearColorBuffer)
-            {
                 clearMask |= GL_COLOR_BUFFER_BIT;
-            }
             else
-            {
                 clearMask &= ~static_cast<GLbitfield>(GL_COLOR_BUFFER_BIT);
-            }
-
-            return true;
         }
 
-        bool TextureResourceOGL::setClearDepthBuffer(bool clear)
+        void TextureResourceOGL::setClearDepthBuffer(bool clear)
         {
-            if (!TextureResource::setClearDepthBuffer(clear))
-            {
-                return false;
-            }
+            TextureResource::setClearDepthBuffer(clear);
 
             if (clearDepthBuffer)
-            {
                 clearMask |= GL_DEPTH_BUFFER_BIT;
-            }
             else
-            {
                 clearMask &= ~static_cast<GLbitfield>(GL_DEPTH_BUFFER_BIT);
-            }
-
-            return true;
         }
 
-        bool TextureResourceOGL::setClearColor(Color color)
+        void TextureResourceOGL::setClearColor(Color color)
         {
-            if (!TextureResource::setClearColor(color))
-            {
-                return false;
-            }
+            TextureResource::setClearColor(color);
 
             frameBufferClearColor[0] = clearColor.normR();
             frameBufferClearColor[1] = clearColor.normG();
             frameBufferClearColor[2] = clearColor.normB();
             frameBufferClearColor[3] = clearColor.normA();
-
-            return true;
         }
 
-        bool TextureResourceOGL::createTexture()
+        void TextureResourceOGL::createTexture()
         {
             if (depthBufferId)
             {
-                renderDeviceOGL->deleteRenderBuffer(depthBufferId);
+                renderDeviceOGL.deleteRenderBuffer(depthBufferId);
                 depthBufferId = 0;
+            }
+
+            if (colorBufferId)
+            {
+                renderDeviceOGL.deleteRenderBuffer(colorBufferId);
+                colorBufferId = 0;
             }
 
             if (frameBufferId)
             {
-                renderDeviceOGL->deleteFrameBuffer(frameBufferId);
+                renderDeviceOGL.deleteFrameBuffer(frameBufferId);
                 frameBufferId = 0;
             }
 
             if (textureId)
             {
-                renderDeviceOGL->deleteTexture(textureId);
+                renderDeviceOGL.deleteTexture(textureId);
                 textureId = 0;
+            }
+
+            if (depthTextureId)
+            {
+                renderDeviceOGL.deleteTexture(depthTextureId);
+                depthTextureId = 0;
             }
 
             glGenTextures(1, &textureId);
 
-            if (RenderDeviceOGL::checkOpenGLError())
-            {
-                Log(Log::Level::ERR) << "Failed to create texture";
-                return false;
-            }
+            GLenum error;
 
-            renderDeviceOGL->bindTexture(textureId, 0);
+            if ((error = glGetError()) != GL_NO_ERROR)
+                throw DataError("Failed to create texture, error: " + std::to_string(error));
+
+            renderDeviceOGL.bindTexture(textureId, 0);
 
             width = static_cast<GLsizei>(size.width);
             height = static_cast<GLsizei>(size.height);
 
-            oglInternalPixelFormat = getOGLInternalPixelFormat(pixelFormat, renderDeviceOGL->getAPIMajorVersion());
+            oglInternalPixelFormat = getOGLInternalPixelFormat(pixelFormat, renderDeviceOGL.getAPIMajorVersion());
 
             if (oglInternalPixelFormat == GL_NONE)
-            {
-                Log(Log::Level::ERR) << "Invalid pixel format";
-                return false;
-            }
+                throw DataError("Invalid pixel format");
 
             oglPixelFormat = getOGLPixelFormat(pixelFormat);
 
             if (oglPixelFormat == GL_NONE)
-            {
-                Log(Log::Level::ERR) << "Invalid pixel format";
-                return false;
-            }
+                throw DataError("Invalid pixel format");
 
             oglPixelType = getOGLPixelType(pixelFormat);
 
             if (oglPixelType == GL_NONE)
-            {
-                Log(Log::Level::ERR) << "Invalid pixel format";
-                return false;
-            }
+                throw DataError("Invalid pixel format");
 
-            if ((flags & Texture::RENDER_TARGET) && renderDeviceOGL->isRenderTargetsSupported())
+            if ((flags & Texture::RENDER_TARGET) && renderDeviceOGL.isRenderTargetsSupported())
             {
                 glGenFramebuffersProc(1, &frameBufferId);
 
-                if (RenderDeviceOGL::checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to create frame buffer";
-                    return false;
-                }
+                if ((error = glGetError()) != GL_NO_ERROR)
+                    throw DataError("Failed to create frame buffer, error: " + std::to_string(error));
 
-                renderDeviceOGL->bindFrameBuffer(frameBufferId);
+                renderDeviceOGL.bindFrameBuffer(frameBufferId);
 
                 if (glCheckFramebufferStatusProc(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
                 {
-                    renderDeviceOGL->bindTexture(textureId, 0);
-
-                    glTexImage2D(GL_TEXTURE_2D, 0, oglInternalPixelFormat,
-                                 width, height, 0,
-                                 oglPixelFormat, oglPixelType, nullptr);
-
-                    // TODO: blit multisample render buffer to texture
-                    glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0);
-
-                    if (flags & Texture::DEPTH_BUFFER)
+                    if (flags & Texture::BINDABLE_COLOR_BUFFER)
                     {
-                        glGenRenderbuffersProc(1, &depthBufferId);
-                        glBindRenderbufferProc(GL_RENDERBUFFER, depthBufferId);
+                        renderDeviceOGL.bindTexture(textureId, 0);
 
-                        if (sampleCount > 1 && renderDeviceOGL->isMultisamplingSupported())
+                        glTexImage2D(GL_TEXTURE_2D, 0, static_cast<GLint>(oglInternalPixelFormat),
+                                     width, height, 0,
+                                     oglPixelFormat, oglPixelType, nullptr);
+
+                        // TODO: blit multisample render buffer to texture
+                        glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0);
+                    }
+                    else
+                    {
+                        glGenRenderbuffersProc(1, &colorBufferId);
+                        glBindRenderbufferProc(GL_RENDERBUFFER, colorBufferId);
+
+                        if (sampleCount > 1 && renderDeviceOGL.isMultisamplingSupported())
                         {
                             glRenderbufferStorageMultisampleProc(GL_RENDERBUFFER,
                                                                  static_cast<GLsizei>(sampleCount),
-                                                                 GL_DEPTH_COMPONENT,
+                                                                 oglInternalPixelFormat,
                                                                  width, height);
                         }
                         else
                         {
-                            glRenderbufferStorageProc(GL_RENDERBUFFER, GL_DEPTH_COMPONENT,
+                            glRenderbufferStorageProc(GL_RENDERBUFFER, oglInternalPixelFormat,
                                                       width, height);
                         }
 
-                        glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBufferId);
+                        glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, depthBufferId);
+                    }
+
+                    if (flags & Texture::DEPTH_BUFFER)
+                    {
+                        if (flags & Texture::BINDABLE_DEPTH_BUFFER)
+                        {
+                            glGenTextures(1, &depthTextureId);
+
+                            renderDeviceOGL.bindTexture(depthTextureId, 0);
+
+                            glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24,
+                                         width, height, 0,GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
+
+                            glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthTextureId, 0);
+                        }
+                        else
+                        {
+                            glGenRenderbuffersProc(1, &depthBufferId);
+                            glBindRenderbufferProc(GL_RENDERBUFFER, depthBufferId);
+
+                            if (sampleCount > 1 && renderDeviceOGL.isMultisamplingSupported())
+                            {
+                                glRenderbufferStorageMultisampleProc(GL_RENDERBUFFER,
+                                                                     static_cast<GLsizei>(sampleCount),
+                                                                     GL_DEPTH_COMPONENT,
+                                                                     width, height);
+                            }
+                            else
+                            {
+                                glRenderbufferStorageProc(GL_RENDERBUFFER, GL_DEPTH_COMPONENT,
+                                                          width, height);
+                            }
+
+                            glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBufferId);
+                        }
                     }
 
                     if (glCheckFramebufferStatusProc(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-                    {
-                        Log(Log::Level::ERR) << "Failed to create frame buffer";
-                        return false;
-                    }
+                        throw DataError("Failed to create frame buffer");
+
+                    if ((error = glGetError()) != GL_NO_ERROR)
+                        throw DataError("Failed to create frame buffer, error: " + std::to_string(error));
                 }
             }
-
-            return true;
         }
 
-        bool TextureResourceOGL::setTextureParameters()
+        void TextureResourceOGL::setTextureParameters()
         {
-            renderDeviceOGL->bindTexture(textureId, 0);
+            renderDeviceOGL.bindTexture(textureId, 0);
 
-            Texture::Filter finalFilter = (filter == Texture::Filter::DEFAULT) ? renderDeviceOGL->getTextureFilter() : filter;
+            Texture::Filter finalFilter = (filter == Texture::Filter::DEFAULT) ? renderDeviceOGL.getTextureFilter() : filter;
 
             switch (finalFilter)
             {
@@ -978,14 +905,13 @@ namespace ouzel
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                     break;
                 default:
-                    return false;
+                    throw DataError("Invalid texture filter");
             }
 
-            if (RenderDeviceOGL::checkOpenGLError())
-            {
-                Log(Log::Level::ERR) << "Failed to set texture filter";
-                return false;
-            }
+            GLenum error;
+
+            if ((error = glGetError()) != GL_NO_ERROR)
+                throw DataError("Failed to set texture filter, error: " + std::to_string(error));
 
             switch (addressX)
             {
@@ -999,14 +925,11 @@ namespace ouzel
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
                     break;
                 default:
-                    return false;
+                    throw DataError("Invalid texture address mode");
             }
 
-            if (RenderDeviceOGL::checkOpenGLError())
-            {
-                Log(Log::Level::ERR) << "Failed to set texture wrap mode";
-                return false;
-            }
+            if ((error = glGetError()) != GL_NO_ERROR)
+                throw DataError("Failed to set texture wrap mode, error: " + std::to_string(error));
 
             switch (addressY)
             {
@@ -1020,29 +943,21 @@ namespace ouzel
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
                     break;
                 default:
-                    return false;
+                    throw DataError("Invalid texture address mode");
             }
 
-            if (RenderDeviceOGL::checkOpenGLError())
-            {
-                Log(Log::Level::ERR) << "Failed to set texture wrap mode";
-                return false;
-            }
+            if ((error = glGetError()) != GL_NO_ERROR)
+                throw DataError("Failed to set texture wrap mode, error: " + std::to_string(error));
 
-            uint32_t finalMaxAnisotropy = (maxAnisotropy == 0) ? renderDeviceOGL->getMaxAnisotropy() : maxAnisotropy;
+            uint32_t finalMaxAnisotropy = (maxAnisotropy == 0) ? renderDeviceOGL.getMaxAnisotropy() : maxAnisotropy;
 
-            if (finalMaxAnisotropy > 1 && renderDeviceOGL->isAnisotropicFilteringSupported())
+            if (finalMaxAnisotropy > 1 && renderDeviceOGL.isAnisotropicFilteringSupported())
             {
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, static_cast<GLint>(finalMaxAnisotropy));
 
-                if (RenderDeviceOGL::checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to set texture max anisotrophy";
-                    return false;
-                }
+                if ((error = glGetError()) != GL_NO_ERROR)
+                    throw DataError("Failed to set texture max anisotrophy, error: " + std::to_string(error));
             }
-
-            return true;
         }
     } // namespace graphics
 } // namespace ouzel

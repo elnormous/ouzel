@@ -1,10 +1,10 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #ifdef __APPLE__
 #include <sys/time.h>
 #endif
 #include "Condition.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -13,50 +13,55 @@ namespace ouzel
 #if defined(_WIN32)
         InitializeConditionVariable(&conditionVariable);
 #else
-        pthread_cond_init(&condition, NULL);
+        if (pthread_cond_init(&condition, NULL) != 0)
+            throw ThreadError("Failed to initialize condition");
+
+        initialized = true;
 #endif
     }
 
     Condition::~Condition()
     {
 #if !defined(_WIN32)
-        pthread_cond_destroy(&condition);
+        if (initialized) pthread_cond_destroy(&condition);
 #endif
     }
 
-    bool Condition::signal()
+    void Condition::signal()
     {
 #if defined(_WIN32)
         WakeConditionVariable(&conditionVariable);
-        return true;
 #else
-        return pthread_cond_signal(&condition) == 0;
+        if (pthread_cond_signal(&condition) != 0)
+            throw ThreadError("Failed to signal condition variable");
 #endif
     }
 
-    bool Condition::broadcast()
+    void Condition::broadcast()
     {
 #if defined(_WIN32)
         WakeAllConditionVariable(&conditionVariable);
-        return true;
 #else
-        return pthread_cond_broadcast(&condition) == 0;
+        if (pthread_cond_broadcast(&condition) != 0)
+            throw ThreadError("Failed to broadcast condition variable");
 #endif
     }
 
-    bool Condition::wait(Mutex& mutex)
+    bool Condition::wait(Lock& lock)
     {
+        if (!lock.mutex) return false;
 #if defined(_WIN32)
-        return SleepConditionVariableCS(&conditionVariable, &mutex.criticalSection, INFINITE) != 0;
+        return SleepConditionVariableCS(&conditionVariable, &lock.mutex->criticalSection, INFINITE) != 0;
 #else
-        return pthread_cond_wait(&condition, &mutex.mutex) == 0;
+        return pthread_cond_wait(&condition, &lock.mutex->mutex) == 0;
 #endif
     }
 
-    bool Condition::wait(Mutex& mutex, std::chrono::steady_clock::duration duration)
+    bool Condition::wait(Lock& lock, std::chrono::steady_clock::duration duration)
     {
+        if (!lock.mutex) return false;
 #if defined(_WIN32)
-        return SleepConditionVariableCS(&conditionVariable, &mutex.criticalSection,
+        return SleepConditionVariableCS(&conditionVariable, &lock.mutex->criticalSection,
                                         static_cast<DWORD>(std::chrono::duration_cast<std::chrono::milliseconds>(duration).count())) != 0;
 #else
         static const long NANOSEC_PER_SEC = 1000000000L;
@@ -75,7 +80,7 @@ namespace ouzel
         ts.tv_sec += static_cast<int32_t>(ts.tv_nsec / NANOSEC_PER_SEC);
         ts.tv_nsec %= NANOSEC_PER_SEC;
 
-        return pthread_cond_timedwait(&condition, &mutex.mutex, &ts) == 0;
+        return pthread_cond_timedwait(&condition, &lock.mutex->mutex, &ts) == 0;
 #endif
     }
 }

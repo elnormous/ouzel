@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -13,14 +12,14 @@ namespace ouzel
 {
     namespace input
     {
-        class InputWin;
+        class InputManagerWin;
 
         class GamepadDI: public Gamepad
         {
-            friend InputWin;
+            friend InputManagerWin;
         public:
             virtual ~GamepadDI();
-            bool update();
+            void update();
 
             const DIDEVICEINSTANCEW* getInstance() const { return instance; }
 
@@ -28,8 +27,8 @@ namespace ouzel
 
         protected:
             GamepadDI(const DIDEVICEINSTANCEW* aInstance, IDirectInput8W* directInput, HWND window);
-            bool checkInputBuffered();
-            bool checkInputPolled();
+            void checkInputBuffered();
+            void checkInputPolled();
             void checkThumbAxisChange(LONG oldValue, LONG newValue,
                                       int64_t min, int64_t max,
                                       GamepadButton negativeButton, GamepadButton positiveButton);
@@ -38,7 +37,6 @@ namespace ouzel
                                     GamepadButton button);
 
             const DIDEVICEINSTANCEW* instance = nullptr;
-            bool isXInputDevice = false;
             IDirectInputDevice8W* device = nullptr;
             DIJOYSTATE2 diState;
             GamepadButton buttonMap[24];

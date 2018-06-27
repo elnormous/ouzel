@@ -1,12 +1,11 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <algorithm>
 #include <map>
 #include <emscripten.h>
 #include <emscripten/html5.h>
 #include "GamepadEm.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 static const float THUMB_DEADZONE = 0.2F;
 
@@ -47,10 +46,7 @@ namespace ouzel
             EmscriptenGamepadEvent event;
 
             if (emscripten_get_gamepad_status(index, &event) != EMSCRIPTEN_RESULT_SUCCESS)
-            {
-                Log(Log::Level::ERR) << "Failed to get gamepad status";
-                return;
-            }
+                throw SystemError("Failed to get gamepad status");
 
             for (int i = 0; i < event.numAxes && i <= 3; ++i)
             {
@@ -93,13 +89,9 @@ namespace ouzel
             else // thumbstick is 0
             {
                 if (oldValue > newValue)
-                {
                     handleButtonValueChange(positiveButton, false, 0.0F);
-                }
                 else
-                {
                     handleButtonValueChange(negativeButton, false, 0.0F);
-                }
             }
         }
     } // namespace input

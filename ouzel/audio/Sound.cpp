@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "Sound.hpp"
 #include "Audio.hpp"
@@ -23,7 +22,7 @@ namespace ouzel
             if (stream) stream->setEventListener(nullptr);
         }
 
-        bool Sound::init(const std::shared_ptr<SoundData>& newSoundData)
+        void Sound::init(const std::shared_ptr<SoundData>& newSoundData)
         {
             soundData = newSoundData;
             if (soundData)
@@ -31,8 +30,6 @@ namespace ouzel
                 stream = soundData->createStream();
                 stream->setEventListener(this);
             }
-
-            return true;
         }
 
         void Sound::updateTransform()
@@ -70,7 +67,7 @@ namespace ouzel
             spatialized = newSpatialized;
         }
 
-        bool Sound::play(bool repeatSound)
+        void Sound::play(bool repeatSound)
         {
             if (actor) position = actor->getWorldPosition();
 
@@ -86,19 +83,15 @@ namespace ouzel
                 stream->setRepeating(repeatSound);
                 stream->setPlaying(true);
             }
-
-            return true;
         }
 
-        bool Sound::pause()
+        void Sound::pause()
         {
             playing = false;
             if (stream) stream->setPlaying(false);
-
-            return true;
         }
 
-        bool Sound::stop()
+        void Sound::stop()
         {
             playing = false;
             if (stream)
@@ -106,8 +99,6 @@ namespace ouzel
                 stream->setPlaying(false);
                 stream->setShouldReset(true);
             }
-
-            return true;
         }
 
         void Sound::addRenderCommands(std::vector<AudioDevice::RenderCommand>& renderCommands)
@@ -189,7 +180,7 @@ namespace ouzel
             rolloffFactor *= rolloffScale;
         }
 
-        bool Sound::render(uint32_t frames,
+        void Sound::render(uint32_t frames,
                            uint16_t channels,
                            uint32_t sampleRate,
                            const Vector3& listenerPosition,
@@ -208,9 +199,7 @@ namespace ouzel
             if (soundData && stream)
             {
                 if (!stream->isPlaying())
-                {
                     result.clear();
-                }
                 else
                 {
                     if (stream->getShouldReset())
@@ -230,9 +219,7 @@ namespace ouzel
                         float attenuation = minDistance / (minDistance + rolloffFactor * (distance - minDistance)); // inverse distance
 
                         for (float& volume : channelVolume)
-                        {
                             volume *= attenuation;
-                        }
 
                         if (channelVolume.size() > 1)
                         {
@@ -251,16 +238,10 @@ namespace ouzel
                     }
 
                     for (uint32_t frame = 0; frame < result.size() / channels; ++frame)
-                    {
                         for (uint32_t channel = 0; channel < channels; ++channel)
-                        {
                             result[frame * channels + channel] *= channelVolume[channel];
-                        }
-                    }
                 }
             }
-
-            return true;
         }
     } // namespace audio
 } // namespace ouzel

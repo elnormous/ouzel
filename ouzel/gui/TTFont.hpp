@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -14,10 +13,10 @@ namespace ouzel
         TTFont();
         TTFont(const std::string& filename, bool initMipmaps = true);
 
-        bool init(const std::string& filename, bool newMipmaps = true);
-        bool init(const std::vector<uint8_t>& newData, bool newMipmaps = true);
+        void init(const std::string& filename, bool newMipmaps = true);
+        void init(const std::vector<uint8_t>& newData, bool newMipmaps = true);
 
-        virtual bool getVertices(const std::string& text,
+        virtual void getVertices(const std::string& text,
                                  const Color& color,
                                  float fontSize,
                                  const Vector2& anchor,

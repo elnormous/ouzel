@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <cctype>
 #include <algorithm>
@@ -21,11 +20,12 @@ namespace ouzel
 {
     namespace assets
     {
-        Cache::Cache(FileSystem* initFileSystem):
+        Cache::Cache(FileSystem& initFileSystem):
             fileSystem(initFileSystem)
         {
             addLoader(&loaderBMF);
             addLoader(&loaderCollada);
+            addLoader(&loaderGLTF);
             addLoader(&loaderImage);
             addLoader(&loaderMTL);
             addLoader(&loaderOBJ);
@@ -39,9 +39,7 @@ namespace ouzel
         Cache::~Cache()
         {
             for (Loader* loader : loaders)
-            {
                 loader->cache = nullptr;
-            }
         }
 
         void Cache::clear()
@@ -53,7 +51,7 @@ namespace ouzel
             releaseSpriteData();
             releaseFonts();
             releaseMaterials();
-            releaseModelData();
+            releaseMeshData();
         }
 
         void Cache::addLoader(Loader* loader)
@@ -79,13 +77,9 @@ namespace ouzel
 
         bool Cache::loadAsset(uint32_t loaderType, const std::string& filename, bool mipmaps) const
         {
-            std::vector<uint8_t> data;
-            if (!fileSystem->readFile(filename, data))
-            {
-                return false;
-            }
+            std::vector<uint8_t> data = fileSystem.readFile(filename);
 
-            std::string extension = fileSystem->getExtensionPart(filename);
+            std::string extension = fileSystem.getExtensionPart(filename);
             std::transform(extension.begin(), extension.end(), extension.begin(), [](unsigned char c){ return std::tolower(c); });
 
             for (auto i = loaders.rbegin(); i != loaders.rend(); ++i)
@@ -104,13 +98,9 @@ namespace ouzel
 
         bool Cache::loadAsset(const std::string& filename, bool mipmaps) const
         {
-            std::vector<uint8_t> data;
-            if (!fileSystem->readFile(filename, data))
-            {
-                return false;
-            }
+            std::vector<uint8_t> data = fileSystem.readFile(filename);
 
-            std::string extension = fileSystem->getExtensionPart(filename);
+            std::string extension = fileSystem.getExtensionPart(filename);
             std::transform(extension.begin(), extension.end(), extension.begin(), [](unsigned char c){ return std::tolower(c); });
 
             for (auto i = loaders.rbegin(); i != loaders.rend(); ++i)
@@ -129,9 +119,7 @@ namespace ouzel
         bool Cache::loadAssets(const std::vector<std::string>& filenames, bool mipmaps) const
         {
             for (const std::string& filename : filenames)
-            {
                 loadAsset(filename, mipmaps);
-            }
 
             return true;
         }
@@ -167,13 +155,9 @@ namespace ouzel
             {
                 // don't delete white pixel texture
                 if (i->first == graphics::TEXTURE_WHITE_PIXEL)
-                {
                     ++i;
-                }
                 else
-                {
                     i = textures.erase(i);
-                }
             }
         }
 
@@ -182,13 +166,10 @@ namespace ouzel
             auto i = shaders.find(shaderName);
 
             if (i != shaders.end())
-            {
                 return i->second;
-            }
             else
             {
                 i = shaders.insert(std::make_pair(shaderName, nullptr)).first;
-
                 return i->second;
             }
         }
@@ -205,13 +186,9 @@ namespace ouzel
                 // don't delete default shaders
                 if (i->first == graphics::SHADER_COLOR ||
                     i->first == graphics::SHADER_TEXTURE)
-                {
                     ++i;
-                }
                 else
-                {
                     i = shaders.erase(i);
-                }
             }
         }
 
@@ -220,13 +197,10 @@ namespace ouzel
             auto i = blendStates.find(blendStateName);
 
             if (i != blendStates.end())
-            {
                 return i->second;
-            }
             else
             {
                 i = blendStates.insert(std::make_pair(blendStateName, nullptr)).first;
-
                 return i->second;
             }
         }
@@ -245,13 +219,9 @@ namespace ouzel
                     i->first == graphics::BLEND_ADD ||
                     i->first == graphics::BLEND_MULTIPLY ||
                     i->first == graphics::BLEND_ALPHA)
-                {
                     ++i;
-                }
                 else
-                {
                     i = blendStates.erase(i);
-                }
             }
         }
 
@@ -260,7 +230,7 @@ namespace ouzel
                                             const Vector2& pivot)
         {
             if (std::find(loaderImage.extensions.begin(), loaderImage.extensions.end(),
-                          fileSystem->getExtensionPart(filename)) != loaderImage.extensions.end())
+                          fileSystem.getExtensionPart(filename)) != loaderImage.extensions.end())
             {
                 scene::SpriteData newSpriteData;
 
@@ -270,9 +240,7 @@ namespace ouzel
                 newSpriteData.texture = getTexture(filename, mipmaps);
 
                 if (newSpriteData.texture)
-                {
                     return false;
-                }
 
                 Size2 spriteSize = Size2(newSpriteData.texture->getSize().width / spritesX,
                                          newSpriteData.texture->getSize().height / spritesY);
@@ -299,9 +267,7 @@ namespace ouzel
                 spriteData[filename] = newSpriteData;
             }
             else
-            {
                 return loadAsset(Loader::SPRITE, filename, mipmaps);
-            }
 
             return true;
         }
@@ -313,13 +279,11 @@ namespace ouzel
             auto i = spriteData.find(filename);
 
             if (i != spriteData.end())
-            {
                 return i->second;
-            }
             else
             {
                 if (std::find(loaderImage.extensions.begin(), loaderImage.extensions.end(),
-                              fileSystem->getExtensionPart(filename)) != loaderImage.extensions.end())
+                              fileSystem.getExtensionPart(filename)) != loaderImage.extensions.end())
                 {
                     scene::SpriteData newSpriteData;
 
@@ -502,32 +466,32 @@ namespace ouzel
             materials.clear();
         }
 
-        const scene::ModelData& Cache::getModelData(const std::string& filename, bool mipmaps) const
+        const scene::MeshData& Cache::getMeshData(const std::string& filename, bool mipmaps) const
         {
-            auto i = modelData.find(filename);
+            auto i = meshData.find(filename);
 
-            if (i == modelData.end())
+            if (i == meshData.end())
             {
-                loadAsset(Loader::MODEL, filename, mipmaps);
+                loadAsset(Loader::MESH, filename, mipmaps);
 
-                i = modelData.find(filename);
+                i = meshData.find(filename);
 
-                if (i == modelData.end())
+                if (i == meshData.end())
                 {
-                    scene::ModelData newModelData;
-                    i = modelData.insert(std::make_pair(filename, newModelData)).first;
+                    scene::MeshData newMeshData;
+                    i = meshData.insert(std::make_pair(filename, newMeshData)).first;
                 }
             }
 
             return i->second;
         }
 
-        void Cache::setModelData(const std::string& filename, const scene::ModelData& newModelData)
+        void Cache::setMeshData(const std::string& filename, const scene::MeshData& newMeshData)
         {
-            modelData[filename] = newModelData;
+            meshData[filename] = newMeshData;
         }
 
-        void Cache::releaseModelData()
+        void Cache::releaseMeshData()
         {
             particleSystemData.clear();
         }

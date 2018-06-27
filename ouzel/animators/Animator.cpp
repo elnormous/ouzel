@@ -1,6 +1,6 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <cassert>
 #include <algorithm>
 #include "Animator.hpp"
 #include "core/Engine.hpp"
@@ -21,9 +21,7 @@ namespace ouzel
             if (parent) parent->removeAnimator(this);
 
             for (const auto& animator : animators)
-            {
                 animator->parent = nullptr;
-            }
         }
 
         void Animator::update(float delta)
@@ -56,9 +54,7 @@ namespace ouzel
                 updateProgress();
             }
             else
-            {
                 updateCallback.remove();
-            }
         }
 
         void Animator::start()
@@ -81,14 +77,10 @@ namespace ouzel
             targetActor = actor;
 
             if (!targetActor && parent)
-            {
                 targetActor = parent->getTargetActor();
-            }
 
             for (const auto& animator : animators)
-            {
                 animator->play();
-            }
         }
 
         void Animator::resume()
@@ -101,9 +93,7 @@ namespace ouzel
             running = false;
 
             if (resetAnimation)
-            {
                 reset();
-            }
         }
 
         void Animator::reset()
@@ -127,23 +117,22 @@ namespace ouzel
             updateProgress();
         }
 
-        void Animator::addChildAnimator(Animator* animator)
+        void Animator::addAnimator(Animator* animator)
         {
-            if (animator)
-            {
-                if (animator->parent)
-                {
-                    animator->parent->removeAnimator(animator);
-                }
+            assert(animator);
 
-                animator->parent = this;
+            if (animator->parent)
+                animator->parent->removeAnimator(animator);
 
-                animators.push_back(animator);
-            }
+            animator->parent = this;
+
+            animators.push_back(animator);
         }
 
-        bool Animator::removeChildAnimator(Animator* animator)
+        bool Animator::removeAnimator(Animator* animator)
         {
+            assert(animator);
+
             bool result = false;
 
             std::vector<Animator*>::iterator animatorIterator = std::find(animators.begin(), animators.end(), animator);
@@ -160,9 +149,7 @@ namespace ouzel
             });
 
             if (ownedIterator != ownedAnimators.end())
-            {
                 ownedAnimators.erase(ownedIterator);
-            }
 
             return result;
         }

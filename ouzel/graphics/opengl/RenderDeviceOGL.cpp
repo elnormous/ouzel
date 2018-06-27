@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "core/Setup.h"
 
@@ -9,6 +8,7 @@
 #include <dlfcn.h>
 #endif
 
+#include <cassert>
 #include <sstream>
 
 #if OUZEL_SUPPORTS_OPENGLES
@@ -34,11 +34,11 @@
 #endif
 
 #include "RenderDeviceOGL.hpp"
-#include "TextureResourceOGL.hpp"
-#include "ShaderResourceOGL.hpp"
-#include "MeshBufferResourceOGL.hpp"
-#include "BufferResourceOGL.hpp"
 #include "BlendStateResourceOGL.hpp"
+#include "BufferResourceOGL.hpp"
+#include "RenderTargetResourceOGL.hpp"
+#include "ShaderResourceOGL.hpp"
+#include "TextureResourceOGL.hpp"
 #include "core/Engine.hpp"
 #include "core/Window.hpp"
 #include "assets/Cache.hpp"
@@ -159,6 +159,168 @@ namespace ouzel
 {
     namespace graphics
     {
+        static GLenum getVertexFormat(DataType dataType)
+        {
+            switch (dataType)
+            {
+                case DataType::BYTE:
+                case DataType::BYTE_NORM:
+                case DataType::BYTE_VECTOR2:
+                case DataType::BYTE_VECTOR2_NORM:
+                case DataType::BYTE_VECTOR3:
+                case DataType::BYTE_VECTOR3_NORM:
+                case DataType::BYTE_VECTOR4:
+                case DataType::BYTE_VECTOR4_NORM:
+                    return GL_BYTE;
+
+                case DataType::UNSIGNED_BYTE:
+                case DataType::UNSIGNED_BYTE_NORM:
+                case DataType::UNSIGNED_BYTE_VECTOR2:
+                case DataType::UNSIGNED_BYTE_VECTOR2_NORM:
+                case DataType::UNSIGNED_BYTE_VECTOR3:
+                case DataType::UNSIGNED_BYTE_VECTOR3_NORM:
+                case DataType::UNSIGNED_BYTE_VECTOR4:
+                case DataType::UNSIGNED_BYTE_VECTOR4_NORM:
+                    return GL_UNSIGNED_BYTE;
+
+                case DataType::SHORT:
+                case DataType::SHORT_NORM:
+                case DataType::SHORT_VECTOR2:
+                case DataType::SHORT_VECTOR2_NORM:
+                case DataType::SHORT_VECTOR3:
+                case DataType::SHORT_VECTOR3_NORM:
+                case DataType::SHORT_VECTOR4:
+                case DataType::SHORT_VECTOR4_NORM:
+                    return GL_SHORT;
+
+                case DataType::UNSIGNED_SHORT:
+                case DataType::UNSIGNED_SHORT_NORM:
+                case DataType::UNSIGNED_SHORT_VECTOR2:
+                case DataType::UNSIGNED_SHORT_VECTOR2_NORM:
+                case DataType::UNSIGNED_SHORT_VECTOR3:
+                case DataType::UNSIGNED_SHORT_VECTOR3_NORM:
+                case DataType::UNSIGNED_SHORT_VECTOR4:
+                case DataType::UNSIGNED_SHORT_VECTOR4_NORM:
+                    return GL_UNSIGNED_SHORT;
+
+                case DataType::INTEGER:
+                case DataType::INTEGER_VECTOR2:
+                case DataType::INTEGER_VECTOR3:
+                case DataType::INTEGER_VECTOR4:
+                    return GL_INT;
+
+                case DataType::UNSIGNED_INTEGER:
+                case DataType::UNSIGNED_INTEGER_VECTOR2:
+                case DataType::UNSIGNED_INTEGER_VECTOR3:
+                case DataType::UNSIGNED_INTEGER_VECTOR4:
+                    return GL_UNSIGNED_INT;
+
+                case DataType::FLOAT:
+                case DataType::FLOAT_VECTOR2:
+                case DataType::FLOAT_VECTOR3:
+                case DataType::FLOAT_VECTOR4:
+                case DataType::FLOAT_MATRIX3:
+                case DataType::FLOAT_MATRIX4:
+                    return GL_FLOAT;
+
+                default:
+                    return 0;
+            }
+        }
+
+        static GLint getArraySize(DataType dataType)
+        {
+            switch (dataType)
+            {
+                case DataType::BYTE:
+                case DataType::BYTE_NORM:
+                case DataType::UNSIGNED_BYTE:
+                case DataType::UNSIGNED_BYTE_NORM:
+                case DataType::SHORT:
+                case DataType::SHORT_NORM:
+                case DataType::UNSIGNED_SHORT:
+                case DataType::UNSIGNED_SHORT_NORM:
+                case DataType::INTEGER:
+                case DataType::UNSIGNED_INTEGER:
+                case DataType::FLOAT:
+                    return 1;
+
+                case DataType::BYTE_VECTOR2:
+                case DataType::BYTE_VECTOR2_NORM:
+                case DataType::UNSIGNED_BYTE_VECTOR2:
+                case DataType::UNSIGNED_BYTE_VECTOR2_NORM:
+                case DataType::SHORT_VECTOR2:
+                case DataType::SHORT_VECTOR2_NORM:
+                case DataType::UNSIGNED_SHORT_VECTOR2:
+                case DataType::UNSIGNED_SHORT_VECTOR2_NORM:
+                case DataType::INTEGER_VECTOR2:
+                case DataType::UNSIGNED_INTEGER_VECTOR2:
+                case DataType::FLOAT_VECTOR2:
+                    return 2;
+
+                case DataType::BYTE_VECTOR3:
+                case DataType::BYTE_VECTOR3_NORM:
+                case DataType::UNSIGNED_BYTE_VECTOR3:
+                case DataType::UNSIGNED_BYTE_VECTOR3_NORM:
+                case DataType::SHORT_VECTOR3:
+                case DataType::SHORT_VECTOR3_NORM:
+                case DataType::UNSIGNED_SHORT_VECTOR3:
+                case DataType::UNSIGNED_SHORT_VECTOR3_NORM:
+                case DataType::INTEGER_VECTOR3:
+                case DataType::UNSIGNED_INTEGER_VECTOR3:
+                case DataType::FLOAT_VECTOR3:
+                    return 3;
+
+                case DataType::BYTE_VECTOR4:
+                case DataType::BYTE_VECTOR4_NORM:
+                case DataType::UNSIGNED_BYTE_VECTOR4:
+                case DataType::UNSIGNED_BYTE_VECTOR4_NORM:
+                case DataType::SHORT_VECTOR4:
+                case DataType::SHORT_VECTOR4_NORM:
+                case DataType::UNSIGNED_SHORT_VECTOR4:
+                case DataType::UNSIGNED_SHORT_VECTOR4_NORM:
+                case DataType::INTEGER_VECTOR4:
+                case DataType::UNSIGNED_INTEGER_VECTOR4:
+                case DataType::FLOAT_VECTOR4:
+                    return 4;
+
+                case DataType::FLOAT_MATRIX3:
+                    return 3 * 3;
+
+                case DataType::FLOAT_MATRIX4:
+                    return 4 * 4;
+
+                default:
+                    return 0;
+            }
+        }
+
+        static GLboolean isNormalized(DataType dataType)
+        {
+            switch (dataType)
+            {
+                case DataType::BYTE_NORM:
+                case DataType::BYTE_VECTOR2_NORM:
+                case DataType::BYTE_VECTOR3_NORM:
+                case DataType::BYTE_VECTOR4_NORM:
+                case DataType::UNSIGNED_BYTE_NORM:
+                case DataType::UNSIGNED_BYTE_VECTOR2_NORM:
+                case DataType::UNSIGNED_BYTE_VECTOR3_NORM:
+                case DataType::UNSIGNED_BYTE_VECTOR4_NORM:
+                case DataType::SHORT_NORM:
+                case DataType::SHORT_VECTOR2_NORM:
+                case DataType::SHORT_VECTOR3_NORM:
+                case DataType::SHORT_VECTOR4_NORM:
+                case DataType::UNSIGNED_SHORT_NORM:
+                case DataType::UNSIGNED_SHORT_VECTOR2_NORM:
+                case DataType::UNSIGNED_SHORT_VECTOR3_NORM:
+                case DataType::UNSIGNED_SHORT_VECTOR4_NORM:
+                    return GL_TRUE;
+                default:
+                    return GL_FALSE;
+            }
+        }
+
         RenderDeviceOGL::RenderDeviceOGL():
             RenderDevice(Renderer::Driver::OPENGL)
         {
@@ -175,11 +337,13 @@ namespace ouzel
 
         RenderDeviceOGL::~RenderDeviceOGL()
         {
+            if (vertexArrayId && glDeleteVertexArraysProc) glDeleteVertexArraysProc(1, &vertexArrayId);
+
             resourceDeleteSet.clear();
             resources.clear();
         }
 
-        bool RenderDeviceOGL::init(Window* newWindow,
+        void RenderDeviceOGL::init(Window* newWindow,
                                    const Size2& newSize,
                                    uint32_t newSampleCount,
                                    Texture::Filter newTextureFilter,
@@ -188,31 +352,26 @@ namespace ouzel
                                    bool newDepth,
                                    bool newDebugRenderer)
         {
-            if (!RenderDevice::init(newWindow,
-                                    newSize,
-                                    newSampleCount,
-                                    newTextureFilter,
-                                    newMaxAnisotropy,
-                                    newVerticalSync,
-                                    newDepth,
-                                    newDebugRenderer))
-            {
-                return false;
-            }
+            RenderDevice::init(newWindow,
+                               newSize,
+                               newSampleCount,
+                               newTextureFilter,
+                               newMaxAnisotropy,
+                               newVerticalSync,
+                               newDepth,
+                               newDebugRenderer);
 
             frameBufferWidth = static_cast<GLsizei>(size.width);
             frameBufferHeight = static_cast<GLsizei>(size.height);
 
             const GLubyte* deviceName = glGetString(GL_RENDERER);
 
-            if (checkOpenGLError() || !deviceName)
-            {
+            GLenum error;
+
+            if ((error = glGetError()) != GL_NO_ERROR || !deviceName)
                 Log(Log::Level::WARN) << "Failed to get OpenGL renderer";
-            }
             else
-            {
                 Log(Log::Level::INFO) << "Using " << reinterpret_cast<const char*>(deviceName) << " for rendering";
-            }
 
             glBlendFuncSeparateProc = reinterpret_cast<PFNGLBLENDFUNCSEPARATEPROC >(getProcAddress("glBlendFuncSeparate"));
             glBlendEquationSeparateProc = reinterpret_cast<PFNGLBLENDEQUATIONSEPARATEPROC>(getProcAddress("glBlendEquationSeparate"));
@@ -342,10 +501,8 @@ namespace ouzel
                 GLint extensionCount;
                 glGetIntegerv(GL_NUM_EXTENSIONS, &extensionCount);
 
-                if (checkOpenGLError())
-                {
-                    Log(Log::Level::WARN) << "Failed to get OpenGL extension count";
-                }
+                if ((error = glGetError()) != GL_NO_ERROR)
+                    Log(Log::Level::WARN) << "Failed to get OpenGL extension count, error: " + std::to_string(error);
                 else
                 {
                     for (GLuint i = 0; i < static_cast<GLuint>(extensionCount); ++i)
@@ -360,18 +517,14 @@ namespace ouzel
             {
                 const GLubyte* extensionPtr = glGetString(GL_EXTENSIONS);
 
-                if (checkOpenGLError() || !extensionPtr)
-                {
+                if ((error = glGetError()) != GL_NO_ERROR || !extensionPtr)
                     Log(Log::Level::WARN) << "Failed to get OpenGL extensions";
-                }
                 else
                 {
                     std::istringstream extensionStringStream(reinterpret_cast<const char*>(extensionPtr));
 
                     for (std::string extension; extensionStringStream >> extension;)
-                    {
                         extensions.push_back(extension);
-                    }
                 }
             }
 
@@ -394,9 +547,7 @@ namespace ouzel
                 for (const std::string& extension : extensions)
                 {
                     if (extension == "GL_EXT_texture_filter_anisotropic")
-                    {
                         anisotropicFilteringSupported = true;
-                    }
                 }
 
 #if OUZEL_OPENGL_INTERFACE_EAGL
@@ -537,10 +688,7 @@ namespace ouzel
 #endif // OUZEL_OPENGL_INTERFACE_EGL
                 }
 
-                if (!multisamplingSupported)
-                {
-                    sampleCount = 1;
-                }
+                if (!multisamplingSupported) sampleCount = 1;
             }
 
             std::shared_ptr<Shader> textureShader = std::make_shared<Shader>();
@@ -586,8 +734,7 @@ namespace ouzel
                     break;
 #endif
                 default:
-                    Log(Log::Level::ERR) << "Unsupported OpenGL version";
-                    return false;
+                    throw SystemError("Unsupported OpenGL version");
             }
 
             engine->getCache()->setShader(SHADER_TEXTURE, textureShader);
@@ -636,8 +783,7 @@ namespace ouzel
                     break;
 #endif
                 default:
-                    Log(Log::Level::ERR) << "Unsupported OpenGL version";
-                    return false;
+                    throw SystemError("Unsupported OpenGL version");
             }
 
             engine->getCache()->setShader(SHADER_COLOR, colorShader);
@@ -645,22 +791,16 @@ namespace ouzel
             glDisable(GL_DITHER);
             glDepthFunc(GL_LEQUAL);
 
-            if (checkOpenGLError())
-            {
-                Log(Log::Level::ERR) << "Failed to set depth function";
-                return false;
-            }
+            if ((error = glGetError()) != GL_NO_ERROR)
+                throw SystemError("Failed to set depth function, error: " + std::to_string(error));
 
 #if !OUZEL_SUPPORTS_OPENGLES
             if (sampleCount > 1)
             {
                 glEnable(GL_MULTISAMPLE);
 
-                if (checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to enable multi-sampling";
-                    return false;
-                }
+                if ((error = glGetError()) != GL_NO_ERROR)
+                    throw SystemError("Failed to enable multi-sampling, error: " + std::to_string(error));
             }
 #endif
 
@@ -673,7 +813,7 @@ namespace ouzel
             frameBufferClearColor[2] = clearColor.normB();
             frameBufferClearColor[3] = clearColor.normA();
 
-            return true;
+            if (glGenVertexArraysProc) glGenVertexArraysProc(1, &vertexArrayId);
         }
 
         void RenderDeviceOGL::setClearColorBuffer(bool clear)
@@ -715,17 +855,16 @@ namespace ouzel
             frameBufferHeight = static_cast<GLsizei>(size.height);
         }
 
-        bool RenderDeviceOGL::process()
+        void RenderDeviceOGL::process()
         {
-            if (!lockContext())
-            {
-                return false;
-            }
+            lockContext();
 
-            return RenderDevice::process();
+            RenderDevice::process();
+
+            swapBuffers();
         }
 
-        static bool setUniform(GLint location, DataType dataType, const void* data)
+        static void setUniform(GLint location, DataType dataType, const void* data)
         {
             switch (dataType)
             {
@@ -733,28 +872,28 @@ namespace ouzel
                     glUniform1ivProc(location, 1, reinterpret_cast<const GLint*>(data));
                     break;
                 case DataType::UNSIGNED_INTEGER:
-                    if (!glUniform1uivProc) return false;
+                    if (!glUniform1uivProc) throw DataError("Unsupported uniform size");
                     glUniform1uivProc(location, 1, reinterpret_cast<const GLuint*>(data));
                     break;
                 case DataType::INTEGER_VECTOR2:
                     glUniform2ivProc(location, 1, reinterpret_cast<const GLint*>(data));
                     break;
                 case DataType::UNSIGNED_INTEGER_VECTOR2:
-                    if (!glUniform2uivProc) return false;
+                    if (!glUniform2uivProc) throw DataError("Unsupported uniform size");
                     glUniform2uivProc(location, 1, reinterpret_cast<const GLuint*>(data));
                     break;
                 case DataType::INTEGER_VECTOR3:
                     glUniform3ivProc(location, 1, reinterpret_cast<const GLint*>(data));
                     break;
                 case DataType::UNSIGNED_INTEGER_VECTOR3:
-                    if (!glUniform3uivProc) return false;
+                    if (!glUniform3uivProc) throw DataError("Unsupported uniform size");
                     glUniform3uivProc(location, 1, reinterpret_cast<const GLuint*>(data));
                     break;
                 case DataType::INTEGER_VECTOR4:
                     glUniform4ivProc(location, 1, reinterpret_cast<const GLint*>(data));
                     break;
                 case DataType::UNSIGNED_INTEGER_VECTOR4:
-                    if (!glUniform4uivProc) return false;
+                    if (!glUniform4uivProc) throw DataError("Unsupported uniform size");
                     glUniform4uivProc(location, 1, reinterpret_cast<const GLuint*>(data));
                     break;
                 case DataType::FLOAT:
@@ -776,21 +915,57 @@ namespace ouzel
                     glUniformMatrix4fvProc(location, 1, GL_FALSE, reinterpret_cast<const GLfloat*>(data));
                     break;
                 default:
-                    Log(Log::Level::ERR) << "Unsupported uniform size";
-                    return false;
+                    throw DataError("Unsupported uniform size");
             }
-
-            return true;
         }
 
-        bool RenderDeviceOGL::processCommands(const std::vector<Command>& commands)
+        void RenderDeviceOGL::processCommands(CommandBuffer& commands)
         {
-            for (const Command& command : commands)
+            ShaderResourceOGL* currentShader = nullptr;
+
+            if (glBindVertexArrayProc && vertexArrayId)
             {
-                switch (command.type)
+                glBindVertexArrayProc(vertexArrayId);
+
+                GLenum error;
+
+                if ((error = glGetError()) != GL_NO_ERROR)
+                    throw DataError("Failed to bind vertex array, error: " + std::to_string(error));
+            }
+
+            while (Command* command = commands.front())
+            {
+                switch (command->type)
                 {
+                    case Command::Type::SET_RENDER_TARGET:
+                    {
+                        const SetRenderTargetCommand* setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command);
+
+                        GLuint newFrameBufferId = 0;
+
+                        if (setRenderTargetCommand->renderTarget)
+                        {
+                            TextureResourceOGL* renderTargetOGL = static_cast<TextureResourceOGL*>(setRenderTargetCommand->renderTarget);
+
+                            if (!renderTargetOGL->getFrameBufferId())
+                                continue;
+
+                            newFrameBufferId = renderTargetOGL->getFrameBufferId();
+                        }
+                        else
+                            newFrameBufferId = frameBufferId;
+
+                        bindFrameBuffer(newFrameBufferId);
+
+                        // TODO: update cull mode
+
+                        break;
+                    }
+
                     case Command::Type::CLEAR:
                     {
+                        const ClearCommand* clearCommand = static_cast<const ClearCommand*>(command);
+
                         GLuint newFrameBufferId = 0;
                         GLbitfield newClearMask = 0;
                         const float* newClearColor;
@@ -798,14 +973,12 @@ namespace ouzel
                         GLsizei renderTargetWidth = 0;
                         GLsizei renderTargetHeight = 0;
 
-                        if (command.renderTarget)
+                        if (clearCommand->renderTarget)
                         {
-                            TextureResourceOGL* renderTargetOGL = static_cast<TextureResourceOGL*>(command.renderTarget);
+                            TextureResourceOGL* renderTargetOGL = static_cast<TextureResourceOGL*>(clearCommand->renderTarget);
 
                             if (!renderTargetOGL->getFrameBufferId())
-                            {
                                 continue;
-                            }
 
                             renderTargetWidth = renderTargetOGL->getWidth();
                             renderTargetHeight = renderTargetOGL->getHeight();
@@ -826,17 +999,11 @@ namespace ouzel
 
                         if (newClearMask)
                         {
-                            if (!bindFrameBuffer(newFrameBufferId))
-                            {
-                                return false;
-                            }
+                            bindFrameBuffer(newFrameBufferId);
 
-                            if (!setViewport(0, 0,
-                                             renderTargetWidth,
-                                             renderTargetHeight))
-                            {
-                                return false;
-                            }
+                            setViewport(0, 0,
+                                        renderTargetWidth,
+                                        renderTargetHeight);
 
                             setScissorTest(false, 0, 0, renderTargetWidth, renderTargetHeight);
 
@@ -848,284 +1015,355 @@ namespace ouzel
                             }
 
                             if (newClearMask & GL_COLOR_BUFFER_BIT)
-                            {
                                 setClearColorValue(newClearColor);
-                            }
 
                             glClear(newClearMask);
 
-                            if (checkOpenGLError())
-                            {
-                                Log(Log::Level::ERR) << "Failed to clear frame buffer";
-                                return false;
-                            }
+                            GLenum error;
+
+                            if ((error = glGetError()) != GL_NO_ERROR)
+                                throw DataError("Failed to clear frame buffer, error: " + std::to_string(error));
                         }
+
+                        break;
+                    }
+
+                    case Command::Type::SET_CULL_MODE:
+                    {
+                        const SetCullModeCommad* setCullModeCommad = static_cast<const SetCullModeCommad*>(command);
+
+                        GLenum cullFace = GL_NONE;
+
+                        switch (setCullModeCommad->cullMode)
+                        {
+                            case Renderer::CullMode::NONE: cullFace = GL_NONE; break;
+                            case Renderer::CullMode::FRONT: cullFace = ((stateCache.frameBufferId != frameBufferId) ? GL_FRONT : GL_BACK); break; // flip the faces, because of the flipped y-axis
+                            case Renderer::CullMode::BACK: cullFace = ((stateCache.frameBufferId != frameBufferId) ? GL_BACK : GL_FRONT); break;
+                            default: throw DataError("Invalid cull mode");
+                        }
+
+                        setCullFace(cullFace != GL_NONE, cullFace);
+
+                        break;
+                    }
+
+                    case Command::Type::SET_FILL_MODE:
+                    {
+                        const SetFillModeCommad* setFillModeCommad = static_cast<const SetFillModeCommad*>(command);
+
+#if OUZEL_SUPPORTS_OPENGLES
+                        if (setFillModeCommad->fillMode != Renderer::FillMode::SOLID)
+                            throw DataError("Unsupported fill mode");
+#else
+                        GLenum fillMode = GL_NONE;
+
+                        switch (setFillModeCommad->fillMode)
+                        {
+                            case Renderer::FillMode::SOLID: fillMode = GL_FILL; break;
+                            case Renderer::FillMode::WIREFRAME: fillMode = GL_LINE; break;
+                            default: throw DataError("Invalid fill mode");
+                        }
+
+                        setPolygonFillMode(fillMode);
+#endif
+                        break;
+                    }
+
+                    case Command::Type::SET_SCISSOR_TEST:
+                    {
+                        const SetScissorTestCommand* setScissorTestCommand = static_cast<const SetScissorTestCommand*>(command);
+
+                        setScissorTest(setScissorTestCommand->enabled,
+                                       static_cast<GLint>(setScissorTestCommand->rectangle.position.x),
+                                       static_cast<GLint>(setScissorTestCommand->rectangle.position.y),
+                                       static_cast<GLsizei>(setScissorTestCommand->rectangle.size.width),
+                                       static_cast<GLsizei>(setScissorTestCommand->rectangle.size.height));
+
+                        break;
+                    }
+
+                    case Command::Type::SET_VIEWPORT:
+                    {
+                        const SetViewportCommand* setViewportCommand = static_cast<const SetViewportCommand*>(command);
+
+                        setViewport(static_cast<GLint>(setViewportCommand->viewport.position.x),
+                                    static_cast<GLint>(setViewportCommand->viewport.position.y),
+                                    static_cast<GLsizei>(setViewportCommand->viewport.size.width),
+                                    static_cast<GLsizei>(setViewportCommand->viewport.size.height));
+
+                        break;
+                    }
+
+                    case Command::Type::SET_DEPTH_STATE:
+                    {
+                        const SetDepthStateCommand* setDepthStateCommand = static_cast<const SetDepthStateCommand*>(command);
+
+                        enableDepthTest(setDepthStateCommand->depthTest);
+                        setDepthMask(setDepthStateCommand->depthWrite);
+
+                        break;
+                    }
+
+                    case Command::Type::SET_PIPELINE_STATE:
+                    {
+                        const SetPipelineStateCommand* setPipelineStateCommand = static_cast<const SetPipelineStateCommand*>(command);
+
+                        BlendStateResourceOGL* blendStateOGL = static_cast<BlendStateResourceOGL*>(setPipelineStateCommand->blendState);
+                        ShaderResourceOGL* shaderOGL = static_cast<ShaderResourceOGL*>(setPipelineStateCommand->shader);
+                        currentShader = shaderOGL;
+
+                        if (blendStateOGL)
+                        {
+                            setBlendState(blendStateOGL->isGLBlendEnabled(),
+                                          blendStateOGL->getModeRGB(),
+                                          blendStateOGL->getModeAlpha(),
+                                          blendStateOGL->getSourceFactorRGB(),
+                                          blendStateOGL->getDestFactorRGB(),
+                                          blendStateOGL->getSourceFactorAlpha(),
+                                          blendStateOGL->getDestFactorAlpha());
+
+                            setColorMask(blendStateOGL->getRedMask(),
+                                         blendStateOGL->getGreenMask(),
+                                         blendStateOGL->getBlueMask(),
+                                         blendStateOGL->getAlphaMask());
+                        }
+                        else
+                        {
+                            setBlendState(false, 0, 0, 0, 0, 0, 0);
+                            setColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+                        }
+
+                        if (shaderOGL)
+                        {
+                            assert(shaderOGL->getProgramId());
+                            useProgram(shaderOGL->getProgramId());
+                        }
+                        else
+                            useProgram(0);
 
                         break;
                     }
 
                     case Command::Type::DRAW:
                     {
-#if !OUZEL_SUPPORTS_OPENGLES
-                        setPolygonFillMode(command.wireframe ? GL_LINE : GL_FILL);
-#else
-                        if (command.wireframe)
-                        {
-                            continue;
-                        }
-#endif
-
-                        // blend state
-                        BlendStateResourceOGL* blendStateOGL = static_cast<BlendStateResourceOGL*>(command.blendState);
-
-                        if (!blendStateOGL)
-                        {
-                            // don't render if invalid blend state
-                            continue;
-                        }
-
-                        if (!setBlendState(blendStateOGL->isGLBlendEnabled(),
-                                           blendStateOGL->getModeRGB(),
-                                           blendStateOGL->getModeAlpha(),
-                                           blendStateOGL->getSourceFactorRGB(),
-                                           blendStateOGL->getDestFactorRGB(),
-                                           blendStateOGL->getSourceFactorAlpha(),
-                                           blendStateOGL->getDestFactorAlpha()))
-                        {
-                            return false;
-                        }
-
-                        if (!setColorMask(blendStateOGL->getRedMask(),
-                                          blendStateOGL->getGreenMask(),
-                                          blendStateOGL->getBlueMask(),
-                                          blendStateOGL->getAlphaMask()))
-                        {
-                            return false;
-                        }
-
-                        GLenum cullFace = GL_NONE;
-
-                        switch (command.cullMode)
-                        {
-                            case Renderer::CullMode::NONE: cullFace = GL_NONE; break;
-                            case Renderer::CullMode::FRONT: cullFace = (command.renderTarget ? GL_FRONT : GL_BACK); break; // flip the faces, because of the flipped y-axis
-                            case Renderer::CullMode::BACK: cullFace = (command.renderTarget ? GL_BACK : GL_FRONT); break;
-                            default: Log(Log::Level::ERR) << "Invalid cull mode"; return false;
-                        }
-
-                        if (!setCullFace(cullFace != GL_NONE, cullFace))
-                        {
-                            return false;
-                        }
-
-                        // textures
-                        bool texturesValid = true;
-
-                        for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
-                        {
-                            TextureResourceOGL* textureOGL = static_cast<TextureResourceOGL*>(command.textures[layer]);
-
-                            if (textureOGL)
-                            {
-                                if (!textureOGL->getTextureId())
-                                {
-                                    texturesValid = false;
-                                    break;
-                                }
-
-                                if (!bindTexture(textureOGL->getTextureId(), layer))
-                                {
-                                    return false;
-                                }
-                            }
-                            else
-                            {
-                                if (!bindTexture(0, layer))
-                                {
-                                    return false;
-                                }
-                            }
-                        }
-
-                        if (!texturesValid)
-                        {
-                            continue;
-                        }
-
-                        // shader
-                        ShaderResourceOGL* shaderOGL = static_cast<ShaderResourceOGL*>(command.shader);
-
-                        if (!shaderOGL || !shaderOGL->getProgramId())
-                        {
-                            // don't render if invalid shader
-                            continue;
-                        }
-
-                        useProgram(shaderOGL->getProgramId());
-
-                        // pixel shader constants
-                        const std::vector<ShaderResourceOGL::Location>& pixelShaderConstantLocations = shaderOGL->getPixelShaderConstantLocations();
-
-                        if (command.pixelShaderConstants.size() > pixelShaderConstantLocations.size())
-                        {
-                            Log(Log::Level::ERR) << "Invalid pixel shader constant size";
-                            return false;
-                        }
-
-                        for (size_t i = 0; i < command.pixelShaderConstants.size(); ++i)
-                        {
-                            const ShaderResourceOGL::Location& pixelShaderConstantLocation = pixelShaderConstantLocations[i];
-                            const std::vector<float>& pixelShaderConstant = command.pixelShaderConstants[i];
-
-                            if (!setUniform(pixelShaderConstantLocation.location,
-                                            pixelShaderConstantLocation.dataType,
-                                            pixelShaderConstant.data()))
-                            {
-                                return false;
-                            }
-                        }
-
-                        // vertex shader constants
-                        const std::vector<ShaderResourceOGL::Location>& vertexShaderConstantLocations = shaderOGL->getVertexShaderConstantLocations();
-
-                        if (command.vertexShaderConstants.size() > vertexShaderConstantLocations.size())
-                        {
-                            Log(Log::Level::ERR) << "Invalid vertex shader constant size";
-                            return false;
-                        }
-
-                        for (size_t i = 0; i < command.vertexShaderConstants.size(); ++i)
-                        {
-                            const ShaderResourceOGL::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
-                            const std::vector<float>& vertexShaderConstant = command.vertexShaderConstants[i];
-
-                            if (!setUniform(vertexShaderConstantLocation.location,
-                                            vertexShaderConstantLocation.dataType,
-                                            vertexShaderConstant.data()))
-                            {
-                                return false;
-                            }
-                        }
-
-                        // render target
-                        GLuint newFrameBufferId = 0;
-                        GLsizei renderTargetHeight = 0;
-
-                        if (command.renderTarget)
-                        {
-                            TextureResourceOGL* renderTargetOGL = static_cast<TextureResourceOGL*>(command.renderTarget);
-
-                            if (!renderTargetOGL->getFrameBufferId())
-                            {
-                                continue;
-                            }
-
-                            renderTargetHeight = renderTargetOGL->getHeight();
-                            newFrameBufferId = renderTargetOGL->getFrameBufferId();
-                        }
-                        else
-                        {
-                            renderTargetHeight = frameBufferHeight;
-                            newFrameBufferId = frameBufferId;
-                        }
-
-                        if (!bindFrameBuffer(newFrameBufferId))
-                        {
-                            return false;
-                        }
-
-                        setViewport(static_cast<GLint>(command.viewport.position.x),
-                                    static_cast<GLint>(renderTargetHeight - (command.viewport.position.y + command.viewport.size.height)),
-                                    static_cast<GLsizei>(command.viewport.size.width),
-                                    static_cast<GLsizei>(command.viewport.size.height));
-
-                        enableDepthTest(command.depthTest);
-                        setDepthMask(command.depthWrite);
-
-                        // scissor test
-                        setScissorTest(command.scissorTest,
-                                       static_cast<GLint>(command.scissorRectangle.position.x),
-                                       static_cast<GLint>(renderTargetHeight - (command.scissorRectangle.position.y + command.scissorRectangle.size.height)),
-                                       static_cast<GLsizei>(command.scissorRectangle.size.width),
-                                       static_cast<GLsizei>(command.scissorRectangle.size.height));
+                        const DrawCommand* drawCommand = static_cast<const DrawCommand*>(command);
 
                         // mesh buffer
-                        MeshBufferResourceOGL* meshBufferOGL = static_cast<MeshBufferResourceOGL*>(command.meshBuffer);
-                        BufferResourceOGL* indexBufferOGL = meshBufferOGL->getIndexBufferOGL();
-                        BufferResourceOGL* vertexBufferOGL = meshBufferOGL->getVertexBufferOGL();
+                        BufferResourceOGL* indexBufferOGL = static_cast<BufferResourceOGL*>(drawCommand->indexBuffer);
+                        BufferResourceOGL* vertexBufferOGL = static_cast<BufferResourceOGL*>(drawCommand->vertexBuffer);
 
-                        if (!meshBufferOGL ||
-                            !indexBufferOGL ||
-                            !indexBufferOGL->getBufferId() ||
-                            !vertexBufferOGL ||
-                            !vertexBufferOGL->getBufferId())
-                        {
-                            // don't render if invalid mesh buffer
-                            continue;
-                        }
+                        assert(indexBufferOGL);
+                        assert(indexBufferOGL->getBufferId());
+                        assert(vertexBufferOGL);
+                        assert(vertexBufferOGL->getBufferId());
 
                         // draw
                         GLenum mode;
 
-                        switch (command.drawMode)
+                        switch (drawCommand->drawMode)
                         {
                             case Renderer::DrawMode::POINT_LIST: mode = GL_POINTS; break;
                             case Renderer::DrawMode::LINE_LIST: mode = GL_LINES; break;
                             case Renderer::DrawMode::LINE_STRIP: mode = GL_LINE_STRIP; break;
                             case Renderer::DrawMode::TRIANGLE_LIST: mode = GL_TRIANGLES; break;
                             case Renderer::DrawMode::TRIANGLE_STRIP: mode = GL_TRIANGLE_STRIP; break;
-                            default: Log(Log::Level::ERR) << "Invalid draw mode"; return false;
+                            default: throw DataError("Invalid draw mode");
                         }
 
-                        if (!meshBufferOGL->bindBuffers())
+                        bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId());
+                        bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId());
+
+                        GLuint vertexOffset = 0;
+
+                        for (GLuint index = 0; index < Vertex::ATTRIBUTES.size(); ++index)
                         {
-                            return false;
+                            const Vertex::Attribute& vertexAttribute = Vertex::ATTRIBUTES[index];
+
+                            glEnableVertexAttribArrayProc(index);
+                            glVertexAttribPointerProc(index,
+                                                      getArraySize(vertexAttribute.dataType),
+                                                      getVertexFormat(vertexAttribute.dataType),
+                                                      isNormalized(vertexAttribute.dataType),
+                                                      static_cast<GLsizei>(sizeof(Vertex)),
+                                                      static_cast<const GLchar*>(nullptr) + vertexOffset);
+
+                            vertexOffset += getDataTypeSize(vertexAttribute.dataType);
                         }
 
-                        uint32_t indexCount = command.indexCount;
+                        GLenum error;
 
-                        if (!indexCount)
+                        if ((error = glGetError()) != GL_NO_ERROR)
+                            throw DataError("Failed to update vertex attributes, error: " + std::to_string(error));
+
+                        assert(drawCommand->indexCount);
+                        assert(indexBufferOGL->getSize());
+                        assert(vertexBufferOGL->getSize());
+
+                        GLenum indexType;
+
+                        switch (drawCommand->indexSize)
                         {
-                            indexCount = (indexBufferOGL->getSize() / meshBufferOGL->getIndexSize()) - command.startIndex;
+                            case 2: indexType = GL_UNSIGNED_SHORT; break;
+                            case 4: indexType = GL_UNSIGNED_INT; break;
+                            default: throw DataError("Invalid index size");
                         }
 
                         glDrawElements(mode,
-                                       static_cast<GLsizei>(indexCount),
-                                       meshBufferOGL->getIndexType(),
-                                       static_cast<const char*>(nullptr) + (command.startIndex * meshBufferOGL->getBytesPerIndex()));
+                                       static_cast<GLsizei>(drawCommand->indexCount),
+                                       indexType,
+                                       static_cast<const char*>(nullptr) + (drawCommand->startIndex * drawCommand->indexSize));
 
-                        if (checkOpenGLError())
+                        if ((error = glGetError()) != GL_NO_ERROR)
+                            throw DataError("Failed to draw elements, error: " + std::to_string(error));
+
+                        break;
+                    }
+
+                    case Command::Type::PUSH_DEBUG_MARKER:
+                    {
+                        //const PushDebugMarkerCommand* pushDebugMarkerCommand = static_cast<const PushDebugMarkerCommand*>(command);
+                        // TODO: implement
+                        // EXT_debug_marker
+                        // glPushGroupMarkerEXT
+                        break;
+                    }
+
+                    case Command::Type::POP_DEBUG_MARKER:
+                    {
+                        //const PopDebugMarkerCommand* popDebugMarkerCommand = static_cast<const PopDebugMarkerCommand*>(command);
+                        // TODO: implement
+                        // EXT_debug_marker
+                        // glPopGroupMarkerEXT
+                        break;
+                    }
+
+                    case Command::Type::INIT_BLEND_STATE:
+                    {
+                        const InitBlendStateCommand* initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command);
+
+                        initBlendStateCommand->blendState->init(initBlendStateCommand->enableBlending,
+                                                                initBlendStateCommand->colorBlendSource,
+                                                                initBlendStateCommand->colorBlendDest,
+                                                                initBlendStateCommand->colorOperation,
+                                                                initBlendStateCommand->alphaBlendSource,
+                                                                initBlendStateCommand->alphaBlendDest,
+                                                                initBlendStateCommand->alphaOperation,
+                                                                initBlendStateCommand->colorMask);
+                        break;
+                    }
+
+                    case Command::Type::INIT_BUFFER:
+                    {
+                        const InitBufferCommand* initBufferCommand = static_cast<const InitBufferCommand*>(command);
+
+                        initBufferCommand->buffer->init(initBufferCommand->usage,
+                                                        initBufferCommand->flags,
+                                                        initBufferCommand->data,
+                                                        initBufferCommand->size);
+                        break;
+                    }
+
+                    case Command::Type::SET_BUFFER_DATA:
+                    {
+                        const SetBufferDataCommand* setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command);
+
+                        setBufferDataCommand->buffer->setData(setBufferDataCommand->data);
+                        break;
+                    }
+
+                    case Command::Type::INIT_SHADER:
+                    {
+                        const InitShaderCommand* initShaderCommand = static_cast<const InitShaderCommand*>(command);
+
+                        initShaderCommand->shader->init(initShaderCommand->fragmentShader,
+                                                        initShaderCommand->vertexShader,
+                                                        initShaderCommand->vertexAttributes,
+                                                        initShaderCommand->fragmentShaderConstantInfo,
+                                                        initShaderCommand->vertexShaderConstantInfo,
+                                                        initShaderCommand->fragmentShaderDataAlignment,
+                                                        initShaderCommand->vertexShaderDataAlignment,
+                                                        initShaderCommand->fragmentShaderFunction,
+                                                        initShaderCommand->vertexShaderFunction);
+
+                        break;
+                    }
+
+                    case Command::Type::SET_SHADER_CONSTANTS:
+                    {
+                        const SetShaderConstantsCommand* setShaderConstantsCommand = static_cast<const SetShaderConstantsCommand*>(command);
+
+                        if (!currentShader)
+                            throw DataError("No shader set");
+
+                        // pixel shader constants
+                        const std::vector<ShaderResourceOGL::Location>& fragmentShaderConstantLocations = currentShader->getFragmentShaderConstantLocations();
+
+                        if (setShaderConstantsCommand->fragmentShaderConstants.size() > fragmentShaderConstantLocations.size())
+                            throw DataError("Invalid pixel shader constant size");
+
+                        for (size_t i = 0; i < setShaderConstantsCommand->fragmentShaderConstants.size(); ++i)
                         {
-                            Log(Log::Level::ERR) << "Failed to draw elements";
-                            return false;
+                            const ShaderResourceOGL::Location& fragmentShaderConstantLocation = fragmentShaderConstantLocations[i];
+                            const std::vector<float>& fragmentShaderConstant = setShaderConstantsCommand->fragmentShaderConstants[i];
+
+                            setUniform(fragmentShaderConstantLocation.location,
+                                       fragmentShaderConstantLocation.dataType,
+                                       fragmentShaderConstant.data());
+                        }
+
+                        // vertex shader constants
+                        const std::vector<ShaderResourceOGL::Location>& vertexShaderConstantLocations = currentShader->getVertexShaderConstantLocations();
+
+                        if (setShaderConstantsCommand->vertexShaderConstants.size() > vertexShaderConstantLocations.size())
+                            throw DataError("Invalid vertex shader constant size");
+
+                        for (size_t i = 0; i < setShaderConstantsCommand->vertexShaderConstants.size(); ++i)
+                        {
+                            const ShaderResourceOGL::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
+                            const std::vector<float>& vertexShaderConstant = setShaderConstantsCommand->vertexShaderConstants[i];
+
+                            setUniform(vertexShaderConstantLocation.location,
+                                       vertexShaderConstantLocation.dataType,
+                                       vertexShaderConstant.data());
                         }
 
                         break;
                     }
 
-                    default: return false;
+                    case Command::Type::SET_TEXTURES:
+                    {
+                        const SetTexturesCommand* setTexturesCommand = static_cast<const SetTexturesCommand*>(command);
+
+                        for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
+                        {
+                            TextureResourceOGL* textureOGL = static_cast<TextureResourceOGL*>(setTexturesCommand->textures[layer]);
+
+                            if (textureOGL)
+                                bindTexture(textureOGL->getTextureId(), layer);
+                            else
+                                bindTexture(0, layer);
+                        }
+
+                        break;
+                    }
+
+                    default:
+                        throw DataError("Invalid command");
                 }
+
+                commands.pop();
             }
-
-            if (!swapBuffers())
-            {
-                return false;
-            }
-
-            return true;
         }
 
-        bool RenderDeviceOGL::lockContext()
+        void RenderDeviceOGL::lockContext()
         {
-            return true;
         }
 
-        bool RenderDeviceOGL::swapBuffers()
+        void RenderDeviceOGL::swapBuffers()
         {
-            return true;
         }
 
-        bool RenderDeviceOGL::generateScreenshot(const std::string& filename)
+        void RenderDeviceOGL::generateScreenshot(const std::string& filename)
         {
             bindFrameBuffer(frameBufferId);
 
@@ -1135,11 +1373,10 @@ namespace ouzel
 
             glReadPixels(0, 0, frameBufferWidth, frameBufferHeight, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
 
-            if (checkOpenGLError())
-            {
-                Log(Log::Level::ERR) << "Failed to read pixels from frame buffer";
-                return false;
-            }
+            GLenum error;
+            
+            if ((error = glGetError()) != GL_NO_ERROR)
+                throw SystemError("Failed to read pixels from frame buffer, error: " + std::to_string(error));
 
             uint32_t temp;
             uint32_t* rgba = reinterpret_cast<uint32_t*>(data.data());
@@ -1154,12 +1391,7 @@ namespace ouzel
             }
 
             if (!stbi_write_png(filename.c_str(), frameBufferWidth, frameBufferHeight, pixelSize, data.data(), frameBufferWidth * pixelSize))
-            {
-                Log(Log::Level::ERR) << "Failed to save image to file";
-                return false;
-            }
-
-            return true;
+                throw FileError("Failed to save image to file");
         }
 
         BlendStateResource* RenderDeviceOGL::createBlendState()
@@ -1171,40 +1403,40 @@ namespace ouzel
             return blendState;
         }
 
-        TextureResource* RenderDeviceOGL::createTexture()
+        BufferResource* RenderDeviceOGL::createBuffer()
         {
             Lock lock(resourceMutex);
 
-            TextureResource* texture = new TextureResourceOGL(this);
-            resources.push_back(std::unique_ptr<RenderResource>(texture));
-            return texture;
+            BufferResource* buffer = new BufferResourceOGL(*this);
+            resources.push_back(std::unique_ptr<RenderResource>(buffer));
+            return buffer;
+        }
+
+        RenderTargetResource* RenderDeviceOGL::createRenderTarget()
+        {
+            Lock lock(resourceMutex);
+
+            RenderTargetResource* renderTarget = new RenderTargetResourceOGL();
+            resources.push_back(std::unique_ptr<RenderResource>(renderTarget));
+            return renderTarget;
         }
 
         ShaderResource* RenderDeviceOGL::createShader()
         {
             Lock lock(resourceMutex);
 
-            ShaderResource* shader = new ShaderResourceOGL(this);
+            ShaderResource* shader = new ShaderResourceOGL(*this);
             resources.push_back(std::unique_ptr<RenderResource>(shader));
             return shader;
         }
 
-        MeshBufferResource* RenderDeviceOGL::createMeshBuffer()
+        TextureResource* RenderDeviceOGL::createTexture()
         {
             Lock lock(resourceMutex);
 
-            MeshBufferResource* meshBuffer = new MeshBufferResourceOGL(this);
-            resources.push_back(std::unique_ptr<RenderResource>(meshBuffer));
-            return meshBuffer;
-        }
-
-        BufferResource* RenderDeviceOGL::createBuffer()
-        {
-            Lock lock(resourceMutex);
-
-            BufferResource* buffer = new BufferResourceOGL(this);
-            resources.push_back(std::unique_ptr<RenderResource>(buffer));
-            return buffer;
+            TextureResource* texture = new TextureResourceOGL(*this);
+            resources.push_back(std::unique_ptr<RenderResource>(texture));
+            return texture;
         }
 
         void* RenderDeviceOGL::getProcAddress(const std::string& name) const
@@ -1221,13 +1453,9 @@ namespace ouzel
                 result != reinterpret_cast<void*>(2) &&
                 result != reinterpret_cast<void*>(3) &&
                 result != reinterpret_cast<void*>(-1))
-            {
                 return result;
-            }
             else
-            {
                 return nullptr;
-            }
 #else
             OUZEL_UNUSED(name);
             return nullptr;

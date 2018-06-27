@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -12,10 +11,43 @@
 #else
 #include <pthread.h>
 #define ThreadLocal __thread
+#if defined(__APPLE__)
+#include <sys/sysctl.h>
+#else
+#include <unistd.h>
+#endif // #if defined(__APPLE__)
 #endif
 
 namespace ouzel
 {
+    inline uint32_t getCPUCount()
+    {
+#if defined(_WIN32)
+        SYSTEM_INFO sysinfo;
+        GetSystemInfo(&sysinfo);
+        return sysinfo.dwNumberOfProcessors;
+#else
+#if defined(__APPLE__)
+        int mib[2];
+        mib[0] = CTL_HW;
+#ifdef HW_AVAILCPU
+        mib[1] = HW_AVAILCPU;
+#else
+        mib[1] = HW_NCPU;
+#endif
+        int count;
+        size_t size = sizeof(count);
+        sysctl(mib, 2, &count, &size, NULL, 0);
+        return (count > 0) ? static_cast<uint32_t>(count) : 0;
+#elif defined(__linux__) || defined(__ANDROID__)
+        int count = sysconf(_SC_NPROCESSORS_ONLN);
+        return (count > 0) ? static_cast<uint32_t>(count) : 0;
+#else
+        return 1;
+#endif
+#endif
+    }
+
     class Thread final
     {
     public:
@@ -70,15 +102,17 @@ namespace ouzel
         Thread(Thread&& other);
         Thread& operator=(Thread&& other);
 
-        bool run();
-        bool join();
+        void join();
+
+        int32_t getPriority() const;
+        void setPriority(int32_t priority);
 
         inline bool isJoinable() const
         {
 #if defined(_WIN32)
             return handle != nullptr;
 #else
-            return thread != 0;
+            return initialized;
 #endif
         }
 
@@ -100,7 +134,7 @@ namespace ouzel
 #endif
         }
 
-        static bool setCurrentThreadName(const std::string& name);
+        static void setCurrentThreadName(const std::string& name);
 
         struct State
         {
@@ -108,14 +142,15 @@ namespace ouzel
             std::string name;
         };
 
-    protected:
+    private:
         std::unique_ptr<State> state;
 
 #if defined(_WIN32)
         HANDLE handle = nullptr;
         DWORD threadId = 0;
 #else
-        pthread_t thread = 0;
+        pthread_t thread;
+        bool initialized = false;
 #endif
     };
 }

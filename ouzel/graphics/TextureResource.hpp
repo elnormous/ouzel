@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -23,52 +22,52 @@ namespace ouzel
         public:
             virtual ~TextureResource();
 
-            virtual bool init(const Size2& newSize,
+            virtual void init(const Size2& newSize,
                               uint32_t newFlags = 0,
                               uint32_t newMipmaps = 0,
                               uint32_t newSampleCount = 1,
                               PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
-            virtual bool init(const std::vector<uint8_t>& newData,
+            virtual void init(const std::vector<uint8_t>& newData,
                               const Size2& newSize,
                               uint32_t newFlags = 0,
                               uint32_t newMipmaps = 0,
                               PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
-            virtual bool init(const std::vector<Texture::Level>& newLevels,
+            virtual void init(const std::vector<Texture::Level>& newLevels,
                               const Size2& newSize,
                               uint32_t newFlags = 0,
                               PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
 
-            virtual bool setSize(const Size2& newSize);
+            virtual void setSize(const Size2& newSize);
             inline const Size2& getSize() const { return size; }
 
-            virtual bool setData(const std::vector<uint8_t>& newData, const Size2& newSize);
+            virtual void setData(const std::vector<uint8_t>& newData, const Size2& newSize);
 
             inline uint32_t getFlags() const { return flags; }
             inline uint32_t getMipmaps() const { return mipmaps; }
 
             inline Texture::Filter getFilter() const { return filter; }
-            virtual bool setFilter(Texture::Filter newFilter);
+            virtual void setFilter(Texture::Filter newFilter);
 
             inline Texture::Address getAddressX() const { return addressX; }
-            virtual bool setAddressX(Texture::Address newAddressX);
+            virtual void setAddressX(Texture::Address newAddressX);
 
             inline Texture::Address getAddressY() const { return addressY; }
-            virtual bool setAddressY(Texture::Address newAddressY);
+            virtual void setAddressY(Texture::Address newAddressY);
 
             inline uint32_t getMaxAnisotropy() const { return maxAnisotropy; }
-            virtual bool setMaxAnisotropy(uint32_t newMaxAnisotropy);
+            virtual void setMaxAnisotropy(uint32_t newMaxAnisotropy);
 
             inline bool getClearColorBuffer() const { return clearColorBuffer; }
-            virtual bool setClearColorBuffer(bool clear);
+            virtual void setClearColorBuffer(bool clear);
 
             inline bool getClearDepthBuffer() const { return clearDepthBuffer; }
-            virtual bool setClearDepthBuffer(bool clear);
+            virtual void setClearDepthBuffer(bool clear);
 
             inline Color getClearColor() const { return clearColor; }
-            virtual bool setClearColor(Color color);
+            virtual void setClearColor(Color color);
 
             inline float getClearDepth() const { return clearDepth; }
-            virtual bool setClearDepth(float clear);
+            virtual void setClearDepth(float clear);
 
             inline uint32_t getSampleCount() const { return sampleCount; }
 
@@ -77,8 +76,8 @@ namespace ouzel
         protected:
             TextureResource();
 
-            bool calculateSizes(const Size2& newSize);
-            bool calculateData(const std::vector<uint8_t>& newData);
+            void calculateSizes(const Size2& newSize);
+            void calculateData(const std::vector<uint8_t>& newData);
 
             Size2 size;
             uint32_t flags = 0;

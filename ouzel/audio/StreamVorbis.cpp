@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "StreamVorbis.hpp"
 #define STB_VORBIS_HEADER_ONLY
@@ -17,9 +16,7 @@ namespace ouzel
         StreamVorbis::~StreamVorbis()
         {
             if (vorbisStream)
-            {
                 stb_vorbis_close(vorbisStream);
-            }
         }
 
         void StreamVorbis::reset()

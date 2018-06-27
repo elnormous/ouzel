@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "Component.hpp"
 #include "Actor.hpp"
@@ -22,13 +21,7 @@ namespace ouzel
         void Component::draw(const Matrix4&,
                              float,
                              const Matrix4&,
-                             const std::shared_ptr<graphics::Texture>&,
-                             const Rect&,
-                             bool,
-                             bool,
-                             bool,
-                             bool,
-                             const Rect&)
+                             bool)
         {
         }
 

@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -27,7 +26,7 @@ namespace ouzel
         Font(Font&&) = delete;
         Font& operator=(Font&&) = delete;
 
-        virtual bool getVertices(const std::string& text,
+        virtual void getVertices(const std::string& text,
                                  const Color& color,
                                  float fontSize,
                                  const Vector2& anchor,

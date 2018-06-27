@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -19,7 +18,7 @@ namespace ouzel
             RenderResource(RenderResource&&) = delete;
             RenderResource& operator=(RenderResource&&) = delete;
 
-            virtual bool reload() { return true; }
+            virtual void reload() {}
         };
     } // namespace graphics
 } // namespace ouzel

@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -25,18 +24,18 @@ namespace ouzel
         public:
             virtual ~AudioDeviceCA();
 
-            bool outputCallback(AudioBufferList* ioData);
+            void outputCallback(AudioBufferList* ioData);
 
         protected:
             AudioDeviceCA();
-            virtual bool init(bool debugAudio) override;
+            virtual void init(bool debugAudio) override;
 
         private:
 #if OUZEL_PLATFORM_MACOS
             AudioDeviceID deviceId = 0;
 #endif
             AudioComponent audioComponent = nullptr;
-            AudioComponentInstance audioUnit = nullptr;
+            AudioUnit audioUnit = nullptr;
 
             uint32_t sampleSize = 0;
             std::vector<uint8_t> data;

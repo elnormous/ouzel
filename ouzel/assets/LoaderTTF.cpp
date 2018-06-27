@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "LoaderTTF.hpp"
 #include "Cache.hpp"
@@ -17,10 +16,7 @@ namespace ouzel
         bool LoaderTTF::loadAsset(const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
         {
             std::shared_ptr<TTFont> font = std::make_shared<TTFont>();
-            if (!font->init(data, mipmaps))
-            {
-                return false;
-            }
+            font->init(data, mipmaps);
 
             cache->setFont(filename, font);
 

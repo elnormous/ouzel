@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -31,28 +30,26 @@ namespace ouzel
 
             virtual void draw();
 
-            void addLayer(Layer* layer)
+            virtual void addLayer(Layer* layer);
+
+            template<typename T> void addLayer(const std::unique_ptr<T>& layer)
             {
-                addChildLayer(layer);
+                addLayer(layer.get());
             }
-            template<class T> void addLayer(const std::unique_ptr<T>& layer)
+
+            template<typename T> void addLayer(std::unique_ptr<T>&& layer)
             {
-                addChildLayer(layer.get());
-            }
-            template<class T> void addLayer(std::unique_ptr<T>&& layer)
-            {
-                addChildLayer(layer.get());
+                addLayer(layer.get());
                 ownedLayers.push_back(std::move(layer));
             }
 
-            bool removeLayer(Layer* layer)
+            virtual bool removeLayer(Layer* layer);
+
+            template<typename T> bool removeLayer(const std::unique_ptr<T>& layer)
             {
-                return removeChildLayer(layer);
+                return removeLayer(layer.get());
             }
-            template<class T> bool removeLayer(const std::unique_ptr<T>& layer)
-            {
-                return removeChildLayer(layer.get());
-            }
+
             void removeAllLayers();
             bool hasLayer(Layer* layer) const;
             inline const std::vector<Layer*>& getLayers() const { return layers; }
@@ -64,9 +61,6 @@ namespace ouzel
             std::vector<Actor*> pickActors(const std::vector<Vector2>& edges, bool renderTargets = false) const;
 
         protected:
-            virtual void addChildLayer(Layer* layer);
-            virtual bool removeChildLayer(Layer* layer);
-
             virtual void enter();
             virtual void leave();
 

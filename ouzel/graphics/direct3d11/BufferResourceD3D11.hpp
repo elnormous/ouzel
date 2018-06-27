@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -19,20 +18,21 @@ namespace ouzel
         class BufferResourceD3D11: public BufferResource
         {
         public:
-            explicit BufferResourceD3D11(RenderDeviceD3D11* initRenderDeviceD3D11);
+            explicit BufferResourceD3D11(RenderDeviceD3D11& initRenderDeviceD3D11);
             virtual ~BufferResourceD3D11();
 
-            virtual bool init(Buffer::Usage newUsage, uint32_t newFlags = 0, uint32_t newSize = 0) override;
-            virtual bool init(Buffer::Usage newUsage, const std::vector<uint8_t>& newData, uint32_t newFlags = 0) override;
+            virtual void init(Buffer::Usage newUsage, uint32_t newFlags,
+                              const std::vector<uint8_t>& newData,
+                              uint32_t newSize) override;
 
-            virtual bool setData(const std::vector<uint8_t>& newData) override;
+            virtual void setData(const std::vector<uint8_t>& newData) override;
 
             ID3D11Buffer* getBuffer() const { return buffer; }
 
-        protected:
-            bool createBuffer();
+        private:
+            void createBuffer(UINT newSize);
 
-            RenderDeviceD3D11* renderDeviceD3D11;
+            RenderDeviceD3D11& renderDeviceD3D11;
 
             ID3D11Buffer* buffer = nullptr;
             UINT bufferSize = 0;

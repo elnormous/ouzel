@@ -1,10 +1,9 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #import "ViewIOS.h"
 #include "core/Engine.hpp"
 #include "core/Window.hpp"
-#include "input/ios/InputIOS.hpp"
+#include "input/ios/InputManagerIOS.hpp"
 
 @implementation ViewIOS
 
@@ -17,10 +16,10 @@
         if ([touch respondsToSelector:@selector(force)] && [touch respondsToSelector:@selector(maximumPossibleForce)])
             force = (touch.maximumPossibleForce > 0.0F) ? touch.force / touch.maximumPossibleForce : 0.0F;
 
-        ouzel::engine->getInput()->touchBegin(reinterpret_cast<uint64_t>(touch),
-                                                    ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
-                                                                                                                                       static_cast<float>(location.y))),
-                                                    static_cast<float>(force));
+        ouzel::engine->getInputManager()->touchBegin(reinterpret_cast<uint64_t>(touch),
+                                                     ouzel::Vector2(static_cast<float>(location.x / self.bounds.size.width),
+                                                                    static_cast<float>(location.y / self.bounds.size.height)),
+                                                     static_cast<float>(force));
     }
 }
 
@@ -33,10 +32,10 @@
         if ([touch respondsToSelector:@selector(force)] && [touch respondsToSelector:@selector(maximumPossibleForce)])
             force = (touch.maximumPossibleForce > 0.0F) ? touch.force / touch.maximumPossibleForce : 0.0F;
 
-        ouzel::engine->getInput()->touchMove(reinterpret_cast<uint64_t>(touch),
-                                                   ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
-                                                                                                                                      static_cast<float>(location.y))),
-                                                   static_cast<float>(force));
+        ouzel::engine->getInputManager()->touchMove(reinterpret_cast<uint64_t>(touch),
+                                                    ouzel::Vector2(static_cast<float>(location.x / self.bounds.size.width),
+                                                                   static_cast<float>(location.y / self.bounds.size.height)),
+                                                    static_cast<float>(force));
     }
 }
 
@@ -49,10 +48,10 @@
         if ([touch respondsToSelector:@selector(force)] && [touch respondsToSelector:@selector(maximumPossibleForce)])
             force = (touch.maximumPossibleForce > 0.0F) ? touch.force / touch.maximumPossibleForce : 0.0F;
 
-        ouzel::engine->getInput()->touchEnd(reinterpret_cast<uint64_t>(touch),
-                                                  ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
-                                                                                                                                     static_cast<float>(location.y))),
-                                                  static_cast<float>(force));
+        ouzel::engine->getInputManager()->touchEnd(reinterpret_cast<uint64_t>(touch),
+                                                   ouzel::Vector2(static_cast<float>(location.x / self.bounds.size.width),
+                                                                  static_cast<float>(location.y / self.bounds.size.height)),
+                                                   static_cast<float>(force));
     }
 }
 
@@ -65,35 +64,29 @@
         if ([touch respondsToSelector:@selector(force)] && [touch respondsToSelector:@selector(maximumPossibleForce)])
             force = (touch.maximumPossibleForce > 0.0F) ? touch.force / touch.maximumPossibleForce : 0.0F;
 
-        ouzel::engine->getInput()->touchCancel(reinterpret_cast<uint64_t>(touch),
-                                                     ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
-                                                                                                                                        static_cast<float>(location.y))),
-                                                     static_cast<float>(force));
+        ouzel::engine->getInputManager()->touchCancel(reinterpret_cast<uint64_t>(touch),
+                                                      ouzel::Vector2(static_cast<float>(location.x / self.bounds.size.width),
+                                                                     static_cast<float>(location.y / self.bounds.size.height)),
+                                                      static_cast<float>(force));
     }
 }
 
 -(void)pressesBegan:(NSSet<UIPress*>*)presses withEvent:(__unused UIPressesEvent*)event
 {
     for (UIPress* press in presses)
-    {
-        ouzel::engine->getInput()->keyPress(ouzel::input::InputIOS::convertKeyCode(press.type), 0);
-    }
+        ouzel::engine->getInputManager()->keyPress(ouzel::input::InputManagerIOS::convertKeyCode(press.type), 0);
 }
 
 -(void)pressesEnded:(NSSet<UIPress*>*)presses withEvent:(__unused UIPressesEvent*)event
 {
     for (UIPress* press in presses)
-    {
-        ouzel::engine->getInput()->keyRelease(ouzel::input::InputIOS::convertKeyCode(press.type), 0);
-    }
+        ouzel::engine->getInputManager()->keyRelease(ouzel::input::InputManagerIOS::convertKeyCode(press.type), 0);
 }
 
 -(void)pressesCancelled:(NSSet<UIPress*>*)presses withEvent:(__unused UIPressesEvent*)event
 {
     for (UIPress* press in presses)
-    {
-        ouzel::engine->getInput()->keyRelease(ouzel::input::InputIOS::convertKeyCode(press.type), 0);
-    }
+        ouzel::engine->getInputManager()->keyRelease(ouzel::input::InputManagerIOS::convertKeyCode(press.type), 0);
 }
 
 @end

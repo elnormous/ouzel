@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -27,9 +26,7 @@ namespace ouzel
             for (const Plane& plane : planes)
             {
                 if (plane.dot(position) < 0.0F)
-                {
                     return false;
-                }
             }
 
             return true;
@@ -40,9 +37,7 @@ namespace ouzel
             for (const Plane& plane : planes)
             {
                 if (plane.dot(position) < -radius)
-                {
                     return false;
-                }
             }
 
             return true;
@@ -53,44 +48,28 @@ namespace ouzel
             for (const Plane& plane : planes)
             {
                 if (plane.dot(Vector4(box.min.x, box.min.y, box.min.z, 1.0F)) >= 0.0F)
-                {
                     continue;
-                }
 
                 if (plane.dot(Vector4(box.max.x, box.min.y, box.min.z, 1.0F)) >= 0.0F)
-                {
                     continue;
-                }
 
                 if (plane.dot(Vector4(box.min.x, box.max.y, box.min.z, 1.0F)) >= 0.0F)
-                {
                     continue;
-                }
 
                 if (plane.dot(Vector4(box.min.x, box.min.y, box.max.z, 1.0F)) >= 0.0F)
-                {
                     continue;
-                }
 
                 if (plane.dot(Vector4(box.max.x, box.max.y, box.min.z, 1.0F)) >= 0.0F)
-                {
                     continue;
-                }
 
                 if (plane.dot(Vector4(box.max.x, box.min.y, box.max.z, 1.0F)) >= 0.0F)
-                {
                     continue;
-                }
 
                 if (plane.dot(Vector4(box.min.x, box.max.y, box.max.z, 1.0F)) >= 0.0F)
-                {
                     continue;
-                }
 
                 if (plane.dot(Vector4(box.max.x, box.max.y, box.max.z, 1.0F)) >= 0.0F)
-                {
                     continue;
-                }
 
                 return false;
             }

@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -8,7 +7,7 @@
 
 typedef struct {
     DISPMANX_ELEMENT_HANDLE_T element;
-    int width;   /* This is necessary because dispmanx elements are not queriable. */
+    int width; /* This is necessary because dispmanx elements are not queriable. */
     int height;
  } EGL_DISPMANX_WINDOW_T;
 
@@ -26,7 +25,7 @@ namespace ouzel
 
     protected:
         WindowResourceRasp();
-        virtual bool init(const Size2& newSize,
+        virtual void init(const Size2& newSize,
                           bool newResizable,
                           bool newFullscreen,
                           bool newExclusiveFullscreen,

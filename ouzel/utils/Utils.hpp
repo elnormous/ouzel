@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -317,7 +316,7 @@ namespace ouzel
         bytes[0] = static_cast<uint8_t>(value);
     };
 
-    template<class T>
+    template<typename T>
     inline std::vector<uint32_t> utf8ToUtf32(const T& text)
     {
         std::vector<uint32_t> result;
@@ -363,9 +362,7 @@ namespace ouzel
         std::string result;
 
         if (c <= 0x7f)
-        {
             result.push_back(static_cast<char>(c));
-        }
         else if (c <= 0x7ff)
         {
             result.push_back(static_cast<char>(0xc0 | ((c >> 6) & 0x1f)));
@@ -395,9 +392,7 @@ namespace ouzel
         for (auto i = text.begin(); i != text.end(); ++i)
         {
             if (*i <= 0x7f)
-            {
                 result.push_back(static_cast<char>(*i));
-            }
             else if (*i <= 0x7ff)
             {
                 result.push_back(static_cast<char>(0xc0 | ((*i >> 6) & 0x1f)));

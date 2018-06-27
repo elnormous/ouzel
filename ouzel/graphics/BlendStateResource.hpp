@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <cstdint>
 #include "graphics/RenderResource.hpp"
@@ -19,7 +18,7 @@ namespace ouzel
         public:
             virtual ~BlendStateResource();
 
-            virtual bool init(bool newEnableBlending,
+            virtual void init(bool newEnableBlending,
                               BlendState::Factor newColorBlendSource, BlendState::Factor newColorBlendDest,
                               BlendState::Operation newColorOperation,
                               BlendState::Factor newAlphaBlendSource, BlendState::Factor newAlphaBlendDest,

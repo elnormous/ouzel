@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -76,30 +75,21 @@ namespace ouzel
 
             const Matrix4& getLocalTransform() const
             {
-                if (localTransformDirty)
-                {
-                    calculateLocalTransform();
-                }
+                if (localTransformDirty) calculateLocalTransform();
 
                 return localTransform;
             }
 
             const Matrix4& getTransform() const
             {
-                if (transformDirty)
-                {
-                    calculateTransform();
-                }
+                if (transformDirty) calculateTransform();
 
                 return transform;
             }
 
             const Matrix4& getInverseTransform() const
             {
-                if (inverseTransformDirty)
-                {
-                    calculateInverseTransform();
-                }
+                if (inverseTransformDirty) calculateInverseTransform();
 
                 return inverseTransform;
             }
@@ -113,30 +103,26 @@ namespace ouzel
             inline ActorContainer* getParent() const { return parent; }
             void removeFromParent();
 
-            void addComponent(Component* component)
+            virtual void addChild(Actor* actor) override;
+
+            void addComponent(Component* component);
+
+            template<typename T> void addComponent(const std::unique_ptr<T>& component)
             {
-                addChildComponent(component);
+                addComponent(component.get());
             }
 
-            template<class T> void addComponent(const std::unique_ptr<T>& component)
+            template<typename T> void addComponent(std::unique_ptr<T>&& component)
             {
-                addChildComponent(component.get());
-            }
-
-            template<class T> void addComponent(std::unique_ptr<T>&& component)
-            {
-                addChildComponent(component.get());
+                addComponent(component.get());
                 ownedComponents.push_back(std::move(component));
             }
 
-            bool removeComponent(Component* component)
-            {
-                return removeChildComponent(component);
-            }
+            bool removeComponent(Component* component);
 
-            template<class T> void removeComponent(const std::unique_ptr<T>& component)
+            template<typename T> void removeComponent(const std::unique_ptr<T>& component)
             {
-                removeChildComponent(component.get());
+                removeComponent(component.get());
             }
 
             void removeAllComponents();
@@ -146,10 +132,6 @@ namespace ouzel
             Box3 getBoundingBox() const;
 
         protected:
-            virtual void addChildActor(Actor* actor) override;
-            void addChildComponent(Component* component);
-            bool removeChildComponent(Component* component);
-
             virtual void setLayer(Layer* newLayer) override;
 
             void updateLocalTransform();
@@ -179,7 +161,7 @@ namespace ouzel
             bool worldHidden = false;
 
             Vector3 position;
-            Quaternion rotation = Quaternion::IDENTITY;
+            Quaternion rotation = Quaternion::identity();
             Vector3 scale = Vector3(1.0F, 1.0F, 1.0F);
             float opacity = 1.0F;
             int32_t order = 0;

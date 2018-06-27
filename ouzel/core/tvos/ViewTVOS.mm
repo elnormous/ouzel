@@ -1,9 +1,8 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #import "ViewTVOS.h"
 #include "core/Engine.hpp"
-#include "input/tvos/InputTVOS.hpp"
+#include "input/tvos/InputManagerTVOS.hpp"
 
 @implementation ViewTVOS
 
@@ -28,25 +27,19 @@
 -(void)pressesBegan:(NSSet<UIPress*>*)presses withEvent:(__unused UIPressesEvent*)event
 {
     for (UIPress* press in presses)
-    {
-        ouzel::engine->getInput()->keyPress(ouzel::input::InputTVOS::convertKeyCode(press.type), 0);
-    }
+        ouzel::engine->getInputManager()->keyPress(ouzel::input::InputManagerTVOS::convertKeyCode(press.type), 0);
 }
 
 -(void)pressesEnded:(NSSet<UIPress*>*)presses withEvent:(__unused UIPressesEvent*)event
 {
     for (UIPress* press in presses)
-    {
-        ouzel::engine->getInput()->keyRelease(ouzel::input::InputTVOS::convertKeyCode(press.type), 0);
-    }
+        ouzel::engine->getInputManager()->keyRelease(ouzel::input::InputManagerTVOS::convertKeyCode(press.type), 0);
 }
 
 -(void)pressesCancelled:(NSSet<UIPress*>*)presses withEvent:(__unused UIPressesEvent*)event
 {
     for (UIPress* press in presses)
-    {
-        ouzel::engine->getInput()->keyRelease(ouzel::input::InputTVOS::convertKeyCode(press.type), 0);
-    }
+        ouzel::engine->getInputManager()->keyRelease(ouzel::input::InputManagerTVOS::convertKeyCode(press.type), 0);
 }
 
 @end

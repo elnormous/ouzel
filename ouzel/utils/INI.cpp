@@ -1,12 +1,11 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <cctype>
 #include <algorithm>
 #include <iterator>
 #include "INI.hpp"
 #include "core/Engine.hpp"
-#include "utils/Log.hpp"
+#include "Errors.hpp"
 #include "utils/Utils.hpp"
 
 namespace ouzel
@@ -37,9 +36,7 @@ namespace ouzel
         {
             auto valueIterator = values.find(key);
             if (valueIterator != values.end())
-            {
                 return valueIterator->second;
-            }
 
             return std::string();
         }
@@ -49,9 +46,7 @@ namespace ouzel
             auto valueIterator = values.find(key);
 
             if (valueIterator != values.end())
-            {
                 return valueIterator->second;
-            }
 
             return defaultValue;
         }
@@ -61,20 +56,15 @@ namespace ouzel
             values[key] = value;
         }
 
-        bool Section::deleteValue(const std::string& key)
+        void Section::deleteValue(const std::string& key)
         {
             auto valueIterator = values.find(key);
 
             if (valueIterator != values.end())
-            {
                 values.erase(valueIterator);
-                return true;
-            }
-
-            return false;
         }
 
-        bool Section::encode(std::vector<uint8_t>& data) const
+        void Section::encode(std::vector<uint8_t>& data) const
         {
             if (!name.empty())
             {
@@ -91,8 +81,6 @@ namespace ouzel
                 data.insert(data.end(), value.second.begin(), value.second.end());
                 data.push_back('\n');
             }
-
-            return true;
         }
 
         Data::Data()
@@ -109,16 +97,9 @@ namespace ouzel
             init(data);
         }
 
-        bool Data::init(const std::string& filename)
+        void Data::init(const std::string& filename)
         {
-            std::vector<uint8_t> data;
-
-            if (!engine->getFileSystem()->readFile(filename, data))
-            {
-                return false;
-            }
-
-            return init(data);
+            init(engine->getFileSystem()->readFile(filename));
         }
 
         static inline std::vector<uint32_t>& ltrimUtf32(std::vector<uint32_t>& s)
@@ -140,7 +121,7 @@ namespace ouzel
             return ltrimUtf32(rtrimUtf32(s));
         }
 
-        bool Data::init(const std::vector<uint8_t>& data)
+        void Data::init(const std::vector<uint8_t>& data)
         {
             std::vector<uint32_t> str;
 
@@ -164,9 +145,7 @@ namespace ouzel
             for (auto iterator = str.begin(); iterator != str.end();)
             {
                 if (*iterator == '\n' || *iterator == '\r' || *iterator == ' ' || *iterator == '\t') // line starts with a whitespace
-                {
                     ++iterator; // skip the white space
-                }
                 else if (*iterator == '[') // section
                 {
                     ++iterator; // skip the left bracket
@@ -179,10 +158,8 @@ namespace ouzel
                         if (iterator == str.end() || *iterator == '\n' || *iterator == '\r')
                         {
                             if (!parsedSection)
-                            {
-                                Log(Log::Level::ERR) << "Unexpected end of section";
-                                return false;
-                            }
+                                throw ParseError("Unexpected end of section");
+
                             ++iterator; // skip the newline
                             break;
                         }
@@ -191,17 +168,12 @@ namespace ouzel
                             ++iterator; // skip the semicolon
 
                             if (!parsedSection)
-                            {
-                                Log(Log::Level::ERR) << "Unexpected comment";
-                                return false;
-                            }
+                                throw ParseError("Unexpected comment");
 
                             for (;;)
                             {
                                 if (iterator == str.end())
-                                {
                                     break;
-                                }
                                 else if (*iterator == '\n' || *iterator == '\r')
                                 {
                                     ++iterator; // skip the newline
@@ -213,31 +185,21 @@ namespace ouzel
                             break;
                         }
                         else if (*iterator == ']')
-                        {
                             parsedSection = true;
-                        }
                         else if (*iterator != ' ' && *iterator != '\t')
                         {
                             if (parsedSection)
-                            {
-                                Log(Log::Level::ERR) << "Unexpected character after section";
-                                return false;
-                            }
+                                throw ParseError("Unexpected character after section");
                         }
 
                         if (!parsedSection)
-                        {
                             sectionUtf32.push_back(*iterator);
-                        }
 
                         ++iterator;
                     }
 
                     if (sectionUtf32.empty())
-                    {
-                        Log(Log::Level::ERR) << "Invalid section name";
-                        return false;
-                    }
+                        throw ParseError("Invalid section name");
 
                     std::string sectionName = utf32ToUtf8(sectionUtf32);
 
@@ -263,9 +225,7 @@ namespace ouzel
                     for (;;)
                     {
                         if (iterator == str.end())
-                        {
                             break;
-                        }
                         else if (*iterator == '\r' || *iterator == '\n')
                         {
                             ++iterator; // skip the newline
@@ -274,14 +234,9 @@ namespace ouzel
                         else if (*iterator == '=')
                         {
                             if (!parsedKey)
-                            {
                                 parsedKey = true;
-                            }
                             else
-                            {
-                                Log(Log::Level::ERR) << "Unexpected character";
-                                return false;
-                            }
+                                throw ParseError("Unexpected character");
                         }
                         else if (*iterator == ';')
                         {
@@ -290,9 +245,7 @@ namespace ouzel
                             for (;;)
                             {
                                 if (iterator == str.end())
-                                {
                                     break;
-                                }
                                 else if (*iterator == '\r' || *iterator == '\n')
                                 {
                                     ++iterator; // skip the newline
@@ -306,23 +259,16 @@ namespace ouzel
                         else
                         {
                             if (!parsedKey)
-                            {
                                 keyUtf32.push_back(*iterator);
-                            }
                             else
-                            {
                                 valueUtf32.push_back(*iterator);
-                            }
                         }
 
                         ++iterator;
                     }
 
                     if (keyUtf32.empty())
-                    {
-                        Log(Log::Level::ERR) << "Invalid key name";
-                        return false;
-                    }
+                        throw ParseError("Invalid key name");
 
                     keyUtf32 = trimUtf32(keyUtf32);
                     valueUtf32 = trimUtf32(valueUtf32);
@@ -333,19 +279,17 @@ namespace ouzel
                     section->values[key] = value;
                 }
             }
-
-            return true;
         }
 
-        bool Data::save(const std::string& filename) const
+        void Data::save(const std::string& filename) const
         {
             std::vector<uint8_t> data;
             encode(data);
 
-            return engine->getFileSystem()->writeFile(filename, data);
+            engine->getFileSystem()->writeFile(filename, data);
         }
 
-        bool Data::encode(std::vector<uint8_t>& data) const
+        void Data::encode(std::vector<uint8_t>& data) const
         {
             data.clear();
 
@@ -353,22 +297,13 @@ namespace ouzel
 
             auto i = sections.find("");
             if (i != sections.end())
-            {
                 i->second.encode(data);
-            }
 
             for (const auto& section : sections)
             {
                 if (!section.first.empty())
-                {
-                    if (!section.second.encode(data))
-                    {
-                        return false;
-                    }
-                }
+                    section.second.encode(data);
             }
-
-            return true;
         }
 
         bool Data::hasSection(const std::string& section) const
@@ -386,9 +321,7 @@ namespace ouzel
         {
             auto sectionIterator = sections.find(name);
             if (sectionIterator != sections.end())
-            {
                 return sectionIterator->second;
-            }
 
             return Section();
         }
@@ -398,16 +331,11 @@ namespace ouzel
             sections[name] = section;
         }
 
-        bool Data::deleteSection(const std::string& name)
+        void Data::deleteSection(const std::string& name)
         {
             auto sectionIterator = sections.find(name);
             if (sectionIterator != sections.end())
-            {
                 sections.erase(sectionIterator);
-                return true;
-            }
-
-            return false;
         }
     } // namespace ini
 } // namespace ouzel

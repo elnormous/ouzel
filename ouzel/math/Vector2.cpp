@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <cmath>
 #include <cassert>
@@ -11,18 +10,6 @@
 
 namespace ouzel
 {
-    const Vector2 Vector2::ZERO(0.0F, 0.0F);
-    const Vector2 Vector2::ONE(1.0F, 1.0F);
-    const Vector2 Vector2::UNIT_X(1.0F, 0.0F);
-    const Vector2 Vector2::UNIT_Y(0.0F, 1.0F);
-    const Vector2 Vector2::NEGATIVE_UNIT_X(-1.0F, 0.0F);
-    const Vector2 Vector2::NEGATIVE_UNIT_Y(0.0F, -1.0F);
-
-    Vector2::Vector2(const Vector2& p1, const Vector2& p2)
-    {
-        set(p1, p2);
-    }
-
     Vector2::Vector2(const Vector3& vec):
         x(vec.x), y(vec.y)
     {
@@ -115,7 +102,7 @@ namespace ouzel
             return;
 
         n = sqrtf(n);
-        if (n < TOLERANCE) // too close to zero
+        if (n < EPSILON) // too close to zero
             return;
 
         n = 1.0F / n;
@@ -157,9 +144,7 @@ namespace ouzel
     void Vector2::smooth(const Vector2& target, float elapsedTime, float responseTime)
     {
         if (elapsedTime > 0)
-        {
             *this += (target - *this) * (elapsedTime / (elapsedTime + responseTime));
-        }
     }
 
     float Vector2::getMin() const

@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -25,7 +24,7 @@ namespace ouzel
 
         private:
             RenderDeviceOGLRasp();
-            virtual bool init(Window* newWindow,
+            virtual void init(Window* newWindow,
                               const Size2& newSize,
                               uint32_t newSampleCount,
                               Texture::Filter newTextureFilter,
@@ -34,8 +33,8 @@ namespace ouzel
                               bool newDepth,
                               bool newDebugRenderer) override;
 
-            virtual bool lockContext() override;
-            virtual bool swapBuffers() override;
+            virtual void lockContext() override;
+            virtual void swapBuffers() override;
             void main();
 
             EGLDisplay display = 0;

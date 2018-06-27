@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -11,13 +10,13 @@ namespace ouzel
 {
     namespace input
     {
-        class InputWin;
+        class InputManagerWin;
 
         class GamepadXI: public Gamepad
         {
-            friend InputWin;
+            friend InputManagerWin;
         public:
-            void update(const XINPUT_STATE& newState);
+            void update();
 
             virtual int32_t getPlayerIndex() const override;
 

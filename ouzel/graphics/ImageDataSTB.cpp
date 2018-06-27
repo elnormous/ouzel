@@ -1,10 +1,9 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "ImageDataSTB.hpp"
-#include "utils/Log.hpp"
 #include "core/Engine.hpp"
 #include "files/FileSystem.hpp"
+#include "utils/Errors.hpp"
 #define STBI_NO_PSD
 #define STBI_NO_HDR
 #define STBI_NO_PIC
@@ -19,19 +18,13 @@ namespace ouzel
 {
     namespace graphics
     {
-        bool ImageDataSTB::init(const std::string& filename,
+        void ImageDataSTB::init(const std::string& filename,
                                 PixelFormat newPixelFormat)
         {
-            std::vector<uint8_t> newData;
-            if (!engine->getFileSystem()->readFile(filename, newData))
-            {
-                return false;
-            }
-
-            return init(newData, newPixelFormat);
+            return init(engine->getFileSystem()->readFile(filename), newPixelFormat);
         }
 
-        bool ImageDataSTB::init(const std::vector<uint8_t>& newData,
+        void ImageDataSTB::init(const std::vector<uint8_t>& newData,
                                 PixelFormat newPixelFormat)
         {
             int width;
@@ -50,10 +43,7 @@ namespace ouzel
             stbi_uc* tempData = stbi_load_from_memory(newData.data(), static_cast<int>(newData.size()), &width, &height, &comp, reqComp);
 
             if (!tempData)
-            {
-                Log(Log::Level::ERR) << "Failed to load texture, reason: " << stbi_failure_reason();
-                return false;
-            }
+                throw ParseError("Failed to load texture, reason: " + std::string(stbi_failure_reason()));
 
             if (reqComp != STBI_default) comp = reqComp;
 
@@ -64,9 +54,8 @@ namespace ouzel
                 case STBI_grey_alpha: pixelFormat = PixelFormat::RG8_UNORM; pixelSize = 2; break;
                 case STBI_rgb_alpha: pixelFormat = PixelFormat::RGBA8_UNORM; pixelSize = 4; break;
                 default:
-                    Log(Log::Level::ERR) << "Unknown pixel size";
                     stbi_image_free(tempData);
-                    return false;
+                    throw ParseError("Unknown pixel size");
             }
 
             data.assign(tempData, tempData + (width * height * pixelSize));
@@ -75,23 +64,16 @@ namespace ouzel
 
             size.width = static_cast<float>(width);
             size.height = static_cast<float>(height);
-
-            return true;
         }
 
-        bool ImageDataSTB::writeToFile(const std::string& newFilename)
+        void ImageDataSTB::writeToFile(const std::string& newFilename)
         {
             int depth = static_cast<int>(getPixelSize(pixelFormat));
             int width = static_cast<int>(size.width);
             int height = static_cast<int>(size.height);
 
             if (!stbi_write_png(newFilename.c_str(), width, height, depth, data.data(), width * depth))
-            {
-                Log(Log::Level::ERR) << "Failed to save image to file";
-                return false;
-            }
-
-            return true;
+                throw ParseError("Failed to save image to file");
         }
 
     } // namespace graphics

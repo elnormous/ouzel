@@ -1,12 +1,10 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "core/Setup.h"
 
 #if OUZEL_COMPILE_OPENGL
 
 #include "BlendStateResourceOGL.hpp"
-#include "utils/Log.hpp"
 
 namespace ouzel
 {
@@ -30,7 +28,6 @@ namespace ouzel
                 case BlendState::Factor::BLEND_FACTOR: return GL_CONSTANT_COLOR;
                 case BlendState::Factor::INV_BLEND_FACTOR: return GL_ONE_MINUS_CONSTANT_COLOR;
                 default:
-                    Log(Log::Level::ERR) << "Unsupported blend factor";
                     return GL_NONE;
             }
         }
@@ -47,7 +44,6 @@ namespace ouzel
                 case BlendState::Operation::MAX: return GL_MAX;
 #endif
                 default:
-                    Log(Log::Level::ERR) << "Unsupported blend operation";
                     return GL_NONE;
             }
         }
@@ -56,22 +52,19 @@ namespace ouzel
         {
         }
 
-        bool BlendStateResourceOGL::init(bool newEnableBlending,
+        void BlendStateResourceOGL::init(bool newEnableBlending,
                                          BlendState::Factor newColorBlendSource, BlendState::Factor newColorBlendDest,
                                          BlendState::Operation newColorOperation,
                                          BlendState::Factor newAlphaBlendSource, BlendState::Factor newAlphaBlendDest,
                                          BlendState::Operation newAlphaOperation,
                                          uint8_t newColorMask)
         {
-            if (!BlendStateResource::init(newEnableBlending,
-                                          newColorBlendSource, newColorBlendDest,
-                                          newColorOperation,
-                                          newAlphaBlendSource, newAlphaBlendDest,
-                                          newAlphaOperation,
-                                          newColorMask))
-            {
-                return false;
-            }
+            BlendStateResource::init(newEnableBlending,
+                                     newColorBlendSource, newColorBlendDest,
+                                     newColorOperation,
+                                     newAlphaBlendSource, newAlphaBlendDest,
+                                     newAlphaOperation,
+                                     newColorMask);
 
             modeRGB = getBlendOperation(colorOperation);
             modeAlpha = getBlendOperation(alphaOperation);
@@ -87,8 +80,6 @@ namespace ouzel
             greenMask = (colorMask & BlendState::COLOR_MASK_GREEN) ? GL_TRUE : GL_FALSE;
             blueMask = (colorMask & BlendState::COLOR_MASK_BLUE) ? GL_TRUE : GL_FALSE;
             alphaMask = (colorMask & BlendState::COLOR_MASK_ALPHA) ? GL_TRUE : GL_FALSE;
-
-            return true;
         }
     } // namespace graphics
 } // namespace ouzel

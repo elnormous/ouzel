@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -17,17 +16,18 @@ namespace ouzel
 
             virtual void setEnabled(bool newEnabled) override;
 
-            void addWidget(Widget* widget)
+            virtual bool removeChild(Actor* actor) override;
+
+            virtual void addWidget(Widget* widget);
+
+            template<typename T> void addWidget(const std::unique_ptr<T>& widget)
             {
-                addChildWidget(widget);
+                addWidget(widget.get());
             }
-            template<class T> void addWidget(const std::unique_ptr<T>& widget)
+
+            template<typename T> void addWidget(std::unique_ptr<T>&& widget)
             {
-                addChildWidget(widget.get());
-            }
-            template<class T> void addWidget(std::unique_ptr<T>&& widget)
-            {
-                addChildWidget(widget.get());
+                addWidget(widget.get());
                 ownedChildren.push_back(std::move(widget));
             }
 
@@ -36,9 +36,6 @@ namespace ouzel
             virtual void selectPreviousWidget();
 
         protected:
-            virtual void addChildWidget(Widget* widget);
-            virtual bool removeChildActor(Actor* actor) override;
-
             virtual void enter() override;
             virtual void leave() override;
 

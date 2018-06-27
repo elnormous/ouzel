@@ -1,25 +1,28 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "core/Setup.h"
 
 #if OUZEL_PLATFORM_TVOS && OUZEL_COMPILE_OPENGL
 
-#import "core/tvos/DisplayLinkHandler.h"
 #include "RenderDeviceOGLTVOS.hpp"
 #include "core/Window.hpp"
 #include "core/tvos/WindowResourceTVOS.hpp"
+#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
+        RenderDeviceOGLTVOS::RenderDeviceOGLTVOS():
+            displayLink(*this)
+        {
+        }
+
         RenderDeviceOGLTVOS::~RenderDeviceOGLTVOS()
         {
-            if (displayLinkHandler) [displayLinkHandler stop];
+            displayLink.stop();
             flushCommands();
-            if (displayLinkHandler) [displayLinkHandler dealloc];
 
             if (msaaColorRenderBufferId) glDeleteRenderbuffersProc(1, &msaaColorRenderBufferId);
             if (msaaFrameBufferId) glDeleteFramebuffersProc(1, &msaaFrameBufferId);
@@ -34,7 +37,7 @@ namespace ouzel
             }
         }
 
-        bool RenderDeviceOGLTVOS::init(Window* newWindow,
+        void RenderDeviceOGLTVOS::init(Window* newWindow,
                                        const Size2& newSize,
                                        uint32_t newSampleCount,
                                        Texture::Filter newTextureFilter,
@@ -70,38 +73,24 @@ namespace ouzel
                     Log(Log::Level::INFO) << "EAGL OpenGL ES 2 context created";
                 }
                 else
-                {
-                    Log(Log::Level::ERR) << "Failed to create EAGL context";
-                    return false;
-                }
+                    throw SystemError("Failed to create EAGL context");
             }
 
             if (![EAGLContext setCurrentContext:context])
-            {
-                Log(Log::Level::ERR) << "Failed to set current EAGL context";
-                return false;
-            }
+                throw SystemError("Failed to set current EAGL context");
 
-            if (!RenderDeviceOGL::init(newWindow,
-                                       newSize,
-                                       newSampleCount,
-                                       newTextureFilter,
-                                       newMaxAnisotropy,
-                                       newVerticalSync,
-                                       newDepth,
-                                       newDebugRenderer))
-            {
-                return false;
-            }
+            RenderDeviceOGL::init(newWindow,
+                                  newSize,
+                                  newSampleCount,
+                                  newTextureFilter,
+                                  newMaxAnisotropy,
+                                  newVerticalSync,
+                                  newDepth,
+                                  newDebugRenderer);
 
-            if (!createFrameBuffer())
-            {
-                return false;
-            }
+            createFrameBuffer();
 
-            displayLinkHandler = [[DisplayLinkHandler alloc] initWithRenderDevice:this andVerticalSync:verticalSync];
-
-            return true;
+            displayLink.start(verticalSync);
         }
 
         void RenderDeviceOGLTVOS::setSize(const Size2& newSize)
@@ -111,56 +100,40 @@ namespace ouzel
             createFrameBuffer();
         }
 
-        bool RenderDeviceOGLTVOS::lockContext()
+        void RenderDeviceOGLTVOS::lockContext()
         {
             if (![EAGLContext setCurrentContext:context])
-            {
-                Log(Log::Level::ERR) << "Failed to set current OpenGL context";
-                return false;
-            }
-
-            return true;
+                throw SystemError("Failed to set current OpenGL context");
         }
 
-        bool RenderDeviceOGLTVOS::swapBuffers()
+        void RenderDeviceOGLTVOS::swapBuffers()
         {
             if (sampleCount > 1)
             {
                 glBindFramebufferProc(GL_DRAW_FRAMEBUFFER_APPLE, resolveFrameBufferId); // draw to resolve frame buffer
                 glBindFramebufferProc(GL_READ_FRAMEBUFFER_APPLE, frameBufferId); // read from FBO
 
-                if (checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to bind MSAA frame buffer";
-                    return false;
-                }
+                GLenum error;
+
+                if ((error = glGetError()) != GL_NO_ERROR)
+                    throw SystemError("Failed to bind MSAA frame buffer, error: " + std::to_string(error));
 
                 if (apiMajorVersion >= 3)
-                {
                     glBlitFramebufferProc(0, 0, frameBufferWidth, frameBufferHeight,
                                           0, 0, frameBufferWidth, frameBufferHeight,
                                           GL_COLOR_BUFFER_BIT, GL_NEAREST);
-                }
                 else
-                {
                     glResolveMultisampleFramebufferAPPLE();
-                }
 
-                if (checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to blit MSAA texture";
-                    return false;
-                }
+                if ((error = glGetError()) != GL_NO_ERROR)
+                    throw SystemError("Failed to blit MSAA texture, error: " + std::to_string(error));
 
                 // reset framebuffer
                 const GLenum discard[] = {GL_COLOR_ATTACHMENT0, GL_DEPTH_ATTACHMENT};
                 glDiscardFramebufferEXT(GL_READ_FRAMEBUFFER_APPLE, 1, discard);
 
-                if (checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to discard render buffers";
-                    return false;
-                }
+                if ((error = glGetError()) != GL_NO_ERROR)
+                    throw SystemError("Failed to discard render buffers, error: " + std::to_string(error));
 
                 stateCache.frameBufferId = resolveFrameBufferId;
             }
@@ -168,11 +141,9 @@ namespace ouzel
             glBindRenderbufferProc(GL_RENDERBUFFER, resolveColorRenderBufferId);
 
             [context presentRenderbuffer:GL_RENDERBUFFER];
-
-            return true;
         }
 
-        bool RenderDeviceOGLTVOS::createFrameBuffer()
+        void RenderDeviceOGLTVOS::createFrameBuffer()
         {
             if (sampleCount > 1)
             {
@@ -188,11 +159,10 @@ namespace ouzel
                 glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
                                               GL_RENDERBUFFER, resolveColorRenderBufferId);
 
-                if (glCheckFramebufferStatusProc(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-                {
-                    Log(Log::Level::ERR) << "Failed to create framebuffer object " << glCheckFramebufferStatusProc(GL_FRAMEBUFFER);
-                    return false;
-                }
+                GLenum status = glCheckFramebufferStatusProc(GL_FRAMEBUFFER);
+
+                if (status != GL_FRAMEBUFFER_COMPLETE)
+                    throw SystemError("Failed to create framebuffer object, status: " + std::to_string(status));
 
                 // create MSAA frame buffer
                 if (!msaaFrameBufferId) glGenFramebuffers(1, &msaaFrameBufferId);
@@ -213,15 +183,12 @@ namespace ouzel
                 glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, msaaColorRenderBufferId);
 
                 if (depth)
-                {
                     glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBufferId);
-                }
 
-                if (glCheckFramebufferStatusProc(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-                {
-                    Log(Log::Level::ERR) << "Failed to create framebuffer object " << glCheckFramebufferStatusProc(GL_FRAMEBUFFER);
-                    return false;
-                }
+                status = glCheckFramebufferStatusProc(GL_FRAMEBUFFER);
+
+                if (status != GL_FRAMEBUFFER_COMPLETE)
+                    throw SystemError("Failed to create framebuffer object, status: " + std::to_string(status));
 
                 frameBufferId = msaaFrameBufferId;
             }
@@ -247,20 +214,15 @@ namespace ouzel
                                               GL_RENDERBUFFER, resolveColorRenderBufferId);
 
                 if (depth)
-                {
                     glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBufferId);
-                }
 
-                if (glCheckFramebufferStatusProc(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-                {
-                    Log(Log::Level::ERR) << "Failed to create framebuffer object " << glCheckFramebufferStatusProc(GL_FRAMEBUFFER);
-                    return false;
-                }
+                GLenum status = glCheckFramebufferStatusProc(GL_FRAMEBUFFER);
+
+                if (status != GL_FRAMEBUFFER_COMPLETE)
+                    throw SystemError("Failed to create framebuffer object, status: " + std::to_string(status));
 
                 frameBufferId = resolveFrameBufferId;
             }
-
-            return true;
         }
     } // namespace graphics
 } // namespace ouzel

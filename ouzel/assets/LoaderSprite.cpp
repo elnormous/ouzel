@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <algorithm>
 #include "LoaderSprite.hpp"
@@ -22,26 +21,18 @@ namespace ouzel
             scene::SpriteData spriteData;
 
             json::Data document;
-
-            if (!document.init(data))
-            {
-                return false;
-            }
+            document.init(data);
 
             if (!document.hasMember("meta") ||
                 !document.hasMember("frames"))
-            {
                 return false;
-            }
 
             const json::Value& metaObject = document["meta"];
 
             spriteData.texture = engine->getCache()->getTexture(metaObject["image"].asString(), mipmaps);
 
             if (!spriteData.texture)
-            {
                 return false;
-            }
 
             const json::Value& framesArray = document["frames"];
 
@@ -86,9 +77,7 @@ namespace ouzel
                     for (const json::Value& triangleObject : trianglesObject.asArray())
                     {
                         for (const json::Value& indexObject : triangleObject.asArray())
-                        {
                             indices.push_back(static_cast<uint16_t>(indexObject.asUInt32()));
-                        }
                     }
 
                     // reverse the vertices, so that they are counterclockwise

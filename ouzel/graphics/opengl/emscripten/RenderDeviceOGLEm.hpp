@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -22,7 +21,7 @@ namespace ouzel
             virtual ~RenderDeviceOGLEm();
 
         private:
-            virtual bool init(Window* newWindow,
+            virtual void init(Window* newWindow,
                               const Size2& newSize,
                               uint32_t newSampleCount,
                               Texture::Filter newTextureFilter,
@@ -30,7 +29,7 @@ namespace ouzel
                               bool newVerticalSync,
                               bool newDepth,
                               bool newDebugRenderer) override;
-            virtual bool lockContext() override;
+            virtual void lockContext() override;
 
             EMSCRIPTEN_WEBGL_CONTEXT_HANDLE webGLContext = 0;
         };

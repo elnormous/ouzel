@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "core/Setup.h"
 
@@ -12,7 +11,7 @@
 #include "EngineLinux.hpp"
 #include "graphics/RenderDevice.hpp"
 #include "thread/Lock.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 static const long _NET_WM_STATE_TOGGLE = 2;
 
@@ -25,22 +24,18 @@ namespace ouzel
     WindowResourceLinux::~WindowResourceLinux()
     {
         if (visualInfo)
-        {
             XFree(visualInfo);
-        }
 
         if (display)
         {
             if (window)
-            {
                 XDestroyWindow(display, window);
-            }
 
             XCloseDisplay(display);
         }
     }
 
-    bool WindowResourceLinux::init(const Size2& newSize,
+    void WindowResourceLinux::init(const Size2& newSize,
                                    bool newResizable,
                                    bool newFullscreen,
                                    bool newExclusiveFullscreen,
@@ -48,25 +43,19 @@ namespace ouzel
                                    bool newHighDpi,
                                    bool depth)
     {
-        if (!WindowResource::init(newSize,
-                                  newResizable,
-                                  newFullscreen,
-                                  newExclusiveFullscreen,
-                                  newTitle,
-                                  newHighDpi,
-                                  depth))
-        {
-            return false;
-        }
+        WindowResource::init(newSize,
+                             newResizable,
+                             newFullscreen,
+                             newExclusiveFullscreen,
+                             newTitle,
+                             newHighDpi,
+                             depth);
 
         // open a connection to the X server
         display = XOpenDisplay(nullptr);
 
         if (!display)
-        {
-            Log(Log::Level::ERR) << "Failed to open display";
-            return false;
-        }
+            throw SystemError("Failed to open display");
 
         Screen* screen = XDefaultScreenOfDisplay(display);
         int screenIndex = XScreenNumberOfScreen(screen);
@@ -111,15 +100,10 @@ namespace ouzel
 
                 visualInfo = glXChooseVisual(display, screenIndex, doubleBuffer);
                 if (!visualInfo)
-                {
-                    Log(Log::Level::ERR) << "Failed to choose visual";
-                    return false;
-                }
+                    throw SystemError("Failed to choose visual");
+
                 if (visualInfo->c_class != TrueColor)
-                {
-                    Log(Log::Level::ERR) << "TrueColor visual required for this program";
-                    return false;
-                }
+                    throw SystemError("TrueColor visual required for this program");
 
                 // create an X colormap since probably not using default visual
                 Colormap cmap = XCreateColormap(display, RootWindow(display, visualInfo->screen), visualInfo->visual, AllocNone);
@@ -136,8 +120,7 @@ namespace ouzel
             }
 #endif
             default:
-                Log(Log::Level::ERR) << "Unsupported render driver";
-                return false;
+                throw SystemError("Unsupported render driver");
         }
 
         EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
@@ -176,8 +159,6 @@ namespace ouzel
         executeAtom = XInternAtom(display, "OUZEL_EXECUTE", False);
 
         if (fullscreen) toggleFullscreen();
-
-        return true;
     }
 
     void WindowResourceLinux::close()
@@ -197,9 +178,7 @@ namespace ouzel
         event.xclient.data.l[3] = 0; // unused
         event.xclient.data.l[4] = 0; // unused
         if (!XSendEvent(display, window, False, NoEventMask, &event))
-        {
-            Log(Log::Level::ERR) << "Failed to send X11 delete message";
-        }
+            throw SystemError("Failed to send X11 delete message");
     }
 
     void WindowResourceLinux::setSize(const Size2& newSize)
@@ -226,9 +205,7 @@ namespace ouzel
 
         Lock lock(listenerMutex);
         if (listener)
-        {
             listener->onResolutionChange(resolution);
-        }
     }
 
     void WindowResourceLinux::setFullscreen(bool newFullscreen)
@@ -245,9 +222,13 @@ namespace ouzel
         WindowResource::setTitle(newTitle);
     }
 
-    bool WindowResourceLinux::toggleFullscreen()
+    void WindowResourceLinux::toggleFullscreen()
     {
-        if (!stateAtom || !stateFullscreenAtom) return false;
+        if (!stateAtom)
+            throw SystemError("State atom is null");
+
+        if (!stateFullscreenAtom)
+            throw SystemError("Fullscreen state atom is null");
 
         XEvent event;
         event.type = ClientMessage;
@@ -261,11 +242,7 @@ namespace ouzel
         event.xclient.data.l[4] = 0; // unused
 
         if (!XSendEvent(display, DefaultRootWindow(display), 0, SubstructureRedirectMask | SubstructureNotifyMask, &event))
-        {
-            Log(Log::Level::ERR) << "Failed to send X11 fullscreen message";
-        }
-
-        return true;
+            throw SystemError("Failed to send X11 fullscreen message");
     }
 
     void WindowResourceLinux::handleResize(const Size2& newSize)

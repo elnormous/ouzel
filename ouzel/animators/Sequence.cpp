@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <algorithm>
 #include <numeric>
@@ -13,18 +12,14 @@ namespace ouzel
             Animator(std::accumulate(initAnimators.begin(), initAnimators.end(), 0.0F, [](float a, Animator* b) { return a + b->getLength(); }))
         {
             for (Animator* animator : initAnimators)
-            {
                 addAnimator(animator);
-            }
         }
 
         Sequence::Sequence(const std::vector<std::unique_ptr<Animator>>& initAnimators):
             Animator(std::accumulate(initAnimators.begin(), initAnimators.end(), 0.0F, [](float a, const std::unique_ptr<Animator>& b) { return a + b->getLength(); }))
         {
             for (const std::unique_ptr<Animator>& animator : initAnimators)
-            {
                 addAnimator(animator.get());
-            }
         }
 
         void Sequence::play()
@@ -36,9 +31,7 @@ namespace ouzel
             targetActor = actor;
 
             if (!targetActor && parent)
-            {
                 targetActor = parent->getTargetActor();
-            }
 
             if (!animators.empty())
             {
@@ -46,9 +39,7 @@ namespace ouzel
                 currentAnimator->play();
             }
             else
-            {
                 currentAnimator = nullptr;
-            }
         }
 
         void Sequence::updateProgress()

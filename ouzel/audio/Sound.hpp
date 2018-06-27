@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -23,7 +22,7 @@ namespace ouzel
             Sound();
             virtual ~Sound();
 
-            bool init(const std::shared_ptr<SoundData>& newSoundData);
+            void init(const std::shared_ptr<SoundData>& newSoundData);
 
             inline const std::shared_ptr<SoundData>& getSoundData() const { return soundData; }
 
@@ -45,9 +44,9 @@ namespace ouzel
             inline bool isSpatialized() const { return spatialized; }
             void setSpatialized(bool newSpatialized);
 
-            bool play(bool repeatSound = false);
-            bool pause();
-            bool stop();
+            void play(bool repeatSound = false);
+            void pause();
+            void stop();
 
             bool isPlaying() const { return playing; }
             bool isRepeating() const { return repeating; }
@@ -69,7 +68,7 @@ namespace ouzel
                                       float gainScale,
                                       float rolloffScale);
 
-            static bool render(uint32_t frames,
+            static void render(uint32_t frames,
                                uint16_t channels,
                                uint32_t sampleRate,
                                const Vector3& listenerPosition,

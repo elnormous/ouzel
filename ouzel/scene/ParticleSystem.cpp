@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <cstdlib>
 #include "core/Setup.h"
@@ -10,8 +9,8 @@
 #include "assets/Cache.hpp"
 #include "Layer.hpp"
 #include "scene/Camera.hpp"
-#include "graphics/MeshBufferResource.hpp"
 #include "graphics/BufferResource.hpp"
+#include "utils/Errors.hpp"
 #include "utils/Utils.hpp"
 #include "math/MathUtils.hpp"
 
@@ -38,24 +37,12 @@ namespace ouzel
         void ParticleSystem::draw(const Matrix4& transformMatrix,
                                   float opacity,
                                   const Matrix4& renderViewProjection,
-                                  const std::shared_ptr<graphics::Texture>& renderTarget,
-                                  const Rect& renderViewport,
-                                  bool depthWrite,
-                                  bool depthTest,
-                                  bool wireframe,
-                                  bool scissorTest,
-                                  const Rect& scissorRectangle)
+                                  bool wireframe)
         {
             Component::draw(transformMatrix,
                             opacity,
                             renderViewProjection,
-                            renderTarget,
-                            renderViewport,
-                            depthWrite,
-                            depthTest,
-                            wireframe,
-                            scissorTest,
-                            scissorRectangle);
+                            wireframe);
 
             if (particleCount)
             {
@@ -69,13 +56,9 @@ namespace ouzel
 
                 if (particleSystemData.positionType == ParticleSystemData::PositionType::FREE ||
                     particleSystemData.positionType == ParticleSystemData::PositionType::PARENT)
-                {
                     transform = renderViewProjection;
-                }
                 else if (particleSystemData.positionType == ParticleSystemData::PositionType::GROUPED)
-                {
                     transform = renderViewProjection * transformMatrix;
-                }
 
                 float colorVector[] = {1.0F, 1.0F, 1.0F, opacity};
 
@@ -85,23 +68,17 @@ namespace ouzel
                 std::vector<std::vector<float>> vertexShaderConstants(1);
                 vertexShaderConstants[0] = {std::begin(transform.m), std::end(transform.m)};
 
-                engine->getRenderer()->addDrawCommand({wireframe ? whitePixelTexture : texture},
-                                                      shader,
-                                                      pixelShaderConstants,
-                                                      vertexShaderConstants,
-                                                      blendState,
-                                                      meshBuffer,
+                engine->getRenderer()->addSetCullModeCommad(graphics::Renderer::CullMode::NONE);
+                engine->getRenderer()->addSetPipelineStateCommand(blendState, shader);
+                engine->getRenderer()->addSetShaderConstantsCommand(pixelShaderConstants,
+                                                                    vertexShaderConstants);
+                engine->getRenderer()->addSetTexturesCommand({wireframe ? whitePixelTexture : texture});
+                engine->getRenderer()->addDrawCommand(indexBuffer,
                                                       particleCount * 6,
+                                                      sizeof(uint16_t),
+                                                      vertexBuffer,
                                                       graphics::Renderer::DrawMode::TRIANGLE_LIST,
-                                                      0,
-                                                      renderTarget,
-                                                      renderViewport,
-                                                      depthWrite,
-                                                      depthTest,
-                                                      wireframe,
-                                                      scissorTest,
-                                                      scissorRectangle,
-                                                      graphics::Renderer::CullMode::NONE);
+                                                      0);
             }
         }
 
@@ -252,45 +229,35 @@ namespace ouzel
                 else if (particleSystemData.positionType == ParticleSystemData::PositionType::GROUPED)
                 {
                     for (uint32_t i = 0; i < particleCount; i++)
-                    {
                         boundingBox.insertPoint(particles[i].position);
-                    }
                 }
             }
         }
 
-        bool ParticleSystem::init(const ParticleSystemData& newParticleSystemData)
+        void ParticleSystem::init(const ParticleSystemData& newParticleSystemData)
         {
             particleSystemData = newParticleSystemData;
 
             texture = particleSystemData.texture;
 
             if (!texture)
-            {
-                return false;
-            }
+                throw DataError("Paricle system data has no texture");
 
             createParticleMesh();
             resume();
-
-            return true;
         }
 
-        bool ParticleSystem::init(const std::string& filename)
+        void ParticleSystem::init(const std::string& filename)
         {
             particleSystemData = engine->getCache()->getParticleSystemData(filename);
 
             texture = particleSystemData.texture;
 
             if (!texture)
-            {
-                return false;
-            }
+                throw DataError("Paricle system data has no texture");
 
             createParticleMesh();
             resume();
-
-            return true;
         }
 
         void ParticleSystem::resume()
@@ -348,20 +315,17 @@ namespace ouzel
                                                     Vector2(0.0F, 1.0F), Vector3(0.0F, 0.0F, -1.0F)));
                 vertices.push_back(graphics::Vertex(Vector3(1.0F, -1.0F, 0.0F), Color::WHITE,
                                                     Vector2(1.0F, 1.0F), Vector3(0.0F, 0.0F, -1.0F)));
-                vertices.push_back(graphics::Vertex(Vector3(-1.0F, 1.0F, 0.0F),  Color::WHITE,
+                vertices.push_back(graphics::Vertex(Vector3(-1.0F, 1.0F, 0.0F), Color::WHITE,
                                                     Vector2(0.0F, 0.0F), Vector3(0.0F, 0.0F, -1.0F)));
-                vertices.push_back(graphics::Vertex(Vector3(1.0F, 1.0F, 0.0F),  Color::WHITE,
+                vertices.push_back(graphics::Vertex(Vector3(1.0F, 1.0F, 0.0F), Color::WHITE,
                                                     Vector2(1.0F, 0.0F), Vector3(0.0F, 0.0F, -1.0F)));
             }
 
             indexBuffer = std::make_shared<graphics::Buffer>();
-            indexBuffer->init(graphics::Buffer::Usage::INDEX, indices.data(), static_cast<uint32_t>(getVectorSize(indices)), 0);
+            indexBuffer->init(graphics::Buffer::Usage::INDEX, 0, indices.data(), static_cast<uint32_t>(getVectorSize(indices)));
 
             vertexBuffer = std::make_shared<graphics::Buffer>();
-            vertexBuffer->init(graphics::Buffer::Usage::VERTEX, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)), graphics::Buffer::DYNAMIC);
-
-            meshBuffer = std::make_shared<graphics::MeshBuffer>();
-            meshBuffer->init(sizeof(uint16_t), indexBuffer, vertexBuffer);
+            vertexBuffer->init(graphics::Buffer::Usage::VERTEX, graphics::Buffer::DYNAMIC, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)));
 
             particles.resize(particleSystemData.maxParticles);
 
@@ -379,13 +343,9 @@ namespace ouzel
                     Vector2 position;
 
                     if (particleSystemData.positionType == ParticleSystemData::PositionType::FREE)
-                    {
                         position = particles[i].position;
-                    }
                     else if (particleSystemData.positionType == ParticleSystemData::PositionType::PARENT)
-                    {
                         position = actor->getPosition() + particles[i].position;
-                    }
 
                     float size_2 = particles[i].size / 2.0F;
                     Vector2 v1(-size_2, -size_2);
@@ -418,10 +378,7 @@ namespace ouzel
                     vertices[i * 4 + 3].color = color;
                 }
 
-                if (!vertexBuffer->setData(vertices.data(), static_cast<uint32_t>(getVectorSize(vertices))))
-                {
-                    return false;
-                }
+                vertexBuffer->setData(vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)));
             }
 
             return true;
@@ -430,22 +387,16 @@ namespace ouzel
         void ParticleSystem::emitParticles(uint32_t count)
         {
             if (particleCount + count > particleSystemData.maxParticles)
-            {
                 count = particleSystemData.maxParticles - particleCount;
-            }
 
             if (count && actor)
             {
                 Vector2 position;
 
                 if (particleSystemData.positionType == ParticleSystemData::PositionType::FREE)
-                {
-                    position = actor->convertLocalToWorld(Vector2::ZERO);
-                }
+                    position = actor->convertLocalToWorld(Vector2());
                 else if (particleSystemData.positionType == ParticleSystemData::PositionType::PARENT)
-                {
-                    position = actor->convertLocalToWorld(Vector2::ZERO) - actor->getPosition();
-                }
+                    position = actor->convertLocalToWorld(Vector2()) - actor->getPosition();
 
                 for (uint32_t i = particleCount; i < particleCount + count; ++i)
                 {

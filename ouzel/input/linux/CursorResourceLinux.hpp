@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -13,18 +12,18 @@ namespace ouzel
         class CursorResourceLinux: public CursorResource
         {
         public:
-            explicit CursorResourceLinux(Input* initInput);
+            explicit CursorResourceLinux(InputManager& initInputManager);
             virtual ~CursorResourceLinux();
 
-            virtual bool init(SystemCursor newSystemCursor) override;
-            virtual bool init(const std::vector<uint8_t>& newData,
+            virtual void init(SystemCursor newSystemCursor) override;
+            virtual void init(const std::vector<uint8_t>& newData,
                               const Size2& newSize,
                               graphics::PixelFormat newPixelFormat,
                               const Vector2& newHotSpot) override;
 
             ::Cursor getNativeCursor() const { return cursor; }
 
-        protected:
+        private:
             ::Cursor cursor = None;
         };
     } // namespace input

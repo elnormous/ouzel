@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <fcntl.h>
 #include <unistd.h>
@@ -31,15 +30,11 @@ namespace ouzel
             }
 
             if (ioctl(fd, EVIOCGRAB, reinterpret_cast<void*>(1)) == -1)
-            {
                 Log(Log::Level::WARN) << "Failed to grab device";
-            }
 
             char deviceName[256];
             if (ioctl(fd, EVIOCGNAME(sizeof(deviceName) - 1), deviceName) == -1)
-            {
                 Log(Log::Level::WARN) << "Failed to get device name";
-            }
             else
             {
                 name = deviceName;
@@ -126,15 +121,13 @@ namespace ouzel
             vendor = id.vendor;
             product = id.product;
         }
-        
+
         EventDevice::~EventDevice()
         {
             if (fd != -1)
             {
                 if (ioctl(fd, EVIOCGRAB, reinterpret_cast<void*>(0)) == -1)
-                {
                     Log(Log::Level::WARN) << "Failed to release device";
-                }
 
                 close(fd);
             }

@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -77,7 +76,7 @@ namespace ouzel
 
             inline AudioDevice* getDevice() const { return device.get(); }
 
-            bool update();
+            void update();
 
             void executeOnAudioThread(const std::function<void(void)>& func);
 
@@ -90,7 +89,7 @@ namespace ouzel
 
         protected:
             explicit Audio(Driver driver);
-            bool init(bool debugAudio);
+            void init(bool debugAudio);
 
             std::unique_ptr<AudioDevice> device;
 

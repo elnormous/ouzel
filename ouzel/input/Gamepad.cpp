@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <algorithm>
 #include "Gamepad.hpp"
@@ -33,9 +32,8 @@ namespace ouzel
             return -1;
         }
 
-        bool Gamepad::setPlayerIndex(int32_t)
+        void Gamepad::setPlayerIndex(int32_t)
         {
-            return false;
         }
 
         const Gamepad::ButtonState& Gamepad::getButtonState(GamepadButton button) const

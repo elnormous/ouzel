@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "core/Setup.h"
 
@@ -7,7 +6,7 @@
 
 #include "TextureResourceD3D11.hpp"
 #include "RenderDeviceD3D11.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -50,7 +49,7 @@ namespace ouzel
             }
         }
 
-        TextureResourceD3D11::TextureResourceD3D11(RenderDeviceD3D11* initRenderDeviceD3D11):
+        TextureResourceD3D11::TextureResourceD3D11(RenderDeviceD3D11& initRenderDeviceD3D11):
             renderDeviceD3D11(initRenderDeviceD3D11)
         {
         }
@@ -58,147 +57,97 @@ namespace ouzel
         TextureResourceD3D11::~TextureResourceD3D11()
         {
             if (depthStencilTexture)
-            {
                 depthStencilTexture->Release();
-            }
 
             if (depthStencilView)
-            {
                 depthStencilView->Release();
-            }
 
             if (renderTargetView)
-            {
                 renderTargetView->Release();
-            }
 
             if (resourceView)
-            {
                 resourceView->Release();
-            }
 
             if (texture)
-            {
                 texture->Release();
-            }
 
             if (samplerState)
-            {
                 samplerState->Release();
-            }
 
             width = 0;
             height = 0;
         }
 
-        bool TextureResourceD3D11::init(const Size2& newSize,
+        void TextureResourceD3D11::init(const Size2& newSize,
                                         uint32_t newFlags,
                                         uint32_t newMipmaps,
                                         uint32_t newSampleCount,
                                         PixelFormat newPixelFormat)
         {
-            if (!TextureResource::init(newSize,
-                                       newFlags,
-                                       newMipmaps,
-                                       newSampleCount,
-                                       newPixelFormat))
-            {
-                return false;
-            }
+            TextureResource::init(newSize,
+                                  newFlags,
+                                  newMipmaps,
+                                  newSampleCount,
+                                  newPixelFormat);
 
-            if (!createTexture())
-            {
-                return false;
-            }
+            createTexture();
 
             frameBufferClearColor[0] = clearColor.normR();
             frameBufferClearColor[1] = clearColor.normG();
             frameBufferClearColor[2] = clearColor.normB();
             frameBufferClearColor[3] = clearColor.normA();
 
-            return updateSamplerState();
+            updateSamplerState();
         }
 
-        bool TextureResourceD3D11::init(const std::vector<uint8_t>& newData,
+        void TextureResourceD3D11::init(const std::vector<uint8_t>& newData,
                                         const Size2& newSize,
                                         uint32_t newFlags,
                                         uint32_t newMipmaps,
                                         PixelFormat newPixelFormat)
         {
-            if (!TextureResource::init(newData,
-                                       newSize,
-                                       newFlags,
-                                       newMipmaps,
-                                       newPixelFormat))
-            {
-                return false;
-            }
+            TextureResource::init(newData,
+                                  newSize,
+                                  newFlags,
+                                  newMipmaps,
+                                  newPixelFormat);
 
-            if (!createTexture())
-            {
-                return false;
-            }
-
-            return updateSamplerState();
+            createTexture();
+            updateSamplerState();
         }
 
-        bool TextureResourceD3D11::init(const std::vector<Texture::Level>& newLevels,
+        void TextureResourceD3D11::init(const std::vector<Texture::Level>& newLevels,
                                         const Size2& newSize,
                                         uint32_t newFlags,
                                         PixelFormat newPixelFormat)
         {
-            if (!TextureResource::init(newLevels,
-                                       newSize,
-                                       newFlags,
-                                       newPixelFormat))
-            {
-                return false;
-            }
+            TextureResource::init(newLevels,
+                                  newSize,
+                                  newFlags,
+                                  newPixelFormat);
 
-            if (!createTexture())
-            {
-                return false;
-            }
-
-            return updateSamplerState();
+            createTexture();
+            updateSamplerState();
         }
 
-        bool TextureResourceD3D11::setSize(const Size2& newSize)
+        void TextureResourceD3D11::setSize(const Size2& newSize)
         {
-            if (!TextureResource::setSize(newSize))
-            {
-                return false;
-            }
+            TextureResource::setSize(newSize);
 
             if (!texture ||
                 static_cast<UINT>(size.width) != width ||
                 static_cast<UINT>(size.height) != height)
-            {
-                if (!createTexture())
-                {
-                    return false;
-                }
-            }
-
-            return true;
+                createTexture();
         }
 
-        bool TextureResourceD3D11::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
+        void TextureResourceD3D11::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
         {
-            if (!TextureResource::setData(newData, newSize))
-            {
-                return false;
-            }
+            TextureResource::setData(newData, newSize);
 
             if (!texture ||
                 static_cast<UINT>(size.width) != width ||
                 static_cast<UINT>(size.height) != height)
-            {
-                if (!createTexture())
-                {
-                    return false;
-                }
-            }
+                createTexture();
             else if (!(flags & Texture::RENDER_TARGET))
             {
                 if (flags & Texture::DYNAMIC)
@@ -211,19 +160,16 @@ namespace ouzel
                             mappedSubresource.pData = nullptr;
                             mappedSubresource.RowPitch = 0;
                             mappedSubresource.DepthPitch = 0;
-                        
-                            HRESULT hr = renderDeviceD3D11->getContext()->Map(texture, static_cast<UINT>(level),
-                                                                              (level == 0) ? D3D11_MAP_WRITE_DISCARD : D3D11_MAP_WRITE,
-                                                                              0, &mappedSubresource);
+
+                            HRESULT hr = renderDeviceD3D11.getContext()->Map(texture, static_cast<UINT>(level),
+                                                                             (level == 0) ? D3D11_MAP_WRITE_DISCARD : D3D11_MAP_WRITE,
+                                                                             0, &mappedSubresource);
 
                             if (FAILED(hr))
-                            {
-                                Log(Log::Level::ERR) << "Failed to map Direct3D 11 texture, error: " << hr;
-                                return false;
-                            }
+                                throw DataError("Failed to map Direct3D 11 texture, error: " + std::to_string(hr));
 
                             uint8_t* destination = static_cast<uint8_t*>(mappedSubresource.pData);
-                        
+
                             if (mappedSubresource.RowPitch == levels[level].pitch)
                             {
                                 std::copy(levels[level].data.begin(),
@@ -247,7 +193,7 @@ namespace ouzel
                                 }
                             }
 
-                            renderDeviceD3D11->getContext()->Unmap(texture, static_cast<UINT>(level));
+                            renderDeviceD3D11.getContext()->Unmap(texture, static_cast<UINT>(level));
                         }
                     }
                 }
@@ -257,102 +203,71 @@ namespace ouzel
                     {
                         if (!levels[level].data.empty())
                         {
-                            renderDeviceD3D11->getContext()->UpdateSubresource(texture, static_cast<UINT>(level),
-                                                                               nullptr, levels[level].data.data(),
-                                                                               static_cast<UINT>(levels[level].pitch), 0);
+                            renderDeviceD3D11.getContext()->UpdateSubresource(texture, static_cast<UINT>(level),
+                                                                              nullptr, levels[level].data.data(),
+                                                                              static_cast<UINT>(levels[level].pitch), 0);
                         }
                     }
                 }
             }
-
-            return true;
         }
 
-        bool TextureResourceD3D11::setFilter(Texture::Filter newFilter)
+        void TextureResourceD3D11::setFilter(Texture::Filter newFilter)
         {
-            if (!TextureResource::setFilter(newFilter))
-            {
-                return false;
-            }
+            TextureResource::setFilter(newFilter);
 
-            return updateSamplerState();
+            updateSamplerState();
         }
 
-        bool TextureResourceD3D11::setAddressX(Texture::Address newAddressX)
+        void TextureResourceD3D11::setAddressX(Texture::Address newAddressX)
         {
-            if (!TextureResource::setAddressX(newAddressX))
-            {
-                return false;
-            }
+            TextureResource::setAddressX(newAddressX);
 
-            return updateSamplerState();
+            updateSamplerState();
         }
 
-        bool TextureResourceD3D11::setAddressY(Texture::Address newAddressY)
+        void TextureResourceD3D11::setAddressY(Texture::Address newAddressY)
         {
-            if (!TextureResource::setAddressY(newAddressY))
-            {
-                return false;
-            }
+            TextureResource::setAddressY(newAddressY);
 
-            return updateSamplerState();
+            updateSamplerState();
         }
 
-        bool TextureResourceD3D11::setMaxAnisotropy(uint32_t newMaxAnisotropy)
+        void TextureResourceD3D11::setMaxAnisotropy(uint32_t newMaxAnisotropy)
         {
-            if (!TextureResource::setMaxAnisotropy(newMaxAnisotropy))
-            {
-                return false;
-            }
+            TextureResource::setMaxAnisotropy(newMaxAnisotropy);
 
-            return updateSamplerState();
+            updateSamplerState();
         }
 
-        bool TextureResourceD3D11::setClearColorBuffer(bool clear)
+        void TextureResourceD3D11::setClearColorBuffer(bool clear)
         {
-            if (!TextureResource::setClearColorBuffer(clear))
-            {
-                return false;
-            }
+            TextureResource::setClearColorBuffer(clear);
 
             clearFrameBufferView = clearColorBuffer;
-
-            return true;
         }
 
-        bool TextureResourceD3D11::setClearDepthBuffer(bool clear)
+        void TextureResourceD3D11::setClearDepthBuffer(bool clear)
         {
-            if (!TextureResource::setClearDepthBuffer(clear))
-            {
-                return false;
-            }
+            TextureResource::setClearDepthBuffer(clear);
 
             clearDepthBufferView = clearDepthBuffer;
-
-            return true;
         }
 
-        bool TextureResourceD3D11::setClearColor(Color color)
+        void TextureResourceD3D11::setClearColor(Color color)
         {
-            if (!TextureResource::setClearColor(color))
-            {
-                return false;
-            }
+            TextureResource::setClearColor(color);
 
             frameBufferClearColor[0] = clearColor.normR();
             frameBufferClearColor[1] = clearColor.normG();
             frameBufferClearColor[2] = clearColor.normB();
             frameBufferClearColor[3] = clearColor.normA();
-
-            return true;
         }
 
-        bool TextureResourceD3D11::createTexture()
+        void TextureResourceD3D11::createTexture()
         {
             if (texture)
-            {
                 texture->Release();
-            }
 
             if (resourceView)
             {
@@ -386,34 +301,36 @@ namespace ouzel
                 DXGI_FORMAT d3d11PixelFormat = getD3D11PixelFormat(pixelFormat);
 
                 if (d3d11PixelFormat == DXGI_FORMAT_UNKNOWN)
-                {
-                    Log(Log::Level::ERR) << "Invalid pixel format";
-                    return false;
-                }
+                    throw DataError("Invalid pixel format");
 
-                D3D11_TEXTURE2D_DESC textureDesc;
-                textureDesc.Width = width;
-                textureDesc.Height = height;
-                textureDesc.MipLevels = static_cast<UINT>(levels.size());
-                textureDesc.ArraySize = 1;
-                textureDesc.Format = d3d11PixelFormat;
-                textureDesc.SampleDesc.Count = sampleCount;
-                textureDesc.SampleDesc.Quality = 0;
-                if (flags & Texture::RENDER_TARGET) textureDesc.Usage = D3D11_USAGE_DEFAULT;
-                else if (flags & Texture::DYNAMIC) textureDesc.Usage = D3D11_USAGE_DYNAMIC;
-                else textureDesc.Usage = D3D11_USAGE_IMMUTABLE;
-                textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | ((flags & Texture::RENDER_TARGET) ? D3D11_BIND_RENDER_TARGET : 0);
-                textureDesc.CPUAccessFlags = (flags & Texture::DYNAMIC && !(flags & Texture::RENDER_TARGET)) ? D3D11_CPU_ACCESS_WRITE : 0;
-                textureDesc.MiscFlags = 0;
+                D3D11_TEXTURE2D_DESC textureDescriptor;
+                textureDescriptor.Width = width;
+                textureDescriptor.Height = height;
+                textureDescriptor.MipLevels = static_cast<UINT>(levels.size());
+                textureDescriptor.ArraySize = 1;
+                textureDescriptor.Format = d3d11PixelFormat;
+                textureDescriptor.SampleDesc.Count = sampleCount;
+                textureDescriptor.SampleDesc.Quality = 0;
+                if (flags & Texture::RENDER_TARGET) textureDescriptor.Usage = D3D11_USAGE_DEFAULT;
+                else if (flags & Texture::DYNAMIC) textureDescriptor.Usage = D3D11_USAGE_DYNAMIC;
+                else textureDescriptor.Usage = D3D11_USAGE_IMMUTABLE;
+
+                if (flags & Texture::RENDER_TARGET)
+                {
+                    textureDescriptor.BindFlags = D3D11_BIND_RENDER_TARGET;
+                    if (flags & Texture::BINDABLE_COLOR_BUFFER) textureDescriptor.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
+                }
+                else
+                    textureDescriptor.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+
+                textureDescriptor.CPUAccessFlags = (flags & Texture::DYNAMIC && !(flags & Texture::RENDER_TARGET)) ? D3D11_CPU_ACCESS_WRITE : 0;
+                textureDescriptor.MiscFlags = 0;
 
                 if (levels.empty() || flags & Texture::RENDER_TARGET)
                 {
-                    HRESULT hr = renderDeviceD3D11->getDevice()->CreateTexture2D(&textureDesc, nullptr, &texture);
+                    HRESULT hr = renderDeviceD3D11.getDevice()->CreateTexture2D(&textureDescriptor, nullptr, &texture);
                     if (FAILED(hr))
-                    {
-                        Log(Log::Level::ERR) << "Failed to create Direct3D 11 texture, error: " << hr;
-                        return false;
-                    }
+                        throw DataError("Failed to create Direct3D 11 texture, error: " + std::to_string(hr));
                 }
                 else
                 {
@@ -426,12 +343,9 @@ namespace ouzel
                         subresourceData[level].SysMemSlicePitch = 0;
                     }
 
-                    HRESULT hr = renderDeviceD3D11->getDevice()->CreateTexture2D(&textureDesc, subresourceData.data(), &texture);
+                    HRESULT hr = renderDeviceD3D11.getDevice()->CreateTexture2D(&textureDescriptor, subresourceData.data(), &texture);
                     if (FAILED(hr))
-                    {
-                        Log(Log::Level::ERR) << "Failed to create Direct3D 11 texture, error: " << hr;
-                        return false;
-                    }
+                        throw DataError("Failed to create Direct3D 11 texture, error: " + std::to_string(hr));
                 }
 
                 D3D11_SHADER_RESOURCE_VIEW_DESC resourceViewDesc;
@@ -444,12 +358,9 @@ namespace ouzel
                     resourceViewDesc.Texture2D.MipLevels = static_cast<UINT>(levels.size());
                 }
 
-                HRESULT hr = renderDeviceD3D11->getDevice()->CreateShaderResourceView(texture, &resourceViewDesc, &resourceView);
+                HRESULT hr = renderDeviceD3D11.getDevice()->CreateShaderResourceView(texture, &resourceViewDesc, &resourceView);
                 if (FAILED(hr))
-                {
-                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 shader resource view, error: " << hr;
-                    return false;
-                }
+                    throw DataError("Failed to create Direct3D 11 shader resource view, error: " + std::to_string(hr));
 
                 if (flags & Texture::RENDER_TARGET)
                 {
@@ -458,71 +369,55 @@ namespace ouzel
                     renderTargetViewDesc.ViewDimension = (sampleCount > 1) ? D3D11_RTV_DIMENSION_TEXTURE2DMS : D3D11_RTV_DIMENSION_TEXTURE2D;
 
                     if (sampleCount == 1)
-                    {
                         renderTargetViewDesc.Texture2D.MipSlice = 0;
-                    }
 
-                    hr = renderDeviceD3D11->getDevice()->CreateRenderTargetView(texture, &renderTargetViewDesc, &renderTargetView);
+                    hr = renderDeviceD3D11.getDevice()->CreateRenderTargetView(texture, &renderTargetViewDesc, &renderTargetView);
                     if (FAILED(hr))
-                    {
-                        Log(Log::Level::ERR) << "Failed to create Direct3D 11 render target view, error: " << hr;
-                        return false;
-                    }
-                }
+                        throw DataError("Failed to create Direct3D 11 render target view, error: " + std::to_string(hr));
 
-                if (flags & Texture::DEPTH_BUFFER)
-                {
-                    D3D11_TEXTURE2D_DESC depthStencilDesc;
-                    depthStencilDesc.Width = width;
-                    depthStencilDesc.Height = height;
-                    depthStencilDesc.MipLevels = 1;
-                    depthStencilDesc.ArraySize = 1;
-                    depthStencilDesc.Format = DXGI_FORMAT_D32_FLOAT;
-                    depthStencilDesc.SampleDesc.Count = sampleCount;
-                    depthStencilDesc.SampleDesc.Quality = 0;
-                    depthStencilDesc.Usage = D3D11_USAGE_DEFAULT;
-                    depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-                    depthStencilDesc.CPUAccessFlags = 0;
-                    depthStencilDesc.MiscFlags = 0;
-                    hr = renderDeviceD3D11->getDevice()->CreateTexture2D(&depthStencilDesc, nullptr, &depthStencilTexture);
-                    if (FAILED(hr))
+                    if (flags & Texture::DEPTH_BUFFER)
                     {
-                        Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil texture, error: " << hr;
-                        return false;
-                    }
+                        D3D11_TEXTURE2D_DESC depthStencilDesc;
+                        depthStencilDesc.Width = width;
+                        depthStencilDesc.Height = height;
+                        depthStencilDesc.MipLevels = 1;
+                        depthStencilDesc.ArraySize = 1;
+                        depthStencilDesc.Format = DXGI_FORMAT_D32_FLOAT;
+                        depthStencilDesc.SampleDesc.Count = sampleCount;
+                        depthStencilDesc.SampleDesc.Quality = 0;
+                        depthStencilDesc.Usage = D3D11_USAGE_DEFAULT;
+                        depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+                        if (flags & Texture::BINDABLE_DEPTH_BUFFER) textureDescriptor.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
 
-                    hr = renderDeviceD3D11->getDevice()->CreateDepthStencilView(depthStencilTexture, nullptr, &depthStencilView);
-                    if (FAILED(hr))
-                    {
-                        Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil view, error: " << hr;
-                        return false;
+                        depthStencilDesc.CPUAccessFlags = 0;
+                        depthStencilDesc.MiscFlags = 0;
+                        hr = renderDeviceD3D11.getDevice()->CreateTexture2D(&depthStencilDesc, nullptr, &depthStencilTexture);
+                        if (FAILED(hr))
+                            throw DataError("Failed to create Direct3D 11 depth stencil texture, error: " + std::to_string(hr));
+
+                        hr = renderDeviceD3D11.getDevice()->CreateDepthStencilView(depthStencilTexture, nullptr, &depthStencilView);
+                        if (FAILED(hr))
+                            throw DataError("Failed to create Direct3D 11 depth stencil view, error: " + std::to_string(hr));
                     }
                 }
             }
-
-            return true;
         }
 
-        bool TextureResourceD3D11::updateSamplerState()
+        void TextureResourceD3D11::updateSamplerState()
         {
             RenderDeviceD3D11::SamplerStateDesc samplerDesc;
-            samplerDesc.filter = (filter == Texture::Filter::DEFAULT) ? renderDeviceD3D11->getTextureFilter() : filter;
+            samplerDesc.filter = (filter == Texture::Filter::DEFAULT) ? renderDeviceD3D11.getTextureFilter() : filter;
             samplerDesc.addressX = addressX;
             samplerDesc.addressY = addressY;
-            samplerDesc.maxAnisotropy = (maxAnisotropy == 0) ? renderDeviceD3D11->getMaxAnisotropy() : maxAnisotropy;
+            samplerDesc.maxAnisotropy = (maxAnisotropy == 0) ? renderDeviceD3D11.getMaxAnisotropy() : maxAnisotropy;
 
             if (samplerState) samplerState->Release();
-            samplerState = renderDeviceD3D11->getSamplerState(samplerDesc);
+            samplerState = renderDeviceD3D11.getSamplerState(samplerDesc);
 
             if (!samplerState)
-            {
-                Log(Log::Level::ERR) << "Failed to get D3D11 sampler state";
-                return false;
-            }
+                throw DataError("Failed to get D3D11 sampler state");
 
             samplerState->AddRef();
-
-            return true;
         }
     } // namespace graphics
 } // namespace ouzel

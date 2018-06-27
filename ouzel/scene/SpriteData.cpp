@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "SpriteData.hpp"
 #include "utils/Utils.hpp"
@@ -18,6 +17,7 @@ namespace ouzel
             name(frameName)
         {
             std::vector<uint16_t> indices = {0, 1, 2, 1, 3, 2};
+            indexCount = static_cast<uint32_t>(indices.size());
 
             Vector2 textCoords[4];
             Vector2 finalOffset(-sourceSize.width * pivot.x + sourceOffset.x,
@@ -55,22 +55,19 @@ namespace ouzel
                                  textCoords[0], Vector3(0.0F, 0.0F, -1.0F)),
                 graphics::Vertex(Vector3(finalOffset.x + frameRectangle.size.width, finalOffset.y, 0.0F), Color::WHITE,
                                  textCoords[1], Vector3(0.0F, 0.0F, -1.0F)),
-                graphics::Vertex(Vector3(finalOffset.x, finalOffset.y + frameRectangle.size.height, 0.0F),  Color::WHITE,
+                graphics::Vertex(Vector3(finalOffset.x, finalOffset.y + frameRectangle.size.height, 0.0F), Color::WHITE,
                                  textCoords[2], Vector3(0.0F, 0.0F, -1.0F)),
-                graphics::Vertex(Vector3(finalOffset.x + frameRectangle.size.width, finalOffset.y + frameRectangle.size.height, 0.0F),  Color::WHITE,
+                graphics::Vertex(Vector3(finalOffset.x + frameRectangle.size.width, finalOffset.y + frameRectangle.size.height, 0.0F), Color::WHITE,
                                  textCoords[3], Vector3(0.0F, 0.0F, -1.0F))
             };
 
             boundingBox.set(finalOffset, finalOffset + Vector2(frameRectangle.size.width, frameRectangle.size.height));
 
             indexBuffer = std::make_shared<graphics::Buffer>();
-            indexBuffer->init(graphics::Buffer::Usage::INDEX, indices.data(), static_cast<uint32_t>(getVectorSize(indices)), 0);
+            indexBuffer->init(graphics::Buffer::Usage::INDEX, 0, indices.data(), static_cast<uint32_t>(getVectorSize(indices)));
 
             vertexBuffer = std::make_shared<graphics::Buffer>();
-            vertexBuffer->init(graphics::Buffer::Usage::VERTEX, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)), 0);
-
-            meshBuffer = std::make_shared<graphics::MeshBuffer>();
-            meshBuffer->init(sizeof(uint16_t), indexBuffer, vertexBuffer);
+            vertexBuffer->init(graphics::Buffer::Usage::VERTEX, 0, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)));
         }
 
         SpriteData::Frame::Frame(const std::string& frameName,
@@ -78,19 +75,16 @@ namespace ouzel
                                  const std::vector<graphics::Vertex>& vertices):
             name(frameName)
         {
+            indexCount = static_cast<uint32_t>(indices.size());
+
             for (const graphics::Vertex& vertex : vertices)
-            {
                 boundingBox.insertPoint(vertex.position);
-            }
 
             indexBuffer = std::make_shared<graphics::Buffer>();
-            indexBuffer->init(graphics::Buffer::Usage::INDEX, indices.data(), static_cast<uint32_t>(getVectorSize(indices)), 0);
+            indexBuffer->init(graphics::Buffer::Usage::INDEX, 0, indices.data(), static_cast<uint32_t>(getVectorSize(indices)));
 
             vertexBuffer = std::make_shared<graphics::Buffer>();
-            vertexBuffer->init(graphics::Buffer::Usage::VERTEX, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)), 0);
-
-            meshBuffer = std::make_shared<graphics::MeshBuffer>();
-            meshBuffer->init(sizeof(uint16_t), indexBuffer, vertexBuffer);
+            vertexBuffer->init(graphics::Buffer::Usage::VERTEX, 0, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)));
         }
 
         SpriteData::Frame::Frame(const std::string& frameName,
@@ -102,23 +96,20 @@ namespace ouzel
                                  const Vector2& pivot):
             name(frameName)
         {
+            indexCount = static_cast<uint32_t>(indices.size());
+
             for (const graphics::Vertex& vertex : vertices)
-            {
                 boundingBox.insertPoint(vertex.position);
-            }
 
             // TODO: fix
             Vector2 finalOffset(-sourceSize.width * pivot.x + sourceOffset.x,
                                 -sourceSize.height * pivot.y + (sourceSize.height - frameRectangle.size.height - sourceOffset.y));
 
             indexBuffer = std::make_shared<graphics::Buffer>();
-            indexBuffer->init(graphics::Buffer::Usage::INDEX, indices.data(), static_cast<uint32_t>(getVectorSize(indices)), 0);
+            indexBuffer->init(graphics::Buffer::Usage::INDEX, 0, indices.data(), static_cast<uint32_t>(getVectorSize(indices)));
 
             vertexBuffer = std::make_shared<graphics::Buffer>();
-            vertexBuffer->init(graphics::Buffer::Usage::VERTEX, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)), 0);
-
-            meshBuffer = std::make_shared<graphics::MeshBuffer>();
-            meshBuffer->init(sizeof(uint16_t), indexBuffer, vertexBuffer);
+            vertexBuffer->init(graphics::Buffer::Usage::VERTEX, 0, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)));
         }
     } // namespace scene
 } // namespace ouzel

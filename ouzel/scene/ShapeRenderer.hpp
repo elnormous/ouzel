@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -9,7 +8,6 @@
 #include "math/Color.hpp"
 #include "graphics/BlendState.hpp"
 #include "graphics/Buffer.hpp"
-#include "graphics/MeshBuffer.hpp"
 #include "graphics/Shader.hpp"
 
 namespace ouzel
@@ -26,13 +24,7 @@ namespace ouzel
             virtual void draw(const Matrix4& transformMatrix,
                               float opacity,
                               const Matrix4& renderViewProjection,
-                              const std::shared_ptr<graphics::Texture>& renderTarget,
-                              const Rect& renderViewport,
-                              bool depthWrite,
-                              bool depthTest,
-                              bool wireframe,
-                              bool scissorTest,
-                              const Rect& scissorRectangle) override;
+                              bool wireframe) override;
 
             void clear();
 
@@ -69,7 +61,7 @@ namespace ouzel
             inline const std::shared_ptr<graphics::BlendState>& getBlendState() const { return blendState; }
             inline void setBlendState(const std::shared_ptr<graphics::BlendState>& newBlendState)  { blendState = newBlendState; }
 
-        protected:
+        private:
             struct DrawCommand
             {
                 graphics::Renderer::DrawMode mode;
@@ -79,7 +71,6 @@ namespace ouzel
 
             std::shared_ptr<graphics::Shader> shader;
             std::shared_ptr<graphics::BlendState> blendState;
-            std::shared_ptr<graphics::MeshBuffer> meshBuffer;
             std::shared_ptr<graphics::Buffer> indexBuffer;
             std::shared_ptr<graphics::Buffer> vertexBuffer;
 

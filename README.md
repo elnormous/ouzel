@@ -2,7 +2,7 @@
 
 # Ouzel v0.38
 
-[![Build Status](https://api.travis-ci.org/elnormous/ouzel.svg?branch=master)](https://travis-ci.org/elnormous/ouzel) [![Build Status](https://ci.appveyor.com/api/projects/status/dp8av7iegdjs6xuj?svg=true)](https://ci.appveyor.com/project/elnormous/ouzel) [![Quality Gate](https://sonarcloud.io/api/badges/gate?key=Ouzel)](https://sonarcloud.io/dashboard/index/Ouzel) [![Join the chat at https://gitter.im/ouzelengine/Lobby](https://badges.gitter.im/elnormous/ouzel.svg)](https://gitter.im/elnormous/ouzel?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status](https://api.travis-ci.org/elnormous/ouzel.svg?branch=master)](https://travis-ci.org/elnormous/ouzel) [![Build Status](https://ci.appveyor.com/api/projects/status/dp8av7iegdjs6xuj?svg=true)](https://ci.appveyor.com/project/elnormous/ouzel) [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=Ouzel&metric=alert_status)](https://sonarcloud.io/dashboard?id=Ouzel) [![Join the chat at https://gitter.im/ouzelengine/Lobby](https://badges.gitter.im/elnormous/ouzel.svg)](https://gitter.im/elnormous/ouzel?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Ouzel is a C++ game engine mainly targeted for development of 2D games.
 
@@ -53,36 +53,38 @@ Supported audio backends:
 
 The following code will open create a scene with a sprite in the center of it:
 
-    #include "ouzel.hpp"
+```cpp
+#include "ouzel.hpp"
 
-    std::string DEVELOPER_NAME = "developer";
-    std::string APPLICATION_NAME = "game";
+std::string DEVELOPER_NAME = "developer";
+std::string APPLICATION_NAME = "game";
 
-    class MainScene: public ouzel::scene::Scene
+class MainScene: public ouzel::scene::Scene
+{
+public:
+    MainScene()
     {
-    public:
-        MainScene()
-        {
-            addLayer(&layer);
-            cameraActor.addComponent(&camera);
-            layer.addChild(&cameraActor);
-            playerSprite.init("player.png");
-            player.addComponent(&playerSprite);
-            layer.addChild(&player);
-        }
-
-    private:
-        ouzel::scene::Layer layer;
-        ouzel::scene::Camera camera;
-        ouzel::scene::Actor cameraActor;
-        ouzel::scene::Sprite playerSprite;
-        ouzel::scene::Actor player;
-    };
-
-    void ouzelMain(const std::vector<std::string>& args)
-    {
-        ouzel::engine->getSceneManager()->setScene(std::unique_ptr<ouzel::scene::Scene>(new MainScene()));
+        addLayer(&layer);
+        cameraActor.addComponent(&camera);
+        layer.addChild(&cameraActor);
+        playerSprite.init("player.png");
+        player.addComponent(&playerSprite);
+        layer.addChild(&player);
     }
+
+private:
+    ouzel::scene::Layer layer;
+    ouzel::scene::Camera camera;
+    ouzel::scene::Actor cameraActor;
+    ouzel::scene::Sprite playerSprite;
+    ouzel::scene::Actor player;
+};
+
+void ouzelMain(const std::vector<std::string>& args)
+{
+    ouzel::engine->getSceneManager()->setScene(std::unique_ptr<ouzel::scene::Scene>(new MainScene()));
+}
+```
 
 ## Showcase
 
@@ -94,13 +96,13 @@ The following code will open create a scene with a sprite in the center of it:
 
 Ouzel uses the stb submodule. The following command has to be run after cloning the Ouzel engine:
 
-```
+```shell
 $ git submodule update --init
 ```
 
 or these commands if you have a really old version of git:
 
-```
+```shell
 $ git submodule init
 $ git submodule update
 ```
@@ -111,13 +113,13 @@ You will need to download OpenGL (e.g. Mesa), OpenAL drivers installed in order 
 
 To build Ouzel with Emscripten, pass "platform=emscripten" to "make" command, but make sure that you have Emscripten SDK installed before doing so:
 
-```
+```shell
 $ make platform=emscripten
 ```
 
 You can build Android samples and run them on an Android device by executing the following commands in "samples/android" directory (Android SDK and NDK must be installed and added to PATH):
 
-```
+```shell
 $ ant debug
 $ adb install -r bin/samples-debug.apk
 $ adb shell am start -n org.ouzelengine/org.ouzelengine.MainActivity

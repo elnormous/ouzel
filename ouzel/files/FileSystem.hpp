@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -16,7 +15,7 @@ namespace ouzel
     {
         friend Engine;
     public:
-        ~FileSystem() = default;
+        ~FileSystem();
 
         FileSystem(const FileSystem&) = delete;
         FileSystem& operator=(const FileSystem&) = delete;
@@ -29,8 +28,8 @@ namespace ouzel
         std::string getStorageDirectory(bool user = true) const;
         std::string getTempDirectory() const;
 
-        bool readFile(const std::string& filename, std::vector<uint8_t>& data, bool searchResources = true) const;
-        bool writeFile(const std::string& filename, const std::vector<uint8_t>& data) const;
+        std::vector<uint8_t> readFile(const std::string& filename, bool searchResources = true) const;
+        void writeFile(const std::string& filename, const std::vector<uint8_t>& data) const;
 
         bool resourceFileExists(const std::string& filename) const;
         std::string getPath(const std::string& filename, bool searchResources = true) const;

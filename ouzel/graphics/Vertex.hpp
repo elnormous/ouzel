@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -44,8 +43,12 @@ namespace ouzel
 
             static const std::vector<Attribute> ATTRIBUTES;
 
-            Vertex();
-            Vertex(const Vector3& initPosition, Color initColor, const Vector2& initTexCoord, const Vector3& initNormal);
+            Vertex() {}
+            Vertex(const Vector3& initPosition, Color initColor, const Vector2& initTexCoord, const Vector3& initNormal):
+                position(initPosition), color(initColor), normal(initNormal)
+            {
+                texCoords[0] = initTexCoord;
+            }
 
             Vector3 position;
             Color color;

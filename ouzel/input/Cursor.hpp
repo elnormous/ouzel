@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -41,9 +40,9 @@ namespace ouzel
             Cursor(Cursor&&) = delete;
             Cursor& operator=(Cursor&&) = delete;
 
-            bool init(SystemCursor systemCursor);
-            bool init(const std::string& filename, const Vector2& hotSpot = Vector2());
-            bool init(const std::vector<uint8_t>& data,
+            void init(SystemCursor systemCursor);
+            void init(const std::string& filename, const Vector2& hotSpot = Vector2());
+            void init(const std::vector<uint8_t>& data,
                       const Size2& size,
                       graphics::PixelFormat pixelFormat,
                       const Vector2& hotSpot);

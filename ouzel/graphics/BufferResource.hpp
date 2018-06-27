@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -19,10 +18,11 @@ namespace ouzel
         public:
             virtual ~BufferResource();
 
-            virtual bool init(Buffer::Usage newUsage, uint32_t newFlags = 0, uint32_t newSize = 0);
-            virtual bool init(Buffer::Usage newUsage, const std::vector<uint8_t>& newData, uint32_t newFlags = 0);
+            virtual void init(Buffer::Usage newUsage, uint32_t newFlags,
+                              const std::vector<uint8_t>& newData,
+                              uint32_t newSize);
 
-            virtual bool setData(const std::vector<uint8_t>& newData);
+            virtual void setData(const std::vector<uint8_t>& newData);
 
             inline uint32_t getFlags() const { return flags; }
             inline Buffer::Usage getUsage() const { return usage; }
@@ -31,9 +31,9 @@ namespace ouzel
         protected:
             BufferResource();
 
-            std::vector<uint8_t> data;
             Buffer::Usage usage;
             uint32_t flags = 0;
+            std::vector<uint8_t> data;
         };
     } // namespace graphics
 } // namespace ouzel

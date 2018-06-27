@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "core/Setup.h"
 
@@ -13,7 +12,7 @@
 {
     if (self = [super initWithFrame:frameRect])
     {
-        self.opaque          = YES;
+        self.opaque = YES;
         self.backgroundColor = nil;
 
         CAMetalLayer* metalLayer = (CAMetalLayer*)self.layer;

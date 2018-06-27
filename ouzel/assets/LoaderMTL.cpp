@@ -1,12 +1,11 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <iterator>
 #include <string>
 #include "LoaderMTL.hpp"
 #include "Cache.hpp"
 #include "core/Engine.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -27,11 +26,9 @@ namespace ouzel
             return c <= 0x1F;
         }
 
-        static bool skipWhitespaces(const std::vector<uint8_t>& str,
+        static void skipWhitespaces(const std::vector<uint8_t>& str,
                                     std::vector<uint8_t>::const_iterator& iterator)
         {
-            if (iterator == str.end()) return false;
-
             for (;;)
             {
                 if (iterator == str.end()) break;
@@ -41,8 +38,6 @@ namespace ouzel
                 else
                     break;
             }
-
-            return true;
         }
 
         static void skipLine(const std::vector<uint8_t>& str,
@@ -62,11 +57,10 @@ namespace ouzel
             }
         }
 
-        static bool parseString(const std::vector<uint8_t>& str,
-                                std::vector<uint8_t>::const_iterator& iterator,
-                                std::string& result)
+        static std::string parseString(const std::vector<uint8_t>& str,
+                                       std::vector<uint8_t>::const_iterator& iterator)
         {
-            result.clear();
+            std::string result;
 
             for (;;)
             {
@@ -77,13 +71,16 @@ namespace ouzel
                 ++iterator;
             }
 
-            return !result.empty();
+            if (result.empty())
+                throw ParseError("Invalid string");
+
+            return result;
         }
 
-        static bool parseFloat(const std::vector<uint8_t>& str,
-                               std::vector<uint8_t>::const_iterator& iterator,
-                               float& result)
+        static float parseFloat(const std::vector<uint8_t>& str,
+                               std::vector<uint8_t>::const_iterator& iterator)
         {
+            float result;
             std::string value;
             uint32_t length = 1;
 
@@ -123,7 +120,7 @@ namespace ouzel
 
             result = std::stof(value);
 
-            return true;
+            return result;
         }
 
         LoaderMTL::LoaderMTL():
@@ -162,12 +159,8 @@ namespace ouzel
                 }
                 else
                 {
-                    if (!skipWhitespaces(data, iterator) ||
-                        !parseString(data, iterator, keyword))
-                    {
-                        Log(Log::Level::ERR) << "Failed to parse keyword";
-                        return false;
-                    }
+                    skipWhitespaces(data, iterator);
+                    keyword = parseString(data, iterator);
 
                     if (keyword == "newmtl")
                     {
@@ -184,12 +177,8 @@ namespace ouzel
                             engine->getCache()->setMaterial(name, material);
                         }
 
-                        if (!skipWhitespaces(data, iterator) ||
-                            !parseString(data, iterator, name))
-                        {
-                            Log(Log::Level::ERR) << "Failed to parse material name";
-                            return false;
-                        }
+                        skipWhitespaces(data, iterator);
+                        name = parseString(data, iterator);
 
                         skipLine(data, iterator);
 
@@ -200,12 +189,8 @@ namespace ouzel
                     }
                     else if (keyword == "map_Ka") // ambient texture map
                     {
-                        if (!skipWhitespaces(data, iterator) ||
-                            !parseString(data, iterator, value))
-                        {
-                            Log(Log::Level::ERR) << "Failed to parse ambient texture map";
-                            return false;
-                        }
+                        skipWhitespaces(data, iterator);
+                        value = parseString(data, iterator);
 
                         skipLine(data, iterator);
 
@@ -213,35 +198,25 @@ namespace ouzel
                     }
                     else if (keyword == "map_Kd") // diffuse texture map
                     {
-                        if (!skipWhitespaces(data, iterator) ||
-                            !parseString(data, iterator, value))
-                        {
-                            Log(Log::Level::ERR) << "Failed to parse diffuse texture map";
-                            return false;
-                        }
+                        skipWhitespaces(data, iterator);
+                        value = parseString(data, iterator);
 
                         skipLine(data, iterator);
 
                         diffuseTexture = engine->getCache()->getTexture(value, mipmaps);
                     }
                     else if (keyword == "Ka") // ambient color
-                    {
                         skipLine(data, iterator);
-                    }
                     else if (keyword == "Kd") // diffuse color
                     {
                         float color[4];
 
-                        if (!skipWhitespaces(data, iterator) ||
-                            !parseFloat(data, iterator, color[0]) ||
-                            !skipWhitespaces(data, iterator) ||
-                            !parseFloat(data, iterator, color[1]) ||
-                            !skipWhitespaces(data, iterator) ||
-                            !parseFloat(data, iterator, color[2]))
-                        {
-                            Log(Log::Level::ERR) << "Failed to parse normal";
-                            return false;
-                        }
+                        skipWhitespaces(data, iterator);
+                        color[0] = parseFloat(data, iterator);
+                        skipWhitespaces(data, iterator);
+                        color[1] = parseFloat(data, iterator);
+                        skipWhitespaces(data, iterator);
+                        color[2] = parseFloat(data, iterator);
 
                         skipLine(data, iterator);
 
@@ -249,21 +224,13 @@ namespace ouzel
                         diffuseColor = Color(color);
                     }
                     else if (keyword == "Ks") // specular color
-                    {
                         skipLine(data, iterator);
-                    }
                     else if (keyword == "Ke") // emissive color
-                    {
                         skipLine(data, iterator);
-                    }
                     else if (keyword == "d") // opacity
                     {
-                        if (!skipWhitespaces(data, iterator) ||
-                            !parseFloat(data, iterator, opacity))
-                        {
-                            Log(Log::Level::ERR) << "Failed to parse opacity";
-                            return false;
-                        }
+                        skipWhitespaces(data, iterator);
+                        opacity = parseFloat(data, iterator);
 
                         skipLine(data, iterator);
                     }
@@ -271,12 +238,8 @@ namespace ouzel
                     {
                         float transparency;
 
-                        if (!skipWhitespaces(data, iterator) ||
-                            !parseFloat(data, iterator, transparency))
-                        {
-                            Log(Log::Level::ERR) << "Failed to parse transparency";
-                            return false;
-                        }
+                        skipWhitespaces(data, iterator);
+                        transparency = parseFloat(data, iterator);
 
                         skipLine(data, iterator);
 

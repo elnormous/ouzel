@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "Window.hpp"
 #include "Setup.h"
@@ -61,7 +60,7 @@ namespace ouzel
         }
     }
 
-    bool Window::init(const Size2& newSize,
+    void Window::init(const Size2& newSize,
                       bool newResizable,
                       bool newFullscreen,
                       bool newExclusiveFullscreen,
@@ -84,8 +83,6 @@ namespace ouzel
         exclusiveFullscreen = newExclusiveFullscreen;
         highDpi = newHighDpi;
         title = newTitle;
-
-        return true;
     }
 
     void Window::close()

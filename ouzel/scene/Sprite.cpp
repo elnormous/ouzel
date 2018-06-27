@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "Sprite.hpp"
 #include "core/Setup.h"
@@ -47,7 +46,7 @@ namespace ouzel
             init(texture, spritesX, spritesY, pivot);
         }
 
-        bool Sprite::init(const SpriteData& spriteData)
+        void Sprite::init(const SpriteData& spriteData)
         {
             material = std::make_shared<graphics::Material>();
             material->cullMode = graphics::Renderer::CullMode::NONE;
@@ -62,11 +61,9 @@ namespace ouzel
             currentAnimation = animationQueue.begin();
 
             updateBoundingBox();
-
-            return true;
         }
 
-        bool Sprite::init(const std::string& filename, bool mipmaps,
+        void Sprite::init(const std::string& filename, bool mipmaps,
                           uint32_t spritesX, uint32_t spritesY,
                           const Vector2& pivot)
         {
@@ -85,11 +82,9 @@ namespace ouzel
             currentAnimation = animationQueue.begin();
 
             updateBoundingBox();
-
-            return true;
         }
 
-        bool Sprite::init(std::shared_ptr<graphics::Texture> newTexture,
+        void Sprite::init(std::shared_ptr<graphics::Texture> newTexture,
                           uint32_t spritesX, uint32_t spritesY,
                           const Vector2& pivot)
         {
@@ -127,8 +122,6 @@ namespace ouzel
             currentAnimation = animationQueue.begin();
 
             updateBoundingBox();
-
-            return true;
         }
 
         void Sprite::update(float delta)
@@ -144,9 +137,7 @@ namespace ouzel
                     if (length > 0.0F)
                     {
                         if (length > currentTime)
-                        {
                             break;
-                        }
                         else
                         {
                             if (currentAnimation->repeat)
@@ -200,24 +191,12 @@ namespace ouzel
         void Sprite::draw(const Matrix4& transformMatrix,
                           float opacity,
                           const Matrix4& renderViewProjection,
-                          const std::shared_ptr<graphics::Texture>& renderTarget,
-                          const Rect& renderViewport,
-                          bool depthWrite,
-                          bool depthTest,
-                          bool wireframe,
-                          bool scissorTest,
-                          const Rect& scissorRectangle)
+                          bool wireframe)
         {
             Component::draw(transformMatrix,
                             opacity,
                             renderViewProjection,
-                            renderTarget,
-                            renderViewport,
-                            depthWrite,
-                            depthTest,
-                            wireframe,
-                            scissorTest,
-                            scissorRectangle);
+                            wireframe);
 
             if (currentAnimation != animationQueue.end() &&
                 currentAnimation->animation->frameInterval > 0.0F &&
@@ -230,8 +209,8 @@ namespace ouzel
                 Matrix4 modelViewProj = renderViewProjection * transformMatrix * offsetMatrix;
                 float colorVector[] = {material->diffuseColor.normR(), material->diffuseColor.normG(), material->diffuseColor.normB(), material->diffuseColor.normA() * opacity * material->opacity};
 
-                std::vector<std::vector<float>> pixelShaderConstants(1);
-                pixelShaderConstants[0] = {std::begin(colorVector), std::end(colorVector)};
+                std::vector<std::vector<float>> fragmentShaderConstants(1);
+                fragmentShaderConstants[0] = {std::begin(colorVector), std::end(colorVector)};
 
                 std::vector<std::vector<float>> vertexShaderConstants(1);
                 vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
@@ -240,23 +219,21 @@ namespace ouzel
                 if (wireframe) textures.push_back(whitePixelTexture);
                 else textures.assign(std::begin(material->textures), std::end(material->textures));
 
-                engine->getRenderer()->addDrawCommand(textures,
-                                                      material->shader,
-                                                      pixelShaderConstants,
-                                                      vertexShaderConstants,
-                                                      material->blendState,
-                                                      currentAnimation->animation->frames[currentFrame].getMeshBuffer(),
-                                                      0,
+                engine->getRenderer()->addSetCullModeCommad(material->cullMode);
+                engine->getRenderer()->addSetPipelineStateCommand(material->blendState,
+                                                                  material->shader);
+                engine->getRenderer()->addSetShaderConstantsCommand(fragmentShaderConstants,
+                                                                    vertexShaderConstants);
+                engine->getRenderer()->addSetTexturesCommand(textures);
+
+                const SpriteData::Frame& frame = currentAnimation->animation->frames[currentFrame];
+
+                engine->getRenderer()->addDrawCommand(frame.getIndexBuffer(),
+                                                      frame.getIndexCount(),
+                                                      sizeof(uint16_t),
+                                                      frame.getVertexBuffer(),
                                                       graphics::Renderer::DrawMode::TRIANGLE_LIST,
-                                                      0,
-                                                      renderTarget,
-                                                      renderViewport,
-                                                      depthWrite,
-                                                      depthTest,
-                                                      wireframe,
-                                                      scissorTest,
-                                                      scissorRectangle,
-                                                      material->cullMode);
+                                                      0);
             }
         }
 
@@ -348,9 +325,7 @@ namespace ouzel
                 if (length > 0.0F)
                 {
                     if (length > currentTime)
-                    {
                         break;
-                    }
                     else
                     {
                         if (currentAnimation->repeat)
@@ -364,9 +339,7 @@ namespace ouzel
                             break;
                         }
                         else
-                        {
                             currentTime -= length;
-                        }
                     }
                 }
             }
@@ -389,9 +362,7 @@ namespace ouzel
                 boundingBox += offset;
             }
             else
-            {
                 boundingBox.reset();
-            }
         }
     } // namespace scene
 } // namespace ouzel

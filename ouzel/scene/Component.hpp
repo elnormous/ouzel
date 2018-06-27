@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -52,13 +51,7 @@ namespace ouzel
             virtual void draw(const Matrix4& transformMatrix,
                               float opacity,
                               const Matrix4& renderViewProjection,
-                              const std::shared_ptr<graphics::Texture>& renderTarget,
-                              const Rect& renderViewport,
-                              bool depthWrite,
-                              bool depthTest,
-                              bool wireframe,
-                              bool scissorTest,
-                              const Rect& scissorRectangle);
+                              bool wireframe);
 
             virtual void setBoundingBox(const Box3& newBoundingBox) { boundingBox = newBoundingBox; }
             virtual const Box3& getBoundingBox() const { return boundingBox; }

@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -34,34 +33,34 @@ namespace ouzel
         class TextureResourceMetal: public TextureResource
         {
         public:
-            explicit TextureResourceMetal(RenderDeviceMetal* initRenderDeviceMetal);
+            explicit TextureResourceMetal(RenderDeviceMetal& initRenderDeviceMetal);
             virtual ~TextureResourceMetal();
 
-            virtual bool init(const Size2& newSize,
+            virtual void init(const Size2& newSize,
                               uint32_t newFlags = 0,
                               uint32_t newMipmaps = 0,
                               uint32_t newSampleCount = 1,
                               PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM) override;
-            virtual bool init(const std::vector<uint8_t>& newData,
+            virtual void init(const std::vector<uint8_t>& newData,
                               const Size2& newSize,
                               uint32_t newFlags = 0,
                               uint32_t newMipmaps = 0,
                               PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM) override;
-            virtual bool init(const std::vector<Texture::Level>& newLevels,
+            virtual void init(const std::vector<Texture::Level>& newLevels,
                               const Size2& newSize,
                               uint32_t newFlags = 0,
                               PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM) override;
 
-            virtual bool setSize(const Size2& newSize) override;
-            virtual bool setData(const std::vector<uint8_t>& newData, const Size2& newSize) override;
-            virtual bool setFilter(Texture::Filter newFilter) override;
-            virtual bool setAddressX(Texture::Address newAddressX) override;
-            virtual bool setAddressY(Texture::Address newAddressY) override;
-            virtual bool setMaxAnisotropy(uint32_t newMaxAnisotropy) override;
-            virtual bool setClearColorBuffer(bool clear) override;
-            virtual bool setClearDepthBuffer(bool clear) override;
-            virtual bool setClearColor(Color color) override;
-            virtual bool setClearDepth(float clear) override;
+            virtual void setSize(const Size2& newSize) override;
+            virtual void setData(const std::vector<uint8_t>& newData, const Size2& newSize) override;
+            virtual void setFilter(Texture::Filter newFilter) override;
+            virtual void setAddressX(Texture::Address newAddressX) override;
+            virtual void setAddressY(Texture::Address newAddressY) override;
+            virtual void setMaxAnisotropy(uint32_t newMaxAnisotropy) override;
+            virtual void setClearColorBuffer(bool clear) override;
+            virtual void setClearDepthBuffer(bool clear) override;
+            virtual void setClearColor(Color color) override;
+            virtual void setClearDepth(float clear) override;
 
             inline MTLTexturePtr getTexture() const { return texture; }
             inline MTLPixelFormat getColorFormat() const { return colorFormat; }
@@ -76,11 +75,11 @@ namespace ouzel
             inline MTLLoadAction getColorBufferLoadAction() const { return colorBufferLoadAction; }
             inline MTLLoadAction getDepthBufferLoadAction() const { return depthBufferLoadAction; }
 
-        protected:
-            bool createTexture();
-            bool updateSamplerState();
+        private:
+            void createTexture();
+            void updateSamplerState();
 
-            RenderDeviceMetal* renderDeviceMetal;
+            RenderDeviceMetal& renderDeviceMetal;
 
             MTLTexturePtr texture = nil;
 

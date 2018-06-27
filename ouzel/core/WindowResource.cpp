@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "WindowResource.hpp"
 #include "thread/Lock.hpp"
@@ -10,7 +9,7 @@ namespace ouzel
     {
     }
 
-    bool WindowResource::init(const Size2& newSize,
+    void WindowResource::init(const Size2& newSize,
                               bool newResizable,
                               bool newFullscreen,
                               bool newExclusiveFullscreen,
@@ -24,8 +23,6 @@ namespace ouzel
         exclusiveFullscreen = newExclusiveFullscreen;
         highDpi = newHighDpi;
         title = newTitle;
-
-        return true;
     }
 
     void WindowResource::close()

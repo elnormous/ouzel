@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <algorithm>
 #include "core/Setup.h"
@@ -104,29 +103,22 @@ namespace ouzel
         Audio::~Audio()
         {
             for (Listener* listener : listeners)
-            {
                 listener->audio = nullptr;
-            }
         }
 
-        bool Audio::init(bool debugAudio)
+        void Audio::init(bool debugAudio)
         {
             device->init(debugAudio);
-            return true;
         }
 
-        bool Audio::update()
+        void Audio::update()
         {
             std::vector<AudioDevice::RenderCommand> renderCommands;
 
             for (Listener* listener : listeners)
-            {
                 renderCommands.push_back(listener->getRenderCommand());
-            }
 
             device->setRenderCommands(renderCommands);
-
-            return true;
         }
 
         void Audio::executeOnAudioThread(const std::function<void(void)>& func)
@@ -153,9 +145,7 @@ namespace ouzel
                 auto i = std::find(listeners.begin(), listeners.end(), listener);
 
                 if (i != listeners.end())
-                {
                     listeners.erase(i);
-                }
             }
         }
 
@@ -197,9 +187,7 @@ namespace ouzel
 
                     // fill the last frame of the destination with the last frame of the source
                     for (uint32_t channel = 0; channel < channels; ++channel)
-                    {
                         dst[(dstFrames - 1) * channels + channel] = src[(srcFrames - 1) * channels + channel];
-                    }
                 }
             }
         }

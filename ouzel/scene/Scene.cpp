@@ -1,6 +1,6 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <cassert>
 #include <algorithm>
 #include "Scene.hpp"
 #include "Layer.hpp"
@@ -44,16 +44,20 @@ namespace ouzel
             {
                 // clear all the render targets
                 for (Camera* camera : layer->getCameras())
+                {
                     if (clearedRenderTargets.insert(camera->getRenderTarget().get()).second)
                         engine->getRenderer()->addClearCommand(camera->getRenderTarget());
+                }
 
                 layer->draw();
             }
         }
 
-        void Scene::addChildLayer(Layer* layer)
+        void Scene::addLayer(Layer* layer)
         {
-            if (layer && !hasLayer(layer))
+            assert(layer);
+
+            if (!hasLayer(layer))
             {
                 layers.push_back(layer);
 
@@ -63,7 +67,7 @@ namespace ouzel
             }
         }
 
-        bool Scene::removeChildLayer(Layer* layer)
+        bool Scene::removeLayer(Layer* layer)
         {
             bool result = false;
 
@@ -72,9 +76,7 @@ namespace ouzel
             if (layerIterator != layers.end())
             {
                 if (entered)
-                {
                     layer->leave();
-                }
 
                 layers.erase(layerIterator);
 
@@ -88,9 +90,7 @@ namespace ouzel
             });
 
             if (ownedIterator != ownedLayers.end())
-            {
                 ownedLayers.erase(ownedIterator);
-            }
 
             return result;
         }
@@ -100,9 +100,7 @@ namespace ouzel
             if (entered)
             {
                 for (Layer* layer : layers)
-                {
                     layer->leave();
-                }
             }
 
             layers.clear();
@@ -119,9 +117,7 @@ namespace ouzel
         void Scene::recalculateProjection()
         {
             for (Layer* layer : layers)
-            {
                 layer->recalculateProjection();
-            }
         }
 
         std::pair<Actor*, ouzel::Vector3> Scene::pickActor(const Vector2& position, bool renderTargets) const
@@ -131,10 +127,7 @@ namespace ouzel
                 Layer* layer = *i;
                 std::pair<Actor*, ouzel::Vector3> result = layer->pickActor(position, renderTargets);
 
-                if (result.first)
-                {
-                    return result;
-                }
+                if (result.first) return result;
             }
 
             return std::make_pair(nullptr, Vector3());
@@ -176,9 +169,7 @@ namespace ouzel
             engine->getEventDispatcher()->addEventHandler(&eventHandler);
 
             for (Layer* layer : layers)
-            {
                 layer->enter();
-            }
         }
 
         void Scene::leave()
@@ -188,17 +179,13 @@ namespace ouzel
             eventHandler.remove();
 
             for (Layer* layer : layers)
-            {
                 layer->leave();
-            }
         }
 
         bool Scene::handleWindow(Event::Type type, const WindowEvent&)
         {
             if (type == Event::Type::RESOLUTION_CHANGE)
-            {
                 recalculateProjection();
-            }
 
             return true;
         }
@@ -230,9 +217,7 @@ namespace ouzel
                     auto i = pointerDownOnActors.find(0);
 
                     if (i != pointerDownOnActors.end())
-                    {
                         pointerDragActor(0, i->second.first, event.position, event.difference, i->second.second);
-                    }
                     break;
                 }
                 default:
@@ -269,9 +254,7 @@ namespace ouzel
                     auto i = pointerDownOnActors.find(event.touchId);
 
                     if (i != pointerDownOnActors.end())
-                    {
                         pointerDragActor(event.touchId, i->second.first, event.position, event.difference, i->second.second);
-                    }
                     break;
                 }
                 case Event::Type::TOUCH_CANCEL:

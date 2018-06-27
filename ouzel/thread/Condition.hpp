@@ -1,10 +1,9 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
 #include <chrono>
-#include "thread/Mutex.hpp"
+#include "thread/Lock.hpp"
 
 namespace ouzel
 {
@@ -20,16 +19,17 @@ namespace ouzel
         Condition(Condition&&) = delete;
         Condition& operator=(Condition&&) = delete;
 
-        bool signal();
-        bool broadcast();
-        bool wait(Mutex& mutex);
-        bool wait(Mutex& mutex, std::chrono::steady_clock::duration duration);
+        void signal();
+        void broadcast();
+        bool wait(Lock& lock);
+        bool wait(Lock& lock, std::chrono::steady_clock::duration duration);
 
-    protected:
+    private:
 #if defined(_WIN32)
         CONDITION_VARIABLE conditionVariable;
 #else
         pthread_cond_t condition;
+        bool initialized = false;
 #endif
     };
 }

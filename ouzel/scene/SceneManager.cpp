@@ -1,6 +1,6 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <cassert>
 #include <algorithm>
 #include "SceneManager.hpp"
 #include "Scene.hpp"
@@ -24,9 +24,7 @@ namespace ouzel
             }
 
             for (UpdateCallback* updateCallback : updateCallbackAddSet)
-            {
                 updateCallback->sceneManager = nullptr;
-            }
 
             for (UpdateCallback* updateCallback : updateCallbacks)
             {
@@ -48,15 +46,13 @@ namespace ouzel
 
                 previousUpdateTime = currentTime;
                 float delta = std::chrono::duration_cast<std::chrono::microseconds>(diff).count() / 1000000.0F;
-                
+
                 for (UpdateCallback* updateCallback : updateCallbackDeleteSet)
                 {
                     auto i = std::find(updateCallbacks.begin(), updateCallbacks.end(), updateCallback);
 
                     if (i != updateCallbacks.end())
-                    {
                         updateCallbacks.erase(i);
-                    }
                 }
 
                 updateCallbackDeleteSet.clear();
@@ -96,19 +92,18 @@ namespace ouzel
             }
         }
 
-        void SceneManager::addChildScene(Scene* scene)
+        void SceneManager::setScene(Scene* scene)
         {
-            if (scene)
-            {
-                if (scene->sceneManger) scene->sceneManger->removeScene(scene);
+            assert(scene);
 
-                scene->sceneManger = this;
+            if (scene->sceneManger) scene->sceneManger->removeScene(scene);
 
-                scenes.push_back(scene);
-            }
+            scene->sceneManger = this;
+
+            scenes.push_back(scene);
         }
 
-        bool SceneManager::removeChildScene(Scene* scene)
+        bool SceneManager::removeScene(Scene* scene)
         {
             bool result = false;
 
@@ -128,9 +123,7 @@ namespace ouzel
             });
 
             if (ownedIterator != ownedScenes.end())
-            {
                 ownedScenes.erase(ownedIterator);
-            }
 
             return result;
         }
@@ -138,9 +131,7 @@ namespace ouzel
         void SceneManager::draw()
         {
             while (scenes.size() > 1)
-            {
                 removeScene(scenes.front());
-            }
 
             if (!scenes.empty())
             {
@@ -153,9 +144,7 @@ namespace ouzel
         void SceneManager::scheduleUpdate(UpdateCallback* callback)
         {
             if (callback->sceneManager)
-            {
                 callback->sceneManager->unscheduleUpdate(callback);
-            }
 
             callback->sceneManager = this;
 
@@ -164,26 +153,20 @@ namespace ouzel
             auto setIterator = updateCallbackDeleteSet.find(callback);
 
             if (setIterator != updateCallbackDeleteSet.end())
-            {
                 updateCallbackDeleteSet.erase(setIterator);
-            }
         }
 
         void SceneManager::unscheduleUpdate(UpdateCallback* callback)
         {
             if (callback->sceneManager == this)
-            {
                 callback->sceneManager = nullptr;
-            }
 
             updateCallbackDeleteSet.insert(callback);
 
             auto setIterator = updateCallbackAddSet.find(callback);
 
             if (setIterator != updateCallbackAddSet.end())
-            {
                 updateCallbackAddSet.erase(setIterator);
-            }
         }
 
         void SceneManager::executeOnUpdateThread(const std::function<void(void)>& func)
@@ -207,10 +190,8 @@ namespace ouzel
                     updateThreadExecuteQueue.pop();
                 }
 
-                if (func)
-                {
-                    func();
-                }
+                if (func) func();
+
             }
         }
     } // namespace scene

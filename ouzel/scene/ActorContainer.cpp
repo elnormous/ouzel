@@ -1,6 +1,6 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <cassert>
 #include <algorithm>
 #include "ActorContainer.hpp"
 #include "Actor.hpp"
@@ -23,23 +23,20 @@ namespace ouzel
             }
         }
 
-        void ActorContainer::addChildActor(Actor* actor)
+        void ActorContainer::addChild(Actor* actor)
         {
-            if (actor)
-            {
-                if (actor->parent)
-                {
-                    actor->parent->removeChild(actor);
-                }
+            assert(actor);
 
-                actor->parent = this;
-                actor->setLayer(layer);
-                if (entered) actor->enter();
-                children.push_back(actor);
-            }
+            if (actor->parent)
+                actor->parent->removeChild(actor);
+
+            actor->parent = this;
+            actor->setLayer(layer);
+            if (entered) actor->enter();
+            children.push_back(actor);
         }
 
-        bool ActorContainer::removeChildActor(Actor* actor)
+        bool ActorContainer::removeChild(Actor* actor)
         {
             bool result = false;
 
@@ -60,9 +57,7 @@ namespace ouzel
             });
 
             if (ownedIterator != ownedChildren.end())
-            {
                 ownedChildren.erase(ownedIterator);
-            }
 
             return result;
         }
@@ -114,9 +109,7 @@ namespace ouzel
                 Actor* child = *i;
 
                 if (child == actor || (recursive && child->hasChild(actor, true)))
-                {
                     return true;
-                }
             }
 
             return false;
@@ -127,9 +120,7 @@ namespace ouzel
             entered = true;
 
             for (Actor* actor : children)
-            {
                 actor->enter();
-            }
         }
 
         void ActorContainer::leave()
@@ -137,9 +128,7 @@ namespace ouzel
             entered = false;
 
             for (Actor* actor : children)
-            {
                 actor->leave();
-            }
         }
 
         void ActorContainer::setLayer(Layer* newLayer)
@@ -147,9 +136,7 @@ namespace ouzel
             layer = newLayer;
 
             for (Actor* actor : children)
-            {
                 actor->setLayer(layer);
-            }
         }
 
         void ActorContainer::findActors(const Vector2& position, std::vector<std::pair<Actor*, Vector3>>& actors) const

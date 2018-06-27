@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -8,6 +7,7 @@
 #include <map>
 #include "assets/LoaderBMF.hpp"
 #include "assets/LoaderCollada.hpp"
+#include "assets/LoaderGLTF.hpp"
 #include "assets/LoaderImage.hpp"
 #include "assets/LoaderMTL.hpp"
 #include "assets/LoaderOBJ.hpp"
@@ -23,7 +23,7 @@
 #include "graphics/Shader.hpp"
 #include "graphics/Texture.hpp"
 #include "gui/Font.hpp"
-#include "scene/ModelData.hpp"
+#include "scene/MeshData.hpp"
 #include "scene/SpriteData.hpp"
 #include "scene/ParticleSystemData.hpp"
 
@@ -34,7 +34,7 @@ namespace ouzel
         class Cache final
         {
         public:
-            explicit Cache(FileSystem* initFileSystem);
+            explicit Cache(FileSystem& initFileSystem);
             ~Cache();
 
             Cache(const Cache&) = delete;
@@ -89,15 +89,16 @@ namespace ouzel
             void setMaterial(const std::string& filename, const std::shared_ptr<graphics::Material>& material);
             void releaseMaterials();
 
-            const scene::ModelData& getModelData(const std::string& filename, bool mipmaps = true) const;
-            void setModelData(const std::string& filename, const scene::ModelData& newModelData);
-            void releaseModelData();
+            const scene::MeshData& getMeshData(const std::string& filename, bool mipmaps = true) const;
+            void setMeshData(const std::string& filename, const scene::MeshData& newMeshData);
+            void releaseMeshData();
 
         private:
-            FileSystem* fileSystem;
+            FileSystem& fileSystem;
 
             LoaderBMF loaderBMF;
             LoaderCollada loaderCollada;
+            LoaderGLTF loaderGLTF;
             LoaderImage loaderImage;
             LoaderMTL loaderMTL;
             LoaderOBJ loaderOBJ;
@@ -115,7 +116,7 @@ namespace ouzel
             mutable std::map<std::string, std::shared_ptr<Font>> fonts;
             mutable std::map<std::string, std::shared_ptr<audio::SoundData>> soundData;
             mutable std::map<std::string, std::shared_ptr<graphics::Material>> materials;
-            mutable std::map<std::string, scene::ModelData> modelData;
+            mutable std::map<std::string, scene::MeshData> meshData;
         };
     } // namespace assets
 } // namespace ouzel

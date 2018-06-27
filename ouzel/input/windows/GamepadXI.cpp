@@ -1,10 +1,9 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "GamepadXI.hpp"
-#include "InputWin.hpp"
+#include "InputManagerWin.hpp"
 #include "core/Engine.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -20,8 +19,21 @@ namespace ouzel
             ZeroMemory(&vibration, sizeof(XINPUT_VIBRATION));
         }
 
-        void GamepadXI::update(const XINPUT_STATE& newState)
+        void GamepadXI::update()
         {
+            XINPUT_STATE newState;
+            ZeroMemory(&newState, sizeof(XINPUT_STATE));
+
+            DWORD result = XInputGetState(playerIndex, &newState);
+
+            if (result != ERROR_SUCCESS)
+            {
+                if (result == ERROR_DEVICE_NOT_CONNECTED)
+                    throw SystemError("Gamepad " + std::to_string(playerIndex) + " disconnected");
+                else
+                    throw SystemError("Failed to get state for gamepad " + std::to_string(playerIndex));
+            }
+
             if (newState.dwPacketNumber > state.dwPacketNumber)
             {
                 // buttons
@@ -91,13 +103,9 @@ namespace ouzel
                 else // thumbstick is 0
                 {
                     if (oldValue > newValue)
-                    {
                         handleButtonValueChange(positiveButton, false, 0.0F);
-                    }
                     else
-                    {
                         handleButtonValueChange(negativeButton, false, 0.0F);
-                    }
                 }
             }
         }

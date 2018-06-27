@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -29,11 +28,11 @@ namespace ouzel
                             uint32_t spritesX = 1, uint32_t spritesY = 1,
                             const Vector2& pivot = Vector2(0.5F, 0.5F));
 
-            bool init(const SpriteData& spriteData);
-            bool init(const std::string& filename, bool mipmaps = true,
+            void init(const SpriteData& spriteData);
+            void init(const std::string& filename, bool mipmaps = true,
                       uint32_t spritesX = 1, uint32_t spritesY = 1,
                       const Vector2& pivot = Vector2(0.5F, 0.5F));
-            bool init(std::shared_ptr<graphics::Texture> newTexture,
+            void init(std::shared_ptr<graphics::Texture> newTexture,
                       uint32_t spritesX = 1, uint32_t spritesY = 1,
                       const Vector2& pivot = Vector2(0.5F, 0.5F));
 
@@ -42,13 +41,7 @@ namespace ouzel
             virtual void draw(const Matrix4& transformMatrix,
                               float opacity,
                               const Matrix4& renderViewProjection,
-                              const std::shared_ptr<graphics::Texture>& renderTarget,
-                              const Rect& renderViewport,
-                              bool depthWrite,
-                              bool depthTest,
-                              bool wireframe,
-                              bool scissorTest,
-                              const Rect& scissorRectangle) override;
+                              bool wireframe) override;
 
             inline const std::shared_ptr<graphics::Material>& getMaterial() const { return material; }
             inline void setMaterial(const std::shared_ptr<graphics::Material>& newMaterial) { material = newMaterial; }
@@ -70,7 +63,7 @@ namespace ouzel
             void setAnimationProgress(float progress);
             void setAnimationTime(float time);
 
-        protected:
+        private:
             void updateBoundingBox();
 
             std::shared_ptr<graphics::Material> material;
@@ -88,7 +81,7 @@ namespace ouzel
             std::shared_ptr<graphics::Texture> whitePixelTexture;
 
             Vector2 offset;
-            Matrix4 offsetMatrix = Matrix4::IDENTITY;
+            Matrix4 offsetMatrix = Matrix4::identity();
 
             bool playing = false;
             bool running = false;
