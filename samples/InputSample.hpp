@@ -22,6 +22,7 @@ private:
     ouzel::EventHandler handler;
 
     ouzel::gui::Button hideButton;
+    ouzel::gui::Button discoverButton;
     ouzel::scene::ParticleSystem flameParticleSystem;
     ouzel::scene::Actor flame;
 

@@ -56,6 +56,7 @@ public:
 
 InputSample::InputSample():
     hideButton("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
+    discoverButton("button.png", "button_selected.png", "button_down.png", "", "Discover gamepads", "arial.fnt", 0.8F, Color::BLACK, Color::BLACK, Color::BLACK),
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
 {
     cursor.init("cursor.png", Vector2(0.0F, 63.0F));
@@ -95,6 +96,9 @@ InputSample::InputSample():
 
     hideButton.setPosition(Vector2(-200.0F, 200.0F));
     menu.addWidget(&hideButton);
+
+    discoverButton.setPosition(Vector2(-200.0F, 140.0F));
+    menu.addWidget(&discoverButton);
 
     backButton.setPosition(Vector2(-200.0F, -200.0F));
     menu.addWidget(&backButton);
@@ -222,6 +226,10 @@ bool InputSample::handleUI(Event::Type type, const UIEvent& event) const
         else if (event.actor == &hideButton)
         {
             engine->getInputManager()->setCursorVisible(!engine->getInputManager()->isCursorVisible());
+        }
+        else if (event.actor == &discoverButton)
+        {
+            engine->getInputManager()->startGamepadDiscovery();
         }
     }
 
