@@ -214,6 +214,8 @@ namespace ouzel
             HRESULT hr = DirectInput8Create(instance, DIRECTINPUT_VERSION, IID_IDirectInput8W, reinterpret_cast<LPVOID*>(&directInput), nullptr);
             if (FAILED(hr))
                 throw SystemError("Failed to initialize DirectInput, error: " + std::to_string(hr));
+
+            startGamepadDiscovery();
         }
 
         void InputManagerWin::update()
@@ -228,35 +230,18 @@ namespace ouzel
 
             for (DWORD userIndex = 0; userIndex < XUSER_MAX_COUNT; ++userIndex)
             {
-                XINPUT_STATE state;
-                ZeroMemory(&state, sizeof(XINPUT_STATE));
-
-                DWORD result = XInputGetState(userIndex, &state);
-
-                if (result == ERROR_SUCCESS)
+                if (gamepadsXI[userIndex])
                 {
-                    if (!gamepadsXI[userIndex])
+                    GamepadXI* gamepadXI = gamepadsXI[userIndex];
+                    XINPUT_STATE state;
+                    ZeroMemory(&state, sizeof(XINPUT_STATE));
+
+                    DWORD result = XInputGetState(userIndex, &state);
+
+                    if (result == ERROR_SUCCESS)
+                        gamepadXI->update(state);
+                    else if (result == ERROR_DEVICE_NOT_CONNECTED)
                     {
-                        std::unique_ptr<GamepadXI> gamepad(new GamepadXI(userIndex));
-                        gamepadsXI[userIndex] = gamepad.get();
-
-                        Event event;
-                        event.type = Event::Type::GAMEPAD_CONNECT;
-                        event.gamepadEvent.gamepad = gamepad.get();
-
-                        gamepads.push_back(std::move(gamepad));
-
-                        engine->getEventDispatcher()->postEvent(event);
-                    }
-
-                    gamepadsXI[userIndex]->update(state);
-                }
-                else if (result == ERROR_DEVICE_NOT_CONNECTED)
-                {
-                    if (gamepadsXI[userIndex])
-                    {
-                        GamepadXI* gamepadXI = gamepadsXI[userIndex];
-
                         Event event;
                         event.type = Event::Type::GAMEPAD_DISCONNECT;
                         event.gamepadEvent.gamepad = gamepadXI;
@@ -270,9 +255,9 @@ namespace ouzel
                         if (i != gamepads.end())
                             gamepads.erase(i);
                     }
+                    else
+                        Log(Log::Level::WARN) << "Failed to get state for gamepad " << userIndex;
                 }
-                else
-                    Log(Log::Level::WARN) << "Failed to get state for gamepad " << userIndex;
             }
 
             for (auto i = gamepadsDI.begin(); i != gamepadsDI.end();)
@@ -387,9 +372,38 @@ namespace ouzel
 
         void InputManagerWin::startGamepadDiscovery()
         {
-            HRESULT hr = directInput->EnumDevices(DI8DEVCLASS_GAMECTRL, enumDevicesCallback, this, DIEDFL_ATTACHEDONLY);
-            if (FAILED(hr))
-                throw SystemError("Failed to enumerate devices, error: " + std::to_string(hr));
+            engine->executeOnMainThread([this] {
+                for (DWORD userIndex = 0; userIndex < XUSER_MAX_COUNT; ++userIndex)
+                {
+                    if (!gamepadsXI[userIndex])
+                    {
+                        XINPUT_STATE state;
+                        ZeroMemory(&state, sizeof(XINPUT_STATE));
+
+                        DWORD result = XInputGetState(userIndex, &state);
+
+                        if (result == ERROR_SUCCESS)
+                        {
+                            std::unique_ptr<GamepadXI> gamepad(new GamepadXI(userIndex));
+                            gamepadsXI[userIndex] = gamepad.get();
+
+                            Event event;
+                            event.type = Event::Type::GAMEPAD_CONNECT;
+                            event.gamepadEvent.gamepad = gamepad.get();
+
+                            gamepads.push_back(std::move(gamepad));
+
+                            engine->getEventDispatcher()->postEvent(event);
+                        }
+                        else if (result != ERROR_DEVICE_NOT_CONNECTED)
+                            Log(Log::Level::WARN) << "Failed to get state for gamepad " << userIndex;
+                    }
+                }
+
+                HRESULT hr = directInput->EnumDevices(DI8DEVCLASS_GAMECTRL, enumDevicesCallback, this, DIEDFL_ATTACHEDONLY);
+                if (FAILED(hr))
+                    throw SystemError("Failed to enumerate devices, error: " + std::to_string(hr));
+            });
         }
 
         void InputManagerWin::handleDeviceConnect(const DIDEVICEINSTANCEW* didInstance)
