@@ -38,7 +38,6 @@ namespace ouzel
 
         private:
             InputManagerLinux();
-            virtual void init() override;
 
             void update();
 

@@ -37,7 +37,6 @@ namespace ouzel
 
         private:
             InputManagerIOS();
-            virtual void init() override;
 
             id connectDelegate = nil;
 

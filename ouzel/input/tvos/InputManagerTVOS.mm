@@ -68,20 +68,6 @@ namespace ouzel
 
         InputManagerTVOS::InputManagerTVOS()
         {
-        }
-
-        InputManagerTVOS::~InputManagerTVOS()
-        {
-            if (connectDelegate)
-            {
-                [[NSNotificationCenter defaultCenter] removeObserver:connectDelegate];
-
-                [connectDelegate release];
-            }
-        }
-
-        void InputManagerTVOS::init()
-        {
             connectDelegate = [[ConnectDelegate alloc] initWithInput:this];
 
             [[NSNotificationCenter defaultCenter] addObserver:connectDelegate
@@ -97,7 +83,20 @@ namespace ouzel
             for (GCController* controller in [GCController controllers])
                 handleGamepadConnected(controller);
 
-            startGamepadDiscovery();
+            discovering = true;
+
+            [GCController startWirelessControllerDiscoveryWithCompletionHandler:
+             ^(void){ handleGamepadDiscoveryCompleted(); }];
+        }
+
+        InputManagerTVOS::~InputManagerTVOS()
+        {
+            if (connectDelegate)
+            {
+                [[NSNotificationCenter defaultCenter] removeObserver:connectDelegate];
+
+                [connectDelegate release];
+            }
         }
 
         void InputManagerTVOS::startGamepadDiscovery()

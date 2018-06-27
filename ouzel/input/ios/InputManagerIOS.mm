@@ -68,20 +68,6 @@ namespace ouzel
 
         InputManagerIOS::InputManagerIOS()
         {
-        }
-
-        InputManagerIOS::~InputManagerIOS()
-        {
-            if (connectDelegate)
-            {
-                [[NSNotificationCenter defaultCenter] removeObserver:connectDelegate];
-
-                [connectDelegate release];
-            }
-        }
-
-        void InputManagerIOS::init()
-        {
             connectDelegate = [[ConnectDelegate alloc] initWithInput:this];
 
             [[NSNotificationCenter defaultCenter] addObserver:connectDelegate
@@ -97,7 +83,20 @@ namespace ouzel
             for (GCController* controller in [GCController controllers])
                 handleGamepadConnected(controller);
 
-            startGamepadDiscovery();
+            discovering = true;
+
+            [GCController startWirelessControllerDiscoveryWithCompletionHandler:
+             ^(void){ handleGamepadDiscoveryCompleted(); }];
+        }
+
+        InputManagerIOS::~InputManagerIOS()
+        {
+            if (connectDelegate)
+            {
+                [[NSNotificationCenter defaultCenter] removeObserver:connectDelegate];
+
+                [connectDelegate release];
+            }
         }
 
         void InputManagerIOS::startGamepadDiscovery()

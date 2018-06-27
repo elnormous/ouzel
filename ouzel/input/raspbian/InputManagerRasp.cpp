@@ -174,10 +174,6 @@ namespace ouzel
 
         InputManagerRasp::InputManagerRasp()
         {
-        }
-
-        void InputManagerRasp::init()
-        {
             std::fill(std::begin(keyboardKeyDown), std::end(keyboardKeyDown), false);
             std::fill(std::begin(mouseButtonDown), std::end(mouseButtonDown), false);
 

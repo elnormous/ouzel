@@ -23,10 +23,6 @@ namespace ouzel
         {
         }
 
-        void InputManager::init()
-        {
-        }
-
         void InputManager::setCurrentCursor(Cursor* cursor)
         {
             Lock lock(resourceMutex);
