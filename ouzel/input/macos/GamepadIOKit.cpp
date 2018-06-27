@@ -1,11 +1,10 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "GamepadIOKit.hpp"
 #include "core/Engine.hpp"
 #include "core/Setup.h"
 #include "events/EventDispatcher.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 static const float THUMB_DEADZONE = 0.2F;
 
@@ -24,10 +23,7 @@ namespace ouzel
         {
             IOReturn ret = IOHIDDeviceOpen(device, kIOHIDOptionsTypeNone);
             if (ret != kIOReturnSuccess)
-            {
-                Log(Log::Level::ERR) << "Failed to open HID device, error: " << ret;
-                return;
-            }
+                throw SystemError("Failed to open HID device, error: " + std::to_string(ret));
 
             CFStringRef productName = static_cast<CFStringRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey)));
             if (productName)
@@ -39,15 +35,11 @@ namespace ouzel
 
             CFNumberRef vendor = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDVendorIDKey)));
             if (vendor)
-            {
                 CFNumberGetValue(vendor, kCFNumberSInt32Type, &vendorId);
-            }
 
             CFNumberRef product = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductIDKey)));
             if (product)
-            {
                 CFNumberGetValue(product, kCFNumberSInt32Type, &productId);
-            }
 
             uint32_t leftThumbXMap = 0;
             uint32_t leftThumbYMap = 0;
@@ -279,9 +271,7 @@ namespace ouzel
                 element.usage = IOHIDElementGetUsage(element.element);
 
                 if (element.usage > 0 && element.usage < 25)
-                {
                     element.button = usageMap[element.usage - 1];
-                }
 
                 if ((element.type == kIOHIDElementTypeInput_Misc || element.type == kIOHIDElementTypeInput_Axis) &&
                     element.usagePage == kHIDPage_GenericDesktop)
@@ -326,9 +316,7 @@ namespace ouzel
                     if (element.button != GamepadButton::NONE &&
                         (element.button != GamepadButton::LEFT_TRIGGER || !leftThumbX) && // don't send digital trigger if analog trigger exists
                         (element.button != GamepadButton::RIGHT_TRIGGER || !rightThumbY))
-                    {
                         handleButtonValueChange(element.button, newValue > 0, (newValue > 0) ? 1.0F : 0.0F);
-                    }
                 }
                 else if (elementRef == leftThumbX)
                 {
@@ -413,13 +401,9 @@ namespace ouzel
             else // thumbstick is 0
             {
                 if (oldValue > newValue)
-                {
                     handleButtonValueChange(positiveButton, false, 0.0F);
-                }
                 else
-                {
                     handleButtonValueChange(negativeButton, false, 0.0F);
-                }
             }
         }
     } // namespace input

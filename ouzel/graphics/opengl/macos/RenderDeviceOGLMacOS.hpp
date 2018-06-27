@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -40,7 +39,7 @@ namespace ouzel
 
         protected:
             RenderDeviceOGLMacOS();
-            virtual bool init(Window* newWindow,
+            virtual void init(Window* newWindow,
                               const Size2& newSize,
                               uint32_t newSampleCount,
                               Texture::Filter newTextureFilter,
@@ -50,8 +49,8 @@ namespace ouzel
                               bool newDebugRenderer) override;
 
             virtual void setSize(const Size2& newSize) override;
-            virtual bool lockContext() override;
-            virtual bool swapBuffers() override;
+            virtual void lockContext() override;
+            virtual void swapBuffers() override;
 
             bool handleWindow(Event::Type type, const WindowEvent& event);
 

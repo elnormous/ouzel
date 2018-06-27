@@ -1,10 +1,9 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "SoundDataVorbis.hpp"
 #include "StreamVorbis.hpp"
 #include "files/FileSystem.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 #include "utils/Utils.hpp"
 #include "stb_vorbis.c"
 
@@ -16,19 +15,21 @@ namespace ouzel
         {
         }
 
-        bool SoundDataVorbis::init(const std::vector<uint8_t>& newData)
+        void SoundDataVorbis::init(const std::vector<uint8_t>& newData)
         {
             data = newData;
 
             stb_vorbis* vorbisStream = stb_vorbis_open_memory(data.data(), static_cast<int>(data.size()), nullptr, nullptr);
+
+            if (!vorbisStream)
+                throw ParseError("Failed to load Vorbis stream");
+
             stb_vorbis_info info = stb_vorbis_get_info(vorbisStream);
 
             channels = static_cast<uint16_t>(info.channels);
             sampleRate = info.sample_rate;
 
             stb_vorbis_close(vorbisStream);
-
-            return true;
         }
 
         std::shared_ptr<Stream> SoundDataVorbis::createStream()
@@ -36,7 +37,7 @@ namespace ouzel
             return std::make_shared<StreamVorbis>(data);
         }
 
-        bool SoundDataVorbis::readData(Stream* stream, uint32_t frames, std::vector<float>& result)
+        void SoundDataVorbis::readData(Stream* stream, uint32_t frames, std::vector<float>& result)
         {
             StreamVorbis* streamVorbis = static_cast<StreamVorbis*>(stream);
 
@@ -49,9 +50,7 @@ namespace ouzel
             while (neededSize > 0)
             {
                 if (vorbisStream->eof)
-                {
                     stream->reset();
-                }
 
                 int resultFrames = stb_vorbis_get_samples_float_interleaved(vorbisStream, channels, result.data(), neededSize);
                 totalSize += static_cast<uint32_t>(resultFrames) * channels;
@@ -61,13 +60,9 @@ namespace ouzel
             }
 
             if (vorbisStream->eof)
-            {
                 stream->reset();
-            }
 
             std::fill(result.begin() + totalSize, result.end(), 0.0F);
-
-            return true;
         }
     } // namespace audio
 } // namespace ouzel

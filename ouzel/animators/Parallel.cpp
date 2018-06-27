@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <algorithm>
 #include "Parallel.hpp"
@@ -16,9 +15,7 @@ namespace ouzel
                 addAnimator(animator);
 
                 if (animator->getLength() > length)
-                {
                     length = animator->getLength();
-                }
             }
         }
 
@@ -30,9 +27,7 @@ namespace ouzel
                 addAnimator(animator.get());
 
                 if (animator->getLength() > length)
-                {
                     length = animator->getLength();
-                }
             }
         }
 
@@ -45,13 +40,9 @@ namespace ouzel
                 float animationLength = animator->getLength();
 
                 if (animationLength <= 0.0F || currentTime > animationLength)
-                {
                     animator->setProgress(1.0F);
-                }
                 else
-                {
                     animator->setProgress(currentTime / animationLength);
-                }
             }
         }
     } // namespace scene

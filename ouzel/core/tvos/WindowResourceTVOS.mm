@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "WindowResourceTVOS.hpp"
 #include "ViewTVOS.h"
@@ -8,7 +7,7 @@
 #include "graphics/metal/tvos/MetalView.h"
 #include "core/Engine.hpp"
 #include "thread/Lock.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 @interface ViewController: UIViewController
 {
@@ -22,9 +21,7 @@
 -(id)initWithWindow:(ouzel::WindowResourceTVOS*)initWindow
 {
     if (self = [super init])
-    {
         window = initWindow;
-    }
 
     return self;
 }
@@ -57,7 +54,7 @@ namespace ouzel
         if (window) [window release];
     }
 
-    bool WindowResourceTVOS::init(const Size2& newSize,
+    void WindowResourceTVOS::init(const Size2& newSize,
                                   bool newResizable,
                                   bool newFullscreen,
                                   bool newExclusiveFullscreen,
@@ -65,16 +62,13 @@ namespace ouzel
                                   bool newHighDpi,
                                   bool depth)
     {
-        if (!WindowResource::init(newSize,
-                                  newResizable,
-                                  newFullscreen,
-                                  newExclusiveFullscreen,
-                                  newTitle,
-                                  newHighDpi,
-                                  depth))
-        {
-            return false;
-        }
+        WindowResource::init(newSize,
+                             newResizable,
+                             newFullscreen,
+                             newExclusiveFullscreen,
+                             newTitle,
+                             newHighDpi,
+                             depth);
 
         screen = [UIScreen mainScreen];
 
@@ -104,8 +98,7 @@ namespace ouzel
                 break;
 #endif
             default:
-                Log(Log::Level::ERR) << "Unsupported render driver";
-                return false;
+                throw SystemError("Unsupported render driver");
         }
 
         textField = [[UITextField alloc] init];
@@ -124,11 +117,7 @@ namespace ouzel
             resolution = size * contentScale;
         }
         else
-        {
             resolution = size;
-        }
-
-        return true;
     }
 
     void WindowResourceTVOS::handleResize(const Size2& newSize)

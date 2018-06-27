@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -86,7 +85,7 @@ namespace ouzel
         protected:
             RenderDeviceMetal();
 
-            virtual bool init(Window* newWindow,
+            virtual void init(Window* newWindow,
                               const Size2& newSize,
                               uint32_t newSampleCount,
                               Texture::Filter newTextureFilter,
@@ -97,21 +96,21 @@ namespace ouzel
 
             virtual void setSize(const Size2& newSize) override;
 
-            virtual bool processCommands(const std::vector<Command>& commands) override;
-            virtual bool generateScreenshot(const std::string& filename) override;
+            virtual void processCommands(CommandBuffer& commands) override;
+            virtual void generateScreenshot(const std::string& filename) override;
 
             virtual BlendStateResource* createBlendState() override;
-            virtual TextureResource* createTexture() override;
-            virtual ShaderResource* createShader() override;
-            virtual MeshBufferResource* createMeshBuffer() override;
             virtual BufferResource* createBuffer() override;
+            virtual RenderTargetResource* createRenderTarget() override;
+            virtual ShaderResource* createShader() override;
+            virtual TextureResource* createTexture() override;
 
             class PipelineStateDesc
             {
             public:
-                BlendStateResourceMetal* blendState;
-                ShaderResourceMetal* shader;
-                NSUInteger sampleCount;
+                BlendStateResourceMetal* blendState = nullptr;
+                ShaderResourceMetal* shader = nullptr;
+                NSUInteger sampleCount = 0;
                 MTLPixelFormat colorFormat;
                 MTLPixelFormat depthFormat;
 

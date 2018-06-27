@@ -26,7 +26,7 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - g++-5
+            - g++-6
         sonarcloud:
           organization: "elnormous-github"
           token:
@@ -37,7 +37,7 @@ matrix:
         - sudo apt-get install -y libxi-dev
         - sudo apt-get install -y libxcursor-dev
       before_script:
-        - export CXX=g++-5
+        - export CXX=g++-6
       script:
         - build-wrapper-linux-x86-64 --out-dir bw-output make -j2 -f samples/Makefile
         - sonar-scanner -D sonar.projectKey=Ouzel -D sonar.projectName="Ouzel Linux"

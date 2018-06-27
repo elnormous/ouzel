@@ -1,6 +1,6 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <cassert>
 #include <algorithm>
 #include "Actor.hpp"
 #include "core/Engine.hpp"
@@ -23,9 +23,7 @@ namespace ouzel
             if (parent) parent->removeChild(this);
 
             for (const auto& component : components)
-            {
                 component->setActor(nullptr);
-            }
         }
 
         void Actor::visit(std::vector<Actor*>& drawQueue,
@@ -38,15 +36,8 @@ namespace ouzel
             worldOrder = parentOrder + order;
             worldHidden = parentHidden || hidden;
 
-            if (parentTransformDirty)
-            {
-                updateTransform(newParentTransform);
-            }
-
-            if (transformDirty)
-            {
-                calculateTransform();
-            }
+            if (parentTransformDirty) updateTransform(newParentTransform);
+            if (transformDirty) calculateTransform();
 
             if (!worldHidden)
             {
@@ -64,9 +55,7 @@ namespace ouzel
             }
 
             for (Actor* actor : children)
-            {
                 actor->visit(drawQueue, transform, updateChildrenTransform, camera, worldOrder, worldHidden);
-            }
 
             updateChildrenTransform = false;
         }
@@ -74,9 +63,7 @@ namespace ouzel
         void Actor::draw(Camera* camera, bool wireframe)
         {
             if (transformDirty)
-            {
                 calculateTransform();
-            }
 
             for (Component* component : components)
             {
@@ -85,25 +72,16 @@ namespace ouzel
                     component->draw(transform,
                                     opacity,
                                     camera->getRenderViewProjection(),
-                                    camera->getRenderTarget(),
-                                    camera->getRenderViewport(),
-                                    camera->getDepthWrite(),
-                                    camera->getDepthTest(),
-                                    wireframe,
-                                    false,
-                                    Rect());
+                                    wireframe);
                 }
             }
         }
 
-        void Actor::addChildActor(Actor* actor)
+        void Actor::addChild(Actor* actor)
         {
-            ActorContainer::addChildActor(actor);
+            ActorContainer::addChild(actor);
 
-            if (actor)
-            {
-                actor->updateTransform(getTransform());
-            }
+            actor->updateTransform(getTransform());
         }
 
         void Actor::setPosition(const Vector2& newPosition)
@@ -194,9 +172,7 @@ namespace ouzel
             for (Component* component : components)
             {
                 if (component->pointOn(localPosition))
-                {
                     return true;
-                }
             }
 
             return false;
@@ -220,9 +196,7 @@ namespace ouzel
             for (Component* component : components)
             {
                 if (component->shapeOverlaps(transformedEdges))
-                {
                     return true;
-                }
             }
 
             return false;
@@ -232,9 +206,7 @@ namespace ouzel
         {
             localTransformDirty = transformDirty = inverseTransformDirty = true;
             for (Component* component : components)
-            {
                 component->updateTransform();
-            }
         }
 
         void Actor::updateTransform(const Matrix4& newParentTransform)
@@ -242,9 +214,7 @@ namespace ouzel
             parentTransform = newParentTransform;
             transformDirty = inverseTransformDirty = true;
             for (Component* component : components)
-            {
                 component->updateTransform();
-            }
         }
 
         Vector3 Actor::getWorldPosition() const
@@ -279,13 +249,17 @@ namespace ouzel
         {
             localTransform.setIdentity();
             localTransform.translate(position);
-            localTransform *= rotation.getMatrix();
 
-            Vector3 realScale = Vector3(scale.x * (flipX ? -1.0F : 1.0F),
-                                        scale.y * (flipY ? -1.0F : 1.0F),
-                                        scale.z);
+            Matrix4 rotationMatrix;
+            rotationMatrix.setRotation(rotation);
 
-            localTransform.scale(realScale);
+            localTransform *= rotationMatrix;
+
+            Vector3 finalScale = Vector3(scale.x * (flipX ? -1.0F : 1.0F),
+                                         scale.y * (flipY ? -1.0F : 1.0F),
+                                         scale.z);
+
+            localTransform.scale(finalScale);
 
             localTransformDirty = false;
         }
@@ -310,18 +284,18 @@ namespace ouzel
             if (parent) parent->removeChild(this);
         }
 
-        void Actor::addChildComponent(Component* component)
+        void Actor::addComponent(Component* component)
         {
+            assert(component);
+
             if (component->actor)
-            {
                 component->actor->removeComponent(component);
-            }
 
             component->setActor(this);
             components.push_back(component);
         }
 
-        bool Actor::removeChildComponent(Component* component)
+        bool Actor::removeComponent(Component* component)
         {
             bool result = false;
 
@@ -339,9 +313,7 @@ namespace ouzel
             });
 
             if (ownedIterator != ownedComponents.end())
-            {
                 ownedComponents.erase(ownedIterator);
-            }
 
             return result;
         }
@@ -357,9 +329,7 @@ namespace ouzel
             ActorContainer::setLayer(newLayer);
 
             for (Component* component : components)
-            {
                 component->setLayer(newLayer);
-            }
         }
 
         std::vector<Component*> Actor::getComponents(uint32_t cls) const
@@ -369,9 +339,7 @@ namespace ouzel
             for (Component* component : components)
             {
                 if (component->getClass() == cls)
-                {
                     result.push_back(component);
-                }
             }
 
             return result;
@@ -384,9 +352,7 @@ namespace ouzel
             for (Component* component : components)
             {
                 if (!component->isHidden())
-                {
                     boundingBox.merge(component->getBoundingBox());
-                }
             }
 
             return boundingBox;

@@ -1,11 +1,11 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <algorithm>
 #include "Engine.hpp"
 #include "Setup.h"
-#include "utils/Log.hpp"
 #include "utils/INI.hpp"
+#include "utils/Errors.hpp"
+#include "utils/Log.hpp"
 #include "utils/Utils.hpp"
 #include "graphics/Renderer.hpp"
 #include "graphics/RenderDevice.hpp"
@@ -13,23 +13,23 @@
 #include "thread/Lock.hpp"
 
 #if OUZEL_PLATFORM_MACOS
-#include "input/macos/InputMacOS.hpp"
+#include "input/macos/InputManagerMacOS.hpp"
 #elif OUZEL_PLATFORM_IOS
-#include "input/ios/InputIOS.hpp"
+#include "input/ios/InputManagerIOS.hpp"
 #elif OUZEL_PLATFORM_TVOS
-#include "input/tvos/InputTVOS.hpp"
+#include "input/tvos/InputManagerTVOS.hpp"
 #elif OUZEL_PLATFORM_ANDROID
 #include <jni.h>
-#include "input/android/InputAndroid.hpp"
+#include "input/android/InputManagerAndroid.hpp"
 #elif OUZEL_PLATFORM_LINUX
 #include "linux/WindowResourceLinux.hpp"
-#include "input/linux/InputLinux.hpp"
+#include "input/linux/InputManagerLinux.hpp"
 #elif OUZEL_PLATFORM_WINDOWS
-#include "input/windows/InputWin.hpp"
+#include "input/windows/InputManagerWin.hpp"
 #elif OUZEL_PLATFORM_RASPBIAN
-#include "input/raspbian/InputRasp.hpp"
+#include "input/raspbian/InputManagerRasp.hpp"
 #elif OUZEL_PLATFORM_EMSCRIPTEN
-#include "input/emscripten/InputEm.hpp"
+#include "input/emscripten/InputManagerEm.hpp"
 #endif
 
 extern std::string APPLICATION_NAME;
@@ -39,7 +39,7 @@ namespace ouzel
     ouzel::Engine* engine = nullptr;
 
     Engine::Engine():
-        cache(&fileSystem), active(false), paused(false), screenSaverEnabled(true)
+        cache(fileSystem), active(false), paused(false), screenSaverEnabled(true)
     {
         engine = this;
     }
@@ -71,7 +71,7 @@ namespace ouzel
         engine = nullptr;
     }
 
-    bool Engine::init()
+    void Engine::init()
     {
         Thread::setCurrentThreadName("Main");
 
@@ -91,7 +91,15 @@ namespace ouzel
         bool debugAudio = false;
 
         defaultSettings.init("settings.ini");
-        userSettings.init(fileSystem.getStorageDirectory() + FileSystem::DIRECTORY_SEPARATOR + "settings.ini");
+
+        try
+        {
+            userSettings.init(fileSystem.getStorageDirectory() + FileSystem::DIRECTORY_SEPARATOR + "settings.ini");
+        }
+        catch (const FileError&)
+        {
+            Log(Log::Level::INFO) << "User settings not provided";
+        }
 
         const ini::Section& userEngineSection = userSettings.getSection("engine");
         const ini::Section& defaultEngineSection = defaultSettings.getSection("engine");
@@ -101,30 +109,17 @@ namespace ouzel
         if (!graphicsDriverValue.empty())
         {
             if (graphicsDriverValue == "default")
-            {
                 graphicsDriver = ouzel::graphics::Renderer::Driver::DEFAULT;
-            }
             else if (graphicsDriverValue == "empty")
-            {
                 graphicsDriver = ouzel::graphics::Renderer::Driver::EMPTY;
-            }
             else if (graphicsDriverValue == "opengl")
-            {
                 graphicsDriver = ouzel::graphics::Renderer::Driver::OPENGL;
-            }
             else if (graphicsDriverValue == "direct3d11")
-            {
                 graphicsDriver = ouzel::graphics::Renderer::Driver::DIRECT3D11;
-            }
             else if (graphicsDriverValue == "metal")
-            {
                 graphicsDriver = ouzel::graphics::Renderer::Driver::METAL;
-            }
             else
-            {
-                ouzel::Log(ouzel::Log::Level::WARN) << "Invalid graphics driver specified";
-                return false;
-            }
+                throw ConfigError("Invalid graphics driver specified");
         }
 
         std::string widthValue = userEngineSection.getValue("width", defaultEngineSection.getValue("width"));
@@ -140,26 +135,15 @@ namespace ouzel
         if (!textureFilterValue.empty())
         {
             if (textureFilterValue == "point")
-            {
                 textureFilter = ouzel::graphics::Texture::Filter::POINT;
-            }
             else if (textureFilterValue == "linear")
-            {
                 textureFilter = ouzel::graphics::Texture::Filter::LINEAR;
-            }
             else if (textureFilterValue == "bilinear")
-            {
                 textureFilter = ouzel::graphics::Texture::Filter::BILINEAR;
-            }
             else if (textureFilterValue == "trilinear")
-            {
                 textureFilter = ouzel::graphics::Texture::Filter::TRILINEAR;
-            }
             else
-            {
-                ouzel::Log(ouzel::Log::Level::WARN) << "Invalid texture filter specified";
-                return false;
-            }
+                throw ConfigError("Invalid texture filter specified");
         }
 
         std::string maxAnisotropyValue = userEngineSection.getValue("maxAnisotropy", defaultEngineSection.getValue("maxAnisotropy"));
@@ -191,42 +175,23 @@ namespace ouzel
         if (!audioDriverValue.empty())
         {
             if (audioDriverValue == "default")
-            {
                 audioDriver = ouzel::audio::Audio::Driver::DEFAULT;
-            }
             else if (audioDriverValue == "empty")
-            {
                 audioDriver = ouzel::audio::Audio::Driver::EMPTY;
-            }
             else if (audioDriverValue == "openal")
-            {
                 audioDriver = ouzel::audio::Audio::Driver::OPENAL;
-            }
             else if (audioDriverValue == "directsound")
-            {
                 audioDriver = ouzel::audio::Audio::Driver::DIRECTSOUND;
-            }
             else if (audioDriverValue == "xaudio2")
-            {
                 audioDriver = ouzel::audio::Audio::Driver::XAUDIO2;
-            }
             else if (audioDriverValue == "opensl")
-            {
                 audioDriver = ouzel::audio::Audio::Driver::OPENSL;
-            }
             else if (audioDriverValue == "coreaudio")
-            {
                 audioDriver = ouzel::audio::Audio::Driver::COREAUDIO;
-            }
             else if (audioDriverValue == "alsa")
-            {
                 audioDriver = ouzel::audio::Audio::Driver::ALSA;
-            }
             else
-            {
-                ouzel::Log(ouzel::Log::Level::WARN) << "Invalid audio driver specified";
-                return false;
-            }
+                throw ConfigError("Invalid audio driver specified");
         }
 
         std::string debugAudioValue = userEngineSection.getValue("debugAudio", defaultEngineSection.getValue("debugAudio"));
@@ -237,125 +202,77 @@ namespace ouzel
             auto availableDrivers = graphics::Renderer::getAvailableRenderDrivers();
 
             if (availableDrivers.find(graphics::Renderer::Driver::METAL) != availableDrivers.end())
-            {
                 graphicsDriver = graphics::Renderer::Driver::METAL;
-            }
             else if (availableDrivers.find(graphics::Renderer::Driver::DIRECT3D11) != availableDrivers.end())
-            {
                 graphicsDriver = graphics::Renderer::Driver::DIRECT3D11;
-            }
             else if (availableDrivers.find(graphics::Renderer::Driver::OPENGL) != availableDrivers.end())
-            {
                 graphicsDriver = graphics::Renderer::Driver::OPENGL;
-            }
             else
-            {
                 graphicsDriver = graphics::Renderer::Driver::EMPTY;
-            }
         }
 
         renderer.reset(new graphics::Renderer(graphicsDriver));
 
-        if (!window.init(size,
-                         resizable,
-                         fullscreen,
-                         exclusiveFullscreen,
-                         APPLICATION_NAME,
-                         highDpi,
-                         depth))
-        {
-            return false;
-        }
+        window.init(size,
+                    resizable,
+                    fullscreen,
+                    exclusiveFullscreen,
+                    APPLICATION_NAME,
+                    highDpi,
+                    depth);
 
-        if (!renderer->init(&window,
-                            window.getResolution(),
-                            sampleCount,
-                            textureFilter,
-                            maxAnisotropy,
-                            verticalSync,
-                            depth,
-                            debugRenderer))
-        {
-            return false;
-        }
+        renderer->init(&window,
+                       window.getResolution(),
+                       sampleCount,
+                       textureFilter,
+                       maxAnisotropy,
+                       verticalSync,
+                       depth,
+                       debugRenderer);
 
         if (audioDriver == audio::Audio::Driver::DEFAULT)
         {
             auto availableDrivers = audio::Audio::getAvailableAudioDrivers();
 
             if (availableDrivers.find(audio::Audio::Driver::COREAUDIO) != availableDrivers.end())
-            {
                 audioDriver = audio::Audio::Driver::COREAUDIO;
-            }
             else if (availableDrivers.find(audio::Audio::Driver::ALSA) != availableDrivers.end())
-            {
                 audioDriver = audio::Audio::Driver::ALSA;
-            }
             else if (availableDrivers.find(audio::Audio::Driver::OPENAL) != availableDrivers.end())
-            {
                 audioDriver = audio::Audio::Driver::OPENAL;
-            }
             else if (availableDrivers.find(audio::Audio::Driver::XAUDIO2) != availableDrivers.end())
-            {
                 audioDriver = audio::Audio::Driver::XAUDIO2;
-            }
             else if (availableDrivers.find(audio::Audio::Driver::DIRECTSOUND) != availableDrivers.end())
-            {
                 audioDriver = audio::Audio::Driver::DIRECTSOUND;
-            }
             else if (availableDrivers.find(audio::Audio::Driver::OPENSL) != availableDrivers.end())
-            {
                 audioDriver = audio::Audio::Driver::OPENSL;
-            }
             else
-            {
                 audioDriver = audio::Audio::Driver::EMPTY;
-            }
         }
 
         audio.reset(new audio::Audio(audioDriver));
 
-        if (!audio->init(debugAudio))
-        {
-            return false;
-        }
+        audio->init(debugAudio);
 
 #if OUZEL_PLATFORM_MACOS
-        input.reset(new input::InputMacOS());
+        inputManager.reset(new input::InputManagerMacOS());
 #elif OUZEL_PLATFORM_IOS
-        input.reset(new input::InputIOS());
+        inputManager.reset(new input::InputManagerIOS());
 #elif OUZEL_PLATFORM_TVOS
-        input.reset(new input::InputTVOS());
+        inputManager.reset(new input::InputManagerTVOS());
 #elif OUZEL_PLATFORM_ANDROID
-        input.reset(new input::InputAndroid());
+        inputManager.reset(new input::InputManagerAndroid());
 #elif OUZEL_PLATFORM_LINUX
-        input.reset(new input::InputLinux());
+        inputManager.reset(new input::InputManagerLinux());
 #elif OUZEL_PLATFORM_WINDOWS
-        input.reset(new input::InputWin());
+        inputManager.reset(new input::InputManagerWin());
 #elif OUZEL_PLATFORM_RASPBIAN
-        input.reset(new input::InputRasp());
+        inputManager.reset(new input::InputManagerRasp());
 #elif OUZEL_PLATFORM_EMSCRIPTEN
-        input.reset(new input::InputEm());
+        inputManager.reset(new input::InputManagerEm());
 #else
-        input.reset(new input::Input());
+        inputManager.reset(new input::InputManager());
 #endif
-
-        if (!input->init())
-        {
-            return false;
-        }
-
-        if (!network.init())
-        {
-            return false;
-        }
-
-        return true;
-    }
-
-    int Engine::run()
-    {
-        return EXIT_SUCCESS;
     }
 
     void Engine::start()
@@ -465,7 +382,7 @@ namespace ouzel
             {
                 Lock lock(updateMutex);
                 while (active && paused)
-                    updateCondition.wait(updateMutex);
+                    updateCondition.wait(lock);
             }
         }
 
@@ -473,9 +390,8 @@ namespace ouzel
 #endif
     }
 
-    bool Engine::openURL(const std::string&)
+    void Engine::openURL(const std::string&)
     {
-        return false;
     }
 
     void Engine::setScreenSaverEnabled(bool newScreenSaverEnabled)

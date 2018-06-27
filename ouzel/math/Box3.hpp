@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <cstdint>
 #include <limits>
@@ -69,7 +68,7 @@ namespace ouzel
 
         void merge(const Box3& box);
 
-        void set(const Vector2& newMin, const Vector2& newMax)
+        void set(const Vector3& newMin, const Vector3& newMax)
         {
             min = newMin;
             max = newMax;

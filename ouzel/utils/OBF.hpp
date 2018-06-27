@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -376,16 +375,12 @@ namespace ouzel
                     auto i = objectValue.find(key);
 
                     if (i != objectValue.end())
-                    {
                         return i->second;
-                    }
                 }
                 else if (type == Type::ARRAY)
                 {
                     if (key < arrayValue.size())
-                    {
                         return arrayValue[key];
-                    }
                 }
 
                 return Value();
@@ -396,13 +391,10 @@ namespace ouzel
                 assert(type == Type::OBJECT || type == Type::ARRAY);
 
                 if (type == Type::OBJECT)
-                {
                     return objectValue[key];
-                }
                 else
                 {
                     type = Type::ARRAY;
-
                     return arrayValue[key];
                 }
             }
@@ -414,9 +406,7 @@ namespace ouzel
                 auto i = dictionaryValue.find(key);
 
                 if (i != dictionaryValue.end())
-                {
                     return i->second;
-                }
 
                 return Value();
             }
@@ -433,17 +423,11 @@ namespace ouzel
                 assert(type == Type::OBJECT || type == Type::ARRAY);
 
                 if (type == Type::OBJECT)
-                {
                     return objectValue.find(key) != objectValue.end();
-                }
                 else if (type == Type::ARRAY)
-                {
                     return key < arrayValue.size();
-                }
                 else
-                {
                     return false;
-                }
             }
 
             inline bool hasElement(const std::string& key) const

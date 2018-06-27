@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -24,12 +23,10 @@ namespace ouzel
         Archive(const Archive&) = delete;
         Archive& operator=(const Archive&) = delete;
 
-        Archive(Archive&&) = delete;
-        Archive& operator=(Archive&&) = delete;
+        Archive(Archive&& other);
+        Archive& operator=(Archive&& other);
 
-        bool open(const std::string& filename);
-
-        bool readFile(const std::string& filename, std::vector<uint8_t>& data) const;
+        std::vector<uint8_t> readFile(const std::string& filename) const;
 
         bool fileExists(const std::string& filename) const;
 

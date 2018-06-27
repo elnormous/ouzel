@@ -1,7 +1,7 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "Thread.hpp"
+#include "utils/Errors.hpp"
 
 #if defined(_WIN32)
 static const DWORD MS_VC_EXCEPTION = 0x406D1388;
@@ -45,9 +45,13 @@ namespace ouzel
 
 #if defined(_WIN32)
         handle = CreateThread(nullptr, 0, threadFunction, state.get(), 0, &threadId);
-        if (handle == nullptr) return;
+        if (handle == nullptr)
+            throw ThreadError("Failed to initialize thread");
 #else
-        if (pthread_create(&thread, NULL, threadFunction, state.get()) != 0) return;
+        if (pthread_create(&thread, NULL, threadFunction, state.get()) != 0)
+            throw ThreadError("Failed to initialize thread");
+
+        initialized = true;
 #endif
     }
 
@@ -60,7 +64,7 @@ namespace ouzel
             CloseHandle(handle);
         }
 #else
-        if (thread) pthread_join(thread, nullptr);
+        if (initialized) pthread_join(thread, nullptr);
 #endif
     }
 
@@ -73,7 +77,9 @@ namespace ouzel
         other.threadId = 0;
 #else
         thread = other.thread;
-        other.thread = 0;
+        initialized = other.initialized;
+        other.initialized = false;
+
 #endif
         state = std::move(other.state);
     }
@@ -93,9 +99,10 @@ namespace ouzel
             other.handle = nullptr;
             other.threadId = 0;
 #else
-            if (thread) pthread_join(thread, nullptr);
+            if (initialized) pthread_join(thread, nullptr);
             thread = other.thread;
-            other.thread = 0;
+            initialized = other.initialized;
+            other.initialized = false;
 #endif
             state = std::move(other.state);
         }
@@ -103,16 +110,47 @@ namespace ouzel
         return *this;
     }
 
-    bool Thread::join()
+    void Thread::join()
     {
 #if defined(_WIN32)
-        return handle ? (WaitForSingleObject(handle, INFINITE) != WAIT_FAILED) : false;
+        if (!handle || WaitForSingleObject(handle, INFINITE) == WAIT_FAILED)
+            throw ThreadError("Failed to join thread");
 #else
-        return thread ? (pthread_join(thread, nullptr) == 0) : false;
+        if (!initialized || pthread_join(thread, nullptr) != 0)
+            throw ThreadError("Failed to join thread");
+
+        initialized = false;
 #endif
     }
 
-    bool Thread::setCurrentThreadName(const std::string& name)
+    int32_t Thread::getPriority() const
+    {
+#if defined(_WIN32)
+        return GetThreadPriority(handle);
+#else
+        int policy;
+        sched_param param;
+        if (pthread_getschedparam(thread, &policy, &param) != 0)
+            throw ThreadError("Failed to get thread priority");
+
+        return param.sched_priority;
+#endif
+    }
+
+    void Thread::setPriority(int32_t priority)
+    {
+#if defined(_WIN32)
+        if (!SetThreadPriority(handle, priority))
+            throw ThreadError("Failed to set thread priority");
+#else
+        sched_param param;
+        param.sched_priority = priority;
+        if (pthread_setschedparam(thread, SCHED_RR, &param) != 0)
+            throw ThreadError("Failed to set thread priority");
+#endif
+    }
+
+    void Thread::setCurrentThreadName(const std::string& name)
     {
 #if defined(_MSC_VER)
         THREADNAME_INFO info;
@@ -128,14 +166,13 @@ namespace ouzel
         __except (EXCEPTION_EXECUTE_HANDLER)
         {
         }
-        return true;
 #else
 #ifdef __APPLE__
-        return pthread_setname_np(name.c_str()) == 0;
+        if (pthread_setname_np(name.c_str()) != 0)
+            throw ThreadError("Failed to set thread name");
 #elif defined(__linux__) || defined(__ANDROID__)
-        return pthread_setname_np(pthread_self(), name.c_str()) == 0;
-#else
-        return true;
+        if (pthread_setname_np(pthread_self(), name.c_str()) != 0)
+            throw ThreadError("Failed to set thread name");
 #endif
 #endif
     }

@@ -1,12 +1,12 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <Windows.h>
 #include <cstdlib>
 #include "EngineWin.hpp"
 #include "WindowResourceWin.hpp"
-#include "input/windows/InputWin.hpp"
+#include "input/windows/InputManagerWin.hpp"
 #include "thread/Lock.hpp"
+#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
 const DWORD MS_VC_EXCEPTION = 0x406D1388;
@@ -22,22 +22,17 @@ typedef struct tagTHREADNAME_INFO
 
 namespace ouzel
 {
-    EngineWin::EngineWin()
+    EngineWin::EngineWin(int initArgc, LPWSTR* initArgv)
     {
-        int nArgs;
-        LPWSTR* argList = CommandLineToArgvW(GetCommandLineW(), &nArgs);
-
-        if (argList)
+        if (initArgv)
         {
             char temporaryCString[256];
-            for (int i = 0; i < nArgs; i++)
+            for (int i = 0; i < initArgc; ++i)
             {
-                WideCharToMultiByte(CP_UTF8, 0, argList[i], -1, temporaryCString, sizeof(temporaryCString), nullptr, nullptr);
+                WideCharToMultiByte(CP_UTF8, 0, initArgv[i], -1, temporaryCString, sizeof(temporaryCString), nullptr, nullptr);
 
                 args.push_back(temporaryCString);
             }
-
-            LocalFree(argList);
         }
     }
 
@@ -53,9 +48,7 @@ namespace ouzel
         for (HACCEL accelerator : accelerators)
         {
             if (TranslateAccelerator(window, accelerator, &msg))
-            {
                 translate = false;
-            }
         }
 
         if (translate)
@@ -65,30 +58,21 @@ namespace ouzel
         }
     }
 
-    int EngineWin::run()
+    void EngineWin::run()
     {
         HRESULT hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
         if (FAILED(hr))
-        {
-            Log(Log::Level::ERR) << "Failed to initialize COM, error: " << hr;
-            return EXIT_FAILURE;
-        }
+            throw SystemError("Failed to initialize COM, error: " + std::to_string(hr));
 
 #ifdef DEBUG
         if (!AllocConsole())
-        {
             Log(Log::Level::INFO) << "Attached to console";
-        }
 #endif
 
-        if (!init())
-        {
-            return EXIT_FAILURE;
-        }
-
+        init();
         start();
 
-        input::InputWin* inputWin = static_cast<input::InputWin*>(input.get());
+        input::InputManagerWin* inputWin = static_cast<input::InputManagerWin*>(inputManager.get());
         WindowResourceWin* windowWin = static_cast<WindowResourceWin*>(window.getResource());
 
         MSG msg;
@@ -120,8 +104,7 @@ namespace ouzel
                 else if (ret == -1)
                 {
                     exit();
-                    Log(Log::Level::ERR) << "Failed to get message";
-                    return EXIT_FAILURE;
+                    throw SystemError("Failed to get message");
                 }
                 else
                 {
@@ -134,8 +117,6 @@ namespace ouzel
         }
 
         exit();
-
-        return EXIT_SUCCESS;
     }
 
     void EngineWin::executeOnMainThread(const std::function<void(void)>& func)
@@ -145,7 +126,7 @@ namespace ouzel
         Lock lock(executeMutex);
 
         executeQueue.push(func);
-        
+
         PostMessage(windowWin->getNativeWindow(), WM_USER, 0, 0);
     }
 
@@ -159,31 +140,24 @@ namespace ouzel
                 Lock lock(executeMutex);
 
                 if (executeQueue.empty())
-                {
                     break;
-                }
 
                 func = std::move(executeQueue.front());
                 executeQueue.pop();
             }
 
-            if (func)
-            {
-                func();
-            }
+            if (func) func();
         }
     }
 
-    bool EngineWin::openURL(const std::string& url)
+    void EngineWin::openURL(const std::string& url)
     {
         wchar_t urlBuffer[256];
         if (MultiByteToWideChar(CP_UTF8, 0, url.c_str(), -1, urlBuffer, 256) == 0)
-        {
-            Log(Log::Level::ERR) << "Failed to convert UTF-8 to wide char";
-            return false;
-        }
+            throw SystemError("Failed to convert UTF-8 to wide char");
 
         intptr_t result = reinterpret_cast<intptr_t>(ShellExecuteW(nullptr, L"open", urlBuffer, nullptr, nullptr, SW_SHOWNORMAL));
-        return result > 32;
+        if (result <= 32)
+            throw SystemError("Failed to execute open");
     }
 }

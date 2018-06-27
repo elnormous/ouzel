@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "core/Setup.h"
 
@@ -7,50 +6,47 @@
 
 #include "ShaderResourceOGL.hpp"
 #include "RenderDeviceOGL.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        ShaderResourceOGL::ShaderResourceOGL(RenderDeviceOGL* initRenderDeviceOGL):
+        ShaderResourceOGL::ShaderResourceOGL(RenderDeviceOGL& initRenderDeviceOGL):
             renderDeviceOGL(initRenderDeviceOGL)
         {
         }
 
         ShaderResourceOGL::~ShaderResourceOGL()
         {
-            if (programId) renderDeviceOGL->deleteProgram(programId);
+            if (programId) renderDeviceOGL.deleteProgram(programId);
             if (vertexShaderId) glDeleteShaderProc(vertexShaderId);
-            if (pixelShaderId) glDeleteShaderProc(pixelShaderId);
+            if (fragmentShaderId) glDeleteShaderProc(fragmentShaderId);
         }
 
-        bool ShaderResourceOGL::init(const std::vector<uint8_t>& newPixelShader,
+        void ShaderResourceOGL::init(const std::vector<uint8_t>& newFragmentShader,
                                      const std::vector<uint8_t>& newVertexShader,
                                      const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
-                                     const std::vector<Shader::ConstantInfo>& newPixelShaderConstantInfo,
+                                     const std::vector<Shader::ConstantInfo>& newFragmentShaderConstantInfo,
                                      const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
-                                     uint32_t newPixelShaderDataAlignment,
+                                     uint32_t newFragmentShaderDataAlignment,
                                      uint32_t newVertexShaderDataAlignment,
-                                     const std::string& newPixelShaderFunction,
+                                     const std::string& newFragmentShaderFunction,
                                      const std::string& newVertexShaderFunction)
         {
-            if (!ShaderResource::init(newPixelShader,
-                                      newVertexShader,
-                                      newVertexAttributes,
-                                      newPixelShaderConstantInfo,
-                                      newVertexShaderConstantInfo,
-                                      newPixelShaderDataAlignment,
-                                      newVertexShaderDataAlignment,
-                                      newPixelShaderFunction,
-                                      newVertexShaderFunction))
-            {
-                return false;
-            }
+            ShaderResource::init(newFragmentShader,
+                                 newVertexShader,
+                                 newVertexAttributes,
+                                 newFragmentShaderConstantInfo,
+                                 newVertexShaderConstantInfo,
+                                 newFragmentShaderDataAlignment,
+                                 newVertexShaderDataAlignment,
+                                 newFragmentShaderFunction,
+                                 newVertexShaderFunction);
 
             if (programId)
             {
-                renderDeviceOGL->deleteProgram(programId);
+                renderDeviceOGL.deleteProgram(programId);
                 programId = 0;
             }
 
@@ -60,25 +56,25 @@ namespace ouzel
                 vertexShaderId = 0;
             }
 
-            if (pixelShaderId)
+            if (fragmentShaderId)
             {
-                glDeleteShaderProc(pixelShaderId);
-                pixelShaderId = 0;
+                glDeleteShaderProc(fragmentShaderId);
+                fragmentShaderId = 0;
             }
 
-            return compileShader();
+            compileShader();
         }
 
-        bool ShaderResourceOGL::reload()
+        void ShaderResourceOGL::reload()
         {
-            pixelShaderId = 0;
+            fragmentShaderId = 0;
             vertexShaderId = 0;
             programId = 0;
 
-            return compileShader();
+            compileShader();
         }
 
-        void ShaderResourceOGL::printShaderMessage(GLuint shaderId)
+        std::string ShaderResourceOGL::getShaderMessage(GLuint shaderId)
         {
             GLint logLength = 0;
             glGetShaderivProc(shaderId, GL_INFO_LOG_LENGTH, &logLength);
@@ -88,11 +84,13 @@ namespace ouzel
                 std::vector<char> logMessage(static_cast<size_t>(logLength));
                 glGetShaderInfoLogProc(shaderId, logLength, nullptr, logMessage.data());
 
-                Log(Log::Level::ERR) << "Shader compilation error: " << logMessage.data();
+                return std::string(logMessage.data());
             }
+
+            return std::string();
         }
 
-        void ShaderResourceOGL::printProgramMessage()
+        std::string ShaderResourceOGL::getProgramMessage()
         {
             GLint logLength = 0;
             glGetProgramivProc(programId, GL_INFO_LOG_LENGTH, &logLength);
@@ -102,33 +100,31 @@ namespace ouzel
                 std::vector<char> logMessage(static_cast<size_t>(logLength));
                 glGetProgramInfoLogProc(programId, logLength, nullptr, logMessage.data());
 
-                Log(Log::Level::ERR) << "Shader linking error: " << logMessage.data();
+                return std::string("Shader linking error: " + std::string(logMessage.data()));
             }
+
+            return std::string();
         }
 
-        bool ShaderResourceOGL::compileShader()
+        void ShaderResourceOGL::compileShader()
         {
-            pixelShaderId = glCreateShaderProc(GL_FRAGMENT_SHADER);
+            fragmentShaderId = glCreateShaderProc(GL_FRAGMENT_SHADER);
 
-            const GLchar* pixelShaderBuffer = reinterpret_cast<const GLchar*>(pixelShaderData.data());
-            GLint pixelShaderSize = static_cast<GLint>(pixelShaderData.size());
+            const GLchar* fragmentShaderBuffer = reinterpret_cast<const GLchar*>(fragmentShaderData.data());
+            GLint fragmentShaderSize = static_cast<GLint>(fragmentShaderData.size());
 
-            glShaderSourceProc(pixelShaderId, 1, &pixelShaderBuffer, &pixelShaderSize);
-            glCompileShaderProc(pixelShaderId);
+            glShaderSourceProc(fragmentShaderId, 1, &fragmentShaderBuffer, &fragmentShaderSize);
+            glCompileShaderProc(fragmentShaderId);
 
             GLint status;
-            glGetShaderivProc(pixelShaderId, GL_COMPILE_STATUS, &status);
+            glGetShaderivProc(fragmentShaderId, GL_COMPILE_STATUS, &status);
             if (status == GL_FALSE)
-            {
-                Log(Log::Level::ERR) << "Failed to compile pixel shader";
-                printShaderMessage(pixelShaderId);
-                return false;
-            }
+                throw DataError("Failed to compile pixel shader, error: " + getShaderMessage(fragmentShaderId));
 
-            if (RenderDeviceOGL::checkOpenGLError())
-            {
-                return false;
-            }
+            GLenum error;
+            
+            if ((error = glGetError()) != GL_NO_ERROR)
+                throw DataError("Failed to get shader compile status, error: " + std::to_string(error));
 
             vertexShaderId = glCreateShaderProc(GL_VERTEX_SHADER);
 
@@ -140,16 +136,12 @@ namespace ouzel
 
             glGetShaderivProc(vertexShaderId, GL_COMPILE_STATUS, &status);
             if (status == GL_FALSE)
-            {
-                Log(Log::Level::ERR) << "Failed to compile vertex shader";
-                printShaderMessage(vertexShaderId);
-                return false;
-            }
+                throw DataError("Failed to compile vertex shader, error: " + getShaderMessage(vertexShaderId));
 
             programId = glCreateProgramProc();
 
             glAttachShaderProc(programId, vertexShaderId);
-            glAttachShaderProc(programId, pixelShaderId);
+            glAttachShaderProc(programId, fragmentShaderId);
 
             GLuint index = 0;
 
@@ -180,7 +172,7 @@ namespace ouzel
                             name = "position0";
                             break;
                         case Vertex::Attribute::Usage::POSITION_TRANSFORMED:
-                            name = "positionT";
+                            name = "positionT0";
                             break;
                         case Vertex::Attribute::Usage::POINT_SIZE:
                             name = "pointSize0";
@@ -195,8 +187,7 @@ namespace ouzel
                             name = "texCoord1";
                             break;
                         default:
-                            Log(Log::Level::ERR) << "Invalid vertex attribute usage";
-                            return false;
+                            throw DataError("Invalid vertex attribute usage");
                     }
 
                     glBindAttribLocationProc(programId, index, name);
@@ -208,31 +199,23 @@ namespace ouzel
 
             glGetProgramivProc(programId, GL_LINK_STATUS, &status);
             if (status == GL_FALSE)
-            {
-                Log(Log::Level::ERR) << "Failed to link shader";
-                printProgramMessage();
-                return false;
-            }
+                throw DataError("Failed to link shader" + getProgramMessage());
 
-            if (RenderDeviceOGL::checkOpenGLError())
-            {
-                return false;
-            }
+            if ((error = glGetError()) != GL_NO_ERROR)
+                throw DataError("Failed to get shader link status, error: " + std::to_string(error));
 
             glDetachShaderProc(programId, vertexShaderId);
             glDeleteShaderProc(vertexShaderId);
             vertexShaderId = 0;
 
-            glDetachShaderProc(programId, pixelShaderId);
-            glDeleteShaderProc(pixelShaderId);
-            pixelShaderId = 0;
+            glDetachShaderProc(programId, fragmentShaderId);
+            glDeleteShaderProc(fragmentShaderId);
+            fragmentShaderId = 0;
 
-            if (RenderDeviceOGL::checkOpenGLError())
-            {
-                return false;
-            }
+            if ((error = glGetError()) != GL_NO_ERROR)
+                throw DataError("Failed to detach shader, error: " + std::to_string(error));
 
-            renderDeviceOGL->useProgram(programId);
+            renderDeviceOGL.useProgram(programId);
 
             GLint texture0Location = glGetUniformLocationProc(programId, "texture0");
             if (texture0Location != -1) glUniform1iProc(texture0Location, 0);
@@ -240,27 +223,25 @@ namespace ouzel
             GLint texture1Location = glGetUniformLocationProc(programId, "texture1");
             if (texture1Location != -1) glUniform1iProc(texture1Location, 1);
 
-            if (RenderDeviceOGL::checkOpenGLError())
-            {
-                return false;
-            }
+            if ((error = glGetError()) != GL_NO_ERROR)
+                throw DataError("Failed to get uniform location, error: " + std::to_string(error));
 
-            if (!pixelShaderConstantInfo.empty())
+            if (!fragmentShaderConstantInfo.empty())
             {
-                pixelShaderConstantLocations.clear();
-                pixelShaderConstantLocations.reserve(pixelShaderConstantInfo.size());
+                fragmentShaderConstantLocations.clear();
+                fragmentShaderConstantLocations.reserve(fragmentShaderConstantInfo.size());
 
-                for (const Shader::ConstantInfo& info : pixelShaderConstantInfo)
+                for (const Shader::ConstantInfo& info : fragmentShaderConstantInfo)
                 {
                     GLint location = glGetUniformLocationProc(programId, info.name.c_str());
 
-                    if (location == -1 || RenderDeviceOGL::checkOpenGLError())
-                    {
-                        Log(Log::Level::ERR) << "Failed to get OpenGL uniform location";
-                        return false;
-                    }
+                    if ((error = glGetError()) != GL_NO_ERROR)
+                        throw DataError("Failed to get OpenGL uniform location, error: " + std::to_string(error));
 
-                    pixelShaderConstantLocations.push_back({location, info.dataType});
+                    if (location == -1)
+                        throw DataError("Failed to get OpenGL uniform location");
+
+                    fragmentShaderConstantLocations.push_back({location, info.dataType});
                 }
             }
 
@@ -273,17 +254,15 @@ namespace ouzel
                 {
                     GLint location = glGetUniformLocationProc(programId, info.name.c_str());
 
-                    if (location == -1 || RenderDeviceOGL::checkOpenGLError())
-                    {
-                        Log(Log::Level::ERR) << "Failed to get OpenGL uniform location";
-                        return false;
-                    }
+                    if ((error = glGetError()) != GL_NO_ERROR)
+                        throw DataError("Failed to get OpenGL uniform location, error: " + std::to_string(error));
+
+                    if (location == -1)
+                        throw DataError("Failed to get OpenGL uniform location");
 
                     vertexShaderConstantLocations.push_back({location, info.dataType});
                 }
             }
-
-            return true;
         }
     } // namespace graphics
 } // namespace ouzel

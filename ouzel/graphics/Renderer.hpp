@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -37,7 +36,7 @@ namespace ouzel
 
         class RenderDevice;
         class BlendState;
-        class MeshBuffer;
+        class Buffer;
         class Shader;
 
         class Renderer final
@@ -70,6 +69,12 @@ namespace ouzel
                 BACK
             };
 
+            enum class FillMode
+            {
+                SOLID,
+                WIREFRAME
+            };
+
             ~Renderer();
 
             Renderer(const Renderer&) = delete;
@@ -98,31 +103,32 @@ namespace ouzel
 
             inline const Size2& getSize() const { return size; }
 
-            bool saveScreenshot(const std::string& filename);
+            void saveScreenshot(const std::string& filename);
 
-            bool addClearCommand(const std::shared_ptr<Texture>& renderTarget);
-
-            bool addDrawCommand(const std::vector<std::shared_ptr<Texture>>& textures,
-                                const std::shared_ptr<Shader>& shader,
-                                const std::vector<std::vector<float>>& pixelShaderConstants,
-                                const std::vector<std::vector<float>>& vertexShaderConstants,
-                                const std::shared_ptr<BlendState>& blendState,
-                                const std::shared_ptr<MeshBuffer>& meshBuffer,
+            void addSetRenderTargetCommand(const std::shared_ptr<Texture>& renderTarget);
+            void addClearCommand(const std::shared_ptr<Texture>& renderTarget);
+            void addSetCullModeCommad(Renderer::CullMode cullMode);
+            void addSetFillModeCommad(Renderer::FillMode fillMode);
+            void addSetScissorTestCommand(bool enabled, const Rect& rectangle);
+            void addSetViewportCommand(const Rect& viewport);
+            void addSetDepthStateCommand(bool depthTest, bool depthWrite);
+            void addSetPipelineStateCommand(const std::shared_ptr<BlendState>& blendState,
+                                            const std::shared_ptr<Shader>& shader);
+            void addDrawCommand(const std::shared_ptr<Buffer>& indexBuffer,
                                 uint32_t indexCount,
+                                uint32_t indexSize,
+                                const std::shared_ptr<Buffer>& vertexBuffer,
                                 DrawMode drawMode,
-                                uint32_t startIndex,
-                                const std::shared_ptr<Texture>& renderTarget,
-                                const Rect& viewport,
-                                bool depthWrite,
-                                bool depthTest,
-                                bool wireframe,
-                                bool scissorTest,
-                                const Rect& scissorRectangle,
-                                CullMode cullMode);
+                                uint32_t startIndex);
+            void addPushDebugMarkerCommand(const std::string& name);
+            void addPopDebugMarkerCommand();
+            void addSetShaderConstantsCommand(std::vector<std::vector<float>> fragmentShaderConstants,
+                                              std::vector<std::vector<float>> vertexShaderConstants);
+            void addSetTexturesCommand(const std::vector<std::shared_ptr<Texture>>& textures);
 
         protected:
             explicit Renderer(Driver driver);
-            bool init(Window* newWindow,
+            void init(Window* newWindow,
                       const Size2& newSize,
                       uint32_t newSampleCount,
                       Texture::Filter newTextureFilter,

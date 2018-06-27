@@ -1,13 +1,11 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <cassert>
-
 #define STB_TRUETYPE_IMPLEMENTATION
 #include "TTFont.hpp"
 #include "core/Engine.hpp"
 #include "files/FileSystem.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 #include "utils/Utils.hpp"
 
 namespace ouzel
@@ -21,45 +19,32 @@ namespace ouzel
         init(filename, initMipmaps);
     }
 
-    bool TTFont::init(const std::string & filename, bool newMipmaps)
+    void TTFont::init(const std::string & filename, bool newMipmaps)
     {
         loaded = false;
         mipmaps = newMipmaps;
 
-        if (!engine->getFileSystem()->readFile(engine->getFileSystem()->getPath(filename), data))
-        {
-            return false;
-        }
+        data = engine->getFileSystem()->readFile(engine->getFileSystem()->getPath(filename));
 
         if (!stbtt_InitFont(&font, data.data(), stbtt_GetFontOffsetForIndex(data.data(), 0)))
-        {
-            Log(Log::Level::ERR) << "Failed to load font";
-            return false;
-        }
+            throw ParseError("Failed to load font");
 
         loaded = true;
-
-        return true;
     }
 
-    bool TTFont::init(const std::vector<uint8_t>& newData, bool newMipmaps)
+    void TTFont::init(const std::vector<uint8_t>& newData, bool newMipmaps)
     {
         loaded = false;
         data = newData;
         mipmaps = newMipmaps;
 
         if (!stbtt_InitFont(&font, data.data(), stbtt_GetFontOffsetForIndex(data.data(), 0)))
-        {
-            Log(Log::Level::ERR) << "Failed to load font";
-            return false;
-        }
+            throw ParseError("Failed to load font");
 
         loaded = true;
-
-        return true;
     }
 
-    bool TTFont::getVertices(const std::string& text,
+    void TTFont::getVertices(const std::string& text,
                              const Color& color,
                              float fontSize,
                              const Vector2& anchor,
@@ -67,7 +52,8 @@ namespace ouzel
                              std::vector<graphics::Vertex>& vertices,
                              std::shared_ptr<graphics::Texture>& texture)
     {
-        if (!loaded) return false;
+        if (!loaded)
+            throw DataError("Font not loaded");
 
         static const uint32_t SPACING = 2;
 
@@ -90,9 +76,7 @@ namespace ouzel
 
         std::set<uint32_t> glyphs;
         for (uint32_t i : utf32Text)
-        {
             glyphs.insert(i);
-        }
 
         uint16_t width = 0;
         uint16_t height = 0;
@@ -100,7 +84,7 @@ namespace ouzel
         int ascent;
         int descent;
         int lineGap;
-        stbtt_GetFontVMetrics(&font,  &ascent, &descent, &lineGap);
+        stbtt_GetFontVMetrics(&font, &ascent, &descent, &lineGap);
 
         for (uint32_t c : glyphs)
         {
@@ -135,9 +119,7 @@ namespace ouzel
                 charDesc.advance = static_cast<float>(advance * s);
 
                 if (!chars.empty())
-                {
                     width += SPACING;
-                }
 
                 chars[c] = charDesc;
             }
@@ -243,9 +225,7 @@ namespace ouzel
                 position.y += fontSize + lineGap;
 
                 for (size_t c = firstChar; c < vertices.size(); ++c)
-                {
                     vertices[c].position.x -= lineWidth * anchor.x;
-                }
 
                 firstChar = vertices.size();
             }
@@ -254,10 +234,6 @@ namespace ouzel
         float textHeight = position.y;
 
         for (size_t c = 0; c < vertices.size(); ++c)
-        {
             vertices[c].position.y += textHeight * (1.0F - anchor.y);
-        }
-
-        return true;
     }
 }

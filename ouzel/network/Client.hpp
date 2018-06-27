@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -11,12 +10,18 @@ namespace ouzel
 {
     namespace network
     {
-        class Client
+        class Client final
         {
         public:
-            ~Client() {}
+            ~Client();
 
-            bool disconnect();
+            Client(const Client&) = delete;
+            Client& operator=(const Client&) = delete;
+
+            Client(Client&& other);
+            Client& operator=(Client&& other);
+
+            void disconnect();
 
         private:
 #ifdef _WIN32

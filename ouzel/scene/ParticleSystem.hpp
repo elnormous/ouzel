@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -13,7 +12,6 @@
 #include "graphics/Vertex.hpp"
 #include "graphics/BlendState.hpp"
 #include "graphics/Buffer.hpp"
-#include "graphics/MeshBuffer.hpp"
 #include "graphics/Shader.hpp"
 #include "graphics/Texture.hpp"
 #include "scene/UpdateCallback.hpp"
@@ -33,16 +31,10 @@ namespace ouzel
             virtual void draw(const Matrix4& transformMatrix,
                               float opacity,
                               const Matrix4& renderViewProjection,
-                              const std::shared_ptr<graphics::Texture>& renderTarget,
-                              const Rect& renderViewport,
-                              bool depthWrite,
-                              bool depthTest,
-                              bool wireframe,
-                              bool scissorTest,
-                              const Rect& scissorRectangle) override;
+                              bool wireframe) override;
 
-            bool init(const ParticleSystemData& newParticleSystemData);
-            bool init(const std::string& filename);
+            void init(const ParticleSystemData& newParticleSystemData);
+            void init(const std::string& filename);
 
             void resume();
             void stop();
@@ -54,7 +46,7 @@ namespace ouzel
             inline void setPositionType(ParticleSystemData::PositionType newPositionType) { particleSystemData.positionType = newPositionType; }
             inline ParticleSystemData::PositionType getPositionType() const { return particleSystemData.positionType; }
 
-        protected:
+        private:
             void update(float delta);
 
             bool createParticleMesh();
@@ -105,7 +97,6 @@ namespace ouzel
 
             std::vector<Particle> particles;
 
-            std::shared_ptr<graphics::MeshBuffer> meshBuffer;
             std::shared_ptr<graphics::Buffer> indexBuffer;
             std::shared_ptr<graphics::Buffer> vertexBuffer;
 

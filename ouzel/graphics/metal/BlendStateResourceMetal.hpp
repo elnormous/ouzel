@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -27,7 +26,7 @@ namespace ouzel
         public:
             BlendStateResourceMetal();
 
-            virtual bool init(bool newEnableBlending,
+            virtual void init(bool newEnableBlending,
                               BlendState::Factor newColorBlendSource, BlendState::Factor newColorBlendDest,
                               BlendState::Operation newColorOperation,
                               BlendState::Factor newAlphaBlendSource, BlendState::Factor newAlphaBlendDest,
@@ -43,7 +42,7 @@ namespace ouzel
             inline MTLColorWriteMask getColorWriteMask() const { return colorWriteMask; }
             inline bool isMetalBlendingEnabled() const { return metalBlendingEnabled; }
 
-        protected:
+        private:
             MTLBlendOperation rgbBlendOperation;
             MTLBlendOperation alphaBlendOperation;
             MTLBlendFactor sourceRGBBlendFactor;

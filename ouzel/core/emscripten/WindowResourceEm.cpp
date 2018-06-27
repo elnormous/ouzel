@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <emscripten.h>
 #include <emscripten/html5.h>
@@ -24,7 +23,7 @@ namespace ouzel
         emscripten_set_resize_callback(nullptr, this, 1, emUICallback);
     }
 
-    bool WindowResourceEm::init(const Size2& newSize,
+    void WindowResourceEm::init(const Size2& newSize,
                                 bool newResizable,
                                 bool newFullscreen,
                                 bool newExclusiveFullscreen,
@@ -32,16 +31,13 @@ namespace ouzel
                                 bool newHighDpi,
                                 bool depth)
     {
-        if (!WindowResource::init(newSize,
-                                  newResizable,
-                                  newFullscreen,
-                                  newExclusiveFullscreen,
-                                  newTitle,
-                                  newHighDpi,
-                                  depth))
-        {
-            return false;
-        }
+        WindowResource::init(newSize,
+                             newResizable,
+                             newFullscreen,
+                             newExclusiveFullscreen,
+                             newTitle,
+                             newHighDpi,
+                             depth);
 
         if (size.width <= 0.0F || size.height <= 0.0F)
         {
@@ -56,8 +52,6 @@ namespace ouzel
 
         emscripten_set_canvas_size(static_cast<int>(size.width),
                                    static_cast<int>(size.height));
-
-        return true;
     }
 
     void WindowResourceEm::setSize(const Size2& newSize)

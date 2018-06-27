@@ -1,11 +1,11 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "core/Setup.h"
 
 #if OUZEL_COMPILE_OPENSL
 
 #include "AudioDeviceSL.hpp"
+#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
 static void playerCallback(SLAndroidSimpleBufferQueueItf bufferQueue, void* context)
@@ -27,61 +27,37 @@ namespace ouzel
         AudioDeviceSL::~AudioDeviceSL()
         {
             if (playerObject)
-            {
                 (*playerObject)->Destroy(playerObject);
-            }
 
             if (outputMixObject)
-            {
                 (*outputMixObject)->Destroy(outputMixObject);
-            }
 
             if (engineObject)
-            {
                 (*engineObject)->Destroy(engineObject);
-            }
         }
 
-        bool AudioDeviceSL::init(bool debugAudio)
+        void AudioDeviceSL::init(bool debugAudio)
         {
-            if (!AudioDevice::init(debugAudio))
-            {
-                return false;
-            }
+            AudioDevice::init(debugAudio);
 
             const SLuint32 engineMixIIDCount = 1;
             const SLInterfaceID engineMixIID = SL_IID_ENGINE;
             const SLboolean engineMixReq = SL_BOOLEAN_TRUE;
 
             if (slCreateEngine(&engineObject, 0, nullptr, engineMixIIDCount, &engineMixIID, &engineMixReq) != SL_RESULT_SUCCESS)
-            {
-                Log(Log::Level::ERR) << "Failed to create OpenSL engine object";
-                return false;
-            }
+                throw SystemError("Failed to create OpenSL engine object");
 
             if ((*engineObject)->Realize(engineObject, SL_BOOLEAN_FALSE) != SL_RESULT_SUCCESS)
-            {
-                Log(Log::Level::ERR) << "Failed to create OpenSL engine object";
-                return false;
-            }
+                throw SystemError("Failed to create OpenSL engine object");
 
             if ((*engineObject)->GetInterface(engineObject, SL_IID_ENGINE, &engine) != SL_RESULT_SUCCESS)
-            {
-                Log(Log::Level::ERR) << "Failed to get OpenSL engine";
-                return false;
-            }
+                throw SystemError("Failed to get OpenSL engine");
 
             if ((*engine)->CreateOutputMix(engine, &outputMixObject, 0, nullptr, nullptr) != SL_RESULT_SUCCESS)
-            {
-                Log(Log::Level::ERR) << "Failed to create OpenSL output mix";
-                return false;
-            }
+                throw SystemError("Failed to create OpenSL output mix");
 
             if ((*outputMixObject)->Realize(outputMixObject, SL_BOOLEAN_FALSE) != SL_RESULT_SUCCESS)
-            {
-                Log(Log::Level::ERR) << "Failed to create OpenSL output mix";
-                return false;
-            }
+                throw SystemError("Failed to create OpenSL output mix");
 
             SLDataLocator_AndroidSimpleBufferQueue location = {SL_DATALOCATOR_ANDROIDSIMPLEBUFFERQUEUE, 2};
 
@@ -101,8 +77,7 @@ namespace ouzel
                 case 7: dataFormat.channelMask = SL_SPEAKER_FRONT_LEFT | SL_SPEAKER_FRONT_RIGHT | SL_SPEAKER_FRONT_CENTER | SL_SPEAKER_LOW_FREQUENCY | SL_SPEAKER_BACK_CENTER | SL_SPEAKER_SIDE_LEFT | SL_SPEAKER_SIDE_RIGHT; break;
                 case 8: dataFormat.channelMask = SL_SPEAKER_FRONT_LEFT | SL_SPEAKER_FRONT_RIGHT | SL_SPEAKER_FRONT_CENTER | SL_SPEAKER_LOW_FREQUENCY | SL_SPEAKER_BACK_LEFT|SL_SPEAKER_BACK_RIGHT | SL_SPEAKER_SIDE_LEFT | SL_SPEAKER_SIDE_RIGHT; break;
                 default:
-                    Log(Log::Level::ERR) << "Invalid channel count";
-                    return false;
+                    throw SystemError("Invalid channel count");
             }
 
             dataFormat.endianness = SL_BYTEORDER_LITTLEENDIAN;
@@ -122,85 +97,45 @@ namespace ouzel
             const SLboolean playerReqs[] = {SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE};
 
             if ((*engine)->CreateAudioPlayer(engine, &playerObject, &dataSource, &dataSink, playerIIDCount, playerIIDs, playerReqs) != SL_RESULT_SUCCESS)
-            {
-                Log(Log::Level::ERR) << "Failed to create OpenSL player object";
-                return false;
-            }
+                throw SystemError("Failed to create OpenSL player object");
 
             sampleFormat = Audio::SampleFormat::SINT16;
 
             if ((*playerObject)->Realize(playerObject, SL_BOOLEAN_FALSE) != SL_RESULT_SUCCESS)
-            {
-                Log(Log::Level::ERR) << "Failed to create OpenSL player object";
-                return false;
-            }
+                throw SystemError("Failed to create OpenSL player object");
 
             if ((*playerObject)->GetInterface(playerObject, SL_IID_PLAY, &player) != SL_RESULT_SUCCESS)
-            {
-                Log(Log::Level::ERR) << "Failed to get OpenSL player interface";
-                return false;
-            }
+                throw SystemError("Failed to get OpenSL player interface");
 
             if ((*playerObject)->GetInterface(playerObject, SL_IID_BUFFERQUEUE, &bufferQueue) != SL_RESULT_SUCCESS)
-            {
-                Log(Log::Level::ERR) << "Failed to get OpenSL buffer queue interface";
-                return false;
-            }
+                throw SystemError("Failed to get OpenSL buffer queue interface");
 
             if ((*playerObject)->GetInterface(playerObject, SL_IID_VOLUME, &playerVolume) != SL_RESULT_SUCCESS)
-            {
-                Log(Log::Level::ERR) << "Failed to get OpenSL volume interface";
-                return false;
-            }
+                throw SystemError("Failed to get OpenSL volume interface");
 
             if ((*bufferQueue)->Clear(bufferQueue) != SL_RESULT_SUCCESS)
-            {
-                Log(Log::Level::ERR) << "Failed to clear OpenSL buffer";
-                return false;
-            }
+                throw SystemError("Failed to clear OpenSL buffer");
 
             if ((*bufferQueue)->RegisterCallback(bufferQueue, playerCallback, this) != SL_RESULT_SUCCESS)
-            {
-                Log(Log::Level::ERR) << "Failed to register OpenSL buffer queue callback";
-                return false;
-            }
+                throw SystemError("Failed to register OpenSL buffer queue callback");
 
-            if (!getData(bufferSize / (channels * sizeof(int16_t)), data))
-            {
-                return false;
-            }
+            getData(bufferSize / (channels * sizeof(int16_t)), data);
 
             if ((*bufferQueue)->Enqueue(bufferQueue, data.data(), data.size()) != SL_RESULT_SUCCESS)
-            {
-                Log(Log::Level::ERR) << "Failed to enqueue OpenSL data";
-                return false;
-            }
+                throw SystemError("Failed to enqueue OpenSL data");
 
             if ((*player)->SetPlayState(player, SL_PLAYSTATE_PLAYING) != SL_RESULT_SUCCESS)
-            {
-                Log(Log::Level::ERR) << "Failed to play sound";
-                return false;
-            }
-
-            return true;
+                throw SystemError("Failed to play sound");
         }
 
         void AudioDeviceSL::enqueue(SLAndroidSimpleBufferQueueItf bufferQueue)
         {
-            if (!process())
-            {
-                return;
-            }
+            process();
 
-            if (!getData(bufferSize / (channels * sizeof(int16_t)), data))
-            {
-                return;
-            }
+            getData(bufferSize / (channels * sizeof(int16_t)), data);
 
             if ((*bufferQueue)->Enqueue(bufferQueue, data.data(), data.size()) != SL_RESULT_SUCCESS)
-            {
-                ouzel::Log(ouzel::Log::Level::ERR) << "Failed to enqueue OpenSL data";
-            }
+                throw SystemError("Failed to enqueue OpenSL data");
         }
     } // namespace audio
 } // namespace ouzel

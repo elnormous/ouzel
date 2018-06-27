@@ -1,16 +1,15 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
 #include "graphics/Renderer.hpp"
 #include "graphics/Vertex.hpp"
-#include "graphics/RenderResource.hpp"
-#include "graphics/BlendState.hpp"
-#include "graphics/Buffer.hpp"
-#include "graphics/MeshBuffer.hpp"
-#include "graphics/Shader.hpp"
-#include "graphics/Texture.hpp"
+#include "graphics/CommandBuffer.hpp"
+#include "graphics/BlendStateResource.hpp"
+#include "graphics/BufferResource.hpp"
+#include "graphics/RenderTargetResource.hpp"
+#include "graphics/ShaderResource.hpp"
+#include "graphics/TextureResource.hpp"
 #include "thread/Condition.hpp"
 #include "thread/Mutex.hpp"
 
@@ -23,7 +22,6 @@ namespace ouzel
             friend Renderer;
             friend BlendState;
             friend Buffer;
-            friend MeshBuffer;
             friend Shader;
             friend Texture;
         public:
@@ -49,7 +47,7 @@ namespace ouzel
             virtual void setClearDepth(float newClearDepth);
             inline float getClearDepth() const { return clearDepth; }
 
-            virtual bool process();
+            virtual void process();
 
             inline const Size2& getSize() const { return size; }
             inline uint32_t getSampleCount() const { return sampleCount; }
@@ -60,37 +58,11 @@ namespace ouzel
 
             inline bool getRefillQueue() const { return refillQueue; }
 
-            struct Command
+            template<typename T> void addCommand(const T& command)
             {
-                enum Type
-                {
-                    CLEAR,
-                    DRAW,
-                    BLIT, // TODO: implement
-                    COMPUTE // TODO: implement
-                };
+                fillBuffer->push(command);
+            }
 
-                Type type;
-                TextureResource* textures[Texture::LAYERS];
-                ShaderResource* shader;
-                std::vector<std::vector<float>> pixelShaderConstants;
-                std::vector<std::vector<float>> vertexShaderConstants;
-                BlendStateResource* blendState;
-                MeshBufferResource* meshBuffer;
-                uint32_t indexCount;
-                Renderer::DrawMode drawMode;
-                uint32_t startIndex;
-                TextureResource* renderTarget;
-                Rect viewport;
-                bool depthWrite;
-                bool depthTest;
-                bool wireframe;
-                bool scissorTest;
-                Rect scissorRectangle;
-                Renderer::CullMode cullMode;
-            };
-
-            bool addCommand(Command&& command);
             void flushCommands();
 
             Vector2 convertScreenToNormalizedLocation(const Vector2& position)
@@ -126,9 +98,9 @@ namespace ouzel
             void executeOnRenderThread(const std::function<void(void)>& func);
 
         protected:
-            explicit RenderDevice(Renderer::Driver aDriver);
+            explicit RenderDevice(Renderer::Driver initDriver);
 
-            virtual bool init(Window* newWindow,
+            virtual void init(Window* newWindow,
                               const Size2& newSize,
                               uint32_t newSampleCount,
                               Texture::Filter newTextureFilter,
@@ -141,14 +113,14 @@ namespace ouzel
             virtual void setSize(const Size2& newSize);
 
             virtual BlendStateResource* createBlendState() = 0;
-            virtual TextureResource* createTexture() = 0;
-            virtual ShaderResource* createShader() = 0;
-            virtual MeshBufferResource* createMeshBuffer() = 0;
             virtual BufferResource* createBuffer() = 0;
+            virtual RenderTargetResource* createRenderTarget() = 0;
+            virtual ShaderResource* createShader() = 0;
+            virtual TextureResource* createTexture() = 0;
             virtual void deleteResource(RenderResource* resource);
 
-            virtual bool processCommands(const std::vector<Command>& commands) = 0;
-            virtual bool generateScreenshot(const std::string& filename);
+            virtual void processCommands(CommandBuffer& commands) = 0;
+            virtual void generateScreenshot(const std::string& filename);
 
             Renderer::Driver driver;
 
@@ -185,9 +157,9 @@ namespace ouzel
 
             uint32_t drawCallCount = 0;
 
-            std::vector<Command> commandBuffers[2];
-            std::vector<Command>* fillBuffer = &commandBuffers[0];
-            std::vector<Command>* renderBuffer = &commandBuffers[1];
+            CommandBuffer commandBuffers[2];
+            CommandBuffer* fillBuffer = &commandBuffers[0];
+            CommandBuffer* renderBuffer = &commandBuffers[1];
 
             Mutex commandQueueMutex;
             Condition commandQueueCondition;

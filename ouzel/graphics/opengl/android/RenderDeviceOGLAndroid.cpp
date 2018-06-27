@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "core/Setup.h"
 
@@ -9,6 +8,7 @@
 #include "core/android/WindowResourceAndroid.hpp"
 #include "core/Engine.hpp"
 #include "thread/Lock.hpp"
+#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
@@ -23,35 +23,18 @@ namespace ouzel
 
             if (context)
             {
-                if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
-                {
-                    Log(Log::Level::ERR) << "Failed to unset EGL context";
-                }
-
-                if (!eglDestroyContext(display, context))
-                {
-                    Log(Log::Level::ERR) << "Failed to destroy EGL context";
-                }
+                eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
+                eglDestroyContext(display, context);
             }
 
             if (surface)
-            {
-                if (!eglDestroySurface(display, surface))
-                {
-                    Log(Log::Level::ERR) << "Failed to destroy EGL surface";
-                }
-            }
+                eglDestroySurface(display, surface);
 
             if (display)
-            {
-                if (!eglTerminate(display))
-                {
-                    Log(Log::Level::ERR) << "Failed to terminate EGL";
-                }
-            }
+                eglTerminate(display);
         }
 
-        bool RenderDeviceOGLAndroid::init(Window* newWindow,
+        void RenderDeviceOGLAndroid::init(Window* newWindow,
                                           const Size2&,
                                           uint32_t newSampleCount,
                                           Texture::Filter newTextureFilter,
@@ -63,16 +46,10 @@ namespace ouzel
             display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
 
             if (!display)
-            {
-                Log(Log::Level::ERR) << "Failed to get display";
-                return false;
-            }
+                throw SystemError("Failed to get display");
 
             if (!eglInitialize(display, nullptr, nullptr))
-            {
-                Log(Log::Level::ERR) << "Failed to initialize EGL";
-                return false;
-            }
+                throw SystemError("Failed to initialize EGL");
 
             const EGLint attributeList[] =
             {
@@ -90,23 +67,14 @@ namespace ouzel
             EGLConfig config;
             EGLint numConfig;
             if (!eglChooseConfig(display, attributeList, &config, 1, &numConfig))
-            {
-                Log(Log::Level::ERR) << "Failed to choose EGL config";
-                return false;
-            }
+                throw SystemError("Failed to choose EGL config");
 
             if (!eglBindAPI(EGL_OPENGL_ES_API))
-            {
-                Log(Log::Level::ERR) << "Failed to bind OpenGL ES API";
-                return false;
-            }
+                throw SystemError("Failed to bind OpenGL ES API");
 
             EGLint format;
             if (!eglGetConfigAttrib(display, config, EGL_NATIVE_VISUAL_ID, &format))
-            {
-                Log(Log::Level::ERR) << "Failed to get config attribute " << eglGetError();
-                return false;
-            }
+                throw SystemError("Failed to get config attribute " + std::to_string(eglGetError()));
 
             WindowResourceAndroid* windowAndroid = static_cast<WindowResourceAndroid*>(newWindow->getResource());
 
@@ -114,10 +82,7 @@ namespace ouzel
 
             surface = eglCreateWindowSurface(display, config, windowAndroid->getNativeWindow(), nullptr);
             if (surface == EGL_NO_SURFACE)
-            {
-                Log(Log::Level::ERR) << "Failed to create EGL window surface";
-                return false;
-            }
+                throw SystemError("Failed to create EGL window surface");
 
             for (EGLint version = 3; version >= 2; --version)
             {
@@ -146,32 +111,20 @@ namespace ouzel
             }
 
             if (context == EGL_NO_CONTEXT)
-            {
-                Log(Log::Level::ERR) << "Failed to create EGL context";
-                return false;
-            }
+                throw SystemError("Failed to create EGL context");
 
             if (!eglMakeCurrent(display, surface, surface, context))
-            {
-                Log(Log::Level::ERR) << "Failed to set current EGL context";
-                return false;
-            }
+                throw SystemError("Failed to set current EGL context");
 
             if (!eglSwapInterval(display, newVerticalSync ? 1 : 0))
-            {
-                Log(Log::Level::ERR) << "Failed to set EGL frame interval";
-                return false;
-            }
+                throw SystemError("Failed to set EGL frame interval");
 
             EGLint surfaceWidth;
             EGLint surfaceHeight;
 
             if (!eglQuerySurface(display, surface, EGL_WIDTH, &surfaceWidth) ||
                 !eglQuerySurface(display, surface, EGL_HEIGHT, &surfaceHeight))
-            {
-                Log(Log::Level::ERR) << "Failed to get query window size " <<  eglGetError();
-                return false;
-            }
+                throw SystemError("Failed to get query window size, error: " + std::to_string(eglGetError()));
 
             frameBufferWidth = surfaceWidth;
             frameBufferHeight = surfaceHeight;
@@ -179,30 +132,23 @@ namespace ouzel
             Size2 backBufferSize = Size2(static_cast<float>(frameBufferWidth),
                                          static_cast<float>(frameBufferHeight));
 
-            if (!RenderDeviceOGL::init(newWindow,
-                                       backBufferSize,
-                                       newSampleCount,
-                                       newTextureFilter,
-                                       newMaxAnisotropy,
-                                       newVerticalSync,
-                                       newDepth,
-                                       newDebugRenderer))
-            {
-                return false;
-            }
+            RenderDeviceOGL::init(newWindow,
+                                  backBufferSize,
+                                  newSampleCount,
+                                  newTextureFilter,
+                                  newMaxAnisotropy,
+                                  newVerticalSync,
+                                  newDepth,
+                                  newDebugRenderer);
 
             if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
-            {
-                Log(Log::Level::ERR) << "Failed to unset EGL context";
-            }
+                throw SystemError("Failed to unset EGL context");
 
             running = true;
             renderThread = Thread(std::bind(&RenderDeviceOGLAndroid::main, this), "Render");
-
-            return true;
         }
 
-        bool RenderDeviceOGLAndroid::reload()
+        void RenderDeviceOGLAndroid::reload()
         {
             running = false;
             flushCommands();
@@ -224,23 +170,14 @@ namespace ouzel
             EGLConfig config;
             EGLint numConfig;
             if (!eglChooseConfig(display, attributeList, &config, 1, &numConfig))
-            {
-                Log(Log::Level::ERR) << "Failed to choose EGL config";
-                return false;
-            }
+                throw SystemError("Failed to choose EGL config");
 
             if (!eglBindAPI(EGL_OPENGL_ES_API))
-            {
-                Log(Log::Level::ERR) << "Failed to bind OpenGL ES API";
-                return false;
-            }
+                throw SystemError("Failed to bind OpenGL ES API");
 
             EGLint format;
             if (!eglGetConfigAttrib(display, config, EGL_NATIVE_VISUAL_ID, &format))
-            {
-                Log(Log::Level::ERR) << "Failed to get config attribute " << eglGetError();
-                return false;
-            }
+                throw SystemError("Failed to get config attribute " + std::to_string(eglGetError()));
 
             WindowResourceAndroid* windowAndroid = static_cast<WindowResourceAndroid*>(window->getResource());
 
@@ -248,10 +185,7 @@ namespace ouzel
 
             surface = eglCreateWindowSurface(display, config, windowAndroid->getNativeWindow(), nullptr);
             if (surface == EGL_NO_SURFACE)
-            {
-                Log(Log::Level::ERR) << "Failed to create EGL window surface";
-                return false;
-            }
+                throw SystemError("Failed to create EGL window surface");
 
             for (EGLint version = 3; version >= 2; --version)
             {
@@ -280,32 +214,20 @@ namespace ouzel
             }
 
             if (context == EGL_NO_CONTEXT)
-            {
-                Log(Log::Level::ERR) << "Failed to create EGL context";
-                return false;
-            }
+                throw SystemError("Failed to create EGL context");
 
             if (!eglMakeCurrent(display, surface, surface, context))
-            {
-                Log(Log::Level::ERR) << "Failed to set current EGL context";
-                return false;
-            }
+                throw SystemError("Failed to set current EGL context");
 
             if (!eglSwapInterval(display, verticalSync ? 1 : 0))
-            {
-                Log(Log::Level::ERR) << "Failed to set EGL frame interval";
-                return false;
-            }
+                throw SystemError("Failed to set EGL frame interval");
 
             EGLint surfaceWidth;
             EGLint surfaceHeight;
 
             if (!eglQuerySurface(display, surface, EGL_WIDTH, &surfaceWidth) ||
                 !eglQuerySurface(display, surface, EGL_HEIGHT, &surfaceHeight))
-            {
-                Log(Log::Level::ERR) << "Failed to get query window size " <<  eglGetError();
-                return false;
-            }
+                throw SystemError("Failed to get query window size " + std::to_string(eglGetError()));
 
             frameBufferWidth = surfaceWidth;
             frameBufferHeight = surfaceHeight;
@@ -315,36 +237,28 @@ namespace ouzel
             glDisable(GL_DITHER);
             glDepthFunc(GL_LEQUAL);
 
-            if (checkOpenGLError())
-            {
-                Log(Log::Level::ERR) << "Failed to set depth function";
-                return false;
-            }
+            GLenum error;
+
+            if ((error = glGetError()) != GL_NO_ERROR)
+                throw SystemError("Failed to set depth function, error: " + std::to_string(error));
+
+            if (glGenVertexArraysProc) glGenVertexArraysProc(1, &vertexArrayId);
 
             {
                 Lock lock(resourceMutex);
 
                 for (const std::unique_ptr<RenderResource>& resource : resources)
-                {
-                    if (!resource->reload())
-                    {
-                        return false;
-                    }
-                }
+                    resource->reload();
             }
 
             if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
-            {
-                Log(Log::Level::ERR) << "Failed to unset EGL context";
-            }
+                throw SystemError("Failed to unset EGL context");
 
             running = true;
             renderThread = Thread(std::bind(&RenderDeviceOGLAndroid::main, this), "Render");
-
-            return true;
         }
 
-        bool RenderDeviceOGLAndroid::destroy()
+        void RenderDeviceOGLAndroid::destroy()
         {
             running = false;
             flushCommands();
@@ -353,14 +267,10 @@ namespace ouzel
             if (context)
             {
                 if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
-                {
                     Log(Log::Level::ERR) << "Failed to unset EGL context";
-                }
 
                 if (!eglDestroyContext(display, context))
-                {
                     Log(Log::Level::ERR) << "Failed to destroy EGL context";
-                }
 
                 context = nullptr;
             }
@@ -368,49 +278,30 @@ namespace ouzel
             if (surface)
             {
                 if (!eglDestroySurface(display, surface))
-                {
                     Log(Log::Level::ERR) << "Failed to destroy EGL surface";
-                }
 
                 surface = nullptr;
             }
-
-            return true;
         }
 
-        bool RenderDeviceOGLAndroid::lockContext()
+        void RenderDeviceOGLAndroid::lockContext()
         {
             if (!eglMakeCurrent(display, surface, surface, context))
-            {
-                Log(Log::Level::ERR) << "Failed to set current EGL context, error: " << eglGetError();
-                return false;
-            }
-
-            return true;
+                throw SystemError("Failed to set current EGL context, error: " + std::to_string(eglGetError()));
         }
 
-        bool RenderDeviceOGLAndroid::swapBuffers()
+        void RenderDeviceOGLAndroid::swapBuffers()
         {
             if (eglSwapBuffers(display, surface) != EGL_TRUE)
-            {
-                Log(Log::Level::ERR) << "Failed to swap buffers " << eglGetError();
-                return false;
-            }
-
-            return true;
+                throw SystemError("Failed to swap buffers, error: " + std::to_string(eglGetError()));
         }
 
         void RenderDeviceOGLAndroid::main()
         {
-            while (running)
-            {
-                process();
-            }
+            while (running) process();
 
             if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
-            {
                 Log(Log::Level::ERR) << "Failed to unset EGL context, error: " << eglGetError();
-            }
         }
     } // namespace graphics
 } // namespace ouzel

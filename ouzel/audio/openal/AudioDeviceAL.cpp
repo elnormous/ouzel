@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "core/Setup.h"
 
@@ -12,70 +11,12 @@ extern "C" id const AVAudioSessionCategoryAmbient;
 
 #include "AudioDeviceAL.hpp"
 #include "core/Engine.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
     namespace audio
     {
-        bool AudioDeviceAL::checkALCError(bool logError)
-        {
-            ALCenum error = alcGetError(device);
-
-            if (error != ALC_NO_ERROR)
-            {
-                if (logError)
-                {
-                    const char* errorStr;
-
-                    switch (error)
-                    {
-                        case ALC_INVALID_DEVICE: errorStr = "ALC_INVALID_DEVICE"; break;
-                        case ALC_INVALID_CONTEXT: errorStr = "ALC_INVALID_CONTEXT"; break;
-                        case ALC_INVALID_ENUM: errorStr = "ALC_INVALID_ENUM"; break;
-                        case ALC_INVALID_VALUE: errorStr = "ALC_INVALID_VALUE"; break;
-                        case ALC_OUT_OF_MEMORY: errorStr = "ALC_OUT_OF_MEMORY"; break;
-                        default: errorStr = "Unknown error"; break;
-                    }
-
-                    Log(Log::Level::ERR) << "OpenAL error: " << errorStr << "(" << error << ")";
-                }
-
-                return true;
-            }
-
-            return false;
-        }
-
-        bool AudioDeviceAL::checkOpenALError(bool logError)
-        {
-            ALenum error = alGetError();
-
-            if (error != AL_NO_ERROR)
-            {
-                if (logError)
-                {
-                    const char* errorStr;
-
-                    switch (error)
-                    {
-                        case AL_INVALID_NAME: errorStr = "AL_INVALID_NAME"; break;
-                        case AL_INVALID_ENUM: errorStr = "AL_INVALID_ENUM"; break;
-                        case AL_INVALID_VALUE: errorStr = "AL_INVALID_VALUE"; break;
-                        case AL_INVALID_OPERATION: errorStr = "AL_INVALID_OPERATION"; break;
-                        case AL_OUT_OF_MEMORY: errorStr = "AL_OUT_OF_MEMORY"; break;
-                        default: errorStr = "Unknown error"; break;
-                    }
-
-                    Log(Log::Level::ERR) << "OpenAL error: " << errorStr << " (" << error << ")";
-                }
-
-                return true;
-            }
-
-            return false;
-        }
-
         AudioDeviceAL::AudioDeviceAL():
             AudioDevice(Audio::Driver::OPENAL)
         {
@@ -103,11 +44,7 @@ namespace ouzel
                 alSourceStop(sourceId);
                 alSourcei(sourceId, AL_BUFFER, 0);
                 alDeleteSources(1, &sourceId);
-
-                if (checkOpenALError())
-                {
-                    Log(Log::Level::ERR) << "Failed to delete OpenAL source";
-                }
+                alGetError();
             }
 
             for (ALuint bufferId : bufferIds)
@@ -115,11 +52,7 @@ namespace ouzel
                 if (bufferId)
                 {
                     alDeleteBuffers(1, &bufferId);
-
-                    if (checkOpenALError())
-                    {
-                        Log(Log::Level::ERR) << "Failed to delete OpenAL buffer";
-                    }
+                    alGetError();
                 }
             }
 
@@ -130,32 +63,27 @@ namespace ouzel
             }
 
             if (device)
-            {
                 alcCloseDevice(device);
-            }
         }
 
-        bool AudioDeviceAL::init(bool debugAudio)
+        void AudioDeviceAL::init(bool debugAudio)
         {
-            if (!AudioDevice::init(debugAudio))
-            {
-                return false;
-            }
+            AudioDevice::init(debugAudio);
 
             const ALCchar* deviceName = alcGetString(nullptr, ALC_DEFAULT_DEVICE_SPECIFIER);
 
             if (deviceName)
-            {
                 Log(Log::Level::INFO) << "Using " << deviceName << " for audio";
-            }
 
             device = alcOpenDevice(deviceName);
 
-            if (!device || checkALCError())
-            {
-                Log(Log::Level::ERR) << "Failed to create OpenAL device";
-                return false;
-            }
+            if (!device)
+                throw SystemError("Failed to create OpenAL device");
+
+            ALCenum alcError;
+
+            if ((alcError = alcGetError(device)) != ALC_NO_ERROR)
+                throw SystemError("Failed to create OpenAL device, error: " + std::to_string(alcError));
 
             int capabilities[] =
             {
@@ -166,47 +94,35 @@ namespace ouzel
 
             context = alcCreateContext(device, capabilities);
 
-            if (checkALCError())
-            {
-                Log(Log::Level::ERR) << "Failed to create OpenAL context";
-                return false;
-            }
+            if ((alcError = alcGetError(device)) != ALC_NO_ERROR)
+                throw SystemError("Failed to create OpenAL context, error: " + std::to_string(alcError));
 
             alcMakeContextCurrent(context);
 
-            if (checkALCError())
-            {
-                Log(Log::Level::ERR) << "Failed to make OpenAL context current";
-                return false;
-            }
+            if ((alcError = alcGetError(device)) != ALC_NO_ERROR)
+                throw SystemError("Failed to make OpenAL context current, error: " + std::to_string(alcError));
+
+            ALenum error;
 
 #if !OUZEL_PLATFORM_EMSCRIPTEN
             format40 = alGetEnumValue("AL_FORMAT_QUAD16");
             format51 = alGetEnumValue("AL_FORMAT_51CHN16");
             format61 = alGetEnumValue("AL_FORMAT_61CHN16");
             format71 = alGetEnumValue("AL_FORMAT_71CHN16");
-#endif
 
-            if (checkOpenALError())
-            {
+            if ((error = alGetError()) != AL_NO_ERROR)
                 Log(Log::Level::WARN) << "Failed to get OpenAL enum values";
-            }
+#endif
 
             alGenSources(1, &sourceId);
 
-            if (checkOpenALError())
-            {
-                Log(Log::Level::ERR) << "Failed to create OpenAL source";
-                return false;
-            }
+            if ((error = alGetError()) != AL_NO_ERROR)
+                throw SystemError("Failed to create OpenAL source, error" + std::to_string(error));
 
             alGenBuffers(2, bufferIds);
 
-            if (checkOpenALError())
-            {
-                Log(Log::Level::ERR) << "Failed to create OpenAL buffers";
-                return false;
-            }
+            if ((error = alGetError()) != AL_NO_ERROR)
+                throw SystemError("Failed to create OpenAL buffers, error" + std::to_string(error));
 
             switch (channels)
             {
@@ -217,10 +133,7 @@ namespace ouzel
                 case 7: format = format61; break;
                 case 8: format = format71; break;
                 default:
-                {
-                    Log(Log::Level::ERR) << "Invalid channel count";
-                    return false;
-                }
+                    throw SystemError("Invalid channel count");
             }
 
             sampleFormat = Audio::SampleFormat::SINT16;
@@ -243,67 +156,48 @@ namespace ouzel
 
             alSourceQueueBuffers(sourceId, 2, bufferIds);
 
-            if (checkOpenALError())
-            {
-                Log(Log::Level::ERR) << "Failed to queue OpenAL buffers";
-                return false;
-            }
+            if ((error = alGetError()) != AL_NO_ERROR)
+                throw SystemError("Failed to queue OpenAL buffers, error" + std::to_string(error));
 
             alSourcePlay(sourceId);
 
-            if (checkOpenALError())
-            {
-                Log(Log::Level::ERR) << "Failed to play OpenAL source";
-                return false;
-            }
+            if ((error = alGetError()) != AL_NO_ERROR)
+                throw SystemError("Failed to play OpenAL source, error" + std::to_string(error));
 
 #if OUZEL_MULTITHREADED
             running = true;
             audioThread = Thread(std::bind(&AudioDeviceAL::run, this), "Audio");
 #endif
-
-            return true;
         }
 
-        bool AudioDeviceAL::process()
+        void AudioDeviceAL::process()
         {
-            if (!AudioDevice::process())
-            {
-                return false;
-            }
+            AudioDevice::process();
 
             alcMakeContextCurrent(context);
 
-            if (checkALCError())
-            {
-                Log(Log::Level::ERR) << "Failed to make OpenAL context current";
-                return false;
-            }
+            ALCenum alcError;
+
+            if ((alcError = alcGetError(device)) != ALC_NO_ERROR)
+                throw SystemError("Failed to make OpenAL context current, error: " + std::to_string(alcError));
 
             ALint buffersProcessed;
             alGetSourcei(sourceId, AL_BUFFERS_PROCESSED, &buffersProcessed);
 
-            if (checkOpenALError())
-            {
-                Log(Log::Level::ERR) << "Failed to get processed buffer count";
-                return false;
-            }
+            ALenum error;
+
+            if ((error = alGetError()) != AL_NO_ERROR)
+                throw SystemError("Failed to get processed buffer count, error" + std::to_string(error));
 
             // requeue all processed buffers
             for (; buffersProcessed > 0; --buffersProcessed)
             {
                 alSourceUnqueueBuffers(sourceId, 1, &bufferIds[nextBuffer]);
 
-                if (checkOpenALError())
-                {
-                    Log(Log::Level::ERR) << "Failed to unqueue OpenAL buffer";
-                    return false;
-                }
+                if ((error = alGetError()) != AL_NO_ERROR)
+                    throw SystemError("Failed to unqueue OpenAL buffer, error" + std::to_string(error));
 
-                if (!getData(bufferSize / (channels * sizeof(int16_t)), data))
-                {
-                    return false;
-                }
+                getData(bufferSize / (channels * sizeof(int16_t)), data);
 
                 alBufferData(bufferIds[nextBuffer], format,
                              data.data(),
@@ -312,11 +206,8 @@ namespace ouzel
 
                 alSourceQueueBuffers(sourceId, 1, &bufferIds[nextBuffer]);
 
-                if (checkOpenALError())
-                {
-                    Log(Log::Level::ERR) << "Failed to queue OpenAL buffer";
-                    return false;
-                }
+                if ((error = alGetError()) != AL_NO_ERROR)
+                    throw SystemError("Failed to queue OpenAL buffer, error" + std::to_string(error));
 
                 ALint state;
                 alGetSourcei(sourceId, AL_SOURCE_STATE, &state);
@@ -324,30 +215,19 @@ namespace ouzel
                 {
                     alSourcePlay(sourceId);
 
-                    if (checkOpenALError())
-                    {
-                        Log(Log::Level::ERR) << "Failed to play OpenAL source";
-                        return false;
-                    }
+                    if ((error = alGetError()) != AL_NO_ERROR)
+                        throw SystemError("Failed to play OpenAL source, error" + std::to_string(error));
                 }
 
                 // swap the buffer
                 nextBuffer = (nextBuffer + 1) % 2;
             }
-
-            return true;
         }
 
         void AudioDeviceAL::run()
         {
 #if OUZEL_MULTITHREADED
-            while (running)
-            {
-                if (!process())
-                {
-                    break;
-                }
-            }
+            while (running) process();
 #endif
         }
     } // namespace audio

@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #import <UIKit/UIKit.h>
 #include "EngineIOS.hpp"
@@ -21,9 +20,7 @@
 -(BOOL)application:(__unused UIApplication*)application didFinishLaunchingWithOptions:(__unused NSDictionary*)launchOptions
 {
     if (ouzel::engine)
-    {
         ouzel::engine->start();
-    }
 
     return YES;
 }
@@ -62,11 +59,27 @@
     }
 }
 
+@end
+
+@interface ExecuteHandler: NSObject
+{
+    ouzel::EngineIOS* engine;
+}
+@end
+
+@implementation ExecuteHandler
+
+-(id)initWithEngine:(ouzel::EngineIOS*)initEngine
+{
+    if (self = [super init])
+        engine = initEngine;
+
+    return self;
+}
+
 -(void)executeAll
 {
-    ouzel::EngineIOS* engineIOS = static_cast<ouzel::EngineIOS*>(ouzel::engine);
-
-    engineIOS->executeAll();
+    engine->executeAll();
 }
 
 @end
@@ -77,18 +90,21 @@ namespace ouzel
         argc(initArgc), argv(initArgv)
     {
         for (int i = 0; i < initArgc; ++i)
-        {
             args.push_back(initArgv[i]);
-        }
+
+        executeHanlder = [[ExecuteHandler alloc] initWithEngine:this];
     }
 
-    int EngineIOS::run()
+    EngineIOS::~EngineIOS()
+    {
+        if (executeHanlder) [executeHanlder release];
+    }
+
+    void EngineIOS::run()
     {
         NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-        int ret = UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
+        UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
         [pool release];
-
-        return ret;
     }
 
     void EngineIOS::executeOnMainThread(const std::function<void(void)>& func)
@@ -97,17 +113,17 @@ namespace ouzel
 
         executeQueue.push(func);
 
-        UIApplication* application = [UIApplication sharedApplication];
-        NSObject* delegate = application.delegate;
-        [delegate performSelectorOnMainThread:@selector(executeAll) withObject:nil waitUntilDone:NO];
+        [executeHanlder performSelectorOnMainThread:@selector(executeAll) withObject:nil waitUntilDone:NO];
     }
 
-    bool EngineIOS::openURL(const std::string& url)
+    void EngineIOS::openURL(const std::string& url)
     {
-        NSString* nsStringURL = [NSString stringWithUTF8String:url.c_str()];
-        NSURL* nsURL = [NSURL URLWithString:nsStringURL];
+        executeOnMainThread([url](){
+            NSString* nsStringURL = [NSString stringWithUTF8String:url.c_str()];
+            NSURL* nsURL = [NSURL URLWithString:nsStringURL];
 
-        return [[UIApplication sharedApplication] openURL:nsURL] == YES;
+            [[UIApplication sharedApplication] openURL:nsURL];
+        });
     }
 
     void EngineIOS::setScreenSaverEnabled(bool newScreenSaverEnabled)
@@ -128,19 +144,13 @@ namespace ouzel
             {
                 Lock lock(executeMutex);
 
-                if (executeQueue.empty())
-                {
-                    break;
-                }
+                if (executeQueue.empty()) break;
 
                 func = std::move(executeQueue.front());
                 executeQueue.pop();
             }
 
-            if (func)
-            {
-                func();
-            }
+            if (func) func();
         }
     }
 }

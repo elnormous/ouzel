@@ -12,7 +12,7 @@ PerspectiveSample::PerspectiveSample():
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
 {
     cursor.init(input::SystemCursor::CROSS);
-    engine->getInput()->setCursor(&cursor);
+    engine->getInputManager()->setCursor(&cursor);
 
     handler.keyboardHandler = bind(&PerspectiveSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     handler.mouseHandler = bind(&PerspectiveSample::handleMouse, this, placeholders::_1, placeholders::_2);
@@ -41,7 +41,7 @@ PerspectiveSample::PerspectiveSample():
     floor.addComponent(&floorSprite);
     layer.addChild(&floor);
     floor.setPosition(Vector2(0.0F, -50.0F));
-    floor.setRotation(Vector3(TAU_4, TAU / 8.0F, 0.0F));
+    floor.setRotation(Vector3(TAU / 4.04F, TAU / 8.0F, 0.0F));
 
     // character
     characterSprite.init("run.json");
@@ -67,7 +67,7 @@ PerspectiveSample::PerspectiveSample():
     rotate->start();
 
     engine->getCache()->loadAsset("cube.obj");
-    boxModel.init(engine->getCache()->getModelData("cube.obj"));
+    boxModel.init(engine->getCache()->getMeshData("cube.obj"));
     box.addComponent(&boxModel);
     box.setPosition(Vector3(-160.0F, 0.0F, -50.0F));
     layer.addChild(&box);
@@ -147,7 +147,7 @@ bool PerspectiveSample::handleMouse(ouzel::Event::Type type, const ouzel::MouseE
     {
         if (type == Event::Type::MOUSE_MOVE)
         {
-            cameraRotation.x += event.difference.y;
+            cameraRotation.x -= event.difference.y;
             cameraRotation.y -= event.difference.x;
 
             if (cameraRotation.x < -TAU / 6.0F) cameraRotation.x = -TAU / 6.0F;
@@ -164,7 +164,7 @@ bool PerspectiveSample::handleTouch(ouzel::Event::Type type, const ouzel::TouchE
 {
     if (type == Event::Type::TOUCH_MOVE)
     {
-        cameraRotation.x += event.difference.y;
+        cameraRotation.x -= event.difference.y;
         cameraRotation.y -= event.difference.x;
 
         if (cameraRotation.x < -TAU / 6.0F) cameraRotation.x = -TAU / 6.0F;

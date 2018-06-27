@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "Shader.hpp"
 #include "ShaderResource.hpp"
@@ -22,77 +21,64 @@ namespace ouzel
             if (engine && resource) engine->getRenderer()->getDevice()->deleteResource(resource);
         }
 
-        bool Shader::init(const std::string& newPixelShader,
+        void Shader::init(const std::string& newFragmentShader,
                           const std::string& newVertexShader,
                           const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
-                          const std::vector<ConstantInfo>& newPixelShaderConstantInfo,
+                          const std::vector<ConstantInfo>& newFragmentShaderConstantInfo,
                           const std::vector<ConstantInfo>& newVertexShaderConstantInfo,
-                          uint32_t newPixelShaderDataAlignment,
+                          uint32_t newFragmentShaderDataAlignment,
                           uint32_t newVertexShaderDataAlignment,
-                          const std::string& newPixelShaderFunction,
+                          const std::string& newFragmentShaderFunction,
                           const std::string& newVertexShaderFunction)
         {
             vertexAttributes = newVertexAttributes;
 
-            pixelShaderFilename = newPixelShader;
+            fragmentShaderFilename = newFragmentShader;
             vertexShaderFilename = newVertexShader;
 
-            std::vector<uint8_t> pixelShaderData;
+            std::vector<uint8_t> fragmentShaderData = engine->getFileSystem()->readFile(newFragmentShader);
+            std::vector<uint8_t> vertexShaderData = engine->getFileSystem()->readFile(newVertexShader);
 
-            if (!engine->getFileSystem()->readFile(newPixelShader, pixelShaderData))
-            {
-                return false;
-            }
+            RenderDevice* renderDevice = engine->getRenderer()->getDevice();
 
-            std::vector<uint8_t> vertexShaderData;
-
-            if (!engine->getFileSystem()->readFile(newVertexShader, vertexShaderData))
-            {
-                return false;
-            }
-
-            engine->getRenderer()->executeOnRenderThread(std::bind(&ShaderResource::init,
-                                                                   resource,
-                                                                   pixelShaderData,
-                                                                   vertexShaderData,
-                                                                   newVertexAttributes,
-                                                                   newPixelShaderConstantInfo,
-                                                                   newVertexShaderConstantInfo,
-                                                                   newPixelShaderDataAlignment,
-                                                                   newVertexShaderDataAlignment,
-                                                                   newPixelShaderFunction,
-                                                                   newVertexShaderFunction));
-
-            return true;
+            renderDevice->addCommand(InitShaderCommand(resource,
+                                                       fragmentShaderData,
+                                                       vertexShaderData,
+                                                       newVertexAttributes,
+                                                       newFragmentShaderConstantInfo,
+                                                       newVertexShaderConstantInfo,
+                                                       newFragmentShaderDataAlignment,
+                                                       newVertexShaderDataAlignment,
+                                                       newFragmentShaderFunction,
+                                                       newVertexShaderFunction));
         }
 
-        bool Shader::init(const std::vector<uint8_t>& newPixelShader,
+        void Shader::init(const std::vector<uint8_t>& newFragmentShader,
                           const std::vector<uint8_t>& newVertexShader,
                           const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
-                          const std::vector<Shader::ConstantInfo>& newPixelShaderConstantInfo,
+                          const std::vector<Shader::ConstantInfo>& newFragmentShaderConstantInfo,
                           const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
-                          uint32_t newPixelShaderDataAlignment,
+                          uint32_t newFragmentShaderDataAlignment,
                           uint32_t newVertexShaderDataAlignment,
-                          const std::string& newPixelShaderFunction,
+                          const std::string& newFragmentShaderFunction,
                           const std::string& newVertexShaderFunction)
         {
             vertexAttributes = newVertexAttributes;
-            pixelShaderFilename.clear();
+            fragmentShaderFilename.clear();
             vertexShaderFilename.clear();
 
-            engine->getRenderer()->executeOnRenderThread(std::bind(&ShaderResource::init,
-                                                                   resource,
-                                                                   newPixelShader,
-                                                                   newVertexShader,
-                                                                   newVertexAttributes,
-                                                                   newPixelShaderConstantInfo,
-                                                                   newVertexShaderConstantInfo,
-                                                                   newPixelShaderDataAlignment,
-                                                                   newVertexShaderDataAlignment,
-                                                                   newPixelShaderFunction,
-                                                                   newVertexShaderFunction));
+            RenderDevice* renderDevice = engine->getRenderer()->getDevice();
 
-            return  true;
+            renderDevice->addCommand(InitShaderCommand(resource,
+                                                       newFragmentShader,
+                                                       newVertexShader,
+                                                       newVertexAttributes,
+                                                       newFragmentShaderConstantInfo,
+                                                       newVertexShaderConstantInfo,
+                                                       newFragmentShaderDataAlignment,
+                                                       newVertexShaderDataAlignment,
+                                                       newFragmentShaderFunction,
+                                                       newVertexShaderFunction));
         }
 
         const std::set<Vertex::Attribute::Usage>& Shader::getVertexAttributes() const

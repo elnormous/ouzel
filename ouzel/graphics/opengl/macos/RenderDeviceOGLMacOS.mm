@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "core/Setup.h"
 
@@ -8,6 +7,7 @@
 #include "RenderDeviceOGLMacOS.hpp"
 #include "core/macos/WindowResourceMacOS.hpp"
 #include "core/Engine.hpp"
+#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
 static CVReturn renderCallback(CVDisplayLinkRef,
@@ -19,9 +19,20 @@ static CVReturn renderCallback(CVDisplayLinkRef,
 {
     @autoreleasepool
     {
-        ouzel::graphics::RenderDeviceOGLMacOS* renderDevice = static_cast<ouzel::graphics::RenderDeviceOGLMacOS*>(userInfo);
-
-        renderDevice->renderCallback();
+        try
+        {
+            ouzel::graphics::RenderDeviceOGLMacOS* renderDevice = static_cast<ouzel::graphics::RenderDeviceOGLMacOS*>(userInfo);
+            renderDevice->renderCallback();
+        }
+        catch (const std::exception& e)
+        {
+            ouzel::Log(ouzel::Log::Level::ERR) << e.what();
+            return kCVReturnError;
+        }
+        catch (...)
+        {
+            return kCVReturnError;
+        }
     }
 
     return kCVReturnSuccess;
@@ -43,11 +54,7 @@ namespace ouzel
 
             if (displayLink)
             {
-                if (CVDisplayLinkStop(displayLink) != kCVReturnSuccess)
-                {
-                    Log(Log::Level::ERR) << "Failed to stop display link";
-                }
-
+                CVDisplayLinkStop(displayLink);
                 CVDisplayLinkRelease(displayLink);
             }
 
@@ -58,12 +65,10 @@ namespace ouzel
             }
 
             if (pixelFormat)
-            {
                 [pixelFormat release];
-            }
         }
 
-        bool RenderDeviceOGLMacOS::init(Window* newWindow,
+        void RenderDeviceOGLMacOS::init(Window* newWindow,
                                         const Size2& newSize,
                                         uint32_t newSampleCount,
                                         Texture::Filter newTextureFilter,
@@ -130,10 +135,7 @@ namespace ouzel
             }
 
             if (!pixelFormat)
-            {
-                Log(Log::Level::ERR) << "Failed to crete OpenGL pixel format";
-                return false;
-            }
+                throw SystemError("Failed to crete OpenGL pixel format");
 
             // Create OpenGL context
             openGLContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:nil];
@@ -146,43 +148,29 @@ namespace ouzel
             GLint swapInt = newVerticalSync ? 1 : 0;
             [openGLContext setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
 
-            if (!RenderDeviceOGL::init(newWindow,
-                                       newSize,
-                                       newSampleCount,
-                                       newTextureFilter,
-                                       newMaxAnisotropy,
-                                       newVerticalSync,
-                                       newDepth,
-                                       newDebugRenderer))
-            {
-                return false;
-            }
+            RenderDeviceOGL::init(newWindow,
+                                  newSize,
+                                  newSampleCount,
+                                  newTextureFilter,
+                                  newMaxAnisotropy,
+                                  newVerticalSync,
+                                  newDepth,
+                                  newDebugRenderer);
 
             eventHandler.windowHandler = std::bind(&RenderDeviceOGLMacOS::handleWindow, this, std::placeholders::_1, std::placeholders::_2);
             engine->getEventDispatcher()->addEventHandler(&eventHandler);
 
             CGDirectDisplayID displayId = windowMacOS->getDisplayId();
             if (CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink) != kCVReturnSuccess)
-            {
-                Log(Log::Level::ERR) << "Failed to create display link";
-                return false;
-            }
+                throw SystemError("Failed to create display link");
 
             if (CVDisplayLinkSetOutputCallback(displayLink, ::renderCallback, this) != kCVReturnSuccess)
-            {
-                Log(Log::Level::ERR) << "Failed to set output callback for the display link";
-                return false;
-            }
+                throw SystemError("Failed to set output callback for the display link");
 
             running = true;
 
             if (CVDisplayLinkStart(displayLink) != kCVReturnSuccess)
-            {
-                Log(Log::Level::ERR) << "Failed to start display link";
-                return false;
-            }
-
-            return true;
+                throw SystemError("Failed to start display link");
         }
 
         void RenderDeviceOGLMacOS::setSize(const Size2& newSize)
@@ -212,18 +200,14 @@ namespace ouzel
             return result;
         }
 
-        bool RenderDeviceOGLMacOS::lockContext()
+        void RenderDeviceOGLMacOS::lockContext()
         {
             [openGLContext makeCurrentContext];
-
-            return true;
         }
 
-        bool RenderDeviceOGLMacOS::swapBuffers()
+        void RenderDeviceOGLMacOS::swapBuffers()
         {
             [openGLContext flushBuffer];
-
-            return true;
         }
 
         bool RenderDeviceOGLMacOS::handleWindow(Event::Type type, const WindowEvent& event)
@@ -233,11 +217,7 @@ namespace ouzel
                 engine->executeOnMainThread([this, event]() {
                     if (displayLink)
                     {
-                        if (CVDisplayLinkStop(displayLink) != kCVReturnSuccess)
-                        {
-                            Log(Log::Level::ERR) << "Failed to stop display link";
-                        }
-
+                        CVDisplayLinkStop(displayLink);
                         CVDisplayLinkRelease(displayLink);
                         displayLink = nullptr;
                     }
@@ -245,22 +225,13 @@ namespace ouzel
                     const CGDirectDisplayID displayId = event.screenId;
 
                     if (CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink) != kCVReturnSuccess)
-                    {
-                        Log(Log::Level::ERR) << "Failed to create display link";
-                        return;
-                    }
+                        throw SystemError("Failed to create display link");
 
                     if (CVDisplayLinkSetOutputCallback(displayLink, ::renderCallback, this) != kCVReturnSuccess)
-                    {
-                        Log(Log::Level::ERR) << "Failed to set output callback for the display link";
-                        return;
-                    }
+                        throw SystemError("Failed to set output callback for the display link");
 
                     if (CVDisplayLinkStart(displayLink) != kCVReturnSuccess)
-                    {
-                        Log(Log::Level::ERR) << "Failed to start display link";
-                        return;
-                    }
+                        throw SystemError("Failed to start display link");
                 });
             }
 
@@ -269,10 +240,7 @@ namespace ouzel
 
         void RenderDeviceOGLMacOS::renderCallback()
         {
-            if (running)
-            {
-                process();
-            }
+            if (running) process();
         }
     } // namespace graphics
 } // namespace ouzel

@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -9,7 +8,6 @@
 #include "gui/BMFont.hpp"
 #include "graphics/BlendState.hpp"
 #include "graphics/Buffer.hpp"
-#include "graphics/MeshBuffer.hpp"
 #include "graphics/Shader.hpp"
 #include "graphics/Texture.hpp"
 
@@ -27,18 +25,12 @@ namespace ouzel
                          float initFontSize = 1.0F,
                          const std::string& initText = std::string(),
                          Color initColor = Color::WHITE,
-                         const Vector2& aTextAnchor = Vector2(0.5F, 0.5F));
+                         const Vector2& initTextAnchor = Vector2(0.5F, 0.5F));
 
             virtual void draw(const Matrix4& transformMatrix,
                               float opacity,
                               const Matrix4& renderViewProjection,
-                              const std::shared_ptr<graphics::Texture>& renderTarget,
-                              const Rect& renderViewport,
-                              bool depthWrite,
-                              bool depthTest,
-                              bool wireframe,
-                              bool scissorTest,
-                              const Rect& scissorRectangle) override;
+                              bool wireframe) override;
 
             void setFont(const std::string& fontFile);
 
@@ -60,13 +52,12 @@ namespace ouzel
             inline const std::shared_ptr<graphics::BlendState>& getBlendState() const { return blendState; }
             inline void setBlendState(const std::shared_ptr<graphics::BlendState>& newBlendState)  { blendState = newBlendState; }
 
-        protected:
+        private:
             void updateText();
 
             std::shared_ptr<graphics::Shader> shader;
             std::shared_ptr<graphics::BlendState> blendState;
 
-            std::shared_ptr<graphics::MeshBuffer> meshBuffer;
             std::shared_ptr<graphics::Buffer> indexBuffer;
             std::shared_ptr<graphics::Buffer> vertexBuffer;
 

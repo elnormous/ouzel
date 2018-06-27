@@ -1,19 +1,17 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <algorithm>
 #include "RenderDevice.hpp"
 #include "thread/Lock.hpp"
-#include "utils/Log.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        RenderDevice::RenderDevice(Renderer::Driver aDriver):
-            driver(aDriver),
-            projectionTransform(Matrix4::IDENTITY),
-            renderTargetProjectionTransform(Matrix4::IDENTITY),
+        RenderDevice::RenderDevice(Renderer::Driver initDriver):
+            driver(initDriver),
+            projectionTransform(Matrix4::identity()),
+            renderTargetProjectionTransform(Matrix4::identity()),
             refillQueue(true),
             currentFPS(0.0F),
             accumulatedFPS(0.0F)
@@ -24,7 +22,7 @@ namespace ouzel
         {
         }
 
-        bool RenderDevice::init(Window* newWindow,
+        void RenderDevice::init(Window* newWindow,
                                 const Size2& newSize,
                                 uint32_t newSampleCount,
                                 Texture::Filter newTextureFilter,
@@ -44,11 +42,9 @@ namespace ouzel
             clearColor = Color::BLACK;
 
             previousFrameTime = std::chrono::steady_clock::now();
-
-            return true;
         }
 
-        bool RenderDevice::process()
+        void RenderDevice::process()
         {
             std::chrono::steady_clock::time_point currentTime = std::chrono::steady_clock::now();
             auto diff = std::chrono::duration_cast<std::chrono::nanoseconds>(currentTime - previousFrameTime);
@@ -57,9 +53,7 @@ namespace ouzel
             float delta = diff.count() / 1000000000.0F;
 
             if (delta > 0.0F)
-            {
                 currentFPS = 1.0F / delta;
-            }
 
             accumulatedTime += delta;
             currentAccumulatedFPS += 1.0F;
@@ -79,11 +73,10 @@ namespace ouzel
 
 #if OUZEL_MULTITHREADED
             Lock lock(commandQueueMutex);
-            while (!queueFinished) commandQueueCondition.wait(commandQueueMutex);
+            while (!queueFinished) commandQueueCondition.wait(lock);
 #endif
 
             std::swap(fillBuffer, renderBuffer);
-            fillBuffer->clear();
 
             queueFinished = false;
 
@@ -93,8 +86,6 @@ namespace ouzel
             executeAll();
 
             processCommands(*renderBuffer);
-
-            return true;
         }
 
         void RenderDevice::setClearColorBuffer(bool clear)
@@ -142,20 +133,13 @@ namespace ouzel
             }
         }
 
-        bool RenderDevice::addCommand(Command&& command)
-        {
-            fillBuffer->push_back(std::move(command));
-
-            return true;
-        }
-
         void RenderDevice::flushCommands()
         {
 #if OUZEL_MULTITHREADED
             Lock lock(commandQueueMutex);
 #endif
 
-            drawCallCount = static_cast<uint32_t>(fillBuffer->size());
+            //drawCallCount = static_cast<uint32_t>(fillBuffer->size());
 
             refillQueue = false;
             queueFinished = true;
@@ -165,9 +149,8 @@ namespace ouzel
 #endif
         }
 
-        bool RenderDevice::generateScreenshot(const std::string&)
+        void RenderDevice::generateScreenshot(const std::string&)
         {
-            return true;
         }
 
         void RenderDevice::executeOnRenderThread(const std::function<void(void)>& func)
@@ -191,10 +174,7 @@ namespace ouzel
                     executeQueue.pop();
                 }
 
-                if (func)
-                {
-                    func();
-                }
+                if (func) func();
             }
         }
     } // namespace graphics

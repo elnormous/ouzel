@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -17,12 +16,12 @@ namespace ouzel
         public:
             SoundDataVorbis();
 
-            virtual bool init(const std::vector<uint8_t>& newData) override;
+            virtual void init(const std::vector<uint8_t>& newData) override;
 
             virtual std::shared_ptr<Stream> createStream() override;
 
         protected:
-            virtual bool readData(Stream* stream, uint32_t frames, std::vector<float>& result) override;
+            virtual void readData(Stream* stream, uint32_t frames, std::vector<float>& result) override;
 
             std::vector<uint8_t> data;
         };

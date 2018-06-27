@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <cmath>
 #include "Ease.hpp"
@@ -11,12 +10,12 @@ namespace ouzel
     {
         static float sineIn(float t)
         {
-            return 1.0F - cosf(t * PI_2);
+            return 1.0F - cosf(t * PI / 2.0F);
         }
 
         static float sineOut(float t)
         {
-            return sinf(t * PI_2);
+            return sinf(t * PI / 2.0F);
         }
 
         static float sineInOut(float t)
@@ -220,9 +219,7 @@ namespace ouzel
         static float bounceOut(float t)
         {
             if (t < (1.0F / 2.75F))
-            {
                 return 7.5625F * t * t;
-            }
             else if (t < (2.0F / 2.75F))
             {
                 t -= 1.5F / 2.75F;

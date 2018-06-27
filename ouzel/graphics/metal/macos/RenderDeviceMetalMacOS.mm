@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "core/Setup.h"
 
@@ -9,7 +8,7 @@
 #include "MetalView.h"
 #include "core/Engine.hpp"
 #include "core/macos/WindowResourceMacOS.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 static CVReturn renderCallback(CVDisplayLinkRef,
                                const CVTimeStamp*,
@@ -44,16 +43,13 @@ namespace ouzel
 
             if (displayLink)
             {
-                if (CVDisplayLinkStop(displayLink) != kCVReturnSuccess)
-                {
-                    Log(Log::Level::ERR) << "Failed to stop display link";
-                }
+                CVDisplayLinkStop(displayLink);
 
                 CVDisplayLinkRelease(displayLink);
             }
         }
 
-        bool RenderDeviceMetalMacOS::init(Window* newWindow,
+        void RenderDeviceMetalMacOS::init(Window* newWindow,
                                           const Size2& newSize,
                                           uint32_t newSampleCount,
                                           Texture::Filter newTextureFilter,
@@ -62,17 +58,14 @@ namespace ouzel
                                           bool newDepth,
                                           bool newDebugRenderer)
         {
-            if (!RenderDeviceMetal::init(newWindow,
-                                         newSize,
-                                         newSampleCount,
-                                         newTextureFilter,
-                                         newMaxAnisotropy,
-                                         newVerticalSync,
-                                         newDepth,
-                                         newDebugRenderer))
-            {
-                return false;
-            }
+            RenderDeviceMetal::init(newWindow,
+                                    newSize,
+                                    newSampleCount,
+                                    newTextureFilter,
+                                    newMaxAnisotropy,
+                                    newVerticalSync,
+                                    newDepth,
+                                    newDebugRenderer);
 
             WindowResourceMacOS* windowMacOS = static_cast<WindowResourceMacOS*>(newWindow->getResource());
 
@@ -90,26 +83,15 @@ namespace ouzel
 
             CGDirectDisplayID displayId = windowMacOS->getDisplayId();
             if (CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink) != kCVReturnSuccess)
-            {
-                Log(Log::Level::ERR) << "Failed to create display link";
-                return false;
-            }
+                throw SystemError("Failed to create display link");
 
             if (CVDisplayLinkSetOutputCallback(displayLink, ::renderCallback, this) != kCVReturnSuccess)
-            {
-                Log(Log::Level::ERR) << "Failed to set output callback for the display link";
-                return false;
-            }
+                throw SystemError("Failed to set output callback for the display link");
 
             running = true;
 
             if (CVDisplayLinkStart(displayLink) != kCVReturnSuccess)
-            {
-                Log(Log::Level::ERR) << "Failed to start display link";
-                return false;
-            }
-
-            return true;
+                throw SystemError("Failed to start display link");
         }
 
         std::vector<Size2> RenderDeviceMetalMacOS::getSupportedResolutions() const
@@ -139,11 +121,7 @@ namespace ouzel
                 engine->executeOnMainThread([this, event]() {
                     if (displayLink)
                     {
-                        if (CVDisplayLinkStop(displayLink) != kCVReturnSuccess)
-                        {
-                            Log(Log::Level::ERR) << "Failed to stop display link";
-                        }
-
+                        CVDisplayLinkStop(displayLink);
                         CVDisplayLinkRelease(displayLink);
                         displayLink = nullptr;
                     }
@@ -151,22 +129,13 @@ namespace ouzel
                     const CGDirectDisplayID displayId = event.screenId;
 
                     if (CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink) != kCVReturnSuccess)
-                    {
-                        Log(Log::Level::ERR) << "Failed to create display link";
-                        return;
-                    }
+                        throw SystemError("Failed to create display link");
 
                     if (CVDisplayLinkSetOutputCallback(displayLink, ::renderCallback, this) != kCVReturnSuccess)
-                    {
-                        Log(Log::Level::ERR) << "Failed to set output callback for the display link";
-                        return;
-                    }
+                        throw SystemError("Failed to set output callback for the display link");
 
                     if (CVDisplayLinkStart(displayLink) != kCVReturnSuccess)
-                    {
-                        Log(Log::Level::ERR) << "Failed to start display link";
-                        return;
-                    }
+                        throw SystemError("Failed to start display link");
                 });
             }
 
@@ -175,10 +144,7 @@ namespace ouzel
 
         void RenderDeviceMetalMacOS::renderCallback()
         {
-            if (running)
-            {
-                process();
-            }
+            if (running) process();
         }
     } // namespace graphics
 } // namespace ouzel

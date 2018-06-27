@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "LoaderVorbis.hpp"
 #include "Cache.hpp"
@@ -17,10 +16,7 @@ namespace ouzel
         bool LoaderVorbis::loadAsset(const std::string& filename, const std::vector<uint8_t>& data, bool)
         {
             std::shared_ptr<audio::SoundData> soundData = std::make_shared<audio::SoundDataVorbis>();
-            if (!soundData->init(data))
-            {
-                return false;
-            }
+            soundData->init(data);
 
             cache->setSoundData(filename, soundData);
 

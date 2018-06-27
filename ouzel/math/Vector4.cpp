@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <cmath>
 #include <cassert>
@@ -12,20 +11,6 @@
 
 namespace ouzel
 {
-    const Vector4 Vector4::ZERO(0.0F, 0.0F, 0.0F, 0.0F);
-    const Vector4 Vector4::ONE(1.0F, 1.0F, 1.0F, 1.0F);
-    const Vector4 Vector4::UNIT_X(1.0F, 0.0F, 0.0F, 1.0F);
-    const Vector4 Vector4::UNIT_Y(0.0F, 1.0F, 0.0F, 1.0F);
-    const Vector4 Vector4::UNIT_Z(0.0F, 0.0F, 1.0F, 1.0F);
-    const Vector4 Vector4::NEGATIVE_UNIT_X(-1.0F, 0.0F, 0.0F, 1.0F);
-    const Vector4 Vector4::NEGATIVE_UNIT_Y(0.0F, -1.0F, 0.0F, 1.0F);
-    const Vector4 Vector4::NEGATIVE_UNIT_Z(0.0F, 0.0F, -1.0F, 1.0F);
-
-    Vector4::Vector4(const Vector4& p1, const Vector4& p2)
-    {
-        set(p1, p2);
-    }
-
     Vector4::Vector4(const Vector2& vec):
         x(vec.x), y(vec.y), z(0.0F), w(0.0F)
     {
@@ -164,7 +149,7 @@ namespace ouzel
             return;
 
         n = sqrtf(n);
-        if (n < TOLERANCE) // too close to zero
+        if (n < EPSILON) // too close to zero
             return;
 
         n = 1.0F / n;
@@ -177,9 +162,7 @@ namespace ouzel
     void Vector4::smooth(const Vector4& target, float elapsedTime, float responseTime)
     {
         if (elapsedTime > 0)
-        {
             *this += (target - *this) * (elapsedTime / (elapsedTime + responseTime));
-        }
     }
 
     float Vector4::getMin() const

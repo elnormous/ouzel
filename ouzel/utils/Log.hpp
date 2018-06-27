@@ -1,10 +1,8 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
 #include <string>
-#include "math/Matrix3.hpp"
 #include "math/Matrix4.hpp"
 #include "math/Quaternion.hpp"
 #include "math/Size2.hpp"
@@ -68,9 +66,7 @@ namespace ouzel
         template<typename T> Log& operator<<(T val)
         {
             if (level <= threshold)
-            {
                 s += std::to_string(val);
-            }
 
             return *this;
         }
@@ -78,9 +74,7 @@ namespace ouzel
         Log& operator<<(const std::string& val)
         {
             if (level <= threshold)
-            {
                 s += val;
-            }
 
             return *this;
         }
@@ -88,9 +82,7 @@ namespace ouzel
         Log& operator<<(const char* val)
         {
             if (level <= threshold)
-            {
                 s += val;
-            }
 
             return *this;
         }
@@ -98,18 +90,7 @@ namespace ouzel
         Log& operator<<(char* val)
         {
             if (level <= threshold)
-            {
                 s += val;
-            }
-
-            return *this;
-        }
-
-        Log& operator<<(const Matrix3& val)
-        {
-            s += std::to_string(val.m[0]) + "," + std::to_string(val.m[1]) + "," + std::to_string(val.m[2]) + "\n" +
-                std::to_string(val.m[3]) + "," + std::to_string(val.m[4]) + "," + std::to_string(val.m[5]) + "\n" +
-                std::to_string(val.m[6]) + "," + std::to_string(val.m[7]) + "," + std::to_string(val.m[8]);
 
             return *this;
         }
@@ -138,9 +119,7 @@ namespace ouzel
         Log& operator<<(const Size2& val)
         {
             if (level <= threshold)
-            {
                 s += std::to_string(val.width) + "," + std::to_string(val.height);
-            }
 
             return *this;
         }
@@ -148,10 +127,8 @@ namespace ouzel
         Log& operator<<(const Size3& val)
         {
             if (level <= threshold)
-            {
                 s += std::to_string(val.width) + "," + std::to_string(val.height) + "," +
                     std::to_string(val.depth);
-            }
 
             return *this;
         }
@@ -159,9 +136,7 @@ namespace ouzel
         Log& operator<<(const Vector2& val)
         {
             if (level <= threshold)
-            {
                 s += std::to_string(val.x) + "," + std::to_string(val.y);
-            }
 
             return *this;
         }

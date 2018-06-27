@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -22,8 +21,8 @@ namespace ouzel
             class ConstantInfo
             {
             public:
-                ConstantInfo(const std::string& aName, DataType aDataType):
-                    name(aName), dataType(aDataType), size(getDataTypeSize(aDataType)) {}
+                ConstantInfo(const std::string& initName, DataType initDataType):
+                    name(initName), dataType(initDataType), size(getDataTypeSize(initDataType)) {}
 
                 std::string name;
                 DataType dataType;
@@ -39,23 +38,23 @@ namespace ouzel
             Shader(Shader&&) = delete;
             Shader& operator=(Shader&&) = delete;
 
-            bool init(const std::vector<uint8_t>& newPixelShader,
+            void init(const std::vector<uint8_t>& newFragmentShader,
                       const std::vector<uint8_t>& newVertexShader,
                       const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
-                      const std::vector<ConstantInfo>& newPixelShaderConstantInfo,
+                      const std::vector<ConstantInfo>& newFragmentShaderConstantInfo,
                       const std::vector<ConstantInfo>& newVertexShaderConstantInfo,
-                      uint32_t newPixelShaderDataAlignment = 0,
+                      uint32_t newFragmentShaderDataAlignment = 0,
                       uint32_t newVertexShaderDataAlignment = 0,
-                      const std::string& pixelShaderFunction = "",
+                      const std::string& fragmentShaderFunction = "",
                       const std::string& vertexShaderFunction = "");
-            bool init(const std::string& newPixelShader,
+            void init(const std::string& newFragmentShader,
                       const std::string& newVertexShader,
                       const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
-                      const std::vector<ConstantInfo>& newPixelShaderConstantInfo,
+                      const std::vector<ConstantInfo>& newFragmentShaderConstantInfo,
                       const std::vector<ConstantInfo>& newVertexShaderConstantInfo,
-                      uint32_t newPixelShaderDataAlignment = 0,
+                      uint32_t newFragmentShaderDataAlignment = 0,
                       uint32_t newVertexShaderDataAlignment = 0,
-                      const std::string& newPixelShaderFunction = "",
+                      const std::string& newFragmentShaderFunction = "",
                       const std::string& newVertexShaderFunction = "");
 
             inline ShaderResource* getResource() const { return resource; }
@@ -67,7 +66,7 @@ namespace ouzel
 
             std::set<Vertex::Attribute::Usage> vertexAttributes;
 
-            std::string pixelShaderFilename;
+            std::string fragmentShaderFilename;
             std::string vertexShaderFilename;
         };
     } // namespace graphics

@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -30,10 +29,10 @@ namespace ouzel
             std::string getValue(const std::string& key) const;
             const std::string& getValue(const std::string& key, const std::string& defaultValue) const;
             void setValue(const std::string& key, const std::string& value);
-            bool deleteValue(const std::string& key);
+            void deleteValue(const std::string& key);
 
         protected:
-            bool encode(std::vector<uint8_t>& data) const;
+            void encode(std::vector<uint8_t>& data) const;
 
             std::string name;
             std::map<std::string, std::string> values;
@@ -46,17 +45,17 @@ namespace ouzel
             Data(const std::string& filename);
             Data(const std::vector<uint8_t>& data);
 
-            bool init(const std::string& filename);
-            bool init(const std::vector<uint8_t>& data);
-            bool save(const std::string& filename) const;
-            bool encode(std::vector<uint8_t>& data) const;
+            void init(const std::string& filename);
+            void init(const std::vector<uint8_t>& data);
+            void save(const std::string& filename) const;
+            void encode(std::vector<uint8_t>& data) const;
 
             inline const std::map<std::string, Section>& getSections() const { return sections; }
             bool hasSection(const std::string& name) const;
             Section& getSection(const std::string& name);
             Section getSection(const std::string& name) const;
             void setSection(const std::string& name, const Section& section);
-            bool deleteSection(const std::string& name);
+            void deleteSection(const std::string& name);
 
             bool hasBOM() const { return bom; }
             void setBOM(bool newBOM) { bom = newBOM; }

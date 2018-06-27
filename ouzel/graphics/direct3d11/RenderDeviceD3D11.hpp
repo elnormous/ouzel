@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -45,12 +44,12 @@ namespace ouzel
             };
 
             ID3D11SamplerState* getSamplerState(const SamplerStateDesc& desc);
-            bool setFullscreen(bool newFullscreen);
+            void setFullscreen(bool newFullscreen);
 
         protected:
             RenderDeviceD3D11();
 
-            virtual bool init(Window* newWindow,
+            virtual void init(Window* newWindow,
                               const Size2& newSize,
                               uint32_t newSampleCount,
                               Texture::Filter newTextureFilter,
@@ -61,17 +60,17 @@ namespace ouzel
 
             virtual void setSize(const Size2& newSize);
 
-            virtual bool processCommands(const std::vector<Command>& commands) override;
-            bool resizeBackBuffer(UINT newWidth, UINT newHeight);
-            bool uploadBuffer(ID3D11Buffer* buffer, const void* data, uint32_t dataSize);
-            virtual bool generateScreenshot(const std::string& filename) override;
+            virtual void processCommands(CommandBuffer& commands) override;
+            void resizeBackBuffer(UINT newWidth, UINT newHeight);
+            void uploadBuffer(ID3D11Buffer* buffer, const void* data, uint32_t dataSize);
+            virtual void generateScreenshot(const std::string& filename) override;
             void main();
 
             virtual BlendStateResource* createBlendState() override;
-            virtual TextureResource* createTexture() override;
-            virtual ShaderResource* createShader() override;
-            virtual MeshBufferResource* createMeshBuffer() override;
             virtual BufferResource* createBuffer() override;
+            virtual RenderTargetResource* createRenderTarget() override;
+            virtual ShaderResource* createShader() override;
+            virtual TextureResource* createTexture() override;
 
             IDXGIOutput* getOutput() const;
 

@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <functional>
 #include "Button.hpp"
@@ -45,37 +44,29 @@ namespace ouzel
             if (!normalImage.empty())
             {
                 normalSprite.reset(new scene::Sprite());
-                if (normalSprite->init(normalImage, true))
-                {
-                    addComponent(normalSprite.get());
-                }
+                normalSprite->init(normalImage, true);
+                addComponent(normalSprite.get());
             }
 
             if (!selectedImage.empty())
             {
                 selectedSprite.reset(new scene::Sprite());
-                if (selectedSprite->init(selectedImage, true))
-                {
-                    addComponent(selectedSprite.get());
-                }
+                selectedSprite->init(selectedImage, true);
+                addComponent(selectedSprite.get());
             }
 
             if (!pressedImage.empty())
             {
                 pressedSprite.reset(new scene::Sprite());
-                if (pressedSprite->init(pressedImage, true))
-                {
-                    addComponent(pressedSprite.get());
-                }
+                pressedSprite->init(pressedImage, true);
+                addComponent(pressedSprite.get());
             }
 
             if (!disabledImage.empty())
             {
                 disabledSprite.reset(new scene::Sprite());
-                if (disabledSprite->init(disabledImage, true))
-                {
-                    addComponent(disabledSprite.get());
-                }
+                disabledSprite->init(disabledImage, true);
+                addComponent(disabledSprite.get());
             }
 
             if (!label.empty())
@@ -153,49 +144,31 @@ namespace ouzel
             if (enabled)
             {
                 if (pressed && pointerOver && pressedSprite)
-                {
                     pressedSprite->setHidden(false);
-                }
                 else if (selected && selectedSprite)
-                {
                     selectedSprite->setHidden(false);
-                }
                 else if (normalSprite)
-                {
                     normalSprite->setHidden(false);
-                }
 
                 if (labelDrawable)
                 {
                     if (pressed && pointerOver)
-                    {
                         labelDrawable->setColor(labelPressedColor);
-                    }
                     else if (selected)
-                    {
                         labelDrawable->setColor(labelSelectedColor);
-                    }
                     else
-                    {
                         labelDrawable->setColor(labelColor);
-                    }
                 }
             }
             else // disabled
             {
                 if (disabledSprite)
-                {
                     disabledSprite->setHidden(false);
-                }
                 else if (normalSprite)
-                {
                     normalSprite->setHidden(false);
-                }
 
                 if (labelDrawable)
-                {
                     labelDrawable->setColor(labelDisabledColor);
-                }
             }
         }
     } // namespace gui

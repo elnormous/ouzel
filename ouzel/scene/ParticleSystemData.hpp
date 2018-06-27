@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -29,31 +28,31 @@ namespace ouzel
 
             std::string name;
 
-            uint32_t blendFuncSource = 1;
-            uint32_t blendFuncDestination = 771;
+            uint32_t blendFuncSource = 0;
+            uint32_t blendFuncDestination = 0;
 
             EmitterType emitterType = EmitterType::GRAVITY;
-            uint32_t maxParticles = 77;
-            float duration = -1.0F;
-            float particleLifespan = 1.0F;
+            uint32_t maxParticles = 0;
+            float duration = 0.0F;
+            float particleLifespan = 0.0F;
             float particleLifespanVariance = 0.0F;
 
-            float speed = 225.0F;
-            float speedVariance = 30.0F;
+            float speed = 0.0F;
+            float speedVariance = 0.0F;
 
             Vector2 sourcePosition;
             Vector2 sourcePositionVariance;
 
             PositionType positionType = PositionType::FREE;
 
-            float startParticleSize = 64.0F;
-            float startParticleSizeVariance = 5.0F;
+            float startParticleSize = 0.0F;
+            float startParticleSizeVariance = 0.0F;
 
             float finishParticleSize = 0.0F;
             float finishParticleSizeVariance = 0.0F;
 
-            float angle = 90.0F;
-            float angleVariance = 10.0F;
+            float angle = 0.0F;
+            float angleVariance = 0.0F;
 
             float startRotation = 0.0F;
             float startRotationVariance = 0.0F;
@@ -61,10 +60,10 @@ namespace ouzel
             float finishRotation = 0.0F;
             float finishRotationVariance = 0.0F;
 
-            float rotatePerSecond = 360.0F;
+            float rotatePerSecond = 0.0F;
             float rotatePerSecondVariance = 0.0F;
 
-            float minRadius = 300.0F;
+            float minRadius = 0.0F;
             float minRadiusVariance = 0.0F;
 
             float maxRadius = 0.0F;
@@ -77,15 +76,15 @@ namespace ouzel
             float tangentialAccelVariance = 0.0F;
 
             bool absolutePosition = false;
-            bool yCoordFlipped = true;
+            bool yCoordFlipped = false;
             bool rotationIsDir = false;
 
             Vector2 gravity = Vector2(0.0F, 0.0F);
 
-            float startColorRed = 0.372F;
-            float startColorGreen = 0.498F;
-            float startColorBlue = 0.8F;
-            float startColorAlpha = 0.5F;
+            float startColorRed = 0.0F;
+            float startColorGreen = 0.0F;
+            float startColorBlue = 0.0F;
+            float startColorAlpha = 0.0F;
 
             float startColorRedVariance = 0.0F;
             float startColorGreenVariance = 0.0F;

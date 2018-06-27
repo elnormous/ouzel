@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -17,6 +16,7 @@
 #include "assets/Loader.hpp"
 #include "assets/LoaderBMF.hpp"
 #include "assets/LoaderCollada.hpp"
+#include "assets/LoaderGLTF.hpp"
 #include "assets/LoaderImage.hpp"
 #include "assets/LoaderMTL.hpp"
 #include "assets/LoaderOBJ.hpp"
@@ -51,8 +51,6 @@
 #include "graphics/Buffer.hpp"
 #include "graphics/BufferResource.hpp"
 #include "graphics/Material.hpp"
-#include "graphics/MeshBuffer.hpp"
-#include "graphics/MeshBufferResource.hpp"
 #include "graphics/PixelFormat.hpp"
 #include "graphics/Renderer.hpp"
 #include "graphics/RenderResource.hpp"
@@ -76,8 +74,9 @@
 #include "input/Cursor.hpp"
 #include "input/CursorResource.hpp"
 #include "input/Gamepad.hpp"
-#include "input/Input.hpp"
 #include "input/InputDevice.hpp"
+#include "input/InputManager.hpp"
+#include "input/InputSystem.hpp"
 #include "input/Keyboard.hpp"
 #include "input/Mouse.hpp"
 #include "input/Touchpad.hpp"
@@ -87,7 +86,6 @@
 #include "math/Color.hpp"
 #include "math/ConvexVolume.hpp"
 #include "math/MathUtils.hpp"
-#include "math/Matrix3.hpp"
 #include "math/Matrix4.hpp"
 #include "math/Plane.hpp"
 #include "math/Quaternion.hpp"
@@ -104,8 +102,8 @@
 #include "scene/Component.hpp"
 #include "scene/Layer.hpp"
 #include "scene/Light.hpp"
-#include "scene/ModelData.hpp"
-#include "scene/ModelRenderer.hpp"
+#include "scene/MeshData.hpp"
+#include "scene/MeshRenderer.hpp"
 #include "scene/ParticleSystemData.hpp"
 #include "scene/ParticleSystem.hpp"
 #include "scene/Scene.hpp"
@@ -119,6 +117,7 @@
 #include "thread/Lock.hpp"
 #include "thread/Mutex.hpp"
 #include "thread/Thread.hpp"
+#include "utils/Errors.hpp"
 #include "utils/INI.hpp"
 #include "utils/JSON.hpp"
 #include "utils/Log.hpp"

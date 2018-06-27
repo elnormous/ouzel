@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "GamepadTVOS.hpp"
 #include "core/Engine.hpp"
@@ -145,9 +144,7 @@ namespace ouzel
             };
 
             if (controller.vendorName)
-            {
                 name = [controller.vendorName cStringUsingEncoding:NSASCIIStringEncoding];
-            }
 
             attached = (controller.isAttachedToDevice == YES);
         }
@@ -167,7 +164,7 @@ namespace ouzel
             return static_cast<int32_t>(controller.playerIndex);
         }
 
-        bool GamepadTVOS::setPlayerIndex(int32_t playerIndex)
+        void GamepadTVOS::setPlayerIndex(int32_t playerIndex)
         {
             switch (playerIndex)
             {
@@ -187,8 +184,6 @@ namespace ouzel
                     controller.playerIndex = GCControllerPlayerIndexUnset;
                     break;
             }
-
-            return true;
         }
     } // namespace input
 } // namespace ouzel

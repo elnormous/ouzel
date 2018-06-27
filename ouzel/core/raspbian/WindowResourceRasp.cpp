@@ -1,8 +1,7 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "WindowResourceRasp.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -14,13 +13,12 @@ namespace ouzel
     WindowResourceRasp::~WindowResourceRasp()
     {
         if (display != DISPMANX_NO_HANDLE)
-        {
             vc_dispmanx_display_close(display);
-        }
+
         bcm_host_deinit();
     }
 
-    bool WindowResourceRasp::init(const Size2& newSize,
+    void WindowResourceRasp::init(const Size2& newSize,
                                   bool newResizable,
                                   bool newFullscreen,
                                   bool newExclusiveFullscreen,
@@ -28,32 +26,23 @@ namespace ouzel
                                   bool newHighDpi,
                                   bool depth)
     {
-        if (!WindowResource::init(newSize,
-                                  newResizable,
-                                  newFullscreen,
-                                  newExclusiveFullscreen,
-                                  newTitle,
-                                  newHighDpi,
-                                  depth))
-        {
-            return false;
-        }
+        WindowResource::init(newSize,
+                             newResizable,
+                             newFullscreen,
+                             newExclusiveFullscreen,
+                             newTitle,
+                             newHighDpi,
+                             depth);
 
         display = vc_dispmanx_display_open(0);
         if (display == DISPMANX_NO_HANDLE)
-        {
-            Log(Log::Level::ERR) << "Failed to open display";
-            return false;
-        }
+            throw SystemError("Failed to open display");
 
         DISPMANX_MODEINFO_T modeInfo;
         int32_t success = vc_dispmanx_display_get_info(display, &modeInfo);
 
         if (success < 0)
-        {
-            Log(Log::Level::ERR) << "Failed to get display size";
-            return false;
-        }
+            throw SystemError("Failed to get display size");
 
         VC_RECT_T dstRect;
         dstRect.x = 0;
@@ -70,10 +59,7 @@ namespace ouzel
         DISPMANX_UPDATE_HANDLE_T dispmanUpdate = vc_dispmanx_update_start(0);
 
         if (dispmanUpdate == DISPMANX_NO_HANDLE)
-        {
-            Log(Log::Level::ERR) << "Failed to start display update";
-            return false;
-        }
+            throw SystemError("Failed to start display update");
 
         DISPMANX_ELEMENT_HANDLE_T dispmanElement = vc_dispmanx_element_add(dispmanUpdate, display,
                                                                            0, &dstRect, 0,
@@ -88,7 +74,5 @@ namespace ouzel
         size.width = static_cast<float>(modeInfo.width);
         size.height = static_cast<float>(modeInfo.height);
         resolution = size;
-
-        return true;
     }
 }

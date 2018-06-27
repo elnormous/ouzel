@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "SoundData.hpp"
 #include "Audio.hpp"
@@ -17,30 +16,20 @@ namespace ouzel
         {
         }
 
-        bool SoundData::init(const std::string& filename)
+        void SoundData::init(const std::string& filename)
         {
-            std::vector<uint8_t> data;
-            if (!engine->getFileSystem()->readFile(filename, data))
-            {
-                return false;
-            }
-
-            return init(data);
+            init(engine->getFileSystem()->readFile(filename));
         }
 
-        bool SoundData::init(const std::vector<uint8_t>&)
+        void SoundData::init(const std::vector<uint8_t>&)
         {
-            return true;
         }
 
-        bool SoundData::getData(Stream* stream, uint32_t frames, uint32_t neededChannels, uint32_t neededSampleRate, float pitch, std::vector<float>& result)
+        void SoundData::getData(Stream* stream, uint32_t frames, uint32_t neededChannels, uint32_t neededSampleRate, float pitch, std::vector<float>& result)
         {
             uint32_t neededFrames = static_cast<uint32_t>(frames * pitch * sampleRate / neededSampleRate);
 
-            if (!readData(stream, neededFrames, tempData))
-            {
-                return false;
-            }
+            readData(stream, neededFrames, tempData);
 
             if (pitch != 1.0F)
             {
@@ -49,9 +38,7 @@ namespace ouzel
                 Audio::resample(tempData, srcFrames, resampledData, frames, channels);
             }
             else
-            {
                 resampledData = tempData;
-            }
 
             if (neededChannels != channels)
             {
@@ -232,11 +219,7 @@ namespace ouzel
                 }
             }
             else
-            {
                 result = resampledData;
-            }
-
-            return true;
         }
     } // namespace audio
 } // namespace ouzel

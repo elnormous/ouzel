@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <algorithm>
 #include "TextureResource.hpp"
@@ -7,6 +6,7 @@
 #include "RenderDevice.hpp"
 #include "core/Engine.hpp"
 #include "math/MathUtils.hpp"
+#include "utils/Errors.hpp"
 
 extern uint8_t GAMMA_ENCODE[256];
 extern float GAMMA_DECODE[256];
@@ -23,7 +23,7 @@ namespace ouzel
         {
         }
 
-        bool TextureResource::init(const Size2& newSize,
+        void TextureResource::init(const Size2& newSize,
                                    uint32_t newFlags,
                                    uint32_t newMipmaps,
                                    uint32_t newSampleCount,
@@ -34,15 +34,13 @@ namespace ouzel
             sampleCount = newSampleCount;
             pixelFormat = newPixelFormat;
 
-            if (!calculateSizes(newSize))
-            {
-                return false;
-            }
+            if ((flags & Texture::RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
+                throw DataError("Invalid mip map count");
 
-            return true;
+            calculateSizes(newSize);
         }
 
-        bool TextureResource::init(const std::vector<uint8_t>& newData,
+        void TextureResource::init(const std::vector<uint8_t>& newData,
                                    const Size2& newSize,
                                    uint32_t newFlags,
                                    uint32_t newMipmaps,
@@ -53,20 +51,14 @@ namespace ouzel
             sampleCount = 1;
             pixelFormat = newPixelFormat;
 
-            if (!calculateSizes(newSize))
-            {
-                return false;
-            }
+            if ((flags & Texture::RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
+                throw DataError("Invalid mip map count");
 
-            if (!calculateData(newData))
-            {
-                return false;
-            }
-
-            return true;
+            calculateSizes(newSize);
+            calculateData(newData);
         }
 
-        bool TextureResource::init(const std::vector<Texture::Level>& newLevels,
+        void TextureResource::init(const std::vector<Texture::Level>& newLevels,
                                    const Size2& newSize,
                                    uint32_t newFlags,
                                    PixelFormat newPixelFormat)
@@ -78,61 +70,34 @@ namespace ouzel
             sampleCount = 1;
             pixelFormat = newPixelFormat;
 
-            return true;
+            if ((flags & Texture::RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
+                throw DataError("Invalid mip map count");
         }
 
-        bool TextureResource::setSize(const Size2& newSize)
+        void TextureResource::setSize(const Size2& newSize)
         {
             if (!(flags & Texture::DYNAMIC))
-            {
-                return false;
-            }
+                throw DataError("Texture is not dynamic");
 
             if (newSize.width <= 0.0F || newSize.height <= 0.0F)
-            {
-                return false;
-            }
+                throw DataError("Invalid texture size");
 
-            if (newSize != size)
-            {
-                if (!calculateSizes(newSize))
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            if (newSize != size) calculateSizes(newSize);
         }
 
-        bool TextureResource::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
+        void TextureResource::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
         {
             if (!(flags & Texture::DYNAMIC) || flags & Texture::RENDER_TARGET)
-            {
-                return false;
-            }
+                throw DataError("Texture is not dynamic");
 
             if (newSize.width <= 0.0F || newSize.height <= 0.0F)
-            {
-                return false;
-            }
+                throw DataError("Invalid texture size");
 
-            if (newSize != size)
-            {
-                if (!calculateSizes(newSize))
-                {
-                    return false;
-                }
-            }
-
-            if (!calculateData(newData))
-            {
-                return false;
-            }
-
-            return true;
+            if (newSize != size) calculateSizes(newSize);
+            calculateData(newData);
         }
 
-        bool TextureResource::calculateSizes(const Size2& newSize)
+        void TextureResource::calculateSizes(const Size2& newSize)
         {
             levels.clear();
             size = newSize;
@@ -163,14 +128,12 @@ namespace ouzel
                     levels.push_back({mipMapSize, pitch, std::vector<uint8_t>(bufferSize)});
                 }
             }
-
-            return true;
         }
 
         static void imageA8Downsample2x2(uint32_t width, uint32_t height, uint32_t pitch, const uint8_t* src, uint8_t* dst)
         {
-            const uint32_t dstWidth  = width / 2;
-            const uint32_t dstHeight = height / 2;
+            const uint32_t dstWidth = width >> 1;
+            const uint32_t dstHeight = height >> 1;
 
             if (dstWidth > 0 && dstHeight > 0)
             {
@@ -224,8 +187,8 @@ namespace ouzel
 
         static void imageR8Downsample2x2(uint32_t width, uint32_t height, uint32_t pitch, const uint8_t* src, uint8_t* dst)
         {
-            const uint32_t dstWidth  = width / 2;
-            const uint32_t dstHeight = height / 2;
+            const uint32_t dstWidth = width >> 1;
+            const uint32_t dstHeight = height >> 1;
 
             if (dstWidth > 0 && dstHeight > 0)
             {
@@ -279,8 +242,8 @@ namespace ouzel
 
         static void imageRG8Downsample2x2(uint32_t width, uint32_t height, uint32_t pitch, const uint8_t* src, uint8_t* dst)
         {
-            const uint32_t dstWidth  = width / 2;
-            const uint32_t dstHeight = height / 2;
+            const uint32_t dstWidth = width >> 1;
+            const uint32_t dstHeight = height >> 1;
 
             if (dstWidth > 0 && dstHeight > 0)
             {
@@ -365,8 +328,8 @@ namespace ouzel
 
         static void imageRGBA8Downsample2x2(uint32_t width, uint32_t height, uint32_t pitch, const uint8_t* src, uint8_t* dst)
         {
-            const uint32_t dstWidth  = width / 2;
-            const uint32_t dstHeight = height / 2;
+            const uint32_t dstWidth = width >> 1;
+            const uint32_t dstHeight = height >> 1;
 
             if (dstWidth > 0 && dstHeight > 0)
             {
@@ -544,7 +507,7 @@ namespace ouzel
             }
         }
 
-        bool TextureResource::calculateData(const std::vector<uint8_t>& newData)
+        void TextureResource::calculateData(const std::vector<uint8_t>& newData)
         {
             levels[0].data = newData;
 
@@ -554,69 +517,72 @@ namespace ouzel
                 uint32_t previousHeight = static_cast<uint32_t>(levels[level - 1].size.height);
                 uint32_t previousPitch = static_cast<uint32_t>(levels[level - 1].pitch);
 
-                if (pixelFormat == PixelFormat::RGBA8_UNORM) imageRGBA8Downsample2x2(previousWidth, previousHeight, previousPitch, levels[level - 1].data.data(), levels[level].data.data());
-                else if (pixelFormat == PixelFormat::RG8_UNORM) imageRG8Downsample2x2(previousWidth, previousHeight, previousPitch, levels[level - 1].data.data(), levels[level].data.data());
-                else if (pixelFormat == PixelFormat::R8_UNORM) imageR8Downsample2x2(previousWidth, previousHeight, previousPitch, levels[level - 1].data.data(), levels[level].data.data());
-                else if (pixelFormat == PixelFormat::A8_UNORM) imageA8Downsample2x2(previousWidth, previousHeight, previousPitch, levels[level - 1].data.data(), levels[level].data.data());
-            }
+                switch (pixelFormat)
+                {
+                    case PixelFormat::RGBA8_UNORM:
+                        imageRGBA8Downsample2x2(previousWidth, previousHeight, previousPitch,
+                                                levels[level - 1].data.data(), levels[level].data.data());
+                        break;
 
-            return true;
+                    case PixelFormat::RG8_UNORM:
+                        imageRG8Downsample2x2(previousWidth, previousHeight, previousPitch,
+                                              levels[level - 1].data.data(), levels[level].data.data());
+                        break;
+
+                    case PixelFormat::R8_UNORM:
+                        imageR8Downsample2x2(previousWidth, previousHeight, previousPitch,
+                                             levels[level - 1].data.data(), levels[level].data.data());
+                        break;
+
+                    case PixelFormat::A8_UNORM:
+                        imageA8Downsample2x2(previousWidth, previousHeight, previousPitch,
+                                             levels[level - 1].data.data(), levels[level].data.data());
+                        break;
+
+                    default:
+                        throw DataError("Invalid pixel format");
+                }
+            }
         }
 
-        bool TextureResource::setFilter(Texture::Filter newFilter)
+        void TextureResource::setFilter(Texture::Filter newFilter)
         {
             filter = newFilter;
-
-            return true;
         }
 
-        bool TextureResource::setAddressX(Texture::Address newAddressX)
+        void TextureResource::setAddressX(Texture::Address newAddressX)
         {
             addressX = newAddressX;
-
-            return true;
         }
 
-        bool TextureResource::setAddressY(Texture::Address newAddressY)
+        void TextureResource::setAddressY(Texture::Address newAddressY)
         {
             addressY = newAddressY;
-
-            return true;
         }
 
-        bool TextureResource::setMaxAnisotropy(uint32_t newMaxAnisotropy)
+        void TextureResource::setMaxAnisotropy(uint32_t newMaxAnisotropy)
         {
             maxAnisotropy = newMaxAnisotropy;
-
-            return true;
         }
 
-        bool TextureResource::setClearColorBuffer(bool clear)
+        void TextureResource::setClearColorBuffer(bool clear)
         {
             clearColorBuffer = clear;
-
-            return true;
         }
 
-        bool TextureResource::setClearDepthBuffer(bool clear)
+        void TextureResource::setClearDepthBuffer(bool clear)
         {
             clearDepthBuffer = clear;
-
-            return true;
         }
 
-        bool TextureResource::setClearColor(Color color)
+        void TextureResource::setClearColor(Color color)
         {
             clearColor = color;
-
-            return true;
         }
 
-        bool TextureResource::setClearDepth(float clear)
+        void TextureResource::setClearDepth(float clear)
         {
             clearDepth = clear;
-
-            return true;
         }
     } // namespace graphics
 } // namespace ouzel

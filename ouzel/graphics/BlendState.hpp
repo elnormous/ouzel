@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -58,7 +57,7 @@ namespace ouzel
             BlendState(BlendState&&) = delete;
             BlendState& operator=(BlendState&&) = delete;
 
-            bool init(bool newEnableBlending,
+            void init(bool newEnableBlending,
                       Factor newColorBlendSource, Factor newColorBlendDest,
                       Operation newColorOperation,
                       Factor newAlphaBlendSource, Factor newAlphaBlendDest,

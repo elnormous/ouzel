@@ -1,29 +1,30 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "core/Setup.h"
 
 #if OUZEL_PLATFORM_IOS && OUZEL_COMPILE_METAL
 
-#import "core/ios/DisplayLinkHandler.h"
 #include "RenderDeviceMetalIOS.hpp"
 #include "MetalView.h"
 #include "core/Window.hpp"
 #include "core/ios/WindowResourceIOS.hpp"
-#include "utils/Log.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        RenderDeviceMetalIOS::~RenderDeviceMetalIOS()
+        RenderDeviceMetalIOS::RenderDeviceMetalIOS():
+            displayLink(*this)
         {
-            if (displayLinkHandler) [displayLinkHandler stop];
-            flushCommands();
-            if (displayLinkHandler) [displayLinkHandler dealloc];
         }
 
-        bool RenderDeviceMetalIOS::init(Window* newWindow,
+        RenderDeviceMetalIOS::~RenderDeviceMetalIOS()
+        {
+            displayLink.stop();
+            flushCommands();
+        }
+
+        void RenderDeviceMetalIOS::init(Window* newWindow,
                                         const Size2& newSize,
                                         uint32_t newSampleCount,
                                         Texture::Filter newTextureFilter,
@@ -32,17 +33,14 @@ namespace ouzel
                                         bool newDepth,
                                         bool newDebugRenderer)
         {
-            if (!RenderDeviceMetal::init(newWindow,
-                                         newSize,
-                                         newSampleCount,
-                                         newTextureFilter,
-                                         newMaxAnisotropy,
-                                         newVerticalSync,
-                                         newDepth,
-                                         newDebugRenderer))
-            {
-                return false;
-            }
+            RenderDeviceMetal::init(newWindow,
+                                    newSize,
+                                    newSampleCount,
+                                    newTextureFilter,
+                                    newMaxAnisotropy,
+                                    newVerticalSync,
+                                    newDepth,
+                                    newDebugRenderer);
 
             MetalView* view = (MetalView*)static_cast<WindowResourceIOS*>(newWindow->getResource())->getNativeView();
 
@@ -53,9 +51,7 @@ namespace ouzel
 
             colorFormat = metalLayer.pixelFormat;
 
-            displayLinkHandler = [[DisplayLinkHandler alloc] initWithRenderDevice:this andVerticalSync:verticalSync];
-
-            return true;
+            displayLink.start(verticalSync);
         }
     } // namespace graphics
 } // namespace ouzel

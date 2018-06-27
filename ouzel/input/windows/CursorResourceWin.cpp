@@ -1,15 +1,14 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "CursorResourceWin.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
     namespace input
     {
-        CursorResourceWin::CursorResourceWin(Input* initInput):
-            CursorResource(initInput)
+        CursorResourceWin::CursorResourceWin(InputManager& initInputManager):
+            CursorResource(initInputManager)
         {
         }
 
@@ -18,12 +17,9 @@ namespace ouzel
             if (cursor && !shared) DestroyCursor(cursor);
         }
 
-        bool CursorResourceWin::init(SystemCursor newSystemCursor)
+        void CursorResourceWin::init(SystemCursor newSystemCursor)
         {
-            if (!CursorResource::init(newSystemCursor))
-            {
-                return false;
-            }
+            CursorResource::init(newSystemCursor);
 
             if (cursor)
             {
@@ -60,30 +56,22 @@ namespace ouzel
             }
 
             if (!cursor)
-            {
-                Log(Log::Level::ERR) << "Failed to load cursor";
-                return false;
-            }
+                throw SystemError("Failed to load cursor");
 
             shared = true;
 
             reactivate();
-
-            return true;
         }
 
-        bool CursorResourceWin::init(const std::vector<uint8_t>& newData,
+        void CursorResourceWin::init(const std::vector<uint8_t>& newData,
                                      const Size2& newSize,
                                      graphics::PixelFormat newPixelFormat,
                                      const Vector2& newHotSpot)
         {
-            if (!CursorResource::init(newData,
-                                      newSize,
-                                      newPixelFormat,
-                                      newHotSpot))
-            {
-                return false;
-            }
+            CursorResource::init(newData,
+                                 newSize,
+                                 newPixelFormat,
+                                 newHotSpot);
 
             if (cursor)
             {
@@ -120,17 +108,13 @@ namespace ouzel
                 ReleaseDC(nullptr, dc);
 
                 if (!color)
-                {
-                    Log(Log::Level::ERR) << "Failed to create RGBA bitmap";
-                    return false;
-                }
+                    throw SystemError("Failed to create RGBA bitmap");
 
                 HBITMAP mask = CreateBitmap(width, height, 1, 1, nullptr);
                 if (!mask)
                 {
-                    Log(Log::Level::ERR) << "Failed to create mask bitmap";
                     DeleteObject(color);
-                    return false;
+                    throw SystemError("Failed to create mask bitmap");
                 }
 
                 for (LONG i = 0; i < width * height; ++i)
@@ -155,17 +139,12 @@ namespace ouzel
                 DeleteObject(mask);
 
                 if (!cursor)
-                {
-                    Log(Log::Level::ERR) << "Failed to create cursor";
-                    return false;
-                }
+                    throw SystemError("Failed to create cursor");
 
                 shared = false;
             }
 
             reactivate();
-
-            return true;
         }
     } // namespace input
 } // namespace ouzel

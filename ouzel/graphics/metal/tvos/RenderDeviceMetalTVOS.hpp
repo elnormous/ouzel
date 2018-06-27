@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -8,6 +7,7 @@
 #if OUZEL_PLATFORM_TVOS && OUZEL_COMPILE_METAL
 
 #include "graphics/metal/RenderDeviceMetal.hpp"
+#include "core/tvos/DisplayLink.hpp"
 
 namespace ouzel
 {
@@ -17,10 +17,11 @@ namespace ouzel
         {
             friend Renderer;
         public:
+            RenderDeviceMetalTVOS();
             virtual ~RenderDeviceMetalTVOS();
 
         private:
-            virtual bool init(Window* newWindow,
+            virtual void init(Window* newWindow,
                               const Size2& newSize,
                               uint32_t newSampleCount,
                               Texture::Filter newTextureFilter,
@@ -30,7 +31,7 @@ namespace ouzel
                               bool newDebugRenderer) override;
 
         private:
-            id displayLinkHandler = nil;
+            DisplayLink displayLink;
         };
     } // namespace graphics
 } // namespace ouzel

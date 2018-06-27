@@ -1,9 +1,7 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
-#include "math/Matrix4.hpp"
 #include "math/Vector3.hpp"
 
 namespace ouzel
@@ -11,9 +9,6 @@ namespace ouzel
     class Quaternion
     {
     public:
-        static const Quaternion IDENTITY;
-        static const Quaternion ZERO;
-
         float x = 0.0F;
         float y = 0.0F;
         float z = 0.0F;
@@ -31,6 +26,11 @@ namespace ouzel
         Quaternion(const Quaternion& copy):
             x(copy.x), y(copy.y), z(copy.z), w(copy.w)
         {
+        }
+
+        static Quaternion identity()
+        {
+            return Quaternion(0.0F, 0.0F, 0.0F, 1.0F);
         }
 
         Quaternion operator*(const Quaternion& q) const
@@ -203,57 +203,17 @@ namespace ouzel
 
         inline Vector3 getRightVector() const
         {
-            return rotateVector(Vector3::UNIT_X);
+            return rotateVector(Vector3(1.0F, 0.0F, 0.0F));
         }
 
         inline Vector3 getUpVector() const
         {
-            return rotateVector(Vector3::UNIT_Y);
+            return rotateVector(Vector3(0.0F, 1.0F, 0.0F));
         }
 
         inline Vector3 getForwardVector() const
         {
-            return rotateVector(Vector3::UNIT_Z);
-        }
-
-        Matrix4 getMatrix() const
-        {
-            Matrix4 result;
-
-            float wx = w * x;
-            float wy = w * y;
-            float wz = w * z;
-
-            float xx = x * x;
-            float xy = x * y;
-            float xz = x * z;
-
-            float yy = y * y;
-            float yz = y * z;
-
-            float zz = z * z;
-
-            result.m[0] = 1.0F - 2.0F * (yy + zz);
-            result.m[4] = 2.0F * (xy - wz);
-            result.m[8] = 2.0F * (xz + wy);
-            result.m[12] = 0.0F;
-
-            result.m[1] = 2.0F * (xy + wz);
-            result.m[5] = 1.0F - 2.0F * (xx + zz);
-            result.m[9] = 2.0F * (yz - wx);
-            result.m[13] = 0.0F;
-
-            result.m[2] = 2.0F * (xz - wy);
-            result.m[6] = 2.0F * (yz + wx);
-            result.m[10] = 1.0F - 2.0F * (xx + yy);
-            result.m[14] = 0.0F;
-
-            result.m[3] = 0.0F;
-            result.m[7] = 0.0F;
-            result.m[11] = 0.0F;
-            result.m[15] = 1.0F;
-
-            return result;
+            return rotateVector(Vector3(0.0F, 0.0F, 1.0F));
         }
 
         Quaternion& lerp(const Quaternion& q1, const Quaternion& q2, float t)

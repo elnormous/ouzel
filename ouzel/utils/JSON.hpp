@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -243,18 +242,18 @@ namespace ouzel
             }
 
         protected:
-            bool parseValue(const std::vector<Token>& tokens,
+            void parseValue(const std::vector<Token>& tokens,
                             std::vector<Token>::const_iterator& iterator);
-            bool parseObject(const std::vector<Token>& tokens,
+            void parseObject(const std::vector<Token>& tokens,
                              std::vector<Token>::const_iterator& iterator);
-            bool parseArray(const std::vector<Token>& tokens,
+            void parseArray(const std::vector<Token>& tokens,
                             std::vector<Token>::const_iterator& iterator);
-            bool encodeValue(std::vector<uint8_t>& data) const;
+            void encodeValue(std::vector<uint8_t>& data) const;
 
             Type type = Type::NONE;
             bool boolValue = false;
             bool nullValue = false;
-            double doubleValue = 0.0f;
+            double doubleValue = 0.0;
             std::map<std::string, Value> objectValue;
             std::vector<Value> arrayValue;
             std::string stringValue;
@@ -267,16 +266,16 @@ namespace ouzel
             Data(const std::string& filename);
             Data(const std::vector<uint8_t>& data);
 
-            bool init(const std::string& filename);
-            bool init(const std::vector<uint8_t>& data);
+            void init(const std::string& filename);
+            void init(const std::vector<uint8_t>& data);
 
-            bool save(const std::string& filename) const;
-            bool encode(std::vector<uint8_t>& data) const;
+            void save(const std::string& filename) const;
+            void encode(std::vector<uint8_t>& data) const;
 
             bool hasBOM() const { return bom; }
             void setBOM(bool newBOM) { bom = newBOM; }
 
-        protected:
+        private:
             bool bom = false;
         };
     } // namespace json

@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -8,6 +7,7 @@
 #if OUZEL_PLATFORM_TVOS && OUZEL_COMPILE_OPENGL
 
 #include "graphics/opengl/RenderDeviceOGL.hpp"
+#include "core/tvos/DisplayLink.hpp"
 
 #if defined(__OBJC__)
 #import <UIKit/UIKit.h>
@@ -27,10 +27,11 @@ namespace ouzel
         {
             friend Renderer;
         public:
+            RenderDeviceOGLTVOS();
             virtual ~RenderDeviceOGLTVOS();
 
         private:
-            virtual bool init(Window* newWindow,
+            virtual void init(Window* newWindow,
                               const Size2& newSize,
                               uint32_t newSampleCount,
                               Texture::Filter newTextureFilter,
@@ -40,10 +41,10 @@ namespace ouzel
                               bool newDebugRenderer) override;
 
             virtual void setSize(const Size2& newSize) override;
-            virtual bool lockContext() override;
-            virtual bool swapBuffers() override;
+            virtual void lockContext() override;
+            virtual void swapBuffers() override;
 
-            bool createFrameBuffer();
+            void createFrameBuffer();
 
             EAGLContextPtr context = nil;
             CAEAGLLayerPtr eaglLayer = nil;
@@ -56,7 +57,7 @@ namespace ouzel
 
             GLuint depthRenderBufferId = 0;
 
-            id displayLinkHandler = nil;
+            DisplayLink displayLink;
         };
     } // namespace graphics
 } // namespace ouzel

@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -10,7 +9,7 @@
 #include "scene/Actor.hpp"
 #include "math/Vector2.hpp"
 #include "math/Size2.hpp"
-#include "input/Input.hpp"
+#include "input/InputManager.hpp"
 #include "input/Gamepad.hpp"
 #include "input/InputDevice.hpp"
 #include "input/Keyboard.hpp"

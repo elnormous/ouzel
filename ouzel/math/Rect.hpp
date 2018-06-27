@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -116,9 +115,9 @@ namespace ouzel
                 point.y >= position.y && point.y <= (position.y + size.height);
         }
 
-        bool contains(float x, float y, float aWidth, float aHeight) const
+        bool contains(float x, float y, float width, float height) const
         {
-            return containsPoint(x, y) && containsPoint(x + aWidth, y + aHeight);
+            return containsPoint(x, y) && containsPoint(x + width, y + height);
         }
 
         bool contains(const Rect& r) const
@@ -126,12 +125,12 @@ namespace ouzel
             return contains(r.position.x, r.position.y, r.size.width, r.size.height);
         }
 
-        bool intersects(float aX, float aY, float aWidth, float aHeight) const
+        bool intersects(float x, float y, float width, float height) const
         {
             float t;
-            if ((t = aX - position.x) > size.width || -t > aWidth)
+            if ((t = x - position.x) > size.width || -t > width)
                 return false;
-            if ((t = aY - position.y) > size.height || -t > aHeight)
+            if ((t = y - position.y) > size.height || -t > height)
                 return false;
             return true;
         }
@@ -141,9 +140,9 @@ namespace ouzel
             return intersects(r.position.x, r.position.y, r.size.width, r.size.height);
         }
 
-        static bool intersect(const Rect& r1, const Rect& r2, Rect* dst);
+        static bool intersect(const Rect& r1, const Rect& r2, Rect& dst);
 
-        static void combine(const Rect& r1, const Rect& r2, Rect* dst);
+        static void combine(const Rect& r1, const Rect& r2, Rect& dst);
 
         void inflate(float horizontalAmount, float verticalAmount)
         {

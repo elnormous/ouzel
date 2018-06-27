@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -26,15 +25,16 @@ namespace ouzel
         Mutex(Mutex&&) = delete;
         Mutex& operator=(Mutex&&) = delete;
 
-        bool lock();
+        void lock();
         bool tryLock();
-        bool unlock();
+        void unlock();
 
-    protected:
+    private:
 #if defined(_WIN32)
         CRITICAL_SECTION criticalSection;
 #else
         pthread_mutex_t mutex;
+        bool initialized = false;
 #endif
     };
 }

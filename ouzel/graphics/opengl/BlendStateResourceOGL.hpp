@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -8,15 +7,15 @@
 #if OUZEL_COMPILE_OPENGL
 
 #if OUZEL_SUPPORTS_OPENGLES
-#define GL_GLEXT_PROTOTYPES 1
-#include "GLES/gl.h"
-#include "GLES2/gl2.h"
-#include "GLES2/gl2ext.h"
-#include "GLES3/gl3.h"
+#  define GL_GLEXT_PROTOTYPES 1
+#  include "GLES/gl.h"
+#  include "GLES2/gl2.h"
+#  include "GLES2/gl2ext.h"
+#  include "GLES3/gl3.h"
 #else
-#define GL_GLEXT_PROTOTYPES 1
-#include "GL/glcorearb.h"
-#include "GL/glext.h"
+#  define GL_GLEXT_PROTOTYPES 1
+#  include "GL/glcorearb.h"
+#  include "GL/glext.h"
 #endif
 
 #include "graphics/BlendStateResource.hpp"
@@ -30,7 +29,7 @@ namespace ouzel
         public:
             BlendStateResourceOGL();
 
-            virtual bool init(bool newEnableBlending,
+            virtual void init(bool newEnableBlending,
                               BlendState::Factor newColorBlendSource, BlendState::Factor newColorBlendDest,
                               BlendState::Operation newColorOperation,
                               BlendState::Factor newAlphaBlendSource, BlendState::Factor newAlphaBlendDest,
@@ -51,7 +50,7 @@ namespace ouzel
             inline GLboolean getBlueMask() const { return blueMask; }
             inline GLboolean getAlphaMask() const { return alphaMask; }
 
-        protected:
+        private:
             GLenum modeRGB = GL_NONE;
             GLenum modeAlpha = GL_NONE;
             GLenum sourceFactorRGB = GL_NONE;

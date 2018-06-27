@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -39,30 +38,24 @@ namespace ouzel
 
             inline Actor* getTargetActor() const { return targetActor; }
 
-            void addAnimator(Animator* animator)
+            virtual void addAnimator(Animator* animator);
+
+            template<typename T> void addAnimator(const std::unique_ptr<T>& animator)
             {
-                addChildAnimator(animator);
+                addAnimator(animator.get());
             }
 
-            template<class T> void addAnimator(const std::unique_ptr<T>& animator)
+            template<typename T> void addAnimator(std::unique_ptr<T>&& animator)
             {
-                addChildAnimator(animator.get());
-            }
-
-            template<class T> void addAnimator(std::unique_ptr<T>&& animator)
-            {
-                addChildAnimator(animator.get());
+                addAnimator(animator.get());
                 ownedAnimators.push_back(std::move(animator));
             }
 
-            bool removeAnimator(Animator* animator)
-            {
-                return removeChildAnimator(animator);
-            }
+            virtual bool removeAnimator(Animator* animator);
 
-            template<class T> bool removeAnimator(const std::unique_ptr<T>& animator)
+            template<typename T> bool removeAnimator(const std::unique_ptr<T>& animator)
             {
-                return removeChildAnimator(animator.get());
+                return removeAnimator(animator.get());
             }
 
             void removeAllAnimators();
@@ -71,9 +64,6 @@ namespace ouzel
             void removeFromParent();
 
         protected:
-            virtual void addChildAnimator(Animator* animator);
-            virtual bool removeChildAnimator(Animator* animator);
-
             virtual void updateProgress() {}
 
             float length = 0.0F;

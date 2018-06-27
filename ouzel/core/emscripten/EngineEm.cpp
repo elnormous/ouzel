@@ -1,20 +1,17 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <cstdlib>
 #include <emscripten.h>
 #include "EngineEm.hpp"
 #include "audio/AudioDevice.hpp"
 #include "graphics/RenderDevice.hpp"
-#include "input/emscripten/InputEm.hpp"
+#include "input/emscripten/InputManagerEm.hpp"
 #include "utils/Utils.hpp"
 
 static void loop(void* arg)
 {
     if (!reinterpret_cast<ouzel::EngineEm*>(arg)->step())
-    {
         emscripten_cancel_main_loop();
-    }
 }
 
 namespace ouzel
@@ -22,23 +19,15 @@ namespace ouzel
     EngineEm::EngineEm(int argc, char* argv[])
     {
         for (int i = 0; i < argc; ++i)
-        {
             args.push_back(argv[i]);
-        }
     }
 
-    int EngineEm::run()
+    void EngineEm::run()
     {
-        if (!init())
-        {
-            return EXIT_FAILURE;
-        }
-
+        init();
         start();
 
         emscripten_set_main_loop_arg(loop, this, 0, 1);
-
-        return EXIT_SUCCESS;
     }
 
     bool EngineEm::step()
@@ -48,14 +37,12 @@ namespace ouzel
 
         if (!active ||
             !renderer->getDevice()->process())
-        {
             return false;
-        }
 
         // TODO: check for result of the AudioDevice::process
         audio->getDevice()->process();
 
-        input::InputEm* inputEm = static_cast<input::InputEm*>(input.get());
+        input::InputManagerEm* inputEm = static_cast<input::InputManagerEm*>(inputManager.get());
         inputEm->update();
 
         return active;
@@ -66,10 +53,8 @@ namespace ouzel
         if (func) func();
     }
 
-    bool EngineEm::openURL(const std::string& url)
+    void EngineEm::openURL(const std::string& url)
     {
         EM_ASM_ARGS({window.open(Pointer_stringify($0));}, url.c_str());
-
-        return true;
     }
 }

@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "core/Setup.h"
 
@@ -7,13 +6,13 @@
 
 #include "BlendStateResourceD3D11.hpp"
 #include "RenderDeviceD3D11.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        BlendStateResourceD3D11::BlendStateResourceD3D11(RenderDeviceD3D11* initRenderDeviceD3D11):
+        BlendStateResourceD3D11::BlendStateResourceD3D11(RenderDeviceD3D11& initRenderDeviceD3D11):
             renderDeviceD3D11(initRenderDeviceD3D11)
         {
         }
@@ -21,9 +20,7 @@ namespace ouzel
         BlendStateResourceD3D11::~BlendStateResourceD3D11()
         {
             if (blendState)
-            {
                 blendState->Release();
-            }
         }
 
         static D3D11_BLEND getBlendFactor(BlendState::Factor blendFactor)
@@ -60,22 +57,19 @@ namespace ouzel
             }
         }
 
-        bool BlendStateResourceD3D11::init(bool newEnableBlending,
+        void BlendStateResourceD3D11::init(bool newEnableBlending,
                                            BlendState::Factor newColorBlendSource, BlendState::Factor newColorBlendDest,
                                            BlendState::Operation newColorOperation,
                                            BlendState::Factor newAlphaBlendSource, BlendState::Factor newAlphaBlendDest,
                                            BlendState::Operation newAlphaOperation,
                                            uint8_t newColorMask)
         {
-            if (!BlendStateResource::init(newEnableBlending,
-                                          newColorBlendSource, newColorBlendDest,
-                                          newColorOperation,
-                                          newAlphaBlendSource, newAlphaBlendDest,
-                                          newAlphaOperation,
-                                          newColorMask))
-            {
-                return false;
-            }
+            BlendStateResource::init(newEnableBlending,
+                                     newColorBlendSource, newColorBlendDest,
+                                     newColorOperation,
+                                     newAlphaBlendSource, newAlphaBlendDest,
+                                     newAlphaOperation,
+                                     newColorMask);
 
             // Blending state
             D3D11_BLEND_DESC blendStateDesc;
@@ -99,14 +93,9 @@ namespace ouzel
 
             if (blendState) blendState->Release();
 
-            HRESULT hr = renderDeviceD3D11->getDevice()->CreateBlendState(&blendStateDesc, &blendState);
+            HRESULT hr = renderDeviceD3D11.getDevice()->CreateBlendState(&blendStateDesc, &blendState);
             if (FAILED(hr))
-            {
-                Log(Log::Level::ERR) << "Failed to create Direct3D 11 blend state, error: " << hr;
-                return false;
-            }
-
-            return true;
+                throw DataError("Failed to create Direct3D 11 blend state, error: " + std::to_string(hr));
         }
     } // namespace graphics
 } // namespace ouzel

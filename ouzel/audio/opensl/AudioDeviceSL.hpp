@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -30,7 +29,7 @@ namespace ouzel
 
         protected:
             AudioDeviceSL();
-            virtual bool init(bool debugAudio) override;
+            virtual void init(bool debugAudio) override;
 
         private:
             SLObjectItf engineObject = nullptr;

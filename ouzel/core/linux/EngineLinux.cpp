@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <cstdlib>
 #include <unistd.h>
@@ -12,9 +11,9 @@
 #include "WindowResourceLinux.hpp"
 #include "events/Event.hpp"
 #include "graphics/RenderDevice.hpp"
-#include "input/linux/InputLinux.hpp"
+#include "input/linux/InputManagerLinux.hpp"
 #include "thread/Lock.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -22,30 +21,21 @@ namespace ouzel
         argc(initArgc), argv(initArgv)
     {
         for (int i = 0; i < initArgc; ++i)
-        {
             args.push_back(initArgv[i]);
-        }
     }
 
-    int EngineLinux::run()
+    void EngineLinux::run()
     {
         if (!XInitThreads())
-        {
-            Log(Log::Level::ERR) << "Failed to initialize thread support";
-            return false;
-        }
+            throw SystemError("Failed to initialize thread support");
 
-        if (!init())
-        {
-            return EXIT_FAILURE;
-        }
-
+        init();
         start();
 
         XEvent event;
 
         WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(window.getResource());
-        input::InputLinux* inputLinux = static_cast<input::InputLinux*>(input.get());
+        input::InputManagerLinux* inputLinux = static_cast<input::InputManagerLinux*>(inputManager.get());
 
         while (active)
         {
@@ -59,13 +49,9 @@ namespace ouzel
                     case ClientMessage:
                     {
                         if (event.xclient.message_type == windowLinux->getProtocolsAtom() && static_cast<Atom>(event.xclient.data.l[0]) == windowLinux->getDeleteAtom())
-                        {
                             exit();
-                        }
                         else if (event.xclient.message_type == windowLinux->getExecuteAtom())
-                        {
                             executeAll();
-                        }
                         break;
                     }
                     case FocusIn:
@@ -83,13 +69,13 @@ namespace ouzel
 
                         if (event.type == KeyPress)
                         {
-                            input->keyPress(input::InputLinux::convertKeyCode(keySym),
-                                            input::InputLinux::getModifiers(event.xkey.state));
+                            inputManager->keyPress(input::InputManagerLinux::convertKeyCode(keySym),
+                                                   input::InputManagerLinux::getModifiers(event.xkey.state));
                         }
                         else
                         {
-                            input->keyRelease(input::InputLinux::convertKeyCode(keySym),
-                                              input::InputLinux::getModifiers(event.xkey.state));
+                            inputManager->keyRelease(input::InputManagerLinux::convertKeyCode(keySym),
+                                                     input::InputManagerLinux::getModifiers(event.xkey.state));
                         }
                         break;
                     }
@@ -119,15 +105,15 @@ namespace ouzel
 
                         if (event.type == ButtonPress)
                         {
-                            input->mouseButtonPress(button,
-                                                    window.convertWindowToNormalizedLocation(pos),
-                                                    input::InputLinux::getModifiers(event.xbutton.state));
+                            inputManager->mouseButtonPress(button,
+                                                           window.convertWindowToNormalizedLocation(pos),
+                                                           input::InputManagerLinux::getModifiers(event.xbutton.state));
                         }
                         else
                         {
-                            input->mouseButtonRelease(button,
-                                                      window.convertWindowToNormalizedLocation(pos),
-                                                      input::InputLinux::getModifiers(event.xbutton.state));
+                            inputManager->mouseButtonRelease(button,
+                                                             window.convertWindowToNormalizedLocation(pos),
+                                                             input::InputManagerLinux::getModifiers(event.xbutton.state));
                         }
                         break;
                     }
@@ -136,8 +122,8 @@ namespace ouzel
                         Vector2 pos(static_cast<float>(event.xmotion.x),
                                     static_cast<float>(event.xmotion.y));
 
-                        input->mouseMove(window.convertWindowToNormalizedLocation(pos),
-                                         input::InputLinux::getModifiers(event.xmotion.state));
+                        inputManager->mouseMove(window.convertWindowToNormalizedLocation(pos),
+                                                input::InputManagerLinux::getModifiers(event.xmotion.state));
 
                         break;
                     }
@@ -165,8 +151,6 @@ namespace ouzel
         }
 
         exit();
-
-        return EXIT_SUCCESS;
     }
 
     void EngineLinux::executeOnMainThread(const std::function<void(void)>& func)
@@ -189,18 +173,14 @@ namespace ouzel
         executeQueue.push(func);
 
         if (!XSendEvent(windowLinux->getDisplay(), windowLinux->getNativeWindow(), False, NoEventMask, &event))
-        {
-            Log(Log::Level::ERR) << "Failed to send X11 delete message";
-        }
+            throw SystemError("Failed to send X11 delete message");
 
         XFlush(windowLinux->getDisplay());
     }
 
-    bool EngineLinux::openURL(const std::string& url)
+    void EngineLinux::openURL(const std::string& url)
     {
 		::exit(execl("/usr/bin/xdg-open", "xdg-open", url.c_str(), nullptr));
-
-		return true;
 	}
 
 	void EngineLinux::setScreenSaverEnabled(bool newScreenSaverEnabled)
@@ -224,18 +204,13 @@ namespace ouzel
                 Lock lock(executeMutex);
 
                 if (executeQueue.empty())
-                {
                     break;
-                }
 
                 func = std::move(executeQueue.front());
                 executeQueue.pop();
             }
 
-            if (func)
-            {
-                func();
-            }
+            if (func) func();
         }
     }
 }

@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <cmath>
 #include "Quaternion.hpp"
@@ -7,9 +6,6 @@
 
 namespace ouzel
 {
-    const Quaternion Quaternion::IDENTITY(0.0F, 0.0F, 0.0F, 1.0F);
-    const Quaternion Quaternion::ZERO(0.0F, 0.0F, 0.0F, 0.0F);
-
     float Quaternion::getNorm()
     {
         float n = x * x + y * y + z * z + w * w;
@@ -26,7 +22,7 @@ namespace ouzel
             return;
 
         n = sqrtf(n);
-        if (n < TOLERANCE) // too close to zero
+        if (n < EPSILON) // too close to zero
             return;
 
         n = 1.0F / n;
@@ -53,7 +49,7 @@ namespace ouzel
     {
         angle = 2.0F * acosf(w);
         float s = sqrtf(1.0F - w * w);
-        if (s < TOLERANCE) // too close to zero
+        if (s < EPSILON) // too close to zero
         {
             axis.x = x;
             axis.y = y;

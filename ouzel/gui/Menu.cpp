@@ -1,12 +1,10 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <algorithm>
 #include "Menu.hpp"
 #include "core/Engine.hpp"
 #include "events/EventDispatcher.hpp"
-#include "input/Input.hpp"
-#include "utils/Log.hpp"
+#include "input/InputManager.hpp"
 
 namespace ouzel
 {
@@ -36,43 +34,35 @@ namespace ouzel
             if (enabled)
             {
                 if (!selectedWidget && !widgets.empty())
-                {
                     selectWidget(widgets.front());
-                }
             }
             else
             {
                 selectedWidget = nullptr;
 
                 for (Widget* childWidget : widgets)
-                {
                     childWidget->setSelected(false);
-                }
             }
         }
 
-        void Menu::addChildWidget(Widget* widget)
+        void Menu::addWidget(Widget* widget)
         {
             addChild(widget);
 
             if (widget)
             {
                 if (widget->menu)
-                {
                     widget->menu->removeChild(widget);
-                }
 
                 widget->menu = this;
                 widgets.push_back(widget);
 
                 if (!selectedWidget)
-                {
                     selectWidget(widget);
-                }
             }
         }
 
-        bool Menu::removeChildActor(Actor* actor)
+        bool Menu::removeChild(Actor* actor)
         {
             auto i = std::find(widgets.begin(), widgets.end(), actor);
 
@@ -85,14 +75,10 @@ namespace ouzel
             }
 
             if (selectedWidget == actor)
-            {
                 selectWidget(nullptr);
-            }
 
-            if (!Actor::removeChildActor(actor))
-            {
+            if (!Actor::removeChild(actor))
                 return false;
-            }
 
             return true;
         }
@@ -111,9 +97,7 @@ namespace ouzel
                     childWidget->setSelected(true);
                 }
                 else
-                {
                     childWidget->setSelected(false);
-                }
             }
         }
 
@@ -130,13 +114,9 @@ namespace ouzel
             do
             {
                 if (widgetIterator == widgets.end())
-                {
                     widgetIterator = widgets.begin();
-                }
                 else
-                {
                     widgetIterator++;
-                }
 
                 if (widgetIterator != widgets.end() && (*widgetIterator)->isEnabled())
                 {
@@ -264,9 +244,7 @@ namespace ouzel
             if (type == Event::Type::ACTOR_ENTER)
             {
                 if (std::find(widgets.begin(), widgets.end(), event.actor) != widgets.end())
-                {
                     selectWidget(static_cast<Widget*>(event.actor));
-                }
             }
 
             return true;

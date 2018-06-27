@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -12,7 +11,7 @@ namespace ouzel
     namespace scene
     {
         class SceneManager;
-        
+
         class UpdateCallback
         {
             friend SceneManager;

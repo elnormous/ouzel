@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "BlendState.hpp"
 #include "BlendStateResource.hpp"
@@ -21,7 +20,7 @@ namespace ouzel
             if (engine && resource) engine->getRenderer()->getDevice()->deleteResource(resource);
         }
 
-        bool BlendState::init(bool newEnableBlending,
+        void BlendState::init(bool newEnableBlending,
                               Factor newColorBlendSource, Factor newColorBlendDest,
                               Operation newColorOperation,
                               Factor newAlphaBlendSource, Factor newAlphaBlendDest,
@@ -37,16 +36,15 @@ namespace ouzel
             alphaOperation = newAlphaOperation;
             colorMask = newColorMask;
 
-            engine->getRenderer()->executeOnRenderThread(std::bind(&BlendStateResource::init,
-                                                                   resource,
-                                                                   newEnableBlending,
-                                                                   newColorBlendSource, newColorBlendDest,
-                                                                   newColorOperation,
-                                                                   newAlphaBlendSource, newAlphaBlendDest,
-                                                                   newAlphaOperation,
-                                                                   newColorMask));
+            RenderDevice* renderDevice = engine->getRenderer()->getDevice();
 
-            return true;
+            renderDevice->addCommand(InitBlendStateCommand(resource,
+                                                           newEnableBlending,
+                                                           newColorBlendSource, newColorBlendDest,
+                                                           newColorOperation,
+                                                           newAlphaBlendSource, newAlphaBlendDest,
+                                                           newAlphaOperation,
+                                                           newColorMask));
         }
     } // namespace graphics
 } // namespace ouzel

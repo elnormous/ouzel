@@ -1,11 +1,11 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "Buffer.hpp"
 #include "BufferResource.hpp"
 #include "Renderer.hpp"
 #include "RenderDevice.hpp"
 #include "core/Engine.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -21,55 +21,71 @@ namespace ouzel
             if (engine && resource) engine->getRenderer()->getDevice()->deleteResource(resource);
         }
 
-        bool Buffer::init(Usage newUsage, uint32_t newFlags, uint32_t newSize)
+        void Buffer::init(Usage newUsage, uint32_t newFlags, uint32_t newSize)
         {
             usage = newUsage;
             flags = newFlags;
+            size = newSize;
 
-            engine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(BufferResource::*)(Usage, uint32_t, uint32_t)>(&BufferResource::init),
-                                                                   resource,
-                                                                   newUsage,
-                                                                   newFlags,
-                                                                   newSize));
+            RenderDevice* renderDevice = engine->getRenderer()->getDevice();
 
-            return true;
+            renderDevice->addCommand(InitBufferCommand(resource,
+                                                       newUsage,
+                                                       newFlags,
+                                                       std::vector<uint8_t>(),
+                                                       newSize));
         }
 
-        bool Buffer::init(Usage newUsage, const void* newData, uint32_t newSize, uint32_t newFlags)
+        void Buffer::init(Usage newUsage, uint32_t newFlags, const void* newData, uint32_t newSize)
         {
-            return init(newUsage,
-                        std::vector<uint8_t>(static_cast<const uint8_t*>(newData),
-                                             static_cast<const uint8_t*>(newData) + newSize),
-                        newFlags);
+            init(newUsage,
+                 newFlags,
+                 std::vector<uint8_t>(static_cast<const uint8_t*>(newData),
+                                      static_cast<const uint8_t*>(newData) + newSize),
+                 newSize);
         }
 
-        bool Buffer::init(Usage newUsage, const std::vector<uint8_t>& newData, uint32_t newFlags)
+        void Buffer::init(Usage newUsage, uint32_t newFlags, const std::vector<uint8_t>& newData, uint32_t newSize)
         {
+            if (!newData.empty() && newSize != newData.size())
+                throw DataError("Invalid buffer data");
+
             usage = newUsage;
             flags = newFlags;
+            size = newSize;
 
-            engine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(BufferResource::*)(Buffer::Usage, const std::vector<uint8_t>&, uint32_t)>(&BufferResource::init),
-                                                                   resource,
-                                                                   newUsage,
-                                                                   newData,
-                                                                   newFlags));
+            RenderDevice* renderDevice = engine->getRenderer()->getDevice();
 
-            return true;
+            renderDevice->addCommand(InitBufferCommand(resource,
+                                                       newUsage,
+                                                       newFlags,
+                                                       newData,
+                                                       newSize));
         }
 
-        bool Buffer::setData(const void* newData, uint32_t newSize)
+        void Buffer::setData(const void* newData, uint32_t newSize)
         {
-            return setData(std::vector<uint8_t>(static_cast<const uint8_t*>(newData),
-                                                static_cast<const uint8_t*>(newData) + newSize));
+            RenderDevice* renderDevice = engine->getRenderer()->getDevice();
+
+            renderDevice->addCommand(SetBufferDataCommand(resource,
+                                                          std::vector<uint8_t>(static_cast<const uint8_t*>(newData),
+                                                                               static_cast<const uint8_t*>(newData) + newSize)));
         }
 
-        bool Buffer::setData(const std::vector<uint8_t>& newData)
+        void Buffer::setData(const std::vector<uint8_t>& newData)
         {
-            engine->getRenderer()->executeOnRenderThread(std::bind(&BufferResource::setData,
-                                                                   resource,
-                                                                   newData));
+            if (!(flags & Buffer::DYNAMIC))
+                throw DataError("Buffer is not dynamic");
 
-            return true;
+            if (newData.empty())
+                throw DataError("Invalid buffer data");
+
+            if (newData.size() > size) size = static_cast<uint32_t>(newData.size());
+
+            RenderDevice* renderDevice = engine->getRenderer()->getDevice();
+
+            renderDevice->addCommand(SetBufferDataCommand(resource,
+                                                          newData));
         }
     } // namespace graphics
 } // namespace ouzel

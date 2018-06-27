@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <cstdlib>
 #include <iterator>
@@ -10,7 +9,7 @@
 #include "Cache.hpp"
 #include "core/Engine.hpp"
 #include "graphics/Material.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -31,11 +30,9 @@ namespace ouzel
             return c <= 0x1F;
         }
 
-        static bool skipWhitespaces(const std::vector<uint8_t>& str,
+        static void skipWhitespaces(const std::vector<uint8_t>& str,
                                     std::vector<uint8_t>::const_iterator& iterator)
         {
-            if (iterator == str.end()) return false;
-
             for (;;)
             {
                 if (iterator == str.end()) break;
@@ -45,8 +42,6 @@ namespace ouzel
                 else
                     break;
             }
-
-            return true;
         }
 
         static void skipLine(const std::vector<uint8_t>& str,
@@ -66,11 +61,10 @@ namespace ouzel
             }
         }
 
-        static bool parseString(const std::vector<uint8_t>& str,
-                                std::vector<uint8_t>::const_iterator& iterator,
-                                std::string& result)
+        static std::string parseString(const std::vector<uint8_t>& str,
+                                       std::vector<uint8_t>::const_iterator& iterator)
         {
-            result.clear();
+            std::string result;
 
             for (;;)
             {
@@ -81,13 +75,16 @@ namespace ouzel
                 ++iterator;
             }
 
-            return !result.empty();
+            if (result.empty())
+                throw ParseError("Invalid string");
+
+            return result;
         }
 
-        static bool parseInt32(const std::vector<uint8_t>& str,
-                               std::vector<uint8_t>::const_iterator& iterator,
-                               int32_t& result)
+        static int32_t parseInt32(const std::vector<uint8_t>& str,
+                                  std::vector<uint8_t>::const_iterator& iterator)
         {
+            int32_t result;
             std::string value;
             uint32_t length = 1;
 
@@ -111,13 +108,13 @@ namespace ouzel
 
             result = std::stoi(value);
 
-            return true;
+            return result;
         }
 
-        static bool parseFloat(const std::vector<uint8_t>& str,
-                               std::vector<uint8_t>::const_iterator& iterator,
-                               float& result)
+        static float parseFloat(const std::vector<uint8_t>& str,
+                               std::vector<uint8_t>::const_iterator& iterator)
         {
+            float result;
             std::string value;
             uint32_t length = 1;
 
@@ -157,7 +154,7 @@ namespace ouzel
 
             result = std::stof(value);
 
-            return true;
+            return result;
         }
 
         static bool parseToken(const std::vector<uint8_t>& str,
@@ -211,21 +208,13 @@ namespace ouzel
                 }
                 else
                 {
-                    if (!skipWhitespaces(data, iterator) ||
-                        !parseString(data, iterator, keyword))
-                    {
-                        Log(Log::Level::ERR) << "Failed to parse keyword";
-                        return false;
-                    }
+                    skipWhitespaces(data, iterator);
+                    keyword = parseString(data, iterator);
 
                     if (keyword == "mtllib")
                     {
-                        if (!skipWhitespaces(data, iterator) ||
-                            !parseString(data, iterator, value))
-                        {
-                            Log(Log::Level::ERR) << "Failed to parse material library";
-                            return false;
-                        }
+                        skipWhitespaces(data, iterator);
+                        value = parseString(data, iterator);
 
                         skipLine(data, iterator);
 
@@ -233,12 +222,8 @@ namespace ouzel
                     }
                     else if (keyword == "usemtl")
                     {
-                        if (!skipWhitespaces(data, iterator) ||
-                            !parseString(data, iterator, value))
-                        {
-                            Log(Log::Level::ERR) << "Failed to parse material name";
-                            return false;
-                        }
+                        skipWhitespaces(data, iterator);
+                        value = parseString(data, iterator);
 
                         skipLine(data, iterator);
 
@@ -248,26 +233,20 @@ namespace ouzel
                     {
                         if (objectCount)
                         {
-                            scene::ModelData modelData;
-                            modelData.init(boundingBox, indices, vertices, material);
-                            engine->getCache()->setModelData(name, modelData);
+                            scene::MeshData meshData;
+                            meshData.init(boundingBox, indices, vertices, material);
+                            engine->getCache()->setMeshData(name, meshData);
                         }
 
-                        if (!skipWhitespaces(data, iterator) ||
-                            !parseString(data, iterator, name))
-                        {
-                            Log(Log::Level::ERR) << "Failed to parse object name";
-                            return false;
-                        }
+                        skipWhitespaces(data, iterator);
+                        name = parseString(data, iterator);
 
                         skipLine(data, iterator);
 
                         material.reset();
-                        positions.clear();
-                        texCoords.clear();
-                        normals.clear();
                         vertices.clear();
                         indices.clear();
+                        vertexMap.clear();
                         boundingBox.reset();
                         ++objectCount;
                     }
@@ -275,16 +254,12 @@ namespace ouzel
                     {
                         Vector3 position;
 
-                        if (!skipWhitespaces(data, iterator) ||
-                            !parseFloat(data, iterator, position.x) ||
-                            !skipWhitespaces(data, iterator) ||
-                            !parseFloat(data, iterator, position.y) ||
-                            !skipWhitespaces(data, iterator) ||
-                            !parseFloat(data, iterator, position.z))
-                        {
-                            Log(Log::Level::ERR) << "Failed to parse position";
-                            return false;
-                        }
+                        skipWhitespaces(data, iterator);
+                        position.x = parseFloat(data, iterator);
+                        skipWhitespaces(data, iterator);
+                        position.y = parseFloat(data, iterator);
+                        skipWhitespaces(data, iterator);
+                        position.z = parseFloat(data, iterator);
 
                         skipLine(data, iterator);
 
@@ -294,14 +269,10 @@ namespace ouzel
                     {
                         Vector3 texCoord;
 
-                        if (!skipWhitespaces(data, iterator) ||
-                            !parseFloat(data, iterator, texCoord.x) ||
-                            !skipWhitespaces(data, iterator) ||
-                            !parseFloat(data, iterator, texCoord.y))
-                        {
-                            Log(Log::Level::ERR) << "Failed to parse texture coordinates";
-                            return false;
-                        }
+                        skipWhitespaces(data, iterator);
+                        texCoord.x = parseFloat(data, iterator);
+                        skipWhitespaces(data, iterator);
+                        texCoord.y = parseFloat(data, iterator);
 
                         skipLine(data, iterator);
 
@@ -311,16 +282,12 @@ namespace ouzel
                     {
                         Vector3 normal;
 
-                        if (!skipWhitespaces(data, iterator) ||
-                            !parseFloat(data, iterator, normal.x) ||
-                            !skipWhitespaces(data, iterator) ||
-                            !parseFloat(data, iterator, normal.y) ||
-                            !skipWhitespaces(data, iterator) ||
-                            !parseFloat(data, iterator, normal.z))
-                        {
-                            Log(Log::Level::ERR) << "Failed to parse normal";
-                            return false;
-                        }
+                        skipWhitespaces(data, iterator);
+                        normal.x = parseFloat(data, iterator);
+                        skipWhitespaces(data, iterator);
+                        normal.y = parseFloat(data, iterator);
+                        skipWhitespaces(data, iterator);
+                        normal.z = parseFloat(data, iterator);
 
                         skipLine(data, iterator);
 
@@ -337,87 +304,86 @@ namespace ouzel
                         {
                             if (iterator == data.end() || isNewline(*iterator)) break;
 
-                            if (!skipWhitespaces(data, iterator))
-                            {
-                                Log(Log::Level::ERR) << "Failed to parse face";
-                                return false;
-                            }
-
-                            if (!parseInt32(data, iterator, positionIndex) ||
-                                !parseToken(data, iterator, '/') ||
-                                !parseInt32(data, iterator, texCoordIndex) ||
-                                !parseToken(data, iterator, '/') ||
-                                !parseInt32(data, iterator, normalIndex))
-                            {
-                                Log(Log::Level::ERR) << "Failed to parse face";
-                                return false;
-                            }
+                            skipWhitespaces(data, iterator);
+                            positionIndex = parseInt32(data, iterator);
 
                             if (positionIndex < 0)
-                                std::get<0>(i) = static_cast<uint32_t>(static_cast<long>(positions.size()) + positionIndex);
-                            else if (positionIndex > 0)
-                                std::get<0>(i) = static_cast<uint32_t>(positionIndex - 1);
-                            else
+                                positionIndex = static_cast<int32_t>(positions.size()) + positionIndex + 1;
+
+                            if (positionIndex < 1 || positionIndex > static_cast<int32_t>(positions.size()))
+                                throw ParseError("Invalid position index");
+
+                            std::get<0>(i) = static_cast<uint32_t>(positionIndex);
+
+                            // has texture coordinates
+                            if (parseToken(data, iterator, '/'))
                             {
-                                Log(Log::Level::ERR) << "Failed to parse face";
-                                return false;
+                                // two slashes in a row indicates no texture coordinates
+                                if (iterator != data.end() && *iterator != '/')
+                                {
+                                    texCoordIndex = parseInt32(data, iterator);
+
+                                    if (texCoordIndex < 0)
+                                        texCoordIndex = static_cast<int32_t>(texCoords.size()) + texCoordIndex + 1;
+
+                                    if (texCoordIndex < 1 || texCoordIndex > static_cast<int32_t>(texCoords.size()))
+                                        throw ParseError("Invalid texture coordinate index");
+
+                                    std::get<1>(i) = static_cast<uint32_t>(texCoordIndex);
+                                }
+
+                                // has normal
+                                if (parseToken(data, iterator, '/'))
+                                {
+                                    normalIndex = parseInt32(data, iterator);
+
+                                    if (normalIndex < 0)
+                                        normalIndex = static_cast<int32_t>(normals.size()) + normalIndex + 1;
+
+                                    if (normalIndex < 1 || normalIndex > static_cast<int32_t>(normals.size()))
+                                        throw ParseError("Invalid normal index");
+
+                                    std::get<2>(i) = static_cast<uint32_t>(normalIndex);
+                                }
                             }
 
-                            if (texCoordIndex < 0)
-                                std::get<1>(i) = static_cast<uint32_t>(static_cast<long>(texCoords.size()) + texCoordIndex);
-                            else if (texCoordIndex > 0)
-                                std::get<1>(i) = static_cast<uint32_t>(texCoordIndex - 1);
-                            else
-                            {
-                                Log(Log::Level::ERR) << "Failed to parse face";
-                                return false;
-                            }
-
-                            if (normalIndex < 0)
-                                std::get<2>(i) = static_cast<uint32_t>(static_cast<long>(normals.size()) + normalIndex);
-                            else if (normalIndex > 0)
-                                std::get<2>(i) = static_cast<uint32_t>(normalIndex - 1);
-                            else
-                            {
-                                Log(Log::Level::ERR) << "Failed to parse face";
-                                return false;
-                            }
+                            uint32_t index = 0;
 
                             auto vertexIterator = vertexMap.find(i);
-                            if (vertexIterator != vertexMap.end())
+                            if (vertexIterator == vertexMap.end())
                             {
-                                vertexIndices.push_back(vertexIterator->second);
-                            }
-                            else
-                            {
+                                index = static_cast<uint32_t>(vertices.size());
+                                vertexMap[i] = index;
+
                                 graphics::Vertex vertex;
-                                vertex.position = positions[std::get<0>(i)];
-                                vertex.texCoords[0] = texCoords[std::get<1>(i)];
+                                if (std::get<0>(i) >= 1) vertex.position = positions[std::get<0>(i) - 1];
+                                if (std::get<1>(i) >= 1) vertex.texCoords[0] = texCoords[std::get<1>(i) - 1];
                                 vertex.color = Color::WHITE;
-                                vertex.normal = normals[std::get<2>(i)];
-                                vertexIndices.push_back(static_cast<uint32_t>(vertices.size()));
+                                if (std::get<2>(i) >= 1) vertex.normal = normals[std::get<2>(i) - 1];
                                 vertices.push_back(vertex);
                                 boundingBox.insertPoint(vertex.position);
                             }
+                            else
+                                index = vertexIterator->second;
+
+                            vertexIndices.push_back(index);
                         }
 
                         if (vertexIndices.size() < 3)
-                        {
-                            Log(Log::Level::ERR) << "Invalid face count";
-                            return false;
-                        }
+                            throw ParseError("Invalid face count");
                         else if (vertexIndices.size() == 3)
                         {
                             for (uint32_t vertexIndex : vertexIndices)
-                            {
                                 indices.push_back(vertexIndex);
-                            }
                         }
                         else
                         {
-                            // TODO: implement
-                            Log(Log::Level::ERR) << "Non-triangle faces are not supported";
-                            return false;
+                            for (uint32_t index = 0; index < vertexIndices.size() - 2; ++index)
+                            {
+                                indices.push_back(vertexIndices[0]);
+                                indices.push_back(vertexIndices[index + 1]);
+                                indices.push_back(vertexIndices[index + 2]);
+                            }
                         }
                     }
                     else
@@ -432,9 +398,9 @@ namespace ouzel
 
             if (objectCount)
             {
-                scene::ModelData modelData;
-                modelData.init(boundingBox, indices, vertices, material);
-                engine->getCache()->setModelData(name, modelData);
+                scene::MeshData meshData;
+                meshData.init(boundingBox, indices, vertices, material);
+                engine->getCache()->setMeshData(name, meshData);
             }
 
             return true;

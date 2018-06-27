@@ -1,46 +1,13 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <algorithm>
 #include <cmath>
 #include <cassert>
 #include "Matrix4.hpp"
-#include "Quaternion.hpp"
 #include "MathUtils.hpp"
 
 namespace ouzel
 {
-    const Matrix4 Matrix4::IDENTITY(1.0F, 0.0F, 0.0F, 0.0F,
-                                    0.0F, 1.0F, 0.0F, 0.0F,
-                                    0.0F, 0.0F, 1.0F, 0.0F,
-                                    0.0F, 0.0F, 0.0F, 1.0F);
-
-    const Matrix4 Matrix4::ZERO(0.0F, 0.0F, 0.0F, 0.0F,
-                                0.0F, 0.0F, 0.0F, 0.0F,
-                                0.0F, 0.0F, 0.0F, 0.0F,
-                                0.0F, 0.0F, 0.0F, 0.0F);
-
-    Matrix4::Matrix4(float pm11, float pm12, float pm13, float pm14,
-                     float pm21, float pm22, float pm23, float pm24,
-                     float pm31, float pm32, float pm33, float pm34,
-                     float pm41, float pm42, float pm43, float pm44)
-    {
-        set(pm11, pm12, pm13, pm14,
-            pm21, pm22, pm23, pm24,
-            pm31, pm32, pm33, pm34,
-            pm41, pm42, pm43, pm44);
-    }
-
-    Matrix4::Matrix4(const float* array)
-    {
-        set(array);
-    }
-
-    Matrix4::Matrix4(const Matrix4& copy)
-    {
-        std::copy(std::begin(copy.m), std::end(copy.m), m);
-    }
-
     void Matrix4::createLookAt(const Vector3& eyePosition,
                                const Vector3& targetPosition,
                                const Vector3& up,
@@ -101,7 +68,7 @@ namespace ouzel
         assert(zFarPlane != zNearPlane);
 
         float theta = fieldOfView * 0.5F;
-        if (fabsf(fmodf(theta, PI_2)) < EPSILON)
+        if (fabsf(fmodf(theta, PI / 2.0F)) < EPSILON)
         {
             // invalid field of view value
             return;
@@ -149,58 +116,9 @@ namespace ouzel
         dst.m[15] = 1.0F;
     }
 
-    void Matrix4::createBillboard(const Vector3& objectPosition,
-                                  const Vector3& cameraPosition,
-                                  const Vector3& cameraUpVector,
-                                  Matrix4& dst)
-    {
-        createBillboardHelper(objectPosition, cameraPosition, cameraUpVector, Vector3(), dst);
-    }
-
-    void Matrix4::createBillboard(const Vector3& objectPosition,
-                                  const Vector3& cameraPosition,
-                                  const Vector3& cameraUpVector,
-                                  const Vector3& cameraForwardVector,
-                                  Matrix4& dst)
-    {
-        createBillboardHelper(objectPosition, cameraPosition, cameraUpVector, cameraForwardVector, dst);
-    }
-
-    void Matrix4::createBillboardHelper(const Vector3& objectPosition,
-                                        const Vector3& cameraPosition,
-                                        const Vector3& cameraUpVector,
-                                        const Vector3& cameraForwardVector,
-                                        Matrix4& dst)
-    {
-        Vector3 delta(objectPosition, cameraPosition);
-        bool isSufficientDelta = delta.lengthSquared() > EPSILON;
-
-        dst.setIdentity();
-        dst.m[3] = objectPosition.x;
-        dst.m[7] = objectPosition.y;
-        dst.m[11] = objectPosition.z;
-
-        // As per the contracts for the 2 variants of createBillboard, we need
-        // either a safe default or a sufficient distance between object and camera
-        Vector3 target = isSufficientDelta ? cameraPosition : (objectPosition - cameraForwardVector);
-
-        // A billboard is the inverse of a lookAt rotation
-        Matrix4 lookAt;
-        createLookAt(objectPosition, target, cameraUpVector, lookAt);
-        dst.m[0] = lookAt.m[0];
-        dst.m[1] = lookAt.m[4];
-        dst.m[2] = lookAt.m[8];
-        dst.m[4] = lookAt.m[1];
-        dst.m[5] = lookAt.m[5];
-        dst.m[6] = lookAt.m[9];
-        dst.m[8] = lookAt.m[2];
-        dst.m[9] = lookAt.m[6];
-        dst.m[10] = lookAt.m[10];
-    }
-
     void Matrix4::createScale(const Vector3& scale, Matrix4& dst)
     {
-        std::copy(std::begin(IDENTITY.m), std::end(IDENTITY.m), dst.m);
+        dst.setIdentity();
 
         dst.m[0] = scale.x;
         dst.m[5] = scale.y;
@@ -209,7 +127,7 @@ namespace ouzel
 
     void Matrix4::createScale(float xScale, float yScale, float zScale, Matrix4& dst)
     {
-        std::copy(std::begin(IDENTITY.m), std::end(IDENTITY.m), dst.m);
+        dst.setIdentity();
 
         dst.m[0] = xScale;
         dst.m[5] = yScale;
@@ -229,7 +147,7 @@ namespace ouzel
             // Not normalized
             n = sqrtf(n);
             // Prevent divide too close to zero
-            if (n >= TOLERANCE)
+            if (n >= EPSILON)
             {
                 n = 1.0F / n;
                 x *= n;
@@ -275,7 +193,7 @@ namespace ouzel
 
     void Matrix4::createRotationX(float angle, Matrix4& dst)
     {
-        std::copy(std::begin(IDENTITY.m), std::end(IDENTITY.m), dst.m);
+        dst.setIdentity();
 
         float c = cosf(angle);
         float s = sinf(angle);
@@ -288,7 +206,7 @@ namespace ouzel
 
     void Matrix4::createRotationY(float angle, Matrix4& dst)
     {
-        std::copy(std::begin(IDENTITY.m), std::end(IDENTITY.m), dst.m);
+        dst.setIdentity();
 
         float c = cosf(angle);
         float s = sinf(angle);
@@ -301,7 +219,7 @@ namespace ouzel
 
     void Matrix4::createRotationZ(float angle, Matrix4& dst)
     {
-        std::copy(std::begin(IDENTITY.m), std::end(IDENTITY.m), dst.m);
+        dst.setIdentity();
 
         float c = cosf(angle);
         float s = sinf(angle);
@@ -314,7 +232,7 @@ namespace ouzel
 
     void Matrix4::createTranslation(const Vector3& translation, Matrix4& dst)
     {
-        std::copy(std::begin(IDENTITY.m), std::end(IDENTITY.m), dst.m);
+        dst.setIdentity();
 
         dst.m[12] = translation.x;
         dst.m[13] = translation.y;
@@ -323,7 +241,7 @@ namespace ouzel
 
     void Matrix4::createTranslation(float xTranslation, float yTranslation, float zTranslation, Matrix4& dst)
     {
-        std::copy(std::begin(IDENTITY.m), std::end(IDENTITY.m), dst.m);
+        dst.setIdentity();
 
         dst.m[12] = xTranslation;
         dst.m[13] = yTranslation;
@@ -594,10 +512,9 @@ namespace ouzel
         float det = a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
 
         // Close to zero, can't invert
-        if (fabs(det) < TOLERANCE)
+        if (fabs(det) < EPSILON)
             return false;
 
-        // Support the case where m == dst
         Matrix4 inverse;
         inverse.m[0]  = m[5] * b5 - m[6] * b4 + m[7] * b3;
         inverse.m[1]  = -m[1] * b5 + m[2] * b4 - m[3] * b3;
@@ -622,11 +539,6 @@ namespace ouzel
         multiply(inverse, 1.0F / det, dst);
 
         return true;
-    }
-
-    bool Matrix4::isIdentity() const
-    {
-        return std::equal(m, m + sizeof(m) / sizeof(float), IDENTITY.m);
     }
 
     void Matrix4::multiply(float scalar)
@@ -892,7 +804,6 @@ namespace ouzel
         else
         {
 #endif
-        // Support the case where m1 or m2 is the same array as dst
         float product[16];
 
         product[0]  = m1.m[0] * m2.m[0]  + m1.m[4] * m2.m[1] + m1.m[8]   * m2.m[2]  + m1.m[12] * m2.m[3];
@@ -1117,16 +1028,6 @@ namespace ouzel
         std::copy(array, array + sizeof(m) / sizeof(float), m);
     }
 
-    void Matrix4::setIdentity()
-    {
-        std::copy(std::begin(IDENTITY.m), std::end(IDENTITY.m), m);
-    }
-
-    void Matrix4::setZero()
-    {
-        std::fill(m, m + sizeof(m) / sizeof(float), 0.0F);
-    }
-
     void Matrix4::subtract(const Matrix4& matrix)
     {
         subtract(*this, matrix, *this);
@@ -1277,7 +1178,8 @@ namespace ouzel
         else
         {
 #endif
-        // Handle case where v == dst
+
+        assert(&vector != &dst);
         dst.x = vector.x * m[0] + vector.y * m[4] + vector.z * m[8] + vector.w * m[12];
         dst.y = vector.x * m[1] + vector.y * m[5] + vector.z * m[9] + vector.w * m[13];
         dst.z = vector.x * m[2] + vector.y * m[6] + vector.z * m[10] + vector.w * m[14];
@@ -1380,51 +1282,5 @@ namespace ouzel
         }
 #endif
 #endif
-    }
-
-    Vector3 Matrix4::getTranslation() const
-    {
-        return Vector3(m[12], m[13], m[14]);
-    }
-
-    Vector3 Matrix4::getScale() const
-    {
-        Vector3 scale;
-        scale.x = Vector3(m[0], m[1], m[2]).length();
-        scale.y = Vector3(m[4], m[5], m[6]).length();
-        scale.z = Vector3(m[8], m[9], m[10]).length();
-
-        return scale;
-    }
-
-    Quaternion Matrix4::getRotation() const
-    {
-        Vector3 scale = getScale();
-
-        float m11 = m[0] / scale.x;
-        float m21 = m[1] / scale.x;
-        float m31 = m[2] / scale.x;
-
-        float m12 = m[4] / scale.y;
-        float m22 = m[5] / scale.y;
-        float m32 = m[6] / scale.y;
-
-        float m13 = m[8] / scale.z;
-        float m23 = m[9] / scale.z;
-        float m33 = m[10] / scale.z;
-
-        Quaternion result;
-        result.x = sqrtf(std::max(0.0F, 1 + m11 - m22 - m33)) / 2.0F;
-        result.y = sqrtf(std::max(0.0F, 1 - m11 + m22 - m33)) / 2.0F;
-        result.z = sqrtf(std::max(0.0F, 1 - m11 - m22 + m33)) / 2.0F;
-        result.w = sqrtf(std::max(0.0F, 1 + m11 + m22 + m33)) / 2.0F;
-
-        result.x *= sgn(result.x * (m32 - m23));
-        result.y *= sgn(result.y * (m13 - m31));
-        result.z *= sgn(result.z * (m21 - m12));
-
-        result.normalize();
-
-        return result;
     }
 }

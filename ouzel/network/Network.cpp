@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #ifdef _WIN32
 #ifndef NOMINMAX
@@ -17,7 +16,7 @@
 #endif
 #include "Network.hpp"
 #include "Client.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -25,39 +24,32 @@ namespace ouzel
     {
         Network::Network()
         {
+#ifdef _WIN32
+            WORD sockVersion = MAKEWORD(2, 2);
+            WSADATA wsaData;
+            int error = WSAStartup(sockVersion, &wsaData);
+            if (error != 0)
+                throw NetworkError("Failed to start WinSock failed, error: " + std::to_string(error));
+
+            if (wsaData.wVersion != sockVersion)
+                throw NetworkError("Incorrect WinSock version");
+#endif
         }
 
         Network::~Network()
         {
 #ifdef _WIN32
             if (endpoint != INVALID_SOCKET)
-            {
-                int result = closesocket(endpoint);
-
-                if (result < 0)
-                {
-                    int error = WSAGetLastError();
-                    Log(Log::Level::ERR) << "Failed to close socket, error: " << error;
-                }
-            }
+                closesocket(endpoint);
 
             WSACleanup();
 #else
             if (endpoint != -1)
-            {
-                int result = close(endpoint);
-
-                if (result < 0)
-                {
-                    int error = errno;
-                    Log(Log::Level::ERR) << "Failed to close socket, error: " << error;
-                }
-            }
-
+                close(endpoint);
 #endif
         }
 
-        bool Network::getAddress(const std::string& address, uint32_t& result)
+        void Network::getAddress(const std::string& address, uint32_t& result)
         {
             addrinfo* info;
             int ret = getaddrinfo(address.c_str(), nullptr, nullptr, &info);
@@ -69,54 +61,25 @@ namespace ouzel
 #else
                 int error = errno;
 #endif
-                Log(Log::Level::ERR) << "Failed to get address info of " << address << ", error: " << error;
-                return false;
+                throw NetworkError("Failed to get address info of " + address + ", error: " + std::to_string(error));
             }
 
             sockaddr_in* addr = reinterpret_cast<sockaddr_in*>(info->ai_addr);
             result = ntohl(addr->sin_addr.s_addr);
 
             freeaddrinfo(info);
-
-            return true;
         }
 
-        bool Network::init()
+        void Network::listen(const std::string& address, uint16_t port)
         {
-#ifdef _WIN32
-            WORD sockVersion = MAKEWORD(2, 2);
-            WSADATA wsaData;
-            int error = WSAStartup(sockVersion, &wsaData);
-            if (error != 0)
-            {
-                Log(Log::Level::ERR) << "Failed to start Winsock failed, error: " << error;
-                return false;
-            }
-
-            if (wsaData.wVersion != sockVersion)
-            {
-                Log(Log::Level::ERR) << "Incorrect Winsock version";
-                WSACleanup();
-                return false;
-            }
-#endif
-
-            return true;
         }
 
-        bool Network::listen(const std::string& address, uint16_t port)
+        void Network::connect(const std::string& address, uint16_t port)
         {
-            return true;
         }
 
-        bool Network::connect(const std::string& address, uint16_t port)
+        void Network::disconnect()
         {
-            return true;
-        }
-
-        bool Network::disconnect()
-        {
-            return true;
         }
     } // namespace network
 } // namespace ouzel

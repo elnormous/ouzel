@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "Move.hpp"
 #include "scene/Actor.hpp"
@@ -31,9 +30,7 @@ namespace ouzel
             Animator::updateProgress();
 
             if (targetActor)
-            {
                 targetActor->setPosition(startPosition + (diff * progress));
-            }
         }
     } // namespace scene
 } // namespace ouzel

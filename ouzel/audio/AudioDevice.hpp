@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #pragma once
 
@@ -27,7 +26,7 @@ namespace ouzel
             AudioDevice(AudioDevice&&) = delete;
             AudioDevice& operator=(AudioDevice&&) = delete;
 
-            virtual bool process();
+            virtual void process();
 
             inline uint16_t getAPIMajorVersion() const { return apiMajorVersion; }
             inline uint16_t getAPIMinorVersion() const { return apiMinorVersion; }
@@ -42,7 +41,7 @@ namespace ouzel
                                    float& gain,
                                    float& rolloffFactor)> attributeCallback;
 
-                std::function<bool(uint32_t frames,
+                std::function<void(uint32_t frames,
                                    uint16_t channels,
                                    uint32_t sampleRate,
                                    const Vector3& listenerPosition,
@@ -57,14 +56,14 @@ namespace ouzel
             void setRenderCommands(const std::vector<RenderCommand>& newRenderCommands);
 
         protected:
-            explicit AudioDevice(Audio::Driver aDriver);
-            virtual bool init(bool debugAudio);
+            explicit AudioDevice(Audio::Driver initDriver);
+            virtual void init(bool debugAudio);
 
             void executeAll();
-            bool getData(uint32_t frames, std::vector<uint8_t>& result);
-            bool processRenderCommands(uint32_t frames,
+            void getData(uint32_t frames, std::vector<uint8_t>& result);
+            void processRenderCommands(uint32_t frames,
                                        std::vector<float>& result);
-            bool processRenderCommand(const RenderCommand& renderCommand,
+            void processRenderCommand(const RenderCommand& renderCommand,
                                       uint32_t frames,
                                       Vector3 listenerPosition,
                                       Quaternion listenerRotation,

@@ -1,10 +1,8 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "ShapeRenderer.hpp"
 #include "core/Engine.hpp"
 #include "graphics/Renderer.hpp"
-#include "graphics/MeshBufferResource.hpp"
 #include "graphics/BufferResource.hpp"
 #include "Camera.hpp"
 #include "utils/Utils.hpp"
@@ -24,32 +22,17 @@ namespace ouzel
 
             vertexBuffer = std::make_shared<graphics::Buffer>();
             vertexBuffer->init(graphics::Buffer::Usage::VERTEX, graphics::Buffer::DYNAMIC);
-
-            meshBuffer = std::make_shared<graphics::MeshBuffer>();
-            meshBuffer->init(sizeof(uint16_t), indexBuffer, vertexBuffer);
         }
 
         void ShapeRenderer::draw(const Matrix4& transformMatrix,
                                  float opacity,
                                  const Matrix4& renderViewProjection,
-                                 const std::shared_ptr<graphics::Texture>& renderTarget,
-                                 const Rect& renderViewport,
-                                 bool depthWrite,
-                                 bool depthTest,
-                                 bool wireframe,
-                                 bool scissorTest,
-                                 const Rect& scissorRectangle)
+                                 bool wireframe)
         {
             Component::draw(transformMatrix,
                             opacity,
                             renderViewProjection,
-                            renderTarget,
-                            renderViewport,
-                            depthWrite,
-                            depthTest,
-                            wireframe,
-                            scissorTest,
-                            scissorRectangle);
+                            wireframe);
 
             if (dirty)
             {
@@ -63,29 +46,22 @@ namespace ouzel
 
             for (const DrawCommand& drawCommand : drawCommands)
             {
-                std::vector<std::vector<float>> pixelShaderConstants(1);
-                pixelShaderConstants[0] = {std::begin(colorVector), std::end(colorVector)};
+                std::vector<std::vector<float>> fragmentShaderConstants(1);
+                fragmentShaderConstants[0] = {std::begin(colorVector), std::end(colorVector)};
 
                 std::vector<std::vector<float>> vertexShaderConstants(1);
                 vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
 
-                engine->getRenderer()->addDrawCommand(std::vector<std::shared_ptr<graphics::Texture>>(),
-                                                      shader,
-                                                      pixelShaderConstants,
-                                                      vertexShaderConstants,
-                                                      blendState,
-                                                      meshBuffer,
+                engine->getRenderer()->addSetCullModeCommad(graphics::Renderer::CullMode::NONE);
+                engine->getRenderer()->addSetPipelineStateCommand(blendState, shader);
+                engine->getRenderer()->addSetShaderConstantsCommand(fragmentShaderConstants,
+                                                                    vertexShaderConstants);
+                engine->getRenderer()->addDrawCommand(indexBuffer,
                                                       drawCommand.indexCount,
+                                                      sizeof(uint16_t),
+                                                      vertexBuffer,
                                                       drawCommand.mode,
-                                                      drawCommand.startIndex,
-                                                      renderTarget,
-                                                      renderViewport,
-                                                      depthWrite,
-                                                      depthTest,
-                                                      wireframe,
-                                                      scissorTest,
-                                                      scissorRectangle,
-                                                      graphics::Renderer::CullMode::NONE);
+                                                      drawCommand.startIndex);
             }
         }
 
@@ -222,9 +198,7 @@ namespace ouzel
                     command.indexCount = segments + 1;
 
                     for (uint16_t i = 0; i < segments; ++i)
-                    {
                         indices.push_back(startVertex + i);
-                    }
 
                     indices.push_back(startVertex);
 
@@ -249,9 +223,7 @@ namespace ouzel
                     }
 
                     for (const graphics::Vertex& vertex : vertices)
-                    {
                         boundingBox.insertPoint(vertex.position);
-                    }
 
                     command.indexCount = segments * 6;
 
@@ -453,9 +425,7 @@ namespace ouzel
                 command.mode = graphics::Renderer::DrawMode::TRIANGLE_LIST;
 
                 for (uint16_t i = 0; i < edges.size(); ++i)
-                {
                     vertices.push_back(graphics::Vertex(edges[i], color, Vector2(), Vector3(0.0F, 0.0F, -1.0F)));
-                }
 
                 command.indexCount = static_cast<uint32_t>(edges.size() - 2) * 3;
 
@@ -467,9 +437,7 @@ namespace ouzel
                 }
 
                 for (uint16_t i = 0; i < edges.size(); ++i)
-                {
                     boundingBox.insertPoint(edges[i]);
-                }
             }
             else
             {
@@ -478,23 +446,17 @@ namespace ouzel
                     command.mode = graphics::Renderer::DrawMode::LINE_STRIP;
 
                     for (uint16_t i = 0; i < edges.size(); ++i)
-                    {
                         vertices.push_back(graphics::Vertex(edges[i], color, Vector2(), Vector3(0.0F, 0.0F, -1.0F)));
-                    }
 
                     command.indexCount = static_cast<uint32_t>(edges.size()) + 1;
 
                     for (uint16_t i = 0; i < edges.size(); ++i)
-                    {
                         indices.push_back(startVertex + i);
-                    }
 
                     indices.push_back(startVertex);
 
                     for (uint16_t i = 0; i < edges.size(); ++i)
-                    {
                         boundingBox.insertPoint(edges[i]);
-                    }
                 }
                 else
                 {
@@ -514,9 +476,8 @@ namespace ouzel
             std::vector<uint32_t> ret;
             ret.push_back(1);
             for (uint32_t i = 0; i < row; ++i)
-            {
                 ret.push_back(ret[i] * (row - i) / (i + 1));
-            }
+
             return ret;
         }
 
