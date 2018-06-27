@@ -248,6 +248,8 @@ namespace ouzel
 
                         engine->getEventDispatcher()->postEvent(event);
 
+                        gamepadsXI[userIndex] = nullptr;
+
                         std::vector<std::unique_ptr<Gamepad>>::iterator i = std::find_if(gamepads.begin(), gamepads.end(), [gamepadXI](const std::unique_ptr<Gamepad>& gamepad) {
                             return gamepadXI == gamepad.get();
                         });
