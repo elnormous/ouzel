@@ -183,7 +183,7 @@
 #    error "Unsupported architecture"
 #  endif
 
-#elif defined(EMSCRIPTEN) // Emscripten
+#elif defined(__EMSCRIPTEN__) // Emscripten
 #  define OUZEL_PLATFORM_EMSCRIPTEN 1
 #  define OUZEL_SUPPORTS_OPENGL 1
 #  define OUZEL_SUPPORTS_OPENGLES 1
