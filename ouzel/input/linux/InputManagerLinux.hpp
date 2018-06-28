@@ -61,8 +61,6 @@ namespace ouzel
 #if OUZEL_SUPPORTS_X11
             ::Cursor emptyCursor = None;
             ::Cursor currentCursor = None;
-#else
-            int maxFd = 0;
 #endif
         };
     } // namespace input
