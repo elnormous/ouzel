@@ -18,8 +18,6 @@
 #include "linux/WindowResourceLinux.hpp"
 #elif OUZEL_PLATFORM_WINDOWS
 #include "windows/WindowResourceWin.hpp"
-#elif OUZEL_PLATFORM_RASPBIAN
-#include "raspbian/WindowResourceRasp.hpp"
 #elif OUZEL_PLATFORM_EMSCRIPTEN
 #include "emscripten/WindowResourceEm.hpp"
 #endif
@@ -40,8 +38,6 @@ namespace ouzel
         resource = new WindowResourceLinux();
 #elif OUZEL_PLATFORM_WINDOWS
         resource = new WindowResourceWin();
-#elif OUZEL_PLATFORM_RASPBIAN
-        resource = new WindowResourceRasp();
 #elif OUZEL_PLATFORM_EMSCRIPTEN
         resource = new WindowResourceEm();
 #else

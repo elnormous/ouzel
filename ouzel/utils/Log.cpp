@@ -36,7 +36,7 @@ namespace ouzel
     {
         if (!s.empty())
         {
-#if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
+#if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX
             switch (level)
             {
                 case Level::ERR:

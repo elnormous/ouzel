@@ -26,8 +26,6 @@
 #include "input/linux/InputManagerLinux.hpp"
 #elif OUZEL_PLATFORM_WINDOWS
 #include "input/windows/InputManagerWin.hpp"
-#elif OUZEL_PLATFORM_RASPBIAN
-#include "input/raspbian/InputManagerRasp.hpp"
 #elif OUZEL_PLATFORM_EMSCRIPTEN
 #include "input/emscripten/InputManagerEm.hpp"
 #endif
@@ -266,8 +264,6 @@ namespace ouzel
         inputManager.reset(new input::InputManagerLinux());
 #elif OUZEL_PLATFORM_WINDOWS
         inputManager.reset(new input::InputManagerWin());
-#elif OUZEL_PLATFORM_RASPBIAN
-        inputManager.reset(new input::InputManagerRasp());
 #elif OUZEL_PLATFORM_EMSCRIPTEN
         inputManager.reset(new input::InputManagerEm());
 #else

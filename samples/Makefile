@@ -4,18 +4,15 @@ debug=0
 ifeq ($(OS),Windows_NT)
 	platform=windows
 else
-	architecture=$(shell uname -m)
+architecture=$(shell uname -m)
 
-	ifeq ($(shell uname -s),Linux)
-		ifneq ($(filter arm%,$(architecture)),)
-			platform=raspbian
-		else
-			platform=linux
-		endif
-	endif
-	ifeq ($(shell uname -s),Darwin)
-		platform=macos
-	endif
+ifeq ($(shell uname -s),Linux)
+platform=linux
+endif
+ifeq ($(shell uname -s),Darwin)
+platform=macos
+endif
+
 endif
 ifeq ($(platform),emscripten)
 CC=emcc
@@ -25,10 +22,12 @@ CXXFLAGS=-c -std=c++11 -Wall -O2 -I$(ROOT_DIR)/../ouzel -Winvalid-pch -include $
 LDFLAGS=-O2 -L$(ROOT_DIR)/../build -louzel
 ifeq ($(platform),windows)
 LDFLAGS+=-u WinMain -ld3d11 -lopengl32 -ldxguid -lxinput9_1_0 -lshlwapi -ldinput8 -luser32 -lgdi32 -lshell32 -lole32 -loleaut32 -ldsound -luuid -lws2_32
-else ifeq ($(platform),raspbian)
-LDFLAGS+=-L/opt/vc/lib -lGLESv2 -lEGL -lbcm_host -lopenal -lpthread -lasound
 else ifeq ($(platform),linux)
+ifneq ($(filter arm%,$(architecture)),) # ARM Linux
+LDFLAGS+=-L/opt/vc/lib -lGLESv2 -lEGL -lbcm_host -lopenal -lpthread -lasound
+else # X86 Linux
 LDFLAGS+=-lGL -lopenal -lpthread -lasound -lX11 -lXcursor -lXss -lXi -lXxf86vm
+endif
 else ifeq ($(platform),macos)
 LDFLAGS+=-framework AudioToolbox \
 	-framework AudioUnit \

@@ -1,27 +1,22 @@
 MAKEFILE_PATH:=$(abspath $(lastword $(MAKEFILE_LIST)))
 ROOT_DIR:=$(realpath $(dir $(MAKEFILE_PATH)))
 ifeq ($(OS),Windows_NT)
-	platform=windows
+platform=windows
 else
-	architecture=$(shell uname -m)
+architecture=$(shell uname -m)
 
-	ifeq ($(shell uname -s),Linux)
-		ifneq ($(filter arm%,$(architecture)),)
-			platform=raspbian
-		else
-			platform=linux
-		endif
-	endif
-	ifeq ($(shell uname -s),Darwin)
-		platform=macos
-	endif
+ifeq ($(shell uname -s),Linux)
+platform=linux
+endif
+ifeq ($(shell uname -s),Darwin)
+platform=macos
+endif
+
 endif
 ifeq ($(platform),emscripten)
 CC=emcc
 CXX=em++
 AR=emar
-else ifeq ($(platform),ios)
-else ifeq ($(platform),tvos)
 endif
 CXXFLAGS=-c -std=c++11 -Wall -O2 \
 	-I"$(ROOT_DIR)/../ouzel" \
@@ -183,17 +178,6 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/dsound/AudioDeviceDS.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/InputManagerWin.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/CursorResourceWin.cpp
 CXXFLAGS+=-DNOMINMAX -DWINVER=0x0601 -D_WIN32_WINNT=0x0601
-else ifeq ($(platform),raspbian)
-SOURCES+=$(ROOT_DIR)/../ouzel/audio/alsa/AudioDeviceALSA.cpp \
-	$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \
-	$(ROOT_DIR)/../ouzel/core/raspbian/EngineRasp.cpp \
-	$(ROOT_DIR)/../ouzel/core/raspbian/main.cpp \
-	$(ROOT_DIR)/../ouzel/core/raspbian/WindowResourceRasp.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/opengl/raspbian/RenderDeviceOGLRasp.cpp \
-	$(ROOT_DIR)/../ouzel/input/raspbian/EventDevice.cpp \
-	$(ROOT_DIR)/../ouzel/input/raspbian/GamepadRasp.cpp \
-	$(ROOT_DIR)/../ouzel/input/raspbian/InputManagerRasp.cpp
-CXXFLAGS+=-I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux
 else ifeq ($(platform),linux)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/alsa/AudioDeviceALSA.cpp \
 	$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \
@@ -205,6 +189,9 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/alsa/AudioDeviceALSA.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/EventDevice.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/GamepadLinux.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/InputManagerLinux.cpp
+ifneq ($(filter arm%,$(architecture)),) # ARM Linux
+CXXFLAGS+=-I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux
+endif
 else ifeq ($(platform),macos)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \

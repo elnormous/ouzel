@@ -29,8 +29,6 @@
 #include "graphics/opengl/linux/RenderDeviceOGLLinux.hpp"
 #elif OUZEL_PLATFORM_WINDOWS
 #include "graphics/opengl/windows/RenderDeviceOGLWin.hpp"
-#elif OUZEL_PLATFORM_RASPBIAN
-#include "graphics/opengl/raspbian/RenderDeviceOGLRasp.hpp"
 #elif OUZEL_PLATFORM_EMSCRIPTEN
 #include "graphics/opengl/emscripten/RenderDeviceOGLEm.hpp"
 #endif
@@ -98,8 +96,6 @@ namespace ouzel
                     device.reset(new RenderDeviceOGLLinux());
 #elif OUZEL_PLATFORM_WINDOWS
                     device.reset(new RenderDeviceOGLWin());
-#elif OUZEL_PLATFORM_RASPBIAN
-                    device.reset(new RenderDeviceOGLRasp());
 #elif OUZEL_PLATFORM_EMSCRIPTEN
                     device.reset(new RenderDeviceOGLEm());
 #else

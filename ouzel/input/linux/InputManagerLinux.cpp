@@ -1,5 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include "core/Setup.h"
 #include <cstdio>
 #include <cstring>
 #include <dirent.h>
@@ -7,8 +8,10 @@
 #include <unistd.h>
 #include <unordered_map>
 #include <linux/joystick.h>
-#include <X11/cursorfont.h>
-#include <X11/extensions/XInput2.h>
+#if OUZEL_SUPPORTS_X11
+#  include <X11/cursorfont.h>
+#  include <X11/extensions/XInput2.h>
+#endif
 #include "InputManagerLinux.hpp"
 #include "CursorResourceLinux.hpp"
 #include "events/Event.hpp"
