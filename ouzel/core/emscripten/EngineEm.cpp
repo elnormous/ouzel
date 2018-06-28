@@ -10,8 +10,7 @@
 
 static void loop(void* arg)
 {
-    if (!reinterpret_cast<ouzel::EngineEm*>(arg)->step())
-        emscripten_cancel_main_loop();
+    reinterpret_cast<ouzel::EngineEm*>(arg)->step();
 }
 
 namespace ouzel
@@ -30,22 +29,21 @@ namespace ouzel
         emscripten_set_main_loop_arg(loop, this, 0, 1);
     }
 
-    bool EngineEm::step()
+    void EngineEm::step()
     {
-        update();
-        audio->update();
+        if (active)
+        {
+            update();
+            audio->update();
 
-        if (!active ||
-            !renderer->getDevice()->process())
-            return false;
+            renderer->getDevice()->process();
+            audio->getDevice()->process();
 
-        // TODO: check for result of the AudioDevice::process
-        audio->getDevice()->process();
-
-        input::InputManagerEm* inputEm = static_cast<input::InputManagerEm*>(inputManager.get());
-        inputEm->update();
-
-        return active;
+            input::InputManagerEm* inputEm = static_cast<input::InputManagerEm*>(inputManager.get());
+            inputEm->update();
+        }
+        else
+            emscripten_cancel_main_loop();
     }
 
     void EngineEm::executeOnMainThread(const std::function<void(void)>& func)
