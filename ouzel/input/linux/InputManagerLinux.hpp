@@ -2,10 +2,13 @@
 
 #pragma once
 
+#include "core/Setup.h"
 #include <cstdint>
 #include <vector>
-#include <X11/keysym.h>
-#include <X11/X.h>
+#if OUZEL_SUPPORTS_X11
+#  include <X11/keysym.h>
+#  include <X11/X.h>
+#endif
 #include "input/linux/EventDevice.hpp"
 #include "input/InputManager.hpp"
 
@@ -21,8 +24,13 @@ namespace ouzel
             friend Engine;
             friend EngineLinux;
         public:
+#if OUZEL_SUPPORTS_X11
             static KeyboardKey convertKeyCode(KeySym keyCode);
             static uint32_t getModifiers(unsigned int state);
+#else
+            static KeyboardKey convertKeyCode(uint16_t keyCode);
+            uint32_t getModifiers() const;
+#endif
 
             virtual ~InputManagerLinux();
 
@@ -33,8 +41,6 @@ namespace ouzel
             virtual bool isCursorLocked() const override;
 
             virtual void setCursorPosition(const Vector2& position) override;
-
-            void handleXInput2Event(XGenericEventCookie* cookie);
 
         private:
             InputManagerLinux();
@@ -48,9 +54,14 @@ namespace ouzel
             std::vector<EventDevice> inputDevices;
             bool cursorVisible = true;
             bool cursorLocked = false;
+#if OUZEL_SUPPORTS_X11
             ::Cursor emptyCursor = None;
             ::Cursor currentCursor = None;
-            int xInputOpCode = 0;
+#else
+            int maxFd = 0;
+            bool keyboardKeyDown[256];
+            bool mouseButtonDown[3];
+#endif
         };
     } // namespace input
 } // namespace ouzel

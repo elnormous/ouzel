@@ -4,10 +4,11 @@
 #include <cstdlib>
 #include <unistd.h>
 #if OUZEL_SUPPORTS_X11
-#include "GL/gl.h"
-#include "GL/glext.h"
-#include <X11/XKBlib.h>
-#include <X11/extensions/scrnsaver.h>
+#  include "GL/gl.h"
+#  include "GL/glext.h"
+#  include <X11/XKBlib.h>
+#  include <X11/extensions/scrnsaver.h>
+#  include <X11/extensions/XInput2.h>
 #endif
 #include "EngineLinux.hpp"
 #include "WindowResourceLinux.hpp"
@@ -16,6 +17,7 @@
 #include "input/linux/InputManagerLinux.hpp"
 #include "thread/Lock.hpp"
 #include "utils/Errors.hpp"
+#include "utils/Log.hpp"
 
 namespace ouzel
 {
@@ -39,9 +41,41 @@ namespace ouzel
         input::InputManagerLinux* inputLinux = static_cast<input::InputManagerLinux*>(inputManager.get());
 
 #if OUZEL_SUPPORTS_X11
-        XEvent event;
+        WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
+        Display* display = windowLinux->getDisplay();
 
-        WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(window.getResource());
+        int xInputOpCode = 0;
+        int eventCode;
+        int err;
+        if (XQueryExtension(display, "XInputExtension", &xInputOpCode, &eventCode, &err))
+        {
+            int majorVersion = 2;
+            int minorVersion = 0;
+
+            XIQueryVersion(display, &majorVersion, &minorVersion);
+
+            if (majorVersion >= 2)
+            {
+                unsigned char mask[] = {0, 0 ,0};
+
+                XIEventMask eventMask;
+                eventMask.deviceid = XIAllMasterDevices;
+                eventMask.mask_len = sizeof(mask);
+                eventMask.mask = mask;
+
+                XISetMask(mask, XI_TouchBegin);
+                XISetMask(mask, XI_TouchEnd);
+                XISetMask(mask, XI_TouchUpdate);
+
+                XISelectEvents(display, windowLinux->getNativeWindow(), &eventMask, 1);
+            }
+            else
+                Log(Log::Level::WARN) << "XInput2 not supported";
+        }
+        else
+            Log(Log::Level::WARN) << "XInput not supported";
+
+        XEvent event;
 
         while (active)
         {
@@ -147,7 +181,36 @@ namespace ouzel
                     case GenericEvent:
                     {
                         XGenericEventCookie* cookie = &event.xcookie;
-                        inputLinux->handleXInput2Event(cookie);
+                        if (cookie->extension == xInputOpCode)
+                        {
+                            switch (cookie->evtype)
+                            {
+                                case XI_TouchBegin:
+                                {
+                                    XIDeviceEvent* xievent = reinterpret_cast<XIDeviceEvent*>(cookie->data);
+                                    inputManager->touchBegin(xievent->detail,
+                                                             engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(xievent->event_x),
+                                                                                                                            static_cast<float>(xievent->event_y))));
+                                    break;
+                                }
+                                case XI_TouchEnd:
+                                {
+                                    XIDeviceEvent* xievent = reinterpret_cast<XIDeviceEvent*>(cookie->data);
+                                    inputManager->touchEnd(xievent->detail,
+                                                           engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(xievent->event_x),
+                                                                                                                          static_cast<float>(xievent->event_y))));
+                                    break;
+                                }
+                                case XI_TouchUpdate:
+                                {
+                                    XIDeviceEvent* xievent = reinterpret_cast<XIDeviceEvent*>(cookie->data);
+                                    inputManager->touchMove(xievent->detail,
+                                                            engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(xievent->event_x),
+                                                                                                                           static_cast<float>(xievent->event_y))));
+                                    break;
+                                }
+                            }
+                        }
                         break;
                     }
                 }

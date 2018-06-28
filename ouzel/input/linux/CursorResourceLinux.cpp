@@ -1,7 +1,10 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include <X11/cursorfont.h>
-#include <X11/Xcursor/Xcursor.h>
+#include "core/Setup.h"
+#if OUZEL_SUPPORTS_X11
+#  include <X11/cursorfont.h>
+#  include <X11/Xcursor/Xcursor.h>
+#endif
 #include "CursorResourceLinux.hpp"
 #include "core/Engine.hpp"
 #include "core/linux/WindowResourceLinux.hpp"
@@ -18,18 +21,21 @@ namespace ouzel
 
         CursorResourceLinux::~CursorResourceLinux()
         {
+#if OUZEL_SUPPORTS_X11
             if (engine)
             {
                 WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
                 Display* display = windowLinux->getDisplay();
                 if (cursor != None) XFreeCursor(display, cursor);
             }
+#endif
         }
 
         void CursorResourceLinux::init(SystemCursor newSystemCursor)
         {
             CursorResource::init(newSystemCursor);
 
+#if OUZEL_SUPPORTS_X11
             WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
             Display* display = windowLinux->getDisplay();
 
@@ -63,7 +69,7 @@ namespace ouzel
                     cursor = XcursorLibraryLoadCursor(display, "xterm");
                     break;
             }
-
+#endif
             reactivate();
         }
 
@@ -77,6 +83,7 @@ namespace ouzel
                                  newPixelFormat,
                                  newHotSpot);
 
+#if OUZEL_SUPPORTS_X11
             WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
             Display* display = windowLinux->getDisplay();
 
@@ -117,7 +124,7 @@ namespace ouzel
 
                 XcursorImageDestroy(cursorImage);
             }
-
+#endif
             reactivate();
         }
     } // namespace input

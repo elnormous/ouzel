@@ -10,7 +10,7 @@
 #define BITS_PER_LONG (8 * sizeof(long))
 #define BITS_TO_LONGS(nr) DIV_ROUND_UP(nr, BITS_PER_LONG)
 
-static inline int isBitSet(const unsigned long* array, int bit)
+static inline bool isBitSet(const unsigned long* array, int bit)
 {
     return !!(array[bit / BITS_PER_LONG] & (1LL << (bit % BITS_PER_LONG)));
 }

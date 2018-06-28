@@ -2,7 +2,10 @@
 
 #pragma once
 
-#include <X11/X.h>
+#include "core/Setup.h"
+#if OUZEL_SUPPORTS_X11
+#  include <X11/X.h>
+#endif
 #include "input/CursorResource.hpp"
 
 namespace ouzel
@@ -21,10 +24,14 @@ namespace ouzel
                               graphics::PixelFormat newPixelFormat,
                               const Vector2& newHotSpot) override;
 
+#if OUZEL_SUPPORTS_X11
             ::Cursor getNativeCursor() const { return cursor; }
+#endif
 
         private:
+#if OUZEL_SUPPORTS_X11
             ::Cursor cursor = None;
+#endif
         };
     } // namespace input
 } // namespace ouzel
