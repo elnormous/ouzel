@@ -53,11 +53,14 @@
 #  endif
 
 #  define OUZEL_MULTITHREADED 1
+#  define OUZEL_ARCHITECTURE_X86
 
 #  if defined(_M_X64)
 #    define OUZEL_64BITS 1
-#    elif defined(_M_IX86)
+#  elif defined(_M_IX86)
 #    define OUZEL_32BITS 1
+#  else
+#    error "Unsupported architecture"
 #  endif
 
 #elif defined(__APPLE__) // macOS, iOS, tvOS
@@ -90,18 +93,25 @@
 
 #  define OUZEL_MULTITHREADED 1
 
-#  if defined(__x86_64__)
-#    define OUZEL_64BITS 1
-#  elif defined(__i386__)
-#    define OUZEL_32BITS 1
-#  elif defined(__arm64__)
-#    define OUZEL_64BITS 1
-#  elif defined(__arm__)
-#    define OUZEL_32BITS 1
-#  endif
-
-#  if defined(__ARM_NEON__)
-#    define OUZEL_SUPPORTS_NEON 1
+#  if defined(__x86_64__) || defined(__i386__)
+#    define OUZEL_ARCHITECTURE_X86
+#    if defined(__x86_64__)
+#      define OUZEL_64BITS 1
+#    elif defined(__i386__)
+#      define OUZEL_32BITS 1
+#    endif
+#  elif defined(__arm64__) || defined(__arm__)
+#    define OUZEL_ARCHITECTURE_ARM
+#    if defined(__arm64__)
+#      define OUZEL_64BITS 1
+#    elif defined(__arm__)
+#      define OUZEL_32BITS 1
+#    endif
+#    if defined(__ARM_NEON__)
+#      define OUZEL_SUPPORTS_NEON 1
+#    endif
+#  else
+#    error "Unsupported architecture"
 #  endif
 
 #elif defined(__ANDROID__) // Android
@@ -113,33 +123,52 @@
 #  define OUZEL_SUPPORTS_OPENSLES 1
 #  define OUZEL_MULTITHREADED 1
 
-#  if defined(__x86_64__)
-#    define OUZEL_64BITS 1
-#  elif defined(__i386__)
-#    define OUZEL_32BITS 1
-#  elif defined(__arm64__) || defined(__aarch64__)
-#    define OUZEL_64BITS 1
-#  elif defined(__arm__)
-#    define OUZEL_32BITS 1
-#  endif
-
-#  if defined(__ARM_NEON__)
-#    define OUZEL_SUPPORTS_NEON 1
-#    if defined(__arm__) // NEON support must be checked on Android for 32-bit platforms
-#      define OUZEL_SUPPORTS_NEON_CHECK 1
+#  if defined(__x86_64__) || defined(__i386__)
+#    define OUZEL_ARCHITECTURE_X86
+#    if defined(__x86_64__)
+#      define OUZEL_64BITS 1
+#    elif defined(__i386__)
+#      define OUZEL_32BITS 1
 #    endif
+#  elif defined(__arm64__) || defined(__aarch64__) || defined(__arm__)
+#    define OUZEL_ARCHITECTURE_ARM
+#    if defined(__arm64__) || defined(__aarch64__)
+#      define OUZEL_64BITS 1
+#    elif defined(__arm__)
+#      define OUZEL_32BITS 1
+#    endif
+#    if defined(__ARM_NEON__)
+#      define OUZEL_SUPPORTS_NEON 1
+#      if defined(__arm__) // NEON support must be checked on Android for 32-bit platforms
+#        define OUZEL_SUPPORTS_NEON_CHECK 1
+#      endif
+#    endif
+#  else
+#    error "Unsupported architecture"
 #  endif
 
 #elif defined(__linux__) // Linux
+#  define OUZEL_SUPPORTS_OPENGL 1
+#  define OUZEL_SUPPORTS_OPENAL 1
+#  define OUZEL_SUPPORTS_ALSA 1
+#  define OUZEL_MULTITHREADED 1
 
-#  if defined(__arm64__) || defined(__aarch64__) || defined(__arm__) // ARM Linux
+#  if defined(__x86_64__) || defined(__i386__) // x86 Linux
+#    define OUZEL_PLATFORM_LINUX 1
+#    define OUZEL_OPENGL_INTERFACE_GLX 1
+#    define OUZEL_SUPPORTS_X11 1
+#    define OUZEL_ARCHITECTURE_X86
+
+#    if defined(__x86_64__)
+#      define OUZEL_64BITS 1
+#    elif defined(__i386__)
+#      define OUZEL_32BITS 1
+#    endif
+#  elif defined(__arm64__) || defined(__aarch64__) || defined(__arm__) // ARM Linux
 #    define OUZEL_PLATFORM_RASPBIAN 1 // TODO: merge with x86 linux
-#    define OUZEL_SUPPORTS_OPENGL 1
 #    define OUZEL_SUPPORTS_OPENGLES 1
 #    define OUZEL_OPENGL_INTERFACE_EGL 1
-#    define OUZEL_SUPPORTS_OPENAL 1
-#    define OUZEL_SUPPORTS_ALSA 1
-#    define OUZEL_MULTITHREADED 1
+#    define OUZEL_ARCHITECTURE_ARM
 
 #    if defined(__arm64__) || defined(__aarch64__)
 #      define OUZEL_64BITS 1
@@ -150,20 +179,8 @@
 #    if defined(__ARM_NEON__)
 #      define OUZEL_SUPPORTS_NEON 1
 #    endif
-#  else // x86 Linux
-#    define OUZEL_PLATFORM_LINUX 1
-#    define OUZEL_SUPPORTS_OPENGL 1
-#    define OUZEL_OPENGL_INTERFACE_GLX 1
-#    define OUZEL_SUPPORTS_OPENAL 1
-#    define OUZEL_SUPPORTS_ALSA 1
-#    define OUZEL_MULTITHREADED 1
-#    define OUZEL_SUPPORTS_X11 1
-
-#    if defined(__x86_64__)
-#      define OUZEL_64BITS 1
-#    elif defined(__i386__)
-#      define OUZEL_32BITS 1
-#    endif
+#  else
+#    error "Unsupported architecture"
 #  endif
 
 #elif defined(EMSCRIPTEN) // Emscripten
