@@ -10,7 +10,8 @@
 #include <linux/joystick.h>
 #if OUZEL_SUPPORTS_X11
 #  include <X11/cursorfont.h>
-#  include <X11/extensions/XInput2.h>
+#else
+#  include <linux/input.h>
 #endif
 #include "InputManagerLinux.hpp"
 #include "CursorResourceLinux.hpp"
@@ -25,6 +26,7 @@ namespace ouzel
 {
     namespace input
     {
+#if OUZEL_SUPPORTS_X11
         static const std::unordered_map<KeySym, KeyboardKey> keyMap = {
             {XK_BackSpace, KeyboardKey::BACKSPACE},
             {XK_Tab, KeyboardKey::TAB},
@@ -237,11 +239,182 @@ namespace ouzel
 
             return modifiers;
         }
+#else
+        static const std::unordered_map<uint16_t, KeyboardKey> keyMap = {
+            {KEY_ESC, KeyboardKey::ESCAPE},
+            {KEY_1, KeyboardKey::NUM_1},
+            {KEY_2, KeyboardKey::NUM_2},
+            {KEY_3, KeyboardKey::NUM_3},
+            {KEY_4, KeyboardKey::NUM_4},
+            {KEY_5, KeyboardKey::NUM_5},
+            {KEY_6, KeyboardKey::NUM_6},
+            {KEY_7, KeyboardKey::NUM_7},
+            {KEY_8, KeyboardKey::NUM_8},
+            {KEY_9, KeyboardKey::NUM_9},
+            {KEY_0, KeyboardKey::NUM_0},
+            {KEY_MINUS, KeyboardKey::MINUS},
+            {KEY_EQUAL, KeyboardKey::PLUS},
+            {KEY_BACKSPACE, KeyboardKey::BACKSPACE},
+            {KEY_TAB, KeyboardKey::TAB},
+            {KEY_Q, KeyboardKey::Q},
+            {KEY_W, KeyboardKey::W},
+            {KEY_E, KeyboardKey::E},
+            {KEY_R, KeyboardKey::R},
+            {KEY_T, KeyboardKey::T},
+            {KEY_Y, KeyboardKey::Y},
+            {KEY_U, KeyboardKey::U},
+            {KEY_I, KeyboardKey::I},
+            {KEY_O, KeyboardKey::O},
+            {KEY_P, KeyboardKey::P},
+            {KEY_LEFTBRACE, KeyboardKey::LEFT_BRACKET},
+            {KEY_RIGHTBRACE, KeyboardKey::RIGHT_BRACKET},
+            {KEY_ENTER, KeyboardKey::RETURN},
+            {KEY_LEFTCTRL, KeyboardKey::LEFT_CONTROL},
+            {KEY_A, KeyboardKey::A},
+            {KEY_S, KeyboardKey::S},
+            {KEY_D, KeyboardKey::D},
+            {KEY_F, KeyboardKey::F},
+            {KEY_G, KeyboardKey::G},
+            {KEY_H, KeyboardKey::H},
+            {KEY_J, KeyboardKey::J},
+            {KEY_K, KeyboardKey::K},
+            {KEY_L, KeyboardKey::L},
+            {KEY_SEMICOLON, KeyboardKey::SEMICOLON},
+            {KEY_APOSTROPHE, KeyboardKey::QUOTE},
+            {KEY_GRAVE, KeyboardKey::GRAVE},
+            {KEY_LEFTSHIFT, KeyboardKey::LEFT_SHIFT},
+            {KEY_BACKSLASH, KeyboardKey::BACKSLASH},
+            {KEY_Z, KeyboardKey::Z},
+            {KEY_X, KeyboardKey::X},
+            {KEY_C, KeyboardKey::C},
+            {KEY_V, KeyboardKey::V},
+            {KEY_B, KeyboardKey::B},
+            {KEY_N, KeyboardKey::N},
+            {KEY_M, KeyboardKey::M},
+            {KEY_COMMA, KeyboardKey::COMMA},
+            {KEY_DOT, KeyboardKey::PERIOD},
+            {KEY_SLASH, KeyboardKey::SLASH},
+            {KEY_RIGHTSHIFT, KeyboardKey::RIGHT_SHIFT},
+            {KEY_KPASTERISK, KeyboardKey::MULTIPLY},
+            {KEY_LEFTALT, KeyboardKey::LEFT_ALT},
+            {KEY_SPACE, KeyboardKey::SPACE},
+            {KEY_CAPSLOCK, KeyboardKey::CAPITAL},
+            {KEY_F1, KeyboardKey::F1},
+            {KEY_F2, KeyboardKey::F2},
+            {KEY_F3, KeyboardKey::F3},
+            {KEY_F4, KeyboardKey::F4},
+            {KEY_F5, KeyboardKey::F5},
+            {KEY_F6, KeyboardKey::F6},
+            {KEY_F7, KeyboardKey::F7},
+            {KEY_F8, KeyboardKey::F8},
+            {KEY_F9, KeyboardKey::F9},
+            {KEY_F10, KeyboardKey::F10},
+            {KEY_NUMLOCK, KeyboardKey::NUMLOCK},
+            {KEY_SCROLLLOCK, KeyboardKey::SCROLL},
+            {KEY_KP7, KeyboardKey::NUMPAD_7},
+            {KEY_KP8, KeyboardKey::NUMPAD_8},
+            {KEY_KP9, KeyboardKey::NUMPAD_9},
+            {KEY_KPMINUS, KeyboardKey::SUBTRACT},
+            {KEY_KP4, KeyboardKey::NUMPAD_4},
+            {KEY_KP5, KeyboardKey::NUMPAD_5},
+            {KEY_KP6, KeyboardKey::NUMPAD_6},
+            {KEY_KPPLUS, KeyboardKey::ADD},
+            {KEY_KP1, KeyboardKey::NUMPAD_1},
+            {KEY_KP2, KeyboardKey::NUMPAD_2},
+            {KEY_KP3, KeyboardKey::NUMPAD_3},
+            {KEY_KP0, KeyboardKey::NUMPAD_0},
+            {KEY_KPDOT, KeyboardKey::DECIMAL},
+
+            {KEY_ZENKAKUHANKAKU, KeyboardKey::NONE}, // ??
+            {KEY_102ND, KeyboardKey::LESS},
+            {KEY_F11, KeyboardKey::F11},
+            {KEY_F12, KeyboardKey::F12},
+            {KEY_RO, KeyboardKey::NONE}, // ??
+            {KEY_KATAKANA, KeyboardKey::NONE}, // ??
+            {KEY_HIRAGANA, KeyboardKey::NONE}, // ??
+            {KEY_HENKAN, KeyboardKey::NONE}, // ??
+            {KEY_KATAKANAHIRAGANA, KeyboardKey::NONE}, // ??
+            {KEY_MUHENKAN, KeyboardKey::NONE}, // ??
+            {KEY_KPJPCOMMA, KeyboardKey::NONE}, // ??
+            {KEY_KPENTER, KeyboardKey::RETURN},
+            {KEY_RIGHTCTRL, KeyboardKey::RIGHT_CONTROL},
+            {KEY_KPSLASH, KeyboardKey::DIVIDE},
+            {KEY_SYSRQ, KeyboardKey::NONE}, // ??
+            {KEY_RIGHTALT, KeyboardKey::RIGHT_ALT},
+            {KEY_LINEFEED, KeyboardKey::NONE}, // ??
+            {KEY_HOME, KeyboardKey::HOME},
+            {KEY_UP, KeyboardKey::UP},
+            {KEY_PAGEUP, KeyboardKey::PRIOR},
+            {KEY_LEFT, KeyboardKey::LEFT},
+            {KEY_RIGHT, KeyboardKey::RIGHT},
+            {KEY_END, KeyboardKey::END},
+            {KEY_DOWN, KeyboardKey::DOWN},
+            {KEY_PAGEDOWN, KeyboardKey::NEXT},
+            {KEY_INSERT, KeyboardKey::INSERT},
+            {KEY_DELETE, KeyboardKey::DEL},
+            {KEY_MACRO, KeyboardKey::NONE}, // ??
+            {KEY_MUTE, KeyboardKey::NONE}, // ??
+            {KEY_VOLUMEDOWN, KeyboardKey::NONE}, // ??
+            {KEY_VOLUMEUP, KeyboardKey::NONE}, // ??
+            {KEY_POWER, KeyboardKey::NONE}, // ??
+            {KEY_KPEQUAL, KeyboardKey::EQUAL},
+            {KEY_KPPLUSMINUS, KeyboardKey::NONE}, // ??
+            {KEY_PAUSE, KeyboardKey::PAUSE},
+            {KEY_SCALE, KeyboardKey::NONE}, //?
+
+            {KEY_KPCOMMA, KeyboardKey::SEPARATOR},
+            {KEY_HANGEUL, KeyboardKey::NONE}, // KEY_HANGUEL
+            {KEY_HANJA, KeyboardKey::HANJA},
+            {KEY_YEN, KeyboardKey::NONE}, // ??
+            {KEY_LEFTMETA, KeyboardKey::LEFT_SUPER},
+            {KEY_RIGHTMETA, KeyboardKey::RIGHT_SUPER},
+            {KEY_COMPOSE, KeyboardKey::NONE}, // ??
+
+            {KEY_F13, KeyboardKey::F13},
+            {KEY_F14, KeyboardKey::F14},
+            {KEY_F15, KeyboardKey::F15},
+            {KEY_F16, KeyboardKey::F16},
+            {KEY_F17, KeyboardKey::F17},
+            {KEY_F18, KeyboardKey::F18},
+            {KEY_F19, KeyboardKey::F19},
+            {KEY_F20, KeyboardKey::F20},
+            {KEY_F21, KeyboardKey::F21},
+            {KEY_F22, KeyboardKey::F22},
+            {KEY_F23, KeyboardKey::F23},
+            {KEY_F24, KeyboardKey::F24}
+        };
+
+        KeyboardKey InputManagerLinux::convertKeyCode(uint16_t keyCode)
+        {
+            auto i = keyMap.find(keyCode);
+
+            if (i != keyMap.end())
+                return i->second;
+            else
+                return KeyboardKey::NONE;
+        }
+
+        uint32_t InputManagerLinux::getModifiers() const
+        {
+            uint32_t modifiers = 0;
+
+            if (keyboardKeyDown[KEY_LEFTSHIFT] || keyboardKeyDown[KEY_RIGHTSHIFT]) modifiers |= SHIFT_DOWN;
+            if (keyboardKeyDown[KEY_LEFTALT] || keyboardKeyDown[KEY_RIGHTALT]) modifiers |= ALT_DOWN;
+            if (keyboardKeyDown[KEY_LEFTCTRL] || keyboardKeyDown[KEY_RIGHTCTRL]) modifiers |= CONTROL_DOWN;
+            if (keyboardKeyDown[KEY_LEFTMETA] || keyboardKeyDown[KEY_RIGHTMETA]) modifiers |= SUPER_DOWN;
+
+            if (mouseButtonDown[0]) modifiers |= LEFT_MOUSE_DOWN;
+            if (mouseButtonDown[1]) modifiers |= RIGHT_MOUSE_DOWN;
+            if (mouseButtonDown[2]) modifiers |= MIDDLE_MOUSE_DOWN;
+
+            return modifiers;
+        }
+#endif
 
         InputManagerLinux::InputManagerLinux()
         {
+#if OUZEL_SUPPORTS_X11
             WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
-            ::Window window = windowLinux->getNativeWindow();
             Display* display = windowLinux->getDisplay();
 
             char data[1] = {0};
@@ -255,36 +428,6 @@ namespace ouzel
                 emptyCursor = XCreatePixmapCursor(display, pixmap, pixmap, &color, &color, 0, 0);
                 XFreePixmap(display, pixmap);
             }
-
-            int event;
-            int err;
-            if (XQueryExtension(display, "XInputExtension", &xInputOpCode, &event, &err))
-            {
-                int majorVersion = 2;
-                int minorVersion = 0;
-
-                XIQueryVersion(display, &majorVersion, &minorVersion);
-
-                if (majorVersion >= 2)
-                {
-                    unsigned char mask[] = {0, 0 ,0};
-
-                    XIEventMask eventMask;
-                    eventMask.deviceid = XIAllMasterDevices;
-                    eventMask.mask_len = sizeof(mask);
-                    eventMask.mask = mask;
-
-                    XISetMask(mask, XI_TouchBegin);
-                    XISetMask(mask, XI_TouchEnd);
-                    XISetMask(mask, XI_TouchUpdate);
-
-                    XISelectEvents(display, window, &eventMask, 1);
-                }
-                else
-                    Log(Log::Level::WARN) << "XInput2 not supported";
-            }
-            else
-                Log(Log::Level::WARN) << "XInput not supported";
 
             DIR* dir = opendir("/dev/input");
 
@@ -310,16 +453,20 @@ namespace ouzel
             }
 
             closedir(dir);
+#else
+#endif
         }
 
         InputManagerLinux::~InputManagerLinux()
         {
+#if OUZEL_SUPPORTS_X11
             if (engine)
             {
                 WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
                 Display* display = windowLinux->getDisplay();
                 if (emptyCursor != None) XFreeCursor(display, emptyCursor);
             }
+#endif
         }
 
         void InputManagerLinux::update()
@@ -360,6 +507,7 @@ namespace ouzel
         {
             InputManager::activateCursorResource(resource);
 
+#if OUZEL_SUPPORTS_X11
             if (engine)
             {
                 WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
@@ -386,6 +534,7 @@ namespace ouzel
                 else
                     XDefineCursor(display, window, emptyCursor);
             }
+#endif
         }
 
         CursorResource* InputManagerLinux::createCursorResource()
@@ -406,6 +555,7 @@ namespace ouzel
             {
                 cursorVisible = visible;
 
+#if OUZEL_SUPPORTS_X11
                 engine->executeOnMainThread([visible, this] {
                     WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
                     Display* display = windowLinux->getDisplay();
@@ -423,6 +573,7 @@ namespace ouzel
 
                     XFlush(display);
                 });
+#endif
             }
         }
 
@@ -433,6 +584,7 @@ namespace ouzel
 
         void InputManagerLinux::setCursorLocked(bool locked)
         {
+#if OUZEL_SUPPORTS_X11
             engine->executeOnMainThread([locked] {
                 WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
                 Display* display = windowLinux->getDisplay();
@@ -451,6 +603,7 @@ namespace ouzel
 
                 XSync(display, False);
             });
+#endif
             cursorLocked = locked;
         }
 
@@ -463,6 +616,7 @@ namespace ouzel
         {
             InputManager::setCursorPosition(position);
 
+#if OUZEL_SUPPORTS_X11
             engine->executeOnMainThread([position] {
                 WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
                 Display* display = windowLinux->getDisplay();
@@ -478,40 +632,7 @@ namespace ouzel
                              attributes.y + static_cast<int>(windowLocation.y));
                 XSync(display, False);
             });
-        }
-
-        void InputManagerLinux::handleXInput2Event(XGenericEventCookie* cookie)
-        {
-            if (cookie->extension == xInputOpCode)
-            {
-                switch (cookie->evtype)
-                {
-                    case XI_TouchBegin:
-                    {
-                        XIDeviceEvent* xievent = reinterpret_cast<XIDeviceEvent*>(cookie->data);
-                        touchBegin(xievent->detail,
-                                   engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(xievent->event_x),
-                                                                                                  static_cast<float>(xievent->event_y))));
-                        break;
-                    }
-                    case XI_TouchEnd:
-                    {
-                        XIDeviceEvent* xievent = reinterpret_cast<XIDeviceEvent*>(cookie->data);
-                        touchEnd(xievent->detail,
-                                 engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(xievent->event_x),
-                                                                                                static_cast<float>(xievent->event_y))));
-                        break;
-                    }
-                    case XI_TouchUpdate:
-                    {
-                        XIDeviceEvent* xievent = reinterpret_cast<XIDeviceEvent*>(cookie->data);
-                        touchMove(xievent->detail,
-                                  engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(xievent->event_x),
-                                                                                                 static_cast<float>(xievent->event_y))));
-                        break;
-                    }
-                }
-            }
+#endif
         }
     } // namespace input
 } // namespace ouzel
