@@ -2,7 +2,6 @@
 
 #include <cstdlib>
 #include <unistd.h>
-#include <pthread.h>
 #include <android/window.h>
 #include "EngineAndroid.hpp"
 #include "WindowResourceAndroid.hpp"
