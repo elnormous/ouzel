@@ -68,10 +68,7 @@ namespace ouzel
     WindowResourceMacOS::~WindowResourceMacOS()
     {
         if (exclusiveFullscreen && fullscreen)
-        {
-            if (CGDisplayRelease(displayId) != kCGErrorSuccess)
-                throw SystemError("Failed to release the main display");
-        }
+            CGDisplayRelease(displayId);
 
         if (view) [view release];
 
