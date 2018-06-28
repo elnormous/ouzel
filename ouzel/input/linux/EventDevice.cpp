@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <linux/input.h>
 #include "EventDevice.hpp"
+#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
 #define DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d))
@@ -24,10 +25,7 @@ namespace ouzel
             fd = open(filename.c_str(), O_RDONLY);
 
             if (fd == -1)
-            {
-                Log(Log::Level::WARN) << "Failed to open device file";
-                return;
-            }
+                throw SystemError("Failed to open device file");
 
             if (ioctl(fd, EVIOCGRAB, reinterpret_cast<void*>(1)) == -1)
                 Log(Log::Level::WARN) << "Failed to grab device";
@@ -50,10 +48,7 @@ namespace ouzel
                 ioctl(fd, EVIOCGBIT(EV_ABS, sizeof(absBits)), absBits) == -1 ||
                 ioctl(fd, EVIOCGBIT(EV_REL, sizeof(relBits)), relBits) == -1 ||
                 ioctl(fd, EVIOCGBIT(EV_KEY, sizeof(keyBits)), keyBits) == -1)
-            {
-                Log(Log::Level::WARN) << "Failed to get device event bits";
-                return;
-            }
+                throw SystemError("Failed to get device event bits");
 
             if (isBitSet(eventBits, EV_KEY) && (
                     isBitSet(keyBits, KEY_1) ||

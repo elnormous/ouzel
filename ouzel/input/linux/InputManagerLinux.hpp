@@ -29,8 +29,8 @@ namespace ouzel
             static uint32_t getModifiers(unsigned int state);
 #else
             static KeyboardKey convertKeyCode(uint16_t keyCode);
-            uint32_t getModifiers() const;
 #endif
+            uint32_t getModifiers() const;
 
             virtual ~InputManagerLinux();
 
@@ -41,6 +41,8 @@ namespace ouzel
             virtual bool isCursorLocked() const override;
 
             virtual void setCursorPosition(const Vector2& position) override;
+
+            virtual void startGamepadDiscovery() override;
 
         private:
             InputManagerLinux();
@@ -54,13 +56,13 @@ namespace ouzel
             std::vector<EventDevice> inputDevices;
             bool cursorVisible = true;
             bool cursorLocked = false;
+            bool keyboardKeyDown[256];
+            bool mouseButtonDown[3];
 #if OUZEL_SUPPORTS_X11
             ::Cursor emptyCursor = None;
             ::Cursor currentCursor = None;
 #else
             int maxFd = 0;
-            bool keyboardKeyDown[256];
-            bool mouseButtonDown[3];
 #endif
         };
     } // namespace input

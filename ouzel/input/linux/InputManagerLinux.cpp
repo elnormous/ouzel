@@ -393,7 +393,7 @@ namespace ouzel
             else
                 return KeyboardKey::NONE;
         }
-
+#endif
         uint32_t InputManagerLinux::getModifiers() const
         {
             uint32_t modifiers = 0;
@@ -409,10 +409,12 @@ namespace ouzel
 
             return modifiers;
         }
-#endif
 
         InputManagerLinux::InputManagerLinux()
         {
+            std::fill(std::begin(keyboardKeyDown), std::end(keyboardKeyDown), false);
+            std::fill(std::begin(mouseButtonDown), std::end(mouseButtonDown), false);
+
 #if OUZEL_SUPPORTS_X11
             WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
             Display* display = windowLinux->getDisplay();
@@ -428,6 +430,7 @@ namespace ouzel
                 emptyCursor = XCreatePixmapCursor(display, pixmap, pixmap, &color, &color, 0, 0);
                 XFreePixmap(display, pixmap);
             }
+#endif
 
             DIR* dir = opendir("/dev/input");
 
@@ -441,20 +444,24 @@ namespace ouzel
             {
                 if (strncmp("event", ent.d_name, 5) == 0)
                 {
-                    EventDevice inputDevice(std::string("/dev/input/") + ent.d_name);
-
-                    if (inputDevice.getDeviceClass() != EventDevice::CLASS_NONE)
+                    try
                     {
-                        if (inputDevice.getFd() > maxFd) maxFd = inputDevice.getFd();
+                        EventDevice inputDevice(std::string("/dev/input/") + ent.d_name);
 
-                        inputDevices.push_back(std::move(inputDevice));
+                        if (inputDevice.getDeviceClass() != EventDevice::CLASS_NONE)
+                        {
+                            if (inputDevice.getFd() > maxFd) maxFd = inputDevice.getFd();
+
+                            inputDevices.push_back(std::move(inputDevice));
+                        }
+                    }
+                    catch (...)
+                    {
                     }
                 }
             }
 
             closedir(dir);
-#else
-#endif
         }
 
         InputManagerLinux::~InputManagerLinux()
@@ -471,8 +478,6 @@ namespace ouzel
 
         void InputManagerLinux::update()
         {
-            // TODO: check for new gamepads
-            
             fd_set rfds;
             struct timeval tv;
             tv.tv_sec = 0;
@@ -481,23 +486,112 @@ namespace ouzel
             FD_ZERO(&rfds);
 
             for (const EventDevice& inputDevice : inputDevices)
-            {
                 FD_SET(inputDevice.getFd(), &rfds);
-            }
 
             int retval = select(maxFd + 1, &rfds, nullptr, nullptr, &tv);
 
             if (retval == -1)
-            {
                 Log(Log::Level::ERR) << "Select failed";
-            }
             else if (retval > 0)
             {
+                static char TEMP_BUFFER[256];
+
                 for (const EventDevice& inputDevice : inputDevices)
                 {
                     if (FD_ISSET(inputDevice.getFd(), &rfds))
                     {
-                        // TODO: read input
+                        ssize_t bytesRead = read(inputDevice.getFd(), TEMP_BUFFER, sizeof(TEMP_BUFFER));
+
+                        if (bytesRead == -1) continue;
+
+                        for (ssize_t i = 0; i < bytesRead - static_cast<ssize_t>(sizeof(input_event)) + 1; i += sizeof(input_event))
+                        {
+                            input_event* event = reinterpret_cast<input_event*>(TEMP_BUFFER + i);
+
+                            if (inputDevice.getDeviceClass() & EventDevice::CLASS_KEYBOARD)
+                            {
+                                if (event->type == EV_KEY)
+                                {
+                                    if (event->value == 1 || event->value == 2) // press or repeat
+                                    {
+                                        if (event->value >= 0 && event->value < 256) keyboardKeyDown[event->value] = true;
+                                        keyPress(convertKeyCode(event->code), getModifiers());
+                                    }
+                                    else if (event->value == 0) // release
+                                    {
+                                        if (event->value >= 0 && event->value < 256) keyboardKeyDown[event->value] = false;
+                                        keyRelease(convertKeyCode(event->code), getModifiers());
+                                    }
+                                }
+                            }
+                            if (inputDevice.getDeviceClass() & EventDevice::CLASS_MOUSE)
+                            {
+                                if (event->type == EV_ABS)
+                                {
+                                    Vector2 absolutePos = cursorPosition;
+
+                                    if (event->code == ABS_X)
+                                        absolutePos.x = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(event->value), 0.0F)).x;
+                                    else if (event->code == ABS_Y)
+                                        absolutePos.y = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(0.0F, static_cast<float>(event->value))).y;
+
+                                    mouseMove(absolutePos, getModifiers());
+                                }
+                                else if (event->type == EV_REL)
+                                {
+                                    Vector2 relativePos;
+
+                                    if (event->code == REL_X)
+                                        relativePos.x = static_cast<float>(event->value);
+                                    else if (event->code == REL_Y)
+                                        relativePos.y = static_cast<float>(event->value);
+
+                                    mouseRelativeMove(engine->getWindow()->convertWindowToNormalizedLocation(relativePos), getModifiers());
+                                }
+                                else if (event->type == EV_KEY)
+                                {
+                                    MouseButton button;
+                                    int buttonIndex = -1;
+
+                                    switch (event->code)
+                                    {
+                                    case BTN_LEFT:
+                                        button = MouseButton::LEFT;
+                                        buttonIndex = 0;
+                                        break;
+                                    case BTN_RIGHT:
+                                        button = MouseButton::RIGHT;
+                                        buttonIndex =  1;
+                                        break;
+                                    case BTN_MIDDLE:
+                                        button = MouseButton::MIDDLE;
+                                        buttonIndex = 2;
+                                        break;
+                                    default:
+                                        button = MouseButton::NONE;
+                                    }
+
+                                    if (event->value == 1)
+                                    {
+                                        if (buttonIndex >= 0 && buttonIndex < 3) mouseButtonDown[buttonIndex] = true;
+                                        mouseButtonPress(button, cursorPosition, getModifiers());
+                                    }
+                                    else if (event->value == 0)
+                                    {
+                                        if (buttonIndex >= 0 && buttonIndex < 3) mouseButtonDown[buttonIndex] = false;
+                                        mouseButtonRelease(button, cursorPosition, getModifiers());
+                                    }
+                                }
+                            }
+                            if (inputDevice.getDeviceClass() & EventDevice::CLASS_TOUCHPAD)
+                            {
+                                // TODO: implement
+                            }
+                            if (inputDevice.getDeviceClass() & EventDevice::CLASS_GAMEPAD)
+                            {
+                                // TODO: implement
+                            }
+                        }
                     }
                 }
             }
@@ -633,6 +727,11 @@ namespace ouzel
                 XSync(display, False);
             });
 #endif
+        }
+
+        void InputManagerLinux::startGamepadDiscovery()
+        {
+            // TODO: check for new gamepads
         }
     } // namespace input
 } // namespace ouzel
