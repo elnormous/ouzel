@@ -2,9 +2,9 @@
 
 #include "core/Setup.h"
 
-#if OUZEL_COMPILE_OPENGL
-#define GL_GLEXT_PROTOTYPES 1
-#include <GL/glx.h>
+#if OUZEL_COMPILE_OPENGL && OUZEL_OPENGL_INTERFACE_GLX
+#  define GL_GLEXT_PROTOTYPES 1
+#  include "GL/glx.h"
 #endif
 
 #include "WindowResourceLinux.hpp"
@@ -13,7 +13,9 @@
 #include "thread/Lock.hpp"
 #include "utils/Errors.hpp"
 
+#if OUZEL_SUPPORTS_X11
 static const long _NET_WM_STATE_TOGGLE = 2;
+#endif
 
 namespace ouzel
 {
@@ -23,6 +25,7 @@ namespace ouzel
 
     WindowResourceLinux::~WindowResourceLinux()
     {
+#if OUZEL_SUPPORTS_X11
         if (visualInfo)
             XFree(visualInfo);
 
@@ -33,6 +36,12 @@ namespace ouzel
 
             XCloseDisplay(display);
         }
+#else
+        if (display != DISPMANX_NO_HANDLE)
+            vc_dispmanx_display_close(display);
+
+        bcm_host_deinit();
+#endif
     }
 
     void WindowResourceLinux::init(const Size2& newSize,
@@ -51,6 +60,7 @@ namespace ouzel
                              newHighDpi,
                              depth);
 
+#if OUZEL_SUPPORTS_X11
         // open a connection to the X server
         display = XOpenDisplay(nullptr);
 
@@ -84,7 +94,7 @@ namespace ouzel
 
                 break;
             }
-#if OUZEL_COMPILE_OPENGL
+#  if OUZEL_COMPILE_OPENGL
             case graphics::Renderer::Driver::OPENGL:
             {
                 // find an OpenGL-capable RGB visual
@@ -118,7 +128,7 @@ namespace ouzel
                                        CWBorderPixel | CWColormap | CWEventMask, &swa);
                 break;
             }
-#endif
+#  endif
             default:
                 throw SystemError("Unsupported render driver");
         }
@@ -159,12 +169,57 @@ namespace ouzel
         executeAtom = XInternAtom(display, "OUZEL_EXECUTE", False);
 
         if (fullscreen) toggleFullscreen();
+#else
+        bcm_host_init();
+
+        display = vc_dispmanx_display_open(0);
+        if (display == DISPMANX_NO_HANDLE)
+            throw SystemError("Failed to open display");
+
+        DISPMANX_MODEINFO_T modeInfo;
+        int32_t success = vc_dispmanx_display_get_info(display, &modeInfo);
+
+        if (success < 0)
+            throw SystemError("Failed to get display size");
+
+        VC_RECT_T dstRect;
+        dstRect.x = 0;
+        dstRect.y = 0;
+        dstRect.width = modeInfo.width;
+        dstRect.height = modeInfo.height;
+
+        VC_RECT_T srcRect;
+        srcRect.x = 0;
+        srcRect.y = 0;
+        srcRect.width = modeInfo.width;
+        srcRect.height = modeInfo.height;
+
+        DISPMANX_UPDATE_HANDLE_T dispmanUpdate = vc_dispmanx_update_start(0);
+
+        if (dispmanUpdate == DISPMANX_NO_HANDLE)
+            throw SystemError("Failed to start display update");
+
+        DISPMANX_ELEMENT_HANDLE_T dispmanElement = vc_dispmanx_element_add(dispmanUpdate, display,
+                                                                           0, &dstRect, 0,
+                                                                           &srcRect, DISPMANX_PROTECTION_NONE,
+                                                                           0, 0, DISPMANX_NO_ROTATE);
+
+        nativewindow.element = dispmanElement;
+        nativewindow.width = modeInfo.width;
+        nativewindow.height = modeInfo.height;
+        vc_dispmanx_update_submit_sync(dispmanUpdate);
+
+        size.width = static_cast<float>(modeInfo.width);
+        size.height = static_cast<float>(modeInfo.height);
+        resolution = size;
+#endif
     }
 
     void WindowResourceLinux::close()
     {
         WindowResource::close();
 
+#if OUZEL_SUPPORTS_X11
         if (!protocolsAtom || !deleteAtom) return;
 
         XEvent event;
@@ -179,12 +234,14 @@ namespace ouzel
         event.xclient.data.l[4] = 0; // unused
         if (!XSendEvent(display, window, False, NoEventMask, &event))
             throw SystemError("Failed to send X11 delete message");
+#endif
     }
 
     void WindowResourceLinux::setSize(const Size2& newSize)
     {
         WindowResource::setSize(newSize);
 
+#if OUZEL_SUPPORTS_X11
         XWindowChanges changes;
         changes.width = static_cast<int>(size.width);
         changes.height = static_cast<int>(size.height);
@@ -206,6 +263,7 @@ namespace ouzel
         Lock lock(listenerMutex);
         if (listener)
             listener->onResolutionChange(resolution);
+#endif
     }
 
     void WindowResourceLinux::setFullscreen(bool newFullscreen)
@@ -217,13 +275,16 @@ namespace ouzel
 
     void WindowResourceLinux::setTitle(const std::string& newTitle)
     {
+#if OUZEL_SUPPORTS_X11
         if (title != newTitle) XStoreName(display, window, newTitle.c_str());
+#endif
 
         WindowResource::setTitle(newTitle);
     }
 
     void WindowResourceLinux::toggleFullscreen()
     {
+#if OUZEL_SUPPORTS_X11
         if (!stateAtom)
             throw SystemError("State atom is null");
 
@@ -243,6 +304,7 @@ namespace ouzel
 
         if (!XSendEvent(display, DefaultRootWindow(display), 0, SubstructureRedirectMask | SubstructureNotifyMask, &event))
             throw SystemError("Failed to send X11 fullscreen message");
+#endif
     }
 
     void WindowResourceLinux::handleResize(const Size2& newSize)

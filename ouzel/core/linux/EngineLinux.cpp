@@ -1,12 +1,14 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include "core/Setup.h"
 #include <cstdlib>
 #include <unistd.h>
-#include <pthread.h>
-#include <GL/gl.h>
-#include <GL/glext.h>
+#if OUZEL_SUPPORTS_X11
+#include "GL/gl.h"
+#include "GL/glext.h"
 #include <X11/XKBlib.h>
 #include <X11/extensions/scrnsaver.h>
+#endif
 #include "EngineLinux.hpp"
 #include "WindowResourceLinux.hpp"
 #include "events/Event.hpp"
@@ -26,16 +28,20 @@ namespace ouzel
 
     void EngineLinux::run()
     {
+#if OUZEL_SUPPORTS_X11
         if (!XInitThreads())
             throw SystemError("Failed to initialize thread support");
+#endif
 
         init();
         start();
 
+        input::InputManagerLinux* inputLinux = static_cast<input::InputManagerLinux*>(inputManager.get());
+
+#if OUZEL_SUPPORTS_X11
         XEvent event;
 
         WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(window.getResource());
-        input::InputManagerLinux* inputLinux = static_cast<input::InputManagerLinux*>(inputManager.get());
 
         while (active)
         {
@@ -149,12 +155,21 @@ namespace ouzel
                 inputLinux->update();
             }
         }
+#else
+        while (active)
+        {
+            executeAll();
+
+            inputLinux->update();
+        }
+#endif
 
         exit();
     }
 
     void EngineLinux::executeOnMainThread(const std::function<void(void)>& func)
     {
+#if OUZEL_SUPPORTS_X11
         WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(window.getResource());
 
         XEvent event;
@@ -176,22 +191,31 @@ namespace ouzel
             throw SystemError("Failed to send X11 delete message");
 
         XFlush(windowLinux->getDisplay());
+#else
+        Lock lock(executeMutex);
+
+        executeQueue.push(func);
+#endif
     }
 
     void EngineLinux::openURL(const std::string& url)
     {
+#if OUZEL_SUPPORTS_X11
 		::exit(execl("/usr/bin/xdg-open", "xdg-open", url.c_str(), nullptr));
+#endif
 	}
 
 	void EngineLinux::setScreenSaverEnabled(bool newScreenSaverEnabled)
     {
         Engine::setScreenSaverEnabled(newScreenSaverEnabled);
 
+#if OUZEL_SUPPORTS_X11
         executeOnMainThread([this, newScreenSaverEnabled]() {
             WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(window.getResource());
 
             XScreenSaverSuspend(windowLinux->getDisplay(), !newScreenSaverEnabled);
         });
+#endif
     }
 
     void EngineLinux::executeAll()

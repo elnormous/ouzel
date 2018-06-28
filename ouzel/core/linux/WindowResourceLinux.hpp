@@ -2,9 +2,14 @@
 
 #pragma once
 
+#include "core/Setup.h"
 #include <cstdint>
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
+#if OUZEL_SUPPORTS_X11
+#  include <X11/Xlib.h>
+#  include <X11/Xutil.h>
+#else
+#  include <bcm_host.h>
+#endif
 
 #include "core/WindowResource.hpp"
 
@@ -26,12 +31,16 @@ namespace ouzel
         virtual void setFullscreen(bool newFullscreen) override;
         virtual void setTitle(const std::string& newTitle) override;
 
+#if OUZEL_SUPPORTS_X11
         inline Display* getDisplay() const { return display; }
         inline ::Window getNativeWindow() const { return window; }
         inline XVisualInfo* getVisualInfo() const { return visualInfo; }
         inline Atom getProtocolsAtom() const { return protocolsAtom; }
         inline Atom getDeleteAtom() const { return deleteAtom; }
         inline Atom getExecuteAtom() const { return executeAtom; }
+#else
+        const EGL_DISPMANX_WINDOW_T& getNativeWindow() const { return nativewindow; }
+#endif
 
     protected:
         WindowResourceLinux();
@@ -45,6 +54,7 @@ namespace ouzel
         virtual void toggleFullscreen();
         void handleResize(const Size2& newSize);
 
+#if OUZEL_SUPPORTS_X11
         XVisualInfo* visualInfo = nullptr;
         Display* display = nullptr;
         ::Window window = 0;
@@ -53,5 +63,9 @@ namespace ouzel
         Atom stateAtom;
         Atom stateFullscreenAtom;
         Atom executeAtom;
+#else
+        DISPMANX_DISPLAY_HANDLE_T display = DISPMANX_NO_HANDLE;
+        EGL_DISPMANX_WINDOW_T nativewindow;
+#endif
     };
 }

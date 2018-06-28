@@ -148,13 +148,13 @@
 #  endif
 
 #elif defined(__linux__) // Linux
+#  define OUZEL_PLATFORM_LINUX 1
 #  define OUZEL_SUPPORTS_OPENGL 1
 #  define OUZEL_SUPPORTS_OPENAL 1
 #  define OUZEL_SUPPORTS_ALSA 1
 #  define OUZEL_MULTITHREADED 1
 
 #  if defined(__x86_64__) || defined(__i386__) // x86 Linux
-#    define OUZEL_PLATFORM_LINUX 1
 #    define OUZEL_OPENGL_INTERFACE_GLX 1
 #    define OUZEL_SUPPORTS_X11 1
 #    define OUZEL_ARCHITECTURE_X86
@@ -165,7 +165,6 @@
 #      define OUZEL_32BITS 1
 #    endif
 #  elif defined(__arm64__) || defined(__aarch64__) || defined(__arm__) // ARM Linux
-#    define OUZEL_PLATFORM_RASPBIAN 1 // TODO: merge with x86 linux
 #    define OUZEL_SUPPORTS_OPENGLES 1
 #    define OUZEL_OPENGL_INTERFACE_EGL 1
 #    define OUZEL_ARCHITECTURE_ARM

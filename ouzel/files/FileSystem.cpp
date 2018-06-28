@@ -13,7 +13,7 @@
 #include <CoreFoundation/CoreFoundation.h>
 #include "apple/FileSystemApple.hpp"
 extern "C" id NSTemporaryDirectory();
-#elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
+#elif OUZEL_PLATFORM_LINUX
 #include <pwd.h>
 #include <unistd.h>
 #elif OUZEL_PLATFORM_ANDROID
@@ -26,7 +26,7 @@ extern "C" id NSTemporaryDirectory();
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
-#if OUZEL_PLATFORM_WINDOWS || OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
+#if OUZEL_PLATFORM_WINDOWS || OUZEL_PLATFORM_LINUX
 extern std::string DEVELOPER_NAME;
 extern std::string APPLICATION_NAME;
 #endif
@@ -67,7 +67,7 @@ namespace ouzel
         else
             throw FileError("Failed to get current directory");
 
-#elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
+#elif OUZEL_PLATFORM_LINUX
         char executableDirectory[1024];
 
         if (readlink("/proc/self/exe", executableDirectory, sizeof(executableDirectory)) != -1)
@@ -126,7 +126,7 @@ namespace ouzel
         return path;
 #elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
         return getStorageDirectoryApple(user);
-#elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
+#elif OUZEL_PLATFORM_LINUX
         std::string path;
 
         char* homeDirectory = getenv("XDG_DATA_HOME");
@@ -192,7 +192,7 @@ namespace ouzel
 #elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
         id temporaryDirectory = NSTemporaryDirectory();
         return reinterpret_cast<const char* (*)(id, SEL)>(&objc_msgSend)(temporaryDirectory, sel_getUid("UTF8String")); // [temporaryDirectory UTF8String]
-#elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
+#elif OUZEL_PLATFORM_LINUX
         char const* path = getenv("TMPDIR");
         if (path)
             return path;
