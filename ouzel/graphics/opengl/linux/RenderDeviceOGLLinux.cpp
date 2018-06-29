@@ -286,7 +286,14 @@ namespace ouzel
 
         void RenderDeviceOGLLinux::main()
         {
-            while (running) process();
+            try
+            {
+                while (running) process();
+            }
+            catch (const std::exception& e)
+            {
+                Log(Log::Level::ERR) << e.what();
+            }
 
 #if OUZEL_OPENGL_INTERFACE_EGL
             if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
