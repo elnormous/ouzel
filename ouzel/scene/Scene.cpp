@@ -71,7 +71,7 @@ namespace ouzel
         {
             bool result = false;
 
-            std::vector<Layer*>::iterator layerIterator = std::find(layers.begin(), layers.end(), layer);
+            auto layerIterator = std::find(layers.begin(), layers.end(), layer);
 
             if (layerIterator != layers.end())
             {
@@ -85,7 +85,7 @@ namespace ouzel
                 result = true;
             }
 
-            std::vector<std::unique_ptr<Layer>>::iterator ownedIterator = std::find_if(ownedLayers.begin(), ownedLayers.end(), [layer](const std::unique_ptr<Layer>& other) {
+            auto ownedIterator = std::find_if(ownedLayers.begin(), ownedLayers.end(), [layer](const std::unique_ptr<Layer>& other) {
                 return other.get() == layer;
             });
 

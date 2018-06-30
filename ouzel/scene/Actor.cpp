@@ -299,7 +299,7 @@ namespace ouzel
         {
             bool result = false;
 
-            std::vector<Component*>::iterator componentIterator = std::find(components.begin(), components.end(), component);
+            auto componentIterator = std::find(components.begin(), components.end(), component);
 
             if (componentIterator != components.end())
             {
@@ -308,7 +308,7 @@ namespace ouzel
                 result = true;
             }
 
-            std::vector<std::unique_ptr<Component>>::iterator ownedIterator = std::find_if(ownedComponents.begin(), ownedComponents.end(), [component](const std::unique_ptr<Component>& other) {
+            auto ownedIterator = std::find_if(ownedComponents.begin(), ownedComponents.end(), [component](const std::unique_ptr<Component>& other) {
                 return other.get() == component;
             });
 
