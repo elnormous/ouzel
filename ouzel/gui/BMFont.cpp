@@ -156,7 +156,7 @@ namespace ouzel
 
     void BMFont::init(const std::vector<uint8_t>& data, bool mipmaps)
     {
-        std::vector<uint8_t>::const_iterator iterator = data.begin();
+        auto iterator = data.cbegin();
 
         std::string keyword;
         std::string key;

@@ -299,7 +299,7 @@ namespace ouzel
             };
 
             // tokenize
-            for (std::vector<uint32_t>::const_iterator iterator = str.begin(); iterator != str.end();)
+            for (auto iterator = str.cbegin(); iterator != str.cend();)
             {
                 Token token;
 
@@ -485,7 +485,7 @@ namespace ouzel
 
             std::vector<Token> tokens = tokenize(str);
 
-            std::vector<Token>::const_iterator iterator = tokens.cbegin();
+            auto iterator = tokens.cbegin();
 
             parseValue(tokens, iterator);
         }

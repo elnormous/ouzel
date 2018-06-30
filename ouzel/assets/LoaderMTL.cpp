@@ -138,7 +138,7 @@ namespace ouzel
 
             uint32_t materialCount = 0;
 
-            std::vector<uint8_t>::const_iterator iterator = data.begin();
+            auto iterator = data.cbegin();
 
             std::string keyword;
             std::string value;
