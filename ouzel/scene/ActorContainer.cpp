@@ -104,7 +104,7 @@ namespace ouzel
 
         bool ActorContainer::hasChild(Actor* actor, bool recursive) const
         {
-            for (std::vector<Actor*>::const_iterator i = children.begin(); i != children.end(); ++i)
+            for (auto i = children.cbegin(); i != children.cend(); ++i)
             {
                 Actor* child = *i;
 

@@ -617,7 +617,7 @@ namespace ouzel
 
             bool rootTagFound = false;
 
-            std::vector<uint32_t>::const_iterator iterator = str.cbegin();
+            auto iterator = str.cbegin();
 
             for (;;)
             {

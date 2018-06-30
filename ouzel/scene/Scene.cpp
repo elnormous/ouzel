@@ -109,7 +109,7 @@ namespace ouzel
 
         bool Scene::hasLayer(Layer* layer) const
         {
-            std::vector<Layer*>::const_iterator i = std::find(layers.begin(), layers.end(), layer);
+            auto i = std::find(layers.cbegin(), layers.cend(), layer);
 
             return i != layers.end();
         }
