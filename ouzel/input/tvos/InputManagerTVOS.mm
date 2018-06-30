@@ -172,7 +172,7 @@ namespace ouzel
 
         void InputManagerTVOS::handleGamepadDisconnected(GCControllerPtr controller)
         {
-            std::vector<std::unique_ptr<Gamepad>>::iterator i = std::find_if(gamepads.begin(), gamepads.end(), [controller](const std::unique_ptr<Gamepad>& gamepad) {
+            auto i = std::find_if(gamepads.begin(), gamepads.end(), [controller](const std::unique_ptr<Gamepad>& gamepad) {
                 GamepadTVOS* currentGamepad = static_cast<GamepadTVOS*>(gamepad.get());
                 return currentGamepad->getController() == controller;
             });

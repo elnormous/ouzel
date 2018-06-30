@@ -135,7 +135,7 @@ namespace ouzel
 
             bool result = false;
 
-            std::vector<Animator*>::iterator animatorIterator = std::find(animators.begin(), animators.end(), animator);
+            auto animatorIterator = std::find(animators.begin(), animators.end(), animator);
 
             if (animatorIterator != animators.end())
             {
@@ -144,7 +144,7 @@ namespace ouzel
                 result = true;
             }
 
-            std::vector<std::unique_ptr<Animator>>::iterator ownedIterator = std::find_if(ownedAnimators.begin(), ownedAnimators.end(), [animator](const std::unique_ptr<Animator>& other) {
+            auto ownedIterator = std::find_if(ownedAnimators.begin(), ownedAnimators.end(), [animator](const std::unique_ptr<Animator>& other) {
                 return other.get() == animator;
             });
 

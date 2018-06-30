@@ -107,7 +107,7 @@ namespace ouzel
         {
             bool result = false;
 
-            std::vector<Scene*>::iterator sceneIterator = std::find(scenes.begin(), scenes.end(), scene);
+            auto sceneIterator = std::find(scenes.begin(), scenes.end(), scene);
 
             if (sceneIterator != scenes.end())
             {
@@ -118,7 +118,7 @@ namespace ouzel
                 result = true;
             }
 
-            std::vector<std::unique_ptr<Scene>>::iterator ownedIterator = std::find_if(ownedScenes.begin(), ownedScenes.end(), [scene](const std::unique_ptr<Scene>& other) {
+            auto ownedIterator = std::find_if(ownedScenes.begin(), ownedScenes.end(), [scene](const std::unique_ptr<Scene>& other) {
                 return other.get() == scene;
             });
 

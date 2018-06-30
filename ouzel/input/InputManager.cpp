@@ -58,7 +58,7 @@ namespace ouzel
             engine->executeOnMainThread([this, resource] {
                 Lock lock(resourceMutex);
 
-                std::vector<std::unique_ptr<CursorResource>>::iterator i = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<CursorResource>& ptr) {
+                auto i = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<CursorResource>& ptr) {
                     return ptr.get() == resource;
                 });
 

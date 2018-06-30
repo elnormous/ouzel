@@ -375,7 +375,7 @@ namespace ouzel
 
         void InputManagerEm::handleGamepadDisconnected(long index)
         {
-            std::vector<std::unique_ptr<Gamepad>>::iterator i = std::find_if(gamepads.begin(), gamepads.end(), [index](const std::unique_ptr<Gamepad>& gamepad) {
+            auto i = std::find_if(gamepads.begin(), gamepads.end(), [index](const std::unique_ptr<Gamepad>& gamepad) {
                 GamepadEm* currentGamepad = static_cast<GamepadEm*>(gamepad.get());
                 return currentGamepad->getIndex() == index;
             });

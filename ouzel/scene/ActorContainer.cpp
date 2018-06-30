@@ -40,7 +40,7 @@ namespace ouzel
         {
             bool result = false;
 
-            std::vector<Actor*>::iterator childIterator = std::find(children.begin(), children.end(), actor);
+            auto childIterator = std::find(children.begin(), children.end(), actor);
 
             if (childIterator != children.end())
             {
@@ -52,7 +52,7 @@ namespace ouzel
                 result = true;
             }
 
-            std::vector<std::unique_ptr<Actor>>::iterator ownedIterator = std::find_if(ownedChildren.begin(), ownedChildren.end(), [actor](const std::unique_ptr<Actor>& other) {
+            auto ownedIterator = std::find_if(ownedChildren.begin(), ownedChildren.end(), [actor](const std::unique_ptr<Actor>& other) {
                 return other.get() == actor;
             });
 
@@ -64,7 +64,7 @@ namespace ouzel
 
         bool ActorContainer::moveChildToBack(Actor* actor)
         {
-            std::vector<Actor*>::iterator i = std::find(children.begin(), children.end(), actor);
+            auto i = std::find(children.begin(), children.end(), actor);
 
             if (i != children.end())
             {
@@ -78,7 +78,7 @@ namespace ouzel
 
         bool ActorContainer::moveChildToFront(Actor* actor)
         {
-            std::vector<Actor*>::iterator i = std::find(children.begin(), children.end(), actor);
+            auto i = std::find(children.begin(), children.end(), actor);
 
             if (i != children.end())
             {

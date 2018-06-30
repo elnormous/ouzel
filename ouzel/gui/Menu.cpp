@@ -105,11 +105,11 @@ namespace ouzel
         {
             if (!enabled) return;
 
-            std::vector<Widget*>::iterator firstWidgetIterator = selectedWidget ?
+            auto firstWidgetIterator = selectedWidget ?
                 std::find(widgets.begin(), widgets.end(), selectedWidget) :
                 widgets.end();
 
-            std::vector<Widget*>::iterator widgetIterator = firstWidgetIterator;
+            auto widgetIterator = firstWidgetIterator;
 
             do
             {
@@ -131,11 +131,11 @@ namespace ouzel
         {
             if (!enabled) return;
 
-            std::vector<Widget*>::iterator firstWidgetIterator = selectedWidget ?
+            auto firstWidgetIterator = selectedWidget ?
                 std::find(widgets.begin(), widgets.end(), selectedWidget) :
                 widgets.end();
 
-            std::vector<Widget*>::iterator widgetIterator = firstWidgetIterator;
+            auto widgetIterator = firstWidgetIterator;
 
             do
             {
