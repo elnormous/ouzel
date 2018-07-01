@@ -60,6 +60,7 @@ namespace ouzel
 
             template<typename T> void addCommand(const T& command)
             {
+                Lock lock(commandQueueMutex); // TODO: remove this
                 fillBuffer->push(command);
             }
 
