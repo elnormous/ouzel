@@ -113,10 +113,10 @@ namespace ouzel
     void Thread::join()
     {
 #if defined(_WIN32)
-        if (!handle || WaitForSingleObject(handle, INFINITE) == WAIT_FAILED)
+        if (WaitForSingleObject(handle, INFINITE) == WAIT_FAILED)
             throw ThreadError("Failed to join thread");
 #else
-        if (!initialized || pthread_join(thread, nullptr) != 0)
+        if (pthread_join(thread, nullptr) != 0)
             throw ThreadError("Failed to join thread");
 
         initialized = false;
