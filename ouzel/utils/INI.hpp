@@ -48,7 +48,7 @@ namespace ouzel
             void init(const std::string& filename);
             void init(const std::vector<uint8_t>& data);
             void save(const std::string& filename) const;
-            void encode(std::vector<uint8_t>& data) const;
+            std::vector<uint8_t> encode() const;
 
             inline const std::map<std::string, Section>& getSections() const { return sections; }
             bool hasSection(const std::string& name) const;

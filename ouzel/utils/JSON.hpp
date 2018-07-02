@@ -270,7 +270,7 @@ namespace ouzel
             void init(const std::vector<uint8_t>& data);
 
             void save(const std::string& filename) const;
-            void encode(std::vector<uint8_t>& data) const;
+            std::vector<uint8_t> encode() const;
 
             bool hasBOM() const { return bom; }
             void setBOM(bool newBOM) { bom = newBOM; }

@@ -652,20 +652,19 @@ namespace ouzel
 
         void Data::save(const std::string& filename) const
         {
-            std::vector<uint8_t> data;
-            encode(data);
-
-            engine->getFileSystem()->writeFile(filename, data);
+            engine->getFileSystem()->writeFile(filename, encode());
         }
 
-        void Data::encode(std::vector<uint8_t>& data) const
+        std::vector<uint8_t> Data::encode() const
         {
-            data.clear();
+            std::vector<uint8_t> result;
 
-            if (bom) data.insert(data.end(), {0xEF, 0xBB, 0xBF});
+            if (bom) result = {0xEF, 0xBB, 0xBF};
 
             for (const Node& node : children)
-                node.encode(data);
+                node.encode(result);
+
+            return result;
         }
     } // namespace xml
 } // namespace ouzel

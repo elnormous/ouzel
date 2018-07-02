@@ -10,8 +10,11 @@ namespace ouzel
 {
     namespace xml
     {
+        class Data;
+
         class Node
         {
+            friend Data;
         public:
             enum class Type
             {
@@ -40,6 +43,7 @@ namespace ouzel
 
             inline const std::vector<Node>& getChildren() const { return children; }
 
+        protected:
             void parse(const std::vector<uint32_t>& str,
                        std::vector<uint32_t>::const_iterator& iterator,
                        bool preserveWhitespaces = false,
@@ -47,7 +51,6 @@ namespace ouzel
                        bool preserveProcessingInstructions = false);
             void encode(std::vector<uint8_t>& data) const;
 
-        protected:
             Type type = Type::NONE;
 
             std::string value;
@@ -78,7 +81,7 @@ namespace ouzel
                       bool preserveProcessingInstructions = false);
 
             void save(const std::string& filename) const;
-            void encode(std::vector<uint8_t>& data) const;
+            std::vector<uint8_t> encode() const;
 
             inline bool hasBOM() const { return bom; }
             inline void setBOM(bool newBOM) { bom = newBOM; }
