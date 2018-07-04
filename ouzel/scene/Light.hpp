@@ -25,14 +25,20 @@ namespace ouzel
             Light(Type initType);
             virtual ~Light();
 
-            Color getColor() const { return color; }
-            void setColor(Color newColor) { color = newColor; }
+            inline Color getColor() const { return color; }
+            inline void setColor(Color newColor) { color = newColor; }
 
-            const Quaternion& getDirection() const { return direction; }
-            void setDirection(const Quaternion& newDirection) { direction = newDirection; }
+            inline const Quaternion& getDirection() const { return direction; }
+            inline void setDirection(const Quaternion& newDirection) { direction = newDirection; }
 
-            float getRange() const { return range; }
-            void setRange(float newRange) { range = newRange; }
+            inline float getAngle() const { return angle; }
+            inline void setAngle(float newAngle) { angle = newAngle; }
+
+            inline float getRange() const { return range; }
+            inline void setRange(float newRange) { range = newRange; }
+
+            inline float getIntensity() const { return intensity; }
+            inline void setIntensity(float newIntensity) { intensity = newIntensity; }
 
         protected:
             virtual void setLayer(Layer* newLayer) override;
@@ -40,8 +46,10 @@ namespace ouzel
         private:
             Type type;
             Color color;
-            Quaternion direction = Quaternion::identity();
-            float range = 0.0F;
+            Quaternion direction = Quaternion::identity(); // for spot and directional ligt
+            float angle = 0.0F; // for spot light
+            float range = 0.0F; // for point and spot light
+            float intensity = 1.0F;
         };
     } // namespace scene
 } // namespace ouzel
