@@ -42,9 +42,11 @@ namespace ouzel
 #if OUZEL_COMPILE_OPENSL
                 availableDrivers.insert(Audio::Driver::OPENSL);
 #endif
+
 #if OUZEL_COMPILE_COREAUDIO
                 availableDrivers.insert(Audio::Driver::COREAUDIO);
 #endif
+                
 #if OUZEL_COMPILE_ALSA
                 availableDrivers.insert(Audio::Driver::ALSA);
 #endif

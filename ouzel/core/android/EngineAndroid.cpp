@@ -146,7 +146,7 @@ namespace ouzel
 
         if (active)
         {
-            WindowResourceAndroid* windowAndroid = static_cast<WindowResourceAndroid*>(window.getResource());
+            WindowResourceAndroid* windowAndroid = static_cast<WindowResourceAndroid*>(window->getResource());
             windowAndroid->handleSurfaceChange(surface);
 
             if (renderer)
@@ -209,7 +209,7 @@ namespace ouzel
 
         if (active)
         {
-            WindowResourceAndroid* windowAndroid = static_cast<WindowResourceAndroid*>(window.getResource());
+            WindowResourceAndroid* windowAndroid = static_cast<WindowResourceAndroid*>(window->getResource());
             windowAndroid->handleSurfaceDestroy();
 
             if (renderer)
