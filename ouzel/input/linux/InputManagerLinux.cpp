@@ -14,10 +14,10 @@
 #  include <linux/input.h>
 #endif
 #include "InputManagerLinux.hpp"
-#include "CursorResourceLinux.hpp"
+#include "NativeCursorLinux.hpp"
 #include "events/Event.hpp"
 #include "core/Engine.hpp"
-#include "core/linux/WindowResourceLinux.hpp"
+#include "core/linux/NativeWindowLinux.hpp"
 #include "thread/Lock.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
@@ -416,7 +416,7 @@ namespace ouzel
             std::fill(std::begin(mouseButtonDown), std::end(mouseButtonDown), false);
 
 #if OUZEL_SUPPORTS_X11
-            WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
+            NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(engine->getWindow()->getNativeWindow());
             Display* display = windowLinux->getDisplay();
 
             char data[1] = {0};
@@ -469,7 +469,7 @@ namespace ouzel
 #if OUZEL_SUPPORTS_X11
             if (engine)
             {
-                WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
+                NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(engine->getWindow()->getNativeWindow());
                 Display* display = windowLinux->getDisplay();
                 if (emptyCursor != None) XFreeCursor(display, emptyCursor);
             }
@@ -597,18 +597,18 @@ namespace ouzel
             }
         }
 
-        void InputManagerLinux::activateCursorResource(CursorResource* resource)
+        void InputManagerLinux::activateNativeCursor(NativeCursor* resource)
         {
-            InputManager::activateCursorResource(resource);
+            InputManager::activateNativeCursor(resource);
 
 #if OUZEL_SUPPORTS_X11
             if (engine)
             {
-                WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
+                NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(engine->getWindow()->getNativeWindow());
                 Display* display = windowLinux->getDisplay();
                 ::Window window = windowLinux->getNativeWindow();
 
-                CursorResourceLinux* cursorLinux = static_cast<CursorResourceLinux*>(resource);
+                NativeCursorLinux* cursorLinux = static_cast<NativeCursorLinux*>(resource);
 
                 if (cursorLinux)
                 {
@@ -631,12 +631,12 @@ namespace ouzel
 #endif
         }
 
-        CursorResource* InputManagerLinux::createCursorResource()
+        NativeCursor* InputManagerLinux::createNativeCursor()
         {
             Lock lock(resourceMutex);
 
-            std::unique_ptr<CursorResourceLinux> cursorResource(new CursorResourceLinux(*this));
-            CursorResource* result = cursorResource.get();
+            std::unique_ptr<NativeCursorLinux> cursorResource(new NativeCursorLinux(*this));
+            NativeCursor* result = cursorResource.get();
 
             resources.push_back(std::move(cursorResource));
 
@@ -651,7 +651,7 @@ namespace ouzel
 
 #if OUZEL_SUPPORTS_X11
                 engine->executeOnMainThread([visible, this] {
-                    WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
+                    NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(engine->getWindow()->getNativeWindow());
                     Display* display = windowLinux->getDisplay();
                     ::Window window = windowLinux->getNativeWindow();
 
@@ -680,7 +680,7 @@ namespace ouzel
         {
 #if OUZEL_SUPPORTS_X11
             engine->executeOnMainThread([locked] {
-                WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
+                NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(engine->getWindow()->getNativeWindow());
                 Display* display = windowLinux->getDisplay();
                 ::Window window = windowLinux->getNativeWindow();
 
@@ -712,7 +712,7 @@ namespace ouzel
 
 #if OUZEL_SUPPORTS_X11
             engine->executeOnMainThread([position] {
-                WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
+                NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(engine->getWindow()->getNativeWindow());
                 Display* display = windowLinux->getDisplay();
                 ::Window window = windowLinux->getNativeWindow();
 

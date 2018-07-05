@@ -1,15 +1,15 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include "WindowResource.hpp"
+#include "NativeWindow.hpp"
 #include "thread/Lock.hpp"
 
 namespace ouzel
 {
-    WindowResource::Listener::~Listener()
+    NativeWindow::Listener::~Listener()
     {
     }
 
-    void WindowResource::init(const Size2& newSize,
+    void NativeWindow::init(const Size2& newSize,
                               bool newResizable,
                               bool newFullscreen,
                               bool newExclusiveFullscreen,
@@ -25,26 +25,26 @@ namespace ouzel
         title = newTitle;
     }
 
-    void WindowResource::close()
+    void NativeWindow::close()
     {
     }
 
-    void WindowResource::setSize(const Size2& newSize)
+    void NativeWindow::setSize(const Size2& newSize)
     {
         size = newSize;
     }
 
-    void WindowResource::setFullscreen(bool newFullscreen)
+    void NativeWindow::setFullscreen(bool newFullscreen)
     {
         fullscreen = newFullscreen;
     }
 
-    void WindowResource::setTitle(const std::string& newTitle)
+    void NativeWindow::setTitle(const std::string& newTitle)
     {
         title = newTitle;
     }
 
-    void WindowResource::setListener(Listener* newListener)
+    void NativeWindow::setListener(Listener* newListener)
     {
         Lock lock(listenerMutex);
         listener = newListener;

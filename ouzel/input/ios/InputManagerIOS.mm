@@ -5,7 +5,7 @@
 #import <GameController/GameController.h>
 #include "InputManagerIOS.hpp"
 #include "GamepadIOS.hpp"
-#include "core/ios/WindowResourceIOS.hpp"
+#include "core/ios/NativeWindowIOS.hpp"
 #include "core/Engine.hpp"
 #include "events/EventDispatcher.hpp"
 #include "utils/Log.hpp"
@@ -124,7 +124,7 @@ namespace ouzel
         void InputManagerIOS::showVirtualKeyboard()
         {
             engine->executeOnMainThread([]() {
-                WindowResourceIOS* windowIOS = static_cast<WindowResourceIOS*>(engine->getWindow()->getResource());
+                NativeWindowIOS* windowIOS = static_cast<NativeWindowIOS*>(engine->getWindow()->getNativeWindow());
                 UITextField* textField = windowIOS->getTextField();
                 [textField becomeFirstResponder];
             });
@@ -133,7 +133,7 @@ namespace ouzel
         void InputManagerIOS::hideVirtualKeyboard()
         {
             engine->executeOnMainThread([]() {
-                WindowResourceIOS* windowIOS = static_cast<WindowResourceIOS*>(engine->getWindow()->getResource());
+                NativeWindowIOS* windowIOS = static_cast<NativeWindowIOS*>(engine->getWindow()->getNativeWindow());
                 UITextField* textField = windowIOS->getTextField();
                 [textField resignFirstResponder];
             });

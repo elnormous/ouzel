@@ -5,7 +5,7 @@
 #import <GameController/GameController.h>
 #include "InputManagerTVOS.hpp"
 #include "GamepadTVOS.hpp"
-#include "core/tvos/WindowResourceTVOS.hpp"
+#include "core/tvos/NativeWindowTVOS.hpp"
 #include "core/Engine.hpp"
 #include "events/EventDispatcher.hpp"
 #include "utils/Log.hpp"
@@ -124,7 +124,7 @@ namespace ouzel
         void InputManagerTVOS::showVirtualKeyboard()
         {
             engine->executeOnMainThread([]() {
-                WindowResourceTVOS* windowTVOS = static_cast<WindowResourceTVOS*>(engine->getWindow()->getResource());
+                NativeWindowTVOS* windowTVOS = static_cast<NativeWindowTVOS*>(engine->getWindow()->getNativeWindow());
                 UITextField* textField = windowTVOS->getTextField();
                 [textField becomeFirstResponder];
             });
@@ -133,7 +133,7 @@ namespace ouzel
         void InputManagerTVOS::hideVirtualKeyboard()
         {
             engine->executeOnMainThread([]() {
-                WindowResourceTVOS* windowTVOS = static_cast<WindowResourceTVOS*>(engine->getWindow()->getResource());
+                NativeWindowTVOS* windowTVOS = static_cast<NativeWindowTVOS*>(engine->getWindow()->getNativeWindow());
                 UITextField* textField = windowTVOS->getTextField();
                 [textField resignFirstResponder];
             });

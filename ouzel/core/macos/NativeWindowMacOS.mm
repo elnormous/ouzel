@@ -1,6 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include "WindowResourceMacOS.hpp"
+#include "NativeWindowMacOS.hpp"
 #include "ViewMacOS.h"
 #include "graphics/RenderDevice.hpp"
 #include "graphics/opengl/macos/OpenGLView.h"
@@ -12,14 +12,14 @@
 
 @interface WindowDelegate: NSObject<NSWindowDelegate>
 {
-    ouzel::WindowResourceMacOS* window;
+    ouzel::NativeWindowMacOS* window;
 }
 
 @end
 
 @implementation WindowDelegate
 
--(id)initWithWindow:(ouzel::WindowResourceMacOS*)initWindow
+-(id)initWithWindow:(ouzel::NativeWindowMacOS*)initWindow
 {
     if (self = [super init])
         window = initWindow;
@@ -61,11 +61,11 @@
 
 namespace ouzel
 {
-    WindowResourceMacOS::WindowResourceMacOS()
+    NativeWindowMacOS::NativeWindowMacOS()
     {
     }
 
-    WindowResourceMacOS::~WindowResourceMacOS()
+    NativeWindowMacOS::~NativeWindowMacOS()
     {
         if (exclusiveFullscreen && fullscreen)
             CGDisplayRelease(displayId);
@@ -82,7 +82,7 @@ namespace ouzel
         if (windowDelegate) [windowDelegate release];
     }
 
-    void WindowResourceMacOS::init(const Size2& newSize,
+    void NativeWindowMacOS::init(const Size2& newSize,
                                    bool newResizable,
                                    bool newFullscreen,
                                    bool newExclusiveFullscreen,
@@ -90,7 +90,7 @@ namespace ouzel
                                    bool newHighDpi,
                                    bool depth)
     {
-        WindowResource::init(newSize,
+        NativeWindow::init(newSize,
                              newResizable,
                              newFullscreen,
                              newExclusiveFullscreen,
@@ -208,9 +208,9 @@ namespace ouzel
         }
     }
 
-    void WindowResourceMacOS::close()
+    void NativeWindowMacOS::close()
     {
-        WindowResource::close();
+        NativeWindow::close();
 
         if (view)
         {
@@ -233,9 +233,9 @@ namespace ouzel
         }
     }
 
-    void WindowResourceMacOS::setSize(const Size2& newSize)
+    void NativeWindowMacOS::setSize(const Size2& newSize)
     {
-        WindowResource::setSize(newSize);
+        NativeWindow::setSize(newSize);
 
         NSRect frame = [window frame];
 
@@ -253,7 +253,7 @@ namespace ouzel
         }
     }
 
-    void WindowResourceMacOS::setFullscreen(bool newFullscreen)
+    void NativeWindowMacOS::setFullscreen(bool newFullscreen)
     {
         if (fullscreen != newFullscreen)
         {
@@ -293,10 +293,10 @@ namespace ouzel
             }
         }
 
-        WindowResource::setFullscreen(newFullscreen);
+        NativeWindow::setFullscreen(newFullscreen);
     }
 
-    void WindowResourceMacOS::setTitle(const std::string& newTitle)
+    void NativeWindowMacOS::setTitle(const std::string& newTitle)
     {
         if (title != newTitle)
         {
@@ -305,10 +305,10 @@ namespace ouzel
             window.title = objCTitle;
         }
 
-        WindowResource::setTitle(newTitle);
+        NativeWindow::setTitle(newTitle);
     }
 
-    void WindowResourceMacOS::handleResize()
+    void NativeWindowMacOS::handleResize()
     {
         NSRect frame = [NSWindow contentRectForFrameRect:window.frame
                                                styleMask:window.styleMask];
@@ -325,13 +325,13 @@ namespace ouzel
         }
     }
 
-    void WindowResourceMacOS::handleClose()
+    void NativeWindowMacOS::handleClose()
     {
         Lock lock(listenerMutex);
         if (listener) listener->onClose();
     }
 
-    void WindowResourceMacOS::handleFullscreenChange(bool newFullscreen)
+    void NativeWindowMacOS::handleFullscreenChange(bool newFullscreen)
     {
         fullscreen = newFullscreen;
 
@@ -339,7 +339,7 @@ namespace ouzel
         if (listener) listener->onFullscreenChange(newFullscreen);
     }
 
-    void WindowResourceMacOS::handleScaleFactorChange()
+    void NativeWindowMacOS::handleScaleFactorChange()
     {
         if (highDpi)
         {
@@ -351,7 +351,7 @@ namespace ouzel
         }
     }
 
-    void WindowResourceMacOS::handleScreenChange()
+    void NativeWindowMacOS::handleScreenChange()
     {
         screen = [window screen];
         displayId = [[[screen deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];

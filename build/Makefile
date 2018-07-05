@@ -63,9 +63,9 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/audio/StreamVorbis.cpp \
 	$(ROOT_DIR)/../ouzel/audio/StreamWave.cpp \
 	$(ROOT_DIR)/../ouzel/core/Engine.cpp \
+	$(ROOT_DIR)/../ouzel/core/NativeWindow.cpp \
 	$(ROOT_DIR)/../ouzel/core/Timer.cpp \
 	$(ROOT_DIR)/../ouzel/core/Window.cpp \
-	$(ROOT_DIR)/../ouzel/core/WindowResource.cpp \
 	$(ROOT_DIR)/../ouzel/events/EventDispatcher.cpp \
 	$(ROOT_DIR)/../ouzel/events/EventHandler.cpp \
 	$(ROOT_DIR)/../ouzel/files/Archive.cpp \
@@ -115,10 +115,10 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/gui/TTFont.cpp \
 	$(ROOT_DIR)/../ouzel/gui/Widget.cpp \
 	$(ROOT_DIR)/../ouzel/input/Cursor.cpp \
-	$(ROOT_DIR)/../ouzel/input/CursorResource.cpp \
 	$(ROOT_DIR)/../ouzel/input/Gamepad.cpp \
 	$(ROOT_DIR)/../ouzel/input/InputManager.cpp \
 	$(ROOT_DIR)/../ouzel/input/InputSystem.cpp \
+	$(ROOT_DIR)/../ouzel/input/NativeCursor.cpp \
 	$(ROOT_DIR)/../ouzel/localization/Language.cpp \
 	$(ROOT_DIR)/../ouzel/localization/Localization.cpp \
 	$(ROOT_DIR)/../ouzel/math/Box2.cpp \
@@ -166,7 +166,7 @@ ifeq ($(platform),windows)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/dsound/AudioDeviceDS.cpp \
 	$(ROOT_DIR)/../ouzel/core/windows/EngineWin.cpp \
 	$(ROOT_DIR)/../ouzel/core/windows/main.cpp \
-	$(ROOT_DIR)/../ouzel/core/windows/WindowResourceWin.cpp \
+	$(ROOT_DIR)/../ouzel/core/windows/NativeWindowWin.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/direct3d11/BlendStateResourceD3D11.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/direct3d11/BufferResourceD3D11.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/direct3d11/RenderDeviceD3D11.cpp \
@@ -176,19 +176,19 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/dsound/AudioDeviceDS.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/GamepadDI.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/GamepadXI.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/InputManagerWin.cpp \
-	$(ROOT_DIR)/../ouzel/input/windows/CursorResourceWin.cpp
+	$(ROOT_DIR)/../ouzel/input/windows/NativeCursorWin.cpp
 CXXFLAGS+=-DNOMINMAX -DWINVER=0x0601 -D_WIN32_WINNT=0x0601
 else ifeq ($(platform),linux)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/alsa/AudioDeviceALSA.cpp \
 	$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \
 	$(ROOT_DIR)/../ouzel/core/linux/EngineLinux.cpp \
 	$(ROOT_DIR)/../ouzel/core/linux/main.cpp \
-	$(ROOT_DIR)/../ouzel/core/linux/WindowResourceLinux.cpp \
+	$(ROOT_DIR)/../ouzel/core/linux/NativeWindowLinux.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/linux/RenderDeviceOGLLinux.cpp \
-	$(ROOT_DIR)/../ouzel/input/linux/CursorResourceLinux.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/EventDevice.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/GamepadLinux.cpp \
-	$(ROOT_DIR)/../ouzel/input/linux/InputManagerLinux.cpp
+	$(ROOT_DIR)/../ouzel/input/linux/InputManagerLinux.cpp \
+	$(ROOT_DIR)/../ouzel/input/linux/NativeCursorLinux.cpp
 ifneq ($(filter arm%,$(architecture)),) # ARM Linux
 CXXFLAGS+=-I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux
 endif
@@ -197,8 +197,8 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \
 	$(ROOT_DIR)/../ouzel/core/macos/EngineMacOS.mm \
 	$(ROOT_DIR)/../ouzel/core/macos/main.cpp \
+	$(ROOT_DIR)/../ouzel/core/macos/NativeWindowMacOS.mm \
 	$(ROOT_DIR)/../ouzel/core/macos/ViewMacOS.mm \
-	$(ROOT_DIR)/../ouzel/core/macos/WindowResourceMacOS.mm \
 	$(ROOT_DIR)/../ouzel/files/apple/FileSystemApple.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/metal/macos/MetalView.m \
 	$(ROOT_DIR)/../ouzel/graphics/metal/macos/RenderDeviceMetalMacOS.mm \
@@ -209,18 +209,18 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/metal/TextureResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/OpenGLView.m \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/RenderDeviceOGLMacOS.mm \
-	$(ROOT_DIR)/../ouzel/input/macos/CursorResourceMacOS.cpp \
 	$(ROOT_DIR)/../ouzel/input/macos/GamepadGC.mm \
 	$(ROOT_DIR)/../ouzel/input/macos/GamepadIOKit.cpp \
-	$(ROOT_DIR)/../ouzel/input/macos/InputManagerMacOS.mm
+	$(ROOT_DIR)/../ouzel/input/macos/InputManagerMacOS.mm \
+	$(ROOT_DIR)/../ouzel/input/macos/NativeCursorMacOS.cpp
 else ifeq ($(platform),ios)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \
 	$(ROOT_DIR)/../ouzel/core/ios/DisplayLink.mm \
 	$(ROOT_DIR)/../ouzel/core/ios/EngineIOS.mm \
 	$(ROOT_DIR)/../ouzel/core/ios/main.cpp \
+	$(ROOT_DIR)/../ouzel/core/ios/NativeWindowIOS.mm \
 	$(ROOT_DIR)/../ouzel/core/ios/ViewIOS.mm \
-	$(ROOT_DIR)/../ouzel/core/ios/WindowResourceIOS.mm \
 	$(ROOT_DIR)/../ouzel/files/apple/FileSystemApple.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/metal/ios/MetalView.m \
 	$(ROOT_DIR)/../ouzel/graphics/metal/ios/RenderDeviceMetalIOS.mm \
@@ -241,8 +241,8 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/core/tvos/DisplayLink.mm \
 	$(ROOT_DIR)/../ouzel/core/tvos/EngineTVOS.mm \
 	$(ROOT_DIR)/../ouzel/core/tvos/main.cpp \
+	$(ROOT_DIR)/../ouzel/core/tvos/NativeWindowTVOS.mm \
 	$(ROOT_DIR)/../ouzel/core/tvos/ViewTVOS.mm \
-	$(ROOT_DIR)/../ouzel/core/tvos/WindowResourceTVOS.mm \
 	$(ROOT_DIR)/../ouzel/files/apple/FileSystemApple.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/metal/tvos/MetalView.m \
 	$(ROOT_DIR)/../ouzel/graphics/metal/tvos/RenderDeviceMetalTVOS.mm \
@@ -261,7 +261,7 @@ else ifeq ($(platform),emscripten)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/EngineEm.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/main.cpp \
-	$(ROOT_DIR)/../ouzel/core/emscripten/WindowResourceEm.cpp \
+	$(ROOT_DIR)/../ouzel/core/emscripten/NativeWindowEm.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/emscripten/RenderDeviceOGLEm.cpp \
 	$(ROOT_DIR)/../ouzel/input/emscripten/InputManagerEm.cpp \
 	$(ROOT_DIR)/../ouzel/input/emscripten/GamepadEm.cpp

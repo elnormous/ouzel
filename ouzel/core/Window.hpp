@@ -3,7 +3,7 @@
 #pragma once
 
 #include <string>
-#include "core/WindowResource.hpp"
+#include "core/NativeWindow.hpp"
 #include "math/Size2.hpp"
 #include "events/EventHandler.hpp"
 
@@ -11,7 +11,7 @@ namespace ouzel
 {
     class Engine;
 
-    class Window: public WindowResource::Listener
+    class Window: public NativeWindow::Listener
     {
         friend Engine;
     public:
@@ -23,7 +23,7 @@ namespace ouzel
         Window(Window&&) = delete;
         Window& operator=(Window&&) = delete;
 
-        inline WindowResource* getResource() const { return resource; }
+        inline NativeWindow* getNativeWindow() const { return nativeWindow; }
 
         void close();
 
@@ -67,7 +67,7 @@ namespace ouzel
         virtual void onScreenChange(uint32_t newDisplayId) override;
         virtual void onClose() override;
 
-        WindowResource* resource = nullptr;
+        NativeWindow* nativeWindow = nullptr;
 
         Size2 size;
         Size2 resolution;

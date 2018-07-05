@@ -2,14 +2,14 @@
 
 #include <emscripten.h>
 #include <emscripten/html5.h>
-#include "WindowResourceEm.hpp"
+#include "NativeWindowEm.hpp"
 #include "core/Engine.hpp"
 
 static EM_BOOL emUICallback(int eventType, const EmscriptenUiEvent* uiEvent, void* userData)
 {
     if (eventType == EMSCRIPTEN_EVENT_RESIZE)
     {
-        reinterpret_cast<ouzel::WindowResourceEm*>(userData)->handleResize();
+        reinterpret_cast<ouzel::NativeWindowEm*>(userData)->handleResize();
         return true;
     }
 
@@ -18,12 +18,12 @@ static EM_BOOL emUICallback(int eventType, const EmscriptenUiEvent* uiEvent, voi
 
 namespace ouzel
 {
-    WindowResourceEm::WindowResourceEm()
+    NativeWindowEm::NativeWindowEm()
     {
         emscripten_set_resize_callback(nullptr, this, 1, emUICallback);
     }
 
-    void WindowResourceEm::init(const Size2& newSize,
+    void NativeWindowEm::init(const Size2& newSize,
                                 bool newResizable,
                                 bool newFullscreen,
                                 bool newExclusiveFullscreen,
@@ -31,7 +31,7 @@ namespace ouzel
                                 bool newHighDpi,
                                 bool depth)
     {
-        WindowResource::init(newSize,
+        NativeWindow::init(newSize,
                              newResizable,
                              newFullscreen,
                              newExclusiveFullscreen,
@@ -54,15 +54,15 @@ namespace ouzel
                                    static_cast<int>(size.height));
     }
 
-    void WindowResourceEm::setSize(const Size2& newSize)
+    void NativeWindowEm::setSize(const Size2& newSize)
     {
-        WindowResource::setSize(newSize);
+        NativeWindow::setSize(newSize);
 
         emscripten_set_canvas_size(static_cast<int>(newSize.width),
                                    static_cast<int>(newSize.height));
     }
 
-    void WindowResourceEm::handleResize()
+    void NativeWindowEm::handleResize()
     {
         int width, height, fullscreen;
         emscripten_get_canvas_size(&width, &height, &fullscreen);

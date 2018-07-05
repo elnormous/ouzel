@@ -3,7 +3,7 @@
 #include <Windows.h>
 #include <cstdlib>
 #include "EngineWin.hpp"
-#include "WindowResourceWin.hpp"
+#include "NativeWindowWin.hpp"
 #include "input/windows/InputManagerWin.hpp"
 #include "thread/Lock.hpp"
 #include "utils/Errors.hpp"
@@ -73,7 +73,7 @@ namespace ouzel
         start();
 
         input::InputManagerWin* inputWin = static_cast<input::InputManagerWin*>(inputManager.get());
-        WindowResourceWin* windowWin = static_cast<WindowResourceWin*>(window->getResource());
+        NativeWindowWin* windowWin = static_cast<NativeWindowWin*>(window->getNativeWindow());
 
         MSG msg;
 
@@ -121,7 +121,7 @@ namespace ouzel
 
     void EngineWin::executeOnMainThread(const std::function<void(void)>& func)
     {
-        WindowResourceWin* windowWin = static_cast<WindowResourceWin*>(window->getResource());
+        NativeWindowWin* windowWin = static_cast<NativeWindowWin*>(window->getNativeWindow());
 
         Lock lock(executeMutex);
 

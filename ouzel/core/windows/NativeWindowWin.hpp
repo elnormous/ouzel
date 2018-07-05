@@ -4,19 +4,19 @@
 
 #include <Windows.h>
 #include <set>
-#include "core/WindowResource.hpp"
+#include "core/NativeWindow.hpp"
 
 namespace ouzel
 {
     class Window;
     class EngineWin;
 
-    class WindowResourceWin : public WindowResource
+    class NativeWindowWin : public NativeWindow
     {
         friend Window;
         friend EngineWin;
     public:
-        virtual ~WindowResourceWin();
+        virtual ~NativeWindowWin();
 
         virtual void close() override;
 
@@ -34,7 +34,7 @@ namespace ouzel
         HMONITOR getMonitor() const { return monitor; }
 
     protected:
-        WindowResourceWin();
+        NativeWindowWin();
         virtual void init(const Size2& newSize,
                           bool newResizable,
                           bool newFullscreen,

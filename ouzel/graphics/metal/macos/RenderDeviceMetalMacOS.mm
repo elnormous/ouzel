@@ -7,7 +7,7 @@
 #include "RenderDeviceMetalMacOS.hpp"
 #include "MetalView.h"
 #include "core/Engine.hpp"
-#include "core/macos/WindowResourceMacOS.hpp"
+#include "core/macos/NativeWindowMacOS.hpp"
 #include "utils/Errors.hpp"
 
 static CVReturn renderCallback(CVDisplayLinkRef,
@@ -67,7 +67,7 @@ namespace ouzel
                                     newDepth,
                                     newDebugRenderer);
 
-            WindowResourceMacOS* windowMacOS = static_cast<WindowResourceMacOS*>(newWindow->getResource());
+            NativeWindowMacOS* windowMacOS = static_cast<NativeWindowMacOS*>(newWindow->getNativeWindow());
 
             MetalView* view = (MetalView*)windowMacOS->getNativeView();
 

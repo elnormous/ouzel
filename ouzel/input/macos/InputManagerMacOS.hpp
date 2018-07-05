@@ -58,8 +58,8 @@ namespace ouzel
         private:
             InputManagerMacOS();
 
-            virtual void activateCursorResource(CursorResource* resource) override;
-            virtual CursorResource* createCursorResource() override;
+            virtual void activateNativeCursor(NativeCursor* resource) override;
+            virtual NativeCursor* createNativeCursor() override;
 
             id connectDelegate = nil;
             IOHIDManagerRef hidManager = nullptr;

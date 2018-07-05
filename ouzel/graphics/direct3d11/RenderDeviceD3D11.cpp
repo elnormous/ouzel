@@ -20,7 +20,7 @@
 #include "thread/Lock.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
-#include "core/windows/WindowResourceWin.hpp"
+#include "core/windows/NativeWindowWin.hpp"
 #include "stb_image_write.h"
 
 namespace ouzel
@@ -148,7 +148,7 @@ namespace ouzel
                 Log(Log::Level::INFO) << "Using " << deviceName << " for rendering";
             }
 
-            WindowResourceWin* windowWin = static_cast<WindowResourceWin*>(window->getResource());
+            NativeWindowWin* windowWin = static_cast<NativeWindowWin*>(window->getNativeWindow());
 
             frameBufferWidth = static_cast<UINT>(newSize.width);
             frameBufferHeight = static_cast<UINT>(newSize.height);
@@ -791,7 +791,7 @@ namespace ouzel
 
         IDXGIOutput* RenderDeviceD3D11::getOutput() const
         {
-            WindowResourceWin* windowWin = static_cast<WindowResourceWin*>(window->getResource());
+            NativeWindowWin* windowWin = static_cast<NativeWindowWin*>(window->getNativeWindow());
 
             HMONITOR monitor = windowWin->getMonitor();
 

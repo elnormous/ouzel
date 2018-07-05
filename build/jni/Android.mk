@@ -56,11 +56,11 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/audio/StreamWave.cpp \
     ../../ouzel/core/android/EngineAndroid.cpp \
     ../../ouzel/core/android/main.cpp \
-    ../../ouzel/core/android/WindowResourceAndroid.cpp \
+    ../../ouzel/core/android/NativeWindowAndroid.cpp \
     ../../ouzel/core/Engine.cpp \
+	../../ouzel/core/NativeWindow.cpp \
     ../../ouzel/core/Timer.cpp \
     ../../ouzel/core/Window.cpp \
-    ../../ouzel/core/WindowResource.cpp \
     ../../ouzel/events/EventDispatcher.cpp \
     ../../ouzel/events/EventHandler.cpp \
     ../../ouzel/files/Archive.cpp \
@@ -113,10 +113,10 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/input/android/GamepadAndroid.cpp \
     ../../ouzel/input/android/InputManagerAndroid.cpp \
     ../../ouzel/input/Cursor.cpp \
-    ../../ouzel/input/CursorResource.cpp \
     ../../ouzel/input/Gamepad.cpp \
     ../../ouzel/input/InputManager.cpp \
     ../../ouzel/input/InputSystem.cpp \
+	../../ouzel/input/NativeCursor.cpp \
     ../../ouzel/localization/Language.cpp \
     ../../ouzel/localization/Localization.cpp \
     ../../ouzel/math/Box2.cpp \

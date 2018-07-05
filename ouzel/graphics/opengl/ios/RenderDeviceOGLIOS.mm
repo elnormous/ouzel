@@ -6,7 +6,7 @@
 
 #include "RenderDeviceOGLIOS.hpp"
 #include "core/Window.hpp"
-#include "core/ios/WindowResourceIOS.hpp"
+#include "core/ios/NativeWindowIOS.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
@@ -46,13 +46,13 @@ namespace ouzel
                                       bool newDepth,
                                       bool newDebugRenderer)
         {
-            UIView* view = static_cast<WindowResourceIOS*>(newWindow->getResource())->getNativeView();
+            UIView* view = static_cast<NativeWindowIOS*>(newWindow->getNativeWindow())->getNativeView();
 
             eaglLayer = (CAEAGLLayer*)view.layer;
             eaglLayer.opaque = YES;
             eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
                                             [NSNumber numberWithBool:NO], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
-            eaglLayer.contentsScale = newWindow->getResource()->getContentScale();
+            eaglLayer.contentsScale = newWindow->getNativeWindow()->getContentScale();
 
             context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
 

@@ -7,7 +7,7 @@
 #include "RenderDeviceMetalIOS.hpp"
 #include "MetalView.h"
 #include "core/Window.hpp"
-#include "core/ios/WindowResourceIOS.hpp"
+#include "core/ios/NativeWindowIOS.hpp"
 
 namespace ouzel
 {
@@ -42,7 +42,7 @@ namespace ouzel
                                     newDepth,
                                     newDebugRenderer);
 
-            MetalView* view = (MetalView*)static_cast<WindowResourceIOS*>(newWindow->getResource())->getNativeView();
+            MetalView* view = (MetalView*)static_cast<NativeWindowIOS*>(newWindow->getNativeWindow())->getNativeView();
 
             metalLayer = (CAMetalLayer*)view.layer;
             metalLayer.device = device;

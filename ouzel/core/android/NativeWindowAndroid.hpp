@@ -5,17 +5,17 @@
 #include <jni.h>
 #include <android/native_window.h>
 #include <android/native_window_jni.h>
-#include "core/WindowResource.hpp"
+#include "core/NativeWindow.hpp"
 
 namespace ouzel
 {
     class Window;
 
-    class WindowResourceAndroid: public WindowResource
+    class NativeWindowAndroid: public NativeWindow
     {
         friend Window;
     public:
-        virtual ~WindowResourceAndroid();
+        virtual ~NativeWindowAndroid();
 
         void handleResize(const Size2& newSize);
         void handleSurfaceChange(jobject surface);
@@ -24,7 +24,7 @@ namespace ouzel
         ANativeWindow* getNativeWindow() const { return window; }
 
     protected:
-        WindowResourceAndroid();
+        NativeWindowAndroid();
         virtual void init(const Size2& newSize,
                           bool newResizable,
                           bool newFullscreen,

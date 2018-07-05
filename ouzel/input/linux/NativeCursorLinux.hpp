@@ -6,17 +6,17 @@
 #if OUZEL_SUPPORTS_X11
 #  include <X11/X.h>
 #endif
-#include "input/CursorResource.hpp"
+#include "input/NativeCursor.hpp"
 
 namespace ouzel
 {
     namespace input
     {
-        class CursorResourceLinux: public CursorResource
+        class NativeCursorLinux: public NativeCursor
         {
         public:
-            explicit CursorResourceLinux(InputManager& initInputManager);
-            virtual ~CursorResourceLinux();
+            explicit NativeCursorLinux(InputManager& initInputManager);
+            virtual ~NativeCursorLinux();
 
             virtual void init(SystemCursor newSystemCursor) override;
             virtual void init(const std::vector<uint8_t>& newData,

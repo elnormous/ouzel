@@ -1,22 +1,22 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include "WindowResourceAndroid.hpp"
+#include "NativeWindowAndroid.hpp"
 #include "EngineAndroid.hpp"
 #include "thread/Lock.hpp"
 #include "utils/Errors.hpp"
 
 namespace ouzel
 {
-    WindowResourceAndroid::WindowResourceAndroid()
+    NativeWindowAndroid::NativeWindowAndroid()
     {
     }
 
-    WindowResourceAndroid::~WindowResourceAndroid()
+    NativeWindowAndroid::~NativeWindowAndroid()
     {
         if (window) ANativeWindow_release(window);
     }
 
-    void WindowResourceAndroid::init(const Size2& newSize,
+    void NativeWindowAndroid::init(const Size2& newSize,
                                      bool newResizable,
                                      bool newFullscreen,
                                      bool newExclusiveFullscreen,
@@ -24,7 +24,7 @@ namespace ouzel
                                      bool newHighDpi,
                                      bool depth)
     {
-        WindowResource::init(newSize,
+        NativeWindow::init(newSize,
                              newResizable,
                              newFullscreen,
                              newExclusiveFullscreen,
@@ -46,7 +46,7 @@ namespace ouzel
         resolution = size;
     }
 
-    void WindowResourceAndroid::handleResize(const Size2& newSize)
+    void NativeWindowAndroid::handleResize(const Size2& newSize)
     {
         size = newSize;
         resolution = size;
@@ -59,7 +59,7 @@ namespace ouzel
         }
     }
 
-    void WindowResourceAndroid::handleSurfaceChange(jobject surface)
+    void NativeWindowAndroid::handleSurfaceChange(jobject surface)
     {
         EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(engine);
         JavaVM* javaVM = engineAndroid->getJavaVM();
@@ -72,7 +72,7 @@ namespace ouzel
         window = ANativeWindow_fromSurface(jniEnv, surface);
     }
 
-    void WindowResourceAndroid::handleSurfaceDestroy()
+    void NativeWindowAndroid::handleSurfaceDestroy()
     {
         if (window)
         {

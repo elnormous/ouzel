@@ -42,8 +42,8 @@ namespace ouzel
         private:
             InputManagerWin();
 
-            virtual void activateCursorResource(CursorResource* resource) override;
-            virtual CursorResource* createCursorResource() override;
+            virtual void activateNativeCursor(NativeCursor* resource) override;
+            virtual NativeCursor* createNativeCursor() override;
 
             IDirectInput8W* directInput = nullptr;
             std::vector<GamepadDI*> gamepadsDI;

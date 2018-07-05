@@ -49,8 +49,8 @@ namespace ouzel
 
             void update();
 
-            virtual void activateCursorResource(CursorResource* resource) override;
-            virtual CursorResource* createCursorResource() override;
+            virtual void activateNativeCursor(NativeCursor* resource) override;
+            virtual NativeCursor* createNativeCursor() override;
 
             int maxFd = 0;
             std::vector<EventDevice> inputDevices;

@@ -11,7 +11,7 @@
 #  include <X11/extensions/XInput2.h>
 #endif
 #include "EngineLinux.hpp"
-#include "WindowResourceLinux.hpp"
+#include "NativeWindowLinux.hpp"
 #include "events/Event.hpp"
 #include "graphics/RenderDevice.hpp"
 #include "input/linux/InputManagerLinux.hpp"
@@ -41,7 +41,7 @@ namespace ouzel
         input::InputManagerLinux* inputLinux = static_cast<input::InputManagerLinux*>(inputManager.get());
 
 #if OUZEL_SUPPORTS_X11
-        WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(window->getResource());
+        NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(window->getNativeWindow());
         Display* display = windowLinux->getDisplay();
 
         int xInputOpCode = 0;
@@ -233,7 +233,7 @@ namespace ouzel
     void EngineLinux::executeOnMainThread(const std::function<void(void)>& func)
     {
 #if OUZEL_SUPPORTS_X11
-        WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(window->getResource());
+        NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(window->getNativeWindow());
 
         XEvent event;
         event.type = ClientMessage;
@@ -274,7 +274,7 @@ namespace ouzel
 
 #if OUZEL_SUPPORTS_X11
         executeOnMainThread([this, newScreenSaverEnabled]() {
-            WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(window->getResource());
+            NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(window->getNativeWindow());
 
             XScreenSaverSuspend(windowLinux->getDisplay(), !newScreenSaverEnabled);
         });

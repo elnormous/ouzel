@@ -67,10 +67,10 @@
     <ClCompile Include="..\ouzel\core\Engine.cpp" />
     <ClCompile Include="..\ouzel\core\Timer.cpp" />
     <ClCompile Include="..\ouzel\core\Window.cpp" />
-    <ClCompile Include="..\ouzel\core\WindowResource.cpp" />
+    <ClCompile Include="..\ouzel\core\NativeWindow.cpp" />
     <ClCompile Include="..\ouzel\core\windows\EngineWin.cpp" />
     <ClCompile Include="..\ouzel\core\windows\main.cpp" />
-    <ClCompile Include="..\ouzel\core\windows\WindowResourceWin.cpp" />
+    <ClCompile Include="..\ouzel\core\windows\NativeWindowWin.cpp" />
     <ClCompile Include="..\ouzel\events\EventDispatcher.cpp" />
     <ClCompile Include="..\ouzel\events\EventHandler.cpp" />
     <ClCompile Include="..\ouzel\files\Archive.cpp" />
@@ -127,11 +127,11 @@
     <ClCompile Include="..\ouzel\gui\TTFont.cpp" />
     <ClCompile Include="..\ouzel\gui\Widget.cpp" />
     <ClCompile Include="..\ouzel\input\Cursor.cpp" />
-    <ClCompile Include="..\ouzel\input\CursorResource.cpp" />
+    <ClCompile Include="..\ouzel\input\NativeCursor.cpp" />
     <ClCompile Include="..\ouzel\input\Gamepad.cpp" />
     <ClCompile Include="..\ouzel\input\InputManager.cpp" />
     <ClCompile Include="..\ouzel\input\InputSystem.cpp" />
-    <ClCompile Include="..\ouzel\input\windows\CursorResourceWin.cpp" />
+    <ClCompile Include="..\ouzel\input\windows\NativeCursorWin.cpp" />
     <ClCompile Include="..\ouzel\input\windows\GamepadDI.cpp" />
     <ClCompile Include="..\ouzel\input\windows\GamepadXI.cpp" />
     <ClCompile Include="..\ouzel\input\windows\InputManagerWin.cpp" />
@@ -225,9 +225,9 @@
     <ClInclude Include="..\ouzel\core\Engine.hpp" />
     <ClInclude Include="..\ouzel\core\Timer.hpp" />
     <ClInclude Include="..\ouzel\core\Window.hpp" />
-    <ClInclude Include="..\ouzel\core\WindowResource.hpp" />
+    <ClInclude Include="..\ouzel\core\NativeWindow.hpp" />
     <ClInclude Include="..\ouzel\core\windows\EngineWin.hpp" />
-    <ClInclude Include="..\ouzel\core\windows\WindowResourceWin.hpp" />
+    <ClInclude Include="..\ouzel\core\windows\NativeWindowWin.hpp" />
     <ClInclude Include="..\ouzel\DefaultConfig.h" />
     <ClInclude Include="..\ouzel\events\Event.hpp" />
     <ClInclude Include="..\ouzel\events\EventDispatcher.hpp" />
@@ -288,7 +288,7 @@
     <ClInclude Include="..\ouzel\gui\TTFont.hpp" />
     <ClInclude Include="..\ouzel\gui\Widget.hpp" />
     <ClInclude Include="..\ouzel\input\Cursor.hpp" />
-    <ClInclude Include="..\ouzel\input\CursorResource.hpp" />
+    <ClInclude Include="..\ouzel\input\NativeCursor.hpp" />
     <ClInclude Include="..\ouzel\input\Gamepad.hpp" />
     <ClInclude Include="..\ouzel\input\InputManager.hpp" />
     <ClInclude Include="..\ouzel\input\InputDevice.hpp" />
@@ -296,7 +296,7 @@
     <ClInclude Include="..\ouzel\input\Keyboard.hpp" />
     <ClInclude Include="..\ouzel\input\Mouse.hpp" />
     <ClInclude Include="..\ouzel\input\Touchpad.hpp" />
-    <ClInclude Include="..\ouzel\input\windows\CursorResourceWin.hpp" />
+    <ClInclude Include="..\ouzel\input\windows\NativeCursorWin.hpp" />
     <ClInclude Include="..\ouzel\input\windows\GamepadDI.hpp" />
     <ClInclude Include="..\ouzel\input\windows\GamepadXI.hpp" />
     <ClInclude Include="..\ouzel\input\windows\InputManagerWin.hpp" />

@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "core/WindowResource.hpp"
+#include "core/NativeWindow.hpp"
 
 #if defined(__OBJC__)
 #import <UIKit/UIKit.h>
@@ -24,11 +24,11 @@ namespace ouzel
 {
     class Window;
 
-    class WindowResourceIOS: public WindowResource
+    class NativeWindowTVOS: public NativeWindow
     {
         friend Window;
     public:
-        virtual ~WindowResourceIOS();
+        virtual ~NativeWindowTVOS();
 
         inline UIWindowPtr getNativeWindow() const { return window; }
         inline UIViewPtr getNativeView() const { return view; }
@@ -37,7 +37,7 @@ namespace ouzel
         void handleResize(const Size2& newSize);
 
     protected:
-        WindowResourceIOS();
+        NativeWindowTVOS();
         virtual void init(const Size2& newSize,
                           bool newResizable,
                           bool newFullscreen,

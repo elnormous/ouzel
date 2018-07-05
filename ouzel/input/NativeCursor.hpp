@@ -13,11 +13,11 @@ namespace ouzel
     {
         class InputManager;
 
-        class CursorResource
+        class NativeCursor
         {
         public:
-            explicit CursorResource(InputManager& initInputManager);
-            virtual ~CursorResource();
+            explicit NativeCursor(InputManager& initInputManager);
+            virtual ~NativeCursor();
 
             virtual void init(SystemCursor newSystemCursor);
             virtual void init(const std::vector<uint8_t>& newData,

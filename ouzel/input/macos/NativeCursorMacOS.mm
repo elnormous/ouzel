@@ -1,24 +1,24 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include "CursorResourceMacOS.hpp"
+#include "NativeCursorMacOS.hpp"
 
 namespace ouzel
 {
     namespace input
     {
-        CursorResourceMacOS::CursorResourceMacOS(InputManager& initInputManager):
-            CursorResource(initInputManager)
+        NativeCursorMacOS::NativeCursorMacOS(InputManager& initInputManager):
+            NativeCursor(initInputManager)
         {
         }
 
-        CursorResourceMacOS::~CursorResourceMacOS()
+        NativeCursorMacOS::~NativeCursorMacOS()
         {
             if (cursor) [cursor release];
         }
 
-        void CursorResourceMacOS::init(SystemCursor newSystemCursor)
+        void NativeCursorMacOS::init(SystemCursor newSystemCursor)
         {
-            CursorResource::init(newSystemCursor);
+            NativeCursor::init(newSystemCursor);
 
             if (cursor)
             {
@@ -56,12 +56,12 @@ namespace ouzel
             reactivate();
         }
 
-        void CursorResourceMacOS::init(const std::vector<uint8_t>& newData,
+        void NativeCursorMacOS::init(const std::vector<uint8_t>& newData,
                                        const Size2& newSize,
                                        graphics::PixelFormat newPixelFormat,
                                        const Vector2& newHotSpot)
         {
-            CursorResource::init(newData,
+            NativeCursor::init(newData,
                                  newSize,
                                  newPixelFormat,
                                  newHotSpot);
