@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <windowsx.h>
-#include "WindowResourceWin.hpp"
+#include "NativeWindowWin.hpp"
 #include "EngineWin.hpp"
 #include "core/Engine.hpp"
 #include "core/Window.hpp"
@@ -151,7 +151,7 @@ static const LONG_PTR MOUSEEVENTF_FROMTOUCH = 0x0FF515700;
 
 static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    ouzel::WindowResourceWin* windowWin = reinterpret_cast<ouzel::WindowResourceWin*>(GetWindowLongPtr(window, GWLP_USERDATA));
+    ouzel::NativeWindowWin* windowWin = reinterpret_cast<ouzel::NativeWindowWin*>(GetWindowLongPtr(window, GWLP_USERDATA));
     if (!windowWin) return DefWindowProcW(window, msg, wParam, lParam);
 
     switch (msg)
@@ -300,11 +300,11 @@ static const LPCWSTR WINDOW_CLASS_NAME = L"OuzelWindow";
 
 namespace ouzel
 {
-    WindowResourceWin::WindowResourceWin()
+    NativeWindowWin::NativeWindowWin()
     {
     }
 
-    WindowResourceWin::~WindowResourceWin()
+    NativeWindowWin::~NativeWindowWin()
     {
         if (window)
             DestroyWindow(window);
@@ -313,7 +313,7 @@ namespace ouzel
             UnregisterClassW(WINDOW_CLASS_NAME, GetModuleHandleW(nullptr));
     }
 
-    void WindowResourceWin::init(const Size2& newSize,
+    void NativeWindowWin::init(const Size2& newSize,
                                  bool newResizable,
                                  bool newFullscreen,
                                  bool newExclusiveFullscreen,
@@ -321,7 +321,7 @@ namespace ouzel
                                  bool newHighDpi,
                                  bool depth)
     {
-        WindowResource::init(newSize,
+        NativeWindow::init(newSize,
                              newResizable,
                              newFullscreen,
                              newExclusiveFullscreen,
@@ -416,16 +416,16 @@ namespace ouzel
         SetWindowLongPtr(window, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
     }
 
-    void WindowResourceWin::close()
+    void NativeWindowWin::close()
     {
-        WindowResource::close();
+        NativeWindow::close();
 
         SendMessage(window, WM_CLOSE, 0, 0);
     }
 
-    void WindowResourceWin::setSize(const Size2& newSize)
+    void NativeWindowWin::setSize(const Size2& newSize)
     {
-        WindowResource::setSize(newSize);
+        NativeWindow::setSize(newSize);
 
         UINT width = static_cast<UINT>(newSize.width);
         UINT height = static_cast<UINT>(newSize.height);
@@ -444,7 +444,7 @@ namespace ouzel
             listener->onResolutionChange(resolution);
     }
 
-    void WindowResourceWin::setTitle(const std::string& newTitle)
+    void NativeWindowWin::setTitle(const std::string& newTitle)
     {
         if (title != newTitle)
         {
@@ -456,17 +456,17 @@ namespace ouzel
             SetWindowTextW(window, titleBuffer);
         }
 
-        WindowResource::setTitle(newTitle);
+        NativeWindow::setTitle(newTitle);
     }
 
-    void WindowResourceWin::setFullscreen(bool newFullscreen)
+    void NativeWindowWin::setFullscreen(bool newFullscreen)
     {
-        WindowResource::setFullscreen(newFullscreen);
+        NativeWindow::setFullscreen(newFullscreen);
 
         switchFullscreen(newFullscreen);
     }
 
-    void WindowResourceWin::switchFullscreen(bool newFullscreen)
+    void NativeWindowWin::switchFullscreen(bool newFullscreen)
     {
         if (exclusiveFullscreen)
         {
@@ -508,7 +508,7 @@ namespace ouzel
         }
     }
 
-    void WindowResourceWin::handleResize(const Size2& newSize)
+    void NativeWindowWin::handleResize(const Size2& newSize)
     {
         monitor = MonitorFromWindow(window, MONITOR_DEFAULTTONEAREST);
 
@@ -523,19 +523,19 @@ namespace ouzel
         }
     }
 
-    void WindowResourceWin::handleMove()
+    void NativeWindowWin::handleMove()
     {
         monitor = MonitorFromWindow(window, MONITOR_DEFAULTTONEAREST);
     }
 
-    void WindowResourceWin::addAccelerator(HACCEL accelerator)
+    void NativeWindowWin::addAccelerator(HACCEL accelerator)
     {
         engine->executeOnMainThread([this, accelerator]() {
             accelerators.insert(accelerator);
         });
     }
 
-    void WindowResourceWin::removeAccelerator(HACCEL accelerator)
+    void NativeWindowWin::removeAccelerator(HACCEL accelerator)
     {
         engine->executeOnMainThread([this, accelerator]() {
             accelerators.erase(accelerator);

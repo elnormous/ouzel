@@ -6,7 +6,7 @@
 
 #include "AudioDeviceDS.hpp"
 #include "core/Engine.hpp"
-#include "core/windows/WindowResourceWin.hpp"
+#include "core/windows/NativeWindowWin.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
@@ -58,7 +58,7 @@ namespace ouzel
             if (FAILED(hr))
                 throw SystemError("Failed to create DirectSound 8 instance, error: " + std::to_string(hr));
 
-            WindowResourceWin* windowWin = static_cast<WindowResourceWin*>(window->getResource());
+            NativeWindowWin* windowWin = static_cast<NativeWindowWin*>(window->getNativeWindow());
 
             hr = directSound->SetCooperativeLevel(windowWin->getNativeWindow(), DSSCL_PRIORITY);
             if (FAILED(hr))

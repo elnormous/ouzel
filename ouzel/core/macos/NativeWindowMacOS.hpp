@@ -20,17 +20,17 @@ typedef id NSScreenPtr;
 typedef uint32_t CGDirectDisplayID;
 #endif
 
-#include "core/WindowResource.hpp"
+#include "core/NativeWindow.hpp"
 
 namespace ouzel
 {
     class Window;
 
-    class WindowResourceMacOS: public WindowResource
+    class NativeWindowMacOS: public NativeWindow
     {
         friend Window;
     public:
-        virtual ~WindowResourceMacOS();
+        virtual ~NativeWindowMacOS();
 
         virtual void close() override;
 
@@ -50,7 +50,7 @@ namespace ouzel
         inline CGDirectDisplayID getDisplayId() const { return displayId; }
 
     protected:
-        WindowResourceMacOS();
+        NativeWindowMacOS();
         virtual void init(const Size2& newSize,
                           bool newResizable,
                           bool newFullscreen,

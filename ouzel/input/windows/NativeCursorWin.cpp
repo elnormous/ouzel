@@ -1,25 +1,25 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include "CursorResourceWin.hpp"
+#include "NativeCursorWin.hpp"
 #include "utils/Errors.hpp"
 
 namespace ouzel
 {
     namespace input
     {
-        CursorResourceWin::CursorResourceWin(InputManager& initInputManager):
-            CursorResource(initInputManager)
+        NativeCursorWin::NativeCursorWin(InputManager& initInputManager):
+            NativeCursor(initInputManager)
         {
         }
 
-        CursorResourceWin::~CursorResourceWin()
+        NativeCursorWin::~NativeCursorWin()
         {
             if (cursor && !shared) DestroyCursor(cursor);
         }
 
-        void CursorResourceWin::init(SystemCursor newSystemCursor)
+        void NativeCursorWin::init(SystemCursor newSystemCursor)
         {
-            CursorResource::init(newSystemCursor);
+            NativeCursor::init(newSystemCursor);
 
             if (cursor)
             {
@@ -63,12 +63,12 @@ namespace ouzel
             reactivate();
         }
 
-        void CursorResourceWin::init(const std::vector<uint8_t>& newData,
+        void NativeCursorWin::init(const std::vector<uint8_t>& newData,
                                      const Size2& newSize,
                                      graphics::PixelFormat newPixelFormat,
                                      const Vector2& newHotSpot)
         {
-            CursorResource::init(newData,
+            NativeCursor::init(newData,
                                  newSize,
                                  newPixelFormat,
                                  newHotSpot);

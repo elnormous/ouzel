@@ -6,11 +6,11 @@
 #include <WbemIdl.h>
 #include <OleAuto.h>
 #include "InputManagerWin.hpp"
-#include "CursorResourceWin.hpp"
+#include "NativeCursorWin.hpp"
 #include "GamepadDI.hpp"
 #include "GamepadXI.hpp"
 #include "core/Engine.hpp"
-#include "core/windows/WindowResourceWin.hpp"
+#include "core/windows/NativeWindowWin.hpp"
 #include "events/EventDispatcher.hpp"
 #include "thread/Lock.hpp"
 #include "utils/Errors.hpp"
@@ -309,11 +309,11 @@ namespace ouzel
             }
         }
 
-        void InputManagerWin::activateCursorResource(CursorResource* resource)
+        void InputManagerWin::activateNativeCursor(NativeCursor* resource)
         {
-            InputManager::activateCursorResource(resource);
+            InputManager::activateNativeCursor(resource);
 
-            CursorResourceWin* cursorWin = static_cast<CursorResourceWin*>(resource);
+            NativeCursorWin* cursorWin = static_cast<NativeCursorWin*>(resource);
 
             if (cursorWin)
                 currentCursor = cursorWin->getNativeCursor();
@@ -323,12 +323,12 @@ namespace ouzel
             updateCursor();
         }
 
-        CursorResource* InputManagerWin::createCursorResource()
+        NativeCursor* InputManagerWin::createNativeCursor()
         {
             Lock lock(resourceMutex);
 
-            std::unique_ptr<CursorResourceWin> cursorResource(new CursorResourceWin(*this));
-            CursorResource* result = cursorResource.get();
+            std::unique_ptr<NativeCursorWin> cursorResource(new NativeCursorWin(*this));
+            NativeCursor* result = cursorResource.get();
 
             resources.push_back(std::move(cursorResource));
 
@@ -357,7 +357,7 @@ namespace ouzel
             engine->executeOnMainThread([locked] {
                 if (locked)
                 {
-                    HWND nativeWindow = static_cast<WindowResourceWin*>(engine->getWindow()->getResource())->getNativeWindow();
+                    HWND nativeWindow = static_cast<NativeWindowWin*>(engine->getWindow()->getNativeWindow())->getNativeWindow();
 
                     RECT rect;
                     GetWindowRect(nativeWindow, &rect);
@@ -390,7 +390,7 @@ namespace ouzel
 
             engine->executeOnMainThread([position] {
                 Vector2 windowLocation = engine->getWindow()->convertNormalizedToWindowLocation(position);
-                HWND nativeWindow = static_cast<WindowResourceWin*>(engine->getWindow()->getResource())->getNativeWindow();
+                HWND nativeWindow = static_cast<NativeWindowWin*>(engine->getWindow()->getNativeWindow())->getNativeWindow();
 
                 POINT p;
                 p.x = static_cast<LONG>(windowLocation.x);
@@ -542,7 +542,7 @@ namespace ouzel
 
                 if (!found)
                 {
-                    WindowResourceWin* windowWin = static_cast<WindowResourceWin*>(engine->getWindow()->getResource());
+                    NativeWindowWin* windowWin = static_cast<NativeWindowWin*>(engine->getWindow()->getNativeWindow());
 
                     std::unique_ptr<GamepadDI> gamepad(new GamepadDI(didInstance, directInput, windowWin->getNativeWindow()));
                     gamepadsDI.push_back(gamepad.get());

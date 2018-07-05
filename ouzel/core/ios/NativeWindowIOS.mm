@@ -1,6 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include "WindowResourceIOS.hpp"
+#include "NativeWindowIOS.hpp"
 #include "ViewIOS.h"
 #include "graphics/RenderDevice.hpp"
 #include "graphics/opengl/ios/OpenGLView.h"
@@ -12,14 +12,14 @@
 
 @interface ViewController: UIViewController
 {
-    ouzel::WindowResourceIOS* window;
+    ouzel::NativeWindowIOS* window;
 }
 
 @end
 
 @implementation ViewController
 
--(id)initWithWindow:(ouzel::WindowResourceIOS*)initWindow
+-(id)initWithWindow:(ouzel::NativeWindowIOS*)initWindow
 {
     if (self = [super init])
         window = initWindow;
@@ -98,11 +98,11 @@
 
 namespace ouzel
 {
-    WindowResourceIOS::WindowResourceIOS()
+    NativeWindowIOS::NativeWindowIOS()
     {
     }
 
-    WindowResourceIOS::~WindowResourceIOS()
+    NativeWindowIOS::~NativeWindowIOS()
     {
         if (textField) [textField release];
         if (viewController) [viewController release];
@@ -110,7 +110,7 @@ namespace ouzel
         if (window) [window release];
     }
 
-    void WindowResourceIOS::init(const Size2& newSize,
+    void NativeWindowIOS::init(const Size2& newSize,
                                  bool newResizable,
                                  bool newFullscreen,
                                  bool newExclusiveFullscreen,
@@ -118,7 +118,7 @@ namespace ouzel
                                  bool newHighDpi,
                                  bool depth)
     {
-        WindowResource::init(newSize,
+        NativeWindow::init(newSize,
                              newResizable,
                              newFullscreen,
                              newExclusiveFullscreen,
@@ -181,7 +181,7 @@ namespace ouzel
             resolution = size;
     }
 
-    void WindowResourceIOS::handleResize(const Size2& newSize)
+    void NativeWindowIOS::handleResize(const Size2& newSize)
     {
         size = newSize;
         resolution = size * contentScale;

@@ -2,7 +2,7 @@
 
 #include "GamepadDI.hpp"
 #include "InputManagerWin.hpp"
-#include "core/windows/WindowResourceWin.hpp"
+#include "core/windows/NativeWindowWin.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 

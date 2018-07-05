@@ -9,17 +9,17 @@
 typedef id NSCursor;
 #endif
 
-#include "input/CursorResource.hpp"
+#include "input/NativeCursor.hpp"
 
 namespace ouzel
 {
     namespace input
     {
-        class CursorResourceMacOS: public CursorResource
+        class NativeCursorMacOS: public NativeCursor
         {
         public:
-            explicit CursorResourceMacOS(InputManager& initInputManager);
-            virtual ~CursorResourceMacOS();
+            explicit NativeCursorMacOS(InputManager& initInputManager);
+            virtual ~NativeCursorMacOS();
 
             virtual void init(SystemCursor newSystemCursor) override;
             virtual void init(const std::vector<uint8_t>& newData,

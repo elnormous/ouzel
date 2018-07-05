@@ -10,7 +10,7 @@
 #endif
 #include "RenderDeviceOGLLinux.hpp"
 #include "core/Engine.hpp"
-#include "core/linux/WindowResourceLinux.hpp"
+#include "core/linux/NativeWindowLinux.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
@@ -30,7 +30,7 @@ namespace ouzel
             if (renderThread.isJoinable()) renderThread.join();
 
 #if OUZEL_OPENGL_INTERFACE_GLX
-            WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(window->getResource());
+            NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(window->getNativeWindow());
 
             if (windowLinux->getDisplay() && context)
             {
@@ -61,7 +61,7 @@ namespace ouzel
                                         bool newDepth,
                                         bool newDebugRenderer)
         {
-            WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(newWindow->getResource());
+            NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(newWindow->getNativeWindow());
 
 #if OUZEL_OPENGL_INTERFACE_GLX
             // make sure OpenGL's GLX extension supported
@@ -238,7 +238,7 @@ namespace ouzel
             std::vector<Size2> result;
 
 #if OUZEL_OPENGL_INTERFACE_GLX
-            WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(window->getResource());
+            NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(window->getNativeWindow());
 
             int modeCount;
             XF86VidModeModeInfo** modeInfo;
@@ -262,7 +262,7 @@ namespace ouzel
         void RenderDeviceOGLLinux::lockContext()
         {
 #if OUZEL_OPENGL_INTERFACE_GLX
-            WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(window->getResource());
+            NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(window->getNativeWindow());
 
             if (!glXMakeCurrent(windowLinux->getDisplay(), windowLinux->getNativeWindow(), context))
                 throw SystemError("Failed to make GLX context current");
@@ -275,7 +275,7 @@ namespace ouzel
         void RenderDeviceOGLLinux::swapBuffers()
         {
 #if OUZEL_OPENGL_INTERFACE_GLX
-            WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(window->getResource());
+            NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(window->getNativeWindow());
 
             glXSwapBuffers(windowLinux->getDisplay(), windowLinux->getNativeWindow());
 #elif OUZEL_OPENGL_INTERFACE_EGL

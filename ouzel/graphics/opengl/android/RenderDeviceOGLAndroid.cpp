@@ -5,7 +5,7 @@
 #if OUZEL_PLATFORM_ANDROID && OUZEL_COMPILE_OPENGL
 
 #include "RenderDeviceOGLAndroid.hpp"
-#include "core/android/WindowResourceAndroid.hpp"
+#include "core/android/NativeWindowAndroid.hpp"
 #include "core/Engine.hpp"
 #include "thread/Lock.hpp"
 #include "utils/Errors.hpp"
@@ -76,7 +76,7 @@ namespace ouzel
             if (!eglGetConfigAttrib(display, config, EGL_NATIVE_VISUAL_ID, &format))
                 throw SystemError("Failed to get config attribute " + std::to_string(eglGetError()));
 
-            WindowResourceAndroid* windowAndroid = static_cast<WindowResourceAndroid*>(newWindow->getResource());
+            NativeWindowAndroid* windowAndroid = static_cast<NativeWindowAndroid*>(newWindow->getNativeWindow());
 
             ANativeWindow_setBuffersGeometry(windowAndroid->getNativeWindow(), 0, 0, format);
 
@@ -179,7 +179,7 @@ namespace ouzel
             if (!eglGetConfigAttrib(display, config, EGL_NATIVE_VISUAL_ID, &format))
                 throw SystemError("Failed to get config attribute " + std::to_string(eglGetError()));
 
-            WindowResourceAndroid* windowAndroid = static_cast<WindowResourceAndroid*>(window->getResource());
+            NativeWindowAndroid* windowAndroid = static_cast<NativeWindowAndroid*>(window->getNativeWindow());
 
             ANativeWindow_setBuffersGeometry(windowAndroid->getNativeWindow(), 0, 0, format);
 

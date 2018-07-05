@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <android/window.h>
 #include "EngineAndroid.hpp"
-#include "WindowResourceAndroid.hpp"
+#include "NativeWindowAndroid.hpp"
 #include "events/EventDispatcher.hpp"
 #include "graphics/opengl/android/RenderDeviceOGLAndroid.hpp"
 #include "thread/Lock.hpp"
@@ -146,7 +146,7 @@ namespace ouzel
 
         if (active)
         {
-            WindowResourceAndroid* windowAndroid = static_cast<WindowResourceAndroid*>(window->getResource());
+            NativeWindowAndroid* windowAndroid = static_cast<NativeWindowAndroid*>(window->getNativeWindow());
             windowAndroid->handleSurfaceChange(surface);
 
             if (renderer)
@@ -209,7 +209,7 @@ namespace ouzel
 
         if (active)
         {
-            WindowResourceAndroid* windowAndroid = static_cast<WindowResourceAndroid*>(window->getResource());
+            NativeWindowAndroid* windowAndroid = static_cast<NativeWindowAndroid*>(window->getNativeWindow());
             windowAndroid->handleSurfaceDestroy();
 
             if (renderer)

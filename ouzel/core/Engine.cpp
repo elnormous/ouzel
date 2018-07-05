@@ -22,7 +22,7 @@
 #include <jni.h>
 #include "input/android/InputManagerAndroid.hpp"
 #elif OUZEL_PLATFORM_LINUX
-#include "linux/WindowResourceLinux.hpp"
+#include "linux/NativeWindowLinux.hpp"
 #include "input/linux/InputManagerLinux.hpp"
 #elif OUZEL_PLATFORM_WINDOWS
 #include "input/windows/InputManagerWin.hpp"

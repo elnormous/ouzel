@@ -6,10 +6,10 @@
 #import <GameController/GameController.h>
 #import <objc/message.h>
 #include "InputManagerMacOS.hpp"
-#include "CursorResourceMacOS.hpp"
+#include "NativeCursorMacOS.hpp"
 #include "GamepadGC.hpp"
 #include "GamepadIOKit.hpp"
-#include "core/macos/WindowResourceMacOS.hpp"
+#include "core/macos/NativeWindowMacOS.hpp"
 #include "core/Engine.hpp"
 #include "events/EventDispatcher.hpp"
 #include "thread/Lock.hpp"
@@ -324,11 +324,11 @@ namespace ouzel
             }
         }
 
-        void InputManagerMacOS::activateCursorResource(CursorResource* resource)
+        void InputManagerMacOS::activateNativeCursor(NativeCursor* resource)
         {
-            InputManager::activateCursorResource(resource);
+            InputManager::activateNativeCursor(resource);
 
-            CursorResourceMacOS* cursorMacOS = static_cast<CursorResourceMacOS*>(resource);
+            NativeCursorMacOS* cursorMacOS = static_cast<NativeCursorMacOS*>(resource);
 
             if (cursorMacOS)
             {
@@ -338,16 +338,16 @@ namespace ouzel
             else
                 currentCursor = defaultCursor;
 
-            WindowResourceMacOS* windowMacOS = static_cast<WindowResourceMacOS*>(engine->getWindow()->getResource());
+            NativeWindowMacOS* windowMacOS = static_cast<NativeWindowMacOS*>(engine->getWindow()->getNativeWindow());
             [windowMacOS->getNativeView() resetCursorRects];
         }
 
-        CursorResource* InputManagerMacOS::createCursorResource()
+        NativeCursor* InputManagerMacOS::createNativeCursor()
         {
             Lock lock(resourceMutex);
 
-            std::unique_ptr<CursorResourceMacOS> cursorResource(new CursorResourceMacOS(*this));
-            CursorResource* result = cursorResource.get();
+            std::unique_ptr<NativeCursorMacOS> cursorResource(new NativeCursorMacOS(*this));
+            NativeCursor* result = cursorResource.get();
 
             resources.push_back(std::move(cursorResource));
 
@@ -383,7 +383,7 @@ namespace ouzel
             engine->executeOnMainThread([windowLocation] {
                 CGPoint screenOrigin = [[NSScreen mainScreen] visibleFrame].origin;
 
-                WindowResourceMacOS* windowMacOS = static_cast<WindowResourceMacOS*>(engine->getWindow()->getResource());
+                NativeWindowMacOS* windowMacOS = static_cast<NativeWindowMacOS*>(engine->getWindow()->getNativeWindow());
                 CGPoint windowOrigin = [windowMacOS->getNativeWindow() frame].origin;
 
                 CGWarpMouseCursorPosition(CGPointMake(screenOrigin.x + windowOrigin.x + windowLocation.x,

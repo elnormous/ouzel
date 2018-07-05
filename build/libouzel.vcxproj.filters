@@ -79,10 +79,10 @@
     <ClCompile Include="..\ouzel\input\Cursor.cpp">
       <Filter>ouzel\input</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\input\CursorResource.cpp">
+    <ClCompile Include="..\ouzel\input\NativeCursor.cpp">
       <Filter>ouzel\input</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\input\windows\CursorResourceWin.cpp">
+    <ClCompile Include="..\ouzel\input\windows\NativeCursorWin.cpp">
       <Filter>ouzel\input\windows</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\animators\Ease.cpp">
@@ -163,7 +163,7 @@
     <ClCompile Include="..\ouzel\core\Window.cpp">
       <Filter>ouzel\core</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\core\windows\WindowResourceWin.cpp">
+    <ClCompile Include="..\ouzel\core\windows\NativeWindowWin.cpp">
       <Filter>ouzel\core\windows</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\math\MathUtils.cpp">
@@ -391,7 +391,7 @@
     <ClCompile Include="..\ouzel\network\Client.cpp">
       <Filter>ouzel\network</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\core\WindowResource.cpp">
+    <ClCompile Include="..\ouzel\core\NativeWindow.cpp">
       <Filter>ouzel\core</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\scene\Light.cpp">
@@ -549,10 +549,10 @@
     <ClInclude Include="..\ouzel\input\Cursor.hpp">
       <Filter>ouzel\input</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\input\CursorResource.hpp">
+    <ClInclude Include="..\ouzel\input\NativeCursor.hpp">
       <Filter>ouzel\input</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\input\windows\CursorResourceWin.hpp">
+    <ClInclude Include="..\ouzel\input\windows\NativeCursorWin.hpp">
       <Filter>ouzel\input\windows</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\DataType.hpp">
@@ -639,7 +639,7 @@
     <ClInclude Include="..\ouzel\core\Window.hpp">
       <Filter>ouzel\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\core\windows\WindowResourceWin.hpp">
+    <ClInclude Include="..\ouzel\core\windows\NativeWindowWin.hpp">
       <Filter>ouzel\core\windows</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\math\MathUtils.hpp">
@@ -870,7 +870,7 @@
     <ClInclude Include="..\ouzel\graphics\RenderResource.hpp">
       <Filter>ouzel\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\core\WindowResource.hpp">
+    <ClInclude Include="..\ouzel\core\NativeWindow.hpp">
       <Filter>ouzel\core</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\core\Platform.h">

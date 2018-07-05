@@ -3,17 +3,17 @@
 #pragma once
 
 #include <Windows.h>
-#include "input/CursorResource.hpp"
+#include "input/NativeCursor.hpp"
 
 namespace ouzel
 {
     namespace input
     {
-        class CursorResourceWin: public CursorResource
+        class NativeCursorWin: public NativeCursor
         {
         public:
-            explicit CursorResourceWin(InputManager& initInputManager);
-            virtual ~CursorResourceWin();
+            explicit NativeCursorWin(InputManager& initInputManager);
+            virtual ~NativeCursorWin();
 
             virtual void init(SystemCursor newSystemCursor) override;
             virtual void init(const std::vector<uint8_t>& newData,

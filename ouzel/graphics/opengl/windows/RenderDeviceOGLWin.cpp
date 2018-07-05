@@ -10,7 +10,7 @@
 #include "GL/wglext.h"
 #include "RenderDeviceOGLWin.hpp"
 #include "core/Engine.hpp"
-#include "core/windows/WindowResourceWin.hpp"
+#include "core/windows/NativeWindowWin.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
@@ -158,7 +158,7 @@ namespace ouzel
 
             PFNWGLCHOOSEPIXELFORMATARBPROC wglChoosePixelFormatProc = reinterpret_cast<PFNWGLCHOOSEPIXELFORMATARBPROC>(wglGetProcAddress("wglChoosePixelFormatARB"));
 
-            WindowResourceWin* windowWin = static_cast<WindowResourceWin*>(newWindow->getResource());
+            NativeWindowWin* windowWin = static_cast<NativeWindowWin*>(newWindow->getNativeWindow());
 
             deviceContext = GetDC(windowWin->getNativeWindow());
 

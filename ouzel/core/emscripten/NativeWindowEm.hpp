@@ -2,13 +2,13 @@
 
 #pragma once
 
-#include "core/WindowResource.hpp"
+#include "core/NativeWindow.hpp"
 
 namespace ouzel
 {
     class Window;
 
-    class WindowResourceEm: public WindowResource
+    class NativeWindowEm: public NativeWindow
     {
         friend Window;
     public:
@@ -17,7 +17,7 @@ namespace ouzel
         void handleResize();
 
     protected:
-        WindowResourceEm();
+        NativeWindowEm();
         virtual void init(const Size2& newSize,
                           bool newResizable,
                           bool newFullscreen,

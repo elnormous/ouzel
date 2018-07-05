@@ -2,7 +2,7 @@
 
 #include <algorithm>
 #include "InputManager.hpp"
-#include "CursorResource.hpp"
+#include "NativeCursor.hpp"
 #include "Gamepad.hpp"
 #include "core/Engine.hpp"
 #include "events/EventDispatcher.hpp"
@@ -28,37 +28,37 @@ namespace ouzel
             Lock lock(resourceMutex);
 
             if (cursor)
-                currentCursorResource = cursor->getResource();
+                currentNativeCursor = cursor->getNativeCursor();
             else
-                currentCursorResource = nullptr;
+                currentNativeCursor = nullptr;
 
-            engine->executeOnMainThread(std::bind(&InputManager::activateCursorResource,
+            engine->executeOnMainThread(std::bind(&InputManager::activateNativeCursor,
                                                   this,
-                                                  currentCursorResource));
+                                                  currentNativeCursor));
         }
 
-        void InputManager::activateCursorResource(CursorResource*)
+        void InputManager::activateNativeCursor(NativeCursor*)
         {
         }
 
-        CursorResource* InputManager::createCursorResource()
+        NativeCursor* InputManager::createNativeCursor()
         {
             Lock lock(resourceMutex);
 
-            std::unique_ptr<CursorResource> cursorResource(new CursorResource(*this));
-            CursorResource* result = cursorResource.get();
+            std::unique_ptr<NativeCursor> cursorResource(new NativeCursor(*this));
+            NativeCursor* result = cursorResource.get();
 
             resources.push_back(std::move(cursorResource));
 
             return result;
         }
 
-        void InputManager::deleteCursorResource(CursorResource* resource)
+        void InputManager::deleteNativeCursor(NativeCursor* resource)
         {
             engine->executeOnMainThread([this, resource] {
                 Lock lock(resourceMutex);
 
-                auto i = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<CursorResource>& ptr) {
+                auto i = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<NativeCursor>& ptr) {
                     return ptr.get() == resource;
                 });
 
@@ -68,11 +68,11 @@ namespace ouzel
                     resources.erase(i);
                 }
 
-                if (resource == currentCursorResource)
+                if (resource == currentNativeCursor)
                 {
                     // remove the cursor
-                    currentCursorResource = nullptr;
-                    activateCursorResource(nullptr);
+                    currentNativeCursor = nullptr;
+                    activateNativeCursor(nullptr);
                 }
 
                 resourceDeleteSet.clear();

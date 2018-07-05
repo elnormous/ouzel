@@ -8,7 +8,7 @@
 
 namespace ouzel
 {
-    class WindowResource
+    class NativeWindow
     {
     public:
         class Listener
@@ -22,14 +22,14 @@ namespace ouzel
             virtual void onClose() = 0;
         };
 
-        WindowResource() = default;
-        virtual ~WindowResource() {}
+        NativeWindow() = default;
+        virtual ~NativeWindow() {}
 
-        WindowResource(const WindowResource&) = delete;
-        WindowResource& operator=(const WindowResource&) = delete;
+        NativeWindow(const NativeWindow&) = delete;
+        NativeWindow& operator=(const NativeWindow&) = delete;
 
-        WindowResource(WindowResource&&) = delete;
-        WindowResource& operator=(WindowResource&&) = delete;
+        NativeWindow(NativeWindow&&) = delete;
+        NativeWindow& operator=(NativeWindow&&) = delete;
 
         virtual void init(const Size2& newSize,
                           bool newResizable,

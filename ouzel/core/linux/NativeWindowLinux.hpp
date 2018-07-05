@@ -17,19 +17,19 @@ typedef struct
 } EGL_DISPMANX_WINDOW_T;
 #endif
 
-#include "core/WindowResource.hpp"
+#include "core/NativeWindow.hpp"
 
 namespace ouzel
 {
     class Window;
     class EngineLinux;
 
-    class WindowResourceLinux: public WindowResource
+    class NativeWindowLinux: public NativeWindow
     {
         friend Window;
         friend EngineLinux;
     public:
-        virtual ~WindowResourceLinux();
+        virtual ~NativeWindowLinux();
 
         virtual void close() override;
 
@@ -49,7 +49,7 @@ namespace ouzel
 #endif
 
     protected:
-        WindowResourceLinux();
+        NativeWindowLinux();
         virtual void init(const Size2& newSize,
                           bool newResizable,
                           bool newFullscreen,

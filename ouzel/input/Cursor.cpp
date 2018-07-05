@@ -2,7 +2,7 @@
 
 #include "Cursor.hpp"
 #include "InputManager.hpp"
-#include "CursorResource.hpp"
+#include "NativeCursor.hpp"
 #include "core/Engine.hpp"
 #include "graphics/ImageDataSTB.hpp"
 
@@ -12,7 +12,7 @@ namespace ouzel
     {
         Cursor::Cursor()
         {
-            resource = engine->getInputManager()->createCursorResource();
+            nativeCursor = engine->getInputManager()->createNativeCursor();
         }
 
         Cursor::Cursor(SystemCursor systemCursor):
@@ -29,13 +29,13 @@ namespace ouzel
 
         Cursor::~Cursor()
         {
-            if (engine && resource) engine->getInputManager()->deleteCursorResource(resource);
+            if (engine && nativeCursor) engine->getInputManager()->deleteNativeCursor(nativeCursor);
         }
 
         void Cursor::init(SystemCursor systemCursor)
         {
-            engine->executeOnMainThread(std::bind(static_cast<void(CursorResource::*)(SystemCursor)>(&CursorResource::init),
-                                                  resource,
+            engine->executeOnMainThread(std::bind(static_cast<void(NativeCursor::*)(SystemCursor)>(&NativeCursor::init),
+                                                  nativeCursor,
                                                   systemCursor));
         }
 
@@ -56,8 +56,8 @@ namespace ouzel
                           graphics::PixelFormat pixelFormat,
                           const Vector2& hotSpot)
         {
-            engine->executeOnMainThread(std::bind(static_cast<void(CursorResource::*)(const std::vector<uint8_t>&, const Size2&, graphics::PixelFormat, const Vector2&)>(&CursorResource::init),
-                                                  resource,
+            engine->executeOnMainThread(std::bind(static_cast<void(NativeCursor::*)(const std::vector<uint8_t>&, const Size2&, graphics::PixelFormat, const Vector2&)>(&NativeCursor::init),
+                                                  nativeCursor,
                                                   data,
                                                   size,
                                                   pixelFormat,

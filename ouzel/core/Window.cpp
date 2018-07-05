@@ -2,24 +2,24 @@
 
 #include "Window.hpp"
 #include "Setup.h"
-#include "WindowResource.hpp"
+#include "NativeWindow.hpp"
 #include "Engine.hpp"
 #include "events/EventDispatcher.hpp"
 
 #if OUZEL_PLATFORM_MACOS
-#include "macos/WindowResourceMacOS.hpp"
+#include "macos/NativeWindowMacOS.hpp"
 #elif OUZEL_PLATFORM_IOS
-#include "ios/WindowResourceIOS.hpp"
+#include "ios/NativeWindowIOS.hpp"
 #elif OUZEL_PLATFORM_TVOS
-#include "tvos/WindowResourceTVOS.hpp"
+#include "tvos/NativeWindowTVOS.hpp"
 #elif OUZEL_PLATFORM_ANDROID
-#include "android/WindowResourceAndroid.hpp"
+#include "android/NativeWindowAndroid.hpp"
 #elif OUZEL_PLATFORM_LINUX
-#include "linux/WindowResourceLinux.hpp"
+#include "linux/NativeWindowLinux.hpp"
 #elif OUZEL_PLATFORM_WINDOWS
-#include "windows/WindowResourceWin.hpp"
+#include "windows/NativeWindowWin.hpp"
 #elif OUZEL_PLATFORM_EMSCRIPTEN
-#include "emscripten/WindowResourceEm.hpp"
+#include "emscripten/NativeWindowEm.hpp"
 #endif
 
 namespace ouzel
@@ -33,35 +33,35 @@ namespace ouzel
                    bool depth)
     {
 #if OUZEL_PLATFORM_MACOS
-        resource = new WindowResourceMacOS();
+        nativeWindow = new NativeWindowMacOS();
 #elif OUZEL_PLATFORM_IOS
-        resource = new WindowResourceIOS();
+        nativeWindow = new NativeWindowIOS();
 #elif OUZEL_PLATFORM_TVOS
-        resource = new WindowResourceTVOS();
+        nativeWindow = new NativeWindowTVOS();
 #elif OUZEL_PLATFORM_ANDROID
-        resource = new WindowResourceAndroid();
+        nativeWindow = new NativeWindowAndroid();
 #elif OUZEL_PLATFORM_LINUX
-        resource = new WindowResourceLinux();
+        nativeWindow = new NativeWindowLinux();
 #elif OUZEL_PLATFORM_WINDOWS
-        resource = new WindowResourceWin();
+        nativeWindow = new NativeWindowWin();
 #elif OUZEL_PLATFORM_EMSCRIPTEN
-        resource = new WindowResourceEm();
+        nativeWindow = new NativeWindowEm();
 #else
-        resource = new WindowResource();
+        resource = new NativeWindow();
 #endif
 
-        resource->setListener(this);
+        nativeWindow->init(newSize,
+                           newResizable,
+                           newFullscreen,
+                           newExclusiveFullscreen,
+                           newTitle,
+                           newHighDpi,
+                           depth);
 
-        resource->init(newSize,
-                       newResizable,
-                       newFullscreen,
-                       newExclusiveFullscreen,
-                       newTitle,
-                       newHighDpi,
-                       depth);
+        nativeWindow->setListener(this);
 
-        size = resource->getSize();
-        resolution = resource->getResolution();
+        size = nativeWindow->getSize();
+        resolution = nativeWindow->getResolution();
         resizable = newResizable;
         fullscreen = newFullscreen;
         exclusiveFullscreen = newExclusiveFullscreen;
@@ -71,16 +71,16 @@ namespace ouzel
 
     Window::~Window()
     {
-        if (resource)
+        if (nativeWindow)
         {
-            resource->setListener(nullptr);
-            delete resource;
+            nativeWindow->setListener(nullptr);
+            delete nativeWindow;
         }
     }
 
     void Window::close()
     {
-        engine->executeOnMainThread(std::bind(&WindowResource::close, resource));
+        engine->executeOnMainThread(std::bind(&NativeWindow::close, nativeWindow));
     }
 
     void Window::setSize(const Size2& newSize)
@@ -89,7 +89,7 @@ namespace ouzel
         {
             size = newSize;
 
-            engine->executeOnMainThread(std::bind(&WindowResource::setSize, resource, newSize));
+            engine->executeOnMainThread(std::bind(&NativeWindow::setSize, nativeWindow, newSize));
 
             Event event;
             event.type = Event::Type::WINDOW_SIZE_CHANGE;
@@ -109,7 +109,7 @@ namespace ouzel
         {
             fullscreen = newFullscreen;
 
-            engine->executeOnMainThread(std::bind(&WindowResource::setFullscreen, resource, newFullscreen));
+            engine->executeOnMainThread(std::bind(&NativeWindow::setFullscreen, nativeWindow, newFullscreen));
 
             Event event;
             event.type = Event::Type::FULLSCREEN_CHANGE;
@@ -129,7 +129,7 @@ namespace ouzel
         {
             title = newTitle;
 
-            engine->executeOnMainThread(std::bind(&WindowResource::setTitle, resource, newTitle));
+            engine->executeOnMainThread(std::bind(&NativeWindow::setTitle, nativeWindow, newTitle));
 
             Event event;
             event.type = Event::Type::WINDOW_TITLE_CHANGE;

@@ -1,6 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include "WindowResourceTVOS.hpp"
+#include "NativeWindowTVOS.hpp"
 #include "ViewTVOS.h"
 #include "graphics/RenderDevice.hpp"
 #include "graphics/opengl/tvos/OpenGLView.h"
@@ -11,14 +11,14 @@
 
 @interface ViewController: UIViewController
 {
-    ouzel::WindowResourceTVOS* window;
+    ouzel::NativeWindowTVOS* window;
 }
 
 @end
 
 @implementation ViewController
 
--(id)initWithWindow:(ouzel::WindowResourceTVOS*)initWindow
+-(id)initWithWindow:(ouzel::NativeWindowTVOS*)initWindow
 {
     if (self = [super init])
         window = initWindow;
@@ -42,11 +42,11 @@
 
 namespace ouzel
 {
-    WindowResourceTVOS::WindowResourceTVOS()
+    NativeWindowTVOS::NativeWindowTVOS()
     {
     }
 
-    WindowResourceTVOS::~WindowResourceTVOS()
+    NativeWindowTVOS::~NativeWindowTVOS()
     {
         if (textField) [textField release];
         if (viewController) [viewController release];
@@ -54,7 +54,7 @@ namespace ouzel
         if (window) [window release];
     }
 
-    void WindowResourceTVOS::init(const Size2& newSize,
+    void NativeWindowTVOS::init(const Size2& newSize,
                                   bool newResizable,
                                   bool newFullscreen,
                                   bool newExclusiveFullscreen,
@@ -62,7 +62,7 @@ namespace ouzel
                                   bool newHighDpi,
                                   bool depth)
     {
-        WindowResource::init(newSize,
+        NativeWindow::init(newSize,
                              newResizable,
                              newFullscreen,
                              newExclusiveFullscreen,
@@ -120,7 +120,7 @@ namespace ouzel
             resolution = size;
     }
 
-    void WindowResourceTVOS::handleResize(const Size2& newSize)
+    void NativeWindowTVOS::handleResize(const Size2& newSize)
     {
         size = newSize;
         resolution = size * contentScale;

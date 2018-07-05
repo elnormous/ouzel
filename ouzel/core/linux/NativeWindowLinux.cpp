@@ -7,7 +7,7 @@
 #  include "GL/glx.h"
 #endif
 
-#include "WindowResourceLinux.hpp"
+#include "NativeWindowLinux.hpp"
 #include "EngineLinux.hpp"
 #include "graphics/RenderDevice.hpp"
 #include "thread/Lock.hpp"
@@ -19,11 +19,11 @@ static const long _NET_WM_STATE_TOGGLE = 2;
 
 namespace ouzel
 {
-    WindowResourceLinux::WindowResourceLinux()
+    NativeWindowLinux::NativeWindowLinux()
     {
     }
 
-    WindowResourceLinux::~WindowResourceLinux()
+    NativeWindowLinux::~NativeWindowLinux()
     {
 #if OUZEL_SUPPORTS_X11
         if (visualInfo)
@@ -44,7 +44,7 @@ namespace ouzel
 #endif
     }
 
-    void WindowResourceLinux::init(const Size2& newSize,
+    void NativeWindowLinux::init(const Size2& newSize,
                                    bool newResizable,
                                    bool newFullscreen,
                                    bool newExclusiveFullscreen,
@@ -52,7 +52,7 @@ namespace ouzel
                                    bool newHighDpi,
                                    bool depth)
     {
-        WindowResource::init(newSize,
+        NativeWindow::init(newSize,
                              newResizable,
                              newFullscreen,
                              newExclusiveFullscreen,
@@ -215,9 +215,9 @@ namespace ouzel
 #endif
     }
 
-    void WindowResourceLinux::close()
+    void NativeWindowLinux::close()
     {
-        WindowResource::close();
+        NativeWindow::close();
 
 #if OUZEL_SUPPORTS_X11
         if (!protocolsAtom || !deleteAtom) return;
@@ -237,9 +237,9 @@ namespace ouzel
 #endif
     }
 
-    void WindowResourceLinux::setSize(const Size2& newSize)
+    void NativeWindowLinux::setSize(const Size2& newSize)
     {
-        WindowResource::setSize(newSize);
+        NativeWindow::setSize(newSize);
 
 #if OUZEL_SUPPORTS_X11
         XWindowChanges changes;
@@ -266,23 +266,23 @@ namespace ouzel
 #endif
     }
 
-    void WindowResourceLinux::setFullscreen(bool newFullscreen)
+    void NativeWindowLinux::setFullscreen(bool newFullscreen)
     {
         if (fullscreen != newFullscreen) toggleFullscreen();
 
-        WindowResource::setFullscreen(newFullscreen);
+        NativeWindow::setFullscreen(newFullscreen);
     }
 
-    void WindowResourceLinux::setTitle(const std::string& newTitle)
+    void NativeWindowLinux::setTitle(const std::string& newTitle)
     {
 #if OUZEL_SUPPORTS_X11
         if (title != newTitle) XStoreName(display, window, newTitle.c_str());
 #endif
 
-        WindowResource::setTitle(newTitle);
+        NativeWindow::setTitle(newTitle);
     }
 
-    void WindowResourceLinux::toggleFullscreen()
+    void NativeWindowLinux::toggleFullscreen()
     {
 #if OUZEL_SUPPORTS_X11
         if (!stateAtom)
@@ -307,7 +307,7 @@ namespace ouzel
 #endif
     }
 
-    void WindowResourceLinux::handleResize(const Size2& newSize)
+    void NativeWindowLinux::handleResize(const Size2& newSize)
     {
         size = newSize;
         resolution = size;

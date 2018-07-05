@@ -5,38 +5,38 @@
 #  include <X11/cursorfont.h>
 #  include <X11/Xcursor/Xcursor.h>
 #endif
-#include "CursorResourceLinux.hpp"
+#include "NativeCursorLinux.hpp"
 #include "core/Engine.hpp"
-#include "core/linux/WindowResourceLinux.hpp"
+#include "core/linux/NativeWindowLinux.hpp"
 #include "utils/Errors.hpp"
 
 namespace ouzel
 {
     namespace input
     {
-        CursorResourceLinux::CursorResourceLinux(InputManager& initInputManager):
-            CursorResource(initInputManager)
+        NativeCursorLinux::NativeCursorLinux(InputManager& initInputManager):
+            NativeCursor(initInputManager)
         {
         }
 
-        CursorResourceLinux::~CursorResourceLinux()
+        NativeCursorLinux::~NativeCursorLinux()
         {
 #if OUZEL_SUPPORTS_X11
             if (engine)
             {
-                WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
+                NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(engine->getWindow()->getNativeWindow());
                 Display* display = windowLinux->getDisplay();
                 if (cursor != None) XFreeCursor(display, cursor);
             }
 #endif
         }
 
-        void CursorResourceLinux::init(SystemCursor newSystemCursor)
+        void NativeCursorLinux::init(SystemCursor newSystemCursor)
         {
-            CursorResource::init(newSystemCursor);
+            NativeCursor::init(newSystemCursor);
 
 #if OUZEL_SUPPORTS_X11
-            WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
+            NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(engine->getWindow()->getNativeWindow());
             Display* display = windowLinux->getDisplay();
 
             if (cursor != None)
@@ -73,18 +73,18 @@ namespace ouzel
             reactivate();
         }
 
-        void CursorResourceLinux::init(const std::vector<uint8_t>& newData,
+        void NativeCursorLinux::init(const std::vector<uint8_t>& newData,
                                        const Size2& newSize,
                                        graphics::PixelFormat newPixelFormat,
                                        const Vector2& newHotSpot)
         {
-            CursorResource::init(newData,
+            NativeCursor::init(newData,
                                  newSize,
                                  newPixelFormat,
                                  newHotSpot);
 
 #if OUZEL_SUPPORTS_X11
-            WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
+            NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(engine->getWindow()->getNativeWindow());
             Display* display = windowLinux->getDisplay();
 
             if (cursor != None)
