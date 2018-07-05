@@ -49,9 +49,9 @@ namespace ouzel
             if (xAudio2Library) FreeModule(xAudio2Library);
         }
 
-        void AudioDeviceXA2::init(bool debugAudio)
+        void AudioDeviceXA2::init(bool debugAudio, Window* window)
         {
-            AudioDevice::init(debugAudio);
+            AudioDevice::init(debugAudio, window);
 
             xAudio2Library = LoadLibraryA(XAUDIO2_DLL_28);
 

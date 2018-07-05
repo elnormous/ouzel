@@ -36,9 +36,9 @@ namespace ouzel
                 (*engineObject)->Destroy(engineObject);
         }
 
-        void AudioDeviceSL::init(bool debugAudio)
+        void AudioDeviceSL::init(bool debugAudio, Window* window)
         {
-            AudioDevice::init(debugAudio);
+            AudioDevice::init(debugAudio, window);
 
             const SLuint32 engineMixIIDCount = 1;
             const SLInterfaceID engineMixIID = SL_IID_ENGINE;

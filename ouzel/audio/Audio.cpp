@@ -46,7 +46,7 @@ namespace ouzel
 #if OUZEL_COMPILE_COREAUDIO
                 availableDrivers.insert(Audio::Driver::COREAUDIO);
 #endif
-                
+
 #if OUZEL_COMPILE_ALSA
                 availableDrivers.insert(Audio::Driver::ALSA);
 #endif
@@ -55,7 +55,7 @@ namespace ouzel
             return availableDrivers;
         }
 
-        Audio::Audio(Driver driver, bool debugAudio)
+        Audio::Audio(Driver driver, bool debugAudio, Window* window)
         {
             switch (driver)
             {
@@ -101,7 +101,7 @@ namespace ouzel
                     break;
             }
 
-            device->init(debugAudio);
+            device->init(debugAudio, window);
         }
 
         Audio::~Audio()

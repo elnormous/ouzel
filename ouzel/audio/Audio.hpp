@@ -13,6 +13,7 @@
 namespace ouzel
 {
     class Engine;
+    class Window;
 
     namespace audio
     {
@@ -88,7 +89,7 @@ namespace ouzel
                                  uint32_t channels);
 
         protected:
-            explicit Audio(Driver driver, bool debugAudio);
+            explicit Audio(Driver driver, bool debugAudio, Window* window);
 
             std::unique_ptr<AudioDevice> device;
 
