@@ -1,5 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <cassert>
 #include "ShapeRenderer.hpp"
 #include "core/Engine.hpp"
 #include "graphics/Renderer.hpp"
@@ -76,9 +77,9 @@ namespace ouzel
             dirty = true;
         }
 
-        bool ShapeRenderer::line(const Vector2& start, const Vector2& finish, const Color& color, float thickness)
+        void ShapeRenderer::line(const Vector2& start, const Vector2& finish, const Color& color, float thickness)
         {
-            if (thickness < 0.0F) return false;
+            assert(thickness >= 0.0F);
 
             DrawCommand command;
             command.startIndex = static_cast<uint32_t>(indices.size());
@@ -137,19 +138,18 @@ namespace ouzel
             drawCommands.push_back(command);
 
             dirty = true;
-            return true;
         }
 
-        bool ShapeRenderer::circle(const Vector2& position,
+        void ShapeRenderer::circle(const Vector2& position,
                                    float radius,
                                    const Color& color,
                                    bool fill,
                                    uint32_t segments,
                                    float thickness)
         {
-            if (radius < 0.0F) return false;
-            if (segments < 3) return false;
-            if (!fill && thickness < 0.0F) return false;
+            assert(radius >= 0.0F);
+            assert(segments >= 3);
+            assert(thickness >= 0.0F);
 
             DrawCommand command;
             command.startIndex = static_cast<uint32_t>(indices.size());
@@ -256,15 +256,14 @@ namespace ouzel
             drawCommands.push_back(command);
 
             dirty = true;
-            return true;
         }
 
-        bool ShapeRenderer::rectangle(const Rect& rectangle,
+        void ShapeRenderer::rectangle(const Rect& rectangle,
                                       const Color& color,
                                       bool fill,
                                       float thickness)
         {
-            if (!fill && thickness < 0.0F) return false;
+            assert(thickness >= 0.0F);
 
             DrawCommand command;
             command.startIndex = static_cast<uint32_t>(indices.size());
@@ -404,16 +403,15 @@ namespace ouzel
             drawCommands.push_back(command);
 
             dirty = true;
-            return true;
         }
 
-        bool ShapeRenderer::polygon(const std::vector<Vector2>& edges,
+        void ShapeRenderer::polygon(const std::vector<Vector2>& edges,
                                     const Color& color,
                                     bool fill,
                                     float thickness)
         {
-            if (edges.size() < 3) return false;
-            if (!fill && thickness < 0.0F) return false;
+            assert(edges.size() >= 3);
+            assert(thickness >= 0.0F);
 
             DrawCommand command;
             command.startIndex = static_cast<uint32_t>(indices.size());
@@ -461,14 +459,12 @@ namespace ouzel
                 else
                 {
                     // TODO: implement
-                    return false;
                 }
             }
 
             drawCommands.push_back(command);
 
             dirty = true;
-            return true;
         }
 
         static std::vector<uint32_t> pascalsTriangleRow(uint32_t row)
@@ -481,13 +477,13 @@ namespace ouzel
             return ret;
         }
 
-        bool ShapeRenderer::curve(const std::vector<Vector2>& controlPoints,
+        void ShapeRenderer::curve(const std::vector<Vector2>& controlPoints,
                                   const Color& color,
                                   uint32_t segments,
                                   float thickness)
         {
-            if (controlPoints.size() < 2) return false;
-            if (thickness < 0.0F) return false;
+            assert(controlPoints.size() >= 2);
+            assert(thickness >= 0.0F);
 
             DrawCommand command;
             command.startIndex = static_cast<uint32_t>(indices.size());
@@ -535,13 +531,11 @@ namespace ouzel
             else
             {
                 // TODO: implement
-                return false;
             }
 
             drawCommands.push_back(command);
 
             dirty = true;
-            return true;
         }
     } // namespace scene
 } // namespace ouzel

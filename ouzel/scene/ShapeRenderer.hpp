@@ -28,29 +28,29 @@ namespace ouzel
 
             void clear();
 
-            bool line(const Vector2& start,
+            void line(const Vector2& start,
                       const Vector2& finish,
                       const Color& color,
                       float thickness = 0.0F);
 
-            bool circle(const Vector2& position,
+            void circle(const Vector2& position,
                         float radius,
                         const Color& color,
                         bool fill = false,
                         uint32_t segments = 16,
                         float thickness = 0.0F);
 
-            bool rectangle(const Rect& rectangle,
+            void rectangle(const Rect& rectangle,
                            const Color& color,
                            bool fill = false,
                            float thickness = 0.0F);
 
-            bool polygon(const std::vector<Vector2>& edges,
+            void polygon(const std::vector<Vector2>& edges,
                          const Color& color,
                          bool fill = false,
                          float thickness = 0.0F);
 
-            bool curve(const std::vector<Vector2>& controlPoints,
+            void curve(const std::vector<Vector2>& controlPoints,
                        const Color& color,
                        uint32_t segments = 16,
                        float thickness = 0.0F);
