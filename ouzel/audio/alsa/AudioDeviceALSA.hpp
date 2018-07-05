@@ -24,7 +24,7 @@ namespace ouzel
 
         protected:
             AudioDeviceALSA();
-            virtual void init(bool debugAudio) override;
+            virtual void init(bool debugAudio, Window* window) override;
 
             void run();
 

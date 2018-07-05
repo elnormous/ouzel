@@ -66,9 +66,9 @@ namespace ouzel
                 alcCloseDevice(device);
         }
 
-        void AudioDeviceAL::init(bool debugAudio)
+        void AudioDeviceAL::init(bool debugAudio, Window* window)
         {
-            AudioDevice::init(debugAudio);
+            AudioDevice::init(debugAudio, window);
 
             const ALCchar* deviceName = alcGetString(nullptr, ALC_DEFAULT_DEVICE_SPECIFIER);
 

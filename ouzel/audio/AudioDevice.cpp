@@ -20,7 +20,7 @@ namespace ouzel
         {
         }
 
-        void AudioDevice::init(bool)
+        void AudioDevice::init(bool, Window*)
         {
         }
 

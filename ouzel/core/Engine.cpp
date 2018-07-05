@@ -248,7 +248,7 @@ namespace ouzel
                 audioDriver = audio::Audio::Driver::EMPTY;
         }
 
-        audio.reset(new audio::Audio(audioDriver, debugAudio));
+        audio.reset(new audio::Audio(audioDriver, debugAudio, window.get()));
 
 #if OUZEL_PLATFORM_MACOS
         inputManager.reset(new input::InputManagerMacOS());

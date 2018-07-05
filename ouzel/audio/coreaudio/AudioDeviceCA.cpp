@@ -101,9 +101,9 @@ namespace ouzel
 #endif
         }
 
-        void AudioDeviceCA::init(bool debugAudio)
+        void AudioDeviceCA::init(bool debugAudio, Window* window)
         {
-            AudioDevice::init(debugAudio);
+            AudioDevice::init(debugAudio, window);
 
             OSStatus result;
 

@@ -29,7 +29,7 @@ namespace ouzel
 
         protected:
             AudioDeviceSL();
-            virtual void init(bool debugAudio) override;
+            virtual void init(bool debugAudio, Window* window) override;
 
         private:
             SLObjectItf engineObject = nullptr;

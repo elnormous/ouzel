@@ -28,9 +28,9 @@ namespace ouzel
             if (playbackHandle) snd_pcm_close(playbackHandle);
         }
 
-        void AudioDeviceALSA::init(bool debugAudio)
+        void AudioDeviceALSA::init(bool debugAudio, Window* window)
         {
-            AudioDevice::init(debugAudio);
+            AudioDevice::init(debugAudio, window);
 
             int err;
             if ((err = snd_pcm_open(&playbackHandle, "default", SND_PCM_STREAM_PLAYBACK, 0)) < 0)

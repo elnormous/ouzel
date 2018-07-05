@@ -46,9 +46,9 @@ namespace ouzel
             if (directSound) directSound->Release();
         }
 
-        void AudioDeviceDS::init(bool debugAudio)
+        void AudioDeviceDS::init(bool debugAudio, Window* window)
         {
-            AudioDevice::init(debugAudio);
+            AudioDevice::init(debugAudio, window);
 
             HRESULT hr = DirectSoundEnumerateW(enumCallback, this);
             if (FAILED(hr))
@@ -58,7 +58,7 @@ namespace ouzel
             if (FAILED(hr))
                 throw SystemError("Failed to create DirectSound 8 instance, error: " + std::to_string(hr));
 
-            WindowResourceWin* windowWin = static_cast<WindowResourceWin*>(engine->getWindow()->getResource());
+            WindowResourceWin* windowWin = static_cast<WindowResourceWin*>(window->getResource());
 
             hr = directSound->SetCooperativeLevel(windowWin->getNativeWindow(), DSSCL_PRIORITY);
             if (FAILED(hr))
