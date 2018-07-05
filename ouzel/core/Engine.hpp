@@ -44,7 +44,7 @@ namespace ouzel
         inline FileSystem* getFileSystem() { return &fileSystem; }
         inline EventDispatcher* getEventDispatcher() { return &eventDispatcher; }
         inline assets::Cache* getCache() { return &cache; }
-        inline Window* getWindow() { return &window; }
+        inline Window* getWindow() { return window.get(); }
         inline graphics::Renderer* getRenderer() const { return renderer.get(); }
         inline audio::Audio* getAudio() const { return audio.get(); }
         inline scene::SceneManager* getSceneManager() { return &sceneManager; }
@@ -78,7 +78,7 @@ namespace ouzel
 
         FileSystem fileSystem;
         EventDispatcher eventDispatcher;
-        Window window;
+        std::unique_ptr<Window> window;
         std::unique_ptr<graphics::Renderer> renderer;
         std::unique_ptr<audio::Audio> audio;
         std::unique_ptr<input::InputManager> inputManager;

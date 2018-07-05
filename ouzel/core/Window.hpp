@@ -53,14 +53,13 @@ namespace ouzel
         }
 
     protected:
-        Window();
-        virtual void init(const Size2& newSize,
-                          bool newResizable,
-                          bool newFullscreen,
-                          bool newExclusiveFullscreen,
-                          const std::string& newTitle,
-                          bool newHighDpi,
-                          bool depth);
+        Window(const Size2& newSize,
+               bool newResizable,
+               bool newFullscreen,
+               bool newExclusiveFullscreen,
+               const std::string& newTitle,
+               bool newHighDpi,
+               bool depth);
 
         virtual void onSizeChange(const Size2& newSize) override;
         virtual void onResolutionChange(const Size2& newResolution) override;
