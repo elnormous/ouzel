@@ -88,8 +88,7 @@ namespace ouzel
                                  uint32_t channels);
 
         protected:
-            explicit Audio(Driver driver);
-            void init(bool debugAudio);
+            explicit Audio(Driver driver, bool debugAudio);
 
             std::unique_ptr<AudioDevice> device;
 

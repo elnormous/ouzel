@@ -24,7 +24,13 @@
 
 namespace ouzel
 {
-    Window::Window()
+    Window::Window(const Size2& newSize,
+                   bool newResizable,
+                   bool newFullscreen,
+                   bool newExclusiveFullscreen,
+                   const std::string& newTitle,
+                   bool newHighDpi,
+                   bool depth)
     {
 #if OUZEL_PLATFORM_MACOS
         resource = new WindowResourceMacOS();
@@ -45,25 +51,7 @@ namespace ouzel
 #endif
 
         resource->setListener(this);
-    }
 
-    Window::~Window()
-    {
-        if (resource)
-        {
-            resource->setListener(nullptr);
-            delete resource;
-        }
-    }
-
-    void Window::init(const Size2& newSize,
-                      bool newResizable,
-                      bool newFullscreen,
-                      bool newExclusiveFullscreen,
-                      const std::string& newTitle,
-                      bool newHighDpi,
-                      bool depth)
-    {
         resource->init(newSize,
                        newResizable,
                        newFullscreen,
@@ -79,6 +67,15 @@ namespace ouzel
         exclusiveFullscreen = newExclusiveFullscreen;
         highDpi = newHighDpi;
         title = newTitle;
+    }
+
+    Window::~Window()
+    {
+        if (resource)
+        {
+            resource->setListener(nullptr);
+            delete resource;
+        }
     }
 
     void Window::close()

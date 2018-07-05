@@ -53,7 +53,7 @@ namespace ouzel
             return availableDrivers;
         }
 
-        Audio::Audio(Driver driver)
+        Audio::Audio(Driver driver, bool debugAudio)
         {
             switch (driver)
             {
@@ -98,17 +98,14 @@ namespace ouzel
                     device.reset(new AudioDeviceEmpty());
                     break;
             }
+
+            device->init(debugAudio);
         }
 
         Audio::~Audio()
         {
             for (Listener* listener : listeners)
                 listener->audio = nullptr;
-        }
-
-        void Audio::init(bool debugAudio)
-        {
-            device->init(debugAudio);
         }
 
         void Audio::update()

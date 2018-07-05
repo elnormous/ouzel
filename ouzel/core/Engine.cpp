@@ -211,16 +211,16 @@ namespace ouzel
 
         renderer.reset(new graphics::Renderer(graphicsDriver));
 
-        window.init(size,
-                    resizable,
-                    fullscreen,
-                    exclusiveFullscreen,
-                    APPLICATION_NAME,
-                    highDpi,
-                    depth);
+        window.reset(new Window(size,
+                                resizable,
+                                fullscreen,
+                                exclusiveFullscreen,
+                                APPLICATION_NAME,
+                                highDpi,
+                                depth));
 
-        renderer->init(&window,
-                       window.getResolution(),
+        renderer->init(window.get(),
+                       window->getResolution(),
                        sampleCount,
                        textureFilter,
                        maxAnisotropy,
@@ -248,9 +248,7 @@ namespace ouzel
                 audioDriver = audio::Audio::Driver::EMPTY;
         }
 
-        audio.reset(new audio::Audio(audioDriver));
-
-        audio->init(debugAudio);
+        audio.reset(new audio::Audio(audioDriver, debugAudio));
 
 #if OUZEL_PLATFORM_MACOS
         inputManager.reset(new input::InputManagerMacOS());
