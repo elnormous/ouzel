@@ -41,7 +41,7 @@ namespace ouzel
         input::InputManagerLinux* inputLinux = static_cast<input::InputManagerLinux*>(inputManager.get());
 
 #if OUZEL_SUPPORTS_X11
-        WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
+        WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(window->getResource());
         Display* display = windowLinux->getDisplay();
 
         int xInputOpCode = 0;
@@ -189,7 +189,7 @@ namespace ouzel
                                 {
                                     XIDeviceEvent* xievent = reinterpret_cast<XIDeviceEvent*>(cookie->data);
                                     inputManager->touchBegin(xievent->detail,
-                                                             engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(xievent->event_x),
+                                                             window->convertWindowToNormalizedLocation(Vector2(static_cast<float>(xievent->event_x),
                                                                                                                             static_cast<float>(xievent->event_y))));
                                     break;
                                 }
@@ -197,7 +197,7 @@ namespace ouzel
                                 {
                                     XIDeviceEvent* xievent = reinterpret_cast<XIDeviceEvent*>(cookie->data);
                                     inputManager->touchEnd(xievent->detail,
-                                                           engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(xievent->event_x),
+                                                           window->convertWindowToNormalizedLocation(Vector2(static_cast<float>(xievent->event_x),
                                                                                                                           static_cast<float>(xievent->event_y))));
                                     break;
                                 }
@@ -205,7 +205,7 @@ namespace ouzel
                                 {
                                     XIDeviceEvent* xievent = reinterpret_cast<XIDeviceEvent*>(cookie->data);
                                     inputManager->touchMove(xievent->detail,
-                                                            engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(xievent->event_x),
+                                                            window->convertWindowToNormalizedLocation(Vector2(static_cast<float>(xievent->event_x),
                                                                                                                            static_cast<float>(xievent->event_y))));
                                     break;
                                 }
