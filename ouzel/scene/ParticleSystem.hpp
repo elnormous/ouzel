@@ -49,8 +49,8 @@ namespace ouzel
         private:
             void update(float delta);
 
-            bool createParticleMesh();
-            bool updateParticleMesh();
+            void createParticleMesh();
+            void updateParticleMesh();
 
             void emitParticles(uint32_t count);
 

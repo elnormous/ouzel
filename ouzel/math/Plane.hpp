@@ -47,15 +47,13 @@ namespace ouzel
             return a != plane.a || b != plane.b || c != plane.c || d != plane.d;
         }
 
-        static inline bool makeFrustumPlane(float a, float b, float c, float d, Plane& plane)
+        static inline Plane makeFrustumPlane(float a, float b, float c, float d)
         {
             float n = sqrtf(a * a + b * b + c * c);
-            if (n < EPSILON) return false;
+            if (n < EPSILON) return Plane();
 
             n = 1.0F / n;
-            plane = Plane(a * n, b * n, c * n, d * n);
-
-            return true;
+            return Plane(a * n, b * n, c * n, d * n);
         }
     };
 }
