@@ -297,7 +297,7 @@ namespace ouzel
             finished = false;
         }
 
-        bool ParticleSystem::createParticleMesh()
+        void ParticleSystem::createParticleMesh()
         {
             indices.reserve(particleSystemData.maxParticles * 6);
             vertices.reserve(particleSystemData.maxParticles * 4);
@@ -328,11 +328,9 @@ namespace ouzel
             vertexBuffer->init(graphics::Buffer::Usage::VERTEX, graphics::Buffer::DYNAMIC, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)));
 
             particles.resize(particleSystemData.maxParticles);
-
-            return true;
         }
 
-        bool ParticleSystem::updateParticleMesh()
+        void ParticleSystem::updateParticleMesh()
         {
             if (actor)
             {
@@ -380,8 +378,6 @@ namespace ouzel
 
                 vertexBuffer->setData(vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)));
             }
-
-            return true;
         }
 
         void ParticleSystem::emitParticles(uint32_t count)

@@ -488,12 +488,12 @@ namespace ouzel
         dst.z = m[10];
     }
 
-    bool Matrix4::invert()
+    void Matrix4::invert()
     {
-        return invert(*this);
+        invert(*this);
     }
 
-    bool Matrix4::invert(Matrix4& dst) const
+    void Matrix4::invert(Matrix4& dst) const
     {
         float a0 = m[0] * m[5] - m[1] * m[4];
         float a1 = m[0] * m[6] - m[2] * m[4];
@@ -512,8 +512,7 @@ namespace ouzel
         float det = a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
 
         // Close to zero, can't invert
-        if (fabs(det) < EPSILON)
-            return false;
+        if (fabs(det) < EPSILON) return;
 
         Matrix4 inverse;
         inverse.m[0]  = m[5] * b5 - m[6] * b4 + m[7] * b3;
@@ -537,8 +536,6 @@ namespace ouzel
         inverse.m[15] = m[8] * a3 - m[9] * a1 + m[10] * a0;
 
         multiply(inverse, 1.0F / det, dst);
-
-        return true;
     }
 
     void Matrix4::multiply(float scalar)
