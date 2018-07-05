@@ -146,13 +146,13 @@ namespace ouzel
                         if (event.type == ButtonPress)
                         {
                             inputManager->mouseButtonPress(button,
-                                                           window.convertWindowToNormalizedLocation(pos),
+                                                           window->convertWindowToNormalizedLocation(pos),
                                                            input::InputManagerLinux::getModifiers(event.xbutton.state));
                         }
                         else
                         {
                             inputManager->mouseButtonRelease(button,
-                                                             window.convertWindowToNormalizedLocation(pos),
+                                                             window->convertWindowToNormalizedLocation(pos),
                                                              input::InputManagerLinux::getModifiers(event.xbutton.state));
                         }
                         break;
@@ -162,7 +162,7 @@ namespace ouzel
                         Vector2 pos(static_cast<float>(event.xmotion.x),
                                     static_cast<float>(event.xmotion.y));
 
-                        inputManager->mouseMove(window.convertWindowToNormalizedLocation(pos),
+                        inputManager->mouseMove(window->convertWindowToNormalizedLocation(pos),
                                                 input::InputManagerLinux::getModifiers(event.xmotion.state));
 
                         break;
@@ -233,7 +233,7 @@ namespace ouzel
     void EngineLinux::executeOnMainThread(const std::function<void(void)>& func)
     {
 #if OUZEL_SUPPORTS_X11
-        WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(window.getResource());
+        WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(window->getResource());
 
         XEvent event;
         event.type = ClientMessage;
@@ -274,7 +274,7 @@ namespace ouzel
 
 #if OUZEL_SUPPORTS_X11
         executeOnMainThread([this, newScreenSaverEnabled]() {
-            WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(window.getResource());
+            WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(window->getResource());
 
             XScreenSaverSuspend(windowLinux->getDisplay(), !newScreenSaverEnabled);
         });

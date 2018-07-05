@@ -73,7 +73,7 @@ namespace ouzel
         start();
 
         input::InputManagerWin* inputWin = static_cast<input::InputManagerWin*>(inputManager.get());
-        WindowResourceWin* windowWin = static_cast<WindowResourceWin*>(window.getResource());
+        WindowResourceWin* windowWin = static_cast<WindowResourceWin*>(window->getResource());
 
         MSG msg;
 
@@ -121,7 +121,7 @@ namespace ouzel
 
     void EngineWin::executeOnMainThread(const std::function<void(void)>& func)
     {
-        WindowResourceWin* windowWin = static_cast<WindowResourceWin*>(window.getResource());
+        WindowResourceWin* windowWin = static_cast<WindowResourceWin*>(window->getResource());
 
         Lock lock(executeMutex);
 
