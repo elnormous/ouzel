@@ -20,8 +20,7 @@ namespace ouzel
         {
             scene::SpriteData spriteData;
 
-            json::Data document;
-            document.init(data);
+            json::Data document(data);
 
             if (!document.hasMember("meta") ||
                 !document.hasMember("frames"))

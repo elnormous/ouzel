@@ -71,15 +71,6 @@ namespace ouzel
                  bool preserveComments = false,
                  bool preserveProcessingInstructions = false);
 
-            void init(const std::string& filename,
-                      bool preserveWhitespaces = false,
-                      bool preserveComments = false,
-                      bool preserveProcessingInstructions = false);
-            void init(const std::vector<uint8_t>& data,
-                      bool preserveWhitespaces = false,
-                      bool preserveComments = false,
-                      bool preserveProcessingInstructions = false);
-
             void save(const std::string& filename) const;
             std::vector<uint8_t> encode() const;
 
@@ -89,6 +80,11 @@ namespace ouzel
             inline const std::vector<Node>& getChildren() const { return children; }
 
         private:
+            void init(const std::vector<uint8_t>& data,
+                      bool preserveWhitespaces = false,
+                      bool preserveComments = false,
+                      bool preserveProcessingInstructions = false);
+
             bool bom = false;
             std::vector<Node> children;
         };

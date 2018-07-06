@@ -45,8 +45,6 @@ namespace ouzel
             Data(const std::string& filename);
             Data(const std::vector<uint8_t>& data);
 
-            void init(const std::string& filename);
-            void init(const std::vector<uint8_t>& data);
             void save(const std::string& filename) const;
             std::vector<uint8_t> encode() const;
 
@@ -61,6 +59,8 @@ namespace ouzel
             void setBOM(bool newBOM) { bom = newBOM; }
 
         private:
+            void init(const std::vector<uint8_t>& data);
+
             bool bom = false;
             std::map<std::string, Section> sections;
         };
