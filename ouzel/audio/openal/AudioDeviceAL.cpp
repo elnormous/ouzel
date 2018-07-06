@@ -25,50 +25,7 @@ namespace ouzel
             reinterpret_cast<BOOL (*)(id, SEL, id, id)>(&objc_msgSend)(audioSession, sel_getUid("setCategory:error:"), AVAudioSessionCategoryAmbient, nil);
 #endif
 
-#if OUZEL_MULTITHREADED
-            running = false;
-#endif
-
             std::fill(std::begin(bufferIds), std::end(bufferIds), 0);
-        }
-
-        AudioDeviceAL::~AudioDeviceAL()
-        {
-#if OUZEL_MULTITHREADED
-            running = false;
-            if (audioThread.isJoinable()) audioThread.join();
-#endif
-
-            if (sourceId)
-            {
-                alSourceStop(sourceId);
-                alSourcei(sourceId, AL_BUFFER, 0);
-                alDeleteSources(1, &sourceId);
-                alGetError();
-            }
-
-            for (ALuint bufferId : bufferIds)
-            {
-                if (bufferId)
-                {
-                    alDeleteBuffers(1, &bufferId);
-                    alGetError();
-                }
-            }
-
-            if (context)
-            {
-                alcMakeContextCurrent(nullptr);
-                alcDestroyContext(context);
-            }
-
-            if (device)
-                alcCloseDevice(device);
-        }
-
-        void AudioDeviceAL::init(bool debugAudio, Window* window)
-        {
-            AudioDevice::init(debugAudio, window);
 
             const ALCchar* deviceName = alcGetString(nullptr, ALC_DEFAULT_DEVICE_SPECIFIER);
 
@@ -168,6 +125,40 @@ namespace ouzel
             running = true;
             audioThread = Thread(std::bind(&AudioDeviceAL::run, this), "Audio");
 #endif
+        }
+
+        AudioDeviceAL::~AudioDeviceAL()
+        {
+#if OUZEL_MULTITHREADED
+            running = false;
+            if (audioThread.isJoinable()) audioThread.join();
+#endif
+
+            if (sourceId)
+            {
+                alSourceStop(sourceId);
+                alSourcei(sourceId, AL_BUFFER, 0);
+                alDeleteSources(1, &sourceId);
+                alGetError();
+            }
+
+            for (ALuint bufferId : bufferIds)
+            {
+                if (bufferId)
+                {
+                    alDeleteBuffers(1, &bufferId);
+                    alGetError();
+                }
+            }
+
+            if (context)
+            {
+                alcMakeContextCurrent(nullptr);
+                alcDestroyContext(context);
+            }
+
+            if (device)
+                alcCloseDevice(device);
         }
 
         void AudioDeviceAL::process()

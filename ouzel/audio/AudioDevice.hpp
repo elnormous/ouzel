@@ -57,7 +57,6 @@ namespace ouzel
 
         protected:
             explicit AudioDevice(Audio::Driver initDriver);
-            virtual void init(bool debugAudio, Window* window);
 
             void executeAll();
             void getData(uint32_t frames, std::vector<uint8_t>& result);

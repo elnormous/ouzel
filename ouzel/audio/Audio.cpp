@@ -14,6 +14,7 @@
 #include "xaudio2/AudioDeviceXA2.hpp"
 #include "math/MathUtils.hpp"
 #include "utils/Log.hpp"
+#include "utils/Utils.hpp"
 
 namespace ouzel
 {
@@ -68,13 +69,13 @@ namespace ouzel
 #if OUZEL_COMPILE_DIRECTSOUND
                 case Driver::DIRECTSOUND:
                     Log(Log::Level::INFO) << "Using DirectSound audio driver";
-                    device.reset(new AudioDeviceDS());
+                    device.reset(new AudioDeviceDS(window));
                     break;
 #endif
 #if OUZEL_COMPILE_XAUDIO2
                 case Driver::XAUDIO2:
                     Log(Log::Level::INFO) << "Using XAudio 2 audio driver";
-                    device.reset(new AudioDeviceXA2());
+                    device.reset(new AudioDeviceXA2(debugAudio));
                     break;
 #endif
 #if OUZEL_COMPILE_OPENSL
@@ -98,10 +99,10 @@ namespace ouzel
                 default:
                     Log(Log::Level::INFO) << "Not using audio driver";
                     device.reset(new AudioDeviceEmpty());
+                    OUZEL_UNUSED(debugAudio);
+                    OUZEL_UNUSED(window);
                     break;
             }
-
-            device->init(debugAudio, window);
         }
 
         Audio::~Audio()

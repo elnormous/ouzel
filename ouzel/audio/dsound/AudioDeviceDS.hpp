@@ -24,8 +24,7 @@ namespace ouzel
             IDirectSound8* getDirectSound() const { return directSound; }
 
         protected:
-            AudioDeviceDS();
-            virtual void init(bool debugAudio, Window* window) override;
+            AudioDeviceDS(Window* window);
 
             void run();
 

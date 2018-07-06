@@ -23,32 +23,10 @@ namespace ouzel
 {
     namespace audio
     {
-        AudioDeviceDS::AudioDeviceDS():
-            AudioDevice(Audio::Driver::DIRECTSOUND), running(false)
+        AudioDeviceDS::AudioDeviceDS(Window* window):
+            AudioDevice(Audio::Driver::DIRECTSOUND), running(true)
         {
             std::fill(std::begin(notifyEvents), std::end(notifyEvents), INVALID_HANDLE_VALUE);
-        }
-
-        AudioDeviceDS::~AudioDeviceDS()
-        {
-            running = false;
-            for (HANDLE notifyEvent : notifyEvents)
-                SetEvent(notifyEvent);
-
-            if (audioThread.isJoinable()) audioThread.join();
-
-            for (HANDLE notifyEvent : notifyEvents)
-                if (notifyEvent != INVALID_HANDLE_VALUE) CloseHandle(notifyEvent);
-
-            if (notify) notify->Release();
-            if (buffer) buffer->Release();
-            if (primaryBuffer) primaryBuffer->Release();
-            if (directSound) directSound->Release();
-        }
-
-        void AudioDeviceDS::init(bool debugAudio, Window* window)
-        {
-            AudioDevice::init(debugAudio, window);
 
             HRESULT hr = DirectSoundEnumerateW(enumCallback, this);
             if (FAILED(hr))
@@ -154,8 +132,24 @@ namespace ouzel
             if (FAILED(hr))
                 throw SystemError("Failed to play DirectSound buffer, error: " + std::to_string(hr));
 
-            running = true;
             audioThread = Thread(std::bind(&AudioDeviceDS::run, this), "Audio");
+        }
+
+        AudioDeviceDS::~AudioDeviceDS()
+        {
+            running = false;
+            for (HANDLE notifyEvent : notifyEvents)
+                SetEvent(notifyEvent);
+
+            if (audioThread.isJoinable()) audioThread.join();
+
+            for (HANDLE notifyEvent : notifyEvents)
+                if (notifyEvent != INVALID_HANDLE_VALUE) CloseHandle(notifyEvent);
+
+            if (notify) notify->Release();
+            if (buffer) buffer->Release();
+            if (primaryBuffer) primaryBuffer->Release();
+            if (directSound) directSound->Release();
         }
 
         void AudioDeviceDS::run()
