@@ -12,12 +12,15 @@ namespace ouzel
     class Language final
     {
     public:
-        void init(const std::string& filename);
-        void init(const std::vector<uint8_t>& data);
+        Language() {}
+        Language(const std::string& filename);
+        Language(const std::vector<uint8_t>& data);
 
         std::string getString(const std::string& str);
 
     private:
+        void init(const std::vector<uint8_t>& data);
+
         std::map<std::string, std::string> strings;
     };
 }
