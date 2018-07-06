@@ -17,8 +17,7 @@ namespace ouzel
 
         bool LoaderCollada::loadAsset(const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
         {
-            xml::Data colladaData;
-            colladaData.init(data);
+            xml::Data colladaData(data);
 
             if (colladaData.getChildren().empty())
                 throw ParseError("Invalid collada Collada file");

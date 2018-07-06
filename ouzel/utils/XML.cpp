@@ -565,7 +565,7 @@ namespace ouzel
                    bool preserveComments,
                    bool preserveProcessingInstructions)
         {
-            init(filename,
+            init(engine->getFileSystem()->readFile(filename),
                  preserveWhitespaces,
                  preserveComments,
                  preserveProcessingInstructions);
@@ -577,17 +577,6 @@ namespace ouzel
                    bool preserveProcessingInstructions)
         {
             init(data,
-                 preserveWhitespaces,
-                 preserveComments,
-                 preserveProcessingInstructions);
-        }
-
-        void Data::init(const std::string& filename,
-                        bool preserveWhitespaces,
-                        bool preserveComments,
-                        bool preserveProcessingInstructions)
-        {
-            init(engine->getFileSystem()->readFile(filename),
                  preserveWhitespaces,
                  preserveComments,
                  preserveProcessingInstructions);
