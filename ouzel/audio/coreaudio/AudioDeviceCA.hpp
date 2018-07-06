@@ -28,7 +28,6 @@ namespace ouzel
 
         protected:
             AudioDeviceCA();
-            virtual void init(bool debugAudio, Window* window) override;
 
         private:
 #if OUZEL_PLATFORM_MACOS

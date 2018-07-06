@@ -38,7 +38,6 @@ namespace ouzel
 
         protected:
             AudioDeviceAL();
-            virtual void init(bool debugAudio, Window* window) override;
 
             void run();
 

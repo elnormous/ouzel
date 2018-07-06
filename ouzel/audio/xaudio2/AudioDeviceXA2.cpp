@@ -20,39 +20,9 @@ namespace ouzel
 {
     namespace audio
     {
-        AudioDeviceXA2::AudioDeviceXA2():
-            AudioDevice(Audio::Driver::XAUDIO2), running(false)
+        AudioDeviceXA2::AudioDeviceXA2(bool debugAudio):
+            AudioDevice(Audio::Driver::XAUDIO2), running(true)
         {
-        }
-
-        AudioDeviceXA2::~AudioDeviceXA2()
-        {
-            running = false;
-
-            if (audioThread.isJoinable())
-            {
-                {
-                    Lock lock(fillDataMutex);
-                    fillDataCondition.signal();
-                }
-
-                audioThread.join();
-            }
-
-            if (sourceVoice) sourceVoice->DestroyVoice();
-            if (masteringVoice) masteringVoice->DestroyVoice();
-            if (xAudio)
-            {
-                if (apiMajorVersion == 2 && apiMinorVersion == 7) IXAudio2Release(xAudio);
-                else xAudio->Release();
-            }
-            if (xAudio2Library) FreeModule(xAudio2Library);
-        }
-
-        void AudioDeviceXA2::init(bool debugAudio, Window* window)
-        {
-            AudioDevice::init(debugAudio, window);
-
             xAudio2Library = LoadLibraryA(XAUDIO2_DLL_28);
 
             if (xAudio2Library)
@@ -169,8 +139,31 @@ namespace ouzel
             if (FAILED(hr))
                 throw SystemError("Failed to start consuming sound data, error: " + std::to_string(hr));
 
-            running = true;
             audioThread = Thread(std::bind(&AudioDeviceXA2::run, this), "Audio");
+        }
+
+        AudioDeviceXA2::~AudioDeviceXA2()
+        {
+            running = false;
+
+            if (audioThread.isJoinable())
+            {
+                {
+                    Lock lock(fillDataMutex);
+                    fillDataCondition.signal();
+                }
+
+                audioThread.join();
+            }
+
+            if (sourceVoice) sourceVoice->DestroyVoice();
+            if (masteringVoice) masteringVoice->DestroyVoice();
+            if (xAudio)
+            {
+                if (apiMajorVersion == 2 && apiMinorVersion == 7) IXAudio2Release(xAudio);
+                else xAudio->Release();
+            }
+            if (xAudio2Library) FreeModule(xAudio2Library);
         }
 
         void AudioDeviceXA2::run()

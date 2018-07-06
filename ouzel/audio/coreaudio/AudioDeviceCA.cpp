@@ -58,53 +58,6 @@ namespace ouzel
         AudioDeviceCA::AudioDeviceCA():
             AudioDevice(Audio::Driver::COREAUDIO)
         {
-        }
-
-        AudioDeviceCA::~AudioDeviceCA()
-        {
-            if (audioUnit)
-            {
-                AudioOutputUnitStop(audioUnit);
-
-                AURenderCallbackStruct callback;
-                callback.inputProc = nullptr;
-                callback.inputProcRefCon = nullptr;
-
-                const AudioUnitElement bus = 0;
-
-                AudioUnitSetProperty(audioUnit,
-                                     kAudioUnitProperty_SetRenderCallback,
-                                     kAudioUnitScope_Input, bus, &callback, sizeof(callback));
-
-                AudioComponentInstanceDispose(audioUnit);
-            }
-
-#if OUZEL_PLATFORM_MACOS
-            static const AudioObjectPropertyAddress deviceListAddress = {
-                kAudioHardwarePropertyDevices,
-                kAudioObjectPropertyScopeGlobal,
-                kAudioObjectPropertyElementMaster
-            };
-
-            AudioObjectRemovePropertyListener(kAudioObjectSystemObject, &deviceListAddress, deviceListChanged, this);
-
-            if (deviceId)
-            {
-                static const AudioObjectPropertyAddress aliveAddress = {
-                    kAudioDevicePropertyDeviceIsAlive,
-                    kAudioDevicePropertyScopeOutput,
-                    kAudioObjectPropertyElementMaster
-                };
-
-                AudioObjectRemovePropertyListener(deviceId, &aliveAddress, deviceUnplugged, this);
-            }
-#endif
-        }
-
-        void AudioDeviceCA::init(bool debugAudio, Window* window)
-        {
-            AudioDevice::init(debugAudio, window);
-
             OSStatus result;
 
 #if OUZEL_PLATFORM_MACOS
@@ -296,6 +249,47 @@ namespace ouzel
 
             if (result != noErr)
                 throw SystemError("Failed to start CoreAudio output unit, error: " + std::to_string(result));
+        }
+
+        AudioDeviceCA::~AudioDeviceCA()
+        {
+            if (audioUnit)
+            {
+                AudioOutputUnitStop(audioUnit);
+
+                AURenderCallbackStruct callback;
+                callback.inputProc = nullptr;
+                callback.inputProcRefCon = nullptr;
+
+                const AudioUnitElement bus = 0;
+
+                AudioUnitSetProperty(audioUnit,
+                                     kAudioUnitProperty_SetRenderCallback,
+                                     kAudioUnitScope_Input, bus, &callback, sizeof(callback));
+
+                AudioComponentInstanceDispose(audioUnit);
+            }
+
+#if OUZEL_PLATFORM_MACOS
+            static const AudioObjectPropertyAddress deviceListAddress = {
+                kAudioHardwarePropertyDevices,
+                kAudioObjectPropertyScopeGlobal,
+                kAudioObjectPropertyElementMaster
+            };
+
+            AudioObjectRemovePropertyListener(kAudioObjectSystemObject, &deviceListAddress, deviceListChanged, this);
+
+            if (deviceId)
+            {
+                static const AudioObjectPropertyAddress aliveAddress = {
+                    kAudioDevicePropertyDeviceIsAlive,
+                    kAudioDevicePropertyScopeOutput,
+                    kAudioObjectPropertyElementMaster
+                };
+
+                AudioObjectRemovePropertyListener(deviceId, &aliveAddress, deviceUnplugged, this);
+            }
+#endif
         }
 
         void AudioDeviceCA::outputCallback(AudioBufferList* ioData)

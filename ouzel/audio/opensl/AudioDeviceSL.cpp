@@ -22,24 +22,6 @@ namespace ouzel
         AudioDeviceSL::AudioDeviceSL():
             AudioDevice(Audio::Driver::OPENSL)
         {
-        }
-
-        AudioDeviceSL::~AudioDeviceSL()
-        {
-            if (playerObject)
-                (*playerObject)->Destroy(playerObject);
-
-            if (outputMixObject)
-                (*outputMixObject)->Destroy(outputMixObject);
-
-            if (engineObject)
-                (*engineObject)->Destroy(engineObject);
-        }
-
-        void AudioDeviceSL::init(bool debugAudio, Window* window)
-        {
-            AudioDevice::init(debugAudio, window);
-
             const SLuint32 engineMixIIDCount = 1;
             const SLInterfaceID engineMixIID = SL_IID_ENGINE;
             const SLboolean engineMixReq = SL_BOOLEAN_TRUE;
@@ -126,6 +108,18 @@ namespace ouzel
 
             if ((*player)->SetPlayState(player, SL_PLAYSTATE_PLAYING) != SL_RESULT_SUCCESS)
                 throw SystemError("Failed to play sound");
+        }
+
+        AudioDeviceSL::~AudioDeviceSL()
+        {
+            if (playerObject)
+                (*playerObject)->Destroy(playerObject);
+
+            if (outputMixObject)
+                (*outputMixObject)->Destroy(outputMixObject);
+
+            if (engineObject)
+                (*engineObject)->Destroy(engineObject);
         }
 
         void AudioDeviceSL::enqueue(SLAndroidSimpleBufferQueueItf bufferQueue)

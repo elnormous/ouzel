@@ -20,10 +20,6 @@ namespace ouzel
         {
         }
 
-        void AudioDevice::init(bool, Window*)
-        {
-        }
-
         void AudioDevice::process()
         {
             executeAll();

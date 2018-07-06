@@ -14,24 +14,8 @@ namespace ouzel
     namespace audio
     {
         AudioDeviceALSA::AudioDeviceALSA():
-            AudioDevice(Audio::Driver::ALSA), running(false)
+            AudioDevice(Audio::Driver::ALSA), running(true)
         {
-        }
-
-        AudioDeviceALSA::~AudioDeviceALSA()
-        {
-            running = false;
-            if (audioThread.isJoinable()) audioThread.join();
-
-            if (swParams) snd_pcm_sw_params_free(swParams);
-            if (hwParams) snd_pcm_hw_params_free(hwParams);
-            if (playbackHandle) snd_pcm_close(playbackHandle);
-        }
-
-        void AudioDeviceALSA::init(bool debugAudio, Window* window)
-        {
-            AudioDevice::init(debugAudio, window);
-
             int err;
             if ((err = snd_pcm_open(&playbackHandle, "default", SND_PCM_STREAM_PLAYBACK, 0)) < 0)
                 throw SystemError("Failed to connect to audio interface, error: " + std::to_string(err));
@@ -114,6 +98,16 @@ namespace ouzel
             swParams = nullptr;
 
             audioThread = Thread(std::bind(&AudioDeviceALSA::run, this), "Audio");
+        }
+
+        AudioDeviceALSA::~AudioDeviceALSA()
+        {
+            running = false;
+            if (audioThread.isJoinable()) audioThread.join();
+
+            if (swParams) snd_pcm_sw_params_free(swParams);
+            if (hwParams) snd_pcm_hw_params_free(hwParams);
+            if (playbackHandle) snd_pcm_close(playbackHandle);
         }
 
         void AudioDeviceALSA::run()
