@@ -61,6 +61,7 @@ namespace ouzel
 
 #if OUZEL_SUPPORTS_X11
         XVisualInfo* visualInfo = nullptr;
+        Display* display = nullptr;
         ::Window window = 0;
         Atom deleteAtom;
         Atom protocolsAtom;
