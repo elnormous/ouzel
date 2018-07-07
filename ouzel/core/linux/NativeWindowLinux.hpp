@@ -70,8 +70,6 @@ namespace ouzel
         Atom executeAtom;
 #else
         EGL_DISPMANX_WINDOW_T nativewindow;
-        DISPMANX_UPDATE_HANDLE_T dispmanUpdate = DISPMANX_NO_HANDLE;
-        DISPMANX_ELEMENT_HANDLE_T dispmanElement = DISPMANX_NO_HANDLE;
 #endif
     };
 }

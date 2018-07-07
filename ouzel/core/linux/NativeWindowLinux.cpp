@@ -31,13 +31,6 @@ namespace ouzel
 
         if (display && window)
             XDestroyWindow(display, window);
-#else
-        if (dispmanUpdate != DISPMANX_NO_HANDLE)
-        {
-            if (dispmanElement = DISPMANX_NO_HANDLE) vc_dispmanx_element_remove(dispmanUpdate, dispmanElement);
-
-            vc_dispmanx_update_submit_sync(dispmanUpdate);
-        }
 #endif
     }
 
@@ -165,10 +158,6 @@ namespace ouzel
         EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
         DISPMANX_DISPLAY_HANDLE_T display = engineLinux->getDisplay();
 
-        display = vc_dispmanx_display_open(0);
-        if (display == DISPMANX_NO_HANDLE)
-            throw SystemError("Failed to open display");
-
         DISPMANX_MODEINFO_T modeInfo;
         int32_t success = vc_dispmanx_display_get_info(display, &modeInfo);
 
@@ -187,15 +176,15 @@ namespace ouzel
         srcRect.width = modeInfo.width;
         srcRect.height = modeInfo.height;
 
-        dispmanUpdate = vc_dispmanx_update_start(0);
+        DISPMANX_UPDATE_HANDLE_T dispmanUpdate = vc_dispmanx_update_start(0);
 
         if (dispmanUpdate == DISPMANX_NO_HANDLE)
             throw SystemError("Failed to start display update");
 
-        dispmanElement = vc_dispmanx_element_add(dispmanUpdate, display,
-                                                 0, &dstRect, 0,
-                                                 &srcRect, DISPMANX_PROTECTION_NONE,
-                                                 0, 0, DISPMANX_NO_ROTATE);
+        DISPMANX_ELEMENT_HANDLE_T dispmanElement = vc_dispmanx_element_add(dispmanUpdate, display,
+                                                                           0, &dstRect, 0,
+                                                                           &srcRect, DISPMANX_PROTECTION_NONE,
+                                                                           0, 0, DISPMANX_NO_ROTATE);
 
         if (dispmanElement == DISPMANX_NO_HANDLE)
             throw SystemError("Failed to add display element");
