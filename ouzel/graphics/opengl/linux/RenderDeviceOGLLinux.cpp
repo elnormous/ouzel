@@ -30,12 +30,12 @@ namespace ouzel
             if (renderThread.isJoinable()) renderThread.join();
 
 #if OUZEL_OPENGL_INTERFACE_GLX
-            NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(window->getNativeWindow());
+            EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
 
-            if (windowLinux->getDisplay() && context)
+            if (engineLinux->getDisplay() && context)
             {
-                glXMakeCurrent(windowLinux->getDisplay(), None, nullptr);
-                glXDestroyContext(windowLinux->getDisplay(), context);
+                glXMakeCurrent(engineLinux->getDisplay(), None, nullptr);
+                glXDestroyContext(engineLinux->getDisplay(), context);
             }
 #elif OUZEL_OPENGL_INTERFACE_EGL
             if (context)
@@ -61,15 +61,16 @@ namespace ouzel
                                         bool newDepth,
                                         bool newDebugRenderer)
         {
+            EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
             NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(newWindow->getNativeWindow());
 
 #if OUZEL_OPENGL_INTERFACE_GLX
             // make sure OpenGL's GLX extension supported
             int dummy;
-            if (!glXQueryExtension(windowLinux->getDisplay(), &dummy, &dummy))
+            if (!glXQueryExtension(engineLinux->getDisplay(), &dummy, &dummy))
                 throw SystemError("X server has no OpenGL GLX extension");
 
-            Screen* screen = XDefaultScreenOfDisplay(windowLinux->getDisplay());
+            Screen* screen = XDefaultScreenOfDisplay(engineLinux->getDisplay());
             int screenIndex = XScreenNumberOfScreen(screen);
 
             int fbcount = 0;
@@ -90,7 +91,7 @@ namespace ouzel
                 0
             };
 
-            std::unique_ptr<GLXFBConfig, int(*)(void*)> framebufferConfig(glXChooseFBConfig(windowLinux->getDisplay(), screenIndex, attributes, &fbcount), XFree);
+            std::unique_ptr<GLXFBConfig, int(*)(void*)> framebufferConfig(glXChooseFBConfig(engineLinux->getDisplay(), screenIndex, attributes, &fbcount), XFree);
             if (framebufferConfig)
             {
                 PFNGLXCREATECONTEXTATTRIBSARBPROC glXCreateContextAttribsProc = reinterpret_cast<PFNGLXCREATECONTEXTATTRIBSARBPROC>(glXGetProcAddress(reinterpret_cast<const GLubyte*>("glXCreateContextAttribsARB")));
@@ -113,7 +114,7 @@ namespace ouzel
 
                     contextAttribs.push_back(0);
 
-                    context = glXCreateContextAttribsProc(windowLinux->getDisplay(), *framebufferConfig, nullptr, True, contextAttribs.data());
+                    context = glXCreateContextAttribsProc(engineLinux->getDisplay(), *framebufferConfig, nullptr, True, contextAttribs.data());
 
                     if (context)
                     {
@@ -126,7 +127,7 @@ namespace ouzel
 
             if (!context)
             {
-                context = glXCreateContext(windowLinux->getDisplay(), windowLinux->getVisualInfo(), None, GL_TRUE);
+                context = glXCreateContext(engineLinux->getDisplay(), windowLinux->getVisualInfo(), None, GL_TRUE);
 
                 if (context)
                 {
@@ -139,13 +140,13 @@ namespace ouzel
             }
 
             // bind the rendering context to the window
-            if (!glXMakeCurrent(windowLinux->getDisplay(), windowLinux->getNativeWindow(), context))
+            if (!glXMakeCurrent(engineLinux->getDisplay(), windowLinux->getNativeWindow(), context))
                 throw SystemError("Failed to make GLX context current");
 
             PFNGLXSWAPINTERVALEXTPROC glXSwapIntervalEXT = reinterpret_cast<PFNGLXSWAPINTERVALEXTPROC>(glXGetProcAddress(reinterpret_cast<const GLubyte*>("glXSwapIntervalEXT")));
 
             if (glXSwapIntervalEXT)
-                glXSwapIntervalEXT(windowLinux->getDisplay(), windowLinux->getNativeWindow(), newVerticalSync ? 1 : 0);
+                glXSwapIntervalEXT(engineLinux->getDisplay(), windowLinux->getNativeWindow(), newVerticalSync ? 1 : 0);
 #elif OUZEL_OPENGL_INTERFACE_EGL
             display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
 
@@ -238,12 +239,12 @@ namespace ouzel
             std::vector<Size2> result;
 
 #if OUZEL_OPENGL_INTERFACE_GLX
-            NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(window->getNativeWindow());
+            EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
 
             int modeCount;
             XF86VidModeModeInfo** modeInfo;
 
-            XF86VidModeGetAllModeLines(windowLinux->getDisplay(), 0, &modeCount, &modeInfo);
+            XF86VidModeGetAllModeLines(engineLinux->getDisplay(), 0, &modeCount, &modeInfo);
 
             for (int i = 0; i < modeCount; ++i)
             {
@@ -262,9 +263,10 @@ namespace ouzel
         void RenderDeviceOGLLinux::lockContext()
         {
 #if OUZEL_OPENGL_INTERFACE_GLX
+            EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
             NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(window->getNativeWindow());
 
-            if (!glXMakeCurrent(windowLinux->getDisplay(), windowLinux->getNativeWindow(), context))
+            if (!glXMakeCurrent(engineLinux->getDisplay(), windowLinux->getNativeWindow(), context))
                 throw SystemError("Failed to make GLX context current");
 #elif OUZEL_OPENGL_INTERFACE_EGL
             if (!eglMakeCurrent(display, surface, surface, context))
@@ -275,9 +277,10 @@ namespace ouzel
         void RenderDeviceOGLLinux::swapBuffers()
         {
 #if OUZEL_OPENGL_INTERFACE_GLX
+            EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
             NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(window->getNativeWindow());
 
-            glXSwapBuffers(windowLinux->getDisplay(), windowLinux->getNativeWindow());
+            glXSwapBuffers(engineLinux->getDisplay(), windowLinux->getNativeWindow());
 #elif OUZEL_OPENGL_INTERFACE_EGL
             if (eglSwapBuffers(display, surface) != EGL_TRUE)
                 throw SystemError("Failed to swap buffers, error: " + std::to_string(eglGetError()));

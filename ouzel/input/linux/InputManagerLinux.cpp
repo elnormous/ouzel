@@ -16,7 +16,7 @@
 #include "InputManagerLinux.hpp"
 #include "NativeCursorLinux.hpp"
 #include "events/Event.hpp"
-#include "core/Engine.hpp"
+#include "core/linux/EngineLinux.hpp"
 #include "core/linux/NativeWindowLinux.hpp"
 #include "thread/Lock.hpp"
 #include "utils/Errors.hpp"
@@ -416,8 +416,8 @@ namespace ouzel
             std::fill(std::begin(mouseButtonDown), std::end(mouseButtonDown), false);
 
 #if OUZEL_SUPPORTS_X11
-            NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(engine->getWindow()->getNativeWindow());
-            Display* display = windowLinux->getDisplay();
+            EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
+            Display* display = engineLinux->getDisplay();
 
             char data[1] = {0};
 
@@ -469,9 +469,8 @@ namespace ouzel
 #if OUZEL_SUPPORTS_X11
             if (engine)
             {
-                NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(engine->getWindow()->getNativeWindow());
-                Display* display = windowLinux->getDisplay();
-                if (emptyCursor != None) XFreeCursor(display, emptyCursor);
+                EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
+                if (emptyCursor != None) XFreeCursor(engineLinux->getDisplay(), emptyCursor);
             }
 #endif
         }
@@ -604,8 +603,9 @@ namespace ouzel
 #if OUZEL_SUPPORTS_X11
             if (engine)
             {
+                EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
                 NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(engine->getWindow()->getNativeWindow());
-                Display* display = windowLinux->getDisplay();
+                Display* display = engineLinux->getDisplay();
                 ::Window window = windowLinux->getNativeWindow();
 
                 NativeCursorLinux* cursorLinux = static_cast<NativeCursorLinux*>(resource);
@@ -651,8 +651,9 @@ namespace ouzel
 
 #if OUZEL_SUPPORTS_X11
                 engine->executeOnMainThread([visible, this] {
+                    EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
                     NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(engine->getWindow()->getNativeWindow());
-                    Display* display = windowLinux->getDisplay();
+                    Display* display = engineLinux->getDisplay();
                     ::Window window = windowLinux->getNativeWindow();
 
                     if (visible)
@@ -680,8 +681,9 @@ namespace ouzel
         {
 #if OUZEL_SUPPORTS_X11
             engine->executeOnMainThread([locked] {
+                EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
                 NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(engine->getWindow()->getNativeWindow());
-                Display* display = windowLinux->getDisplay();
+                Display* display = engineLinux->getDisplay();
                 ::Window window = windowLinux->getNativeWindow();
 
                 if (locked)
@@ -712,8 +714,9 @@ namespace ouzel
 
 #if OUZEL_SUPPORTS_X11
             engine->executeOnMainThread([position] {
+                EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
                 NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(engine->getWindow()->getNativeWindow());
-                Display* display = windowLinux->getDisplay();
+                Display* display = engineLinux->getDisplay();
                 ::Window window = windowLinux->getNativeWindow();
 
                 XWindowAttributes attributes;

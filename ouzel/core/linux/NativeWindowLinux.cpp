@@ -29,18 +29,15 @@ namespace ouzel
         if (visualInfo)
             XFree(visualInfo);
 
-        if (display)
-        {
-            if (window)
-                XDestroyWindow(display, window);
-
-            XCloseDisplay(display);
-        }
+        if (display && window)
+            XDestroyWindow(display, window);
 #else
-        if (display != DISPMANX_NO_HANDLE)
-            vc_dispmanx_display_close(display);
+        if (dispmanUpdate != DISPMANX_NO_HANDLE)
+        {
+            if (dispmanElement = DISPMANX_NO_HANDLE) vc_dispmanx_element_remove(dispmanUpdate, dispmanElement);
 
-        bcm_host_deinit();
+            vc_dispmanx_update_submit_sync(dispmanUpdate);
+        }
 #endif
     }
 
@@ -61,11 +58,8 @@ namespace ouzel
                              depth);
 
 #if OUZEL_SUPPORTS_X11
-        // open a connection to the X server
-        display = XOpenDisplay(nullptr);
-
-        if (!display)
-            throw SystemError("Failed to open display");
+        EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
+        display = engineLinux->getDisplay();
 
         Screen* screen = XDefaultScreenOfDisplay(display);
         int screenIndex = XScreenNumberOfScreen(screen);
@@ -133,8 +127,6 @@ namespace ouzel
                 throw SystemError("Unsupported render driver");
         }
 
-        EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
-
         XSetStandardProperties(display, window, title.c_str(), title.c_str(), None, nullptr, 0, nullptr);
 
         if (!resizable)
@@ -170,7 +162,8 @@ namespace ouzel
 
         if (fullscreen) toggleFullscreen();
 #else
-        bcm_host_init();
+        EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
+        DISPMANX_DISPLAY_HANDLE_T display = engineLinux->getDisplay();
 
         display = vc_dispmanx_display_open(0);
         if (display == DISPMANX_NO_HANDLE)
@@ -194,15 +187,18 @@ namespace ouzel
         srcRect.width = modeInfo.width;
         srcRect.height = modeInfo.height;
 
-        DISPMANX_UPDATE_HANDLE_T dispmanUpdate = vc_dispmanx_update_start(0);
+        dispmanUpdate = vc_dispmanx_update_start(0);
 
         if (dispmanUpdate == DISPMANX_NO_HANDLE)
             throw SystemError("Failed to start display update");
 
-        DISPMANX_ELEMENT_HANDLE_T dispmanElement = vc_dispmanx_element_add(dispmanUpdate, display,
-                                                                           0, &dstRect, 0,
-                                                                           &srcRect, DISPMANX_PROTECTION_NONE,
-                                                                           0, 0, DISPMANX_NO_ROTATE);
+        dispmanElement = vc_dispmanx_element_add(dispmanUpdate, display,
+                                                 0, &dstRect, 0,
+                                                 &srcRect, DISPMANX_PROTECTION_NONE,
+                                                 0, 0, DISPMANX_NO_ROTATE);
+
+        if (dispmanElement == DISPMANX_NO_HANDLE)
+            throw SystemError("Failed to add display element");
 
         nativewindow.element = dispmanElement;
         nativewindow.width = modeInfo.width;
