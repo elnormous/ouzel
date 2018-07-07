@@ -38,7 +38,6 @@ namespace ouzel
         virtual void setTitle(const std::string& newTitle) override;
 
 #if OUZEL_SUPPORTS_X11
-        inline Display* getDisplay() const { return display; }
         inline ::Window getNativeWindow() const { return window; }
         inline XVisualInfo* getVisualInfo() const { return visualInfo; }
         inline Atom getProtocolsAtom() const { return protocolsAtom; }
@@ -62,7 +61,6 @@ namespace ouzel
 
 #if OUZEL_SUPPORTS_X11
         XVisualInfo* visualInfo = nullptr;
-        Display* display = nullptr;
         ::Window window = 0;
         Atom deleteAtom;
         Atom protocolsAtom;
@@ -70,8 +68,9 @@ namespace ouzel
         Atom stateFullscreenAtom;
         Atom executeAtom;
 #else
-        DISPMANX_DISPLAY_HANDLE_T display = DISPMANX_NO_HANDLE;
         EGL_DISPMANX_WINDOW_T nativewindow;
+        DISPMANX_UPDATE_HANDLE_T dispmanUpdate = DISPMANX_NO_HANDLE;
+        DISPMANX_ELEMENT_HANDLE_T dispmanElement = DISPMANX_NO_HANDLE;
 #endif
     };
 }

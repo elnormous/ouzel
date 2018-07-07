@@ -27,11 +27,31 @@ namespace ouzel
             args.push_back(initArgv[i]);
     }
 
+    EngineLinux::~EngineLinux()
+    {
+#if OUZEL_SUPPORTS_X11
+        if (display) XCloseDisplay(display);
+#else
+        if (display != DISPMANX_NO_HANDLE)
+            vc_dispmanx_display_close(display);
+
+        bcm_host_deinit();
+#endif
+    }
+
     void EngineLinux::run()
     {
 #if OUZEL_SUPPORTS_X11
         if (!XInitThreads())
             throw SystemError("Failed to initialize thread support");
+
+        // open a connection to the X server
+        display = XOpenDisplay(nullptr);
+
+        if (!display)
+            throw SystemError("Failed to open display");
+#else
+        bcm_host_init();
 #endif
 
         init();
@@ -41,7 +61,6 @@ namespace ouzel
 
 #if OUZEL_SUPPORTS_X11
         NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(window->getNativeWindow());
-        Display* display = windowLinux->getDisplay();
 
         int xInputOpCode = 0;
         int eventCode;
@@ -79,9 +98,9 @@ namespace ouzel
         while (active)
         {
             // XNextEvent will block if there is no event pending, so don't call it if engine is not paused
-            if (paused || XPending(windowLinux->getDisplay()))
+            if (paused || XPending(display))
             {
-                XNextEvent(windowLinux->getDisplay(), &event);
+                XNextEvent(display, &event);
 
                 switch (event.type)
                 {
@@ -102,7 +121,7 @@ namespace ouzel
                     case KeyPress: // keyboard
                     case KeyRelease:
                     {
-                        KeySym keySym = XkbKeycodeToKeysym(windowLinux->getDisplay(),
+                        KeySym keySym = XkbKeycodeToKeysym(display,
                                                            event.xkey.keycode, 0,
                                                            event.xkey.state & ShiftMask ? 1 : 0);
 
@@ -249,10 +268,10 @@ namespace ouzel
 
         executeQueue.push(func);
 
-        if (!XSendEvent(windowLinux->getDisplay(), windowLinux->getNativeWindow(), False, NoEventMask, &event))
+        if (!XSendEvent(display, windowLinux->getNativeWindow(), False, NoEventMask, &event))
             throw SystemError("Failed to send X11 delete message");
 
-        XFlush(windowLinux->getDisplay());
+        XFlush(display);
 #else
         Lock lock(executeMutex);
 
@@ -273,9 +292,7 @@ namespace ouzel
 
 #if OUZEL_SUPPORTS_X11
         executeOnMainThread([this, newScreenSaverEnabled]() {
-            NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(window->getNativeWindow());
-
-            XScreenSaverSuspend(windowLinux->getDisplay(), !newScreenSaverEnabled);
+            XScreenSaverSuspend(display, !newScreenSaverEnabled);
         });
 #endif
     }

@@ -7,7 +7,7 @@
 #endif
 #include "NativeCursorLinux.hpp"
 #include "core/Engine.hpp"
-#include "core/linux/NativeWindowLinux.hpp"
+#include "core/linux/EngineLinux.hpp"
 #include "utils/Errors.hpp"
 
 namespace ouzel
@@ -24,8 +24,8 @@ namespace ouzel
 #if OUZEL_SUPPORTS_X11
             if (engine)
             {
-                NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(engine->getWindow()->getNativeWindow());
-                Display* display = windowLinux->getDisplay();
+                EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
+                Display* display = engineLinux->getDisplay();
                 if (cursor != None) XFreeCursor(display, cursor);
             }
 #endif
@@ -36,8 +36,8 @@ namespace ouzel
             NativeCursor::init(newSystemCursor);
 
 #if OUZEL_SUPPORTS_X11
-            NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(engine->getWindow()->getNativeWindow());
-            Display* display = windowLinux->getDisplay();
+            EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
+            Display* display = engineLinux->getDisplay();
 
             if (cursor != None)
             {
@@ -84,8 +84,8 @@ namespace ouzel
                                  newHotSpot);
 
 #if OUZEL_SUPPORTS_X11
-            NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(engine->getWindow()->getNativeWindow());
-            Display* display = windowLinux->getDisplay();
+            EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
+            Display* display = engineLinux->getDisplay();
 
             if (cursor != None)
             {
