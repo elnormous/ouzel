@@ -135,7 +135,7 @@ namespace ouzel
 
         EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
 
-        XSetStandardProperties(display, window, title.c_str(), title.c_str(), None, engineLinux->getArgv(), engineLinux->getArgc(), nullptr);
+        XSetStandardProperties(display, window, title.c_str(), title.c_str(), None, nullptr, 0, nullptr);
 
         if (!resizable)
         {
