@@ -9,7 +9,7 @@
 #  include <X11/extensions/xf86vmode.h>
 #endif
 #include "RenderDeviceOGLLinux.hpp"
-#include "core/Engine.hpp"
+#include "core/linux/EngineLinux.hpp"
 #include "core/linux/NativeWindowLinux.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
