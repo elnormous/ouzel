@@ -18,16 +18,10 @@ namespace ouzel
 
         virtual void setScreenSaverEnabled(bool newScreenSaverEnabled) override;
 
-        int getArgc() const { return argc; }
-        char** getArgv() const { return argv; }
-
     protected:
         void executeAll();
 
         std::queue<std::function<void(void)>> executeQueue;
         Mutex executeMutex;
-
-        int argc = 0;
-        char** argv = nullptr;
     };
 }
