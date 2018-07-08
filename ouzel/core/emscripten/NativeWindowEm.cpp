@@ -38,11 +38,11 @@ namespace ouzel
             if (size.width <= 0.0F) size.width = static_cast<float>(width);
             if (size.height <= 0.0F) size.height = static_cast<float>(height);
         }
+        else
+            emscripten_set_canvas_size(static_cast<int>(size.width),
+                                       static_cast<int>(size.height));
 
         resolution = size;
-
-        emscripten_set_canvas_size(static_cast<int>(size.width),
-                                   static_cast<int>(size.height));
     }
 
     void NativeWindowEm::setSize(const Size2& newSize)
