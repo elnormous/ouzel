@@ -209,15 +209,16 @@ namespace ouzel
                 graphicsDriver = graphics::Renderer::Driver::EMPTY;
         }
 
-        renderer.reset(new graphics::Renderer(graphicsDriver));
-
         window.reset(new Window(size,
                                 resizable,
                                 fullscreen,
                                 exclusiveFullscreen,
                                 APPLICATION_NAME,
+                                graphicsDriver,
                                 highDpi,
                                 depth));
+
+        renderer.reset(new graphics::Renderer(graphicsDriver));
 
         renderer->init(window.get(),
                        window->getResolution(),

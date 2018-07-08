@@ -2,8 +2,6 @@
 
 #pragma once
 
-#include "core/NativeWindow.hpp"
-
 #if defined(__OBJC__)
 #import <UIKit/UIKit.h>
 typedef UIScreen* UIScreenPtr;
@@ -19,6 +17,9 @@ typedef id UIViewPtr;
 typedef id UIViewControllerPtr;
 typedef id UITextFieldPtr;
 #endif
+
+#include "core/NativeWindow.hpp"
+#include "graphics/Renderer.hpp"
 
 namespace ouzel
 {
@@ -37,14 +38,9 @@ namespace ouzel
         void handleResize(const Size2& newSize);
 
     protected:
-        NativeWindowTVOS();
-        virtual void init(const Size2& newSize,
-                          bool newResizable,
-                          bool newFullscreen,
-                          bool newExclusiveFullscreen,
-                          const std::string& newTitle,
-                          bool newHighDpi,
-                          bool depth) override;
+        NativeWindowTVOS(const std::string& newTitle,
+                         graphics::Renderer::Driver graphicsDriver,
+                         bool newHighDpi);
 
         UIScreenPtr screen = nil;
         UIWindowPtr window = nil;

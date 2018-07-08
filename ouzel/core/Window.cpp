@@ -5,6 +5,7 @@
 #include "NativeWindow.hpp"
 #include "Engine.hpp"
 #include "events/EventDispatcher.hpp"
+#include "utils/Utils.hpp"
 
 #if OUZEL_PLATFORM_MACOS
 #include "macos/NativeWindowMacOS.hpp"
@@ -29,34 +30,84 @@ namespace ouzel
                    bool newFullscreen,
                    bool newExclusiveFullscreen,
                    const std::string& newTitle,
+                   graphics::Renderer::Driver graphicsDriver,
                    bool newHighDpi,
                    bool depth)
     {
 #if OUZEL_PLATFORM_MACOS
-        nativeWindow = new NativeWindowMacOS();
+        OUZEL_UNUSED(depth);
+        nativeWindow = new NativeWindowMacOS(newSize,
+                                             newResizable,
+                                             newFullscreen,
+                                             newExclusiveFullscreen,
+                                             newTitle,
+                                             graphicsDriver,
+                                             newHighDpi);
 #elif OUZEL_PLATFORM_IOS
-        nativeWindow = new NativeWindowIOS();
+        OUZEL_UNUSED(newSize);
+        OUZEL_UNUSED(newResizable);
+        OUZEL_UNUSED(newFullscreen);
+        OUZEL_UNUSED(newExclusiveFullscreen);
+        OUZEL_UNUSED(depth);
+        nativeWindow = new NativeWindowIOS(newTitle,
+                                           graphicsDriver,
+                                           newHighDpi);
 #elif OUZEL_PLATFORM_TVOS
-        nativeWindow = new NativeWindowTVOS();
+        OUZEL_UNUSED(newSize);
+        OUZEL_UNUSED(newResizable);
+        OUZEL_UNUSED(newFullscreen);
+        OUZEL_UNUSED(newExclusiveFullscreen);
+        OUZEL_UNUSED(depth);
+        nativeWindow = new NativeWindowTVOS(newTitle,
+                                            graphicsDriver,
+                                            newHighDpi);
 #elif OUZEL_PLATFORM_ANDROID
-        nativeWindow = new NativeWindowAndroid();
+        OUZEL_UNUSED(newSize);
+        OUZEL_UNUSED(newResizable);
+        OUZEL_UNUSED(newFullscreen);
+        OUZEL_UNUSED(newExclusiveFullscreen);
+        OUZEL_UNUSED(graphicsDriver);
+        OUZEL_UNUSED(newHighDpi);
+        OUZEL_UNUSED(depth);
+        nativeWindow = new NativeWindowAndroid(newTitle);
 #elif OUZEL_PLATFORM_LINUX
-        nativeWindow = new NativeWindowLinux();
+        OUZEL_UNUSED(newHighDpi);
+        nativeWindow = new NativeWindowLinux(newSize,
+                                             newResizable,
+                                             newFullscreen,
+                                             newExclusiveFullscreen,
+                                             newTitle,
+                                             graphicsDriver,
+                                             depth);
 #elif OUZEL_PLATFORM_WINDOWS
-        nativeWindow = new NativeWindowWin();
+        OUZEL_UNUSED(graphicsDriver);
+        OUZEL_UNUSED(depth);
+        nativeWindow = new NativeWindowWin(newSize,
+                                           newResizable,
+                                           newFullscreen,
+                                           newExclusiveFullscreen,
+                                           newTitle,
+                                           graphicsDriver,
+                                           newHighDpi);
 #elif OUZEL_PLATFORM_EMSCRIPTEN
-        nativeWindow = new NativeWindowEm();
+        OUZEL_UNUSED(newResizable);
+        OUZEL_UNUSED(newExclusiveFullscreen);
+        OUZEL_UNUSED(graphicsDriver);
+        OUZEL_UNUSED(newHighDpi);
+        OUZEL_UNUSED(depth);
+        nativeWindow = new NativeWindowEm(newSize,
+                                          newFullscreen,
+                                          newTitle);
 #else
-        resource = new NativeWindow();
+        OUZEL_UNUSED(graphicsDriver);
+        OUZEL_UNUSED(depth);
+        resource = new NativeWindow(newSize,
+                                    newResizable,
+                                    newFullscreen,
+                                    newExclusiveFullscreen,
+                                    newTitle,
+                                    newHighDpi);
 #endif
-
-        nativeWindow->init(newSize,
-                           newResizable,
-                           newFullscreen,
-                           newExclusiveFullscreen,
-                           newTitle,
-                           newHighDpi,
-                           depth);
 
         nativeWindow->setListener(this);
 

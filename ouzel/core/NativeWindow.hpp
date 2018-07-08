@@ -22,7 +22,12 @@ namespace ouzel
             virtual void onClose() = 0;
         };
 
-        NativeWindow() = default;
+        NativeWindow(const Size2& newSize,
+                     bool newResizable,
+                     bool newFullscreen,
+                     bool newExclusiveFullscreen,
+                     const std::string& newTitle,
+                     bool newHighDpi);
         virtual ~NativeWindow() {}
 
         NativeWindow(const NativeWindow&) = delete;
@@ -30,14 +35,6 @@ namespace ouzel
 
         NativeWindow(NativeWindow&&) = delete;
         NativeWindow& operator=(NativeWindow&&) = delete;
-
-        virtual void init(const Size2& newSize,
-                          bool newResizable,
-                          bool newFullscreen,
-                          bool newExclusiveFullscreen,
-                          const std::string& newTitle,
-                          bool newHighDpi,
-                          bool depth);
 
         virtual void close();
 

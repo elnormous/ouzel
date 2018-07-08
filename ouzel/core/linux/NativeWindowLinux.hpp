@@ -18,6 +18,7 @@ typedef struct
 #endif
 
 #include "core/NativeWindow.hpp"
+#include "graphics/Renderer.hpp"
 
 namespace ouzel
 {
@@ -44,18 +45,17 @@ namespace ouzel
         inline Atom getDeleteAtom() const { return deleteAtom; }
         inline Atom getExecuteAtom() const { return executeAtom; }
 #else
-        const EGL_DISPMANX_WINDOW_T& getNativeWindow() const { return nativewindow; }
+        const EGL_DISPMANX_WINDOW_T& getNativeWindow() const { return window; }
 #endif
 
     protected:
-        NativeWindowLinux();
-        virtual void init(const Size2& newSize,
+        NativeWindowLinux(const Size2& newSize,
                           bool newResizable,
                           bool newFullscreen,
                           bool newExclusiveFullscreen,
                           const std::string& newTitle,
-                          bool newHighDpi,
-                          bool depth) override;
+                          graphics::Renderer::Driver graphicsDriver,
+                          bool depth);
         virtual void toggleFullscreen();
         void handleResize(const Size2& newSize);
 
@@ -69,7 +69,7 @@ namespace ouzel
         Atom stateFullscreenAtom;
         Atom executeAtom;
 #else
-        EGL_DISPMANX_WINDOW_T nativewindow;
+        EGL_DISPMANX_WINDOW_T window;
 #endif
     };
 }

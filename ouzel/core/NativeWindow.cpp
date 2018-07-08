@@ -9,20 +9,20 @@ namespace ouzel
     {
     }
 
-    void NativeWindow::init(const Size2& newSize,
-                              bool newResizable,
-                              bool newFullscreen,
-                              bool newExclusiveFullscreen,
-                              const std::string& newTitle,
-                              bool newHighDpi,
-                              bool)
+    NativeWindow::NativeWindow(const Size2& newSize,
+                               bool newResizable,
+                               bool newFullscreen,
+                               bool newExclusiveFullscreen,
+                               const std::string& newTitle,
+                               bool newHighDpi):
+        size(newSize),
+        resizable(newResizable),
+        fullscreen(newFullscreen),
+        exclusiveFullscreen(newExclusiveFullscreen),
+        highDpi(newHighDpi),
+        title(newTitle)
     {
-        size = newSize;
-        resizable = newResizable;
-        fullscreen = newFullscreen;
-        exclusiveFullscreen = newExclusiveFullscreen;
-        highDpi = newHighDpi;
-        title = newTitle;
+
     }
 
     void NativeWindow::close()

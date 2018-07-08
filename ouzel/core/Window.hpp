@@ -4,6 +4,7 @@
 
 #include <string>
 #include "core/NativeWindow.hpp"
+#include "graphics/Renderer.hpp"
 #include "math/Size2.hpp"
 #include "events/EventHandler.hpp"
 
@@ -58,6 +59,7 @@ namespace ouzel
                bool newFullscreen,
                bool newExclusiveFullscreen,
                const std::string& newTitle,
+               graphics::Renderer::Driver graphicsDriver,
                bool newHighDpi,
                bool depth);
 

@@ -300,35 +300,19 @@ static const LPCWSTR WINDOW_CLASS_NAME = L"OuzelWindow";
 
 namespace ouzel
 {
-    NativeWindowWin::NativeWindowWin()
+    NativeWindowWin::NativeWindowWin(const Size2& newSize,
+                                     bool newResizable,
+                                     bool newFullscreen,
+                                     bool newExclusiveFullscreen,
+                                     const std::string& newTitle,
+                                     bool newHighDpi):
+        ouzel::NativeWindow(newSize,
+                            newResizable,
+                            newFullscreen,
+                            newExclusiveFullscreen,
+                            newTitle,
+                            newHighDpi)
     {
-    }
-
-    NativeWindowWin::~NativeWindowWin()
-    {
-        if (window)
-            DestroyWindow(window);
-
-        if (windowClass)
-            UnregisterClassW(WINDOW_CLASS_NAME, GetModuleHandleW(nullptr));
-    }
-
-    void NativeWindowWin::init(const Size2& newSize,
-                                 bool newResizable,
-                                 bool newFullscreen,
-                                 bool newExclusiveFullscreen,
-                                 const std::string& newTitle,
-                                 bool newHighDpi,
-                                 bool depth)
-    {
-        NativeWindow::init(newSize,
-                             newResizable,
-                             newFullscreen,
-                             newExclusiveFullscreen,
-                             newTitle,
-                             newHighDpi,
-                             depth);
-
         if (highDpi)
         {
             HMODULE shcore = LoadLibraryW(L"shcore.dll");
@@ -414,6 +398,15 @@ namespace ouzel
 
         ShowWindow(window, SW_SHOW);
         SetWindowLongPtr(window, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+    }
+
+    NativeWindowWin::~NativeWindowWin()
+    {
+        if (window)
+            DestroyWindow(window);
+
+        if (windowClass)
+            UnregisterClassW(WINDOW_CLASS_NAME, GetModuleHandleW(nullptr));
     }
 
     void NativeWindowWin::close()

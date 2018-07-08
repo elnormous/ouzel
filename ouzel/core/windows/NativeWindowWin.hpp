@@ -34,14 +34,12 @@ namespace ouzel
         HMONITOR getMonitor() const { return monitor; }
 
     protected:
-        NativeWindowWin();
-        virtual void init(const Size2& newSize,
-                          bool newResizable,
-                          bool newFullscreen,
-                          bool newExclusiveFullscreen,
-                          const std::string& newTitle,
-                          bool newHighDpi,
-                          bool depth) override;
+        NativeWindowWin(const Size2& newSize,
+                        bool newResizable,
+                        bool newFullscreen,
+                        bool newExclusiveFullscreen,
+                        const std::string& newTitle,
+                        bool newHighDpi);
 
         void switchFullscreen(bool newFullscreen);
 

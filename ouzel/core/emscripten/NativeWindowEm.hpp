@@ -17,13 +17,8 @@ namespace ouzel
         void handleResize();
 
     protected:
-        NativeWindowEm();
-        virtual void init(const Size2& newSize,
-                          bool newResizable,
-                          bool newFullscreen,
-                          bool newExclusiveFullscreen,
-                          const std::string& newTitle,
-                          bool newHighDpi,
-                          bool depth) override;
+        NativeWindowEm(const Size2& newSize,
+                       bool newFullscreen,
+                       const std::string& newTitle);
     };
 }
