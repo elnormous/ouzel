@@ -19,37 +19,20 @@ static const long _NET_WM_STATE_TOGGLE = 2;
 
 namespace ouzel
 {
-    NativeWindowLinux::NativeWindowLinux()
+    NativeWindowLinux::NativeWindowLinux(const Size2& newSize,
+                                         bool newResizable,
+                                         bool newFullscreen,
+                                         bool newExclusiveFullscreen,
+                                         const std::string& newTitle,
+                                         graphics::Renderer::Driver graphicsDriver,
+                                         bool depth):
+        ouzel::NativeWindow(newSize,
+                            newResizable,
+                            newFullscreen,
+                            newExclusiveFullscreen,
+                            newTitle,
+                            true)
     {
-    }
-
-    NativeWindowLinux::~NativeWindowLinux()
-    {
-#if OUZEL_SUPPORTS_X11
-        if (visualInfo)
-            XFree(visualInfo);
-
-        if (display && window)
-            XDestroyWindow(display, window);
-#endif
-    }
-
-    void NativeWindowLinux::init(const Size2& newSize,
-                                   bool newResizable,
-                                   bool newFullscreen,
-                                   bool newExclusiveFullscreen,
-                                   const std::string& newTitle,
-                                   bool newHighDpi,
-                                   bool depth)
-    {
-        NativeWindow::init(newSize,
-                             newResizable,
-                             newFullscreen,
-                             newExclusiveFullscreen,
-                             newTitle,
-                             newHighDpi,
-                             depth);
-
 #if OUZEL_SUPPORTS_X11
         EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
         display = engineLinux->getDisplay();
@@ -65,7 +48,7 @@ namespace ouzel
         int x = XWidthOfScreen(screen) / 2 - static_cast<int>(size.width / 2.0f);
         int y = XHeightOfScreen(screen) / 2 - static_cast<int>(size.height / 2.0f);
 
-        switch (engine->getRenderer()->getDevice()->getDriver())
+        switch (graphicsDriver)
         {
             case graphics::Renderer::Driver::EMPTY:
             {
@@ -189,14 +172,25 @@ namespace ouzel
         if (dispmanElement == DISPMANX_NO_HANDLE)
             throw SystemError("Failed to add display element");
 
-        nativewindow.element = dispmanElement;
-        nativewindow.width = modeInfo.width;
-        nativewindow.height = modeInfo.height;
+        window.element = dispmanElement;
+        window.width = modeInfo.width;
+        window.height = modeInfo.height;
         vc_dispmanx_update_submit_sync(dispmanUpdate);
 
         size.width = static_cast<float>(modeInfo.width);
         size.height = static_cast<float>(modeInfo.height);
         resolution = size;
+#endif
+    }
+
+    NativeWindowLinux::~NativeWindowLinux()
+    {
+#if OUZEL_SUPPORTS_X11
+        if (visualInfo)
+            XFree(visualInfo);
+
+        if (display && window)
+            XDestroyWindow(display, window);
 #endif
     }
 

@@ -61,43 +61,20 @@
 
 namespace ouzel
 {
-    NativeWindowMacOS::NativeWindowMacOS()
+    NativeWindowMacOS::NativeWindowMacOS(const Size2& newSize,
+                                         bool newResizable,
+                                         bool newFullscreen,
+                                         bool newExclusiveFullscreen,
+                                         const std::string& newTitle,
+                                         graphics::Renderer::Driver graphicsDriver,
+                                         bool newHighDpi):
+        ouzel::NativeWindow(newSize,
+                            newResizable,
+                            newFullscreen,
+                            newExclusiveFullscreen,
+                            newTitle,
+                            newHighDpi)
     {
-    }
-
-    NativeWindowMacOS::~NativeWindowMacOS()
-    {
-        if (exclusiveFullscreen && fullscreen)
-            CGDisplayRelease(displayId);
-
-        if (view) [view release];
-
-        if (window)
-        {
-            window.delegate = nil;
-            [window close];
-            [window release];
-        }
-
-        if (windowDelegate) [windowDelegate release];
-    }
-
-    void NativeWindowMacOS::init(const Size2& newSize,
-                                   bool newResizable,
-                                   bool newFullscreen,
-                                   bool newExclusiveFullscreen,
-                                   const std::string& newTitle,
-                                   bool newHighDpi,
-                                   bool depth)
-    {
-        NativeWindow::init(newSize,
-                             newResizable,
-                             newFullscreen,
-                             newExclusiveFullscreen,
-                             newTitle,
-                             newHighDpi,
-                             depth);
-
         screen = [NSScreen mainScreen];
         displayId = [[[screen deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
 
@@ -167,7 +144,7 @@ namespace ouzel
         NSRect windowFrame = [NSWindow contentRectForFrameRect:[window frame]
                                                      styleMask:[window styleMask]];
 
-        switch (engine->getRenderer()->getDevice()->getDriver())
+        switch (graphicsDriver)
         {
             case graphics::Renderer::Driver::EMPTY:
                 view = [[ViewMacOS alloc] initWithFrame:windowFrame];
@@ -206,6 +183,23 @@ namespace ouzel
             contentScale = 1.0F;
             resolution = size;
         }
+    }
+
+    NativeWindowMacOS::~NativeWindowMacOS()
+    {
+        if (exclusiveFullscreen && fullscreen)
+            CGDisplayRelease(displayId);
+
+        if (view) [view release];
+
+        if (window)
+        {
+            window.delegate = nil;
+            [window close];
+            [window release];
+        }
+
+        if (windowDelegate) [windowDelegate release];
     }
 
     void NativeWindowMacOS::close()

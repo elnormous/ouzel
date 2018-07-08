@@ -18,26 +18,17 @@ static EM_BOOL emUICallback(int eventType, const EmscriptenUiEvent* uiEvent, voi
 
 namespace ouzel
 {
-    NativeWindowEm::NativeWindowEm()
+    NativeWindowEm::NativeWindowEm(const Size2& newSize,
+                                   bool newFullscreen,
+                                   const std::string& newTitle):
+        ouzel::NativeWindow(newSize,
+                            true,
+                            newFullscreen,
+                            true,
+                            newTitle,
+                            true)
     {
         emscripten_set_resize_callback(nullptr, this, 1, emUICallback);
-    }
-
-    void NativeWindowEm::init(const Size2& newSize,
-                                bool newResizable,
-                                bool newFullscreen,
-                                bool newExclusiveFullscreen,
-                                const std::string& newTitle,
-                                bool newHighDpi,
-                                bool depth)
-    {
-        NativeWindow::init(newSize,
-                             newResizable,
-                             newFullscreen,
-                             newExclusiveFullscreen,
-                             newTitle,
-                             newHighDpi,
-                             depth);
 
         if (size.width <= 0.0F || size.height <= 0.0F)
         {

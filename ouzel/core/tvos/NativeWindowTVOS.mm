@@ -42,34 +42,16 @@
 
 namespace ouzel
 {
-    NativeWindowTVOS::NativeWindowTVOS()
+    NativeWindowTVOS::NativeWindowTVOS(const std::string& newTitle,
+                                       graphics::Renderer::Driver graphicsDriver,
+                                       bool newHighDpi):
+        ouzel::NativeWindow(Size2(),
+                            true,
+                            true,
+                            true,
+                            newTitle,
+                            newHighDpi)
     {
-    }
-
-    NativeWindowTVOS::~NativeWindowTVOS()
-    {
-        if (textField) [textField release];
-        if (viewController) [viewController release];
-        if (view) [view release];
-        if (window) [window release];
-    }
-
-    void NativeWindowTVOS::init(const Size2& newSize,
-                                  bool newResizable,
-                                  bool newFullscreen,
-                                  bool newExclusiveFullscreen,
-                                  const std::string& newTitle,
-                                  bool newHighDpi,
-                                  bool depth)
-    {
-        NativeWindow::init(newSize,
-                             newResizable,
-                             newFullscreen,
-                             newExclusiveFullscreen,
-                             newTitle,
-                             newHighDpi,
-                             depth);
-
         screen = [UIScreen mainScreen];
 
         window = [[UIWindow alloc] initWithFrame:[screen bounds]];
@@ -82,7 +64,7 @@ namespace ouzel
         size = Size2(static_cast<float>(windowFrame.size.width),
                      static_cast<float>(windowFrame.size.height));
 
-        switch (engine->getRenderer()->getDevice()->getDriver())
+        switch (graphicsDriver)
         {
             case graphics::Renderer::Driver::EMPTY:
                 view = [[ViewTVOS alloc] initWithFrame:windowFrame];
@@ -118,6 +100,14 @@ namespace ouzel
         }
         else
             resolution = size;
+    }
+
+    NativeWindowTVOS::~NativeWindowTVOS()
+    {
+        if (textField) [textField release];
+        if (viewController) [viewController release];
+        if (view) [view release];
+        if (window) [window release];
     }
 
     void NativeWindowTVOS::handleResize(const Size2& newSize)

@@ -7,31 +7,14 @@
 
 namespace ouzel
 {
-    NativeWindowAndroid::NativeWindowAndroid()
+    NativeWindowAndroid::NativeWindowAndroid(const std::string& newTitle):
+        ouzel::NativeWindow(Size2(),
+                            true,
+                            true,
+                            true,
+                            newTitle,
+                            true)
     {
-    }
-
-    NativeWindowAndroid::~NativeWindowAndroid()
-    {
-        if (window) ANativeWindow_release(window);
-    }
-
-    void NativeWindowAndroid::init(const Size2& newSize,
-                                     bool newResizable,
-                                     bool newFullscreen,
-                                     bool newExclusiveFullscreen,
-                                     const std::string& newTitle,
-                                     bool newHighDpi,
-                                     bool depth)
-    {
-        NativeWindow::init(newSize,
-                             newResizable,
-                             newFullscreen,
-                             newExclusiveFullscreen,
-                             newTitle,
-                             newHighDpi,
-                             depth);
-
         EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(engine);
         JavaVM* javaVM = engineAndroid->getJavaVM();
         JNIEnv* jniEnv;
@@ -44,6 +27,11 @@ namespace ouzel
         size.width = static_cast<float>(ANativeWindow_getWidth(window));
         size.height = static_cast<float>(ANativeWindow_getHeight(window));
         resolution = size;
+    }
+
+    NativeWindowAndroid::~NativeWindowAndroid()
+    {
+        if (window) ANativeWindow_release(window);
     }
 
     void NativeWindowAndroid::handleResize(const Size2& newSize)
