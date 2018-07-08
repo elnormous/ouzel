@@ -87,7 +87,6 @@ namespace ouzel
                                            newFullscreen,
                                            newExclusiveFullscreen,
                                            newTitle,
-                                           graphicsDriver,
                                            newHighDpi);
 #elif OUZEL_PLATFORM_EMSCRIPTEN
         OUZEL_UNUSED(newResizable);
