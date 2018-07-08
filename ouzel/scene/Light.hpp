@@ -22,8 +22,12 @@ namespace ouzel
                 DIRECTIONAL
             };
 
-            Light(Type initType);
+            Light();
+            explicit Light(Type initType);
             virtual ~Light();
+
+            inline Type getType() const { return type; }
+            inline void setType(Type newType) { type = newType; }
 
             inline Color getColor() const { return color; }
             inline void setColor(Color newColor) { color = newColor; }
@@ -44,7 +48,7 @@ namespace ouzel
             virtual void setLayer(Layer* newLayer) override;
 
         private:
-            Type type;
+            Type type = Type::POINT;
             Color color;
             Quaternion direction = Quaternion::identity(); // for spot and directional ligt
             float angle = 0.0F; // for spot light
