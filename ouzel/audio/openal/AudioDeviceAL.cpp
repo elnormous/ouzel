@@ -74,12 +74,12 @@ namespace ouzel
             alGenSources(1, &sourceId);
 
             if ((error = alGetError()) != AL_NO_ERROR)
-                throw SystemError("Failed to create OpenAL source, error" + std::to_string(error));
+                throw SystemError("Failed to create OpenAL source, error: " + std::to_string(error));
 
             alGenBuffers(2, bufferIds);
 
             if ((error = alGetError()) != AL_NO_ERROR)
-                throw SystemError("Failed to create OpenAL buffers, error" + std::to_string(error));
+                throw SystemError("Failed to create OpenAL buffers, error: " + std::to_string(error));
 
             switch (channels)
             {
@@ -114,12 +114,12 @@ namespace ouzel
             alSourceQueueBuffers(sourceId, 2, bufferIds);
 
             if ((error = alGetError()) != AL_NO_ERROR)
-                throw SystemError("Failed to queue OpenAL buffers, error" + std::to_string(error));
+                throw SystemError("Failed to queue OpenAL buffers, error: " + std::to_string(error));
 
             alSourcePlay(sourceId);
 
             if ((error = alGetError()) != AL_NO_ERROR)
-                throw SystemError("Failed to play OpenAL source, error" + std::to_string(error));
+                throw SystemError("Failed to play OpenAL source, error: " + std::to_string(error));
 
 #if OUZEL_MULTITHREADED
             running = true;
@@ -178,7 +178,7 @@ namespace ouzel
             ALenum error;
 
             if ((error = alGetError()) != AL_NO_ERROR)
-                throw SystemError("Failed to get processed buffer count, error" + std::to_string(error));
+                throw SystemError("Failed to get processed buffer count, error: " + std::to_string(error));
 
             // requeue all processed buffers
             for (; buffersProcessed > 0; --buffersProcessed)
@@ -186,7 +186,7 @@ namespace ouzel
                 alSourceUnqueueBuffers(sourceId, 1, &bufferIds[nextBuffer]);
 
                 if ((error = alGetError()) != AL_NO_ERROR)
-                    throw SystemError("Failed to unqueue OpenAL buffer, error" + std::to_string(error));
+                    throw SystemError("Failed to unqueue OpenAL buffer, error: " + std::to_string(error));
 
                 getData(bufferSize / (channels * sizeof(int16_t)), data);
 
@@ -198,7 +198,7 @@ namespace ouzel
                 alSourceQueueBuffers(sourceId, 1, &bufferIds[nextBuffer]);
 
                 if ((error = alGetError()) != AL_NO_ERROR)
-                    throw SystemError("Failed to queue OpenAL buffer, error" + std::to_string(error));
+                    throw SystemError("Failed to queue OpenAL buffer, error: " + std::to_string(error));
 
                 ALint state;
                 alGetSourcei(sourceId, AL_SOURCE_STATE, &state);
@@ -207,7 +207,7 @@ namespace ouzel
                     alSourcePlay(sourceId);
 
                     if ((error = alGetError()) != AL_NO_ERROR)
-                        throw SystemError("Failed to play OpenAL source, error" + std::to_string(error));
+                        throw SystemError("Failed to play OpenAL source, error: " + std::to_string(error));
                 }
 
                 // swap the buffer
