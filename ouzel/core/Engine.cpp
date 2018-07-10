@@ -347,17 +347,17 @@ namespace ouzel
 
     void Engine::update()
     {
-            eventDispatcher.dispatchEvents();
+        eventDispatcher.dispatchEvents();
 
-            sceneManager.update();
+        sceneManager.update();
 
-            if (renderer->getDevice()->getRefillQueue())
-            {
-                sceneManager.draw();
-                renderer->getDevice()->flushCommands();
-            }
+        if (renderer->getDevice()->getRefillQueue())
+        {
+            sceneManager.draw();
+            renderer->getDevice()->flushCommands();
+        }
 
-            audio->update();
+        audio->update();
     }
 
     void Engine::main()

@@ -6,7 +6,7 @@
 #include "audio/AudioDevice.hpp"
 #include "graphics/RenderDevice.hpp"
 #include "input/emscripten/InputManagerEm.hpp"
-#include "utils/Utils.hpp"
+#include "utils/Log.hpp"
 
 static void loop(void* arg)
 {
@@ -31,16 +31,59 @@ namespace ouzel
 
     void EngineEm::step()
     {
+        input::InputManagerEm* inputEm = static_cast<input::InputManagerEm*>(inputManager.get());
+
         if (active)
         {
-            update();
-            audio->update();
+            try
+            {
+                update();
+            }
+            catch (const std::exception& e)
+            {
+                ouzel::Log(ouzel::Log::Level::ERR) << e.what();
+                exit();
+            }
+            catch (...)
+            {
+                exit();
+            }
 
-            renderer->getDevice()->process();
-            audio->getDevice()->process();
+            try
+            {
+                audio->update();
+            }
+            catch (const std::exception& e)
+            {
+                ouzel::Log(ouzel::Log::Level::ERR) << e.what();
+            }
 
-            input::InputManagerEm* inputEm = static_cast<input::InputManagerEm*>(inputManager.get());
-            inputEm->update();
+            try
+            {
+                renderer->getDevice()->process();
+            }
+            catch (const std::exception& e)
+            {
+                ouzel::Log(ouzel::Log::Level::ERR) << e.what();
+            }
+
+            try
+            {
+                audio->getDevice()->process();
+            }
+            catch (const std::exception& e)
+            {
+                ouzel::Log(ouzel::Log::Level::ERR) << e.what();
+            }
+
+            try
+            {
+                inputEm->update();
+            }
+            catch (const std::exception& e)
+            {
+                ouzel::Log(ouzel::Log::Level::ERR) << e.what();
+            }
         }
         else
             emscripten_cancel_main_loop();
