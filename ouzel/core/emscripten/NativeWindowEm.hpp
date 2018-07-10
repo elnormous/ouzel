@@ -20,6 +20,7 @@ namespace ouzel
     protected:
         NativeWindowEm(const Size2& newSize,
                        bool newFullscreen,
-                       const std::string& newTitle);
+                       const std::string& newTitle,
+                       bool newHighDpi);
     };
 }

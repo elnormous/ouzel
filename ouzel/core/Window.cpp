@@ -92,11 +92,11 @@ namespace ouzel
         OUZEL_UNUSED(newResizable);
         OUZEL_UNUSED(newExclusiveFullscreen);
         OUZEL_UNUSED(graphicsDriver);
-        OUZEL_UNUSED(newHighDpi);
         OUZEL_UNUSED(depth);
         nativeWindow = new NativeWindowEm(newSize,
                                           newFullscreen,
-                                          newTitle);
+                                          newTitle,
+                                          newHighDpi);
 #else
         OUZEL_UNUSED(graphicsDriver);
         OUZEL_UNUSED(depth);

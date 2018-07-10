@@ -1,9 +1,11 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <algorithm>
+#include "core/Setup.h"
 #include "EventDispatcher.hpp"
 #include "EventHandler.hpp"
 #include "thread/Lock.hpp"
+#include "utils/Utils.hpp"
 
 namespace ouzel
 {
@@ -191,6 +193,7 @@ namespace ouzel
 
     void EventDispatcher::postEvent(const Event& event, bool dispatchImmediately)
     {
+#if OUZEL_MULTITHREADED
         if (dispatchImmediately)
             dispatchEvent(event);
         else
@@ -198,5 +201,9 @@ namespace ouzel
             Lock lock(eventQueueMutex);
             eventQueue.push(event);
         }
+#else
+        OUZEL_UNUSED(dispatchImmediately);
+        dispatchEvent(event);
+#endif
     }
 }

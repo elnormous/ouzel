@@ -9,7 +9,8 @@ static EM_BOOL emResizeCallback(int eventType, const EmscriptenUiEvent* uiEvent,
 {
     if (eventType == EMSCRIPTEN_EVENT_RESIZE)
     {
-        reinterpret_cast<ouzel::NativeWindowEm*>(userData)->handleResize();
+        ouzel::NativeWindowEm* nativeWindowEm = reinterpret_cast<ouzel::NativeWindowEm*>(userData);
+        nativeWindowEm->handleResize();
         return true;
     }
 
@@ -18,31 +19,39 @@ static EM_BOOL emResizeCallback(int eventType, const EmscriptenUiEvent* uiEvent,
 
 static EM_BOOL emFullscreenCallback(int eventType, const void*, void* userData)
 {
-    reinterpret_cast<ouzel::NativeWindowEm*>(userData)->handleResize();
-    return true;
+    if (eventType == EMSCRIPTEN_EVENT_CANVASRESIZED)
+    {
+        ouzel::NativeWindowEm* nativeWindowEm = reinterpret_cast<ouzel::NativeWindowEm*>(userData);
+        nativeWindowEm->handleResize();
+        return true;
+    }
+
+    return false;
 }
 
 namespace ouzel
 {
     NativeWindowEm::NativeWindowEm(const Size2& newSize,
                                    bool newFullscreen,
-                                   const std::string& newTitle):
+                                   const std::string& newTitle,
+                                   bool newHighDpi):
         ouzel::NativeWindow(newSize,
                             true,
                             newFullscreen,
                             true,
                             newTitle,
-                            true)
+                            newHighDpi)
     {
-        emscripten_set_resize_callback(nullptr, this, 1, emResizeCallback);
+        emscripten_set_resize_callback(nullptr, this, true, emResizeCallback);
 
         if (size.width <= 0.0F || size.height <= 0.0F)
         {
-            int width, height, fullscreen;
-            emscripten_get_canvas_size(&width, &height, &fullscreen);
+            int width, height, isFullscreen;
+            emscripten_get_canvas_size(&width, &height, &isFullscreen);
 
             if (size.width <= 0.0F) size.width = static_cast<float>(width);
             if (size.height <= 0.0F) size.height = static_cast<float>(height);
+            fullscreen = static_cast<bool>(isFullscreen);
         }
         else
             emscripten_set_canvas_size(static_cast<int>(size.width),
@@ -51,8 +60,8 @@ namespace ouzel
         if (fullscreen)
         {
             EmscriptenFullscreenStrategy s;
-            s.scaleMode = EMSCRIPTEN_FULLSCREEN_SCALE_ASPECT;
-            s.canvasResolutionScaleMode = EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_NONE;
+            s.scaleMode = EMSCRIPTEN_FULLSCREEN_SCALE_STRETCH;
+            s.canvasResolutionScaleMode = highDpi ? EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_HIDEF : EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_STDDEF;
             s.filteringMode = EMSCRIPTEN_FULLSCREEN_FILTERING_DEFAULT;
             s.canvasResizedCallback = emFullscreenCallback;
             s.canvasResizedCallbackUserData = this;
@@ -73,13 +82,11 @@ namespace ouzel
 
     void NativeWindowEm::setFullscreen(bool newFullscreen)
     {
-        NativeWindow::setFullscreen(newFullscreen);
-
-        if (fullscreen)
+        if (newFullscreen)
         {
             EmscriptenFullscreenStrategy s;
-            s.scaleMode = EMSCRIPTEN_FULLSCREEN_SCALE_ASPECT;
-            s.canvasResolutionScaleMode = EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_NONE;
+            s.scaleMode = EMSCRIPTEN_FULLSCREEN_SCALE_STRETCH;
+            s.canvasResolutionScaleMode = highDpi ? EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_HIDEF : EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_STDDEF;
             s.filteringMode = EMSCRIPTEN_FULLSCREEN_FILTERING_DEFAULT;
             s.canvasResizedCallback = emFullscreenCallback;
             s.canvasResizedCallbackUserData = this;
@@ -92,18 +99,24 @@ namespace ouzel
 
     void NativeWindowEm::handleResize()
     {
-        int width, height, fullscreen;
-        emscripten_get_canvas_size(&width, &height, &fullscreen);
+        int width, height, isFullscreen;
+        emscripten_get_canvas_size(&width, &height, &isFullscreen);
 
         Size2 newSize(static_cast<float>(width), static_cast<float>(height));
 
         size = newSize;
         resolution = size;
 
+        bool oldFullscreen = fullscreen;
+        fullscreen = static_cast<bool>(isFullscreen);
+
         if (listener)
         {
             listener->onSizeChange(size);
             listener->onResolutionChange(resolution);
+
+            if (fullscreen != oldFullscreen)
+                listener->onFullscreenChange(fullscreen);
         }
     }
 }
