@@ -13,6 +13,7 @@ namespace ouzel
         friend Window;
     public:
         virtual void setSize(const Size2& newSize) override;
+        virtual void setFullscreen(bool newFullscreen) override;
 
         void handleResize();
 
