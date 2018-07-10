@@ -42,6 +42,18 @@ namespace ouzel
             emscripten_set_canvas_size(static_cast<int>(size.width),
                                        static_cast<int>(size.height));
 
+        if (fullscreen)
+        {
+            EmscriptenFullscreenStrategy s;
+            s.scaleMode = EMSCRIPTEN_FULLSCREEN_SCALE_ASPECT;
+            s.canvasResolutionScaleMode = EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_NONE;
+            s.filteringMode = EMSCRIPTEN_FULLSCREEN_FILTERING_DEFAULT;
+            s.canvasResizedCallback = nullptr;
+            s.canvasResizedCallbackUserData = nullptr;
+
+            emscripten_request_fullscreen_strategy("#canvas", EM_TRUE, &s);
+        }
+
         resolution = size;
     }
 
@@ -51,6 +63,25 @@ namespace ouzel
 
         emscripten_set_canvas_size(static_cast<int>(newSize.width),
                                    static_cast<int>(newSize.height));
+    }
+
+    void NativeWindowEm::setFullscreen(bool newFullscreen)
+    {
+        NativeWindow::setFullscreen(newFullscreen);
+
+        if (fullscreen)
+        {
+            EmscriptenFullscreenStrategy s;
+            s.scaleMode = EMSCRIPTEN_FULLSCREEN_SCALE_ASPECT;
+            s.canvasResolutionScaleMode = EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_NONE;
+            s.filteringMode = EMSCRIPTEN_FULLSCREEN_FILTERING_DEFAULT;
+            s.canvasResizedCallback = nullptr;
+            s.canvasResizedCallbackUserData = nullptr;
+
+            emscripten_request_fullscreen_strategy("#canvas", EM_TRUE, &s);
+        }
+        else
+            emscripten_exit_fullscreen();
     }
 
     void NativeWindowEm::handleResize()
