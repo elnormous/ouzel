@@ -42,17 +42,13 @@ namespace ouzel
             if ((alcError = alcGetError(device)) != ALC_NO_ERROR)
                 throw SystemError("Failed to create OpenAL device, error: " + std::to_string(alcError));
 
-            int capabilities[] =
-            {
-                ALC_FREQUENCY, 44100,
-                ALC_STEREO_SOURCES, 4,
-                0, 0
-            };
-
-            context = alcCreateContext(device, capabilities);
+            context = alcCreateContext(device, nullptr);
 
             if ((alcError = alcGetError(device)) != ALC_NO_ERROR)
                 throw SystemError("Failed to create OpenAL context, error: " + std::to_string(alcError));
+
+            if (!context)
+                throw SystemError("Failed to create OpenAL context");
 
             alcMakeContextCurrent(context);
 
