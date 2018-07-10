@@ -44,9 +44,9 @@ namespace ouzel
             if (!webGLContext)
                 throw SystemError("Failed to create WebGL context");
 
-            EMSCRIPTEN_RESULT res = emscripten_webgl_make_context_current(webGLContext);
+            EMSCRIPTEN_RESULT result = emscripten_webgl_make_context_current(webGLContext);
 
-            if (res != EMSCRIPTEN_RESULT_SUCCESS)
+            if (result != EMSCRIPTEN_RESULT_SUCCESS)
                 throw SystemError("Failed to make WebGL context current");
 
             emscripten_set_main_loop_timing(newVerticalSync ? EM_TIMING_RAF : EM_TIMING_SETTIMEOUT, 1);
@@ -63,9 +63,9 @@ namespace ouzel
 
         void RenderDeviceOGLEm::lockContext()
         {
-            EMSCRIPTEN_RESULT res = emscripten_webgl_make_context_current(webGLContext);
+            EMSCRIPTEN_RESULT result = emscripten_webgl_make_context_current(webGLContext);
 
-            if (res != EMSCRIPTEN_RESULT_SUCCESS)
+            if (result != EMSCRIPTEN_RESULT_SUCCESS)
                 throw SystemError("Failed to make WebGL context current");
         }
     } // namespace graphics
