@@ -5,7 +5,7 @@
 #include "NativeWindowEm.hpp"
 #include "core/Engine.hpp"
 
-static EM_BOOL emUICallback(int eventType, const EmscriptenUiEvent* uiEvent, void* userData)
+static EM_BOOL emResizeCallback(int eventType, const EmscriptenUiEvent* uiEvent, void* userData)
 {
     if (eventType == EMSCRIPTEN_EVENT_RESIZE)
     {
@@ -14,6 +14,12 @@ static EM_BOOL emUICallback(int eventType, const EmscriptenUiEvent* uiEvent, voi
     }
 
     return false;
+}
+
+static EM_BOOL emFullscreenCallback(int eventType, const void*, void* userData)
+{
+    reinterpret_cast<ouzel::NativeWindowEm*>(userData)->handleResize();
+    return true;
 }
 
 namespace ouzel
@@ -28,7 +34,7 @@ namespace ouzel
                             newTitle,
                             true)
     {
-        emscripten_set_resize_callback(nullptr, this, 1, emUICallback);
+        emscripten_set_resize_callback(nullptr, this, 1, emResizeCallback);
 
         if (size.width <= 0.0F || size.height <= 0.0F)
         {
@@ -48,10 +54,10 @@ namespace ouzel
             s.scaleMode = EMSCRIPTEN_FULLSCREEN_SCALE_ASPECT;
             s.canvasResolutionScaleMode = EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_NONE;
             s.filteringMode = EMSCRIPTEN_FULLSCREEN_FILTERING_DEFAULT;
-            s.canvasResizedCallback = nullptr;
-            s.canvasResizedCallbackUserData = nullptr;
+            s.canvasResizedCallback = emFullscreenCallback;
+            s.canvasResizedCallbackUserData = this;
 
-            emscripten_request_fullscreen_strategy("#canvas", EM_TRUE, &s);
+            emscripten_request_fullscreen_strategy(nullptr, EM_TRUE, &s);
         }
 
         resolution = size;
@@ -75,10 +81,10 @@ namespace ouzel
             s.scaleMode = EMSCRIPTEN_FULLSCREEN_SCALE_ASPECT;
             s.canvasResolutionScaleMode = EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_NONE;
             s.filteringMode = EMSCRIPTEN_FULLSCREEN_FILTERING_DEFAULT;
-            s.canvasResizedCallback = nullptr;
-            s.canvasResizedCallbackUserData = nullptr;
+            s.canvasResizedCallback = emFullscreenCallback;
+            s.canvasResizedCallbackUserData = this;
 
-            emscripten_request_fullscreen_strategy("#canvas", EM_TRUE, &s);
+            emscripten_request_fullscreen_strategy(nullptr, EM_TRUE, &s);
         }
         else
             emscripten_exit_fullscreen();
