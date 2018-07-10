@@ -6,16 +6,16 @@
 #include <memory>
 #include <string>
 #if defined(_WIN32)
-#include <Windows.h>
-#define ThreadLocal __declspec(thread)
+#  include <Windows.h>
+#  define ThreadLocal __declspec(thread)
 #else
-#include <pthread.h>
-#define ThreadLocal __thread
+#  include <pthread.h>
+#  define ThreadLocal __thread
 #if defined(__APPLE__)
-#include <sys/sysctl.h>
+#  include <sys/sysctl.h>
 #else
-#include <unistd.h>
-#endif // #if defined(__APPLE__)
+#  include <unistd.h>
+#  endif
 #endif
 
 namespace ouzel
@@ -26,15 +26,14 @@ namespace ouzel
         SYSTEM_INFO sysinfo;
         GetSystemInfo(&sysinfo);
         return sysinfo.dwNumberOfProcessors;
-#else
-#if defined(__APPLE__)
+#elif defined(__APPLE__)
         int mib[2];
         mib[0] = CTL_HW;
-#ifdef HW_AVAILCPU
+#  ifdef HW_AVAILCPU
         mib[1] = HW_AVAILCPU;
-#else
+#  else
         mib[1] = HW_NCPU;
-#endif
+#  endif
         int count;
         size_t size = sizeof(count);
         sysctl(mib, 2, &count, &size, NULL, 0);
@@ -44,7 +43,6 @@ namespace ouzel
         return (count > 0) ? static_cast<uint32_t>(count) : 0;
 #else
         return 1;
-#endif
 #endif
     }
 

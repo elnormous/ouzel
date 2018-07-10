@@ -362,27 +362,39 @@ namespace ouzel
 
     void Engine::main()
     {
-        ouzelMain(args);
+        try
+        {
+            ouzelMain(args);
 
 #if OUZEL_MULTITHREADED
-        while (active)
-        {
-            if (!paused)
+            while (active)
             {
-                update();
+                if (!paused)
+                {
+                    update();
 
-                // TODO: implement sleep to reduce the power consumption
+                    // TODO: implement sleep to reduce the power consumption
+                }
+                else
+                {
+                    Lock lock(updateMutex);
+                    while (active && paused)
+                        updateCondition.wait(lock);
+                }
             }
-            else
-            {
-                Lock lock(updateMutex);
-                while (active && paused)
-                    updateCondition.wait(lock);
-            }
-        }
 
-        eventDispatcher.dispatchEvents();
+            eventDispatcher.dispatchEvents();
 #endif
+        }
+        catch (const std::exception& e)
+        {
+            ouzel::Log(ouzel::Log::Level::ERR) << e.what();
+            exit();
+        }
+        catch (...)
+        {
+            exit();
+        }
     }
 
     void Engine::openURL(const std::string&)
