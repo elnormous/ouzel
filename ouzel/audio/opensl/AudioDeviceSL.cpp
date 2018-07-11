@@ -10,9 +10,21 @@
 
 static void playerCallback(SLAndroidSimpleBufferQueueItf bufferQueue, void* context)
 {
-    ouzel::audio::AudioDeviceSL* audioDeviceSL = reinterpret_cast<ouzel::audio::AudioDeviceSL*>(context);
+    try
+    {
+        ouzel::audio::AudioDeviceSL* audioDeviceSL = reinterpret_cast<ouzel::audio::AudioDeviceSL*>(context);
 
-    audioDeviceSL->enqueue(bufferQueue);
+        audioDeviceSL->enqueue(bufferQueue);
+    }
+    catch (const std::exception& e)
+    {
+        ouzel::Log(ouzel::Log::Level::ERR) << e.what();
+    }
+    catch (...)
+    {
+        ouzel::Log(ouzel::Log::Level::ERR) << "Unknown error happened";
+    }
+    
 }
 
 namespace ouzel

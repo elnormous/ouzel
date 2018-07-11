@@ -154,31 +154,42 @@ namespace ouzel
 
         void AudioDeviceDS::run()
         {
-            for (;;)
+            while (running)
             {
-                if (WaitForSingleObject(notifyEvents[nextBuffer], INFINITE) == WAIT_OBJECT_0)
+                try
                 {
-                    if (!running) break;
+                    if (WaitForSingleObject(notifyEvents[nextBuffer], INFINITE) == WAIT_OBJECT_0)
+                    {
+                        if (!running) break;
 
-                    ResetEvent(notifyEvents[nextBuffer]);
+                        ResetEvent(notifyEvents[nextBuffer]);
 
-                    process();
+                        process();
 
-                    uint8_t* bufferPointer;
-                    DWORD lockedBufferSize;
-                    HRESULT hr = buffer->Lock(nextBuffer * bufferSize, bufferSize, reinterpret_cast<void**>(&bufferPointer), &lockedBufferSize, nullptr, 0, 0);
-                    if (FAILED(hr))
-                        throw SystemError("Failed to lock DirectSound buffer, error: " + std::to_string(hr));
+                        uint8_t* bufferPointer;
+                        DWORD lockedBufferSize;
+                        HRESULT hr = buffer->Lock(nextBuffer * bufferSize, bufferSize, reinterpret_cast<void**>(&bufferPointer), &lockedBufferSize, nullptr, 0, 0);
+                        if (FAILED(hr))
+                            throw SystemError("Failed to lock DirectSound buffer, error: " + std::to_string(hr));
 
-                    getData(lockedBufferSize / (channels * sizeof(int16_t)), data);
+                        getData(lockedBufferSize / (channels * sizeof(int16_t)), data);
 
-                    std::copy(data.begin(), data.end(), bufferPointer);
+                        std::copy(data.begin(), data.end(), bufferPointer);
 
-                    hr = buffer->Unlock(bufferPointer, lockedBufferSize, nullptr, 0);
-                    if (FAILED(hr))
-                        throw SystemError("Failed to unlock DirectSound buffer, error: " + std::to_string(hr));
+                        hr = buffer->Unlock(bufferPointer, lockedBufferSize, nullptr, 0);
+                        if (FAILED(hr))
+                            throw SystemError("Failed to unlock DirectSound buffer, error: " + std::to_string(hr));
 
-                    nextBuffer = (nextBuffer + 1) % 2;
+                        nextBuffer = (nextBuffer + 1) % 2;
+                    }
+                }
+                catch (const std::exception& e)
+                {
+                    ouzel::Log(ouzel::Log::Level::ERR) << e.what();
+                }
+                catch (...)
+                {
+                    ouzel::Log(ouzel::Log::Level::ERR) << "Unknown error happened";
                 }
             }
         }
