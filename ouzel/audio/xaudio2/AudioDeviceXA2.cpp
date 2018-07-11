@@ -170,33 +170,44 @@ namespace ouzel
         {
             for (;;)
             {
-                Lock lock(fillDataMutex);
-                while (!fillData && running) fillDataCondition.wait(lock);
+                try
+                {
+                    Lock lock(fillDataMutex);
+                    while (!fillData && running) fillDataCondition.wait(lock);
 
-                if (!running) break;
+                    if (!running) break;
 
-                process();
+                    process();
 
-                getData(bufferSize / (channels * sizeof(float)), data[nextBuffer]);
+                    getData(bufferSize / (channels * sizeof(float)), data[nextBuffer]);
 
-                XAUDIO2_BUFFER bufferData;
-                bufferData.Flags = 0;
-                bufferData.AudioBytes = static_cast<UINT32>(data[nextBuffer].size());
-                bufferData.pAudioData = data[nextBuffer].data();
-                bufferData.PlayBegin = 0;
-                bufferData.PlayLength = 0;
-                bufferData.LoopBegin = 0;
-                bufferData.LoopLength = 0;
-                bufferData.LoopCount = 0;
-                bufferData.pContext = nullptr;
+                    XAUDIO2_BUFFER bufferData;
+                    bufferData.Flags = 0;
+                    bufferData.AudioBytes = static_cast<UINT32>(data[nextBuffer].size());
+                    bufferData.pAudioData = data[nextBuffer].data();
+                    bufferData.PlayBegin = 0;
+                    bufferData.PlayLength = 0;
+                    bufferData.LoopBegin = 0;
+                    bufferData.LoopLength = 0;
+                    bufferData.LoopCount = 0;
+                    bufferData.pContext = nullptr;
 
-                HRESULT hr = sourceVoice->SubmitSourceBuffer(&bufferData);
-                if (FAILED(hr))
-                    throw SystemError("Failed to upload sound data, error: " + std::to_string(hr));
+                    HRESULT hr = sourceVoice->SubmitSourceBuffer(&bufferData);
+                    if (FAILED(hr))
+                        throw SystemError("Failed to upload sound data, error: " + std::to_string(hr));
 
-                nextBuffer = (nextBuffer == 0) ? 1 : 0;
+                    nextBuffer = (nextBuffer == 0) ? 1 : 0;
 
-                fillData = false;
+                    fillData = false;
+                }
+                catch (const std::exception& e)
+                {
+                    ouzel::Log(ouzel::Log::Level::ERR) << e.what();
+                }
+                catch (...)
+                {
+                    ouzel::Log(ouzel::Log::Level::ERR) << "Unknown error happened";
+                }
             }
         }
 

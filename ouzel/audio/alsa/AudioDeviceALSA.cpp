@@ -114,50 +114,61 @@ namespace ouzel
         {
             while (running)
             {
-                int err;
-
-                process();
-
-                snd_pcm_sframes_t frames;
-
-                if ((frames = snd_pcm_avail_update(playbackHandle)) < 0)
+                try
                 {
-                    if (frames == -EPIPE)
+                    int err;
+
+                    process();
+
+                    snd_pcm_sframes_t frames;
+
+                    if ((frames = snd_pcm_avail_update(playbackHandle)) < 0)
                     {
-                        Log(Log::Level::WARN) << "Buffer underrun occurred";
+                        if (frames == -EPIPE)
+                        {
+                            Log(Log::Level::WARN) << "Buffer underrun occurred";
 
-                        if ((err = snd_pcm_prepare(playbackHandle)) < 0)
-                            throw SystemError("Failed to prepare audio interface, error: " + std::to_string(err));
+                            if ((err = snd_pcm_prepare(playbackHandle)) < 0)
+                                throw SystemError("Failed to prepare audio interface, error: " + std::to_string(err));
 
+                            continue;
+                        }
+                        else
+                            throw SystemError("Failed to get available frames, error: " + std::to_string(frames));
+                    }
+
+                    if (static_cast<snd_pcm_uframes_t>(frames) > periods * periodSize)
+                    {
+                        Log(Log::Level::WARN) << "Buffer size exceeded, error: " << frames;
+                        snd_pcm_reset(playbackHandle);
                         continue;
                     }
-                    else
-                        throw SystemError("Failed to get available frames, error: " + std::to_string(frames));
-                }
 
-                if (static_cast<snd_pcm_uframes_t>(frames) > periods * periodSize)
-                {
-                    Log(Log::Level::WARN) << "Buffer size exceeded, error: " << frames;
-                    snd_pcm_reset(playbackHandle);
-                    continue;
-                }
+                    if (static_cast<snd_pcm_uframes_t>(frames) < periodSize)
+                        continue;
 
-                if (static_cast<snd_pcm_uframes_t>(frames) < periodSize)
-                    continue;
+                    getData(frames, data);
 
-                getData(frames, data);
-
-                if ((err = snd_pcm_writei(playbackHandle, data.data(), frames)) < 0)
-                {
-                    if (err == -EPIPE)
+                    if ((err = snd_pcm_writei(playbackHandle, data.data(), frames)) < 0)
                     {
-                        Log(Log::Level::WARN) << "Buffer underrun occurred";
+                        if (err == -EPIPE)
+                        {
+                            Log(Log::Level::WARN) << "Buffer underrun occurred";
 
-                        if ((err = snd_pcm_prepare(playbackHandle)) < 0)
-                            throw SystemError("Failed to prepare audio interface, error: " + std::to_string(err));
+                            if ((err = snd_pcm_prepare(playbackHandle)) < 0)
+                                throw SystemError("Failed to prepare audio interface, error: " + std::to_string(err));
+                        }
+                        else
+                            throw SystemError("Failed to write data, error: " + std::to_string(err));
                     }
-                    else
-                        throw SystemError("Failed to write data, error: " + std::to_string(err));
+                }
+                catch (const std::exception& e)
+                {
+                    ouzel::Log(ouzel::Log::Level::ERR) << e.what();
+                }
+                catch (...)
+                {
+                    ouzel::Log(ouzel::Log::Level::ERR) << "Unknown error happened";
                 }
             }
         }

@@ -45,6 +45,7 @@ static OSStatus outputCallback(void* inRefCon,
     }
     catch (...)
     {
+        ouzel::Log(ouzel::Log::Level::ERR) << "Unknown error happened";        
         return -1;
     }
 
