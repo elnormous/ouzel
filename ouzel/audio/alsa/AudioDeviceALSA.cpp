@@ -164,11 +164,11 @@ namespace ouzel
                 }
                 catch (const std::exception& e)
                 {
-                    ouzel::Log(ouzel::Log::Level::ERR) << e.what();
+                    Log(Log::Level::ERR) << e.what();
                 }
                 catch (...)
                 {
-                    ouzel::Log(ouzel::Log::Level::ERR) << "Unknown error occurred";
+                    Log(Log::Level::ERR) << "Unknown error occurred";
                 }
             }
         }

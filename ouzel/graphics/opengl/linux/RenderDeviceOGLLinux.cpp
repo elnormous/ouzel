@@ -289,13 +289,20 @@ namespace ouzel
 
         void RenderDeviceOGLLinux::main()
         {
-            try
+            while (running) 
             {
-                while (running) process();
-            }
-            catch (const std::exception& e)
-            {
-                Log(Log::Level::ERR) << e.what();
+                try
+                {
+                    process();
+                }
+                catch (const std::exception& e)
+                {
+                    Log(Log::Level::ERR) << e.what();
+                }
+                catch (...)
+                {
+                    Log(Log::Level::ERR) << "Unknown error occurred";
+                }
             }
 
 #if OUZEL_OPENGL_INTERFACE_EGL
