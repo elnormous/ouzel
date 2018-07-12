@@ -302,7 +302,7 @@ namespace ouzel
 
             [image release];
             [rep release];
-            
+
             discovering = true;
 
             [GCController startWirelessControllerDiscoveryWithCompletionHandler:

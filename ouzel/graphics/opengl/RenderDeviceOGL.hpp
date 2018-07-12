@@ -486,7 +486,7 @@ namespace ouzel
                     stateCache.polygonFillMode = polygonFillMode;
 
                     GLenum error;
-                    
+
                     if ((error = glGetError()) != GL_NO_ERROR)
                         throw SystemError("Failed to set blend state, error: " + std::to_string(error));
                 }
