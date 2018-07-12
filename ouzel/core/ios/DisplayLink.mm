@@ -2,6 +2,7 @@
 
 #include "DisplayLink.hpp"
 #include "utils/Errors.hpp"
+#include "utils/Log.hpp"
 
 @interface DisplayLinkHandler: NSObject
 {
@@ -23,7 +24,18 @@
 {
     @autoreleasepool
     {
-        renderDevice->process();
+        try
+        {
+            renderDevice->process();
+        }
+        catch (const std::exception& e)
+        {
+            ouzel::Log(ouzel::Log::Level::ERR) << e.what();
+        }
+        catch (...)
+        {
+            ouzel::Log(ouzel::Log::Level::ERR) << "Unknown error occurred";
+        }
     }
 }
 
@@ -84,7 +96,18 @@ namespace ouzel
             {
                 @autoreleasepool
                 {
-                    renderDevice.process();
+                    try
+                    {
+                        renderDevice.process();
+                    }
+                    catch (const std::exception& e)
+                    {
+                        ouzel::Log(ouzel::Log::Level::ERR) << e.what();
+                    }
+                    catch (...)
+                    {
+                        ouzel::Log(ouzel::Log::Level::ERR) << "Unknown error occurred";
+                    }
                 }
             }
         }

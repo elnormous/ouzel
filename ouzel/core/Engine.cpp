@@ -388,11 +388,12 @@ namespace ouzel
         }
         catch (const std::exception& e)
         {
-            ouzel::Log(ouzel::Log::Level::ERR) << e.what();
+            Log(Log::Level::ERR) << e.what();
             exit();
         }
         catch (...)
         {
+            Log(Log::Level::ERR) << "Unknown error occurred";
             exit();
         }
     }

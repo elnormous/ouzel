@@ -1149,7 +1149,21 @@ namespace ouzel
 
         void RenderDeviceD3D11::main()
         {
-            while (running) process();
+            while (running)
+            {
+                try
+                {
+                    process();
+                }
+                catch (const std::exception& e)
+                {
+                    Log(Log::Level::ERR) << e.what();
+                }
+                catch (...)
+                {
+                    Log(Log::Level::ERR) << "Unknown error occurred";
+                }
+            }
         }
     } // namespace graphics
 } // namespace ouzel
