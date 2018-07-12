@@ -213,7 +213,7 @@ namespace ouzel
                 throw SystemError("Failed to set current EGL context, error: " + std::to_string(eglGetError()));
 
             if (!eglSwapInterval(display, newVerticalSync ? 1 : 0))
-                throw SystemError("Failed to set EGL frame interval, error: " + std::to_string(eglGetError()));            
+                throw SystemError("Failed to set EGL frame interval, error: " + std::to_string(eglGetError()));
 #endif
 
             RenderDeviceOGL::init(newWindow,

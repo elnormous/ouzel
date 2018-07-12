@@ -114,7 +114,7 @@ namespace ouzel
             glGenBuffersProc(1, &bufferId);
 
             GLenum error;
-            
+
             if ((error = glGetError()) != GL_NO_ERROR)
                 throw DataError("Failed to create buffer, error: " + std::to_string(error));
 

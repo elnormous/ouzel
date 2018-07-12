@@ -1374,7 +1374,7 @@ namespace ouzel
             glReadPixels(0, 0, frameBufferWidth, frameBufferHeight, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
 
             GLenum error;
-            
+
             if ((error = glGetError()) != GL_NO_ERROR)
                 throw SystemError("Failed to read pixels from frame buffer, error: " + std::to_string(error));
 

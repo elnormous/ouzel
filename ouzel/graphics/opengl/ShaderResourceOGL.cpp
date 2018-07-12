@@ -122,7 +122,7 @@ namespace ouzel
                 throw DataError("Failed to compile pixel shader, error: " + getShaderMessage(fragmentShaderId));
 
             GLenum error;
-            
+
             if ((error = glGetError()) != GL_NO_ERROR)
                 throw DataError("Failed to get shader compile status, error: " + std::to_string(error));
 
