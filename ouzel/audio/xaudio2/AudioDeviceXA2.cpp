@@ -206,7 +206,7 @@ namespace ouzel
                 }
                 catch (...)
                 {
-                    ouzel::Log(ouzel::Log::Level::ERR) << "Unknown error happened";
+                    ouzel::Log(ouzel::Log::Level::ERR) << "Unknown error occurred";
                 }
             }
         }

@@ -9,6 +9,7 @@
 #include "core/Engine.hpp"
 #include "core/macos/NativeWindowMacOS.hpp"
 #include "utils/Errors.hpp"
+#include "utils/Log.hpp"
 
 static CVReturn renderCallback(CVDisplayLinkRef,
                                const CVTimeStamp*,
@@ -19,9 +20,21 @@ static CVReturn renderCallback(CVDisplayLinkRef,
 {
     @autoreleasepool
     {
-        ouzel::graphics::RenderDeviceMetalMacOS* renderDevice = static_cast<ouzel::graphics::RenderDeviceMetalMacOS*>(userInfo);
-
-        renderDevice->renderCallback();
+        try
+        {
+            ouzel::graphics::RenderDeviceMetalMacOS* renderDevice = static_cast<ouzel::graphics::RenderDeviceMetalMacOS*>(userInfo);
+            renderDevice->renderCallback();
+        }
+        catch (const std::exception& e)
+        {
+            ouzel::Log(ouzel::Log::Level::ERR) << e.what();
+            return kCVReturnError;
+        }
+        catch (...)
+        {
+            ouzel::Log(ouzel::Log::Level::ERR) << "Unknown error occurred";
+            return kCVReturnError;
+        }
     }
 
     return kCVReturnSuccess;

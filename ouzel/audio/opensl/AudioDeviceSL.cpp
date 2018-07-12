@@ -22,7 +22,7 @@ static void playerCallback(SLAndroidSimpleBufferQueueItf bufferQueue, void* cont
     }
     catch (...)
     {
-        ouzel::Log(ouzel::Log::Level::ERR) << "Unknown error happened";
+        ouzel::Log(ouzel::Log::Level::ERR) << "Unknown error occurred";
     }
 }
 

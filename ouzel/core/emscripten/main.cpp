@@ -19,6 +19,7 @@ int main(int argc, char* argv[])
     }
     catch (...)
     {
+        ouzel::Log(ouzel::Log::Level::ERR) << "Unknown error occurred";
         return EXIT_FAILURE;
     }
 }
