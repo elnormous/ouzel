@@ -20,7 +20,6 @@
 #include "core/linux/NativeWindowLinux.hpp"
 #include "thread/Lock.hpp"
 #include "utils/Errors.hpp"
-#include "utils/Log.hpp"
 
 namespace ouzel
 {
@@ -490,7 +489,7 @@ namespace ouzel
             int retval = select(maxFd + 1, &rfds, nullptr, nullptr, &tv);
 
             if (retval == -1)
-                Log(Log::Level::ERR) << "Select failed";
+                throw SystemError("Select failed");
             else if (retval > 0)
             {
                 static char TEMP_BUFFER[256];
