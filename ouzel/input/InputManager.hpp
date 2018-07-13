@@ -249,8 +249,8 @@ namespace ouzel
             inline const Vector2& getCursorPosition() const { return cursorPosition; }
             virtual void setCursorPosition(const Vector2& position);
 
-            virtual void startGamepadDiscovery();
-            virtual void stopGamepadDiscovery();
+            virtual void startDeviceDiscovery();
+            virtual void stopDeviceDiscovery();
 
             bool isKeyboardKeyDown(KeyboardKey key) const { return keyboardKeyStates[static_cast<uint32_t>(key)]; }
             bool isMouseButtonDown(MouseButton button) const { return mouseButtonStates[static_cast<uint32_t>(button)]; }

@@ -102,11 +102,11 @@ namespace ouzel
             cursorPosition = position;
         }
 
-        void InputManager::startGamepadDiscovery()
+        void InputManager::startDeviceDiscovery()
         {
         }
 
-        void InputManager::stopGamepadDiscovery()
+        void InputManager::stopDeviceDiscovery()
         {
         }
 

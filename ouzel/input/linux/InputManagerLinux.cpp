@@ -499,9 +499,12 @@ namespace ouzel
                 {
                     if (FD_ISSET(inputDevice.getFd(), &rfds))
                     {
+                        // TODO: buffer data
+                        // TODO: move this code to EventDevice
                         ssize_t bytesRead = read(inputDevice.getFd(), TEMP_BUFFER, sizeof(TEMP_BUFFER));
 
-                        if (bytesRead == -1) continue;
+                        if (bytesRead == -1)
+                            throw SystemError("Failed to read from " + inputDevice.getFilename()); // TODO: disconnect the device
 
                         for (ssize_t i = 0; i < bytesRead - static_cast<ssize_t>(sizeof(input_event)) + 1; i += sizeof(input_event))
                         {
@@ -732,7 +735,7 @@ namespace ouzel
 #endif
         }
 
-        void InputManagerLinux::startGamepadDiscovery()
+        void InputManagerLinux::startDeviceDiscovery()
         {
             DIR* dir = opendir("/dev/input");
 

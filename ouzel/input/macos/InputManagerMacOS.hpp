@@ -38,8 +38,8 @@ namespace ouzel
 
             virtual void setCursorPosition(const Vector2& position) override;
 
-            virtual void startGamepadDiscovery() override;
-            virtual void stopGamepadDiscovery() override;
+            virtual void startDeviceDiscovery() override;
+            virtual void stopDeviceDiscovery() override;
 
             void handleGamepadDiscoveryCompleted();
 

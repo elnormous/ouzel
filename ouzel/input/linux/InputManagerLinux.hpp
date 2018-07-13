@@ -42,7 +42,7 @@ namespace ouzel
 
             virtual void setCursorPosition(const Vector2& position) override;
 
-            virtual void startGamepadDiscovery() override;
+            virtual void startDeviceDiscovery() override;
 
         private:
             InputManagerLinux();
