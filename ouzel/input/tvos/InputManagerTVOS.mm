@@ -99,7 +99,7 @@ namespace ouzel
             }
         }
 
-        void InputManagerTVOS::startGamepadDiscovery()
+        void InputManagerTVOS::startDeviceDiscovery()
         {
             Log(Log::Level::INFO) << "Started gamepad discovery";
 
@@ -109,7 +109,7 @@ namespace ouzel
              ^(void){ handleGamepadDiscoveryCompleted(); }];
         }
 
-        void InputManagerTVOS::stopGamepadDiscovery()
+        void InputManagerTVOS::stopDeviceDiscovery()
         {
             if (discovering)
             {

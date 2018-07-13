@@ -229,7 +229,7 @@ bool InputSample::handleUI(Event::Type type, const UIEvent& event) const
         }
         else if (event.actor == &discoverButton)
         {
-            engine->getInputManager()->startGamepadDiscovery();
+            engine->getInputManager()->startDeviceDiscovery();
         }
     }
 

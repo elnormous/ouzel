@@ -404,7 +404,7 @@ namespace ouzel
             return cursorLocked;
         }
 
-        void InputManagerMacOS::startGamepadDiscovery()
+        void InputManagerMacOS::startDeviceDiscovery()
         {
             Log(Log::Level::INFO) << "Started gamepad discovery";
 
@@ -414,7 +414,7 @@ namespace ouzel
              ^(void){ handleGamepadDiscoveryCompleted(); }];
         }
 
-        void InputManagerMacOS::stopGamepadDiscovery()
+        void InputManagerMacOS::stopDeviceDiscovery()
         {
             if (discovering)
             {

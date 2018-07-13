@@ -23,8 +23,8 @@ namespace ouzel
         public:
             virtual ~InputManagerIOS();
 
-            virtual void startGamepadDiscovery() override;
-            virtual void stopGamepadDiscovery() override;
+            virtual void startDeviceDiscovery() override;
+            virtual void stopDeviceDiscovery() override;
 
             virtual void showVirtualKeyboard() override;
             virtual void hideVirtualKeyboard() override;

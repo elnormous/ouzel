@@ -401,7 +401,7 @@ namespace ouzel
             });
         }
 
-        void InputManagerWin::startGamepadDiscovery()
+        void InputManagerWin::startDeviceDiscovery()
         {
             engine->executeOnMainThread([this] {
                 for (DWORD userIndex = 0; userIndex < XUSER_MAX_COUNT; ++userIndex)
