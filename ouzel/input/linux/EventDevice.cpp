@@ -20,7 +20,8 @@ namespace ouzel
 {
     namespace input
     {
-        EventDevice::EventDevice(const std::string& filename)
+        EventDevice::EventDevice(const std::string& initFilename):
+            filename(initFilename)
         {
             fd = open(filename.c_str(), O_RDONLY);
 

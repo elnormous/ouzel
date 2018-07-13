@@ -445,7 +445,8 @@ namespace ouzel
                 {
                     try
                     {
-                        EventDevice inputDevice(std::string("/dev/input/") + ent.d_name);
+                        std::string filename = std::string("/dev/input/") + ent.d_name;
+                        EventDevice inputDevice(filename);
 
                         if (inputDevice.getDeviceClass() != EventDevice::CLASS_NONE)
                         {
@@ -733,7 +734,51 @@ namespace ouzel
 
         void InputManagerLinux::startGamepadDiscovery()
         {
-            // TODO: check for new gamepads
+            DIR* dir = opendir("/dev/input");
+
+            if (!dir)
+                throw SystemError("Failed to open directory");
+
+            dirent ent;
+            dirent* p;
+
+            while (readdir_r(dir, &ent, &p) == 0 && p)
+            {
+                if (strncmp("event", ent.d_name, 5) == 0)
+                {
+                    try
+                    {
+                        std::string filename = std::string("/dev/input/") + ent.d_name;
+
+                        bool found = false;
+                        for (const EventDevice& inputDevice : inputDevices)
+                        {
+                            if (inputDevice.getFilename() == filename)
+                            {
+                                found = true;
+                                break;
+                            }
+                        }
+
+                        if (!found)
+                        {
+                            EventDevice inputDevice(filename);
+
+                            if (inputDevice.getDeviceClass() != EventDevice::CLASS_NONE)
+                            {
+                                if (inputDevice.getFd() > maxFd) maxFd = inputDevice.getFd();
+
+                                inputDevices.push_back(std::move(inputDevice));
+                            }
+                        }
+                    }
+                    catch (...)
+                    {
+                    }
+                }
+            }
+
+            closedir(dir);
         }
     } // namespace input
 } // namespace ouzel

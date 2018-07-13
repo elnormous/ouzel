@@ -19,7 +19,7 @@ namespace ouzel
                 CLASS_GAMEPAD = 8
             };
 
-            EventDevice(const std::string& filename);
+            EventDevice(const std::string& initFilename);
             ~EventDevice();
 
             EventDevice(const EventDevice& other) = delete;
@@ -58,6 +58,7 @@ namespace ouzel
 
             inline uint32_t getDeviceClass() const { return deviceClass; }
             inline int getFd() const { return fd; }
+            const std::string& getFilename() const { return filename; }
             const std::string& getName() const { return name; }
             uint16_t getVendor() const { return vendor; }
             uint16_t getProduct() const { return product; }
@@ -65,6 +66,7 @@ namespace ouzel
         private:
             uint32_t deviceClass = CLASS_NONE;
             int fd = -1;
+            std::string filename;
             std::string name;
             uint16_t vendor = 0;
             uint16_t product = 0;
