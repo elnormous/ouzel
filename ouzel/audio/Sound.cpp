@@ -17,6 +17,12 @@ namespace ouzel
         {
         }
 
+        Sound::Sound(const std::shared_ptr<SoundData>& initSoundData):
+            Sound()
+        {
+            init(initSoundData);
+        }
+
         Sound::~Sound()
         {
             if (stream) stream->setEventListener(nullptr);
