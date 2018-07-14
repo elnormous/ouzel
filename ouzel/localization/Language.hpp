@@ -19,8 +19,6 @@ namespace ouzel
         std::string getString(const std::string& str);
 
     private:
-        void init(const std::vector<uint8_t>& data);
-
         std::map<std::string, std::string> strings;
     };
 }

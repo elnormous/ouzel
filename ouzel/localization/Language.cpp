@@ -18,17 +18,12 @@ namespace ouzel
         uint32_t translationOffset;
     };
 
-    Language::Language(const std::string& filename)
+    Language::Language(const std::string& filename):
+        Language(engine->getFileSystem()->readFile(filename))
     {
-        init(engine->getFileSystem()->readFile(filename));
     }
 
     Language::Language(const std::vector<uint8_t>& data)
-    {
-        init(data);
-    }
-
-    void Language::init(const std::vector<uint8_t>& data)
     {
         const unsigned long MAGIC_BIG = 0xde120495;
         const unsigned long MAGIC_LITTLE = 0x950412de;
