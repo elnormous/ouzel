@@ -59,8 +59,6 @@ namespace ouzel
             void setBOM(bool newBOM) { bom = newBOM; }
 
         private:
-            void init(const std::vector<uint8_t>& data);
-
             bool bom = false;
             std::map<std::string, Section> sections;
         };

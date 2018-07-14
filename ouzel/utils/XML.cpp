@@ -563,29 +563,18 @@ namespace ouzel
         Data::Data(const std::string& filename,
                    bool preserveWhitespaces,
                    bool preserveComments,
-                   bool preserveProcessingInstructions)
-        {
-            init(engine->getFileSystem()->readFile(filename),
+                   bool preserveProcessingInstructions):
+            Data(engine->getFileSystem()->readFile(filename),
                  preserveWhitespaces,
                  preserveComments,
-                 preserveProcessingInstructions);
+                 preserveProcessingInstructions)
+        {
         }
 
         Data::Data(const std::vector<uint8_t>& data,
                    bool preserveWhitespaces,
                    bool preserveComments,
                    bool preserveProcessingInstructions)
-        {
-            init(data,
-                 preserveWhitespaces,
-                 preserveComments,
-                 preserveProcessingInstructions);
-        }
-
-        void Data::init(const std::vector<uint8_t>& data,
-                        bool preserveWhitespaces,
-                        bool preserveComments,
-                        bool preserveProcessingInstructions)
         {
             std::vector<uint32_t> str;
 

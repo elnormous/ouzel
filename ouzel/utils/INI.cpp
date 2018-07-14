@@ -87,15 +87,11 @@ namespace ouzel
         {
         }
 
-        Data::Data(const std::string& filename)
+        Data::Data(const std::string& filename):
+            Data(engine->getFileSystem()->readFile(filename))
         {
-            init(engine->getFileSystem()->readFile(filename));
         }
 
-        Data::Data(const std::vector<uint8_t>& data)
-        {
-            init(data);
-        }
 
         static inline std::vector<uint32_t>& ltrimUtf32(std::vector<uint32_t>& s)
         {
@@ -116,7 +112,7 @@ namespace ouzel
             return ltrimUtf32(rtrimUtf32(s));
         }
 
-        void Data::init(const std::vector<uint8_t>& data)
+        Data::Data(const std::vector<uint8_t>& data)
         {
             std::vector<uint32_t> str;
 
