@@ -263,14 +263,9 @@ namespace ouzel
         {
         }
 
-        Data::Data(const std::string& filename)
+        Data::Data(const std::string& filename):
+            Data(engine->getFileSystem()->readFile(filename))
         {
-            init(engine->getFileSystem()->readFile(filename));
-        }
-
-        Data::Data(const std::vector<uint8_t>& data)
-        {
-            init(data);
         }
 
         static inline bool isWhitespace(uint32_t c)
@@ -459,7 +454,7 @@ namespace ouzel
             return tokens;
         }
 
-        void Data::init(const std::vector<uint8_t>& data)
+        Data::Data(const std::vector<uint8_t>& data)
         {
             std::vector<uint32_t> str;
 

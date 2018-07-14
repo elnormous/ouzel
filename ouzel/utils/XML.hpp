@@ -80,11 +80,6 @@ namespace ouzel
             inline const std::vector<Node>& getChildren() const { return children; }
 
         private:
-            void init(const std::vector<uint8_t>& data,
-                      bool preserveWhitespaces = false,
-                      bool preserveComments = false,
-                      bool preserveProcessingInstructions = false);
-
             bool bom = false;
             std::vector<Node> children;
         };
