@@ -18,14 +18,14 @@ namespace ouzel
 {
     namespace graphics
     {
-        void ImageDataSTB::init(const std::string& filename,
-                                PixelFormat newPixelFormat)
+        ImageDataSTB::ImageDataSTB(const std::string& filename,
+                                   PixelFormat newPixelFormat):
+            ImageDataSTB(engine->getFileSystem()->readFile(filename), newPixelFormat)
         {
-            return init(engine->getFileSystem()->readFile(filename), newPixelFormat);
         }
 
-        void ImageDataSTB::init(const std::vector<uint8_t>& newData,
-                                PixelFormat newPixelFormat)
+        ImageDataSTB::ImageDataSTB(const std::vector<uint8_t>& newData,
+                                   PixelFormat newPixelFormat)
         {
             int width;
             int height;
