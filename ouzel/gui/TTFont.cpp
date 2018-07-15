@@ -14,30 +14,15 @@ namespace ouzel
     {
     }
 
-    TTFont::TTFont(const std::string& filename, bool initMipmaps)
+    TTFont::TTFont(const std::string& filename, bool initMipmaps):
+        TTFont(engine->getFileSystem()->readFile(filename), initMipmaps)
     {
-        init(filename, initMipmaps);
     }
 
-    void TTFont::init(const std::string & filename, bool newMipmaps)
+    TTFont::TTFont(const std::vector<uint8_t>& initData, bool initMipmaps):
+        data(initData),
+        mipmaps(initMipmaps)
     {
-        loaded = false;
-        mipmaps = newMipmaps;
-
-        data = engine->getFileSystem()->readFile(engine->getFileSystem()->getPath(filename));
-
-        if (!stbtt_InitFont(&font, data.data(), stbtt_GetFontOffsetForIndex(data.data(), 0)))
-            throw ParseError("Failed to load font");
-
-        loaded = true;
-    }
-
-    void TTFont::init(const std::vector<uint8_t>& newData, bool newMipmaps)
-    {
-        loaded = false;
-        data = newData;
-        mipmaps = newMipmaps;
-
         if (!stbtt_InitFont(&font, data.data(), stbtt_GetFontOffsetForIndex(data.data(), 0)))
             throw ParseError("Failed to load font");
 

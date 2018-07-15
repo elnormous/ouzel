@@ -12,9 +12,7 @@ namespace ouzel
     public:
         TTFont();
         TTFont(const std::string& filename, bool initMipmaps = true);
-
-        void init(const std::string& filename, bool newMipmaps = true);
-        void init(const std::vector<uint8_t>& newData, bool newMipmaps = true);
+        TTFont(const std::vector<uint8_t>& newData, bool newMipmaps = true);
 
         virtual void getVertices(const std::string& text,
                                  const Color& color,

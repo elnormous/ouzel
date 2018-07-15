@@ -11,9 +11,7 @@ namespace ouzel
     public:
         BMFont();
         BMFont(const std::string& filename, bool mipmaps = true);
-
-        void init(const std::string& filename, bool mipmaps = true);
-        void init(const std::vector<uint8_t>& data, bool mipmaps = true);
+        BMFont(const std::vector<uint8_t>& data, bool mipmaps = true);
 
         virtual void getVertices(const std::string& text,
                                  const Color& color,

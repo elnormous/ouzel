@@ -15,9 +15,7 @@ namespace ouzel
 
         bool LoaderTTF::loadAsset(const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
         {
-            std::shared_ptr<TTFont> font = std::make_shared<TTFont>();
-            font->init(data, mipmaps);
-
+            std::shared_ptr<TTFont> font = std::make_shared<TTFont>(data, mipmaps);
             cache->setFont(filename, font);
 
             return true;
