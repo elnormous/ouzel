@@ -8,10 +8,10 @@ namespace ouzel
 {
     namespace scene
     {
-        void MeshData::init(Box3 newBoundingBox,
-                             const std::vector<uint32_t> indices,
-                             const std::vector<graphics::Vertex>& vertices,
-                             const std::shared_ptr<graphics::Material>& newMaterial)
+        MeshData::MeshData(Box3 newBoundingBox,
+                           const std::vector<uint32_t> indices,
+                           const std::vector<graphics::Vertex>& vertices,
+                           const std::shared_ptr<graphics::Material>& newMaterial)
         {
             boundingBox = newBoundingBox;
 
