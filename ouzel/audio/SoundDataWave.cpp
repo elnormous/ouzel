@@ -3,6 +3,7 @@
 #include <iterator>
 #include "SoundDataWave.hpp"
 #include "StreamWave.hpp"
+#include "core/Engine.hpp"
 #include "files/FileSystem.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Utils.hpp"
@@ -21,32 +22,37 @@ namespace ouzel
         {
         }
 
-        void SoundDataWave::init(const std::vector<uint8_t>& newData)
+        SoundDataWave::SoundDataWave(const std::string& filename):
+            SoundDataWave(engine->getFileSystem()->readFile(filename))
+        {
+        }
+
+        SoundDataWave::SoundDataWave(const std::vector<uint8_t>& initData)
         {
             uint32_t offset = 0;
 
-            if (newData.size() < 16) // RIFF + size + WAVE
+            if (initData.size() < 16) // RIFF + size + WAVE
                 throw ParseError("Failed to load sound file, file too small");
 
-            if (newData[offset + 0] != 'R' ||
-                newData[offset + 1] != 'I' ||
-                newData[offset + 2] != 'F' ||
-                newData[offset + 3] != 'F')
+            if (initData[offset + 0] != 'R' ||
+                initData[offset + 1] != 'I' ||
+                initData[offset + 2] != 'F' ||
+                initData[offset + 3] != 'F')
                 throw ParseError("Failed to load sound file, not a RIFF format");
 
             offset += 4;
 
-            uint32_t length = decodeUInt32Little(newData.data() + offset);
+            uint32_t length = decodeUInt32Little(initData.data() + offset);
 
             offset += 4;
 
-            if (newData.size() != length + 8)
+            if (initData.size() != length + 8)
                 throw ParseError("Failed to load sound file, size mismatch");
 
-            if (newData[offset + 0] != 'W' ||
-                newData[offset + 1] != 'A' ||
-                newData[offset + 2] != 'V' ||
-                newData[offset + 3] != 'E')
+            if (initData[offset + 0] != 'W' ||
+                initData[offset + 1] != 'A' ||
+                initData[offset + 2] != 'V' ||
+                initData[offset + 3] != 'E')
                 throw ParseError("Failed to load sound file, not a WAVE file");
 
             offset += 4;
@@ -58,23 +64,23 @@ namespace ouzel
             uint16_t formatTag = 0;
             std::vector<uint8_t> soundData;
 
-            while (offset < newData.size())
+            while (offset < initData.size())
             {
-                if (newData.size() < offset + 8)
+                if (initData.size() < offset + 8)
                     throw ParseError("Failed to load sound file, not enough data to read chunk");
 
                 uint8_t chunkHeader[4];
-                chunkHeader[0] = newData[offset + 0];
-                chunkHeader[1] = newData[offset + 1];
-                chunkHeader[2] = newData[offset + 2];
-                chunkHeader[3] = newData[offset + 3];
+                chunkHeader[0] = initData[offset + 0];
+                chunkHeader[1] = initData[offset + 1];
+                chunkHeader[2] = initData[offset + 2];
+                chunkHeader[3] = initData[offset + 3];
 
                 offset += 4;
 
-                uint32_t chunkSize = decodeUInt32Little(newData.data() + offset);
+                uint32_t chunkSize = decodeUInt32Little(initData.data() + offset);
                 offset += 4;
 
-                if (newData.size() < offset + chunkSize)
+                if (initData.size() < offset + chunkSize)
                     throw ParseError("Failed to load sound file, not enough data to read chunk");
 
                 if (chunkHeader[0] == 'f' && chunkHeader[1] == 'm' && chunkHeader[2] == 't' && chunkHeader[3] == ' ')
@@ -84,27 +90,27 @@ namespace ouzel
 
                     uint32_t i = offset;
 
-                    formatTag = decodeUInt16Little(newData.data() + i);
+                    formatTag = decodeUInt16Little(initData.data() + i);
                     i += 2;
 
-                    channels = decodeUInt16Little(newData.data() + i);
+                    channels = decodeUInt16Little(initData.data() + i);
                     i += 2;
 
-                    sampleRate = decodeUInt32Little(newData.data() + i);
+                    sampleRate = decodeUInt32Little(initData.data() + i);
                     i += 4;
 
                     i += 4; // average bytes per second
 
                     i += 2; // block align
 
-                    bitsPerSample = decodeUInt16Little(newData.data() + i);
+                    bitsPerSample = decodeUInt16Little(initData.data() + i);
                     i += 2;
 
                     formatChunkFound = true;
                 }
                 else if (chunkHeader[0] == 'd' && chunkHeader[1] == 'a' && chunkHeader[2] == 't' && chunkHeader[3] == 'a')
                 {
-                    soundData.assign(newData.begin() + static_cast<int>(offset), newData.begin() + static_cast<int>(offset + chunkSize));
+                    soundData.assign(initData.begin() + static_cast<int>(offset), initData.begin() + static_cast<int>(offset + chunkSize));
 
                     dataChunkFound = true;
                 }

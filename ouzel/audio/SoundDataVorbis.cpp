@@ -2,6 +2,7 @@
 
 #include "SoundDataVorbis.hpp"
 #include "StreamVorbis.hpp"
+#include "core/Engine.hpp"
 #include "files/FileSystem.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Utils.hpp"
@@ -15,9 +16,14 @@ namespace ouzel
         {
         }
 
-        void SoundDataVorbis::init(const std::vector<uint8_t>& newData)
+        SoundDataVorbis::SoundDataVorbis(const std::string& filename):
+            SoundDataVorbis(engine->getFileSystem()->readFile(filename))
         {
-            data = newData;
+        }
+
+        SoundDataVorbis::SoundDataVorbis(const std::vector<uint8_t>& initData)
+        {
+            data = initData;
 
             stb_vorbis* vorbisStream = stb_vorbis_open_memory(data.data(), static_cast<int>(data.size()), nullptr, nullptr);
 
