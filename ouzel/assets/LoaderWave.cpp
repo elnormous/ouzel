@@ -15,9 +15,7 @@ namespace ouzel
 
         bool LoaderWave::loadAsset(const std::string& filename, const std::vector<uint8_t>& data, bool)
         {
-            std::shared_ptr<audio::SoundData> soundData = std::make_shared<audio::SoundDataWave>();
-            soundData->init(data);
-
+            std::shared_ptr<audio::SoundData> soundData = std::make_shared<audio::SoundDataWave>(data);
             cache->setSoundData(filename, soundData);
 
             return true;

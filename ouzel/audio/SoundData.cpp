@@ -16,11 +16,6 @@ namespace ouzel
         {
         }
 
-        void SoundData::init(const std::string& filename)
-        {
-            init(engine->getFileSystem()->readFile(filename));
-        }
-
         void SoundData::getData(Stream* stream, uint32_t frames, uint32_t neededChannels, uint32_t neededSampleRate, float pitch, std::vector<float>& result)
         {
             uint32_t neededFrames = static_cast<uint32_t>(frames * pitch * sampleRate / neededSampleRate);
