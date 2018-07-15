@@ -51,8 +51,7 @@ namespace ouzel
                            uint32_t newMipmaps,
                            PixelFormat newPixelFormat)
         {
-            ImageDataSTB image;
-            image.init(filename, newPixelFormat);
+            ImageDataSTB image(filename, newPixelFormat);
 
             size = image.getSize();
             flags = newFlags;

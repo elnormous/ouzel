@@ -42,8 +42,7 @@ namespace ouzel
         void Cursor::init(const std::string& filename, const Vector2& hotSpot)
         {
             // TODO: load with asset loader
-            graphics::ImageDataSTB image;
-            image.init(filename);
+            graphics::ImageDataSTB image(filename);
 
             init(image.getData(),
                  image.getSize(),
