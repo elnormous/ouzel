@@ -144,17 +144,12 @@ namespace ouzel
     {
     }
 
-    BMFont::BMFont(const std::string& filename, bool mipmaps)
+    BMFont::BMFont(const std::string& filename, bool mipmaps):
+        BMFont(engine->getFileSystem()->readFile(filename), mipmaps)
     {
-        init(filename, mipmaps);
     }
 
-    void BMFont::init(const std::string& filename, bool mipmaps)
-    {
-        init(engine->getFileSystem()->readFile(filename), mipmaps);
-    }
-
-    void BMFont::init(const std::vector<uint8_t>& data, bool mipmaps)
+    BMFont::BMFont(const std::vector<uint8_t>& data, bool mipmaps)
     {
         auto iterator = data.cbegin();
 
