@@ -135,7 +135,15 @@ namespace ouzel
             return availableDrivers;
         }
 
-        Renderer::Renderer(Driver driver)
+        Renderer::Renderer(Driver driver,
+                           Window* newWindow,
+                           const Size2& newSize,
+                           uint32_t newSampleCount,
+                           Texture::Filter newTextureFilter,
+                           uint32_t newMaxAnisotropy,
+                           bool newVerticalSync,
+                           bool newDepth,
+                           bool newDebugRenderer)
         {
             for (uint32_t i = 0; i < 256; ++i)
             {
@@ -190,21 +198,7 @@ namespace ouzel
                     device.reset(new RenderDeviceEmpty());
                     break;
             }
-        }
 
-        Renderer::~Renderer()
-        {
-        }
-
-        void Renderer::init(Window* newWindow,
-                            const Size2& newSize,
-                            uint32_t newSampleCount,
-                            Texture::Filter newTextureFilter,
-                            uint32_t newMaxAnisotropy,
-                            bool newVerticalSync,
-                            bool newDepth,
-                            bool newDebugRenderer)
-        {
             size = newSize;
 
             device->init(newWindow,
@@ -215,7 +209,10 @@ namespace ouzel
                          newVerticalSync,
                          newDepth,
                          newDebugRenderer);
+        }
 
+        void Renderer::init()
+        {
             switch (device->getDriver())
             {
 #if OUZEL_COMPILE_OPENGL

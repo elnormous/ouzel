@@ -75,8 +75,6 @@ namespace ouzel
                 WIREFRAME
             };
 
-            ~Renderer();
-
             Renderer(const Renderer&) = delete;
             Renderer& operator=(const Renderer&) = delete;
 
@@ -127,15 +125,16 @@ namespace ouzel
             void addSetTexturesCommand(const std::vector<std::shared_ptr<Texture>>& textures);
 
         protected:
-            explicit Renderer(Driver driver);
-            void init(Window* newWindow,
-                      const Size2& newSize,
-                      uint32_t newSampleCount,
-                      Texture::Filter newTextureFilter,
-                      uint32_t newMaxAnisotropy,
-                      bool newVerticalSync,
-                      bool newDepth,
-                      bool newDebugRenderer);
+            explicit Renderer(Driver driver,
+                              Window* newWindow,
+                              const Size2& newSize,
+                              uint32_t newSampleCount,
+                              Texture::Filter newTextureFilter,
+                              uint32_t newMaxAnisotropy,
+                              bool newVerticalSync,
+                              bool newDepth,
+                              bool newDebugRenderer);
+            void init();
 
             void setSize(const Size2& newSize);
 
