@@ -12,11 +12,6 @@
 #include "RenderTargetResourceD3D11.hpp"
 #include "ShaderResourceD3D11.hpp"
 #include "TextureResourceD3D11.hpp"
-#include "direct3d11/TexturePSD3D11.h"
-#include "direct3d11/TextureVSD3D11.h"
-#include "direct3d11/ColorPSD3D11.h"
-#include "direct3d11/ColorVSD3D11.h"
-#include "core/Engine.hpp"
 #include "thread/Lock.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
@@ -295,24 +290,6 @@ namespace ouzel
                 if (FAILED(hr))
                     throw SystemError("Failed to create Direct3D 11 depth stencil view, error: " + std::to_string(hr));
             }
-
-            std::shared_ptr<Shader> textureShader = std::make_shared<Shader>();
-            textureShader->init(std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_D3D11), std::end(TEXTURE_PIXEL_SHADER_D3D11)),
-                                std::vector<uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_D3D11), std::end(TEXTURE_VERTEX_SHADER_D3D11)),
-                                {Vertex::Attribute::Usage::POSITION, Vertex::Attribute::Usage::COLOR, Vertex::Attribute::Usage::TEXTURE_COORDINATES0},
-                                {{"color", DataType::FLOAT_VECTOR4}},
-                                {{"modelViewProj", DataType::FLOAT_MATRIX4}});
-
-            engine->getCache()->setShader(SHADER_TEXTURE, textureShader);
-
-            std::shared_ptr<Shader> colorShader = std::make_shared<Shader>();
-            colorShader->init(std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_D3D11), std::end(COLOR_PIXEL_SHADER_D3D11)),
-                              std::vector<uint8_t>(std::begin(COLOR_VERTEX_SHADER_D3D11), std::end(COLOR_VERTEX_SHADER_D3D11)),
-                              {Vertex::Attribute::Usage::POSITION, Vertex::Attribute::Usage::COLOR},
-                              {{"color", DataType::FLOAT_VECTOR4}},
-                              {{"modelViewProj", DataType::FLOAT_MATRIX4}});
-
-            engine->getCache()->setShader(SHADER_COLOR, colorShader);
 
             frameBufferClearColor[0] = clearColor.normR();
             frameBufferClearColor[1] = clearColor.normG();

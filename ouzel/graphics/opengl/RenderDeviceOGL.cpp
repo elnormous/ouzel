@@ -39,37 +39,11 @@
 #include "RenderTargetResourceOGL.hpp"
 #include "ShaderResourceOGL.hpp"
 #include "TextureResourceOGL.hpp"
-#include "core/Engine.hpp"
 #include "core/Window.hpp"
-#include "assets/Cache.hpp"
 #include "thread/Lock.hpp"
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"
 #include "stb_image_write.h"
-
-#if OUZEL_SUPPORTS_OPENGLES
-#include "opengl/ColorPSGLES2.h"
-#include "opengl/ColorVSGLES2.h"
-#include "opengl/TexturePSGLES2.h"
-#include "opengl/TextureVSGLES2.h"
-#include "opengl/ColorPSGLES3.h"
-#include "opengl/ColorVSGLES3.h"
-#include "opengl/TexturePSGLES3.h"
-#include "opengl/TextureVSGLES3.h"
-#else
-#include "opengl/ColorPSGL2.h"
-#include "opengl/ColorVSGL2.h"
-#include "opengl/TexturePSGL2.h"
-#include "opengl/TextureVSGL2.h"
-#include "opengl/ColorPSGL3.h"
-#include "opengl/ColorVSGL3.h"
-#include "opengl/TexturePSGL3.h"
-#include "opengl/TextureVSGL3.h"
-#include "opengl/ColorPSGL4.h"
-#include "opengl/ColorVSGL4.h"
-#include "opengl/TexturePSGL4.h"
-#include "opengl/TextureVSGL4.h"
-#endif
 
 PFNGLBLENDFUNCSEPARATEPROC glBlendFuncSeparateProc;
 PFNGLBLENDEQUATIONSEPARATEPROC glBlendEquationSeparateProc;
@@ -690,103 +664,6 @@ namespace ouzel
 
                 if (!multisamplingSupported) sampleCount = 1;
             }
-
-            std::shared_ptr<Shader> textureShader = std::make_shared<Shader>();
-
-            switch (apiMajorVersion)
-            {
-#if OUZEL_SUPPORTS_OPENGLES
-                case 2:
-                    textureShader->init(std::vector<uint8_t>(std::begin(TexturePSGLES2_glsl), std::end(TexturePSGLES2_glsl)),
-                                        std::vector<uint8_t>(std::begin(TextureVSGLES2_glsl), std::end(TextureVSGLES2_glsl)),
-                                        {Vertex::Attribute::Usage::POSITION, Vertex::Attribute::Usage::COLOR, Vertex::Attribute::Usage::TEXTURE_COORDINATES0},
-                                        {{"color", DataType::FLOAT_VECTOR4}},
-                                        {{"modelViewProj", DataType::FLOAT_MATRIX4}});
-                    break;
-                case 3:
-                    textureShader->init(std::vector<uint8_t>(std::begin(TexturePSGLES3_glsl), std::end(TexturePSGLES3_glsl)),
-                                        std::vector<uint8_t>(std::begin(TextureVSGLES3_glsl), std::end(TextureVSGLES3_glsl)),
-                                        {Vertex::Attribute::Usage::POSITION, Vertex::Attribute::Usage::COLOR, Vertex::Attribute::Usage::TEXTURE_COORDINATES0},
-                                        {{"color", DataType::FLOAT_VECTOR4}},
-                                        {{"modelViewProj", DataType::FLOAT_MATRIX4}});
-                    break;
-#else
-                case 2:
-                    textureShader->init(std::vector<uint8_t>(std::begin(TexturePSGL2_glsl), std::end(TexturePSGL2_glsl)),
-                                        std::vector<uint8_t>(std::begin(TextureVSGL2_glsl), std::end(TextureVSGL2_glsl)),
-                                        {Vertex::Attribute::Usage::POSITION, Vertex::Attribute::Usage::COLOR, Vertex::Attribute::Usage::TEXTURE_COORDINATES0},
-                                        {{"color", DataType::FLOAT_VECTOR4}},
-                                        {{"modelViewProj", DataType::FLOAT_MATRIX4}});
-                    break;
-                case 3:
-                    textureShader->init(std::vector<uint8_t>(std::begin(TexturePSGL3_glsl), std::end(TexturePSGL3_glsl)),
-                                        std::vector<uint8_t>(std::begin(TextureVSGL3_glsl), std::end(TextureVSGL3_glsl)),
-                                        {Vertex::Attribute::Usage::POSITION, Vertex::Attribute::Usage::COLOR, Vertex::Attribute::Usage::TEXTURE_COORDINATES0},
-                                        {{"color", DataType::FLOAT_VECTOR4}},
-                                        {{"modelViewProj", DataType::FLOAT_MATRIX4}});
-                    break;
-                case 4:
-                    textureShader->init(std::vector<uint8_t>(std::begin(TexturePSGL4_glsl), std::end(TexturePSGL4_glsl)),
-                                        std::vector<uint8_t>(std::begin(TextureVSGL4_glsl), std::end(TextureVSGL4_glsl)),
-                                        {Vertex::Attribute::Usage::POSITION, Vertex::Attribute::Usage::COLOR, Vertex::Attribute::Usage::TEXTURE_COORDINATES0},
-                                        {{"color", DataType::FLOAT_VECTOR4}},
-                                        {{"modelViewProj", DataType::FLOAT_MATRIX4}});
-                    break;
-#endif
-                default:
-                    throw SystemError("Unsupported OpenGL version");
-            }
-
-            engine->getCache()->setShader(SHADER_TEXTURE, textureShader);
-
-            std::shared_ptr<Shader> colorShader = std::make_shared<Shader>();
-
-            switch (apiMajorVersion)
-            {
-#if OUZEL_SUPPORTS_OPENGLES
-                case 2:
-                    colorShader->init(std::vector<uint8_t>(std::begin(ColorPSGLES2_glsl), std::end(ColorPSGLES2_glsl)),
-                                      std::vector<uint8_t>(std::begin(ColorVSGLES2_glsl), std::end(ColorVSGLES2_glsl)),
-                                      {Vertex::Attribute::Usage::POSITION, Vertex::Attribute::Usage::COLOR},
-                                      {{"color", DataType::FLOAT_VECTOR4}},
-                                      {{"modelViewProj", DataType::FLOAT_MATRIX4}});
-
-                    break;
-                case 3:
-                    colorShader->init(std::vector<uint8_t>(std::begin(ColorPSGLES3_glsl), std::end(ColorPSGLES3_glsl)),
-                                      std::vector<uint8_t>(std::begin(ColorVSGLES3_glsl), std::end(ColorVSGLES3_glsl)),
-                                      {Vertex::Attribute::Usage::POSITION, Vertex::Attribute::Usage::COLOR},
-                                      {{"color", DataType::FLOAT_VECTOR4}},
-                                      {{"modelViewProj", DataType::FLOAT_MATRIX4}});
-                    break;
-#else
-                case 2:
-                    colorShader->init(std::vector<uint8_t>(std::begin(ColorPSGL2_glsl), std::end(ColorPSGL2_glsl)),
-                                      std::vector<uint8_t>(std::begin(ColorVSGL2_glsl), std::end(ColorVSGL2_glsl)),
-                                      {Vertex::Attribute::Usage::POSITION, Vertex::Attribute::Usage::COLOR},
-                                      {{"color", DataType::FLOAT_VECTOR4}},
-                                      {{"modelViewProj", DataType::FLOAT_MATRIX4}});
-                    break;
-                case 3:
-                    colorShader->init(std::vector<uint8_t>(std::begin(ColorPSGL3_glsl), std::end(ColorPSGL3_glsl)),
-                                      std::vector<uint8_t>(std::begin(ColorVSGL3_glsl), std::end(ColorVSGL3_glsl)),
-                                      {Vertex::Attribute::Usage::POSITION, Vertex::Attribute::Usage::COLOR},
-                                      {{"color", DataType::FLOAT_VECTOR4}},
-                                      {{"modelViewProj", DataType::FLOAT_MATRIX4}});
-                    break;
-                case 4:
-                    colorShader->init(std::vector<uint8_t>(std::begin(ColorPSGL4_glsl), std::end(ColorPSGL4_glsl)),
-                                      std::vector<uint8_t>(std::begin(ColorVSGL4_glsl), std::end(ColorVSGL4_glsl)),
-                                      {Vertex::Attribute::Usage::POSITION, Vertex::Attribute::Usage::COLOR},
-                                      {{"color", DataType::FLOAT_VECTOR4}},
-                                      {{"modelViewProj", DataType::FLOAT_MATRIX4}});
-                    break;
-#endif
-                default:
-                    throw SystemError("Unsupported OpenGL version");
-            }
-
-            engine->getCache()->setShader(SHADER_COLOR, colorShader);
 
             glDisable(GL_DITHER);
             glDepthFunc(GL_LEQUAL);
