@@ -218,16 +218,17 @@ namespace ouzel
                                 highDpi,
                                 depth));
 
-        renderer.reset(new graphics::Renderer(graphicsDriver));
+        renderer.reset(new graphics::Renderer(graphicsDriver,
+                                              window.get(),
+                                              window->getResolution(),
+                                              sampleCount,
+                                              textureFilter,
+                                              maxAnisotropy,
+                                              verticalSync,
+                                              depth,
+                                              debugRenderer));
 
-        renderer->init(window.get(),
-                       window->getResolution(),
-                       sampleCount,
-                       textureFilter,
-                       maxAnisotropy,
-                       verticalSync,
-                       depth,
-                       debugRenderer);
+        renderer->init();
 
         if (audioDriver == audio::Audio::Driver::DEFAULT)
         {

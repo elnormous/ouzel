@@ -214,7 +214,21 @@ namespace ouzel
         void AudioDeviceAL::run()
         {
 #if OUZEL_MULTITHREADED
-            while (running) process();
+            while (running)
+            {
+                try
+                {
+                    process();
+                }
+                catch (const std::exception& e)
+                {
+                    ouzel::Log(ouzel::Log::Level::ERR) << e.what();
+                }
+                catch (...)
+                {
+                    ouzel::Log(ouzel::Log::Level::ERR) << "Unknown error occurred";
+                }
+            }
 #endif
         }
     } // namespace audio

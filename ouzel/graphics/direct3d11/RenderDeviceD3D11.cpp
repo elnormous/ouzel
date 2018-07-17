@@ -12,10 +12,11 @@
 #include "RenderTargetResourceD3D11.hpp"
 #include "ShaderResourceD3D11.hpp"
 #include "TextureResourceD3D11.hpp"
+#include "core/Window.hpp"
+#include "core/windows/NativeWindowWin.hpp"
 #include "thread/Lock.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
-#include "core/windows/NativeWindowWin.hpp"
 #include "stb_image_write.h"
 
 namespace ouzel
