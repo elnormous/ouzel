@@ -13,40 +13,6 @@
 #include "TextureResourceMetal.hpp"
 #include "BlendStateResourceMetal.hpp"
 #include "events/EventDispatcher.hpp"
-
-#if OUZEL_PLATFORM_MACOS
-#include "metal/ColorPSMacOS.h"
-#include "metal/ColorVSMacOS.h"
-#include "metal/TexturePSMacOS.h"
-#include "metal/TextureVSMacOS.h"
-#define COLOR_PIXEL_SHADER_METAL ColorPSMacOS_metallib
-#define COLOR_VERTEX_SHADER_METAL ColorVSMacOS_metallib
-#define TEXTURE_PIXEL_SHADER_METAL TexturePSMacOS_metallib
-#define TEXTURE_VERTEX_SHADER_METAL TextureVSMacOS_metallib
-
-#elif OUZEL_PLATFORM_TVOS
-#include "metal/ColorPSTVOS.h"
-#include "metal/ColorVSTVOS.h"
-#include "metal/TexturePSTVOS.h"
-#include "metal/TextureVSTVOS.h"
-#define COLOR_PIXEL_SHADER_METAL ColorPSTVOS_metallib
-#define COLOR_VERTEX_SHADER_METAL ColorVSTVOS_metallib
-#define TEXTURE_PIXEL_SHADER_METAL TexturePSTVOS_metallib
-#define TEXTURE_VERTEX_SHADER_METAL TextureVSTVOS_metallib
-
-#elif OUZEL_PLATFORM_IOS
-#include "metal/ColorPSIOS.h"
-#include "metal/ColorVSIOS.h"
-#include "metal/TexturePSIOS.h"
-#include "metal/TextureVSIOS.h"
-#define COLOR_PIXEL_SHADER_METAL ColorPSIOS_metallib
-#define COLOR_VERTEX_SHADER_METAL ColorVSIOS_metallib
-#define TEXTURE_PIXEL_SHADER_METAL TexturePSIOS_metallib
-#define TEXTURE_VERTEX_SHADER_METAL TextureVSIOS_metallib
-#endif
-
-#include "core/Engine.hpp"
-#include "assets/Cache.hpp"
 #include "thread/Lock.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
@@ -178,28 +144,6 @@ namespace ouzel
             renderPassDescriptor.depthAttachment.loadAction = MTLLoadActionClear;
             renderPassDescriptor.depthAttachment.clearDepth = clearDepth;
             renderPassDescriptor.depthAttachment.storeAction = MTLStoreActionStore;
-
-            std::shared_ptr<Shader> textureShader = std::make_shared<Shader>();
-            textureShader->init(std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_METAL), std::end(TEXTURE_PIXEL_SHADER_METAL)),
-                                std::vector<uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_METAL), std::end(TEXTURE_VERTEX_SHADER_METAL)),
-                                {Vertex::Attribute::Usage::POSITION, Vertex::Attribute::Usage::COLOR, Vertex::Attribute::Usage::TEXTURE_COORDINATES0},
-                                {{"color", DataType::FLOAT_VECTOR4}},
-                                {{"modelViewProj", DataType::FLOAT_MATRIX4}},
-                                256, 256,
-                                "mainPS", "mainVS");
-
-            engine->getCache()->setShader(SHADER_TEXTURE, textureShader);
-
-            std::shared_ptr<Shader> colorShader = std::make_shared<Shader>();
-            colorShader->init(std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_METAL), std::end(COLOR_PIXEL_SHADER_METAL)),
-                              std::vector<uint8_t>(std::begin(COLOR_VERTEX_SHADER_METAL), std::end(COLOR_VERTEX_SHADER_METAL)),
-                              {Vertex::Attribute::Usage::POSITION, Vertex::Attribute::Usage::COLOR},
-                              {{"color", DataType::FLOAT_VECTOR4}},
-                              {{"modelViewProj", DataType::FLOAT_MATRIX4}},
-                              256, 256,
-                              "mainPS", "mainVS");
-
-            engine->getCache()->setShader(SHADER_COLOR, colorShader);
 
             for (uint32_t i = 0; i < BUFFER_COUNT; ++i)
             {
