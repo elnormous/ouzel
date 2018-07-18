@@ -48,15 +48,6 @@ namespace ouzel
                       uint32_t newVertexShaderDataAlignment = 0,
                       const std::string& fragmentShaderFunction = "",
                       const std::string& vertexShaderFunction = "");
-            void init(const std::string& newFragmentShader,
-                      const std::string& newVertexShader,
-                      const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
-                      const std::vector<ConstantInfo>& newFragmentShaderConstantInfo,
-                      const std::vector<ConstantInfo>& newVertexShaderConstantInfo,
-                      uint32_t newFragmentShaderDataAlignment = 0,
-                      uint32_t newVertexShaderDataAlignment = 0,
-                      const std::string& newFragmentShaderFunction = "",
-                      const std::string& newVertexShaderFunction = "");
 
             inline ShaderResource* getResource() const { return resource; }
 
