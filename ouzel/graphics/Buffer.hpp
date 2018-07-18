@@ -9,6 +9,7 @@ namespace ouzel
 {
     namespace graphics
     {
+        class Renderer;
         class BufferResource;
 
         class Buffer final
@@ -26,7 +27,7 @@ namespace ouzel
                 VERTEX
             };
 
-            Buffer();
+            Buffer(Renderer* initRenderer);
             ~Buffer();
 
             Buffer(const Buffer&) = delete;
@@ -49,6 +50,7 @@ namespace ouzel
             inline uint32_t getSize() const { return size; }
 
         private:
+            Renderer* renderer;
             BufferResource* resource = nullptr;
 
             Buffer::Usage usage;

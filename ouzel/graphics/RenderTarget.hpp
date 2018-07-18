@@ -6,6 +6,7 @@ namespace ouzel
 {
     namespace graphics
     {
+        class Renderer;
         class Texture;
 
         class RenderTarget final
@@ -19,10 +20,13 @@ namespace ouzel
                 BINDABLE_DEPTH_BUFFER = 0x08,
             };
 
+            RenderTarget(Renderer* initRenderer);
+
             Texture* getColorTexture() const { return colorTexture; }
             Texture* getDepthTexture() const { return depthTexture; }
 
         private:
+            Renderer* renderer;
             Texture* colorTexture = nullptr;
             Texture* depthTexture = nullptr;
         };

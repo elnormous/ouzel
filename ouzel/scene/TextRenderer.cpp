@@ -28,10 +28,10 @@ namespace ouzel
             blendState = engine->getCache()->getBlendState(graphics::BLEND_ALPHA);
             whitePixelTexture = engine->getCache()->getTexture(graphics::TEXTURE_WHITE_PIXEL);
 
-            indexBuffer = std::make_shared<graphics::Buffer>();
+            indexBuffer = std::make_shared<graphics::Buffer>(engine->getRenderer());
             indexBuffer->init(graphics::Buffer::Usage::INDEX, graphics::Buffer::DYNAMIC);
 
-            vertexBuffer = std::make_shared<graphics::Buffer>();
+            vertexBuffer = std::make_shared<graphics::Buffer>(engine->getRenderer());
             vertexBuffer->init(graphics::Buffer::Usage::VERTEX, graphics::Buffer::DYNAMIC);
 
             font = engine->getCache()->getFont(fontFile, mipmaps);

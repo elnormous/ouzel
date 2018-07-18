@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "SpriteData.hpp"
+#include "core/Engine.hpp"
 #include "utils/Utils.hpp"
 
 namespace ouzel
@@ -63,10 +64,10 @@ namespace ouzel
 
             boundingBox.set(finalOffset, finalOffset + Vector2(frameRectangle.size.width, frameRectangle.size.height));
 
-            indexBuffer = std::make_shared<graphics::Buffer>();
+            indexBuffer = std::make_shared<graphics::Buffer>(engine->getRenderer());
             indexBuffer->init(graphics::Buffer::Usage::INDEX, 0, indices.data(), static_cast<uint32_t>(getVectorSize(indices)));
 
-            vertexBuffer = std::make_shared<graphics::Buffer>();
+            vertexBuffer = std::make_shared<graphics::Buffer>(engine->getRenderer());
             vertexBuffer->init(graphics::Buffer::Usage::VERTEX, 0, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)));
         }
 
@@ -80,10 +81,10 @@ namespace ouzel
             for (const graphics::Vertex& vertex : vertices)
                 boundingBox.insertPoint(vertex.position);
 
-            indexBuffer = std::make_shared<graphics::Buffer>();
+            indexBuffer = std::make_shared<graphics::Buffer>(engine->getRenderer());
             indexBuffer->init(graphics::Buffer::Usage::INDEX, 0, indices.data(), static_cast<uint32_t>(getVectorSize(indices)));
 
-            vertexBuffer = std::make_shared<graphics::Buffer>();
+            vertexBuffer = std::make_shared<graphics::Buffer>(engine->getRenderer());
             vertexBuffer->init(graphics::Buffer::Usage::VERTEX, 0, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)));
         }
 
@@ -105,10 +106,10 @@ namespace ouzel
             Vector2 finalOffset(-sourceSize.width * pivot.x + sourceOffset.x,
                                 -sourceSize.height * pivot.y + (sourceSize.height - frameRectangle.size.height - sourceOffset.y));
 
-            indexBuffer = std::make_shared<graphics::Buffer>();
+            indexBuffer = std::make_shared<graphics::Buffer>(engine->getRenderer());
             indexBuffer->init(graphics::Buffer::Usage::INDEX, 0, indices.data(), static_cast<uint32_t>(getVectorSize(indices)));
 
-            vertexBuffer = std::make_shared<graphics::Buffer>();
+            vertexBuffer = std::make_shared<graphics::Buffer>(engine->getRenderer());
             vertexBuffer->init(graphics::Buffer::Usage::VERTEX, 0, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)));
         }
     } // namespace scene

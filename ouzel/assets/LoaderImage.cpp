@@ -2,6 +2,7 @@
 
 #include "LoaderImage.hpp"
 #include "Cache.hpp"
+#include "core/Engine.hpp"
 #include "graphics/ImageDataSTB.hpp"
 #include "graphics/Texture.hpp"
 
@@ -18,7 +19,7 @@ namespace ouzel
         {
             graphics::ImageDataSTB image(data);
 
-            std::shared_ptr<graphics::Texture> texture(new graphics::Texture());
+            std::shared_ptr<graphics::Texture> texture = std::make_shared<graphics::Texture>(engine->getRenderer());
             texture->init(image.getData(), image.getSize(), 0, mipmaps ? 0 : 1, image.getPixelFormat());
 
             cache->setTexture(filename, texture);

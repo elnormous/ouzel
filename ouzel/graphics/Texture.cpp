@@ -5,21 +5,21 @@
 #include "Renderer.hpp"
 #include "RenderDevice.hpp"
 #include "ImageDataSTB.hpp"
-#include "core/Engine.hpp"
 #include "utils/Errors.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        Texture::Texture()
+        Texture::Texture(Renderer* initRenderer):
+            renderer(initRenderer)
         {
-            resource = engine->getRenderer()->getDevice()->createTexture();
+            resource = renderer->getDevice()->createTexture();
         }
 
         Texture::~Texture()
         {
-            if (engine && resource) engine->getRenderer()->getDevice()->deleteResource(resource);
+            if (resource) renderer->getDevice()->deleteResource(resource);
         }
 
         void Texture::init(const Size2& newSize,
@@ -37,13 +37,13 @@ namespace ouzel
             if ((flags & RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
                 throw DataError("Invalid mip map count");
 
-            engine->getRenderer()->executeOnRenderThread(std::bind(static_cast<void(TextureResource::*)(const Size2&, uint32_t, uint32_t, uint32_t, PixelFormat)>(&TextureResource::init),
-                                                                   resource,
-                                                                   newSize,
-                                                                   newFlags,
-                                                                   newMipmaps,
-                                                                   newSampleCount,
-                                                                   newPixelFormat));
+            renderer->executeOnRenderThread(std::bind(static_cast<void(TextureResource::*)(const Size2&, uint32_t, uint32_t, uint32_t, PixelFormat)>(&TextureResource::init),
+                                                      resource,
+                                                      newSize,
+                                                      newFlags,
+                                                      newMipmaps,
+                                                      newSampleCount,
+                                                      newPixelFormat));
         }
 
         void Texture::init(const std::string& filename,
@@ -62,13 +62,13 @@ namespace ouzel
             if ((flags & RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
                 throw DataError("Invalid mip map count");
 
-            engine->getRenderer()->executeOnRenderThread(std::bind(static_cast<void(TextureResource::*)(const std::vector<uint8_t>&, const Size2&, uint32_t, uint32_t, PixelFormat)>(&TextureResource::init),
-                                                                   resource,
-                                                                   image.getData(),
-                                                                   image.getSize(),
-                                                                   newFlags,
-                                                                   newMipmaps,
-                                                                   image.getPixelFormat()));
+            renderer->executeOnRenderThread(std::bind(static_cast<void(TextureResource::*)(const std::vector<uint8_t>&, const Size2&, uint32_t, uint32_t, PixelFormat)>(&TextureResource::init),
+                                                      resource,
+                                                      image.getData(),
+                                                      image.getSize(),
+                                                      newFlags,
+                                                      newMipmaps,
+                                                      image.getPixelFormat()));
         }
 
         void Texture::init(const std::vector<uint8_t>& newData,
@@ -86,13 +86,13 @@ namespace ouzel
             if ((flags & RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
                 throw DataError("Invalid mip map count");
 
-            engine->getRenderer()->executeOnRenderThread(std::bind(static_cast<void(TextureResource::*)(const std::vector<uint8_t>&, const Size2&, uint32_t, uint32_t, PixelFormat)>(&TextureResource::init),
-                                                                   resource,
-                                                                   newData,
-                                                                   newSize,
-                                                                   newFlags,
-                                                                   newMipmaps,
-                                                                   newPixelFormat));
+            renderer->executeOnRenderThread(std::bind(static_cast<void(TextureResource::*)(const std::vector<uint8_t>&, const Size2&, uint32_t, uint32_t, PixelFormat)>(&TextureResource::init),
+                                                      resource,
+                                                      newData,
+                                                      newSize,
+                                                      newFlags,
+                                                      newMipmaps,
+                                                      newPixelFormat));
         }
 
         void Texture::init(const std::vector<Level>& newLevels,
@@ -109,12 +109,12 @@ namespace ouzel
             if ((flags & RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
                 throw DataError("Invalid mip map count");
 
-            engine->getRenderer()->executeOnRenderThread(std::bind(static_cast<void(TextureResource::*)(const std::vector<Level>&, const Size2&, uint32_t, PixelFormat)>(&TextureResource::init),
-                                                                   resource,
-                                                                   newLevels,
-                                                                   newSize,
-                                                                   newFlags,
-                                                                   newPixelFormat));
+            renderer->executeOnRenderThread(std::bind(static_cast<void(TextureResource::*)(const std::vector<Level>&, const Size2&, uint32_t, PixelFormat)>(&TextureResource::init),
+                                                      resource,
+                                                      newLevels,
+                                                      newSize,
+                                                      newFlags,
+                                                      newPixelFormat));
         }
 
         void Texture::setSize(const Size2& newSize)
@@ -127,9 +127,9 @@ namespace ouzel
 
             size = newSize;
 
-            engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setSize,
-                                                                   resource,
-                                                                   newSize));
+            renderer->executeOnRenderThread(std::bind(&TextureResource::setSize,
+                                                      resource,
+                                                      newSize));
         }
 
         void Texture::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
@@ -142,82 +142,82 @@ namespace ouzel
 
             size = newSize;
 
-            engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setData,
-                                                                   resource,
-                                                                   newData,
-                                                                   newSize));
+            renderer->executeOnRenderThread(std::bind(&TextureResource::setData,
+                                                      resource,
+                                                      newData,
+                                                      newSize));
         }
 
         void Texture::setFilter(Filter newFilter)
         {
             filter = newFilter;
 
-            engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setFilter,
-                                                                   resource,
-                                                                   newFilter));
+            renderer->executeOnRenderThread(std::bind(&TextureResource::setFilter,
+                                                      resource,
+                                                      newFilter));
         }
 
         void Texture::setAddressX(Address newAddressX)
         {
             addressX = newAddressX;
 
-            engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setAddressX,
-                                                                   resource,
-                                                                   newAddressX));
+            renderer->executeOnRenderThread(std::bind(&TextureResource::setAddressX,
+                                                      resource,
+                                                      newAddressX));
         }
 
         void Texture::setAddressY(Address newAddressY)
         {
             addressY = newAddressY;
 
-            engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setAddressY,
-                                                                   resource,
-                                                                   newAddressY));
+            renderer->executeOnRenderThread(std::bind(&TextureResource::setAddressY,
+                                                      resource,
+                                                      newAddressY));
         }
 
         void Texture::setMaxAnisotropy(uint32_t newMaxAnisotropy)
         {
             maxAnisotropy = newMaxAnisotropy;
 
-            engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setMaxAnisotropy,
-                                                                   resource,
-                                                                   newMaxAnisotropy));
+            renderer->executeOnRenderThread(std::bind(&TextureResource::setMaxAnisotropy,
+                                                      resource,
+                                                      newMaxAnisotropy));
         }
 
         void Texture::setClearColorBuffer(bool clear)
         {
             clearColorBuffer = clear;
 
-            engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setClearColorBuffer,
-                                                                   resource,
-                                                                   clear));
+            renderer->executeOnRenderThread(std::bind(&TextureResource::setClearColorBuffer,
+                                                      resource,
+                                                      clear));
         }
 
         void Texture::setClearDepthBuffer(bool clear)
         {
             clearDepthBuffer = clear;
 
-            engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setClearDepthBuffer,
-                                                                   resource,
-                                                                   clear));
+            renderer->executeOnRenderThread(std::bind(&TextureResource::setClearDepthBuffer,
+                                                      resource,
+                                                      clear));
         }
 
         void Texture::setClearColor(Color color)
         {
             clearColor = color;
 
-            engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setClearColor,
-                                                                   resource,
-                                                                   color));
+            renderer->executeOnRenderThread(std::bind(&TextureResource::setClearColor,
+                                                      resource,
+                                                      color));
         }
 
         void Texture::setClearDepth(float depth)
         {
             clearDepth = depth;
 
-            engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setClearDepth,
-                                                                   resource,
-                                                                   depth));
+            renderer->executeOnRenderThread(std::bind(&TextureResource::setClearDepth,
+                                                      resource,
+                                                      depth));
         }
 
     } // namespace graphics
