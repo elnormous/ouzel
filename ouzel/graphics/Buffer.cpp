@@ -4,21 +4,21 @@
 #include "BufferResource.hpp"
 #include "Renderer.hpp"
 #include "RenderDevice.hpp"
-#include "core/Engine.hpp"
 #include "utils/Errors.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        Buffer::Buffer()
+        Buffer::Buffer(Renderer* initRenderer):
+            renderer(initRenderer)
         {
-            resource = engine->getRenderer()->getDevice()->createBuffer();
+            resource = renderer->getDevice()->createBuffer();
         }
 
         Buffer::~Buffer()
         {
-            if (engine && resource) engine->getRenderer()->getDevice()->deleteResource(resource);
+            if (resource) renderer->getDevice()->deleteResource(resource);
         }
 
         void Buffer::init(Usage newUsage, uint32_t newFlags, uint32_t newSize)
@@ -27,7 +27,7 @@ namespace ouzel
             flags = newFlags;
             size = newSize;
 
-            RenderDevice* renderDevice = engine->getRenderer()->getDevice();
+            RenderDevice* renderDevice = renderer->getDevice();
 
             renderDevice->addCommand(InitBufferCommand(resource,
                                                        newUsage,
@@ -54,7 +54,7 @@ namespace ouzel
             flags = newFlags;
             size = newSize;
 
-            RenderDevice* renderDevice = engine->getRenderer()->getDevice();
+            RenderDevice* renderDevice = renderer->getDevice();
 
             renderDevice->addCommand(InitBufferCommand(resource,
                                                        newUsage,
@@ -65,7 +65,7 @@ namespace ouzel
 
         void Buffer::setData(const void* newData, uint32_t newSize)
         {
-            RenderDevice* renderDevice = engine->getRenderer()->getDevice();
+            RenderDevice* renderDevice = renderer->getDevice();
 
             renderDevice->addCommand(SetBufferDataCommand(resource,
                                                           std::vector<uint8_t>(static_cast<const uint8_t*>(newData),
@@ -82,7 +82,7 @@ namespace ouzel
 
             if (newData.size() > size) size = static_cast<uint32_t>(newData.size());
 
-            RenderDevice* renderDevice = engine->getRenderer()->getDevice();
+            RenderDevice* renderDevice = renderer->getDevice();
 
             renderDevice->addCommand(SetBufferDataCommand(resource,
                                                           newData));

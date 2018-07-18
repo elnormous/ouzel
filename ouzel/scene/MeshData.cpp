@@ -18,10 +18,10 @@ namespace ouzel
             indexCount = static_cast<uint32_t>(indices.size());
             indexSize = sizeof(uint32_t);
 
-            indexBuffer = std::make_shared<graphics::Buffer>();
+            indexBuffer = std::make_shared<graphics::Buffer>(engine->getRenderer());
             indexBuffer->init(graphics::Buffer::Usage::INDEX, 0, indices.data(), static_cast<uint32_t>(getVectorSize(indices)));
 
-            vertexBuffer = std::make_shared<graphics::Buffer>();
+            vertexBuffer = std::make_shared<graphics::Buffer>(engine->getRenderer());
             vertexBuffer->init(graphics::Buffer::Usage::VERTEX, 0, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)));
 
             material = newMaterial;

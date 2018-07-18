@@ -134,7 +134,6 @@ namespace ouzel
                               bool newVerticalSync,
                               bool newDepth,
                               bool newDebugRenderer);
-            void init();
 
             void setSize(const Size2& newSize);
 

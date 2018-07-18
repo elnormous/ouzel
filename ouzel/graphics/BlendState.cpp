@@ -4,20 +4,20 @@
 #include "BlendStateResource.hpp"
 #include "Renderer.hpp"
 #include "RenderDevice.hpp"
-#include "core/Engine.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        BlendState::BlendState()
+        BlendState::BlendState(Renderer* initRenderer):
+            renderer(initRenderer)
         {
-            resource = engine->getRenderer()->getDevice()->createBlendState();
+            resource = renderer->getDevice()->createBlendState();
         }
 
         BlendState::~BlendState()
         {
-            if (engine && resource) engine->getRenderer()->getDevice()->deleteResource(resource);
+            if (resource) renderer->getDevice()->deleteResource(resource);
         }
 
         void BlendState::init(bool newEnableBlending,
@@ -36,7 +36,7 @@ namespace ouzel
             alphaOperation = newAlphaOperation;
             colorMask = newColorMask;
 
-            RenderDevice* renderDevice = engine->getRenderer()->getDevice();
+            RenderDevice* renderDevice = renderer->getDevice();
 
             renderDevice->addCommand(InitBlendStateCommand(resource,
                                                            newEnableBlending,

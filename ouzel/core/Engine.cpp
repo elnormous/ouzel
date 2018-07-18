@@ -228,8 +228,6 @@ namespace ouzel
                                               depth,
                                               debugRenderer));
 
-        renderer->init();
-
         if (audioDriver == audio::Audio::Driver::DEFAULT)
         {
             auto availableDrivers = audio::Audio::getAvailableAudioDrivers();

@@ -6,5 +6,9 @@ namespace ouzel
 {
     namespace graphics
     {
+        RenderTarget::RenderTarget(Renderer* initRenderer):
+            renderer(initRenderer)
+        {
+        }
     } // namespace graphics
 } // namespace ouzel

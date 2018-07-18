@@ -13,6 +13,7 @@ namespace ouzel
 {
     namespace graphics
     {
+        class Renderer;
         class TextureResource;
 
         class Texture final
@@ -52,7 +53,7 @@ namespace ouzel
 
             static const uint32_t LAYERS = 4;
 
-            Texture();
+            Texture(Renderer* initRenderer);
             ~Texture();
 
             Texture(const Texture&) = delete;
@@ -119,6 +120,7 @@ namespace ouzel
             void setClearDepth(float depth);
 
         private:
+            Renderer* renderer;
             TextureResource* resource = nullptr;
 
             Size2 size;

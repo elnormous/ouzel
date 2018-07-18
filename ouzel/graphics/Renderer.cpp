@@ -209,16 +209,13 @@ namespace ouzel
                          newVerticalSync,
                          newDepth,
                          newDebugRenderer);
-        }
 
-        void Renderer::init()
-        {
-            switch (device->getDriver())
+            switch (driver)
             {
 #if OUZEL_COMPILE_OPENGL
                 case Driver::OPENGL:
                 {
-                    std::shared_ptr<Shader> textureShader = std::make_shared<Shader>();
+                    std::shared_ptr<Shader> textureShader = std::make_shared<Shader>(this);
 
                     switch (device->getAPIMajorVersion())
                     {
@@ -266,7 +263,7 @@ namespace ouzel
 
                     engine->getCache()->setShader(SHADER_TEXTURE, textureShader);
 
-                    std::shared_ptr<Shader> colorShader = std::make_shared<Shader>();
+                    std::shared_ptr<Shader> colorShader = std::make_shared<Shader>(this);
 
                     switch (device->getAPIMajorVersion())
                     {
@@ -321,7 +318,7 @@ namespace ouzel
 #if OUZEL_COMPILE_DIRECT3D11
                 case Driver::DIRECT3D11:
                 {
-                    std::shared_ptr<Shader> textureShader = std::make_shared<Shader>();
+                    std::shared_ptr<Shader> textureShader = std::make_shared<Shader>(this);
                     textureShader->init(std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_D3D11), std::end(TEXTURE_PIXEL_SHADER_D3D11)),
                                         std::vector<uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_D3D11), std::end(TEXTURE_VERTEX_SHADER_D3D11)),
                                         {Vertex::Attribute::Usage::POSITION, Vertex::Attribute::Usage::COLOR, Vertex::Attribute::Usage::TEXTURE_COORDINATES0},
@@ -330,7 +327,7 @@ namespace ouzel
 
                     engine->getCache()->setShader(SHADER_TEXTURE, textureShader);
 
-                    std::shared_ptr<Shader> colorShader = std::make_shared<Shader>();
+                    std::shared_ptr<Shader> colorShader = std::make_shared<Shader>(this);
                     colorShader->init(std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_D3D11), std::end(COLOR_PIXEL_SHADER_D3D11)),
                                       std::vector<uint8_t>(std::begin(COLOR_VERTEX_SHADER_D3D11), std::end(COLOR_VERTEX_SHADER_D3D11)),
                                       {Vertex::Attribute::Usage::POSITION, Vertex::Attribute::Usage::COLOR},
@@ -345,7 +342,7 @@ namespace ouzel
 #if OUZEL_COMPILE_METAL
                 case Driver::METAL:
                 {
-                    std::shared_ptr<Shader> textureShader = std::make_shared<Shader>();
+                    std::shared_ptr<Shader> textureShader = std::make_shared<Shader>(this);
                     textureShader->init(std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_METAL), std::end(TEXTURE_PIXEL_SHADER_METAL)),
                                         std::vector<uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_METAL), std::end(TEXTURE_VERTEX_SHADER_METAL)),
                                         {Vertex::Attribute::Usage::POSITION, Vertex::Attribute::Usage::COLOR, Vertex::Attribute::Usage::TEXTURE_COORDINATES0},
@@ -356,7 +353,7 @@ namespace ouzel
 
                     engine->getCache()->setShader(SHADER_TEXTURE, textureShader);
 
-                    std::shared_ptr<Shader> colorShader = std::make_shared<Shader>();
+                    std::shared_ptr<Shader> colorShader = std::make_shared<Shader>(this);
                     colorShader->init(std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_METAL), std::end(COLOR_PIXEL_SHADER_METAL)),
                                       std::vector<uint8_t>(std::begin(COLOR_VERTEX_SHADER_METAL), std::end(COLOR_VERTEX_SHADER_METAL)),
                                       {Vertex::Attribute::Usage::POSITION, Vertex::Attribute::Usage::COLOR},
@@ -372,7 +369,7 @@ namespace ouzel
 
                 default:
                 {
-                    std::shared_ptr<Shader> textureShader = std::make_shared<Shader>();
+                    std::shared_ptr<Shader> textureShader = std::make_shared<Shader>(this);
 
                     textureShader->init(std::vector<uint8_t>(),
                                         std::vector<uint8_t>(),
@@ -382,7 +379,7 @@ namespace ouzel
 
                     engine->getCache()->setShader(SHADER_TEXTURE, textureShader);
 
-                    std::shared_ptr<Shader> colorShader = std::make_shared<Shader>();
+                    std::shared_ptr<Shader> colorShader = std::make_shared<Shader>(this);
 
                     colorShader->init(std::vector<uint8_t>(),
                                       std::vector<uint8_t>(),
@@ -395,7 +392,7 @@ namespace ouzel
                 }
             }
 
-            std::shared_ptr<BlendState> noBlendState = std::make_shared<BlendState>();
+            std::shared_ptr<BlendState> noBlendState = std::make_shared<BlendState>(this);
 
             noBlendState->init(false,
                                BlendState::Factor::ONE, BlendState::Factor::ZERO,
@@ -405,7 +402,7 @@ namespace ouzel
 
             engine->getCache()->setBlendState(BLEND_NO_BLEND, noBlendState);
 
-            std::shared_ptr<BlendState> addBlendState = std::make_shared<BlendState>();
+            std::shared_ptr<BlendState> addBlendState = std::make_shared<BlendState>(this);
 
             addBlendState->init(true,
                                 BlendState::Factor::ONE, BlendState::Factor::ONE,
@@ -415,7 +412,7 @@ namespace ouzel
 
             engine->getCache()->setBlendState(BLEND_ADD, addBlendState);
 
-            std::shared_ptr<BlendState> multiplyBlendState = std::make_shared<BlendState>();
+            std::shared_ptr<BlendState> multiplyBlendState = std::make_shared<BlendState>(this);
 
             multiplyBlendState->init(true,
                                      BlendState::Factor::DEST_COLOR, BlendState::Factor::ZERO,
@@ -425,7 +422,7 @@ namespace ouzel
 
             engine->getCache()->setBlendState(BLEND_MULTIPLY, multiplyBlendState);
 
-            std::shared_ptr<BlendState> alphaBlendState = std::make_shared<BlendState>();
+            std::shared_ptr<BlendState> alphaBlendState = std::make_shared<BlendState>(this);
 
             alphaBlendState->init(true,
                                   BlendState::Factor::SRC_ALPHA, BlendState::Factor::INV_SRC_ALPHA,
@@ -435,7 +432,7 @@ namespace ouzel
 
             engine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
 
-            std::shared_ptr<BlendState> screenBlendState = std::make_shared<BlendState>();
+            std::shared_ptr<BlendState> screenBlendState = std::make_shared<BlendState>(this);
 
             screenBlendState->init(true,
                                    BlendState::Factor::ONE, BlendState::Factor::INV_SRC_COLOR,
@@ -445,7 +442,7 @@ namespace ouzel
 
             engine->getCache()->setBlendState(BLEND_SCREEN, screenBlendState);
 
-            std::shared_ptr<Texture> whitePixelTexture = std::make_shared<Texture>();
+            std::shared_ptr<Texture> whitePixelTexture = std::make_shared<Texture>(this);
             whitePixelTexture->init({255, 255, 255, 255}, Size2(1.0F, 1.0F), 0, 1);
             engine->getCache()->setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
         }

@@ -11,14 +11,15 @@ namespace ouzel
 {
     namespace graphics
     {
-        Shader::Shader()
+        Shader::Shader(Renderer* initRenderer):
+            renderer(initRenderer)
         {
-            resource = engine->getRenderer()->getDevice()->createShader();
+            resource = renderer->getDevice()->createShader();
         }
 
         Shader::~Shader()
         {
-            if (engine && resource) engine->getRenderer()->getDevice()->deleteResource(resource);
+            if (resource) renderer->getDevice()->deleteResource(resource);
         }
 
         void Shader::init(const std::string& newFragmentShader,
@@ -39,7 +40,7 @@ namespace ouzel
             std::vector<uint8_t> fragmentShaderData = engine->getFileSystem()->readFile(newFragmentShader);
             std::vector<uint8_t> vertexShaderData = engine->getFileSystem()->readFile(newVertexShader);
 
-            RenderDevice* renderDevice = engine->getRenderer()->getDevice();
+            RenderDevice* renderDevice = renderer->getDevice();
 
             renderDevice->addCommand(InitShaderCommand(resource,
                                                        fragmentShaderData,
@@ -67,7 +68,7 @@ namespace ouzel
             fragmentShaderFilename.clear();
             vertexShaderFilename.clear();
 
-            RenderDevice* renderDevice = engine->getRenderer()->getDevice();
+            RenderDevice* renderDevice = renderer->getDevice();
 
             renderDevice->addCommand(InitShaderCommand(resource,
                                                        newFragmentShader,
