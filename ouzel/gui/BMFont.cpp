@@ -4,7 +4,6 @@
 #include <iterator>
 #include "BMFont.hpp"
 #include "core/Engine.hpp"
-#include "files/FileSystem.hpp"
 #include "assets/Cache.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Utils.hpp"
@@ -141,11 +140,6 @@ namespace ouzel
     }
 
     BMFont::BMFont()
-    {
-    }
-
-    BMFont::BMFont(const std::string& filename, bool mipmaps):
-        BMFont(engine->getFileSystem()->readFile(filename), mipmaps)
     {
     }
 

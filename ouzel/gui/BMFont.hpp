@@ -10,7 +10,6 @@ namespace ouzel
     {
     public:
         BMFont();
-        BMFont(const std::string& filename, bool mipmaps = true);
         BMFont(const std::vector<uint8_t>& data, bool mipmaps = true);
 
         virtual void getVertices(const std::string& text,
