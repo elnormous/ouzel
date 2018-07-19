@@ -18,10 +18,10 @@ namespace ouzel
             shader = engine->getCache()->getShader(graphics::SHADER_COLOR);
             blendState = engine->getCache()->getBlendState(graphics::BLEND_ALPHA);
 
-            indexBuffer = std::make_shared<graphics::Buffer>(engine->getRenderer());
+            indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer());
             indexBuffer->init(graphics::Buffer::Usage::INDEX, graphics::Buffer::DYNAMIC);
 
-            vertexBuffer = std::make_shared<graphics::Buffer>(engine->getRenderer());
+            vertexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer());
             vertexBuffer->init(graphics::Buffer::Usage::VERTEX, graphics::Buffer::DYNAMIC);
         }
 

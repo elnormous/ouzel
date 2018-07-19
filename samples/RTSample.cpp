@@ -18,7 +18,7 @@ RTSample::RTSample():
 
     addLayer(&rtLayer);
 
-    std::shared_ptr<graphics::Texture> renderTarget = std::make_shared<graphics::Texture>(engine->getRenderer());
+    std::shared_ptr<graphics::Texture> renderTarget = std::make_shared<graphics::Texture>(*engine->getRenderer());
     renderTarget->init(Size2(256.0F, 256.0F),
                        graphics::Texture::RENDER_TARGET |
                        graphics::Texture::BINDABLE_COLOR_BUFFER |

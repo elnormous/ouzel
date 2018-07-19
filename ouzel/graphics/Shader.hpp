@@ -30,7 +30,7 @@ namespace ouzel
                 uint32_t size;
             };
 
-            Shader(Renderer* initRenderer);
+            Shader(Renderer& initRenderer);
             ~Shader();
 
             Shader(const Shader&) = delete;
@@ -54,7 +54,7 @@ namespace ouzel
             const std::set<Vertex::Attribute::Usage>& getVertexAttributes() const;
 
         private:
-            Renderer* renderer;
+            Renderer& renderer;
             ShaderResource* resource = nullptr;
 
             std::set<Vertex::Attribute::Usage> vertexAttributes;

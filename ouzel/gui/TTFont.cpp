@@ -139,7 +139,7 @@ namespace ouzel
             }
         }
 
-        texture = std::make_shared<graphics::Texture>(engine->getRenderer());
+        texture = std::make_shared<graphics::Texture>(*engine->getRenderer());
         texture->init(textureData, Size2(width, height), 0, mipmaps ? 0 : 1);
 
         Vector2 position;

@@ -49,7 +49,7 @@ namespace ouzel
                 COLOR_MASK_ALL = COLOR_MASK_RED | COLOR_MASK_GREEN | COLOR_MASK_BLUE | COLOR_MASK_ALPHA
             };
 
-            BlendState(Renderer* initRenderer);
+            BlendState(Renderer& initRenderer);
             ~BlendState();
 
             BlendState(const BlendState&) = delete;
@@ -79,7 +79,7 @@ namespace ouzel
             inline uint8_t getColorMask() const { return colorMask; }
 
         private:
-            Renderer* renderer;
+            Renderer& renderer;
             BlendStateResource* resource = nullptr;
 
             BlendState::Factor colorBlendSource = BlendState::Factor::ONE;

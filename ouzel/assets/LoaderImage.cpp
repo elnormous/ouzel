@@ -19,7 +19,7 @@ namespace ouzel
         {
             graphics::ImageDataSTB image(data);
 
-            std::shared_ptr<graphics::Texture> texture = std::make_shared<graphics::Texture>(engine->getRenderer());
+            std::shared_ptr<graphics::Texture> texture = std::make_shared<graphics::Texture>(*engine->getRenderer());
             texture->init(image.getData(), image.getSize(), 0, mipmaps ? 0 : 1, image.getPixelFormat());
 
             cache->setTexture(filename, texture);

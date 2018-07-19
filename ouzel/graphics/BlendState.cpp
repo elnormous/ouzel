@@ -9,15 +9,15 @@ namespace ouzel
 {
     namespace graphics
     {
-        BlendState::BlendState(Renderer* initRenderer):
+        BlendState::BlendState(Renderer& initRenderer):
             renderer(initRenderer)
         {
-            resource = renderer->getDevice()->createBlendState();
+            resource = renderer.getDevice()->createBlendState();
         }
 
         BlendState::~BlendState()
         {
-            if (resource) renderer->getDevice()->deleteResource(resource);
+            if (resource) renderer.getDevice()->deleteResource(resource);
         }
 
         void BlendState::init(bool newEnableBlending,
@@ -36,7 +36,7 @@ namespace ouzel
             alphaOperation = newAlphaOperation;
             colorMask = newColorMask;
 
-            RenderDevice* renderDevice = renderer->getDevice();
+            RenderDevice* renderDevice = renderer.getDevice();
 
             renderDevice->addCommand(InitBlendStateCommand(resource,
                                                            newEnableBlending,
