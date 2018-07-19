@@ -10,11 +10,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        class Renderer;
-
         class BlendStateResource: public RenderResource
         {
-            friend Renderer;
         public:
             virtual ~BlendStateResource();
 

@@ -14,11 +14,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        class Renderer;
-
         class TextureResource: public RenderResource
         {
-            friend Renderer;
         public:
             virtual ~TextureResource();
 
