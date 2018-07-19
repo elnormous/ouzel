@@ -50,8 +50,8 @@ namespace ouzel
             }
         }
 
-        TextureResourceMetal::TextureResourceMetal(RenderDeviceMetal& initRenderDeviceMetal):
-            renderDeviceMetal(initRenderDeviceMetal)
+        TextureResourceMetal::TextureResourceMetal(RenderDeviceMetal& renderDeviceMetal):
+            TextureResource(renderDeviceMetal)
         {
         }
 
@@ -288,6 +288,8 @@ namespace ouzel
                 depthTexture = nil;
             }
 
+            RenderDeviceMetal& renderDeviceMetal = static_cast<RenderDeviceMetal&>(renderDevice);
+
             width = static_cast<NSUInteger>(size.width);
             height = static_cast<NSUInteger>(size.height);
 
@@ -383,6 +385,8 @@ namespace ouzel
 
         void TextureResourceMetal::updateSamplerState()
         {
+            RenderDeviceMetal& renderDeviceMetal = static_cast<RenderDeviceMetal&>(renderDevice);
+
             RenderDeviceMetal::SamplerStateDescriptor samplerDescriptor;
             samplerDescriptor.filter = (filter == Texture::Filter::DEFAULT) ? renderDeviceMetal.getTextureFilter() : filter;
             samplerDescriptor.addressX = addressX;

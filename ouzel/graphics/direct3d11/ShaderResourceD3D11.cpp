@@ -81,8 +81,8 @@ namespace ouzel
             return DXGI_FORMAT_UNKNOWN;
         }
 
-        ShaderResourceD3D11::ShaderResourceD3D11(RenderDeviceD3D11& initRenderDeviceD3D11):
-            renderDeviceD3D11(initRenderDeviceD3D11)
+        ShaderResourceD3D11::ShaderResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11):
+            ShaderResource(renderDeviceD3D11)
         {
         }
 
@@ -126,6 +126,7 @@ namespace ouzel
 
             if (fragmentShader) fragmentShader->Release();
 
+            RenderDeviceD3D11& renderDeviceD3D11 = static_cast<RenderDeviceD3D11&>(renderDevice);
             HRESULT hr = renderDeviceD3D11.getDevice()->CreatePixelShader(fragmentShaderData.data(), fragmentShaderData.size(), nullptr, &fragmentShader);
             if (FAILED(hr))
                 throw DataError("Failed to create a Direct3D 11 pixel shader, error: " + std::to_string(hr));

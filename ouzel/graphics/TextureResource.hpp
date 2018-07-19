@@ -14,6 +14,8 @@ namespace ouzel
 {
     namespace graphics
     {
+        class RenderDevice;
+
         class TextureResource: public RenderResource
         {
         public:
@@ -71,11 +73,12 @@ namespace ouzel
             inline PixelFormat getPixelFormat() const { return pixelFormat; }
 
         protected:
-            TextureResource();
+            TextureResource(RenderDevice& initRenderDevice);
 
             void calculateSizes(const Size2& newSize);
             void calculateData(const std::vector<uint8_t>& newData);
 
+            RenderDevice& renderDevice;
             Size2 size;
             uint32_t flags = 0;
             uint32_t mipmaps = 0;

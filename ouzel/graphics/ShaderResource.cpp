@@ -6,7 +6,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        ShaderResource::ShaderResource()
+        ShaderResource::ShaderResource(RenderDevice& initRenderDevice):
+            renderDevice(initRenderDevice)
         {
         }
 

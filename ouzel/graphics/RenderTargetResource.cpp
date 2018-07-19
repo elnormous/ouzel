@@ -6,5 +6,9 @@ namespace ouzel
 {
     namespace graphics
     {
+        RenderTargetResource::RenderTargetResource(RenderDevice& initRenderDevice):
+            renderDevice(initRenderDevice)
+        {
+        }
     } // namespace graphics
 } // namespace ouzel

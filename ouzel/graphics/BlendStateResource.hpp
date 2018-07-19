@@ -10,6 +10,8 @@ namespace ouzel
 {
     namespace graphics
     {
+        class RenderDevice;
+
         class BlendStateResource: public RenderResource
         {
         public:
@@ -32,7 +34,9 @@ namespace ouzel
             uint8_t getColorMask() const { return colorMask; }
 
         protected:
-            BlendStateResource();
+            BlendStateResource(RenderDevice& initRenderDevice);
+
+            RenderDevice& renderDevice;
 
             BlendState::Factor colorBlendSource = BlendState::Factor::ONE;
             BlendState::Factor colorBlendDest = BlendState::Factor::ZERO;

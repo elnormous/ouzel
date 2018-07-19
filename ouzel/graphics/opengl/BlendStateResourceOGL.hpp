@@ -24,10 +24,12 @@ namespace ouzel
 {
     namespace graphics
     {
+        class RenderDeviceOGL;
+
         class BlendStateResourceOGL: public BlendStateResource
         {
         public:
-            BlendStateResourceOGL();
+            BlendStateResourceOGL(RenderDeviceOGL& renderDeviceOGL);
 
             virtual void init(bool newEnableBlending,
                               BlendState::Factor newColorBlendSource, BlendState::Factor newColorBlendDest,

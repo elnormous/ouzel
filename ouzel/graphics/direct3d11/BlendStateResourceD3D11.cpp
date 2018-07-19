@@ -12,8 +12,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        BlendStateResourceD3D11::BlendStateResourceD3D11(RenderDeviceD3D11& initRenderDeviceD3D11):
-            renderDeviceD3D11(initRenderDeviceD3D11)
+        BlendStateResourceD3D11::BlendStateResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11):
+            BlendStateResource(renderDeviceD3D11)
         {
         }
 
@@ -93,6 +93,7 @@ namespace ouzel
 
             if (blendState) blendState->Release();
 
+            RenderDeviceD3D11& renderDeviceD3D11 = static_cast<RenderDeviceD3D11&>(renderDevice);
             HRESULT hr = renderDeviceD3D11.getDevice()->CreateBlendState(&blendStateDesc, &blendState);
             if (FAILED(hr))
                 throw DataError("Failed to create Direct3D 11 blend state, error: " + std::to_string(hr));

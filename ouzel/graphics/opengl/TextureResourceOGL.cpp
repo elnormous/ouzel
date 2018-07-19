@@ -13,13 +13,15 @@ namespace ouzel
 {
     namespace graphics
     {
-        TextureResourceOGL::TextureResourceOGL(RenderDeviceOGL& initRenderDeviceOGL):
-            renderDeviceOGL(initRenderDeviceOGL)
+        TextureResourceOGL::TextureResourceOGL(RenderDeviceOGL& renderDeviceOGL):
+            TextureResource(renderDeviceOGL)
         {
         }
 
         TextureResourceOGL::~TextureResourceOGL()
         {
+            RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
+
             if (depthBufferId)
                 renderDeviceOGL.deleteRenderBuffer(depthBufferId);
 
@@ -239,6 +241,7 @@ namespace ouzel
 
             createTexture();
 
+            RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
             renderDeviceOGL.bindTexture(textureId, 0);
 
             if (!(flags & Texture::RENDER_TARGET))
@@ -285,6 +288,7 @@ namespace ouzel
 
             createTexture();
 
+            RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
             renderDeviceOGL.bindTexture(textureId, 0);
 
             if (!(flags & Texture::RENDER_TARGET))
@@ -339,6 +343,7 @@ namespace ouzel
 
             createTexture();
 
+            RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
             renderDeviceOGL.bindTexture(textureId, 0);
 
             if (!(flags & Texture::RENDER_TARGET))
@@ -391,6 +396,7 @@ namespace ouzel
 
             createTexture();
 
+            RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
             renderDeviceOGL.bindTexture(textureId, 0);
 
             if (!(flags & Texture::RENDER_TARGET))
@@ -440,6 +446,7 @@ namespace ouzel
             if (!textureId)
                 throw DataError("Texture not initialized");
 
+            RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
             renderDeviceOGL.bindTexture(textureId, 0);
 
             if (static_cast<GLsizei>(size.width) != width ||
@@ -516,6 +523,7 @@ namespace ouzel
             if (!textureId)
                 throw DataError("Texture not initialized");
 
+            RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
             renderDeviceOGL.bindTexture(textureId, 0);
 
             if (!(flags & Texture::RENDER_TARGET))
@@ -588,6 +596,7 @@ namespace ouzel
             if (!textureId)
                 throw DataError("Texture not initialized");
 
+            RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
             renderDeviceOGL.bindTexture(textureId, 0);
 
             Texture::Filter finalFilter = (filter == Texture::Filter::DEFAULT) ? renderDeviceOGL.getTextureFilter() : filter;
@@ -628,6 +637,7 @@ namespace ouzel
             if (!textureId)
                 throw DataError("Texture not initialized");
 
+            RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
             renderDeviceOGL.bindTexture(textureId, 0);
 
             switch (addressX)
@@ -658,6 +668,7 @@ namespace ouzel
             if (!textureId)
                 throw DataError("Texture not initialized");
 
+            RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
             renderDeviceOGL.bindTexture(textureId, 0);
 
             switch (addressY)
@@ -688,6 +699,7 @@ namespace ouzel
             if (!textureId)
                 throw DataError("Texture not initialized");
 
+            RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
             renderDeviceOGL.bindTexture(textureId, 0);
 
             uint32_t finalMaxAnisotropy = (maxAnisotropy == 0) ? renderDeviceOGL.getMaxAnisotropy() : maxAnisotropy;
@@ -735,6 +747,8 @@ namespace ouzel
 
         void TextureResourceOGL::createTexture()
         {
+            RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
+
             if (depthBufferId)
             {
                 renderDeviceOGL.deleteRenderBuffer(depthBufferId);
@@ -881,6 +895,7 @@ namespace ouzel
 
         void TextureResourceOGL::setTextureParameters()
         {
+            RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
             renderDeviceOGL.bindTexture(textureId, 0);
 
             Texture::Filter finalFilter = (filter == Texture::Filter::DEFAULT) ? renderDeviceOGL.getTextureFilter() : filter;

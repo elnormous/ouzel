@@ -18,7 +18,7 @@ namespace ouzel
         class BlendStateResourceD3D11: public BlendStateResource
         {
         public:
-            explicit BlendStateResourceD3D11(RenderDeviceD3D11& initRenderDeviceD3D11);
+            explicit BlendStateResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11);
             virtual ~BlendStateResourceD3D11();
 
             virtual void init(bool newEnableBlending,
@@ -31,8 +31,6 @@ namespace ouzel
             ID3D11BlendState* getBlendState() const { return blendState; }
 
         private:
-            RenderDeviceD3D11& renderDeviceD3D11;
-
             ID3D11BlendState* blendState = nullptr;
         };
     } // namespace graphics

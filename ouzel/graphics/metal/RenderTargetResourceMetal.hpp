@@ -8,10 +8,12 @@ namespace ouzel
 {
     namespace graphics
     {
+        class RenderDeviceMetal;
+
         class RenderTargetResourceMetal: public RenderTargetResource
         {
         public:
-            RenderTargetResourceMetal() {}
+            RenderTargetResourceMetal(RenderDeviceMetal& renderDeviceMetal);
         };
     } // namespace graphics
 } // namespace ouzel

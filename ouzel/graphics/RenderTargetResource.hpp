@@ -8,6 +8,7 @@ namespace ouzel
 {
     namespace graphics
     {
+        class RenderDevice;
         class TextureResource;
 
         class RenderTargetResource: public RenderResource
@@ -16,7 +17,11 @@ namespace ouzel
             TextureResource* getColorTexture() const { return colorTexture; }
             TextureResource* getDepthTexture() const { return depthTexture; }
 
-        private:
+        protected:
+            RenderTargetResource(RenderDevice& initRenderDevice);
+
+            RenderDevice& renderDevice;
+
             TextureResource* colorTexture = nullptr;
             TextureResource* depthTexture = nullptr;
         };

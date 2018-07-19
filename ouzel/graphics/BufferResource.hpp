@@ -10,6 +10,8 @@ namespace ouzel
 {
     namespace graphics
     {
+        class RenderDevice;
+
         class BufferResource: public RenderResource
         {
         public:
@@ -26,7 +28,9 @@ namespace ouzel
             inline uint32_t getSize() const { return static_cast<uint32_t>(data.size()); }
 
         protected:
-            BufferResource();
+            BufferResource(RenderDevice& initRenderDevice);
+
+            RenderDevice& renderDevice;
 
             Buffer::Usage usage;
             uint32_t flags = 0;

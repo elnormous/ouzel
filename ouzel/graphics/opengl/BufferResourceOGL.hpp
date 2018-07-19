@@ -29,7 +29,7 @@ namespace ouzel
         class BufferResourceOGL: public BufferResource
         {
         public:
-            explicit BufferResourceOGL(RenderDeviceOGL& initRenderDeviceOGL);
+            explicit BufferResourceOGL(RenderDeviceOGL& renderDeviceOGL);
             virtual ~BufferResourceOGL();
 
             virtual void init(Buffer::Usage newUsage, uint32_t newFlags,
@@ -45,8 +45,6 @@ namespace ouzel
 
         private:
             void createBuffer();
-
-            RenderDeviceOGL& renderDeviceOGL;
 
             GLuint bufferId = 0;
             GLsizeiptr bufferSize = 0;

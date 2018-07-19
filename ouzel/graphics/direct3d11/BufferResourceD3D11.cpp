@@ -12,8 +12,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        BufferResourceD3D11::BufferResourceD3D11(RenderDeviceD3D11& initRenderDeviceD3D11):
-            renderDeviceD3D11(initRenderDeviceD3D11)
+        BufferResourceD3D11::BufferResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11):
+            BufferResource(renderDeviceD3D11)
         {
         }
 
@@ -46,6 +46,7 @@ namespace ouzel
                     mappedSubresource.RowPitch = 0;
                     mappedSubresource.DepthPitch = 0;
 
+                    RenderDeviceD3D11& renderDeviceD3D11 = static_cast<RenderDeviceD3D11&>(renderDevice);
                     HRESULT hr = renderDeviceD3D11.getContext()->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource);
                     if (FAILED(hr))
                         throw DataError("Failed to lock Direct3D 11 buffer, error: " + std::to_string(hr));
@@ -89,6 +90,7 @@ namespace ouzel
                 bufferDesc.MiscFlags = 0;
                 bufferDesc.StructureByteStride = 0;
 
+                RenderDeviceD3D11& renderDeviceD3D11 = static_cast<RenderDeviceD3D11&>(renderDevice);
                 HRESULT hr;
 
                 if (data.empty())

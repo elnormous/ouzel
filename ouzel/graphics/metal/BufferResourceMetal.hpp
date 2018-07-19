@@ -25,7 +25,7 @@ namespace ouzel
         class BufferResourceMetal: public BufferResource
         {
         public:
-            explicit BufferResourceMetal(RenderDeviceMetal& initRenderDeviceMetal);
+            explicit BufferResourceMetal(RenderDeviceMetal& renderDeviceMetal);
             virtual ~BufferResourceMetal();
 
             virtual void init(Buffer::Usage newUsage, uint32_t newFlags,
@@ -38,8 +38,6 @@ namespace ouzel
 
         private:
             void createBuffer(NSUInteger newSize);
-
-            RenderDeviceMetal& renderDeviceMetal;
 
             MTLBufferPtr buffer = nil;
             NSUInteger bufferSize = 0;

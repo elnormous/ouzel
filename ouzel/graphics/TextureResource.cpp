@@ -15,7 +15,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        TextureResource::TextureResource()
+        TextureResource::TextureResource(RenderDevice& initRenderDevice):
+            renderDevice(initRenderDevice)
         {
         }
 
@@ -111,7 +112,7 @@ namespace ouzel
             levels.push_back({newSize, pitch, std::vector<uint8_t>(bufferSize)});
 
             if (!(flags & Texture::RENDER_TARGET) && // don't generate mipmaps for render targets
-                (engine->getRenderer()->getDevice()->isNPOTTexturesSupported() || (isPOT(newWidth) && isPOT(newHeight))))
+                (renderDevice.isNPOTTexturesSupported() || (isPOT(newWidth) && isPOT(newHeight))))
             {
                 while ((newWidth > 1 || newHeight > 1) &&
                        (mipmaps == 0 || levels.size() < mipmaps))

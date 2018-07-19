@@ -826,7 +826,7 @@ namespace ouzel
         {
             Lock lock(resourceMutex);
 
-            BlendStateResource* blendState = new BlendStateResourceMetal();
+            BlendStateResource* blendState = new BlendStateResourceMetal(*this);
             resources.push_back(std::unique_ptr<RenderResource>(blendState));
             return blendState;
         }
@@ -844,7 +844,7 @@ namespace ouzel
         {
             Lock lock(resourceMutex);
 
-            RenderTargetResource* renderTarget = new RenderTargetResourceMetal();
+            RenderTargetResource* renderTarget = new RenderTargetResourceMetal(*this);
             resources.push_back(std::unique_ptr<RenderResource>(renderTarget));
             return renderTarget;
         }

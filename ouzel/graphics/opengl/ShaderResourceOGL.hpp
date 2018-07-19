@@ -29,7 +29,7 @@ namespace ouzel
         class ShaderResourceOGL: public ShaderResource
         {
         public:
-            explicit ShaderResourceOGL(RenderDeviceOGL& initRenderDeviceOGL);
+            explicit ShaderResourceOGL(RenderDeviceOGL& renderDeviceOGL);
             virtual ~ShaderResourceOGL();
 
             virtual void init(const std::vector<uint8_t>& newFragmentShader,
@@ -59,8 +59,6 @@ namespace ouzel
             void compileShader();
             std::string getShaderMessage(GLuint shaderId);
             std::string getProgramMessage();
-
-            RenderDeviceOGL& renderDeviceOGL;
 
             GLuint fragmentShaderId = 0;
             GLuint vertexShaderId = 0;
