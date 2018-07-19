@@ -2,8 +2,6 @@
 
 #include "SoundDataVorbis.hpp"
 #include "StreamVorbis.hpp"
-#include "core/Engine.hpp"
-#include "files/FileSystem.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Utils.hpp"
 #include "stb_vorbis.c"
@@ -13,11 +11,6 @@ namespace ouzel
     namespace audio
     {
         SoundDataVorbis::SoundDataVorbis()
-        {
-        }
-
-        SoundDataVorbis::SoundDataVorbis(const std::string& filename):
-            SoundDataVorbis(engine->getFileSystem()->readFile(filename))
         {
         }
 
