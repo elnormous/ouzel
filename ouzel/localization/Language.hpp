@@ -4,7 +4,6 @@
 
 #include <cstdint>
 #include <map>
-#include <string>
 #include <vector>
 
 namespace ouzel
@@ -13,7 +12,6 @@ namespace ouzel
     {
     public:
         Language() {}
-        Language(const std::string& filename);
         Language(const std::vector<uint8_t>& data);
 
         std::string getString(const std::string& str);

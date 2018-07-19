@@ -2,8 +2,6 @@
 
 #include <vector>
 #include "Language.hpp"
-#include "core/Engine.hpp"
-#include "files/FileSystem.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Utils.hpp"
 
@@ -17,11 +15,6 @@ namespace ouzel
         uint32_t translationLength;
         uint32_t translationOffset;
     };
-
-    Language::Language(const std::string& filename):
-        Language(engine->getFileSystem()->readFile(filename))
-    {
-    }
 
     Language::Language(const std::vector<uint8_t>& data)
     {
