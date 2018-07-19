@@ -10,11 +10,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        class Renderer;
-
         class BufferResource: public RenderResource
         {
-            friend Renderer;
         public:
             virtual ~BufferResource();
 

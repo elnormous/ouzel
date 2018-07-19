@@ -15,11 +15,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        class Renderer;
-
         class ShaderResource: public RenderResource
         {
-            friend Renderer;
         public:
             virtual ~ShaderResource();
 
