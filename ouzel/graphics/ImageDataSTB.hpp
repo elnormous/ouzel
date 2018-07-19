@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <string>
+#include <vector>
 #include "graphics/ImageData.hpp"
 
 namespace ouzel

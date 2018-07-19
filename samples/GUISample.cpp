@@ -42,7 +42,7 @@ GUISample::GUISample():
     label1.setPosition(Vector2(-88.0F, 108.0F));
     guiLayer.addChild(&label1);
 
-    engine->getLocalization()->addLanguage("latvian", "lv.mo");
+    engine->getLocalization()->addLanguage("latvian", engine->getFileSystem()->readFile("lv.mo"));
     engine->getLocalization()->setLanguage("latvian");
 
     label2.setText(engine->getLocalization()->getString("Ouzel"));
