@@ -4,7 +4,6 @@
 #include <algorithm>
 #include <iterator>
 #include "INI.hpp"
-#include "core/Engine.hpp"
 #include "Errors.hpp"
 #include "utils/Utils.hpp"
 
@@ -86,12 +85,6 @@ namespace ouzel
         Data::Data()
         {
         }
-
-        Data::Data(const std::string& filename):
-            Data(engine->getFileSystem()->readFile(filename))
-        {
-        }
-
 
         static inline std::vector<uint32_t>& ltrimUtf32(std::vector<uint32_t>& s)
         {
@@ -270,11 +263,6 @@ namespace ouzel
                     section->values[key] = value;
                 }
             }
-        }
-
-        void Data::save(const std::string& filename) const
-        {
-            engine->getFileSystem()->writeFile(filename, encode());
         }
 
         std::vector<uint8_t> Data::encode() const

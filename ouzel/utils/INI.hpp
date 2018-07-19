@@ -42,10 +42,8 @@ namespace ouzel
         {
         public:
             Data();
-            Data(const std::string& filename);
             Data(const std::vector<uint8_t>& data);
 
-            void save(const std::string& filename) const;
             std::vector<uint8_t> encode() const;
 
             inline const std::map<std::string, Section>& getSections() const { return sections; }
