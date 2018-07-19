@@ -46,31 +46,6 @@ namespace ouzel
                                                      newPixelFormat));
         }
 
-        void Texture::init(const std::string& filename,
-                           uint32_t newFlags,
-                           uint32_t newMipmaps,
-                           PixelFormat newPixelFormat)
-        {
-            ImageDataSTB image(filename, newPixelFormat);
-
-            size = image.getSize();
-            flags = newFlags;
-            mipmaps = newMipmaps;
-            sampleCount = 1;
-            pixelFormat = image.getPixelFormat();
-
-            if ((flags & RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
-                throw DataError("Invalid mip map count");
-
-            renderer.executeOnRenderThread(std::bind(static_cast<void(TextureResource::*)(const std::vector<uint8_t>&, const Size2&, uint32_t, uint32_t, PixelFormat)>(&TextureResource::init),
-                                                     resource,
-                                                     image.getData(),
-                                                     image.getSize(),
-                                                     newFlags,
-                                                     newMipmaps,
-                                                     image.getPixelFormat()));
-        }
-
         void Texture::init(const std::vector<uint8_t>& newData,
                            const Size2& newSize,
                            uint32_t newFlags,

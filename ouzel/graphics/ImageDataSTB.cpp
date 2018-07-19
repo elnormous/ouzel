@@ -1,8 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "ImageDataSTB.hpp"
-#include "core/Engine.hpp"
-#include "files/FileSystem.hpp"
 #include "utils/Errors.hpp"
 #define STBI_NO_PSD
 #define STBI_NO_HDR
@@ -18,12 +16,6 @@ namespace ouzel
 {
     namespace graphics
     {
-        ImageDataSTB::ImageDataSTB(const std::string& filename,
-                                   PixelFormat newPixelFormat):
-            ImageDataSTB(engine->getFileSystem()->readFile(filename), newPixelFormat)
-        {
-        }
-
         ImageDataSTB::ImageDataSTB(const std::vector<uint8_t>& newData,
                                    PixelFormat newPixelFormat)
         {
