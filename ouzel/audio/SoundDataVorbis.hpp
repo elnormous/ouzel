@@ -15,7 +15,6 @@ namespace ouzel
         {
         public:
             SoundDataVorbis();
-            SoundDataVorbis(const std::string& filename);
             SoundDataVorbis(const std::vector<uint8_t>& initData);
 
             virtual std::shared_ptr<Stream> createStream() override;

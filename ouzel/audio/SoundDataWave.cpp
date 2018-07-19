@@ -3,8 +3,6 @@
 #include <iterator>
 #include "SoundDataWave.hpp"
 #include "StreamWave.hpp"
-#include "core/Engine.hpp"
-#include "files/FileSystem.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Utils.hpp"
 
@@ -19,11 +17,6 @@ namespace ouzel
     namespace audio
     {
         SoundDataWave::SoundDataWave()
-        {
-        }
-
-        SoundDataWave::SoundDataWave(const std::string& filename):
-            SoundDataWave(engine->getFileSystem()->readFile(filename))
         {
         }
 
