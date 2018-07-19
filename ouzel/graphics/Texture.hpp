@@ -67,10 +67,6 @@ namespace ouzel
                       uint32_t newMipmaps = 0,
                       uint32_t newSampleCount = 1,
                       PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
-            void init(const std::string& filename,
-                      uint32_t newFlags = 0,
-                      uint32_t newMipmaps = 0,
-                      PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
             void init(const std::vector<uint8_t>& newData,
                       const Size2& newSize,
                       uint32_t newFlags = 0,
