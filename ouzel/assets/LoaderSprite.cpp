@@ -3,7 +3,6 @@
 #include <algorithm>
 #include "LoaderSprite.hpp"
 #include "Cache.hpp"
-#include "core/Engine.hpp"
 #include "scene/SpriteData.hpp"
 #include "utils/JSON.hpp"
 
@@ -28,7 +27,7 @@ namespace ouzel
 
             const json::Value& metaObject = document["meta"];
 
-            spriteData.texture = engine->getCache()->getTexture(metaObject["image"].asString(), mipmaps);
+            spriteData.texture = cache->getTexture(metaObject["image"].asString(), mipmaps);
 
             if (!spriteData.texture)
                 return false;
