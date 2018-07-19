@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "LoaderCollada.hpp"
-#include "core/Engine.hpp"
+#include "Cache.hpp"
 #include "scene/MeshData.hpp"
 #include "utils/Errors.hpp"
 #include "utils/XML.hpp"
@@ -31,7 +31,7 @@ namespace ouzel
 
             // TODO: load the model
 
-            engine->getCache()->setMeshData(filename, meshData);
+            cache->setMeshData(filename, meshData);
 
             return true;
         }

@@ -7,7 +7,6 @@
 #include <tuple>
 #include "LoaderOBJ.hpp"
 #include "Cache.hpp"
-#include "core/Engine.hpp"
 #include "graphics/Material.hpp"
 #include "utils/Errors.hpp"
 
@@ -234,7 +233,7 @@ namespace ouzel
                         if (objectCount)
                         {
                             scene::MeshData meshData(boundingBox, indices, vertices, material);
-                            engine->getCache()->setMeshData(name, meshData);
+                            cache->setMeshData(name, meshData);
                         }
 
                         skipWhitespaces(data, iterator);
@@ -398,7 +397,7 @@ namespace ouzel
             if (objectCount)
             {
                 scene::MeshData meshData(boundingBox, indices, vertices, material);
-                engine->getCache()->setMeshData(name, meshData);
+                cache->setMeshData(name, meshData);
             }
 
             return true;

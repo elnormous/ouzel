@@ -4,7 +4,6 @@
 #include <string>
 #include "LoaderMTL.hpp"
 #include "Cache.hpp"
-#include "core/Engine.hpp"
 #include "utils/Errors.hpp"
 
 namespace ouzel
@@ -167,14 +166,14 @@ namespace ouzel
                         if (materialCount)
                         {
                             std::shared_ptr<graphics::Material> material = std::make_shared<graphics::Material>();
-                            material->blendState = engine->getCache()->getBlendState(graphics::BLEND_ALPHA);
-                            material->shader = engine->getCache()->getShader(graphics::SHADER_TEXTURE);
+                            material->blendState = cache->getBlendState(graphics::BLEND_ALPHA);
+                            material->shader = cache->getShader(graphics::SHADER_TEXTURE);
                             material->textures[0] = diffuseTexture;
                             material->textures[1] = ambientTexture;
                             material->diffuseColor = diffuseColor;
                             material->opacity = opacity;
 
-                            engine->getCache()->setMaterial(name, material);
+                            cache->setMaterial(name, material);
                         }
 
                         skipWhitespaces(data, iterator);
@@ -194,7 +193,7 @@ namespace ouzel
 
                         skipLine(data, iterator);
 
-                        ambientTexture = engine->getCache()->getTexture(value, mipmaps);
+                        ambientTexture = cache->getTexture(value, mipmaps);
                     }
                     else if (keyword == "map_Kd") // diffuse texture map
                     {
@@ -203,7 +202,7 @@ namespace ouzel
 
                         skipLine(data, iterator);
 
-                        diffuseTexture = engine->getCache()->getTexture(value, mipmaps);
+                        diffuseTexture = cache->getTexture(value, mipmaps);
                     }
                     else if (keyword == "Ka") // ambient color
                         skipLine(data, iterator);
@@ -259,14 +258,14 @@ namespace ouzel
             if (materialCount)
             {
                 std::shared_ptr<graphics::Material> material = std::make_shared<graphics::Material>();
-                material->blendState = engine->getCache()->getBlendState(graphics::BLEND_ALPHA);
-                material->shader = engine->getCache()->getShader(graphics::SHADER_TEXTURE);
+                material->blendState = cache->getBlendState(graphics::BLEND_ALPHA);
+                material->shader = cache->getShader(graphics::SHADER_TEXTURE);
                 material->textures[0] = diffuseTexture;
                 material->textures[1] = ambientTexture;
                 material->diffuseColor = diffuseColor;
                 material->opacity = opacity;
 
-                engine->getCache()->setMaterial(name, material);
+                cache->setMaterial(name, material);
             }
 
             return true;
