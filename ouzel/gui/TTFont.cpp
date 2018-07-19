@@ -4,18 +4,12 @@
 #define STB_TRUETYPE_IMPLEMENTATION
 #include "TTFont.hpp"
 #include "core/Engine.hpp"
-#include "files/FileSystem.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Utils.hpp"
 
 namespace ouzel
 {
     TTFont::TTFont()
-    {
-    }
-
-    TTFont::TTFont(const std::string& filename, bool initMipmaps):
-        TTFont(engine->getFileSystem()->readFile(filename), initMipmaps)
     {
     }
 
