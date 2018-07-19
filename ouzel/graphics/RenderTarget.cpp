@@ -6,7 +6,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        RenderTarget::RenderTarget(Renderer* initRenderer):
+        RenderTarget::RenderTarget(Renderer& initRenderer):
             renderer(initRenderer)
         {
         }
