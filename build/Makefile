@@ -205,7 +205,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/metal/BlendStateResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/BufferResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/RenderDeviceMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/RenderTargetMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/RenderTargetResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/ShaderResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/TextureResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/OpenGLView.m \
@@ -228,7 +228,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/metal/BlendStateResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/BufferResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/RenderDeviceMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/RenderTargetMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/RenderTargetResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/ShaderResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/TextureResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/ios/OpenGLView.m \
@@ -251,7 +251,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/metal/BlendStateResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/BufferResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/RenderDeviceMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/RenderTargetMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/RenderTargetResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/ShaderResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/TextureResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/tvos/OpenGLView.m \
