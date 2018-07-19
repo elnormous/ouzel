@@ -62,16 +62,11 @@ namespace ouzel
         {
         public:
             Data();
-            Data(const std::string& filename,
-                 bool preserveWhitespaces = false,
-                 bool preserveComments = false,
-                 bool preserveProcessingInstructions = false);
             Data(const std::vector<uint8_t>& data,
                  bool preserveWhitespaces = false,
                  bool preserveComments = false,
                  bool preserveProcessingInstructions = false);
 
-            void save(const std::string& filename) const;
             std::vector<uint8_t> encode() const;
 
             inline bool hasBOM() const { return bom; }

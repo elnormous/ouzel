@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "JSON.hpp"
-#include "core/Engine.hpp"
 #include "Errors.hpp"
 #include "Utils.hpp"
 
@@ -263,11 +262,6 @@ namespace ouzel
         {
         }
 
-        Data::Data(const std::string& filename):
-            Data(engine->getFileSystem()->readFile(filename))
-        {
-        }
-
         static inline bool isWhitespace(uint32_t c)
         {
             return c == ' ' || c == '\t' || c == '\r' || c == '\n';
@@ -478,11 +472,6 @@ namespace ouzel
             auto iterator = tokens.cbegin();
 
             parseValue(tokens, iterator);
-        }
-
-        void Data::save(const std::string& filename) const
-        {
-            engine->getFileSystem()->writeFile(filename, encode());
         }
 
         std::vector<uint8_t> Data::encode() const
