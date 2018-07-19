@@ -15,6 +15,8 @@ namespace ouzel
 {
     namespace graphics
     {
+        class RenderDevice;
+
         class ShaderResource: public RenderResource
         {
         public:
@@ -36,7 +38,9 @@ namespace ouzel
             inline uint32_t getVertexShaderAlignment() const { return vertexShaderAlignment; }
 
         protected:
-            ShaderResource();
+            ShaderResource(RenderDevice& initRenderDevice);
+
+            RenderDevice& renderDevice;
 
             std::set<Vertex::Attribute::Usage> vertexAttributes;
 

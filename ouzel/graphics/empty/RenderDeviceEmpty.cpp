@@ -45,7 +45,7 @@ namespace ouzel
         {
             Lock lock(resourceMutex);
 
-            BlendStateResource* blendState = new BlendStateResourceEmpty();
+            BlendStateResource* blendState = new BlendStateResourceEmpty(*this);
             resources.push_back(std::unique_ptr<RenderResource>(blendState));
             return blendState;
         }
@@ -54,7 +54,7 @@ namespace ouzel
         {
             Lock lock(resourceMutex);
 
-            BufferResource* buffer = new BufferResourceEmpty();
+            BufferResource* buffer = new BufferResourceEmpty(*this);
             resources.push_back(std::unique_ptr<RenderResource>(buffer));
             return buffer;
         }
@@ -63,7 +63,7 @@ namespace ouzel
         {
             Lock lock(resourceMutex);
 
-            RenderTargetResource* renderTarget = new RenderTargetResourceEmpty();
+            RenderTargetResource* renderTarget = new RenderTargetResourceEmpty(*this);
             resources.push_back(std::unique_ptr<RenderResource>(renderTarget));
             return renderTarget;
         }
@@ -72,7 +72,7 @@ namespace ouzel
         {
             Lock lock(resourceMutex);
 
-            ShaderResource* shader = new ShaderResourceEmpty();
+            ShaderResource* shader = new ShaderResourceEmpty(*this);
             resources.push_back(std::unique_ptr<RenderResource>(shader));
             return shader;
         }
@@ -81,7 +81,7 @@ namespace ouzel
         {
             Lock lock(resourceMutex);
 
-            TextureResource* texture(new TextureResourceEmpty());
+            TextureResource* texture(new TextureResourceEmpty(*this));
             resources.push_back(std::unique_ptr<RenderResource>(texture));
             return texture;
         }

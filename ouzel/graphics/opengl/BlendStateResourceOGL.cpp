@@ -5,6 +5,7 @@
 #if OUZEL_COMPILE_OPENGL
 
 #include "BlendStateResourceOGL.hpp"
+#include "RenderDeviceOGL.hpp"
 
 namespace ouzel
 {
@@ -48,7 +49,8 @@ namespace ouzel
             }
         }
 
-        BlendStateResourceOGL::BlendStateResourceOGL()
+        BlendStateResourceOGL::BlendStateResourceOGL(RenderDeviceOGL& renderDeviceOGL):
+            BlendStateResource(renderDeviceOGL)
         {
         }
 

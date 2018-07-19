@@ -14,8 +14,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        ShaderResourceMetal::ShaderResourceMetal(RenderDeviceMetal& initRenderDeviceMetal):
-            renderDeviceMetal(initRenderDeviceMetal)
+        ShaderResourceMetal::ShaderResourceMetal(RenderDeviceMetal& renderDeviceMetal):
+            ShaderResource(renderDeviceMetal)
         {
         }
 
@@ -142,6 +142,7 @@ namespace ouzel
             vertexDescriptor.layouts[0].stepRate = 1;
             vertexDescriptor.layouts[0].stepFunction = MTLVertexStepFunctionPerVertex;
 
+            RenderDeviceMetal& renderDeviceMetal = static_cast<RenderDeviceMetal&>(renderDevice);
             NSError* err;
 
             dispatch_data_t fragmentShaderDispatchData = dispatch_data_create(fragmentShaderData.data(), fragmentShaderData.size(), nullptr, DISPATCH_DATA_DESTRUCTOR_DEFAULT);

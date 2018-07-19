@@ -8,10 +8,12 @@ namespace ouzel
 {
     namespace graphics
     {
+        class RenderDeviceEmpty;
+
         class BlendStateResourceEmpty: public BlendStateResource
         {
         public:
-            BlendStateResourceEmpty();
+            BlendStateResourceEmpty(RenderDeviceEmpty& renderDeviceEmpty);
         };
     } // namespace graphics
 } // namespace ouzel

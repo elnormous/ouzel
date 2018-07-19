@@ -18,7 +18,7 @@ namespace ouzel
         class BufferResourceD3D11: public BufferResource
         {
         public:
-            explicit BufferResourceD3D11(RenderDeviceD3D11& initRenderDeviceD3D11);
+            explicit BufferResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11);
             virtual ~BufferResourceD3D11();
 
             virtual void init(Buffer::Usage newUsage, uint32_t newFlags,
@@ -31,8 +31,6 @@ namespace ouzel
 
         private:
             void createBuffer(UINT newSize);
-
-            RenderDeviceD3D11& renderDeviceD3D11;
 
             ID3D11Buffer* buffer = nullptr;
             UINT bufferSize = 0;

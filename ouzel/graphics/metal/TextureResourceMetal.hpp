@@ -33,7 +33,7 @@ namespace ouzel
         class TextureResourceMetal: public TextureResource
         {
         public:
-            explicit TextureResourceMetal(RenderDeviceMetal& initRenderDeviceMetal);
+            explicit TextureResourceMetal(RenderDeviceMetal& renderDeviceMetal);
             virtual ~TextureResourceMetal();
 
             virtual void init(const Size2& newSize,
@@ -78,8 +78,6 @@ namespace ouzel
         private:
             void createTexture();
             void updateSamplerState();
-
-            RenderDeviceMetal& renderDeviceMetal;
 
             MTLTexturePtr texture = nil;
 

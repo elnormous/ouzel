@@ -7,7 +7,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        BufferResource::BufferResource()
+        BufferResource::BufferResource(RenderDevice& initRenderDevice):
+            renderDevice(initRenderDevice)
         {
         }
 

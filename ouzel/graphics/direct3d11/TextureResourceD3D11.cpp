@@ -49,8 +49,8 @@ namespace ouzel
             }
         }
 
-        TextureResourceD3D11::TextureResourceD3D11(RenderDeviceD3D11& initRenderDeviceD3D11):
-            renderDeviceD3D11(initRenderDeviceD3D11)
+        TextureResourceD3D11::TextureResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11):
+            TextureResource(renderDeviceD3D11)
         {
         }
 
@@ -143,6 +143,8 @@ namespace ouzel
         void TextureResourceD3D11::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
         {
             TextureResource::setData(newData, newSize);
+
+            RenderDeviceD3D11& renderDeviceD3D11 = static_cast<RenderDeviceD3D11&>(renderDevice);
 
             if (!texture ||
                 static_cast<UINT>(size.width) != width ||
@@ -326,6 +328,8 @@ namespace ouzel
                 textureDescriptor.CPUAccessFlags = (flags & Texture::DYNAMIC && !(flags & Texture::RENDER_TARGET)) ? D3D11_CPU_ACCESS_WRITE : 0;
                 textureDescriptor.MiscFlags = 0;
 
+                RenderDeviceD3D11& renderDeviceD3D11 = static_cast<RenderDeviceD3D11&>(renderDevice);
+
                 if (levels.empty() || flags & Texture::RENDER_TARGET)
                 {
                     HRESULT hr = renderDeviceD3D11.getDevice()->CreateTexture2D(&textureDescriptor, nullptr, &texture);
@@ -405,6 +409,8 @@ namespace ouzel
 
         void TextureResourceD3D11::updateSamplerState()
         {
+            RenderDeviceD3D11& renderDeviceD3D11 = static_cast<RenderDeviceD3D11&>(renderDevice);
+
             RenderDeviceD3D11::SamplerStateDesc samplerDesc;
             samplerDesc.filter = (filter == Texture::Filter::DEFAULT) ? renderDeviceD3D11.getTextureFilter() : filter;
             samplerDesc.addressX = addressX;

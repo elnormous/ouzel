@@ -12,13 +12,14 @@ namespace ouzel
 {
     namespace graphics
     {
-        ShaderResourceOGL::ShaderResourceOGL(RenderDeviceOGL& initRenderDeviceOGL):
-            renderDeviceOGL(initRenderDeviceOGL)
+        ShaderResourceOGL::ShaderResourceOGL(RenderDeviceOGL& renderDeviceOGL):
+            ShaderResource(renderDeviceOGL)
         {
         }
 
         ShaderResourceOGL::~ShaderResourceOGL()
         {
+            RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
             if (programId) renderDeviceOGL.deleteProgram(programId);
             if (vertexShaderId) glDeleteShaderProc(vertexShaderId);
             if (fragmentShaderId) glDeleteShaderProc(fragmentShaderId);
@@ -46,6 +47,7 @@ namespace ouzel
 
             if (programId)
             {
+                RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
                 renderDeviceOGL.deleteProgram(programId);
                 programId = 0;
             }
@@ -215,6 +217,7 @@ namespace ouzel
             if ((error = glGetError()) != GL_NO_ERROR)
                 throw DataError("Failed to detach shader, error: " + std::to_string(error));
 
+            RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
             renderDeviceOGL.useProgram(programId);
 
             GLint texture0Location = glGetUniformLocationProc(programId, "texture0");

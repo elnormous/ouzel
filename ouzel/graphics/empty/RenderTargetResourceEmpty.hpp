@@ -8,10 +8,12 @@ namespace ouzel
 {
     namespace graphics
     {
+        class RenderDeviceEmpty;
+
         class RenderTargetResourceEmpty: public RenderTargetResource
         {
         public:
-            RenderTargetResourceEmpty() {}
+            RenderTargetResourceEmpty(RenderDeviceEmpty& renderDeviceEmpty);
         };
     } // namespace graphics
 } // namespace ouzel

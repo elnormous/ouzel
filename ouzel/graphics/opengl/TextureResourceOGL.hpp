@@ -29,7 +29,7 @@ namespace ouzel
         class TextureResourceOGL: public TextureResource
         {
         public:
-            explicit TextureResourceOGL(RenderDeviceOGL& initRenderDeviceOGL);
+            explicit TextureResourceOGL(RenderDeviceOGL& renderDeviceOGL);
             virtual ~TextureResourceOGL();
 
             virtual void init(const Size2& newSize,
@@ -71,8 +71,6 @@ namespace ouzel
         private:
             void createTexture();
             void setTextureParameters();
-
-            RenderDeviceOGL& renderDeviceOGL;
 
             GLuint textureId = 0;
 

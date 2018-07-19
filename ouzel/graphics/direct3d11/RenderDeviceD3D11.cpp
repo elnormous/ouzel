@@ -936,7 +936,7 @@ namespace ouzel
         {
             Lock lock(resourceMutex);
 
-            RenderTargetResource* renderTarget = new RenderTargetResourceD3D11();
+            RenderTargetResource* renderTarget = new RenderTargetResourceD3D11(*this);
             resources.push_back(std::unique_ptr<RenderResource>(renderTarget));
             return renderTarget;
         }

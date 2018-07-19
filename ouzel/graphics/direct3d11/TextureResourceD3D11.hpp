@@ -18,7 +18,7 @@ namespace ouzel
         class TextureResourceD3D11: public TextureResource
         {
         public:
-            explicit TextureResourceD3D11(RenderDeviceD3D11& initRenderDeviceD3D11);
+            explicit TextureResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11);
             virtual ~TextureResourceD3D11();
 
             virtual void init(const Size2& newSize,
@@ -65,8 +65,6 @@ namespace ouzel
         private:
             void createTexture();
             void updateSamplerState();
-
-            RenderDeviceD3D11& renderDeviceD3D11;
 
             ID3D11Texture2D* texture = nullptr;
             ID3D11ShaderResourceView* resourceView = nullptr;

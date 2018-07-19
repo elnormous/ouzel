@@ -21,10 +21,12 @@ namespace ouzel
 {
     namespace graphics
     {
+        class RenderDeviceMetal;
+
         class BlendStateResourceMetal: public BlendStateResource
         {
         public:
-            BlendStateResourceMetal();
+            BlendStateResourceMetal(RenderDeviceMetal& renderDeviceMetal);
 
             virtual void init(bool newEnableBlending,
                               BlendState::Factor newColorBlendSource, BlendState::Factor newColorBlendDest,

@@ -5,12 +5,14 @@
 #if OUZEL_COMPILE_METAL
 
 #include "BlendStateResourceMetal.hpp"
+#include "RenderDeviceMetal.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        BlendStateResourceMetal::BlendStateResourceMetal()
+        BlendStateResourceMetal::BlendStateResourceMetal(RenderDeviceMetal& renderDeviceMetal):
+            BlendStateResource(renderDeviceMetal)
         {
         }
 
