@@ -120,8 +120,8 @@ $ make platform=emscripten
 You can build Android samples and run them on an Android device by executing the following commands in "samples/android" directory (Android SDK and NDK must be installed and added to PATH):
 
 ```shell
-$ ant debug
-$ adb install -r bin/samples-debug.apk
+$ gradle assembleDebug
+$ gradle installDebug
 $ adb shell am start -n org.ouzelengine/org.ouzelengine.MainActivity
 ```
 
