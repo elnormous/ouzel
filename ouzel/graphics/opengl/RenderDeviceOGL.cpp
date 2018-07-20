@@ -5,32 +5,32 @@
 #if OUZEL_COMPILE_OPENGL
 
 #if OUZEL_PLATFORM_MACOS
-#include <dlfcn.h>
+#  include <dlfcn.h>
 #endif
 
 #include <cassert>
 #include <sstream>
 
 #if OUZEL_SUPPORTS_OPENGLES
-#define GL_GLEXT_PROTOTYPES 1
-#include "GLES/gl.h"
-#include "GLES2/gl2.h"
-#include "GLES2/gl2ext.h"
-#include "GLES3/gl3.h"
+#  define GL_GLEXT_PROTOTYPES 1
+#  include "GLES/gl.h"
+#  include "GLES2/gl2.h"
+#  include "GLES2/gl2ext.h"
+#  include "GLES3/gl3.h"
 #else
-#define GL_GLEXT_PROTOTYPES 1
-#include "GL/glcorearb.h"
-#include "GL/glext.h"
+#  define GL_GLEXT_PROTOTYPES 1
+#  include "GL/glcorearb.h"
+#  include "GL/glext.h"
 #endif
 
 #if OUZEL_OPENGL_INTERFACE_EGL
-#include "EGL/egl.h"
+#  include "EGL/egl.h"
 #elif OUZEL_OPENGL_INTERFACE_GLX
-#define GL_GLEXT_PROTOTYPES 1
-#include "GL/glx.h"
-#include "GL/glxext.h"
+#  define GL_GLEXT_PROTOTYPES 1
+#  include <GL/glx.h>
+#  include "GL/glxext.h"
 #elif OUZEL_OPENGL_INTERFACE_WGL
-#include "GL/wglext.h"
+#  include "GL/wglext.h"
 #endif
 
 #include "RenderDeviceOGL.hpp"
