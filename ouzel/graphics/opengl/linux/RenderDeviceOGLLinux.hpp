@@ -9,7 +9,7 @@
 #include <atomic>
 #if OUZEL_OPENGL_INTERFACE_GLX
 #  define GL_GLEXT_PROTOTYPES 1
-#  include "GL/glx.h"
+#  include <GL/glx.h>
 #elif OUZEL_OPENGL_INTERFACE_EGL
 #  include "EGL/egl.h"
 #  include "EGL/eglext.h"
