@@ -109,7 +109,7 @@ $ git submodule update
 
 Makefiles and Xcode and Visual Studio project files are located in the "build" directory. Makefiles and project files for sample project are located in the "samples" directory.
 
-You will need to download OpenGL (e.g. Mesa), OpenAL drivers installed in order to build Ouzel on Linux. For x86 Linux also libx11, libxcursor, libxi, and libxss are required.
+You will need to download OpenGL (e.g. Mesa), ALSA, and OpenAL drivers installed in order to build Ouzel on Linux. For x86 Linux also libx11, libxcursor, libxi, and libxss are required.
 
 To build Ouzel with Emscripten, pass "platform=emscripten" to "make" command, but make sure that you have Emscripten SDK installed before doing so:
 
