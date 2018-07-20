@@ -88,11 +88,11 @@ namespace ouzel
         audio::Audio::Driver audioDriver = audio::Audio::Driver::DEFAULT;
         bool debugAudio = false;
 
-        defaultSettings = ini::Data(engine->getFileSystem()->readFile("settings.ini"));
+        defaultSettings = ini::Data(fileSystem.readFile("settings.ini"));
 
         try
         {
-            userSettings = ini::Data(engine->getFileSystem()->readFile(fileSystem.getStorageDirectory() + FileSystem::DIRECTORY_SEPARATOR + "settings.ini"));
+            userSettings = ini::Data(fileSystem.readFile(fileSystem.getStorageDirectory() + FileSystem::DIRECTORY_SEPARATOR + "settings.ini"));
         }
         catch (const FileError&)
         {
