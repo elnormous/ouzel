@@ -17,7 +17,7 @@ namespace ouzel
             ImageDataSTB(const std::vector<uint8_t>& newData,
                          PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
 
-            void writeToFile(const std::string& filename);
+            void writeToFile(const std::string& filename) const;
         };
     } // namespace graphics
 } // namespace ouzel
