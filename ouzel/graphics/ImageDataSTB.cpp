@@ -58,6 +58,18 @@ namespace ouzel
             size.height = static_cast<float>(height);
         }
 
+        std::vector<uint8_t> ImageDataSTB::encode() const
+        {
+            int len;
+            int x, y;
+            int comp;
+            int strideBytes;
+            unsigned char* png = stbi_write_png_to_mem(const_cast<unsigned char*>(data.data()), strideBytes, x, y, comp, &len);
+            if (png == NULL) throw SystemError("Failed to encode image");
+
+            return std::vector<uint8_t>(png, png + len);
+        }
+
         void ImageDataSTB::writeToFile(const std::string& newFilename) const
         {
             int depth = static_cast<int>(getPixelSize(pixelFormat));
