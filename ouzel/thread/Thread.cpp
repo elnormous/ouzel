@@ -2,7 +2,7 @@
 
 #if defined(__APPLE__)
 #  include <sys/sysctl.h>
-#else
+#elif !defined(_WIN32)
 #  include <unistd.h>
 #endif
 
