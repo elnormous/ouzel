@@ -14,7 +14,7 @@
 #include "audio/SoundDataVorbis.hpp"
 #include "gui/BMFont.hpp"
 #include "gui/TTFont.hpp"
-#include "utils/Log.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -75,7 +75,7 @@ namespace ouzel
             }
         }
 
-        bool Cache::loadAsset(uint32_t loaderType, const std::string& filename, bool mipmaps) const
+        void Cache::loadAsset(uint32_t loaderType, const std::string& filename, bool mipmaps) const
         {
             std::vector<uint8_t> data = fileSystem.readFile(filename);
 
@@ -88,15 +88,14 @@ namespace ouzel
                 if (loader->getType() == loaderType &&
                     std::find(loader->extensions.begin(), loader->extensions.end(), extension) != loader->extensions.end())
                 {
-                    if (loader->loadAsset(filename, data, mipmaps)) return true;
+                    if (loader->loadAsset(filename, data, mipmaps)) return;
                 }
             }
 
-            Log(Log::Level::ERR) << "Failed to load asset " << filename;
-            return false;
+            throw FileError("Failed to load asset " + filename);
         }
 
-        bool Cache::loadAsset(const std::string& filename, bool mipmaps) const
+        void Cache::loadAsset(const std::string& filename, bool mipmaps) const
         {
             std::vector<uint8_t> data = fileSystem.readFile(filename);
 
@@ -108,20 +107,17 @@ namespace ouzel
                 Loader* loader = *i;
                 if (std::find(loader->extensions.begin(), loader->extensions.end(), extension) != loader->extensions.end())
                 {
-                    if (loader->loadAsset(filename, data, mipmaps)) return true;
+                    if (loader->loadAsset(filename, data, mipmaps)) return;
                 }
             }
 
-            Log(Log::Level::ERR) << "Failed to load asset " << filename;
-            return false;
+            throw FileError("Failed to load asset " + filename);
         }
 
-        bool Cache::loadAssets(const std::vector<std::string>& filenames, bool mipmaps) const
+        void Cache::loadAssets(const std::vector<std::string>& filenames, bool mipmaps) const
         {
             for (const std::string& filename : filenames)
                 loadAsset(filename, mipmaps);
-
-            return true;
         }
 
         const std::shared_ptr<graphics::Texture>& Cache::getTexture(const std::string& filename, bool mipmaps) const
@@ -225,9 +221,9 @@ namespace ouzel
             }
         }
 
-        bool Cache::preloadSpriteData(const std::string& filename, bool mipmaps,
-                                            uint32_t spritesX, uint32_t spritesY,
-                                            const Vector2& pivot)
+        void Cache::preloadSpriteData(const std::string& filename, bool mipmaps,
+                                      uint32_t spritesX, uint32_t spritesY,
+                                      const Vector2& pivot)
         {
             if (std::find(loaderImage.extensions.begin(), loaderImage.extensions.end(),
                           fileSystem.getExtensionPart(filename)) != loaderImage.extensions.end())
@@ -240,36 +236,34 @@ namespace ouzel
                 newSpriteData.texture = getTexture(filename, mipmaps);
 
                 if (newSpriteData.texture)
-                    return false;
-
-                Size2 spriteSize = Size2(newSpriteData.texture->getSize().width / spritesX,
-                                         newSpriteData.texture->getSize().height / spritesY);
-
-                scene::SpriteData::Animation animation;
-                animation.frames.reserve(spritesX * spritesY);
-
-                for (uint32_t x = 0; x < spritesX; ++x)
                 {
-                    for (uint32_t y = 0; y < spritesY; ++y)
+                    Size2 spriteSize = Size2(newSpriteData.texture->getSize().width / spritesX,
+                                             newSpriteData.texture->getSize().height / spritesY);
+
+                    scene::SpriteData::Animation animation;
+                    animation.frames.reserve(spritesX * spritesY);
+
+                    for (uint32_t x = 0; x < spritesX; ++x)
                     {
-                        Rect rectangle(spriteSize.width * x,
-                                       spriteSize.height * y,
-                                       spriteSize.width,
-                                       spriteSize.height);
+                        for (uint32_t y = 0; y < spritesY; ++y)
+                        {
+                            Rect rectangle(spriteSize.width * x,
+                                           spriteSize.height * y,
+                                           spriteSize.width,
+                                           spriteSize.height);
 
-                        scene::SpriteData::Frame frame = scene::SpriteData::Frame(filename, newSpriteData.texture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
-                        animation.frames.push_back(frame);
+                            scene::SpriteData::Frame frame = scene::SpriteData::Frame(filename, newSpriteData.texture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
+                            animation.frames.push_back(frame);
+                        }
                     }
+
+                    newSpriteData.animations[""] = std::move(animation);
+
+                    spriteData[filename] = newSpriteData;
                 }
-
-                newSpriteData.animations[""] = std::move(animation);
-
-                spriteData[filename] = newSpriteData;
             }
             else
-                return loadAsset(Loader::SPRITE, filename, mipmaps);
-
-            return true;
+                loadAsset(Loader::SPRITE, filename, mipmaps);
         }
 
         const scene::SpriteData& Cache::getSpriteData(const std::string& filename, bool mipmaps,

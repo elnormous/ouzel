@@ -46,9 +46,9 @@ namespace ouzel
             void addLoader(Loader* loader);
             void removeLoader(Loader* loader);
 
-            bool loadAsset(const std::string& filename, bool mipmaps = true) const;
-            bool loadAsset(uint32_t loaderType, const std::string& filename, bool mipmaps = true) const;
-            bool loadAssets(const std::vector<std::string>& filenames, bool mipmaps = true) const;
+            void loadAsset(const std::string& filename, bool mipmaps = true) const;
+            void loadAsset(uint32_t loaderType, const std::string& filename, bool mipmaps = true) const;
+            void loadAssets(const std::vector<std::string>& filenames, bool mipmaps = true) const;
 
             void clear();
 
@@ -64,9 +64,9 @@ namespace ouzel
             void setBlendState(const std::string& blendStateName, const std::shared_ptr<graphics::BlendState>& blendState);
             void releaseBlendStates();
 
-            bool preloadSpriteData(const std::string& filename, bool mipmaps = true,
-                                         uint32_t spritesX = 1, uint32_t spritesY = 1,
-                                         const Vector2& pivot = Vector2(0.5F, 0.5F));
+            void preloadSpriteData(const std::string& filename, bool mipmaps = true,
+                                   uint32_t spritesX = 1, uint32_t spritesY = 1,
+                                   const Vector2& pivot = Vector2(0.5F, 0.5F));
             const scene::SpriteData& getSpriteData(const std::string& filename, bool mipmaps = true,
                                                    uint32_t spritesX = 1, uint32_t spritesY = 1,
                                                    const Vector2& pivot = Vector2(0.5F, 0.5F)) const;
