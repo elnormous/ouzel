@@ -1,5 +1,11 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#if defined(__APPLE__)
+#  include <sys/sysctl.h>
+#else
+#  include <unistd.h>
+#endif
+
 #include "Thread.hpp"
 #include "utils/Errors.hpp"
 
@@ -37,6 +43,36 @@ static void* threadFunction(void* parameter)
 
 namespace ouzel
 {
+    uint32_t getCPUCount()
+    {
+#if defined(_WIN32)
+        SYSTEM_INFO sysinfo;
+        GetSystemInfo(&sysinfo);
+        return sysinfo.dwNumberOfProcessors;
+#elif defined(__APPLE__)
+        int mib[2];
+        mib[0] = CTL_HW;
+#  ifdef HW_AVAILCPU
+        mib[1] = HW_AVAILCPU;
+#  else
+        mib[1] = HW_NCPU;
+#  endif
+        int count;
+        size_t size = sizeof(count);
+        if (sysctl(mib, 2, &count, &size, NULL, 0) != 0)
+            throw ThreadError("Failed to get CPU count");
+
+        return (count > 0) ? static_cast<uint32_t>(count) : 0;
+#elif defined(__linux__) || defined(__ANDROID__)
+        int count = sysconf(_SC_NPROCESSORS_ONLN);
+        if (count == -1)
+            throw ThreadError("Failed to get CPU count");
+        return (count > 0) ? static_cast<uint32_t>(count) : 0;
+#else
+        return 1;
+#endif
+    }
+
     Thread::Thread(const std::function<void()>& function, const std::string& name):
         state(new State())
     {
