@@ -219,21 +219,21 @@ namespace ouzel
                 if (wireframe) textures.push_back(whitePixelTexture);
                 else textures.assign(std::begin(material->textures), std::end(material->textures));
 
-                engine->getRenderer()->addSetCullModeCommad(material->cullMode);
-                engine->getRenderer()->addSetPipelineStateCommand(material->blendState,
-                                                                  material->shader);
-                engine->getRenderer()->addSetShaderConstantsCommand(fragmentShaderConstants,
-                                                                    vertexShaderConstants);
-                engine->getRenderer()->addSetTexturesCommand(textures);
+                engine->getRenderer()->setCullMode(material->cullMode);
+                engine->getRenderer()->setPipelineState(material->blendState,
+                                                        material->shader);
+                engine->getRenderer()->setShaderConstants(fragmentShaderConstants,
+                                                          vertexShaderConstants);
+                engine->getRenderer()->setTextures(textures);
 
                 const SpriteData::Frame& frame = currentAnimation->animation->frames[currentFrame];
 
-                engine->getRenderer()->addDrawCommand(frame.getIndexBuffer(),
-                                                      frame.getIndexCount(),
-                                                      sizeof(uint16_t),
-                                                      frame.getVertexBuffer(),
-                                                      graphics::Renderer::DrawMode::TRIANGLE_LIST,
-                                                      0);
+                engine->getRenderer()->draw(frame.getIndexBuffer(),
+                                            frame.getIndexCount(),
+                                            sizeof(uint16_t),
+                                            frame.getVertexBuffer(),
+                                            graphics::Renderer::DrawMode::TRIANGLE_LIST,
+                                            0);
             }
         }
 

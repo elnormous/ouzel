@@ -87,17 +87,17 @@ namespace ouzel
             std::vector<std::vector<float>> vertexShaderConstants(1);
             vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
 
-            engine->getRenderer()->addSetCullModeCommad(graphics::Renderer::CullMode::NONE);
-            engine->getRenderer()->addSetPipelineStateCommand(blendState, shader);
-            engine->getRenderer()->addSetShaderConstantsCommand(fragmentShaderConstants,
-                                                                vertexShaderConstants);
-            engine->getRenderer()->addSetTexturesCommand({wireframe ? whitePixelTexture : texture});
-            engine->getRenderer()->addDrawCommand(indexBuffer,
-                                                  static_cast<uint32_t>(indices.size()),
-                                                  sizeof(uint16_t),
-                                                  vertexBuffer,
-                                                  graphics::Renderer::DrawMode::TRIANGLE_LIST,
-                                                  0);
+            engine->getRenderer()->setCullMode(graphics::Renderer::CullMode::NONE);
+            engine->getRenderer()->setPipelineState(blendState, shader);
+            engine->getRenderer()->setShaderConstants(fragmentShaderConstants,
+                                                      vertexShaderConstants);
+            engine->getRenderer()->setTextures({wireframe ? whitePixelTexture : texture});
+            engine->getRenderer()->draw(indexBuffer,
+                                        static_cast<uint32_t>(indices.size()),
+                                        sizeof(uint16_t),
+                                        vertexBuffer,
+                                        graphics::Renderer::DrawMode::TRIANGLE_LIST,
+                                        0);
         }
 
         void TextRenderer::setText(const std::string& newText)
