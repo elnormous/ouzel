@@ -1,5 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <functional>
+#include <memory>
 #include "ImageDataSTB.hpp"
 #include "utils/Errors.hpp"
 #define STBI_NO_PSD
@@ -64,10 +66,12 @@ namespace ouzel
             int x, y;
             int comp;
             int strideBytes;
-            unsigned char* png = stbi_write_png_to_mem(const_cast<unsigned char*>(data.data()), strideBytes, x, y, comp, &len);
-            if (png == NULL) throw SystemError("Failed to encode image");
+            std::unique_ptr<unsigned char, std::function<void(unsigned char*)>> png(stbi_write_png_to_mem(const_cast<unsigned char*>(data.data()),
+                                                                                                          strideBytes, x, y, comp, &len),
+                                                                                    [](unsigned char* p){ STBI_FREE(p); });
+            if (!png) throw SystemError("Failed to encode image");
 
-            return std::vector<uint8_t>(png, png + len);
+            return std::vector<uint8_t>(png.get(), png.get() + len);
         }
 
         void ImageDataSTB::writeToFile(const std::string& newFilename) const
