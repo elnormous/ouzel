@@ -46,7 +46,7 @@ namespace ouzel
                 for (Camera* camera : layer->getCameras())
                 {
                     if (clearedRenderTargets.insert(camera->getRenderTarget().get()).second)
-                        engine->getRenderer()->addClearCommand(camera->getRenderTarget());
+                        engine->getRenderer()->clear(camera->getRenderTarget());
                 }
 
                 layer->draw();

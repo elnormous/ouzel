@@ -65,18 +65,18 @@ namespace ouzel
             if (wireframe) textures.push_back(whitePixelTexture);
             else textures.assign(std::begin(material->textures), std::end(material->textures));
 
-            engine->getRenderer()->addSetCullModeCommad(material->cullMode);
-            engine->getRenderer()->addSetPipelineStateCommand(material->blendState,
-                                                              material->shader);
-            engine->getRenderer()->addSetShaderConstantsCommand(fragmentShaderConstants,
-                                                                vertexShaderConstants);
-            engine->getRenderer()->addSetTexturesCommand(textures);
-            engine->getRenderer()->addDrawCommand(indexBuffer,
-                                                  indexCount,
-                                                  indexSize,
-                                                  vertexBuffer,
-                                                  graphics::Renderer::DrawMode::TRIANGLE_LIST,
-                                                  0);
+            engine->getRenderer()->setCullMode(material->cullMode);
+            engine->getRenderer()->setPipelineState(material->blendState,
+                                                    material->shader);
+            engine->getRenderer()->setShaderConstants(fragmentShaderConstants,
+                                                      vertexShaderConstants);
+            engine->getRenderer()->setTextures(textures);
+            engine->getRenderer()->draw(indexBuffer,
+                                        indexCount,
+                                        indexSize,
+                                        vertexBuffer,
+                                        graphics::Renderer::DrawMode::TRIANGLE_LIST,
+                                        0);
         }
     } // namespace scene
 } // namespace ouzel

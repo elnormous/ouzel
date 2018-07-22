@@ -34,9 +34,9 @@ namespace ouzel
                 for (Actor* actor : children)
                     actor->visit(drawQueue, Matrix4::identity(), false, camera, 0, false);
 
-                engine->getRenderer()->addSetRenderTargetCommand(camera->getRenderTarget());
-                engine->getRenderer()->addSetViewportCommand(camera->getRenderViewport());
-                engine->getRenderer()->addSetDepthStateCommand(camera->getDepthTest(), camera->getDepthWrite());
+                engine->getRenderer()->setRenderTarget(camera->getRenderTarget());
+                engine->getRenderer()->setViewport(camera->getRenderViewport());
+                engine->getRenderer()->setDepthState(camera->getDepthTest(), camera->getDepthWrite());
 
                 for (Actor* actor : drawQueue)
                 {
@@ -44,9 +44,9 @@ namespace ouzel
 
                     if (camera->getWireframe())
                     {
-                        engine->getRenderer()->addSetFillModeCommad(graphics::Renderer::FillMode::WIREFRAME);
+                        engine->getRenderer()->setFillMode(graphics::Renderer::FillMode::WIREFRAME);
                         actor->draw(camera, true);
-                        engine->getRenderer()->addSetFillModeCommad(graphics::Renderer::FillMode::SOLID);
+                        engine->getRenderer()->setFillMode(graphics::Renderer::FillMode::SOLID);
                     }
                 }
             }
