@@ -3,6 +3,7 @@
 #pragma once
 
 #include <cassert>
+#include <memory>
 #include "graphics/BlendState.hpp"
 #include "graphics/Buffer.hpp"
 #include "graphics/RenderTarget.hpp"
@@ -420,14 +421,13 @@ namespace ouzel
             CommandBuffer(const CommandBuffer&) = delete;
             CommandBuffer(CommandBuffer&& other)
             {
-                buffer = other.buffer;
+                buffer = std::move(other.buffer);
                 capacity = other.capacity;
                 count = other.count;
                 size = other.size;
                 position = other.position;
                 current = other.current;
 
-                other.buffer = nullptr;
                 other.capacity = 0;
                 other.count = 0;
                 other.size = 0;
@@ -439,20 +439,15 @@ namespace ouzel
             {
                 if (&other != this)
                 {
-                    if (buffer)
-                    {
-                        deleteCommands();
-                        delete [] buffer;
-                    }
+                    if (buffer) deleteCommands();
 
-                    buffer = other.buffer;
+                    buffer = std::move(other.buffer);
                     capacity = other.capacity;
                     count = other.count;
                     size = other.size;
                     position = other.position;
                     current = other.current;
 
-                    other.buffer = nullptr;
                     other.capacity = 0;
                     other.count = 0;
                     other.size = 0;
@@ -465,11 +460,7 @@ namespace ouzel
 
             ~CommandBuffer()
             {
-                if (buffer)
-                {
-                    deleteCommands();
-                    delete [] buffer;
-                }
+                if (buffer) deleteCommands();
             }
 
             template<typename T> void push(const T& command)
@@ -483,19 +474,18 @@ namespace ouzel
                 {
                     capacity *= 2;
                     if (capacity < offset + sizeof(T)) capacity = offset + sizeof(T);
-                    uint8_t* newBuffer = new uint8_t[capacity];
+                    std::unique_ptr<uint8_t[]> newBuffer(new uint8_t[capacity]);
                     if (buffer)
                     {
-                        moveCommands(newBuffer);
+                        moveCommands(newBuffer.get());
                         deleteCommands();
-                        delete [] buffer;
                     }
-                    buffer = newBuffer;
+                    buffer = std::move(newBuffer);
                 }
 
                 size = offset + sizeof(T);
                 ++count;
-                new (buffer + offset) T(command);
+                new (buffer.get() + offset) T(command);
             }
 
             Command* front() const
@@ -504,7 +494,7 @@ namespace ouzel
 
                 size_t offset = position;
                 if (offset % alignof(Command*) != 0) offset += alignof(Command*) - (offset % alignof(Command*));
-                Command* command = reinterpret_cast<Command*>(buffer + offset);
+                Command* command = reinterpret_cast<Command*>(buffer.get() + offset);
 
                 return command;
             }
@@ -514,7 +504,7 @@ namespace ouzel
                 if (current >= count) return;
 
                 if (position % alignof(Command*) != 0) position += alignof(Command*) - (position % alignof(Command*));
-                Command* command = reinterpret_cast<Command*>(buffer + position);
+                Command* command = reinterpret_cast<Command*>(buffer.get() + position);
 
                 switch (command->type)
                 {
@@ -576,7 +566,7 @@ namespace ouzel
                 for (uint32_t i = current; i < count; ++i)
                 {
                     if (offset % alignof(Command*) != 0) offset += alignof(Command*) - (offset % alignof(Command*));
-                    Command* command = reinterpret_cast<Command*>(buffer + offset);
+                    Command* command = reinterpret_cast<Command*>(buffer.get() + offset);
 
                     switch (command->type)
                     {
@@ -614,7 +604,7 @@ namespace ouzel
                 for (uint32_t i = current; i < count; ++i)
                 {
                     if (offset % alignof(Command*) != 0) offset += alignof(Command*) - (offset % alignof(Command*));
-                    Command* command = reinterpret_cast<Command*>(buffer + offset);
+                    Command* command = reinterpret_cast<Command*>(buffer.get() + offset);
 
                     switch (command->type)
                     {
@@ -645,7 +635,7 @@ namespace ouzel
                 }
             }
 
-            uint8_t* buffer = nullptr;
+            std::unique_ptr<uint8_t[]> buffer;
             size_t capacity = 0;
             size_t size = 0; // write position
             size_t position = 0; // read postion
