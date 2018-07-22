@@ -73,16 +73,5 @@ namespace ouzel
 
             return std::vector<uint8_t>(png.get(), png.get() + len);
         }
-
-        void ImageDataSTB::writeToFile(const std::string& newFilename) const
-        {
-            int depth = static_cast<int>(getPixelSize(pixelFormat));
-            int width = static_cast<int>(size.width);
-            int height = static_cast<int>(size.height);
-
-            if (!stbi_write_png(newFilename.c_str(), width, height, depth, data.data(), width * depth))
-                throw ParseError("Failed to save image to file");
-        }
-
     } // namespace graphics
 } // namespace ouzel
