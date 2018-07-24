@@ -6,6 +6,7 @@
 
 using namespace std;
 using namespace ouzel;
+using namespace audio;
 
 SoundSample::SoundSample():
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
@@ -25,25 +26,25 @@ SoundSample::SoundSample():
     soundMixer.setOutput(&listener);
     soundMixer.setGain(1.2F);
 
-    test8BitSound.init(engine->getCache()->getSoundData("8-bit.wav"));
+    test8BitSound = Sound(engine->getCache()->getSoundData("8-bit.wav"));
     test8BitSound.setPitch(2.0F);
     test8BitSound.setOutput(&soundMixer);
 
-    test24BitSound.init(engine->getCache()->getSoundData("24-bit.wav"));
+    test24BitSound = Sound(engine->getCache()->getSoundData("24-bit.wav"));
     test24BitSound.setPitch(0.5F);
     test24BitSound.setOutput(&soundMixer);
 
-    jumpSound.init(engine->getCache()->getSoundData("jump.wav"));
+    jumpSound = Sound(engine->getCache()->getSoundData("jump.wav"));
 
     guiLayer.addChild(&soundActor);
     soundActor.addComponent(&jumpSound);
     soundActor.setPosition(Vector3(8.0F, 0.0F, 10.0F));
     jumpSound.setOutput(&soundMixer);
 
-    ambientSound.init(engine->getCache()->getSoundData("ambient.wav"));
+    ambientSound = Sound(engine->getCache()->getSoundData("ambient.wav"));
     ambientSound.setOutput(&soundMixer);
 
-    music.init(engine->getCache()->getSoundData("music.ogg"));
+    music = Sound(engine->getCache()->getSoundData("music.ogg"));
     music.setOutput(&listener);
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);

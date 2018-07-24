@@ -20,7 +20,13 @@ namespace ouzel
         Sound::Sound(const std::shared_ptr<SoundData>& initSoundData):
             Sound()
         {
-            init(initSoundData);
+            soundData = initSoundData;
+
+            if (soundData)
+            {
+                stream = soundData->createStream();
+                stream->setEventListener(this);
+            }
         }
 
         Sound::~Sound()
@@ -28,14 +34,70 @@ namespace ouzel
             if (stream) stream->setEventListener(nullptr);
         }
 
-        void Sound::init(const std::shared_ptr<SoundData>& newSoundData)
+        Sound::Sound(Sound&& other):
+            scene::Component(scene::Component::SOUND)
         {
-            soundData = newSoundData;
-            if (soundData)
+            soundData = std::move(other.soundData);
+            stream = std::move(other.stream);
+            if (stream) stream->setEventListener(this);
+            position = other.position;
+            pitch = other.pitch;
+            gain = other.gain;
+            rolloffFactor = other.rolloffFactor;
+            minDistance = other.minDistance;
+            maxDistance = other.maxDistance;
+            other.transformDirty = other.transformDirty;
+            spatialized = other.spatialized;
+            playing = other.playing;
+            repeating = other.repeating;
+
+            other.position = Vector3();
+            other.pitch = 1.0F;
+            other.gain = 1.0F;
+            other.rolloffFactor = 1.0F;
+            other.minDistance = 1.0F;
+            other.maxDistance = FLT_MAX;
+
+            other.transformDirty = true;
+            other.spatialized = true;
+            other.playing = false;
+            other.repeating = false;
+        }
+
+        Sound& Sound::operator=(Sound&& other)
+        {
+            if (&other != this)
             {
-                stream = soundData->createStream();
-                stream->setEventListener(this);
+                if (stream) stream->setEventListener(nullptr);
+
+                soundData = std::move(other.soundData);
+                stream = std::move(other.stream);
+                if (stream) stream->setEventListener(this);
+                position = other.position;
+                pitch = other.pitch;
+                gain = other.gain;
+                rolloffFactor = other.rolloffFactor;
+                minDistance = other.minDistance;
+                maxDistance = other.maxDistance;
+                other.transformDirty = other.transformDirty;
+                spatialized = other.spatialized;
+                playing = other.playing;
+                repeating = other.repeating;
+
+                other.position = Vector3();
+                other.pitch = 1.0F;
+                other.gain = 1.0F;
+                other.rolloffFactor = 1.0F;
+                other.minDistance = 1.0F;
+                other.maxDistance = FLT_MAX;
+
+                other.transformDirty = true;
+                other.spatialized = true;
+                other.playing = false;
+                other.repeating = false;
             }
+
+            return *this;
         }
 
         void Sound::updateTransform()

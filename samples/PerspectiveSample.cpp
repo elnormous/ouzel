@@ -6,6 +6,7 @@
 
 using namespace std;
 using namespace ouzel;
+using namespace audio;
 using namespace graphics;
 
 PerspectiveSample::PerspectiveSample():
@@ -57,7 +58,7 @@ PerspectiveSample::PerspectiveSample():
     cameraActor.addComponent(&listener);
     engine->getAudio()->addListener(&listener);
 
-    jumpSound.init(engine->getCache()->getSoundData("jump.wav"));
+    jumpSound = Sound(engine->getCache()->getSoundData("jump.wav"));
     jumpSound.setOutput(&listener);
     jumpSound.setRolloffFactor(0.01F);
     character.addComponent(&jumpSound);
