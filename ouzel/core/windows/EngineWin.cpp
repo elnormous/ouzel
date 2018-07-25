@@ -41,20 +41,20 @@ namespace ouzel
         //CoUninitialize();
     }
 
-    static void translateMessage(HWND window, const std::set<HACCEL>& accelerators, MSG& msg)
+    static void translateMessage(HWND window, const std::set<HACCEL>& accelerators, MSG& message)
     {
         bool translate = true;
 
         for (HACCEL accelerator : accelerators)
         {
-            if (TranslateAccelerator(window, accelerator, &msg))
+            if (TranslateAccelerator(window, accelerator, &message))
                 translate = false;
         }
 
         if (translate)
         {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
+            TranslateMessage(&message);
+            DispatchMessage(&message);
         }
     }
 
@@ -75,18 +75,18 @@ namespace ouzel
         input::InputManagerWin* inputWin = static_cast<input::InputManagerWin*>(inputManager.get());
         NativeWindowWin* windowWin = static_cast<NativeWindowWin*>(window->getNativeWindow());
 
-        MSG msg;
+        MSG message;
 
         while (active)
         {
             if (!paused)
             {
-                if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+                if (PeekMessage(&message, nullptr, 0, 0, PM_REMOVE))
                 {
                     translateMessage(windowWin->getNativeWindow(),
-                                     windowWin->accelerators, msg);
+                                     windowWin->accelerators, message);
 
-                    if (msg.message == WM_QUIT)
+                    if (message.message == WM_QUIT)
                     {
                         exit();
                         break;
@@ -95,7 +95,7 @@ namespace ouzel
             }
             else
             {
-                BOOL ret = GetMessage(&msg, nullptr, 0, 0);
+                BOOL ret = GetMessage(&message, nullptr, 0, 0);
                 if (ret == 0)
                 {
                     exit();
@@ -109,7 +109,7 @@ namespace ouzel
                 else
                 {
                     translateMessage(windowWin->getNativeWindow(),
-                                     windowWin->accelerators, msg);
+                                     windowWin->accelerators, message);
                 }
             }
 
