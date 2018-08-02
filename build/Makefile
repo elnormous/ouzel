@@ -7,8 +7,7 @@ architecture=$(shell uname -m)
 
 ifeq ($(shell uname -s),Linux)
 platform=linux
-endif
-ifeq ($(shell uname -s),Darwin)
+else ifeq ($(shell uname -s),Darwin)
 platform=macos
 endif
 
