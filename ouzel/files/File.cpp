@@ -1,8 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include "core/Setup.h"
-
-#if !OUZEL_PLATFORM_WINDOWS
+#if !defined(_WIN32)
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -18,7 +16,7 @@ namespace ouzel
 
     File::File(const std::string& filename, int mode)
     {
-#if OUZEL_PLATFORM_WINDOWS
+#if defined(_WIN32)
         DWORD access = 0;
         if (mode & READ) access |= GENERIC_READ;
         if (mode & WRITE) access |= GENERIC_WRITE;
@@ -48,7 +46,7 @@ namespace ouzel
 
     File::~File()
     {
-#if OUZEL_PLATFORM_WINDOWS
+#if defined(_WIN32)
         if (file != INVALID_HANDLE_VALUE) CloseHandle(file);
 #else
         if (fd != -1) close(fd);
@@ -57,7 +55,7 @@ namespace ouzel
 
     File::File(File&& other)
     {
-#if OUZEL_PLATFORM_WINDOWS
+#if defined(_WIN32)
         file = other.file;
         other.file = nullptr;
 #else
@@ -70,7 +68,7 @@ namespace ouzel
     {
         if (&other != this)
         {
-#if OUZEL_PLATFORM_WINDOWS
+#if defined(_WIN32)
             if (file != INVALID_HANDLE_VALUE) CloseHandle(file);
             file = other.file;
             other.file = nullptr;
@@ -106,7 +104,7 @@ namespace ouzel
         }
         else
         {
-#if OUZEL_PLATFORM_WINDOWS
+#if defined(_WIN32)
             if (file == INVALID_HANDLE_VALUE)
                 throw FileError("File is not open");
 
@@ -147,7 +145,7 @@ namespace ouzel
         }
         else
         {
-#if OUZEL_PLATFORM_WINDOWS
+#if defined(_WIN32)
             if (file == INVALID_HANDLE_VALUE)
                 throw FileError("File is not open");
 
@@ -172,7 +170,7 @@ namespace ouzel
 
     void File::seek(int32_t offset, int method) const
     {
-#if OUZEL_PLATFORM_WINDOWS
+#if defined(_WIN32)
         if (file == INVALID_HANDLE_VALUE)
             throw FileError("File is not open");
 
@@ -197,7 +195,7 @@ namespace ouzel
 
     uint32_t File::getOffset() const
     {
-#if OUZEL_PLATFORM_WINDOWS
+#if defined(_WIN32)
         if (file == INVALID_HANDLE_VALUE) return 0;
         DWORD ret = SetFilePointer(file, 0, nullptr, FILE_CURRENT);
         return static_cast<uint32_t>(ret);
