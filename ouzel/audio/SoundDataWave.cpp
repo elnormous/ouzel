@@ -24,7 +24,7 @@ namespace ouzel
         {
             uint32_t offset = 0;
 
-            if (initData.size() < 16) // RIFF + size + WAVE
+            if (initData.size() < 12) // RIFF + size + WAVE
                 throw ParseError("Failed to load sound file, file too small");
 
             if (initData[offset + 0] != 'R' ||
@@ -39,10 +39,11 @@ namespace ouzel
 
             offset += 4;
 
-            if (initData.size() != length + 8)
+            if (initData.size() < offset + length)
                 throw ParseError("Failed to load sound file, size mismatch");
 
-            if (initData[offset + 0] != 'W' ||
+            if (length < 4 ||
+                initData[offset + 0] != 'W' ||
                 initData[offset + 1] != 'A' ||
                 initData[offset + 2] != 'V' ||
                 initData[offset + 3] != 'E')
