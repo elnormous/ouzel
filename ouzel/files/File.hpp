@@ -4,13 +4,11 @@
 
 #include <string>
 
-#include "core/Setup.h"
-
-#if OUZEL_PLATFORM_WINDOWS
+#if defined(_WIN32)
 #include <Windows.h>
 #endif
 
-#if OUZEL_PLATFORM_ANDROID
+#if defined(__ANDROID__)
 #include <android/asset_manager_jni.h>
 #endif
 
@@ -46,7 +44,7 @@ namespace ouzel
 
         inline bool isOpen() const
         {
-#if OUZEL_PLATFORM_WINDOWS
+#if defined(_WIN32)
             return file != INVALID_HANDLE_VALUE;
 #else
             return fd != -1;
@@ -59,7 +57,7 @@ namespace ouzel
         uint32_t getOffset() const;
 
     private:
-#if OUZEL_PLATFORM_WINDOWS
+#if defined(_WIN32)
         HANDLE file = INVALID_HANDLE_VALUE;
 #else
         int fd = -1;
