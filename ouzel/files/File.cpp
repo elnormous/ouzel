@@ -4,6 +4,7 @@
 
 #if !OUZEL_PLATFORM_WINDOWS
 #include <fcntl.h>
+#include <sys/stat.h>
 #include <unistd.h>
 #endif
 #include "File.hpp"

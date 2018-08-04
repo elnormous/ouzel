@@ -5,10 +5,10 @@ ifeq ($(OS),Windows_NT)
 	platform=windows
 else
 architecture=$(shell uname -m)
-
-ifeq ($(shell uname -s),Linux)
+os=$(shell uname -s)
+ifeq ($(os),Linux)
 platform=linux
-else ifeq ($(shell uname -s),Darwin)
+else ifeq ($(os),Darwin)
 platform=macos
 endif
 
