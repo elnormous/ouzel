@@ -47,7 +47,6 @@
 #include "graphics/BlendState.hpp"
 #include "graphics/BlendStateResource.hpp"
 #include "graphics/ImageData.hpp"
-#include "graphics/ImageDataSTB.hpp"
 #include "graphics/Buffer.hpp"
 #include "graphics/BufferResource.hpp"
 #include "graphics/Material.hpp"

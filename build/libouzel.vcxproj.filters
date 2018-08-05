@@ -121,9 +121,6 @@
     <ClCompile Include="..\ouzel\graphics\ImageData.cpp">
       <Filter>ouzel\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\ImageDataSTB.cpp">
-      <Filter>ouzel\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\utils\INI.cpp">
       <Filter>ouzel\utils</Filter>
     </ClCompile>
@@ -595,9 +592,6 @@
       <Filter>ouzel\core</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\ImageData.hpp">
-      <Filter>ouzel\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\ImageDataSTB.hpp">
       <Filter>ouzel\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\utils\Errors.hpp">
