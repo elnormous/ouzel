@@ -93,7 +93,6 @@
     <ClCompile Include="..\ouzel\graphics\empty\ShaderResourceEmpty.cpp" />
     <ClCompile Include="..\ouzel\graphics\empty\TextureResourceEmpty.cpp" />
     <ClCompile Include="..\ouzel\graphics\ImageData.cpp" />
-    <ClCompile Include="..\ouzel\graphics\ImageDataSTB.cpp" />
     <ClCompile Include="..\ouzel\graphics\Material.cpp" />
     <ClCompile Include="..\ouzel\graphics\opengl\BlendStateResourceOGL.cpp" />
     <ClCompile Include="..\ouzel\graphics\opengl\BufferResourceOGL.cpp" />
@@ -254,7 +253,6 @@
     <ClInclude Include="..\ouzel\graphics\empty\ShaderResourceEmpty.hpp" />
     <ClInclude Include="..\ouzel\graphics\empty\TextureResourceEmpty.hpp" />
     <ClInclude Include="..\ouzel\graphics\ImageData.hpp" />
-    <ClInclude Include="..\ouzel\graphics\ImageDataSTB.hpp" />
     <ClInclude Include="..\ouzel\graphics\Material.hpp" />
     <ClInclude Include="..\ouzel\graphics\opengl\BlendStateResourceOGL.hpp" />
     <ClInclude Include="..\ouzel\graphics\opengl\BufferResourceOGL.hpp" />

@@ -4,7 +4,6 @@
 #include "TextureResource.hpp"
 #include "Renderer.hpp"
 #include "RenderDevice.hpp"
-#include "ImageDataSTB.hpp"
 #include "utils/Errors.hpp"
 
 namespace ouzel

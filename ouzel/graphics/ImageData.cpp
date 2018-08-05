@@ -9,5 +9,12 @@ namespace ouzel
         ImageData::ImageData()
         {
         }
+
+        ImageData::ImageData(PixelFormat initPixelFormat,
+                             const Size2& initSize,
+                             std::vector<uint8_t>& initData):
+            pixelFormat(initPixelFormat), size(initSize), data(initData)
+        {
+        }
     } // namespace graphics
 } // namespace ouzel

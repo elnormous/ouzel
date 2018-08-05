@@ -4,7 +4,8 @@
 #include "InputManager.hpp"
 #include "NativeCursor.hpp"
 #include "core/Engine.hpp"
-#include "graphics/ImageDataSTB.hpp"
+#include "utils/Errors.hpp"
+#include "stb_image.h"
 
 namespace ouzel
 {
@@ -42,11 +43,37 @@ namespace ouzel
         void Cursor::init(const std::string& filename, const Vector2& hotSpot)
         {
             // TODO: load with asset loader
-            graphics::ImageDataSTB image(engine->getFileSystem()->readFile(filename));
+            std::vector<uint8_t> data = engine->getFileSystem()->readFile(filename);
 
-            init(image.getData(),
-                 image.getSize(),
-                 image.getPixelFormat(),
+            int width;
+            int height;
+            int comp;
+
+            stbi_uc* tempData = stbi_load_from_memory(data.data(), static_cast<int>(data.size()), &width, &height, &comp, STBI_default);
+
+            if (!tempData)
+                throw ParseError("Failed to load texture, reason: " + std::string(stbi_failure_reason()));
+
+            size_t pixelSize;
+            graphics::PixelFormat pixelFormat;
+            switch (comp)
+            {
+                case STBI_grey: pixelFormat = graphics::PixelFormat::R8_UNORM; pixelSize = 1; break;
+                case STBI_grey_alpha: pixelFormat = graphics::PixelFormat::RG8_UNORM; pixelSize = 2; break;
+                case STBI_rgb_alpha: pixelFormat = graphics::PixelFormat::RGBA8_UNORM; pixelSize = 4; break;
+                default:
+                    stbi_image_free(tempData);
+                    throw ParseError("Unknown pixel size");
+            }
+
+            std::vector<uint8_t> imageData(tempData,
+                                           tempData + static_cast<size_t>(width * height) * pixelSize);
+
+            stbi_image_free(tempData);
+
+            init(imageData,
+                 Size2(static_cast<float>(width), static_cast<float>(height)),
+                 pixelFormat,
                  hotSpot);
         }
 

@@ -266,12 +266,6 @@
 		303821ED1D8500E500677CAB /* UpdateCallback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303821EC1D8500E500677CAB /* UpdateCallback.cpp */; };
 		303821EE1D8500E500677CAB /* UpdateCallback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303821EC1D8500E500677CAB /* UpdateCallback.cpp */; };
 		303821EF1D8500E500677CAB /* UpdateCallback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303821EC1D8500E500677CAB /* UpdateCallback.cpp */; };
-		303933571E5C446E000C9A8E /* ImageDataSTB.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303933551E5C446E000C9A8E /* ImageDataSTB.cpp */; };
-		303933581E5C446E000C9A8E /* ImageDataSTB.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303933551E5C446E000C9A8E /* ImageDataSTB.cpp */; };
-		303933591E5C446E000C9A8E /* ImageDataSTB.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303933551E5C446E000C9A8E /* ImageDataSTB.cpp */; };
-		3039335A1E5C446E000C9A8E /* ImageDataSTB.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303933561E5C446E000C9A8E /* ImageDataSTB.hpp */; };
-		3039335B1E5C446E000C9A8E /* ImageDataSTB.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303933561E5C446E000C9A8E /* ImageDataSTB.hpp */; };
-		3039335C1E5C446E000C9A8E /* ImageDataSTB.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303933561E5C446E000C9A8E /* ImageDataSTB.hpp */; };
 		303B04A51E207B1000011CBE /* MetalView.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B04A31E207B1000011CBE /* MetalView.h */; };
 		303B04A61E207B1000011CBE /* MetalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 303B04A41E207B1000011CBE /* MetalView.m */; };
 		303B04A91E207B1D00011CBE /* MetalView.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B04A71E207B1D00011CBE /* MetalView.h */; };
@@ -1049,8 +1043,6 @@
 		303821631D81876E00677CAB /* AudioDeviceEmpty.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioDeviceEmpty.cpp; sourceTree = "<group>"; };
 		303821641D81876E00677CAB /* AudioDeviceEmpty.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AudioDeviceEmpty.hpp; sourceTree = "<group>"; };
 		303821EC1D8500E500677CAB /* UpdateCallback.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UpdateCallback.cpp; sourceTree = "<group>"; };
-		303933551E5C446E000C9A8E /* ImageDataSTB.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageDataSTB.cpp; sourceTree = "<group>"; };
-		303933561E5C446E000C9A8E /* ImageDataSTB.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ImageDataSTB.hpp; sourceTree = "<group>"; };
 		303B04A31E207B1000011CBE /* MetalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalView.h; sourceTree = "<group>"; };
 		303B04A41E207B1000011CBE /* MetalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetalView.m; sourceTree = "<group>"; };
 		303B04A71E207B1D00011CBE /* MetalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalView.h; sourceTree = "<group>"; };
@@ -1564,8 +1556,6 @@
 				303820881D816EAB00677CAB /* empty */,
 				303B74E11C277A7500FEDE92 /* ImageData.cpp */,
 				303B74E21C277A7500FEDE92 /* ImageData.hpp */,
-				303933551E5C446E000C9A8E /* ImageDataSTB.cpp */,
-				303933561E5C446E000C9A8E /* ImageDataSTB.hpp */,
 				30216B711ED464730073E3D5 /* Material.cpp */,
 				30216B721ED464730073E3D5 /* Material.hpp */,
 				30547E351CB3D6570055EE79 /* metal */,
@@ -2121,7 +2111,6 @@
 				30519CA41F97EEB700AF3DC4 /* MeshData.hpp in Headers */,
 				3047F7621C4C60B900774E3D /* Fade.hpp in Headers */,
 				3072370D1FAFDAB8002EA399 /* JSON.hpp in Headers */,
-				3039335A1E5C446E000C9A8E /* ImageDataSTB.hpp in Headers */,
 				305B99951C41F06F008589E1 /* Widget.hpp in Headers */,
 				30C758B01F4A0196008499DC /* AudioDevice.hpp in Headers */,
 				303820FB1D817F4900677CAB /* InputManagerIOS.hpp in Headers */,
@@ -2282,7 +2271,6 @@
 				303696F11E32DE08007F4211 /* Shader.hpp in Headers */,
 				3047F7631C4C60B900774E3D /* Fade.hpp in Headers */,
 				30C758C01F4A23BD008499DC /* DisplayLink.hpp in Headers */,
-				3039335C1E5C446E000C9A8E /* ImageDataSTB.hpp in Headers */,
 				303B76681C355A3B00FEDE92 /* InputManager.hpp in Headers */,
 				30C758B21F4A0196008499DC /* AudioDevice.hpp in Headers */,
 				305B99961C41F06F008589E1 /* Widget.hpp in Headers */,
@@ -2457,7 +2445,6 @@
 				3049DCE41EDCD0450000997A /* NativeCursor.hpp in Headers */,
 				30575AA11C39CB790009C8A7 /* Scene.hpp in Headers */,
 				3038215B1D81876E00677CAB /* TextureResourceEmpty.hpp in Headers */,
-				3039335B1E5C446E000C9A8E /* ImageDataSTB.hpp in Headers */,
 				3047F76A1C4D2C2000774E3D /* Sequence.hpp in Headers */,
 				303820101D80A40700677CAB /* TextureResourceMetal.hpp in Headers */,
 				304736DD1E0B4776009BC562 /* Box3.hpp in Headers */,
@@ -2798,7 +2785,6 @@
 				303B755B1C2A3CB700FEDE92 /* Vector4.cpp in Sources */,
 				30575AA71C39D1FF0009C8A7 /* Layer.cpp in Sources */,
 				3047F75F1C4C60B900774E3D /* Fade.cpp in Sources */,
-				303933571E5C446E000C9A8E /* ImageDataSTB.cpp in Sources */,
 				303B75381C2A3C8200FEDE92 /* Engine.cpp in Sources */,
 				303B75551C2A3CB700FEDE92 /* Size2.cpp in Sources */,
 				3047F7781C4D39C500774E3D /* Repeat.cpp in Sources */,
@@ -2962,7 +2948,6 @@
 				30575AA81C39D1FF0009C8A7 /* Layer.cpp in Sources */,
 				3047F7601C4C60B900774E3D /* Fade.cpp in Sources */,
 				303B76521C355A3B00FEDE92 /* Engine.cpp in Sources */,
-				303933591E5C446E000C9A8E /* ImageDataSTB.cpp in Sources */,
 				303B76531C355A3B00FEDE92 /* Size2.cpp in Sources */,
 				303B76541C355A3B00FEDE92 /* Actor.cpp in Sources */,
 				3047F7791C4D39C500774E3D /* Repeat.cpp in Sources */,
@@ -3126,7 +3111,6 @@
 				3067D7A6209B450F008DF6AF /* InputSystem.cpp in Sources */,
 				30324E141CB2898E00601A64 /* BlendStateResource.cpp in Sources */,
 				304A8E741C237C70008B1151 /* Vector4.cpp in Sources */,
-				303933581E5C446E000C9A8E /* ImageDataSTB.cpp in Sources */,
 				3047F75E1C4C60B900774E3D /* Fade.cpp in Sources */,
 				305B99A21C42A97E008589E1 /* BMFont.cpp in Sources */,
 				304A8E961C26EDFB008B1151 /* ParticleSystem.cpp in Sources */,
