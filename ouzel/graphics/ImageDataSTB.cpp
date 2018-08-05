@@ -59,19 +59,5 @@ namespace ouzel
             size.width = static_cast<float>(width);
             size.height = static_cast<float>(height);
         }
-
-        std::vector<uint8_t> ImageDataSTB::encode() const
-        {
-            int len;
-            int x, y;
-            int comp;
-            int strideBytes;
-            std::unique_ptr<unsigned char, std::function<void(unsigned char*)>> png(stbi_write_png_to_mem(const_cast<unsigned char*>(data.data()),
-                                                                                                          strideBytes, x, y, comp, &len),
-                                                                                    [](unsigned char* p){ STBI_FREE(p); });
-            if (!png) throw SystemError("Failed to encode image");
-
-            return std::vector<uint8_t>(png.get(), png.get() + len);
-        }
     } // namespace graphics
 } // namespace ouzel
