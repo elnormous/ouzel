@@ -460,6 +460,9 @@
     <ClCompile Include="..\ouzel\graphics\direct3d11\RenderTargetResourceD3D11.cpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\network\Socket.cpp">
+      <Filter>ouzel\network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\animators\Animator.hpp">
@@ -959,6 +962,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\opengl\RenderTargetResourceOGL.hpp">
       <Filter>ouzel\graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\network\Socket.hpp">
+      <Filter>ouzel\network</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
