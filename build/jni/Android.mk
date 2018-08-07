@@ -133,6 +133,7 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/math/Vector4.cpp \
     ../../ouzel/network/Client.cpp \
     ../../ouzel/network/Network.cpp \
+    ../../ouzel/network/Socket.cpp \
     ../../ouzel/scene/Actor.cpp \
     ../../ouzel/scene/ActorContainer.cpp \
     ../../ouzel/scene/Camera.cpp \
