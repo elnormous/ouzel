@@ -2,9 +2,7 @@
 
 #pragma once
 
-#ifdef _WIN32
-#include <winsock.h>
-#endif
+#include "Socket.hpp"
 
 namespace ouzel
 {
@@ -24,11 +22,7 @@ namespace ouzel
             void disconnect();
 
         private:
-#ifdef _WIN32
-            SOCKET endpoint = INVALID_SOCKET;
-#else
-            int endpoint = -1;
-#endif
+            Socket sock;
         };
     } // namespace network
 } // namespace ouzel
