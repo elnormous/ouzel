@@ -1,11 +1,11 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#pragma once
+
 #include <cstdint>
 #include <limits>
 #include "math/Vector2.hpp"
 #include "math/Size2.hpp"
-
-#pragma once
 
 namespace ouzel
 {
