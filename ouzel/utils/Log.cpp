@@ -61,12 +61,12 @@ namespace ouzel
             }
             syslog(priority, "%s", s.c_str());
 #elif OUZEL_PLATFORM_WINDOWS
-            std::vector<wchar_t> szBuffer(s.length() + 1 + 1); // for the newline and the terminating char
-            if (MultiByteToWideChar(CP_UTF8, 0, s.c_str(), -1, szBuffer.data(), static_cast<int>(szBuffer.size())) == 0)
+            std::vector<WCHAR> buffer(s.length() + 1 + 1); // for the newline and the terminating char
+            if (MultiByteToWideChar(CP_UTF8, 0, s.c_str(), -1, buffer.data(), static_cast<int>(buffer.size())) == 0)
                 return;
 
-            StringCchCatW(szBuffer.data(), szBuffer.size(), L"\n");
-            OutputDebugStringW(szBuffer.data());
+            StringCchCatW(buffer.data(), buffer.size(), L"\n");
+            OutputDebugStringW(buffer.data());
 
 #  if DEBUG
             HANDLE handle = 0;
@@ -86,7 +86,7 @@ namespace ouzel
             if (handle)
             {
                 DWORD bytesWritten;
-                WriteConsoleW(handle, szBuffer.data(), static_cast<DWORD>(wcslen(szBuffer.data())), &bytesWritten, nullptr);
+                WriteConsoleW(handle, buffer.data(), static_cast<DWORD>(wcslen(buffer.data())), &bytesWritten, nullptr);
             }
 #  endif
 
