@@ -1,11 +1,11 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#pragma once
+
 #include <cstdint>
 #include <limits>
 #include "math/Vector3.hpp"
 #include "math/Size3.hpp"
-
-#pragma once
 
 namespace ouzel
 {
