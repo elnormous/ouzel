@@ -32,6 +32,10 @@ namespace ouzel
         if (MultiByteToWideChar(CP_UTF8, 0, filename.c_str(), -1, buffer.data(), size) == 0)
             throw FileError("Failed to convert the filename to wide char");
 
+        // relative paths longer than MAX_PATH are not supported
+        if (buffer.size() > MAX_PATH)
+            buffer.insert(buffer.begin(), { L'\\', L'\\', L'?', L'\\' });
+
         file = CreateFileW(buffer.data(), access, 0, nullptr, createDisposition, FILE_ATTRIBUTE_NORMAL, nullptr);
         if (file == INVALID_HANDLE_VALUE)
             throw FileError("Failed to open file");
