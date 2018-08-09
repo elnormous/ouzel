@@ -2,9 +2,8 @@
 
 #pragma once
 
-#include <string>
-#include <vector>
 #include <cstdint>
+#include <vector>
 #include "graphics/PixelFormat.hpp"
 #include "math/Size2.hpp"
 

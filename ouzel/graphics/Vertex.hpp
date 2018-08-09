@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include <string>
 #include <vector>
 #include "graphics/DataType.hpp"
 #include "math/Vector2.hpp"
