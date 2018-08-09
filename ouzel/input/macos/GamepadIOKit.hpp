@@ -3,7 +3,7 @@
 #pragma once
 
 #include <unordered_map>
-#import <IOKit/hid/IOHIDManager.h>
+#include <IOKit/hid/IOHIDManager.h>
 
 #include "input/Gamepad.hpp"
 

@@ -9,7 +9,7 @@ typedef NSCursor* NSCursorPtr;
 #include <GameController/GameController.h>
 typedef GCController* GCControllerPtr;
 #else
-#import <objc/NSObjCRuntime.h>
+#include <objc/NSObjCRuntime.h>
 typedef void* IOHIDManagerRef;
 typedef void* IOHIDDeviceRef;
 typedef id NSCursorPtr;
