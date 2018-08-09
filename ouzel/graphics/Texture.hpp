@@ -3,7 +3,6 @@
 #pragma once
 
 #include <cstdint>
-#include <string>
 #include <vector>
 #include "graphics/PixelFormat.hpp"
 #include "math/Color.hpp"

@@ -3,23 +3,20 @@
 #pragma once
 
 #include <memory>
-#include "Renderer.hpp"
-#include "Texture.hpp"
+#include "graphics/Renderer.hpp"
+#include "graphics/BlendState.hpp"
+#include "graphics/Shader.hpp"
+#include "graphics/Texture.hpp"
 #include "math/Color.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class BlendState;
-        class Shader;
-        class Texture;
-
         class Material final
         {
         public:
             Material() = default;
-            ~Material() = default;
 
             Material(const Material&) = delete;
             Material& operator=(const Material&) = delete;
