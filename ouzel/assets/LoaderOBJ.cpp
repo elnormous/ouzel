@@ -217,7 +217,7 @@ namespace ouzel
 
                         skipLine(data, iterator);
 
-                        cache->loadAsset(Loader::IMAGE, value, mipmaps);
+                        cache->loadAsset(Loader::MATERIAL, value, mipmaps);
                     }
                     else if (keyword == "usemtl")
                     {
