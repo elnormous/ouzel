@@ -68,10 +68,28 @@ namespace ouzel
             material->shader = engine->getCache()->getShader(graphics::SHADER_TEXTURE);
             material->blendState = engine->getCache()->getBlendState(graphics::BLEND_ALPHA);
 
-            SpriteData spriteData = *engine->getCache()->getSpriteData(filename);
-            material->textures[0] = spriteData.texture;
+            if (const SpriteData* spriteData = engine->getCache()->getSpriteData(filename))
+            {
+                material->textures[0] = spriteData->texture;
 
-            animations = spriteData.animations;
+                animations = spriteData->animations;
+            }
+            else if (std::shared_ptr<graphics::Texture> texture = engine->getCache()->getTexture(filename))
+            {
+                material->textures[0] = texture;
+
+                SpriteData::Animation animation;
+
+                Rect rectangle(0.0f,
+                               0.0f,
+                               texture->getSize().width,
+                               texture->getSize().height);
+
+                SpriteData::Frame frame = SpriteData::Frame("", texture->getSize(), rectangle, false, texture->getSize(), Vector2(), Vector2(0.5f, 0.5f));
+                animation.frames.push_back(frame);
+
+                animations[""] = std::move(animation);
+            }
 
             animationQueue.clear();
             animationQueue.push_back({&animations[""], false});
