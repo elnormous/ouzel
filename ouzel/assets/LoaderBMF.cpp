@@ -9,14 +9,21 @@ namespace ouzel
     namespace assets
     {
         LoaderBMF::LoaderBMF():
-            Loader(TYPE, {"fnt"})
+            Loader(TYPE)
         {
         }
 
         bool LoaderBMF::loadAsset(const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
         {
-            std::shared_ptr<BMFont> font = std::make_shared<BMFont>(data, mipmaps);
-            cache->setFont(filename, font);
+            try
+            {
+                std::shared_ptr<BMFont> font = std::make_shared<BMFont>(data, mipmaps);
+                cache->setFont(filename, font);
+            }
+            catch (...)
+            {
+                return false;
+            }
 
             return true;
         }

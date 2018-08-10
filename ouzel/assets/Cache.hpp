@@ -46,8 +46,6 @@ namespace ouzel
             void addLoader(Loader* loader);
             void removeLoader(Loader* loader);
 
-            // TODO: add asset type parameter
-            void loadAsset(const std::string& filename, bool mipmaps = true) const;
             void loadAsset(uint32_t loaderType, const std::string& filename, bool mipmaps = true) const;
             void loadAssets(const std::string filename) const;
 

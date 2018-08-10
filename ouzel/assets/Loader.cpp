@@ -9,11 +9,9 @@ namespace ouzel
 {
     namespace assets
     {
-        Loader::Loader(uint32_t initType, const std::vector<std::string>& initExtensions):
-            type(initType), extensions(initExtensions)
+        Loader::Loader(uint32_t initType):
+            type(initType)
         {
-            for (std::string& extension : extensions)
-                std::transform(extension.begin(), extension.end(), extension.begin(), [](unsigned char c){ return std::tolower(c); });
         }
 
         Loader::~Loader()
