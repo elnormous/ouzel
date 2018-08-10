@@ -95,10 +95,15 @@ namespace ouzel
             throw FileError("Failed to load asset " + filename);
         }
 
-        void Cache::loadAssets(const std::string filename)
+        void Cache::loadAssets(const std::string& filename)
         {
             json::Data data(fileSystem.readFile(filename));
-            // TODO: parse data
+
+            for (const json::Value& asset : data["assets"].asArray())
+            {
+                bool mipmaps = asset.hasMember("mipmaps") ? asset["mipmaps"].asBool() : true;
+                loadAsset(asset["type"].asUInt32(), asset["filename"].asString(), mipmaps);
+            }
         }
 
         std::shared_ptr<graphics::Texture> Cache::getTexture(const std::string& filename) const
