@@ -149,7 +149,7 @@ namespace ouzel
             return;
 
         n = sqrtf(n);
-        if (n < EPSILON) // too close to zero
+        if (n < SMALL_NUMBER) // too close to zero
             return;
 
         n = 1.0F / n;

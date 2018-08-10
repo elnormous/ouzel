@@ -50,7 +50,7 @@ namespace ouzel
         static inline Plane makeFrustumPlane(float a, float b, float c, float d)
         {
             float n = sqrtf(a * a + b * b + c * c);
-            if (n < EPSILON) return Plane();
+            if (n < SMALL_NUMBER) return Plane();
 
             n = 1.0F / n;
             return Plane(a * n, b * n, c * n, d * n);
