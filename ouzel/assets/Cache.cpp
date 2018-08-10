@@ -15,6 +15,7 @@
 #include "gui/BMFont.hpp"
 #include "gui/TTFont.hpp"
 #include "utils/Errors.hpp"
+#include "utils/JSON.hpp"
 
 namespace ouzel
 {
@@ -114,10 +115,10 @@ namespace ouzel
             throw FileError("Failed to load asset " + filename);
         }
 
-        void Cache::loadAssets(const std::vector<std::string>& filenames, bool mipmaps) const
+        void Cache::loadAssets(const std::string filename) const
         {
-            for (const std::string& filename : filenames)
-                loadAsset(filename, mipmaps);
+            json::Data data(fileSystem.readFile(filename));
+            // TODO: parse data
         }
 
         const std::shared_ptr<graphics::Texture>& Cache::getTexture(const std::string& filename, bool mipmaps) const
