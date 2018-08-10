@@ -22,7 +22,7 @@ namespace ouzel
             return;
 
         n = sqrtf(n);
-        if (n < SMALL_NUMBER) // too close to zero
+        if (n < std::numeric_limits<float>::min()) // too close to zero
             return;
 
         n = 1.0F / n;
@@ -49,7 +49,7 @@ namespace ouzel
     {
         angle = 2.0F * acosf(w);
         float s = sqrtf(1.0F - w * w);
-        if (s < SMALL_NUMBER) // too close to zero
+        if (s < std::numeric_limits<float>::min()) // too close to zero
         {
             axis.x = x;
             axis.y = y;

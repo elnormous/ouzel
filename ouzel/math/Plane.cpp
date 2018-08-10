@@ -18,7 +18,7 @@ namespace ouzel
             return;
 
         n = sqrtf(n);
-        if (n < SMALL_NUMBER) // too close to zero
+        if (n < std::numeric_limits<float>::min()) // too close to zero
             return;
 
         n = 1.0F / n;

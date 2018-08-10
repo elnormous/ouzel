@@ -68,11 +68,9 @@ namespace ouzel
         assert(zFarPlane != zNearPlane);
 
         float theta = fieldOfView * 0.5F;
-        if (isNearlyEqual(fmodf(theta, PI / 2.0F), 0.0F))
-        {
-            // invalid field of view value
+        if (isNearlyEqual(fmodf(theta, PI / 2.0F), 0.0F)) // invalid field of view value
             return;
-        }
+
         float divisor = tanf(theta);
         assert(divisor);
         float factor = 1.0F / divisor;
@@ -147,7 +145,7 @@ namespace ouzel
             // Not normalized
             n = sqrtf(n);
             // Prevent divide too close to zero
-            if (n >= SMALL_NUMBER)
+            if (n >= std::numeric_limits<float>::min())
             {
                 n = 1.0F / n;
                 x *= n;
@@ -512,7 +510,7 @@ namespace ouzel
         float det = a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
 
         // Close to zero, can't invert
-        if (fabs(det) < SMALL_NUMBER) return;
+        if (fabs(det) < std::numeric_limits<float>::min()) return;
 
         Matrix4 inverse;
         inverse.m[0]  = m[5] * b5 - m[6] * b4 + m[7] * b3;

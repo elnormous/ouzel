@@ -37,7 +37,7 @@ namespace ouzel
     float Vector2::angle(const Vector2& v1, const Vector2& v2)
     {
         float dz = v1.x * v2.y - v1.y * v2.x;
-        return atan2f(fabsf(dz) + FLOAT_SMALL, dot(v1, v2));
+        return atan2f(fabsf(dz), dot(v1, v2));
     }
 
     void Vector2::add(const Vector2& v1, const Vector2& v2, Vector2& dst)
@@ -102,7 +102,7 @@ namespace ouzel
             return;
 
         n = sqrtf(n);
-        if (n < SMALL_NUMBER) // too close to zero
+        if (n < std::numeric_limits<float>::min()) // too close to zero
             return;
 
         n = 1.0F / n;

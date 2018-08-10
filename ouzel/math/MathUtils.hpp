@@ -4,13 +4,12 @@
 
 #include <cstdint>
 #include <cmath>
+#include <limits>
 
 namespace ouzel
 {
     const float TAU = 6.28318530717958647692F;
     const float PI = 3.14159265358979323846F;
-    const float FLOAT_SMALL = 1.0e-37F;
-    const float SMALL_NUMBER = 1.e-8F;
     const float SQRT2 = 1.4142135623730950488F;
 
     inline float lerp(float v0, float v1, float t)
@@ -76,8 +75,8 @@ namespace ouzel
         return hash;
     }
 
-    inline bool isNearlyEqual(float a, float b)
+    inline bool isNearlyEqual(float a, float b, float tolerance = std::numeric_limits<float>::min())
     {
-        return fabsf(a - b) <= SMALL_NUMBER;
+        return fabsf(a - b) <= tolerance;
     }
 }
