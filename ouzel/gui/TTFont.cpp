@@ -17,7 +17,12 @@ namespace ouzel
         data(initData),
         mipmaps(initMipmaps)
     {
-        if (!stbtt_InitFont(&font, data.data(), stbtt_GetFontOffsetForIndex(data.data(), 0)))
+        int offset = stbtt_GetFontOffsetForIndex(data.data(), 0);
+
+        if (offset == -1)
+            throw ParseError("Not a font");
+
+        if (!stbtt_InitFont(&font, data.data(), offset))
             throw ParseError("Failed to load font");
 
         loaded = true;

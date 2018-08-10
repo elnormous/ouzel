@@ -7,7 +7,7 @@ namespace ouzel
     namespace assets
     {
         LoaderGLTF::LoaderGLTF():
-            Loader(TYPE, {"gltf"})
+            Loader(TYPE)
         {
         }
 

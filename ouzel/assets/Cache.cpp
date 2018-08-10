@@ -86,27 +86,7 @@ namespace ouzel
             for (auto i = loaders.rbegin(); i != loaders.rend(); ++i)
             {
                 Loader* loader = *i;
-                if (loader->getType() == loaderType &&
-                    std::find(loader->extensions.begin(), loader->extensions.end(), extension) != loader->extensions.end())
-                {
-                    if (loader->loadAsset(filename, data, mipmaps)) return;
-                }
-            }
-
-            throw FileError("Failed to load asset " + filename);
-        }
-
-        void Cache::loadAsset(const std::string& filename, bool mipmaps) const
-        {
-            std::vector<uint8_t> data = fileSystem.readFile(filename);
-
-            std::string extension = fileSystem.getExtensionPart(filename);
-            std::transform(extension.begin(), extension.end(), extension.begin(), [](unsigned char c){ return std::tolower(c); });
-
-            for (auto i = loaders.rbegin(); i != loaders.rend(); ++i)
-            {
-                Loader* loader = *i;
-                if (std::find(loader->extensions.begin(), loader->extensions.end(), extension) != loader->extensions.end())
+                if (loader->getType() == loaderType)
                 {
                     if (loader->loadAsset(filename, data, mipmaps)) return;
                 }
@@ -226,8 +206,10 @@ namespace ouzel
                                       uint32_t spritesX, uint32_t spritesY,
                                       const Vector2& pivot)
         {
-            if (std::find(loaderImage.extensions.begin(), loaderImage.extensions.end(),
-                          fileSystem.getExtensionPart(filename)) != loaderImage.extensions.end())
+            std::vector<std::string> imageExtensions = {"jpg", "jpeg", "png", "bmp", "tga"};
+
+            if (std::find(imageExtensions.begin(), imageExtensions.end(),
+                          fileSystem.getExtensionPart(filename)) != imageExtensions.end())
             {
                 scene::SpriteData newSpriteData;
 
@@ -277,8 +259,10 @@ namespace ouzel
                 return i->second;
             else
             {
-                if (std::find(loaderImage.extensions.begin(), loaderImage.extensions.end(),
-                              fileSystem.getExtensionPart(filename)) != loaderImage.extensions.end())
+                std::vector<std::string> imageExtensions = {"jpg", "jpeg", "png", "bmp", "tga"};
+
+                if (std::find(imageExtensions.begin(), imageExtensions.end(),
+                              fileSystem.getExtensionPart(filename)) != imageExtensions.end())
                 {
                     scene::SpriteData newSpriteData;
 

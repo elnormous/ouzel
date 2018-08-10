@@ -11,7 +11,7 @@ namespace ouzel
     namespace assets
     {
         LoaderCollada::LoaderCollada():
-            Loader(TYPE, {"dae"})
+            Loader(TYPE)
         {
         }
 

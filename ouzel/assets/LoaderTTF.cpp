@@ -9,14 +9,21 @@ namespace ouzel
     namespace assets
     {
         LoaderTTF::LoaderTTF():
-            Loader(TYPE, {"ttf"})
+            Loader(TYPE)
         {
         }
 
         bool LoaderTTF::loadAsset(const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
         {
-            std::shared_ptr<TTFont> font = std::make_shared<TTFont>(data, mipmaps);
-            cache->setFont(filename, font);
+            try
+            {
+                std::shared_ptr<TTFont> font = std::make_shared<TTFont>(data, mipmaps);
+                cache->setFont(filename, font);
+            }
+            catch (...)
+            {
+                return false;
+            }
 
             return true;
         }

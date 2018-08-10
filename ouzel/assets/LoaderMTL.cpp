@@ -123,7 +123,7 @@ namespace ouzel
         }
 
         LoaderMTL::LoaderMTL():
-            Loader(TYPE, {"mtl"})
+            Loader(TYPE)
         {
         }
 

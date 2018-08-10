@@ -28,7 +28,7 @@ namespace ouzel
                 SOUND
             };
 
-            Loader(uint32_t initType, const std::vector<std::string>& initExtensions);
+            Loader(uint32_t initType);
             virtual ~Loader();
 
             Loader(const Loader&) = delete;
@@ -44,7 +44,6 @@ namespace ouzel
         protected:
             uint32_t type = Type::NONE;
             Cache* cache = nullptr;
-            std::vector<std::string> extensions;
         };
     } // namespace assets
 } // namespace ouzel

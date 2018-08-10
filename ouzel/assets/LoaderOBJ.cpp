@@ -168,7 +168,7 @@ namespace ouzel
         }
 
         LoaderOBJ::LoaderOBJ():
-            Loader(TYPE, {"obj"})
+            Loader(TYPE)
         {
         }
 
@@ -217,7 +217,7 @@ namespace ouzel
 
                         skipLine(data, iterator);
 
-                        cache->loadAsset(value, mipmaps);
+                        cache->loadAsset(Loader::IMAGE, value, mipmaps);
                     }
                     else if (keyword == "usemtl")
                     {
