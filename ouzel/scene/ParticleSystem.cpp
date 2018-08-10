@@ -249,7 +249,7 @@ namespace ouzel
 
         void ParticleSystem::init(const std::string& filename)
         {
-            particleSystemData = engine->getCache()->getParticleSystemData(filename);
+            particleSystemData = *engine->getCache()->getParticleSystemData(filename);
 
             texture = particleSystemData.texture;
 

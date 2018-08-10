@@ -13,11 +13,11 @@ namespace ouzel
         {
         }
 
-        bool LoaderBMF::loadAsset(const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
+        bool LoaderBMF::loadAsset(const std::string& filename, const std::vector<uint8_t>& data, bool)
         {
             try
             {
-                std::shared_ptr<BMFont> font = std::make_shared<BMFont>(data, mipmaps);
+                std::shared_ptr<BMFont> font = std::make_shared<BMFont>(data);
                 cache->setFont(filename, font);
             }
             catch (...)

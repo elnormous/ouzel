@@ -58,12 +58,19 @@ void ouzelMain(const std::vector<std::string>& args)
     engine->getCache()->loadAsset(assets::Loader::IMAGE, "ArialBlack.png");
     engine->getCache()->loadAsset(assets::Loader::FONT, "ArialBlack.fnt");
     engine->getCache()->loadAsset(assets::Loader::IMAGE, "button_down.png");
+    engine->getCache()->preloadSpriteData("button_down.png");
     engine->getCache()->loadAsset(assets::Loader::IMAGE, "button_selected.png");
+    engine->getCache()->preloadSpriteData("button_selected.png");
     engine->getCache()->loadAsset(assets::Loader::IMAGE, "button.png");
+    engine->getCache()->preloadSpriteData("button.png");
     engine->getCache()->loadAsset(assets::Loader::IMAGE, "checkbox.png");
+    engine->getCache()->preloadSpriteData("checkbox.png");
     engine->getCache()->loadAsset(assets::Loader::IMAGE, "edit_box.png");
+    engine->getCache()->preloadSpriteData("edit_box.png");
     engine->getCache()->loadAsset(assets::Loader::IMAGE, "radio_button.png");
+    engine->getCache()->preloadSpriteData("radio_button.png");
     engine->getCache()->loadAsset(assets::Loader::IMAGE, "tick.png");
+    engine->getCache()->preloadSpriteData("tick.png");
 
     // assets
     engine->getCache()->loadAsset(assets::Loader::SOUND, "8-bit.wav");
@@ -71,6 +78,7 @@ void ouzelMain(const std::vector<std::string>& args)
     engine->getCache()->loadAsset(assets::Loader::SOUND, "ambient.wav");
     engine->getCache()->loadAsset(assets::Loader::FONT, "AmosisTechnik.ttf");
     engine->getCache()->loadAsset(assets::Loader::IMAGE, "ball.png");
+    engine->getCache()->preloadSpriteData("ball.png");
     engine->getCache()->loadAsset(assets::Loader::IMAGE, "cube.png");
     engine->getCache()->loadAsset(assets::Loader::MATERIAL, "cube.mtl");
     engine->getCache()->loadAsset(assets::Loader::MESH, "cube.obj");
@@ -79,6 +87,7 @@ void ouzelMain(const std::vector<std::string>& args)
     engine->getCache()->loadAsset(assets::Loader::IMAGE, "flame.png");
     engine->getCache()->loadAsset(assets::Loader::PARTICLE_SYSTEM, "flame.json");
     engine->getCache()->loadAsset(assets::Loader::IMAGE, "floor.jpg");
+    engine->getCache()->preloadSpriteData("floor.jpg");
     engine->getCache()->loadAsset(assets::Loader::SOUND, "jump.wav");
     engine->getCache()->loadAsset(assets::Loader::SOUND, "music.ogg");
     engine->getCache()->loadAsset(assets::Loader::IMAGE, "run.png");
@@ -86,6 +95,7 @@ void ouzelMain(const std::vector<std::string>& args)
     engine->getCache()->loadAsset(assets::Loader::IMAGE, "triangle.png");
     engine->getCache()->loadAsset(assets::Loader::SPRITE, "triangle.json");
     engine->getCache()->loadAsset(assets::Loader::IMAGE, "witch.png");
+    engine->getCache()->preloadSpriteData("witch.png");
 
     engine->getRenderer()->setClearColor(ouzel::Color(64, 0, 0));
 

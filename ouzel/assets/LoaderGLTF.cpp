@@ -11,7 +11,7 @@ namespace ouzel
         {
         }
 
-        bool LoaderGLTF::loadAsset(const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
+        bool LoaderGLTF::loadAsset(const std::string& filename, const std::vector<uint8_t>& data, bool)
         {
             return true;
         }

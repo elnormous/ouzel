@@ -15,7 +15,7 @@ namespace ouzel
         {
         }
 
-        bool LoaderCollada::loadAsset(const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
+        bool LoaderCollada::loadAsset(const std::string& filename, const std::vector<uint8_t>& data, bool)
         {
             xml::Data colladaData(data);
 
