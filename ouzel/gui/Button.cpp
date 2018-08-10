@@ -44,28 +44,28 @@ namespace ouzel
             if (!normalImage.empty())
             {
                 normalSprite.reset(new scene::Sprite());
-                normalSprite->init(normalImage, true);
+                normalSprite->init(normalImage);
                 addComponent(normalSprite.get());
             }
 
             if (!selectedImage.empty())
             {
                 selectedSprite.reset(new scene::Sprite());
-                selectedSprite->init(selectedImage, true);
+                selectedSprite->init(selectedImage);
                 addComponent(selectedSprite.get());
             }
 
             if (!pressedImage.empty())
             {
                 pressedSprite.reset(new scene::Sprite());
-                pressedSprite->init(pressedImage, true);
+                pressedSprite->init(pressedImage);
                 addComponent(pressedSprite.get());
             }
 
             if (!disabledImage.empty())
             {
                 disabledSprite.reset(new scene::Sprite());
-                disabledSprite->init(disabledImage, true);
+                disabledSprite->init(disabledImage);
                 addComponent(disabledSprite.get());
             }
 

@@ -127,7 +127,7 @@ namespace ouzel
         {
         }
 
-        bool LoaderMTL::loadAsset(const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
+        bool LoaderMTL::loadAsset(const std::string& filename, const std::vector<uint8_t>& data, bool)
         {
             std::string name = filename;
             std::shared_ptr<graphics::Texture> diffuseTexture;
@@ -193,7 +193,7 @@ namespace ouzel
 
                         skipLine(data, iterator);
 
-                        ambientTexture = cache->getTexture(value, mipmaps);
+                        ambientTexture = cache->getTexture(value);
                     }
                     else if (keyword == "map_Kd") // diffuse texture map
                     {
@@ -202,7 +202,7 @@ namespace ouzel
 
                         skipLine(data, iterator);
 
-                        diffuseTexture = cache->getTexture(value, mipmaps);
+                        diffuseTexture = cache->getTexture(value);
                     }
                     else if (keyword == "Ka") // ambient color
                         skipLine(data, iterator);

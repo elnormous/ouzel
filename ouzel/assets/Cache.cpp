@@ -76,7 +76,7 @@ namespace ouzel
             }
         }
 
-        void Cache::loadAsset(uint32_t loaderType, const std::string& filename, bool mipmaps) const
+        void Cache::loadAsset(uint32_t loaderType, const std::string& filename, bool mipmaps)
         {
             std::vector<uint8_t> data = fileSystem.readFile(filename);
 
@@ -95,30 +95,20 @@ namespace ouzel
             throw FileError("Failed to load asset " + filename);
         }
 
-        void Cache::loadAssets(const std::string filename) const
+        void Cache::loadAssets(const std::string filename)
         {
             json::Data data(fileSystem.readFile(filename));
             // TODO: parse data
         }
 
-        const std::shared_ptr<graphics::Texture>& Cache::getTexture(const std::string& filename, bool mipmaps) const
+        std::shared_ptr<graphics::Texture> Cache::getTexture(const std::string& filename) const
         {
             auto i = textures.find(filename);
 
-            if (i == textures.end())
-            {
-                loadAsset(Loader::IMAGE, filename, mipmaps);
+            if (i != textures.end())
+                return i->second;
 
-                i = textures.find(filename);
-
-                if (i == textures.end())
-                {
-                    std::shared_ptr<graphics::Texture> result;
-                    i = textures.insert(std::make_pair(filename, result)).first;
-                }
-            }
-
-            return i->second;
+            return nullptr;
         }
 
         void Cache::setTexture(const std::string& filename, const std::shared_ptr<graphics::Texture>& texture)
@@ -138,17 +128,14 @@ namespace ouzel
             }
         }
 
-        const std::shared_ptr<graphics::Shader>& Cache::getShader(const std::string& shaderName) const
+        std::shared_ptr<graphics::Shader> Cache::getShader(const std::string& shaderName) const
         {
             auto i = shaders.find(shaderName);
 
             if (i != shaders.end())
                 return i->second;
-            else
-            {
-                i = shaders.insert(std::make_pair(shaderName, nullptr)).first;
-                return i->second;
-            }
+
+            return nullptr;
         }
 
         void Cache::setShader(const std::string& shaderName, const std::shared_ptr<graphics::Shader>& shader)
@@ -169,17 +156,14 @@ namespace ouzel
             }
         }
 
-        const std::shared_ptr<graphics::BlendState>& Cache::getBlendState(const std::string& blendStateName) const
+        std::shared_ptr<graphics::BlendState> Cache::getBlendState(const std::string& blendStateName) const
         {
             auto i = blendStates.find(blendStateName);
 
             if (i != blendStates.end())
                 return i->second;
-            else
-            {
-                i = blendStates.insert(std::make_pair(blendStateName, nullptr)).first;
-                return i->second;
-            }
+
+            return nullptr;
         }
 
         void Cache::setBlendState(const std::string& blendStateName, const std::shared_ptr<graphics::BlendState>& blendState)
@@ -216,7 +200,7 @@ namespace ouzel
                 if (spritesX == 0) spritesX = 1;
                 if (spritesY == 0) spritesY = 1;
 
-                newSpriteData.texture = getTexture(filename, mipmaps);
+                newSpriteData.texture = getTexture(filename);
 
                 if (newSpriteData.texture)
                 {
@@ -249,70 +233,14 @@ namespace ouzel
                 loadAsset(Loader::SPRITE, filename, mipmaps);
         }
 
-        const scene::SpriteData& Cache::getSpriteData(const std::string& filename, bool mipmaps,
-                                                                  uint32_t spritesX, uint32_t spritesY,
-                                                                  const Vector2& pivot) const
+        const scene::SpriteData* Cache::getSpriteData(const std::string& filename) const
         {
             auto i = spriteData.find(filename);
 
             if (i != spriteData.end())
-                return i->second;
-            else
-            {
-                std::vector<std::string> imageExtensions = {"jpg", "jpeg", "png", "bmp", "tga"};
+                return &i->second;
 
-                if (std::find(imageExtensions.begin(), imageExtensions.end(),
-                              fileSystem.getExtensionPart(filename)) != imageExtensions.end())
-                {
-                    scene::SpriteData newSpriteData;
-
-                    if (spritesX == 0) spritesX = 1;
-                    if (spritesY == 0) spritesY = 1;
-
-                    newSpriteData.texture = getTexture(filename, mipmaps);
-
-                    if (newSpriteData.texture)
-                    {
-                        scene::SpriteData::Animation animation;
-                        animation.frames.reserve(spritesX * spritesY);
-
-                        Size2 spriteSize = Size2(newSpriteData.texture->getSize().width / spritesX,
-                                                 newSpriteData.texture->getSize().height / spritesY);
-
-                        for (uint32_t x = 0; x < spritesX; ++x)
-                        {
-                            for (uint32_t y = 0; y < spritesY; ++y)
-                            {
-                                Rect rectangle(spriteSize.width * x,
-                                               spriteSize.height * y,
-                                               spriteSize.width,
-                                               spriteSize.height);
-
-                                scene::SpriteData::Frame frame = scene::SpriteData::Frame(filename, newSpriteData.texture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
-                                animation.frames.push_back(frame);
-                            }
-                        }
-
-                        newSpriteData.animations[""] = std::move(animation);
-                    }
-
-                    i = spriteData.insert(std::make_pair(filename, newSpriteData)).first;
-                }
-                else
-                {
-                    loadAsset(Loader::SPRITE, filename, mipmaps);
-
-                    i = spriteData.find(filename);
-
-                    if (i == spriteData.end())
-                    {
-                        scene::SpriteData newSpriteData;
-                        i = spriteData.insert(std::make_pair(filename, newSpriteData)).first;
-                    }
-                }
-
-                return i->second;
-            }
+            return nullptr;
         }
 
         void Cache::setSpriteData(const std::string& filename, const scene::SpriteData& newSpriteData)
@@ -325,24 +253,14 @@ namespace ouzel
             spriteData.clear();
         }
 
-        const scene::ParticleSystemData& Cache::getParticleSystemData(const std::string& filename, bool mipmaps) const
+        const scene::ParticleSystemData* Cache::getParticleSystemData(const std::string& filename) const
         {
             auto i = particleSystemData.find(filename);
 
-            if (i == particleSystemData.end())
-            {
-                loadAsset(Loader::PARTICLE_SYSTEM, filename, mipmaps);
+            if (i != particleSystemData.end())
+                return &i->second;
 
-                i = particleSystemData.find(filename);
-
-                if (i == particleSystemData.end())
-                {
-                    scene::ParticleSystemData newParticleSystemData;
-                    i = particleSystemData.insert(std::make_pair(filename, newParticleSystemData)).first;
-                }
-            }
-
-            return i->second;
+            return nullptr;
         }
 
         void Cache::setParticleSystemData(const std::string& filename, const scene::ParticleSystemData& newParticleSystemData)
@@ -355,24 +273,14 @@ namespace ouzel
             particleSystemData.clear();
         }
 
-        const std::shared_ptr<Font>& Cache::getFont(const std::string& filename, bool mipmaps) const
+        std::shared_ptr<Font> Cache::getFont(const std::string& filename) const
         {
             auto i = fonts.find(filename);
 
-            if (i == fonts.end())
-            {
-                loadAsset(Loader::FONT, filename, mipmaps);
+            if (i != fonts.end())
+                return i->second;
 
-                i = fonts.find(filename);
-
-                if (i == fonts.end())
-                {
-                    std::shared_ptr<Font> result;
-                    i = fonts.insert(std::make_pair(filename, result)).first;
-                }
-            }
-
-            return i->second;
+            return nullptr;
         }
 
         void Cache::setFont(const std::string& filename, const std::shared_ptr<Font>& font)
@@ -385,24 +293,14 @@ namespace ouzel
             fonts.clear();
         }
 
-        const std::shared_ptr<audio::SoundData>& Cache::getSoundData(const std::string& filename) const
+        std::shared_ptr<audio::SoundData> Cache::getSoundData(const std::string& filename) const
         {
             auto i = soundData.find(filename);
 
-            if (i == soundData.end())
-            {
-                loadAsset(Loader::SOUND, filename);
+            if (i != soundData.end())
+                return i->second;
 
-                i = soundData.find(filename);
-
-                if (i == soundData.end())
-                {
-                    std::shared_ptr<audio::SoundData> result;
-                    i = soundData.insert(std::make_pair(filename, result)).first;
-                }
-            }
-
-            return i->second;
+            return nullptr;
         }
 
         void Cache::setSoundData(const std::string& filename, const std::shared_ptr<audio::SoundData>& newSoundData)
@@ -415,24 +313,14 @@ namespace ouzel
             soundData.clear();
         }
 
-        const std::shared_ptr<graphics::Material>& Cache::getMaterial(const std::string& filename, bool mipmaps) const
+        std::shared_ptr<graphics::Material> Cache::getMaterial(const std::string& filename) const
         {
             auto i = materials.find(filename);
 
-            if (i == materials.end())
-            {
-                loadAsset(Loader::MATERIAL, filename, mipmaps);
+            if (i != materials.end())
+                return i->second;
 
-                i = materials.find(filename);
-
-                if (i == materials.end())
-                {
-                    std::shared_ptr<graphics::Material> result;
-                    i = materials.insert(std::make_pair(filename, result)).first;
-                }
-            }
-
-            return i->second;
+            return nullptr;
         }
 
         void Cache::setMaterial(const std::string& filename, const std::shared_ptr<graphics::Material>& material)
@@ -445,24 +333,14 @@ namespace ouzel
             materials.clear();
         }
 
-        const scene::MeshData& Cache::getMeshData(const std::string& filename, bool mipmaps) const
+        const scene::MeshData* Cache::getMeshData(const std::string& filename) const
         {
             auto i = meshData.find(filename);
 
-            if (i == meshData.end())
-            {
-                loadAsset(Loader::MESH, filename, mipmaps);
+            if (i != meshData.end())
+                return &i->second;
 
-                i = meshData.find(filename);
-
-                if (i == meshData.end())
-                {
-                    scene::MeshData newMeshData;
-                    i = meshData.insert(std::make_pair(filename, newMeshData)).first;
-                }
-            }
-
-            return i->second;
+            return nullptr;
         }
 
         void Cache::setMeshData(const std::string& filename, const scene::MeshData& newMeshData)

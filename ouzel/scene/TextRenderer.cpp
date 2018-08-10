@@ -34,7 +34,7 @@ namespace ouzel
             vertexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer());
             vertexBuffer->init(graphics::Buffer::Usage::VERTEX, graphics::Buffer::DYNAMIC);
 
-            font = engine->getCache()->getFont(fontFile, mipmaps);
+            font = engine->getCache()->getFont(fontFile);
 
             updateText();
         }

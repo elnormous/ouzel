@@ -143,7 +143,7 @@ namespace ouzel
     {
     }
 
-    BMFont::BMFont(const std::vector<uint8_t>& data, bool mipmaps)
+    BMFont::BMFont(const std::vector<uint8_t>& data)
     {
         auto iterator = data.cbegin();
 
@@ -178,7 +178,7 @@ namespace ouzel
                         value = parseString(data, iterator);
 
                         if (key == "file")
-                            fontTexture = engine->getCache()->getTexture(value, mipmaps);
+                            fontTexture = engine->getCache()->getTexture(value);
                     }
                 }
                 else if (keyword == "common")
