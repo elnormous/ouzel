@@ -64,6 +64,7 @@ class MainScene: public ouzel::scene::Scene
 public:
     MainScene()
     {
+        engine->getCache()->loadAsset(assets::Loader::IMAGE, "player.png");
         addLayer(&layer);
         cameraActor.addComponent(&camera);
         layer.addChild(&cameraActor);
