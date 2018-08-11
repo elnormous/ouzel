@@ -463,6 +463,9 @@
     <ClCompile Include="..\ouzel\network\Socket.cpp">
       <Filter>ouzel\network</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\assets\Bundle.cpp">
+      <Filter>ouzel\assets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\animators\Animator.hpp">
@@ -965,6 +968,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\network\Socket.hpp">
       <Filter>ouzel\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\assets\Bundle.hpp">
+      <Filter>ouzel\assets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
