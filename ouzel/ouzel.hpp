@@ -12,6 +12,7 @@
 #include "animators/Scale.hpp"
 #include "animators/Sequence.hpp"
 #include "animators/Shake.hpp"
+#include "assets/Bundle.hpp"
 #include "assets/Cache.hpp"
 #include "assets/Loader.hpp"
 #include "assets/LoaderBMF.hpp"
