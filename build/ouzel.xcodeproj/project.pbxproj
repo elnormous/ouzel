@@ -697,6 +697,12 @@
 		30673DD61F7A694F00EAFAB0 /* NativeWindow.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30673DD21F7A694F00EAFAB0 /* NativeWindow.hpp */; };
 		30673DD71F7A694F00EAFAB0 /* NativeWindow.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30673DD21F7A694F00EAFAB0 /* NativeWindow.hpp */; };
 		30673DD81F7A694F00EAFAB0 /* NativeWindow.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30673DD21F7A694F00EAFAB0 /* NativeWindow.hpp */; };
+		306792F2211F98070006FF79 /* Bundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306792F0211F98070006FF79 /* Bundle.cpp */; };
+		306792F3211F98070006FF79 /* Bundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306792F0211F98070006FF79 /* Bundle.cpp */; };
+		306792F4211F98070006FF79 /* Bundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306792F0211F98070006FF79 /* Bundle.cpp */; };
+		306792F5211F98070006FF79 /* Bundle.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 306792F1211F98070006FF79 /* Bundle.hpp */; };
+		306792F6211F98070006FF79 /* Bundle.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 306792F1211F98070006FF79 /* Bundle.hpp */; };
+		306792F7211F98070006FF79 /* Bundle.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 306792F1211F98070006FF79 /* Bundle.hpp */; };
 		3067D7A5209B450F008DF6AF /* InputSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3067D7A3209B450F008DF6AF /* InputSystem.cpp */; };
 		3067D7A6209B450F008DF6AF /* InputSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3067D7A3209B450F008DF6AF /* InputSystem.cpp */; };
 		3067D7A7209B450F008DF6AF /* InputSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3067D7A3209B450F008DF6AF /* InputSystem.cpp */; };
@@ -1214,6 +1220,8 @@
 		3066725F1F964A77004515F2 /* Light.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Light.hpp; sourceTree = "<group>"; };
 		30673DD11F7A694F00EAFAB0 /* NativeWindow.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NativeWindow.cpp; sourceTree = "<group>"; };
 		30673DD21F7A694F00EAFAB0 /* NativeWindow.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = NativeWindow.hpp; sourceTree = "<group>"; };
+		306792F0211F98070006FF79 /* Bundle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Bundle.cpp; sourceTree = "<group>"; };
+		306792F1211F98070006FF79 /* Bundle.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Bundle.hpp; sourceTree = "<group>"; };
 		3067D7A3209B450F008DF6AF /* InputSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = InputSystem.cpp; sourceTree = "<group>"; };
 		3067D7A4209B450F008DF6AF /* InputSystem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = InputSystem.hpp; sourceTree = "<group>"; };
 		306A26B11F5DD17700E2B0B6 /* Listener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Listener.cpp; sourceTree = "<group>"; };
@@ -1849,6 +1857,8 @@
 		30519CA81F9AB79B00AF3DC4 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				306792F0211F98070006FF79 /* Bundle.cpp */,
+				306792F1211F98070006FF79 /* Bundle.hpp */,
 				30DADE9A1C5167BC001A63B4 /* Cache.cpp */,
 				30DADE9B1C5167BC001A63B4 /* Cache.hpp */,
 				30519CB21F9B506F00AF3DC4 /* Loader.cpp */,
@@ -2062,6 +2072,7 @@
 				306A26B61F5DD17700E2B0B6 /* Listener.hpp in Headers */,
 				30EF364F1CA76ACD00F04F29 /* ScrollArea.hpp in Headers */,
 				30724D831F353A0800D915ED /* ViewIOS.h in Headers */,
+				306792F5211F98070006FF79 /* Bundle.hpp in Headers */,
 				30381FDF1D80A40700677CAB /* BlendStateResourceMetal.hpp in Headers */,
 				303821541D81876E00677CAB /* ShaderResourceEmpty.hpp in Headers */,
 				303B75581C2A3CB700FEDE92 /* Vector2.hpp in Headers */,
@@ -2286,6 +2297,7 @@
 				303B76681C355A3B00FEDE92 /* InputManager.hpp in Headers */,
 				30C758B21F4A0196008499DC /* AudioDevice.hpp in Headers */,
 				305B99961C41F06F008589E1 /* Widget.hpp in Headers */,
+				306792F7211F98070006FF79 /* Bundle.hpp in Headers */,
 				303B76691C355A3B00FEDE92 /* Rect.hpp in Headers */,
 				303B766C1C355A3B00FEDE92 /* MathUtils.hpp in Headers */,
 				30AEFA2120C0FBB000CDFD33 /* RenderTargetResource.hpp in Headers */,
@@ -2366,6 +2378,7 @@
 				303820861D816C9E00677CAB /* NativeWindowMacOS.hpp in Headers */,
 				303B75781C2A419F00FEDE92 /* Setup.h in Headers */,
 				304A8E651C237C70008B1151 /* Renderer.hpp in Headers */,
+				306792F6211F98070006FF79 /* Bundle.hpp in Headers */,
 				30519CBC1F9B53AB00AF3DC4 /* LoaderWave.hpp in Headers */,
 				304A8E6D1C237C70008B1151 /* TextureResource.hpp in Headers */,
 				3047F77A1C4D39C500774E3D /* Repeat.hpp in Headers */,
@@ -2674,6 +2687,7 @@
 				306B0E601C567D05005C75C1 /* ShapeRenderer.cpp in Sources */,
 				305B99A31C42A97E008589E1 /* BMFont.cpp in Sources */,
 				303821571D81876E00677CAB /* TextureResourceEmpty.cpp in Sources */,
+				306792F2211F98070006FF79 /* Bundle.cpp in Sources */,
 				3047F73F1C4C344A00774E3D /* Animator.cpp in Sources */,
 				303B75441C2A3C9200FEDE92 /* Renderer.cpp in Sources */,
 				3047F7681C4D2C2000774E3D /* Sequence.cpp in Sources */,
@@ -2838,6 +2852,7 @@
 				306B0E611C567D05005C75C1 /* ShapeRenderer.cpp in Sources */,
 				303821591D81876E00677CAB /* TextureResourceEmpty.cpp in Sources */,
 				305B99A41C42A97F008589E1 /* BMFont.cpp in Sources */,
+				306792F4211F98070006FF79 /* Bundle.cpp in Sources */,
 				3047F7401C4C344A00774E3D /* Animator.cpp in Sources */,
 				30A883661E7432DA004A033F /* Archive.cpp in Sources */,
 				3047F7691C4D2C2000774E3D /* Sequence.cpp in Sources */,
@@ -3013,6 +3028,7 @@
 				30A9C13A1CAEBA540084C4BF /* Language.cpp in Sources */,
 				30519CA21F97EEB700AF3DC4 /* MeshData.cpp in Sources */,
 				30419DE91D162BDC00A63759 /* Sound.cpp in Sources */,
+				306792F3211F98070006FF79 /* Bundle.cpp in Sources */,
 				304B27551C9384A600BA162D /* Size3.cpp in Sources */,
 				303B76081C34A92B00FEDE92 /* InputManager.cpp in Sources */,
 				30519CD11F9B53CB00AF3DC4 /* LoaderImage.cpp in Sources */,

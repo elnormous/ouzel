@@ -26,6 +26,7 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/animators/Scale.cpp \
     ../../ouzel/animators/Sequence.cpp \
     ../../ouzel/animators/Shake.cpp \
+	../../ouzel/assets/Bundle.cpp \
     ../../ouzel/assets/Cache.cpp \
     ../../ouzel/assets/Loader.cpp \
     ../../ouzel/assets/LoaderBMF.cpp \

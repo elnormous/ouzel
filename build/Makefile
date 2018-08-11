@@ -34,6 +34,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/animators/Scale.cpp \
 	$(ROOT_DIR)/../ouzel/animators/Sequence.cpp \
 	$(ROOT_DIR)/../ouzel/animators/Shake.cpp \
+	$(ROOT_DIR)/../ouzel/assets/Bundle.cpp \
 	$(ROOT_DIR)/../ouzel/assets/Cache.cpp \
 	$(ROOT_DIR)/../ouzel/assets/Loader.cpp \
 	$(ROOT_DIR)/../ouzel/assets/LoaderBMF.cpp \
