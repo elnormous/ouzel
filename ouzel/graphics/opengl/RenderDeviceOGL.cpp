@@ -311,7 +311,7 @@ namespace ouzel
 
         RenderDeviceOGL::~RenderDeviceOGL()
         {
-            if (vertexArrayId && glDeleteVertexArraysProc) glDeleteVertexArraysProc(1, &vertexArrayId);
+            if (vertexArrayId) glDeleteVertexArraysProc(1, &vertexArrayId);
 
             resourceDeleteSet.clear();
             resources.clear();
@@ -800,7 +800,7 @@ namespace ouzel
         {
             ShaderResourceOGL* currentShader = nullptr;
 
-            if (glBindVertexArrayProc && vertexArrayId)
+            if (vertexArrayId)
             {
                 glBindVertexArrayProc(vertexArrayId);
 
