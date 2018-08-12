@@ -141,6 +141,9 @@
 		30B8599B1F3D377700A16952 /* AmosisTechnik.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 30B8599A1F3D377700A16952 /* AmosisTechnik.ttf */; };
 		30B8599C1F3D377700A16952 /* AmosisTechnik.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 30B8599A1F3D377700A16952 /* AmosisTechnik.ttf */; };
 		30B8599D1F3D377700A16952 /* AmosisTechnik.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 30B8599A1F3D377700A16952 /* AmosisTechnik.ttf */; };
+		30C246FB211E0B98001E8DA6 /* assets.json in Resources */ = {isa = PBXBuildFile; fileRef = 30C246FA211E0B98001E8DA6 /* assets.json */; };
+		30C246FD211E0CD1001E8DA6 /* assets.json in Resources */ = {isa = PBXBuildFile; fileRef = 30C246FA211E0B98001E8DA6 /* assets.json */; };
+		30C246FE211E0CD1001E8DA6 /* assets.json in Resources */ = {isa = PBXBuildFile; fileRef = 30C246FA211E0B98001E8DA6 /* assets.json */; };
 		30E1906920D08AB500C79662 /* gui.zip in Resources */ = {isa = PBXBuildFile; fileRef = 30E1906820D08AB400C79662 /* gui.zip */; };
 		30E1906A20D08AB500C79662 /* gui.zip in Resources */ = {isa = PBXBuildFile; fileRef = 30E1906820D08AB400C79662 /* gui.zip */; };
 		30E1906B20D08AB500C79662 /* gui.zip in Resources */ = {isa = PBXBuildFile; fileRef = 30E1906820D08AB400C79662 /* gui.zip */; };
@@ -250,6 +253,7 @@
 		30AFE1521CB5DD0400478AA2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		30B492A01CDF816F0021E170 /* ouzel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ouzel.xcodeproj; path = ../build/ouzel.xcodeproj; sourceTree = "<group>"; };
 		30B8599A1F3D377700A16952 /* AmosisTechnik.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AmosisTechnik.ttf; sourceTree = "<group>"; };
+		30C246FA211E0B98001E8DA6 /* assets.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = assets.json; sourceTree = "<group>"; };
 		30C2C33D1F817E5000B3AAC2 /* cube.obj */ = {isa = PBXFileReference; lastKnownFileType = text; path = cube.obj; sourceTree = "<group>"; };
 		30C2C3411F817E5100B3AAC2 /* cube.mtl */ = {isa = PBXFileReference; lastKnownFileType = text; path = cube.mtl; sourceTree = "<group>"; };
 		30C2C3421F817E5100B3AAC2 /* cube.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cube.png; sourceTree = "<group>"; };
@@ -397,6 +401,7 @@
 				30A8835D1E70E5B1004A033F /* 24-bit.wav */,
 				30419E641D1F6A7600A63759 /* ambient.wav */,
 				30B8599A1F3D377700A16952 /* AmosisTechnik.ttf */,
+				30C246FA211E0B98001E8DA6 /* assets.json */,
 				3045F0DA1D0F575F00125436 /* ball.png */,
 				30C2C3411F817E5100B3AAC2 /* cube.mtl */,
 				30C2C33D1F817E5000B3AAC2 /* cube.obj */,
@@ -598,6 +603,7 @@
 				303B76161C34CFE300FEDE92 /* flame.png in Resources */,
 				30324D9E1CAFB20900601A64 /* lv.mo in Resources */,
 				30519D051F9D525B00AF3DC4 /* cube.obj in Resources */,
+				30C246FB211E0B98001E8DA6 /* assets.json in Resources */,
 				303B76171C34CFE300FEDE92 /* witch.png in Resources */,
 				303B76181C34CFE300FEDE92 /* flame.json in Resources */,
 				303B76191C34CFE300FEDE92 /* fire.json in Resources */,
@@ -630,6 +636,7 @@
 				303B76961C355AA400FEDE92 /* flame.png in Resources */,
 				30324D9F1CAFB20900601A64 /* lv.mo in Resources */,
 				30519D071F9D525B00AF3DC4 /* cube.obj in Resources */,
+				30C246FE211E0CD1001E8DA6 /* assets.json in Resources */,
 				303B76971C355AA400FEDE92 /* witch.png in Resources */,
 				303B76981C355AA400FEDE92 /* flame.json in Resources */,
 				303B76991C355AA400FEDE92 /* fire.json in Resources */,
@@ -662,6 +669,7 @@
 				303B76041C349CA800FEDE92 /* flame.png in Resources */,
 				30324D9D1CAFB20900601A64 /* lv.mo in Resources */,
 				30519D061F9D525B00AF3DC4 /* cube.obj in Resources */,
+				30C246FD211E0CD1001E8DA6 /* assets.json in Resources */,
 				303B75091C286F8D00FEDE92 /* witch.png in Resources */,
 				303B76031C349CA800FEDE92 /* flame.json in Resources */,
 				303B75F71C33756100FEDE92 /* fire.json in Resources */,
@@ -824,6 +832,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_ASSIGN_ENUM = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_CXX0X_EXTENSIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
@@ -834,6 +843,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NULLABLE_TO_NONNULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
@@ -855,7 +865,9 @@
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = YES;
 				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_PEDANTIC = YES;
 				GCC_WARN_SHADOW = YES;
 				GCC_WARN_SIGN_COMPARE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -863,6 +875,7 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = ../ouzel/;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
@@ -881,6 +894,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_ASSIGN_ENUM = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_CXX0X_EXTENSIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
@@ -891,6 +905,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NULLABLE_TO_NONNULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
@@ -906,7 +921,9 @@
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = YES;
 				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_PEDANTIC = YES;
 				GCC_WARN_SHADOW = YES;
 				GCC_WARN_SIGN_COMPARE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -914,6 +931,7 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = ../ouzel/;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
