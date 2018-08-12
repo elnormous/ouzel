@@ -48,8 +48,11 @@ namespace ouzel
         running = false;
         if (runLoop) CFRunLoopStop([runLoop getCFRunLoop]);
         if (renderThread.isJoinable()) renderThread.join();
-        [displayLink invalidate];
-        [displayLink release];
+        if (displayLink)
+        {
+            [displayLink invalidate];
+            [displayLink release];
+        }
     }
 
     void DisplayLink::start(bool initVerticalSync)
