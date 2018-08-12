@@ -4,6 +4,7 @@
 #include "StreamVorbis.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Utils.hpp"
+
 #include "stb_vorbis.c"
 
 namespace ouzel

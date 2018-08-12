@@ -21,9 +21,9 @@ namespace ouzel
         ParticleSystem::ParticleSystem():
             Component(CLASS)
         {
-            shader = engine->getCache()->getShader(graphics::SHADER_TEXTURE);
-            blendState = engine->getCache()->getBlendState(graphics::BLEND_ALPHA);
-            whitePixelTexture = engine->getCache()->getTexture(graphics::TEXTURE_WHITE_PIXEL);
+            shader = engine->getCache()->getShader(SHADER_TEXTURE);
+            blendState = engine->getCache()->getBlendState(BLEND_ALPHA);
+            whitePixelTexture = engine->getCache()->getTexture(TEXTURE_WHITE_PIXEL);
 
             updateCallback.callback = std::bind(&ParticleSystem::update, this, std::placeholders::_1);
         }

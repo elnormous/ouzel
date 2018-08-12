@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include "LoaderSprite.hpp"
+#include "Bundle.hpp"
 #include "Cache.hpp"
 #include "scene/SpriteData.hpp"
 #include "utils/JSON.hpp"
@@ -10,12 +11,12 @@ namespace ouzel
 {
     namespace assets
     {
-        LoaderSprite::LoaderSprite():
-            Loader(TYPE)
+        LoaderSprite::LoaderSprite(Cache& initCache):
+            Loader(initCache, TYPE)
         {
         }
 
-        bool LoaderSprite::loadAsset(const std::string& filename, const std::vector<uint8_t>& data, bool)
+        bool LoaderSprite::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool)
         {
             scene::SpriteData spriteData;
 
@@ -27,7 +28,7 @@ namespace ouzel
 
             const json::Value& metaObject = document["meta"];
 
-            spriteData.texture = cache->getTexture(metaObject["image"].asString());
+            spriteData.texture = cache.getTexture(metaObject["image"].asString());
 
             if (!spriteData.texture)
                 return false;
@@ -117,7 +118,7 @@ namespace ouzel
 
             spriteData.animations[""] = std::move(animation);
 
-            cache->setSpriteData(filename, spriteData);
+            bundle.setSpriteData(filename, spriteData);
 
             return true;
         }

@@ -3,7 +3,8 @@
 #include <iterator>
 #include <string>
 #include "LoaderMTL.hpp"
-#include "Cache.hpp"
+#include "Bundle.hpp"
+#include "core/Engine.hpp"
 #include "utils/Errors.hpp"
 
 namespace ouzel
@@ -122,12 +123,12 @@ namespace ouzel
             return result;
         }
 
-        LoaderMTL::LoaderMTL():
-            Loader(TYPE)
+        LoaderMTL::LoaderMTL(Cache& initCache):
+            Loader(initCache, TYPE)
         {
         }
 
-        bool LoaderMTL::loadAsset(const std::string& filename, const std::vector<uint8_t>& data, bool)
+        bool LoaderMTL::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool)
         {
             std::string name = filename;
             std::shared_ptr<graphics::Texture> diffuseTexture;
@@ -166,14 +167,14 @@ namespace ouzel
                         if (materialCount)
                         {
                             std::shared_ptr<graphics::Material> material = std::make_shared<graphics::Material>();
-                            material->blendState = cache->getBlendState(graphics::BLEND_ALPHA);
-                            material->shader = cache->getShader(graphics::SHADER_TEXTURE);
+                            material->blendState = cache.getBlendState(BLEND_ALPHA);
+                            material->shader = cache.getShader(SHADER_TEXTURE);
                             material->textures[0] = diffuseTexture;
                             material->textures[1] = ambientTexture;
                             material->diffuseColor = diffuseColor;
                             material->opacity = opacity;
 
-                            cache->setMaterial(name, material);
+                            bundle.setMaterial(name, material);
                         }
 
                         skipWhitespaces(data, iterator);
@@ -193,7 +194,7 @@ namespace ouzel
 
                         skipLine(data, iterator);
 
-                        ambientTexture = cache->getTexture(value);
+                        ambientTexture = cache.getTexture(value);
                     }
                     else if (keyword == "map_Kd") // diffuse texture map
                     {
@@ -202,7 +203,7 @@ namespace ouzel
 
                         skipLine(data, iterator);
 
-                        diffuseTexture = cache->getTexture(value);
+                        diffuseTexture = cache.getTexture(value);
                     }
                     else if (keyword == "Ka") // ambient color
                         skipLine(data, iterator);
@@ -258,14 +259,14 @@ namespace ouzel
             if (materialCount)
             {
                 std::shared_ptr<graphics::Material> material = std::make_shared<graphics::Material>();
-                material->blendState = cache->getBlendState(graphics::BLEND_ALPHA);
-                material->shader = cache->getShader(graphics::SHADER_TEXTURE);
+                material->blendState = cache.getBlendState(BLEND_ALPHA);
+                material->shader = cache.getShader(SHADER_TEXTURE);
                 material->textures[0] = diffuseTexture;
                 material->textures[1] = ambientTexture;
                 material->diffuseColor = diffuseColor;
                 material->opacity = opacity;
 
-                cache->setMaterial(name, material);
+                bundle.setMaterial(name, material);
             }
 
             return true;

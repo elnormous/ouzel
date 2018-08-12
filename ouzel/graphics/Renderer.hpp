@@ -23,17 +23,6 @@ namespace ouzel
 
     namespace graphics
     {
-        const std::string SHADER_TEXTURE = "shaderTexture";
-        const std::string SHADER_COLOR = "shaderColor";
-
-        const std::string BLEND_NO_BLEND = "blendNoBlend";
-        const std::string BLEND_ADD = "blendAdd";
-        const std::string BLEND_MULTIPLY = "blendMultiply";
-        const std::string BLEND_ALPHA = "blendAlpha";
-        const std::string BLEND_SCREEN = "blendScreen";
-
-        const std::string TEXTURE_WHITE_PIXEL = "textureWhitePixel";
-
         class RenderDevice;
         class BlendState;
         class Buffer;

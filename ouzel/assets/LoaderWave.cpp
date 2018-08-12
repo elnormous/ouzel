@@ -1,24 +1,24 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "LoaderWave.hpp"
-#include "Cache.hpp"
+#include "Bundle.hpp"
 #include "audio/SoundDataWave.hpp"
 
 namespace ouzel
 {
     namespace assets
     {
-        LoaderWave::LoaderWave():
-            Loader(TYPE)
+        LoaderWave::LoaderWave(Cache& initCache):
+            Loader(initCache, TYPE)
         {
         }
 
-        bool LoaderWave::loadAsset(const std::string& filename, const std::vector<uint8_t>& data, bool)
+        bool LoaderWave::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool)
         {
             try
             {
                 std::shared_ptr<audio::SoundData> soundData = std::make_shared<audio::SoundDataWave>(data);
-                cache->setSoundData(filename, soundData);
+                bundle.setSoundData(filename, soundData);
             }
             catch (...)
             {

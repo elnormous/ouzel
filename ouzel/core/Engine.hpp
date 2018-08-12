@@ -13,6 +13,7 @@
 #include "files/FileSystem.hpp"
 #include "events/EventDispatcher.hpp"
 #include "scene/SceneManager.hpp"
+#include "assets/Bundle.hpp"
 #include "assets/Cache.hpp"
 #include "localization/Localization.hpp"
 #include "network/Network.hpp"
@@ -25,6 +26,17 @@ void ouzelMain(const std::vector<std::string>& args);
 
 namespace ouzel
 {
+    const std::string SHADER_TEXTURE = "shaderTexture";
+    const std::string SHADER_COLOR = "shaderColor";
+
+    const std::string BLEND_NO_BLEND = "blendNoBlend";
+    const std::string BLEND_ADD = "blendAdd";
+    const std::string BLEND_MULTIPLY = "blendMultiply";
+    const std::string BLEND_ALPHA = "blendAlpha";
+    const std::string BLEND_SCREEN = "blendScreen";
+
+    const std::string TEXTURE_WHITE_PIXEL = "textureWhitePixel";
+
     class Engine
     {
     public:
@@ -84,6 +96,7 @@ namespace ouzel
         std::unique_ptr<input::InputManager> inputManager;
         Localization localization;
         assets::Cache cache;
+        assets::Bundle assetBundle;
         scene::SceneManager sceneManager;
         network::Network network;
 

@@ -17,7 +17,7 @@ namespace ouzel
         Sprite::Sprite():
             Component(CLASS)
         {
-            whitePixelTexture = engine->getCache()->getTexture(graphics::TEXTURE_WHITE_PIXEL);
+            whitePixelTexture = engine->getCache()->getTexture(TEXTURE_WHITE_PIXEL);
 
             updateCallback.callback = std::bind(&Sprite::update, this, std::placeholders::_1);
 
@@ -48,8 +48,8 @@ namespace ouzel
         {
             material = std::make_shared<graphics::Material>();
             material->cullMode = graphics::Renderer::CullMode::NONE;
-            material->blendState = spriteData.blendState ? spriteData.blendState : engine->getCache()->getBlendState(graphics::BLEND_ALPHA);
-            material->shader = spriteData.shader ? spriteData.shader : engine->getCache()->getShader(graphics::SHADER_TEXTURE);
+            material->blendState = spriteData.blendState ? spriteData.blendState : engine->getCache()->getBlendState(BLEND_ALPHA);
+            material->shader = spriteData.shader ? spriteData.shader : engine->getCache()->getShader(SHADER_TEXTURE);
             material->textures[0] = spriteData.texture;
 
             animations = spriteData.animations;
@@ -65,8 +65,8 @@ namespace ouzel
         {
             material = std::make_shared<graphics::Material>();
             material->cullMode = graphics::Renderer::CullMode::NONE;
-            material->shader = engine->getCache()->getShader(graphics::SHADER_TEXTURE);
-            material->blendState = engine->getCache()->getBlendState(graphics::BLEND_ALPHA);
+            material->shader = engine->getCache()->getShader(SHADER_TEXTURE);
+            material->blendState = engine->getCache()->getBlendState(BLEND_ALPHA);
 
             if (const SpriteData* spriteData = engine->getCache()->getSpriteData(filename))
             {
@@ -104,8 +104,8 @@ namespace ouzel
         {
             material = std::make_shared<graphics::Material>();
             material->cullMode = graphics::Renderer::CullMode::NONE;
-            material->shader = engine->getCache()->getShader(graphics::SHADER_TEXTURE);
-            material->blendState = engine->getCache()->getBlendState(graphics::BLEND_ALPHA);
+            material->shader = engine->getCache()->getShader(SHADER_TEXTURE);
+            material->blendState = engine->getCache()->getBlendState(BLEND_ALPHA);
             material->textures[0] = newTexture;
             animations.clear();
 

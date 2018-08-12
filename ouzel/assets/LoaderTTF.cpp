@@ -1,24 +1,24 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "LoaderTTF.hpp"
-#include "Cache.hpp"
+#include "Bundle.hpp"
 #include "gui/TTFont.hpp"
 
 namespace ouzel
 {
     namespace assets
     {
-        LoaderTTF::LoaderTTF():
-            Loader(TYPE)
+        LoaderTTF::LoaderTTF(Cache& initCache):
+            Loader(initCache, TYPE)
         {
         }
 
-        bool LoaderTTF::loadAsset(const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
+        bool LoaderTTF::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
         {
             try
             {
                 std::shared_ptr<TTFont> font = std::make_shared<TTFont>(data, mipmaps);
-                cache->setFont(filename, font);
+                bundle.setFont(filename, font);
             }
             catch (...)
             {

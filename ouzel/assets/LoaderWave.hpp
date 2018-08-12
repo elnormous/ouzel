@@ -13,8 +13,8 @@ namespace ouzel
         public:
             static const uint32_t TYPE = Loader::SOUND;
 
-            LoaderWave();
-            virtual bool loadAsset(const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps = true) override;
+            LoaderWave(Cache& initCache);
+            virtual bool loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps = true) override;
         };
     } // namespace assets
 } // namespace ouzel

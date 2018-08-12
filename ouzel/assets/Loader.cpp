@@ -9,15 +9,15 @@ namespace ouzel
 {
     namespace assets
     {
-        Loader::Loader(uint32_t initType):
-            type(initType)
+        Loader::Loader(Cache& initCache, uint32_t initType):
+            cache(initCache), type(initType)
         {
+            cache.addLoader(this);
         }
 
         Loader::~Loader()
         {
-            if (cache)
-                cache->removeLoader(this);
+            cache.removeLoader(this);
         }
     } // namespace assets
 } // namespace ouzel

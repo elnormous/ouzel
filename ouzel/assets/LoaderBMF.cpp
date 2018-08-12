@@ -1,24 +1,24 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "LoaderBMF.hpp"
-#include "Cache.hpp"
+#include "Bundle.hpp"
 #include "gui/BMFont.hpp"
 
 namespace ouzel
 {
     namespace assets
     {
-        LoaderBMF::LoaderBMF():
-            Loader(TYPE)
+        LoaderBMF::LoaderBMF(Cache& initCache):
+            Loader(initCache, TYPE)
         {
         }
 
-        bool LoaderBMF::loadAsset(const std::string& filename, const std::vector<uint8_t>& data, bool)
+        bool LoaderBMF::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool)
         {
             try
             {
                 std::shared_ptr<BMFont> font = std::make_shared<BMFont>(data);
-                cache->setFont(filename, font);
+                bundle.setFont(filename, font);
             }
             catch (...)
             {

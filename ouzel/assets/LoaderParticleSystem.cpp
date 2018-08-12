@@ -1,8 +1,8 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "LoaderParticleSystem.hpp"
+#include "Bundle.hpp"
 #include "Cache.hpp"
-#include "files/FileSystem.hpp"
 #include "scene/ParticleSystemData.hpp"
 #include "utils/JSON.hpp"
 
@@ -10,12 +10,12 @@ namespace ouzel
 {
     namespace assets
     {
-        LoaderParticleSystem::LoaderParticleSystem():
-            Loader(TYPE)
+        LoaderParticleSystem::LoaderParticleSystem(Cache& initCache):
+            Loader(initCache, TYPE)
         {
         }
 
-        bool LoaderParticleSystem::loadAsset(const std::string& filename, const std::vector<uint8_t>& data, bool)
+        bool LoaderParticleSystem::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool)
         {
             scene::ParticleSystemData particleSystemData;
 
@@ -105,11 +105,11 @@ namespace ouzel
             if (document.hasMember("finishColorVarianceBlue")) particleSystemData.finishColorBlueVariance = document["finishColorVarianceBlue"].asFloat();
             if (document.hasMember("finishColorVarianceAlpha")) particleSystemData.finishColorAlphaVariance = document["finishColorVarianceAlpha"].asFloat();
 
-            if (document.hasMember("textureFileName")) particleSystemData.texture = cache->getTexture(document["textureFileName"].asString());
+            if (document.hasMember("textureFileName")) particleSystemData.texture = cache.getTexture(document["textureFileName"].asString());
 
             particleSystemData.emissionRate = static_cast<float>(particleSystemData.maxParticles) / particleSystemData.particleLifespan;
 
-            cache->setParticleSystemData(filename, particleSystemData);
+            bundle.setParticleSystemData(filename, particleSystemData);
 
             return true;
         }
