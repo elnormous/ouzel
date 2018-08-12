@@ -343,7 +343,7 @@ namespace ouzel
             GLenum error;
 
             if ((error = glGetError()) != GL_NO_ERROR || !deviceName)
-                Log(Log::Level::WARN) << "Failed to get OpenGL renderer";
+                Log(Log::Level::WARN) << "Failed to get OpenGL renderer, error: " + std::to_string(error);
             else
                 Log(Log::Level::INFO) << "Using " << reinterpret_cast<const char*>(deviceName) << " for rendering";
 
