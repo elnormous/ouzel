@@ -1,6 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include <algorithm>
+#include <cctype>
 #include "Bundle.hpp"
 #include "Cache.hpp"
 #include "Loader.hpp"
