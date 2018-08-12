@@ -80,12 +80,6 @@ namespace ouzel
 #endif
     }
 
-    FileSystem::~FileSystem()
-    {
-        for (Archive* archive : archives)
-            archive->fileSystem = nullptr;
-    }
-
     std::string FileSystem::getStorageDirectory(bool user) const
     {
 #if OUZEL_PLATFORM_WINDOWS
@@ -379,15 +373,10 @@ namespace ouzel
 
     void FileSystem::addArchive(Archive* archive)
     {
-        if (archive->fileSystem) archive->fileSystem->removeArchive(archive);
-
         auto i = std::find(archives.begin(), archives.end(), archive);
 
         if (i == archives.end())
-        {
-            archive->fileSystem = this;
             archives.push_back(archive);
-        }
     }
 
     void FileSystem::removeArchive(Archive* archive)
@@ -395,10 +384,7 @@ namespace ouzel
         auto i = std::find(archives.begin(), archives.end(), archive);
 
         if (i != archives.end())
-        {
-            archive->fileSystem = nullptr;
             archives.erase(i);
-        }
     }
 
     std::string FileSystem::getExtensionPart(const std::string& path)
