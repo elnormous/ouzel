@@ -67,7 +67,6 @@ PerspectiveSample::PerspectiveSample():
     character.addComponent(rotate);
     rotate->start();
 
-    engine->getCache()->loadAsset(assets::Loader::MESH , "cube.obj");
     boxModel.init(*engine->getCache()->getMeshData("cube.obj"));
     box.addComponent(&boxModel);
     box.setPosition(Vector3(-160.0F, 0.0F, -50.0F));
