@@ -62,9 +62,10 @@ std::string APPLICATION_NAME = "game";
 class MainScene: public ouzel::scene::Scene
 {
 public:
-    MainScene()
+    MainScene():
+        assets(engine->getCache())
     {
-        engine->getCache()->loadAsset(assets::Loader::IMAGE, "player.png");
+        assets->loadAsset(assets::Loader::IMAGE, "player.png");
         addLayer(&layer);
         cameraActor.addComponent(&camera);
         layer.addChild(&cameraActor);
@@ -79,6 +80,7 @@ private:
     ouzel::scene::Actor cameraActor;
     ouzel::scene::Sprite playerSprite;
     ouzel::scene::Actor player;
+    assets::Bundle assets;
 };
 
 void ouzelMain(const std::vector<std::string>& args)
