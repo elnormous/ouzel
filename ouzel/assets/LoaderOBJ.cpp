@@ -6,6 +6,7 @@
 #include <string>
 #include <tuple>
 #include "LoaderOBJ.hpp"
+#include "Bundle.hpp"
 #include "Cache.hpp"
 #include "graphics/Material.hpp"
 #include "utils/Errors.hpp"
@@ -167,12 +168,12 @@ namespace ouzel
             return true;
         }
 
-        LoaderOBJ::LoaderOBJ():
-            Loader(TYPE)
+        LoaderOBJ::LoaderOBJ(Cache& initCache):
+            Loader(initCache, TYPE)
         {
         }
 
-        bool LoaderOBJ::loadAsset(const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
+        bool LoaderOBJ::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
         {
             std::string name = filename;
             std::shared_ptr<graphics::Material> material;
@@ -217,7 +218,7 @@ namespace ouzel
 
                         skipLine(data, iterator);
 
-                        cache->loadAsset(Loader::MATERIAL, value, mipmaps);
+                        //cache.loadAsset(Loader::MATERIAL, value, mipmaps);
                     }
                     else if (keyword == "usemtl")
                     {
@@ -226,14 +227,14 @@ namespace ouzel
 
                         skipLine(data, iterator);
 
-                        material = cache->getMaterial(value);
+                        material = cache.getMaterial(value);
                     }
                     else if (keyword == "o")
                     {
                         if (objectCount)
                         {
                             scene::MeshData meshData(boundingBox, indices, vertices, material);
-                            cache->setMeshData(name, meshData);
+                            bundle.setMeshData(name, meshData);
                         }
 
                         skipWhitespaces(data, iterator);
@@ -397,7 +398,7 @@ namespace ouzel
             if (objectCount)
             {
                 scene::MeshData meshData(boundingBox, indices, vertices, material);
-                cache->setMeshData(name, meshData);
+                bundle.setMeshData(name, meshData);
             }
 
             return true;

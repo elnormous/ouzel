@@ -3,11 +3,12 @@
 #include <functional>
 #include <memory>
 #include "LoaderImage.hpp"
-#include "Cache.hpp"
+#include "Bundle.hpp"
 #include "core/Engine.hpp"
 #include "graphics/ImageData.hpp"
 #include "graphics/Texture.hpp"
 #include "utils/Errors.hpp"
+
 #define STBI_NO_PSD
 #define STBI_NO_HDR
 #define STBI_NO_PIC
@@ -22,12 +23,12 @@ namespace ouzel
 {
     namespace assets
     {
-        LoaderImage::LoaderImage():
-            Loader(TYPE)
+        LoaderImage::LoaderImage(Cache& initCache):
+            Loader(initCache, TYPE)
         {
         }
 
-        bool LoaderImage::loadAsset(const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
+        bool LoaderImage::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
         {
             int width;
             int height;
@@ -105,7 +106,7 @@ namespace ouzel
             std::shared_ptr<graphics::Texture> texture = std::make_shared<graphics::Texture>(*engine->getRenderer());
             texture->init(image.getData(), image.getSize(), 0, mipmaps ? 0 : 1, image.getPixelFormat());
 
-            cache->setTexture(filename, texture);
+            bundle.setTexture(filename, texture);
 
             return true;
         }

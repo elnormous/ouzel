@@ -16,9 +16,12 @@ std::string APPLICATION_NAME = "samples";
 using namespace ouzel;
 
 ouzel::Archive archive;
+std::unique_ptr<assets::Bundle> bundle;
 
 void ouzelMain(const std::vector<std::string>& args)
 {
+    bundle.reset(new assets::Bundle(*engine->getCache()));
+
     // disable screen saver
     engine->setScreenSaverEnabled(false);
 
@@ -52,7 +55,7 @@ void ouzelMain(const std::vector<std::string>& args)
     engine->getFileSystem()->addArchive(&archive);
 #endif
 
-    engine->getCache()->loadAssets("assets.json");
+    bundle->loadAssets("assets.json");
 
     engine->getRenderer()->setClearColor(ouzel::Color(64, 0, 0));
 

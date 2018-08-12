@@ -10,7 +10,7 @@ namespace ouzel
         MeshRenderer::MeshRenderer():
             Component(CLASS)
         {
-            whitePixelTexture = engine->getCache()->getTexture(graphics::TEXTURE_WHITE_PIXEL);
+            whitePixelTexture = engine->getCache()->getTexture(TEXTURE_WHITE_PIXEL);
         }
 
         MeshRenderer::MeshRenderer(const MeshData& meshData):

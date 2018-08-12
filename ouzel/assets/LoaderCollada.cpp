@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "LoaderCollada.hpp"
-#include "Cache.hpp"
+#include "Bundle.hpp"
 #include "scene/MeshData.hpp"
 #include "utils/Errors.hpp"
 #include "utils/XML.hpp"
@@ -10,12 +10,12 @@ namespace ouzel
 {
     namespace assets
     {
-        LoaderCollada::LoaderCollada():
-            Loader(TYPE)
+        LoaderCollada::LoaderCollada(Cache& initCache):
+            Loader(initCache, TYPE)
         {
         }
 
-        bool LoaderCollada::loadAsset(const std::string& filename, const std::vector<uint8_t>& data, bool)
+        bool LoaderCollada::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool)
         {
             xml::Data colladaData(data);
 
@@ -31,7 +31,7 @@ namespace ouzel
 
             // TODO: load the model
 
-            cache->setMeshData(filename, meshData);
+            bundle.setMeshData(filename, meshData);
 
             return true;
         }
