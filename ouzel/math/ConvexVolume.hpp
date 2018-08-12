@@ -21,7 +21,7 @@ namespace ouzel
         {
         }
 
-        bool isPointInside(const Vector4& position)
+        bool isPointInside(const Vector4& position) const
         {
             for (const Plane& plane : planes)
             {
@@ -32,7 +32,7 @@ namespace ouzel
             return true;
         }
 
-        bool isSphereInside(const Vector4& position, float radius)
+        bool isSphereInside(const Vector4& position, float radius) const
         {
             for (const Plane& plane : planes)
             {
@@ -43,18 +43,28 @@ namespace ouzel
             return true;
         }
 
-        bool isBoxInside(const Box3& box)
+        bool isBoxInside(const Box3& box) const
         {
+            Vector4 leftBottomBack(box.min.x, box.min.y, box.min.z, 1.0F);
+            Vector4 leftBottomFront(box.min.x, box.min.y, box.max.z, 1.0F);
+            Vector4 leftTopBack(box.min.x, box.max.y, box.min.z, 1.0F);
+            Vector4 leftTopFront(box.min.x, box.max.y, box.max.z, 1.0F);
+            Vector4 rightBottomBack(box.max.x, box.min.y, box.min.z, 1.0F);
+            Vector4 rightBottomFront(box.max.x, box.min.y, box.max.z, 1.0F);
+            Vector4 rightTopBack(box.max.x, box.max.y, box.min.z, 1.0F);
+            Vector4 rightTopFront(box.max.x, box.max.y, box.max.z, 1.0F);
+            
+
             for (const Plane& plane : planes)
             {
-                if (plane.dot(Vector4(box.min.x, box.min.y, box.min.z, 1.0F)) < 0.0F &&
-                    plane.dot(Vector4(box.max.x, box.min.y, box.min.z, 1.0F)) < 0.0F &&
-                    plane.dot(Vector4(box.min.x, box.max.y, box.min.z, 1.0F)) < 0.0F &&
-                    plane.dot(Vector4(box.min.x, box.min.y, box.max.z, 1.0F)) < 0.0F &&
-                    plane.dot(Vector4(box.max.x, box.max.y, box.min.z, 1.0F)) < 0.0F &&
-                    plane.dot(Vector4(box.max.x, box.min.y, box.max.z, 1.0F)) < 0.0F &&
-                    plane.dot(Vector4(box.min.x, box.max.y, box.max.z, 1.0F)) < 0.0F &&
-                    plane.dot(Vector4(box.max.x, box.max.y, box.max.z, 1.0F)) < 0.0F)
+                if (plane.dot(leftBottomBack) < 0.0F &&
+                    plane.dot(leftBottomFront) < 0.0F &&
+                    plane.dot(leftTopBack) < 0.0F &&
+                    plane.dot(leftTopFront) < 0.0F &&
+                    plane.dot(rightBottomBack) < 0.0F &&
+                    plane.dot(rightBottomFront) < 0.0F &&
+                    plane.dot(rightTopBack) < 0.0F &&
+                    plane.dot(rightTopFront) < 0.0F)
                     return false;
             }
 
