@@ -15,7 +15,9 @@ std::string APPLICATION_NAME = "samples";
 
 using namespace ouzel;
 
-ouzel::Archive archive;
+#if !OUZEL_PLATFORM_ANDROID
+std::unique_ptr<ouzel::Archive> archive;
+#endif
 std::unique_ptr<assets::Bundle> bundle;
 
 void ouzelMain(const std::vector<std::string>& args)
@@ -51,8 +53,7 @@ void ouzelMain(const std::vector<std::string>& args)
     engine->getFileSystem()->addResourcePath("Resources");
 
 #if !OUZEL_PLATFORM_ANDROID
-    archive = ouzel::Archive("gui.zip");
-    engine->getFileSystem()->addArchive(&archive);
+    archive.reset(new ouzel::Archive(*engine->getFileSystem(), "gui.zip"));
 #endif
 
     bundle->loadAssets("assets.json");
