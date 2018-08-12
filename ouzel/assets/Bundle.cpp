@@ -1,5 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <algorithm>
 #include "Bundle.hpp"
 #include "Cache.hpp"
 #include "Loader.hpp"
@@ -24,9 +25,6 @@ namespace ouzel
         void Bundle::loadAsset(uint32_t loaderType, const std::string& filename, bool mipmaps)
         {
             std::vector<uint8_t> data = cache.getFileSystem()->readFile(filename);
-
-            std::string extension = FileSystem::getExtensionPart(filename);
-            std::transform(extension.begin(), extension.end(), extension.begin(), [](unsigned char c){ return std::tolower(c); });
 
             auto loaders = cache.getLoaders();
 
@@ -120,10 +118,12 @@ namespace ouzel
                                       uint32_t spritesX, uint32_t spritesY,
                                       const Vector2& pivot)
         {
+            std::string extension = FileSystem::getExtensionPart(filename);
+            std::transform(extension.begin(), extension.end(), extension.begin(), [](unsigned char c){ return std::tolower(c); });
             std::vector<std::string> imageExtensions = {"jpg", "jpeg", "png", "bmp", "tga"};
 
             if (std::find(imageExtensions.begin(), imageExtensions.end(),
-                          FileSystem::getExtensionPart(filename)) != imageExtensions.end())
+                          extension) != imageExtensions.end())
             {
                 scene::SpriteData newSpriteData;
 
