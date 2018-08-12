@@ -2,15 +2,17 @@
 
 #include "Archive.hpp"
 #include "FileSystem.hpp"
-#include "core/Engine.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Utils.hpp"
 
 namespace ouzel
 {
-    Archive::Archive(const std::string& filename)
+    Archive::Archive(FileSystem& initFileSystem, const std::string& filename):
+        fileSystem(initFileSystem)
     {
-        file = File(engine->getFileSystem()->getPath(filename), File::READ);
+        fileSystem.addArchive(this);
+
+        file = File(fileSystem.getPath(filename), File::READ);
 
         for (;;)
         {
@@ -72,39 +74,7 @@ namespace ouzel
 
     Archive::~Archive()
     {
-        if (fileSystem) fileSystem->removeArchive(this);
-    }
-
-    Archive::Archive(Archive&& other)
-    {
-        if (other.fileSystem)
-        {
-            other.fileSystem->addArchive(this);
-            other.fileSystem->removeArchive(&other);
-        }
-
-        file = std::move(other.file);
-        entries = std::move(other.entries);
-    }
-
-    Archive& Archive::operator=(Archive&& other)
-    {
-        if (&other != this)
-        {
-            if (fileSystem) fileSystem->removeArchive(this);
-
-            if (other.fileSystem)
-            {
-                other.fileSystem->addArchive(this);
-                other.fileSystem->removeArchive(&other);
-            }
-
-            fileSystem = other.fileSystem;
-            file = std::move(other.file);
-            entries = std::move(other.entries);
-        }
-
-        return *this;
+        fileSystem.removeArchive(this);
     }
 
     std::vector<uint8_t> Archive::readFile(const std::string& filename) const
