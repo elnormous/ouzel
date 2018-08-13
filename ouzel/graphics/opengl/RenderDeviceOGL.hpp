@@ -518,8 +518,6 @@ namespace ouzel
             virtual ShaderResource* createShader() override;
             virtual TextureResource* createTexture() override;
 
-            void* getProcAddress(const std::string& name) const;
-
             GLuint frameBufferId = 0;
             GLsizei frameBufferWidth = 0;
             GLsizei frameBufferHeight = 0;
