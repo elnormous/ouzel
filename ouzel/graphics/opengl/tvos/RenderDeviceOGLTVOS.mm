@@ -145,17 +145,46 @@ namespace ouzel
 
         void RenderDeviceOGLTVOS::createFrameBuffer()
         {
+            if (msaaColorRenderBufferId)
+            {
+                glDeleteRenderbuffers(1, &msaaColorRenderBufferId);
+                msaaColorRenderBufferId = 0;
+            }
+
+            if (msaaFrameBufferId)
+            {
+                glDeleteFramebuffers(1, &msaaFrameBufferId);
+                msaaFrameBufferId = 0;
+            }
+
+            if (resolveColorRenderBufferId)
+            {
+                glDeleteRenderbuffers(1, &resolveColorRenderBufferId);
+                resolveColorRenderBufferId = 0;
+            }
+
+            if (depthRenderBufferId)
+            {
+                glDeleteRenderbuffers(1, &depthRenderBufferId);
+                depthRenderBufferId = 0;
+            }
+
+            if (resolveFrameBufferId)
+            {
+                glDeleteFramebuffers(1, &resolveFrameBufferId);
+                resolveFrameBufferId = 0;
+            }
+
             if (sampleCount > 1)
             {
                 // create resolve buffer with no depth buffer
-                if (!resolveFrameBufferId) glGenFramebuffersProc(1, &resolveFrameBufferId);
-
-                if (!resolveColorRenderBufferId) glGenRenderbuffersProc(1, &resolveColorRenderBufferId);
+                glGenFramebuffersProc(1, &resolveFrameBufferId);
+                glGenRenderbuffersProc(1, &resolveColorRenderBufferId);
 
                 glBindRenderbufferProc(GL_RENDERBUFFER, resolveColorRenderBufferId);
                 [context renderbufferStorage:GL_RENDERBUFFER fromDrawable:eaglLayer];
 
-                graphics::RenderDeviceOGL::bindFrameBuffer(resolveFrameBufferId);
+                RenderDeviceOGL::bindFrameBuffer(resolveFrameBufferId);
                 glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
                                               GL_RENDERBUFFER, resolveColorRenderBufferId);
 
@@ -165,21 +194,20 @@ namespace ouzel
                     throw SystemError("Failed to create framebuffer object, status: " + std::to_string(status));
 
                 // create MSAA frame buffer
-                if (!msaaFrameBufferId) glGenFramebuffers(1, &msaaFrameBufferId);
-
-                if (!msaaColorRenderBufferId) glGenRenderbuffersProc(1, &msaaColorRenderBufferId);
+                glGenFramebuffers(1, &msaaFrameBufferId);
+                glGenRenderbuffersProc(1, &msaaColorRenderBufferId);
 
                 glBindRenderbufferProc(GL_RENDERBUFFER, msaaColorRenderBufferId);
                 glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, static_cast<GLsizei>(sampleCount), GL_RGBA8_OES, frameBufferWidth, frameBufferHeight);
 
                 if (depth)
                 {
-                    if (!depthRenderBufferId) glGenRenderbuffersProc(1, &depthRenderBufferId);
+                    glGenRenderbuffersProc(1, &depthRenderBufferId);
                     glBindRenderbufferProc(GL_RENDERBUFFER, depthRenderBufferId);
                     glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, static_cast<GLsizei>(sampleCount), GL_DEPTH_COMPONENT24_OES, frameBufferWidth, frameBufferHeight);
                 }
 
-                graphics::RenderDeviceOGL::bindFrameBuffer(msaaFrameBufferId);
+                RenderDeviceOGL::bindFrameBuffer(msaaFrameBufferId);
                 glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, msaaColorRenderBufferId);
 
                 if (depth)
@@ -195,21 +223,20 @@ namespace ouzel
             else
             {
                 // create resolve buffer with depth buffer
-                if (!resolveFrameBufferId) glGenFramebuffersProc(1, &resolveFrameBufferId);
-
-                if (!resolveColorRenderBufferId) glGenRenderbuffersProc(1, &resolveColorRenderBufferId);
+                glGenFramebuffersProc(1, &resolveFrameBufferId);
+                glGenRenderbuffersProc(1, &resolveColorRenderBufferId);
 
                 glBindRenderbufferProc(GL_RENDERBUFFER, resolveColorRenderBufferId);
                 [context renderbufferStorage:GL_RENDERBUFFER fromDrawable:eaglLayer];
 
                 if (depth)
                 {
-                    if (!depthRenderBufferId) glGenRenderbuffersProc(1, &depthRenderBufferId);
+                    glGenRenderbuffersProc(1, &depthRenderBufferId);
                     glBindRenderbufferProc(GL_RENDERBUFFER, depthRenderBufferId);
                     glRenderbufferStorageProc(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24_OES, frameBufferWidth, frameBufferHeight);
                 }
 
-                graphics::RenderDeviceOGL::bindFrameBuffer(resolveFrameBufferId);
+                RenderDeviceOGL::bindFrameBuffer(resolveFrameBufferId);
                 glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
                                               GL_RENDERBUFFER, resolveColorRenderBufferId);
 
