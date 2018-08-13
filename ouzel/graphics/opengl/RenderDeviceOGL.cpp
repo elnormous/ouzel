@@ -378,9 +378,9 @@ namespace ouzel
             glCheckFramebufferStatusProc = glCheckFramebufferStatus;
             glFramebufferRenderbufferProc = glFramebufferRenderbuffer;
 
-#if OUZEL_OPENGL_INTERFACE_EAGL
+#  if OUZEL_OPENGL_INTERFACE_EAGL
             glBlitFramebufferProc = glBlitFramebuffer;
-#endif
+#  endif
 
             glFramebufferTexture2DProc = glFramebufferTexture2D;
 
@@ -547,9 +547,9 @@ namespace ouzel
                 glGenVertexArraysProc = reinterpret_cast<PFNGLGENVERTEXARRAYSPROC>(getProcAddress("glGenVertexArrays"));
                 glBindVertexArrayProc = reinterpret_cast<PFNGLBINDVERTEXARRAYPROC>(getProcAddress("glBindVertexArray"));
                 glDeleteVertexArraysProc = reinterpret_cast<PFNGLDELETEVERTEXARRAYSPROC>(getProcAddress("glDeleteVertexArrays"));
-#if OUZEL_OPENGL_INTERFACE_EGL
+#  if OUZEL_OPENGL_INTERFACE_EGL
                 glMapBufferProc = reinterpret_cast<PFNGLMAPBUFFEROESPROC>(getProcAddress("glMapBuffer"));
-#elif !OUZEL_SUPPORTS_OPENGLES
+#  elif !OUZEL_SUPPORTS_OPENGLES
                 glMapBufferProc = reinterpret_cast<PFNGLMAPBUFFERPROC>(getProcAddress("glMapBuffer"));
 
                 glGenFramebuffersProc = reinterpret_cast<PFNGLGENFRAMEBUFFERSPROC>(getProcAddress("glGenFramebuffers"));
@@ -564,14 +564,14 @@ namespace ouzel
                 glDeleteRenderbuffersProc = reinterpret_cast<PFNGLDELETERENDERBUFFERSPROC>(getProcAddress("glDeleteRenderbuffers"));
                 glBindRenderbufferProc = reinterpret_cast<PFNGLBINDRENDERBUFFERPROC>(getProcAddress("glBindRenderbuffer"));
                 glRenderbufferStorageProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEPROC>(getProcAddress("glRenderbufferStorage"));
-#endif
+#  endif
                 glUnmapBufferProc = reinterpret_cast<PFNGLUNMAPBUFFERPROC>(getProcAddress("glUnmapBuffer"));
                 glMapBufferRangeProc = reinterpret_cast<PFNGLMAPBUFFERRANGEPROC>(getProcAddress("glMapBufferRange"));
                 glRenderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>(getProcAddress("glRenderbufferStorageMultisample"));
 
-#if OUZEL_SUPPORTS_OPENGLES
+#  if OUZEL_SUPPORTS_OPENGLES
                 glFramebufferTexture2DMultisampleProc = reinterpret_cast<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>(getProcAddress("glFramebufferTexture2DMultisample"));
-#endif
+#  endif
 #endif
             }
             else
@@ -597,7 +597,41 @@ namespace ouzel
                     {
                         npotTexturesSupported = true;
                     }
-#if !OUZEL_SUPPORTS_OPENGLES
+#if OUZEL_SUPPORTS_OPENGLES
+#  if OUZEL_OPENGL_INTERFACE_EAGL
+                    else if (extension == "GL_APPLE_framebuffer_multisample")
+                    {
+                        multisamplingSupported = true;
+                        glRenderbufferStorageMultisampleProc = glRenderbufferStorageMultisampleAPPLE;
+                    }
+#  elif OUZEL_OPENGL_INTERFACE_EGL
+                    else if (extension == "GL_OES_vertex_array_object")
+                    {
+                        glGenVertexArraysProc = reinterpret_cast<PFNGLGENVERTEXARRAYSOESPROC>(getProcAddress("glGenVertexArraysOES"));
+                        glBindVertexArrayProc = reinterpret_cast<PFNGLBINDVERTEXARRAYOESPROC>(getProcAddress("glBindVertexArrayOES"));
+                        glDeleteVertexArraysProc = reinterpret_cast<PFNGLDELETEVERTEXARRAYSOESPROC>(getProcAddress("glDeleteVertexArraysOES"));
+                    }
+                    else if (extension == "GL_OES_mapbuffer")
+                    {
+                        glMapBufferProc = reinterpret_cast<PFNGLMAPBUFFEROESPROC>(getProcAddress("glMapBufferOES"));
+                        glUnmapBufferProc = reinterpret_cast<PFNGLUNMAPBUFFEROESPROC>(getProcAddress("glUnmapBufferOES"));
+                    }
+                    else if (extension == "GL_EXT_map_buffer_range")
+                    {
+                        glMapBufferRangeProc = reinterpret_cast<PFNGLMAPBUFFERRANGEEXTPROC>(getProcAddress("glMapBufferRangeEXT"));
+                    }
+                    else if (extension == "GL_IMG_multisampled_render_to_texture")
+                    {
+                        multisamplingSupported = true;
+                        glRenderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC>(getProcAddress("glRenderbufferStorageMultisampleIMG"));
+                        glFramebufferTexture2DMultisampleProc = reinterpret_cast<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>(getProcAddress("glFramebufferTexture2DMultisampleIMG"));
+                    }
+                    else if (extension == "GL_APPLE_texture_max_level")
+                    {
+                        textureMaxLevelSupported = true;
+                    }
+#  endif
+#else
                     else if (extension == "GL_EXT_framebuffer_object")
                     {
                         renderTargetsSupported = true;
@@ -627,39 +661,7 @@ namespace ouzel
                     {
                         glMapBufferRangeProc = reinterpret_cast<PFNGLMAPBUFFERRANGEPROC>(getProcAddress("glMapBufferRangeEXT"));
                     }
-#elif OUZEL_OPENGL_INTERFACE_EAGL
-                    else if (extension == "GL_APPLE_framebuffer_multisample")
-                    {
-                        multisamplingSupported = true;
-                        glRenderbufferStorageMultisampleProc = glRenderbufferStorageMultisampleAPPLE;
-                    }
-#elif OUZEL_OPENGL_INTERFACE_EGL
-                    else if (extension == "GL_OES_vertex_array_object")
-                    {
-                        glGenVertexArraysProc = reinterpret_cast<PFNGLGENVERTEXARRAYSOESPROC>(getProcAddress("glGenVertexArraysOES"));
-                        glBindVertexArrayProc = reinterpret_cast<PFNGLBINDVERTEXARRAYOESPROC>(getProcAddress("glBindVertexArrayOES"));
-                        glDeleteVertexArraysProc = reinterpret_cast<PFNGLDELETEVERTEXARRAYSOESPROC>(getProcAddress("glDeleteVertexArraysOES"));
-                    }
-                    else if (extension == "GL_OES_mapbuffer")
-                    {
-                        glMapBufferProc = reinterpret_cast<PFNGLMAPBUFFEROESPROC>(getProcAddress("glMapBufferOES"));
-                        glUnmapBufferProc = reinterpret_cast<PFNGLUNMAPBUFFEROESPROC>(getProcAddress("glUnmapBufferOES"));
-                    }
-                    else if (extension == "GL_EXT_map_buffer_range")
-                    {
-                        glMapBufferRangeProc = reinterpret_cast<PFNGLMAPBUFFERRANGEEXTPROC>(getProcAddress("glMapBufferRangeEXT"));
-                    }
-                    else if (extension == "GL_IMG_multisampled_render_to_texture")
-                    {
-                        multisamplingSupported = true;
-                        glRenderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC>(getProcAddress("glRenderbufferStorageMultisampleIMG"));
-                        glFramebufferTexture2DMultisampleProc = reinterpret_cast<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>(getProcAddress("glFramebufferTexture2DMultisampleIMG"));
-                    }
-                    else if (extension == "GL_APPLE_texture_max_level")
-                    {
-                        textureMaxLevelSupported = true;
-                    }
-#endif // OUZEL_OPENGL_INTERFACE_EGL
+#endif
                 }
 
                 if (!multisamplingSupported) sampleCount = 1;
