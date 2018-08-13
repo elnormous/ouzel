@@ -133,13 +133,13 @@ PFNGLMAPBUFFERRANGEPROC glMapBufferRangeProc;
 #  define GET_CORE_PROC_ADDRESS(proc) dlsym(RTLD_DEFAULT, #proc)
 #  define GET_EXT_PROC_ADDRESS(proc) dlsym(RTLD_DEFAULT, #proc)
 #elif OUZEL_OPENGL_INTERFACE_EGL
-#  define GET_CORE_PROC_ADDRESS(proc) eglGetProcAddress(#proc)
+#  define GET_CORE_PROC_ADDRESS(proc) proc
 #  define GET_EXT_PROC_ADDRESS(proc) eglGetProcAddress(#proc)
 #elif OUZEL_OPENGL_INTERFACE_GLX
 #  define GET_CORE_PROC_ADDRESS(proc) glXGetProcAddress(reinterpret_cast<const GLubyte*>(#proc))
 #  define GET_EXT_PROC_ADDRESS(proc) glXGetProcAddress(reinterpret_cast<const GLubyte*>(#proc))
 #elif OUZEL_OPENGL_INTERFACE_WGL
-#  define GET_CORE_PROC_ADDRESS(proc) proc
+#  define GET_CORE_PROC_ADDRESS(proc) wglGetProcAddress(#proc)
 #  define GET_EXT_PROC_ADDRESS(proc) wglGetProcAddress(#proc)
 #else
 #  define GET_CORE_PROC_ADDRESS(proc) proc
@@ -514,8 +514,10 @@ namespace ouzel
                 glDeleteVertexArraysProc = reinterpret_cast<PFNGLDELETEVERTEXARRAYSPROC>(GET_EXT_PROC_ADDRESS(glDeleteVertexArrays));
 #  if OUZEL_OPENGL_INTERFACE_EGL
                 glMapBufferProc = reinterpret_cast<PFNGLMAPBUFFEROESPROC>(GET_EXT_PROC_ADDRESS(glMapBuffer));
-#  elif !OUZEL_SUPPORTS_OPENGLES
+                glUnmapBufferProc = reinterpret_cast<PFNGLUNMAPBUFFEROESPROC>(GET_EXT_PROC_ADDRESS(glUnmapBuffer));
+#  else
                 glMapBufferProc = reinterpret_cast<PFNGLMAPBUFFERPROC>(GET_EXT_PROC_ADDRESS(glMapBuffer));
+                glUnmapBufferProc = reinterpret_cast<PFNGLUNMAPBUFFERPROC>(GET_EXT_PROC_ADDRESS(glUnmapBuffer));
 
                 glGenFramebuffersProc = reinterpret_cast<PFNGLGENFRAMEBUFFERSPROC>(GET_EXT_PROC_ADDRESS(glGenFramebuffers));
                 glDeleteFramebuffersProc = reinterpret_cast<PFNGLDELETEFRAMEBUFFERSPROC>(GET_EXT_PROC_ADDRESS(glDeleteFramebuffers));
@@ -530,7 +532,6 @@ namespace ouzel
                 glBindRenderbufferProc = reinterpret_cast<PFNGLBINDRENDERBUFFERPROC>(GET_EXT_PROC_ADDRESS(glBindRenderbuffer));
                 glRenderbufferStorageProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEPROC>(GET_EXT_PROC_ADDRESS(glRenderbufferStorage));
 #  endif
-                glUnmapBufferProc = reinterpret_cast<PFNGLUNMAPBUFFERPROC>(GET_EXT_PROC_ADDRESS(glUnmapBuffer));
                 glMapBufferRangeProc = reinterpret_cast<PFNGLMAPBUFFERRANGEPROC>(GET_EXT_PROC_ADDRESS(glMapBufferRange));
                 glRenderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>(GET_EXT_PROC_ADDRESS(glRenderbufferStorageMultisample));
 
