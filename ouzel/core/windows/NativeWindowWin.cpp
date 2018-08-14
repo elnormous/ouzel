@@ -191,11 +191,13 @@ static LRESULT CALLBACK windowProc(HWND window, UINT message, WPARAM wParam, LPA
             {
                 handleMouseButtonEvent(message, wParam, lParam);
 
+                // must return TRUE if WM_XBUTTONDOWN or WM_XBUTTONUP is handled
                 if (message == WM_XBUTTONDOWN || message == WM_XBUTTONUP)
                     return TRUE;
-            }
 
-            return 0;
+                return 0;
+            }
+            break;
         }
         case WM_MOUSEMOVE:
         {
@@ -203,9 +205,11 @@ static LRESULT CALLBACK windowProc(HWND window, UINT message, WPARAM wParam, LPA
 
             // don't handle mouse event that came from touch
             if ((extraInfo & SIGNATURE_MASK) != MOUSEEVENTF_FROMTOUCH)
+            {
                 handleMouseMoveEvent(message, wParam, lParam);
-
-            return 0;
+                return 0;
+            }
+            break;
         }
         case WM_MOUSEWHEEL:
         case WM_MOUSEHWHEEL:
