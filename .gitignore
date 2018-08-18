@@ -39,3 +39,6 @@ build/ouzel.VC.db
 assetcatalog_generated_info.plist
 assetcatalog_dependencies
 local.properties
+*.air
+*.metalar
+*.metallib
