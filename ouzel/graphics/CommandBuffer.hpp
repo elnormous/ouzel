@@ -54,26 +54,48 @@ namespace ouzel
 
         struct InitRenderTargetCommand: public Command
         {
-            InitRenderTargetCommand(RenderTarget* initRenderTarget):
+            InitRenderTargetCommand(RenderTarget* initRenderTarget,
+                                    uint32_t initWidth,
+                                    uint32_t initHeight,
+                                    uint32_t initSampleCount,
+                                    PixelFormat initPixelFormat):
                 Command(Command::Type::INIT_RENDER_TARGET),
-                renderTarget(initRenderTarget)
+                renderTarget(initRenderTarget),
+                width(initWidth),
+                height(initHeight),
+                sampleCount(initSampleCount),
+                pixelFormat(initPixelFormat)
             {
             }
 
             RenderTarget* renderTarget;
             uint32_t width;
             uint32_t height;
+            uint32_t sampleCount;
+            PixelFormat pixelFormat;
         };
 
         struct SetRenderTargetParametersCommand: public Command
         {
-            SetRenderTargetParametersCommand(RenderTarget* initRenderTarget):
+            SetRenderTargetParametersCommand(RenderTarget* initRenderTarget,
+                                             uint32_t initWidth,
+                                             uint32_t initHeight,
+                                             uint32_t initSampleCount,
+                                             PixelFormat initPixelFormat):
                 Command(Command::Type::SET_RENDER_TARGET_PARAMETERS),
-                renderTarget(initRenderTarget)
+                renderTarget(initRenderTarget),
+                width(initWidth),
+                height(initHeight),
+                sampleCount(initSampleCount),
+                pixelFormat(initPixelFormat)
             {
             }
 
             RenderTarget* renderTarget;
+            uint32_t width;
+            uint32_t height;
+            uint32_t sampleCount;
+            PixelFormat pixelFormat;
         };
 
         struct SetRenderTargetCommand: public Command
