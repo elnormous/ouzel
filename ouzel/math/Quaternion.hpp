@@ -197,8 +197,7 @@ namespace ouzel
         {
             Vector3 q(x, y, z);
             Vector3 t = 2.0F * Vector3::cross(q, vector);
-            Vector3 result = vector + (w * t) + Vector3::cross(q, t);
-            return result;
+            return vector + (w * t) + Vector3::cross(q, t);
         }
 
         inline Vector3 getRightVector() const
