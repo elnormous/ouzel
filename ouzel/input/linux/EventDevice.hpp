@@ -7,7 +7,7 @@ namespace ouzel
 {
     namespace input
     {
-        class EventDevice
+        class EventDevice final
         {
         public:
             enum DeviceClass

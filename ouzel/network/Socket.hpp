@@ -10,7 +10,7 @@ namespace ouzel
 {
     namespace network
     {
-        class Socket
+        class Socket final
         {
         public:
             Socket();

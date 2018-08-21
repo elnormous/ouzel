@@ -13,7 +13,7 @@
 
 namespace ouzel
 {
-    class Log
+    class Log final
     {
     public:
         enum class Level
