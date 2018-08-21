@@ -10,7 +10,7 @@ namespace ouzel
 {
     class EventDispatcher;
 
-    class EventHandler
+    class EventHandler final
     {
         friend EventDispatcher;
     public:

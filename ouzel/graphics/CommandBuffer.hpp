@@ -436,7 +436,7 @@ namespace ouzel
             TextureResource* textures[Texture::LAYERS];
         };
 
-        class CommandBuffer
+        class CommandBuffer final
         {
         public:
             CommandBuffer() {}

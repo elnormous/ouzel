@@ -25,7 +25,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        class TempContext
+        class TempContext final
         {
         public:
             TempContext()

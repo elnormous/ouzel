@@ -6,7 +6,7 @@ namespace ouzel
 {
     class Engine;
 
-    class Timer
+    class Timer final
     {
         friend Engine;
     public:
