@@ -3,7 +3,6 @@
 #pragma once
 
 #include <string>
-#include "core/NativeWindow.hpp"
 #include "graphics/Renderer.hpp"
 #include "math/Size2.hpp"
 #include "events/EventHandler.hpp"
@@ -11,8 +10,9 @@
 namespace ouzel
 {
     class Engine;
+    class NativeWindow;
 
-    class Window: public NativeWindow::Listener
+    class Window final
     {
         friend Engine;
     public:
@@ -63,13 +63,9 @@ namespace ouzel
                bool newHighDpi,
                bool depth);
 
-        virtual void onSizeChange(const Size2& newSize) override;
-        virtual void onResolutionChange(const Size2& newResolution) override;
-        virtual void onFullscreenChange(bool newFullscreen) override;
-        virtual void onScreenChange(uint32_t newDisplayId) override;
-        virtual void onClose() override;
+        void update();
 
-        NativeWindow* nativeWindow = nullptr;
+        NativeWindow* nativeWindow = nullptr; // TODO: use unique_ptr
 
         Size2 size;
         Size2 resolution;

@@ -110,13 +110,10 @@ namespace ouzel
         bool oldFullscreen = fullscreen;
         fullscreen = static_cast<bool>(isFullscreen);
 
-        if (listener)
-        {
-            listener->onSizeChange(size);
-            listener->onResolutionChange(resolution);
+        pushEvent(Event(Event::Type::SIZE_CHANGE, size));
+        pushEvent(Event(Event::Type::RESOLUTION_CHANGE, resolution));
 
-            if (fullscreen != oldFullscreen)
-                listener->onFullscreenChange(fullscreen);
-        }
+        if (fullscreen != oldFullscreen)
+            pushEvent(Event(Event::Type::FULLSCREEN_CHANGE, fullscreen));
     }
 }

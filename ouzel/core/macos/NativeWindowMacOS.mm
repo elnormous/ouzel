@@ -242,8 +242,7 @@ namespace ouzel
             [window setFrame:newFrame display:YES animate:NO];
             resolution = size * contentScale;
 
-            Lock lock(listenerMutex);
-            if (listener) listener->onResolutionChange(resolution);
+            pushEvent(Event(Event::Type::RESOLUTION_CHANGE, resolution));
         }
     }
 
@@ -311,26 +310,20 @@ namespace ouzel
                      static_cast<float>(frame.size.height));
         resolution = size * contentScale;
 
-        Lock lock(listenerMutex);
-        if (listener)
-        {
-            listener->onSizeChange(size);
-            listener->onResolutionChange(resolution);
-        }
+        pushEvent(Event(Event::Type::SIZE_CHANGE, size));
+        pushEvent(Event(Event::Type::RESOLUTION_CHANGE, resolution));
     }
 
     void NativeWindowMacOS::handleClose()
     {
-        Lock lock(listenerMutex);
-        if (listener) listener->onClose();
+        pushEvent(Event(Event::Type::CLOSE));
     }
 
     void NativeWindowMacOS::handleFullscreenChange(bool newFullscreen)
     {
         fullscreen = newFullscreen;
 
-        Lock lock(listenerMutex);
-        if (listener) listener->onFullscreenChange(newFullscreen);
+        pushEvent(Event(Event::Type::FULLSCREEN_CHANGE, fullscreen));
     }
 
     void NativeWindowMacOS::handleScaleFactorChange()
@@ -340,8 +333,7 @@ namespace ouzel
             contentScale = static_cast<float>(window.backingScaleFactor);
             resolution = size * contentScale;
 
-            Lock lock(listenerMutex);
-            if (listener) listener->onResolutionChange(resolution);
+            pushEvent(Event(Event::Type::RESOLUTION_CHANGE, resolution));
         }
     }
 
@@ -350,7 +342,6 @@ namespace ouzel
         screen = [window screen];
         displayId = [[[screen deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
 
-        Lock lock(listenerMutex);
-        if (listener) listener->onScreenChange(displayId);
+        pushEvent(Event(Event::Type::SCREEN_CHANGE, displayId));
     }
 }

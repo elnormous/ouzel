@@ -649,6 +649,7 @@ namespace ouzel
     {
         eventDispatcher.dispatchEvents();
 
+        window->update();
         sceneManager.update();
 
         if (renderer->getDevice()->getRefillQueue())
