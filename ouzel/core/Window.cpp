@@ -108,8 +108,6 @@ namespace ouzel
                                     newHighDpi);
 #endif
 
-        nativeWindow->setListener(this);
-
         size = nativeWindow->getSize();
         resolution = nativeWindow->getResolution();
         resizable = newResizable;
@@ -122,9 +120,69 @@ namespace ouzel
     Window::~Window()
     {
         if (nativeWindow)
-        {
-            nativeWindow->setListener(nullptr);
             delete nativeWindow;
+    }
+
+    void Window::update()
+    {
+        for (const NativeWindow::Event& event : nativeWindow->getEvents())
+        {
+            switch (event.type)
+            {
+                case NativeWindow::Event::Type::SIZE_CHANGE:
+                {
+                    size = event.size;
+
+                    Event sizeChangeEvent;
+                    sizeChangeEvent.type = Event::Type::WINDOW_SIZE_CHANGE;
+                    sizeChangeEvent.windowEvent.window = this;
+                    sizeChangeEvent.windowEvent.size = event.size;
+                    engine->getEventDispatcher()->postEvent(sizeChangeEvent);
+                    break;
+                }
+                case NativeWindow::Event::Type::RESOLUTION_CHANGE:
+                {
+                    resolution = event.size;
+
+                    Event resolutionChangeEvent;
+                    resolutionChangeEvent.type = Event::Type::RESOLUTION_CHANGE;
+                    resolutionChangeEvent.windowEvent.window = this;
+                    resolutionChangeEvent.windowEvent.size = event.size;
+                    engine->getEventDispatcher()->postEvent(resolutionChangeEvent);
+
+                    engine->getRenderer()->setSize(event.size);
+                    break;
+                }
+                case NativeWindow::Event::Type::FULLSCREEN_CHANGE:
+                {
+                    fullscreen = event.fullscreen;
+
+                    Event fullscreenChangeEvent;
+                    fullscreenChangeEvent.type = Event::Type::FULLSCREEN_CHANGE;
+
+                    fullscreenChangeEvent.windowEvent.window = this;
+                    fullscreenChangeEvent.windowEvent.fullscreen = event.fullscreen;
+
+                    engine->getEventDispatcher()->postEvent(fullscreenChangeEvent);
+                    break;
+                }
+                case NativeWindow::Event::Type::SCREEN_CHANGE:
+                {
+                    displayId = event.displayId;
+
+                    Event screenChangeEvent;
+                    screenChangeEvent.type = Event::Type::SCREEN_CHANGE;
+
+                    screenChangeEvent.windowEvent.window = this;
+                    screenChangeEvent.windowEvent.screenId = event.displayId;
+
+                    engine->getEventDispatcher()->postEvent(screenChangeEvent);
+                    break;
+                }
+                case NativeWindow::Event::Type::CLOSE:
+                    engine->exit();
+                    break;
+            }
         }
     }
 
@@ -191,68 +249,5 @@ namespace ouzel
 
             engine->getEventDispatcher()->postEvent(event);
         }
-    }
-
-    void Window::onSizeChange(const Size2& newSize)
-    {
-        engine->getSceneManager()->executeOnUpdateThread([this, newSize]() {
-            size = newSize;
-
-            Event sizeChangeEvent;
-            sizeChangeEvent.type = Event::Type::WINDOW_SIZE_CHANGE;
-            sizeChangeEvent.windowEvent.window = this;
-            sizeChangeEvent.windowEvent.size = newSize;
-            engine->getEventDispatcher()->postEvent(sizeChangeEvent);
-        });
-    }
-
-    void Window::onResolutionChange(const Size2& newResolution)
-    {
-        engine->getSceneManager()->executeOnUpdateThread([this, newResolution]() {
-            resolution = newResolution;
-
-            Event resolutionChangeEvent;
-            resolutionChangeEvent.type = Event::Type::RESOLUTION_CHANGE;
-            resolutionChangeEvent.windowEvent.window = this;
-            resolutionChangeEvent.windowEvent.size = newResolution;
-            engine->getEventDispatcher()->postEvent(resolutionChangeEvent);
-
-            engine->getRenderer()->setSize(newResolution);
-        });
-    }
-
-    void Window::onFullscreenChange(bool newFullscreen)
-    {
-        engine->getSceneManager()->executeOnUpdateThread([this, newFullscreen]() {
-            fullscreen = newFullscreen;
-
-            Event event;
-            event.type = Event::Type::FULLSCREEN_CHANGE;
-
-            event.windowEvent.window = this;
-            event.windowEvent.fullscreen = newFullscreen;
-
-            engine->getEventDispatcher()->postEvent(event);
-        });
-    }
-
-    void Window::onScreenChange(uint32_t newDisplayId)
-    {
-        engine->getSceneManager()->executeOnUpdateThread([this, newDisplayId]() {
-            displayId = newDisplayId;
-
-            Event event;
-            event.type = Event::Type::SCREEN_CHANGE;
-
-            event.windowEvent.window = this;
-            event.windowEvent.screenId = newDisplayId;
-
-            engine->getEventDispatcher()->postEvent(event);
-        });
-    }
-
-    void Window::onClose()
-    {
-        engine->exit();
     }
 }

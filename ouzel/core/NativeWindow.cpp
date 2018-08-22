@@ -5,10 +5,6 @@
 
 namespace ouzel
 {
-    NativeWindow::Listener::~Listener()
-    {
-    }
-
     NativeWindow::NativeWindow(const Size2& newSize,
                                bool newResizable,
                                bool newFullscreen,
@@ -42,12 +38,6 @@ namespace ouzel
     void NativeWindow::setTitle(const std::string& newTitle)
     {
         title = newTitle;
-    }
-
-    void NativeWindow::setListener(Listener* newListener)
-    {
-        Lock lock(listenerMutex);
-        listener = newListener;
     }
 
     std::vector<NativeWindow::Event> NativeWindow::getEvents() const

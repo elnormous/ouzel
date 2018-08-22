@@ -13,34 +13,31 @@ namespace ouzel
     class NativeWindow
     {
     public:
-        struct Event
+        class Event
         {
+        public:
             enum class Type
             {
-                SIZE_CHANGED,
-                RESOLUTION_CHANGED,
-                FULLSCREEN_CHANGED,
-                SCREEN_CHANGED,
-                CLOSED
+                SIZE_CHANGE,
+                RESOLUTION_CHANGE,
+                FULLSCREEN_CHANGE,
+                SCREEN_CHANGE,
+                CLOSE
             };
+
+            Event(Type initType): type(initType) {}
+            Event(Type initType, const Size2& initSize): type(initType), size(initSize) {}
+            Event(Type initType, bool initFullscreen): type(initType), fullscreen(initFullscreen) {}
+            Event(Type initType, uint32_t initDisplayId): type(initType), displayId(initDisplayId) {}
+
+            Type type;
 
             union
             {
                 Size2 size;
                 bool fullscreen;
-                uint32_t screenId;
+                uint32_t displayId;
             };
-        };
-
-        class Listener
-        {
-        public:
-            virtual ~Listener() = 0;
-            virtual void onSizeChange(const Size2& newSize) = 0;
-            virtual void onResolutionChange(const Size2& newResolution) = 0;
-            virtual void onFullscreenChange(bool newFullscreen) = 0;
-            virtual void onScreenChange(uint32_t newDisplayId) = 0;
-            virtual void onClose() = 0;
         };
 
         NativeWindow(const Size2& newSize,
@@ -74,8 +71,6 @@ namespace ouzel
         inline const std::string& getTitle() const { return title; }
         virtual void setTitle(const std::string& newTitle);
 
-        void setListener(Listener* newListener);
-
         std::vector<Event> getEvents() const;
 
     protected:
@@ -90,9 +85,6 @@ namespace ouzel
         bool highDpi = true;
 
         std::string title;
-
-        Mutex listenerMutex;
-        Listener* listener = nullptr;
 
         mutable std::mutex eventQueueMutex;
         mutable std::queue<Event> eventQueue;

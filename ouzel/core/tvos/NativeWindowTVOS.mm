@@ -115,11 +115,7 @@ namespace ouzel
         size = newSize;
         resolution = size * contentScale;
 
-        Lock lock(listenerMutex);
-        if (listener)
-        {
-            listener->onSizeChange(size);
-            listener->onResolutionChange(resolution);
-        }
+        pushEvent(Event(Event::Type::SIZE_CHANGE, size));
+        pushEvent(Event(Event::Type::RESOLUTION_CHANGE, resolution));
     }
 }

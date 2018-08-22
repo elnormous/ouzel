@@ -15,24 +15,26 @@ namespace ouzel
             {
                 enum class Type
                 {
-                    GAMEPAD_CONNECTED,
-                    GAMEPAD_DISCONNECTED,
-                    GAMEPAD_BUTTON_CHANGED,
+                    GAMEPAD_CONNECT,
+                    GAMEPAD_DISCONNECT,
+                    GAMEPAD_BUTTON_CHANGE,
 
-                    KEY_PRESSED,
-                    KEY_RELEASEED,
-                    KEY_REPEATED,
+                    KEY_PRESS,
+                    KEY_RELEASE,
+                    KEY_REPEAT,
 
-                    MOUSE_PRESSED,
-                    MOUSE_RELEASED,
-                    MOUSE_SCROLLED,
-                    MOUSE_MOVED,
+                    MOUSE_PRESS,
+                    MOUSE_RELEASE,
+                    MOUSE_SCROLL,
+                    MOUSE_MOVE,
 
-                    TOUCH_BEGAN,
-                    TOUCH_MOVED,
-                    TOUCH_ENDED,
-                    TOUCH_CANCELED
+                    TOUCH_BEGIN,
+                    TOUCH_MOVE,
+                    TOUCH_END,
+                    TOUCH_CANCEL
                 };
+
+                Type type;
             };
 
             InputSystem(InputManager& initInputManager);
