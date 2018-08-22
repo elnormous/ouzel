@@ -2,7 +2,9 @@
 
 #pragma once
 
+#include <cstdint>
 #include "input/InputDevice.hpp"
+#include "math/Vector2.hpp"
 
 namespace ouzel
 {
@@ -44,11 +46,14 @@ namespace ouzel
                     input::KeyboardKey keyboardKey;
                     input::MouseButton mouseButton;
                     input::GamepadButton gamepadButton;
+                    uint64_t touchId;
                 };
                 bool pressed = false;
                 bool previousPressed = false;
-                float value = 0.0F;
+                float value = 0.0F; // force for touch events
                 float previousValue = 0.0F;
+                Vector2 difference;
+                Vector2 position;
             };
 
             InputSystem();
