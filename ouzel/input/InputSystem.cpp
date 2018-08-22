@@ -7,10 +7,8 @@ namespace ouzel
 {
     namespace input
     {
-        InputSystem::InputSystem(InputManager& initInputManager):
-            inputManager(initInputManager)
+        InputSystem::InputSystem()
         {
-
         }
     } // namespace input
 } // namespace ouzel
