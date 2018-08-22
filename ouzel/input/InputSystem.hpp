@@ -31,7 +31,7 @@ namespace ouzel
                     TOUCH_BEGAN,
                     TOUCH_MOVED,
                     TOUCH_ENDED,
-                    TOUCH_CANCELLED,
+                    TOUCH_CANCELED
                 };
             };
 
