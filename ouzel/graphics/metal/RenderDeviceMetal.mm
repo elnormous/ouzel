@@ -590,7 +590,6 @@ namespace ouzel
                             default: throw DataError("Invalid index size");
                         }
 
-
                         [currentRenderCommandEncoder drawIndexedPrimitives:primitiveType
                                                                 indexCount:drawCommand->indexCount
                                                                  indexType:indexType

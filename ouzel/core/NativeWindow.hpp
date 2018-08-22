@@ -98,4 +98,3 @@ namespace ouzel
         mutable std::queue<Event> eventQueue;
     };
 }
-
