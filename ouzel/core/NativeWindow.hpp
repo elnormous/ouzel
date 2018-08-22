@@ -2,7 +2,9 @@
 
 #pragma once
 
+#include <mutex>
 #include <string>
+#include <queue>
 #include "math/Size2.hpp"
 #include "thread/Mutex.hpp"
 
@@ -20,6 +22,13 @@ namespace ouzel
                 FULLSCREEN_CHANGED,
                 SCREEN_CHANGED,
                 CLOSED
+            };
+
+            union
+            {
+                Size2 size;
+                bool fullscreen;
+                uint32_t screenId;
             };
         };
 
@@ -67,7 +76,11 @@ namespace ouzel
 
         void setListener(Listener* newListener);
 
+        std::vector<Event> getEvents() const;
+
     protected:
+        void pushEvent(const Event& event);
+
         Size2 size;
         Size2 resolution;
         float contentScale = 1.0F;
@@ -80,6 +93,9 @@ namespace ouzel
 
         Mutex listenerMutex;
         Listener* listener = nullptr;
+
+        mutable std::mutex eventQueueMutex;
+        mutable std::queue<Event> eventQueue;
     };
 }
 
