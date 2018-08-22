@@ -49,4 +49,22 @@ namespace ouzel
         Lock lock(listenerMutex);
         listener = newListener;
     }
+
+    std::vector<NativeWindow::Event> NativeWindow::getEvents() const
+    {
+        std::vector<Event> result;
+        std::unique_lock<std::mutex> lock(eventQueueMutex);
+        while (!eventQueue.empty())
+        {
+            result.push_back(eventQueue.front());
+            eventQueue.pop();
+        }
+        return result;
+    }
+
+    void NativeWindow::pushEvent(const Event& event)
+    {
+        std::unique_lock<std::mutex> lock(eventQueueMutex);
+        eventQueue.push(event);
+    }
 }
