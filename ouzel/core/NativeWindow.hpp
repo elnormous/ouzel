@@ -11,6 +11,18 @@ namespace ouzel
     class NativeWindow
     {
     public:
+        struct Event
+        {
+            enum class Type
+            {
+                SIZE_CHANGED,
+                RESOLUTION_CHANGED,
+                FULLSCREEN_CHANGED,
+                SCREEN_CHANGED,
+                CLOSED
+            };
+        };
+
         class Listener
         {
         public:
