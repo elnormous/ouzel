@@ -79,8 +79,6 @@ namespace ouzel
 
             void update();
 
-            void executeOnAudioThread(const std::function<void(void)>& func);
-
             void addListener(Listener* listener);
             void removeListener(Listener* listener);
 

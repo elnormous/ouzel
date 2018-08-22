@@ -169,13 +169,6 @@ namespace ouzel
             }
         }
 
-        void AudioDevice::executeOnAudioThread(const std::function<void(void)>& func)
-        {
-            Lock lock(executeMutex);
-
-            executeQueue.push(func);
-        }
-
         void AudioDevice::executeAll()
         {
             std::function<void(void)> func;
