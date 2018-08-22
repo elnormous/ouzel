@@ -2,7 +2,6 @@
 
 #include "Window.hpp"
 #include "Setup.h"
-#include "NativeWindow.hpp"
 #include "Engine.hpp"
 #include "events/EventDispatcher.hpp"
 #include "utils/Utils.hpp"
@@ -32,81 +31,61 @@ namespace ouzel
                    const std::string& newTitle,
                    graphics::Renderer::Driver graphicsDriver,
                    bool newHighDpi,
-                   bool depth)
-    {
+                   bool depth):
 #if OUZEL_PLATFORM_MACOS
-        OUZEL_UNUSED(depth);
-        nativeWindow = new NativeWindowMacOS(newSize,
-                                             newResizable,
-                                             newFullscreen,
-                                             newExclusiveFullscreen,
-                                             newTitle,
-                                             graphicsDriver,
-                                             newHighDpi);
-#elif OUZEL_PLATFORM_IOS
-        OUZEL_UNUSED(newSize);
-        OUZEL_UNUSED(newResizable);
-        OUZEL_UNUSED(newFullscreen);
-        OUZEL_UNUSED(newExclusiveFullscreen);
-        OUZEL_UNUSED(depth);
-        nativeWindow = new NativeWindowIOS(newTitle,
-                                           graphicsDriver,
-                                           newHighDpi);
-#elif OUZEL_PLATFORM_TVOS
-        OUZEL_UNUSED(newSize);
-        OUZEL_UNUSED(newResizable);
-        OUZEL_UNUSED(newFullscreen);
-        OUZEL_UNUSED(newExclusiveFullscreen);
-        OUZEL_UNUSED(depth);
-        nativeWindow = new NativeWindowTVOS(newTitle,
-                                            graphicsDriver,
-                                            newHighDpi);
-#elif OUZEL_PLATFORM_ANDROID
-        OUZEL_UNUSED(newSize);
-        OUZEL_UNUSED(newResizable);
-        OUZEL_UNUSED(newFullscreen);
-        OUZEL_UNUSED(newExclusiveFullscreen);
-        OUZEL_UNUSED(graphicsDriver);
-        OUZEL_UNUSED(newHighDpi);
-        OUZEL_UNUSED(depth);
-        nativeWindow = new NativeWindowAndroid(newTitle);
-#elif OUZEL_PLATFORM_LINUX
-        OUZEL_UNUSED(newHighDpi);
-        nativeWindow = new NativeWindowLinux(newSize,
-                                             newResizable,
-                                             newFullscreen,
-                                             newExclusiveFullscreen,
-                                             newTitle,
-                                             graphicsDriver,
-                                             depth);
-#elif OUZEL_PLATFORM_WINDOWS
-        OUZEL_UNUSED(graphicsDriver);
-        OUZEL_UNUSED(depth);
-        nativeWindow = new NativeWindowWin(newSize,
+        nativeWindow(new NativeWindowMacOS(newSize,
                                            newResizable,
                                            newFullscreen,
                                            newExclusiveFullscreen,
                                            newTitle,
-                                           newHighDpi);
+                                           graphicsDriver,
+                                           newHighDpi))
+#elif OUZEL_PLATFORM_IOS
+        nativeWindow(new NativeWindowIOS(newTitle,
+                                         graphicsDriver,
+                                         newHighDpi))
+#elif OUZEL_PLATFORM_TVOS
+        nativeWindow(new NativeWindowTVOS(newTitle,
+                                          graphicsDriver,
+                                          newHighDpi))
+#elif OUZEL_PLATFORM_ANDROID
+        nativeWindow(new NativeWindowAndroid(newTitle))
+#elif OUZEL_PLATFORM_LINUX
+        nativeWindow(new NativeWindowLinux(newSize,
+                                           newResizable,
+                                           newFullscreen,
+                                           newExclusiveFullscreen,
+                                           newTitle,
+                                           graphicsDriver,
+                                           depth))
+#elif OUZEL_PLATFORM_WINDOWS
+        nativeWindow(new NativeWindowWin(newSize,
+                                         newResizable,
+                                         newFullscreen,
+                                         newExclusiveFullscreen,
+                                         newTitle,
+                                         newHighDpi))
 #elif OUZEL_PLATFORM_EMSCRIPTEN
+        nativeWindow(new NativeWindowEm(newSize,
+                                        newFullscreen,
+                                        newTitle,
+                                        newHighDpi))
+#else
+        resource(new NativeWindow(newSize,
+                                  newResizable,
+                                  newFullscreen,
+                                  newExclusiveFullscreen,
+                                  newTitle,
+                                  newHighDpi))
+#endif
+    {
+        OUZEL_UNUSED(newSize);
         OUZEL_UNUSED(newResizable);
+        OUZEL_UNUSED(newFullscreen);
         OUZEL_UNUSED(newExclusiveFullscreen);
         OUZEL_UNUSED(graphicsDriver);
+        OUZEL_UNUSED(newHighDpi);
         OUZEL_UNUSED(depth);
-        nativeWindow = new NativeWindowEm(newSize,
-                                          newFullscreen,
-                                          newTitle,
-                                          newHighDpi);
-#else
-        OUZEL_UNUSED(graphicsDriver);
-        OUZEL_UNUSED(depth);
-        resource = new NativeWindow(newSize,
-                                    newResizable,
-                                    newFullscreen,
-                                    newExclusiveFullscreen,
-                                    newTitle,
-                                    newHighDpi);
-#endif
 
         size = nativeWindow->getSize();
         resolution = nativeWindow->getResolution();
@@ -115,12 +94,6 @@ namespace ouzel
         exclusiveFullscreen = newExclusiveFullscreen;
         highDpi = newHighDpi;
         title = newTitle;
-    }
-
-    Window::~Window()
-    {
-        if (nativeWindow)
-            delete nativeWindow;
     }
 
     void Window::update()
@@ -188,7 +161,7 @@ namespace ouzel
 
     void Window::close()
     {
-        engine->executeOnMainThread(std::bind(&NativeWindow::close, nativeWindow));
+        engine->executeOnMainThread(std::bind(&NativeWindow::close, nativeWindow.get()));
     }
 
     void Window::setSize(const Size2& newSize)
@@ -197,7 +170,7 @@ namespace ouzel
         {
             size = newSize;
 
-            engine->executeOnMainThread(std::bind(&NativeWindow::setSize, nativeWindow, newSize));
+            engine->executeOnMainThread(std::bind(&NativeWindow::setSize, nativeWindow.get(), newSize));
 
             Event event;
             event.type = Event::Type::WINDOW_SIZE_CHANGE;
@@ -217,7 +190,7 @@ namespace ouzel
         {
             fullscreen = newFullscreen;
 
-            engine->executeOnMainThread(std::bind(&NativeWindow::setFullscreen, nativeWindow, newFullscreen));
+            engine->executeOnMainThread(std::bind(&NativeWindow::setFullscreen, nativeWindow.get(), newFullscreen));
 
             Event event;
             event.type = Event::Type::FULLSCREEN_CHANGE;
@@ -237,7 +210,7 @@ namespace ouzel
         {
             title = newTitle;
 
-            engine->executeOnMainThread(std::bind(&NativeWindow::setTitle, nativeWindow, newTitle));
+            engine->executeOnMainThread(std::bind(&NativeWindow::setTitle, nativeWindow.get(), newTitle));
 
             Event event;
             event.type = Event::Type::WINDOW_TITLE_CHANGE;

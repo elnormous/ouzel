@@ -2,7 +2,9 @@
 
 #pragma once
 
+#include <memory>
 #include <string>
+#include "core/NativeWindow.hpp"
 #include "graphics/Renderer.hpp"
 #include "math/Size2.hpp"
 #include "events/EventHandler.hpp"
@@ -10,21 +12,18 @@
 namespace ouzel
 {
     class Engine;
-    class NativeWindow;
 
     class Window final
     {
         friend Engine;
     public:
-        virtual ~Window();
-
         Window(const Window&) = delete;
         Window& operator=(const Window&) = delete;
 
         Window(Window&&) = delete;
         Window& operator=(Window&&) = delete;
 
-        inline NativeWindow* getNativeWindow() const { return nativeWindow; }
+        inline NativeWindow* getNativeWindow() const { return nativeWindow.get(); }
 
         void close();
 
@@ -65,7 +64,7 @@ namespace ouzel
 
         void update();
 
-        NativeWindow* nativeWindow = nullptr; // TODO: use unique_ptr
+        std::unique_ptr<NativeWindow> nativeWindow;
 
         Size2 size;
         Size2 resolution;
