@@ -31,8 +31,6 @@ namespace ouzel
             inline uint16_t getAPIMajorVersion() const { return apiMajorVersion; }
             inline uint16_t getAPIMinorVersion() const { return apiMinorVersion; }
 
-            void executeOnAudioThread(const std::function<void(void)>& func);
-
             struct RenderCommand
             {
                 std::function<void(Vector3& listenerPosition,

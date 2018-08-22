@@ -121,11 +121,6 @@ namespace ouzel
             device->setRenderCommands(renderCommands);
         }
 
-        void Audio::executeOnAudioThread(const std::function<void(void)>& func)
-        {
-            device->executeOnAudioThread(func);
-        }
-
         void Audio::addListener(Listener* listener)
         {
             if (listener->audio != this)
