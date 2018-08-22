@@ -2,11 +2,13 @@
 
 #pragma once
 
+#include "input/InputDevice.hpp"
+
 namespace ouzel
 {
     namespace input
     {
-        class InputManager;
+        class InputDevice;
 
         class InputSystem
         {
@@ -35,12 +37,21 @@ namespace ouzel
                 };
 
                 Type type;
+
+                input::InputDevice* inputDevice = nullptr;
+                union
+                {
+                    input::KeyboardKey keyboardKey;
+                    input::MouseButton mouseButton;
+                    input::GamepadButton gamepadButton;
+                };
+                bool pressed = false;
+                bool previousPressed = false;
+                float value = 0.0F;
+                float previousValue = 0.0F;
             };
 
-            InputSystem(InputManager& initInputManager);
-
-        private:
-            InputManager& inputManager;
+            InputSystem();
         };
     } // namespace input
 } // namespace ouzel
