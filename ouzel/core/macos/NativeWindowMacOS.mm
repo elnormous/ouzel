@@ -242,7 +242,7 @@ namespace ouzel
             [window setFrame:newFrame display:YES animate:NO];
             resolution = size * contentScale;
 
-            pushEvent(Event(Event::Type::RESOLUTION_CHANGE, resolution));
+            addEvent(Event(Event::Type::RESOLUTION_CHANGE, resolution));
         }
     }
 
@@ -310,20 +310,20 @@ namespace ouzel
                      static_cast<float>(frame.size.height));
         resolution = size * contentScale;
 
-        pushEvent(Event(Event::Type::SIZE_CHANGE, size));
-        pushEvent(Event(Event::Type::RESOLUTION_CHANGE, resolution));
+        addEvent(Event(Event::Type::SIZE_CHANGE, size));
+        addEvent(Event(Event::Type::RESOLUTION_CHANGE, resolution));
     }
 
     void NativeWindowMacOS::handleClose()
     {
-        pushEvent(Event(Event::Type::CLOSE));
+        addEvent(Event(Event::Type::CLOSE));
     }
 
     void NativeWindowMacOS::handleFullscreenChange(bool newFullscreen)
     {
         fullscreen = newFullscreen;
 
-        pushEvent(Event(Event::Type::FULLSCREEN_CHANGE, fullscreen));
+        addEvent(Event(Event::Type::FULLSCREEN_CHANGE, fullscreen));
     }
 
     void NativeWindowMacOS::handleScaleFactorChange()
@@ -333,7 +333,7 @@ namespace ouzel
             contentScale = static_cast<float>(window.backingScaleFactor);
             resolution = size * contentScale;
 
-            pushEvent(Event(Event::Type::RESOLUTION_CHANGE, resolution));
+            addEvent(Event(Event::Type::RESOLUTION_CHANGE, resolution));
         }
     }
 
@@ -342,6 +342,6 @@ namespace ouzel
         screen = [window screen];
         displayId = [[[screen deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
 
-        pushEvent(Event(Event::Type::SCREEN_CHANGE, displayId));
+        addEvent(Event(Event::Type::SCREEN_CHANGE, displayId));
     }
 }

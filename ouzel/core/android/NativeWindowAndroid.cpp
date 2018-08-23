@@ -39,8 +39,8 @@ namespace ouzel
         size = newSize;
         resolution = size;
 
-        pushEvent(Event(Event::Type::SIZE_CHANGE, size));
-        pushEvent(Event(Event::Type::RESOLUTION_CHANGE, resolution));
+        addEvent(Event(Event::Type::SIZE_CHANGE, size));
+        addEvent(Event(Event::Type::RESOLUTION_CHANGE, resolution));
     }
 
     void NativeWindowAndroid::handleSurfaceChange(jobject surface)
