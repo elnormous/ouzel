@@ -3,6 +3,9 @@
 #pragma once
 
 #include <cstdint>
+#include <mutex>
+#include <queue>
+#include <vector>
 #include "input/InputDevice.hpp"
 #include "math/Vector2.hpp"
 
@@ -57,6 +60,14 @@ namespace ouzel
             };
 
             InputSystem();
+
+            std::vector<Event> getEvents() const;
+
+        private:
+            void pushEvent(const Event& event);
+
+            mutable std::mutex eventQueueMutex;
+            mutable std::queue<Event> eventQueue;
         };
     } // namespace input
 } // namespace ouzel
