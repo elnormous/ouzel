@@ -23,7 +23,7 @@ namespace ouzel
             return result;
         }
 
-        void InputSystem::pushEvent(const Event& event)
+        void InputSystem::addEvent(const Event& event)
         {
             std::unique_lock<std::mutex> lock(eventQueueMutex);
             eventQueue.push(event);

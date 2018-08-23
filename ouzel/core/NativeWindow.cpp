@@ -52,7 +52,7 @@ namespace ouzel
         return result;
     }
 
-    void NativeWindow::pushEvent(const Event& event)
+    void NativeWindow::addEvent(const Event& event)
     {
         std::unique_lock<std::mutex> lock(eventQueueMutex);
         eventQueue.push(event);

@@ -40,6 +40,29 @@ namespace ouzel
             };
         };
 
+        class Command
+        {
+        public:
+            enum class Type
+            {
+                CHANGE_SIZE,
+                CHANGE_RESOLUTION,
+                CHANGE_FULLSCREEN,
+                CLOSE,
+                SET_TITLE
+            };
+
+            Type type;
+
+            union
+            {
+                Size2 size;
+                bool fullscreen;
+            };
+
+            std::string title;
+        };
+
         NativeWindow(const Size2& newSize,
                      bool newResizable,
                      bool newFullscreen,
@@ -74,7 +97,7 @@ namespace ouzel
         std::vector<Event> getEvents() const;
 
     protected:
-        void pushEvent(const Event& event);
+        void addEvent(const Event& event);
 
         Size2 size;
         Size2 resolution;
@@ -88,5 +111,8 @@ namespace ouzel
 
         mutable std::mutex eventQueueMutex;
         mutable std::queue<Event> eventQueue;
+
+        mutable std::mutex commandQueueMutex;
+        mutable std::queue<Event> commandQueue;
     };
 }
