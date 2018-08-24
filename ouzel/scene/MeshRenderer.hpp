@@ -16,10 +16,10 @@ namespace ouzel
 
             MeshRenderer();
             explicit MeshRenderer(const MeshData& meshData);
-            explicit MeshRenderer(const std::string& filename, bool mipmaps = true);
+            explicit MeshRenderer(const std::string& filename);
 
             void init(const MeshData& meshData);
-            void init(const std::string& filename, bool mipmaps = true);
+            void init(const std::string& filename);
 
             virtual void draw(const Matrix4& transformMatrix,
                               float opacity,

@@ -19,10 +19,10 @@ namespace ouzel
             init(meshData);
         }
 
-        MeshRenderer::MeshRenderer(const std::string& filename, bool mipmaps):
+        MeshRenderer::MeshRenderer(const std::string& filename):
             Component(CLASS)
         {
-            init(filename, mipmaps);
+            init(filename);
         }
 
         void MeshRenderer::init(const MeshData& meshData)
@@ -35,9 +35,9 @@ namespace ouzel
             vertexBuffer = meshData.vertexBuffer;
         }
 
-        void MeshRenderer::init(const std::string& filename, bool mipmaps)
+        void MeshRenderer::init(const std::string& filename)
         {
-            //const MeshData& meshData = engine->getCache()->
+            init(*engine->getCache()->getMeshData(filename));
         }
 
         void MeshRenderer::draw(const Matrix4& transformMatrix,
