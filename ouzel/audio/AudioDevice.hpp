@@ -56,7 +56,6 @@ namespace ouzel
         protected:
             explicit AudioDevice(Audio::Driver initDriver);
 
-            void executeAll();
             void getData(uint32_t frames, std::vector<uint8_t>& result);
             void processRenderCommands(uint32_t frames,
                                        std::vector<float>& result);
@@ -81,9 +80,6 @@ namespace ouzel
 
             std::vector<std::vector<float>> buffers;
             uint32_t currentBuffer = 0;
-
-            std::queue<std::function<void(void)>> executeQueue;
-            Mutex executeMutex;
 
             std::vector<RenderCommand> renderQueue;
             Mutex renderQueueMutex;
