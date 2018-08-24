@@ -3,6 +3,7 @@
 #pragma once
 
 #include <cfloat>
+#include <atomic>
 #include <memory>
 #include "audio/SoundInput.hpp"
 #include "audio/Stream.hpp"
@@ -98,7 +99,7 @@ namespace ouzel
 
             bool transformDirty = true;
             bool spatialized = true;
-            bool playing = false;
+            std::atomic<bool> playing; // TODO: remove atomic
             bool repeating = false;
         };
     } // namespace audio

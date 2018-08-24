@@ -35,8 +35,6 @@ namespace ouzel
 
         void SceneManager::update()
         {
-            executeAllOnUpdateThread();
-
             std::chrono::steady_clock::time_point currentTime = std::chrono::steady_clock::now();
             auto diff = currentTime - previousUpdateTime;
 
@@ -167,32 +165,6 @@ namespace ouzel
 
             if (setIterator != updateCallbackAddSet.end())
                 updateCallbackAddSet.erase(setIterator);
-        }
-
-        void SceneManager::executeOnUpdateThread(const std::function<void(void)>& func)
-        {
-            Lock lock(updateThreadExecuteMutex);
-
-            updateThreadExecuteQueue.push(func);
-        }
-
-        void SceneManager::executeAllOnUpdateThread()
-        {
-            std::function<void(void)> func;
-
-            for (;;)
-            {
-                {
-                    Lock lock(updateThreadExecuteMutex);
-                    if (updateThreadExecuteQueue.empty()) break;
-
-                    func = std::move(updateThreadExecuteQueue.front());
-                    updateThreadExecuteQueue.pop();
-                }
-
-                if (func) func();
-
-            }
         }
     } // namespace scene
 } // namespace ouzel

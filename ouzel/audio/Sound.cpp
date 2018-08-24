@@ -13,7 +13,7 @@ namespace ouzel
     namespace audio
     {
         Sound::Sound():
-            scene::Component(scene::Component::SOUND)
+            scene::Component(scene::Component::SOUND), playing(false)
         {
         }
 
@@ -48,7 +48,7 @@ namespace ouzel
             maxDistance = other.maxDistance;
             other.transformDirty = other.transformDirty;
             spatialized = other.spatialized;
-            playing = other.playing;
+            playing = other.playing.load();
             repeating = other.repeating;
 
             other.position = Vector3();
@@ -81,7 +81,7 @@ namespace ouzel
                 maxDistance = other.maxDistance;
                 other.transformDirty = other.transformDirty;
                 spatialized = other.spatialized;
-                playing = other.playing;
+                playing = other.playing.load();
                 repeating = other.repeating;
 
                 other.position = Vector3();
@@ -224,14 +224,12 @@ namespace ouzel
         // executed on audio thread
         void Sound::onStop()
         {
-            engine->getSceneManager()->executeOnUpdateThread([this]() {
-                playing = false;
+            playing = false;
 
-                Event event;
-                event.type = Event::Type::SOUND_FINISH;
-                event.soundEvent.sound = this;
-                engine->getEventDispatcher()->postEvent(event);
-            });
+            Event event;
+            event.type = Event::Type::SOUND_FINISH;
+            event.soundEvent.sound = this;
+            engine->getEventDispatcher()->postEvent(event);
         }
 
         void Sound::setAttributes(Vector3&,

@@ -55,8 +55,6 @@ namespace ouzel
 
             inline Scene* getScene() const { return scenes.empty() ? nullptr : scenes.back(); }
 
-            void executeOnUpdateThread(const std::function<void(void)>& func);
-
             void scheduleUpdate(UpdateCallback* callback);
             void unscheduleUpdate(UpdateCallback* callback);
 
@@ -65,7 +63,6 @@ namespace ouzel
 
         private:
             void update();
-            void executeAllOnUpdateThread();
 
             std::vector<Scene*> scenes;
             std::vector<std::unique_ptr<Scene>> ownedScenes;
@@ -75,9 +72,6 @@ namespace ouzel
             std::vector<UpdateCallback*> updateCallbacks;
             std::set<UpdateCallback*> updateCallbackAddSet;
             std::set<UpdateCallback*> updateCallbackDeleteSet;
-
-            std::queue<std::function<void(void)>> updateThreadExecuteQueue;
-            Mutex updateThreadExecuteMutex;
         };
     } // namespace scene
 } // namespace ouzel
