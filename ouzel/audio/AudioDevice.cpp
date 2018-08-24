@@ -22,7 +22,6 @@ namespace ouzel
 
         void AudioDevice::process()
         {
-            executeAll();
         }
 
         void AudioDevice::setRenderCommands(const std::vector<RenderCommand>& newRenderCommands)
@@ -166,24 +165,6 @@ namespace ouzel
                 }
                 default:
                     throw DataError("Invalid sample format");
-            }
-        }
-
-        void AudioDevice::executeAll()
-        {
-            std::function<void(void)> func;
-
-            for (;;)
-            {
-                {
-                    Lock lock(executeMutex);
-                    if (executeQueue.empty()) break;
-
-                    func = std::move(executeQueue.front());
-                    executeQueue.pop();
-                }
-
-                if (func) func();
             }
         }
     } // namespace audio
