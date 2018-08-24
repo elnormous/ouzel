@@ -18,6 +18,28 @@ namespace ouzel
         class InputSystem
         {
         public:
+            struct Command
+            {
+                enum class Type
+                {
+                    SET_ABSOLUTE_DPAD_VALUES,
+                    SET_PLAYER_INDEX,
+                    SET_VIBRATION
+                };
+
+                Type type;
+
+                union
+                {
+                    bool absoluteDpadValues;
+                    int32_t playerIndex;
+                    float speed;
+                };
+
+                // TODO: add motor
+                // Motor motor
+            };
+
             struct Event
             {
                 enum class Type
@@ -68,6 +90,9 @@ namespace ouzel
 
             mutable std::mutex eventQueueMutex;
             mutable std::queue<Event> eventQueue;
+
+            mutable std::mutex commandQueueMutex;
+            mutable std::queue<Event> commandQueue;
         };
     } // namespace input
 } // namespace ouzel
