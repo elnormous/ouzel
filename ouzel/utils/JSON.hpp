@@ -52,6 +52,7 @@ namespace ouzel
             Value(double val): type(Type::NUMBER), doubleValue(val) {}
             Value(const std::string& str): type(Type::STRING), stringValue(str) {}
             Value(bool val): type(Type::BOOLEAN), boolValue(val) {}
+            Value(std::nullptr_t): type(Type::OBJECT), nullValue(true) {}
 
             inline Value& operator=(Type newType)
             {
@@ -108,6 +109,14 @@ namespace ouzel
                 return *this;
             }
 
+            inline Value& operator=(std::nullptr_t)
+            {
+                type = Type::OBJECT;
+                nullValue = true;
+                objectValue.clear();
+                return *this;
+            }
+
             inline Type getType() const { return type; }
 
             template<class T> T as() const;
@@ -122,6 +131,7 @@ namespace ouzel
             {
                 type = Type::OBJECT;
                 nullValue = val;
+                if (nullValue) objectValue.clear();
             }
 
             inline bool hasMember(const std::string& member) const
@@ -133,8 +143,9 @@ namespace ouzel
 
             inline Value& operator[](const std::string& member)
             {
-                if (type == Type::OBJECT) return objectValue[member];
-                else throw DataError("Invalid value type");
+                type = Type::OBJECT;
+                nullValue = false;
+                return objectValue[member];
             }
 
             inline Value operator[](const std::string& member) const
@@ -148,6 +159,12 @@ namespace ouzel
                 else throw DataError("Invalid value type");
             }
 
+            inline std::map<std::string, Value>& asMap()
+            {
+                type = Type::OBJECT;
+                return objectValue;
+            }
+
             inline const std::map<std::string, Value>& asMap() const
             {
                 if (type == Type::OBJECT) return objectValue;
@@ -156,12 +173,9 @@ namespace ouzel
 
             inline Value& operator[](size_t index)
             {
-                if (type == Type::ARRAY)
-                {
-                    if (index >= arrayValue.size()) arrayValue.resize(index + 1);
-                    return arrayValue[index];
-                }
-                else throw DataError("Invalid value type");
+                type = Type::ARRAY;
+                if (index >= arrayValue.size()) arrayValue.resize(index + 1);
+                return arrayValue[index];
             }
 
             inline Value operator[](size_t index) const
@@ -176,8 +190,8 @@ namespace ouzel
 
             inline std::vector<Value>& asArray()
             {
-                if (type == Type::ARRAY) return arrayValue;
-                else throw DataError("Invalid value type");
+                type = Type::ARRAY;
+                return arrayValue;
             }
 
             inline const std::vector<Value>& asArray() const
