@@ -180,6 +180,7 @@ namespace ouzel
 
             inline void setNull(bool val)
             {
+                type = Type::OBJECT;
                 nullValue = val;
             }
 
