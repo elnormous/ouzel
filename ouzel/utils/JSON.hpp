@@ -49,10 +49,12 @@ namespace ouzel
 
             Value() {}
             Value(Type initType): type(initType) {}
-            Value(double val): type(Type::NUMBER), doubleValue(val) {}
-            Value(const std::string& str): type(Type::STRING), stringValue(str) {}
-            Value(bool val): type(Type::BOOLEAN), boolValue(val) {}
+            Value(double value): type(Type::NUMBER), doubleValue(value) {}
+            Value(const std::string& value): type(Type::STRING), stringValue(value) {}
+            Value(bool value): type(Type::BOOLEAN), boolValue(value) {}
             Value(std::nullptr_t): type(Type::OBJECT), nullValue(true) {}
+            Value(const std::vector<Value>& value): type(Type::ARRAY), arrayValue(value) {}
+            Value(const std::map<std::string, Value>& value): type(Type::OBJECT), objectValue(value) {}
 
             inline Value& operator=(Type newType)
             {
@@ -60,52 +62,52 @@ namespace ouzel
                 return *this;
             }
 
-            inline Value& operator=(double val)
+            inline Value& operator=(double value)
             {
                 type = Type::NUMBER;
-                doubleValue = val;
+                doubleValue = value;
                 return *this;
             }
 
-            inline Value& operator=(int32_t val)
+            inline Value& operator=(int32_t value)
             {
                 type = Type::NUMBER;
-                doubleValue = static_cast<double>(val);
+                doubleValue = static_cast<double>(value);
                 return *this;
             }
 
-            inline Value& operator=(uint32_t val)
+            inline Value& operator=(uint32_t value)
             {
                 type = Type::NUMBER;
-                doubleValue = static_cast<double>(val);
+                doubleValue = static_cast<double>(value);
                 return *this;
             }
 
-            inline Value& operator=(int64_t val)
+            inline Value& operator=(int64_t value)
             {
                 type = Type::NUMBER;
-                doubleValue = static_cast<double>(val);
+                doubleValue = static_cast<double>(value);
                 return *this;
             }
 
-            inline Value& operator=(uint64_t val)
+            inline Value& operator=(uint64_t value)
             {
                 type = Type::NUMBER;
-                doubleValue = static_cast<double>(val);
+                doubleValue = static_cast<double>(value);
                 return *this;
             }
 
-            inline Value& operator=(const std::string& str)
+            inline Value& operator=(const std::string& value)
             {
                 type = Type::STRING;
-                stringValue = str;
+                stringValue = value;
                 return *this;
             }
 
-            inline Value& operator=(bool val)
+            inline Value& operator=(bool value)
             {
                 type = Type::BOOLEAN;
-                boolValue = val;
+                boolValue = value;
                 return *this;
             }
 
@@ -117,6 +119,21 @@ namespace ouzel
                 return *this;
             }
 
+            inline Value& operator=(const std::vector<Value>& value)
+            {
+                type = Type::ARRAY;
+                arrayValue = value;
+                return *this;
+            }
+
+            inline Value& operator=(const std::map<std::string, Value>& value)
+            {
+                type = Type::OBJECT;
+                objectValue = value;
+                nullValue = false;
+                return *this;
+            }
+
             inline Type getType() const { return type; }
 
             template<class T> T as() const;
@@ -125,13 +142,6 @@ namespace ouzel
             {
                 if (type == Type::OBJECT) return nullValue;
                 else throw DataError("Invalid value type");
-            }
-
-            inline void setNull(bool val)
-            {
-                type = Type::OBJECT;
-                nullValue = val;
-                if (nullValue) objectValue.clear();
             }
 
             inline bool hasMember(const std::string& member) const
