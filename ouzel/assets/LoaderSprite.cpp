@@ -28,7 +28,7 @@ namespace ouzel
 
             const json::Value& metaObject = document["meta"];
 
-            spriteData.texture = cache.getTexture(metaObject["image"].asString());
+            spriteData.texture = cache.getTexture(metaObject["image"].as<std::string>());
 
             if (!spriteData.texture)
                 return false;
@@ -41,29 +41,29 @@ namespace ouzel
 
             for (const json::Value& frameObject : framesArray.asArray())
             {
-                std::string name = frameObject["filename"].asString();
+                std::string name = frameObject["filename"].as<std::string>();
 
                 const json::Value& frameRectangleObject = frameObject["frame"];
 
-                Rect frameRectangle(static_cast<float>(frameRectangleObject["x"].asInt32()),
-                                    static_cast<float>(frameRectangleObject["y"].asInt32()),
-                                    static_cast<float>(frameRectangleObject["w"].asInt32()),
-                                    static_cast<float>(frameRectangleObject["h"].asInt32()));
+                Rect frameRectangle(static_cast<float>(frameRectangleObject["x"].as<int32_t>()),
+                                    static_cast<float>(frameRectangleObject["y"].as<int32_t>()),
+                                    static_cast<float>(frameRectangleObject["w"].as<int32_t>()),
+                                    static_cast<float>(frameRectangleObject["h"].as<int32_t>()));
 
                 const json::Value& sourceSizeObject = frameObject["sourceSize"];
 
-                Size2 sourceSize(static_cast<float>(sourceSizeObject["w"].asInt32()),
-                                 static_cast<float>(sourceSizeObject["h"].asInt32()));
+                Size2 sourceSize(static_cast<float>(sourceSizeObject["w"].as<int32_t>()),
+                                 static_cast<float>(sourceSizeObject["h"].as<int32_t>()));
 
                 const json::Value& spriteSourceSizeObject = frameObject["spriteSourceSize"];
 
-                Vector2 sourceOffset(static_cast<float>(spriteSourceSizeObject["x"].asInt32()),
-                                     static_cast<float>(spriteSourceSizeObject["y"].asInt32()));
+                Vector2 sourceOffset(static_cast<float>(spriteSourceSizeObject["x"].as<int32_t>()),
+                                     static_cast<float>(spriteSourceSizeObject["y"].as<int32_t>()));
 
                 const json::Value& pivotObject = frameObject["pivot"];
 
-                Vector2 pivot(pivotObject["x"].asFloat(),
-                              pivotObject["y"].asFloat());
+                Vector2 pivot(pivotObject["x"].as<float>(),
+                              pivotObject["y"].as<float>());
 
                 if (frameObject.hasMember("vertices") &&
                     frameObject.hasMember("verticesUV") &&
@@ -76,7 +76,7 @@ namespace ouzel
                     for (const json::Value& triangleObject : trianglesObject.asArray())
                     {
                         for (const json::Value& indexObject : triangleObject.asArray())
-                            indices.push_back(static_cast<uint16_t>(indexObject.asUInt32()));
+                            indices.push_back(static_cast<uint16_t>(indexObject.as<uint32_t>()));
                     }
 
                     // reverse the vertices, so that they are counterclockwise
@@ -97,12 +97,12 @@ namespace ouzel
                         const json::Value& vertexObject = verticesObject[vertexIndex];
                         const json::Value& vertexUVObject = verticesUVObject[vertexIndex];
 
-                        vertices.push_back(graphics::Vertex(Vector3(static_cast<float>(vertexObject[0].asInt32()) + finalOffset.x,
-                                                                    -static_cast<float>(vertexObject[1].asInt32()) - finalOffset.y,
+                        vertices.push_back(graphics::Vertex(Vector3(static_cast<float>(vertexObject[0].as<int32_t>()) + finalOffset.x,
+                                                                    -static_cast<float>(vertexObject[1].as<int32_t>()) - finalOffset.y,
                                                                     0.0F),
                                                             Color::WHITE,
-                                                            Vector2(static_cast<float>(vertexUVObject[0].asInt32()) / textureSize.width,
-                                                                    static_cast<float>(vertexUVObject[1].asInt32()) / textureSize.height),
+                                                            Vector2(static_cast<float>(vertexUVObject[0].as<int32_t>()) / textureSize.width,
+                                                                    static_cast<float>(vertexUVObject[1].as<int32_t>()) / textureSize.height),
                                                             Vector3(0.0F, 0.0F, -1.0F)));
                     }
 
@@ -110,7 +110,7 @@ namespace ouzel
                 }
                 else
                 {
-                    bool rotated = frameObject["rotated"].asBool();
+                    bool rotated = frameObject["rotated"].as<bool>();
 
                     animation.frames.push_back(scene::SpriteData::Frame(name, spriteData.texture->getSize(), frameRectangle, rotated, sourceSize, sourceOffset, pivot));
                 }

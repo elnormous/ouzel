@@ -46,8 +46,8 @@ namespace ouzel
 
             for (const json::Value& asset : data["assets"].asArray())
             {
-                bool mipmaps = asset.hasMember("mipmaps") ? asset["mipmaps"].asBool() : true;
-                loadAsset(asset["type"].asUInt32(), asset["filename"].asString(), mipmaps);
+                bool mipmaps = asset.hasMember("mipmaps") ? asset["mipmaps"].as<bool>() : true;
+                loadAsset(asset["type"].as<uint32_t>(), asset["filename"].as<std::string>(), mipmaps);
             }
         }
 
