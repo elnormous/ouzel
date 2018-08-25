@@ -25,14 +25,14 @@ namespace ouzel
                 !document.hasMember("configName"))
                 return false;
 
-            particleSystemData.name = document["configName"].asString();
+            particleSystemData.name = document["configName"].as<std::string>();
 
-            if (document.hasMember("blendFuncSource")) particleSystemData.blendFuncSource = document["blendFuncSource"].asUInt32();
-            if (document.hasMember("blendFuncDestination")) particleSystemData.blendFuncDestination = document["blendFuncDestination"].asUInt32();
+            if (document.hasMember("blendFuncSource")) particleSystemData.blendFuncSource = document["blendFuncSource"].as<uint32_t>();
+            if (document.hasMember("blendFuncDestination")) particleSystemData.blendFuncDestination = document["blendFuncDestination"].as<uint32_t>();
 
             if (document.hasMember("emitterType"))
             {
-                switch (document["emitterType"].asUInt32())
+                switch (document["emitterType"].as<uint32_t>())
                 {
                     case 0: particleSystemData.emitterType = scene::ParticleSystemData::EmitterType::GRAVITY; break;
                     case 1: particleSystemData.emitterType = scene::ParticleSystemData::EmitterType::RADIUS; break;
@@ -40,72 +40,72 @@ namespace ouzel
                 }
             }
 
-            if (document.hasMember("maxParticles")) particleSystemData.maxParticles = document["maxParticles"].asUInt32();
+            if (document.hasMember("maxParticles")) particleSystemData.maxParticles = document["maxParticles"].as<uint32_t>();
 
-            if (document.hasMember("duration")) particleSystemData.duration = document["duration"].asFloat();
-            if (document.hasMember("particleLifespan")) particleSystemData.particleLifespan = document["particleLifespan"].asFloat();
-            if (document.hasMember("particleLifespanVariance")) particleSystemData.particleLifespanVariance = document["particleLifespanVariance"].asFloat();
+            if (document.hasMember("duration")) particleSystemData.duration = document["duration"].as<float>();
+            if (document.hasMember("particleLifespan")) particleSystemData.particleLifespan = document["particleLifespan"].as<float>();
+            if (document.hasMember("particleLifespanVariance")) particleSystemData.particleLifespanVariance = document["particleLifespanVariance"].as<float>();
 
-            if (document.hasMember("speed")) particleSystemData.speed = document["speed"].asFloat();
-            if (document.hasMember("speedVariance")) particleSystemData.speedVariance = document["speedVariance"].asFloat();
+            if (document.hasMember("speed")) particleSystemData.speed = document["speed"].as<float>();
+            if (document.hasMember("speedVariance")) particleSystemData.speedVariance = document["speedVariance"].as<float>();
 
-            if (document.hasMember("absolutePosition")) particleSystemData.absolutePosition = document["absolutePosition"].asBool();
+            if (document.hasMember("absolutePosition")) particleSystemData.absolutePosition = document["absolutePosition"].as<bool>();
 
-            if (document.hasMember("yCoordFlipped")) particleSystemData.yCoordFlipped = (document["yCoordFlipped"].asUInt32() == 1);
+            if (document.hasMember("yCoordFlipped")) particleSystemData.yCoordFlipped = (document["yCoordFlipped"].as<uint32_t>() == 1);
 
-            if (document.hasMember("sourcePositionx")) particleSystemData.sourcePosition.x = document["sourcePositionx"].asFloat();
-            if (document.hasMember("sourcePositiony")) particleSystemData.sourcePosition.y = document["sourcePositiony"].asFloat();
-            if (document.hasMember("sourcePositionVariancex")) particleSystemData.sourcePositionVariance.x = document["sourcePositionVariancex"].asFloat();
-            if (document.hasMember("sourcePositionVariancey")) particleSystemData.sourcePositionVariance.y = document["sourcePositionVariancey"].asFloat();
+            if (document.hasMember("sourcePositionx")) particleSystemData.sourcePosition.x = document["sourcePositionx"].as<float>();
+            if (document.hasMember("sourcePositiony")) particleSystemData.sourcePosition.y = document["sourcePositiony"].as<float>();
+            if (document.hasMember("sourcePositionVariancex")) particleSystemData.sourcePositionVariance.x = document["sourcePositionVariancex"].as<float>();
+            if (document.hasMember("sourcePositionVariancey")) particleSystemData.sourcePositionVariance.y = document["sourcePositionVariancey"].as<float>();
 
-            if (document.hasMember("startParticleSize")) particleSystemData.startParticleSize = document["startParticleSize"].asFloat();
-            if (document.hasMember("startParticleSizeVariance")) particleSystemData.startParticleSizeVariance = document["startParticleSizeVariance"].asFloat();
-            if (document.hasMember("finishParticleSize")) particleSystemData.finishParticleSize = document["finishParticleSize"].asFloat();
-            if (document.hasMember("finishParticleSizeVariance")) particleSystemData.finishParticleSizeVariance = document["finishParticleSizeVariance"].asFloat();
-            if (document.hasMember("angle")) particleSystemData.angle = document["angle"].asFloat();
-            if (document.hasMember("angleVariance")) particleSystemData.angleVariance = document["angleVariance"].asFloat();
-            if (document.hasMember("rotationStart")) particleSystemData.startRotation = document["rotationStart"].asFloat();
-            if (document.hasMember("rotationStartVariance")) particleSystemData.startRotationVariance = document["rotationStartVariance"].asFloat();
-            if (document.hasMember("rotationEnd")) particleSystemData.finishRotation = document["rotationEnd"].asFloat();
-            if (document.hasMember("rotationEndVariance")) particleSystemData.finishRotationVariance = document["rotationEndVariance"].asFloat();
-            if (document.hasMember("rotatePerSecond")) particleSystemData.rotatePerSecond = document["rotatePerSecond"].asFloat();
-            if (document.hasMember("rotatePerSecondVariance")) particleSystemData.rotatePerSecondVariance = document["rotatePerSecondVariance"].asFloat();
-            if (document.hasMember("minRadius")) particleSystemData.minRadius = document["minRadius"].asFloat();
-            if (document.hasMember("minRadiusVariance")) particleSystemData.minRadiusVariance = document["minRadiusVariance"].asFloat();
-            if (document.hasMember("maxRadius")) particleSystemData.maxRadius = document["maxRadius"].asFloat();
-            if (document.hasMember("maxRadiusVariance")) particleSystemData.maxRadiusVariance = document["maxRadiusVariance"].asFloat();
+            if (document.hasMember("startParticleSize")) particleSystemData.startParticleSize = document["startParticleSize"].as<float>();
+            if (document.hasMember("startParticleSizeVariance")) particleSystemData.startParticleSizeVariance = document["startParticleSizeVariance"].as<float>();
+            if (document.hasMember("finishParticleSize")) particleSystemData.finishParticleSize = document["finishParticleSize"].as<float>();
+            if (document.hasMember("finishParticleSizeVariance")) particleSystemData.finishParticleSizeVariance = document["finishParticleSizeVariance"].as<float>();
+            if (document.hasMember("angle")) particleSystemData.angle = document["angle"].as<float>();
+            if (document.hasMember("angleVariance")) particleSystemData.angleVariance = document["angleVariance"].as<float>();
+            if (document.hasMember("rotationStart")) particleSystemData.startRotation = document["rotationStart"].as<float>();
+            if (document.hasMember("rotationStartVariance")) particleSystemData.startRotationVariance = document["rotationStartVariance"].as<float>();
+            if (document.hasMember("rotationEnd")) particleSystemData.finishRotation = document["rotationEnd"].as<float>();
+            if (document.hasMember("rotationEndVariance")) particleSystemData.finishRotationVariance = document["rotationEndVariance"].as<float>();
+            if (document.hasMember("rotatePerSecond")) particleSystemData.rotatePerSecond = document["rotatePerSecond"].as<float>();
+            if (document.hasMember("rotatePerSecondVariance")) particleSystemData.rotatePerSecondVariance = document["rotatePerSecondVariance"].as<float>();
+            if (document.hasMember("minRadius")) particleSystemData.minRadius = document["minRadius"].as<float>();
+            if (document.hasMember("minRadiusVariance")) particleSystemData.minRadiusVariance = document["minRadiusVariance"].as<float>();
+            if (document.hasMember("maxRadius")) particleSystemData.maxRadius = document["maxRadius"].as<float>();
+            if (document.hasMember("maxRadiusVariance")) particleSystemData.maxRadiusVariance = document["maxRadiusVariance"].as<float>();
 
-            if (document.hasMember("radialAcceleration")) particleSystemData.radialAcceleration = document["radialAcceleration"].asFloat();
-            if (document.hasMember("radialAccelVariance")) particleSystemData.radialAccelVariance = document["radialAccelVariance"].asFloat();
-            if (document.hasMember("tangentialAcceleration")) particleSystemData.tangentialAcceleration = document["tangentialAcceleration"].asFloat();
-            if (document.hasMember("tangentialAccelVariance")) particleSystemData.tangentialAccelVariance = document["tangentialAccelVariance"].asFloat();
+            if (document.hasMember("radialAcceleration")) particleSystemData.radialAcceleration = document["radialAcceleration"].as<float>();
+            if (document.hasMember("radialAccelVariance")) particleSystemData.radialAccelVariance = document["radialAccelVariance"].as<float>();
+            if (document.hasMember("tangentialAcceleration")) particleSystemData.tangentialAcceleration = document["tangentialAcceleration"].as<float>();
+            if (document.hasMember("tangentialAccelVariance")) particleSystemData.tangentialAccelVariance = document["tangentialAccelVariance"].as<float>();
 
-            if (document.hasMember("rotationIsDir")) particleSystemData.rotationIsDir = document["rotationIsDir"].asBool();
+            if (document.hasMember("rotationIsDir")) particleSystemData.rotationIsDir = document["rotationIsDir"].as<bool>();
 
-            if (document.hasMember("gravityx")) particleSystemData.gravity.x = document["gravityx"].asFloat();
-            if (document.hasMember("gravityy")) particleSystemData.gravity.y = document["gravityy"].asFloat();
+            if (document.hasMember("gravityx")) particleSystemData.gravity.x = document["gravityx"].as<float>();
+            if (document.hasMember("gravityy")) particleSystemData.gravity.y = document["gravityy"].as<float>();
 
-            if (document.hasMember("startColorRed")) particleSystemData.startColorRed = document["startColorRed"].asFloat();
-            if (document.hasMember("startColorGreen")) particleSystemData.startColorGreen = document["startColorGreen"].asFloat();
-            if (document.hasMember("startColorBlue")) particleSystemData.startColorBlue = document["startColorBlue"].asFloat();
-            if (document.hasMember("startColorAlpha")) particleSystemData.startColorAlpha = document["startColorAlpha"].asFloat();
+            if (document.hasMember("startColorRed")) particleSystemData.startColorRed = document["startColorRed"].as<float>();
+            if (document.hasMember("startColorGreen")) particleSystemData.startColorGreen = document["startColorGreen"].as<float>();
+            if (document.hasMember("startColorBlue")) particleSystemData.startColorBlue = document["startColorBlue"].as<float>();
+            if (document.hasMember("startColorAlpha")) particleSystemData.startColorAlpha = document["startColorAlpha"].as<float>();
 
-            if (document.hasMember("startColorVarianceRed")) particleSystemData.startColorRedVariance = document["startColorVarianceRed"].asFloat();
-            if (document.hasMember("startColorVarianceGreen")) particleSystemData.startColorGreenVariance = document["startColorVarianceGreen"].asFloat();
-            if (document.hasMember("startColorVarianceBlue")) particleSystemData.startColorBlueVariance = document["startColorVarianceBlue"].asFloat();
-            if (document.hasMember("startColorVarianceAlpha")) particleSystemData.startColorAlphaVariance = document["startColorVarianceAlpha"].asFloat();
+            if (document.hasMember("startColorVarianceRed")) particleSystemData.startColorRedVariance = document["startColorVarianceRed"].as<float>();
+            if (document.hasMember("startColorVarianceGreen")) particleSystemData.startColorGreenVariance = document["startColorVarianceGreen"].as<float>();
+            if (document.hasMember("startColorVarianceBlue")) particleSystemData.startColorBlueVariance = document["startColorVarianceBlue"].as<float>();
+            if (document.hasMember("startColorVarianceAlpha")) particleSystemData.startColorAlphaVariance = document["startColorVarianceAlpha"].as<float>();
 
-            if (document.hasMember("finishColorRed")) particleSystemData.finishColorRed = document["finishColorRed"].asFloat();
-            if (document.hasMember("finishColorGreen")) particleSystemData.finishColorGreen = document["finishColorGreen"].asFloat();
-            if (document.hasMember("finishColorBlue")) particleSystemData.finishColorBlue = document["finishColorBlue"].asFloat();
-            if (document.hasMember("finishColorAlpha")) particleSystemData.finishColorAlpha = document["finishColorAlpha"].asFloat();
+            if (document.hasMember("finishColorRed")) particleSystemData.finishColorRed = document["finishColorRed"].as<float>();
+            if (document.hasMember("finishColorGreen")) particleSystemData.finishColorGreen = document["finishColorGreen"].as<float>();
+            if (document.hasMember("finishColorBlue")) particleSystemData.finishColorBlue = document["finishColorBlue"].as<float>();
+            if (document.hasMember("finishColorAlpha")) particleSystemData.finishColorAlpha = document["finishColorAlpha"].as<float>();
 
-            if (document.hasMember("finishColorVarianceRed")) particleSystemData.finishColorRedVariance = document["finishColorVarianceRed"].asFloat();
-            if (document.hasMember("finishColorVarianceGreen")) particleSystemData.finishColorGreenVariance = document["finishColorVarianceGreen"].asFloat();
-            if (document.hasMember("finishColorVarianceBlue")) particleSystemData.finishColorBlueVariance = document["finishColorVarianceBlue"].asFloat();
-            if (document.hasMember("finishColorVarianceAlpha")) particleSystemData.finishColorAlphaVariance = document["finishColorVarianceAlpha"].asFloat();
+            if (document.hasMember("finishColorVarianceRed")) particleSystemData.finishColorRedVariance = document["finishColorVarianceRed"].as<float>();
+            if (document.hasMember("finishColorVarianceGreen")) particleSystemData.finishColorGreenVariance = document["finishColorVarianceGreen"].as<float>();
+            if (document.hasMember("finishColorVarianceBlue")) particleSystemData.finishColorBlueVariance = document["finishColorVarianceBlue"].as<float>();
+            if (document.hasMember("finishColorVarianceAlpha")) particleSystemData.finishColorAlphaVariance = document["finishColorVarianceAlpha"].as<float>();
 
-            if (document.hasMember("textureFileName")) particleSystemData.texture = cache.getTexture(document["textureFileName"].asString());
+            if (document.hasMember("textureFileName")) particleSystemData.texture = cache.getTexture(document["textureFileName"].as<std::string>());
 
             particleSystemData.emissionRate = static_cast<float>(particleSystemData.maxParticles) / particleSystemData.particleLifespan;
 

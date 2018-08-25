@@ -2,10 +2,10 @@
 
 #pragma once
 
-#include <cassert>
 #include <map>
 #include <string>
 #include <vector>
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -110,72 +110,12 @@ namespace ouzel
 
             inline Type getType() const { return type; }
 
-            inline bool asBool() const
-            {
-                assert(type == Type::BOOLEAN || type == Type::NUMBER);
-                if (type == Type::BOOLEAN) return boolValue;
-                else if (type == Type::NUMBER) return doubleValue != 0.0F;
-                else return false;
-            }
-
-            inline float asFloat() const
-            {
-                assert(type == Type::BOOLEAN || type == Type::NUMBER);
-                if (type == Type::BOOLEAN) return boolValue;
-                else if (type == Type::NUMBER) return static_cast<float>(doubleValue);
-                else return 0.0F;
-            }
-
-            inline double asDouble() const
-            {
-                assert(type == Type::BOOLEAN || type == Type::NUMBER);
-                if (type == Type::BOOLEAN) return boolValue;
-                else if (type == Type::NUMBER) return doubleValue;
-                else return 0.0;
-            }
-
-            inline int32_t asInt32() const
-            {
-                assert(type == Type::BOOLEAN || type == Type::NUMBER);
-                if (type == Type::BOOLEAN) return boolValue;
-                else if (type == Type::NUMBER) return static_cast<int32_t>(doubleValue);
-                else return 0;
-            }
-
-            inline uint32_t asUInt32() const
-            {
-                assert(type == Type::BOOLEAN || type == Type::NUMBER);
-                if (type == Type::BOOLEAN) return boolValue;
-                else if (type == Type::NUMBER) return static_cast<uint32_t>(doubleValue);
-                else return 0;
-            }
-
-            inline int64_t asInt64() const
-            {
-                assert(type == Type::BOOLEAN || type == Type::NUMBER);
-                if (type == Type::BOOLEAN) return boolValue;
-                else if (type == Type::NUMBER) return static_cast<int64_t>(doubleValue);
-                else return 0;
-            }
-
-            inline uint64_t asUInt64() const
-            {
-                assert(type == Type::BOOLEAN || type == Type::NUMBER);
-                if (type == Type::BOOLEAN) return boolValue;
-                else if (type == Type::NUMBER) return static_cast<uint64_t>(doubleValue);
-                else return 0;
-            }
-
-            inline const std::string& asString() const
-            {
-                assert(type == Type::STRING);
-                return stringValue;
-            }
+            template<class T> T as() const;
 
             inline bool isNull() const
             {
-                assert(type == Type::OBJECT);
-                return nullValue;
+                if (type == Type::OBJECT) return nullValue;
+                else throw DataError("Invalid value type");
             }
 
             inline void setNull(bool val)
@@ -186,60 +126,70 @@ namespace ouzel
 
             inline bool hasMember(const std::string& member) const
             {
-                assert(type == Type::OBJECT);
-                return objectValue.find(member) != objectValue.end();
+                if (type == Type::OBJECT)
+                    return objectValue.find(member) != objectValue.end();
+                else throw DataError("Invalid value type");
             }
 
             inline Value& operator[](const std::string& member)
             {
-                assert(type == Type::OBJECT);
-                return objectValue[member];
+                if (type == Type::OBJECT) return objectValue[member];
+                else throw DataError("Invalid value type");
             }
 
             inline Value operator[](const std::string& member) const
             {
-                assert(type == Type::OBJECT);
-                auto i = objectValue.find(member);
-                if (i != objectValue.end()) return i->second;
-                else return Value();
+                if (type == Type::OBJECT)
+                {
+                    auto i = objectValue.find(member);
+                    if (i != objectValue.end()) return i->second;
+                    else return Value();
+                }
+                else throw DataError("Invalid value type");
             }
 
             inline const std::map<std::string, Value>& asMap() const
             {
-                assert(type == Type::OBJECT);
-                return objectValue;
+                if (type == Type::OBJECT) return objectValue;
+                else throw DataError("Invalid value type");
             }
 
             inline Value& operator[](size_t index)
             {
-                assert(type == Type::ARRAY);
-                if (index >= arrayValue.size()) arrayValue.resize(index + 1);
-                return arrayValue[index];
+                if (type == Type::ARRAY)
+                {
+                    if (index >= arrayValue.size()) arrayValue.resize(index + 1);
+                    return arrayValue[index];
+                }
+                else throw DataError("Invalid value type");
             }
 
             inline Value operator[](size_t index) const
             {
-                assert(type == Type::ARRAY);
-                if (index < arrayValue.size()) return arrayValue[index];
-                else return Value();
+                if (type == Type::ARRAY)
+                {
+                    if (index < arrayValue.size()) return arrayValue[index];
+                    else return Value();
+                }
+                else throw DataError("Invalid value type");
             }
 
             inline std::vector<Value>& asArray()
             {
-                assert(type == Type::ARRAY);
-                return arrayValue;
+                if (type == Type::ARRAY) return arrayValue;
+                else throw DataError("Invalid value type");
             }
 
             inline const std::vector<Value>& asArray() const
             {
-                assert(type == Type::ARRAY);
-                return arrayValue;
+                if (type == Type::ARRAY) return arrayValue;
+                else throw DataError("Invalid value type");
             }
 
             inline size_t getSize() const
             {
-                assert(type == Type::ARRAY);
-                return arrayValue.size();
+                if (type == Type::ARRAY) return arrayValue.size();
+                else throw DataError("Invalid value type");
             }
 
         protected:
@@ -274,5 +224,60 @@ namespace ouzel
         private:
             bool bom = false;
         };
+
+        template<> inline bool Value::as<bool>() const
+        {
+            if (type == Type::BOOLEAN) return boolValue;
+            else if (type == Type::NUMBER) return static_cast<bool>(doubleValue);
+            else throw DataError("Invalid value type");
+        }
+
+        template<> inline float Value::as<float>() const
+        {
+            if (type == Type::BOOLEAN) return boolValue;
+            else if (type == Type::NUMBER) return static_cast<float>(doubleValue);
+            else throw DataError("Invalid value type");
+        }
+
+        template<> inline double Value::as<double>() const
+        {
+            if (type == Type::BOOLEAN) return boolValue;
+            else if (type == Type::NUMBER) return doubleValue;
+            else throw DataError("Invalid value type");
+        }
+
+        template<> inline int32_t Value::as<int32_t>() const
+        {
+            if (type == Type::BOOLEAN) return boolValue;
+            else if (type == Type::NUMBER) return static_cast<int32_t>(doubleValue);
+            else throw DataError("Invalid value type");
+        }
+
+        template<> inline uint32_t Value::as<uint32_t>() const
+        {
+            if (type == Type::BOOLEAN) return boolValue;
+            else if (type == Type::NUMBER) return static_cast<uint32_t>(doubleValue);
+            else throw DataError("Invalid value type");
+        }
+
+        template<> inline int64_t Value::as<int64_t>() const
+        {
+            if (type == Type::BOOLEAN) return boolValue;
+            else if (type == Type::NUMBER) return static_cast<int64_t>(doubleValue);
+            else throw DataError("Invalid value type");
+        }
+
+        template<> inline uint64_t Value::as<uint64_t>() const
+        {
+            if (type == Type::BOOLEAN) return boolValue;
+            else if (type == Type::NUMBER) return static_cast<uint64_t>(doubleValue);
+            else throw DataError("Invalid value type");
+        }
+
+        template<> inline std::string Value::as<std::string>() const
+        {
+            if (type == Type::STRING) return stringValue;
+            else throw DataError("Invalid value type");
+        }
     } // namespace json
 } // namespace ouzel
