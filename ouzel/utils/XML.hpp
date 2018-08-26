@@ -29,10 +29,18 @@ namespace ouzel
 
             Node() {}
             Node(Type initType): type(initType) {}
+            Node(const std::string& val): type(Type::TEXT), value(val) {}
 
             inline Node& operator=(Type newType)
             {
                 type = newType;
+                return *this;
+            }
+
+            inline Node& operator=(const std::string& val)
+            {
+                type = Type::TEXT;
+                value = val;
                 return *this;
             }
 
