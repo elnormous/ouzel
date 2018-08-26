@@ -16,6 +16,11 @@ namespace ouzel
         class Value
         {
         public:
+            using ByteArray = std::vector<uint8_t>;
+            using Object = std::map<uint32_t, Value>;
+            using Array = std::vector<Value>;
+            using Dictionary = std::map<std::string, Value>;
+
             enum class Marker: uint8_t
             {
                 NONE,
@@ -70,10 +75,10 @@ namespace ouzel
                 type(Type::STRING), stringValue(value)
             {
             }
-            Value(const std::vector<uint8_t>& value): type(Type::BYTE_ARRAY), byteArrayValue(value) {}
-            Value(const std::map<uint32_t, Value>& value): type(Type::OBJECT), objectValue(value) {}
-            Value(const std::vector<Value>& value): type(Type::ARRAY), arrayValue(value) {}
-            Value(const std::map<std::string, Value>& value): type(Type::DICTIONARY), dictionaryValue(value) {}
+            Value(const ByteArray& value): type(Type::BYTE_ARRAY), byteArrayValue(value) {}
+            Value(const Object& value): type(Type::OBJECT), objectValue(value) {}
+            Value(const Array& value): type(Type::ARRAY), arrayValue(value) {}
+            Value(const Dictionary& value): type(Type::DICTIONARY), dictionaryValue(value) {}
 
             inline Value& operator=(Type newType)
             {
@@ -166,7 +171,7 @@ namespace ouzel
                 return *this;
             }
 
-            inline Value& operator=(const std::vector<uint8_t>& value)
+            inline Value& operator=(const ByteArray& value)
             {
                 type = Type::BYTE_ARRAY;
                 byteArrayValue = value;
@@ -174,7 +179,7 @@ namespace ouzel
                 return *this;
             }
 
-            inline Value& operator=(const std::map<uint32_t, Value>& value)
+            inline Value& operator=(const Object& value)
             {
                 type = Type::OBJECT;
                 objectValue = value;
@@ -182,7 +187,7 @@ namespace ouzel
                 return *this;
             }
 
-            inline Value& operator=(const std::vector<Value>& value)
+            inline Value& operator=(const Array& value)
             {
                 type = Type::ARRAY;
                 arrayValue = value;
@@ -190,7 +195,7 @@ namespace ouzel
                 return *this;
             }
 
-            inline Value& operator=(const std::map<std::string, Value>& value)
+            inline Value& operator=(const Dictionary& value)
             {
                 type = Type::DICTIONARY;
                 dictionaryValue = value;
@@ -226,133 +231,119 @@ namespace ouzel
                 }
             }
 
-            inline int8_t asInt8() const
-            {
-                assert(type == Type::INT);
-
-                return static_cast<int8_t>(intValue);
-            }
-
-            inline uint8_t asUInt8() const
-            {
-                assert(type == Type::INT);
-
-                return static_cast<uint8_t>(intValue);
-            }
-
-            inline int16_t asInt16() const
-            {
-                assert(type == Type::INT);
-
-                return static_cast<int16_t>(intValue);
-            }
-
-            inline uint16_t asUInt16() const
-            {
-                assert(type == Type::INT);
-
-                return static_cast<uint16_t>(intValue);
-            }
-
-            inline int32_t asInt32() const
-            {
-                assert(type == Type::INT);
-
-                return static_cast<int32_t>(intValue);
-            }
-
-            inline uint32_t asUInt32() const
-            {
-                assert(type == Type::INT);
-
-                return static_cast<uint32_t>(intValue);
-            }
-
-            inline int64_t asInt64() const
-            {
-                assert(type == Type::INT);
-
-                return static_cast<int64_t>(intValue);
-            }
-
-            inline uint64_t asUInt64() const
-            {
-                assert(type == Type::INT);
-
-                return intValue;
-            }
-
-            inline float asFloat() const
-            {
-                assert(type == Type::FLOAT || type == Type::DOUBLE);
-
-                return static_cast<float>(doubleValue);
-            }
-
-            inline double asDouble() const
-            {
-                assert(type == Type::FLOAT || type == Type::DOUBLE);
-
-                return doubleValue;
-            }
-
-            inline const std::string& asString() const
+            template<typename T, typename std::enable_if<std::is_same<T, std::string>::value, int>::type = 0>
+            const std::string& as() const
             {
                 assert(type == Type::STRING);
-
                 return stringValue;
             }
 
-            inline const std::vector<uint8_t>& asByteArray() const
+            template<typename T, typename std::enable_if<std::is_same<T, const char*>::value, int>::type = 0>
+            const char* as() const
+            {
+                assert(type == Type::STRING);
+                return stringValue.c_str();
+            }
+
+            template<typename T, typename std::enable_if<std::is_integral<T>::value, int>::type = 0>
+            T as() const
+            {
+                assert(type == Type::INT);
+                return static_cast<T>(intValue);
+            }
+
+            template<typename T, typename std::enable_if<std::is_floating_point<T>::value, int>::type = 0>
+            T as() const
+            {
+                assert(type == Type::FLOAT || type == Type::DOUBLE);
+                return static_cast<T>(doubleValue);
+            }
+
+            template<typename T, typename std::enable_if<std::is_same<T, ByteArray>::value, int>::type = 0>
+            inline ByteArray& as()
+            {
+                type = Type::BYTE_ARRAY;
+                return byteArrayValue;
+            }
+
+            template<typename T, typename std::enable_if<std::is_same<T, ByteArray>::value, int>::type = 0>
+            inline const ByteArray& as() const
+            {
+                assert(type == Type::BYTE_ARRAY);
+                return byteArrayValue;
+            }
+
+            template<typename T, typename std::enable_if<std::is_same<T, Object>::value, int>::type = 0>
+            inline Object& as()
+            {
+                type = Type::OBJECT;
+                return objectValue;
+            }
+
+            template<typename T, typename std::enable_if<std::is_same<T, Object>::value, int>::type = 0>
+            inline const Object& as() const
+            {
+                assert(type == Type::OBJECT);
+                return objectValue;
+            }
+
+            template<typename T, typename std::enable_if<std::is_same<T, Array>::value, int>::type = 0>
+            inline Array& as()
+            {
+                type = Type::ARRAY;
+                return arrayValue;
+            }
+
+            template<typename T, typename std::enable_if<std::is_same<T, Array>::value, int>::type = 0>
+            inline const Array& as() const
+            {
+                assert(type == Type::ARRAY);
+                return arrayValue;
+            }
+
+            template<typename T, typename std::enable_if<std::is_same<T, Dictionary>::value, int>::type = 0>
+            inline Dictionary& as()
+            {
+                type = Type::DICTIONARY;
+                return dictionaryValue;
+            }
+
+            template<typename T, typename std::enable_if<std::is_same<T, Dictionary>::value, int>::type = 0>
+            inline const Dictionary& as() const
+            {
+                assert(type == Type::DICTIONARY);
+                return dictionaryValue;
+            }
+
+            inline const ByteArray& asByteArray() const
             {
                 assert(type == Type::BYTE_ARRAY);
 
                 return byteArrayValue;
             }
 
-            inline const std::map<uint32_t, Value>& asMap() const
-            {
-                assert(type == Type::OBJECT);
-
-                return objectValue;
-            }
-
-            inline const std::vector<Value>& asVector() const
-            {
-                assert(type == Type::ARRAY);
-
-                return arrayValue;
-            }
-
-            inline const std::map<std::string, Value>& asDictionary() const
-            {
-                assert(type == Type::DICTIONARY);
-
-                return dictionaryValue;
-            }
-
-            inline std::vector<Value>::iterator begin()
+            inline Array::iterator begin()
             {
                 assert(type == Type::ARRAY);
 
                 return arrayValue.begin();
             }
 
-            inline std::vector<Value>::const_iterator begin() const
+            inline Array::const_iterator begin() const
             {
                 assert(type == Type::ARRAY);
 
                 return arrayValue.begin();
             }
 
-            inline std::vector<Value>::iterator end()
+            inline Array::iterator end()
             {
                 assert(type == Type::ARRAY);
 
                 return arrayValue.end();
             }
 
-            inline std::vector<Value>::const_iterator end() const
+            inline Array::const_iterator end() const
             {
                 assert(type == Type::ARRAY);
 
@@ -447,10 +438,10 @@ namespace ouzel
             uint64_t intValue = 0;
             double doubleValue = 0.0;
             std::string stringValue;
-            std::vector<uint8_t> byteArrayValue;
-            std::map<uint32_t, Value> objectValue;
-            std::vector<Value> arrayValue;
-            std::map<std::string, Value> dictionaryValue;
+            ByteArray byteArrayValue;
+            Object objectValue;
+            Array arrayValue;
+            Dictionary dictionaryValue;
         };
     } // namespace obf
 } // namespace ouzel
