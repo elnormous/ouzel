@@ -44,7 +44,7 @@ namespace ouzel
         {
             json::Data data(cache.getFileSystem()->readFile(filename));
 
-            for (const json::Value& asset : data["assets"].asArray())
+            for (const json::Value& asset : data["assets"].as<json::Value::Array>())
             {
                 bool mipmaps = asset.hasMember("mipmaps") ? asset["mipmaps"].as<bool>() : true;
                 loadAsset(asset["type"].as<uint32_t>(), asset["filename"].as<std::string>(), mipmaps);
