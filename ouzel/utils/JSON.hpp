@@ -154,7 +154,7 @@ namespace ouzel
                 else throw DataError("Invalid value type");
             }
 
-            template<typename T, typename std::enable_if<std::is_integral<T>::value, int>::type = 0>
+            template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, int>::type = 0>
             T as() const
             {
                 if (type == Type::BOOLEAN) return boolValue;
@@ -162,11 +162,31 @@ namespace ouzel
                 else throw DataError("Invalid value type");
             }
 
-            template<typename T, typename std::enable_if<std::is_floating_point<T>::value, int>::type = 0>
-            T as() const
+            template<typename T, typename std::enable_if<std::is_same<T, Object>::value, int>::type = 0>
+            inline Object& as()
             {
-                if (type == Type::BOOLEAN) return boolValue;
-                else if (type == Type::NUMBER) return static_cast<T>(doubleValue);
+                type = Type::OBJECT;
+                return objectValue;
+            }
+
+            template<typename T, typename std::enable_if<std::is_same<T, Object>::value, int>::type = 0>
+            inline const Object& as() const
+            {
+                if (type == Type::OBJECT) return objectValue;
+                else throw DataError("Invalid value type");
+            }
+
+            template<typename T, typename std::enable_if<std::is_same<T, Array>::value, int>::type = 0>
+            inline Array& as()
+            {
+                type = Type::ARRAY;
+                return arrayValue;
+            }
+
+            template<typename T, typename std::enable_if<std::is_same<T, Array>::value, int>::type = 0>
+            inline const Array& as() const
+            {
+                if (type == Type::ARRAY) return arrayValue;
                 else throw DataError("Invalid value type");
             }
 
@@ -201,18 +221,6 @@ namespace ouzel
                 else throw DataError("Invalid value type");
             }
 
-            inline Object& asMap()
-            {
-                type = Type::OBJECT;
-                return objectValue;
-            }
-
-            inline const Object& asMap() const
-            {
-                if (type == Type::OBJECT) return objectValue;
-                else throw DataError("Invalid value type");
-            }
-
             inline Value& operator[](size_t index)
             {
                 type = Type::ARRAY;
@@ -227,18 +235,6 @@ namespace ouzel
                     if (index < arrayValue.size()) return arrayValue[index];
                     else return Value();
                 }
-                else throw DataError("Invalid value type");
-            }
-
-            inline Array& asArray()
-            {
-                type = Type::ARRAY;
-                return arrayValue;
-            }
-
-            inline const Array& asArray() const
-            {
-                if (type == Type::ARRAY) return arrayValue;
                 else throw DataError("Invalid value type");
             }
 
