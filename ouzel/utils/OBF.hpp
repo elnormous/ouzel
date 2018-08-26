@@ -315,13 +315,6 @@ namespace ouzel
                 return dictionaryValue;
             }
 
-            inline const ByteArray& asByteArray() const
-            {
-                assert(type == Type::BYTE_ARRAY);
-
-                return byteArrayValue;
-            }
-
             inline Array::iterator begin()
             {
                 assert(type == Type::ARRAY);
