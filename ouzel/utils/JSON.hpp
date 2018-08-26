@@ -2,11 +2,11 @@
 
 #pragma once
 
+#include <cassert>
 #include <map>
 #include <string>
 #include <type_traits>
 #include <vector>
-#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -143,23 +143,23 @@ namespace ouzel
             template<typename T, typename std::enable_if<std::is_same<T, std::string>::value, int>::type = 0>
             const std::string& as() const
             {
-                if (type == Type::STRING) return stringValue;
-                else throw DataError("Invalid value type");
+                assert(type == Type::STRING);
+                return stringValue;
             }
 
             template<typename T, typename std::enable_if<std::is_same<T, const char*>::value, int>::type = 0>
             const char* as() const
             {
-                if (type == Type::STRING) return stringValue.c_str();
-                else throw DataError("Invalid value type");
+                assert(type == Type::STRING);
+                return stringValue.c_str();
             }
 
             template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, int>::type = 0>
             T as() const
             {
+                assert(type == Type::BOOLEAN || type == Type::NUMBER);
                 if (type == Type::BOOLEAN) return boolValue;
-                else if (type == Type::NUMBER) return static_cast<T>(doubleValue);
-                else throw DataError("Invalid value type");
+                else return static_cast<T>(doubleValue);
             }
 
             template<typename T, typename std::enable_if<std::is_same<T, Object>::value, int>::type = 0>
@@ -172,8 +172,8 @@ namespace ouzel
             template<typename T, typename std::enable_if<std::is_same<T, Object>::value, int>::type = 0>
             inline const Object& as() const
             {
-                if (type == Type::OBJECT) return objectValue;
-                else throw DataError("Invalid value type");
+                assert(type == Type::OBJECT);
+                return objectValue;
             }
 
             template<typename T, typename std::enable_if<std::is_same<T, Array>::value, int>::type = 0>
@@ -186,21 +186,20 @@ namespace ouzel
             template<typename T, typename std::enable_if<std::is_same<T, Array>::value, int>::type = 0>
             inline const Array& as() const
             {
-                if (type == Type::ARRAY) return arrayValue;
-                else throw DataError("Invalid value type");
+                assert(type == Type::ARRAY);
+                return arrayValue;
             }
 
             inline bool isNull() const
             {
-                if (type == Type::OBJECT) return nullValue;
-                else throw DataError("Invalid value type");
+                assert(type == Type::OBJECT);
+                return nullValue;
             }
 
             inline bool hasMember(const std::string& member) const
             {
-                if (type == Type::OBJECT)
-                    return objectValue.find(member) != objectValue.end();
-                else throw DataError("Invalid value type");
+                assert(type == Type::OBJECT);
+                return objectValue.find(member) != objectValue.end();
             }
 
             inline Value& operator[](const std::string& member)
@@ -212,13 +211,11 @@ namespace ouzel
 
             inline Value operator[](const std::string& member) const
             {
-                if (type == Type::OBJECT)
-                {
-                    auto i = objectValue.find(member);
-                    if (i != objectValue.end()) return i->second;
-                    else return Value();
-                }
-                else throw DataError("Invalid value type");
+                assert(type == Type::OBJECT);
+
+                auto i = objectValue.find(member);
+                if (i != objectValue.end()) return i->second;
+                else return Value();
             }
 
             inline Value& operator[](size_t index)
@@ -230,18 +227,16 @@ namespace ouzel
 
             inline Value operator[](size_t index) const
             {
-                if (type == Type::ARRAY)
-                {
-                    if (index < arrayValue.size()) return arrayValue[index];
-                    else return Value();
-                }
-                else throw DataError("Invalid value type");
+                assert(type == Type::ARRAY);
+
+                if (index < arrayValue.size()) return arrayValue[index];
+                else return Value();
             }
 
             inline size_t getSize() const
             {
-                if (type == Type::ARRAY) return arrayValue.size();
-                else throw DataError("Invalid value type");
+                assert(type == Type::ARRAY);
+                return arrayValue.size();
             }
 
         protected:
