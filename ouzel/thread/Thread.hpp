@@ -88,7 +88,7 @@ namespace ouzel
         ID getId() const
         {
 #if defined(_WIN32)
-            return threadId;
+            return GetThreadId(handle);
 #else
             return thread;
 #endif
@@ -116,7 +116,6 @@ namespace ouzel
 
 #if defined(_WIN32)
         HANDLE handle = nullptr;
-        DWORD threadId = 0;
 #else
         pthread_t thread;
         bool initialized = false;

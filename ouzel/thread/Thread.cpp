@@ -80,7 +80,7 @@ namespace ouzel
         state->name = name;
 
 #if defined(_WIN32)
-        handle = CreateThread(nullptr, 0, threadFunction, state.get(), 0, &threadId);
+        handle = CreateThread(nullptr, 0, threadFunction, state.get(), 0, nullptr);
         if (handle == nullptr)
             throw ThreadError("Failed to initialize thread");
 #else
@@ -108,9 +108,7 @@ namespace ouzel
     {
 #if defined(_WIN32)
         handle = other.handle;
-        threadId = other.threadId;
         other.handle = nullptr;
-        other.threadId = 0;
 #else
         thread = other.thread;
         initialized = other.initialized;
@@ -131,9 +129,7 @@ namespace ouzel
                 CloseHandle(handle);
             }
             handle = other.handle;
-            threadId = other.threadId;
             other.handle = nullptr;
-            other.threadId = 0;
 #else
             if (initialized) pthread_join(thread, nullptr);
             thread = other.thread;
