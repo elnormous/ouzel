@@ -88,14 +88,14 @@ namespace ouzel
             vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
 
             engine->getRenderer()->setCullMode(graphics::Renderer::CullMode::NONE);
-            engine->getRenderer()->setPipelineState(blendState, shader);
+            engine->getRenderer()->setPipelineState(blendState->getResource(), shader->getResource());
             engine->getRenderer()->setShaderConstants(fragmentShaderConstants,
                                                       vertexShaderConstants);
-            engine->getRenderer()->setTextures({wireframe ? whitePixelTexture : texture});
-            engine->getRenderer()->draw(indexBuffer,
+            engine->getRenderer()->setTextures({wireframe ? whitePixelTexture->getResource() : texture->getResource()});
+            engine->getRenderer()->draw(indexBuffer->getResource(),
                                         static_cast<uint32_t>(indices.size()),
                                         sizeof(uint16_t),
-                                        vertexBuffer,
+                                        vertexBuffer->getResource(),
                                         graphics::Renderer::DrawMode::TRIANGLE_LIST,
                                         0);
         }

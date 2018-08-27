@@ -69,14 +69,14 @@ namespace ouzel
                 vertexShaderConstants[0] = {std::begin(transform.m), std::end(transform.m)};
 
                 engine->getRenderer()->setCullMode(graphics::Renderer::CullMode::NONE);
-                engine->getRenderer()->setPipelineState(blendState, shader);
+                engine->getRenderer()->setPipelineState(blendState->getResource(), shader->getResource());
                 engine->getRenderer()->setShaderConstants(pixelShaderConstants,
                                                           vertexShaderConstants);
-                engine->getRenderer()->setTextures({wireframe ? whitePixelTexture : texture});
-                engine->getRenderer()->draw(indexBuffer,
+                engine->getRenderer()->setTextures({wireframe ? whitePixelTexture->getResource() : texture->getResource()});
+                engine->getRenderer()->draw(indexBuffer->getResource(),
                                             particleCount * 6,
                                             sizeof(uint16_t),
-                                            vertexBuffer,
+                                            vertexBuffer->getResource(),
                                             graphics::Renderer::DrawMode::TRIANGLE_LIST,
                                             0);
             }

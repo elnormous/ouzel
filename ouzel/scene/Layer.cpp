@@ -34,7 +34,7 @@ namespace ouzel
                 for (Actor* actor : children)
                     actor->visit(drawQueue, Matrix4::identity(), false, camera, 0, false);
 
-                engine->getRenderer()->setRenderTarget(camera->getRenderTarget());
+                engine->getRenderer()->setRenderTarget(camera->getRenderTarget() ? camera->getRenderTarget()->getResource() : nullptr);
                 engine->getRenderer()->setViewport(camera->getRenderViewport());
                 engine->getRenderer()->setDepthState(camera->getDepthTest(), camera->getDepthWrite());
 

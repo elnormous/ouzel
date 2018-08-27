@@ -191,14 +191,14 @@ namespace ouzel
             executeOnRenderThread(std::bind(&RenderDevice::generateScreenshot, device.get(), filename));
         }
 
-        void Renderer::setRenderTarget(const std::shared_ptr<Texture>& renderTarget)
+        void Renderer::setRenderTarget(TextureResource* renderTarget)
         {
-            device->addCommand(SetRenderTargetCommand(renderTarget ? renderTarget->getResource() : nullptr));
+            device->addCommand(SetRenderTargetCommand(renderTarget));
         }
 
-        void Renderer::clear(const std::shared_ptr<Texture>& renderTarget)
+        void Renderer::clear(TextureResource* renderTarget)
         {
-            device->addCommand(ClearCommand(renderTarget ? renderTarget->getResource() : nullptr));
+            device->addCommand(ClearCommand(renderTarget));
         }
 
         void Renderer::setCullMode(Renderer::CullMode cullMode)
@@ -226,27 +226,26 @@ namespace ouzel
             device->addCommand(SetDepthStateCommand(depthTest, depthWrite));
         }
 
-        void Renderer::setPipelineState(const std::shared_ptr<BlendState>& blendState,
-                                        const std::shared_ptr<Shader>& shader)
+        void Renderer::setPipelineState(BlendStateResource* blendState,
+                                        ShaderResource* shader)
         {
-            device->addCommand(SetPipelineStateCommand(blendState ? blendState->getResource() : nullptr,
-                                                       shader ? shader->getResource() : nullptr));
+            device->addCommand(SetPipelineStateCommand(blendState, shader));
         }
 
-        void Renderer::draw(const std::shared_ptr<Buffer>& indexBuffer,
+        void Renderer::draw(BufferResource* indexBuffer,
                             uint32_t indexCount,
                             uint32_t indexSize,
-                            const std::shared_ptr<Buffer>& vertexBuffer,
+                            BufferResource* vertexBuffer,
                             DrawMode drawMode,
                             uint32_t startIndex)
         {
             if (!indexBuffer || !vertexBuffer)
                 throw DataError("Invalid mesh buffer passed to render queue");
 
-            device->addCommand(DrawCommand(indexBuffer->getResource(),
+            device->addCommand(DrawCommand(indexBuffer,
                                            indexCount,
                                            indexSize,
-                                           vertexBuffer->getResource(),
+                                           vertexBuffer,
                                            drawMode,
                                            startIndex));
         }
@@ -268,15 +267,12 @@ namespace ouzel
                                                          vertexShaderConstants));
         }
 
-        void Renderer::setTextures(const std::vector<std::shared_ptr<Texture>>& textures)
+        void Renderer::setTextures(const std::vector<TextureResource*>& textures)
         {
             TextureResource* newTextures[Texture::LAYERS];
 
             for (uint32_t i = 0; i < Texture::LAYERS; ++i)
-            {
-                Texture* texture = (i < textures.size()) ? textures[i].get() : nullptr;
-                newTextures[i] = texture ? texture->getResource() : nullptr;
-            }
+                newTextures[i] = (i < textures.size()) ? textures[i] : nullptr;
 
             device->addCommand(SetTexturesCommand(newTextures));
         }

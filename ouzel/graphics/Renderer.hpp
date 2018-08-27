@@ -10,11 +10,11 @@
 #include <queue>
 #include <set>
 #include <atomic>
+#include "graphics/Texture.hpp"
 #include "math/Rect.hpp"
 #include "math/Matrix4.hpp"
 #include "math/Size2.hpp"
 #include "math/Color.hpp"
-#include "graphics/Texture.hpp"
 
 namespace ouzel
 {
@@ -24,9 +24,10 @@ namespace ouzel
     namespace graphics
     {
         class RenderDevice;
-        class BlendState;
-        class Buffer;
-        class Shader;
+        class BlendStateResource;
+        class BufferResource;
+        class TextureResource;
+        class ShaderResource;
 
         class Renderer final
         {
@@ -92,26 +93,26 @@ namespace ouzel
 
             void saveScreenshot(const std::string& filename);
 
-            void setRenderTarget(const std::shared_ptr<Texture>& renderTarget);
-            void clear(const std::shared_ptr<Texture>& renderTarget);
+            void setRenderTarget(TextureResource* renderTarget);
+            void clear(TextureResource* renderTarget);
             void setCullMode(Renderer::CullMode cullMode);
             void setFillMode(Renderer::FillMode fillMode);
             void setScissorTest(bool enabled, const Rect& rectangle);
             void setViewport(const Rect& viewport);
             void setDepthState(bool depthTest, bool depthWrite);
-            void setPipelineState(const std::shared_ptr<BlendState>& blendState,
-                                  const std::shared_ptr<Shader>& shader);
-            void draw(const std::shared_ptr<Buffer>& indexBuffer,
+            void setPipelineState(BlendStateResource* blendState,
+                                  ShaderResource* shader);
+            void draw(BufferResource* indexBuffer,
                       uint32_t indexCount,
                       uint32_t indexSize,
-                      const std::shared_ptr<Buffer>& vertexBuffer,
+                      BufferResource* vertexBuffer,
                       DrawMode drawMode,
                       uint32_t startIndex);
             void pushDebugMarker(const std::string& name);
             void popDebugMarker();
             void setShaderConstants(std::vector<std::vector<float>> fragmentShaderConstants,
                                     std::vector<std::vector<float>> vertexShaderConstants);
-            void setTextures(const std::vector<std::shared_ptr<Texture>>& textures);
+            void setTextures(const std::vector<TextureResource*>& textures);
 
         protected:
             explicit Renderer(Driver driver,

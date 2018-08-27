@@ -38,15 +38,17 @@ namespace ouzel
                 return a->getOrder() > b->getOrder();
             });
 
-            std::set<graphics::Texture*> clearedRenderTargets;
+            std::set<graphics::TextureResource*> clearedRenderTargets;
 
             for (Layer* layer : layers)
             {
                 // clear all the render targets
                 for (Camera* camera : layer->getCameras())
                 {
-                    if (clearedRenderTargets.insert(camera->getRenderTarget().get()).second)
-                        engine->getRenderer()->clear(camera->getRenderTarget());
+                    graphics::TextureResource* renderTarget = camera->getRenderTarget() ? camera->getRenderTarget()->getResource() : nullptr;
+
+                    if (clearedRenderTargets.insert(renderTarget).second)
+                        engine->getRenderer()->clear(renderTarget);
                 }
 
                 layer->draw();
