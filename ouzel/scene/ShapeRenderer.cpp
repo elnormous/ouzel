@@ -54,13 +54,13 @@ namespace ouzel
                 vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
 
                 engine->getRenderer()->setCullMode(graphics::Renderer::CullMode::NONE);
-                engine->getRenderer()->setPipelineState(blendState, shader);
+                engine->getRenderer()->setPipelineState(blendState->getResource(), shader->getResource());
                 engine->getRenderer()->setShaderConstants(fragmentShaderConstants,
                                                           vertexShaderConstants);
-                engine->getRenderer()->draw(indexBuffer,
+                engine->getRenderer()->draw(indexBuffer->getResource(),
                                             drawCommand.indexCount,
                                             sizeof(uint16_t),
-                                            vertexBuffer,
+                                            vertexBuffer->getResource(),
                                             drawCommand.mode,
                                             drawCommand.startIndex);
             }

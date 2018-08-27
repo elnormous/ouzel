@@ -2,12 +2,15 @@
 
 #pragma once
 
+#include <memory>
+
 namespace ouzel
 {
     namespace graphics
     {
         class Renderer;
-        class Texture;
+        class RenderTargetResource;
+        class TextureResource;
 
         class RenderTarget final
         {
@@ -22,13 +25,15 @@ namespace ouzel
 
             RenderTarget(Renderer& initRenderer);
 
-            Texture* getColorTexture() const { return colorTexture; }
-            Texture* getDepthTexture() const { return depthTexture; }
+            inline RenderTargetResource* getResource() const { return resource; }
+            inline TextureResource* getColorTextureResource() const { return colorTexture; }
+            inline TextureResource* getDepthTextureResource() const { return depthTexture; }
 
         private:
             Renderer& renderer;
-            Texture* colorTexture = nullptr;
-            Texture* depthTexture = nullptr;
+            RenderTargetResource* resource = nullptr;
+            TextureResource* colorTexture = nullptr;
+            TextureResource* depthTexture = nullptr;
         };
     } // namespace graphics
 } // namespace ouzel

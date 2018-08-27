@@ -61,20 +61,24 @@ namespace ouzel
             std::vector<std::vector<float>> vertexShaderConstants(1);
             vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
 
-            std::vector<std::shared_ptr<graphics::Texture>> textures;
-            if (wireframe) textures.push_back(whitePixelTexture);
-            else textures.assign(std::begin(material->textures), std::end(material->textures));
+            std::vector<graphics::TextureResource*> textures;
+            if (wireframe) textures.push_back(whitePixelTexture->getResource());
+            else
+            {
+                for (const std::shared_ptr<graphics::Texture>& texture : material->textures)
+                    textures.push_back(texture ? texture->getResource() : nullptr);
+            }
 
             engine->getRenderer()->setCullMode(material->cullMode);
-            engine->getRenderer()->setPipelineState(material->blendState,
-                                                    material->shader);
+            engine->getRenderer()->setPipelineState(material->blendState->getResource(),
+                                                    material->shader->getResource());
             engine->getRenderer()->setShaderConstants(fragmentShaderConstants,
                                                       vertexShaderConstants);
             engine->getRenderer()->setTextures(textures);
-            engine->getRenderer()->draw(indexBuffer,
+            engine->getRenderer()->draw(indexBuffer->getResource(),
                                         indexCount,
                                         indexSize,
-                                        vertexBuffer,
+                                        vertexBuffer->getResource(),
                                         graphics::Renderer::DrawMode::TRIANGLE_LIST,
                                         0);
         }
