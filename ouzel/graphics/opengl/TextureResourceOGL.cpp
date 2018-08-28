@@ -443,11 +443,7 @@ namespace ouzel
         {
             TextureResource::setSize(newSize);
 
-            if (!textureId)
-                throw DataError("Texture not initialized");
-
             RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
-            renderDeviceOGL.bindTexture(textureId, 0);
 
             if (static_cast<GLsizei>(size.width) != width ||
                 static_cast<GLsizei>(size.height) != height)
@@ -457,26 +453,57 @@ namespace ouzel
 
                 if (flags & Texture::RENDER_TARGET)
                 {
-                    // TODO: fix this by resizing all the render buffers and textures
-                    glTexImage2D(GL_TEXTURE_2D, 0, static_cast<GLint>(oglInternalPixelFormat),
-                                 width, height, 0,
-                                 oglPixelFormat, oglPixelType, nullptr);
-
-                    if (flags & Texture::DEPTH_BUFFER)
+                    if (flags & Texture::BINDABLE_COLOR_BUFFER)
                     {
-                        glBindRenderbufferProc(GL_RENDERBUFFER, depthBufferId);
+                        renderDeviceOGL.bindTexture(textureId, 0);
+
+                        glTexImage2D(GL_TEXTURE_2D, 0, static_cast<GLint>(oglInternalPixelFormat),
+                                     width, height, 0,
+                                     oglPixelFormat, oglPixelType, nullptr);
+                    }
+                    else
+                    {
+                        glBindRenderbufferProc(GL_RENDERBUFFER, colorBufferId);
 
                         if (sampleCount > 1 && renderDeviceOGL.isMultisamplingSupported())
                         {
                             glRenderbufferStorageMultisampleProc(GL_RENDERBUFFER,
                                                                  static_cast<GLsizei>(sampleCount),
-                                                                 GL_DEPTH_COMPONENT,
+                                                                 oglInternalPixelFormat,
                                                                  width, height);
                         }
                         else
                         {
-                            glRenderbufferStorageProc(GL_RENDERBUFFER, GL_DEPTH_COMPONENT,
+                            glRenderbufferStorageProc(GL_RENDERBUFFER, oglInternalPixelFormat,
                                                       width, height);
+                        }
+                    }
+
+                    if (flags & Texture::DEPTH_BUFFER)
+                    {
+                        if (flags & Texture::BINDABLE_DEPTH_BUFFER)
+                        {
+                            renderDeviceOGL.bindTexture(depthTextureId, 0);
+
+                            glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24,
+                                         width, height, 0,GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
+                        }
+                        else
+                        {
+                            glBindRenderbufferProc(GL_RENDERBUFFER, depthBufferId);
+
+                            if (sampleCount > 1 && renderDeviceOGL.isMultisamplingSupported())
+                            {
+                                glRenderbufferStorageMultisampleProc(GL_RENDERBUFFER,
+                                                                     static_cast<GLsizei>(sampleCount),
+                                                                     GL_DEPTH_COMPONENT,
+                                                                     width, height);
+                            }
+                            else
+                            {
+                                glRenderbufferStorageProc(GL_RENDERBUFFER, GL_DEPTH_COMPONENT,
+                                                          width, height);
+                            }
                         }
                     }
 
@@ -487,6 +514,11 @@ namespace ouzel
                 }
                 else
                 {
+                    if (!textureId)
+                        throw DataError("Texture not initialized");
+
+                    renderDeviceOGL.bindTexture(textureId, 0);
+
                     if (!levels.empty())
                     {
                         if (renderDeviceOGL.isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
@@ -846,7 +878,7 @@ namespace ouzel
                                                       width, height);
                         }
 
-                        glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, depthBufferId);
+                        glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorBufferId);
                     }
 
                     if (flags & Texture::DEPTH_BUFFER)
