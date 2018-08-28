@@ -21,7 +21,6 @@ namespace ouzel
             static const uint32_t CLASS = Component::TEXT_RENDERER;
 
             TextRenderer(const std::string& fontFile,
-                         bool initMipmaps = true,
                          float initFontSize = 1.0F,
                          const std::string& initText = std::string(),
                          Color initColor = Color::WHITE,
@@ -74,7 +73,6 @@ namespace ouzel
 
             Color color = Color::WHITE;
 
-            bool mipmaps = true;
             bool needsMeshUpdate = false;
         };
     } // namespace scene
