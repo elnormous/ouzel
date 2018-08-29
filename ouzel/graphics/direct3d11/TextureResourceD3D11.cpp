@@ -355,12 +355,8 @@ namespace ouzel
                 D3D11_SHADER_RESOURCE_VIEW_DESC resourceViewDesc;
                 resourceViewDesc.Format = d3d11PixelFormat;
                 resourceViewDesc.ViewDimension = (sampleCount > 1) ? D3D11_SRV_DIMENSION_TEXTURE2DMS : D3D11_SRV_DIMENSION_TEXTURE2D;
-
-                if (sampleCount == 1)
-                {
-                    resourceViewDesc.Texture2D.MostDetailedMip = 0;
-                    resourceViewDesc.Texture2D.MipLevels = static_cast<UINT>(levels.size());
-                }
+                resourceViewDesc.Texture2D.MostDetailedMip = 0;
+                resourceViewDesc.Texture2D.MipLevels = (sampleCount == 1) ? static_cast<UINT>(levels.size()) : 0;
 
                 HRESULT hr = renderDeviceD3D11.getDevice()->CreateShaderResourceView(texture, &resourceViewDesc, &resourceView);
                 if (FAILED(hr))
