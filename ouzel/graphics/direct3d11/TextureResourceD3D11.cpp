@@ -132,7 +132,7 @@ namespace ouzel
 
         void TextureResourceD3D11::setData(const std::vector<uint8_t>& newData)
         {
-            TextureResource::setData(newData, newSize);
+            TextureResource::setData(newData);
 
             RenderDeviceD3D11& renderDeviceD3D11 = static_cast<RenderDeviceD3D11&>(renderDevice);
 
