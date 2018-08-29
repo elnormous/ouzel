@@ -79,9 +79,8 @@ namespace ouzel
             inline TextureResource* getResource() const { return resource; }
 
             inline const Size2& getSize() const { return size; }
-            void setSize(const Size2& newSize);
 
-            void setData(const std::vector<uint8_t>& newData, const Size2& newSize);
+            void setData(const std::vector<uint8_t>& newData);
 
             inline uint32_t getFlags() const { return flags; }
             inline uint32_t getMipmaps() const { return mipmaps; }
