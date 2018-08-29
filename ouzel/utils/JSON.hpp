@@ -154,7 +154,15 @@ namespace ouzel
                 return stringValue.c_str();
             }
 
-            template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, int>::type = 0>
+            template<typename T, typename std::enable_if<std::is_same<T, bool>::value, int>::type = 0>
+            T as() const
+            {
+                assert(type == Type::BOOLEAN || type == Type::NUMBER);
+                if (type == Type::BOOLEAN) return boolValue;
+                else return doubleValue != 0.0;
+            }
+
+            template<typename T, typename std::enable_if<std::is_arithmetic<T>::value && !std::is_same<T, bool>::value, int>::type = 0>
             T as() const
             {
                 assert(type == Type::BOOLEAN || type == Type::NUMBER);
