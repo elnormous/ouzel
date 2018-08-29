@@ -130,25 +130,13 @@ namespace ouzel
             updateSamplerState();
         }
 
-        void TextureResourceD3D11::setSize(const Size2& newSize)
-        {
-            TextureResource::setSize(newSize);
-
-            if (!texture ||
-                static_cast<UINT>(size.width) != width ||
-                static_cast<UINT>(size.height) != height)
-                createTexture();
-        }
-
-        void TextureResourceD3D11::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
+        void TextureResourceD3D11::setData(const std::vector<uint8_t>& newData)
         {
             TextureResource::setData(newData, newSize);
 
             RenderDeviceD3D11& renderDeviceD3D11 = static_cast<RenderDeviceD3D11&>(renderDevice);
 
-            if (!texture ||
-                static_cast<UINT>(size.width) != width ||
-                static_cast<UINT>(size.height) != height)
+            if (!texture)
                 createTexture();
             else if (!(flags & Texture::RENDER_TARGET))
             {

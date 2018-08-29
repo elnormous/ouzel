@@ -162,23 +162,11 @@ namespace ouzel
             return updateSamplerState();
         }
 
-        void TextureResourceMetal::setSize(const Size2& newSize)
+        void TextureResourceMetal::setData(const std::vector<uint8_t>& newData)
         {
-            TextureResource::setSize(newSize);
+            TextureResource::setData(newData);
 
-            if (!texture ||
-                static_cast<NSUInteger>(size.width) != width ||
-                static_cast<NSUInteger>(size.height) != height)
-                createTexture();
-        }
-
-        void TextureResourceMetal::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
-        {
-            TextureResource::setData(newData, newSize);
-
-            if (!texture ||
-                static_cast<NSUInteger>(size.width) != width ||
-                static_cast<NSUInteger>(size.height) != height)
+            if (!texture)
                 createTexture();
 
             if (!(flags & Texture::RENDER_TARGET))

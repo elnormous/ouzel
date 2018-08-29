@@ -91,35 +91,14 @@ namespace ouzel
                                                      newPixelFormat));
         }
 
-        void Texture::setSize(const Size2& newSize)
-        {
-            if (!(flags & Texture::DYNAMIC))
-                throw DataError("Texture is not dynamic");
-
-            if (newSize.width <= 0.0F || newSize.height <= 0.0F)
-                throw DataError("Invalid texture size");
-
-            size = newSize;
-
-            renderer.executeOnRenderThread(std::bind(&TextureResource::setSize,
-                                                     resource,
-                                                     newSize));
-        }
-
-        void Texture::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
+        void Texture::setData(const std::vector<uint8_t>& newData)
         {
             if (!(flags & Texture::DYNAMIC) || flags & Texture::RENDER_TARGET)
                 throw DataError("Texture is not dynamic");
 
-            if (newSize.width <= 0.0F || newSize.height <= 0.0F)
-                throw DataError("Invalid texture size");
-
-            size = newSize;
-
             renderer.executeOnRenderThread(std::bind(&TextureResource::setData,
                                                      resource,
-                                                     newData,
-                                                     newSize));
+                                                     newData));
         }
 
         void Texture::setFilter(Filter newFilter)
