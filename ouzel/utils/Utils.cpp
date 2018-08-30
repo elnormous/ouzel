@@ -1,5 +1,10 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#if defined(_WIN32)
+#  include <Windows.h>
+#else
+#  include <pthread.h>
+#endif
 #include "Utils.hpp"
 #include "Errors.hpp"
 
