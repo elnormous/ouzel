@@ -49,8 +49,7 @@ namespace ouzel
 
             virtual void reload() override;
 
-            virtual void setSize(const Size2& newSize) override;
-            virtual void setData(const std::vector<uint8_t>& newData, const Size2& newSize) override;
+            virtual void setData(const std::vector<uint8_t>& newData) override;
             virtual void setFilter(Texture::Filter newFilter) override;
             virtual void setAddressX(Texture::Address newAddressX) override;
             virtual void setAddressY(Texture::Address newAddressY) override;

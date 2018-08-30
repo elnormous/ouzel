@@ -36,8 +36,7 @@ namespace ouzel
                               uint32_t newFlags = 0,
                               PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM) override;
 
-            virtual void setSize(const Size2& newSize) override;
-            virtual void setData(const std::vector<uint8_t>& newData, const Size2& newSize) override;
+            virtual void setData(const std::vector<uint8_t>& newData) override;
             virtual void setFilter(Texture::Filter newFilter) override;
             virtual void setAddressX(Texture::Address newAddressX) override;
             virtual void setAddressY(Texture::Address newAddressY) override;

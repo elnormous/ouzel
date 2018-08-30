@@ -35,10 +35,9 @@ namespace ouzel
                               uint32_t newFlags = 0,
                               PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
 
-            virtual void setSize(const Size2& newSize);
             inline const Size2& getSize() const { return size; }
 
-            virtual void setData(const std::vector<uint8_t>& newData, const Size2& newSize);
+            virtual void setData(const std::vector<uint8_t>& newData);
 
             inline uint32_t getFlags() const { return flags; }
             inline uint32_t getMipmaps() const { return mipmaps; }

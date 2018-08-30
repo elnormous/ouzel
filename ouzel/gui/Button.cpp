@@ -71,7 +71,7 @@ namespace ouzel
 
             if (!label.empty())
             {
-                labelDrawable.reset(new scene::TextRenderer(font, true, fontSize, label));
+                labelDrawable.reset(new scene::TextRenderer(font, fontSize, label));
                 labelDrawable->setColor(labelColor);
                 addComponent(labelDrawable.get());
             }

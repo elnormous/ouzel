@@ -12,7 +12,6 @@ namespace ouzel
     namespace scene
     {
         TextRenderer::TextRenderer(const std::string& fontFile,
-                                   bool initMipmaps,
                                    float initFontSize,
                                    const std::string& initText,
                                    Color initColor,
@@ -21,8 +20,7 @@ namespace ouzel
             text(initText),
             fontSize(initFontSize),
             textAnchor(initTextAnchor),
-            color(initColor),
-            mipmaps(initMipmaps)
+            color(initColor)
         {
             shader = engine->getCache()->getShader(SHADER_TEXTURE);
             blendState = engine->getCache()->getBlendState(BLEND_ALPHA);
