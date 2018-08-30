@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include "RenderDevice.hpp"
-#include "thread/Lock.hpp"
 
 namespace ouzel
 {
@@ -67,12 +66,12 @@ namespace ouzel
 
             std::vector<std::unique_ptr<RenderResource>> deleteResources; // will be cleared at the end of the scope
             {
-                Lock lock(resourceMutex);
+                std::unique_lock<std::mutex> lock(resourceMutex);
                 deleteResources = std::move(resourceDeleteSet);
             }
 
 #if OUZEL_MULTITHREADED
-            Lock lock(commandQueueMutex);
+            std::unique_lock<std::mutex> lock(commandQueueMutex);
             while (!queueFinished) commandQueueCondition.wait(lock);
 #endif
 
@@ -120,7 +119,7 @@ namespace ouzel
 
         void RenderDevice::deleteResource(RenderResource* resource)
         {
-            Lock lock(resourceMutex);
+            std::unique_lock<std::mutex> lock(resourceMutex);
 
             auto resourceIterator = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<RenderResource>& ptr) {
                 return ptr.get() == resource;
@@ -136,7 +135,7 @@ namespace ouzel
         void RenderDevice::flushCommands()
         {
 #if OUZEL_MULTITHREADED
-            Lock lock(commandQueueMutex);
+            std::unique_lock<std::mutex> lock(commandQueueMutex);
 #endif
 
             //drawCallCount = static_cast<uint32_t>(fillBuffer->size());
@@ -145,7 +144,7 @@ namespace ouzel
             queueFinished = true;
 
 #if OUZEL_MULTITHREADED
-            commandQueueCondition.signal();
+            commandQueueCondition.notify_all();
 #endif
         }
 
@@ -155,7 +154,7 @@ namespace ouzel
 
         void RenderDevice::executeOnRenderThread(const std::function<void(void)>& func)
         {
-            Lock lock(executeMutex);
+            std::unique_lock<std::mutex> lock(executeMutex);
 
             executeQueue.push(func);
         }
@@ -167,7 +166,7 @@ namespace ouzel
             for (;;)
             {
                 {
-                    Lock lock(executeMutex);
+                    std::unique_lock<std::mutex> lock(executeMutex);
                     if (executeQueue.empty()) break;
 
                     func = std::move(executeQueue.front());

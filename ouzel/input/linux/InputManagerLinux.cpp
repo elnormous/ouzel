@@ -18,7 +18,6 @@
 #include "events/Event.hpp"
 #include "core/linux/EngineLinux.hpp"
 #include "core/linux/NativeWindowLinux.hpp"
-#include "thread/Lock.hpp"
 #include "utils/Errors.hpp"
 
 namespace ouzel
@@ -636,7 +635,7 @@ namespace ouzel
 
         NativeCursor* InputManagerLinux::createNativeCursor()
         {
-            Lock lock(resourceMutex);
+            std::unique_lock<std::mutex> lock(resourceMutex);
 
             std::unique_ptr<NativeCursorLinux> cursorResource(new NativeCursorLinux(*this));
             NativeCursor* result = cursorResource.get();

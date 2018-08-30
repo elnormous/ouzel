@@ -7,10 +7,10 @@
 #if OUZEL_COMPILE_ALSA
 
 #include <atomic>
+#include <thread>
 #include <alsa/asoundlib.h>
 
 #include "audio/AudioDevice.hpp"
-#include "thread/Thread.hpp"
 
 namespace ouzel
 {
@@ -38,7 +38,7 @@ namespace ouzel
             std::vector<uint8_t> data;
 
             std::atomic<bool> running;
-            Thread audioThread;
+            std::thread audioThread;
         };
     } // namespace audio
 } // namespace ouzel

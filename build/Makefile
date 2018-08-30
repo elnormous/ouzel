@@ -153,9 +153,6 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/scene/SpriteData.cpp \
 	$(ROOT_DIR)/../ouzel/scene/TextRenderer.cpp \
 	$(ROOT_DIR)/../ouzel/scene/UpdateCallback.cpp \
-	$(ROOT_DIR)/../ouzel/thread/Condition.cpp \
-	$(ROOT_DIR)/../ouzel/thread/Mutex.cpp \
-	$(ROOT_DIR)/../ouzel/thread/Thread.cpp \
 	$(ROOT_DIR)/../ouzel/utils/INI.cpp \
 	$(ROOT_DIR)/../ouzel/utils/JSON.cpp \
 	$(ROOT_DIR)/../ouzel/utils/Log.cpp \

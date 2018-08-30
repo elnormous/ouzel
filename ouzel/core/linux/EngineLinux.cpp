@@ -15,7 +15,6 @@
 #include "events/Event.hpp"
 #include "graphics/RenderDevice.hpp"
 #include "input/linux/InputManagerLinux.hpp"
-#include "thread/Lock.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
@@ -264,7 +263,7 @@ namespace ouzel
         event.xclient.data.l[3] = 0; // unused
         event.xclient.data.l[4] = 0; // unused
 
-        Lock lock(executeMutex);
+        std::unique_lock<std::mutex> lock(executeMutex);
 
         executeQueue.push(func);
 
@@ -273,7 +272,7 @@ namespace ouzel
 
         XFlush(display);
 #else
-        Lock lock(executeMutex);
+        std::unique_lock<std::mutex> lock(executeMutex);
 
         executeQueue.push(func);
 #endif
@@ -304,7 +303,7 @@ namespace ouzel
         for (;;)
         {
             {
-                Lock lock(executeMutex);
+                std::unique_lock<std::mutex> lock(executeMutex);
 
                 if (executeQueue.empty())
                     break;

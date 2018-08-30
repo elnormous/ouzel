@@ -6,7 +6,6 @@
 #include "graphics/opengl/tvos/OpenGLView.h"
 #include "graphics/metal/tvos/MetalView.h"
 #include "core/Engine.hpp"
-#include "thread/Lock.hpp"
 #include "utils/Errors.hpp"
 
 @interface ViewController: UIViewController

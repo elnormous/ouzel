@@ -10,7 +10,6 @@
 #include "NativeWindowLinux.hpp"
 #include "EngineLinux.hpp"
 #include "graphics/RenderDevice.hpp"
-#include "thread/Lock.hpp"
 #include "utils/Errors.hpp"
 
 #if OUZEL_SUPPORTS_X11

@@ -170,9 +170,6 @@
     <ClCompile Include="..\ouzel\scene\SpriteData.cpp" />
     <ClCompile Include="..\ouzel\scene\TextRenderer.cpp" />
     <ClCompile Include="..\ouzel\scene\UpdateCallback.cpp" />
-    <ClCompile Include="..\ouzel\thread\Condition.cpp" />
-    <ClCompile Include="..\ouzel\thread\Mutex.cpp" />
-    <ClCompile Include="..\ouzel\thread\Thread.cpp" />
     <ClCompile Include="..\ouzel\utils\INI.cpp" />
     <ClCompile Include="..\ouzel\utils\JSON.cpp" />
     <ClCompile Include="..\ouzel\utils\Log.cpp" />
@@ -338,10 +335,6 @@
     <ClInclude Include="..\ouzel\scene\SpriteData.hpp" />
     <ClInclude Include="..\ouzel\scene\TextRenderer.hpp" />
     <ClInclude Include="..\ouzel\scene\UpdateCallback.hpp" />
-    <ClInclude Include="..\ouzel\thread\Condition.hpp" />
-    <ClInclude Include="..\ouzel\thread\Lock.hpp" />
-    <ClInclude Include="..\ouzel\thread\Mutex.hpp" />
-    <ClInclude Include="..\ouzel\thread\Thread.hpp" />
     <ClInclude Include="..\ouzel\utils\Errors.hpp" />
     <ClInclude Include="..\ouzel\utils\INI.hpp" />
     <ClInclude Include="..\ouzel\utils\JSON.hpp" />

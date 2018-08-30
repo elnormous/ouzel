@@ -7,6 +7,7 @@
 #if OUZEL_COMPILE_OPENAL
 
 #include <atomic>
+#include <thread>
 
 #if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
 #include <OpenAl/al.h>
@@ -18,7 +19,6 @@
 #undef OPENAL
 
 #include "audio/AudioDevice.hpp"
-#include "thread/Thread.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
@@ -59,7 +59,7 @@ namespace ouzel
 
 #if OUZEL_MULTITHREADED
             std::atomic<bool> running;
-            Thread audioThread;
+            std::thread audioThread;
 #endif
         };
     } // namespace audio

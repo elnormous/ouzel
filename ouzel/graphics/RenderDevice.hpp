@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include <condition_variable>
+#include <mutex>
 #include "graphics/Renderer.hpp"
 #include "graphics/Vertex.hpp"
 #include "graphics/CommandBuffer.hpp"
@@ -10,8 +12,6 @@
 #include "graphics/RenderTargetResource.hpp"
 #include "graphics/ShaderResource.hpp"
 #include "graphics/TextureResource.hpp"
-#include "thread/Condition.hpp"
-#include "thread/Mutex.hpp"
 
 namespace ouzel
 {
@@ -151,7 +151,7 @@ namespace ouzel
             bool clearColorBuffer = true;
             bool clearDepthBuffer = false;
 
-            Mutex resourceMutex;
+            std::mutex resourceMutex;
             std::vector<std::unique_ptr<RenderResource>> resources;
             std::vector<std::unique_ptr<RenderResource>> resourceDeleteSet;
 
@@ -161,8 +161,8 @@ namespace ouzel
             CommandBuffer* fillBuffer = &commandBuffers[0];
             CommandBuffer* renderBuffer = &commandBuffers[1];
 
-            Mutex commandQueueMutex;
-            Condition commandQueueCondition;
+            std::mutex commandQueueMutex;
+            std::condition_variable commandQueueCondition;
 
             bool queueFinished = false;
             std::atomic<bool> refillQueue;
@@ -175,7 +175,7 @@ namespace ouzel
             std::atomic<float> accumulatedFPS;
 
             std::queue<std::function<void(void)>> executeQueue;
-            Mutex executeMutex;
+            std::mutex executeMutex;
         };
     } // namespace graphics
 } // namespace ouzel

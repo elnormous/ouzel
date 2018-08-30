@@ -3,7 +3,10 @@
 #pragma once
 
 #include <atomic>
+#include <condition_variable>
 #include <functional>
+#include <mutex>
+#include <thread>
 #include <vector>
 #include "Setup.h"
 #include "core/Timer.hpp"
@@ -17,9 +20,6 @@
 #include "assets/Cache.hpp"
 #include "localization/Localization.hpp"
 #include "network/Network.hpp"
-#include "thread/Condition.hpp"
-#include "thread/Mutex.hpp"
-#include "thread/Thread.hpp"
 #include "utils/INI.hpp"
 
 void ouzelMain(const std::vector<std::string>& args);
@@ -104,9 +104,9 @@ namespace ouzel
         ini::Data userSettings;
 
 #if OUZEL_MULTITHREADED
-        Thread updateThread;
-        Mutex updateMutex;
-        Condition updateCondition;
+        std::thread updateThread;
+        std::mutex updateMutex;
+        std::condition_variable updateCondition;
 #endif
 
         std::atomic<bool> active;

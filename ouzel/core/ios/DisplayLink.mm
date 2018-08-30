@@ -3,6 +3,7 @@
 #include "DisplayLink.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
+#include "utils/Utils.hpp"
 
 @interface DisplayLinkHandler: NSObject
 {
@@ -47,7 +48,7 @@ namespace ouzel
     {
         running = false;
         if (runLoop) CFRunLoopStop([runLoop getCFRunLoop]);
-        if (renderThread.isJoinable()) renderThread.join();
+        if (renderThread.joinable()) renderThread.join();
         if (displayLink)
         {
             [displayLink invalidate];
@@ -72,7 +73,7 @@ namespace ouzel
 
         running = true;
 
-        renderThread = Thread(std::bind(&DisplayLink::main, this), "Render");
+        renderThread = std::thread(&DisplayLink::main, this);
     }
 
     void DisplayLink::stop()
@@ -87,6 +88,8 @@ namespace ouzel
 
     void DisplayLink::main()
     {
+        setCurrentThreadName("Render");
+
         if (verticalSync)
         {
             runLoop = [NSRunLoop currentRunLoop];

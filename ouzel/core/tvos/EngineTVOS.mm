@@ -2,7 +2,6 @@
 
 #import <UIKit/UIKit.h>
 #include "EngineTVOS.hpp"
-#include "thread/Lock.hpp"
 
 @interface AppDelegate: UIResponder<UIApplicationDelegate>
 
@@ -109,7 +108,7 @@ namespace ouzel
 
     void EngineTVOS::executeOnMainThread(const std::function<void(void)>& func)
     {
-        Lock lock(executeMutex);
+        std::unique_lock<std::mutex> lock(executeMutex);
 
         executeQueue.push(func);
 
@@ -142,7 +141,7 @@ namespace ouzel
         for (;;)
         {
             {
-                Lock lock(executeMutex);
+                std::unique_lock<std::mutex> lock(executeMutex);
 
                 if (executeQueue.empty()) break;
 

@@ -4,7 +4,7 @@
 
 #include <cstdint>
 #include <atomic>
-#include "thread/Mutex.hpp"
+#include <mutex>
 
 namespace ouzel
 {
@@ -48,7 +48,7 @@ namespace ouzel
             std::atomic<bool> repeating;
             std::atomic<bool> shouldReset;
 
-            Mutex listenerMutex;
+            std::mutex listenerMutex;
             EventListener* eventListener = nullptr;
         };
     } // namespace audio

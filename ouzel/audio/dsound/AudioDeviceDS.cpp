@@ -9,6 +9,7 @@
 #include "core/windows/NativeWindowWin.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
+#include "utils/Utils.hpp"
 
 BOOL CALLBACK enumCallback(LPGUID, LPCWSTR description, LPCWSTR, LPVOID)
 {
@@ -132,7 +133,7 @@ namespace ouzel
             if (FAILED(hr))
                 throw SystemError("Failed to play DirectSound buffer, error: " + std::to_string(hr));
 
-            audioThread = Thread(std::bind(&AudioDeviceDS::run, this), "Audio");
+            audioThread = std::thread(&AudioDeviceDS::run, this);
         }
 
         AudioDeviceDS::~AudioDeviceDS()
@@ -141,7 +142,7 @@ namespace ouzel
             for (HANDLE notifyEvent : notifyEvents)
                 SetEvent(notifyEvent);
 
-            if (audioThread.isJoinable()) audioThread.join();
+            if (audioThread.joinable()) audioThread.join();
 
             for (HANDLE notifyEvent : notifyEvents)
                 if (notifyEvent != INVALID_HANDLE_VALUE) CloseHandle(notifyEvent);
@@ -154,6 +155,8 @@ namespace ouzel
 
         void AudioDeviceDS::run()
         {
+            setCurrentThreadName("Audio");
+
             while (running)
             {
                 try

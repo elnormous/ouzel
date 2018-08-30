@@ -3,11 +3,11 @@
 #pragma once
 
 #include <memory>
+#include <mutex>
 #include <vector>
 #include <unordered_map>
 #include "input/InputSystem.hpp"
 #include "math/Vector2.hpp"
-#include "thread/Mutex.hpp"
 
 namespace ouzel
 {
@@ -91,7 +91,7 @@ namespace ouzel
             std::unordered_map<uint64_t, Vector2> touchPositions;
             std::vector<std::unique_ptr<Gamepad>> gamepads;
 
-            Mutex resourceMutex;
+            std::mutex resourceMutex;
             std::vector<std::unique_ptr<NativeCursor>> resources;
             std::vector<std::unique_ptr<NativeCursor>> resourceDeleteSet;
             NativeCursor* currentNativeCursor = nullptr;

@@ -14,9 +14,9 @@
 #include "TextureResourceD3D11.hpp"
 #include "core/Window.hpp"
 #include "core/windows/NativeWindowWin.hpp"
-#include "thread/Lock.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
+#include "utils/Utils.hpp"
 #include "stb_image_write.h"
 
 namespace ouzel
@@ -38,7 +38,7 @@ namespace ouzel
             running = false;
             flushCommands();
 
-            if (renderThread.isJoinable()) renderThread.join();
+            if (renderThread.joinable()) renderThread.join();
 
             resourceDeleteSet.clear();
             resources.clear();
@@ -298,7 +298,7 @@ namespace ouzel
             frameBufferClearColor[3] = clearColor.normA();
 
             running = true;
-            renderThread = Thread(std::bind(&RenderDeviceD3D11::main, this), "Render");
+            renderThread = std::thread(&RenderDeviceD3D11::main, this);
         }
 
         void RenderDeviceD3D11::setClearColor(Color color)
@@ -916,7 +916,7 @@ namespace ouzel
 
         BlendStateResource* RenderDeviceD3D11::createBlendState()
         {
-            Lock lock(resourceMutex);
+            std::unique_lock<std::mutex> lock(resourceMutex);
 
             BlendStateResource* blendState = new BlendStateResourceD3D11(*this);
             resources.push_back(std::unique_ptr<RenderResource>(blendState));
@@ -925,7 +925,7 @@ namespace ouzel
 
         BufferResource* RenderDeviceD3D11::createBuffer()
         {
-            Lock lock(resourceMutex);
+            std::unique_lock<std::mutex> lock(resourceMutex);
 
             BufferResource* buffer = new BufferResourceD3D11(*this);
             resources.push_back(std::unique_ptr<RenderResource>(buffer));
@@ -934,7 +934,7 @@ namespace ouzel
 
         RenderTargetResource* RenderDeviceD3D11::createRenderTarget()
         {
-            Lock lock(resourceMutex);
+            std::unique_lock<std::mutex> lock(resourceMutex);
 
             RenderTargetResource* renderTarget = new RenderTargetResourceD3D11(*this);
             resources.push_back(std::unique_ptr<RenderResource>(renderTarget));
@@ -943,7 +943,7 @@ namespace ouzel
 
         ShaderResource* RenderDeviceD3D11::createShader()
         {
-            Lock lock(resourceMutex);
+            std::unique_lock<std::mutex> lock(resourceMutex);
 
             ShaderResource* shader = new ShaderResourceD3D11(*this);
             resources.push_back(std::unique_ptr<RenderResource>(shader));
@@ -952,7 +952,7 @@ namespace ouzel
 
         TextureResource* RenderDeviceD3D11::createTexture()
         {
-            Lock lock(resourceMutex);
+            std::unique_lock<std::mutex> lock(resourceMutex);
 
             TextureResource* texture = new TextureResourceD3D11(*this);
             resources.push_back(std::unique_ptr<RenderResource>(texture));
@@ -1127,6 +1127,8 @@ namespace ouzel
 
         void RenderDeviceD3D11::main()
         {
+            setCurrentThreadName("Render");
+
             while (running)
             {
                 try

@@ -5,7 +5,6 @@
 #include "EngineWin.hpp"
 #include "NativeWindowWin.hpp"
 #include "input/windows/InputManagerWin.hpp"
-#include "thread/Lock.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
@@ -123,7 +122,7 @@ namespace ouzel
     {
         NativeWindowWin* windowWin = static_cast<NativeWindowWin*>(window->getNativeWindow());
 
-        Lock lock(executeMutex);
+        std::unique_lock<std::mutex> lock(executeMutex);
 
         executeQueue.push(func);
 
@@ -137,7 +136,7 @@ namespace ouzel
         for (;;)
         {
             {
-                Lock lock(executeMutex);
+                std::unique_lock<std::mutex> lock(executeMutex);
 
                 if (executeQueue.empty())
                     break;

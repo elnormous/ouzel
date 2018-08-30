@@ -12,7 +12,6 @@
 #include "core/macos/NativeWindowMacOS.hpp"
 #include "core/Engine.hpp"
 #include "events/EventDispatcher.hpp"
-#include "thread/Lock.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
@@ -344,7 +343,7 @@ namespace ouzel
 
         NativeCursor* InputManagerMacOS::createNativeCursor()
         {
-            Lock lock(resourceMutex);
+            std::unique_lock<std::mutex> lock(resourceMutex);
 
             std::unique_ptr<NativeCursorMacOS> cursorResource(new NativeCursorMacOS(*this));
             NativeCursor* result = cursorResource.get();

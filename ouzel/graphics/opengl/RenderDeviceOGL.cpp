@@ -40,7 +40,6 @@
 #include "ShaderResourceOGL.hpp"
 #include "TextureResourceOGL.hpp"
 #include "core/Window.hpp"
-#include "thread/Lock.hpp"
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"
 #include "stb_image_write.h"
@@ -1241,7 +1240,7 @@ namespace ouzel
 
         BlendStateResource* RenderDeviceOGL::createBlendState()
         {
-            Lock lock(resourceMutex);
+            std::unique_lock<std::mutex> lock(resourceMutex);
 
             BlendStateResource* blendState = new BlendStateResourceOGL(*this);
             resources.push_back(std::unique_ptr<RenderResource>(blendState));
@@ -1250,7 +1249,7 @@ namespace ouzel
 
         BufferResource* RenderDeviceOGL::createBuffer()
         {
-            Lock lock(resourceMutex);
+            std::unique_lock<std::mutex> lock(resourceMutex);
 
             BufferResource* buffer = new BufferResourceOGL(*this);
             resources.push_back(std::unique_ptr<RenderResource>(buffer));
@@ -1259,7 +1258,7 @@ namespace ouzel
 
         RenderTargetResource* RenderDeviceOGL::createRenderTarget()
         {
-            Lock lock(resourceMutex);
+            std::unique_lock<std::mutex> lock(resourceMutex);
 
             RenderTargetResource* renderTarget = new RenderTargetResourceOGL(*this);
             resources.push_back(std::unique_ptr<RenderResource>(renderTarget));
@@ -1268,7 +1267,7 @@ namespace ouzel
 
         ShaderResource* RenderDeviceOGL::createShader()
         {
-            Lock lock(resourceMutex);
+            std::unique_lock<std::mutex> lock(resourceMutex);
 
             ShaderResource* shader = new ShaderResourceOGL(*this);
             resources.push_back(std::unique_ptr<RenderResource>(shader));
@@ -1277,7 +1276,7 @@ namespace ouzel
 
         TextureResource* RenderDeviceOGL::createTexture()
         {
-            Lock lock(resourceMutex);
+            std::unique_lock<std::mutex> lock(resourceMutex);
 
             TextureResource* texture = new TextureResourceOGL(*this);
             resources.push_back(std::unique_ptr<RenderResource>(texture));

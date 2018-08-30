@@ -431,4 +431,6 @@ namespace ouzel
 
         return result;
     }
+
+    void setCurrentThreadName(const std::string& name);
 }

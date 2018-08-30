@@ -8,10 +8,10 @@
 
 #include <atomic>
 #include <map>
+#include <thread>
 #include <d3d11.h>
 #include "graphics/RenderDevice.hpp"
 #include "graphics/Texture.hpp"
-#include "thread/Thread.hpp"
 
 namespace ouzel
 {
@@ -93,7 +93,7 @@ namespace ouzel
             FLOAT frameBufferClearColor[4];
 
             std::atomic<bool> running;
-            Thread renderThread;
+            std::thread renderThread;
         };
     } // namespace graphics
 } // namespace ouzel

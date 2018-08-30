@@ -13,6 +13,7 @@
 #include "core/linux/NativeWindowLinux.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
+#include "utils/Utils.hpp"
 
 namespace ouzel
 {
@@ -27,7 +28,7 @@ namespace ouzel
         {
             running = false;
             flushCommands();
-            if (renderThread.isJoinable()) renderThread.join();
+            if (renderThread.joinable()) renderThread.join();
 
 #if OUZEL_OPENGL_INTERFACE_GLX
             EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
@@ -231,7 +232,7 @@ namespace ouzel
 #endif
 
             running = true;
-            renderThread = Thread(std::bind(&RenderDeviceOGLLinux::main, this), "Render");
+            renderThread = std::thread(&RenderDeviceOGLLinux::main, this);
         }
 
         std::vector<Size2> RenderDeviceOGLLinux::getSupportedResolutions() const
@@ -289,6 +290,8 @@ namespace ouzel
 
         void RenderDeviceOGLLinux::main()
         {
+            setCurrentThreadName("Render");
+
             while (running) 
             {
                 try

@@ -6,7 +6,6 @@
 #include "RenderTargetResourceEmpty.hpp"
 #include "ShaderResourceEmpty.hpp"
 #include "TextureResourceEmpty.hpp"
-#include "thread/Lock.hpp"
 #include "assets/Cache.hpp"
 
 namespace ouzel
@@ -43,7 +42,7 @@ namespace ouzel
 
         BlendStateResource* RenderDeviceEmpty::createBlendState()
         {
-            Lock lock(resourceMutex);
+            std::unique_lock<std::mutex> lock(resourceMutex);
 
             BlendStateResource* blendState = new BlendStateResourceEmpty(*this);
             resources.push_back(std::unique_ptr<RenderResource>(blendState));
@@ -52,7 +51,7 @@ namespace ouzel
 
         BufferResource* RenderDeviceEmpty::createBuffer()
         {
-            Lock lock(resourceMutex);
+            std::unique_lock<std::mutex> lock(resourceMutex);
 
             BufferResource* buffer = new BufferResourceEmpty(*this);
             resources.push_back(std::unique_ptr<RenderResource>(buffer));
@@ -61,7 +60,7 @@ namespace ouzel
 
         RenderTargetResource* RenderDeviceEmpty::createRenderTarget()
         {
-            Lock lock(resourceMutex);
+            std::unique_lock<std::mutex> lock(resourceMutex);
 
             RenderTargetResource* renderTarget = new RenderTargetResourceEmpty(*this);
             resources.push_back(std::unique_ptr<RenderResource>(renderTarget));
@@ -70,7 +69,7 @@ namespace ouzel
 
         ShaderResource* RenderDeviceEmpty::createShader()
         {
-            Lock lock(resourceMutex);
+            std::unique_lock<std::mutex> lock(resourceMutex);
 
             ShaderResource* shader = new ShaderResourceEmpty(*this);
             resources.push_back(std::unique_ptr<RenderResource>(shader));
@@ -79,7 +78,7 @@ namespace ouzel
 
         TextureResource* RenderDeviceEmpty::createTexture()
         {
-            Lock lock(resourceMutex);
+            std::unique_lock<std::mutex> lock(resourceMutex);
 
             TextureResource* texture(new TextureResourceEmpty(*this));
             resources.push_back(std::unique_ptr<RenderResource>(texture));

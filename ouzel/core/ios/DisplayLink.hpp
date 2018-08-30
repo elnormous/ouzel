@@ -14,7 +14,6 @@ typedef id NSRunLoopPtr;
 #endif
 
 #include "graphics/RenderDevice.hpp"
-#include "thread/Thread.hpp"
 
 namespace ouzel
 {
@@ -40,7 +39,7 @@ namespace ouzel
         void main();
 
         ouzel::graphics::RenderDevice& renderDevice;
-        Thread renderThread;
+        std::thread renderThread;
         std::atomic<bool> running;
         bool verticalSync = false;
         CADisplayLinkPtr displayLink = nil;
