@@ -66,14 +66,12 @@ bool MainMenu::handleKeyboard(Event::Type type, const KeyboardEvent& event)
     if (event.key == ouzel::input::KeyboardKey::ESCAPE)
     {
         if (type == Event::Type::KEY_PRESS)
-        {
             engine->exit();
-        }
 
-        return false;
+        return true;
     }
 
-    return true;
+    return false;
 }
 
 bool MainMenu::handleUI(Event::Type type, const UIEvent& event)
@@ -98,5 +96,5 @@ bool MainMenu::handleUI(Event::Type type, const UIEvent& event)
             engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new PerspectiveSample()));
     }
 
-    return true;
+    return false;
 }

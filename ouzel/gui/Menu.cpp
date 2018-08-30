@@ -153,7 +153,7 @@ namespace ouzel
 
         bool Menu::handleKeyboard(Event::Type type, const KeyboardEvent& event)
         {
-            if (!enabled) return true;
+            if (!enabled) return false;
 
             if (type == Event::Type::KEY_PRESS && !widgets.empty())
             {
@@ -188,12 +188,12 @@ namespace ouzel
                 }
             }
 
-            return true;
+            return false;
         }
 
         bool Menu::handleGamepad(Event::Type type, const GamepadEvent& event)
         {
-            if (!enabled) return true;
+            if (!enabled) return false;
 
             if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
             {
@@ -234,20 +234,18 @@ namespace ouzel
 #endif
             }
 
-            return true;
+            return false;
         }
 
         bool Menu::handleUI(Event::Type type, const UIEvent& event)
         {
-            if (!enabled) return true;
+            if (!enabled) return false;
 
             if (type == Event::Type::ACTOR_ENTER)
-            {
                 if (std::find(widgets.begin(), widgets.end(), event.actor) != widgets.end())
                     selectWidget(static_cast<Widget*>(event.actor));
-            }
 
-            return true;
+            return false;
         }
     } // namespace gui
 } // namespace ouzel

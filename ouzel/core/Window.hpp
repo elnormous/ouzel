@@ -7,7 +7,6 @@
 #include "core/NativeWindow.hpp"
 #include "graphics/Renderer.hpp"
 #include "math/Size2.hpp"
-#include "events/EventHandler.hpp"
 
 namespace ouzel
 {
