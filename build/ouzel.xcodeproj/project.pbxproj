@@ -15,27 +15,6 @@
 		300934211C88698500CC50D3 /* Window.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3009341B1C88698500CC50D3 /* Window.hpp */; };
 		3009342E1C88978D00CC50D3 /* NativeWindowTVOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3009342C1C88978D00CC50D3 /* NativeWindowTVOS.mm */; };
 		3009342F1C88978D00CC50D3 /* NativeWindowTVOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3009342D1C88978D00CC50D3 /* NativeWindowTVOS.hpp */; };
-		300985082031275300BB0340 /* Thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 300985062031275300BB0340 /* Thread.cpp */; };
-		300985092031275300BB0340 /* Thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 300985062031275300BB0340 /* Thread.cpp */; };
-		3009850A2031275300BB0340 /* Thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 300985062031275300BB0340 /* Thread.cpp */; };
-		3009850B2031275300BB0340 /* Thread.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 300985072031275300BB0340 /* Thread.hpp */; };
-		3009850C2031275300BB0340 /* Thread.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 300985072031275300BB0340 /* Thread.hpp */; };
-		3009850D2031275300BB0340 /* Thread.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 300985072031275300BB0340 /* Thread.hpp */; };
-		300985102031276000BB0340 /* Condition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3009850E2031276000BB0340 /* Condition.cpp */; };
-		300985112031276000BB0340 /* Condition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3009850E2031276000BB0340 /* Condition.cpp */; };
-		300985122031276000BB0340 /* Condition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3009850E2031276000BB0340 /* Condition.cpp */; };
-		300985132031276000BB0340 /* Condition.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3009850F2031276000BB0340 /* Condition.hpp */; };
-		300985142031276000BB0340 /* Condition.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3009850F2031276000BB0340 /* Condition.hpp */; };
-		300985152031276000BB0340 /* Condition.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3009850F2031276000BB0340 /* Condition.hpp */; };
-		300985182031276E00BB0340 /* Mutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 300985162031276E00BB0340 /* Mutex.cpp */; };
-		300985192031276E00BB0340 /* Mutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 300985162031276E00BB0340 /* Mutex.cpp */; };
-		3009851A2031276E00BB0340 /* Mutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 300985162031276E00BB0340 /* Mutex.cpp */; };
-		3009851B2031276E00BB0340 /* Mutex.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 300985172031276E00BB0340 /* Mutex.hpp */; };
-		3009851C2031276E00BB0340 /* Mutex.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 300985172031276E00BB0340 /* Mutex.hpp */; };
-		3009851D2031276E00BB0340 /* Mutex.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 300985172031276E00BB0340 /* Mutex.hpp */; };
-		300985232031277D00BB0340 /* Lock.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3009851F2031277D00BB0340 /* Lock.hpp */; };
-		300985242031277D00BB0340 /* Lock.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3009851F2031277D00BB0340 /* Lock.hpp */; };
-		300985252031277D00BB0340 /* Lock.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3009851F2031277D00BB0340 /* Lock.hpp */; };
 		300C39ED1E51355000330E4F /* SoundDataWave.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 300C39EB1E51355000330E4F /* SoundDataWave.hpp */; };
 		300C39EE1E51355000330E4F /* SoundDataWave.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 300C39EB1E51355000330E4F /* SoundDataWave.hpp */; };
 		300C39EF1E51355000330E4F /* SoundDataWave.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 300C39EB1E51355000330E4F /* SoundDataWave.hpp */; };
@@ -961,13 +940,6 @@
 		3009341B1C88698500CC50D3 /* Window.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Window.hpp; sourceTree = "<group>"; };
 		3009342C1C88978D00CC50D3 /* NativeWindowTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NativeWindowTVOS.mm; sourceTree = "<group>"; };
 		3009342D1C88978D00CC50D3 /* NativeWindowTVOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NativeWindowTVOS.hpp; sourceTree = "<group>"; };
-		300985062031275300BB0340 /* Thread.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Thread.cpp; sourceTree = "<group>"; };
-		300985072031275300BB0340 /* Thread.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Thread.hpp; sourceTree = "<group>"; };
-		3009850E2031276000BB0340 /* Condition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Condition.cpp; sourceTree = "<group>"; };
-		3009850F2031276000BB0340 /* Condition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Condition.hpp; sourceTree = "<group>"; };
-		300985162031276E00BB0340 /* Mutex.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Mutex.cpp; sourceTree = "<group>"; };
-		300985172031276E00BB0340 /* Mutex.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Mutex.hpp; sourceTree = "<group>"; };
-		3009851F2031277D00BB0340 /* Lock.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Lock.hpp; sourceTree = "<group>"; };
 		300C39EB1E51355000330E4F /* SoundDataWave.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SoundDataWave.hpp; sourceTree = "<group>"; };
 		300C39EC1E51355000330E4F /* SoundDataWave.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundDataWave.cpp; sourceTree = "<group>"; };
 		3011E1C11EFFE6DE00CB1DDC /* INI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = INI.cpp; sourceTree = "<group>"; };
@@ -1362,20 +1334,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		300985052031272200BB0340 /* thread */ = {
-			isa = PBXGroup;
-			children = (
-				3009850E2031276000BB0340 /* Condition.cpp */,
-				3009850F2031276000BB0340 /* Condition.hpp */,
-				3009851F2031277D00BB0340 /* Lock.hpp */,
-				300985162031276E00BB0340 /* Mutex.cpp */,
-				300985172031276E00BB0340 /* Mutex.hpp */,
-				300985062031275300BB0340 /* Thread.cpp */,
-				300985072031275300BB0340 /* Thread.hpp */,
-			);
-			path = thread;
-			sourceTree = "<group>";
-		};
 		303820881D816EAB00677CAB /* empty */ = {
 			isa = PBXGroup;
 			children = (
@@ -1834,7 +1792,6 @@
 				304F92A21F4D89560063EEC0 /* network */,
 				304A8E2A1C237C70008B1151 /* ouzel.hpp */,
 				303B750D1C28828600FEDE92 /* scene */,
-				300985052031272200BB0340 /* thread */,
 				30A5BF0C1CFCE3F800A977CA /* utils */,
 			);
 			name = ouzel;
@@ -2088,7 +2045,6 @@
 				304AA8C11E1190E4006FA70E /* OBF.hpp in Headers */,
 				30381F521D80A3EC00677CAB /* BlendStateResourceOGL.hpp in Headers */,
 				3047F76B1C4D2C2000774E3D /* Sequence.hpp in Headers */,
-				3009850B2031275300BB0340 /* Thread.hpp in Headers */,
 				30575AAA1C39D1FF0009C8A7 /* Layer.hpp in Headers */,
 				3030D5051DAEF1FA007CC8EB /* Log.hpp in Headers */,
 				30519CE31F9B53E900AF3DC4 /* LoaderParticleSystem.hpp in Headers */,
@@ -2112,7 +2068,6 @@
 				30DADEA01C5167BC001A63B4 /* Cache.hpp in Headers */,
 				3049DCDD1EDCD0450000997A /* Cursor.hpp in Headers */,
 				3031C13F1F0C43D0002CA717 /* StreamVorbis.hpp in Headers */,
-				3009851B2031276E00BB0340 /* Mutex.hpp in Headers */,
 				30575AC91C3B17540009C8A7 /* Button.hpp in Headers */,
 				305BDDDF1F27F6BC00BD4969 /* RenderResource.hpp in Headers */,
 				30324E181CB2898E00601A64 /* BlendStateResource.hpp in Headers */,
@@ -2138,7 +2093,6 @@
 				303820FB1D817F4900677CAB /* InputManagerIOS.hpp in Headers */,
 				3038206C1D816C7700677CAB /* NativeWindowIOS.hpp in Headers */,
 				303B760B1C34A92B00FEDE92 /* InputManager.hpp in Headers */,
-				300985132031276000BB0340 /* Condition.hpp in Headers */,
 				304E763C1F7095DE0025C0DB /* Client.hpp in Headers */,
 				303B75541C2A3CB700FEDE92 /* Rect.hpp in Headers */,
 				30519CBB1F9B53AB00AF3DC4 /* LoaderWave.hpp in Headers */,
@@ -2156,7 +2110,6 @@
 				303696D71E32DDA9007F4211 /* Buffer.hpp in Headers */,
 				30C56C991CAC3ECE007AEF8F /* SlideBar.hpp in Headers */,
 				30AEFA1F20C0FBB000CDFD33 /* RenderTargetResource.hpp in Headers */,
-				300985232031277D00BB0340 /* Lock.hpp in Headers */,
 				303820091D80A40700677CAB /* ShaderResourceMetal.hpp in Headers */,
 				303820F51D817F4900677CAB /* GamepadIOS.hpp in Headers */,
 				30575ADC1C3B48740009C8A7 /* EventDispatcher.hpp in Headers */,
@@ -2224,7 +2177,6 @@
 				30381F721D80A3EC00677CAB /* BufferResourceOGL.hpp in Headers */,
 				3085DA25211A4A5500F4C2D0 /* Socket.hpp in Headers */,
 				30B5465A1D90575B00E45DB6 /* RadioButtonGroup.hpp in Headers */,
-				300985152031276000BB0340 /* Condition.hpp in Headers */,
 				30519CCD1F9B53C100AF3DC4 /* LoaderTTF.hpp in Headers */,
 				303B76581C355A3B00FEDE92 /* TextureResource.hpp in Headers */,
 				30C56C6A1CAB3F2D007AEF8F /* RadioButton.hpp in Headers */,
@@ -2249,7 +2201,6 @@
 				30519CD51F9B53CB00AF3DC4 /* LoaderImage.hpp in Headers */,
 				303B765E1C355A3B00FEDE92 /* Vector3.hpp in Headers */,
 				3047F76C1C4D2C2000774E3D /* Sequence.hpp in Headers */,
-				3009850D2031275300BB0340 /* Thread.hpp in Headers */,
 				30381F8A1D80A3EC00677CAB /* ShaderResourceOGL.hpp in Headers */,
 				3030D5071DAEF1FA007CC8EB /* Log.hpp in Headers */,
 				30575AAB1C39D1FF0009C8A7 /* Layer.hpp in Headers */,
@@ -2308,7 +2259,6 @@
 				303B76701C355A3B00FEDE92 /* Event.hpp in Headers */,
 				303696C91E32DD8F007F4211 /* Texture.hpp in Headers */,
 				3047F74B1C4C350D00774E3D /* Move.hpp in Headers */,
-				3009851D2031276E00BB0340 /* Mutex.hpp in Headers */,
 				306A26C01F5DD19300E2B0B6 /* Mixer.hpp in Headers */,
 				303B76711C355A3B00FEDE92 /* ImageData.hpp in Headers */,
 				303B76721C355A3B00FEDE92 /* Renderer.hpp in Headers */,
@@ -2337,7 +2287,6 @@
 				303B76791C355A3B00FEDE92 /* Sprite.hpp in Headers */,
 				3047F7741C4D2C3900774E3D /* Parallel.hpp in Headers */,
 				305B68D81ED1B31D003352A2 /* Timer.hpp in Headers */,
-				300985252031277D00BB0340 /* Lock.hpp in Headers */,
 				300C39EF1E51355000330E4F /* SoundDataWave.hpp in Headers */,
 				30381F901D80A3EC00677CAB /* TextureResourceOGL.hpp in Headers */,
 				30A9C13F1CAEBA540084C4BF /* Language.hpp in Headers */,
@@ -2386,7 +2335,6 @@
 				306A26B71F5DD17700E2B0B6 /* Listener.hpp in Headers */,
 				304A8E501C237C70008B1151 /* ouzel.hpp in Headers */,
 				30575ABF1C39D9850009C8A7 /* ActorContainer.hpp in Headers */,
-				300985242031277D00BB0340 /* Lock.hpp in Headers */,
 				3038216D1D81876E00677CAB /* AudioDeviceEmpty.hpp in Headers */,
 				30519CB01F9B4E3E00AF3DC4 /* Loader.hpp in Headers */,
 				30DADE9F1C5167BC001A63B4 /* Cache.hpp in Headers */,
@@ -2465,7 +2413,6 @@
 				304A8E691C237C70008B1151 /* ShaderResource.hpp in Headers */,
 				30519CD41F9B53CB00AF3DC4 /* LoaderImage.hpp in Headers */,
 				303821371D81876E00677CAB /* BlendStateResourceEmpty.hpp in Headers */,
-				3009851C2031276E00BB0340 /* Mutex.hpp in Headers */,
 				30419DE41D162BCF00A63759 /* Audio.hpp in Headers */,
 				305BDDE01F27F6BC00BD4969 /* RenderResource.hpp in Headers */,
 				3049DCE41EDCD0450000997A /* NativeCursor.hpp in Headers */,
@@ -2514,11 +2461,9 @@
 				304AA8C21E1190E4006FA70E /* OBF.hpp in Headers */,
 				306A26BF1F5DD19300E2B0B6 /* Mixer.hpp in Headers */,
 				301EB3A51CCD691800466E92 /* Component.hpp in Headers */,
-				300985142031276000BB0340 /* Condition.hpp in Headers */,
 				303821551D81876E00677CAB /* ShaderResourceEmpty.hpp in Headers */,
 				30CC89FD203C5DFB00E2C8C3 /* File.hpp in Headers */,
 				303696C81E32DD8F007F4211 /* Texture.hpp in Headers */,
-				3009850C2031275300BB0340 /* Thread.hpp in Headers */,
 				306A26EC1F5DE76E00E2B0B6 /* SoundInput.hpp in Headers */,
 				30B859901F3D286600A16952 /* TTFont.hpp in Headers */,
 				30AEFA2820C0FC8600CDFD33 /* RenderTargetResourceEmpty.hpp in Headers */,
@@ -2705,7 +2650,6 @@
 				30AEFA2C20C0FD6000CDFD33 /* RenderTargetResourceOGL.cpp in Sources */,
 				3038206D1D816C7700677CAB /* NativeWindowIOS.mm in Sources */,
 				30519CD81F9B53DB00AF3DC4 /* LoaderSprite.cpp in Sources */,
-				300985102031276000BB0340 /* Condition.cpp in Sources */,
 				303B75671C2A3CBF00FEDE92 /* Sprite.cpp in Sources */,
 				303820641D816C7700677CAB /* EngineIOS.mm in Sources */,
 				303821391D81876E00677CAB /* BufferResourceEmpty.cpp in Sources */,
@@ -2716,7 +2660,6 @@
 				303820651D816C7700677CAB /* main.cpp in Sources */,
 				30519CF81F9B54E300AF3DC4 /* LoaderVorbis.cpp in Sources */,
 				303B75591C2A3CB700FEDE92 /* Vector3.cpp in Sources */,
-				300985082031275300BB0340 /* Thread.cpp in Sources */,
 				30519CE01F9B53E900AF3DC4 /* LoaderParticleSystem.cpp in Sources */,
 				30216B731ED464730073E3D5 /* Material.cpp in Sources */,
 				306A26E81F5DE76E00E2B0B6 /* SoundInput.cpp in Sources */,
@@ -2804,7 +2747,6 @@
 				303696CC1E32DD9C007F4211 /* BlendState.cpp in Sources */,
 				30519CC81F9B53C100AF3DC4 /* LoaderTTF.cpp in Sources */,
 				303B75511C2A3CB700FEDE92 /* Matrix4.cpp in Sources */,
-				300985182031276E00BB0340 /* Mutex.cpp in Sources */,
 				30C56C661CAB3F2D007AEF8F /* RadioButton.cpp in Sources */,
 				30F5DD381F09756400E14E84 /* Stream.cpp in Sources */,
 				30575AD91C3B48740009C8A7 /* EventDispatcher.cpp in Sources */,
@@ -2869,7 +2811,6 @@
 				3047F7711C4D2C3900774E3D /* Parallel.cpp in Sources */,
 				30AEFA2E20C0FD6000CDFD33 /* RenderTargetResourceOGL.cpp in Sources */,
 				30519CDA1F9B53DB00AF3DC4 /* LoaderSprite.cpp in Sources */,
-				300985122031276000BB0340 /* Condition.cpp in Sources */,
 				30C758C11F4A23BD008499DC /* DisplayLink.mm in Sources */,
 				303B76391C355A3B00FEDE92 /* Sprite.cpp in Sources */,
 				30C56C5D1CAA88F8007AEF8F /* CheckBox.cpp in Sources */,
@@ -2880,7 +2821,6 @@
 				303696EE1E32DE08007F4211 /* Shader.cpp in Sources */,
 				30519CFA1F9B54E300AF3DC4 /* LoaderVorbis.cpp in Sources */,
 				303B763C1C355A3B00FEDE92 /* Vertex.cpp in Sources */,
-				3009850A2031275300BB0340 /* Thread.cpp in Sources */,
 				30519CE21F9B53E900AF3DC4 /* LoaderParticleSystem.cpp in Sources */,
 				3038200E1D80A40700677CAB /* ShaderResourceMetal.mm in Sources */,
 				306A26EA1F5DE76E00E2B0B6 /* SoundInput.cpp in Sources */,
@@ -2969,7 +2909,6 @@
 				303696CE1E32DD9C007F4211 /* BlendState.cpp in Sources */,
 				30519CCA1F9B53C100AF3DC4 /* LoaderTTF.cpp in Sources */,
 				30C56C671CAB3F2D007AEF8F /* RadioButton.cpp in Sources */,
-				3009851A2031276E00BB0340 /* Mutex.cpp in Sources */,
 				303B76501C355A3B00FEDE92 /* Vector4.cpp in Sources */,
 				30F5DD3A1F09756400E14E84 /* Stream.cpp in Sources */,
 				30575ADA1C3B48740009C8A7 /* EventDispatcher.cpp in Sources */,
@@ -3037,7 +2976,6 @@
 				304AA8BF1E1190E4006FA70E /* OBF.cpp in Sources */,
 				305B99891C41EFFA008589E1 /* Menu.cpp in Sources */,
 				30519CD91F9B53DB00AF3DC4 /* LoaderSprite.cpp in Sources */,
-				300985112031276000BB0340 /* Condition.cpp in Sources */,
 				3047F7671C4D2C2000774E3D /* Sequence.cpp in Sources */,
 				3049DCE91EDCD1FA0000997A /* NativeCursorMacOS.mm in Sources */,
 				3038213A1D81876E00677CAB /* BufferResourceEmpty.cpp in Sources */,
@@ -3049,7 +2987,6 @@
 				30575A8F1C38BD370009C8A7 /* Box2.cpp in Sources */,
 				30519CF91F9B54E300AF3DC4 /* LoaderVorbis.cpp in Sources */,
 				3038207F1D816C9E00677CAB /* main.cpp in Sources */,
-				300985092031275300BB0340 /* Thread.cpp in Sources */,
 				30519CE11F9B53E900AF3DC4 /* LoaderParticleSystem.cpp in Sources */,
 				3038200D1D80A40700677CAB /* ShaderResourceMetal.mm in Sources */,
 				306A26E91F5DE76E00E2B0B6 /* SoundInput.cpp in Sources */,
@@ -3134,7 +3071,6 @@
 				304A8E681C237C70008B1151 /* ShaderResource.cpp in Sources */,
 				30519CC91F9B53C100AF3DC4 /* LoaderTTF.cpp in Sources */,
 				30724D7E1F35366F00D915ED /* ViewMacOS.mm in Sources */,
-				300985192031276E00BB0340 /* Mutex.cpp in Sources */,
 				30C56C951CAC3ECE007AEF8F /* SlideBar.cpp in Sources */,
 				30F5DD391F09756400E14E84 /* Stream.cpp in Sources */,
 				304A8E531C237C70008B1151 /* Engine.cpp in Sources */,

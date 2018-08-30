@@ -6,7 +6,6 @@
 #include <string>
 #include <queue>
 #include "math/Size2.hpp"
-#include "thread/Mutex.hpp"
 
 namespace ouzel
 {

@@ -13,7 +13,6 @@
 #include "TextureResourceMetal.hpp"
 #include "BlendStateResourceMetal.hpp"
 #include "events/EventDispatcher.hpp"
-#include "thread/Lock.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"
@@ -823,7 +822,7 @@ namespace ouzel
 
         BlendStateResource* RenderDeviceMetal::createBlendState()
         {
-            Lock lock(resourceMutex);
+            std::unique_lock<std::mutex> lock(resourceMutex);
 
             BlendStateResource* blendState = new BlendStateResourceMetal(*this);
             resources.push_back(std::unique_ptr<RenderResource>(blendState));
@@ -832,7 +831,7 @@ namespace ouzel
 
         BufferResource* RenderDeviceMetal::createBuffer()
         {
-            Lock lock(resourceMutex);
+            std::unique_lock<std::mutex> lock(resourceMutex);
 
             BufferResource* buffer = new BufferResourceMetal(*this);
             resources.push_back(std::unique_ptr<RenderResource>(buffer));
@@ -841,7 +840,7 @@ namespace ouzel
 
         RenderTargetResource* RenderDeviceMetal::createRenderTarget()
         {
-            Lock lock(resourceMutex);
+            std::unique_lock<std::mutex> lock(resourceMutex);
 
             RenderTargetResource* renderTarget = new RenderTargetResourceMetal(*this);
             resources.push_back(std::unique_ptr<RenderResource>(renderTarget));
@@ -850,7 +849,7 @@ namespace ouzel
 
         ShaderResource* RenderDeviceMetal::createShader()
         {
-            Lock lock(resourceMutex);
+            std::unique_lock<std::mutex> lock(resourceMutex);
 
             ShaderResource* shader = new ShaderResourceMetal(*this);
             resources.push_back(std::unique_ptr<RenderResource>(shader));
@@ -859,7 +858,7 @@ namespace ouzel
 
         TextureResource* RenderDeviceMetal::createTexture()
         {
-            Lock lock(resourceMutex);
+            std::unique_lock<std::mutex> lock(resourceMutex);
 
             TextureResource* texture = new TextureResourceMetal(*this);
             resources.push_back(std::unique_ptr<RenderResource>(texture));

@@ -13,6 +13,7 @@
 #include "core/windows/NativeWindowWin.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
+#include "utils/Utils.hpp"
 
 static const LPCWSTR TEMP_WINDOW_CLASS_NAME = L"TempWindow";
 
@@ -136,7 +137,7 @@ namespace ouzel
             running = false;
             flushCommands();
 
-            if (renderThread.isJoinable()) renderThread.join();
+            if (renderThread.joinable()) renderThread.join();
 
             if (renderContext)
             {
@@ -304,7 +305,7 @@ namespace ouzel
                 throw SystemError("Failed to unset OpenGL context");
 
             running = true;
-            renderThread = Thread(std::bind(&RenderDeviceOGLWin::main, this), "Render");
+            renderThread = std::thread(&RenderDeviceOGLWin::main, this);
         }
 
         void RenderDeviceOGLWin::lockContext()
@@ -321,6 +322,8 @@ namespace ouzel
 
         void RenderDeviceOGLWin::main()
         {
+            setCurrentThreadName("Render");
+
             while (running)
             {
                 try

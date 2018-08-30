@@ -12,6 +12,7 @@ extern "C" id const AVAudioSessionCategoryAmbient;
 #include "AudioDeviceAL.hpp"
 #include "core/Engine.hpp"
 #include "utils/Errors.hpp"
+#include "utils/Utils.hpp"
 
 namespace ouzel
 {
@@ -119,7 +120,7 @@ namespace ouzel
 
 #if OUZEL_MULTITHREADED
             running = true;
-            audioThread = Thread(std::bind(&AudioDeviceAL::run, this), "Audio");
+            audioThread = std::thread(&AudioDeviceAL::run, this);
 #endif
         }
 
@@ -127,7 +128,7 @@ namespace ouzel
         {
 #if OUZEL_MULTITHREADED
             running = false;
-            if (audioThread.isJoinable()) audioThread.join();
+            if (audioThread.joinable()) audioThread.join();
 #endif
 
             if (sourceId)
@@ -213,6 +214,8 @@ namespace ouzel
 
         void AudioDeviceAL::run()
         {
+            setCurrentThreadName("Audio");
+
 #if OUZEL_MULTITHREADED
             while (running)
             {

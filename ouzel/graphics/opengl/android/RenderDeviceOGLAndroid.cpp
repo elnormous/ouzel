@@ -7,9 +7,9 @@
 #include "RenderDeviceOGLAndroid.hpp"
 #include "core/android/NativeWindowAndroid.hpp"
 #include "core/Engine.hpp"
-#include "thread/Lock.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
+#include "utils/Utils.hpp"
 
 namespace ouzel
 {
@@ -19,7 +19,7 @@ namespace ouzel
         {
             running = false;
             flushCommands();
-            if (renderThread.isJoinable()) renderThread.join();
+            if (renderThread.joinable()) renderThread.join();
 
             if (context)
             {
@@ -145,14 +145,14 @@ namespace ouzel
                 throw SystemError("Failed to unset EGL context");
 
             running = true;
-            renderThread = Thread(std::bind(&RenderDeviceOGLAndroid::main, this), "Render");
+            renderThread = std::thread(&RenderDeviceOGLAndroid::main, this);
         }
 
         void RenderDeviceOGLAndroid::reload()
         {
             running = false;
             flushCommands();
-            if (renderThread.isJoinable()) renderThread.join();
+            if (renderThread.joinable()) renderThread.join();
 
             const EGLint attributeList[] =
             {
@@ -245,7 +245,7 @@ namespace ouzel
             if (glGenVertexArraysProc) glGenVertexArraysProc(1, &vertexArrayId);
 
             {
-                Lock lock(resourceMutex);
+                std::unique_lock<std::mutex> lock(resourceMutex);
 
                 for (const std::unique_ptr<RenderResource>& resource : resources)
                     resource->reload();
@@ -255,14 +255,14 @@ namespace ouzel
                 throw SystemError("Failed to unset EGL context");
 
             running = true;
-            renderThread = Thread(std::bind(&RenderDeviceOGLAndroid::main, this), "Render");
+            renderThread = std::thread(&RenderDeviceOGLAndroid::main, this);
         }
 
         void RenderDeviceOGLAndroid::destroy()
         {
             running = false;
             flushCommands();
-            if (renderThread.isJoinable()) renderThread.join();
+            if (renderThread.joinable()) renderThread.join();
 
             if (context)
             {
@@ -298,6 +298,8 @@ namespace ouzel
 
         void RenderDeviceOGLAndroid::main()
         {
+            setCurrentThreadName("Render");
+
             while (running)
             {
                 try

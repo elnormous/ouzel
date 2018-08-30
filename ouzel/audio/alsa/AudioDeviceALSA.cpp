@@ -8,6 +8,7 @@
 #include "core/Engine.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
+#include "utils/Utils.hpp"
 
 namespace ouzel
 {
@@ -97,13 +98,13 @@ namespace ouzel
             snd_pcm_sw_params_free(swParams);
             swParams = nullptr;
 
-            audioThread = Thread(std::bind(&AudioDeviceALSA::run, this), "Audio");
+            audioThread = std::thread(&AudioDeviceALSA::run, this);
         }
 
         AudioDeviceALSA::~AudioDeviceALSA()
         {
             running = false;
-            if (audioThread.isJoinable()) audioThread.join();
+            if (audioThread.joinable()) audioThread.join();
 
             if (swParams) snd_pcm_sw_params_free(swParams);
             if (hwParams) snd_pcm_hw_params_free(hwParams);
@@ -112,6 +113,8 @@ namespace ouzel
 
         void AudioDeviceALSA::run()
         {
+            setCurrentThreadName("Audio");
+
             while (running)
             {
                 try

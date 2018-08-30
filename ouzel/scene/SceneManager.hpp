@@ -5,10 +5,10 @@
 #include <chrono>
 #include <functional>
 #include <memory>
+#include <mutex>
 #include <queue>
 #include <set>
 #include <vector>
-#include "thread/Mutex.hpp"
 
 namespace ouzel
 {

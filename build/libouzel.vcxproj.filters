@@ -436,15 +436,6 @@
     <ClCompile Include="..\ouzel\utils\XML.cpp">
       <Filter>ouzel\utils</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\thread\Thread.cpp">
-      <Filter>ouzel\thread</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\thread\Condition.cpp">
-      <Filter>ouzel\thread</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\thread\Mutex.cpp">
-      <Filter>ouzel\thread</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\input\InputSystem.cpp">
       <Filter>ouzel\input</Filter>
     </ClCompile>
@@ -923,18 +914,6 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\ouzel.hpp">
       <Filter>ouzel</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\thread\Thread.hpp">
-      <Filter>ouzel\thread</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\thread\Condition.hpp">
-      <Filter>ouzel\thread</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\thread\Lock.hpp">
-      <Filter>ouzel\thread</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\thread\Mutex.hpp">
-      <Filter>ouzel\thread</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\input\InputDevice.hpp">
       <Filter>ouzel\input</Filter>

@@ -3,7 +3,6 @@
 #include <algorithm>
 #include "AudioDevice.hpp"
 #include "math/MathUtils.hpp"
-#include "thread/Lock.hpp"
 #include "utils/Errors.hpp"
 
 namespace ouzel
@@ -26,7 +25,7 @@ namespace ouzel
 
         void AudioDevice::setRenderCommands(const std::vector<RenderCommand>& newRenderCommands)
         {
-            Lock renderQueueLock(renderQueueMutex);
+            std::unique_lock<std::mutex> renderQueueLock(renderQueueMutex);
 
             renderQueue = newRenderCommands;
         }
@@ -36,7 +35,7 @@ namespace ouzel
             std::vector<RenderCommand> renderCommands;
 
             {
-                Lock renderQueueLock(renderQueueMutex);
+                std::unique_lock<std::mutex> renderQueueLock(renderQueueMutex);
 
                 renderCommands = renderQueue;
             }

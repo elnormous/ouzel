@@ -5,7 +5,6 @@
 #include "SceneManager.hpp"
 #include "Scene.hpp"
 #include "Actor.hpp"
-#include "thread/Lock.hpp"
 
 namespace ouzel
 {

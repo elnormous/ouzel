@@ -22,6 +22,6 @@ namespace ouzel
 
     protected:
         std::queue<std::function<void(void)>> executeQueue;
-        Mutex executeMutex;
+        std::mutex executeMutex;
     };
 }

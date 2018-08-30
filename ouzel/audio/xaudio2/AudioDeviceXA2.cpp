@@ -7,9 +7,9 @@
 #include "AudioDeviceXA2.hpp"
 #include "XAudio27.hpp"
 #include "core/Engine.hpp"
-#include "thread/Lock.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
+#include "utils/Utils.hpp"
 
 static const char* XAUDIO2_DLL_28 = "xaudio2_8.dll";
 static const char* XAUDIO2_DLL_27 = "xaudio2_7.dll";
@@ -139,18 +139,18 @@ namespace ouzel
             if (FAILED(hr))
                 throw SystemError("Failed to start consuming sound data, error: " + std::to_string(hr));
 
-            audioThread = Thread(std::bind(&AudioDeviceXA2::run, this), "Audio");
+            audioThread = std::thread(&AudioDeviceXA2::run, this);
         }
 
         AudioDeviceXA2::~AudioDeviceXA2()
         {
             running = false;
 
-            if (audioThread.isJoinable())
+            if (audioThread.joinable())
             {
                 {
-                    Lock lock(fillDataMutex);
-                    fillDataCondition.signal();
+                    std::unique_lock<std::mutex> lock(fillDataMutex);
+                    fillDataCondition.notify_all();
                 }
 
                 audioThread.join();
@@ -168,11 +168,13 @@ namespace ouzel
 
         void AudioDeviceXA2::run()
         {
+            setCurrentThreadName("Audio");
+
             for (;;)
             {
                 try
                 {
-                    Lock lock(fillDataMutex);
+                    std::unique_lock<std::mutex> lock(fillDataMutex);
                     while (!fillData && running) fillDataCondition.wait(lock);
 
                     if (!running) break;
@@ -229,9 +231,9 @@ namespace ouzel
 
         void AudioDeviceXA2::OnBufferEnd(void*)
         {
-            Lock lock(fillDataMutex);
+            std::unique_lock<std::mutex> lock(fillDataMutex);
             fillData = true;
-            fillDataCondition.signal();
+            fillDataCondition.notify_all();
         }
 
         void AudioDeviceXA2::OnLoopEnd(void*)

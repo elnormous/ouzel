@@ -30,7 +30,7 @@ namespace ouzel
         virtual void main() override;
 
         std::queue<std::function<void(void)>> executeQueue;
-        Mutex executeMutex;
+        std::mutex executeMutex;
 
         uint32_t noSleepAssertionID = 0;
         id executeHanlder = nil;

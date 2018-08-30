@@ -3,7 +3,6 @@
 #import <Cocoa/Cocoa.h>
 #import <IOKit/pwr_mgt/IOPMLib.h>
 #include "EngineMacOS.hpp"
-#include "thread/Lock.hpp"
 #include "utils/Errors.hpp"
 
 @interface AppDelegate: NSObject<NSApplicationDelegate>
@@ -131,7 +130,7 @@ namespace ouzel
 
     void EngineMacOS::executeOnMainThread(const std::function<void(void)>& func)
     {
-        Lock lock(executeMutex);
+        std::unique_lock<std::mutex> lock(executeMutex);
 
         executeQueue.push(func);
 
@@ -194,7 +193,7 @@ namespace ouzel
         for (;;)
         {
             {
-                Lock lock(executeMutex);
+                std::unique_lock<std::mutex> lock(executeMutex);
 
                 if (executeQueue.empty()) break;
 

@@ -2,7 +2,6 @@
 
 #include "NativeWindowAndroid.hpp"
 #include "EngineAndroid.hpp"
-#include "thread/Lock.hpp"
 #include "utils/Errors.hpp"
 
 namespace ouzel

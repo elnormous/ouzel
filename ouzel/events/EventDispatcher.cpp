@@ -4,7 +4,6 @@
 #include "core/Setup.h"
 #include "EventDispatcher.hpp"
 #include "EventHandler.hpp"
-#include "thread/Lock.hpp"
 #include "utils/Utils.hpp"
 
 namespace ouzel
@@ -59,7 +58,7 @@ namespace ouzel
         for (;;)
         {
             {
-                Lock lock(eventQueueMutex);
+                std::unique_lock<std::mutex> lock(eventQueueMutex);
                 if (eventQueue.empty()) break;
 
                 event = std::move(eventQueue.front());
@@ -198,7 +197,7 @@ namespace ouzel
             dispatchEvent(event);
         else
         {
-            Lock lock(eventQueueMutex);
+            std::unique_lock<std::mutex> lock(eventQueueMutex);
             eventQueue.push(event);
         }
 #else

@@ -35,7 +35,7 @@ namespace ouzel
         void executeAll();
 
         std::queue<std::function<void(void)>> executeQueue;
-        Mutex executeMutex;
+        std::mutex executeMutex;
 
 #if OUZEL_SUPPORTS_X11
         Display* display = nullptr;

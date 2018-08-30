@@ -7,7 +7,6 @@
 #include "core/Engine.hpp"
 #include "events/EventDispatcher.hpp"
 #include "math/MathUtils.hpp"
-#include "thread/Lock.hpp"
 
 namespace ouzel
 {
@@ -25,7 +24,7 @@ namespace ouzel
 
         void InputManager::setCurrentCursor(Cursor* cursor)
         {
-            Lock lock(resourceMutex);
+            std::unique_lock<std::mutex> lock(resourceMutex);
 
             if (cursor)
                 currentNativeCursor = cursor->getNativeCursor();
@@ -43,7 +42,7 @@ namespace ouzel
 
         NativeCursor* InputManager::createNativeCursor()
         {
-            Lock lock(resourceMutex);
+            std::unique_lock<std::mutex> lock(resourceMutex);
 
             std::unique_ptr<NativeCursor> cursorResource(new NativeCursor(*this));
             NativeCursor* result = cursorResource.get();
@@ -56,7 +55,7 @@ namespace ouzel
         void InputManager::deleteNativeCursor(NativeCursor* resource)
         {
             engine->executeOnMainThread([this, resource] {
-                Lock lock(resourceMutex);
+                std::unique_lock<std::mutex> lock(resourceMutex);
 
                 auto i = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<NativeCursor>& ptr) {
                     return ptr.get() == resource;

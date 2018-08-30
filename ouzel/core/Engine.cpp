@@ -10,7 +10,6 @@
 #include "graphics/Renderer.hpp"
 #include "graphics/RenderDevice.hpp"
 #include "audio/Audio.hpp"
-#include "thread/Lock.hpp"
 
 #if OUZEL_PLATFORM_MACOS
 #include "input/macos/InputManagerMacOS.hpp"
@@ -119,11 +118,11 @@ namespace ouzel
         active = false;
 
 #if OUZEL_MULTITHREADED
-        if (updateThread.isJoinable())
+        if (updateThread.joinable())
         {
             {
-                Lock lock(updateMutex);
-                updateCondition.signal();
+                std::unique_lock<std::mutex> lock(updateMutex);
+                updateCondition.notify_all();
             }
 
             updateThread.join();
@@ -135,7 +134,7 @@ namespace ouzel
 
     void Engine::init()
     {
-        Thread::setCurrentThreadName("Main");
+        setCurrentThreadName("Main");
 
         graphics::Renderer::Driver graphicsDriver = graphics::Renderer::Driver::DEFAULT;
         Size2 size;
@@ -582,7 +581,7 @@ namespace ouzel
             paused = false;
 
 #if OUZEL_MULTITHREADED
-            updateThread = Thread(std::bind(&Engine::main, this), "Game");
+            updateThread = std::thread(&Engine::main, this);
 #else
             main();
 #endif
@@ -612,8 +611,8 @@ namespace ouzel
             paused = false;
 
 #if OUZEL_MULTITHREADED
-            Lock lock(updateMutex);
-            updateCondition.signal();
+            std::unique_lock<std::mutex> lock(updateMutex);
+            updateCondition.notify_all();
 #endif
         }
     }
@@ -632,12 +631,12 @@ namespace ouzel
         }
 
 #if OUZEL_MULTITHREADED
-        if (updateThread.isJoinable() &&
-            updateThread.getId() != Thread::getCurrentThreadId())
+        if (updateThread.joinable() &&
+            updateThread.get_id() != std::this_thread::get_id())
         {
             {
-                Lock lock(updateMutex);
-                updateCondition.signal();
+                std::unique_lock<std::mutex> lock(updateMutex);
+                updateCondition.notify_all();
             }
 
             updateThread.join();
@@ -663,6 +662,8 @@ namespace ouzel
 
     void Engine::main()
     {
+        setCurrentThreadName("Game");
+
         try
         {
             ouzelMain(args);
@@ -678,7 +679,7 @@ namespace ouzel
                 }
                 else
                 {
-                    Lock lock(updateMutex);
+                    std::unique_lock<std::mutex> lock(updateMutex);
                     while (active && paused)
                         updateCondition.wait(lock);
                 }

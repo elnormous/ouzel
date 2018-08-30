@@ -7,7 +7,6 @@
 #include "NativeWindowAndroid.hpp"
 #include "events/EventDispatcher.hpp"
 #include "graphics/opengl/android/RenderDeviceOGLAndroid.hpp"
-#include "thread/Lock.hpp"
 #include "utils/Errors.hpp"
 
 static int looperCallback(int fd, int events, void* data)
@@ -47,7 +46,7 @@ namespace ouzel
 
     EngineAndroid::~EngineAndroid()
     {
-        if (updateThread.isJoinable()) updateThread.join();
+        if (updateThread.joinable()) updateThread.join();
 
         JNIEnv* jniEnv;
 
@@ -233,7 +232,7 @@ namespace ouzel
     void EngineAndroid::executeOnMainThread(const std::function<void(void)>& func)
     {
         {
-            Lock lock(executeMutex);
+            std::unique_lock<std::mutex> lock(executeMutex);
             executeQueue.push(func);
         }
 
@@ -292,7 +291,7 @@ namespace ouzel
         std::function<void(void)> func;
 
         {
-           Lock lock(executeMutex);
+            std::unique_lock<std::mutex> lock(executeMutex);
 
             if (!executeQueue.empty())
             {

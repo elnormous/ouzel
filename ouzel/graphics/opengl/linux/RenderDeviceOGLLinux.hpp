@@ -7,6 +7,7 @@
 #if OUZEL_PLATFORM_LINUX && OUZEL_COMPILE_OPENGL
 
 #include <atomic>
+#include <thread>
 #if OUZEL_OPENGL_INTERFACE_GLX
 #  define GL_GLEXT_PROTOTYPES 1
 #  include <GL/glx.h>
@@ -15,7 +16,6 @@
 #  include "EGL/eglext.h"
 #endif
 #include "graphics/opengl/RenderDeviceOGL.hpp"
-#include "thread/Thread.hpp"
 
 namespace ouzel
 {
@@ -53,7 +53,7 @@ namespace ouzel
             EGLContext context = 0;
 #endif
             std::atomic<bool> running;
-            Thread renderThread;
+            std::thread renderThread;
         };
     } // namespace graphics
 } // namespace ouzel

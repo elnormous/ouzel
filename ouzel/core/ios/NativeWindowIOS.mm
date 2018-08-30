@@ -7,7 +7,6 @@
 #include "graphics/metal/ios/MetalView.h"
 #include "core/Engine.hpp"
 #include "events/EventDispatcher.hpp"
-#include "thread/Lock.hpp"
 #include "utils/Errors.hpp"
 
 @interface ViewController: UIViewController
