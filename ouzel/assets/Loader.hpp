@@ -42,8 +42,8 @@ namespace ouzel
             virtual bool loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps = true) = 0;
 
         protected:
-            uint32_t type = Type::NONE;
             Cache& cache;
+            uint32_t type = Type::NONE;
         };
     } // namespace assets
 } // namespace ouzel
