@@ -75,26 +75,11 @@ namespace ouzel
                 throw DataError("Invalid mip map count");
         }
 
-        void TextureResource::setSize(const Size2& newSize)
-        {
-            if (!(flags & Texture::DYNAMIC))
-                throw DataError("Texture is not dynamic");
-
-            if (newSize.width <= 0.0F || newSize.height <= 0.0F)
-                throw DataError("Invalid texture size");
-
-            if (newSize != size) calculateSizes(newSize);
-        }
-
-        void TextureResource::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
+        void TextureResource::setData(const std::vector<uint8_t>& newData)
         {
             if (!(flags & Texture::DYNAMIC) || flags & Texture::RENDER_TARGET)
                 throw DataError("Texture is not dynamic");
 
-            if (newSize.width <= 0.0F || newSize.height <= 0.0F)
-                throw DataError("Invalid texture size");
-
-            if (newSize != size) calculateSizes(newSize);
             calculateData(newData);
         }
 

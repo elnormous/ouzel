@@ -439,86 +439,9 @@ namespace ouzel
             setTextureParameters();
         }
 
-        void TextureResourceOGL::setSize(const Size2& newSize)
+        void TextureResourceOGL::setData(const std::vector<uint8_t>& newData)
         {
-            TextureResource::setSize(newSize);
-
-            if (!textureId)
-                throw DataError("Texture not initialized");
-
-            RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
-            renderDeviceOGL.bindTexture(textureId, 0);
-
-            if (static_cast<GLsizei>(size.width) != width ||
-                static_cast<GLsizei>(size.height) != height)
-            {
-                width = static_cast<GLsizei>(size.width);
-                height = static_cast<GLsizei>(size.height);
-
-                if (flags & Texture::RENDER_TARGET)
-                {
-                    // TODO: fix this by resizing all the render buffers and textures
-                    glTexImage2D(GL_TEXTURE_2D, 0, static_cast<GLint>(oglInternalPixelFormat),
-                                 width, height, 0,
-                                 oglPixelFormat, oglPixelType, nullptr);
-
-                    if (flags & Texture::DEPTH_BUFFER)
-                    {
-                        glBindRenderbufferProc(GL_RENDERBUFFER, depthBufferId);
-
-                        if (sampleCount > 1 && renderDeviceOGL.isMultisamplingSupported())
-                        {
-                            glRenderbufferStorageMultisampleProc(GL_RENDERBUFFER,
-                                                                 static_cast<GLsizei>(sampleCount),
-                                                                 GL_DEPTH_COMPONENT,
-                                                                 width, height);
-                        }
-                        else
-                        {
-                            glRenderbufferStorageProc(GL_RENDERBUFFER, GL_DEPTH_COMPONENT,
-                                                      width, height);
-                        }
-                    }
-
-                    GLenum error;
-
-                    if ((error = glGetError()) != GL_NO_ERROR)
-                        throw DataError("Failed to create render buffer, error: " + std::to_string(error));
-                }
-                else
-                {
-                    if (!levels.empty())
-                    {
-                        if (renderDeviceOGL.isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-                        if (renderDeviceOGL.isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
-
-                        GLenum error;
-
-                        if ((error = glGetError()) != GL_NO_ERROR)
-                            throw DataError("Failed to set texture base and max levels, error: " + std::to_string(error));
-                    }
-
-                    for (size_t level = 0; level < levels.size(); ++level)
-                    {
-                        // resize all the mip levels
-                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
-                                     static_cast<GLsizei>(levels[level].size.width),
-                                     static_cast<GLsizei>(levels[level].size.height), 0,
-                                     oglPixelFormat, oglPixelType,
-                                     nullptr);
-                    }
-
-                    GLenum error;
-
-                    if ((error = glGetError()) != GL_NO_ERROR)
-                        throw DataError("Failed to set texture size, error: " + std::to_string(error));
-                }
-            }
-        }
-
-        void TextureResourceOGL::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
-        {
-            TextureResource::setData(newData, newSize);
+            TextureResource::setData(newData);
 
             if (!textureId)
                 throw DataError("Texture not initialized");
@@ -528,57 +451,15 @@ namespace ouzel
 
             if (!(flags & Texture::RENDER_TARGET))
             {
-                if (static_cast<GLsizei>(size.width) != width ||
-                    static_cast<GLsizei>(size.height) != height)
+                for (size_t level = 0; level < levels.size(); ++level)
                 {
-                    width = static_cast<GLsizei>(size.width);
-                    height = static_cast<GLsizei>(size.height);
-
-                    if (!levels.empty())
+                    if (!levels[level].data.empty())
                     {
-                        if (renderDeviceOGL.isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-                        if (renderDeviceOGL.isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
-
-                        GLenum error;
-
-                        if ((error = glGetError()) != GL_NO_ERROR)
-                            throw DataError("Failed to set texture base and max levels, error: " + std::to_string(error));
-                    }
-
-                    for (size_t level = 0; level < levels.size(); ++level)
-                    {
-                        if (!levels[level].data.empty())
-                        {
-                            // resize and fill all the mip levels with data
-                            glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
-                                         static_cast<GLsizei>(levels[level].size.width),
-                                         static_cast<GLsizei>(levels[level].size.height), 0,
-                                         oglPixelFormat, oglPixelType,
-                                         levels[level].data.data());
-                        }
-                        else
-                        {
-                            // resize all the mip levels
-                            glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
-                                         static_cast<GLsizei>(levels[level].size.width),
-                                         static_cast<GLsizei>(levels[level].size.height), 0,
-                                         oglPixelFormat, oglPixelType,
-                                         nullptr);
-                        }
-                    }
-                }
-                else
-                {
-                    for (size_t level = 0; level < levels.size(); ++level)
-                    {
-                        if (!levels[level].data.empty())
-                        {
-                            glTexSubImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), 0, 0,
-                                            static_cast<GLsizei>(levels[level].size.width),
-                                            static_cast<GLsizei>(levels[level].size.height),
-                                            oglPixelFormat, oglPixelType,
-                                            levels[level].data.data());
-                        }
+                        glTexSubImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), 0, 0,
+                                        static_cast<GLsizei>(levels[level].size.width),
+                                        static_cast<GLsizei>(levels[level].size.height),
+                                        oglPixelFormat, oglPixelType,
+                                        levels[level].data.data());
                     }
                 }
 
@@ -846,7 +727,7 @@ namespace ouzel
                                                       width, height);
                         }
 
-                        glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, depthBufferId);
+                        glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorBufferId);
                     }
 
                     if (flags & Texture::DEPTH_BUFFER)
