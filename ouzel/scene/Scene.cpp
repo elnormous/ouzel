@@ -189,7 +189,7 @@ namespace ouzel
             if (type == Event::Type::RESOLUTION_CHANGE)
                 recalculateProjection();
 
-            return true;
+            return false;
         }
 
         bool Scene::handleMouse(Event::Type type, const MouseEvent& event)
@@ -226,7 +226,7 @@ namespace ouzel
                     break;
             }
 
-            return true;
+            return false;
         }
 
         bool Scene::handleTouch(Event::Type type, const TouchEvent& event)
@@ -269,7 +269,7 @@ namespace ouzel
                     break;
             }
 
-            return true;
+            return false;
         }
 
         void Scene::pointerEnterActor(uint64_t pointerId, Actor* actor, const Vector2& position)

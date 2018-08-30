@@ -80,7 +80,7 @@ namespace ouzel
 
         bool CheckBox::handleUI(Event::Type type, const UIEvent& event)
         {
-            if (!enabled) return true;
+            if (!enabled) return false;
 
             if (event.actor == this)
             {
@@ -120,7 +120,7 @@ namespace ouzel
                 }
             }
 
-            return true;
+            return false;
         }
 
         void CheckBox::updateSprite()

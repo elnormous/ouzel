@@ -80,12 +80,10 @@ bool SoundSample::handleGamepad(Event::Type type, const GamepadEvent& event)
     {
         if (event.pressed &&
             event.button == input::GamepadButton::FACE_RIGHT)
-        {
             engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
-        }
     }
 
-    return true;
+    return false;
 }
 
 bool SoundSample::handleUI(Event::Type type, const UIEvent& event)
@@ -93,32 +91,20 @@ bool SoundSample::handleUI(Event::Type type, const UIEvent& event)
     if (type == Event::Type::ACTOR_CLICK)
     {
         if (event.actor == &backButton)
-        {
             engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
-        }
         else if (event.actor == &test8BitButton)
-        {
             test8BitSound.play();
-        }
         else if (event.actor == &test24BitButton)
-        {
             test24BitSound.play();
-        }
         else if (event.actor == &jumpButton)
-        {
             jumpSound.play(true);
-        }
         else if (event.actor == &ambientButton)
-        {
             ambientSound.play();
-        }
         else if (event.actor == &musicButton)
-        {
             music.play();
-        }
     }
 
-    return true;
+    return false;
 }
 
 bool SoundSample::handleKeyboard(Event::Type type, const KeyboardEvent& event) const
@@ -136,5 +122,5 @@ bool SoundSample::handleKeyboard(Event::Type type, const KeyboardEvent& event) c
         }
     }
 
-    return true;
+    return false;
 }

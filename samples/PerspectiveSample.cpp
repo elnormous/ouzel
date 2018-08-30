@@ -89,12 +89,10 @@ bool PerspectiveSample::handleUI(ouzel::Event::Type type, const ouzel::UIEvent& 
     if (type == Event::Type::ACTOR_CLICK)
     {
         if (event.actor == &backButton)
-        {
             engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
-        }
     }
 
-    return true;
+    return false;
 }
 
 bool PerspectiveSample::handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event)
@@ -119,7 +117,7 @@ bool PerspectiveSample::handleKeyboard(ouzel::Event::Type type, const ouzel::Key
             case input::KeyboardKey::ESCAPE:
             case input::KeyboardKey::MENU:
                 engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
-                return true;
+                return false;
             case input::KeyboardKey::TAB:
                 jumpSound.play();
                 break;
@@ -138,7 +136,7 @@ bool PerspectiveSample::handleKeyboard(ouzel::Event::Type type, const ouzel::Key
         //engine->getAudio()->setListenerRotation(camera.getRotation());
     }
 
-    return true;
+    return false;
 }
 
 bool PerspectiveSample::handleMouse(ouzel::Event::Type type, const ouzel::MouseEvent& event)
@@ -157,7 +155,7 @@ bool PerspectiveSample::handleMouse(ouzel::Event::Type type, const ouzel::MouseE
         }
     }
 
-    return true;
+    return false;
 }
 
 bool PerspectiveSample::handleTouch(ouzel::Event::Type type, const ouzel::TouchEvent& event)
@@ -173,7 +171,7 @@ bool PerspectiveSample::handleTouch(ouzel::Event::Type type, const ouzel::TouchE
         cameraActor.setRotation(Vector3(cameraRotation.x, cameraRotation.y, 0.0F));
     }
 
-    return true;
+    return false;
 }
 
 bool PerspectiveSample::handleGamepad(Event::Type type, const GamepadEvent& event)
@@ -182,10 +180,8 @@ bool PerspectiveSample::handleGamepad(Event::Type type, const GamepadEvent& even
     {
         if (event.pressed &&
             event.button == input::GamepadButton::FACE_RIGHT)
-        {
             engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
-        }
     }
 
-    return true;
+    return false;
 }

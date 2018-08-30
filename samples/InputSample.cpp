@@ -48,7 +48,7 @@ public:
             }
         }
 
-        return true;
+        return false;
     }
 
     ouzel::EventHandler handler;
@@ -134,7 +134,7 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
             case input::KeyboardKey::MENU:
                 engine->getInputManager()->setCursorVisible(true);
                 engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
-                return true;
+                return false;
             default:
                 break;
         }
@@ -144,7 +144,7 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
         flame.setPosition(worldLocation);
     }
 
-    return true;
+    return false;
 }
 
 bool InputSample::handleMouse(Event::Type type, const MouseEvent& event)
@@ -161,7 +161,7 @@ bool InputSample::handleMouse(Event::Type type, const MouseEvent& event)
             break;
     }
 
-    return true;
+    return false;
 }
 
 bool InputSample::handleTouch(Event::Type, const TouchEvent& event)
@@ -169,7 +169,7 @@ bool InputSample::handleTouch(Event::Type, const TouchEvent& event)
     Vector2 worldLocation = camera.convertNormalizedToWorld(event.position);
     flame.setPosition(worldLocation);
 
-    return true;
+    return false;
 }
 
 bool InputSample::handleGamepad(Event::Type type, const GamepadEvent& event)
@@ -182,7 +182,7 @@ bool InputSample::handleGamepad(Event::Type type, const GamepadEvent& event)
         {
             case input::GamepadButton::FACE_RIGHT:
                 if (event.pressed) engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
-                return true;
+                return false;
             case input::GamepadButton::DPAD_UP:
             case input::GamepadButton::LEFT_THUMB_UP:
             case input::GamepadButton::RIGHT_THUMB_UP:
@@ -211,7 +211,7 @@ bool InputSample::handleGamepad(Event::Type type, const GamepadEvent& event)
         flame.setPosition(worldLocation);
     }
 
-    return true;
+    return false;
 }
 
 bool InputSample::handleUI(Event::Type type, const UIEvent& event) const
@@ -224,14 +224,10 @@ bool InputSample::handleUI(Event::Type type, const UIEvent& event) const
             engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
         }
         else if (event.actor == &hideButton)
-        {
             engine->getInputManager()->setCursorVisible(!engine->getInputManager()->isCursorVisible());
-        }
         else if (event.actor == &discoverButton)
-        {
             engine->getInputManager()->startDeviceDiscovery();
-        }
     }
 
-    return true;
+    return false;
 }

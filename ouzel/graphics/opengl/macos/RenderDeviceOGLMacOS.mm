@@ -236,7 +236,7 @@ namespace ouzel
                 });
             }
 
-            return true;
+            return false;
         }
 
         void RenderDeviceOGLMacOS::renderCallback()
