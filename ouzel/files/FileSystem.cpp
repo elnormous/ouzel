@@ -25,6 +25,7 @@ extern "C" id NSTemporaryDirectory();
 #include "Archive.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
+#include "utils/Utils.hpp"
 
 #if OUZEL_PLATFORM_WINDOWS || OUZEL_PLATFORM_LINUX
 extern std::string DEVELOPER_NAME;
@@ -161,8 +162,9 @@ namespace ouzel
 
         return path;
 #elif OUZEL_PLATFORM_ANDROID
-        EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(engine);
+        OUZEL_UNUSED(user);
 
+        EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(engine);
         return engineAndroid->getFilesDirectory();
 #else
         return "";
