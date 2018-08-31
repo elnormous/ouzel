@@ -72,6 +72,9 @@ namespace ouzel
         private:
             FileSystem& fileSystem;
 
+            std::vector<Bundle*> bundles;
+            std::vector<Loader*> loaders;
+
             LoaderBMF loaderBMF;
             LoaderCollada loaderCollada;
             LoaderGLTF loaderGLTF;
@@ -83,9 +86,6 @@ namespace ouzel
             LoaderTTF loaderTTF;
             LoaderVorbis loaderVorbis;
             LoaderWave loaderWave;
-
-            std::vector<Bundle*> bundles;
-            std::vector<Loader*> loaders;
         };
     } // namespace assets
 } // namespace ouzel

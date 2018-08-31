@@ -35,17 +35,6 @@ namespace ouzel
             loaderVorbis(*this),
             loaderWave(*this)
         {
-            addLoader(&loaderBMF);
-            addLoader(&loaderCollada);
-            addLoader(&loaderGLTF);
-            addLoader(&loaderImage);
-            addLoader(&loaderMTL);
-            addLoader(&loaderOBJ);
-            addLoader(&loaderParticleSystem);
-            addLoader(&loaderSprite);
-            addLoader(&loaderTTF);
-            addLoader(&loaderVorbis);
-            addLoader(&loaderWave);
         }
 
         void Cache::addBundle(Bundle* bundle)
