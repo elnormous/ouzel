@@ -12,7 +12,7 @@ public class OuzelLibJNIWrapper
 {
     static
     {
-        System.loadLibrary("samples");
+        System.loadLibrary("main");
     }
 
     public static native void onCreate(Activity mainActivity);
