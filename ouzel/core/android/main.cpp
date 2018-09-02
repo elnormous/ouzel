@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <jni.h>
+#include <android/native_activity.h>
 #include "core/android/EngineAndroid.hpp"
 #include "core/android/NativeWindowAndroid.hpp"
 #include "core/Engine.hpp"
@@ -10,6 +11,97 @@
 #include "utils/Log.hpp"
 
 static std::unique_ptr<ouzel::EngineAndroid> engine;
+
+static void onDestroy(ANativeActivity* activity)
+{
+    ouzel::Log() << "onDestroy";
+}
+
+static void onStart(ANativeActivity* activity)
+{
+    ouzel::Log() << "onStart";
+}
+
+static void onResume(ANativeActivity* activity)
+{
+    ouzel::Log() << "onResume";
+}
+
+static void* onSaveInstanceState(ANativeActivity* activity, size_t* outLen)
+{
+    void* savedState = NULL;
+
+    ouzel::Log() << "onSaveInstanceState";
+
+    return savedState;
+}
+
+static void onPause(ANativeActivity* activity)
+{
+    ouzel::Log() << "onPause";
+}
+
+static void onStop(ANativeActivity* activity)
+{
+    ouzel::Log() << "onStop";
+}
+
+static void onConfigurationChanged(ANativeActivity* activity)
+{
+    ouzel::Log() << "onConfigurationChanged";
+}
+
+static void onLowMemory(ANativeActivity* activity)
+{
+    ouzel::Log() << "onLowMemory";
+}
+
+static void onWindowFocusChanged(ANativeActivity* activity, int focused)
+{
+    ouzel::Log() << "onWindowFocusChanged";
+}
+
+static void onNativeWindowCreated(ANativeActivity* activity, ANativeWindow* window)
+{
+    ouzel::Log() << "onNativeWindowCreated";
+}
+
+static void onNativeWindowDestroyed(ANativeActivity* activity, ANativeWindow* window)
+{
+    ouzel::Log() << "onNativeWindowDestroyed";
+}
+
+static void onInputQueueCreated(ANativeActivity* activity, AInputQueue* queue)
+{
+    ouzel::Log() << "onInputQueueCreated";
+}
+
+static void onInputQueueDestroyed(ANativeActivity* activity, AInputQueue* queue)
+{
+    ouzel::Log() << "onInputQueueDestroyed";
+}
+
+extern "C" JNIEXPORT void ANativeActivity_onCreate(ANativeActivity* activity,
+                                                   void* savedState, size_t savedStateSize)
+{
+    ouzel::Log() << "ANativeActivity_onCreate";
+
+    activity->callbacks->onDestroy = onDestroy;
+    activity->callbacks->onStart = onStart;
+    activity->callbacks->onResume = onResume;
+    activity->callbacks->onSaveInstanceState = onSaveInstanceState;
+    activity->callbacks->onPause = onPause;
+    activity->callbacks->onStop = onStop;
+    activity->callbacks->onConfigurationChanged = onConfigurationChanged;
+    activity->callbacks->onLowMemory = onLowMemory;
+    activity->callbacks->onWindowFocusChanged = onWindowFocusChanged;
+    activity->callbacks->onNativeWindowCreated = onNativeWindowCreated;
+    activity->callbacks->onNativeWindowDestroyed = onNativeWindowDestroyed;
+    activity->callbacks->onInputQueueCreated = onInputQueueCreated;
+    activity->callbacks->onInputQueueDestroyed = onInputQueueDestroyed;
+
+    activity->instance = engine.get();
+}
 
 extern "C" JNIEXPORT jint JNIEXPORT JNI_OnLoad(JavaVM* javaVM, void*)
 {

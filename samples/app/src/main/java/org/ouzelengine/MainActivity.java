@@ -3,11 +3,11 @@
 
 package org.ouzelengine;
 
-import android.app.Activity;
+import android.app.NativeActivity;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
-public class MainActivity extends Activity
+public class MainActivity extends NativeActivity
 {
     @Override public void onCreate(Bundle savedInstanceState)
     {
