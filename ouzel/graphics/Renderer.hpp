@@ -114,6 +114,8 @@ namespace ouzel
                                     std::vector<std::vector<float>> vertexShaderConstants);
             void setTextures(const std::vector<TextureResource*>& textures);
 
+            void waitForNextFrame();
+
         protected:
             explicit Renderer(Driver driver,
                               Window* newWindow,

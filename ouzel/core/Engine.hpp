@@ -85,6 +85,9 @@ namespace ouzel
         virtual void setScreenSaverEnabled(bool newScreenSaverEnabled);
         bool isScreenSaverEnabled() const { return screenSaverEnabled; }
 
+        bool isOneUpdatePerFrame() const { return oneUpdatePerFrame; }
+        void setOneUpdatePerFrame(bool value) { oneUpdatePerFrame = value; }
+
     protected:
         virtual void main();
 
@@ -111,6 +114,7 @@ namespace ouzel
 
         std::atomic<bool> active;
         std::atomic<bool> paused;
+        std::atomic<bool> oneUpdatePerFrame;
 
         std::atomic<bool> screenSaverEnabled;
         std::vector<std::string> args;

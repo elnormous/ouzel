@@ -45,6 +45,12 @@ namespace ouzel
 
         void RenderDevice::process()
         {
+            {
+                std::unique_lock<std::mutex> lock(frameMutex);
+                newFrame = true;
+                frameCondition.notify_all();
+            }
+
             std::chrono::steady_clock::time_point currentTime = std::chrono::steady_clock::now();
             auto diff = std::chrono::duration_cast<std::chrono::nanoseconds>(currentTime - previousFrameTime);
             previousFrameTime = currentTime;
@@ -175,6 +181,13 @@ namespace ouzel
 
                 if (func) func();
             }
+        }
+
+        void RenderDevice::waitForNextFrame()
+        {
+            std::unique_lock<std::mutex> lock(frameMutex);
+            while (!newFrame) frameCondition.wait(lock);
+            newFrame = false;
         }
     } // namespace graphics
 } // namespace ouzel

@@ -100,7 +100,8 @@ namespace ouzel
     ouzel::Engine* engine = nullptr;
 
     Engine::Engine():
-        cache(fileSystem), assetBundle(cache), active(false), paused(false), screenSaverEnabled(true)
+        cache(fileSystem), assetBundle(cache), active(false), paused(false),
+        oneUpdatePerFrame(false), screenSaverEnabled(true)
     {
         engine = this;
     }
@@ -658,6 +659,8 @@ namespace ouzel
         }
 
         audio->update();
+
+        if (oneUpdatePerFrame) renderer->waitForNextFrame();
     }
 
     void Engine::main()

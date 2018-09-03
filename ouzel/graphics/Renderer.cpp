@@ -276,5 +276,10 @@ namespace ouzel
 
             device->addCommand(SetTexturesCommand(newTextures));
         }
+
+        void Renderer::waitForNextFrame()
+        {
+            device->waitForNextFrame();
+        }
     } // namespace graphics
 } // namespace ouzel
