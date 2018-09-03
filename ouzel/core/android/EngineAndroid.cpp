@@ -133,7 +133,7 @@ namespace ouzel
             throw SystemError("Failed to add looper file descriptor");
     }
 
-    void EngineAndroid::onSurfaceCreated(jobject newSurface)
+    void EngineAndroid::handleWindowCreate(jobject newSurface)
     {
         JNIEnv* jniEnv;
 
@@ -154,14 +154,46 @@ namespace ouzel
                 if (renderDevice->getDriver() == graphics::Renderer::Driver::OPENGL)
                 {
                     graphics::RenderDeviceOGLAndroid* renderDeviceOGLAndroid = static_cast<graphics::RenderDeviceOGLAndroid*>(renderDevice);
-                    renderDeviceOGLAndroid->reload();
+                    //renderDeviceOGLAndroid->reload();
                 }
             }
         }
     }
 
-    void EngineAndroid::onConfigurationChanged(jobject newConfig)
+    void EngineAndroid::handleWindowDestroy()
     {
+        JNIEnv* jniEnv;
+
+        if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
+            throw SystemError("Failed to get JNI environment");
+
+        if (surface)
+        {
+            jniEnv->DeleteGlobalRef(surface);
+            surface = nullptr;
+        }
+
+        if (active)
+        {
+            NativeWindowAndroid* windowAndroid = static_cast<NativeWindowAndroid*>(window->getNativeWindow());
+            windowAndroid->handleSurfaceDestroy();
+
+            if (renderer)
+            {
+                graphics::RenderDevice* renderDevice = renderer->getDevice();
+                if (renderDevice->getDriver() == graphics::Renderer::Driver::OPENGL)
+                {
+                    graphics::RenderDeviceOGLAndroid* renderDeviceOGLAndroid = static_cast<graphics::RenderDeviceOGLAndroid*>(renderDevice);
+                    renderDeviceOGLAndroid->destroy();
+                }
+            }
+        }
+    }
+
+    void EngineAndroid::handleConfigurationChange()
+    {
+        AConfiguration_fromAssetManager();
+
         JNIEnv* jniEnv;
 
         if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
@@ -190,36 +222,6 @@ namespace ouzel
             }
 
             eventDispatcher.postEvent(event);
-        }
-    }
-
-    void EngineAndroid::onSurfaceDestroyed()
-    {
-        JNIEnv* jniEnv;
-
-        if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-            throw SystemError("Failed to get JNI environment");
-
-        if (surface)
-        {
-            jniEnv->DeleteGlobalRef(surface);
-            surface = nullptr;
-        }
-
-        if (active)
-        {
-            NativeWindowAndroid* windowAndroid = static_cast<NativeWindowAndroid*>(window->getNativeWindow());
-            windowAndroid->handleSurfaceDestroy();
-
-            if (renderer)
-            {
-                graphics::RenderDevice* renderDevice = renderer->getDevice();
-                if (renderDevice->getDriver() == graphics::Renderer::Driver::OPENGL)
-                {
-                    graphics::RenderDeviceOGLAndroid* renderDeviceOGLAndroid = static_cast<graphics::RenderDeviceOGLAndroid*>(renderDevice);
-                    renderDeviceOGLAndroid->destroy();
-                }
-            }
         }
     }
 

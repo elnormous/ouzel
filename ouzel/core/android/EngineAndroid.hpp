@@ -19,10 +19,9 @@ namespace ouzel
         EngineAndroid(JavaVM* initJavaVM);
         virtual ~EngineAndroid();
 
-        void onCreate(jobject initMainActivity);
-        void onSurfaceCreated(jobject newSurface);
-        void onSurfaceDestroyed();
-        void onConfigurationChanged(jobject newConfig);
+        void handleWindowCreate(ANativeWindow* nativeWindow);
+        void handleWindowDestroy();
+        void handleConfigurationChange();
 
         virtual void run() override;
 

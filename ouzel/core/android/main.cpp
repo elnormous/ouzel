@@ -14,17 +14,16 @@ static std::unique_ptr<ouzel::EngineAndroid> engine;
 
 static void onDestroy(ANativeActivity* activity)
 {
-    ouzel::Log() << "onDestroy";
+    engine.reset();
 }
 
 static void onStart(ANativeActivity* activity)
 {
-    ouzel::Log() << "onStart";
 }
 
 static void onResume(ANativeActivity* activity)
 {
-    ouzel::Log() << "onResume";
+    engine->resume();
 }
 
 static void* onSaveInstanceState(ANativeActivity* activity, size_t* outLen)
@@ -38,37 +37,41 @@ static void* onSaveInstanceState(ANativeActivity* activity, size_t* outLen)
 
 static void onPause(ANativeActivity* activity)
 {
-    ouzel::Log() << "onPause";
+    engine->pause();
 }
 
 static void onStop(ANativeActivity* activity)
 {
-    ouzel::Log() << "onStop";
 }
 
 static void onConfigurationChanged(ANativeActivity* activity)
 {
-    ouzel::Log() << "onConfigurationChanged";
+    engine->handleConfigurationChange();
+
+    ouzel::NativeWindowAndroid* windowAndroid = static_cast<ouzel::NativeWindowAndroid*>(engine->getWindow()->getNativeWindow());
+    windowAndroid->handleResize(ouzel::Size2(static_cast<float>(width), static_cast<float>(height)));
 }
 
 static void onLowMemory(ANativeActivity* activity)
 {
-    ouzel::Log() << "onLowMemory";
+    ouzel::Event event;
+    event.type = ouzel::Event::Type::LOW_MEMORY;
+
+    engine->getEventDispatcher()->postEvent(event);
 }
 
 static void onWindowFocusChanged(ANativeActivity* activity, int focused)
 {
-    ouzel::Log() << "onWindowFocusChanged";
 }
 
 static void onNativeWindowCreated(ANativeActivity* activity, ANativeWindow* window)
 {
-    ouzel::Log() << "onNativeWindowCreated";
+    engine->handleWindowCreate(window);
 }
 
 static void onNativeWindowDestroyed(ANativeActivity* activity, ANativeWindow* window)
 {
-    ouzel::Log() << "onNativeWindowDestroyed";
+    engine->onWindowDestroy();
 }
 
 static void onInputQueueCreated(ANativeActivity* activity, AInputQueue* queue)
@@ -84,8 +87,6 @@ static void onInputQueueDestroyed(ANativeActivity* activity, AInputQueue* queue)
 extern "C" JNIEXPORT void ANativeActivity_onCreate(ANativeActivity* activity,
                                                    void* savedState, size_t savedStateSize)
 {
-    ouzel::Log() << "ANativeActivity_onCreate";
-
     activity->callbacks->onDestroy = onDestroy;
     activity->callbacks->onStart = onStart;
     activity->callbacks->onResume = onResume;
@@ -100,24 +101,8 @@ extern "C" JNIEXPORT void ANativeActivity_onCreate(ANativeActivity* activity,
     activity->callbacks->onInputQueueCreated = onInputQueueCreated;
     activity->callbacks->onInputQueueDestroyed = onInputQueueDestroyed;
 
+    engine.reset(activity->vm);
     activity->instance = engine.get();
-}
-
-extern "C" JNIEXPORT jint JNIEXPORT JNI_OnLoad(JavaVM* javaVM, void*)
-{
-    engine.reset(new ouzel::EngineAndroid(javaVM));
-    return JNI_VERSION_1_6;
-}
-
-extern "C" JNIEXPORT void JNIEXPORT JNI_OnUnload(JavaVM*, void*)
-{
-    engine->exit();
-    engine.reset();
-}
-
-extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onCreate(JNIEnv*, jclass, jobject mainActivity)
-{
-    engine->onCreate(mainActivity);
 }
 
 extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onSurfaceCreated(JNIEnv*, jclass, jobject surface)
@@ -132,45 +117,6 @@ extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onSurf
     {
         ouzel::Log(ouzel::Log::Level::ERR) << e.what();
     }
-}
-
-extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onSurfaceDestroyed(JNIEnv*, jclass)
-{
-    engine->onSurfaceDestroyed();
-}
-
-extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onSurfaceChanged(JNIEnv*, jclass, jobject, jint width, jint height)
-{
-    ouzel::NativeWindowAndroid* windowAndroid = static_cast<ouzel::NativeWindowAndroid*>(engine->getWindow()->getNativeWindow());
-    windowAndroid->handleResize(ouzel::Size2(static_cast<float>(width), static_cast<float>(height)));
-}
-
-extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onStart(JNIEnv*, jclass)
-{
-    // Do nothing
-}
-
-extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onPause(JNIEnv*, jclass)
-{
-    engine->pause();
-}
-
-extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onResume(JNIEnv*, jclass)
-{
-    engine->resume();
-}
-
-extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onConfigurationChanged(JNIEnv*, jclass, jobject newConfig)
-{
-    engine->onConfigurationChanged(newConfig);
-}
-
-extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onLowMemory(JNIEnv*, jclass)
-{
-    ouzel::Event event;
-    event.type = ouzel::Event::Type::LOW_MEMORY;
-
-    engine->getEventDispatcher()->postEvent(event);
 }
 
 extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onBackPressed(JNIEnv*, jclass)
