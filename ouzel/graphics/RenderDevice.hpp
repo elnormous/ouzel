@@ -99,6 +99,7 @@ namespace ouzel
 
         protected:
             explicit RenderDevice(Renderer::Driver initDriver);
+            void waitForNextFrame();
 
             virtual void init(Window* newWindow,
                               const Size2& newSize,
@@ -176,6 +177,10 @@ namespace ouzel
 
             std::queue<std::function<void(void)>> executeQueue;
             std::mutex executeMutex;
+
+            bool newFrame = false;
+            std::mutex frameMutex;
+            std::condition_variable frameCondition;
         };
     } // namespace graphics
 } // namespace ouzel
