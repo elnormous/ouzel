@@ -338,7 +338,7 @@ namespace ouzel
 
             switch (command->type)
             {
-                case Command::Type::SET_RENDER_TARGET:
+                case Command::Type::PRESENT:
                 {
                     swapChain->Present(swapInterval, 0);
                     break;
