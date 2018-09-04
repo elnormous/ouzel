@@ -20,6 +20,7 @@ typedef id<MTLBuffer> MTLBufferPtr;
 typedef MTLRenderPassDescriptor* MTLRenderPassDescriptorPtr;
 typedef id<MTLSamplerState> MTLSamplerStatePtr;
 typedef id<MTLCommandQueue> MTLCommandQueuePtr;
+typedef id<MTLRenderCommandEncoder> MTLRenderCommandEncoderPtr;
 typedef id<MTLRenderPipelineState> MTLRenderPipelineStatePtr;
 typedef id<MTLTexture> MTLTexturePtr;
 typedef id<MTLDepthStencilState> MTLDepthStencilStatePtr;
@@ -32,6 +33,7 @@ typedef id MTLBufferPtr;
 typedef id MTLRenderPassDescriptorPtr;
 typedef id MTLSamplerStatePtr;
 typedef id MTLCommandQueuePtr;
+typedef id MTLRenderCommandEncoderPtr;
 typedef id MTLRenderPipelineStatePtr;
 typedef id MTLTexturePtr;
 typedef id MTLDepthStencilStatePtr;
@@ -43,6 +45,7 @@ typedef NSUInteger MTLLoadAction;
 #endif
 
 #include "graphics/RenderDevice.hpp"
+#include "graphics/metal/ShaderResourceMetal.hpp"
 
 namespace ouzel
 {
@@ -154,6 +157,13 @@ namespace ouzel
             dispatch_semaphore_t inflightSemaphore;
 
             std::map<PipelineStateDesc, MTLRenderPipelineStatePtr> pipelineStates;
+
+            MTLRenderPassDescriptorPtr currentRenderPassDescriptor = nil;
+            MTLRenderCommandEncoderPtr currentRenderCommandEncoder = nil;
+            PipelineStateDesc currentPipelineStateDesc;
+            MTLTexturePtr currentRenderTarget = nil;
+            std::vector<float> shaderData;
+            ShaderResourceMetal* currentShader = nullptr;
         };
     } // namespace graphics
 } // namespace ouzel

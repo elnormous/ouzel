@@ -283,34 +283,31 @@ namespace ouzel
                  dispatch_semaphore_signal(blockSemaphore);
              }];
 
-            MTLRenderPassDescriptorPtr currentRenderPassDescriptor = nil;
-            id<MTLRenderCommandEncoder> currentRenderCommandEncoder = nil;
-            PipelineStateDesc currentPipelineStateDesc;
-            MTLTexturePtr currentRenderTarget = nil;
-
-            std::vector<float> shaderData;
-
             MTLViewport viewport;
             viewport.znear = 0.0;
             viewport.zfar = 1.0;
-
-            if (++shaderConstantBufferIndex >= shaderConstantBuffers.size()) shaderConstantBufferIndex = 0;
-
-            ShaderConstantBuffer& shaderConstantBuffer = shaderConstantBuffers[shaderConstantBufferIndex];
-            ShaderResourceMetal* currentShader = nullptr;
 
             switch (command->type)
             {
                 case Command::Type::PRESENT:
                 {
+                    currentRenderPassDescriptor = nil;
+                    currentRenderTarget = nil;
+
                     if (currentRenderCommandEncoder)
+                    {
                         [currentRenderCommandEncoder endEncoding];
+                        currentRenderCommandEncoder = nil;
+                    }
 
                     if (currentCommandBuffer)
                     {
                         [currentCommandBuffer presentDrawable:currentMetalDrawable];
                         [currentCommandBuffer commit];
+                        currentCommandBuffer = nil;
                     }
+
+                    if (++shaderConstantBufferIndex >= shaderConstantBuffers.size()) shaderConstantBufferIndex = 0;
                     break;
                 }
 
@@ -710,6 +707,8 @@ namespace ouzel
 
                         shaderData.insert(shaderData.end(), fragmentShaderConstant.begin(), fragmentShaderConstant.end());
                     }
+
+                    ShaderConstantBuffer& shaderConstantBuffer = shaderConstantBuffers[shaderConstantBufferIndex];
 
                     shaderConstantBuffer.offset = ((shaderConstantBuffer.offset + currentShader->getFragmentShaderAlignment() - 1) /
                                                    currentShader->getFragmentShaderAlignment()) * currentShader->getFragmentShaderAlignment(); // round up to nearest aligned pointer

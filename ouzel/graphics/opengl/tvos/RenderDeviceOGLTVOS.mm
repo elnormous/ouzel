@@ -32,7 +32,7 @@ namespace ouzel
     namespace graphics
     {
         RenderDeviceOGLTVOS::RenderDeviceOGLTVOS():
-            displayLink(*this)
+            displayLink(::renderCallback, this)
         {
         }
 
