@@ -197,9 +197,9 @@ namespace ouzel
             metalLayer.drawableSize = drawableSize;
         }
 
-        void RenderDeviceMetal::processCommands(CommandBuffer& commands)
+        void RenderDeviceMetal::processCommand(const std::unique_ptr<Command>& command)
         {
-            id<CAMetalDrawable> currentMetalDrawable = [metalLayer nextDrawable];
+            /*id<CAMetalDrawable> currentMetalDrawable = [metalLayer nextDrawable];
 
             if (!currentMetalDrawable)
                 throw DataError("Failed to get Metal drawable");
@@ -790,7 +790,7 @@ namespace ouzel
             {
                 [currentCommandBuffer presentDrawable:currentMetalDrawable];
                 [currentCommandBuffer commit];
-            }
+            }*/
         }
 
         void RenderDeviceMetal::generateScreenshot(const std::string& filename)

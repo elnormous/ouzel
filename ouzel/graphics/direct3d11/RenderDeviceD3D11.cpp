@@ -327,9 +327,9 @@ namespace ouzel
             });
         }
 
-        void RenderDeviceD3D11::processCommands(CommandBuffer& commands)
+        void RenderDeviceD3D11::processCommand(const std::unique_ptr<Command>& command)
         {
-            std::vector<float> shaderData;
+            /*std::vector<float> shaderData;
 
             uint32_t fillModeIndex = 0;
             uint32_t scissorEnableIndex = 0;
@@ -764,7 +764,7 @@ namespace ouzel
                 commands.pop();
             }
 
-            swapChain->Present(swapInterval, 0);
+            swapChain->Present(swapInterval, 0);*/
         }
 
         IDXGIOutput* RenderDeviceD3D11::getOutput() const

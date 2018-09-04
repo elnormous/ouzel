@@ -763,9 +763,9 @@ namespace ouzel
             }
         }
 
-        void RenderDeviceOGL::processCommands(CommandBuffer& commands)
+        void RenderDeviceOGL::processCommand(const std::unique_ptr<Command>& command)
         {
-            ShaderResourceOGL* currentShader = nullptr;
+            /*ShaderResourceOGL* currentShader = nullptr;
 
             if (vertexArrayId)
             {
@@ -1196,7 +1196,7 @@ namespace ouzel
                 }
 
                 commands.pop();
-            }
+            }*/
         }
 
         void RenderDeviceOGL::lockContext()

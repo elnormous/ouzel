@@ -11,7 +11,7 @@ namespace ouzel
             driver(initDriver),
             projectionTransform(Matrix4::identity()),
             renderTargetProjectionTransform(Matrix4::identity()),
-            refillQueue(true),
+            refillQueue(false),
             currentFPS(0.0F),
             accumulatedFPS(0.0F)
         {
@@ -76,21 +76,20 @@ namespace ouzel
                 deleteResources = std::move(resourceDeleteSet);
             }
 
+            std::unique_ptr<Command> command;
+
 #if OUZEL_MULTITHREADED
-            std::unique_lock<std::mutex> lock(commandQueueMutex);
-            while (!queueFinished) commandQueueCondition.wait(lock);
+            {
+                std::unique_lock<std::mutex> lock(commandQueueMutex);
+                while (commandQueue.empty()) commandQueueCondition.wait(lock);
+                command = std::move(commandQueue.front());
+                commandQueue.pop();
+            }
 #endif
-
-            std::swap(fillBuffer, renderBuffer);
-
-            queueFinished = false;
-
-            // refills the draw queue
-            refillQueue = true;
 
             executeAll();
 
-            processCommands(*renderBuffer);
+            processCommand(command);
         }
 
         void RenderDevice::setClearColorBuffer(bool clear)
@@ -143,11 +142,9 @@ namespace ouzel
 #if OUZEL_MULTITHREADED
             std::unique_lock<std::mutex> lock(commandQueueMutex);
 #endif
+            commandQueue.push(std::unique_ptr<Command>(new PresentCommand()));
 
             //drawCallCount = static_cast<uint32_t>(fillBuffer->size());
-
-            refillQueue = false;
-            queueFinished = true;
 
 #if OUZEL_MULTITHREADED
             commandQueueCondition.notify_all();

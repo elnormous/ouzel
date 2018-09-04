@@ -2,8 +2,6 @@
 
 #pragma once
 
-#include <cassert>
-#include <memory>
 #include "graphics/BlendState.hpp"
 #include "graphics/Buffer.hpp"
 #include "graphics/RenderTarget.hpp"
@@ -18,6 +16,7 @@ namespace ouzel
         {
             enum Type
             {
+                PRESENT,
                 INIT_RENDER_TARGET,
                 SET_RENDER_TARGET_PARAMETERS,
                 SET_RENDER_TARGET,
@@ -49,7 +48,17 @@ namespace ouzel
             {
             }
 
+            virtual ~Command() {}
+
             const Type type;
+        };
+
+        struct PresentCommand: public Command
+        {
+            PresentCommand():
+                Command(Command::Type::PRESENT)
+            {
+            }
         };
 
         struct InitRenderTargetCommand: public Command
@@ -434,235 +443,6 @@ namespace ouzel
             }
 
             TextureResource* textures[Texture::LAYERS];
-        };
-
-        class CommandBuffer final
-        {
-        public:
-            CommandBuffer() {}
-            CommandBuffer(const CommandBuffer&) = delete;
-            CommandBuffer(CommandBuffer&& other)
-            {
-                buffer = std::move(other.buffer);
-                capacity = other.capacity;
-                count = other.count;
-                size = other.size;
-                position = other.position;
-                current = other.current;
-
-                other.capacity = 0;
-                other.count = 0;
-                other.size = 0;
-                other.position = 0;
-                other.current = 0;
-            }
-            CommandBuffer& operator=(const CommandBuffer&) = delete;
-            CommandBuffer& operator=(CommandBuffer&& other)
-            {
-                if (&other != this)
-                {
-                    if (buffer) deleteCommands();
-
-                    buffer = std::move(other.buffer);
-                    capacity = other.capacity;
-                    count = other.count;
-                    size = other.size;
-                    position = other.position;
-                    current = other.current;
-
-                    other.capacity = 0;
-                    other.count = 0;
-                    other.size = 0;
-                    other.position = 0;
-                    other.current = 0;
-                }
-
-                return *this;
-            }
-
-            ~CommandBuffer()
-            {
-                if (buffer) deleteCommands();
-            }
-
-            template<typename T> void push(const T& command)
-            {
-                static_assert(std::is_base_of<Command, T>::value, "Not derived from Command");
-
-                size_t offset = size;
-                if (offset % alignof(Command*) != 0) offset += alignof(Command*) - (offset % alignof(Command*));
-
-                if (capacity < offset + sizeof(T))
-                {
-                    capacity *= 2;
-                    if (capacity < offset + sizeof(T)) capacity = offset + sizeof(T);
-                    std::unique_ptr<uint8_t[]> newBuffer(new uint8_t[capacity]);
-                    if (buffer)
-                    {
-                        moveCommands(newBuffer.get());
-                        deleteCommands();
-                    }
-                    buffer = std::move(newBuffer);
-                }
-
-                size = offset + sizeof(T);
-                ++count;
-                new (buffer.get() + offset) T(command);
-            }
-
-            Command* front() const
-            {
-                if (current >= count) return nullptr;
-
-                size_t offset = position;
-                if (offset % alignof(Command*) != 0) offset += alignof(Command*) - (offset % alignof(Command*));
-                Command* command = reinterpret_cast<Command*>(buffer.get() + offset);
-
-                return command;
-            }
-
-            void pop()
-            {
-                if (current >= count) return;
-
-                if (position % alignof(Command*) != 0) position += alignof(Command*) - (position % alignof(Command*));
-                Command* command = reinterpret_cast<Command*>(buffer.get() + position);
-
-                switch (command->type)
-                {
-                    case Command::Type::INIT_RENDER_TARGET: position += deleteCommand(static_cast<InitRenderTargetCommand*>(command)); break;
-                    case Command::Type::SET_RENDER_TARGET_PARAMETERS: position += deleteCommand(static_cast<SetRenderTargetParametersCommand*>(command)); break;
-                    case Command::Type::SET_RENDER_TARGET: position += deleteCommand(static_cast<SetRenderTargetCommand*>(command)); break;
-                    case Command::Type::CLEAR: position += deleteCommand(static_cast<ClearCommand*>(command)); break;
-                    case Command::Type::SET_CULL_MODE: position += deleteCommand(static_cast<SetCullModeCommad*>(command)); break;
-                    case Command::Type::SET_FILL_MODE: position += deleteCommand(static_cast<SetFillModeCommad*>(command)); break;
-                    case Command::Type::SET_SCISSOR_TEST: position += deleteCommand(static_cast<SetScissorTestCommand*>(command)); break;
-                    case Command::Type::SET_VIEWPORT: position += deleteCommand(static_cast<SetViewportCommand*>(command)); break;
-                    case Command::Type::SET_DEPTH_STATE: position += deleteCommand(static_cast<SetDepthStateCommand*>(command)); break;
-                    case Command::Type::SET_PIPELINE_STATE: position += deleteCommand(static_cast<SetPipelineStateCommand*>(command)); break;
-                    case Command::Type::DRAW: position += deleteCommand(static_cast<DrawCommand*>(command)); break;
-                    case Command::Type::PUSH_DEBUG_MARKER: position += deleteCommand(static_cast<PushDebugMarkerCommand*>(command)); break;
-                    case Command::Type::POP_DEBUG_MARKER: position += deleteCommand(static_cast<PopDebugMarkerCommand*>(command)); break;
-                    case Command::Type::INIT_BLEND_STATE: position += deleteCommand(static_cast<InitBlendStateCommand*>(command)); break;
-                    case Command::Type::INIT_BUFFER: position += deleteCommand(static_cast<InitBufferCommand*>(command)); break;
-                    case Command::Type::SET_BUFFER_DATA: position += deleteCommand(static_cast<SetBufferDataCommand*>(command)); break;
-                    case Command::Type::INIT_SHADER: position += deleteCommand(static_cast<InitShaderCommand*>(command)); break;
-                    case Command::Type::SET_SHADER_CONSTANTS: position += deleteCommand(static_cast<SetShaderConstantsCommand*>(command)); break;
-                    case Command::Type::INIT_TEXTURE: position += deleteCommand(static_cast<InitTextureCommand*>(command)); break;
-                    case Command::Type::SET_TEXTURE_DATA: position += deleteCommand(static_cast<SetTextureDataCommand*>(command)); break;
-                    case Command::Type::SET_TEXTURE_PARAMETERS: position += deleteCommand(static_cast<SetTextureParametersCommand*>(command)); break;
-                    case Command::Type::SET_TEXTURES: position += deleteCommand(static_cast<SetTexturesCommand*>(command)); break;
-                    default: break;
-                }
-
-                ++current;
-
-                if (current == count)
-                {
-                    count = 0;
-                    size = 0;
-                    position = 0;
-                    current = 0;
-                }
-            }
-
-        private:
-            template<typename T> uint32_t deleteCommand(T* command)
-            {
-                (void)command; // silence the unreferenced parameter warning in Visual Studio
-                command->~T();
-                return sizeof(*command);
-            }
-
-            template<typename T> uint32_t moveCommand(T* command, void* newPointer)
-            {
-                (void)command; // silence the unreferenced parameter warning in Visual Studio
-                new (newPointer) T(std::move(*command));
-                return sizeof(*command);
-            }
-
-            void moveCommands(uint8_t* newBuffer)
-            {
-                size_t offset = position;
-
-                for (uint32_t i = current; i < count; ++i)
-                {
-                    if (offset % alignof(Command*) != 0) offset += alignof(Command*) - (offset % alignof(Command*));
-                    Command* command = reinterpret_cast<Command*>(buffer.get() + offset);
-
-                    switch (command->type)
-                    {
-                        case Command::Type::INIT_RENDER_TARGET: offset += moveCommand(static_cast<InitRenderTargetCommand*>(command), newBuffer + offset); break;
-                        case Command::Type::SET_RENDER_TARGET_PARAMETERS: offset += moveCommand(static_cast<SetRenderTargetParametersCommand*>(command), newBuffer + offset); break;
-                        case Command::Type::SET_RENDER_TARGET: offset += moveCommand(static_cast<SetRenderTargetCommand*>(command), newBuffer + offset); break;
-                        case Command::Type::CLEAR: offset += moveCommand(static_cast<ClearCommand*>(command), newBuffer + offset); break;
-                        case Command::Type::SET_CULL_MODE: offset += moveCommand(static_cast<SetCullModeCommad*>(command), newBuffer + offset); break;
-                        case Command::Type::SET_FILL_MODE: offset += moveCommand(static_cast<SetFillModeCommad*>(command), newBuffer + offset); break;
-                        case Command::Type::SET_SCISSOR_TEST: offset += moveCommand(static_cast<SetScissorTestCommand*>(command), newBuffer + offset); break;
-                        case Command::Type::SET_VIEWPORT: offset += moveCommand(static_cast<SetViewportCommand*>(command), newBuffer + offset); break;
-                        case Command::Type::SET_DEPTH_STATE: offset += moveCommand(static_cast<SetDepthStateCommand*>(command), newBuffer + offset); break;
-                        case Command::Type::SET_PIPELINE_STATE: offset += moveCommand(static_cast<SetPipelineStateCommand*>(command), newBuffer + offset); break;
-                        case Command::Type::DRAW: offset += moveCommand(static_cast<DrawCommand*>(command), newBuffer + offset); break;
-                        case Command::Type::PUSH_DEBUG_MARKER: offset += moveCommand(static_cast<PushDebugMarkerCommand*>(command), newBuffer + offset); break;
-                        case Command::Type::POP_DEBUG_MARKER: offset += moveCommand(static_cast<PopDebugMarkerCommand*>(command), newBuffer + offset); break;
-                        case Command::Type::INIT_BLEND_STATE: offset += moveCommand(static_cast<InitBlendStateCommand*>(command), newBuffer + offset); break;
-                        case Command::Type::INIT_BUFFER: offset += moveCommand(static_cast<InitBufferCommand*>(command), newBuffer + offset); break;
-                        case Command::Type::SET_BUFFER_DATA: offset += moveCommand(static_cast<SetBufferDataCommand*>(command), newBuffer + offset); break;
-                        case Command::Type::INIT_SHADER: offset += moveCommand(static_cast<InitShaderCommand*>(command), newBuffer + offset); break;
-                        case Command::Type::SET_SHADER_CONSTANTS: offset += moveCommand(static_cast<SetShaderConstantsCommand*>(command), newBuffer + offset); break;
-                        case Command::Type::INIT_TEXTURE: offset += moveCommand(static_cast<InitTextureCommand*>(command), newBuffer + offset); break;
-                        case Command::Type::SET_TEXTURE_DATA: offset += moveCommand(static_cast<SetTextureDataCommand*>(command), newBuffer + offset); break;
-                        case Command::Type::SET_TEXTURE_PARAMETERS: offset += moveCommand(static_cast<SetTextureParametersCommand*>(command), newBuffer + offset); break;
-                        case Command::Type::SET_TEXTURES: offset += moveCommand(static_cast<SetTexturesCommand*>(command), newBuffer + offset); break;
-                        default: assert(false);
-                    }
-                }
-            }
-
-            void deleteCommands()
-            {
-                size_t offset = position;
-
-                for (uint32_t i = current; i < count; ++i)
-                {
-                    if (offset % alignof(Command*) != 0) offset += alignof(Command*) - (offset % alignof(Command*));
-                    Command* command = reinterpret_cast<Command*>(buffer.get() + offset);
-
-                    switch (command->type)
-                    {
-                        case Command::Type::INIT_RENDER_TARGET: offset += deleteCommand(static_cast<InitRenderTargetCommand*>(command)); break;
-                        case Command::Type::SET_RENDER_TARGET_PARAMETERS: offset += deleteCommand(static_cast<SetRenderTargetParametersCommand*>(command)); break;
-                        case Command::Type::SET_RENDER_TARGET: offset += deleteCommand(static_cast<SetRenderTargetCommand*>(command)); break;
-                        case Command::Type::CLEAR: offset += deleteCommand(static_cast<ClearCommand*>(command)); break;
-                        case Command::Type::SET_CULL_MODE: offset += deleteCommand(static_cast<SetCullModeCommad*>(command)); break;
-                        case Command::Type::SET_FILL_MODE: offset += deleteCommand(static_cast<SetFillModeCommad*>(command)); break;
-                        case Command::Type::SET_SCISSOR_TEST: offset += deleteCommand(static_cast<SetScissorTestCommand*>(command)); break;
-                        case Command::Type::SET_VIEWPORT: offset += deleteCommand(static_cast<SetViewportCommand*>(command)); break;
-                        case Command::Type::SET_DEPTH_STATE: offset += deleteCommand(static_cast<SetDepthStateCommand*>(command)); break;
-                        case Command::Type::SET_PIPELINE_STATE: offset += deleteCommand(static_cast<SetPipelineStateCommand*>(command)); break;
-                        case Command::Type::DRAW: offset += deleteCommand(static_cast<DrawCommand*>(command)); break;
-                        case Command::Type::PUSH_DEBUG_MARKER: offset += deleteCommand(static_cast<PushDebugMarkerCommand*>(command)); break;
-                        case Command::Type::POP_DEBUG_MARKER: offset += deleteCommand(static_cast<PopDebugMarkerCommand*>(command)); break;
-                        case Command::Type::INIT_BLEND_STATE: offset += deleteCommand(static_cast<InitBlendStateCommand*>(command)); break;
-                        case Command::Type::INIT_BUFFER: offset += deleteCommand(static_cast<InitBufferCommand*>(command)); break;
-                        case Command::Type::SET_BUFFER_DATA: offset += deleteCommand(static_cast<SetBufferDataCommand*>(command)); break;
-                        case Command::Type::INIT_SHADER: offset += deleteCommand(static_cast<InitShaderCommand*>(command)); break;
-                        case Command::Type::SET_SHADER_CONSTANTS: offset += deleteCommand(static_cast<SetShaderConstantsCommand*>(command)); break;
-                        case Command::Type::INIT_TEXTURE: offset += deleteCommand(static_cast<InitTextureCommand*>(command)); break;
-                        case Command::Type::SET_TEXTURE_DATA: offset += deleteCommand(static_cast<SetTextureDataCommand*>(command)); break;
-                        case Command::Type::SET_TEXTURE_PARAMETERS: offset += deleteCommand(static_cast<SetTextureParametersCommand*>(command)); break;
-                        case Command::Type::SET_TEXTURES: offset += deleteCommand(static_cast<SetTexturesCommand*>(command)); break;
-                        default: assert(false);
-                    }
-                }
-            }
-
-            std::unique_ptr<uint8_t[]> buffer;
-            size_t capacity = 0;
-            size_t size = 0; // write position
-            size_t position = 0; // read postion
-            uint32_t count = 0;
-            uint32_t current = 0;
         };
     } // namespace graphics
 } // namespace ouzel

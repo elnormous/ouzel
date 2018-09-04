@@ -193,43 +193,43 @@ namespace ouzel
 
         void Renderer::setRenderTarget(TextureResource* renderTarget)
         {
-            device->addCommand(SetRenderTargetCommand(renderTarget));
+            device->addCommand(std::unique_ptr<Command>(new SetRenderTargetCommand(renderTarget)));
         }
 
         void Renderer::clear(TextureResource* renderTarget)
         {
-            device->addCommand(ClearCommand(renderTarget));
+            device->addCommand(std::unique_ptr<Command>(new ClearCommand(renderTarget)));
         }
 
         void Renderer::setCullMode(Renderer::CullMode cullMode)
         {
-            device->addCommand(SetCullModeCommad(cullMode));
+            device->addCommand(std::unique_ptr<Command>(new SetCullModeCommad(cullMode)));
         }
 
         void Renderer::setFillMode(Renderer::FillMode fillMode)
         {
-            device->addCommand(SetFillModeCommad(fillMode));
+            device->addCommand(std::unique_ptr<Command>(new SetFillModeCommad(fillMode)));
         }
 
         void Renderer::setScissorTest(bool enabled, const Rect& rectangle)
         {
-            device->addCommand(SetScissorTestCommand(enabled, rectangle));
+            device->addCommand(std::unique_ptr<Command>(new SetScissorTestCommand(enabled, rectangle)));
         }
 
         void Renderer::setViewport(const Rect& viewport)
         {
-            device->addCommand(SetViewportCommand(viewport));
+            device->addCommand(std::unique_ptr<Command>(new SetViewportCommand(viewport)));
         }
 
         void Renderer::setDepthState(bool depthTest, bool depthWrite)
         {
-            device->addCommand(SetDepthStateCommand(depthTest, depthWrite));
+            device->addCommand(std::unique_ptr<Command>(new SetDepthStateCommand(depthTest, depthWrite)));
         }
 
         void Renderer::setPipelineState(BlendStateResource* blendState,
                                         ShaderResource* shader)
         {
-            device->addCommand(SetPipelineStateCommand(blendState, shader));
+            device->addCommand(std::unique_ptr<Command>(new SetPipelineStateCommand(blendState, shader)));
         }
 
         void Renderer::draw(BufferResource* indexBuffer,
@@ -242,29 +242,29 @@ namespace ouzel
             if (!indexBuffer || !vertexBuffer)
                 throw DataError("Invalid mesh buffer passed to render queue");
 
-            device->addCommand(DrawCommand(indexBuffer,
-                                           indexCount,
-                                           indexSize,
-                                           vertexBuffer,
-                                           drawMode,
-                                           startIndex));
+            device->addCommand(std::unique_ptr<Command>(new DrawCommand(indexBuffer,
+                                                                        indexCount,
+                                                                        indexSize,
+                                                                        vertexBuffer,
+                                                                        drawMode,
+                                                                        startIndex)));
         }
 
         void Renderer::pushDebugMarker(const std::string& name)
         {
-            device->addCommand(PushDebugMarkerCommand(name));
+            device->addCommand(std::unique_ptr<Command>(new PushDebugMarkerCommand(name)));
         }
 
         void Renderer::popDebugMarker()
         {
-            device->addCommand(PopDebugMarkerCommand());
+            device->addCommand(std::unique_ptr<Command>(new PopDebugMarkerCommand()));
         }
 
         void Renderer::setShaderConstants(std::vector<std::vector<float>> fragmentShaderConstants,
                                           std::vector<std::vector<float>> vertexShaderConstants)
         {
-            device->addCommand(SetShaderConstantsCommand(fragmentShaderConstants,
-                                                         vertexShaderConstants));
+            device->addCommand(std::unique_ptr<Command>(new SetShaderConstantsCommand(fragmentShaderConstants,
+                                                                                      vertexShaderConstants)));
         }
 
         void Renderer::setTextures(const std::vector<TextureResource*>& textures)
@@ -274,7 +274,7 @@ namespace ouzel
             for (uint32_t i = 0; i < Texture::LAYERS; ++i)
                 newTextures[i] = (i < textures.size()) ? textures[i] : nullptr;
 
-            device->addCommand(SetTexturesCommand(newTextures));
+            device->addCommand(std::unique_ptr<Command>(new SetTexturesCommand(newTextures)));
         }
 
         void Renderer::waitForNextFrame()
