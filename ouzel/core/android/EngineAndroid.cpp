@@ -24,6 +24,11 @@ static int looperCallback(int fd, int events, void* data)
     return 1;
 }
 
+static int inputCallback(int fd, int events, void* data)
+{
+    return 1;
+}
+
 namespace ouzel
 {
     EngineAndroid::EngineAndroid(JavaVM* initJavaVM):
@@ -42,6 +47,13 @@ namespace ouzel
         intentClass = jniEnv->FindClass("android/content/Intent");
         intentClass = static_cast<jclass>(jniEnv->NewGlobalRef(intentClass));
         intentConstructor = jniEnv->GetMethodID(intentClass, "<init>", "(Ljava/lang/String;Landroid/net/Uri;)V");
+
+        // looper
+        looper = ALooper_forThread(); // this is called on main thread, so it is safe to get the looper here
+        ALooper_acquire(looper);
+        pipe(fd);
+        if (ALooper_addFd(looper, fd[0], ALOOPER_POLL_CALLBACK, ALOOPER_EVENT_INPUT, looperCallback, this) != 1)
+            throw SystemError("Failed to add looper file descriptor");
     }
 
     EngineAndroid::~EngineAndroid()
@@ -64,7 +76,7 @@ namespace ouzel
         if (fd[1]) close(fd[1]);
     }
 
-    void EngineAndroid::onCreate(jobject initMainActivity)
+    /*void EngineAndroid::onCreate(jobject initMainActivity)
     {
         JNIEnv* jniEnv;
 
@@ -124,18 +136,11 @@ namespace ouzel
         const char* cacheDirCString = jniEnv->GetStringUTFChars(cacheDirString, 0);
         cacheDirectory = cacheDirCString;
         jniEnv->ReleaseStringUTFChars(cacheDirString, cacheDirCString);
+    }*/
 
-        // looper
-        looper = ALooper_forThread(); // this is called on main thread, so it is safe to get the looper here
-        ALooper_acquire(looper);
-        pipe(fd);
-        if (ALooper_addFd(looper, fd[0], ALOOPER_POLL_CALLBACK, ALOOPER_EVENT_INPUT, looperCallback, this) != 1)
-            throw SystemError("Failed to add looper file descriptor");
-    }
-
-    void EngineAndroid::handleWindowCreate(jobject newSurface)
+    void EngineAndroid::handleWindowCreate(ANativeWindow* nativeWindow)
     {
-        JNIEnv* jniEnv;
+        /*JNIEnv* jniEnv;
 
         if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
             throw SystemError("Failed to get JNI environment");
@@ -157,12 +162,12 @@ namespace ouzel
                     //renderDeviceOGLAndroid->reload();
                 }
             }
-        }
+        }*/
     }
 
     void EngineAndroid::handleWindowDestroy()
     {
-        JNIEnv* jniEnv;
+        /*JNIEnv* jniEnv;
 
         if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
             throw SystemError("Failed to get JNI environment");
@@ -187,12 +192,15 @@ namespace ouzel
                     renderDeviceOGLAndroid->destroy();
                 }
             }
-        }
+        }*/
     }
 
     void EngineAndroid::handleConfigurationChange()
     {
-        AConfiguration_fromAssetManager();
+        /*AConfiguration_fromAssetManager();
+
+        ouzel::NativeWindowAndroid* windowAndroid = static_cast<ouzel::NativeWindowAndroid*>(engine->getWindow()->getNativeWindow());
+        windowAndroid->handleResize(ouzel::Size2(static_cast<float>(width), static_cast<float>(height)));
 
         JNIEnv* jniEnv;
 
@@ -222,7 +230,25 @@ namespace ouzel
             }
 
             eventDispatcher.postEvent(event);
-        }
+        }*/
+    }
+
+    void EngineAndroid::handleLowMemory()
+    {
+        ouzel::Event event;
+        event.type = ouzel::Event::Type::LOW_MEMORY;
+
+        eventDispatcher.postEvent(event);
+    }
+
+    void EngineAndroid::handleInputQueueCreate(AInputQueue* queue)
+    {
+        AInputQueue_attachLooper(queue, looper, LOOPER_ID_INPUT, inputCallback, this);
+    }
+
+    void EngineAndroid::handleInputQueueDestroy(AInputQueue* queue)
+    {
+        AInputQueue_detachLooper(queue);
     }
 
     void EngineAndroid::run()

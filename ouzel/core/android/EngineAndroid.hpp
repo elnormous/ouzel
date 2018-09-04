@@ -6,6 +6,7 @@
 #include <android/asset_manager.h>
 #include <android/asset_manager_jni.h>
 #include <android/looper.h>
+#include <android/native_activity.h>
 #include "core/Engine.hpp"
 
 namespace ouzel
@@ -22,6 +23,9 @@ namespace ouzel
         void handleWindowCreate(ANativeWindow* nativeWindow);
         void handleWindowDestroy();
         void handleConfigurationChange();
+        void handleLowMemory();
+        void handleInputQueueCreate(AInputQueue* queue);
+        void handleInputQueueDestroy(AInputQueue* queue);
 
         virtual void run() override;
 

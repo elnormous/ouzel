@@ -5,10 +5,7 @@
 #include <android/native_activity.h>
 #include "core/android/EngineAndroid.hpp"
 #include "core/android/NativeWindowAndroid.hpp"
-#include "core/Engine.hpp"
-#include "events/EventDispatcher.hpp"
 #include "input/android/InputManagerAndroid.hpp"
-#include "utils/Log.hpp"
 
 static std::unique_ptr<ouzel::EngineAndroid> engine;
 
@@ -30,8 +27,6 @@ static void* onSaveInstanceState(ANativeActivity* activity, size_t* outLen)
 {
     void* savedState = NULL;
 
-    ouzel::Log() << "onSaveInstanceState";
-
     return savedState;
 }
 
@@ -47,17 +42,11 @@ static void onStop(ANativeActivity* activity)
 static void onConfigurationChanged(ANativeActivity* activity)
 {
     engine->handleConfigurationChange();
-
-    ouzel::NativeWindowAndroid* windowAndroid = static_cast<ouzel::NativeWindowAndroid*>(engine->getWindow()->getNativeWindow());
-    windowAndroid->handleResize(ouzel::Size2(static_cast<float>(width), static_cast<float>(height)));
 }
 
 static void onLowMemory(ANativeActivity* activity)
 {
-    ouzel::Event event;
-    event.type = ouzel::Event::Type::LOW_MEMORY;
-
-    engine->getEventDispatcher()->postEvent(event);
+    engine->handleLowMemory();
 }
 
 static void onWindowFocusChanged(ANativeActivity* activity, int focused)
@@ -67,21 +56,22 @@ static void onWindowFocusChanged(ANativeActivity* activity, int focused)
 static void onNativeWindowCreated(ANativeActivity* activity, ANativeWindow* window)
 {
     engine->handleWindowCreate(window);
+    //if (!engine->isActive()) engine->run();
 }
 
 static void onNativeWindowDestroyed(ANativeActivity* activity, ANativeWindow* window)
 {
-    engine->onWindowDestroy();
+    engine->handleWindowDestroy();
 }
 
 static void onInputQueueCreated(ANativeActivity* activity, AInputQueue* queue)
 {
-    ouzel::Log() << "onInputQueueCreated";
+    engine->handleInputQueueCreate(queue);
 }
 
 static void onInputQueueDestroyed(ANativeActivity* activity, AInputQueue* queue)
 {
-    ouzel::Log() << "onInputQueueDestroyed";
+    engine->handleInputQueueDestroy(queue);
 }
 
 extern "C" JNIEXPORT void ANativeActivity_onCreate(ANativeActivity* activity,
@@ -101,22 +91,8 @@ extern "C" JNIEXPORT void ANativeActivity_onCreate(ANativeActivity* activity,
     activity->callbacks->onInputQueueCreated = onInputQueueCreated;
     activity->callbacks->onInputQueueDestroyed = onInputQueueDestroyed;
 
-    engine.reset(activity->vm);
+    engine.reset(new ouzel::EngineAndroid(activity->vm));
     activity->instance = engine.get();
-}
-
-extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onSurfaceCreated(JNIEnv*, jclass, jobject surface)
-{
-    try
-    {
-        engine->onSurfaceCreated(surface);
-
-        if (!engine->isActive()) engine->run();
-    }
-    catch (const std::exception& e)
-    {
-        ouzel::Log(ouzel::Log::Level::ERR) << e.what();
-    }
 }
 
 extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onBackPressed(JNIEnv*, jclass)
