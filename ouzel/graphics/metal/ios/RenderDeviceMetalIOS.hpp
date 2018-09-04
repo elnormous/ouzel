@@ -20,6 +20,8 @@ namespace ouzel
             RenderDeviceMetalIOS();
             virtual ~RenderDeviceMetalIOS();
 
+            void renderCallback();
+
         private:
             virtual void init(Window* newWindow,
                               const Size2& newSize,
