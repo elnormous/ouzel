@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <functional>
 #include <thread>
 #if defined(__OBJC__)
 #import <QuartzCore/QuartzCore.h>
@@ -15,13 +16,15 @@ typedef id NSRunLoopPtr;
 
 #include "graphics/RenderDevice.hpp"
 
+typedef void (*RenderCallback)(void*);
+
 namespace ouzel
 {
     class DisplayLink
     {
     public:
-        DisplayLink(ouzel::graphics::RenderDevice& initRenderDevice):
-            renderDevice(initRenderDevice), running(false)
+        DisplayLink(RenderCallback initCallback, void* initUserInfo):
+            callback(initCallback), userInfo(initUserInfo), running(false)
         {
         }
 
@@ -38,7 +41,8 @@ namespace ouzel
     private:
         void main();
 
-        ouzel::graphics::RenderDevice& renderDevice;
+        RenderCallback callback;
+        void* userInfo;
         std::thread renderThread;
         std::atomic<bool> running;
         bool verticalSync = false;

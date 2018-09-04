@@ -261,21 +261,7 @@ namespace ouzel
             return result;
         }
 
-        void RenderDeviceOGLLinux::lockContext()
-        {
-#if OUZEL_OPENGL_INTERFACE_GLX
-            EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
-            NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(window->getNativeWindow());
-
-            if (!glXMakeCurrent(engineLinux->getDisplay(), windowLinux->getNativeWindow(), context))
-                throw SystemError("Failed to make GLX context current");
-#elif OUZEL_OPENGL_INTERFACE_EGL
-            if (!eglMakeCurrent(display, surface, surface, context))
-                throw SystemError("Failed to set current EGL context, error: " + std::to_string(eglGetError()));
-#endif
-        }
-
-        void RenderDeviceOGLLinux::swapBuffers()
+        void RenderDeviceOGLLinux::present()
         {
 #if OUZEL_OPENGL_INTERFACE_GLX
             EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
@@ -291,6 +277,17 @@ namespace ouzel
         void RenderDeviceOGLLinux::main()
         {
             setCurrentThreadName("Render");
+
+#if OUZEL_OPENGL_INTERFACE_GLX
+            EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
+            NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(window->getNativeWindow());
+
+            if (!glXMakeCurrent(engineLinux->getDisplay(), windowLinux->getNativeWindow(), context))
+                throw SystemError("Failed to make GLX context current");
+#elif OUZEL_OPENGL_INTERFACE_EGL
+            if (!eglMakeCurrent(display, surface, surface, context))
+                throw SystemError("Failed to set current EGL context, error: " + std::to_string(eglGetError()));
+#endif
 
             while (running) 
             {

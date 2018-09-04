@@ -110,6 +110,7 @@ extern PFNGLMAPBUFFERRANGEPROC glMapBufferRangeProc;
 
 #include "graphics/RenderDevice.hpp"
 #include "graphics/TextureResource.hpp"
+#include "graphics/opengl/ShaderResourceOGL.hpp"
 #include "utils/Errors.hpp"
 
 namespace ouzel
@@ -125,8 +126,6 @@ namespace ouzel
             virtual void setClearColorBuffer(bool clear) override;
             virtual void setClearDepthBuffer(bool clear) override;
             virtual void setClearColor(Color color) override;
-
-            virtual void process() override;
 
             bool isTextureBaseLevelSupported() const { return textureBaseLevelSupported; }
             bool isTextureMaxLevelSupported() const { return textureMaxLevelSupported; }
@@ -508,8 +507,7 @@ namespace ouzel
             virtual void setSize(const Size2& newSize) override;
 
             virtual void processCommand(const Command* command) override;
-            virtual void lockContext();
-            virtual void swapBuffers();
+            virtual void present();
             virtual void generateScreenshot(const std::string& filename) override;
 
             virtual BlendStateResource* createBlendState() override;
@@ -582,6 +580,7 @@ namespace ouzel
             };
 
             StateCache stateCache;
+            ShaderResourceOGL* currentShader = nullptr;
         };
     } // namespace graphics
 } // namespace ouzel

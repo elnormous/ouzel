@@ -48,6 +48,7 @@ namespace ouzel
             {
                 std::unique_lock<std::mutex> lock(frameMutex);
                 newFrame = true;
+                refillQueue = true;
                 frameCondition.notify_all();
             }
 
@@ -76,20 +77,26 @@ namespace ouzel
                 deleteResources = std::move(resourceDeleteSet);
             }
 
-            std::unique_ptr<Command> command;
+            for (;;)
+            {
+                std::unique_ptr<Command> command;
 
 #if OUZEL_MULTITHREADED
-            {
-                std::unique_lock<std::mutex> lock(commandQueueMutex);
-                while (commandQueue.empty()) commandQueueCondition.wait(lock);
-                command = std::move(commandQueue.front());
-                commandQueue.pop();
-            }
+                {
+                    std::unique_lock<std::mutex> lock(commandQueueMutex);
+                    while (commandQueue.empty()) commandQueueCondition.wait(lock);
+                    command = std::move(commandQueue.front());
+                    commandQueue.pop();
+                }
 #endif
 
-            executeAll();
+                executeAll();
 
-            processCommand(command.get());
+                processCommand(command.get());
+
+                if (command->type == Command::Type::PRESENT)
+                    break;
+            }
         }
 
         void RenderDevice::setClearColorBuffer(bool clear)

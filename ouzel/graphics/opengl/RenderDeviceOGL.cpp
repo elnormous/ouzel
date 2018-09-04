@@ -657,7 +657,15 @@ namespace ouzel
             frameBufferClearColor[2] = clearColor.normB();
             frameBufferClearColor[3] = clearColor.normA();
 
-            if (glGenVertexArraysProc) glGenVertexArraysProc(1, &vertexArrayId);
+            if (glGenVertexArraysProc)
+            {
+                glGenVertexArraysProc(1, &vertexArrayId);
+
+                glBindVertexArrayProc(vertexArrayId);
+
+                if ((error = glGetError()) != GL_NO_ERROR)
+                    throw DataError("Failed to bind vertex array, error: " + std::to_string(error));
+            }
         }
 
         void RenderDeviceOGL::setClearColorBuffer(bool clear)
@@ -697,15 +705,6 @@ namespace ouzel
 
             frameBufferWidth = static_cast<GLsizei>(size.width);
             frameBufferHeight = static_cast<GLsizei>(size.height);
-        }
-
-        void RenderDeviceOGL::process()
-        {
-            lockContext();
-
-            RenderDevice::process();
-
-            swapBuffers();
         }
 
         static void setUniform(GLint location, DataType dataType, const void* data)
@@ -765,23 +764,11 @@ namespace ouzel
 
         void RenderDeviceOGL::processCommand(const Command* command)
         {
-            ShaderResourceOGL* currentShader = nullptr;
-
-            if (vertexArrayId)
-            {
-                glBindVertexArrayProc(vertexArrayId);
-
-                GLenum error;
-
-                if ((error = glGetError()) != GL_NO_ERROR)
-                    throw DataError("Failed to bind vertex array, error: " + std::to_string(error));
-            }
-
             switch (command->type)
             {
                 case Command::Type::PRESENT:
                 {
-                    swapBuffers();
+                    present();
                     break;
                 }
 
@@ -1198,11 +1185,7 @@ namespace ouzel
             }
         }
 
-        void RenderDeviceOGL::lockContext()
-        {
-        }
-
-        void RenderDeviceOGL::swapBuffers()
+        void RenderDeviceOGL::present()
         {
         }
 

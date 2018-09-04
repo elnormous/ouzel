@@ -49,8 +49,7 @@ namespace ouzel
                               bool newDebugRenderer) override;
 
             virtual void setSize(const Size2& newSize) override;
-            virtual void lockContext() override;
-            virtual void swapBuffers() override;
+            virtual void present() override;
 
             bool handleWindow(Event::Type type, const WindowEvent& event);
 

@@ -284,13 +284,7 @@ namespace ouzel
             }
         }
 
-        void RenderDeviceOGLAndroid::lockContext()
-        {
-            if (!eglMakeCurrent(display, surface, surface, context))
-                throw SystemError("Failed to set current EGL context, error: " + std::to_string(eglGetError()));
-        }
-
-        void RenderDeviceOGLAndroid::swapBuffers()
+        void RenderDeviceOGLAndroid::present()
         {
             if (eglSwapBuffers(display, surface) != EGL_TRUE)
                 throw SystemError("Failed to swap buffers, error: " + std::to_string(eglGetError()));
@@ -299,6 +293,9 @@ namespace ouzel
         void RenderDeviceOGLAndroid::main()
         {
             setCurrentThreadName("Render");
+
+            if (!eglMakeCurrent(display, surface, surface, context))
+                throw SystemError("Failed to set current EGL context, error: " + std::to_string(eglGetError()));
 
             while (running)
             {

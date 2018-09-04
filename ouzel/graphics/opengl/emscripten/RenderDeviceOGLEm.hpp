@@ -29,7 +29,6 @@ namespace ouzel
                               bool newVerticalSync,
                               bool newDepth,
                               bool newDebugRenderer) override;
-            virtual void lockContext() override;
 
             EMSCRIPTEN_WEBGL_CONTEXT_HANDLE webGLContext = 0;
         };
