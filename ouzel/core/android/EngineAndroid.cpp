@@ -51,7 +51,9 @@ namespace ouzel
         // looper
         looper = ALooper_forThread(); // this is called on main thread, so it is safe to get the looper here
         ALooper_acquire(looper);
-        pipe(fd);
+        if (pipe(fd) != 0)
+            throw SystemError("Failed to create pipe, error: " + std::to_string(errno));
+
         if (ALooper_addFd(looper, fd[0], ALOOPER_POLL_CALLBACK, ALOOPER_EVENT_INPUT, looperCallback, this) != 1)
             throw SystemError("Failed to add looper file descriptor");
     }
