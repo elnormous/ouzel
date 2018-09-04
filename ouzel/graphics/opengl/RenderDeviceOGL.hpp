@@ -506,7 +506,7 @@ namespace ouzel
 
             virtual void setSize(const Size2& newSize) override;
 
-            virtual void processCommand(const Command* command) override;
+            virtual void process() override;
             virtual void present();
             virtual void generateScreenshot(const std::string& filename) override;
 
@@ -580,7 +580,6 @@ namespace ouzel
             };
 
             StateCache stateCache;
-            ShaderResourceOGL* currentShader = nullptr;
         };
     } // namespace graphics
 } // namespace ouzel

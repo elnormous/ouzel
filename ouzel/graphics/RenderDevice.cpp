@@ -46,6 +46,11 @@ namespace ouzel
         void RenderDevice::process()
         {
             {
+                std::unique_lock<std::mutex> lock(commandQueueMutex);
+                queueFinished = false;
+            }
+
+            {
                 std::unique_lock<std::mutex> lock(frameMutex);
                 newFrame = true;
                 refillQueue = true;
@@ -71,31 +76,9 @@ namespace ouzel
                 currentAccumulatedFPS = 0.0F;
             }
 
-            std::vector<std::unique_ptr<RenderResource>> deleteResources; // will be cleared at the end of the scope
             {
                 std::unique_lock<std::mutex> lock(resourceMutex);
-                deleteResources = std::move(resourceDeleteSet);
-            }
-
-            for (;;)
-            {
-                std::unique_ptr<Command> command;
-
-#if OUZEL_MULTITHREADED
-                {
-                    std::unique_lock<std::mutex> lock(commandQueueMutex);
-                    while (commandQueue.empty()) commandQueueCondition.wait(lock);
-                    command = std::move(commandQueue.front());
-                    commandQueue.pop();
-                }
-#endif
-
-                executeAll();
-
-                processCommand(command.get());
-
-                if (command->type == Command::Type::PRESENT)
-                    break;
+                //resourceDeleteSet.clear();
             }
         }
 
@@ -151,7 +134,7 @@ namespace ouzel
 #if OUZEL_MULTITHREADED
             std::unique_lock<std::mutex> lock(commandQueueMutex);
 #endif
-            commandQueue.push(std::unique_ptr<Command>(new PresentCommand()));
+            queueFinished = true;
 
             //drawCallCount = static_cast<uint32_t>(fillBuffer->size());
 

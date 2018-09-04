@@ -327,8 +327,11 @@ namespace ouzel
             });
         }
 
-        void RenderDeviceD3D11::processCommand(const Command* command)
+        void RenderDeviceD3D11::process()
         {
+            RenderDevice::process();
+            executeAll();
+
             std::vector<float> shaderData;
 
             uint32_t fillModeIndex = 0;
@@ -336,432 +339,442 @@ namespace ouzel
             uint32_t cullModeIndex = 0;
             ShaderResourceD3D11* currentShader = nullptr;
 
-            switch (command->type)
+            for (;;)
             {
-                case Command::Type::PRESENT:
                 {
-                    swapChain->Present(swapInterval, 0);
-                    break;
-                }
-
-                case Command::Type::SET_RENDER_TARGET:
-                {
-                    const SetRenderTargetCommand* setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command);
-
-                    ID3D11RenderTargetView* newRenderTargetView = nullptr;
-                    ID3D11DepthStencilView* newDepthStencilView = nullptr;
-
-                    if (setRenderTargetCommand->renderTarget)
+                    std::unique_lock<std::mutex> lock(commandQueueMutex);
+                    while (!queueFinished && commandQueue.empty()) commandQueueCondition.wait(lock);
+                    if (!commandQueue.empty())
                     {
-                        TextureResourceD3D11* renderTargetD3D11 = static_cast<TextureResourceD3D11*>(setRenderTargetCommand->renderTarget);
-
-                        if (!renderTargetD3D11->getRenderTargetView()) break;
-
-                        newRenderTargetView = renderTargetD3D11->getRenderTargetView();
-                        newDepthStencilView = renderTargetD3D11->getDepthStencilView();
+                        command = std::move(commandQueue.front());
+                        commandQueue.pop();
                     }
-                    else
+                    else if (queueFinished) break;
+                }
+
+                switch (command->type)
+                {
+                    case Command::Type::SET_RENDER_TARGET:
                     {
-                        newRenderTargetView = renderTargetView;
-                        newDepthStencilView = depthStencilView;
-                    }
+                        const SetRenderTargetCommand* setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command.get());
 
-                    context->OMSetRenderTargets(1, &newRenderTargetView, newDepthStencilView);
+                        ID3D11RenderTargetView* newRenderTargetView = nullptr;
+                        ID3D11DepthStencilView* newDepthStencilView = nullptr;
 
-                    break;
-                }
-
-                case Command::Type::CLEAR:
-                {
-                    const ClearCommand* clearCommand = static_cast<const ClearCommand*>(command);
-
-                    ID3D11RenderTargetView* newRenderTargetView = nullptr;
-                    ID3D11DepthStencilView* newDepthStencilView = nullptr;
-                    const FLOAT* newClearColor;
-                    FLOAT newClearDepth;
-                    bool newClearFrameBufferView = false;
-                    bool newClearDepthBufferView = false;
-                    UINT renderTargetWidth = 0;
-                    UINT renderTargetHeight = 0;
-
-                    if (clearCommand->renderTarget)
-                    {
-                        TextureResourceD3D11* renderTargetD3D11 = static_cast<TextureResourceD3D11*>(clearCommand->renderTarget);
-
-                        if (!renderTargetD3D11->getRenderTargetView()) break;
-
-                        renderTargetWidth = renderTargetD3D11->getWidth();
-                        renderTargetHeight = renderTargetD3D11->getHeight();
-                        newRenderTargetView = renderTargetD3D11->getRenderTargetView();
-                        newDepthStencilView = renderTargetD3D11->getDepthStencilView();
-                        newClearColor = renderTargetD3D11->getFrameBufferClearColor();
-                        newClearDepth = renderTargetD3D11->getClearDepth();
-                        newClearFrameBufferView = renderTargetD3D11->getClearFrameBufferView();
-                        newClearDepthBufferView = renderTargetD3D11->getClearDepthBufferView();
-                    }
-                    else
-                    {
-                        renderTargetWidth = frameBufferWidth;
-                        renderTargetHeight = frameBufferHeight;
-                        newRenderTargetView = renderTargetView;
-                        newDepthStencilView = depthStencilView;
-                        newClearColor = frameBufferClearColor;
-                        newClearDepth = clearDepth;
-                        newClearFrameBufferView = clearColorBuffer;
-                        newClearDepthBufferView = clearDepthBuffer;
-                    }
-
-                    context->OMSetRenderTargets(1, &newRenderTargetView, newDepthStencilView);
-
-                    D3D11_VIEWPORT viewport;
-                    viewport.MinDepth = 0.0F;
-                    viewport.MaxDepth = 1.0F;
-                    viewport.TopLeftX = viewport.TopLeftY = 0.0f;
-                    viewport.Width = static_cast<FLOAT>(renderTargetWidth);
-                    viewport.Height = static_cast<FLOAT>(renderTargetHeight);
-                    context->RSSetViewports(1, &viewport);
-
-                    if (newClearFrameBufferView)
-                        context->ClearRenderTargetView(newRenderTargetView, newClearColor);
-
-                    if (newClearDepthBufferView)
-                        context->ClearDepthStencilView(newDepthStencilView, D3D11_CLEAR_DEPTH, newClearDepth, 0);
-
-                    break;
-                }
-
-                case Command::Type::SET_CULL_MODE:
-                {
-                    const SetCullModeCommad* setCullModeCommad = static_cast<const SetCullModeCommad*>(command);
-
-                    switch (setCullModeCommad->cullMode)
-                    {
-                        case Renderer::CullMode::NONE: cullModeIndex = 0; break;
-                        case Renderer::CullMode::FRONT: cullModeIndex = 1; break;
-                        case Renderer::CullMode::BACK: cullModeIndex = 2; break;
-                        default: throw SystemError("Invalid cull mode");
-                    }
-
-                    uint32_t rasterizerStateIndex = fillModeIndex * 6 + scissorEnableIndex * 3 + cullModeIndex;
-                    context->RSSetState(rasterizerStates[rasterizerStateIndex]);
-
-                    break;
-                }
-
-                case Command::Type::SET_FILL_MODE:
-                {
-                    const SetFillModeCommad* setFillModeCommad = static_cast<const SetFillModeCommad*>(command);
-
-                    switch (setFillModeCommad->fillMode)
-                    {
-                        case Renderer::FillMode::SOLID: fillModeIndex = 0; break;
-                        case Renderer::FillMode::WIREFRAME: fillModeIndex = 1; break;
-                        default: throw SystemError("Invalid fill mode");
-                    }
-
-                    uint32_t rasterizerStateIndex = fillModeIndex * 6 + scissorEnableIndex * 3 + cullModeIndex;
-                    context->RSSetState(rasterizerStates[rasterizerStateIndex]);
-
-                    break;
-                }
-
-                case Command::Type::SET_SCISSOR_TEST:
-                {
-                    const SetScissorTestCommand* setScissorTestCommand = static_cast<const SetScissorTestCommand*>(command);
-
-                    if (setScissorTestCommand->enabled)
-                    {
-                        D3D11_RECT rect;
-                        rect.left = static_cast<LONG>(setScissorTestCommand->rectangle.position.x);
-                        rect.top = static_cast<LONG>(setScissorTestCommand->rectangle.position.y);
-                        rect.right = static_cast<LONG>(setScissorTestCommand->rectangle.position.x + setScissorTestCommand->rectangle.size.width);
-                        rect.bottom = static_cast<LONG>(setScissorTestCommand->rectangle.position.y + setScissorTestCommand->rectangle.size.height);
-                        context->RSSetScissorRects(1, &rect);
-                    }
-
-                    scissorEnableIndex = (setScissorTestCommand->enabled) ? 1 : 0;
-
-                    uint32_t rasterizerStateIndex = fillModeIndex * 6 + scissorEnableIndex * 3 + cullModeIndex;
-                    context->RSSetState(rasterizerStates[rasterizerStateIndex]);
-
-                    break;
-                }
-
-                case Command::Type::SET_VIEWPORT:
-                {
-                    const SetViewportCommand* setViewportCommand = static_cast<const SetViewportCommand*>(command);
-
-                    D3D11_VIEWPORT viewport;
-                    viewport.MinDepth = 0.0F;
-                    viewport.MaxDepth = 1.0F;
-                    viewport.TopLeftX = setViewportCommand->viewport.position.x;
-                    viewport.TopLeftY = setViewportCommand->viewport.position.y;
-                    viewport.Width = setViewportCommand->viewport.size.width;
-                    viewport.Height = setViewportCommand->viewport.size.height;
-                    context->RSSetViewports(1, &viewport);
-
-                    break;
-                }
-
-                case Command::Type::SET_DEPTH_STATE:
-                {
-                    const SetDepthStateCommand* setDepthStateCommand = static_cast<const SetDepthStateCommand*>(command);
-
-                    uint32_t depthTestIndex = setDepthStateCommand->depthTest ? 1 : 0;
-                    uint32_t depthWriteIndex = setDepthStateCommand->depthWrite ? 1 : 0;
-                    uint32_t depthStencilStateIndex = depthTestIndex * 2 + depthWriteIndex;
-
-                    context->OMSetDepthStencilState(depthStencilStates[depthStencilStateIndex], 0);
-
-                    break;
-                }
-
-                case Command::Type::SET_PIPELINE_STATE:
-                {
-                    const SetPipelineStateCommand* setPipelineStateCommand = static_cast<const SetPipelineStateCommand*>(command);
-
-                    BlendStateResourceD3D11* blendStateD3D11 = static_cast<BlendStateResourceD3D11*>(setPipelineStateCommand->blendState);
-                    ShaderResourceD3D11* shaderD3D11 = static_cast<ShaderResourceD3D11*>(setPipelineStateCommand->shader);
-                    currentShader = shaderD3D11;
-
-                    if (blendStateD3D11)
-                        context->OMSetBlendState(blendStateD3D11->getBlendState(), nullptr, 0xffffffff);
-                    else
-                        context->OMSetBlendState(nullptr, nullptr, 0xffffffff);
-
-                    if (shaderD3D11)
-                    {
-                        assert(shaderD3D11->getFragmentShader());
-                        assert(shaderD3D11->getVertexShader());
-                        assert(shaderD3D11->getInputLayout());
-
-                        context->PSSetShader(shaderD3D11->getFragmentShader(), nullptr, 0);
-                        context->VSSetShader(shaderD3D11->getVertexShader(), nullptr, 0);
-                        context->IASetInputLayout(shaderD3D11->getInputLayout());
-                    }
-                    else
-                    {
-                        context->PSSetShader(nullptr, nullptr, 0);
-                        context->VSSetShader(nullptr, nullptr, 0);
-                        context->IASetInputLayout(nullptr);
-                    }
-
-                    break;
-                }
-
-                case Command::Type::DRAW:
-                {
-                    const DrawCommand* drawCommand = static_cast<const DrawCommand*>(command);
-
-                    // draw mesh buffer
-                    BufferResourceD3D11* indexBufferD3D11 = static_cast<BufferResourceD3D11*>(drawCommand->indexBuffer);
-                    BufferResourceD3D11* vertexBufferD3D11 = static_cast<BufferResourceD3D11*>(drawCommand->vertexBuffer);
-
-                    assert(indexBufferD3D11);
-                    assert(indexBufferD3D11->getBuffer());
-                    assert(vertexBufferD3D11);
-                    assert(vertexBufferD3D11->getBuffer());
-
-                    ID3D11Buffer* buffers[] = {vertexBufferD3D11->getBuffer()};
-                    UINT strides[] = {sizeof(Vertex)};
-                    UINT offsets[] = {0};
-                    context->IASetVertexBuffers(0, 1, buffers, strides, offsets);
-
-                    DXGI_FORMAT indexFormat;
-
-                    switch (drawCommand->indexSize)
-                    {
-                        case 2: indexFormat = DXGI_FORMAT_R16_UINT; break;
-                        case 4: indexFormat = DXGI_FORMAT_R32_UINT; break;
-                        default:
-                            indexFormat = DXGI_FORMAT_UNKNOWN;
-                            throw SystemError("Invalid index size");
-                    }
-
-                    context->IASetIndexBuffer(indexBufferD3D11->getBuffer(), indexFormat, 0);
-
-                    D3D_PRIMITIVE_TOPOLOGY topology;
-
-                    switch (drawCommand->drawMode)
-                    {
-                        case Renderer::DrawMode::POINT_LIST: topology = D3D_PRIMITIVE_TOPOLOGY_POINTLIST; break;
-                        case Renderer::DrawMode::LINE_LIST: topology = D3D_PRIMITIVE_TOPOLOGY_LINELIST; break;
-                        case Renderer::DrawMode::LINE_STRIP: topology = D3D_PRIMITIVE_TOPOLOGY_LINESTRIP; break;
-                        case Renderer::DrawMode::TRIANGLE_LIST: topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST; break;
-                        case Renderer::DrawMode::TRIANGLE_STRIP: topology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP; break;
-                        default: throw SystemError("Invalid draw mode");
-                    }
-
-                    context->IASetPrimitiveTopology(topology);
-
-                    assert(drawCommand->indexCount);
-                    assert(indexBufferD3D11->getSize());
-                    assert(vertexBufferD3D11->getSize());
-
-                    context->DrawIndexed(drawCommand->indexCount, drawCommand->startIndex, 0);
-
-                    break;
-                }
-
-                case Command::Type::PUSH_DEBUG_MARKER:
-                {
-                    // const PushDebugMarkerCommand* pushDebugMarkerCommand = static_cast<const PushDebugMarkerCommand*>(command);
-                    // D3D11 does not support debug markers
-                    break;
-                }
-
-                case Command::Type::POP_DEBUG_MARKER:
-                {
-                    // const PopDebugMarkerCommand* popDebugMarkerCommand = static_cast<const PopDebugMarkerCommand*>(command);
-                    // D3D11 does not support debug markers
-                    break;
-                }
-
-                case Command::Type::INIT_BLEND_STATE:
-                {
-                    const InitBlendStateCommand* initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command);
-
-                    initBlendStateCommand->blendState->init(initBlendStateCommand->enableBlending,
-                                                            initBlendStateCommand->colorBlendSource,
-                                                            initBlendStateCommand->colorBlendDest,
-                                                            initBlendStateCommand->colorOperation,
-                                                            initBlendStateCommand->alphaBlendSource,
-                                                            initBlendStateCommand->alphaBlendDest,
-                                                            initBlendStateCommand->alphaOperation,
-                                                            initBlendStateCommand->colorMask);
-                    break;
-                }
-
-                case Command::Type::INIT_BUFFER:
-                {
-                    const InitBufferCommand* initBufferCommand = static_cast<const InitBufferCommand*>(command);
-
-                    initBufferCommand->buffer->init(initBufferCommand->usage,
-                                                    initBufferCommand->flags,
-                                                    initBufferCommand->data,
-                                                    initBufferCommand->size);
-                    break;
-                }
-
-                case Command::Type::SET_BUFFER_DATA:
-                {
-                    const SetBufferDataCommand* setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command);
-
-                    setBufferDataCommand->buffer->setData(setBufferDataCommand->data);
-                    break;
-                }
-
-                case Command::Type::INIT_SHADER:
-                {
-                    const InitShaderCommand* initShaderCommand = static_cast<const InitShaderCommand*>(command);
-
-                    initShaderCommand->shader->init(initShaderCommand->fragmentShader,
-                                                    initShaderCommand->vertexShader,
-                                                    initShaderCommand->vertexAttributes,
-                                                    initShaderCommand->fragmentShaderConstantInfo,
-                                                    initShaderCommand->vertexShaderConstantInfo,
-                                                    initShaderCommand->fragmentShaderDataAlignment,
-                                                    initShaderCommand->vertexShaderDataAlignment,
-                                                    initShaderCommand->fragmentShaderFunction,
-                                                    initShaderCommand->vertexShaderFunction);
-
-                    break;
-                }
-
-                case Command::Type::SET_SHADER_CONSTANTS:
-                {
-                    const SetShaderConstantsCommand* setShaderConstantsCommand = static_cast<const SetShaderConstantsCommand*>(command);
-
-                    if (!currentShader)
-                        throw SystemError("No shader set");
-
-                    // pixel shader constants
-                    const std::vector<ShaderResourceD3D11::Location>& fragmentShaderConstantLocations = currentShader->getFragmentShaderConstantLocations();
-
-                    if (setShaderConstantsCommand->fragmentShaderConstants.size() > fragmentShaderConstantLocations.size())
-                        throw SystemError("Invalid pixel shader constant size");
-
-                    shaderData.clear();
-
-                    for (size_t i = 0; i < setShaderConstantsCommand->fragmentShaderConstants.size(); ++i)
-                    {
-                        const ShaderResourceD3D11::Location& fragmentShaderConstantLocation = fragmentShaderConstantLocations[i];
-                        const std::vector<float>& fragmentShaderConstant = setShaderConstantsCommand->fragmentShaderConstants[i];
-
-                        if (sizeof(float) * fragmentShaderConstant.size() != fragmentShaderConstantLocation.size)
-                            throw SystemError("Invalid pixel shader constant size");
-
-                        shaderData.insert(shaderData.end(), fragmentShaderConstant.begin(), fragmentShaderConstant.end());
-                    }
-
-                    uploadBuffer(currentShader->getFragmentShaderConstantBuffer(),
-                                    shaderData.data(),
-                                    static_cast<uint32_t>(sizeof(float) * shaderData.size()));
-
-                    ID3D11Buffer* fragmentShaderConstantBuffers[1] = {currentShader->getFragmentShaderConstantBuffer()};
-                    context->PSSetConstantBuffers(0, 1, fragmentShaderConstantBuffers);
-
-                    // vertex shader constants
-                    const std::vector<ShaderResourceD3D11::Location>& vertexShaderConstantLocations = currentShader->getVertexShaderConstantLocations();
-
-                    if (setShaderConstantsCommand->vertexShaderConstants.size() > vertexShaderConstantLocations.size())
-                        throw SystemError("Invalid vertex shader constant size");
-
-                    shaderData.clear();
-
-                    for (size_t i = 0; i < setShaderConstantsCommand->vertexShaderConstants.size(); ++i)
-                    {
-                        const ShaderResourceD3D11::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
-                        const std::vector<float>& vertexShaderConstant = setShaderConstantsCommand->vertexShaderConstants[i];
-
-                        if (sizeof(float) * vertexShaderConstant.size() != vertexShaderConstantLocation.size)
-                            throw SystemError("Invalid pixel shader constant size");
-
-                        shaderData.insert(shaderData.end(), vertexShaderConstant.begin(), vertexShaderConstant.end());
-                    }
-
-                    uploadBuffer(currentShader->getVertexShaderConstantBuffer(),
-                                    shaderData.data(),
-                                    static_cast<uint32_t>(sizeof(float) * shaderData.size()));
-
-                    ID3D11Buffer* vertexShaderConstantBuffers[1] = {currentShader->getVertexShaderConstantBuffer()};
-                    context->VSSetConstantBuffers(0, 1, vertexShaderConstantBuffers);
-
-                    break;
-                }
-
-                case Command::Type::SET_TEXTURES:
-                {
-                    const SetTexturesCommand* setTexturesCommand = static_cast<const SetTexturesCommand*>(command);
-
-                    ID3D11ShaderResourceView* resourceViews[Texture::LAYERS];
-                    ID3D11SamplerState* samplers[Texture::LAYERS];
-
-                    for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
-                    {
-                        TextureResourceD3D11* textureD3D11 = static_cast<TextureResourceD3D11*>(setTexturesCommand->textures[layer]);
-
-                        if (textureD3D11)
+                        if (setRenderTargetCommand->renderTarget)
                         {
-                            resourceViews[layer] = textureD3D11->getResourceView();
-                            samplers[layer] = textureD3D11->getSamplerState();
+                            TextureResourceD3D11* renderTargetD3D11 = static_cast<TextureResourceD3D11*>(setRenderTargetCommand->renderTarget);
+
+                            if (!renderTargetD3D11->getRenderTargetView()) break;
+
+                            newRenderTargetView = renderTargetD3D11->getRenderTargetView();
+                            newDepthStencilView = renderTargetD3D11->getDepthStencilView();
                         }
                         else
                         {
-                            resourceViews[layer] = nullptr;
-                            samplers[layer] = nullptr;
+                            newRenderTargetView = renderTargetView;
+                            newDepthStencilView = depthStencilView;
                         }
+
+                        context->OMSetRenderTargets(1, &newRenderTargetView, newDepthStencilView);
+
+                        break;
                     }
 
-                    context->PSSetShaderResources(0, Texture::LAYERS, resourceViews);
-                    context->PSSetSamplers(0, Texture::LAYERS, samplers);
+                    case Command::Type::CLEAR:
+                    {
+                        const ClearCommand* clearCommand = static_cast<const ClearCommand*>(command.get());
 
-                    break;
+                        ID3D11RenderTargetView* newRenderTargetView = nullptr;
+                        ID3D11DepthStencilView* newDepthStencilView = nullptr;
+                        const FLOAT* newClearColor;
+                        FLOAT newClearDepth;
+                        bool newClearFrameBufferView = false;
+                        bool newClearDepthBufferView = false;
+                        UINT renderTargetWidth = 0;
+                        UINT renderTargetHeight = 0;
+
+                        if (clearCommand->renderTarget)
+                        {
+                            TextureResourceD3D11* renderTargetD3D11 = static_cast<TextureResourceD3D11*>(clearCommand->renderTarget);
+
+                            if (!renderTargetD3D11->getRenderTargetView()) break;
+
+                            renderTargetWidth = renderTargetD3D11->getWidth();
+                            renderTargetHeight = renderTargetD3D11->getHeight();
+                            newRenderTargetView = renderTargetD3D11->getRenderTargetView();
+                            newDepthStencilView = renderTargetD3D11->getDepthStencilView();
+                            newClearColor = renderTargetD3D11->getFrameBufferClearColor();
+                            newClearDepth = renderTargetD3D11->getClearDepth();
+                            newClearFrameBufferView = renderTargetD3D11->getClearFrameBufferView();
+                            newClearDepthBufferView = renderTargetD3D11->getClearDepthBufferView();
+                        }
+                        else
+                        {
+                            renderTargetWidth = frameBufferWidth;
+                            renderTargetHeight = frameBufferHeight;
+                            newRenderTargetView = renderTargetView;
+                            newDepthStencilView = depthStencilView;
+                            newClearColor = frameBufferClearColor;
+                            newClearDepth = clearDepth;
+                            newClearFrameBufferView = clearColorBuffer;
+                            newClearDepthBufferView = clearDepthBuffer;
+                        }
+
+                        context->OMSetRenderTargets(1, &newRenderTargetView, newDepthStencilView);
+
+                        D3D11_VIEWPORT viewport;
+                        viewport.MinDepth = 0.0F;
+                        viewport.MaxDepth = 1.0F;
+                        viewport.TopLeftX = viewport.TopLeftY = 0.0f;
+                        viewport.Width = static_cast<FLOAT>(renderTargetWidth);
+                        viewport.Height = static_cast<FLOAT>(renderTargetHeight);
+                        context->RSSetViewports(1, &viewport);
+
+                        if (newClearFrameBufferView)
+                            context->ClearRenderTargetView(newRenderTargetView, newClearColor);
+
+                        if (newClearDepthBufferView)
+                            context->ClearDepthStencilView(newDepthStencilView, D3D11_CLEAR_DEPTH, newClearDepth, 0);
+
+                        break;
+                    }
+
+                    case Command::Type::SET_CULL_MODE:
+                    {
+                        const SetCullModeCommad* setCullModeCommad = static_cast<const SetCullModeCommad*>(command.get());
+
+                        switch (setCullModeCommad->cullMode)
+                        {
+                            case Renderer::CullMode::NONE: cullModeIndex = 0; break;
+                            case Renderer::CullMode::FRONT: cullModeIndex = 1; break;
+                            case Renderer::CullMode::BACK: cullModeIndex = 2; break;
+                            default: throw SystemError("Invalid cull mode");
+                        }
+
+                        uint32_t rasterizerStateIndex = fillModeIndex * 6 + scissorEnableIndex * 3 + cullModeIndex;
+                        context->RSSetState(rasterizerStates[rasterizerStateIndex]);
+
+                        break;
+                    }
+
+                    case Command::Type::SET_FILL_MODE:
+                    {
+                        const SetFillModeCommad* setFillModeCommad = static_cast<const SetFillModeCommad*>(command.get());
+
+                        switch (setFillModeCommad->fillMode)
+                        {
+                            case Renderer::FillMode::SOLID: fillModeIndex = 0; break;
+                            case Renderer::FillMode::WIREFRAME: fillModeIndex = 1; break;
+                            default: throw SystemError("Invalid fill mode");
+                        }
+
+                        uint32_t rasterizerStateIndex = fillModeIndex * 6 + scissorEnableIndex * 3 + cullModeIndex;
+                        context->RSSetState(rasterizerStates[rasterizerStateIndex]);
+
+                        break;
+                    }
+
+                    case Command::Type::SET_SCISSOR_TEST:
+                    {
+                        const SetScissorTestCommand* setScissorTestCommand = static_cast<const SetScissorTestCommand*>(command.get());
+
+                        if (setScissorTestCommand->enabled)
+                        {
+                            D3D11_RECT rect;
+                            rect.left = static_cast<LONG>(setScissorTestCommand->rectangle.position.x);
+                            rect.top = static_cast<LONG>(setScissorTestCommand->rectangle.position.y);
+                            rect.right = static_cast<LONG>(setScissorTestCommand->rectangle.position.x + setScissorTestCommand->rectangle.size.width);
+                            rect.bottom = static_cast<LONG>(setScissorTestCommand->rectangle.position.y + setScissorTestCommand->rectangle.size.height);
+                            context->RSSetScissorRects(1, &rect);
+                        }
+
+                        scissorEnableIndex = (setScissorTestCommand->enabled) ? 1 : 0;
+
+                        uint32_t rasterizerStateIndex = fillModeIndex * 6 + scissorEnableIndex * 3 + cullModeIndex;
+                        context->RSSetState(rasterizerStates[rasterizerStateIndex]);
+
+                        break;
+                    }
+
+                    case Command::Type::SET_VIEWPORT:
+                    {
+                        const SetViewportCommand* setViewportCommand = static_cast<const SetViewportCommand*>(command.get());
+
+                        D3D11_VIEWPORT viewport;
+                        viewport.MinDepth = 0.0F;
+                        viewport.MaxDepth = 1.0F;
+                        viewport.TopLeftX = setViewportCommand->viewport.position.x;
+                        viewport.TopLeftY = setViewportCommand->viewport.position.y;
+                        viewport.Width = setViewportCommand->viewport.size.width;
+                        viewport.Height = setViewportCommand->viewport.size.height;
+                        context->RSSetViewports(1, &viewport);
+
+                        break;
+                    }
+
+                    case Command::Type::SET_DEPTH_STATE:
+                    {
+                        const SetDepthStateCommand* setDepthStateCommand = static_cast<const SetDepthStateCommand*>(command.get());
+
+                        uint32_t depthTestIndex = setDepthStateCommand->depthTest ? 1 : 0;
+                        uint32_t depthWriteIndex = setDepthStateCommand->depthWrite ? 1 : 0;
+                        uint32_t depthStencilStateIndex = depthTestIndex * 2 + depthWriteIndex;
+
+                        context->OMSetDepthStencilState(depthStencilStates[depthStencilStateIndex], 0);
+
+                        break;
+                    }
+
+                    case Command::Type::SET_PIPELINE_STATE:
+                    {
+                        const SetPipelineStateCommand* setPipelineStateCommand = static_cast<const SetPipelineStateCommand*>(command.get());
+
+                        BlendStateResourceD3D11* blendStateD3D11 = static_cast<BlendStateResourceD3D11*>(setPipelineStateCommand->blendState);
+                        ShaderResourceD3D11* shaderD3D11 = static_cast<ShaderResourceD3D11*>(setPipelineStateCommand->shader);
+                        currentShader = shaderD3D11;
+
+                        if (blendStateD3D11)
+                            context->OMSetBlendState(blendStateD3D11->getBlendState(), nullptr, 0xffffffff);
+                        else
+                            context->OMSetBlendState(nullptr, nullptr, 0xffffffff);
+
+                        if (shaderD3D11)
+                        {
+                            assert(shaderD3D11->getFragmentShader());
+                            assert(shaderD3D11->getVertexShader());
+                            assert(shaderD3D11->getInputLayout());
+
+                            context->PSSetShader(shaderD3D11->getFragmentShader(), nullptr, 0);
+                            context->VSSetShader(shaderD3D11->getVertexShader(), nullptr, 0);
+                            context->IASetInputLayout(shaderD3D11->getInputLayout());
+                        }
+                        else
+                        {
+                            context->PSSetShader(nullptr, nullptr, 0);
+                            context->VSSetShader(nullptr, nullptr, 0);
+                            context->IASetInputLayout(nullptr);
+                        }
+
+                        break;
+                    }
+
+                    case Command::Type::DRAW:
+                    {
+                        const DrawCommand* drawCommand = static_cast<const DrawCommand*>(command.get());
+
+                        // draw mesh buffer
+                        BufferResourceD3D11* indexBufferD3D11 = static_cast<BufferResourceD3D11*>(drawCommand->indexBuffer);
+                        BufferResourceD3D11* vertexBufferD3D11 = static_cast<BufferResourceD3D11*>(drawCommand->vertexBuffer);
+
+                        assert(indexBufferD3D11);
+                        assert(indexBufferD3D11->getBuffer());
+                        assert(vertexBufferD3D11);
+                        assert(vertexBufferD3D11->getBuffer());
+
+                        ID3D11Buffer* buffers[] = {vertexBufferD3D11->getBuffer()};
+                        UINT strides[] = {sizeof(Vertex)};
+                        UINT offsets[] = {0};
+                        context->IASetVertexBuffers(0, 1, buffers, strides, offsets);
+
+                        DXGI_FORMAT indexFormat;
+
+                        switch (drawCommand->indexSize)
+                        {
+                            case 2: indexFormat = DXGI_FORMAT_R16_UINT; break;
+                            case 4: indexFormat = DXGI_FORMAT_R32_UINT; break;
+                            default:
+                                indexFormat = DXGI_FORMAT_UNKNOWN;
+                                throw SystemError("Invalid index size");
+                        }
+
+                        context->IASetIndexBuffer(indexBufferD3D11->getBuffer(), indexFormat, 0);
+
+                        D3D_PRIMITIVE_TOPOLOGY topology;
+
+                        switch (drawCommand->drawMode)
+                        {
+                            case Renderer::DrawMode::POINT_LIST: topology = D3D_PRIMITIVE_TOPOLOGY_POINTLIST; break;
+                            case Renderer::DrawMode::LINE_LIST: topology = D3D_PRIMITIVE_TOPOLOGY_LINELIST; break;
+                            case Renderer::DrawMode::LINE_STRIP: topology = D3D_PRIMITIVE_TOPOLOGY_LINESTRIP; break;
+                            case Renderer::DrawMode::TRIANGLE_LIST: topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST; break;
+                            case Renderer::DrawMode::TRIANGLE_STRIP: topology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP; break;
+                            default: throw SystemError("Invalid draw mode");
+                        }
+
+                        context->IASetPrimitiveTopology(topology);
+
+                        assert(drawCommand->indexCount);
+                        assert(indexBufferD3D11->getSize());
+                        assert(vertexBufferD3D11->getSize());
+
+                        context->DrawIndexed(drawCommand->indexCount, drawCommand->startIndex, 0);
+
+                        break;
+                    }
+
+                    case Command::Type::PUSH_DEBUG_MARKER:
+                    {
+                        // const PushDebugMarkerCommand* pushDebugMarkerCommand = static_cast<const PushDebugMarkerCommand*>(command.get());
+                        // D3D11 does not support debug markers
+                        break;
+                    }
+
+                    case Command::Type::POP_DEBUG_MARKER:
+                    {
+                        // const PopDebugMarkerCommand* popDebugMarkerCommand = static_cast<const PopDebugMarkerCommand*>(command.get());
+                        // D3D11 does not support debug markers
+                        break;
+                    }
+
+                    case Command::Type::INIT_BLEND_STATE:
+                    {
+                        const InitBlendStateCommand* initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command.get());
+
+                        initBlendStateCommand->blendState->init(initBlendStateCommand->enableBlending,
+                                                                initBlendStateCommand->colorBlendSource,
+                                                                initBlendStateCommand->colorBlendDest,
+                                                                initBlendStateCommand->colorOperation,
+                                                                initBlendStateCommand->alphaBlendSource,
+                                                                initBlendStateCommand->alphaBlendDest,
+                                                                initBlendStateCommand->alphaOperation,
+                                                                initBlendStateCommand->colorMask);
+                        break;
+                    }
+
+                    case Command::Type::INIT_BUFFER:
+                    {
+                        const InitBufferCommand* initBufferCommand = static_cast<const InitBufferCommand*>(command.get());
+
+                        initBufferCommand->buffer->init(initBufferCommand->usage,
+                                                        initBufferCommand->flags,
+                                                        initBufferCommand->data,
+                                                        initBufferCommand->size);
+                        break;
+                    }
+
+                    case Command::Type::SET_BUFFER_DATA:
+                    {
+                        const SetBufferDataCommand* setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command.get());
+
+                        setBufferDataCommand->buffer->setData(setBufferDataCommand->data);
+                        break;
+                    }
+
+                    case Command::Type::INIT_SHADER:
+                    {
+                        const InitShaderCommand* initShaderCommand = static_cast<const InitShaderCommand*>(command.get());
+
+                        initShaderCommand->shader->init(initShaderCommand->fragmentShader,
+                                                        initShaderCommand->vertexShader,
+                                                        initShaderCommand->vertexAttributes,
+                                                        initShaderCommand->fragmentShaderConstantInfo,
+                                                        initShaderCommand->vertexShaderConstantInfo,
+                                                        initShaderCommand->fragmentShaderDataAlignment,
+                                                        initShaderCommand->vertexShaderDataAlignment,
+                                                        initShaderCommand->fragmentShaderFunction,
+                                                        initShaderCommand->vertexShaderFunction);
+
+                        break;
+                    }
+
+                    case Command::Type::SET_SHADER_CONSTANTS:
+                    {
+                        const SetShaderConstantsCommand* setShaderConstantsCommand = static_cast<const SetShaderConstantsCommand*>(command.get());
+
+                        if (!currentShader)
+                            throw SystemError("No shader set");
+
+                        // pixel shader constants
+                        const std::vector<ShaderResourceD3D11::Location>& fragmentShaderConstantLocations = currentShader->getFragmentShaderConstantLocations();
+
+                        if (setShaderConstantsCommand->fragmentShaderConstants.size() > fragmentShaderConstantLocations.size())
+                            throw SystemError("Invalid pixel shader constant size");
+
+                        shaderData.clear();
+
+                        for (size_t i = 0; i < setShaderConstantsCommand->fragmentShaderConstants.size(); ++i)
+                        {
+                            const ShaderResourceD3D11::Location& fragmentShaderConstantLocation = fragmentShaderConstantLocations[i];
+                            const std::vector<float>& fragmentShaderConstant = setShaderConstantsCommand->fragmentShaderConstants[i];
+
+                            if (sizeof(float) * fragmentShaderConstant.size() != fragmentShaderConstantLocation.size)
+                                throw SystemError("Invalid pixel shader constant size");
+
+                            shaderData.insert(shaderData.end(), fragmentShaderConstant.begin(), fragmentShaderConstant.end());
+                        }
+
+                        uploadBuffer(currentShader->getFragmentShaderConstantBuffer(),
+                                        shaderData.data(),
+                                        static_cast<uint32_t>(sizeof(float) * shaderData.size()));
+
+                        ID3D11Buffer* fragmentShaderConstantBuffers[1] = {currentShader->getFragmentShaderConstantBuffer()};
+                        context->PSSetConstantBuffers(0, 1, fragmentShaderConstantBuffers);
+
+                        // vertex shader constants
+                        const std::vector<ShaderResourceD3D11::Location>& vertexShaderConstantLocations = currentShader->getVertexShaderConstantLocations();
+
+                        if (setShaderConstantsCommand->vertexShaderConstants.size() > vertexShaderConstantLocations.size())
+                            throw SystemError("Invalid vertex shader constant size");
+
+                        shaderData.clear();
+
+                        for (size_t i = 0; i < setShaderConstantsCommand->vertexShaderConstants.size(); ++i)
+                        {
+                            const ShaderResourceD3D11::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
+                            const std::vector<float>& vertexShaderConstant = setShaderConstantsCommand->vertexShaderConstants[i];
+
+                            if (sizeof(float) * vertexShaderConstant.size() != vertexShaderConstantLocation.size)
+                                throw SystemError("Invalid pixel shader constant size");
+
+                            shaderData.insert(shaderData.end(), vertexShaderConstant.begin(), vertexShaderConstant.end());
+                        }
+
+                        uploadBuffer(currentShader->getVertexShaderConstantBuffer(),
+                                        shaderData.data(),
+                                        static_cast<uint32_t>(sizeof(float) * shaderData.size()));
+
+                        ID3D11Buffer* vertexShaderConstantBuffers[1] = {currentShader->getVertexShaderConstantBuffer()};
+                        context->VSSetConstantBuffers(0, 1, vertexShaderConstantBuffers);
+
+                        break;
+                    }
+
+                    case Command::Type::SET_TEXTURES:
+                    {
+                        const SetTexturesCommand* setTexturesCommand = static_cast<const SetTexturesCommand*>(command.get());
+
+                        ID3D11ShaderResourceView* resourceViews[Texture::LAYERS];
+                        ID3D11SamplerState* samplers[Texture::LAYERS];
+
+                        for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
+                        {
+                            TextureResourceD3D11* textureD3D11 = static_cast<TextureResourceD3D11*>(setTexturesCommand->textures[layer]);
+
+                            if (textureD3D11)
+                            {
+                                resourceViews[layer] = textureD3D11->getResourceView();
+                                samplers[layer] = textureD3D11->getSamplerState();
+                            }
+                            else
+                            {
+                                resourceViews[layer] = nullptr;
+                                samplers[layer] = nullptr;
+                            }
+                        }
+
+                        context->PSSetShaderResources(0, Texture::LAYERS, resourceViews);
+                        context->PSSetSamplers(0, Texture::LAYERS, samplers);
+
+                        break;
+                    }
+
+                    default:
+                        throw SystemError("Invalid command");
                 }
-
-                default:
-                    throw SystemError("Invalid command");
             }
+
+            swapChain->Present(swapInterval, 0);
         }
 
         IDXGIOutput* RenderDeviceD3D11::getOutput() const
