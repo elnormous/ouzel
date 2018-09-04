@@ -122,7 +122,7 @@ namespace ouzel
             virtual TextureResource* createTexture() = 0;
             virtual void deleteResource(RenderResource* resource);
 
-            virtual void processCommand(const std::unique_ptr<Command>& command) = 0;
+            virtual void processCommand(const Command* command) = 0;
             virtual void generateScreenshot(const std::string& filename);
 
             Renderer::Driver driver;

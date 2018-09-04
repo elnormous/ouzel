@@ -89,7 +89,7 @@ namespace ouzel
 
             executeAll();
 
-            processCommand(command);
+            processCommand(command.get());
         }
 
         void RenderDevice::setClearColorBuffer(bool clear)

@@ -36,7 +36,7 @@ namespace ouzel
                                newDebugRenderer);
         }
 
-        void RenderDeviceEmpty::processCommand(const std::unique_ptr<Command>&)
+        void RenderDeviceEmpty::processCommand(const Command*)
         {
         }
 
