@@ -14,7 +14,7 @@ static void renderCallback(void* userInfo)
 {
     try
     {
-        ouzel::graphics::RenderDeviceOGLIOS* renderDevice = static_cast<ouzel::graphics::RenderDeviceOGLIOS*>(userInfo);
+        ouzel::graphics::RenderDeviceOGLTVOS* renderDevice = static_cast<ouzel::graphics::RenderDeviceOGLTVOS*>(userInfo);
         renderDevice->renderCallback();
     }
     catch (const std::exception& e)
