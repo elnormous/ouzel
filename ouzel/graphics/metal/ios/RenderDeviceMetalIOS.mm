@@ -16,7 +16,7 @@ static void renderCallback(void* userInfo)
     try
     {
         ouzel::graphics::RenderDeviceMetalIOS* renderDevice = static_cast<ouzel::graphics::RenderDeviceMetalIOS*>(userInfo);
-        renderDevice->process();
+        renderDevice->renderCallback();
     }
     catch (const std::exception& e)
     {
@@ -33,7 +33,7 @@ namespace ouzel
     namespace graphics
     {
         RenderDeviceMetalIOS::RenderDeviceMetalIOS():
-            displayLink(renderCallback, this)
+            displayLink(::renderCallback, this)
         {
         }
 
@@ -71,6 +71,11 @@ namespace ouzel
             colorFormat = metalLayer.pixelFormat;
 
             displayLink.start(verticalSync);
+        }
+
+        void RenderDeviceMetalIOS::renderCallback()
+        {
+            process();
         }
     } // namespace graphics
 } // namespace ouzel
