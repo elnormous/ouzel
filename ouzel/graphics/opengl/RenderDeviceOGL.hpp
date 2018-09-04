@@ -507,7 +507,7 @@ namespace ouzel
 
             virtual void setSize(const Size2& newSize) override;
 
-            virtual void processCommand(const std::unique_ptr<Command>& command) override;
+            virtual void processCommand(const Command* command) override;
             virtual void lockContext();
             virtual void swapBuffers();
             virtual void generateScreenshot(const std::string& filename) override;
