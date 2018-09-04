@@ -23,7 +23,7 @@ namespace ouzel
                               bool newDepth,
                               bool newDebugRenderer) override;
 
-            virtual void processCommands(CommandBuffer& commands) override;
+            virtual void processCommand(const std::unique_ptr<Command>& command) override;
 
             virtual BlendStateResource* createBlendState() override;
             virtual BufferResource* createBuffer() override;

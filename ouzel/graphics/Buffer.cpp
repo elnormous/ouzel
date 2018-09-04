@@ -29,11 +29,11 @@ namespace ouzel
 
             RenderDevice* renderDevice = renderer.getDevice();
 
-            renderDevice->addCommand(InitBufferCommand(resource,
-                                                       newUsage,
-                                                       newFlags,
-                                                       std::vector<uint8_t>(),
-                                                       newSize));
+            renderDevice->addCommand(std::unique_ptr<Command>(new InitBufferCommand(resource,
+                                                                                    newUsage,
+                                                                                    newFlags,
+                                                                                    std::vector<uint8_t>(),
+                                                                                    newSize)));
         }
 
         void Buffer::init(Usage newUsage, uint32_t newFlags, const void* newData, uint32_t newSize)
@@ -56,20 +56,20 @@ namespace ouzel
 
             RenderDevice* renderDevice = renderer.getDevice();
 
-            renderDevice->addCommand(InitBufferCommand(resource,
-                                                       newUsage,
-                                                       newFlags,
-                                                       newData,
-                                                       newSize));
+            renderDevice->addCommand(std::unique_ptr<Command>(new InitBufferCommand(resource,
+                                                                                    newUsage,
+                                                                                    newFlags,
+                                                                                    newData,
+                                                                                    newSize)));
         }
 
         void Buffer::setData(const void* newData, uint32_t newSize)
         {
             RenderDevice* renderDevice = renderer.getDevice();
 
-            renderDevice->addCommand(SetBufferDataCommand(resource,
-                                                          std::vector<uint8_t>(static_cast<const uint8_t*>(newData),
-                                                                               static_cast<const uint8_t*>(newData) + newSize)));
+            renderDevice->addCommand(std::unique_ptr<Command>(new SetBufferDataCommand(resource,
+                                                                                       std::vector<uint8_t>(static_cast<const uint8_t*>(newData),
+                                                                                                            static_cast<const uint8_t*>(newData) + newSize))));
         }
 
         void Buffer::setData(const std::vector<uint8_t>& newData)
@@ -84,8 +84,8 @@ namespace ouzel
 
             RenderDevice* renderDevice = renderer.getDevice();
 
-            renderDevice->addCommand(SetBufferDataCommand(resource,
-                                                          newData));
+            renderDevice->addCommand(std::unique_ptr<Command>(new SetBufferDataCommand(resource,
+                                                                                       newData)));
         }
     } // namespace graphics
 } // namespace ouzel

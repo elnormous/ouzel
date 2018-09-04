@@ -38,13 +38,13 @@ namespace ouzel
 
             RenderDevice* renderDevice = renderer.getDevice();
 
-            renderDevice->addCommand(InitBlendStateCommand(resource,
-                                                           newEnableBlending,
-                                                           newColorBlendSource, newColorBlendDest,
-                                                           newColorOperation,
-                                                           newAlphaBlendSource, newAlphaBlendDest,
-                                                           newAlphaOperation,
-                                                           newColorMask));
+            renderDevice->addCommand(std::unique_ptr<Command>(new InitBlendStateCommand(resource,
+                                                                                        newEnableBlending,
+                                                                                        newColorBlendSource, newColorBlendDest,
+                                                                                        newColorOperation,
+                                                                                        newAlphaBlendSource, newAlphaBlendDest,
+                                                                                        newAlphaOperation,
+                                                                                        newColorMask)));
         }
     } // namespace graphics
 } // namespace ouzel

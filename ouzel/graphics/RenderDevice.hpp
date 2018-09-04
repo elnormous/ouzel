@@ -58,9 +58,11 @@ namespace ouzel
 
             inline bool getRefillQueue() const { return refillQueue; }
 
-            template<typename T> void addCommand(const T& command)
+            void addCommand(std::unique_ptr<Command>&& command)
             {
-                fillBuffer->push(command);
+                std::unique_lock<std::mutex> lock(commandQueueMutex);
+                commandQueue.push(std::forward<std::unique_ptr<Command>>(command));
+                commandQueueCondition.notify_all();
             }
 
             void flushCommands();
@@ -120,7 +122,7 @@ namespace ouzel
             virtual TextureResource* createTexture() = 0;
             virtual void deleteResource(RenderResource* resource);
 
-            virtual void processCommands(CommandBuffer& commands) = 0;
+            virtual void processCommand(const std::unique_ptr<Command>& command) = 0;
             virtual void generateScreenshot(const std::string& filename);
 
             Renderer::Driver driver;
@@ -158,14 +160,9 @@ namespace ouzel
 
             uint32_t drawCallCount = 0;
 
-            CommandBuffer commandBuffers[2];
-            CommandBuffer* fillBuffer = &commandBuffers[0];
-            CommandBuffer* renderBuffer = &commandBuffers[1];
-
+            std::queue<std::unique_ptr<Command>> commandQueue;
             std::mutex commandQueueMutex;
             std::condition_variable commandQueueCondition;
-
-            bool queueFinished = false;
             std::atomic<bool> refillQueue;
 
             std::atomic<float> currentFPS;
