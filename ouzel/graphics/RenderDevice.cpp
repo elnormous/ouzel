@@ -146,6 +146,8 @@ namespace ouzel
 
         void RenderDevice::flushCommands()
         {
+            refillQueue = false;
+
 #if OUZEL_MULTITHREADED
             std::unique_lock<std::mutex> lock(commandQueueMutex);
 #endif
