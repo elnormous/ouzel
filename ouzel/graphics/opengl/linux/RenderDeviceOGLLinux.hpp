@@ -41,8 +41,7 @@ namespace ouzel
                               bool newDepth,
                               bool newDebugRenderer) override;
 
-            virtual void lockContext() override;
-            virtual void swapBuffers() override;
+            virtual void present() override;
             void main();
 
 #if OUZEL_OPENGL_INTERFACE_GLX
