@@ -339,6 +339,8 @@ namespace ouzel
             uint32_t cullModeIndex = 0;
             ShaderResourceD3D11* currentShader = nullptr;
 
+            std::unique_ptr<Command> command;
+
             for (;;)
             {
                 {
