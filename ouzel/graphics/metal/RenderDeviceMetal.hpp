@@ -19,6 +19,7 @@ typedef id<MTLDevice> MTLDevicePtr;
 typedef id<MTLBuffer> MTLBufferPtr;
 typedef MTLRenderPassDescriptor* MTLRenderPassDescriptorPtr;
 typedef id<MTLSamplerState> MTLSamplerStatePtr;
+typedef id<MTLCommandBuffer> MTLCommandBufferPtr;
 typedef id<MTLCommandQueue> MTLCommandQueuePtr;
 typedef id<MTLRenderCommandEncoder> MTLRenderCommandEncoderPtr;
 typedef id<MTLRenderPipelineState> MTLRenderPipelineStatePtr;
@@ -32,6 +33,7 @@ typedef id MTLDevicePtr;
 typedef id MTLBufferPtr;
 typedef id MTLRenderPassDescriptorPtr;
 typedef id MTLSamplerStatePtr;
+typedef id MTLCommandBufferPtr;
 typedef id MTLCommandQueuePtr;
 typedef id MTLRenderCommandEncoderPtr;
 typedef id MTLRenderPipelineStatePtr;
@@ -58,6 +60,9 @@ namespace ouzel
         {
             friend RenderDevice;
         public:
+            static const size_t BUFFER_SIZE = 1024 * 1024; // size of shader constant buffer
+            static const size_t BUFFER_COUNT = 3; // allow encoding up to 3 command buffers simultaneously
+
             static bool available();
 
             virtual ~RenderDeviceMetal();
@@ -99,7 +104,7 @@ namespace ouzel
 
             virtual void setSize(const Size2& newSize) override;
 
-            virtual void processCommand(const Command* command) override;
+            virtual void process() override;
             virtual void generateScreenshot(const std::string& filename) override;
 
             virtual BlendStateResource* createBlendState() override;
@@ -127,7 +132,7 @@ namespace ouzel
             MTLRenderPipelineStatePtr getPipelineState(const PipelineStateDesc& desc);
 
             MTLDevicePtr device = nil;
-            MTLCommandQueuePtr commandQueue = nil;
+            MTLCommandQueuePtr metalCommandQueue = nil;
             CAMetalLayerPtr metalLayer = nil;
             MTLTexturePtr currentMetalTexture = nullptr;
 
@@ -138,7 +143,7 @@ namespace ouzel
             };
 
             uint32_t shaderConstantBufferIndex = 0;
-            std::vector<ShaderConstantBuffer> shaderConstantBuffers;
+            ShaderConstantBuffer shaderConstantBuffers[BUFFER_COUNT];
 
             MTLRenderPassDescriptorPtr renderPassDescriptor = nil;
 
@@ -157,13 +162,6 @@ namespace ouzel
             dispatch_semaphore_t inflightSemaphore;
 
             std::map<PipelineStateDesc, MTLRenderPipelineStatePtr> pipelineStates;
-
-            MTLRenderPassDescriptorPtr currentRenderPassDescriptor = nil;
-            MTLRenderCommandEncoderPtr currentRenderCommandEncoder = nil;
-            PipelineStateDesc currentPipelineStateDesc;
-            MTLTexturePtr currentRenderTarget = nil;
-            std::vector<float> shaderData;
-            ShaderResourceMetal* currentShader = nullptr;
         };
     } // namespace graphics
 } // namespace ouzel

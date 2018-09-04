@@ -16,7 +16,6 @@ namespace ouzel
         {
             enum Type
             {
-                PRESENT,
                 INIT_RENDER_TARGET,
                 SET_RENDER_TARGET_PARAMETERS,
                 SET_RENDER_TARGET,
@@ -51,14 +50,6 @@ namespace ouzel
             virtual ~Command() {}
 
             const Type type;
-        };
-
-        struct PresentCommand: public Command
-        {
-            PresentCommand():
-                Command(Command::Type::PRESENT)
-            {
-            }
         };
 
         struct InitRenderTargetCommand: public Command

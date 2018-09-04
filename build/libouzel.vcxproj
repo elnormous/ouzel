@@ -238,7 +238,7 @@
     <ClInclude Include="..\ouzel\graphics\BlendStateResource.hpp" />
     <ClInclude Include="..\ouzel\graphics\Buffer.hpp" />
     <ClInclude Include="..\ouzel\graphics\BufferResource.hpp" />
-    <ClInclude Include="..\ouzel\graphics\CommandBuffer.hpp" />
+    <ClInclude Include="..\ouzel\graphics\Commands.hpp" />
     <ClInclude Include="..\ouzel\graphics\DataType.hpp" />
     <ClInclude Include="..\ouzel\graphics\direct3d11\BlendStateResourceD3D11.hpp" />
     <ClInclude Include="..\ouzel\graphics\direct3d11\BufferResourceD3D11.hpp" />

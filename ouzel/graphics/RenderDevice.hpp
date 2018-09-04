@@ -6,7 +6,7 @@
 #include <mutex>
 #include "graphics/Renderer.hpp"
 #include "graphics/Vertex.hpp"
-#include "graphics/CommandBuffer.hpp"
+#include "graphics/Commands.hpp"
 #include "graphics/BlendStateResource.hpp"
 #include "graphics/BufferResource.hpp"
 #include "graphics/RenderTargetResource.hpp"
@@ -47,7 +47,7 @@ namespace ouzel
             virtual void setClearDepth(float newClearDepth);
             inline float getClearDepth() const { return clearDepth; }
 
-            void process();
+            virtual void process();
 
             inline const Size2& getSize() const { return size; }
             inline uint32_t getSampleCount() const { return sampleCount; }
@@ -122,7 +122,6 @@ namespace ouzel
             virtual TextureResource* createTexture() = 0;
             virtual void deleteResource(RenderResource* resource);
 
-            virtual void processCommand(const Command* command) = 0;
             virtual void generateScreenshot(const std::string& filename);
 
             Renderer::Driver driver;
@@ -176,6 +175,7 @@ namespace ouzel
             std::mutex executeMutex;
 
             bool newFrame = false;
+            bool queueFinished = false;
             std::mutex frameMutex;
             std::condition_variable frameCondition;
         };

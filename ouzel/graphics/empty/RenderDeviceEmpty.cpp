@@ -36,7 +36,7 @@ namespace ouzel
                                newDebugRenderer);
         }
 
-        void RenderDeviceEmpty::processCommand(const Command*)
+        void RenderDeviceEmpty::process()
         {
         }
 
