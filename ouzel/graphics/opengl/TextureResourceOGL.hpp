@@ -32,24 +32,14 @@ namespace ouzel
             explicit TextureResourceOGL(RenderDeviceOGL& renderDeviceOGL);
             virtual ~TextureResourceOGL();
 
-            virtual void init(const Size2& newSize,
-                              uint32_t newFlags = 0,
-                              uint32_t newMipmaps = 0,
-                              uint32_t newSampleCount = 1,
-                              PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM) override;
-            virtual void init(const std::vector<uint8_t>& newData,
-                              const Size2& newSize,
-                              uint32_t newFlags = 0,
-                              uint32_t newMipmaps = 0,
-                              PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM) override;
             virtual void init(const std::vector<Texture::Level>& newLevels,
-                              const Size2& newSize,
                               uint32_t newFlags = 0,
+                              uint32_t newSampleCount = 1,
                               PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM) override;
 
             virtual void reload() override;
 
-            virtual void setData(const std::vector<uint8_t>& newData) override;
+            virtual void setData(const std::vector<Texture::Level>& newLevels) override;
             virtual void setFilter(Texture::Filter newFilter) override;
             virtual void setAddressX(Texture::Address newAddressX) override;
             virtual void setAddressY(Texture::Address newAddressY) override;

@@ -73,66 +73,34 @@ namespace ouzel
 
             if (samplerState)
                 samplerState->Release();
-
-            width = 0;
-            height = 0;
         }
 
-        void TextureResourceD3D11::init(const Size2& newSize,
+        void TextureResourceD3D11::init(const std::vector<Texture::Level>& newLevels,
                                         uint32_t newFlags,
-                                        uint32_t newMipmaps,
                                         uint32_t newSampleCount,
                                         PixelFormat newPixelFormat)
         {
-            TextureResource::init(newSize,
+            TextureResource::init(newLevels,
                                   newFlags,
-                                  newMipmaps,
                                   newSampleCount,
                                   newPixelFormat);
 
             createTexture();
 
-            frameBufferClearColor[0] = clearColor.normR();
-            frameBufferClearColor[1] = clearColor.normG();
-            frameBufferClearColor[2] = clearColor.normB();
-            frameBufferClearColor[3] = clearColor.normA();
+            if (flags & Texture::RENDER_TARGET)
+            {
+                frameBufferClearColor[0] = clearColor.normR();
+                frameBufferClearColor[1] = clearColor.normG();
+                frameBufferClearColor[2] = clearColor.normB();
+                frameBufferClearColor[3] = clearColor.normA();
+            }
 
             updateSamplerState();
         }
 
-        void TextureResourceD3D11::init(const std::vector<uint8_t>& newData,
-                                        const Size2& newSize,
-                                        uint32_t newFlags,
-                                        uint32_t newMipmaps,
-                                        PixelFormat newPixelFormat)
+        void TextureResourceD3D11::setData(const std::vector<Texture::Level>& newLevels)
         {
-            TextureResource::init(newData,
-                                  newSize,
-                                  newFlags,
-                                  newMipmaps,
-                                  newPixelFormat);
-
-            createTexture();
-            updateSamplerState();
-        }
-
-        void TextureResourceD3D11::init(const std::vector<Texture::Level>& newLevels,
-                                        const Size2& newSize,
-                                        uint32_t newFlags,
-                                        PixelFormat newPixelFormat)
-        {
-            TextureResource::init(newLevels,
-                                  newSize,
-                                  newFlags,
-                                  newPixelFormat);
-
-            createTexture();
-            updateSamplerState();
-        }
-
-        void TextureResourceD3D11::setData(const std::vector<uint8_t>& newData)
-        {
-            TextureResource::setData(newData);
+            TextureResource::setData(newLevels);
 
             RenderDeviceD3D11& renderDeviceD3D11 = static_cast<RenderDeviceD3D11&>(renderDevice);
 

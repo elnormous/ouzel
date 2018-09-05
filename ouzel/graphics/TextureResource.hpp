@@ -20,24 +20,14 @@ namespace ouzel
         public:
             virtual ~TextureResource();
 
-            virtual void init(const Size2& newSize,
-                              uint32_t newFlags = 0,
-                              uint32_t newMipmaps = 0,
-                              uint32_t newSampleCount = 1,
-                              PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
-            virtual void init(const std::vector<uint8_t>& newData,
-                              const Size2& newSize,
-                              uint32_t newFlags = 0,
-                              uint32_t newMipmaps = 0,
-                              PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
             virtual void init(const std::vector<Texture::Level>& newLevels,
-                              const Size2& newSize,
                               uint32_t newFlags = 0,
+                              uint32_t newSampleCount = 1,
                               PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
 
             inline const Size2& getSize() const { return size; }
 
-            virtual void setData(const std::vector<uint8_t>& newData);
+            virtual void setData(const std::vector<Texture::Level>& newLevels);
 
             inline uint32_t getFlags() const { return flags; }
             inline uint32_t getMipmaps() const { return mipmaps; }
@@ -72,9 +62,6 @@ namespace ouzel
 
         protected:
             TextureResource(RenderDevice& initRenderDevice);
-
-            void calculateSizes(const Size2& newSize);
-            void calculateData(const std::vector<uint8_t>& newData);
 
             RenderDevice& renderDevice;
             Size2 size;
