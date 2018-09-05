@@ -742,6 +742,33 @@ namespace ouzel
                         break;
                     }
 
+                    case Command::Type::INIT_TEXTURE:
+                    {
+                        const InitTextureCommand* initTextureCommand = static_cast<const InitTextureCommand*>(command.get());
+
+                        initTextureCommand->texture->init(initTextureCommand->levels,
+                                                          initTextureCommand->flags,
+                                                          initTextureCommand->sampleCount,
+                                                          initTextureCommand->pixelFormat);
+
+                        break;
+                    }
+
+                    case Command::Type::SET_TEXTURE_DATA:
+                    {
+                        const SetTextureDataCommand* setTextureDataCommand = static_cast<const SetTextureDataCommand*>(command.get());
+
+                        setTextureDataCommand->texture->setData(setTextureDataCommand->levels);
+
+                        break;
+                    }
+
+                    case Command::Type::SET_TEXTURE_PARAMETERS:
+                    {
+                        const SetTextureParametersCommand* setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
+                        break;
+                    }
+
                     case Command::Type::SET_TEXTURES:
                     {
                         const SetTexturesCommand* setTexturesCommand = static_cast<const SetTexturesCommand*>(command.get());

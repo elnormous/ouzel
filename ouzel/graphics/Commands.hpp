@@ -393,24 +393,39 @@ namespace ouzel
 
         struct InitTextureCommand: public Command
         {
-            InitTextureCommand(TextureResource* initTexture):
+            InitTextureCommand(TextureResource* initTexture,
+                               const std::vector<Texture::Level>& initLevels,
+                               uint32_t initFlags,
+                               uint32_t initSampleCount,
+                               PixelFormat initPixelFormat):
                 Command(Command::Type::INIT_TEXTURE),
-                texture(initTexture)
+                texture(initTexture),
+                levels(initLevels),
+                flags(initFlags),
+                sampleCount(initSampleCount),
+                pixelFormat(initPixelFormat)
             {
             }
 
             TextureResource* texture;
+            std::vector<Texture::Level> levels;
+            uint32_t flags;
+            uint32_t sampleCount;
+            PixelFormat pixelFormat;
         };
 
         struct SetTextureDataCommand: public Command
         {
-            SetTextureDataCommand(TextureResource* initTexture):
+            SetTextureDataCommand(TextureResource* initTexture,
+                                  const std::vector<Texture::Level>& initLevels):
                 Command(Command::Type::SET_TEXTURE_DATA),
-                texture(initTexture)
+                texture(initTexture),
+                levels(initLevels)
             {
             }
 
             TextureResource* texture;
+            std::vector<Texture::Level> levels;
         };
 
         struct SetTextureParametersCommand: public Command
