@@ -13,12 +13,14 @@ static int looperCallback(int fd, int events, void* data)
 {
     if (events & ALOOPER_EVENT_INPUT)
     {
-        char message;
-        if (read(fd, &message, sizeof(message)) == -1)
+        int8_t cmd;
+        if (read(fd, &cmd, sizeof(cmd)) == -1)
             throw ouzel::SystemError("Failed to read from pipe");
 
         ouzel::EngineAndroid* engineAndroid = static_cast<ouzel::EngineAndroid*>(data);
-        engineAndroid->executeAll();
+
+        if (cmd == 1)
+            engineAndroid->executeAll();
     }
 
     return 1;
@@ -245,7 +247,7 @@ namespace ouzel
 
     void EngineAndroid::handleInputQueueCreate(AInputQueue* queue)
     {
-        AInputQueue_attachLooper(queue, looper, LOOPER_ID_INPUT, inputCallback, this);
+        //AInputQueue_attachLooper(queue, looper, LOOPER_ID_INPUT, inputCallback, this);
     }
 
     void EngineAndroid::handleInputQueueDestroy(AInputQueue* queue)
