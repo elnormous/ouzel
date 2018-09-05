@@ -583,72 +583,120 @@ namespace ouzel
         {
             filter = newFilter;
 
-            renderer.executeOnRenderThread(std::bind(&TextureResource::setFilter,
-                                                     resource,
-                                                     newFilter));
+            renderer.getDevice()->addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource,
+                                                                                                      filter,
+                                                                                                      addressX,
+                                                                                                      addressY,
+                                                                                                      maxAnisotropy,
+                                                                                                      clearColorBuffer,
+                                                                                                      clearDepthBuffer,
+                                                                                                      clearColor,
+                                                                                                      clearDepth)));
         }
 
         void Texture::setAddressX(Address newAddressX)
         {
             addressX = newAddressX;
 
-            renderer.executeOnRenderThread(std::bind(&TextureResource::setAddressX,
-                                                     resource,
-                                                     newAddressX));
+            renderer.getDevice()->addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource,
+                                                                                                      filter,
+                                                                                                      addressX,
+                                                                                                      addressY,
+                                                                                                      maxAnisotropy,
+                                                                                                      clearColorBuffer,
+                                                                                                      clearDepthBuffer,
+                                                                                                      clearColor,
+                                                                                                      clearDepth)));
         }
 
         void Texture::setAddressY(Address newAddressY)
         {
             addressY = newAddressY;
 
-            renderer.executeOnRenderThread(std::bind(&TextureResource::setAddressY,
-                                                     resource,
-                                                     newAddressY));
+            renderer.getDevice()->addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource,
+                                                                                                      filter,
+                                                                                                      addressX,
+                                                                                                      addressY,
+                                                                                                      maxAnisotropy,
+                                                                                                      clearColorBuffer,
+                                                                                                      clearDepthBuffer,
+                                                                                                      clearColor,
+                                                                                                      clearDepth)));
         }
 
         void Texture::setMaxAnisotropy(uint32_t newMaxAnisotropy)
         {
             maxAnisotropy = newMaxAnisotropy;
 
-            renderer.executeOnRenderThread(std::bind(&TextureResource::setMaxAnisotropy,
-                                                     resource,
-                                                     newMaxAnisotropy));
+            renderer.getDevice()->addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource,
+                                                                                                      filter,
+                                                                                                      addressX,
+                                                                                                      addressY,
+                                                                                                      maxAnisotropy,
+                                                                                                      clearColorBuffer,
+                                                                                                      clearDepthBuffer,
+                                                                                                      clearColor,
+                                                                                                      clearDepth)));
         }
 
         void Texture::setClearColorBuffer(bool clear)
         {
             clearColorBuffer = clear;
 
-            renderer.executeOnRenderThread(std::bind(&TextureResource::setClearColorBuffer,
-                                                     resource,
-                                                     clear));
+            renderer.getDevice()->addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource,
+                                                                                                      filter,
+                                                                                                      addressX,
+                                                                                                      addressY,
+                                                                                                      maxAnisotropy,
+                                                                                                      clearColorBuffer,
+                                                                                                      clearDepthBuffer,
+                                                                                                      clearColor,
+                                                                                                      clearDepth)));
         }
 
         void Texture::setClearDepthBuffer(bool clear)
         {
             clearDepthBuffer = clear;
 
-            renderer.executeOnRenderThread(std::bind(&TextureResource::setClearDepthBuffer,
-                                                     resource,
-                                                     clear));
+            renderer.getDevice()->addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource,
+                                                                                                      filter,
+                                                                                                      addressX,
+                                                                                                      addressY,
+                                                                                                      maxAnisotropy,
+                                                                                                      clearColorBuffer,
+                                                                                                      clearDepthBuffer,
+                                                                                                      clearColor,
+                                                                                                      clearDepth)));
         }
 
         void Texture::setClearColor(Color color)
         {
             clearColor = color;
 
-            renderer.executeOnRenderThread(std::bind(&TextureResource::setClearColor,
-                                                     resource,
-                                                     color));
+            renderer.getDevice()->addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource,
+                                                                                                      filter,
+                                                                                                      addressX,
+                                                                                                      addressY,
+                                                                                                      maxAnisotropy,
+                                                                                                      clearColorBuffer,
+                                                                                                      clearDepthBuffer,
+                                                                                                      clearColor,
+                                                                                                      clearDepth)));
         }
 
         void Texture::setClearDepth(float depth)
         {
             clearDepth = depth;
 
-            renderer.executeOnRenderThread(std::bind(&TextureResource::setClearDepth,
-                                                     resource,
-                                                     depth));
+            renderer.getDevice()->addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource,
+                                                                                                      filter,
+                                                                                                      addressX,
+                                                                                                      addressY,
+                                                                                                      maxAnisotropy,
+                                                                                                      clearColorBuffer,
+                                                                                                      clearDepthBuffer,
+                                                                                                      clearColor,
+                                                                                                      clearDepth)));
         }
 
     } // namespace graphics

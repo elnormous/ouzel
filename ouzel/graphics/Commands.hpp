@@ -430,13 +430,37 @@ namespace ouzel
 
         struct SetTextureParametersCommand: public Command
         {
-            SetTextureParametersCommand(TextureResource* initTexture):
+            SetTextureParametersCommand(TextureResource* initTexture,
+                                        Texture::Filter initFilter,
+                                        Texture::Address initAddressX,
+                                        Texture::Address initAddressY,
+                                        uint32_t initMaxAnisotropy,
+                                        bool initClearColorBuffer,
+                                        bool initClearDepthBuffer,
+                                        Color initClearColor,
+                                        float initClearDepth):
                 Command(Command::Type::SET_TEXTURE_PARAMETERS),
-                texture(initTexture)
+                texture(initTexture),
+                filter(initFilter),
+                addressX(initAddressX),
+                addressY(initAddressY),
+                maxAnisotropy(initMaxAnisotropy),
+                clearColorBuffer(initClearColorBuffer),
+                clearDepthBuffer(initClearDepthBuffer),
+                clearColor(initClearColor),
+                clearDepth(initClearDepth)
             {
             }
 
             TextureResource* texture;
+            Texture::Filter filter;
+            Texture::Address addressX;
+            Texture::Address addressY;
+            uint32_t maxAnisotropy;
+            bool clearColorBuffer;
+            bool clearDepthBuffer;
+            Color clearColor;
+            float clearDepth;
         };
 
         struct SetTexturesCommand: public Command
