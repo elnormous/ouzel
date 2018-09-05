@@ -766,6 +766,16 @@ namespace ouzel
                     case Command::Type::SET_TEXTURE_PARAMETERS:
                     {
                         const SetTextureParametersCommand* setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
+
+                        setTextureParametersCommand->texture->setFilter(setTextureParametersCommand->filter);
+                        setTextureParametersCommand->texture->setAddressX(setTextureParametersCommand->addressX);
+                        setTextureParametersCommand->texture->setAddressY(setTextureParametersCommand->addressY);
+                        setTextureParametersCommand->texture->setMaxAnisotropy(setTextureParametersCommand->maxAnisotropy);
+                        setTextureParametersCommand->texture->setClearColorBuffer(setTextureParametersCommand->clearColorBuffer);
+                        setTextureParametersCommand->texture->setClearDepthBuffer(setTextureParametersCommand->clearDepthBuffer);
+                        setTextureParametersCommand->texture->setClearColor(setTextureParametersCommand->clearColor);
+                        setTextureParametersCommand->texture->setClearDepth(setTextureParametersCommand->clearDepth);
+
                         break;
                     }
 
