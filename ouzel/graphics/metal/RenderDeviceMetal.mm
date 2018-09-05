@@ -18,9 +18,6 @@
 #include "utils/Utils.hpp"
 #include "stb_image_write.h"
 
-static const size_t BUFFER_SIZE = 1024 * 1024; // size of shader constant buffer
-static const size_t BUFFER_COUNT = 3; // allow encoding up to 3 command buffers simultaneously
-
 namespace ouzel
 {
     namespace graphics
@@ -68,7 +65,7 @@ namespace ouzel
             for (const auto& pipelineState : pipelineStates)
                 [pipelineState.second release];
 
-            if (commandQueue) [commandQueue release];
+            if (metalCommandQueue) [metalCommandQueue release];
 
             if (renderPassDescriptor) [renderPassDescriptor release];
 
@@ -105,9 +102,9 @@ namespace ouzel
             if (device.name)
                 Log(Log::Level::INFO) << "Using " << [device.name cStringUsingEncoding:NSUTF8StringEncoding] << " for rendering";
 
-            commandQueue = [device newCommandQueue];
+            metalCommandQueue = [device newCommandQueue];
 
-            if (!commandQueue)
+            if (!metalCommandQueue)
                 throw SystemError("Failed to create Metal command queue");
 
             if (depth) depthFormat = MTLPixelFormatDepth32Float;
@@ -144,17 +141,13 @@ namespace ouzel
             renderPassDescriptor.depthAttachment.clearDepth = clearDepth;
             renderPassDescriptor.depthAttachment.storeAction = MTLStoreActionStore;
 
-            for (uint32_t i = 0; i < BUFFER_COUNT; ++i)
+            for (ShaderConstantBuffer& shaderConstantBuffer : shaderConstantBuffers)
             {
-                ShaderConstantBuffer shaderConstantBuffer;
-
                 shaderConstantBuffer.buffer = [device newBufferWithLength:BUFFER_SIZE
                                                                   options:MTLResourceCPUCacheModeWriteCombined];
 
                 if (!shaderConstantBuffer.buffer)
                     throw SystemError("Failed to create Metal buffer");
-
-                shaderConstantBuffers.push_back(shaderConstantBuffer);
             }
         }
 
@@ -197,8 +190,11 @@ namespace ouzel
             metalLayer.drawableSize = drawableSize;
         }
 
-        void RenderDeviceMetal::processCommands(CommandBuffer& commands)
+        void RenderDeviceMetal::process()
         {
+            RenderDevice::process();
+            executeAll();
+
             id<CAMetalDrawable> currentMetalDrawable = [metalLayer nextDrawable];
 
             if (!currentMetalDrawable)
@@ -272,7 +268,7 @@ namespace ouzel
 
             dispatch_semaphore_wait(inflightSemaphore, DISPATCH_TIME_FOREVER);
 
-            id<MTLCommandBuffer> currentCommandBuffer = [commandQueue commandBuffer];
+            MTLCommandBufferPtr currentCommandBuffer = [metalCommandQueue commandBuffer];
 
             if (!currentCommandBuffer)
                 throw DataError("Failed to create Metal command buffer");
@@ -284,28 +280,35 @@ namespace ouzel
              }];
 
             MTLRenderPassDescriptorPtr currentRenderPassDescriptor = nil;
-            id<MTLRenderCommandEncoder> currentRenderCommandEncoder = nil;
+            MTLRenderCommandEncoderPtr currentRenderCommandEncoder = nil;
             PipelineStateDesc currentPipelineStateDesc;
             MTLTexturePtr currentRenderTarget = nil;
-
             std::vector<float> shaderData;
 
-            MTLViewport viewport;
-            viewport.znear = 0.0;
-            viewport.zfar = 1.0;
-
-            if (++shaderConstantBufferIndex >= shaderConstantBuffers.size()) shaderConstantBufferIndex = 0;
-
+            if (++shaderConstantBufferIndex >= BUFFER_COUNT) shaderConstantBufferIndex = 0;
             ShaderConstantBuffer& shaderConstantBuffer = shaderConstantBuffers[shaderConstantBufferIndex];
             ShaderResourceMetal* currentShader = nullptr;
 
-            while (Command* command = commands.front())
+            std::unique_ptr<Command> command;
+
+            for (;;)
             {
+                {
+                    std::unique_lock<std::mutex> lock(commandQueueMutex);
+                    while (!queueFinished && commandQueue.empty()) commandQueueCondition.wait(lock);
+                    if (!commandQueue.empty())
+                    {
+                        command = std::move(commandQueue.front());
+                        commandQueue.pop();
+                    }
+                    else if (queueFinished) break;
+                }
+
                 switch (command->type)
                 {
                     case Command::Type::SET_RENDER_TARGET:
                     {
-                        const SetRenderTargetCommand* setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command);
+                        const SetRenderTargetCommand* setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command.get());
 
                         MTLRenderPassDescriptorPtr newRenderPassDescriptor;
 
@@ -315,7 +318,7 @@ namespace ouzel
 
                             currentRenderTarget = renderTargetMetal->getTexture();
                             newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
-                            if (!newRenderPassDescriptor) continue;
+                            if (!newRenderPassDescriptor) break;
 
                             currentPipelineStateDesc.sampleCount = renderTargetMetal->getSampleCount();
                             currentPipelineStateDesc.colorFormat = renderTargetMetal->getColorFormat();
@@ -352,7 +355,7 @@ namespace ouzel
 
                     case Command::Type::CLEAR:
                     {
-                        const ClearCommand* clearCommand = static_cast<const ClearCommand*>(command);
+                        const ClearCommand* clearCommand = static_cast<const ClearCommand*>(command.get());
 
                         MTLRenderPassDescriptorPtr newRenderPassDescriptor;
                         MTLLoadAction newColorBufferLoadAction = MTLLoadActionLoad;
@@ -367,7 +370,7 @@ namespace ouzel
                             TextureResourceMetal* renderTargetMetal = static_cast<TextureResourceMetal*>(clearCommand->renderTarget);
 
                             newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
-                            if (!newRenderPassDescriptor) continue;
+                            if (!newRenderPassDescriptor) break;
 
                             currentRenderTarget = renderTargetMetal->getTexture();
                             currentPipelineStateDesc.sampleCount = renderTargetMetal->getSampleCount();
@@ -404,9 +407,12 @@ namespace ouzel
                         if (!currentRenderCommandEncoder)
                             throw DataError("Failed to create Metal render command encoder");
 
+                        MTLViewport viewport;
                         viewport.originX = viewport.originY = 0.0;
                         viewport.width = static_cast<double>(renderTargetWidth);
                         viewport.height = static_cast<double>(renderTargetHeight);
+                        viewport.znear = 0.0f;
+                        viewport.zfar = 1.0f;
 
                         [currentRenderCommandEncoder setViewport: viewport];
                         [currentRenderCommandEncoder setDepthStencilState:depthStencilStates[1]]; // enable depth write
@@ -419,7 +425,7 @@ namespace ouzel
 
                     case Command::Type::SET_CULL_MODE:
                     {
-                        const SetCullModeCommad* setCullModeCommad = static_cast<const SetCullModeCommad*>(command);
+                        const SetCullModeCommad* setCullModeCommad = static_cast<const SetCullModeCommad*>(command.get());
 
                         if (!currentRenderCommandEncoder)
                             throw DataError("Metal render command encoder not initialized");
@@ -441,7 +447,7 @@ namespace ouzel
 
                     case Command::Type::SET_FILL_MODE:
                     {
-                        const SetFillModeCommad* setFillModeCommad = static_cast<const SetFillModeCommad*>(command);
+                        const SetFillModeCommad* setFillModeCommad = static_cast<const SetFillModeCommad*>(command.get());
 
                         if (!currentRenderCommandEncoder)
                             throw DataError("Metal render command encoder not initialized");
@@ -462,7 +468,7 @@ namespace ouzel
 
                     case Command::Type::SET_SCISSOR_TEST:
                     {
-                        const SetScissorTestCommand* setScissorTestCommand = static_cast<const SetScissorTestCommand*>(command);
+                        const SetScissorTestCommand* setScissorTestCommand = static_cast<const SetScissorTestCommand*>(command.get());
 
                         if (!currentRenderCommandEncoder)
                             throw DataError("Metal render command encoder not initialized");
@@ -494,15 +500,18 @@ namespace ouzel
 
                     case Command::Type::SET_VIEWPORT:
                     {
-                        const SetViewportCommand* setViewportCommand = static_cast<const SetViewportCommand*>(command);
+                        const SetViewportCommand* setViewportCommand = static_cast<const SetViewportCommand*>(command.get());
 
                         if (!currentRenderCommandEncoder)
                             throw DataError("Metal render command encoder not initialized");
 
+                        MTLViewport viewport;
                         viewport.originX = static_cast<double>(setViewportCommand->viewport.position.x);
                         viewport.originY = static_cast<double>(setViewportCommand->viewport.position.y);
                         viewport.width = static_cast<double>(setViewportCommand->viewport.size.width);
                         viewport.height = static_cast<double>(setViewportCommand->viewport.size.height);
+                        viewport.znear = 0.0f;
+                        viewport.zfar = 1.0f;
 
                         [currentRenderCommandEncoder setViewport: viewport];
 
@@ -511,7 +520,7 @@ namespace ouzel
 
                     case Command::Type::SET_DEPTH_STATE:
                     {
-                        const SetDepthStateCommand* setDepthStateCommand = static_cast<const SetDepthStateCommand*>(command);
+                        const SetDepthStateCommand* setDepthStateCommand = static_cast<const SetDepthStateCommand*>(command.get());
 
                         if (!currentRenderCommandEncoder)
                             throw DataError("Metal render command encoder not initialized");
@@ -527,7 +536,7 @@ namespace ouzel
 
                     case Command::Type::SET_PIPELINE_STATE:
                     {
-                        const SetPipelineStateCommand* setPipelineStateCommand = static_cast<const SetPipelineStateCommand*>(command);
+                        const SetPipelineStateCommand* setPipelineStateCommand = static_cast<const SetPipelineStateCommand*>(command.get());
 
                         if (!currentRenderCommandEncoder)
                             throw DataError("Metal render command encoder not initialized");
@@ -547,7 +556,7 @@ namespace ouzel
 
                     case Command::Type::DRAW:
                     {
-                        const DrawCommand* drawCommand = static_cast<const DrawCommand*>(command);
+                        const DrawCommand* drawCommand = static_cast<const DrawCommand*>(command.get());
 
                         if (!currentRenderCommandEncoder)
                             throw DataError("Metal render command encoder not initialized");
@@ -600,7 +609,7 @@ namespace ouzel
 
                     case Command::Type::PUSH_DEBUG_MARKER:
                     {
-                        const PushDebugMarkerCommand* pushDebugMarkerCommand = static_cast<const PushDebugMarkerCommand*>(command);
+                        const PushDebugMarkerCommand* pushDebugMarkerCommand = static_cast<const PushDebugMarkerCommand*>(command.get());
 
                         if (!currentRenderCommandEncoder)
                             throw DataError("Metal render command encoder not initialized");
@@ -622,7 +631,7 @@ namespace ouzel
 
                     case Command::Type::INIT_BLEND_STATE:
                     {
-                        const InitBlendStateCommand* initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command);
+                        const InitBlendStateCommand* initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command.get());
 
                         initBlendStateCommand->blendState->init(initBlendStateCommand->enableBlending,
                                                                 initBlendStateCommand->colorBlendSource,
@@ -637,7 +646,7 @@ namespace ouzel
 
                     case Command::Type::INIT_BUFFER:
                     {
-                        const InitBufferCommand* initBufferCommand = static_cast<const InitBufferCommand*>(command);
+                        const InitBufferCommand* initBufferCommand = static_cast<const InitBufferCommand*>(command.get());
 
                         initBufferCommand->buffer->init(initBufferCommand->usage,
                                                         initBufferCommand->flags,
@@ -648,7 +657,7 @@ namespace ouzel
 
                     case Command::Type::SET_BUFFER_DATA:
                     {
-                        const SetBufferDataCommand* setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command);
+                        const SetBufferDataCommand* setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command.get());
 
                         setBufferDataCommand->buffer->setData(setBufferDataCommand->data);
                         break;
@@ -656,7 +665,7 @@ namespace ouzel
 
                     case Command::Type::INIT_SHADER:
                     {
-                        const InitShaderCommand* initShaderCommand = static_cast<const InitShaderCommand*>(command);
+                        const InitShaderCommand* initShaderCommand = static_cast<const InitShaderCommand*>(command.get());
 
                         initShaderCommand->shader->init(initShaderCommand->fragmentShader,
                                                         initShaderCommand->vertexShader,
@@ -673,7 +682,7 @@ namespace ouzel
 
                     case Command::Type::SET_SHADER_CONSTANTS:
                     {
-                        const SetShaderConstantsCommand* setShaderConstantsCommand = static_cast<const SetShaderConstantsCommand*>(command);
+                        const SetShaderConstantsCommand* setShaderConstantsCommand = static_cast<const SetShaderConstantsCommand*>(command.get());
 
                         if (!currentRenderCommandEncoder)
                             throw DataError("Metal render command encoder not initialized");
@@ -699,6 +708,8 @@ namespace ouzel
 
                             shaderData.insert(shaderData.end(), fragmentShaderConstant.begin(), fragmentShaderConstant.end());
                         }
+
+                        //ShaderConstantBuffer& shaderConstantBuffer = shaderConstantBuffers[shaderConstantBufferIndex];
 
                         shaderConstantBuffer.offset = ((shaderConstantBuffer.offset + currentShader->getFragmentShaderAlignment() - 1) /
                                                        currentShader->getFragmentShaderAlignment()) * currentShader->getFragmentShaderAlignment(); // round up to nearest aligned pointer
@@ -754,9 +765,46 @@ namespace ouzel
                         break;
                     }
 
+                    case Command::Type::INIT_TEXTURE:
+                    {
+                        const InitTextureCommand* initTextureCommand = static_cast<const InitTextureCommand*>(command.get());
+
+                        initTextureCommand->texture->init(initTextureCommand->levels,
+                                                          initTextureCommand->flags,
+                                                          initTextureCommand->sampleCount,
+                                                          initTextureCommand->pixelFormat);
+
+                        break;
+                    }
+
+                    case Command::Type::SET_TEXTURE_DATA:
+                    {
+                        const SetTextureDataCommand* setTextureDataCommand = static_cast<const SetTextureDataCommand*>(command.get());
+
+                        setTextureDataCommand->texture->setData(setTextureDataCommand->levels);
+
+                        break;
+                    }
+
+                    case Command::Type::SET_TEXTURE_PARAMETERS:
+                    {
+                        const SetTextureParametersCommand* setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
+
+                        setTextureParametersCommand->texture->setFilter(setTextureParametersCommand->filter);
+                        setTextureParametersCommand->texture->setAddressX(setTextureParametersCommand->addressX);
+                        setTextureParametersCommand->texture->setAddressY(setTextureParametersCommand->addressY);
+                        setTextureParametersCommand->texture->setMaxAnisotropy(setTextureParametersCommand->maxAnisotropy);
+                        setTextureParametersCommand->texture->setClearColorBuffer(setTextureParametersCommand->clearColorBuffer);
+                        setTextureParametersCommand->texture->setClearDepthBuffer(setTextureParametersCommand->clearDepthBuffer);
+                        setTextureParametersCommand->texture->setClearColor(setTextureParametersCommand->clearColor);
+                        setTextureParametersCommand->texture->setClearDepth(setTextureParametersCommand->clearDepth);
+
+                        break;
+                    }
+
                     case Command::Type::SET_TEXTURES:
                     {
-                        const SetTexturesCommand* setTexturesCommand = static_cast<const SetTexturesCommand*>(command);
+                        const SetTexturesCommand* setTexturesCommand = static_cast<const SetTexturesCommand*>(command.get());
 
                         if (!currentRenderCommandEncoder)
                             throw DataError("Metal render command encoder not initialized");
@@ -767,11 +815,9 @@ namespace ouzel
 
                             if (textureMetal)
                             {
-                                [currentRenderCommandEncoder setFragmentTexture:textureMetal->getTexture() atIndex:layer];
-                                [currentRenderCommandEncoder setFragmentSamplerState:textureMetal->getSamplerState() atIndex:layer];
+                                [currentRenderCommandEncoder setFragmentTexture:textureMetal ? textureMetal->getTexture() : nil atIndex:layer];
+                                [currentRenderCommandEncoder setFragmentSamplerState:textureMetal ? textureMetal->getSamplerState() : nil atIndex:layer];
                             }
-                            else
-                                [currentRenderCommandEncoder setFragmentTexture:nil atIndex:layer];
                         }
 
                         break;
@@ -779,8 +825,6 @@ namespace ouzel
 
                     default: throw DataError("Invalid command");
                 }
-
-                commands.pop();
             }
 
             if (currentRenderCommandEncoder)

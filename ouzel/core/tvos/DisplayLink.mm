@@ -7,16 +7,20 @@
 
 @interface DisplayLinkHandler: NSObject
 {
-    ouzel::graphics::RenderDevice* renderDevice;
+    RenderCallback callback;
+    void* userInfo;
 }
 @end
 
 @implementation DisplayLinkHandler
 
--(id)initWithRenderDevice:(ouzel::graphics::RenderDevice*)initRenderDevice
+-(id)initWithCallback:(RenderCallback)initCallback andUserInfo:(void*)initUserInfo
 {
     if (self = [super init])
-        renderDevice = initRenderDevice;
+    {
+        callback = initCallback;
+        userInfo = initUserInfo;
+    }
 
     return self;
 }
@@ -25,18 +29,7 @@
 {
     @autoreleasepool
     {
-        try
-        {
-            renderDevice->process();
-        }
-        catch (const std::exception& e)
-        {
-            ouzel::Log(ouzel::Log::Level::ERR) << e.what();
-        }
-        catch (...)
-        {
-            ouzel::Log(ouzel::Log::Level::ERR) << "Unknown error occurred";
-        }
+        callback(userInfo);
     }
 }
 
@@ -62,7 +55,7 @@ namespace ouzel
 
         if (verticalSync)
         {
-            DisplayLinkHandler* displayLinkHandler = [[DisplayLinkHandler alloc] initWithRenderDevice:&renderDevice];
+            DisplayLinkHandler* displayLinkHandler = [[DisplayLinkHandler alloc] initWithCallback:callback andUserInfo:userInfo];
 
             displayLink = [CADisplayLink displayLinkWithTarget:displayLinkHandler selector:@selector(draw:)];
             if (!displayLink)
@@ -100,21 +93,7 @@ namespace ouzel
         {
             while (running)
             {
-                @autoreleasepool
-                {
-                    try
-                    {
-                        renderDevice.process();
-                    }
-                    catch (const std::exception& e)
-                    {
-                        ouzel::Log(ouzel::Log::Level::ERR) << e.what();
-                    }
-                    catch (...)
-                    {
-                        ouzel::Log(ouzel::Log::Level::ERR) << "Unknown error occurred";
-                    }
-                }
+                callback(userInfo);
             }
         }
     }

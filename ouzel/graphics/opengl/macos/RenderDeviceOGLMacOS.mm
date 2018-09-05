@@ -201,12 +201,7 @@ namespace ouzel
             return result;
         }
 
-        void RenderDeviceOGLMacOS::lockContext()
-        {
-            [openGLContext makeCurrentContext];
-        }
-
-        void RenderDeviceOGLMacOS::swapBuffers()
+        void RenderDeviceOGLMacOS::present()
         {
             [openGLContext flushBuffer];
         }
@@ -241,6 +236,7 @@ namespace ouzel
 
         void RenderDeviceOGLMacOS::renderCallback()
         {
+            [openGLContext makeCurrentContext];
             if (running) process();
         }
     } // namespace graphics

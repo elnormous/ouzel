@@ -657,7 +657,15 @@ namespace ouzel
             frameBufferClearColor[2] = clearColor.normB();
             frameBufferClearColor[3] = clearColor.normA();
 
-            if (glGenVertexArraysProc) glGenVertexArraysProc(1, &vertexArrayId);
+            if (glGenVertexArraysProc)
+            {
+                glGenVertexArraysProc(1, &vertexArrayId);
+
+                glBindVertexArrayProc(vertexArrayId);
+
+                if ((error = glGetError()) != GL_NO_ERROR)
+                    throw DataError("Failed to bind vertex array, error: " + std::to_string(error));
+            }
         }
 
         void RenderDeviceOGL::setClearColorBuffer(bool clear)
@@ -697,15 +705,6 @@ namespace ouzel
 
             frameBufferWidth = static_cast<GLsizei>(size.width);
             frameBufferHeight = static_cast<GLsizei>(size.height);
-        }
-
-        void RenderDeviceOGL::process()
-        {
-            lockContext();
-
-            RenderDevice::process();
-
-            swapBuffers();
         }
 
         static void setUniform(GLint location, DataType dataType, const void* data)
@@ -763,27 +762,33 @@ namespace ouzel
             }
         }
 
-        void RenderDeviceOGL::processCommands(CommandBuffer& commands)
+        void RenderDeviceOGL::process()
         {
+            RenderDevice::process();
+            executeAll();
+
             ShaderResourceOGL* currentShader = nullptr;
 
-            if (vertexArrayId)
+            std::unique_ptr<Command> command;
+
+            for (;;)
             {
-                glBindVertexArrayProc(vertexArrayId);
+                {
+                    std::unique_lock<std::mutex> lock(commandQueueMutex);
+                    while (!queueFinished && commandQueue.empty()) commandQueueCondition.wait(lock);
+                    if (!commandQueue.empty())
+                    {
+                        command = std::move(commandQueue.front());
+                        commandQueue.pop();
+                    }
+                    else if (queueFinished) break;
+                }
 
-                GLenum error;
-
-                if ((error = glGetError()) != GL_NO_ERROR)
-                    throw DataError("Failed to bind vertex array, error: " + std::to_string(error));
-            }
-
-            while (Command* command = commands.front())
-            {
                 switch (command->type)
                 {
                     case Command::Type::SET_RENDER_TARGET:
                     {
-                        const SetRenderTargetCommand* setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command);
+                        const SetRenderTargetCommand* setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command.get());
 
                         GLuint newFrameBufferId = 0;
 
@@ -791,8 +796,7 @@ namespace ouzel
                         {
                             TextureResourceOGL* renderTargetOGL = static_cast<TextureResourceOGL*>(setRenderTargetCommand->renderTarget);
 
-                            if (!renderTargetOGL->getFrameBufferId())
-                                continue;
+                            if (!renderTargetOGL->getFrameBufferId()) break;
 
                             newFrameBufferId = renderTargetOGL->getFrameBufferId();
                         }
@@ -808,7 +812,7 @@ namespace ouzel
 
                     case Command::Type::CLEAR:
                     {
-                        const ClearCommand* clearCommand = static_cast<const ClearCommand*>(command);
+                        const ClearCommand* clearCommand = static_cast<const ClearCommand*>(command.get());
 
                         GLuint newFrameBufferId = 0;
                         GLbitfield newClearMask = 0;
@@ -821,8 +825,7 @@ namespace ouzel
                         {
                             TextureResourceOGL* renderTargetOGL = static_cast<TextureResourceOGL*>(clearCommand->renderTarget);
 
-                            if (!renderTargetOGL->getFrameBufferId())
-                                continue;
+                            if (!renderTargetOGL->getFrameBufferId()) break;
 
                             renderTargetWidth = renderTargetOGL->getWidth();
                             renderTargetHeight = renderTargetOGL->getHeight();
@@ -874,7 +877,7 @@ namespace ouzel
 
                     case Command::Type::SET_CULL_MODE:
                     {
-                        const SetCullModeCommad* setCullModeCommad = static_cast<const SetCullModeCommad*>(command);
+                        const SetCullModeCommad* setCullModeCommad = static_cast<const SetCullModeCommad*>(command.get());
 
                         GLenum cullFace = GL_NONE;
 
@@ -893,12 +896,12 @@ namespace ouzel
 
                     case Command::Type::SET_FILL_MODE:
                     {
-                        const SetFillModeCommad* setFillModeCommad = static_cast<const SetFillModeCommad*>(command);
+                        const SetFillModeCommad* setFillModeCommad = static_cast<const SetFillModeCommad*>(command.get());
 
-#if OUZEL_SUPPORTS_OPENGLES
+    #if OUZEL_SUPPORTS_OPENGLES
                         if (setFillModeCommad->fillMode != Renderer::FillMode::SOLID)
                             throw DataError("Unsupported fill mode");
-#else
+    #else
                         GLenum fillMode = GL_NONE;
 
                         switch (setFillModeCommad->fillMode)
@@ -909,13 +912,13 @@ namespace ouzel
                         }
 
                         setPolygonFillMode(fillMode);
-#endif
+    #endif
                         break;
                     }
 
                     case Command::Type::SET_SCISSOR_TEST:
                     {
-                        const SetScissorTestCommand* setScissorTestCommand = static_cast<const SetScissorTestCommand*>(command);
+                        const SetScissorTestCommand* setScissorTestCommand = static_cast<const SetScissorTestCommand*>(command.get());
 
                         setScissorTest(setScissorTestCommand->enabled,
                                        static_cast<GLint>(setScissorTestCommand->rectangle.position.x),
@@ -928,7 +931,7 @@ namespace ouzel
 
                     case Command::Type::SET_VIEWPORT:
                     {
-                        const SetViewportCommand* setViewportCommand = static_cast<const SetViewportCommand*>(command);
+                        const SetViewportCommand* setViewportCommand = static_cast<const SetViewportCommand*>(command.get());
 
                         setViewport(static_cast<GLint>(setViewportCommand->viewport.position.x),
                                     static_cast<GLint>(setViewportCommand->viewport.position.y),
@@ -940,7 +943,7 @@ namespace ouzel
 
                     case Command::Type::SET_DEPTH_STATE:
                     {
-                        const SetDepthStateCommand* setDepthStateCommand = static_cast<const SetDepthStateCommand*>(command);
+                        const SetDepthStateCommand* setDepthStateCommand = static_cast<const SetDepthStateCommand*>(command.get());
 
                         enableDepthTest(setDepthStateCommand->depthTest);
                         setDepthMask(setDepthStateCommand->depthWrite);
@@ -950,7 +953,7 @@ namespace ouzel
 
                     case Command::Type::SET_PIPELINE_STATE:
                     {
-                        const SetPipelineStateCommand* setPipelineStateCommand = static_cast<const SetPipelineStateCommand*>(command);
+                        const SetPipelineStateCommand* setPipelineStateCommand = static_cast<const SetPipelineStateCommand*>(command.get());
 
                         BlendStateResourceOGL* blendStateOGL = static_cast<BlendStateResourceOGL*>(setPipelineStateCommand->blendState);
                         ShaderResourceOGL* shaderOGL = static_cast<ShaderResourceOGL*>(setPipelineStateCommand->shader);
@@ -990,7 +993,7 @@ namespace ouzel
 
                     case Command::Type::DRAW:
                     {
-                        const DrawCommand* drawCommand = static_cast<const DrawCommand*>(command);
+                        const DrawCommand* drawCommand = static_cast<const DrawCommand*>(command.get());
 
                         // mesh buffer
                         BufferResourceOGL* indexBufferOGL = static_cast<BufferResourceOGL*>(drawCommand->indexBuffer);
@@ -1065,7 +1068,7 @@ namespace ouzel
 
                     case Command::Type::PUSH_DEBUG_MARKER:
                     {
-                        //const PushDebugMarkerCommand* pushDebugMarkerCommand = static_cast<const PushDebugMarkerCommand*>(command);
+                        //const PushDebugMarkerCommand* pushDebugMarkerCommand = static_cast<const PushDebugMarkerCommand*>(command.get());
                         // TODO: implement
                         // EXT_debug_marker
                         // glPushGroupMarkerEXT
@@ -1074,7 +1077,7 @@ namespace ouzel
 
                     case Command::Type::POP_DEBUG_MARKER:
                     {
-                        //const PopDebugMarkerCommand* popDebugMarkerCommand = static_cast<const PopDebugMarkerCommand*>(command);
+                        //const PopDebugMarkerCommand* popDebugMarkerCommand = static_cast<const PopDebugMarkerCommand*>(command.get());
                         // TODO: implement
                         // EXT_debug_marker
                         // glPopGroupMarkerEXT
@@ -1083,7 +1086,7 @@ namespace ouzel
 
                     case Command::Type::INIT_BLEND_STATE:
                     {
-                        const InitBlendStateCommand* initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command);
+                        const InitBlendStateCommand* initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command.get());
 
                         initBlendStateCommand->blendState->init(initBlendStateCommand->enableBlending,
                                                                 initBlendStateCommand->colorBlendSource,
@@ -1098,7 +1101,7 @@ namespace ouzel
 
                     case Command::Type::INIT_BUFFER:
                     {
-                        const InitBufferCommand* initBufferCommand = static_cast<const InitBufferCommand*>(command);
+                        const InitBufferCommand* initBufferCommand = static_cast<const InitBufferCommand*>(command.get());
 
                         initBufferCommand->buffer->init(initBufferCommand->usage,
                                                         initBufferCommand->flags,
@@ -1109,7 +1112,7 @@ namespace ouzel
 
                     case Command::Type::SET_BUFFER_DATA:
                     {
-                        const SetBufferDataCommand* setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command);
+                        const SetBufferDataCommand* setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command.get());
 
                         setBufferDataCommand->buffer->setData(setBufferDataCommand->data);
                         break;
@@ -1117,7 +1120,7 @@ namespace ouzel
 
                     case Command::Type::INIT_SHADER:
                     {
-                        const InitShaderCommand* initShaderCommand = static_cast<const InitShaderCommand*>(command);
+                        const InitShaderCommand* initShaderCommand = static_cast<const InitShaderCommand*>(command.get());
 
                         initShaderCommand->shader->init(initShaderCommand->fragmentShader,
                                                         initShaderCommand->vertexShader,
@@ -1134,7 +1137,7 @@ namespace ouzel
 
                     case Command::Type::SET_SHADER_CONSTANTS:
                     {
-                        const SetShaderConstantsCommand* setShaderConstantsCommand = static_cast<const SetShaderConstantsCommand*>(command);
+                        const SetShaderConstantsCommand* setShaderConstantsCommand = static_cast<const SetShaderConstantsCommand*>(command.get());
 
                         if (!currentShader)
                             throw DataError("No shader set");
@@ -1174,9 +1177,46 @@ namespace ouzel
                         break;
                     }
 
+                    case Command::Type::INIT_TEXTURE:
+                    {
+                        const InitTextureCommand* initTextureCommand = static_cast<const InitTextureCommand*>(command.get());
+
+                        initTextureCommand->texture->init(initTextureCommand->levels,
+                                                          initTextureCommand->flags,
+                                                          initTextureCommand->sampleCount,
+                                                          initTextureCommand->pixelFormat);
+
+                        break;
+                    }
+
+                    case Command::Type::SET_TEXTURE_DATA:
+                    {
+                        const SetTextureDataCommand* setTextureDataCommand = static_cast<const SetTextureDataCommand*>(command.get());
+
+                        setTextureDataCommand->texture->setData(setTextureDataCommand->levels);
+
+                        break;
+                    }
+
+                    case Command::Type::SET_TEXTURE_PARAMETERS:
+                    {
+                        const SetTextureParametersCommand* setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
+
+                        setTextureParametersCommand->texture->setFilter(setTextureParametersCommand->filter);
+                        setTextureParametersCommand->texture->setAddressX(setTextureParametersCommand->addressX);
+                        setTextureParametersCommand->texture->setAddressY(setTextureParametersCommand->addressY);
+                        setTextureParametersCommand->texture->setMaxAnisotropy(setTextureParametersCommand->maxAnisotropy);
+                        setTextureParametersCommand->texture->setClearColorBuffer(setTextureParametersCommand->clearColorBuffer);
+                        setTextureParametersCommand->texture->setClearDepthBuffer(setTextureParametersCommand->clearDepthBuffer);
+                        setTextureParametersCommand->texture->setClearColor(setTextureParametersCommand->clearColor);
+                        setTextureParametersCommand->texture->setClearDepth(setTextureParametersCommand->clearDepth);
+
+                        break;
+                    }
+
                     case Command::Type::SET_TEXTURES:
                     {
-                        const SetTexturesCommand* setTexturesCommand = static_cast<const SetTexturesCommand*>(command);
+                        const SetTexturesCommand* setTexturesCommand = static_cast<const SetTexturesCommand*>(command.get());
 
                         for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
                         {
@@ -1194,16 +1234,12 @@ namespace ouzel
                     default:
                         throw DataError("Invalid command");
                 }
-
-                commands.pop();
             }
+
+            present();
         }
 
-        void RenderDeviceOGL::lockContext()
-        {
-        }
-
-        void RenderDeviceOGL::swapBuffers()
+        void RenderDeviceOGL::present()
         {
         }
 

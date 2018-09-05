@@ -308,13 +308,7 @@ namespace ouzel
             renderThread = std::thread(&RenderDeviceOGLWin::main, this);
         }
 
-        void RenderDeviceOGLWin::lockContext()
-        {
-            if (!wglMakeCurrent(deviceContext, renderContext))
-                throw SystemError("Failed to set current OpenGL context");
-        }
-
-        void RenderDeviceOGLWin::swapBuffers()
+        void RenderDeviceOGLWin::present()
         {
             if (!SwapBuffers(deviceContext))
                 throw SystemError("Failed to swap buffers");
@@ -323,6 +317,9 @@ namespace ouzel
         void RenderDeviceOGLWin::main()
         {
             setCurrentThreadName("Render");
+
+            if (!wglMakeCurrent(deviceContext, renderContext))
+                throw SystemError("Failed to set current OpenGL context");
 
             while (running)
             {

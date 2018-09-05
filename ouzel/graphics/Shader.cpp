@@ -36,16 +36,16 @@ namespace ouzel
 
             RenderDevice* renderDevice = renderer.getDevice();
 
-            renderDevice->addCommand(InitShaderCommand(resource,
-                                                       newFragmentShader,
-                                                       newVertexShader,
-                                                       newVertexAttributes,
-                                                       newFragmentShaderConstantInfo,
-                                                       newVertexShaderConstantInfo,
-                                                       newFragmentShaderDataAlignment,
-                                                       newVertexShaderDataAlignment,
-                                                       newFragmentShaderFunction,
-                                                       newVertexShaderFunction));
+            renderDevice->addCommand(std::unique_ptr<Command>(new InitShaderCommand(resource,
+                                                                                    newFragmentShader,
+                                                                                    newVertexShader,
+                                                                                    newVertexAttributes,
+                                                                                    newFragmentShaderConstantInfo,
+                                                                                    newVertexShaderConstantInfo,
+                                                                                    newFragmentShaderDataAlignment,
+                                                                                    newVertexShaderDataAlignment,
+                                                                                    newFragmentShaderFunction,
+                                                                                    newVertexShaderFunction)));
         }
 
         const std::set<Vertex::Attribute::Usage>& Shader::getVertexAttributes() const

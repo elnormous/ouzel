@@ -11,7 +11,7 @@ namespace ouzel
             driver(initDriver),
             projectionTransform(Matrix4::identity()),
             renderTargetProjectionTransform(Matrix4::identity()),
-            refillQueue(true),
+            refillQueue(false),
             currentFPS(0.0F),
             accumulatedFPS(0.0F)
         {
@@ -46,8 +46,14 @@ namespace ouzel
         void RenderDevice::process()
         {
             {
+                std::unique_lock<std::mutex> lock(commandQueueMutex);
+                queueFinished = false;
+            }
+
+            {
                 std::unique_lock<std::mutex> lock(frameMutex);
                 newFrame = true;
+                refillQueue = true;
                 frameCondition.notify_all();
             }
 
@@ -70,27 +76,10 @@ namespace ouzel
                 currentAccumulatedFPS = 0.0F;
             }
 
-            std::vector<std::unique_ptr<RenderResource>> deleteResources; // will be cleared at the end of the scope
             {
                 std::unique_lock<std::mutex> lock(resourceMutex);
-                deleteResources = std::move(resourceDeleteSet);
+                //resourceDeleteSet.clear();
             }
-
-#if OUZEL_MULTITHREADED
-            std::unique_lock<std::mutex> lock(commandQueueMutex);
-            while (!queueFinished) commandQueueCondition.wait(lock);
-#endif
-
-            std::swap(fillBuffer, renderBuffer);
-
-            queueFinished = false;
-
-            // refills the draw queue
-            refillQueue = true;
-
-            executeAll();
-
-            processCommands(*renderBuffer);
         }
 
         void RenderDevice::setClearColorBuffer(bool clear)
@@ -140,14 +129,14 @@ namespace ouzel
 
         void RenderDevice::flushCommands()
         {
+            refillQueue = false;
+
 #if OUZEL_MULTITHREADED
             std::unique_lock<std::mutex> lock(commandQueueMutex);
 #endif
+            queueFinished = true;
 
             //drawCallCount = static_cast<uint32_t>(fillBuffer->size());
-
-            refillQueue = false;
-            queueFinished = true;
 
 #if OUZEL_MULTITHREADED
             commandQueueCondition.notify_all();

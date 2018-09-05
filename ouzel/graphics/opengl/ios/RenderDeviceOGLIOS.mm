@@ -10,12 +10,29 @@
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
+static void renderCallback(void* userInfo)
+{
+    try
+    {
+        ouzel::graphics::RenderDeviceOGLIOS* renderDevice = static_cast<ouzel::graphics::RenderDeviceOGLIOS*>(userInfo);
+        renderDevice->renderCallback();
+    }
+    catch (const std::exception& e)
+    {
+        ouzel::Log(ouzel::Log::Level::ERR) << e.what();
+    }
+    catch (...)
+    {
+        ouzel::Log(ouzel::Log::Level::ERR) << "Unknown error occurred";
+    }
+}
+
 namespace ouzel
 {
     namespace graphics
     {
         RenderDeviceOGLIOS::RenderDeviceOGLIOS():
-            displayLink(*this)
+            displayLink(::renderCallback, this)
         {
         }
 
@@ -100,13 +117,13 @@ namespace ouzel
             createFrameBuffer();
         }
 
-        void RenderDeviceOGLIOS::lockContext()
+        /*void RenderDeviceOGLIOS::lockContext()
         {
             if (![EAGLContext setCurrentContext:context])
                 throw SystemError("Failed to set current OpenGL context");
-        }
+        }*/
 
-        void RenderDeviceOGLIOS::swapBuffers()
+        void RenderDeviceOGLIOS::present()
         {
             if (sampleCount > 1)
             {
@@ -250,6 +267,14 @@ namespace ouzel
 
                 frameBufferId = resolveFrameBufferId;
             }
+        }
+
+        void RenderDeviceOGLIOS::renderCallback()
+        {
+            if (![EAGLContext setCurrentContext:context])
+                throw SystemError("Failed to set current OpenGL context");
+
+            process();
         }
     } // namespace graphics
 } // namespace ouzel

@@ -60,14 +60,6 @@ namespace ouzel
                                   newDepth,
                                   newDebugRenderer);
         }
-
-        void RenderDeviceOGLEm::lockContext()
-        {
-            EMSCRIPTEN_RESULT result = emscripten_webgl_make_context_current(webGLContext);
-
-            if (result != EMSCRIPTEN_RESULT_SUCCESS)
-                throw SystemError("Failed to make WebGL context current");
-        }
     } // namespace graphics
 } // namespace ouzel
 

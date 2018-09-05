@@ -930,7 +930,7 @@
     <ClInclude Include="..\ouzel\input\InputSystem.hpp">
       <Filter>ouzel\input</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\CommandBuffer.hpp">
+    <ClInclude Include="..\ouzel\graphics\Commands.hpp">
       <Filter>ouzel\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\assets\LoaderGLTF.hpp">

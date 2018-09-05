@@ -57,7 +57,6 @@ namespace ouzel
             if (displayLink)
             {
                 CVDisplayLinkStop(displayLink);
-
                 CVDisplayLinkRelease(displayLink);
             }
         }

@@ -8,13 +8,32 @@
 #include "MetalView.h"
 #include "core/Window.hpp"
 #include "core/ios/NativeWindowIOS.hpp"
+#include "utils/Errors.hpp"
+#include "utils/Log.hpp"
+
+static void renderCallback(void* userInfo)
+{
+    try
+    {
+        ouzel::graphics::RenderDeviceMetalIOS* renderDevice = static_cast<ouzel::graphics::RenderDeviceMetalIOS*>(userInfo);
+        renderDevice->renderCallback();
+    }
+    catch (const std::exception& e)
+    {
+        ouzel::Log(ouzel::Log::Level::ERR) << e.what();
+    }
+    catch (...)
+    {
+        ouzel::Log(ouzel::Log::Level::ERR) << "Unknown error occurred";
+    }
+}
 
 namespace ouzel
 {
     namespace graphics
     {
         RenderDeviceMetalIOS::RenderDeviceMetalIOS():
-            displayLink(*this)
+            displayLink(::renderCallback, this)
         {
         }
 
@@ -52,6 +71,11 @@ namespace ouzel
             colorFormat = metalLayer.pixelFormat;
 
             displayLink.start(verticalSync);
+        }
+
+        void RenderDeviceMetalIOS::renderCallback()
+        {
+            process();
         }
     } // namespace graphics
 } // namespace ouzel

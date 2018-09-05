@@ -30,6 +30,8 @@ namespace ouzel
             RenderDeviceOGLTVOS();
             virtual ~RenderDeviceOGLTVOS();
 
+            void renderCallback();
+
         private:
             virtual void init(Window* newWindow,
                               const Size2& newSize,
@@ -41,8 +43,7 @@ namespace ouzel
                               bool newDebugRenderer) override;
 
             virtual void setSize(const Size2& newSize) override;
-            virtual void lockContext() override;
-            virtual void swapBuffers() override;
+            virtual void present() override;
 
             void createFrameBuffer();
 

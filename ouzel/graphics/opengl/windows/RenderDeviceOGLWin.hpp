@@ -32,8 +32,7 @@ namespace ouzel
                               bool newDepth,
                               bool newDebugRenderer) override;
 
-            virtual void lockContext() override;
-            virtual void swapBuffers() override;
+            virtual void present() override;
             void main();
 
             HDC deviceContext = 0;

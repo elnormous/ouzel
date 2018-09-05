@@ -36,7 +36,7 @@ namespace ouzel
                                newDebugRenderer);
         }
 
-        void RenderDeviceEmpty::processCommands(CommandBuffer&)
+        void RenderDeviceEmpty::process()
         {
         }
 

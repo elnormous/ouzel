@@ -19,7 +19,9 @@ typedef id<MTLDevice> MTLDevicePtr;
 typedef id<MTLBuffer> MTLBufferPtr;
 typedef MTLRenderPassDescriptor* MTLRenderPassDescriptorPtr;
 typedef id<MTLSamplerState> MTLSamplerStatePtr;
+typedef id<MTLCommandBuffer> MTLCommandBufferPtr;
 typedef id<MTLCommandQueue> MTLCommandQueuePtr;
+typedef id<MTLRenderCommandEncoder> MTLRenderCommandEncoderPtr;
 typedef id<MTLRenderPipelineState> MTLRenderPipelineStatePtr;
 typedef id<MTLTexture> MTLTexturePtr;
 typedef id<MTLDepthStencilState> MTLDepthStencilStatePtr;
@@ -31,7 +33,9 @@ typedef id MTLDevicePtr;
 typedef id MTLBufferPtr;
 typedef id MTLRenderPassDescriptorPtr;
 typedef id MTLSamplerStatePtr;
+typedef id MTLCommandBufferPtr;
 typedef id MTLCommandQueuePtr;
+typedef id MTLRenderCommandEncoderPtr;
 typedef id MTLRenderPipelineStatePtr;
 typedef id MTLTexturePtr;
 typedef id MTLDepthStencilStatePtr;
@@ -43,6 +47,7 @@ typedef NSUInteger MTLLoadAction;
 #endif
 
 #include "graphics/RenderDevice.hpp"
+#include "graphics/metal/ShaderResourceMetal.hpp"
 
 namespace ouzel
 {
@@ -55,6 +60,9 @@ namespace ouzel
         {
             friend RenderDevice;
         public:
+            static const size_t BUFFER_SIZE = 1024 * 1024; // size of shader constant buffer
+            static const size_t BUFFER_COUNT = 3; // allow encoding up to 3 command buffers simultaneously
+
             static bool available();
 
             virtual ~RenderDeviceMetal();
@@ -96,7 +104,7 @@ namespace ouzel
 
             virtual void setSize(const Size2& newSize) override;
 
-            virtual void processCommands(CommandBuffer& commands) override;
+            virtual void process() override;
             virtual void generateScreenshot(const std::string& filename) override;
 
             virtual BlendStateResource* createBlendState() override;
@@ -124,7 +132,7 @@ namespace ouzel
             MTLRenderPipelineStatePtr getPipelineState(const PipelineStateDesc& desc);
 
             MTLDevicePtr device = nil;
-            MTLCommandQueuePtr commandQueue = nil;
+            MTLCommandQueuePtr metalCommandQueue = nil;
             CAMetalLayerPtr metalLayer = nil;
             MTLTexturePtr currentMetalTexture = nullptr;
 
@@ -135,7 +143,7 @@ namespace ouzel
             };
 
             uint32_t shaderConstantBufferIndex = 0;
-            std::vector<ShaderConstantBuffer> shaderConstantBuffers;
+            ShaderConstantBuffer shaderConstantBuffers[BUFFER_COUNT];
 
             MTLRenderPassDescriptorPtr renderPassDescriptor = nil;
 

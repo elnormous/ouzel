@@ -70,81 +70,34 @@ namespace ouzel
                 [samplerState release];
         }
 
-        void TextureResourceMetal::init(const Size2& newSize,
+        void TextureResourceMetal::init(const std::vector<Texture::Level>& newLevels,
                                         uint32_t newFlags,
-                                        uint32_t newMipmaps,
                                         uint32_t newSampleCount,
                                         PixelFormat newPixelFormat)
         {
-            TextureResource::init(newSize,
+            TextureResource::init(newLevels,
                                   newFlags,
-                                  newMipmaps,
                                   newSampleCount,
                                   newPixelFormat);
 
             createTexture();
 
-            colorBufferLoadAction = clearColorBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
-            depthBufferLoadAction = clearDepthBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
-
-            if (renderPassDescriptor)
+            if (flags & Texture::RENDER_TARGET)
             {
-                renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.normR(),
-                                                                                        clearColor.normG(),
-                                                                                        clearColor.normB(),
-                                                                                        clearColor.normA());
+                colorBufferLoadAction = clearColorBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
+                depthBufferLoadAction = clearDepthBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
 
-                renderPassDescriptor.depthAttachment.clearDepth = clearDepth;
-            }
-
-            return updateSamplerState();
-        }
-
-        void TextureResourceMetal::init(const std::vector<uint8_t>& newData,
-                                        const Size2& newSize,
-                                        uint32_t newFlags,
-                                        uint32_t newMipmaps,
-                                        PixelFormat newPixelFormat)
-        {
-            TextureResource::init(newData,
-                                  newSize,
-                                  newFlags,
-                                  newMipmaps,
-                                  newPixelFormat);
-
-            createTexture();
-
-            if (!(flags & Texture::RENDER_TARGET))
-            {
-                for (size_t level = 0; level < levels.size(); ++level)
+                if (renderPassDescriptor)
                 {
-                    if (!levels[level].data.empty())
-                    {
-                        [texture replaceRegion:MTLRegionMake2D(0, 0,
-                                                               static_cast<NSUInteger>(levels[level].size.width),
-                                                               static_cast<NSUInteger>(levels[level].size.height))
-                                   mipmapLevel:level withBytes:levels[level].data.data()
-                                   bytesPerRow:static_cast<NSUInteger>(levels[level].pitch)];
-                    }
+                    renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.normR(),
+                                                                                            clearColor.normG(),
+                                                                                            clearColor.normB(),
+                                                                                            clearColor.normA());
+
+                    renderPassDescriptor.depthAttachment.clearDepth = clearDepth;
                 }
             }
-
-            updateSamplerState();
-        }
-
-        void TextureResourceMetal::init(const std::vector<Texture::Level>& newLevels,
-                                        const Size2& newSize,
-                                        uint32_t newFlags,
-                                        PixelFormat newPixelFormat)
-        {
-            TextureResource::init(newLevels,
-                                  newSize,
-                                  newFlags,
-                                  newPixelFormat);
-
-            createTexture();
-
-            if (!(flags & Texture::RENDER_TARGET))
+            else
             {
                 for (size_t level = 0; level < levels.size(); ++level)
                 {
@@ -162,9 +115,9 @@ namespace ouzel
             return updateSamplerState();
         }
 
-        void TextureResourceMetal::setData(const std::vector<uint8_t>& newData)
+        void TextureResourceMetal::setData(const std::vector<Texture::Level>& newLevels)
         {
-            TextureResource::setData(newData);
+            TextureResource::setData(newLevels);
 
             if (!texture)
                 createTexture();
