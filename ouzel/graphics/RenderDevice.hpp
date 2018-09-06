@@ -175,7 +175,6 @@ namespace ouzel
             std::mutex executeMutex;
 
             bool newFrame = false;
-            bool queueFinished = false;
             std::mutex frameMutex;
             std::condition_variable frameCondition;
         };
