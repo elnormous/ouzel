@@ -12,8 +12,9 @@ namespace ouzel
 {
     namespace graphics
     {
-        struct Command
+        class Command
         {
+        public:
             enum Type
             {
                 PRESENT,
@@ -53,13 +54,15 @@ namespace ouzel
             const Type type;
         };
 
-        struct PresentCommand: public Command
+        class PresentCommand: public Command
         {
+        public:
             PresentCommand(): Command(Command::Type::PRESENT) {}
         };
 
-        struct InitRenderTargetCommand: public Command
+        class InitRenderTargetCommand: public Command
         {
+        public:
             InitRenderTargetCommand(RenderTarget* initRenderTarget,
                                     uint32_t initWidth,
                                     uint32_t initHeight,
@@ -81,8 +84,9 @@ namespace ouzel
             PixelFormat pixelFormat;
         };
 
-        struct SetRenderTargetParametersCommand: public Command
+        class SetRenderTargetParametersCommand: public Command
         {
+        public:
             SetRenderTargetParametersCommand(RenderTarget* initRenderTarget,
                                              uint32_t initWidth,
                                              uint32_t initHeight,
@@ -104,8 +108,9 @@ namespace ouzel
             PixelFormat pixelFormat;
         };
 
-        struct SetRenderTargetCommand: public Command
+        class SetRenderTargetCommand: public Command
         {
+        public:
             SetRenderTargetCommand(TextureResource* initRenderTarget):
                 Command(Command::Type::SET_RENDER_TARGET),
                 renderTarget(initRenderTarget)
@@ -115,8 +120,9 @@ namespace ouzel
             TextureResource* renderTarget;
         };
 
-        struct ClearCommand: public Command
+        class ClearCommand: public Command
         {
+        public:
             ClearCommand(TextureResource* initRenderTarget):
                 Command(Command::Type::CLEAR),
                 renderTarget(initRenderTarget)
@@ -127,8 +133,9 @@ namespace ouzel
         };
 
         // TODO: implement
-        struct BlitCommand: public Command
+        class BlitCommand: public Command
         {
+        public:
             BlitCommand(TextureResource* initSourceTexture,
                         TextureResource* initTargetTexture):
                 Command(Command::Type::BLIT),
@@ -142,8 +149,9 @@ namespace ouzel
         };
 
         // TODO: implement
-        struct ComputeCommand: public Command
+        class ComputeCommand: public Command
         {
+        public:
             ComputeCommand(ShaderResource* initShader):
                 Command(Command::Type::COMPUTE),
                 shader(initShader)
@@ -153,8 +161,9 @@ namespace ouzel
             ShaderResource* shader;
         };
 
-        struct SetCullModeCommad: public Command
+        class SetCullModeCommad: public Command
         {
+        public:
             SetCullModeCommad(Renderer::CullMode initCullMode):
                 Command(Command::Type::SET_CULL_MODE),
                 cullMode(initCullMode)
@@ -164,8 +173,9 @@ namespace ouzel
             Renderer::CullMode cullMode;
         };
 
-        struct SetFillModeCommad: public Command
+        class SetFillModeCommad: public Command
         {
+        public:
             SetFillModeCommad(Renderer::FillMode initFillMode):
                 Command(Command::Type::SET_FILL_MODE),
                 fillMode(initFillMode)
@@ -175,8 +185,9 @@ namespace ouzel
             Renderer::FillMode fillMode;
         };
 
-        struct SetScissorTestCommand: public Command
+        class SetScissorTestCommand: public Command
         {
+        public:
             SetScissorTestCommand(bool initEnabled,
                                   const Rect& initRectangle):
                 Command(Command::Type::SET_SCISSOR_TEST),
@@ -189,8 +200,9 @@ namespace ouzel
             Rect rectangle;
         };
 
-        struct SetViewportCommand: public Command
+        class SetViewportCommand: public Command
         {
+        public:
             SetViewportCommand(const Rect& initViewport):
                 Command(Command::Type::SET_VIEWPORT),
                 viewport(initViewport)
@@ -200,8 +212,9 @@ namespace ouzel
             Rect viewport;
         };
 
-        struct SetDepthStateCommand: public Command
+        class SetDepthStateCommand: public Command
         {
+        public:
             SetDepthStateCommand(bool initDepthTest,
                                  bool initDepthWrite):
                 Command(Command::Type::SET_DEPTH_STATE),
@@ -214,8 +227,9 @@ namespace ouzel
             bool depthWrite;
         };
 
-        struct SetPipelineStateCommand: public Command
+        class SetPipelineStateCommand: public Command
         {
+        public:
             SetPipelineStateCommand(BlendStateResource* initBlendState,
                                     ShaderResource* initShader):
                 Command(Command::Type::SET_PIPELINE_STATE),
@@ -228,8 +242,9 @@ namespace ouzel
             ShaderResource* shader;
         };
 
-        struct DrawCommand: public Command
+        class DrawCommand: public Command
         {
+        public:
             DrawCommand(BufferResource* initIndexBuffer,
                         uint32_t initIndexCount,
                         uint32_t initIndexSize,
@@ -254,8 +269,9 @@ namespace ouzel
             uint32_t startIndex;
         };
 
-        struct PushDebugMarkerCommand: public Command
+        class PushDebugMarkerCommand: public Command
         {
+        public:
             explicit PushDebugMarkerCommand(const std::string& initName):
                 Command(Command::Type::PUSH_DEBUG_MARKER),
                 name(initName)
@@ -265,16 +281,18 @@ namespace ouzel
             std::string name;
         };
 
-        struct PopDebugMarkerCommand: public Command
+        class PopDebugMarkerCommand: public Command
         {
+        public:
             PopDebugMarkerCommand():
                 Command(Command::Type::POP_DEBUG_MARKER)
             {
             }
         };
 
-        struct InitBlendStateCommand: public Command
+        class InitBlendStateCommand: public Command
         {
+        public:
             InitBlendStateCommand(BlendStateResource* initBlendState,
                                   bool initEnableBlending,
                                   BlendState::Factor initColorBlendSource, BlendState::Factor initColorBlendDest,
@@ -307,8 +325,9 @@ namespace ouzel
         };
 
         // TODO: implement
-        struct InitBufferCommand: public Command
+        class InitBufferCommand: public Command
         {
+        public:
             InitBufferCommand(BufferResource* initBuffer,
                               Buffer::Usage initUsage,
                               uint32_t initFlags,
@@ -331,8 +350,9 @@ namespace ouzel
         };
 
         // TODO: implement
-        struct SetBufferDataCommand: public Command
+        class SetBufferDataCommand: public Command
         {
+        public:
             SetBufferDataCommand(BufferResource* initBuffer,
                                  const std::vector<uint8_t>& initData):
                 Command(Command::Type::SET_BUFFER_DATA),
@@ -345,8 +365,9 @@ namespace ouzel
             std::vector<uint8_t> data;
         };
 
-        struct InitShaderCommand: public Command
+        class InitShaderCommand: public Command
         {
+        public:
             InitShaderCommand(ShaderResource* initShader,
                               const std::vector<uint8_t>& initFragmentShader,
                               const std::vector<uint8_t>& initVertexShader,
@@ -383,8 +404,9 @@ namespace ouzel
             std::string vertexShaderFunction;
         };
 
-        struct SetShaderConstantsCommand: public Command
+        class SetShaderConstantsCommand: public Command
         {
+        public:
             SetShaderConstantsCommand(std::vector<std::vector<float>> initFragmentShaderConstants,
                                       std::vector<std::vector<float>> initVertexShaderConstants):
                 Command(Command::Type::SET_SHADER_CONSTANTS),
@@ -397,8 +419,9 @@ namespace ouzel
             std::vector<std::vector<float>> vertexShaderConstants;
         };
 
-        struct InitTextureCommand: public Command
+        class InitTextureCommand: public Command
         {
+        public:
             InitTextureCommand(TextureResource* initTexture,
                                const std::vector<Texture::Level>& initLevels,
                                uint32_t initFlags,
@@ -420,8 +443,9 @@ namespace ouzel
             PixelFormat pixelFormat;
         };
 
-        struct SetTextureDataCommand: public Command
+        class SetTextureDataCommand: public Command
         {
+        public:
             SetTextureDataCommand(TextureResource* initTexture,
                                   const std::vector<Texture::Level>& initLevels):
                 Command(Command::Type::SET_TEXTURE_DATA),
@@ -434,8 +458,9 @@ namespace ouzel
             std::vector<Texture::Level> levels;
         };
 
-        struct SetTextureParametersCommand: public Command
+        class SetTextureParametersCommand: public Command
         {
+        public:
             SetTextureParametersCommand(TextureResource* initTexture,
                                         Texture::Filter initFilter,
                                         Texture::Address initAddressX,
@@ -469,8 +494,9 @@ namespace ouzel
             float clearDepth;
         };
 
-        struct SetTexturesCommand: public Command
+        class SetTexturesCommand: public Command
         {
+        public:
             SetTexturesCommand(TextureResource* initTextures[Texture::LAYERS]):
                 Command(Command::Type::SET_TEXTURES)
             {
