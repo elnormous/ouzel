@@ -46,11 +46,6 @@ namespace ouzel
         void RenderDevice::process()
         {
             {
-                std::unique_lock<std::mutex> lock(commandQueueMutex);
-                queueFinished = false;
-            }
-
-            {
                 std::unique_lock<std::mutex> lock(frameMutex);
                 newFrame = true;
                 refillQueue = true;
@@ -131,16 +126,7 @@ namespace ouzel
         {
             refillQueue = false;
 
-#if OUZEL_MULTITHREADED
-            std::unique_lock<std::mutex> lock(commandQueueMutex);
-#endif
-            queueFinished = true;
-
-            //drawCallCount = static_cast<uint32_t>(fillBuffer->size());
-
-#if OUZEL_MULTITHREADED
-            commandQueueCondition.notify_all();
-#endif
+            addCommand(std::unique_ptr<Command>(new PresentCommand()));
         }
 
         void RenderDevice::generateScreenshot(const std::string&)

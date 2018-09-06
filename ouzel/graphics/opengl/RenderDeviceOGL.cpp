@@ -775,17 +775,18 @@ namespace ouzel
             {
                 {
                     std::unique_lock<std::mutex> lock(commandQueueMutex);
-                    while (!queueFinished && commandQueue.empty()) commandQueueCondition.wait(lock);
-                    if (!commandQueue.empty())
-                    {
-                        command = std::move(commandQueue.front());
-                        commandQueue.pop();
-                    }
-                    else if (queueFinished) break;
+                    while (commandQueue.empty()) commandQueueCondition.wait(lock);
+                    command = std::move(commandQueue.front());
+                    commandQueue.pop();
                 }
 
                 switch (command->type)
                 {
+                    case Command::Type::PRESENT:
+                    {
+                        present();
+                        break;
+                    }
                     case Command::Type::SET_RENDER_TARGET:
                     {
                         const SetRenderTargetCommand* setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command.get());
@@ -1234,9 +1235,9 @@ namespace ouzel
                     default:
                         throw DataError("Invalid command");
                 }
-            }
 
-            present();
+                if (command->type == Command::Type::PRESENT) break;
+            }
         }
 
         void RenderDeviceOGL::present()

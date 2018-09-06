@@ -345,17 +345,19 @@ namespace ouzel
             {
                 {
                     std::unique_lock<std::mutex> lock(commandQueueMutex);
-                    while (!queueFinished && commandQueue.empty()) commandQueueCondition.wait(lock);
-                    if (!commandQueue.empty())
-                    {
-                        command = std::move(commandQueue.front());
-                        commandQueue.pop();
-                    }
-                    else if (queueFinished) break;
+                    while (commandQueue.empty()) commandQueueCondition.wait(lock);
+                    command = std::move(commandQueue.front());
+                    commandQueue.pop();
                 }
 
                 switch (command->type)
                 {
+                    case Command::Type::PRESENT:
+                    {
+                        swapChain->Present(swapInterval, 0);
+                        break;
+                    }
+
                     case Command::Type::SET_RENDER_TARGET:
                     {
                         const SetRenderTargetCommand* setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command.get());
@@ -811,9 +813,9 @@ namespace ouzel
                     default:
                         throw SystemError("Invalid command");
                 }
-            }
 
-            swapChain->Present(swapInterval, 0);
+                if (command->type == Command::Type::PRESENT) break;
+            }
         }
 
         IDXGIOutput* RenderDeviceD3D11::getOutput() const
