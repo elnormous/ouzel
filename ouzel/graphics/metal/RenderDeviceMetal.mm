@@ -153,21 +153,21 @@ namespace ouzel
 
         void RenderDeviceMetal::setClearColorBuffer(bool clear)
         {
-            RenderDevice::setClearColorBuffer(clear);
+            clearColorBuffer = clear;
 
             colorBufferLoadAction = clearColorBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
         }
 
         void RenderDeviceMetal::setClearDepthBuffer(bool clear)
         {
-            RenderDevice::setClearDepthBuffer(clear);
+            clearDepthBuffer = clear;
 
             depthBufferLoadAction = clearDepthBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
         }
 
         void RenderDeviceMetal::setClearColor(Color color)
         {
-            RenderDevice::setClearColor(color);
+            clearColor = color;
 
             renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.normR(),
                                                                                     clearColor.normG(),
@@ -175,9 +175,9 @@ namespace ouzel
                                                                                     clearColor.normA());
         }
 
-        void RenderDeviceMetal::setClearDepth(float newClearDepth)
+        void RenderDeviceMetal::setClearDepth(float depth)
         {
-            RenderDevice::setClearDepth(newClearDepth);
+            clearDepth = depth;
 
             renderPassDescriptor.depthAttachment.clearDepth = clearDepth;
         }
@@ -362,9 +362,31 @@ namespace ouzel
                         break;
                     }
 
-                    case Command::Type::CLEAR:
+                    case Command::Type::SET_RENDER_TARGET_PARAMETERS:
                     {
-                        const ClearCommand* clearCommand = static_cast<const ClearCommand*>(command.get());
+                        const SetRenderTargetParametersCommand* setRenderTargetParametersCommand = static_cast<const SetRenderTargetParametersCommand*>(command.get());
+
+                        if (setRenderTargetParametersCommand->renderTarget)
+                        {
+                            setRenderTargetParametersCommand->renderTarget->setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
+                            setRenderTargetParametersCommand->renderTarget->setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
+                            setRenderTargetParametersCommand->renderTarget->setClearColor(setRenderTargetParametersCommand->clearColor);
+                            setRenderTargetParametersCommand->renderTarget->setClearDepth(setRenderTargetParametersCommand->clearDepth);
+                        }
+                        else
+                        {
+                            setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
+                            setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
+                            setClearColor(setRenderTargetParametersCommand->clearColor);
+                            setClearDepth(setRenderTargetParametersCommand->clearDepth);
+                        }
+
+                        break;
+                    }
+
+                    case Command::Type::CLEAR_RENDER_TARGET:
+                    {
+                        const ClearRenderTargetCommand* clearCommand = static_cast<const ClearRenderTargetCommand*>(command.get());
 
                         MTLRenderPassDescriptorPtr newRenderPassDescriptor;
                         MTLLoadAction newColorBufferLoadAction = MTLLoadActionLoad;
@@ -803,11 +825,7 @@ namespace ouzel
                         setTextureParametersCommand->texture->setAddressX(setTextureParametersCommand->addressX);
                         setTextureParametersCommand->texture->setAddressY(setTextureParametersCommand->addressY);
                         setTextureParametersCommand->texture->setMaxAnisotropy(setTextureParametersCommand->maxAnisotropy);
-                        setTextureParametersCommand->texture->setClearColorBuffer(setTextureParametersCommand->clearColorBuffer);
-                        setTextureParametersCommand->texture->setClearDepthBuffer(setTextureParametersCommand->clearDepthBuffer);
-                        setTextureParametersCommand->texture->setClearColor(setTextureParametersCommand->clearColor);
-                        setTextureParametersCommand->texture->setClearDepth(setTextureParametersCommand->clearDepth);
-
+                        
                         break;
                     }
 

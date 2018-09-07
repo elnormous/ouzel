@@ -23,7 +23,10 @@ namespace ouzel
         public:
             virtual ~RenderDeviceD3D11();
 
-            virtual void setClearColor(Color color) override;
+            void setClearColorBuffer(bool clear);
+            void setClearDepthBuffer(bool clear);
+            void setClearColor(Color color);
+            void setClearDepth(float depth);
 
             virtual std::vector<Size2> getSupportedResolutions() const override;
 

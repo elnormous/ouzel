@@ -21,7 +21,7 @@ namespace ouzel
                 INIT_RENDER_TARGET,
                 SET_RENDER_TARGET_PARAMETERS,
                 SET_RENDER_TARGET,
-                CLEAR,
+                CLEAR_RENDER_TARGET,
                 BLIT,
                 COMPUTE,
                 SET_CULL_MODE,
@@ -87,25 +87,25 @@ namespace ouzel
         class SetRenderTargetParametersCommand: public Command
         {
         public:
-            SetRenderTargetParametersCommand(RenderTarget* initRenderTarget,
-                                             uint32_t initWidth,
-                                             uint32_t initHeight,
-                                             uint32_t initSampleCount,
-                                             PixelFormat initPixelFormat):
+            SetRenderTargetParametersCommand(TextureResource* initRenderTarget,
+                                             bool initClearColorBuffer,
+                                             bool initClearDepthBuffer,
+                                             Color initClearColor,
+                                             float initClearDepth):
                 Command(Command::Type::SET_RENDER_TARGET_PARAMETERS),
                 renderTarget(initRenderTarget),
-                width(initWidth),
-                height(initHeight),
-                sampleCount(initSampleCount),
-                pixelFormat(initPixelFormat)
+                clearColorBuffer(initClearColorBuffer),
+                clearDepthBuffer(initClearDepthBuffer),
+                clearColor(initClearColor),
+                clearDepth(initClearDepth)
             {
             }
 
-            RenderTarget* renderTarget;
-            uint32_t width;
-            uint32_t height;
-            uint32_t sampleCount;
-            PixelFormat pixelFormat;
+            TextureResource* renderTarget;
+            bool clearColorBuffer;
+            bool clearDepthBuffer;
+            Color clearColor;
+            float clearDepth;
         };
 
         class SetRenderTargetCommand: public Command
@@ -120,11 +120,11 @@ namespace ouzel
             TextureResource* renderTarget;
         };
 
-        class ClearCommand: public Command
+        class ClearRenderTargetCommand: public Command
         {
         public:
-            ClearCommand(TextureResource* initRenderTarget):
-                Command(Command::Type::CLEAR),
+            ClearRenderTargetCommand(TextureResource* initRenderTarget):
+                Command(Command::Type::CLEAR_RENDER_TARGET),
                 renderTarget(initRenderTarget)
             {
             }
@@ -465,21 +465,13 @@ namespace ouzel
                                         Texture::Filter initFilter,
                                         Texture::Address initAddressX,
                                         Texture::Address initAddressY,
-                                        uint32_t initMaxAnisotropy,
-                                        bool initClearColorBuffer,
-                                        bool initClearDepthBuffer,
-                                        Color initClearColor,
-                                        float initClearDepth):
+                                        uint32_t initMaxAnisotropy):
                 Command(Command::Type::SET_TEXTURE_PARAMETERS),
                 texture(initTexture),
                 filter(initFilter),
                 addressX(initAddressX),
                 addressY(initAddressY),
-                maxAnisotropy(initMaxAnisotropy),
-                clearColorBuffer(initClearColorBuffer),
-                clearDepthBuffer(initClearDepthBuffer),
-                clearColor(initClearColor),
-                clearDepth(initClearDepth)
+                maxAnisotropy(initMaxAnisotropy)
             {
             }
 
@@ -488,10 +480,6 @@ namespace ouzel
             Texture::Address addressX;
             Texture::Address addressY;
             uint32_t maxAnisotropy;
-            bool clearColorBuffer;
-            bool clearDepthBuffer;
-            Color clearColor;
-            float clearDepth;
         };
 
         class SetTexturesCommand: public Command

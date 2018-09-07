@@ -48,7 +48,7 @@ namespace ouzel
                     graphics::TextureResource* renderTarget = camera->getRenderTarget() ? camera->getRenderTarget()->getResource() : nullptr;
 
                     if (clearedRenderTargets.insert(renderTarget).second)
-                        engine->getRenderer()->clear(renderTarget);
+                        engine->getRenderer()->clearRenderTarget(renderTarget);
                 }
 
                 layer->draw();

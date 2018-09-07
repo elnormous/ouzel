@@ -35,18 +35,6 @@ namespace ouzel
 
             inline Renderer::Driver getDriver() const { return driver; }
 
-            virtual void setClearColorBuffer(bool clear);
-            inline bool getClearColorBuffer() const { return clearColorBuffer; }
-
-            virtual void setClearDepthBuffer(bool clear);
-            inline bool getClearDepthBuffer() const { return clearDepthBuffer; }
-
-            virtual void setClearColor(Color color);
-            inline Color getClearColor() const { return clearColor; }
-
-            virtual void setClearDepth(float newClearDepth);
-            inline float getClearDepth() const { return clearDepth; }
-
             virtual void process();
 
             inline const Size2& getSize() const { return size; }

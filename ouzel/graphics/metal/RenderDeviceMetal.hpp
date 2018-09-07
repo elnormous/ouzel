@@ -67,10 +67,10 @@ namespace ouzel
 
             virtual ~RenderDeviceMetal();
 
-            virtual void setClearColorBuffer(bool clear) override;
-            virtual void setClearDepthBuffer(bool clear) override;
-            virtual void setClearColor(Color color) override;
-            virtual void setClearDepth(float newClearDepth) override;
+            void setClearColorBuffer(bool clear);
+            void setClearDepthBuffer(bool clear);
+            void setClearColor(Color color);
+            void setClearDepth(float depth);
 
             inline MTLDevicePtr getDevice() const { return device; }
 
