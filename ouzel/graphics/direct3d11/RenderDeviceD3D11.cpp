@@ -313,7 +313,7 @@ namespace ouzel
 
         void RenderDeviceD3D11::setClearColor(Color color)
         {
-            RenderDevice::setClearColor(color);
+            clearColor = color;
 
             frameBufferClearColor[0] = clearColor.normR();
             frameBufferClearColor[1] = clearColor.normG();
