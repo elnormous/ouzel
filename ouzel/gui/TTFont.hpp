@@ -14,7 +14,7 @@ namespace ouzel
         TTFont(const std::vector<uint8_t>& newData, bool newMipmaps = true);
 
         virtual void getVertices(const std::string& text,
-                                 const Color& color,
+                                 Color color,
                                  float fontSize,
                                  const Vector2& anchor,
                                  std::vector<uint16_t>& indices,

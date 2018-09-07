@@ -354,7 +354,7 @@ namespace ouzel
     }
 
     void BMFont::getVertices(const std::string& text,
-                             const Color& color,
+                             Color color,
                              float fontSize,
                              const Vector2& anchor,
                              std::vector<uint16_t>& indices,

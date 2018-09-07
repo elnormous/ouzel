@@ -42,8 +42,8 @@ namespace ouzel
             inline const std::string& getText() const { return text; }
             void setText(const std::string& newText);
 
-            inline const Color& getColor() const { return color; }
-            void setColor(const Color& newColor);
+            inline Color getColor() const { return color; }
+            void setColor(Color newColor);
 
             inline const std::shared_ptr<graphics::Shader>& getShader() const { return shader; }
             inline void setShader(const std::shared_ptr<graphics::Shader>& newShader) { shader = newShader; }

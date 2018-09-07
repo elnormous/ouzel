@@ -25,10 +25,10 @@ namespace ouzel
                    const std::string& label = "",
                    const std::string& font = "",
                    float fontSize = 1.0F,
-                   const Color& initLabelColor = Color::WHITE,
-                   const Color& initLabelSelectedColor = Color::WHITE,
-                   const Color& initLabelPressedColor = Color::WHITE,
-                   const Color& initLabelDisabledColor = Color::WHITE);
+                   Color initLabelColor = Color::WHITE,
+                   Color initLabelSelectedColor = Color::WHITE,
+                   Color initLabelPressedColor = Color::WHITE,
+                   Color initLabelDisabledColor = Color::WHITE);
 
             virtual void setEnabled(bool newEnabled) override;
 

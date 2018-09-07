@@ -44,14 +44,14 @@ namespace ouzel
         return *this;
     }
 
-    Vector3::Vector3(const Color& color)
+    Vector3::Vector3(Color color)
     {
         x = color.normR();
         y = color.normG();
         z = color.normB();
     }
 
-    Vector3& Vector3::operator=(const Color& color)
+    Vector3& Vector3::operator=(Color color)
     {
         x = color.normR();
         y = color.normG();

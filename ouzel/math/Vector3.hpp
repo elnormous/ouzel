@@ -40,8 +40,8 @@ namespace ouzel
 
         Vector3& operator=(const Vector4& vec);
 
-        Vector3(const Color& color);
-        Vector3& operator=(const Color& color);
+        Vector3(Color color);
+        Vector3& operator=(Color color);
 
         inline bool isZero() const
         {
