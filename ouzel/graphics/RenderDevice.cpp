@@ -77,26 +77,6 @@ namespace ouzel
             }
         }
 
-        void RenderDevice::setClearColorBuffer(bool clear)
-        {
-            clearColorBuffer = clear;
-        }
-
-        void RenderDevice::setClearDepthBuffer(bool clear)
-        {
-            clearDepthBuffer = clear;
-        }
-
-        void RenderDevice::setClearColor(Color color)
-        {
-            clearColor = color;
-        }
-
-        void RenderDevice::setClearDepth(float newClearDepth)
-        {
-            clearDepth = newClearDepth;
-        }
-
         void RenderDevice::setSize(const Size2& newSize)
         {
             size = newSize;

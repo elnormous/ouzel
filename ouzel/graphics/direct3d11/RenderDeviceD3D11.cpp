@@ -301,6 +301,16 @@ namespace ouzel
             renderThread = std::thread(&RenderDeviceD3D11::main, this);
         }
 
+        void RenderDeviceD3D11::setClearColorBuffer(bool clear)
+        {
+            clearColorBuffer = clear;
+        }
+
+        void RenderDeviceD3D11::setClearDepthBuffer(bool clear)
+        {
+            clearDepthBuffer = clear;
+        }
+
         void RenderDeviceD3D11::setClearColor(Color color)
         {
             RenderDevice::setClearColor(color);
@@ -309,6 +319,11 @@ namespace ouzel
             frameBufferClearColor[1] = clearColor.normG();
             frameBufferClearColor[2] = clearColor.normB();
             frameBufferClearColor[3] = clearColor.normA();
+        }
+
+        void RenderDeviceD3D11::setClearDepth(float depth)
+        {
+            clearDepth = depth;
         }
 
         void RenderDeviceD3D11::setSize(const Size2& newSize)
@@ -385,9 +400,31 @@ namespace ouzel
                         break;
                     }
 
-                    case Command::Type::CLEAR:
+                    case Command::Type::SET_RENDER_TARGET_PARAMETERS:
                     {
-                        const ClearCommand* clearCommand = static_cast<const ClearCommand*>(command.get());
+                        const SetRenderTargetParametersCommand* setRenderTargetParametersCommand = static_cast<const SetRenderTargetParametersCommand*>(command.get());
+
+                        if (setRenderTargetParametersCommand->renderTarget)
+                        {
+                            setRenderTargetParametersCommand->renderTarget->setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
+                            setRenderTargetParametersCommand->renderTarget->setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
+                            setRenderTargetParametersCommand->renderTarget->setClearColor(setRenderTargetParametersCommand->clearColor);
+                            setRenderTargetParametersCommand->renderTarget->setClearDepth(setRenderTargetParametersCommand->clearDepth);
+                        }
+                        else
+                        {
+                            setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
+                            setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
+                            setClearColor(setRenderTargetParametersCommand->clearColor);
+                            setClearDepth(setRenderTargetParametersCommand->clearDepth);
+                        }
+
+                        break;
+                    }
+
+                    case Command::Type::CLEAR_RENDER_TARGET:
+                    {
+                        const ClearRenderTargetCommand* clearCommand = static_cast<const ClearRenderTargetCommand*>(command.get());
 
                         ID3D11RenderTargetView* newRenderTargetView = nullptr;
                         ID3D11DepthStencilView* newDepthStencilView = nullptr;
@@ -773,10 +810,6 @@ namespace ouzel
                         setTextureParametersCommand->texture->setAddressX(setTextureParametersCommand->addressX);
                         setTextureParametersCommand->texture->setAddressY(setTextureParametersCommand->addressY);
                         setTextureParametersCommand->texture->setMaxAnisotropy(setTextureParametersCommand->maxAnisotropy);
-                        setTextureParametersCommand->texture->setClearColorBuffer(setTextureParametersCommand->clearColorBuffer);
-                        setTextureParametersCommand->texture->setClearDepthBuffer(setTextureParametersCommand->clearDepthBuffer);
-                        setTextureParametersCommand->texture->setClearColor(setTextureParametersCommand->clearColor);
-                        setTextureParametersCommand->texture->setClearDepth(setTextureParametersCommand->clearDepth);
 
                         break;
                     }

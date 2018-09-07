@@ -155,28 +155,44 @@ namespace ouzel
         {
             clearColorBuffer = clear;
 
-            executeOnRenderThread(std::bind(&RenderDevice::setClearColorBuffer, device.get(), clear));
+            device->addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(nullptr,
+                                                                                             clearColorBuffer,
+                                                                                             clearDepthBuffer,
+                                                                                             clearColor,
+                                                                                             clearDepth)));
         }
 
         void Renderer::setClearDepthBuffer(bool clear)
         {
             clearDepthBuffer = clear;
 
-            executeOnRenderThread(std::bind(&RenderDevice::setClearDepthBuffer, device.get(), clear));
+            device->addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(nullptr,
+                                                                                             clearColorBuffer,
+                                                                                             clearDepthBuffer,
+                                                                                             clearColor,
+                                                                                             clearDepth)));
         }
 
         void Renderer::setClearColor(Color color)
         {
             clearColor = color;
 
-            executeOnRenderThread(std::bind(&RenderDevice::setClearColor, device.get(), color));
+            device->addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(nullptr,
+                                                                                             clearColorBuffer,
+                                                                                             clearDepthBuffer,
+                                                                                             clearColor,
+                                                                                             clearDepth)));
         }
 
         void Renderer::setClearDepth(float newClearDepth)
         {
             clearDepth = newClearDepth;
 
-            executeOnRenderThread(std::bind(&RenderDevice::setClearDepth, device.get(), newClearDepth));
+            device->addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(nullptr,
+                                                                                             clearColorBuffer,
+                                                                                             clearDepthBuffer,
+                                                                                             clearColor,
+                                                                                             clearDepth)));
         }
 
         void Renderer::setSize(const Size2& newSize)
@@ -196,9 +212,9 @@ namespace ouzel
             device->addCommand(std::unique_ptr<Command>(new SetRenderTargetCommand(renderTarget)));
         }
 
-        void Renderer::clear(TextureResource* renderTarget)
+        void Renderer::clearRenderTarget(TextureResource* renderTarget)
         {
-            device->addCommand(std::unique_ptr<Command>(new ClearCommand(renderTarget)));
+            device->addCommand(std::unique_ptr<Command>(new ClearRenderTargetCommand(renderTarget)));
         }
 
         void Renderer::setCullMode(Renderer::CullMode cullMode)

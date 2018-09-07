@@ -123,9 +123,10 @@ namespace ouzel
         public:
             virtual ~RenderDeviceOGL();
 
-            virtual void setClearColorBuffer(bool clear) override;
-            virtual void setClearDepthBuffer(bool clear) override;
-            virtual void setClearColor(Color color) override;
+            void setClearColorBuffer(bool clear);
+            void setClearDepthBuffer(bool clear);
+            void setClearColor(Color color);
+            void setClearDepth(float depth);
 
             bool isTextureBaseLevelSupported() const { return textureBaseLevelSupported; }
             bool isTextureMaxLevelSupported() const { return textureMaxLevelSupported; }

@@ -94,7 +94,7 @@ namespace ouzel
             void saveScreenshot(const std::string& filename);
 
             void setRenderTarget(TextureResource* renderTarget);
-            void clear(TextureResource* renderTarget);
+            void clearRenderTarget(TextureResource* renderTarget);
             void setCullMode(Renderer::CullMode cullMode);
             void setFillMode(Renderer::FillMode fillMode);
             void setScissorTest(bool enabled, const Rect& rectangle);
