@@ -43,15 +43,16 @@ namespace ouzel
     FileSystem::FileSystem()
     {
 #if OUZEL_PLATFORM_WINDOWS
-        char* exePath = _pgmptr;
+        WCHAR buffer[MAX_PATH];
+        if (!GetModuleFileNameW(GetModuleHandle(nullptr), buffer, MAX_PATH))
+            throw FileError("Failed to get module filename");
 
-        if (exePath)
-        {
-            appPath = getDirectoryPart(exePath);
-            Log(Log::Level::INFO) << "Application directory: " << appPath;
-        }
-        else
-            throw FileError("Failed to get current directory");
+        char appFilename[1024];
+        if (WideCharToMultiByte(CP_UTF8, 0, buffer, -1, appFilename, sizeof(appFilename), nullptr, nullptr) == 0)
+            throw FileError("Failed to convert wide char to UTF-8");
+
+        appPath = getDirectoryPart(appFilename);
+        Log(Log::Level::INFO) << "Application directory: " << appPath;
 
 #elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
         CFBundleRef bundle = CFBundleGetMainBundle(); // [NSBundle mainBundle]
