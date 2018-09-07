@@ -105,7 +105,7 @@ namespace ouzel
             updateText();
         }
 
-        void TextRenderer::setColor(const Color& newColor)
+        void TextRenderer::setColor(Color newColor)
         {
             color = newColor;
         }
