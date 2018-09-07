@@ -25,8 +25,8 @@ namespace ouzel
 
             void setClearColorBuffer(bool clear);
             void setClearDepthBuffer(bool clear);
-            void setClearColor(Color color);
-            void setClearDepth(float depth);
+            void setClearColor(Color newClearColor);
+            void setClearDepth(float newClearDepth);
 
             virtual std::vector<Size2> getSupportedResolutions() const override;
 

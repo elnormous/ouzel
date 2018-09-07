@@ -125,8 +125,8 @@ namespace ouzel
 
             void setClearColorBuffer(bool clear);
             void setClearDepthBuffer(bool clear);
-            void setClearColor(Color color);
-            void setClearDepth(float depth);
+            void setClearColor(Color newClearColor);
+            void setClearDepth(float newClearDepth);
 
             bool isTextureBaseLevelSupported() const { return textureBaseLevelSupported; }
             bool isTextureMaxLevelSupported() const { return textureMaxLevelSupported; }
