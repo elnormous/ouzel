@@ -75,8 +75,6 @@ namespace ouzel
 
             inline RenderDevice* getDevice() const { return device.get(); }
 
-            void executeOnRenderThread(const std::function<void(void)>& func);
-
             void setClearColorBuffer(bool clear);
             inline bool getClearColorBuffer() const { return clearColorBuffer; }
 
