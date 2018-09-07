@@ -146,11 +146,6 @@ namespace ouzel
                          newDebugRenderer);
         }
 
-        void Renderer::executeOnRenderThread(const std::function<void(void)>& func)
-        {
-            device->executeOnRenderThread(func);
-        }
-
         void Renderer::setClearColorBuffer(bool clear)
         {
             clearColorBuffer = clear;
@@ -199,12 +194,12 @@ namespace ouzel
         {
             size = newSize;
 
-            executeOnRenderThread(std::bind(&RenderDevice::setSize, device.get(), size));
+            device->executeOnRenderThread(std::bind(&RenderDevice::setSize, device.get(), size));
         }
 
         void Renderer::saveScreenshot(const std::string& filename)
         {
-            executeOnRenderThread(std::bind(&RenderDevice::generateScreenshot, device.get(), filename));
+            device->executeOnRenderThread(std::bind(&RenderDevice::generateScreenshot, device.get(), filename));
         }
 
         void Renderer::setRenderTarget(TextureResource* renderTarget)
