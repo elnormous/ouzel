@@ -689,9 +689,9 @@ namespace ouzel
                 clearMask &= ~static_cast<GLbitfield>(GL_DEPTH_BUFFER_BIT);
         }
 
-        void RenderDeviceOGL::setClearColor(Color color)
+        void RenderDeviceOGL::setClearColor(Color newClearColor)
         {
-            clearColor = color;
+            clearColor = newClearColor;
 
             frameBufferClearColor[0] = clearColor.normR();
             frameBufferClearColor[1] = clearColor.normG();
@@ -699,9 +699,9 @@ namespace ouzel
             frameBufferClearColor[3] = clearColor.normA();
         }
 
-        void RenderDeviceOGL::setClearDepth(float depth)
+        void RenderDeviceOGL::setClearDepth(float newClearDepth)
         {
-            clearDepth = depth;
+            clearDepth = newClearDepth;
         }
 
         void RenderDeviceOGL::setSize(const Size2& newSize)

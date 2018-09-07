@@ -165,9 +165,9 @@ namespace ouzel
             depthBufferLoadAction = clearDepthBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
         }
 
-        void RenderDeviceMetal::setClearColor(Color color)
+        void RenderDeviceMetal::setClearColor(Color newClearColor)
         {
-            clearColor = color;
+            clearColor = newClearColor;
 
             renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.normR(),
                                                                                     clearColor.normG(),
@@ -175,9 +175,9 @@ namespace ouzel
                                                                                     clearColor.normA());
         }
 
-        void RenderDeviceMetal::setClearDepth(float depth)
+        void RenderDeviceMetal::setClearDepth(float newClearDepth)
         {
-            clearDepth = depth;
+            clearDepth = newClearDepth;
 
             renderPassDescriptor.depthAttachment.clearDepth = clearDepth;
         }

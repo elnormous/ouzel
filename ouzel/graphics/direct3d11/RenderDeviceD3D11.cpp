@@ -311,9 +311,9 @@ namespace ouzel
             clearDepthBuffer = clear;
         }
 
-        void RenderDeviceD3D11::setClearColor(Color color)
+        void RenderDeviceD3D11::setClearColor(Color newClearColor)
         {
-            clearColor = color;
+            clearColor = newClearColor;
 
             frameBufferClearColor[0] = clearColor.normR();
             frameBufferClearColor[1] = clearColor.normG();
@@ -321,9 +321,9 @@ namespace ouzel
             frameBufferClearColor[3] = clearColor.normA();
         }
 
-        void RenderDeviceD3D11::setClearDepth(float depth)
+        void RenderDeviceD3D11::setClearDepth(float newClearDepth)
         {
-            clearDepth = depth;
+            clearDepth = newClearDepth;
         }
 
         void RenderDeviceD3D11::setSize(const Size2& newSize)

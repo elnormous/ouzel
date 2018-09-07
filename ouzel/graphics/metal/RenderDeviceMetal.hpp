@@ -69,8 +69,8 @@ namespace ouzel
 
             void setClearColorBuffer(bool clear);
             void setClearDepthBuffer(bool clear);
-            void setClearColor(Color color);
-            void setClearDepth(float depth);
+            void setClearColor(Color newClearColor);
+            void setClearDepth(float newClearDepth);
 
             inline MTLDevicePtr getDevice() const { return device; }
 
