@@ -679,10 +679,11 @@ namespace ouzel
                     {
                         const InitBufferCommand* initBufferCommand = static_cast<const InitBufferCommand*>(command.get());
 
-                        initBufferCommand->buffer->init(initBufferCommand->usage,
-                                                        initBufferCommand->flags,
-                                                        initBufferCommand->data,
-                                                        initBufferCommand->size);
+                        BufferResourceMetal* bufferResourceMetal = static_cast<BufferResourceMetal*>(initBufferCommand->buffer);
+                        bufferResourceMetal->init(initBufferCommand->usage,
+                                                  initBufferCommand->flags,
+                                                  initBufferCommand->data,
+                                                  initBufferCommand->size);
                         break;
                     }
 

@@ -15,14 +15,5 @@ namespace ouzel
         BufferResource::~BufferResource()
         {
         }
-
-        void BufferResource::init(Buffer::Usage newUsage, uint32_t newFlags,
-                                  const std::vector<uint8_t>& newData,
-                                  uint32_t)
-        {
-            usage = newUsage;
-            flags = newFlags;
-            data = newData;
-        }
     } // namespace graphics
 } // namespace ouzel

@@ -17,10 +17,6 @@ namespace ouzel
         public:
             virtual ~BufferResource();
 
-            virtual void init(Buffer::Usage newUsage, uint32_t newFlags,
-                              const std::vector<uint8_t>& newData,
-                              uint32_t newSize);
-
             inline uint32_t getFlags() const { return flags; }
             inline Buffer::Usage getUsage() const { return usage; }
             inline uint32_t getSize() const { return static_cast<uint32_t>(data.size()); }

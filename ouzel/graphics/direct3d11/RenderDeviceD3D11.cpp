@@ -687,10 +687,11 @@ namespace ouzel
                     {
                         const InitBufferCommand* initBufferCommand = static_cast<const InitBufferCommand*>(command.get());
 
-                        initBufferCommand->buffer->init(initBufferCommand->usage,
-                                                        initBufferCommand->flags,
-                                                        initBufferCommand->data,
-                                                        initBufferCommand->size);
+                        BufferResourceD3D11* bufferResourceD3D11 = static_cast<BufferResourceD3D11*>(initBufferCommand->buffer);
+                        bufferResourceD3D11->init(initBufferCommand->usage,
+                                                  initBufferCommand->flags,
+                                                  initBufferCommand->data,
+                                                  initBufferCommand->size);
                         break;
                     }
 
@@ -698,7 +699,6 @@ namespace ouzel
                     {
                         const SetBufferDataCommand* setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command.get());
 
-                        setBufferDataCommand->buffer->setData(setBufferDataCommand->data);
                         BufferResourceD3D11* bufferResourceD3D11 = static_cast<BufferResourceD3D11*>(setBufferDataCommand->buffer);
                         bufferResourceD3D11->setData(setBufferDataCommand->data);
                         break;
