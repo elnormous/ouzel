@@ -28,9 +28,9 @@ namespace ouzel
             explicit BufferResourceMetal(RenderDeviceMetal& renderDeviceMetal);
             virtual ~BufferResourceMetal();
 
-            virtual void init(Buffer::Usage newUsage, uint32_t newFlags,
-                              const std::vector<uint8_t>& newData,
-                              uint32_t newSize) override;
+            void init(Buffer::Usage newUsage, uint32_t newFlags,
+                      const std::vector<uint8_t>& newData,
+                      uint32_t newSize);
 
             void setData(const std::vector<uint8_t>& newData);
 

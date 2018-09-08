@@ -1131,10 +1131,11 @@ namespace ouzel
                     {
                         const InitBufferCommand* initBufferCommand = static_cast<const InitBufferCommand*>(command.get());
 
-                        initBufferCommand->buffer->init(initBufferCommand->usage,
-                                                        initBufferCommand->flags,
-                                                        initBufferCommand->data,
-                                                        initBufferCommand->size);
+                        BufferResourceOGL* bufferResourceOGL = static_cast<BufferResourceOGL*>(initBufferCommand->buffer);
+                        bufferResourceOGL->init(initBufferCommand->usage,
+                                                initBufferCommand->flags,
+                                                initBufferCommand->data,
+                                                initBufferCommand->size);
                         break;
                     }
 

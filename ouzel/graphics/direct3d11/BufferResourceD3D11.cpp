@@ -26,7 +26,9 @@ namespace ouzel
                                        const std::vector<uint8_t>& newData,
                                        uint32_t newSize)
         {
-            BufferResource::init(newUsage, newFlags, newData, newSize);
+            usage = newUsage;
+            flags = newFlags;
+            data = newData;
 
             createBuffer(newSize);
         }

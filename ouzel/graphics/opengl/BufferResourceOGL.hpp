@@ -32,9 +32,9 @@ namespace ouzel
             explicit BufferResourceOGL(RenderDeviceOGL& renderDeviceOGL);
             virtual ~BufferResourceOGL();
 
-            virtual void init(Buffer::Usage newUsage, uint32_t newFlags,
-                              const std::vector<uint8_t>& newData,
-                              uint32_t newSize) override;
+            void init(Buffer::Usage newUsage, uint32_t newFlags,
+                      const std::vector<uint8_t>& newData,
+                      uint32_t newSize);
 
             virtual void reload() override;
 

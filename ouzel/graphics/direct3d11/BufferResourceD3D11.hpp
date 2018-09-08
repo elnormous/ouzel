@@ -21,9 +21,9 @@ namespace ouzel
             explicit BufferResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11);
             virtual ~BufferResourceD3D11();
 
-            virtual void init(Buffer::Usage newUsage, uint32_t newFlags,
-                              const std::vector<uint8_t>& newData,
-                              uint32_t newSize) override;
+            void init(Buffer::Usage newUsage, uint32_t newFlags,
+                      const std::vector<uint8_t>& newData,
+                      uint32_t newSize);
 
             void setData(const std::vector<uint8_t>& newData);
 
