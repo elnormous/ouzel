@@ -59,12 +59,14 @@ namespace ouzel
                                            BlendState::Operation newAlphaOperation,
                                            uint8_t newColorMask)
         {
-            BlendStateResource::init(newEnableBlending,
-                                     newColorBlendSource, newColorBlendDest,
-                                     newColorOperation,
-                                     newAlphaBlendSource, newAlphaBlendDest,
-                                     newAlphaOperation,
-                                     newColorMask);
+            enableBlending = newEnableBlending;
+            colorBlendSource = newColorBlendSource;
+            colorBlendDest = newColorBlendDest;
+            colorOperation = newColorOperation;
+            alphaBlendSource = newAlphaBlendSource;
+            alphaBlendDest = newAlphaBlendDest;
+            alphaOperation = newAlphaOperation;
+            colorMask = newColorMask;
 
             rgbBlendOperation = getBlendOperation(colorOperation);
             alphaBlendOperation = getBlendOperation(alphaOperation);

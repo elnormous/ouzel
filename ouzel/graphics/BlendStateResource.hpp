@@ -17,13 +17,6 @@ namespace ouzel
         public:
             virtual ~BlendStateResource();
 
-            virtual void init(bool newEnableBlending,
-                              BlendState::Factor newColorBlendSource, BlendState::Factor newColorBlendDest,
-                              BlendState::Operation newColorOperation,
-                              BlendState::Factor newAlphaBlendSource, BlendState::Factor newAlphaBlendDest,
-                              BlendState::Operation newAlphaOperation,
-                              uint8_t newColorMask);
-
             bool isBlendingEnabled() const { return enableBlending; }
             BlendState::Factor getColorBlendSource() const { return colorBlendSource; }
             BlendState::Factor getColorBlendDest() const { return colorBlendDest; }
