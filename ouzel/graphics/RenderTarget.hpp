@@ -4,6 +4,7 @@
 
 #include <memory>
 #include "math/Color.hpp"
+#include "math/Size2.hpp"
 
 namespace ouzel
 {
@@ -30,6 +31,8 @@ namespace ouzel
             inline TextureResource* getColorTextureResource() const { return colorTexture; }
             inline TextureResource* getDepthTextureResource() const { return depthTexture; }
 
+            inline const Size2& getSize() const { return size; }
+
             inline bool getClearColorBuffer() const { return clearColorBuffer; }
             virtual void setClearColorBuffer(bool clear);
 
@@ -48,6 +51,7 @@ namespace ouzel
             TextureResource* colorTexture = nullptr;
             TextureResource* depthTexture = nullptr;
 
+            Size2 size;
             bool clearColorBuffer = true;
             bool clearDepthBuffer = false;
             Color clearColor;
