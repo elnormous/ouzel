@@ -25,7 +25,7 @@ namespace ouzel
                               const std::vector<uint8_t>& newData,
                               uint32_t newSize) override;
 
-            virtual void setData(const std::vector<uint8_t>& newData) override;
+            void setData(const std::vector<uint8_t>& newData);
 
             ID3D11Buffer* getBuffer() const { return buffer; }
 
