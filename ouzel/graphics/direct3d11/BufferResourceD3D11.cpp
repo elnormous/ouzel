@@ -33,7 +33,13 @@ namespace ouzel
 
         void BufferResourceD3D11::setData(const std::vector<uint8_t>& newData)
         {
-            BufferResource::setData(newData);
+            if (!(flags & Buffer::DYNAMIC))
+                throw DataError("Buffer is not dynamic");
+
+            if (newData.empty())
+                throw DataError("Data is empty");
+
+            data = newData;
 
             if (!buffer || data.size() > bufferSize)
                 createBuffer(static_cast<UINT>(data.size()));

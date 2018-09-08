@@ -699,6 +699,8 @@ namespace ouzel
                         const SetBufferDataCommand* setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command.get());
 
                         setBufferDataCommand->buffer->setData(setBufferDataCommand->data);
+                        BufferResourceD3D11* bufferResourceD3D11 = static_cast<BufferResourceD3D11*>(setBufferDataCommand->buffer);
+                        bufferResourceD3D11->setData(setBufferDataCommand->data);
                         break;
                     }
 

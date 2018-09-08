@@ -83,7 +83,13 @@ namespace ouzel
 
         void BufferResourceOGL::setData(const std::vector<uint8_t>& newData)
         {
-            BufferResource::setData(newData);
+            if (!(flags & Buffer::DYNAMIC))
+                throw DataError("Buffer is not dynamic");
+
+            if (newData.empty())
+                throw DataError("Data is empty");
+
+            data = newData;
 
             if (!bufferId)
                 throw DataError("Buffer not initialized");

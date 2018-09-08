@@ -690,7 +690,8 @@ namespace ouzel
                     {
                         const SetBufferDataCommand* setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command.get());
 
-                        setBufferDataCommand->buffer->setData(setBufferDataCommand->data);
+                        BufferResourceMetal* bufferResourceMetal = static_cast<BufferResourceMetal*>(setBufferDataCommand->buffer);
+                        bufferResourceMetal->setData(setBufferDataCommand->data);
                         break;
                     }
 

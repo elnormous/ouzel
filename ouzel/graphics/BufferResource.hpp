@@ -21,8 +21,6 @@ namespace ouzel
                               const std::vector<uint8_t>& newData,
                               uint32_t newSize);
 
-            virtual void setData(const std::vector<uint8_t>& newData);
-
             inline uint32_t getFlags() const { return flags; }
             inline Buffer::Usage getUsage() const { return usage; }
             inline uint32_t getSize() const { return static_cast<uint32_t>(data.size()); }
