@@ -4,6 +4,7 @@
 
 #include "graphics/RenderResource.hpp"
 #include "math/Color.hpp"
+#include "math/Size2.hpp"
 
 namespace ouzel
 {
@@ -26,6 +27,7 @@ namespace ouzel
             TextureResource* colorTexture = nullptr;
             TextureResource* depthTexture = nullptr;
 
+            Size2 size;
             bool clearColorBuffer = true;
             bool clearDepthBuffer = false;
             Color clearColor;
