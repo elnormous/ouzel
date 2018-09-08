@@ -13,12 +13,14 @@ static int looperCallback(int fd, int events, void* data)
 {
     if (events & ALOOPER_EVENT_INPUT)
     {
-        char message;
-        if (read(fd, &message, sizeof(message)) == -1)
+        char command;
+        if (read(fd, &command, sizeof(command)) == -1)
             throw ouzel::SystemError("Failed to read from pipe");
 
         ouzel::EngineAndroid* engineAndroid = static_cast<ouzel::EngineAndroid*>(data);
-        engineAndroid->executeAll();
+
+        if (command == 1)
+            engineAndroid->executeAll();
     }
 
     return 1;
@@ -238,8 +240,8 @@ namespace ouzel
             executeQueue.push(func);
         }
 
-        char message = 1;
-        if (write(fd[1], &message, sizeof(message)) == -1)
+        char command = 1;
+        if (write(fd[1], &command, sizeof(command)) == -1)
             throw SystemError("Failed to write to pipe");
     }
 
