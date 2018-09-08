@@ -69,11 +69,11 @@ namespace ouzel
             uint32_t mipmaps = 0;
             bool clearColorBuffer = true;
             bool clearDepthBuffer = false;
+            Color clearColor;
             float clearDepth = 1.0F;
             std::vector<Texture::Level> levels;
             uint32_t sampleCount = 1;
             PixelFormat pixelFormat = PixelFormat::RGBA8_UNORM;
-            Color clearColor;
             Texture::Filter filter = Texture::Filter::DEFAULT;
             Texture::Address addressX = Texture::Address::CLAMP;
             Texture::Address addressY = Texture::Address::CLAMP;

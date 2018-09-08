@@ -10,5 +10,25 @@ namespace ouzel
             renderer(initRenderer)
         {
         }
+
+        void RenderTarget::setClearColorBuffer(bool clear)
+        {
+            clearColorBuffer = clear;
+        }
+
+        void RenderTarget::setClearDepthBuffer(bool clear)
+        {
+            clearDepthBuffer = clear;
+        }
+
+        void RenderTarget::setClearColor(Color color)
+        {
+            clearColor = color;
+        }
+
+        void RenderTarget::setClearDepth(float clear)
+        {
+            clearDepth = clear;
+        }
     } // namespace graphics
 } // namespace ouzel

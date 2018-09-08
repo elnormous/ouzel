@@ -3,6 +3,7 @@
 #pragma once
 
 #include <memory>
+#include "math/Color.hpp"
 
 namespace ouzel
 {
@@ -29,11 +30,28 @@ namespace ouzel
             inline TextureResource* getColorTextureResource() const { return colorTexture; }
             inline TextureResource* getDepthTextureResource() const { return depthTexture; }
 
+            inline bool getClearColorBuffer() const { return clearColorBuffer; }
+            virtual void setClearColorBuffer(bool clear);
+
+            inline bool getClearDepthBuffer() const { return clearDepthBuffer; }
+            virtual void setClearDepthBuffer(bool clear);
+
+            inline Color getClearColor() const { return clearColor; }
+            virtual void setClearColor(Color color);
+
+            inline float getClearDepth() const { return clearDepth; }
+            virtual void setClearDepth(float clear);
+
         private:
             Renderer& renderer;
             RenderTargetResource* resource = nullptr;
             TextureResource* colorTexture = nullptr;
             TextureResource* depthTexture = nullptr;
+
+            bool clearColorBuffer = true;
+            bool clearDepthBuffer = false;
+            Color clearColor;
+            float clearDepth = 1.0F;
         };
     } // namespace graphics
 } // namespace ouzel

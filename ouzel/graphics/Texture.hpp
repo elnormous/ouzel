@@ -122,10 +122,10 @@ namespace ouzel
             uint32_t mipmaps = 0;
             bool clearColorBuffer = true;
             bool clearDepthBuffer = false;
+            Color clearColor;
             float clearDepth = 1.0F;
             uint32_t sampleCount = 1;
             PixelFormat pixelFormat = PixelFormat::RGBA8_UNORM;
-            Color clearColor;
             Filter filter = Texture::Filter::DEFAULT;
             Address addressX = Texture::Address::CLAMP;
             Address addressY = Texture::Address::CLAMP;
