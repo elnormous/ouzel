@@ -3,6 +3,7 @@
 #pragma once
 
 #include "graphics/RenderResource.hpp"
+#include "math/Color.hpp"
 
 namespace ouzel
 {
@@ -24,6 +25,11 @@ namespace ouzel
 
             TextureResource* colorTexture = nullptr;
             TextureResource* depthTexture = nullptr;
+
+            bool clearColorBuffer = true;
+            bool clearDepthBuffer = false;
+            Color clearColor;
+            float clearDepth = 1.0F;
         };
     } // namespace graphics
 } // namespace ouzel
