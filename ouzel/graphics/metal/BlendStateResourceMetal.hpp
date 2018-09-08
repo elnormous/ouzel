@@ -28,12 +28,12 @@ namespace ouzel
         public:
             BlendStateResourceMetal(RenderDeviceMetal& renderDeviceMetal);
 
-            virtual void init(bool newEnableBlending,
-                              BlendState::Factor newColorBlendSource, BlendState::Factor newColorBlendDest,
-                              BlendState::Operation newColorOperation,
-                              BlendState::Factor newAlphaBlendSource, BlendState::Factor newAlphaBlendDest,
-                              BlendState::Operation newAlphaOperation,
-                              uint8_t newColorMask) override;
+            void init(bool newEnableBlending,
+                      BlendState::Factor newColorBlendSource, BlendState::Factor newColorBlendDest,
+                      BlendState::Operation newColorOperation,
+                      BlendState::Factor newAlphaBlendSource, BlendState::Factor newAlphaBlendDest,
+                      BlendState::Operation newAlphaOperation,
+                      uint8_t newColorMask);
 
             inline MTLBlendOperation getRGBBlendOperation() const { return rgbBlendOperation; }
             inline MTLBlendOperation getAlphaBlendOperation() const { return alphaBlendOperation; }

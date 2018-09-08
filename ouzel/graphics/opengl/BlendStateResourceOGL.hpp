@@ -31,12 +31,12 @@ namespace ouzel
         public:
             BlendStateResourceOGL(RenderDeviceOGL& renderDeviceOGL);
 
-            virtual void init(bool newEnableBlending,
-                              BlendState::Factor newColorBlendSource, BlendState::Factor newColorBlendDest,
-                              BlendState::Operation newColorOperation,
-                              BlendState::Factor newAlphaBlendSource, BlendState::Factor newAlphaBlendDest,
-                              BlendState::Operation newAlphaOperation,
-                              uint8_t newColorMask) override;
+            void init(bool newEnableBlending,
+                      BlendState::Factor newColorBlendSource, BlendState::Factor newColorBlendDest,
+                      BlendState::Operation newColorOperation,
+                      BlendState::Factor newAlphaBlendSource, BlendState::Factor newAlphaBlendDest,
+                      BlendState::Operation newAlphaOperation,
+                      uint8_t newColorMask);
 
             inline GLenum getModeRGB() const { return modeRGB; }
             inline GLenum getModeAlpha() const { return modeAlpha; }

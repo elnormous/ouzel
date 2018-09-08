@@ -21,12 +21,12 @@ namespace ouzel
             explicit BlendStateResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11);
             virtual ~BlendStateResourceD3D11();
 
-            virtual void init(bool newEnableBlending,
-                              BlendState::Factor newColorBlendSource, BlendState::Factor newColorBlendDest,
-                              BlendState::Operation newColorOperation,
-                              BlendState::Factor newAlphaBlendSource, BlendState::Factor newAlphaBlendDest,
-                              BlendState::Operation newAlphaOperation,
-                              uint8_t newColorMask) override;
+            void init(bool newEnableBlending,
+                      BlendState::Factor newColorBlendSource, BlendState::Factor newColorBlendDest,
+                      BlendState::Operation newColorOperation,
+                      BlendState::Factor newAlphaBlendSource, BlendState::Factor newAlphaBlendDest,
+                      BlendState::Operation newAlphaOperation,
+                      uint8_t newColorMask);
 
             ID3D11BlendState* getBlendState() const { return blendState; }
 

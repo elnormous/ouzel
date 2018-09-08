@@ -672,14 +672,15 @@ namespace ouzel
                     {
                         const InitBlendStateCommand* initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command.get());
 
-                        initBlendStateCommand->blendState->init(initBlendStateCommand->enableBlending,
-                                                                initBlendStateCommand->colorBlendSource,
-                                                                initBlendStateCommand->colorBlendDest,
-                                                                initBlendStateCommand->colorOperation,
-                                                                initBlendStateCommand->alphaBlendSource,
-                                                                initBlendStateCommand->alphaBlendDest,
-                                                                initBlendStateCommand->alphaOperation,
-                                                                initBlendStateCommand->colorMask);
+                        BlendStateResourceD3D11* blendStateResourceD3D11 = static_cast<BlendStateResourceD3D11*>(initBlendStateCommand->blendState);
+                        blendStateResourceD3D11->init(initBlendStateCommand->enableBlending,
+                                                      initBlendStateCommand->colorBlendSource,
+                                                      initBlendStateCommand->colorBlendDest,
+                                                      initBlendStateCommand->colorOperation,
+                                                      initBlendStateCommand->alphaBlendSource,
+                                                      initBlendStateCommand->alphaBlendDest,
+                                                      initBlendStateCommand->alphaOperation,
+                                                      initBlendStateCommand->colorMask);
                         break;
                     }
 
