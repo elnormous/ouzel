@@ -111,8 +111,8 @@ namespace ouzel
                                        const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
                                        uint32_t,
                                        uint32_t,
-                                       const std::string& fragmentShaderFunction,
-                                       const std::string& vertexShaderFunction)
+                                       const std::string&,
+                                       const std::string&)
         {
             vertexAttributes = newVertexAttributes;
             fragmentShaderConstantInfo = newFragmentShaderConstantInfo;
