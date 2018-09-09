@@ -711,15 +711,16 @@ namespace ouzel
                     {
                         const InitShaderCommand* initShaderCommand = static_cast<const InitShaderCommand*>(command.get());
 
-                        initShaderCommand->shader->init(initShaderCommand->fragmentShader,
-                                                        initShaderCommand->vertexShader,
-                                                        initShaderCommand->vertexAttributes,
-                                                        initShaderCommand->fragmentShaderConstantInfo,
-                                                        initShaderCommand->vertexShaderConstantInfo,
-                                                        initShaderCommand->fragmentShaderDataAlignment,
-                                                        initShaderCommand->vertexShaderDataAlignment,
-                                                        initShaderCommand->fragmentShaderFunction,
-                                                        initShaderCommand->vertexShaderFunction);
+                        ShaderResourceD3D11* shaderResourceD3D11 = static_cast<ShaderResourceD3D11*>(initShaderCommand->shader);
+                        shaderResourceD3D11->init(initShaderCommand->fragmentShader,
+                                                  initShaderCommand->vertexShader,
+                                                  initShaderCommand->vertexAttributes,
+                                                  initShaderCommand->fragmentShaderConstantInfo,
+                                                  initShaderCommand->vertexShaderConstantInfo,
+                                                  initShaderCommand->fragmentShaderDataAlignment,
+                                                  initShaderCommand->vertexShaderDataAlignment,
+                                                  initShaderCommand->fragmentShaderFunction,
+                                                  initShaderCommand->vertexShaderFunction);
 
                         break;
                     }

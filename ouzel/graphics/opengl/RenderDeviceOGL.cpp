@@ -1155,15 +1155,16 @@ namespace ouzel
                     {
                         const InitShaderCommand* initShaderCommand = static_cast<const InitShaderCommand*>(command.get());
 
-                        initShaderCommand->shader->init(initShaderCommand->fragmentShader,
-                                                        initShaderCommand->vertexShader,
-                                                        initShaderCommand->vertexAttributes,
-                                                        initShaderCommand->fragmentShaderConstantInfo,
-                                                        initShaderCommand->vertexShaderConstantInfo,
-                                                        initShaderCommand->fragmentShaderDataAlignment,
-                                                        initShaderCommand->vertexShaderDataAlignment,
-                                                        initShaderCommand->fragmentShaderFunction,
-                                                        initShaderCommand->vertexShaderFunction);
+                        ShaderResourceOGL* shaderResourceOGL = static_cast<ShaderResourceOGL*>(initShaderCommand->shader);
+                        shaderResourceOGL->init(initShaderCommand->fragmentShader,
+                                                initShaderCommand->vertexShader,
+                                                initShaderCommand->vertexAttributes,
+                                                initShaderCommand->fragmentShaderConstantInfo,
+                                                initShaderCommand->vertexShaderConstantInfo,
+                                                initShaderCommand->fragmentShaderDataAlignment,
+                                                initShaderCommand->vertexShaderDataAlignment,
+                                                initShaderCommand->fragmentShaderFunction,
+                                                initShaderCommand->vertexShaderFunction);
 
                         break;
                     }

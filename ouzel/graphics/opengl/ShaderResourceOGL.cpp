@@ -35,15 +35,34 @@ namespace ouzel
                                      const std::string& newFragmentShaderFunction,
                                      const std::string& newVertexShaderFunction)
         {
-            ShaderResource::init(newFragmentShader,
-                                 newVertexShader,
-                                 newVertexAttributes,
-                                 newFragmentShaderConstantInfo,
-                                 newVertexShaderConstantInfo,
-                                 newFragmentShaderDataAlignment,
-                                 newVertexShaderDataAlignment,
-                                 newFragmentShaderFunction,
-                                 newVertexShaderFunction);
+            fragmentShaderData = newFragmentShader;
+            vertexShaderData = newVertexShader;
+            vertexAttributes = newVertexAttributes;
+            fragmentShaderConstantInfo = newFragmentShaderConstantInfo;
+            vertexShaderConstantInfo = newVertexShaderConstantInfo;
+
+            if (newFragmentShaderDataAlignment)
+                fragmentShaderAlignment = newFragmentShaderDataAlignment;
+            else
+            {
+                fragmentShaderAlignment = 0;
+
+                for (const Shader::ConstantInfo& info : newFragmentShaderConstantInfo)
+                    fragmentShaderAlignment += info.size;
+            }
+
+            if (newVertexShaderDataAlignment)
+                vertexShaderAlignment = newVertexShaderDataAlignment;
+            else
+            {
+                vertexShaderAlignment = 0;
+
+                for (const Shader::ConstantInfo& info : newVertexShaderConstantInfo)
+                    vertexShaderAlignment += info.size;
+            }
+
+            fragmentShaderFunction = newFragmentShaderFunction;
+            vertexShaderFunction = newVertexShaderFunction;
 
             if (programId)
             {
