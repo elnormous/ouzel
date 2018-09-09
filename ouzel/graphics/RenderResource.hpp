@@ -6,10 +6,13 @@ namespace ouzel
 {
     namespace graphics
     {
+        class RenderDevice;
+
         class RenderResource
         {
         public:
-            RenderResource() {}
+            RenderResource(RenderDevice& initRenderDevice):
+                renderDevice(initRenderDevice) {}
             virtual ~RenderResource() {}
 
             RenderResource(const RenderResource&) = delete;
@@ -19,6 +22,9 @@ namespace ouzel
             RenderResource& operator=(RenderResource&&) = delete;
 
             virtual void reload() {}
+
+        protected:
+            RenderDevice& renderDevice;
         };
     } // namespace graphics
 } // namespace ouzel

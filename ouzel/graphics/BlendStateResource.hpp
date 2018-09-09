@@ -10,8 +10,6 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RenderDevice;
-
         class BlendStateResource: public RenderResource
         {
         public:
@@ -28,8 +26,6 @@ namespace ouzel
 
         protected:
             BlendStateResource(RenderDevice& initRenderDevice);
-
-            RenderDevice& renderDevice;
 
             BlendState::Factor colorBlendSource = BlendState::Factor::ONE;
             BlendState::Factor colorBlendDest = BlendState::Factor::ZERO;

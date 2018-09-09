@@ -13,8 +13,6 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RenderDevice;
-
         class TextureResource: public RenderResource
         {
         public:
@@ -39,7 +37,6 @@ namespace ouzel
         protected:
             TextureResource(RenderDevice& initRenderDevice);
 
-            RenderDevice& renderDevice;
             Size2 size;
             uint32_t flags = 0;
             uint32_t mipmaps = 0;

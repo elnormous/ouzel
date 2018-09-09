@@ -15,8 +15,6 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RenderDevice;
-
         class ShaderResource: public RenderResource
         {
         public:
@@ -29,8 +27,6 @@ namespace ouzel
 
         protected:
             ShaderResource(RenderDevice& initRenderDevice);
-
-            RenderDevice& renderDevice;
 
             std::set<Vertex::Attribute::Usage> vertexAttributes;
 
