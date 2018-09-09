@@ -250,6 +250,7 @@
     <ClInclude Include="..\ouzel\graphics\opengl\BlendStateResourceOGL.hpp" />
     <ClInclude Include="..\ouzel\graphics\opengl\BufferResourceOGL.hpp" />
     <ClInclude Include="..\ouzel\graphics\opengl\RenderDeviceOGL.hpp" />
+    <ClInclude Include="..\ouzel\graphics\opengl\RenderResourceOGL.hpp" />
     <ClInclude Include="..\ouzel\graphics\opengl\RenderTargetResourceOGL.hpp" />
     <ClInclude Include="..\ouzel\graphics\opengl\ShaderResourceOGL.hpp" />
     <ClInclude Include="..\ouzel\graphics\opengl\TextureResourceOGL.hpp" />

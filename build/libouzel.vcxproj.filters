@@ -921,6 +921,9 @@
     <ClInclude Include="..\ouzel\assets\Bundle.hpp">
       <Filter>ouzel\assets</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\RenderResourceOGL.hpp">
+      <Filter>ouzel\graphics\opengl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ouzel">
