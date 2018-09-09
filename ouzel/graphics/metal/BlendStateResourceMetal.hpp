@@ -29,12 +29,12 @@ namespace ouzel
         public:
             BlendStateResourceMetal(RenderDeviceMetal& renderDeviceMetal);
 
-            void init(bool newEnableBlending,
-                      BlendState::Factor newColorBlendSource, BlendState::Factor newColorBlendDest,
-                      BlendState::Operation newColorOperation,
-                      BlendState::Factor newAlphaBlendSource, BlendState::Factor newAlphaBlendDest,
-                      BlendState::Operation newAlphaOperation,
-                      uint8_t newColorMask);
+            void init(bool enableBlending,
+                      BlendState::Factor colorBlendSource, BlendState::Factor colorBlendDest,
+                      BlendState::Operation colorOperation,
+                      BlendState::Factor alphaBlendSource, BlendState::Factor alphaBlendDest,
+                      BlendState::Operation alphaOperation,
+                      uint8_t colorMask);
 
             inline MTLBlendOperation getRGBBlendOperation() const { return rgbBlendOperation; }
             inline MTLBlendOperation getAlphaBlendOperation() const { return alphaBlendOperation; }
@@ -46,15 +46,6 @@ namespace ouzel
             inline bool isMetalBlendingEnabled() const { return metalBlendingEnabled; }
 
         private:
-            BlendState::Factor colorBlendSource = BlendState::Factor::ONE;
-            BlendState::Factor colorBlendDest = BlendState::Factor::ZERO;
-            BlendState::Operation colorOperation = BlendState::Operation::ADD;
-            BlendState::Factor alphaBlendSource = BlendState::Factor::ONE;
-            BlendState::Factor alphaBlendDest = BlendState::Factor::ZERO;
-            BlendState::Operation alphaOperation = BlendState::Operation::ADD;
-            uint8_t colorMask = BlendState::COLOR_MASK_ALL;
-            bool enableBlending = false;
-
             MTLBlendOperation rgbBlendOperation;
             MTLBlendOperation alphaBlendOperation;
             MTLBlendFactor sourceRGBBlendFactor;
