@@ -18,7 +18,8 @@
 #  include "GL/glext.h"
 #endif
 
-#include "graphics/BufferResource.hpp"
+#include "graphics/RenderResource.hpp"
+#include "graphics/Buffer.hpp"
 
 namespace ouzel
 {
@@ -26,7 +27,7 @@ namespace ouzel
     {
         class RenderDeviceOGL;
 
-        class BufferResourceOGL: public BufferResource
+        class BufferResourceOGL: public RenderResource
         {
         public:
             explicit BufferResourceOGL(RenderDeviceOGL& renderDeviceOGL);
@@ -40,11 +41,19 @@ namespace ouzel
 
             void setData(const std::vector<uint8_t>& newData);
 
+            inline uint32_t getFlags() const { return flags; }
+            inline Buffer::Usage getUsage() const { return usage; }
+            inline uint32_t getSize() const { return static_cast<uint32_t>(data.size()); }
+
             inline GLuint getBufferId() const { return bufferId; }
             inline GLuint getBufferType() const { return bufferType; }
 
         private:
             void createBuffer();
+
+            Buffer::Usage usage;
+            uint32_t flags = 0;
+            std::vector<uint8_t> data;
 
             GLuint bufferId = 0;
             GLsizeiptr bufferSize = 0;

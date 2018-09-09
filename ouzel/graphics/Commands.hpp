@@ -12,6 +12,8 @@ namespace ouzel
 {
     namespace graphics
     {
+        class RenderResource;
+
         class Command
         {
         public:
@@ -63,7 +65,7 @@ namespace ouzel
         class InitRenderTargetCommand: public Command
         {
         public:
-            InitRenderTargetCommand(RenderTarget* initRenderTarget,
+            InitRenderTargetCommand(RenderResource* initRenderTarget,
                                     uint32_t initWidth,
                                     uint32_t initHeight,
                                     uint32_t initSampleCount,
@@ -77,7 +79,7 @@ namespace ouzel
             {
             }
 
-            RenderTarget* renderTarget;
+            RenderResource* renderTarget;
             uint32_t width;
             uint32_t height;
             uint32_t sampleCount;
@@ -87,7 +89,7 @@ namespace ouzel
         class SetRenderTargetParametersCommand: public Command
         {
         public:
-            SetRenderTargetParametersCommand(TextureResource* initRenderTarget,
+            SetRenderTargetParametersCommand(RenderResource* initRenderTarget,
                                              bool initClearColorBuffer,
                                              bool initClearDepthBuffer,
                                              Color initClearColor,
@@ -101,7 +103,7 @@ namespace ouzel
             {
             }
 
-            TextureResource* renderTarget;
+            RenderResource* renderTarget;
             bool clearColorBuffer;
             bool clearDepthBuffer;
             Color clearColor;
@@ -111,54 +113,54 @@ namespace ouzel
         class SetRenderTargetCommand: public Command
         {
         public:
-            SetRenderTargetCommand(TextureResource* initRenderTarget):
+            SetRenderTargetCommand(RenderResource* initRenderTarget):
                 Command(Command::Type::SET_RENDER_TARGET),
                 renderTarget(initRenderTarget)
             {
             }
 
-            TextureResource* renderTarget;
+            RenderResource* renderTarget;
         };
 
         class ClearRenderTargetCommand: public Command
         {
         public:
-            ClearRenderTargetCommand(TextureResource* initRenderTarget):
+            ClearRenderTargetCommand(RenderResource* initRenderTarget):
                 Command(Command::Type::CLEAR_RENDER_TARGET),
                 renderTarget(initRenderTarget)
             {
             }
 
-            TextureResource* renderTarget;
+            RenderResource* renderTarget;
         };
 
         // TODO: implement
         class BlitCommand: public Command
         {
         public:
-            BlitCommand(TextureResource* initSourceTexture,
-                        TextureResource* initTargetTexture):
+            BlitCommand(RenderResource* initSourceTexture,
+                        RenderResource* initTargetTexture):
                 Command(Command::Type::BLIT),
                 sourceTexture(initSourceTexture),
                 targetTexture(initTargetTexture)
             {
             }
 
-            TextureResource* sourceTexture;
-            TextureResource* targetTexture;
+            RenderResource* sourceTexture;
+            RenderResource* targetTexture;
         };
 
         // TODO: implement
         class ComputeCommand: public Command
         {
         public:
-            ComputeCommand(ShaderResource* initShader):
+            ComputeCommand(RenderResource* initShader):
                 Command(Command::Type::COMPUTE),
                 shader(initShader)
             {
             }
 
-            ShaderResource* shader;
+            RenderResource* shader;
         };
 
         class SetCullModeCommad: public Command
@@ -230,25 +232,25 @@ namespace ouzel
         class SetPipelineStateCommand: public Command
         {
         public:
-            SetPipelineStateCommand(BlendStateResource* initBlendState,
-                                    ShaderResource* initShader):
+            SetPipelineStateCommand(RenderResource* initBlendState,
+                                    RenderResource* initShader):
                 Command(Command::Type::SET_PIPELINE_STATE),
                 blendState(initBlendState),
                 shader(initShader)
             {
             }
 
-            BlendStateResource* blendState;
-            ShaderResource* shader;
+            RenderResource* blendState;
+            RenderResource* shader;
         };
 
         class DrawCommand: public Command
         {
         public:
-            DrawCommand(BufferResource* initIndexBuffer,
+            DrawCommand(RenderResource* initIndexBuffer,
                         uint32_t initIndexCount,
                         uint32_t initIndexSize,
-                        BufferResource* initVertexBuffer,
+                        RenderResource* initVertexBuffer,
                         Renderer::DrawMode initDrawMode,
                         uint32_t initStartIndex):
                 Command(Command::Type::DRAW),
@@ -261,10 +263,10 @@ namespace ouzel
             {
             }
 
-            BufferResource* indexBuffer;
+            RenderResource* indexBuffer;
             uint32_t indexCount;
             uint32_t indexSize;
-            BufferResource* vertexBuffer;
+            RenderResource* vertexBuffer;
             Renderer::DrawMode drawMode;
             uint32_t startIndex;
         };
@@ -293,7 +295,7 @@ namespace ouzel
         class InitBlendStateCommand: public Command
         {
         public:
-            InitBlendStateCommand(BlendStateResource* initBlendState,
+            InitBlendStateCommand(RenderResource* initBlendState,
                                   bool initEnableBlending,
                                   BlendState::Factor initColorBlendSource, BlendState::Factor initColorBlendDest,
                                   BlendState::Operation initColorOperation,
@@ -313,7 +315,7 @@ namespace ouzel
             {
             }
 
-            BlendStateResource* blendState;
+            RenderResource* blendState;
             bool enableBlending;
             BlendState::Factor colorBlendSource;
             BlendState::Factor colorBlendDest;
@@ -328,7 +330,7 @@ namespace ouzel
         class InitBufferCommand: public Command
         {
         public:
-            InitBufferCommand(BufferResource* initBuffer,
+            InitBufferCommand(RenderResource* initBuffer,
                               Buffer::Usage initUsage,
                               uint32_t initFlags,
                               const std::vector<uint8_t>& initData,
@@ -342,7 +344,7 @@ namespace ouzel
             {
             }
 
-            BufferResource* buffer;
+            RenderResource* buffer;
             Buffer::Usage usage;
             uint32_t flags;
             std::vector<uint8_t> data;
@@ -353,7 +355,7 @@ namespace ouzel
         class SetBufferDataCommand: public Command
         {
         public:
-            SetBufferDataCommand(BufferResource* initBuffer,
+            SetBufferDataCommand(RenderResource* initBuffer,
                                  const std::vector<uint8_t>& initData):
                 Command(Command::Type::SET_BUFFER_DATA),
                 buffer(initBuffer),
@@ -361,14 +363,14 @@ namespace ouzel
             {
             }
 
-            BufferResource* buffer;
+            RenderResource* buffer;
             std::vector<uint8_t> data;
         };
 
         class InitShaderCommand: public Command
         {
         public:
-            InitShaderCommand(ShaderResource* initShader,
+            InitShaderCommand(RenderResource* initShader,
                               const std::vector<uint8_t>& initFragmentShader,
                               const std::vector<uint8_t>& initVertexShader,
                               const std::set<Vertex::Attribute::Usage>& initVertexAttributes,
@@ -392,7 +394,7 @@ namespace ouzel
             {
             }
 
-            ShaderResource* shader;
+            RenderResource* shader;
             std::vector<uint8_t> fragmentShader;
             std::vector<uint8_t> vertexShader;
             std::set<Vertex::Attribute::Usage> vertexAttributes;
@@ -422,7 +424,7 @@ namespace ouzel
         class InitTextureCommand: public Command
         {
         public:
-            InitTextureCommand(TextureResource* initTexture,
+            InitTextureCommand(RenderResource* initTexture,
                                const std::vector<Texture::Level>& initLevels,
                                uint32_t initFlags,
                                uint32_t initSampleCount,
@@ -436,7 +438,7 @@ namespace ouzel
             {
             }
 
-            TextureResource* texture;
+            RenderResource* texture;
             std::vector<Texture::Level> levels;
             uint32_t flags;
             uint32_t sampleCount;
@@ -446,7 +448,7 @@ namespace ouzel
         class SetTextureDataCommand: public Command
         {
         public:
-            SetTextureDataCommand(TextureResource* initTexture,
+            SetTextureDataCommand(RenderResource* initTexture,
                                   const std::vector<Texture::Level>& initLevels):
                 Command(Command::Type::SET_TEXTURE_DATA),
                 texture(initTexture),
@@ -454,14 +456,14 @@ namespace ouzel
             {
             }
 
-            TextureResource* texture;
+            RenderResource* texture;
             std::vector<Texture::Level> levels;
         };
 
         class SetTextureParametersCommand: public Command
         {
         public:
-            SetTextureParametersCommand(TextureResource* initTexture,
+            SetTextureParametersCommand(RenderResource* initTexture,
                                         Texture::Filter initFilter,
                                         Texture::Address initAddressX,
                                         Texture::Address initAddressY,
@@ -475,7 +477,7 @@ namespace ouzel
             {
             }
 
-            TextureResource* texture;
+            RenderResource* texture;
             Texture::Filter filter;
             Texture::Address addressX;
             Texture::Address addressY;
@@ -485,14 +487,14 @@ namespace ouzel
         class SetTexturesCommand: public Command
         {
         public:
-            SetTexturesCommand(TextureResource* initTextures[Texture::LAYERS]):
+            SetTexturesCommand(RenderResource* initTextures[Texture::LAYERS]):
                 Command(Command::Type::SET_TEXTURES)
             {
                 for (uint32_t i = 0; i < Texture::LAYERS; ++i)
                     textures[i] = initTextures[i];
             }
 
-            TextureResource* textures[Texture::LAYERS];
+            RenderResource* textures[Texture::LAYERS];
         };
     } // namespace graphics
 } // namespace ouzel

@@ -18,7 +18,8 @@
 #  include "GL/glext.h"
 #endif
 
-#include "graphics/ShaderResource.hpp"
+#include "graphics/RenderResource.hpp"
+#include "graphics/Shader.hpp"
 
 namespace ouzel
 {
@@ -26,7 +27,7 @@ namespace ouzel
     {
         class RenderDeviceOGL;
 
-        class ShaderResourceOGL: public ShaderResource
+        class ShaderResourceOGL: public RenderResource
         {
         public:
             explicit ShaderResourceOGL(RenderDeviceOGL& renderDeviceOGL);
@@ -50,6 +51,11 @@ namespace ouzel
                 DataType dataType;
             };
 
+            inline const std::set<Vertex::Attribute::Usage>& getVertexAttributes() const { return vertexAttributes; }
+
+            inline uint32_t getFragmentShaderAlignment() const { return fragmentShaderAlignment; }
+            inline uint32_t getVertexShaderAlignment() const { return vertexShaderAlignment; }
+
             inline const std::vector<Location>& getFragmentShaderConstantLocations() const { return fragmentShaderConstantLocations; }
             inline const std::vector<Location>& getVertexShaderConstantLocations() const { return vertexShaderConstantLocations; }
 
@@ -59,6 +65,18 @@ namespace ouzel
             void compileShader();
             std::string getShaderMessage(GLuint shaderId);
             std::string getProgramMessage();
+
+            std::set<Vertex::Attribute::Usage> vertexAttributes;
+
+            std::vector<uint8_t> fragmentShaderData;
+            std::vector<uint8_t> vertexShaderData;
+            std::string fragmentShaderFunction;
+            std::string vertexShaderFunction;
+
+            std::vector<Shader::ConstantInfo> fragmentShaderConstantInfo;
+            uint32_t fragmentShaderAlignment = 0;
+            std::vector<Shader::ConstantInfo> vertexShaderConstantInfo;
+            uint32_t vertexShaderAlignment = 0;
 
             GLuint fragmentShaderId = 0;
             GLuint vertexShaderId = 0;

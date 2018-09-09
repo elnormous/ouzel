@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "graphics/RenderTargetResource.hpp"
+#include "graphics/RenderResource.hpp"
 
 namespace ouzel
 {
@@ -10,7 +10,7 @@ namespace ouzel
     {
         class RenderDeviceOGL;
 
-        class RenderTargetResourceOGL: public RenderTargetResource
+        class RenderTargetResourceOGL: public RenderResource
         {
         public:
             RenderTargetResourceOGL(RenderDeviceOGL& renderDeviceOGL);

@@ -69,11 +69,11 @@ namespace ouzel
             virtual void generateScreenshot(const std::string& filename) override;
             void main();
 
-            virtual BlendStateResource* createBlendState() override;
-            virtual BufferResource* createBuffer() override;
-            virtual RenderTargetResource* createRenderTarget() override;
-            virtual ShaderResource* createShader() override;
-            virtual TextureResource* createTexture() override;
+            virtual RenderResource* createBlendState() override;
+            virtual RenderResource* createBuffer() override;
+            virtual RenderResource* createRenderTarget() override;
+            virtual RenderResource* createShader() override;
+            virtual RenderResource* createTexture() override;
 
             IDXGIOutput* getOutput() const;
 

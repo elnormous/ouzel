@@ -8,7 +8,7 @@ namespace ouzel
     namespace graphics
     {
         RenderTargetResourceMetal::RenderTargetResourceMetal(RenderDeviceMetal& renderDeviceMetal):
-            RenderTargetResource(renderDeviceMetal)
+            RenderResource(renderDeviceMetal)
         {
         }
     } // namespace graphics

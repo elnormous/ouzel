@@ -8,7 +8,7 @@ namespace ouzel
     namespace graphics
     {
         BufferResourceEmpty::BufferResourceEmpty(RenderDeviceEmpty& renderDeviceEmpty):
-            BufferResource(renderDeviceEmpty)
+            RenderResource(renderDeviceEmpty)
         {
         }
     }

@@ -8,7 +8,7 @@ namespace ouzel
     namespace graphics
     {
         RenderTargetResourceOGL::RenderTargetResourceOGL(RenderDeviceOGL& renderDeviceOGL):
-            RenderTargetResource(renderDeviceOGL)
+            RenderResource(renderDeviceOGL)
         {
         }
     } // namespace graphics

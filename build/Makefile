@@ -84,19 +84,14 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/ShaderResourceOGL.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/TextureResourceOGL.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/BlendState.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/BlendStateResource.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Buffer.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/BufferResource.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/ImageData.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Material.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Renderer.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/RenderDevice.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/RenderTarget.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/RenderTargetResource.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Shader.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/ShaderResource.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Texture.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/TextureResource.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Vertex.cpp \
 	$(ROOT_DIR)/../ouzel/gui/BMFont.cpp \
 	$(ROOT_DIR)/../ouzel/gui/Button.cpp \

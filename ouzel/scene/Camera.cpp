@@ -7,7 +7,6 @@
 #include "graphics/Renderer.hpp"
 #include "graphics/RenderDevice.hpp"
 #include "Layer.hpp"
-#include "graphics/TextureResource.hpp"
 #include "math/Matrix4.hpp"
 
 namespace ouzel

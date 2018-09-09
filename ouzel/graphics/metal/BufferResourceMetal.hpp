@@ -7,14 +7,15 @@
 #if OUZEL_COMPILE_METAL
 
 #if defined(__OBJC__)
-#import <Metal/Metal.h>
+#  import <Metal/Metal.h>
 typedef id<MTLBuffer> MTLBufferPtr;
 #else
-#include <objc/objc.h>
+#  include <objc/objc.h>
 typedef id MTLBufferPtr;
 #endif
 
-#include "graphics/BufferResource.hpp"
+#include "graphics/RenderResource.hpp"
+#include "graphics/Buffer.hpp"
 
 namespace ouzel
 {
@@ -22,7 +23,7 @@ namespace ouzel
     {
         class RenderDeviceMetal;
 
-        class BufferResourceMetal: public BufferResource
+        class BufferResourceMetal: public RenderResource
         {
         public:
             explicit BufferResourceMetal(RenderDeviceMetal& renderDeviceMetal);
@@ -34,10 +35,18 @@ namespace ouzel
 
             void setData(const std::vector<uint8_t>& newData);
 
+            inline uint32_t getFlags() const { return flags; }
+            inline Buffer::Usage getUsage() const { return usage; }
+            inline uint32_t getSize() const { return static_cast<uint32_t>(data.size()); }
+
             inline MTLBufferPtr getBuffer() const { return buffer; }
 
         private:
             void createBuffer(NSUInteger newSize);
+
+            Buffer::Usage usage;
+            uint32_t flags = 0;
+            std::vector<uint8_t> data;
 
             MTLBufferPtr buffer = nil;
             NSUInteger bufferSize = 0;

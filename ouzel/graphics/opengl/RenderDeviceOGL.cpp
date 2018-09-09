@@ -1306,47 +1306,47 @@ namespace ouzel
                 throw FileError("Failed to save image to file");
         }
 
-        BlendStateResource* RenderDeviceOGL::createBlendState()
+        RenderResource* RenderDeviceOGL::createBlendState()
         {
             std::unique_lock<std::mutex> lock(resourceMutex);
 
-            BlendStateResource* blendState = new BlendStateResourceOGL(*this);
+            RenderResource* blendState = new BlendStateResourceOGL(*this);
             resources.push_back(std::unique_ptr<RenderResource>(blendState));
             return blendState;
         }
 
-        BufferResource* RenderDeviceOGL::createBuffer()
+        RenderResource* RenderDeviceOGL::createBuffer()
         {
             std::unique_lock<std::mutex> lock(resourceMutex);
 
-            BufferResource* buffer = new BufferResourceOGL(*this);
+            RenderResource* buffer = new BufferResourceOGL(*this);
             resources.push_back(std::unique_ptr<RenderResource>(buffer));
             return buffer;
         }
 
-        RenderTargetResource* RenderDeviceOGL::createRenderTarget()
+        RenderResource* RenderDeviceOGL::createRenderTarget()
         {
             std::unique_lock<std::mutex> lock(resourceMutex);
 
-            RenderTargetResource* renderTarget = new RenderTargetResourceOGL(*this);
+            RenderResource* renderTarget = new RenderTargetResourceOGL(*this);
             resources.push_back(std::unique_ptr<RenderResource>(renderTarget));
             return renderTarget;
         }
 
-        ShaderResource* RenderDeviceOGL::createShader()
+        RenderResource* RenderDeviceOGL::createShader()
         {
             std::unique_lock<std::mutex> lock(resourceMutex);
 
-            ShaderResource* shader = new ShaderResourceOGL(*this);
+            RenderResource* shader = new ShaderResourceOGL(*this);
             resources.push_back(std::unique_ptr<RenderResource>(shader));
             return shader;
         }
 
-        TextureResource* RenderDeviceOGL::createTexture()
+        RenderResource* RenderDeviceOGL::createTexture()
         {
             std::unique_lock<std::mutex> lock(resourceMutex);
 
-            TextureResource* texture = new TextureResourceOGL(*this);
+            RenderResource* texture = new TextureResourceOGL(*this);
             resources.push_back(std::unique_ptr<RenderResource>(texture));
             return texture;
         }
