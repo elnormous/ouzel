@@ -50,7 +50,7 @@ namespace ouzel
         }
 
         BlendStateResourceOGL::BlendStateResourceOGL(RenderDeviceOGL& renderDeviceOGL):
-            RenderResource(renderDeviceOGL)
+            RenderResourceOGL(renderDeviceOGL)
         {
         }
 

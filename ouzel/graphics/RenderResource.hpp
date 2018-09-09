@@ -21,8 +21,6 @@ namespace ouzel
             RenderResource(RenderResource&&) = delete;
             RenderResource& operator=(RenderResource&&) = delete;
 
-            virtual void reload() {}
-
         protected:
             RenderDevice& renderDevice;
         };

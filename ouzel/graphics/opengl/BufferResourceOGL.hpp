@@ -18,7 +18,7 @@
 #  include "GL/glext.h"
 #endif
 
-#include "graphics/RenderResource.hpp"
+#include "graphics/opengl/RenderResourceOGL.hpp"
 #include "graphics/Buffer.hpp"
 
 namespace ouzel
@@ -27,7 +27,7 @@ namespace ouzel
     {
         class RenderDeviceOGL;
 
-        class BufferResourceOGL: public RenderResource
+        class BufferResourceOGL: public RenderResourceOGL
         {
         public:
             explicit BufferResourceOGL(RenderDeviceOGL& renderDeviceOGL);
