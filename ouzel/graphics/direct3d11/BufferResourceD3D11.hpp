@@ -23,26 +23,25 @@ namespace ouzel
             virtual ~BufferResourceD3D11();
 
             void init(Buffer::Usage newUsage, uint32_t newFlags,
-                      const std::vector<uint8_t>& newData,
+                      const std::vector<uint8_t>& data,
                       uint32_t newSize);
 
-            void setData(const std::vector<uint8_t>& newData);
+            void setData(const std::vector<uint8_t>& data);
 
             inline uint32_t getFlags() const { return flags; }
             inline Buffer::Usage getUsage() const { return usage; }
-            inline uint32_t getSize() const { return static_cast<uint32_t>(data.size()); }
+            inline UINT getSize() const { return size; }
 
             ID3D11Buffer* getBuffer() const { return buffer; }
 
         private:
-            void createBuffer(UINT newSize);
+            void createBuffer(UINT newSize, const std::vector<uint8_t>& data);
 
             Buffer::Usage usage;
             uint32_t flags = 0;
-            std::vector<uint8_t> data;
 
             ID3D11Buffer* buffer = nullptr;
-            UINT bufferSize = 0;
+            UINT size = 0;
         };
     } // namespace graphics
 } // namespace ouzel

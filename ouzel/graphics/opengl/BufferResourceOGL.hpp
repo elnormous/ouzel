@@ -43,7 +43,7 @@ namespace ouzel
 
             inline uint32_t getFlags() const { return flags; }
             inline Buffer::Usage getUsage() const { return usage; }
-            inline uint32_t getSize() const { return static_cast<uint32_t>(data.size()); }
+            inline GLsizeiptr getSize() const { return size; }
 
             inline GLuint getBufferId() const { return bufferId; }
             inline GLuint getBufferType() const { return bufferType; }
@@ -56,7 +56,7 @@ namespace ouzel
             std::vector<uint8_t> data;
 
             GLuint bufferId = 0;
-            GLsizeiptr bufferSize = 0;
+            GLsizeiptr size = 0;
 
             GLuint bufferType = 0;
         };
