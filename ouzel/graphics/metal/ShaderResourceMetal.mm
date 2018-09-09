@@ -95,18 +95,16 @@ namespace ouzel
             return MTLVertexFormatInvalid;
         }
 
-        void ShaderResourceMetal::init(const std::vector<uint8_t>& newFragmentShader,
-                                       const std::vector<uint8_t>& newVertexShader,
+        void ShaderResourceMetal::init(const std::vector<uint8_t>& fragmentShaderData,
+                                       const std::vector<uint8_t>& vertexShaderData,
                                        const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
                                        const std::vector<Shader::ConstantInfo>& newFragmentShaderConstantInfo,
                                        const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
                                        uint32_t newFragmentShaderDataAlignment,
                                        uint32_t newVertexShaderDataAlignment,
-                                       const std::string& newFragmentShaderFunction,
-                                       const std::string& newVertexShaderFunction)
+                                       const std::string& fragmentShaderFunction,
+                                       const std::string& vertexShaderFunction)
         {
-            fragmentShaderData = newFragmentShader;
-            vertexShaderData = newVertexShader;
             vertexAttributes = newVertexAttributes;
             fragmentShaderConstantInfo = newFragmentShaderConstantInfo;
             vertexShaderConstantInfo = newVertexShaderConstantInfo;
@@ -130,9 +128,6 @@ namespace ouzel
                 for (const Shader::ConstantInfo& info : newVertexShaderConstantInfo)
                     vertexShaderAlignment += info.size;
             }
-
-            fragmentShaderFunction = newFragmentShaderFunction;
-            vertexShaderFunction = newVertexShaderFunction;
 
             uint32_t index = 0;
             NSUInteger offset = 0;

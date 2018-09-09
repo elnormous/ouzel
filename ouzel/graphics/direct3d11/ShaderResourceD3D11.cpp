@@ -104,44 +104,20 @@ namespace ouzel
                 vertexShaderConstantBuffer->Release();
         }
 
-        void ShaderResourceD3D11::init(const std::vector<uint8_t>& newFragmentShader,
-                                       const std::vector<uint8_t>& newVertexShader,
+        void ShaderResourceD3D11::init(const std::vector<uint8_t>& fragmentShaderData,
+                                       const std::vector<uint8_t>& vertexShaderData,
                                        const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
                                        const std::vector<Shader::ConstantInfo>& newFragmentShaderConstantInfo,
                                        const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
-                                       uint32_t newFragmentShaderDataAlignment,
-                                       uint32_t newVertexShaderDataAlignment,
-                                       const std::string& newFragmentShaderFunction,
-                                       const std::string& newVertexShaderFunction)
+                                       uint32_t,
+                                       uint32_t,
+                                       const std::string& fragmentShaderFunction,
+                                       const std::string& vertexShaderFunction)
         {
-            fragmentShaderData = newFragmentShader;
-            vertexShaderData = newVertexShader;
             vertexAttributes = newVertexAttributes;
             fragmentShaderConstantInfo = newFragmentShaderConstantInfo;
             vertexShaderConstantInfo = newVertexShaderConstantInfo;
 
-            if (newFragmentShaderDataAlignment)
-                fragmentShaderAlignment = newFragmentShaderDataAlignment;
-            else
-            {
-                fragmentShaderAlignment = 0;
-
-                for (const Shader::ConstantInfo& info : newFragmentShaderConstantInfo)
-                    fragmentShaderAlignment += info.size;
-            }
-
-            if (newVertexShaderDataAlignment)
-                vertexShaderAlignment = newVertexShaderDataAlignment;
-            else
-            {
-                vertexShaderAlignment = 0;
-
-                for (const Shader::ConstantInfo& info : newVertexShaderConstantInfo)
-                    vertexShaderAlignment += info.size;
-            }
-
-            fragmentShaderFunction = newFragmentShaderFunction;
-            vertexShaderFunction = newVertexShaderFunction;
 
             if (fragmentShader) fragmentShader->Release();
 

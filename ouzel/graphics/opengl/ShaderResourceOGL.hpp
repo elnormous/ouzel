@@ -38,10 +38,10 @@ namespace ouzel
                       const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
                       const std::vector<Shader::ConstantInfo>& newFragmentShaderConstantInfo,
                       const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
-                      uint32_t newFragmentShaderDataAlignment = 0,
-                      uint32_t newVertexShaderDataAlignment = 0,
-                      const std::string& newFragmentShaderFunction = "",
-                      const std::string& newVertexShaderFunction = "");
+                      uint32_t newFragmentShaderDataAlignment,
+                      uint32_t newVertexShaderDataAlignment,
+                      const std::string& fragmentShaderFunction,
+                      const std::string& vertexShaderFunction);
 
             virtual void reload() override;
 
@@ -52,9 +52,6 @@ namespace ouzel
             };
 
             inline const std::set<Vertex::Attribute::Usage>& getVertexAttributes() const { return vertexAttributes; }
-
-            inline uint32_t getFragmentShaderAlignment() const { return fragmentShaderAlignment; }
-            inline uint32_t getVertexShaderAlignment() const { return vertexShaderAlignment; }
 
             inline const std::vector<Location>& getFragmentShaderConstantLocations() const { return fragmentShaderConstantLocations; }
             inline const std::vector<Location>& getVertexShaderConstantLocations() const { return vertexShaderConstantLocations; }
@@ -70,13 +67,9 @@ namespace ouzel
 
             std::vector<uint8_t> fragmentShaderData;
             std::vector<uint8_t> vertexShaderData;
-            std::string fragmentShaderFunction;
-            std::string vertexShaderFunction;
 
             std::vector<Shader::ConstantInfo> fragmentShaderConstantInfo;
-            uint32_t fragmentShaderAlignment = 0;
             std::vector<Shader::ConstantInfo> vertexShaderConstantInfo;
-            uint32_t vertexShaderAlignment = 0;
 
             GLuint fragmentShaderId = 0;
             GLuint vertexShaderId = 0;

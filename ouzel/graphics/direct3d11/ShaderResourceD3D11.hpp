@@ -23,15 +23,15 @@ namespace ouzel
             explicit ShaderResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11);
             virtual ~ShaderResourceD3D11();
 
-            void init(const std::vector<uint8_t>& newFragmentShader,
-                      const std::vector<uint8_t>& newVertexShader,
+            void init(const std::vector<uint8_t>& fragmentShaderData,
+                      const std::vector<uint8_t>& vertexShaderData,
                       const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
                       const std::vector<Shader::ConstantInfo>& newFragmentShaderConstantInfo,
                       const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
-                      uint32_t newFragmentShaderDataAlignment = 0,
-                      uint32_t newVertexShaderDataAlignment = 0,
-                      const std::string& newFragmentShaderFunction = "",
-                      const std::string& newVertexShaderFunction = "");
+                      uint32_t,
+                      uint32_t,
+                      const std::string& fragmentShaderFunction,
+                      const std::string& vertexShaderFunction);
 
             struct Location
             {
@@ -40,9 +40,6 @@ namespace ouzel
             };
 
             inline const std::set<Vertex::Attribute::Usage>& getVertexAttributes() const { return vertexAttributes; }
-
-            inline uint32_t getFragmentShaderAlignment() const { return fragmentShaderAlignment; }
-            inline uint32_t getVertexShaderAlignment() const { return vertexShaderAlignment; }
 
             const std::vector<Location>& getFragmentShaderConstantLocations() const { return fragmentShaderConstantLocations; }
             const std::vector<Location>& getVertexShaderConstantLocations() const { return vertexShaderConstantLocations; }
@@ -57,15 +54,8 @@ namespace ouzel
         private:
             std::set<Vertex::Attribute::Usage> vertexAttributes;
 
-            std::vector<uint8_t> fragmentShaderData;
-            std::vector<uint8_t> vertexShaderData;
-            std::string fragmentShaderFunction;
-            std::string vertexShaderFunction;
-
             std::vector<Shader::ConstantInfo> fragmentShaderConstantInfo;
-            uint32_t fragmentShaderAlignment = 0;
             std::vector<Shader::ConstantInfo> vertexShaderConstantInfo;
-            uint32_t vertexShaderAlignment = 0;
 
             ID3D11PixelShader* fragmentShader = nullptr;
             ID3D11VertexShader* vertexShader = nullptr;
