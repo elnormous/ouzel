@@ -30,15 +30,15 @@ namespace ouzel
             explicit ShaderResourceMetal(RenderDeviceMetal& renderDeviceMetal);
             virtual ~ShaderResourceMetal();
 
-            virtual void init(const std::vector<uint8_t>& newFragmentShader,
-                              const std::vector<uint8_t>& newVertexShader,
-                              const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
-                              const std::vector<Shader::ConstantInfo>& newFragmentShaderConstantInfo,
-                              const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
-                              uint32_t newFragmentShaderDataAlignment = 0,
-                              uint32_t newVertexShaderDataAlignment = 0,
-                              const std::string& newFragmentShaderFunction = "",
-                              const std::string& newVertexShaderFunction = "") override;
+            void init(const std::vector<uint8_t>& newFragmentShader,
+                      const std::vector<uint8_t>& newVertexShader,
+                      const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
+                      const std::vector<Shader::ConstantInfo>& newFragmentShaderConstantInfo,
+                      const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
+                      uint32_t newFragmentShaderDataAlignment = 0,
+                      uint32_t newVertexShaderDataAlignment = 0,
+                      const std::string& newFragmentShaderFunction = "",
+                      const std::string& newVertexShaderFunction = "");
 
             struct Location
             {
