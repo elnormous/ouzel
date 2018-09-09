@@ -7,7 +7,7 @@ namespace ouzel
     namespace graphics
     {
         BlendStateResource::BlendStateResource(RenderDevice& initRenderDevice):
-            renderDevice(initRenderDevice)
+            RenderResource(initRenderDevice)
         {
         }
 

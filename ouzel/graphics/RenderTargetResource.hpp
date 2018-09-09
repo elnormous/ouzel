@@ -10,7 +10,6 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RenderDevice;
         class TextureResource;
 
         class RenderTargetResource: public RenderResource
@@ -21,8 +20,6 @@ namespace ouzel
 
         protected:
             RenderTargetResource(RenderDevice& initRenderDevice);
-
-            RenderDevice& renderDevice;
 
             TextureResource* colorTexture = nullptr;
             TextureResource* depthTexture = nullptr;

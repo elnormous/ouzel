@@ -13,7 +13,7 @@ namespace ouzel
     namespace graphics
     {
         TextureResource::TextureResource(RenderDevice& initRenderDevice):
-            renderDevice(initRenderDevice)
+            RenderResource(initRenderDevice)
         {
         }
 

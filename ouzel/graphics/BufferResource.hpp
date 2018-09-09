@@ -10,8 +10,6 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RenderDevice;
-
         class BufferResource: public RenderResource
         {
         public:
@@ -23,8 +21,6 @@ namespace ouzel
 
         protected:
             BufferResource(RenderDevice& initRenderDevice);
-
-            RenderDevice& renderDevice;
 
             Buffer::Usage usage;
             uint32_t flags = 0;
