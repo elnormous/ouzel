@@ -366,12 +366,14 @@ namespace ouzel
                     {
                         const SetRenderTargetParametersCommand* setRenderTargetParametersCommand = static_cast<const SetRenderTargetParametersCommand*>(command.get());
 
-                        if (setRenderTargetParametersCommand->renderTarget)
+                        TextureResourceMetal* renderTargetMetal = static_cast<TextureResourceMetal*>(setRenderTargetParametersCommand->renderTarget);
+
+                        if (renderTargetMetal)
                         {
-                            setRenderTargetParametersCommand->renderTarget->setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
-                            setRenderTargetParametersCommand->renderTarget->setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
-                            setRenderTargetParametersCommand->renderTarget->setClearColor(setRenderTargetParametersCommand->clearColor);
-                            setRenderTargetParametersCommand->renderTarget->setClearDepth(setRenderTargetParametersCommand->clearDepth);
+                            renderTargetMetal->setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
+                            renderTargetMetal->setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
+                            renderTargetMetal->setClearColor(setRenderTargetParametersCommand->clearColor);
+                            renderTargetMetal->setClearDepth(setRenderTargetParametersCommand->clearDepth);
                         }
                         else
                         {
@@ -803,10 +805,11 @@ namespace ouzel
                     {
                         const InitTextureCommand* initTextureCommand = static_cast<const InitTextureCommand*>(command.get());
 
-                        initTextureCommand->texture->init(initTextureCommand->levels,
-                                                          initTextureCommand->flags,
-                                                          initTextureCommand->sampleCount,
-                                                          initTextureCommand->pixelFormat);
+                        TextureResourceMetal* textureResourceMetal = static_cast<TextureResourceMetal*>(initTextureCommand->texture);
+                        textureResourceMetal->init(initTextureCommand->levels,
+                                                   initTextureCommand->flags,
+                                                   initTextureCommand->sampleCount,
+                                                   initTextureCommand->pixelFormat);
 
                         break;
                     }
@@ -815,7 +818,8 @@ namespace ouzel
                     {
                         const SetTextureDataCommand* setTextureDataCommand = static_cast<const SetTextureDataCommand*>(command.get());
 
-                        setTextureDataCommand->texture->setData(setTextureDataCommand->levels);
+                        TextureResourceMetal* textureResourceMetal = static_cast<TextureResourceMetal*>(setTextureDataCommand->texture);
+                        textureResourceMetal->setData(setTextureDataCommand->levels);
 
                         break;
                     }
@@ -824,10 +828,11 @@ namespace ouzel
                     {
                         const SetTextureParametersCommand* setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
 
-                        setTextureParametersCommand->texture->setFilter(setTextureParametersCommand->filter);
-                        setTextureParametersCommand->texture->setAddressX(setTextureParametersCommand->addressX);
-                        setTextureParametersCommand->texture->setAddressY(setTextureParametersCommand->addressY);
-                        setTextureParametersCommand->texture->setMaxAnisotropy(setTextureParametersCommand->maxAnisotropy);
+                        TextureResourceMetal* textureResourceMetal = static_cast<TextureResourceMetal*>(setTextureParametersCommand->texture);
+                        textureResourceMetal->setFilter(setTextureParametersCommand->filter);
+                        textureResourceMetal->setAddressX(setTextureParametersCommand->addressX);
+                        textureResourceMetal->setAddressY(setTextureParametersCommand->addressY);
+                        textureResourceMetal->setMaxAnisotropy(setTextureParametersCommand->maxAnisotropy);
                         
                         break;
                     }

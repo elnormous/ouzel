@@ -404,12 +404,14 @@ namespace ouzel
                     {
                         const SetRenderTargetParametersCommand* setRenderTargetParametersCommand = static_cast<const SetRenderTargetParametersCommand*>(command.get());
 
-                        if (setRenderTargetParametersCommand->renderTarget)
+                        TextureResourceD3D11* renderTargetD3D11 = static_cast<TextureResourceD3D11*>(setRenderTargetParametersCommand->renderTarget);
+
+                        if (renderTargetD3D11)
                         {
-                            setRenderTargetParametersCommand->renderTarget->setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
-                            setRenderTargetParametersCommand->renderTarget->setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
-                            setRenderTargetParametersCommand->renderTarget->setClearColor(setRenderTargetParametersCommand->clearColor);
-                            setRenderTargetParametersCommand->renderTarget->setClearDepth(setRenderTargetParametersCommand->clearDepth);
+                            renderTargetD3D11->setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
+                            renderTargetD3D11->setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
+                            renderTargetD3D11->setClearColor(setRenderTargetParametersCommand->clearColor);
+                            renderTargetD3D11->setClearDepth(setRenderTargetParametersCommand->clearDepth);
                         }
                         else
                         {
@@ -788,10 +790,11 @@ namespace ouzel
                     {
                         const InitTextureCommand* initTextureCommand = static_cast<const InitTextureCommand*>(command.get());
 
-                        initTextureCommand->texture->init(initTextureCommand->levels,
-                                                          initTextureCommand->flags,
-                                                          initTextureCommand->sampleCount,
-                                                          initTextureCommand->pixelFormat);
+                        TextureResourceD3D11* textureResourceD3D11 = static_cast<TextureResourceD3D11*>(initTextureCommand->texture);
+                        textureResourceD3D11->init(initTextureCommand->levels,
+                                                   initTextureCommand->flags,
+                                                   initTextureCommand->sampleCount,
+                                                   initTextureCommand->pixelFormat);
 
                         break;
                     }
@@ -800,7 +803,8 @@ namespace ouzel
                     {
                         const SetTextureDataCommand* setTextureDataCommand = static_cast<const SetTextureDataCommand*>(command.get());
 
-                        setTextureDataCommand->texture->setData(setTextureDataCommand->levels);
+                        TextureResourceD3D11* textureResourceD3D11 = static_cast<TextureResourceD3D11*>(setTextureDataCommand->texture);
+                        textureResourceD3D11->setData(setTextureDataCommand->levels);
 
                         break;
                     }
@@ -809,10 +813,11 @@ namespace ouzel
                     {
                         const SetTextureParametersCommand* setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
 
-                        setTextureParametersCommand->texture->setFilter(setTextureParametersCommand->filter);
-                        setTextureParametersCommand->texture->setAddressX(setTextureParametersCommand->addressX);
-                        setTextureParametersCommand->texture->setAddressY(setTextureParametersCommand->addressY);
-                        setTextureParametersCommand->texture->setMaxAnisotropy(setTextureParametersCommand->maxAnisotropy);
+                        TextureResourceD3D11* textureResourceD3D11 = static_cast<TextureResourceD3D11*>(setTextureParametersCommand->texture);
+                        textureResourceD3D11->setFilter(setTextureParametersCommand->filter);
+                        textureResourceD3D11->setAddressX(setTextureParametersCommand->addressX);
+                        textureResourceD3D11->setAddressY(setTextureParametersCommand->addressY);
+                        textureResourceD3D11->setMaxAnisotropy(setTextureParametersCommand->maxAnisotropy);
 
                         break;
                     }
