@@ -23,28 +23,26 @@ namespace ouzel
         }
 
         void BufferResourceD3D11::init(Buffer::Usage newUsage, uint32_t newFlags,
-                                       const std::vector<uint8_t>& newData,
+                                       const std::vector<uint8_t>& data,
                                        uint32_t newSize)
         {
             usage = newUsage;
             flags = newFlags;
-            data = newData;
+            size = static_cast<UINT>(newSize);
 
-            createBuffer(newSize);
+            createBuffer(newSize, data);
         }
 
-        void BufferResourceD3D11::setData(const std::vector<uint8_t>& newData)
+        void BufferResourceD3D11::setData(const std::vector<uint8_t>& data)
         {
             if (!(flags & Buffer::DYNAMIC))
                 throw DataError("Buffer is not dynamic");
 
-            if (newData.empty())
+            if (data.empty())
                 throw DataError("Data is empty");
 
-            data = newData;
-
-            if (!buffer || data.size() > bufferSize)
-                createBuffer(static_cast<UINT>(data.size()));
+            if (!buffer || data.size() > size)
+                createBuffer(static_cast<UINT>(data.size()), data);
             else
             {
                 if (!data.empty())
@@ -66,7 +64,7 @@ namespace ouzel
             }
         }
 
-        void BufferResourceD3D11::createBuffer(UINT newSize)
+        void BufferResourceD3D11::createBuffer(UINT newSize, const std::vector<uint8_t>& data)
         {
             if (buffer)
             {
@@ -76,10 +74,10 @@ namespace ouzel
 
             if (newSize)
             {
-                bufferSize = newSize;
+                size = newSize;
 
                 D3D11_BUFFER_DESC bufferDesc;
-                bufferDesc.ByteWidth = bufferSize;
+                bufferDesc.ByteWidth = size;
                 bufferDesc.Usage = (flags & Texture::DYNAMIC) ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_IMMUTABLE;
 
                 switch (usage)

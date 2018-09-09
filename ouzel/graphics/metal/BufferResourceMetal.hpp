@@ -33,11 +33,11 @@ namespace ouzel
                       const std::vector<uint8_t>& newData,
                       uint32_t newSize);
 
-            void setData(const std::vector<uint8_t>& newData);
+            void setData(const std::vector<uint8_t>& data);
 
             inline uint32_t getFlags() const { return flags; }
             inline Buffer::Usage getUsage() const { return usage; }
-            inline uint32_t getSize() const { return static_cast<uint32_t>(data.size()); }
+            inline NSUInteger getSize() const { return size; }
 
             inline MTLBufferPtr getBuffer() const { return buffer; }
 
@@ -46,10 +46,9 @@ namespace ouzel
 
             Buffer::Usage usage;
             uint32_t flags = 0;
-            std::vector<uint8_t> data;
 
             MTLBufferPtr buffer = nil;
-            NSUInteger bufferSize = 0;
+            NSUInteger size = 0;
         };
     } // namespace graphics
 } // namespace ouzel
