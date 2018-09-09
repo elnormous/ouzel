@@ -18,7 +18,7 @@
 #  include "GL/glext.h"
 #endif
 
-#include "graphics/RenderResource.hpp"
+#include "graphics/opengl/RenderResourceOGL.hpp"
 #include "graphics/BlendState.hpp"
 
 namespace ouzel
@@ -27,7 +27,7 @@ namespace ouzel
     {
         class RenderDeviceOGL;
 
-        class BlendStateResourceOGL: public RenderResource
+        class BlendStateResourceOGL: public RenderResourceOGL
         {
         public:
             BlendStateResourceOGL(RenderDeviceOGL& renderDeviceOGL);
@@ -38,6 +38,8 @@ namespace ouzel
                       BlendState::Factor newAlphaBlendSource, BlendState::Factor newAlphaBlendDest,
                       BlendState::Operation newAlphaOperation,
                       uint8_t newColorMask);
+
+            virtual void reload() override {}
 
             inline GLenum getModeRGB() const { return modeRGB; }
             inline GLenum getModeAlpha() const { return modeAlpha; }

@@ -1220,6 +1220,7 @@
 		30AEFA2B20C0FD6000CDFD33 /* RenderTargetResourceOGL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderTargetResourceOGL.hpp; sourceTree = "<group>"; };
 		30AEFA3220C0FD7400CDFD33 /* RenderTargetResourceMetal.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RenderTargetResourceMetal.mm; sourceTree = "<group>"; };
 		30AEFA3320C0FD7400CDFD33 /* RenderTargetResourceMetal.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderTargetResourceMetal.hpp; sourceTree = "<group>"; };
+		30AF9FC32145D6F000F9266B /* RenderResourceOGL.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RenderResourceOGL.hpp; sourceTree = "<group>"; };
 		30B328821C4E9EAC00040927 /* Ease.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Ease.cpp; sourceTree = "<group>"; };
 		30B328831C4E9EAC00040927 /* Ease.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Ease.hpp; sourceTree = "<group>"; };
 		30B546531D90575B00E45DB6 /* RadioButtonGroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RadioButtonGroup.cpp; sourceTree = "<group>"; };
@@ -1553,6 +1554,7 @@
 				303820CB1D817E3B00677CAB /* macos */,
 				30381F3D1D80A3EC00677CAB /* RenderDeviceOGL.cpp */,
 				30381F3E1D80A3EC00677CAB /* RenderDeviceOGL.hpp */,
+				30AF9FC32145D6F000F9266B /* RenderResourceOGL.hpp */,
 				30AEFA2A20C0FD5F00CDFD33 /* RenderTargetResourceOGL.cpp */,
 				30AEFA2B20C0FD6000CDFD33 /* RenderTargetResourceOGL.hpp */,
 				30381F411D80A3EC00677CAB /* ShaderResourceOGL.cpp */,

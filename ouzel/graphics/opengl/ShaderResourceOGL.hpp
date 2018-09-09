@@ -18,7 +18,7 @@
 #  include "GL/glext.h"
 #endif
 
-#include "graphics/RenderResource.hpp"
+#include "graphics/opengl/RenderResourceOGL.hpp"
 #include "graphics/Shader.hpp"
 
 namespace ouzel
@@ -27,7 +27,7 @@ namespace ouzel
     {
         class RenderDeviceOGL;
 
-        class ShaderResourceOGL: public RenderResource
+        class ShaderResourceOGL: public RenderResourceOGL
         {
         public:
             explicit ShaderResourceOGL(RenderDeviceOGL& renderDeviceOGL);
