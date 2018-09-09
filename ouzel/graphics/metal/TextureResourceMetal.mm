@@ -75,10 +75,15 @@ namespace ouzel
                                         uint32_t newSampleCount,
                                         PixelFormat newPixelFormat)
         {
-            TextureResource::init(newLevels,
-                                  newFlags,
-                                  newSampleCount,
-                                  newPixelFormat);
+            levels = newLevels;
+            size = newLevels.front().size;
+            flags = newFlags;
+            mipmaps = static_cast<uint32_t>(newLevels.size());
+            sampleCount = newSampleCount;
+            pixelFormat = newPixelFormat;
+
+            if ((flags & Texture::RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
+                throw DataError("Invalid mip map count");
 
             createTexture();
 
@@ -117,7 +122,10 @@ namespace ouzel
 
         void TextureResourceMetal::setData(const std::vector<Texture::Level>& newLevels)
         {
-            TextureResource::setData(newLevels);
+            if (!(flags & Texture::DYNAMIC) || flags & Texture::RENDER_TARGET)
+                throw DataError("Texture is not dynamic");
+
+            levels = newLevels;
 
             if (!texture)
                 createTexture();
@@ -140,49 +148,49 @@ namespace ouzel
 
         void TextureResourceMetal::setFilter(Texture::Filter newFilter)
         {
-            TextureResource::setFilter(newFilter);
+            filter = newFilter;
 
             updateSamplerState();
         }
 
         void TextureResourceMetal::setAddressX(Texture::Address newAddressX)
         {
-            TextureResource::setAddressX(newAddressX);
+            addressX = newAddressX;
 
             updateSamplerState();
         }
 
         void TextureResourceMetal::setAddressY(Texture::Address newAddressY)
         {
-            TextureResource::setAddressY(newAddressY);
+            addressY = newAddressY;
 
             updateSamplerState();
         }
 
         void TextureResourceMetal::setMaxAnisotropy(uint32_t newMaxAnisotropy)
         {
-            TextureResource::setMaxAnisotropy(newMaxAnisotropy);
+            maxAnisotropy = newMaxAnisotropy;
 
             updateSamplerState();
         }
 
         void TextureResourceMetal::setClearColorBuffer(bool clear)
         {
-            TextureResource::setClearColorBuffer(clear);
+            clearColorBuffer = clear;
 
             colorBufferLoadAction = clearColorBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
         }
 
         void TextureResourceMetal::setClearDepthBuffer(bool clear)
         {
-            TextureResource::setClearDepthBuffer(clear);
+            clearDepthBuffer = clear;
 
             depthBufferLoadAction = clearDepthBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
         }
 
         void TextureResourceMetal::setClearColor(Color color)
         {
-            TextureResource::setClearColor(color);
+            clearColor = color;
 
             if (!renderPassDescriptor)
                 throw DataError("Render pass descriptor not initialized");
@@ -193,9 +201,9 @@ namespace ouzel
                                                                                     clearColor.normA());
         }
 
-        void TextureResourceMetal::setClearDepth(float clear)
+        void TextureResourceMetal::setClearDepth(float newClearDepth)
         {
-            TextureResource::setClearDepth(clear);
+            clearDepth = newClearDepth;
 
             if (!renderPassDescriptor)
                 throw DataError("Render pass descriptor not initialized");

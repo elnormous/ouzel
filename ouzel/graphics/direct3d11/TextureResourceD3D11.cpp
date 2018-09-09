@@ -80,10 +80,15 @@ namespace ouzel
                                         uint32_t newSampleCount,
                                         PixelFormat newPixelFormat)
         {
-            TextureResource::init(newLevels,
-                                  newFlags,
-                                  newSampleCount,
-                                  newPixelFormat);
+            levels = newLevels;
+            size = newLevels.front().size;
+            flags = newFlags;
+            mipmaps = static_cast<uint32_t>(newLevels.size());
+            sampleCount = newSampleCount;
+            pixelFormat = newPixelFormat;
+
+            if ((flags & Texture::RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
+                throw DataError("Invalid mip map count");
 
             createTexture();
 
@@ -100,7 +105,10 @@ namespace ouzel
 
         void TextureResourceD3D11::setData(const std::vector<Texture::Level>& newLevels)
         {
-            TextureResource::setData(newLevels);
+            if (!(flags & Texture::DYNAMIC) || flags & Texture::RENDER_TARGET)
+                throw DataError("Texture is not dynamic");
+
+            levels = newLevels;
 
             RenderDeviceD3D11& renderDeviceD3D11 = static_cast<RenderDeviceD3D11&>(renderDevice);
 
@@ -172,54 +180,59 @@ namespace ouzel
 
         void TextureResourceD3D11::setFilter(Texture::Filter newFilter)
         {
-            TextureResource::setFilter(newFilter);
+            filter = newFilter;
 
             updateSamplerState();
         }
 
         void TextureResourceD3D11::setAddressX(Texture::Address newAddressX)
         {
-            TextureResource::setAddressX(newAddressX);
+            addressX = newAddressX;
 
             updateSamplerState();
         }
 
         void TextureResourceD3D11::setAddressY(Texture::Address newAddressY)
         {
-            TextureResource::setAddressY(newAddressY);
+            addressY = newAddressY;
 
             updateSamplerState();
         }
 
         void TextureResourceD3D11::setMaxAnisotropy(uint32_t newMaxAnisotropy)
         {
-            TextureResource::setMaxAnisotropy(newMaxAnisotropy);
+            maxAnisotropy = newMaxAnisotropy;
 
             updateSamplerState();
         }
 
         void TextureResourceD3D11::setClearColorBuffer(bool clear)
         {
-            TextureResource::setClearColorBuffer(clear);
+            clearColorBuffer = clear;
 
             clearFrameBufferView = clearColorBuffer;
         }
 
         void TextureResourceD3D11::setClearDepthBuffer(bool clear)
         {
-            TextureResource::setClearDepthBuffer(clear);
+            clearDepthBuffer = clear;
 
             clearDepthBufferView = clearDepthBuffer;
         }
 
         void TextureResourceD3D11::setClearColor(Color color)
         {
-            TextureResource::setClearColor(color);
+            clearColor = color;
 
             frameBufferClearColor[0] = clearColor.normR();
             frameBufferClearColor[1] = clearColor.normG();
             frameBufferClearColor[2] = clearColor.normB();
             frameBufferClearColor[3] = clearColor.normA();
+        }
+
+        void TextureResourceD3D11::setClearDepth(float newClearDepth)
+        {
+            clearDepth = newClearDepth;
         }
 
         void TextureResourceD3D11::createTexture()

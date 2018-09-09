@@ -21,19 +21,20 @@ namespace ouzel
             explicit TextureResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11);
             virtual ~TextureResourceD3D11();
 
-            virtual void init(const std::vector<Texture::Level>& newLevels,
-                              uint32_t newFlags = 0,
-                              uint32_t newSampleCount = 1,
-                              PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM) override;
+            void init(const std::vector<Texture::Level>& newLevels,
+                      uint32_t newFlags = 0,
+                      uint32_t newSampleCount = 1,
+                      PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
 
-            virtual void setData(const std::vector<Texture::Level>& newLevels) override;
-            virtual void setFilter(Texture::Filter newFilter) override;
-            virtual void setAddressX(Texture::Address newAddressX) override;
-            virtual void setAddressY(Texture::Address newAddressY) override;
-            virtual void setMaxAnisotropy(uint32_t newMaxAnisotropy) override;
-            virtual void setClearColorBuffer(bool clear) override;
-            virtual void setClearDepthBuffer(bool clear) override;
-            virtual void setClearColor(Color color) override;
+            void setData(const std::vector<Texture::Level>& newLevels);
+            void setFilter(Texture::Filter newFilter);
+            void setAddressX(Texture::Address newAddressX);
+            void setAddressY(Texture::Address newAddressY);
+            void setMaxAnisotropy(uint32_t newMaxAnisotropy);
+            void setClearColorBuffer(bool clear);
+            void setClearDepthBuffer(bool clear);
+            void setClearColor(Color color);
+            void setClearDepth(float newClearDepth);
 
             ID3D11Texture2D* getTexture() const { return texture; }
             ID3D11ShaderResourceView* getResourceView() const { return resourceView; }

@@ -820,12 +820,14 @@ namespace ouzel
                     {
                         const SetRenderTargetParametersCommand* setRenderTargetParametersCommand = static_cast<const SetRenderTargetParametersCommand*>(command.get());
 
-                        if (setRenderTargetParametersCommand->renderTarget)
+                        TextureResourceOGL* renderTargetOGL = static_cast<TextureResourceOGL*>(setRenderTargetParametersCommand->renderTarget);
+
+                        if (renderTargetOGL)
                         {
-                            setRenderTargetParametersCommand->renderTarget->setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
-                            setRenderTargetParametersCommand->renderTarget->setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
-                            setRenderTargetParametersCommand->renderTarget->setClearColor(setRenderTargetParametersCommand->clearColor);
-                            setRenderTargetParametersCommand->renderTarget->setClearDepth(setRenderTargetParametersCommand->clearDepth);
+                            renderTargetOGL->setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
+                            renderTargetOGL->setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
+                            renderTargetOGL->setClearColor(setRenderTargetParametersCommand->clearColor);
+                            renderTargetOGL->setClearDepth(setRenderTargetParametersCommand->clearDepth);
                         }
                         else
                         {
@@ -1212,10 +1214,11 @@ namespace ouzel
                     {
                         const InitTextureCommand* initTextureCommand = static_cast<const InitTextureCommand*>(command.get());
 
-                        initTextureCommand->texture->init(initTextureCommand->levels,
-                                                          initTextureCommand->flags,
-                                                          initTextureCommand->sampleCount,
-                                                          initTextureCommand->pixelFormat);
+                        TextureResourceOGL* textureResourceOGL = static_cast<TextureResourceOGL*>(initTextureCommand->texture);
+                        textureResourceOGL->init(initTextureCommand->levels,
+                                                 initTextureCommand->flags,
+                                                 initTextureCommand->sampleCount,
+                                                 initTextureCommand->pixelFormat);
 
                         break;
                     }
@@ -1224,7 +1227,8 @@ namespace ouzel
                     {
                         const SetTextureDataCommand* setTextureDataCommand = static_cast<const SetTextureDataCommand*>(command.get());
 
-                        setTextureDataCommand->texture->setData(setTextureDataCommand->levels);
+                        TextureResourceOGL* textureResourceOGL = static_cast<TextureResourceOGL*>(setTextureDataCommand->texture);
+                        textureResourceOGL->setData(setTextureDataCommand->levels);
 
                         break;
                     }
@@ -1233,10 +1237,11 @@ namespace ouzel
                     {
                         const SetTextureParametersCommand* setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
 
-                        setTextureParametersCommand->texture->setFilter(setTextureParametersCommand->filter);
-                        setTextureParametersCommand->texture->setAddressX(setTextureParametersCommand->addressX);
-                        setTextureParametersCommand->texture->setAddressY(setTextureParametersCommand->addressY);
-                        setTextureParametersCommand->texture->setMaxAnisotropy(setTextureParametersCommand->maxAnisotropy);
+                        TextureResourceOGL* textureResourceOGL = static_cast<TextureResourceOGL*>(setTextureParametersCommand->texture);
+                        textureResourceOGL->setFilter(setTextureParametersCommand->filter);
+                        textureResourceOGL->setAddressX(setTextureParametersCommand->addressX);
+                        textureResourceOGL->setAddressY(setTextureParametersCommand->addressY);
+                        textureResourceOGL->setMaxAnisotropy(setTextureParametersCommand->maxAnisotropy);
                         break;
                     }
 
