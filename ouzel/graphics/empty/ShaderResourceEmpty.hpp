@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "graphics/ShaderResource.hpp"
+#include "graphics/RenderResource.hpp"
 
 namespace ouzel
 {
@@ -10,7 +10,7 @@ namespace ouzel
     {
         class RenderDeviceEmpty;
 
-        class ShaderResourceEmpty: public ShaderResource
+        class ShaderResourceEmpty: public RenderResource
         {
         public:
             ShaderResourceEmpty(RenderDeviceEmpty& renderDeviceEmpty);

@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include "RenderDevice.hpp"
+#include "RenderResource.hpp"
 
 namespace ouzel
 {

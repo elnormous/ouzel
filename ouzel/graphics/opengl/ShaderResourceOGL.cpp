@@ -13,7 +13,7 @@ namespace ouzel
     namespace graphics
     {
         ShaderResourceOGL::ShaderResourceOGL(RenderDeviceOGL& renderDeviceOGL):
-            ShaderResource(renderDeviceOGL)
+            RenderResource(renderDeviceOGL)
         {
         }
 

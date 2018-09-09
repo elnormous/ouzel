@@ -1007,47 +1007,47 @@ namespace ouzel
             texture->Release();
         }
 
-        BlendStateResource* RenderDeviceD3D11::createBlendState()
+        RenderResource* RenderDeviceD3D11::createBlendState()
         {
             std::unique_lock<std::mutex> lock(resourceMutex);
 
-            BlendStateResource* blendState = new BlendStateResourceD3D11(*this);
+            RenderResource* blendState = new BlendStateResourceD3D11(*this);
             resources.push_back(std::unique_ptr<RenderResource>(blendState));
             return blendState;
         }
 
-        BufferResource* RenderDeviceD3D11::createBuffer()
+        RenderResource* RenderDeviceD3D11::createBuffer()
         {
             std::unique_lock<std::mutex> lock(resourceMutex);
 
-            BufferResource* buffer = new BufferResourceD3D11(*this);
+            RenderResource* buffer = new BufferResourceD3D11(*this);
             resources.push_back(std::unique_ptr<RenderResource>(buffer));
             return buffer;
         }
 
-        RenderTargetResource* RenderDeviceD3D11::createRenderTarget()
+        RenderResource* RenderDeviceD3D11::createRenderTarget()
         {
             std::unique_lock<std::mutex> lock(resourceMutex);
 
-            RenderTargetResource* renderTarget = new RenderTargetResourceD3D11(*this);
+            RenderResource* renderTarget = new RenderTargetResourceD3D11(*this);
             resources.push_back(std::unique_ptr<RenderResource>(renderTarget));
             return renderTarget;
         }
 
-        ShaderResource* RenderDeviceD3D11::createShader()
+        RenderResource* RenderDeviceD3D11::createShader()
         {
             std::unique_lock<std::mutex> lock(resourceMutex);
 
-            ShaderResource* shader = new ShaderResourceD3D11(*this);
+            RenderResource* shader = new ShaderResourceD3D11(*this);
             resources.push_back(std::unique_ptr<RenderResource>(shader));
             return shader;
         }
 
-        TextureResource* RenderDeviceD3D11::createTexture()
+        RenderResource* RenderDeviceD3D11::createTexture()
         {
             std::unique_lock<std::mutex> lock(resourceMutex);
 
-            TextureResource* texture = new TextureResourceD3D11(*this);
+            RenderResource* texture = new TextureResourceD3D11(*this);
             resources.push_back(std::unique_ptr<RenderResource>(texture));
             return texture;
         }

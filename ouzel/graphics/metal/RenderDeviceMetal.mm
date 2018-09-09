@@ -893,47 +893,47 @@ namespace ouzel
                 throw FileError("Failed to save image to file");
         }
 
-        BlendStateResource* RenderDeviceMetal::createBlendState()
+        RenderResource* RenderDeviceMetal::createBlendState()
         {
             std::unique_lock<std::mutex> lock(resourceMutex);
 
-            BlendStateResource* blendState = new BlendStateResourceMetal(*this);
+            RenderResource* blendState = new BlendStateResourceMetal(*this);
             resources.push_back(std::unique_ptr<RenderResource>(blendState));
             return blendState;
         }
 
-        BufferResource* RenderDeviceMetal::createBuffer()
+        RenderResource* RenderDeviceMetal::createBuffer()
         {
             std::unique_lock<std::mutex> lock(resourceMutex);
 
-            BufferResource* buffer = new BufferResourceMetal(*this);
+            RenderResource* buffer = new BufferResourceMetal(*this);
             resources.push_back(std::unique_ptr<RenderResource>(buffer));
             return buffer;
         }
 
-        RenderTargetResource* RenderDeviceMetal::createRenderTarget()
+        RenderResource* RenderDeviceMetal::createRenderTarget()
         {
             std::unique_lock<std::mutex> lock(resourceMutex);
 
-            RenderTargetResource* renderTarget = new RenderTargetResourceMetal(*this);
+            RenderResource* renderTarget = new RenderTargetResourceMetal(*this);
             resources.push_back(std::unique_ptr<RenderResource>(renderTarget));
             return renderTarget;
         }
 
-        ShaderResource* RenderDeviceMetal::createShader()
+        RenderResource* RenderDeviceMetal::createShader()
         {
             std::unique_lock<std::mutex> lock(resourceMutex);
 
-            ShaderResource* shader = new ShaderResourceMetal(*this);
+            RenderResource* shader = new ShaderResourceMetal(*this);
             resources.push_back(std::unique_ptr<RenderResource>(shader));
             return shader;
         }
 
-        TextureResource* RenderDeviceMetal::createTexture()
+        RenderResource* RenderDeviceMetal::createTexture()
         {
             std::unique_lock<std::mutex> lock(resourceMutex);
 
-            TextureResource* texture = new TextureResourceMetal(*this);
+            RenderResource* texture = new TextureResourceMetal(*this);
             resources.push_back(std::unique_ptr<RenderResource>(texture));
             return texture;
         }

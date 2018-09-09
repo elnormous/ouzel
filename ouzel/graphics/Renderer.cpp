@@ -3,10 +3,6 @@
 #include "core/Setup.h"
 #include "Renderer.hpp"
 #include "RenderDevice.hpp"
-#include "TextureResource.hpp"
-#include "ShaderResource.hpp"
-#include "BlendStateResource.hpp"
-#include "BufferResource.hpp"
 #include "events/EventHandler.hpp"
 #include "events/EventDispatcher.hpp"
 #include "core/Window.hpp"
@@ -202,12 +198,12 @@ namespace ouzel
             device->executeOnRenderThread(std::bind(&RenderDevice::generateScreenshot, device.get(), filename));
         }
 
-        void Renderer::setRenderTarget(TextureResource* renderTarget)
+        void Renderer::setRenderTarget(RenderResource* renderTarget)
         {
             device->addCommand(std::unique_ptr<Command>(new SetRenderTargetCommand(renderTarget)));
         }
 
-        void Renderer::clearRenderTarget(TextureResource* renderTarget)
+        void Renderer::clearRenderTarget(RenderResource* renderTarget)
         {
             device->addCommand(std::unique_ptr<Command>(new ClearRenderTargetCommand(renderTarget)));
         }
@@ -237,16 +233,16 @@ namespace ouzel
             device->addCommand(std::unique_ptr<Command>(new SetDepthStateCommand(depthTest, depthWrite)));
         }
 
-        void Renderer::setPipelineState(BlendStateResource* blendState,
-                                        ShaderResource* shader)
+        void Renderer::setPipelineState(RenderResource* blendState,
+                                        RenderResource* shader)
         {
             device->addCommand(std::unique_ptr<Command>(new SetPipelineStateCommand(blendState, shader)));
         }
 
-        void Renderer::draw(BufferResource* indexBuffer,
+        void Renderer::draw(RenderResource* indexBuffer,
                             uint32_t indexCount,
                             uint32_t indexSize,
-                            BufferResource* vertexBuffer,
+                            RenderResource* vertexBuffer,
                             DrawMode drawMode,
                             uint32_t startIndex)
         {
@@ -278,9 +274,9 @@ namespace ouzel
                                                                                       vertexShaderConstants)));
         }
 
-        void Renderer::setTextures(const std::vector<TextureResource*>& textures)
+        void Renderer::setTextures(const std::vector<RenderResource*>& textures)
         {
-            TextureResource* newTextures[Texture::LAYERS];
+            RenderResource* newTextures[Texture::LAYERS];
 
             for (uint32_t i = 0; i < Texture::LAYERS; ++i)
                 newTextures[i] = (i < textures.size()) ? textures[i] : nullptr;

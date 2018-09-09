@@ -18,7 +18,8 @@
 #  include "GL/glext.h"
 #endif
 
-#include "graphics/TextureResource.hpp"
+#include "graphics/RenderResource.hpp"
+#include "graphics/Texture.hpp"
 
 namespace ouzel
 {
@@ -26,7 +27,7 @@ namespace ouzel
     {
         class RenderDeviceOGL;
 
-        class TextureResourceOGL: public TextureResource
+        class TextureResourceOGL: public RenderResource
         {
         public:
             explicit TextureResourceOGL(RenderDeviceOGL& renderDeviceOGL);
@@ -49,6 +50,22 @@ namespace ouzel
             void setClearColor(Color color);
             void setClearDepth(float newClearDepth);
 
+            inline const Size2& getSize() const { return size; }
+
+            inline uint32_t getFlags() const { return flags; }
+            inline uint32_t getMipmaps() const { return mipmaps; }
+
+            inline Texture::Filter getFilter() const { return filter; }
+            inline Texture::Address getAddressX() const { return addressX; }
+            inline Texture::Address getAddressY() const { return addressY; }
+            inline uint32_t getMaxAnisotropy() const { return maxAnisotropy; }
+            inline bool getClearColorBuffer() const { return clearColorBuffer; }
+            inline bool getClearDepthBuffer() const { return clearDepthBuffer; }
+            inline Color getClearColor() const { return clearColor; }
+            inline float getClearDepth() const { return clearDepth; }
+            inline uint32_t getSampleCount() const { return sampleCount; }
+            inline PixelFormat getPixelFormat() const { return pixelFormat; }
+
             inline GLuint getTextureId() const { return textureId; }
 
             inline GLuint getFrameBufferId() const { return frameBufferId; }
@@ -61,6 +78,21 @@ namespace ouzel
         private:
             void createTexture();
             void setTextureParameters();
+
+            Size2 size;
+            uint32_t flags = 0;
+            uint32_t mipmaps = 0;
+            bool clearColorBuffer = true;
+            bool clearDepthBuffer = false;
+            Color clearColor;
+            float clearDepth = 1.0F;
+            std::vector<Texture::Level> levels;
+            uint32_t sampleCount = 1;
+            PixelFormat pixelFormat = PixelFormat::RGBA8_UNORM;
+            Texture::Filter filter = Texture::Filter::DEFAULT;
+            Texture::Address addressX = Texture::Address::CLAMP;
+            Texture::Address addressY = Texture::Address::CLAMP;
+            uint32_t maxAnisotropy = 0;
 
             GLuint textureId = 0;
 

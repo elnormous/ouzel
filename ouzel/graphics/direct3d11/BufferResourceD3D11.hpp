@@ -7,7 +7,8 @@
 #if OUZEL_COMPILE_DIRECT3D11
 
 #include <d3d11.h>
-#include "graphics/BufferResource.hpp"
+#include "graphics/RenderResource.hpp"
+#include "graphics/Buffer.hpp"
 
 namespace ouzel
 {
@@ -15,7 +16,7 @@ namespace ouzel
     {
         class RenderDeviceD3D11;
 
-        class BufferResourceD3D11: public BufferResource
+        class BufferResourceD3D11: public RenderResource
         {
         public:
             explicit BufferResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11);
@@ -27,10 +28,18 @@ namespace ouzel
 
             void setData(const std::vector<uint8_t>& newData);
 
+            inline uint32_t getFlags() const { return flags; }
+            inline Buffer::Usage getUsage() const { return usage; }
+            inline uint32_t getSize() const { return static_cast<uint32_t>(data.size()); }
+
             ID3D11Buffer* getBuffer() const { return buffer; }
 
         private:
             void createBuffer(UINT newSize);
+
+            Buffer::Usage usage;
+            uint32_t flags = 0;
+            std::vector<uint8_t> data;
 
             ID3D11Buffer* buffer = nullptr;
             UINT bufferSize = 0;

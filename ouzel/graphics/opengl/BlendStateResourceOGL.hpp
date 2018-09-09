@@ -18,7 +18,8 @@
 #  include "GL/glext.h"
 #endif
 
-#include "graphics/BlendStateResource.hpp"
+#include "graphics/RenderResource.hpp"
+#include "graphics/BlendState.hpp"
 
 namespace ouzel
 {
@@ -26,7 +27,7 @@ namespace ouzel
     {
         class RenderDeviceOGL;
 
-        class BlendStateResourceOGL: public BlendStateResource
+        class BlendStateResourceOGL: public RenderResource
         {
         public:
             BlendStateResourceOGL(RenderDeviceOGL& renderDeviceOGL);
@@ -53,6 +54,15 @@ namespace ouzel
             inline GLboolean getAlphaMask() const { return alphaMask; }
 
         private:
+            BlendState::Factor colorBlendSource = BlendState::Factor::ONE;
+            BlendState::Factor colorBlendDest = BlendState::Factor::ZERO;
+            BlendState::Operation colorOperation = BlendState::Operation::ADD;
+            BlendState::Factor alphaBlendSource = BlendState::Factor::ONE;
+            BlendState::Factor alphaBlendDest = BlendState::Factor::ZERO;
+            BlendState::Operation alphaOperation = BlendState::Operation::ADD;
+            uint8_t colorMask = BlendState::COLOR_MASK_ALL;
+            bool enableBlending = false;
+
             GLenum modeRGB = GL_NONE;
             GLenum modeAlpha = GL_NONE;
             GLenum sourceFactorRGB = GL_NONE;

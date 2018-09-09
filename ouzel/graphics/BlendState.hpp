@@ -9,7 +9,7 @@ namespace ouzel
     namespace graphics
     {
         class Renderer;
-        class BlendStateResource;
+        class RenderResource;
 
         class BlendState final
         {
@@ -65,7 +65,7 @@ namespace ouzel
                       Operation newAlphaOperation,
                       uint8_t newColorMask = COLOR_MASK_ALL);
 
-            inline BlendStateResource* getResource() const { return resource; }
+            inline RenderResource* getResource() const { return resource; }
 
             inline bool isBlendingEnabled() const { return enableBlending; }
 
@@ -80,7 +80,7 @@ namespace ouzel
 
         private:
             Renderer& renderer;
-            BlendStateResource* resource = nullptr;
+            RenderResource* resource = nullptr;
 
             BlendState::Factor colorBlendSource = BlendState::Factor::ONE;
             BlendState::Factor colorBlendDest = BlendState::Factor::ZERO;

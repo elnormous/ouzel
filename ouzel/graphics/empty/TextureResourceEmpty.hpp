@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "graphics/TextureResource.hpp"
+#include "graphics/RenderResource.hpp"
 
 namespace ouzel
 {
@@ -10,7 +10,7 @@ namespace ouzel
     {
         class RenderDeviceEmpty;
 
-        class TextureResourceEmpty: public TextureResource
+        class TextureResourceEmpty: public RenderResource
         {
         public:
             TextureResourceEmpty(RenderDeviceEmpty& renderDeviceEmpty);

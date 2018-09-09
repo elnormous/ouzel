@@ -9,7 +9,6 @@
 #include "assets/Cache.hpp"
 #include "Layer.hpp"
 #include "scene/Camera.hpp"
-#include "graphics/BufferResource.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Utils.hpp"
 #include "math/MathUtils.hpp"

@@ -6,16 +6,17 @@
 
 #if OUZEL_COMPILE_METAL
 
-#include "graphics/BlendStateResource.hpp"
-
 #if defined(__OBJC__)
-#import <Metal/Metal.h>
+#  import <Metal/Metal.h>
 #else
-#include <objc/objc.h>
+#  include <objc/objc.h>
 typedef NSUInteger MTLBlendFactor;
 typedef NSUInteger MTLBlendOperation;
 typedef NSUInteger MTLColorWriteMask;
 #endif
+
+#include "graphics/RenderResource.hpp"
+#include "graphics/BlendState.hpp"
 
 namespace ouzel
 {
@@ -23,7 +24,7 @@ namespace ouzel
     {
         class RenderDeviceMetal;
 
-        class BlendStateResourceMetal: public BlendStateResource
+        class BlendStateResourceMetal: public RenderResource
         {
         public:
             BlendStateResourceMetal(RenderDeviceMetal& renderDeviceMetal);
@@ -45,6 +46,15 @@ namespace ouzel
             inline bool isMetalBlendingEnabled() const { return metalBlendingEnabled; }
 
         private:
+            BlendState::Factor colorBlendSource = BlendState::Factor::ONE;
+            BlendState::Factor colorBlendDest = BlendState::Factor::ZERO;
+            BlendState::Operation colorOperation = BlendState::Operation::ADD;
+            BlendState::Factor alphaBlendSource = BlendState::Factor::ONE;
+            BlendState::Factor alphaBlendDest = BlendState::Factor::ZERO;
+            BlendState::Operation alphaOperation = BlendState::Operation::ADD;
+            uint8_t colorMask = BlendState::COLOR_MASK_ALL;
+            bool enableBlending = false;
+
             MTLBlendOperation rgbBlendOperation;
             MTLBlendOperation alphaBlendOperation;
             MTLBlendFactor sourceRGBBlendFactor;

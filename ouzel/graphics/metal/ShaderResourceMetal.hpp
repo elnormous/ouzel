@@ -7,16 +7,17 @@
 #if OUZEL_COMPILE_METAL
 
 #if defined(__OBJC__)
-#import <Metal/Metal.h>
+#  import <Metal/Metal.h>
 typedef id<MTLFunction> MTLFunctionPtr;
 typedef MTLVertexDescriptor* MTLVertexDescriptorPtr;
 #else
-#include <objc/objc.h>
+#  include <objc/objc.h>
 typedef id MTLFunctionPtr;
 typedef id MTLVertexDescriptorPtr;
 #endif
 
-#include "graphics/ShaderResource.hpp"
+#include "graphics/RenderResource.hpp"
+#include "graphics/Shader.hpp"
 
 namespace ouzel
 {
@@ -24,7 +25,7 @@ namespace ouzel
     {
         class RenderDeviceMetal;
 
-        class ShaderResourceMetal: public ShaderResource
+        class ShaderResourceMetal: public RenderResource
         {
         public:
             explicit ShaderResourceMetal(RenderDeviceMetal& renderDeviceMetal);
@@ -46,6 +47,11 @@ namespace ouzel
                 uint32_t size;
             };
 
+            inline const std::set<Vertex::Attribute::Usage>& getVertexAttributes() const { return vertexAttributes; }
+
+            inline uint32_t getFragmentShaderAlignment() const { return fragmentShaderAlignment; }
+            inline uint32_t getVertexShaderAlignment() const { return vertexShaderAlignment; }
+
             inline const std::vector<Location>& getFragmentShaderConstantLocations() const { return fragmentShaderConstantLocations; }
             inline const std::vector<Location>& getVertexShaderConstantLocations() const { return vertexShaderConstantLocations; }
 
@@ -58,6 +64,18 @@ namespace ouzel
             inline uint32_t getVertexShaderConstantBufferSize() const { return vertexShaderConstantSize; }
 
         private:
+            std::set<Vertex::Attribute::Usage> vertexAttributes;
+
+            std::vector<uint8_t> fragmentShaderData;
+            std::vector<uint8_t> vertexShaderData;
+            std::string fragmentShaderFunction;
+            std::string vertexShaderFunction;
+
+            std::vector<Shader::ConstantInfo> fragmentShaderConstantInfo;
+            uint32_t fragmentShaderAlignment = 0;
+            std::vector<Shader::ConstantInfo> vertexShaderConstantInfo;
+            uint32_t vertexShaderAlignment = 0;
+
             MTLFunctionPtr fragmentShader = nil;
             MTLFunctionPtr vertexShader = nil;
 

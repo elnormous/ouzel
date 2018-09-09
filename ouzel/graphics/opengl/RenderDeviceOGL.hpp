@@ -109,7 +109,7 @@ extern PFNGLMAPBUFFERRANGEPROC glMapBufferRangeProc;
 #endif
 
 #include "graphics/RenderDevice.hpp"
-#include "graphics/TextureResource.hpp"
+#include "graphics/RenderResource.hpp"
 #include "graphics/opengl/ShaderResourceOGL.hpp"
 #include "utils/Errors.hpp"
 
@@ -511,11 +511,11 @@ namespace ouzel
             virtual void present();
             virtual void generateScreenshot(const std::string& filename) override;
 
-            virtual BlendStateResource* createBlendState() override;
-            virtual BufferResource* createBuffer() override;
-            virtual RenderTargetResource* createRenderTarget() override;
-            virtual ShaderResource* createShader() override;
-            virtual TextureResource* createTexture() override;
+            virtual RenderResource* createBlendState() override;
+            virtual RenderResource* createBuffer() override;
+            virtual RenderResource* createRenderTarget() override;
+            virtual RenderResource* createShader() override;
+            virtual RenderResource* createTexture() override;
 
             GLuint frameBufferId = 0;
             GLsizei frameBufferWidth = 0;
