@@ -57,22 +57,13 @@ namespace ouzel
             }
         }
 
-        void BlendStateResourceD3D11::init(bool newEnableBlending,
-                                           BlendState::Factor newColorBlendSource, BlendState::Factor newColorBlendDest,
-                                           BlendState::Operation newColorOperation,
-                                           BlendState::Factor newAlphaBlendSource, BlendState::Factor newAlphaBlendDest,
-                                           BlendState::Operation newAlphaOperation,
-                                           uint8_t newColorMask)
+        void BlendStateResourceD3D11::init(bool enableBlending,
+                                           BlendState::Factor colorBlendSource, BlendState::Factor colorBlendDest,
+                                           BlendState::Operation colorOperation,
+                                           BlendState::Factor alphaBlendSource, BlendState::Factor alphaBlendDest,
+                                           BlendState::Operation alphaOperation,
+                                           uint8_t colorMask)
         {
-            enableBlending = newEnableBlending;
-            colorBlendSource = newColorBlendSource;
-            colorBlendDest = newColorBlendDest;
-            colorOperation = newColorOperation;
-            alphaBlendSource = newAlphaBlendSource;
-            alphaBlendDest = newAlphaBlendDest;
-            alphaOperation = newAlphaOperation;
-            colorMask = newColorMask;
-
             // Blending state
             D3D11_BLEND_DESC blendStateDesc;
             blendStateDesc.AlphaToCoverageEnable = FALSE;

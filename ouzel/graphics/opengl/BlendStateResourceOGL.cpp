@@ -54,28 +54,19 @@ namespace ouzel
         {
         }
 
-        void BlendStateResourceOGL::init(bool newEnableBlending,
-                                         BlendState::Factor newColorBlendSource, BlendState::Factor newColorBlendDest,
-                                         BlendState::Operation newColorOperation,
-                                         BlendState::Factor newAlphaBlendSource, BlendState::Factor newAlphaBlendDest,
-                                         BlendState::Operation newAlphaOperation,
-                                         uint8_t newColorMask)
+        void BlendStateResourceOGL::init(bool enableBlending,
+                                         BlendState::Factor colorBlendSource, BlendState::Factor colorBlendDest,
+                                         BlendState::Operation colorOperation,
+                                         BlendState::Factor alphaBlendSource, BlendState::Factor alphaBlendDest,
+                                         BlendState::Operation alphaOperation,
+                                         uint8_t colorMask)
         {
-            enableBlending = newEnableBlending;
-            colorBlendSource = newColorBlendSource;
-            colorBlendDest = newColorBlendDest;
-            colorOperation = newColorOperation;
-            alphaBlendSource = newAlphaBlendSource;
-            alphaBlendDest = newAlphaBlendDest;
-            alphaOperation = newAlphaOperation;
-            colorMask = newColorMask;
-
             modeRGB = getBlendOperation(colorOperation);
             modeAlpha = getBlendOperation(alphaOperation);
 
             sourceFactorRGB = getBlendFactor(colorBlendSource);
             destFactorRGB = getBlendFactor(colorBlendDest);
-            sourceFactorAlpha = getBlendFactor(alphaBlendDest);
+            sourceFactorAlpha = getBlendFactor(alphaBlendSource);
             destFactorAlpha = getBlendFactor(alphaBlendDest);
 
             glBlendEnabled = enableBlending;
