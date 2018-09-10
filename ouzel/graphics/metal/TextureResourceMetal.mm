@@ -115,7 +115,12 @@ namespace ouzel
                 }
             }
 
-            return updateSamplerState();
+            samplerDescriptor.filter = renderDevice.getTextureFilter();
+            samplerDescriptor.addressX = Texture::Address::CLAMP;
+            samplerDescriptor.addressY = Texture::Address::CLAMP;
+            samplerDescriptor.maxAnisotropy = renderDevice.getMaxAnisotropy();
+
+            updateSamplerState();
         }
 
         void TextureResourceMetal::setData(const std::vector<Texture::Level>& levels)
@@ -142,31 +147,29 @@ namespace ouzel
             }
         }
 
-        void TextureResourceMetal::setFilter(Texture::Filter newFilter)
+        void TextureResourceMetal::setFilter(Texture::Filter filter)
         {
-            filter = newFilter;
-
+            RenderDeviceMetal& renderDeviceMetal = static_cast<RenderDeviceMetal&>(renderDevice);
+            samplerDescriptor.filter = (filter == Texture::Filter::DEFAULT) ? renderDeviceMetal.getTextureFilter() : filter;
             updateSamplerState();
         }
 
-        void TextureResourceMetal::setAddressX(Texture::Address newAddressX)
+        void TextureResourceMetal::setAddressX(Texture::Address addressX)
         {
-            addressX = newAddressX;
-
+            samplerDescriptor.addressX = addressX;
             updateSamplerState();
         }
 
-        void TextureResourceMetal::setAddressY(Texture::Address newAddressY)
+        void TextureResourceMetal::setAddressY(Texture::Address addressY)
         {
-            addressY = newAddressY;
-
+            samplerDescriptor.addressY = addressY;
             updateSamplerState();
         }
 
-        void TextureResourceMetal::setMaxAnisotropy(uint32_t newMaxAnisotropy)
+        void TextureResourceMetal::setMaxAnisotropy(uint32_t maxAnisotropy)
         {
-            maxAnisotropy = newMaxAnisotropy;
-
+            RenderDeviceMetal& renderDeviceMetal = static_cast<RenderDeviceMetal&>(renderDevice);
+            samplerDescriptor.maxAnisotropy = (maxAnisotropy == 0) ? renderDeviceMetal.getMaxAnisotropy() : maxAnisotropy;
             updateSamplerState();
         }
 
@@ -331,12 +334,6 @@ namespace ouzel
         void TextureResourceMetal::updateSamplerState()
         {
             RenderDeviceMetal& renderDeviceMetal = static_cast<RenderDeviceMetal&>(renderDevice);
-
-            RenderDeviceMetal::SamplerStateDescriptor samplerDescriptor;
-            samplerDescriptor.filter = (filter == Texture::Filter::DEFAULT) ? renderDeviceMetal.getTextureFilter() : filter;
-            samplerDescriptor.addressX = addressX;
-            samplerDescriptor.addressY = addressY;
-            samplerDescriptor.maxAnisotropy = (maxAnisotropy == 0) ? renderDeviceMetal.getMaxAnisotropy() : maxAnisotropy;
 
             if (samplerState) [samplerState release];
             samplerState = renderDeviceMetal.getSamplerState(samplerDescriptor);

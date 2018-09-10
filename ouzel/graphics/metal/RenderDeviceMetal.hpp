@@ -48,6 +48,7 @@ typedef NSUInteger MTLLoadAction;
 
 #include "graphics/RenderDevice.hpp"
 #include "graphics/metal/ShaderResourceMetal.hpp"
+#include "graphics/metal/TextureResourceMetal.hpp"
 
 namespace ouzel
 {
@@ -73,20 +74,6 @@ namespace ouzel
             void setClearDepth(float newClearDepth);
 
             inline MTLDevicePtr getDevice() const { return device; }
-
-            class SamplerStateDescriptor
-            {
-            public:
-                Texture::Filter filter;
-                Texture::Address addressX;
-                Texture::Address addressY;
-                uint32_t maxAnisotropy;
-
-                bool operator<(const SamplerStateDescriptor& other) const
-                {
-                    return std::tie(filter, addressX, addressY, maxAnisotropy) < std::tie(other.filter, other.addressX, other.addressY, other.maxAnisotropy);
-                }
-            };
 
             MTLSamplerStatePtr getSamplerState(const SamplerStateDescriptor& descriptor);
 

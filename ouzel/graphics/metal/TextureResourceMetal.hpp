@@ -31,6 +31,20 @@ namespace ouzel
     {
         class RenderDeviceMetal;
 
+        class SamplerStateDescriptor
+        {
+        public:
+            Texture::Filter filter;
+            Texture::Address addressX;
+            Texture::Address addressY;
+            uint32_t maxAnisotropy;
+
+            bool operator<(const SamplerStateDescriptor& other) const
+            {
+                return std::tie(filter, addressX, addressY, maxAnisotropy) < std::tie(other.filter, other.addressX, other.addressY, other.maxAnisotropy);
+            }
+        };
+
         class TextureResourceMetal: public RenderResource
         {
         public:
@@ -43,10 +57,10 @@ namespace ouzel
                       PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
 
             void setData(const std::vector<Texture::Level>& levels);
-            void setFilter(Texture::Filter newFilter);
-            void setAddressX(Texture::Address newAddressX);
-            void setAddressY(Texture::Address newAddressY);
-            void setMaxAnisotropy(uint32_t newMaxAnisotropy);
+            void setFilter(Texture::Filter filter);
+            void setAddressX(Texture::Address addressX);
+            void setAddressY(Texture::Address addressY);
+            void setMaxAnisotropy(uint32_t maxAnisotropy);
             void setClearColorBuffer(bool clear);
             void setClearDepthBuffer(bool clear);
             void setClearColor(Color color);
@@ -55,10 +69,6 @@ namespace ouzel
             inline uint32_t getFlags() const { return flags; }
             inline uint32_t getMipmaps() const { return mipmaps; }
 
-            inline Texture::Filter getFilter() const { return filter; }
-            inline Texture::Address getAddressX() const { return addressX; }
-            inline Texture::Address getAddressY() const { return addressY; }
-            inline uint32_t getMaxAnisotropy() const { return maxAnisotropy; }
             inline bool getClearColorBuffer() const { return clearColorBuffer; }
             inline bool getClearDepthBuffer() const { return clearDepthBuffer; }
             inline Color getClearColor() const { return clearColor; }
@@ -91,10 +101,8 @@ namespace ouzel
             float clearDepth = 1.0F;
             uint32_t sampleCount = 1;
             PixelFormat pixelFormat = PixelFormat::RGBA8_UNORM;
-            Texture::Filter filter = Texture::Filter::DEFAULT;
-            Texture::Address addressX = Texture::Address::CLAMP;
-            Texture::Address addressY = Texture::Address::CLAMP;
-            uint32_t maxAnisotropy = 0;
+
+            SamplerStateDescriptor samplerDescriptor;
 
             MTLTexturePtr texture = nil;
 
