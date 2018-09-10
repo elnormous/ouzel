@@ -22,6 +22,7 @@ typedef NSUInteger MTLLoadAction;
 #  define MTLLoadActionDontCare 0
 #endif
 
+#include <tuple>
 #include "graphics/RenderResource.hpp"
 #include "graphics/Texture.hpp"
 
