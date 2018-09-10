@@ -98,6 +98,11 @@ namespace ouzel
                 frameBufferClearColor[3] = clearColor.normA();
             }
 
+            samplerDesc.filter = renderDevice.getTextureFilter();
+            samplerDesc.addressX = Texture::Address::CLAMP;
+            samplerDesc.addressY = Texture::Address::CLAMP;
+            samplerDesc.maxAnisotropy = renderDevice.getMaxAnisotropy();
+
             updateSamplerState();
         }
 
@@ -174,30 +179,30 @@ namespace ouzel
             }
         }
 
-        void TextureResourceD3D11::setFilter(Texture::Filter newFilter)
+        void TextureResourceD3D11::setFilter(Texture::Filter filter)
         {
-            filter = newFilter;
+            samplerDescriptor.filter = filter;
 
             updateSamplerState();
         }
 
-        void TextureResourceD3D11::setAddressX(Texture::Address newAddressX)
+        void TextureResourceD3D11::setAddressX(Texture::Address addressX)
         {
-            addressX = newAddressX;
+            samplerDescriptor.addressX = addressX;
 
             updateSamplerState();
         }
 
-        void TextureResourceD3D11::setAddressY(Texture::Address newAddressY)
+        void TextureResourceD3D11::setAddressY(Texture::Address addressY)
         {
-            addressY = newAddressY;
+            samplerDescriptor.addressY = addressY;
 
             updateSamplerState();
         }
 
-        void TextureResourceD3D11::setMaxAnisotropy(uint32_t newMaxAnisotropy)
+        void TextureResourceD3D11::setMaxAnisotropy(uint32_t maxAnisotropy)
         {
-            maxAnisotropy = newMaxAnisotropy;
+            samplerDescriptor.maxAnisotropy = maxAnisotropy;
 
             updateSamplerState();
         }
@@ -371,12 +376,6 @@ namespace ouzel
         void TextureResourceD3D11::updateSamplerState()
         {
             RenderDeviceD3D11& renderDeviceD3D11 = static_cast<RenderDeviceD3D11&>(renderDevice);
-
-            RenderDeviceD3D11::SamplerStateDesc samplerDesc;
-            samplerDesc.filter = (filter == Texture::Filter::DEFAULT) ? renderDeviceD3D11.getTextureFilter() : filter;
-            samplerDesc.addressX = addressX;
-            samplerDesc.addressY = addressY;
-            samplerDesc.maxAnisotropy = (maxAnisotropy == 0) ? renderDeviceD3D11.getMaxAnisotropy() : maxAnisotropy;
 
             if (samplerState) samplerState->Release();
             samplerState = renderDeviceD3D11.getSamplerState(samplerDesc);
