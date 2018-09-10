@@ -224,9 +224,8 @@ namespace ouzel
                                       PixelFormat newPixelFormat)
         {
             levels = newLevels;
-            size = newLevels.front().size;
             flags = newFlags;
-            mipmaps = static_cast<uint32_t>(newLevels.size());
+            mipmaps = static_cast<uint32_t>(levels.size());
             sampleCount = newSampleCount;
             pixelFormat = newPixelFormat;
 
@@ -580,8 +579,8 @@ namespace ouzel
 
             renderDeviceOGL.bindTexture(textureId, 0);
 
-            width = static_cast<GLsizei>(size.width);
-            height = static_cast<GLsizei>(size.height);
+            width = static_cast<GLsizei>(levels.front().size.width);
+            height = static_cast<GLsizei>(levels.front().size.height);
 
             oglInternalPixelFormat = getOGLInternalPixelFormat(pixelFormat, renderDeviceOGL.getAPIMajorVersion());
 

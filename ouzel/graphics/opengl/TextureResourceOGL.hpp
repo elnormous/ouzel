@@ -50,8 +50,6 @@ namespace ouzel
             void setClearColor(Color color);
             void setClearDepth(float newClearDepth);
 
-            inline const Size2& getSize() const { return size; }
-
             inline uint32_t getFlags() const { return flags; }
             inline uint32_t getMipmaps() const { return mipmaps; }
 
@@ -79,7 +77,6 @@ namespace ouzel
             void createTexture();
             void setTextureParameters();
 
-            Size2 size;
             uint32_t flags = 0;
             uint32_t mipmaps = 0;
             bool clearColorBuffer = true;

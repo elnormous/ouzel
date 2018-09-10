@@ -70,22 +70,20 @@ namespace ouzel
                 [samplerState release];
         }
 
-        void TextureResourceMetal::init(const std::vector<Texture::Level>& newLevels,
+        void TextureResourceMetal::init(const std::vector<Texture::Level>& levels,
                                         uint32_t newFlags,
                                         uint32_t newSampleCount,
                                         PixelFormat newPixelFormat)
         {
-            levels = newLevels;
-            size = newLevels.front().size;
             flags = newFlags;
-            mipmaps = static_cast<uint32_t>(newLevels.size());
+            mipmaps = static_cast<uint32_t>(levels.size());
             sampleCount = newSampleCount;
             pixelFormat = newPixelFormat;
 
             if ((flags & Texture::RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
                 throw DataError("Invalid mip map count");
 
-            createTexture();
+            createTexture(levels);
 
             if (flags & Texture::RENDER_TARGET)
             {
@@ -120,15 +118,13 @@ namespace ouzel
             return updateSamplerState();
         }
 
-        void TextureResourceMetal::setData(const std::vector<Texture::Level>& newLevels)
+        void TextureResourceMetal::setData(const std::vector<Texture::Level>& levels)
         {
             if (!(flags & Texture::DYNAMIC) || flags & Texture::RENDER_TARGET)
                 throw DataError("Texture is not dynamic");
 
-            levels = newLevels;
-
             if (!texture)
-                createTexture();
+                createTexture(levels);
 
             if (!(flags & Texture::RENDER_TARGET))
             {
@@ -211,7 +207,7 @@ namespace ouzel
             renderPassDescriptor.depthAttachment.clearDepth = clearDepth;
         }
 
-        void TextureResourceMetal::createTexture()
+        void TextureResourceMetal::createTexture(const std::vector<Texture::Level>& levels)
         {
             if (texture)
             {
@@ -239,8 +235,8 @@ namespace ouzel
 
             RenderDeviceMetal& renderDeviceMetal = static_cast<RenderDeviceMetal&>(renderDevice);
 
-            width = static_cast<NSUInteger>(size.width);
-            height = static_cast<NSUInteger>(size.height);
+            width = static_cast<NSUInteger>(levels.front().size.width);
+            height = static_cast<NSUInteger>(levels.front().size.height);
 
             if (width > 0 && height > 0)
             {
