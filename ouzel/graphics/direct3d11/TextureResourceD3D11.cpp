@@ -231,7 +231,7 @@ namespace ouzel
             clearDepth = newClearDepth;
         }
 
-        void TextureResourceD3D11::createTexture()
+        void TextureResourceD3D11::createTexture(const std::vector<Texture::Level>& levels)
         {
             if (texture)
                 texture->Release();
