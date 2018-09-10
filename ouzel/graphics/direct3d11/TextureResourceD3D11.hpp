@@ -89,7 +89,7 @@ namespace ouzel
             float clearDepth = 1.0F;
             uint32_t sampleCount = 1;
             PixelFormat pixelFormat = PixelFormat::RGBA8_UNORM;
-            SamplerStateDesc samplerDesc;
+            SamplerStateDesc samplerDescriptor;
 
             ID3D11Texture2D* texture = nullptr;
             ID3D11ShaderResourceView* resourceView = nullptr;
