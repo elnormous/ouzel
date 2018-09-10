@@ -6,6 +6,7 @@
 
 #if OUZEL_COMPILE_DIRECT3D11
 
+#include <tuple>
 #include <d3d11.h>
 #include "graphics/RenderResource.hpp"
 #include "graphics/Texture.hpp"
