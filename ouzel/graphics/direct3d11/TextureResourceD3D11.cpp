@@ -98,10 +98,10 @@ namespace ouzel
                 frameBufferClearColor[3] = clearColor.normA();
             }
 
-            samplerDesc.filter = renderDevice.getTextureFilter();
-            samplerDesc.addressX = Texture::Address::CLAMP;
-            samplerDesc.addressY = Texture::Address::CLAMP;
-            samplerDesc.maxAnisotropy = renderDevice.getMaxAnisotropy();
+            samplerDescriptor.filter = renderDevice.getTextureFilter();
+            samplerDescriptor.addressX = Texture::Address::CLAMP;
+            samplerDescriptor.addressY = Texture::Address::CLAMP;
+            samplerDescriptor.maxAnisotropy = renderDevice.getMaxAnisotropy();
 
             updateSamplerState();
         }
@@ -378,7 +378,7 @@ namespace ouzel
             RenderDeviceD3D11& renderDeviceD3D11 = static_cast<RenderDeviceD3D11&>(renderDevice);
 
             if (samplerState) samplerState->Release();
-            samplerState = renderDeviceD3D11.getSamplerState(samplerDesc);
+            samplerState = renderDeviceD3D11.getSamplerState(samplerDescriptor);
 
             if (!samplerState)
                 throw DataError("Failed to get D3D11 sampler state");
