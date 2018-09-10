@@ -129,6 +129,9 @@ namespace ouzel
 
         // looper
         looper = ALooper_forThread(); // this is called on main thread, so it is safe to get the looper here
+        if (!looper)
+            throw SystemError("Main thread has no looper");
+
         ALooper_acquire(looper);
         if (pipe(fd) != 0)
             throw SystemError("Failed to create pipe, error: " + std::to_string(errno));
