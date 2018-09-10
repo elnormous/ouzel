@@ -250,7 +250,7 @@ namespace ouzel
 
     void EngineAndroid::handleInputQueueCreate(AInputQueue* queue)
     {
-        //AInputQueue_attachLooper(queue, looper, LOOPER_ID_INPUT, inputCallback, this);
+        AInputQueue_attachLooper(queue, looper, ALOOPER_POLL_CALLBACK, inputCallback, this);
     }
 
     void EngineAndroid::handleInputQueueDestroy(AInputQueue* queue)
