@@ -75,22 +75,20 @@ namespace ouzel
                 samplerState->Release();
         }
 
-        void TextureResourceD3D11::init(const std::vector<Texture::Level>& newLevels,
+        void TextureResourceD3D11::init(const std::vector<Texture::Level>& levels,
                                         uint32_t newFlags,
                                         uint32_t newSampleCount,
                                         PixelFormat newPixelFormat)
         {
-            levels = newLevels;
-            size = newLevels.front().size;
             flags = newFlags;
-            mipmaps = static_cast<uint32_t>(newLevels.size());
+            mipmaps = static_cast<uint32_t>(levels.size());
             sampleCount = newSampleCount;
             pixelFormat = newPixelFormat;
 
             if ((flags & Texture::RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
                 throw DataError("Invalid mip map count");
 
-            createTexture();
+            createTexture(levels);
 
             if (flags & Texture::RENDER_TARGET)
             {
@@ -103,17 +101,15 @@ namespace ouzel
             updateSamplerState();
         }
 
-        void TextureResourceD3D11::setData(const std::vector<Texture::Level>& newLevels)
+        void TextureResourceD3D11::setData(const std::vector<Texture::Level>& levels)
         {
             if (!(flags & Texture::DYNAMIC) || flags & Texture::RENDER_TARGET)
                 throw DataError("Texture is not dynamic");
 
-            levels = newLevels;
-
             RenderDeviceD3D11& renderDeviceD3D11 = static_cast<RenderDeviceD3D11&>(renderDevice);
 
             if (!texture)
-                createTexture();
+                createTexture(levels);
             else if (!(flags & Texture::RENDER_TARGET))
             {
                 if (flags & Texture::DYNAMIC)
@@ -264,8 +260,8 @@ namespace ouzel
                 depthStencilView = nullptr;
             }
 
-            width = static_cast<UINT>(size.width);
-            height = static_cast<UINT>(size.height);
+            width = static_cast<UINT>(levels.front().size.width);
+            height = static_cast<UINT>(levels.front().size.height);
 
             if (width > 0 && height > 0)
             {

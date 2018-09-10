@@ -37,12 +37,12 @@ namespace ouzel
             explicit TextureResourceMetal(RenderDeviceMetal& renderDeviceMetal);
             virtual ~TextureResourceMetal();
 
-            void init(const std::vector<Texture::Level>& newLevels,
+            void init(const std::vector<Texture::Level>& levels,
                       uint32_t newFlags = 0,
                       uint32_t newSampleCount = 1,
                       PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
 
-            void setData(const std::vector<Texture::Level>& newLevels);
+            void setData(const std::vector<Texture::Level>& levels);
             void setFilter(Texture::Filter newFilter);
             void setAddressX(Texture::Address newAddressX);
             void setAddressY(Texture::Address newAddressY);
@@ -51,8 +51,6 @@ namespace ouzel
             void setClearDepthBuffer(bool clear);
             void setClearColor(Color color);
             void setClearDepth(float newClearDepth);
-
-            inline const Size2& getSize() const { return size; }
 
             inline uint32_t getFlags() const { return flags; }
             inline uint32_t getMipmaps() const { return mipmaps; }
@@ -82,17 +80,15 @@ namespace ouzel
             inline MTLLoadAction getDepthBufferLoadAction() const { return depthBufferLoadAction; }
 
         private:
-            void createTexture();
+            void createTexture(const std::vector<Texture::Level>& levels);
             void updateSamplerState();
 
-            Size2 size;
             uint32_t flags = 0;
             uint32_t mipmaps = 0;
             bool clearColorBuffer = true;
             bool clearDepthBuffer = false;
             Color clearColor;
             float clearDepth = 1.0F;
-            std::vector<Texture::Level> levels;
             uint32_t sampleCount = 1;
             PixelFormat pixelFormat = PixelFormat::RGBA8_UNORM;
             Texture::Filter filter = Texture::Filter::DEFAULT;
