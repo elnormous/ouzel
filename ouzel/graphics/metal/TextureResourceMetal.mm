@@ -149,8 +149,7 @@ namespace ouzel
 
         void TextureResourceMetal::setFilter(Texture::Filter filter)
         {
-            RenderDeviceMetal& renderDeviceMetal = static_cast<RenderDeviceMetal&>(renderDevice);
-            samplerDescriptor.filter = (filter == Texture::Filter::DEFAULT) ? renderDeviceMetal.getTextureFilter() : filter;
+            samplerDescriptor.filter = (filter == Texture::Filter::DEFAULT) ? renderDevice.getTextureFilter() : filter;
             updateSamplerState();
         }
 
@@ -168,8 +167,7 @@ namespace ouzel
 
         void TextureResourceMetal::setMaxAnisotropy(uint32_t maxAnisotropy)
         {
-            RenderDeviceMetal& renderDeviceMetal = static_cast<RenderDeviceMetal&>(renderDevice);
-            samplerDescriptor.maxAnisotropy = (maxAnisotropy == 0) ? renderDeviceMetal.getMaxAnisotropy() : maxAnisotropy;
+            samplerDescriptor.maxAnisotropy = (maxAnisotropy == 0) ? renderDevice.getMaxAnisotropy() : maxAnisotropy;
             updateSamplerState();
         }
 

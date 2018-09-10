@@ -181,29 +181,25 @@ namespace ouzel
 
         void TextureResourceD3D11::setFilter(Texture::Filter filter)
         {
-            samplerDescriptor.filter = filter;
-
+            samplerDescriptor.filter = (filter == Texture::Filter::DEFAULT) ? renderDevice.getTextureFilter() : filter;
             updateSamplerState();
         }
 
         void TextureResourceD3D11::setAddressX(Texture::Address addressX)
         {
             samplerDescriptor.addressX = addressX;
-
             updateSamplerState();
         }
 
         void TextureResourceD3D11::setAddressY(Texture::Address addressY)
         {
             samplerDescriptor.addressY = addressY;
-
             updateSamplerState();
         }
 
         void TextureResourceD3D11::setMaxAnisotropy(uint32_t maxAnisotropy)
         {
-            samplerDescriptor.maxAnisotropy = maxAnisotropy;
-
+            samplerDescriptor.maxAnisotropy = (maxAnisotropy == 0) ? renderDevice.getMaxAnisotropy() : maxAnisotropy;
             updateSamplerState();
         }
 
