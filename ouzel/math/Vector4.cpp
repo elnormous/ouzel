@@ -39,7 +39,7 @@ namespace ouzel
         return *this;
     }
 
-    Vector4::Vector4(const Color& color)
+    Vector4::Vector4(Color color)
     {
         x = color.normR();
         y = color.normG();
@@ -47,7 +47,7 @@ namespace ouzel
         w = color.normA();
     }
 
-    Vector4& Vector4::operator=(const Color& color)
+    Vector4& Vector4::operator=(Color color)
     {
         x = color.normR();
         y = color.normG();

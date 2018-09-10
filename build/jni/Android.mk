@@ -81,19 +81,14 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/graphics/opengl/ShaderResourceOGL.cpp \
     ../../ouzel/graphics/opengl/TextureResourceOGL.cpp \
     ../../ouzel/graphics/BlendState.cpp \
-    ../../ouzel/graphics/BlendStateResource.cpp \
     ../../ouzel/graphics/Buffer.cpp \
-    ../../ouzel/graphics/BufferResource.cpp \
     ../../ouzel/graphics/ImageData.cpp \
     ../../ouzel/graphics/Material.cpp \
     ../../ouzel/graphics/Renderer.cpp \
     ../../ouzel/graphics/RenderDevice.cpp \
 	../../ouzel/graphics/RenderTarget.cpp \
-	../../ouzel/graphics/RenderTargetResource.cpp \
     ../../ouzel/graphics/Shader.cpp \
-    ../../ouzel/graphics/ShaderResource.cpp \
     ../../ouzel/graphics/Texture.cpp \
-    ../../ouzel/graphics/TextureResource.cpp \
     ../../ouzel/graphics/Vertex.cpp \
     ../../ouzel/gui/BMFont.cpp \
     ../../ouzel/gui/TTFont.cpp \

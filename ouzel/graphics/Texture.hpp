@@ -13,7 +13,7 @@ namespace ouzel
     namespace graphics
     {
         class Renderer;
-        class TextureResource;
+        class RenderResource;
 
         class Texture final
         {
@@ -76,7 +76,7 @@ namespace ouzel
                       uint32_t newFlags = 0,
                       PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
 
-            inline TextureResource* getResource() const { return resource; }
+            inline RenderResource* getResource() const { return resource; }
 
             inline const Size2& getSize() const { return size; }
 
@@ -115,17 +115,17 @@ namespace ouzel
 
         private:
             Renderer& renderer;
-            TextureResource* resource = nullptr;
+            RenderResource* resource = nullptr;
 
             Size2 size;
             uint32_t flags = 0;
             uint32_t mipmaps = 0;
             bool clearColorBuffer = true;
             bool clearDepthBuffer = false;
+            Color clearColor;
             float clearDepth = 1.0F;
             uint32_t sampleCount = 1;
             PixelFormat pixelFormat = PixelFormat::RGBA8_UNORM;
-            Color clearColor;
             Filter filter = Texture::Filter::DEFAULT;
             Address addressX = Texture::Address::CLAMP;
             Address addressY = Texture::Address::CLAMP;

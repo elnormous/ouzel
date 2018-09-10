@@ -301,14 +301,29 @@ namespace ouzel
             renderThread = std::thread(&RenderDeviceD3D11::main, this);
         }
 
-        void RenderDeviceD3D11::setClearColor(Color color)
+        void RenderDeviceD3D11::setClearColorBuffer(bool clear)
         {
-            RenderDevice::setClearColor(color);
+            clearColorBuffer = clear;
+        }
+
+        void RenderDeviceD3D11::setClearDepthBuffer(bool clear)
+        {
+            clearDepthBuffer = clear;
+        }
+
+        void RenderDeviceD3D11::setClearColor(Color newClearColor)
+        {
+            clearColor = newClearColor;
 
             frameBufferClearColor[0] = clearColor.normR();
             frameBufferClearColor[1] = clearColor.normG();
             frameBufferClearColor[2] = clearColor.normB();
             frameBufferClearColor[3] = clearColor.normA();
+        }
+
+        void RenderDeviceD3D11::setClearDepth(float newClearDepth)
+        {
+            clearDepth = newClearDepth;
         }
 
         void RenderDeviceD3D11::setSize(const Size2& newSize)
@@ -345,17 +360,19 @@ namespace ouzel
             {
                 {
                     std::unique_lock<std::mutex> lock(commandQueueMutex);
-                    while (!queueFinished && commandQueue.empty()) commandQueueCondition.wait(lock);
-                    if (!commandQueue.empty())
-                    {
-                        command = std::move(commandQueue.front());
-                        commandQueue.pop();
-                    }
-                    else if (queueFinished) break;
+                    while (commandQueue.empty()) commandQueueCondition.wait(lock);
+                    command = std::move(commandQueue.front());
+                    commandQueue.pop();
                 }
 
                 switch (command->type)
                 {
+                    case Command::Type::PRESENT:
+                    {
+                        swapChain->Present(swapInterval, 0);
+                        break;
+                    }
+
                     case Command::Type::SET_RENDER_TARGET:
                     {
                         const SetRenderTargetCommand* setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command.get());
@@ -383,9 +400,33 @@ namespace ouzel
                         break;
                     }
 
-                    case Command::Type::CLEAR:
+                    case Command::Type::SET_RENDER_TARGET_PARAMETERS:
                     {
-                        const ClearCommand* clearCommand = static_cast<const ClearCommand*>(command.get());
+                        const SetRenderTargetParametersCommand* setRenderTargetParametersCommand = static_cast<const SetRenderTargetParametersCommand*>(command.get());
+
+                        TextureResourceD3D11* renderTargetD3D11 = static_cast<TextureResourceD3D11*>(setRenderTargetParametersCommand->renderTarget);
+
+                        if (renderTargetD3D11)
+                        {
+                            renderTargetD3D11->setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
+                            renderTargetD3D11->setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
+                            renderTargetD3D11->setClearColor(setRenderTargetParametersCommand->clearColor);
+                            renderTargetD3D11->setClearDepth(setRenderTargetParametersCommand->clearDepth);
+                        }
+                        else
+                        {
+                            setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
+                            setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
+                            setClearColor(setRenderTargetParametersCommand->clearColor);
+                            setClearDepth(setRenderTargetParametersCommand->clearDepth);
+                        }
+
+                        break;
+                    }
+
+                    case Command::Type::CLEAR_RENDER_TARGET:
+                    {
+                        const ClearRenderTargetCommand* clearCommand = static_cast<const ClearRenderTargetCommand*>(command.get());
 
                         ID3D11RenderTargetView* newRenderTargetView = nullptr;
                         ID3D11DepthStencilView* newDepthStencilView = nullptr;
@@ -633,14 +674,15 @@ namespace ouzel
                     {
                         const InitBlendStateCommand* initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command.get());
 
-                        initBlendStateCommand->blendState->init(initBlendStateCommand->enableBlending,
-                                                                initBlendStateCommand->colorBlendSource,
-                                                                initBlendStateCommand->colorBlendDest,
-                                                                initBlendStateCommand->colorOperation,
-                                                                initBlendStateCommand->alphaBlendSource,
-                                                                initBlendStateCommand->alphaBlendDest,
-                                                                initBlendStateCommand->alphaOperation,
-                                                                initBlendStateCommand->colorMask);
+                        BlendStateResourceD3D11* blendStateResourceD3D11 = static_cast<BlendStateResourceD3D11*>(initBlendStateCommand->blendState);
+                        blendStateResourceD3D11->init(initBlendStateCommand->enableBlending,
+                                                      initBlendStateCommand->colorBlendSource,
+                                                      initBlendStateCommand->colorBlendDest,
+                                                      initBlendStateCommand->colorOperation,
+                                                      initBlendStateCommand->alphaBlendSource,
+                                                      initBlendStateCommand->alphaBlendDest,
+                                                      initBlendStateCommand->alphaOperation,
+                                                      initBlendStateCommand->colorMask);
                         break;
                     }
 
@@ -648,10 +690,11 @@ namespace ouzel
                     {
                         const InitBufferCommand* initBufferCommand = static_cast<const InitBufferCommand*>(command.get());
 
-                        initBufferCommand->buffer->init(initBufferCommand->usage,
-                                                        initBufferCommand->flags,
-                                                        initBufferCommand->data,
-                                                        initBufferCommand->size);
+                        BufferResourceD3D11* bufferResourceD3D11 = static_cast<BufferResourceD3D11*>(initBufferCommand->buffer);
+                        bufferResourceD3D11->init(initBufferCommand->usage,
+                                                  initBufferCommand->flags,
+                                                  initBufferCommand->data,
+                                                  initBufferCommand->size);
                         break;
                     }
 
@@ -659,7 +702,8 @@ namespace ouzel
                     {
                         const SetBufferDataCommand* setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command.get());
 
-                        setBufferDataCommand->buffer->setData(setBufferDataCommand->data);
+                        BufferResourceD3D11* bufferResourceD3D11 = static_cast<BufferResourceD3D11*>(setBufferDataCommand->buffer);
+                        bufferResourceD3D11->setData(setBufferDataCommand->data);
                         break;
                     }
 
@@ -667,15 +711,16 @@ namespace ouzel
                     {
                         const InitShaderCommand* initShaderCommand = static_cast<const InitShaderCommand*>(command.get());
 
-                        initShaderCommand->shader->init(initShaderCommand->fragmentShader,
-                                                        initShaderCommand->vertexShader,
-                                                        initShaderCommand->vertexAttributes,
-                                                        initShaderCommand->fragmentShaderConstantInfo,
-                                                        initShaderCommand->vertexShaderConstantInfo,
-                                                        initShaderCommand->fragmentShaderDataAlignment,
-                                                        initShaderCommand->vertexShaderDataAlignment,
-                                                        initShaderCommand->fragmentShaderFunction,
-                                                        initShaderCommand->vertexShaderFunction);
+                        ShaderResourceD3D11* shaderResourceD3D11 = static_cast<ShaderResourceD3D11*>(initShaderCommand->shader);
+                        shaderResourceD3D11->init(initShaderCommand->fragmentShader,
+                                                  initShaderCommand->vertexShader,
+                                                  initShaderCommand->vertexAttributes,
+                                                  initShaderCommand->fragmentShaderConstantInfo,
+                                                  initShaderCommand->vertexShaderConstantInfo,
+                                                  initShaderCommand->fragmentShaderDataAlignment,
+                                                  initShaderCommand->vertexShaderDataAlignment,
+                                                  initShaderCommand->fragmentShaderFunction,
+                                                  initShaderCommand->vertexShaderFunction);
 
                         break;
                     }
@@ -746,10 +791,11 @@ namespace ouzel
                     {
                         const InitTextureCommand* initTextureCommand = static_cast<const InitTextureCommand*>(command.get());
 
-                        initTextureCommand->texture->init(initTextureCommand->levels,
-                                                          initTextureCommand->flags,
-                                                          initTextureCommand->sampleCount,
-                                                          initTextureCommand->pixelFormat);
+                        TextureResourceD3D11* textureResourceD3D11 = static_cast<TextureResourceD3D11*>(initTextureCommand->texture);
+                        textureResourceD3D11->init(initTextureCommand->levels,
+                                                   initTextureCommand->flags,
+                                                   initTextureCommand->sampleCount,
+                                                   initTextureCommand->pixelFormat);
 
                         break;
                     }
@@ -758,7 +804,8 @@ namespace ouzel
                     {
                         const SetTextureDataCommand* setTextureDataCommand = static_cast<const SetTextureDataCommand*>(command.get());
 
-                        setTextureDataCommand->texture->setData(setTextureDataCommand->levels);
+                        TextureResourceD3D11* textureResourceD3D11 = static_cast<TextureResourceD3D11*>(setTextureDataCommand->texture);
+                        textureResourceD3D11->setData(setTextureDataCommand->levels);
 
                         break;
                     }
@@ -767,14 +814,11 @@ namespace ouzel
                     {
                         const SetTextureParametersCommand* setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
 
-                        setTextureParametersCommand->texture->setFilter(setTextureParametersCommand->filter);
-                        setTextureParametersCommand->texture->setAddressX(setTextureParametersCommand->addressX);
-                        setTextureParametersCommand->texture->setAddressY(setTextureParametersCommand->addressY);
-                        setTextureParametersCommand->texture->setMaxAnisotropy(setTextureParametersCommand->maxAnisotropy);
-                        setTextureParametersCommand->texture->setClearColorBuffer(setTextureParametersCommand->clearColorBuffer);
-                        setTextureParametersCommand->texture->setClearDepthBuffer(setTextureParametersCommand->clearDepthBuffer);
-                        setTextureParametersCommand->texture->setClearColor(setTextureParametersCommand->clearColor);
-                        setTextureParametersCommand->texture->setClearDepth(setTextureParametersCommand->clearDepth);
+                        TextureResourceD3D11* textureResourceD3D11 = static_cast<TextureResourceD3D11*>(setTextureParametersCommand->texture);
+                        textureResourceD3D11->setFilter(setTextureParametersCommand->filter);
+                        textureResourceD3D11->setAddressX(setTextureParametersCommand->addressX);
+                        textureResourceD3D11->setAddressY(setTextureParametersCommand->addressY);
+                        textureResourceD3D11->setMaxAnisotropy(setTextureParametersCommand->maxAnisotropy);
 
                         break;
                     }
@@ -811,9 +855,9 @@ namespace ouzel
                     default:
                         throw SystemError("Invalid command");
                 }
-            }
 
-            swapChain->Present(swapInterval, 0);
+                if (command->type == Command::Type::PRESENT) break;
+            }
         }
 
         IDXGIOutput* RenderDeviceD3D11::getOutput() const
@@ -963,47 +1007,47 @@ namespace ouzel
             texture->Release();
         }
 
-        BlendStateResource* RenderDeviceD3D11::createBlendState()
+        RenderResource* RenderDeviceD3D11::createBlendState()
         {
             std::unique_lock<std::mutex> lock(resourceMutex);
 
-            BlendStateResource* blendState = new BlendStateResourceD3D11(*this);
+            RenderResource* blendState = new BlendStateResourceD3D11(*this);
             resources.push_back(std::unique_ptr<RenderResource>(blendState));
             return blendState;
         }
 
-        BufferResource* RenderDeviceD3D11::createBuffer()
+        RenderResource* RenderDeviceD3D11::createBuffer()
         {
             std::unique_lock<std::mutex> lock(resourceMutex);
 
-            BufferResource* buffer = new BufferResourceD3D11(*this);
+            RenderResource* buffer = new BufferResourceD3D11(*this);
             resources.push_back(std::unique_ptr<RenderResource>(buffer));
             return buffer;
         }
 
-        RenderTargetResource* RenderDeviceD3D11::createRenderTarget()
+        RenderResource* RenderDeviceD3D11::createRenderTarget()
         {
             std::unique_lock<std::mutex> lock(resourceMutex);
 
-            RenderTargetResource* renderTarget = new RenderTargetResourceD3D11(*this);
+            RenderResource* renderTarget = new RenderTargetResourceD3D11(*this);
             resources.push_back(std::unique_ptr<RenderResource>(renderTarget));
             return renderTarget;
         }
 
-        ShaderResource* RenderDeviceD3D11::createShader()
+        RenderResource* RenderDeviceD3D11::createShader()
         {
             std::unique_lock<std::mutex> lock(resourceMutex);
 
-            ShaderResource* shader = new ShaderResourceD3D11(*this);
+            RenderResource* shader = new ShaderResourceD3D11(*this);
             resources.push_back(std::unique_ptr<RenderResource>(shader));
             return shader;
         }
 
-        TextureResource* RenderDeviceD3D11::createTexture()
+        RenderResource* RenderDeviceD3D11::createTexture()
         {
             std::unique_lock<std::mutex> lock(resourceMutex);
 
-            TextureResource* texture = new TextureResourceD3D11(*this);
+            RenderResource* texture = new TextureResourceD3D11(*this);
             resources.push_back(std::unique_ptr<RenderResource>(texture));
             return texture;
         }

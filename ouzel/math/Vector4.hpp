@@ -66,8 +66,8 @@ namespace ouzel
         Vector4(const Vector3& v);
         Vector4& operator=(const Vector3& v);
 
-        Vector4(const Color& color);
-        Vector4& operator=(const Color& color);
+        Vector4(Color color);
+        Vector4& operator=(Color color);
 
         bool isZero() const
         {

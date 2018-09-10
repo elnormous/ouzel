@@ -18,7 +18,8 @@
 #  include "GL/glext.h"
 #endif
 
-#include "graphics/TextureResource.hpp"
+#include "graphics/opengl/RenderResourceOGL.hpp"
+#include "graphics/Texture.hpp"
 
 namespace ouzel
 {
@@ -26,27 +27,42 @@ namespace ouzel
     {
         class RenderDeviceOGL;
 
-        class TextureResourceOGL: public TextureResource
+        class TextureResourceOGL: public RenderResourceOGL
         {
         public:
             explicit TextureResourceOGL(RenderDeviceOGL& renderDeviceOGL);
             virtual ~TextureResourceOGL();
 
-            virtual void init(const std::vector<Texture::Level>& newLevels,
-                              uint32_t newFlags = 0,
-                              uint32_t newSampleCount = 1,
-                              PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM) override;
+            void init(const std::vector<Texture::Level>& newLevels,
+                      uint32_t newFlags = 0,
+                      uint32_t newSampleCount = 1,
+                      PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
 
             virtual void reload() override;
 
-            virtual void setData(const std::vector<Texture::Level>& newLevels) override;
-            virtual void setFilter(Texture::Filter newFilter) override;
-            virtual void setAddressX(Texture::Address newAddressX) override;
-            virtual void setAddressY(Texture::Address newAddressY) override;
-            virtual void setMaxAnisotropy(uint32_t newMaxAnisotropy) override;
-            virtual void setClearColorBuffer(bool clear) override;
-            virtual void setClearDepthBuffer(bool clear) override;
-            virtual void setClearColor(Color color) override;
+            void setData(const std::vector<Texture::Level>& newLevels);
+            void setFilter(Texture::Filter newFilter);
+            void setAddressX(Texture::Address newAddressX);
+            void setAddressY(Texture::Address newAddressY);
+            void setMaxAnisotropy(uint32_t newMaxAnisotropy);
+            void setClearColorBuffer(bool clear);
+            void setClearDepthBuffer(bool clear);
+            void setClearColor(Color color);
+            void setClearDepth(float newClearDepth);
+
+            inline uint32_t getFlags() const { return flags; }
+            inline uint32_t getMipmaps() const { return mipmaps; }
+
+            inline Texture::Filter getFilter() const { return filter; }
+            inline Texture::Address getAddressX() const { return addressX; }
+            inline Texture::Address getAddressY() const { return addressY; }
+            inline uint32_t getMaxAnisotropy() const { return maxAnisotropy; }
+            inline bool getClearColorBuffer() const { return clearColorBuffer; }
+            inline bool getClearDepthBuffer() const { return clearDepthBuffer; }
+            inline Color getClearColor() const { return clearColor; }
+            inline float getClearDepth() const { return clearDepth; }
+            inline uint32_t getSampleCount() const { return sampleCount; }
+            inline PixelFormat getPixelFormat() const { return pixelFormat; }
 
             inline GLuint getTextureId() const { return textureId; }
 
@@ -60,6 +76,20 @@ namespace ouzel
         private:
             void createTexture();
             void setTextureParameters();
+
+            uint32_t flags = 0;
+            uint32_t mipmaps = 0;
+            bool clearColorBuffer = true;
+            bool clearDepthBuffer = false;
+            Color clearColor;
+            float clearDepth = 1.0F;
+            std::vector<Texture::Level> levels;
+            uint32_t sampleCount = 1;
+            PixelFormat pixelFormat = PixelFormat::RGBA8_UNORM;
+            Texture::Filter filter = Texture::Filter::DEFAULT;
+            Texture::Address addressX = Texture::Address::CLAMP;
+            Texture::Address addressY = Texture::Address::CLAMP;
+            uint32_t maxAnisotropy = 0;
 
             GLuint textureId = 0;
 

@@ -14,7 +14,7 @@ namespace ouzel
     namespace graphics
     {
         TextureResourceOGL::TextureResourceOGL(RenderDeviceOGL& renderDeviceOGL):
-            TextureResource(renderDeviceOGL)
+            RenderResourceOGL(renderDeviceOGL)
         {
         }
 
@@ -223,10 +223,14 @@ namespace ouzel
                                       uint32_t newSampleCount,
                                       PixelFormat newPixelFormat)
         {
-            TextureResource::init(newLevels,
-                                  newFlags,
-                                  newSampleCount,
-                                  newPixelFormat);
+            levels = newLevels;
+            flags = newFlags;
+            mipmaps = static_cast<uint32_t>(levels.size());
+            sampleCount = newSampleCount;
+            pixelFormat = newPixelFormat;
+
+            if ((flags & Texture::RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
+                throw DataError("Invalid mip map count");
 
             createTexture();
 
@@ -339,7 +343,10 @@ namespace ouzel
 
         void TextureResourceOGL::setData(const std::vector<Texture::Level>& newLevels)
         {
-            TextureResource::setData(newLevels);
+            if (!(flags & Texture::DYNAMIC) || flags & Texture::RENDER_TARGET)
+                throw DataError("Texture is not dynamic");
+
+            levels = newLevels;
 
             if (!textureId)
                 throw DataError("Texture not initialized");
@@ -370,7 +377,7 @@ namespace ouzel
 
         void TextureResourceOGL::setFilter(Texture::Filter newFilter)
         {
-            TextureResource::setFilter(newFilter);
+            filter = newFilter;
 
             if (!textureId)
                 throw DataError("Texture not initialized");
@@ -411,7 +418,7 @@ namespace ouzel
 
         void TextureResourceOGL::setAddressX(Texture::Address newAddressX)
         {
-            TextureResource::setAddressX(newAddressX);
+            addressX = newAddressX;
 
             if (!textureId)
                 throw DataError("Texture not initialized");
@@ -442,7 +449,7 @@ namespace ouzel
 
         void TextureResourceOGL::setAddressY(Texture::Address newAddressY)
         {
-            TextureResource::setAddressY(newAddressY);
+            addressY = newAddressY;
 
             if (!textureId)
                 throw DataError("Texture not initialized");
@@ -473,7 +480,7 @@ namespace ouzel
 
         void TextureResourceOGL::setMaxAnisotropy(uint32_t newMaxAnisotropy)
         {
-            TextureResource::setMaxAnisotropy(newMaxAnisotropy);
+            maxAnisotropy = newMaxAnisotropy;
 
             if (!textureId)
                 throw DataError("Texture not initialized");
@@ -496,7 +503,7 @@ namespace ouzel
 
         void TextureResourceOGL::setClearColorBuffer(bool clear)
         {
-            TextureResource::setClearColorBuffer(clear);
+            clearColorBuffer = clear;
 
             if (clearColorBuffer)
                 clearMask |= GL_COLOR_BUFFER_BIT;
@@ -506,7 +513,7 @@ namespace ouzel
 
         void TextureResourceOGL::setClearDepthBuffer(bool clear)
         {
-            TextureResource::setClearDepthBuffer(clear);
+            clearDepthBuffer = clear;
 
             if (clearDepthBuffer)
                 clearMask |= GL_DEPTH_BUFFER_BIT;
@@ -516,12 +523,17 @@ namespace ouzel
 
         void TextureResourceOGL::setClearColor(Color color)
         {
-            TextureResource::setClearColor(color);
+            clearColor = color;
 
             frameBufferClearColor[0] = clearColor.normR();
             frameBufferClearColor[1] = clearColor.normG();
             frameBufferClearColor[2] = clearColor.normB();
             frameBufferClearColor[3] = clearColor.normA();
+        }
+
+        void TextureResourceOGL::setClearDepth(float newClearDepth)
+        {
+            clearDepth = newClearDepth;
         }
 
         void TextureResourceOGL::createTexture()
@@ -567,8 +579,8 @@ namespace ouzel
 
             renderDeviceOGL.bindTexture(textureId, 0);
 
-            width = static_cast<GLsizei>(size.width);
-            height = static_cast<GLsizei>(size.height);
+            width = static_cast<GLsizei>(levels.front().size.width);
+            height = static_cast<GLsizei>(levels.front().size.height);
 
             oglInternalPixelFormat = getOGLInternalPixelFormat(pixelFormat, renderDeviceOGL.getAPIMajorVersion());
 

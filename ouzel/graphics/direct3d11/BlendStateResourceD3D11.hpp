@@ -7,7 +7,8 @@
 #if OUZEL_COMPILE_DIRECT3D11
 
 #include <d3d11.h>
-#include "graphics/BlendStateResource.hpp"
+#include "graphics/RenderResource.hpp"
+#include "graphics/BlendState.hpp"
 
 namespace ouzel
 {
@@ -15,18 +16,18 @@ namespace ouzel
     {
         class RenderDeviceD3D11;
 
-        class BlendStateResourceD3D11: public BlendStateResource
+        class BlendStateResourceD3D11: public RenderResource
         {
         public:
             explicit BlendStateResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11);
             virtual ~BlendStateResourceD3D11();
 
-            virtual void init(bool newEnableBlending,
-                              BlendState::Factor newColorBlendSource, BlendState::Factor newColorBlendDest,
-                              BlendState::Operation newColorOperation,
-                              BlendState::Factor newAlphaBlendSource, BlendState::Factor newAlphaBlendDest,
-                              BlendState::Operation newAlphaOperation,
-                              uint8_t newColorMask) override;
+            void init(bool enableBlending,
+                      BlendState::Factor colorBlendSource, BlendState::Factor colorBlendDest,
+                      BlendState::Operation colorOperation,
+                      BlendState::Factor alphaBlendSource, BlendState::Factor alphaBlendDest,
+                      BlendState::Operation alphaOperation,
+                      uint8_t colorMask);
 
             ID3D11BlendState* getBlendState() const { return blendState; }
 

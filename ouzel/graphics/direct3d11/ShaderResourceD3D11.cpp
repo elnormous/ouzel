@@ -82,7 +82,7 @@ namespace ouzel
         }
 
         ShaderResourceD3D11::ShaderResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11):
-            ShaderResource(renderDeviceD3D11)
+            RenderResource(renderDeviceD3D11)
         {
         }
 
@@ -104,25 +104,20 @@ namespace ouzel
                 vertexShaderConstantBuffer->Release();
         }
 
-        void ShaderResourceD3D11::init(const std::vector<uint8_t>& newFragmentShader,
-                                       const std::vector<uint8_t>& newVertexShader,
+        void ShaderResourceD3D11::init(const std::vector<uint8_t>& fragmentShaderData,
+                                       const std::vector<uint8_t>& vertexShaderData,
                                        const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
                                        const std::vector<Shader::ConstantInfo>& newFragmentShaderConstantInfo,
                                        const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
-                                       uint32_t newFragmentShaderDataAlignment,
-                                       uint32_t newVertexShaderDataAlignment,
-                                       const std::string& newFragmentShaderFunction,
-                                       const std::string& newVertexShaderFunction)
+                                       uint32_t,
+                                       uint32_t,
+                                       const std::string&,
+                                       const std::string&)
         {
-            ShaderResource::init(newFragmentShader,
-                                 newVertexShader,
-                                 newVertexAttributes,
-                                 newFragmentShaderConstantInfo,
-                                 newVertexShaderConstantInfo,
-                                 newFragmentShaderDataAlignment,
-                                 newVertexShaderDataAlignment,
-                                 newFragmentShaderFunction,
-                                 newVertexShaderFunction);
+            vertexAttributes = newVertexAttributes;
+            fragmentShaderConstantInfo = newFragmentShaderConstantInfo;
+            vertexShaderConstantInfo = newVertexShaderConstantInfo;
+
 
             if (fragmentShader) fragmentShader->Release();
 

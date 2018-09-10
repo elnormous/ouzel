@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "graphics/RenderTargetResource.hpp"
+#include "graphics/RenderResource.hpp"
 
 namespace ouzel
 {
@@ -10,7 +10,7 @@ namespace ouzel
     {
         class RenderDeviceD3D11;
 
-        class RenderTargetResourceD3D11: public RenderTargetResource
+        class RenderTargetResourceD3D11: public RenderResource
         {
         public:
             RenderTargetResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11);

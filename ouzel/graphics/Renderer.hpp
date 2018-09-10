@@ -24,10 +24,6 @@ namespace ouzel
     namespace graphics
     {
         class RenderDevice;
-        class BlendStateResource;
-        class BufferResource;
-        class TextureResource;
-        class ShaderResource;
 
         class Renderer final
         {
@@ -75,8 +71,6 @@ namespace ouzel
 
             inline RenderDevice* getDevice() const { return device.get(); }
 
-            void executeOnRenderThread(const std::function<void(void)>& func);
-
             void setClearColorBuffer(bool clear);
             inline bool getClearColorBuffer() const { return clearColorBuffer; }
 
@@ -93,26 +87,26 @@ namespace ouzel
 
             void saveScreenshot(const std::string& filename);
 
-            void setRenderTarget(TextureResource* renderTarget);
-            void clear(TextureResource* renderTarget);
+            void setRenderTarget(RenderResource* renderTarget);
+            void clearRenderTarget(RenderResource* renderTarget);
             void setCullMode(Renderer::CullMode cullMode);
             void setFillMode(Renderer::FillMode fillMode);
             void setScissorTest(bool enabled, const Rect& rectangle);
             void setViewport(const Rect& viewport);
             void setDepthState(bool depthTest, bool depthWrite);
-            void setPipelineState(BlendStateResource* blendState,
-                                  ShaderResource* shader);
-            void draw(BufferResource* indexBuffer,
+            void setPipelineState(RenderResource* blendState,
+                                  RenderResource* shader);
+            void draw(RenderResource* indexBuffer,
                       uint32_t indexCount,
                       uint32_t indexSize,
-                      BufferResource* vertexBuffer,
+                      RenderResource* vertexBuffer,
                       DrawMode drawMode,
                       uint32_t startIndex);
             void pushDebugMarker(const std::string& name);
             void popDebugMarker();
             void setShaderConstants(std::vector<std::vector<float>> fragmentShaderConstants,
                                     std::vector<std::vector<float>> vertexShaderConstants);
-            void setTextures(const std::vector<TextureResource*>& textures);
+            void setTextures(const std::vector<RenderResource*>& textures);
 
             void waitForNextFrame();
 

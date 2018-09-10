@@ -3,10 +3,6 @@
 #include "core/Setup.h"
 #include "Renderer.hpp"
 #include "RenderDevice.hpp"
-#include "TextureResource.hpp"
-#include "ShaderResource.hpp"
-#include "BlendStateResource.hpp"
-#include "BufferResource.hpp"
 #include "events/EventHandler.hpp"
 #include "events/EventDispatcher.hpp"
 #include "core/Window.hpp"
@@ -146,59 +142,70 @@ namespace ouzel
                          newDebugRenderer);
         }
 
-        void Renderer::executeOnRenderThread(const std::function<void(void)>& func)
-        {
-            device->executeOnRenderThread(func);
-        }
-
         void Renderer::setClearColorBuffer(bool clear)
         {
             clearColorBuffer = clear;
 
-            executeOnRenderThread(std::bind(&RenderDevice::setClearColorBuffer, device.get(), clear));
+            device->addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(nullptr,
+                                                                                             clearColorBuffer,
+                                                                                             clearDepthBuffer,
+                                                                                             clearColor,
+                                                                                             clearDepth)));
         }
 
         void Renderer::setClearDepthBuffer(bool clear)
         {
             clearDepthBuffer = clear;
 
-            executeOnRenderThread(std::bind(&RenderDevice::setClearDepthBuffer, device.get(), clear));
+            device->addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(nullptr,
+                                                                                             clearColorBuffer,
+                                                                                             clearDepthBuffer,
+                                                                                             clearColor,
+                                                                                             clearDepth)));
         }
 
         void Renderer::setClearColor(Color color)
         {
             clearColor = color;
 
-            executeOnRenderThread(std::bind(&RenderDevice::setClearColor, device.get(), color));
+            device->addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(nullptr,
+                                                                                             clearColorBuffer,
+                                                                                             clearDepthBuffer,
+                                                                                             clearColor,
+                                                                                             clearDepth)));
         }
 
         void Renderer::setClearDepth(float newClearDepth)
         {
             clearDepth = newClearDepth;
 
-            executeOnRenderThread(std::bind(&RenderDevice::setClearDepth, device.get(), newClearDepth));
+            device->addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(nullptr,
+                                                                                             clearColorBuffer,
+                                                                                             clearDepthBuffer,
+                                                                                             clearColor,
+                                                                                             clearDepth)));
         }
 
         void Renderer::setSize(const Size2& newSize)
         {
             size = newSize;
 
-            executeOnRenderThread(std::bind(&RenderDevice::setSize, device.get(), size));
+            device->executeOnRenderThread(std::bind(&RenderDevice::setSize, device.get(), size));
         }
 
         void Renderer::saveScreenshot(const std::string& filename)
         {
-            executeOnRenderThread(std::bind(&RenderDevice::generateScreenshot, device.get(), filename));
+            device->executeOnRenderThread(std::bind(&RenderDevice::generateScreenshot, device.get(), filename));
         }
 
-        void Renderer::setRenderTarget(TextureResource* renderTarget)
+        void Renderer::setRenderTarget(RenderResource* renderTarget)
         {
             device->addCommand(std::unique_ptr<Command>(new SetRenderTargetCommand(renderTarget)));
         }
 
-        void Renderer::clear(TextureResource* renderTarget)
+        void Renderer::clearRenderTarget(RenderResource* renderTarget)
         {
-            device->addCommand(std::unique_ptr<Command>(new ClearCommand(renderTarget)));
+            device->addCommand(std::unique_ptr<Command>(new ClearRenderTargetCommand(renderTarget)));
         }
 
         void Renderer::setCullMode(Renderer::CullMode cullMode)
@@ -226,16 +233,16 @@ namespace ouzel
             device->addCommand(std::unique_ptr<Command>(new SetDepthStateCommand(depthTest, depthWrite)));
         }
 
-        void Renderer::setPipelineState(BlendStateResource* blendState,
-                                        ShaderResource* shader)
+        void Renderer::setPipelineState(RenderResource* blendState,
+                                        RenderResource* shader)
         {
             device->addCommand(std::unique_ptr<Command>(new SetPipelineStateCommand(blendState, shader)));
         }
 
-        void Renderer::draw(BufferResource* indexBuffer,
+        void Renderer::draw(RenderResource* indexBuffer,
                             uint32_t indexCount,
                             uint32_t indexSize,
-                            BufferResource* vertexBuffer,
+                            RenderResource* vertexBuffer,
                             DrawMode drawMode,
                             uint32_t startIndex)
         {
@@ -267,9 +274,9 @@ namespace ouzel
                                                                                       vertexShaderConstants)));
         }
 
-        void Renderer::setTextures(const std::vector<TextureResource*>& textures)
+        void Renderer::setTextures(const std::vector<RenderResource*>& textures)
         {
-            TextureResource* newTextures[Texture::LAYERS];
+            RenderResource* newTextures[Texture::LAYERS];
 
             for (uint32_t i = 0; i < Texture::LAYERS; ++i)
                 newTextures[i] = (i < textures.size()) ? textures[i] : nullptr;

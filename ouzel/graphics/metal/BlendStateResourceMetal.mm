@@ -12,7 +12,7 @@ namespace ouzel
     namespace graphics
     {
         BlendStateResourceMetal::BlendStateResourceMetal(RenderDeviceMetal& renderDeviceMetal):
-            BlendStateResource(renderDeviceMetal)
+            RenderResource(renderDeviceMetal)
         {
         }
 
@@ -52,20 +52,13 @@ namespace ouzel
             return MTLBlendOperationAdd;
         }
 
-        void BlendStateResourceMetal::init(bool newEnableBlending,
-                                           BlendState::Factor newColorBlendSource, BlendState::Factor newColorBlendDest,
-                                           BlendState::Operation newColorOperation,
-                                           BlendState::Factor newAlphaBlendSource, BlendState::Factor newAlphaBlendDest,
-                                           BlendState::Operation newAlphaOperation,
-                                           uint8_t newColorMask)
+        void BlendStateResourceMetal::init(bool enableBlending,
+                                           BlendState::Factor colorBlendSource, BlendState::Factor colorBlendDest,
+                                           BlendState::Operation colorOperation,
+                                           BlendState::Factor alphaBlendSource, BlendState::Factor alphaBlendDest,
+                                           BlendState::Operation alphaOperation,
+                                           uint8_t colorMask)
         {
-            BlendStateResource::init(newEnableBlending,
-                                     newColorBlendSource, newColorBlendDest,
-                                     newColorOperation,
-                                     newAlphaBlendSource, newAlphaBlendDest,
-                                     newAlphaOperation,
-                                     newColorMask);
-
             rgbBlendOperation = getBlendOperation(colorOperation);
             alphaBlendOperation = getBlendOperation(alphaOperation);
             sourceRGBBlendFactor = getBlendFactor(colorBlendSource);

@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include "RenderDevice.hpp"
+#include "RenderResource.hpp"
 
 namespace ouzel
 {
@@ -46,11 +47,6 @@ namespace ouzel
         void RenderDevice::process()
         {
             {
-                std::unique_lock<std::mutex> lock(commandQueueMutex);
-                queueFinished = false;
-            }
-
-            {
                 std::unique_lock<std::mutex> lock(frameMutex);
                 newFrame = true;
                 refillQueue = true;
@@ -82,26 +78,6 @@ namespace ouzel
             }
         }
 
-        void RenderDevice::setClearColorBuffer(bool clear)
-        {
-            clearColorBuffer = clear;
-        }
-
-        void RenderDevice::setClearDepthBuffer(bool clear)
-        {
-            clearDepthBuffer = clear;
-        }
-
-        void RenderDevice::setClearColor(Color color)
-        {
-            clearColor = color;
-        }
-
-        void RenderDevice::setClearDepth(float newClearDepth)
-        {
-            clearDepth = newClearDepth;
-        }
-
         void RenderDevice::setSize(const Size2& newSize)
         {
             size = newSize;
@@ -131,16 +107,7 @@ namespace ouzel
         {
             refillQueue = false;
 
-#if OUZEL_MULTITHREADED
-            std::unique_lock<std::mutex> lock(commandQueueMutex);
-#endif
-            queueFinished = true;
-
-            //drawCallCount = static_cast<uint32_t>(fillBuffer->size());
-
-#if OUZEL_MULTITHREADED
-            commandQueueCondition.notify_all();
-#endif
+            addCommand(std::unique_ptr<Command>(new PresentCommand()));
         }
 
         void RenderDevice::generateScreenshot(const std::string&)

@@ -13,7 +13,7 @@ namespace ouzel
     namespace graphics
     {
         ShaderResourceOGL::ShaderResourceOGL(RenderDeviceOGL& renderDeviceOGL):
-            ShaderResource(renderDeviceOGL)
+            RenderResourceOGL(renderDeviceOGL)
         {
         }
 
@@ -30,20 +30,16 @@ namespace ouzel
                                      const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
                                      const std::vector<Shader::ConstantInfo>& newFragmentShaderConstantInfo,
                                      const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
-                                     uint32_t newFragmentShaderDataAlignment,
-                                     uint32_t newVertexShaderDataAlignment,
-                                     const std::string& newFragmentShaderFunction,
-                                     const std::string& newVertexShaderFunction)
+                                     uint32_t,
+                                     uint32_t,
+                                     const std::string&,
+                                     const std::string&)
         {
-            ShaderResource::init(newFragmentShader,
-                                 newVertexShader,
-                                 newVertexAttributes,
-                                 newFragmentShaderConstantInfo,
-                                 newVertexShaderConstantInfo,
-                                 newFragmentShaderDataAlignment,
-                                 newVertexShaderDataAlignment,
-                                 newFragmentShaderFunction,
-                                 newVertexShaderFunction);
+            fragmentShaderData = newFragmentShader;
+            vertexShaderData = newVertexShader;
+            vertexAttributes = newVertexAttributes;
+            fragmentShaderConstantInfo = newFragmentShaderConstantInfo;
+            vertexShaderConstantInfo = newVertexShaderConstantInfo;
 
             if (programId)
             {

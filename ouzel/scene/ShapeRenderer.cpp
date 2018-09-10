@@ -4,7 +4,6 @@
 #include "ShapeRenderer.hpp"
 #include "core/Engine.hpp"
 #include "graphics/Renderer.hpp"
-#include "graphics/BufferResource.hpp"
 #include "Camera.hpp"
 #include "utils/Utils.hpp"
 
@@ -77,7 +76,7 @@ namespace ouzel
             dirty = true;
         }
 
-        void ShapeRenderer::line(const Vector2& start, const Vector2& finish, const Color& color, float thickness)
+        void ShapeRenderer::line(const Vector2& start, const Vector2& finish, Color color, float thickness)
         {
             assert(thickness >= 0.0F);
 
@@ -142,7 +141,7 @@ namespace ouzel
 
         void ShapeRenderer::circle(const Vector2& position,
                                    float radius,
-                                   const Color& color,
+                                   Color color,
                                    bool fill,
                                    uint32_t segments,
                                    float thickness)
@@ -259,7 +258,7 @@ namespace ouzel
         }
 
         void ShapeRenderer::rectangle(const Rect& rectangle,
-                                      const Color& color,
+                                      Color color,
                                       bool fill,
                                       float thickness)
         {
@@ -406,7 +405,7 @@ namespace ouzel
         }
 
         void ShapeRenderer::polygon(const std::vector<Vector2>& edges,
-                                    const Color& color,
+                                    Color color,
                                     bool fill,
                                     float thickness)
         {
@@ -478,7 +477,7 @@ namespace ouzel
         }
 
         void ShapeRenderer::curve(const std::vector<Vector2>& controlPoints,
-                                  const Color& color,
+                                  Color color,
                                   uint32_t segments,
                                   float thickness)
         {

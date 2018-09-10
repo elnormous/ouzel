@@ -13,7 +13,7 @@ namespace ouzel
     namespace graphics
     {
         BufferResourceOGL::BufferResourceOGL(RenderDeviceOGL& renderDeviceOGL):
-            BufferResource(renderDeviceOGL)
+            RenderResourceOGL(renderDeviceOGL)
         {
         }
 
@@ -29,23 +29,25 @@ namespace ouzel
                                      const std::vector<uint8_t>& newData,
                                      uint32_t newSize)
         {
-            BufferResource::init(newUsage, newFlags, newData, newSize);
+            usage = newUsage;
+            flags = newFlags;
+            data = newData;
 
             createBuffer();
 
-            bufferSize = static_cast<GLsizeiptr>(newSize);
+            size = static_cast<GLsizeiptr>(newSize);
 
-            if (bufferSize > 0)
+            if (size > 0)
             {
                 RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
 
                 renderDeviceOGL.bindBuffer(bufferType, bufferId);
 
                 if (data.empty())
-                    glBufferDataProc(bufferType, bufferSize, nullptr,
+                    glBufferDataProc(bufferType, size, nullptr,
                                      (flags & Texture::DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
                 else
-                    glBufferDataProc(bufferType, bufferSize, data.data(),
+                    glBufferDataProc(bufferType, size, data.data(),
                                      (flags & Texture::DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
                 GLenum error;
@@ -61,17 +63,17 @@ namespace ouzel
 
             createBuffer();
 
-            if (bufferSize > 0)
+            if (size > 0)
             {
                 RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
 
                 renderDeviceOGL.bindBuffer(bufferType, bufferId);
 
                 if (data.empty())
-                    glBufferDataProc(bufferType, bufferSize, nullptr,
+                    glBufferDataProc(bufferType, size, nullptr,
                                      (flags & Texture::DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
                 else
-                    glBufferDataProc(bufferType, bufferSize, data.data(),
+                    glBufferDataProc(bufferType, size, data.data(),
                                      (flags & Texture::DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
                 GLenum error;
@@ -83,7 +85,13 @@ namespace ouzel
 
         void BufferResourceOGL::setData(const std::vector<uint8_t>& newData)
         {
-            BufferResource::setData(newData);
+            if (!(flags & Buffer::DYNAMIC))
+                throw DataError("Buffer is not dynamic");
+
+            if (newData.empty())
+                throw DataError("Data is empty");
+
+            data = newData;
 
             if (!bufferId)
                 throw DataError("Buffer not initialized");
@@ -91,11 +99,11 @@ namespace ouzel
             RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
             renderDeviceOGL.bindBuffer(bufferType, bufferId);
 
-            if (static_cast<GLsizeiptr>(data.size()) > bufferSize)
+            if (static_cast<GLsizeiptr>(data.size()) > size)
             {
-                bufferSize = static_cast<GLsizeiptr>(data.size());
+                size = static_cast<GLsizeiptr>(data.size());
 
-                glBufferDataProc(bufferType, bufferSize, data.data(),
+                glBufferDataProc(bufferType, size, data.data(),
                                  (flags & Texture::DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
                 GLenum error;

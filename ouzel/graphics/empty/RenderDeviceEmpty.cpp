@@ -40,47 +40,47 @@ namespace ouzel
         {
         }
 
-        BlendStateResource* RenderDeviceEmpty::createBlendState()
+        RenderResource* RenderDeviceEmpty::createBlendState()
         {
             std::unique_lock<std::mutex> lock(resourceMutex);
 
-            BlendStateResource* blendState = new BlendStateResourceEmpty(*this);
+            RenderResource* blendState = new BlendStateResourceEmpty(*this);
             resources.push_back(std::unique_ptr<RenderResource>(blendState));
             return blendState;
         }
 
-        BufferResource* RenderDeviceEmpty::createBuffer()
+        RenderResource* RenderDeviceEmpty::createBuffer()
         {
             std::unique_lock<std::mutex> lock(resourceMutex);
 
-            BufferResource* buffer = new BufferResourceEmpty(*this);
+            RenderResource* buffer = new BufferResourceEmpty(*this);
             resources.push_back(std::unique_ptr<RenderResource>(buffer));
             return buffer;
         }
 
-        RenderTargetResource* RenderDeviceEmpty::createRenderTarget()
+        RenderResource* RenderDeviceEmpty::createRenderTarget()
         {
             std::unique_lock<std::mutex> lock(resourceMutex);
 
-            RenderTargetResource* renderTarget = new RenderTargetResourceEmpty(*this);
+            RenderResource* renderTarget = new RenderTargetResourceEmpty(*this);
             resources.push_back(std::unique_ptr<RenderResource>(renderTarget));
             return renderTarget;
         }
 
-        ShaderResource* RenderDeviceEmpty::createShader()
+        RenderResource* RenderDeviceEmpty::createShader()
         {
             std::unique_lock<std::mutex> lock(resourceMutex);
 
-            ShaderResource* shader = new ShaderResourceEmpty(*this);
+            RenderResource* shader = new ShaderResourceEmpty(*this);
             resources.push_back(std::unique_ptr<RenderResource>(shader));
             return shader;
         }
 
-        TextureResource* RenderDeviceEmpty::createTexture()
+        RenderResource* RenderDeviceEmpty::createTexture()
         {
             std::unique_lock<std::mutex> lock(resourceMutex);
 
-            TextureResource* texture(new TextureResourceEmpty(*this));
+            RenderResource* texture(new TextureResourceEmpty(*this));
             resources.push_back(std::unique_ptr<RenderResource>(texture));
             return texture;
         }

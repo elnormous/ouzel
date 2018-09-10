@@ -1,6 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include "graphics/BlendStateResource.hpp"
+#include "graphics/RenderResource.hpp"
 
 #pragma once
 
@@ -10,7 +10,7 @@ namespace ouzel
     {
         class RenderDeviceEmpty;
 
-        class BlendStateResourceEmpty: public BlendStateResource
+        class BlendStateResourceEmpty: public RenderResource
         {
         public:
             BlendStateResourceEmpty(RenderDeviceEmpty& renderDeviceEmpty);

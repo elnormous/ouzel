@@ -7,11 +7,6 @@
 #include "graphics/Renderer.hpp"
 #include "graphics/Vertex.hpp"
 #include "graphics/Commands.hpp"
-#include "graphics/BlendStateResource.hpp"
-#include "graphics/BufferResource.hpp"
-#include "graphics/RenderTargetResource.hpp"
-#include "graphics/ShaderResource.hpp"
-#include "graphics/TextureResource.hpp"
 
 namespace ouzel
 {
@@ -34,18 +29,6 @@ namespace ouzel
             RenderDevice& operator=(RenderDevice&&) = delete;
 
             inline Renderer::Driver getDriver() const { return driver; }
-
-            virtual void setClearColorBuffer(bool clear);
-            inline bool getClearColorBuffer() const { return clearColorBuffer; }
-
-            virtual void setClearDepthBuffer(bool clear);
-            inline bool getClearDepthBuffer() const { return clearDepthBuffer; }
-
-            virtual void setClearColor(Color color);
-            inline Color getClearColor() const { return clearColor; }
-
-            virtual void setClearDepth(float newClearDepth);
-            inline float getClearDepth() const { return clearDepth; }
 
             virtual void process();
 
@@ -115,11 +98,11 @@ namespace ouzel
             void executeAll();
             virtual void setSize(const Size2& newSize);
 
-            virtual BlendStateResource* createBlendState() = 0;
-            virtual BufferResource* createBuffer() = 0;
-            virtual RenderTargetResource* createRenderTarget() = 0;
-            virtual ShaderResource* createShader() = 0;
-            virtual TextureResource* createTexture() = 0;
+            virtual RenderResource* createBlendState() = 0;
+            virtual RenderResource* createBuffer() = 0;
+            virtual RenderResource* createRenderTarget() = 0;
+            virtual RenderResource* createShader() = 0;
+            virtual RenderResource* createTexture() = 0;
             virtual void deleteResource(RenderResource* resource);
 
             virtual void generateScreenshot(const std::string& filename);
@@ -175,7 +158,6 @@ namespace ouzel
             std::mutex executeMutex;
 
             bool newFrame = false;
-            bool queueFinished = false;
             std::mutex frameMutex;
             std::condition_variable frameCondition;
         };

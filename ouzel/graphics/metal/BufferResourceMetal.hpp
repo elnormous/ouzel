@@ -7,14 +7,15 @@
 #if OUZEL_COMPILE_METAL
 
 #if defined(__OBJC__)
-#import <Metal/Metal.h>
+#  import <Metal/Metal.h>
 typedef id<MTLBuffer> MTLBufferPtr;
 #else
-#include <objc/objc.h>
+#  include <objc/objc.h>
 typedef id MTLBufferPtr;
 #endif
 
-#include "graphics/BufferResource.hpp"
+#include "graphics/RenderResource.hpp"
+#include "graphics/Buffer.hpp"
 
 namespace ouzel
 {
@@ -22,25 +23,32 @@ namespace ouzel
     {
         class RenderDeviceMetal;
 
-        class BufferResourceMetal: public BufferResource
+        class BufferResourceMetal: public RenderResource
         {
         public:
             explicit BufferResourceMetal(RenderDeviceMetal& renderDeviceMetal);
             virtual ~BufferResourceMetal();
 
-            virtual void init(Buffer::Usage newUsage, uint32_t newFlags,
-                              const std::vector<uint8_t>& newData,
-                              uint32_t newSize) override;
+            void init(Buffer::Usage newUsage, uint32_t newFlags,
+                      const std::vector<uint8_t>& newData,
+                      uint32_t newSize);
 
-            virtual void setData(const std::vector<uint8_t>& newData) override;
+            void setData(const std::vector<uint8_t>& data);
+
+            inline uint32_t getFlags() const { return flags; }
+            inline Buffer::Usage getUsage() const { return usage; }
+            inline NSUInteger getSize() const { return size; }
 
             inline MTLBufferPtr getBuffer() const { return buffer; }
 
         private:
             void createBuffer(NSUInteger newSize);
 
+            Buffer::Usage usage;
+            uint32_t flags = 0;
+
             MTLBufferPtr buffer = nil;
-            NSUInteger bufferSize = 0;
+            NSUInteger size = 0;
         };
     } // namespace graphics
 } // namespace ouzel

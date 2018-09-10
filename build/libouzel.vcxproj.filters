@@ -22,9 +22,6 @@
     <ClCompile Include="..\ouzel\graphics\BlendState.cpp">
       <Filter>ouzel\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\BlendStateResource.cpp">
-      <Filter>ouzel\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\graphics\direct3d11\BlendStateResourceD3D11.cpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
     </ClCompile>
@@ -44,9 +41,6 @@
       <Filter>ouzel\math</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\graphics\Buffer.cpp">
-      <Filter>ouzel\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\BufferResource.cpp">
       <Filter>ouzel\graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\graphics\direct3d11\BufferResourceD3D11.cpp">
@@ -250,22 +244,13 @@
     <ClCompile Include="..\ouzel\graphics\RenderTarget.cpp">
       <Filter>ouzel\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\RenderTargetResource.cpp">
-      <Filter>ouzel\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\graphics\Shader.cpp">
-      <Filter>ouzel\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\ShaderResource.cpp">
       <Filter>ouzel\graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\scene\ShapeRenderer.cpp">
       <Filter>ouzel\scene</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\scene\Sprite.cpp">
-      <Filter>ouzel\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\scene\TextRenderer.cpp">
       <Filter>ouzel\scene</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\math\Size2.cpp">
@@ -308,9 +293,6 @@
       <Filter>ouzel\audio</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\graphics\Texture.cpp">
-      <Filter>ouzel\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\TextureResource.cpp">
       <Filter>ouzel\graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\core\Timer.cpp">
@@ -480,9 +462,6 @@
     <ClInclude Include="..\ouzel\graphics\BlendState.hpp">
       <Filter>ouzel\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\BlendStateResource.hpp">
-      <Filter>ouzel\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\graphics\direct3d11\BlendStateResourceD3D11.hpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
     </ClInclude>
@@ -502,9 +481,6 @@
       <Filter>ouzel\math</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\Buffer.hpp">
-      <Filter>ouzel\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\BufferResource.hpp">
       <Filter>ouzel\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\direct3d11\BufferResourceD3D11.hpp">
@@ -723,9 +699,6 @@
     <ClInclude Include="..\ouzel\graphics\Shader.hpp">
       <Filter>ouzel\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\ShaderResource.hpp">
-      <Filter>ouzel\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\scene\ShapeRenderer.hpp">
       <Filter>ouzel\scene</Filter>
     </ClInclude>
@@ -775,9 +748,6 @@
       <Filter>ouzel\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\Texture.hpp">
-      <Filter>ouzel\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\TextureResource.hpp">
       <Filter>ouzel\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\core\Timer.hpp">
@@ -950,6 +920,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\assets\Bundle.hpp">
       <Filter>ouzel\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\RenderResourceOGL.hpp">
+      <Filter>ouzel\graphics\opengl</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -14,7 +14,7 @@ namespace ouzel
     namespace graphics
     {
         BufferResourceMetal::BufferResourceMetal(RenderDeviceMetal& renderDeviceMetal):
-            BufferResource(renderDeviceMetal)
+            RenderResource(renderDeviceMetal)
         {
         }
 
@@ -24,10 +24,11 @@ namespace ouzel
         }
 
         void BufferResourceMetal::init(Buffer::Usage newUsage, uint32_t newFlags,
-                                       const std::vector<uint8_t>& newData,
+                                       const std::vector<uint8_t>& data,
                                        uint32_t newSize)
         {
-            BufferResource::init(newUsage, newFlags, newData, newSize);
+            usage = newUsage;
+            flags = newFlags;
 
             createBuffer(newSize);
 
@@ -35,11 +36,15 @@ namespace ouzel
                 std::copy(data.begin(), data.end(), static_cast<uint8_t*>([buffer contents]));
         }
 
-        void BufferResourceMetal::setData(const std::vector<uint8_t>& newData)
+        void BufferResourceMetal::setData(const std::vector<uint8_t>& data)
         {
-            BufferResource::setData(newData);
+            if (!(flags & Buffer::DYNAMIC))
+                throw DataError("Buffer is not dynamic");
 
-            if (!buffer || data.size() > bufferSize)
+            if (data.empty())
+                throw DataError("Data is empty");
+
+            if (!buffer || data.size() > size)
                 createBuffer(static_cast<uint32_t>(data.size()));
 
             if (!data.empty())
@@ -56,11 +61,11 @@ namespace ouzel
 
             if (newSize > 0)
             {
-                bufferSize = newSize;
+                size = newSize;
 
                 RenderDeviceMetal& renderDeviceMetal = static_cast<RenderDeviceMetal&>(renderDevice);
 
-                buffer = [renderDeviceMetal.getDevice() newBufferWithLength:bufferSize
+                buffer = [renderDeviceMetal.getDevice() newBufferWithLength:size
                                                                     options:MTLResourceCPUCacheModeWriteCombined];
 
                 if (!buffer)

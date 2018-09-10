@@ -51,7 +51,7 @@ namespace ouzel
         }
 
         TextureResourceMetal::TextureResourceMetal(RenderDeviceMetal& renderDeviceMetal):
-            TextureResource(renderDeviceMetal)
+            RenderResource(renderDeviceMetal)
         {
         }
 
@@ -70,17 +70,20 @@ namespace ouzel
                 [samplerState release];
         }
 
-        void TextureResourceMetal::init(const std::vector<Texture::Level>& newLevels,
+        void TextureResourceMetal::init(const std::vector<Texture::Level>& levels,
                                         uint32_t newFlags,
                                         uint32_t newSampleCount,
                                         PixelFormat newPixelFormat)
         {
-            TextureResource::init(newLevels,
-                                  newFlags,
-                                  newSampleCount,
-                                  newPixelFormat);
+            flags = newFlags;
+            mipmaps = static_cast<uint32_t>(levels.size());
+            sampleCount = newSampleCount;
+            pixelFormat = newPixelFormat;
 
-            createTexture();
+            if ((flags & Texture::RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
+                throw DataError("Invalid mip map count");
+
+            createTexture(levels);
 
             if (flags & Texture::RENDER_TARGET)
             {
@@ -112,15 +115,21 @@ namespace ouzel
                 }
             }
 
-            return updateSamplerState();
+            samplerDescriptor.filter = renderDevice.getTextureFilter();
+            samplerDescriptor.addressX = Texture::Address::CLAMP;
+            samplerDescriptor.addressY = Texture::Address::CLAMP;
+            samplerDescriptor.maxAnisotropy = renderDevice.getMaxAnisotropy();
+
+            updateSamplerState();
         }
 
-        void TextureResourceMetal::setData(const std::vector<Texture::Level>& newLevels)
+        void TextureResourceMetal::setData(const std::vector<Texture::Level>& levels)
         {
-            TextureResource::setData(newLevels);
+            if (!(flags & Texture::DYNAMIC) || flags & Texture::RENDER_TARGET)
+                throw DataError("Texture is not dynamic");
 
             if (!texture)
-                createTexture();
+                createTexture(levels);
 
             if (!(flags & Texture::RENDER_TARGET))
             {
@@ -138,51 +147,47 @@ namespace ouzel
             }
         }
 
-        void TextureResourceMetal::setFilter(Texture::Filter newFilter)
+        void TextureResourceMetal::setFilter(Texture::Filter filter)
         {
-            TextureResource::setFilter(newFilter);
-
+            samplerDescriptor.filter = (filter == Texture::Filter::DEFAULT) ? renderDevice.getTextureFilter() : filter;
             updateSamplerState();
         }
 
-        void TextureResourceMetal::setAddressX(Texture::Address newAddressX)
+        void TextureResourceMetal::setAddressX(Texture::Address addressX)
         {
-            TextureResource::setAddressX(newAddressX);
-
+            samplerDescriptor.addressX = addressX;
             updateSamplerState();
         }
 
-        void TextureResourceMetal::setAddressY(Texture::Address newAddressY)
+        void TextureResourceMetal::setAddressY(Texture::Address addressY)
         {
-            TextureResource::setAddressY(newAddressY);
-
+            samplerDescriptor.addressY = addressY;
             updateSamplerState();
         }
 
-        void TextureResourceMetal::setMaxAnisotropy(uint32_t newMaxAnisotropy)
+        void TextureResourceMetal::setMaxAnisotropy(uint32_t maxAnisotropy)
         {
-            TextureResource::setMaxAnisotropy(newMaxAnisotropy);
-
+            samplerDescriptor.maxAnisotropy = (maxAnisotropy == 0) ? renderDevice.getMaxAnisotropy() : maxAnisotropy;
             updateSamplerState();
         }
 
         void TextureResourceMetal::setClearColorBuffer(bool clear)
         {
-            TextureResource::setClearColorBuffer(clear);
+            clearColorBuffer = clear;
 
             colorBufferLoadAction = clearColorBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
         }
 
         void TextureResourceMetal::setClearDepthBuffer(bool clear)
         {
-            TextureResource::setClearDepthBuffer(clear);
+            clearDepthBuffer = clear;
 
             depthBufferLoadAction = clearDepthBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
         }
 
         void TextureResourceMetal::setClearColor(Color color)
         {
-            TextureResource::setClearColor(color);
+            clearColor = color;
 
             if (!renderPassDescriptor)
                 throw DataError("Render pass descriptor not initialized");
@@ -193,9 +198,9 @@ namespace ouzel
                                                                                     clearColor.normA());
         }
 
-        void TextureResourceMetal::setClearDepth(float clear)
+        void TextureResourceMetal::setClearDepth(float newClearDepth)
         {
-            TextureResource::setClearDepth(clear);
+            clearDepth = newClearDepth;
 
             if (!renderPassDescriptor)
                 throw DataError("Render pass descriptor not initialized");
@@ -203,7 +208,7 @@ namespace ouzel
             renderPassDescriptor.depthAttachment.clearDepth = clearDepth;
         }
 
-        void TextureResourceMetal::createTexture()
+        void TextureResourceMetal::createTexture(const std::vector<Texture::Level>& levels)
         {
             if (texture)
             {
@@ -231,8 +236,8 @@ namespace ouzel
 
             RenderDeviceMetal& renderDeviceMetal = static_cast<RenderDeviceMetal&>(renderDevice);
 
-            width = static_cast<NSUInteger>(size.width);
-            height = static_cast<NSUInteger>(size.height);
+            width = static_cast<NSUInteger>(levels.front().size.width);
+            height = static_cast<NSUInteger>(levels.front().size.height);
 
             if (width > 0 && height > 0)
             {
@@ -327,12 +332,6 @@ namespace ouzel
         void TextureResourceMetal::updateSamplerState()
         {
             RenderDeviceMetal& renderDeviceMetal = static_cast<RenderDeviceMetal&>(renderDevice);
-
-            RenderDeviceMetal::SamplerStateDescriptor samplerDescriptor;
-            samplerDescriptor.filter = (filter == Texture::Filter::DEFAULT) ? renderDeviceMetal.getTextureFilter() : filter;
-            samplerDescriptor.addressX = addressX;
-            samplerDescriptor.addressY = addressY;
-            samplerDescriptor.maxAnisotropy = (maxAnisotropy == 0) ? renderDeviceMetal.getMaxAnisotropy() : maxAnisotropy;
 
             if (samplerState) [samplerState release];
             samplerState = renderDeviceMetal.getSamplerState(samplerDescriptor);

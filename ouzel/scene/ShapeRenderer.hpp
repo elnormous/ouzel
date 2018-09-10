@@ -30,28 +30,28 @@ namespace ouzel
 
             void line(const Vector2& start,
                       const Vector2& finish,
-                      const Color& color,
+                      Color color,
                       float thickness = 0.0F);
 
             void circle(const Vector2& position,
                         float radius,
-                        const Color& color,
+                        Color color,
                         bool fill = false,
                         uint32_t segments = 16,
                         float thickness = 0.0F);
 
             void rectangle(const Rect& rectangle,
-                           const Color& color,
+                           Color color,
                            bool fill = false,
                            float thickness = 0.0F);
 
             void polygon(const std::vector<Vector2>& edges,
-                         const Color& color,
+                         Color color,
                          bool fill = false,
                          float thickness = 0.0F);
 
             void curve(const std::vector<Vector2>& controlPoints,
-                       const Color& color,
+                       Color color,
                        uint32_t segments = 16,
                        float thickness = 0.0F);
 

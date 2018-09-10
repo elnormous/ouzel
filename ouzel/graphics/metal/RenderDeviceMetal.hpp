@@ -48,6 +48,7 @@ typedef NSUInteger MTLLoadAction;
 
 #include "graphics/RenderDevice.hpp"
 #include "graphics/metal/ShaderResourceMetal.hpp"
+#include "graphics/metal/TextureResourceMetal.hpp"
 
 namespace ouzel
 {
@@ -67,26 +68,12 @@ namespace ouzel
 
             virtual ~RenderDeviceMetal();
 
-            virtual void setClearColorBuffer(bool clear) override;
-            virtual void setClearDepthBuffer(bool clear) override;
-            virtual void setClearColor(Color color) override;
-            virtual void setClearDepth(float newClearDepth) override;
+            void setClearColorBuffer(bool clear);
+            void setClearDepthBuffer(bool clear);
+            void setClearColor(Color newClearColor);
+            void setClearDepth(float newClearDepth);
 
             inline MTLDevicePtr getDevice() const { return device; }
-
-            class SamplerStateDescriptor
-            {
-            public:
-                Texture::Filter filter;
-                Texture::Address addressX;
-                Texture::Address addressY;
-                uint32_t maxAnisotropy;
-
-                bool operator<(const SamplerStateDescriptor& other) const
-                {
-                    return std::tie(filter, addressX, addressY, maxAnisotropy) < std::tie(other.filter, other.addressX, other.addressY, other.maxAnisotropy);
-                }
-            };
 
             MTLSamplerStatePtr getSamplerState(const SamplerStateDescriptor& descriptor);
 
@@ -107,11 +94,11 @@ namespace ouzel
             virtual void process() override;
             virtual void generateScreenshot(const std::string& filename) override;
 
-            virtual BlendStateResource* createBlendState() override;
-            virtual BufferResource* createBuffer() override;
-            virtual RenderTargetResource* createRenderTarget() override;
-            virtual ShaderResource* createShader() override;
-            virtual TextureResource* createTexture() override;
+            virtual RenderResource* createBlendState() override;
+            virtual RenderResource* createBuffer() override;
+            virtual RenderResource* createRenderTarget() override;
+            virtual RenderResource* createShader() override;
+            virtual RenderResource* createTexture() override;
 
             class PipelineStateDesc
             {

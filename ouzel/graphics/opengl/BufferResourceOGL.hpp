@@ -18,7 +18,8 @@
 #  include "GL/glext.h"
 #endif
 
-#include "graphics/BufferResource.hpp"
+#include "graphics/opengl/RenderResourceOGL.hpp"
+#include "graphics/Buffer.hpp"
 
 namespace ouzel
 {
@@ -26,19 +27,23 @@ namespace ouzel
     {
         class RenderDeviceOGL;
 
-        class BufferResourceOGL: public BufferResource
+        class BufferResourceOGL: public RenderResourceOGL
         {
         public:
             explicit BufferResourceOGL(RenderDeviceOGL& renderDeviceOGL);
             virtual ~BufferResourceOGL();
 
-            virtual void init(Buffer::Usage newUsage, uint32_t newFlags,
-                              const std::vector<uint8_t>& newData,
-                              uint32_t newSize) override;
+            void init(Buffer::Usage newUsage, uint32_t newFlags,
+                      const std::vector<uint8_t>& newData,
+                      uint32_t newSize);
 
             virtual void reload() override;
 
-            virtual void setData(const std::vector<uint8_t>& newData) override;
+            void setData(const std::vector<uint8_t>& newData);
+
+            inline uint32_t getFlags() const { return flags; }
+            inline Buffer::Usage getUsage() const { return usage; }
+            inline GLsizeiptr getSize() const { return size; }
 
             inline GLuint getBufferId() const { return bufferId; }
             inline GLuint getBufferType() const { return bufferType; }
@@ -46,8 +51,12 @@ namespace ouzel
         private:
             void createBuffer();
 
+            Buffer::Usage usage;
+            uint32_t flags = 0;
+            std::vector<uint8_t> data;
+
             GLuint bufferId = 0;
-            GLsizeiptr bufferSize = 0;
+            GLsizeiptr size = 0;
 
             GLuint bufferType = 0;
         };

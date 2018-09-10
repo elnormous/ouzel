@@ -248,7 +248,7 @@ namespace ouzel
                 std::unique_lock<std::mutex> lock(resourceMutex);
 
                 for (const std::unique_ptr<RenderResource>& resource : resources)
-                    resource->reload();
+                    static_cast<RenderResourceOGL*>(resource.get())->reload();
             }
 
             if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))

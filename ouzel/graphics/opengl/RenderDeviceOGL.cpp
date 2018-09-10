@@ -670,7 +670,7 @@ namespace ouzel
 
         void RenderDeviceOGL::setClearColorBuffer(bool clear)
         {
-            RenderDevice::setClearColorBuffer(clear);
+            clearColorBuffer = clear;
 
             if (clearColorBuffer)
                 clearMask |= GL_COLOR_BUFFER_BIT;
@@ -681,7 +681,7 @@ namespace ouzel
 
         void RenderDeviceOGL::setClearDepthBuffer(bool clear)
         {
-            RenderDevice::setClearDepthBuffer(clear);
+            clearDepthBuffer = clear;
 
             if (clearDepthBuffer)
                 clearMask |= GL_DEPTH_BUFFER_BIT;
@@ -689,14 +689,19 @@ namespace ouzel
                 clearMask &= ~static_cast<GLbitfield>(GL_DEPTH_BUFFER_BIT);
         }
 
-        void RenderDeviceOGL::setClearColor(Color color)
+        void RenderDeviceOGL::setClearColor(Color newClearColor)
         {
-            RenderDevice::setClearColor(color);
+            clearColor = newClearColor;
 
             frameBufferClearColor[0] = clearColor.normR();
             frameBufferClearColor[1] = clearColor.normG();
             frameBufferClearColor[2] = clearColor.normB();
             frameBufferClearColor[3] = clearColor.normA();
+        }
+
+        void RenderDeviceOGL::setClearDepth(float newClearDepth)
+        {
+            clearDepth = newClearDepth;
         }
 
         void RenderDeviceOGL::setSize(const Size2& newSize)
@@ -775,17 +780,18 @@ namespace ouzel
             {
                 {
                     std::unique_lock<std::mutex> lock(commandQueueMutex);
-                    while (!queueFinished && commandQueue.empty()) commandQueueCondition.wait(lock);
-                    if (!commandQueue.empty())
-                    {
-                        command = std::move(commandQueue.front());
-                        commandQueue.pop();
-                    }
-                    else if (queueFinished) break;
+                    while (commandQueue.empty()) commandQueueCondition.wait(lock);
+                    command = std::move(commandQueue.front());
+                    commandQueue.pop();
                 }
 
                 switch (command->type)
                 {
+                    case Command::Type::PRESENT:
+                    {
+                        present();
+                        break;
+                    }
                     case Command::Type::SET_RENDER_TARGET:
                     {
                         const SetRenderTargetCommand* setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command.get());
@@ -810,9 +816,33 @@ namespace ouzel
                         break;
                     }
 
-                    case Command::Type::CLEAR:
+                    case Command::Type::SET_RENDER_TARGET_PARAMETERS:
                     {
-                        const ClearCommand* clearCommand = static_cast<const ClearCommand*>(command.get());
+                        const SetRenderTargetParametersCommand* setRenderTargetParametersCommand = static_cast<const SetRenderTargetParametersCommand*>(command.get());
+
+                        TextureResourceOGL* renderTargetOGL = static_cast<TextureResourceOGL*>(setRenderTargetParametersCommand->renderTarget);
+
+                        if (renderTargetOGL)
+                        {
+                            renderTargetOGL->setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
+                            renderTargetOGL->setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
+                            renderTargetOGL->setClearColor(setRenderTargetParametersCommand->clearColor);
+                            renderTargetOGL->setClearDepth(setRenderTargetParametersCommand->clearDepth);
+                        }
+                        else
+                        {
+                            setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
+                            setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
+                            setClearColor(setRenderTargetParametersCommand->clearColor);
+                            setClearDepth(setRenderTargetParametersCommand->clearDepth);
+                        }
+
+                        break;
+                    }
+
+                    case Command::Type::CLEAR_RENDER_TARGET:
+                    {
+                        const ClearRenderTargetCommand* clearCommand = static_cast<const ClearRenderTargetCommand*>(command.get());
 
                         GLuint newFrameBufferId = 0;
                         GLbitfield newClearMask = 0;
@@ -1088,14 +1118,15 @@ namespace ouzel
                     {
                         const InitBlendStateCommand* initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command.get());
 
-                        initBlendStateCommand->blendState->init(initBlendStateCommand->enableBlending,
-                                                                initBlendStateCommand->colorBlendSource,
-                                                                initBlendStateCommand->colorBlendDest,
-                                                                initBlendStateCommand->colorOperation,
-                                                                initBlendStateCommand->alphaBlendSource,
-                                                                initBlendStateCommand->alphaBlendDest,
-                                                                initBlendStateCommand->alphaOperation,
-                                                                initBlendStateCommand->colorMask);
+                        BlendStateResourceOGL* blendStateResourceOGL = static_cast<BlendStateResourceOGL*>(initBlendStateCommand->blendState);
+                        blendStateResourceOGL->init(initBlendStateCommand->enableBlending,
+                                                    initBlendStateCommand->colorBlendSource,
+                                                    initBlendStateCommand->colorBlendDest,
+                                                    initBlendStateCommand->colorOperation,
+                                                    initBlendStateCommand->alphaBlendSource,
+                                                    initBlendStateCommand->alphaBlendDest,
+                                                    initBlendStateCommand->alphaOperation,
+                                                    initBlendStateCommand->colorMask);
                         break;
                     }
 
@@ -1103,10 +1134,11 @@ namespace ouzel
                     {
                         const InitBufferCommand* initBufferCommand = static_cast<const InitBufferCommand*>(command.get());
 
-                        initBufferCommand->buffer->init(initBufferCommand->usage,
-                                                        initBufferCommand->flags,
-                                                        initBufferCommand->data,
-                                                        initBufferCommand->size);
+                        BufferResourceOGL* bufferResourceOGL = static_cast<BufferResourceOGL*>(initBufferCommand->buffer);
+                        bufferResourceOGL->init(initBufferCommand->usage,
+                                                initBufferCommand->flags,
+                                                initBufferCommand->data,
+                                                initBufferCommand->size);
                         break;
                     }
 
@@ -1114,7 +1146,8 @@ namespace ouzel
                     {
                         const SetBufferDataCommand* setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command.get());
 
-                        setBufferDataCommand->buffer->setData(setBufferDataCommand->data);
+                        BufferResourceOGL* bufferResourceOGL = static_cast<BufferResourceOGL*>(setBufferDataCommand->buffer);
+                        bufferResourceOGL->setData(setBufferDataCommand->data);
                         break;
                     }
 
@@ -1122,15 +1155,16 @@ namespace ouzel
                     {
                         const InitShaderCommand* initShaderCommand = static_cast<const InitShaderCommand*>(command.get());
 
-                        initShaderCommand->shader->init(initShaderCommand->fragmentShader,
-                                                        initShaderCommand->vertexShader,
-                                                        initShaderCommand->vertexAttributes,
-                                                        initShaderCommand->fragmentShaderConstantInfo,
-                                                        initShaderCommand->vertexShaderConstantInfo,
-                                                        initShaderCommand->fragmentShaderDataAlignment,
-                                                        initShaderCommand->vertexShaderDataAlignment,
-                                                        initShaderCommand->fragmentShaderFunction,
-                                                        initShaderCommand->vertexShaderFunction);
+                        ShaderResourceOGL* shaderResourceOGL = static_cast<ShaderResourceOGL*>(initShaderCommand->shader);
+                        shaderResourceOGL->init(initShaderCommand->fragmentShader,
+                                                initShaderCommand->vertexShader,
+                                                initShaderCommand->vertexAttributes,
+                                                initShaderCommand->fragmentShaderConstantInfo,
+                                                initShaderCommand->vertexShaderConstantInfo,
+                                                initShaderCommand->fragmentShaderDataAlignment,
+                                                initShaderCommand->vertexShaderDataAlignment,
+                                                initShaderCommand->fragmentShaderFunction,
+                                                initShaderCommand->vertexShaderFunction);
 
                         break;
                     }
@@ -1181,10 +1215,11 @@ namespace ouzel
                     {
                         const InitTextureCommand* initTextureCommand = static_cast<const InitTextureCommand*>(command.get());
 
-                        initTextureCommand->texture->init(initTextureCommand->levels,
-                                                          initTextureCommand->flags,
-                                                          initTextureCommand->sampleCount,
-                                                          initTextureCommand->pixelFormat);
+                        TextureResourceOGL* textureResourceOGL = static_cast<TextureResourceOGL*>(initTextureCommand->texture);
+                        textureResourceOGL->init(initTextureCommand->levels,
+                                                 initTextureCommand->flags,
+                                                 initTextureCommand->sampleCount,
+                                                 initTextureCommand->pixelFormat);
 
                         break;
                     }
@@ -1193,7 +1228,8 @@ namespace ouzel
                     {
                         const SetTextureDataCommand* setTextureDataCommand = static_cast<const SetTextureDataCommand*>(command.get());
 
-                        setTextureDataCommand->texture->setData(setTextureDataCommand->levels);
+                        TextureResourceOGL* textureResourceOGL = static_cast<TextureResourceOGL*>(setTextureDataCommand->texture);
+                        textureResourceOGL->setData(setTextureDataCommand->levels);
 
                         break;
                     }
@@ -1202,15 +1238,11 @@ namespace ouzel
                     {
                         const SetTextureParametersCommand* setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
 
-                        setTextureParametersCommand->texture->setFilter(setTextureParametersCommand->filter);
-                        setTextureParametersCommand->texture->setAddressX(setTextureParametersCommand->addressX);
-                        setTextureParametersCommand->texture->setAddressY(setTextureParametersCommand->addressY);
-                        setTextureParametersCommand->texture->setMaxAnisotropy(setTextureParametersCommand->maxAnisotropy);
-                        setTextureParametersCommand->texture->setClearColorBuffer(setTextureParametersCommand->clearColorBuffer);
-                        setTextureParametersCommand->texture->setClearDepthBuffer(setTextureParametersCommand->clearDepthBuffer);
-                        setTextureParametersCommand->texture->setClearColor(setTextureParametersCommand->clearColor);
-                        setTextureParametersCommand->texture->setClearDepth(setTextureParametersCommand->clearDepth);
-
+                        TextureResourceOGL* textureResourceOGL = static_cast<TextureResourceOGL*>(setTextureParametersCommand->texture);
+                        textureResourceOGL->setFilter(setTextureParametersCommand->filter);
+                        textureResourceOGL->setAddressX(setTextureParametersCommand->addressX);
+                        textureResourceOGL->setAddressY(setTextureParametersCommand->addressY);
+                        textureResourceOGL->setMaxAnisotropy(setTextureParametersCommand->maxAnisotropy);
                         break;
                     }
 
@@ -1234,9 +1266,9 @@ namespace ouzel
                     default:
                         throw DataError("Invalid command");
                 }
-            }
 
-            present();
+                if (command->type == Command::Type::PRESENT) break;
+            }
         }
 
         void RenderDeviceOGL::present()
@@ -1274,47 +1306,47 @@ namespace ouzel
                 throw FileError("Failed to save image to file");
         }
 
-        BlendStateResource* RenderDeviceOGL::createBlendState()
+        RenderResource* RenderDeviceOGL::createBlendState()
         {
             std::unique_lock<std::mutex> lock(resourceMutex);
 
-            BlendStateResource* blendState = new BlendStateResourceOGL(*this);
+            RenderResource* blendState = new BlendStateResourceOGL(*this);
             resources.push_back(std::unique_ptr<RenderResource>(blendState));
             return blendState;
         }
 
-        BufferResource* RenderDeviceOGL::createBuffer()
+        RenderResource* RenderDeviceOGL::createBuffer()
         {
             std::unique_lock<std::mutex> lock(resourceMutex);
 
-            BufferResource* buffer = new BufferResourceOGL(*this);
+            RenderResource* buffer = new BufferResourceOGL(*this);
             resources.push_back(std::unique_ptr<RenderResource>(buffer));
             return buffer;
         }
 
-        RenderTargetResource* RenderDeviceOGL::createRenderTarget()
+        RenderResource* RenderDeviceOGL::createRenderTarget()
         {
             std::unique_lock<std::mutex> lock(resourceMutex);
 
-            RenderTargetResource* renderTarget = new RenderTargetResourceOGL(*this);
+            RenderResource* renderTarget = new RenderTargetResourceOGL(*this);
             resources.push_back(std::unique_ptr<RenderResource>(renderTarget));
             return renderTarget;
         }
 
-        ShaderResource* RenderDeviceOGL::createShader()
+        RenderResource* RenderDeviceOGL::createShader()
         {
             std::unique_lock<std::mutex> lock(resourceMutex);
 
-            ShaderResource* shader = new ShaderResourceOGL(*this);
+            RenderResource* shader = new ShaderResourceOGL(*this);
             resources.push_back(std::unique_ptr<RenderResource>(shader));
             return shader;
         }
 
-        TextureResource* RenderDeviceOGL::createTexture()
+        RenderResource* RenderDeviceOGL::createTexture()
         {
             std::unique_lock<std::mutex> lock(resourceMutex);
 
-            TextureResource* texture = new TextureResourceOGL(*this);
+            RenderResource* texture = new TextureResourceOGL(*this);
             resources.push_back(std::unique_ptr<RenderResource>(texture));
             return texture;
         }

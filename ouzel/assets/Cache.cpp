@@ -5,8 +5,6 @@
 #include "Bundle.hpp"
 #include "Loader.hpp"
 #include "graphics/Renderer.hpp"
-#include "graphics/TextureResource.hpp"
-#include "graphics/ShaderResource.hpp"
 #include "scene/ParticleSystemData.hpp"
 #include "scene/SpriteData.hpp"
 #include "files/FileSystem.hpp"

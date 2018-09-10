@@ -78,9 +78,7 @@
     <ClCompile Include="..\ouzel\files\File.cpp" />
     <ClCompile Include="..\ouzel\files\FileSystem.cpp" />
     <ClCompile Include="..\ouzel\graphics\BlendState.cpp" />
-    <ClCompile Include="..\ouzel\graphics\BlendStateResource.cpp" />
     <ClCompile Include="..\ouzel\graphics\Buffer.cpp" />
-    <ClCompile Include="..\ouzel\graphics\BufferResource.cpp" />
     <ClCompile Include="..\ouzel\graphics\direct3d11\BlendStateResourceD3D11.cpp" />
     <ClCompile Include="..\ouzel\graphics\direct3d11\BufferResourceD3D11.cpp" />
     <ClCompile Include="..\ouzel\graphics\direct3d11\RenderDeviceD3D11.cpp" />
@@ -104,12 +102,9 @@
     <ClCompile Include="..\ouzel\graphics\opengl\windows\RenderDeviceOGLWin.cpp" />
     <ClCompile Include="..\ouzel\graphics\RenderDevice.cpp" />
     <ClCompile Include="..\ouzel\graphics\RenderTarget.cpp" />
-    <ClCompile Include="..\ouzel\graphics\RenderTargetResource.cpp" />
     <ClCompile Include="..\ouzel\graphics\Renderer.cpp" />
     <ClCompile Include="..\ouzel\graphics\Shader.cpp" />
-    <ClCompile Include="..\ouzel\graphics\ShaderResource.cpp" />
     <ClCompile Include="..\ouzel\graphics\Texture.cpp" />
-    <ClCompile Include="..\ouzel\graphics\TextureResource.cpp" />
     <ClCompile Include="..\ouzel\graphics\Vertex.cpp" />
     <ClCompile Include="..\ouzel\gui\BMFont.cpp" />
     <ClCompile Include="..\ouzel\gui\Button.cpp" />
@@ -235,9 +230,7 @@
     <ClInclude Include="..\ouzel\files\File.hpp" />
     <ClInclude Include="..\ouzel\files\FileSystem.hpp" />
     <ClInclude Include="..\ouzel\graphics\BlendState.hpp" />
-    <ClInclude Include="..\ouzel\graphics\BlendStateResource.hpp" />
     <ClInclude Include="..\ouzel\graphics\Buffer.hpp" />
-    <ClInclude Include="..\ouzel\graphics\BufferResource.hpp" />
     <ClInclude Include="..\ouzel\graphics\Commands.hpp" />
     <ClInclude Include="..\ouzel\graphics\DataType.hpp" />
     <ClInclude Include="..\ouzel\graphics\direct3d11\BlendStateResourceD3D11.hpp" />
@@ -257,6 +250,7 @@
     <ClInclude Include="..\ouzel\graphics\opengl\BlendStateResourceOGL.hpp" />
     <ClInclude Include="..\ouzel\graphics\opengl\BufferResourceOGL.hpp" />
     <ClInclude Include="..\ouzel\graphics\opengl\RenderDeviceOGL.hpp" />
+    <ClInclude Include="..\ouzel\graphics\opengl\RenderResourceOGL.hpp" />
     <ClInclude Include="..\ouzel\graphics\opengl\RenderTargetResourceOGL.hpp" />
     <ClInclude Include="..\ouzel\graphics\opengl\ShaderResourceOGL.hpp" />
     <ClInclude Include="..\ouzel\graphics\opengl\TextureResourceOGL.hpp" />
@@ -266,9 +260,7 @@
     <ClInclude Include="..\ouzel\graphics\Renderer.hpp" />
     <ClInclude Include="..\ouzel\graphics\RenderResource.hpp" />
     <ClInclude Include="..\ouzel\graphics\Shader.hpp" />
-    <ClInclude Include="..\ouzel\graphics\ShaderResource.hpp" />
     <ClInclude Include="..\ouzel\graphics\Texture.hpp" />
-    <ClInclude Include="..\ouzel\graphics\TextureResource.hpp" />
     <ClInclude Include="..\ouzel\graphics\Vertex.hpp" />
     <ClInclude Include="..\ouzel\gui\BMFont.hpp" />
     <ClInclude Include="..\ouzel\gui\Button.hpp" />

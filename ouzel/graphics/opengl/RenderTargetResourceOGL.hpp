@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "graphics/RenderTargetResource.hpp"
+#include "graphics/opengl/RenderResourceOGL.hpp"
 
 namespace ouzel
 {
@@ -10,10 +10,12 @@ namespace ouzel
     {
         class RenderDeviceOGL;
 
-        class RenderTargetResourceOGL: public RenderTargetResource
+        class RenderTargetResourceOGL: public RenderResourceOGL
         {
         public:
             RenderTargetResourceOGL(RenderDeviceOGL& renderDeviceOGL);
+
+            virtual void reload() override;
         };
     } // namespace graphics
 } // namespace ouzel

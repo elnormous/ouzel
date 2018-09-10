@@ -15,7 +15,7 @@ namespace ouzel
     namespace graphics
     {
         ShaderResourceMetal::ShaderResourceMetal(RenderDeviceMetal& renderDeviceMetal):
-            ShaderResource(renderDeviceMetal)
+            RenderResource(renderDeviceMetal)
         {
         }
 
@@ -95,25 +95,39 @@ namespace ouzel
             return MTLVertexFormatInvalid;
         }
 
-        void ShaderResourceMetal::init(const std::vector<uint8_t>& newFragmentShader,
-                                       const std::vector<uint8_t>& newVertexShader,
+        void ShaderResourceMetal::init(const std::vector<uint8_t>& fragmentShaderData,
+                                       const std::vector<uint8_t>& vertexShaderData,
                                        const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
                                        const std::vector<Shader::ConstantInfo>& newFragmentShaderConstantInfo,
                                        const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
                                        uint32_t newFragmentShaderDataAlignment,
                                        uint32_t newVertexShaderDataAlignment,
-                                       const std::string& newFragmentShaderFunction,
-                                       const std::string& newVertexShaderFunction)
+                                       const std::string& fragmentShaderFunction,
+                                       const std::string& vertexShaderFunction)
         {
-            ShaderResource::init(newFragmentShader,
-                                 newVertexShader,
-                                 newVertexAttributes,
-                                 newFragmentShaderConstantInfo,
-                                 newVertexShaderConstantInfo,
-                                 newFragmentShaderDataAlignment,
-                                 newVertexShaderDataAlignment,
-                                 newFragmentShaderFunction,
-                                 newVertexShaderFunction);
+            vertexAttributes = newVertexAttributes;
+            fragmentShaderConstantInfo = newFragmentShaderConstantInfo;
+            vertexShaderConstantInfo = newVertexShaderConstantInfo;
+
+            if (newFragmentShaderDataAlignment)
+                fragmentShaderAlignment = newFragmentShaderDataAlignment;
+            else
+            {
+                fragmentShaderAlignment = 0;
+
+                for (const Shader::ConstantInfo& info : newFragmentShaderConstantInfo)
+                    fragmentShaderAlignment += info.size;
+            }
+
+            if (newVertexShaderDataAlignment)
+                vertexShaderAlignment = newVertexShaderDataAlignment;
+            else
+            {
+                vertexShaderAlignment = 0;
+
+                for (const Shader::ConstantInfo& info : newVertexShaderConstantInfo)
+                    vertexShaderAlignment += info.size;
+            }
 
             uint32_t index = 0;
             NSUInteger offset = 0;

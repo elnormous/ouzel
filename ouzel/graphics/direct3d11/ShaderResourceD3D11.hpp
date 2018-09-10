@@ -8,7 +8,8 @@
 
 #include <vector>
 #include <d3d11.h>
-#include "graphics/ShaderResource.hpp"
+#include "graphics/RenderResource.hpp"
+#include "graphics/Shader.hpp"
 
 namespace ouzel
 {
@@ -16,27 +17,29 @@ namespace ouzel
     {
         class RenderDeviceD3D11;
 
-        class ShaderResourceD3D11: public ShaderResource
+        class ShaderResourceD3D11: public RenderResource
         {
         public:
             explicit ShaderResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11);
             virtual ~ShaderResourceD3D11();
 
-            virtual void init(const std::vector<uint8_t>& newFragmentShader,
-                              const std::vector<uint8_t>& newVertexShader,
-                              const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
-                              const std::vector<Shader::ConstantInfo>& newFragmentShaderConstantInfo,
-                              const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
-                              uint32_t newFragmentShaderDataAlignment = 0,
-                              uint32_t newVertexShaderDataAlignment = 0,
-                              const std::string& newFragmentShaderFunction = "",
-                              const std::string& newVertexShaderFunction = "") override;
+            void init(const std::vector<uint8_t>& fragmentShaderData,
+                      const std::vector<uint8_t>& vertexShaderData,
+                      const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
+                      const std::vector<Shader::ConstantInfo>& newFragmentShaderConstantInfo,
+                      const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
+                      uint32_t,
+                      uint32_t,
+                      const std::string& fragmentShaderFunction,
+                      const std::string& vertexShaderFunction);
 
             struct Location
             {
                 uint32_t offset;
                 uint32_t size;
             };
+
+            inline const std::set<Vertex::Attribute::Usage>& getVertexAttributes() const { return vertexAttributes; }
 
             const std::vector<Location>& getFragmentShaderConstantLocations() const { return fragmentShaderConstantLocations; }
             const std::vector<Location>& getVertexShaderConstantLocations() const { return vertexShaderConstantLocations; }
@@ -49,6 +52,11 @@ namespace ouzel
             ID3D11InputLayout* getInputLayout() const { return inputLayout; }
 
         private:
+            std::set<Vertex::Attribute::Usage> vertexAttributes;
+
+            std::vector<Shader::ConstantInfo> fragmentShaderConstantInfo;
+            std::vector<Shader::ConstantInfo> vertexShaderConstantInfo;
+
             ID3D11PixelShader* fragmentShader = nullptr;
             ID3D11VertexShader* vertexShader = nullptr;
             ID3D11InputLayout* inputLayout = nullptr;

@@ -50,7 +50,7 @@ namespace ouzel
         }
 
         TextureResourceD3D11::TextureResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11):
-            TextureResource(renderDeviceD3D11)
+            RenderResource(renderDeviceD3D11)
         {
         }
 
@@ -75,17 +75,20 @@ namespace ouzel
                 samplerState->Release();
         }
 
-        void TextureResourceD3D11::init(const std::vector<Texture::Level>& newLevels,
+        void TextureResourceD3D11::init(const std::vector<Texture::Level>& levels,
                                         uint32_t newFlags,
                                         uint32_t newSampleCount,
                                         PixelFormat newPixelFormat)
         {
-            TextureResource::init(newLevels,
-                                  newFlags,
-                                  newSampleCount,
-                                  newPixelFormat);
+            flags = newFlags;
+            mipmaps = static_cast<uint32_t>(levels.size());
+            sampleCount = newSampleCount;
+            pixelFormat = newPixelFormat;
 
-            createTexture();
+            if ((flags & Texture::RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
+                throw DataError("Invalid mip map count");
+
+            createTexture(levels);
 
             if (flags & Texture::RENDER_TARGET)
             {
@@ -95,17 +98,23 @@ namespace ouzel
                 frameBufferClearColor[3] = clearColor.normA();
             }
 
+            samplerDescriptor.filter = renderDevice.getTextureFilter();
+            samplerDescriptor.addressX = Texture::Address::CLAMP;
+            samplerDescriptor.addressY = Texture::Address::CLAMP;
+            samplerDescriptor.maxAnisotropy = renderDevice.getMaxAnisotropy();
+
             updateSamplerState();
         }
 
-        void TextureResourceD3D11::setData(const std::vector<Texture::Level>& newLevels)
+        void TextureResourceD3D11::setData(const std::vector<Texture::Level>& levels)
         {
-            TextureResource::setData(newLevels);
+            if (!(flags & Texture::DYNAMIC) || flags & Texture::RENDER_TARGET)
+                throw DataError("Texture is not dynamic");
 
             RenderDeviceD3D11& renderDeviceD3D11 = static_cast<RenderDeviceD3D11&>(renderDevice);
 
             if (!texture)
-                createTexture();
+                createTexture(levels);
             else if (!(flags & Texture::RENDER_TARGET))
             {
                 if (flags & Texture::DYNAMIC)
@@ -170,51 +179,47 @@ namespace ouzel
             }
         }
 
-        void TextureResourceD3D11::setFilter(Texture::Filter newFilter)
+        void TextureResourceD3D11::setFilter(Texture::Filter filter)
         {
-            TextureResource::setFilter(newFilter);
-
+            samplerDescriptor.filter = (filter == Texture::Filter::DEFAULT) ? renderDevice.getTextureFilter() : filter;
             updateSamplerState();
         }
 
-        void TextureResourceD3D11::setAddressX(Texture::Address newAddressX)
+        void TextureResourceD3D11::setAddressX(Texture::Address addressX)
         {
-            TextureResource::setAddressX(newAddressX);
-
+            samplerDescriptor.addressX = addressX;
             updateSamplerState();
         }
 
-        void TextureResourceD3D11::setAddressY(Texture::Address newAddressY)
+        void TextureResourceD3D11::setAddressY(Texture::Address addressY)
         {
-            TextureResource::setAddressY(newAddressY);
-
+            samplerDescriptor.addressY = addressY;
             updateSamplerState();
         }
 
-        void TextureResourceD3D11::setMaxAnisotropy(uint32_t newMaxAnisotropy)
+        void TextureResourceD3D11::setMaxAnisotropy(uint32_t maxAnisotropy)
         {
-            TextureResource::setMaxAnisotropy(newMaxAnisotropy);
-
+            samplerDescriptor.maxAnisotropy = (maxAnisotropy == 0) ? renderDevice.getMaxAnisotropy() : maxAnisotropy;
             updateSamplerState();
         }
 
         void TextureResourceD3D11::setClearColorBuffer(bool clear)
         {
-            TextureResource::setClearColorBuffer(clear);
+            clearColorBuffer = clear;
 
             clearFrameBufferView = clearColorBuffer;
         }
 
         void TextureResourceD3D11::setClearDepthBuffer(bool clear)
         {
-            TextureResource::setClearDepthBuffer(clear);
+            clearDepthBuffer = clear;
 
             clearDepthBufferView = clearDepthBuffer;
         }
 
         void TextureResourceD3D11::setClearColor(Color color)
         {
-            TextureResource::setClearColor(color);
+            clearColor = color;
 
             frameBufferClearColor[0] = clearColor.normR();
             frameBufferClearColor[1] = clearColor.normG();
@@ -222,7 +227,12 @@ namespace ouzel
             frameBufferClearColor[3] = clearColor.normA();
         }
 
-        void TextureResourceD3D11::createTexture()
+        void TextureResourceD3D11::setClearDepth(float newClearDepth)
+        {
+            clearDepth = newClearDepth;
+        }
+
+        void TextureResourceD3D11::createTexture(const std::vector<Texture::Level>& levels)
         {
             if (texture)
                 texture->Release();
@@ -251,8 +261,8 @@ namespace ouzel
                 depthStencilView = nullptr;
             }
 
-            width = static_cast<UINT>(size.width);
-            height = static_cast<UINT>(size.height);
+            width = static_cast<UINT>(levels.front().size.width);
+            height = static_cast<UINT>(levels.front().size.height);
 
             if (width > 0 && height > 0)
             {
@@ -363,14 +373,8 @@ namespace ouzel
         {
             RenderDeviceD3D11& renderDeviceD3D11 = static_cast<RenderDeviceD3D11&>(renderDevice);
 
-            RenderDeviceD3D11::SamplerStateDesc samplerDesc;
-            samplerDesc.filter = (filter == Texture::Filter::DEFAULT) ? renderDeviceD3D11.getTextureFilter() : filter;
-            samplerDesc.addressX = addressX;
-            samplerDesc.addressY = addressY;
-            samplerDesc.maxAnisotropy = (maxAnisotropy == 0) ? renderDeviceD3D11.getMaxAnisotropy() : maxAnisotropy;
-
             if (samplerState) samplerState->Release();
-            samplerState = renderDeviceD3D11.getSamplerState(samplerDesc);
+            samplerState = renderDeviceD3D11.getSamplerState(samplerDescriptor);
 
             if (!samplerState)
                 throw DataError("Failed to get D3D11 sampler state");
