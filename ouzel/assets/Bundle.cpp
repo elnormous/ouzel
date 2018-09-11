@@ -51,6 +51,12 @@ namespace ouzel
             }
         }
 
+        void Bundle::loadAssets(const std::vector<Asset>& assets)
+        {
+            for (const Asset& asset : assets)
+                loadAsset(asset.type, asset.filename, asset.mipmaps);
+        }
+
         std::shared_ptr<graphics::Texture> Bundle::getTexture(const std::string& filename) const
         {
             auto i = textures.find(filename);
