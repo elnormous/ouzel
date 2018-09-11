@@ -420,7 +420,7 @@ namespace ouzel
         return std::string();
     }
 
-    bool FileSystem::isAbsolutePath(const std::string& path) const
+    bool FileSystem::isAbsolutePath(const std::string& path)
     {
 #if OUZEL_PLATFORM_WINDOWS
         int size = MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, nullptr, 0);
