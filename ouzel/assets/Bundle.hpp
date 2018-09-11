@@ -2,9 +2,9 @@
 
 #pragma once
 
+#include <map>
 #include <memory>
 #include <string>
-#include <map>
 #include "audio/SoundData.hpp"
 #include "files/FileSystem.hpp"
 #include "graphics/BlendState.hpp"
@@ -22,6 +22,23 @@ namespace ouzel
     {
         class Cache;
 
+        class Asset
+        {
+        public:
+            Asset(uint32_t initType,
+                  std::string initFilename,
+                  bool initMipmaps = true):
+                type(initType),
+                filename(initFilename),
+                mipmaps(initMipmaps)
+            {
+            }
+
+            uint32_t type;
+            std::string filename;
+            bool mipmaps;
+        };
+
         class Bundle final
         {
             friend Cache;
@@ -37,6 +54,7 @@ namespace ouzel
 
             void loadAsset(uint32_t loaderType, const std::string& filename, bool mipmaps = true);
             void loadAssets(const std::string& filename);
+            void loadAssets(const std::vector<Asset>& assets);
 
             void clear();
 
