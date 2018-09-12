@@ -439,6 +439,10 @@
     <ClCompile Include="..\ouzel\assets\Bundle.cpp">
       <Filter>ouzel\assets</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\scene\TextRenderer.cpp" />
+    <ClCompile Include="..\ouzel\input\Input.cpp">
+      <Filter>ouzel\input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\animators\Animator.hpp">
@@ -923,6 +927,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\opengl\RenderResourceOGL.hpp">
       <Filter>ouzel\graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\input\Input.hpp">
+      <Filter>ouzel\input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
