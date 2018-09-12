@@ -649,6 +649,7 @@ namespace ouzel
     {
         eventDispatcher.dispatchEvents();
 
+        inputManager->update();
         window->update();
         sceneManager.update();
 
