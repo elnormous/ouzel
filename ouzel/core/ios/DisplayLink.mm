@@ -2,7 +2,6 @@
 
 #include "DisplayLink.hpp"
 #include "utils/Errors.hpp"
-#include "utils/Log.hpp"
 #include "utils/Utils.hpp"
 
 @interface DisplayLinkHandler: NSObject

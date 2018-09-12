@@ -19,7 +19,6 @@
 #undef OPENAL
 
 #include "audio/AudioDevice.hpp"
-#include "utils/Log.hpp"
 
 namespace ouzel
 {
