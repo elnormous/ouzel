@@ -12,6 +12,7 @@ extern "C" id const AVAudioSessionCategoryAmbient;
 #include "AudioDeviceAL.hpp"
 #include "core/Engine.hpp"
 #include "utils/Errors.hpp"
+#include "utils/Log.hpp"
 #include "utils/Utils.hpp"
 
 namespace ouzel
