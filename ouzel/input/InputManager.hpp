@@ -6,6 +6,7 @@
 #include <mutex>
 #include <vector>
 #include <unordered_map>
+#include "input/Input.hpp"
 #include "input/InputSystem.hpp"
 #include "math/Vector2.hpp"
 
@@ -32,6 +33,8 @@ namespace ouzel
 
             InputManager(InputManager&&) = delete;
             InputManager& operator=(InputManager&&) = delete;
+
+            void update();
 
             template<typename T>
             void setCursor(const std::unique_ptr<T>& cursor)
@@ -95,6 +98,8 @@ namespace ouzel
             std::vector<std::unique_ptr<NativeCursor>> resources;
             std::vector<std::unique_ptr<NativeCursor>> resourceDeleteSet;
             NativeCursor* currentNativeCursor = nullptr;
+
+            std::unordered_map<InputDevice*, Input> inputs;
         };
     } // namespace input
 } // namespace ouzel

@@ -22,6 +22,11 @@ namespace ouzel
         {
         }
 
+        void InputManager::update()
+        {
+            //inputSystem->update();
+        }
+
         void InputManager::setCurrentCursor(Cursor* cursor)
         {
             std::unique_lock<std::mutex> lock(resourceMutex);
