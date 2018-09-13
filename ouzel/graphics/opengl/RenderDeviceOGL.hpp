@@ -119,7 +119,7 @@ namespace ouzel
     {
         class RenderDeviceOGL: public RenderDevice
         {
-            friend RenderDevice;
+            friend Renderer;
         public:
             virtual ~RenderDeviceOGL();
 

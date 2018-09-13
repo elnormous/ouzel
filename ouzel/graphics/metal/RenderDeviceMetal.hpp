@@ -59,7 +59,7 @@ namespace ouzel
 
         class RenderDeviceMetal: public RenderDevice
         {
-            friend RenderDevice;
+            friend Renderer;
         public:
             static const size_t BUFFER_SIZE = 1024 * 1024; // size of shader constant buffer
             static const size_t BUFFER_COUNT = 3; // allow encoding up to 3 command buffers simultaneously
