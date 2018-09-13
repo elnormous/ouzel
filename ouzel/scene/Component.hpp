@@ -14,7 +14,6 @@ namespace ouzel
 {
     namespace scene
     {
-        class Camera;
         class Actor;
         class Layer;
 
