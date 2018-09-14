@@ -6,7 +6,6 @@
 
 #include "RenderDeviceOGLAndroid.hpp"
 #include "core/android/NativeWindowAndroid.hpp"
-#include "core/Engine.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"

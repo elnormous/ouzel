@@ -5,7 +5,6 @@
 #if OUZEL_COMPILE_ALSA
 
 #include "AudioDeviceALSA.hpp"
-#include "core/Engine.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"

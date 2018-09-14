@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "GamepadIOS.hpp"
-#include "core/Engine.hpp"
 
 namespace ouzel
 {

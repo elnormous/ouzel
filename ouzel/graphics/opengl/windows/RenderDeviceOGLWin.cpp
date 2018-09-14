@@ -9,7 +9,6 @@
 #include "GL/glext.h"
 #include "GL/wglext.h"
 #include "RenderDeviceOGLWin.hpp"
-#include "core/Engine.hpp"
 #include "core/windows/NativeWindowWin.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"

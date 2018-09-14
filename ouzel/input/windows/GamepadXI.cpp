@@ -2,7 +2,6 @@
 
 #include "GamepadXI.hpp"
 #include "InputManagerWin.hpp"
-#include "core/Engine.hpp"
 #include "utils/Errors.hpp"
 
 namespace ouzel

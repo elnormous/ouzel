@@ -3,7 +3,6 @@
 #include <cassert>
 #include <algorithm>
 #include "Actor.hpp"
-#include "core/Engine.hpp"
 #include "SceneManager.hpp"
 #include "Layer.hpp"
 #include "Camera.hpp"

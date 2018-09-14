@@ -10,7 +10,6 @@ extern "C" id const AVAudioSessionCategoryAmbient;
 #endif
 
 #include "AudioDeviceAL.hpp"
-#include "core/Engine.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"

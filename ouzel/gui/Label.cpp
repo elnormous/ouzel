@@ -2,7 +2,6 @@
 
 #include "core/Setup.h"
 #include "Label.hpp"
-#include "core/Engine.hpp"
 #include "graphics/Renderer.hpp"
 #include "scene/Layer.hpp"
 #include "scene/Camera.hpp"
