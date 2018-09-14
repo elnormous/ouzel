@@ -18,7 +18,7 @@ namespace ouzel
         EngineLinux(int initArgc, char* initArgv[]);
         virtual ~EngineLinux();
 
-        virtual void run() override;
+        void run();
 
         virtual void executeOnMainThread(const std::function<void(void)>& func) override;
         virtual void openURL(const std::string& url) override;

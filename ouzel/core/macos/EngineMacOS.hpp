@@ -16,7 +16,7 @@ namespace ouzel
         EngineMacOS(int argc, char* argv[]);
         virtual ~EngineMacOS();
 
-        virtual void run() override;
+        void run();
 
         virtual void executeOnMainThread(const std::function<void(void)>& func) override;
 
