@@ -333,7 +333,7 @@ namespace ouzel
                     {
                         token.value.push_back(*iterator);
 
-                        if (++iterator == str.end() || *iterator != '+' || *iterator != '-')
+                        if (++iterator == str.end() || (*iterator != '+' && *iterator != '-'))
                             throw ParseError("Invalid exponent");
 
                         token.value.push_back(*iterator);
