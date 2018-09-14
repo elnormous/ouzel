@@ -14,8 +14,8 @@ namespace ouzel
         ShapeRenderer::ShapeRenderer():
             Component(CLASS)
         {
-            shader = engine->getCache()->getShader(SHADER_COLOR);
-            blendState = engine->getCache()->getBlendState(BLEND_ALPHA);
+            shader = engine->getCache().getShader(SHADER_COLOR);
+            blendState = engine->getCache().getBlendState(BLEND_ALPHA);
 
             indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer());
             indexBuffer->init(graphics::Buffer::Usage::INDEX, graphics::Buffer::DYNAMIC);

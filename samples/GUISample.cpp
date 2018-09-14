@@ -19,7 +19,7 @@ GUISample::GUISample():
     handler.gamepadHandler = bind(&GUISample::handleGamepad, this, placeholders::_1, placeholders::_2);
     handler.uiHandler = bind(&GUISample::handleUI, this, placeholders::_1, placeholders::_2);
     handler.keyboardHandler = bind(&GUISample::handleKeyboard, this, placeholders::_1, placeholders::_2);
-    engine->getEventDispatcher()->addEventHandler(&handler);
+    engine->getEventDispatcher().addEventHandler(&handler);
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera.setTargetContentSize(Size2(800.0F, 600.0F));
@@ -42,10 +42,10 @@ GUISample::GUISample():
     label1.setPosition(Vector2(-88.0F, 108.0F));
     guiLayer.addChild(&label1);
 
-    engine->getLocalization()->addLanguage("latvian", engine->getFileSystem()->readFile("lv.mo"));
-    engine->getLocalization()->setLanguage("latvian");
+    engine->getLocalization().addLanguage("latvian", engine->getFileSystem().readFile("lv.mo"));
+    engine->getLocalization().setLanguage("latvian");
 
-    label2.setText(engine->getLocalization()->getString("Ouzel"));
+    label2.setText(engine->getLocalization().getString("Ouzel"));
 
     label2.setPosition(Vector2(10.0F, 0.0F));
     guiLayer.addChild(&label2);
@@ -65,7 +65,7 @@ bool GUISample::handleGamepad(Event::Type type, const GamepadEvent& event)
     {
         if (event.pressed &&
             event.button == input::GamepadButton::FACE_RIGHT)
-            engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+            engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
     }
 
     return false;
@@ -76,7 +76,7 @@ bool GUISample::handleUI(Event::Type type, const UIEvent& event)
     if (type == Event::Type::ACTOR_CLICK)
     {
         if (event.actor == &backButton)
-            engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+            engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
         else if (event.actor == &button)
             checkBox.setChecked(!checkBox.isChecked());
         else if (event.actor == &fullscreenButton)
@@ -97,7 +97,7 @@ bool GUISample::handleKeyboard(Event::Type type, const KeyboardEvent& event) con
         {
             case input::KeyboardKey::ESCAPE:
             case input::KeyboardKey::MENU:
-                engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+                engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 break;
             default:
                 break;

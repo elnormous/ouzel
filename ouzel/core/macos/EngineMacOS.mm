@@ -40,7 +40,7 @@
 
         event.systemEvent.filename = [filename cStringUsingEncoding:NSUTF8StringEncoding];
 
-        ouzel::engine->getEventDispatcher()->postEvent(event);
+        ouzel::engine->getEventDispatcher().postEvent(event);
     }
 
     return YES;

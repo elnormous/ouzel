@@ -168,7 +168,7 @@ namespace ouzel
             entered = true;
 
             recalculateProjection();
-            engine->getEventDispatcher()->addEventHandler(&eventHandler);
+            engine->getEventDispatcher().addEventHandler(&eventHandler);
 
             for (Layer* layer : layers)
                 layer->enter();
@@ -283,7 +283,7 @@ namespace ouzel
                 event.uiEvent.touchId = pointerId;
                 event.uiEvent.position = position;
 
-                engine->getEventDispatcher()->postEvent(event);
+                engine->getEventDispatcher().postEvent(event);
             }
         }
 
@@ -298,7 +298,7 @@ namespace ouzel
                 event.uiEvent.touchId = pointerId;
                 event.uiEvent.position = position;
 
-                engine->getEventDispatcher()->postEvent(event);
+                engine->getEventDispatcher().postEvent(event);
             }
         }
 
@@ -316,7 +316,7 @@ namespace ouzel
                 event.uiEvent.position = position;
                 event.uiEvent.localPosition = localPosition;
 
-                engine->getEventDispatcher()->postEvent(event);
+                engine->getEventDispatcher().postEvent(event);
             }
         }
 
@@ -338,7 +338,7 @@ namespace ouzel
                     releaseEvent.uiEvent.position = position;
                     releaseEvent.uiEvent.localPosition = pointerDownOnActor.second;
 
-                    engine->getEventDispatcher()->postEvent(releaseEvent);
+                    engine->getEventDispatcher().postEvent(releaseEvent);
 
                     if (pointerDownOnActor.first == actor)
                     {
@@ -349,7 +349,7 @@ namespace ouzel
                         clickEvent.uiEvent.touchId = pointerId;
                         clickEvent.uiEvent.position = position;
 
-                        engine->getEventDispatcher()->postEvent(clickEvent);
+                        engine->getEventDispatcher().postEvent(clickEvent);
                     }
                 }
             }
@@ -371,7 +371,7 @@ namespace ouzel
                 event.uiEvent.position = position;
                 event.uiEvent.localPosition = localPosition;
 
-                engine->getEventDispatcher()->postEvent(event);
+                engine->getEventDispatcher().postEvent(event);
             }
         }
     } // namespace scene

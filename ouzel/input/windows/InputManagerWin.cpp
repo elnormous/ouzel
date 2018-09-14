@@ -221,7 +221,7 @@ namespace ouzel
 
                     gamepads.push_back(std::move(gamepad));
 
-                    engine->getEventDispatcher()->postEvent(event);
+                    engine->getEventDispatcher().postEvent(event);
                 }
                 else if (result != ERROR_DEVICE_NOT_CONNECTED)
                     Log(Log::Level::WARN) << "Failed to get state for gamepad " << userIndex;
@@ -266,7 +266,7 @@ namespace ouzel
                         event.type = Event::Type::GAMEPAD_DISCONNECT;
                         event.gamepadEvent.gamepad = gamepadXI;
 
-                        engine->getEventDispatcher()->postEvent(event);
+                        engine->getEventDispatcher().postEvent(event);
 
                         gamepadsXI[userIndex] = nullptr;
 
@@ -294,7 +294,7 @@ namespace ouzel
                     event.type = Event::Type::GAMEPAD_DISCONNECT;
                     event.gamepadEvent.gamepad = gamepadDI;
 
-                    engine->getEventDispatcher()->postEvent(event);
+                    engine->getEventDispatcher().postEvent(event);
 
                     i = gamepadsDI.erase(i);
 
@@ -423,7 +423,7 @@ namespace ouzel
 
                             gamepads.push_back(std::move(gamepad));
 
-                            engine->getEventDispatcher()->postEvent(event);
+                            engine->getEventDispatcher().postEvent(event);
                         }
                         else if (result != ERROR_DEVICE_NOT_CONNECTED)
                             Log(Log::Level::WARN) << "Failed to get state for gamepad " << userIndex;
@@ -552,7 +552,7 @@ namespace ouzel
 
                     gamepads.push_back(std::move(gamepad));
 
-                    engine->getEventDispatcher()->postEvent(event);
+                    engine->getEventDispatcher().postEvent(event);
                 }
             }
         }

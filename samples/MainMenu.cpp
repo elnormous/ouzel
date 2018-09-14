@@ -25,7 +25,7 @@ MainMenu::MainMenu():
 {
     handler.uiHandler = bind(&MainMenu::handleUI, this, placeholders::_1, placeholders::_2);
     handler.keyboardHandler = bind(&MainMenu::handleKeyboard, this, placeholders::_1, placeholders::_2);
-    engine->getEventDispatcher()->addEventHandler(&handler);
+    engine->getEventDispatcher().addEventHandler(&handler);
 
     addLayer(&layer);
 
@@ -81,19 +81,19 @@ bool MainMenu::handleUI(Event::Type type, const UIEvent& event)
         if (event.actor == &gitHubButton)
             engine->openURL("https://github.com/elnormous/ouzel");
         else if (event.actor == &spritesButton)
-            engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new SpritesSample()));
+            engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new SpritesSample()));
         else if (event.actor == &guiButton)
-            engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new GUISample()));
+            engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new GUISample()));
         else if (event.actor == &renderTargetButton)
-            engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new RTSample()));
+            engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new RTSample()));
         else if (event.actor == &animationsButton)
-            engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new AnimationsSample()));
+            engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new AnimationsSample()));
         else if (event.actor == &inputButton)
-            engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new InputSample()));
+            engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new InputSample()));
         else if (event.actor == &soundButton)
-            engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new SoundSample()));
+            engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new SoundSample()));
         else if (event.actor == &perspectiveButton)
-            engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new PerspectiveSample()));
+            engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new PerspectiveSample()));
     }
 
     return false;

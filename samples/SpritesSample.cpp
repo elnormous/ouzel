@@ -15,7 +15,7 @@ SpritesSample::SpritesSample():
     handler.gamepadHandler = bind(&SpritesSample::handleGamepad, this, placeholders::_1, placeholders::_2);
     handler.uiHandler = bind(&SpritesSample::handleUI, this, placeholders::_1, placeholders::_2);
     handler.keyboardHandler = bind(&SpritesSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
-    engine->getEventDispatcher()->addEventHandler(&handler);
+    engine->getEventDispatcher().addEventHandler(&handler);
 
     camera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     camera.setTargetContentSize(Size2(800.0F, 600.0F));
@@ -77,7 +77,7 @@ bool SpritesSample::handleGamepad(Event::Type type, const GamepadEvent& event)
     {
         if (event.pressed &&
             event.button == input::GamepadButton::FACE_RIGHT)
-            engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+            engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
     }
 
     return false;
@@ -88,7 +88,7 @@ bool SpritesSample::handleUI(Event::Type type, const UIEvent& event)
     if (type == Event::Type::ACTOR_CLICK)
     {
         if (event.actor == &backButton)
-            engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+            engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
         else if (event.actor == &hideButton)
             character.setHidden(!character.isHidden());
         else if (event.actor == &wireframeButton)
@@ -106,7 +106,7 @@ bool SpritesSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
         {
             case input::KeyboardKey::ESCAPE:
             case input::KeyboardKey::MENU:
-                engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+                engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 break;
             default:
                 break;

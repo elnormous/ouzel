@@ -43,7 +43,7 @@ namespace ouzel
         void Cursor::init(const std::string& filename, const Vector2& hotSpot)
         {
             // TODO: load with asset loader
-            std::vector<uint8_t> data = engine->getFileSystem()->readFile(filename);
+            std::vector<uint8_t> data = engine->getFileSystem().readFile(filename);
 
             int width;
             int height;

@@ -43,7 +43,7 @@ namespace ouzel
                     Event finishEvent;
                     finishEvent.type = Event::Type::ANIMATION_FINISH;
                     finishEvent.animationEvent.component = this;
-                    engine->getEventDispatcher()->postEvent(finishEvent);
+                    engine->getEventDispatcher().postEvent(finishEvent);
                 }
                 else
                 {
@@ -59,13 +59,13 @@ namespace ouzel
 
         void Animator::start()
         {
-            engine->getSceneManager()->scheduleUpdate(&updateCallback);
+            engine->getSceneManager().scheduleUpdate(&updateCallback);
             play();
 
             Event startEvent;
             startEvent.type = Event::Type::ANIMATION_START;
             startEvent.animationEvent.component = this;
-            engine->getEventDispatcher()->postEvent(startEvent);
+            engine->getEventDispatcher().postEvent(startEvent);
         }
 
         void Animator::play()

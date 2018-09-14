@@ -82,7 +82,7 @@
             break;
     }
 
-    ouzel::engine->getEventDispatcher()->postEvent(event);
+    ouzel::engine->getEventDispatcher().postEvent(event);
 
     if (self.view)
     {

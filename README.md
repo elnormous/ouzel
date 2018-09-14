@@ -85,7 +85,7 @@ private:
 
 void ouzelMain(const std::vector<std::string>& args)
 {
-    ouzel::engine->getSceneManager()->setScene(std::unique_ptr<ouzel::scene::Scene>(new MainScene()));
+    ouzel::engine->getSceneManager().setScene(std::unique_ptr<ouzel::scene::Scene>(new MainScene()));
 }
 ```
 

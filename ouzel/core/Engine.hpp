@@ -53,16 +53,16 @@ namespace ouzel
 
         inline const std::vector<std::string>& getArgs() const { return args; }
 
-        inline FileSystem* getFileSystem() { return &fileSystem; }
-        inline EventDispatcher* getEventDispatcher() { return &eventDispatcher; }
-        inline assets::Cache* getCache() { return &cache; }
+        inline FileSystem& getFileSystem() { return fileSystem; }
+        inline EventDispatcher& getEventDispatcher() { return eventDispatcher; }
+        inline assets::Cache& getCache() { return cache; }
         inline Window* getWindow() { return window.get(); }
         inline graphics::Renderer* getRenderer() const { return renderer.get(); }
         inline audio::Audio* getAudio() const { return audio.get(); }
-        inline scene::SceneManager* getSceneManager() { return &sceneManager; }
+        inline scene::SceneManager& getSceneManager() { return sceneManager; }
         inline input::InputManager* getInputManager() const { return inputManager.get(); }
-        inline Localization* getLocalization() { return &localization; }
-        inline network::Network* getNetwork() { return &network; }
+        inline Localization& getLocalization() { return localization; }
+        inline network::Network& getNetwork() { return network; }
 
         inline const ini::Data& getDefaultSettings() const { return defaultSettings; }
         inline const ini::Data& getUserSettings() const { return userSettings; }

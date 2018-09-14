@@ -178,7 +178,7 @@ namespace ouzel
                         value = parseString(data, iterator);
 
                         if (key == "file")
-                            fontTexture = engine->getCache()->getTexture(value);
+                            fontTexture = engine->getCache().getTexture(value);
                     }
                 }
                 else if (keyword == "common")

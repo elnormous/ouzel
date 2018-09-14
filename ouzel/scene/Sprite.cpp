@@ -17,7 +17,7 @@ namespace ouzel
         Sprite::Sprite():
             Component(CLASS)
         {
-            whitePixelTexture = engine->getCache()->getTexture(TEXTURE_WHITE_PIXEL);
+            whitePixelTexture = engine->getCache().getTexture(TEXTURE_WHITE_PIXEL);
 
             updateCallback.callback = std::bind(&Sprite::update, this, std::placeholders::_1);
 
@@ -48,8 +48,8 @@ namespace ouzel
         {
             material = std::make_shared<graphics::Material>();
             material->cullMode = graphics::Renderer::CullMode::NONE;
-            material->blendState = spriteData.blendState ? spriteData.blendState : engine->getCache()->getBlendState(BLEND_ALPHA);
-            material->shader = spriteData.shader ? spriteData.shader : engine->getCache()->getShader(SHADER_TEXTURE);
+            material->blendState = spriteData.blendState ? spriteData.blendState : engine->getCache().getBlendState(BLEND_ALPHA);
+            material->shader = spriteData.shader ? spriteData.shader : engine->getCache().getShader(SHADER_TEXTURE);
             material->textures[0] = spriteData.texture;
 
             animations = spriteData.animations;
@@ -65,16 +65,16 @@ namespace ouzel
         {
             material = std::make_shared<graphics::Material>();
             material->cullMode = graphics::Renderer::CullMode::NONE;
-            material->shader = engine->getCache()->getShader(SHADER_TEXTURE);
-            material->blendState = engine->getCache()->getBlendState(BLEND_ALPHA);
+            material->shader = engine->getCache().getShader(SHADER_TEXTURE);
+            material->blendState = engine->getCache().getBlendState(BLEND_ALPHA);
 
-            if (const SpriteData* spriteData = engine->getCache()->getSpriteData(filename))
+            if (const SpriteData* spriteData = engine->getCache().getSpriteData(filename))
             {
                 material->textures[0] = spriteData->texture;
 
                 animations = spriteData->animations;
             }
-            else if (std::shared_ptr<graphics::Texture> texture = engine->getCache()->getTexture(filename))
+            else if (std::shared_ptr<graphics::Texture> texture = engine->getCache().getTexture(filename))
             {
                 material->textures[0] = texture;
 
@@ -104,8 +104,8 @@ namespace ouzel
         {
             material = std::make_shared<graphics::Material>();
             material->cullMode = graphics::Renderer::CullMode::NONE;
-            material->shader = engine->getCache()->getShader(SHADER_TEXTURE);
-            material->blendState = engine->getCache()->getBlendState(BLEND_ALPHA);
+            material->shader = engine->getCache().getShader(SHADER_TEXTURE);
+            material->blendState = engine->getCache().getBlendState(BLEND_ALPHA);
             material->textures[0] = newTexture;
             animations.clear();
 
@@ -162,7 +162,7 @@ namespace ouzel
                                 resetEvent.type = Event::Type::ANIMATION_RESET;
                                 resetEvent.animationEvent.component = this;
                                 resetEvent.animationEvent.name = currentAnimation->animation->name;
-                                engine->getEventDispatcher()->postEvent(resetEvent);
+                                engine->getEventDispatcher().postEvent(resetEvent);
                                 break;
                             }
                             else
@@ -173,7 +173,7 @@ namespace ouzel
                                     finishEvent.type = Event::Type::ANIMATION_FINISH;
                                     finishEvent.animationEvent.component = this;
                                     finishEvent.animationEvent.name = currentAnimation->animation->name;
-                                    engine->getEventDispatcher()->postEvent(finishEvent);
+                                    engine->getEventDispatcher().postEvent(finishEvent);
                                 }
 
                                 auto nextAnimation = std::next(currentAnimation);
@@ -191,7 +191,7 @@ namespace ouzel
                                     startEvent.type = Event::Type::ANIMATION_START;
                                     startEvent.animationEvent.component = this;
                                     startEvent.animationEvent.name = nextAnimation->animation->name;
-                                    engine->getEventDispatcher()->postEvent(startEvent);
+                                    engine->getEventDispatcher().postEvent(startEvent);
                                 }
                             }
                         }
@@ -266,7 +266,7 @@ namespace ouzel
         {
             if (!playing)
             {
-                engine->getSceneManager()->scheduleUpdate(&updateCallback);
+                engine->getSceneManager().scheduleUpdate(&updateCallback);
                 playing = true;
                 running = true;
             }

@@ -159,7 +159,7 @@ namespace ouzel
                                   newDebugRenderer);
 
             eventHandler.windowHandler = std::bind(&RenderDeviceOGLMacOS::handleWindow, this, std::placeholders::_1, std::placeholders::_2);
-            engine->getEventDispatcher()->addEventHandler(&eventHandler);
+            engine->getEventDispatcher().addEventHandler(&eventHandler);
 
             CGDirectDisplayID displayId = windowMacOS->getDisplayId();
             if (CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink) != kCVReturnSuccess)

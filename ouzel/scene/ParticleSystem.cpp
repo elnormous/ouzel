@@ -20,9 +20,9 @@ namespace ouzel
         ParticleSystem::ParticleSystem():
             Component(CLASS)
         {
-            shader = engine->getCache()->getShader(SHADER_TEXTURE);
-            blendState = engine->getCache()->getBlendState(BLEND_ALPHA);
-            whitePixelTexture = engine->getCache()->getTexture(TEXTURE_WHITE_PIXEL);
+            shader = engine->getCache().getShader(SHADER_TEXTURE);
+            blendState = engine->getCache().getBlendState(BLEND_ALPHA);
+            whitePixelTexture = engine->getCache().getTexture(TEXTURE_WHITE_PIXEL);
 
             updateCallback.callback = std::bind(&ParticleSystem::update, this, std::placeholders::_1);
         }
@@ -124,7 +124,7 @@ namespace ouzel
                     Event finishEvent;
                     finishEvent.type = Event::Type::ANIMATION_FINISH;
                     finishEvent.animationEvent.component = this;
-                    engine->getEventDispatcher()->postEvent(finishEvent);
+                    engine->getEventDispatcher().postEvent(finishEvent);
 
                     return;
                 }
@@ -248,7 +248,7 @@ namespace ouzel
 
         void ParticleSystem::init(const std::string& filename)
         {
-            particleSystemData = *engine->getCache()->getParticleSystemData(filename);
+            particleSystemData = *engine->getCache().getParticleSystemData(filename);
 
             texture = particleSystemData.texture;
 
@@ -269,7 +269,7 @@ namespace ouzel
                 if (!active)
                 {
                     active = true;
-                    engine->getSceneManager()->scheduleUpdate(&updateCallback);
+                    engine->getSceneManager().scheduleUpdate(&updateCallback);
                 }
 
                 if (particleCount == 0)
@@ -277,7 +277,7 @@ namespace ouzel
                     Event startEvent;
                     startEvent.type = Event::Type::ANIMATION_START;
                     startEvent.animationEvent.component = this;
-                    engine->getEventDispatcher()->postEvent(startEvent);
+                    engine->getEventDispatcher().postEvent(startEvent);
                 }
             }
         }

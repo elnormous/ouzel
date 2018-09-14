@@ -218,7 +218,7 @@ namespace ouzel
             Event event;
             event.type = Event::Type::SOUND_RESET;
             event.soundEvent.sound = this;
-            engine->getEventDispatcher()->postEvent(event);
+            engine->getEventDispatcher().postEvent(event);
         }
 
         // executed on audio thread
@@ -229,7 +229,7 @@ namespace ouzel
             Event event;
             event.type = Event::Type::SOUND_FINISH;
             event.soundEvent.sound = this;
-            engine->getEventDispatcher()->postEvent(event);
+            engine->getEventDispatcher().postEvent(event);
         }
 
         void Sound::setAttributes(Vector3&,

@@ -24,7 +24,7 @@ namespace ouzel
 
         void Bundle::loadAsset(uint32_t loaderType, const std::string& filename, bool mipmaps)
         {
-            std::vector<uint8_t> data = cache.getFileSystem()->readFile(filename);
+            std::vector<uint8_t> data = cache.getFileSystem().readFile(filename);
 
             auto loaders = cache.getLoaders();
 
@@ -42,7 +42,7 @@ namespace ouzel
 
         void Bundle::loadAssets(const std::string& filename)
         {
-            json::Data data(cache.getFileSystem()->readFile(filename));
+            json::Data data(cache.getFileSystem().readFile(filename));
 
             for (const json::Value& asset : data["assets"].as<json::Value::Array>())
             {

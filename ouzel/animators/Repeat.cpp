@@ -44,7 +44,7 @@ namespace ouzel
                     Event resetEvent;
                     resetEvent.type = Event::Type::ANIMATION_RESET;
                     resetEvent.animationEvent.component = this;
-                    engine->getEventDispatcher()->postEvent(resetEvent);
+                    engine->getEventDispatcher().postEvent(resetEvent);
                 }
                 else
                 {
@@ -56,7 +56,7 @@ namespace ouzel
                     Event finishEvent;
                     finishEvent.type = Event::Type::ANIMATION_FINISH;
                     finishEvent.animationEvent.component = this;
-                    engine->getEventDispatcher()->postEvent(finishEvent);
+                    engine->getEventDispatcher().postEvent(finishEvent);
                 }
             }
         }

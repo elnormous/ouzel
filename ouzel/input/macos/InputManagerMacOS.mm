@@ -476,7 +476,7 @@ namespace ouzel
 
                 gamepads.push_back(std::move(gamepad));
 
-                engine->getEventDispatcher()->postEvent(event);
+                engine->getEventDispatcher().postEvent(event);
             }
         }
 
@@ -495,7 +495,7 @@ namespace ouzel
 
                 event.gamepadEvent.gamepad = gamepadGC;
 
-                engine->getEventDispatcher()->postEvent(event);
+                engine->getEventDispatcher().postEvent(event);
 
                 gamepadsGC.erase(i);
 
@@ -537,7 +537,7 @@ namespace ouzel
 
                 gamepads.push_back(std::move(gamepad));
 
-                engine->getEventDispatcher()->postEvent(event);
+                engine->getEventDispatcher().postEvent(event);
             }
         }
 
@@ -556,7 +556,7 @@ namespace ouzel
 
                 event.gamepadEvent.gamepad = gamepadIOKit;
 
-                engine->getEventDispatcher()->postEvent(event);
+                engine->getEventDispatcher().postEvent(event);
 
                 gamepadsIOKit.erase(i);
 
