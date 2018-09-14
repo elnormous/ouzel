@@ -5,6 +5,7 @@
 #if OUZEL_COMPILE_DIRECTSOUND
 
 #include "AudioDeviceDS.hpp"
+#include "core/Window.hpp"
 #include "core/windows/NativeWindowWin.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
