@@ -16,7 +16,7 @@ namespace ouzel
         EngineIOS(int initArgc, char* initArgv[]);
         virtual ~EngineIOS();
 
-        virtual void run() override;
+        void run();
 
         virtual void executeOnMainThread(const std::function<void(void)>& func) override;
 

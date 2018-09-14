@@ -11,7 +11,7 @@ namespace ouzel
     public:
         EngineEm(int argc, char* argv[]);
 
-        virtual void run() override;
+        void run();
 
         void step();
 

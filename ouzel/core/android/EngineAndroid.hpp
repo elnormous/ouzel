@@ -24,7 +24,7 @@ namespace ouzel
         void onSurfaceDestroyed();
         void onConfigurationChanged(jobject newConfig);
 
-        virtual void run() override;
+        void run();
 
         virtual void executeOnMainThread(const std::function<void(void)>& func) override;
         virtual void openURL(const std::string& url) override;
