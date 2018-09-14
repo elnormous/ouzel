@@ -338,7 +338,7 @@ namespace ouzel
                 currentCursor = defaultCursor;
 
             NativeWindowMacOS* windowMacOS = static_cast<NativeWindowMacOS*>(engine->getWindow()->getNativeWindow());
-            [windowMacOS->getNativeView() resetCursorRects];
+            [windowMacOS->getNativeWindow() invalidateCursorRectsForView:windowMacOS->getNativeView()];
         }
 
         NativeCursor* InputManagerMacOS::createNativeCursor()
