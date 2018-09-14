@@ -5,6 +5,7 @@
 #if OUZEL_PLATFORM_ANDROID && OUZEL_COMPILE_OPENGL
 
 #include "RenderDeviceOGLAndroid.hpp"
+#include "core/Window.hpp"
 #include "core/android/NativeWindowAndroid.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
