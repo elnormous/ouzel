@@ -35,7 +35,6 @@
 -(void)resetCursorRects
 {
     [super resetCursorRects];
-    [self discardCursorRects];
 
     ouzel::input::InputManagerMacOS* inputMacOS = static_cast<ouzel::input::InputManagerMacOS*>(ouzel::engine->getInputManager());
 
