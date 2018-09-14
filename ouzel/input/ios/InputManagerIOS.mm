@@ -167,7 +167,7 @@ namespace ouzel
 
             gamepads.push_back(std::move(gamepad));
 
-            engine->getEventDispatcher()->postEvent(event);
+            engine->getEventDispatcher().postEvent(event);
         }
 
         void InputManagerIOS::handleGamepadDisconnected(GCControllerPtr controller)
@@ -184,7 +184,7 @@ namespace ouzel
 
                 event.gamepadEvent.gamepad = (*i).get();
 
-                engine->getEventDispatcher()->postEvent(event);
+                engine->getEventDispatcher().postEvent(event);
 
                 gamepads.erase(i);
             }

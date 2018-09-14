@@ -54,7 +54,7 @@
         ouzel::Event event;
         event.type = ouzel::Event::Type::LOW_MEMORY;
 
-        ouzel::engine->getEventDispatcher()->postEvent(event);
+        ouzel::engine->getEventDispatcher().postEvent(event);
     }
 }
 

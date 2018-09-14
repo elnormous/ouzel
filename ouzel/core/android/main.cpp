@@ -78,7 +78,7 @@ extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onLowM
     ouzel::Event event;
     event.type = ouzel::Event::Type::LOW_MEMORY;
 
-    engine->getEventDispatcher()->postEvent(event);
+    engine->getEventDispatcher().postEvent(event);
 }
 
 extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onBackPressed(JNIEnv*, jclass)

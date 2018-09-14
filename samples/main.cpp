@@ -22,7 +22,7 @@ std::unique_ptr<assets::Bundle> bundle;
 
 void ouzelMain(const std::vector<std::string>& args)
 {
-    bundle.reset(new assets::Bundle(*engine->getCache()));
+    bundle.reset(new assets::Bundle(engine->getCache()));
 
     // disable screen saver
     engine->setScreenSaverEnabled(false);
@@ -50,10 +50,10 @@ void ouzelMain(const std::vector<std::string>& args)
             ouzel::Log(ouzel::Log::Level::WARN) << "Invalid argument \"" << *arg << "\"";
     }
 
-    engine->getFileSystem()->addResourcePath("Resources");
+    engine->getFileSystem().addResourcePath("Resources");
 
 #if !OUZEL_PLATFORM_ANDROID
-    archive.reset(new ouzel::Archive(*engine->getFileSystem(), "gui.zip"));
+    archive.reset(new ouzel::Archive(engine->getFileSystem(), "gui.zip"));
 #endif
 
     bundle->loadAssets("assets.json");
@@ -75,5 +75,5 @@ void ouzelMain(const std::vector<std::string>& args)
 
     if (!currentScene) currentScene.reset(new MainMenu());
 
-    engine->getSceneManager()->setScene(std::move(currentScene));
+    engine->getSceneManager().setScene(std::move(currentScene));
 }

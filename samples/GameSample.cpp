@@ -15,7 +15,7 @@ GameSample::GameSample()
     handler.gamepadHandler = bind(&GameSample::handleGamepad, this, placeholders::_1, placeholders::_2);
     handler.uiHandler = bind(&GameSample::handleUI, this, placeholders::_1, placeholders::_2);
 
-    engine->getEventDispatcher()->addEventHandler(&handler);
+    engine->getEventDispatcher().addEventHandler(&handler);
 
     addLayer(&layer);
     cameraActor.addComponent(&camera);
@@ -30,7 +30,7 @@ bool GameSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
         {
             case input::KeyboardKey::ESCAPE:
             case input::KeyboardKey::MENU:
-                engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+                engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 break;
             default:
                 break;
@@ -63,7 +63,7 @@ bool GameSample::handleGamepad(Event::Type type, const GamepadEvent& event)
     {
         if (event.pressed &&
             event.button == input::GamepadButton::FACE_RIGHT)
-            engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+            engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
     }
 
     return false;

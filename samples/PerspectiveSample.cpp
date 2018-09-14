@@ -21,7 +21,7 @@ PerspectiveSample::PerspectiveSample():
     handler.gamepadHandler = bind(&PerspectiveSample::handleGamepad, this, placeholders::_1, placeholders::_2);
     handler.uiHandler = bind(&PerspectiveSample::handleUI, this, placeholders::_1, placeholders::_2);
 
-    engine->getEventDispatcher()->addEventHandler(&handler);
+    engine->getEventDispatcher().addEventHandler(&handler);
 
     engine->getRenderer()->setClearDepthBuffer(true);
 
@@ -58,7 +58,7 @@ PerspectiveSample::PerspectiveSample():
     cameraActor.addComponent(&listener);
     engine->getAudio()->addListener(&listener);
 
-    jumpSound = Sound(engine->getCache()->getSoundData("jump.wav"));
+    jumpSound = Sound(engine->getCache().getSoundData("jump.wav"));
     jumpSound.setOutput(&listener);
     jumpSound.setRolloffFactor(0.01F);
     character.addComponent(&jumpSound);
@@ -67,7 +67,7 @@ PerspectiveSample::PerspectiveSample():
     character.addComponent(rotate);
     rotate->start();
 
-    boxModel.init(*engine->getCache()->getMeshData("cube.obj"));
+    boxModel.init(*engine->getCache().getMeshData("cube.obj"));
     box.addComponent(&boxModel);
     box.setPosition(Vector3(-160.0F, 0.0F, -50.0F));
     layer.addChild(&box);
@@ -89,7 +89,7 @@ bool PerspectiveSample::handleUI(ouzel::Event::Type type, const ouzel::UIEvent& 
     if (type == Event::Type::ACTOR_CLICK)
     {
         if (event.actor == &backButton)
-            engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+            engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
     }
 
     return false;
@@ -116,7 +116,7 @@ bool PerspectiveSample::handleKeyboard(ouzel::Event::Type type, const ouzel::Key
                 break;
             case input::KeyboardKey::ESCAPE:
             case input::KeyboardKey::MENU:
-                engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+                engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 return false;
             case input::KeyboardKey::TAB:
                 jumpSound.play();
@@ -180,7 +180,7 @@ bool PerspectiveSample::handleGamepad(Event::Type type, const GamepadEvent& even
     {
         if (event.pressed &&
             event.button == input::GamepadButton::FACE_RIGHT)
-            engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+            engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
     }
 
     return false;

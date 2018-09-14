@@ -126,12 +126,12 @@ namespace ouzel
                 keyboardKeyStates[static_cast<uint32_t>(key)] = true;
 
                 event.type = Event::Type::KEY_PRESS;
-                engine->getEventDispatcher()->postEvent(event);
+                engine->getEventDispatcher().postEvent(event);
             }
             else
             {
                 event.type = Event::Type::KEY_REPEAT;
-                engine->getEventDispatcher()->postEvent(event);
+                engine->getEventDispatcher().postEvent(event);
             }
         }
 
@@ -145,7 +145,7 @@ namespace ouzel
             event.keyboardEvent.key = key;
             event.keyboardEvent.modifiers = modifiers;
 
-            engine->getEventDispatcher()->postEvent(event);
+            engine->getEventDispatcher().postEvent(event);
         }
 
         void InputManager::mouseButtonPress(MouseButton button, const Vector2& position, uint32_t modifiers)
@@ -159,7 +159,7 @@ namespace ouzel
             event.mouseEvent.position = position;
             event.mouseEvent.modifiers = modifiers;
 
-            engine->getEventDispatcher()->postEvent(event);
+            engine->getEventDispatcher().postEvent(event);
         }
 
         void InputManager::mouseButtonRelease(MouseButton button, const Vector2& position, uint32_t modifiers)
@@ -173,7 +173,7 @@ namespace ouzel
             event.mouseEvent.position = position;
             event.mouseEvent.modifiers = modifiers;
 
-            engine->getEventDispatcher()->postEvent(event);
+            engine->getEventDispatcher().postEvent(event);
         }
 
         void InputManager::mouseMove(const Vector2& position, uint32_t modifiers)
@@ -187,7 +187,7 @@ namespace ouzel
 
             cursorPosition = position;
 
-            engine->getEventDispatcher()->postEvent(event);
+            engine->getEventDispatcher().postEvent(event);
         }
 
         void InputManager::mouseRelativeMove(const Vector2& relativePosition, uint32_t modifiers)
@@ -209,7 +209,7 @@ namespace ouzel
             event.mouseEvent.scroll = scroll;
             event.mouseEvent.modifiers = modifiers;
 
-            engine->getEventDispatcher()->postEvent(event);
+            engine->getEventDispatcher().postEvent(event);
         }
 
         void InputManager::touchBegin(uint64_t touchId, const Vector2& position, float force)
@@ -223,7 +223,7 @@ namespace ouzel
 
             touchPositions[touchId] = position;
 
-            engine->getEventDispatcher()->postEvent(event);
+            engine->getEventDispatcher().postEvent(event);
         }
 
         void InputManager::touchEnd(uint64_t touchId, const Vector2& position, float force)
@@ -240,7 +240,7 @@ namespace ouzel
             if (i != touchPositions.end())
                 touchPositions.erase(i);
 
-            engine->getEventDispatcher()->postEvent(event);
+            engine->getEventDispatcher().postEvent(event);
         }
 
         void InputManager::touchMove(uint64_t touchId, const Vector2& position, float force)
@@ -255,7 +255,7 @@ namespace ouzel
 
             touchPositions[touchId] = position;
 
-            engine->getEventDispatcher()->postEvent(event);
+            engine->getEventDispatcher().postEvent(event);
         }
 
         void InputManager::touchCancel(uint64_t touchId, const Vector2& position, float force)
@@ -272,7 +272,7 @@ namespace ouzel
             if (i != touchPositions.end())
                 touchPositions.erase(i);
 
-            engine->getEventDispatcher()->postEvent(event);
+            engine->getEventDispatcher().postEvent(event);
         }
 
         void InputManager::showVirtualKeyboard()

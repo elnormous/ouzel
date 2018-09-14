@@ -15,7 +15,7 @@ public:
     {
         handler.keyboardHandler = bind(&Mover::handleKeyboard, this, placeholders::_1, placeholders::_2);
 
-        engine->getEventDispatcher()->addEventHandler(&handler);
+        engine->getEventDispatcher().addEventHandler(&handler);
     }
 
     bool handleKeyboard(Event::Type eventType, const KeyboardEvent& event)
@@ -68,7 +68,7 @@ InputSample::InputSample():
     handler.gamepadHandler = bind(&InputSample::handleGamepad, this, placeholders::_1, placeholders::_2);
     handler.uiHandler = bind(&InputSample::handleUI, this, placeholders::_1, placeholders::_2);
 
-    engine->getEventDispatcher()->addEventHandler(&handler);
+    engine->getEventDispatcher().addEventHandler(&handler);
 
     camera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     camera.setTargetContentSize(Size2(800.0F, 600.0F));
@@ -133,7 +133,7 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
             case input::KeyboardKey::ESCAPE:
             case input::KeyboardKey::MENU:
                 engine->getInputManager()->setCursorVisible(true);
-                engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+                engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 return false;
             default:
                 break;
@@ -181,7 +181,7 @@ bool InputSample::handleGamepad(Event::Type type, const GamepadEvent& event)
         switch (event.button)
         {
             case input::GamepadButton::FACE_RIGHT:
-                if (event.pressed) engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+                if (event.pressed) engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 return false;
             case input::GamepadButton::DPAD_UP:
             case input::GamepadButton::LEFT_THUMB_UP:
@@ -221,7 +221,7 @@ bool InputSample::handleUI(Event::Type type, const UIEvent& event) const
         if (event.actor == &backButton)
         {
             engine->getInputManager()->setCursorVisible(true);
-            engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+            engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
         }
         else if (event.actor == &hideButton)
             engine->getInputManager()->setCursorVisible(!engine->getInputManager()->isCursorVisible());
