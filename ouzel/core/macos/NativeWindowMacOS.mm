@@ -6,7 +6,6 @@
 #include "graphics/opengl/macos/OpenGLView.h"
 #include "graphics/metal/macos/MetalView.h"
 #include "input/macos/InputManagerMacOS.hpp"
-#include "core/Engine.hpp"
 #include "utils/Errors.hpp"
 
 @interface WindowDelegate: NSObject<NSWindowDelegate>

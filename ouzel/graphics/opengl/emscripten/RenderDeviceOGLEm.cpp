@@ -5,7 +5,6 @@
 #if OUZEL_PLATFORM_EMSCRIPTEN && OUZEL_COMPILE_OPENGL
 
 #include "RenderDeviceOGLEm.hpp"
-#include "core/Engine.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Utils.hpp"
 

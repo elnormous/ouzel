@@ -3,7 +3,6 @@
 #include "Mixer.hpp"
 #include "Audio.hpp"
 #include "AudioDevice.hpp"
-#include "core/Engine.hpp"
 
 namespace ouzel
 {

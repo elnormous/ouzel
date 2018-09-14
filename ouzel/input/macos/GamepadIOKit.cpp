@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "GamepadIOKit.hpp"
-#include "core/Engine.hpp"
 #include "core/Setup.h"
 #include "events/EventDispatcher.hpp"
 #include "utils/Errors.hpp"
