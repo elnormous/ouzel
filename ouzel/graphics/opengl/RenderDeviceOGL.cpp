@@ -918,6 +918,12 @@ namespace ouzel
                         break;
                     }
 
+                    case Command::Type::BLIT:
+                    {
+                        //const BlitCommand* blitCommand = static_cast<const BlitCommand*>(command.get());
+                        break;
+                    }
+
                     case Command::Type::SET_CULL_MODE:
                     {
                         const SetCullModeCommad* setCullModeCommad = static_cast<const SetCullModeCommad*>(command.get());
