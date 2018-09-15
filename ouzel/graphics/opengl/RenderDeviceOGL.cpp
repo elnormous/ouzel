@@ -116,6 +116,8 @@ PFNGLDISABLEVERTEXATTRIBARRAYPROC glDisableVertexAttribArrayProc;
 PFNGLVERTEXATTRIBPOINTERPROC glVertexAttribPointerProc;
 
 PFNGLGETSTRINGIPROC glGetStringiProc;
+PFNGLPUSHGROUPMARKEREXTPROC glPushGroupMarkerEXTProc;
+PFNGLPOPGROUPMARKEREXTPROC glPopGroupMarkerEXTProc;
 
 #if OUZEL_SUPPORTS_OPENGLES
 PFNGLMAPBUFFEROESPROC glMapBufferProc;
@@ -483,6 +485,16 @@ namespace ouzel
                     extensionLog << extension;
                 }
             }
+
+#if OUZEL_SUPPORTS_OPENGLES
+            for (const std::string& extension : extensions)
+            {
+                if (extension == "GL_EXT_debug_marker")
+                {
+                    glPushGroupMarkerEXTProc = reinterpret_cast<PFNGLPUSHGROUPMARKEREXTPROC>(GET_EXT_PROC_ADDRESS(glPushGroupMarkerEXT));
+                    glPopGroupMarkerEXTProc = reinterpret_cast<PFNGLPOPGROUPMARKEREXTPROC>(GET_EXT_PROC_ADDRESS(glPopGroupMarkerEXT));
+                }
+#endif
 
             if (apiMajorVersion >= 3)
             {
@@ -1098,19 +1110,15 @@ namespace ouzel
 
                     case Command::Type::PUSH_DEBUG_MARKER:
                     {
-                        //const PushDebugMarkerCommand* pushDebugMarkerCommand = static_cast<const PushDebugMarkerCommand*>(command.get());
-                        // TODO: implement
-                        // EXT_debug_marker
-                        // glPushGroupMarkerEXT
+                        const PushDebugMarkerCommand* pushDebugMarkerCommand = static_cast<const PushDebugMarkerCommand*>(command.get());
+                        if (glPushGroupMarkerEXTProc) glPushGroupMarkerEXTProc(0, pushDebugMarkerCommand->name.c_str());
                         break;
                     }
 
                     case Command::Type::POP_DEBUG_MARKER:
                     {
                         //const PopDebugMarkerCommand* popDebugMarkerCommand = static_cast<const PopDebugMarkerCommand*>(command.get());
-                        // TODO: implement
-                        // EXT_debug_marker
-                        // glPopGroupMarkerEXT
+                        if (glPopGroupMarkerEXTProc) glPopGroupMarkerEXTProc();
                         break;
                     }
 
