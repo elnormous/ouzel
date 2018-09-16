@@ -124,10 +124,12 @@ PFNGLMAPBUFFEROESPROC glMapBufferProc;
 PFNGLUNMAPBUFFEROESPROC glUnmapBufferProc;
 PFNGLMAPBUFFERRANGEEXTPROC glMapBufferRangeProc;
 PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC glFramebufferTexture2DMultisampleProc;
+PFNGLCOPYIMAGESUBDATAEXTPROC glCopyImageSubDataProc;
 #else
 PFNGLMAPBUFFERPROC glMapBufferProc;
 PFNGLUNMAPBUFFERPROC glUnmapBufferProc;
 PFNGLMAPBUFFERRANGEPROC glMapBufferRangeProc;
+PFNGLCOPYIMAGESUBDATAOESPROC glCopyImageSubDataProc;
 #endif
 
 #if OUZEL_PLATFORM_MACOS
@@ -494,6 +496,11 @@ namespace ouzel
                     glPushGroupMarkerEXTProc = reinterpret_cast<PFNGLPUSHGROUPMARKEREXTPROC>(GET_EXT_PROC_ADDRESS(glPushGroupMarkerEXT));
                     glPopGroupMarkerEXTProc = reinterpret_cast<PFNGLPOPGROUPMARKEREXTPROC>(GET_EXT_PROC_ADDRESS(glPopGroupMarkerEXT));
                 }
+            }
+#else
+            if (apiMajorVersion >= 4)
+            {
+                glCopyImageSubDataProc = reinterpret_cast<PFNGLCOPYIMAGESUBDATAEXTPROC>(GET_EXT_PROC_ADDRESS(glCopyImageSubData));
             }
 #endif
 

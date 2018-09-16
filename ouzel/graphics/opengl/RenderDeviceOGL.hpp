@@ -104,10 +104,12 @@ extern PFNGLMAPBUFFEROESPROC glMapBufferProc;
 extern PFNGLUNMAPBUFFEROESPROC glUnmapBufferProc;
 extern PFNGLMAPBUFFERRANGEEXTPROC glMapBufferRangeProc;
 extern PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC glFramebufferTexture2DMultisampleProc;
+extern PFNGLCOPYIMAGESUBDATAEXTPROC glCopyImageSubDataProc;
 #else
 extern PFNGLMAPBUFFERPROC glMapBufferProc;
 extern PFNGLUNMAPBUFFERPROC glUnmapBufferProc;
 extern PFNGLMAPBUFFERRANGEPROC glMapBufferRangeProc;
+extern PFNGLCOPYIMAGESUBDATAOESPROC glCopyImageSubDataProc;
 #endif
 
 #include "graphics/RenderDevice.hpp"
