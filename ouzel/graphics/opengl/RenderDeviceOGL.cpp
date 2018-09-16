@@ -129,7 +129,7 @@ PFNGLCOPYIMAGESUBDATAOESPROC glCopyImageSubDataProc;
 PFNGLMAPBUFFERPROC glMapBufferProc;
 PFNGLUNMAPBUFFERPROC glUnmapBufferProc;
 PFNGLMAPBUFFERRANGEPROC glMapBufferRangeProc;
-PFNGLCOPYIMAGESUBDATAEXTPROC glCopyImageSubDataProc;
+PFNGLCOPYIMAGESUBDATAPROC glCopyImageSubDataProc;
 #endif
 
 #if OUZEL_PLATFORM_MACOS
@@ -500,7 +500,7 @@ namespace ouzel
 #else
             if (apiMajorVersion >= 4)
             {
-                glCopyImageSubDataProc = reinterpret_cast<PFNGLCOPYIMAGESUBDATAEXTPROC>(GET_EXT_PROC_ADDRESS(glCopyImageSubData));
+                glCopyImageSubDataProc = reinterpret_cast<PFNGLCOPYIMAGESUBDATAPROC>(GET_EXT_PROC_ADDRESS(glCopyImageSubData));
             }
 #endif
 
