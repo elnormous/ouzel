@@ -559,7 +559,8 @@ namespace ouzel
 #  endif
 #endif
             }
-            else
+
+            if (apiMajorVersion >= 2)
             {
 #if !OUZEL_SUPPORTS_OPENGLES
                 textureBaseLevelSupported = true;
