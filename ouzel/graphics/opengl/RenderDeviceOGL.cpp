@@ -436,8 +436,6 @@ namespace ouzel
 #  endif
 #endif
 
-            anisotropicFilteringSupported = false;
-
             std::vector<std::string> extensions;
 
             if (apiMajorVersion >= 3)
@@ -488,14 +486,19 @@ namespace ouzel
                 }
             }
 
+            anisotropicFilteringSupported = false;
+            npotTexturesSupported = false;
+            multisamplingSupported = false;
+            textureBaseLevelSupported = false;
+            textureMaxLevelSupported = false;
+            renderTargetsSupported = false;
+
             if (apiMajorVersion >= 4)
             {
 #if !OUZEL_SUPPORTS_OPENGLES
-                if ((apiMajorVersion == 4 && apiMinorVersion >= 6) ||
+                if ((apiMajorVersion == 4 && apiMinorVersion >= 6) || // at least OpenGL 4.6
                     apiMajorVersion >= 5)
-                {
                     anisotropicFilteringSupported = true;
-                }
 
                 glCopyImageSubDataProc = reinterpret_cast<PFNGLCOPYIMAGESUBDATAPROC>(GET_EXT_PROC_ADDRESS(glCopyImageSubData));
 #endif
@@ -503,6 +506,12 @@ namespace ouzel
 
             if (apiMajorVersion >= 3)
             {
+                npotTexturesSupported = true;
+                multisamplingSupported = true;
+                textureBaseLevelSupported = true;
+                textureMaxLevelSupported = true;
+                renderTargetsSupported = true;
+
                 glUniform1uivProc = reinterpret_cast<PFNGLUNIFORM1UIVPROC>(GET_EXT_PROC_ADDRESS(glUniform1uiv));
                 glUniform2uivProc = reinterpret_cast<PFNGLUNIFORM2UIVPROC>(GET_EXT_PROC_ADDRESS(glUniform2uiv));
                 glUniform3uivProc = reinterpret_cast<PFNGLUNIFORM3UIVPROC>(GET_EXT_PROC_ADDRESS(glUniform3uiv));
@@ -552,104 +561,92 @@ namespace ouzel
             }
             else
             {
-                npotTexturesSupported = false;
-                multisamplingSupported = false;
-
-#if OUZEL_SUPPORTS_OPENGLES
-                textureBaseLevelSupported = false;
-                textureMaxLevelSupported = false;
-#else
-                renderTargetsSupported = false;
+#if !OUZEL_SUPPORTS_OPENGLES
+                textureBaseLevelSupported = true;
+                textureMaxLevelSupported = true;
+                renderTargetsSupported = true;
 #endif
-
-                for (const std::string& extension : extensions)
-                {
-                    if (extension == "GL_EXT_texture_filter_anisotropic")
-                    {
-                        anisotropicFilteringSupported = true;
-                    }
-                    else if (extension == "GL_OES_texture_npot" ||
-                             extension == "GL_ARB_texture_non_power_of_two")
-                    {
-                        npotTexturesSupported = true;
-                    }
-#if OUZEL_SUPPORTS_OPENGLES
-#  if OUZEL_OPENGL_INTERFACE_EAGL
-                    else if (extension == "GL_APPLE_framebuffer_multisample")
-                    {
-                        multisamplingSupported = true;
-                        glRenderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>(GET_EXT_PROC_ADDRESS(glRenderbufferStorageMultisampleAPPLE));
-                    }
-#  elif OUZEL_OPENGL_INTERFACE_EGL
-                    else if (extension == "GL_OES_vertex_array_object")
-                    {
-                        glGenVertexArraysProc = reinterpret_cast<PFNGLGENVERTEXARRAYSOESPROC>(GET_EXT_PROC_ADDRESS(glGenVertexArraysOES));
-                        glBindVertexArrayProc = reinterpret_cast<PFNGLBINDVERTEXARRAYOESPROC>(GET_EXT_PROC_ADDRESS(glBindVertexArrayOES));
-                        glDeleteVertexArraysProc = reinterpret_cast<PFNGLDELETEVERTEXARRAYSOESPROC>(GET_EXT_PROC_ADDRESS(glDeleteVertexArraysOES));
-                    }
-                    else if (extension == "GL_OES_mapbuffer")
-                    {
-                        glMapBufferProc = reinterpret_cast<PFNGLMAPBUFFEROESPROC>(GET_EXT_PROC_ADDRESS(glMapBufferOES));
-                        glUnmapBufferProc = reinterpret_cast<PFNGLUNMAPBUFFEROESPROC>(GET_EXT_PROC_ADDRESS(glUnmapBufferOES));
-                    }
-                    else if (extension == "GL_EXT_map_buffer_range")
-                    {
-                        glMapBufferRangeProc = reinterpret_cast<PFNGLMAPBUFFERRANGEEXTPROC>(GET_EXT_PROC_ADDRESS(glMapBufferRangeEXT));
-                    }
-                    else if (extension == "GL_IMG_multisampled_render_to_texture")
-                    {
-                        multisamplingSupported = true;
-                        glRenderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC>(GET_EXT_PROC_ADDRESS(glRenderbufferStorageMultisampleIMG));
-                        glFramebufferTexture2DMultisampleProc = reinterpret_cast<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>(GET_EXT_PROC_ADDRESS(glFramebufferTexture2DMultisampleIMG));
-                    }
-                    else if (extension == "GL_APPLE_texture_max_level")
-                    {
-                        textureMaxLevelSupported = true;
-                    }
-#  endif
-#else
-                    else if (extension == "GL_EXT_framebuffer_object")
-                    {
-                        renderTargetsSupported = true;
-
-                        glGenFramebuffersProc = reinterpret_cast<PFNGLGENFRAMEBUFFERSPROC>(GET_EXT_PROC_ADDRESS(glGenFramebuffers));
-                        glDeleteFramebuffersProc = reinterpret_cast<PFNGLDELETEFRAMEBUFFERSPROC>(GET_EXT_PROC_ADDRESS(glDeleteFramebuffers));
-                        glBindFramebufferProc = reinterpret_cast<PFNGLBINDFRAMEBUFFERPROC>(GET_EXT_PROC_ADDRESS(glBindFramebuffer));
-                        glCheckFramebufferStatusProc = reinterpret_cast<PFNGLCHECKFRAMEBUFFERSTATUSPROC>(GET_EXT_PROC_ADDRESS(glCheckFramebufferStatus));
-                        glFramebufferRenderbufferProc = reinterpret_cast<PFNGLFRAMEBUFFERRENDERBUFFERPROC>(GET_EXT_PROC_ADDRESS(glFramebufferRenderbuffer));
-                        glFramebufferTexture2DProc = reinterpret_cast<PFNGLFRAMEBUFFERTEXTURE2DPROC>(GET_EXT_PROC_ADDRESS(glFramebufferTexture2D));
-
-                        glGenRenderbuffersProc = reinterpret_cast<PFNGLGENRENDERBUFFERSPROC>(GET_EXT_PROC_ADDRESS(glGenRenderbuffers));
-                        glDeleteRenderbuffersProc = reinterpret_cast<PFNGLDELETERENDERBUFFERSPROC>(GET_EXT_PROC_ADDRESS(glDeleteRenderbuffers));
-                        glBindRenderbufferProc = reinterpret_cast<PFNGLBINDRENDERBUFFERPROC>(GET_EXT_PROC_ADDRESS(glBindRenderbuffer));
-                        glRenderbufferStorageProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEPROC>(GET_EXT_PROC_ADDRESS(glRenderbufferStorage));
-                    }
-                    else if (extension == "GL_EXT_framebuffer_blit")
-                    {
-                        glBlitFramebufferProc = reinterpret_cast<PFNGLBLITFRAMEBUFFERPROC>(GET_EXT_PROC_ADDRESS(glBlitFramebuffer));
-                    }
-                    else if (extension == "GL_EXT_framebuffer_multisample")
-                    {
-                        multisamplingSupported = true;
-                        glRenderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>(GET_EXT_PROC_ADDRESS(glRenderbufferStorageMultisample));
-                    }
-                    else if (extension == "GL_EXT_map_buffer_range")
-                    {
-                        glMapBufferRangeProc = reinterpret_cast<PFNGLMAPBUFFERRANGEPROC>(GET_EXT_PROC_ADDRESS(glMapBufferRangeEXT));
-                    }
-#endif
-                }
             }
 
             for (const std::string& extension : extensions)
             {
-                if (extension == "GL_EXT_debug_marker")
+                if (extension == "GL_OES_texture_npot" ||
+                    extension == "GL_ARB_texture_non_power_of_two")
+                {
+                    npotTexturesSupported = true;
+                }
+                else if (extension == "GL_EXT_debug_marker")
                 {
                     glPushGroupMarkerEXTProc = reinterpret_cast<PFNGLPUSHGROUPMARKEREXTPROC>(GET_EXT_PROC_ADDRESS(glPushGroupMarkerEXT));
                     glPopGroupMarkerEXTProc = reinterpret_cast<PFNGLPOPGROUPMARKEREXTPROC>(GET_EXT_PROC_ADDRESS(glPopGroupMarkerEXT));
                 }
                 else if (extension == "GL_EXT_texture_filter_anisotropic")
                     anisotropicFilteringSupported = true;
+                else if (extension == "GL_EXT_map_buffer_range")
+                {
+#if OUZEL_SUPPORTS_OPENGLES
+                    glMapBufferRangeProc = reinterpret_cast<PFNGLMAPBUFFERRANGEEXTPROC>(GET_EXT_PROC_ADDRESS(glMapBufferRangeEXT));
+#else
+                    glMapBufferRangeProc = reinterpret_cast<PFNGLMAPBUFFERRANGEPROC>(GET_EXT_PROC_ADDRESS(glMapBufferRangeEXT));
+#endif
+                }
+#if OUZEL_SUPPORTS_OPENGLES
+                else if (extension == "GL_APPLE_framebuffer_multisample")
+                {
+                    multisamplingSupported = true;
+                    glRenderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>(GET_EXT_PROC_ADDRESS(glRenderbufferStorageMultisampleAPPLE));
+                }
+                else if (extension == "GL_APPLE_texture_max_level")
+                    textureMaxLevelSupported = true;
+                else if (extension == "GL_OES_vertex_array_object")
+                {
+                    glGenVertexArraysProc = reinterpret_cast<PFNGLGENVERTEXARRAYSOESPROC>(GET_EXT_PROC_ADDRESS(glGenVertexArraysOES));
+                    glBindVertexArrayProc = reinterpret_cast<PFNGLBINDVERTEXARRAYOESPROC>(GET_EXT_PROC_ADDRESS(glBindVertexArrayOES));
+                    glDeleteVertexArraysProc = reinterpret_cast<PFNGLDELETEVERTEXARRAYSOESPROC>(GET_EXT_PROC_ADDRESS(glDeleteVertexArraysOES));
+                }
+                else if (extension == "GL_OES_mapbuffer")
+                {
+                    glMapBufferProc = reinterpret_cast<PFNGLMAPBUFFEROESPROC>(GET_EXT_PROC_ADDRESS(glMapBufferOES));
+                    glUnmapBufferProc = reinterpret_cast<PFNGLUNMAPBUFFEROESPROC>(GET_EXT_PROC_ADDRESS(glUnmapBufferOES));
+                }
+
+                else if (extension == "GL_IMG_multisampled_render_to_texture")
+                {
+                    multisamplingSupported = true;
+                    glRenderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC>(GET_EXT_PROC_ADDRESS(glRenderbufferStorageMultisampleIMG));
+                    glFramebufferTexture2DMultisampleProc = reinterpret_cast<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>(GET_EXT_PROC_ADDRESS(glFramebufferTexture2DMultisampleIMG));
+                }
+#else
+                else if (extension == "GL_ARB_vertex_array_object")
+                {
+                    glGenVertexArraysProc = reinterpret_cast<PFNGLGENVERTEXARRAYSPROC>(GET_EXT_PROC_ADDRESS(glGenVertexArrays));
+                    glBindVertexArrayProc = reinterpret_cast<PFNGLBINDVERTEXARRAYPROC>(GET_EXT_PROC_ADDRESS(glBindVertexArray));
+                    glDeleteVertexArraysProc = reinterpret_cast<PFNGLDELETEVERTEXARRAYSPROC>(GET_EXT_PROC_ADDRESS(glDeleteVertexArrays));
+                }
+                else if (extension == "GL_EXT_framebuffer_object")
+                {
+                    renderTargetsSupported = true;
+
+                    glGenFramebuffersProc = reinterpret_cast<PFNGLGENFRAMEBUFFERSPROC>(GET_EXT_PROC_ADDRESS(glGenFramebuffers));
+                    glDeleteFramebuffersProc = reinterpret_cast<PFNGLDELETEFRAMEBUFFERSPROC>(GET_EXT_PROC_ADDRESS(glDeleteFramebuffers));
+                    glBindFramebufferProc = reinterpret_cast<PFNGLBINDFRAMEBUFFERPROC>(GET_EXT_PROC_ADDRESS(glBindFramebuffer));
+                    glCheckFramebufferStatusProc = reinterpret_cast<PFNGLCHECKFRAMEBUFFERSTATUSPROC>(GET_EXT_PROC_ADDRESS(glCheckFramebufferStatus));
+                    glFramebufferRenderbufferProc = reinterpret_cast<PFNGLFRAMEBUFFERRENDERBUFFERPROC>(GET_EXT_PROC_ADDRESS(glFramebufferRenderbuffer));
+                    glFramebufferTexture2DProc = reinterpret_cast<PFNGLFRAMEBUFFERTEXTURE2DPROC>(GET_EXT_PROC_ADDRESS(glFramebufferTexture2D));
+
+                    glGenRenderbuffersProc = reinterpret_cast<PFNGLGENRENDERBUFFERSPROC>(GET_EXT_PROC_ADDRESS(glGenRenderbuffers));
+                    glDeleteRenderbuffersProc = reinterpret_cast<PFNGLDELETERENDERBUFFERSPROC>(GET_EXT_PROC_ADDRESS(glDeleteRenderbuffers));
+                    glBindRenderbufferProc = reinterpret_cast<PFNGLBINDRENDERBUFFERPROC>(GET_EXT_PROC_ADDRESS(glBindRenderbuffer));
+                    glRenderbufferStorageProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEPROC>(GET_EXT_PROC_ADDRESS(glRenderbufferStorage));
+                }
+                else if (extension == "GL_EXT_framebuffer_blit")
+                    glBlitFramebufferProc = reinterpret_cast<PFNGLBLITFRAMEBUFFERPROC>(GET_EXT_PROC_ADDRESS(glBlitFramebuffer));
+                else if (extension == "GL_EXT_framebuffer_multisample")
+                {
+                    multisamplingSupported = true;
+                    glRenderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>(GET_EXT_PROC_ADDRESS(glRenderbufferStorageMultisample));
+                }
+#endif
             }
 
             if (!multisamplingSupported) sampleCount = 1;
