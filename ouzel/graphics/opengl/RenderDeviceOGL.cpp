@@ -498,6 +498,12 @@ namespace ouzel
                 }
             }
 #else
+            if ((apiMajorVersion == 4 && apiMinorVersion >= 6) ||
+                apiMajorVersion >= 5)
+            {
+                anisotropicFilteringSupported = true;
+            }
+
             if (apiMajorVersion >= 4)
             {
                 glCopyImageSubDataProc = reinterpret_cast<PFNGLCOPYIMAGESUBDATAPROC>(GET_EXT_PROC_ADDRESS(glCopyImageSubData));
