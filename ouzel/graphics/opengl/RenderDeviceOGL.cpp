@@ -488,36 +488,21 @@ namespace ouzel
                 }
             }
 
-#if OUZEL_SUPPORTS_OPENGLES
-            for (const std::string& extension : extensions)
-            {
-                if (extension == "GL_EXT_debug_marker")
-                {
-                    glPushGroupMarkerEXTProc = reinterpret_cast<PFNGLPUSHGROUPMARKEREXTPROC>(GET_EXT_PROC_ADDRESS(glPushGroupMarkerEXT));
-                    glPopGroupMarkerEXTProc = reinterpret_cast<PFNGLPOPGROUPMARKEREXTPROC>(GET_EXT_PROC_ADDRESS(glPopGroupMarkerEXT));
-                }
-            }
-#else
-            if ((apiMajorVersion == 4 && apiMinorVersion >= 6) ||
-                apiMajorVersion >= 5)
-            {
-                anisotropicFilteringSupported = true;
-            }
-
             if (apiMajorVersion >= 4)
             {
+#if !OUZEL_SUPPORTS_OPENGLES
+                if ((apiMajorVersion == 4 && apiMinorVersion >= 6) ||
+                    apiMajorVersion >= 5)
+                {
+                    anisotropicFilteringSupported = true;
+                }
+
                 glCopyImageSubDataProc = reinterpret_cast<PFNGLCOPYIMAGESUBDATAPROC>(GET_EXT_PROC_ADDRESS(glCopyImageSubData));
-            }
 #endif
+            }
 
             if (apiMajorVersion >= 3)
             {
-                for (const std::string& extension : extensions)
-                {
-                    if (extension == "GL_EXT_texture_filter_anisotropic")
-                        anisotropicFilteringSupported = true;
-                }
-
                 glUniform1uivProc = reinterpret_cast<PFNGLUNIFORM1UIVPROC>(GET_EXT_PROC_ADDRESS(glUniform1uiv));
                 glUniform2uivProc = reinterpret_cast<PFNGLUNIFORM2UIVPROC>(GET_EXT_PROC_ADDRESS(glUniform2uiv));
                 glUniform3uivProc = reinterpret_cast<PFNGLUNIFORM3UIVPROC>(GET_EXT_PROC_ADDRESS(glUniform3uiv));
@@ -654,9 +639,20 @@ namespace ouzel
                     }
 #endif
                 }
-
-                if (!multisamplingSupported) sampleCount = 1;
             }
+
+            for (const std::string& extension : extensions)
+            {
+                if (extension == "GL_EXT_debug_marker")
+                {
+                    glPushGroupMarkerEXTProc = reinterpret_cast<PFNGLPUSHGROUPMARKEREXTPROC>(GET_EXT_PROC_ADDRESS(glPushGroupMarkerEXT));
+                    glPopGroupMarkerEXTProc = reinterpret_cast<PFNGLPOPGROUPMARKEREXTPROC>(GET_EXT_PROC_ADDRESS(glPopGroupMarkerEXT));
+                }
+                else if (extension == "GL_EXT_texture_filter_anisotropic")
+                    anisotropicFilteringSupported = true;
+            }
+
+            if (!multisamplingSupported) sampleCount = 1;
 
             glDisable(GL_DITHER);
             glDepthFunc(GL_LEQUAL);
