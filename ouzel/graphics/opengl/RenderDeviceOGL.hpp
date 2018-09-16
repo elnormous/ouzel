@@ -109,7 +109,7 @@ extern PFNGLCOPYIMAGESUBDATAOESPROC glCopyImageSubDataProc;
 extern PFNGLMAPBUFFERPROC glMapBufferProc;
 extern PFNGLUNMAPBUFFERPROC glUnmapBufferProc;
 extern PFNGLMAPBUFFERRANGEPROC glMapBufferRangeProc;
-extern PFNGLCOPYIMAGESUBDATAEXTPROC glCopyImageSubDataProc;
+extern PFNGLCOPYIMAGESUBDATAPROC glCopyImageSubDataProc;
 #endif
 
 #include "graphics/RenderDevice.hpp"
