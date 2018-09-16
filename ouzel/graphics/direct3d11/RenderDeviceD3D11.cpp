@@ -485,8 +485,27 @@ namespace ouzel
 
                     case Command::Type::BLIT:
                     {
-                        //const BlitCommand* blitCommand = static_cast<const BlitCommand*>(command.get());
-                        //CopySubresourceRegion
+                        const BlitCommand* blitCommand = static_cast<const BlitCommand*>(command.get());
+
+                        TextureResourceD3D11* sourceTextureD3D11 = static_cast<TextureResourceD3D11*>(blitCommand->sourceTexture);
+                        TextureResourceD3D11* destinationTextureD3D11 = static_cast<TextureResourceD3D11*>(blitCommand->destinationTexture);
+
+                        D3D11_BOX box;
+                        box.left = blitCommand->sourceX;
+                        box.top = blitCommand->sourceY;
+                        box.front = 0;
+                        box.right = blitCommand->sourceX + blitCommand->sourceWidth;
+                        box.bottom = blitCommand->sourceY + blitCommand->sourceHeight;
+                        box.back = 0;
+
+                        context->CopySubresourceRegion(destinationTextureD3D11->getTexture(),
+                                                       blitCommand->destinationLevel,
+                                                       blitCommand->destinationX,
+                                                       blitCommand->destinationY,
+                                                       0,
+                                                       sourceTextureD3D11->getTexture(),
+                                                       blitCommand->sourceLevel,
+                                                       &box);
                         break;
                     }
 

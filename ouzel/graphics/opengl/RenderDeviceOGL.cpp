@@ -124,7 +124,7 @@ PFNGLMAPBUFFEROESPROC glMapBufferProc;
 PFNGLUNMAPBUFFEROESPROC glUnmapBufferProc;
 PFNGLMAPBUFFERRANGEEXTPROC glMapBufferRangeProc;
 PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC glFramebufferTexture2DMultisampleProc;
-PFNGLCOPYIMAGESUBDATAOESPROC glCopyImageSubDataProc;
+PFNGLCOPYIMAGESUBDATAEXTPROC glCopyImageSubDataProc;
 #else
 PFNGLMAPBUFFERPROC glMapBufferProc;
 PFNGLUNMAPBUFFERPROC glUnmapBufferProc;
@@ -500,7 +500,9 @@ namespace ouzel
                     apiMajorVersion >= 5)
                     anisotropicFilteringSupported = true;
 
-                glCopyImageSubDataProc = reinterpret_cast<PFNGLCOPYIMAGESUBDATAPROC>(GET_EXT_PROC_ADDRESS(glCopyImageSubData));
+                if ((apiMajorVersion == 4 && apiMinorVersion >= 3) || // at least OpenGL 4.3
+                    apiMajorVersion >= 5)
+                    glCopyImageSubDataProc = reinterpret_cast<PFNGLCOPYIMAGESUBDATAPROC>(GET_EXT_PROC_ADDRESS(glCopyImageSubData));
 #endif
             }
 
@@ -611,6 +613,10 @@ namespace ouzel
                     glUnmapBufferProc = reinterpret_cast<PFNGLUNMAPBUFFEROESPROC>(GET_EXT_PROC_ADDRESS(glUnmapBufferOES));
                 }
 #  if !OUZEL_OPENGL_INTERFACE_EAGL
+                else if (extension == "GL_EXT_copy_image")
+                {
+                    glCopyImageSubDataProc = reinterpret_cast<PFNGLCOPYIMAGESUBDATAEXTPROC>(GET_EXT_PROC_ADDRESS(glCopyImageSubDataEXT));
+                }
                 else if (extension == "GL_EXT_multisampled_render_to_texture")
                 {
                     multisamplingSupported = true;
@@ -624,6 +630,10 @@ namespace ouzel
                 }
 #  endif
 #else
+                else if (extension == "GL_ARB_copy_image")
+                {
+                    glCopyImageSubDataProc = reinterpret_cast<PFNGLCOPYIMAGESUBDATAPROC>(GET_EXT_PROC_ADDRESS(glCopyImageSubData));
+                }
                 else if (extension == "GL_ARB_vertex_array_object")
                 {
                     glGenVertexArraysProc = reinterpret_cast<PFNGLGENVERTEXARRAYSPROC>(GET_EXT_PROC_ADDRESS(glGenVertexArrays));
@@ -933,8 +943,30 @@ namespace ouzel
 
                     case Command::Type::BLIT:
                     {
-                        //const BlitCommand* blitCommand = static_cast<const BlitCommand*>(command.get());
-                        //glCopyImageSubData
+#if !OUZEL_SUPPORTS_OPENGLES
+                        const BlitCommand* blitCommand = static_cast<const BlitCommand*>(command.get());
+                        
+                        TextureResourceOGL* sourceTextureOGL = static_cast<TextureResourceOGL*>(blitCommand->sourceTexture);
+                        TextureResourceOGL* destinationTextureOGL = static_cast<TextureResourceOGL*>(blitCommand->destinationTexture);
+
+                        if (glCopyImageSubDataProc)
+                            glCopyImageSubDataProc(sourceTextureOGL->getTextureId(),
+                                                   GL_TEXTURE_2D,
+                                                   static_cast<GLint>(blitCommand->sourceLevel),
+                                                   static_cast<GLint>(blitCommand->sourceX),
+                                                   static_cast<GLint>(blitCommand->sourceY),
+                                                   0,
+                                                   destinationTextureOGL->getTextureId(),
+                                                   GL_TEXTURE_2D,
+                                                   static_cast<GLint>(blitCommand->destinationLevel),
+                                                   static_cast<GLint>(blitCommand->destinationX),
+                                                   static_cast<GLint>(blitCommand->destinationY),
+                                                   0,
+                                                   static_cast<GLsizei>(blitCommand->sourceWidth),
+                                                   static_cast<GLsizei>(blitCommand->sourceHeight),
+                                                   0);
+#endif
+                        // TODO: copy data if glCopyImageSubData is not available
                         break;
                     }
 
