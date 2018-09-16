@@ -139,15 +139,33 @@ namespace ouzel
         {
         public:
             BlitCommand(RenderResource* initSourceTexture,
-                        RenderResource* initTargetTexture):
+                        RenderResource* initDestinationTexture,
+                        uint32_t initSourceX,
+                        uint32_t initSourceY,
+                        uint32_t initSourceWidth,
+                        uint32_t initSourceHeight,
+                        uint32_t initDestinationX,
+                        uint32_t initDestinationY):
                 Command(Command::Type::BLIT),
                 sourceTexture(initSourceTexture),
-                targetTexture(initTargetTexture)
+                destinationTexture(initDestinationTexture),
+                sourceX(initSourceX),
+                sourceY(initSourceY),
+                sourceWidth(initSourceWidth),
+                sourceHeight(initSourceHeight),
+                destinationX(initDestinationX),
+                destinationY(initDestinationY)
             {
             }
 
             RenderResource* sourceTexture;
-            RenderResource* targetTexture;
+            RenderResource* destinationTexture;
+            uint32_t sourceX;
+            uint32_t sourceY;
+            uint32_t sourceWidth;
+            uint32_t sourceHeight;
+            uint32_t destinationX;
+            uint32_t destinationY;
         };
 
         // TODO: implement

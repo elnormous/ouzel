@@ -459,6 +459,7 @@ namespace ouzel
                     case Command::Type::BLIT:
                     {
                         //const BlitCommand* blitCommand = static_cast<const BlitCommand*>(command.get());
+                        //MTLBlitCommandEncoder
                         break;
                     }
 

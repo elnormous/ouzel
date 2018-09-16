@@ -124,12 +124,12 @@ PFNGLMAPBUFFEROESPROC glMapBufferProc;
 PFNGLUNMAPBUFFEROESPROC glUnmapBufferProc;
 PFNGLMAPBUFFERRANGEEXTPROC glMapBufferRangeProc;
 PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC glFramebufferTexture2DMultisampleProc;
-PFNGLCOPYIMAGESUBDATAEXTPROC glCopyImageSubDataProc;
+PFNGLCOPYIMAGESUBDATAOESPROC glCopyImageSubDataProc;
 #else
 PFNGLMAPBUFFERPROC glMapBufferProc;
 PFNGLUNMAPBUFFERPROC glUnmapBufferProc;
 PFNGLMAPBUFFERRANGEPROC glMapBufferRangeProc;
-PFNGLCOPYIMAGESUBDATAOESPROC glCopyImageSubDataProc;
+PFNGLCOPYIMAGESUBDATAEXTPROC glCopyImageSubDataProc;
 #endif
 
 #if OUZEL_PLATFORM_MACOS
@@ -928,6 +928,7 @@ namespace ouzel
                     case Command::Type::BLIT:
                     {
                         //const BlitCommand* blitCommand = static_cast<const BlitCommand*>(command.get());
+                        //glCopyImageSubData
                         break;
                     }
 
