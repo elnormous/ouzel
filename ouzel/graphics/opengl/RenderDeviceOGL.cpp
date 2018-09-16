@@ -609,13 +609,19 @@ namespace ouzel
                     glMapBufferProc = reinterpret_cast<PFNGLMAPBUFFEROESPROC>(GET_EXT_PROC_ADDRESS(glMapBufferOES));
                     glUnmapBufferProc = reinterpret_cast<PFNGLUNMAPBUFFEROESPROC>(GET_EXT_PROC_ADDRESS(glUnmapBufferOES));
                 }
-
+#  if !OUZEL_OPENGL_INTERFACE_EAGL
+                else if (extension == "GL_EXT_multisampled_render_to_texture")
+                {
+                    multisamplingSupported = true;
+                    glRenderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC>(GET_EXT_PROC_ADDRESS(glRenderbufferStorageMultisampleEXT));
+                }
                 else if (extension == "GL_IMG_multisampled_render_to_texture")
                 {
                     multisamplingSupported = true;
                     glRenderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC>(GET_EXT_PROC_ADDRESS(glRenderbufferStorageMultisampleIMG));
                     glFramebufferTexture2DMultisampleProc = reinterpret_cast<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>(GET_EXT_PROC_ADDRESS(glFramebufferTexture2DMultisampleIMG));
                 }
+#  endif
 #else
                 else if (extension == "GL_ARB_vertex_array_object")
                 {
