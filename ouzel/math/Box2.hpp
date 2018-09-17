@@ -83,7 +83,7 @@ namespace ouzel
             if (point.y > max.y) max.y = point.y;
         }
 
-        inline Box2 operator+(const Vector2& v) const
+        inline const Box2 operator+(const Vector2& v) const
         {
             Box2 result(*this);
             result += v;
@@ -97,7 +97,7 @@ namespace ouzel
             return *this;
         }
 
-        inline Box2 operator-(const Vector2& v) const
+        inline const Box2 operator-(const Vector2& v) const
         {
             Box2 result(*this);
             result -= v;

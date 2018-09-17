@@ -28,7 +28,7 @@ namespace ouzel
         {
         }
 
-        Size2& operator=(const Vector2& point)
+        inline Size2& operator=(const Vector2& point)
         {
             width = point.x;
             height = point.y;
@@ -38,7 +38,7 @@ namespace ouzel
         Size2(const Size3& s);
         Size2& operator=(const Size3& s);
 
-        Size2 operator+(const Size2& size) const
+        inline const Size2 operator+(const Size2& size) const
         {
             return Size2(width + size.width, height + size.height);
         }
@@ -50,7 +50,7 @@ namespace ouzel
             return *this;
         }
 
-        Size2 operator-(const Size2& size) const
+        inline const Size2 operator-(const Size2& size) const
         {
             return Size2(width - size.width, height - size.height);
         }
@@ -62,7 +62,7 @@ namespace ouzel
             return *this;
         }
 
-        Size2 operator*(float a) const
+        inline const Size2 operator*(float a) const
         {
             return Size2(width * a, height * a);
         }
@@ -74,7 +74,7 @@ namespace ouzel
             return *this;
         }
 
-        Size2 operator/(float a) const
+        inline const Size2 operator/(float a) const
         {
             return Size2(width / a, height / a);
         }
@@ -96,40 +96,40 @@ namespace ouzel
             return width != size.width || height != size.height;
         }
 
-        bool isZero() const
+        inline bool isZero() const
         {
             return width == 0.0F && height == 0.0F;
         }
 
-        bool isOne() const
+        inline bool isOne() const
         {
             return width == 1.0F && height == 1.0F;
         }
 
-        float area() const
+        inline float area() const
         {
             return width * height;
         }
 
-        void scale(float scalar)
+        inline void scale(float scalar)
         {
             width *= scalar;
             height *= scalar;
         }
 
-        void scale(const Vector2& scale)
+        inline void scale(const Vector2& scale)
         {
             width *= scale.x;
             height *= scale.y;
         }
     };
 
-    inline Size2 operator*(const Size2& size, const Vector2& v)
+    inline const Size2 operator*(const Size2& size, const Vector2& v)
     {
         return Size2(size.width * v.x, size.height * v.y);
     }
 
-    inline Size2 operator/(const Size2& size, const Vector2& v)
+    inline const Size2 operator/(const Size2& size, const Vector2& v)
     {
         return Size2(size.width / v.x, size.height / v.y);
     }

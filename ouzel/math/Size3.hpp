@@ -29,7 +29,7 @@ namespace ouzel
         {
         }
 
-        Size3& operator=(const Vector3& point)
+        inline Size3& operator=(const Vector3& point)
         {
             width = point.x;
             height = point.y;
@@ -40,7 +40,7 @@ namespace ouzel
         Size3(const Size2& s);
         Size3& operator=(const Size2& s);
 
-        Size3 operator+(const Size3& size) const
+        inline const Size3 operator+(const Size3& size) const
         {
             return Size3(width + size.width, height + size.height, depth + size.depth);
         }
@@ -53,7 +53,7 @@ namespace ouzel
             return *this;
         }
 
-        Size3 operator-(const Size3& size) const
+        inline const Size3 operator-(const Size3& size) const
         {
             return Size3(width - size.width, height - size.height, depth - size.depth);
         }
@@ -66,7 +66,7 @@ namespace ouzel
             return *this;
         }
 
-        Size3 operator*(float a) const
+        inline const Size3 operator*(float a) const
         {
             return Size3(width * a, height * a, depth * a);
         }
@@ -79,7 +79,7 @@ namespace ouzel
             return *this;
         }
 
-        Size3 operator/(float a) const
+        inline const Size3 operator/(float a) const
         {
             return Size3(width / a, height / a, depth / a);
         }
@@ -102,29 +102,29 @@ namespace ouzel
             return width != size.width || height != size.height || depth != size.depth;
         }
 
-        bool isZero() const
+        inline bool isZero() const
         {
             return width == 0.0F && height == 0.0F && depth == 0.0F;
         }
 
-        bool isOne() const
+        inline bool isOne() const
         {
             return width == 1.0F && height == 1.0F && depth == 1.0F;
         }
 
-        float volume() const
+        inline float volume() const
         {
             return width * height * depth;
         }
 
-        void scale(float scalar)
+        inline void scale(float scalar)
         {
             width *= scalar;
             height *= scalar;
             depth *= scalar;
         }
 
-        void scale(const Vector3& scale)
+        inline void scale(const Vector3& scale)
         {
             width *= scale.x;
             height *= scale.y;
@@ -132,12 +132,12 @@ namespace ouzel
         }
     };
 
-    inline Size3 operator*(const Size3& size, const Vector3& v)
+    inline const Size3 operator*(const Size3& size, const Vector3& v)
     {
         return Size3(size.width * v.x, size.height * v.y, size.depth * v.z);
     }
 
-    inline Size3 operator/(const Size3& size, const Vector3& v)
+    inline const Size3 operator/(const Size3& size, const Vector3& v)
     {
         return Size3(size.width / v.x, size.height / v.y, size.depth / v.z);
     }

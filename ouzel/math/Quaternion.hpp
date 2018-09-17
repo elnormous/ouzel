@@ -28,12 +28,12 @@ namespace ouzel
         {
         }
 
-        static Quaternion identity()
+        static inline Quaternion identity()
         {
             return Quaternion(0.0F, 0.0F, 0.0F, 1.0F);
         }
 
-        Quaternion operator*(const Quaternion& q) const
+        inline const Quaternion operator*(const Quaternion& q) const
         {
             return Quaternion( x * q.w + y * q.z - z * q.y + w * q.x,
                               -x * q.z + y * q.w + z * q.x + w * q.y,
@@ -41,7 +41,7 @@ namespace ouzel
                               -x * q.x - y * q.y - z * q.z + w * q.w);
         }
 
-        const Quaternion& operator*=(const Quaternion& q)
+        inline Quaternion& operator*=(const Quaternion& q)
         {
             float tempX =  x * q.w + y * q.z - z * q.y + w * q.x;
             float tempY = -x * q.z + y * q.w + z * q.x + w * q.y;
@@ -56,7 +56,7 @@ namespace ouzel
             return *this;
         }
 
-        Quaternion operator*(float scalar) const
+        inline const Quaternion operator*(float scalar) const
         {
             return Quaternion(x * scalar,
                               y * scalar,
@@ -64,7 +64,7 @@ namespace ouzel
                               w * scalar);
         }
 
-        const Quaternion& operator*=(float scalar)
+        inline Quaternion& operator*=(float scalar)
         {
             x *= scalar;
             y *= scalar;
@@ -74,7 +74,7 @@ namespace ouzel
             return *this;
         }
 
-        Quaternion operator/(float scalar) const
+        inline const Quaternion operator/(float scalar) const
         {
             return Quaternion(x / scalar,
                               y / scalar,
@@ -82,7 +82,7 @@ namespace ouzel
                               w / scalar);
         }
 
-        const Quaternion& operator/=(float scalar)
+        inline Quaternion& operator/=(float scalar)
         {
             x /= scalar;
             y /= scalar;
@@ -92,12 +92,12 @@ namespace ouzel
             return *this;
         }
 
-        inline Quaternion operator-() const
+        inline const Quaternion operator-() const
         {
             return Quaternion(-x, -y, -z, -w);
         }
 
-        inline Quaternion operator+(const Quaternion& q) const
+        inline const Quaternion operator+(const Quaternion& q) const
         {
             Quaternion result(*this);
             result.x += q.x;
@@ -118,7 +118,7 @@ namespace ouzel
             return *this;
         }
 
-        inline Quaternion operator-(const Quaternion& q) const
+        inline const Quaternion operator-(const Quaternion& q) const
         {
             Quaternion result(*this);
             result.x -= q.x;
@@ -188,7 +188,7 @@ namespace ouzel
         float getEulerAngleY() const;
         float getEulerAngleZ() const;
 
-        inline Vector3 operator*(const Vector3& vector) const
+        inline const Vector3 operator*(const Vector3& vector) const
         {
             return rotateVector(vector);
         }
@@ -215,7 +215,7 @@ namespace ouzel
             return rotateVector(Vector3(0.0F, 0.0F, 1.0F));
         }
 
-        Quaternion& lerp(const Quaternion& q1, const Quaternion& q2, float t)
+        inline Quaternion& lerp(const Quaternion& q1, const Quaternion& q2, float t)
         {
             const float scale = 1.0F - t;
             return (*this = (q1 * scale) + (q2 * t));
