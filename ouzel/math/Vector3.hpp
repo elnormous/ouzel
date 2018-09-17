@@ -169,7 +169,7 @@ namespace ouzel
 
         float getMax() const;
 
-        inline Vector3 operator+(const Vector3& vec) const
+        inline const Vector3 operator+(const Vector3& vec) const
         {
             return Vector3(x + vec.x, y + vec.y, z + vec.z);
         }
@@ -182,7 +182,7 @@ namespace ouzel
             return *this;
         }
 
-        inline Vector3 operator-(const Vector3& vec) const
+        inline const Vector3 operator-(const Vector3& vec) const
         {
             return Vector3(x - vec.x, y - vec.y, z - vec.z);
         }
@@ -195,12 +195,12 @@ namespace ouzel
             return *this;
         }
 
-        inline Vector3 operator-() const
+        inline const Vector3 operator-() const
         {
             return Vector3(-x, -y, -z);
         }
 
-        inline Vector3 operator*(float scalar) const
+        inline const Vector3 operator*(float scalar) const
         {
             return Vector3(x * scalar, y * scalar, z * scalar);
         }
@@ -213,7 +213,7 @@ namespace ouzel
             return *this;
         }
 
-        inline Vector3 operator/(float scalar) const
+        inline const Vector3 operator/(float scalar) const
         {
             return Vector3(x / scalar, y / scalar, z / scalar);
         }
@@ -249,7 +249,7 @@ namespace ouzel
         }
     };
 
-    inline Vector3 operator*(float scalar, const Vector3& vec)
+    inline const Vector3 operator*(float scalar, const Vector3& vec)
     {
         return Vector3(vec.x * scalar, vec.y * scalar, vec.z * scalar);
     }

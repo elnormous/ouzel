@@ -173,7 +173,7 @@ namespace ouzel
                 position.y != r.position.y || size.height != r.size.height;
         }
 
-        inline Rect operator*(float scalar) const
+        inline const Rect operator*(float scalar) const
         {
             return Rect(position.x * scalar, position.y * scalar,
                         size.width * scalar, size.height * scalar);
@@ -188,7 +188,7 @@ namespace ouzel
             return *this;
         }
 
-        inline Rect operator/(float scalar) const
+        inline const Rect operator/(float scalar) const
         {
             return Rect(position.x / scalar, position.y / scalar,
                         size.width / scalar, size.height / scalar);

@@ -57,7 +57,7 @@ namespace ouzel
         float& operator[](size_t index) { return m[index]; }
         float operator[](size_t index) const { return m[index]; }
 
-        static Matrix4 identity()
+        static inline Matrix4 identity()
         {
             return Matrix4(1.0F, 0.0F, 0.0F, 0.0F,
                            0.0F, 1.0F, 0.0F, 0.0F,
@@ -325,7 +325,7 @@ namespace ouzel
             m[15] = 1.0F;
         }
 
-        inline Matrix4 operator+(const Matrix4& matrix) const
+        inline const Matrix4 operator+(const Matrix4& matrix) const
         {
             Matrix4 result(*this);
             add(result, matrix, result);
@@ -338,7 +338,7 @@ namespace ouzel
             return *this;
         }
 
-        inline Matrix4 operator-(const Matrix4& matrix) const
+        inline const Matrix4 operator-(const Matrix4& matrix) const
         {
             Matrix4 result(*this);
             subtract(result, matrix, result);
@@ -351,14 +351,14 @@ namespace ouzel
             return *this;
         }
 
-        inline Matrix4 operator-() const
+        inline const Matrix4 operator-() const
         {
             Matrix4 result(*this);
             negate(result);
             return result;
         }
 
-        inline Matrix4 operator*(const Matrix4& matrix) const
+        inline const Matrix4 operator*(const Matrix4& matrix) const
         {
             Matrix4 result(*this);
             multiply(result, matrix, result);
@@ -418,7 +418,7 @@ namespace ouzel
         return v;
     }
 
-    inline Vector3 operator*(const Matrix4& m, const Vector3& v)
+    inline const Vector3 operator*(const Matrix4& m, const Vector3& v)
     {
         Vector3 x;
         m.transformVector(v, x);
@@ -431,7 +431,7 @@ namespace ouzel
         return v;
     }
 
-    inline Vector4 operator*(const Matrix4& m, const Vector4& v)
+    inline const Vector4 operator*(const Matrix4& m, const Vector4& v)
     {
         Vector4 x;
         m.transformVector(v, x);

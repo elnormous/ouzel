@@ -185,7 +185,7 @@ namespace ouzel
 
         float getMax() const;
 
-        inline Vector4 operator+(const Vector4& vec) const
+        inline const Vector4 operator+(const Vector4& vec) const
         {
             Vector4 result(*this);
             result.add(vec);
@@ -198,7 +198,7 @@ namespace ouzel
             return *this;
         }
 
-        inline Vector4 operator-(const Vector4& vec) const
+        inline const Vector4 operator-(const Vector4& vec) const
         {
             Vector4 result(*this);
             result.subtract(vec);
@@ -211,12 +211,12 @@ namespace ouzel
             return *this;
         }
 
-        inline Vector4 operator-() const
+        inline const Vector4 operator-() const
         {
             return Vector4(-x, -y, -z, -w);
         }
 
-        inline Vector4 operator*(float scalar) const
+        inline const Vector4 operator*(float scalar) const
         {
             Vector4 result(*this);
             result.scale(scalar);
@@ -229,7 +229,7 @@ namespace ouzel
             return *this;
         }
 
-        inline Vector4 operator/(float scalar) const
+        inline const Vector4 operator/(float scalar) const
         {
             return Vector4(x / scalar, y / scalar, z / scalar, w / scalar);
         }
@@ -270,7 +270,7 @@ namespace ouzel
         }
     };
 
-    inline Vector4 operator*(float x, const Vector4& vec)
+    inline const Vector4 operator*(float x, const Vector4& vec)
     {
         Vector4 result(vec);
         result.scale(x);
