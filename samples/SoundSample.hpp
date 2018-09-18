@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include "ouzel.hpp"
+
 class SoundSample: public ouzel::scene::Scene
 {
 public:

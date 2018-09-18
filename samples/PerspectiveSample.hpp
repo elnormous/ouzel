@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include "ouzel.hpp"
+
 class PerspectiveSample: public ouzel::scene::Scene
 {
 public:

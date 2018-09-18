@@ -17,7 +17,7 @@ ifeq ($(platform),emscripten)
 CC=emcc
 CXX=em++
 endif
-CXXFLAGS=-c -std=c++11 -Wall -O2 -I$(ROOT_DIR)/../ouzel -Winvalid-pch -include $(ROOT_DIR)/Prefix.hpp
+CXXFLAGS=-c -std=c++11 -Wall -O2 -I$(ROOT_DIR)/../ouzel
 LDFLAGS=-O2 -L$(ROOT_DIR)/../build -louzel
 ifeq ($(platform),windows)
 LDFLAGS+=-u WinMain -ld3d11 -lopengl32 -ldxguid -lxinput9_1_0 -lshlwapi -ldinput8 -luser32 -lgdi32 -lshell32 -lole32 -loleaut32 -ldsound -luuid -lws2_32
@@ -153,14 +153,9 @@ endif
 $(ROOT_DIR)/$(EXECUTABLE): ouzel $(OBJECTS)
 	$(CXX) $(OBJECTS) $(LDFLAGS) -o $@
 
-$(OBJECTS): $(ROOT_DIR)/Prefix.hpp.gch
-
 -include $(DEPENDENCIES)
 
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) -MMD -MP $< -o $@
-
-%.hpp.gch: %.hpp
 	$(CXX) $(CXXFLAGS) -MMD -MP $< -o $@
 
 .PHONY: ouzel
@@ -171,8 +166,8 @@ ouzel:
 clean:
 	$(MAKE) -f $(ROOT_DIR)/../build/Makefile clean
 ifeq ($(platform),windows)
-	-del /f /q "$(ROOT_DIR)\$(EXECUTABLE).exe" "$(ROOT_DIR)\*.o" "$(ROOT_DIR)\*.d" "$(ROOT_DIR)\*.js.mem" "$(ROOT_DIR)\*.js" "$(ROOT_DIR)\*.hpp.gch"
+	-del /f /q "$(ROOT_DIR)\$(EXECUTABLE).exe" "$(ROOT_DIR)\*.o" "$(ROOT_DIR)\*.d" "$(ROOT_DIR)\*.js.mem" "$(ROOT_DIR)\*.js"
 else
-	$(RM) $(ROOT_DIR)/$(EXECUTABLE) $(ROOT_DIR)/*.o $(ROOT_DIR)/*.d $(ROOT_DIR)/*.js.mem $(ROOT_DIR)/*.js $(ROOT_DIR)/*.hpp.gch $(ROOT_DIR)/$(EXECUTABLE).exe $(ROOT_DIR)/assetcatalog_generated_info.plist $(ROOT_DIR)/assetcatalog_dependencies
+	$(RM) $(ROOT_DIR)/$(EXECUTABLE) $(ROOT_DIR)/*.o $(ROOT_DIR)/*.d $(ROOT_DIR)/*.js.mem $(ROOT_DIR)/*.js $(ROOT_DIR)/$(EXECUTABLE).exe $(ROOT_DIR)/assetcatalog_generated_info.plist $(ROOT_DIR)/assetcatalog_dependencies
 	$(RM) -r $(ROOT_DIR)/$(EXECUTABLE).app
 endif
