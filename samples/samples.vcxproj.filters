@@ -11,9 +11,6 @@
     <ClCompile Include="RTSample.cpp" />
     <ClCompile Include="SoundSample.cpp" />
     <ClCompile Include="SpritesSample.cpp" />
-    <ClCompile Include="windows\stdafx.cpp">
-      <Filter>windows</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationsSample.hpp" />
@@ -25,9 +22,6 @@
     <ClInclude Include="RTSample.hpp" />
     <ClInclude Include="SoundSample.hpp" />
     <ClInclude Include="SpritesSample.hpp" />
-    <ClInclude Include="windows\stdafx.h">
-      <Filter>windows</Filter>
-    </ClInclude>
     <ClInclude Include="windows\resource.h">
       <Filter>windows</Filter>
     </ClInclude>
