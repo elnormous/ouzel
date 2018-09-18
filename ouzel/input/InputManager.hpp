@@ -62,19 +62,19 @@ namespace ouzel
             bool isKeyboardKeyDown(KeyboardKey key) const { return keyboardKeyStates[static_cast<uint32_t>(key)]; }
             bool isMouseButtonDown(MouseButton button) const { return mouseButtonStates[static_cast<uint32_t>(button)]; }
 
-            virtual void keyPress(KeyboardKey key, uint32_t modifiers);
-            virtual void keyRelease(KeyboardKey key, uint32_t modifiers);
+            void keyPress(KeyboardKey key, uint32_t modifiers);
+            void keyRelease(KeyboardKey key, uint32_t modifiers);
 
-            virtual void mouseButtonPress(MouseButton button, const Vector2& position, uint32_t modifiers);
-            virtual void mouseButtonRelease(MouseButton button, const Vector2& position, uint32_t modifiers);
-            virtual void mouseMove(const Vector2& position, uint32_t modifiers);
-            virtual void mouseRelativeMove(const Vector2& relativePosition, uint32_t modifiers);
-            virtual void mouseScroll(const Vector2& scroll, const Vector2& position, uint32_t modifiers);
+            void mouseButtonPress(MouseButton button, const Vector2& position, uint32_t modifiers);
+            void mouseButtonRelease(MouseButton button, const Vector2& position, uint32_t modifiers);
+            void mouseMove(const Vector2& position, uint32_t modifiers);
+            void mouseRelativeMove(const Vector2& relativePosition, uint32_t modifiers);
+            void mouseScroll(const Vector2& scroll, const Vector2& position, uint32_t modifiers);
 
-            virtual void touchBegin(uint64_t touchId, const Vector2& position, float force = 1.0F);
-            virtual void touchEnd(uint64_t touchId, const Vector2& position, float force = 1.0F);
-            virtual void touchMove(uint64_t touchId, const Vector2& position, float force = 1.0F);
-            virtual void touchCancel(uint64_t touchId, const Vector2& position, float force = 1.0F);
+            void touchBegin(uint64_t touchId, const Vector2& position, float force = 1.0F);
+            void touchEnd(uint64_t touchId, const Vector2& position, float force = 1.0F);
+            void touchMove(uint64_t touchId, const Vector2& position, float force = 1.0F);
+            void touchCancel(uint64_t touchId, const Vector2& position, float force = 1.0F);
 
             virtual void showVirtualKeyboard();
             virtual void hideVirtualKeyboard();
