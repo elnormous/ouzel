@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include "ouzel.hpp"
+
 class AnimationsSample: public ouzel::scene::Scene
 {
 public:
