@@ -100,7 +100,7 @@ namespace ouzel
                 std::string key = utf32ToUtf8(iterator->value);
 
                 if (objectValue.find(key) != objectValue.end())
-                    throw ParseError("Duplicate key value");
+                    throw ParseError("Duplicate key value " + key);
 
                 if (++iterator == tokens.end())
                     throw ParseError("Unexpected end of data");
@@ -426,7 +426,7 @@ namespace ouzel
                     if ((keywordIterator = keywordMap.find(token.value)) != keywordMap.end())
                         token.type = keywordIterator->second;
                     else
-                        throw ParseError("Unknown keyword");
+                        throw ParseError("Unknown keyword " + utf32ToUtf8(token.value));
                 }
                 else if (*iterator == '-')
                 {
