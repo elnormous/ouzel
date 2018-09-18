@@ -69,7 +69,6 @@
 #include "gui/SlideBar.hpp"
 #include "gui/Widget.hpp"
 #include "input/Cursor.hpp"
-#include "input/NativeCursor.hpp"
 #include "input/Gamepad.hpp"
 #include "input/InputDevice.hpp"
 #include "input/InputManager.hpp"

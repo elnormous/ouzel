@@ -108,6 +108,7 @@ namespace ouzel
 
         std::string title;
 
+    private:
         mutable std::mutex eventQueueMutex;
         mutable std::queue<Event> eventQueue;
 
