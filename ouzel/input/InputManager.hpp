@@ -87,6 +87,8 @@ namespace ouzel
             virtual NativeCursor* createNativeCursor();
             void deleteNativeCursor(NativeCursor* resource);
 
+            std::unique_ptr<InputSystem> inputSystem;
+
             Vector2 cursorPosition;
             bool keyboardKeyStates[static_cast<uint32_t>(KeyboardKey::KEY_COUNT)];
             bool mouseButtonStates[static_cast<uint32_t>(MouseButton::BUTTON_COUNT)];
