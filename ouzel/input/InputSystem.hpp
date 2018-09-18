@@ -87,9 +87,10 @@ namespace ouzel
 
             std::vector<Event> getEvents() const;
 
-        private:
+        protected:
             void addEvent(const Event& event);
 
+        private:
             mutable std::mutex eventQueueMutex;
             mutable std::queue<Event> eventQueue;
 
