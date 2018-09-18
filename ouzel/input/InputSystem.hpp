@@ -79,6 +79,8 @@ namespace ouzel
                 float previousValue = 0.0F;
                 Vector2 difference;
                 Vector2 position;
+                Vector2 scroll;
+                uint32_t modifiers = 0;
             };
 
             InputSystem();

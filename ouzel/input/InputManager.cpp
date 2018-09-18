@@ -14,6 +14,8 @@ namespace ouzel
     {
         InputManager::InputManager()
         {
+            inputSystem.reset(new InputSystem());
+
             std::fill(std::begin(keyboardKeyStates), std::end(keyboardKeyStates), false);
             std::fill(std::begin(mouseButtonStates), std::end(mouseButtonStates), false);
         }
@@ -24,7 +26,52 @@ namespace ouzel
 
         void InputManager::update()
         {
-            //inputSystem->update();
+            std::vector<InputSystem::Event> events = inputSystem->getEvents();
+
+            for (const InputSystem::Event& event : events)
+            {
+                switch (event.type)
+                {
+                    case InputSystem::Event::Type::GAMEPAD_CONNECT:
+                        break;
+                    case InputSystem::Event::Type::GAMEPAD_DISCONNECT:
+                        break;
+                    case InputSystem::Event::Type::GAMEPAD_BUTTON_CHANGE:
+                        break;
+                    case InputSystem::Event::Type::KEY_PRESS:
+                        keyPress(event.keyboardKey, event.modifiers);
+                        break;
+                    case InputSystem::Event::Type::KEY_RELEASE:
+                        keyRelease(event.keyboardKey, event.modifiers);
+                        break;
+                    case InputSystem::Event::Type::KEY_REPEAT:
+                        break;
+                    case InputSystem::Event::Type::MOUSE_PRESS:
+                        mouseButtonPress(event.mouseButton, event.position, event.modifiers);
+                        break;
+                    case InputSystem::Event::Type::MOUSE_RELEASE:
+                        mouseButtonRelease(event.mouseButton, event.position, event.modifiers);
+                        break;
+                    case InputSystem::Event::Type::MOUSE_SCROLL:
+                        mouseScroll(event.scroll, event.position, event.modifiers);
+                        break;
+                    case InputSystem::Event::Type::MOUSE_MOVE:
+                        mouseMove(event.position, event.modifiers);
+                        break;
+                    case InputSystem::Event::Type::TOUCH_BEGIN:
+                        touchBegin(event.touchId, event.position);
+                        break;
+                    case InputSystem::Event::Type::TOUCH_MOVE:
+                        touchMove(event.touchId, event.position);
+                        break;
+                    case InputSystem::Event::Type::TOUCH_END:
+                        touchEnd(event.touchId, event.position);
+                        break;
+                    case InputSystem::Event::Type::TOUCH_CANCEL:
+                        touchCancel(event.touchId, event.position);
+                        break;
+                }
+            }
         }
 
         void InputManager::setCurrentCursor(Cursor* cursor)
