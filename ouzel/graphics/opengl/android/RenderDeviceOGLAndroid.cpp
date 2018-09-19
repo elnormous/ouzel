@@ -74,7 +74,7 @@ namespace ouzel
 
             EGLint format;
             if (!eglGetConfigAttrib(display, config, EGL_NATIVE_VISUAL_ID, &format))
-                throw SystemError("Failed to get config attribute " + std::to_string(eglGetErrorProc()));
+                throw SystemError("Failed to get config attribute " + std::to_string(eglGetError()));
 
             NativeWindowAndroid* windowAndroid = static_cast<NativeWindowAndroid*>(newWindow->getNativeWindow());
 
@@ -124,7 +124,7 @@ namespace ouzel
 
             if (!eglQuerySurface(display, surface, EGL_WIDTH, &surfaceWidth) ||
                 !eglQuerySurface(display, surface, EGL_HEIGHT, &surfaceHeight))
-                throw SystemError("Failed to get query window size, error: " + std::to_string(eglGetErrorProc()));
+                throw SystemError("Failed to get query window size, error: " + std::to_string(eglGetError()));
 
             frameBufferWidth = surfaceWidth;
             frameBufferHeight = surfaceHeight;
@@ -177,7 +177,7 @@ namespace ouzel
 
             EGLint format;
             if (!eglGetConfigAttrib(display, config, EGL_NATIVE_VISUAL_ID, &format))
-                throw SystemError("Failed to get config attribute " + std::to_string(eglGetErrorProc()));
+                throw SystemError("Failed to get config attribute " + std::to_string(eglGetError()));
 
             NativeWindowAndroid* windowAndroid = static_cast<NativeWindowAndroid*>(window->getNativeWindow());
 
@@ -227,7 +227,7 @@ namespace ouzel
 
             if (!eglQuerySurface(display, surface, EGL_WIDTH, &surfaceWidth) ||
                 !eglQuerySurface(display, surface, EGL_HEIGHT, &surfaceHeight))
-                throw SystemError("Failed to get query window size " + std::to_string(eglGetErrorProc()));
+                throw SystemError("Failed to get query window size " + std::to_string(eglGetError()));
 
             frameBufferWidth = surfaceWidth;
             frameBufferHeight = surfaceHeight;
@@ -287,7 +287,7 @@ namespace ouzel
         void RenderDeviceOGLAndroid::present()
         {
             if (eglSwapBuffers(display, surface) != EGL_TRUE)
-                throw SystemError("Failed to swap buffers, error: " + std::to_string(eglGetErrorProc()));
+                throw SystemError("Failed to swap buffers, error: " + std::to_string(eglGetError()));
         }
 
         void RenderDeviceOGLAndroid::main()
@@ -295,7 +295,7 @@ namespace ouzel
             setCurrentThreadName("Render");
 
             if (!eglMakeCurrent(display, surface, surface, context))
-                throw SystemError("Failed to set current EGL context, error: " + std::to_string(eglGetErrorProc()));
+                throw SystemError("Failed to set current EGL context, error: " + std::to_string(eglGetError()));
 
             while (running)
             {
@@ -314,7 +314,7 @@ namespace ouzel
             }
 
             if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
-                Log(Log::Level::ERR) << "Failed to unset EGL context, error: " << eglGetErrorProc();
+                Log(Log::Level::ERR) << "Failed to unset EGL context, error: " << eglGetError();
         }
     } // namespace graphics
 } // namespace ouzel
