@@ -262,35 +262,6 @@ namespace ouzel
             if (!wglMakeCurrent(deviceContext, renderContext))
                 throw SystemError("Failed to set current OpenGL context");
 
-            const GLubyte* versionPtr = glGetString(GL_VERSION);
-
-            if (!versionPtr)
-                throw SystemError("Failed to get OpenGL version");
-
-            std::string version(reinterpret_cast<const char*>(versionPtr));
-            std::string majorVersion;
-            std::string minorVersion;
-            uint32_t part = 0;
-
-            for (char c : version)
-            {
-                if (c == '.' || c == ' ')
-                {
-                    if (++part > 1) break;
-                }
-                else if (part == 0)
-                    majorVersion += c;
-                else if (part == 1)
-                    minorVersion += c;
-            }
-
-            apiMajorVersion = static_cast<uint16_t>(stoi(majorVersion));
-            apiMinorVersion = static_cast<uint16_t>(stoi(minorVersion));
-
-            if (apiMajorVersion < 2 ||
-                apiMajorVersion > 4)
-                throw SystemError("Unsupported OpenGL version");
-
             RenderDeviceOGL::init(newWindow,
                                   newSize,
                                   newSampleCount,
