@@ -52,7 +52,7 @@ namespace ouzel
 
                 GLenum error;
 
-                if ((error = glGetError()) != GL_NO_ERROR)
+                if ((error = glGetErrorProc()) != GL_NO_ERROR)
                     throw DataError("Failed to create buffer, error: " + std::to_string(error));
             }
         }
@@ -78,7 +78,7 @@ namespace ouzel
 
                 GLenum error;
 
-                if ((error = glGetError()) != GL_NO_ERROR)
+                if ((error = glGetErrorProc()) != GL_NO_ERROR)
                     throw DataError("Failed to create buffer, error: " + std::to_string(error));
             }
         }
@@ -108,7 +108,7 @@ namespace ouzel
 
                 GLenum error;
 
-                if ((error = glGetError()) != GL_NO_ERROR)
+                if ((error = glGetErrorProc()) != GL_NO_ERROR)
                     throw DataError("Failed to create buffer, error: " + std::to_string(error));
             }
             else
@@ -117,7 +117,7 @@ namespace ouzel
 
                 GLenum error;
 
-                if ((error = glGetError()) != GL_NO_ERROR)
+                if ((error = glGetErrorProc()) != GL_NO_ERROR)
                     throw DataError("Failed to upload buffer, error: " + std::to_string(error));
             }
         }
@@ -131,7 +131,7 @@ namespace ouzel
 
             GLenum error;
 
-            if ((error = glGetError()) != GL_NO_ERROR)
+            if ((error = glGetErrorProc()) != GL_NO_ERROR)
                 throw DataError("Failed to create buffer, error: " + std::to_string(error));
 
             switch (usage)

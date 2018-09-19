@@ -132,7 +132,7 @@ namespace ouzel
 
                 GLenum error;
 
-                if ((error = glGetError()) != GL_NO_ERROR)
+                if ((error = glGetErrorProc()) != GL_NO_ERROR)
                     throw SystemError("Failed to bind MSAA frame buffer, error: " + std::to_string(error));
 
                 if (apiMajorVersion >= 3)
@@ -140,16 +140,16 @@ namespace ouzel
                                           0, 0, frameBufferWidth, frameBufferHeight,
                                           GL_COLOR_BUFFER_BIT, GL_NEAREST);
                 else
-                    glResolveMultisampleFramebufferAPPLE();
+                    glResolveMultisampleFramebufferAPPLEProc();
 
-                if ((error = glGetError()) != GL_NO_ERROR)
+                if ((error = glGetErrorProc()) != GL_NO_ERROR)
                     throw SystemError("Failed to blit MSAA texture, error: " + std::to_string(error));
 
                 // reset framebuffer
                 const GLenum discard[] = {GL_COLOR_ATTACHMENT0, GL_DEPTH_ATTACHMENT};
-                glDiscardFramebufferEXT(GL_READ_FRAMEBUFFER_APPLE, 1, discard);
+                glDiscardFramebufferEXTProc(GL_READ_FRAMEBUFFER_APPLE, 1, discard);
 
-                if ((error = glGetError()) != GL_NO_ERROR)
+                if ((error = glGetErrorProc()) != GL_NO_ERROR)
                     throw SystemError("Failed to discard render buffers, error: " + std::to_string(error));
 
                 stateCache.frameBufferId = resolveFrameBufferId;
@@ -164,31 +164,31 @@ namespace ouzel
         {
             if (msaaColorRenderBufferId)
             {
-                glDeleteRenderbuffers(1, &msaaColorRenderBufferId);
+                glDeleteRenderbuffersProc(1, &msaaColorRenderBufferId);
                 msaaColorRenderBufferId = 0;
             }
 
             if (msaaFrameBufferId)
             {
-                glDeleteFramebuffers(1, &msaaFrameBufferId);
+                glDeleteFramebuffersProc(1, &msaaFrameBufferId);
                 msaaFrameBufferId = 0;
             }
 
             if (resolveColorRenderBufferId)
             {
-                glDeleteRenderbuffers(1, &resolveColorRenderBufferId);
+                glDeleteRenderbuffersProc(1, &resolveColorRenderBufferId);
                 resolveColorRenderBufferId = 0;
             }
 
             if (depthRenderBufferId)
             {
-                glDeleteRenderbuffers(1, &depthRenderBufferId);
+                glDeleteRenderbuffersProc(1, &depthRenderBufferId);
                 depthRenderBufferId = 0;
             }
 
             if (resolveFrameBufferId)
             {
-                glDeleteFramebuffers(1, &resolveFrameBufferId);
+                glDeleteFramebuffersProc(1, &resolveFrameBufferId);
                 resolveFrameBufferId = 0;
             }
 
@@ -211,17 +211,17 @@ namespace ouzel
                     throw SystemError("Failed to create framebuffer object, status: " + std::to_string(status));
 
                 // create MSAA frame buffer
-                glGenFramebuffers(1, &msaaFrameBufferId);
+                glGenFramebuffersProc(1, &msaaFrameBufferId);
                 glGenRenderbuffersProc(1, &msaaColorRenderBufferId);
 
                 glBindRenderbufferProc(GL_RENDERBUFFER, msaaColorRenderBufferId);
-                glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, static_cast<GLsizei>(sampleCount), GL_RGBA8_OES, frameBufferWidth, frameBufferHeight);
+                glRenderbufferStorageMultisampleAPPLEProc(GL_RENDERBUFFER, static_cast<GLsizei>(sampleCount), GL_RGBA8_OES, frameBufferWidth, frameBufferHeight);
 
                 if (depth)
                 {
                     glGenRenderbuffersProc(1, &depthRenderBufferId);
                     glBindRenderbufferProc(GL_RENDERBUFFER, depthRenderBufferId);
-                    glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, static_cast<GLsizei>(sampleCount), GL_DEPTH_COMPONENT24_OES, frameBufferWidth, frameBufferHeight);
+                    glRenderbufferStorageMultisampleAPPLEProc(GL_RENDERBUFFER, static_cast<GLsizei>(sampleCount), GL_DEPTH_COMPONENT24_OES, frameBufferWidth, frameBufferHeight);
                 }
 
                 RenderDeviceOGL::bindFrameBuffer(msaaFrameBufferId);

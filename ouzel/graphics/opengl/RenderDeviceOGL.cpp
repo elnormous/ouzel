@@ -12,21 +12,22 @@
 #include <sstream>
 
 #if OUZEL_SUPPORTS_OPENGLES
-#  define GL_GLEXT_PROTOTYPES 1
 #  include "GLES/gl.h"
 #  include "GLES2/gl2.h"
 #  include "GLES2/gl2ext.h"
 #  include "GLES3/gl3.h"
 #else
-#  define GL_GLEXT_PROTOTYPES 1
 #  include "GL/glcorearb.h"
 #  include "GL/glext.h"
 #endif
 
 #if OUZEL_OPENGL_INTERFACE_EGL
 #  include "EGL/egl.h"
+#elif OUZEL_OPENGL_INTERFACE_EAGL
+#  include <OpenGLES/ES2/gl.h>
+#  include <OpenGLES/ES2/glext.h>
+#  include <OpenGLES/ES3/gl.h>
 #elif OUZEL_OPENGL_INTERFACE_GLX
-#  define GL_GLEXT_PROTOTYPES 1
 #  include <GL/glx.h>
 #  include "GL/glxext.h"
 #elif OUZEL_OPENGL_INTERFACE_WGL
@@ -43,6 +44,28 @@
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"
 #include "stb_image_write.h"
+
+PFNGLGETINTEGERVPROC glGetIntegervProc;
+PFNGLGETSTRINGPROC glGetStringProc;
+PFNGLGETERRORPROC glGetErrorProc;
+PFNGLENABLEPROC glEnableProc;
+PFNGLDISABLEPROC glDisableProc;
+PFNGLBINDTEXTUREPROC glBindTextureProc;
+PFNGLGENTEXTURESPROC glGenTexturesProc;
+PFNGLDELETETEXTURESPROC glDeleteTexturesProc;
+PFNGLTEXPARAMETERIPROC glTexParameteriProc;
+PFNGLTEXIMAGE2DPROC glTexImage2DProc;
+PFNGLTEXSUBIMAGE2DPROC glTexSubImage2DProc;
+PFNGLVIEWPORTPROC glViewportProc;
+PFNGLCLEARPROC glClearProc;
+PFNGLCLEARCOLORPROC glClearColorProc;
+PFNGLCOLORMASKPROC glColorMaskProc;
+PFNGLDEPTHMASKPROC glDepthMaskProc;
+PFNGLDEPTHFUNCPROC glDepthFuncProc;
+PFNGLCULLFACEPROC glCullFaceProc;
+PFNGLSCISSORPROC glScissorProc;
+PFNGLDRAWELEMENTSPROC glDrawElementsProc;
+PFNGLREADPIXELSPROC glReadPixelsProc;
 
 PFNGLBLENDFUNCSEPARATEPROC glBlendFuncSeparateProc;
 PFNGLBLENDEQUATIONSEPARATEPROC glBlendEquationSeparateProc;
@@ -80,8 +103,23 @@ PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC glRenderbufferStorageMultisampleProc;
 
 #if OUZEL_SUPPORTS_OPENGLES
 PFNGLCLEARDEPTHFPROC glClearDepthfProc;
+PFNGLMAPBUFFEROESPROC glMapBufferProc;
+PFNGLUNMAPBUFFEROESPROC glUnmapBufferProc;
+PFNGLMAPBUFFERRANGEEXTPROC glMapBufferRangeProc;
+PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC glFramebufferTexture2DMultisampleProc;
+PFNGLCOPYIMAGESUBDATAEXTPROC glCopyImageSubDataProc;
+#  if OUZEL_OPENGL_INTERFACE_EAGL
+PFNGLDISCARDFRAMEBUFFEREXTPROC glDiscardFramebufferEXTProc;
+PFNGLRENDERBUFFERSTORAGEMULTISAMPLEAPPLEPROC glRenderbufferStorageMultisampleAPPLEProc;
+PFNGLRESOLVEMULTISAMPLEFRAMEBUFFERAPPLEPROC glResolveMultisampleFramebufferAPPLEProc;
+#  endif
 #else
+PFNGLPOLYGONMODEPROC glPolygonModeProc;
 PFNGLCLEARDEPTHPROC glClearDepthProc;
+PFNGLMAPBUFFERPROC glMapBufferProc;
+PFNGLUNMAPBUFFERPROC glUnmapBufferProc;
+PFNGLMAPBUFFERRANGEPROC glMapBufferRangeProc;
+PFNGLCOPYIMAGESUBDATAPROC glCopyImageSubDataProc;
 #endif
 
 PFNGLCREATESHADERPROC glCreateShaderProc;
@@ -118,19 +156,6 @@ PFNGLVERTEXATTRIBPOINTERPROC glVertexAttribPointerProc;
 PFNGLGETSTRINGIPROC glGetStringiProc;
 PFNGLPUSHGROUPMARKEREXTPROC glPushGroupMarkerEXTProc;
 PFNGLPOPGROUPMARKEREXTPROC glPopGroupMarkerEXTProc;
-
-#if OUZEL_SUPPORTS_OPENGLES
-PFNGLMAPBUFFEROESPROC glMapBufferProc;
-PFNGLUNMAPBUFFEROESPROC glUnmapBufferProc;
-PFNGLMAPBUFFERRANGEEXTPROC glMapBufferRangeProc;
-PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC glFramebufferTexture2DMultisampleProc;
-PFNGLCOPYIMAGESUBDATAEXTPROC glCopyImageSubDataProc;
-#else
-PFNGLMAPBUFFERPROC glMapBufferProc;
-PFNGLUNMAPBUFFERPROC glUnmapBufferProc;
-PFNGLMAPBUFFERRANGEPROC glMapBufferRangeProc;
-PFNGLCOPYIMAGESUBDATAPROC glCopyImageSubDataProc;
-#endif
 
 #if OUZEL_PLATFORM_MACOS
 #  define GET_CORE_PROC_ADDRESS(proc) dlsym(RTLD_DEFAULT, #proc)
@@ -358,14 +383,37 @@ namespace ouzel
             frameBufferWidth = static_cast<GLsizei>(size.width);
             frameBufferHeight = static_cast<GLsizei>(size.height);
 
-            const GLubyte* deviceName = glGetString(GL_RENDERER);
+            glGetStringProc = reinterpret_cast<PFNGLGETSTRINGPROC>(GET_CORE_PROC_ADDRESS(glGetString));
+            glGetIntegervProc = reinterpret_cast<PFNGLGETINTEGERVPROC>(GET_CORE_PROC_ADDRESS(glGetIntegerv));
+            glGetErrorProc = reinterpret_cast<PFNGLGETERRORPROC>(GET_CORE_PROC_ADDRESS(glGetError));
+
+            const GLubyte* deviceName = glGetStringProc(GL_RENDERER);
 
             GLenum error;
 
-            if ((error = glGetError()) != GL_NO_ERROR || !deviceName)
+            if ((error = glGetErrorProc()) != GL_NO_ERROR || !deviceName)
                 Log(Log::Level::WARN) << "Failed to get OpenGL renderer, error: " + std::to_string(error);
             else
                 Log(Log::Level::INFO) << "Using " << reinterpret_cast<const char*>(deviceName) << " for rendering";
+
+            glEnableProc = reinterpret_cast<PFNGLENABLEPROC>(GET_CORE_PROC_ADDRESS(glEnable));
+            glDisableProc = reinterpret_cast<PFNGLDISABLEPROC>(GET_CORE_PROC_ADDRESS(glDisable));
+            glBindTextureProc = reinterpret_cast<PFNGLBINDTEXTUREPROC>(GET_CORE_PROC_ADDRESS(glBindTexture));
+            glGenTexturesProc = reinterpret_cast<PFNGLGENTEXTURESPROC>(GET_CORE_PROC_ADDRESS(glGenTextures));
+            glDeleteTexturesProc = reinterpret_cast<PFNGLDELETETEXTURESPROC>(GET_CORE_PROC_ADDRESS(glDeleteTextures));
+            glTexParameteriProc = reinterpret_cast<PFNGLTEXPARAMETERIPROC>(GET_CORE_PROC_ADDRESS(glTexParameteri));
+            glTexImage2DProc = reinterpret_cast<PFNGLTEXIMAGE2DPROC>(GET_CORE_PROC_ADDRESS(glTexImage2D));
+            glTexSubImage2DProc = reinterpret_cast<PFNGLTEXSUBIMAGE2DPROC>(GET_CORE_PROC_ADDRESS(glTexSubImage2D));
+            glViewportProc = reinterpret_cast<PFNGLVIEWPORTPROC>(GET_CORE_PROC_ADDRESS(glViewport));
+            glClearProc = reinterpret_cast<PFNGLCLEARPROC>(GET_CORE_PROC_ADDRESS(glClear));
+            glClearColorProc = reinterpret_cast<PFNGLCLEARCOLORPROC>(GET_CORE_PROC_ADDRESS(glClearColor));
+            glColorMaskProc = reinterpret_cast<PFNGLCOLORMASKPROC>(GET_CORE_PROC_ADDRESS(glColorMask));
+            glDepthMaskProc = reinterpret_cast<PFNGLDEPTHMASKPROC>(GET_CORE_PROC_ADDRESS(glDepthMask));
+            glDepthFuncProc = reinterpret_cast<PFNGLDEPTHFUNCPROC>(GET_CORE_PROC_ADDRESS(glDepthFunc));
+            glCullFaceProc = reinterpret_cast<PFNGLCULLFACEPROC>(GET_CORE_PROC_ADDRESS(glCullFace));
+            glScissorProc = reinterpret_cast<PFNGLSCISSORPROC>(GET_CORE_PROC_ADDRESS(glScissor));
+            glDrawElementsProc = reinterpret_cast<PFNGLDRAWELEMENTSPROC>(GET_CORE_PROC_ADDRESS(glDrawElements));
+            glReadPixelsProc = reinterpret_cast<PFNGLREADPIXELSPROC>(GET_CORE_PROC_ADDRESS(glReadPixels));
 
             glBlendFuncSeparateProc = reinterpret_cast<PFNGLBLENDFUNCSEPARATEPROC>(GET_CORE_PROC_ADDRESS(glBlendFuncSeparate));
             glBlendEquationSeparateProc = reinterpret_cast<PFNGLBLENDEQUATIONSEPARATEPROC>(GET_CORE_PROC_ADDRESS(glBlendEquationSeparate));
@@ -387,6 +435,7 @@ namespace ouzel
 #if OUZEL_SUPPORTS_OPENGLES
             glClearDepthfProc = reinterpret_cast<PFNGLCLEARDEPTHFPROC>(GET_CORE_PROC_ADDRESS(glClearDepthf));
 #else
+            glPolygonModeProc = reinterpret_cast<PFNGLPOLYGONMODEPROC>(GET_CORE_PROC_ADDRESS(glPolygonMode));
             glClearDepthProc = reinterpret_cast<PFNGLCLEARDEPTHPROC>(GET_CORE_PROC_ADDRESS(glClearDepth));
 #endif
 
@@ -433,6 +482,11 @@ namespace ouzel
 
 #  if OUZEL_OPENGL_INTERFACE_EAGL
             glBlitFramebufferProc = reinterpret_cast<PFNGLBLITFRAMEBUFFERPROC>(GET_CORE_PROC_ADDRESS(glBlitFramebuffer));
+
+            glDiscardFramebufferEXTProc = reinterpret_cast<PFNGLDISCARDFRAMEBUFFEREXTPROC>(GET_CORE_PROC_ADDRESS(glDiscardFramebufferEXT));
+            glRenderbufferStorageMultisampleAPPLEProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEAPPLEPROC>(GET_CORE_PROC_ADDRESS(glRenderbufferStorageMultisampleAPPLE));
+            glResolveMultisampleFramebufferAPPLEProc = reinterpret_cast<PFNGLRESOLVEMULTISAMPLEFRAMEBUFFERAPPLEPROC>(GET_CORE_PROC_ADDRESS(glResolveMultisampleFramebufferAPPLE));
+
 #  endif
 #endif
 
@@ -443,9 +497,9 @@ namespace ouzel
                 glGetStringiProc = reinterpret_cast<PFNGLGETSTRINGIPROC>(GET_EXT_PROC_ADDRESS(glGetStringi));
 
                 GLint extensionCount;
-                glGetIntegerv(GL_NUM_EXTENSIONS, &extensionCount);
+                glGetIntegervProc(GL_NUM_EXTENSIONS, &extensionCount);
 
-                if ((error = glGetError()) != GL_NO_ERROR)
+                if ((error = glGetErrorProc()) != GL_NO_ERROR)
                     Log(Log::Level::WARN) << "Failed to get OpenGL extension count, error: " + std::to_string(error);
                 else
                 {
@@ -459,9 +513,9 @@ namespace ouzel
             }
             else
             {
-                const GLubyte* extensionPtr = glGetString(GL_EXTENSIONS);
+                const GLubyte* extensionPtr = glGetStringProc(GL_EXTENSIONS);
 
-                if ((error = glGetError()) != GL_NO_ERROR || !extensionPtr)
+                if ((error = glGetErrorProc()) != GL_NO_ERROR || !extensionPtr)
                     Log(Log::Level::WARN) << "Failed to get OpenGL extensions";
                 else
                 {
@@ -668,18 +722,18 @@ namespace ouzel
 
             if (!multisamplingSupported) sampleCount = 1;
 
-            glDisable(GL_DITHER);
-            glDepthFunc(GL_LEQUAL);
+            glDisableProc(GL_DITHER);
+            glDepthFuncProc(GL_LEQUAL);
 
-            if ((error = glGetError()) != GL_NO_ERROR)
+            if ((error = glGetErrorProc()) != GL_NO_ERROR)
                 throw SystemError("Failed to set depth function, error: " + std::to_string(error));
 
 #if !OUZEL_SUPPORTS_OPENGLES
             if (sampleCount > 1)
             {
-                glEnable(GL_MULTISAMPLE);
+                glEnableProc(GL_MULTISAMPLE);
 
-                if ((error = glGetError()) != GL_NO_ERROR)
+                if ((error = glGetErrorProc()) != GL_NO_ERROR)
                     throw SystemError("Failed to enable multi-sampling, error: " + std::to_string(error));
             }
 #endif
@@ -699,7 +753,7 @@ namespace ouzel
 
                 glBindVertexArrayProc(vertexArrayId);
 
-                if ((error = glGetError()) != GL_NO_ERROR)
+                if ((error = glGetErrorProc()) != GL_NO_ERROR)
                     throw DataError("Failed to bind vertex array, error: " + std::to_string(error));
             }
         }
@@ -930,11 +984,11 @@ namespace ouzel
                             if (newClearMask & GL_COLOR_BUFFER_BIT)
                                 setClearColorValue(newClearColor);
 
-                            glClear(newClearMask);
+                            glClearProc(newClearMask);
 
                             GLenum error;
 
-                            if ((error = glGetError()) != GL_NO_ERROR)
+                            if ((error = glGetErrorProc()) != GL_NO_ERROR)
                                 throw DataError("Failed to clear frame buffer, error: " + std::to_string(error));
                         }
 
@@ -1134,7 +1188,7 @@ namespace ouzel
 
                         GLenum error;
 
-                        if ((error = glGetError()) != GL_NO_ERROR)
+                        if ((error = glGetErrorProc()) != GL_NO_ERROR)
                             throw DataError("Failed to update vertex attributes, error: " + std::to_string(error));
 
                         assert(drawCommand->indexCount);
@@ -1150,12 +1204,12 @@ namespace ouzel
                             default: throw DataError("Invalid index size");
                         }
 
-                        glDrawElements(mode,
-                                       static_cast<GLsizei>(drawCommand->indexCount),
-                                       indexType,
-                                       static_cast<const char*>(nullptr) + (drawCommand->startIndex * drawCommand->indexSize));
+                        glDrawElementsProc(mode,
+                                           static_cast<GLsizei>(drawCommand->indexCount),
+                                           indexType,
+                                           static_cast<const char*>(nullptr) + (drawCommand->startIndex * drawCommand->indexSize));
 
-                        if ((error = glGetError()) != GL_NO_ERROR)
+                        if ((error = glGetErrorProc()) != GL_NO_ERROR)
                             throw DataError("Failed to draw elements, error: " + std::to_string(error));
 
                         break;
@@ -1344,11 +1398,12 @@ namespace ouzel
 
             std::vector<uint8_t> data(static_cast<size_t>(frameBufferWidth * frameBufferHeight * pixelSize));
 
-            glReadPixels(0, 0, frameBufferWidth, frameBufferHeight, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
+            glReadPixelsProc(0, 0, frameBufferWidth, frameBufferHeight,
+                             GL_RGBA, GL_UNSIGNED_BYTE, data.data());
 
             GLenum error;
 
-            if ((error = glGetError()) != GL_NO_ERROR)
+            if ((error = glGetErrorProc()) != GL_NO_ERROR)
                 throw SystemError("Failed to read pixels from frame buffer, error: " + std::to_string(error));
 
             uint32_t temp;

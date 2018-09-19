@@ -121,7 +121,7 @@ namespace ouzel
 
             GLenum error;
 
-            if ((error = glGetError()) != GL_NO_ERROR)
+            if ((error = glGetErrorProc()) != GL_NO_ERROR)
                 throw DataError("Failed to get shader compile status, error: " + std::to_string(error));
 
             vertexShaderId = glCreateShaderProc(GL_VERTEX_SHADER);
@@ -199,7 +199,7 @@ namespace ouzel
             if (status == GL_FALSE)
                 throw DataError("Failed to link shader" + getProgramMessage());
 
-            if ((error = glGetError()) != GL_NO_ERROR)
+            if ((error = glGetErrorProc()) != GL_NO_ERROR)
                 throw DataError("Failed to get shader link status, error: " + std::to_string(error));
 
             glDetachShaderProc(programId, vertexShaderId);
@@ -210,7 +210,7 @@ namespace ouzel
             glDeleteShaderProc(fragmentShaderId);
             fragmentShaderId = 0;
 
-            if ((error = glGetError()) != GL_NO_ERROR)
+            if ((error = glGetErrorProc()) != GL_NO_ERROR)
                 throw DataError("Failed to detach shader, error: " + std::to_string(error));
 
             RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
@@ -222,7 +222,7 @@ namespace ouzel
             GLint texture1Location = glGetUniformLocationProc(programId, "texture1");
             if (texture1Location != -1) glUniform1iProc(texture1Location, 1);
 
-            if ((error = glGetError()) != GL_NO_ERROR)
+            if ((error = glGetErrorProc()) != GL_NO_ERROR)
                 throw DataError("Failed to get uniform location, error: " + std::to_string(error));
 
             if (!fragmentShaderConstantInfo.empty())
@@ -234,7 +234,7 @@ namespace ouzel
                 {
                     GLint location = glGetUniformLocationProc(programId, info.name.c_str());
 
-                    if ((error = glGetError()) != GL_NO_ERROR)
+                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw DataError("Failed to get OpenGL uniform location, error: " + std::to_string(error));
 
                     if (location == -1)
@@ -253,7 +253,7 @@ namespace ouzel
                 {
                     GLint location = glGetUniformLocationProc(programId, info.name.c_str());
 
-                    if ((error = glGetError()) != GL_NO_ERROR)
+                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw DataError("Failed to get OpenGL uniform location, error: " + std::to_string(error));
 
                     if (location == -1)

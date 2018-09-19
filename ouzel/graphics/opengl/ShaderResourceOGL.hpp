@@ -7,13 +7,11 @@
 #if OUZEL_COMPILE_OPENGL
 
 #if OUZEL_SUPPORTS_OPENGLES
-#  define GL_GLEXT_PROTOTYPES 1
 #  include "GLES/gl.h"
 #  include "GLES2/gl2.h"
 #  include "GLES2/gl2ext.h"
 #  include "GLES3/gl3.h"
 #else
-#  define GL_GLEXT_PROTOTYPES 1
 #  include "GL/glcorearb.h"
 #  include "GL/glext.h"
 #endif

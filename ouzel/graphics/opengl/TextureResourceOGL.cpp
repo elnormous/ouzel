@@ -252,12 +252,12 @@ namespace ouzel
             {
                 if (!levels.empty())
                 {
-                    if (renderDeviceOGL.isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-                    if (renderDeviceOGL.isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
+                    if (renderDeviceOGL.isTextureBaseLevelSupported()) glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+                    if (renderDeviceOGL.isTextureMaxLevelSupported()) glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
 
                     GLenum error;
 
-                    if ((error = glGetError()) != GL_NO_ERROR)
+                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw DataError("Failed to set texture base and max levels, error: " + std::to_string(error));
                 }
 
@@ -265,14 +265,14 @@ namespace ouzel
                 {
                     if (!levels[level].data.empty())
                     {
-                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
+                        glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
                                      static_cast<GLsizei>(levels[level].size.width),
                                      static_cast<GLsizei>(levels[level].size.height), 0,
                                      oglPixelFormat, oglPixelType, levels[level].data.data());
                     }
                     else
                     {
-                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
+                        glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
                                      static_cast<GLsizei>(levels[level].size.width),
                                      static_cast<GLsizei>(levels[level].size.height), 0,
                                      oglPixelFormat, oglPixelType, nullptr);
@@ -281,7 +281,7 @@ namespace ouzel
 
                 GLenum error;
 
-                if ((error = glGetError()) != GL_NO_ERROR)
+                if ((error = glGetErrorProc()) != GL_NO_ERROR)
                     throw DataError("Failed to upload texture data, error: " + std::to_string(error));
             }
 
@@ -305,12 +305,12 @@ namespace ouzel
             {
                 if (!levels.empty())
                 {
-                    if (renderDeviceOGL.isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-                    if (renderDeviceOGL.isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
+                    if (renderDeviceOGL.isTextureBaseLevelSupported()) glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+                    if (renderDeviceOGL.isTextureMaxLevelSupported()) glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
 
                     GLenum error;
 
-                    if ((error = glGetError()) != GL_NO_ERROR)
+                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw DataError("Failed to set texture base and max levels, error: " + std::to_string(error));
                 }
 
@@ -318,14 +318,14 @@ namespace ouzel
                 {
                     if (!levels[level].data.empty())
                     {
-                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
+                        glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
                                      static_cast<GLsizei>(levels[level].size.width),
                                      static_cast<GLsizei>(levels[level].size.height), 0,
                                      oglPixelFormat, oglPixelType, levels[level].data.data());
                     }
                     else
                     {
-                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
+                        glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
                                      static_cast<GLsizei>(levels[level].size.width),
                                      static_cast<GLsizei>(levels[level].size.height), 0,
                                      oglPixelFormat, oglPixelType, nullptr);
@@ -334,7 +334,7 @@ namespace ouzel
 
                 GLenum error;
 
-                if ((error = glGetError()) != GL_NO_ERROR)
+                if ((error = glGetErrorProc()) != GL_NO_ERROR)
                     throw DataError("Failed to upload texture data, error: " + std::to_string(error));
             }
 
@@ -360,7 +360,7 @@ namespace ouzel
                 {
                     if (!levels[level].data.empty())
                     {
-                        glTexSubImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), 0, 0,
+                        glTexSubImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), 0, 0,
                                         static_cast<GLsizei>(levels[level].size.width),
                                         static_cast<GLsizei>(levels[level].size.height),
                                         oglPixelFormat, oglPixelType,
@@ -370,7 +370,7 @@ namespace ouzel
 
                 GLenum error;
 
-                if ((error = glGetError()) != GL_NO_ERROR)
+                if ((error = glGetErrorProc()) != GL_NO_ERROR)
                     throw DataError("Failed to upload texture data, error: " + std::to_string(error));
             }
         }
@@ -391,20 +391,20 @@ namespace ouzel
             {
                 case Texture::Filter::DEFAULT:
                 case Texture::Filter::POINT:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                    glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
+                    glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                     break;
                 case Texture::Filter::LINEAR:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                    glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
+                    glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                     break;
                 case Texture::Filter::BILINEAR:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                    glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
+                    glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                     break;
                 case Texture::Filter::TRILINEAR:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                    glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
+                    glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                     break;
                 default:
                     throw DataError("Invalid texture filter");
@@ -412,7 +412,7 @@ namespace ouzel
 
             GLenum error;
 
-            if ((error = glGetError()) != GL_NO_ERROR)
+            if ((error = glGetErrorProc()) != GL_NO_ERROR)
                 throw DataError("Failed to set texture filter, error: " + std::to_string(error));
         }
 
@@ -429,13 +429,13 @@ namespace ouzel
             switch (addressX)
             {
                 case Texture::Address::CLAMP:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                    glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
                     break;
                 case Texture::Address::REPEAT:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+                    glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
                     break;
                 case Texture::Address::MIRROR_REPEAT:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+                    glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
                     break;
                 default:
                     throw DataError("Invalid texture address mode");
@@ -443,7 +443,7 @@ namespace ouzel
 
             GLenum error;
 
-            if ((error = glGetError()) != GL_NO_ERROR)
+            if ((error = glGetErrorProc()) != GL_NO_ERROR)
                 throw DataError("Failed to set texture wrap mode, error: " + std::to_string(error));
         }
 
@@ -460,13 +460,13 @@ namespace ouzel
             switch (addressY)
             {
                 case Texture::Address::CLAMP:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                    glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
                     break;
                 case Texture::Address::REPEAT:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+                    glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
                     break;
                 case Texture::Address::MIRROR_REPEAT:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+                    glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
                     break;
                 default:
                     throw DataError("Invalid texture address mode");
@@ -474,7 +474,7 @@ namespace ouzel
 
             GLenum error;
 
-            if ((error = glGetError()) != GL_NO_ERROR)
+            if ((error = glGetErrorProc()) != GL_NO_ERROR)
                 throw DataError("Failed to set texture wrap mode, error: " + std::to_string(error));
         }
 
@@ -492,11 +492,11 @@ namespace ouzel
 
             if (finalMaxAnisotropy > 1 && renderDeviceOGL.isAnisotropicFilteringSupported())
             {
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, static_cast<GLint>(finalMaxAnisotropy));
+                glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, static_cast<GLint>(finalMaxAnisotropy));
 
                 GLenum error;
 
-                if ((error = glGetError()) != GL_NO_ERROR)
+                if ((error = glGetErrorProc()) != GL_NO_ERROR)
                     throw DataError("Failed to set texture max anisotrophy, error: " + std::to_string(error));
             }
         }
@@ -570,11 +570,11 @@ namespace ouzel
                 depthTextureId = 0;
             }
 
-            glGenTextures(1, &textureId);
+            glGenTexturesProc(1, &textureId);
 
             GLenum error;
 
-            if ((error = glGetError()) != GL_NO_ERROR)
+            if ((error = glGetErrorProc()) != GL_NO_ERROR)
                 throw DataError("Failed to create texture, error: " + std::to_string(error));
 
             renderDeviceOGL.bindTexture(textureId, 0);
@@ -601,7 +601,7 @@ namespace ouzel
             {
                 glGenFramebuffersProc(1, &frameBufferId);
 
-                if ((error = glGetError()) != GL_NO_ERROR)
+                if ((error = glGetErrorProc()) != GL_NO_ERROR)
                     throw DataError("Failed to create frame buffer, error: " + std::to_string(error));
 
                 renderDeviceOGL.bindFrameBuffer(frameBufferId);
@@ -612,7 +612,7 @@ namespace ouzel
                     {
                         renderDeviceOGL.bindTexture(textureId, 0);
 
-                        glTexImage2D(GL_TEXTURE_2D, 0, static_cast<GLint>(oglInternalPixelFormat),
+                        glTexImage2DProc(GL_TEXTURE_2D, 0, static_cast<GLint>(oglInternalPixelFormat),
                                      width, height, 0,
                                      oglPixelFormat, oglPixelType, nullptr);
 
@@ -644,11 +644,11 @@ namespace ouzel
                     {
                         if (flags & Texture::BINDABLE_DEPTH_BUFFER)
                         {
-                            glGenTextures(1, &depthTextureId);
+                            glGenTexturesProc(1, &depthTextureId);
 
                             renderDeviceOGL.bindTexture(depthTextureId, 0);
 
-                            glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24,
+                            glTexImage2DProc(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24,
                                          width, height, 0,GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
 
                             glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthTextureId, 0);
@@ -678,7 +678,7 @@ namespace ouzel
                     if (glCheckFramebufferStatusProc(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
                         throw DataError("Failed to create frame buffer");
 
-                    if ((error = glGetError()) != GL_NO_ERROR)
+                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw DataError("Failed to create frame buffer, error: " + std::to_string(error));
                 }
             }
@@ -695,20 +695,20 @@ namespace ouzel
             {
                 case Texture::Filter::DEFAULT:
                 case Texture::Filter::POINT:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                    glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
+                    glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                     break;
                 case Texture::Filter::LINEAR:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                    glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
+                    glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                     break;
                 case Texture::Filter::BILINEAR:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                    glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
+                    glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                     break;
                 case Texture::Filter::TRILINEAR:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                    glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
+                    glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                     break;
                 default:
                     throw DataError("Invalid texture filter");
@@ -716,52 +716,52 @@ namespace ouzel
 
             GLenum error;
 
-            if ((error = glGetError()) != GL_NO_ERROR)
+            if ((error = glGetErrorProc()) != GL_NO_ERROR)
                 throw DataError("Failed to set texture filter, error: " + std::to_string(error));
 
             switch (addressX)
             {
                 case Texture::Address::CLAMP:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                    glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
                     break;
                 case Texture::Address::REPEAT:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+                    glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
                     break;
                 case Texture::Address::MIRROR_REPEAT:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+                    glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
                     break;
                 default:
                     throw DataError("Invalid texture address mode");
             }
 
-            if ((error = glGetError()) != GL_NO_ERROR)
+            if ((error = glGetErrorProc()) != GL_NO_ERROR)
                 throw DataError("Failed to set texture wrap mode, error: " + std::to_string(error));
 
             switch (addressY)
             {
                 case Texture::Address::CLAMP:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                    glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
                     break;
                 case Texture::Address::REPEAT:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+                    glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
                     break;
                 case Texture::Address::MIRROR_REPEAT:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+                    glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
                     break;
                 default:
                     throw DataError("Invalid texture address mode");
             }
 
-            if ((error = glGetError()) != GL_NO_ERROR)
+            if ((error = glGetErrorProc()) != GL_NO_ERROR)
                 throw DataError("Failed to set texture wrap mode, error: " + std::to_string(error));
 
             uint32_t finalMaxAnisotropy = (maxAnisotropy == 0) ? renderDeviceOGL.getMaxAnisotropy() : maxAnisotropy;
 
             if (finalMaxAnisotropy > 1 && renderDeviceOGL.isAnisotropicFilteringSupported())
             {
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, static_cast<GLint>(finalMaxAnisotropy));
+                glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, static_cast<GLint>(finalMaxAnisotropy));
 
-                if ((error = glGetError()) != GL_NO_ERROR)
+                if ((error = glGetErrorProc()) != GL_NO_ERROR)
                     throw DataError("Failed to set texture max anisotrophy, error: " + std::to_string(error));
             }
         }

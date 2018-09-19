@@ -13,16 +13,36 @@
 #include <utility>
 
 #if OUZEL_SUPPORTS_OPENGLES
-#  define GL_GLEXT_PROTOTYPES 1
 #  include "GLES/gl.h"
 #  include "GLES2/gl2.h"
 #  include "GLES2/gl2ext.h"
 #  include "GLES3/gl3.h"
 #else
-#  define GL_GLEXT_PROTOTYPES 1
 #  include "GL/glcorearb.h"
 #  include "GL/glext.h"
 #endif
+
+extern PFNGLGETINTEGERVPROC glGetIntegervProc;
+extern PFNGLGETSTRINGPROC glGetStringProc;
+extern PFNGLGETERRORPROC glGetErrorProc;
+extern PFNGLENABLEPROC glEnableProc;
+extern PFNGLDISABLEPROC glDisableProc;
+extern PFNGLBINDTEXTUREPROC glBindTextureProc;
+extern PFNGLGENTEXTURESPROC glGenTexturesProc;
+extern PFNGLDELETETEXTURESPROC glDeleteTexturesProc;
+extern PFNGLTEXPARAMETERIPROC glTexParameteriProc;
+extern PFNGLTEXIMAGE2DPROC glTexImage2DProc;
+extern PFNGLTEXSUBIMAGE2DPROC glTexSubImage2DProc;
+extern PFNGLVIEWPORTPROC glViewportProc;
+extern PFNGLCLEARPROC glClearProc;
+extern PFNGLCLEARCOLORPROC glClearColorProc;
+extern PFNGLCOLORMASKPROC glColorMaskProc;
+extern PFNGLDEPTHMASKPROC glDepthMaskProc;
+extern PFNGLDEPTHFUNCPROC glDepthFuncProc;
+extern PFNGLCULLFACEPROC glCullFaceProc;
+extern PFNGLSCISSORPROC glScissorProc;
+extern PFNGLDRAWELEMENTSPROC glDrawElementsProc;
+extern PFNGLREADPIXELSPROC glReadPixelsProc;
 
 extern PFNGLBLENDFUNCSEPARATEPROC glBlendFuncSeparateProc;
 extern PFNGLBLENDEQUATIONSEPARATEPROC glBlendEquationSeparateProc;
@@ -60,8 +80,23 @@ extern PFNGLFRAMEBUFFERTEXTURE2DPROC glFramebufferTexture2DProc;
 
 #if OUZEL_SUPPORTS_OPENGLES
 extern PFNGLCLEARDEPTHFPROC glClearDepthfProc;
+extern PFNGLMAPBUFFEROESPROC glMapBufferProc;
+extern PFNGLUNMAPBUFFEROESPROC glUnmapBufferProc;
+extern PFNGLMAPBUFFERRANGEEXTPROC glMapBufferRangeProc;
+extern PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC glFramebufferTexture2DMultisampleProc;
+extern PFNGLCOPYIMAGESUBDATAEXTPROC glCopyImageSubDataProc;
+#  if OUZEL_OPENGL_INTERFACE_EAGL
+extern PFNGLDISCARDFRAMEBUFFEREXTPROC glDiscardFramebufferEXTProc;
+extern PFNGLRENDERBUFFERSTORAGEMULTISAMPLEAPPLEPROC glRenderbufferStorageMultisampleAPPLEProc;
+extern PFNGLRESOLVEMULTISAMPLEFRAMEBUFFERAPPLEPROC glResolveMultisampleFramebufferAPPLEProc;
+#  endif
 #else
+extern PFNGLPOLYGONMODEPROC glPolygonModeProc;
 extern PFNGLCLEARDEPTHPROC glClearDepthProc;
+extern PFNGLMAPBUFFERPROC glMapBufferProc;
+extern PFNGLUNMAPBUFFERPROC glUnmapBufferProc;
+extern PFNGLMAPBUFFERRANGEPROC glMapBufferRangeProc;
+extern PFNGLCOPYIMAGESUBDATAPROC glCopyImageSubDataProc;
 #endif
 
 extern PFNGLCREATESHADERPROC glCreateShaderProc;
@@ -99,19 +134,6 @@ extern PFNGLGETSTRINGIPROC glGetStringiProc;
 extern PFNGLPUSHGROUPMARKEREXTPROC glPushGroupMarkerEXTProc;
 extern PFNGLPOPGROUPMARKEREXTPROC glPopGroupMarkerEXTProc;
 
-#if OUZEL_SUPPORTS_OPENGLES
-extern PFNGLMAPBUFFEROESPROC glMapBufferProc;
-extern PFNGLUNMAPBUFFEROESPROC glUnmapBufferProc;
-extern PFNGLMAPBUFFERRANGEEXTPROC glMapBufferRangeProc;
-extern PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC glFramebufferTexture2DMultisampleProc;
-extern PFNGLCOPYIMAGESUBDATAEXTPROC glCopyImageSubDataProc;
-#else
-extern PFNGLMAPBUFFERPROC glMapBufferProc;
-extern PFNGLUNMAPBUFFERPROC glUnmapBufferProc;
-extern PFNGLMAPBUFFERRANGEPROC glMapBufferRangeProc;
-extern PFNGLCOPYIMAGESUBDATAPROC glCopyImageSubDataProc;
-#endif
-
 #include "graphics/RenderDevice.hpp"
 #include "graphics/RenderResource.hpp"
 #include "graphics/opengl/ShaderResourceOGL.hpp"
@@ -140,12 +162,12 @@ namespace ouzel
                 if (stateCache.textureId[layer] != textureId)
                 {
                     glActiveTextureProc(GL_TEXTURE0 + layer);
-                    glBindTexture(GL_TEXTURE_2D, textureId);
+                    glBindTextureProc(GL_TEXTURE_2D, textureId);
                     stateCache.textureId[layer] = textureId;
 
                     GLenum error;
 
-                    if ((error = glGetError()) != GL_NO_ERROR)
+                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw SystemError("Failed to bind texture, error: " + std::to_string(error));
                 }
             }
@@ -159,7 +181,7 @@ namespace ouzel
 
                     GLenum error;
 
-                    if ((error = glGetError()) != GL_NO_ERROR)
+                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw SystemError("Failed to bind program, error: " + std::to_string(error));
                 }
             }
@@ -173,7 +195,7 @@ namespace ouzel
 
                     GLenum error;
 
-                    if ((error = glGetError()) != GL_NO_ERROR)
+                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw SystemError("Failed to bind frame buffer, error: " + std::to_string(error));
                 }
             }
@@ -189,7 +211,7 @@ namespace ouzel
 
                     GLenum error;
 
-                    if ((error = glGetError()) != GL_NO_ERROR)
+                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw SystemError("Failed to bind element array buffer, error: " + std::to_string(error));
                 }
             }
@@ -203,13 +225,13 @@ namespace ouzel
                 if (stateCache.scissorTestEnabled != scissorTestEnabled)
                 {
                     if (scissorTestEnabled)
-                        glEnable(GL_SCISSOR_TEST);
+                        glEnableProc(GL_SCISSOR_TEST);
                     else
-                        glDisable(GL_SCISSOR_TEST);
+                        glDisableProc(GL_SCISSOR_TEST);
 
                     GLenum error;
 
-                    if ((error = glGetError()) != GL_NO_ERROR)
+                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw SystemError("Failed to set scissor test, error: " + std::to_string(error));
 
                     stateCache.scissorTestEnabled = scissorTestEnabled;
@@ -222,7 +244,7 @@ namespace ouzel
                         stateCache.scissorWidth != width ||
                         stateCache.scissorHeight != height)
                     {
-                        glScissor(x, y, width, height);
+                        glScissorProc(x, y, width, height);
                         stateCache.scissorX = x;
                         stateCache.scissorY = y;
                         stateCache.scissorWidth = width;
@@ -231,7 +253,7 @@ namespace ouzel
 
                     GLenum error;
 
-                    if ((error = glGetError()) != GL_NO_ERROR)
+                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw SystemError("Failed to set scissor test, error: " + std::to_string(error));
                 }
             }
@@ -240,11 +262,11 @@ namespace ouzel
             {
                 if (stateCache.depthMask != flag)
                 {
-                    glDepthMask(flag ? GL_TRUE : GL_FALSE);
+                    glDepthMaskProc(flag ? GL_TRUE : GL_FALSE);
 
                     GLenum error;
 
-                    if ((error = glGetError()) != GL_NO_ERROR)
+                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw SystemError("Failed to change depth mask state, error: " + std::to_string(error));
 
                     stateCache.depthMask = flag;
@@ -256,13 +278,13 @@ namespace ouzel
                 if (stateCache.depthTestEnabled != enable)
                 {
                     if (enable)
-                        glEnable(GL_DEPTH_TEST);
+                        glEnableProc(GL_DEPTH_TEST);
                     else
-                        glDisable(GL_DEPTH_TEST);
+                        glDisableProc(GL_DEPTH_TEST);
 
                     GLenum error;
 
-                    if ((error = glGetError()) != GL_NO_ERROR)
+                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw SystemError("Failed to change depth test state, error: " + std::to_string(error));
 
                     stateCache.depthTestEnabled = enable;
@@ -279,7 +301,7 @@ namespace ouzel
                     stateCache.viewportWidth != width ||
                     stateCache.viewportHeight != height)
                 {
-                    glViewport(x, y, width, height);
+                    glViewportProc(x, y, width, height);
                     stateCache.viewportX = x;
                     stateCache.viewportY = y;
                     stateCache.viewportWidth = width;
@@ -287,7 +309,7 @@ namespace ouzel
 
                     GLenum error;
 
-                    if ((error = glGetError()) != GL_NO_ERROR)
+                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw SystemError("Failed to set viewport, error: " + std::to_string(error));
                 }
             }
@@ -303,15 +325,15 @@ namespace ouzel
                 if (stateCache.blendEnabled != blendEnabled)
                 {
                     if (blendEnabled)
-                        glEnable(GL_BLEND);
+                        glEnableProc(GL_BLEND);
                     else
-                        glDisable(GL_BLEND);
+                        glDisableProc(GL_BLEND);
 
                     stateCache.blendEnabled = blendEnabled;
 
                     GLenum error;
 
-                    if ((error = glGetError()) != GL_NO_ERROR)
+                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw SystemError("Failed to enable blend state, error: " + std::to_string(error));
                 }
 
@@ -345,7 +367,7 @@ namespace ouzel
 
                     GLenum error;
 
-                    if ((error = glGetError()) != GL_NO_ERROR)
+                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw SystemError("Failed to set blend state, error: " + std::to_string(error));
                 }
             }
@@ -360,7 +382,7 @@ namespace ouzel
                     stateCache.blueMask != blueMask ||
                     stateCache.alphaMask != alphaMask)
                 {
-                    glColorMask(redMask, greenMask, blueMask, alphaMask);
+                    glColorMaskProc(redMask, greenMask, blueMask, alphaMask);
 
                     stateCache.redMask = redMask;
                     stateCache.greenMask = greenMask;
@@ -369,7 +391,7 @@ namespace ouzel
 
                     GLenum error;
 
-                    if ((error = glGetError()) != GL_NO_ERROR)
+                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw SystemError("Failed to set color mask, error: " + std::to_string(error));
                 }
             }
@@ -380,15 +402,15 @@ namespace ouzel
                 if (stateCache.cullEnabled != cullEnabled)
                 {
                     if (cullEnabled)
-                        glEnable(GL_CULL_FACE);
+                        glEnableProc(GL_CULL_FACE);
                     else
-                        glDisable(GL_CULL_FACE);
+                        glDisableProc(GL_CULL_FACE);
 
                     stateCache.cullEnabled = cullEnabled;
 
                     GLenum error;
 
-                    if ((error = glGetError()) != GL_NO_ERROR)
+                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw SystemError("Failed to enable cull face, error: " + std::to_string(error));
                 }
 
@@ -396,13 +418,13 @@ namespace ouzel
                 {
                     if (stateCache.cullFace != cullFace)
                     {
-                        glCullFace(cullFace);
+                        glCullFaceProc(cullFace);
                         stateCache.cullFace = cullFace;
                     }
 
                     GLenum error;
 
-                    if ((error = glGetError()) != GL_NO_ERROR)
+                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw SystemError("Failed to set cull face, error: " + std::to_string(error));
                 }
             }
@@ -421,7 +443,7 @@ namespace ouzel
 
                     GLenum error;
 
-                    if ((error = glGetError()) != GL_NO_ERROR)
+                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw SystemError("Failed to enable cull face, error: " + std::to_string(error));
                 }
             }
@@ -430,16 +452,16 @@ namespace ouzel
             {
                 if (memcmp(stateCache.clearColor, clearColorValue, sizeof(stateCache.clearColor)) != 0)
                 {
-                    glClearColor(clearColorValue[0],
-                                 clearColorValue[1],
-                                 clearColorValue[2],
-                                 clearColorValue[3]);
+                    glClearColorProc(clearColorValue[0],
+                                     clearColorValue[1],
+                                     clearColorValue[2],
+                                     clearColorValue[3]);
 
                     memcpy(stateCache.clearColor, clearColorValue, sizeof(stateCache.clearColor));
 
                     GLenum error;
 
-                    if ((error = glGetError()) != GL_NO_ERROR)
+                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw SystemError("Failed to enable cull face, error: " + std::to_string(error));
                 }
             }
@@ -477,7 +499,7 @@ namespace ouzel
                     if (stateCache.textureId[layer] == textureId)
                         stateCache.textureId[layer] = 0;
                 }
-                glDeleteTextures(1, &textureId);
+                glDeleteTexturesProc(1, &textureId);
             }
 
 #if !OUZEL_SUPPORTS_OPENGLES
@@ -485,13 +507,13 @@ namespace ouzel
             {
                 if (stateCache.polygonFillMode != polygonFillMode)
                 {
-                    glPolygonMode(GL_FRONT_AND_BACK, polygonFillMode);
+                    glPolygonModeProc(GL_FRONT_AND_BACK, polygonFillMode);
 
                     stateCache.polygonFillMode = polygonFillMode;
 
                     GLenum error;
 
-                    if ((error = glGetError()) != GL_NO_ERROR)
+                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw SystemError("Failed to set blend state, error: " + std::to_string(error));
                 }
             }
