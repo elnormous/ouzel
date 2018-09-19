@@ -393,25 +393,22 @@ namespace ouzel
             if (!versionPtr)
                 throw SystemError("Failed to get OpenGL version");
 
-            std::string version(reinterpret_cast<const char*>(versionPtr));
-            std::string majorVersion;
-            std::string minorVersion;
+            std::string versionStr(reinterpret_cast<const char*>(versionPtr));
+            std::string versionParts[2];
             uint32_t part = 0;
 
-            for (char c : version)
+            for (char c : versionStr)
             {
-                if (c == '.' || c == ' ')
+                if (c == '.')
                 {
                     if (++part > 1) break;
                 }
-                else if (part == 0)
-                    majorVersion += c;
-                else if (part == 1)
-                    minorVersion += c;
+                else
+                    versionParts[part] += c;
             }
 
-            apiMajorVersion = static_cast<uint16_t>(stoi(majorVersion));
-            apiMinorVersion = static_cast<uint16_t>(stoi(minorVersion));
+            apiMajorVersion = static_cast<uint16_t>(std::stoi(versionParts[0]));
+            apiMinorVersion = static_cast<uint16_t>(std::stoi(versionParts[1]));
 
             if (apiMajorVersion < 2 ||
                 apiMajorVersion > 4)
