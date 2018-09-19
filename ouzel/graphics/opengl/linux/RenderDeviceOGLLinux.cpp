@@ -152,10 +152,10 @@ namespace ouzel
             display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
 
             if (!display)
-                throw SystemError("Failed to get display, error: " + std::to_string(eglGetErrorProc()));
+                throw SystemError("Failed to get display, error: " + std::to_string(eglGetError()));
 
             if (!eglInitialize(display, nullptr, nullptr))
-                throw SystemError("Failed to initialize EGL, error: " + std::to_string(eglGetErrorProc()));
+                throw SystemError("Failed to initialize EGL, error: " + std::to_string(eglGetError()));
 
             const EGLint attributeList[] =
             {
@@ -172,14 +172,14 @@ namespace ouzel
             EGLConfig config;
             EGLint numConfig;
             if (!eglChooseConfig(display, attributeList, &config, 1, &numConfig))
-                throw SystemError("Failed to choose EGL config, error: " + std::to_string(eglGetErrorProc()));
+                throw SystemError("Failed to choose EGL config, error: " + std::to_string(eglGetError()));
 
             if (!eglBindAPI(EGL_OPENGL_ES_API))
-                throw SystemError("Failed to bind OpenGL ES API, error: " + std::to_string(eglGetErrorProc()));
+                throw SystemError("Failed to bind OpenGL ES API, error: " + std::to_string(eglGetError()));
 
             surface = eglCreateWindowSurface(display, config, reinterpret_cast<EGLNativeWindowType>(&windowLinux->getNativeWindow()), nullptr);
             if (surface == EGL_NO_SURFACE)
-                throw SystemError("Failed to create EGL window surface, error: " + std::to_string(eglGetErrorProc()));
+                throw SystemError("Failed to create EGL window surface, error: " + std::to_string(eglGetError()));
 
             for (EGLint version = 3; version >= 2; --version)
             {
@@ -208,13 +208,13 @@ namespace ouzel
             }
 
             if (context == EGL_NO_CONTEXT)
-                throw SystemError("Failed to create EGL context, error: " + std::to_string(eglGetErrorProc()));
+                throw SystemError("Failed to create EGL context, error: " + std::to_string(eglGetError()));
 
             if (!eglMakeCurrent(display, surface, surface, context))
-                throw SystemError("Failed to set current EGL context, error: " + std::to_string(eglGetErrorProc()));
+                throw SystemError("Failed to set current EGL context, error: " + std::to_string(eglGetError()));
 
             if (!eglSwapInterval(display, newVerticalSync ? 1 : 0))
-                throw SystemError("Failed to set EGL frame interval, error: " + std::to_string(eglGetErrorProc()));
+                throw SystemError("Failed to set EGL frame interval, error: " + std::to_string(eglGetError()));
 #endif
 
             RenderDeviceOGL::init(newWindow,
@@ -228,7 +228,7 @@ namespace ouzel
 
 #if OUZEL_OPENGL_INTERFACE_EGL
             if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
-                throw SystemError("Failed to unset EGL context, error: " + std::to_string(eglGetErrorProc()));
+                throw SystemError("Failed to unset EGL context, error: " + std::to_string(eglGetError()));
 #endif
 
             running = true;
@@ -270,7 +270,7 @@ namespace ouzel
             glXSwapBuffers(engineLinux->getDisplay(), windowLinux->getNativeWindow());
 #elif OUZEL_OPENGL_INTERFACE_EGL
             if (eglSwapBuffers(display, surface) != EGL_TRUE)
-                throw SystemError("Failed to swap buffers, error: " + std::to_string(eglGetErrorProc()));
+                throw SystemError("Failed to swap buffers, error: " + std::to_string(eglGetError()));
 #endif
         }
 
@@ -286,7 +286,7 @@ namespace ouzel
                 throw SystemError("Failed to make GLX context current");
 #elif OUZEL_OPENGL_INTERFACE_EGL
             if (!eglMakeCurrent(display, surface, surface, context))
-                throw SystemError("Failed to set current EGL context, error: " + std::to_string(eglGetErrorProc()));
+                throw SystemError("Failed to set current EGL context, error: " + std::to_string(eglGetError()));
 #endif
 
             while (running) 
@@ -307,7 +307,7 @@ namespace ouzel
 
 #if OUZEL_OPENGL_INTERFACE_EGL
             if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
-                Log(Log::Level::ERR) << "Failed to unset EGL context, error: " << eglGetErrorProc();
+                Log(Log::Level::ERR) << "Failed to unset EGL context, error: " << eglGetError();
 #endif
         }
     } // namespace graphics

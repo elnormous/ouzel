@@ -3,7 +3,6 @@
 #include "core/Setup.h"
 
 #if OUZEL_COMPILE_OPENGL && OUZEL_OPENGL_INTERFACE_GLX
-#  define GL_GLEXT_PROTOTYPES 1
 #  include <GL/glx.h>
 #endif
 

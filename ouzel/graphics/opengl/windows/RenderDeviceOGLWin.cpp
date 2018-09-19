@@ -4,7 +4,6 @@
 
 #if OUZEL_PLATFORM_WINDOWS && OUZEL_COMPILE_OPENGL
 
-#define GL_GLEXT_PROTOTYPES 1
 #include "GL/glcorearb.h"
 #include "GL/glext.h"
 #include "GL/wglext.h"
