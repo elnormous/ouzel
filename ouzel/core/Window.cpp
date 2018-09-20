@@ -117,6 +117,8 @@ namespace ouzel
                 {
                     resolution = event.size;
 
+                    engine->getRenderer()->setSize(resolution);
+
                     Event resolutionChangeEvent;
                     resolutionChangeEvent.type = Event::Type::RESOLUTION_CHANGE;
                     resolutionChangeEvent.windowEvent.window = this;
