@@ -153,22 +153,41 @@ PFNGLGETSTRINGIPROC glGetStringiProc;
 PFNGLPUSHGROUPMARKEREXTPROC glPushGroupMarkerEXTProc;
 PFNGLPOPGROUPMARKEREXTPROC glPopGroupMarkerEXTProc;
 
+template<typename T>
+static inline T getCoreProcAddress(const char* name)
+{
+    T result;
 #if OUZEL_PLATFORM_MACOS
-#  define GET_CORE_PROC_ADDRESS(proc) dlsym(RTLD_DEFAULT, #proc)
-#  define GET_EXT_PROC_ADDRESS(proc) dlsym(RTLD_DEFAULT, #proc)
+    *reinterpret_cast<void**>(&result) = dlsym(RTLD_DEFAULT, name);
 #elif OUZEL_OPENGL_INTERFACE_EGL
-#  define GET_CORE_PROC_ADDRESS(proc) dlsym(RTLD_DEFAULT, #proc)
-#  define GET_EXT_PROC_ADDRESS(proc) eglGetProcAddress(#proc)
+    *reinterpret_cast<void**>(&result) = dlsym(RTLD_DEFAULT, name);
 #elif OUZEL_OPENGL_INTERFACE_EAGL
-#  define GET_CORE_PROC_ADDRESS(proc) dlsym(RTLD_DEFAULT, #proc)
-#  define GET_EXT_PROC_ADDRESS(proc) dlsym(RTLD_DEFAULT, #proc)
+    *reinterpret_cast<void**>(&result) = dlsym(RTLD_DEFAULT, name);
 #elif OUZEL_OPENGL_INTERFACE_GLX
-#  define GET_CORE_PROC_ADDRESS(proc) glXGetProcAddress(reinterpret_cast<const GLubyte*>(#proc))
-#  define GET_EXT_PROC_ADDRESS(proc) glXGetProcAddress(reinterpret_cast<const GLubyte*>(#proc))
+    *reinterpret_cast<void**>(&result) = glXGetProcAddress(reinterpret_cast<const GLubyte*>(name));
 #elif OUZEL_OPENGL_INTERFACE_WGL
-#  define GET_CORE_PROC_ADDRESS(proc) wglGetProcAddress(#proc)
-#  define GET_EXT_PROC_ADDRESS(proc) wglGetProcAddress(#proc)
+    *reinterpret_cast<void**>(&result) = wglGetProcAddress(name);
 #endif
+    return result;
+}
+
+template<typename T>
+static inline T getExtProcAddress(const char* name)
+{
+    T result;
+#if OUZEL_PLATFORM_MACOS
+    *reinterpret_cast<void**>(&result) = dlsym(RTLD_DEFAULT, name);
+#elif OUZEL_OPENGL_INTERFACE_EGL
+    *reinterpret_cast<void**>(&result) = eglGetProcAddress(name);
+#elif OUZEL_OPENGL_INTERFACE_EAGL
+    *reinterpret_cast<void**>(&result) = dlsym(RTLD_DEFAULT, name);
+#elif OUZEL_OPENGL_INTERFACE_GLX
+    *reinterpret_cast<void**>(&result) = glXGetProcAddress(reinterpret_cast<const GLubyte*>(name));
+#elif OUZEL_OPENGL_INTERFACE_WGL
+    *reinterpret_cast<void**>(&result) = wglGetProcAddress(name);
+#endif
+    return result;
+}
 
 namespace ouzel
 {
@@ -379,9 +398,9 @@ namespace ouzel
             frameBufferWidth = static_cast<GLsizei>(size.width);
             frameBufferHeight = static_cast<GLsizei>(size.height);
 
-            glGetStringProc = reinterpret_cast<PFNGLGETSTRINGPROC>(GET_CORE_PROC_ADDRESS(glGetString));
-            glGetIntegervProc = reinterpret_cast<PFNGLGETINTEGERVPROC>(GET_CORE_PROC_ADDRESS(glGetIntegerv));
-            glGetErrorProc = reinterpret_cast<PFNGLGETERRORPROC>(GET_CORE_PROC_ADDRESS(glGetError));
+            glGetStringProc = getCoreProcAddress<PFNGLGETSTRINGPROC>("glGetString");
+            glGetIntegervProc = getCoreProcAddress<PFNGLGETINTEGERVPROC>("glGetIntegerv");
+            glGetErrorProc = getCoreProcAddress<PFNGLGETERRORPROC>("glGetError");
 
 #if OUZEL_OPENGL_INTERFACE_WGL
             const GLubyte* versionPtr = glGetStringProc(GL_VERSION);
@@ -420,96 +439,96 @@ namespace ouzel
             else
                 Log(Log::Level::INFO) << "Using " << reinterpret_cast<const char*>(deviceName) << " for rendering";
 
-            glEnableProc = reinterpret_cast<PFNGLENABLEPROC>(GET_CORE_PROC_ADDRESS(glEnable));
-            glDisableProc = reinterpret_cast<PFNGLDISABLEPROC>(GET_CORE_PROC_ADDRESS(glDisable));
-            glBindTextureProc = reinterpret_cast<PFNGLBINDTEXTUREPROC>(GET_CORE_PROC_ADDRESS(glBindTexture));
-            glGenTexturesProc = reinterpret_cast<PFNGLGENTEXTURESPROC>(GET_CORE_PROC_ADDRESS(glGenTextures));
-            glDeleteTexturesProc = reinterpret_cast<PFNGLDELETETEXTURESPROC>(GET_CORE_PROC_ADDRESS(glDeleteTextures));
-            glTexParameteriProc = reinterpret_cast<PFNGLTEXPARAMETERIPROC>(GET_CORE_PROC_ADDRESS(glTexParameteri));
-            glTexImage2DProc = reinterpret_cast<PFNGLTEXIMAGE2DPROC>(GET_CORE_PROC_ADDRESS(glTexImage2D));
-            glTexSubImage2DProc = reinterpret_cast<PFNGLTEXSUBIMAGE2DPROC>(GET_CORE_PROC_ADDRESS(glTexSubImage2D));
-            glViewportProc = reinterpret_cast<PFNGLVIEWPORTPROC>(GET_CORE_PROC_ADDRESS(glViewport));
-            glClearProc = reinterpret_cast<PFNGLCLEARPROC>(GET_CORE_PROC_ADDRESS(glClear));
-            glClearColorProc = reinterpret_cast<PFNGLCLEARCOLORPROC>(GET_CORE_PROC_ADDRESS(glClearColor));
-            glColorMaskProc = reinterpret_cast<PFNGLCOLORMASKPROC>(GET_CORE_PROC_ADDRESS(glColorMask));
-            glDepthMaskProc = reinterpret_cast<PFNGLDEPTHMASKPROC>(GET_CORE_PROC_ADDRESS(glDepthMask));
-            glDepthFuncProc = reinterpret_cast<PFNGLDEPTHFUNCPROC>(GET_CORE_PROC_ADDRESS(glDepthFunc));
-            glCullFaceProc = reinterpret_cast<PFNGLCULLFACEPROC>(GET_CORE_PROC_ADDRESS(glCullFace));
-            glScissorProc = reinterpret_cast<PFNGLSCISSORPROC>(GET_CORE_PROC_ADDRESS(glScissor));
-            glDrawElementsProc = reinterpret_cast<PFNGLDRAWELEMENTSPROC>(GET_CORE_PROC_ADDRESS(glDrawElements));
-            glReadPixelsProc = reinterpret_cast<PFNGLREADPIXELSPROC>(GET_CORE_PROC_ADDRESS(glReadPixels));
+            glEnableProc = getCoreProcAddress<PFNGLENABLEPROC>("glEnable");
+            glDisableProc = getCoreProcAddress<PFNGLDISABLEPROC>("glDisable");
+            glBindTextureProc = getCoreProcAddress<PFNGLBINDTEXTUREPROC>("glBindTexture");
+            glGenTexturesProc = getCoreProcAddress<PFNGLGENTEXTURESPROC>("glGenTextures");
+            glDeleteTexturesProc = getCoreProcAddress<PFNGLDELETETEXTURESPROC>("glDeleteTextures");
+            glTexParameteriProc = getCoreProcAddress<PFNGLTEXPARAMETERIPROC>("glTexParameteri");
+            glTexImage2DProc = getCoreProcAddress<PFNGLTEXIMAGE2DPROC>("glTexImage2D");
+            glTexSubImage2DProc = getCoreProcAddress<PFNGLTEXSUBIMAGE2DPROC>("glTexSubImage2D");
+            glViewportProc = getCoreProcAddress<PFNGLVIEWPORTPROC>("glViewport");
+            glClearProc = getCoreProcAddress<PFNGLCLEARPROC>("glClear");
+            glClearColorProc = getCoreProcAddress<PFNGLCLEARCOLORPROC>("glClearColor");
+            glColorMaskProc = getCoreProcAddress<PFNGLCOLORMASKPROC>("glColorMask");
+            glDepthMaskProc = getCoreProcAddress<PFNGLDEPTHMASKPROC>("glDepthMask");
+            glDepthFuncProc = getCoreProcAddress<PFNGLDEPTHFUNCPROC>("glDepthFunc");
+            glCullFaceProc = getCoreProcAddress<PFNGLCULLFACEPROC>("glCullFace");
+            glScissorProc = getCoreProcAddress<PFNGLSCISSORPROC>("glScissor");
+            glDrawElementsProc = getCoreProcAddress<PFNGLDRAWELEMENTSPROC>("glDrawElements");
+            glReadPixelsProc = getCoreProcAddress<PFNGLREADPIXELSPROC>("glReadPixels");
 
-            glBlendFuncSeparateProc = reinterpret_cast<PFNGLBLENDFUNCSEPARATEPROC>(GET_CORE_PROC_ADDRESS(glBlendFuncSeparate));
-            glBlendEquationSeparateProc = reinterpret_cast<PFNGLBLENDEQUATIONSEPARATEPROC>(GET_CORE_PROC_ADDRESS(glBlendEquationSeparate));
+            glBlendFuncSeparateProc = getCoreProcAddress<PFNGLBLENDFUNCSEPARATEPROC>("glBlendFuncSeparate");
+            glBlendEquationSeparateProc = getCoreProcAddress<PFNGLBLENDEQUATIONSEPARATEPROC>("glBlendEquationSeparate");
 
-            glUniform1iProc = reinterpret_cast<PFNGLUNIFORM1IPROC>(GET_CORE_PROC_ADDRESS(glUniform1i));
-            glUniform1fvProc = reinterpret_cast<PFNGLUNIFORM1FVPROC>(GET_CORE_PROC_ADDRESS(glUniform1fv));
-            glUniform2fvProc = reinterpret_cast<PFNGLUNIFORM2FVPROC>(GET_CORE_PROC_ADDRESS(glUniform2fv));
-            glUniform3fvProc = reinterpret_cast<PFNGLUNIFORM3FVPROC>(GET_CORE_PROC_ADDRESS(glUniform3fv));
-            glUniform4fvProc = reinterpret_cast<PFNGLUNIFORM4FVPROC>(GET_CORE_PROC_ADDRESS(glUniform4fv));
-            glUniform1ivProc = reinterpret_cast<PFNGLUNIFORM1IVPROC>(GET_CORE_PROC_ADDRESS(glUniform1iv));
-            glUniform2ivProc = reinterpret_cast<PFNGLUNIFORM2IVPROC>(GET_CORE_PROC_ADDRESS(glUniform2iv));
-            glUniform3ivProc = reinterpret_cast<PFNGLUNIFORM3IVPROC>(GET_CORE_PROC_ADDRESS(glUniform3iv));
-            glUniform4ivProc = reinterpret_cast<PFNGLUNIFORM4IVPROC>(GET_CORE_PROC_ADDRESS(glUniform4iv));
-            glUniformMatrix3fvProc = reinterpret_cast<PFNGLUNIFORMMATRIX3FVPROC>(GET_CORE_PROC_ADDRESS(glUniformMatrix3fv));
-            glUniformMatrix4fvProc = reinterpret_cast<PFNGLUNIFORMMATRIX4FVPROC>(GET_CORE_PROC_ADDRESS(glUniformMatrix4fv));
+            glUniform1iProc = getCoreProcAddress<PFNGLUNIFORM1IPROC>("glUniform1i");
+            glUniform1fvProc = getCoreProcAddress<PFNGLUNIFORM1FVPROC>("glUniform1fv");
+            glUniform2fvProc = getCoreProcAddress<PFNGLUNIFORM2FVPROC>("glUniform2fv");
+            glUniform3fvProc = getCoreProcAddress<PFNGLUNIFORM3FVPROC>("glUniform3fv");
+            glUniform4fvProc = getCoreProcAddress<PFNGLUNIFORM4FVPROC>("glUniform4fv");
+            glUniform1ivProc = getCoreProcAddress<PFNGLUNIFORM1IVPROC>("glUniform1iv");
+            glUniform2ivProc = getCoreProcAddress<PFNGLUNIFORM2IVPROC>("glUniform2iv");
+            glUniform3ivProc = getCoreProcAddress<PFNGLUNIFORM3IVPROC>("glUniform3iv");
+            glUniform4ivProc = getCoreProcAddress<PFNGLUNIFORM4IVPROC>("glUniform4iv");
+            glUniformMatrix3fvProc = getCoreProcAddress<PFNGLUNIFORMMATRIX3FVPROC>("glUniformMatrix3fv");
+            glUniformMatrix4fvProc = getCoreProcAddress<PFNGLUNIFORMMATRIX4FVPROC>("glUniformMatrix4fv");
 
-            glActiveTextureProc = reinterpret_cast<PFNGLACTIVETEXTUREPROC>(GET_CORE_PROC_ADDRESS(glActiveTexture));
+            glActiveTextureProc = getCoreProcAddress<PFNGLACTIVETEXTUREPROC>("glActiveTexture");
 
 #if OUZEL_SUPPORTS_OPENGLES
-            glClearDepthfProc = reinterpret_cast<PFNGLCLEARDEPTHFPROC>(GET_CORE_PROC_ADDRESS(glClearDepthf));
+            glClearDepthfProc = getCoreProcAddress<PFNGLCLEARDEPTHFPROC>("glClearDepthf");
 #else
-            glPolygonModeProc = reinterpret_cast<PFNGLPOLYGONMODEPROC>(GET_CORE_PROC_ADDRESS(glPolygonMode));
-            glClearDepthProc = reinterpret_cast<PFNGLCLEARDEPTHPROC>(GET_CORE_PROC_ADDRESS(glClearDepth));
+            glPolygonModeProc = getCoreProcAddress<PFNGLPOLYGONMODEPROC>("glPolygonMode");
+            glClearDepthProc = getCoreProcAddress<PFNGLCLEARDEPTHPROC>("glClearDepth");
 #endif
 
-            glCreateShaderProc = reinterpret_cast<PFNGLCREATESHADERPROC>(GET_CORE_PROC_ADDRESS(glCreateShader));
-            glDeleteShaderProc = reinterpret_cast<PFNGLDELETESHADERPROC>(GET_CORE_PROC_ADDRESS(glDeleteShader));
-            glAttachShaderProc = reinterpret_cast<PFNGLATTACHSHADERPROC>(GET_CORE_PROC_ADDRESS(glAttachShader));
-            glDetachShaderProc = reinterpret_cast<PFNGLDETACHSHADERPROC>(GET_CORE_PROC_ADDRESS(glDetachShader));
-            glShaderSourceProc = reinterpret_cast<PFNGLSHADERSOURCEPROC>(GET_CORE_PROC_ADDRESS(glShaderSource));
-            glCompileShaderProc = reinterpret_cast<PFNGLCOMPILESHADERPROC>(GET_CORE_PROC_ADDRESS(glCompileShader));
-            glBindAttribLocationProc = reinterpret_cast<PFNGLBINDATTRIBLOCATIONPROC>(GET_CORE_PROC_ADDRESS(glBindAttribLocation));
-            glGetShaderivProc = reinterpret_cast<PFNGLGETSHADERIVPROC>(GET_CORE_PROC_ADDRESS(glGetShaderiv));
-            glGetShaderInfoLogProc = reinterpret_cast<PFNGLGETSHADERINFOLOGPROC>(GET_CORE_PROC_ADDRESS(glGetShaderInfoLog));
+            glCreateShaderProc = getCoreProcAddress<PFNGLCREATESHADERPROC>("glCreateShader");
+            glDeleteShaderProc = getCoreProcAddress<PFNGLDELETESHADERPROC>("glDeleteShader");
+            glAttachShaderProc = getCoreProcAddress<PFNGLATTACHSHADERPROC>("glAttachShader");
+            glDetachShaderProc = getCoreProcAddress<PFNGLDETACHSHADERPROC>("glDetachShader");
+            glShaderSourceProc = getCoreProcAddress<PFNGLSHADERSOURCEPROC>("glShaderSource");
+            glCompileShaderProc = getCoreProcAddress<PFNGLCOMPILESHADERPROC>("glCompileShader");
+            glBindAttribLocationProc = getCoreProcAddress<PFNGLBINDATTRIBLOCATIONPROC>("glBindAttribLocation");
+            glGetShaderivProc = getCoreProcAddress<PFNGLGETSHADERIVPROC>("glGetShaderiv");
+            glGetShaderInfoLogProc = getCoreProcAddress<PFNGLGETSHADERINFOLOGPROC>("glGetShaderInfoLog");
 
-            glCreateProgramProc = reinterpret_cast<PFNGLCREATEPROGRAMPROC>(GET_CORE_PROC_ADDRESS(glCreateProgram));
-            glDeleteProgramProc = reinterpret_cast<PFNGLDELETEPROGRAMPROC>(GET_CORE_PROC_ADDRESS(glDeleteProgram));
-            glUseProgramProc = reinterpret_cast<PFNGLUSEPROGRAMPROC>(GET_CORE_PROC_ADDRESS(glUseProgram));
-            glLinkProgramProc = reinterpret_cast<PFNGLLINKPROGRAMPROC>(GET_CORE_PROC_ADDRESS(glLinkProgram));
-            glGetProgramivProc = reinterpret_cast<PFNGLGETPROGRAMIVPROC>(GET_CORE_PROC_ADDRESS(glGetProgramiv));
-            glGetProgramInfoLogProc = reinterpret_cast<PFNGLGETPROGRAMINFOLOGPROC>(GET_CORE_PROC_ADDRESS(glGetProgramInfoLog));
-            glGetUniformLocationProc = reinterpret_cast<PFNGLGETUNIFORMLOCATIONPROC>(GET_CORE_PROC_ADDRESS(glGetUniformLocation));
+            glCreateProgramProc = getCoreProcAddress<PFNGLCREATEPROGRAMPROC>("glCreateProgram");
+            glDeleteProgramProc = getCoreProcAddress<PFNGLDELETEPROGRAMPROC>("glDeleteProgram");
+            glUseProgramProc = getCoreProcAddress<PFNGLUSEPROGRAMPROC>("glUseProgram");
+            glLinkProgramProc = getCoreProcAddress<PFNGLLINKPROGRAMPROC>("glLinkProgram");
+            glGetProgramivProc = getCoreProcAddress<PFNGLGETPROGRAMIVPROC>("glGetProgramiv");
+            glGetProgramInfoLogProc = getCoreProcAddress<PFNGLGETPROGRAMINFOLOGPROC>("glGetProgramInfoLog");
+            glGetUniformLocationProc = getCoreProcAddress<PFNGLGETUNIFORMLOCATIONPROC>("glGetUniformLocation");
 
-            glBindBufferProc = reinterpret_cast<PFNGLBINDBUFFERPROC>(GET_CORE_PROC_ADDRESS(glBindBuffer));
-            glDeleteBuffersProc = reinterpret_cast<PFNGLDELETEBUFFERSPROC>(GET_CORE_PROC_ADDRESS(glDeleteBuffers));
-            glGenBuffersProc = reinterpret_cast<PFNGLGENBUFFERSPROC>(GET_CORE_PROC_ADDRESS(glGenBuffers));
-            glBufferDataProc = reinterpret_cast<PFNGLBUFFERDATAPROC>(GET_CORE_PROC_ADDRESS(glBufferData));
-            glBufferSubDataProc = reinterpret_cast<PFNGLBUFFERSUBDATAPROC>(GET_CORE_PROC_ADDRESS(glBufferSubData));
+            glBindBufferProc = getCoreProcAddress<PFNGLBINDBUFFERPROC>("glBindBuffer");
+            glDeleteBuffersProc = getCoreProcAddress<PFNGLDELETEBUFFERSPROC>("glDeleteBuffers");
+            glGenBuffersProc = getCoreProcAddress<PFNGLGENBUFFERSPROC>("glGenBuffers");
+            glBufferDataProc = getCoreProcAddress<PFNGLBUFFERDATAPROC>("glBufferData");
+            glBufferSubDataProc = getCoreProcAddress<PFNGLBUFFERSUBDATAPROC>("glBufferSubData");
 
-            glEnableVertexAttribArrayProc = reinterpret_cast<PFNGLENABLEVERTEXATTRIBARRAYPROC>(GET_CORE_PROC_ADDRESS(glEnableVertexAttribArray));
-            glDisableVertexAttribArrayProc = reinterpret_cast<PFNGLDISABLEVERTEXATTRIBARRAYPROC>(GET_CORE_PROC_ADDRESS(glDisableVertexAttribArray));
-            glVertexAttribPointerProc = reinterpret_cast<PFNGLVERTEXATTRIBPOINTERPROC>(GET_CORE_PROC_ADDRESS(glVertexAttribPointer));
+            glEnableVertexAttribArrayProc = getCoreProcAddress<PFNGLENABLEVERTEXATTRIBARRAYPROC>("glEnableVertexAttribArray");
+            glDisableVertexAttribArrayProc = getCoreProcAddress<PFNGLDISABLEVERTEXATTRIBARRAYPROC>("glDisableVertexAttribArray");
+            glVertexAttribPointerProc = getCoreProcAddress<PFNGLVERTEXATTRIBPOINTERPROC>("glVertexAttribPointer");
 
 #if OUZEL_SUPPORTS_OPENGLES
-            glGenFramebuffersProc = reinterpret_cast<PFNGLGENFRAMEBUFFERSPROC>(GET_CORE_PROC_ADDRESS(glGenFramebuffers));
-            glDeleteFramebuffersProc = reinterpret_cast<PFNGLDELETEFRAMEBUFFERSPROC>(GET_CORE_PROC_ADDRESS(glDeleteFramebuffers));
-            glBindFramebufferProc = reinterpret_cast<PFNGLBINDFRAMEBUFFERPROC>(GET_CORE_PROC_ADDRESS(glBindFramebuffer));
-            glCheckFramebufferStatusProc = reinterpret_cast<PFNGLCHECKFRAMEBUFFERSTATUSPROC>(GET_CORE_PROC_ADDRESS(glCheckFramebufferStatus));
-            glFramebufferRenderbufferProc = reinterpret_cast<PFNGLFRAMEBUFFERRENDERBUFFERPROC>(GET_CORE_PROC_ADDRESS(glFramebufferRenderbuffer));
-            glFramebufferTexture2DProc = reinterpret_cast<PFNGLFRAMEBUFFERTEXTURE2DPROC>(GET_CORE_PROC_ADDRESS(glFramebufferTexture2D));
+            glGenFramebuffersProc = getCoreProcAddress<PFNGLGENFRAMEBUFFERSPROC>("glGenFramebuffers");
+            glDeleteFramebuffersProc = getCoreProcAddress<PFNGLDELETEFRAMEBUFFERSPROC>("glDeleteFramebuffers");
+            glBindFramebufferProc = getCoreProcAddress<PFNGLBINDFRAMEBUFFERPROC>("glBindFramebuffer");
+            glCheckFramebufferStatusProc = getCoreProcAddress<PFNGLCHECKFRAMEBUFFERSTATUSPROC>("glCheckFramebufferStatus");
+            glFramebufferRenderbufferProc = getCoreProcAddress<PFNGLFRAMEBUFFERRENDERBUFFERPROC>("glFramebufferRenderbuffer");
+            glFramebufferTexture2DProc = getCoreProcAddress<PFNGLFRAMEBUFFERTEXTURE2DPROC>("glFramebufferTexture2D");
 
-            glGenRenderbuffersProc = reinterpret_cast<PFNGLGENRENDERBUFFERSPROC>(GET_CORE_PROC_ADDRESS(glGenRenderbuffers));
-            glDeleteRenderbuffersProc = reinterpret_cast<PFNGLDELETERENDERBUFFERSPROC>(GET_CORE_PROC_ADDRESS(glDeleteRenderbuffers));
-            glBindRenderbufferProc = reinterpret_cast<PFNGLBINDRENDERBUFFERPROC>(GET_CORE_PROC_ADDRESS(glBindRenderbuffer));
-            glRenderbufferStorageProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEPROC>(GET_CORE_PROC_ADDRESS(glRenderbufferStorage));
+            glGenRenderbuffersProc = getCoreProcAddress<PFNGLGENRENDERBUFFERSPROC>("glGenRenderbuffers");
+            glDeleteRenderbuffersProc = getCoreProcAddress<PFNGLDELETERENDERBUFFERSPROC>("glDeleteRenderbuffers");
+            glBindRenderbufferProc = getCoreProcAddress<PFNGLBINDRENDERBUFFERPROC>("glBindRenderbuffer");
+            glRenderbufferStorageProc = getCoreProcAddress<PFNGLRENDERBUFFERSTORAGEPROC>("glRenderbufferStorage");
 
 #  if OUZEL_OPENGL_INTERFACE_EAGL
-            glBlitFramebufferProc = reinterpret_cast<PFNGLBLITFRAMEBUFFERPROC>(GET_CORE_PROC_ADDRESS(glBlitFramebuffer));
+            glBlitFramebufferProc = getCoreProcAddress<PFNGLBLITFRAMEBUFFERPROC>("glBlitFramebuffer");
 
-            glDiscardFramebufferEXTProc = reinterpret_cast<PFNGLDISCARDFRAMEBUFFEREXTPROC>(GET_CORE_PROC_ADDRESS(glDiscardFramebufferEXT));
-            glRenderbufferStorageMultisampleAPPLEProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEAPPLEPROC>(GET_CORE_PROC_ADDRESS(glRenderbufferStorageMultisampleAPPLE));
-            glResolveMultisampleFramebufferAPPLEProc = reinterpret_cast<PFNGLRESOLVEMULTISAMPLEFRAMEBUFFERAPPLEPROC>(GET_CORE_PROC_ADDRESS(glResolveMultisampleFramebufferAPPLE));
+            glDiscardFramebufferEXTProc = getCoreProcAddress<PFNGLDISCARDFRAMEBUFFEREXTPROC>("glDiscardFramebufferEXT");
+            glRenderbufferStorageMultisampleAPPLEProc = getCoreProcAddress<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEAPPLEPROC>("glRenderbufferStorageMultisampleAPPLE");
+            glResolveMultisampleFramebufferAPPLEProc = getCoreProcAddress<PFNGLRESOLVEMULTISAMPLEFRAMEBUFFERAPPLEPROC>("glResolveMultisampleFramebufferAPPLE");
 
 #  endif
 #endif
@@ -518,7 +537,7 @@ namespace ouzel
 
             if (apiMajorVersion >= 3)
             {
-                glGetStringiProc = reinterpret_cast<PFNGLGETSTRINGIPROC>(GET_EXT_PROC_ADDRESS(glGetStringi));
+                glGetStringiProc = getExtProcAddress<PFNGLGETSTRINGIPROC>("glGetStringi");
 
                 GLint extensionCount;
                 glGetIntegervProc(GL_NUM_EXTENSIONS, &extensionCount);
@@ -580,7 +599,7 @@ namespace ouzel
 
                 if ((apiMajorVersion == 4 && apiMinorVersion >= 3) || // at least OpenGL 4.3
                     apiMajorVersion >= 5)
-                    glCopyImageSubDataProc = reinterpret_cast<PFNGLCOPYIMAGESUBDATAPROC>(GET_EXT_PROC_ADDRESS(glCopyImageSubData));
+                    glCopyImageSubDataProc = getExtProcAddress<PFNGLCOPYIMAGESUBDATAPROC>("glCopyImageSubData");
 #endif
             }
 
@@ -592,50 +611,50 @@ namespace ouzel
                 textureMaxLevelSupported = true;
                 renderTargetsSupported = true;
 
-                glUniform1uivProc = reinterpret_cast<PFNGLUNIFORM1UIVPROC>(GET_EXT_PROC_ADDRESS(glUniform1uiv));
-                glUniform2uivProc = reinterpret_cast<PFNGLUNIFORM2UIVPROC>(GET_EXT_PROC_ADDRESS(glUniform2uiv));
-                glUniform3uivProc = reinterpret_cast<PFNGLUNIFORM3UIVPROC>(GET_EXT_PROC_ADDRESS(glUniform3uiv));
-                glUniform4uivProc = reinterpret_cast<PFNGLUNIFORM4UIVPROC>(GET_EXT_PROC_ADDRESS(glUniform4uiv));
+                glUniform1uivProc = getExtProcAddress<PFNGLUNIFORM1UIVPROC>("glUniform1uiv");
+                glUniform2uivProc = getExtProcAddress<PFNGLUNIFORM2UIVPROC>("glUniform2uiv");
+                glUniform3uivProc = getExtProcAddress<PFNGLUNIFORM3UIVPROC>("glUniform3uiv");
+                glUniform4uivProc = getExtProcAddress<PFNGLUNIFORM4UIVPROC>("glUniform4uiv");
 
 #if OUZEL_OPENGL_INTERFACE_EAGL
-                glGenVertexArraysProc = reinterpret_cast<PFNGLGENVERTEXARRAYSPROC>(GET_EXT_PROC_ADDRESS(glGenVertexArraysOES));
-                glBindVertexArrayProc = reinterpret_cast<PFNGLBINDVERTEXARRAYPROC>(GET_EXT_PROC_ADDRESS(glBindVertexArrayOES));
-                glDeleteVertexArraysProc = reinterpret_cast<PFNGLDELETEVERTEXARRAYSPROC>(GET_EXT_PROC_ADDRESS(glDeleteVertexArraysOES));
+                glGenVertexArraysProc = getExtProcAddress<PFNGLGENVERTEXARRAYSPROC>("glGenVertexArraysOES");
+                glBindVertexArrayProc = getExtProcAddress<PFNGLBINDVERTEXARRAYPROC>("glBindVertexArrayOES");
+                glDeleteVertexArraysProc = getExtProcAddress<PFNGLDELETEVERTEXARRAYSPROC>("glDeleteVertexArraysOES");
 
-                glMapBufferProc = reinterpret_cast<PFNGLMAPBUFFEROESPROC>(GET_EXT_PROC_ADDRESS(glMapBufferOES));
-                glUnmapBufferProc = reinterpret_cast<PFNGLUNMAPBUFFEROESPROC>(GET_EXT_PROC_ADDRESS(glUnmapBufferOES));
-                glMapBufferRangeProc = reinterpret_cast<PFNGLMAPBUFFERRANGEPROC>(GET_EXT_PROC_ADDRESS(glMapBufferRangeEXT));
+                glMapBufferProc = getExtProcAddress<PFNGLMAPBUFFEROESPROC>("glMapBufferOES");
+                glUnmapBufferProc = getExtProcAddress<PFNGLUNMAPBUFFEROESPROC>("glUnmapBufferOES");
+                glMapBufferRangeProc = getExtProcAddress<PFNGLMAPBUFFERRANGEPROC>("glMapBufferRangeEXT");
 
-                glRenderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>(GET_EXT_PROC_ADDRESS(glRenderbufferStorageMultisampleAPPLE));
+                glRenderbufferStorageMultisampleProc = getExtProcAddress<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>("glRenderbufferStorageMultisampleAPPLE");
 #else
-                glGenVertexArraysProc = reinterpret_cast<PFNGLGENVERTEXARRAYSPROC>(GET_EXT_PROC_ADDRESS(glGenVertexArrays));
-                glBindVertexArrayProc = reinterpret_cast<PFNGLBINDVERTEXARRAYPROC>(GET_EXT_PROC_ADDRESS(glBindVertexArray));
-                glDeleteVertexArraysProc = reinterpret_cast<PFNGLDELETEVERTEXARRAYSPROC>(GET_EXT_PROC_ADDRESS(glDeleteVertexArrays));
+                glGenVertexArraysProc = getExtProcAddress<PFNGLGENVERTEXARRAYSPROC>("glGenVertexArrays");
+                glBindVertexArrayProc = getExtProcAddress<PFNGLBINDVERTEXARRAYPROC>("glBindVertexArray");
+                glDeleteVertexArraysProc = getExtProcAddress<PFNGLDELETEVERTEXARRAYSPROC>("glDeleteVertexArrays");
 #  if OUZEL_OPENGL_INTERFACE_EGL
-                glMapBufferProc = reinterpret_cast<PFNGLMAPBUFFEROESPROC>(GET_EXT_PROC_ADDRESS(glMapBuffer));
-                glUnmapBufferProc = reinterpret_cast<PFNGLUNMAPBUFFEROESPROC>(GET_EXT_PROC_ADDRESS(glUnmapBuffer));
+                glMapBufferProc = getExtProcAddress<PFNGLMAPBUFFEROESPROC>("glMapBuffer");
+                glUnmapBufferProc = getExtProcAddress<PFNGLUNMAPBUFFEROESPROC>("glUnmapBuffer");
 #  else
-                glMapBufferProc = reinterpret_cast<PFNGLMAPBUFFERPROC>(GET_EXT_PROC_ADDRESS(glMapBuffer));
-                glUnmapBufferProc = reinterpret_cast<PFNGLUNMAPBUFFERPROC>(GET_EXT_PROC_ADDRESS(glUnmapBuffer));
+                glMapBufferProc = getExtProcAddress<PFNGLMAPBUFFERPROC>("glMapBuffer");
+                glUnmapBufferProc = getExtProcAddress<PFNGLUNMAPBUFFERPROC>("glUnmapBuffer");
 
-                glGenFramebuffersProc = reinterpret_cast<PFNGLGENFRAMEBUFFERSPROC>(GET_EXT_PROC_ADDRESS(glGenFramebuffers));
-                glDeleteFramebuffersProc = reinterpret_cast<PFNGLDELETEFRAMEBUFFERSPROC>(GET_EXT_PROC_ADDRESS(glDeleteFramebuffers));
-                glBindFramebufferProc = reinterpret_cast<PFNGLBINDFRAMEBUFFERPROC>(GET_EXT_PROC_ADDRESS(glBindFramebuffer));
-                glCheckFramebufferStatusProc = reinterpret_cast<PFNGLCHECKFRAMEBUFFERSTATUSPROC>(GET_EXT_PROC_ADDRESS(glCheckFramebufferStatus));
-                glFramebufferRenderbufferProc = reinterpret_cast<PFNGLFRAMEBUFFERRENDERBUFFERPROC>(GET_EXT_PROC_ADDRESS(glFramebufferRenderbuffer));
-                glBlitFramebufferProc = reinterpret_cast<PFNGLBLITFRAMEBUFFERPROC>(GET_EXT_PROC_ADDRESS(glBlitFramebuffer));
-                glFramebufferTexture2DProc = reinterpret_cast<PFNGLFRAMEBUFFERTEXTURE2DPROC>(GET_EXT_PROC_ADDRESS(glFramebufferTexture2D));
+                glGenFramebuffersProc = getExtProcAddress<PFNGLGENFRAMEBUFFERSPROC>("glGenFramebuffers");
+                glDeleteFramebuffersProc = getExtProcAddress<PFNGLDELETEFRAMEBUFFERSPROC>("glDeleteFramebuffers");
+                glBindFramebufferProc = getExtProcAddress<PFNGLBINDFRAMEBUFFERPROC>("glBindFramebuffer");
+                glCheckFramebufferStatusProc = getExtProcAddress<PFNGLCHECKFRAMEBUFFERSTATUSPROC>("glCheckFramebufferStatus");
+                glFramebufferRenderbufferProc = getExtProcAddress<PFNGLFRAMEBUFFERRENDERBUFFERPROC>("glFramebufferRenderbuffer");
+                glBlitFramebufferProc = getExtProcAddress<PFNGLBLITFRAMEBUFFERPROC>("glBlitFramebuffer");
+                glFramebufferTexture2DProc = getExtProcAddress<PFNGLFRAMEBUFFERTEXTURE2DPROC>("glFramebufferTexture2D");
 
-                glGenRenderbuffersProc = reinterpret_cast<PFNGLGENRENDERBUFFERSPROC>(GET_EXT_PROC_ADDRESS(glGenRenderbuffers));
-                glDeleteRenderbuffersProc = reinterpret_cast<PFNGLDELETERENDERBUFFERSPROC>(GET_EXT_PROC_ADDRESS(glDeleteRenderbuffers));
-                glBindRenderbufferProc = reinterpret_cast<PFNGLBINDRENDERBUFFERPROC>(GET_EXT_PROC_ADDRESS(glBindRenderbuffer));
-                glRenderbufferStorageProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEPROC>(GET_EXT_PROC_ADDRESS(glRenderbufferStorage));
+                glGenRenderbuffersProc = getExtProcAddress<PFNGLGENRENDERBUFFERSPROC>("glGenRenderbuffers");
+                glDeleteRenderbuffersProc = getExtProcAddress<PFNGLDELETERENDERBUFFERSPROC>("glDeleteRenderbuffers");
+                glBindRenderbufferProc = getExtProcAddress<PFNGLBINDRENDERBUFFERPROC>("glBindRenderbuffer");
+                glRenderbufferStorageProc = getExtProcAddress<PFNGLRENDERBUFFERSTORAGEPROC>("glRenderbufferStorage");
 #  endif
-                glMapBufferRangeProc = reinterpret_cast<PFNGLMAPBUFFERRANGEPROC>(GET_EXT_PROC_ADDRESS(glMapBufferRange));
-                glRenderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>(GET_EXT_PROC_ADDRESS(glRenderbufferStorageMultisample));
+                glMapBufferRangeProc = getExtProcAddress<PFNGLMAPBUFFERRANGEPROC>("glMapBufferRange");
+                glRenderbufferStorageMultisampleProc = getExtProcAddress<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>("glRenderbufferStorageMultisample");
 
 #  if OUZEL_SUPPORTS_OPENGLES
-                glFramebufferTexture2DMultisampleProc = reinterpret_cast<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>(GET_EXT_PROC_ADDRESS(glFramebufferTexture2DMultisample));
+                glFramebufferTexture2DMultisampleProc = getExtProcAddress<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>("glFramebufferTexture2DMultisample");
 #  endif
 #endif
             }
@@ -658,88 +677,88 @@ namespace ouzel
                 }
                 else if (extension == "GL_EXT_debug_marker")
                 {
-                    glPushGroupMarkerEXTProc = reinterpret_cast<PFNGLPUSHGROUPMARKEREXTPROC>(GET_EXT_PROC_ADDRESS(glPushGroupMarkerEXT));
-                    glPopGroupMarkerEXTProc = reinterpret_cast<PFNGLPOPGROUPMARKEREXTPROC>(GET_EXT_PROC_ADDRESS(glPopGroupMarkerEXT));
+                    glPushGroupMarkerEXTProc = getExtProcAddress<PFNGLPUSHGROUPMARKEREXTPROC>("glPushGroupMarkerEXT");
+                    glPopGroupMarkerEXTProc = getExtProcAddress<PFNGLPOPGROUPMARKEREXTPROC>("glPopGroupMarkerEXT");
                 }
                 else if (extension == "GL_EXT_texture_filter_anisotropic")
                     anisotropicFilteringSupported = true;
                 else if (extension == "GL_EXT_map_buffer_range")
                 {
 #if OUZEL_SUPPORTS_OPENGLES
-                    glMapBufferRangeProc = reinterpret_cast<PFNGLMAPBUFFERRANGEEXTPROC>(GET_EXT_PROC_ADDRESS(glMapBufferRangeEXT));
+                    glMapBufferRangeProc = getExtProcAddress<PFNGLMAPBUFFERRANGEEXTPROC>("glMapBufferRangeEXT");
 #else
-                    glMapBufferRangeProc = reinterpret_cast<PFNGLMAPBUFFERRANGEPROC>(GET_EXT_PROC_ADDRESS(glMapBufferRangeEXT));
+                    glMapBufferRangeProc = getExtProcAddress<PFNGLMAPBUFFERRANGEPROC>("glMapBufferRangeEXT");
 #endif
                 }
 #if OUZEL_SUPPORTS_OPENGLES
                 else if (extension == "GL_APPLE_framebuffer_multisample")
                 {
                     multisamplingSupported = true;
-                    glRenderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>(GET_EXT_PROC_ADDRESS(glRenderbufferStorageMultisampleAPPLE));
+                    glRenderbufferStorageMultisampleProc = getExtProcAddress<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>("glRenderbufferStorageMultisampleAPPLE");
                 }
                 else if (extension == "GL_APPLE_texture_max_level")
                     textureMaxLevelSupported = true;
                 else if (extension == "GL_OES_vertex_array_object")
                 {
-                    glGenVertexArraysProc = reinterpret_cast<PFNGLGENVERTEXARRAYSOESPROC>(GET_EXT_PROC_ADDRESS(glGenVertexArraysOES));
-                    glBindVertexArrayProc = reinterpret_cast<PFNGLBINDVERTEXARRAYOESPROC>(GET_EXT_PROC_ADDRESS(glBindVertexArrayOES));
-                    glDeleteVertexArraysProc = reinterpret_cast<PFNGLDELETEVERTEXARRAYSOESPROC>(GET_EXT_PROC_ADDRESS(glDeleteVertexArraysOES));
+                    glGenVertexArraysProc = getExtProcAddress<PFNGLGENVERTEXARRAYSOESPROC>("glGenVertexArraysOES");
+                    glBindVertexArrayProc = getExtProcAddress<PFNGLBINDVERTEXARRAYOESPROC>("glBindVertexArrayOES");
+                    glDeleteVertexArraysProc = getExtProcAddress<PFNGLDELETEVERTEXARRAYSOESPROC>("glDeleteVertexArraysOES");
                 }
                 else if (extension == "GL_OES_mapbuffer")
                 {
-                    glMapBufferProc = reinterpret_cast<PFNGLMAPBUFFEROESPROC>(GET_EXT_PROC_ADDRESS(glMapBufferOES));
-                    glUnmapBufferProc = reinterpret_cast<PFNGLUNMAPBUFFEROESPROC>(GET_EXT_PROC_ADDRESS(glUnmapBufferOES));
+                    glMapBufferProc = getExtProcAddress<PFNGLMAPBUFFEROESPROC>("glMapBufferOES");
+                    glUnmapBufferProc = getExtProcAddress<PFNGLUNMAPBUFFEROESPROC>("glUnmapBufferOES");
                 }
 #  if !OUZEL_OPENGL_INTERFACE_EAGL
                 else if (extension == "GL_EXT_copy_image")
                 {
-                    glCopyImageSubDataProc = reinterpret_cast<PFNGLCOPYIMAGESUBDATAEXTPROC>(GET_EXT_PROC_ADDRESS(glCopyImageSubDataEXT));
+                    glCopyImageSubDataProc = getExtProcAddress<PFNGLCOPYIMAGESUBDATAEXTPROC>("glCopyImageSubDataEXT");
                 }
                 else if (extension == "GL_EXT_multisampled_render_to_texture")
                 {
                     multisamplingSupported = true;
-                    glRenderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC>(GET_EXT_PROC_ADDRESS(glRenderbufferStorageMultisampleEXT));
+                    glRenderbufferStorageMultisampleProc = getExtProcAddress<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC>("glRenderbufferStorageMultisampleEXT");
                 }
                 else if (extension == "GL_IMG_multisampled_render_to_texture")
                 {
                     multisamplingSupported = true;
-                    glRenderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC>(GET_EXT_PROC_ADDRESS(glRenderbufferStorageMultisampleIMG));
-                    glFramebufferTexture2DMultisampleProc = reinterpret_cast<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>(GET_EXT_PROC_ADDRESS(glFramebufferTexture2DMultisampleIMG));
+                    glRenderbufferStorageMultisampleProc = getExtProcAddress<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC>("glRenderbufferStorageMultisampleIMG");
+                    glFramebufferTexture2DMultisampleProc = getExtProcAddress<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>("glFramebufferTexture2DMultisampleIMG");
                 }
 #  endif
 #else
                 else if (extension == "GL_ARB_copy_image")
                 {
-                    glCopyImageSubDataProc = reinterpret_cast<PFNGLCOPYIMAGESUBDATAPROC>(GET_EXT_PROC_ADDRESS(glCopyImageSubData));
+                    glCopyImageSubDataProc = getExtProcAddress<PFNGLCOPYIMAGESUBDATAPROC>("glCopyImageSubData");
                 }
                 else if (extension == "GL_ARB_vertex_array_object")
                 {
-                    glGenVertexArraysProc = reinterpret_cast<PFNGLGENVERTEXARRAYSPROC>(GET_EXT_PROC_ADDRESS(glGenVertexArrays));
-                    glBindVertexArrayProc = reinterpret_cast<PFNGLBINDVERTEXARRAYPROC>(GET_EXT_PROC_ADDRESS(glBindVertexArray));
-                    glDeleteVertexArraysProc = reinterpret_cast<PFNGLDELETEVERTEXARRAYSPROC>(GET_EXT_PROC_ADDRESS(glDeleteVertexArrays));
+                    glGenVertexArraysProc = getExtProcAddress<PFNGLGENVERTEXARRAYSPROC>("glGenVertexArrays");
+                    glBindVertexArrayProc = getExtProcAddress<PFNGLBINDVERTEXARRAYPROC>("glBindVertexArray");
+                    glDeleteVertexArraysProc = getExtProcAddress<PFNGLDELETEVERTEXARRAYSPROC>("glDeleteVertexArrays");
                 }
                 else if (extension == "GL_EXT_framebuffer_object")
                 {
                     renderTargetsSupported = true;
 
-                    glGenFramebuffersProc = reinterpret_cast<PFNGLGENFRAMEBUFFERSPROC>(GET_EXT_PROC_ADDRESS(glGenFramebuffers));
-                    glDeleteFramebuffersProc = reinterpret_cast<PFNGLDELETEFRAMEBUFFERSPROC>(GET_EXT_PROC_ADDRESS(glDeleteFramebuffers));
-                    glBindFramebufferProc = reinterpret_cast<PFNGLBINDFRAMEBUFFERPROC>(GET_EXT_PROC_ADDRESS(glBindFramebuffer));
-                    glCheckFramebufferStatusProc = reinterpret_cast<PFNGLCHECKFRAMEBUFFERSTATUSPROC>(GET_EXT_PROC_ADDRESS(glCheckFramebufferStatus));
-                    glFramebufferRenderbufferProc = reinterpret_cast<PFNGLFRAMEBUFFERRENDERBUFFERPROC>(GET_EXT_PROC_ADDRESS(glFramebufferRenderbuffer));
-                    glFramebufferTexture2DProc = reinterpret_cast<PFNGLFRAMEBUFFERTEXTURE2DPROC>(GET_EXT_PROC_ADDRESS(glFramebufferTexture2D));
+                    glGenFramebuffersProc = getExtProcAddress<PFNGLGENFRAMEBUFFERSPROC>("glGenFramebuffers");
+                    glDeleteFramebuffersProc = getExtProcAddress<PFNGLDELETEFRAMEBUFFERSPROC>("glDeleteFramebuffers");
+                    glBindFramebufferProc = getExtProcAddress<PFNGLBINDFRAMEBUFFERPROC>("glBindFramebuffer");
+                    glCheckFramebufferStatusProc = getExtProcAddress<PFNGLCHECKFRAMEBUFFERSTATUSPROC>("glCheckFramebufferStatus");
+                    glFramebufferRenderbufferProc = getExtProcAddress<PFNGLFRAMEBUFFERRENDERBUFFERPROC>("glFramebufferRenderbuffer");
+                    glFramebufferTexture2DProc = getExtProcAddress<PFNGLFRAMEBUFFERTEXTURE2DPROC>("glFramebufferTexture2D");
 
-                    glGenRenderbuffersProc = reinterpret_cast<PFNGLGENRENDERBUFFERSPROC>(GET_EXT_PROC_ADDRESS(glGenRenderbuffers));
-                    glDeleteRenderbuffersProc = reinterpret_cast<PFNGLDELETERENDERBUFFERSPROC>(GET_EXT_PROC_ADDRESS(glDeleteRenderbuffers));
-                    glBindRenderbufferProc = reinterpret_cast<PFNGLBINDRENDERBUFFERPROC>(GET_EXT_PROC_ADDRESS(glBindRenderbuffer));
-                    glRenderbufferStorageProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEPROC>(GET_EXT_PROC_ADDRESS(glRenderbufferStorage));
+                    glGenRenderbuffersProc = getExtProcAddress<PFNGLGENRENDERBUFFERSPROC>("glGenRenderbuffers");
+                    glDeleteRenderbuffersProc = getExtProcAddress<PFNGLDELETERENDERBUFFERSPROC>("glDeleteRenderbuffers");
+                    glBindRenderbufferProc = getExtProcAddress<PFNGLBINDRENDERBUFFERPROC>("glBindRenderbuffer");
+                    glRenderbufferStorageProc = getExtProcAddress<PFNGLRENDERBUFFERSTORAGEPROC>("glRenderbufferStorage");
                 }
                 else if (extension == "GL_EXT_framebuffer_blit")
-                    glBlitFramebufferProc = reinterpret_cast<PFNGLBLITFRAMEBUFFERPROC>(GET_EXT_PROC_ADDRESS(glBlitFramebuffer));
+                    glBlitFramebufferProc = getExtProcAddress<PFNGLBLITFRAMEBUFFERPROC>("glBlitFramebuffer");
                 else if (extension == "GL_EXT_framebuffer_multisample")
                 {
                     multisamplingSupported = true;
-                    glRenderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>(GET_EXT_PROC_ADDRESS(glRenderbufferStorageMultisample));
+                    glRenderbufferStorageMultisampleProc = getExtProcAddress<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>("glRenderbufferStorageMultisample");
                 }
 #endif
             }
