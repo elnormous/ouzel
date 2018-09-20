@@ -156,37 +156,31 @@ PFNGLPOPGROUPMARKEREXTPROC glPopGroupMarkerEXTProc;
 template<typename T>
 static inline T getCoreProcAddress(const char* name)
 {
-    T result;
-#if OUZEL_PLATFORM_MACOS
-    *reinterpret_cast<void**>(&result) = dlsym(RTLD_DEFAULT, name);
-#elif OUZEL_OPENGL_INTERFACE_EGL
-    *reinterpret_cast<void**>(&result) = dlsym(RTLD_DEFAULT, name);
-#elif OUZEL_OPENGL_INTERFACE_EAGL
-    *reinterpret_cast<void**>(&result) = dlsym(RTLD_DEFAULT, name);
-#elif OUZEL_OPENGL_INTERFACE_GLX
-    *reinterpret_cast<void**>(&result) = glXGetProcAddress(reinterpret_cast<const GLubyte*>(name));
+#if OUZEL_OPENGL_INTERFACE_GLX
+    return reinterpret_cast<T>(glXGetProcAddress(reinterpret_cast<const GLubyte*>(name)));
 #elif OUZEL_OPENGL_INTERFACE_WGL
-    *reinterpret_cast<void**>(&result) = wglGetProcAddress(name);
-#endif
+    return reinterpret_cast<T>(wglGetProcAddress(name));
+#else
+    T result;
+    *reinterpret_cast<void**>(&result) = dlsym(RTLD_DEFAULT, name);
     return result;
+#endif
 }
 
 template<typename T>
 static inline T getExtProcAddress(const char* name)
 {
-    T result;
-#if OUZEL_PLATFORM_MACOS
-    *reinterpret_cast<void**>(&result) = dlsym(RTLD_DEFAULT, name);
-#elif OUZEL_OPENGL_INTERFACE_EGL
-    *reinterpret_cast<void**>(&result) = eglGetProcAddress(name);
-#elif OUZEL_OPENGL_INTERFACE_EAGL
-    *reinterpret_cast<void**>(&result) = dlsym(RTLD_DEFAULT, name);
+#if OUZEL_OPENGL_INTERFACE_EGL
+    return reinterpret_cast<T>(eglGetProcAddress(name));
 #elif OUZEL_OPENGL_INTERFACE_GLX
-    *reinterpret_cast<void**>(&result) = glXGetProcAddress(reinterpret_cast<const GLubyte*>(name));
+    return reinterpret_cast<T>(glXGetProcAddress(reinterpret_cast<const GLubyte*>(name)));
 #elif OUZEL_OPENGL_INTERFACE_WGL
-    *reinterpret_cast<void**>(&result) = wglGetProcAddress(name);
-#endif
+    return reinterpret_cast<T>(wglGetProcAddress(name));
+#else
+    T result;
+    *reinterpret_cast<void**>(&result) = dlsym(RTLD_DEFAULT, name);
     return result;
+#endif
 }
 
 namespace ouzel
