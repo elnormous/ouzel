@@ -9,6 +9,7 @@
 #include <atomic>
 #include <thread>
 #if OUZEL_OPENGL_INTERFACE_GLX
+#  include "GL/glcorearb.h"
 #  include <GL/glx.h>
 #elif OUZEL_OPENGL_INTERFACE_EGL
 #  include "EGL/egl.h"
