@@ -4,7 +4,7 @@
 
 #if OUZEL_COMPILE_OPENGL
 
-#if OUZEL_PLATFORM_MACOS
+#if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
 #  include <dlfcn.h>
 #endif
 
@@ -160,15 +160,15 @@ PFNGLPOPGROUPMARKEREXTPROC glPopGroupMarkerEXTProc;
 #elif OUZEL_OPENGL_INTERFACE_EGL
 #  define GET_CORE_PROC_ADDRESS(proc) proc
 #  define GET_EXT_PROC_ADDRESS(proc) eglGetProcAddress(#proc)
+#elif OUZEL_OPENGL_INTERFACE_EAGL
+#  define GET_CORE_PROC_ADDRESS(proc) dlsym(RTLD_DEFAULT, #proc)
+#  define GET_EXT_PROC_ADDRESS(proc) dlsym(RTLD_DEFAULT, #proc)
 #elif OUZEL_OPENGL_INTERFACE_GLX
 #  define GET_CORE_PROC_ADDRESS(proc) glXGetProcAddress(reinterpret_cast<const GLubyte*>(#proc))
 #  define GET_EXT_PROC_ADDRESS(proc) glXGetProcAddress(reinterpret_cast<const GLubyte*>(#proc))
 #elif OUZEL_OPENGL_INTERFACE_WGL
 #  define GET_CORE_PROC_ADDRESS(proc) wglGetProcAddress(#proc)
 #  define GET_EXT_PROC_ADDRESS(proc) wglGetProcAddress(#proc)
-#else
-#  define GET_CORE_PROC_ADDRESS(proc) proc
-#  define GET_EXT_PROC_ADDRESS(proc) proc
 #endif
 
 namespace ouzel
