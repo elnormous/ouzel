@@ -4,7 +4,7 @@
 
 #if OUZEL_COMPILE_OPENGL
 
-#if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+#if !OUZEL_PLATFORM_WINDOWS
 #  include <dlfcn.h>
 #endif
 
@@ -12,7 +12,6 @@
 #include <sstream>
 
 #if OUZEL_SUPPORTS_OPENGLES
-#  define GL_GLEXT_PROTOTYPES 1
 #  include "GLES/gl.h"
 #  include "GLES2/gl2.h"
 #  include "GLES2/gl2ext.h"
@@ -158,7 +157,7 @@ PFNGLPOPGROUPMARKEREXTPROC glPopGroupMarkerEXTProc;
 #  define GET_CORE_PROC_ADDRESS(proc) dlsym(RTLD_DEFAULT, #proc)
 #  define GET_EXT_PROC_ADDRESS(proc) dlsym(RTLD_DEFAULT, #proc)
 #elif OUZEL_OPENGL_INTERFACE_EGL
-#  define GET_CORE_PROC_ADDRESS(proc) proc
+#  define GET_CORE_PROC_ADDRESS(proc) dlsym(RTLD_DEFAULT, #proc)
 #  define GET_EXT_PROC_ADDRESS(proc) eglGetProcAddress(#proc)
 #elif OUZEL_OPENGL_INTERFACE_EAGL
 #  define GET_CORE_PROC_ADDRESS(proc) dlsym(RTLD_DEFAULT, #proc)
