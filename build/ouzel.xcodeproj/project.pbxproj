@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		300862D32154712E00D8CC45 /* InputSystemMacOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 300862D12154712E00D8CC45 /* InputSystemMacOS.mm */; };
+		300862D42154712E00D8CC45 /* InputSystemMacOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 300862D22154712E00D8CC45 /* InputSystemMacOS.hpp */; };
+		300862D72154720C00D8CC45 /* InputSystemIOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 300862D52154720C00D8CC45 /* InputSystemIOS.hpp */; };
+		300862D82154720C00D8CC45 /* InputSystemIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 300862D62154720C00D8CC45 /* InputSystemIOS.mm */; };
+		300862DB2154725500D8CC45 /* InputSystemTVOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 300862D92154725400D8CC45 /* InputSystemTVOS.hpp */; };
+		300862DC2154725500D8CC45 /* InputSystemTVOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 300862DA2154725500D8CC45 /* InputSystemTVOS.mm */; };
 		3009341C1C88698500CC50D3 /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3009341A1C88698500CC50D3 /* Window.cpp */; };
 		3009341D1C88698500CC50D3 /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3009341A1C88698500CC50D3 /* Window.cpp */; };
 		3009341E1C88698500CC50D3 /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3009341A1C88698500CC50D3 /* Window.cpp */; };
@@ -912,6 +918,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		300862D12154712E00D8CC45 /* InputSystemMacOS.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = InputSystemMacOS.mm; sourceTree = "<group>"; };
+		300862D22154712E00D8CC45 /* InputSystemMacOS.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = InputSystemMacOS.hpp; sourceTree = "<group>"; };
+		300862D52154720C00D8CC45 /* InputSystemIOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputSystemIOS.hpp; sourceTree = "<group>"; };
+		300862D62154720C00D8CC45 /* InputSystemIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = InputSystemIOS.mm; sourceTree = "<group>"; };
+		300862D92154725400D8CC45 /* InputSystemTVOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputSystemTVOS.hpp; sourceTree = "<group>"; };
+		300862DA2154725500D8CC45 /* InputSystemTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = InputSystemTVOS.mm; sourceTree = "<group>"; };
 		3009341A1C88698500CC50D3 /* Window.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Window.cpp; sourceTree = "<group>"; };
 		3009341B1C88698500CC50D3 /* Window.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Window.hpp; sourceTree = "<group>"; };
 		3009342C1C88978D00CC50D3 /* NativeWindowTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NativeWindowTVOS.mm; sourceTree = "<group>"; };
@@ -1362,6 +1374,8 @@
 				303820F21D817F4900677CAB /* GamepadIOS.mm */,
 				303820F31D817F4900677CAB /* InputManagerIOS.hpp */,
 				303820F41D817F4900677CAB /* InputManagerIOS.mm */,
+				300862D52154720C00D8CC45 /* InputSystemIOS.hpp */,
+				300862D62154720C00D8CC45 /* InputSystemIOS.mm */,
 			);
 			path = ios;
 			sourceTree = "<group>";
@@ -1897,6 +1911,8 @@
 				3098A5531EA01C8A00528A54 /* GamepadIOKit.hpp */,
 				3098A5551EA01C8A00528A54 /* InputManagerMacOS.hpp */,
 				3098A5561EA01C8A00528A54 /* InputManagerMacOS.mm */,
+				300862D22154712E00D8CC45 /* InputSystemMacOS.hpp */,
+				300862D12154712E00D8CC45 /* InputSystemMacOS.mm */,
 				3049DCE61EDCD1FA0000997A /* NativeCursorMacOS.hpp */,
 				3049DCE71EDCD1FA0000997A /* NativeCursorMacOS.mm */,
 			);
@@ -1910,6 +1926,8 @@
 				3098A55C1EA01CA900528A54 /* GamepadTVOS.mm */,
 				3098A55D1EA01CA900528A54 /* InputManagerTVOS.hpp */,
 				3098A55E1EA01CA900528A54 /* InputManagerTVOS.mm */,
+				300862D92154725400D8CC45 /* InputSystemTVOS.hpp */,
+				300862DA2154725500D8CC45 /* InputSystemTVOS.mm */,
 			);
 			path = tvos;
 			sourceTree = "<group>";
@@ -2030,6 +2048,7 @@
 				30DADEA01C5167BC001A63B4 /* Cache.hpp in Headers */,
 				3049DCDD1EDCD0450000997A /* Cursor.hpp in Headers */,
 				3031C13F1F0C43D0002CA717 /* StreamVorbis.hpp in Headers */,
+				300862D72154720C00D8CC45 /* InputSystemIOS.hpp in Headers */,
 				30575AC91C3B17540009C8A7 /* Button.hpp in Headers */,
 				305BDDDF1F27F6BC00BD4969 /* RenderResource.hpp in Headers */,
 				303B75391C2A3C8200FEDE92 /* Engine.hpp in Headers */,
@@ -2192,6 +2211,7 @@
 				3047F7431C4C344A00774E3D /* Animator.hpp in Headers */,
 				30F5DD3D1F09756400E14E84 /* Stream.hpp in Headers */,
 				30575AC11C39D9850009C8A7 /* ActorContainer.hpp in Headers */,
+				300862DB2154725500D8CC45 /* InputSystemTVOS.hpp in Headers */,
 				304736DE1E0B4776009BC562 /* Box3.hpp in Headers */,
 				30216B851ED5C3900073E3D5 /* Plane.hpp in Headers */,
 				303B76661C355A3B00FEDE92 /* Actor.hpp in Headers */,
@@ -2322,6 +2342,7 @@
 				3049DCE81EDCD1FA0000997A /* NativeCursorMacOS.hpp in Headers */,
 				30EF36561CA76AE200F04F29 /* ScrollBar.hpp in Headers */,
 				30216B671ED462B80073E3D5 /* MeshRenderer.hpp in Headers */,
+				300862D42154712E00D8CC45 /* InputSystemMacOS.hpp in Headers */,
 				30575AA91C39D1FF0009C8A7 /* Layer.hpp in Headers */,
 				303B754C1C2A3CA200FEDE92 /* ImageData.hpp in Headers */,
 				3038200A1D80A40700677CAB /* ShaderResourceMetal.hpp in Headers */,
@@ -2690,6 +2711,7 @@
 				30DADE9D1C5167BC001A63B4 /* Cache.cpp in Sources */,
 				30547E791CB47E050055EE79 /* Shake.cpp in Sources */,
 				306A26B31F5DD17700E2B0B6 /* Listener.cpp in Sources */,
+				300862D82154720C00D8CC45 /* InputSystemIOS.mm in Sources */,
 				307237121FAFDAC9002EA399 /* XML.cpp in Sources */,
 				303696CC1E32DD9C007F4211 /* BlendState.cpp in Sources */,
 				30519CC81F9B53C100AF3DC4 /* LoaderTTF.cpp in Sources */,
@@ -2794,6 +2816,7 @@
 				30575AC71C3B17540009C8A7 /* Button.cpp in Sources */,
 				30C758B71F4A0309008499DC /* RenderDevice.cpp in Sources */,
 				30ADCBBB1E9A9550000DC9AC /* RenderDeviceMetalTVOS.mm in Sources */,
+				300862DC2154725500D8CC45 /* InputSystemTVOS.mm in Sources */,
 				303B04A61E207B1000011CBE /* MetalView.m in Sources */,
 				303821471D81876E00677CAB /* RenderDeviceEmpty.cpp in Sources */,
 				303B76441C355A3B00FEDE92 /* FileSystem.cpp in Sources */,
@@ -2965,6 +2988,7 @@
 				30EF364B1CA76ACD00F04F29 /* ScrollArea.cpp in Sources */,
 				304F92A61F4D89C50063EEC0 /* Network.cpp in Sources */,
 				304A8E611C237C70008B1151 /* Rect.cpp in Sources */,
+				300862D32154712E00D8CC45 /* InputSystemMacOS.mm in Sources */,
 				30AEFA1520C0FB2E00CDFD33 /* RenderTarget.cpp in Sources */,
 				30381F8C1D80A3EC00677CAB /* TextureResourceOGL.cpp in Sources */,
 				30C758B61F4A0309008499DC /* RenderDevice.cpp in Sources */,
