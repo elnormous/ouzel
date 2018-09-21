@@ -443,6 +443,9 @@
     <ClCompile Include="..\ouzel\input\Input.cpp">
       <Filter>ouzel\input</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\input\windows\InputSystemWin.cpp">
+      <Filter>ouzel\input\windows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\animators\Animator.hpp">
@@ -930,6 +933,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\input\Input.hpp">
       <Filter>ouzel\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\input\windows\InputSystemWin.hpp">
+      <Filter>ouzel\input\windows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
