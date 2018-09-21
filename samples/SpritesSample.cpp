@@ -76,7 +76,7 @@ bool SpritesSample::handleGamepad(Event::Type type, const GamepadEvent& event)
     if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
     {
         if (event.pressed &&
-            event.button == input::GamepadButton::FACE_RIGHT)
+            event.button == input::Gamepad::Button::FACE_RIGHT)
             engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
     }
 
@@ -104,8 +104,8 @@ bool SpritesSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
     {
         switch (event.key)
         {
-            case input::KeyboardKey::ESCAPE:
-            case input::KeyboardKey::MENU:
+            case input::Keyboard::Key::ESCAPE:
+            case input::Keyboard::Key::MENU:
                 engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 break;
             default:

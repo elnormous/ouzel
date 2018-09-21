@@ -36,43 +36,43 @@ namespace ouzel
             if (newState.dwPacketNumber > state.dwPacketNumber)
             {
                 // buttons
-                checkButton(newState, XINPUT_GAMEPAD_DPAD_UP, GamepadButton::DPAD_UP);
-                checkButton(newState, XINPUT_GAMEPAD_DPAD_DOWN, GamepadButton::DPAD_DOWN);
-                checkButton(newState, XINPUT_GAMEPAD_DPAD_LEFT, GamepadButton::DPAD_LEFT);
-                checkButton(newState, XINPUT_GAMEPAD_DPAD_RIGHT, GamepadButton::DPAD_RIGHT);
-                checkButton(newState, XINPUT_GAMEPAD_START, GamepadButton::START);
-                checkButton(newState, XINPUT_GAMEPAD_BACK, GamepadButton::BACK);
-                checkButton(newState, XINPUT_GAMEPAD_LEFT_THUMB, GamepadButton::LEFT_THUMB);
-                checkButton(newState, XINPUT_GAMEPAD_RIGHT_THUMB, GamepadButton::RIGHT_THUMB);
-                checkButton(newState, XINPUT_GAMEPAD_LEFT_SHOULDER, GamepadButton::LEFT_SHOULDER);
-                checkButton(newState, XINPUT_GAMEPAD_RIGHT_SHOULDER, GamepadButton::RIGHT_SHOULDER);
-                checkButton(newState, XINPUT_GAMEPAD_A, GamepadButton::FACE_BOTTOM);
-                checkButton(newState, XINPUT_GAMEPAD_B, GamepadButton::FACE_RIGHT);
-                checkButton(newState, XINPUT_GAMEPAD_X, GamepadButton::FACE_LEFT);
-                checkButton(newState, XINPUT_GAMEPAD_Y, GamepadButton::FACE_TOP);
+                checkButton(newState, XINPUT_GAMEPAD_DPAD_UP, Gamepad::Button::DPAD_UP);
+                checkButton(newState, XINPUT_GAMEPAD_DPAD_DOWN, Gamepad::Button::DPAD_DOWN);
+                checkButton(newState, XINPUT_GAMEPAD_DPAD_LEFT, Gamepad::Button::DPAD_LEFT);
+                checkButton(newState, XINPUT_GAMEPAD_DPAD_RIGHT, Gamepad::Button::DPAD_RIGHT);
+                checkButton(newState, XINPUT_GAMEPAD_START, Gamepad::Button::START);
+                checkButton(newState, XINPUT_GAMEPAD_BACK, Gamepad::Button::BACK);
+                checkButton(newState, XINPUT_GAMEPAD_LEFT_THUMB, Gamepad::Button::LEFT_THUMB);
+                checkButton(newState, XINPUT_GAMEPAD_RIGHT_THUMB, Gamepad::Button::RIGHT_THUMB);
+                checkButton(newState, XINPUT_GAMEPAD_LEFT_SHOULDER, Gamepad::Button::LEFT_SHOULDER);
+                checkButton(newState, XINPUT_GAMEPAD_RIGHT_SHOULDER, Gamepad::Button::RIGHT_SHOULDER);
+                checkButton(newState, XINPUT_GAMEPAD_A, Gamepad::Button::FACE_BOTTOM);
+                checkButton(newState, XINPUT_GAMEPAD_B, Gamepad::Button::FACE_RIGHT);
+                checkButton(newState, XINPUT_GAMEPAD_X, Gamepad::Button::FACE_LEFT);
+                checkButton(newState, XINPUT_GAMEPAD_Y, Gamepad::Button::FACE_TOP);
 
                 // triggers
                 if (newState.Gamepad.bLeftTrigger != state.Gamepad.bLeftTrigger)
                 {
-                    handleButtonValueChange(GamepadButton::LEFT_TRIGGER,
+                    handleButtonValueChange(Gamepad::Button::LEFT_TRIGGER,
                         newState.Gamepad.bLeftTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD,
                         static_cast<float>(newState.Gamepad.bLeftTrigger) / 255.0F);
                 }
 
                 if (newState.Gamepad.bRightTrigger != state.Gamepad.bRightTrigger)
                 {
-                    handleButtonValueChange(GamepadButton::RIGHT_TRIGGER,
+                    handleButtonValueChange(Gamepad::Button::RIGHT_TRIGGER,
                         newState.Gamepad.bRightTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD,
                         static_cast<float>(newState.Gamepad.bRightTrigger) / 255.0F);
                 }
 
                 // left thumbstick
-                checkThumbAxis(state.Gamepad.sThumbLX, newState.Gamepad.sThumbLX, GamepadButton::LEFT_THUMB_LEFT, GamepadButton::LEFT_THUMB_RIGHT);
-                checkThumbAxis(state.Gamepad.sThumbLY, newState.Gamepad.sThumbLY, GamepadButton::LEFT_THUMB_DOWN, GamepadButton::LEFT_THUMB_UP);
+                checkThumbAxis(state.Gamepad.sThumbLX, newState.Gamepad.sThumbLX, Gamepad::Button::LEFT_THUMB_LEFT, Gamepad::Button::LEFT_THUMB_RIGHT);
+                checkThumbAxis(state.Gamepad.sThumbLY, newState.Gamepad.sThumbLY, Gamepad::Button::LEFT_THUMB_DOWN, Gamepad::Button::LEFT_THUMB_UP);
 
                 // right thumbstick
-                checkThumbAxis(state.Gamepad.sThumbRX, newState.Gamepad.sThumbRX, GamepadButton::RIGHT_THUMB_LEFT, GamepadButton::RIGHT_THUMB_RIGHT);
-                checkThumbAxis(state.Gamepad.sThumbRY, newState.Gamepad.sThumbRY, GamepadButton::RIGHT_THUMB_DOWN, GamepadButton::RIGHT_THUMB_UP);
+                checkThumbAxis(state.Gamepad.sThumbRX, newState.Gamepad.sThumbRX, Gamepad::Button::RIGHT_THUMB_LEFT, Gamepad::Button::RIGHT_THUMB_RIGHT);
+                checkThumbAxis(state.Gamepad.sThumbRY, newState.Gamepad.sThumbRY, Gamepad::Button::RIGHT_THUMB_DOWN, Gamepad::Button::RIGHT_THUMB_UP);
 
                 state = newState;
             }
@@ -83,7 +83,7 @@ namespace ouzel
             return static_cast<int32_t>(playerIndex);
         }
 
-        void GamepadXI::checkThumbAxis(SHORT oldValue, SHORT newValue, GamepadButton negativeButton, GamepadButton positiveButton)
+        void GamepadXI::checkThumbAxis(SHORT oldValue, SHORT newValue, Gamepad::Button negativeButton, Gamepad::Button positiveButton)
         {
             if (newValue != oldValue)
             {
@@ -109,7 +109,7 @@ namespace ouzel
             }
         }
 
-        void GamepadXI::checkButton(const XINPUT_STATE& newState, WORD mask, GamepadButton button)
+        void GamepadXI::checkButton(const XINPUT_STATE& newState, WORD mask, Gamepad::Button button)
         {
             if ((newState.Gamepad.wButtons & mask) != (state.Gamepad.wButtons & mask))
             {

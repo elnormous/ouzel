@@ -83,7 +83,7 @@ extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onLowM
 
 extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onBackPressed(JNIEnv*, jclass)
 {
-    engine->getInputManager()->keyPress(ouzel::input::KeyboardKey::MENU, 0);
+    engine->getInputManager()->keyPress(ouzel::input::Keyboard::Key::MENU, 0);
 }
 
 extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onKeyDown(JNIEnv*, jclass, jint keyCode)

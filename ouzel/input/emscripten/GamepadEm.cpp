@@ -14,24 +14,24 @@ namespace ouzel
     namespace input
     {
         // based on https://w3c.github.io/gamepad/#remapping
-        static GamepadButton buttonMap[17] = {
-            GamepadButton::FACE_BOTTOM, // 0
-            GamepadButton::FACE_RIGHT, // 1
-            GamepadButton::FACE_LEFT, // 2
-            GamepadButton::FACE_TOP, // 3
-            GamepadButton::LEFT_SHOULDER, // 4
-            GamepadButton::RIGHT_SHOULDER, // 5
-            GamepadButton::LEFT_TRIGGER, // 6
-            GamepadButton::RIGHT_TRIGGER, // 7
-            GamepadButton::BACK, // 8
-            GamepadButton::START, // 9
-            GamepadButton::LEFT_THUMB, // 10
-            GamepadButton::RIGHT_THUMB, // 11
-            GamepadButton::DPAD_UP, // 12
-            GamepadButton::DPAD_DOWN, // 13
-            GamepadButton::DPAD_LEFT, // 14
-            GamepadButton::DPAD_RIGHT, // 15
-            GamepadButton::PAUSE // 16
+        static Gamepad::Button buttonMap[17] = {
+            Gamepad::Button::FACE_BOTTOM, // 0
+            Gamepad::Button::FACE_RIGHT, // 1
+            Gamepad::Button::FACE_LEFT, // 2
+            Gamepad::Button::FACE_TOP, // 3
+            Gamepad::Button::LEFT_SHOULDER, // 4
+            Gamepad::Button::RIGHT_SHOULDER, // 5
+            Gamepad::Button::LEFT_TRIGGER, // 6
+            Gamepad::Button::RIGHT_TRIGGER, // 7
+            Gamepad::Button::BACK, // 8
+            Gamepad::Button::START, // 9
+            Gamepad::Button::LEFT_THUMB, // 10
+            Gamepad::Button::RIGHT_THUMB, // 11
+            Gamepad::Button::DPAD_UP, // 12
+            Gamepad::Button::DPAD_DOWN, // 13
+            Gamepad::Button::DPAD_LEFT, // 14
+            Gamepad::Button::DPAD_RIGHT, // 15
+            Gamepad::Button::PAUSE // 16
         };
 
         GamepadEm::GamepadEm(long initIndex):
@@ -52,10 +52,10 @@ namespace ouzel
             {
                 if (event.axis[i] != axis[i])
                 {
-                    if (i == 0) handleThumbAxisChange(event.axis[i], axis[i], GamepadButton::LEFT_THUMB_LEFT, GamepadButton::LEFT_THUMB_RIGHT);
-                    else if (i == 1) handleThumbAxisChange(event.axis[i], axis[i], GamepadButton::LEFT_THUMB_UP, GamepadButton::LEFT_THUMB_DOWN);
-                    else if (i == 2) handleThumbAxisChange(event.axis[i], axis[i], GamepadButton::RIGHT_THUMB_LEFT, GamepadButton::RIGHT_THUMB_RIGHT);
-                    else if (i == 3) handleThumbAxisChange(event.axis[i], axis[i], GamepadButton::RIGHT_THUMB_UP, GamepadButton::RIGHT_THUMB_DOWN);
+                    if (i == 0) handleThumbAxisChange(event.axis[i], axis[i], Gamepad::Button::LEFT_THUMB_LEFT, Gamepad::Button::LEFT_THUMB_RIGHT);
+                    else if (i == 1) handleThumbAxisChange(event.axis[i], axis[i], Gamepad::Button::LEFT_THUMB_UP, Gamepad::Button::LEFT_THUMB_DOWN);
+                    else if (i == 2) handleThumbAxisChange(event.axis[i], axis[i], Gamepad::Button::RIGHT_THUMB_LEFT, Gamepad::Button::RIGHT_THUMB_RIGHT);
+                    else if (i == 3) handleThumbAxisChange(event.axis[i], axis[i], Gamepad::Button::RIGHT_THUMB_UP, Gamepad::Button::RIGHT_THUMB_DOWN);
 
                     axis[i] = event.axis[i];
                 }
@@ -72,7 +72,7 @@ namespace ouzel
         }
 
         void GamepadEm::handleThumbAxisChange(double oldValue, double newValue,
-                                              GamepadButton negativeButton, GamepadButton positiveButton)
+                                              Gamepad::Button negativeButton, Gamepad::Button positiveButton)
         {
             if (newValue > 0.0)
             {

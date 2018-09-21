@@ -19,7 +19,7 @@ namespace ouzel
 
         private:
             void handleThumbAxisChange(double oldValue, double newValue,
-                                       GamepadButton negativeButton, GamepadButton positiveButton);
+                                       Gamepad::Button negativeButton, Gamepad::Button positiveButton);
 
             long index = 0;
             double axis[64];

@@ -39,22 +39,22 @@ namespace ouzel
 
             if (vendorId == 0x054C && productId == 0x0268) // Playstation 3 controller
             {
-                buttonMap[0] = GamepadButton::BACK; // Select
-                buttonMap[1] = GamepadButton::LEFT_THUMB; // L3
-                buttonMap[2] = GamepadButton::RIGHT_THUMB; // R3
-                buttonMap[3] = GamepadButton::START; // Start
-                buttonMap[4] = GamepadButton::DPAD_UP;
-                buttonMap[5] = GamepadButton::DPAD_RIGHT;
-                buttonMap[6] = GamepadButton::DPAD_DOWN;
-                buttonMap[7] = GamepadButton::DPAD_LEFT;
-                buttonMap[8] = GamepadButton::LEFT_TRIGGER; // L2
-                buttonMap[9] = GamepadButton::RIGHT_TRIGGER; // R2
-                buttonMap[10] = GamepadButton::LEFT_SHOULDER; // L1
-                buttonMap[11] = GamepadButton::RIGHT_SHOULDER; // R1
-                buttonMap[12] = GamepadButton::FACE_TOP; // Triangle
-                buttonMap[13] = GamepadButton::FACE_RIGHT; // Circle
-                buttonMap[14] = GamepadButton::FACE_BOTTOM; // Cross
-                buttonMap[15] = GamepadButton::FACE_LEFT; // Square
+                buttonMap[0] = Gamepad::Button::BACK; // Select
+                buttonMap[1] = Gamepad::Button::LEFT_THUMB; // L3
+                buttonMap[2] = Gamepad::Button::RIGHT_THUMB; // R3
+                buttonMap[3] = Gamepad::Button::START; // Start
+                buttonMap[4] = Gamepad::Button::DPAD_UP;
+                buttonMap[5] = Gamepad::Button::DPAD_RIGHT;
+                buttonMap[6] = Gamepad::Button::DPAD_DOWN;
+                buttonMap[7] = Gamepad::Button::DPAD_LEFT;
+                buttonMap[8] = Gamepad::Button::LEFT_TRIGGER; // L2
+                buttonMap[9] = Gamepad::Button::RIGHT_TRIGGER; // R2
+                buttonMap[10] = Gamepad::Button::LEFT_SHOULDER; // L1
+                buttonMap[11] = Gamepad::Button::RIGHT_SHOULDER; // R1
+                buttonMap[12] = Gamepad::Button::FACE_TOP; // Triangle
+                buttonMap[13] = Gamepad::Button::FACE_RIGHT; // Circle
+                buttonMap[14] = Gamepad::Button::FACE_BOTTOM; // Cross
+                buttonMap[15] = Gamepad::Button::FACE_LEFT; // Square
 
                 leftThumbX.usage = HID_USAGE_GENERIC_X;
                 leftThumbY.usage = HID_USAGE_GENERIC_Y;
@@ -72,18 +72,18 @@ namespace ouzel
             }
             else if (vendorId == 0x054C && productId == 0x05C4) // Playstation 4 controller
             {
-                buttonMap[0] = GamepadButton::FACE_LEFT; // Square
-                buttonMap[1] = GamepadButton::FACE_BOTTOM; // Cross
-                buttonMap[2] = GamepadButton::FACE_RIGHT; // Circle
-                buttonMap[3] = GamepadButton::FACE_TOP; // Triangle
-                buttonMap[4] = GamepadButton::LEFT_SHOULDER; // L1
-                buttonMap[5] = GamepadButton::RIGHT_SHOULDER; // R1
-                buttonMap[6] = GamepadButton::LEFT_TRIGGER; // L2
-                buttonMap[7] = GamepadButton::RIGHT_TRIGGER; // R2
-                buttonMap[8] = GamepadButton::BACK; // Share
-                buttonMap[9] = GamepadButton::START; // Options
-                buttonMap[10] = GamepadButton::LEFT_THUMB; // L3
-                buttonMap[11] = GamepadButton::RIGHT_THUMB; // R3
+                buttonMap[0] = Gamepad::Button::FACE_LEFT; // Square
+                buttonMap[1] = Gamepad::Button::FACE_BOTTOM; // Cross
+                buttonMap[2] = Gamepad::Button::FACE_RIGHT; // Circle
+                buttonMap[3] = Gamepad::Button::FACE_TOP; // Triangle
+                buttonMap[4] = Gamepad::Button::LEFT_SHOULDER; // L1
+                buttonMap[5] = Gamepad::Button::RIGHT_SHOULDER; // R1
+                buttonMap[6] = Gamepad::Button::LEFT_TRIGGER; // L2
+                buttonMap[7] = Gamepad::Button::RIGHT_TRIGGER; // R2
+                buttonMap[8] = Gamepad::Button::BACK; // Share
+                buttonMap[9] = Gamepad::Button::START; // Options
+                buttonMap[10] = Gamepad::Button::LEFT_THUMB; // L3
+                buttonMap[11] = Gamepad::Button::RIGHT_THUMB; // R3
 
                 leftThumbX.usage = HID_USAGE_GENERIC_X;
                 leftThumbY.usage = HID_USAGE_GENERIC_Y;
@@ -101,20 +101,20 @@ namespace ouzel
             }
             else if (vendorId == 0x045E && productId == 0x02D1) // Xbox One controller
             {
-                buttonMap[0] = GamepadButton::FACE_BOTTOM; // A
-                buttonMap[1] = GamepadButton::FACE_RIGHT; // B
-                buttonMap[2] = GamepadButton::FACE_LEFT; // X
-                buttonMap[3] = GamepadButton::FACE_TOP; // Y
-                buttonMap[4] = GamepadButton::LEFT_SHOULDER;
-                buttonMap[5] = GamepadButton::RIGHT_SHOULDER;
-                buttonMap[6] = GamepadButton::LEFT_THUMB;
-                buttonMap[7] = GamepadButton::RIGHT_THUMB;
-                buttonMap[8] = GamepadButton::BACK; // Menu
-                buttonMap[9] = GamepadButton::START; // View
-                buttonMap[11] = GamepadButton::DPAD_UP;
-                buttonMap[12] = GamepadButton::DPAD_DOWN;
-                buttonMap[13] = GamepadButton::DPAD_LEFT;
-                buttonMap[14] = GamepadButton::DPAD_RIGHT;
+                buttonMap[0] = Gamepad::Button::FACE_BOTTOM; // A
+                buttonMap[1] = Gamepad::Button::FACE_RIGHT; // B
+                buttonMap[2] = Gamepad::Button::FACE_LEFT; // X
+                buttonMap[3] = Gamepad::Button::FACE_TOP; // Y
+                buttonMap[4] = Gamepad::Button::LEFT_SHOULDER;
+                buttonMap[5] = Gamepad::Button::RIGHT_SHOULDER;
+                buttonMap[6] = Gamepad::Button::LEFT_THUMB;
+                buttonMap[7] = Gamepad::Button::RIGHT_THUMB;
+                buttonMap[8] = Gamepad::Button::BACK; // Menu
+                buttonMap[9] = Gamepad::Button::START; // View
+                buttonMap[11] = Gamepad::Button::DPAD_UP;
+                buttonMap[12] = Gamepad::Button::DPAD_DOWN;
+                buttonMap[13] = Gamepad::Button::DPAD_LEFT;
+                buttonMap[14] = Gamepad::Button::DPAD_RIGHT;
 
                 leftThumbX.usage = HID_USAGE_GENERIC_X;
                 leftThumbY.usage = HID_USAGE_GENERIC_Y;
@@ -202,20 +202,20 @@ namespace ouzel
                 (vendorId == 0x1BAD && productId == 0xF906) || // XB360MortalKombatFightStick
                 (vendorId == 0x15E4 && productId == 0x3F0A)) // XboxAirflowiredcontroller
             {
-                buttonMap[0] = GamepadButton::FACE_BOTTOM; // A
-                buttonMap[1] = GamepadButton::FACE_RIGHT; // B
-                buttonMap[2] = GamepadButton::FACE_LEFT; // X
-                buttonMap[3] = GamepadButton::FACE_TOP; // Y
-                buttonMap[4] = GamepadButton::LEFT_SHOULDER;
-                buttonMap[5] = GamepadButton::RIGHT_SHOULDER;
-                buttonMap[6] = GamepadButton::LEFT_THUMB;
-                buttonMap[7] = GamepadButton::RIGHT_THUMB;
-                buttonMap[8] = GamepadButton::START;
-                buttonMap[9] = GamepadButton::BACK;
-                buttonMap[11] = GamepadButton::DPAD_UP;
-                buttonMap[12] = GamepadButton::DPAD_DOWN;
-                buttonMap[13] = GamepadButton::DPAD_LEFT;
-                buttonMap[14] = GamepadButton::DPAD_RIGHT;
+                buttonMap[0] = Gamepad::Button::FACE_BOTTOM; // A
+                buttonMap[1] = Gamepad::Button::FACE_RIGHT; // B
+                buttonMap[2] = Gamepad::Button::FACE_LEFT; // X
+                buttonMap[3] = Gamepad::Button::FACE_TOP; // Y
+                buttonMap[4] = Gamepad::Button::LEFT_SHOULDER;
+                buttonMap[5] = Gamepad::Button::RIGHT_SHOULDER;
+                buttonMap[6] = Gamepad::Button::LEFT_THUMB;
+                buttonMap[7] = Gamepad::Button::RIGHT_THUMB;
+                buttonMap[8] = Gamepad::Button::START;
+                buttonMap[9] = Gamepad::Button::BACK;
+                buttonMap[11] = Gamepad::Button::DPAD_UP;
+                buttonMap[12] = Gamepad::Button::DPAD_DOWN;
+                buttonMap[13] = Gamepad::Button::DPAD_LEFT;
+                buttonMap[14] = Gamepad::Button::DPAD_RIGHT;
 
                 leftThumbX.usage = HID_USAGE_GENERIC_X;
                 leftThumbY.usage = HID_USAGE_GENERIC_Y;
@@ -233,18 +233,18 @@ namespace ouzel
             }
             else if (vendorId == 0x0079 && productId == 0x0006) // Acme GA07
             {
-                buttonMap[0] = GamepadButton::FACE_TOP; // 1
-                buttonMap[1] = GamepadButton::FACE_RIGHT; // 2
-                buttonMap[2] = GamepadButton::FACE_BOTTOM; // 3
-                buttonMap[3] = GamepadButton::FACE_LEFT; // 4
-                buttonMap[4] = GamepadButton::LEFT_SHOULDER;
-                buttonMap[5] = GamepadButton::RIGHT_SHOULDER;
-                buttonMap[6] = GamepadButton::LEFT_TRIGGER;
-                buttonMap[7] = GamepadButton::RIGHT_TRIGGER;
-                buttonMap[8] = GamepadButton::BACK;
-                buttonMap[9] = GamepadButton::START;
-                buttonMap[10] = GamepadButton::LEFT_THUMB;
-                buttonMap[11] = GamepadButton::RIGHT_THUMB;
+                buttonMap[0] = Gamepad::Button::FACE_TOP; // 1
+                buttonMap[1] = Gamepad::Button::FACE_RIGHT; // 2
+                buttonMap[2] = Gamepad::Button::FACE_BOTTOM; // 3
+                buttonMap[3] = Gamepad::Button::FACE_LEFT; // 4
+                buttonMap[4] = Gamepad::Button::LEFT_SHOULDER;
+                buttonMap[5] = Gamepad::Button::RIGHT_SHOULDER;
+                buttonMap[6] = Gamepad::Button::LEFT_TRIGGER;
+                buttonMap[7] = Gamepad::Button::RIGHT_TRIGGER;
+                buttonMap[8] = Gamepad::Button::BACK;
+                buttonMap[9] = Gamepad::Button::START;
+                buttonMap[10] = Gamepad::Button::LEFT_THUMB;
+                buttonMap[11] = Gamepad::Button::RIGHT_THUMB;
 
                 leftThumbX.usage = HID_USAGE_GENERIC_X;
                 leftThumbY.usage = HID_USAGE_GENERIC_Y;
@@ -253,18 +253,18 @@ namespace ouzel
             }
             else // Generic (based on Logitech RumblePad 2)
             {
-                buttonMap[0] = GamepadButton::FACE_LEFT;
-                buttonMap[1] = GamepadButton::FACE_BOTTOM;
-                buttonMap[2] = GamepadButton::FACE_RIGHT;
-                buttonMap[3] = GamepadButton::FACE_TOP;
-                buttonMap[4] = GamepadButton::LEFT_SHOULDER;
-                buttonMap[5] = GamepadButton::RIGHT_SHOULDER;
-                buttonMap[6] = GamepadButton::LEFT_TRIGGER;
-                buttonMap[7] = GamepadButton::RIGHT_TRIGGER;
-                buttonMap[8] = GamepadButton::BACK;
-                buttonMap[9] = GamepadButton::START;
-                buttonMap[10] = GamepadButton::LEFT_THUMB;
-                buttonMap[11] = GamepadButton::RIGHT_THUMB;
+                buttonMap[0] = Gamepad::Button::FACE_LEFT;
+                buttonMap[1] = Gamepad::Button::FACE_BOTTOM;
+                buttonMap[2] = Gamepad::Button::FACE_RIGHT;
+                buttonMap[3] = Gamepad::Button::FACE_TOP;
+                buttonMap[4] = Gamepad::Button::LEFT_SHOULDER;
+                buttonMap[5] = Gamepad::Button::RIGHT_SHOULDER;
+                buttonMap[6] = Gamepad::Button::LEFT_TRIGGER;
+                buttonMap[7] = Gamepad::Button::RIGHT_TRIGGER;
+                buttonMap[8] = Gamepad::Button::BACK;
+                buttonMap[9] = Gamepad::Button::START;
+                buttonMap[10] = Gamepad::Button::LEFT_THUMB;
+                buttonMap[11] = Gamepad::Button::RIGHT_THUMB;
 
                 leftThumbX.usage = HID_USAGE_GENERIC_X;
                 leftThumbY.usage = HID_USAGE_GENERIC_Y;
@@ -404,11 +404,11 @@ namespace ouzel
                 {
                     if (events[e].dwOfs == offsetof(DIJOYSTATE2, rgbButtons) + i)
                     {
-                        GamepadButton button = buttonMap[i];
+                        Gamepad::Button button = buttonMap[i];
 
-                        if (button != GamepadButton::NONE &&
-                            (button != GamepadButton::LEFT_TRIGGER || !hasLeftTrigger) &&
-                            (button != GamepadButton::RIGHT_TRIGGER || !hasRightTrigger))
+                        if (button != Gamepad::Button::NONE &&
+                            (button != Gamepad::Button::LEFT_TRIGGER || !hasLeftTrigger) &&
+                            (button != Gamepad::Button::RIGHT_TRIGGER || !hasRightTrigger))
                         {
                             handleButtonValueChange(button,
                                 events[e].dwData > 0,
@@ -449,16 +449,16 @@ namespace ouzel
                     uint32_t newBitmask = (hatValue >= 8) ? 0 : (1 << (hatValue / 2)) | // first bit
                         (1 << (hatValue / 2 + hatValue % 2)) % 4; // second bit
 
-                    if ((bitmask & 0x01) != (newBitmask & 0x01)) handleButtonValueChange(GamepadButton::DPAD_UP,
+                    if ((bitmask & 0x01) != (newBitmask & 0x01)) handleButtonValueChange(Gamepad::Button::DPAD_UP,
                                                                                          (newBitmask & 0x01) > 0,
                                                                                          (newBitmask & 0x01) > 0 ? 1.0F : 0.0F);
-                    if ((bitmask & 0x02) != (newBitmask & 0x02)) handleButtonValueChange(GamepadButton::DPAD_RIGHT,
+                    if ((bitmask & 0x02) != (newBitmask & 0x02)) handleButtonValueChange(Gamepad::Button::DPAD_RIGHT,
                                                                                          (newBitmask & 0x02) > 0,
                                                                                          (newBitmask & 0x02) > 0 ? 1.0F : 0.0F);
-                    if ((bitmask & 0x04) != (newBitmask & 0x04)) handleButtonValueChange(GamepadButton::DPAD_DOWN,
+                    if ((bitmask & 0x04) != (newBitmask & 0x04)) handleButtonValueChange(Gamepad::Button::DPAD_DOWN,
                                                                                          (newBitmask & 0x04) > 0,
                                                                                          (newBitmask & 0x04) > 0 ? 1.0F : 0.0F);
-                    if ((bitmask & 0x08) != (newBitmask & 0x08)) handleButtonValueChange(GamepadButton::DPAD_LEFT,
+                    if ((bitmask & 0x08) != (newBitmask & 0x08)) handleButtonValueChange(Gamepad::Button::DPAD_LEFT,
                                                                                          (newBitmask & 0x08) > 0,
                                                                                          (newBitmask & 0x08) > 0 ? 1.0F : 0.0F);
 
@@ -470,7 +470,7 @@ namespace ouzel
                     checkThumbAxisChange(getAxisValue(diState, leftThumbX.offset),
                                          events[e].dwData,
                                          leftThumbX.min, leftThumbX.max,
-                                         GamepadButton::LEFT_THUMB_LEFT, GamepadButton::LEFT_THUMB_RIGHT);
+                                         Gamepad::Button::LEFT_THUMB_LEFT, Gamepad::Button::LEFT_THUMB_RIGHT);
 
                     setAxisValue(diState, leftThumbX.offset, events[e].dwData);
                 }
@@ -479,7 +479,7 @@ namespace ouzel
                     checkThumbAxisChange(getAxisValue(diState, leftThumbY.offset),
                                          events[e].dwData,
                                          leftThumbY.min, leftThumbY.max,
-                                         GamepadButton::LEFT_THUMB_UP, GamepadButton::LEFT_THUMB_DOWN);
+                                         Gamepad::Button::LEFT_THUMB_UP, Gamepad::Button::LEFT_THUMB_DOWN);
 
                     setAxisValue(diState, leftThumbY.offset, events[e].dwData);
                 }
@@ -488,7 +488,7 @@ namespace ouzel
                     checkThumbAxisChange(getAxisValue(diState, rightThumbX.offset),
                                          events[e].dwData,
                                          rightThumbX.min, rightThumbX.max,
-                                         GamepadButton::RIGHT_THUMB_LEFT, GamepadButton::RIGHT_THUMB_RIGHT);
+                                         Gamepad::Button::RIGHT_THUMB_LEFT, Gamepad::Button::RIGHT_THUMB_RIGHT);
 
                     setAxisValue(diState, rightThumbX.offset, events[e].dwData);
                 }
@@ -497,7 +497,7 @@ namespace ouzel
                     checkThumbAxisChange(getAxisValue(diState, rightThumbY.offset),
                                          events[e].dwData,
                                          rightThumbY.min, rightThumbY.max,
-                                         GamepadButton::RIGHT_THUMB_UP, GamepadButton::RIGHT_THUMB_DOWN);
+                                         Gamepad::Button::RIGHT_THUMB_UP, Gamepad::Button::RIGHT_THUMB_DOWN);
 
                     setAxisValue(diState, rightThumbY.offset, events[e].dwData);
                 }
@@ -506,7 +506,7 @@ namespace ouzel
                     checkTriggerChange(getAxisValue(diState, leftTrigger.offset),
                                        events[e].dwData,
                                        leftTrigger.min, leftTrigger.max,
-                                       GamepadButton::LEFT_TRIGGER);
+                                       Gamepad::Button::LEFT_TRIGGER);
 
                     setAxisValue(diState, leftTrigger.offset, events[e].dwData);
                 }
@@ -515,7 +515,7 @@ namespace ouzel
                     checkTriggerChange(getAxisValue(diState, rightTrigger.offset),
                                        events[e].dwData,
                                        rightTrigger.min, rightTrigger.max,
-                                       GamepadButton::RIGHT_TRIGGER);
+                                       Gamepad::Button::RIGHT_TRIGGER);
 
                     setAxisValue(diState, rightTrigger.offset, events[e].dwData);
                 }
@@ -544,11 +544,11 @@ namespace ouzel
             {
                 if (newDIState.rgbButtons[i] != diState.rgbButtons[i])
                 {
-                    GamepadButton button = buttonMap[i];
+                    Gamepad::Button button = buttonMap[i];
 
-                    if (button != GamepadButton::NONE &&
-                        (button != GamepadButton::LEFT_TRIGGER || !hasLeftTrigger) &&
-                        (button != GamepadButton::RIGHT_TRIGGER || !hasRightTrigger))
+                    if (button != Gamepad::Button::NONE &&
+                        (button != Gamepad::Button::LEFT_TRIGGER || !hasLeftTrigger) &&
+                        (button != Gamepad::Button::RIGHT_TRIGGER || !hasRightTrigger))
                     {
                         handleButtonValueChange(button,
                                                 newDIState.rgbButtons[i] > 0,
@@ -587,16 +587,16 @@ namespace ouzel
                 uint32_t newBitmask = (hatValue >= 8) ? 0 : (1 << (hatValue / 2)) | // first bit
                     (1 << (hatValue / 2 + hatValue % 2)) % 4; // second bit
 
-                if ((bitmask & 0x01) != (newBitmask & 0x01)) handleButtonValueChange(GamepadButton::DPAD_UP,
+                if ((bitmask & 0x01) != (newBitmask & 0x01)) handleButtonValueChange(Gamepad::Button::DPAD_UP,
                                                                                      (newBitmask & 0x01) > 0,
                                                                                      (newBitmask & 0x01) > 0 ? 1.0F : 0.0F);
-                if ((bitmask & 0x02) != (newBitmask & 0x02)) handleButtonValueChange(GamepadButton::DPAD_RIGHT,
+                if ((bitmask & 0x02) != (newBitmask & 0x02)) handleButtonValueChange(Gamepad::Button::DPAD_RIGHT,
                                                                                      (newBitmask & 0x02) > 0,
                                                                                      (newBitmask & 0x02) > 0 ? 1.0F : 0.0F);
-                if ((bitmask & 0x04) != (newBitmask & 0x04)) handleButtonValueChange(GamepadButton::DPAD_DOWN,
+                if ((bitmask & 0x04) != (newBitmask & 0x04)) handleButtonValueChange(Gamepad::Button::DPAD_DOWN,
                                                                                      (newBitmask & 0x04) > 0,
                                                                                      (newBitmask & 0x04) > 0 ? 1.0F : 0.0F);
-                if ((bitmask & 0x08) != (newBitmask & 0x08)) handleButtonValueChange(GamepadButton::DPAD_LEFT,
+                if ((bitmask & 0x08) != (newBitmask & 0x08)) handleButtonValueChange(Gamepad::Button::DPAD_LEFT,
                                                                                      (newBitmask & 0x08) > 0,
                                                                                      (newBitmask & 0x08) > 0 ? 1.0F : 0.0F);
             }
@@ -606,42 +606,42 @@ namespace ouzel
                 checkThumbAxisChange(getAxisValue(diState, leftThumbX.offset),
                                      getAxisValue(newDIState, leftThumbX.offset),
                                      leftThumbX.min, leftThumbX.max,
-                                     GamepadButton::LEFT_THUMB_LEFT, GamepadButton::LEFT_THUMB_RIGHT);
+                                     Gamepad::Button::LEFT_THUMB_LEFT, Gamepad::Button::LEFT_THUMB_RIGHT);
             }
             if (leftThumbY.offset != 0xFFFFFFFF)
             {
                 checkThumbAxisChange(getAxisValue(diState, leftThumbY.offset),
                                      getAxisValue(newDIState, leftThumbY.offset),
                                      leftThumbY.min, leftThumbY.max,
-                                     GamepadButton::LEFT_THUMB_UP, GamepadButton::LEFT_THUMB_DOWN);
+                                     Gamepad::Button::LEFT_THUMB_UP, Gamepad::Button::LEFT_THUMB_DOWN);
             }
             if (rightThumbX.offset != 0xFFFFFFFF)
             {
                 checkThumbAxisChange(getAxisValue(diState, rightThumbX.offset),
                                      getAxisValue(newDIState, rightThumbX.offset),
                                      rightThumbX.min, rightThumbX.max,
-                                     GamepadButton::RIGHT_THUMB_LEFT, GamepadButton::RIGHT_THUMB_RIGHT);
+                                     Gamepad::Button::RIGHT_THUMB_LEFT, Gamepad::Button::RIGHT_THUMB_RIGHT);
             }
             if (rightThumbY.offset != 0xFFFFFFFF)
             {
                 checkThumbAxisChange(getAxisValue(diState, rightThumbY.offset),
                                      getAxisValue(newDIState, rightThumbY.offset),
                                      rightThumbY.min, rightThumbY.max,
-                                     GamepadButton::RIGHT_THUMB_UP, GamepadButton::RIGHT_THUMB_DOWN);
+                                     Gamepad::Button::RIGHT_THUMB_UP, Gamepad::Button::RIGHT_THUMB_DOWN);
             }
             if (leftTrigger.offset != 0xFFFFFFFF)
             {
                 checkTriggerChange(getAxisValue(diState, leftTrigger.offset),
                                    getAxisValue(newDIState, leftTrigger.offset),
                                    leftTrigger.min, leftTrigger.max,
-                                   GamepadButton::LEFT_TRIGGER);
+                                   Gamepad::Button::LEFT_TRIGGER);
             }
             if (rightTrigger.offset != 0xFFFFFFFF)
             {
                 checkTriggerChange(getAxisValue(diState, rightTrigger.offset),
                                    getAxisValue(newDIState, rightTrigger.offset),
                                    rightTrigger.min, rightTrigger.max,
-                                   GamepadButton::RIGHT_TRIGGER);
+                                   Gamepad::Button::RIGHT_TRIGGER);
             }
 
             diState = newDIState;
@@ -649,7 +649,7 @@ namespace ouzel
 
         void GamepadDI::checkThumbAxisChange(LONG oldValue, LONG newValue,
                                              int64_t min, int64_t max,
-                                             GamepadButton negativeButton, GamepadButton positiveButton)
+                                             Gamepad::Button negativeButton, Gamepad::Button positiveButton)
         {
             if (oldValue != newValue)
             {
@@ -679,7 +679,7 @@ namespace ouzel
 
         void GamepadDI::checkTriggerChange(LONG oldValue, LONG newValue,
                                            int64_t min, int64_t max,
-                                           GamepadButton button)
+                                           Gamepad::Button button)
         {
             if (oldValue != newValue)
             {

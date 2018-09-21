@@ -28,16 +28,16 @@ public:
 
                 switch (event.key)
                 {
-                    case input::KeyboardKey::W:
+                    case input::Keyboard::Key::W:
                         position.y += 10.0F;
                         break;
-                    case input::KeyboardKey::S:
+                    case input::Keyboard::Key::S:
                         position.y -= 10.0F;
                         break;
-                    case input::KeyboardKey::A:
+                    case input::Keyboard::Key::A:
                         position.x -= 10.0F;
                         break;
-                    case input::KeyboardKey::D:
+                    case input::Keyboard::Key::D:
                         position.x += 10.0F;
                         break;
                     default:
@@ -112,26 +112,26 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
 
         switch (event.key)
         {
-            case input::KeyboardKey::UP:
+            case input::Keyboard::Key::UP:
                 flamePosition.y += 0.01F;
                 break;
-            case input::KeyboardKey::DOWN:
+            case input::Keyboard::Key::DOWN:
                 flamePosition.y -= 0.01F;
                 break;
-            case input::KeyboardKey::LEFT:
+            case input::Keyboard::Key::LEFT:
                 flamePosition.x -= 0.01F;
                 break;
-            case input::KeyboardKey::RIGHT:
+            case input::Keyboard::Key::RIGHT:
                 flamePosition.x += 0.01F;
                 break;
-            case input::KeyboardKey::R:
+            case input::Keyboard::Key::R:
                 engine->getWindow()->setSize(Size2(640.0F, 480.0F));
                 break;
-            case input::KeyboardKey::TAB:
+            case input::Keyboard::Key::TAB:
                 hideButton.setEnabled(!hideButton.isEnabled());
                 break;
-            case input::KeyboardKey::ESCAPE:
-            case input::KeyboardKey::MENU:
+            case input::Keyboard::Key::ESCAPE:
+            case input::Keyboard::Key::MENU:
                 engine->getInputManager()->setCursorVisible(true);
                 engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 return false;
@@ -180,27 +180,27 @@ bool InputSample::handleGamepad(Event::Type type, const GamepadEvent& event)
 
         switch (event.button)
         {
-            case input::GamepadButton::FACE_RIGHT:
+            case input::Gamepad::Button::FACE_RIGHT:
                 if (event.pressed) engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 return false;
-            case input::GamepadButton::DPAD_UP:
-            case input::GamepadButton::LEFT_THUMB_UP:
-            case input::GamepadButton::RIGHT_THUMB_UP:
+            case input::Gamepad::Button::DPAD_UP:
+            case input::Gamepad::Button::LEFT_THUMB_UP:
+            case input::Gamepad::Button::RIGHT_THUMB_UP:
                 flamePosition.y = event.value / 2.0F + 0.5F;
                 break;
-            case input::GamepadButton::DPAD_DOWN:
-            case input::GamepadButton::LEFT_THUMB_DOWN:
-            case input::GamepadButton::RIGHT_THUMB_DOWN:
+            case input::Gamepad::Button::DPAD_DOWN:
+            case input::Gamepad::Button::LEFT_THUMB_DOWN:
+            case input::Gamepad::Button::RIGHT_THUMB_DOWN:
                 flamePosition.y = -event.value / 2.0F + 0.5F;
                 break;
-            case input::GamepadButton::DPAD_LEFT:
-            case input::GamepadButton::LEFT_THUMB_LEFT:
-            case input::GamepadButton::RIGHT_THUMB_LEFT:
+            case input::Gamepad::Button::DPAD_LEFT:
+            case input::Gamepad::Button::LEFT_THUMB_LEFT:
+            case input::Gamepad::Button::RIGHT_THUMB_LEFT:
                 flamePosition.x = -event.value / 2.0F + 0.5F;
                 break;
-            case input::GamepadButton::DPAD_RIGHT:
-            case input::GamepadButton::LEFT_THUMB_RIGHT:
-            case input::GamepadButton::RIGHT_THUMB_RIGHT:
+            case input::Gamepad::Button::DPAD_RIGHT:
+            case input::Gamepad::Button::LEFT_THUMB_RIGHT:
+            case input::Gamepad::Button::RIGHT_THUMB_RIGHT:
                 flamePosition.x = event.value / 2.0F + 0.5F;
                 break;
             default:
