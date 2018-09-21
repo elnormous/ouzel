@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <algorithm>
-#include "Setup.h"
+#include "core/Setup.h"
 #include "InputManager.hpp"
 #include "NativeCursor.hpp"
 #include "Gamepad.hpp"
