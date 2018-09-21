@@ -49,7 +49,7 @@ static void handleMouseMoveEvent(UINT, WPARAM wParam, LPARAM lParam)
                                                 ouzel::input::InputManagerWin::getModifiers(wParam));
 }
 
-static void handleMouse::ButtonEvent(UINT message, WPARAM wParam, LPARAM lParam)
+static void handleMouseButtonEvent(UINT message, WPARAM wParam, LPARAM lParam)
 {
     ouzel::Vector2 position(static_cast<float>(GET_X_LPARAM(lParam)),
                             static_cast<float>(GET_Y_LPARAM(lParam)));
@@ -188,7 +188,7 @@ static LRESULT CALLBACK windowProc(HWND window, UINT message, WPARAM wParam, LPA
             // don't handle mouse event that came from touch
             if ((extraInfo & SIGNATURE_MASK) != MOUSEEVENTF_FROMTOUCH)
             {
-                handleMouse::ButtonEvent(message, wParam, lParam);
+                handleMouseButtonEvent(message, wParam, lParam);
 
                 // must return TRUE if WM_XBUTTONDOWN or WM_XBUTTONUP is handled
                 if (message == WM_XBUTTONDOWN || message == WM_XBUTTONUP)
