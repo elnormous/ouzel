@@ -22,6 +22,7 @@ namespace ouzel
             {
                 enum class Type
                 {
+                    START_DEVICE_DISCOVERY,
                     SET_ABSOLUTE_DPAD_VALUES,
                     SET_PLAYER_INDEX,
                     SET_VIBRATION
