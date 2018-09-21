@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <algorithm>
+#include "Setup.h"
 #include "InputManager.hpp"
 #include "NativeCursor.hpp"
 #include "Gamepad.hpp"
@@ -8,13 +9,45 @@
 #include "events/EventDispatcher.hpp"
 #include "math/MathUtils.hpp"
 
+#if OUZEL_PLATFORM_MACOS
+#  include "input/macos/InputSystemMacOS.hpp"
+#elif OUZEL_PLATFORM_IOS
+#  include "input/ios/InputSystemIOS.hpp"
+#elif OUZEL_PLATFORM_TVOS
+#  include "input/tvos/InputSystemTVOS.hpp"
+#elif OUZEL_PLATFORM_ANDROID
+#  include "input/android/InputSystemAndroid.hpp"
+#elif OUZEL_PLATFORM_LINUX
+#  include "input/linux/InputSystemLinux.hpp"
+#elif OUZEL_PLATFORM_WINDOWS
+#  include "input/windows/InputSystemWin.hpp"
+#elif OUZEL_PLATFORM_EMSCRIPTEN
+#  include "input/emscripten/InputSystemEm.hpp"
+#endif
+
 namespace ouzel
 {
     namespace input
     {
         InputManager::InputManager()
         {
-            inputSystem.reset(new InputSystem());
+#if OUZEL_PLATFORM_MACOS
+            inputSystem.reset(new input::InputSystemMacOS());
+#elif OUZEL_PLATFORM_IOS
+            inputSystem.reset(new input::InputSystemIOS());
+#elif OUZEL_PLATFORM_TVOS
+            inputSystem.reset(new input::InputSystemTVOS());
+#elif OUZEL_PLATFORM_ANDROID
+            inputSystem.reset(new input::InputSystemAndroid());
+#elif OUZEL_PLATFORM_LINUX
+            inputSystem.reset(new input::InputSystemLinux());
+#elif OUZEL_PLATFORM_WINDOWS
+            inputSystem.reset(new input::InputSystemWin());
+#elif OUZEL_PLATFORM_EMSCRIPTEN
+            inputSystem.reset(new input::InputSystemEm());
+#else
+            inputSystem.reset(new input::InputSystem());
+#endif
 
             std::fill(std::begin(keyboardKeyStates), std::end(keyboardKeyStates), false);
             std::fill(std::begin(mouseButtonStates), std::end(mouseButtonStates), false);
