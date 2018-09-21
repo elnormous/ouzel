@@ -168,6 +168,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/dsound/AudioDeviceDS.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/GamepadDI.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/GamepadXI.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/InputManagerWin.cpp \
+	$(ROOT_DIR)/../ouzel/input/windows/InputSystemWin.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/NativeCursorWin.cpp
 CXXFLAGS+=-DNOMINMAX -DWINVER=0x0601 -D_WIN32_WINNT=0x0601
 else ifeq ($(platform),linux)
@@ -180,6 +181,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/alsa/AudioDeviceALSA.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/EventDevice.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/GamepadLinux.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/InputManagerLinux.cpp \
+	$(ROOT_DIR)/../ouzel/input/linux/InputSystemLinux.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/NativeCursorLinux.cpp
 ifneq ($(filter arm%,$(architecture)),) # ARM Linux
 CXXFLAGS+=-I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux
@@ -205,6 +207,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/input/macos/GamepadGC.mm \
 	$(ROOT_DIR)/../ouzel/input/macos/GamepadIOKit.cpp \
 	$(ROOT_DIR)/../ouzel/input/macos/InputManagerMacOS.mm \
+	$(ROOT_DIR)/../ouzel/input/macos/InputSystemMacOS.mm \
 	$(ROOT_DIR)/../ouzel/input/macos/NativeCursorMacOS.cpp
 else ifeq ($(platform),ios)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
@@ -226,7 +229,8 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/ios/OpenGLView.m \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/ios/RenderDeviceOGLIOS.mm \
 	$(ROOT_DIR)/../ouzel/input/ios/GamepadIOS.mm \
-	$(ROOT_DIR)/../ouzel/input/ios/InputManagerIOS.mm
+	$(ROOT_DIR)/../ouzel/input/ios/InputManagerIOS.mm \
+	$(ROOT_DIR)/../ouzel/input/ios/InputSystemIOS.mm
 CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
 CXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
 else ifeq ($(platform),tvos)
@@ -249,7 +253,8 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/tvos/OpenGLView.m \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/tvos/RenderDeviceOGLTVOS.mm \
 	$(ROOT_DIR)/../ouzel/input/tvos/GamepadTVOS.mm \
-	$(ROOT_DIR)/../ouzel/input/tvos/InputManagerTVOS.mm
+	$(ROOT_DIR)/../ouzel/input/tvos/InputManagerTVOS.mm \
+	$(ROOT_DIR)/../ouzel/input/tvos/InputSystemTVOS.mm
 CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
 CXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
 else ifeq ($(platform),emscripten)
