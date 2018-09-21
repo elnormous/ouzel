@@ -36,12 +36,12 @@ namespace ouzel
         {
         }
 
-        const Gamepad::ButtonState& Gamepad::getButtonState(GamepadButton button) const
+        const Gamepad::ButtonState& Gamepad::getButtonState(Gamepad::Button button) const
         {
             return buttonStates[static_cast<uint32_t>(button)];
         }
 
-        void Gamepad::handleButtonValueChange(GamepadButton button, bool pressed, float value)
+        void Gamepad::handleButtonValueChange(Gamepad::Button button, bool pressed, float value)
         {
             Event event;
             event.type = Event::Type::GAMEPAD_BUTTON_CHANGE;

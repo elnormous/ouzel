@@ -20,7 +20,7 @@ namespace ouzel
         public:
             virtual ~InputManagerWin();
 
-            static KeyboardKey convertKeyCode(UINT keyCode);
+            static Keyboard::Key convertKeyCode(UINT keyCode);
             static uint32_t getModifiers(WPARAM wParam);
 
             void update();

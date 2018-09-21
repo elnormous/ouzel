@@ -21,7 +21,7 @@ namespace ouzel
 
             void update();
 
-            static KeyboardKey convertKeyCode(const EM_UTF8 key[32]);
+            static Keyboard::Key convertKeyCode(const EM_UTF8 key[32]);
             static uint32_t getKeyboardModifiers(const EmscriptenKeyboardEvent* keyboardEvent);
             static uint32_t getMouseModifiers(const EmscriptenMouseEvent* mouseEvent);
 

@@ -6,7 +6,9 @@
 #include <mutex>
 #include <queue>
 #include <vector>
-#include "input/InputDevice.hpp"
+#include "input/Gamepad.hpp"
+#include "input/Keyboard.hpp"
+#include "input/Mouse.hpp"
 #include "math/Vector2.hpp"
 
 namespace ouzel
@@ -69,9 +71,9 @@ namespace ouzel
                 input::InputDevice* inputDevice = nullptr;
                 union
                 {
-                    input::KeyboardKey keyboardKey;
-                    input::MouseButton mouseButton;
-                    input::GamepadButton gamepadButton;
+                    input::Keyboard::Key keyboardKey;
+                    input::Mouse::Button mouseButton;
+                    input::Gamepad::Button gamepadButton;
                     uint64_t touchId;
                 };
                 bool pressed = false;

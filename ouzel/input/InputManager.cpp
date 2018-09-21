@@ -4,7 +4,6 @@
 #include "core/Setup.h"
 #include "InputManager.hpp"
 #include "NativeCursor.hpp"
-#include "Gamepad.hpp"
 #include "core/Engine.hpp"
 #include "events/EventDispatcher.hpp"
 #include "math/MathUtils.hpp"
@@ -194,7 +193,7 @@ namespace ouzel
         {
         }
 
-        void InputManager::keyPress(KeyboardKey key, uint32_t modifiers)
+        void InputManager::keyPress(Keyboard::Key key, uint32_t modifiers)
         {
             Event event;
 
@@ -215,7 +214,7 @@ namespace ouzel
             }
         }
 
-        void InputManager::keyRelease(KeyboardKey key, uint32_t modifiers)
+        void InputManager::keyRelease(Keyboard::Key key, uint32_t modifiers)
         {
             keyboardKeyStates[static_cast<uint32_t>(key)] = false;
 
@@ -228,7 +227,7 @@ namespace ouzel
             engine->getEventDispatcher().postEvent(event);
         }
 
-        void InputManager::mouseButtonPress(MouseButton button, const Vector2& position, uint32_t modifiers)
+        void InputManager::mouseButtonPress(Mouse::Button button, const Vector2& position, uint32_t modifiers)
         {
             mouseButtonStates[static_cast<uint32_t>(button)] = true;
 
@@ -242,7 +241,7 @@ namespace ouzel
             engine->getEventDispatcher().postEvent(event);
         }
 
-        void InputManager::mouseButtonRelease(MouseButton button, const Vector2& position, uint32_t modifiers)
+        void InputManager::mouseButtonRelease(Mouse::Button button, const Vector2& position, uint32_t modifiers)
         {
             mouseButtonStates[static_cast<uint32_t>(button)] = false;
 

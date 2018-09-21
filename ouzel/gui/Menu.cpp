@@ -159,17 +159,17 @@ namespace ouzel
             {
                 switch (event.key)
                 {
-                    case input::KeyboardKey::LEFT:
-                    case input::KeyboardKey::UP:
+                    case input::Keyboard::Key::LEFT:
+                    case input::Keyboard::Key::UP:
                         selectPreviousWidget();
                         break;
-                    case input::KeyboardKey::RIGHT:
-                    case input::KeyboardKey::DOWN:
+                    case input::Keyboard::Key::RIGHT:
+                    case input::Keyboard::Key::DOWN:
                         selectNextWidget();
                         break;
-                    case input::KeyboardKey::RETURN:
-                    case input::KeyboardKey::SPACE:
-                    case input::KeyboardKey::SELECT:
+                    case input::Keyboard::Key::RETURN:
+                    case input::Keyboard::Key::SPACE:
+                    case input::Keyboard::Key::SELECT:
                     {
                         if (selectedWidget)
                         {
@@ -197,28 +197,28 @@ namespace ouzel
 
             if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
             {
-                if (event.button == input::GamepadButton::DPAD_LEFT ||
-                    event.button == input::GamepadButton::DPAD_UP)
+                if (event.button == input::Gamepad::Button::DPAD_LEFT ||
+                    event.button == input::Gamepad::Button::DPAD_UP)
                 {
                     if (!event.previousPressed && event.pressed) selectPreviousWidget();
                 }
-                else if (event.button == input::GamepadButton::DPAD_RIGHT ||
-                         event.button == input::GamepadButton::DPAD_DOWN)
+                else if (event.button == input::Gamepad::Button::DPAD_RIGHT ||
+                         event.button == input::Gamepad::Button::DPAD_DOWN)
                 {
                     if (!event.previousPressed && event.pressed) selectNextWidget();
                 }
-                else if (event.button == input::GamepadButton::LEFT_THUMB_LEFT ||
-                         event.button == input::GamepadButton::LEFT_THUMB_UP)
+                else if (event.button == input::Gamepad::Button::LEFT_THUMB_LEFT ||
+                         event.button == input::Gamepad::Button::LEFT_THUMB_UP)
                 {
                     if (event.previousValue < 0.6F && event.value > 0.6F) selectPreviousWidget();
                 }
-                else if (event.button == input::GamepadButton::LEFT_THUMB_RIGHT ||
-                         event.button == input::GamepadButton::LEFT_THUMB_DOWN)
+                else if (event.button == input::Gamepad::Button::LEFT_THUMB_RIGHT ||
+                         event.button == input::Gamepad::Button::LEFT_THUMB_DOWN)
                 {
                     if (event.previousValue < 0.6F && event.value > 0.6F) selectNextWidget();
                 }
 #if !OUZEL_PLATFORM_IOS && !OUZEL_PLATFORM_TVOS // on iOS and tvOS menu items ar selected with a SELECT button
-                else if (event.button == input::GamepadButton::FACE_BOTTOM)
+                else if (event.button == input::Gamepad::Button::FACE_BOTTOM)
                 {
                     if (!event.previousPressed && event.pressed && selectedWidget)
                     {

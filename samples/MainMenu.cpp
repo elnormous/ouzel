@@ -63,7 +63,7 @@ MainMenu::MainMenu():
 
 bool MainMenu::handleKeyboard(Event::Type type, const KeyboardEvent& event)
 {
-    if (event.key == ouzel::input::KeyboardKey::ESCAPE)
+    if (event.key == ouzel::input::Keyboard::Key::ESCAPE)
     {
         if (type == Event::Type::KEY_PRESS)
             engine->exit();

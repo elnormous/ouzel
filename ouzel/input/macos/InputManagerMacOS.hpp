@@ -48,7 +48,7 @@ namespace ouzel
             void handleGamepadConnected(IOHIDDeviceRef device);
             void handleGamepadDisconnected(IOHIDDeviceRef device);
 
-            static KeyboardKey convertKeyCode(uint16_t keyCode);
+            static Keyboard::Key convertKeyCode(uint16_t keyCode);
             static NSUInteger getKeyMask(uint16_t keyCode);
             static uint32_t getModifiers(NSUInteger modifierFlags, NSUInteger pressedMouseButtons);
 

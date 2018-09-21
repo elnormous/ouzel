@@ -142,21 +142,21 @@ namespace ouzel
                         Vector2 pos(static_cast<float>(event.xbutton.x),
                                     static_cast<float>(event.xbutton.y));
 
-                        input::MouseButton button;
+                        input::Mouse::Button button;
 
                         switch (event.xbutton.button)
                         {
                         case 1:
-                            button = input::MouseButton::LEFT;
+                            button = input::Mouse::Button::LEFT;
                             break;
                         case 2:
-                            button = input::MouseButton::RIGHT;
+                            button = input::Mouse::Button::RIGHT;
                             break;
                         case 3:
-                            button = input::MouseButton::MIDDLE;
+                            button = input::Mouse::Button::MIDDLE;
                             break;
                         default:
-                            button = input::MouseButton::NONE;
+                            button = input::Mouse::Button::NONE;
                             break;
                         }
 

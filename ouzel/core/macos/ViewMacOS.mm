@@ -88,7 +88,7 @@
 {
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    ouzel::engine->getInputManager()->mouseButtonPress(ouzel::input::MouseButton::LEFT,
+    ouzel::engine->getInputManager()->mouseButtonPress(ouzel::input::Mouse::Button::LEFT,
                                                        ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
                                                                                                                                     static_cast<float>(location.y))),
                                                        ouzel::input::InputManagerMacOS::getModifiers(event.modifierFlags, 0));
@@ -98,7 +98,7 @@
 {
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    ouzel::engine->getInputManager()->mouseButtonRelease(ouzel::input::MouseButton::LEFT,
+    ouzel::engine->getInputManager()->mouseButtonRelease(ouzel::input::Mouse::Button::LEFT,
                                                          ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
                                                                                                                                       static_cast<float>(location.y))),
                                                          ouzel::input::InputManagerMacOS::getModifiers(event.modifierFlags, 0));
@@ -108,7 +108,7 @@
 {
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    ouzel::engine->getInputManager()->mouseButtonPress(ouzel::input::MouseButton::RIGHT,
+    ouzel::engine->getInputManager()->mouseButtonPress(ouzel::input::Mouse::Button::RIGHT,
                                                        ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
                                                                                                                                     static_cast<float>(location.y))),
                                                        ouzel::input::InputManagerMacOS::getModifiers(event.modifierFlags, 0));
@@ -118,7 +118,7 @@
 {
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    ouzel::engine->getInputManager()->mouseButtonRelease(ouzel::input::MouseButton::RIGHT,
+    ouzel::engine->getInputManager()->mouseButtonRelease(ouzel::input::Mouse::Button::RIGHT,
                                                          ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
                                                                                                                                       static_cast<float>(location.y))),
                                                          ouzel::input::InputManagerMacOS::getModifiers(event.modifierFlags, 0));
@@ -128,7 +128,7 @@
 {
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    ouzel::engine->getInputManager()->mouseButtonPress(ouzel::input::MouseButton::MIDDLE,
+    ouzel::engine->getInputManager()->mouseButtonPress(ouzel::input::Mouse::Button::MIDDLE,
                                                        ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
                                                                                                                                     static_cast<float>(location.y))),
                                                        ouzel::input::InputManagerMacOS::getModifiers(event.modifierFlags, 0));
@@ -138,7 +138,7 @@
 {
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    ouzel::engine->getInputManager()->mouseButtonRelease(ouzel::input::MouseButton::MIDDLE,
+    ouzel::engine->getInputManager()->mouseButtonRelease(ouzel::input::Mouse::Button::MIDDLE,
                                                          ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
                                                                                                                                       static_cast<float>(location.y))),
                                                          ouzel::input::InputManagerMacOS::getModifiers(event.modifierFlags, 0));

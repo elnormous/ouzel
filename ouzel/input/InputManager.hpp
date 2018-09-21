@@ -8,6 +8,9 @@
 #include <unordered_map>
 #include "input/Input.hpp"
 #include "input/InputSystem.hpp"
+#include "input/Gamepad.hpp"
+#include "input/Keyboard.hpp"
+#include "input/Mouse.hpp"
 #include "math/Vector2.hpp"
 
 namespace ouzel
@@ -59,14 +62,14 @@ namespace ouzel
             virtual void startDeviceDiscovery();
             virtual void stopDeviceDiscovery();
 
-            bool isKeyboardKeyDown(KeyboardKey key) const { return keyboardKeyStates[static_cast<uint32_t>(key)]; }
-            bool isMouseButtonDown(MouseButton button) const { return mouseButtonStates[static_cast<uint32_t>(button)]; }
+            bool isKeyboardKeyDown(Keyboard::Key key) const { return keyboardKeyStates[static_cast<uint32_t>(key)]; }
+            bool isMouseButtonDown(Mouse::Button button) const { return mouseButtonStates[static_cast<uint32_t>(button)]; }
 
-            void keyPress(KeyboardKey key, uint32_t modifiers);
-            void keyRelease(KeyboardKey key, uint32_t modifiers);
+            void keyPress(Keyboard::Key key, uint32_t modifiers);
+            void keyRelease(Keyboard::Key key, uint32_t modifiers);
 
-            void mouseButtonPress(MouseButton button, const Vector2& position, uint32_t modifiers);
-            void mouseButtonRelease(MouseButton button, const Vector2& position, uint32_t modifiers);
+            void mouseButtonPress(Mouse::Button button, const Vector2& position, uint32_t modifiers);
+            void mouseButtonRelease(Mouse::Button button, const Vector2& position, uint32_t modifiers);
             void mouseMove(const Vector2& position, uint32_t modifiers);
             void mouseRelativeMove(const Vector2& relativePosition, uint32_t modifiers);
             void mouseScroll(const Vector2& scroll, const Vector2& position, uint32_t modifiers);
@@ -90,8 +93,8 @@ namespace ouzel
             std::unique_ptr<InputSystem> inputSystem;
 
             Vector2 cursorPosition;
-            bool keyboardKeyStates[static_cast<uint32_t>(KeyboardKey::KEY_COUNT)];
-            bool mouseButtonStates[static_cast<uint32_t>(MouseButton::BUTTON_COUNT)];
+            bool keyboardKeyStates[static_cast<uint32_t>(Keyboard::Key::KEY_COUNT)];
+            bool mouseButtonStates[static_cast<uint32_t>(Mouse::Button::BUTTON_COUNT)];
 
             std::unordered_map<uint64_t, Vector2> touchPositions;
             std::vector<std::unique_ptr<Gamepad>> gamepads;

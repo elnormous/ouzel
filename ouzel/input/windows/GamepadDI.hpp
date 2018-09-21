@@ -31,15 +31,15 @@ namespace ouzel
             void checkInputPolled();
             void checkThumbAxisChange(LONG oldValue, LONG newValue,
                                       int64_t min, int64_t max,
-                                      GamepadButton negativeButton, GamepadButton positiveButton);
+                                      Gamepad::Button negativeButton, Gamepad::Button positiveButton);
             void checkTriggerChange(LONG oldValue, LONG newValue,
                                     int64_t min, int64_t max,
-                                    GamepadButton button);
+                                    Gamepad::Button button);
 
             const DIDEVICEINSTANCEW* instance = nullptr;
             IDirectInputDevice8W* device = nullptr;
             DIJOYSTATE2 diState;
-            GamepadButton buttonMap[24];
+            Gamepad::Button buttonMap[24];
 
             struct Axis
             {

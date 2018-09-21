@@ -26,8 +26,8 @@ namespace ouzel
         protected:
             explicit GamepadXI(DWORD aPlayerIndex);
 
-            void checkThumbAxis(SHORT oldValue, SHORT newValue, GamepadButton negativeButton, GamepadButton positiveButton);
-            void checkButton(const XINPUT_STATE& newState, WORD mask, GamepadButton button);
+            void checkThumbAxis(SHORT oldValue, SHORT newValue, Gamepad::Button negativeButton, Gamepad::Button positiveButton);
+            void checkButton(const XINPUT_STATE& newState, WORD mask, Gamepad::Button button);
 
             XINPUT_STATE state;
             XINPUT_VIBRATION vibration;

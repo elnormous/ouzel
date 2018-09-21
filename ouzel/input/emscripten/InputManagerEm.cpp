@@ -31,21 +31,21 @@ static EM_BOOL emKeyCallback(int eventType, const EmscriptenKeyboardEvent* keyEv
 static EM_BOOL emMouseCallback(int eventType, const EmscriptenMouseEvent* mouseEvent, void* userData)
 {
     ouzel::input::InputManagerEm* inputEm = static_cast<ouzel::input::InputManagerEm*>(userData);
-    ouzel::input::MouseButton button;
+    ouzel::input::Mouse::Button button;
 
     switch (mouseEvent->button)
     {
         case 0:
-            button = ouzel::input::MouseButton::LEFT;
+            button = ouzel::input::Mouse::Button::LEFT;
             break;
         case 1:
-            button = ouzel::input::MouseButton::RIGHT;
+            button = ouzel::input::Mouse::Button::RIGHT;
             break;
         case 2:
-            button = ouzel::input::MouseButton::MIDDLE;
+            button = ouzel::input::Mouse::Button::MIDDLE;
             break;
         default:
-            button = ouzel::input::MouseButton::NONE;
+            button = ouzel::input::Mouse::Button::NONE;
             break;
     }
 
@@ -126,112 +126,112 @@ namespace ouzel
 {
     namespace input
     {
-        static std::map<std::string, KeyboardKey> keyMap = {
-            {"Backspace", KeyboardKey::BACKSPACE},
-            {"Tab", KeyboardKey::TAB},
-            {"Enter", KeyboardKey::RETURN},
-            {"ShiftLeft", KeyboardKey::LEFT_SHIFT},
-            {"ShiftRight", KeyboardKey::RIGHT_SHIFT},
-            {"ControlLeft", KeyboardKey::LEFT_CONTROL},
-            {"ControlRight", KeyboardKey::RIGHT_CONTROL},
-            {"AltLeft", KeyboardKey::LEFT_ALT},
-            {"AltRight", KeyboardKey::RIGHT_ALT},
-            {"MetaLeft", KeyboardKey::LEFT_SUPER},
-            {"MetaRight", KeyboardKey::RIGHT_SUPER},
-            {"Pause", KeyboardKey::PAUSE},
-            {"CapsLock", KeyboardKey::CAPITAL},
-            {"Escape", KeyboardKey::ESCAPE},
-            {"PageUp", KeyboardKey::PRIOR},
-            {"PageDown", KeyboardKey::NEXT},
-            {"Home", KeyboardKey::HOME},
-            {"End", KeyboardKey::END},
-            {"ArrowLeft", KeyboardKey::LEFT},
-            {"ArrowUp", KeyboardKey::UP},
-            {"ArrowRight", KeyboardKey::RIGHT},
-            {"ArrowDown", KeyboardKey::DOWN},
-            {"Insert", KeyboardKey::INSERT},
-            {"Delete", KeyboardKey::DEL},
-            {"Digit0", KeyboardKey::NUM_0},
-            {"Digit1", KeyboardKey::NUM_1},
-            {"Digit2", KeyboardKey::NUM_2},
-            {"Digit3", KeyboardKey::NUM_3},
-            {"Digit4", KeyboardKey::NUM_4},
-            {"Digit5", KeyboardKey::NUM_5},
-            {"Digit6", KeyboardKey::NUM_6},
-            {"Digit7", KeyboardKey::NUM_7},
-            {"Digit8", KeyboardKey::NUM_8},
-            {"Digit9", KeyboardKey::NUM_9},
-            {"KeyA", KeyboardKey::A},
-            {"KeyB", KeyboardKey::B},
-            {"KeyC", KeyboardKey::C},
-            {"KeyD", KeyboardKey::D},
-            {"KeyE", KeyboardKey::E},
-            {"KeyF", KeyboardKey::F},
-            {"KeyG", KeyboardKey::G},
-            {"KeyH", KeyboardKey::H},
-            {"KeyI", KeyboardKey::I},
-            {"KeyJ", KeyboardKey::J},
-            {"KeyK", KeyboardKey::K},
-            {"KeyL", KeyboardKey::L},
-            {"KeyM", KeyboardKey::M},
-            {"KeyN", KeyboardKey::N},
-            {"KeyO", KeyboardKey::O},
-            {"KeyP", KeyboardKey::P},
-            {"KeyQ", KeyboardKey::Q},
-            {"KeyR", KeyboardKey::R},
-            {"KeyS", KeyboardKey::S},
-            {"KeyT", KeyboardKey::T},
-            {"KeyU", KeyboardKey::U},
-            {"KeyV", KeyboardKey::V},
-            {"KeyW", KeyboardKey::W},
-            {"KeyX", KeyboardKey::X},
-            {"KeyY", KeyboardKey::Y},
-            {"KeyZ", KeyboardKey::Z},
-            {"OSLeft", KeyboardKey::LEFT_SUPER},
-            {"OSRight", KeyboardKey::RIGHT_SUPER},
-            {"Delete", KeyboardKey::DEL},
-            {"NumpadEnter", KeyboardKey::SEPARATOR},
-            {"NumpadDigit0", KeyboardKey::NUMPAD_0},
-            {"NumpadDigit1", KeyboardKey::NUMPAD_1},
-            {"NumpadDigit2", KeyboardKey::NUMPAD_2},
-            {"NumpadDigit3", KeyboardKey::NUMPAD_3},
-            {"NumpadDigit4", KeyboardKey::NUMPAD_4},
-            {"NumpadDigit5", KeyboardKey::NUMPAD_5},
-            {"NumpadDigit6", KeyboardKey::NUMPAD_6},
-            {"NumpadDigit7", KeyboardKey::NUMPAD_7},
-            {"NumpadDigit8", KeyboardKey::NUMPAD_8},
-            {"NumpadDigit9", KeyboardKey::NUMPAD_9},
-            {"NumpadMultiply", KeyboardKey::MULTIPLY},
-            {"NumpadAdd", KeyboardKey::ADD},
-            {"NumpadSubtract", KeyboardKey::SUBTRACT},
-            {"NumpadDecimal", KeyboardKey::DECIMAL},
-            {"NumpadDivide", KeyboardKey::DIVIDE},
-            {"F1", KeyboardKey::F1},
-            {"F2", KeyboardKey::F2},
-            {"F3", KeyboardKey::F3},
-            {"F4", KeyboardKey::F4},
-            {"F5", KeyboardKey::F5},
-            {"F6", KeyboardKey::F6},
-            {"F7", KeyboardKey::F7},
-            {"F8", KeyboardKey::F8},
-            {"F9", KeyboardKey::F9},
-            {"F10", KeyboardKey::F10},
-            {"F11", KeyboardKey::F11},
-            {"F12", KeyboardKey::F12},
-            {"NumLock", KeyboardKey::NUMLOCK},
-            {"ScrollLock", KeyboardKey::SCROLL},
-            {"Semicolon", KeyboardKey::SEMICOLON},
-            {"Equal", KeyboardKey::EQUAL},
-            {"Comma", KeyboardKey::COMMA},
-            {"Minus", KeyboardKey::MINUS},
-            {"Period", KeyboardKey::PERIOD},
-            {"Slash", KeyboardKey::SLASH},
-            {"Backquote", KeyboardKey::GRAVE},
-            {"BracketLeft", KeyboardKey::LEFT_BRACKET},
-            {"Backslash", KeyboardKey::BACKSLASH},
-            {"BracketRight", KeyboardKey::RIGHT_BRACKET},
-            {"Quote", KeyboardKey::QUOTE},
-            {"IntlBackslash", KeyboardKey::LESS}
+        static std::map<std::string, Keyboard::Key> keyMap = {
+            {"Backspace", Keyboard::Key::BACKSPACE},
+            {"Tab", Keyboard::Key::TAB},
+            {"Enter", Keyboard::Key::RETURN},
+            {"ShiftLeft", Keyboard::Key::LEFT_SHIFT},
+            {"ShiftRight", Keyboard::Key::RIGHT_SHIFT},
+            {"ControlLeft", Keyboard::Key::LEFT_CONTROL},
+            {"ControlRight", Keyboard::Key::RIGHT_CONTROL},
+            {"AltLeft", Keyboard::Key::LEFT_ALT},
+            {"AltRight", Keyboard::Key::RIGHT_ALT},
+            {"MetaLeft", Keyboard::Key::LEFT_SUPER},
+            {"MetaRight", Keyboard::Key::RIGHT_SUPER},
+            {"Pause", Keyboard::Key::PAUSE},
+            {"CapsLock", Keyboard::Key::CAPITAL},
+            {"Escape", Keyboard::Key::ESCAPE},
+            {"PageUp", Keyboard::Key::PRIOR},
+            {"PageDown", Keyboard::Key::NEXT},
+            {"Home", Keyboard::Key::HOME},
+            {"End", Keyboard::Key::END},
+            {"ArrowLeft", Keyboard::Key::LEFT},
+            {"ArrowUp", Keyboard::Key::UP},
+            {"ArrowRight", Keyboard::Key::RIGHT},
+            {"ArrowDown", Keyboard::Key::DOWN},
+            {"Insert", Keyboard::Key::INSERT},
+            {"Delete", Keyboard::Key::DEL},
+            {"Digit0", Keyboard::Key::NUM_0},
+            {"Digit1", Keyboard::Key::NUM_1},
+            {"Digit2", Keyboard::Key::NUM_2},
+            {"Digit3", Keyboard::Key::NUM_3},
+            {"Digit4", Keyboard::Key::NUM_4},
+            {"Digit5", Keyboard::Key::NUM_5},
+            {"Digit6", Keyboard::Key::NUM_6},
+            {"Digit7", Keyboard::Key::NUM_7},
+            {"Digit8", Keyboard::Key::NUM_8},
+            {"Digit9", Keyboard::Key::NUM_9},
+            {"KeyA", Keyboard::Key::A},
+            {"KeyB", Keyboard::Key::B},
+            {"KeyC", Keyboard::Key::C},
+            {"KeyD", Keyboard::Key::D},
+            {"KeyE", Keyboard::Key::E},
+            {"KeyF", Keyboard::Key::F},
+            {"KeyG", Keyboard::Key::G},
+            {"KeyH", Keyboard::Key::H},
+            {"KeyI", Keyboard::Key::I},
+            {"KeyJ", Keyboard::Key::J},
+            {"KeyK", Keyboard::Key::K},
+            {"KeyL", Keyboard::Key::L},
+            {"KeyM", Keyboard::Key::M},
+            {"KeyN", Keyboard::Key::N},
+            {"KeyO", Keyboard::Key::O},
+            {"KeyP", Keyboard::Key::P},
+            {"KeyQ", Keyboard::Key::Q},
+            {"KeyR", Keyboard::Key::R},
+            {"KeyS", Keyboard::Key::S},
+            {"KeyT", Keyboard::Key::T},
+            {"KeyU", Keyboard::Key::U},
+            {"KeyV", Keyboard::Key::V},
+            {"KeyW", Keyboard::Key::W},
+            {"KeyX", Keyboard::Key::X},
+            {"KeyY", Keyboard::Key::Y},
+            {"KeyZ", Keyboard::Key::Z},
+            {"OSLeft", Keyboard::Key::LEFT_SUPER},
+            {"OSRight", Keyboard::Key::RIGHT_SUPER},
+            {"Delete", Keyboard::Key::DEL},
+            {"NumpadEnter", Keyboard::Key::SEPARATOR},
+            {"NumpadDigit0", Keyboard::Key::NUMPAD_0},
+            {"NumpadDigit1", Keyboard::Key::NUMPAD_1},
+            {"NumpadDigit2", Keyboard::Key::NUMPAD_2},
+            {"NumpadDigit3", Keyboard::Key::NUMPAD_3},
+            {"NumpadDigit4", Keyboard::Key::NUMPAD_4},
+            {"NumpadDigit5", Keyboard::Key::NUMPAD_5},
+            {"NumpadDigit6", Keyboard::Key::NUMPAD_6},
+            {"NumpadDigit7", Keyboard::Key::NUMPAD_7},
+            {"NumpadDigit8", Keyboard::Key::NUMPAD_8},
+            {"NumpadDigit9", Keyboard::Key::NUMPAD_9},
+            {"NumpadMultiply", Keyboard::Key::MULTIPLY},
+            {"NumpadAdd", Keyboard::Key::ADD},
+            {"NumpadSubtract", Keyboard::Key::SUBTRACT},
+            {"NumpadDecimal", Keyboard::Key::DECIMAL},
+            {"NumpadDivide", Keyboard::Key::DIVIDE},
+            {"F1", Keyboard::Key::F1},
+            {"F2", Keyboard::Key::F2},
+            {"F3", Keyboard::Key::F3},
+            {"F4", Keyboard::Key::F4},
+            {"F5", Keyboard::Key::F5},
+            {"F6", Keyboard::Key::F6},
+            {"F7", Keyboard::Key::F7},
+            {"F8", Keyboard::Key::F8},
+            {"F9", Keyboard::Key::F9},
+            {"F10", Keyboard::Key::F10},
+            {"F11", Keyboard::Key::F11},
+            {"F12", Keyboard::Key::F12},
+            {"NumLock", Keyboard::Key::NUMLOCK},
+            {"ScrollLock", Keyboard::Key::SCROLL},
+            {"Semicolon", Keyboard::Key::SEMICOLON},
+            {"Equal", Keyboard::Key::EQUAL},
+            {"Comma", Keyboard::Key::COMMA},
+            {"Minus", Keyboard::Key::MINUS},
+            {"Period", Keyboard::Key::PERIOD},
+            {"Slash", Keyboard::Key::SLASH},
+            {"Backquote", Keyboard::Key::GRAVE},
+            {"BracketLeft", Keyboard::Key::LEFT_BRACKET},
+            {"Backslash", Keyboard::Key::BACKSLASH},
+            {"BracketRight", Keyboard::Key::RIGHT_BRACKET},
+            {"Quote", Keyboard::Key::QUOTE},
+            {"IntlBackslash", Keyboard::Key::LESS}
         };
 
         InputManagerEm::InputManagerEm()
@@ -273,14 +273,14 @@ namespace ouzel
             }
         }
 
-        KeyboardKey InputManagerEm::convertKeyCode(const EM_UTF8 key[32])
+        Keyboard::Key InputManagerEm::convertKeyCode(const EM_UTF8 key[32])
         {
             auto i = keyMap.find(key);
 
             if (i != keyMap.end())
                 return i->second;
             else
-                return KeyboardKey::NONE;
+                return Keyboard::Key::NONE;
         }
 
         uint32_t InputManagerEm::getKeyboardModifiers(const EmscriptenKeyboardEvent* keyboardEvent)

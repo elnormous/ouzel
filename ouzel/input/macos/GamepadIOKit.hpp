@@ -23,7 +23,7 @@ namespace ouzel
         private:
             void handleThumbAxisChange(int64_t oldValue, int64_t newValue,
                                        int64_t min, int64_t max,
-                                       GamepadButton negativeButton, GamepadButton positiveButton);
+                                       Gamepad::Button negativeButton, Gamepad::Button positiveButton);
 
             IOHIDDeviceRef device = nullptr;
 
@@ -36,7 +36,7 @@ namespace ouzel
                 int64_t min = 0;
                 int64_t max = 0;
                 int64_t value = 0;
-                GamepadButton button = GamepadButton::NONE;
+                Gamepad::Button button = Gamepad::Button::NONE;
             };
 
             std::unordered_map<IOHIDElementRef, Element> elements;

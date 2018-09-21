@@ -9,9 +9,7 @@
 #include "scene/Actor.hpp"
 #include "math/Vector2.hpp"
 #include "math/Size2.hpp"
-#include "input/InputManager.hpp"
 #include "input/Gamepad.hpp"
-#include "input/InputDevice.hpp"
 #include "input/Keyboard.hpp"
 #include "input/Mouse.hpp"
 #include "input/Touchpad.hpp"
@@ -34,14 +32,14 @@ namespace ouzel
     {
         input::Keyboard* keyboard = nullptr;
         uint32_t modifiers = 0;
-        input::KeyboardKey key = input::KeyboardKey::NONE;
+        input::Keyboard::Key key = input::Keyboard::Key::NONE;
     };
 
     struct MouseEvent
     {
         input::Mouse* mouse = nullptr;
         uint32_t modifiers = 0;
-        input::MouseButton button = input::MouseButton::NONE;
+        input::Mouse::Button button = input::Mouse::Button::NONE;
         Vector2 difference;
         Vector2 position;
         Vector2 scroll;
@@ -59,7 +57,7 @@ namespace ouzel
     struct GamepadEvent
     {
         input::Gamepad* gamepad = nullptr;
-        input::GamepadButton button = input::GamepadButton::NONE;
+        input::Gamepad::Button button = input::Gamepad::Button::NONE;
         bool pressed = false;
         bool previousPressed = false;
         float value = 0.0F;

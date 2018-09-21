@@ -15,6 +15,7 @@
 #include "audio/Audio.hpp"
 #include "files/FileSystem.hpp"
 #include "events/EventDispatcher.hpp"
+#include "input/InputManager.hpp"
 #include "scene/SceneManager.hpp"
 #include "assets/Bundle.hpp"
 #include "assets/Cache.hpp"

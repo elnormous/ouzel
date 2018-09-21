@@ -49,25 +49,25 @@ static void handleMouseMoveEvent(UINT, WPARAM wParam, LPARAM lParam)
                                                 ouzel::input::InputManagerWin::getModifiers(wParam));
 }
 
-static void handleMouseButtonEvent(UINT message, WPARAM wParam, LPARAM lParam)
+static void handleMouse::ButtonEvent(UINT message, WPARAM wParam, LPARAM lParam)
 {
     ouzel::Vector2 position(static_cast<float>(GET_X_LPARAM(lParam)),
                             static_cast<float>(GET_Y_LPARAM(lParam)));
 
-    ouzel::input::MouseButton button;
+    ouzel::input::Mouse::Button button;
 
     if (message == WM_LBUTTONDOWN || message == WM_LBUTTONUP)
-        button = ouzel::input::MouseButton::LEFT;
+        button = ouzel::input::Mouse::Button::LEFT;
     else if (message == WM_RBUTTONDOWN || message == WM_RBUTTONUP)
-        button = ouzel::input::MouseButton::RIGHT;
+        button = ouzel::input::Mouse::Button::RIGHT;
     else if (message == WM_MBUTTONDOWN || message == WM_MBUTTONUP)
-        button = ouzel::input::MouseButton::MIDDLE;
+        button = ouzel::input::Mouse::Button::MIDDLE;
     else if (message == WM_XBUTTONDOWN || message == WM_XBUTTONUP)
     {
         if (GET_XBUTTON_WPARAM(wParam) == XBUTTON1)
-            button = ouzel::input::MouseButton::X1;
+            button = ouzel::input::Mouse::Button::X1;
         else if (GET_XBUTTON_WPARAM(wParam) == XBUTTON2)
-            button = ouzel::input::MouseButton::X2;
+            button = ouzel::input::Mouse::Button::X2;
         else
             return;
     }
@@ -188,7 +188,7 @@ static LRESULT CALLBACK windowProc(HWND window, UINT message, WPARAM wParam, LPA
             // don't handle mouse event that came from touch
             if ((extraInfo & SIGNATURE_MASK) != MOUSEEVENTF_FROMTOUCH)
             {
-                handleMouseButtonEvent(message, wParam, lParam);
+                handleMouse::ButtonEvent(message, wParam, lParam);
 
                 // must return TRUE if WM_XBUTTONDOWN or WM_XBUTTONUP is handled
                 if (message == WM_XBUTTONDOWN || message == WM_XBUTTONUP)

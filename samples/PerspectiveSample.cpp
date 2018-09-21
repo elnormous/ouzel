@@ -102,26 +102,26 @@ bool PerspectiveSample::handleKeyboard(ouzel::Event::Type type, const ouzel::Key
     {
         switch (event.key)
         {
-            case input::KeyboardKey::UP:
+            case input::Keyboard::Key::UP:
                 cameraRotation.x -= TAU / 100.0F;
                 break;
-            case input::KeyboardKey::DOWN:
+            case input::Keyboard::Key::DOWN:
                 cameraRotation.x += TAU / 100.0F;
                 break;
-            case input::KeyboardKey::LEFT:
+            case input::Keyboard::Key::LEFT:
                 cameraRotation.y -= TAU / 100.0F;
                 break;
-            case input::KeyboardKey::RIGHT:
+            case input::Keyboard::Key::RIGHT:
                 cameraRotation.y += TAU / 100.0F;
                 break;
-            case input::KeyboardKey::ESCAPE:
-            case input::KeyboardKey::MENU:
+            case input::Keyboard::Key::ESCAPE:
+            case input::Keyboard::Key::MENU:
                 engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 return false;
-            case input::KeyboardKey::TAB:
+            case input::Keyboard::Key::TAB:
                 jumpSound.play();
                 break;
-            case input::KeyboardKey::S:
+            case input::Keyboard::Key::S:
                 engine->getRenderer()->saveScreenshot("test.png");
                 break;
             default:
@@ -179,7 +179,7 @@ bool PerspectiveSample::handleGamepad(Event::Type type, const GamepadEvent& even
     if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
     {
         if (event.pressed &&
-            event.button == input::GamepadButton::FACE_RIGHT)
+            event.button == input::Gamepad::Button::FACE_RIGHT)
             engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
     }
 
