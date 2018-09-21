@@ -12,21 +12,21 @@
 #include "audio/Audio.hpp"
 
 #if OUZEL_PLATFORM_MACOS
-#include "input/macos/InputManagerMacOS.hpp"
+#  include "input/macos/InputManagerMacOS.hpp"
 #elif OUZEL_PLATFORM_IOS
-#include "input/ios/InputManagerIOS.hpp"
+#  include "input/ios/InputManagerIOS.hpp"
 #elif OUZEL_PLATFORM_TVOS
-#include "input/tvos/InputManagerTVOS.hpp"
+#  include "input/tvos/InputManagerTVOS.hpp"
 #elif OUZEL_PLATFORM_ANDROID
-#include <jni.h>
-#include "input/android/InputManagerAndroid.hpp"
+#  include <jni.h>
+#  include "input/android/InputManagerAndroid.hpp"
 #elif OUZEL_PLATFORM_LINUX
-#include "linux/NativeWindowLinux.hpp"
-#include "input/linux/InputManagerLinux.hpp"
+#  include "linux/NativeWindowLinux.hpp"
+#  include "input/linux/InputManagerLinux.hpp"
 #elif OUZEL_PLATFORM_WINDOWS
-#include "input/windows/InputManagerWin.hpp"
+#  include "input/windows/InputManagerWin.hpp"
 #elif OUZEL_PLATFORM_EMSCRIPTEN
-#include "input/emscripten/InputManagerEm.hpp"
+#  include "input/emscripten/InputManagerEm.hpp"
 #endif
 
 #if OUZEL_COMPILE_OPENGL

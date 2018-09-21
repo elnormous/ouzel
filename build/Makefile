@@ -264,6 +264,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/NativeWindowEm.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/emscripten/RenderDeviceOGLEm.cpp \
 	$(ROOT_DIR)/../ouzel/input/emscripten/InputManagerEm.cpp \
+	$(ROOT_DIR)/../ouzel/input/emscripten/InputSystemEm.cpp \
 	$(ROOT_DIR)/../ouzel/input/emscripten/GamepadEm.cpp
 CXXFLAGS+=-s DISABLE_EXCEPTION_CATCHING=0
 endif
