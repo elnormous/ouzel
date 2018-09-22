@@ -33,8 +33,6 @@ namespace ouzel
             void handleGamepadConnected(GCControllerPtr controller);
             void handleGamepadDisconnected(GCControllerPtr controller);
 
-            static Keyboard::Key convertKeyCode(NSInteger keyCode);
-
         private:
             InputManagerIOS();
 
