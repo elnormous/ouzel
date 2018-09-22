@@ -41,13 +41,6 @@ extern "C" CFTypeRef _Nullable IOHIDServiceClientCopyProperty(IOHIDServiceClient
 
 @end
 
-#if !defined(__MAC_10_12) || __MAC_OS_X_VERSION_MAX_ALLOWED < __MAC_10_12
-enum
-{
-    kVK_RightCommand = 0x36
-};
-#endif
-
 static void deviceAdded(void* ctx, IOReturn, void*, IOHIDDeviceRef device)
 {
     ouzel::input::InputSystemMacOS* inputMacOS = reinterpret_cast<ouzel::input::InputSystemMacOS*>(ctx);
