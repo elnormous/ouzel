@@ -66,8 +66,7 @@ namespace ouzel
                 };
 
                 Type type;
-
-                InputDevice* inputDevice = nullptr;
+                uint32_t deviceId = 0;
                 union
                 {
                     Keyboard::Key keyboardKey;
