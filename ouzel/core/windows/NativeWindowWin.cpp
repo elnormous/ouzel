@@ -6,6 +6,7 @@
 #include "core/Engine.hpp"
 #include "core/Window.hpp"
 #include "input/windows/InputManagerWin.hpp"
+#include "input/windows/InputSystemWin.hpp"
 #include "graphics/Renderer.hpp"
 #include "graphics/RenderDevice.hpp"
 #include "graphics/direct3d11/RenderDeviceD3D11.hpp"
