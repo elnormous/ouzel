@@ -31,21 +31,21 @@ namespace ouzel
         InputManager::InputManager()
         {
 #if OUZEL_PLATFORM_MACOS
-            inputSystem.reset(new input::InputSystemMacOS());
+            inputSystem.reset(new InputSystemMacOS());
 #elif OUZEL_PLATFORM_IOS
-            inputSystem.reset(new input::InputSystemIOS());
+            inputSystem.reset(new InputSystemIOS());
 #elif OUZEL_PLATFORM_TVOS
-            inputSystem.reset(new input::InputSystemTVOS());
+            inputSystem.reset(new InputSystemTVOS());
 #elif OUZEL_PLATFORM_ANDROID
-            inputSystem.reset(new input::InputSystemAndroid());
+            inputSystem.reset(new InputSystemAndroid());
 #elif OUZEL_PLATFORM_LINUX
-            inputSystem.reset(new input::InputSystemLinux());
+            inputSystem.reset(new InputSystemLinux());
 #elif OUZEL_PLATFORM_WINDOWS
-            inputSystem.reset(new input::InputSystemWin());
+            inputSystem.reset(new InputSystemWin());
 #elif OUZEL_PLATFORM_EMSCRIPTEN
-            inputSystem.reset(new input::InputSystemEm());
+            inputSystem.reset(new InputSystemEm());
 #else
-            inputSystem.reset(new input::InputSystem());
+            inputSystem.reset(new InputSystem());
 #endif
 
             std::fill(std::begin(keyboardKeyStates), std::end(keyboardKeyStates), false);

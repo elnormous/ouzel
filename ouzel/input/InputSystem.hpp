@@ -39,8 +39,7 @@ namespace ouzel
                     float speed;
                 };
 
-                // TODO: add motor
-                // Motor motor
+                Gamepad::Motor motor;
             };
 
             struct Event
@@ -68,12 +67,12 @@ namespace ouzel
 
                 Type type;
 
-                input::InputDevice* inputDevice = nullptr;
+                InputDevice* inputDevice = nullptr;
                 union
                 {
-                    input::Keyboard::Key keyboardKey;
-                    input::Mouse::Button mouseButton;
-                    input::Gamepad::Button gamepadButton;
+                    Keyboard::Key keyboardKey;
+                    Mouse::Button mouseButton;
+                    Gamepad::Button gamepadButton;
                     uint64_t touchId;
                 };
                 bool pressed = false;
