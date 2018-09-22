@@ -3,6 +3,7 @@
 #import "ViewTVOS.h"
 #include "core/Engine.hpp"
 #include "input/tvos/InputManagerTVOS.hpp"
+#include "input/tvos/InputSystemTVOS.hpp"
 
 @implementation ViewTVOS
 
