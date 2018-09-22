@@ -14,6 +14,7 @@
 #  include <linux/input.h>
 #endif
 #include "InputManagerLinux.hpp"
+#include "InputSystemLinux.hpp"
 #include "NativeCursorLinux.hpp"
 #include "events/Event.hpp"
 #include "core/linux/EngineLinux.hpp"
@@ -132,12 +133,12 @@ namespace ouzel
                                     if (event->value == 1 || event->value == 2) // press or repeat
                                     {
                                         if (event->value >= 0 && event->value < 256) keyboardKeyDown[event->value] = true;
-                                        keyPress(convertKeyCode(event->code), getModifiers());
+                                        //keyPress(convertKeyCode(event->code), getModifiers());
                                     }
                                     else if (event->value == 0) // release
                                     {
                                         if (event->value >= 0 && event->value < 256) keyboardKeyDown[event->value] = false;
-                                        keyRelease(convertKeyCode(event->code), getModifiers());
+                                        //keyRelease(convertKeyCode(event->code), getModifiers());
                                     }
                                 }
                             }
@@ -152,7 +153,7 @@ namespace ouzel
                                     else if (event->code == ABS_Y)
                                         absolutePos.y = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(0.0F, static_cast<float>(event->value))).y;
 
-                                    mouseMove(absolutePos, getModifiers());
+                                    //mouseMove(absolutePos, getModifiers());
                                 }
                                 else if (event->type == EV_REL)
                                 {
@@ -163,7 +164,7 @@ namespace ouzel
                                     else if (event->code == REL_Y)
                                         relativePos.y = static_cast<float>(event->value);
 
-                                    mouseRelativeMove(engine->getWindow()->convertWindowToNormalizedLocation(relativePos), getModifiers());
+                                    //mouseRelativeMove(engine->getWindow()->convertWindowToNormalizedLocation(relativePos), getModifiers());
                                 }
                                 else if (event->type == EV_KEY)
                                 {
@@ -191,12 +192,12 @@ namespace ouzel
                                     if (event->value == 1)
                                     {
                                         if (buttonIndex >= 0 && buttonIndex < 3) mouseButtonDown[buttonIndex] = true;
-                                        mouseButtonPress(button, cursorPosition, getModifiers());
+                                        //mouseButtonPress(button, cursorPosition, getModifiers());
                                     }
                                     else if (event->value == 0)
                                     {
                                         if (buttonIndex >= 0 && buttonIndex < 3) mouseButtonDown[buttonIndex] = false;
-                                        mouseButtonRelease(button, cursorPosition, getModifiers());
+                                        //mouseButtonRelease(button, cursorPosition, getModifiers());
                                     }
                                 }
                             }

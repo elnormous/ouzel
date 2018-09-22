@@ -1,6 +1,15 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include "core/Setup.h"
+#include <unordered_map>
+#include <linux/joystick.h>
+#if OUZEL_SUPPORTS_X11
+#  include <X11/cursorfont.h>
+#else
+#  include <linux/input.h>
+#endif
 #include "InputSystemLinux.hpp"
+#include "events/Event.hpp"
 
 namespace ouzel
 {
@@ -379,14 +388,14 @@ namespace ouzel
         {
             uint32_t modifiers = 0;
 
-            if (keyboardKeyDown[KEY_LEFTSHIFT] || keyboardKeyDown[KEY_RIGHTSHIFT]) modifiers |= SHIFT_DOWN;
+            /*if (keyboardKeyDown[KEY_LEFTSHIFT] || keyboardKeyDown[KEY_RIGHTSHIFT]) modifiers |= SHIFT_DOWN;
             if (keyboardKeyDown[KEY_LEFTALT] || keyboardKeyDown[KEY_RIGHTALT]) modifiers |= ALT_DOWN;
             if (keyboardKeyDown[KEY_LEFTCTRL] || keyboardKeyDown[KEY_RIGHTCTRL]) modifiers |= CONTROL_DOWN;
             if (keyboardKeyDown[KEY_LEFTMETA] || keyboardKeyDown[KEY_RIGHTMETA]) modifiers |= SUPER_DOWN;
 
             if (mouseButtonDown[0]) modifiers |= LEFT_MOUSE_DOWN;
             if (mouseButtonDown[1]) modifiers |= RIGHT_MOUSE_DOWN;
-            if (mouseButtonDown[2]) modifiers |= MIDDLE_MOUSE_DOWN;
+            if (mouseButtonDown[2]) modifiers |= MIDDLE_MOUSE_DOWN;*/
 
             return modifiers;
         }

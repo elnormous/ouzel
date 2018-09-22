@@ -3,6 +3,10 @@
 #pragma once
 
 #include "core/Setup.h"
+#if OUZEL_SUPPORTS_X11
+#  include <X11/keysym.h>
+#  include <X11/X.h>
+#endif
 #include "input/InputSystem.hpp"
 #include "input/Keyboard.hpp"
 
