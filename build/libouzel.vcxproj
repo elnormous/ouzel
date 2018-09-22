@@ -122,7 +122,6 @@
     <ClCompile Include="..\ouzel\gui\TTFont.cpp" />
     <ClCompile Include="..\ouzel\gui\Widget.cpp" />
     <ClCompile Include="..\ouzel\input\Cursor.cpp" />
-    <ClCompile Include="..\ouzel\input\Input.cpp" />
     <ClCompile Include="..\ouzel\input\NativeCursor.cpp" />
     <ClCompile Include="..\ouzel\input\Gamepad.cpp" />
     <ClCompile Include="..\ouzel\input\InputManager.cpp" />
@@ -280,7 +279,6 @@
     <ClInclude Include="..\ouzel\gui\TTFont.hpp" />
     <ClInclude Include="..\ouzel\gui\Widget.hpp" />
     <ClInclude Include="..\ouzel\input\Cursor.hpp" />
-    <ClInclude Include="..\ouzel\input\Input.hpp" />
     <ClInclude Include="..\ouzel\input\NativeCursor.hpp" />
     <ClInclude Include="..\ouzel\input\Gamepad.hpp" />
     <ClInclude Include="..\ouzel\input\InputManager.hpp" />
