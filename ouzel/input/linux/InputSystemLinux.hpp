@@ -2,7 +2,9 @@
 
 #pragma once
 
+#include "core/Setup.h"
 #include "input/InputSystem.hpp"
+#include "input/Keyboard.hpp"
 
 namespace ouzel
 {
@@ -11,6 +13,14 @@ namespace ouzel
         class InputSystemLinux: public InputSystem
         {
         public:
+#if OUZEL_SUPPORTS_X11
+            static Keyboard::Key convertKeyCode(KeySym keyCode);
+            static uint32_t getModifiers(unsigned int state);
+#else
+            static Keyboard::Key convertKeyCode(uint16_t keyCode);
+#endif
+            uint32_t getModifiers() const;
+
             virtual ~InputSystemLinux() {}
         };
     }

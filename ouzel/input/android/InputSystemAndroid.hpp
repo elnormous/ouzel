@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <jni.h>
 #include "input/InputSystem.hpp"
 
 namespace ouzel
@@ -11,6 +12,8 @@ namespace ouzel
         class InputSystemAndroid: public InputSystem
         {
         public:
+            static Keyboard::Key convertKeyCode(jint keyCode);
+
             virtual ~InputSystemAndroid() {}
         };
     }

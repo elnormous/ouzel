@@ -17,6 +17,7 @@ typedef id GCControllerPtr;
 #endif
 
 #include "input/InputSystem.hpp"
+#include "input/Keyboard.hpp"
 #include "input/macos/GamepadMacOS.hpp"
 #include "input/macos/GamepadGC.hpp"
 #include "input/macos/GamepadIOKit.hpp"
@@ -28,6 +29,10 @@ namespace ouzel
         class InputSystemMacOS: public InputSystem
         {
         public:
+            static Keyboard::Key convertKeyCode(uint16_t keyCode);
+            static NSUInteger getKeyMask(uint16_t keyCode);
+            static uint32_t getModifiers(NSUInteger modifierFlags, NSUInteger pressedMouseButtons);
+
             InputSystemMacOS();
             virtual ~InputSystemMacOS();
 

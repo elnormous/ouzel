@@ -17,7 +17,6 @@ namespace ouzel
         public:
             virtual ~InputManagerAndroid();
 
-            static Keyboard::Key convertKeyCode(jint keyCode);
             jboolean handleTouchEvent(jobject event);
 
         private:

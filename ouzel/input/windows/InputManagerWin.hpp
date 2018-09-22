@@ -20,9 +20,6 @@ namespace ouzel
         public:
             virtual ~InputManagerWin();
 
-            static Keyboard::Key convertKeyCode(UINT keyCode);
-            static uint32_t getModifiers(WPARAM wParam);
-
             void update();
 
             virtual void setCursorVisible(bool visible) override;
