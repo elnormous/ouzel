@@ -15,6 +15,8 @@ namespace ouzel
 {
     namespace input
     {
+        using DeviceId = uint32_t;
+
         class InputDevice;
 
         class InputSystem
@@ -66,7 +68,7 @@ namespace ouzel
                 };
 
                 Type type;
-                uint32_t deviceId = 0;
+                DeviceId deviceId = 0;
                 union
                 {
                     Keyboard::Key keyboardKey;
