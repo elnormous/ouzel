@@ -57,8 +57,8 @@ namespace ouzel
             id connectDelegate = nil;
             IOHIDManagerRef hidManager = nullptr;
 
-            uint32_t lastDeviceId = 0;
-            std::unordered_map<uint32_t, std::unique_ptr<GamepadMacOS>> gamepads;
+            DeviceId lastDeviceId = 0;
+            std::unordered_map<DeviceId, std::unique_ptr<GamepadMacOS>> gamepads;
             std::unordered_map<GCControllerPtr, GamepadGC*> gamepadsGC;
             std::unordered_map<IOHIDDeviceRef, GamepadIOKit*> gamepadsIOKit;
 
