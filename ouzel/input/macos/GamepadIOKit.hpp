@@ -5,16 +5,19 @@
 #include <unordered_map>
 #include <IOKit/hid/IOHIDManager.h>
 
+#include "input/macos/GamepadMacOS.hpp"
 #include "input/Gamepad.hpp"
 
 namespace ouzel
 {
     namespace input
     {
-        class GamepadIOKit: public Gamepad
+        class GamepadIOKit: public GamepadMacOS
         {
         public:
-            explicit GamepadIOKit(IOHIDDeviceRef initDevice);
+            explicit GamepadIOKit(InputSystemMacOS& initInputSystemMacOS,
+                                  uint32_t initDeviceId,
+                                  IOHIDDeviceRef initDevice);
 
             inline IOHIDDeviceRef getDevice() const { return device; }
 

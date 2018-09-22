@@ -10,8 +10,11 @@ namespace ouzel
 {
     namespace input
     {
+        class InputManager;
+
         class Gamepad: public InputDevice
         {
+            friend InputManager;
         public:
             enum class Button
             {
