@@ -15,6 +15,7 @@
 #include "events/Event.hpp"
 #include "graphics/RenderDevice.hpp"
 #include "input/linux/InputManagerLinux.hpp"
+#include "input/linux/InputSystemLinux.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
