@@ -2,8 +2,10 @@
 
 #pragma once
 
+#define DIRECTINPUT_VERSION 0x0800
+#include <dinput.h>
+#include <Xinput.h>
 #include "input/InputSystem.hpp"
-#include "input/Keyboard.hpp"
 
 namespace ouzel
 {

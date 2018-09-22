@@ -1,6 +1,8 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <unordered_map>
 #include "InputSystemWin.hpp"
+#include "events/Event.hpp"
 
 namespace ouzel
 {
