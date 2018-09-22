@@ -13,6 +13,7 @@
 		300862D82154720C00D8CC45 /* InputSystemIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 300862D62154720C00D8CC45 /* InputSystemIOS.mm */; };
 		300862DB2154725500D8CC45 /* InputSystemTVOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 300862D92154725400D8CC45 /* InputSystemTVOS.hpp */; };
 		300862DC2154725500D8CC45 /* InputSystemTVOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 300862DA2154725500D8CC45 /* InputSystemTVOS.mm */; };
+		300862E02155CCED00D8CC45 /* GamepadMacOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 300862DE2155CCED00D8CC45 /* GamepadMacOS.hpp */; };
 		3009341C1C88698500CC50D3 /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3009341A1C88698500CC50D3 /* Window.cpp */; };
 		3009341D1C88698500CC50D3 /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3009341A1C88698500CC50D3 /* Window.cpp */; };
 		3009341E1C88698500CC50D3 /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3009341A1C88698500CC50D3 /* Window.cpp */; };
@@ -918,6 +919,7 @@
 		300862D62154720C00D8CC45 /* InputSystemIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = InputSystemIOS.mm; sourceTree = "<group>"; };
 		300862D92154725400D8CC45 /* InputSystemTVOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputSystemTVOS.hpp; sourceTree = "<group>"; };
 		300862DA2154725500D8CC45 /* InputSystemTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = InputSystemTVOS.mm; sourceTree = "<group>"; };
+		300862DE2155CCED00D8CC45 /* GamepadMacOS.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GamepadMacOS.hpp; sourceTree = "<group>"; };
 		3009341A1C88698500CC50D3 /* Window.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Window.cpp; sourceTree = "<group>"; };
 		3009341B1C88698500CC50D3 /* Window.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Window.hpp; sourceTree = "<group>"; };
 		3009342C1C88978D00CC50D3 /* NativeWindowTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NativeWindowTVOS.mm; sourceTree = "<group>"; };
@@ -1899,6 +1901,7 @@
 				307F9FFD1F1E9CA000BA73CB /* GamepadGC.mm */,
 				3098A5541EA01C8A00528A54 /* GamepadIOKit.cpp */,
 				3098A5531EA01C8A00528A54 /* GamepadIOKit.hpp */,
+				300862DE2155CCED00D8CC45 /* GamepadMacOS.hpp */,
 				3098A5551EA01C8A00528A54 /* InputManagerMacOS.hpp */,
 				3098A5561EA01C8A00528A54 /* InputManagerMacOS.mm */,
 				300862D22154712E00D8CC45 /* InputSystemMacOS.hpp */,
@@ -2392,6 +2395,7 @@
 				303696D81E32DDA9007F4211 /* Buffer.hpp in Headers */,
 				30A9C13D1CAEBA540084C4BF /* Language.hpp in Headers */,
 				306A26C71F5DD19E00E2B0B6 /* SoundOutput.hpp in Headers */,
+				300862E02155CCED00D8CC45 /* GamepadMacOS.hpp in Headers */,
 				30519CF41F9B53FF00AF3DC4 /* LoaderOBJ.hpp in Headers */,
 				3030D5061DAEF1FA007CC8EB /* Log.hpp in Headers */,
 				300C39EE1E51355000330E4F /* SoundDataWave.hpp in Headers */,

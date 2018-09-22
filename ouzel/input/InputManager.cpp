@@ -64,11 +64,39 @@ namespace ouzel
                 switch (event.type)
                 {
                     case InputSystem::Event::Type::GAMEPAD_CONNECT:
+                    {
+                        Event connectEvent;
+                        connectEvent.type = Event::Type::GAMEPAD_CONNECT;
+                        std::unique_ptr<Gamepad> gamepad(new Gamepad());
+                        connectEvent.gamepadEvent.gamepad = gamepad.get();
+                        inputDevices.insert(std::make_pair(event.deviceId, std::move(gamepad)));
+                        engine->getEventDispatcher().postEvent(connectEvent, true);
                         break;
+                    }
                     case InputSystem::Event::Type::GAMEPAD_DISCONNECT:
+                    {
+                        auto i = inputDevices.find(event.deviceId);
+                        if (i != inputDevices.end())
+                        {
+                            Event disconnectEvent;
+                            disconnectEvent.type = Event::Type::GAMEPAD_DISCONNECT;
+                            disconnectEvent.gamepadEvent.gamepad = static_cast<Gamepad*>(i->second.get());
+                            engine->getEventDispatcher().postEvent(disconnectEvent, true);
+                            inputDevices.erase(i);
+                        }
                         break;
+                    }
                     case InputSystem::Event::Type::GAMEPAD_BUTTON_CHANGE:
+                    {
+                        auto i = inputDevices.find(event.deviceId);
+                        if (i != inputDevices.end())
+                        {
+                            Gamepad* gamepad = static_cast<Gamepad*>(i->second.get());
+                            gamepad->handleButtonValueChange(event.gamepadButton, event.pressed, event.value);
+                        }
+
                         break;
+                    }
                     case InputSystem::Event::Type::KEY_PRESS:
                         keyPress(event.keyboardKey, event.modifiers);
                         break;

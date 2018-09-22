@@ -104,7 +104,7 @@ namespace ouzel
             std::vector<std::unique_ptr<NativeCursor>> resourceDeleteSet;
             NativeCursor* currentNativeCursor = nullptr;
 
-            std::unordered_map<uint32_t, std::unique_ptr<InputDevice>> inputs;
+            std::unordered_map<uint32_t, std::unique_ptr<InputDevice>> inputDevices;
         };
     } // namespace input
 } // namespace ouzel
