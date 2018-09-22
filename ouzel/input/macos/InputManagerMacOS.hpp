@@ -27,10 +27,6 @@ namespace ouzel
             virtual void setCursorVisible(bool visible) override;
             virtual bool isCursorVisible() const override;
 
-            static Keyboard::Key convertKeyCode(uint16_t keyCode);
-            static NSUInteger getKeyMask(uint16_t keyCode);
-            static uint32_t getModifiers(NSUInteger modifierFlags, NSUInteger pressedMouseButtons);
-
             inline NSCursorPtr getNativeCursor() const { return currentCursor; }
             inline NSCursorPtr getEmptyCursor() const { return emptyCursor; }
 

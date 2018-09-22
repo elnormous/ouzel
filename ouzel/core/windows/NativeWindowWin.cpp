@@ -35,9 +35,9 @@ static void handleKeyEvent(UINT message, WPARAM wParam, LPARAM lParam)
     }
 
     if (message == WM_KEYDOWN || message == WM_SYSKEYDOWN)
-        ouzel::engine->getInputManager()->keyPress(ouzel::input::InputManagerWin::convertKeyCode(key), 0);
+        ouzel::engine->getInputManager()->keyPress(ouzel::input::InputSystemWin::convertKeyCode(key), 0);
     else if (message == WM_KEYUP || message == WM_SYSKEYUP)
-        ouzel::engine->getInputManager()->keyRelease(ouzel::input::InputManagerWin::convertKeyCode(key), 0);
+        ouzel::engine->getInputManager()->keyRelease(ouzel::input::InputSystemWin::convertKeyCode(key), 0);
 }
 
 static void handleMouseMoveEvent(UINT, WPARAM wParam, LPARAM lParam)
@@ -46,7 +46,7 @@ static void handleMouseMoveEvent(UINT, WPARAM wParam, LPARAM lParam)
                             static_cast<float>(GET_Y_LPARAM(lParam)));
 
     ouzel::engine->getInputManager()->mouseMove(ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
-                                                ouzel::input::InputManagerWin::getModifiers(wParam));
+                                                ouzel::input::InputSystemWin::getModifiers(wParam));
 }
 
 static void handleMouseButtonEvent(UINT message, WPARAM wParam, LPARAM lParam)
@@ -77,11 +77,11 @@ static void handleMouseButtonEvent(UINT message, WPARAM wParam, LPARAM lParam)
     if (message == WM_LBUTTONDOWN || message == WM_RBUTTONDOWN || message == WM_MBUTTONDOWN || message == WM_XBUTTONDOWN)
         ouzel::engine->getInputManager()->mouseButtonPress(button,
                                                            ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
-                                                           ouzel::input::InputManagerWin::getModifiers(wParam));
+                                                           ouzel::input::InputSystemWin::getModifiers(wParam));
     else if (message == WM_LBUTTONUP || message == WM_RBUTTONUP || message == WM_MBUTTONUP || message == WM_XBUTTONUP)
         ouzel::engine->getInputManager()->mouseButtonRelease(button,
                                                              ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
-                                                             ouzel::input::InputManagerWin::getModifiers(wParam));
+                                                             ouzel::input::InputSystemWin::getModifiers(wParam));
 }
 
 static void handleMouseWheelEvent(UINT message, WPARAM wParam, LPARAM lParam)
@@ -94,14 +94,14 @@ static void handleMouseWheelEvent(UINT message, WPARAM wParam, LPARAM lParam)
         short param = static_cast<short>(HIWORD(wParam));
         ouzel::engine->getInputManager()->mouseScroll(ouzel::Vector2(0.0F, -static_cast<float>(param) / static_cast<float>(WHEEL_DELTA)),
                                                       ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
-                                                      ouzel::input::InputManagerWin::getModifiers(wParam));
+                                                      ouzel::input::InputSystemWin::getModifiers(wParam));
     }
     else if (message == WM_MOUSEHWHEEL)
     {
         short param = static_cast<short>(HIWORD(wParam));
         ouzel::engine->getInputManager()->mouseScroll(ouzel::Vector2(static_cast<float>(param) / static_cast<float>(WHEEL_DELTA), 0.0F),
                                                       ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
-                                                      ouzel::input::InputManagerWin::getModifiers(wParam));
+                                                      ouzel::input::InputSystemWin::getModifiers(wParam));
     }
 }
 

@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <emscripten/html5.h>
 #include "input/InputSystem.hpp"
 
 namespace ouzel
@@ -11,7 +12,11 @@ namespace ouzel
         class InputSystemEm: public InputSystem
         {
         public:
+            static Keyboard::Key convertKeyCode(const EM_UTF8 key[32]);
+            static uint32_t getKeyboardModifiers(const EmscriptenKeyboardEvent* keyboardEvent);
+            static uint32_t getMouseModifiers(const EmscriptenMouseEvent* mouseEvent);
+
             virtual ~InputSystemEm() {}
         };
-    }
-}
+    } // namespace input
+} // namespace ouzel

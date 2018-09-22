@@ -7,6 +7,7 @@
 #include "core/Engine.hpp"
 #include "events/EventDispatcher.hpp"
 #include "input/android/InputManagerAndroid.hpp"
+#include "input/android/InputSystemAndroid.hpp"
 #include "utils/Log.hpp"
 
 static std::unique_ptr<ouzel::EngineAndroid> engine;
@@ -88,12 +89,12 @@ extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onBack
 
 extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onKeyDown(JNIEnv*, jclass, jint keyCode)
 {
-    engine->getInputManager()->keyPress(ouzel::input::InputManagerAndroid::convertKeyCode(keyCode), 0);
+    engine->getInputManager()->keyPress(ouzel::input::InputSystemAndroid::convertKeyCode(keyCode), 0);
 }
 
 extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onKeyUp(JNIEnv*, jclass, jint keyCode)
 {
-    engine->getInputManager()->keyRelease(ouzel::input::InputManagerAndroid::convertKeyCode(keyCode), 0);
+    engine->getInputManager()->keyRelease(ouzel::input::InputSystemAndroid::convertKeyCode(keyCode), 0);
 }
 
 extern "C" JNIEXPORT jboolean JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onTouchEvent(JNIEnv*, jclass, jobject event)

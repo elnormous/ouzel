@@ -56,7 +56,7 @@ namespace ouzel
             {UIPressTypePlayPause, Keyboard::Key::PAUSE}
         };
 
-        Keyboard::Key InputManagerTVOS::convertKeyCode(NSInteger keyCode)
+        Keyboard::Key InputSystemTVOS::convertKeyCode(NSInteger keyCode)
         {
             auto i = keyMap.find(keyCode);
 

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "input/InputSystem.hpp"
+#include "input/Keyboard.hpp"
 
 namespace ouzel
 {
@@ -12,6 +13,9 @@ namespace ouzel
         {
         public:
             virtual ~InputSystemWin() {}
+
+            static Keyboard::Key convertKeyCode(UINT keyCode);
+            static uint32_t getModifiers(WPARAM wParam);
         };
     }
 }

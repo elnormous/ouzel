@@ -24,14 +24,6 @@ namespace ouzel
             friend Engine;
             friend EngineLinux;
         public:
-#if OUZEL_SUPPORTS_X11
-            static Keyboard::Key convertKeyCode(KeySym keyCode);
-            static uint32_t getModifiers(unsigned int state);
-#else
-            static Keyboard::Key convertKeyCode(uint16_t keyCode);
-#endif
-            uint32_t getModifiers() const;
-
             virtual ~InputManagerLinux();
 
             virtual void setCursorVisible(bool visible) override;
