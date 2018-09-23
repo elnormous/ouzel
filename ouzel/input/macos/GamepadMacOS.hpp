@@ -29,8 +29,6 @@ namespace ouzel
             InputSystemMacOS& inputSystemMacOS;
             uint32_t deviceId;
             std::string name;
-            int32_t vendorId = 0;
-            int32_t productId = 0;
         };
     }
 }
