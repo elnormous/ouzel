@@ -22,9 +22,9 @@ namespace ouzel
         class GamepadIOS final
         {
         public:
-            explicit GamepadIOS(InputSystemIOS& initInputSystemIOS,
-                                uint32_t initDeviceId,
-                                GCControllerPtr initController);
+            GamepadIOS(InputSystemIOS& initInputSystemIOS,
+                       uint32_t initDeviceId,
+                       GCControllerPtr initController);
 
             inline uint32_t getDeviceId() const { return deviceId; }
 
