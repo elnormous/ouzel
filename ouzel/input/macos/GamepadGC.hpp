@@ -20,9 +20,9 @@ namespace ouzel
         class GamepadGC: public GamepadMacOS
         {
         public:
-            explicit GamepadGC(InputSystemMacOS& initInputSystemMacOS,
-                               uint32_t initDeviceId,
-                               GCControllerPtr initController);
+            GamepadGC(InputSystemMacOS& initInputSystemMacOS,
+                      uint32_t initDeviceId,
+                      GCControllerPtr initController);
 
             void setAbsoluteDpadValues(bool absoluteDpadValues);
             bool isAbsoluteDpadValues() const;

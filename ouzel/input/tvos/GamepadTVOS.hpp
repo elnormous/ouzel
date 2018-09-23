@@ -22,9 +22,9 @@ namespace ouzel
         class GamepadTVOS final
         {
         public:
-            explicit GamepadTVOS(InputSystemTVOS& initInputSystemTVOS,
-                                 uint32_t initDeviceId,
-                                 GCControllerPtr initController);
+            GamepadTVOS(InputSystemTVOS& initInputSystemTVOS,
+                        uint32_t initDeviceId,
+                        GCControllerPtr initController);
 
             inline uint32_t getDeviceId() const { return deviceId; }
 
