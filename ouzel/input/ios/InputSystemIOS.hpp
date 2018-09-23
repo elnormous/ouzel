@@ -17,12 +17,16 @@ namespace ouzel
 {
     namespace input
     {
+        class GamepadIOS;
+
         class InputSystemIOS: public InputSystem
         {
         public:
             static Keyboard::Key convertKeyCode(NSInteger keyCode);
 
             virtual ~InputSystemIOS() {}
+
+            void handleButtonValueChange(const GamepadIOS& gamepad, Gamepad::Button button, bool pressed, float value);
         };
     } // namespace input
 } // namespace ouzel

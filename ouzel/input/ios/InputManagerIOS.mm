@@ -141,18 +141,18 @@ namespace ouzel
             Event event;
             event.type = Event::Type::GAMEPAD_CONNECT;
 
-            std::unique_ptr<GamepadIOS> gamepad(new GamepadIOS(controller));
+            /*std::unique_ptr<GamepadIOS> gamepad(new GamepadIOS(controller));
 
             event.gamepadEvent.gamepad = gamepad.get();
 
-            gamepads.push_back(std::move(gamepad));
+            gamepads.push_back(std::move(gamepad));*/
 
             engine->getEventDispatcher().postEvent(event);
         }
 
         void InputManagerIOS::handleGamepadDisconnected(GCControllerPtr controller)
         {
-            auto i = std::find_if(gamepads.begin(), gamepads.end(), [controller](const std::unique_ptr<Gamepad>& gamepad) {
+            /*auto i = std::find_if(gamepads.begin(), gamepads.end(), [controller](const std::unique_ptr<Gamepad>& gamepad) {
                 GamepadIOS* currentGamepad = static_cast<GamepadIOS*>(gamepad.get());
                 return currentGamepad->getController() == controller;
             });
@@ -167,7 +167,7 @@ namespace ouzel
                 engine->getEventDispatcher().postEvent(event);
 
                 gamepads.erase(i);
-            }
+            }*/
         }
     } // namespace input
 } // namespace ouzel
