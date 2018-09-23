@@ -28,6 +28,9 @@ namespace ouzel
                                        int64_t min, int64_t max,
                                        Gamepad::Button negativeButton, Gamepad::Button positiveButton);
 
+            int32_t vendorId = 0;
+            int32_t productId = 0;
+
             IOHIDDeviceRef device = nullptr;
 
             struct Element
