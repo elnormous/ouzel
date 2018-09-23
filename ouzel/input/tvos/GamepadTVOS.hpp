@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <string>
 #if defined(__OBJC__)
 #include <GameController/GameController.h>
 typedef GCController* GCControllerPtr;
@@ -16,20 +17,31 @@ namespace ouzel
 {
     namespace input
     {
-        class GamepadTVOS: public Gamepad
+        class InputSystemTVOS;
+
+        class GamepadTVOS final
         {
         public:
-            explicit GamepadTVOS(GCControllerPtr initController);
-            virtual void setAbsoluteDpadValues(bool absoluteDpadValues) override;
-            virtual bool isAbsoluteDpadValues() const override;
+            explicit GamepadTVOS(InputSystemTVOS& initInputSystemTVOS,
+                                 uint32_t initDeviceId,
+                                 GCControllerPtr initController);
 
-            virtual int32_t getPlayerIndex() const override;
-            virtual void setPlayerIndex(int32_t playerIndex) override;
+            inline uint32_t getDeviceId() const { return deviceId; }
+
+            void setAbsoluteDpadValues(bool absoluteDpadValues);
+            bool isAbsoluteDpadValues() const;
+
+            int32_t getPlayerIndex() const;
+            void setPlayerIndex(int32_t playerIndex);
 
             inline GCControllerPtr getController() const { return controller; }
 
         private:
+            InputSystemTVOS& inputSystemTVOS;
+            uint32_t deviceId;
             GCControllerPtr controller;
+            std::string name;
+            bool attached = false;
         };
     } // namespace input
 } // namespace ouzel
