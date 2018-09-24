@@ -4,6 +4,7 @@
 #include <android/keycodes.h>
 #include <android/input.h>
 #include "InputSystemAndroid.hpp"
+#include "GamepadAndroid.hpp"
 
 namespace ouzel
 {
@@ -111,6 +112,19 @@ namespace ouzel
                 return i->second;
             else
                 return Keyboard::Key::NONE;
+        }
+
+        void InputSystemAndroid::handleButtonValueChange(const GamepadAndroid& gamepad, Gamepad::Button button, bool pressed, float value)
+        {
+            Event event;
+            event.type = Event::Type::GAMEPAD_BUTTON_CHANGE;
+
+            event.deviceId = gamepad.getDeviceId();
+            event.gamepadButton = button;
+            event.pressed = pressed;
+            event.value = value;
+
+            addEvent(event);
         }
     } // namespace input
 } // namespace ouzel
