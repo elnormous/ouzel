@@ -112,7 +112,10 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/input/Gamepad.cpp \
     ../../ouzel/input/InputManager.cpp \
     ../../ouzel/input/InputSystem.cpp \
+	../../ouzel/input/Keyboard.cpp \
+	../../ouzel/input/Mouse.cpp \
 	../../ouzel/input/NativeCursor.cpp \
+	../../ouzel/input/Touchpad.cpp \
     ../../ouzel/localization/Language.cpp \
     ../../ouzel/localization/Localization.cpp \
     ../../ouzel/math/Box2.cpp \
