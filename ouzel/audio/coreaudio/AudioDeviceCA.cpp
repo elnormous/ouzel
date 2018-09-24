@@ -134,10 +134,16 @@ namespace ouzel
 
             if (tempStringRef)
             {
-                char temp[256];
-                CFStringGetCString(tempStringRef, temp, sizeof(temp), kCFStringEncodingUTF8);
+                const char* deviceName = CFStringGetCStringPtr(tempStringRef, kCFStringEncodingUTF8);
+                if (!deviceName)
+                {
+                    CFIndex stringLength = CFStringGetLength(tempStringRef);
+                    std::vector<char> temp(static_cast<size_t>(CFStringGetMaximumSizeForEncoding(stringLength, kCFStringEncodingUTF8)) + 1);
+                    CFStringGetCString(tempStringRef, temp.data(), static_cast<CFIndex>(temp.size()), kCFStringEncodingUTF8);
+                    deviceName = temp.data();
+                }
 
-                Log(Log::Level::INFO) << "Using " << temp << " for audio";
+                Log(Log::Level::INFO) << "Using " << deviceName << " for audio";
 
                 CFRelease(tempStringRef);
             }
