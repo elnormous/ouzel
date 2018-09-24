@@ -10,7 +10,7 @@ namespace ouzel
     {
         class InputSystemEm;
 
-        class GamepadEm: public Gamepad
+        class GamepadEm final
         {
         public:
             GamepadEm(InputSystemEm& initInputSystemEm,
