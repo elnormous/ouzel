@@ -46,14 +46,13 @@ namespace ouzel
 
                 if (result == ERROR_SUCCESS)
                 {
-                    std::unique_ptr<GamepadXI> gamepad(new GamepadXI(userIndex));
-                    gamepadsXI[userIndex] = gamepad.get();
-
                     Event event;
                     event.type = Event::Type::GAMEPAD_CONNECT;
-                    event.gamepadEvent.gamepad = gamepad.get();
 
-                    gamepads.push_back(std::move(gamepad));
+                    /*std::unique_ptr<GamepadXI> gamepad(new GamepadXI(userIndex));
+                    gamepadsXI[userIndex] = gamepad.get();
+                    event.gamepadEvent.gamepad = gamepad.get();
+                    gamepads.push_back(std::move(gamepad));*/
 
                     engine->getEventDispatcher().postEvent(event);
                 }
@@ -98,18 +97,18 @@ namespace ouzel
                     {
                         Event event;
                         event.type = Event::Type::GAMEPAD_DISCONNECT;
-                        event.gamepadEvent.gamepad = gamepadXI;
+                        //event.gamepadEvent.gamepad = gamepadXI;
 
                         engine->getEventDispatcher().postEvent(event);
 
                         gamepadsXI[userIndex] = nullptr;
 
-                        auto gamepadIterator = std::find_if(gamepads.begin(), gamepads.end(), [gamepadXI](const std::unique_ptr<Gamepad>& gamepad) {
+                        /*auto gamepadIterator = std::find_if(gamepads.begin(), gamepads.end(), [gamepadXI](const std::unique_ptr<Gamepad>& gamepad) {
                             return gamepadXI == gamepad.get();
                         });
 
                         if (gamepadIterator != gamepads.end())
-                            gamepads.erase(gamepadIterator);
+                            gamepads.erase(gamepadIterator);*/
                     }
                 }
             }
@@ -126,18 +125,18 @@ namespace ouzel
                 {
                     Event event;
                     event.type = Event::Type::GAMEPAD_DISCONNECT;
-                    event.gamepadEvent.gamepad = gamepadDI;
+                    //event.gamepadEvent.gamepad = gamepadDI;
 
                     engine->getEventDispatcher().postEvent(event);
 
                     i = gamepadsDI.erase(i);
 
-                    auto gamepadIterator = std::find_if(gamepads.begin(), gamepads.end(), [gamepadDI](const std::unique_ptr<Gamepad>& gamepad) {
+                    /*auto gamepadIterator = std::find_if(gamepads.begin(), gamepads.end(), [gamepadDI](const std::unique_ptr<Gamepad>& gamepad) {
                         return gamepadDI == gamepad.get();
                     });
 
                     if (gamepadIterator != gamepads.end())
-                        gamepads.erase(gamepadIterator);
+                        gamepads.erase(gamepadIterator);*/
                 }
             }
         }
@@ -248,14 +247,14 @@ namespace ouzel
 
                         if (result == ERROR_SUCCESS)
                         {
-                            std::unique_ptr<GamepadXI> gamepad(new GamepadXI(userIndex));
-                            gamepadsXI[userIndex] = gamepad.get();
-
                             Event event;
                             event.type = Event::Type::GAMEPAD_CONNECT;
+
+                            /*std::unique_ptr<GamepadXI> gamepad(new GamepadXI(userIndex));
+                            gamepadsXI[userIndex] = gamepad.get();
                             event.gamepadEvent.gamepad = gamepad.get();
 
-                            gamepads.push_back(std::move(gamepad));
+                            gamepads.push_back(std::move(gamepad));*/
 
                             engine->getEventDispatcher().postEvent(event);
                         }
@@ -377,14 +376,13 @@ namespace ouzel
                 {
                     NativeWindowWin* windowWin = static_cast<NativeWindowWin*>(engine->getWindow()->getNativeWindow());
 
-                    std::unique_ptr<GamepadDI> gamepad(new GamepadDI(didInstance, directInput, windowWin->getNativeWindow()));
-                    gamepadsDI.push_back(gamepad.get());
-
                     Event event;
                     event.type = Event::Type::GAMEPAD_CONNECT;
+                    
+                    /*std::unique_ptr<GamepadDI> gamepad(new GamepadDI(didInstance, directInput, windowWin->getNativeWindow()));
+                    gamepadsDI.push_back(gamepad.get());
                     event.gamepadEvent.gamepad = gamepad.get();
-
-                    gamepads.push_back(std::move(gamepad));
+                    gamepads.push_back(std::move(gamepad));*/
 
                     engine->getEventDispatcher().postEvent(event);
                 }

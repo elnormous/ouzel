@@ -2,6 +2,7 @@
 
 #include "GamepadXI.hpp"
 #include "InputManagerWin.hpp"
+#include "InputSystemWin.hpp"
 #include "utils/Errors.hpp"
 
 namespace ouzel
@@ -11,7 +12,10 @@ namespace ouzel
         static const int32_t MAX_THUMB_VALUE = 32767;
         static const int32_t MIN_THUMB_VALUE = -32768;
 
-        GamepadXI::GamepadXI(DWORD aPlayerIndex):
+        GamepadXI::GamepadXI(InputSystemWin& initInputSystemWin,
+                             uint32_t initDeviceId,
+                             DWORD aPlayerIndex):
+            GamepadWin(initInputSystemWin, initDeviceId),
             playerIndex(aPlayerIndex)
         {
             ZeroMemory(&state, sizeof(XINPUT_STATE));
@@ -54,16 +58,18 @@ namespace ouzel
                 // triggers
                 if (newState.Gamepad.bLeftTrigger != state.Gamepad.bLeftTrigger)
                 {
-                    handleButtonValueChange(Gamepad::Button::LEFT_TRIGGER,
-                        newState.Gamepad.bLeftTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD,
-                        static_cast<float>(newState.Gamepad.bLeftTrigger) / 255.0F);
+                    inputSystemWin.handleButtonValueChange(*this,
+                                                           Gamepad::Button::LEFT_TRIGGER,
+                                                           newState.Gamepad.bLeftTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD,
+                                                           static_cast<float>(newState.Gamepad.bLeftTrigger) / 255.0F);
                 }
 
                 if (newState.Gamepad.bRightTrigger != state.Gamepad.bRightTrigger)
                 {
-                    handleButtonValueChange(Gamepad::Button::RIGHT_TRIGGER,
-                        newState.Gamepad.bRightTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD,
-                        static_cast<float>(newState.Gamepad.bRightTrigger) / 255.0F);
+                    inputSystemWin.handleButtonValueChange(*this,
+                                                           Gamepad::Button::RIGHT_TRIGGER,
+                                                           newState.Gamepad.bRightTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD,
+                                                           static_cast<float>(newState.Gamepad.bRightTrigger) / 255.0F);
                 }
 
                 // left thumbstick
@@ -89,22 +95,24 @@ namespace ouzel
             {
                 if (newValue > 0)
                 {
-                    handleButtonValueChange(positiveButton,
-                        newValue > XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE,
-                        static_cast<float>(newValue) / static_cast<float>(MAX_THUMB_VALUE));
+                    inputSystemWin.handleButtonValueChange(*this,
+                                                           positiveButton,
+                                                           newValue > XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE,
+                                                           static_cast<float>(newValue) / static_cast<float>(MAX_THUMB_VALUE));
                 }
                 else if (newValue < 0)
                 {
-                    handleButtonValueChange(negativeButton,
-                        newValue < -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE,
-                        static_cast<float>(newValue) / static_cast<float>(MIN_THUMB_VALUE));
+                    inputSystemWin.handleButtonValueChange(*this,
+                                                           negativeButton,
+                                                           newValue < -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE,
+                                                           static_cast<float>(newValue) / static_cast<float>(MIN_THUMB_VALUE));
                 }
                 else // thumbstick is 0
                 {
                     if (oldValue > newValue)
-                        handleButtonValueChange(positiveButton, false, 0.0F);
+                        inputSystemWin.handleButtonValueChange(*this, positiveButton, false, 0.0F);
                     else
-                        handleButtonValueChange(negativeButton, false, 0.0F);
+                        inputSystemWin.handleButtonValueChange(*this, negativeButton, false, 0.0F);
                 }
             }
         }
@@ -114,22 +122,22 @@ namespace ouzel
             if ((newState.Gamepad.wButtons & mask) != (state.Gamepad.wButtons & mask))
             {
                 bool pressed = ((newState.Gamepad.wButtons & mask) == mask);
-                handleButtonValueChange(button, pressed, pressed ? 1.0F : 0.0F);
+                inputSystemWin.handleButtonValueChange(*this, button, pressed, pressed ? 1.0F : 0.0F);
             }
         }
 
-        void GamepadXI::setVibration(Motor motor, float speed)
+        void GamepadXI::setVibration(Gamepad::Motor motor, float speed)
         {
             switch (motor)
             {
-            case Motor::ALL:
+            case Gamepad::Motor::ALL:
                 vibration.wLeftMotorSpeed = static_cast<WORD>(speed);
                 vibration.wRightMotorSpeed = static_cast<WORD>(speed);
                 break;
-            case Motor::LEFT:
+            case Gamepad::Motor::LEFT:
                 vibration.wLeftMotorSpeed = static_cast<WORD>(speed);
                 break;
-            case Motor::RIGHT:
+            case Gamepad::Motor::RIGHT:
                 vibration.wRightMotorSpeed = static_cast<WORD>(speed);
                 break;
             default:
@@ -139,15 +147,15 @@ namespace ouzel
             XInputSetState(playerIndex, &vibration);
         }
 
-        float GamepadXI::getVibration(Motor motor)
+        float GamepadXI::getVibration(Gamepad::Motor motor)
         {
             switch (motor)
             {
-            case Motor::ALL:
-            case Motor::LEFT:
+            case Gamepad::Motor::ALL:
+            case Gamepad::Motor::LEFT:
                 return vibration.wLeftMotorSpeed;
                 break;
-            case Motor::RIGHT:
+            case Gamepad::Motor::RIGHT:
                 return vibration.wRightMotorSpeed;
             default:
                 return 0.0f;

@@ -6,6 +6,7 @@
 #include <dinput.h>
 #include <Xinput.h>
 #include "input/InputSystem.hpp"
+#include "input/windows/GamepadWin.hpp"
 
 namespace ouzel
 {
@@ -18,6 +19,8 @@ namespace ouzel
 
             static Keyboard::Key convertKeyCode(UINT keyCode);
             static uint32_t getModifiers(WPARAM wParam);
+
+            void handleButtonValueChange(const GamepadWin& gamepad, Gamepad::Button button, bool pressed, float value);
         };
     }
 }

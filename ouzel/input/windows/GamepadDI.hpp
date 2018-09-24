@@ -2,22 +2,25 @@
 
 #pragma once
 
+#include <string>
 #include <Windows.h>
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 #include <hidusage.h>
 #include "input/Gamepad.hpp"
+#include "input/windows/GamepadWin.hpp"
 
 namespace ouzel
 {
     namespace input
     {
-        class InputManagerWin;
-
-        class GamepadDI: public Gamepad
+        class GamepadDI: public GamepadWin
         {
-            friend InputManagerWin;
         public:
+            GamepadDI(InputSystemWin& initInputSystemWin,
+                      uint32_t initDeviceId,
+                      const DIDEVICEINSTANCEW* aInstance, IDirectInput8W* directInput, HWND window);
+
             virtual ~GamepadDI();
             void update();
 
@@ -26,7 +29,6 @@ namespace ouzel
             void handleObject(const DIDEVICEOBJECTINSTANCEW* didObjectInstance);
 
         protected:
-            GamepadDI(const DIDEVICEINSTANCEW* aInstance, IDirectInput8W* directInput, HWND window);
             void checkInputBuffered();
             void checkInputPolled();
             void checkThumbAxisChange(LONG oldValue, LONG newValue,
@@ -35,6 +37,10 @@ namespace ouzel
             void checkTriggerChange(LONG oldValue, LONG newValue,
                                     int64_t min, int64_t max,
                                     Gamepad::Button button);
+
+            int32_t vendorId = 0;
+            int32_t productId = 0;
+            std::string name;
 
             const DIDEVICEINSTANCEW* instance = nullptr;
             IDirectInputDevice8W* device = nullptr;

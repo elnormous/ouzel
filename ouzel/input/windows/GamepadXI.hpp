@@ -5,26 +5,27 @@
 #include <Windows.h>
 #include <Xinput.h>
 #include "input/Gamepad.hpp"
+#include "input/windows/GamepadWin.hpp"
 
 namespace ouzel
 {
     namespace input
     {
-        class InputManagerWin;
-
-        class GamepadXI: public Gamepad
+        class GamepadXI: public GamepadWin
         {
-            friend InputManagerWin;
         public:
+            GamepadXI(InputSystemWin& initInputSystemWin,
+                      uint32_t initDeviceId,
+                      DWORD aPlayerIndex);
+
             void update();
 
-            virtual int32_t getPlayerIndex() const override;
+            int32_t getPlayerIndex() const;
 
-            virtual void setVibration(Motor motor, float speed) override;
-            virtual float getVibration(Motor motor) override;
+            void setVibration(Gamepad::Motor motor, float speed);
+            float getVibration(Gamepad::Motor motor);
 
         protected:
-            explicit GamepadXI(DWORD aPlayerIndex);
 
             void checkThumbAxis(SHORT oldValue, SHORT newValue, Gamepad::Button negativeButton, Gamepad::Button positiveButton);
             void checkButton(const XINPUT_STATE& newState, WORD mask, Gamepad::Button button);
