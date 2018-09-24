@@ -159,11 +159,11 @@ namespace ouzel
 
         void InputManagerEm::update()
         {
-            for (const std::unique_ptr<Gamepad>& gamepad : gamepads)
+            /*for (const std::unique_ptr<Gamepad>& gamepad : gamepads)
             {
                 GamepadEm* gamepadEm = static_cast<GamepadEm*>(gamepad.get());
                 gamepadEm->update();
-            }
+            }*/
         }
 
         void InputManagerEm::setCursorVisible(bool visible)
@@ -228,7 +228,7 @@ namespace ouzel
 
         void InputManagerEm::handleGamepadDisconnected(long index)
         {
-            auto i = std::find_if(gamepads.begin(), gamepads.end(), [index](const std::unique_ptr<Gamepad>& gamepad) {
+            /*auto i = std::find_if(gamepads.begin(), gamepads.end(), [index](const std::unique_ptr<Gamepad>& gamepad) {
                 GamepadEm* currentGamepad = static_cast<GamepadEm*>(gamepad.get());
                 return currentGamepad->getIndex() == index;
             });
@@ -243,7 +243,7 @@ namespace ouzel
                 engine->getEventDispatcher().postEvent(event);
 
                 gamepads.erase(i);
-            }
+            }*/
         }
     } // namespace input
 } // namespace ouzel
