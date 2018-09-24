@@ -910,6 +910,9 @@
 		30FE38511DFDE49E00305B3B /* Quaternion.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30FE384D1DFDE49E00305B3B /* Quaternion.hpp */; };
 		30FE38521DFDE49E00305B3B /* Quaternion.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30FE384D1DFDE49E00305B3B /* Quaternion.hpp */; };
 		30FE38531DFDE49E00305B3B /* Quaternion.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30FE384D1DFDE49E00305B3B /* Quaternion.hpp */; };
+		30FFBE322158FB3F004B0BD3 /* Touchpad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30FFBE312158FB3F004B0BD3 /* Touchpad.cpp */; };
+		30FFBE332158FB3F004B0BD3 /* Touchpad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30FFBE312158FB3F004B0BD3 /* Touchpad.cpp */; };
+		30FFBE342158FB3F004B0BD3 /* Touchpad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30FFBE312158FB3F004B0BD3 /* Touchpad.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1282,6 +1285,7 @@
 		30F5DD3F1F09757100E14E84 /* StreamWave.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = StreamWave.hpp; sourceTree = "<group>"; };
 		30FE384C1DFDE49E00305B3B /* Quaternion.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Quaternion.cpp; sourceTree = "<group>"; };
 		30FE384D1DFDE49E00305B3B /* Quaternion.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Quaternion.hpp; sourceTree = "<group>"; };
+		30FFBE312158FB3F004B0BD3 /* Touchpad.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Touchpad.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1630,6 +1634,7 @@
 				30BB848C20843FCD00C145A2 /* Mouse.hpp */,
 				3049DCD81EDCD0450000997A /* NativeCursor.cpp */,
 				3049DCD91EDCD0450000997A /* NativeCursor.hpp */,
+				30FFBE312158FB3F004B0BD3 /* Touchpad.cpp */,
 				30BB848E2084410500C145A2 /* Touchpad.hpp */,
 				3098A5521EA01C6C00528A54 /* tvos */,
 			);
@@ -2728,6 +2733,7 @@
 				3011E1C31EFFE6DE00CB1DDC /* INI.cpp in Sources */,
 				3049DCDA1EDCD0450000997A /* Cursor.cpp in Sources */,
 				305BAE9F204A37DC00EB4C5B /* FileSystemApple.mm in Sources */,
+				30FFBE322158FB3F004B0BD3 /* Touchpad.cpp in Sources */,
 				30575A901C38BD370009C8A7 /* Box2.cpp in Sources */,
 				30381F851D80A3EC00677CAB /* ShaderResourceOGL.cpp in Sources */,
 			);
@@ -2886,6 +2892,7 @@
 				3011E1C51EFFE6DE00CB1DDC /* INI.cpp in Sources */,
 				3049DCDC1EDCD0450000997A /* Cursor.cpp in Sources */,
 				305BAEA1204A37DC00EB4C5B /* FileSystemApple.mm in Sources */,
+				30FFBE342158FB3F004B0BD3 /* Touchpad.cpp in Sources */,
 				30575A911C38BD370009C8A7 /* Box2.cpp in Sources */,
 				30381F871D80A3EC00677CAB /* ShaderResourceOGL.cpp in Sources */,
 			);
@@ -3013,6 +3020,7 @@
 				302511B01CD3CA2200D04209 /* ParticleSystemData.cpp in Sources */,
 				30575ACD1C3B175D0009C8A7 /* Label.cpp in Sources */,
 				306A26BC1F5DD19300E2B0B6 /* Mixer.cpp in Sources */,
+				30FFBE332158FB3F004B0BD3 /* Touchpad.cpp in Sources */,
 				303B04BE1E207B6D00011CBE /* RenderDeviceOGLMacOS.mm in Sources */,
 				30B546561D90575B00E45DB6 /* RadioButtonGroup.cpp in Sources */,
 				304A8E6E1C237C70008B1151 /* Utils.cpp in Sources */,
