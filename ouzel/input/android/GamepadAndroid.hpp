@@ -8,11 +8,20 @@ namespace ouzel
 {
     namespace input
     {
-        class GamepadAndroid: public Gamepad
+        class InputSystemAndroid;
+
+        class GamepadAndroid final
         {
         public:
-            GamepadAndroid();
+            GamepadAndroid(InputSystemAndroid& initInputSystemAndroid,
+                           uint32_t initDeviceId);
             virtual ~GamepadAndroid();
+
+            inline uint32_t getDeviceId() const { return deviceId; }
+
+        protected:
+            InputSystemAndroid& inputSystemAndroid;
+            uint32_t deviceId;
         };
     } // namespace input
 } // namespace ouzel
