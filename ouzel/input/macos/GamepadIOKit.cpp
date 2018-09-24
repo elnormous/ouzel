@@ -30,9 +30,15 @@ namespace ouzel
             CFStringRef productName = static_cast<CFStringRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey)));
             if (productName)
             {
-                char temp[256];
-                CFStringGetCString(productName, temp, sizeof(temp), kCFStringEncodingUTF8);
-                name = temp;
+                const char* deviceName = CFStringGetCStringPtr(productName, kCFStringEncodingUTF8);
+                if (!deviceName)
+                {
+                    CFIndex stringLength = CFStringGetLength(productName);
+                    std::vector<char> temp(static_cast<size_t>(CFStringGetMaximumSizeForEncoding(stringLength, kCFStringEncodingUTF8)) + 1);
+                    CFStringGetCString(productName, temp.data(), static_cast<CFIndex>(temp.size()), kCFStringEncodingUTF8);
+                    deviceName = temp.data();
+                }
+                name = deviceName;
             }
 
             CFNumberRef vendor = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDVendorIDKey)));
