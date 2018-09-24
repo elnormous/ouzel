@@ -408,7 +408,7 @@ namespace ouzel
 
                 gamepadsGC.erase(i);
 
-                auto gamepadIterator = std::find_if(gamepads.begin(), gamepads.end(), [gamepadGC](const std::pair<const DeviceId, std::unique_ptr<GamepadMacOS>>& gamepad) {
+                auto gamepadIterator = std::find_if(gamepads.begin(), gamepads.end(), [gamepadGC](const std::pair<const uint32_t, std::unique_ptr<GamepadMacOS>>& gamepad) {
                     return gamepad.second.get() == gamepadGC;
                 });
 
@@ -465,7 +465,7 @@ namespace ouzel
 
                 gamepadsIOKit.erase(i);
 
-                auto gamepadIterator = std::find_if(gamepads.begin(), gamepads.end(), [gamepadIOKit](const std::pair<const DeviceId, std::unique_ptr<GamepadMacOS>>& gamepad) {
+                auto gamepadIterator = std::find_if(gamepads.begin(), gamepads.end(), [gamepadIOKit](const std::pair<const uint32_t, std::unique_ptr<GamepadMacOS>>& gamepad) {
                     return gamepad.second.get() == gamepadIOKit;
                 });
 

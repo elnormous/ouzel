@@ -15,8 +15,6 @@ namespace ouzel
 {
     namespace input
     {
-        using DeviceId = uint32_t;
-
         class InputDevice;
 
         class InputSystem
@@ -29,10 +27,13 @@ namespace ouzel
                     START_DEVICE_DISCOVERY,
                     SET_ABSOLUTE_DPAD_VALUES,
                     SET_PLAYER_INDEX,
-                    SET_VIBRATION
+                    SET_VIBRATION,
+                    SET_POSITON,
+                    SET_CURSOR
                 };
 
                 Type type;
+                uint32_t deviceId = 0;
 
                 union
                 {
@@ -42,6 +43,7 @@ namespace ouzel
                 };
 
                 Gamepad::Motor motor;
+                Vector2 position;
             };
 
             struct Event
@@ -68,7 +70,7 @@ namespace ouzel
                 };
 
                 Type type;
-                DeviceId deviceId = 0;
+                uint32_t deviceId = 0;
                 union
                 {
                     Keyboard::Key keyboardKey;
