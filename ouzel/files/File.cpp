@@ -22,7 +22,12 @@ namespace ouzel
         if (mode & READ) access |= GENERIC_READ;
         if (mode & WRITE) access |= GENERIC_WRITE;
         if (mode & APPEND) access |= FILE_APPEND_DATA;
-        DWORD createDisposition = (mode & CREATE) ? OPEN_ALWAYS : OPEN_EXISTING;
+        DWORD createDisposition = 0;
+
+        if (mode & TRUNCATE)
+            createDisposition = (mode & CREATE) ? CREATE_ALWAYS : TRUNCATE_EXISTING;
+        else
+            createDisposition = (mode & CREATE) ? OPEN_ALWAYS : OPEN_EXISTING;
 
         int size = MultiByteToWideChar(CP_UTF8, 0, filename.c_str(), -1, nullptr, 0);
         if (size == 0)
@@ -46,6 +51,7 @@ namespace ouzel
         else if (mode & WRITE) access |= O_WRONLY;
         if (mode & CREATE) access |= O_CREAT;
         if (mode & APPEND) access |= O_APPEND;
+        if (mode & TRUNCATE) access |= O_TRUNC;
 
         fd = open(filename.c_str(), access, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
         if (fd == -1)
@@ -145,7 +151,7 @@ namespace ouzel
 
             while (remaining > 0)
             {
-                uint32_t bytesWritten = write(src, remaining);
+                uint32_t bytesWritten = write(src, remaining, false);
                 remaining -= bytesWritten;
                 src += bytesWritten;
             }

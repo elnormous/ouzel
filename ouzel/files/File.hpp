@@ -22,7 +22,8 @@ namespace ouzel
             READ = 0x01,
             WRITE = 0x02,
             CREATE = 0x04,
-            APPEND = 0x08
+            APPEND = 0x08,
+            TRUNCATE = 0x10
         };
 
         enum Seek
