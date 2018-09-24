@@ -913,6 +913,12 @@
 		30FFBE322158FB3F004B0BD3 /* Touchpad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30FFBE312158FB3F004B0BD3 /* Touchpad.cpp */; };
 		30FFBE332158FB3F004B0BD3 /* Touchpad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30FFBE312158FB3F004B0BD3 /* Touchpad.cpp */; };
 		30FFBE342158FB3F004B0BD3 /* Touchpad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30FFBE312158FB3F004B0BD3 /* Touchpad.cpp */; };
+		30FFBE372158FD8D004B0BD3 /* Keyboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30FFBE352158FD8B004B0BD3 /* Keyboard.cpp */; };
+		30FFBE382158FD8D004B0BD3 /* Keyboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30FFBE352158FD8B004B0BD3 /* Keyboard.cpp */; };
+		30FFBE392158FD8D004B0BD3 /* Keyboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30FFBE352158FD8B004B0BD3 /* Keyboard.cpp */; };
+		30FFBE3A2158FD8D004B0BD3 /* Mouse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30FFBE362158FD8C004B0BD3 /* Mouse.cpp */; };
+		30FFBE3B2158FD8D004B0BD3 /* Mouse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30FFBE362158FD8C004B0BD3 /* Mouse.cpp */; };
+		30FFBE3C2158FD8D004B0BD3 /* Mouse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30FFBE362158FD8C004B0BD3 /* Mouse.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1286,6 +1292,8 @@
 		30FE384C1DFDE49E00305B3B /* Quaternion.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Quaternion.cpp; sourceTree = "<group>"; };
 		30FE384D1DFDE49E00305B3B /* Quaternion.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Quaternion.hpp; sourceTree = "<group>"; };
 		30FFBE312158FB3F004B0BD3 /* Touchpad.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Touchpad.cpp; sourceTree = "<group>"; };
+		30FFBE352158FD8B004B0BD3 /* Keyboard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Keyboard.cpp; sourceTree = "<group>"; };
+		30FFBE362158FD8C004B0BD3 /* Mouse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mouse.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1629,8 +1637,10 @@
 				3067D7A3209B450F008DF6AF /* InputSystem.cpp */,
 				3067D7A4209B450F008DF6AF /* InputSystem.hpp */,
 				303820F01D817F3400677CAB /* ios */,
+				30FFBE352158FD8B004B0BD3 /* Keyboard.cpp */,
 				30BB848D20843FDB00C145A2 /* Keyboard.hpp */,
 				3098A5511EA01C6600528A54 /* macos */,
+				30FFBE362158FD8C004B0BD3 /* Mouse.cpp */,
 				30BB848C20843FCD00C145A2 /* Mouse.hpp */,
 				3049DCD81EDCD0450000997A /* NativeCursor.cpp */,
 				3049DCD91EDCD0450000997A /* NativeCursor.hpp */,
@@ -2589,6 +2599,7 @@
 				30A9C13B1CAEBA540084C4BF /* Language.cpp in Sources */,
 				309BA3131F183D6E006F2240 /* AudioDeviceCA.cpp in Sources */,
 				30B8598C1F3D286600A16952 /* TTFont.cpp in Sources */,
+				30FFBE3A2158FD8D004B0BD3 /* Mouse.cpp in Sources */,
 				3049DCE01EDCD0450000997A /* NativeCursor.cpp in Sources */,
 				304E76391F7095DE0025C0DB /* Client.cpp in Sources */,
 				303821691D81876E00677CAB /* AudioDeviceEmpty.cpp in Sources */,
@@ -2658,6 +2669,7 @@
 				303821451D81876E00677CAB /* RenderDeviceEmpty.cpp in Sources */,
 				303B753D1C2A3C8E00FEDE92 /* FileSystem.cpp in Sources */,
 				303B75571C2A3CB700FEDE92 /* Vector2.cpp in Sources */,
+				30FFBE372158FD8D004B0BD3 /* Keyboard.cpp in Sources */,
 				304F92A51F4D89C50063EEC0 /* Network.cpp in Sources */,
 				3085DA20211A4A5500F4C2D0 /* Socket.cpp in Sources */,
 				3009341D1C88698500CC50D3 /* Window.cpp in Sources */,
@@ -2748,6 +2760,7 @@
 				303B76351C355A3B00FEDE92 /* Renderer.cpp in Sources */,
 				309BA3151F183D6E006F2240 /* AudioDeviceCA.cpp in Sources */,
 				30B8598E1F3D286600A16952 /* TTFont.cpp in Sources */,
+				30FFBE3C2158FD8D004B0BD3 /* Mouse.cpp in Sources */,
 				3049DCE21EDCD0450000997A /* NativeCursor.cpp in Sources */,
 				304E763B1F7095DE0025C0DB /* Client.cpp in Sources */,
 				3038216B1D81876E00677CAB /* AudioDeviceEmpty.cpp in Sources */,
@@ -2817,6 +2830,7 @@
 				303821471D81876E00677CAB /* RenderDeviceEmpty.cpp in Sources */,
 				303B76441C355A3B00FEDE92 /* FileSystem.cpp in Sources */,
 				303B76461C355A3B00FEDE92 /* Vector2.cpp in Sources */,
+				30FFBE392158FD8D004B0BD3 /* Keyboard.cpp in Sources */,
 				303B04C61E207B7800011CBE /* RenderDeviceOGLTVOS.mm in Sources */,
 				3009341E1C88698500CC50D3 /* Window.cpp in Sources */,
 				3085DA22211A4A5500F4C2D0 /* Socket.cpp in Sources */,
@@ -2918,6 +2932,7 @@
 				303821581D81876E00677CAB /* TextureResourceEmpty.cpp in Sources */,
 				303820871D816C9E00677CAB /* NativeWindowMacOS.mm in Sources */,
 				30216B641ED462B80073E3D5 /* MeshRenderer.cpp in Sources */,
+				30FFBE3B2158FD8D004B0BD3 /* Mouse.cpp in Sources */,
 				3085DA21211A4A5500F4C2D0 /* Socket.cpp in Sources */,
 				30575ABC1C39D9850009C8A7 /* ActorContainer.cpp in Sources */,
 				30EF36531CA76AE200F04F29 /* ScrollBar.cpp in Sources */,
@@ -2972,6 +2987,7 @@
 				30381FE31D80A40700677CAB /* BlendStateResourceMetal.mm in Sources */,
 				3047F7771C4D39C500774E3D /* Repeat.cpp in Sources */,
 				30AEFA2520C0FC8600CDFD33 /* RenderTargetResourceEmpty.cpp in Sources */,
+				30FFBE382158FD8D004B0BD3 /* Keyboard.cpp in Sources */,
 				3047F7461C4C350D00774E3D /* Move.cpp in Sources */,
 				303B74E41C277CEE00FEDE92 /* ImageData.cpp in Sources */,
 				3009341C1C88698500CC50D3 /* Window.cpp in Sources */,
