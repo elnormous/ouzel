@@ -443,6 +443,15 @@
     <ClCompile Include="..\ouzel\input\windows\InputSystemWin.cpp">
       <Filter>ouzel\input\windows</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\input\Touchpad.cpp">
+      <Filter>ouzel\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\input\Keyboard.cpp">
+      <Filter>ouzel\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\input\Mouse.cpp">
+      <Filter>ouzel\input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\animators\Animator.hpp">
