@@ -8,10 +8,16 @@ namespace ouzel
 {
     namespace input
     {
+        class InputSystemEm;
+
         class GamepadEm: public Gamepad
         {
         public:
-            explicit GamepadEm(long initIndex);
+            GamepadEm(InputSystemEm& initInputSystemEm,
+                      uint32_t initDeviceId,
+                      long initIndex);
+
+            inline uint32_t getDeviceId() const { return deviceId; }
 
             void update();
 
@@ -21,6 +27,8 @@ namespace ouzel
             void handleThumbAxisChange(double oldValue, double newValue,
                                        Gamepad::Button negativeButton, Gamepad::Button positiveButton);
 
+            InputSystemEm& inputSystemEm;
+            uint32_t deviceId;
             long index = 0;
             double axis[64];
             double analogButton[64];
