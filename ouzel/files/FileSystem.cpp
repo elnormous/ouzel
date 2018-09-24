@@ -255,7 +255,7 @@ namespace ouzel
 
     void FileSystem::writeFile(const std::string& filename, const std::vector<uint8_t>& data) const
     {
-        File file(filename, File::Mode::WRITE | File::Mode::CREATE);
+        File file(filename, File::Mode::WRITE | File::Mode::CREATE | File::Mode::TRUNCATE);
 
         uint32_t offset = 0;
 
