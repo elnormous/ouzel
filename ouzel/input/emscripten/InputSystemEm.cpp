@@ -3,6 +3,7 @@
 #include <map>
 #include <emscripten.h>
 #include "InputSystemEm.hpp"
+#include "GamepadEm.hpp"
 #include "events/Event.hpp"
 
 namespace ouzel
@@ -153,6 +154,19 @@ namespace ouzel
             if (mouseEvent->buttons & (1 << 2)) modifiers |= MIDDLE_MOUSE_DOWN;
 
             return modifiers;
+        }
+
+        void InputSystemEm::handleButtonValueChange(const GamepadEm& gamepad, Gamepad::Button button, bool pressed, float value)
+        {
+            Event event;
+            event.type = Event::Type::GAMEPAD_BUTTON_CHANGE;
+
+            event.deviceId = gamepad.getDeviceId();
+            event.gamepadButton = button;
+            event.pressed = pressed;
+            event.value = value;
+
+            addEvent(event);
         }
     } // namespace input
 } // namespace ouzel

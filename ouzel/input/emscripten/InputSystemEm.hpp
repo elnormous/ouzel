@@ -9,6 +9,8 @@ namespace ouzel
 {
     namespace input
     {
+        class GamepadEm;
+
         class InputSystemEm: public InputSystem
         {
         public:
@@ -17,6 +19,8 @@ namespace ouzel
             static uint32_t getMouseModifiers(const EmscriptenMouseEvent* mouseEvent);
 
             virtual ~InputSystemEm() {}
+
+            void handleButtonValueChange(const GamepadEm& gamepad, Gamepad::Button button, bool pressed, float value);
         };
     } // namespace input
 } // namespace ouzel

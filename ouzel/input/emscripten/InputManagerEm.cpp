@@ -219,11 +219,9 @@ namespace ouzel
             Event event;
             event.type = Event::Type::GAMEPAD_CONNECT;
 
-            std::unique_ptr<GamepadEm> gamepad(new GamepadEm(index));
-
+            /*std::unique_ptr<GamepadEm> gamepad(new GamepadEm(index));
             event.gamepadEvent.gamepad = gamepad.get();
-
-            gamepads.push_back(std::move(gamepad));
+            gamepads.push_back(std::move(gamepad));*/
 
             engine->getEventDispatcher().postEvent(event);
         }

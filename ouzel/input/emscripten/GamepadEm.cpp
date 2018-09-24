@@ -5,6 +5,7 @@
 #include <emscripten.h>
 #include <emscripten/html5.h>
 #include "GamepadEm.hpp"
+#include "InputSystemEm.hpp"
 #include "utils/Errors.hpp"
 
 static const float THUMB_DEADZONE = 0.2F;
@@ -34,7 +35,11 @@ namespace ouzel
             Gamepad::Button::PAUSE // 16
         };
 
-        GamepadEm::GamepadEm(long initIndex):
+        GamepadEm::GamepadEm(InputSystemEm& initInputSystemEm,
+                             uint32_t initDeviceId,
+                             long initIndex):
+            inputSystemEm(initInputSystemEm),
+            deviceId(initDeviceId),
             index(initIndex)
         {
             std::fill(std::begin(axis), std::end(axis), 0.0F);
@@ -65,7 +70,10 @@ namespace ouzel
             {
                 if (event.analogButton[i] != analogButton[i])
                 {
-                    handleButtonValueChange(buttonMap[i], event.digitalButton[i], static_cast<float>(analogButton[i]));
+                    inputSystemEm.handleButtonValueChange(*this,
+                                                          buttonMap[i],
+                                                          event.digitalButton[i],
+                                                          static_cast<float>(analogButton[i]));
                     analogButton[i] = event.analogButton[i];
                 }
             }
@@ -76,22 +84,24 @@ namespace ouzel
         {
             if (newValue > 0.0)
             {
-                handleButtonValueChange(positiveButton,
-                                        static_cast<float>(newValue) > THUMB_DEADZONE,
-                                        static_cast<float>(newValue));
+                inputSystemEm.handleButtonValueChange(*this,
+                                                      positiveButton,
+                                                      static_cast<float>(newValue) > THUMB_DEADZONE,
+                                                      static_cast<float>(newValue));
             }
             else if (newValue < 0.0)
             {
-                handleButtonValueChange(negativeButton,
-                                        -static_cast<float>(newValue) > THUMB_DEADZONE,
-                                        -static_cast<float>(newValue));
+                inputSystemEm.handleButtonValueChange(*this,
+                                                      negativeButton,
+                                                      -static_cast<float>(newValue) > THUMB_DEADZONE,
+                                                      -static_cast<float>(newValue));
             }
             else // thumbstick is 0
             {
                 if (oldValue > newValue)
-                    handleButtonValueChange(positiveButton, false, 0.0F);
+                    inputSystemEm.handleButtonValueChange(*this, positiveButton, false, 0.0F);
                 else
-                    handleButtonValueChange(negativeButton, false, 0.0F);
+                    inputSystemEm.handleButtonValueChange(*this, negativeButton, false, 0.0F);
             }
         }
     } // namespace input
