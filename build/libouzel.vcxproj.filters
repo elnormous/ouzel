@@ -931,6 +931,9 @@
     <ClInclude Include="..\ouzel\input\windows\InputSystemWin.hpp">
       <Filter>ouzel\input\windows</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\input\windows\GamepadWin.hpp">
+      <Filter>ouzel\input\windows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ouzel">
