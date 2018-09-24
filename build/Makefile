@@ -179,7 +179,6 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/alsa/AudioDeviceALSA.cpp \
 	$(ROOT_DIR)/../ouzel/core/linux/NativeWindowLinux.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/linux/RenderDeviceOGLLinux.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/EventDevice.cpp \
-	$(ROOT_DIR)/../ouzel/input/linux/GamepadLinux.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/InputManagerLinux.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/InputSystemLinux.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/NativeCursorLinux.cpp
