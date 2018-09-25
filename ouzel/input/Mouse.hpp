@@ -24,13 +24,15 @@ namespace ouzel
                 BUTTON_COUNT
             };
 
-            Mouse(): InputDevice(InputDevice::Type::MOUSE) {}
+            Mouse();
             virtual ~Mouse() {}
 
             inline const Vector2& getPosition() const { return position; }
+            inline bool isButtonDown(Mouse::Button button) const { return buttonStates[static_cast<uint32_t>(button)]; }
 
         private:
             Vector2 position;
+            bool buttonStates[static_cast<uint32_t>(Button::BUTTON_COUNT)];
         };
     }
 }

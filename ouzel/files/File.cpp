@@ -23,7 +23,6 @@ namespace ouzel
         if (mode & WRITE) access |= GENERIC_WRITE;
         if (mode & APPEND) access |= FILE_APPEND_DATA;
         DWORD createDisposition = 0;
-
         if (mode & TRUNCATE)
             createDisposition = (mode & CREATE) ? CREATE_ALWAYS : TRUNCATE_EXISTING;
         else
