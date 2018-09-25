@@ -10,8 +10,11 @@ namespace ouzel
 {
     namespace input
     {
+        class InputManager;
+
         class Mouse: public InputDevice
         {
+            friend InputManager;
         public:
             enum class Button
             {
@@ -20,7 +23,7 @@ namespace ouzel
                 RIGHT,          // Right mouse button
                 MIDDLE,         // Middle mouse button (three-button mouse)
                 X1,             // Windows 2000/XP: X1 mouse button
-                X2,              // Windows 2000/XP: X2 mouse button
+                X2,             // Windows 2000/XP: X2 mouse button
 
                 BUTTON_COUNT
             };
@@ -35,5 +38,6 @@ namespace ouzel
             Vector2 position;
             bool buttonStates[static_cast<uint32_t>(Button::BUTTON_COUNT)];
         };
-    }
-}
+    } // namespace input
+} // namespace ouzel
+
