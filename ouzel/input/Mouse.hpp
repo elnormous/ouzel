@@ -3,6 +3,7 @@
 #pragma once
 
 #include "input/InputDevice.hpp"
+#include "math/Vector2.hpp"
 
 namespace ouzel
 {
@@ -25,6 +26,11 @@ namespace ouzel
 
             Mouse(): InputDevice(InputDevice::Type::MOUSE) {}
             virtual ~Mouse() {}
+
+            inline const Vector2& getPosition() const { return position; }
+
+        private:
+            Vector2 position;
         };
     }
 }
