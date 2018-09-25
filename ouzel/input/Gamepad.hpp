@@ -89,6 +89,7 @@ namespace ouzel
         protected:
             void handleButtonValueChange(Gamepad::Button button, bool pressed, float value);
 
+        private:
             ButtonState buttonStates[static_cast<uint32_t>(Gamepad::Button::BUTTON_COUNT)];
             std::string name;
             int32_t vendorId = 0;

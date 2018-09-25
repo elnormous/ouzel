@@ -9,8 +9,11 @@ namespace ouzel
 {
     namespace input
     {
+        class InputManager;
+
         class Keyboard: public InputDevice
         {
+            friend InputManager;
         public:
             enum class Key
             {
@@ -172,5 +175,5 @@ namespace ouzel
         private:
             bool keyStates[static_cast<uint32_t>(Key::KEY_COUNT)];
         };
-    }
-}
+    } // namespace input
+} // namespace ouzel

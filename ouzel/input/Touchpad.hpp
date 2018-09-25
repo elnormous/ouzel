@@ -8,8 +8,11 @@ namespace ouzel
 {
     namespace input
     {
+        class InputManager;
+
         class Touchpad: public InputDevice
         {
+            friend InputManager;
         public:
             Touchpad(): InputDevice(InputDevice::Type::TOUCHPAD) {}
             virtual ~Touchpad() {}
