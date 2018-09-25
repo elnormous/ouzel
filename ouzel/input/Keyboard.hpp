@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <cstdint>
 #include "input/InputDevice.hpp"
 
 namespace ouzel
