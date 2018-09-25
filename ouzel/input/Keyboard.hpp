@@ -163,8 +163,13 @@ namespace ouzel
                 KEY_COUNT
             };
 
-            Keyboard(): InputDevice(InputDevice::Type::KEYBOARD) {}
+            Keyboard();
             virtual ~Keyboard() {}
+
+            inline bool isKeyDown(Keyboard::Key key) const { return keyStates[static_cast<uint32_t>(key)]; }
+
+        private:
+            bool keyStates[static_cast<uint32_t>(Key::KEY_COUNT)];
         };
     }
 }
