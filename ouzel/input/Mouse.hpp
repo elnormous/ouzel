@@ -28,7 +28,7 @@ namespace ouzel
             virtual ~Mouse() {}
 
             inline const Vector2& getPosition() const { return position; }
-            inline bool isButtonDown(Mouse::Button button) const { return buttonStates[static_cast<uint32_t>(button)]; }
+            inline bool isButtonDown(Button button) const { return buttonStates[static_cast<uint32_t>(button)]; }
 
         private:
             Vector2 position;
