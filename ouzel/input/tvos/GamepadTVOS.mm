@@ -10,8 +10,8 @@ namespace ouzel
         GamepadTVOS::GamepadTVOS(InputSystemTVOS& initInputSystemTVOS,
                                  uint32_t initDeviceId,
                                  GCControllerPtr initController):
+            InputDevice(initDeviceId),
             inputSystemTVOS(initInputSystemTVOS),
-            deviceId(initDeviceId),
             controller(initController)
         {
             if (controller.extendedGamepad)

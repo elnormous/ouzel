@@ -12,6 +12,7 @@ typedef id GCControllerPtr;
 #endif
 
 #include "input/Gamepad.hpp"
+#include "input/InputDevice.hpp"
 
 namespace ouzel
 {
@@ -19,14 +20,12 @@ namespace ouzel
     {
         class InputSystemIOS;
 
-        class GamepadIOS final
+        class GamepadIOS: public InputDevice
         {
         public:
             GamepadIOS(InputSystemIOS& initInputSystemIOS,
                        uint32_t initDeviceId,
                        GCControllerPtr initController);
-
-            inline uint32_t getDeviceId() const { return deviceId; }
 
             void setAbsoluteDPadValues(bool absoluteDPadValues);
             bool isAbsoluteDPadValues() const;
@@ -38,7 +37,6 @@ namespace ouzel
 
         private:
             InputSystemIOS& inputSystemIOS;
-            uint32_t deviceId;
             GCControllerPtr controller;
             std::string name;
             bool attached = false;
