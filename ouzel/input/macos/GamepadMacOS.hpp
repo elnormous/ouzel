@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include <cstdint>
 #include <string>
+#include "input/InputDevice.hpp"
 
 namespace ouzel
 {
@@ -11,11 +11,12 @@ namespace ouzel
     {
         class InputSystemMacOS;
 
-        class GamepadMacOS
+        class GamepadMacOS: public: InputDevice
         {
         public:
             GamepadMacOS(InputSystemMacOS& initInputSystemMacOS,
                          uint32_t initDeviceId):
+                InputDevice(initDeviceId),
                 inputSystemMacOS(initInputSystemMacOS),
                 deviceId(initDeviceId)
             {
@@ -23,11 +24,8 @@ namespace ouzel
 
             virtual ~GamepadMacOS() {}
 
-            inline uint32_t getDeviceId() const { return deviceId; }
-
         protected:
             InputSystemMacOS& inputSystemMacOS;
-            uint32_t deviceId;
             std::string name;
         };
     }

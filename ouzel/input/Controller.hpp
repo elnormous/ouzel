@@ -29,5 +29,5 @@ namespace ouzel
             Type type;
             uint32_t deviceId;
         };
-    }
-}
+    } // namespace input
+} // namespace ouzel

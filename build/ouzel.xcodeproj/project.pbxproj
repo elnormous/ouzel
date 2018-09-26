@@ -1294,6 +1294,7 @@
 		30FFBE312158FB3F004B0BD3 /* Touchpad.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Touchpad.cpp; sourceTree = "<group>"; };
 		30FFBE352158FD8B004B0BD3 /* Keyboard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Keyboard.cpp; sourceTree = "<group>"; };
 		30FFBE362158FD8C004B0BD3 /* Mouse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mouse.cpp; sourceTree = "<group>"; };
+		C6630AD9215BC65700DB5214 /* InputDevice.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = InputDevice.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1627,11 +1628,12 @@
 		303B76051C34A91B00FEDE92 /* input */ = {
 			isa = PBXGroup;
 			children = (
+				30BB848B20843FBE00C145A2 /* Controller.hpp */,
 				3049DCD61EDCD0450000997A /* Cursor.cpp */,
 				3049DCD71EDCD0450000997A /* Cursor.hpp */,
 				303647121C3DFEAF0024DB5B /* Gamepad.cpp */,
 				303647131C3DFEAF0024DB5B /* Gamepad.hpp */,
-				30BB848B20843FBE00C145A2 /* Controller.hpp */,
+				C6630AD9215BC65700DB5214 /* InputDevice.hpp */,
 				303B76061C34A92B00FEDE92 /* InputManager.cpp */,
 				303B76071C34A92B00FEDE92 /* InputManager.hpp */,
 				3067D7A3209B450F008DF6AF /* InputSystem.cpp */,

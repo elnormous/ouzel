@@ -10,8 +10,8 @@ namespace ouzel
         GamepadIOS::GamepadIOS(InputSystemIOS& initInputSystemIOS,
                                uint32_t initDeviceId,
                                GCControllerPtr initController):
+            InputDevice(initDeviceId),
             inputSystemIOS(initInputSystemIOS),
-            deviceId(initDeviceId),
             controller(initController)
         {
             if (controller.extendedGamepad)
