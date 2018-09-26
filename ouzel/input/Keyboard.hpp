@@ -163,8 +163,7 @@ namespace ouzel
                 ZOOM,           // Zoom key
                 PA1,            // PA1 key
                 OEM_CLEAR,      // Clear key
-
-                KEY_COUNT
+                COUNT
             };
 
             Keyboard();
@@ -177,7 +176,7 @@ namespace ouzel
             void handleKeyRelease(Keyboard::Key key, uint32_t modifiers);
 
         private:
-            bool keyStates[static_cast<uint32_t>(Key::KEY_COUNT)];
+            bool keyStates[static_cast<uint32_t>(Key::COUNT)];
         };
     } // namespace input
 } // namespace ouzel

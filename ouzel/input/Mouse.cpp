@@ -16,6 +16,12 @@ namespace ouzel
             std::fill(std::begin(buttonStates), std::end(buttonStates), false);
         }
 
+        void Mouse::setPosition(const Vector2& newPosition)
+        {
+            position = newPosition;
+            // TODO: send command to InputSystem
+        }
+
         void Mouse::handleMouseButtonPress(Mouse::Button button, const Vector2& pos, uint32_t modifiers)
         {
             buttonStates[static_cast<uint32_t>(button)] = true;

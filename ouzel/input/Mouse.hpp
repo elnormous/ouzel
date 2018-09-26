@@ -24,14 +24,14 @@ namespace ouzel
                 MIDDLE,         // Middle mouse button (three-button mouse)
                 X1,             // Windows 2000/XP: X1 mouse button
                 X2,             // Windows 2000/XP: X2 mouse button
-
-                BUTTON_COUNT
+                COUNT
             };
 
             Mouse();
             virtual ~Mouse() {}
 
             inline const Vector2& getPosition() const { return position; }
+            void setPosition(const Vector2& newPosition);
             inline bool isButtonDown(Button button) const { return buttonStates[static_cast<uint32_t>(button)]; }
 
         protected:
@@ -43,7 +43,7 @@ namespace ouzel
 
         private:
             Vector2 position;
-            bool buttonStates[static_cast<uint32_t>(Button::BUTTON_COUNT)];
+            bool buttonStates[static_cast<uint32_t>(Button::COUNT)];
         };
     } // namespace input
 } // namespace ouzel

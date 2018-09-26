@@ -37,7 +37,7 @@ namespace ouzel
 
                 union
                 {
-                    bool absoluteDpadValues;
+                    bool absoluteDPadValues;
                     int32_t playerIndex;
                     float speed;
                 };
