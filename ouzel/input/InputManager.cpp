@@ -146,6 +146,11 @@ namespace ouzel
                         }
                         break;
                     }
+                    case InputSystem::Event::Type::DEVICE_DISCOVERY_COMPLETE:
+                    {
+                        discovering = false;
+                        break;
+                    }
                     case InputSystem::Event::Type::GAMEPAD_BUTTON_CHANGE:
                     {
                         auto i = inputDevices.find(event.deviceId);
@@ -274,10 +279,20 @@ namespace ouzel
 
         void InputManager::startDeviceDiscovery()
         {
+            discovering = true;
+
+            InputSystem::Command command;
+            command.type = InputSystem::Command::Type::START_DEVICE_DISCOVERY;
+            inputSystem->addCommand(command);
         }
 
         void InputManager::stopDeviceDiscovery()
         {
+            discovering = false;
+
+            InputSystem::Command command;
+            command.type = InputSystem::Command::Type::STOP_DEVICE_DISCOVERY;
+            inputSystem->addCommand(command);
         }
 
         void InputManager::keyPress(Keyboard::Key key, uint32_t modifiers)

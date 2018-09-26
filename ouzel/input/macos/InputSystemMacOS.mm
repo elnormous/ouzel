@@ -271,8 +271,6 @@ namespace ouzel
             IOHIDManagerRegisterDeviceRemovalCallback(hidManager, deviceRemoved, this);
             IOHIDManagerScheduleWithRunLoop(hidManager, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
 
-            discovering = true;
-
             [GCController startWirelessControllerDiscoveryWithCompletionHandler:
              ^(void){ handleGamepadDiscoveryCompleted(); }];
         }
@@ -321,28 +319,24 @@ namespace ouzel
         {
             Log(Log::Level::INFO) << "Started gamepad discovery";
 
-            discovering = true;
-
             [GCController startWirelessControllerDiscoveryWithCompletionHandler:
              ^(void){ handleGamepadDiscoveryCompleted(); }];
         }
 
         void InputSystemMacOS::stopDeviceDiscovery()
         {
-            if (discovering)
-            {
-                Log(Log::Level::INFO) << "Stopped gamepad discovery";
+            Log(Log::Level::INFO) << "Stopped gamepad discovery";
 
-                [GCController stopWirelessControllerDiscovery];
-
-                discovering = false;
-            }
+            [GCController stopWirelessControllerDiscovery];
         }
 
         void InputSystemMacOS::handleGamepadDiscoveryCompleted()
         {
             Log(Log::Level::INFO) << "Gamepad discovery completed";
-            discovering = false;
+
+            Event event;
+            event.type = Event::Type::DEVICE_DISCOVERY_COMPLETE;
+            addEvent(event);
         }
 
         void InputSystemMacOS::handleGamepadConnected(GCControllerPtr controller)
