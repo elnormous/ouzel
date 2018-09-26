@@ -383,8 +383,9 @@ namespace ouzel
                 std::unique_ptr<GamepadGC> gamepad(new GamepadGC(*this, ++lastDeviceId, controller));
 
                 Event event;
-                event.type = Event::Type::GAMEPAD_CONNECT;
+                event.type = Event::Type::DEVICE_CONNECT;
                 event.deviceId = gamepad->getDeviceId();
+                event.deviceType = InputDevice::Type::GAMEPAD;
 
                 gamepadsGC.insert(std::make_pair(controller, gamepad.get()));
                 gamepads.insert(std::make_pair(gamepad->getDeviceId(), std::move(gamepad)));
@@ -402,8 +403,9 @@ namespace ouzel
                 GamepadGC* gamepadGC = i->second;
 
                 Event event;
-                event.type = Event::Type::GAMEPAD_DISCONNECT;
+                event.type = Event::Type::DEVICE_DISCONNECT;
                 event.deviceId = gamepadGC->getDeviceId();
+                event.deviceType = InputDevice::Type::GAMEPAD;
                 addEvent(event);
 
                 gamepadsGC.erase(i);
@@ -439,8 +441,9 @@ namespace ouzel
                 std::unique_ptr<GamepadIOKit> gamepad(new GamepadIOKit(*this, ++lastDeviceId, device));
 
                 Event event;
-                event.type = Event::Type::GAMEPAD_CONNECT;
+                event.type = Event::Type::DEVICE_CONNECT;
                 event.deviceId = gamepad->getDeviceId();
+                event.deviceType = InputDevice::Type::GAMEPAD;
 
                 gamepadsIOKit.insert(std::make_pair(device, gamepad.get()));
                 gamepads.insert(std::make_pair(gamepad->getDeviceId(), std::move(gamepad)));
@@ -458,8 +461,9 @@ namespace ouzel
                 GamepadIOKit* gamepadIOKit = i->second;
 
                 Event event;
-                event.type = Event::Type::GAMEPAD_DISCONNECT;
+                event.type = Event::Type::DEVICE_DISCONNECT;
                 event.deviceId = gamepadIOKit->getDeviceId();
+                event.deviceType = InputDevice::Type::GAMEPAD;
 
                 addEvent(event);
 
