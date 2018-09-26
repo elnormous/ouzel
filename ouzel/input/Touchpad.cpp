@@ -8,8 +8,8 @@ namespace ouzel
 {
     namespace input
     {
-        Touchpad::Touchpad():
-            InputDevice(InputDevice::Type::TOUCHPAD)
+        Touchpad::Touchpad(uint32_t initDeviceId):
+            Controller(Controller::Type::TOUCHPAD, initDeviceId)
         {
         }
 
@@ -24,7 +24,7 @@ namespace ouzel
 
             touchPositions[touchId] = position;
 
-            engine->getEventDispatcher().postEvent(event);
+            engine->getEventDispatcher().postEvent(event, true);
         }
 
         void Touchpad::handleTouchEnd(uint64_t touchId, const Vector2& position, float force)
@@ -41,7 +41,7 @@ namespace ouzel
             if (i != touchPositions.end())
                 touchPositions.erase(i);
 
-            engine->getEventDispatcher().postEvent(event);
+            engine->getEventDispatcher().postEvent(event, true);
         }
 
         void Touchpad::handleTouchMove(uint64_t touchId, const Vector2& position, float force)
@@ -56,7 +56,7 @@ namespace ouzel
 
             touchPositions[touchId] = position;
 
-            engine->getEventDispatcher().postEvent(event);
+            engine->getEventDispatcher().postEvent(event, true);
         }
 
         void Touchpad::handleTouchCancel(uint64_t touchId, const Vector2& position, float force)
@@ -73,7 +73,7 @@ namespace ouzel
             if (i != touchPositions.end())
                 touchPositions.erase(i);
 
-            engine->getEventDispatcher().postEvent(event);
+            engine->getEventDispatcher().postEvent(event, true);
         }
     } // namespace input
 } // namespace ouzel

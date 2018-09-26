@@ -3,10 +3,13 @@
 #pragma once
 
 #include <cstdint>
+#include <memory>
 #include <mutex>
 #include <queue>
+#include <unordered_map>
 #include <vector>
 #include "input/Gamepad.hpp"
+#include "input/InputDevice.hpp"
 #include "input/Keyboard.hpp"
 #include "input/Mouse.hpp"
 #include "math/Vector2.hpp"
@@ -15,8 +18,6 @@ namespace ouzel
 {
     namespace input
     {
-        class InputDevice;
-
         class InputSystem
         {
         public:
@@ -25,6 +26,7 @@ namespace ouzel
                 enum class Type
                 {
                     START_DEVICE_DISCOVERY,
+                    STOP_DEVICE_DISCOVERY,
                     SET_ABSOLUTE_DPAD_VALUES,
                     SET_PLAYER_INDEX,
                     SET_VIBRATION,
@@ -50,8 +52,10 @@ namespace ouzel
             {
                 enum class Type
                 {
-                    GAMEPAD_CONNECT,
-                    GAMEPAD_DISCONNECT,
+                    DEVICE_CONNECT,
+                    DEVICE_DISCONNECT,
+                    DEVICE_DISCOVERY_COMPLETE,
+
                     GAMEPAD_BUTTON_CHANGE,
 
                     KEY_PRESS,
@@ -70,6 +74,7 @@ namespace ouzel
                 };
 
                 Type type;
+                Controller::Type deviceType;
                 uint32_t deviceId = 0;
                 union
                 {
@@ -90,17 +95,19 @@ namespace ouzel
 
             InputSystem();
 
+            void addCommand(const Command& command);
+            virtual void executeCommand(Command) {}
+
             std::vector<Event> getEvents() const;
 
         protected:
             void addEvent(const Event& event);
 
+            std::unordered_map<uint32_t, std::unique_ptr<InputDevice>> inputDevices;
+
         private:
             mutable std::mutex eventQueueMutex;
             mutable std::queue<Event> eventQueue;
-
-            mutable std::mutex commandQueueMutex;
-            mutable std::queue<Event> commandQueue;
         };
     } // namespace input
 } // namespace ouzel

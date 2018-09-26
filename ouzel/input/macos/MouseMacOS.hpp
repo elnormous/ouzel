@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include <string>
 #include "input/InputDevice.hpp"
 
 namespace ouzel
@@ -11,21 +10,20 @@ namespace ouzel
     {
         class InputSystemMacOS;
 
-        class GamepadMacOS: public InputDevice
+        class MouseMacOS: public InputDevice
         {
         public:
-            GamepadMacOS(InputSystemMacOS& initInputSystemMacOS,
-                         uint32_t initDeviceId):
+            MouseMacOS(InputSystemMacOS& initInputSystemMacOS,
+                       uint32_t initDeviceId):
                 InputDevice(initDeviceId),
                 inputSystemMacOS(initInputSystemMacOS)
             {
             }
 
-            virtual ~GamepadMacOS() {}
+            virtual ~MouseMacOS() {}
 
-        protected:
+        private:
             InputSystemMacOS& inputSystemMacOS;
-            std::string name;
         };
     } // namespace input
 } // namespace ouzel

@@ -12,6 +12,7 @@ typedef id GCControllerPtr;
 #endif
 
 #include "input/Gamepad.hpp"
+#include "input/InputDevice.hpp"
 
 namespace ouzel
 {
@@ -19,7 +20,7 @@ namespace ouzel
     {
         class InputSystemTVOS;
 
-        class GamepadTVOS final
+        class GamepadTVOS: public InputDevice
         {
         public:
             GamepadTVOS(InputSystemTVOS& initInputSystemTVOS,

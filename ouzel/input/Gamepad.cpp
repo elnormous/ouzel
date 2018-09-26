@@ -10,8 +10,8 @@ namespace ouzel
 {
     namespace input
     {
-        Gamepad::Gamepad():
-            InputDevice(InputDevice::Type::GAMEPAD)
+        Gamepad::Gamepad(uint32_t initDeviceId):
+            Controller(Controller::Type::GAMEPAD, initDeviceId)
         {
             std::fill(std::begin(vibration), std::end(vibration), 0.0F);
         }
@@ -40,10 +40,10 @@ namespace ouzel
             event.gamepadEvent.value = value;
             event.gamepadEvent.previousValue = buttonStates[static_cast<uint32_t>(button)].value;
 
-            engine->getEventDispatcher().postEvent(event, true);
-
             buttonStates[static_cast<uint32_t>(button)].pressed = pressed;
             buttonStates[static_cast<uint32_t>(button)].value = value;
+
+            engine->getEventDispatcher().postEvent(event, true);
         }
 
         void Gamepad::setVibration(Motor motor, float speed)

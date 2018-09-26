@@ -3,7 +3,7 @@
 #pragma once
 
 #include <cstdint>
-#include "input/InputDevice.hpp"
+#include "input/Controller.hpp"
 #include "math/Vector2.hpp"
 
 namespace ouzel
@@ -12,7 +12,7 @@ namespace ouzel
     {
         class InputManager;
 
-        class Mouse: public InputDevice
+        class Mouse: public Controller
         {
             friend InputManager;
         public:
@@ -27,7 +27,7 @@ namespace ouzel
                 COUNT
             };
 
-            Mouse();
+            Mouse(uint32_t initDeviceId);
             virtual ~Mouse() {}
 
             inline const Vector2& getPosition() const { return position; }
