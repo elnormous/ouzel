@@ -28,8 +28,8 @@ namespace ouzel
 
             inline uint32_t getDeviceId() const { return deviceId; }
 
-            void setAbsoluteDpadValues(bool absoluteDpadValues);
-            bool isAbsoluteDpadValues() const;
+            void setAbsoluteDPadValues(bool absoluteDPadValues);
+            bool isAbsoluteDPadValues() const;
 
             int32_t getPlayerIndex() const;
             void setPlayerIndex(int32_t playerIndex);

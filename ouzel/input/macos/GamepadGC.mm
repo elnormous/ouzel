@@ -154,14 +154,14 @@ namespace ouzel
             attached = (controller.isAttachedToDevice == YES);
         }
 
-        void GamepadGC::setAbsoluteDpadValues(bool absoluteDpadValues)
+        void GamepadGC::setAbsoluteDPadValues(bool absoluteDPadValues)
         {
 #if defined(__MAC_10_12) && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_12
-            controller.microGamepad.reportsAbsoluteDpadValues = absoluteDpadValues ? YES : NO;
+            controller.microGamepad.reportsAbsoluteDpadValues = absoluteDPadValues ? YES : NO;
 #endif
         }
 
-        bool GamepadGC::isAbsoluteDpadValues() const
+        bool GamepadGC::isAbsoluteDPadValues() const
         {
 #if defined(__MAC_10_12) && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_12
             return controller.microGamepad.reportsAbsoluteDpadValues == YES;

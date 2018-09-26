@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <algorithm>
+#include <iterator>
 #include "Gamepad.hpp"
 #include "core/Engine.hpp"
 #include "events/EventDispatcher.hpp"
@@ -12,33 +13,19 @@ namespace ouzel
         Gamepad::Gamepad():
             InputDevice(InputDevice::Type::GAMEPAD)
         {
+            std::fill(std::begin(vibration), std::end(vibration), 0.0F);
         }
 
-        Gamepad::~Gamepad()
+        void Gamepad::setAbsoluteDPadValues(bool newAbsoluteDPadValues)
         {
+            absoluteDPadValues = newAbsoluteDPadValues;
+            // TODO: send command to InputSystem
         }
 
-        void Gamepad::setAbsoluteDpadValues(bool)
+        void Gamepad::setPlayerIndex(int32_t newPlayerIndex)
         {
-        }
-
-        bool Gamepad::isAbsoluteDpadValues() const
-        {
-            return false;
-        }
-
-        int32_t Gamepad::getPlayerIndex() const
-        {
-            return -1;
-        }
-
-        void Gamepad::setPlayerIndex(int32_t)
-        {
-        }
-
-        const Gamepad::ButtonState& Gamepad::getButtonState(Gamepad::Button button) const
-        {
-            return buttonStates[static_cast<uint32_t>(button)];
+            playerIndex = newPlayerIndex;
+            // TODO: send command to InputSystem
         }
 
         void Gamepad::handleButtonValueChange(Gamepad::Button button, bool pressed, float value)
@@ -59,13 +46,10 @@ namespace ouzel
             buttonStates[static_cast<uint32_t>(button)].value = value;
         }
 
-        void Gamepad::setVibration(Motor, float)
+        void Gamepad::setVibration(Motor motor, float speed)
         {
-        }
-
-        float Gamepad::getVibration(Motor)
-        {
-            return 0.0F;
+            vibration[static_cast<uint32_t>(motor)] = speed;
+            // TODO: send command to InputSystem
         }
     } // namespace input
 } // namespace ouzel

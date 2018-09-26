@@ -44,15 +44,15 @@ namespace ouzel
                 RIGHT_THUMB_RIGHT,
                 RIGHT_THUMB_UP,
                 RIGHT_THUMB_DOWN,
-
-                BUTTON_COUNT
+                COUNT
             };
 
             enum class Motor
             {
                 ALL,
                 LEFT,
-                RIGHT
+                RIGHT,
+                COUNT
             };
 
             struct ButtonState
@@ -62,7 +62,7 @@ namespace ouzel
             };
 
             Gamepad();
-            virtual ~Gamepad();
+            virtual ~Gamepad() {}
 
             Gamepad(const Gamepad&) = delete;
             Gamepad& operator=(const Gamepad&) = delete;
@@ -70,31 +70,31 @@ namespace ouzel
             Gamepad(Gamepad&&) = delete;
             Gamepad& operator=(Gamepad&&) = delete;
 
-            inline const std::string& getName() const { return name; }
-            inline int32_t getVendorId() const { return vendorId; }
-            inline int32_t getProductId() const { return productId; }
             inline bool isAttached() const { return attached; }
 
-            virtual void setAbsoluteDpadValues(bool absoluteDpadValues);
-            virtual bool isAbsoluteDpadValues() const;
+            inline bool isAbsoluteDPadValues() const { return absoluteDPadValues; }
+            void setAbsoluteDPadValues(bool newAbsoluteDPadValues);
 
-            virtual int32_t getPlayerIndex() const;
-            virtual void setPlayerIndex(int32_t playerIndex);
+            inline int32_t getPlayerIndex() const { return playerIndex; }
+            void setPlayerIndex(int32_t newPlayerIndex);
 
-            virtual const ButtonState& getButtonState(Gamepad::Button button) const;
+            inline const ButtonState& getButtonState(Button button) const
+            {
+                return buttonStates[static_cast<uint32_t>(button)];
+            }
 
-            virtual void setVibration(Motor motor, float speed);
-            virtual float getVibration(Motor motor);
+            inline float getVibration(Motor motor)  { return vibration[static_cast<uint32_t>(motor)]; }
+            void setVibration(Motor motor, float speed);
 
         protected:
             void handleButtonValueChange(Gamepad::Button button, bool pressed, float value);
 
         private:
-            ButtonState buttonStates[static_cast<uint32_t>(Gamepad::Button::BUTTON_COUNT)];
-            std::string name;
-            int32_t vendorId = 0;
-            int32_t productId = 0;
+            ButtonState buttonStates[static_cast<uint32_t>(Button::COUNT)];
+            int32_t playerIndex = -1;
+            bool absoluteDPadValues = false;
             bool attached = false;
+            float vibration[static_cast<uint32_t>(Motor::COUNT)];
         };
     } // namespace input
 } // namespace ouzel

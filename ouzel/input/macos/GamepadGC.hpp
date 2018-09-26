@@ -24,8 +24,8 @@ namespace ouzel
                       uint32_t initDeviceId,
                       GCControllerPtr initController);
 
-            void setAbsoluteDpadValues(bool absoluteDpadValues);
-            bool isAbsoluteDpadValues() const;
+            void setAbsoluteDPadValues(bool absoluteDPadValues);
+            bool isAbsoluteDPadValues() const;
 
             int32_t getPlayerIndex() const;
             void setPlayerIndex(int32_t playerIndex);

@@ -93,8 +93,8 @@ namespace ouzel
             std::unique_ptr<InputSystem> inputSystem;
 
             Vector2 cursorPosition;
-            bool keyboardKeyStates[static_cast<uint32_t>(Keyboard::Key::KEY_COUNT)];
-            bool mouseButtonStates[static_cast<uint32_t>(Mouse::Button::BUTTON_COUNT)];
+            bool keyboardKeyStates[static_cast<uint32_t>(Keyboard::Key::COUNT)];
+            bool mouseButtonStates[static_cast<uint32_t>(Mouse::Button::COUNT)];
 
             std::unordered_map<uint64_t, Vector2> touchPositions;
             std::vector<std::unique_ptr<Gamepad>> gamepads;
