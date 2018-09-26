@@ -95,6 +95,8 @@ namespace ouzel
             InputSystem();
 
             void addCommand(const Command& command);
+            virtual void executeCommand(Command) {}
+
             std::vector<Event> getEvents() const;
 
         protected:
@@ -103,9 +105,6 @@ namespace ouzel
         private:
             mutable std::mutex eventQueueMutex;
             mutable std::queue<Event> eventQueue;
-
-            mutable std::mutex commandQueueMutex;
-            mutable std::queue<Command> commandQueue;
         };
     } // namespace input
 } // namespace ouzel

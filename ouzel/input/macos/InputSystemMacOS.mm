@@ -287,6 +287,43 @@ namespace ouzel
             }
         }
 
+        void InputSystemMacOS::executeCommand(Command command)
+        {
+            switch (command.type)
+            {
+                case Command::Type::START_DEVICE_DISCOVERY:
+                {
+                    startGamepadDiscovery();
+                    break;
+                }
+                case Command::Type::STOP_DEVICE_DISCOVERY:
+                {
+                    stopGamepadDiscovery();
+                    break;
+                }
+                case Command::Type::SET_ABSOLUTE_DPAD_VALUES:
+                {
+                    break;
+                }
+                case Command::Type::SET_PLAYER_INDEX:
+                {
+                    break;
+                }
+                case Command::Type::SET_VIBRATION:
+                {
+                    break;
+                }
+                case Command::Type::SET_POSITON:
+                {
+                    break;
+                }
+                case Command::Type::SET_CURSOR:
+                {
+                    break;
+                }
+            }
+        }
+
         void InputSystemMacOS::setCursorPosition(const Vector2& position)
         {
             /*ouzel::Vector2 windowLocation = engine->getWindow()->convertNormalizedToWindowLocation(position);
@@ -315,7 +352,7 @@ namespace ouzel
             return cursorLocked;
         }
 
-        void InputSystemMacOS::startDeviceDiscovery()
+        void InputSystemMacOS::startGamepadDiscovery()
         {
             Log(Log::Level::INFO) << "Started gamepad discovery";
 
@@ -323,7 +360,7 @@ namespace ouzel
              ^(void){ handleGamepadDiscoveryCompleted(); }];
         }
 
-        void InputSystemMacOS::stopDeviceDiscovery()
+        void InputSystemMacOS::stopGamepadDiscovery()
         {
             Log(Log::Level::INFO) << "Stopped gamepad discovery";
 

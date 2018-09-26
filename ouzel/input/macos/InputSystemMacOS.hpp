@@ -36,6 +36,8 @@ namespace ouzel
             InputSystemMacOS();
             virtual ~InputSystemMacOS();
 
+            virtual void executeCommand(Command command) override;
+
             void handleGamepadDiscoveryCompleted();
 
             void handleGamepadConnected(GCControllerPtr device);
@@ -48,8 +50,8 @@ namespace ouzel
 
             void setCursorPosition(const Vector2& position);
 
-            void startDeviceDiscovery();
-            void stopDeviceDiscovery();
+            void startGamepadDiscovery();
+            void stopGamepadDiscovery();
 
             void handleButtonValueChange(const GamepadMacOS& gamepad, Gamepad::Button button, bool pressed, float value);
 
