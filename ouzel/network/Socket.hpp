@@ -3,7 +3,10 @@
 #pragma once
 
 #ifdef _WIN32
-#include <winsock.h>
+#  ifndef NOMINMAX
+#    define NOMINMAX
+#  endif
+#  include <winsock.h>
 #endif
 
 namespace ouzel
