@@ -11,6 +11,12 @@ namespace ouzel
         {
         }
 
+        void InputSystem::addCommand(const Command& command)
+        {
+            std::unique_lock<std::mutex> lock(commandQueueMutex);
+            commandQueue.push(command);
+        }
+
         std::vector<InputSystem::Event> InputSystem::getEvents() const
         {
             std::vector<Event> result;

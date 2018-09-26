@@ -62,7 +62,6 @@ namespace ouzel
             std::unordered_map<GCControllerPtr, GamepadGC*> gamepadsGC;
             std::unordered_map<IOHIDDeviceRef, GamepadIOKit*> gamepadsIOKit;
 
-            bool discovering = false;
             bool cursorVisible = true;
             bool cursorLocked = false;
         };

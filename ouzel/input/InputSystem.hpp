@@ -25,6 +25,7 @@ namespace ouzel
                 enum class Type
                 {
                     START_DEVICE_DISCOVERY,
+                    STOP_DEVICE_DISCOVERY,
                     SET_ABSOLUTE_DPAD_VALUES,
                     SET_PLAYER_INDEX,
                     SET_VIBRATION,
@@ -52,6 +53,7 @@ namespace ouzel
                 {
                     DEVICE_CONNECT,
                     DEVICE_DISCONNECT,
+                    DEVICE_DISCOVERY_COMPLETE,
 
                     GAMEPAD_BUTTON_CHANGE,
 
@@ -92,6 +94,7 @@ namespace ouzel
 
             InputSystem();
 
+            void addCommand(const Command& command);
             std::vector<Event> getEvents() const;
 
         protected:
@@ -102,7 +105,7 @@ namespace ouzel
             mutable std::queue<Event> eventQueue;
 
             mutable std::mutex commandQueueMutex;
-            mutable std::queue<Event> commandQueue;
+            mutable std::queue<Command> commandQueue;
         };
     } // namespace input
 } // namespace ouzel

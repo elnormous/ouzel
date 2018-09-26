@@ -105,6 +105,8 @@ namespace ouzel
             NativeCursor* currentNativeCursor = nullptr;
 
             std::unordered_map<uint32_t, std::unique_ptr<InputDevice>> inputDevices;
+
+            bool discovering = false;
         };
     } // namespace input
 } // namespace ouzel
