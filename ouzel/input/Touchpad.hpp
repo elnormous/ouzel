@@ -4,7 +4,7 @@
 
 #include <cstdint>
 #include <unordered_map>
-#include "input/InputDevice.hpp"
+#include "input/Controller.hpp"
 #include "math/Vector2.hpp"
 
 namespace ouzel
@@ -13,7 +13,7 @@ namespace ouzel
     {
         class InputManager;
 
-        class Touchpad: public InputDevice
+        class Touchpad: public Controller
         {
             friend InputManager;
         public:

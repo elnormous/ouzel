@@ -6,7 +6,7 @@ namespace ouzel
 {
     namespace input
     {
-        class InputDevice
+        class Controller
         {
         public:
             enum Type
@@ -17,10 +17,10 @@ namespace ouzel
                 GAMEPAD
             };
 
-            explicit InputDevice(Type initType, uint32_t initDeviceId):
+            explicit Controller(Type initType, uint32_t initDeviceId):
                 type(initType), deviceId(initDeviceId)
             {}
-            virtual ~InputDevice() {}
+            virtual ~Controller() {}
 
             inline Type getType() const { return type; }
             inline uint32_t getDeviceId() const { return deviceId; }

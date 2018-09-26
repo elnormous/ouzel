@@ -285,7 +285,7 @@
     <ClInclude Include="..\ouzel\input\NativeCursor.hpp" />
     <ClInclude Include="..\ouzel\input\Gamepad.hpp" />
     <ClInclude Include="..\ouzel\input\InputManager.hpp" />
-    <ClInclude Include="..\ouzel\input\InputDevice.hpp" />
+    <ClInclude Include="..\ouzel\input\Controller.hpp" />
     <ClInclude Include="..\ouzel\input\InputSystem.hpp" />
     <ClInclude Include="..\ouzel\input\Keyboard.hpp" />
     <ClInclude Include="..\ouzel\input\Mouse.hpp" />

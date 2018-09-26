@@ -4,7 +4,7 @@
 
 #include <cstdint>
 #include <string>
-#include "input/InputDevice.hpp"
+#include "input/Controller.hpp"
 
 namespace ouzel
 {
@@ -12,7 +12,7 @@ namespace ouzel
     {
         class InputManager;
 
-        class Gamepad: public InputDevice
+        class Gamepad: public Controller
         {
             friend InputManager;
         public:

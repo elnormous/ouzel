@@ -898,7 +898,7 @@
     <ClInclude Include="..\ouzel\ouzel.hpp">
       <Filter>ouzel</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\input\InputDevice.hpp">
+    <ClInclude Include="..\ouzel\input\Controller.hpp">
       <Filter>ouzel\input</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\input\Keyboard.hpp">
