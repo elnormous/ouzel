@@ -3,10 +3,13 @@
 #pragma once
 
 #include <cstdint>
+#include <memory>
 #include <mutex>
 #include <queue>
+#include <unordered_map>
 #include <vector>
 #include "input/Gamepad.hpp"
+#include "input/InputDevice.hpp"
 #include "input/Keyboard.hpp"
 #include "input/Mouse.hpp"
 #include "math/Vector2.hpp"
@@ -99,6 +102,8 @@ namespace ouzel
 
         protected:
             void addEvent(const Event& event);
+
+            std::unordered_map<uint32_t, std::unique_ptr<InputDevice>> inputDevices;
 
         private:
             mutable std::mutex eventQueueMutex;
