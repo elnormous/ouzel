@@ -2,6 +2,9 @@
 
 #pragma once
 
+#ifndef NOMINMAX
+#  define NOMINMAX
+#endif
 #include <Windows.h>
 #include <set>
 #include "core/NativeWindow.hpp"

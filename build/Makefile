@@ -173,7 +173,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/dsound/AudioDeviceDS.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/InputManagerWin.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/InputSystemWin.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/NativeCursorWin.cpp
-CXXFLAGS+=-DNOMINMAX -DWINVER=0x0601 -D_WIN32_WINNT=0x0601
+CXXFLAGS+=-DWINVER=0x0601 -D_WIN32_WINNT=0x0601
 else ifeq ($(platform),linux)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/alsa/AudioDeviceALSA.cpp \
 	$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \
