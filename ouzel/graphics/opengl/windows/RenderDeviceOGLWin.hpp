@@ -8,6 +8,9 @@
 
 #include <atomic>
 #include <thread>
+#ifndef NOMINMAX
+#  define NOMINMAX
+#endif
 #include <Windows.h>
 #include "graphics/opengl/RenderDeviceOGL.hpp"
 

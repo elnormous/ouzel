@@ -1,16 +1,16 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #ifdef _WIN32
-#ifndef NOMINMAX
-#define NOMINMAX
-#endif
-#include <WinSock2.h>
-#include <WS2tcpip.h>
+#  ifndef NOMINMAX
+#    define NOMINMAX
+#  endif
+#  include <WinSock2.h>
+#  include <WS2tcpip.h>
 #else
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <errno.h>
-#include <unistd.h>
+#  include <sys/socket.h>
+#  include <netinet/in.h>
+#  include <errno.h>
+#  include <unistd.h>
 #endif
 #include "Socket.hpp"
 
