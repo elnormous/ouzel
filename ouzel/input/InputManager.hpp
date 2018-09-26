@@ -6,7 +6,7 @@
 #include <mutex>
 #include <vector>
 #include <unordered_map>
-#include "input/InputDevice.hpp"
+#include "input/Controller.hpp"
 #include "input/InputSystem.hpp"
 #include "input/Gamepad.hpp"
 #include "input/Keyboard.hpp"
@@ -104,7 +104,7 @@ namespace ouzel
             std::vector<std::unique_ptr<NativeCursor>> resourceDeleteSet;
             NativeCursor* currentNativeCursor = nullptr;
 
-            std::unordered_map<uint32_t, std::unique_ptr<InputDevice>> inputDevices;
+            std::unordered_map<uint32_t, std::unique_ptr<Controller>> controllers;
 
             bool discovering = false;
         };

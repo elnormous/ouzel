@@ -15,8 +15,6 @@ namespace ouzel
 {
     namespace input
     {
-        class InputDevice;
-
         class InputSystem
         {
         public:
@@ -73,7 +71,7 @@ namespace ouzel
                 };
 
                 Type type;
-                InputDevice::Type deviceType;
+                Controller::Type deviceType;
                 uint32_t deviceId = 0;
                 union
                 {
