@@ -172,6 +172,10 @@ namespace ouzel
 
             inline bool isKeyDown(Key key) const { return keyStates[static_cast<uint32_t>(key)]; }
 
+        protected:
+            void handleKeyPress(Keyboard::Key key, uint32_t modifiers);
+            void handleKeyRelease(Keyboard::Key key, uint32_t modifiers);
+
         private:
             bool keyStates[static_cast<uint32_t>(Key::KEY_COUNT)];
         };
