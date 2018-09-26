@@ -10,8 +10,8 @@ namespace ouzel
 {
     namespace input
     {
-        Keyboard::Keyboard():
-            InputDevice(InputDevice::Type::KEYBOARD)
+        Keyboard::Keyboard(uint32_t initDeviceId):
+            Controller(Controller::Type::KEYBOARD, initDeviceId)
         {
             std::fill(std::begin(keyStates), std::end(keyStates), false);
         }
@@ -28,12 +28,12 @@ namespace ouzel
                 keyStates[static_cast<uint32_t>(key)] = true;
 
                 event.type = Event::Type::KEY_PRESS;
-                engine->getEventDispatcher().postEvent(event);
+                engine->getEventDispatcher().postEvent(event, true);
             }
             else
             {
                 event.type = Event::Type::KEY_REPEAT;
-                engine->getEventDispatcher().postEvent(event);
+                engine->getEventDispatcher().postEvent(event, true);
             }
         }
 
@@ -47,7 +47,7 @@ namespace ouzel
             event.keyboardEvent.key = key;
             event.keyboardEvent.modifiers = modifiers;
 
-            engine->getEventDispatcher().postEvent(event);
+            engine->getEventDispatcher().postEvent(event, true);
         }
     } // namespace input
 } // namespace ouzel

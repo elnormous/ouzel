@@ -63,33 +63,98 @@ namespace ouzel
             {
                 switch (event.type)
                 {
-                    case InputSystem::Event::Type::GAMEPAD_CONNECT:
+                    case InputSystem::Event::Type::DEVICE_CONNECT:
                     {
                         Event connectEvent;
-                        connectEvent.type = Event::Type::GAMEPAD_CONNECT;
-                        std::unique_ptr<Gamepad> gamepad(new Gamepad());
-                        connectEvent.gamepadEvent.gamepad = gamepad.get();
-                        inputDevices.insert(std::make_pair(event.deviceId, std::move(gamepad)));
+
+                        switch (event.deviceType)
+                        {
+                            case Controller::Type::GAMEPAD:
+                            {
+                                connectEvent.type = Event::Type::GAMEPAD_CONNECT;
+                                std::unique_ptr<Gamepad> gamepad(new Gamepad(event.deviceId));
+                                connectEvent.gamepadEvent.gamepad = gamepad.get();
+                                controllers.insert(std::make_pair(event.deviceId, std::move(gamepad)));
+                                break;
+                            }
+                            case Controller::Type::KEYBOARD:
+                            {
+                                connectEvent.type = Event::Type::KEYBOARD_CONNECT;
+                                std::unique_ptr<Keyboard> keyboard(new Keyboard(event.deviceId));
+                                connectEvent.keyboardEvent.keyboard = keyboard.get();
+                                controllers.insert(std::make_pair(event.deviceId, std::move(keyboard)));
+                                break;
+                            }
+                            case Controller::Type::MOUSE:
+                            {
+                                connectEvent.type = Event::Type::MOUSE_CONNECT;
+                                std::unique_ptr<Mouse> mouse(new Mouse(event.deviceId));
+                                connectEvent.mouseEvent.mouse = mouse.get();
+                                controllers.insert(std::make_pair(event.deviceId, std::move(mouse)));
+                                break;
+                            }
+                            case Controller::Type::TOUCHPAD:
+                            {
+                                connectEvent.type = Event::Type::TOUCHPAD_CONNECT;
+                                std::unique_ptr<Touchpad> touchpad(new Touchpad(event.deviceId));
+                                connectEvent.touchEvent.touchpad = touchpad.get();
+                                controllers.insert(std::make_pair(event.deviceId, std::move(touchpad)));
+                                break;
+                            }
+                        }
+
                         engine->getEventDispatcher().postEvent(connectEvent, true);
                         break;
                     }
-                    case InputSystem::Event::Type::GAMEPAD_DISCONNECT:
+                    case InputSystem::Event::Type::DEVICE_DISCONNECT:
                     {
-                        auto i = inputDevices.find(event.deviceId);
-                        if (i != inputDevices.end())
+                        auto i = controllers.find(event.deviceId);
+                        if (i != controllers.end())
                         {
                             Event disconnectEvent;
-                            disconnectEvent.type = Event::Type::GAMEPAD_DISCONNECT;
-                            disconnectEvent.gamepadEvent.gamepad = static_cast<Gamepad*>(i->second.get());
+
+                            switch (i->second->getType())
+                            {
+                                case Controller::Type::GAMEPAD:
+                                {
+                                    disconnectEvent.type = Event::Type::GAMEPAD_DISCONNECT;
+                                    disconnectEvent.gamepadEvent.gamepad = static_cast<Gamepad*>(i->second.get());
+                                    break;
+                                }
+                                case Controller::Type::KEYBOARD:
+                                {
+                                    disconnectEvent.type = Event::Type::KEYBOARD_DISCONNECT;
+                                    disconnectEvent.keyboardEvent.keyboard = static_cast<Keyboard*>(i->second.get());
+                                    break;
+                                }
+                                case Controller::Type::MOUSE:
+                                {
+                                    disconnectEvent.type = Event::Type::MOUSE_DISCONNECT;
+                                    disconnectEvent.mouseEvent.mouse = static_cast<Mouse*>(i->second.get());
+                                    break;
+                                }
+                                case Controller::Type::TOUCHPAD:
+                                {
+                                    disconnectEvent.type = Event::Type::TOUCHPAD_DISCONNECT;
+                                    disconnectEvent.touchEvent.touchpad = static_cast<Touchpad*>(i->second.get());
+                                    break;
+                                }
+                            }
+
                             engine->getEventDispatcher().postEvent(disconnectEvent, true);
-                            inputDevices.erase(i);
+                            controllers.erase(i);
                         }
+                        break;
+                    }
+                    case InputSystem::Event::Type::DEVICE_DISCOVERY_COMPLETE:
+                    {
+                        discovering = false;
                         break;
                     }
                     case InputSystem::Event::Type::GAMEPAD_BUTTON_CHANGE:
                     {
-                        auto i = inputDevices.find(event.deviceId);
-                        if (i != inputDevices.end())
+                        auto i = controllers.find(event.deviceId);
+                        if (i != controllers.end())
                         {
                             Gamepad* gamepad = static_cast<Gamepad*>(i->second.get());
                             gamepad->handleButtonValueChange(event.gamepadButton, event.pressed, event.value);
@@ -214,10 +279,20 @@ namespace ouzel
 
         void InputManager::startDeviceDiscovery()
         {
+            discovering = true;
+
+            InputSystem::Command command;
+            command.type = InputSystem::Command::Type::START_DEVICE_DISCOVERY;
+            inputSystem->addCommand(command);
         }
 
         void InputManager::stopDeviceDiscovery()
         {
+            discovering = false;
+
+            InputSystem::Command command;
+            command.type = InputSystem::Command::Type::STOP_DEVICE_DISCOVERY;
+            inputSystem->addCommand(command);
         }
 
         void InputManager::keyPress(Keyboard::Key key, uint32_t modifiers)

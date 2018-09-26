@@ -3,7 +3,7 @@
 #pragma once
 
 #include <cstdint>
-#include "input/InputDevice.hpp"
+#include "input/Controller.hpp"
 
 namespace ouzel
 {
@@ -11,7 +11,7 @@ namespace ouzel
     {
         class InputManager;
 
-        class Keyboard: public InputDevice
+        class Keyboard: public Controller
         {
             friend InputManager;
         public:
@@ -166,7 +166,7 @@ namespace ouzel
                 COUNT
             };
 
-            Keyboard();
+            Keyboard(uint32_t initDeviceId);
             virtual ~Keyboard() {}
 
             inline bool isKeyDown(Key key) const { return keyStates[static_cast<uint32_t>(key)]; }

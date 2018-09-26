@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include <cstdint>
+
 namespace ouzel
 {
     namespace input
@@ -9,21 +11,13 @@ namespace ouzel
         class InputDevice
         {
         public:
-            enum Type
-            {
-                KEYBOARD,
-                MOUSE,
-                TOUCHPAD,
-                GAMEPAD
-            };
-
-            explicit InputDevice(Type initType): type(initType) {}
+            InputDevice(uint32_t initDeviceId): deviceId(initDeviceId) {}
             virtual ~InputDevice() {}
 
-            Type getType() const { return type; }
+            inline uint32_t getDeviceId() const { return deviceId; }
 
-        private:
-            Type type;
+        protected:
+            uint32_t deviceId;
         };
-    }
-}
+    } // namespace input
+} // namespace ouzel

@@ -2,6 +2,7 @@
 
 #include "InputSystem.hpp"
 #include "InputManager.hpp"
+#include "core/Engine.hpp"
 
 namespace ouzel
 {
@@ -9,6 +10,11 @@ namespace ouzel
     {
         InputSystem::InputSystem()
         {
+        }
+
+        void InputSystem::addCommand(const Command& command)
+        {
+            engine->executeOnMainThread(std::bind(&InputSystem::executeCommand, this, command));
         }
 
         std::vector<InputSystem::Event> InputSystem::getEvents() const
