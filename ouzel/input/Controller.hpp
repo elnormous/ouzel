@@ -9,7 +9,7 @@ namespace ouzel
         class Controller
         {
         public:
-            enum Type
+            enum class Type
             {
                 KEYBOARD,
                 MOUSE,
