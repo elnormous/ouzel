@@ -11,14 +11,13 @@ namespace ouzel
     {
         class InputSystemMacOS;
 
-        class GamepadMacOS: public: InputDevice
+        class GamepadMacOS: public InputDevice
         {
         public:
             GamepadMacOS(InputSystemMacOS& initInputSystemMacOS,
                          uint32_t initDeviceId):
                 InputDevice(initDeviceId),
-                inputSystemMacOS(initInputSystemMacOS),
-                deviceId(initDeviceId)
+                inputSystemMacOS(initInputSystemMacOS)
             {
             }
 
