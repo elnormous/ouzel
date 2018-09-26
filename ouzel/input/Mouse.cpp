@@ -10,8 +10,8 @@ namespace ouzel
 {
     namespace input
     {
-        Mouse::Mouse():
-            InputDevice(InputDevice::Type::MOUSE)
+        Mouse::Mouse(uint32_t initDeviceId):
+            InputDevice(InputDevice::Type::MOUSE, initDeviceId)
         {
             std::fill(std::begin(buttonStates), std::end(buttonStates), false);
         }

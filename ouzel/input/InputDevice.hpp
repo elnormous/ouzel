@@ -17,13 +17,17 @@ namespace ouzel
                 GAMEPAD
             };
 
-            explicit InputDevice(Type initType): type(initType) {}
+            explicit InputDevice(Type initType, uint32_t initDeviceId):
+                type(initType), deviceId(initDeviceId)
+            {}
             virtual ~InputDevice() {}
 
-            Type getType() const { return type; }
+            inline Type getType() const { return type; }
+            inline uint32_t getDeviceId() const { return deviceId; }
 
         private:
             Type type;
+            uint32_t deviceId;
         };
     }
 }

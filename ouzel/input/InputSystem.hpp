@@ -50,8 +50,9 @@ namespace ouzel
             {
                 enum class Type
                 {
-                    GAMEPAD_CONNECT,
-                    GAMEPAD_DISCONNECT,
+                    DEVICE_CONNECT,
+                    DEVICE_DISCONNECT,
+
                     GAMEPAD_BUTTON_CHANGE,
 
                     KEY_PRESS,
@@ -70,6 +71,7 @@ namespace ouzel
                 };
 
                 Type type;
+                InputDevice::Type deviceType;
                 uint32_t deviceId = 0;
                 union
                 {

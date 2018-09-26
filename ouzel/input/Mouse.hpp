@@ -27,7 +27,7 @@ namespace ouzel
                 COUNT
             };
 
-            Mouse();
+            Mouse(uint32_t initDeviceId);
             virtual ~Mouse() {}
 
             inline const Vector2& getPosition() const { return position; }
