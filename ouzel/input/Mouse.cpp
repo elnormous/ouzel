@@ -33,7 +33,7 @@ namespace ouzel
             event.mouseEvent.position = pos;
             event.mouseEvent.modifiers = modifiers;
 
-            engine->getEventDispatcher().postEvent(event);
+            engine->getEventDispatcher().postEvent(event, true);
         }
 
         void Mouse::handleMouseButtonRelease(Mouse::Button button, const Vector2& pos, uint32_t modifiers)
@@ -47,7 +47,7 @@ namespace ouzel
             event.mouseEvent.position = pos;
             event.mouseEvent.modifiers = modifiers;
 
-            engine->getEventDispatcher().postEvent(event);
+            engine->getEventDispatcher().postEvent(event, true);
         }
 
         void Mouse::handleMouseMove(const Vector2& pos, uint32_t modifiers)
@@ -61,7 +61,7 @@ namespace ouzel
 
             position = pos;
 
-            engine->getEventDispatcher().postEvent(event);
+            engine->getEventDispatcher().postEvent(event, true);
         }
 
         void Mouse::handleMouseRelativeMove(const Vector2& pos, uint32_t modifiers)
@@ -83,7 +83,7 @@ namespace ouzel
             event.mouseEvent.scroll = scroll;
             event.mouseEvent.modifiers = modifiers;
 
-            engine->getEventDispatcher().postEvent(event);
+            engine->getEventDispatcher().postEvent(event, true);
         }
     } // namespace input
 } // namespace ouzel

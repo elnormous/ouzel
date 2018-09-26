@@ -2,6 +2,7 @@
 
 #include "InputSystem.hpp"
 #include "InputManager.hpp"
+#include "core/Engine.hpp"
 
 namespace ouzel
 {
@@ -13,8 +14,7 @@ namespace ouzel
 
         void InputSystem::addCommand(const Command& command)
         {
-            std::unique_lock<std::mutex> lock(commandQueueMutex);
-            commandQueue.push(command);
+            engine->executeOnMainThread(std::bind(&InputSystem::executeCommand, this, command));
         }
 
         std::vector<InputSystem::Event> InputSystem::getEvents() const
