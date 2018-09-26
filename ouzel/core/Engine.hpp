@@ -8,7 +8,7 @@
 #include <mutex>
 #include <thread>
 #include <vector>
-#include "Setup.h"
+#include "core/Setup.h"
 #include "core/Timer.hpp"
 #include "core/Window.hpp"
 #include "graphics/Renderer.hpp"
