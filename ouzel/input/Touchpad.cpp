@@ -8,8 +8,8 @@ namespace ouzel
 {
     namespace input
     {
-        Touchpad::Touchpad():
-            InputDevice(InputDevice::Type::TOUCHPAD)
+        Touchpad::Touchpad(uint32_t initDeviceId):
+            InputDevice(InputDevice::Type::TOUCHPAD, initDeviceId)
         {
         }
 

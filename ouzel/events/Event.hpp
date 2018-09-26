@@ -121,27 +121,33 @@ namespace ouzel
     {
         enum class Type
         {
+            // gamepad events
+            GAMEPAD_CONNECT,
+            GAMEPAD_DISCONNECT,
+            GAMEPAD_BUTTON_CHANGE,
+
             // keyboard events
+            KEYBOARD_CONNECT,
+            KEYBOARD_DISCONNECT,
             KEY_PRESS,
             KEY_RELEASE,
             KEY_REPEAT,
 
             // mouse events
+            MOUSE_CONNECT,
+            MOUSE_DISCONNECT,
             MOUSE_PRESS,
             MOUSE_RELEASE,
             MOUSE_SCROLL,
             MOUSE_MOVE,
 
             // touch events
+            TOUCHPAD_CONNECT,
+            TOUCHPAD_DISCONNECT,
             TOUCH_BEGIN,
             TOUCH_MOVE,
             TOUCH_END,
             TOUCH_CANCEL,
-
-            // gamepad events
-            GAMEPAD_CONNECT,
-            GAMEPAD_DISCONNECT,
-            GAMEPAD_BUTTON_CHANGE,
 
             // window events
             WINDOW_SIZE_CHANGE,

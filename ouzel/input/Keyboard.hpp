@@ -166,7 +166,7 @@ namespace ouzel
                 COUNT
             };
 
-            Keyboard();
+            Keyboard(uint32_t initDeviceId);
             virtual ~Keyboard() {}
 
             inline bool isKeyDown(Key key) const { return keyStates[static_cast<uint32_t>(key)]; }
