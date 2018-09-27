@@ -60,16 +60,16 @@ namespace ouzel
 
                 // buttons
                 controller.extendedGamepad.buttonA.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
-                    inputSystemTVOS.handleButtonValueChange(*this, Gamepad::Button::FACE_BOTTOM, pressed, value);
+                    inputSystemTVOS.handleButtonValueChange(*this, Gamepad::Button::FACE_1, pressed, value);
                 };
                 controller.extendedGamepad.buttonB.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
-                    inputSystemTVOS.handleButtonValueChange(*this, Gamepad::Button::FACE_RIGHT, pressed, value);
+                    inputSystemTVOS.handleButtonValueChange(*this, Gamepad::Button::FACE_3, pressed, value);
                 };
                 controller.extendedGamepad.buttonX.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
-                    inputSystemTVOS.handleButtonValueChange(*this, Gamepad::Button::FACE_LEFT, pressed, value);
+                    inputSystemTVOS.handleButtonValueChange(*this, Gamepad::Button::FACE_2, pressed, value);
                 };
                 controller.extendedGamepad.buttonY.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
-                    inputSystemTVOS.handleButtonValueChange(*this, Gamepad::Button::FACE_TOP, pressed, value);
+                    inputSystemTVOS.handleButtonValueChange(*this, Gamepad::Button::FACE_4, pressed, value);
                 };
 
                 // triggers and shoulders
@@ -105,16 +105,16 @@ namespace ouzel
 
                 // buttons
                 controller.gamepad.buttonA.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
-                    inputSystemTVOS.handleButtonValueChange(*this, Gamepad::Button::FACE_BOTTOM, pressed, value);
+                    inputSystemTVOS.handleButtonValueChange(*this, Gamepad::Button::FACE_1, pressed, value);
                 };
                 controller.gamepad.buttonB.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
-                    inputSystemTVOS.handleButtonValueChange(*this, Gamepad::Button::FACE_RIGHT, pressed, value);
+                    inputSystemTVOS.handleButtonValueChange(*this, Gamepad::Button::FACE_3, pressed, value);
                 };
                 controller.gamepad.buttonX.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
-                    inputSystemTVOS.handleButtonValueChange(*this, Gamepad::Button::FACE_LEFT, pressed, value);
+                    inputSystemTVOS.handleButtonValueChange(*this, Gamepad::Button::FACE_2, pressed, value);
                 };
                 controller.gamepad.buttonY.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
-                    inputSystemTVOS.handleButtonValueChange(*this, Gamepad::Button::FACE_TOP, pressed, value);
+                    inputSystemTVOS.handleButtonValueChange(*this, Gamepad::Button::FACE_4, pressed, value);
                 };
             }
             else if (controller.microGamepad)
@@ -135,10 +135,10 @@ namespace ouzel
 
                 // buttons
                 controller.microGamepad.buttonA.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
-                    inputSystemTVOS.handleButtonValueChange(*this, Gamepad::Button::FACE_BOTTOM, pressed, value);
+                    inputSystemTVOS.handleButtonValueChange(*this, Gamepad::Button::FACE_1, pressed, value);
                 };
                 controller.microGamepad.buttonX.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
-                    inputSystemTVOS.handleButtonValueChange(*this, Gamepad::Button::FACE_LEFT, pressed, value);
+                    inputSystemTVOS.handleButtonValueChange(*this, Gamepad::Button::FACE_2, pressed, value);
                 };
             }
 

@@ -218,7 +218,7 @@ namespace ouzel
                     if (event.previousValue < 0.6F && event.value > 0.6F) selectNextWidget();
                 }
 #if !OUZEL_PLATFORM_IOS && !OUZEL_PLATFORM_TVOS // on iOS and tvOS menu items ar selected with a SELECT button
-                else if (event.button == input::Gamepad::Button::FACE_BOTTOM)
+                else if (event.button == input::Gamepad::Button::FACE_1)
                 {
                     if (!event.previousPressed && event.pressed && selectedWidget)
                     {
