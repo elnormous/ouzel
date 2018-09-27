@@ -62,7 +62,7 @@ bool GameSample::handleGamepad(Event::Type type, const GamepadEvent& event)
     if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
     {
         if (event.pressed &&
-            event.button == input::Gamepad::Button::FACE_RIGHT)
+            event.button == input::Gamepad::Button::FACE_3)
             engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
     }
 
