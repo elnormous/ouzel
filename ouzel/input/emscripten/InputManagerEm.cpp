@@ -123,6 +123,25 @@ static EM_BOOL emGamepadCallback(int eventType, const EmscriptenGamepadEvent* ga
     return false;
 }
 
+static EM_BOOL emTouchCallback(int eventType, const EmscriptenTouchEvent *touchEvent, void *userData)
+{
+    switch (eventType)
+    {
+        case EMSCRIPTEN_EVENT_TOUCHSTART:
+            // TODO: implement
+            break;
+        case EMSCRIPTEN_EVENT_TOUCHEND:
+            // TODO: implement
+            break;
+        case EMSCRIPTEN_EVENT_TOUCHMOVE:
+            // TODO: implement
+            break;
+        case EMSCRIPTEN_EVENT_TOUCHCANCEL:
+            // TODO: implement
+            break;
+    }
+}
+
 namespace ouzel
 {
     namespace input
@@ -141,6 +160,11 @@ namespace ouzel
 
             emscripten_set_gamepadconnected_callback(this, true, emGamepadCallback);
             emscripten_set_gamepaddisconnected_callback(this, true, emGamepadCallback);
+
+            emscripten_set_touchstart_callback("#canvas", this, true, emTouchCallback);
+            emscripten_set_touchend_callback("#canvas", this, true, emTouchCallback);
+            emscripten_set_touchmove_callback("#canvas", this, true, emTouchCallback);
+            emscripten_set_touchcancel_callback("#canvas", this, true, emTouchCallback);
 
             int result = emscripten_get_num_gamepads();
 
