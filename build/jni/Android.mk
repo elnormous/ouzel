@@ -108,6 +108,9 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/input/android/GamepadAndroid.cpp \
     ../../ouzel/input/android/InputManagerAndroid.cpp \
 	../../ouzel/input/android/InputSystemAndroid.cpp \
+    ../../ouzel/input/android/KeyboardAndroid.cpp \
+    ../../ouzel/input/android/MouseAndroid.cpp \
+    ../../ouzel/input/android/TouchpadAndroid.cpp \
     ../../ouzel/input/Cursor.cpp \
     ../../ouzel/input/Gamepad.cpp \
     ../../ouzel/input/InputManager.cpp \
