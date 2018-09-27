@@ -148,6 +148,15 @@
     <ClCompile Include="..\ouzel\input\windows\GamepadXI.cpp">
       <Filter>ouzel\input\windows</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\input\windows\KeyboardWin.cpp">
+      <Filter>ouzel\input\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\input\windows\MouseWin.cpp">
+      <Filter>ouzel\input\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\input\windows\TouchpadWin.cpp">
+      <Filter>ouzel\input\windows</Filter>
+    </ClCompile>
     <ClCompile Include="..\ouzel\graphics\Material.cpp">
       <Filter>ouzel\graphics</Filter>
     </ClCompile>
@@ -611,6 +620,15 @@
       <Filter>ouzel\input\windows</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\input\windows\GamepadXI.hpp">
+      <Filter>ouzel\input\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\input\windows\KeyboardWin.hpp">
+      <Filter>ouzel\input\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\input\windows\MouseWin.hpp">
+      <Filter>ouzel\input\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\input\windows\TouchpadWin.hpp">
       <Filter>ouzel\input\windows</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\Material.hpp">

@@ -172,7 +172,10 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/dsound/AudioDeviceDS.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/GamepadXI.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/InputManagerWin.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/InputSystemWin.cpp \
-	$(ROOT_DIR)/../ouzel/input/windows/NativeCursorWin.cpp
+	$(ROOT_DIR)/../ouzel/input/windows/KeyboardWin.cpp \
+	$(ROOT_DIR)/../ouzel/input/windows/MouseWin.cpp \
+	$(ROOT_DIR)/../ouzel/input/windows/NativeCursorWin.cpp \
+	$(ROOT_DIR)/../ouzel/input/windows/TouchpadWin.cpp
 CXXFLAGS+=-DWINVER=0x0601 -D_WIN32_WINNT=0x0601
 else ifeq ($(platform),linux)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/alsa/AudioDeviceALSA.cpp \
@@ -184,7 +187,10 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/alsa/AudioDeviceALSA.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/EventDevice.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/InputManagerLinux.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/InputSystemLinux.cpp \
-	$(ROOT_DIR)/../ouzel/input/linux/NativeCursorLinux.cpp
+	$(ROOT_DIR)/../ouzel/input/linux/KeyboardLinux.cpp \
+	$(ROOT_DIR)/../ouzel/input/linux/MouseLinux.cpp \
+	$(ROOT_DIR)/../ouzel/input/linux/NativeCursorLinux.cpp \
+	$(ROOT_DIR)/../ouzel/input/linux/TouchpadLinux.cpp
 ifneq ($(filter arm%,$(architecture)),) # ARM Linux
 CXXFLAGS+=-I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux
 endif
@@ -210,7 +216,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/input/macos/GamepadIOKit.cpp \
 	$(ROOT_DIR)/../ouzel/input/macos/InputManagerMacOS.mm \
 	$(ROOT_DIR)/../ouzel/input/macos/InputSystemMacOS.mm \
-	$(ROOT_DIR)/../ouzel/input/macos/KeyboardMacOS.mm \
+	$(ROOT_DIR)/../ouzel/input/macos/KeyboardMacOS.cpp \
 	$(ROOT_DIR)/../ouzel/input/macos/MouseMacOS.mm \
 	$(ROOT_DIR)/../ouzel/input/macos/NativeCursorMacOS.cpp \
 	$(ROOT_DIR)/../ouzel/input/macos/TouchpadMacOS.cpp
@@ -235,7 +241,9 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/ios/RenderDeviceOGLIOS.mm \
 	$(ROOT_DIR)/../ouzel/input/ios/GamepadIOS.mm \
 	$(ROOT_DIR)/../ouzel/input/ios/InputManagerIOS.mm \
-	$(ROOT_DIR)/../ouzel/input/ios/InputSystemIOS.mm
+	$(ROOT_DIR)/../ouzel/input/ios/InputSystemIOS.mm \
+	$(ROOT_DIR)/../ouzel/input/ios/KeyboardIOS.cpp \
+	$(ROOT_DIR)/../ouzel/input/ios/TouchpadIOS.cpp
 CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
 CXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
 else ifeq ($(platform),tvos)
@@ -259,7 +267,8 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/tvos/RenderDeviceOGLTVOS.mm \
 	$(ROOT_DIR)/../ouzel/input/tvos/GamepadTVOS.mm \
 	$(ROOT_DIR)/../ouzel/input/tvos/InputManagerTVOS.mm \
-	$(ROOT_DIR)/../ouzel/input/tvos/InputSystemTVOS.mm
+	$(ROOT_DIR)/../ouzel/input/tvos/InputSystemTVOS.mm \
+	$(ROOT_DIR)/../ouzel/input/tvos/KeyboardTVOS.cpp
 CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
 CXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
 else ifeq ($(platform),emscripten)
@@ -268,9 +277,12 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/NativeWindowEm.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/emscripten/RenderDeviceOGLEm.cpp \
+	$(ROOT_DIR)/../ouzel/input/emscripten/GamepadEm.cpp \
 	$(ROOT_DIR)/../ouzel/input/emscripten/InputManagerEm.cpp \
 	$(ROOT_DIR)/../ouzel/input/emscripten/InputSystemEm.cpp \
-	$(ROOT_DIR)/../ouzel/input/emscripten/GamepadEm.cpp
+	$(ROOT_DIR)/../ouzel/input/windows/KeyboardWin.cpp \
+	$(ROOT_DIR)/../ouzel/input/windows/MouseWin.cpp \
+	$(ROOT_DIR)/../ouzel/input/windows/TouchpadWin.cpp
 CXXFLAGS+=-s DISABLE_EXCEPTION_CATCHING=0
 endif
 BASE_NAMES=$(basename $(SOURCES))
