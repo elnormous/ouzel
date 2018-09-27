@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include "input/InputDevice.hpp"
+
 namespace ouzel
 {
     namespace input
