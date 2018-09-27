@@ -23,12 +23,10 @@ namespace ouzel
                 DPAD_RIGHT,
                 DPAD_UP,
                 DPAD_DOWN,
-                FACE_1, // bottom face button, A on Xbox controller, cross on PS controller
-                FACE_2, // left face button, X on Xbox controller, square on PS controller
-                FACE_3, // right face button, B on Xbox controller, circle on PS controller
-                FACE_4, // top face button, Y on Xbox controller, triangle on PS controller
-                FACE_5, // right most face button
-                FACE_6, // top most face button
+                FACE_BOTTOM, // A on Xbox controller, cross on PS controller, B on Nintendo controller
+                FACE_RIGHT, // B on Xbox controller, circle on PS controller, A on Nintendo controller
+                FACE_LEFT, // X on Xbox controller, square on PS controller, Y on Nintendo controller
+                FACE_TOP, // Y on Xbox controller, triangle on PS controller, X on Nintendo controller
                 LEFT_SHOULDER,  // L1 for Apple and PS controller
                 LEFT_TRIGGER,   // L2 for Apple and PS controller
                 RIGHT_SHOULDER, // R1 for Apple and PS controller

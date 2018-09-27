@@ -50,10 +50,10 @@ namespace ouzel
                 checkButton(newState, XINPUT_GAMEPAD_RIGHT_THUMB, Gamepad::Button::RIGHT_THUMB);
                 checkButton(newState, XINPUT_GAMEPAD_LEFT_SHOULDER, Gamepad::Button::LEFT_SHOULDER);
                 checkButton(newState, XINPUT_GAMEPAD_RIGHT_SHOULDER, Gamepad::Button::RIGHT_SHOULDER);
-                checkButton(newState, XINPUT_GAMEPAD_A, Gamepad::Button::FACE_1);
-                checkButton(newState, XINPUT_GAMEPAD_B, Gamepad::Button::FACE_3);
-                checkButton(newState, XINPUT_GAMEPAD_X, Gamepad::Button::FACE_2);
-                checkButton(newState, XINPUT_GAMEPAD_Y, Gamepad::Button::FACE_4);
+                checkButton(newState, XINPUT_GAMEPAD_A, Gamepad::Button::FACE_BOTTOM);
+                checkButton(newState, XINPUT_GAMEPAD_B, Gamepad::Button::FACE_RIGHT);
+                checkButton(newState, XINPUT_GAMEPAD_X, Gamepad::Button::FACE_LEFT);
+                checkButton(newState, XINPUT_GAMEPAD_Y, Gamepad::Button::FACE_TOP);
 
                 // triggers
                 if (newState.Gamepad.bLeftTrigger != state.Gamepad.bLeftTrigger)

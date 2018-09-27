@@ -59,16 +59,16 @@ namespace ouzel
 
                 // buttons
                 controller.extendedGamepad.buttonA.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
-                    inputSystemMacOS.handleButtonValueChange(*this, Gamepad::Button::FACE_1, pressed, value);
+                    inputSystemMacOS.handleButtonValueChange(*this, Gamepad::Button::FACE_BOTTOM, pressed, value);
                 };
                 controller.extendedGamepad.buttonB.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
-                    inputSystemMacOS.handleButtonValueChange(*this, Gamepad::Button::FACE_3, pressed, value);
+                    inputSystemMacOS.handleButtonValueChange(*this, Gamepad::Button::FACE_RIGHT, pressed, value);
                 };
                 controller.extendedGamepad.buttonX.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
-                    inputSystemMacOS.handleButtonValueChange(*this, Gamepad::Button::FACE_2, pressed, value);
+                    inputSystemMacOS.handleButtonValueChange(*this, Gamepad::Button::FACE_LEFT, pressed, value);
                 };
                 controller.extendedGamepad.buttonY.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
-                    inputSystemMacOS.handleButtonValueChange(*this, Gamepad::Button::FACE_4, pressed, value);
+                    inputSystemMacOS.handleButtonValueChange(*this, Gamepad::Button::FACE_TOP, pressed, value);
                 };
 
                 // triggers and shoulders
@@ -104,16 +104,16 @@ namespace ouzel
 
                 // buttons
                 controller.gamepad.buttonA.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
-                    inputSystemMacOS.handleButtonValueChange(*this, Gamepad::Button::FACE_1, pressed, value);
+                    inputSystemMacOS.handleButtonValueChange(*this, Gamepad::Button::FACE_BOTTOM, pressed, value);
                 };
                 controller.gamepad.buttonB.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
-                    inputSystemMacOS.handleButtonValueChange(*this, Gamepad::Button::FACE_3, pressed, value);
+                    inputSystemMacOS.handleButtonValueChange(*this, Gamepad::Button::FACE_RIGHT, pressed, value);
                 };
                 controller.gamepad.buttonX.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
-                    inputSystemMacOS.handleButtonValueChange(*this, Gamepad::Button::FACE_2, pressed, value);
+                    inputSystemMacOS.handleButtonValueChange(*this, Gamepad::Button::FACE_LEFT, pressed, value);
                 };
                 controller.gamepad.buttonY.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
-                    inputSystemMacOS.handleButtonValueChange(*this, Gamepad::Button::FACE_4, pressed, value);
+                    inputSystemMacOS.handleButtonValueChange(*this, Gamepad::Button::FACE_TOP, pressed, value);
                 };
             }
 #if defined(__MAC_10_12) && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_12
@@ -135,10 +135,10 @@ namespace ouzel
 
                 // buttons
                 controller.microGamepad.buttonA.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
-                    inputSystemMacOS.handleButtonValueChange(*this, Gamepad::Button::FACE_1, pressed, value);
+                    inputSystemMacOS.handleButtonValueChange(*this, Gamepad::Button::FACE_BOTTOM, pressed, value);
                 };
                 controller.microGamepad.buttonX.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
-                    inputSystemMacOS.handleButtonValueChange(*this, Gamepad::Button::FACE_2, pressed, value);
+                    inputSystemMacOS.handleButtonValueChange(*this, Gamepad::Button::FACE_LEFT, pressed, value);
                 };
             }
 #endif
