@@ -179,7 +179,7 @@ bool PerspectiveSample::handleGamepad(Event::Type type, const GamepadEvent& even
     if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
     {
         if (event.pressed &&
-            event.button == input::Gamepad::Button::FACE_3)
+            event.button == input::Gamepad::Button::FACE_RIGHT)
             engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
     }
 
