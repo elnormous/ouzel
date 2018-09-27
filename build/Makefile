@@ -212,7 +212,8 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/input/macos/InputSystemMacOS.mm \
 	$(ROOT_DIR)/../ouzel/input/macos/KeyboardMacOS.mm \
 	$(ROOT_DIR)/../ouzel/input/macos/MouseMacOS.mm \
-	$(ROOT_DIR)/../ouzel/input/macos/NativeCursorMacOS.cpp
+	$(ROOT_DIR)/../ouzel/input/macos/NativeCursorMacOS.cpp \
+	$(ROOT_DIR)/../ouzel/input/macos/TouchpadMacOS.cpp
 else ifeq ($(platform),ios)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \

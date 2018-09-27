@@ -279,6 +279,7 @@ namespace ouzel
             std::unique_ptr<KeyboardMacOS> keyboardMacOS(new KeyboardMacOS(*this, ++lastDeviceId));
             keyboardConnectEvent.deviceId = keyboardMacOS->getDeviceId();
             keyboardConnectEvent.deviceType = Controller::Type::KEYBOARD;
+            keyboard = keyboardMacOS.get();
             inputDevices.insert(std::make_pair(keyboardMacOS->getDeviceId(), std::move(keyboardMacOS)));
             addEvent(keyboardConnectEvent);
 
@@ -287,8 +288,18 @@ namespace ouzel
             std::unique_ptr<MouseMacOS> mouseMacOS(new MouseMacOS(*this, ++lastDeviceId));
             mouseConnectEvent.deviceId = mouseMacOS->getDeviceId();
             mouseConnectEvent.deviceType = Controller::Type::MOUSE;
+            mouse = mouseMacOS.get();
             inputDevices.insert(std::make_pair(mouseMacOS->getDeviceId(), std::move(mouseMacOS)));
             addEvent(mouseConnectEvent);
+
+            Event touchpadConnectEvent;
+            touchpadConnectEvent.type = Event::Type::DEVICE_CONNECT;
+            std::unique_ptr<TouchpadMacOS> touchpadMacOS(new TouchpadMacOS(*this, ++lastDeviceId));
+            touchpadConnectEvent.deviceId = touchpadMacOS->getDeviceId();
+            touchpadConnectEvent.deviceType = Controller::Type::TOUCHPAD;
+            touchpad = touchpadMacOS.get();
+            inputDevices.insert(std::make_pair(touchpadMacOS->getDeviceId(), std::move(touchpadMacOS)));
+            addEvent(touchpadConnectEvent);
         }
 
         InputSystemMacOS::~InputSystemMacOS()
