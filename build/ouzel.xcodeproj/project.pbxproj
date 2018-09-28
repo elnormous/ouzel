@@ -1290,6 +1290,7 @@
 		30E75F3E1D7B783B000300D4 /* EventHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventHandler.cpp; sourceTree = "<group>"; };
 		30EA711E1D52783000AE8C3E /* EngineTVOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EngineTVOS.hpp; sourceTree = "<group>"; };
 		30EA711F1D52783000AE8C3E /* EngineTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EngineTVOS.mm; sourceTree = "<group>"; };
+		30EEADB5215DA81500D2F525 /* Application.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Application.hpp; sourceTree = "<group>"; };
 		30EF36491CA76ACD00F04F29 /* ScrollArea.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScrollArea.cpp; sourceTree = "<group>"; };
 		30EF364A1CA76ACD00F04F29 /* ScrollArea.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ScrollArea.hpp; sourceTree = "<group>"; };
 		30EF36511CA76AE200F04F29 /* ScrollBar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScrollBar.cpp; sourceTree = "<group>"; };
@@ -1569,6 +1570,7 @@
 		303B75111C28838C00FEDE92 /* core */ = {
 			isa = PBXGroup;
 			children = (
+				30EEADB5215DA81500D2F525 /* Application.hpp */,
 				304A8E2D1C237C70008B1151 /* Engine.cpp */,
 				304A8E2E1C237C70008B1151 /* Engine.hpp */,
 				303B756F1C2A3D0300FEDE92 /* ios */,

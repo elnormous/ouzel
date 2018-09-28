@@ -670,7 +670,7 @@ namespace ouzel
 
         try
         {
-            ouzelMain(args);
+            std::unique_ptr<Application> application = ouzelMain(args);
 
 #if OUZEL_MULTITHREADED
             while (active)
