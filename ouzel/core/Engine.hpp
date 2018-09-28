@@ -9,6 +9,7 @@
 #include <thread>
 #include <vector>
 #include "core/Setup.h"
+#include "core/Application.hpp"
 #include "core/Timer.hpp"
 #include "core/Window.hpp"
 #include "graphics/Renderer.hpp"
@@ -23,7 +24,7 @@
 #include "network/Network.hpp"
 #include "utils/INI.hpp"
 
-void ouzelMain(const std::vector<std::string>& args);
+std::unique_ptr<ouzel::Application> ouzelMain(const std::vector<std::string>& args);
 
 namespace ouzel
 {

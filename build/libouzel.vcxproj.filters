@@ -556,6 +556,9 @@
     <ClInclude Include="..\ouzel\gui\EditBox.hpp">
       <Filter>ouzel\gui</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\core\Application.hpp">
+      <Filter>ouzel\core</Filter>
+    </ClInclude>
     <ClInclude Include="..\ouzel\core\Engine.hpp">
       <Filter>ouzel\core</Filter>
     </ClInclude>

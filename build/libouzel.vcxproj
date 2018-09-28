@@ -223,6 +223,7 @@
     <ClInclude Include="..\ouzel\assets\Loader.hpp" />
     <ClInclude Include="..\ouzel\core\Platform.h" />
     <ClInclude Include="..\ouzel\core\Setup.h" />
+    <ClInclude Include="..\ouzel\core\Application.hpp" />
     <ClInclude Include="..\ouzel\core\Engine.hpp" />
     <ClInclude Include="..\ouzel\core\Timer.hpp" />
     <ClInclude Include="..\ouzel\core\Window.hpp" />

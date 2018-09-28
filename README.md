@@ -59,14 +59,15 @@ The following code will open create a scene with a sprite in the center of it:
 std::string DEVELOPER_NAME = "developer";
 std::string APPLICATION_NAME = "game";
 
-class MainScene: public ouzel::scene::Scene
+class Example: public ouzel::Application
 {
 public:
-    MainScene():
-        assets(engine->getCache())
+    Example():
+        assets(ouzel::engine->getCache())
     {
-        assets->loadAsset(assets::Loader::IMAGE, "player.png");
-        addLayer(&layer);
+        assets->loadAsset(ouzel::assets::Loader::IMAGE, "player.png");
+        ouzel::engine->getSceneManager().setScene(&scene);
+        scene.addLayer(&layer);
         cameraActor.addComponent(&camera);
         layer.addChild(&cameraActor);
         playerSprite.init("player.png");
@@ -75,17 +76,18 @@ public:
     }
 
 private:
+    ouzel::scene::Scene scene;
     ouzel::scene::Layer layer;
     ouzel::scene::Camera camera;
     ouzel::scene::Actor cameraActor;
     ouzel::scene::Sprite playerSprite;
     ouzel::scene::Actor player;
     assets::Bundle assets;
-};
+}
 
-void ouzelMain(const std::vector<std::string>& args)
+std::unique_ptr<ouzel::Application> ouzelMain(const std::vector<std::string>& args)
 {
-    ouzel::engine->getSceneManager().setScene(std::unique_ptr<ouzel::scene::Scene>(new MainScene()));
+    return std::unique_ptr<ouzel::Application>(new Example());
 }
 ```
 
