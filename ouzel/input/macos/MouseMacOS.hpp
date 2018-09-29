@@ -23,6 +23,7 @@ namespace ouzel
 
             virtual ~MouseMacOS() {}
 
+            void setPosition(const Vector2& position);
             void handleButtonPress(Mouse::Button button, const Vector2& position, uint32_t modifiers);
             void handleButtonRelease(Mouse::Button button, const Vector2& position, uint32_t modifiers);
             void handleMove(const Vector2& position, uint32_t modifiers);
