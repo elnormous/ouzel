@@ -342,6 +342,14 @@ namespace ouzel
                 }
                 case Command::Type::SET_POSITON:
                 {
+                    auto i = inputDevices.find(command.deviceId);
+
+                    if (i != inputDevices.end())
+                    {
+                        InputDevice* device = i->second.get();
+                        MouseMacOS* mouseMacOS = static_cast<MouseMacOS*>(device);
+                        mouseMacOS->setPosition(command.position);
+                    }
                     break;
                 }
                 case Command::Type::SET_CURSOR:
@@ -349,21 +357,6 @@ namespace ouzel
                     break;
                 }
             }
-        }
-
-        void InputSystemMacOS::setCursorPosition(const Vector2& position)
-        {
-            /*ouzel::Vector2 windowLocation = engine->getWindow()->convertNormalizedToWindowLocation(position);
-
-            engine->executeOnMainThread([windowLocation] {
-                CGPoint screenOrigin = [[NSScreen mainScreen] visibleFrame].origin;
-
-                NativeWindowMacOS* windowMacOS = static_cast<NativeWindowMacOS*>(engine->getWindow()->getNativeWindow());
-                CGPoint windowOrigin = [windowMacOS->getNativeWindow() frame].origin;
-
-                CGWarpMouseCursorPosition(CGPointMake(screenOrigin.x + windowOrigin.x + windowLocation.x,
-                                                      screenOrigin.y + windowOrigin.y + windowLocation.y));
-            });*/
         }
 
         void InputSystemMacOS::setCursorLocked(bool locked)

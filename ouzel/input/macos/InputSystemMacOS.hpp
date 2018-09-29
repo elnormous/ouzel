@@ -55,8 +55,6 @@ namespace ouzel
             void setCursorLocked(bool locked);
             bool isCursorLocked() const;
 
-            void setCursorPosition(const Vector2& position);
-
             void startGamepadDiscovery();
             void stopGamepadDiscovery();
 
