@@ -212,14 +212,14 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/metal/TextureResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/OpenGLView.m \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/RenderDeviceOGLMacOS.mm \
-	$(ROOT_DIR)/../ouzel/input/macos/GamepadGC.mm \
-	$(ROOT_DIR)/../ouzel/input/macos/GamepadIOKit.cpp \
+	$(ROOT_DIR)/../ouzel/input/macos/GamepadDeviceGC.mm \
+	$(ROOT_DIR)/../ouzel/input/macos/GamepadDeviceIOKit.cpp \
 	$(ROOT_DIR)/../ouzel/input/macos/InputManagerMacOS.mm \
 	$(ROOT_DIR)/../ouzel/input/macos/InputSystemMacOS.mm \
-	$(ROOT_DIR)/../ouzel/input/macos/KeyboardMacOS.cpp \
-	$(ROOT_DIR)/../ouzel/input/macos/MouseMacOS.mm \
+	$(ROOT_DIR)/../ouzel/input/macos/KeyboardDeviceMacOS.cpp \
+	$(ROOT_DIR)/../ouzel/input/macos/MouseDeviceMacOS.mm \
 	$(ROOT_DIR)/../ouzel/input/macos/NativeCursorMacOS.cpp \
-	$(ROOT_DIR)/../ouzel/input/macos/TouchpadMacOS.cpp
+	$(ROOT_DIR)/../ouzel/input/macos/TouchpadDeviceMacOS.cpp
 else ifeq ($(platform),ios)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \
