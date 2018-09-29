@@ -142,19 +142,19 @@
     <ClCompile Include="..\ouzel\core\windows\main.cpp">
       <Filter>ouzel\core\windows</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\input\windows\GamepadDI.cpp">
+    <ClCompile Include="..\ouzel\input\windows\GamepadDeviceDI.cpp">
       <Filter>ouzel\input\windows</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\input\windows\GamepadXI.cpp">
+    <ClCompile Include="..\ouzel\input\windows\GamepadDeviceXI.cpp">
       <Filter>ouzel\input\windows</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\input\windows\KeyboardWin.cpp">
+    <ClCompile Include="..\ouzel\input\windows\KeyboardDeviceWin.cpp">
       <Filter>ouzel\input\windows</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\input\windows\MouseWin.cpp">
+    <ClCompile Include="..\ouzel\input\windows\MouseDeviceWin.cpp">
       <Filter>ouzel\input\windows</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\input\windows\TouchpadWin.cpp">
+    <ClCompile Include="..\ouzel\input\windows\TouchpadDeviceWin.cpp">
       <Filter>ouzel\input\windows</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\graphics\Material.cpp">
@@ -619,19 +619,19 @@
     <ClInclude Include="..\ouzel\utils\Log.hpp">
       <Filter>ouzel\utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\input\windows\GamepadDI.hpp">
+    <ClInclude Include="..\ouzel\input\windows\GamepadDeviceDI.hpp">
       <Filter>ouzel\input\windows</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\input\windows\GamepadXI.hpp">
+    <ClInclude Include="..\ouzel\input\windows\GamepadDeviceXI.hpp">
       <Filter>ouzel\input\windows</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\input\windows\KeyboardWin.hpp">
+    <ClInclude Include="..\ouzel\input\windows\KeyboardDeviceWin.hpp">
       <Filter>ouzel\input\windows</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\input\windows\MouseWin.hpp">
+    <ClInclude Include="..\ouzel\input\windows\MouseDeviceWin.hpp">
       <Filter>ouzel\input\windows</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\input\windows\TouchpadWin.hpp">
+    <ClInclude Include="..\ouzel\input\windows\TouchpadDeviceWin.hpp">
       <Filter>ouzel\input\windows</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\Material.hpp">
@@ -964,7 +964,7 @@
     <ClInclude Include="..\ouzel\input\windows\InputSystemWin.hpp">
       <Filter>ouzel\input\windows</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\input\windows\GamepadWin.hpp">
+    <ClInclude Include="..\ouzel\input\windows\GamepadDeviceWin.hpp">
       <Filter>ouzel\input\windows</Filter>
     </ClInclude>
   </ItemGroup>

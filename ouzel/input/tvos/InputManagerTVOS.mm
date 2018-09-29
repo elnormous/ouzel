@@ -4,7 +4,7 @@
 #include <unordered_map>
 #import <GameController/GameController.h>
 #include "InputManagerTVOS.hpp"
-#include "GamepadTVOS.hpp"
+#include "GamepadDeviceTVOS.hpp"
 #include "core/tvos/NativeWindowTVOS.hpp"
 #include "core/Engine.hpp"
 #include "events/EventDispatcher.hpp"
@@ -141,7 +141,7 @@ namespace ouzel
             Event event;
             event.type = Event::Type::GAMEPAD_CONNECT;
 
-            /*std::unique_ptr<GamepadTVOS> gamepad(new GamepadTVOS(controller));
+            /*std::unique_ptr<GamepadDeviceTVOS> gamepad(new GamepadDeviceTVOS(controller));
 
             event.gamepadEvent.gamepad = gamepad.get();
 
@@ -153,7 +153,7 @@ namespace ouzel
         void InputManagerTVOS::handleGamepadDisconnected(GCControllerPtr controller)
         {
             /*auto i = std::find_if(gamepads.begin(), gamepads.end(), [controller](const std::unique_ptr<Gamepad>& gamepad) {
-                GamepadTVOS* currentGamepad = static_cast<GamepadTVOS*>(gamepad.get());
+                GamepadDeviceTVOS* currentGamepad = static_cast<GamepadDeviceTVOS*>(gamepad.get());
                 return currentGamepad->getController() == controller;
             });
 
