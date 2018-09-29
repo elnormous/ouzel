@@ -280,9 +280,9 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \
 	$(ROOT_DIR)/../ouzel/input/emscripten/GamepadDeviceEm.cpp \
 	$(ROOT_DIR)/../ouzel/input/emscripten/InputManagerEm.cpp \
 	$(ROOT_DIR)/../ouzel/input/emscripten/InputSystemEm.cpp \
-	$(ROOT_DIR)/../ouzel/input/windows/KeyboardDeviceEm.cpp \
-	$(ROOT_DIR)/../ouzel/input/windows/MouseDeviceEm.cpp \
-	$(ROOT_DIR)/../ouzel/input/windows/TouchpadDeviceEm.cpp
+	$(ROOT_DIR)/../ouzel/input/emscripten/KeyboardDeviceEm.cpp \
+	$(ROOT_DIR)/../ouzel/input/emscripten/MouseDeviceEm.cpp \
+	$(ROOT_DIR)/../ouzel/input/emscripten/TouchpadDeviceEm.cpp
 CXXFLAGS+=-s DISABLE_EXCEPTION_CATCHING=0
 endif
 BASE_NAMES=$(basename $(SOURCES))
