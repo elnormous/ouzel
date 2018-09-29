@@ -347,8 +347,9 @@ namespace ouzel
                     if (i != inputDevices.end())
                     {
                         InputDevice* device = i->second.get();
-                        MouseMacOS* mouseMacOS = static_cast<MouseMacOS*>(device);
-                        mouseMacOS->setPosition(command.position);
+
+                        if (device == mouse)
+                            mouse->setPosition(command.position);
                     }
                     break;
                 }
