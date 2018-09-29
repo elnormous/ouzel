@@ -95,6 +95,7 @@ namespace ouzel
             };
 
             InputSystem();
+            virtual ~InputSystem() {}
 
             void addCommand(const Command& command);
             virtual void executeCommand(Command) {}
