@@ -5,19 +5,19 @@
 #include <unordered_map>
 #include <IOKit/hid/IOHIDManager.h>
 
-#include "input/macos/GamepadMacOS.hpp"
+#include "input/macos/GamepadDeviceMacOS.hpp"
 #include "input/Gamepad.hpp"
 
 namespace ouzel
 {
     namespace input
     {
-        class GamepadIOKit: public GamepadMacOS
+        class GamepadDeviceIOKit: public GamepadDeviceMacOS
         {
         public:
-            GamepadIOKit(InputSystemMacOS& initInputSystemMacOS,
-                         uint32_t initDeviceId,
-                         IOHIDDeviceRef initDevice);
+            GamepadDeviceIOKit(InputSystemMacOS& initInputSystemMacOS,
+                               uint32_t initDeviceId,
+                               IOHIDDeviceRef initDevice);
 
             inline IOHIDDeviceRef getDevice() const { return device; }
 
@@ -26,7 +26,8 @@ namespace ouzel
         private:
             void handleThumbAxisChange(int64_t oldValue, int64_t newValue,
                                        int64_t min, int64_t max,
-                                       Gamepad::Button negativeButton, Gamepad::Button positiveButton);
+                                       Gamepad::Button negativeButton,
+                                       Gamepad::Button positiveButton);
 
             int32_t vendorId = 0;
             int32_t productId = 0;

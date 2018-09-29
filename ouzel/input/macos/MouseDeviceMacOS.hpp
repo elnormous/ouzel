@@ -11,17 +11,17 @@ namespace ouzel
     {
         class InputSystemMacOS;
 
-        class MouseMacOS: public InputDevice
+        class MouseDeviceMacOS: public InputDevice
         {
         public:
-            MouseMacOS(InputSystemMacOS& initInputSystemMacOS,
-                       uint32_t initDeviceId):
+            MouseDeviceMacOS(InputSystemMacOS& initInputSystemMacOS,
+                             uint32_t initDeviceId):
                 InputDevice(initDeviceId),
                 inputSystemMacOS(initInputSystemMacOS)
             {
             }
 
-            virtual ~MouseMacOS() {}
+            virtual ~MouseDeviceMacOS() {}
 
             void setPosition(const Vector2& position);
             void handleButtonPress(Mouse::Button button, const Vector2& position, uint32_t modifiers);

@@ -10,19 +10,19 @@ typedef GCController* GCControllerPtr;
 typedef id GCControllerPtr;
 #endif
 
-#include "input/macos/GamepadMacOS.hpp"
+#include "input/macos/GamepadDeviceMacOS.hpp"
 #include "input/Gamepad.hpp"
 
 namespace ouzel
 {
     namespace input
     {
-        class GamepadGC: public GamepadMacOS
+        class GamepadDeviceGC: public GamepadDeviceMacOS
         {
         public:
-            GamepadGC(InputSystemMacOS& initInputSystemMacOS,
-                      uint32_t initDeviceId,
-                      GCControllerPtr initController);
+            GamepadDeviceGC(InputSystemMacOS& initInputSystemMacOS,
+                            uint32_t initDeviceId,
+                            GCControllerPtr initController);
 
             void setAbsoluteDPadValues(bool absoluteDPadValues);
             bool isAbsoluteDPadValues() const;

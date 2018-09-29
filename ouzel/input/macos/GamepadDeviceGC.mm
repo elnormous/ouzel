@@ -1,16 +1,16 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include "GamepadGC.hpp"
+#include "GamepadDeviceGC.hpp"
 #include "InputSystemMacOS.hpp"
 
 namespace ouzel
 {
     namespace input
     {
-        GamepadGC::GamepadGC(InputSystemMacOS& initInputSystemMacOS,
-                             uint32_t initDeviceId,
-                             GCControllerPtr initController):
-            GamepadMacOS(initInputSystemMacOS, initDeviceId),
+        GamepadDeviceGC::GamepadDeviceGC(InputSystemMacOS& initInputSystemMacOS,
+                                         uint32_t initDeviceId,
+                                         GCControllerPtr initController):
+            GamepadDeviceMacOS(initInputSystemMacOS, initDeviceId),
             controller(initController)
         {
             if (controller.extendedGamepad)
@@ -154,14 +154,14 @@ namespace ouzel
             attached = (controller.isAttachedToDevice == YES);
         }
 
-        void GamepadGC::setAbsoluteDPadValues(bool absoluteDPadValues)
+        void GamepadDeviceGC::setAbsoluteDPadValues(bool absoluteDPadValues)
         {
 #if defined(__MAC_10_12) && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_12
             controller.microGamepad.reportsAbsoluteDpadValues = absoluteDPadValues ? YES : NO;
 #endif
         }
 
-        bool GamepadGC::isAbsoluteDPadValues() const
+        bool GamepadDeviceGC::isAbsoluteDPadValues() const
         {
 #if defined(__MAC_10_12) && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_12
             return controller.microGamepad.reportsAbsoluteDpadValues == YES;
@@ -170,12 +170,12 @@ namespace ouzel
 #endif
         }
 
-        int32_t GamepadGC::getPlayerIndex() const
+        int32_t GamepadDeviceGC::getPlayerIndex() const
         {
             return static_cast<int32_t>(controller.playerIndex);
         }
 
-        void GamepadGC::setPlayerIndex(int32_t playerIndex)
+        void GamepadDeviceGC::setPlayerIndex(int32_t playerIndex)
         {
             switch (playerIndex)
             {

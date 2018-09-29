@@ -11,17 +11,17 @@ namespace ouzel
     {
         class InputSystemMacOS;
 
-        class TouchpadMacOS: public InputDevice
+        class TouchpadDeviceMacOS: public InputDevice
         {
         public:
-            TouchpadMacOS(InputSystemMacOS& initInputSystemMacOS,
-                          uint32_t initDeviceId):
+            TouchpadDeviceMacOS(InputSystemMacOS& initInputSystemMacOS,
+                                uint32_t initDeviceId):
                 InputDevice(initDeviceId),
                 inputSystemMacOS(initInputSystemMacOS)
             {
             }
 
-            virtual ~TouchpadMacOS() {}
+            virtual ~TouchpadDeviceMacOS() {}
 
             void handleTouchBegin(uint64_t touchId, const Vector2& position, float force = 1.0F);
             void handleTouchEnd(uint64_t touchId, const Vector2& position, float force = 1.0F);

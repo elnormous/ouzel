@@ -1,6 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include "GamepadIOKit.hpp"
+#include "GamepadDeviceIOKit.hpp"
 #include "InputSystemMacOS.hpp"
 #include "core/Setup.h"
 #include "utils/Errors.hpp"
@@ -9,18 +9,18 @@ static const float THUMB_DEADZONE = 0.2F;
 
 static void deviceInput(void* ctx, IOReturn, void*, IOHIDValueRef value)
 {
-    ouzel::input::GamepadIOKit* gamepad = reinterpret_cast<ouzel::input::GamepadIOKit*>(ctx);
-    gamepad->handleInput(value);
+    ouzel::input::GamepadDeviceIOKit* gamepadDevice = reinterpret_cast<ouzel::input::GamepadDeviceIOKit*>(ctx);
+    gamepadDevice->handleInput(value);
 }
 
 namespace ouzel
 {
     namespace input
     {
-        GamepadIOKit::GamepadIOKit(InputSystemMacOS& initInputSystemMacOS,
-                                   uint32_t initDeviceId,
-                                   IOHIDDeviceRef initDevice):
-            GamepadMacOS(initInputSystemMacOS, initDeviceId),
+        GamepadDeviceIOKit::GamepadDeviceIOKit(InputSystemMacOS& initInputSystemMacOS,
+                                               uint32_t initDeviceId,
+                                               IOHIDDeviceRef initDevice):
+            GamepadDeviceMacOS(initInputSystemMacOS, initDeviceId),
             device(initDevice)
         {
             IOReturn ret = IOHIDDeviceOpen(device, kIOHIDOptionsTypeNone);
@@ -307,7 +307,7 @@ namespace ouzel
             IOHIDDeviceRegisterInputValueCallback(device, deviceInput, this);
         }
 
-        void GamepadIOKit::handleInput(IOHIDValueRef value)
+        void GamepadDeviceIOKit::handleInput(IOHIDValueRef value)
         {
             IOHIDElementRef elementRef = IOHIDValueGetElement(value);
 
@@ -396,9 +396,10 @@ namespace ouzel
             }
         }
 
-        void GamepadIOKit::handleThumbAxisChange(int64_t oldValue, int64_t newValue,
-                                                 int64_t min, int64_t max,
-                                                 Gamepad::Button negativeButton, Gamepad::Button positiveButton)
+        void GamepadDeviceIOKit::handleThumbAxisChange(int64_t oldValue, int64_t newValue,
+                                                       int64_t min, int64_t max,
+                                                       Gamepad::Button negativeButton,
+                                                       Gamepad::Button positiveButton)
         {
             float floatValue = 2.0F * (newValue - min) / (max - min) - 1.0F;
 

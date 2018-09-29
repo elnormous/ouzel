@@ -18,12 +18,12 @@ typedef id GCControllerPtr;
 
 #include "input/InputSystem.hpp"
 #include "input/Keyboard.hpp"
-#include "input/macos/GamepadMacOS.hpp"
-#include "input/macos/GamepadGC.hpp"
-#include "input/macos/GamepadIOKit.hpp"
-#include "input/macos/KeyboardMacOS.hpp"
-#include "input/macos/MouseMacOS.hpp"
-#include "input/macos/TouchpadMacOS.hpp"
+#include "input/macos/GamepadDeviceMacOS.hpp"
+#include "input/macos/GamepadDeviceGC.hpp"
+#include "input/macos/GamepadDeviceIOKit.hpp"
+#include "input/macos/KeyboardDeviceMacOS.hpp"
+#include "input/macos/MouseDeviceMacOS.hpp"
+#include "input/macos/TouchpadDeviceMacOS.hpp"
 
 namespace ouzel
 {
@@ -41,9 +41,9 @@ namespace ouzel
 
             virtual void executeCommand(Command command) override;
 
-            KeyboardMacOS* getKeyboard() const { return keyboard; }
-            MouseMacOS* getMouse() const { return mouse; }
-            TouchpadMacOS* getTouchpad() const { return touchpad; }
+            KeyboardDeviceMacOS* getKeyboardDevice() const { return keyboardDevice; }
+            MouseDeviceMacOS* getMouseDevice() const { return mouseDevice; }
+            TouchpadDeviceMacOS* getTouchpadDevice() const { return touchpadDevice; }
 
             void handleGamepadDiscoveryCompleted();
 
@@ -58,18 +58,18 @@ namespace ouzel
             void startGamepadDiscovery();
             void stopGamepadDiscovery();
 
-            void handleButtonValueChange(const GamepadMacOS& gamepad, Gamepad::Button button, bool pressed, float value);
+            void handleButtonValueChange(const GamepadDeviceMacOS& gamepad, Gamepad::Button button, bool pressed, float value);
 
         private:
             id connectDelegate = nil;
             IOHIDManagerRef hidManager = nullptr;
 
             uint32_t lastDeviceId = 0;
-            KeyboardMacOS* keyboard = nullptr;
-            MouseMacOS* mouse = nullptr;
-            TouchpadMacOS* touchpad = nullptr;
-            std::unordered_map<GCControllerPtr, GamepadGC*> gamepadsGC;
-            std::unordered_map<IOHIDDeviceRef, GamepadIOKit*> gamepadsIOKit;
+            KeyboardDeviceMacOS* keyboardDevice = nullptr;
+            MouseDeviceMacOS* mouseDevice = nullptr;
+            TouchpadDeviceMacOS* touchpadDevice = nullptr;
+            std::unordered_map<GCControllerPtr, GamepadDeviceGC*> gamepadDevicesGC;
+            std::unordered_map<IOHIDDeviceRef, GamepadDeviceIOKit*> gamepadDevicesIOKit;
 
             bool cursorVisible = true;
             bool cursorLocked = false;
