@@ -99,10 +99,9 @@ namespace ouzel
             virtual void executeCommand(Command) {}
 
             std::vector<Event> getEvents() const;
-
-        protected:
             void addEvent(const Event& event);
 
+        protected:
             std::unordered_map<uint32_t, std::unique_ptr<InputDevice>> inputDevices;
 
         private:
