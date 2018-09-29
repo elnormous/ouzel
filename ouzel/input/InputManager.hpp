@@ -37,6 +37,8 @@ namespace ouzel
             InputManager(InputManager&&) = delete;
             InputManager& operator=(InputManager&&) = delete;
 
+            InputSystem* getInputSystem() const { return inputSystem.get(); }
+
             void update();
 
             template<typename T>

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "input/InputDevice.hpp"
+#include "input/Mouse.hpp"
 
 namespace ouzel
 {
@@ -21,6 +22,11 @@ namespace ouzel
             }
 
             virtual ~MouseMacOS() {}
+
+            void handleButtonPress(Mouse::Button button, const Vector2& position, uint32_t modifiers);
+            void handleButtonRelease(Mouse::Button button, const Vector2& position, uint32_t modifiers);
+            void handleMove(const Vector2& position, uint32_t modifiers);
+            void handleScroll(const Vector2& scroll, const Vector2& position, uint32_t modifiers);
 
         private:
             InputSystemMacOS& inputSystemMacOS;
