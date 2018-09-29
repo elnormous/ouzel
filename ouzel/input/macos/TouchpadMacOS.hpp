@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "math/Vector2.hpp"
 #include "input/InputDevice.hpp"
 
 namespace ouzel
@@ -21,6 +22,11 @@ namespace ouzel
             }
 
             virtual ~TouchpadMacOS() {}
+
+            void handleTouchBegin(uint64_t touchId, const Vector2& position, float force = 1.0F);
+            void handleTouchEnd(uint64_t touchId, const Vector2& position, float force = 1.0F);
+            void handleTouchMove(uint64_t touchId, const Vector2& position, float force = 1.0F);
+            void handleTouchCancel(uint64_t touchId, const Vector2& position, float force = 1.0F);
 
         private:
             InputSystemMacOS& inputSystemMacOS;
