@@ -3,7 +3,7 @@
 #include <unordered_map>
 #import <UIKit/UIPress.h>
 #include "InputSystemTVOS.hpp"
-#include "GamepadTVOS.hpp"
+#include "GamepadDeviceTVOS.hpp"
 
 namespace ouzel
 {
@@ -29,7 +29,7 @@ namespace ouzel
                 return Keyboard::Key::NONE;
         }
 
-        void InputSystemTVOS::handleButtonValueChange(const GamepadTVOS& gamepad, Gamepad::Button button, bool pressed, float value)
+        void InputSystemTVOS::handleButtonValueChange(const GamepadDeviceTVOS& gamepad, Gamepad::Button button, bool pressed, float value)
         {
             Event event;
             event.type = Event::Type::GAMEPAD_BUTTON_CHANGE;

@@ -197,8 +197,8 @@
 		3038207F1D816C9E00677CAB /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303820721D816C9E00677CAB /* main.cpp */; };
 		303820861D816C9E00677CAB /* NativeWindowMacOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303820791D816C9E00677CAB /* NativeWindowMacOS.hpp */; };
 		303820871D816C9E00677CAB /* NativeWindowMacOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3038207A1D816C9E00677CAB /* NativeWindowMacOS.mm */; };
-		303820F51D817F4900677CAB /* GamepadIOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303820F11D817F4900677CAB /* GamepadIOS.hpp */; };
-		303820F81D817F4900677CAB /* GamepadIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303820F21D817F4900677CAB /* GamepadIOS.mm */; };
+		303820F51D817F4900677CAB /* GamepadDeviceIOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303820F11D817F4900677CAB /* GamepadDeviceIOS.hpp */; };
+		303820F81D817F4900677CAB /* GamepadDeviceIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303820F21D817F4900677CAB /* GamepadDeviceIOS.mm */; };
 		303820FB1D817F4900677CAB /* InputManagerIOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303820F31D817F4900677CAB /* InputManagerIOS.hpp */; };
 		303820FE1D817F4900677CAB /* InputManagerIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303820F41D817F4900677CAB /* InputManagerIOS.mm */; };
 		303821331D81876E00677CAB /* BlendStateResourceEmpty.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303821231D81876E00677CAB /* BlendStateResourceEmpty.cpp */; };
@@ -730,8 +730,8 @@
 		3098A5581EA01C8A00528A54 /* GamepadDeviceIOKit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3098A5541EA01C8A00528A54 /* GamepadDeviceIOKit.cpp */; };
 		3098A5591EA01C8A00528A54 /* InputManagerMacOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3098A5551EA01C8A00528A54 /* InputManagerMacOS.hpp */; };
 		3098A55A1EA01C8A00528A54 /* InputManagerMacOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3098A5561EA01C8A00528A54 /* InputManagerMacOS.mm */; };
-		3098A55F1EA01CA900528A54 /* GamepadTVOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3098A55B1EA01CA900528A54 /* GamepadTVOS.hpp */; };
-		3098A5601EA01CA900528A54 /* GamepadTVOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3098A55C1EA01CA900528A54 /* GamepadTVOS.mm */; };
+		3098A55F1EA01CA900528A54 /* GamepadDeviceTVOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3098A55B1EA01CA900528A54 /* GamepadDeviceTVOS.hpp */; };
+		3098A5601EA01CA900528A54 /* GamepadDeviceTVOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3098A55C1EA01CA900528A54 /* GamepadDeviceTVOS.mm */; };
 		3098A5611EA01CA900528A54 /* InputManagerTVOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3098A55D1EA01CA900528A54 /* InputManagerTVOS.hpp */; };
 		3098A5621EA01CA900528A54 /* InputManagerTVOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3098A55E1EA01CA900528A54 /* InputManagerTVOS.mm */; };
 		309B48371DEA5EE600A718C5 /* Color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 309B48351DEA5EE600A718C5 /* Color.cpp */; };
@@ -925,12 +925,12 @@
 		C6AC8A91215BD83000F14D75 /* KeyboardDeviceMacOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6AC8A8F215BD83000F14D75 /* KeyboardDeviceMacOS.hpp */; };
 		C6AC8A94215CDDD200F14D75 /* TouchpadDeviceMacOS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6AC8A92215CDDD200F14D75 /* TouchpadDeviceMacOS.cpp */; };
 		C6AC8A95215CDDD200F14D75 /* TouchpadDeviceMacOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6AC8A93215CDDD200F14D75 /* TouchpadDeviceMacOS.hpp */; };
-		C6AC8A98215CF86600F14D75 /* TouchpadIOS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6AC8A96215CF86600F14D75 /* TouchpadIOS.cpp */; };
-		C6AC8A99215CF86600F14D75 /* TouchpadIOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6AC8A97215CF86600F14D75 /* TouchpadIOS.hpp */; };
-		C6AC8A9C215CF87500F14D75 /* KeyboardTVOS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6AC8A9A215CF87500F14D75 /* KeyboardTVOS.cpp */; };
-		C6AC8A9D215CF87500F14D75 /* KeyboardTVOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6AC8A9B215CF87500F14D75 /* KeyboardTVOS.hpp */; };
-		C6AC8AA0215D0E1C00F14D75 /* KeyboardIOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6AC8A9E215D0E1C00F14D75 /* KeyboardIOS.hpp */; };
-		C6AC8AA1215D0E1C00F14D75 /* KeyboardIOS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6AC8A9F215D0E1C00F14D75 /* KeyboardIOS.cpp */; };
+		C6AC8A98215CF86600F14D75 /* TouchpadDeviceIOS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6AC8A96215CF86600F14D75 /* TouchpadDeviceIOS.cpp */; };
+		C6AC8A99215CF86600F14D75 /* TouchpadDeviceIOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6AC8A97215CF86600F14D75 /* TouchpadDeviceIOS.hpp */; };
+		C6AC8A9C215CF87500F14D75 /* KeyboardDeviceTVOS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6AC8A9A215CF87500F14D75 /* KeyboardDeviceTVOS.cpp */; };
+		C6AC8A9D215CF87500F14D75 /* KeyboardDeviceTVOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6AC8A9B215CF87500F14D75 /* KeyboardDeviceTVOS.hpp */; };
+		C6AC8AA0215D0E1C00F14D75 /* KeyboardDeviceIOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6AC8A9E215D0E1C00F14D75 /* KeyboardDeviceIOS.hpp */; };
+		C6AC8AA1215D0E1C00F14D75 /* KeyboardDeviceIOS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6AC8A9F215D0E1C00F14D75 /* KeyboardDeviceIOS.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1011,8 +1011,8 @@
 		303820721D816C9E00677CAB /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		303820791D816C9E00677CAB /* NativeWindowMacOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NativeWindowMacOS.hpp; sourceTree = "<group>"; };
 		3038207A1D816C9E00677CAB /* NativeWindowMacOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NativeWindowMacOS.mm; sourceTree = "<group>"; };
-		303820F11D817F4900677CAB /* GamepadIOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GamepadIOS.hpp; sourceTree = "<group>"; };
-		303820F21D817F4900677CAB /* GamepadIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GamepadIOS.mm; sourceTree = "<group>"; };
+		303820F11D817F4900677CAB /* GamepadDeviceIOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GamepadDeviceIOS.hpp; sourceTree = "<group>"; };
+		303820F21D817F4900677CAB /* GamepadDeviceIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GamepadDeviceIOS.mm; sourceTree = "<group>"; };
 		303820F31D817F4900677CAB /* InputManagerIOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputManagerIOS.hpp; sourceTree = "<group>"; };
 		303820F41D817F4900677CAB /* InputManagerIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = InputManagerIOS.mm; sourceTree = "<group>"; };
 		303821231D81876E00677CAB /* BlendStateResourceEmpty.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BlendStateResourceEmpty.cpp; sourceTree = "<group>"; };
@@ -1224,8 +1224,8 @@
 		3098A5541EA01C8A00528A54 /* GamepadDeviceIOKit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GamepadDeviceIOKit.cpp; sourceTree = "<group>"; };
 		3098A5551EA01C8A00528A54 /* InputManagerMacOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputManagerMacOS.hpp; sourceTree = "<group>"; };
 		3098A5561EA01C8A00528A54 /* InputManagerMacOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = InputManagerMacOS.mm; sourceTree = "<group>"; };
-		3098A55B1EA01CA900528A54 /* GamepadTVOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GamepadTVOS.hpp; sourceTree = "<group>"; };
-		3098A55C1EA01CA900528A54 /* GamepadTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GamepadTVOS.mm; sourceTree = "<group>"; };
+		3098A55B1EA01CA900528A54 /* GamepadDeviceTVOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GamepadDeviceTVOS.hpp; sourceTree = "<group>"; };
+		3098A55C1EA01CA900528A54 /* GamepadDeviceTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GamepadDeviceTVOS.mm; sourceTree = "<group>"; };
 		3098A55D1EA01CA900528A54 /* InputManagerTVOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputManagerTVOS.hpp; sourceTree = "<group>"; };
 		3098A55E1EA01CA900528A54 /* InputManagerTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = InputManagerTVOS.mm; sourceTree = "<group>"; };
 		309ACD261C70DA73005325D3 /* ParticleSystemData.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ParticleSystemData.hpp; sourceTree = "<group>"; };
@@ -1314,12 +1314,12 @@
 		C6AC8A8F215BD83000F14D75 /* KeyboardDeviceMacOS.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = KeyboardDeviceMacOS.hpp; sourceTree = "<group>"; };
 		C6AC8A92215CDDD200F14D75 /* TouchpadDeviceMacOS.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TouchpadDeviceMacOS.cpp; sourceTree = "<group>"; };
 		C6AC8A93215CDDD200F14D75 /* TouchpadDeviceMacOS.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TouchpadDeviceMacOS.hpp; sourceTree = "<group>"; };
-		C6AC8A96215CF86600F14D75 /* TouchpadIOS.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TouchpadIOS.cpp; sourceTree = "<group>"; };
-		C6AC8A97215CF86600F14D75 /* TouchpadIOS.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TouchpadIOS.hpp; sourceTree = "<group>"; };
-		C6AC8A9A215CF87500F14D75 /* KeyboardTVOS.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = KeyboardTVOS.cpp; sourceTree = "<group>"; };
-		C6AC8A9B215CF87500F14D75 /* KeyboardTVOS.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = KeyboardTVOS.hpp; sourceTree = "<group>"; };
-		C6AC8A9E215D0E1C00F14D75 /* KeyboardIOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = KeyboardIOS.hpp; sourceTree = "<group>"; };
-		C6AC8A9F215D0E1C00F14D75 /* KeyboardIOS.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = KeyboardIOS.cpp; sourceTree = "<group>"; };
+		C6AC8A96215CF86600F14D75 /* TouchpadDeviceIOS.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TouchpadDeviceIOS.cpp; sourceTree = "<group>"; };
+		C6AC8A97215CF86600F14D75 /* TouchpadDeviceIOS.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TouchpadDeviceIOS.hpp; sourceTree = "<group>"; };
+		C6AC8A9A215CF87500F14D75 /* KeyboardDeviceTVOS.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = KeyboardDeviceTVOS.cpp; sourceTree = "<group>"; };
+		C6AC8A9B215CF87500F14D75 /* KeyboardDeviceTVOS.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = KeyboardDeviceTVOS.hpp; sourceTree = "<group>"; };
+		C6AC8A9E215D0E1C00F14D75 /* KeyboardDeviceIOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = KeyboardDeviceIOS.hpp; sourceTree = "<group>"; };
+		C6AC8A9F215D0E1C00F14D75 /* KeyboardDeviceIOS.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = KeyboardDeviceIOS.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1402,16 +1402,16 @@
 		303820F01D817F3400677CAB /* ios */ = {
 			isa = PBXGroup;
 			children = (
-				303820F11D817F4900677CAB /* GamepadIOS.hpp */,
-				303820F21D817F4900677CAB /* GamepadIOS.mm */,
+				303820F11D817F4900677CAB /* GamepadDeviceIOS.hpp */,
+				303820F21D817F4900677CAB /* GamepadDeviceIOS.mm */,
 				303820F31D817F4900677CAB /* InputManagerIOS.hpp */,
 				303820F41D817F4900677CAB /* InputManagerIOS.mm */,
 				300862D52154720C00D8CC45 /* InputSystemIOS.hpp */,
 				300862D62154720C00D8CC45 /* InputSystemIOS.mm */,
-				C6AC8A9F215D0E1C00F14D75 /* KeyboardIOS.cpp */,
-				C6AC8A9E215D0E1C00F14D75 /* KeyboardIOS.hpp */,
-				C6AC8A96215CF86600F14D75 /* TouchpadIOS.cpp */,
-				C6AC8A97215CF86600F14D75 /* TouchpadIOS.hpp */,
+				C6AC8A9F215D0E1C00F14D75 /* KeyboardDeviceIOS.cpp */,
+				C6AC8A9E215D0E1C00F14D75 /* KeyboardDeviceIOS.hpp */,
+				C6AC8A96215CF86600F14D75 /* TouchpadDeviceIOS.cpp */,
+				C6AC8A97215CF86600F14D75 /* TouchpadDeviceIOS.hpp */,
 			);
 			path = ios;
 			sourceTree = "<group>";
@@ -1968,14 +1968,14 @@
 		3098A5521EA01C6C00528A54 /* tvos */ = {
 			isa = PBXGroup;
 			children = (
-				3098A55B1EA01CA900528A54 /* GamepadTVOS.hpp */,
-				3098A55C1EA01CA900528A54 /* GamepadTVOS.mm */,
+				3098A55B1EA01CA900528A54 /* GamepadDeviceTVOS.hpp */,
+				3098A55C1EA01CA900528A54 /* GamepadDeviceTVOS.mm */,
 				3098A55D1EA01CA900528A54 /* InputManagerTVOS.hpp */,
 				3098A55E1EA01CA900528A54 /* InputManagerTVOS.mm */,
 				300862D92154725400D8CC45 /* InputSystemTVOS.hpp */,
 				300862DA2154725500D8CC45 /* InputSystemTVOS.mm */,
-				C6AC8A9A215CF87500F14D75 /* KeyboardTVOS.cpp */,
-				C6AC8A9B215CF87500F14D75 /* KeyboardTVOS.hpp */,
+				C6AC8A9A215CF87500F14D75 /* KeyboardDeviceTVOS.cpp */,
+				C6AC8A9B215CF87500F14D75 /* KeyboardDeviceTVOS.hpp */,
 			);
 			path = tvos;
 			sourceTree = "<group>";
@@ -2044,7 +2044,7 @@
 				30AEFA3720C0FD7400CDFD33 /* RenderTargetResourceMetal.hpp in Headers */,
 				303696CF1E32DD9C007F4211 /* BlendState.hpp in Headers */,
 				30AEFA2F20C0FD6000CDFD33 /* RenderTargetResourceOGL.hpp in Headers */,
-				C6AC8AA0215D0E1C00F14D75 /* KeyboardIOS.hpp in Headers */,
+				C6AC8AA0215D0E1C00F14D75 /* KeyboardDeviceIOS.hpp in Headers */,
 				30419DE51D162BCF00A63759 /* Audio.hpp in Headers */,
 				30AEFA1720C0FB2E00CDFD33 /* RenderTarget.hpp in Headers */,
 				30B546581D90575B00E45DB6 /* RadioButtonGroup.hpp in Headers */,
@@ -2138,7 +2138,7 @@
 				303696D71E32DDA9007F4211 /* Buffer.hpp in Headers */,
 				30C56C991CAC3ECE007AEF8F /* SlideBar.hpp in Headers */,
 				303820091D80A40700677CAB /* ShaderResourceMetal.hpp in Headers */,
-				303820F51D817F4900677CAB /* GamepadIOS.hpp in Headers */,
+				303820F51D817F4900677CAB /* GamepadDeviceIOS.hpp in Headers */,
 				30575ADC1C3B48740009C8A7 /* EventDispatcher.hpp in Headers */,
 				303B75561C2A3CB700FEDE92 /* Size2.hpp in Headers */,
 				30A883671E7432DA004A033F /* Archive.hpp in Headers */,
@@ -2167,7 +2167,7 @@
 				30B8598F1F3D286600A16952 /* TTFont.hpp in Headers */,
 				306A26BE1F5DD19300E2B0B6 /* Mixer.hpp in Headers */,
 				30519CF31F9B53FF00AF3DC4 /* LoaderOBJ.hpp in Headers */,
-				C6AC8A99215CF86600F14D75 /* TouchpadIOS.hpp in Headers */,
+				C6AC8A99215CF86600F14D75 /* TouchpadDeviceIOS.hpp in Headers */,
 				301EB3A61CCD691800466E92 /* Component.hpp in Headers */,
 				30C758B81F4A0309008499DC /* RenderDevice.hpp in Headers */,
 				303B75641C2A3CBF00FEDE92 /* ParticleSystem.hpp in Headers */,
@@ -2212,7 +2212,7 @@
 				30519CC51F9B53B700AF3DC4 /* LoaderBMF.hpp in Headers */,
 				303821561D81876E00677CAB /* ShaderResourceEmpty.hpp in Headers */,
 				30381F7E1D80A3EC00677CAB /* RenderDeviceOGL.hpp in Headers */,
-				C6AC8A9D215CF87500F14D75 /* KeyboardTVOS.hpp in Headers */,
+				C6AC8A9D215CF87500F14D75 /* KeyboardDeviceTVOS.hpp in Headers */,
 				30AEFA2920C0FC8600CDFD33 /* RenderTargetResourceEmpty.hpp in Headers */,
 				303820111D80A40700677CAB /* TextureResourceMetal.hpp in Headers */,
 				30575AA31C39CB790009C8A7 /* Scene.hpp in Headers */,
@@ -2277,7 +2277,7 @@
 				306792F7211F98070006FF79 /* Bundle.hpp in Headers */,
 				303B76691C355A3B00FEDE92 /* Rect.hpp in Headers */,
 				303B766C1C355A3B00FEDE92 /* MathUtils.hpp in Headers */,
-				3098A55F1EA01CA900528A54 /* GamepadTVOS.hpp in Headers */,
+				3098A55F1EA01CA900528A54 /* GamepadDeviceTVOS.hpp in Headers */,
 				30519CE51F9B53E900AF3DC4 /* LoaderParticleSystem.hpp in Headers */,
 				30AEFA1920C0FB2E00CDFD33 /* RenderTarget.hpp in Headers */,
 				303B766E1C355A3B00FEDE92 /* EventHandler.hpp in Headers */,
@@ -2714,7 +2714,7 @@
 				30575AC61C3B17540009C8A7 /* Button.cpp in Sources */,
 				303821451D81876E00677CAB /* RenderDeviceEmpty.cpp in Sources */,
 				303B753D1C2A3C8E00FEDE92 /* FileSystem.cpp in Sources */,
-				C6AC8A98215CF86600F14D75 /* TouchpadIOS.cpp in Sources */,
+				C6AC8A98215CF86600F14D75 /* TouchpadDeviceIOS.cpp in Sources */,
 				303B75571C2A3CB700FEDE92 /* Vector2.cpp in Sources */,
 				30FFBE372158FD8D004B0BD3 /* Keyboard.cpp in Sources */,
 				304F92A51F4D89C50063EEC0 /* Network.cpp in Sources */,
@@ -2745,7 +2745,7 @@
 				3047F7471C4C350D00774E3D /* Move.cpp in Sources */,
 				30419DF21D162BEF00A63759 /* SoundData.cpp in Sources */,
 				303B75531C2A3CB700FEDE92 /* Rect.cpp in Sources */,
-				303820F81D817F4900677CAB /* GamepadIOS.mm in Sources */,
+				303820F81D817F4900677CAB /* GamepadDeviceIOS.mm in Sources */,
 				30519CB81F9B53AB00AF3DC4 /* LoaderWave.cpp in Sources */,
 				303B04B41E207B6100011CBE /* OpenGLView.m in Sources */,
 				303821331D81876E00677CAB /* BlendStateResourceEmpty.cpp in Sources */,
@@ -2758,7 +2758,7 @@
 				303B75401C2A3C9200FEDE92 /* ImageData.cpp in Sources */,
 				303B755F1C2A3CBF00FEDE92 /* Camera.cpp in Sources */,
 				302511B11CD3CA2200D04209 /* ParticleSystemData.cpp in Sources */,
-				C6AC8AA1215D0E1C00F14D75 /* KeyboardIOS.cpp in Sources */,
+				C6AC8AA1215D0E1C00F14D75 /* KeyboardDeviceIOS.cpp in Sources */,
 				306A26BB1F5DD19300E2B0B6 /* Mixer.cpp in Sources */,
 				304B27561C9384A600BA162D /* Size3.cpp in Sources */,
 				30B546551D90575B00E45DB6 /* RadioButtonGroup.cpp in Sources */,
@@ -2885,7 +2885,7 @@
 				304F92A71F4D89C50063EEC0 /* Network.cpp in Sources */,
 				30B328861C4E9EAC00040927 /* Ease.cpp in Sources */,
 				30AEFA3620C0FD7400CDFD33 /* RenderTargetResourceMetal.mm in Sources */,
-				3098A5601EA01CA900528A54 /* GamepadTVOS.mm in Sources */,
+				3098A5601EA01CA900528A54 /* GamepadDeviceTVOS.mm in Sources */,
 				30216B651ED462B80073E3D5 /* MeshRenderer.cpp in Sources */,
 				3067D7A7209B450F008DF6AF /* InputSystem.cpp in Sources */,
 				30CC89FB203C5DFB00E2C8C3 /* File.cpp in Sources */,
@@ -2901,7 +2901,7 @@
 				30381F511D80A3EC00677CAB /* BlendStateResourceOGL.cpp in Sources */,
 				30EA71211D52783000AE8C3E /* EngineTVOS.mm in Sources */,
 				30575ABE1C39D9850009C8A7 /* ActorContainer.cpp in Sources */,
-				C6AC8A9C215CF87500F14D75 /* KeyboardTVOS.cpp in Sources */,
+				C6AC8A9C215CF87500F14D75 /* KeyboardDeviceTVOS.cpp in Sources */,
 				30EF364D1CA76ACD00F04F29 /* ScrollArea.cpp in Sources */,
 				303821531D81876E00677CAB /* ShaderResourceEmpty.cpp in Sources */,
 				30419DF31D162BEF00A63759 /* SoundData.cpp in Sources */,

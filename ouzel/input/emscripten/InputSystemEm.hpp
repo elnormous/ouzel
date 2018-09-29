@@ -9,7 +9,7 @@ namespace ouzel
 {
     namespace input
     {
-        class GamepadEm;
+        class GamepadDeviceEm;
 
         class InputSystemEm: public InputSystem
         {
@@ -20,7 +20,7 @@ namespace ouzel
 
             virtual ~InputSystemEm() {}
 
-            void handleButtonValueChange(const GamepadEm& gamepad, Gamepad::Button button, bool pressed, float value);
+            void handleButtonValueChange(const GamepadDeviceEm& gamepad, Gamepad::Button button, bool pressed, float value);
         };
     } // namespace input
 } // namespace ouzel

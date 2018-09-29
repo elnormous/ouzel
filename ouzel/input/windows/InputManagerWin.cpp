@@ -7,8 +7,8 @@
 #include <OleAuto.h>
 #include "InputManagerWin.hpp"
 #include "NativeCursorWin.hpp"
-#include "GamepadDI.hpp"
-#include "GamepadXI.hpp"
+#include "GamepadDeviceDI.hpp"
+#include "GamepadDeviceXI.hpp"
 #include "core/Engine.hpp"
 #include "core/windows/NativeWindowWin.hpp"
 #include "events/EventDispatcher.hpp"
@@ -49,7 +49,7 @@ namespace ouzel
                     Event event;
                     event.type = Event::Type::GAMEPAD_CONNECT;
 
-                    /*std::unique_ptr<GamepadXI> gamepad(new GamepadXI(userIndex));
+                    /*std::unique_ptr<GamepadDeviceXI> gamepad(new GamepadDeviceXI(userIndex));
                     gamepadsXI[userIndex] = gamepad.get();
                     event.gamepadEvent.gamepad = gamepad.get();
                     gamepads.push_back(std::move(gamepad));*/
@@ -85,7 +85,7 @@ namespace ouzel
 
             for (DWORD userIndex = 0; userIndex < XUSER_MAX_COUNT; ++userIndex)
             {
-                GamepadXI* gamepadXI = gamepadsXI[userIndex];
+                GamepadDeviceXI* gamepadXI = gamepadsXI[userIndex];
 
                 if (gamepadXI)
                 {
@@ -115,7 +115,7 @@ namespace ouzel
 
             for (auto i = gamepadsDI.begin(); i != gamepadsDI.end();)
             {
-                GamepadDI* gamepadDI = *i;
+                GamepadDeviceDI* gamepadDI = *i;
                 try
                 {
                     gamepadDI->update();
@@ -250,7 +250,7 @@ namespace ouzel
                             Event event;
                             event.type = Event::Type::GAMEPAD_CONNECT;
 
-                            /*std::unique_ptr<GamepadXI> gamepad(new GamepadXI(userIndex));
+                            /*std::unique_ptr<GamepadDeviceXI> gamepad(new GamepadDeviceXI(userIndex));
                             gamepadsXI[userIndex] = gamepad.get();
                             event.gamepadEvent.gamepad = gamepad.get();
 
@@ -363,7 +363,7 @@ namespace ouzel
 
                 for (auto i = gamepadsDI.begin(); i != gamepadsDI.end();)
                 {
-                    GamepadDI* gamepadDI = *i;
+                    GamepadDeviceDI* gamepadDI = *i;
 
                     if (gamepadDI->getInstance()->guidInstance == didInstance->guidInstance)
                     {
@@ -379,7 +379,7 @@ namespace ouzel
                     Event event;
                     event.type = Event::Type::GAMEPAD_CONNECT;
                     
-                    /*std::unique_ptr<GamepadDI> gamepad(new GamepadDI(didInstance, directInput, windowWin->getNativeWindow()));
+                    /*std::unique_ptr<GamepadDeviceDI> gamepad(new GamepadDeviceDI(didInstance, directInput, windowWin->getNativeWindow()));
                     gamepadsDI.push_back(gamepad.get());
                     event.gamepadEvent.gamepad = gamepad.get();
                     gamepads.push_back(std::move(gamepad));*/

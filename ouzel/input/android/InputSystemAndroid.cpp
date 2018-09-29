@@ -4,7 +4,7 @@
 #include <android/keycodes.h>
 #include <android/input.h>
 #include "InputSystemAndroid.hpp"
-#include "GamepadAndroid.hpp"
+#include "GamepadDeviceAndroid.hpp"
 
 namespace ouzel
 {
@@ -114,7 +114,7 @@ namespace ouzel
                 return Keyboard::Key::NONE;
         }
 
-        void InputSystemAndroid::handleButtonValueChange(const GamepadAndroid& gamepad, Gamepad::Button button, bool pressed, float value)
+        void InputSystemAndroid::handleButtonValueChange(const GamepadDeviceAndroid& gamepad, Gamepad::Button button, bool pressed, float value)
         {
             Event event;
             event.type = Event::Type::GAMEPAD_BUTTON_CHANGE;

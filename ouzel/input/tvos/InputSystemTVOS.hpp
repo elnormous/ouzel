@@ -17,7 +17,7 @@ namespace ouzel
 {
     namespace input
     {
-        class GamepadTVOS;
+        class GamepadDeviceTVOS;
 
         class InputSystemTVOS: public InputSystem
         {
@@ -26,7 +26,7 @@ namespace ouzel
 
             virtual ~InputSystemTVOS() {}
 
-            void handleButtonValueChange(const GamepadTVOS& gamepad, Gamepad::Button button, bool pressed, float value);
+            void handleButtonValueChange(const GamepadDeviceTVOS& gamepad, Gamepad::Button button, bool pressed, float value);
         };
     } // namespace input
 } // namespace ouzel

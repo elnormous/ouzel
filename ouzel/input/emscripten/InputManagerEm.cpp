@@ -3,7 +3,7 @@
 #include <emscripten.h>
 #include "InputManagerEm.hpp"
 #include "InputSystemEm.hpp"
-#include "GamepadEm.hpp"
+#include "GamepadDeviceEm.hpp"
 #include "core/Engine.hpp"
 #include "core/Window.hpp"
 #include "events/Event.hpp"
@@ -185,8 +185,8 @@ namespace ouzel
         {
             /*for (const std::unique_ptr<Gamepad>& gamepad : gamepads)
             {
-                GamepadEm* gamepadEm = static_cast<GamepadEm*>(gamepad.get());
-                gamepadEm->update();
+                GamepadDeviceEm* GamepadDeviceEm = static_cast<GamepadDeviceEm*>(gamepad.get());
+                GamepadDeviceEm->update();
             }*/
         }
 
@@ -243,7 +243,7 @@ namespace ouzel
             Event event;
             event.type = Event::Type::GAMEPAD_CONNECT;
 
-            /*std::unique_ptr<GamepadEm> gamepad(new GamepadEm(index));
+            /*std::unique_ptr<GamepadDeviceEm> gamepad(new GamepadDeviceEm(index));
             event.gamepadEvent.gamepad = gamepad.get();
             gamepads.push_back(std::move(gamepad));*/
 
@@ -253,7 +253,7 @@ namespace ouzel
         void InputManagerEm::handleGamepadDisconnected(long index)
         {
             /*auto i = std::find_if(gamepads.begin(), gamepads.end(), [index](const std::unique_ptr<Gamepad>& gamepad) {
-                GamepadEm* currentGamepad = static_cast<GamepadEm*>(gamepad.get());
+                GamepadDeviceEm* currentGamepad = static_cast<GamepadDeviceEm*>(gamepad.get());
                 return currentGamepad->getIndex() == index;
             });
 

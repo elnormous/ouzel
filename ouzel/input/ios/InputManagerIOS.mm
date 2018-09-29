@@ -4,7 +4,7 @@
 #include <unordered_map>
 #import <GameController/GameController.h>
 #include "InputManagerIOS.hpp"
-#include "GamepadIOS.hpp"
+#include "GamepadDeviceIOS.hpp"
 #include "core/ios/NativeWindowIOS.hpp"
 #include "core/Engine.hpp"
 #include "events/EventDispatcher.hpp"
@@ -141,7 +141,7 @@ namespace ouzel
             Event event;
             event.type = Event::Type::GAMEPAD_CONNECT;
 
-            /*std::unique_ptr<GamepadIOS> gamepad(new GamepadIOS(controller));
+            /*std::unique_ptr<GamepadDeviceIOS> gamepad(new GamepadDeviceIOS(controller));
 
             event.gamepadEvent.gamepad = gamepad.get();
 
@@ -153,7 +153,7 @@ namespace ouzel
         void InputManagerIOS::handleGamepadDisconnected(GCControllerPtr controller)
         {
             /*auto i = std::find_if(gamepads.begin(), gamepads.end(), [controller](const std::unique_ptr<Gamepad>& gamepad) {
-                GamepadIOS* currentGamepad = static_cast<GamepadIOS*>(gamepad.get());
+                GamepadDeviceIOS* currentGamepad = static_cast<GamepadDeviceIOS*>(gamepad.get());
                 return currentGamepad->getController() == controller;
             });
 

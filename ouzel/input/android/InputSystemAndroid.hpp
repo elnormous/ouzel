@@ -9,7 +9,7 @@ namespace ouzel
 {
     namespace input
     {
-        class GamepadAndroid;
+        class GamepadDeviceAndroid;
 
         class InputSystemAndroid: public InputSystem
         {
@@ -18,7 +18,7 @@ namespace ouzel
 
             virtual ~InputSystemAndroid() {}
 
-            void handleButtonValueChange(const GamepadAndroid& gamepad, Gamepad::Button button, bool pressed, float value);
+            void handleButtonValueChange(const GamepadDeviceAndroid& gamepad, Gamepad::Button button, bool pressed, float value);
         };
     }
 }
