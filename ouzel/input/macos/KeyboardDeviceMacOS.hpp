@@ -11,17 +11,17 @@ namespace ouzel
     {
         class InputSystemMacOS;
 
-        class KeyboardMacOS: public InputDevice
+        class KeyboardDeviceMacOS: public InputDevice
         {
         public:
-            KeyboardMacOS(InputSystemMacOS& initInputSystemMacOS,
-                          uint32_t initDeviceId):
+            KeyboardDeviceMacOS(InputSystemMacOS& initInputSystemMacOS,
+                                uint32_t initDeviceId):
                 InputDevice(initDeviceId),
                 inputSystemMacOS(initInputSystemMacOS)
             {
             }
 
-            virtual ~KeyboardMacOS() {}
+            virtual ~KeyboardDeviceMacOS() {}
 
             void handleKeyPress(Keyboard::Key key, uint32_t modifiers);
             void handleKeyRelease(Keyboard::Key key, uint32_t modifiers);

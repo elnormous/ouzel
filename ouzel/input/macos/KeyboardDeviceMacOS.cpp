@@ -1,13 +1,13 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include "KeyboardMacOS.hpp"
+#include "KeyboardDeviceMacOS.hpp"
 #include "InputSystemMacOS.hpp"
 
 namespace ouzel
 {
     namespace input
     {
-        void KeyboardMacOS::handleKeyPress(Keyboard::Key key, uint32_t modifiers)
+        void KeyboardDeviceMacOS::handleKeyPress(Keyboard::Key key, uint32_t modifiers)
         {
             InputSystem::Event event;
             event.type = InputSystem::Event::Type::KEY_PRESS;
@@ -17,7 +17,7 @@ namespace ouzel
             inputSystemMacOS.addEvent(event);
         }
 
-        void KeyboardMacOS::handleKeyRelease(Keyboard::Key key, uint32_t modifiers)
+        void KeyboardDeviceMacOS::handleKeyRelease(Keyboard::Key key, uint32_t modifiers)
         {
             InputSystem::Event event;
             event.type = InputSystem::Event::Type::KEY_RELEASE;

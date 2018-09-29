@@ -276,29 +276,29 @@ namespace ouzel
 
             Event keyboardConnectEvent;
             keyboardConnectEvent.type = Event::Type::DEVICE_CONNECT;
-            std::unique_ptr<KeyboardMacOS> keyboardMacOS(new KeyboardMacOS(*this, ++lastDeviceId));
-            keyboardConnectEvent.deviceId = keyboardMacOS->getDeviceId();
+            std::unique_ptr<KeyboardDeviceMacOS> keyboardDeviceMacOS(new KeyboardDeviceMacOS(*this, ++lastDeviceId));
+            keyboardConnectEvent.deviceId = keyboardDeviceMacOS->getDeviceId();
             keyboardConnectEvent.deviceType = Controller::Type::KEYBOARD;
-            keyboard = keyboardMacOS.get();
-            inputDevices.insert(std::make_pair(keyboardMacOS->getDeviceId(), std::move(keyboardMacOS)));
+            keyboardDevice = keyboardDeviceMacOS.get();
+            inputDevices.insert(std::make_pair(keyboardDeviceMacOS->getDeviceId(), std::move(keyboardDeviceMacOS)));
             addEvent(keyboardConnectEvent);
 
             Event mouseConnectEvent;
             mouseConnectEvent.type = Event::Type::DEVICE_CONNECT;
-            std::unique_ptr<MouseMacOS> mouseMacOS(new MouseMacOS(*this, ++lastDeviceId));
-            mouseConnectEvent.deviceId = mouseMacOS->getDeviceId();
+            std::unique_ptr<MouseDeviceMacOS> mouseDeviceMacOS(new MouseDeviceMacOS(*this, ++lastDeviceId));
+            mouseConnectEvent.deviceId = mouseDeviceMacOS->getDeviceId();
             mouseConnectEvent.deviceType = Controller::Type::MOUSE;
-            mouse = mouseMacOS.get();
-            inputDevices.insert(std::make_pair(mouseMacOS->getDeviceId(), std::move(mouseMacOS)));
+            mouseDevice = mouseDeviceMacOS.get();
+            inputDevices.insert(std::make_pair(mouseDeviceMacOS->getDeviceId(), std::move(mouseDeviceMacOS)));
             addEvent(mouseConnectEvent);
 
             Event touchpadConnectEvent;
             touchpadConnectEvent.type = Event::Type::DEVICE_CONNECT;
-            std::unique_ptr<TouchpadMacOS> touchpadMacOS(new TouchpadMacOS(*this, ++lastDeviceId));
-            touchpadConnectEvent.deviceId = touchpadMacOS->getDeviceId();
+            std::unique_ptr<TouchpadDeviceMacOS> touchpadDeviceMacOS(new TouchpadDeviceMacOS(*this, ++lastDeviceId));
+            touchpadConnectEvent.deviceId = touchpadDeviceMacOS->getDeviceId();
             touchpadConnectEvent.deviceType = Controller::Type::TOUCHPAD;
-            touchpad = touchpadMacOS.get();
-            inputDevices.insert(std::make_pair(touchpadMacOS->getDeviceId(), std::move(touchpadMacOS)));
+            touchpadDevice = touchpadDeviceMacOS.get();
+            inputDevices.insert(std::make_pair(touchpadDeviceMacOS->getDeviceId(), std::move(touchpadDeviceMacOS)));
             addEvent(touchpadConnectEvent);
         }
 
@@ -348,8 +348,8 @@ namespace ouzel
                     {
                         InputDevice* device = i->second.get();
 
-                        if (device == mouse)
-                            mouse->setPosition(command.position);
+                        if (device == mouseDevice)
+                            mouseDevice->setPosition(command.position);
                     }
                     break;
                 }
@@ -432,15 +432,15 @@ namespace ouzel
             // Use IOKit only if the controller does not support GameController framework
             if (supportsGameController)
             {
-                std::unique_ptr<GamepadGC> gamepad(new GamepadGC(*this, ++lastDeviceId, controller));
+                std::unique_ptr<GamepadDeviceGC> gamepadDevice(new GamepadDeviceGC(*this, ++lastDeviceId, controller));
 
                 Event event;
                 event.type = Event::Type::DEVICE_CONNECT;
-                event.deviceId = gamepad->getDeviceId();
+                event.deviceId = gamepadDevice->getDeviceId();
                 event.deviceType = Controller::Type::GAMEPAD;
 
-                gamepadsGC.insert(std::make_pair(controller, gamepad.get()));
-                inputDevices.insert(std::make_pair(gamepad->getDeviceId(), std::move(gamepad)));
+                gamepadDevicesGC.insert(std::make_pair(controller, gamepadDevice.get()));
+                inputDevices.insert(std::make_pair(gamepadDevice->getDeviceId(), std::move(gamepadDevice)));
 
                 addEvent(event);
             }
@@ -448,26 +448,26 @@ namespace ouzel
 
         void InputSystemMacOS::handleGamepadDisconnected(GCControllerPtr controller)
         {
-            auto i = gamepadsGC.find(controller);
+            auto i = gamepadDevicesGC.find(controller);
 
-            if (i != gamepadsGC.end())
+            if (i != gamepadDevicesGC.end())
             {
-                GamepadGC* gamepadGC = i->second;
+                GamepadDeviceGC* gamepadDeviceGC = i->second;
 
                 Event event;
                 event.type = Event::Type::DEVICE_DISCONNECT;
-                event.deviceId = gamepadGC->getDeviceId();
+                event.deviceId = gamepadDeviceGC->getDeviceId();
                 event.deviceType = Controller::Type::GAMEPAD;
                 addEvent(event);
 
-                gamepadsGC.erase(i);
+                gamepadDevicesGC.erase(i);
 
-                auto gamepadIterator = std::find_if(inputDevices.begin(), inputDevices.end(), [gamepadGC](const std::pair<const uint32_t, std::unique_ptr<InputDevice>>& inputDevice) {
-                    return inputDevice.second.get() == gamepadGC;
+                auto gamepadDeviceIterator = std::find_if(inputDevices.begin(), inputDevices.end(), [gamepadDeviceGC](const std::pair<const uint32_t, std::unique_ptr<InputDevice>>& inputDevice) {
+                    return inputDevice.second.get() == gamepadDeviceGC;
                 });
 
-                if (gamepadIterator != inputDevices.end())
-                    inputDevices.erase(gamepadIterator);
+                if (gamepadDeviceIterator != inputDevices.end())
+                    inputDevices.erase(gamepadDeviceIterator);
             }
         }
 
@@ -490,15 +490,15 @@ namespace ouzel
             // Use IOKit only if the controller does not support GameController framework
             if (!supportsGameController)
             {
-                std::unique_ptr<GamepadIOKit> gamepad(new GamepadIOKit(*this, ++lastDeviceId, device));
+                std::unique_ptr<GamepadDeviceIOKit> gamepadDevice(new GamepadDeviceIOKit(*this, ++lastDeviceId, device));
 
                 Event event;
                 event.type = Event::Type::DEVICE_CONNECT;
-                event.deviceId = gamepad->getDeviceId();
+                event.deviceId = gamepadDevice->getDeviceId();
                 event.deviceType = Controller::Type::GAMEPAD;
 
-                gamepadsIOKit.insert(std::make_pair(device, gamepad.get()));
-                inputDevices.insert(std::make_pair(gamepad->getDeviceId(), std::move(gamepad)));
+                gamepadDevicesIOKit.insert(std::make_pair(device, gamepadDevice.get()));
+                inputDevices.insert(std::make_pair(gamepadDevice->getDeviceId(), std::move(gamepadDevice)));
 
                 addEvent(event);
             }
@@ -506,31 +506,31 @@ namespace ouzel
 
         void InputSystemMacOS::handleGamepadDisconnected(IOHIDDeviceRef device)
         {
-            auto i = gamepadsIOKit.find(device);
+            auto i = gamepadDevicesIOKit.find(device);
 
-            if (i != gamepadsIOKit.end())
+            if (i != gamepadDevicesIOKit.end())
             {
-                GamepadIOKit* gamepadIOKit = i->second;
+                GamepadDeviceIOKit* gamepadDeviceIOKit = i->second;
 
                 Event event;
                 event.type = Event::Type::DEVICE_DISCONNECT;
-                event.deviceId = gamepadIOKit->getDeviceId();
+                event.deviceId = gamepadDeviceIOKit->getDeviceId();
                 event.deviceType = Controller::Type::GAMEPAD;
 
                 addEvent(event);
 
-                gamepadsIOKit.erase(i);
+                gamepadDevicesIOKit.erase(i);
 
-                auto gamepadIterator = std::find_if(inputDevices.begin(), inputDevices.end(), [gamepadIOKit](const std::pair<const uint32_t, std::unique_ptr<InputDevice>>& inputDevice) {
-                    return inputDevice.second.get() == gamepadIOKit;
+                auto gamepadDeviceIterator = std::find_if(inputDevices.begin(), inputDevices.end(), [gamepadDeviceIOKit](const std::pair<const uint32_t, std::unique_ptr<InputDevice>>& inputDevice) {
+                    return inputDevice.second.get() == gamepadDeviceIOKit;
                 });
 
-                if (gamepadIterator != inputDevices.end())
-                    inputDevices.erase(gamepadIterator);
+                if (gamepadDeviceIterator != inputDevices.end())
+                    inputDevices.erase(gamepadDeviceIterator);
             }
         }
 
-        void InputSystemMacOS::handleButtonValueChange(const GamepadMacOS& gamepad, Gamepad::Button button, bool pressed, float value)
+        void InputSystemMacOS::handleButtonValueChange(const GamepadDeviceMacOS& gamepad, Gamepad::Button button, bool pressed, float value)
         {
             Event event;
             event.type = Event::Type::GAMEPAD_BUTTON_CHANGE;

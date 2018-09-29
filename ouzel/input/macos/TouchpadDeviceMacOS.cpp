@@ -1,13 +1,13 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include "TouchpadMacOS.hpp"
+#include "TouchpadDeviceMacOS.hpp"
 #include "InputSystemMacOS.hpp"
 
 namespace ouzel
 {
     namespace input
     {
-        void TouchpadMacOS::handleTouchBegin(uint64_t touchId, const Vector2& position, float force)
+        void TouchpadDeviceMacOS::handleTouchBegin(uint64_t touchId, const Vector2& position, float force)
         {
             InputSystem::Event event;
             event.type = InputSystem::Event::Type::TOUCH_BEGIN;
@@ -18,7 +18,7 @@ namespace ouzel
             inputSystemMacOS.addEvent(event);
         }
 
-        void TouchpadMacOS::handleTouchEnd(uint64_t touchId, const Vector2& position, float force)
+        void TouchpadDeviceMacOS::handleTouchEnd(uint64_t touchId, const Vector2& position, float force)
         {
             InputSystem::Event event;
             event.type = InputSystem::Event::Type::TOUCH_END;
@@ -29,7 +29,7 @@ namespace ouzel
             inputSystemMacOS.addEvent(event);
         }
 
-        void TouchpadMacOS::handleTouchMove(uint64_t touchId, const Vector2& position, float force)
+        void TouchpadDeviceMacOS::handleTouchMove(uint64_t touchId, const Vector2& position, float force)
         {
             InputSystem::Event event;
             event.type = InputSystem::Event::Type::TOUCH_MOVE;
@@ -40,7 +40,7 @@ namespace ouzel
             inputSystemMacOS.addEvent(event);
         }
 
-        void TouchpadMacOS::handleTouchCancel(uint64_t touchId, const Vector2& position, float force)
+        void TouchpadDeviceMacOS::handleTouchCancel(uint64_t touchId, const Vector2& position, float force)
         {
             InputSystem::Event event;
             event.type = InputSystem::Event::Type::TOUCH_CANCEL;
