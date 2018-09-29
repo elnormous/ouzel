@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "input/InputDevice.hpp"
 #include "input/Gamepad.hpp"
 
 namespace ouzel
@@ -10,7 +11,7 @@ namespace ouzel
     {
         class InputSystemAndroid;
 
-        class GamepadDeviceAndroid final
+        class GamepadDeviceAndroid: public InputDevice
         {
         public:
             GamepadDeviceAndroid(InputSystemAndroid& initInputSystemAndroid,
@@ -21,7 +22,6 @@ namespace ouzel
 
         protected:
             InputSystemAndroid& inputSystemAndroid;
-            uint32_t deviceId;
         };
     } // namespace input
 } // namespace ouzel

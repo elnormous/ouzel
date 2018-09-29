@@ -140,6 +140,8 @@ static EM_BOOL emTouchCallback(int eventType, const EmscriptenTouchEvent *touchE
             // TODO: implement
             break;
     }
+
+    return false;
 }
 
 namespace ouzel
