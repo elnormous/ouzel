@@ -15,7 +15,7 @@ namespace ouzel
         {
         public:
             GamepadDeviceEm(InputSystemEm& initInputSystemEm,
-                            uint32_t initDeviceId,
+                            uint32_t initId,
                             long initIndex);
 
             void update();

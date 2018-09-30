@@ -8,9 +8,9 @@ namespace ouzel
     namespace input
     {
         GamepadDeviceTVOS::GamepadDeviceTVOS(InputSystemTVOS& initInputSystemTVOS,
-                                             uint32_t initDeviceId,
+                                             uint32_t initId,
                                              GCControllerPtr initController):
-            InputDevice(initDeviceId),
+            InputDevice(initId),
             inputSystemTVOS(initInputSystemTVOS),
             controller(initController)
         {

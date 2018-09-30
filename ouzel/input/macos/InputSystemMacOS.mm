@@ -277,28 +277,28 @@ namespace ouzel
             Event keyboardConnectEvent;
             keyboardConnectEvent.type = Event::Type::DEVICE_CONNECT;
             std::unique_ptr<KeyboardDeviceMacOS> keyboardDeviceMacOS(new KeyboardDeviceMacOS(*this, ++lastDeviceId));
-            keyboardConnectEvent.deviceId = keyboardDeviceMacOS->getDeviceId();
+            keyboardConnectEvent.deviceId = keyboardDeviceMacOS->getId();
             keyboardConnectEvent.deviceType = Controller::Type::KEYBOARD;
             keyboardDevice = keyboardDeviceMacOS.get();
-            inputDevices.insert(std::make_pair(keyboardDeviceMacOS->getDeviceId(), std::move(keyboardDeviceMacOS)));
+            inputDevices.insert(std::make_pair(keyboardDeviceMacOS->getId(), std::move(keyboardDeviceMacOS)));
             addEvent(keyboardConnectEvent);
 
             Event mouseConnectEvent;
             mouseConnectEvent.type = Event::Type::DEVICE_CONNECT;
             std::unique_ptr<MouseDeviceMacOS> mouseDeviceMacOS(new MouseDeviceMacOS(*this, ++lastDeviceId));
-            mouseConnectEvent.deviceId = mouseDeviceMacOS->getDeviceId();
+            mouseConnectEvent.deviceId = mouseDeviceMacOS->getId();
             mouseConnectEvent.deviceType = Controller::Type::MOUSE;
             mouseDevice = mouseDeviceMacOS.get();
-            inputDevices.insert(std::make_pair(mouseDeviceMacOS->getDeviceId(), std::move(mouseDeviceMacOS)));
+            inputDevices.insert(std::make_pair(mouseDeviceMacOS->getId(), std::move(mouseDeviceMacOS)));
             addEvent(mouseConnectEvent);
 
             Event touchpadConnectEvent;
             touchpadConnectEvent.type = Event::Type::DEVICE_CONNECT;
             std::unique_ptr<TouchpadDeviceMacOS> touchpadDeviceMacOS(new TouchpadDeviceMacOS(*this, ++lastDeviceId));
-            touchpadConnectEvent.deviceId = touchpadDeviceMacOS->getDeviceId();
+            touchpadConnectEvent.deviceId = touchpadDeviceMacOS->getId();
             touchpadConnectEvent.deviceType = Controller::Type::TOUCHPAD;
             touchpadDevice = touchpadDeviceMacOS.get();
-            inputDevices.insert(std::make_pair(touchpadDeviceMacOS->getDeviceId(), std::move(touchpadDeviceMacOS)));
+            inputDevices.insert(std::make_pair(touchpadDeviceMacOS->getId(), std::move(touchpadDeviceMacOS)));
             addEvent(touchpadConnectEvent);
         }
 
@@ -436,11 +436,11 @@ namespace ouzel
 
                 Event event;
                 event.type = Event::Type::DEVICE_CONNECT;
-                event.deviceId = gamepadDevice->getDeviceId();
+                event.deviceId = gamepadDevice->getId();
                 event.deviceType = Controller::Type::GAMEPAD;
 
                 gamepadDevicesGC.insert(std::make_pair(controller, gamepadDevice.get()));
-                inputDevices.insert(std::make_pair(gamepadDevice->getDeviceId(), std::move(gamepadDevice)));
+                inputDevices.insert(std::make_pair(gamepadDevice->getId(), std::move(gamepadDevice)));
 
                 addEvent(event);
             }
@@ -456,7 +456,7 @@ namespace ouzel
 
                 Event event;
                 event.type = Event::Type::DEVICE_DISCONNECT;
-                event.deviceId = gamepadDeviceGC->getDeviceId();
+                event.deviceId = gamepadDeviceGC->getId();
                 event.deviceType = Controller::Type::GAMEPAD;
                 addEvent(event);
 
@@ -494,11 +494,11 @@ namespace ouzel
 
                 Event event;
                 event.type = Event::Type::DEVICE_CONNECT;
-                event.deviceId = gamepadDevice->getDeviceId();
+                event.deviceId = gamepadDevice->getId();
                 event.deviceType = Controller::Type::GAMEPAD;
 
                 gamepadDevicesIOKit.insert(std::make_pair(device, gamepadDevice.get()));
-                inputDevices.insert(std::make_pair(gamepadDevice->getDeviceId(), std::move(gamepadDevice)));
+                inputDevices.insert(std::make_pair(gamepadDevice->getId(), std::move(gamepadDevice)));
 
                 addEvent(event);
             }
@@ -514,7 +514,7 @@ namespace ouzel
 
                 Event event;
                 event.type = Event::Type::DEVICE_DISCONNECT;
-                event.deviceId = gamepadDeviceIOKit->getDeviceId();
+                event.deviceId = gamepadDeviceIOKit->getId();
                 event.deviceType = Controller::Type::GAMEPAD;
 
                 addEvent(event);
@@ -535,7 +535,7 @@ namespace ouzel
             Event event;
             event.type = Event::Type::GAMEPAD_BUTTON_CHANGE;
 
-            event.deviceId = gamepad.getDeviceId();
+            event.deviceId = gamepad.getId();
             event.gamepadButton = button;
             event.pressed = pressed;
             event.value = value;

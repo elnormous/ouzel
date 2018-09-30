@@ -8,8 +8,8 @@ namespace ouzel
     namespace input
     {
         GamepadDeviceAndroid::GamepadDeviceAndroid(InputSystemAndroid& initInputSystemAndroid,
-                                                   uint32_t initDeviceId):
-            InputDevice(initDeviceId),
+                                                   uint32_t initId):
+            InputDevice(initId),
             inputSystemAndroid(initInputSystemAndroid)
         {
         }

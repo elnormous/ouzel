@@ -18,9 +18,9 @@ namespace ouzel
     namespace input
     {
         GamepadDeviceIOKit::GamepadDeviceIOKit(InputSystemMacOS& initInputSystemMacOS,
-                                               uint32_t initDeviceId,
+                                               uint32_t initId,
                                                IOHIDDeviceRef initDevice):
-            GamepadDeviceMacOS(initInputSystemMacOS, initDeviceId),
+            GamepadDeviceMacOS(initInputSystemMacOS, initId),
             device(initDevice)
         {
             IOReturn ret = IOHIDDeviceOpen(device, kIOHIDOptionsTypeNone);

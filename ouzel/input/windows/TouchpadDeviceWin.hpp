@@ -14,8 +14,8 @@ namespace ouzel
         {
         public:
             TouchpadDeviceWin(InputSystemWin& initInputSystemWin,
-                              uint32_t initDeviceId):
-                InputDevice(initDeviceId),
+                              uint32_t initId):
+                InputDevice(initId),
                 inputSystemWin(initInputSystemWin)
             {
             }

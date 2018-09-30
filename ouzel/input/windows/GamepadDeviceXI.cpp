@@ -13,9 +13,9 @@ namespace ouzel
         static const int32_t MIN_THUMB_VALUE = -32768;
 
         GamepadDeviceXI::GamepadDeviceXI(InputSystemWin& initInputSystemWin,
-                                         uint32_t initDeviceId,
+                                         uint32_t initId,
                                          DWORD aPlayerIndex):
-            GamepadDeviceWin(initInputSystemWin, initDeviceId),
+            GamepadDeviceWin(initInputSystemWin, initId),
             playerIndex(aPlayerIndex)
         {
             ZeroMemory(&state, sizeof(XINPUT_STATE));
