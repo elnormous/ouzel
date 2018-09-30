@@ -110,12 +110,16 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/gui/Widget.cpp \
 	$(ROOT_DIR)/../ouzel/input/Cursor.cpp \
 	$(ROOT_DIR)/../ouzel/input/Gamepad.cpp \
+	$(ROOT_DIR)/../ouzel/input/GamepadDevice.cpp \
 	$(ROOT_DIR)/../ouzel/input/InputManager.cpp \
 	$(ROOT_DIR)/../ouzel/input/InputSystem.cpp \
 	$(ROOT_DIR)/../ouzel/input/Keyboard.cpp \
+	$(ROOT_DIR)/../ouzel/input/KeyboardDevice.cpp \
 	$(ROOT_DIR)/../ouzel/input/Mouse.cpp \
+	$(ROOT_DIR)/../ouzel/input/MouseDevice.cpp \
 	$(ROOT_DIR)/../ouzel/input/NativeCursor.cpp \
 	$(ROOT_DIR)/../ouzel/input/Touchpad.cpp \
+	$(ROOT_DIR)/../ouzel/input/TouchpadDevice.cpp \
 	$(ROOT_DIR)/../ouzel/localization/Language.cpp \
 	$(ROOT_DIR)/../ouzel/localization/Localization.cpp \
 	$(ROOT_DIR)/../ouzel/math/Box2.cpp \

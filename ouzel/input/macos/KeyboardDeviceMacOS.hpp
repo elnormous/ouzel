@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "input/InputDevice.hpp"
+#include "input/KeyboardDevice.hpp"
 #include "input/Keyboard.hpp"
 
 namespace ouzel
@@ -11,12 +11,12 @@ namespace ouzel
     {
         class InputSystemMacOS;
 
-        class KeyboardDeviceMacOS: public InputDevice
+        class KeyboardDeviceMacOS: public KeyboardDevice
         {
         public:
             KeyboardDeviceMacOS(InputSystemMacOS& initInputSystemMacOS,
                                 uint32_t initId):
-                InputDevice(initId),
+                KeyboardDevice(initId),
                 inputSystemMacOS(initInputSystemMacOS)
             {
             }

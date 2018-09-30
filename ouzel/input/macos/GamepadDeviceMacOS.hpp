@@ -3,7 +3,7 @@
 #pragma once
 
 #include <string>
-#include "input/InputDevice.hpp"
+#include "input/GamepadDevice.hpp"
 
 namespace ouzel
 {
@@ -11,12 +11,12 @@ namespace ouzel
     {
         class InputSystemMacOS;
 
-        class GamepadDeviceMacOS: public InputDevice
+        class GamepadDeviceMacOS: public GamepadDevice
         {
         public:
             GamepadDeviceMacOS(InputSystemMacOS& initInputSystemMacOS,
                                uint32_t initId):
-                InputDevice(initId),
+                GamepadDevice(initId),
                 inputSystemMacOS(initInputSystemMacOS)
             {
             }
