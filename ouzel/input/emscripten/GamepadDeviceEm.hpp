@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "input/InputDevice.hpp"
 #include "input/Gamepad.hpp"
 
 namespace ouzel
@@ -10,14 +11,12 @@ namespace ouzel
     {
         class InputSystemEm;
 
-        class GamepadDeviceEm final
+        class GamepadDeviceEm: public InputDevice
         {
         public:
             GamepadDeviceEm(InputSystemEm& initInputSystemEm,
                             uint32_t initDeviceId,
                             long initIndex);
-
-            inline uint32_t getDeviceId() const { return deviceId; }
 
             void update();
 
@@ -28,7 +27,6 @@ namespace ouzel
                                        Gamepad::Button negativeButton, Gamepad::Button positiveButton);
 
             InputSystemEm& inputSystemEm;
-            uint32_t deviceId;
             long index = 0;
             double axis[64];
             double analogButton[64];

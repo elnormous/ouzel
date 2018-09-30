@@ -18,8 +18,6 @@ namespace ouzel
                                  uint32_t initDeviceId);
             virtual ~GamepadDeviceAndroid();
 
-            inline uint32_t getDeviceId() const { return deviceId; }
-
         protected:
             InputSystemAndroid& inputSystemAndroid;
         };
