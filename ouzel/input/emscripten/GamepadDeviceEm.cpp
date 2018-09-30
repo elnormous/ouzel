@@ -38,8 +38,8 @@ namespace ouzel
         GamepadDeviceEm::GamepadDeviceEm(InputSystemEm& initInputSystemEm,
                                          uint32_t initDeviceId,
                                          long initIndex):
+            InputDevice(initDeviceId),
             inputSystemEm(initInputSystemEm),
-            deviceId(initDeviceId),
             index(initIndex)
         {
             std::fill(std::begin(axis), std::end(axis), 0.0F);

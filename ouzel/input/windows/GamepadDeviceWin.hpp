@@ -3,6 +3,7 @@
 #pragma once
 
 #include <cstdint>
+#include "input/InputDevice.hpp"
 
 namespace ouzel
 {
@@ -10,23 +11,20 @@ namespace ouzel
     {
         class InputSystemWin;
 
-        class GamepadDeviceWin
+        class GamepadDeviceWin: public InputDevice
         {
         public:
             GamepadDeviceWin(InputSystemWin& initInputSystemWin,
                              uint32_t initDeviceId):
-                inputSystemWin(initInputSystemWin),
-                deviceId(initDeviceId)
+                InputDevice(initDeviceId),
+                inputSystemWin(initInputSystemWin)
             {
             }
 
             virtual ~GamepadDeviceWin() {}
 
-            inline uint32_t getDeviceId() const { return deviceId; }
-
         protected:
             InputSystemWin& inputSystemWin;
-            uint32_t deviceId;
         };
     } // namespace input
 } // namespace ouzel

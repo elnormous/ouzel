@@ -27,8 +27,6 @@ namespace ouzel
                               uint32_t initDeviceId,
                               GCControllerPtr initController);
 
-            inline uint32_t getDeviceId() const { return deviceId; }
-
             void setAbsoluteDPadValues(bool absoluteDPadValues);
             bool isAbsoluteDPadValues() const;
 
@@ -39,7 +37,6 @@ namespace ouzel
 
         private:
             InputSystemTVOS& inputSystemTVOS;
-            uint32_t deviceId;
             GCControllerPtr controller;
             std::string name;
             bool attached = false;
