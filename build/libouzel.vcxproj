@@ -122,13 +122,17 @@
     <ClCompile Include="..\ouzel\gui\TTFont.cpp" />
     <ClCompile Include="..\ouzel\gui\Widget.cpp" />
     <ClCompile Include="..\ouzel\input\Cursor.cpp" />
+    <ClCompile Include="..\ouzel\input\GamepadDevice.cpp" />
     <ClCompile Include="..\ouzel\input\Keyboard.cpp" />
+    <ClCompile Include="..\ouzel\input\KeyboardDevice.cpp" />
     <ClCompile Include="..\ouzel\input\Mouse.cpp" />
+    <ClCompile Include="..\ouzel\input\MouseDevice.cpp" />
     <ClCompile Include="..\ouzel\input\NativeCursor.cpp" />
     <ClCompile Include="..\ouzel\input\Gamepad.cpp" />
     <ClCompile Include="..\ouzel\input\InputManager.cpp" />
     <ClCompile Include="..\ouzel\input\InputSystem.cpp" />
     <ClCompile Include="..\ouzel\input\Touchpad.cpp" />
+    <ClCompile Include="..\ouzel\input\TouchpadDevice.cpp" />
     <ClCompile Include="..\ouzel\input\windows\InputSystemWin.cpp" />
     <ClCompile Include="..\ouzel\input\windows\NativeCursorWin.cpp" />
     <ClCompile Include="..\ouzel\input\windows\GamepadDeviceDI.cpp" />
