@@ -461,6 +461,18 @@
     <ClCompile Include="..\ouzel\input\Mouse.cpp">
       <Filter>ouzel\input</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\input\GamepadDevice.cpp">
+      <Filter>ouzel\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\input\KeyboardDevice.cpp">
+      <Filter>ouzel\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\input\MouseDevice.cpp">
+      <Filter>ouzel\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\input\TouchpadDevice.cpp">
+      <Filter>ouzel\input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\animators\Animator.hpp">
