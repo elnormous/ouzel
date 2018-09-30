@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "input/InputDevice.hpp"
+#include "input/MouseDevice.hpp"
 #include "input/Mouse.hpp"
 
 namespace ouzel
@@ -11,12 +11,12 @@ namespace ouzel
     {
         class InputSystemMacOS;
 
-        class MouseDeviceMacOS: public InputDevice
+        class MouseDeviceMacOS: public MouseDevice
         {
         public:
             MouseDeviceMacOS(InputSystemMacOS& initInputSystemMacOS,
                              uint32_t initId):
-                InputDevice(initId),
+                MouseDevice(initId),
                 inputSystemMacOS(initInputSystemMacOS)
             {
             }
