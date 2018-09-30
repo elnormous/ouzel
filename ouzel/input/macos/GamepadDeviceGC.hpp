@@ -21,7 +21,7 @@ namespace ouzel
         {
         public:
             GamepadDeviceGC(InputSystemMacOS& initInputSystemMacOS,
-                            uint32_t initDeviceId,
+                            uint32_t initId,
                             GCControllerPtr initController);
 
             void setAbsoluteDPadValues(bool absoluteDPadValues);

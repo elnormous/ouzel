@@ -11,7 +11,7 @@ namespace ouzel
         {
             InputSystem::Event event;
             event.type = InputSystem::Event::Type::KEY_PRESS;
-            event.deviceId = deviceId;
+            event.deviceId = id;
             event.keyboardKey = key;
             event.modifiers = modifiers;
             inputSystemMacOS.addEvent(event);
@@ -21,7 +21,7 @@ namespace ouzel
         {
             InputSystem::Event event;
             event.type = InputSystem::Event::Type::KEY_RELEASE;
-            event.deviceId = deviceId;
+            event.deviceId = id;
             event.keyboardKey = key;
             event.modifiers = modifiers;
             inputSystemMacOS.addEvent(event);

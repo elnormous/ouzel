@@ -11,7 +11,7 @@ namespace ouzel
         {
             InputSystem::Event event;
             event.type = InputSystem::Event::Type::TOUCH_BEGIN;
-            event.deviceId = deviceId;
+            event.deviceId = id;
             event.touchId = touchId;
             event.position = position;
             event.force = force;
@@ -22,7 +22,7 @@ namespace ouzel
         {
             InputSystem::Event event;
             event.type = InputSystem::Event::Type::TOUCH_END;
-            event.deviceId = deviceId;
+            event.deviceId = id;
             event.touchId = touchId;
             event.position = position;
             event.force = force;
@@ -33,7 +33,7 @@ namespace ouzel
         {
             InputSystem::Event event;
             event.type = InputSystem::Event::Type::TOUCH_MOVE;
-            event.deviceId = deviceId;
+            event.deviceId = id;
             event.touchId = touchId;
             event.position = position;
             event.force = force;
@@ -44,7 +44,7 @@ namespace ouzel
         {
             InputSystem::Event event;
             event.type = InputSystem::Event::Type::TOUCH_CANCEL;
-            event.deviceId = deviceId;
+            event.deviceId = id;
             event.touchId = touchId;
             event.position = position;
             event.force = force;

@@ -179,7 +179,7 @@ namespace ouzel
             Event event;
             event.type = Event::Type::GAMEPAD_BUTTON_CHANGE;
 
-            event.deviceId = gamepad.getDeviceId();
+            event.deviceId = gamepad.getId();
             event.gamepadButton = button;
             event.pressed = pressed;
             event.value = value;

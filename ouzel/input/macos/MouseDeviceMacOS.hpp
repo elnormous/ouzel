@@ -15,8 +15,8 @@ namespace ouzel
         {
         public:
             MouseDeviceMacOS(InputSystemMacOS& initInputSystemMacOS,
-                             uint32_t initDeviceId):
-                InputDevice(initDeviceId),
+                             uint32_t initId):
+                InputDevice(initId),
                 inputSystemMacOS(initInputSystemMacOS)
             {
             }

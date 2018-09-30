@@ -11,13 +11,13 @@ namespace ouzel
         class InputDevice
         {
         public:
-            InputDevice(uint32_t initDeviceId): deviceId(initDeviceId) {}
+            InputDevice(uint32_t initId): id(initId) {}
             virtual ~InputDevice() {}
 
-            inline uint32_t getDeviceId() const { return deviceId; }
+            inline uint32_t getId() const { return id; }
 
         protected:
-            uint32_t deviceId;
+            uint32_t id;
         };
     } // namespace input
 } // namespace ouzel

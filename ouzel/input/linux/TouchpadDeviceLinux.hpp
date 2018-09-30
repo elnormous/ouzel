@@ -14,8 +14,8 @@ namespace ouzel
         {
         public:
             TouchpadDeviceLinux(InputSystemLinux& initInputSystemLinux,
-                                uint32_t initDeviceId):
-                InputDevice(initDeviceId),
+                                uint32_t initId):
+                InputDevice(initId),
                 inputSystemLinux(initInputSystemLinux)
             {
             }

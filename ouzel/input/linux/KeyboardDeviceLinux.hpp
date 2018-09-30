@@ -14,8 +14,8 @@ namespace ouzel
         {
         public:
             KeyboardDeviceLinux(InputSystemLinux& initInputSystemLinux,
-                                uint32_t initDeviceId):
-                InputDevice(initDeviceId),
+                                uint32_t initId):
+                InputDevice(initId),
                 inputSystemLinux(initInputSystemLinux)
             {
             }

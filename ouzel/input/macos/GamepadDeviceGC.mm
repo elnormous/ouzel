@@ -8,9 +8,9 @@ namespace ouzel
     namespace input
     {
         GamepadDeviceGC::GamepadDeviceGC(InputSystemMacOS& initInputSystemMacOS,
-                                         uint32_t initDeviceId,
+                                         uint32_t initId,
                                          GCControllerPtr initController):
-            GamepadDeviceMacOS(initInputSystemMacOS, initDeviceId),
+            GamepadDeviceMacOS(initInputSystemMacOS, initId),
             controller(initController)
         {
             if (controller.extendedGamepad)

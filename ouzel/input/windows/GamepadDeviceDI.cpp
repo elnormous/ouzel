@@ -23,9 +23,9 @@ namespace ouzel
     namespace input
     {
         GamepadDeviceDI::GamepadDeviceDI(InputSystemWin& initInputSystemWin,
-                                         uint32_t initDeviceId,
+                                         uint32_t initId,
                                          const DIDEVICEINSTANCEW* initInstance, IDirectInput8W* directInput, HWND window):
-            GamepadDeviceWin(initInputSystemWin, initDeviceId),
+            GamepadDeviceWin(initInputSystemWin, initId),
             instance(initInstance)
         {
             ZeroMemory(&diState, sizeof(diState));

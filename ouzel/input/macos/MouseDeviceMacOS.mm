@@ -26,7 +26,7 @@ namespace ouzel
         {
             InputSystem::Event event;
             event.type = InputSystem::Event::Type::MOUSE_PRESS;
-            event.deviceId = deviceId;
+            event.deviceId = id;
             event.mouseButton = button;
             event.position = position;
             event.modifiers = modifiers;
@@ -37,7 +37,7 @@ namespace ouzel
         {
             InputSystem::Event event;
             event.type = InputSystem::Event::Type::MOUSE_RELEASE;
-            event.deviceId = deviceId;
+            event.deviceId = id;
             event.mouseButton = button;
             event.position = position;
             event.modifiers = modifiers;
@@ -48,7 +48,7 @@ namespace ouzel
         {
             InputSystem::Event event;
             event.type = InputSystem::Event::Type::MOUSE_MOVE;
-            event.deviceId = deviceId;
+            event.deviceId = id;
             event.position = position;
             event.modifiers = modifiers;
             inputSystemMacOS.addEvent(event);
@@ -58,7 +58,7 @@ namespace ouzel
         {
             InputSystem::Event event;
             event.type = InputSystem::Event::Type::MOUSE_SCROLL;
-            event.deviceId = deviceId;
+            event.deviceId = id;
             event.position = position;
             event.scroll = scroll;
             event.modifiers = modifiers;

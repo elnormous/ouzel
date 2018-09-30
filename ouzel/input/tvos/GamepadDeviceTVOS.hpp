@@ -24,7 +24,7 @@ namespace ouzel
         {
         public:
             GamepadDeviceTVOS(InputSystemTVOS& initInputSystemTVOS,
-                              uint32_t initDeviceId,
+                              uint32_t initId,
                               GCControllerPtr initController);
 
             void setAbsoluteDPadValues(bool absoluteDPadValues);
