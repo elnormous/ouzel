@@ -29,17 +29,25 @@ namespace ouzel
                 return Keyboard::Key::NONE;
         }
 
-        void InputSystemIOS::handleButtonValueChange(const GamepadDeviceIOS& gamepad, Gamepad::Button button, bool pressed, float value)
+        InputSystemIOS::InputSystemIOS()
         {
-            Event event;
-            event.type = Event::Type::GAMEPAD_BUTTON_CHANGE;
+            Event keyboardConnectEvent;
+            keyboardConnectEvent.type = Event::Type::DEVICE_CONNECT;
+            std::unique_ptr<KeyboardDevice> keyboardDeviceIOS(new KeyboardDevice(*this, ++lastDeviceId));
+            keyboardConnectEvent.deviceId = keyboardDeviceIOS->getId();
+            keyboardConnectEvent.deviceType = Controller::Type::KEYBOARD;
+            keyboardDevice = keyboardDeviceIOS.get();
+            inputDevices.insert(std::make_pair(keyboardDeviceIOS->getId(), std::move(keyboardDeviceIOS)));
+            addEvent(keyboardConnectEvent);
 
-            event.deviceId = gamepad.getId();
-            event.gamepadButton = button;
-            event.pressed = pressed;
-            event.value = value;
-
-            addEvent(event);
+            Event touchpadConnectEvent;
+            touchpadConnectEvent.type = Event::Type::DEVICE_CONNECT;
+            std::unique_ptr<TouchpadDevice> touchpadDeviceIOS(new TouchpadDevice(*this, ++lastDeviceId));
+            touchpadConnectEvent.deviceId = touchpadDeviceIOS->getId();
+            touchpadConnectEvent.deviceType = Controller::Type::TOUCHPAD;
+            touchpadDevice = touchpadDeviceIOS.get();
+            inputDevices.insert(std::make_pair(touchpadDeviceIOS->getId(), std::move(touchpadDeviceIOS)));
+            addEvent(touchpadConnectEvent);
         }
     } // namespace input
 } // namespace ouzel
