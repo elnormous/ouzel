@@ -3,6 +3,7 @@
 #import "ViewMacOS.h"
 #include "core/Engine.hpp"
 #include "core/Window.hpp"
+#include "input/macos/InputManagerMacOS.hpp"
 #include "input/macos/InputSystemMacOS.hpp"
 
 @implementation ViewMacOS
