@@ -15,6 +15,9 @@
 
 static void handleKeyEvent(UINT message, WPARAM wParam, LPARAM lParam)
 {
+    ouzel::input::InputSystemWin* inputSystemWin = static_cast<ouzel::input::InputSystemWin*>(ouzel::engine->getInputManager()->getInputSystem());
+    ouzel::input::KeyboardDevice* keyboardDevice = inputSystemWin->getKeyboardDevice();
+
     UINT key = static_cast<UINT>(wParam);
     switch (key)
     {
@@ -36,22 +39,28 @@ static void handleKeyEvent(UINT message, WPARAM wParam, LPARAM lParam)
     }
 
     if (message == WM_KEYDOWN || message == WM_SYSKEYDOWN)
-        ouzel::engine->getInputManager()->keyPress(ouzel::input::InputSystemWin::convertKeyCode(key), 0);
+        keyboardDevice->handleKeyPress(ouzel::input::InputSystemWin::convertKeyCode(key), 0);
     else if (message == WM_KEYUP || message == WM_SYSKEYUP)
-        ouzel::engine->getInputManager()->keyRelease(ouzel::input::InputSystemWin::convertKeyCode(key), 0);
+        keyboardDevice->handleKeyRelease(ouzel::input::InputSystemWin::convertKeyCode(key), 0);
 }
 
 static void handleMouseMoveEvent(UINT, WPARAM wParam, LPARAM lParam)
 {
+    ouzel::input::InputSystemWin* inputSystemWin = static_cast<ouzel::input::InputSystemWin*>(ouzel::engine->getInputManager()->getInputSystem());
+    ouzel::input::MouseDevice* mouseDevice = inputSystemWin->getMouseDevice();
+
     ouzel::Vector2 position(static_cast<float>(GET_X_LPARAM(lParam)),
                             static_cast<float>(GET_Y_LPARAM(lParam)));
 
-    ouzel::engine->getInputManager()->mouseMove(ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
-                                                ouzel::input::InputSystemWin::getModifiers(wParam));
+    mouseDevice->handleMove(ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
+                            ouzel::input::InputSystemWin::getModifiers(wParam));
 }
 
 static void handleMouseButtonEvent(UINT message, WPARAM wParam, LPARAM lParam)
 {
+    ouzel::input::InputSystemWin* inputSystemWin = static_cast<ouzel::input::InputSystemWin*>(ouzel::engine->getInputManager()->getInputSystem());
+    ouzel::input::MouseDevice* mouseDevice = inputSystemWin->getMouseDevice();
+
     ouzel::Vector2 position(static_cast<float>(GET_X_LPARAM(lParam)),
                             static_cast<float>(GET_Y_LPARAM(lParam)));
 
@@ -76,38 +85,44 @@ static void handleMouseButtonEvent(UINT message, WPARAM wParam, LPARAM lParam)
         return;
 
     if (message == WM_LBUTTONDOWN || message == WM_RBUTTONDOWN || message == WM_MBUTTONDOWN || message == WM_XBUTTONDOWN)
-        ouzel::engine->getInputManager()->mouseButtonPress(button,
-                                                           ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
-                                                           ouzel::input::InputSystemWin::getModifiers(wParam));
+        mouseDevice->handleButtonPress(button,
+                                       ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
+                                       ouzel::input::InputSystemWin::getModifiers(wParam));
     else if (message == WM_LBUTTONUP || message == WM_RBUTTONUP || message == WM_MBUTTONUP || message == WM_XBUTTONUP)
-        ouzel::engine->getInputManager()->mouseButtonRelease(button,
-                                                             ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
-                                                             ouzel::input::InputSystemWin::getModifiers(wParam));
+        mouseDevice->mouseButtonRelease(button,
+                                        ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
+                                        ouzel::input::InputSystemWin::getModifiers(wParam));
 }
 
 static void handleMouseWheelEvent(UINT message, WPARAM wParam, LPARAM lParam)
 {
+    ouzel::input::InputSystemWin* inputSystemWin = static_cast<ouzel::input::InputSystemWin*>(ouzel::engine->getInputManager()->getInputSystem());
+    ouzel::input::MouseDevice* mouseDevice = inputSystemWin->getMouseDevice();
+
     ouzel::Vector2 position(static_cast<float>(GET_X_LPARAM(lParam)),
                             static_cast<float>(GET_Y_LPARAM(lParam)));
 
     if (message == WM_MOUSEWHEEL)
     {
         short param = static_cast<short>(HIWORD(wParam));
-        ouzel::engine->getInputManager()->mouseScroll(ouzel::Vector2(0.0F, -static_cast<float>(param) / static_cast<float>(WHEEL_DELTA)),
-                                                      ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
-                                                      ouzel::input::InputSystemWin::getModifiers(wParam));
+        mouseDevice->handleScroll(ouzel::Vector2(0.0F, -static_cast<float>(param) / static_cast<float>(WHEEL_DELTA)),
+                                  ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
+                                  ouzel::input::InputSystemWin::getModifiers(wParam));
     }
     else if (message == WM_MOUSEHWHEEL)
     {
         short param = static_cast<short>(HIWORD(wParam));
-        ouzel::engine->getInputManager()->mouseScroll(ouzel::Vector2(static_cast<float>(param) / static_cast<float>(WHEEL_DELTA), 0.0F),
-                                                      ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
-                                                      ouzel::input::InputSystemWin::getModifiers(wParam));
+        mouseDevice->handleScroll(ouzel::Vector2(static_cast<float>(param) / static_cast<float>(WHEEL_DELTA), 0.0F),
+                                  ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
+                                  ouzel::input::InputSystemWin::getModifiers(wParam));
     }
 }
 
 static void handleTouchEvent(WPARAM wParam, LPARAM lParam)
 {
+    ouzel::input::InputSystemWin* inputSystemWin = static_cast<ouzel::input::InputSystemWin*>(ouzel::engine->getInputManager()->getInputSystem());
+    ouzel::input::TouchpadDevice* touchpadDevice = inputSystemWin->getTouchpadDevice();
+
     UINT inputCount = LOWORD(wParam);
     std::vector<TOUCHINPUT> touches(inputCount);
 
@@ -122,20 +137,20 @@ static void handleTouchEvent(WPARAM wParam, LPARAM lParam)
 
             if (touch.dwFlags & TOUCHEVENTF_DOWN)
             {
-                ouzel::engine->getInputManager()->touchBegin(touch.dwID,
-                                                             ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
+                touchpadDevice->handleTouchBegin(touch.dwID,
+                                                 ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
             }
 
             if (touch.dwFlags & TOUCHEVENTF_UP)
             {
-                ouzel::engine->getInputManager()->touchEnd(touch.dwID,
-                                                           ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
+                touchpadDevice->handleTouchEnd(touch.dwID,
+                                               ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
             }
 
             if (touch.dwFlags & TOUCHEVENTF_MOVE)
             {
-                ouzel::engine->getInputManager()->touchMove(touch.dwID,
-                                                            ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
+                touchpadDevice->handleTouchMove(touch.dwID,
+                                                ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
             }
         }
 

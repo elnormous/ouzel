@@ -47,8 +47,6 @@ namespace ouzel
         inputSystem(new InputSystem())
 #endif
         {
-            std::fill(std::begin(keyboardKeyStates), std::end(keyboardKeyStates), false);
-            std::fill(std::begin(mouseButtonStates), std::end(mouseButtonStates), false);
         }
 
         InputManager::~InputManager()
@@ -163,37 +161,105 @@ namespace ouzel
                         break;
                     }
                     case InputSystem::Event::Type::KEY_PRESS:
-                        keyPress(event.keyboardKey, event.modifiers);
+                    {
+                        auto i = controllers.find(event.deviceId);
+                        if (i != controllers.end())
+                        {
+                            Keyboard* keyboard = static_cast<Keyboard*>(i->second.get());
+                            keyboard->handleKeyPress(event.keyboardKey, event.modifiers);
+                        }
                         break;
+                    }
                     case InputSystem::Event::Type::KEY_RELEASE:
-                        keyRelease(event.keyboardKey, event.modifiers);
+                    {
+                        auto i = controllers.find(event.deviceId);
+                        if (i != controllers.end())
+                        {
+                            Keyboard* keyboard = static_cast<Keyboard*>(i->second.get());
+                            keyboard->handleKeyRelease(event.keyboardKey, event.modifiers);
+                        }
                         break;
-                    case InputSystem::Event::Type::KEY_REPEAT:
-                        break;
+                    }
                     case InputSystem::Event::Type::MOUSE_PRESS:
-                        mouseButtonPress(event.mouseButton, event.position, event.modifiers);
+                    {
+                        auto i = controllers.find(event.deviceId);
+                        if (i != controllers.end())
+                        {
+                            Mouse* mouse = static_cast<Mouse*>(i->second.get());
+                            mouse->handleButtonPress(event.mouseButton, event.position, event.modifiers);
+                        }
                         break;
+                    }
                     case InputSystem::Event::Type::MOUSE_RELEASE:
-                        mouseButtonRelease(event.mouseButton, event.position, event.modifiers);
+                    {
+                        auto i = controllers.find(event.deviceId);
+                        if (i != controllers.end())
+                        {
+                            Mouse* mouse = static_cast<Mouse*>(i->second.get());
+                            mouse->handleButtonRelease(event.mouseButton, event.position, event.modifiers);
+                        }
                         break;
+                    }
                     case InputSystem::Event::Type::MOUSE_SCROLL:
-                        mouseScroll(event.scroll, event.position, event.modifiers);
+                    {
+                        auto i = controllers.find(event.deviceId);
+                        if (i != controllers.end())
+                        {
+                            Mouse* mouse = static_cast<Mouse*>(i->second.get());
+                            mouse->handleScroll(event.scroll, event.position, event.modifiers);
+                        }
                         break;
+                    }
                     case InputSystem::Event::Type::MOUSE_MOVE:
-                        mouseMove(event.position, event.modifiers);
+                    {
+                        auto i = controllers.find(event.deviceId);
+                        if (i != controllers.end())
+                        {
+                            Mouse* mouse = static_cast<Mouse*>(i->second.get());
+                            mouse->handleMove(event.position, event.modifiers);
+                        }
                         break;
+                    }
                     case InputSystem::Event::Type::TOUCH_BEGIN:
-                        touchBegin(event.touchId, event.position);
+                    {
+                        auto i = controllers.find(event.deviceId);
+                        if (i != controllers.end())
+                        {
+                            Touchpad* touchpad = static_cast<Touchpad*>(i->second.get());
+                            touchpad->handleTouchBegin(event.touchId, event.position);
+                        }
                         break;
+                    }
                     case InputSystem::Event::Type::TOUCH_MOVE:
-                        touchMove(event.touchId, event.position);
+                    {
+                        auto i = controllers.find(event.deviceId);
+                        if (i != controllers.end())
+                        {
+                            Touchpad* touchpad = static_cast<Touchpad*>(i->second.get());
+                            touchpad->handleTouchMove(event.touchId, event.position);
+                        }
                         break;
+                    }
                     case InputSystem::Event::Type::TOUCH_END:
-                        touchEnd(event.touchId, event.position);
+                    {
+                        auto i = controllers.find(event.deviceId);
+                        if (i != controllers.end())
+                        {
+                            Touchpad* touchpad = static_cast<Touchpad*>(i->second.get());
+                            touchpad->handleTouchEnd(event.touchId, event.position);
+                        }
                         break;
+                    }
                     case InputSystem::Event::Type::TOUCH_CANCEL:
-                        touchCancel(event.touchId, event.position);
+                    {
+                        auto i = controllers.find(event.deviceId);
+                        if (i != controllers.end())
+                        {
+                            Touchpad* touchpad = static_cast<Touchpad*>(i->second.get());
+                            touchpad->handleTouchCancel(event.touchId, event.position);
+                        }
                         break;
+                    }
                 }
             }
         }
@@ -272,11 +338,6 @@ namespace ouzel
             return false;
         }
 
-        void InputManager::setCursorPosition(const Vector2& position)
-        {
-            cursorPosition = position;
-        }
-
         void InputManager::startDeviceDiscovery()
         {
             discovering = true;
@@ -293,167 +354,6 @@ namespace ouzel
             InputSystem::Command command;
             command.type = InputSystem::Command::Type::STOP_DEVICE_DISCOVERY;
             inputSystem->addCommand(command);
-        }
-
-        void InputManager::keyPress(Keyboard::Key key, uint32_t modifiers)
-        {
-            Event event;
-
-            event.keyboardEvent.key = key;
-            event.keyboardEvent.modifiers = modifiers;
-
-            if (!keyboardKeyStates[static_cast<uint32_t>(key)])
-            {
-                keyboardKeyStates[static_cast<uint32_t>(key)] = true;
-
-                event.type = Event::Type::KEY_PRESS;
-                engine->getEventDispatcher().postEvent(event);
-            }
-            else
-            {
-                event.type = Event::Type::KEY_REPEAT;
-                engine->getEventDispatcher().postEvent(event);
-            }
-        }
-
-        void InputManager::keyRelease(Keyboard::Key key, uint32_t modifiers)
-        {
-            keyboardKeyStates[static_cast<uint32_t>(key)] = false;
-
-            Event event;
-            event.type = Event::Type::KEY_RELEASE;
-
-            event.keyboardEvent.key = key;
-            event.keyboardEvent.modifiers = modifiers;
-
-            engine->getEventDispatcher().postEvent(event);
-        }
-
-        void InputManager::mouseButtonPress(Mouse::Button button, const Vector2& position, uint32_t modifiers)
-        {
-            mouseButtonStates[static_cast<uint32_t>(button)] = true;
-
-            Event event;
-            event.type = Event::Type::MOUSE_PRESS;
-
-            event.mouseEvent.button = button;
-            event.mouseEvent.position = position;
-            event.mouseEvent.modifiers = modifiers;
-
-            engine->getEventDispatcher().postEvent(event);
-        }
-
-        void InputManager::mouseButtonRelease(Mouse::Button button, const Vector2& position, uint32_t modifiers)
-        {
-            mouseButtonStates[static_cast<uint32_t>(button)] = false;
-
-            Event event;
-            event.type = Event::Type::MOUSE_RELEASE;
-
-            event.mouseEvent.button = button;
-            event.mouseEvent.position = position;
-            event.mouseEvent.modifiers = modifiers;
-
-            engine->getEventDispatcher().postEvent(event);
-        }
-
-        void InputManager::mouseMove(const Vector2& position, uint32_t modifiers)
-        {
-            Event event;
-            event.type = Event::Type::MOUSE_MOVE;
-
-            event.mouseEvent.difference = position - cursorPosition;
-            event.mouseEvent.position = position;
-            event.mouseEvent.modifiers = modifiers;
-
-            cursorPosition = position;
-
-            engine->getEventDispatcher().postEvent(event);
-        }
-
-        void InputManager::mouseRelativeMove(const Vector2& relativePosition, uint32_t modifiers)
-        {
-            Vector2 newPosition = cursorPosition + relativePosition;
-
-            newPosition.x = clamp(newPosition.x, 0.0F, 1.0F);
-            newPosition.y = clamp(newPosition.y, 0.0F, 1.0F);
-
-            mouseMove(newPosition, modifiers);
-        }
-
-        void InputManager::mouseScroll(const Vector2& scroll, const Vector2& position, uint32_t modifiers)
-        {
-            Event event;
-            event.type = Event::Type::MOUSE_SCROLL;
-
-            event.mouseEvent.position = position;
-            event.mouseEvent.scroll = scroll;
-            event.mouseEvent.modifiers = modifiers;
-
-            engine->getEventDispatcher().postEvent(event);
-        }
-
-        void InputManager::touchBegin(uint64_t touchId, const Vector2& position, float force)
-        {
-            Event event;
-            event.type = Event::Type::TOUCH_BEGIN;
-
-            event.touchEvent.touchId = touchId;
-            event.touchEvent.position = position;
-            event.touchEvent.force = force;
-
-            touchPositions[touchId] = position;
-
-            engine->getEventDispatcher().postEvent(event);
-        }
-
-        void InputManager::touchEnd(uint64_t touchId, const Vector2& position, float force)
-        {
-            Event event;
-            event.type = Event::Type::TOUCH_END;
-
-            event.touchEvent.touchId = touchId;
-            event.touchEvent.position = position;
-            event.touchEvent.force = force;
-
-            auto i = touchPositions.find(touchId);
-
-            if (i != touchPositions.end())
-                touchPositions.erase(i);
-
-            engine->getEventDispatcher().postEvent(event);
-        }
-
-        void InputManager::touchMove(uint64_t touchId, const Vector2& position, float force)
-        {
-            Event event;
-            event.type = Event::Type::TOUCH_MOVE;
-
-            event.touchEvent.touchId = touchId;
-            event.touchEvent.difference = position - touchPositions[touchId];
-            event.touchEvent.position = position;
-            event.touchEvent.force = force;
-
-            touchPositions[touchId] = position;
-
-            engine->getEventDispatcher().postEvent(event);
-        }
-
-        void InputManager::touchCancel(uint64_t touchId, const Vector2& position, float force)
-        {
-            Event event;
-            event.type = Event::Type::TOUCH_CANCEL;
-
-            event.touchEvent.touchId = touchId;
-            event.touchEvent.position = position;
-            event.touchEvent.force = force;
-
-            auto i = touchPositions.find(touchId);
-
-            if (i != touchPositions.end())
-                touchPositions.erase(i);
-
-            engine->getEventDispatcher().postEvent(event);
         }
 
         void InputManager::showVirtualKeyboard()

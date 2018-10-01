@@ -35,11 +35,11 @@ namespace ouzel
             inline bool isButtonDown(Button button) const { return buttonStates[static_cast<uint32_t>(button)]; }
 
         protected:
-            void handleMouseButtonPress(Mouse::Button button, const Vector2& pos, uint32_t modifiers);
-            void handleMouseButtonRelease(Mouse::Button button, const Vector2& pos, uint32_t modifiers);
-            void handleMouseMove(const Vector2& pos, uint32_t modifiers);
-            void handleMouseRelativeMove(const Vector2& pos, uint32_t modifiers);
-            void handleMouseScroll(const Vector2& scroll, const Vector2& pos, uint32_t modifiers);
+            void handleButtonPress(Mouse::Button button, const Vector2& pos, uint32_t modifiers);
+            void handleButtonRelease(Mouse::Button button, const Vector2& pos, uint32_t modifiers);
+            void handleMove(const Vector2& pos, uint32_t modifiers);
+            void handleRelativeMove(const Vector2& pos, uint32_t modifiers);
+            void handleScroll(const Vector2& scroll, const Vector2& pos, uint32_t modifiers);
 
         private:
             Vector2 position;
