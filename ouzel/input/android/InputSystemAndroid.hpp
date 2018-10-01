@@ -17,8 +17,6 @@ namespace ouzel
             static Keyboard::Key convertKeyCode(jint keyCode);
 
             virtual ~InputSystemAndroid() {}
-
-            void handleButtonValueChange(const GamepadDeviceAndroid& gamepad, Gamepad::Button button, bool pressed, float value);
         };
     }
 }

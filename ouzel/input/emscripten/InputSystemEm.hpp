@@ -19,8 +19,6 @@ namespace ouzel
             static uint32_t getMouseModifiers(const EmscriptenMouseEvent* mouseEvent);
 
             virtual ~InputSystemEm() {}
-
-            void handleButtonValueChange(const GamepadDeviceEm& gamepad, Gamepad::Button button, bool pressed, float value);
         };
     } // namespace input
 } // namespace ouzel
