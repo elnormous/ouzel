@@ -3,7 +3,7 @@
 #pragma once
 
 #include <cstdint>
-#include "input/InputDevice.hpp"
+#include "input/GamepadDevice.hpp"
 
 namespace ouzel
 {

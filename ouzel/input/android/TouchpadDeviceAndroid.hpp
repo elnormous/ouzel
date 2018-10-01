@@ -2,28 +2,22 @@
 
 #pragma once
 
-#include "input/InputDevice.hpp"
+#include "input/TouchpadDevice.hpp"
 
 namespace ouzel
 {
     namespace input
     {
-        class InputSystemAndroid;
-
-        class TouchpadDeviceAndroid: public InputDevice
+        class TouchpadDeviceAndroid: public TouchpadDevice
         {
         public:
-            TouchpadDeviceAndroid(InputSystemAndroid& initInputSystemAndroid,
+            TouchpadDeviceAndroid(InputSystem& initInputSystem,
                                   uint32_t initId):
-                InputDevice(initId),
-                inputSystemAndroid(initInputSystemAndroid)
+                TouchpadDevice(initInputSystem, initId)
             {
             }
 
             virtual ~TouchpadDeviceAndroid() {}
-
-        private:
-            InputSystemAndroid& inputSystemAndroid;
         };
     } // namespace input
 } // namespace ouzel

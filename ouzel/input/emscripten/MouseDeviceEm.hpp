@@ -2,28 +2,22 @@
 
 #pragma once
 
-#include "input/InputDevice.hpp"
+#include "input/MouseDevice.hpp"
 
 namespace ouzel
 {
     namespace input
     {
-        class InputSystemEm;
-
-        class MouseDeviceEm: public InputDevice
+        class MouseDeviceEm: public MouseDevice
         {
         public:
-            MouseDeviceEm(InputSystemEm& initInputSystemEm,
+            MouseDeviceEm(InputSystem& initInputSystem,
                           uint32_t initId):
-                InputDevice(initId),
-                inputSystemEm(initInputSystemEm)
+                MouseDevice(initInputSystem, initId)
             {
             }
 
             virtual ~MouseDeviceEm() {}
-
-        private:
-            InputSystemEm& inputSystemEm;
         };
     } // namespace input
 } // namespace ouzel
