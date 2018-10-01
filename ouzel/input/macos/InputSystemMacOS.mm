@@ -276,29 +276,29 @@ namespace ouzel
 
             Event keyboardConnectEvent;
             keyboardConnectEvent.type = Event::Type::DEVICE_CONNECT;
-            std::unique_ptr<KeyboardDevice> keyboardDeviceMacOS(new KeyboardDevice(*this, ++lastDeviceId));
-            keyboardConnectEvent.deviceId = keyboardDeviceMacOS->getId();
+            std::unique_ptr<KeyboardDevice> keyboard(new KeyboardDevice(*this, ++lastDeviceId));
+            keyboardConnectEvent.deviceId = keyboard->getId();
             keyboardConnectEvent.deviceType = Controller::Type::KEYBOARD;
-            keyboardDevice = keyboardDeviceMacOS.get();
-            inputDevices.insert(std::make_pair(keyboardDeviceMacOS->getId(), std::move(keyboardDeviceMacOS)));
+            keyboardDevice = keyboard.get();
+            inputDevices.insert(std::make_pair(keyboard->getId(), std::move(keyboard)));
             addEvent(keyboardConnectEvent);
 
             Event mouseConnectEvent;
             mouseConnectEvent.type = Event::Type::DEVICE_CONNECT;
-            std::unique_ptr<MouseDeviceMacOS> mouseDeviceMacOS(new MouseDeviceMacOS(*this, ++lastDeviceId));
-            mouseConnectEvent.deviceId = mouseDeviceMacOS->getId();
+            std::unique_ptr<MouseDeviceMacOS> mouse(new MouseDeviceMacOS(*this, ++lastDeviceId));
+            mouseConnectEvent.deviceId = mouse->getId();
             mouseConnectEvent.deviceType = Controller::Type::MOUSE;
-            mouseDevice = mouseDeviceMacOS.get();
-            inputDevices.insert(std::make_pair(mouseDeviceMacOS->getId(), std::move(mouseDeviceMacOS)));
+            mouseDevice = mouse.get();
+            inputDevices.insert(std::make_pair(mouse->getId(), std::move(mouse)));
             addEvent(mouseConnectEvent);
 
             Event touchpadConnectEvent;
             touchpadConnectEvent.type = Event::Type::DEVICE_CONNECT;
-            std::unique_ptr<TouchpadDevice> touchpadDeviceMacOS(new TouchpadDevice(*this, ++lastDeviceId));
-            touchpadConnectEvent.deviceId = touchpadDeviceMacOS->getId();
+            std::unique_ptr<TouchpadDevice> touchpad(new TouchpadDevice(*this, ++lastDeviceId));
+            touchpadConnectEvent.deviceId = touchpad->getId();
             touchpadConnectEvent.deviceType = Controller::Type::TOUCHPAD;
-            touchpadDevice = touchpadDeviceMacOS.get();
-            inputDevices.insert(std::make_pair(touchpadDeviceMacOS->getId(), std::move(touchpadDeviceMacOS)));
+            touchpadDevice = touchpad.get();
+            inputDevices.insert(std::make_pair(touchpad->getId(), std::move(touchpad)));
             addEvent(touchpadConnectEvent);
         }
 

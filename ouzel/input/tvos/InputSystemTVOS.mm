@@ -33,11 +33,11 @@ namespace ouzel
         {
             Event keyboardConnectEvent;
             keyboardConnectEvent.type = Event::Type::DEVICE_CONNECT;
-            std::unique_ptr<KeyboardDevice> keyboardDeviceTVOS(new KeyboardDevice(*this, ++lastDeviceId));
-            keyboardConnectEvent.deviceId = keyboardDeviceTVOS->getId();
+            std::unique_ptr<KeyboardDevice> keyboard(new KeyboardDevice(*this, ++lastDeviceId));
+            keyboardConnectEvent.deviceId = keyboard->getId();
             keyboardConnectEvent.deviceType = Controller::Type::KEYBOARD;
-            keyboardDevice = keyboardDeviceTVOS.get();
-            inputDevices.insert(std::make_pair(keyboardDeviceTVOS->getId(), std::move(keyboardDeviceTVOS)));
+            keyboardDevice = keyboard.get();
+            inputDevices.insert(std::make_pair(keyboard->getId(), std::move(keyboard)));
             addEvent(keyboardConnectEvent);
         }
     } // namespace input
