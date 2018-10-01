@@ -121,25 +121,31 @@ namespace ouzel
                     case KeyPress: // keyboard
                     case KeyRelease:
                     {
+                        ouzel::input::InputSystemLinux* inputSystemLinux = static_cast<ouzel::input::InputSystemLinux*>(ouzel::engine->getInputManager()->getInputSystem());
+                        ouzel::input::KeyboardDevice* keyboardDevice = inputSystemLinux->getKeyboardDevice();
+
                         KeySym keySym = XkbKeycodeToKeysym(display,
                                                            event.xkey.keycode, 0,
                                                            event.xkey.state & ShiftMask ? 1 : 0);
 
                         if (event.type == KeyPress)
                         {
-                            inputManager->keyPress(input::InputSystemLinux::convertKeyCode(keySym),
-                                                   input::InputSystemLinux::getModifiers(event.xkey.state));
+                            keyboardDevice->handleKeyPress(input::InputSystemLinux::convertKeyCode(keySym),
+                                                           input::InputSystemLinux::getModifiers(event.xkey.state));
                         }
                         else
                         {
-                            inputManager->keyRelease(input::InputSystemLinux::convertKeyCode(keySym),
-                                                     input::InputSystemLinux::getModifiers(event.xkey.state));
+                            keyboardDevice->handleKeyRelease(input::InputSystemLinux::convertKeyCode(keySym),
+                                                             input::InputSystemLinux::getModifiers(event.xkey.state));
                         }
                         break;
                     }
                     case ButtonPress: // mouse button
                     case ButtonRelease:
                     {
+                        ouzel::input::InputSystemLinux* inputSystemLinux = static_cast<ouzel::input::InputSystemLinux*>(ouzel::engine->getInputManager()->getInputSystem());
+                        ouzel::input::MouseDevice* mouseDevice = inputSystemLinux->getMouseDevice();
+
                         Vector2 pos(static_cast<float>(event.xbutton.x),
                                     static_cast<float>(event.xbutton.y));
 
@@ -163,13 +169,13 @@ namespace ouzel
 
                         if (event.type == ButtonPress)
                         {
-                            inputManager->mouseButtonPress(button,
+                            mouseDevice->handleButtonPress(button,
                                                            window->convertWindowToNormalizedLocation(pos),
                                                            input::InputSystemLinux::getModifiers(event.xbutton.state));
                         }
                         else
                         {
-                            inputManager->mouseButtonRelease(button,
+                            mouseDevice->handleButtonRelease(button,
                                                              window->convertWindowToNormalizedLocation(pos),
                                                              input::InputSystemLinux::getModifiers(event.xbutton.state));
                         }
@@ -177,10 +183,13 @@ namespace ouzel
                     }
                     case MotionNotify:
                     {
+                        ouzel::input::InputSystemLinux* inputSystemLinux = static_cast<ouzel::input::InputSystemLinux*>(ouzel::engine->getInputManager()->getInputSystem());
+                        ouzel::input::MouseDevice* mouseDevice = inputSystemLinux->getMouseDevice();
+
                         Vector2 pos(static_cast<float>(event.xmotion.x),
                                     static_cast<float>(event.xmotion.y));
 
-                        inputManager->mouseMove(window->convertWindowToNormalizedLocation(pos),
+                        mouseDevice->handleMove(window->convertWindowToNormalizedLocation(pos),
                                                 input::InputSystemLinux::getModifiers(event.xmotion.state));
 
                         break;
@@ -201,30 +210,33 @@ namespace ouzel
                         XGenericEventCookie* cookie = &event.xcookie;
                         if (cookie->extension == xInputOpCode)
                         {
+                            ouzel::input::InputSystemLinux* inputSystemLinux = static_cast<ouzel::input::InputSystemLinux*>(ouzel::engine->getInputManager()->getInputSystem());
+                            ouzel::input::TouchpadDevice* touchpadDevice = inputSystemLinux->getTouchpadDevice();
+
                             switch (cookie->evtype)
                             {
                                 case XI_TouchBegin:
                                 {
                                     XIDeviceEvent* xievent = reinterpret_cast<XIDeviceEvent*>(cookie->data);
-                                    inputManager->touchBegin(xievent->detail,
-                                                             window->convertWindowToNormalizedLocation(Vector2(static_cast<float>(xievent->event_x),
-                                                                                                                            static_cast<float>(xievent->event_y))));
+                                    touchpadDevice->handleTouchBegin(xievent->detail,
+                                                                     window->convertWindowToNormalizedLocation(Vector2(static_cast<float>(xievent->event_x),
+                                                                                                                       static_cast<float>(xievent->event_y))));
                                     break;
                                 }
                                 case XI_TouchEnd:
                                 {
                                     XIDeviceEvent* xievent = reinterpret_cast<XIDeviceEvent*>(cookie->data);
-                                    inputManager->touchEnd(xievent->detail,
-                                                           window->convertWindowToNormalizedLocation(Vector2(static_cast<float>(xievent->event_x),
-                                                                                                                          static_cast<float>(xievent->event_y))));
+                                    touchpadDevice->handleTouchEnd(xievent->detail,
+                                                                   window->convertWindowToNormalizedLocation(Vector2(static_cast<float>(xievent->event_x),
+                                                                                                                     static_cast<float>(xievent->event_y))));
                                     break;
                                 }
                                 case XI_TouchUpdate:
                                 {
                                     XIDeviceEvent* xievent = reinterpret_cast<XIDeviceEvent*>(cookie->data);
-                                    inputManager->touchMove(xievent->detail,
-                                                            window->convertWindowToNormalizedLocation(Vector2(static_cast<float>(xievent->event_x),
-                                                                                                                           static_cast<float>(xievent->event_y))));
+                                    touchpadDevice->handleTouchMove(xievent->detail,
+                                                                    window->convertWindowToNormalizedLocation(Vector2(static_cast<float>(xievent->event_x),
+                                                                                                                      static_cast<float>(xievent->event_y))));
                                     break;
                                 }
                             }

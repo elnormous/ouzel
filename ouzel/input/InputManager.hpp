@@ -58,28 +58,8 @@ namespace ouzel
             virtual void setCursorLocked(bool locked);
             virtual bool isCursorLocked() const;
 
-            inline const Vector2& getCursorPosition() const { return cursorPosition; }
-            virtual void setCursorPosition(const Vector2& position);
-
             virtual void startDeviceDiscovery();
             virtual void stopDeviceDiscovery();
-
-            bool isKeyboardKeyDown(Keyboard::Key key) const { return keyboardKeyStates[static_cast<uint32_t>(key)]; }
-            bool isMouseButtonDown(Mouse::Button button) const { return mouseButtonStates[static_cast<uint32_t>(button)]; }
-
-            void keyPress(Keyboard::Key key, uint32_t modifiers);
-            void keyRelease(Keyboard::Key key, uint32_t modifiers);
-
-            void mouseButtonPress(Mouse::Button button, const Vector2& position, uint32_t modifiers);
-            void mouseButtonRelease(Mouse::Button button, const Vector2& position, uint32_t modifiers);
-            void mouseMove(const Vector2& position, uint32_t modifiers);
-            void mouseRelativeMove(const Vector2& relativePosition, uint32_t modifiers);
-            void mouseScroll(const Vector2& scroll, const Vector2& position, uint32_t modifiers);
-
-            void touchBegin(uint64_t touchId, const Vector2& position, float force = 1.0F);
-            void touchEnd(uint64_t touchId, const Vector2& position, float force = 1.0F);
-            void touchMove(uint64_t touchId, const Vector2& position, float force = 1.0F);
-            void touchCancel(uint64_t touchId, const Vector2& position, float force = 1.0F);
 
             virtual void showVirtualKeyboard();
             virtual void hideVirtualKeyboard();
@@ -94,11 +74,6 @@ namespace ouzel
 
             std::unique_ptr<InputSystem> inputSystem;
 
-            Vector2 cursorPosition;
-            bool keyboardKeyStates[static_cast<uint32_t>(Keyboard::Key::COUNT)];
-            bool mouseButtonStates[static_cast<uint32_t>(Mouse::Button::COUNT)];
-
-            std::unordered_map<uint64_t, Vector2> touchPositions;
             std::vector<std::unique_ptr<Gamepad>> gamepads;
 
             std::mutex resourceMutex;

@@ -64,7 +64,6 @@ namespace ouzel
 
                     KEY_PRESS,
                     KEY_RELEASE,
-                    KEY_REPEAT,
 
                     MOUSE_PRESS,
                     MOUSE_RELEASE,
