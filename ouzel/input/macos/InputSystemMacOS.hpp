@@ -58,8 +58,6 @@ namespace ouzel
             void startGamepadDiscovery();
             void stopGamepadDiscovery();
 
-            void handleButtonValueChange(const GamepadDeviceMacOS& gamepad, Gamepad::Button button, bool pressed, float value);
-
         private:
             id connectDelegate = nil;
             IOHIDManagerRef hidManager = nullptr;

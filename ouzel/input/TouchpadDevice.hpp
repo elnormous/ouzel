@@ -3,6 +3,7 @@
 #pragma once
 
 #include "input/InputDevice.hpp"
+#include "math/Vector2.hpp"
 
 namespace ouzel
 {
@@ -11,10 +12,15 @@ namespace ouzel
         class TouchpadDevice: public InputDevice
         {
         public:
-            TouchpadDevice(uint32_t initId):
-                InputDevice(initId)
+            TouchpadDevice(InputSystem& initInputSystem, uint32_t initId):
+                InputDevice(initInputSystem, initId)
             {
             }
+
+            void handleTouchBegin(uint64_t touchId, const Vector2& position, float force = 1.0F);
+            void handleTouchEnd(uint64_t touchId, const Vector2& position, float force = 1.0F);
+            void handleTouchMove(uint64_t touchId, const Vector2& position, float force = 1.0F);
+            void handleTouchCancel(uint64_t touchId, const Vector2& position, float force = 1.0F);
         };
     } // namespace input
 } // namespace ouzel

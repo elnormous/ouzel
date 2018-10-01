@@ -11,19 +11,17 @@ typedef GCController* GCControllerPtr;
 typedef id GCControllerPtr;
 #endif
 
+#include "input/GamepadDevice.hpp"
 #include "input/Gamepad.hpp"
-#include "input/InputDevice.hpp"
 
 namespace ouzel
 {
     namespace input
     {
-        class InputSystemIOS;
-
-        class GamepadDeviceIOS: public InputDevice
+        class GamepadDeviceIOS: public GamepadDevice
         {
         public:
-            GamepadDeviceIOS(InputSystemIOS& initInputSystemIOS,
+            GamepadDeviceIOS(InputSystem& initInputSystem,
                              uint32_t initId,
                              GCControllerPtr initController);
 
@@ -36,7 +34,6 @@ namespace ouzel
             GCControllerPtr getController() const { return controller; }
 
         private:
-            InputSystemIOS& inputSystemIOS;
             GCControllerPtr controller;
             std::string name;
             bool attached = false;

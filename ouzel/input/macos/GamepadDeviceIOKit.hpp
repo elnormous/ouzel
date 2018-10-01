@@ -15,7 +15,7 @@ namespace ouzel
         class GamepadDeviceIOKit: public GamepadDeviceMacOS
         {
         public:
-            GamepadDeviceIOKit(InputSystemMacOS& initInputSystemMacOS,
+            GamepadDeviceIOKit(InputSystem& initInputSystem,
                                uint32_t initId,
                                IOHIDDeviceRef initDevice);
 

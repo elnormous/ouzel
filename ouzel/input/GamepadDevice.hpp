@@ -3,6 +3,7 @@
 #pragma once
 
 #include "input/InputDevice.hpp"
+#include "input/Gamepad.hpp"
 
 namespace ouzel
 {
@@ -11,10 +12,12 @@ namespace ouzel
         class GamepadDevice: public InputDevice
         {
         public:
-            GamepadDevice(uint32_t initId):
-                InputDevice(initId)
+            GamepadDevice(InputSystem& initInputSystem, uint32_t initId):
+                InputDevice(initInputSystem, initId)
             {
             }
+
+            void handleButtonValueChange(Gamepad::Button button, bool pressed, float value);
         };
     } // namespace input
 } // namespace ouzel
