@@ -9,22 +9,17 @@ namespace ouzel
 {
     namespace input
     {
-        class InputSystemWin;
-
-        class GamepadDeviceWin: public InputDevice
+        class GamepadDeviceWin: public GamepadDevice
         {
         public:
-            GamepadDeviceWin(InputSystemWin& initInputSystemWin,
+            GamepadDeviceWin(InputSystem& initInputSystem,
                              uint32_t initId):
-                InputDevice(initId),
+                GamepadDevice(initInputSystem, initId),
                 inputSystemWin(initInputSystemWin)
             {
             }
 
             virtual ~GamepadDeviceWin() {}
-
-        protected:
-            InputSystemWin& inputSystemWin;
         };
     } // namespace input
 } // namespace ouzel

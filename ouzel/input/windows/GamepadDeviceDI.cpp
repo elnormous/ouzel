@@ -2,7 +2,6 @@
 
 #include "GamepadDeviceDI.hpp"
 #include "InputManagerWin.hpp"
-#include "InputSystemWin.hpp"
 #include "core/windows/NativeWindowWin.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
@@ -22,10 +21,10 @@ namespace ouzel
 {
     namespace input
     {
-        GamepadDeviceDI::GamepadDeviceDI(InputSystemWin& initInputSystemWin,
+        GamepadDeviceDI::GamepadDeviceDI(InputSystem& initInputSystem,
                                          uint32_t initId,
                                          const DIDEVICEINSTANCEW* initInstance, IDirectInput8W* directInput, HWND window):
-            GamepadDeviceWin(initInputSystemWin, initId),
+            GamepadDeviceWin(initInputSystem, initId),
             instance(initInstance)
         {
             ZeroMemory(&diState, sizeof(diState));
@@ -414,10 +413,9 @@ namespace ouzel
                             (button != Gamepad::Button::LEFT_TRIGGER || !hasLeftTrigger) &&
                             (button != Gamepad::Button::RIGHT_TRIGGER || !hasRightTrigger))
                         {
-                            inputSystemWin.handleButtonValueChange(*this,
-                                                                   button,
-                                                                   events[e].dwData > 0,
-                                                                   (events[e].dwData > 0) ? 1.0F : 0.0F);
+                            handleButtonValueChange(button,
+                                                    events[e].dwData > 0,
+                                                    (events[e].dwData > 0) ? 1.0F : 0.0F);
                         }
 
                         diState.rgbButtons[i] = static_cast<BYTE>(events[e].dwData);
@@ -455,25 +453,21 @@ namespace ouzel
                         (1 << (hatValue / 2 + hatValue % 2)) % 4; // second bit
 
                     if ((bitmask & 0x01) != (newBitmask & 0x01)) 
-                        inputSystemWin.handleButtonValueChange(*this,
-                                                               Gamepad::Button::DPAD_UP,
-                                                               (newBitmask & 0x01) > 0,
-                                                               (newBitmask & 0x01) > 0 ? 1.0F : 0.0F);
+                        handleButtonValueChange(Gamepad::Button::DPAD_UP,
+                                                (newBitmask & 0x01) > 0,
+                                                (newBitmask & 0x01) > 0 ? 1.0F : 0.0F);
                     if ((bitmask & 0x02) != (newBitmask & 0x02))
-                        inputSystemWin.handleButtonValueChange(*this,
-                                                               Gamepad::Button::DPAD_RIGHT,
-                                                               (newBitmask & 0x02) > 0,
-                                                               (newBitmask & 0x02) > 0 ? 1.0F : 0.0F);
+                        handleButtonValueChange(Gamepad::Button::DPAD_RIGHT,
+                                                (newBitmask & 0x02) > 0,
+                                                (newBitmask & 0x02) > 0 ? 1.0F : 0.0F);
                     if ((bitmask & 0x04) != (newBitmask & 0x04))
-                        inputSystemWin.handleButtonValueChange(*this,
-                                                               Gamepad::Button::DPAD_DOWN,
-                                                               (newBitmask & 0x04) > 0,
-                                                               (newBitmask & 0x04) > 0 ? 1.0F : 0.0F);
+                        handleButtonValueChange(Gamepad::Button::DPAD_DOWN,
+                                                (newBitmask & 0x04) > 0,
+                                                (newBitmask & 0x04) > 0 ? 1.0F : 0.0F);
                     if ((bitmask & 0x08) != (newBitmask & 0x08))
-                        inputSystemWin.handleButtonValueChange(*this,
-                                                               Gamepad::Button::DPAD_LEFT,
-                                                               (newBitmask & 0x08) > 0,
-                                                               (newBitmask & 0x08) > 0 ? 1.0F : 0.0F);
+                        handleButtonValueChange(Gamepad::Button::DPAD_LEFT,
+                                                (newBitmask & 0x08) > 0,
+                                                (newBitmask & 0x08) > 0 ? 1.0F : 0.0F);
 
                     diState.rgdwPOV[0] = events[e].dwData;
                 }
@@ -563,10 +557,9 @@ namespace ouzel
                         (button != Gamepad::Button::LEFT_TRIGGER || !hasLeftTrigger) &&
                         (button != Gamepad::Button::RIGHT_TRIGGER || !hasRightTrigger))
                     {
-                        inputSystemWin.handleButtonValueChange(*this, 
-                                                               button,
-                                                               newDIState.rgbButtons[i] > 0,
-                                                               (newDIState.rgbButtons[i] > 0) ? 1.0F : 0.0F);
+                        handleButtonValueChange(button,
+                                                newDIState.rgbButtons[i] > 0,
+                                                (newDIState.rgbButtons[i] > 0) ? 1.0F : 0.0F);
                     }
                 }
             }
@@ -602,25 +595,21 @@ namespace ouzel
                     (1 << (hatValue / 2 + hatValue % 2)) % 4; // second bit
 
                 if ((bitmask & 0x01) != (newBitmask & 0x01))
-                    inputSystemWin.handleButtonValueChange(*this,
-                        Gamepad::Button::DPAD_UP,
-                                                                                     (newBitmask & 0x01) > 0,
-                                                                                     (newBitmask & 0x01) > 0 ? 1.0F : 0.0F);
+                    handleButtonValueChange(Gamepad::Button::DPAD_UP,
+                                            (newBitmask & 0x01) > 0,
+                                            (newBitmask & 0x01) > 0 ? 1.0F : 0.0F);
                 if ((bitmask & 0x02) != (newBitmask & 0x02))
-                    inputSystemWin.handleButtonValueChange(*this,
-                                                           Gamepad::Button::DPAD_RIGHT,
-                                                           (newBitmask & 0x02) > 0,
-                                                           (newBitmask & 0x02) > 0 ? 1.0F : 0.0F);
+                    handleButtonValueChange(Gamepad::Button::DPAD_RIGHT,
+                                            (newBitmask & 0x02) > 0,
+                                            (newBitmask & 0x02) > 0 ? 1.0F : 0.0F);
                 if ((bitmask & 0x04) != (newBitmask & 0x04))
-                    inputSystemWin.handleButtonValueChange(*this,
-                                                           Gamepad::Button::DPAD_DOWN,
-                                                           (newBitmask & 0x04) > 0,
-                                                           (newBitmask & 0x04) > 0 ? 1.0F : 0.0F);
+                    handleButtonValueChange(Gamepad::Button::DPAD_DOWN,
+                                            (newBitmask & 0x04) > 0,
+                                            (newBitmask & 0x04) > 0 ? 1.0F : 0.0F);
                 if ((bitmask & 0x08) != (newBitmask & 0x08))
-                    inputSystemWin.handleButtonValueChange(*this,
-                                                           Gamepad::Button::DPAD_LEFT,
-                                                           (newBitmask & 0x08) > 0,
-                                                           (newBitmask & 0x08) > 0 ? 1.0F : 0.0F);
+                    handleButtonValueChange(Gamepad::Button::DPAD_LEFT,
+                                            (newBitmask & 0x08) > 0,
+                                            (newBitmask & 0x08) > 0 ? 1.0F : 0.0F);
             }
 
             if (leftThumbX.offset != 0xFFFFFFFF)
@@ -679,24 +668,22 @@ namespace ouzel
 
                 if (floatValue > 0.0F)
                 {
-                    inputSystemWin.handleButtonValueChange(*this,
-                                                           positiveButton,
-                                                           floatValue > THUMB_DEADZONE,
-                                                           floatValue);
+                    handleButtonValueChange(positiveButton,
+                                            floatValue > THUMB_DEADZONE,
+                                            floatValue);
                 }
                 else if (floatValue < 0.0F)
                 {
-                    inputSystemWin.handleButtonValueChange(*this, 
-                                                           negativeButton,
-                                                           -floatValue > THUMB_DEADZONE,
-                                                           -floatValue);
+                    handleButtonValueChange(negativeButton,
+                                            -floatValue > THUMB_DEADZONE,
+                                            -floatValue);
                 }
                 else // thumbstick is 0
                 {
                     if (oldValue > newValue)
-                        inputSystemWin.handleButtonValueChange(*this, positiveButton, false, 0.0F);
+                        handleButtonValueChange(positiveButton, false, 0.0F);
                     else
-                        inputSystemWin.handleButtonValueChange(*this, negativeButton, false, 0.0F);
+                        handleButtonValueChange(negativeButton, false, 0.0F);
                 }
             }
         }
@@ -709,10 +696,9 @@ namespace ouzel
             {
                 float floatValue = 2.0F * (newValue - min) / (max - min) - 1.0F;
 
-                inputSystemWin.handleButtonValueChange(*this, 
-                                                       button,
-                                                       floatValue > 0.0F,
-                                                       floatValue);
+                handleButtonValueChange(button,
+                                        floatValue > 0.0F,
+                                        floatValue);
             }
         }
 

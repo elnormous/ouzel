@@ -17,7 +17,7 @@ namespace ouzel
         class GamepadDeviceXI: public GamepadDeviceWin
         {
         public:
-            GamepadDeviceXI(InputSystemWin& initInputSystemWin,
+            GamepadDeviceXI(InputSystem& initInputSystem,
                             uint32_t initId,
                             DWORD aPlayerIndex);
 
