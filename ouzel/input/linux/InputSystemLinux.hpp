@@ -9,6 +9,7 @@
 #endif
 #include "input/InputSystem.hpp"
 #include "input/Keyboard.hpp"
+#include "input/linux/MouseDeviceLinux.hpp"
 
 namespace ouzel
 {
@@ -25,7 +26,18 @@ namespace ouzel
 #endif
             uint32_t getModifiers() const;
 
+            InputSystemLinux();
             virtual ~InputSystemLinux() {}
+
+            KeyboardDevice* getKeyboardDevice() const { return keyboardDevice; }
+            MouseDevice* getMouseDevice() const { return mouseDevice; }
+            TouchpadDevice* getTouchpadDevice() const { return touchpadDevice; }
+
+        private:
+            uint32_t lastDeviceId = 0;
+            KeyboardDevice* keyboardDevice = nullptr;
+            MouseDeviceLinux* mouseDevice = nullptr;
+            TouchpadDevice* touchpadDevice = nullptr;
         };
     }
 }

@@ -33,20 +33,20 @@ namespace ouzel
         {
             Event keyboardConnectEvent;
             keyboardConnectEvent.type = Event::Type::DEVICE_CONNECT;
-            std::unique_ptr<KeyboardDevice> keyboardDeviceIOS(new KeyboardDevice(*this, ++lastDeviceId));
-            keyboardConnectEvent.deviceId = keyboardDeviceIOS->getId();
+            std::unique_ptr<KeyboardDevice> keyboard(new KeyboardDevice(*this, ++lastDeviceId));
+            keyboardConnectEvent.deviceId = keyboard->getId();
             keyboardConnectEvent.deviceType = Controller::Type::KEYBOARD;
-            keyboardDevice = keyboardDeviceIOS.get();
-            inputDevices.insert(std::make_pair(keyboardDeviceIOS->getId(), std::move(keyboardDeviceIOS)));
+            keyboardDevice = keyboard.get();
+            inputDevices.insert(std::make_pair(keyboard->getId(), std::move(keyboard)));
             addEvent(keyboardConnectEvent);
 
             Event touchpadConnectEvent;
             touchpadConnectEvent.type = Event::Type::DEVICE_CONNECT;
-            std::unique_ptr<TouchpadDevice> touchpadDeviceIOS(new TouchpadDevice(*this, ++lastDeviceId));
-            touchpadConnectEvent.deviceId = touchpadDeviceIOS->getId();
+            std::unique_ptr<TouchpadDevice> touchpad(new TouchpadDevice(*this, ++lastDeviceId));
+            touchpadConnectEvent.deviceId = touchpad->getId();
             touchpadConnectEvent.deviceType = Controller::Type::TOUCHPAD;
-            touchpadDevice = touchpadDeviceIOS.get();
-            inputDevices.insert(std::make_pair(touchpadDeviceIOS->getId(), std::move(touchpadDeviceIOS)));
+            touchpadDevice = touchpad.get();
+            inputDevices.insert(std::make_pair(touchpad->getId(), std::move(touchpad)));
             addEvent(touchpadConnectEvent);
         }
     } // namespace input
