@@ -20,7 +20,7 @@ namespace ouzel
         class GamepadDeviceDI: public GamepadDeviceWin
         {
         public:
-            GamepadDeviceDI(InputSystemWin& initInputSystemWin,
+            GamepadDeviceDI(InputSystem& initInputSystem,
                             uint32_t initId,
                             const DIDEVICEINSTANCEW* aInstance, IDirectInput8W* directInput, HWND window);
 
