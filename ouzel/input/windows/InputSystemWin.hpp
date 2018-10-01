@@ -19,8 +19,6 @@ namespace ouzel
 
             static Keyboard::Key convertKeyCode(UINT keyCode);
             static uint32_t getModifiers(WPARAM wParam);
-
-            void handleButtonValueChange(const GamepadDeviceWin& gamepad, Gamepad::Button button, bool pressed, float value);
         };
     }
 }
