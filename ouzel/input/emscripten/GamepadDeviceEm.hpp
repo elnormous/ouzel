@@ -2,19 +2,17 @@
 
 #pragma once
 
-#include "input/InputDevice.hpp"
+#include "input/GamepadDevice.hpp"
 #include "input/Gamepad.hpp"
 
 namespace ouzel
 {
     namespace input
     {
-        class InputSystemEm;
-
         class GamepadDeviceEm: public InputDevice
         {
         public:
-            GamepadDeviceEm(InputSystemEm& initInputSystemEm,
+            GamepadDeviceEm(InputSystem& initInputSystem,
                             uint32_t initId,
                             long initIndex);
 
@@ -26,7 +24,6 @@ namespace ouzel
             void handleThumbAxisChange(double oldValue, double newValue,
                                        Gamepad::Button negativeButton, Gamepad::Button positiveButton);
 
-            InputSystemEm& inputSystemEm;
             long index = 0;
             double axis[64];
             double analogButton[64];
