@@ -3,6 +3,7 @@
 #pragma once
 
 #include "input/InputDevice.hpp"
+#include "input/Keyboard.hpp"
 
 namespace ouzel
 {
@@ -11,10 +12,13 @@ namespace ouzel
         class KeyboardDevice: public InputDevice
         {
         public:
-            KeyboardDevice(uint32_t initId):
-                InputDevice(initId)
+            KeyboardDevice(InputSystem& initInputSystem, uint32_t initId):
+                InputDevice(initInputSystem, initId)
             {
             }
+
+            void handleKeyPress(Keyboard::Key key, uint32_t modifiers);
+            void handleKeyRelease(Keyboard::Key key, uint32_t modifiers);
         };
     } // namespace input
 } // namespace ouzel

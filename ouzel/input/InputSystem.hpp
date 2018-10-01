@@ -8,10 +8,10 @@
 #include <queue>
 #include <unordered_map>
 #include <vector>
-#include "input/Gamepad.hpp"
-#include "input/InputDevice.hpp"
-#include "input/Keyboard.hpp"
-#include "input/Mouse.hpp"
+#include "input/GamepadDevice.hpp"
+#include "input/KeyboardDevice.hpp"
+#include "input/MouseDevice.hpp"
+#include "input/TouchpadDevice.hpp"
 #include "math/Vector2.hpp"
 
 namespace ouzel
@@ -20,6 +20,10 @@ namespace ouzel
     {
         class InputSystem
         {
+            friend GamepadDevice;
+            friend KeyboardDevice;
+            friend MouseDevice;
+            friend TouchpadDevice;
         public:
             struct Command
             {
@@ -101,9 +105,10 @@ namespace ouzel
             virtual void executeCommand(Command) {}
 
             std::vector<Event> getEvents() const;
-            void addEvent(const Event& event);
 
         protected:
+            void addEvent(const Event& event);
+
             std::unordered_map<uint32_t, std::unique_ptr<InputDevice>> inputDevices;
 
         private:

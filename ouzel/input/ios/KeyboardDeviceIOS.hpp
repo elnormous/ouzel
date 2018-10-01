@@ -8,22 +8,16 @@ namespace ouzel
 {
     namespace input
     {
-        class InputSystemIOS;
-
         class KeyboardDeviceIOS: public InputDevice
         {
         public:
-            KeyboardDeviceIOS(InputSystemIOS& initInputSystemIOS,
+            KeyboardDeviceIOS(InputSystem& initInputSystem,
                               uint32_t initId):
-                InputDevice(initId),
-                inputSystemIOS(initInputSystemIOS)
+                InputDevice(initInputSystem, initId)
             {
             }
 
             virtual ~KeyboardDeviceIOS() {}
-
-        private:
-            InputSystemIOS& inputSystemIOS;
         };
     } // namespace input
 } // namespace ouzel

@@ -1,5 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <vector>
 #include "GamepadDeviceIOKit.hpp"
 #include "InputSystemMacOS.hpp"
 #include "core/Setup.h"
@@ -17,10 +18,10 @@ namespace ouzel
 {
     namespace input
     {
-        GamepadDeviceIOKit::GamepadDeviceIOKit(InputSystemMacOS& initInputSystemMacOS,
+        GamepadDeviceIOKit::GamepadDeviceIOKit(InputSystem& initInputSystem,
                                                uint32_t initId,
                                                IOHIDDeviceRef initDevice):
-            GamepadDeviceMacOS(initInputSystemMacOS, initId),
+            GamepadDeviceMacOS(initInputSystem, initId),
             device(initDevice)
         {
             IOReturn ret = IOHIDDeviceOpen(device, kIOHIDOptionsTypeNone);
@@ -324,7 +325,7 @@ namespace ouzel
                     if (element.button != Gamepad::Button::NONE &&
                         (element.button != Gamepad::Button::LEFT_TRIGGER || !leftThumbX) && // don't send digital trigger if analog trigger exists
                         (element.button != Gamepad::Button::RIGHT_TRIGGER || !rightThumbY))
-                        inputSystemMacOS.handleButtonValueChange(*this, element.button, newValue > 0, (newValue > 0) ? 1.0F : 0.0F);
+                        handleButtonValueChange(element.button, newValue > 0, (newValue > 0) ? 1.0F : 0.0F);
                 }
                 else if (elementRef == leftThumbX)
                 {
@@ -342,7 +343,7 @@ namespace ouzel
                 {
                     float floatValue = static_cast<float>(newValue - element.min) / (element.max - element.min);
 
-                    inputSystemMacOS.handleButtonValueChange(*this, Gamepad::Button::LEFT_TRIGGER, newValue > 0, floatValue);
+                    handleButtonValueChange(Gamepad::Button::LEFT_TRIGGER, newValue > 0, floatValue);
                 }
                 else if (elementRef == rightThumbX)
                 {
@@ -360,7 +361,7 @@ namespace ouzel
                 {
                     float floatValue = static_cast<float>(newValue - element.min) / (element.max - element.min);
 
-                    inputSystemMacOS.handleButtonValueChange(*this, Gamepad::Button::RIGHT_TRIGGER, newValue > 0, floatValue);
+                    handleButtonValueChange(Gamepad::Button::RIGHT_TRIGGER, newValue > 0, floatValue);
                 }
                 else if (element.usage == kHIDUsage_GD_Hatswitch)
                 {
@@ -371,25 +372,21 @@ namespace ouzel
                         (1 << (newValue / 2 + newValue % 2)) % 4; // second bit
 
                     if ((bitmask & 0x01) != (newBitmask & 0x01))
-                        inputSystemMacOS.handleButtonValueChange(*this,
-                                                                 Gamepad::Button::DPAD_UP,
-                                                                 (newBitmask & 0x01) > 0,
-                                                                 (newBitmask & 0x01) > 0 ? 1.0F : 0.0F);
+                        handleButtonValueChange(Gamepad::Button::DPAD_UP,
+                                                (newBitmask & 0x01) > 0,
+                                                (newBitmask & 0x01) > 0 ? 1.0F : 0.0F);
                     if ((bitmask & 0x02) != (newBitmask & 0x02))
-                        inputSystemMacOS.handleButtonValueChange(*this,
-                                                                 Gamepad::Button::DPAD_RIGHT,
-                                                                 (newBitmask & 0x02) > 0,
-                                                                 (newBitmask & 0x02) > 0 ? 1.0F : 0.0F);
+                        handleButtonValueChange(Gamepad::Button::DPAD_RIGHT,
+                                                (newBitmask & 0x02) > 0,
+                                                (newBitmask & 0x02) > 0 ? 1.0F : 0.0F);
                     if ((bitmask & 0x04) != (newBitmask & 0x04))
-                        inputSystemMacOS.handleButtonValueChange(*this,
-                                                                 Gamepad::Button::DPAD_DOWN,
-                                                                 (newBitmask & 0x04) > 0,
-                                                                 (newBitmask & 0x04) > 0 ? 1.0F : 0.0F);
+                        handleButtonValueChange(Gamepad::Button::DPAD_DOWN,
+                                                (newBitmask & 0x04) > 0,
+                                                (newBitmask & 0x04) > 0 ? 1.0F : 0.0F);
                     if ((bitmask & 0x08) != (newBitmask & 0x08))
-                        inputSystemMacOS.handleButtonValueChange(*this,
-                                                                 Gamepad::Button::DPAD_LEFT,
-                                                                 (newBitmask & 0x08) > 0,
-                                                                 (newBitmask & 0x08) > 0 ? 1.0F : 0.0F);
+                        handleButtonValueChange(Gamepad::Button::DPAD_LEFT,
+                                                (newBitmask & 0x08) > 0,
+                                                (newBitmask & 0x08) > 0 ? 1.0F : 0.0F);
                 }
 
                 element.value = newValue;
@@ -405,24 +402,22 @@ namespace ouzel
 
             if (floatValue > 0.0F)
             {
-                inputSystemMacOS.handleButtonValueChange(*this,
-                                                         positiveButton,
-                                                         floatValue > THUMB_DEADZONE,
-                                                         floatValue);
+                handleButtonValueChange(positiveButton,
+                                        floatValue > THUMB_DEADZONE,
+                                        floatValue);
             }
             else if (floatValue < 0.0F)
             {
-                inputSystemMacOS.handleButtonValueChange(*this,
-                                                         negativeButton,
-                                                         -floatValue > THUMB_DEADZONE,
-                                                         -floatValue);
+                handleButtonValueChange(negativeButton,
+                                        -floatValue > THUMB_DEADZONE,
+                                        -floatValue);
             }
             else // thumbstick is 0
             {
                 if (oldValue > newValue)
-                    inputSystemMacOS.handleButtonValueChange(*this, positiveButton, false, 0.0F);
+                    handleButtonValueChange(positiveButton, false, 0.0F);
                 else
-                    inputSystemMacOS.handleButtonValueChange(*this, negativeButton, false, 0.0F);
+                    handleButtonValueChange(negativeButton, false, 0.0F);
             }
         }
     } // namespace input

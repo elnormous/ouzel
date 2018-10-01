@@ -9,22 +9,18 @@ namespace ouzel
 {
     namespace input
     {
-        class InputSystemMacOS;
-
         class GamepadDeviceMacOS: public GamepadDevice
         {
         public:
-            GamepadDeviceMacOS(InputSystemMacOS& initInputSystemMacOS,
+            GamepadDeviceMacOS(InputSystem& initInputSystem,
                                uint32_t initId):
-                GamepadDevice(initId),
-                inputSystemMacOS(initInputSystemMacOS)
+                GamepadDevice(initInputSystem, initId)
             {
             }
 
             virtual ~GamepadDeviceMacOS() {}
 
         protected:
-            InputSystemMacOS& inputSystemMacOS;
             std::string name;
         };
     } // namespace input

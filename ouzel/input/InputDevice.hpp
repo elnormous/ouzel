@@ -8,15 +8,21 @@ namespace ouzel
 {
     namespace input
     {
+        class InputSystem;
+
         class InputDevice
         {
         public:
-            InputDevice(uint32_t initId): id(initId) {}
+            InputDevice(InputSystem& initInputSystem, uint32_t initId):
+                inputSystem(initInputSystem), id(initId)
+            {
+            }
             virtual ~InputDevice() {}
 
             inline uint32_t getId() const { return id; }
 
         protected:
+            InputSystem& inputSystem;
             uint32_t id;
         };
     } // namespace input

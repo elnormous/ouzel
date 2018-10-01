@@ -20,7 +20,7 @@ namespace ouzel
         class GamepadDeviceGC: public GamepadDeviceMacOS
         {
         public:
-            GamepadDeviceGC(InputSystemMacOS& initInputSystemMacOS,
+            GamepadDeviceGC(InputSystem& initInputSystem,
                             uint32_t initId,
                             GCControllerPtr initController);
 

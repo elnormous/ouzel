@@ -529,18 +529,5 @@ namespace ouzel
                     inputDevices.erase(gamepadDeviceIterator);
             }
         }
-
-        void InputSystemMacOS::handleButtonValueChange(const GamepadDeviceMacOS& gamepad, Gamepad::Button button, bool pressed, float value)
-        {
-            Event event;
-            event.type = Event::Type::GAMEPAD_BUTTON_CHANGE;
-
-            event.deviceId = gamepad.getId();
-            event.gamepadButton = button;
-            event.pressed = pressed;
-            event.value = value;
-
-            addEvent(event);
-        }
     } // namespace input
 } // namespace ouzel
