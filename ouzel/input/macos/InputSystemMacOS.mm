@@ -276,7 +276,7 @@ namespace ouzel
 
             Event keyboardConnectEvent;
             keyboardConnectEvent.type = Event::Type::DEVICE_CONNECT;
-            std::unique_ptr<KeyboardDeviceMacOS> keyboardDeviceMacOS(new KeyboardDeviceMacOS(*this, ++lastDeviceId));
+            std::unique_ptr<KeyboardDevice> keyboardDeviceMacOS(new KeyboardDevice(*this, ++lastDeviceId));
             keyboardConnectEvent.deviceId = keyboardDeviceMacOS->getId();
             keyboardConnectEvent.deviceType = Controller::Type::KEYBOARD;
             keyboardDevice = keyboardDeviceMacOS.get();
@@ -294,7 +294,7 @@ namespace ouzel
 
             Event touchpadConnectEvent;
             touchpadConnectEvent.type = Event::Type::DEVICE_CONNECT;
-            std::unique_ptr<TouchpadDeviceMacOS> touchpadDeviceMacOS(new TouchpadDeviceMacOS(*this, ++lastDeviceId));
+            std::unique_ptr<TouchpadDevice> touchpadDeviceMacOS(new TouchpadDevice(*this, ++lastDeviceId));
             touchpadConnectEvent.deviceId = touchpadDeviceMacOS->getId();
             touchpadConnectEvent.deviceType = Controller::Type::TOUCHPAD;
             touchpadDevice = touchpadDeviceMacOS.get();

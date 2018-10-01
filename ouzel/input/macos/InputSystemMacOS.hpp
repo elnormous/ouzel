@@ -21,9 +21,7 @@ typedef id GCControllerPtr;
 #include "input/macos/GamepadDeviceMacOS.hpp"
 #include "input/macos/GamepadDeviceGC.hpp"
 #include "input/macos/GamepadDeviceIOKit.hpp"
-#include "input/macos/KeyboardDeviceMacOS.hpp"
 #include "input/macos/MouseDeviceMacOS.hpp"
-#include "input/macos/TouchpadDeviceMacOS.hpp"
 
 namespace ouzel
 {
@@ -41,9 +39,9 @@ namespace ouzel
 
             virtual void executeCommand(Command command) override;
 
-            KeyboardDeviceMacOS* getKeyboardDevice() const { return keyboardDevice; }
-            MouseDeviceMacOS* getMouseDevice() const { return mouseDevice; }
-            TouchpadDeviceMacOS* getTouchpadDevice() const { return touchpadDevice; }
+            KeyboardDevice* getKeyboardDevice() const { return keyboardDevice; }
+            MouseDevice* getMouseDevice() const { return mouseDevice; }
+            TouchpadDevice* getTouchpadDevice() const { return touchpadDevice; }
 
             void handleGamepadDiscoveryCompleted();
 
@@ -63,9 +61,9 @@ namespace ouzel
             IOHIDManagerRef hidManager = nullptr;
 
             uint32_t lastDeviceId = 0;
-            KeyboardDeviceMacOS* keyboardDevice = nullptr;
+            KeyboardDevice* keyboardDevice = nullptr;
             MouseDeviceMacOS* mouseDevice = nullptr;
-            TouchpadDeviceMacOS* touchpadDevice = nullptr;
+            TouchpadDevice* touchpadDevice = nullptr;
             std::unordered_map<GCControllerPtr, GamepadDeviceGC*> gamepadDevicesGC;
             std::unordered_map<IOHIDDeviceRef, GamepadDeviceIOKit*> gamepadDevicesIOKit;
 

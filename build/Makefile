@@ -220,10 +220,8 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/input/macos/GamepadDeviceIOKit.cpp \
 	$(ROOT_DIR)/../ouzel/input/macos/InputManagerMacOS.mm \
 	$(ROOT_DIR)/../ouzel/input/macos/InputSystemMacOS.mm \
-	$(ROOT_DIR)/../ouzel/input/macos/KeyboardDeviceMacOS.cpp \
 	$(ROOT_DIR)/../ouzel/input/macos/MouseDeviceMacOS.mm \
-	$(ROOT_DIR)/../ouzel/input/macos/NativeCursorMacOS.cpp \
-	$(ROOT_DIR)/../ouzel/input/macos/TouchpadDeviceMacOS.cpp
+	$(ROOT_DIR)/../ouzel/input/macos/NativeCursorMacOS.cpp
 else ifeq ($(platform),ios)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \
@@ -245,9 +243,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/ios/RenderDeviceOGLIOS.mm \
 	$(ROOT_DIR)/../ouzel/input/ios/GamepadDeviceIOS.mm \
 	$(ROOT_DIR)/../ouzel/input/ios/InputManagerIOS.mm \
-	$(ROOT_DIR)/../ouzel/input/ios/InputSystemIOS.mm \
-	$(ROOT_DIR)/../ouzel/input/ios/KeyboardDeviceIOS.cpp \
-	$(ROOT_DIR)/../ouzel/input/ios/TouchpadDeviceIOS.cpp
+	$(ROOT_DIR)/../ouzel/input/ios/InputSystemIOS.mm
 CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
 CXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
 else ifeq ($(platform),tvos)
@@ -271,8 +267,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/tvos/RenderDeviceOGLTVOS.mm \
 	$(ROOT_DIR)/../ouzel/input/tvos/GamepadDeviceTVOS.mm \
 	$(ROOT_DIR)/../ouzel/input/tvos/InputManagerTVOS.mm \
-	$(ROOT_DIR)/../ouzel/input/tvos/InputSystemTVOS.mm \
-	$(ROOT_DIR)/../ouzel/input/tvos/KeyboardDeviceTVOS.cpp
+	$(ROOT_DIR)/../ouzel/input/tvos/InputSystemTVOS.mm
 CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
 CXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
 else ifeq ($(platform),emscripten)
