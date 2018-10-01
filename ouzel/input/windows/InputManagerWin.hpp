@@ -28,9 +28,6 @@ namespace ouzel
             virtual void setCursorLocked(bool locked) override;
             virtual bool isCursorLocked() const override;
 
-            virtual void setCursorPosition(const Vector2& position) override;
-            virtual void startDeviceDiscovery() override;
-
             IDirectInput8W* getDirectInput() const { return directInput; }
             void handleDeviceConnect(const DIDEVICEINSTANCEW* didInstance);
 

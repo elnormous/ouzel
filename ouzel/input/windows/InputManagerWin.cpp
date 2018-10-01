@@ -75,7 +75,7 @@ namespace ouzel
 
         void InputManagerWin::update()
         {
-            if (keyboardKeyStates[static_cast<uint32_t>(Keyboard::Key::LEFT_SHIFT)] &&
+            /*if (keyboardKeyStates[static_cast<uint32_t>(Keyboard::Key::LEFT_SHIFT)] &&
                 (GetKeyState(VK_LSHIFT) & 0x8000) == 0)
                 keyRelease(Keyboard::Key::LEFT_SHIFT, 0);
 
@@ -97,18 +97,18 @@ namespace ouzel
                     {
                         Event event;
                         event.type = Event::Type::GAMEPAD_DISCONNECT;
-                        //event.gamepadEvent.gamepad = gamepadXI;
+                        event.gamepadEvent.gamepad = gamepadXI;
 
                         engine->getEventDispatcher().postEvent(event);
 
                         gamepadsXI[userIndex] = nullptr;
 
-                        /*auto gamepadIterator = std::find_if(gamepads.begin(), gamepads.end(), [gamepadXI](const std::unique_ptr<Gamepad>& gamepad) {
+                        auto gamepadIterator = std::find_if(gamepads.begin(), gamepads.end(), [gamepadXI](const std::unique_ptr<Gamepad>& gamepad) {
                             return gamepadXI == gamepad.get();
                         });
 
                         if (gamepadIterator != gamepads.end())
-                            gamepads.erase(gamepadIterator);*/
+                            gamepads.erase(gamepadIterator);
                     }
                 }
             }
@@ -131,14 +131,14 @@ namespace ouzel
 
                     i = gamepadsDI.erase(i);
 
-                    /*auto gamepadIterator = std::find_if(gamepads.begin(), gamepads.end(), [gamepadDI](const std::unique_ptr<Gamepad>& gamepad) {
+                    auto gamepadIterator = std::find_if(gamepads.begin(), gamepads.end(), [gamepadDI](const std::unique_ptr<Gamepad>& gamepad) {
                         return gamepadDI == gamepad.get();
                     });
 
                     if (gamepadIterator != gamepads.end())
-                        gamepads.erase(gamepadIterator);*/
+                        gamepads.erase(gamepadIterator);
                 }
-            }
+            }*/
         }
 
         void InputManagerWin::activateNativeCursor(NativeCursor* resource)
@@ -216,7 +216,7 @@ namespace ouzel
             return cursorLocked;
         }
 
-        void InputManagerWin::setCursorPosition(const Vector2& position)
+        /*void InputManagerWin::setCursorPosition(const Vector2& position)
         {
             InputManager::setCursorPosition(position);
 
@@ -231,9 +231,9 @@ namespace ouzel
                 SetCursorPos(static_cast<int>(p.x),
                              static_cast<int>(p.y));
             });
-        }
+        }*/
 
-        void InputManagerWin::startDeviceDiscovery()
+        /*void InputManagerWin::startDeviceDiscovery()
         {
             engine->executeOnMainThread([this] {
                 for (DWORD userIndex = 0; userIndex < XUSER_MAX_COUNT; ++userIndex)
@@ -250,11 +250,11 @@ namespace ouzel
                             Event event;
                             event.type = Event::Type::GAMEPAD_CONNECT;
 
-                            /*std::unique_ptr<GamepadDeviceXI> gamepad(new GamepadDeviceXI(userIndex));
+                            std::unique_ptr<GamepadDeviceXI> gamepad(new GamepadDeviceXI(userIndex));
                             gamepadsXI[userIndex] = gamepad.get();
                             event.gamepadEvent.gamepad = gamepad.get();
 
-                            gamepads.push_back(std::move(gamepad));*/
+                            gamepads.push_back(std::move(gamepad));
 
                             engine->getEventDispatcher().postEvent(event);
                         }
@@ -267,7 +267,7 @@ namespace ouzel
                 if (FAILED(hr))
                     throw SystemError("Failed to enumerate devices, error: " + std::to_string(hr));
             });
-        }
+        }*/
 
         void InputManagerWin::handleDeviceConnect(const DIDEVICEINSTANCEW* didInstance)
         {

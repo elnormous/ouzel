@@ -89,9 +89,9 @@ static void handleMouseButtonEvent(UINT message, WPARAM wParam, LPARAM lParam)
                                        ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
                                        ouzel::input::InputSystemWin::getModifiers(wParam));
     else if (message == WM_LBUTTONUP || message == WM_RBUTTONUP || message == WM_MBUTTONUP || message == WM_XBUTTONUP)
-        mouseDevice->mouseButtonRelease(button,
-                                        ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
-                                        ouzel::input::InputSystemWin::getModifiers(wParam));
+        mouseDevice->handleButtonRelease(button,
+                                         ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
+                                         ouzel::input::InputSystemWin::getModifiers(wParam));
 }
 
 static void handleMouseWheelEvent(UINT message, WPARAM wParam, LPARAM lParam)
