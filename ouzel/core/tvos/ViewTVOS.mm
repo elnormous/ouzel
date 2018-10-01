@@ -2,7 +2,6 @@
 
 #import "ViewTVOS.h"
 #include "core/Engine.hpp"
-#include "input/tvos/InputManagerTVOS.hpp"
 #include "input/tvos/InputSystemTVOS.hpp"
 
 @implementation ViewTVOS
@@ -27,20 +26,26 @@
 
 -(void)pressesBegan:(NSSet<UIPress*>*)presses withEvent:(__unused UIPressesEvent*)event
 {
+    ouzel::input::InputSystemTVOS* inputSystemTVOS = static_cast<ouzel::input::InputSystemTVOS*>(ouzel::engine->getInputManager()->getInputSystem());
+    ouzel::input::KeyboardDevice* keyboardDevice = inputSystemTVOS->getKeyboardDevice();
     for (UIPress* press in presses)
-        ouzel::engine->getInputManager()->keyPress(ouzel::input::InputSystemTVOS::convertKeyCode(press.type), 0);
+        keyboardDevice->handleKeyPress(ouzel::input::InputSystemTVOS::convertKeyCode(press.type), 0);
 }
 
 -(void)pressesEnded:(NSSet<UIPress*>*)presses withEvent:(__unused UIPressesEvent*)event
 {
+    ouzel::input::InputSystemTVOS* inputSystemTVOS = static_cast<ouzel::input::InputSystemTVOS*>(ouzel::engine->getInputManager()->getInputSystem());
+    ouzel::input::KeyboardDevice* keyboardDevice = inputSystemTVOS->getKeyboardDevice();
     for (UIPress* press in presses)
-        ouzel::engine->getInputManager()->keyRelease(ouzel::input::InputSystemTVOS::convertKeyCode(press.type), 0);
+        keyboardDevice->handleKeyRelease(ouzel::input::InputSystemTVOS::convertKeyCode(press.type), 0);
 }
 
 -(void)pressesCancelled:(NSSet<UIPress*>*)presses withEvent:(__unused UIPressesEvent*)event
 {
+    ouzel::input::InputSystemTVOS* inputSystemTVOS = static_cast<ouzel::input::InputSystemTVOS*>(ouzel::engine->getInputManager()->getInputSystem());
+    ouzel::input::KeyboardDevice* keyboardDevice = inputSystemTVOS->getKeyboardDevice();
     for (UIPress* press in presses)
-        ouzel::engine->getInputManager()->keyRelease(ouzel::input::InputSystemTVOS::convertKeyCode(press.type), 0);
+        keyboardDevice->handleKeyRelease(ouzel::input::InputSystemTVOS::convertKeyCode(press.type), 0);
 }
 
 @end

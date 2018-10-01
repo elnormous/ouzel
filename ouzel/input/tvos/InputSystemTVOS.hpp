@@ -24,9 +24,14 @@ namespace ouzel
         public:
             static Keyboard::Key convertKeyCode(NSInteger keyCode);
 
+            InputSystemTVOS();
             virtual ~InputSystemTVOS() {}
 
-            void handleButtonValueChange(const GamepadDeviceTVOS& gamepad, Gamepad::Button button, bool pressed, float value);
+            KeyboardDevice* getKeyboardDevice() const { return keyboardDevice; }
+
+        private:
+            uint32_t lastDeviceId = 0;
+            KeyboardDevice* keyboardDevice = nullptr;
         };
     } // namespace input
 } // namespace ouzel
