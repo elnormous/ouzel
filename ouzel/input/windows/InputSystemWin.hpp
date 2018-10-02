@@ -13,21 +13,36 @@ namespace ouzel
 {
     namespace input
     {
+        class GamepadDeviceDI;
+        class GamepadDeviceXI;
+
         class InputSystemWin: public InputSystem
         {
         public:
-            virtual ~InputSystemWin() {}
-
             static Keyboard::Key convertKeyCode(UINT keyCode);
             static uint32_t getModifiers(WPARAM wParam);
 
             InputSystemWin();
+            virtual ~InputSystemWin();
+
+            virtual void executeCommand(Command command) override;
 
             KeyboardDevice* getKeyboardDevice() const { return keyboardDevice; }
             MouseDevice* getMouseDevice() const { return mouseDevice; }
             TouchpadDevice* getTouchpadDevice() const { return touchpadDevice; }
 
+            void update();
+
+            IDirectInput8W* getDirectInput() const { return directInput; }
+            void handleDeviceConnect(const DIDEVICEINSTANCEW* didInstance);
+
         private:
+            void discoverGamepads();
+
+            IDirectInput8W* directInput = nullptr;
+            std::vector<GamepadDeviceDI*> gamepadsDI;
+            GamepadDeviceXI* gamepadsXI[XUSER_MAX_COUNT];
+
             uint32_t lastDeviceId = 0;
             KeyboardDevice* keyboardDevice = nullptr;
             MouseDeviceWin* mouseDevice = nullptr;

@@ -18,6 +18,8 @@ namespace ouzel
             }
 
             virtual ~MouseDeviceWin() {}
+
+            void setPosition(const Vector2& position);
         };
     } // namespace input
 } // namespace ouzel

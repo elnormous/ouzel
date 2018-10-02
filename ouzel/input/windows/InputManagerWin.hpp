@@ -11,9 +11,6 @@ namespace ouzel
 {
     namespace input
     {
-        class GamepadDeviceDI;
-        class GamepadDeviceXI;
-
         class InputManagerWin : public InputManager
         {
             friend Engine;
@@ -28,9 +25,6 @@ namespace ouzel
             virtual void setCursorLocked(bool locked) override;
             virtual bool isCursorLocked() const override;
 
-            IDirectInput8W* getDirectInput() const { return directInput; }
-            void handleDeviceConnect(const DIDEVICEINSTANCEW* didInstance);
-
             void updateCursor();
 
         private:
@@ -38,10 +32,6 @@ namespace ouzel
 
             virtual void activateNativeCursor(NativeCursor* resource) override;
             virtual NativeCursor* createNativeCursor() override;
-
-            IDirectInput8W* directInput = nullptr;
-            std::vector<GamepadDeviceDI*> gamepadsDI;
-            GamepadDeviceXI* gamepadsXI[XUSER_MAX_COUNT];
 
             bool cursorVisible = true;
             bool cursorLocked = false;
