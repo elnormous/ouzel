@@ -58,11 +58,11 @@ namespace ouzel
             virtual void setCursorLocked(bool locked);
             virtual bool isCursorLocked() const;
 
-            virtual void startDeviceDiscovery();
-            virtual void stopDeviceDiscovery();
+            void startDeviceDiscovery();
+            void stopDeviceDiscovery();
 
-            virtual void showVirtualKeyboard();
-            virtual void hideVirtualKeyboard();
+            void showVirtualKeyboard();
+            void hideVirtualKeyboard();
 
         protected:
             InputManager();

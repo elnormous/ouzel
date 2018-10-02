@@ -23,9 +23,6 @@ namespace ouzel
         public:
             virtual ~InputManagerIOS();
 
-            virtual void showVirtualKeyboard() override;
-            virtual void hideVirtualKeyboard() override;
-
         private:
             InputManagerIOS();
         };
