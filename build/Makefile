@@ -242,7 +242,6 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/ios/OpenGLView.m \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/ios/RenderDeviceOGLIOS.mm \
 	$(ROOT_DIR)/../ouzel/input/ios/GamepadDeviceIOS.mm \
-	$(ROOT_DIR)/../ouzel/input/ios/InputManagerIOS.mm \
 	$(ROOT_DIR)/../ouzel/input/ios/InputSystemIOS.mm
 CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
 CXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
@@ -266,7 +265,6 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/tvos/OpenGLView.m \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/tvos/RenderDeviceOGLTVOS.mm \
 	$(ROOT_DIR)/../ouzel/input/tvos/GamepadDeviceTVOS.mm \
-	$(ROOT_DIR)/../ouzel/input/tvos/InputManagerTVOS.mm \
 	$(ROOT_DIR)/../ouzel/input/tvos/InputSystemTVOS.mm
 CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
 CXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
