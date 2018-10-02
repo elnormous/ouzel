@@ -73,7 +73,10 @@ namespace ouzel
                     TOUCH_BEGIN,
                     TOUCH_MOVE,
                     TOUCH_END,
-                    TOUCH_CANCEL
+                    TOUCH_CANCEL,
+
+                    SHOW_VIRTUAL_KEYBOARD,
+                    HIDE_VIRTUAL_KEYBOARD
                 };
 
                 Type type;

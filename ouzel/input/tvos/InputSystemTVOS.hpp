@@ -27,16 +27,18 @@ namespace ouzel
             InputSystemTVOS();
             virtual ~InputSystemTVOS();
 
-            KeyboardDevice* getKeyboardDevice() const { return keyboardDevice; }
+            virtual void executeCommand(Command command) override;
 
-            void startDeviceDiscovery();
-            void stopDeviceDiscovery();
+            KeyboardDevice* getKeyboardDevice() const { return keyboardDevice; }
 
             void handleGamepadDiscoveryCompleted();
             void handleGamepadConnected(GCControllerPtr controller);
             void handleGamepadDisconnected(GCControllerPtr controller);
 
         private:
+            void startDeviceDiscovery();
+            void stopDeviceDiscovery();
+            
             id connectDelegate = nil;
 
             uint32_t lastDeviceId = 0;

@@ -357,6 +357,10 @@ namespace ouzel
                 {
                     break;
                 }
+                case Command::Type::SHOW_VIRTUAL_KEYBOARD:
+                    break;
+                case Command::Type::HIDE_VIRTUAL_KEYBOARD:
+                    break;
             }
         }
 
