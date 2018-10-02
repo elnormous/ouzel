@@ -35,7 +35,9 @@ namespace ouzel
                     SET_PLAYER_INDEX,
                     SET_VIBRATION,
                     SET_POSITON,
-                    SET_CURSOR
+                    SET_CURSOR,
+                    SHOW_VIRTUAL_KEYBOARD,
+                    HIDE_VIRTUAL_KEYBOARD
                 };
 
                 Type type;
@@ -73,10 +75,7 @@ namespace ouzel
                     TOUCH_BEGIN,
                     TOUCH_MOVE,
                     TOUCH_END,
-                    TOUCH_CANCEL,
-
-                    SHOW_VIRTUAL_KEYBOARD,
-                    HIDE_VIRTUAL_KEYBOARD
+                    TOUCH_CANCEL
                 };
 
                 Type type;

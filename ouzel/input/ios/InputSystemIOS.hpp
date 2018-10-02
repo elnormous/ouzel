@@ -37,8 +37,8 @@ namespace ouzel
             void handleGamepadDisconnected(GCControllerPtr controller);
 
         private:
-            void startDeviceDiscovery();
-            void stopDeviceDiscovery();
+            void startGamepadDiscovery();
+            void stopGamepadDiscovery();
 
             id connectDelegate = nil;
 

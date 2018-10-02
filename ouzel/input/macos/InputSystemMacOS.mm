@@ -319,15 +319,11 @@ namespace ouzel
             switch (command.type)
             {
                 case Command::Type::START_DEVICE_DISCOVERY:
-                {
                     startGamepadDiscovery();
                     break;
-                }
                 case Command::Type::STOP_DEVICE_DISCOVERY:
-                {
                     stopGamepadDiscovery();
                     break;
-                }
                 case Command::Type::SET_ABSOLUTE_DPAD_VALUES:
                 {
                     break;
