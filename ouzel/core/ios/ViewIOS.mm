@@ -3,7 +3,6 @@
 #import "ViewIOS.h"
 #include "core/Engine.hpp"
 #include "core/Window.hpp"
-#include "input/ios/InputManagerIOS.hpp"
 #include "input/ios/InputSystemIOS.hpp"
 
 @implementation ViewIOS
