@@ -358,10 +358,16 @@ namespace ouzel
 
         void InputManager::showVirtualKeyboard()
         {
+            InputSystem::Command command;
+            command.type = InputSystem::Command::Type::SHOW_VIRTUAL_KEYBOARD;
+            inputSystem->addCommand(command);
         }
 
         void InputManager::hideVirtualKeyboard()
         {
+            InputSystem::Command command;
+            command.type = InputSystem::Command::Type::HIDE_VIRTUAL_KEYBOARD;
+            inputSystem->addCommand(command);
         }
     } // namespace input
 } // namespace ouzel

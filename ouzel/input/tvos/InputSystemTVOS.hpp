@@ -38,6 +38,9 @@ namespace ouzel
         private:
             void startGamepadDiscovery();
             void stopGamepadDiscovery();
+
+            void showVirtualKeyboard();
+            void hideVirtualKeyboard();
             
             id connectDelegate = nil;
 

@@ -40,6 +40,9 @@ namespace ouzel
             void startGamepadDiscovery();
             void stopGamepadDiscovery();
 
+            void showVirtualKeyboard();
+            void hideVirtualKeyboard();
+
             id connectDelegate = nil;
 
             uint32_t lastDeviceId = 0;

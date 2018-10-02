@@ -4,6 +4,8 @@
 #import <UIKit/UIPress.h>
 #include "InputSystemIOS.hpp"
 #include "GamepadDeviceIOS.hpp"
+#include "core/Engine.hpp"
+#include "core/ios/NativeWindowIOS.hpp"
 #include "utils/Log.hpp"
 
 @interface ConnectDelegate: NSObject
@@ -142,8 +144,10 @@ namespace ouzel
                     break;
                 }
                 case Command::Type::SHOW_VIRTUAL_KEYBOARD:
+                    showVirtualKeyboard();
                     break;
                 case Command::Type::HIDE_VIRTUAL_KEYBOARD:
+                    hideVirtualKeyboard();
                     break;
             }
         }
@@ -209,6 +213,20 @@ namespace ouzel
 
              gamepads.erase(i);
              }*/
+        }
+
+        void InputSystemIOS::showVirtualKeyboard()
+        {
+            NativeWindowIOS* windowIOS = static_cast<NativeWindowIOS*>(engine->getWindow()->getNativeWindow());
+            UITextField* textField = windowIOS->getTextField();
+            [textField becomeFirstResponder];
+        }
+
+        void InputSystemIOS::hideVirtualKeyboard()
+        {
+            NativeWindowIOS* windowIOS = static_cast<NativeWindowIOS*>(engine->getWindow()->getNativeWindow());
+            UITextField* textField = windowIOS->getTextField();
+            [textField resignFirstResponder];
         }
     } // namespace input
 } // namespace ouzel

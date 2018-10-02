@@ -15,23 +15,5 @@ namespace ouzel
         InputManagerIOS::~InputManagerIOS()
         {
         }
-
-        void InputManagerIOS::showVirtualKeyboard()
-        {
-            engine->executeOnMainThread([]() {
-                NativeWindowIOS* windowIOS = static_cast<NativeWindowIOS*>(engine->getWindow()->getNativeWindow());
-                UITextField* textField = windowIOS->getTextField();
-                [textField becomeFirstResponder];
-            });
-        }
-
-        void InputManagerIOS::hideVirtualKeyboard()
-        {
-            engine->executeOnMainThread([]() {
-                NativeWindowIOS* windowIOS = static_cast<NativeWindowIOS*>(engine->getWindow()->getNativeWindow());
-                UITextField* textField = windowIOS->getTextField();
-                [textField resignFirstResponder];
-            });
-        }
     } // namespace input
 } // namespace ouzel

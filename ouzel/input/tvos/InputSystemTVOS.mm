@@ -4,6 +4,8 @@
 #import <UIKit/UIPress.h>
 #include "InputSystemTVOS.hpp"
 #include "GamepadDeviceTVOS.hpp"
+#include "core/Engine.hpp"
+#include "core/tvos/NativeWindowTVOS.hpp"
 #include "utils/Log.hpp"
 
 @interface ConnectDelegate: NSObject
@@ -133,8 +135,10 @@ namespace ouzel
                     break;
                 }
                 case Command::Type::SHOW_VIRTUAL_KEYBOARD:
+                    showVirtualKeyboard();
                     break;
                 case Command::Type::HIDE_VIRTUAL_KEYBOARD:
+                    hideVirtualKeyboard();
                     break;
             }
         }
@@ -200,6 +204,20 @@ namespace ouzel
 
              gamepads.erase(i);
              }*/
+        }
+
+        void InputSystemTVOS::showVirtualKeyboard()
+        {
+            NativeWindowTVOS* windowTVOS = static_cast<NativeWindowTVOS*>(engine->getWindow()->getNativeWindow());
+            UITextField* textField = windowTVOS->getTextField();
+            [textField becomeFirstResponder];
+        }
+
+        void InputSystemTVOS::hideVirtualKeyboard()
+        {
+            NativeWindowTVOS* windowTVOS = static_cast<NativeWindowTVOS*>(engine->getWindow()->getNativeWindow());
+            UITextField* textField = windowTVOS->getTextField();
+            [textField resignFirstResponder];
         }
     } // namespace input
 } // namespace ouzel
