@@ -25,12 +25,21 @@ namespace ouzel
             static Keyboard::Key convertKeyCode(NSInteger keyCode);
 
             InputSystemIOS();
-            virtual ~InputSystemIOS() {}
+            virtual ~InputSystemIOS();
 
             KeyboardDevice* getKeyboardDevice() const { return keyboardDevice; }
             TouchpadDevice* getTouchpadDevice() const { return touchpadDevice; }
 
+            void startDeviceDiscovery();
+            void stopDeviceDiscovery();
+
+            void handleGamepadDiscoveryCompleted();
+            void handleGamepadConnected(GCControllerPtr controller);
+            void handleGamepadDisconnected(GCControllerPtr controller);
+
         private:
+            id connectDelegate = nil;
+
             uint32_t lastDeviceId = 0;
             KeyboardDevice* keyboardDevice = nullptr;
             TouchpadDevice* touchpadDevice = nullptr;

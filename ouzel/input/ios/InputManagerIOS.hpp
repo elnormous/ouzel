@@ -23,24 +23,11 @@ namespace ouzel
         public:
             virtual ~InputManagerIOS();
 
-            virtual void startDeviceDiscovery() override;
-            virtual void stopDeviceDiscovery() override;
-
             virtual void showVirtualKeyboard() override;
             virtual void hideVirtualKeyboard() override;
 
-            void handleGamepadDiscoveryCompleted();
-            void handleGamepadConnected(GCControllerPtr controller);
-            void handleGamepadDisconnected(GCControllerPtr controller);
-
         private:
             InputManagerIOS();
-
-            id connectDelegate = nil;
-
-            bool discovering = false;
-            bool cursorVisible = true;
-            bool cursorLocked = false;
         };
     } // namespace input
 } // namespace ouzel
