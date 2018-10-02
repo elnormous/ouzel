@@ -107,15 +107,11 @@ namespace ouzel
             switch (command.type)
             {
                 case Command::Type::START_DEVICE_DISCOVERY:
-                {
                     startGamepadDiscovery();
                     break;
-                }
                 case Command::Type::STOP_DEVICE_DISCOVERY:
-                {
                     stopGamepadDiscovery();
                     break;
-                }
                 case Command::Type::SET_ABSOLUTE_DPAD_VALUES:
                 {
                     break;
@@ -143,7 +139,7 @@ namespace ouzel
             }
         }
 
-        void InputSystemTVOS::startDeviceDiscovery()
+        void InputSystemTVOS::startGamepadDiscovery()
         {
             Log(Log::Level::INFO) << "Started gamepad discovery";
 
@@ -151,7 +147,7 @@ namespace ouzel
              ^(void){ handleGamepadDiscoveryCompleted(); }];
         }
 
-        void InputSystemTVOS::stopDeviceDiscovery()
+        void InputSystemTVOS::stopGamepadDiscovery()
         {
             Log(Log::Level::INFO) << "Stopped gamepad discovery";
 
