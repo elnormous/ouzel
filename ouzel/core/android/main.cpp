@@ -84,17 +84,23 @@ extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onLowM
 
 extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onBackPressed(JNIEnv*, jclass)
 {
-    engine->getInputManager()->keyPress(ouzel::input::Keyboard::Key::MENU, 0);
+    ouzel::input::InputSystemAndroid* inputSystemAndroid = static_cast<ouzel::input::InputSystemAndroid*>(ouzel::engine->getInputManager()->getInputSystem());
+    ouzel::input::KeyboardDevice* keyboardDevice = inputSystemAndroid->getKeyboardDevice();
+    keyboardDevice->handleKeyPress(ouzel::input::Keyboard::Key::MENU, 0);
 }
 
 extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onKeyDown(JNIEnv*, jclass, jint keyCode)
 {
-    engine->getInputManager()->keyPress(ouzel::input::InputSystemAndroid::convertKeyCode(keyCode), 0);
+    ouzel::input::InputSystemAndroid* inputSystemAndroid = static_cast<ouzel::input::InputSystemAndroid*>(ouzel::engine->getInputManager()->getInputSystem());
+    ouzel::input::KeyboardDevice* keyboardDevice = inputSystemAndroid->getKeyboardDevice();
+    keyboardDevice->handleKeyPress(ouzel::input::InputSystemAndroid::convertKeyCode(keyCode), 0);
 }
 
 extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onKeyUp(JNIEnv*, jclass, jint keyCode)
 {
-    engine->getInputManager()->keyRelease(ouzel::input::InputSystemAndroid::convertKeyCode(keyCode), 0);
+    ouzel::input::InputSystemAndroid* inputSystemAndroid = static_cast<ouzel::input::InputSystemAndroid*>(ouzel::engine->getInputManager()->getInputSystem());
+    ouzel::input::KeyboardDevice* keyboardDevice = inputSystemAndroid->getKeyboardDevice();
+    keyboardDevice->handleKeyRelease(ouzel::input::InputSystemAndroid::convertKeyCode(keyCode), 0);
 }
 
 extern "C" JNIEXPORT jboolean JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onTouchEvent(JNIEnv*, jclass, jobject event)
