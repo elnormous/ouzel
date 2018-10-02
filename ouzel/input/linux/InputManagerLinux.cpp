@@ -146,14 +146,14 @@ namespace ouzel
                             {
                                 if (event->type == EV_ABS)
                                 {
-                                    Vector2 absolutePos = cursorPosition;
+                                    /*Vector2 absolutePos = cursorPosition;
 
                                     if (event->code == ABS_X)
                                         absolutePos.x = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(event->value), 0.0F)).x;
                                     else if (event->code == ABS_Y)
                                         absolutePos.y = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(0.0F, static_cast<float>(event->value))).y;
 
-                                    //mouseMove(absolutePos, getModifiers());
+                                    mouseMove(absolutePos, getModifiers());*/
                                 }
                                 else if (event->type == EV_REL)
                                 {
@@ -327,7 +327,7 @@ namespace ouzel
             return cursorLocked;
         }
 
-        void InputManagerLinux::setCursorPosition(const Vector2& position)
+       /*void InputManagerLinux::setCursorPosition(const Vector2& position)
         {
             InputManager::setCursorPosition(position);
 
@@ -398,6 +398,6 @@ namespace ouzel
             }
 
             closedir(dir);
-        }
+        }*/
     } // namespace input
 } // namespace ouzel
