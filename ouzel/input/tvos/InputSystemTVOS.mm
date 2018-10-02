@@ -102,6 +102,47 @@ namespace ouzel
             }
         }
 
+        void InputSystemTVOS::executeCommand(Command command)
+        {
+            switch (command.type)
+            {
+                case Command::Type::START_DEVICE_DISCOVERY:
+                {
+                    startGamepadDiscovery();
+                    break;
+                }
+                case Command::Type::STOP_DEVICE_DISCOVERY:
+                {
+                    stopGamepadDiscovery();
+                    break;
+                }
+                case Command::Type::SET_ABSOLUTE_DPAD_VALUES:
+                {
+                    break;
+                }
+                case Command::Type::SET_PLAYER_INDEX:
+                {
+                    break;
+                }
+                case Command::Type::SET_VIBRATION:
+                {
+                    break;
+                }
+                case Command::Type::SET_POSITON:
+                {
+                    break;
+                }
+                case Command::Type::SET_CURSOR:
+                {
+                    break;
+                }
+                case Command::Type::SHOW_VIRTUAL_KEYBOARD:
+                    break;
+                case Command::Type::HIDE_VIRTUAL_KEYBOARD:
+                    break;
+            }
+        }
+
         void InputSystemTVOS::startDeviceDiscovery()
         {
             Log(Log::Level::INFO) << "Started gamepad discovery";

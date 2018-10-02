@@ -53,10 +53,10 @@ namespace ouzel
             void setCursorLocked(bool locked);
             bool isCursorLocked() const;
 
+        private:
             void startGamepadDiscovery();
             void stopGamepadDiscovery();
 
-        private:
             id connectDelegate = nil;
             IOHIDManagerRef hidManager = nullptr;
 

@@ -27,17 +27,19 @@ namespace ouzel
             InputSystemIOS();
             virtual ~InputSystemIOS();
 
+            virtual void executeCommand(Command command) override;
+
             KeyboardDevice* getKeyboardDevice() const { return keyboardDevice; }
             TouchpadDevice* getTouchpadDevice() const { return touchpadDevice; }
-
-            void startDeviceDiscovery();
-            void stopDeviceDiscovery();
 
             void handleGamepadDiscoveryCompleted();
             void handleGamepadConnected(GCControllerPtr controller);
             void handleGamepadDisconnected(GCControllerPtr controller);
 
         private:
+            void startDeviceDiscovery();
+            void stopDeviceDiscovery();
+
             id connectDelegate = nil;
 
             uint32_t lastDeviceId = 0;
