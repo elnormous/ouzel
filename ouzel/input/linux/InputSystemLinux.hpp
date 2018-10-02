@@ -29,6 +29,8 @@ namespace ouzel
             InputSystemLinux();
             virtual ~InputSystemLinux() {}
 
+            virtual void executeCommand(Command command) override;
+
             KeyboardDevice* getKeyboardDevice() const { return keyboardDevice; }
             MouseDevice* getMouseDevice() const { return mouseDevice; }
             TouchpadDevice* getTouchpadDevice() const { return touchpadDevice; }

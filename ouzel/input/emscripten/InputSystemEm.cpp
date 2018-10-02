@@ -341,5 +341,44 @@ namespace ouzel
             emscripten_set_touchmove_callback("#canvas", touchpadDevice, true, emTouchCallback);
             emscripten_set_touchcancel_callback("#canvas", touchpadDevice, true, emTouchCallback);
         }
+
+        void InputSystemEm::executeCommand(Command command)
+        {
+            switch (command.type)
+            {
+            case Command::Type::START_DEVICE_DISCOVERY:
+                break;
+            case Command::Type::STOP_DEVICE_DISCOVERY:
+                break;
+            case Command::Type::SET_ABSOLUTE_DPAD_VALUES:
+            {
+                break;
+            }
+            case Command::Type::SET_PLAYER_INDEX:
+            {
+                break;
+            }
+            case Command::Type::SET_VIBRATION:
+            {
+                break;
+            }
+            case Command::Type::SET_POSITON:
+            {
+                break;
+            }
+            case Command::Type::SET_CURSOR:
+            {
+                break;
+            }
+            case Command::Type::SET_CURSOR_VISIBLE:
+            {
+                break;
+            }
+            case Command::Type::SHOW_VIRTUAL_KEYBOARD:
+                break;
+            case Command::Type::HIDE_VIRTUAL_KEYBOARD:
+                break;
+            }
+        }
     } // namespace input
 } // namespace ouzel

@@ -143,5 +143,44 @@ namespace ouzel
             inputDevices.insert(std::make_pair(touchpad->getId(), std::move(touchpad)));
             addEvent(touchpadConnectEvent);
         }
+
+        void InputSystemAndroid::executeCommand(Command command)
+        {
+            switch (command.type)
+            {
+            case Command::Type::START_DEVICE_DISCOVERY:
+                break;
+            case Command::Type::STOP_DEVICE_DISCOVERY:
+                break;
+            case Command::Type::SET_ABSOLUTE_DPAD_VALUES:
+            {
+                break;
+            }
+            case Command::Type::SET_PLAYER_INDEX:
+            {
+                break;
+            }
+            case Command::Type::SET_VIBRATION:
+            {
+                break;
+            }
+            case Command::Type::SET_POSITON:
+            {
+                break;
+            }
+            case Command::Type::SET_CURSOR:
+            {
+                break;
+            }
+            case Command::Type::SET_CURSOR_VISIBLE:
+            {
+                break;
+            }
+            case Command::Type::SHOW_VIRTUAL_KEYBOARD:
+                break;
+            case Command::Type::HIDE_VIRTUAL_KEYBOARD:
+                break;
+            }
+        }
     } // namespace input
 } // namespace ouzel
