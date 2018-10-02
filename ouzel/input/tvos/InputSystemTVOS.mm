@@ -134,6 +134,10 @@ namespace ouzel
                 {
                     break;
                 }
+                case Command::Type::SET_CURSOR_VISIBLE:
+                {
+                    break;
+                }
                 case Command::Type::SHOW_VIRTUAL_KEYBOARD:
                     showVirtualKeyboard();
                     break;
