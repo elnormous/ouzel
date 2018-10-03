@@ -15,7 +15,6 @@
 #  include "input/macos/InputManagerMacOS.hpp"
 #elif OUZEL_PLATFORM_ANDROID
 #  include <jni.h>
-#  include "input/android/InputManagerAndroid.hpp"
 #elif OUZEL_PLATFORM_LINUX
 #  include "linux/NativeWindowLinux.hpp"
 #  include "input/linux/InputManagerLinux.hpp"
@@ -312,8 +311,6 @@ namespace ouzel
 
 #if OUZEL_PLATFORM_MACOS
         inputManager.reset(new input::InputManagerMacOS());
-#elif OUZEL_PLATFORM_ANDROID
-        inputManager.reset(new input::InputManagerAndroid());
 #elif OUZEL_PLATFORM_LINUX
         inputManager.reset(new input::InputManagerLinux());
 #elif OUZEL_PLATFORM_WINDOWS
