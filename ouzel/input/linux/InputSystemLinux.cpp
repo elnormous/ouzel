@@ -1,6 +1,11 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "core/Setup.h"
+#include <cstdio>
+#include <cstring>
+#include <dirent.h>
+#include <fcntl.h>
+#include <unistd.h>
 #include <unordered_map>
 #include <linux/joystick.h>
 #if OUZEL_SUPPORTS_X11
@@ -10,6 +15,9 @@
 #endif
 #include "InputSystemLinux.hpp"
 #include "events/Event.hpp"
+#include "core/linux/EngineLinux.hpp"
+#include "core/linux/NativeWindowLinux.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -430,6 +438,42 @@ namespace ouzel
             inputDevices.insert(std::make_pair(touchpad->getId(), std::move(touchpad)));
             addEvent(touchpadConnectEvent);
 #endif
+
+            DIR* dir = opendir("/dev/input");
+
+            if (!dir)
+                throw SystemError("Failed to open directory");
+
+            dirent ent;
+            dirent* p;
+
+            while (readdir_r(dir, &ent, &p) == 0 && p)
+            {
+                if (strncmp("event", ent.d_name, 5) == 0)
+                {
+                    try
+                    {
+                        std::string filename = std::string("/dev/input/") + ent.d_name;
+                        EventDevice inputDevice(filename);
+
+                        if (inputDevice.getDeviceClass() != EventDevice::CLASS_NONE)
+                        {
+                            if (inputDevice.getFd() > maxFd) maxFd = inputDevice.getFd();
+
+                            eventDevices.push_back(std::move(inputDevice));
+                        }
+                    }
+                    catch (...)
+                    {
+                    }
+                }
+            }
+
+            closedir(dir);
+        }
+
+        InputSystemLinux::~InputSystemLinux()
+        {
         }
 
         void InputSystemLinux::executeCommand(Command command)
@@ -468,6 +512,126 @@ namespace ouzel
                 break;
             case Command::Type::HIDE_VIRTUAL_KEYBOARD:
                 break;
+            }
+        }
+
+        void InputSystemLinux::update()
+        {
+            fd_set rfds;
+            struct timeval tv;
+            tv.tv_sec = 0;
+            tv.tv_usec = 0;
+
+            FD_ZERO(&rfds);
+
+            for (const EventDevice& inputDevice : eventDevices)
+                FD_SET(inputDevice.getFd(), &rfds);
+
+            int retval = select(maxFd + 1, &rfds, nullptr, nullptr, &tv);
+
+            if (retval == -1)
+                throw SystemError("Select failed");
+            else if (retval > 0)
+            {
+                static char TEMP_BUFFER[256];
+
+                for (const EventDevice& inputDevice : eventDevices)
+                {
+                    if (FD_ISSET(inputDevice.getFd(), &rfds))
+                    {
+                        // TODO: buffer data
+                        // TODO: move this code to EventDevice
+                        ssize_t bytesRead = read(inputDevice.getFd(), TEMP_BUFFER, sizeof(TEMP_BUFFER));
+
+                        if (bytesRead == -1)
+                            throw SystemError("Failed to read from " + inputDevice.getFilename()); // TODO: disconnect the device
+
+                        for (ssize_t i = 0; i < bytesRead - static_cast<ssize_t>(sizeof(input_event)) + 1; i += sizeof(input_event))
+                        {
+                            input_event* event = reinterpret_cast<input_event*>(TEMP_BUFFER + i);
+
+                            if (inputDevice.getDeviceClass() & EventDevice::CLASS_KEYBOARD)
+                            {
+                                if (event->type == EV_KEY)
+                                {
+                                    if (event->value == 1 || event->value == 2) // press or repeat
+                                    {
+                                        //keyPress(convertKeyCode(event->code), getModifiers());
+                                    }
+                                    else if (event->value == 0) // release
+                                    {
+                                        //keyRelease(convertKeyCode(event->code), getModifiers());
+                                    }
+                                }
+                            }
+                            if (inputDevice.getDeviceClass() & EventDevice::CLASS_MOUSE)
+                            {
+                                if (event->type == EV_ABS)
+                                {
+                                    /*Vector2 absolutePos = cursorPosition;
+
+                                    if (event->code == ABS_X)
+                                        absolutePos.x = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(event->value), 0.0F)).x;
+                                    else if (event->code == ABS_Y)
+                                        absolutePos.y = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(0.0F, static_cast<float>(event->value))).y;
+
+                                    mouseMove(absolutePos, getModifiers());*/
+                                }
+                                else if (event->type == EV_REL)
+                                {
+                                    Vector2 relativePos;
+
+                                    if (event->code == REL_X)
+                                        relativePos.x = static_cast<float>(event->value);
+                                    else if (event->code == REL_Y)
+                                        relativePos.y = static_cast<float>(event->value);
+
+                                    //mouseRelativeMove(engine->getWindow()->convertWindowToNormalizedLocation(relativePos), getModifiers());
+                                }
+                                else if (event->type == EV_KEY)
+                                {
+                                    Mouse::Button button;
+                                    int buttonIndex = -1;
+
+                                    switch (event->code)
+                                    {
+                                    case BTN_LEFT:
+                                        button = Mouse::Button::LEFT;
+                                        buttonIndex = 0;
+                                        break;
+                                    case BTN_RIGHT:
+                                        button = Mouse::Button::RIGHT;
+                                        buttonIndex =  1;
+                                        break;
+                                    case BTN_MIDDLE:
+                                        button = Mouse::Button::MIDDLE;
+                                        buttonIndex = 2;
+                                        break;
+                                    default:
+                                        button = Mouse::Button::NONE;
+                                    }
+
+                                    if (event->value == 1)
+                                    {
+                                        //mouseButtonPress(button, cursorPosition, getModifiers());
+                                    }
+                                    else if (event->value == 0)
+                                    {
+                                        //mouseButtonRelease(button, cursorPosition, getModifiers());
+                                    }
+                                }
+                            }
+                            if (inputDevice.getDeviceClass() & EventDevice::CLASS_TOUCHPAD)
+                            {
+                                // TODO: implement
+                            }
+                            if (inputDevice.getDeviceClass() & EventDevice::CLASS_GAMEPAD)
+                            {
+                                // TODO: implement
+                            }
+                        }
+                    }
+                }
             }
         }
     } // namespace input
