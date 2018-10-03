@@ -106,7 +106,6 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/gui/SlideBar.cpp \
     ../../ouzel/gui/Widget.cpp \
     ../../ouzel/input/android/GamepadDeviceAndroid.cpp \
-    ../../ouzel/input/android/InputManagerAndroid.cpp \
 	../../ouzel/input/android/InputSystemAndroid.cpp \
     ../../ouzel/input/android/KeyboardDeviceAndroid.cpp \
     ../../ouzel/input/android/MouseDeviceAndroid.cpp \

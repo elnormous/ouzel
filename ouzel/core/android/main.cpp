@@ -6,7 +6,6 @@
 #include "core/android/NativeWindowAndroid.hpp"
 #include "core/Engine.hpp"
 #include "events/EventDispatcher.hpp"
-#include "input/android/InputManagerAndroid.hpp"
 #include "input/android/InputSystemAndroid.hpp"
 #include "utils/Log.hpp"
 
@@ -105,6 +104,6 @@ extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onKeyU
 
 extern "C" JNIEXPORT jboolean JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onTouchEvent(JNIEnv*, jclass, jobject event)
 {
-    ouzel::input::InputManagerAndroid* inputAndroid = static_cast<ouzel::input::InputManagerAndroid*>(engine->getInputManager());
-    return inputAndroid->handleTouchEvent(event);
+    ouzel::input::InputSystemAndroid* inputSystemAndroid = static_cast<ouzel::input::InputSystemAndroid*>(ouzel::engine->getInputManager()->getInputSystem());
+    return inputSystemAndroid->handleTouchEvent(event);
 }

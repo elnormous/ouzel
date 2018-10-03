@@ -17,7 +17,7 @@ namespace ouzel
             static Keyboard::Key convertKeyCode(jint keyCode);
 
             InputSystemAndroid();
-            virtual ~InputSystemAndroid() {}
+            virtual ~InputSystemAndroid();
 
             virtual void executeCommand(Command command) override;
 
@@ -25,11 +25,23 @@ namespace ouzel
             MouseDevice* getMouseDevice() const { return mouseDevice; }
             TouchpadDevice* getTouchpadDevice() const { return touchpadDevice; }
 
+            jboolean handleTouchEvent(jobject event);
+
         private:
             uint32_t lastDeviceId = 0;
             KeyboardDevice* keyboardDevice = nullptr;
             MouseDeviceAndroid* mouseDevice = nullptr;
             TouchpadDevice* touchpadDevice = nullptr;
+
+            JavaVM* javaVM = nullptr;
+            jclass inputDeviceClass = nullptr;
+            jmethodID getDeviceIdsMethod = nullptr;
+            jmethodID getActionMethod = nullptr;
+            jmethodID getPointerIdMethod = nullptr;
+            jmethodID getToolTypeMethod = nullptr;
+            jmethodID getXMethod = nullptr;
+            jmethodID getYMethod = nullptr;
+            jmethodID getPressureMethod = nullptr;
         };
     }
 }
