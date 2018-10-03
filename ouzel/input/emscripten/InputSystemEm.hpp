@@ -28,6 +28,9 @@ namespace ouzel
             MouseDevice* getMouseDevice() const { return mouseDevice; }
             TouchpadDevice* getTouchpadDevice() const { return touchpadDevice; }
 
+            void handleGamepadConnected(long device);
+            void handleGamepadDisconnected(long device);
+
         private:
             uint32_t lastDeviceId = 0;
             KeyboardDevice* keyboardDevice = nullptr;

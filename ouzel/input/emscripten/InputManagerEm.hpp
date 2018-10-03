@@ -29,9 +29,6 @@ namespace ouzel
 
             void pointerLockChanged(bool locked);
 
-            void handleGamepadConnected(long device);
-            void handleGamepadDisconnected(long device);
-
         private:
             InputManagerEm();
 
