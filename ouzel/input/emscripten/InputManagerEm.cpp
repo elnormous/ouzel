@@ -86,37 +86,5 @@ namespace ouzel
         {
             cursorLocked = locked;
         }
-
-        void InputManagerEm::handleGamepadConnected(long index)
-        {
-            Event event;
-            event.type = Event::Type::GAMEPAD_CONNECT;
-
-            /*std::unique_ptr<GamepadDeviceEm> gamepad(new GamepadDeviceEm(index));
-            event.gamepadEvent.gamepad = gamepad.get();
-            gamepads.push_back(std::move(gamepad));*/
-
-            engine->getEventDispatcher().postEvent(event);
-        }
-
-        void InputManagerEm::handleGamepadDisconnected(long index)
-        {
-            /*auto i = std::find_if(gamepads.begin(), gamepads.end(), [index](const std::unique_ptr<Gamepad>& gamepad) {
-                GamepadDeviceEm* currentGamepad = static_cast<GamepadDeviceEm*>(gamepad.get());
-                return currentGamepad->getIndex() == index;
-            });
-
-            if (i != gamepads.end())
-            {
-                Event event;
-                event.type = Event::Type::GAMEPAD_DISCONNECT;
-
-                event.gamepadEvent.gamepad = (*i).get();
-
-                engine->getEventDispatcher().postEvent(event);
-
-                gamepads.erase(i);
-            }*/
-        }
     } // namespace input
 } // namespace ouzel
