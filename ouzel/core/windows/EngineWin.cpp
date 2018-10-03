@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include "EngineWin.hpp"
 #include "NativeWindowWin.hpp"
-#include "input/windows/InputManagerWin.hpp"
+#include "input/windows/InputSystemWin.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
@@ -60,7 +60,7 @@ namespace ouzel
         init();
         start();
 
-        input::InputManagerWin* inputWin = static_cast<input::InputManagerWin*>(inputManager.get());
+        input::InputSystemWin* inputWin = static_cast<input::InputSystemWin*>(inputManager->getInputSystem());
         NativeWindowWin* windowWin = static_cast<NativeWindowWin*>(window->getNativeWindow());
 
         MSG message;

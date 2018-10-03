@@ -30,10 +30,6 @@ namespace ouzel
             resources.clear();
         }
 
-        void InputManagerWin::update()
-        {
-        }
-
         void InputManagerWin::activateNativeCursor(NativeCursor* resource)
         {
             InputManager::activateNativeCursor(resource);
