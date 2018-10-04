@@ -4,8 +4,9 @@
 #include <emscripten.h>
 #include "InputSystemEm.hpp"
 #include "GamepadDeviceEm.hpp"
-#include "core/Egnine.hpp"
+#include "core/Engine.hpp"
 #include "events/Event.hpp"
+#include "utils/Log.hpp"
 
 static EM_BOOL emKeyCallback(int eventType, const EmscriptenKeyboardEvent* keyEvent, void* userData)
 {
@@ -106,7 +107,7 @@ static EM_BOOL emPointerLockChangeCallback(int eventType, const EmscriptenPointe
 
 static EM_BOOL emGamepadCallback(int eventType, const EmscriptenGamepadEvent* gamepadEvent, void* userData)
 {
-    ouzel::input::InputManagerEm* inputEm = static_cast<ouzel::input::InputManagerEm*>(userData);
+    /*ouzel::input::InputManagerEm* inputEm = static_cast<ouzel::input::InputManagerEm*>(userData);
 
     if (eventType == EMSCRIPTEN_EVENT_GAMEPADCONNECTED)
     {
@@ -117,7 +118,7 @@ static EM_BOOL emGamepadCallback(int eventType, const EmscriptenGamepadEvent* ga
     {
         inputEm->handleGamepadDisconnected(gamepadEvent->index);
         return true;
-    }
+    }*/
 
     return false;
 }
@@ -341,6 +342,16 @@ namespace ouzel
             emscripten_set_touchend_callback("#canvas", touchpadDevice, true, emTouchCallback);
             emscripten_set_touchmove_callback("#canvas", touchpadDevice, true, emTouchCallback);
             emscripten_set_touchcancel_callback("#canvas", touchpadDevice, true, emTouchCallback);
+
+            int result = emscripten_get_num_gamepads();
+
+            if (result == EMSCRIPTEN_RESULT_NOT_SUPPORTED)
+                Log(Log::Level::INFO) << "Gamepads not supported";
+            else
+            {
+                for (long index = 0; index < result; ++index)
+                    handleGamepadConnected(index);
+            }
         }
 
         void InputSystemEm::executeCommand(Command command)
@@ -380,6 +391,15 @@ namespace ouzel
             case Command::Type::HIDE_VIRTUAL_KEYBOARD:
                 break;
             }
+        }
+
+        void InputSystemEm::update()
+        {
+            /*for (const std::unique_ptr<Gamepad>& gamepad : gamepads)
+            {
+                GamepadDeviceEm* GamepadDeviceEm = static_cast<GamepadDeviceEm*>(gamepad.get());
+                GamepadDeviceEm->update();
+            }*/
         }
 
         void InputSystemEm::handleGamepadConnected(long index)
