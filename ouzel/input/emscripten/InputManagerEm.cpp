@@ -15,28 +15,10 @@ namespace ouzel
     {
         InputManagerEm::InputManagerEm()
         {
-            int result = emscripten_get_num_gamepads();
-
-            if (result == EMSCRIPTEN_RESULT_NOT_SUPPORTED)
-                Log(Log::Level::INFO) << "Gamepads not supported";
-            else
-            {
-                for (long index = 0; index < result; ++index)
-                    handleGamepadConnected(index);
-            }
         }
 
         InputManagerEm::~InputManagerEm()
         {
-        }
-
-        void InputManagerEm::update()
-        {
-            /*for (const std::unique_ptr<Gamepad>& gamepad : gamepads)
-            {
-                GamepadDeviceEm* GamepadDeviceEm = static_cast<GamepadDeviceEm*>(gamepad.get());
-                GamepadDeviceEm->update();
-            }*/
         }
 
         void InputManagerEm::setCursorVisible(bool visible)

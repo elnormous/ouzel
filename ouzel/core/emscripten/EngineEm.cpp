@@ -5,7 +5,7 @@
 #include "EngineEm.hpp"
 #include "audio/AudioDevice.hpp"
 #include "graphics/RenderDevice.hpp"
-#include "input/emscripten/InputManagerEm.hpp"
+#include "input/emscripten/InputSystemEm.hpp"
 #include "utils/Log.hpp"
 
 static void loop(void* arg)
@@ -31,7 +31,7 @@ namespace ouzel
 
     void EngineEm::step()
     {
-        input::InputManagerEm* inputEm = static_cast<input::InputManagerEm*>(inputManager.get());
+        input::InputSystemEm* inputEm = static_cast<input::InputSystemEm*>(inputManager->getInputSystem());
 
         if (active)
         {
