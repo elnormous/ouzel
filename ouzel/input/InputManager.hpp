@@ -6,11 +6,7 @@
 #include <mutex>
 #include <vector>
 #include <unordered_map>
-#include "input/Controller.hpp"
 #include "input/InputSystem.hpp"
-#include "input/Gamepad.hpp"
-#include "input/Keyboard.hpp"
-#include "input/Mouse.hpp"
 #include "math/Vector2.hpp"
 
 namespace ouzel
@@ -19,9 +15,13 @@ namespace ouzel
 
     namespace input
     {
+        class Controller;
         class Cursor;
         class NativeCursor;
+        class Keyboard;
         class Gamepad;
+        class Mouse;
+        class Touchpad;
 
         class InputManager
         {
@@ -38,6 +38,11 @@ namespace ouzel
             InputManager& operator=(InputManager&&) = delete;
 
             InputSystem* getInputSystem() const { return inputSystem.get(); }
+
+            const std::vector<Controller*>& getControllers() const { return controllers; }
+            Keyboard* getKeyboard() const { return keyboard; }
+            Mouse* getMouse() const { return mouse; }
+            Touchpad* getTouchpad() const { return touchpad; }
 
             void update();
 
@@ -73,6 +78,9 @@ namespace ouzel
             void deleteNativeCursor(NativeCursor* resource);
 
             std::unique_ptr<InputSystem> inputSystem;
+            Keyboard* keyboard;
+            Mouse* mouse;
+            Touchpad* touchpad;
 
             std::vector<std::unique_ptr<Gamepad>> gamepads;
 
@@ -81,7 +89,8 @@ namespace ouzel
             std::vector<std::unique_ptr<NativeCursor>> resourceDeleteSet;
             NativeCursor* currentNativeCursor = nullptr;
 
-            std::unordered_map<uint32_t, std::unique_ptr<Controller>> controllers;
+            std::unordered_map<uint32_t, std::unique_ptr<Controller>> controllerMap;
+            std::vector<Controller*> controllers;
 
             bool discovering = false;
         };
