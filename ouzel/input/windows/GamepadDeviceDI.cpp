@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "GamepadDeviceDI.hpp"
-#include "InputManagerWin.hpp"
 #include "core/windows/NativeWindowWin.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"

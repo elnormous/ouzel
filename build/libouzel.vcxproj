@@ -138,9 +138,7 @@
     <ClCompile Include="..\ouzel\input\windows\GamepadDeviceDI.cpp" />
     <ClCompile Include="..\ouzel\input\windows\GamepadDeviceXI.cpp" />
     <ClCompile Include="..\ouzel\input\windows\InputManagerWin.cpp" />
-    <ClCompile Include="..\ouzel\input\windows\KeyboardDeviceWin.cpp" />
     <ClCompile Include="..\ouzel\input\windows\MouseDeviceWin.cpp" />
-    <ClCompile Include="..\ouzel\input\windows\TouchpadDeviceWin.cpp" />
     <ClCompile Include="..\ouzel\localization\Language.cpp" />
     <ClCompile Include="..\ouzel\localization\Localization.cpp" />
     <ClCompile Include="..\ouzel\math\Box2.cpp" />
@@ -305,9 +303,7 @@
     <ClInclude Include="..\ouzel\input\windows\GamepadDeviceDI.hpp" />
     <ClInclude Include="..\ouzel\input\windows\GamepadDeviceXI.hpp" />
     <ClInclude Include="..\ouzel\input\windows\InputManagerWin.hpp" />
-    <ClInclude Include="..\ouzel\input\windows\KeyboardDeviceWin.hpp" />
     <ClInclude Include="..\ouzel\input\windows\MouseDeviceWin.hpp" />
-    <ClInclude Include="..\ouzel\input\windows\TouchpadDeviceWin.hpp" />
     <ClInclude Include="..\ouzel\localization\Language.hpp" />
     <ClInclude Include="..\ouzel\localization\Localization.hpp" />
     <ClInclude Include="..\ouzel\math\Box2.hpp" />
