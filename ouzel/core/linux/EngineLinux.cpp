@@ -14,7 +14,6 @@
 #include "NativeWindowLinux.hpp"
 #include "events/Event.hpp"
 #include "graphics/RenderDevice.hpp"
-#include "input/linux/InputManagerLinux.hpp"
 #include "input/linux/InputSystemLinux.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
@@ -57,7 +56,7 @@ namespace ouzel
         init();
         start();
 
-        input::InputManagerLinux* inputLinux = static_cast<input::InputManagerLinux*>(inputManager.get());
+        input::InputSystemLinux* inputLinux = static_cast<input::InputSystemLinux*>(inputManager->getInputSystem());
 
 #if OUZEL_SUPPORTS_X11
         NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(window->getNativeWindow());
