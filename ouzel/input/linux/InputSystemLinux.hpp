@@ -36,9 +36,9 @@ namespace ouzel
             MouseDevice* getMouseDevice() const { return mouseDevice; }
             TouchpadDevice* getTouchpadDevice() const { return touchpadDevice; }
 
-        private:
             void update();
 
+        private:
             int maxFd = 0;
             std::vector<EventDevice> eventDevices;
 
