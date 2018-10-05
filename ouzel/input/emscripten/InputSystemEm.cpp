@@ -375,7 +375,7 @@ namespace ouzel
                 {
                     if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
-                        if (inputDevices == mouseDevice)
+                        if (inputDevice == mouseDevice)
                             mouseDevice->setCursorLocked(command.locked);
                     }
                     break;
