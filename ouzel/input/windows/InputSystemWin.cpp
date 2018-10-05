@@ -264,48 +264,50 @@ namespace ouzel
         {
             switch (command.type)
             {
-            case Command::Type::START_DEVICE_DISCOVERY:
-                discoverGamepads();
-                break;
-            case Command::Type::STOP_DEVICE_DISCOVERY:
-                break;
-            case Command::Type::SET_ABSOLUTE_DPAD_VALUES:
-            {
-                break;
-            }
-            case Command::Type::SET_PLAYER_INDEX:
-            {
-                break;
-            }
-            case Command::Type::SET_VIBRATION:
-            {
-                break;
-            }
-            case Command::Type::SET_POSITON:
-            {
-                auto i = inputDevices.find(command.deviceId);
-
-                if (i != inputDevices.end())
+                case Command::Type::START_DEVICE_DISCOVERY:
+                    discoverGamepads();
+                    break;
+                case Command::Type::STOP_DEVICE_DISCOVERY:
+                    break;
+                case Command::Type::SET_ABSOLUTE_DPAD_VALUES:
                 {
-                    InputDevice* device = i->second.get();
-
-                    if (device == mouseDevice)
-                        mouseDevice->setPosition(command.position);
+                    break;
                 }
-                break;
-            }
-            case Command::Type::SET_CURSOR:
-            {
-                break;
-            }
-            case Command::Type::SET_CURSOR_VISIBLE:
-            {
-                break;
-            }
-            case Command::Type::SHOW_VIRTUAL_KEYBOARD:
-                break;
-            case Command::Type::HIDE_VIRTUAL_KEYBOARD:
-                break;
+                case Command::Type::SET_PLAYER_INDEX:
+                {
+                    break;
+                }
+                case Command::Type::SET_VIBRATION:
+                {
+                    break;
+                }
+                case Command::Type::SET_POSITON:
+                {
+                    auto i = inputDevices.find(command.deviceId);
+
+                    if (i != inputDevices.end())
+                    {
+                        InputDevice* device = i->second.get();
+
+                        if (device == mouseDevice)
+                            mouseDevice->setPosition(command.position);
+                    }
+                    break;
+                }
+                case Command::Type::SET_CURSOR:
+                {
+                    break;
+                }
+                case Command::Type::SET_CURSOR_VISIBLE:
+                {
+                    break;
+                }
+                case Command::Type::SET_CURSOR_LOCKED:
+                {
+                    break;
+                }
+                default:
+                    break;
             }
         }
 
