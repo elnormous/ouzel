@@ -6,6 +6,7 @@
 
 using namespace std;
 using namespace ouzel;
+using namespace input;
 
 RTSample::RTSample():
     characterSprite("run.json"),
@@ -69,7 +70,7 @@ bool RTSample::handleGamepad(Event::Type type, const GamepadEvent& event)
     if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
     {
         if (event.pressed &&
-            event.button == input::Gamepad::Button::FACE_RIGHT)
+            event.button == Gamepad::Button::FACE_RIGHT)
             engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
     }
 
@@ -90,8 +91,8 @@ bool RTSample::handleKeyboard(Event::Type type, const KeyboardEvent& event) cons
     {
         switch (event.key)
         {
-            case input::Keyboard::Key::ESCAPE:
-            case input::Keyboard::Key::MENU:
+            case Keyboard::Key::ESCAPE:
+            case Keyboard::Key::MENU:
                 engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 break;
             default:

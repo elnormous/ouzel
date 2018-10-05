@@ -7,6 +7,7 @@
 using namespace std;
 using namespace ouzel;
 using namespace audio;
+using namespace input;
 
 SoundSample::SoundSample():
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
@@ -79,7 +80,7 @@ bool SoundSample::handleGamepad(Event::Type type, const GamepadEvent& event)
     if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
     {
         if (event.pressed &&
-            event.button == input::Gamepad::Button::FACE_RIGHT)
+            event.button == Gamepad::Button::FACE_RIGHT)
             engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
     }
 
@@ -113,8 +114,8 @@ bool SoundSample::handleKeyboard(Event::Type type, const KeyboardEvent& event) c
     {
         switch (event.key)
         {
-            case input::Keyboard::Key::ESCAPE:
-            case input::Keyboard::Key::MENU:
+            case Keyboard::Key::ESCAPE:
+            case Keyboard::Key::MENU:
                 engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 break;
             default:

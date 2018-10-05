@@ -6,6 +6,7 @@
 
 using namespace std;
 using namespace ouzel;
+using namespace input;
 
 class Mover: public scene::Component
 {
@@ -28,16 +29,16 @@ public:
 
                 switch (event.key)
                 {
-                    case input::Keyboard::Key::W:
+                    case Keyboard::Key::W:
                         position.y += 10.0F;
                         break;
-                    case input::Keyboard::Key::S:
+                    case Keyboard::Key::S:
                         position.y -= 10.0F;
                         break;
-                    case input::Keyboard::Key::A:
+                    case Keyboard::Key::A:
                         position.x -= 10.0F;
                         break;
-                    case input::Keyboard::Key::D:
+                    case Keyboard::Key::D:
                         position.x += 10.0F;
                         break;
                     default:
@@ -102,11 +103,11 @@ InputSample::InputSample():
     backButton.setPosition(Vector2(-200.0F, -200.0F));
     menu.addWidget(&backButton);
 
-    if (engine->getInputManager()->getMouse())
+    if (Mouse* mouse = engine->getInputManager()->getMouse())
     {
-        engine->getInputManager()->getMouse()->setCursor(&cursor);
+        mouse->setCursor(&cursor);
 
-        Vector2 worldLocation = camera.convertNormalizedToWorld(engine->getInputManager()->getMouse()->getPosition());
+        Vector2 worldLocation = camera.convertNormalizedToWorld(mouse->getPosition());
         flame.setPosition(worldLocation);
     }
 }
@@ -119,28 +120,28 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
 
         switch (event.key)
         {
-            case input::Keyboard::Key::UP:
+            case Keyboard::Key::UP:
                 flamePosition.y += 0.01F;
                 break;
-            case input::Keyboard::Key::DOWN:
+            case Keyboard::Key::DOWN:
                 flamePosition.y -= 0.01F;
                 break;
-            case input::Keyboard::Key::LEFT:
+            case Keyboard::Key::LEFT:
                 flamePosition.x -= 0.01F;
                 break;
-            case input::Keyboard::Key::RIGHT:
+            case Keyboard::Key::RIGHT:
                 flamePosition.x += 0.01F;
                 break;
-            case input::Keyboard::Key::R:
+            case Keyboard::Key::R:
                 engine->getWindow()->setSize(Size2(640.0F, 480.0F));
                 break;
-            case input::Keyboard::Key::TAB:
+            case Keyboard::Key::TAB:
                 hideButton.setEnabled(!hideButton.isEnabled());
                 break;
-            case input::Keyboard::Key::ESCAPE:
-            case input::Keyboard::Key::MENU:
-                if (engine->getInputManager()->getMouse())
-                    engine->getInputManager()->getMouse()->setCursorVisible(true);
+            case Keyboard::Key::ESCAPE:
+            case Keyboard::Key::MENU:
+                if (Mouse* mouse = engine->getInputManager()->getMouse())
+                    mouse->setCursorVisible(true);
                 engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 return false;
             default:
@@ -188,27 +189,27 @@ bool InputSample::handleGamepad(Event::Type type, const GamepadEvent& event)
 
         switch (event.button)
         {
-            case input::Gamepad::Button::FACE_RIGHT:
+            case Gamepad::Button::FACE_RIGHT:
                 if (event.pressed) engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 return false;
-            case input::Gamepad::Button::DPAD_UP:
-            case input::Gamepad::Button::LEFT_THUMB_UP:
-            case input::Gamepad::Button::RIGHT_THUMB_UP:
+            case Gamepad::Button::DPAD_UP:
+            case Gamepad::Button::LEFT_THUMB_UP:
+            case Gamepad::Button::RIGHT_THUMB_UP:
                 flamePosition.y = event.value / 2.0F + 0.5F;
                 break;
-            case input::Gamepad::Button::DPAD_DOWN:
-            case input::Gamepad::Button::LEFT_THUMB_DOWN:
-            case input::Gamepad::Button::RIGHT_THUMB_DOWN:
+            case Gamepad::Button::DPAD_DOWN:
+            case Gamepad::Button::LEFT_THUMB_DOWN:
+            case Gamepad::Button::RIGHT_THUMB_DOWN:
                 flamePosition.y = -event.value / 2.0F + 0.5F;
                 break;
-            case input::Gamepad::Button::DPAD_LEFT:
-            case input::Gamepad::Button::LEFT_THUMB_LEFT:
-            case input::Gamepad::Button::RIGHT_THUMB_LEFT:
+            case Gamepad::Button::DPAD_LEFT:
+            case Gamepad::Button::LEFT_THUMB_LEFT:
+            case Gamepad::Button::RIGHT_THUMB_LEFT:
                 flamePosition.x = -event.value / 2.0F + 0.5F;
                 break;
-            case input::Gamepad::Button::DPAD_RIGHT:
-            case input::Gamepad::Button::LEFT_THUMB_RIGHT:
-            case input::Gamepad::Button::RIGHT_THUMB_RIGHT:
+            case Gamepad::Button::DPAD_RIGHT:
+            case Gamepad::Button::LEFT_THUMB_RIGHT:
+            case Gamepad::Button::RIGHT_THUMB_RIGHT:
                 flamePosition.x = event.value / 2.0F + 0.5F;
                 break;
             default:
@@ -228,14 +229,14 @@ bool InputSample::handleUI(Event::Type type, const UIEvent& event) const
     {
         if (event.actor == &backButton)
         {
-            if (engine->getInputManager()->getMouse())
-                engine->getInputManager()->getMouse()->setCursorVisible(true);
+            if (Mouse* mouse = engine->getInputManager()->getMouse())
+                mouse->setCursorVisible(true);
             engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
         }
         else if (event.actor == &hideButton)
         {
-            if (engine->getInputManager()->getMouse())
-                engine->getInputManager()->getMouse()->setCursorVisible(!engine->getInputManager()->getMouse()->isCursorVisible());
+            if (Mouse* mouse = engine->getInputManager()->getMouse())
+                mouse->setCursorVisible(!engine->getInputManager()->getMouse()->isCursorVisible());
         }
         else if (event.actor == &discoverButton)
             engine->getInputManager()->startDeviceDiscovery();
