@@ -357,9 +357,11 @@ namespace ouzel
                 {
                     break;
                 }
-                case Command::Type::SHOW_VIRTUAL_KEYBOARD:
+                case Command::Type::SET_CURSOR_LOCKED:
+                {
                     break;
-                case Command::Type::HIDE_VIRTUAL_KEYBOARD:
+                }
+                default:
                     break;
             }
         }

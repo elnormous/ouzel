@@ -196,21 +196,11 @@ namespace ouzel
             {
                 break;
             }
-            case Command::Type::SET_POSITON:
-            {
-                break;
-            }
-            case Command::Type::SET_CURSOR:
-            {
-                break;
-            }
-            case Command::Type::SET_CURSOR_VISIBLE:
-            {
-                break;
-            }
             case Command::Type::SHOW_VIRTUAL_KEYBOARD:
                 break;
             case Command::Type::HIDE_VIRTUAL_KEYBOARD:
+                break;
+            default:
                 break;
             }
         }
