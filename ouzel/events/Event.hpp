@@ -43,6 +43,7 @@ namespace ouzel
         Vector2 difference;
         Vector2 position;
         Vector2 scroll;
+        bool locked = false;
     };
 
     struct TouchEvent
@@ -140,6 +141,7 @@ namespace ouzel
             MOUSE_RELEASE,
             MOUSE_SCROLL,
             MOUSE_MOVE,
+            MOUSE_CURSOR_LOCK_CHANGE,
 
             // touch events
             TOUCHPAD_CONNECT,

@@ -130,7 +130,7 @@ namespace ouzel
 
             Event mouseConnectEvent;
             mouseConnectEvent.type = Event::Type::DEVICE_CONNECT;
-            std::unique_ptr<MouseDeviceAndroid> mouse(new MouseDeviceAndroid(*this, ++lastDeviceId));
+            std::unique_ptr<MouseDevice> mouse(new MouseDevice(*this, ++lastDeviceId));
             mouseConnectEvent.deviceId = mouse->getId();
             mouseConnectEvent.deviceType = Controller::Type::MOUSE;
             mouseDevice = mouse.get();

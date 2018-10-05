@@ -92,6 +92,7 @@ namespace ouzel
                     case Event::Type::MOUSE_RELEASE:
                     case Event::Type::MOUSE_SCROLL:
                     case Event::Type::MOUSE_MOVE:
+                    case Event::Type::MOUSE_CURSOR_LOCK_CHANGE:
                         if (eventHandler->mouseHandler)
                             handled = eventHandler->mouseHandler(event.type, event.mouseEvent);
                         break;

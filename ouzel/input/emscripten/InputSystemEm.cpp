@@ -98,7 +98,7 @@ static EM_BOOL emPointerLockChangeCallback(int eventType, const EmscriptenPointe
 
     if (eventType == EMSCRIPTEN_EVENT_POINTERLOCKCHANGE)
     {
-        //mouseDevice->handleLockChanged(pointerlockChangeEvent->isActive);
+        mouseDevice->handleCursorLockChange(pointerlockChangeEvent->isActive);
         return true;
     }
 
@@ -107,7 +107,7 @@ static EM_BOOL emPointerLockChangeCallback(int eventType, const EmscriptenPointe
 
 static EM_BOOL emGamepadCallback(int eventType, const EmscriptenGamepadEvent* gamepadEvent, void* userData)
 {
-    /*ouzel::input::InputManagerEm* inputEm = static_cast<ouzel::input::InputManagerEm*>(userData);
+    /*ouzel::input::InputSystemEm* inputEm = static_cast<ouzel::input::InputManagerEm*>(userData);
 
     if (eventType == EMSCRIPTEN_EVENT_GAMEPADCONNECTED)
     {
@@ -384,10 +384,28 @@ namespace ouzel
                 }
                 case Command::Type::SET_CURSOR_VISIBLE:
                 {
+                    auto i = inputDevices.find(command.deviceId);
+
+                    if (i != inputDevices.end())
+                    {
+                        InputDevice* device = i->second.get();
+
+                        if (device == mouseDevice)
+                            mouseDevice->setCursorVisible(command.locked);
+                    }
                     break;
                 }
                 case Command::Type::SET_CURSOR_LOCKED:
                 {
+                    auto i = inputDevices.find(command.deviceId);
+
+                    if (i != inputDevices.end())
+                    {
+                        InputDevice* device = i->second.get();
+
+                        if (device == mouseDevice)
+                            mouseDevice->setCursorLocked(command.locked);
+                    }
                     break;
                 }
                 case Command::Type::SHOW_VIRTUAL_KEYBOARD:

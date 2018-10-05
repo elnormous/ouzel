@@ -5,7 +5,6 @@
 #include <jni.h>
 #include "input/InputSystem.hpp"
 #include "input/android/GamepadDeviceAndroid.hpp"
-#include "input/android/MouseDeviceAndroid.hpp"
 
 namespace ouzel
 {
@@ -30,7 +29,7 @@ namespace ouzel
         private:
             uint32_t lastDeviceId = 0;
             KeyboardDevice* keyboardDevice = nullptr;
-            MouseDeviceAndroid* mouseDevice = nullptr;
+            MouseDevice* mouseDevice = nullptr;
             TouchpadDevice* touchpadDevice = nullptr;
 
             JavaVM* javaVM = nullptr;

@@ -118,5 +118,17 @@ namespace ouzel
 
             engine->getEventDispatcher().postEvent(event, true);
         }
+
+        void Mouse::handleCursorLockChange(bool locked)
+        {
+            cursorLocked = locked;
+
+            Event event;
+            event.type = Event::Type::MOUSE_CURSOR_LOCK_CHANGE;
+            event.mouseEvent.mouse = this;
+            event.mouseEvent.locked = cursorLocked;
+
+            engine->getEventDispatcher().postEvent(event, true);
+        }
     } // namespace input
 } // namespace ouzel

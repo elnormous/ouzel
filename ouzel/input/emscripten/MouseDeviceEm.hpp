@@ -17,7 +17,10 @@ namespace ouzel
             {
             }
 
-            virtual ~MouseDeviceEm() {}
+            void setCursorVisible(bool visible);
+            void setCursorLocked(bool locked);
+
+            void handleCursorLockChange(bool locked);
         };
     } // namespace input
 } // namespace ouzel
