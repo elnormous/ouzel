@@ -123,7 +123,7 @@ namespace ouzel
                     auto i = inputDevices.find(command.deviceId);
                     if (i != inputDevices.end())
                     {
-                        GamepadDeviceIOS* gamepadDevice = static_cast<GamepadDeviceIOS*>(i->second.get());
+                        GamepadDeviceTVOS* gamepadDevice = static_cast<GamepadDeviceTVOS*>(i->second.get());
                         gamepadDevice->setPlayerIndex(command.playerIndex);
                     }
                     break;

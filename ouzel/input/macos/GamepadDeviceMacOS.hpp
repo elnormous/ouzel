@@ -18,7 +18,7 @@ namespace ouzel
             {
             }
 
-            virtual ~GamepadDeviceMacOS() {}
+            virtual void setPlayerIndex(int32_t playerIndex) {};
 
         protected:
             std::string name;
