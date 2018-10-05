@@ -50,9 +50,6 @@ namespace ouzel
             void handleGamepadConnected(IOHIDDeviceRef device);
             void handleGamepadDisconnected(IOHIDDeviceRef device);
 
-            void setCursorLocked(bool locked);
-            bool isCursorLocked() const;
-
         private:
             void startGamepadDiscovery();
             void stopGamepadDiscovery();

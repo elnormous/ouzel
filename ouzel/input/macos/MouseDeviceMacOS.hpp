@@ -18,9 +18,8 @@ namespace ouzel
             {
             }
 
-            virtual ~MouseDeviceMacOS() {}
-
             void setPosition(const Vector2& position);
+            void setCursorLocked(bool locked);
         };
     } // namespace input
 } // namespace ouzel

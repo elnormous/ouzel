@@ -1,5 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#import <Carbon/Carbon.h>
 #include "MouseDeviceMacOS.hpp"
 #include "core/Engine.hpp"
 #include "core/macos/NativeWindowMacOS.hpp"
@@ -19,6 +20,11 @@ namespace ouzel
 
             CGWarpMouseCursorPosition(CGPointMake(screenOrigin.x + windowOrigin.x + windowLocation.x,
                                                   screenOrigin.y + windowOrigin.y + windowLocation.y));
+        }
+
+        void MouseDeviceMacOS::setCursorLocked(bool locked)
+        {
+            CGAssociateMouseAndMouseCursorPosition(!locked);
         }
     } // namespace input
 } // namespace ouzel

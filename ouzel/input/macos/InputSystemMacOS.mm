@@ -1,8 +1,8 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <map>
-#import <Carbon/Carbon.h>
 #import <objc/message.h>
+#import <Carbon/Carbon.h>
 #include "InputSystemMacOS.hpp"
 #include "events/Event.hpp"
 #include "utils/Errors.hpp"
@@ -330,6 +330,12 @@ namespace ouzel
                 }
                 case Command::Type::SET_PLAYER_INDEX:
                 {
+                    auto i = inputDevices.find(command.deviceId);
+                    if (i != inputDevices.end())
+                    {
+                        GamepadDeviceMacOS* gamepadDevice = static_cast<GamepadDeviceMacOS*>(i->second.get());
+                        gamepadDevice->setPlayerIndex(command.playerIndex);
+                    }
                     break;
                 }
                 case Command::Type::SET_VIBRATION:
@@ -359,24 +365,20 @@ namespace ouzel
                 }
                 case Command::Type::SET_CURSOR_LOCKED:
                 {
+                    auto i = inputDevices.find(command.deviceId);
+
+                    if (i != inputDevices.end())
+                    {
+                        InputDevice* device = i->second.get();
+
+                        if (device == mouseDevice)
+                            mouseDevice->setCursorLocked(command.locked);
+                    }
                     break;
                 }
                 default:
                     break;
             }
-        }
-
-        void InputSystemMacOS::setCursorLocked(bool locked)
-        {
-            /*engine->executeOnMainThread([locked] {
-                CGAssociateMouseAndMouseCursorPosition(!locked);
-            });
-            cursorLocked = locked;*/
-        }
-
-        bool InputSystemMacOS::isCursorLocked() const
-        {
-            return cursorLocked;
         }
 
         void InputSystemMacOS::startGamepadDiscovery()
