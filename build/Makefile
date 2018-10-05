@@ -174,7 +174,6 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/dsound/AudioDeviceDS.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/windows/RenderDeviceOGLWin.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/GamepadDeviceDI.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/GamepadDeviceXI.cpp \
-	$(ROOT_DIR)/../ouzel/input/windows/InputManagerWin.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/InputSystemWin.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/MouseDeviceWin.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/NativeCursorWin.cpp
@@ -187,7 +186,6 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/alsa/AudioDeviceALSA.cpp \
 	$(ROOT_DIR)/../ouzel/core/linux/NativeWindowLinux.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/linux/RenderDeviceOGLLinux.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/EventDevice.cpp \
-	$(ROOT_DIR)/../ouzel/input/linux/InputManagerLinux.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/InputSystemLinux.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/MouseDeviceLinux.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/NativeCursorLinux.cpp
@@ -214,7 +212,6 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/RenderDeviceOGLMacOS.mm \
 	$(ROOT_DIR)/../ouzel/input/macos/GamepadDeviceGC.mm \
 	$(ROOT_DIR)/../ouzel/input/macos/GamepadDeviceIOKit.cpp \
-	$(ROOT_DIR)/../ouzel/input/macos/InputManagerMacOS.mm \
 	$(ROOT_DIR)/../ouzel/input/macos/InputSystemMacOS.mm \
 	$(ROOT_DIR)/../ouzel/input/macos/MouseDeviceMacOS.mm \
 	$(ROOT_DIR)/../ouzel/input/macos/NativeCursorMacOS.cpp
@@ -271,7 +268,6 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/NativeWindowEm.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/emscripten/RenderDeviceOGLEm.cpp \
 	$(ROOT_DIR)/../ouzel/input/emscripten/GamepadDeviceEm.cpp \
-	$(ROOT_DIR)/../ouzel/input/emscripten/InputManagerEm.cpp \
 	$(ROOT_DIR)/../ouzel/input/emscripten/InputSystemEm.cpp \
 	$(ROOT_DIR)/../ouzel/input/emscripten/MouseDeviceEm.cpp
 CXXFLAGS+=-s DISABLE_EXCEPTION_CATCHING=0

@@ -5,7 +5,6 @@
 #include "EngineWin.hpp"
 #include "core/Engine.hpp"
 #include "core/Window.hpp"
-#include "input/windows/InputManagerWin.hpp"
 #include "input/windows/InputSystemWin.hpp"
 #include "graphics/Renderer.hpp"
 #include "graphics/RenderDevice.hpp"
@@ -241,8 +240,8 @@ static LRESULT CALLBACK windowProc(HWND window, UINT message, WPARAM wParam, LPA
         {
             if (LOWORD(lParam) == HTCLIENT)
             {
-                ouzel::input::InputManagerWin* inputWin = static_cast<ouzel::input::InputManagerWin*>(ouzel::engine->getInputManager());
-                inputWin->updateCursor();
+                /*ouzel::input::InputManagerWin* inputWin = static_cast<ouzel::input::InputManagerWin*>(ouzel::engine->getInputManager());
+                inputWin->updateCursor();*/
                 return TRUE;
             }
             break;

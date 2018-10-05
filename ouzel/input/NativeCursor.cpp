@@ -34,8 +34,8 @@ namespace ouzel
 
         void NativeCursor::reactivate()
         {
-            if (inputManager.currentNativeCursor == this)
-                inputManager.activateNativeCursor(this);
+            //if (inputManager.currentNativeCursor == this)
+            //    inputManager.activateNativeCursor(this);
         }
     } // namespace input
 } // namespace ouzel

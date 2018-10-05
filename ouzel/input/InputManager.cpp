@@ -53,10 +53,6 @@ namespace ouzel
         {
         }
 
-        InputManager::~InputManager()
-        {
-        }
-
         void InputManager::update()
         {
             std::vector<InputSystem::Event> events = inputSystem->getEvents();
@@ -290,80 +286,6 @@ namespace ouzel
                     }
                 }
             }
-        }
-
-        void InputManager::setCurrentCursor(Cursor* cursor)
-        {
-            std::unique_lock<std::mutex> lock(resourceMutex);
-
-            if (cursor)
-                currentNativeCursor = cursor->getNativeCursor();
-            else
-                currentNativeCursor = nullptr;
-
-            engine->executeOnMainThread(std::bind(&InputManager::activateNativeCursor,
-                                                  this,
-                                                  currentNativeCursor));
-        }
-
-        void InputManager::activateNativeCursor(NativeCursor*)
-        {
-        }
-
-        NativeCursor* InputManager::createNativeCursor()
-        {
-            std::unique_lock<std::mutex> lock(resourceMutex);
-
-            std::unique_ptr<NativeCursor> cursorResource(new NativeCursor(*this));
-            NativeCursor* result = cursorResource.get();
-
-            resources.push_back(std::move(cursorResource));
-
-            return result;
-        }
-
-        void InputManager::deleteNativeCursor(NativeCursor* resource)
-        {
-            engine->executeOnMainThread([this, resource] {
-                std::unique_lock<std::mutex> lock(resourceMutex);
-
-                auto i = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<NativeCursor>& ptr) {
-                    return ptr.get() == resource;
-                });
-
-                if (i != resources.end())
-                {
-                    resourceDeleteSet.push_back(std::move(*i));
-                    resources.erase(i);
-                }
-
-                if (resource == currentNativeCursor)
-                {
-                    // remove the cursor
-                    currentNativeCursor = nullptr;
-                    activateNativeCursor(nullptr);
-                }
-
-                resourceDeleteSet.clear();
-            });
-        }
-
-        void InputManager::setCursorVisible(bool)
-        {
-        }
-
-        bool InputManager::isCursorVisible() const
-        {
-            return false;
-        }
-
-        void InputManager::setCursorLocked(bool)
-        {
-        }
-
-        bool InputManager::isCursorLocked() const
-        {
-            return false;
         }
 
         void InputManager::startDeviceDiscovery()

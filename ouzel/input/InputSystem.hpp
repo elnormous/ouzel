@@ -37,6 +37,7 @@ namespace ouzel
                     SET_POSITON,
                     SET_CURSOR,
                     SET_CURSOR_VISIBLE,
+                    SET_CURSOR_LOCKED,
                     SHOW_VIRTUAL_KEYBOARD,
                     HIDE_VIRTUAL_KEYBOARD
                 };

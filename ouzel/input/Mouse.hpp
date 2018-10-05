@@ -32,8 +32,12 @@ namespace ouzel
             inline const Vector2& getPosition() const { return position; }
             void setPosition(const Vector2& newPosition);
             inline bool isButtonDown(Button button) const { return buttonStates[static_cast<uint32_t>(button)]; }
-            bool isVisible() const { return visible; }
-            void setVisible(bool newVisible);
+            bool isCursorVisible() const { return cursorVisible; }
+            void setCursorVisible(bool visible);
+            bool isCursorLocked() const { return cursorLocked; }
+            void setCursorLocked(bool locked);
+            const Cursor* getCursor() const { return cursor; }
+            void setCursor(const Cursor* newCursor);
 
         protected:
             void handleButtonPress(Mouse::Button button, const Vector2& pos, uint32_t modifiers);
@@ -45,8 +49,9 @@ namespace ouzel
         private:
             Vector2 position;
             bool buttonStates[static_cast<uint32_t>(Button::COUNT)];
-            bool visible = true;
-            bool locked = false;
+            bool cursorVisible = true;
+            bool cursorLocked = false;
+            const Cursor* cursor = nullptr;
         };
     } // namespace input
 } // namespace ouzel

@@ -11,17 +11,10 @@
 #include "graphics/RenderDevice.hpp"
 #include "audio/Audio.hpp"
 
-#if OUZEL_PLATFORM_MACOS
-#  include "input/macos/InputManagerMacOS.hpp"
-#elif OUZEL_PLATFORM_ANDROID
+#if OUZEL_PLATFORM_ANDROID
 #  include <jni.h>
 #elif OUZEL_PLATFORM_LINUX
 #  include "linux/NativeWindowLinux.hpp"
-#  include "input/linux/InputManagerLinux.hpp"
-#elif OUZEL_PLATFORM_WINDOWS
-#  include "input/windows/InputManagerWin.hpp"
-#elif OUZEL_PLATFORM_EMSCRIPTEN
-#  include "input/emscripten/InputManagerEm.hpp"
 #endif
 
 #if OUZEL_COMPILE_OPENGL
@@ -309,17 +302,7 @@ namespace ouzel
 
         audio.reset(new audio::Audio(audioDriver, debugAudio, window.get()));
 
-#if OUZEL_PLATFORM_MACOS
-        inputManager.reset(new input::InputManagerMacOS());
-#elif OUZEL_PLATFORM_LINUX
-        inputManager.reset(new input::InputManagerLinux());
-#elif OUZEL_PLATFORM_WINDOWS
-        inputManager.reset(new input::InputManagerWin());
-#elif OUZEL_PLATFORM_EMSCRIPTEN
-        inputManager.reset(new input::InputManagerEm());
-#else
         inputManager.reset(new input::InputManager());
-#endif
 
         // default assets
         switch (graphicsDriver)
