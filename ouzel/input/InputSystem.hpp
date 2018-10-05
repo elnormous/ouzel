@@ -34,7 +34,7 @@ namespace ouzel
                     SET_ABSOLUTE_DPAD_VALUES,
                     SET_PLAYER_INDEX,
                     SET_VIBRATION,
-                    SET_POSITON,
+                    SET_POSITION,
                     SET_CURSOR,
                     SET_CURSOR_VISIBLE,
                     SET_CURSOR_LOCKED,

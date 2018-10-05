@@ -395,6 +395,7 @@ namespace ouzel
         {
             uint32_t modifiers = 0;
 
+            // TODO: implement
             /*if (keyboardKeyDown[KEY_LEFTSHIFT] || keyboardKeyDown[KEY_RIGHTSHIFT]) modifiers |= SHIFT_DOWN;
             if (keyboardKeyDown[KEY_LEFTALT] || keyboardKeyDown[KEY_RIGHTALT]) modifiers |= ALT_DOWN;
             if (keyboardKeyDown[KEY_LEFTCTRL] || keyboardKeyDown[KEY_RIGHTCTRL]) modifiers |= CONTROL_DOWN;
@@ -477,7 +478,7 @@ namespace ouzel
                 {
                     break;
                 }
-                case Command::Type::SET_POSITON:
+                case Command::Type::SET_POSITION:
                 {
                     if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {

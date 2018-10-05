@@ -371,7 +371,7 @@ namespace ouzel
                 {
                     break;
                 }
-                case Command::Type::SET_POSITON:
+                case Command::Type::SET_POSITION:
                 {
                     break;
                 }
