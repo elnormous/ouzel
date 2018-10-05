@@ -247,10 +247,6 @@ namespace ouzel
                     break;
                 case Command::Type::STOP_DEVICE_DISCOVERY:
                     break;
-                case Command::Type::SET_ABSOLUTE_DPAD_VALUES:
-                {
-                    break;
-                }
                 case Command::Type::SET_PLAYER_INDEX:
                 {
                     break;
