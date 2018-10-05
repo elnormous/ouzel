@@ -7,6 +7,7 @@
 #include <Xinput.h>
 #include "input/InputSystem.hpp"
 #include "input/windows/GamepadDeviceWin.hpp"
+#include "input/windows/KeyboardDeviceWin.hpp"
 #include "input/windows/MouseDeviceWin.hpp"
 
 namespace ouzel
@@ -44,7 +45,7 @@ namespace ouzel
             GamepadDeviceXI* gamepadsXI[XUSER_MAX_COUNT];
 
             uint32_t lastDeviceId = 0;
-            KeyboardDevice* keyboardDevice = nullptr;
+            KeyboardDeviceWin* keyboardDevice = nullptr;
             MouseDeviceWin* mouseDevice = nullptr;
             TouchpadDevice* touchpadDevice = nullptr;
         };

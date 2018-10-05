@@ -9,7 +9,6 @@
 #include "GamepadDeviceXI.hpp"
 #include "core/Engine.hpp"
 #include "core/windows/NativeWindowWin.hpp"
-#include "events/Event.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
@@ -193,7 +192,7 @@ namespace ouzel
 
         InputSystemWin::InputSystemWin()
         {
-            std::unique_ptr<KeyboardDevice> keyboard(new KeyboardDevice(*this, ++lastDeviceId));
+            std::unique_ptr<KeyboardDeviceWin> keyboard(new KeyboardDeviceWin(*this, ++lastDeviceId));
             keyboardDevice = keyboard.get();
             addInputDevice(std::move(keyboard));
 
@@ -298,12 +297,7 @@ namespace ouzel
 
         void InputSystemWin::update()
         {
-            // TODO: add KeyboardDeviceWin class
-            /*if (keyboardKeyStates[static_cast<uint32_t>(Keyboard::Key::LEFT_SHIFT)] && (GetKeyState(VK_LSHIFT) & 0x8000) == 0)
-                keyboardDevice->handleKeyRelease(Keyboard::Key::LEFT_SHIFT, 0);
-
-            if (keyboardKeyStates[static_cast<uint32_t>(Keyboard::Key::RIGHT_SHIFT)] && (GetKeyState(VK_RSHIFT) & 0x8000) == 0)
-                keyboardDevice->handleKeyRelease(Keyboard::Key::RIGHT_SHIFT, 0);*/
+            keyboardDevice->update();
 
             for (DWORD userIndex = 0; userIndex < XUSER_MAX_COUNT; ++userIndex)
             {
@@ -353,9 +347,6 @@ namespace ouzel
 
                     if (result == ERROR_SUCCESS)
                     {
-                        Event event;
-                        event.type = Event::Type::GAMEPAD_CONNECT;
-
                         std::unique_ptr<GamepadDeviceXI> gamepadDevice(new GamepadDeviceXI(*this, ++lastDeviceId, userIndex));
                         gamepadsXI[userIndex] = gamepadDevice.get();
                         addInputDevice(std::move(gamepadDevice));
