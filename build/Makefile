@@ -175,6 +175,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/dsound/AudioDeviceDS.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/GamepadDeviceDI.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/GamepadDeviceXI.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/InputSystemWin.cpp \
+	$(ROOT_DIR)/../ouzel/input/windows/KeyboardDeviceWin.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/MouseDeviceWin.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/NativeCursorWin.cpp
 CXXFLAGS+=-DWINVER=0x0601 -D_WIN32_WINNT=0x0601

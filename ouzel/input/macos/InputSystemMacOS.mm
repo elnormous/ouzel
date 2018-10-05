@@ -4,7 +4,6 @@
 #import <objc/message.h>
 #import <Carbon/Carbon.h>
 #include "InputSystemMacOS.hpp"
-#include "events/Event.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 

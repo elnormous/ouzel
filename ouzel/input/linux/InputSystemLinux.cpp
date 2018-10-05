@@ -14,7 +14,6 @@
 #  include <linux/input.h>
 #endif
 #include "InputSystemLinux.hpp"
-#include "events/Event.hpp"
 #include "core/linux/EngineLinux.hpp"
 #include "core/linux/NativeWindowLinux.hpp"
 #include "utils/Errors.hpp"

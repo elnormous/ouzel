@@ -5,7 +5,6 @@
 #include "InputSystemEm.hpp"
 #include "GamepadDeviceEm.hpp"
 #include "core/Engine.hpp"
-#include "events/Event.hpp"
 #include "utils/Log.hpp"
 
 static EM_BOOL emKeyCallback(int eventType, const EmscriptenKeyboardEvent* keyEvent, void* userData)
