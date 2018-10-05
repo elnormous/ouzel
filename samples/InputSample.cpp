@@ -60,8 +60,6 @@ InputSample::InputSample():
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
 {
     cursor.init("cursor.png", Vector2(0.0F, 63.0F));
-    if (engine->getInputManager()->getMouse())
-        engine->getInputManager()->getMouse()->setCursor(&cursor);
 
     handler.keyboardHandler = bind(&InputSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     handler.mouseHandler = bind(&InputSample::handleMouse, this, placeholders::_1, placeholders::_2);
@@ -103,6 +101,14 @@ InputSample::InputSample():
 
     backButton.setPosition(Vector2(-200.0F, -200.0F));
     menu.addWidget(&backButton);
+
+    if (engine->getInputManager()->getMouse())
+    {
+        engine->getInputManager()->getMouse()->setCursor(&cursor);
+
+        Vector2 worldLocation = camera.convertNormalizedToWorld(engine->getInputManager()->getMouse()->getPosition());
+        flame.setPosition(worldLocation);
+    }
 }
 
 bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
