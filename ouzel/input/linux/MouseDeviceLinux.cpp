@@ -4,6 +4,7 @@
 #include "MouseDeviceLinux.hpp"
 #include "core/linux/EngineLinux.hpp"
 #include "core/linux/NativeWindowLinux.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {

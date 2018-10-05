@@ -3,6 +3,7 @@
 #include "MouseDeviceWin.hpp"
 #include "core/Engine.hpp"
 #include "core/windows/NativeWindowWin.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
