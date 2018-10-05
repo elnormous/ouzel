@@ -66,14 +66,9 @@ namespace ouzel
 
         InputSystemTVOS::InputSystemTVOS()
         {
-            Event keyboardConnectEvent;
-            keyboardConnectEvent.type = Event::Type::DEVICE_CONNECT;
             std::unique_ptr<KeyboardDevice> keyboard(new KeyboardDevice(*this, ++lastDeviceId));
-            keyboardConnectEvent.deviceId = keyboard->getId();
-            keyboardConnectEvent.deviceType = Controller::Type::KEYBOARD;
             keyboardDevice = keyboard.get();
-            inputDevices.insert(std::make_pair(keyboard->getId(), std::move(keyboard)));
-            addEvent(keyboardConnectEvent);
+            addInputDevice(std::move(keyboard));
 
             connectDelegate = [[ConnectDelegate alloc] initWithInput:this];
 
