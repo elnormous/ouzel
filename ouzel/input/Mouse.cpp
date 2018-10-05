@@ -45,7 +45,7 @@ namespace ouzel
 
             Event event;
             event.type = Event::Type::MOUSE_PRESS;
-
+            event.mouseEvent.mouse = this;
             event.mouseEvent.button = button;
             event.mouseEvent.position = pos;
             event.mouseEvent.modifiers = modifiers;
@@ -59,7 +59,7 @@ namespace ouzel
 
             Event event;
             event.type = Event::Type::MOUSE_RELEASE;
-
+            event.mouseEvent.mouse = this;
             event.mouseEvent.button = button;
             event.mouseEvent.position = pos;
             event.mouseEvent.modifiers = modifiers;
@@ -71,7 +71,7 @@ namespace ouzel
         {
             Event event;
             event.type = Event::Type::MOUSE_MOVE;
-
+            event.mouseEvent.mouse = this;
             event.mouseEvent.difference = pos - position;
             event.mouseEvent.position = pos;
             event.mouseEvent.modifiers = modifiers;
@@ -95,7 +95,7 @@ namespace ouzel
         {
             Event event;
             event.type = Event::Type::MOUSE_SCROLL;
-
+            event.mouseEvent.mouse = this;
             event.mouseEvent.position = pos;
             event.mouseEvent.scroll = scroll;
             event.mouseEvent.modifiers = modifiers;

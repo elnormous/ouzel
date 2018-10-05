@@ -19,7 +19,7 @@ namespace ouzel
         void Keyboard::handleKeyPress(Keyboard::Key key, uint32_t modifiers)
         {
             Event event;
-
+            event.keyboardEvent.keyboard = this;
             event.keyboardEvent.key = key;
             event.keyboardEvent.modifiers = modifiers;
 
@@ -43,7 +43,7 @@ namespace ouzel
 
             Event event;
             event.type = Event::Type::KEY_RELEASE;
-
+            event.keyboardEvent.keyboard = this;
             event.keyboardEvent.key = key;
             event.keyboardEvent.modifiers = modifiers;
 
