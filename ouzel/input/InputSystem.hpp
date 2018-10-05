@@ -117,6 +117,7 @@ namespace ouzel
             void addEvent(const Event& event);
             void addInputDevice(std::unique_ptr<InputDevice>&& inputDevice);
             void removeInputDevice(const InputDevice* inputDevice);
+            InputDevice* getInputDevice(uint32_t id);
 
             std::unordered_map<uint32_t, std::unique_ptr<InputDevice>> inputDevices;
 

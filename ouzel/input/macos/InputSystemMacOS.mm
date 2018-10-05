@@ -316,10 +316,9 @@ namespace ouzel
                 }
                 case Command::Type::SET_PLAYER_INDEX:
                 {
-                    auto i = inputDevices.find(command.deviceId);
-                    if (i != inputDevices.end())
+                    if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
-                        GamepadDeviceMacOS* gamepadDevice = static_cast<GamepadDeviceMacOS*>(i->second.get());
+                        GamepadDeviceMacOS* gamepadDevice = static_cast<GamepadDeviceMacOS*>(inputDevice);
                         gamepadDevice->setPlayerIndex(command.playerIndex);
                     }
                     break;
@@ -330,13 +329,9 @@ namespace ouzel
                 }
                 case Command::Type::SET_POSITON:
                 {
-                    auto i = inputDevices.find(command.deviceId);
-
-                    if (i != inputDevices.end())
+                    if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
-                        InputDevice* device = i->second.get();
-
-                        if (device == mouseDevice)
+                        if (inputDevice == mouseDevice)
                             mouseDevice->setPosition(command.position);
                     }
                     break;
@@ -347,26 +342,18 @@ namespace ouzel
                 }
                 case Command::Type::SET_CURSOR_VISIBLE:
                 {
-                    auto i = inputDevices.find(command.deviceId);
-
-                    if (i != inputDevices.end())
+                    if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
-                        InputDevice* device = i->second.get();
-
-                        if (device == mouseDevice)
+                        if (inputDevice == mouseDevice)
                             mouseDevice->setCursorVisible(command.visible);
                     }
                     break;
                 }
                 case Command::Type::SET_CURSOR_LOCKED:
                 {
-                    auto i = inputDevices.find(command.deviceId);
-
-                    if (i != inputDevices.end())
+                    if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
-                        InputDevice* device = i->second.get();
-
-                        if (device == mouseDevice)
+                        if (inputDevice == mouseDevice)
                             mouseDevice->setCursorLocked(command.locked);
                     }
                     break;

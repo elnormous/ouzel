@@ -369,26 +369,18 @@ namespace ouzel
                 }
                 case Command::Type::SET_CURSOR_VISIBLE:
                 {
-                    auto i = inputDevices.find(command.deviceId);
-
-                    if (i != inputDevices.end())
+                    if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
-                        InputDevice* device = i->second.get();
-
-                        if (device == mouseDevice)
+                        if (inputDevice == mouseDevice)
                             mouseDevice->setCursorVisible(command.locked);
                     }
                     break;
                 }
                 case Command::Type::SET_CURSOR_LOCKED:
                 {
-                    auto i = inputDevices.find(command.deviceId);
-
-                    if (i != inputDevices.end())
+                    if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
-                        InputDevice* device = i->second.get();
-
-                        if (device == mouseDevice)
+                        if (inputDevices == mouseDevice)
                             mouseDevice->setCursorLocked(command.locked);
                     }
                     break;
