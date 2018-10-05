@@ -298,32 +298,17 @@ namespace ouzel
 
         InputSystemEm::InputSystemEm()
         {
-            Event keyboardConnectEvent;
-            keyboardConnectEvent.type = Event::Type::DEVICE_CONNECT;
             std::unique_ptr<KeyboardDevice> keyboard(new KeyboardDevice(*this, ++lastDeviceId));
-            keyboardConnectEvent.deviceId = keyboard->getId();
-            keyboardConnectEvent.deviceType = Controller::Type::KEYBOARD;
             keyboardDevice = keyboard.get();
-            inputDevices.insert(std::make_pair(keyboard->getId(), std::move(keyboard)));
-            addEvent(keyboardConnectEvent);
+            addInputDevice(std::move(keyboard));
 
-            Event mouseConnectEvent;
-            mouseConnectEvent.type = Event::Type::DEVICE_CONNECT;
             std::unique_ptr<MouseDeviceEm> mouse(new MouseDeviceEm(*this, ++lastDeviceId));
-            mouseConnectEvent.deviceId = mouse->getId();
-            mouseConnectEvent.deviceType = Controller::Type::MOUSE;
             mouseDevice = mouse.get();
-            inputDevices.insert(std::make_pair(mouse->getId(), std::move(mouse)));
-            addEvent(mouseConnectEvent);
+            addInputDevice(std::move(mouse));
 
-            Event touchpadConnectEvent;
-            touchpadConnectEvent.type = Event::Type::DEVICE_CONNECT;
             std::unique_ptr<TouchpadDevice> touchpad(new TouchpadDevice(*this, ++lastDeviceId));
-            touchpadConnectEvent.deviceId = touchpad->getId();
-            touchpadConnectEvent.deviceType = Controller::Type::TOUCHPAD;
             touchpadDevice = touchpad.get();
-            inputDevices.insert(std::make_pair(touchpad->getId(), std::move(touchpad)));
-            addEvent(touchpadConnectEvent);
+            addInputDevice(std::move(touchpad));
 
             emscripten_set_keypress_callback(nullptr, keyboardDevice, true, emKeyCallback);
             emscripten_set_keydown_callback(nullptr, keyboardDevice, true, emKeyCallback);
