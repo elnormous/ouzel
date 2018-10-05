@@ -17,7 +17,9 @@ namespace ouzel
             {
             }
 
-            virtual ~MouseDeviceLinux() {}
+            void setPosition(const Vector2& position);
+            void setCursorVisible(bool visible);
+            void setCursorLocked(bool locked);
         };
     } // namespace input
 } // namespace ouzel

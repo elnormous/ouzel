@@ -8,7 +8,7 @@ namespace ouzel
 {
     namespace input
     {
-        void MouseDeviceEm::setCursorLocked(bool visible)
+        void MouseDeviceEm::setCursorVisible(bool visible)
         {
             if (!visible)
                 emscripten_hide_mouse();

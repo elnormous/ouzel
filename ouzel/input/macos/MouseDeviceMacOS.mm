@@ -22,6 +22,11 @@ namespace ouzel
                                                   screenOrigin.y + windowOrigin.y + windowLocation.y));
         }
 
+        void MouseDeviceMacOS::setCursorVisible(bool visible)
+        {
+            // TODO: implement
+        }
+
         void MouseDeviceMacOS::setCursorLocked(bool locked)
         {
             CGAssociateMouseAndMouseCursorPosition(!locked);

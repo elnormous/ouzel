@@ -361,6 +361,15 @@ namespace ouzel
                 }
                 case Command::Type::SET_CURSOR_VISIBLE:
                 {
+                    auto i = inputDevices.find(command.deviceId);
+
+                    if (i != inputDevices.end())
+                    {
+                        InputDevice* device = i->second.get();
+
+                        if (device == mouseDevice)
+                            mouseDevice->setCursorVisible(command.visible);
+                    }
                     break;
                 }
                 case Command::Type::SET_CURSOR_LOCKED:
