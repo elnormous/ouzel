@@ -19,20 +19,29 @@ namespace ouzel
         void Gamepad::setAbsoluteDPadValues(bool newAbsoluteDPadValues)
         {
             absoluteDPadValues = newAbsoluteDPadValues;
-            // TODO: send command to InputSystem
+
+            InputSystem::Command command;
+            command.type = InputSystem::Command::Type::SET_ABSOLUTE_DPAD_VALUES;
+            command.deviceId = deviceId;
+            command.absoluteDPadValues = absoluteDPadValues;
+            inputManager.getInputSystem()->addCommand(command);
         }
 
         void Gamepad::setPlayerIndex(int32_t newPlayerIndex)
         {
             playerIndex = newPlayerIndex;
-            // TODO: send command to InputSystem
+
+            InputSystem::Command command;
+            command.type = InputSystem::Command::Type::SET_PLAYER_INDEX;
+            command.deviceId = deviceId;
+            command.playerIndex = playerIndex;
+            inputManager.getInputSystem()->addCommand(command);
         }
 
         void Gamepad::handleButtonValueChange(Gamepad::Button button, bool pressed, float value)
         {
             Event event;
             event.type = Event::Type::GAMEPAD_BUTTON_CHANGE;
-
             event.gamepadEvent.gamepad = this;
             event.gamepadEvent.button = button;
             event.gamepadEvent.previousPressed = buttonStates[static_cast<uint32_t>(button)].pressed;
@@ -49,7 +58,13 @@ namespace ouzel
         void Gamepad::setVibration(Motor motor, float speed)
         {
             vibration[static_cast<uint32_t>(motor)] = speed;
-            // TODO: send command to InputSystem
+
+            InputSystem::Command command;
+            command.type = InputSystem::Command::Type::SET_VIBRATION;
+            command.deviceId = deviceId;
+            command.motor = motor;
+            command.speed = speed;
+            inputManager.getInputSystem()->addCommand(command);
         }
     } // namespace input
 } // namespace ouzel

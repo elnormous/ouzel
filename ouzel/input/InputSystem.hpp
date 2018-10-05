@@ -49,15 +49,12 @@ namespace ouzel
                     bool absoluteDPadValues;
                     int32_t playerIndex;
                     float speed;
+                    bool visible;
+                    bool locked;
                 };
 
                 Gamepad::Motor motor;
                 Vector2 position;
-                union
-                {
-                    bool visible;
-                    bool locked;
-                };
             };
 
             struct Event
