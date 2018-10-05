@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <iterator>
 #include "Mouse.hpp"
+#include "InputManager.hpp"
 #include "core/Engine.hpp"
 #include "events/EventDispatcher.hpp"
 
@@ -10,8 +11,8 @@ namespace ouzel
 {
     namespace input
     {
-        Mouse::Mouse(uint32_t initDeviceId):
-            Controller(Controller::Type::MOUSE, initDeviceId)
+        Mouse::Mouse(InputManager& initInputManager, uint32_t initDeviceId):
+            Controller(initInputManager, Controller::Type::MOUSE, initDeviceId)
         {
             std::fill(std::begin(buttonStates), std::end(buttonStates), false);
         }
@@ -19,7 +20,23 @@ namespace ouzel
         void Mouse::setPosition(const Vector2& newPosition)
         {
             position = newPosition;
-            // TODO: send command to InputSystem
+
+            InputSystem::Command command;
+            command.type = InputSystem::Command::Type::SET_POSITON;
+            command.deviceId = deviceId;
+            command.position = position;
+            inputManager.getInputSystem()->addCommand(command);
+        }
+
+        void Mouse::setVisible(bool newVisible)
+        {
+            visible = newVisible;
+
+            InputSystem::Command command;
+            command.type = InputSystem::Command::Type::SET_CURSOR_VISIBLE;
+            command.deviceId = deviceId;
+            command.visible = visible;
+            inputManager.getInputSystem()->addCommand(command);
         }
 
         void Mouse::handleButtonPress(Mouse::Button button, const Vector2& pos, uint32_t modifiers)

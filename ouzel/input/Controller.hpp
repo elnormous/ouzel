@@ -6,6 +6,8 @@ namespace ouzel
 {
     namespace input
     {
+        class InputManager;
+
         class Controller
         {
         public:
@@ -17,15 +19,16 @@ namespace ouzel
                 GAMEPAD
             };
 
-            explicit Controller(Type initType, uint32_t initDeviceId):
-                type(initType), deviceId(initDeviceId)
+            explicit Controller(InputManager& initInputManager, Type initType, uint32_t initDeviceId):
+                inputManager(initInputManager), type(initType), deviceId(initDeviceId)
             {}
             virtual ~Controller() {}
 
             inline Type getType() const { return type; }
             inline uint32_t getDeviceId() const { return deviceId; }
 
-        private:
+        protected:
+            InputManager& inputManager;
             Type type;
             uint32_t deviceId;
         };

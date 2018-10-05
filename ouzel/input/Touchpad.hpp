@@ -17,8 +17,7 @@ namespace ouzel
         {
             friend InputManager;
         public:
-            Touchpad(uint32_t initDeviceId);
-            virtual ~Touchpad() {}
+            Touchpad(InputManager& initInputManager, uint32_t initDeviceId);
 
         protected:
             void handleTouchBegin(uint64_t touchId, const Vector2& position, float force = 1.0F);

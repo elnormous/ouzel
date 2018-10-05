@@ -61,8 +61,7 @@ namespace ouzel
                 float value = 0.0F;
             };
 
-            Gamepad(uint32_t initDeviceId);
-            virtual ~Gamepad() {}
+            Gamepad(InputManager& initInputManager, uint32_t initDeviceId);
 
             Gamepad(const Gamepad&) = delete;
             Gamepad& operator=(const Gamepad&) = delete;
