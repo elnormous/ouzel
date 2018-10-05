@@ -75,6 +75,7 @@ namespace ouzel
                     MOUSE_RELEASE,
                     MOUSE_SCROLL,
                     MOUSE_MOVE,
+                    MOUSE_LOCK_CHANGED,
 
                     TOUCH_BEGIN,
                     TOUCH_MOVE,
@@ -92,6 +93,7 @@ namespace ouzel
                     Gamepad::Button gamepadButton;
                     uint64_t touchId;
                 };
+                bool locked = false;
                 bool pressed = false;
                 bool previousPressed = false;
                 float value = 0.0F; // force for touch events

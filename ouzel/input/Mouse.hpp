@@ -45,6 +45,7 @@ namespace ouzel
             void handleMove(const Vector2& pos, uint32_t modifiers);
             void handleRelativeMove(const Vector2& pos, uint32_t modifiers);
             void handleScroll(const Vector2& scroll, const Vector2& pos, uint32_t modifiers);
+            void handleCursorLockChange(bool locked);
 
         private:
             Vector2 position;
