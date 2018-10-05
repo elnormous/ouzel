@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <unordered_map>
 #include <emscripten/html5.h>
 #include "input/InputSystem.hpp"
 #include "input/emscripten/MouseDeviceEm.hpp"
@@ -38,7 +39,7 @@ namespace ouzel
             KeyboardDevice* keyboardDevice = nullptr;
             MouseDeviceEm* mouseDevice = nullptr;
             TouchpadDevice* touchpadDevice = nullptr;
-
+            std::unordered_map<long, GamepadDeviceEm*> gamepadDevices;
         };
     } // namespace input
 } // namespace ouzel

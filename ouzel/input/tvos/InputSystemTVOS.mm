@@ -164,45 +164,30 @@ namespace ouzel
 
         void InputSystemTVOS::handleGamepadConnected(GCControllerPtr controller)
         {
-            /*std::vector<int32_t> playerIndices = {0, 1, 2, 3};
+            std::vector<int32_t> playerIndices = {0, 1, 2, 3};
 
-            for (const auto& gamepad : gamepads)
+            for (const auto& i : gamepadDevices)
             {
-                auto i = std::find(playerIndices.begin(), playerIndices.end(), gamepad->getPlayerIndex());
-
-                if (i != playerIndices.end()) playerIndices.erase(i);
+                auto n = std::find(playerIndices.begin(), playerIndices.end(), i.second->getPlayerIndex());
+                if (n != playerIndices.end()) playerIndices.erase(n);
             }
 
             if (!playerIndices.empty()) controller.playerIndex = static_cast<GCControllerPlayerIndex>(playerIndices.front());
 
-            Event event;
-            event.type = Event::Type::GAMEPAD_CONNECT;
-
-            std::unique_ptr<GamepadDeviceTVOS> gamepad(new GamepadDeviceTVOS(controller));
-
-             event.gamepadEvent.gamepad = gamepad.get();
-
-             gamepads.push_back(std::move(gamepad));*/
+            std::unique_ptr<GamepadDeviceTVOS> gamepadDevice(new GamepadDeviceTVOS(*this, ++lastDeviceId, controller));
+            gamepadDevices.insert(std::make_pair(controller, gamepadDevice.get()));
+            addInputDevice(std::move(gamepadDevice));
         }
 
         void InputSystemTVOS::handleGamepadDisconnected(GCControllerPtr controller)
         {
-            /*auto i = std::find_if(gamepads.begin(), gamepads.end(), [controller](const std::unique_ptr<Gamepad>& gamepad) {
-             GamepadDeviceTVOS* currentGamepad = static_cast<GamepadDeviceTVOS*>(gamepad.get());
-             return currentGamepad->getController() == controller;
-             });
+            auto i = gamepadDevices.find(controller);
 
-             if (i != gamepads.end())
-             {
-             Event event;
-             event.type = Event::Type::GAMEPAD_DISCONNECT;
-
-             event.gamepadEvent.gamepad = (*i).get();
-
-             engine->getEventDispatcher().postEvent(event);
-
-             gamepads.erase(i);
-             }*/
+            if (i != gamepadDevices.end())
+            {
+                removeInputDevice(i->second);
+                gamepadDevices.erase(i);
+            }
         }
 
         void InputSystemTVOS::showVirtualKeyboard()
