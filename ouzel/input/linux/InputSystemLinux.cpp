@@ -465,13 +465,10 @@ namespace ouzel
             switch (command.type)
             {
                 case Command::Type::START_DEVICE_DISCOVERY:
+                    discoverDevices();
                     break;
                 case Command::Type::STOP_DEVICE_DISCOVERY:
                     break;
-                case Command::Type::SET_ABSOLUTE_DPAD_VALUES:
-                {
-                    break;
-                }
                 case Command::Type::SET_PLAYER_INDEX:
                 {
                     break;
@@ -569,14 +566,14 @@ namespace ouzel
                             {
                                 if (event->type == EV_ABS)
                                 {
-                                    /*Vector2 absolutePos = cursorPosition;
+                                    Vector2 absolutePos = cursorPosition;
 
                                     if (event->code == ABS_X)
                                         absolutePos.x = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(event->value), 0.0F)).x;
                                     else if (event->code == ABS_Y)
                                         absolutePos.y = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(0.0F, static_cast<float>(event->value))).y;
 
-                                    mouseMove(absolutePos, getModifiers());*/
+                                    //mouseMove(absolutePos, getModifiers());
                                 }
                                 else if (event->type == EV_REL)
                                 {
@@ -634,6 +631,41 @@ namespace ouzel
                     }
                 }
             }
+        }
+
+        void InputSystemLinux::discoverDevices()
+        {
+            DIR* dir = opendir("/dev/input");
+
+            if (!dir)
+                throw SystemError("Failed to open directory");
+
+            dirent ent;
+            dirent* p;
+
+            while (readdir_r(dir, &ent, &p) == 0 && p)
+            {
+                if (strncmp("event", ent.d_name, 5) == 0)
+                {
+                    try
+                    {
+                        std::string filename = std::string("/dev/input/") + ent.d_name;
+                        EventDevice inputDevice(filename);
+
+                        if (inputDevice.getDeviceClass() != EventDevice::CLASS_NONE)
+                        {
+                            if (inputDevice.getFd() > maxFd) maxFd = inputDevice.getFd();
+
+                            eventDevices.push_back(std::move(inputDevice));
+                        }
+                    }
+                    catch (...)
+                    {
+                    }
+                }
+            }
+
+            closedir(dir);
         }
     } // namespace input
 } // namespace ouzel

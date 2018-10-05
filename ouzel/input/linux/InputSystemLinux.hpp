@@ -39,6 +39,8 @@ namespace ouzel
             void update();
 
         private:
+            void discoverDevices();
+
             int maxFd = 0;
             std::vector<EventDevice> eventDevices;
 
