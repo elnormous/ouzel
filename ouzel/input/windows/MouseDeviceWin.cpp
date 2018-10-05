@@ -19,5 +19,34 @@ namespace ouzel
             ClientToScreen(nativeWindow, &p);
             SetCursorPos(static_cast<int>(p.x), static_cast<int>(p.y));
         }
+
+        void MouseDeviceWin::setCursorVisible(bool visible)
+        {
+            // TODO: implement
+        }
+
+        void MouseDeviceWin::setCursorLocked(bool locked)
+        {
+            if (locked)
+            {
+                HWND nativeWindow = static_cast<NativeWindowWin*>(engine->getWindow()->getNativeWindow())->getNativeWindow();
+
+                RECT rect;
+                GetWindowRect(nativeWindow, &rect);
+
+                LONG centerX = (rect.left + rect.right) / 2;
+                LONG centerY = (rect.top + rect.bottom) / 2;
+
+                rect.left = centerX;
+                rect.right = centerX + 1;
+                rect.top = centerY;
+                rect.bottom = centerY + 1;
+
+                if (!ClipCursor(&rect))
+                    throw SystemError("Failed to grab pointer");
+            }
+            else
+                ClipCursor(nullptr);
+        }
     } // namespace input
 } // namespace ouzel

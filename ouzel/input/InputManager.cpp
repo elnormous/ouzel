@@ -250,7 +250,7 @@ namespace ouzel
                         if (i != controllerMap.end())
                         {
                             Mouse* mouseController = static_cast<Mouse*>(i->second.get());
-                            mouseController->handleLockChange(event.locked);
+                            mouseController->handleCursorLockChange(event.locked);
                         }
                         break;
                     }

@@ -11,9 +11,5 @@ namespace ouzel
             GamepadDevice(initInputSystem, initId)
         {
         }
-
-        GamepadDeviceAndroid::~GamepadDeviceAndroid()
-        {
-        }
     } // namespace input
 } // namespace ouzel

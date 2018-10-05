@@ -17,8 +17,6 @@ namespace ouzel
                 GamepadDevice(initInputSystem, initId)
             {
             }
-
-            virtual ~GamepadDeviceWin() {}
         };
     } // namespace input
 } // namespace ouzel

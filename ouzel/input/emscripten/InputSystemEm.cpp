@@ -107,7 +107,7 @@ static EM_BOOL emPointerLockChangeCallback(int eventType, const EmscriptenPointe
 
 static EM_BOOL emGamepadCallback(int eventType, const EmscriptenGamepadEvent* gamepadEvent, void* userData)
 {
-    /*ouzel::input::InputSystemEm* inputEm = static_cast<ouzel::input::InputManagerEm*>(userData);
+    ouzel::input::InputSystemEm* inputEm = static_cast<ouzel::input::InputSystemEm*>(userData);
 
     if (eventType == EMSCRIPTEN_EVENT_GAMEPADCONNECTED)
     {
@@ -118,7 +118,7 @@ static EM_BOOL emGamepadCallback(int eventType, const EmscriptenGamepadEvent* ga
     {
         inputEm->handleGamepadDisconnected(gamepadEvent->index);
         return true;
-    }*/
+    }
 
     return false;
 }
