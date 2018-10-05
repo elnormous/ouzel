@@ -49,5 +49,16 @@ namespace ouzel
             event.modifiers = modifiers;
             inputSystem.addEvent(event);
         }
+
+        void MouseDevice::handleCursorLockChange(bool locked)
+        {
+            /*InputSystem::Event event;
+            event.type = InputSystem::Event::Type::MOUSE_LOCK_CHANGED;
+
+            event.deviceId = id;
+            event.locked = locked;
+
+            inputSystem.addEvent(event);*/
+        }
     } // namespace input
 } // namespace ouzel

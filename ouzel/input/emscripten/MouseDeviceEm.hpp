@@ -19,8 +19,6 @@ namespace ouzel
 
             void setCursorVisible(bool visible);
             void setCursorLocked(bool locked);
-
-            void handleCursorLockChange(bool locked);
         };
     } // namespace input
 } // namespace ouzel

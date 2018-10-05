@@ -1,8 +1,9 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <emscripten.h>
 #include <emscripten/html5.h>
 #include "MouseDeviceEm.hpp"
-#include "InputSystem.hpp"
+#include "input/InputSystem.hpp"
 
 namespace ouzel
 {
@@ -33,17 +34,6 @@ namespace ouzel
                 emscripten_request_pointerlock(nullptr, false);
             else
                 emscripten_exit_pointerlock();
-        }
-
-        void MouseDeviceEm::handleCursorLockChange(bool locked)
-        {
-            InputSystem::Event event;
-            event.type = InputSystem::Event::Type::MOUSE_LOCK_CHANGED;
-
-            event.deviceId = id;
-            event.locked = locked;
-
-            inputSystem.addEvent(event);
         }
     } // namespace input
 } // namespace ouzel
