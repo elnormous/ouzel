@@ -11,12 +11,6 @@
 #include "graphics/RenderDevice.hpp"
 #include "audio/Audio.hpp"
 
-#if OUZEL_PLATFORM_ANDROID
-#  include <jni.h>
-#elif OUZEL_PLATFORM_LINUX
-#  include "linux/NativeWindowLinux.hpp"
-#endif
-
 #if OUZEL_COMPILE_OPENGL
 #  if OUZEL_SUPPORTS_OPENGLES
 #    include "opengl/ColorPSGLES2.h"
