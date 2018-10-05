@@ -12,6 +12,7 @@
 
 using namespace std;
 using namespace ouzel;
+using namespace input;
 
 MainMenu::MainMenu():
     gitHubButton("button.png", "button_selected.png", "button_down.png", "", "GitHub", "arial.fnt", 1.0F, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
@@ -63,7 +64,7 @@ MainMenu::MainMenu():
 
 bool MainMenu::handleKeyboard(Event::Type type, const KeyboardEvent& event)
 {
-    if (event.key == ouzel::input::Keyboard::Key::ESCAPE)
+    if (event.key == Keyboard::Key::ESCAPE)
     {
         if (type == Event::Type::KEY_PRESS)
             engine->exit();

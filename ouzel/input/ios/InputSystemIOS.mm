@@ -129,6 +129,12 @@ namespace ouzel
                 }
                 case Command::Type::SET_PLAYER_INDEX:
                 {
+                    auto i = inputDevices.find(command.deviceId);
+                    if (i != inputDevices.end())
+                    {
+                        GamepadDeviceIOS* gamepadDevice = static_cast<GamepadDeviceIOS*>(i->second.get());
+                        gamepadDevice->setPlayerIndex(command.playerIndex);
+                    }
                     break;
                 }
                 case Command::Type::SET_VIBRATION:

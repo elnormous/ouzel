@@ -8,14 +8,15 @@ using namespace std;
 using namespace ouzel;
 using namespace audio;
 using namespace graphics;
+using namespace input;
 
 PerspectiveSample::PerspectiveSample():
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
 {
-    cursor.init(input::SystemCursor::CROSS);
+    cursor.init(SystemCursor::CROSS);
 
-    if (engine->getInputManager()->getMouse())
-        engine->getInputManager()->getMouse()->setCursor(&cursor);
+    if (Mouse* mouse = engine->getInputManager()->getMouse())
+        mouse->setCursor(&cursor);
 
     handler.keyboardHandler = bind(&PerspectiveSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     handler.mouseHandler = bind(&PerspectiveSample::handleMouse, this, placeholders::_1, placeholders::_2);
@@ -104,26 +105,26 @@ bool PerspectiveSample::handleKeyboard(ouzel::Event::Type type, const ouzel::Key
     {
         switch (event.key)
         {
-            case input::Keyboard::Key::UP:
+            case Keyboard::Key::UP:
                 cameraRotation.x -= TAU / 100.0F;
                 break;
-            case input::Keyboard::Key::DOWN:
+            case Keyboard::Key::DOWN:
                 cameraRotation.x += TAU / 100.0F;
                 break;
-            case input::Keyboard::Key::LEFT:
+            case Keyboard::Key::LEFT:
                 cameraRotation.y -= TAU / 100.0F;
                 break;
-            case input::Keyboard::Key::RIGHT:
+            case Keyboard::Key::RIGHT:
                 cameraRotation.y += TAU / 100.0F;
                 break;
-            case input::Keyboard::Key::ESCAPE:
-            case input::Keyboard::Key::MENU:
+            case Keyboard::Key::ESCAPE:
+            case Keyboard::Key::MENU:
                 engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 return false;
-            case input::Keyboard::Key::TAB:
+            case Keyboard::Key::TAB:
                 jumpSound.play();
                 break;
-            case input::Keyboard::Key::S:
+            case Keyboard::Key::S:
                 engine->getRenderer()->saveScreenshot("test.png");
                 break;
             default:
@@ -181,7 +182,7 @@ bool PerspectiveSample::handleGamepad(Event::Type type, const GamepadEvent& even
     if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
     {
         if (event.pressed &&
-            event.button == input::Gamepad::Button::FACE_RIGHT)
+            event.button == Gamepad::Button::FACE_RIGHT)
             engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
     }
 
