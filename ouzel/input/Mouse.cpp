@@ -28,15 +28,31 @@ namespace ouzel
             inputManager.getInputSystem()->addCommand(command);
         }
 
-        void Mouse::setVisible(bool newVisible)
+        void Mouse::setCursorVisible(bool visible)
         {
-            visible = newVisible;
+            cursorVisible = visible;
 
             InputSystem::Command command;
             command.type = InputSystem::Command::Type::SET_CURSOR_VISIBLE;
             command.deviceId = deviceId;
-            command.visible = visible;
+            command.visible = cursorVisible;
             inputManager.getInputSystem()->addCommand(command);
+        }
+
+        void Mouse::setCursorLocked(bool locked)
+        {
+            cursorLocked = locked;
+
+            InputSystem::Command command;
+            command.type = InputSystem::Command::Type::SET_CURSOR_LOCKED;
+            command.deviceId = deviceId;
+            command.locked = cursorLocked;
+            inputManager.getInputSystem()->addCommand(command);
+        }
+
+        void Mouse::setCursor(const Cursor* newCursor)
+        {
+            cursor = newCursor;
         }
 
         void Mouse::handleButtonPress(Mouse::Button button, const Vector2& pos, uint32_t modifiers)

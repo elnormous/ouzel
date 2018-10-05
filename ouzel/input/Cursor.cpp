@@ -13,7 +13,7 @@ namespace ouzel
     {
         Cursor::Cursor()
         {
-            nativeCursor = engine->getInputManager()->createNativeCursor();
+            //nativeCursor = engine->getInputManager()->createNativeCursor();
         }
 
         Cursor::Cursor(SystemCursor systemCursor):
@@ -30,14 +30,14 @@ namespace ouzel
 
         Cursor::~Cursor()
         {
-            if (engine && nativeCursor) engine->getInputManager()->deleteNativeCursor(nativeCursor);
+            //if (engine && nativeCursor) engine->getInputManager()->deleteNativeCursor(nativeCursor);
         }
 
         void Cursor::init(SystemCursor systemCursor)
         {
-            engine->executeOnMainThread(std::bind(static_cast<void(NativeCursor::*)(SystemCursor)>(&NativeCursor::init),
+            /*engine->executeOnMainThread(std::bind(static_cast<void(NativeCursor::*)(SystemCursor)>(&NativeCursor::init),
                                                   nativeCursor,
-                                                  systemCursor));
+                                                  systemCursor));*/
         }
 
         void Cursor::init(const std::string& filename, const Vector2& hotSpot)
@@ -125,12 +125,12 @@ namespace ouzel
                           graphics::PixelFormat pixelFormat,
                           const Vector2& hotSpot)
         {
-            engine->executeOnMainThread(std::bind(static_cast<void(NativeCursor::*)(const std::vector<uint8_t>&, const Size2&, graphics::PixelFormat, const Vector2&)>(&NativeCursor::init),
+            /*engine->executeOnMainThread(std::bind(static_cast<void(NativeCursor::*)(const std::vector<uint8_t>&, const Size2&, graphics::PixelFormat, const Vector2&)>(&NativeCursor::init),
                                                   nativeCursor,
                                                   data,
                                                   size,
                                                   pixelFormat,
-                                                  hotSpot));
+                                                  hotSpot));*/
         }
     } // namespace input
 } // namespace ouzel

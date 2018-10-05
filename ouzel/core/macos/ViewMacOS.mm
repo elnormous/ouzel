@@ -3,7 +3,6 @@
 #import "ViewMacOS.h"
 #include "core/Engine.hpp"
 #include "core/Window.hpp"
-#include "input/macos/InputManagerMacOS.hpp"
 #include "input/macos/InputSystemMacOS.hpp"
 
 @implementation ViewMacOS
@@ -37,7 +36,7 @@
 {
     [super resetCursorRects];
 
-    ouzel::input::InputManagerMacOS* inputMacOS = static_cast<ouzel::input::InputManagerMacOS*>(ouzel::engine->getInputManager());
+    /*ouzel::input::InputManagerMacOS* inputMacOS = static_cast<ouzel::input::InputManagerMacOS*>(ouzel::engine->getInputManager());
 
     if (inputMacOS->isCursorVisible())
     {
@@ -48,7 +47,7 @@
     {
         [self addCursorRect:[self bounds] cursor:inputMacOS->getEmptyCursor()];
         [inputMacOS->getEmptyCursor() set];
-    }
+    }*/
 }
 
 -(void)keyDown:(NSEvent*)event

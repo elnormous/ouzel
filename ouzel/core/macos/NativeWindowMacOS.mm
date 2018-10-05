@@ -5,7 +5,6 @@
 #include "graphics/RenderDevice.hpp"
 #include "graphics/opengl/macos/OpenGLView.h"
 #include "graphics/metal/macos/MetalView.h"
-#include "input/macos/InputManagerMacOS.hpp"
 #include "utils/Errors.hpp"
 
 @interface WindowDelegate: NSObject<NSWindowDelegate>
