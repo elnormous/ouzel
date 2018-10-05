@@ -53,6 +53,11 @@ namespace ouzel
 
                 Gamepad::Motor motor;
                 Vector2 position;
+                union
+                {
+                    bool visible;
+                    bool locked;
+                };
             };
 
             struct Event

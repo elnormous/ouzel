@@ -10,7 +10,7 @@ namespace ouzel
 {
     namespace input
     {
-        class InputManager;
+        class Cursor;
 
         class Mouse: public Controller
         {
@@ -27,12 +27,13 @@ namespace ouzel
                 COUNT
             };
 
-            Mouse(uint32_t initDeviceId);
-            virtual ~Mouse() {}
+            Mouse(InputManager& initInputManager, uint32_t initDeviceId);
 
             inline const Vector2& getPosition() const { return position; }
             void setPosition(const Vector2& newPosition);
             inline bool isButtonDown(Button button) const { return buttonStates[static_cast<uint32_t>(button)]; }
+            bool isVisible() const { return visible; }
+            void setVisible(bool newVisible);
 
         protected:
             void handleButtonPress(Mouse::Button button, const Vector2& pos, uint32_t modifiers);
@@ -44,6 +45,8 @@ namespace ouzel
         private:
             Vector2 position;
             bool buttonStates[static_cast<uint32_t>(Button::COUNT)];
+            bool visible = true;
+            bool locked = false;
         };
     } // namespace input
 } // namespace ouzel

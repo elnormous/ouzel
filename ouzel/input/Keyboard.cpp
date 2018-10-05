@@ -10,8 +10,8 @@ namespace ouzel
 {
     namespace input
     {
-        Keyboard::Keyboard(uint32_t initDeviceId):
-            Controller(Controller::Type::KEYBOARD, initDeviceId)
+        Keyboard::Keyboard(InputManager& initInputManager, uint32_t initDeviceId):
+            Controller(initInputManager, Controller::Type::KEYBOARD, initDeviceId)
         {
             std::fill(std::begin(keyStates), std::end(keyStates), false);
         }

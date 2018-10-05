@@ -74,7 +74,7 @@ namespace ouzel
                             case Controller::Type::GAMEPAD:
                             {
                                 connectEvent.type = Event::Type::GAMEPAD_CONNECT;
-                                std::unique_ptr<Gamepad> gamepadController(new Gamepad(event.deviceId));
+                                std::unique_ptr<Gamepad> gamepadController(new Gamepad(*this, event.deviceId));
                                 connectEvent.gamepadEvent.gamepad = gamepadController.get();
                                 controllers.push_back(gamepadController.get());
                                 controllerMap.insert(std::make_pair(event.deviceId, std::move(gamepadController)));
@@ -83,7 +83,7 @@ namespace ouzel
                             case Controller::Type::KEYBOARD:
                             {
                                 connectEvent.type = Event::Type::KEYBOARD_CONNECT;
-                                std::unique_ptr<Keyboard> keyboardController(new Keyboard(event.deviceId));
+                                std::unique_ptr<Keyboard> keyboardController(new Keyboard(*this, event.deviceId));
                                 if (!keyboard) keyboard = keyboardController.get();
                                 connectEvent.keyboardEvent.keyboard = keyboardController.get();
                                 controllers.push_back(keyboardController.get());
@@ -93,7 +93,7 @@ namespace ouzel
                             case Controller::Type::MOUSE:
                             {
                                 connectEvent.type = Event::Type::MOUSE_CONNECT;
-                                std::unique_ptr<Mouse> mouseController(new Mouse(event.deviceId));
+                                std::unique_ptr<Mouse> mouseController(new Mouse(*this, event.deviceId));
                                 connectEvent.mouseEvent.mouse = mouseController.get();
                                 if (!mouse) mouse = mouseController.get();
                                 controllers.push_back(mouseController.get());
@@ -103,7 +103,7 @@ namespace ouzel
                             case Controller::Type::TOUCHPAD:
                             {
                                 connectEvent.type = Event::Type::TOUCHPAD_CONNECT;
-                                std::unique_ptr<Touchpad> touchpadController(new Touchpad(event.deviceId));
+                                std::unique_ptr<Touchpad> touchpadController(new Touchpad(*this, event.deviceId));
                                 connectEvent.touchEvent.touchpad = touchpadController.get();
                                 if (!touchpad) touchpad = touchpadController.get();
                                 controllers.push_back(touchpadController.get());

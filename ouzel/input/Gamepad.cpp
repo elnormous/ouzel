@@ -10,8 +10,8 @@ namespace ouzel
 {
     namespace input
     {
-        Gamepad::Gamepad(uint32_t initDeviceId):
-            Controller(Controller::Type::GAMEPAD, initDeviceId)
+        Gamepad::Gamepad(InputManager& initInputManager, uint32_t initDeviceId):
+            Controller(initInputManager, Controller::Type::GAMEPAD, initDeviceId)
         {
             std::fill(std::begin(vibration), std::end(vibration), 0.0F);
         }
