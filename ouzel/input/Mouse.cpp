@@ -22,7 +22,7 @@ namespace ouzel
             position = newPosition;
 
             InputSystem::Command command;
-            command.type = InputSystem::Command::Type::SET_POSITON;
+            command.type = InputSystem::Command::Type::SET_POSITION;
             command.deviceId = deviceId;
             command.position = position;
             inputManager.getInputSystem()->addCommand(command);

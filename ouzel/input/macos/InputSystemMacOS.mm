@@ -323,7 +323,7 @@ namespace ouzel
                 {
                     break;
                 }
-                case Command::Type::SET_POSITON:
+                case Command::Type::SET_POSITION:
                 {
                     if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
