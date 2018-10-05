@@ -59,5 +59,15 @@ namespace ouzel
                 inputDevices.erase(i);
             }
         }
+
+        InputDevice* InputSystem::getInputDevice(uint32_t id)
+        {
+            auto i = inputDevices.find(id);
+
+            if (i != inputDevices.end())
+                return i->second.get();
+            else
+                return nullptr;
+        }
     } // namespace input
 } // namespace ouzel

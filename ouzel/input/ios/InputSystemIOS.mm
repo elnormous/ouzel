@@ -119,10 +119,9 @@ namespace ouzel
                 }
                 case Command::Type::SET_PLAYER_INDEX:
                 {
-                    auto i = inputDevices.find(command.deviceId);
-                    if (i != inputDevices.end())
+                    if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
-                        GamepadDeviceIOS* gamepadDevice = static_cast<GamepadDeviceIOS*>(i->second.get());
+                        GamepadDeviceIOS* gamepadDevice = static_cast<GamepadDeviceIOS*>(inputDevice);
                         gamepadDevice->setPlayerIndex(command.playerIndex);
                     }
                     break;

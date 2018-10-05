@@ -111,20 +111,18 @@ namespace ouzel
                     break;
                 case Command::Type::SET_ABSOLUTE_DPAD_VALUES:
                 {
-                    auto i = inputDevices.find(command.deviceId);
-                    if (i != inputDevices.end())
+                    if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
-                        GamepadDeviceTVOS* gamepadDevice = static_cast<GamepadDeviceTVOS*>(i->second.get());
+                        GamepadDeviceTVOS* gamepadDevice = static_cast<GamepadDeviceTVOS*>(inputDevice);
                         gamepadDevice->setAbsoluteDPadValues(command.absoluteDPadValues);
                     }
                     break;
                 }
                 case Command::Type::SET_PLAYER_INDEX:
                 {
-                    auto i = inputDevices.find(command.deviceId);
-                    if (i != inputDevices.end())
+                    if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
-                        GamepadDeviceTVOS* gamepadDevice = static_cast<GamepadDeviceTVOS*>(i->second.get());
+                        GamepadDeviceTVOS* gamepadDevice = static_cast<GamepadDeviceTVOS*>(inputDevice);
                         gamepadDevice->setPlayerIndex(command.playerIndex);
                     }
                     break;
