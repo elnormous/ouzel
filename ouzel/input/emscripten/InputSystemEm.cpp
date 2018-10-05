@@ -122,24 +122,41 @@ static EM_BOOL emGamepadCallback(int eventType, const EmscriptenGamepadEvent* ga
     return false;
 }
 
-static EM_BOOL emTouchCallback(int eventType, const EmscriptenTouchEvent *touchEvent, void *userData)
+static EM_BOOL emTouchCallback(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData)
 {
     ouzel::input::TouchpadDevice* touchpadDevice = static_cast<ouzel::input::TouchpadDevice*>(userData);
 
-    switch (eventType)
+    for (int i = 0; i < touchEvent->numTouches; ++i)
     {
-        case EMSCRIPTEN_EVENT_TOUCHSTART:
-            // TODO: implement
-            break;
-        case EMSCRIPTEN_EVENT_TOUCHEND:
-            // TODO: implement
-            break;
-        case EMSCRIPTEN_EVENT_TOUCHMOVE:
-            // TODO: implement
-            break;
-        case EMSCRIPTEN_EVENT_TOUCHCANCEL:
-            // TODO: implement
-            break;
+        if (touchEvent->touches[i].isChanged)
+        {
+            ouzel::Vector2 position(static_cast<float>(touchEvent->touches[i].canvasX),
+                                    static_cast<float>(touchEvent->touches[i].canvasY));
+
+            switch (eventType)
+            {
+                case EMSCRIPTEN_EVENT_TOUCHSTART:
+                    touchpadDevice->handleTouchBegin(static_cast<uint64_t>(touchEvent->touches[i].identifier),
+                                                     ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
+                                                     1.0F);
+                    break;
+                case EMSCRIPTEN_EVENT_TOUCHEND:
+                    touchpadDevice->handleTouchEnd(static_cast<uint64_t>(touchEvent->touches[i].identifier),
+                                                   ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
+                                                   1.0F);
+                    break;
+                case EMSCRIPTEN_EVENT_TOUCHMOVE:
+                    touchpadDevice->handleTouchMove(static_cast<uint64_t>(touchEvent->touches[i].identifier),
+                                                    ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
+                                                    1.0F);
+                    break;
+                case EMSCRIPTEN_EVENT_TOUCHCANCEL:
+                    touchpadDevice->handleTouchCancel(static_cast<uint64_t>(touchEvent->touches[i].identifier),
+                                                      ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
+                                                      1.0F);
+                    break;
+            }
+        }
     }
 
     return false;
