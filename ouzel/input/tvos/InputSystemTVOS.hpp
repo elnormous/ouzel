@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <unordered_map>
 #if defined(__OBJC__)
 #include <GameController/GameController.h>
 typedef GCController* GCControllerPtr;
@@ -46,6 +47,7 @@ namespace ouzel
 
             uint32_t lastDeviceId = 0;
             KeyboardDevice* keyboardDevice = nullptr;
+            std::unordered_map<GCControllerPtr, GamepadDeviceTVOS*> gamepadDevices;
         };
     } // namespace input
 } // namespace ouzel

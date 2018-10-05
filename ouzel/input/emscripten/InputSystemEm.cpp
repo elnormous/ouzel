@@ -396,43 +396,29 @@ namespace ouzel
 
         void InputSystemEm::update()
         {
-            /*for (const std::unique_ptr<Gamepad>& gamepad : gamepads)
+            for (const auto& i : gamepadDevices)
             {
-                GamepadDeviceEm* GamepadDeviceEm = static_cast<GamepadDeviceEm*>(gamepad.get());
-                GamepadDeviceEm->update();
-            }*/
+                GamepadDeviceEm* gamepadDevice = static_cast<GamepadDeviceEm*>(i.second);
+                gamepadDevice->update();
+            }
         }
 
         void InputSystemEm::handleGamepadConnected(long index)
         {
-            /*Event event;
-            event.type = Event::Type::GAMEPAD_CONNECT;
-
-            std::unique_ptr<GamepadDeviceEm> gamepad(new GamepadDeviceEm(index));
-            event.gamepadEvent.gamepad = gamepad.get();
-            gamepads.push_back(std::move(gamepad));
-
-            engine->getEventDispatcher().postEvent(event);*/
+            std::unique_ptr<GamepadDeviceEm> gamepadDevice(new GamepadDeviceEm(*this, ++lastDeviceId, index));
+            gamepadDevices.insert(std::make_pair(index, gamepadDevice.get()));
+            addInputDevice(std::move(gamepadDevice));
         }
 
         void InputSystemEm::handleGamepadDisconnected(long index)
         {
-            /*auto i = std::find_if(gamepads.begin(), gamepads.end(), [index](const std::unique_ptr<Gamepad>& gamepad) {
-                GamepadDeviceEm* currentGamepad = static_cast<GamepadDeviceEm*>(gamepad.get());
-                return currentGamepad->getIndex() == index;
-            });
+            auto i = gamepadDevices.find(index);
 
-            if (i != gamepads.end())
+            if (i != gamepadDevices.end())
             {
-                Event event;
-                event.type = Event::Type::GAMEPAD_DISCONNECT;
-
-                event.gamepadEvent.gamepad = (*i).get();
-
-                engine->getEventDispatcher().postEvent(event);
-
-                gamepads.erase(i);
-            }*/
+                removeInputDevice(i->second);
+                gamepadDevices.erase(i);
+            }
         }
     } // namespace input
 } // namespace ouzel

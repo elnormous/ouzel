@@ -434,8 +434,7 @@ namespace ouzel
 
             if (i != gamepadDevicesGC.end())
             {
-                GamepadDeviceGC* gamepadDeviceGC = i->second;
-                removeInputDevice(gamepadDeviceGC);
+                removeInputDevice(i->second);
                 gamepadDevicesGC.erase(i);
             }
         }
@@ -471,8 +470,7 @@ namespace ouzel
 
             if (i != gamepadDevicesIOKit.end())
             {
-                GamepadDeviceIOKit* gamepadDeviceIOKit = i->second;
-                removeInputDevice(gamepadDeviceIOKit);
+                removeInputDevice(i->second);
                 gamepadDevicesIOKit.erase(i);
             }
         }
