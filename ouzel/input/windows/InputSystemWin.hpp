@@ -28,8 +28,8 @@ namespace ouzel
 
             virtual void executeCommand(Command command) override;
 
-            KeyboardDevice* getKeyboardDevice() const { return keyboardDevice; }
-            MouseDevice* getMouseDevice() const { return mouseDevice; }
+            KeyboardDeviceWin* getKeyboardDevice() const { return keyboardDevice; }
+            MouseDeviceWin* getMouseDevice() const { return mouseDevice; }
             TouchpadDevice* getTouchpadDevice() const { return touchpadDevice; }
 
             void update();
