@@ -21,10 +21,16 @@ namespace ouzel
         void KeyboardDeviceWin::update()
         {
             if (leftShiftDown && (GetKeyState(VK_LSHIFT) & 0x8000) == 0)
+            {
+                leftShiftDown = false;
                 handleKeyRelease(Keyboard::Key::LEFT_SHIFT, 0);
+            }
 
             if (rightShiftDown && (GetKeyState(VK_RSHIFT) & 0x8000) == 0)
+            {
+                rightShiftDown = false;
                 handleKeyRelease(Keyboard::Key::RIGHT_SHIFT, 0);
+            }
         }
     } // namespace input
 } // namespace ouzel
