@@ -391,16 +391,10 @@ namespace ouzel
         switch (key)
         {
             case VK_MENU:
-                if ((lParam & 0x1000000) == 0)
-                    key = VK_LMENU;
-                else
-                    key = VK_RMENU;
+                key = (lParam & 0x1000000) ? VK_RMENU : VK_LMENU;
                 break;
             case VK_CONTROL:
-                if ((lParam & 0x1000000) == 0)
-                    key = VK_LCONTROL;
-                else
-                    key = VK_RCONTROL;
+                key = (lParam & 0x1000000) ? VK_RCONTROL : VK_LCONTROL;
                 break;
             case VK_SHIFT:
                 key = MapVirtualKey((lParam & 0x00ff0000) >> 16, MAPVK_VSC_TO_VK_EX);
