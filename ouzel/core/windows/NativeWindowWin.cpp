@@ -385,7 +385,7 @@ namespace ouzel
     void NativeWindowWin::handleKeyEvent(UINT message, WPARAM wParam, LPARAM lParam)
     {
         ouzel::input::InputSystemWin* inputSystemWin = static_cast<ouzel::input::InputSystemWin*>(ouzel::engine->getInputManager()->getInputSystem());
-        ouzel::input::KeyboardDevice* keyboardDevice = inputSystemWin->getKeyboardDevice();
+        ouzel::input::KeyboardDeviceWin* keyboardDevice = inputSystemWin->getKeyboardDevice();
 
         UINT key = static_cast<UINT>(wParam);
         switch (key)
