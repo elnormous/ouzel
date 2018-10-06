@@ -410,7 +410,7 @@ namespace ouzel
     void NativeWindowWin::handleMouseMoveEvent(UINT, WPARAM wParam, LPARAM lParam)
     {
         ouzel::input::InputSystemWin* inputSystemWin = static_cast<ouzel::input::InputSystemWin*>(ouzel::engine->getInputManager()->getInputSystem());
-        ouzel::input::MouseDevice* mouseDevice = inputSystemWin->getMouseDevice();
+        ouzel::input::MouseDeviceWin* mouseDevice = inputSystemWin->getMouseDevice();
 
         ouzel::Vector2 position(static_cast<float>(GET_X_LPARAM(lParam)),
                                 static_cast<float>(GET_Y_LPARAM(lParam)));
@@ -422,7 +422,7 @@ namespace ouzel
     void NativeWindowWin::handleMouseButtonEvent(UINT message, WPARAM wParam, LPARAM lParam)
     {
         ouzel::input::InputSystemWin* inputSystemWin = static_cast<ouzel::input::InputSystemWin*>(ouzel::engine->getInputManager()->getInputSystem());
-        ouzel::input::MouseDevice* mouseDevice = inputSystemWin->getMouseDevice();
+        ouzel::input::MouseDeviceWin* mouseDevice = inputSystemWin->getMouseDevice();
 
         ouzel::Vector2 position(static_cast<float>(GET_X_LPARAM(lParam)),
                                 static_cast<float>(GET_Y_LPARAM(lParam)));
@@ -460,7 +460,7 @@ namespace ouzel
     void NativeWindowWin::handleMouseWheelEvent(UINT message, WPARAM wParam, LPARAM lParam)
     {
         ouzel::input::InputSystemWin* inputSystemWin = static_cast<ouzel::input::InputSystemWin*>(ouzel::engine->getInputManager()->getInputSystem());
-        ouzel::input::MouseDevice* mouseDevice = inputSystemWin->getMouseDevice();
+        ouzel::input::MouseDeviceWin* mouseDevice = inputSystemWin->getMouseDevice();
 
         ouzel::Vector2 position(static_cast<float>(GET_X_LPARAM(lParam)),
                                 static_cast<float>(GET_Y_LPARAM(lParam)));

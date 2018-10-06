@@ -143,7 +143,7 @@ namespace ouzel
                     case ButtonRelease:
                     {
                         ouzel::input::InputSystemLinux* inputSystemLinux = static_cast<ouzel::input::InputSystemLinux*>(ouzel::engine->getInputManager()->getInputSystem());
-                        ouzel::input::MouseDevice* mouseDevice = inputSystemLinux->getMouseDevice();
+                        ouzel::input::MouseDeviceLinux* mouseDevice = inputSystemLinux->getMouseDevice();
 
                         Vector2 pos(static_cast<float>(event.xbutton.x),
                                     static_cast<float>(event.xbutton.y));
@@ -183,7 +183,7 @@ namespace ouzel
                     case MotionNotify:
                     {
                         ouzel::input::InputSystemLinux* inputSystemLinux = static_cast<ouzel::input::InputSystemLinux*>(ouzel::engine->getInputManager()->getInputSystem());
-                        ouzel::input::MouseDevice* mouseDevice = inputSystemLinux->getMouseDevice();
+                        ouzel::input::MouseDeviceLinux* mouseDevice = inputSystemLinux->getMouseDevice();
 
                         Vector2 pos(static_cast<float>(event.xmotion.x),
                                     static_cast<float>(event.xmotion.y));
