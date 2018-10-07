@@ -237,7 +237,10 @@ namespace ouzel
             return modifiers;
         }
 
-        InputSystemMacOS::InputSystemMacOS()
+        InputSystemMacOS::InputSystemMacOS():
+            keyboardDevice(new KeyboardDevice(*this, ++lastDeviceId)),
+            mouseDevice(new MouseDeviceMacOS(*this, ++lastDeviceId)),
+            touchpadDevice(new TouchpadDevice(*this, ++lastDeviceId))
         {
             connectDelegate = [[ConnectDelegate alloc] initWithInput:this];
 
@@ -273,19 +276,6 @@ namespace ouzel
 
             [GCController startWirelessControllerDiscoveryWithCompletionHandler:
              ^(void){ handleGamepadDiscoveryCompleted(); }];
-
-
-            std::unique_ptr<KeyboardDevice> keyboard(new KeyboardDevice(*this, ++lastDeviceId));
-            keyboardDevice = keyboard.get();
-            addInputDevice(std::move(keyboard));
-
-            std::unique_ptr<MouseDeviceMacOS> mouse(new MouseDeviceMacOS(*this, ++lastDeviceId));
-            mouseDevice = mouse.get();
-            addInputDevice(std::move(mouse));
-
-            std::unique_ptr<TouchpadDevice> touchpad(new TouchpadDevice(*this, ++lastDeviceId));
-            touchpadDevice = touchpad.get();
-            addInputDevice(std::move(touchpad));
         }
 
         InputSystemMacOS::~InputSystemMacOS()
@@ -327,7 +317,7 @@ namespace ouzel
                 {
                     if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
-                        if (inputDevice == mouseDevice)
+                        if (inputDevice == mouseDevice.get())
                             mouseDevice->setPosition(command.position);
                     }
                     break;
@@ -340,7 +330,7 @@ namespace ouzel
                 {
                     if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
-                        if (inputDevice == mouseDevice)
+                        if (inputDevice == mouseDevice.get())
                             mouseDevice->setCursorVisible(command.visible);
                     }
                     break;
@@ -349,7 +339,7 @@ namespace ouzel
                 {
                     if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
-                        if (inputDevice == mouseDevice)
+                        if (inputDevice == mouseDevice.get())
                             mouseDevice->setCursorLocked(command.locked);
                     }
                     break;
@@ -419,8 +409,7 @@ namespace ouzel
             if (supportsGameController)
             {
                 std::unique_ptr<GamepadDeviceGC> gamepadDevice(new GamepadDeviceGC(*this, ++lastDeviceId, controller));
-                gamepadDevicesGC.insert(std::make_pair(controller, gamepadDevice.get()));
-                addInputDevice(std::move(gamepadDevice));
+                gamepadDevicesGC.insert(std::make_pair(controller, std::move(gamepadDevice)));
             }
         }
 
@@ -429,10 +418,7 @@ namespace ouzel
             auto i = gamepadDevicesGC.find(controller);
 
             if (i != gamepadDevicesGC.end())
-            {
-                removeInputDevice(i->second);
                 gamepadDevicesGC.erase(i);
-            }
         }
 
         void InputSystemMacOS::handleGamepadConnected(IOHIDDeviceRef device)
@@ -455,8 +441,7 @@ namespace ouzel
             if (!supportsGameController)
             {
                 std::unique_ptr<GamepadDeviceIOKit> gamepadDevice(new GamepadDeviceIOKit(*this, ++lastDeviceId, device));
-                gamepadDevicesIOKit.insert(std::make_pair(device, gamepadDevice.get()));
-                addInputDevice(std::move(gamepadDevice));
+                gamepadDevicesIOKit.insert(std::make_pair(device, std::move(gamepadDevice)));
             }
         }
 
@@ -465,10 +450,7 @@ namespace ouzel
             auto i = gamepadDevicesIOKit.find(device);
 
             if (i != gamepadDevicesIOKit.end())
-            {
-                removeInputDevice(i->second);
                 gamepadDevicesIOKit.erase(i);
-            }
         }
     } // namespace input
 } // namespace ouzel

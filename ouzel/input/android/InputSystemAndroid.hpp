@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <memory>
 #include <jni.h>
 #include "input/InputSystem.hpp"
 #include "input/android/GamepadDeviceAndroid.hpp"
@@ -20,17 +21,17 @@ namespace ouzel
 
             virtual void executeCommand(Command command) override;
 
-            KeyboardDevice* getKeyboardDevice() const { return keyboardDevice; }
-            MouseDevice* getMouseDevice() const { return mouseDevice; }
-            TouchpadDevice* getTouchpadDevice() const { return touchpadDevice; }
+            KeyboardDevice* getKeyboardDevice() const { return keyboardDevice.get(); }
+            MouseDevice* getMouseDevice() const { return mouseDevice.get(); }
+            TouchpadDevice* getTouchpadDevice() const { return touchpadDevice.get(); }
 
             jboolean handleTouchEvent(jobject event);
 
         private:
             uint32_t lastDeviceId = 0;
-            KeyboardDevice* keyboardDevice = nullptr;
-            MouseDevice* mouseDevice = nullptr;
-            TouchpadDevice* touchpadDevice = nullptr;
+            std::unique_ptr<KeyboardDevice> keyboardDevice;
+            std::unique_ptr<MouseDevice> mouseDevice;
+            std::unique_ptr<TouchpadDevice> touchpadDevice;
 
             JavaVM* javaVM = nullptr;
             jclass inputDeviceClass = nullptr;

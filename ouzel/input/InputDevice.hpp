@@ -14,11 +14,8 @@ namespace ouzel
         class InputDevice
         {
         public:
-            InputDevice(InputSystem& initInputSystem, uint32_t initId, Controller::Type initType):
-                inputSystem(initInputSystem), id(initId), type(initType)
-            {
-            }
-            virtual ~InputDevice() {}
+            InputDevice(InputSystem& initInputSystem, uint32_t initId, Controller::Type initType);
+            virtual ~InputDevice();
 
             inline uint32_t getId() const { return id; }
             inline Controller::Type getType() const { return type; }

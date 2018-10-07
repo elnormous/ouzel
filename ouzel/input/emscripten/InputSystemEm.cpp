@@ -312,37 +312,28 @@ namespace ouzel
             return modifiers;
         }
 
-        InputSystemEm::InputSystemEm()
+        InputSystemEm::InputSystemEm():
+            keyboardDevice(new KeyboardDevice(*this, ++lastDeviceId)),
+            mouseDevice(new MouseDeviceEm(*this, ++lastDeviceId)),
+            touchpadDevice(new TouchpadDevice(*this, ++lastDeviceId))
         {
-            std::unique_ptr<KeyboardDevice> keyboard(new KeyboardDevice(*this, ++lastDeviceId));
-            keyboardDevice = keyboard.get();
-            addInputDevice(std::move(keyboard));
+            emscripten_set_keypress_callback(nullptr, keyboardDevice.get(), true, emKeyCallback);
+            emscripten_set_keydown_callback(nullptr, keyboardDevice.get(), true, emKeyCallback);
+            emscripten_set_keyup_callback(nullptr, keyboardDevice.get(), true, emKeyCallback);
 
-            std::unique_ptr<MouseDeviceEm> mouse(new MouseDeviceEm(*this, ++lastDeviceId));
-            mouseDevice = mouse.get();
-            addInputDevice(std::move(mouse));
-
-            std::unique_ptr<TouchpadDevice> touchpad(new TouchpadDevice(*this, ++lastDeviceId));
-            touchpadDevice = touchpad.get();
-            addInputDevice(std::move(touchpad));
-
-            emscripten_set_keypress_callback(nullptr, keyboardDevice, true, emKeyCallback);
-            emscripten_set_keydown_callback(nullptr, keyboardDevice, true, emKeyCallback);
-            emscripten_set_keyup_callback(nullptr, keyboardDevice, true, emKeyCallback);
-
-            emscripten_set_mousedown_callback("#canvas", mouseDevice, true, emMouseCallback);
-            emscripten_set_mouseup_callback("#canvas", mouseDevice, true, emMouseCallback);
-            emscripten_set_mousemove_callback("#canvas", mouseDevice, true, emMouseCallback);
-            emscripten_set_wheel_callback("#canvas", mouseDevice, true, emWheelCallback);
-            emscripten_set_pointerlockchange_callback(nullptr, mouseDevice, true, emPointerLockChangeCallback);
+            emscripten_set_mousedown_callback("#canvas", mouseDevice.get(), true, emMouseCallback);
+            emscripten_set_mouseup_callback("#canvas", mouseDevice.get(), true, emMouseCallback);
+            emscripten_set_mousemove_callback("#canvas", mouseDevice.get(), true, emMouseCallback);
+            emscripten_set_wheel_callback("#canvas", mouseDevice.get(), true, emWheelCallback);
+            emscripten_set_pointerlockchange_callback(nullptr, mouseDevice.get(), true, emPointerLockChangeCallback);
 
             emscripten_set_gamepadconnected_callback(this, true, emGamepadCallback);
             emscripten_set_gamepaddisconnected_callback(this, true, emGamepadCallback);
 
-            emscripten_set_touchstart_callback("#canvas", touchpadDevice, true, emTouchCallback);
-            emscripten_set_touchend_callback("#canvas", touchpadDevice, true, emTouchCallback);
-            emscripten_set_touchmove_callback("#canvas", touchpadDevice, true, emTouchCallback);
-            emscripten_set_touchcancel_callback("#canvas", touchpadDevice, true, emTouchCallback);
+            emscripten_set_touchstart_callback("#canvas", touchpadDevice.get(), true, emTouchCallback);
+            emscripten_set_touchend_callback("#canvas", touchpadDevice.get(), true, emTouchCallback);
+            emscripten_set_touchmove_callback("#canvas", touchpadDevice.get(), true, emTouchCallback);
+            emscripten_set_touchcancel_callback("#canvas", touchpadDevice.get(), true, emTouchCallback);
 
             int result = emscripten_get_num_gamepads();
 
@@ -383,7 +374,7 @@ namespace ouzel
                 {
                     if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
-                        if (inputDevice == mouseDevice)
+                        if (inputDevice == mouseDevice.get())
                             mouseDevice->setCursorVisible(command.locked);
                     }
                     break;
@@ -392,7 +383,7 @@ namespace ouzel
                 {
                     if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
-                        if (inputDevice == mouseDevice)
+                        if (inputDevice == mouseDevice.get())
                             mouseDevice->setCursorLocked(command.locked);
                     }
                     break;
@@ -410,7 +401,7 @@ namespace ouzel
         {
             for (const auto& i : gamepadDevices)
             {
-                GamepadDeviceEm* gamepadDevice = static_cast<GamepadDeviceEm*>(i.second);
+                GamepadDeviceEm* gamepadDevice = static_cast<GamepadDeviceEm*>(i.second.get());
                 gamepadDevice->update();
             }
         }
@@ -418,8 +409,7 @@ namespace ouzel
         void InputSystemEm::handleGamepadConnected(long index)
         {
             std::unique_ptr<GamepadDeviceEm> gamepadDevice(new GamepadDeviceEm(*this, ++lastDeviceId, index));
-            gamepadDevices.insert(std::make_pair(index, gamepadDevice.get()));
-            addInputDevice(std::move(gamepadDevice));
+            gamepadDevices.insert(std::make_pair(index, std::move(gamepadDevice)));
         }
 
         void InputSystemEm::handleGamepadDisconnected(long index)
@@ -427,10 +417,7 @@ namespace ouzel
             auto i = gamepadDevices.find(index);
 
             if (i != gamepadDevices.end())
-            {
-                removeInputDevice(i->second);
                 gamepadDevices.erase(i);
-            }
         }
     } // namespace input
 } // namespace ouzel

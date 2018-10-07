@@ -2,9 +2,11 @@
 
 #pragma once
 
+#include <memory>
 #include <unordered_map>
 #include <emscripten/html5.h>
 #include "input/InputSystem.hpp"
+#include "input/emscripten/GamepadDeviceEm.hpp"
 #include "input/emscripten/MouseDeviceEm.hpp"
 
 namespace ouzel
@@ -25,9 +27,9 @@ namespace ouzel
 
             virtual void executeCommand(Command command) override;
 
-            KeyboardDevice* getKeyboardDevice() const { return keyboardDevice; }
-            MouseDeviceEm* getMouseDevice() const { return mouseDevice; }
-            TouchpadDevice* getTouchpadDevice() const { return touchpadDevice; }
+            KeyboardDevice* getKeyboardDevice() const { return keyboardDevice.get(); }
+            MouseDeviceEm* getMouseDevice() const { return mouseDevice.get(); }
+            TouchpadDevice* getTouchpadDevice() const { return touchpadDevice.get(); }
 
             void update();
 
@@ -36,10 +38,10 @@ namespace ouzel
 
         private:
             uint32_t lastDeviceId = 0;
-            KeyboardDevice* keyboardDevice = nullptr;
-            MouseDeviceEm* mouseDevice = nullptr;
-            TouchpadDevice* touchpadDevice = nullptr;
-            std::unordered_map<long, GamepadDeviceEm*> gamepadDevices;
+            std::unique_ptr<KeyboardDevice> keyboardDevice;
+            std::unique_ptr<MouseDeviceEm> mouseDevice;
+            std::unique_ptr<TouchpadDevice> touchpadDevice;
+            std::unordered_map<long, std::unique_ptr<GamepadDeviceEm>> gamepadDevices;
         };
     } // namespace input
 } // namespace ouzel

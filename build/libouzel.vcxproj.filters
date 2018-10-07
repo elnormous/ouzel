@@ -421,6 +421,9 @@
     <ClCompile Include="..\ouzel\utils\XML.cpp">
       <Filter>ouzel\utils</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\input\InputDevice.cpp">
+      <Filter>ouzel\input</Filter>
+    </ClCompile>
     <ClCompile Include="..\ouzel\input\InputSystem.cpp">
       <Filter>ouzel\input</Filter>
     </ClCompile>

@@ -35,26 +35,26 @@ namespace ouzel
             eventQueue.push(event);
         }
 
-        void InputSystem::addInputDevice(std::unique_ptr<InputDevice>&& inputDevice)
+        void InputSystem::addInputDevice(InputDevice& inputDevice)
         {
             Event deviceConnectEvent;
             deviceConnectEvent.type = Event::Type::DEVICE_CONNECT;
-            deviceConnectEvent.deviceId = inputDevice->getId();
-            deviceConnectEvent.deviceType = inputDevice->getType();
-            inputDevices.insert(std::make_pair(inputDevice->getId(), std::move(inputDevice)));
+            deviceConnectEvent.deviceId = inputDevice.getId();
+            deviceConnectEvent.deviceType = inputDevice.getType();
+            inputDevices.insert(std::make_pair(inputDevice.getId(), &inputDevice));
             addEvent(deviceConnectEvent);
         }
 
-        void InputSystem::removeInputDevice(const InputDevice* inputDevice)
+        void InputSystem::removeInputDevice(const InputDevice& inputDevice)
         {
-            auto i = inputDevices.find(inputDevice->getId());
+            auto i = inputDevices.find(inputDevice.getId());
 
             if (i != inputDevices.end())
             {
                 Event deviceDisconnectEvent;
                 deviceDisconnectEvent.type = Event::Type::DEVICE_DISCONNECT;
-                deviceDisconnectEvent.deviceId = inputDevice->getId();
-                deviceDisconnectEvent.deviceType = inputDevice->getType();
+                deviceDisconnectEvent.deviceId = inputDevice.getId();
+                deviceDisconnectEvent.deviceType = inputDevice.getType();
                 addEvent(deviceDisconnectEvent);
                 inputDevices.erase(i);
             }
@@ -65,7 +65,7 @@ namespace ouzel
             auto i = inputDevices.find(id);
 
             if (i != inputDevices.end())
-                return i->second.get();
+                return i->second;
             else
                 return nullptr;
         }

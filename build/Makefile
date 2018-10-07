@@ -111,6 +111,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/input/Cursor.cpp \
 	$(ROOT_DIR)/../ouzel/input/Gamepad.cpp \
 	$(ROOT_DIR)/../ouzel/input/GamepadDevice.cpp \
+	$(ROOT_DIR)/../ouzel/input/InputDevice.cpp \
 	$(ROOT_DIR)/../ouzel/input/InputManager.cpp \
 	$(ROOT_DIR)/../ouzel/input/InputSystem.cpp \
 	$(ROOT_DIR)/../ouzel/input/Keyboard.cpp \

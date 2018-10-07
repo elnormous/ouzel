@@ -3,6 +3,7 @@
 #pragma once
 
 #include "core/Setup.h"
+#include <memory>
 #include <unordered_map>
 #if OUZEL_SUPPORTS_X11
 #  include <X11/keysym.h>
@@ -34,22 +35,22 @@ namespace ouzel
 
             virtual void executeCommand(Command command) override;
 
-            KeyboardDeviceLinux* getKeyboardDevice() const { return keyboardDevice; }
-            MouseDeviceLinux* getMouseDevice() const { return mouseDevice; }
-            TouchpadDevice* getTouchpadDevice() const { return touchpadDevice; }
+            KeyboardDeviceLinux* getKeyboardDevice() const { return keyboardDevice.get(); }
+            MouseDeviceLinux* getMouseDevice() const { return mouseDevice.get(); }
+            TouchpadDevice* getTouchpadDevice() const { return touchpadDevice.get(); }
 
             void update();
 
         private:
             void discoverDevices();
 
+            uint32_t lastDeviceId = 0;
+            std::unique_ptr<KeyboardDeviceLinux> keyboardDevice;
+            std::unique_ptr<MouseDeviceLinux> mouseDevice;
+            std::unique_ptr<TouchpadDevice> touchpadDevice;
+
             int maxFd = 0;
             std::unordered_map<int, EventDevice> eventDevices;
-
-            uint32_t lastDeviceId = 0;
-            KeyboardDeviceLinux* keyboardDevice = nullptr;
-            MouseDeviceLinux* mouseDevice = nullptr;
-            TouchpadDevice* touchpadDevice = nullptr;
         };
     }
 }

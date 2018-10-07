@@ -64,16 +64,10 @@ namespace ouzel
                 return Keyboard::Key::NONE;
         }
 
-        InputSystemIOS::InputSystemIOS()
+        InputSystemIOS::InputSystemIOS():
+            keyboardDevice(new KeyboardDevice(*this, ++lastDeviceId)),
+            touchpadDevice(new TouchpadDevice(*this, ++lastDeviceId))
         {
-            std::unique_ptr<KeyboardDevice> keyboard(new KeyboardDevice(*this, ++lastDeviceId));
-            keyboardDevice = keyboard.get();
-            addInputDevice(std::move(keyboard));
-
-            std::unique_ptr<TouchpadDevice> touchpad(new TouchpadDevice(*this, ++lastDeviceId));
-            touchpadDevice = touchpad.get();
-            addInputDevice(std::move(touchpad));
-
             connectDelegate = [[ConnectDelegate alloc] initWithInput:this];
 
             [[NSNotificationCenter defaultCenter] addObserver:connectDelegate
@@ -170,8 +164,7 @@ namespace ouzel
             if (!playerIndices.empty()) controller.playerIndex = static_cast<GCControllerPlayerIndex>(playerIndices.front());
 
             std::unique_ptr<GamepadDeviceIOS> gamepadDevice(new GamepadDeviceIOS(*this, ++lastDeviceId, controller));
-            gamepadDevices.insert(std::make_pair(controller, gamepadDevice.get()));
-            addInputDevice(std::move(gamepadDevice));
+            gamepadDevices.insert(std::make_pair(controller, std::move(gamepadDevice)));
         }
 
         void InputSystemIOS::handleGamepadDisconnected(GCControllerPtr controller)
@@ -179,10 +172,7 @@ namespace ouzel
             auto i = gamepadDevices.find(controller);
 
             if (i != gamepadDevices.end())
-            {
-                removeInputDevice(i->second);
                 gamepadDevices.erase(i);
-            }
         }
 
         void InputSystemIOS::showVirtualKeyboard()
