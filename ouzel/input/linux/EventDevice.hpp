@@ -3,25 +3,24 @@
 #pragma once
 
 #include <cstdint>
+#include <memory>
 #include <string>
+#include "math/Vector2.hpp"
 
 namespace ouzel
 {
     namespace input
     {
+        class InputSystem;
+        class KeyboardDevice;
+        class GamepadDevice;
+        class MouseDevice;
+        class TouchpadDevice;
+
         class EventDevice final
         {
         public:
-            enum DeviceClass
-            {
-                CLASS_NONE = 0,
-                CLASS_KEYBOARD = 1,
-                CLASS_MOUSE = 2,
-                CLASS_TOUCHPAD = 4,
-                CLASS_GAMEPAD = 8
-            };
-
-            EventDevice(const std::string& initFilename);
+            EventDevice(InputSystem& inputSystem, const std::string& initFilename);
             ~EventDevice();
 
             EventDevice(const EventDevice& other) = delete;
@@ -30,12 +29,15 @@ namespace ouzel
             EventDevice(EventDevice&& other)
             {
                 fd = other.fd;
-                deviceClass = other.deviceClass;
                 name = std::move(name);
                 vendor = other.vendor;
                 product = other.product;
+                keyboardDevice = std::move(other.keyboardDevice);
+                gamepadDevice = std::move(other.gamepadDevice);
+                mouseDevice = std::move(other.mouseDevice);
+                touchpadDevice = std::move(other.touchpadDevice);
+
                 other.fd = -1;
-                other.deviceClass = 0;
                 other.vendor = 0;
                 other.product = 0;
             }
@@ -45,12 +47,15 @@ namespace ouzel
                 if (&other != this)
                 {
                     fd = other.fd;
-                    deviceClass = other.deviceClass;
                     name = std::move(name);
                     vendor = other.vendor;
                     product = other.product;
+                    keyboardDevice = std::move(other.keyboardDevice);
+                    gamepadDevice = std::move(other.gamepadDevice);
+                    mouseDevice = std::move(other.mouseDevice);
+                    touchpadDevice = std::move(other.touchpadDevice);
+
                     other.fd = -1;
-                    other.deviceClass = 0;
                     other.vendor = 0;
                     other.product = 0;
                 }
@@ -60,20 +65,21 @@ namespace ouzel
 
             void update();
 
-            inline uint32_t getDeviceClass() const { return deviceClass; }
             inline int getFd() const { return fd; }
-            const std::string& getFilename() const { return filename; }
-            const std::string& getName() const { return name; }
-            uint16_t getVendor() const { return vendor; }
-            uint16_t getProduct() const { return product; }
 
         private:
-            uint32_t deviceClass = CLASS_NONE;
             int fd = -1;
             std::string filename;
             std::string name;
             uint16_t vendor = 0;
             uint16_t product = 0;
+
+            std::unique_ptr<KeyboardDevice> keyboardDevice;
+            std::unique_ptr<GamepadDevice> gamepadDevice;
+            std::unique_ptr<MouseDevice> mouseDevice;
+            std::unique_ptr<TouchpadDevice> touchpadDevice;
+
+            Vector2 cursorPosition;
         };
     } // namespace input
 } // namespace ouzel

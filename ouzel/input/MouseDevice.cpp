@@ -39,6 +39,16 @@ namespace ouzel
             inputSystem.addEvent(event);
         }
 
+        void MouseDevice::handleRelativeMove(const Vector2& position, uint32_t modifiers)
+        {
+            InputSystem::Event event;
+            event.type = InputSystem::Event::Type::MOUSE_RELATIVE_MOVE;
+            event.deviceId = id;
+            event.position = position;
+            event.modifiers = modifiers;
+            inputSystem.addEvent(event);
+        }
+
         void MouseDevice::handleScroll(const Vector2& scroll, const Vector2& position, uint32_t modifiers)
         {
             InputSystem::Event event;

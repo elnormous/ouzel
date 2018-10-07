@@ -5,23 +5,28 @@
 #include <linux/input.h>
 #include "EventDevice.hpp"
 #include "InputSystemLinux.hpp"
+#include "input/KeyboardDevice.hpp"
+#include "input/GamepadDevice.hpp"
+#include "input/MouseDevice.hpp"
+#include "input/TouchpadDevice.hpp"
+#include "core/Engine.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
+static const uint32_t BITS_PER_LONG = 8 * sizeof(long);
 #define DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d))
-#define BITS_PER_LONG (8 * sizeof(long))
 #define BITS_TO_LONGS(nr) DIV_ROUND_UP(nr, BITS_PER_LONG)
 
 static inline bool isBitSet(const unsigned long* array, int bit)
 {
-    return !!(array[bit / BITS_PER_LONG] & (1LL << (bit % BITS_PER_LONG)));
+    return (array[bit / BITS_PER_LONG] & (1LL << (bit % BITS_PER_LONG))) != 0;
 }
 
 namespace ouzel
 {
     namespace input
     {
-        EventDevice::EventDevice(const std::string& initFilename):
+        EventDevice::EventDevice(InputSystem& inputSystem, const std::string& initFilename):
             filename(initFilename)
         {
             fd = open(filename.c_str(), O_RDONLY);
@@ -64,54 +69,28 @@ namespace ouzel
                     isBitSet(keyBits, KEY_9) ||
                     isBitSet(keyBits, KEY_0)
                 ))
-            {
-                Log(Log::Level::INFO) << "Device class: keyboard";
-                deviceClass |= EventDevice::CLASS_KEYBOARD;
-            }
+                keyboardDevice.reset(new KeyboardDevice(inputSystem, 0));
 
             if (isBitSet(eventBits, EV_ABS) && isBitSet(absBits, ABS_X) && isBitSet(absBits, ABS_Y))
             {
-                if (isBitSet(keyBits, BTN_STYLUS) || isBitSet(keyBits, BTN_TOOL_PEN))
-                {
-                    Log(Log::Level::INFO) << "Device class: tablet";
-                    deviceClass |= EventDevice::CLASS_TOUCHPAD;
-                }
-                else if (isBitSet(keyBits, BTN_TOOL_FINGER) && !isBitSet(keyBits, BTN_TOOL_PEN))
-                {
-                    Log(Log::Level::INFO) << "Device class: touchpad";
-                    deviceClass |= EventDevice::CLASS_TOUCHPAD;
-                }
-                else if (isBitSet(keyBits, BTN_MOUSE))
-                {
-                    Log(Log::Level::INFO) << "Device class: mouse";
-                    deviceClass |= EventDevice::CLASS_MOUSE;
-                }
-                else if (isBitSet(keyBits, BTN_TOUCH))
-                {
-                    Log(Log::Level::INFO) << "Device class: touchscreen";
-                    deviceClass |= EventDevice::CLASS_TOUCHPAD;
-                }
+                if (isBitSet(keyBits, BTN_STYLUS) || isBitSet(keyBits, BTN_TOOL_PEN)) // tablet
+                    touchpadDevice.reset(new TouchpadDevice(inputSystem, 0));
+                else if (isBitSet(keyBits, BTN_TOOL_FINGER) && !isBitSet(keyBits, BTN_TOOL_PEN)) // touchpad
+                    touchpadDevice.reset(new TouchpadDevice(inputSystem, 0));
+                else if (isBitSet(keyBits, BTN_MOUSE)) // mouse
+                    mouseDevice.reset(new MouseDevice(inputSystem, 0));
+                else if (isBitSet(keyBits, BTN_TOUCH)) // touchscreen
+                    touchpadDevice.reset(new TouchpadDevice(inputSystem, 0));
             }
             else if (isBitSet(eventBits, EV_REL) && isBitSet(relBits, REL_X) && isBitSet(relBits, REL_Y))
             {
                 if (isBitSet(keyBits, BTN_MOUSE))
-                {
-                    Log(Log::Level::INFO) << "Device class: mouse";
-                    deviceClass |= EventDevice::CLASS_MOUSE;
-                }
+                    mouseDevice.reset(new MouseDevice(inputSystem, 0));
             }
 
-            if (isBitSet(keyBits, BTN_JOYSTICK))
-            {
-                Log(Log::Level::INFO) << "Device class: joystick";
-                deviceClass |= EventDevice::CLASS_GAMEPAD;
-            }
-
-            if (isBitSet(keyBits, BTN_GAMEPAD))
-            {
-                Log(Log::Level::INFO) << "Device class: gamepad";
-                deviceClass |= EventDevice::CLASS_GAMEPAD;
-            }
+            if (isBitSet(keyBits, BTN_JOYSTICK) || // joystick
+                isBitSet(keyBits, BTN_GAMEPAD)) // gamepad
+                gamepadDevice.reset(new GamepadDevice(inputSystem, 0));
 
             struct input_id id;
             ioctl(fd, EVIOCGID, &id);
@@ -133,7 +112,6 @@ namespace ouzel
         void EventDevice::update()
         {
             // TODO: buffer data
-            // TODO: move this code to EventDevice
             static char TEMP_BUFFER[256];
             ssize_t bytesRead = read(fd, TEMP_BUFFER, sizeof(TEMP_BUFFER));
 
@@ -144,32 +122,26 @@ namespace ouzel
             {
                 input_event* event = reinterpret_cast<input_event*>(TEMP_BUFFER + i);
 
-                if (deviceClass & EventDevice::CLASS_KEYBOARD)
+                if (keyboardDevice)
                 {
                     if (event->type == EV_KEY)
                     {
                         if (event->value == 1 || event->value == 2) // press or repeat
-                        {
-                            //keyPress(convertKeyCode(event->code), getModifiers());
-                        }
+                            keyboardDevice->handleKeyPress(InputSystemLinux::convertKeyCode(event->code), 0);
                         else if (event->value == 0) // release
-                        {
-                            //keyRelease(convertKeyCode(event->code), getModifiers());
-                        }
+                            keyboardDevice->handleKeyRelease(InputSystemLinux::convertKeyCode(event->code), 0);
                     }
                 }
-                if (deviceClass & EventDevice::CLASS_MOUSE)
+                if (mouseDevice)
                 {
                     if (event->type == EV_ABS)
                     {
-                        /*Vector2 absolutePos = cursorPosition;
-
                         if (event->code == ABS_X)
-                            absolutePos.x = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(event->value), 0.0F)).x;
+                            cursorPosition.x = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(event->value), 0.0F)).x;
                         else if (event->code == ABS_Y)
-                            absolutePos.y = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(0.0F, static_cast<float>(event->value))).y;*/
+                            cursorPosition.y = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(0.0F, static_cast<float>(event->value))).y;
 
-                        //mouseMove(absolutePos, getModifiers());
+                        mouseDevice->handleMove(cursorPosition, 0);
                     }
                     else if (event->type == EV_REL)
                     {
@@ -180,7 +152,7 @@ namespace ouzel
                         else if (event->code == REL_Y)
                             relativePos.y = static_cast<float>(event->value);
 
-                        //mouseRelativeMove(engine->getWindow()->convertWindowToNormalizedLocation(relativePos), getModifiers());
+                        mouseDevice->handleRelativeMove(engine->getWindow()->convertWindowToNormalizedLocation(relativePos), 0);
                     }
                     else if (event->type == EV_KEY)
                     {
@@ -206,20 +178,16 @@ namespace ouzel
                         }
 
                         if (event->value == 1)
-                        {
-                            //mouseButtonPress(button, cursorPosition, getModifiers());
-                        }
+                            mouseDevice->handleButtonPress(button, cursorPosition, 0);
                         else if (event->value == 0)
-                        {
-                            //mouseButtonRelease(button, cursorPosition, getModifiers());
-                        }
+                            mouseDevice->handleButtonRelease(button, cursorPosition, 0);
                     }
                 }
-                if (deviceClass & EventDevice::CLASS_TOUCHPAD)
+                if (touchpadDevice)
                 {
                     // TODO: implement
                 }
-                if (deviceClass & EventDevice::CLASS_GAMEPAD)
+                if (gamepadDevice)
                 {
                     // TODO: implement
                 }
