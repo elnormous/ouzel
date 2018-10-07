@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <memory>
 #include <string>
+#include <vector>
 #include "math/Vector2.hpp"
 
 namespace ouzel
@@ -73,6 +74,7 @@ namespace ouzel
             std::string name;
             uint16_t vendor = 0;
             uint16_t product = 0;
+            std::vector<uint8_t> data;
 
             std::unique_ptr<KeyboardDevice> keyboardDevice;
             std::unique_ptr<GamepadDevice> gamepadDevice;
