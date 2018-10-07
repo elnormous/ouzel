@@ -230,9 +230,10 @@ namespace ouzel
             switch (command.type)
             {
                 case Command::Type::START_DEVICE_DISCOVERY:
-                    discoverGamepads();
+                    discovering = true;
                     break;
                 case Command::Type::STOP_DEVICE_DISCOVERY:
+                    discovering = false;
                     break;
                 case Command::Type::SET_PLAYER_INDEX:
                 {
@@ -309,29 +310,29 @@ namespace ouzel
                     i = gamepadsDI.erase(i);
                 }
             }
-        }
 
-        void InputSystemWin::discoverGamepads()
-        {
-            for (DWORD userIndex = 0; userIndex < XUSER_MAX_COUNT; ++userIndex)
+            if (discovering)
             {
-                if (!gamepadsXI[userIndex])
+                for (DWORD userIndex = 0; userIndex < XUSER_MAX_COUNT; ++userIndex)
                 {
-                    XINPUT_STATE state;
-                    ZeroMemory(&state, sizeof(XINPUT_STATE));
+                    if (!gamepadsXI[userIndex])
+                    {
+                        XINPUT_STATE state;
+                        ZeroMemory(&state, sizeof(XINPUT_STATE));
 
-                    DWORD result = XInputGetState(userIndex, &state);
+                        DWORD result = XInputGetState(userIndex, &state);
 
-                    if (result == ERROR_SUCCESS)
-                        gamepadsXI[userIndex].reset(new GamepadDeviceXI(*this, ++lastDeviceId, userIndex));
-                    else if (result != ERROR_DEVICE_NOT_CONNECTED)
-                        Log(Log::Level::WARN) << "Failed to get state for gamepad " << userIndex;
+                        if (result == ERROR_SUCCESS)
+                            gamepadsXI[userIndex].reset(new GamepadDeviceXI(*this, ++lastDeviceId, userIndex));
+                        else if (result != ERROR_DEVICE_NOT_CONNECTED)
+                            Log(Log::Level::WARN) << "Failed to get state for gamepad " << userIndex;
+                    }
                 }
-            }
 
-            HRESULT hr = directInput->EnumDevices(DI8DEVCLASS_GAMECTRL, enumDevicesCallback, this, DIEDFL_ATTACHEDONLY);
-            if (FAILED(hr))
-                throw SystemError("Failed to enumerate devices, error: " + std::to_string(hr));
+                HRESULT hr = directInput->EnumDevices(DI8DEVCLASS_GAMECTRL, enumDevicesCallback, this, DIEDFL_ATTACHEDONLY);
+                if (FAILED(hr))
+                    throw SystemError("Failed to enumerate devices, error: " + std::to_string(hr));
+            }
         }
 
         void InputSystemWin::handleDeviceConnect(const DIDEVICEINSTANCEW* didInstance)
