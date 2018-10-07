@@ -24,10 +24,10 @@
 #include "network/Network.hpp"
 #include "utils/INI.hpp"
 
-std::unique_ptr<ouzel::Application> ouzelMain(const std::vector<std::string>& args);
-
 namespace ouzel
 {
+    std::unique_ptr<Application> main(const std::vector<std::string>& args);
+
     const std::string SHADER_TEXTURE = "shaderTexture";
     const std::string SHADER_COLOR = "shaderColor";
 
