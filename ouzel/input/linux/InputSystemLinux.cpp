@@ -432,13 +432,10 @@ namespace ouzel
                     try
                     {
                         std::string filename = std::string("/dev/input/") + ent.d_name;
-                        EventDevice inputDevice(filename);
+                        EventDevice inputDevice(*this, filename);
 
-                        if (inputDevice.getDeviceClass() != EventDevice::CLASS_NONE)
-                        {
-                            if (inputDevice.getFd() > maxFd) maxFd = inputDevice.getFd();
-                            eventDevices.insert(std::make_pair(inputDevice.getFd(), std::move(inputDevice)));
-                        }
+                        if (inputDevice.getFd() > maxFd) maxFd = inputDevice.getFd();
+                        eventDevices.insert(std::make_pair(inputDevice.getFd(), std::move(inputDevice)));
                     }
                     catch (...)
                     {
@@ -549,13 +546,10 @@ namespace ouzel
                         try
                         {
                             std::string filename = std::string("/dev/input/") + ent.d_name;
-                            EventDevice inputDevice(filename);
+                            EventDevice inputDevice(*this, filename);
 
-                            if (inputDevice.getDeviceClass() != EventDevice::CLASS_NONE)
-                            {
-                                if (inputDevice.getFd() > maxFd) maxFd = inputDevice.getFd();
-                                eventDevices.insert(std::make_pair(inputDevice.getFd(), std::move(inputDevice)));
-                            }
+                            if (inputDevice.getFd() > maxFd) maxFd = inputDevice.getFd();
+                            eventDevices.insert(std::make_pair(inputDevice.getFd(), std::move(inputDevice)));
                         }
                         catch (...)
                         {

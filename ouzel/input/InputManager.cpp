@@ -244,6 +244,16 @@ namespace ouzel
                         }
                         break;
                     }
+                    case InputSystem::Event::Type::MOUSE_RELATIVE_MOVE:
+                    {
+                        auto i = controllerMap.find(event.deviceId);
+                        if (i != controllerMap.end())
+                        {
+                            Mouse* mouseController = static_cast<Mouse*>(i->second.get());
+                            mouseController->handleRelativeMove(event.position, event.modifiers);
+                        }
+                        break;
+                    }
                     case InputSystem::Event::Type::MOUSE_LOCK_CHANGED:
                     {
                         auto i = controllerMap.find(event.deviceId);

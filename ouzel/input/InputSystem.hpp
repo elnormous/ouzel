@@ -75,6 +75,7 @@ namespace ouzel
                     MOUSE_RELEASE,
                     MOUSE_SCROLL,
                     MOUSE_MOVE,
+                    MOUSE_RELATIVE_MOVE,
                     MOUSE_LOCK_CHANGED,
 
                     TOUCH_BEGIN,
