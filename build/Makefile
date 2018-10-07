@@ -188,6 +188,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/alsa/AudioDeviceALSA.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/linux/RenderDeviceOGLLinux.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/EventDevice.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/InputSystemLinux.cpp \
+	$(ROOT_DIR)/../ouzel/input/linux/KeyboardDeviceLinux.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/MouseDeviceLinux.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/NativeCursorLinux.cpp
 ifneq ($(filter arm%,$(architecture)),) # ARM Linux
