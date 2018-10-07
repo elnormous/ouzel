@@ -411,7 +411,7 @@ namespace ouzel
         InputSystemLinux::InputSystemLinux()
         {
 #if OUZEL_SUPPORTS_X11
-            std::unique_ptr<KeyboardDevice> keyboard(new KeyboardDevice(*this, ++lastDeviceId));
+            std::unique_ptr<KeyboardDeviceLinux> keyboard(new KeyboardDeviceLinux(*this, ++lastDeviceId));
             keyboardDevice = keyboard.get();
             addInputDevice(std::move(keyboard));
 
