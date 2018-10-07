@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <memory>
 #include <unordered_map>
 #include <IOKit/hid/IOHIDManager.h>
 
@@ -39,9 +40,9 @@ namespace ouzel
 
             virtual void executeCommand(Command command) override;
 
-            KeyboardDevice* getKeyboardDevice() const { return keyboardDevice; }
-            MouseDeviceMacOS* getMouseDevice() const { return mouseDevice; }
-            TouchpadDevice* getTouchpadDevice() const { return touchpadDevice; }
+            KeyboardDevice* getKeyboardDevice() const { return keyboardDevice.get(); }
+            MouseDeviceMacOS* getMouseDevice() const { return mouseDevice.get(); }
+            TouchpadDevice* getTouchpadDevice() const { return touchpadDevice.get(); }
 
             void handleGamepadDiscoveryCompleted();
 
@@ -54,18 +55,15 @@ namespace ouzel
             void startGamepadDiscovery();
             void stopGamepadDiscovery();
 
+            uint32_t lastDeviceId = 0;
+            std::unique_ptr<KeyboardDevice> keyboardDevice;
+            std::unique_ptr<MouseDeviceMacOS> mouseDevice;
+            std::unique_ptr<TouchpadDevice> touchpadDevice;
+            std::unordered_map<GCControllerPtr, std::unique_ptr<GamepadDeviceGC>> gamepadDevicesGC;
+            std::unordered_map<IOHIDDeviceRef, std::unique_ptr<GamepadDeviceIOKit>> gamepadDevicesIOKit;
+
             id connectDelegate = nil;
             IOHIDManagerRef hidManager = nullptr;
-
-            uint32_t lastDeviceId = 0;
-            KeyboardDevice* keyboardDevice = nullptr;
-            MouseDeviceMacOS* mouseDevice = nullptr;
-            TouchpadDevice* touchpadDevice = nullptr;
-            std::unordered_map<GCControllerPtr, GamepadDeviceGC*> gamepadDevicesGC;
-            std::unordered_map<IOHIDDeviceRef, GamepadDeviceIOKit*> gamepadDevicesIOKit;
-
-            bool cursorVisible = true;
-            bool cursorLocked = false;
         };
     }
 }

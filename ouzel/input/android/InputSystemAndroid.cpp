@@ -117,20 +117,11 @@ namespace ouzel
                 return Keyboard::Key::NONE;
         }
 
-        InputSystemAndroid::InputSystemAndroid()
+        InputSystemAndroid::InputSystemAndroid():
+            keyboardDevice(new KeyboardDevice(*this, ++lastDeviceId)),
+            mouseDevice(new MouseDevice(*this, ++lastDeviceId)),
+            touchpadDevice(new TouchpadDevice(*this, ++lastDeviceId))
         {
-            std::unique_ptr<KeyboardDevice> keyboard(new KeyboardDevice(*this, ++lastDeviceId));
-            keyboardDevice = keyboard.get();
-            addInputDevice(std::move(keyboard));
-
-            std::unique_ptr<MouseDevice> mouse(new MouseDevice(*this, ++lastDeviceId));
-            mouseDevice = mouse.get();
-            addInputDevice(std::move(mouse));
-
-            std::unique_ptr<TouchpadDevice> touchpad(new TouchpadDevice(*this, ++lastDeviceId));
-            touchpadDevice = touchpad.get();
-            addInputDevice(std::move(touchpad));
-
             EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(engine);
             javaVM = engineAndroid->getJavaVM();
             JNIEnv* jniEnv;

@@ -129,6 +129,7 @@
     <ClCompile Include="..\ouzel\input\MouseDevice.cpp" />
     <ClCompile Include="..\ouzel\input\NativeCursor.cpp" />
     <ClCompile Include="..\ouzel\input\Gamepad.cpp" />
+    <ClCompile Include="..\ouzel\input\InputDevice.cpp" />
     <ClCompile Include="..\ouzel\input\InputManager.cpp" />
     <ClCompile Include="..\ouzel\input\InputSystem.cpp" />
     <ClCompile Include="..\ouzel\input\Touchpad.cpp" />

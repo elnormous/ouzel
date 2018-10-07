@@ -408,22 +408,15 @@ namespace ouzel
             return modifiers;
         }
 
-        InputSystemLinux::InputSystemLinux()
-        {
 #if OUZEL_SUPPORTS_X11
-            std::unique_ptr<KeyboardDeviceLinux> keyboard(new KeyboardDeviceLinux(*this, ++lastDeviceId));
-            keyboardDevice = keyboard.get();
-            addInputDevice(std::move(keyboard));
-
-            std::unique_ptr<MouseDeviceLinux> mouse(new MouseDeviceLinux(*this, ++lastDeviceId));
-            mouseDevice = mouse.get();
-            addInputDevice(std::move(mouse));
-
-            std::unique_ptr<TouchpadDevice> touchpad(new TouchpadDevice(*this, ++lastDeviceId));
-            touchpadDevice = touchpad.get();
-            addInputDevice(std::move(touchpad));
+        InputSystemLinux::InputSystemLinux():
+            keyboardDevice(new KeyboardDeviceLinux(*this, ++lastDeviceId)),
+            mouseDevice(new MouseDeviceLinux(*this, ++lastDeviceId)),
+            touchpadDevice(new TouchpadDevice(*this, ++lastDeviceId))
+#else
+        InputSystemLinux::InputSystemLinux()
 #endif
-
+        {
             DIR* dir = opendir("/dev/input");
 
             if (!dir)
@@ -481,7 +474,7 @@ namespace ouzel
                 {
                     if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
-                        if (inputDevice == mouseDevice)
+                        if (inputDevice == mouseDevice.get())
                             mouseDevice->setPosition(command.position);
                     }
                     break;
@@ -494,7 +487,7 @@ namespace ouzel
                 {
                     if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
-                        if (inputDevice == mouseDevice)
+                        if (inputDevice == mouseDevice.get())
                             mouseDevice->setCursorVisible(command.visible);
                     }
                     break;
@@ -503,7 +496,7 @@ namespace ouzel
                 {
                     if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
-                        if (inputDevice == mouseDevice)
+                        if (inputDevice == mouseDevice.get())
                             mouseDevice->setCursorLocked(command.locked);
                     }
                     break;

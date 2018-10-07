@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <memory>
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 #include <Xinput.h>
@@ -28,9 +29,9 @@ namespace ouzel
 
             virtual void executeCommand(Command command) override;
 
-            KeyboardDeviceWin* getKeyboardDevice() const { return keyboardDevice; }
-            MouseDeviceWin* getMouseDevice() const { return mouseDevice; }
-            TouchpadDevice* getTouchpadDevice() const { return touchpadDevice; }
+            KeyboardDeviceWin* getKeyboardDevice() const { return keyboardDevice.get(); }
+            MouseDeviceWin* getMouseDevice() const { return mouseDevice.get(); }
+            TouchpadDevice* getTouchpadDevice() const { return touchpadDevice.get(); }
 
             void update();
 
@@ -40,14 +41,14 @@ namespace ouzel
         private:
             void discoverGamepads();
 
-            IDirectInput8W* directInput = nullptr;
-            std::vector<GamepadDeviceDI*> gamepadsDI;
-            GamepadDeviceXI* gamepadsXI[XUSER_MAX_COUNT];
-
             uint32_t lastDeviceId = 0;
-            KeyboardDeviceWin* keyboardDevice = nullptr;
-            MouseDeviceWin* mouseDevice = nullptr;
-            TouchpadDevice* touchpadDevice = nullptr;
+            std::unique_ptr<KeyboardDeviceWin> keyboardDevice;
+            std::unique_ptr<MouseDeviceWin> mouseDevice;
+            std::unique_ptr<TouchpadDevice> touchpadDevice;
+
+            IDirectInput8W* directInput = nullptr;
+            std::vector<std::unique_ptr<GamepadDeviceDI>> gamepadsDI;
+            std::unique_ptr<GamepadDeviceXI> gamepadsXI[XUSER_MAX_COUNT];
         };
     }
 }

@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <memory>
 #include <unordered_map>
 #if defined(__OBJC__)
 #include <GameController/GameController.h>
@@ -30,8 +31,8 @@ namespace ouzel
 
             virtual void executeCommand(Command command) override;
 
-            KeyboardDevice* getKeyboardDevice() const { return keyboardDevice; }
-            TouchpadDevice* getTouchpadDevice() const { return touchpadDevice; }
+            KeyboardDevice* getKeyboardDevice() const { return keyboardDevice.get(); }
+            TouchpadDevice* getTouchpadDevice() const { return touchpadDevice.get(); }
 
             void handleGamepadDiscoveryCompleted();
             void handleGamepadConnected(GCControllerPtr controller);
@@ -44,12 +45,12 @@ namespace ouzel
             void showVirtualKeyboard();
             void hideVirtualKeyboard();
 
-            id connectDelegate = nil;
-
             uint32_t lastDeviceId = 0;
-            KeyboardDevice* keyboardDevice = nullptr;
-            TouchpadDevice* touchpadDevice = nullptr;
-            std::unordered_map<GCControllerPtr, GamepadDeviceIOS*> gamepadDevices;
+            std::unique_ptr<KeyboardDevice> keyboardDevice;
+            std::unique_ptr<TouchpadDevice> touchpadDevice;
+            std::unordered_map<GCControllerPtr, std::unique_ptr<GamepadDeviceIOS>> gamepadDevices;
+
+            id connectDelegate = nil;
         };
     } // namespace input
 } // namespace ouzel

@@ -3,7 +3,6 @@
 #pragma once
 
 #include <cstdint>
-#include <memory>
 #include <mutex>
 #include <queue>
 #include <unordered_map>
@@ -20,6 +19,7 @@ namespace ouzel
     {
         class InputSystem
         {
+            friend InputDevice;
             friend GamepadDevice;
             friend KeyboardDevice;
             friend MouseDevice;
@@ -115,11 +115,11 @@ namespace ouzel
 
         protected:
             void addEvent(const Event& event);
-            void addInputDevice(std::unique_ptr<InputDevice>&& inputDevice);
-            void removeInputDevice(const InputDevice* inputDevice);
+            void addInputDevice(InputDevice& inputDevice);
+            void removeInputDevice(const InputDevice& inputDevice);
             InputDevice* getInputDevice(uint32_t id);
 
-            std::unordered_map<uint32_t, std::unique_ptr<InputDevice>> inputDevices;
+            std::unordered_map<uint32_t, InputDevice*> inputDevices;
 
         private:
             mutable std::mutex eventQueueMutex;

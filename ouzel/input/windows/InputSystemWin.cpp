@@ -190,22 +190,11 @@ namespace ouzel
             return modifiers;
         }
 
-        InputSystemWin::InputSystemWin()
+        InputSystemWin::InputSystemWin():
+            keyboardDevice(new KeyboardDeviceWin(*this, ++lastDeviceId)),
+            mouseDevice(new MouseDeviceWin(*this, ++lastDeviceId)),
+            touchpadDevice(new TouchpadDevice(*this, ++lastDeviceId))
         {
-            std::unique_ptr<KeyboardDeviceWin> keyboard(new KeyboardDeviceWin(*this, ++lastDeviceId));
-            keyboardDevice = keyboard.get();
-            addInputDevice(std::move(keyboard));
-
-            std::unique_ptr<MouseDeviceWin> mouse(new MouseDeviceWin(*this, ++lastDeviceId));
-            mouseDevice = mouse.get();
-            addInputDevice(std::move(mouse));
-
-            std::unique_ptr<TouchpadDevice> touchpad(new TouchpadDevice(*this, ++lastDeviceId));
-            touchpadDevice = touchpad.get();
-            addInputDevice(std::move(touchpad));
-
-            std::fill(std::begin(gamepadsXI), std::end(gamepadsXI), nullptr);
-
             HINSTANCE instance = GetModuleHandleW(nullptr);
             HRESULT hr = DirectInput8Create(instance, DIRECTINPUT_VERSION, IID_IDirectInput8W, reinterpret_cast<LPVOID*>(&directInput), nullptr);
             if (FAILED(hr))
@@ -220,9 +209,7 @@ namespace ouzel
 
                 if (result == ERROR_SUCCESS)
                 {
-                    std::unique_ptr<GamepadDeviceXI> gamepadDevice(new GamepadDeviceXI(*this, ++lastDeviceId, userIndex));
-                    gamepadsXI[userIndex] = gamepadDevice.get();
-                    addInputDevice(std::move(gamepadDevice));
+                    gamepadsXI[userIndex].reset(new GamepadDeviceXI(*this, ++lastDeviceId, userIndex));
                 }
                 else if (result != ERROR_DEVICE_NOT_CONNECTED)
                     Log(Log::Level::WARN) << "Failed to get state for gamepad " << userIndex;
@@ -259,7 +246,7 @@ namespace ouzel
                 {
                     if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
-                        if (inputDevice == mouseDevice)
+                        if (inputDevice == mouseDevice.get())
                             mouseDevice->setPosition(command.position);
                     }
                     break;
@@ -272,7 +259,7 @@ namespace ouzel
                 {
                     if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
-                        if (inputDevice == mouseDevice)
+                        if (inputDevice == mouseDevice.get())
                             mouseDevice->setCursorVisible(command.visible);
                     }
                     break;
@@ -281,7 +268,7 @@ namespace ouzel
                 {
                     if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
-                        if (inputDevice == mouseDevice)
+                        if (inputDevice == mouseDevice.get())
                             mouseDevice->setCursorLocked(command.locked);
                     }
                     break;
@@ -297,34 +284,28 @@ namespace ouzel
 
             for (DWORD userIndex = 0; userIndex < XUSER_MAX_COUNT; ++userIndex)
             {
-                GamepadDeviceXI* gamepadXI = gamepadsXI[userIndex];
-
-                if (gamepadXI)
+                if (gamepadsXI[userIndex])
                 {
                     try
                     {
-                        gamepadXI->update();
+                        gamepadsXI[userIndex]->update();
                     }
                     catch (...)
                     {
-                        removeInputDevice(gamepadXI);
-                        gamepadsXI[userIndex] = nullptr;
+                        gamepadsXI[userIndex].reset();
                     }
                 }
             }
 
             for (auto i = gamepadsDI.begin(); i != gamepadsDI.end();)
             {
-                GamepadDeviceDI* gamepadDI = *i;
-
                 try
                 {
-                    gamepadDI->update();
+                    (*i)->update();
                     ++i;
                 }
                 catch (...)
                 {
-                    removeInputDevice(gamepadDI);
                     i = gamepadsDI.erase(i);
                 }
             }
@@ -342,11 +323,7 @@ namespace ouzel
                     DWORD result = XInputGetState(userIndex, &state);
 
                     if (result == ERROR_SUCCESS)
-                    {
-                        std::unique_ptr<GamepadDeviceXI> gamepadDevice(new GamepadDeviceXI(*this, ++lastDeviceId, userIndex));
-                        gamepadsXI[userIndex] = gamepadDevice.get();
-                        addInputDevice(std::move(gamepadDevice));
-                    }
+                        gamepadsXI[userIndex].reset(new GamepadDeviceXI(*this, ++lastDeviceId, userIndex));
                     else if (result != ERROR_DEVICE_NOT_CONNECTED)
                         Log(Log::Level::WARN) << "Failed to get state for gamepad " << userIndex;
                 }
@@ -442,9 +419,7 @@ namespace ouzel
 
                 for (auto i = gamepadsDI.begin(); i != gamepadsDI.end();)
                 {
-                    GamepadDeviceDI* gamepadDI = *i;
-
-                    if (gamepadDI->getInstance()->guidInstance == didInstance->guidInstance)
+                    if ((*i)->getInstance()->guidInstance == didInstance->guidInstance)
                     {
                         found = true;
                         break;
@@ -455,11 +430,9 @@ namespace ouzel
                 {
                     NativeWindowWin* windowWin = static_cast<NativeWindowWin*>(engine->getWindow()->getNativeWindow());
 
-                    std::unique_ptr<GamepadDeviceDI> gamepadDevice(new GamepadDeviceDI(*this, ++lastDeviceId, 
-                                                                                       didInstance, directInput,
-                                                                                       windowWin->getNativeWindow()));
-                    gamepadsDI.push_back(gamepadDevice.get());
-                    addInputDevice(std::move(gamepadDevice));
+                    gamepadsDI.push_back(new GamepadDeviceDI(*this, ++lastDeviceId, 
+                                                             didInstance, directInput,
+                                                             windowWin->getNativeWindow()));
                 }
             }
         }
