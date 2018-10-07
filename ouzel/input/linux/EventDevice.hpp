@@ -11,7 +11,7 @@ namespace ouzel
 {
     namespace input
     {
-        class InputSystem;
+        class InputSystemLinux;
         class KeyboardDevice;
         class GamepadDevice;
         class MouseDevice;
@@ -20,7 +20,7 @@ namespace ouzel
         class EventDevice final
         {
         public:
-            EventDevice(InputSystem& inputSystem, const std::string& initFilename);
+            EventDevice(InputSystemLinux& inputSystem, const std::string& initFilename);
             ~EventDevice();
 
             EventDevice(const EventDevice& other) = delete;

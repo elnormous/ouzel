@@ -37,6 +37,8 @@ namespace ouzel
             MouseDeviceLinux* getMouseDevice() const { return mouseDevice.get(); }
             TouchpadDevice* getTouchpadDevice() const { return touchpadDevice.get(); }
 
+            uint32_t getNextDeviceId() { return ++lastDeviceId; }
+
             void update();
 
         private:
