@@ -26,7 +26,7 @@ namespace ouzel
 {
     namespace input
     {
-        EventDevice::EventDevice(InputSystem& inputSystem, const std::string& initFilename):
+        EventDevice::EventDevice(InputSystemLinux& inputSystem, const std::string& initFilename):
             filename(initFilename)
         {
             fd = open(filename.c_str(), O_RDONLY);
@@ -69,28 +69,28 @@ namespace ouzel
                     isBitSet(keyBits, KEY_9) ||
                     isBitSet(keyBits, KEY_0)
                 ))
-                keyboardDevice.reset(new KeyboardDevice(inputSystem, 0));
+                keyboardDevice.reset(new KeyboardDevice(inputSystem, inputSystem.getNextDeviceId()));
 
             if (isBitSet(eventBits, EV_ABS) && isBitSet(absBits, ABS_X) && isBitSet(absBits, ABS_Y))
             {
                 if (isBitSet(keyBits, BTN_STYLUS) || isBitSet(keyBits, BTN_TOOL_PEN)) // tablet
-                    touchpadDevice.reset(new TouchpadDevice(inputSystem, 0));
+                    touchpadDevice.reset(new TouchpadDevice(inputSystem, inputSystem.getNextDeviceId()));
                 else if (isBitSet(keyBits, BTN_TOOL_FINGER) && !isBitSet(keyBits, BTN_TOOL_PEN)) // touchpad
-                    touchpadDevice.reset(new TouchpadDevice(inputSystem, 0));
+                    touchpadDevice.reset(new TouchpadDevice(inputSystem, inputSystem.getNextDeviceId()));
                 else if (isBitSet(keyBits, BTN_MOUSE)) // mouse
-                    mouseDevice.reset(new MouseDevice(inputSystem, 0));
+                    mouseDevice.reset(new MouseDevice(inputSystem, inputSystem.getNextDeviceId()));
                 else if (isBitSet(keyBits, BTN_TOUCH)) // touchscreen
-                    touchpadDevice.reset(new TouchpadDevice(inputSystem, 0));
+                    touchpadDevice.reset(new TouchpadDevice(inputSystem, inputSystem.getNextDeviceId()));
             }
             else if (isBitSet(eventBits, EV_REL) && isBitSet(relBits, REL_X) && isBitSet(relBits, REL_Y))
             {
                 if (isBitSet(keyBits, BTN_MOUSE))
-                    mouseDevice.reset(new MouseDevice(inputSystem, 0));
+                    mouseDevice.reset(new MouseDevice(inputSystem, inputSystem.getNextDeviceId()));
             }
 
             if (isBitSet(keyBits, BTN_JOYSTICK) || // joystick
                 isBitSet(keyBits, BTN_GAMEPAD)) // gamepad
-                gamepadDevice.reset(new GamepadDevice(inputSystem, 0));
+                gamepadDevice.reset(new GamepadDevice(inputSystem, inputSystem.getNextDeviceId()));
 
             struct input_id id;
             ioctl(fd, EVIOCGID, &id);
@@ -156,22 +156,18 @@ namespace ouzel
                     }
                     else if (event->type == EV_KEY)
                     {
-                        Mouse::Button button;
-                        int buttonIndex = -1;
+                        Mouse::Button button = Mouse::Button::NONE;
 
                         switch (event->code)
                         {
                         case BTN_LEFT:
                             button = Mouse::Button::LEFT;
-                            buttonIndex = 0;
                             break;
                         case BTN_RIGHT:
                             button = Mouse::Button::RIGHT;
-                            buttonIndex =  1;
                             break;
                         case BTN_MIDDLE:
                             button = Mouse::Button::MIDDLE;
-                            buttonIndex = 2;
                             break;
                         default:
                             button = Mouse::Button::NONE;
