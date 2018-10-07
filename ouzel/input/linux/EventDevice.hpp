@@ -58,6 +58,8 @@ namespace ouzel
                 return *this;
             }
 
+            void update();
+
             inline uint32_t getDeviceClass() const { return deviceClass; }
             inline int getFd() const { return fd; }
             const std::string& getFilename() const { return filename; }
