@@ -402,9 +402,9 @@ namespace ouzel
         }
 
         if (message == WM_KEYDOWN || message == WM_SYSKEYDOWN)
-            keyboardDevice->handleKeyPress(ouzel::input::InputSystemWin::convertKeyCode(key), 0);
+            keyboardDevice->handleKeyPress(ouzel::input::InputSystemWin::convertKeyCode(key));
         else if (message == WM_KEYUP || message == WM_SYSKEYUP)
-            keyboardDevice->handleKeyRelease(ouzel::input::InputSystemWin::convertKeyCode(key), 0);
+            keyboardDevice->handleKeyRelease(ouzel::input::InputSystemWin::convertKeyCode(key));
     }
 
     void NativeWindowWin::handleMouseMoveEvent(UINT, WPARAM wParam, LPARAM lParam)
@@ -415,8 +415,7 @@ namespace ouzel
         ouzel::Vector2 position(static_cast<float>(GET_X_LPARAM(lParam)),
                                 static_cast<float>(GET_Y_LPARAM(lParam)));
 
-        mouseDevice->handleMove(ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
-                                ouzel::input::InputSystemWin::getModifiers(wParam));
+        mouseDevice->handleMove(ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
     }
 
     void NativeWindowWin::handleMouseButtonEvent(UINT message, WPARAM wParam, LPARAM lParam)
@@ -449,12 +448,10 @@ namespace ouzel
 
         if (message == WM_LBUTTONDOWN || message == WM_RBUTTONDOWN || message == WM_MBUTTONDOWN || message == WM_XBUTTONDOWN)
             mouseDevice->handleButtonPress(button,
-                                        ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
-                                        ouzel::input::InputSystemWin::getModifiers(wParam));
+                                           ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
         else if (message == WM_LBUTTONUP || message == WM_RBUTTONUP || message == WM_MBUTTONUP || message == WM_XBUTTONUP)
             mouseDevice->handleButtonRelease(button,
-                                            ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
-                                            ouzel::input::InputSystemWin::getModifiers(wParam));
+                                             ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
     }
 
     void NativeWindowWin::handleMouseWheelEvent(UINT message, WPARAM wParam, LPARAM lParam)
@@ -469,15 +466,13 @@ namespace ouzel
         {
             short param = static_cast<short>(HIWORD(wParam));
             mouseDevice->handleScroll(ouzel::Vector2(0.0F, -static_cast<float>(param) / static_cast<float>(WHEEL_DELTA)),
-                                    ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
-                                    ouzel::input::InputSystemWin::getModifiers(wParam));
+                                      ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
         }
         else if (message == WM_MOUSEHWHEEL)
         {
             short param = static_cast<short>(HIWORD(wParam));
             mouseDevice->handleScroll(ouzel::Vector2(static_cast<float>(param) / static_cast<float>(WHEEL_DELTA), 0.0F),
-                                    ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
-                                    ouzel::input::InputSystemWin::getModifiers(wParam));
+                                      ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
         }
     }
 

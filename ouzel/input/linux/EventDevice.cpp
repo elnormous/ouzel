@@ -127,9 +127,9 @@ namespace ouzel
                     if (event->type == EV_KEY)
                     {
                         if (event->value == 1 || event->value == 2) // press or repeat
-                            keyboardDevice->handleKeyPress(InputSystemLinux::convertKeyCode(event->code), 0);
+                            keyboardDevice->handleKeyPress(InputSystemLinux::convertKeyCode(event->code));
                         else if (event->value == 0) // release
-                            keyboardDevice->handleKeyRelease(InputSystemLinux::convertKeyCode(event->code), 0);
+                            keyboardDevice->handleKeyRelease(InputSystemLinux::convertKeyCode(event->code));
                     }
                 }
                 if (mouseDevice)
@@ -141,7 +141,7 @@ namespace ouzel
                         else if (event->code == ABS_Y)
                             cursorPosition.y = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(0.0F, static_cast<float>(event->value))).y;
 
-                        mouseDevice->handleMove(cursorPosition, 0);
+                        mouseDevice->handleMove(cursorPosition);
                     }
                     else if (event->type == EV_REL)
                     {
@@ -152,7 +152,7 @@ namespace ouzel
                         else if (event->code == REL_Y)
                             relativePos.y = static_cast<float>(event->value);
 
-                        mouseDevice->handleRelativeMove(engine->getWindow()->convertWindowToNormalizedLocation(relativePos), 0);
+                        mouseDevice->handleRelativeMove(engine->getWindow()->convertWindowToNormalizedLocation(relativePos));
                     }
                     else if (event->type == EV_KEY)
                     {
@@ -178,9 +178,9 @@ namespace ouzel
                         }
 
                         if (event->value == 1)
-                            mouseDevice->handleButtonPress(button, cursorPosition, 0);
+                            mouseDevice->handleButtonPress(button, cursorPosition);
                         else if (event->value == 0)
-                            mouseDevice->handleButtonRelease(button, cursorPosition, 0);
+                            mouseDevice->handleButtonRelease(button, cursorPosition);
                     }
                 }
                 if (touchpadDevice)

@@ -15,12 +15,10 @@ static EM_BOOL emKeyCallback(int eventType, const EmscriptenKeyboardEvent* keyEv
     {
         case EMSCRIPTEN_EVENT_KEYPRESS:
         case EMSCRIPTEN_EVENT_KEYDOWN:
-            keyboardDevice->handleKeyPress(ouzel::input::InputSystemEm::convertKeyCode(keyEvent->code),
-                                           ouzel::input::InputSystemEm::getKeyboardModifiers(keyEvent));
+            keyboardDevice->handleKeyPress(ouzel::input::InputSystemEm::convertKeyCode(keyEvent->code));
             return true;
         case EMSCRIPTEN_EVENT_KEYUP:
-            keyboardDevice->handleKeyRelease(ouzel::input::InputSystemEm::convertKeyCode(keyEvent->code),
-                                             ouzel::input::InputSystemEm::getKeyboardModifiers(keyEvent));
+            keyboardDevice->handleKeyRelease(ouzel::input::InputSystemEm::convertKeyCode(keyEvent->code));
             return true;
     }
 
@@ -55,17 +53,14 @@ static EM_BOOL emMouseCallback(int eventType, const EmscriptenMouseEvent* mouseE
     {
         case EMSCRIPTEN_EVENT_MOUSEDOWN:
             mouseDevice->handleButtonPress(button,
-                                           ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
-                                           ouzel::input::InputSystemEm::getMouseModifiers(mouseEvent));
+                                           ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
             return true;
         case EMSCRIPTEN_EVENT_MOUSEUP:
             mouseDevice->handleButtonRelease(button,
-                                             ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
-                                             ouzel::input::InputSystemEm::getMouseModifiers(mouseEvent));
+                                             ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
             return true;
         case EMSCRIPTEN_EVENT_MOUSEMOVE:
-            mouseDevice->handleMove(ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
-                                    ouzel::input::InputSystemEm::getMouseModifiers(mouseEvent));
+            mouseDevice->handleMove(ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
             return true;
     }
 
@@ -82,8 +77,7 @@ static EM_BOOL emWheelCallback(int eventType, const EmscriptenWheelEvent* wheelE
                                 static_cast<float>(wheelEvent->mouse.canvasY));
 
         mouseDevice->handleScroll(ouzel::Vector2(static_cast<float>(wheelEvent->deltaX), static_cast<float>(wheelEvent->deltaY)),
-                                  ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
-                                  ouzel::input::InputSystemEm::getMouseModifiers(&wheelEvent->mouse));
+                                  ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
 
         return true;
     }
@@ -282,34 +276,6 @@ namespace ouzel
                 return i->second;
             else
                 return Keyboard::Key::NONE;
-        }
-
-        uint32_t InputSystemEm::getKeyboardModifiers(const EmscriptenKeyboardEvent* keyboardEvent)
-        {
-            uint32_t modifiers = 0;
-
-            if (keyboardEvent->ctrlKey) modifiers |= ouzel::CONTROL_DOWN;
-            if (keyboardEvent->shiftKey) modifiers |= ouzel::SHIFT_DOWN;
-            if (keyboardEvent->altKey) modifiers |= ouzel::ALT_DOWN;
-            if (keyboardEvent->metaKey) modifiers |= ouzel::SUPER_DOWN;
-
-            return modifiers;
-        }
-
-        uint32_t InputSystemEm::getMouseModifiers(const EmscriptenMouseEvent* mouseEvent)
-        {
-            uint32_t modifiers = 0;
-
-            if (mouseEvent->ctrlKey) modifiers |= ouzel::CONTROL_DOWN;
-            if (mouseEvent->shiftKey) modifiers |= ouzel::SHIFT_DOWN;
-            if (mouseEvent->altKey) modifiers |= ouzel::ALT_DOWN;
-            if (mouseEvent->metaKey) modifiers |= ouzel::SUPER_DOWN;
-
-            if (mouseEvent->buttons & (1 << 0)) modifiers |= LEFT_MOUSE_DOWN;
-            if (mouseEvent->buttons & (1 << 1)) modifiers |= RIGHT_MOUSE_DOWN;
-            if (mouseEvent->buttons & (1 << 2)) modifiers |= MIDDLE_MOUSE_DOWN;
-
-            return modifiers;
         }
 
         InputSystemEm::InputSystemEm():

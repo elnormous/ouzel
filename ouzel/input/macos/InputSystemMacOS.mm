@@ -217,26 +217,6 @@ namespace ouzel
                 return 0;
         }
 
-        uint32_t InputSystemMacOS::getModifiers(NSUInteger modifierFlags, NSUInteger pressedMouseButtons)
-        {
-            uint32_t modifiers = 0;
-
-            if (modifierFlags & NSShiftKeyMask) modifiers |= SHIFT_DOWN;
-            if (modifierFlags & NSAlternateKeyMask) modifiers |= ALT_DOWN;
-            if (modifierFlags & NSControlKeyMask) modifiers |= CONTROL_DOWN;
-            if (modifierFlags & NSCommandKeyMask) modifiers |= SUPER_DOWN;
-            if (modifierFlags & NSFunctionKeyMask) modifiers |= FUNCTION_DOWN;
-
-            if (pressedMouseButtons)
-            {
-                if (pressedMouseButtons & (1 << 0)) modifiers |= LEFT_MOUSE_DOWN;
-                if (pressedMouseButtons & (1 << 1)) modifiers |= RIGHT_MOUSE_DOWN;
-                if (pressedMouseButtons & (1 << 2)) modifiers |= MIDDLE_MOUSE_DOWN;
-            }
-
-            return modifiers;
-        }
-
         InputSystemMacOS::InputSystemMacOS():
             keyboardDevice(new KeyboardDevice(*this, ++lastDeviceId)),
             mouseDevice(new MouseDeviceMacOS(*this, ++lastDeviceId)),

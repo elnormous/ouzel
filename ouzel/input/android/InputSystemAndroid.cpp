@@ -197,7 +197,7 @@ namespace ouzel
 
                     if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
                     {
-                        mouseDevice->handleButtonPress(Mouse::Button::LEFT, engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)), 0);
+                        mouseDevice->handleButtonPress(Mouse::Button::LEFT, engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
                         return true;
                     }
                     else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
@@ -221,7 +221,7 @@ namespace ouzel
 
                     if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
                     {
-                        mouseDevice->handleButtonPress(Mouse::Button::LEFT, engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)), 0);
+                        mouseDevice->handleButtonPress(Mouse::Button::LEFT, engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
                         return true;
                     }
                     else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
@@ -244,7 +244,7 @@ namespace ouzel
 
                     if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
                     {
-                        mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)), 0);
+                        mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
                         return true;
                     }
                     else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
@@ -267,7 +267,7 @@ namespace ouzel
 
                     if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
                     {
-                        mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)), 0);
+                        mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
                         return true;
                     }
                     else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
@@ -290,7 +290,7 @@ namespace ouzel
 
                     if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
                     {
-                        mouseDevice->handleButtonRelease(Mouse::Button::LEFT, engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)), 0);
+                        mouseDevice->handleButtonRelease(Mouse::Button::LEFT, engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
                         return true;
                     }
                     else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
@@ -314,7 +314,7 @@ namespace ouzel
 
                     if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
                     {
-                        mouseDevice->handleButtonRelease(Mouse::Button::LEFT, engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)), 0);
+                        mouseDevice->handleButtonRelease(Mouse::Button::LEFT, engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
                         return true;
                     }
                     else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
@@ -338,7 +338,7 @@ namespace ouzel
 
                     if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
                     {
-                        mouseDevice->handleButtonRelease(Mouse::Button::LEFT, engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)), 0);
+                        mouseDevice->handleButtonRelease(Mouse::Button::LEFT, engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
                         return true;
                     }
                     else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||

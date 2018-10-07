@@ -7,23 +7,21 @@ namespace ouzel
 {
     namespace input
     {
-        void KeyboardDevice::handleKeyPress(Keyboard::Key key, uint32_t modifiers)
+        void KeyboardDevice::handleKeyPress(Keyboard::Key key)
         {
             InputSystem::Event event;
             event.type = InputSystem::Event::Type::KEY_PRESS;
             event.deviceId = id;
             event.keyboardKey = key;
-            event.modifiers = modifiers;
             inputSystem.addEvent(event);
         }
 
-        void KeyboardDevice::handleKeyRelease(Keyboard::Key key, uint32_t modifiers)
+        void KeyboardDevice::handleKeyRelease(Keyboard::Key key)
         {
             InputSystem::Event event;
             event.type = InputSystem::Event::Type::KEY_RELEASE;
             event.deviceId = id;
             event.keyboardKey = key;
-            event.modifiers = modifiers;
             inputSystem.addEvent(event);
         }
     } // namespace input

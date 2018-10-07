@@ -16,12 +16,11 @@ namespace ouzel
             std::fill(std::begin(keyStates), std::end(keyStates), false);
         }
 
-        void Keyboard::handleKeyPress(Keyboard::Key key, uint32_t modifiers)
+        void Keyboard::handleKeyPress(Keyboard::Key key)
         {
             Event event;
             event.keyboardEvent.keyboard = this;
             event.keyboardEvent.key = key;
-            event.keyboardEvent.modifiers = modifiers;
 
             if (!keyStates[static_cast<uint32_t>(key)])
             {
@@ -37,7 +36,7 @@ namespace ouzel
             }
         }
 
-        void Keyboard::handleKeyRelease(Keyboard::Key key, uint32_t modifiers)
+        void Keyboard::handleKeyRelease(Keyboard::Key key)
         {
             keyStates[static_cast<uint32_t>(key)] = false;
 
@@ -45,7 +44,6 @@ namespace ouzel
             event.type = Event::Type::KEY_RELEASE;
             event.keyboardEvent.keyboard = this;
             event.keyboardEvent.key = key;
-            event.keyboardEvent.modifiers = modifiers;
 
             engine->getEventDispatcher().postEvent(event, true);
         }

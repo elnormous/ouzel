@@ -222,19 +222,6 @@ namespace ouzel
             else
                 return Keyboard::Key::NONE;
         }
-
-        uint32_t InputSystemLinux::getModifiers(unsigned int state)
-        {
-            uint32_t modifiers = 0;
-
-            if (state & ShiftMask) modifiers |= SHIFT_DOWN;
-            if (state & ControlMask) modifiers |= CONTROL_DOWN;
-            if (state & Button1Mask) modifiers |= LEFT_MOUSE_DOWN;
-            if (state & Button2Mask) modifiers |= RIGHT_MOUSE_DOWN;
-            if (state & Button3Mask) modifiers |= MIDDLE_MOUSE_DOWN;
-
-            return modifiers;
-        }
 #else
         static const std::unordered_map<uint16_t, Keyboard::Key> keyMap = {
             {KEY_ESC, Keyboard::Key::ESCAPE},
@@ -390,23 +377,6 @@ namespace ouzel
                 return Keyboard::Key::NONE;
         }
 #endif
-
-        uint32_t InputSystemLinux::getModifiers() const
-        {
-            uint32_t modifiers = 0;
-
-            // TODO: implement
-            /*if (keyboardKeyDown[KEY_LEFTSHIFT] || keyboardKeyDown[KEY_RIGHTSHIFT]) modifiers |= SHIFT_DOWN;
-            if (keyboardKeyDown[KEY_LEFTALT] || keyboardKeyDown[KEY_RIGHTALT]) modifiers |= ALT_DOWN;
-            if (keyboardKeyDown[KEY_LEFTCTRL] || keyboardKeyDown[KEY_RIGHTCTRL]) modifiers |= CONTROL_DOWN;
-            if (keyboardKeyDown[KEY_LEFTMETA] || keyboardKeyDown[KEY_RIGHTMETA]) modifiers |= SUPER_DOWN;
-
-            if (mouseButtonDown[0]) modifiers |= LEFT_MOUSE_DOWN;
-            if (mouseButtonDown[1]) modifiers |= RIGHT_MOUSE_DOWN;
-            if (mouseButtonDown[2]) modifiers |= MIDDLE_MOUSE_DOWN;*/
-
-            return modifiers;
-        }
 
 #if OUZEL_SUPPORTS_X11
         InputSystemLinux::InputSystemLinux():

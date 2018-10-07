@@ -84,7 +84,7 @@
     ouzel::input::InputSystemIOS* inputSystemIOS = static_cast<ouzel::input::InputSystemIOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::KeyboardDevice* keyboardDevice = inputSystemIOS->getKeyboardDevice();
     for (UIPress* press in presses)
-        keyboardDevice->handleKeyPress(ouzel::input::InputSystemIOS::convertKeyCode(press.type), 0);
+        keyboardDevice->handleKeyPress(ouzel::input::InputSystemIOS::convertKeyCode(press.type));
 }
 
 -(void)pressesEnded:(NSSet<UIPress*>*)presses withEvent:(__unused UIPressesEvent*)event
@@ -92,7 +92,7 @@
     ouzel::input::InputSystemIOS* inputSystemIOS = static_cast<ouzel::input::InputSystemIOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::KeyboardDevice* keyboardDevice = inputSystemIOS->getKeyboardDevice();
     for (UIPress* press in presses)
-        keyboardDevice->handleKeyRelease(ouzel::input::InputSystemIOS::convertKeyCode(press.type), 0);
+        keyboardDevice->handleKeyRelease(ouzel::input::InputSystemIOS::convertKeyCode(press.type));
 }
 
 -(void)pressesCancelled:(NSSet<UIPress*>*)presses withEvent:(__unused UIPressesEvent*)event
@@ -100,7 +100,7 @@
     ouzel::input::InputSystemIOS* inputSystemIOS = static_cast<ouzel::input::InputSystemIOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::KeyboardDevice* keyboardDevice = inputSystemIOS->getKeyboardDevice();
     for (UIPress* press in presses)
-        keyboardDevice->handleKeyRelease(ouzel::input::InputSystemIOS::convertKeyCode(press.type), 0);
+        keyboardDevice->handleKeyRelease(ouzel::input::InputSystemIOS::convertKeyCode(press.type));
 }
 
 @end

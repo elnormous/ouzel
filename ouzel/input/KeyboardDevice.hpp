@@ -17,8 +17,8 @@ namespace ouzel
             {
             }
 
-            void handleKeyPress(Keyboard::Key key, uint32_t modifiers);
-            void handleKeyRelease(Keyboard::Key key, uint32_t modifiers);
+            void handleKeyPress(Keyboard::Key key);
+            void handleKeyRelease(Keyboard::Key key);
         };
     } // namespace input
 } // namespace ouzel
