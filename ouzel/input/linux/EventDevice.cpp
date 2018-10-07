@@ -111,16 +111,17 @@ namespace ouzel
 
         void EventDevice::update()
         {
-            // TODO: buffer data
             static char TEMP_BUFFER[256];
             ssize_t bytesRead = read(fd, TEMP_BUFFER, sizeof(TEMP_BUFFER));
 
             if (bytesRead == -1)
                 throw SystemError("Failed to read from " + filename); // TODO: disconnect the device
 
-            for (ssize_t i = 0; i < bytesRead - static_cast<ssize_t>(sizeof(input_event)) + 1; i += sizeof(input_event))
+            data.insert(data.end(), TEMP_BUFFER, TEMP_BUFFER + bytesRead);
+
+            while (data.size() >= sizeof(input_event))
             {
-                input_event* event = reinterpret_cast<input_event*>(TEMP_BUFFER + i);
+                input_event* event = reinterpret_cast<input_event*>(data.data());
 
                 if (keyboardDevice)
                 {
@@ -187,6 +188,8 @@ namespace ouzel
                 {
                     // TODO: implement
                 }
+
+                data.erase(data.begin(), data.begin() + sizeof(input_event));
             }
         }
     } // namespace input
