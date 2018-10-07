@@ -40,11 +40,11 @@ namespace ouzel
             void setCursor(const Cursor* newCursor);
 
         protected:
-            void handleButtonPress(Mouse::Button button, const Vector2& pos, uint32_t modifiers);
-            void handleButtonRelease(Mouse::Button button, const Vector2& pos, uint32_t modifiers);
-            void handleMove(const Vector2& pos, uint32_t modifiers);
-            void handleRelativeMove(const Vector2& pos, uint32_t modifiers);
-            void handleScroll(const Vector2& scroll, const Vector2& pos, uint32_t modifiers);
+            void handleButtonPress(Mouse::Button button, const Vector2& pos);
+            void handleButtonRelease(Mouse::Button button, const Vector2& pos);
+            void handleMove(const Vector2& pos);
+            void handleRelativeMove(const Vector2& pos);
+            void handleScroll(const Vector2& scroll, const Vector2& pos);
             void handleCursorLockChange(bool locked);
 
         private:

@@ -22,7 +22,6 @@ namespace ouzel
         {
         public:
             static Keyboard::Key convertKeyCode(UINT keyCode);
-            static uint32_t getModifiers(WPARAM wParam);
 
             InputSystemWin();
             virtual ~InputSystemWin();

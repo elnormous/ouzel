@@ -102,7 +102,6 @@ namespace ouzel
                 Vector2 difference;
                 Vector2 position;
                 Vector2 scroll;
-                uint32_t modifiers = 0;
                 float force = 1.0F;
             };
 

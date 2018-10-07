@@ -190,7 +190,7 @@ namespace ouzel
                         if (i != controllerMap.end())
                         {
                             Keyboard* keyboardController = static_cast<Keyboard*>(i->second.get());
-                            keyboardController->handleKeyPress(event.keyboardKey, event.modifiers);
+                            keyboardController->handleKeyPress(event.keyboardKey);
                         }
                         break;
                     }
@@ -200,7 +200,7 @@ namespace ouzel
                         if (i != controllerMap.end())
                         {
                             Keyboard* keyboardController = static_cast<Keyboard*>(i->second.get());
-                            keyboardController->handleKeyRelease(event.keyboardKey, event.modifiers);
+                            keyboardController->handleKeyRelease(event.keyboardKey);
                         }
                         break;
                     }
@@ -210,7 +210,7 @@ namespace ouzel
                         if (i != controllerMap.end())
                         {
                             Mouse* mouseController = static_cast<Mouse*>(i->second.get());
-                            mouseController->handleButtonPress(event.mouseButton, event.position, event.modifiers);
+                            mouseController->handleButtonPress(event.mouseButton, event.position);
                         }
                         break;
                     }
@@ -220,7 +220,7 @@ namespace ouzel
                         if (i != controllerMap.end())
                         {
                             Mouse* mouseController = static_cast<Mouse*>(i->second.get());
-                            mouseController->handleButtonRelease(event.mouseButton, event.position, event.modifiers);
+                            mouseController->handleButtonRelease(event.mouseButton, event.position);
                         }
                         break;
                     }
@@ -230,7 +230,7 @@ namespace ouzel
                         if (i != controllerMap.end())
                         {
                             Mouse* mouseController = static_cast<Mouse*>(i->second.get());
-                            mouseController->handleScroll(event.scroll, event.position, event.modifiers);
+                            mouseController->handleScroll(event.scroll, event.position);
                         }
                         break;
                     }
@@ -240,7 +240,7 @@ namespace ouzel
                         if (i != controllerMap.end())
                         {
                             Mouse* mouseController = static_cast<Mouse*>(i->second.get());
-                            mouseController->handleMove(event.position, event.modifiers);
+                            mouseController->handleMove(event.position);
                         }
                         break;
                     }
@@ -250,7 +250,7 @@ namespace ouzel
                         if (i != controllerMap.end())
                         {
                             Mouse* mouseController = static_cast<Mouse*>(i->second.get());
-                            mouseController->handleRelativeMove(event.position, event.modifiers);
+                            mouseController->handleRelativeMove(event.position);
                         }
                         break;
                     }

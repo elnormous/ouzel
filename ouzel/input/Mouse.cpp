@@ -55,7 +55,7 @@ namespace ouzel
             cursor = newCursor;
         }
 
-        void Mouse::handleButtonPress(Mouse::Button button, const Vector2& pos, uint32_t modifiers)
+        void Mouse::handleButtonPress(Mouse::Button button, const Vector2& pos)
         {
             buttonStates[static_cast<uint32_t>(button)] = true;
 
@@ -64,12 +64,11 @@ namespace ouzel
             event.mouseEvent.mouse = this;
             event.mouseEvent.button = button;
             event.mouseEvent.position = pos;
-            event.mouseEvent.modifiers = modifiers;
 
             engine->getEventDispatcher().postEvent(event, true);
         }
 
-        void Mouse::handleButtonRelease(Mouse::Button button, const Vector2& pos, uint32_t modifiers)
+        void Mouse::handleButtonRelease(Mouse::Button button, const Vector2& pos)
         {
             buttonStates[static_cast<uint32_t>(button)] = false;
 
@@ -78,43 +77,40 @@ namespace ouzel
             event.mouseEvent.mouse = this;
             event.mouseEvent.button = button;
             event.mouseEvent.position = pos;
-            event.mouseEvent.modifiers = modifiers;
 
             engine->getEventDispatcher().postEvent(event, true);
         }
 
-        void Mouse::handleMove(const Vector2& pos, uint32_t modifiers)
+        void Mouse::handleMove(const Vector2& pos)
         {
             Event event;
             event.type = Event::Type::MOUSE_MOVE;
             event.mouseEvent.mouse = this;
             event.mouseEvent.difference = pos - position;
             event.mouseEvent.position = pos;
-            event.mouseEvent.modifiers = modifiers;
 
             position = pos;
 
             engine->getEventDispatcher().postEvent(event, true);
         }
 
-        void Mouse::handleRelativeMove(const Vector2& pos, uint32_t modifiers)
+        void Mouse::handleRelativeMove(const Vector2& pos)
         {
             Vector2 newPosition = position + pos;
 
             newPosition.x = clamp(newPosition.x, 0.0F, 1.0F);
             newPosition.y = clamp(newPosition.y, 0.0F, 1.0F);
 
-            handleMove(newPosition, modifiers);
+            handleMove(newPosition);
         }
 
-        void Mouse::handleScroll(const Vector2& scroll, const Vector2& pos, uint32_t modifiers)
+        void Mouse::handleScroll(const Vector2& scroll, const Vector2& pos)
         {
             Event event;
             event.type = Event::Type::MOUSE_SCROLL;
             event.mouseEvent.mouse = this;
             event.mouseEvent.position = pos;
             event.mouseEvent.scroll = scroll;
-            event.mouseEvent.modifiers = modifiers;
 
             engine->getEventDispatcher().postEvent(event, true);
         }

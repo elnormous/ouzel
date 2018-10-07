@@ -10,12 +10,12 @@ namespace ouzel
 {
     namespace input
     {
-        void KeyboardDeviceWin::handleKeyPress(Keyboard::Key key, uint32_t modifiers)
+        void KeyboardDeviceWin::handleKeyPress(Keyboard::Key key)
         {
             if (key == Keyboard::Key::LEFT_SHIFT) leftShiftDown = true;
             if (key == Keyboard::Key::RIGHT_SHIFT) rightShiftDown = true;
 
-            KeyboardDevice::handleKeyPress(key, modifiers);
+            KeyboardDevice::handleKeyPress(key);
         }
 
         void KeyboardDeviceWin::update()
@@ -23,13 +23,13 @@ namespace ouzel
             if (leftShiftDown && (GetKeyState(VK_LSHIFT) & 0x8000) == 0)
             {
                 leftShiftDown = false;
-                handleKeyRelease(Keyboard::Key::LEFT_SHIFT, 0);
+                handleKeyRelease(Keyboard::Key::LEFT_SHIFT);
             }
 
             if (rightShiftDown && (GetKeyState(VK_RSHIFT) & 0x8000) == 0)
             {
                 rightShiftDown = false;
-                handleKeyRelease(Keyboard::Key::RIGHT_SHIFT, 0);
+                handleKeyRelease(Keyboard::Key::RIGHT_SHIFT);
             }
         }
     } // namespace input

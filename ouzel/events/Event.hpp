@@ -16,29 +16,15 @@
 
 namespace ouzel
 {
-    enum EventModifiers
-    {
-        SHIFT_DOWN          = 0x0001,
-        ALT_DOWN            = 0x0002,
-        CONTROL_DOWN        = 0x0004,
-        SUPER_DOWN          = 0x0008, // Windows key on Windows, Command key on macOS
-        FUNCTION_DOWN       = 0x0010,
-        LEFT_MOUSE_DOWN     = 0x0020,
-        RIGHT_MOUSE_DOWN    = 0x0040,
-        MIDDLE_MOUSE_DOWN   = 0x0080,
-    };
-
     struct KeyboardEvent
     {
         input::Keyboard* keyboard = nullptr;
-        uint32_t modifiers = 0;
         input::Keyboard::Key key = input::Keyboard::Key::NONE;
     };
 
     struct MouseEvent
     {
         input::Mouse* mouse = nullptr;
-        uint32_t modifiers = 0;
         input::Mouse::Button button = input::Mouse::Button::NONE;
         Vector2 difference;
         Vector2 position;

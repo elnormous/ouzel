@@ -144,17 +144,20 @@ bool PerspectiveSample::handleKeyboard(ouzel::Event::Type type, const ouzel::Key
 
 bool PerspectiveSample::handleMouse(ouzel::Event::Type type, const ouzel::MouseEvent& event)
 {
-    if (event.modifiers & LEFT_MOUSE_DOWN)
+    if (type == Event::Type::MOUSE_MOVE)
     {
-        if (type == Event::Type::MOUSE_MOVE)
+        if (Mouse* mouse = engine->getInputManager()->getMouse())
         {
-            cameraRotation.x -= event.difference.y;
-            cameraRotation.y -= event.difference.x;
+            if (mouse->isButtonDown(Mouse::Button::LEFT))
+            {
+                cameraRotation.x -= event.difference.y;
+                cameraRotation.y -= event.difference.x;
 
-            if (cameraRotation.x < -TAU / 6.0F) cameraRotation.x = -TAU / 6.0F;
-            if (cameraRotation.x > TAU / 6.0F) cameraRotation.x = TAU / 6.0F;
+                if (cameraRotation.x < -TAU / 6.0F) cameraRotation.x = -TAU / 6.0F;
+                if (cameraRotation.x > TAU / 6.0F) cameraRotation.x = TAU / 6.0F;
 
-            cameraActor.setRotation(Vector3(cameraRotation.x, cameraRotation.y, 0.0F));
+                cameraActor.setRotation(Vector3(cameraRotation.x, cameraRotation.y, 0.0F));
+            }
         }
     }
 
