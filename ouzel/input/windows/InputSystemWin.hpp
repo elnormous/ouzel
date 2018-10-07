@@ -39,7 +39,7 @@ namespace ouzel
             void handleDeviceConnect(const DIDEVICEINSTANCEW* didInstance);
 
         private:
-            void discoverGamepads();
+            bool discovering = false;
 
             uint32_t lastDeviceId = 0;
             std::unique_ptr<KeyboardDeviceWin> keyboardDevice;

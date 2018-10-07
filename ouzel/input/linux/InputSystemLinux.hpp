@@ -42,7 +42,7 @@ namespace ouzel
             void update();
 
         private:
-            void discoverDevices();
+            bool discovering = false;
 
             uint32_t lastDeviceId = 0;
             std::unique_ptr<KeyboardDeviceLinux> keyboardDevice;

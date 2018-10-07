@@ -350,10 +350,6 @@ namespace ouzel
         {
             switch (command.type)
             {
-                case Command::Type::START_DEVICE_DISCOVERY:
-                    break;
-                case Command::Type::STOP_DEVICE_DISCOVERY:
-                    break;
                 case Command::Type::SET_PLAYER_INDEX:
                 {
                     break;

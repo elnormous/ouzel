@@ -458,9 +458,10 @@ namespace ouzel
             switch (command.type)
             {
                 case Command::Type::START_DEVICE_DISCOVERY:
-                    discoverDevices();
+                    discovering = true;
                     break;
                 case Command::Type::STOP_DEVICE_DISCOVERY:
+                    discovering = false;
                     break;
                 case Command::Type::SET_PLAYER_INDEX:
                 {
@@ -530,40 +531,40 @@ namespace ouzel
                         i.second.update();
                 }
             }
-        }
 
-        void InputSystemLinux::discoverDevices()
-        {
-            DIR* dir = opendir("/dev/input");
-
-            if (!dir)
-                throw SystemError("Failed to open directory");
-
-            dirent ent;
-            dirent* p;
-
-            while (readdir_r(dir, &ent, &p) == 0 && p)
+            if (discovering)
             {
-                if (strncmp("event", ent.d_name, 5) == 0)
-                {
-                    try
-                    {
-                        std::string filename = std::string("/dev/input/") + ent.d_name;
-                        EventDevice inputDevice(filename);
+                DIR* dir = opendir("/dev/input");
 
-                        if (inputDevice.getDeviceClass() != EventDevice::CLASS_NONE)
+                if (!dir)
+                    throw SystemError("Failed to open directory");
+
+                dirent ent;
+                dirent* p;
+
+                while (readdir_r(dir, &ent, &p) == 0 && p)
+                {
+                    if (strncmp("event", ent.d_name, 5) == 0)
+                    {
+                        try
                         {
-                            if (inputDevice.getFd() > maxFd) maxFd = inputDevice.getFd();
-                            eventDevices.insert(std::make_pair(inputDevice.getFd(), std::move(inputDevice)));
+                            std::string filename = std::string("/dev/input/") + ent.d_name;
+                            EventDevice inputDevice(filename);
+
+                            if (inputDevice.getDeviceClass() != EventDevice::CLASS_NONE)
+                            {
+                                if (inputDevice.getFd() > maxFd) maxFd = inputDevice.getFd();
+                                eventDevices.insert(std::make_pair(inputDevice.getFd(), std::move(inputDevice)));
+                            }
+                        }
+                        catch (...)
+                        {
                         }
                     }
-                    catch (...)
-                    {
-                    }
                 }
-            }
 
-            closedir(dir);
+                closedir(dir);
+            }
         }
     } // namespace input
 } // namespace ouzel
