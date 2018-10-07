@@ -444,8 +444,7 @@ namespace ouzel
                         if (inputDevice.getDeviceClass() != EventDevice::CLASS_NONE)
                         {
                             if (inputDevice.getFd() > maxFd) maxFd = inputDevice.getFd();
-
-                            eventDevices.push_back(std::move(inputDevice));
+                            eventDevices.insert(std::make_pair(inputDevice.getFd(), std::move(inputDevice)));
                         }
                     }
                     catch (...)
@@ -523,8 +522,8 @@ namespace ouzel
 
             FD_ZERO(&rfds);
 
-            for (const EventDevice& inputDevice : eventDevices)
-                FD_SET(inputDevice.getFd(), &rfds);
+            for (const auto& i : eventDevices)
+                FD_SET(i.first, &rfds);
 
             int retval = select(maxFd + 1, &rfds, nullptr, nullptr, &tv);
 
@@ -532,104 +531,10 @@ namespace ouzel
                 throw SystemError("Select failed");
             else if (retval > 0)
             {
-                static char TEMP_BUFFER[256];
-
-                for (const EventDevice& inputDevice : eventDevices)
+                for (auto& i : eventDevices)
                 {
-                    if (FD_ISSET(inputDevice.getFd(), &rfds))
-                    {
-                        // TODO: buffer data
-                        // TODO: move this code to EventDevice
-                        ssize_t bytesRead = read(inputDevice.getFd(), TEMP_BUFFER, sizeof(TEMP_BUFFER));
-
-                        if (bytesRead == -1)
-                            throw SystemError("Failed to read from " + inputDevice.getFilename()); // TODO: disconnect the device
-
-                        for (ssize_t i = 0; i < bytesRead - static_cast<ssize_t>(sizeof(input_event)) + 1; i += sizeof(input_event))
-                        {
-                            input_event* event = reinterpret_cast<input_event*>(TEMP_BUFFER + i);
-
-                            if (inputDevice.getDeviceClass() & EventDevice::CLASS_KEYBOARD)
-                            {
-                                if (event->type == EV_KEY)
-                                {
-                                    if (event->value == 1 || event->value == 2) // press or repeat
-                                    {
-                                        //keyPress(convertKeyCode(event->code), getModifiers());
-                                    }
-                                    else if (event->value == 0) // release
-                                    {
-                                        //keyRelease(convertKeyCode(event->code), getModifiers());
-                                    }
-                                }
-                            }
-                            if (inputDevice.getDeviceClass() & EventDevice::CLASS_MOUSE)
-                            {
-                                if (event->type == EV_ABS)
-                                {
-                                    /*Vector2 absolutePos = cursorPosition;
-
-                                    if (event->code == ABS_X)
-                                        absolutePos.x = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(event->value), 0.0F)).x;
-                                    else if (event->code == ABS_Y)
-                                        absolutePos.y = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(0.0F, static_cast<float>(event->value))).y;*/
-
-                                    //mouseMove(absolutePos, getModifiers());
-                                }
-                                else if (event->type == EV_REL)
-                                {
-                                    Vector2 relativePos;
-
-                                    if (event->code == REL_X)
-                                        relativePos.x = static_cast<float>(event->value);
-                                    else if (event->code == REL_Y)
-                                        relativePos.y = static_cast<float>(event->value);
-
-                                    //mouseRelativeMove(engine->getWindow()->convertWindowToNormalizedLocation(relativePos), getModifiers());
-                                }
-                                else if (event->type == EV_KEY)
-                                {
-                                    Mouse::Button button;
-                                    int buttonIndex = -1;
-
-                                    switch (event->code)
-                                    {
-                                    case BTN_LEFT:
-                                        button = Mouse::Button::LEFT;
-                                        buttonIndex = 0;
-                                        break;
-                                    case BTN_RIGHT:
-                                        button = Mouse::Button::RIGHT;
-                                        buttonIndex =  1;
-                                        break;
-                                    case BTN_MIDDLE:
-                                        button = Mouse::Button::MIDDLE;
-                                        buttonIndex = 2;
-                                        break;
-                                    default:
-                                        button = Mouse::Button::NONE;
-                                    }
-
-                                    if (event->value == 1)
-                                    {
-                                        //mouseButtonPress(button, cursorPosition, getModifiers());
-                                    }
-                                    else if (event->value == 0)
-                                    {
-                                        //mouseButtonRelease(button, cursorPosition, getModifiers());
-                                    }
-                                }
-                            }
-                            if (inputDevice.getDeviceClass() & EventDevice::CLASS_TOUCHPAD)
-                            {
-                                // TODO: implement
-                            }
-                            if (inputDevice.getDeviceClass() & EventDevice::CLASS_GAMEPAD)
-                            {
-                                // TODO: implement
-                            }
-                        }
-                    }
+                    if (FD_ISSET(i.first, &rfds))
+                        i.second.update();
                 }
             }
         }
@@ -656,8 +561,7 @@ namespace ouzel
                         if (inputDevice.getDeviceClass() != EventDevice::CLASS_NONE)
                         {
                             if (inputDevice.getFd() > maxFd) maxFd = inputDevice.getFd();
-
-                            eventDevices.push_back(std::move(inputDevice));
+                            eventDevices.insert(std::make_pair(inputDevice.getFd(), std::move(inputDevice)));
                         }
                     }
                     catch (...)

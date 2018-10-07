@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <linux/input.h>
 #include "EventDevice.hpp"
+#include "InputSystemLinux.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
@@ -103,13 +104,13 @@ namespace ouzel
             if (isBitSet(keyBits, BTN_JOYSTICK))
             {
                 Log(Log::Level::INFO) << "Device class: joystick";
-                deviceClass = EventDevice::CLASS_GAMEPAD;
+                deviceClass |= EventDevice::CLASS_GAMEPAD;
             }
 
             if (isBitSet(keyBits, BTN_GAMEPAD))
             {
                 Log(Log::Level::INFO) << "Device class: gamepad";
-                deviceClass = EventDevice::CLASS_GAMEPAD;
+                deviceClass |= EventDevice::CLASS_GAMEPAD;
             }
 
             struct input_id id;
@@ -126,6 +127,102 @@ namespace ouzel
                     Log(Log::Level::WARN) << "Failed to release device";
 
                 close(fd);
+            }
+        }
+
+        void EventDevice::update()
+        {
+            // TODO: buffer data
+            // TODO: move this code to EventDevice
+            static char TEMP_BUFFER[256];
+            ssize_t bytesRead = read(fd, TEMP_BUFFER, sizeof(TEMP_BUFFER));
+
+            if (bytesRead == -1)
+                throw SystemError("Failed to read from " + filename); // TODO: disconnect the device
+
+            for (ssize_t i = 0; i < bytesRead - static_cast<ssize_t>(sizeof(input_event)) + 1; i += sizeof(input_event))
+            {
+                input_event* event = reinterpret_cast<input_event*>(TEMP_BUFFER + i);
+
+                if (deviceClass & EventDevice::CLASS_KEYBOARD)
+                {
+                    if (event->type == EV_KEY)
+                    {
+                        if (event->value == 1 || event->value == 2) // press or repeat
+                        {
+                            //keyPress(convertKeyCode(event->code), getModifiers());
+                        }
+                        else if (event->value == 0) // release
+                        {
+                            //keyRelease(convertKeyCode(event->code), getModifiers());
+                        }
+                    }
+                }
+                if (deviceClass & EventDevice::CLASS_MOUSE)
+                {
+                    if (event->type == EV_ABS)
+                    {
+                        /*Vector2 absolutePos = cursorPosition;
+
+                        if (event->code == ABS_X)
+                            absolutePos.x = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(event->value), 0.0F)).x;
+                        else if (event->code == ABS_Y)
+                            absolutePos.y = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(0.0F, static_cast<float>(event->value))).y;*/
+
+                        //mouseMove(absolutePos, getModifiers());
+                    }
+                    else if (event->type == EV_REL)
+                    {
+                        Vector2 relativePos;
+
+                        if (event->code == REL_X)
+                            relativePos.x = static_cast<float>(event->value);
+                        else if (event->code == REL_Y)
+                            relativePos.y = static_cast<float>(event->value);
+
+                        //mouseRelativeMove(engine->getWindow()->convertWindowToNormalizedLocation(relativePos), getModifiers());
+                    }
+                    else if (event->type == EV_KEY)
+                    {
+                        Mouse::Button button;
+                        int buttonIndex = -1;
+
+                        switch (event->code)
+                        {
+                        case BTN_LEFT:
+                            button = Mouse::Button::LEFT;
+                            buttonIndex = 0;
+                            break;
+                        case BTN_RIGHT:
+                            button = Mouse::Button::RIGHT;
+                            buttonIndex =  1;
+                            break;
+                        case BTN_MIDDLE:
+                            button = Mouse::Button::MIDDLE;
+                            buttonIndex = 2;
+                            break;
+                        default:
+                            button = Mouse::Button::NONE;
+                        }
+
+                        if (event->value == 1)
+                        {
+                            //mouseButtonPress(button, cursorPosition, getModifiers());
+                        }
+                        else if (event->value == 0)
+                        {
+                            //mouseButtonRelease(button, cursorPosition, getModifiers());
+                        }
+                    }
+                }
+                if (deviceClass & EventDevice::CLASS_TOUCHPAD)
+                {
+                    // TODO: implement
+                }
+                if (deviceClass & EventDevice::CLASS_GAMEPAD)
+                {
+                    // TODO: implement
+                }
             }
         }
     } // namespace input

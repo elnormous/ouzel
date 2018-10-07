@@ -3,6 +3,7 @@
 #pragma once
 
 #include "core/Setup.h"
+#include <unordered_map>
 #if OUZEL_SUPPORTS_X11
 #  include <X11/keysym.h>
 #  include <X11/X.h>
@@ -42,7 +43,7 @@ namespace ouzel
             void discoverDevices();
 
             int maxFd = 0;
-            std::vector<EventDevice> eventDevices;
+            std::unordered_map<int, EventDevice> eventDevices;
 
             uint32_t lastDeviceId = 0;
             KeyboardDevice* keyboardDevice = nullptr;
