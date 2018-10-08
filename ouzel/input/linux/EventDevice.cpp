@@ -34,7 +34,7 @@ namespace ouzel
             if (fd == -1)
                 throw SystemError("Failed to open device file");
 
-            if (ioctl(fd, EVIOCGRAB, reinterpret_cast<void*>(1)) == -1)
+            if (ioctl(fd, EVIOCGRAB, 1) == -1)
                 Log(Log::Level::WARN) << "Failed to grab device";
 
             char deviceName[256];
@@ -73,14 +73,36 @@ namespace ouzel
 
             if (isBitSet(eventBits, EV_ABS) && isBitSet(absBits, ABS_X) && isBitSet(absBits, ABS_Y))
             {
-                if (isBitSet(keyBits, BTN_STYLUS) || isBitSet(keyBits, BTN_TOOL_PEN)) // tablet
+                if ((isBitSet(keyBits, BTN_STYLUS) || isBitSet(keyBits, BTN_TOOL_PEN)) || // tablet
+                    (isBitSet(keyBits, BTN_TOOL_FINGER) && !isBitSet(keyBits, BTN_TOOL_PEN)) || // touchpad
+                    isBitSet(keyBits, BTN_TOUCH)) // touchscreen
+                {
                     touchpadDevice.reset(new TouchpadDevice(inputSystem, inputSystem.getNextDeviceId()));
-                else if (isBitSet(keyBits, BTN_TOOL_FINGER) && !isBitSet(keyBits, BTN_TOOL_PEN)) // touchpad
-                    touchpadDevice.reset(new TouchpadDevice(inputSystem, inputSystem.getNextDeviceId()));
+
+                    input_absinfo info;
+
+                    if (ioctl(fd, EVIOCGABS(ABS_MT_SLOT), &info) == -1)
+                        throw SystemError("Failed to get device info");
+
+                    touchSlots.resize(info.maximum + 1);
+
+                    if (ioctl(fd, EVIOCGABS(ABS_MT_POSITION_X), &info) == -1)
+                        throw SystemError("Failed to get device info");
+                    
+                    touchMinX = info.minimum;
+                    touchMaxX = info.maximum;
+                    touchRangeX = touchMaxX - touchMinX;
+
+                    if (ioctl(fd, EVIOCGABS(ABS_MT_POSITION_Y), &info) == -1)
+                        throw SystemError("Failed to get device info");
+
+                    touchMinY = info.minimum;
+                    touchMaxY = info.maximum;
+                    touchRangeY = touchMaxY - touchMinY;
+                }
                 else if (isBitSet(keyBits, BTN_MOUSE)) // mouse
                     mouseDevice.reset(new MouseDevice(inputSystem, inputSystem.getNextDeviceId()));
-                else if (isBitSet(keyBits, BTN_TOUCH)) // touchscreen
-                    touchpadDevice.reset(new TouchpadDevice(inputSystem, inputSystem.getNextDeviceId()));
+                
             }
             else if (isBitSet(eventBits, EV_REL) && isBitSet(relBits, REL_X) && isBitSet(relBits, REL_Y))
             {
@@ -102,7 +124,7 @@ namespace ouzel
         {
             if (fd != -1)
             {
-                if (ioctl(fd, EVIOCGRAB, reinterpret_cast<void*>(0)) == -1)
+                if (ioctl(fd, EVIOCGRAB, 0) == -1)
                     Log(Log::Level::WARN) << "Failed to release device";
 
                 close(fd);
@@ -212,34 +234,30 @@ namespace ouzel
                             {
                                 case ABS_MT_SLOT:
                                 {
-                                    // TODO: implement
-                                    // current slot = event.value
+                                    currentTouchSlot = event.value;
                                     break;
                                 }
                                 case ABS_MT_TRACKING_ID:
                                 {
-                                    // TODO: implement
                                     if (event.value >= 0)
                                     {
-                                        // tracking id = event.value
-                                        // down
+                                        touchSlots[currentTouchSlot].trackingId = event.value;
+                                        touchSlots[currentTouchSlot].action = Slot::Action::BEGIN;
                                     }
                                     else
-                                    {
-                                        // up
-                                    }
+                                        touchSlots[currentTouchSlot].action = Slot::Action::END;
                                     break;
                                 }
                                 case ABS_MT_POSITION_X:
                                 {
-                                    // TODO: implement
-                                    // current slot x = event.value
+                                    touchSlots[currentTouchSlot].positionX = event.value;
+                                    touchSlots[currentTouchSlot].action = Slot::Action::MOVE;
                                     break;
                                 }
                                 case ABS_MT_POSITION_Y:
                                 {
-                                    // TODO: implement
-                                    // current slot y = event.value
+                                    touchSlots[currentTouchSlot].positionY = event.value;
+                                    touchSlots[currentTouchSlot].action = Slot::Action::MOVE;
                                     break;
                                 }
                             }
@@ -250,9 +268,40 @@ namespace ouzel
                             switch (event.code)
                             {
                                 case SYN_REPORT:
+                                {
+                                    for (Slot& slot : touchSlots)
+                                    {
+                                        if (slot.action != Slot::Action::NONE)
+                                        {
+                                            Vector2 position(static_cast<float>(slot.positionX - touchMinX) / touchRangeX,
+                                                             static_cast<float>(slot.positionY - touchMinY) / touchRangeY);
+
+                                            switch (slot.action)
+                                            {
+                                                case Slot::Action::NONE:
+                                                    break;
+                                                case Slot::Action::BEGIN:
+                                                    touchpadDevice->handleTouchBegin(static_cast<uint64_t>(slot.trackingId), position, 1.0F);
+                                                    break;
+                                                case Slot::Action::END:
+                                                    touchpadDevice->handleTouchEnd(static_cast<uint64_t>(slot.trackingId), position, 1.0F);
+                                                    break;
+                                                case Slot::Action::MOVE:
+                                                    touchpadDevice->handleTouchMove(static_cast<uint64_t>(slot.trackingId), position, 1.0F);
+                                                    break;
+                                            }
+
+                                            slot.action = Slot::Action::NONE;
+                                        }
+                                    }
                                     break;
+                                }
                                 case SYN_DROPPED:
+                                {
+                                    for (Slot& slot : touchSlots)
+                                        slot.action = Slot::Action::NONE;
                                     break;
+                                }
                             }
                             break;
                         }
