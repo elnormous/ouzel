@@ -298,8 +298,72 @@ namespace ouzel
                                 }
                                 case SYN_DROPPED:
                                 {
-                                    for (Slot& slot : touchSlots)
-                                        slot.action = Slot::Action::NONE;
+                                    struct input_mt_request_layout
+                                    {
+                                        __u32 code;
+                                        __s32 values[1];
+                                    };
+
+                                    size_t size = sizeof(__u32) + sizeof(__s32) * touchSlots.size();
+                                    std::vector<uint8_t> data(size);
+
+                                    input_mt_request_layout* request = reinterpret_cast<input_mt_request_layout*>(data.data());
+
+                                    request->code = ABS_MT_TRACKING_ID;
+                                    if (ioctl(fd, EVIOCGMTSLOTS(size), request) == -1)
+                                        throw SystemError("Failed to get device info");
+
+                                    for (size_t i = 0; i < touchSlots.size(); ++i)
+                                    {
+                                        if (touchSlots[i].trackingId < 0 &&
+                                            request->values[i] >= 0)
+                                        {
+                                            touchSlots[i].trackingId = request->values[i];
+                                            touchSlots[i].action = Slot::Action::BEGIN;
+                                        }
+                                        else if (touchSlots[i].trackingId >= 0 &&
+                                                 request->values[i] < 0)
+                                        {
+                                            touchSlots[i].trackingId = request->values[i];
+                                            touchSlots[i].action = Slot::Action::END;
+                                        }
+                                    }
+
+                                    request->code = ABS_MT_POSITION_X;
+                                    if (ioctl(fd, EVIOCGMTSLOTS(size), request) == -1)
+                                        throw SystemError("Failed to get device info");
+
+                                    for (size_t i = 0; i < touchSlots.size(); ++i)
+                                    {
+                                        if (touchSlots[i].trackingId >= 0 &&
+                                            touchSlots[i].positionX != request->values[i])
+                                        {
+                                            touchSlots[i].positionX = request->values[i];
+                                            if (touchSlots[i].action == Slot::Action::NONE)
+                                                touchSlots[i].action = Slot::Action::MOVE;
+                                        }
+                                    }
+                                    
+                                    request->code = ABS_MT_POSITION_Y;
+                                    if (ioctl(fd, EVIOCGMTSLOTS(size), request) == -1)
+                                        throw SystemError("Failed to get device info");
+
+                                    for (size_t i = 0; i < touchSlots.size(); ++i)
+                                    {
+                                        if (touchSlots[i].trackingId >= 0 &&
+                                            touchSlots[i].positionY != request->values[i])
+                                        {
+                                            touchSlots[i].positionY = request->values[i];
+                                            if (touchSlots[i].action == Slot::Action::NONE)
+                                                touchSlots[i].action = Slot::Action::MOVE;
+                                        }
+                                    }
+
+                                    input_absinfo info;
+                                    if (ioctl(fd, EVIOCGABS(ABS_MT_SLOT), &info) == -1)
+                                        throw SystemError("Failed to get device info");
+                                    currentTouchSlot = info.value;
+
                                     break;
                                 }
                             }
