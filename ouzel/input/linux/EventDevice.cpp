@@ -167,10 +167,10 @@ namespace ouzel
                                     relativePos.y = static_cast<float>(event.value);
                                     break;
                                 case REL_WHEEL:
-                                    mouseDevice->handleScroll(std::Vector2(0.0F, static_cast<float>(event.value)), cursorPosition);
+                                    mouseDevice->handleScroll(Vector2(0.0F, static_cast<float>(event.value)), cursorPosition);
                                     break;
                                 case REL_HWHEEL:
-                                    mouseDevice->handleScroll(std::Vector2(static_cast<float>(event.value), 0.0F), cursorPosition);
+                                    mouseDevice->handleScroll(Vector2(static_cast<float>(event.value), 0.0F), cursorPosition);
                                     break;
                             }
 
@@ -221,9 +221,9 @@ namespace ouzel
                                 case ABS_MT_TRACKING_ID:
                                 {
                                     // TODO: implement
-                                    if (events.value >= 0)
+                                    if (event.value >= 0)
                                     {
-                                        // tracking id = events.value
+                                        // tracking id = event.value
                                         // down
                                     }
                                     else
