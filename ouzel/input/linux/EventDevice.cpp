@@ -111,122 +111,176 @@ namespace ouzel
 
         void EventDevice::update()
         {
-            static char TEMP_BUFFER[256];
-            ssize_t bytesRead = read(fd, TEMP_BUFFER, sizeof(TEMP_BUFFER));
+            input_event events[32];
+            ssize_t bytesRead = read(fd, events, sizeof(events));
 
             if (bytesRead == -1)
                 throw SystemError("Failed to read from " + filename); // TODO: disconnect the device
 
-            data.insert(data.end(), TEMP_BUFFER, TEMP_BUFFER + bytesRead);
+            int count = bytesRead / sizeof(input_event);
 
-            while (data.size() >= sizeof(input_event))
+            for (int i = 0; i < count; ++i)
             {
-                input_event* event = reinterpret_cast<input_event*>(data.data());
+                input_event& event = events[i];
 
                 if (keyboardDevice)
                 {
-                    if (event->type == EV_KEY)
+                    switch (event.type)
                     {
-                        if (event->value == 1 || event->value == 2) // press or repeat
-                            keyboardDevice->handleKeyPress(InputSystemLinux::convertKeyCode(event->code));
-                        else if (event->value == 0) // release
-                            keyboardDevice->handleKeyRelease(InputSystemLinux::convertKeyCode(event->code));
+                        case EV_KEY:
+                            if (event.value == 1 || event.value == 2) // press or repeat
+                                keyboardDevice->handleKeyPress(InputSystemLinux::convertKeyCode(event.code));
+                            else if (event.value == 0) // release
+                                keyboardDevice->handleKeyRelease(InputSystemLinux::convertKeyCode(event.code));
+                            break;
                     }
                 }
                 if (mouseDevice)
                 {
-                    if (event->type == EV_ABS)
+                    switch (event.type)
                     {
-                        if (event->code == ABS_X)
-                            cursorPosition.x = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(event->value), 0.0F)).x;
-                        else if (event->code == ABS_Y)
-                            cursorPosition.y = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(0.0F, static_cast<float>(event->value))).y;
-                        else if (event->code == ABS_WHEEL)
+                        case EV_ABS:
                         {
-                            // TODO: implement
-                        }
+                            switch (event.code)
+                            {
+                                case ABS_X:
+                                    cursorPosition.x = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(event.value), 0.0F)).x;
+                                    break;
+                                case ABS_Y:
+                                    cursorPosition.y = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(0.0F, static_cast<float>(event.value))).y;
+                                    break;
+                            }
 
-                        mouseDevice->handleMove(cursorPosition);
-                    }
-                    else if (event->type == EV_REL)
-                    {
-                        Vector2 relativePos;
-
-                        if (event->code == REL_X)
-                            relativePos.x = static_cast<float>(event->value);
-                        else if (event->code == REL_Y)
-                            relativePos.y = static_cast<float>(event->value);
-                        else if (event->code == REL_WHEEL)
-                        {
-                            // TODO: implement
-                        }
-                        else if (event->code == REL_HWHEEL)
-                        {
-                            // TODO: implement
-                        }
-
-                        mouseDevice->handleRelativeMove(engine->getWindow()->convertWindowToNormalizedLocation(relativePos));
-                    }
-                    else if (event->type == EV_KEY)
-                    {
-                        Mouse::Button button = Mouse::Button::NONE;
-
-                        switch (event->code)
-                        {
-                        case BTN_LEFT:
-                            button = Mouse::Button::LEFT;
+                            mouseDevice->handleMove(cursorPosition);
                             break;
-                        case BTN_RIGHT:
-                            button = Mouse::Button::RIGHT;
-                            break;
-                        case BTN_MIDDLE:
-                            button = Mouse::Button::MIDDLE;
-                            break;
-                        default:
-                            button = Mouse::Button::NONE;
                         }
+                        case EV_REL:
+                        {
+                            Vector2 relativePos;
 
-                        if (event->value == 1)
-                            mouseDevice->handleButtonPress(button, cursorPosition);
-                        else if (event->value == 0)
-                            mouseDevice->handleButtonRelease(button, cursorPosition);
+                            switch (event.code)
+                            {
+                                case REL_X:
+                                    relativePos.x = static_cast<float>(event.value);
+                                    break;
+                                case REL_Y:
+                                    relativePos.y = static_cast<float>(event.value);
+                                    break;
+                                case REL_WHEEL:
+                                    mouseDevice->handleScroll(std::Vector2(0.0F, static_cast<float>(event.value)), cursorPosition);
+                                    break;
+                                case REL_HWHEEL:
+                                    mouseDevice->handleScroll(std::Vector2(static_cast<float>(event.value), 0.0F), cursorPosition);
+                                    break;
+                            }
+
+                            mouseDevice->handleRelativeMove(engine->getWindow()->convertWindowToNormalizedLocation(relativePos));
+                            break;
+                        }
+                        case EV_KEY:
+                        {
+                            Mouse::Button button = Mouse::Button::NONE;
+
+                            switch (event.code)
+                            {
+                            case BTN_LEFT:
+                                button = Mouse::Button::LEFT;
+                                break;
+                            case BTN_RIGHT:
+                                button = Mouse::Button::RIGHT;
+                                break;
+                            case BTN_MIDDLE:
+                                button = Mouse::Button::MIDDLE;
+                                break;
+                            default:
+                                button = Mouse::Button::NONE;
+                            }
+
+                            if (event.value == 1)
+                                mouseDevice->handleButtonPress(button, cursorPosition);
+                            else if (event.value == 0)
+                                mouseDevice->handleButtonRelease(button, cursorPosition);
+                            break;
+                        }
                     }
                 }
                 if (touchpadDevice)
                 {
-                    if (event->type == EV_ABS)
+                    switch (event.type)
                     {
-                        if (event->code == ABS_MT_SLOT)
+                        case EV_ABS:
                         {
-                            // TODO: implement
+                            switch (event.code)
+                            {
+                                case ABS_MT_SLOT:
+                                {
+                                    // TODO: implement
+                                    // current slot = event.value
+                                    break;
+                                }
+                                case ABS_MT_TRACKING_ID:
+                                {
+                                    // TODO: implement
+                                    if (events.value >= 0)
+                                    {
+                                        // tracking id = events.value
+                                        // down
+                                    }
+                                    else
+                                    {
+                                        // up
+                                    }
+                                    break;
+                                }
+                                case ABS_MT_POSITION_X:
+                                {
+                                    // TODO: implement
+                                    // current slot x = event.value
+                                    break;
+                                }
+                                case ABS_MT_POSITION_Y:
+                                {
+                                    // TODO: implement
+                                    // current slot y = event.value
+                                    break;
+                                }
+                            }
+                            break;
                         }
-                        else if (event->code == ABS_MT_POSITION_X)
+                        case EV_SYN:
                         {
-                            // TODO: implement
-                        }
-                        else if (event->code == ABS_MT_POSITION_Y)
-                        {
-                            // TODO: implement
+                            switch (event.code)
+                            {
+                                case SYN_REPORT:
+                                    break;
+                                case SYN_DROPPED:
+                                    break;
+                            }
+                            break;
                         }
                     }
                 }
                 if (gamepadDevice)
                 {
-                    if (event->type == EV_ABS)
+                    switch(event.type)
                     {
-                        // TODO: implement
-                    }
-                    else if (event->type == EV_REL)
-                    {
-                        // TODO: implement
-                    }
-                    else if (event->type == EV_KEY)
-                    {
-                        // TODO: implement
+                        case EV_ABS:
+                        {
+                            // TODO: implement
+                            break;
+                        }
+                        case EV_REL:
+                        {
+                            // TODO: implement
+                            break;
+                        }
+                        case EV_KEY:
+                        {
+                            // TODO: implement
+                            break;
+                        }
                     }
                 }
-
-                data.erase(data.begin(), data.begin() + sizeof(input_event));
             }
         }
     } // namespace input
