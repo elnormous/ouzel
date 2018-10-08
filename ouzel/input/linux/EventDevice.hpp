@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <memory>
 #include <string>
+#include <vector>
 #include "math/Vector2.hpp"
 
 namespace ouzel
@@ -80,6 +81,28 @@ namespace ouzel
             std::unique_ptr<TouchpadDevice> touchpadDevice;
 
             Vector2 cursorPosition;
+            struct Slot
+            {
+                int32_t trackingId;
+                int32_t positionX;
+                int32_t positionY;
+                enum class Action
+                {
+                    NONE,
+                    BEGIN,
+                    END,
+                    MOVE
+                };
+                Action action = Action::NONE;
+            };
+            std::vector<Slot> touchSlots;
+            int32_t currentTouchSlot = 0;
+            int32_t touchMinX;
+            int32_t touchMinY;
+            int32_t touchMaxX;
+            int32_t touchMaxY;
+            int32_t touchRangeX;
+            int32_t touchRangeY;
         };
     } // namespace input
 } // namespace ouzel
