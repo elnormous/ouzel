@@ -403,8 +403,6 @@ namespace ouzel
                     {
                         std::string filename = std::string("/dev/input/") + ent.d_name;
                         EventDevice inputDevice(*this, filename);
-
-                        if (inputDevice.getFd() > maxFd) maxFd = inputDevice.getFd();
                         eventDevices.insert(std::make_pair(inputDevice.getFd(), std::move(inputDevice)));
                     }
                     catch (...)
@@ -483,8 +481,13 @@ namespace ouzel
 
             FD_ZERO(&rfds);
 
+            int maxFd = 0;
+
             for (const auto& i : eventDevices)
+            {
                 FD_SET(i.first, &rfds);
+                if (i.first > maxFd) maxFd = i.first;
+            }
 
             int retval = select(maxFd + 1, &rfds, nullptr, nullptr, &tv);
 
@@ -492,10 +495,22 @@ namespace ouzel
                 throw SystemError("Select failed");
             else if (retval > 0)
             {
-                for (auto& i : eventDevices)
+                for (auto i = eventDevices.begin(); i != eventDevices.end();)
                 {
-                    if (FD_ISSET(i.first, &rfds))
-                        i.second.update();
+                    if (FD_ISSET(i->first, &rfds))
+                    {
+                        try
+                        {
+                            i->second.update();
+                            ++i;
+                        }
+                        catch (...)
+                        {
+                            i = eventDevices.erase(i);
+                        }
+                    }
+                    else
+                        ++i;
                 }
             }
 
@@ -517,8 +532,6 @@ namespace ouzel
                         {
                             std::string filename = std::string("/dev/input/") + ent.d_name;
                             EventDevice inputDevice(*this, filename);
-
-                            if (inputDevice.getFd() > maxFd) maxFd = inputDevice.getFd();
                             eventDevices.insert(std::make_pair(inputDevice.getFd(), std::move(inputDevice)));
                         }
                         catch (...)
