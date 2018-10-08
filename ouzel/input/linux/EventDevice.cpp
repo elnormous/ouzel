@@ -141,6 +141,10 @@ namespace ouzel
                             cursorPosition.x = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(event->value), 0.0F)).x;
                         else if (event->code == ABS_Y)
                             cursorPosition.y = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(0.0F, static_cast<float>(event->value))).y;
+                        else if (event->code == ABS_WHEEL)
+                        {
+                            // TODO: implement
+                        }
 
                         mouseDevice->handleMove(cursorPosition);
                     }
@@ -152,6 +156,14 @@ namespace ouzel
                             relativePos.x = static_cast<float>(event->value);
                         else if (event->code == REL_Y)
                             relativePos.y = static_cast<float>(event->value);
+                        else if (event->code == REL_WHEEL)
+                        {
+                            // TODO: implement
+                        }
+                        else if (event->code == REL_HWHEEL)
+                        {
+                            // TODO: implement
+                        }
 
                         mouseDevice->handleRelativeMove(engine->getWindow()->convertWindowToNormalizedLocation(relativePos));
                     }
@@ -182,11 +194,36 @@ namespace ouzel
                 }
                 if (touchpadDevice)
                 {
-                    // TODO: implement
+                    if (event->type == EV_ABS)
+                    {
+                        if (event->code == ABS_MT_SLOT)
+                        {
+                            // TODO: implement
+                        }
+                        else if (event->code == ABS_MT_POSITION_X)
+                        {
+                            // TODO: implement
+                        }
+                        else if (event->code == ABS_MT_POSITION_Y)
+                        {
+                            // TODO: implement
+                        }
+                    }
                 }
                 if (gamepadDevice)
                 {
-                    // TODO: implement
+                    if (event->type == EV_ABS)
+                    {
+                        // TODO: implement
+                    }
+                    else if (event->type == EV_REL)
+                    {
+                        // TODO: implement
+                    }
+                    else if (event->type == EV_KEY)
+                    {
+                        // TODO: implement
+                    }
                 }
 
                 data.erase(data.begin(), data.begin() + sizeof(input_event));
