@@ -49,7 +49,6 @@ namespace ouzel
             std::unique_ptr<MouseDeviceLinux> mouseDevice;
             std::unique_ptr<TouchpadDevice> touchpadDevice;
 
-            int maxFd = 0;
             std::unordered_map<int, EventDevice> eventDevices;
         };
     }
