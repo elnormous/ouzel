@@ -108,7 +108,7 @@ namespace ouzel
                             }
                         }
 
-                        engine->getEventDispatcher().postEvent(connectEvent, true);
+                        engine->getEventDispatcher().dispatchEvent(connectEvent);
                         break;
                     }
                     case InputSystem::Event::Type::DEVICE_DISCONNECT:
@@ -162,7 +162,7 @@ namespace ouzel
                                 }
                             }
 
-                            engine->getEventDispatcher().postEvent(disconnectEvent, true);
+                            engine->getEventDispatcher().dispatchEvent(disconnectEvent);
                             controllerMap.erase(i);
                         }
 

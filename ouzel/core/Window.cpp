@@ -110,7 +110,7 @@ namespace ouzel
                     sizeChangeEvent.type = Event::Type::WINDOW_SIZE_CHANGE;
                     sizeChangeEvent.windowEvent.window = this;
                     sizeChangeEvent.windowEvent.size = event.size;
-                    engine->getEventDispatcher().postEvent(sizeChangeEvent, true);
+                    engine->getEventDispatcher().dispatchEvent(sizeChangeEvent);
                     break;
                 }
                 case NativeWindow::Event::Type::RESOLUTION_CHANGE:
@@ -123,7 +123,7 @@ namespace ouzel
                     resolutionChangeEvent.type = Event::Type::RESOLUTION_CHANGE;
                     resolutionChangeEvent.windowEvent.window = this;
                     resolutionChangeEvent.windowEvent.size = event.size;
-                    engine->getEventDispatcher().postEvent(resolutionChangeEvent, true);
+                    engine->getEventDispatcher().dispatchEvent(resolutionChangeEvent);
 
                     engine->getRenderer()->setSize(event.size);
                     break;
@@ -138,7 +138,7 @@ namespace ouzel
                     fullscreenChangeEvent.windowEvent.window = this;
                     fullscreenChangeEvent.windowEvent.fullscreen = event.fullscreen;
 
-                    engine->getEventDispatcher().postEvent(fullscreenChangeEvent, true);
+                    engine->getEventDispatcher().dispatchEvent(fullscreenChangeEvent);
                     break;
                 }
                 case NativeWindow::Event::Type::SCREEN_CHANGE:
@@ -151,7 +151,7 @@ namespace ouzel
                     screenChangeEvent.windowEvent.window = this;
                     screenChangeEvent.windowEvent.screenId = event.displayId;
 
-                    engine->getEventDispatcher().postEvent(screenChangeEvent, true);
+                    engine->getEventDispatcher().dispatchEvent(screenChangeEvent);
                     break;
                 }
                 case NativeWindow::Event::Type::CLOSE:
@@ -182,7 +182,7 @@ namespace ouzel
             event.windowEvent.title = title;
             event.windowEvent.fullscreen = fullscreen;
 
-            engine->getEventDispatcher().postEvent(event, true);
+            engine->getEventDispatcher().dispatchEvent(event);
         }
     }
 
@@ -202,7 +202,7 @@ namespace ouzel
             event.windowEvent.title = title;
             event.windowEvent.fullscreen = fullscreen;
 
-            engine->getEventDispatcher().postEvent(event, true);
+            engine->getEventDispatcher().dispatchEvent(event);
         }
     }
 
@@ -222,7 +222,7 @@ namespace ouzel
             event.windowEvent.title = title;
             event.windowEvent.fullscreen = fullscreen;
 
-            engine->getEventDispatcher().postEvent(event, true);
+            engine->getEventDispatcher().dispatchEvent(event);
         }
     }
 }

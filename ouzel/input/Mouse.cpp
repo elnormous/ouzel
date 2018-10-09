@@ -55,7 +55,7 @@ namespace ouzel
             cursor = newCursor;
         }
 
-        void Mouse::handleButtonPress(Mouse::Button button, const Vector2& pos)
+        bool Mouse::handleButtonPress(Mouse::Button button, const Vector2& pos)
         {
             buttonStates[static_cast<uint32_t>(button)] = true;
 
@@ -65,10 +65,10 @@ namespace ouzel
             event.mouseEvent.button = button;
             event.mouseEvent.position = pos;
 
-            engine->getEventDispatcher().postEvent(event, true);
+            return engine->getEventDispatcher().dispatchEvent(event);
         }
 
-        void Mouse::handleButtonRelease(Mouse::Button button, const Vector2& pos)
+        bool Mouse::handleButtonRelease(Mouse::Button button, const Vector2& pos)
         {
             buttonStates[static_cast<uint32_t>(button)] = false;
 
@@ -78,10 +78,10 @@ namespace ouzel
             event.mouseEvent.button = button;
             event.mouseEvent.position = pos;
 
-            engine->getEventDispatcher().postEvent(event, true);
+            return engine->getEventDispatcher().dispatchEvent(event);
         }
 
-        void Mouse::handleMove(const Vector2& pos)
+        bool Mouse::handleMove(const Vector2& pos)
         {
             Event event;
             event.type = Event::Type::MOUSE_MOVE;
@@ -91,20 +91,20 @@ namespace ouzel
 
             position = pos;
 
-            engine->getEventDispatcher().postEvent(event, true);
+            return engine->getEventDispatcher().dispatchEvent(event);
         }
 
-        void Mouse::handleRelativeMove(const Vector2& pos)
+        bool Mouse::handleRelativeMove(const Vector2& pos)
         {
             Vector2 newPosition = position + pos;
 
             newPosition.x = clamp(newPosition.x, 0.0F, 1.0F);
             newPosition.y = clamp(newPosition.y, 0.0F, 1.0F);
 
-            handleMove(newPosition);
+            return handleMove(newPosition);
         }
 
-        void Mouse::handleScroll(const Vector2& scroll, const Vector2& pos)
+        bool Mouse::handleScroll(const Vector2& scroll, const Vector2& pos)
         {
             Event event;
             event.type = Event::Type::MOUSE_SCROLL;
@@ -112,10 +112,10 @@ namespace ouzel
             event.mouseEvent.position = pos;
             event.mouseEvent.scroll = scroll;
 
-            engine->getEventDispatcher().postEvent(event, true);
+            return engine->getEventDispatcher().dispatchEvent(event);
         }
 
-        void Mouse::handleCursorLockChange(bool locked)
+        bool Mouse::handleCursorLockChange(bool locked)
         {
             cursorLocked = locked;
 
@@ -124,7 +124,7 @@ namespace ouzel
             event.mouseEvent.mouse = this;
             event.mouseEvent.locked = cursorLocked;
 
-            engine->getEventDispatcher().postEvent(event, true);
+            return engine->getEventDispatcher().dispatchEvent(event);
         }
     } // namespace input
 } // namespace ouzel

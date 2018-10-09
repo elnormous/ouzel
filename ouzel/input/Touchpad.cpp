@@ -13,7 +13,7 @@ namespace ouzel
         {
         }
 
-        void Touchpad::handleTouchBegin(uint64_t touchId, const Vector2& position, float force)
+        bool Touchpad::handleTouchBegin(uint64_t touchId, const Vector2& position, float force)
         {
             Event event;
             event.type = Event::Type::TOUCH_BEGIN;
@@ -24,10 +24,10 @@ namespace ouzel
 
             touchPositions[touchId] = position;
 
-            engine->getEventDispatcher().postEvent(event, true);
+            return engine->getEventDispatcher().dispatchEvent(event);
         }
 
-        void Touchpad::handleTouchEnd(uint64_t touchId, const Vector2& position, float force)
+        bool Touchpad::handleTouchEnd(uint64_t touchId, const Vector2& position, float force)
         {
             Event event;
             event.type = Event::Type::TOUCH_END;
@@ -41,10 +41,10 @@ namespace ouzel
             if (i != touchPositions.end())
                 touchPositions.erase(i);
 
-            engine->getEventDispatcher().postEvent(event, true);
+            return engine->getEventDispatcher().dispatchEvent(event);
         }
 
-        void Touchpad::handleTouchMove(uint64_t touchId, const Vector2& position, float force)
+        bool Touchpad::handleTouchMove(uint64_t touchId, const Vector2& position, float force)
         {
             Event event;
             event.type = Event::Type::TOUCH_MOVE;
@@ -56,10 +56,10 @@ namespace ouzel
 
             touchPositions[touchId] = position;
 
-            engine->getEventDispatcher().postEvent(event, true);
+            return engine->getEventDispatcher().dispatchEvent(event);
         }
 
-        void Touchpad::handleTouchCancel(uint64_t touchId, const Vector2& position, float force)
+        bool Touchpad::handleTouchCancel(uint64_t touchId, const Vector2& position, float force)
         {
             Event event;
             event.type = Event::Type::TOUCH_CANCEL;
@@ -73,7 +73,7 @@ namespace ouzel
             if (i != touchPositions.end())
                 touchPositions.erase(i);
 
-            engine->getEventDispatcher().postEvent(event, true);
+            return engine->getEventDispatcher().dispatchEvent(event);
         }
     } // namespace input
 } // namespace ouzel
