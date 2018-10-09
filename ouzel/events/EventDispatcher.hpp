@@ -2,10 +2,11 @@
 
 #pragma once
 
-#include <vector>
+#include <cstdint>
+#include <future>
 #include <queue>
 #include <set>
-#include <cstdint>
+#include <vector>
 #include "events/Event.hpp"
 #include "events/EventHandler.hpp"
 
@@ -28,19 +29,19 @@ namespace ouzel
         void addEventHandler(EventHandler* eventHandler);
         void removeEventHandler(EventHandler* eventHandler);
 
-        void postEvent(const Event& event, bool dispatchImmediately = false);
+        std::future<bool> postEvent(const Event& event, bool dispatchImmediately = false);
 
     protected:
         EventDispatcher();
 
     private:
-        void dispatchEvent(const Event& event);
+        bool dispatchEvent(const Event& event);
 
         std::vector<EventHandler*> eventHandlers;
         std::set<EventHandler*> eventHandlerAddSet;
         std::set<EventHandler*> eventHandlerDeleteSet;
 
         std::mutex eventQueueMutex;
-        std::queue<Event> eventQueue;
+        std::queue<std::pair<std::promise<bool>, Event>> eventQueue;
     };
 }

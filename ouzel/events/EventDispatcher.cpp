@@ -53,7 +53,7 @@ namespace ouzel
 
         eventHandlerAddSet.clear();
 
-        Event event;
+        std::pair<std::promise<bool>, Event> event;
 
         for (;;)
         {
@@ -65,11 +65,11 @@ namespace ouzel
                 eventQueue.pop();
             }
 
-            dispatchEvent(event);
+            event.first.set_value(dispatchEvent(event.second));
         }
     }
 
-    void EventDispatcher::dispatchEvent(const Event& event)
+    bool EventDispatcher::dispatchEvent(const Event& event)
     {
         bool handled = false;
 
@@ -154,13 +154,14 @@ namespace ouzel
                             handled = eventHandler->userHandler(event.type, event.userEvent);
                         break;
                     default:
-                        return; // custom event should not be sent
+                        return false; // custom event should not be sent
                 }
             }
 
-            if (handled) // TODO: notify the waiter
-                break;
+            if (handled) break;
         }
+
+        return handled;
     }
 
     void EventDispatcher::addEventHandler(EventHandler* eventHandler)
@@ -191,19 +192,32 @@ namespace ouzel
             eventHandlerAddSet.erase(setIterator);
     }
 
-    void EventDispatcher::postEvent(const Event& event, bool dispatchImmediately)
+    std::future<bool> EventDispatcher::postEvent(const Event& event, bool dispatchImmediately)
     {
+        std::future<bool> future;
+
 #if OUZEL_MULTITHREADED
         if (dispatchImmediately)
-            dispatchEvent(event);
+        {
+            std::promise<bool> promise;
+            future = promise.get_future();
+            promise.set_value(dispatchEvent(event));
+        }
         else
         {
             std::unique_lock<std::mutex> lock(eventQueueMutex);
-            eventQueue.push(event);
+            std::promise<bool> promise;
+            future = promise.get_future();
+            eventQueue.push(std::pair<std::promise<bool>, Event>(std::move(promise), event));
         }
 #else
         OUZEL_UNUSED(dispatchImmediately);
-        dispatchEvent(event);
+
+        std::promise<bool> promise;
+        future = promise.get_future();
+        promise.set_value(dispatchEvent(event));
 #endif
+
+        return future;
     }
 }
