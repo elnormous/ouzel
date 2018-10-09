@@ -116,7 +116,7 @@ namespace ouzel
                     Event changeEvent;
                     changeEvent.type = Event::Type::WIDGET_CHANGE;
                     changeEvent.uiEvent.actor = event.actor;
-                    engine->getEventDispatcher().postEvent(changeEvent);
+                    engine->getEventDispatcher().dispatchEvent(changeEvent);
                 }
             }
 
