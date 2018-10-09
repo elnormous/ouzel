@@ -192,27 +192,16 @@ namespace ouzel
             eventHandlerAddSet.erase(setIterator);
     }
 
-    std::future<bool> EventDispatcher::postEvent(const Event& event, bool dispatchImmediately)
+    std::future<bool> EventDispatcher::postEvent(const Event& event)
     {
         std::future<bool> future;
 
 #if OUZEL_MULTITHREADED
-        if (dispatchImmediately)
-        {
-            std::promise<bool> promise;
-            future = promise.get_future();
-            promise.set_value(dispatchEvent(event));
-        }
-        else
-        {
-            std::unique_lock<std::mutex> lock(eventQueueMutex);
-            std::promise<bool> promise;
-            future = promise.get_future();
-            eventQueue.push(std::pair<std::promise<bool>, Event>(std::move(promise), event));
-        }
+        std::unique_lock<std::mutex> lock(eventQueueMutex);
+        std::promise<bool> promise;
+        future = promise.get_future();
+        eventQueue.push(std::pair<std::promise<bool>, Event>(std::move(promise), event));
 #else
-        OUZEL_UNUSED(dispatchImmediately);
-
         std::promise<bool> promise;
         future = promise.get_future();
         promise.set_value(dispatchEvent(event));

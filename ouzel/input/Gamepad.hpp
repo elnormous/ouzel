@@ -86,7 +86,7 @@ namespace ouzel
             void setVibration(Motor motor, float speed);
 
         protected:
-            void handleButtonValueChange(Gamepad::Button button, bool pressed, float value);
+            bool handleButtonValueChange(Gamepad::Button button, bool pressed, float value);
 
         private:
             ButtonState buttonStates[static_cast<uint32_t>(Button::COUNT)];

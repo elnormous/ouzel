@@ -38,7 +38,7 @@ namespace ouzel
             inputManager.getInputSystem()->addCommand(command);
         }
 
-        void Gamepad::handleButtonValueChange(Gamepad::Button button, bool pressed, float value)
+        bool Gamepad::handleButtonValueChange(Gamepad::Button button, bool pressed, float value)
         {
             Event event;
             event.type = Event::Type::GAMEPAD_BUTTON_CHANGE;
@@ -52,7 +52,7 @@ namespace ouzel
             buttonStates[static_cast<uint32_t>(button)].pressed = pressed;
             buttonStates[static_cast<uint32_t>(button)].value = value;
 
-            engine->getEventDispatcher().postEvent(event, true);
+            return engine->getEventDispatcher().dispatchEvent(event);
         }
 
         void Gamepad::setVibration(Motor motor, float speed)

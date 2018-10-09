@@ -24,18 +24,21 @@ namespace ouzel
         EventDispatcher(EventDispatcher&&) = delete;
         EventDispatcher& operator=(EventDispatcher&&) = delete;
 
-        void dispatchEvents();
-
         void addEventHandler(EventHandler* eventHandler);
         void removeEventHandler(EventHandler* eventHandler);
 
-        std::future<bool> postEvent(const Event& event, bool dispatchImmediately = false);
+        // dispatches the event immediately
+        bool dispatchEvent(const Event& event);
+
+        // posts the event for dispatching on the game thread
+        std::future<bool> postEvent(const Event& event);
 
     protected:
         EventDispatcher();
 
     private:
-        bool dispatchEvent(const Event& event);
+        // dispatches all queued events on the game thread
+        void dispatchEvents();
 
         std::vector<EventHandler*> eventHandlers;
         std::set<EventHandler*> eventHandlerAddSet;
