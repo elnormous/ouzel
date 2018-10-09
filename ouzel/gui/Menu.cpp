@@ -179,7 +179,7 @@ namespace ouzel
                             clickEvent.uiEvent.actor = selectedWidget;
                             clickEvent.uiEvent.position = selectedWidget->getPosition();
 
-                            engine->getEventDispatcher().postEvent(clickEvent);
+                            engine->getEventDispatcher().dispatchEvent(clickEvent);
                         }
                         break;
                     }
@@ -228,7 +228,7 @@ namespace ouzel
                         clickEvent.uiEvent.actor = selectedWidget;
                         clickEvent.uiEvent.position = selectedWidget->getPosition();
 
-                        engine->getEventDispatcher().postEvent(clickEvent);
+                        engine->getEventDispatcher().dispatchEvent(clickEvent);
                     }
                 }
 #endif

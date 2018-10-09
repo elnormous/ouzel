@@ -162,7 +162,7 @@ namespace ouzel
                                 resetEvent.type = Event::Type::ANIMATION_RESET;
                                 resetEvent.animationEvent.component = this;
                                 resetEvent.animationEvent.name = currentAnimation->animation->name;
-                                engine->getEventDispatcher().postEvent(resetEvent);
+                                engine->getEventDispatcher().dispatchEvent(resetEvent);
                                 break;
                             }
                             else
@@ -173,7 +173,7 @@ namespace ouzel
                                     finishEvent.type = Event::Type::ANIMATION_FINISH;
                                     finishEvent.animationEvent.component = this;
                                     finishEvent.animationEvent.name = currentAnimation->animation->name;
-                                    engine->getEventDispatcher().postEvent(finishEvent);
+                                    engine->getEventDispatcher().dispatchEvent(finishEvent);
                                 }
 
                                 auto nextAnimation = std::next(currentAnimation);
@@ -191,7 +191,7 @@ namespace ouzel
                                     startEvent.type = Event::Type::ANIMATION_START;
                                     startEvent.animationEvent.component = this;
                                     startEvent.animationEvent.name = nextAnimation->animation->name;
-                                    engine->getEventDispatcher().postEvent(startEvent);
+                                    engine->getEventDispatcher().dispatchEvent(startEvent);
                                 }
                             }
                         }
