@@ -152,7 +152,7 @@ namespace ouzel
             }
         }
 
-        void InputSystemAndroid::executeCommand(Command command)
+        void InputSystemAndroid::executeCommand(const Command& command)
         {
             switch (command.type)
             {

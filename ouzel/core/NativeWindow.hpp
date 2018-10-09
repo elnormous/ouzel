@@ -96,7 +96,7 @@ namespace ouzel
         std::vector<Event> getEvents() const;
 
     protected:
-        void addEvent(const Event& event);
+        void postEvent(const Event& event);
 
         Size2 size;
         Size2 resolution;

@@ -418,7 +418,7 @@ namespace ouzel
         {
         }
 
-        void InputSystemLinux::executeCommand(Command command)
+        void InputSystemLinux::executeCommand(const Command& command)
         {
             switch (command.type)
             {

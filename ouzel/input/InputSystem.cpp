@@ -29,7 +29,7 @@ namespace ouzel
             return result;
         }
 
-        void InputSystem::addEvent(const Event& event)
+        void InputSystem::postEvent(const Event& event)
         {
             std::unique_lock<std::mutex> lock(eventQueueMutex);
             eventQueue.push(event);
@@ -42,7 +42,7 @@ namespace ouzel
             deviceConnectEvent.deviceId = inputDevice.getId();
             deviceConnectEvent.deviceType = inputDevice.getType();
             inputDevices.insert(std::make_pair(inputDevice.getId(), &inputDevice));
-            addEvent(deviceConnectEvent);
+            postEvent(deviceConnectEvent);
         }
 
         void InputSystem::removeInputDevice(const InputDevice& inputDevice)
@@ -55,7 +55,7 @@ namespace ouzel
                 deviceDisconnectEvent.type = Event::Type::DEVICE_DISCONNECT;
                 deviceDisconnectEvent.deviceId = inputDevice.getId();
                 deviceDisconnectEvent.deviceType = inputDevice.getType();
-                addEvent(deviceDisconnectEvent);
+                postEvent(deviceDisconnectEvent);
                 inputDevices.erase(i);
             }
         }

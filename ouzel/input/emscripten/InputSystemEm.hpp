@@ -23,7 +23,7 @@ namespace ouzel
             InputSystemEm();
             virtual ~InputSystemEm() {}
 
-            virtual void executeCommand(Command command) override;
+            virtual void executeCommand(const Command& command) override;
 
             KeyboardDevice* getKeyboardDevice() const { return keyboardDevice.get(); }
             MouseDeviceEm* getMouseDevice() const { return mouseDevice.get(); }

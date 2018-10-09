@@ -211,7 +211,7 @@ namespace ouzel
             if (directInput) directInput->Release();
         }
 
-        void InputSystemWin::executeCommand(Command command)
+        void InputSystemWin::executeCommand(const Command& command)
         {
             switch (command.type)
             {

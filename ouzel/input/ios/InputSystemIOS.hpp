@@ -29,7 +29,7 @@ namespace ouzel
             InputSystemIOS();
             virtual ~InputSystemIOS();
 
-            virtual void executeCommand(Command command) override;
+            virtual void executeCommand(const Command& command) override;
 
             KeyboardDevice* getKeyboardDevice() const { return keyboardDevice.get(); }
             TouchpadDevice* getTouchpadDevice() const { return touchpadDevice.get(); }
