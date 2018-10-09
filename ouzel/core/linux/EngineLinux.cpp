@@ -238,9 +238,9 @@ namespace ouzel
                         break;
                     }
                 }
-
-                inputLinux->update();
             }
+
+            inputLinux->update();
         }
 #else
         while (active)
