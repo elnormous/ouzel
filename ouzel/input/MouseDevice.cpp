@@ -14,7 +14,7 @@ namespace ouzel
             event.deviceId = id;
             event.mouseButton = button;
             event.position = position;
-            inputSystem.addEvent(event);
+            inputSystem.postEvent(event);
         }
 
         void MouseDevice::handleButtonRelease(Mouse::Button button, const Vector2& position)
@@ -24,7 +24,7 @@ namespace ouzel
             event.deviceId = id;
             event.mouseButton = button;
             event.position = position;
-            inputSystem.addEvent(event);
+            inputSystem.postEvent(event);
         }
 
         void MouseDevice::handleMove(const Vector2& position)
@@ -33,7 +33,7 @@ namespace ouzel
             event.type = InputSystem::Event::Type::MOUSE_MOVE;
             event.deviceId = id;
             event.position = position;
-            inputSystem.addEvent(event);
+            inputSystem.postEvent(event);
         }
 
         void MouseDevice::handleRelativeMove(const Vector2& position)
@@ -42,7 +42,7 @@ namespace ouzel
             event.type = InputSystem::Event::Type::MOUSE_RELATIVE_MOVE;
             event.deviceId = id;
             event.position = position;
-            inputSystem.addEvent(event);
+            inputSystem.postEvent(event);
         }
 
         void MouseDevice::handleScroll(const Vector2& scroll, const Vector2& position)
@@ -52,7 +52,7 @@ namespace ouzel
             event.deviceId = id;
             event.position = position;
             event.scroll = scroll;
-            inputSystem.addEvent(event);
+            inputSystem.postEvent(event);
         }
 
         void MouseDevice::handleCursorLockChange(bool locked)
@@ -63,7 +63,7 @@ namespace ouzel
             event.deviceId = id;
             event.locked = locked;
 
-            inputSystem.addEvent(event);
+            inputSystem.postEvent(event);
         }
     } // namespace input
 } // namespace ouzel

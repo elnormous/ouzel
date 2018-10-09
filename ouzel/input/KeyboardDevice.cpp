@@ -13,7 +13,7 @@ namespace ouzel
             event.type = InputSystem::Event::Type::KEY_PRESS;
             event.deviceId = id;
             event.keyboardKey = key;
-            inputSystem.addEvent(event);
+            inputSystem.postEvent(event);
         }
 
         void KeyboardDevice::handleKeyRelease(Keyboard::Key key)
@@ -22,7 +22,7 @@ namespace ouzel
             event.type = InputSystem::Event::Type::KEY_RELEASE;
             event.deviceId = id;
             event.keyboardKey = key;
-            inputSystem.addEvent(event);
+            inputSystem.postEvent(event);
         }
     } // namespace input
 } // namespace ouzel

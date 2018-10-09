@@ -96,7 +96,7 @@ namespace ouzel
             }
         }
 
-        void InputSystemTVOS::executeCommand(Command command)
+        void InputSystemTVOS::executeCommand(const Command& command)
         {
             switch (command.type)
             {

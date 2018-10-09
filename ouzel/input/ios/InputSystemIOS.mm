@@ -97,7 +97,7 @@ namespace ouzel
             }
         }
 
-        void InputSystemIOS::executeCommand(Command command)
+        void InputSystemIOS::executeCommand(const Command& command)
         {
             switch (command.type)
             {

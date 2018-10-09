@@ -15,7 +15,7 @@ namespace ouzel
             event.touchId = touchId;
             event.position = position;
             event.force = force;
-            inputSystem.addEvent(event);
+            inputSystem.postEvent(event);
         }
 
         void TouchpadDevice::handleTouchEnd(uint64_t touchId, const Vector2& position, float force)
@@ -26,7 +26,7 @@ namespace ouzel
             event.touchId = touchId;
             event.position = position;
             event.force = force;
-            inputSystem.addEvent(event);
+            inputSystem.postEvent(event);
         }
 
         void TouchpadDevice::handleTouchMove(uint64_t touchId, const Vector2& position, float force)
@@ -37,7 +37,7 @@ namespace ouzel
             event.touchId = touchId;
             event.position = position;
             event.force = force;
-            inputSystem.addEvent(event);
+            inputSystem.postEvent(event);
         }
 
         void TouchpadDevice::handleTouchCancel(uint64_t touchId, const Vector2& position, float force)
@@ -48,7 +48,7 @@ namespace ouzel
             event.touchId = touchId;
             event.position = position;
             event.force = force;
-            inputSystem.addEvent(event);
+            inputSystem.postEvent(event);
         }
     } // namespace input
 } // namespace ouzel

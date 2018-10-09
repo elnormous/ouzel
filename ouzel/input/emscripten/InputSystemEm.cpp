@@ -312,7 +312,7 @@ namespace ouzel
             }
         }
 
-        void InputSystemEm::executeCommand(Command command)
+        void InputSystemEm::executeCommand(const Command& command)
         {
             switch (command.type)
             {

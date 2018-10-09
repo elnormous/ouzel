@@ -270,7 +270,7 @@ namespace ouzel
             }
         }
 
-        void InputSystemMacOS::executeCommand(Command command)
+        void InputSystemMacOS::executeCommand(const Command& command)
         {
             switch (command.type)
             {
@@ -350,7 +350,7 @@ namespace ouzel
 
             Event event;
             event.type = Event::Type::DEVICE_DISCOVERY_COMPLETE;
-            addEvent(event);
+            postEvent(event);
         }
 
         void InputSystemMacOS::handleGamepadConnected(GCControllerPtr controller)

@@ -109,12 +109,12 @@ namespace ouzel
             virtual ~InputSystem() {}
 
             void addCommand(const Command& command);
-            virtual void executeCommand(Command) {}
+            virtual void executeCommand(const Command&) {}
 
             std::vector<Event> getEvents() const;
 
         protected:
-            void addEvent(const Event& event);
+            void postEvent(const Event& event);
             void addInputDevice(InputDevice& inputDevice);
             void removeInputDevice(const InputDevice& inputDevice);
             InputDevice* getInputDevice(uint32_t id);
