@@ -372,7 +372,7 @@ namespace ouzel
                                     }
 
                                     request->code = ABS_MT_PRESSURE;
-                                    if (ioctl(fd, EVIOCGABS(size), &info) != -1)
+                                    if (ioctl(fd, EVIOCGABS(size), request) != -1)
                                     {
                                         for (size_t i = 0; i < touchSlots.size(); ++i)
                                         {
