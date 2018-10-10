@@ -99,6 +99,12 @@ namespace ouzel
                     touchMinY = info.minimum;
                     touchMaxY = info.maximum;
                     touchRangeY = touchMaxY - touchMinY;
+
+                    if (ioctl(fd, EVIOCGABS(ABS_MT_PRESSURE), &info) != -1)
+                    {
+                        touchMinPressure = info.minimum;
+                        touchMaxPressure = info.maximum;
+                    }
                 }
                 else if (isBitSet(keyBits, BTN_MOUSE)) // mouse
                     mouseDevice.reset(new MouseDevice(inputSystem, inputSystem.getNextDeviceId()));
@@ -260,6 +266,11 @@ namespace ouzel
                                     touchSlots[currentTouchSlot].action = Slot::Action::MOVE;
                                     break;
                                 }
+                                case ABS_MT_PRESSURE:
+                                {
+                                    touchSlots[currentTouchSlot].pressure = event.value;
+                                    break;
+                                }
                             }
                             break;
                         }
@@ -275,19 +286,20 @@ namespace ouzel
                                         {
                                             Vector2 position(static_cast<float>(slot.positionX - touchMinX) / touchRangeX,
                                                              static_cast<float>(slot.positionY - touchMinY) / touchRangeY);
+                                            float pressure = static_cast<float>(slot.pressure - touchMinPressure) / touchMaxPressure;
 
                                             switch (slot.action)
                                             {
                                                 case Slot::Action::NONE:
                                                     break;
                                                 case Slot::Action::BEGIN:
-                                                    touchpadDevice->handleTouchBegin(static_cast<uint64_t>(slot.trackingId), position, 1.0F);
+                                                    touchpadDevice->handleTouchBegin(static_cast<uint64_t>(slot.trackingId), position, pressure);
                                                     break;
                                                 case Slot::Action::END:
-                                                    touchpadDevice->handleTouchEnd(static_cast<uint64_t>(slot.trackingId), position, 1.0F);
+                                                    touchpadDevice->handleTouchEnd(static_cast<uint64_t>(slot.trackingId), position, pressure);
                                                     break;
                                                 case Slot::Action::MOVE:
-                                                    touchpadDevice->handleTouchMove(static_cast<uint64_t>(slot.trackingId), position, 1.0F);
+                                                    touchpadDevice->handleTouchMove(static_cast<uint64_t>(slot.trackingId), position, pressure);
                                                     break;
                                             }
 
@@ -356,6 +368,21 @@ namespace ouzel
                                             touchSlots[i].positionY = request->values[i];
                                             if (touchSlots[i].action == Slot::Action::NONE)
                                                 touchSlots[i].action = Slot::Action::MOVE;
+                                        }
+                                    }
+
+                                    request->code = ABS_MT_PRESSURE;
+                                    if (ioctl(fd, EVIOCGABS(size), &info) != -1)
+                                    {
+                                        for (size_t i = 0; i < touchSlots.size(); ++i)
+                                        {
+                                            if (touchSlots[i].trackingId >= 0 &&
+                                                touchSlots[i].pressure != request->values[i])
+                                            {
+                                                touchSlots[i].pressure = request->values[i];
+                                                if (touchSlots[i].action == Slot::Action::NONE)
+                                                    touchSlots[i].action = Slot::Action::MOVE;
+                                            }
                                         }
                                     }
 

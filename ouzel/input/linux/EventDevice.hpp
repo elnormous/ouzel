@@ -86,6 +86,7 @@ namespace ouzel
                 int32_t trackingId;
                 int32_t positionX;
                 int32_t positionY;
+                int32_t pressure = 1;
                 enum class Action
                 {
                     NONE,
@@ -98,11 +99,13 @@ namespace ouzel
             std::vector<Slot> touchSlots;
             int32_t currentTouchSlot = 0;
             int32_t touchMinX;
-            int32_t touchMinY;
             int32_t touchMaxX;
+            int32_t touchMinY;
             int32_t touchMaxY;
             int32_t touchRangeX;
             int32_t touchRangeY;
+            int32_t touchMinPressure = 0;
+            int32_t touchMaxPressure = 1;
         };
     } // namespace input
 } // namespace ouzel
