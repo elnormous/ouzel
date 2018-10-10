@@ -17,7 +17,7 @@ namespace ouzel
             {
             }
 
-            void handleKeyPress(Keyboard::Key key);
+            std::future<bool> handleKeyPress(Keyboard::Key key);
             void update();
 
         private:
