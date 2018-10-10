@@ -7,63 +7,61 @@ namespace ouzel
 {
     namespace input
     {
-        void MouseDevice::handleButtonPress(Mouse::Button button, const Vector2& position)
+        std::future<bool> MouseDevice::handleButtonPress(Mouse::Button button, const Vector2& position)
         {
             InputSystem::Event event;
             event.type = InputSystem::Event::Type::MOUSE_PRESS;
             event.deviceId = id;
             event.mouseButton = button;
             event.position = position;
-            inputSystem.postEvent(event);
+            return inputSystem.postEvent(event);
         }
 
-        void MouseDevice::handleButtonRelease(Mouse::Button button, const Vector2& position)
+        std::future<bool> MouseDevice::handleButtonRelease(Mouse::Button button, const Vector2& position)
         {
             InputSystem::Event event;
             event.type = InputSystem::Event::Type::MOUSE_RELEASE;
             event.deviceId = id;
             event.mouseButton = button;
             event.position = position;
-            inputSystem.postEvent(event);
+            return inputSystem.postEvent(event);
         }
 
-        void MouseDevice::handleMove(const Vector2& position)
+        std::future<bool> MouseDevice::handleMove(const Vector2& position)
         {
             InputSystem::Event event;
             event.type = InputSystem::Event::Type::MOUSE_MOVE;
             event.deviceId = id;
             event.position = position;
-            inputSystem.postEvent(event);
+            return inputSystem.postEvent(event);
         }
 
-        void MouseDevice::handleRelativeMove(const Vector2& position)
+        std::future<bool> MouseDevice::handleRelativeMove(const Vector2& position)
         {
             InputSystem::Event event;
             event.type = InputSystem::Event::Type::MOUSE_RELATIVE_MOVE;
             event.deviceId = id;
             event.position = position;
-            inputSystem.postEvent(event);
+            return inputSystem.postEvent(event);
         }
 
-        void MouseDevice::handleScroll(const Vector2& scroll, const Vector2& position)
+        std::future<bool> MouseDevice::handleScroll(const Vector2& scroll, const Vector2& position)
         {
             InputSystem::Event event;
             event.type = InputSystem::Event::Type::MOUSE_SCROLL;
             event.deviceId = id;
             event.position = position;
             event.scroll = scroll;
-            inputSystem.postEvent(event);
+            return inputSystem.postEvent(event);
         }
 
-        void MouseDevice::handleCursorLockChange(bool locked)
+        std::future<bool> MouseDevice::handleCursorLockChange(bool locked)
         {
             InputSystem::Event event;
             event.type = InputSystem::Event::Type::MOUSE_LOCK_CHANGED;
-
             event.deviceId = id;
             event.locked = locked;
-
-            inputSystem.postEvent(event);
+            return inputSystem.postEvent(event);
         }
     } // namespace input
 } // namespace ouzel

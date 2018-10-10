@@ -143,7 +143,7 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
                 if (Mouse* mouse = engine->getInputManager()->getMouse())
                     mouse->setCursorVisible(true);
                 engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
-                return false;
+                return true;
             default:
                 break;
         }
@@ -151,6 +151,16 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
         Vector2 worldLocation = camera.convertNormalizedToWorld(flamePosition);
 
         flame.setPosition(worldLocation);
+    }
+    else if (type == Event::Type::KEY_RELEASE)
+    {
+        switch (event.key)
+        {
+            case Keyboard::Key::MENU:
+                return true;
+            default:
+                break;
+        }
     }
 
     return false;

@@ -64,12 +64,26 @@ MainMenu::MainMenu():
 
 bool MainMenu::handleKeyboard(Event::Type type, const KeyboardEvent& event)
 {
-    if (event.key == Keyboard::Key::ESCAPE)
+    if (type == Event::Type::KEY_PRESS)
     {
-        if (type == Event::Type::KEY_PRESS)
-            engine->exit();
-
-        return true;
+        switch (event.key)
+        {
+            case Keyboard::Key::ESCAPE:
+                engine->exit();
+                return true;
+            default:
+                break;
+        }
+    }
+    else if (type == Event::Type::KEY_RELEASE)
+    {
+        switch (event.key)
+        {
+            case Keyboard::Key::MENU:
+                return true;
+            default:
+                break;
+        }
     }
 
     return false;

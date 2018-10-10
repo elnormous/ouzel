@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <future>
 #include "input/InputDevice.hpp"
 #include "input/Gamepad.hpp"
 
@@ -17,7 +18,7 @@ namespace ouzel
             {
             }
 
-            void handleButtonValueChange(Gamepad::Button button, bool pressed, float value);
+            std::future<bool> handleButtonValueChange(Gamepad::Button button, bool pressed, float value);
         };
     } // namespace input
 } // namespace ouzel

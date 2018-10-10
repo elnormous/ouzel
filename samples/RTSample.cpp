@@ -94,7 +94,17 @@ bool RTSample::handleKeyboard(Event::Type type, const KeyboardEvent& event) cons
             case Keyboard::Key::ESCAPE:
             case Keyboard::Key::MENU:
                 engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+                return true;
+            default:
                 break;
+        }
+    }
+    else if (type == Event::Type::KEY_RELEASE)
+    {
+        switch (event.key)
+        {
+            case Keyboard::Key::MENU:
+                return true;
             default:
                 break;
         }

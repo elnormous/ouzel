@@ -3,6 +3,7 @@
 #pragma once
 
 #include <cstdint>
+#include <future>
 #include <mutex>
 #include <queue>
 #include <unordered_map>
@@ -111,10 +112,10 @@ namespace ouzel
             void addCommand(const Command& command);
             virtual void executeCommand(const Command&) {}
 
-            std::vector<Event> getEvents() const;
+            std::vector<std::pair<std::promise<bool>, Event>> getEvents() const;
 
         protected:
-            void postEvent(const Event& event);
+            std::future<bool> postEvent(const Event& event);
             void addInputDevice(InputDevice& inputDevice);
             void removeInputDevice(const InputDevice& inputDevice);
             InputDevice* getInputDevice(uint32_t id);
@@ -123,7 +124,7 @@ namespace ouzel
 
         private:
             mutable std::mutex eventQueueMutex;
-            mutable std::queue<Event> eventQueue;
+            mutable std::queue<std::pair<std::promise<bool>, Event>> eventQueue;
         };
     } // namespace input
 } // namespace ouzel

@@ -18,7 +18,7 @@ namespace ouzel
             {
             }
 
-            virtual void setPlayerIndex(int32_t playerIndex) {};
+            virtual void setPlayerIndex(int32_t) {};
 
         protected:
             std::string name;
