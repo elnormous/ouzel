@@ -7,7 +7,7 @@ namespace ouzel
 {
     namespace input
     {
-        void GamepadDevice::handleButtonValueChange(Gamepad::Button button, bool pressed, float value)
+        std::future<bool> GamepadDevice::handleButtonValueChange(Gamepad::Button button, bool pressed, float value)
         {
             InputSystem::Event event;
             event.type = InputSystem::Event::Type::GAMEPAD_BUTTON_CHANGE;
@@ -17,7 +17,7 @@ namespace ouzel
             event.pressed = pressed;
             event.value = value;
 
-            inputSystem.postEvent(event);
+            return inputSystem.postEvent(event);
         }
     } // namespace input
 } // namespace ouzel

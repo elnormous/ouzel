@@ -17,22 +17,27 @@ namespace ouzel
             engine->executeOnMainThread(std::bind(&InputSystem::executeCommand, this, command));
         }
 
-        std::vector<InputSystem::Event> InputSystem::getEvents() const
+        std::vector<std::pair<std::promise<bool>, InputSystem::Event>> InputSystem::getEvents() const
         {
-            std::vector<Event> result;
+            std::vector<std::pair<std::promise<bool>, InputSystem::Event>> result;
             std::unique_lock<std::mutex> lock(eventQueueMutex);
             while (!eventQueue.empty())
             {
-                result.push_back(eventQueue.front());
+                result.push_back(std::move(eventQueue.front()));
                 eventQueue.pop();
             }
             return result;
         }
 
-        void InputSystem::postEvent(const Event& event)
+        std::future<bool> InputSystem::postEvent(const Event& event)
         {
+            std::pair<std::promise<bool>, Event> p(std::promise<bool>(), event);
+            std::future<bool> f = p.first.get_future();
+
             std::unique_lock<std::mutex> lock(eventQueueMutex);
-            eventQueue.push(event);
+            eventQueue.push(std::move(p));
+
+            return f;
         }
 
         void InputSystem::addInputDevice(InputDevice& inputDevice)

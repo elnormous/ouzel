@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <future>
 #include "input/InputDevice.hpp"
 #include "math/Vector2.hpp"
 
@@ -17,10 +18,10 @@ namespace ouzel
             {
             }
 
-            void handleTouchBegin(uint64_t touchId, const Vector2& position, float force = 1.0F);
-            void handleTouchEnd(uint64_t touchId, const Vector2& position, float force = 1.0F);
-            void handleTouchMove(uint64_t touchId, const Vector2& position, float force = 1.0F);
-            void handleTouchCancel(uint64_t touchId, const Vector2& position, float force = 1.0F);
+            std::future<bool> handleTouchBegin(uint64_t touchId, const Vector2& position, float force = 1.0F);
+            std::future<bool> handleTouchEnd(uint64_t touchId, const Vector2& position, float force = 1.0F);
+            std::future<bool> handleTouchMove(uint64_t touchId, const Vector2& position, float force = 1.0F);
+            std::future<bool> handleTouchCancel(uint64_t touchId, const Vector2& position, float force = 1.0F);
         };
     } // namespace input
 } // namespace ouzel

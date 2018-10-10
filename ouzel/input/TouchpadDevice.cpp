@@ -7,7 +7,7 @@ namespace ouzel
 {
     namespace input
     {
-        void TouchpadDevice::handleTouchBegin(uint64_t touchId, const Vector2& position, float force)
+        std::future<bool> TouchpadDevice::handleTouchBegin(uint64_t touchId, const Vector2& position, float force)
         {
             InputSystem::Event event;
             event.type = InputSystem::Event::Type::TOUCH_BEGIN;
@@ -15,10 +15,10 @@ namespace ouzel
             event.touchId = touchId;
             event.position = position;
             event.force = force;
-            inputSystem.postEvent(event);
+            return inputSystem.postEvent(event);
         }
 
-        void TouchpadDevice::handleTouchEnd(uint64_t touchId, const Vector2& position, float force)
+        std::future<bool> TouchpadDevice::handleTouchEnd(uint64_t touchId, const Vector2& position, float force)
         {
             InputSystem::Event event;
             event.type = InputSystem::Event::Type::TOUCH_END;
@@ -26,10 +26,10 @@ namespace ouzel
             event.touchId = touchId;
             event.position = position;
             event.force = force;
-            inputSystem.postEvent(event);
+            return inputSystem.postEvent(event);
         }
 
-        void TouchpadDevice::handleTouchMove(uint64_t touchId, const Vector2& position, float force)
+        std::future<bool> TouchpadDevice::handleTouchMove(uint64_t touchId, const Vector2& position, float force)
         {
             InputSystem::Event event;
             event.type = InputSystem::Event::Type::TOUCH_MOVE;
@@ -37,10 +37,10 @@ namespace ouzel
             event.touchId = touchId;
             event.position = position;
             event.force = force;
-            inputSystem.postEvent(event);
+            return inputSystem.postEvent(event);
         }
 
-        void TouchpadDevice::handleTouchCancel(uint64_t touchId, const Vector2& position, float force)
+        std::future<bool> TouchpadDevice::handleTouchCancel(uint64_t touchId, const Vector2& position, float force)
         {
             InputSystem::Event event;
             event.type = InputSystem::Event::Type::TOUCH_CANCEL;
@@ -48,7 +48,7 @@ namespace ouzel
             event.touchId = touchId;
             event.position = position;
             event.force = force;
-            inputSystem.postEvent(event);
+            return inputSystem.postEvent(event);
         }
     } // namespace input
 } // namespace ouzel

@@ -79,28 +79,55 @@
     }
 }
 
--(void)pressesBegan:(NSSet<UIPress*>*)presses withEvent:(__unused UIPressesEvent*)event
+-(void)pressesBegan:(NSSet<UIPress*>*)presses withEvent:(UIPressesEvent*)event
 {
+    bool forward = false;
+
     ouzel::input::InputSystemIOS* inputSystemIOS = static_cast<ouzel::input::InputSystemIOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::KeyboardDevice* keyboardDevice = inputSystemIOS->getKeyboardDevice();
     for (UIPress* press in presses)
-        keyboardDevice->handleKeyPress(ouzel::input::InputSystemIOS::convertKeyCode(press.type));
+    {
+        std::future<bool> f = keyboardDevice->handleKeyPress(ouzel::input::InputSystemIOS::convertKeyCode(press.type));
+        if (press.type == UIPressTypeMenu && !f.get())
+            forward = true;
+    }
+
+    if (forward)
+        [super pressesBegan:presses withEvent:event];
 }
 
--(void)pressesEnded:(NSSet<UIPress*>*)presses withEvent:(__unused UIPressesEvent*)event
+-(void)pressesEnded:(NSSet<UIPress*>*)presses withEvent:(UIPressesEvent*)event
 {
+    bool forward = false;
+
     ouzel::input::InputSystemIOS* inputSystemIOS = static_cast<ouzel::input::InputSystemIOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::KeyboardDevice* keyboardDevice = inputSystemIOS->getKeyboardDevice();
     for (UIPress* press in presses)
-        keyboardDevice->handleKeyRelease(ouzel::input::InputSystemIOS::convertKeyCode(press.type));
+    {
+        std::future<bool> f = keyboardDevice->handleKeyRelease(ouzel::input::InputSystemIOS::convertKeyCode(press.type));
+        if (press.type == UIPressTypeMenu && !f.get())
+            forward = true;
+    }
+
+    if (forward)
+        [super pressesEnded:presses withEvent:event];
 }
 
--(void)pressesCancelled:(NSSet<UIPress*>*)presses withEvent:(__unused UIPressesEvent*)event
+-(void)pressesCancelled:(NSSet<UIPress*>*)presses withEvent:(UIPressesEvent*)event
 {
+    bool forward = false;
+
     ouzel::input::InputSystemIOS* inputSystemIOS = static_cast<ouzel::input::InputSystemIOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::KeyboardDevice* keyboardDevice = inputSystemIOS->getKeyboardDevice();
     for (UIPress* press in presses)
-        keyboardDevice->handleKeyRelease(ouzel::input::InputSystemIOS::convertKeyCode(press.type));
+    {
+        std::future<bool> f = keyboardDevice->handleKeyRelease(ouzel::input::InputSystemIOS::convertKeyCode(press.type));
+        if (press.type == UIPressTypeMenu && !f.get())
+            forward = true;
+    }
+
+    if (forward)
+        [super pressesCancelled:presses withEvent:event];
 }
 
 @end

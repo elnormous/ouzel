@@ -120,7 +120,7 @@ bool PerspectiveSample::handleKeyboard(ouzel::Event::Type type, const ouzel::Key
             case Keyboard::Key::ESCAPE:
             case Keyboard::Key::MENU:
                 engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
-                return false;
+                return true;
             case Keyboard::Key::TAB:
                 jumpSound.play();
                 break;
@@ -137,6 +137,16 @@ bool PerspectiveSample::handleKeyboard(ouzel::Event::Type type, const ouzel::Key
         cameraActor.setRotation(Vector3(cameraRotation.x, cameraRotation.y, 0.0F));
 
         //engine->getAudio()->setListenerRotation(camera.getRotation());
+    }
+    else if (type == Event::Type::KEY_RELEASE)
+    {
+        switch (event.key)
+        {
+            case Keyboard::Key::MENU:
+                return true;
+            default:
+                break;
+        }
     }
 
     return false;

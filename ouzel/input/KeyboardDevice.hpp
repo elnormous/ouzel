@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <future>
 #include "input/InputDevice.hpp"
 #include "input/Keyboard.hpp"
 
@@ -17,8 +18,8 @@ namespace ouzel
             {
             }
 
-            void handleKeyPress(Keyboard::Key key);
-            void handleKeyRelease(Keyboard::Key key);
+            std::future<bool> handleKeyPress(Keyboard::Key key);
+            std::future<bool> handleKeyRelease(Keyboard::Key key);
         };
     } // namespace input
 } // namespace ouzel
