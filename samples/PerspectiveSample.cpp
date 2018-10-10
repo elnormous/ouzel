@@ -142,6 +142,7 @@ bool PerspectiveSample::handleKeyboard(ouzel::Event::Type type, const ouzel::Key
     {
         switch (event.key)
         {
+            case Keyboard::Key::ESCAPE:
             case Keyboard::Key::MENU:
                 return true;
             default:

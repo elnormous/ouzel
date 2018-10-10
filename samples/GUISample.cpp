@@ -108,6 +108,7 @@ bool GUISample::handleKeyboard(Event::Type type, const KeyboardEvent& event) con
     {
         switch (event.key)
         {
+            case Keyboard::Key::ESCAPE:
             case Keyboard::Key::MENU:
                 return true;
             default:

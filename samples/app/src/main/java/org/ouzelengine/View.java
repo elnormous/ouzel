@@ -59,15 +59,13 @@ public class View extends SurfaceView implements SurfaceHolder.Callback
     @Override public boolean onKeyDown(int keyCode, KeyEvent event)
     {
         onInputEvent(event);
-        OuzelLibJNIWrapper.onKeyDown(keyCode);
-        return super.onKeyDown(keyCode, event);
+        return OuzelLibJNIWrapper.onKeyDown(keyCode);
     }
 
     @Override public boolean onKeyUp(int keyCode, KeyEvent event)
     {
         onInputEvent(event);
-        OuzelLibJNIWrapper.onKeyUp(keyCode);
-        return super.onKeyUp(keyCode, event);
+        return OuzelLibJNIWrapper.onKeyUp(keyCode);
     }
 
     @Override public void surfaceChanged(SurfaceHolder holder, int format, int width, int height)

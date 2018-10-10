@@ -34,11 +34,6 @@ public class MainActivity extends Activity
         OuzelLibJNIWrapper.onResume();
     }
 
-    @Override public void onBackPressed()
-    {
-        OuzelLibJNIWrapper.onBackPressed();
-    }
-
     @Override public void onConfigurationChanged(Configuration newConfig)
     {
         super.onConfigurationChanged(newConfig);

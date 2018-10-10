@@ -147,6 +147,7 @@ bool AnimationsSample::handleKeyboard(Event::Type type, const KeyboardEvent& eve
     {
         switch (event.key)
         {
+            case Keyboard::Key::ESCAPE:
             case Keyboard::Key::MENU:
                 return true;
             default:
