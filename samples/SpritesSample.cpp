@@ -117,6 +117,7 @@ bool SpritesSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
     {
         switch (event.key)
         {
+            case Keyboard::Key::ESCAPE:
             case Keyboard::Key::MENU:
                 return true;
             default:

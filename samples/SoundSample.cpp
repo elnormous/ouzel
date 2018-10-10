@@ -126,6 +126,7 @@ bool SoundSample::handleKeyboard(Event::Type type, const KeyboardEvent& event) c
     {
         switch (event.key)
         {
+            case Keyboard::Key::ESCAPE:
             case Keyboard::Key::MENU:
                 return true;
             default:

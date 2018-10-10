@@ -26,9 +26,8 @@ public class OuzelLibJNIWrapper
     public static native void onConfigurationChanged(Configuration newConfig);
     public static native void onLowMemory();
 
-    public static native void onBackPressed();
-    public static native void onKeyDown(int keyCode);
-    public static native void onKeyUp(int keyCode);
+    public static native boolean onKeyDown(int keyCode);
+    public static native boolean onKeyUp(int keyCode);
 
     public static native boolean onTouchEvent(MotionEvent event);
 }
