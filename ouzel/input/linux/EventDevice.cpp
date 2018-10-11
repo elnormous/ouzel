@@ -5,6 +5,7 @@
 #include <linux/input.h>
 #include "EventDevice.hpp"
 #include "InputSystemLinux.hpp"
+#include "input/GamepadConfig.hpp"
 #include "input/KeyboardDevice.hpp"
 #include "input/GamepadDevice.hpp"
 #include "input/MouseDevice.hpp"

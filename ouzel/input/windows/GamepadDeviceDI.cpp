@@ -2,6 +2,7 @@
 
 #include "GamepadDeviceDI.hpp"
 #include "core/windows/NativeWindowWin.hpp"
+#include "input/GamepadConfig.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
