@@ -45,17 +45,21 @@ namespace ouzel
                 buttonMap = PLAYSTATION_3_BUTTON_MAP;
 
                 leftThumbX.usage = HID_USAGE_GENERIC_X;
-                leftThumbY.usage = HID_USAGE_GENERIC_Y;
-                leftTrigger.usage = HID_USAGE_GENERIC_RX;
-                rightThumbX.usage = HID_USAGE_GENERIC_Z;
-                rightThumbY.usage = HID_USAGE_GENERIC_RZ;
-                rightTrigger.usage = HID_USAGE_GENERIC_RY;
-
                 leftThumbX.offset = DIJOFS_X;
+
+                leftThumbY.usage = HID_USAGE_GENERIC_Y;
                 leftThumbY.offset = DIJOFS_Y;
+
+                leftTrigger.usage = HID_USAGE_GENERIC_RX;
                 leftTrigger.offset = DIJOFS_RX;
+
+                rightThumbX.usage = HID_USAGE_GENERIC_Z;
                 rightThumbX.offset = DIJOFS_Z;
+
+                rightThumbY.usage = HID_USAGE_GENERIC_RZ;
                 rightThumbY.offset = DIJOFS_RZ;
+
+                rightTrigger.usage = HID_USAGE_GENERIC_RY;
                 rightTrigger.offset = DIJOFS_RY;
             }
             else if (vendorId == 0x054C && productId == 0x05C4) // Playstation 4 controller
@@ -63,17 +67,21 @@ namespace ouzel
                 buttonMap = PLAYSTATION_4_BUTTON_MAP;
 
                 leftThumbX.usage = HID_USAGE_GENERIC_X;
-                leftThumbY.usage = HID_USAGE_GENERIC_Y;
-                leftTrigger.usage = HID_USAGE_GENERIC_RX;
-                rightThumbX.usage = HID_USAGE_GENERIC_Z;
-                rightThumbY.usage = HID_USAGE_GENERIC_RZ;
-                rightTrigger.usage = HID_USAGE_GENERIC_RY;
-
                 leftThumbX.offset = DIJOFS_X;
+
+                leftThumbY.usage = HID_USAGE_GENERIC_Y;
                 leftThumbY.offset = DIJOFS_Y;
+
+                leftTrigger.usage = HID_USAGE_GENERIC_RX;
                 leftTrigger.offset = DIJOFS_RX;
+
+                rightThumbX.usage = HID_USAGE_GENERIC_Z;
                 rightThumbX.offset = DIJOFS_Z;
+
+                rightThumbY.usage = HID_USAGE_GENERIC_RZ;
                 rightThumbY.offset = DIJOFS_RZ;
+
+                rightTrigger.usage = HID_USAGE_GENERIC_RY;
                 rightTrigger.offset = DIJOFS_RY;
             }
             else if (vendorId == 0x045E && productId == 0x02D1) // Xbox One controller
@@ -81,17 +89,21 @@ namespace ouzel
                 buttonMap = XBOX_ONE_BUTTON_MAP;
 
                 leftThumbX.usage = HID_USAGE_GENERIC_X;
-                leftThumbY.usage = HID_USAGE_GENERIC_Y;
-                leftTrigger.usage = HID_USAGE_GENERIC_RY;
-                rightThumbX.usage = HID_USAGE_GENERIC_Z;
-                rightThumbY.usage = HID_USAGE_GENERIC_RX;
-                rightTrigger.usage = HID_USAGE_GENERIC_RZ;
-
                 leftThumbX.offset = DIJOFS_X;
+
+                leftThumbY.usage = HID_USAGE_GENERIC_Y;
                 leftThumbY.offset = DIJOFS_Y;
+
+                leftTrigger.usage = HID_USAGE_GENERIC_RY;
                 leftTrigger.offset = DIJOFS_RY;
+
+                rightThumbX.usage = HID_USAGE_GENERIC_Z;
                 rightThumbX.offset = DIJOFS_Z;
+
+                rightThumbY.usage = HID_USAGE_GENERIC_RX;
                 rightThumbY.offset = DIJOFS_RX;
+
+                rightTrigger.usage = HID_USAGE_GENERIC_RZ;
                 rightTrigger.offset = DIJOFS_RZ;
             }
             else if ((vendorId == 0x0E6F && productId == 0x0113) || // AfterglowGamepadforXbox360
@@ -169,17 +181,21 @@ namespace ouzel
                 buttonMap = XBOX_360_BUTTON_MAP;
 
                 leftThumbX.usage = HID_USAGE_GENERIC_X;
-                leftThumbY.usage = HID_USAGE_GENERIC_Y;
-                leftTrigger.usage = HID_USAGE_GENERIC_Z;
-                rightThumbX.usage = HID_USAGE_GENERIC_RX;
-                rightThumbY.usage = HID_USAGE_GENERIC_RY;
-                rightTrigger.usage = HID_USAGE_GENERIC_RZ;
-
                 leftThumbX.offset = DIJOFS_X;
+
+                leftThumbY.usage = HID_USAGE_GENERIC_Y;
                 leftThumbY.offset = DIJOFS_Y;
+
+                leftTrigger.usage = HID_USAGE_GENERIC_Z;
                 leftTrigger.offset = DIJOFS_Z;
+
+                rightThumbX.usage = HID_USAGE_GENERIC_RX;
                 rightThumbX.offset = DIJOFS_RX;
+
+                rightThumbY.usage = HID_USAGE_GENERIC_RY;
                 rightThumbY.offset = DIJOFS_RY;
+
+                rightTrigger.usage = HID_USAGE_GENERIC_RZ;
                 rightTrigger.offset = DIJOFS_RZ;
             }
             else if (vendorId == 0x0079 && productId == 0x0006) // Acme GA07
@@ -187,26 +203,37 @@ namespace ouzel
                 buttonMap = ACME_GA07_BUTTON_MAP;
 
                 leftThumbX.usage = HID_USAGE_GENERIC_X;
+                leftThumbX.offset = DIJOFS_X;
+
                 leftThumbY.usage = HID_USAGE_GENERIC_Y;
+                leftThumbY.offset = DIJOFS_Y;
+
                 rightThumbX.usage = HID_USAGE_GENERIC_RX;
+                rightThumbX.offset = DIJOFS_RX;
+
                 rightThumbY.usage = HID_USAGE_GENERIC_RY;
+                rightThumbY.offset = DIJOFS_RY;
             }
             else // Generic (based on Logitech RumblePad 2)
             {
                 buttonMap = GENERIC_BUTTON_MAP;
 
                 leftThumbX.usage = HID_USAGE_GENERIC_X;
-                leftThumbY.usage = HID_USAGE_GENERIC_Y;
-                leftTrigger.usage = HID_USAGE_GENERIC_RX;
-                rightThumbX.usage = HID_USAGE_GENERIC_Z;
-                rightThumbY.usage = HID_USAGE_GENERIC_RZ;
-                rightTrigger.usage = HID_USAGE_GENERIC_RY;
-
                 leftThumbX.offset = DIJOFS_X;
+
+                leftThumbY.usage = HID_USAGE_GENERIC_Y;
                 leftThumbY.offset = DIJOFS_Y;
+
+                leftTrigger.usage = HID_USAGE_GENERIC_RX;
                 leftTrigger.offset = DIJOFS_RX;
+
+                rightThumbX.usage = HID_USAGE_GENERIC_Z;
                 rightThumbX.offset = DIJOFS_Z;
+
+                rightThumbY.usage = HID_USAGE_GENERIC_RZ;
                 rightThumbY.offset = DIJOFS_RZ;
+
+                rightTrigger.usage = HID_USAGE_GENERIC_RY;
                 rightTrigger.offset = DIJOFS_RY;
             }
 
