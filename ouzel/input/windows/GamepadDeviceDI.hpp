@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <array>
 #include <string>
 #ifndef NOMINMAX
 #  define NOMINMAX
@@ -48,7 +49,7 @@ namespace ouzel
             const DIDEVICEINSTANCEW* instance = nullptr;
             IDirectInputDevice8W* device = nullptr;
             DIJOYSTATE2 diState;
-            Gamepad::Button buttonMap[24];
+            std::array<Gamepad::Button, 24> buttonMap;
 
             struct Axis
             {
