@@ -970,6 +970,21 @@
     <ClInclude Include="..\ouzel\input\windows\GamepadDeviceWin.hpp">
       <Filter>ouzel\input\windows</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\input\GamepadConfig.hpp">
+      <Filter>ouzel\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\input\GamepadDevice.hpp">
+      <Filter>ouzel\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\input\KeyboardDevice.hpp">
+      <Filter>ouzel\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\input\MouseDevice.hpp">
+      <Filter>ouzel\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\input\TouchpadDevice.hpp">
+      <Filter>ouzel\input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ouzel">
