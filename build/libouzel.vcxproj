@@ -289,6 +289,10 @@
     <ClInclude Include="..\ouzel\gui\TTFont.hpp" />
     <ClInclude Include="..\ouzel\gui\Widget.hpp" />
     <ClInclude Include="..\ouzel\input\Cursor.hpp" />
+    <ClInclude Include="..\ouzel\input\GamepadConfig.hpp" />
+    <ClInclude Include="..\ouzel\input\GamepadDevice.hpp" />
+    <ClInclude Include="..\ouzel\input\KeyboardDevice.hpp" />
+    <ClInclude Include="..\ouzel\input\MouseDevice.hpp" />
     <ClInclude Include="..\ouzel\input\NativeCursor.hpp" />
     <ClInclude Include="..\ouzel\input\Gamepad.hpp" />
     <ClInclude Include="..\ouzel\input\InputManager.hpp" />
@@ -298,6 +302,7 @@
     <ClInclude Include="..\ouzel\input\Keyboard.hpp" />
     <ClInclude Include="..\ouzel\input\Mouse.hpp" />
     <ClInclude Include="..\ouzel\input\Touchpad.hpp" />
+    <ClInclude Include="..\ouzel\input\TouchpadDevice.hpp" />
     <ClInclude Include="..\ouzel\input\windows\GamepadDeviceWin.hpp" />
     <ClInclude Include="..\ouzel\input\windows\InputSystemWin.hpp" />
     <ClInclude Include="..\ouzel\input\windows\NativeCursorWin.hpp" />
