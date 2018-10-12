@@ -406,16 +406,27 @@ namespace ouzel
                         case EV_ABS:
                         {
                             // TODO: implement
-                            break;
-                        }
-                        case EV_REL:
-                        {
-                            // TODO: implement
+                            if (event.code == ABS_HAT0X)
+                            {
+                                if (event.value != 0)
+                                    gamepadDevice->handleButtonValueChange((event.value > 0) ? Gamepad::Button::DPAD_RIGHT : Gamepad::Button::DPAD_LEFT, true, 1.0F);
+                                else
+                                    gamepadDevice->handleButtonValueChange(Gamepad::Button::DPAD_RIGHT, false, 0.0F); // TODO: implement correct button
+                            }
+                            else if (event.code == ABS_HAT0Y)
+                            {
+                                if (event.value != 0)
+                                    gamepadDevice->handleButtonValueChange((event.value > 0) ? Gamepad::Button::DPAD_DOWN : Gamepad::Button::DPAD_UP, true, 1.0F);
+                                else
+                                    gamepadDevice->handleButtonValueChange(Gamepad::Button::DPAD_DOWN, false, 0.0F); // TODO: implement correct button
+                            }
+
+                            // TODO: implement ABS_X, ABS_Y, ABS_Z, ABS_RX, ABS_RY, ABS_RZ
                             break;
                         }
                         case EV_KEY:
                         {
-                            // TODO: implement
+                            // TODO: implement BTN_GAMEPAD
                             break;
                         }
                     }
