@@ -501,7 +501,6 @@ namespace ouzel
                     {
                         case EV_ABS:
                         {
-                            // TODO: implement
                             if (event.code == ABS_HAT0X)
                             {
                                 if (event.value != 0)
