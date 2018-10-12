@@ -106,6 +106,9 @@ namespace ouzel
             int32_t touchRangeY;
             int32_t touchMinPressure = 0;
             int32_t touchMaxPressure = 1;
+
+            int32_t hat0XValue = 0;
+            int32_t hat0YValue = 0;
         };
     } // namespace input
 } // namespace ouzel
