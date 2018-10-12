@@ -61,7 +61,7 @@ namespace ouzel
 
             if (vendorId == 0x054C && productId == 0x0268) // Playstation 3 controller
             {
-                usageMap = PLAYSTATION_3_BUTTON_MAP;
+                usageMap = PLAYSTATION_3_CONFIG.buttonMap;
 
                 leftThumbXMap = kHIDUsage_GD_X;
                 leftThumbYMap = kHIDUsage_GD_Y;
@@ -72,7 +72,7 @@ namespace ouzel
             }
             else if (vendorId == 0x054C && productId == 0x05C4) // Playstation 4 controller
             {
-                usageMap = PLAYSTATION_4_BUTTON_MAP;
+                usageMap = PLAYSTATION_4_CONFIG.buttonMap;
 
                 leftThumbXMap = kHIDUsage_GD_X;
                 leftThumbYMap = kHIDUsage_GD_Y;
@@ -83,7 +83,7 @@ namespace ouzel
             }
             else if (vendorId == 0x045E && productId == 0x02D1) // Xbox One controller
             {
-                usageMap = XBOX_ONE_BUTTON_MAP;
+                usageMap = XBOX_ONE_CONFIG.buttonMap;
 
                 leftThumbXMap = kHIDUsage_GD_X;
                 leftThumbYMap = kHIDUsage_GD_Y;
@@ -164,7 +164,7 @@ namespace ouzel
                      (vendorId == 0x1BAD && productId == 0xF906) || // XB360MortalKombatFightStick
                      (vendorId == 0x15E4 && productId == 0x3F0A)) // XboxAirflowiredcontroller
             {
-                usageMap = XBOX_360_BUTTON_MAP;
+                usageMap = XBOX_360_CONFIG.buttonMap;
 
                 leftThumbXMap = kHIDUsage_GD_X;
                 leftThumbYMap = kHIDUsage_GD_Y;
@@ -175,7 +175,7 @@ namespace ouzel
             }
             else if (vendorId == 0x0079 && productId == 0x0006) // Acme GA07
             {
-                usageMap = ACME_GA07_BUTTON_MAP;
+                usageMap = ACME_GA07_CONFIG.buttonMap;
 
                 leftThumbXMap = kHIDUsage_GD_X;
                 leftThumbYMap = kHIDUsage_GD_Y;
@@ -184,7 +184,7 @@ namespace ouzel
             }
             else // Generic (based on Logitech RumblePad 2)
             {
-                usageMap = GENERIC_BUTTON_MAP;
+                usageMap = GENERIC_CONFIG.buttonMap;
 
                 leftThumbXMap = kHIDUsage_GD_X;
                 leftThumbYMap = kHIDUsage_GD_Y;
