@@ -3,9 +3,11 @@
 #pragma once
 
 #include <cstdint>
+#include <array>
 #include <memory>
 #include <string>
 #include <vector>
+#include "input/Gamepad.hpp"
 #include "math/Vector2.hpp"
 
 namespace ouzel
@@ -72,8 +74,6 @@ namespace ouzel
             int fd = -1;
             std::string filename;
             std::string name;
-            uint16_t vendor = 0;
-            uint16_t product = 0;
 
             std::unique_ptr<KeyboardDevice> keyboardDevice;
             std::unique_ptr<GamepadDevice> gamepadDevice;
@@ -109,6 +109,7 @@ namespace ouzel
 
             int32_t hat0XValue = 0;
             int32_t hat0YValue = 0;
+            std::array<Gamepad::Button, 24> buttonMap;
         };
     } // namespace input
 } // namespace ouzel
