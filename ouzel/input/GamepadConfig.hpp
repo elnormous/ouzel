@@ -9,9 +9,14 @@ namespace ouzel
 {
     namespace input
     {
+        struct GamepadConfig
+        {
+            std::array<Gamepad::Button, 24> buttonMap;
+        };
+
         // Playstation 3 controller
         // vendorId = 0x054C, productId = 0x0268
-        static const std::array<Gamepad::Button, 24> PLAYSTATION_3_BUTTON_MAP = {
+        static const GamepadConfig PLAYSTATION_3_CONFIG = {{
             Gamepad::Button::BACK, // Select
             Gamepad::Button::LEFT_THUMB, // L3
             Gamepad::Button::RIGHT_THUMB, // R3
@@ -36,11 +41,11 @@ namespace ouzel
             Gamepad::Button::NONE,
             Gamepad::Button::NONE,
             Gamepad::Button::NONE
-        };
+        }};
 
         // Playstation 4 controller
         // vendorId = 0x054C, productId = 0x05C4
-        static const std::array<Gamepad::Button, 24> PLAYSTATION_4_BUTTON_MAP = {
+        static const GamepadConfig PLAYSTATION_4_CONFIG = {{
             Gamepad::Button::FACE_LEFT, // Square
             Gamepad::Button::FACE_BOTTOM, // Cross
             Gamepad::Button::FACE_RIGHT, // Circle
@@ -65,11 +70,11 @@ namespace ouzel
             Gamepad::Button::NONE,
             Gamepad::Button::NONE,
             Gamepad::Button::NONE
-        };
+        }};
 
         // Xbox One controller
         // vendorId = 0x045E, productId = 0x02D1
-        static const std::array<Gamepad::Button, 24> XBOX_ONE_BUTTON_MAP = {
+        static const GamepadConfig XBOX_ONE_CONFIG = {{
             Gamepad::Button::FACE_BOTTOM, // A
             Gamepad::Button::FACE_RIGHT, // B
             Gamepad::Button::FACE_LEFT, // X
@@ -94,10 +99,10 @@ namespace ouzel
             Gamepad::Button::NONE,
             Gamepad::Button::NONE,
             Gamepad::Button::NONE
-        };
+        }};
 
         // Xbox 360 controller
-        static const std::array<Gamepad::Button, 24> XBOX_360_BUTTON_MAP = {
+        static const GamepadConfig XBOX_360_CONFIG = {{
             Gamepad::Button::FACE_BOTTOM, // A
             Gamepad::Button::FACE_RIGHT, // B
             Gamepad::Button::FACE_LEFT, // X
@@ -122,11 +127,11 @@ namespace ouzel
             Gamepad::Button::NONE,
             Gamepad::Button::NONE,
             Gamepad::Button::NONE
-        };
+        }};
 
         // Acme GA07 controller
         // vendorId = 0x0079, productId = 0x0006
-        static const std::array<Gamepad::Button, 24> ACME_GA07_BUTTON_MAP = {
+        static const GamepadConfig ACME_GA07_CONFIG = {{
             Gamepad::Button::FACE_TOP, // 1
             Gamepad::Button::FACE_RIGHT, // 2
             Gamepad::Button::FACE_BOTTOM, // 3
@@ -151,10 +156,10 @@ namespace ouzel
             Gamepad::Button::NONE,
             Gamepad::Button::NONE,
             Gamepad::Button::NONE
-        };
+        }};
 
         // Generic controller
-        static const std::array<Gamepad::Button, 24> GENERIC_BUTTON_MAP = {
+        static const GamepadConfig GENERIC_CONFIG = {{
             Gamepad::Button::FACE_LEFT,
             Gamepad::Button::FACE_BOTTOM,
             Gamepad::Button::FACE_RIGHT,
@@ -179,6 +184,6 @@ namespace ouzel
             Gamepad::Button::NONE,
             Gamepad::Button::NONE,
             Gamepad::Button::NONE
-        };
+        }};
     }
 }
