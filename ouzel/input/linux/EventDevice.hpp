@@ -33,16 +33,12 @@ namespace ouzel
             {
                 fd = other.fd;
                 name = std::move(name);
-                vendor = other.vendor;
-                product = other.product;
                 keyboardDevice = std::move(other.keyboardDevice);
                 gamepadDevice = std::move(other.gamepadDevice);
                 mouseDevice = std::move(other.mouseDevice);
                 touchpadDevice = std::move(other.touchpadDevice);
 
                 other.fd = -1;
-                other.vendor = 0;
-                other.product = 0;
             }
 
             EventDevice& operator=(EventDevice&& other)
@@ -51,16 +47,12 @@ namespace ouzel
                 {
                     fd = other.fd;
                     name = std::move(name);
-                    vendor = other.vendor;
-                    product = other.product;
                     keyboardDevice = std::move(other.keyboardDevice);
                     gamepadDevice = std::move(other.gamepadDevice);
                     mouseDevice = std::move(other.mouseDevice);
                     touchpadDevice = std::move(other.touchpadDevice);
 
                     other.fd = -1;
-                    other.vendor = 0;
-                    other.product = 0;
                 }
 
                 return *this;
