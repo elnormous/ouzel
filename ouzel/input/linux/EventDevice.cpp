@@ -410,15 +410,19 @@ namespace ouzel
                             {
                                 if (event.value != 0)
                                     gamepadDevice->handleButtonValueChange((event.value > 0) ? Gamepad::Button::DPAD_RIGHT : Gamepad::Button::DPAD_LEFT, true, 1.0F);
-                                else
-                                    gamepadDevice->handleButtonValueChange(Gamepad::Button::DPAD_RIGHT, false, 0.0F); // TODO: implement correct button
+                                else if (hat0XValue != 0)
+                                    gamepadDevice->handleButtonValueChange((hat0XValue > 0) ? Gamepad::Button::DPAD_RIGHT : Gamepad::Button::DPAD_LEFT, false, 0.0F);
+
+                                hat0XValue = event.value;
                             }
                             else if (event.code == ABS_HAT0Y)
                             {
                                 if (event.value != 0)
                                     gamepadDevice->handleButtonValueChange((event.value > 0) ? Gamepad::Button::DPAD_DOWN : Gamepad::Button::DPAD_UP, true, 1.0F);
-                                else
-                                    gamepadDevice->handleButtonValueChange(Gamepad::Button::DPAD_DOWN, false, 0.0F); // TODO: implement correct button
+                                else if (hat0YValue != 0)
+                                    gamepadDevice->handleButtonValueChange((hat0YValue > 0) ? Gamepad::Button::DPAD_DOWN : Gamepad::Button::DPAD_UP, false, 0.0F);
+
+                                hat0YValue = event.value;
                             }
 
                             // TODO: implement ABS_X, ABS_Y, ABS_Z, ABS_RX, ABS_RY, ABS_RZ
