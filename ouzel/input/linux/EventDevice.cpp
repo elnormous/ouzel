@@ -530,7 +530,7 @@ namespace ouzel
                             if (button != Gamepad::Button::NONE)
                                 gamepadDevice->handleButtonValueChange(button,
                                                                        event.value > 0,
-                                                                       event.value > 0) ? 1.0F : 0.0F);
+                                                                       (event.value > 0) ? 1.0F : 0.0F);
                             break;
                         }
                     }
