@@ -57,11 +57,11 @@ namespace ouzel
             uint32_t rightThumbXMap = 0;
             uint32_t rightThumbYMap = 0;
             uint32_t rightTriggerMap = 0;
-            std::array<Gamepad::Button, 24> usageMap;
+            GamepadConfig gamepadConfig;
 
             if (vendorId == 0x054C && productId == 0x0268) // Playstation 3 controller
             {
-                usageMap = PLAYSTATION_3_CONFIG.buttonMap;
+                gamepadConfig = PLAYSTATION_3_CONFIG;
 
                 leftThumbXMap = kHIDUsage_GD_X;
                 leftThumbYMap = kHIDUsage_GD_Y;
@@ -72,7 +72,7 @@ namespace ouzel
             }
             else if (vendorId == 0x054C && productId == 0x05C4) // Playstation 4 controller
             {
-                usageMap = PLAYSTATION_4_CONFIG.buttonMap;
+                gamepadConfig = PLAYSTATION_4_CONFIG;
 
                 leftThumbXMap = kHIDUsage_GD_X;
                 leftThumbYMap = kHIDUsage_GD_Y;
@@ -83,7 +83,7 @@ namespace ouzel
             }
             else if (vendorId == 0x045E && productId == 0x02D1) // Xbox One controller
             {
-                usageMap = XBOX_ONE_CONFIG.buttonMap;
+                gamepadConfig = XBOX_ONE_CONFIG;
 
                 leftThumbXMap = kHIDUsage_GD_X;
                 leftThumbYMap = kHIDUsage_GD_Y;
@@ -164,7 +164,7 @@ namespace ouzel
                      (vendorId == 0x1BAD && productId == 0xF906) || // XB360MortalKombatFightStick
                      (vendorId == 0x15E4 && productId == 0x3F0A)) // XboxAirflowiredcontroller
             {
-                usageMap = XBOX_360_CONFIG.buttonMap;
+                gamepadConfig = XBOX_360_CONFIG;
 
                 leftThumbXMap = kHIDUsage_GD_X;
                 leftThumbYMap = kHIDUsage_GD_Y;
@@ -175,7 +175,7 @@ namespace ouzel
             }
             else if (vendorId == 0x0079 && productId == 0x0006) // Acme GA07
             {
-                usageMap = ACME_GA07_CONFIG.buttonMap;
+                gamepadConfig = ACME_GA07_CONFIG;
 
                 leftThumbXMap = kHIDUsage_GD_X;
                 leftThumbYMap = kHIDUsage_GD_Y;
@@ -184,7 +184,7 @@ namespace ouzel
             }
             else // Generic (based on Logitech RumblePad 2)
             {
-                usageMap = GENERIC_CONFIG.buttonMap;
+                gamepadConfig = GENERIC_CONFIG;
 
                 leftThumbXMap = kHIDUsage_GD_X;
                 leftThumbYMap = kHIDUsage_GD_Y;
@@ -206,7 +206,7 @@ namespace ouzel
                 element.usage = IOHIDElementGetUsage(element.element);
 
                 if (element.usage > 0 && element.usage < 25)
-                    element.button = usageMap[element.usage - 1];
+                    element.button = gamepadConfig.buttonMap[element.usage - 1];
 
                 if ((element.type == kIOHIDElementTypeInput_Misc || element.type == kIOHIDElementTypeInput_Axis) &&
                     element.usagePage == kHIDPage_GenericDesktop)
