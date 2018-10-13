@@ -113,11 +113,11 @@ namespace ouzel
         std::condition_variable updateCondition;
 #endif
 
-        std::atomic<bool> active;
-        std::atomic<bool> paused;
-        std::atomic<bool> oneUpdatePerFrame;
+        std::atomic_bool active;
+        std::atomic_bool paused;
+        std::atomic_bool oneUpdatePerFrame;
 
-        std::atomic<bool> screenSaverEnabled;
+        std::atomic_bool screenSaverEnabled;
         std::vector<std::string> args;
     };
 

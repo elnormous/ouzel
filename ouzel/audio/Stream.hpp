@@ -44,9 +44,9 @@ namespace ouzel
             void setEventListener(EventListener* newEventListener);
 
         private:
-            std::atomic<bool> playing;
-            std::atomic<bool> repeating;
-            std::atomic<bool> shouldReset;
+            std::atomic_bool playing;
+            std::atomic_bool repeating;
+            std::atomic_bool shouldReset;
 
             std::mutex listenerMutex;
             EventListener* eventListener = nullptr;

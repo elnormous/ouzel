@@ -99,7 +99,7 @@ namespace ouzel
 
             bool transformDirty = true;
             bool spatialized = true;
-            std::atomic<bool> playing; // TODO: remove atomic
+            std::atomic_bool playing; // TODO: remove atomic
             bool repeating = false;
         };
     } // namespace audio

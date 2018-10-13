@@ -59,7 +59,7 @@ namespace ouzel
             CVDisplayLinkRef displayLink = nullptr;
             EventHandler eventHandler;
 
-            std::atomic<bool> running;
+            std::atomic_bool running;
         };
     } // namespace graphics
 } // namespace ouzel

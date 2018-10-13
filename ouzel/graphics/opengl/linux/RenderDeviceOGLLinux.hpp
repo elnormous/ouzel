@@ -51,7 +51,7 @@ namespace ouzel
             EGLSurface surface = 0;
             EGLContext context = 0;
 #endif
-            std::atomic<bool> running;
+            std::atomic_bool running;
             std::thread renderThread;
         };
     } // namespace graphics
