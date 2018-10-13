@@ -37,7 +37,7 @@ namespace ouzel
 
             std::vector<uint8_t> data;
 
-            std::atomic<bool> running;
+            std::atomic_bool running;
             std::thread audioThread;
         };
     } // namespace audio

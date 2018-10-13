@@ -41,7 +41,7 @@ namespace ouzel
             HDC deviceContext = 0;
             HGLRC renderContext = 0;
 
-            std::atomic<bool> running;
+            std::atomic_bool running;
             std::thread renderThread;
         };
     } // namespace graphics

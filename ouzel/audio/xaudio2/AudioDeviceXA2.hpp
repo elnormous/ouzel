@@ -46,7 +46,7 @@ namespace ouzel
             std::vector<uint8_t> data[2];
             uint32_t nextBuffer = 0;
 
-            std::atomic<bool> running;
+            std::atomic_bool running;
             std::thread audioThread;
             std::condition_variable fillDataCondition;
             bool fillData = false;

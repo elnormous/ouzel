@@ -44,7 +44,7 @@ namespace ouzel
         RenderCallback callback;
         void* userInfo;
         std::thread renderThread;
-        std::atomic<bool> running;
+        std::atomic_bool running;
         bool verticalSync = false;
         CADisplayLinkPtr displayLink = nil;
         NSRunLoopPtr runLoop = nil;

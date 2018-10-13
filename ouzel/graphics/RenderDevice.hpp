@@ -145,7 +145,7 @@ namespace ouzel
             std::queue<std::unique_ptr<Command>> commandQueue;
             std::mutex commandQueueMutex;
             std::condition_variable commandQueueCondition;
-            std::atomic<bool> refillQueue;
+            std::atomic_bool refillQueue;
 
             std::atomic<float> currentFPS;
             std::chrono::steady_clock::time_point previousFrameTime;
