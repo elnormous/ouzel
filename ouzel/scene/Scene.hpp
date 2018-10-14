@@ -56,8 +56,8 @@ namespace ouzel
 
             virtual void recalculateProjection();
 
-            std::pair<Actor*, ouzel::Vector3> pickActor(const Vector2& position, bool renderTargets = false) const;
-            std::vector<std::pair<Actor*, ouzel::Vector3>> pickActors(const Vector2& position, bool renderTargets = false) const;
+            std::pair<Actor*, Vector3> pickActor(const Vector2& position, bool renderTargets = false) const;
+            std::vector<std::pair<Actor*, Vector3>> pickActors(const Vector2& position, bool renderTargets = false) const;
             std::vector<Actor*> pickActors(const std::vector<Vector2>& edges, bool renderTargets = false) const;
 
         protected:
@@ -73,15 +73,15 @@ namespace ouzel
             void pointerDownOnActor(uint64_t pointerId, Actor* actor, const Vector2& position, const Vector3& localPosition);
             void pointerUpOnActor(uint64_t pointerId, Actor* actor, const Vector2& position);
             void pointerDragActor(uint64_t pointerId, Actor* actor, const Vector2& position,
-                                 const Vector2& difference, const ouzel::Vector3& localPosition);
+                                  const Vector2& difference, const Vector3& localPosition);
 
             SceneManager* sceneManger = nullptr;
 
             std::vector<Layer*> layers;
             std::vector<std::unique_ptr<Layer>> ownedLayers;
-            ouzel::EventHandler eventHandler;
+            EventHandler eventHandler;
 
-            std::unordered_map<uint64_t, std::pair<Actor*, ouzel::Vector3>> pointerDownOnActors;
+            std::unordered_map<uint64_t, std::pair<Actor*, Vector3>> pointerDownOnActors;
 
             bool entered = false;
         };

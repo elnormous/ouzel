@@ -17,19 +17,21 @@ static const long _NET_WM_STATE_TOGGLE = 2;
 
 namespace ouzel
 {
-    NativeWindowLinux::NativeWindowLinux(const Size2& newSize,
+    NativeWindowLinux::NativeWindowLinux(EventHandler& initEventHandler,
+                                         const Size2& newSize,
                                          bool newResizable,
                                          bool newFullscreen,
                                          bool newExclusiveFullscreen,
                                          const std::string& newTitle,
                                          graphics::Renderer::Driver graphicsDriver,
                                          bool depth):
-        ouzel::NativeWindow(newSize,
-                            newResizable,
-                            newFullscreen,
-                            newExclusiveFullscreen,
-                            newTitle,
-                            true)
+        NativeWindow(initEventHandler,
+                     newSize,
+                     newResizable,
+                     newFullscreen,
+                     newExclusiveFullscreen,
+                     newTitle,
+                     true)
     {
 #if OUZEL_SUPPORTS_X11
         EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);

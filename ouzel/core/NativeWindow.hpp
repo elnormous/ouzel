@@ -12,33 +12,6 @@ namespace ouzel
     class NativeWindow
     {
     public:
-        class Event
-        {
-        public:
-            enum class Type
-            {
-                SIZE_CHANGE,
-                RESOLUTION_CHANGE,
-                FULLSCREEN_CHANGE,
-                SCREEN_CHANGE,
-                CLOSE
-            };
-
-            Event(Type initType): type(initType) {}
-            Event(Type initType, const Size2& initSize): type(initType), size(initSize) {}
-            Event(Type initType, bool initFullscreen): type(initType), fullscreen(initFullscreen) {}
-            Event(Type initType, uint32_t initDisplayId): type(initType), displayId(initDisplayId) {}
-
-            Type type;
-
-            union
-            {
-                Size2 size;
-                bool fullscreen;
-                uint32_t displayId;
-            };
-        };
-
         class Command
         {
         public:
@@ -62,7 +35,42 @@ namespace ouzel
             std::string title;
         };
 
-        NativeWindow(const Size2& newSize,
+        class Event
+        {
+        public:
+            enum class Type
+            {
+                SIZE_CHANGE,
+                RESOLUTION_CHANGE,
+                FULLSCREEN_CHANGE,
+                SCREEN_CHANGE,
+                CLOSE
+            };
+
+            Event() {}
+            explicit Event(Type initType): type(initType) {}
+            Event(Type initType, const Size2& initSize): type(initType), size(initSize) {}
+            Event(Type initType, bool initFullscreen): type(initType), fullscreen(initFullscreen) {}
+            Event(Type initType, uint32_t initDisplayId): type(initType), displayId(initDisplayId) {}
+
+            Type type;
+
+            union
+            {
+                Size2 size;
+                bool fullscreen;
+                uint32_t displayId;
+            };
+        };
+
+        class EventHandler
+        {
+        public:
+            virtual bool handleEvent(const Event& event) = 0;
+        };
+
+        NativeWindow(EventHandler& initEventHandler,
+                     const Size2& newSize,
                      bool newResizable,
                      bool newFullscreen,
                      bool newExclusiveFullscreen,
@@ -93,7 +101,7 @@ namespace ouzel
         inline const std::string& getTitle() const { return title; }
         virtual void setTitle(const std::string& newTitle);
 
-        std::vector<Event> getEvents() const;
+        void dispatchEvents();
 
     protected:
         void postEvent(const Event& event);
@@ -109,10 +117,11 @@ namespace ouzel
         std::string title;
 
     private:
-        mutable std::mutex eventQueueMutex;
-        mutable std::queue<Event> eventQueue;
+        EventHandler& eventHandler;
+        std::mutex eventQueueMutex;
+        std::queue<Event> eventQueue;
 
-        mutable std::mutex commandQueueMutex;
-        mutable std::queue<Event> commandQueue;
+        std::mutex commandQueueMutex;
+        std::queue<Event> commandQueue;
     };
 }

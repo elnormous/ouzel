@@ -38,7 +38,8 @@ namespace ouzel
         void handleResize(const Size2& newSize);
 
     protected:
-        NativeWindowIOS(const std::string& newTitle,
+        NativeWindowIOS(EventHandler& initEventHandler,
+                        const std::string& newTitle,
                         graphics::Renderer::Driver graphicsDriver,
                         bool newHighDpi);
 

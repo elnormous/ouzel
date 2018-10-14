@@ -4,7 +4,8 @@
 
 namespace ouzel
 {
-    NativeWindow::NativeWindow(const Size2& newSize,
+    NativeWindow::NativeWindow(EventHandler& initEventHandler,
+                               const Size2& newSize,
                                bool newResizable,
                                bool newFullscreen,
                                bool newExclusiveFullscreen,
@@ -15,7 +16,8 @@ namespace ouzel
         fullscreen(newFullscreen),
         exclusiveFullscreen(newExclusiveFullscreen),
         highDpi(newHighDpi),
-        title(newTitle)
+        title(newTitle),
+        eventHandler(initEventHandler)
     {
 
     }
@@ -39,16 +41,20 @@ namespace ouzel
         title = newTitle;
     }
 
-    std::vector<NativeWindow::Event> NativeWindow::getEvents() const
+    void NativeWindow::dispatchEvents()
     {
-        std::vector<Event> result;
-        std::unique_lock<std::mutex> lock(eventQueueMutex);
-        while (!eventQueue.empty())
+        for (;;)
         {
-            result.push_back(eventQueue.front());
-            eventQueue.pop();
+            Event event;
+            {
+                std::unique_lock<std::mutex> lock(eventQueueMutex);
+                if (eventQueue.empty()) break;
+                event = eventQueue.front();
+                eventQueue.pop();
+            }
+
+            eventHandler.handleEvent(event);
         }
-        return result;
     }
 
     void NativeWindow::postEvent(const Event& event)

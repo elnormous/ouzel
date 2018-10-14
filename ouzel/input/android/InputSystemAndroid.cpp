@@ -198,7 +198,7 @@ namespace ouzel
 
                     if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
                     {
-                        mouseDevice->handleButtonPress(Mouse::Button::LEFT, engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
+                        mouseDevice->handleButtonPress(Mouse::Button::LEFT, engine->getWindow()->convertWindowToNormalizedLocation(Vector2(x, y)));
                         return true;
                     }
                     else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
@@ -206,7 +206,7 @@ namespace ouzel
                              toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
                     {
                         jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
-                        touchpadDevice->handleTouchBegin(static_cast<uint64_t>(pointerId), engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)), pressure);
+                        touchpadDevice->handleTouchBegin(static_cast<uint64_t>(pointerId), engine->getWindow()->convertWindowToNormalizedLocation(Vector2(x, y)), pressure);
                         return true;
                     }
 
@@ -222,7 +222,7 @@ namespace ouzel
 
                     if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
                     {
-                        mouseDevice->handleButtonPress(Mouse::Button::LEFT, engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
+                        mouseDevice->handleButtonPress(Mouse::Button::LEFT, engine->getWindow()->convertWindowToNormalizedLocation(Vector2(x, y)));
                         return true;
                     }
                     else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
@@ -230,7 +230,7 @@ namespace ouzel
                              toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
                     {
                         jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, pointerIndex);
-                        touchpadDevice->handleTouchBegin(static_cast<uint64_t>(pointerId), engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)), pressure);
+                        touchpadDevice->handleTouchBegin(static_cast<uint64_t>(pointerId), engine->getWindow()->convertWindowToNormalizedLocation(Vector2(x, y)), pressure);
                         return true;
                     }
 
@@ -245,7 +245,7 @@ namespace ouzel
 
                     if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
                     {
-                        mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
+                        mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(Vector2(x, y)));
                         return true;
                     }
                     else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
@@ -253,7 +253,7 @@ namespace ouzel
                         toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
                     {
                         jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
-                        touchpadDevice->handleTouchMove(static_cast<uint64_t>(pointerId), engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)), pressure);
+                        touchpadDevice->handleTouchMove(static_cast<uint64_t>(pointerId), engine->getWindow()->convertWindowToNormalizedLocation(Vector2(x, y)), pressure);
                         return true;
                     }
 
@@ -268,7 +268,7 @@ namespace ouzel
 
                     if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
                     {
-                        mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
+                        mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(Vector2(x, y)));
                         return true;
                     }
                     else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
@@ -276,7 +276,7 @@ namespace ouzel
                         toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
                     {
                         jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
-                        touchpadDevice->handleTouchMove(static_cast<uint64_t>(pointerId), engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)), pressure);
+                        touchpadDevice->handleTouchMove(static_cast<uint64_t>(pointerId), engine->getWindow()->convertWindowToNormalizedLocation(Vector2(x, y)), pressure);
                         return true;
                     }
 
@@ -291,7 +291,7 @@ namespace ouzel
 
                     if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
                     {
-                        mouseDevice->handleButtonRelease(Mouse::Button::LEFT, engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
+                        mouseDevice->handleButtonRelease(Mouse::Button::LEFT, engine->getWindow()->convertWindowToNormalizedLocation(Vector2(x, y)));
                         return true;
                     }
                     else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
@@ -299,7 +299,7 @@ namespace ouzel
                              toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
                     {
                         jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
-                        touchpadDevice->handleTouchEnd(static_cast<uint64_t>(pointerId), engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)), pressure);
+                        touchpadDevice->handleTouchEnd(static_cast<uint64_t>(pointerId), engine->getWindow()->convertWindowToNormalizedLocation(Vector2(x, y)), pressure);
                         return true;
                     }
 
@@ -315,7 +315,7 @@ namespace ouzel
 
                     if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
                     {
-                        mouseDevice->handleButtonRelease(Mouse::Button::LEFT, engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
+                        mouseDevice->handleButtonRelease(Mouse::Button::LEFT, engine->getWindow()->convertWindowToNormalizedLocation(Vector2(x, y)));
                         return true;
                     }
                     else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
@@ -323,7 +323,7 @@ namespace ouzel
                              toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
                     {
                         jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
-                        touchpadDevice->handleTouchEnd(static_cast<uint64_t>(pointerId), engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)), pressure);
+                        touchpadDevice->handleTouchEnd(static_cast<uint64_t>(pointerId), engine->getWindow()->convertWindowToNormalizedLocation(Vector2(x, y)), pressure);
                         return true;
                     }
 
@@ -339,14 +339,14 @@ namespace ouzel
 
                     if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
                     {
-                        mouseDevice->handleButtonRelease(Mouse::Button::LEFT, engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
+                        mouseDevice->handleButtonRelease(Mouse::Button::LEFT, engine->getWindow()->convertWindowToNormalizedLocation(Vector2(x, y)));
                         return true;
                     }
                     else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
                              toolType == AMOTION_EVENT_TOOL_TYPE_STYLUS ||
                              toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
                     {
-                        touchpadDevice->handleTouchCancel(static_cast<uint64_t>(pointerId), engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)), pressure);
+                        touchpadDevice->handleTouchCancel(static_cast<uint64_t>(pointerId), engine->getWindow()->convertWindowToNormalizedLocation(Vector2(x, y)), pressure);
                         return true;
                     }
 

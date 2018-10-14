@@ -24,7 +24,8 @@ namespace ouzel
         ANativeWindow* getNativeWindow() const { return window; }
 
     protected:
-        NativeWindowAndroid(const std::string& newTitle);
+        NativeWindowAndroid(EventHandler& initEventHandler,
+                            const std::string& newTitle);
 
         ANativeWindow* window = nullptr;
     };

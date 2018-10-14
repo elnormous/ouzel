@@ -31,7 +31,7 @@ namespace ouzel
         }
 
         inline void gatherPolygonProjectionExtents(const std::vector<Vector2>& vertList,
-                                                   const ouzel::Vector2& v,
+                                                   const Vector2& v,
                                                    float& outMin, float& outMax)
         {
             outMin = outMax = v.dot(vertList[0]);
@@ -48,13 +48,13 @@ namespace ouzel
         inline bool findSeparatingAxis(const std::vector<Vector2>& aVertList,
                                        const std::vector<Vector2>& bVertList)
         {
-            ouzel::Vector2 v;
+            Vector2 v;
 
             size_t aVertListSize = aVertList.size();
             size_t prev = aVertListSize - 1;
             for (size_t cur = 0; cur < aVertListSize; ++cur)
             {
-                ouzel::Vector2 edge = aVertList[cur] - aVertList[prev];
+                Vector2 edge = aVertList[cur] - aVertList[prev];
 
                 v.x = edge.y;
                 v.y = -edge.x;

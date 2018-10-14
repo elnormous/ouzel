@@ -97,15 +97,17 @@
 
 namespace ouzel
 {
-    NativeWindowIOS::NativeWindowIOS(const std::string& newTitle,
+    NativeWindowIOS::NativeWindowIOS(EventHandler& initEventHandler,
+                                     const std::string& newTitle,
                                      graphics::Renderer::Driver graphicsDriver,
                                      bool newHighDpi):
-        ouzel::NativeWindow(Size2(),
-                            true,
-                            true,
-                            true,
-                            newTitle,
-                            newHighDpi)
+        NativeWindow(initEventHandler,
+                     Size2(),
+                     true,
+                     true,
+                     true,
+                     newTitle,
+                     newHighDpi)
     {
         screen = [UIScreen mainScreen];
 

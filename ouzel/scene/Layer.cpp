@@ -90,7 +90,7 @@ namespace ouzel
                 lights.erase(i);
         }
 
-        std::pair<Actor*, ouzel::Vector3> Layer::pickActor(const Vector2& position, bool renderTargets) const
+        std::pair<Actor*, Vector3> Layer::pickActor(const Vector2& position, bool renderTargets) const
         {
             for (auto i = cameras.rbegin(); i != cameras.rend(); ++i)
             {
@@ -98,7 +98,7 @@ namespace ouzel
 
                 if (renderTargets || !camera->getRenderTarget())
                 {
-                    std::vector<std::pair<Actor*, ouzel::Vector3>> actors;
+                    std::vector<std::pair<Actor*, Vector3>> actors;
 
                     Vector2 worldPosition = camera->convertNormalizedToWorld(position);
 
@@ -111,9 +111,9 @@ namespace ouzel
             return std::make_pair(nullptr, Vector3());
         }
 
-        std::vector<std::pair<Actor*, ouzel::Vector3>> Layer::pickActors(const Vector2& position, bool renderTargets) const
+        std::vector<std::pair<Actor*, Vector3>> Layer::pickActors(const Vector2& position, bool renderTargets) const
         {
-            std::vector<std::pair<Actor*, ouzel::Vector3>> result;
+            std::vector<std::pair<Actor*, Vector3>> result;
 
             for (auto i = cameras.rbegin(); i != cameras.rend(); ++i)
             {
@@ -123,7 +123,7 @@ namespace ouzel
                 {
                     Vector2 worldPosition = camera->convertNormalizedToWorld(position);
 
-                    std::vector<std::pair<Actor*, ouzel::Vector3>> actors;
+                    std::vector<std::pair<Actor*, Vector3>> actors;
                     findActors(worldPosition, actors);
 
                     result.insert(result.end(), actors.begin(), actors.end());
