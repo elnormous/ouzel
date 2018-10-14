@@ -23,7 +23,7 @@ namespace ouzel
         public:
             static Keyboard::Key convertKeyCode(UINT keyCode);
 
-            InputSystemWin();
+            InputSystemWin(EventHandler& initEventHandler);
             virtual ~InputSystemWin();
 
             virtual void executeCommand(const Command& command) override;

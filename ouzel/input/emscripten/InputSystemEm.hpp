@@ -20,7 +20,7 @@ namespace ouzel
         public:
             static Keyboard::Key convertKeyCode(const EM_UTF8 key[32]);
 
-            InputSystemEm();
+            InputSystemEm(EventHandler& initEventHandler);
             virtual ~InputSystemEm() {}
 
             virtual void executeCommand(const Command& command) override;

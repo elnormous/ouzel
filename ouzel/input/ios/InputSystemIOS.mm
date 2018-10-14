@@ -64,7 +64,8 @@ namespace ouzel
                 return Keyboard::Key::NONE;
         }
 
-        InputSystemIOS::InputSystemIOS():
+        InputSystemIOS::InputSystemIOS(EventHandler& initEventHandler):
+            InputSystem(initEventHandler),
             keyboardDevice(new KeyboardDevice(*this, ++lastDeviceId)),
             touchpadDevice(new TouchpadDevice(*this, ++lastDeviceId))
         {

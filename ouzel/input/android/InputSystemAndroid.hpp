@@ -16,7 +16,7 @@ namespace ouzel
         public:
             static Keyboard::Key convertKeyCode(jint keyCode);
 
-            InputSystemAndroid();
+            InputSystemAndroid(EventHandler& initEventHandler);
             virtual ~InputSystemAndroid();
 
             virtual void executeCommand(const Command& command) override;

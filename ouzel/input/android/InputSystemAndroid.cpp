@@ -117,7 +117,8 @@ namespace ouzel
                 return Keyboard::Key::NONE;
         }
 
-        InputSystemAndroid::InputSystemAndroid():
+        InputSystemAndroid::InputSystemAndroid(EventHandler& initEventHandler):
+            InputSystem(initEventHandler),
             keyboardDevice(new KeyboardDevice(*this, ++lastDeviceId)),
             mouseDevice(new MouseDevice(*this, ++lastDeviceId)),
             touchpadDevice(new TouchpadDevice(*this, ++lastDeviceId))
