@@ -44,7 +44,7 @@ namespace ouzel
                                        const std::string& newTitle,
                                        graphics::Renderer::Driver graphicsDriver,
                                        bool newHighDpi):
-        NativeWindow(initEventHandler
+        NativeWindow(initEventHandler,
                      Size2(),
                      true,
                      true,
