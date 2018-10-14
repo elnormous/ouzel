@@ -50,14 +50,14 @@ namespace ouzel
                 leftThumbY.usage = HID_USAGE_GENERIC_Y;
                 leftThumbY.offset = DIJOFS_Y;
 
-                leftTrigger.usage = HID_USAGE_GENERIC_RX;
-                leftTrigger.offset = DIJOFS_RX;
-
                 rightThumbX.usage = HID_USAGE_GENERIC_Z;
                 rightThumbX.offset = DIJOFS_Z;
 
                 rightThumbY.usage = HID_USAGE_GENERIC_RZ;
                 rightThumbY.offset = DIJOFS_RZ;
+
+                leftTrigger.usage = HID_USAGE_GENERIC_RX;
+                leftTrigger.offset = DIJOFS_RX;
 
                 rightTrigger.usage = HID_USAGE_GENERIC_RY;
                 rightTrigger.offset = DIJOFS_RY;
@@ -72,14 +72,14 @@ namespace ouzel
                 leftThumbY.usage = HID_USAGE_GENERIC_Y;
                 leftThumbY.offset = DIJOFS_Y;
 
-                leftTrigger.usage = HID_USAGE_GENERIC_RX;
-                leftTrigger.offset = DIJOFS_RX;
-
                 rightThumbX.usage = HID_USAGE_GENERIC_Z;
                 rightThumbX.offset = DIJOFS_Z;
 
                 rightThumbY.usage = HID_USAGE_GENERIC_RZ;
                 rightThumbY.offset = DIJOFS_RZ;
+
+                leftTrigger.usage = HID_USAGE_GENERIC_RX;
+                leftTrigger.offset = DIJOFS_RX;
 
                 rightTrigger.usage = HID_USAGE_GENERIC_RY;
                 rightTrigger.offset = DIJOFS_RY;
@@ -94,14 +94,14 @@ namespace ouzel
                 leftThumbY.usage = HID_USAGE_GENERIC_Y;
                 leftThumbY.offset = DIJOFS_Y;
 
-                leftTrigger.usage = HID_USAGE_GENERIC_RY;
-                leftTrigger.offset = DIJOFS_RY;
-
                 rightThumbX.usage = HID_USAGE_GENERIC_Z;
                 rightThumbX.offset = DIJOFS_Z;
 
                 rightThumbY.usage = HID_USAGE_GENERIC_RX;
                 rightThumbY.offset = DIJOFS_RX;
+
+                leftTrigger.usage = HID_USAGE_GENERIC_RY;
+                leftTrigger.offset = DIJOFS_RY;
 
                 rightTrigger.usage = HID_USAGE_GENERIC_RZ;
                 rightTrigger.offset = DIJOFS_RZ;
@@ -186,14 +186,14 @@ namespace ouzel
                 leftThumbY.usage = HID_USAGE_GENERIC_Y;
                 leftThumbY.offset = DIJOFS_Y;
 
-                leftTrigger.usage = HID_USAGE_GENERIC_Z;
-                leftTrigger.offset = DIJOFS_Z;
-
                 rightThumbX.usage = HID_USAGE_GENERIC_RX;
                 rightThumbX.offset = DIJOFS_RX;
 
                 rightThumbY.usage = HID_USAGE_GENERIC_RY;
                 rightThumbY.offset = DIJOFS_RY;
+
+                leftTrigger.usage = HID_USAGE_GENERIC_Z;
+                leftTrigger.offset = DIJOFS_Z;
 
                 rightTrigger.usage = HID_USAGE_GENERIC_RZ;
                 rightTrigger.offset = DIJOFS_RZ;
@@ -224,14 +224,14 @@ namespace ouzel
                 leftThumbY.usage = HID_USAGE_GENERIC_Y;
                 leftThumbY.offset = DIJOFS_Y;
 
-                leftTrigger.usage = HID_USAGE_GENERIC_RX;
-                leftTrigger.offset = DIJOFS_RX;
-
                 rightThumbX.usage = HID_USAGE_GENERIC_Z;
                 rightThumbX.offset = DIJOFS_Z;
 
                 rightThumbY.usage = HID_USAGE_GENERIC_RZ;
                 rightThumbY.offset = DIJOFS_RZ;
+
+                leftTrigger.usage = HID_USAGE_GENERIC_RX;
+                leftTrigger.offset = DIJOFS_RX;
 
                 rightTrigger.usage = HID_USAGE_GENERIC_RY;
                 rightTrigger.offset = DIJOFS_RY;
@@ -693,13 +693,6 @@ namespace ouzel
                     leftThumbY.max = propertyAxisRange.lMax;
                     leftThumbY.range = leftThumbY.max - leftThumbY.min;
                 }
-                else if (leftTrigger.usage && didObjectInstance->wUsage == leftTrigger.usage)
-                {
-                    leftTrigger.min = propertyAxisRange.lMin;
-                    leftTrigger.max = propertyAxisRange.lMax;
-                    leftTrigger.range = leftTrigger.max - leftTrigger.min;
-                    hasLeftTrigger = true;
-                }
                 else if (rightThumbX.usage && didObjectInstance->wUsage == rightThumbX.usage)
                 {
                     rightThumbX.min = propertyAxisRange.lMin;
@@ -711,6 +704,13 @@ namespace ouzel
                     rightThumbY.min = propertyAxisRange.lMin;
                     rightThumbY.max = propertyAxisRange.lMax;
                     rightThumbY.range = rightThumbY.max - rightThumbY.min;
+                }
+                else if (leftTrigger.usage && didObjectInstance->wUsage == leftTrigger.usage)
+                {
+                    leftTrigger.min = propertyAxisRange.lMin;
+                    leftTrigger.max = propertyAxisRange.lMax;
+                    leftTrigger.range = leftTrigger.max - leftTrigger.min;
+                    hasLeftTrigger = true;
                 }
                 else if (rightTrigger.usage && didObjectInstance->wUsage == rightTrigger.usage)
                 {
