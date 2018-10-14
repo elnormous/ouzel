@@ -29,8 +29,8 @@ namespace ouzel
         {
             ZeroMemory(&diState, sizeof(diState));
 
-            vendorId = LOWORD(instance->guidProduct.Data1);
-            productId = HIWORD(instance->guidProduct.Data1);
+            int32_t vendorId = LOWORD(instance->guidProduct.Data1);
+            int32_t productId = HIWORD(instance->guidProduct.Data1);
 
             int bytesNeeded = WideCharToMultiByte(CP_UTF8, 0, instance->tszProductName, -1, nullptr, 0, nullptr, nullptr);
             name.resize(bytesNeeded);
