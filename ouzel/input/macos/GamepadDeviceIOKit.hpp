@@ -48,9 +48,9 @@ namespace ouzel
 
             IOHIDElementRef leftThumbX = nullptr;
             IOHIDElementRef leftThumbY = nullptr;
-            IOHIDElementRef leftTrigger = nullptr;
             IOHIDElementRef rightThumbX = nullptr;
             IOHIDElementRef rightThumbY = nullptr;
+            IOHIDElementRef leftTrigger = nullptr;
             IOHIDElementRef rightTrigger = nullptr;
         };
     } // namespace input

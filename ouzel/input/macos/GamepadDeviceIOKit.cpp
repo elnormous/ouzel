@@ -45,55 +45,26 @@ namespace ouzel
 
             int32_t vendorId;
             CFNumberRef vendor = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDVendorIDKey)));
-            if (vendor)
-                CFNumberGetValue(vendor, kCFNumberSInt32Type, &vendorId);
+            if (!vendor)
+                throw SystemError("Failed to get vendor ID");
+
+            CFNumberGetValue(vendor, kCFNumberSInt32Type, &vendorId);
 
             int32_t productId;
             CFNumberRef product = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductIDKey)));
-            if (product)
-                CFNumberGetValue(product, kCFNumberSInt32Type, &productId);
+            if (!product)
+                throw SystemError("Failed to get product ID");
 
-            uint32_t leftThumbXMap = 0;
-            uint32_t leftThumbYMap = 0;
-            uint32_t leftTriggerMap = 0;
-            uint32_t rightThumbXMap = 0;
-            uint32_t rightThumbYMap = 0;
-            uint32_t rightTriggerMap = 0;
+            CFNumberGetValue(product, kCFNumberSInt32Type, &productId);
+
             GamepadConfig gamepadConfig;
 
             if (vendorId == 0x054C && productId == 0x0268) // Playstation 3 controller
-            {
                 gamepadConfig = PLAYSTATION_3_CONFIG;
-
-                leftThumbXMap = kHIDUsage_GD_X;
-                leftThumbYMap = kHIDUsage_GD_Y;
-                leftTriggerMap = kHIDUsage_GD_Rx;
-                rightThumbXMap = kHIDUsage_GD_Z;
-                rightThumbYMap = kHIDUsage_GD_Rz;
-                rightTriggerMap = kHIDUsage_GD_Ry;
-            }
             else if (vendorId == 0x054C && productId == 0x05C4) // Playstation 4 controller
-            {
                 gamepadConfig = PLAYSTATION_4_CONFIG;
-
-                leftThumbXMap = kHIDUsage_GD_X;
-                leftThumbYMap = kHIDUsage_GD_Y;
-                leftTriggerMap = kHIDUsage_GD_Rx;
-                rightThumbXMap = kHIDUsage_GD_Z;
-                rightThumbYMap = kHIDUsage_GD_Rz;
-                rightTriggerMap = kHIDUsage_GD_Ry;
-            }
             else if (vendorId == 0x045E && productId == 0x02D1) // Xbox One controller
-            {
                 gamepadConfig = XBOX_ONE_CONFIG;
-
-                leftThumbXMap = kHIDUsage_GD_X;
-                leftThumbYMap = kHIDUsage_GD_Y;
-                leftTriggerMap = kHIDUsage_GD_Ry;
-                rightThumbXMap = kHIDUsage_GD_Z;
-                rightThumbYMap = kHIDUsage_GD_Rx;
-                rightTriggerMap = kHIDUsage_GD_Rz;
-            }
             else if ((vendorId == 0x0E6F && productId == 0x0113) || // AfterglowGamepadforXbox360
                      (vendorId == 0x0E6F && productId == 0x0213) || // AfterglowGamepadforXbox360
                      (vendorId == 0x1BAD && productId == 0xF900) || // AfterglowGamepadforXbox360
@@ -165,36 +136,11 @@ namespace ouzel
                      (vendorId == 0x1BAD && productId == 0x5500) || // USBGamepad
                      (vendorId == 0x1BAD && productId == 0xF906) || // XB360MortalKombatFightStick
                      (vendorId == 0x15E4 && productId == 0x3F0A)) // XboxAirflowiredcontroller
-            {
                 gamepadConfig = XBOX_360_CONFIG;
-
-                leftThumbXMap = kHIDUsage_GD_X;
-                leftThumbYMap = kHIDUsage_GD_Y;
-                leftTriggerMap = kHIDUsage_GD_Z;
-                rightThumbXMap = kHIDUsage_GD_Rx;
-                rightThumbYMap = kHIDUsage_GD_Ry;
-                rightTriggerMap = kHIDUsage_GD_Rz;
-            }
             else if (vendorId == 0x0079 && productId == 0x0006) // Acme GA07
-            {
                 gamepadConfig = ACME_GA07_CONFIG;
-
-                leftThumbXMap = kHIDUsage_GD_X;
-                leftThumbYMap = kHIDUsage_GD_Y;
-                rightThumbXMap = kHIDUsage_GD_Rx;
-                rightThumbYMap = kHIDUsage_GD_Ry;
-            }
             else // Generic (based on Logitech RumblePad 2)
-            {
                 gamepadConfig = GENERIC_CONFIG;
-
-                leftThumbXMap = kHIDUsage_GD_X;
-                leftThumbYMap = kHIDUsage_GD_Y;
-                leftTriggerMap = kHIDUsage_GD_Rx;
-                rightThumbXMap = kHIDUsage_GD_Z;
-                rightThumbYMap = kHIDUsage_GD_Rz;
-                rightTriggerMap = kHIDUsage_GD_Ry;
-            }
 
             CFArrayRef elementArray = IOHIDDeviceCopyMatchingElements(device, nullptr, kIOHIDOptionsTypeNone);
             CFIndex count = CFArrayGetCount(elementArray);
@@ -207,21 +153,36 @@ namespace ouzel
                 element.usagePage = IOHIDElementGetUsagePage(element.element);
                 element.usage = IOHIDElementGetUsage(element.element);
 
-                if (element.usage > 0 && element.usage < 25)
-                    element.button = gamepadConfig.buttonMap[element.usage - 1];
+                if (element.usage >= kHIDUsage_Button_1 && element.usage < kHIDUsage_Button_1 + 24)
+                    element.button = gamepadConfig.buttonMap[element.usage - kHIDUsage_Button_1];
 
                 if ((element.type == kIOHIDElementTypeInput_Misc || element.type == kIOHIDElementTypeInput_Axis) &&
                     element.usagePage == kHIDPage_GenericDesktop)
                 {
-                    if (element.usage == leftThumbXMap) leftThumbX = element.element;
-                    else if (element.usage == leftThumbYMap) leftThumbY = element.element;
-                    else if (element.usage == leftTriggerMap) leftTrigger = element.element;
-                    else if (element.usage == rightThumbXMap) rightThumbX = element.element;
-                    else if (element.usage == rightThumbYMap) rightThumbY = element.element;
-                    else if (element.usage == rightTriggerMap) rightTrigger = element.element;
+                    if (element.usage >= kHIDUsage_GD_X && element.usage <= kHIDUsage_GD_Rz)
+                    {
+                        size_t index = 0;
+
+                        switch (element.usage)
+                        {
+                            case kHIDUsage_GD_X: index = 0; break;
+                            case kHIDUsage_GD_Y: index = 1; break;
+                            case kHIDUsage_GD_Z: index = 2; break;
+                            case kHIDUsage_GD_Rx: index = 3; break;
+                            case kHIDUsage_GD_Ry: index = 4; break;
+                            case kHIDUsage_GD_Rz: index = 5; break;
+                        }
+
+                        if (gamepadConfig.axisMap[index] == GamepadConfig::LEFT_THUMB_X) leftThumbX = element.element;
+                        else if (gamepadConfig.axisMap[index] == GamepadConfig::LEFT_THUMB_Y) leftThumbY = element.element;
+                        else if (gamepadConfig.axisMap[index] == GamepadConfig::RIGHT_THUMB_X) rightThumbX = element.element;
+                        else if (gamepadConfig.axisMap[index] == GamepadConfig::RIGHT_THUMB_Y) rightThumbY = element.element;
+                        else if (gamepadConfig.axisMap[index] == GamepadConfig::LEFT_TRIGGER) leftTrigger = element.element;
+                        else if (gamepadConfig.axisMap[index] == GamepadConfig::RIGHT_TRIGGER) rightTrigger = element.element;
+                    }
                 }
 
-                if ((element.type == kIOHIDElementTypeInput_Button && element.usagePage == kHIDPage_Button && element.usage > 0 && element.usage < 25) ||
+                if ((element.type == kIOHIDElementTypeInput_Button && element.usagePage == kHIDPage_Button && element.usage >= kHIDUsage_Button_1 && element.usage < kHIDUsage_Button_1 + 24) ||
                     ((element.type == kIOHIDElementTypeInput_Misc || element.type == kIOHIDElementTypeInput_Axis) && element.usagePage == kHIDPage_GenericDesktop))
                 {
                     element.min = IOHIDElementGetLogicalMin(element.element);
@@ -268,12 +229,6 @@ namespace ouzel
                                           element.min, element.range,
                                           Gamepad::Button::LEFT_THUMB_UP, Gamepad::Button::LEFT_THUMB_DOWN);
                 }
-                else if (elementRef == leftTrigger)
-                {
-                    float floatValue = static_cast<float>(newValue - element.min) / element.range;
-
-                    handleButtonValueChange(Gamepad::Button::LEFT_TRIGGER, newValue > 0, floatValue);
-                }
                 else if (elementRef == rightThumbX)
                 {
                     handleThumbAxisChange(element.value, newValue,
@@ -285,6 +240,12 @@ namespace ouzel
                     handleThumbAxisChange(element.value, newValue,
                                           element.min, element.range,
                                           Gamepad::Button::RIGHT_THUMB_UP, Gamepad::Button::RIGHT_THUMB_DOWN);
+                }
+                else if (elementRef == leftTrigger)
+                {
+                    float floatValue = static_cast<float>(newValue - element.min) / element.range;
+
+                    handleButtonValueChange(Gamepad::Button::LEFT_TRIGGER, newValue > 0, floatValue);
                 }
                 else if (elementRef == rightTrigger)
                 {

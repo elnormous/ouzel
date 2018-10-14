@@ -60,9 +60,9 @@ namespace ouzel
 
             Axis leftThumbX;
             Axis leftThumbY;
-            Axis leftTrigger;
             Axis rightThumbX;
             Axis rightThumbY;
+            Axis leftTrigger;
             Axis rightTrigger;
 
             bool hasLeftTrigger = false;
