@@ -176,7 +176,8 @@ namespace ouzel
                 return Keyboard::Key::NONE;
         }
 
-        InputSystemWin::InputSystemWin():
+        InputSystemWin::InputSystemWin(EventHandler& initEventHandler):
+            InputSystem(initEventHandler),
             keyboardDevice(new KeyboardDeviceWin(*this, ++lastDeviceId)),
             mouseDevice(new MouseDeviceWin(*this, ++lastDeviceId)),
             touchpadDevice(new TouchpadDevice(*this, ++lastDeviceId))

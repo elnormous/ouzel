@@ -34,283 +34,281 @@ namespace ouzel
     {
         InputManager::InputManager():
 #if OUZEL_PLATFORM_MACOS
-        inputSystem(new InputSystemMacOS())
+            inputSystem(new InputSystemMacOS(*this))
 #elif OUZEL_PLATFORM_IOS
-        inputSystem(new InputSystemIOS())
+            inputSystem(new InputSystemIOS(*this))
 #elif OUZEL_PLATFORM_TVOS
-        inputSystem(new InputSystemTVOS())
+            inputSystem(new InputSystemTVOS(*this))
 #elif OUZEL_PLATFORM_ANDROID
-        inputSystem(new InputSystemAndroid())
+            inputSystem(new InputSystemAndroid(*this))
 #elif OUZEL_PLATFORM_LINUX
-        inputSystem(new InputSystemLinux())
+            inputSystem(new InputSystemLinux(*this))
 #elif OUZEL_PLATFORM_WINDOWS
-        inputSystem(new InputSystemWin())
+            inputSystem(new InputSystemWin(*this))
 #elif OUZEL_PLATFORM_EMSCRIPTEN
-        inputSystem(new InputSystemEm())
+            inputSystem(new InputSystemEm(*this))
 #else
-        inputSystem(new InputSystem())
+            inputSystem(new InputSystem(*this))
 #endif
         {
         }
 
         void InputManager::update()
         {
-            std::vector<std::pair<std::promise<bool>, InputSystem::Event>> events = inputSystem->getEvents();
+            inputSystem->dispatchEvents();
+        }
 
-            for (std::pair<std::promise<bool>, InputSystem::Event>& p : events)
+        bool InputManager::handleEvent(const InputSystem::Event& event)
+        {
+            bool handled = false;
+
+            switch (event.type)
             {
-                const InputSystem::Event& event = p.second;
-
-                bool handled = false;
-
-                switch (event.type)
+                case InputSystem::Event::Type::DEVICE_CONNECT:
                 {
-                    case InputSystem::Event::Type::DEVICE_CONNECT:
-                    {
-                        Event connectEvent;
+                    Event connectEvent;
 
-                        switch (event.deviceType)
+                    switch (event.deviceType)
+                    {
+                        case Controller::Type::GAMEPAD:
+                        {
+                            connectEvent.type = Event::Type::GAMEPAD_CONNECT;
+                            std::unique_ptr<Gamepad> gamepadController(new Gamepad(*this, event.deviceId));
+                            connectEvent.gamepadEvent.gamepad = gamepadController.get();
+                            controllers.push_back(gamepadController.get());
+                            controllerMap.insert(std::make_pair(event.deviceId, std::move(gamepadController)));
+                            break;
+                        }
+                        case Controller::Type::KEYBOARD:
+                        {
+                            connectEvent.type = Event::Type::KEYBOARD_CONNECT;
+                            std::unique_ptr<Keyboard> keyboardController(new Keyboard(*this, event.deviceId));
+                            if (!keyboard) keyboard = keyboardController.get();
+                            connectEvent.keyboardEvent.keyboard = keyboardController.get();
+                            controllers.push_back(keyboardController.get());
+                            controllerMap.insert(std::make_pair(event.deviceId, std::move(keyboardController)));
+                            break;
+                        }
+                        case Controller::Type::MOUSE:
+                        {
+                            connectEvent.type = Event::Type::MOUSE_CONNECT;
+                            std::unique_ptr<Mouse> mouseController(new Mouse(*this, event.deviceId));
+                            connectEvent.mouseEvent.mouse = mouseController.get();
+                            if (!mouse) mouse = mouseController.get();
+                            controllers.push_back(mouseController.get());
+                            controllerMap.insert(std::make_pair(event.deviceId, std::move(mouseController)));
+                            break;
+                        }
+                        case Controller::Type::TOUCHPAD:
+                        {
+                            connectEvent.type = Event::Type::TOUCHPAD_CONNECT;
+                            std::unique_ptr<Touchpad> touchpadController(new Touchpad(*this, event.deviceId));
+                            connectEvent.touchEvent.touchpad = touchpadController.get();
+                            if (!touchpad) touchpad = touchpadController.get();
+                            controllers.push_back(touchpadController.get());
+                            controllerMap.insert(std::make_pair(event.deviceId, std::move(touchpadController)));
+                            break;
+                        }
+                    }
+
+                    handled = engine->getEventDispatcher().dispatchEvent(connectEvent);
+                    break;
+                }
+                case InputSystem::Event::Type::DEVICE_DISCONNECT:
+                {
+                    auto i = controllerMap.find(event.deviceId);
+                    if (i != controllerMap.end())
+                    {
+                        auto controllerIterator = std::find(controllers.begin(), controllers.end(), i->second.get());
+                        if (controllerIterator != controllers.end())
+                            controllers.erase(controllerIterator);
+
+                        Event disconnectEvent;
+
+                        switch (i->second->getType())
                         {
                             case Controller::Type::GAMEPAD:
                             {
-                                connectEvent.type = Event::Type::GAMEPAD_CONNECT;
-                                std::unique_ptr<Gamepad> gamepadController(new Gamepad(*this, event.deviceId));
-                                connectEvent.gamepadEvent.gamepad = gamepadController.get();
-                                controllers.push_back(gamepadController.get());
-                                controllerMap.insert(std::make_pair(event.deviceId, std::move(gamepadController)));
+                                disconnectEvent.type = Event::Type::GAMEPAD_DISCONNECT;
+                                disconnectEvent.gamepadEvent.gamepad = static_cast<Gamepad*>(i->second.get());
                                 break;
                             }
                             case Controller::Type::KEYBOARD:
                             {
-                                connectEvent.type = Event::Type::KEYBOARD_CONNECT;
-                                std::unique_ptr<Keyboard> keyboardController(new Keyboard(*this, event.deviceId));
-                                if (!keyboard) keyboard = keyboardController.get();
-                                connectEvent.keyboardEvent.keyboard = keyboardController.get();
-                                controllers.push_back(keyboardController.get());
-                                controllerMap.insert(std::make_pair(event.deviceId, std::move(keyboardController)));
+                                disconnectEvent.type = Event::Type::KEYBOARD_DISCONNECT;
+                                disconnectEvent.keyboardEvent.keyboard = static_cast<Keyboard*>(i->second.get());
+                                keyboard = nullptr;
+                                for (Controller* controller : controllers)
+                                    if (controller->getType() == Controller::Type::KEYBOARD)
+                                        keyboard = static_cast<Keyboard*>(controller);
                                 break;
                             }
                             case Controller::Type::MOUSE:
                             {
-                                connectEvent.type = Event::Type::MOUSE_CONNECT;
-                                std::unique_ptr<Mouse> mouseController(new Mouse(*this, event.deviceId));
-                                connectEvent.mouseEvent.mouse = mouseController.get();
-                                if (!mouse) mouse = mouseController.get();
-                                controllers.push_back(mouseController.get());
-                                controllerMap.insert(std::make_pair(event.deviceId, std::move(mouseController)));
+                                disconnectEvent.type = Event::Type::MOUSE_DISCONNECT;
+                                disconnectEvent.mouseEvent.mouse = static_cast<Mouse*>(i->second.get());
+                                mouse = nullptr;
+                                for (Controller* controller : controllers)
+                                    if (controller->getType() == Controller::Type::MOUSE)
+                                        mouse = static_cast<Mouse*>(controller);
                                 break;
                             }
                             case Controller::Type::TOUCHPAD:
                             {
-                                connectEvent.type = Event::Type::TOUCHPAD_CONNECT;
-                                std::unique_ptr<Touchpad> touchpadController(new Touchpad(*this, event.deviceId));
-                                connectEvent.touchEvent.touchpad = touchpadController.get();
-                                if (!touchpad) touchpad = touchpadController.get();
-                                controllers.push_back(touchpadController.get());
-                                controllerMap.insert(std::make_pair(event.deviceId, std::move(touchpadController)));
+                                disconnectEvent.type = Event::Type::TOUCHPAD_DISCONNECT;
+                                disconnectEvent.touchEvent.touchpad = static_cast<Touchpad*>(i->second.get());
+                                touchpad = nullptr;
+                                for (Controller* controller : controllers)
+                                    if (controller->getType() == Controller::Type::TOUCHPAD)
+                                        touchpad = static_cast<Touchpad*>(controller);
                                 break;
                             }
                         }
 
-                        handled = engine->getEventDispatcher().dispatchEvent(connectEvent);
-                        break;
+                        handled = engine->getEventDispatcher().dispatchEvent(disconnectEvent);
+                        controllerMap.erase(i);
                     }
-                    case InputSystem::Event::Type::DEVICE_DISCONNECT:
-                    {
-                        auto i = controllerMap.find(event.deviceId);
-                        if (i != controllerMap.end())
-                        {
-                            auto controllerIterator = std::find(controllers.begin(), controllers.end(), i->second.get());
-                            if (controllerIterator != controllers.end())
-                                controllers.erase(controllerIterator);
 
-                            Event disconnectEvent;
-
-                            switch (i->second->getType())
-                            {
-                                case Controller::Type::GAMEPAD:
-                                {
-                                    disconnectEvent.type = Event::Type::GAMEPAD_DISCONNECT;
-                                    disconnectEvent.gamepadEvent.gamepad = static_cast<Gamepad*>(i->second.get());
-                                    break;
-                                }
-                                case Controller::Type::KEYBOARD:
-                                {
-                                    disconnectEvent.type = Event::Type::KEYBOARD_DISCONNECT;
-                                    disconnectEvent.keyboardEvent.keyboard = static_cast<Keyboard*>(i->second.get());
-                                    keyboard = nullptr;
-                                    for (Controller* controller : controllers)
-                                        if (controller->getType() == Controller::Type::KEYBOARD)
-                                            keyboard = static_cast<Keyboard*>(controller);
-                                    break;
-                                }
-                                case Controller::Type::MOUSE:
-                                {
-                                    disconnectEvent.type = Event::Type::MOUSE_DISCONNECT;
-                                    disconnectEvent.mouseEvent.mouse = static_cast<Mouse*>(i->second.get());
-                                    mouse = nullptr;
-                                    for (Controller* controller : controllers)
-                                        if (controller->getType() == Controller::Type::MOUSE)
-                                            mouse = static_cast<Mouse*>(controller);
-                                    break;
-                                }
-                                case Controller::Type::TOUCHPAD:
-                                {
-                                    disconnectEvent.type = Event::Type::TOUCHPAD_DISCONNECT;
-                                    disconnectEvent.touchEvent.touchpad = static_cast<Touchpad*>(i->second.get());
-                                    touchpad = nullptr;
-                                    for (Controller* controller : controllers)
-                                        if (controller->getType() == Controller::Type::TOUCHPAD)
-                                            touchpad = static_cast<Touchpad*>(controller);
-                                    break;
-                                }
-                            }
-
-                            handled = engine->getEventDispatcher().dispatchEvent(disconnectEvent);
-                            controllerMap.erase(i);
-                        }
-
-                        break;
-                    }
-                    case InputSystem::Event::Type::DEVICE_DISCOVERY_COMPLETE:
-                    {
-                        discovering = false;
-                        break;
-                    }
-                    case InputSystem::Event::Type::GAMEPAD_BUTTON_CHANGE:
-                    {
-                        auto i = controllerMap.find(event.deviceId);
-                        if (i != controllerMap.end())
-                        {
-                            Gamepad* gamepad = static_cast<Gamepad*>(i->second.get());
-                            handled = gamepad->handleButtonValueChange(event.gamepadButton, event.pressed, event.value);
-                        }
-                        break;
-                    }
-                    case InputSystem::Event::Type::KEY_PRESS:
-                    {
-                        auto i = controllerMap.find(event.deviceId);
-                        if (i != controllerMap.end())
-                        {
-                            Keyboard* keyboardController = static_cast<Keyboard*>(i->second.get());
-                            handled = keyboardController->handleKeyPress(event.keyboardKey);
-                        }
-                        break;
-                    }
-                    case InputSystem::Event::Type::KEY_RELEASE:
-                    {
-                        auto i = controllerMap.find(event.deviceId);
-                        if (i != controllerMap.end())
-                        {
-                            Keyboard* keyboardController = static_cast<Keyboard*>(i->second.get());
-                            handled = keyboardController->handleKeyRelease(event.keyboardKey);
-                        }
-                        break;
-                    }
-                    case InputSystem::Event::Type::MOUSE_PRESS:
-                    {
-                        auto i = controllerMap.find(event.deviceId);
-                        if (i != controllerMap.end())
-                        {
-                            Mouse* mouseController = static_cast<Mouse*>(i->second.get());
-                            handled = mouseController->handleButtonPress(event.mouseButton, event.position);
-                        }
-                        break;
-                    }
-                    case InputSystem::Event::Type::MOUSE_RELEASE:
-                    {
-                        auto i = controllerMap.find(event.deviceId);
-                        if (i != controllerMap.end())
-                        {
-                            Mouse* mouseController = static_cast<Mouse*>(i->second.get());
-                            handled = mouseController->handleButtonRelease(event.mouseButton, event.position);
-                        }
-                        break;
-                    }
-                    case InputSystem::Event::Type::MOUSE_SCROLL:
-                    {
-                        auto i = controllerMap.find(event.deviceId);
-                        if (i != controllerMap.end())
-                        {
-                            Mouse* mouseController = static_cast<Mouse*>(i->second.get());
-                            handled = mouseController->handleScroll(event.scroll, event.position);
-                        }
-                        break;
-                    }
-                    case InputSystem::Event::Type::MOUSE_MOVE:
-                    {
-                        auto i = controllerMap.find(event.deviceId);
-                        if (i != controllerMap.end())
-                        {
-                            Mouse* mouseController = static_cast<Mouse*>(i->second.get());
-                            handled = mouseController->handleMove(event.position);
-                        }
-                        break;
-                    }
-                    case InputSystem::Event::Type::MOUSE_RELATIVE_MOVE:
-                    {
-                        auto i = controllerMap.find(event.deviceId);
-                        if (i != controllerMap.end())
-                        {
-                            Mouse* mouseController = static_cast<Mouse*>(i->second.get());
-                            handled = mouseController->handleRelativeMove(event.position);
-                        }
-                        break;
-                    }
-                    case InputSystem::Event::Type::MOUSE_LOCK_CHANGED:
-                    {
-                        auto i = controllerMap.find(event.deviceId);
-                        if (i != controllerMap.end())
-                        {
-                            Mouse* mouseController = static_cast<Mouse*>(i->second.get());
-                            handled = mouseController->handleCursorLockChange(event.locked);
-                        }
-                        break;
-                    }
-                    case InputSystem::Event::Type::TOUCH_BEGIN:
-                    {
-                        auto i = controllerMap.find(event.deviceId);
-                        if (i != controllerMap.end())
-                        {
-                            Touchpad* touchpadController = static_cast<Touchpad*>(i->second.get());
-                            handled = touchpadController->handleTouchBegin(event.touchId, event.position);
-                        }
-                        break;
-                    }
-                    case InputSystem::Event::Type::TOUCH_MOVE:
-                    {
-                        auto i = controllerMap.find(event.deviceId);
-                        if (i != controllerMap.end())
-                        {
-                            Touchpad* touchpadController = static_cast<Touchpad*>(i->second.get());
-                            handled = touchpadController->handleTouchMove(event.touchId, event.position);
-                        }
-                        break;
-                    }
-                    case InputSystem::Event::Type::TOUCH_END:
-                    {
-                        auto i = controllerMap.find(event.deviceId);
-                        if (i != controllerMap.end())
-                        {
-                            Touchpad* touchpadController = static_cast<Touchpad*>(i->second.get());
-                            handled = touchpadController->handleTouchEnd(event.touchId, event.position);
-                        }
-                        break;
-                    }
-                    case InputSystem::Event::Type::TOUCH_CANCEL:
-                    {
-                        auto i = controllerMap.find(event.deviceId);
-                        if (i != controllerMap.end())
-                        {
-                            Touchpad* touchpadController = static_cast<Touchpad*>(i->second.get());
-                            handled = touchpadController->handleTouchCancel(event.touchId, event.position);
-                        }
-                        break;
-                    }
+                    break;
                 }
-
-                p.first.set_value(handled);
+                case InputSystem::Event::Type::DEVICE_DISCOVERY_COMPLETE:
+                {
+                    discovering = false;
+                    break;
+                }
+                case InputSystem::Event::Type::GAMEPAD_BUTTON_CHANGE:
+                {
+                    auto i = controllerMap.find(event.deviceId);
+                    if (i != controllerMap.end())
+                    {
+                        Gamepad* gamepad = static_cast<Gamepad*>(i->second.get());
+                        handled = gamepad->handleButtonValueChange(event.gamepadButton, event.pressed, event.value);
+                    }
+                    break;
+                }
+                case InputSystem::Event::Type::KEY_PRESS:
+                {
+                    auto i = controllerMap.find(event.deviceId);
+                    if (i != controllerMap.end())
+                    {
+                        Keyboard* keyboardController = static_cast<Keyboard*>(i->second.get());
+                        handled = keyboardController->handleKeyPress(event.keyboardKey);
+                    }
+                    break;
+                }
+                case InputSystem::Event::Type::KEY_RELEASE:
+                {
+                    auto i = controllerMap.find(event.deviceId);
+                    if (i != controllerMap.end())
+                    {
+                        Keyboard* keyboardController = static_cast<Keyboard*>(i->second.get());
+                        handled = keyboardController->handleKeyRelease(event.keyboardKey);
+                    }
+                    break;
+                }
+                case InputSystem::Event::Type::MOUSE_PRESS:
+                {
+                    auto i = controllerMap.find(event.deviceId);
+                    if (i != controllerMap.end())
+                    {
+                        Mouse* mouseController = static_cast<Mouse*>(i->second.get());
+                        handled = mouseController->handleButtonPress(event.mouseButton, event.position);
+                    }
+                    break;
+                }
+                case InputSystem::Event::Type::MOUSE_RELEASE:
+                {
+                    auto i = controllerMap.find(event.deviceId);
+                    if (i != controllerMap.end())
+                    {
+                        Mouse* mouseController = static_cast<Mouse*>(i->second.get());
+                        handled = mouseController->handleButtonRelease(event.mouseButton, event.position);
+                    }
+                    break;
+                }
+                case InputSystem::Event::Type::MOUSE_SCROLL:
+                {
+                    auto i = controllerMap.find(event.deviceId);
+                    if (i != controllerMap.end())
+                    {
+                        Mouse* mouseController = static_cast<Mouse*>(i->second.get());
+                        handled = mouseController->handleScroll(event.scroll, event.position);
+                    }
+                    break;
+                }
+                case InputSystem::Event::Type::MOUSE_MOVE:
+                {
+                    auto i = controllerMap.find(event.deviceId);
+                    if (i != controllerMap.end())
+                    {
+                        Mouse* mouseController = static_cast<Mouse*>(i->second.get());
+                        handled = mouseController->handleMove(event.position);
+                    }
+                    break;
+                }
+                case InputSystem::Event::Type::MOUSE_RELATIVE_MOVE:
+                {
+                    auto i = controllerMap.find(event.deviceId);
+                    if (i != controllerMap.end())
+                    {
+                        Mouse* mouseController = static_cast<Mouse*>(i->second.get());
+                        handled = mouseController->handleRelativeMove(event.position);
+                    }
+                    break;
+                }
+                case InputSystem::Event::Type::MOUSE_LOCK_CHANGED:
+                {
+                    auto i = controllerMap.find(event.deviceId);
+                    if (i != controllerMap.end())
+                    {
+                        Mouse* mouseController = static_cast<Mouse*>(i->second.get());
+                        handled = mouseController->handleCursorLockChange(event.locked);
+                    }
+                    break;
+                }
+                case InputSystem::Event::Type::TOUCH_BEGIN:
+                {
+                    auto i = controllerMap.find(event.deviceId);
+                    if (i != controllerMap.end())
+                    {
+                        Touchpad* touchpadController = static_cast<Touchpad*>(i->second.get());
+                        handled = touchpadController->handleTouchBegin(event.touchId, event.position);
+                    }
+                    break;
+                }
+                case InputSystem::Event::Type::TOUCH_MOVE:
+                {
+                    auto i = controllerMap.find(event.deviceId);
+                    if (i != controllerMap.end())
+                    {
+                        Touchpad* touchpadController = static_cast<Touchpad*>(i->second.get());
+                        handled = touchpadController->handleTouchMove(event.touchId, event.position);
+                    }
+                    break;
+                }
+                case InputSystem::Event::Type::TOUCH_END:
+                {
+                    auto i = controllerMap.find(event.deviceId);
+                    if (i != controllerMap.end())
+                    {
+                        Touchpad* touchpadController = static_cast<Touchpad*>(i->second.get());
+                        handled = touchpadController->handleTouchEnd(event.touchId, event.position);
+                    }
+                    break;
+                }
+                case InputSystem::Event::Type::TOUCH_CANCEL:
+                {
+                    auto i = controllerMap.find(event.deviceId);
+                    if (i != controllerMap.end())
+                    {
+                        Touchpad* touchpadController = static_cast<Touchpad*>(i->second.get());
+                        handled = touchpadController->handleTouchCancel(event.touchId, event.position);
+                    }
+                    break;
+                }
             }
+
+            return handled;
         }
 
         void InputManager::startDeviceDiscovery()

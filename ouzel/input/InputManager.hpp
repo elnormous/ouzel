@@ -21,7 +21,7 @@ namespace ouzel
         class Mouse;
         class Touchpad;
 
-        class InputManager final
+        class InputManager final: public InputSystem::EventHandler
         {
             friend Engine;
         public:
@@ -39,6 +39,7 @@ namespace ouzel
             Touchpad* getTouchpad() const { return touchpad; }
 
             void update();
+            virtual bool handleEvent(const InputSystem::Event& event) override;
 
             void startDeviceDiscovery();
             void stopDeviceDiscovery();

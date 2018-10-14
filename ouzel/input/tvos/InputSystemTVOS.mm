@@ -64,7 +64,8 @@ namespace ouzel
                 return Keyboard::Key::NONE;
         }
 
-        InputSystemTVOS::InputSystemTVOS():
+        InputSystemTVOS::InputSystemTVOS(EventHandler& initEventHandler):
+            InputSystem(initEventHandler),
             keyboardDevice(new KeyboardDevice(*this, ++lastDeviceId))
         {
             connectDelegate = [[ConnectDelegate alloc] initWithInput:this];

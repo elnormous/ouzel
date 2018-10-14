@@ -34,7 +34,7 @@ namespace ouzel
             static Keyboard::Key convertKeyCode(uint16_t keyCode);
             static NSUInteger getKeyMask(uint16_t keyCode);
 
-            InputSystemMacOS();
+            InputSystemMacOS(EventHandler& initEventHandler);
             virtual ~InputSystemMacOS();
 
             virtual void executeCommand(const Command& command) override;

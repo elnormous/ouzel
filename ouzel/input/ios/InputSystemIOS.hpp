@@ -26,7 +26,7 @@ namespace ouzel
         public:
             static Keyboard::Key convertKeyCode(NSInteger keyCode);
 
-            InputSystemIOS();
+            InputSystemIOS(EventHandler& initEventHandler);
             virtual ~InputSystemIOS();
 
             virtual void executeCommand(const Command& command) override;

@@ -8,7 +8,8 @@ namespace ouzel
 {
     namespace input
     {
-        InputSystem::InputSystem()
+        InputSystem::InputSystem(EventHandler& initEventHandler):
+            eventHandler(initEventHandler)
         {
         }
 
@@ -17,16 +18,21 @@ namespace ouzel
             engine->executeOnMainThread(std::bind(&InputSystem::executeCommand, this, command));
         }
 
-        std::vector<std::pair<std::promise<bool>, InputSystem::Event>> InputSystem::getEvents() const
+        void InputSystem::dispatchEvents()
         {
-            std::vector<std::pair<std::promise<bool>, InputSystem::Event>> result;
-            std::unique_lock<std::mutex> lock(eventQueueMutex);
-            while (!eventQueue.empty())
+            for (;;)
             {
-                result.push_back(std::move(eventQueue.front()));
-                eventQueue.pop();
+                std::pair<std::promise<bool>, InputSystem::Event> p;
+                {
+                    std::unique_lock<std::mutex> lock(eventQueueMutex);
+                    if (eventQueue.empty()) break;
+
+                    p = std::move(eventQueue.front());
+                    eventQueue.pop();
+                }
+
+                p.first.set_value(eventHandler.handleEvent(p.second));
             }
-            return result;
         }
 
         std::future<bool> InputSystem::postEvent(const Event& event)

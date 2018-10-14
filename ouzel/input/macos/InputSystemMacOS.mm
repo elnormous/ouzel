@@ -217,7 +217,8 @@ namespace ouzel
                 return 0;
         }
 
-        InputSystemMacOS::InputSystemMacOS():
+        InputSystemMacOS::InputSystemMacOS(EventHandler& initEventHandler):
+            InputSystem(initEventHandler),
             keyboardDevice(new KeyboardDevice(*this, ++lastDeviceId)),
             mouseDevice(new MouseDeviceMacOS(*this, ++lastDeviceId)),
             touchpadDevice(new TouchpadDevice(*this, ++lastDeviceId))

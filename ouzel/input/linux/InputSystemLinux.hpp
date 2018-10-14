@@ -28,7 +28,7 @@ namespace ouzel
             static Keyboard::Key convertKeyCode(uint16_t keyCode);
 #endif
 
-            InputSystemLinux();
+            InputSystemLinux(EventHandler& initEventHandler);
             virtual ~InputSystemLinux();
 
             virtual void executeCommand(const Command& command) override;

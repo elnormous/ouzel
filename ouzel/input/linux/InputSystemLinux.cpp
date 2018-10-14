@@ -378,13 +378,15 @@ namespace ouzel
         }
 #endif
 
+        InputSystemLinux::InputSystemLinux(EventHandler& initEventHandler):
 #if OUZEL_SUPPORTS_X11
-        InputSystemLinux::InputSystemLinux():
+        
+            InputSystem(initEventHandler),
             keyboardDevice(new KeyboardDeviceLinux(*this, ++lastDeviceId)),
             mouseDevice(new MouseDeviceLinux(*this, ++lastDeviceId)),
             touchpadDevice(new TouchpadDevice(*this, ++lastDeviceId))
 #else
-        InputSystemLinux::InputSystemLinux()
+            InputSystem(initEventHandler)
 #endif
         {
             DIR* dir = opendir("/dev/input");

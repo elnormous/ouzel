@@ -106,13 +106,19 @@ namespace ouzel
                 float force = 1.0F;
             };
 
-            InputSystem();
+            class EventHandler
+            {
+            public:
+                virtual bool handleEvent(const Event& event) = 0;
+            };
+
+            InputSystem(EventHandler& initEventHandler);
             virtual ~InputSystem() {}
 
             void addCommand(const Command& command);
             virtual void executeCommand(const Command&) {}
 
-            std::vector<std::pair<std::promise<bool>, Event>> getEvents() const;
+            void dispatchEvents();
 
         protected:
             std::future<bool> postEvent(const Event& event);
@@ -123,8 +129,9 @@ namespace ouzel
             std::unordered_map<uint32_t, InputDevice*> inputDevices;
 
         private:
-            mutable std::mutex eventQueueMutex;
-            mutable std::queue<std::pair<std::promise<bool>, Event>> eventQueue;
+            EventHandler& eventHandler;
+            std::mutex eventQueueMutex;
+            std::queue<std::pair<std::promise<bool>, Event>> eventQueue;
         };
     } // namespace input
 } // namespace ouzel
