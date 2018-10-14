@@ -79,7 +79,7 @@ extern std::string APPLICATION_NAME;
 
 namespace ouzel
 {
-    ouzel::Engine* engine = nullptr;
+    Engine* engine = nullptr;
 
     Engine::Engine():
         cache(fileSystem), assetBundle(cache), active(false), paused(false),
@@ -153,15 +153,15 @@ namespace ouzel
         if (!graphicsDriverValue.empty())
         {
             if (graphicsDriverValue == "default")
-                graphicsDriver = ouzel::graphics::Renderer::Driver::DEFAULT;
+                graphicsDriver = graphics::Renderer::Driver::DEFAULT;
             else if (graphicsDriverValue == "empty")
-                graphicsDriver = ouzel::graphics::Renderer::Driver::EMPTY;
+                graphicsDriver = graphics::Renderer::Driver::EMPTY;
             else if (graphicsDriverValue == "opengl")
-                graphicsDriver = ouzel::graphics::Renderer::Driver::OPENGL;
+                graphicsDriver = graphics::Renderer::Driver::OPENGL;
             else if (graphicsDriverValue == "direct3d11")
-                graphicsDriver = ouzel::graphics::Renderer::Driver::DIRECT3D11;
+                graphicsDriver = graphics::Renderer::Driver::DIRECT3D11;
             else if (graphicsDriverValue == "metal")
-                graphicsDriver = ouzel::graphics::Renderer::Driver::METAL;
+                graphicsDriver = graphics::Renderer::Driver::METAL;
             else
                 throw ConfigError("Invalid graphics driver specified");
         }
@@ -179,13 +179,13 @@ namespace ouzel
         if (!textureFilterValue.empty())
         {
             if (textureFilterValue == "point")
-                textureFilter = ouzel::graphics::Texture::Filter::POINT;
+                textureFilter = graphics::Texture::Filter::POINT;
             else if (textureFilterValue == "linear")
-                textureFilter = ouzel::graphics::Texture::Filter::LINEAR;
+                textureFilter = graphics::Texture::Filter::LINEAR;
             else if (textureFilterValue == "bilinear")
-                textureFilter = ouzel::graphics::Texture::Filter::BILINEAR;
+                textureFilter = graphics::Texture::Filter::BILINEAR;
             else if (textureFilterValue == "trilinear")
-                textureFilter = ouzel::graphics::Texture::Filter::TRILINEAR;
+                textureFilter = graphics::Texture::Filter::TRILINEAR;
             else
                 throw ConfigError("Invalid texture filter specified");
         }
@@ -219,21 +219,21 @@ namespace ouzel
         if (!audioDriverValue.empty())
         {
             if (audioDriverValue == "default")
-                audioDriver = ouzel::audio::Audio::Driver::DEFAULT;
+                audioDriver = audio::Audio::Driver::DEFAULT;
             else if (audioDriverValue == "empty")
-                audioDriver = ouzel::audio::Audio::Driver::EMPTY;
+                audioDriver = audio::Audio::Driver::EMPTY;
             else if (audioDriverValue == "openal")
-                audioDriver = ouzel::audio::Audio::Driver::OPENAL;
+                audioDriver = audio::Audio::Driver::OPENAL;
             else if (audioDriverValue == "directsound")
-                audioDriver = ouzel::audio::Audio::Driver::DIRECTSOUND;
+                audioDriver = audio::Audio::Driver::DIRECTSOUND;
             else if (audioDriverValue == "xaudio2")
-                audioDriver = ouzel::audio::Audio::Driver::XAUDIO2;
+                audioDriver = audio::Audio::Driver::XAUDIO2;
             else if (audioDriverValue == "opensl")
-                audioDriver = ouzel::audio::Audio::Driver::OPENSL;
+                audioDriver = audio::Audio::Driver::OPENSL;
             else if (audioDriverValue == "coreaudio")
-                audioDriver = ouzel::audio::Audio::Driver::COREAUDIO;
+                audioDriver = audio::Audio::Driver::COREAUDIO;
             else if (audioDriverValue == "alsa")
-                audioDriver = ouzel::audio::Audio::Driver::ALSA;
+                audioDriver = audio::Audio::Driver::ALSA;
             else
                 throw ConfigError("Invalid audio driver specified");
         }

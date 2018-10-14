@@ -38,9 +38,6 @@ namespace ouzel
             Mouse* getMouse() const { return mouse; }
             Touchpad* getTouchpad() const { return touchpad; }
 
-            void update();
-            virtual bool handleEvent(const InputSystem::Event& event) override;
-
             void startDeviceDiscovery();
             void stopDeviceDiscovery();
 
@@ -49,6 +46,10 @@ namespace ouzel
 
         protected:
             InputManager();
+            void update();
+
+        private:
+            virtual bool handleEvent(const InputSystem::Event& event) override;
 
             std::unique_ptr<InputSystem> inputSystem;
             Keyboard* keyboard = nullptr;

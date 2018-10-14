@@ -180,19 +180,19 @@ namespace ouzel
         {
             orientation = newOrientation;
 
-            ouzel::Event event;
-            event.type = ouzel::Event::Type::ORIENTATION_CHANGE;
+            Event event;
+            event.type = Event::Type::ORIENTATION_CHANGE;
 
             switch (orientation)
             {
                 case ORIENTATION_PORTRAIT:
-                    event.systemEvent.orientation = ouzel::SystemEvent::Orientation::PORTRAIT;
+                    event.systemEvent.orientation = SystemEvent::Orientation::PORTRAIT;
                     break;
                 case ORIENTATION_LANDSCAPE:
-                    event.systemEvent.orientation = ouzel::SystemEvent::Orientation::LANDSCAPE;
+                    event.systemEvent.orientation = SystemEvent::Orientation::LANDSCAPE;
                     break;
                 default:
-                    event.systemEvent.orientation = ouzel::SystemEvent::Orientation::UNKNOWN;
+                    event.systemEvent.orientation = SystemEvent::Orientation::UNKNOWN;
                     break;
             }
 

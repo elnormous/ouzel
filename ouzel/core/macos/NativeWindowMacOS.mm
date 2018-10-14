@@ -58,19 +58,21 @@
 
 namespace ouzel
 {
-    NativeWindowMacOS::NativeWindowMacOS(const Size2& newSize,
+    NativeWindowMacOS::NativeWindowMacOS(EventHandler& initEventHandler,
+                                         const Size2& newSize,
                                          bool newResizable,
                                          bool newFullscreen,
                                          bool newExclusiveFullscreen,
                                          const std::string& newTitle,
                                          graphics::Renderer::Driver graphicsDriver,
                                          bool newHighDpi):
-        ouzel::NativeWindow(newSize,
-                            newResizable,
-                            newFullscreen,
-                            newExclusiveFullscreen,
-                            newTitle,
-                            newHighDpi)
+        NativeWindow(initEventHandler,
+                     newSize,
+                     newResizable,
+                     newFullscreen,
+                     newExclusiveFullscreen,
+                     newTitle,
+                     newHighDpi)
     {
         screen = [NSScreen mainScreen];
         displayId = [[[screen deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];

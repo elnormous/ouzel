@@ -12,7 +12,7 @@ namespace ouzel
 {
     class Engine;
 
-    class Window final
+    class Window final: public NativeWindow::EventHandler
     {
         friend Engine;
     public:
@@ -62,6 +62,9 @@ namespace ouzel
                bool depth);
 
         void update();
+
+    private:
+        virtual bool handleEvent(const NativeWindow::Event& event) override;
 
         std::unique_ptr<NativeWindow> nativeWindow;
 

@@ -42,7 +42,8 @@ namespace ouzel
         HMONITOR getMonitor() const { return monitor; }
 
     protected:
-        NativeWindowWin(const Size2& newSize,
+        NativeWindowWin(EventHandler& initEventHandler,
+                        const Size2& newSize,
                         bool newResizable,
                         bool newFullscreen,
                         bool newExclusiveFullscreen,

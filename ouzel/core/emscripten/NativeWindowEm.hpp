@@ -18,7 +18,8 @@ namespace ouzel
         void handleResize();
 
     protected:
-        NativeWindowEm(const Size2& newSize,
+        NativeWindowEm(EventHandler& initEventHandler,
+                       const Size2& newSize,
                        bool newFullscreen,
                        const std::string& newTitle,
                        bool newHighDpi);

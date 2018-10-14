@@ -30,8 +30,8 @@ namespace ouzel
 
             inline const std::vector<Camera*>& getCameras() const { return cameras; }
 
-            std::pair<Actor*, ouzel::Vector3> pickActor(const Vector2& position, bool renderTargets = false) const;
-            std::vector<std::pair<Actor*, ouzel::Vector3>> pickActors(const Vector2& position, bool renderTargets = false) const;
+            std::pair<Actor*, Vector3> pickActor(const Vector2& position, bool renderTargets = false) const;
+            std::vector<std::pair<Actor*, Vector3>> pickActors(const Vector2& position, bool renderTargets = false) const;
             std::vector<Actor*> pickActors(const std::vector<Vector2>& edges, bool renderTargets = false) const;
 
             inline int32_t getOrder() const { return order; }

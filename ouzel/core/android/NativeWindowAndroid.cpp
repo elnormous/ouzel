@@ -6,13 +6,15 @@
 
 namespace ouzel
 {
-    NativeWindowAndroid::NativeWindowAndroid(const std::string& newTitle):
-        ouzel::NativeWindow(Size2(),
-                            true,
-                            true,
-                            true,
-                            newTitle,
-                            true)
+    NativeWindowAndroid::NativeWindowAndroid(EventHandler& initEventHandler,
+                                             const std::string& newTitle):
+        NativeWindow(initEventHandler,
+                     Size2(),
+                     true,
+                     true,
+                     true,
+                     newTitle,
+                     true)
     {
         EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(engine);
         JavaVM* javaVM = engineAndroid->getJavaVM();

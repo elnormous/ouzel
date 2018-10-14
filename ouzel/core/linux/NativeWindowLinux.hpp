@@ -49,7 +49,8 @@ namespace ouzel
 #endif
 
     protected:
-        NativeWindowLinux(const Size2& newSize,
+        NativeWindowLinux(EventHandler& initEventHandler,
+                          const Size2& newSize,
                           bool newResizable,
                           bool newFullscreen,
                           bool newExclusiveFullscreen,

@@ -51,7 +51,8 @@ namespace ouzel
         inline CGDirectDisplayID getDisplayId() const { return displayId; }
 
     protected:
-        NativeWindowMacOS(const Size2& newSize,
+        NativeWindowMacOS(EventHandler& initEventHandler,
+                          const Size2& newSize,
                           bool newResizable,
                           bool newFullscreen,
                           bool newExclusiveFullscreen,
