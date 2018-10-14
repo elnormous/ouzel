@@ -42,8 +42,6 @@ namespace ouzel
                                     int64_t min, int64_t max,
                                     Gamepad::Button button);
 
-            int32_t vendorId = 0;
-            int32_t productId = 0;
             std::string name;
 
             const DIDEVICEINSTANCEW* instance = nullptr;

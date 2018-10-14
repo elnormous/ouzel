@@ -43,10 +43,12 @@ namespace ouzel
                 name = deviceName;
             }
 
+            int32_t vendorId;
             CFNumberRef vendor = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDVendorIDKey)));
             if (vendor)
                 CFNumberGetValue(vendor, kCFNumberSInt32Type, &vendorId);
 
+            int32_t productId;
             CFNumberRef product = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductIDKey)));
             if (product)
                 CFNumberGetValue(product, kCFNumberSInt32Type, &productId);
@@ -224,6 +226,7 @@ namespace ouzel
                 {
                     element.min = IOHIDElementGetLogicalMin(element.element);
                     element.max = IOHIDElementGetLogicalMax(element.element);
+                    element.range = element.max - element.min;
 
                     elements.insert(std::make_pair(element.element, element));
                 }
@@ -256,36 +259,36 @@ namespace ouzel
                 else if (elementRef == leftThumbX)
                 {
                     handleThumbAxisChange(element.value, newValue,
-                                          element.min, element.max,
+                                          element.min, element.range,
                                           Gamepad::Button::LEFT_THUMB_LEFT, Gamepad::Button::LEFT_THUMB_RIGHT);
                 }
                 else if (elementRef == leftThumbY)
                 {
                     handleThumbAxisChange(element.value, newValue,
-                                          element.min, element.max,
+                                          element.min, element.range,
                                           Gamepad::Button::LEFT_THUMB_UP, Gamepad::Button::LEFT_THUMB_DOWN);
                 }
                 else if (elementRef == leftTrigger)
                 {
-                    float floatValue = static_cast<float>(newValue - element.min) / (element.max - element.min);
+                    float floatValue = static_cast<float>(newValue - element.min) / element.range;
 
                     handleButtonValueChange(Gamepad::Button::LEFT_TRIGGER, newValue > 0, floatValue);
                 }
                 else if (elementRef == rightThumbX)
                 {
                     handleThumbAxisChange(element.value, newValue,
-                                          element.min, element.max,
+                                          element.min, element.range,
                                           Gamepad::Button::RIGHT_THUMB_LEFT, Gamepad::Button::RIGHT_THUMB_RIGHT);
                 }
                 else if (elementRef == rightThumbY)
                 {
                     handleThumbAxisChange(element.value, newValue,
-                                          element.min, element.max,
+                                          element.min, element.range,
                                           Gamepad::Button::RIGHT_THUMB_UP, Gamepad::Button::RIGHT_THUMB_DOWN);
                 }
                 else if (elementRef == rightTrigger)
                 {
-                    float floatValue = static_cast<float>(newValue - element.min) / (element.max - element.min);
+                    float floatValue = static_cast<float>(newValue - element.min) / element.range;
 
                     handleButtonValueChange(Gamepad::Button::RIGHT_TRIGGER, newValue > 0, floatValue);
                 }
@@ -320,11 +323,11 @@ namespace ouzel
         }
 
         void GamepadDeviceIOKit::handleThumbAxisChange(int64_t oldValue, int64_t newValue,
-                                                       int64_t min, int64_t max,
+                                                       int64_t min, int64_t range,
                                                        Gamepad::Button negativeButton,
                                                        Gamepad::Button positiveButton)
         {
-            float floatValue = 2.0F * (newValue - min) / (max - min) - 1.0F;
+            float floatValue = 2.0F * (newValue - min) / range - 1.0F;
 
             if (floatValue > 0.0F)
             {
