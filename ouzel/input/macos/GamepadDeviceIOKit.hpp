@@ -25,7 +25,7 @@ namespace ouzel
 
         private:
             void handleThumbAxisChange(int64_t oldValue, int64_t newValue,
-                                       int64_t min, int64_t max,
+                                       int64_t min, int64_t range,
                                        Gamepad::Button negativeButton,
                                        Gamepad::Button positiveButton);
 

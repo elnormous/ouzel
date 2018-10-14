@@ -429,7 +429,7 @@ namespace ouzel
                 {
                     checkThumbAxisChange(getAxisValue(diState, leftThumbX.offset),
                                          events[e].dwData,
-                                         leftThumbX.min, leftThumbX.max,
+                                         leftThumbX.min, leftThumbX.range,
                                          Gamepad::Button::LEFT_THUMB_LEFT, Gamepad::Button::LEFT_THUMB_RIGHT);
 
                     setAxisValue(diState, leftThumbX.offset, events[e].dwData);
@@ -438,7 +438,7 @@ namespace ouzel
                 {
                     checkThumbAxisChange(getAxisValue(diState, leftThumbY.offset),
                                          events[e].dwData,
-                                         leftThumbY.min, leftThumbY.max,
+                                         leftThumbY.min, leftThumbY.range,
                                          Gamepad::Button::LEFT_THUMB_UP, Gamepad::Button::LEFT_THUMB_DOWN);
 
                     setAxisValue(diState, leftThumbY.offset, events[e].dwData);
@@ -447,7 +447,7 @@ namespace ouzel
                 {
                     checkThumbAxisChange(getAxisValue(diState, rightThumbX.offset),
                                          events[e].dwData,
-                                         rightThumbX.min, rightThumbX.max,
+                                         rightThumbX.min, rightThumbX.range,
                                          Gamepad::Button::RIGHT_THUMB_LEFT, Gamepad::Button::RIGHT_THUMB_RIGHT);
 
                     setAxisValue(diState, rightThumbX.offset, events[e].dwData);
@@ -456,7 +456,7 @@ namespace ouzel
                 {
                     checkThumbAxisChange(getAxisValue(diState, rightThumbY.offset),
                                          events[e].dwData,
-                                         rightThumbY.min, rightThumbY.max,
+                                         rightThumbY.min, rightThumbY.range,
                                          Gamepad::Button::RIGHT_THUMB_UP, Gamepad::Button::RIGHT_THUMB_DOWN);
 
                     setAxisValue(diState, rightThumbY.offset, events[e].dwData);
@@ -465,7 +465,7 @@ namespace ouzel
                 {
                     checkTriggerChange(getAxisValue(diState, leftTrigger.offset),
                                        events[e].dwData,
-                                       leftTrigger.min, leftTrigger.max,
+                                       leftTrigger.min, leftTrigger.range,
                                        Gamepad::Button::LEFT_TRIGGER);
 
                     setAxisValue(diState, leftTrigger.offset, events[e].dwData);
@@ -474,7 +474,7 @@ namespace ouzel
                 {
                     checkTriggerChange(getAxisValue(diState, rightTrigger.offset),
                                        events[e].dwData,
-                                       rightTrigger.min, rightTrigger.max,
+                                       rightTrigger.min, rightTrigger.range,
                                        Gamepad::Button::RIGHT_TRIGGER);
 
                     setAxisValue(diState, rightTrigger.offset, events[e].dwData);
@@ -569,42 +569,42 @@ namespace ouzel
             {
                 checkThumbAxisChange(getAxisValue(diState, leftThumbX.offset),
                                      getAxisValue(newDIState, leftThumbX.offset),
-                                     leftThumbX.min, leftThumbX.max,
+                                     leftThumbX.min, leftThumbX.range,
                                      Gamepad::Button::LEFT_THUMB_LEFT, Gamepad::Button::LEFT_THUMB_RIGHT);
             }
             if (leftThumbY.offset != 0xFFFFFFFF)
             {
                 checkThumbAxisChange(getAxisValue(diState, leftThumbY.offset),
                                      getAxisValue(newDIState, leftThumbY.offset),
-                                     leftThumbY.min, leftThumbY.max,
+                                     leftThumbY.min, leftThumbY.range,
                                      Gamepad::Button::LEFT_THUMB_UP, Gamepad::Button::LEFT_THUMB_DOWN);
             }
             if (rightThumbX.offset != 0xFFFFFFFF)
             {
                 checkThumbAxisChange(getAxisValue(diState, rightThumbX.offset),
                                      getAxisValue(newDIState, rightThumbX.offset),
-                                     rightThumbX.min, rightThumbX.max,
+                                     rightThumbX.min, rightThumbX.range,
                                      Gamepad::Button::RIGHT_THUMB_LEFT, Gamepad::Button::RIGHT_THUMB_RIGHT);
             }
             if (rightThumbY.offset != 0xFFFFFFFF)
             {
                 checkThumbAxisChange(getAxisValue(diState, rightThumbY.offset),
                                      getAxisValue(newDIState, rightThumbY.offset),
-                                     rightThumbY.min, rightThumbY.max,
+                                     rightThumbY.min, rightThumbY.range,
                                      Gamepad::Button::RIGHT_THUMB_UP, Gamepad::Button::RIGHT_THUMB_DOWN);
             }
             if (leftTrigger.offset != 0xFFFFFFFF)
             {
                 checkTriggerChange(getAxisValue(diState, leftTrigger.offset),
                                    getAxisValue(newDIState, leftTrigger.offset),
-                                   leftTrigger.min, leftTrigger.max,
+                                   leftTrigger.min, leftTrigger.range,
                                    Gamepad::Button::LEFT_TRIGGER);
             }
             if (rightTrigger.offset != 0xFFFFFFFF)
             {
                 checkTriggerChange(getAxisValue(diState, rightTrigger.offset),
                                    getAxisValue(newDIState, rightTrigger.offset),
-                                   rightTrigger.min, rightTrigger.max,
+                                   rightTrigger.min, rightTrigger.range,
                                    Gamepad::Button::RIGHT_TRIGGER);
             }
 
@@ -612,12 +612,12 @@ namespace ouzel
         }
 
         void GamepadDeviceDI::checkThumbAxisChange(LONG oldValue, LONG newValue,
-                                             int64_t min, int64_t max,
-                                             Gamepad::Button negativeButton, Gamepad::Button positiveButton)
+                                                   int64_t min, int64_t range,
+                                                   Gamepad::Button negativeButton, Gamepad::Button positiveButton)
         {
             if (oldValue != newValue)
             {
-                float floatValue = 2.0F * (newValue - min) / (max - min) - 1.0F;
+                float floatValue = 2.0F * (newValue - min) / range - 1.0F;
 
                 if (floatValue > 0.0F)
                 {
@@ -642,12 +642,12 @@ namespace ouzel
         }
 
         void GamepadDeviceDI::checkTriggerChange(LONG oldValue, LONG newValue,
-                                           int64_t min, int64_t max,
-                                           Gamepad::Button button)
+                                                 int64_t min, int64_t range,
+                                                 Gamepad::Button button)
         {
             if (oldValue != newValue)
             {
-                float floatValue = 2.0F * (newValue - min) / (max - min) - 1.0F;
+                float floatValue = 2.0F * (newValue - min) / range - 1.0F;
 
                 handleButtonValueChange(button,
                                         floatValue > 0.0F,
@@ -685,32 +685,38 @@ namespace ouzel
                 {
                     leftThumbX.min = propertyAxisRange.lMin;
                     leftThumbX.max = propertyAxisRange.lMax;
+                    leftThumbX.range = leftThumbX.max - leftThumbX.min;
                 }
                 if (leftThumbY.usage && didObjectInstance->wUsage == leftThumbY.usage)
                 {
                     leftThumbY.min = propertyAxisRange.lMin;
                     leftThumbY.max = propertyAxisRange.lMax;
+                    leftThumbY.range = leftThumbY.max - leftThumbY.min;
                 }
                 else if (leftTrigger.usage && didObjectInstance->wUsage == leftTrigger.usage)
                 {
                     leftTrigger.min = propertyAxisRange.lMin;
                     leftTrigger.max = propertyAxisRange.lMax;
+                    leftTrigger.range = leftTrigger.max - leftTrigger.min;
                     hasLeftTrigger = true;
                 }
                 else if (rightThumbX.usage && didObjectInstance->wUsage == rightThumbX.usage)
                 {
                     rightThumbX.min = propertyAxisRange.lMin;
                     rightThumbX.max = propertyAxisRange.lMax;
+                    rightThumbX.range = rightThumbX.max - rightThumbX.min;
                 }
                 else if (rightThumbY.usage && didObjectInstance->wUsage == rightThumbY.usage)
                 {
                     rightThumbY.min = propertyAxisRange.lMin;
                     rightThumbY.max = propertyAxisRange.lMax;
+                    rightThumbY.range = rightThumbY.max - rightThumbY.min;
                 }
                 else if (rightTrigger.usage && didObjectInstance->wUsage == rightTrigger.usage)
                 {
                     rightTrigger.min = propertyAxisRange.lMin;
                     rightTrigger.max = propertyAxisRange.lMax;
+                    rightTrigger.range = rightTrigger.max - rightTrigger.min;
                     hasRightTrigger = true;
                 }
             }
