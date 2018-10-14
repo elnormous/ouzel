@@ -36,10 +36,10 @@ namespace ouzel
             void checkInputBuffered();
             void checkInputPolled();
             void checkThumbAxisChange(LONG oldValue, LONG newValue,
-                                      int64_t min, int64_t max,
+                                      int64_t min, int64_t range,
                                       Gamepad::Button negativeButton, Gamepad::Button positiveButton);
             void checkTriggerChange(LONG oldValue, LONG newValue,
-                                    int64_t min, int64_t max,
+                                    int64_t min, int64_t range,
                                     Gamepad::Button button);
 
             std::string name;
@@ -55,6 +55,7 @@ namespace ouzel
                 size_t offset = 0xFFFFFFFF;
                 LONG min = 0;
                 LONG max = 0;
+                LONG range = 0;
             };
 
             Axis leftThumbX;
