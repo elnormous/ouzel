@@ -173,12 +173,12 @@ namespace ouzel
                             case kHIDUsage_GD_Rz: index = 5; break;
                         }
 
-                        if (gamepadConfig.axisMap[index] == GamepadConfig::LEFT_THUMB_X) leftThumbX = element.element;
-                        else if (gamepadConfig.axisMap[index] == GamepadConfig::LEFT_THUMB_Y) leftThumbY = element.element;
-                        else if (gamepadConfig.axisMap[index] == GamepadConfig::RIGHT_THUMB_X) rightThumbX = element.element;
-                        else if (gamepadConfig.axisMap[index] == GamepadConfig::RIGHT_THUMB_Y) rightThumbY = element.element;
-                        else if (gamepadConfig.axisMap[index] == GamepadConfig::LEFT_TRIGGER) leftTrigger = element.element;
-                        else if (gamepadConfig.axisMap[index] == GamepadConfig::RIGHT_TRIGGER) rightTrigger = element.element;
+                        if (gamepadConfig.axisMap[index] == Gamepad::Axis::LEFT_THUMB_X) leftThumbX = element.element;
+                        else if (gamepadConfig.axisMap[index] == Gamepad::Axis::LEFT_THUMB_Y) leftThumbY = element.element;
+                        else if (gamepadConfig.axisMap[index] == Gamepad::Axis::RIGHT_THUMB_X) rightThumbX = element.element;
+                        else if (gamepadConfig.axisMap[index] == Gamepad::Axis::RIGHT_THUMB_Y) rightThumbY = element.element;
+                        else if (gamepadConfig.axisMap[index] == Gamepad::Axis::LEFT_TRIGGER) leftTrigger = element.element;
+                        else if (gamepadConfig.axisMap[index] == Gamepad::Axis::RIGHT_TRIGGER) rightTrigger = element.element;
                     }
                 }
 

@@ -16,6 +16,17 @@ namespace ouzel
         {
             friend InputManager;
         public:
+            enum class Axis
+            {
+                NONE,
+                LEFT_THUMB_X,
+                LEFT_THUMB_Y,
+                RIGHT_THUMB_X,
+                RIGHT_THUMB_Y,
+                LEFT_TRIGGER,
+                RIGHT_TRIGGER
+            };
+
             enum class Button
             {
                 NONE,
