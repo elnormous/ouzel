@@ -12,18 +12,7 @@ namespace ouzel
         struct GamepadConfig
         {
             std::array<Gamepad::Button, 24> buttonMap;
-
-            enum Axis
-            {
-                NONE,
-                LEFT_THUMB_X,
-                LEFT_THUMB_Y,
-                RIGHT_THUMB_X,
-                RIGHT_THUMB_Y,
-                LEFT_TRIGGER,
-                RIGHT_TRIGGER
-            };
-            std::array<Axis, 6> axisMap; // X, Y, Z, RX, RY, RZ
+            std::array<Gamepad::Axis, 6> axisMap; // X, Y, Z, RX, RY, RZ
         };
 
         // Playstation 3 controller
@@ -56,12 +45,12 @@ namespace ouzel
                 Gamepad::Button::NONE
             },
             {
-                GamepadConfig::LEFT_THUMB_X,
-                GamepadConfig::LEFT_THUMB_Y,
-                GamepadConfig::RIGHT_THUMB_X,
-                GamepadConfig::LEFT_TRIGGER,
-                GamepadConfig::RIGHT_TRIGGER,
-                GamepadConfig::RIGHT_THUMB_Y
+                Gamepad::Axis::LEFT_THUMB_X,
+                Gamepad::Axis::LEFT_THUMB_Y,
+                Gamepad::Axis::RIGHT_THUMB_X,
+                Gamepad::Axis::LEFT_TRIGGER,
+                Gamepad::Axis::RIGHT_TRIGGER,
+                Gamepad::Axis::RIGHT_THUMB_Y
             }
         };
 
@@ -95,12 +84,12 @@ namespace ouzel
                 Gamepad::Button::NONE
             },
             {
-                GamepadConfig::LEFT_THUMB_X,
-                GamepadConfig::LEFT_THUMB_Y,
-                GamepadConfig::RIGHT_THUMB_X,
-                GamepadConfig::LEFT_TRIGGER,
-                GamepadConfig::RIGHT_TRIGGER,
-                GamepadConfig::RIGHT_THUMB_Y
+                Gamepad::Axis::LEFT_THUMB_X,
+                Gamepad::Axis::LEFT_THUMB_Y,
+                Gamepad::Axis::RIGHT_THUMB_X,
+                Gamepad::Axis::LEFT_TRIGGER,
+                Gamepad::Axis::RIGHT_TRIGGER,
+                Gamepad::Axis::RIGHT_THUMB_Y
             }
         };
 
@@ -134,12 +123,12 @@ namespace ouzel
                 Gamepad::Button::NONE
             },
             {
-                GamepadConfig::LEFT_THUMB_X,
-                GamepadConfig::LEFT_THUMB_Y,
-                GamepadConfig::RIGHT_THUMB_X,
-                GamepadConfig::RIGHT_THUMB_Y,
-                GamepadConfig::LEFT_TRIGGER,
-                GamepadConfig::RIGHT_TRIGGER
+                Gamepad::Axis::LEFT_THUMB_X,
+                Gamepad::Axis::LEFT_THUMB_Y,
+                Gamepad::Axis::RIGHT_THUMB_X,
+                Gamepad::Axis::RIGHT_THUMB_Y,
+                Gamepad::Axis::LEFT_TRIGGER,
+                Gamepad::Axis::RIGHT_TRIGGER
             }
         };
 
@@ -172,12 +161,12 @@ namespace ouzel
                 Gamepad::Button::NONE
             },
             {
-                GamepadConfig::LEFT_THUMB_X,
-                GamepadConfig::LEFT_THUMB_Y,
-                GamepadConfig::LEFT_TRIGGER,
-                GamepadConfig::RIGHT_THUMB_X,
-                GamepadConfig::RIGHT_THUMB_Y,
-                GamepadConfig::RIGHT_TRIGGER
+                Gamepad::Axis::LEFT_THUMB_X,
+                Gamepad::Axis::LEFT_THUMB_Y,
+                Gamepad::Axis::LEFT_TRIGGER,
+                Gamepad::Axis::RIGHT_THUMB_X,
+                Gamepad::Axis::RIGHT_THUMB_Y,
+                Gamepad::Axis::RIGHT_TRIGGER
             }
         };
 
@@ -211,12 +200,12 @@ namespace ouzel
                 Gamepad::Button::NONE
             },
             {
-                GamepadConfig::LEFT_THUMB_X,
-                GamepadConfig::LEFT_THUMB_Y,
-                GamepadConfig::NONE,
-                GamepadConfig::RIGHT_THUMB_X,
-                GamepadConfig::RIGHT_THUMB_Y,
-                GamepadConfig::NONE
+                Gamepad::Axis::LEFT_THUMB_X,
+                Gamepad::Axis::LEFT_THUMB_Y,
+                Gamepad::Axis::NONE,
+                Gamepad::Axis::RIGHT_THUMB_X,
+                Gamepad::Axis::RIGHT_THUMB_Y,
+                Gamepad::Axis::NONE
             }
         };
 
@@ -249,12 +238,12 @@ namespace ouzel
                 Gamepad::Button::NONE
             },
             {
-                GamepadConfig::LEFT_THUMB_X,
-                GamepadConfig::LEFT_THUMB_Y,
-                GamepadConfig::RIGHT_THUMB_X,
-                GamepadConfig::LEFT_TRIGGER,
-                GamepadConfig::RIGHT_TRIGGER,
-                GamepadConfig::RIGHT_THUMB_Y
+                Gamepad::Axis::LEFT_THUMB_X,
+                Gamepad::Axis::LEFT_THUMB_Y,
+                Gamepad::Axis::RIGHT_THUMB_X,
+                Gamepad::Axis::LEFT_TRIGGER,
+                Gamepad::Axis::RIGHT_TRIGGER,
+                Gamepad::Axis::RIGHT_THUMB_Y
             }
         };
     }
