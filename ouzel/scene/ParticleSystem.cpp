@@ -7,8 +7,9 @@
 #include "SceneManager.hpp"
 #include "files/FileSystem.hpp"
 #include "assets/Cache.hpp"
+#include "Actor.hpp"
+#include "Camera.hpp"
 #include "Layer.hpp"
-#include "scene/Camera.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Utils.hpp"
 #include "math/MathUtils.hpp"
@@ -24,7 +25,7 @@ namespace ouzel
             blendState = engine->getCache().getBlendState(BLEND_ALPHA);
             whitePixelTexture = engine->getCache().getTexture(TEXTURE_WHITE_PIXEL);
 
-            updateCallback.callback = std::bind(&ParticleSystem::update, this, std::placeholders::_1);
+            updateHandler.updateHandler = std::bind(&ParticleSystem::handleUpdate, this, std::placeholders::_1, std::placeholders::_2);
         }
 
         ParticleSystem::ParticleSystem(const std::string& filename):
@@ -119,7 +120,7 @@ namespace ouzel
                 else if (active && !particleCount)
                 {
                     active = false;
-                    updateCallback.remove();
+                    updateHandler.remove();
 
                     Event finishEvent;
                     finishEvent.type = Event::Type::ANIMATION_FINISH;
@@ -233,6 +234,12 @@ namespace ouzel
             }
         }
 
+        bool ParticleSystem::handleUpdate(Event::Type, const UpdateEvent& event)
+        {
+            update(event.delta);
+            return false;
+        }
+
         void ParticleSystem::init(const ParticleSystemData& newParticleSystemData)
         {
             particleSystemData = newParticleSystemData;
@@ -269,7 +276,7 @@ namespace ouzel
                 if (!active)
                 {
                     active = true;
-                    engine->getSceneManager().scheduleUpdate(&updateCallback);
+                    engine->getEventDispatcher().addEventHandler(&updateHandler);
                 }
 
                 if (particleCount == 0)

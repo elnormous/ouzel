@@ -3,6 +3,7 @@
 #pragma once
 
 #include <atomic>
+#include <chrono>
 #include <condition_variable>
 #include <functional>
 #include <mutex>
@@ -112,6 +113,7 @@ namespace ouzel
         std::mutex updateMutex;
         std::condition_variable updateCondition;
 #endif
+        std::chrono::steady_clock::time_point previousUpdateTime;
 
         std::atomic_bool active;
         std::atomic_bool paused;

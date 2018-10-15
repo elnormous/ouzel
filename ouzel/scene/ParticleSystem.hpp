@@ -9,12 +9,12 @@
 #include "scene/ParticleSystemData.hpp"
 #include "math/Vector2.hpp"
 #include "math/Color.hpp"
+#include "events/EventHandler.hpp"
 #include "graphics/Vertex.hpp"
 #include "graphics/BlendState.hpp"
 #include "graphics/Buffer.hpp"
 #include "graphics/Shader.hpp"
 #include "graphics/Texture.hpp"
-#include "scene/UpdateCallback.hpp"
 
 namespace ouzel
 {
@@ -48,6 +48,7 @@ namespace ouzel
 
         private:
             void update(float delta);
+            bool handleUpdate(Event::Type eventType, const UpdateEvent& event);
 
             void createParticleMesh();
             void updateParticleMesh();
@@ -114,7 +115,7 @@ namespace ouzel
 
             bool needsMeshUpdate = false;
 
-            UpdateCallback updateCallback;
+            EventHandler updateHandler;
         };
     } // namespace scene
 } // namespace ouzel

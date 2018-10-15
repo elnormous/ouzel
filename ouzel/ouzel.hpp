@@ -108,7 +108,6 @@
 #include "scene/Sprite.hpp"
 #include "scene/SpriteData.hpp"
 #include "scene/TextRenderer.hpp"
-#include "scene/UpdateCallback.hpp"
 #include "utils/Errors.hpp"
 #include "utils/INI.hpp"
 #include "utils/JSON.hpp"

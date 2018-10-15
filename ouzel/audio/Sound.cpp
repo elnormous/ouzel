@@ -6,6 +6,7 @@
 #include "SoundData.hpp"
 #include "Stream.hpp"
 #include "core/Engine.hpp"
+#include "scene/Actor.hpp"
 #include "math/MathUtils.hpp"
 
 namespace ouzel

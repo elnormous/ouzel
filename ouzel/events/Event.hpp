@@ -6,7 +6,7 @@
 #include <vector>
 #include <string>
 #include "audio/Sound.hpp"
-#include "scene/Actor.hpp"
+#include "core/Window.hpp"
 #include "math/Vector2.hpp"
 #include "math/Size2.hpp"
 #include "input/Gamepad.hpp"
@@ -51,8 +51,6 @@ namespace ouzel
         float previousValue = 0.0F;
     };
 
-    class Window;
-
     struct WindowEvent
     {
         Window* window = nullptr;
@@ -79,6 +77,12 @@ namespace ouzel
         std::string filename;
     };
 
+    namespace scene
+    {
+        class Actor;
+        class Component;
+    }
+
     struct UIEvent
     {
         scene::Actor* actor;
@@ -97,6 +101,11 @@ namespace ouzel
     struct SoundEvent
     {
         audio::Sound* sound;
+    };
+
+    struct UpdateEvent
+    {
+        float delta;
     };
 
     struct UserEvent
@@ -172,6 +181,8 @@ namespace ouzel
             SOUND_RESET,
             SOUND_FINISH,
 
+            UPDATE,
+
             USER // user defined event
         };
 
@@ -186,6 +197,7 @@ namespace ouzel
         UIEvent uiEvent;
         AnimationEvent animationEvent;
         SoundEvent soundEvent;
+        UpdateEvent updateEvent;
         UserEvent userEvent;
     };
 }

@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include <chrono>
 #include <functional>
 #include <memory>
 #include <mutex>
@@ -17,7 +16,6 @@ namespace ouzel
     namespace scene
     {
         class Scene;
-        class UpdateCallback;
 
         class SceneManager final
         {
@@ -55,23 +53,12 @@ namespace ouzel
 
             inline Scene* getScene() const { return scenes.empty() ? nullptr : scenes.back(); }
 
-            void scheduleUpdate(UpdateCallback* callback);
-            void unscheduleUpdate(UpdateCallback* callback);
-
         protected:
             SceneManager();
 
         private:
-            void update();
-
             std::vector<Scene*> scenes;
             std::vector<std::unique_ptr<Scene>> ownedScenes;
-
-            std::chrono::steady_clock::time_point previousUpdateTime;
-
-            std::vector<UpdateCallback*> updateCallbacks;
-            std::set<UpdateCallback*> updateCallbackAddSet;
-            std::set<UpdateCallback*> updateCallbackDeleteSet;
         };
     } // namespace scene
 } // namespace ouzel

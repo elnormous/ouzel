@@ -19,7 +19,7 @@ namespace ouzel
         {
             whitePixelTexture = engine->getCache().getTexture(TEXTURE_WHITE_PIXEL);
 
-            updateCallback.callback = std::bind(&Sprite::update, this, std::placeholders::_1);
+            updateHandler.updateHandler = std::bind(&Sprite::handleUpdate, this, std::placeholders::_1, std::placeholders::_2);
 
             currentAnimation = animationQueue.end();
         }
@@ -202,6 +202,12 @@ namespace ouzel
             }
         }
 
+        bool Sprite::handleUpdate(Event::Type, const UpdateEvent& event)
+        {
+            update(event.delta);
+            return false;
+        }
+
         void Sprite::draw(const Matrix4& transformMatrix,
                           float opacity,
                           const Matrix4& renderViewProjection,
@@ -266,7 +272,7 @@ namespace ouzel
         {
             if (!playing)
             {
-                engine->getSceneManager().scheduleUpdate(&updateCallback);
+                engine->getEventDispatcher().addEventHandler(&updateHandler);
                 playing = true;
                 running = true;
             }
@@ -278,7 +284,7 @@ namespace ouzel
             {
                 playing = false;
                 running = false;
-                updateCallback.remove();
+                updateHandler.remove();
             }
 
             if (resetAnimation) reset();
