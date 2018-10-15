@@ -7,8 +7,8 @@
 #include "math/Size2.hpp"
 #include "math/Vector2.hpp"
 #include "scene/SpriteData.hpp"
+#include "events/EventHandler.hpp"
 #include "graphics/Material.hpp"
-#include "scene/UpdateCallback.hpp"
 
 namespace ouzel
 {
@@ -60,6 +60,7 @@ namespace ouzel
             void setAnimationTime(float time);
 
         private:
+            bool handleUpdate(Event::Type eventType, const UpdateEvent& event);
             void updateBoundingBox();
 
             std::shared_ptr<graphics::Material> material;
@@ -83,7 +84,7 @@ namespace ouzel
             bool running = false;
             float currentTime = 0.0F;
 
-            UpdateCallback updateCallback;
+            EventHandler updateHandler;
         };
     } // namespace scene
 } // namespace ouzel

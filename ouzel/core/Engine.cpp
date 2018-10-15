@@ -615,9 +615,24 @@ namespace ouzel
     {
         eventDispatcher.dispatchEvents();
 
+        std::chrono::steady_clock::time_point currentTime = std::chrono::steady_clock::now();
+        auto diff = currentTime - previousUpdateTime;
+
+        if (diff > std::chrono::milliseconds(1)) // at least one millisecond has passed
+        {
+            if (diff > std::chrono::seconds(1000 / 20)) diff = std::chrono::milliseconds(1000 / 20); // limit the update rate to a minimum 20 FPS
+
+            previousUpdateTime = currentTime;
+            float delta = std::chrono::duration_cast<std::chrono::microseconds>(diff).count() / 1000000.0F;
+
+            Event updateEvent;
+            updateEvent.type = Event::Type::UPDATE;
+            updateEvent.updateEvent.delta = delta;
+            eventDispatcher.dispatchEvent(updateEvent);
+        }
+
         inputManager->update();
         window->update();
-        sceneManager.update();
 
         if (renderer->getDevice()->getRefillQueue())
         {

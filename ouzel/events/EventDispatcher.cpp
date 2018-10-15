@@ -149,6 +149,10 @@ namespace ouzel
                         if (eventHandler->soundHandler)
                             handled = eventHandler->soundHandler(event.type, event.soundEvent);
                         break;
+                    case Event::Type::UPDATE:
+                        if (eventHandler->updateHandler)
+                            handled = eventHandler->updateHandler(event.type, event.updateEvent);
+                        break;
                     case Event::Type::USER:
                         if (eventHandler->userHandler)
                             handled = eventHandler->userHandler(event.type, event.userEvent);

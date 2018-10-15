@@ -9,7 +9,7 @@
 #include "math/Quaternion.hpp"
 #include "math/Vector2.hpp"
 #include "math/Vector3.hpp"
-#include "scene/UpdateCallback.hpp"
+#include "events/EventHandler.hpp"
 
 namespace ouzel
 {
@@ -172,7 +172,7 @@ namespace ouzel
             std::vector<Component*> components;
             std::vector<std::unique_ptr<Component>> ownedComponents;
 
-            UpdateCallback animationUpdateCallback;
+            EventHandler animationUpdateHandler;
         };
     } // namespace scene
 } // namespace ouzel

@@ -307,9 +307,6 @@
     <ClCompile Include="..\ouzel\graphics\Vertex.cpp">
       <Filter>ouzel\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\scene\UpdateCallback.cpp">
-      <Filter>ouzel\scene</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\gui\Widget.cpp">
       <Filter>ouzel\gui</Filter>
     </ClCompile>
@@ -795,9 +792,6 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\Vertex.hpp">
       <Filter>ouzel\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\scene\UpdateCallback.hpp">
-      <Filter>ouzel\scene</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\gui\Widget.hpp">
       <Filter>ouzel\gui</Filter>

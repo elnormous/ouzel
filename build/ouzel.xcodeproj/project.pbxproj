@@ -235,9 +235,6 @@
 		3038216C1D81876E00677CAB /* AudioDeviceEmpty.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303821641D81876E00677CAB /* AudioDeviceEmpty.hpp */; };
 		3038216D1D81876E00677CAB /* AudioDeviceEmpty.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303821641D81876E00677CAB /* AudioDeviceEmpty.hpp */; };
 		3038216E1D81876E00677CAB /* AudioDeviceEmpty.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303821641D81876E00677CAB /* AudioDeviceEmpty.hpp */; };
-		303821ED1D8500E500677CAB /* UpdateCallback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303821EC1D8500E500677CAB /* UpdateCallback.cpp */; };
-		303821EE1D8500E500677CAB /* UpdateCallback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303821EC1D8500E500677CAB /* UpdateCallback.cpp */; };
-		303821EF1D8500E500677CAB /* UpdateCallback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303821EC1D8500E500677CAB /* UpdateCallback.cpp */; };
 		303B04A51E207B1000011CBE /* MetalView.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B04A31E207B1000011CBE /* MetalView.h */; };
 		303B04A61E207B1000011CBE /* MetalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 303B04A41E207B1000011CBE /* MetalView.m */; };
 		303B04A91E207B1D00011CBE /* MetalView.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B04A71E207B1D00011CBE /* MetalView.h */; };
@@ -1030,7 +1027,6 @@
 		303821301D81876E00677CAB /* TextureResourceEmpty.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextureResourceEmpty.hpp; sourceTree = "<group>"; };
 		303821631D81876E00677CAB /* AudioDeviceEmpty.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioDeviceEmpty.cpp; sourceTree = "<group>"; };
 		303821641D81876E00677CAB /* AudioDeviceEmpty.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AudioDeviceEmpty.hpp; sourceTree = "<group>"; };
-		303821EC1D8500E500677CAB /* UpdateCallback.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UpdateCallback.cpp; sourceTree = "<group>"; };
 		303B04A31E207B1000011CBE /* MetalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalView.h; sourceTree = "<group>"; };
 		303B04A41E207B1000011CBE /* MetalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetalView.m; sourceTree = "<group>"; };
 		303B04A71E207B1D00011CBE /* MetalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalView.h; sourceTree = "<group>"; };
@@ -1281,7 +1277,6 @@
 		30C758BD1F4A2261008499DC /* DisplayLink.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DisplayLink.hpp; sourceTree = "<group>"; };
 		30C758BE1F4A23BD008499DC /* DisplayLink.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DisplayLink.hpp; sourceTree = "<group>"; };
 		30C758BF1F4A23BD008499DC /* DisplayLink.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DisplayLink.mm; sourceTree = "<group>"; };
-		30C8B6211C6D0E350031B64F /* UpdateCallback.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = UpdateCallback.hpp; sourceTree = "<group>"; };
 		30CC89F7203C5DFB00E2C8C3 /* File.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = File.cpp; sourceTree = "<group>"; };
 		30CC89F8203C5DFB00E2C8C3 /* File.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = File.hpp; sourceTree = "<group>"; };
 		30DADE9A1C5167BC001A63B4 /* Cache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cache.cpp; sourceTree = "<group>"; };
@@ -1486,8 +1481,6 @@
 				3053FF6E1F437F0800760E67 /* SpriteData.hpp */,
 				301EB3A81CCD77F600466E92 /* TextRenderer.cpp */,
 				301EB3A91CCD77F600466E92 /* TextRenderer.hpp */,
-				303821EC1D8500E500677CAB /* UpdateCallback.cpp */,
-				30C8B6211C6D0E350031B64F /* UpdateCallback.hpp */,
 			);
 			path = scene;
 			sourceTree = "<group>";
@@ -2689,7 +2682,6 @@
 				3047F74F1C4C4FAF00774E3D /* Rotate.cpp in Sources */,
 				30519CC01F9B53B700AF3DC4 /* LoaderBMF.cpp in Sources */,
 				301EB3AB1CCD77F600466E92 /* TextRenderer.cpp in Sources */,
-				303821ED1D8500E500677CAB /* UpdateCallback.cpp in Sources */,
 				303B75651C2A3CBF00FEDE92 /* SceneManager.cpp in Sources */,
 				30AEFA1420C0FB2E00CDFD33 /* RenderTarget.cpp in Sources */,
 				30F5DD401F09757100E14E84 /* StreamWave.cpp in Sources */,
@@ -2853,7 +2845,6 @@
 				30519CC21F9B53B700AF3DC4 /* LoaderBMF.cpp in Sources */,
 				3038202D1D80A55700677CAB /* BufferResourceMetal.mm in Sources */,
 				303820141D80A40700677CAB /* TextureResourceMetal.mm in Sources */,
-				303821EF1D8500E500677CAB /* UpdateCallback.cpp in Sources */,
 				30AEFA1620C0FB2E00CDFD33 /* RenderTarget.cpp in Sources */,
 				303B763E1C355A3B00FEDE92 /* SceneManager.cpp in Sources */,
 				30F5DD421F09757100E14E84 /* StreamWave.cpp in Sources */,
@@ -3026,7 +3017,6 @@
 				30519CC11F9B53B700AF3DC4 /* LoaderBMF.cpp in Sources */,
 				301EB3AA1CCD77F600466E92 /* TextRenderer.cpp in Sources */,
 				3038202C1D80A55700677CAB /* BufferResourceMetal.mm in Sources */,
-				303821EE1D8500E500677CAB /* UpdateCallback.cpp in Sources */,
 				30F5DD411F09757100E14E84 /* StreamWave.cpp in Sources */,
 				303820131D80A40700677CAB /* TextureResourceMetal.mm in Sources */,
 				30B328841C4E9EAC00040927 /* Ease.cpp in Sources */,

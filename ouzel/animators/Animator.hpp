@@ -5,7 +5,7 @@
 #include <functional>
 #include <memory>
 #include "scene/Component.hpp"
-#include "scene/UpdateCallback.hpp"
+#include "events/EventHandler.hpp"
 
 namespace ouzel
 {
@@ -64,6 +64,7 @@ namespace ouzel
             void removeFromParent();
 
         protected:
+            bool handleUpdate(Event::Type eventType, const UpdateEvent& event);
             virtual void updateProgress() {}
 
             float length = 0.0F;
@@ -75,7 +76,7 @@ namespace ouzel
             Animator* parent = nullptr;
             Actor* targetActor = nullptr;
 
-            UpdateCallback updateCallback;
+            EventHandler updateHandler;
 
             std::vector<Animator*> animators;
             std::vector<std::unique_ptr<Animator>> ownedAnimators;

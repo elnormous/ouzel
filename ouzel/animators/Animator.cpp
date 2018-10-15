@@ -13,7 +13,7 @@ namespace ouzel
         Animator::Animator(float initLength):
             Component(Component::ANIMATOR), length(initLength)
         {
-            updateCallback.callback = std::bind(&Animator::update, this, std::placeholders::_1);
+            updateHandler.updateHandler = std::bind(&Animator::handleUpdate, this, std::placeholders::_1, std::placeholders::_2);
         }
 
         Animator::~Animator()
@@ -54,12 +54,18 @@ namespace ouzel
                 updateProgress();
             }
             else
-                updateCallback.remove();
+                updateHandler.remove();
+        }
+
+        bool Animator::handleUpdate(Event::Type, const UpdateEvent& event)
+        {
+            update(event.delta);
+            return false;
         }
 
         void Animator::start()
         {
-            engine->getSceneManager().scheduleUpdate(&updateCallback);
+            engine->getEventDispatcher().addEventHandler(&updateHandler);
             play();
 
             Event startEvent;

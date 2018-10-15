@@ -174,7 +174,6 @@
     <ClCompile Include="..\ouzel\scene\Sprite.cpp" />
     <ClCompile Include="..\ouzel\scene\SpriteData.cpp" />
     <ClCompile Include="..\ouzel\scene\TextRenderer.cpp" />
-    <ClCompile Include="..\ouzel\scene\UpdateCallback.cpp" />
     <ClCompile Include="..\ouzel\utils\INI.cpp" />
     <ClCompile Include="..\ouzel\utils\JSON.cpp" />
     <ClCompile Include="..\ouzel\utils\Log.cpp" />
@@ -346,7 +345,6 @@
     <ClInclude Include="..\ouzel\scene\Sprite.hpp" />
     <ClInclude Include="..\ouzel\scene\SpriteData.hpp" />
     <ClInclude Include="..\ouzel\scene\TextRenderer.hpp" />
-    <ClInclude Include="..\ouzel\scene\UpdateCallback.hpp" />
     <ClInclude Include="..\ouzel\utils\Errors.hpp" />
     <ClInclude Include="..\ouzel\utils\INI.hpp" />
     <ClInclude Include="..\ouzel\utils\JSON.hpp" />

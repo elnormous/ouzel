@@ -6,6 +6,7 @@
 #include "core/Engine.hpp"
 #include "graphics/Renderer.hpp"
 #include "graphics/RenderDevice.hpp"
+#include "Actor.hpp"
 #include "Layer.hpp"
 #include "math/Matrix4.hpp"
 
