@@ -2,7 +2,7 @@
 
 #include "LoaderCollada.hpp"
 #include "Bundle.hpp"
-#include "scene/MeshData.hpp"
+#include "scene/StaticMeshData.hpp"
 #include "utils/Errors.hpp"
 #include "utils/XML.hpp"
 
@@ -27,11 +27,11 @@ namespace ouzel
             if (rootNode.getValue() != "COLLADA")
                 throw ParseError("Invalid collada Collada file");
 
-            scene::MeshData meshData;
+            scene::StaticMeshData meshData;
 
             // TODO: load the model
 
-            bundle.setMeshData(filename, meshData);
+            bundle.setStaticMeshData(filename, meshData);
 
             return true;
         }

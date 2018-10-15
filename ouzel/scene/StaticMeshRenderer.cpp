@@ -1,31 +1,31 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include "MeshRenderer.hpp"
+#include "StaticMeshRenderer.hpp"
 #include "core/Engine.hpp"
 
 namespace ouzel
 {
     namespace scene
     {
-        MeshRenderer::MeshRenderer():
+        StaticMeshRenderer::StaticMeshRenderer():
             Component(CLASS)
         {
             whitePixelTexture = engine->getCache().getTexture(TEXTURE_WHITE_PIXEL);
         }
 
-        MeshRenderer::MeshRenderer(const MeshData& meshData):
+        StaticMeshRenderer::StaticMeshRenderer(const StaticMeshData& meshData):
             Component(CLASS)
         {
             init(meshData);
         }
 
-        MeshRenderer::MeshRenderer(const std::string& filename):
+        StaticMeshRenderer::StaticMeshRenderer(const std::string& filename):
             Component(CLASS)
         {
             init(filename);
         }
 
-        void MeshRenderer::init(const MeshData& meshData)
+        void StaticMeshRenderer::init(const StaticMeshData& meshData)
         {
             boundingBox = meshData.boundingBox;
             material = meshData.material;
@@ -35,15 +35,15 @@ namespace ouzel
             vertexBuffer = meshData.vertexBuffer;
         }
 
-        void MeshRenderer::init(const std::string& filename)
+        void StaticMeshRenderer::init(const std::string& filename)
         {
-            init(*engine->getCache().getMeshData(filename));
+            init(*engine->getCache().getStaticMeshData(filename));
         }
 
-        void MeshRenderer::draw(const Matrix4& transformMatrix,
-                                 float opacity,
-                                 const Matrix4& renderViewProjection,
-                                 bool wireframe)
+        void StaticMeshRenderer::draw(const Matrix4& transformMatrix,
+                                      float opacity,
+                                      const Matrix4& renderViewProjection,
+                                      bool wireframe)
         {
             Component::draw(transformMatrix,
                             opacity,

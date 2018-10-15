@@ -269,24 +269,24 @@ namespace ouzel
             materials.clear();
         }
 
-        const scene::MeshData* Bundle::getMeshData(const std::string& filename) const
+        const scene::StaticMeshData* Bundle::getStaticMeshData(const std::string& filename) const
         {
-            auto i = meshData.find(filename);
+            auto i = staticMeshData.find(filename);
 
-            if (i != meshData.end())
+            if (i != staticMeshData.end())
                 return &i->second;
 
             return nullptr;
         }
 
-        void Bundle::setMeshData(const std::string& filename, const scene::MeshData& newMeshData)
+        void Bundle::setStaticMeshData(const std::string& filename, const scene::StaticMeshData& newStaticMeshData)
         {
-            meshData[filename] = newMeshData;
+            staticMeshData[filename] = newStaticMeshData;
         }
 
-        void Bundle::releaseMeshData()
+        void Bundle::releaseStaticMeshData()
         {
-            particleSystemData.clear();
+            staticMeshData.clear();
         }
     } // namespace assets
 } // namespace ouzel

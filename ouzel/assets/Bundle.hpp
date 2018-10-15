@@ -12,7 +12,7 @@
 #include "graphics/Shader.hpp"
 #include "graphics/Texture.hpp"
 #include "gui/Font.hpp"
-#include "scene/MeshData.hpp"
+#include "scene/StaticMeshData.hpp"
 #include "scene/SpriteData.hpp"
 #include "scene/ParticleSystemData.hpp"
 
@@ -93,9 +93,9 @@ namespace ouzel
             void setMaterial(const std::string& filename, const std::shared_ptr<graphics::Material>& material);
             void releaseMaterials();
 
-            const scene::MeshData* getMeshData(const std::string& filename) const;
-            void setMeshData(const std::string& filename, const scene::MeshData& newMeshData);
-            void releaseMeshData();
+            const scene::StaticMeshData* getStaticMeshData(const std::string& filename) const;
+            void setStaticMeshData(const std::string& filename, const scene::StaticMeshData& newStaticMeshData);
+            void releaseStaticMeshData();
 
         protected:
             Cache& cache;
@@ -108,7 +108,7 @@ namespace ouzel
             std::map<std::string, std::shared_ptr<Font>> fonts;
             std::map<std::string, std::shared_ptr<audio::SoundData>> soundData;
             std::map<std::string, std::shared_ptr<graphics::Material>> materials;
-            std::map<std::string, scene::MeshData> meshData;
+            std::map<std::string, scene::StaticMeshData> staticMeshData;
         };
     } // namespace assets
 } // namespace ouzel

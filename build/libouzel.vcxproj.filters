@@ -169,10 +169,10 @@
     <ClCompile Include="..\ouzel\gui\Menu.cpp">
       <Filter>ouzel\gui</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\scene\MeshData.cpp">
+    <ClCompile Include="..\ouzel\scene\StaticMeshData.cpp">
       <Filter>ouzel\scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\scene\MeshRenderer.cpp">
+    <ClCompile Include="..\ouzel\scene\StaticMeshRenderer.cpp">
       <Filter>ouzel\scene</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\animators\Move.cpp">
@@ -652,10 +652,10 @@
     <ClInclude Include="..\ouzel\gui\Menu.hpp">
       <Filter>ouzel\gui</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\scene\MeshData.hpp">
+    <ClInclude Include="..\ouzel\scene\StaticMeshData.hpp">
       <Filter>ouzel\scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\scene\MeshRenderer.hpp">
+    <ClInclude Include="..\ouzel\scene\StaticMeshRenderer.hpp">
       <Filter>ouzel\scene</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\animators\Move.hpp">
