@@ -269,6 +269,26 @@ namespace ouzel
             materials.clear();
         }
 
+        const scene::SkinnedMeshData* Bundle::getSkinnedMeshData(const std::string& filename) const
+        {
+            auto i = skinnedMeshData.find(filename);
+
+            if (i != skinnedMeshData.end())
+                return &i->second;
+
+            return nullptr;
+        }
+
+        void Bundle::setSkinnedMeshData(const std::string& filename, const scene::SkinnedMeshData& newSkinnedMeshData)
+        {
+            skinnedMeshData[filename] = newSkinnedMeshData;
+        }
+
+        void Bundle::releaseSkinnedMeshData()
+        {
+            skinnedMeshData.clear();
+        }
+
         const scene::StaticMeshData* Bundle::getStaticMeshData(const std::string& filename) const
         {
             auto i = staticMeshData.find(filename);

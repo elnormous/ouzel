@@ -169,6 +169,12 @@
     <ClCompile Include="..\ouzel\gui\Menu.cpp">
       <Filter>ouzel\gui</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\scene\SkinnedMeshData.cpp">
+      <Filter>ouzel\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\scene\SkinnedMeshRenderer.cpp">
+      <Filter>ouzel\scene</Filter>
+    </ClCompile>
     <ClCompile Include="..\ouzel\scene\StaticMeshData.cpp">
       <Filter>ouzel\scene</Filter>
     </ClCompile>
@@ -651,6 +657,12 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\gui\Menu.hpp">
       <Filter>ouzel\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\scene\SkinnedMeshData.hpp">
+      <Filter>ouzel\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\scene\SkinnedMeshRenderer.hpp">
+      <Filter>ouzel\scene</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\scene\StaticMeshData.hpp">
       <Filter>ouzel\scene</Filter>

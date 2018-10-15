@@ -4,7 +4,6 @@
 
 #include <vector>
 #include "graphics/Buffer.hpp"
-#include "graphics/Buffer.hpp"
 #include "graphics/Material.hpp"
 #include "graphics/Vertex.hpp"
 
