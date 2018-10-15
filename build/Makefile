@@ -145,8 +145,6 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Component.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Layer.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Light.cpp \
-	$(ROOT_DIR)/../ouzel/scene/MeshData.cpp \
-	$(ROOT_DIR)/../ouzel/scene/MeshRenderer.cpp \
 	$(ROOT_DIR)/../ouzel/scene/ParticleSystem.cpp \
 	$(ROOT_DIR)/../ouzel/scene/ParticleSystemData.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Scene.cpp \
@@ -154,6 +152,8 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/scene/ShapeRenderer.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Sprite.cpp \
 	$(ROOT_DIR)/../ouzel/scene/SpriteData.cpp \
+	$(ROOT_DIR)/../ouzel/scene/StaticMeshData.cpp \
+	$(ROOT_DIR)/../ouzel/scene/StaticMeshRenderer.cpp \
 	$(ROOT_DIR)/../ouzel/scene/TextRenderer.cpp \
 	$(ROOT_DIR)/../ouzel/utils/INI.cpp \
 	$(ROOT_DIR)/../ouzel/utils/JSON.cpp \

@@ -3,22 +3,22 @@
 #pragma once
 
 #include "scene/Component.hpp"
-#include "scene/MeshData.hpp"
+#include "scene/StaticMeshData.hpp"
 
 namespace ouzel
 {
     namespace scene
     {
-        class MeshRenderer: public Component
+        class StaticMeshRenderer: public Component
         {
         public:
             static const uint32_t CLASS = Component::MODEL_RENDERER;
 
-            MeshRenderer();
-            explicit MeshRenderer(const MeshData& meshData);
-            explicit MeshRenderer(const std::string& filename);
+            StaticMeshRenderer();
+            explicit StaticMeshRenderer(const StaticMeshData& meshData);
+            explicit StaticMeshRenderer(const std::string& filename);
 
-            void init(const MeshData& meshData);
+            void init(const StaticMeshData& meshData);
             void init(const std::string& filename);
 
             virtual void draw(const Matrix4& transformMatrix,

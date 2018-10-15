@@ -12,14 +12,14 @@ namespace ouzel
 {
     namespace scene
     {
-        class MeshData
+        class StaticMeshData
         {
         public:
-            MeshData() {}
-            MeshData(Box3 newBoundingBox,
-                     const std::vector<uint32_t> indices,
-                     const std::vector<graphics::Vertex>& vertices,
-                     const std::shared_ptr<graphics::Material>& newMaterial);
+            StaticMeshData() {}
+            StaticMeshData(Box3 newBoundingBox,
+                           const std::vector<uint32_t> indices,
+                           const std::vector<graphics::Vertex>& vertices,
+                           const std::shared_ptr<graphics::Material>& newMaterial);
 
             Box3 boundingBox;
             std::shared_ptr<graphics::Material> material;

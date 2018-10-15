@@ -17,16 +17,7 @@
 #include "assets/LoaderTTF.hpp"
 #include "assets/LoaderVorbis.hpp"
 #include "assets/LoaderWave.hpp"
-#include "audio/SoundData.hpp"
 #include "files/FileSystem.hpp"
-#include "graphics/BlendState.hpp"
-#include "graphics/Material.hpp"
-#include "graphics/Shader.hpp"
-#include "graphics/Texture.hpp"
-#include "gui/Font.hpp"
-#include "scene/MeshData.hpp"
-#include "scene/SpriteData.hpp"
-#include "scene/ParticleSystemData.hpp"
 
 namespace ouzel
 {
@@ -60,7 +51,7 @@ namespace ouzel
             std::shared_ptr<Font> getFont(const std::string& filename) const;
             std::shared_ptr<audio::SoundData> getSoundData(const std::string& filename) const;
             std::shared_ptr<graphics::Material> getMaterial(const std::string& filename) const;
-            const scene::MeshData* getMeshData(const std::string& filename) const;
+            const scene::StaticMeshData* getStaticMeshData(const std::string& filename) const;
 
         protected:
             void addBundle(Bundle* bundle);

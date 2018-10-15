@@ -1,6 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include "MeshData.hpp"
+#include "StaticMeshData.hpp"
 #include "core/Engine.hpp"
 #include "utils/Utils.hpp"
 
@@ -8,10 +8,10 @@ namespace ouzel
 {
     namespace scene
     {
-        MeshData::MeshData(Box3 newBoundingBox,
-                           const std::vector<uint32_t> indices,
-                           const std::vector<graphics::Vertex>& vertices,
-                           const std::shared_ptr<graphics::Material>& newMaterial)
+        StaticMeshData::StaticMeshData(Box3 newBoundingBox,
+                                       const std::vector<uint32_t> indices,
+                                       const std::vector<graphics::Vertex>& vertices,
+                                       const std::shared_ptr<graphics::Material>& newMaterial)
         {
             boundingBox = newBoundingBox;
 

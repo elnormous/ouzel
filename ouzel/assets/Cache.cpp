@@ -135,10 +135,10 @@ namespace ouzel
             return nullptr;
         }
 
-        const scene::MeshData* Cache::getMeshData(const std::string& filename) const
+        const scene::StaticMeshData* Cache::getStaticMeshData(const std::string& filename) const
         {
             for (Bundle* bundle : bundles)
-                if (const scene::MeshData* meshData = bundle->getMeshData(filename))
+                if (const scene::StaticMeshData* meshData = bundle->getStaticMeshData(filename))
                     return meshData;
 
             return nullptr;
