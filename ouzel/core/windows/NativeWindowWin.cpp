@@ -409,7 +409,7 @@ namespace ouzel
             keyboardDevice->handleKeyRelease(input::InputSystemWin::convertKeyCode(key));
     }
 
-    void NativeWindowWin::handleMouseMoveEvent(UINT, WPARAM wParam, LPARAM lParam)
+    void NativeWindowWin::handleMouseMoveEvent(UINT, WPARAM, LPARAM lParam)
     {
         input::InputSystemWin* inputSystemWin = static_cast<input::InputSystemWin*>(engine->getInputManager()->getInputSystem());
         input::MouseDeviceWin* mouseDevice = inputSystemWin->getMouseDevice();
