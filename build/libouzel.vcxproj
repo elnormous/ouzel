@@ -164,6 +164,8 @@
     <ClCompile Include="..\ouzel\scene\Component.cpp" />
     <ClCompile Include="..\ouzel\scene\Layer.cpp" />
     <ClCompile Include="..\ouzel\scene\Light.cpp" />
+    <ClCompile Include="..\ouzel\scene\SkinnedMeshData.cpp" />
+    <ClCompile Include="..\ouzel\scene\SkinnedMeshRenderer.cpp" />
     <ClCompile Include="..\ouzel\scene\StaticMeshData.cpp" />
     <ClCompile Include="..\ouzel\scene\StaticMeshRenderer.cpp" />
     <ClCompile Include="..\ouzel\scene\ParticleSystem.cpp" />
@@ -335,6 +337,8 @@
     <ClInclude Include="..\ouzel\scene\Component.hpp" />
     <ClInclude Include="..\ouzel\scene\Layer.hpp" />
     <ClInclude Include="..\ouzel\scene\Light.hpp" />
+    <ClInclude Include="..\ouzel\scene\SkinnedMeshData.hpp" />
+    <ClInclude Include="..\ouzel\scene\SkinnedMeshRenderer.hpp" />
     <ClInclude Include="..\ouzel\scene\StaticMeshData.hpp" />
     <ClInclude Include="..\ouzel\scene\StaticMeshRenderer.hpp" />
     <ClInclude Include="..\ouzel\scene\ParticleSystem.hpp" />

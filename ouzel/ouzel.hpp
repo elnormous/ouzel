@@ -105,6 +105,8 @@
 #include "scene/ShapeRenderer.hpp"
 #include "scene/Sprite.hpp"
 #include "scene/SpriteData.hpp"
+#include "scene/SkinnedMeshData.hpp"
+#include "scene/SkinnedMeshRenderer.hpp"
 #include "scene/StaticMeshData.hpp"
 #include "scene/StaticMeshRenderer.hpp"
 #include "scene/TextRenderer.hpp"

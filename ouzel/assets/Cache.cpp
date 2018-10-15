@@ -135,6 +135,15 @@ namespace ouzel
             return nullptr;
         }
 
+        const scene::SkinnedMeshData* Cache::getSkinnedMeshData(const std::string& filename) const
+        {
+            for (Bundle* bundle : bundles)
+                if (const scene::SkinnedMeshData* meshData = bundle->getSkinnedMeshData(filename))
+                    return meshData;
+
+            return nullptr;
+        }
+
         const scene::StaticMeshData* Cache::getStaticMeshData(const std::string& filename) const
         {
             for (Bundle* bundle : bundles)

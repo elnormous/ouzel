@@ -19,7 +19,7 @@ namespace ouzel
             {
                 NONE,
                 FONT,
-                MESH,
+                STATIC_MESH,
                 SKINNED_MESH,
                 IMAGE,
                 MATERIAL,
