@@ -318,23 +318,6 @@ namespace ouzel
 
             for (DWORD e = 0; e < eventCount; ++e)
             {
-                auto buttonIterator = buttons.find(events[e].dwOfs);
-
-                if (buttonIterator != buttons.end())
-                {
-                    Button& button = buttonIterator->second;
-
-                    if ((button.button != Gamepad::Button::LEFT_TRIGGER || !hasLeftTrigger) &&
-                        (button.button != Gamepad::Button::RIGHT_TRIGGER || !hasRightTrigger))
-                    {
-                        handleButtonValueChange(button.button,
-                                                events[e].dwData > 0,
-                                                (events[e].dwData > 0) ? 1.0F : 0.0F);
-                    }
-
-                    button.value = static_cast<BYTE>(events[e].dwData);
-                }
-
                 if (events[e].dwOfs == DIJOFS_POV(0))
                 {
                     uint32_t oldHatValue = hatValue;
@@ -385,6 +368,23 @@ namespace ouzel
                     hatValue = events[e].dwData;
                 }
 
+                auto buttonIterator = buttons.find(events[e].dwOfs);
+
+                if (buttonIterator != buttons.end())
+                {
+                    Button& button = buttonIterator->second;
+
+                    if ((button.button != Gamepad::Button::LEFT_TRIGGER || !hasLeftTrigger) &&
+                        (button.button != Gamepad::Button::RIGHT_TRIGGER || !hasRightTrigger))
+                    {
+                        handleButtonValueChange(button.button,
+                                                events[e].dwData > 0,
+                                                (events[e].dwData > 0) ? 1.0F : 0.0F);
+                    }
+
+                    button.value = static_cast<BYTE>(events[e].dwData);
+                }
+
                 auto axisIterator = axes.find(events[e].dwOfs);
 
                 if (axisIterator != axes.end())
@@ -418,26 +418,6 @@ namespace ouzel
 
             if (FAILED(hr))
                 throw SystemError("Failed to get DirectInput device state, error: " + std::to_string(hr));
-
-            for (auto& buttonPair : buttons)
-            {
-                DWORD offset = buttonPair.first;
-                Button& button = buttonPair.second;
-                BYTE newValue = *reinterpret_cast<const BYTE*>(reinterpret_cast<const uint8_t*>(&newDIState) + offset);
-
-                if (button.value != newValue)
-                {
-                    if ((button.button != Gamepad::Button::LEFT_TRIGGER || !hasLeftTrigger) &&
-                        (button.button != Gamepad::Button::RIGHT_TRIGGER || !hasRightTrigger))
-                    {
-                        handleButtonValueChange(button.button,
-                                                newValue > 0,
-                                                (newValue > 0) ? 1.0F : 0.0F);
-                    }
-
-                    button.value = newValue;
-                }
-            }
 
             if (hatValue != newDIState.rgdwPOV[0])
             {
@@ -487,6 +467,26 @@ namespace ouzel
                                             (newBitmask & 0x08) > 0 ? 1.0F : 0.0F);
                 
                 hatValue = newDIState.rgdwPOV[0];
+            }
+
+            for (auto& buttonPair : buttons)
+            {
+                DWORD offset = buttonPair.first;
+                Button& button = buttonPair.second;
+                BYTE newValue = *reinterpret_cast<const BYTE*>(reinterpret_cast<const uint8_t*>(&newDIState) + offset);
+
+                if (button.value != newValue)
+                {
+                    if ((button.button != Gamepad::Button::LEFT_TRIGGER || !hasLeftTrigger) &&
+                        (button.button != Gamepad::Button::RIGHT_TRIGGER || !hasRightTrigger))
+                    {
+                        handleButtonValueChange(button.button,
+                                                newValue > 0,
+                                                (newValue > 0) ? 1.0F : 0.0F);
+                    }
+
+                    button.value = newValue;
+                }
             }
 
             for (auto& axisPair : axes)
