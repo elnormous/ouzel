@@ -9,14 +9,6 @@
 static const float THUMB_DEADZONE = 0.2F;
 static const size_t INPUT_QUEUE_SIZE = 32;
 
-BOOL CALLBACK enumObjectsCallback(const DIDEVICEOBJECTINSTANCEW* didObjectInstance, VOID* context)
-{
-    ouzel::input::GamepadDeviceDI* gamepadDI = static_cast<ouzel::input::GamepadDeviceDI*>(context);
-    gamepadDI->handleObject(didObjectInstance);
-
-    return DIENUM_CONTINUE;
-}
-
 namespace ouzel
 {
     namespace input
@@ -152,8 +144,8 @@ namespace ouzel
                     hr = device->GetObjectInfo(&didObjectInstance, axisUsageMap[i].second, DIPH_BYOFFSET); 
 
                     if (SUCCEEDED(hr) &&
-                        didObjectInstance->wUsage == axisUsageMap[i].first &&
-                        didObjectInstance->dwType & DIDFT_AXIS)
+                        didObjectInstance.wUsage == axisUsageMap[i].first &&
+                        didObjectInstance.dwType & DIDFT_AXIS)
                     {
                         axis[i].axis = gamepadConfig.axisMap[i];
                         axis[i].offset = axisUsageMap[i].second;                    
