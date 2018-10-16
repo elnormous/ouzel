@@ -19,8 +19,6 @@ namespace ouzel
             GamepadDeviceWin(initInputSystem, initId),
             instance(initInstance)
         {
-            ZeroMemory(&diState, sizeof(diState));
-
             int32_t vendorId = LOWORD(instance->guidProduct.Data1);
             int32_t productId = HIWORD(instance->guidProduct.Data1);
 
@@ -293,16 +291,6 @@ namespace ouzel
             return buffered ? checkInputBuffered() : checkInputPolled();
         }
 
-        static LONG getAxisValue(const DIJOYSTATE2& state, DWORD offset)
-        {
-            return *reinterpret_cast<const LONG*>(reinterpret_cast<const uint8_t*>(&state) + offset);
-        }
-
-        static void setAxisValue(DIJOYSTATE2& state, DWORD offset, LONG value)
-        {
-            *reinterpret_cast<LONG*>(reinterpret_cast<uint8_t*>(&state) + offset) = value;
-        }
-
         void GamepadDeviceDI::checkInputBuffered()
         {
             DWORD eventCount = INPUT_QUEUE_SIZE;
@@ -337,13 +325,13 @@ namespace ouzel
                                                     (events[e].dwData > 0) ? 1.0F : 0.0F);
                         }
 
-                        diState.rgbButtons[i] = static_cast<BYTE>(events[e].dwData);
+                        buttons[i].value = static_cast<BYTE>(events[e].dwData);
                     }
                 }
 
                 if (events[e].dwOfs == offsetof(DIJOYSTATE2, rgdwPOV[0]))
                 {
-                    uint32_t oldHatValue = static_cast<uint32_t>(diState.rgdwPOV[0]);
+                    uint32_t oldHatValue = hatValue;
                     if (oldHatValue == 0xffffffff)
                         oldHatValue = 8;
                     else
@@ -354,41 +342,41 @@ namespace ouzel
                         oldHatValue /= 4500;
                     }
 
-                    uint32_t hatValue = static_cast<uint32_t>(events[e].dwData);
-                    if (hatValue == 0xffffffff)
-                        hatValue = 8;
+                    uint32_t newHatValue = events[e].dwData;
+                    if (newHatValue == 0xffffffff)
+                        newHatValue = 8;
                     else
                     {
                         // round up
-                        hatValue += 4500 / 2;
-                        hatValue %= 36000;
-                        hatValue /= 4500;
+                        newHatValue += 4500 / 2;
+                        newHatValue %= 36000;
+                        newHatValue /= 4500;
                     }
 
-                    uint32_t bitmask = (oldHatValue >= 8) ? 0 : (1 << (oldHatValue / 2)) | // first bit
+                    uint32_t oldBitmask = (oldHatValue >= 8) ? 0 : (1 << (oldHatValue / 2)) | // first bit
                         (1 << (oldHatValue / 2 + oldHatValue % 2)) % 4; // second bit
 
-                    uint32_t newBitmask = (hatValue >= 8) ? 0 : (1 << (hatValue / 2)) | // first bit
-                        (1 << (hatValue / 2 + hatValue % 2)) % 4; // second bit
+                    uint32_t newBitmask = (newHatValue >= 8) ? 0 : (1 << (newHatValue / 2)) | // first bit
+                        (1 << (newHatValue / 2 + newHatValue % 2)) % 4; // second bit
 
-                    if ((bitmask & 0x01) != (newBitmask & 0x01))
+                    if ((oldBitmask & 0x01) != (newBitmask & 0x01))
                         handleButtonValueChange(Gamepad::Button::DPAD_UP,
                                                 (newBitmask & 0x01) > 0,
                                                 (newBitmask & 0x01) > 0 ? 1.0F : 0.0F);
-                    if ((bitmask & 0x02) != (newBitmask & 0x02))
+                    if ((oldBitmask & 0x02) != (newBitmask & 0x02))
                         handleButtonValueChange(Gamepad::Button::DPAD_RIGHT,
                                                 (newBitmask & 0x02) > 0,
                                                 (newBitmask & 0x02) > 0 ? 1.0F : 0.0F);
-                    if ((bitmask & 0x04) != (newBitmask & 0x04))
+                    if ((oldBitmask & 0x04) != (newBitmask & 0x04))
                         handleButtonValueChange(Gamepad::Button::DPAD_DOWN,
                                                 (newBitmask & 0x04) > 0,
                                                 (newBitmask & 0x04) > 0 ? 1.0F : 0.0F);
-                    if ((bitmask & 0x08) != (newBitmask & 0x08))
+                    if ((oldBitmask & 0x08) != (newBitmask & 0x08))
                         handleButtonValueChange(Gamepad::Button::DPAD_LEFT,
                                                 (newBitmask & 0x08) > 0,
                                                 (newBitmask & 0x08) > 0 ? 1.0F : 0.0F);
 
-                    diState.rgdwPOV[0] = events[e].dwData;
+                    hatValue = events[e].dwData;
                 }
 
                 for (size_t i = 0; i < 6; ++i)
@@ -396,12 +384,12 @@ namespace ouzel
                     if (axis[i].axis != Gamepad::Axis::NONE &&
                         axis[i].offset == events[e].dwOfs)
                     {
-                        checkAxisChange(getAxisValue(diState, axis[i].offset),
-                                        events[e].dwData,
-                                        axis[i].min, axis[i].range,
-                                        axis[i].negativeButton, axis[i].positiveButton);
+                        handleAxisChange(axis[i].value,
+                                         events[e].dwData,
+                                         axis[i].min, axis[i].range,
+                                         axis[i].negativeButton, axis[i].positiveButton);
 
-                        setAxisValue(diState, axis[i].offset, events[e].dwData);
+                        axis[i].value = events[e].dwData;
                     }
                 }
             }
@@ -428,7 +416,7 @@ namespace ouzel
             for (size_t i = 0; i < 24; ++i)
             {
                 if (buttons[i].button != Gamepad::Button::NONE &&
-                    newDIState.rgbButtons[i] != diState.rgbButtons[i])
+                    buttons[i].value != newDIState.rgbButtons[i])
                 {
                     if ((buttons[i].button != Gamepad::Button::LEFT_TRIGGER || !hasLeftTrigger) &&
                         (buttons[i].button != Gamepad::Button::RIGHT_TRIGGER || !hasRightTrigger))
@@ -437,12 +425,14 @@ namespace ouzel
                                                 newDIState.rgbButtons[i] > 0,
                                                 (newDIState.rgbButtons[i] > 0) ? 1.0F : 0.0F);
                     }
+
+                    buttons[i].value = newDIState.rgbButtons[i];
                 }
             }
 
-            if (newDIState.rgdwPOV[0] != diState.rgdwPOV[0])
+            if (hatValue != newDIState.rgdwPOV[0])
             {
-                uint32_t oldHatValue = static_cast<uint32_t>(diState.rgdwPOV[0]);
+                uint32_t oldHatValue = hatValue;
                 if (oldHatValue == 0xffffffff)
                     oldHatValue = 8;
                 else
@@ -453,92 +443,96 @@ namespace ouzel
                     oldHatValue /= 4500;
                 }
 
-                uint32_t hatValue = static_cast<uint32_t>(newDIState.rgdwPOV[0]);
-                if (hatValue == 0xffffffff)
-                    hatValue = 8;
+                uint32_t newHatValue = newDIState.rgdwPOV[0];
+                if (newHatValue == 0xffffffff)
+                    newHatValue = 8;
                 else
                 {
                     // round up
-                    hatValue += 4500 / 2;
-                    hatValue %= 36000;
-                    hatValue /= 4500;
+                    newHatValue += 4500 / 2;
+                    newHatValue %= 36000;
+                    newHatValue /= 4500;
                 }
 
-                uint32_t bitmask = (oldHatValue >= 8) ? 0 : (1 << (oldHatValue / 2)) | // first bit
+                uint32_t oldBitmask = (oldHatValue >= 8) ? 0 : (1 << (oldHatValue / 2)) | // first bit
                     (1 << (oldHatValue / 2 + oldHatValue % 2)) % 4; // second bit
 
-                uint32_t newBitmask = (hatValue >= 8) ? 0 : (1 << (hatValue / 2)) | // first bit
-                    (1 << (hatValue / 2 + hatValue % 2)) % 4; // second bit
+                uint32_t newBitmask = (newHatValue >= 8) ? 0 : (1 << (newHatValue / 2)) | // first bit
+                    (1 << (newHatValue / 2 + newHatValue % 2)) % 4; // second bit
 
-                if ((bitmask & 0x01) != (newBitmask & 0x01))
+                if ((oldBitmask & 0x01) != (newBitmask & 0x01))
                     handleButtonValueChange(Gamepad::Button::DPAD_UP,
                                             (newBitmask & 0x01) > 0,
                                             (newBitmask & 0x01) > 0 ? 1.0F : 0.0F);
-                if ((bitmask & 0x02) != (newBitmask & 0x02))
+                if ((oldBitmask & 0x02) != (newBitmask & 0x02))
                     handleButtonValueChange(Gamepad::Button::DPAD_RIGHT,
                                             (newBitmask & 0x02) > 0,
                                             (newBitmask & 0x02) > 0 ? 1.0F : 0.0F);
-                if ((bitmask & 0x04) != (newBitmask & 0x04))
+                if ((oldBitmask & 0x04) != (newBitmask & 0x04))
                     handleButtonValueChange(Gamepad::Button::DPAD_DOWN,
                                             (newBitmask & 0x04) > 0,
                                             (newBitmask & 0x04) > 0 ? 1.0F : 0.0F);
-                if ((bitmask & 0x08) != (newBitmask & 0x08))
+                if ((oldBitmask & 0x08) != (newBitmask & 0x08))
                     handleButtonValueChange(Gamepad::Button::DPAD_LEFT,
                                             (newBitmask & 0x08) > 0,
                                             (newBitmask & 0x08) > 0 ? 1.0F : 0.0F);
+                
+                hatValue = newDIState.rgdwPOV[0];
             }
 
             for (size_t i = 0; i < 6; ++i)
             {
                 if (axis[i].axis != Gamepad::Axis::NONE)
                 {
-                    checkAxisChange(getAxisValue(diState, axis[i].offset),
-                                    getAxisValue(newDIState, axis[i].offset),
-                                    axis[i].min, axis[i].range,
-                                    axis[i].negativeButton, axis[i].positiveButton);
+                    LONG newValue = *reinterpret_cast<const LONG*>(reinterpret_cast<const uint8_t*>(&newDIState) + axis[i].offset);
+
+                    if (axis[i].value != newValue)
+                    {
+                        handleAxisChange(axis[i].value,
+                                         newValue,
+                                         axis[i].min, axis[i].range,
+                                         axis[i].negativeButton, axis[i].positiveButton);
+                        
+                        axis[i].value = newValue;
+                    }
                 }
             }
-
-            diState = newDIState;
         }
 
-        void GamepadDeviceDI::checkAxisChange(LONG oldValue, LONG newValue,
-                                              int64_t min, int64_t range,
-                                              Gamepad::Button negativeButton, Gamepad::Button positiveButton)
+        void GamepadDeviceDI::handleAxisChange(LONG oldValue, LONG newValue,
+                                               LONG min, LONG range,
+                                               Gamepad::Button negativeButton, Gamepad::Button positiveButton)
         {
-            if (oldValue != newValue)
+            if (negativeButton == positiveButton)
             {
-                if (negativeButton == positiveButton)
-                {
-                    float floatValue = static_cast<float>(newValue - min) / range;
+                float floatValue = static_cast<float>(newValue - min) / range;
 
-                    handleButtonValueChange(negativeButton,
-                        floatValue > 0.0F,
-                        floatValue);
+                handleButtonValueChange(negativeButton,
+                                        floatValue > 0.0F,
+                                        floatValue);
+            }
+            else
+            {
+                float floatValue = 2.0F * (newValue - min) / range - 1.0F;
+
+                if (floatValue > 0.0F)
+                {
+                    handleButtonValueChange(positiveButton,
+                                            floatValue > THUMB_DEADZONE,
+                                            floatValue);
                 }
-                else
+                else if (floatValue < 0.0F)
                 {
-                    float floatValue = 2.0F * (newValue - min) / range - 1.0F;
-
-                    if (floatValue > 0.0F)
-                    {
-                        handleButtonValueChange(positiveButton,
-                                                floatValue > THUMB_DEADZONE,
-                                                floatValue);
-                    }
-                    else if (floatValue < 0.0F)
-                    {
-                        handleButtonValueChange(negativeButton,
-                                                -floatValue > THUMB_DEADZONE,
-                                                -floatValue);
-                    }
-                    else // thumbstick is 0
-                    {
-                        if (oldValue > newValue)
-                            handleButtonValueChange(positiveButton, false, 0.0F);
-                        else
-                            handleButtonValueChange(negativeButton, false, 0.0F);
-                    }
+                    handleButtonValueChange(negativeButton,
+                                            -floatValue > THUMB_DEADZONE,
+                                            -floatValue);
+                }
+                else // thumbstick is 0
+                {
+                    if (oldValue > newValue)
+                        handleButtonValueChange(positiveButton, false, 0.0F);
+                    else
+                        handleButtonValueChange(negativeButton, false, 0.0F);
                 }
             }
         }

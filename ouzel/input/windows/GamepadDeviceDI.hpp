@@ -33,20 +33,21 @@ namespace ouzel
         protected:
             void checkInputBuffered();
             void checkInputPolled();
-            void checkAxisChange(LONG oldValue, LONG newValue,
-                                 int64_t min, int64_t range,
-                                 Gamepad::Button negativeButton, Gamepad::Button positiveButton);
+            void handleAxisChange(LONG oldValue, LONG newValue,
+                                  LONG min, LONG range,
+                                  Gamepad::Button negativeButton, Gamepad::Button positiveButton);
 
             std::string name;
 
             const DIDEVICEINSTANCEW* instance = nullptr;
             IDirectInputDevice8W* device = nullptr;
-            DIJOYSTATE2 diState;
+            DWORD hatValue = 0xffffffff;
 
             struct Button
             {
                 Gamepad::Button button = Gamepad::Button::NONE;
                 DWORD offset;
+                BYTE value = 0;
             };
 
             Button buttons[24];
@@ -58,6 +59,7 @@ namespace ouzel
                 LONG min = 0;
                 LONG max = 0;
                 LONG range = 0;
+                LONG value = 0;
                 Gamepad::Button negativeButton = Gamepad::Button::NONE;
                 Gamepad::Button positiveButton = Gamepad::Button::NONE;
             };
