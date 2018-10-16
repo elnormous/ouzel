@@ -89,7 +89,7 @@ namespace ouzel
 
                     if (ioctl(fd, EVIOCGABS(ABS_MT_POSITION_X), &info) == -1)
                         throw SystemError("Failed to get device info");
-                    
+
                     touchMinX = info.minimum;
                     touchMaxX = info.maximum;
                     touchRangeX = touchMaxX - touchMinX;
@@ -109,7 +109,6 @@ namespace ouzel
                 }
                 else if (isBitSet(keyBits, BTN_MOUSE)) // mouse
                     mouseDevice.reset(new MouseDevice(inputSystem, inputSystem.getNextDeviceId()));
-                
             }
             else if (isBitSet(eventBits, EV_REL) && isBitSet(relBits, REL_X) && isBitSet(relBits, REL_Y))
             {
@@ -452,7 +451,7 @@ namespace ouzel
                                                 touchSlots[i].action = Slot::Action::MOVE;
                                         }
                                     }
-                                    
+
                                     request->code = ABS_MT_POSITION_Y;
                                     if (ioctl(fd, EVIOCGMTSLOTS(size), request) == -1)
                                         throw SystemError("Failed to get device info");

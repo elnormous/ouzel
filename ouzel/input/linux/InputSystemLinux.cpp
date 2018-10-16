@@ -380,7 +380,6 @@ namespace ouzel
 
         InputSystemLinux::InputSystemLinux(EventHandler& initEventHandler):
 #if OUZEL_SUPPORTS_X11
-        
             InputSystem(initEventHandler),
             keyboardDevice(new KeyboardDeviceLinux(*this, ++lastDeviceId)),
             mouseDevice(new MouseDeviceLinux(*this, ++lastDeviceId)),

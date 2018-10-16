@@ -289,7 +289,7 @@ namespace ouzel
                 throw SystemError("Failed to set current EGL context, error: " + std::to_string(eglGetError()));
 #endif
 
-            while (running) 
+            while (running)
             {
                 try
                 {

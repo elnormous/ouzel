@@ -841,7 +841,7 @@ namespace ouzel
                         textureResourceMetal->setAddressX(setTextureParametersCommand->addressX);
                         textureResourceMetal->setAddressY(setTextureParametersCommand->addressY);
                         textureResourceMetal->setMaxAnisotropy(setTextureParametersCommand->maxAnisotropy);
-                        
+
                         break;
                     }
 

@@ -31,7 +31,7 @@ namespace ouzel
             HRESULT hr = directInput->CreateDevice(instance->guidInstance, &device, nullptr);
             if (FAILED(hr))
                 throw SystemError("Failed to create DirectInput device, error: " + std::to_string(hr));
-            
+
             GamepadConfig gamepadConfig;
 
             if (vendorId == 0x054C && productId == 0x0268) // Playstation 3 controller
@@ -141,14 +141,14 @@ namespace ouzel
                 {
                     DIDEVICEOBJECTINSTANCEW didObjectInstance;
                     didObjectInstance.dwSize = sizeof(didObjectInstance);
-                    hr = device->GetObjectInfo(&didObjectInstance, axisUsageMap[i].second, DIPH_BYOFFSET); 
+                    hr = device->GetObjectInfo(&didObjectInstance, axisUsageMap[i].second, DIPH_BYOFFSET);
 
                     if (SUCCEEDED(hr) &&
                         didObjectInstance.wUsage == axisUsageMap[i].first &&
                         didObjectInstance.dwType & DIDFT_AXIS)
                     {
                         axis[i].axis = gamepadConfig.axisMap[i];
-                        axis[i].offset = axisUsageMap[i].second;                    
+                        axis[i].offset = axisUsageMap[i].second;
 
                         DIPROPDWORD propertyDeadZone;
                         propertyDeadZone.diph.dwSize = sizeof(propertyDeadZone);
@@ -371,7 +371,7 @@ namespace ouzel
                     uint32_t newBitmask = (hatValue >= 8) ? 0 : (1 << (hatValue / 2)) | // first bit
                         (1 << (hatValue / 2 + hatValue % 2)) % 4; // second bit
 
-                    if ((bitmask & 0x01) != (newBitmask & 0x01)) 
+                    if ((bitmask & 0x01) != (newBitmask & 0x01))
                         handleButtonValueChange(Gamepad::Button::DPAD_UP,
                                                 (newBitmask & 0x01) > 0,
                                                 (newBitmask & 0x01) > 0 ? 1.0F : 0.0F);

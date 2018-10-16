@@ -53,7 +53,6 @@ namespace ouzel
             Vector4 rightBottomFront(box.max.x, box.min.y, box.max.z, 1.0F);
             Vector4 rightTopBack(box.max.x, box.max.y, box.min.z, 1.0F);
             Vector4 rightTopFront(box.max.x, box.max.y, box.max.z, 1.0F);
-            
 
             for (const Plane& plane : planes)
             {
