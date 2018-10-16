@@ -219,61 +219,61 @@ namespace ouzel
                 }
                 else if (elementRef == leftThumbX)
                 {
-                    handleThumbAxisChange(element.value, newValue,
-                                          element.min, element.range,
-                                          Gamepad::Button::LEFT_THUMB_LEFT, Gamepad::Button::LEFT_THUMB_RIGHT);
+                    handleAxisChange(element.value, newValue,
+                                     element.min, element.range,
+                                     Gamepad::Button::LEFT_THUMB_LEFT, Gamepad::Button::LEFT_THUMB_RIGHT);
                 }
                 else if (elementRef == leftThumbY)
                 {
-                    handleThumbAxisChange(element.value, newValue,
-                                          element.min, element.range,
-                                          Gamepad::Button::LEFT_THUMB_UP, Gamepad::Button::LEFT_THUMB_DOWN);
+                    handleAxisChange(element.value, newValue,
+                                     element.min, element.range,
+                                     Gamepad::Button::LEFT_THUMB_UP, Gamepad::Button::LEFT_THUMB_DOWN);
                 }
                 else if (elementRef == rightThumbX)
                 {
-                    handleThumbAxisChange(element.value, newValue,
-                                          element.min, element.range,
-                                          Gamepad::Button::RIGHT_THUMB_LEFT, Gamepad::Button::RIGHT_THUMB_RIGHT);
+                    handleAxisChange(element.value, newValue,
+                                     element.min, element.range,
+                                     Gamepad::Button::RIGHT_THUMB_LEFT, Gamepad::Button::RIGHT_THUMB_RIGHT);
                 }
                 else if (elementRef == rightThumbY)
                 {
-                    handleThumbAxisChange(element.value, newValue,
-                                          element.min, element.range,
-                                          Gamepad::Button::RIGHT_THUMB_UP, Gamepad::Button::RIGHT_THUMB_DOWN);
+                    handleAxisChange(element.value, newValue,
+                                     element.min, element.range,
+                                     Gamepad::Button::RIGHT_THUMB_UP, Gamepad::Button::RIGHT_THUMB_DOWN);
                 }
                 else if (elementRef == leftTrigger)
                 {
-                    float floatValue = static_cast<float>(newValue - element.min) / element.range;
-
-                    handleButtonValueChange(Gamepad::Button::LEFT_TRIGGER, newValue > 0, floatValue);
+                    handleAxisChange(element.value, newValue,
+                                     element.min, element.range,
+                                     Gamepad::Button::LEFT_TRIGGER, Gamepad::Button::LEFT_TRIGGER);
                 }
                 else if (elementRef == rightTrigger)
                 {
-                    float floatValue = static_cast<float>(newValue - element.min) / element.range;
-
-                    handleButtonValueChange(Gamepad::Button::RIGHT_TRIGGER, newValue > 0, floatValue);
+                    handleAxisChange(element.value, newValue,
+                                     element.min, element.range,
+                                     Gamepad::Button::RIGHT_TRIGGER, Gamepad::Button::RIGHT_TRIGGER);
                 }
                 else if (element.usage == kHIDUsage_GD_Hatswitch)
                 {
-                    uint32_t bitmask = (element.value >= 8) ? 0 : (1 << (element.value / 2)) | // first bit
+                    uint32_t oldBitmask = (element.value >= 8) ? 0 : (1 << (element.value / 2)) | // first bit
                         (1 << (element.value / 2 + element.value % 2)) % 4; // second bit
 
                     uint32_t newBitmask = (newValue >= 8) ? 0 : (1 << (newValue / 2)) | // first bit
                         (1 << (newValue / 2 + newValue % 2)) % 4; // second bit
 
-                    if ((bitmask & 0x01) != (newBitmask & 0x01))
+                    if ((oldBitmask & 0x01) != (newBitmask & 0x01))
                         handleButtonValueChange(Gamepad::Button::DPAD_UP,
                                                 (newBitmask & 0x01) > 0,
                                                 (newBitmask & 0x01) > 0 ? 1.0F : 0.0F);
-                    if ((bitmask & 0x02) != (newBitmask & 0x02))
+                    if ((oldBitmask & 0x02) != (newBitmask & 0x02))
                         handleButtonValueChange(Gamepad::Button::DPAD_RIGHT,
                                                 (newBitmask & 0x02) > 0,
                                                 (newBitmask & 0x02) > 0 ? 1.0F : 0.0F);
-                    if ((bitmask & 0x04) != (newBitmask & 0x04))
+                    if ((oldBitmask & 0x04) != (newBitmask & 0x04))
                         handleButtonValueChange(Gamepad::Button::DPAD_DOWN,
                                                 (newBitmask & 0x04) > 0,
                                                 (newBitmask & 0x04) > 0 ? 1.0F : 0.0F);
-                    if ((bitmask & 0x08) != (newBitmask & 0x08))
+                    if ((oldBitmask & 0x08) != (newBitmask & 0x08))
                         handleButtonValueChange(Gamepad::Button::DPAD_LEFT,
                                                 (newBitmask & 0x08) > 0,
                                                 (newBitmask & 0x08) > 0 ? 1.0F : 0.0F);
@@ -283,31 +283,42 @@ namespace ouzel
             }
         }
 
-        void GamepadDeviceIOKit::handleThumbAxisChange(int64_t oldValue, int64_t newValue,
-                                                       int64_t min, int64_t range,
-                                                       Gamepad::Button negativeButton,
-                                                       Gamepad::Button positiveButton)
+        void GamepadDeviceIOKit::handleAxisChange(int64_t oldValue, int64_t newValue,
+                                                  int64_t min, int64_t range,
+                                                  Gamepad::Button negativeButton,
+                                                  Gamepad::Button positiveButton)
         {
-            float floatValue = 2.0F * (newValue - min) / range - 1.0F;
-
-            if (floatValue > 0.0F)
+            if (negativeButton == positiveButton)
             {
-                handleButtonValueChange(positiveButton,
-                                        floatValue > THUMB_DEADZONE,
+                float floatValue = static_cast<float>(newValue - min) / range;
+
+                handleButtonValueChange(negativeButton,
+                                        floatValue > 0.0F,
                                         floatValue);
             }
-            else if (floatValue < 0.0F)
+            else
             {
-                handleButtonValueChange(negativeButton,
-                                        -floatValue > THUMB_DEADZONE,
-                                        -floatValue);
-            }
-            else // thumbstick is 0
-            {
-                if (oldValue > newValue)
-                    handleButtonValueChange(positiveButton, false, 0.0F);
-                else
-                    handleButtonValueChange(negativeButton, false, 0.0F);
+                float floatValue = 2.0F * (newValue - min) / range - 1.0F;
+
+                if (floatValue > 0.0F)
+                {
+                    handleButtonValueChange(positiveButton,
+                                            floatValue > THUMB_DEADZONE,
+                                            floatValue);
+                }
+                else if (floatValue < 0.0F)
+                {
+                    handleButtonValueChange(negativeButton,
+                                            -floatValue > THUMB_DEADZONE,
+                                            -floatValue);
+                }
+                else // thumbstick is 0
+                {
+                    if (oldValue > newValue)
+                        handleButtonValueChange(positiveButton, false, 0.0F);
+                    else
+                        handleButtonValueChange(negativeButton, false, 0.0F);
+                }
             }
         }
     } // namespace input
