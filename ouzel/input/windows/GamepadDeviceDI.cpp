@@ -147,36 +147,72 @@ namespace ouzel
             {
                 if (gamepadConfig.axisMap[i] != Gamepad::Axis::NONE)
                 {
-                    axis[i].axis = gamepadConfig.axisMap[i];
-                    axis[i].usage = axisUsageMap[i].first;
-                    axis[i].offset = axisUsageMap[i].second;
+                    DIDEVICEOBJECTINSTANCEW didObjectInstance;
+                    didObjectInstance.dwSize = sizeof(didObjectInstance);
+                    hr = device->GetObjectInfo(&didObjectInstance, axisUsageMap[i].second, DIPH_BYOFFSET); 
 
-                    switch (gamepadConfig.axisMap[i])
+                    if (SUCCEEDED(hr) &&
+                        didObjectInstance->wUsage = axisUsageMap[i].first &&
+                        didObjectInstance->dwType & DIDFT_AXIS)
                     {
-                        case Gamepad::Axis::LEFT_THUMB_X:
-                            axis[i].negativeButton = Gamepad::Button::LEFT_THUMB_LEFT;
-                            axis[i].positiveButton = Gamepad::Button::LEFT_THUMB_RIGHT;
-                            break;
-                        case Gamepad::Axis::LEFT_THUMB_Y:
-                            axis[i].negativeButton = Gamepad::Button::LEFT_THUMB_UP;
-                            axis[i].positiveButton = Gamepad::Button::LEFT_THUMB_DOWN;
-                            break;
-                        case Gamepad::Axis::RIGHT_THUMB_X:
-                            axis[i].negativeButton = Gamepad::Button::RIGHT_THUMB_LEFT;
-                            axis[i].positiveButton = Gamepad::Button::RIGHT_THUMB_RIGHT;
-                            break;
-                        case Gamepad::Axis::RIGHT_THUMB_Y:
-                            axis[i].negativeButton = Gamepad::Button::RIGHT_THUMB_UP;
-                            axis[i].positiveButton = Gamepad::Button::RIGHT_THUMB_DOWN;
-                            break;
-                        case Gamepad::Axis::LEFT_TRIGGER:
-                            axis[i].negativeButton = Gamepad::Button::LEFT_TRIGGER;
-                            axis[i].positiveButton = Gamepad::Button::LEFT_TRIGGER;
-                            break;
-                        case Gamepad::Axis::RIGHT_TRIGGER:
-                            axis[i].negativeButton = Gamepad::Button::RIGHT_TRIGGER;
-                            axis[i].positiveButton = Gamepad::Button::RIGHT_TRIGGER;
-                            break;
+                        axis[i].axis = gamepadConfig.axisMap[i];
+                        axis[i].offset = axisUsageMap[i].second;                    
+
+                        DIPROPDWORD propertyDeadZone;
+                        propertyDeadZone.diph.dwSize = sizeof(propertyDeadZone);
+                        propertyDeadZone.diph.dwHeaderSize = sizeof(propertyDeadZone.diph);
+                        propertyDeadZone.diph.dwObj = axis[i].offset;
+                        propertyDeadZone.diph.dwHow = DIPH_BYOFFSET;
+                        propertyDeadZone.dwData = 0;
+
+                        // Set the range for the axis
+                        hr = device->SetProperty(DIPROP_DEADZONE, &propertyDeadZone.diph);
+                        if (FAILED(hr))
+                            Log(Log::Level::WARN) << "Failed to set DirectInput device dead zone property, error: " << hr;
+
+                        DIPROPRANGE propertyAxisRange;
+                        propertyAxisRange.diph.dwSize = sizeof(propertyAxisRange);
+                        propertyAxisRange.diph.dwHeaderSize = sizeof(propertyAxisRange.diph);
+                        propertyAxisRange.diph.dwObj = axis[i].offset;
+                        propertyAxisRange.diph.dwHow = DIPH_BYOFFSET;
+
+                        hr = device->GetProperty(DIPROP_RANGE, &propertyAxisRange.diph);
+                        if (FAILED(hr))
+                            throw SystemError("Failed to get DirectInput device axis range property, error: " + std::to_string(hr));
+
+                        axis[i].min = propertyAxisRange.lMin;
+                        axis[i].max = propertyAxisRange.lMax;
+                        axis[i].range = propertyAxisRange.lMax - propertyAxisRange.lMin;
+
+                        switch (gamepadConfig.axisMap[i])
+                        {
+                            case Gamepad::Axis::LEFT_THUMB_X:
+                                axis[i].negativeButton = Gamepad::Button::LEFT_THUMB_LEFT;
+                                axis[i].positiveButton = Gamepad::Button::LEFT_THUMB_RIGHT;
+                                break;
+                            case Gamepad::Axis::LEFT_THUMB_Y:
+                                axis[i].negativeButton = Gamepad::Button::LEFT_THUMB_UP;
+                                axis[i].positiveButton = Gamepad::Button::LEFT_THUMB_DOWN;
+                                break;
+                            case Gamepad::Axis::RIGHT_THUMB_X:
+                                axis[i].negativeButton = Gamepad::Button::RIGHT_THUMB_LEFT;
+                                axis[i].positiveButton = Gamepad::Button::RIGHT_THUMB_RIGHT;
+                                break;
+                            case Gamepad::Axis::RIGHT_THUMB_Y:
+                                axis[i].negativeButton = Gamepad::Button::RIGHT_THUMB_UP;
+                                axis[i].positiveButton = Gamepad::Button::RIGHT_THUMB_DOWN;
+                                break;
+                            case Gamepad::Axis::LEFT_TRIGGER:
+                                axis[i].negativeButton = Gamepad::Button::LEFT_TRIGGER;
+                                axis[i].positiveButton = Gamepad::Button::LEFT_TRIGGER;
+                                hasLeftTrigger = true;
+                                break;
+                            case Gamepad::Axis::RIGHT_TRIGGER:
+                                axis[i].negativeButton = Gamepad::Button::RIGHT_TRIGGER;
+                                axis[i].positiveButton = Gamepad::Button::RIGHT_TRIGGER;
+                                hasRightTrigger = true;
+                                break;
+                        }
                     }
                 }
             }
@@ -222,10 +258,6 @@ namespace ouzel
                 if (FAILED(hr))
                     Log(Log::Level::WARN) << "Failed to set DirectInput device autocenter property, error: " << hr;
             }
-
-            hr = device->EnumObjects(enumObjectsCallback, this, DIDFT_ALL);
-            if (FAILED(hr))
-                throw SystemError("Failed to enumerate DirectInput device objects, error: " + std::to_string(hr));
 
             DIPROPDWORD propertyBufferSize;
             propertyBufferSize.diph.dwSize = sizeof(propertyBufferSize);
@@ -514,48 +546,6 @@ namespace ouzel
                             handleButtonValueChange(positiveButton, false, 0.0F);
                         else
                             handleButtonValueChange(negativeButton, false, 0.0F);
-                    }
-                }
-            }
-        }
-
-        void GamepadDeviceDI::handleObject(const DIDEVICEOBJECTINSTANCEW* didObjectInstance)
-        {
-            if (didObjectInstance->dwType & DIDFT_AXIS)
-            {
-                DIPROPDWORD propertyDeadZone;
-                propertyDeadZone.diph.dwSize = sizeof(propertyDeadZone);
-                propertyDeadZone.diph.dwHeaderSize = sizeof(propertyDeadZone.diph);
-                propertyDeadZone.diph.dwObj = didObjectInstance->dwType;
-                propertyDeadZone.diph.dwHow = DIPH_BYID;
-                propertyDeadZone.dwData = 0;
-
-                // Set the range for the axis
-                HRESULT hr = device->SetProperty(DIPROP_DEADZONE, &propertyDeadZone.diph);
-                if (FAILED(hr))
-                    Log(Log::Level::WARN) << "Failed to set DirectInput device dead zone property, error: " << hr;
-
-                DIPROPRANGE propertyAxisRange;
-                propertyAxisRange.diph.dwSize = sizeof(propertyAxisRange);
-                propertyAxisRange.diph.dwHeaderSize = sizeof(propertyAxisRange.diph);
-                propertyAxisRange.diph.dwObj = didObjectInstance->dwType;
-                propertyAxisRange.diph.dwHow = DIPH_BYID;
-
-                hr = device->GetProperty(DIPROP_RANGE, &propertyAxisRange.diph);
-                if (FAILED(hr))
-                    throw SystemError("Failed to get DirectInput device axis range property, error: " + std::to_string(hr));
-
-                for (size_t i = 0; i < 6; ++i)
-                {
-                    if (axis[i].axis != Gamepad::Axis::NONE &&
-                        axis[i].usage == didObjectInstance->wUsage)
-                    {
-                        axis[i].min = propertyAxisRange.lMin;
-                        axis[i].max = propertyAxisRange.lMax;
-                        axis[i].range = propertyAxisRange.lMax - propertyAxisRange.lMin;
-
-                        if (axis[i].axis == Gamepad::Axis::LEFT_TRIGGER) hasLeftTrigger = true;
-                        else if (axis[i].axis == Gamepad::Axis::RIGHT_TRIGGER) hasRightTrigger = true;
                     }
                 }
             }
