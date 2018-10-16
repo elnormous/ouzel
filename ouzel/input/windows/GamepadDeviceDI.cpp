@@ -30,6 +30,16 @@ namespace ouzel
             if (FAILED(hr))
                 throw SystemError("Failed to create DirectInput device, error: " + std::to_string(hr));
 
+            // Exclusive access is needed for force feedback
+            hr = device->SetCooperativeLevel(window,
+                DISCL_BACKGROUND | DISCL_EXCLUSIVE);
+            if (FAILED(hr))
+                throw SystemError("Failed to set DirectInput device format, error: " + std::to_string(hr));
+
+            hr = device->SetDataFormat(&c_dfDIJoystick);
+            if (FAILED(hr))
+                throw SystemError("Failed to set DirectInput device format, error: " + std::to_string(hr));
+
             GamepadConfig gamepadConfig;
 
             if (vendorId == 0x054C && productId == 0x0268) // Playstation 3 controller
@@ -119,7 +129,7 @@ namespace ouzel
             {
                 if (gamepadConfig.buttonMap[i] != Gamepad::Button::NONE)
                 {
-                    buttons[i].offset = offsetof(DIJOYSTATE2, rgbButtons) + i;
+                    buttons[i].offset = DIJOFS_BUTTON(i);
                     buttons[i].button = gamepadConfig.buttonMap[i];
                 }
             }
@@ -143,7 +153,7 @@ namespace ouzel
 
                     if (SUCCEEDED(hr) &&
                         didObjectInstance.wUsage == axisUsageMap[i].first &&
-                        didObjectInstance.dwType & DIDFT_AXIS)
+                        (didObjectInstance.dwType & DIDFT_AXIS))
                     {
                         axis[i].axis = gamepadConfig.axisMap[i];
                         axis[i].offset = axisUsageMap[i].second;
@@ -206,16 +216,6 @@ namespace ouzel
                     }
                 }
             }
-
-            // Exclusive access is needed for force feedback
-            hr = device->SetCooperativeLevel(window,
-                                             DISCL_BACKGROUND | DISCL_EXCLUSIVE);
-            if (FAILED(hr))
-                throw SystemError("Failed to set DirectInput device format, error: " + std::to_string(hr));
-
-            hr = device->SetDataFormat(&c_dfDIJoystick2);
-            if (FAILED(hr))
-                throw SystemError("Failed to set DirectInput device format, error: " + std::to_string(hr));
 
             DIDEVCAPS capabilities;
             capabilities.dwSize = sizeof(capabilities);
@@ -329,7 +329,7 @@ namespace ouzel
                     }
                 }
 
-                if (events[e].dwOfs == offsetof(DIJOYSTATE2, rgdwPOV[0]))
+                if (events[e].dwOfs == DIJOFS_POV(0))
                 {
                     uint32_t oldHatValue = hatValue;
                     if (oldHatValue == 0xffffffff)
@@ -397,7 +397,7 @@ namespace ouzel
 
         void GamepadDeviceDI::checkInputPolled()
         {
-            DIJOYSTATE2 newDIState;
+            DIJOYSTATE newDIState;
 
             HRESULT hr = device->GetDeviceState(sizeof(newDIState), &newDIState);
 
