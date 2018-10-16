@@ -168,7 +168,7 @@ namespace ouzel
                 engine->exit();
                 return true;
         }
-        
+
         return false;
     }
 

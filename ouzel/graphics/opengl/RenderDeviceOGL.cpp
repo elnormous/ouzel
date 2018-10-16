@@ -1036,7 +1036,7 @@ namespace ouzel
                     {
 #if !OUZEL_SUPPORTS_OPENGLES
                         const BlitCommand* blitCommand = static_cast<const BlitCommand*>(command.get());
-                        
+
                         TextureResourceOGL* sourceTextureOGL = static_cast<TextureResourceOGL*>(blitCommand->sourceTexture);
                         TextureResourceOGL* destinationTextureOGL = static_cast<TextureResourceOGL*>(blitCommand->destinationTexture);
 
