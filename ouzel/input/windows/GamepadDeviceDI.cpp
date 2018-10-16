@@ -129,8 +129,9 @@ namespace ouzel
             {
                 if (gamepadConfig.buttonMap[i] != Gamepad::Button::NONE)
                 {
-                    buttons[i].offset = DIJOFS_BUTTON(i);
-                    buttons[i].button = gamepadConfig.buttonMap[i];
+                    Button button;
+                    button.button = gamepadConfig.buttonMap[i];
+                    buttons.insert(std::make_pair(static_cast<DWORD>(DIJOFS_BUTTON(i)), button));
                 }
             }
 
@@ -147,21 +148,24 @@ namespace ouzel
             {
                 if (gamepadConfig.axisMap[i] != Gamepad::Axis::NONE)
                 {
+                    USAGE usage = axisUsageMap[i].first;
+                    DWORD offset = axisUsageMap[i].second;
+
                     DIDEVICEOBJECTINSTANCEW didObjectInstance;
                     didObjectInstance.dwSize = sizeof(didObjectInstance);
                     hr = device->GetObjectInfo(&didObjectInstance, axisUsageMap[i].second, DIPH_BYOFFSET);
 
                     if (SUCCEEDED(hr) &&
-                        didObjectInstance.wUsage == axisUsageMap[i].first &&
+                        didObjectInstance.wUsage == usage &&
                         (didObjectInstance.dwType & DIDFT_AXIS))
                     {
-                        axis[i].axis = gamepadConfig.axisMap[i];
-                        axis[i].offset = axisUsageMap[i].second;
+                        Axis axis;
+                        axis.axis = gamepadConfig.axisMap[i];
 
                         DIPROPDWORD propertyDeadZone;
                         propertyDeadZone.diph.dwSize = sizeof(propertyDeadZone);
                         propertyDeadZone.diph.dwHeaderSize = sizeof(propertyDeadZone.diph);
-                        propertyDeadZone.diph.dwObj = axis[i].offset;
+                        propertyDeadZone.diph.dwObj = offset;
                         propertyDeadZone.diph.dwHow = DIPH_BYOFFSET;
                         propertyDeadZone.dwData = 0;
 
@@ -173,46 +177,48 @@ namespace ouzel
                         DIPROPRANGE propertyAxisRange;
                         propertyAxisRange.diph.dwSize = sizeof(propertyAxisRange);
                         propertyAxisRange.diph.dwHeaderSize = sizeof(propertyAxisRange.diph);
-                        propertyAxisRange.diph.dwObj = axis[i].offset;
+                        propertyAxisRange.diph.dwObj = offset;
                         propertyAxisRange.diph.dwHow = DIPH_BYOFFSET;
 
                         hr = device->GetProperty(DIPROP_RANGE, &propertyAxisRange.diph);
                         if (FAILED(hr))
                             throw SystemError("Failed to get DirectInput device axis range property, error: " + std::to_string(hr));
 
-                        axis[i].min = propertyAxisRange.lMin;
-                        axis[i].max = propertyAxisRange.lMax;
-                        axis[i].range = propertyAxisRange.lMax - propertyAxisRange.lMin;
+                        axis.min = propertyAxisRange.lMin;
+                        axis.max = propertyAxisRange.lMax;
+                        axis.range = propertyAxisRange.lMax - propertyAxisRange.lMin;
 
                         switch (gamepadConfig.axisMap[i])
                         {
                             case Gamepad::Axis::LEFT_THUMB_X:
-                                axis[i].negativeButton = Gamepad::Button::LEFT_THUMB_LEFT;
-                                axis[i].positiveButton = Gamepad::Button::LEFT_THUMB_RIGHT;
+                                axis.negativeButton = Gamepad::Button::LEFT_THUMB_LEFT;
+                                axis.positiveButton = Gamepad::Button::LEFT_THUMB_RIGHT;
                                 break;
                             case Gamepad::Axis::LEFT_THUMB_Y:
-                                axis[i].negativeButton = Gamepad::Button::LEFT_THUMB_UP;
-                                axis[i].positiveButton = Gamepad::Button::LEFT_THUMB_DOWN;
+                                axis.negativeButton = Gamepad::Button::LEFT_THUMB_UP;
+                                axis.positiveButton = Gamepad::Button::LEFT_THUMB_DOWN;
                                 break;
                             case Gamepad::Axis::RIGHT_THUMB_X:
-                                axis[i].negativeButton = Gamepad::Button::RIGHT_THUMB_LEFT;
-                                axis[i].positiveButton = Gamepad::Button::RIGHT_THUMB_RIGHT;
+                                axis.negativeButton = Gamepad::Button::RIGHT_THUMB_LEFT;
+                                axis.positiveButton = Gamepad::Button::RIGHT_THUMB_RIGHT;
                                 break;
                             case Gamepad::Axis::RIGHT_THUMB_Y:
-                                axis[i].negativeButton = Gamepad::Button::RIGHT_THUMB_UP;
-                                axis[i].positiveButton = Gamepad::Button::RIGHT_THUMB_DOWN;
+                                axis.negativeButton = Gamepad::Button::RIGHT_THUMB_UP;
+                                axis.positiveButton = Gamepad::Button::RIGHT_THUMB_DOWN;
                                 break;
                             case Gamepad::Axis::LEFT_TRIGGER:
-                                axis[i].negativeButton = Gamepad::Button::LEFT_TRIGGER;
-                                axis[i].positiveButton = Gamepad::Button::LEFT_TRIGGER;
+                                axis.negativeButton = Gamepad::Button::LEFT_TRIGGER;
+                                axis.positiveButton = Gamepad::Button::LEFT_TRIGGER;
                                 hasLeftTrigger = true;
                                 break;
                             case Gamepad::Axis::RIGHT_TRIGGER:
-                                axis[i].negativeButton = Gamepad::Button::RIGHT_TRIGGER;
-                                axis[i].positiveButton = Gamepad::Button::RIGHT_TRIGGER;
+                                axis.negativeButton = Gamepad::Button::RIGHT_TRIGGER;
+                                axis.positiveButton = Gamepad::Button::RIGHT_TRIGGER;
                                 hasRightTrigger = true;
                                 break;
                         }
+
+                        axes.insert(std::make_pair(offset, axis));
                     }
                 }
             }
@@ -312,21 +318,21 @@ namespace ouzel
 
             for (DWORD e = 0; e < eventCount; ++e)
             {
-                for (size_t i = 0; i < 24; ++i)
-                {
-                    if (buttons[i].button != Gamepad::Button::NONE &&
-                        buttons[i].offset == events[e].dwOfs)
-                    {
-                        if ((buttons[i].button != Gamepad::Button::LEFT_TRIGGER || !hasLeftTrigger) &&
-                            (buttons[i].button != Gamepad::Button::RIGHT_TRIGGER || !hasRightTrigger))
-                        {
-                            handleButtonValueChange(buttons[i].button,
-                                                    events[e].dwData > 0,
-                                                    (events[e].dwData > 0) ? 1.0F : 0.0F);
-                        }
+                auto buttonIterator = buttons.find(events[e].dwOfs);
 
-                        buttons[i].value = static_cast<BYTE>(events[e].dwData);
+                if (buttonIterator != buttons.end())
+                {
+                    Button& button = buttonIterator->second;
+
+                    if ((button.button != Gamepad::Button::LEFT_TRIGGER || !hasLeftTrigger) &&
+                        (button.button != Gamepad::Button::RIGHT_TRIGGER || !hasRightTrigger))
+                    {
+                        handleButtonValueChange(button.button,
+                                                events[e].dwData > 0,
+                                                (events[e].dwData > 0) ? 1.0F : 0.0F);
                     }
+
+                    button.value = static_cast<BYTE>(events[e].dwData);
                 }
 
                 if (events[e].dwOfs == DIJOFS_POV(0))
@@ -379,18 +385,18 @@ namespace ouzel
                     hatValue = events[e].dwData;
                 }
 
-                for (size_t i = 0; i < 6; ++i)
-                {
-                    if (axis[i].axis != Gamepad::Axis::NONE &&
-                        axis[i].offset == events[e].dwOfs)
-                    {
-                        handleAxisChange(axis[i].value,
-                                         events[e].dwData,
-                                         axis[i].min, axis[i].range,
-                                         axis[i].negativeButton, axis[i].positiveButton);
+                auto axisIterator = axes.find(events[e].dwOfs);
 
-                        axis[i].value = events[e].dwData;
-                    }
+                if (axisIterator != axes.end())
+                {
+                    Axis& axis = axisIterator->second;
+
+                    handleAxisChange(axis.value,
+                                     events[e].dwData,
+                                     axis.min, axis.range,
+                                     axis.negativeButton, axis.positiveButton);
+
+                    axis.value = events[e].dwData;
                 }
             }
         }
@@ -413,20 +419,23 @@ namespace ouzel
             if (FAILED(hr))
                 throw SystemError("Failed to get DirectInput device state, error: " + std::to_string(hr));
 
-            for (size_t i = 0; i < 24; ++i)
+            for (auto& buttonPair : buttons)
             {
-                if (buttons[i].button != Gamepad::Button::NONE &&
-                    buttons[i].value != newDIState.rgbButtons[i])
+                DWORD offset = buttonPair.first;
+                Button& button = buttonPair.second;
+                BYTE newValue = *reinterpret_cast<const BYTE*>(reinterpret_cast<const uint8_t*>(&newDIState) + offset);
+
+                if (button.value != newValue)
                 {
-                    if ((buttons[i].button != Gamepad::Button::LEFT_TRIGGER || !hasLeftTrigger) &&
-                        (buttons[i].button != Gamepad::Button::RIGHT_TRIGGER || !hasRightTrigger))
+                    if ((button.button != Gamepad::Button::LEFT_TRIGGER || !hasLeftTrigger) &&
+                        (button.button != Gamepad::Button::RIGHT_TRIGGER || !hasRightTrigger))
                     {
-                        handleButtonValueChange(buttons[i].button,
-                                                newDIState.rgbButtons[i] > 0,
-                                                (newDIState.rgbButtons[i] > 0) ? 1.0F : 0.0F);
+                        handleButtonValueChange(button.button,
+                                                newValue > 0,
+                                                (newValue > 0) ? 1.0F : 0.0F);
                     }
 
-                    buttons[i].value = newDIState.rgbButtons[i];
+                    button.value = newValue;
                 }
             }
 
@@ -480,21 +489,20 @@ namespace ouzel
                 hatValue = newDIState.rgdwPOV[0];
             }
 
-            for (size_t i = 0; i < 6; ++i)
+            for (auto& axisPair : axes)
             {
-                if (axis[i].axis != Gamepad::Axis::NONE)
-                {
-                    LONG newValue = *reinterpret_cast<const LONG*>(reinterpret_cast<const uint8_t*>(&newDIState) + axis[i].offset);
+                DWORD offset = axisPair.first;
+                Axis& axis = axisPair.second;
+                LONG newValue = *reinterpret_cast<const LONG*>(reinterpret_cast<const uint8_t*>(&newDIState) + offset);
 
-                    if (axis[i].value != newValue)
-                    {
-                        handleAxisChange(axis[i].value,
-                                         newValue,
-                                         axis[i].min, axis[i].range,
-                                         axis[i].negativeButton, axis[i].positiveButton);
+                if (axis.value != newValue)
+                {
+                    handleAxisChange(axis.value,
+                                     newValue,
+                                     axis.min, axis.range,
+                                     axis.negativeButton, axis.positiveButton);
                         
-                        axis[i].value = newValue;
-                    }
+                    axis.value = newValue;
                 }
             }
         }
