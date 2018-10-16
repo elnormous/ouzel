@@ -47,23 +47,28 @@ namespace ouzel
             const DIDEVICEINSTANCEW* instance = nullptr;
             IDirectInputDevice8W* device = nullptr;
             DIJOYSTATE2 diState;
-            std::array<Gamepad::Button, 24> buttonMap;
+
+            struct Button
+            {
+                Gamepad::Button button = Gamepad::Button::NONE;
+                size_t offset;
+            };
+
+            Button buttons[24];
 
             struct Axis
             {
+                Gamepad::Axis axis = Gamepad::Axis::NONE;
                 USAGE usage = 0;
-                size_t offset = 0xFFFFFFFF;
+                size_t offset;
                 LONG min = 0;
                 LONG max = 0;
                 LONG range = 0;
+                Gamepad::Button minButton = Gamepad::Button::NONE;
+                Gamepad::Button maxButton = Gamepad::Button::NONE;
             };
 
-            Axis leftThumbX;
-            Axis leftThumbY;
-            Axis rightThumbX;
-            Axis rightThumbY;
-            Axis leftTrigger;
-            Axis rightTrigger;
+            Axis axis[6];
 
             bool hasLeftTrigger = false;
             bool hasRightTrigger = false;
