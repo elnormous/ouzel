@@ -30,8 +30,6 @@ namespace ouzel
 
             const DIDEVICEINSTANCEW* getInstance() const { return instance; }
 
-            void handleObject(const DIDEVICEOBJECTINSTANCEW* didObjectInstance);
-
         protected:
             void checkInputBuffered();
             void checkInputPolled();
@@ -56,7 +54,6 @@ namespace ouzel
             struct Axis
             {
                 Gamepad::Axis axis = Gamepad::Axis::NONE;
-                USAGE usage = 0;
                 DWORD offset;
                 LONG min = 0;
                 LONG max = 0;
