@@ -48,7 +48,7 @@ namespace ouzel
             struct Button
             {
                 Gamepad::Button button = Gamepad::Button::NONE;
-                size_t offset;
+                DWORD offset;
             };
 
             Button buttons[24];
@@ -57,7 +57,7 @@ namespace ouzel
             {
                 Gamepad::Axis axis = Gamepad::Axis::NONE;
                 USAGE usage = 0;
-                size_t offset;
+                DWORD offset;
                 LONG min = 0;
                 LONG max = 0;
                 LONG range = 0;
