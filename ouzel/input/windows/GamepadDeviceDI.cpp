@@ -152,7 +152,7 @@ namespace ouzel
                     hr = device->GetObjectInfo(&didObjectInstance, axisUsageMap[i].second, DIPH_BYOFFSET); 
 
                     if (SUCCEEDED(hr) &&
-                        didObjectInstance->wUsage = axisUsageMap[i].first &&
+                        didObjectInstance->wUsage == axisUsageMap[i].first &&
                         didObjectInstance->dwType & DIDFT_AXIS)
                     {
                         axis[i].axis = gamepadConfig.axisMap[i];
