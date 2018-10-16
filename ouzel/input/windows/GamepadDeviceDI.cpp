@@ -134,7 +134,7 @@ namespace ouzel
                 }
             }
 
-            std::array<std::pair<USAGE, size_t>, 6> axisUsageMap = {
+            std::array<std::pair<USAGE, DWORD>, 6> axisUsageMap = {
                 std::make_pair(HID_USAGE_GENERIC_X, DIJOFS_X),
                 std::make_pair(HID_USAGE_GENERIC_Y, DIJOFS_Y),
                 std::make_pair(HID_USAGE_GENERIC_Z, DIJOFS_Z),
@@ -269,12 +269,12 @@ namespace ouzel
             return buffered ? checkInputBuffered() : checkInputPolled();
         }
 
-        static LONG getAxisValue(const DIJOYSTATE2& state, size_t offset)
+        static LONG getAxisValue(const DIJOYSTATE2& state, DWORD offset)
         {
             return *reinterpret_cast<const LONG*>(reinterpret_cast<const uint8_t*>(&state) + offset);
         }
 
-        static void setAxisValue(DIJOYSTATE2& state, size_t offset, LONG value)
+        static void setAxisValue(DIJOYSTATE2& state, DWORD offset, LONG value)
         {
             *reinterpret_cast<LONG*>(reinterpret_cast<uint8_t*>(&state) + offset) = value;
         }
@@ -300,7 +300,7 @@ namespace ouzel
 
             for (DWORD e = 0; e < eventCount; ++e)
             {
-                for (uint32_t i = 0; i < 24; ++i)
+                for (size_t i = 0; i < 24; ++i)
                 {
                     if (buttons[i].button != Gamepad::Button::NONE &&
                         buttons[i].offset == events[e].dwOfs)
@@ -367,7 +367,7 @@ namespace ouzel
                     diState.rgdwPOV[0] = events[e].dwData;
                 }
 
-                for (uint32_t i = 0; i < 6; ++i)
+                for (size_t i = 0; i < 6; ++i)
                 {
                     if (axis[i].axis != Gamepad::Axis::NONE &&
                         axis[i].offset == events[e].dwOfs)
@@ -401,7 +401,7 @@ namespace ouzel
             if (FAILED(hr))
                 throw SystemError("Failed to get DirectInput device state, error: " + std::to_string(hr));
 
-            for (uint32_t i = 0; i < 24; ++i)
+            for (size_t i = 0; i < 24; ++i)
             {
                 if (buttons[i].button != Gamepad::Button::NONE &&
                     newDIState.rgbButtons[i] != diState.rgbButtons[i])
@@ -464,7 +464,7 @@ namespace ouzel
                                             (newBitmask & 0x08) > 0 ? 1.0F : 0.0F);
             }
 
-            for (uint32_t i = 0; i < 6; ++i)
+            for (size_t i = 0; i < 6; ++i)
             {
                 if (axis[i].axis != Gamepad::Axis::NONE)
                 {
@@ -545,7 +545,7 @@ namespace ouzel
                 if (FAILED(hr))
                     throw SystemError("Failed to get DirectInput device axis range property, error: " + std::to_string(hr));
 
-                for (uint32_t i = 0; i < 6; ++i)
+                for (size_t i = 0; i < 6; ++i)
                 {
                     if (axis[i].axis != Gamepad::Axis::NONE &&
                         axis[i].usage == didObjectInstance->wUsage)
