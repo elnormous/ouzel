@@ -64,8 +64,8 @@ namespace ouzel
                 LONG min = 0;
                 LONG max = 0;
                 LONG range = 0;
-                Gamepad::Button minButton = Gamepad::Button::NONE;
-                Gamepad::Button maxButton = Gamepad::Button::NONE;
+                Gamepad::Button negativeButton = Gamepad::Button::NONE;
+                Gamepad::Button positiveButton = Gamepad::Button::NONE;
             };
 
             Axis axis[6];

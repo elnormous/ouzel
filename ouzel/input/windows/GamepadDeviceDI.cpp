@@ -154,28 +154,28 @@ namespace ouzel
                     switch (gamepadConfig.axisMap[i])
                     {
                         case Gamepad::Axis::LEFT_THUMB_X:
-                            axis[i].minButton = Gamepad::Button::LEFT_THUMB_LEFT;
-                            axis[i].maxButton = Gamepad::Button::LEFT_THUMB_RIGHT;
+                            axis[i].negativeButton = Gamepad::Button::LEFT_THUMB_LEFT;
+                            axis[i].positiveButton = Gamepad::Button::LEFT_THUMB_RIGHT;
                             break;
                         case Gamepad::Axis::LEFT_THUMB_Y:
-                            axis[i].minButton = Gamepad::Button::LEFT_THUMB_UP;
-                            axis[i].maxButton = Gamepad::Button::LEFT_THUMB_DOWN;
+                            axis[i].negativeButton = Gamepad::Button::LEFT_THUMB_UP;
+                            axis[i].positiveButton = Gamepad::Button::LEFT_THUMB_DOWN;
                             break;
                         case Gamepad::Axis::RIGHT_THUMB_X:
-                            axis[i].minButton = Gamepad::Button::RIGHT_THUMB_LEFT;
-                            axis[i].maxButton = Gamepad::Button::RIGHT_THUMB_RIGHT;
+                            axis[i].negativeButton = Gamepad::Button::RIGHT_THUMB_LEFT;
+                            axis[i].positiveButton = Gamepad::Button::RIGHT_THUMB_RIGHT;
                             break;
                         case Gamepad::Axis::RIGHT_THUMB_Y:
-                            axis[i].minButton = Gamepad::Button::RIGHT_THUMB_UP;
-                            axis[i].maxButton = Gamepad::Button::RIGHT_THUMB_DOWN;
+                            axis[i].negativeButton = Gamepad::Button::RIGHT_THUMB_UP;
+                            axis[i].positiveButton = Gamepad::Button::RIGHT_THUMB_DOWN;
                             break;
                         case Gamepad::Axis::LEFT_TRIGGER:
-                            axis[i].minButton = Gamepad::Button::LEFT_TRIGGER;
-                            axis[i].maxButton = Gamepad::Button::LEFT_TRIGGER;
+                            axis[i].negativeButton = Gamepad::Button::LEFT_TRIGGER;
+                            axis[i].positiveButton = Gamepad::Button::LEFT_TRIGGER;
                             break;
                         case Gamepad::Axis::RIGHT_TRIGGER:
-                            axis[i].minButton = Gamepad::Button::RIGHT_TRIGGER;
-                            axis[i].maxButton = Gamepad::Button::RIGHT_TRIGGER;
+                            axis[i].negativeButton = Gamepad::Button::RIGHT_TRIGGER;
+                            axis[i].positiveButton = Gamepad::Button::RIGHT_TRIGGER;
                             break;
                     }
                 }
@@ -372,12 +372,12 @@ namespace ouzel
                     if (axis[i].axis != Gamepad::Axis::NONE &&
                         axis[i].offset == events[e].dwOfs)
                     {
-                        if (axis[i].minButton != axis[i].maxButton)
+                        if (axis[i].negativeButton != axis[i].positiveButton)
                         {
                             checkThumbAxisChange(getAxisValue(diState, axis[i].offset),
                                                  events[e].dwData,
                                                  axis[i].min, axis[i].range,
-                                                 axis[i].minButton, axis[i].maxButton);
+                                                 axis[i].negativeButton, axis[i].positiveButton);
 
                             setAxisValue(diState, axis[i].offset, events[e].dwData);
                         }
@@ -386,7 +386,7 @@ namespace ouzel
                             checkTriggerChange(getAxisValue(diState, axis[i].offset),
                                                events[e].dwData,
                                                axis[i].min, axis[i].range,
-                                               axis[i].minButton);
+                                               axis[i].negativeButton);
 
                             setAxisValue(diState, axis[i].offset, events[e].dwData);
                         }
@@ -480,19 +480,19 @@ namespace ouzel
             {
                 if (axis[i].axis != Gamepad::Axis::NONE)
                 {
-                    if (axis[i].minButton != axis[i].maxButton)
+                    if (axis[i].negativeButton != axis[i].positiveButton)
                     {
                         checkThumbAxisChange(getAxisValue(diState, axis[i].offset),
                                              getAxisValue(newDIState, axis[i].offset),
                                              axis[i].min, axis[i].range,
-                                             axis[i].minButton, axis[i].maxButton);
+                                             axis[i].negativeButton, axis[i].positiveButton);
                     }
                     else
                     {
                         checkTriggerChange(getAxisValue(diState, axis[i].offset),
                                            getAxisValue(newDIState, axis[i].offset),
                                            axis[i].min, axis[i].range,
-                                           axis[i].minButton);
+                                           axis[i].negativeButton);
                     }
                 }
             }
