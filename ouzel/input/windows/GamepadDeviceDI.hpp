@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include <array>
 #include <string>
+#include <unordered_map>
 #ifndef NOMINMAX
 #  define NOMINMAX
 #endif
@@ -46,16 +46,14 @@ namespace ouzel
             struct Button
             {
                 Gamepad::Button button = Gamepad::Button::NONE;
-                DWORD offset;
                 BYTE value = 0;
             };
 
-            Button buttons[24];
+            std::unordered_map<DWORD, Button> buttons;
 
             struct Axis
             {
                 Gamepad::Axis axis = Gamepad::Axis::NONE;
-                DWORD offset;
                 LONG min = 0;
                 LONG max = 0;
                 LONG range = 0;
@@ -64,7 +62,7 @@ namespace ouzel
                 Gamepad::Button positiveButton = Gamepad::Button::NONE;
             };
 
-            Axis axis[6];
+            std::unordered_map<DWORD, Axis> axes;
 
             bool hasLeftTrigger = false;
             bool hasRightTrigger = false;
