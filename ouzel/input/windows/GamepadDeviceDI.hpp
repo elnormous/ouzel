@@ -35,12 +35,9 @@ namespace ouzel
         protected:
             void checkInputBuffered();
             void checkInputPolled();
-            void checkThumbAxisChange(LONG oldValue, LONG newValue,
-                                      int64_t min, int64_t range,
-                                      Gamepad::Button negativeButton, Gamepad::Button positiveButton);
-            void checkTriggerChange(LONG oldValue, LONG newValue,
-                                    int64_t min, int64_t range,
-                                    Gamepad::Button button);
+            void checkAxisChange(LONG oldValue, LONG newValue,
+                                 int64_t min, int64_t range,
+                                 Gamepad::Button negativeButton, Gamepad::Button positiveButton);
 
             std::string name;
 

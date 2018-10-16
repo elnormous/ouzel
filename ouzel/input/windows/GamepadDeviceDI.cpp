@@ -372,24 +372,12 @@ namespace ouzel
                     if (axis[i].axis != Gamepad::Axis::NONE &&
                         axis[i].offset == events[e].dwOfs)
                     {
-                        if (axis[i].negativeButton != axis[i].positiveButton)
-                        {
-                            checkThumbAxisChange(getAxisValue(diState, axis[i].offset),
-                                                 events[e].dwData,
-                                                 axis[i].min, axis[i].range,
-                                                 axis[i].negativeButton, axis[i].positiveButton);
+                        checkAxisChange(getAxisValue(diState, axis[i].offset),
+                                        events[e].dwData,
+                                        axis[i].min, axis[i].range,
+                                        axis[i].negativeButton, axis[i].positiveButton);
 
-                            setAxisValue(diState, axis[i].offset, events[e].dwData);
-                        }
-                        else
-                        {
-                            checkTriggerChange(getAxisValue(diState, axis[i].offset),
-                                               events[e].dwData,
-                                               axis[i].min, axis[i].range,
-                                               axis[i].negativeButton);
-
-                            setAxisValue(diState, axis[i].offset, events[e].dwData);
-                        }
+                        setAxisValue(diState, axis[i].offset, events[e].dwData);
                     }
                 }
             }
@@ -480,67 +468,54 @@ namespace ouzel
             {
                 if (axis[i].axis != Gamepad::Axis::NONE)
                 {
-                    if (axis[i].negativeButton != axis[i].positiveButton)
-                    {
-                        checkThumbAxisChange(getAxisValue(diState, axis[i].offset),
-                                             getAxisValue(newDIState, axis[i].offset),
-                                             axis[i].min, axis[i].range,
-                                             axis[i].negativeButton, axis[i].positiveButton);
-                    }
-                    else
-                    {
-                        checkTriggerChange(getAxisValue(diState, axis[i].offset),
-                                           getAxisValue(newDIState, axis[i].offset),
-                                           axis[i].min, axis[i].range,
-                                           axis[i].negativeButton);
-                    }
+                    checkAxisChange(getAxisValue(diState, axis[i].offset),
+                                    getAxisValue(newDIState, axis[i].offset),
+                                    axis[i].min, axis[i].range,
+                                    axis[i].negativeButton, axis[i].positiveButton);
                 }
             }
 
             diState = newDIState;
         }
 
-        void GamepadDeviceDI::checkThumbAxisChange(LONG oldValue, LONG newValue,
-                                                   int64_t min, int64_t range,
-                                                   Gamepad::Button negativeButton, Gamepad::Button positiveButton)
+        void GamepadDeviceDI::checkAxisChange(LONG oldValue, LONG newValue,
+                                              int64_t min, int64_t range,
+                                              Gamepad::Button negativeButton, Gamepad::Button positiveButton)
         {
             if (oldValue != newValue)
             {
-                float floatValue = 2.0F * (newValue - min) / range - 1.0F;
+                if (negativeButton == positiveButton)
+                {
+                    float floatValue = static_cast<float>(newValue - min) / range;
 
-                if (floatValue > 0.0F)
-                {
-                    handleButtonValueChange(positiveButton,
-                                            floatValue > THUMB_DEADZONE,
-                                            floatValue);
-                }
-                else if (floatValue < 0.0F)
-                {
                     handleButtonValueChange(negativeButton,
-                                            -floatValue > THUMB_DEADZONE,
-                                            -floatValue);
+                        floatValue > 0.0F,
+                        floatValue);
                 }
-                else // thumbstick is 0
+                else
                 {
-                    if (oldValue > newValue)
-                        handleButtonValueChange(positiveButton, false, 0.0F);
-                    else
-                        handleButtonValueChange(negativeButton, false, 0.0F);
+                    float floatValue = 2.0F * (newValue - min) / range - 1.0F;
+
+                    if (floatValue > 0.0F)
+                    {
+                        handleButtonValueChange(positiveButton,
+                                                floatValue > THUMB_DEADZONE,
+                                                floatValue);
+                    }
+                    else if (floatValue < 0.0F)
+                    {
+                        handleButtonValueChange(negativeButton,
+                                                -floatValue > THUMB_DEADZONE,
+                                                -floatValue);
+                    }
+                    else // thumbstick is 0
+                    {
+                        if (oldValue > newValue)
+                            handleButtonValueChange(positiveButton, false, 0.0F);
+                        else
+                            handleButtonValueChange(negativeButton, false, 0.0F);
+                    }
                 }
-            }
-        }
-
-        void GamepadDeviceDI::checkTriggerChange(LONG oldValue, LONG newValue,
-                                                 int64_t min, int64_t range,
-                                                 Gamepad::Button button)
-        {
-            if (oldValue != newValue)
-            {
-                float floatValue = 2.0F * (newValue - min) / range - 1.0F;
-
-                handleButtonValueChange(button,
-                                        floatValue > 0.0F,
-                                        floatValue);
             }
         }
 
