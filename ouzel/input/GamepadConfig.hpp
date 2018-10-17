@@ -16,7 +16,6 @@ namespace ouzel
         };
 
         // Playstation 3 controller
-        // vendorId = 0x054C, productId = 0x0268
         static const GamepadConfig PLAYSTATION_3_CONFIG = {
             {
                 Gamepad::Button::BACK, // Select
@@ -55,7 +54,6 @@ namespace ouzel
         };
 
         // Playstation 4 controller
-        // vendorId = 0x054C, productId = 0x05C4
         static const GamepadConfig PLAYSTATION_4_CONFIG = {
             {
                 Gamepad::Button::FACE_LEFT, // Square
@@ -94,7 +92,6 @@ namespace ouzel
         };
 
         // Xbox One controller
-        // vendorId = 0x045E, productId = 0x02D1
         static const GamepadConfig XBOX_ONE_CONFIG = {
             {
                 Gamepad::Button::FACE_BOTTOM, // A
@@ -171,7 +168,6 @@ namespace ouzel
         };
 
         // Acme GA07 controller
-        // vendorId = 0x0079, productId = 0x0006
         static const GamepadConfig ACME_GA07_CONFIG = {
             {
                 Gamepad::Button::FACE_TOP, // 1
