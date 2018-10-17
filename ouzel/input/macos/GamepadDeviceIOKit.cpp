@@ -142,54 +142,84 @@ namespace ouzel
             else // Generic (based on Logitech RumblePad 2)
                 gamepadConfig = GENERIC_CONFIG;
 
+            static const std::unordered_map<uint32_t, size_t> axisUsageMap = {
+                {kHIDUsage_GD_X, 0},
+                {kHIDUsage_GD_Y, 1},
+                {kHIDUsage_GD_Z, 2},
+                {kHIDUsage_GD_Rx, 3},
+                {kHIDUsage_GD_Ry, 4},
+                {kHIDUsage_GD_Rz, 5}
+            };
+
             CFArrayRef elementArray = IOHIDDeviceCopyMatchingElements(device, nullptr, kIOHIDOptionsTypeNone);
             CFIndex count = CFArrayGetCount(elementArray);
 
             for (CFIndex i = 0; i < count; ++i)
             {
-                Element element;
-                element.element = static_cast<IOHIDElementRef>(const_cast<void*>(CFArrayGetValueAtIndex(elementArray, i)));
-                element.type = IOHIDElementGetType(element.element);
-                element.usagePage = IOHIDElementGetUsagePage(element.element);
-                element.usage = IOHIDElementGetUsage(element.element);
+                IOHIDElementRef element = static_cast<IOHIDElementRef>(const_cast<void*>(CFArrayGetValueAtIndex(elementArray, i)));
+                IOHIDElementType type = IOHIDElementGetType(element);
+                uint32_t usagePage = IOHIDElementGetUsagePage(element);
+                uint32_t usage = IOHIDElementGetUsage(element);
 
-                if (element.usage >= kHIDUsage_Button_1 && element.usage < kHIDUsage_Button_1 + 24)
-                    element.button = gamepadConfig.buttonMap[element.usage - kHIDUsage_Button_1];
+                if (usage == kHIDUsage_GD_Hatswitch)
+                    hatElement = element;
 
-                if ((element.type == kIOHIDElementTypeInput_Misc || element.type == kIOHIDElementTypeInput_Axis) &&
-                    element.usagePage == kHIDPage_GenericDesktop)
+                if (usage >= kHIDUsage_Button_1 && usage < kHIDUsage_Button_1 + 24)
                 {
-                    if (element.usage >= kHIDUsage_GD_X && element.usage <= kHIDUsage_GD_Rz)
-                    {
-                        size_t index = 0;
-
-                        switch (element.usage)
-                        {
-                            case kHIDUsage_GD_X: index = 0; break;
-                            case kHIDUsage_GD_Y: index = 1; break;
-                            case kHIDUsage_GD_Z: index = 2; break;
-                            case kHIDUsage_GD_Rx: index = 3; break;
-                            case kHIDUsage_GD_Ry: index = 4; break;
-                            case kHIDUsage_GD_Rz: index = 5; break;
-                        }
-
-                        if (gamepadConfig.axisMap[index] == Gamepad::Axis::LEFT_THUMB_X) leftThumbX = element.element;
-                        else if (gamepadConfig.axisMap[index] == Gamepad::Axis::LEFT_THUMB_Y) leftThumbY = element.element;
-                        else if (gamepadConfig.axisMap[index] == Gamepad::Axis::RIGHT_THUMB_X) rightThumbX = element.element;
-                        else if (gamepadConfig.axisMap[index] == Gamepad::Axis::RIGHT_THUMB_Y) rightThumbY = element.element;
-                        else if (gamepadConfig.axisMap[index] == Gamepad::Axis::LEFT_TRIGGER) leftTrigger = element.element;
-                        else if (gamepadConfig.axisMap[index] == Gamepad::Axis::RIGHT_TRIGGER) rightTrigger = element.element;
-                    }
+                    Button button;
+                    button.button = gamepadConfig.buttonMap[usage - kHIDUsage_Button_1];
+                    buttons.insert(std::make_pair(element, button));
                 }
 
-                if ((element.type == kIOHIDElementTypeInput_Button && element.usagePage == kHIDPage_Button && element.usage >= kHIDUsage_Button_1 && element.usage < kHIDUsage_Button_1 + 24) ||
-                    ((element.type == kIOHIDElementTypeInput_Misc || element.type == kIOHIDElementTypeInput_Axis) && element.usagePage == kHIDPage_GenericDesktop))
+                if ((type == kIOHIDElementTypeInput_Misc || type == kIOHIDElementTypeInput_Axis) &&
+                    usagePage == kHIDPage_GenericDesktop)
                 {
-                    element.min = IOHIDElementGetLogicalMin(element.element);
-                    element.max = IOHIDElementGetLogicalMax(element.element);
-                    element.range = element.max - element.min;
+                    auto usageIterator = axisUsageMap.find(usage);
 
-                    elements.insert(std::make_pair(element.element, element));
+                    if (usageIterator != axisUsageMap.end())
+                    {
+                        size_t index = usageIterator->second;
+
+                        Axis axis;
+                        axis.axis = gamepadConfig.axisMap[index];
+                        axis.min = IOHIDElementGetLogicalMin(element);
+                        axis.max = IOHIDElementGetLogicalMax(element);
+                        axis.range = axis.max - axis.min;
+
+                        switch (gamepadConfig.axisMap[index])
+                        {
+                            case Gamepad::Axis::NONE:
+                                break;
+                            case Gamepad::Axis::LEFT_THUMB_X:
+                                axis.negativeButton = Gamepad::Button::LEFT_THUMB_LEFT;
+                                axis.positiveButton = Gamepad::Button::LEFT_THUMB_RIGHT;
+                                break;
+                            case Gamepad::Axis::LEFT_THUMB_Y:
+                                axis.negativeButton = Gamepad::Button::LEFT_THUMB_UP;
+                                axis.positiveButton = Gamepad::Button::LEFT_THUMB_DOWN;
+                                break;
+                            case Gamepad::Axis::RIGHT_THUMB_X:
+                                axis.negativeButton = Gamepad::Button::RIGHT_THUMB_LEFT;
+                                axis.positiveButton = Gamepad::Button::RIGHT_THUMB_RIGHT;
+                                break;
+                            case Gamepad::Axis::RIGHT_THUMB_Y:
+                                axis.negativeButton = Gamepad::Button::RIGHT_THUMB_UP;
+                                axis.positiveButton = Gamepad::Button::RIGHT_THUMB_DOWN;
+                                break;
+                            case Gamepad::Axis::LEFT_TRIGGER:
+                                axis.negativeButton = Gamepad::Button::LEFT_TRIGGER;
+                                axis.positiveButton = Gamepad::Button::LEFT_TRIGGER;
+                                hasLeftTrigger = true;
+                                break;
+                            case Gamepad::Axis::RIGHT_TRIGGER:
+                                axis.negativeButton = Gamepad::Button::RIGHT_TRIGGER;
+                                axis.positiveButton = Gamepad::Button::RIGHT_TRIGGER;
+                                hasRightTrigger = true;
+                                break;
+                        }
+
+                        axes.insert(std::make_pair(element, axis));
+                    }
                 }
             }
 
@@ -200,91 +230,70 @@ namespace ouzel
 
         void GamepadDeviceIOKit::handleInput(IOHIDValueRef value)
         {
-            IOHIDElementRef elementRef = IOHIDValueGetElement(value);
+            IOHIDElementRef element = IOHIDValueGetElement(value);
+            CFIndex newValue = IOHIDValueGetIntegerValue(value);
 
-            auto i = elements.find(elementRef);
-
-            if (i != elements.end())
+            if (element == hatElement)
             {
-                Element& element = i->second;
+                uint32_t oldHatValue = static_cast<uint32_t>(hatValue);
+                uint32_t oldBitmask = (oldHatValue >= 8) ? 0 : (1 << (oldHatValue / 2)) | // first bit
+                    (1 << (oldHatValue / 2 + oldHatValue % 2)) % 4; // second bit
 
-                CFIndex newValue = IOHIDValueGetIntegerValue(value);
+                uint32_t newBitmask = (newValue >= 8) ? 0 : (1 << (newValue / 2)) | // first bit
+                (1 << (newValue / 2 + newValue % 2)) % 4; // second bit
 
-                if (element.usagePage == kHIDPage_Button)
-                {
-                    if (element.button != Gamepad::Button::NONE &&
-                        (element.button != Gamepad::Button::LEFT_TRIGGER || !leftThumbX) && // don't send digital trigger if analog trigger exists
-                        (element.button != Gamepad::Button::RIGHT_TRIGGER || !rightThumbY))
-                        handleButtonValueChange(element.button, newValue > 0, (newValue > 0) ? 1.0F : 0.0F);
-                }
-                else if (elementRef == leftThumbX)
-                {
-                    handleAxisChange(element.value, newValue,
-                                     element.min, element.range,
-                                     Gamepad::Button::LEFT_THUMB_LEFT, Gamepad::Button::LEFT_THUMB_RIGHT);
-                }
-                else if (elementRef == leftThumbY)
-                {
-                    handleAxisChange(element.value, newValue,
-                                     element.min, element.range,
-                                     Gamepad::Button::LEFT_THUMB_UP, Gamepad::Button::LEFT_THUMB_DOWN);
-                }
-                else if (elementRef == rightThumbX)
-                {
-                    handleAxisChange(element.value, newValue,
-                                     element.min, element.range,
-                                     Gamepad::Button::RIGHT_THUMB_LEFT, Gamepad::Button::RIGHT_THUMB_RIGHT);
-                }
-                else if (elementRef == rightThumbY)
-                {
-                    handleAxisChange(element.value, newValue,
-                                     element.min, element.range,
-                                     Gamepad::Button::RIGHT_THUMB_UP, Gamepad::Button::RIGHT_THUMB_DOWN);
-                }
-                else if (elementRef == leftTrigger)
-                {
-                    handleAxisChange(element.value, newValue,
-                                     element.min, element.range,
-                                     Gamepad::Button::LEFT_TRIGGER, Gamepad::Button::LEFT_TRIGGER);
-                }
-                else if (elementRef == rightTrigger)
-                {
-                    handleAxisChange(element.value, newValue,
-                                     element.min, element.range,
-                                     Gamepad::Button::RIGHT_TRIGGER, Gamepad::Button::RIGHT_TRIGGER);
-                }
-                else if (element.usage == kHIDUsage_GD_Hatswitch)
-                {
-                    uint32_t oldBitmask = (element.value >= 8) ? 0 : (1 << (element.value / 2)) | // first bit
-                        (1 << (element.value / 2 + element.value % 2)) % 4; // second bit
+                if ((oldBitmask & 0x01) != (newBitmask & 0x01))
+                    handleButtonValueChange(Gamepad::Button::DPAD_UP,
+                                            (newBitmask & 0x01) > 0,
+                                            (newBitmask & 0x01) > 0 ? 1.0F : 0.0F);
+                if ((oldBitmask & 0x02) != (newBitmask & 0x02))
+                    handleButtonValueChange(Gamepad::Button::DPAD_RIGHT,
+                                            (newBitmask & 0x02) > 0,
+                                            (newBitmask & 0x02) > 0 ? 1.0F : 0.0F);
+                if ((oldBitmask & 0x04) != (newBitmask & 0x04))
+                    handleButtonValueChange(Gamepad::Button::DPAD_DOWN,
+                                            (newBitmask & 0x04) > 0,
+                                            (newBitmask & 0x04) > 0 ? 1.0F : 0.0F);
+                if ((oldBitmask & 0x08) != (newBitmask & 0x08))
+                    handleButtonValueChange(Gamepad::Button::DPAD_LEFT,
+                                            (newBitmask & 0x08) > 0,
+                                            (newBitmask & 0x08) > 0 ? 1.0F : 0.0F);
 
-                    uint32_t newBitmask = (newValue >= 8) ? 0 : (1 << (newValue / 2)) | // first bit
-                        (1 << (newValue / 2 + newValue % 2)) % 4; // second bit
+                hatValue = newValue;
+            }
 
-                    if ((oldBitmask & 0x01) != (newBitmask & 0x01))
-                        handleButtonValueChange(Gamepad::Button::DPAD_UP,
-                                                (newBitmask & 0x01) > 0,
-                                                (newBitmask & 0x01) > 0 ? 1.0F : 0.0F);
-                    if ((oldBitmask & 0x02) != (newBitmask & 0x02))
-                        handleButtonValueChange(Gamepad::Button::DPAD_RIGHT,
-                                                (newBitmask & 0x02) > 0,
-                                                (newBitmask & 0x02) > 0 ? 1.0F : 0.0F);
-                    if ((oldBitmask & 0x04) != (newBitmask & 0x04))
-                        handleButtonValueChange(Gamepad::Button::DPAD_DOWN,
-                                                (newBitmask & 0x04) > 0,
-                                                (newBitmask & 0x04) > 0 ? 1.0F : 0.0F);
-                    if ((oldBitmask & 0x08) != (newBitmask & 0x08))
-                        handleButtonValueChange(Gamepad::Button::DPAD_LEFT,
-                                                (newBitmask & 0x08) > 0,
-                                                (newBitmask & 0x08) > 0 ? 1.0F : 0.0F);
+            auto buttonIterator = buttons.find(element);
+
+            if (buttonIterator != buttons.end())
+            {
+                Button& button = buttonIterator->second;
+
+                if ((button.button != Gamepad::Button::LEFT_TRIGGER || !hasLeftTrigger) &&
+                    (button.button != Gamepad::Button::RIGHT_TRIGGER || !hasRightTrigger))
+                {
+                    handleButtonValueChange(button.button, newValue > 0, (newValue > 0) ? 1.0F : 0.0F);
                 }
 
-                element.value = newValue;
+                button.value = newValue;
+            }
+
+            auto axisIterator = axes.find(element);
+
+            if (axisIterator != axes.end())
+            {
+                Axis& axis = axisIterator->second;
+
+                handleAxisChange(axis.value,
+                                 newValue,
+                                 axis.min, axis.range,
+                                 axis.negativeButton, axis.positiveButton);
+
+                axis.value = newValue;
             }
         }
 
-        void GamepadDeviceIOKit::handleAxisChange(int64_t oldValue, int64_t newValue,
-                                                  int64_t min, int64_t range,
+        void GamepadDeviceIOKit::handleAxisChange(CFIndex oldValue, CFIndex newValue,
+                                                  CFIndex min, CFIndex range,
                                                   Gamepad::Button negativeButton,
                                                   Gamepad::Button positiveButton)
         {

@@ -135,7 +135,7 @@ namespace ouzel
                 }
             }
 
-            std::array<std::pair<USAGE, DWORD>, 6> axisUsageMap = {
+            static const std::array<std::pair<USAGE, DWORD>, 6> axisUsageMap = {
                 std::make_pair(HID_USAGE_GENERIC_X, DIJOFS_X),
                 std::make_pair(HID_USAGE_GENERIC_Y, DIJOFS_Y),
                 std::make_pair(HID_USAGE_GENERIC_Z, DIJOFS_Z),
@@ -190,6 +190,8 @@ namespace ouzel
 
                         switch (gamepadConfig.axisMap[i])
                         {
+                            case Gamepad::Axis::NONE:
+                                break;
                             case Gamepad::Axis::LEFT_THUMB_X:
                                 axis.negativeButton = Gamepad::Button::LEFT_THUMB_LEFT;
                                 axis.positiveButton = Gamepad::Button::LEFT_THUMB_RIGHT;

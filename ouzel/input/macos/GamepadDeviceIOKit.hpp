@@ -24,34 +24,39 @@ namespace ouzel
             void handleInput(IOHIDValueRef value);
 
         private:
-            void handleAxisChange(int64_t oldValue, int64_t newValue,
-                                  int64_t min, int64_t range,
+            void handleAxisChange(CFIndex oldValue, CFIndex newValue,
+                                  CFIndex min, CFIndex range,
                                   Gamepad::Button negativeButton,
                                   Gamepad::Button positiveButton);
 
             IOHIDDeviceRef device = nullptr;
 
-            struct Element
+            IOHIDElementRef hatElement = nullptr;
+            CFIndex hatValue = 8;
+
+            struct Button
             {
-                IOHIDElementRef element = nullptr;
-                uint32_t type = 0;
-                uint32_t usagePage = 0;
-                uint32_t usage = 0;
-                int64_t min = 0;
-                int64_t max = 0;
-                int64_t range = 0;
-                int64_t value = 0;
                 Gamepad::Button button = Gamepad::Button::NONE;
+                CFIndex value = 0;
             };
 
-            std::unordered_map<IOHIDElementRef, Element> elements;
+            std::unordered_map<IOHIDElementRef, Button> buttons;
 
-            IOHIDElementRef leftThumbX = nullptr;
-            IOHIDElementRef leftThumbY = nullptr;
-            IOHIDElementRef rightThumbX = nullptr;
-            IOHIDElementRef rightThumbY = nullptr;
-            IOHIDElementRef leftTrigger = nullptr;
-            IOHIDElementRef rightTrigger = nullptr;
+            struct Axis
+            {
+                Gamepad::Axis axis = Gamepad::Axis::NONE;
+                CFIndex min = 0;
+                CFIndex max = 0;
+                CFIndex range = 0;
+                CFIndex value = 0;
+                Gamepad::Button negativeButton = Gamepad::Button::NONE;
+                Gamepad::Button positiveButton = Gamepad::Button::NONE;
+            };
+
+            std::unordered_map<IOHIDElementRef, Axis> axes;
+
+            bool hasLeftTrigger = false;
+            bool hasRightTrigger = false;
         };
     } // namespace input
 } // namespace ouzel
