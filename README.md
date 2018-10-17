@@ -40,7 +40,7 @@ Supported audio backends:
 * GUI helper classes and management
 * Bitmap and true-type font support
 * Multiple side-by-side viewport support
-* XInput, DirectInput, IOKit, and Apple GameController gamepad support
+* XInput, DirectInput, IOKit, Apple GameController, and Linux evdev gamepad support
 * Actor animation (including tweening) system
 * Particle systems
 * Resource caching system
