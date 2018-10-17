@@ -14,6 +14,8 @@
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
+static const float THUMB_DEADZONE = 0.2F;
+
 static const uint32_t BITS_PER_LONG = 8 * sizeof(long);
 #define DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d))
 #define BITS_TO_LONGS(nr) DIV_ROUND_UP(nr, BITS_PER_LONG)
@@ -229,6 +231,69 @@ namespace ouzel
                         Button button;
                         button.button = gamepadConfig.buttonMap[i];
                         buttons.insert(std::make_pair(BTN_GAMEPAD + i, button));
+                    }
+                }
+
+                static const std::array<uint32_t, 6> axisUsageMap = {
+                    ABS_X,
+                    ABS_Y,
+                    ABS_Z,
+                    ABS_RX,
+                    ABS_RY,
+                    ABS_RZ
+                };
+
+                for (size_t i = 0; i < 6; ++i)
+                {
+                    if (gamepadConfig.axisMap[i] != Gamepad::Axis::NONE)
+                    {
+                        uint32_t usage = axisUsageMap[i];
+
+                        Axis axis;
+                        axis.axis = gamepadConfig.axisMap[i];
+
+                        input_absinfo info;
+
+                        if (ioctl(fd, EVIOCGABS(usage), &info) == -1)
+                            throw SystemError("Failed to get device info");
+
+                        axis.min = info.minimum;
+                        axis.max = info.maximum;
+                        axis.range = info.maximum - info.minimum;
+
+                        switch (gamepadConfig.axisMap[i])
+                        {
+                            case Gamepad::Axis::NONE:
+                                break;
+                            case Gamepad::Axis::LEFT_THUMB_X:
+                                axis.negativeButton = Gamepad::Button::LEFT_THUMB_LEFT;
+                                axis.positiveButton = Gamepad::Button::LEFT_THUMB_RIGHT;
+                                break;
+                            case Gamepad::Axis::LEFT_THUMB_Y:
+                                axis.negativeButton = Gamepad::Button::LEFT_THUMB_UP;
+                                axis.positiveButton = Gamepad::Button::LEFT_THUMB_DOWN;
+                                break;
+                            case Gamepad::Axis::RIGHT_THUMB_X:
+                                axis.negativeButton = Gamepad::Button::RIGHT_THUMB_LEFT;
+                                axis.positiveButton = Gamepad::Button::RIGHT_THUMB_RIGHT;
+                                break;
+                            case Gamepad::Axis::RIGHT_THUMB_Y:
+                                axis.negativeButton = Gamepad::Button::RIGHT_THUMB_UP;
+                                axis.positiveButton = Gamepad::Button::RIGHT_THUMB_DOWN;
+                                break;
+                            case Gamepad::Axis::LEFT_TRIGGER:
+                                axis.negativeButton = Gamepad::Button::LEFT_TRIGGER;
+                                axis.positiveButton = Gamepad::Button::LEFT_TRIGGER;
+                                hasLeftTrigger = true;
+                                break;
+                            case Gamepad::Axis::RIGHT_TRIGGER:
+                                axis.negativeButton = Gamepad::Button::RIGHT_TRIGGER;
+                                axis.positiveButton = Gamepad::Button::RIGHT_TRIGGER;
+                                hasRightTrigger = true;
+                                break;
+                        }
+
+                        axes.insert(std::make_pair(usage, axis));
                     }
                 }
             }
@@ -531,7 +596,19 @@ namespace ouzel
                                 hat0YValue = event.value;
                             }
 
-                            // TODO: implement ABS_X, ABS_Y, ABS_Z, ABS_RX, ABS_RY, ABS_RZ
+                            auto axisIterator = axes.find(event.code);
+
+                            if (axisIterator != axes.end())
+                            {
+                                Axis& axis = axisIterator->second;
+               
+                                handleAxisChange(axis.value,
+                                                 event.value,
+                                                 axis.min, axis.range,
+                                                 axis.negativeButton, axis.positiveButton);
+
+                                axis.value = event.value;
+                            }
                             break;
                         }
                         case EV_KEY:
@@ -553,6 +630,45 @@ namespace ouzel
                             break;
                         }
                     }
+                }
+            }
+        }
+
+        void EventDevice::handleAxisChange(int32_t oldValue, int32_t newValue,
+                                           int32_t min, int32_t range,
+                                           Gamepad::Button negativeButton,
+                                           Gamepad::Button positiveButton)
+        {
+            if (negativeButton == positiveButton)
+            {
+                float floatValue = static_cast<float>(newValue - min) / range;
+
+                gamepadDevice->handleButtonValueChange(negativeButton,
+                                                       floatValue > 0.0F,
+                                                       floatValue);
+            }
+            else
+            {
+                float floatValue = 2.0F * (newValue - min) / range - 1.0F;
+
+                if (floatValue > 0.0F)
+                {
+                    gamepadDevice->handleButtonValueChange(positiveButton,
+                                                           floatValue > THUMB_DEADZONE,
+                                                           floatValue);
+                }
+                else if (floatValue < 0.0F)
+                {
+                    gamepadDevice->handleButtonValueChange(negativeButton,
+                                                           -floatValue > THUMB_DEADZONE,
+                                                           -floatValue);
+                }
+                else // thumbstick is 0
+                {
+                    if (oldValue > newValue)
+                        gamepadDevice->handleButtonValueChange(positiveButton, false, 0.0F);
+                    else
+                        gamepadDevice->handleButtonValueChange(negativeButton, false, 0.0F);
                 }
             }
         }
