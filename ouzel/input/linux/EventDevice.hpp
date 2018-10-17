@@ -6,6 +6,7 @@
 #include <array>
 #include <memory>
 #include <string>
+#include <unordered_map>
 #include <vector>
 #include "input/Gamepad.hpp"
 #include "math/Vector2.hpp"
@@ -28,35 +29,8 @@ namespace ouzel
 
             EventDevice(const EventDevice& other) = delete;
             EventDevice& operator=(const EventDevice& other) = delete;
-
-            EventDevice(EventDevice&& other)
-            {
-                fd = other.fd;
-                name = std::move(name);
-                keyboardDevice = std::move(other.keyboardDevice);
-                gamepadDevice = std::move(other.gamepadDevice);
-                mouseDevice = std::move(other.mouseDevice);
-                touchpadDevice = std::move(other.touchpadDevice);
-
-                other.fd = -1;
-            }
-
-            EventDevice& operator=(EventDevice&& other)
-            {
-                if (&other != this)
-                {
-                    fd = other.fd;
-                    name = std::move(name);
-                    keyboardDevice = std::move(other.keyboardDevice);
-                    gamepadDevice = std::move(other.gamepadDevice);
-                    mouseDevice = std::move(other.mouseDevice);
-                    touchpadDevice = std::move(other.touchpadDevice);
-
-                    other.fd = -1;
-                }
-
-                return *this;
-            }
+            EventDevice(EventDevice&& other) = delete;
+            EventDevice& operator=(EventDevice&& other) = delete;
 
             void update();
 
@@ -101,7 +75,30 @@ namespace ouzel
 
             int32_t hat0XValue = 0;
             int32_t hat0YValue = 0;
-            std::array<Gamepad::Button, 24> buttonMap;
+
+            struct Button
+            {
+                Gamepad::Button button = Gamepad::Button::NONE;
+                int32_t value = 0;
+            };
+
+            std::unordered_map<uint32_t, Button> buttons;
+
+            struct Axis
+            {
+                Gamepad::Axis axis = Gamepad::Axis::NONE;
+                int32_t min = 0;
+                int32_t max = 0;
+                int32_t range = 0;
+                int32_t value = 0;
+                Gamepad::Button negativeButton = Gamepad::Button::NONE;
+                Gamepad::Button positiveButton = Gamepad::Button::NONE;
+            };
+
+            std::unordered_map<uint32_t, Axis> axes;
+
+            bool hasLeftTrigger = false;
+            bool hasRightTrigger = false;
         };
     } // namespace input
 } // namespace ouzel

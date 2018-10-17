@@ -49,7 +49,7 @@ namespace ouzel
             std::unique_ptr<MouseDeviceLinux> mouseDevice;
             std::unique_ptr<TouchpadDevice> touchpadDevice;
 
-            std::unordered_map<int, EventDevice> eventDevices;
+            std::unordered_map<int, std::unique_ptr<EventDevice>> eventDevices;
         };
     }
 }
