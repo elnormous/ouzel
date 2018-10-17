@@ -403,8 +403,8 @@ namespace ouzel
                     try
                     {
                         std::string filename = std::string("/dev/input/") + ent.d_name;
-                        EventDevice inputDevice(*this, filename);
-                        eventDevices.insert(std::make_pair(inputDevice.getFd(), std::move(inputDevice)));
+                        std::unique_ptr<EventDevice> eventDevice(new EventDevice(*this, filename));
+                        eventDevices.insert(std::make_pair(eventDevice->getFd(), std::move(eventDevice)));
                     }
                     catch (...)
                     {
@@ -502,7 +502,7 @@ namespace ouzel
                     {
                         try
                         {
-                            i->second.update();
+                            i->second->update();
                             ++i;
                         }
                         catch (...)
@@ -532,8 +532,8 @@ namespace ouzel
                         try
                         {
                             std::string filename = std::string("/dev/input/") + ent.d_name;
-                            EventDevice inputDevice(*this, filename);
-                            eventDevices.insert(std::make_pair(inputDevice.getFd(), std::move(inputDevice)));
+                            std::unique_ptr<EventDevice> eventDevice(new EventDevice(*this, filename));
+                            eventDevices.insert(std::make_pair(eventDevice->getFd(), std::move(eventDevice)));
                         }
                         catch (...)
                         {

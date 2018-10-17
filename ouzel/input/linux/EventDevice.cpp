@@ -125,17 +125,19 @@ namespace ouzel
                 if (ioctl(fd, EVIOCGID, &id) == -1)
                     throw SystemError("Failed to get device info");
 
+                GamepadConfig gamepadConfig;
+
                 if (id.vendor == 0x054C && id.product == 0x0268) // Playstation 3 controller
                 {
-                    buttonMap = PLAYSTATION_3_CONFIG.buttonMap;
+                    gamepadConfig = PLAYSTATION_3_CONFIG;
                 }
                 else if (id.vendor == 0x054C && id.product == 0x05C4) // Playstation 4 controller
                 {
-                    buttonMap = PLAYSTATION_4_CONFIG.buttonMap;
+                    gamepadConfig = PLAYSTATION_4_CONFIG;
                 }
                 else if (id.vendor == 0x045E && id.product == 0x02D1) // Xbox One controller
                 {
-                    buttonMap = XBOX_ONE_CONFIG.buttonMap;
+                    gamepadConfig = XBOX_ONE_CONFIG;
                 }
                 else if ((id.vendor == 0x0E6F && id.product == 0x0113) || // AfterglowGamepadforXbox360
                     (id.vendor == 0x0E6F && id.product == 0x0213) || // AfterglowGamepadforXbox360
@@ -209,15 +211,25 @@ namespace ouzel
                     (id.vendor == 0x1BAD && id.product == 0xF906) || // XB360MortalKombatFightStick
                     (id.vendor == 0x15E4 && id.product == 0x3F0A)) // XboxAirflowiredcontroller
                 {
-                    buttonMap = XBOX_360_CONFIG.buttonMap;
+                    gamepadConfig = XBOX_360_CONFIG;
                 }
                 else if (id.vendor == 0x0079 && id.product == 0x0006) // Acme GA07
                 {
-                    buttonMap = ACME_GA07_CONFIG.buttonMap;
+                    gamepadConfig = ACME_GA07_CONFIG;
                 }
                 else // Generic (based on Logitech RumblePad 2)
                 {
-                    buttonMap = GENERIC_CONFIG.buttonMap;
+                    gamepadConfig = GENERIC_CONFIG;
+                }
+
+                for (size_t i = 0; i < 24; ++i)
+                {
+                    if (gamepadConfig.buttonMap[i] != Gamepad::Button::NONE)
+                    {
+                        Button button;
+                        button.button = gamepadConfig.buttonMap[i];
+                        buttons.insert(std::make_pair(BTN_GAMEPAD + i, button));
+                    }
                 }
             }
         }
@@ -524,12 +536,20 @@ namespace ouzel
                         }
                         case EV_KEY:
                         {
-                            Gamepad::Button button = buttonMap[event.code - BTN_GAMEPAD];
+                            auto buttonIterator = buttons.find(event.code);
 
-                            if (button != Gamepad::Button::NONE)
-                                gamepadDevice->handleButtonValueChange(button,
-                                                                       event.value > 0,
-                                                                       (event.value > 0) ? 1.0F : 0.0F);
+                            if (buttonIterator != buttons.end())
+                            {
+                                Button& button = buttonIterator->second;
+
+                                if ((button.button != Gamepad::Button::LEFT_TRIGGER || !hasLeftTrigger) &&
+                                    (button.button != Gamepad::Button::RIGHT_TRIGGER || !hasRightTrigger))
+                                {
+                                    gamepadDevice->handleButtonValueChange(button.button, event.value > 0, (event.value > 0) ? 1.0F : 0.0F);
+                                }
+
+                                button.value = event.value;
+                            }
                             break;
                         }
                     }
