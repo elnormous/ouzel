@@ -17,8 +17,11 @@
 static const float THUMB_DEADZONE = 0.2F;
 
 static const uint32_t BITS_PER_LONG = 8 * sizeof(long);
-#define DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d))
-#define BITS_TO_LONGS(nr) DIV_ROUND_UP(nr, BITS_PER_LONG)
+
+static constexpr size_t bitsToLongs(size_t n)
+{
+    return (n + BITS_PER_LONG - 1) / BITS_PER_LONG; // rounded up
+}
 
 static inline bool isBitSet(const unsigned long* array, int bit)
 {
@@ -49,10 +52,10 @@ namespace ouzel
                 Log(Log::Level::INFO) << "Got device: " << name;
             }
 
-            unsigned long eventBits[BITS_TO_LONGS(EV_CNT)];
-            unsigned long absBits[BITS_TO_LONGS(ABS_CNT)];
-            unsigned long relBits[BITS_TO_LONGS(REL_CNT)];
-            unsigned long keyBits[BITS_TO_LONGS(KEY_CNT)];
+            unsigned long eventBits[bitsToLongs(EV_CNT)];
+            unsigned long absBits[bitsToLongs(ABS_CNT)];
+            unsigned long relBits[bitsToLongs(REL_CNT)];
+            unsigned long keyBits[bitsToLongs(KEY_CNT)];
 
             if (ioctl(fd, EVIOCGBIT(0, sizeof(eventBits)), eventBits) == -1 ||
                 ioctl(fd, EVIOCGBIT(EV_ABS, sizeof(absBits)), absBits) == -1 ||
