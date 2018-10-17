@@ -249,9 +249,9 @@ namespace ouzel
 
         inline const GamepadConfig& getGamepadConfig(int32_t vendorId, int32_t productId)
         {
-            if (vendorId == 0x054C && productId == 0x0268) // Playstation 3 controller
+            if (vendorId == 0x054C && (productId == 0x0268 || productId == 0x02EA)) // Playstation 3 controller
                 return PLAYSTATION_3_CONFIG;
-            else if (vendorId == 0x054C && productId == 0x05C4) // Playstation 4 controller
+            else if (vendorId == 0x054C && (productId == 0x05C4 || productId == 0x09CC)) // Playstation 4 controller
                 return PLAYSTATION_4_CONFIG;
             else if (vendorId == 0x045E && productId == 0x02D1) // Xbox One controller
                 return XBOX_ONE_CONFIG;
