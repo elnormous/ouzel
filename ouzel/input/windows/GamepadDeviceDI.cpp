@@ -40,7 +40,7 @@ namespace ouzel
             if (FAILED(hr))
                 throw SystemError("Failed to set DirectInput device format, error: " + std::to_string(hr));
 
-            GamepadConfig gamepadConfig = getGamepadConfig(vendorId, productId);
+            const GamepadConfig& gamepadConfig = getGamepadConfig(vendorId, productId);
 
             for (size_t i = 0; i < 24; ++i)
             {

@@ -127,7 +127,7 @@ namespace ouzel
                 if (ioctl(fd, EVIOCGID, &id) == -1)
                     throw SystemError("Failed to get device info");
 
-                GamepadConfig gamepadConfig = getGamepadConfig(id.vendor, id.product);
+                const GamepadConfig& gamepadConfig = getGamepadConfig(id.vendor, id.product);
 
                 for (size_t i = 0; i < 24; ++i)
                 {
