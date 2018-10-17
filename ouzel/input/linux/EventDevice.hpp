@@ -37,6 +37,11 @@ namespace ouzel
             inline int getFd() const { return fd; }
 
         private:
+            void handleAxisChange(int32_t oldValue, int32_t newValue,
+                                  int32_t min, int32_t range,
+                                  Gamepad::Button negativeButton, Gamepad::Button positiveButton);
+
+
             int fd = -1;
             std::string filename;
             std::string name;
