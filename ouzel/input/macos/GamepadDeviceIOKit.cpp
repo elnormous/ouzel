@@ -57,7 +57,7 @@ namespace ouzel
 
             CFNumberGetValue(product, kCFNumberSInt32Type, &productId);
 
-            GamepadConfig gamepadConfig = getGamepadConfig(vendorId, productId);
+            const GamepadConfig& gamepadConfig = getGamepadConfig(vendorId, productId);
 
             static const std::unordered_map<uint32_t, size_t> axisUsageMap = {
                 {kHIDUsage_GD_X, 0},
