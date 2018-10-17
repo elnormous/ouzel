@@ -249,11 +249,15 @@ namespace ouzel
 
         inline const GamepadConfig& getGamepadConfig(int32_t vendorId, int32_t productId)
         {
-            if (vendorId == 0x054C && (productId == 0x0268 || productId == 0x02EA)) // Playstation 3 controller
+            if (vendorId == 0x054C && (productId == 0x0268 || productId == 0x02EA)) // Sony Playstation 3 controller
                 return PLAYSTATION_3_CONFIG;
-            else if (vendorId == 0x054C && (productId == 0x05C4 || productId == 0x09CC)) // Playstation 4 controller
+            else if (vendorId == 0x054C && (productId == 0x05C4 || productId == 0x09CC)) // Sony Playstation 4 controller
                 return PLAYSTATION_4_CONFIG;
-            else if (vendorId == 0x045E && productId == 0x02D1) // Xbox One controller
+            else if (vendorId == 0x045E && (productId == 0x02D1 || // Microsoft Xbox One controller
+                                            productId == 0x02DD || // Microsoft Xbox One Controller (Firmware 2015)
+                                            productId == 0x02E3 || // Microsoft Xbox One Elite Controller
+                                            productId == 0x02EA || // Microsoft Xbox One S Controller
+                                            productId == 0x02FD)) // Microsoft Xbox One S Controller [Bluetooth]
                 return XBOX_ONE_CONFIG;
             else if ((vendorId == 0x0E6F && productId == 0x0113) || // AfterglowGamepadforXbox360
                      (vendorId == 0x0E6F && productId == 0x0213) || // AfterglowGamepadforXbox360
@@ -303,8 +307,9 @@ namespace ouzel
                      (vendorId == 0x0738 && productId == 0xBEEF) || // MadCatzXbox360Controller
                      (vendorId == 0x1BAD && productId == 0xF016) || // MadCatzXbox360Controller
                      (vendorId == 0x0738 && productId == 0xB726) || // MadCatzXboxcontrollerMW2
-                     (vendorId == 0x045E && productId == 0x028E) || // MicrosoftXbox360Controller
-                     (vendorId == 0x045E && productId == 0x0719) || // MicrosoftXbox360Controller
+                     (vendorId == 0x045E && productId == 0x028E) || // Microsoft Xbox360 Controller
+                     (vendorId == 0x045E && productId == 0x028F) || // Microsoft Xbox360 Wireless Controller
+                     (vendorId == 0x045E && productId == 0x0719) || // Microsoft Xbox 360 Wireless Adapter
                      (vendorId == 0x12AB && productId == 0x0301) || // PDPAFTERGLOWAX1
                      (vendorId == 0x0E6F && productId == 0x0105) || // PDPDancePad
                      (vendorId == 0x0E6F && productId == 0x0201) || // PelicanTSZ360Pad
