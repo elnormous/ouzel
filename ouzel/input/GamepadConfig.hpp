@@ -202,10 +202,10 @@ namespace ouzel
             {
                 Gamepad::Axis::LEFT_THUMB_X,
                 Gamepad::Axis::LEFT_THUMB_Y,
-                Gamepad::Axis::NONE,
                 Gamepad::Axis::RIGHT_THUMB_X,
-                Gamepad::Axis::RIGHT_THUMB_Y,
-                Gamepad::Axis::NONE
+                Gamepad::Axis::NONE,
+                Gamepad::Axis::NONE,
+                Gamepad::Axis::RIGHT_THUMB_Y
             }
         };
 
