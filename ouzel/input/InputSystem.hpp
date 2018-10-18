@@ -18,6 +18,8 @@ namespace ouzel
 {
     namespace input
     {
+        class NativeCursor;
+
         class InputSystem
         {
             friend InputDevice;
@@ -36,6 +38,8 @@ namespace ouzel
                     SET_PLAYER_INDEX,
                     SET_VIBRATION,
                     SET_POSITION,
+                    CREATE_CURSOR,
+                    DESTROY_CURSOR,
                     SET_CURSOR,
                     SET_CURSOR_VISIBLE,
                     SET_CURSOR_LOCKED,
@@ -53,6 +57,7 @@ namespace ouzel
                     float speed;
                     bool visible;
                     bool locked;
+                    NativeCursor* nativeCursor;
                 };
 
                 Gamepad::Motor motor;
