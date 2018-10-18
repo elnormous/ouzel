@@ -12,6 +12,13 @@ namespace ouzel
         class SkinnedMeshData
         {
         public:
+            struct Bone
+            {
+                Bone* parent = nullptr;
+                Vector3 position;
+                Quaternion rotation;
+            };
+
             SkinnedMeshData() {}
             SkinnedMeshData(Box3 newBoundingBox,
                             const std::shared_ptr<graphics::Material>& newMaterial);
