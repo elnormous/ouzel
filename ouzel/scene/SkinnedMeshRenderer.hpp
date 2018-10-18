@@ -26,8 +26,8 @@ namespace ouzel
                               const Matrix4& renderViewProjection,
                               bool wireframe) override;
 
-            virtual const std::shared_ptr<graphics::Material>& getMaterial() const { return material; }
-            virtual void setMaterial(const std::shared_ptr<graphics::Material>& newMaterial) { material = newMaterial; }
+            inline const std::shared_ptr<graphics::Material>& getMaterial() const { return material; }
+            inline void setMaterial(const std::shared_ptr<graphics::Material>& newMaterial) { material = newMaterial; }
 
         private:
             std::shared_ptr<graphics::Material> material;
