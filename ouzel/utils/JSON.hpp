@@ -140,21 +140,21 @@ namespace ouzel
 
             inline Type getType() const { return type; }
 
-            template<typename T, typename std::enable_if<std::is_same<T, std::string>::value, int>::type = 0>
+            template<typename T, typename std::enable_if<std::is_same<T, std::string>::value>::type* = nullptr>
             const std::string& as() const
             {
                 assert(type == Type::STRING);
                 return stringValue;
             }
 
-            template<typename T, typename std::enable_if<std::is_same<T, const char*>::value, int>::type = 0>
+            template<typename T, typename std::enable_if<std::is_same<T, const char*>::value>::type* = nullptr>
             const char* as() const
             {
                 assert(type == Type::STRING);
                 return stringValue.c_str();
             }
 
-            template<typename T, typename std::enable_if<std::is_same<T, bool>::value, int>::type = 0>
+            template<typename T, typename std::enable_if<std::is_same<T, bool>::value>::type* = nullptr>
             T as() const
             {
                 assert(type == Type::BOOLEAN || type == Type::NUMBER);
@@ -162,7 +162,7 @@ namespace ouzel
                 else return doubleValue != 0.0;
             }
 
-            template<typename T, typename std::enable_if<std::is_arithmetic<T>::value && !std::is_same<T, bool>::value, int>::type = 0>
+            template<typename T, typename std::enable_if<std::is_arithmetic<T>::value && !std::is_same<T, bool>::value>::type* = nullptr>
             T as() const
             {
                 assert(type == Type::BOOLEAN || type == Type::NUMBER);
@@ -170,28 +170,28 @@ namespace ouzel
                 else return static_cast<T>(doubleValue);
             }
 
-            template<typename T, typename std::enable_if<std::is_same<T, Object>::value, int>::type = 0>
+            template<typename T, typename std::enable_if<std::is_same<T, Object>::value>::type* = nullptr>
             inline Object& as()
             {
                 type = Type::OBJECT;
                 return objectValue;
             }
 
-            template<typename T, typename std::enable_if<std::is_same<T, Object>::value, int>::type = 0>
+            template<typename T, typename std::enable_if<std::is_same<T, Object>::value>::type* = nullptr>
             inline const Object& as() const
             {
                 assert(type == Type::OBJECT);
                 return objectValue;
             }
 
-            template<typename T, typename std::enable_if<std::is_same<T, Array>::value, int>::type = 0>
+            template<typename T, typename std::enable_if<std::is_same<T, Array>::value>::type* = nullptr>
             inline Array& as()
             {
                 type = Type::ARRAY;
                 return arrayValue;
             }
 
-            template<typename T, typename std::enable_if<std::is_same<T, Array>::value, int>::type = 0>
+            template<typename T, typename std::enable_if<std::is_same<T, Array>::value>::type* = nullptr>
             inline const Array& as() const
             {
                 assert(type == Type::ARRAY);
