@@ -150,8 +150,8 @@ static const std::unordered_map<jint, ouzel::input::Keyboard::Key> keyMap = {
 
     {AKEYCODE_FORWARD_DEL, ouzel::input::Keyboard::Key::DEL},
 
-    {AKEYCODE_STAR, ouzel::input::Keyboard::Key::MULTIPLY},
-    {AKEYCODE_PLUS, ouzel::input::Keyboard::Key::PLUS},
+    {AKEYCODE_STAR, ouzel::input::Keyboard::Key::NONE},
+    {AKEYCODE_PLUS, ouzel::input::Keyboard::Key::NONE},
     {AKEYCODE_MINUS, ouzel::input::Keyboard::Key::MINUS},
 
     {AKEYCODE_F1, ouzel::input::Keyboard::Key::F1},

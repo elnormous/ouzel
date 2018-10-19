@@ -127,7 +127,7 @@ static const std::unordered_map<uint16_t, ouzel::input::Keyboard::Key> keyMap = 
     {KEY_KPJPCOMMA, ouzel::input::Keyboard::Key::NONE}, // ??
     {KEY_KPENTER, ouzel::input::Keyboard::Key::NUMPAD_ENTER},
     {KEY_RIGHTCTRL, ouzel::input::Keyboard::Key::RIGHT_CONTROL},
-    {KEY_KPSLASH, ouzel::input::Keyboard::Key::DIVIDE},
+    {KEY_KPSLASH, ouzel::input::Keyboard::Key::NUMPAD_DIVIDE},
     {KEY_SYSRQ, ouzel::input::Keyboard::Key::NONE}, // ??
     {KEY_RIGHTALT, ouzel::input::Keyboard::Key::RIGHT_ALT},
     {KEY_LINEFEED, ouzel::input::Keyboard::Key::NONE}, // ??
