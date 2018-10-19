@@ -21,8 +21,6 @@ namespace ouzel
         class InputSystemWin: public InputSystem
         {
         public:
-            static Keyboard::Key convertKeyCode(UINT keyCode);
-
             InputSystemWin(EventHandler& initEventHandler);
             virtual ~InputSystemWin();
 
