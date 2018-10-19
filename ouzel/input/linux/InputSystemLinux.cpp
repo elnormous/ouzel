@@ -10,8 +10,6 @@
 #include <linux/joystick.h>
 #if OUZEL_SUPPORTS_X11
 #  include <X11/cursorfont.h>
-#else
-#  include <linux/input.h>
 #endif
 #include "InputSystemLinux.hpp"
 #include "core/linux/EngineLinux.hpp"
