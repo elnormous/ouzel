@@ -42,7 +42,7 @@ static const std::unordered_map<uint16_t, ouzel::input::Keyboard::Key> keyMap = 
     {KEY_9, ouzel::input::Keyboard::Key::NUM_9},
     {KEY_0, ouzel::input::Keyboard::Key::NUM_0},
     {KEY_MINUS, ouzel::input::Keyboard::Key::MINUS},
-    {KEY_EQUAL, ouzel::input::Keyboard::Key::PLUS},
+    {KEY_EQUAL, ouzel::input::Keyboard::Key::EQUAL},
     {KEY_BACKSPACE, ouzel::input::Keyboard::Key::BACKSPACE},
     {KEY_TAB, ouzel::input::Keyboard::Key::TAB},
     {KEY_Q, ouzel::input::Keyboard::Key::Q},
@@ -57,7 +57,7 @@ static const std::unordered_map<uint16_t, ouzel::input::Keyboard::Key> keyMap = 
     {KEY_P, ouzel::input::Keyboard::Key::P},
     {KEY_LEFTBRACE, ouzel::input::Keyboard::Key::LEFT_BRACKET},
     {KEY_RIGHTBRACE, ouzel::input::Keyboard::Key::RIGHT_BRACKET},
-    {KEY_ENTER, ouzel::input::Keyboard::Key::RETURN},
+    {KEY_ENTER, ouzel::input::Keyboard::Key::ENTER},
     {KEY_LEFTCTRL, ouzel::input::Keyboard::Key::LEFT_CONTROL},
     {KEY_A, ouzel::input::Keyboard::Key::A},
     {KEY_S, ouzel::input::Keyboard::Key::S},
@@ -84,7 +84,7 @@ static const std::unordered_map<uint16_t, ouzel::input::Keyboard::Key> keyMap = 
     {KEY_DOT, ouzel::input::Keyboard::Key::PERIOD},
     {KEY_SLASH, ouzel::input::Keyboard::Key::SLASH},
     {KEY_RIGHTSHIFT, ouzel::input::Keyboard::Key::RIGHT_SHIFT},
-    {KEY_KPASTERISK, ouzel::input::Keyboard::Key::MULTIPLY},
+    {KEY_KPASTERISK, ouzel::input::Keyboard::Key::NUMPAD_MULTIPLY},
     {KEY_LEFTALT, ouzel::input::Keyboard::Key::LEFT_ALT},
     {KEY_SPACE, ouzel::input::Keyboard::Key::SPACE},
     {KEY_CAPSLOCK, ouzel::input::Keyboard::Key::CAPS_LOCK},
@@ -103,16 +103,16 @@ static const std::unordered_map<uint16_t, ouzel::input::Keyboard::Key> keyMap = 
     {KEY_KP7, ouzel::input::Keyboard::Key::NUMPAD_7},
     {KEY_KP8, ouzel::input::Keyboard::Key::NUMPAD_8},
     {KEY_KP9, ouzel::input::Keyboard::Key::NUMPAD_9},
-    {KEY_KPMINUS, ouzel::input::Keyboard::Key::SUBTRACT},
+    {KEY_KPMINUS, ouzel::input::Keyboard::Key::NUMPAD_MINUS},
     {KEY_KP4, ouzel::input::Keyboard::Key::NUMPAD_4},
     {KEY_KP5, ouzel::input::Keyboard::Key::NUMPAD_5},
     {KEY_KP6, ouzel::input::Keyboard::Key::NUMPAD_6},
-    {KEY_KPPLUS, ouzel::input::Keyboard::Key::ADD},
+    {KEY_KPPLUS, ouzel::input::Keyboard::Key::NUMPAD_PLUS},
     {KEY_KP1, ouzel::input::Keyboard::Key::NUMPAD_1},
     {KEY_KP2, ouzel::input::Keyboard::Key::NUMPAD_2},
     {KEY_KP3, ouzel::input::Keyboard::Key::NUMPAD_3},
     {KEY_KP0, ouzel::input::Keyboard::Key::NUMPAD_0},
-    {KEY_KPDOT, ouzel::input::Keyboard::Key::DECIMAL},
+    {KEY_KPDOT, ouzel::input::Keyboard::Key::NUMPAD_DECIMAL},
 
     {KEY_ZENKAKUHANKAKU, ouzel::input::Keyboard::Key::NONE}, // ??
     {KEY_102ND, ouzel::input::Keyboard::Key::LESS},
@@ -125,7 +125,7 @@ static const std::unordered_map<uint16_t, ouzel::input::Keyboard::Key> keyMap = 
     {KEY_KATAKANAHIRAGANA, ouzel::input::Keyboard::Key::NONE}, // ??
     {KEY_MUHENKAN, ouzel::input::Keyboard::Key::NONE}, // ??
     {KEY_KPJPCOMMA, ouzel::input::Keyboard::Key::NONE}, // ??
-    {KEY_KPENTER, ouzel::input::Keyboard::Key::RETURN},
+    {KEY_KPENTER, ouzel::input::Keyboard::Key::NUMPAD_ENTER},
     {KEY_RIGHTCTRL, ouzel::input::Keyboard::Key::RIGHT_CONTROL},
     {KEY_KPSLASH, ouzel::input::Keyboard::Key::DIVIDE},
     {KEY_SYSRQ, ouzel::input::Keyboard::Key::NONE}, // ??
@@ -146,12 +146,12 @@ static const std::unordered_map<uint16_t, ouzel::input::Keyboard::Key> keyMap = 
     {KEY_VOLUMEDOWN, ouzel::input::Keyboard::Key::NONE}, // ??
     {KEY_VOLUMEUP, ouzel::input::Keyboard::Key::NONE}, // ??
     {KEY_POWER, ouzel::input::Keyboard::Key::NONE}, // ??
-    {KEY_KPEQUAL, ouzel::input::Keyboard::Key::EQUAL},
-    {KEY_KPPLUSMINUS, ouzel::input::Keyboard::Key::NONE}, // ??
+    {KEY_KPEQUAL, ouzel::input::Keyboard::Key::NUMPAD_EQUAL},
+    {KEY_KPPLUSMINUS, ouzel::input::Keyboard::Key::NUMPAD_PLUSMINUS},
     {KEY_PAUSE, ouzel::input::Keyboard::Key::PAUSE},
     {KEY_SCALE, ouzel::input::Keyboard::Key::NONE}, //?
 
-    {KEY_KPCOMMA, ouzel::input::Keyboard::Key::SEPARATOR},
+    {KEY_KPCOMMA, ouzel::input::Keyboard::Key::NUMPAD_SEPARATOR},
     {KEY_HANGEUL, ouzel::input::Keyboard::Key::NONE}, // KEY_HANGUEL
     {KEY_HANJA, ouzel::input::Keyboard::Key::HANJA},
     {KEY_YEN, ouzel::input::Keyboard::Key::NONE}, // ??

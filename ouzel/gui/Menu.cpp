@@ -167,7 +167,7 @@ namespace ouzel
                     case input::Keyboard::Key::DOWN:
                         selectNextWidget();
                         break;
-                    case input::Keyboard::Key::RETURN:
+                    case input::Keyboard::Key::ENTER:
                     case input::Keyboard::Key::SPACE:
                     case input::Keyboard::Key::SELECT:
                     {
