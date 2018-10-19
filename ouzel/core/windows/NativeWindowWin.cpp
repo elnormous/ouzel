@@ -26,12 +26,12 @@ static const std::unordered_map<UINT, ouzel::input::Keyboard::Key> keyMap = {
 
     {VK_MENU, ouzel::input::Keyboard::Key::LEFT_ALT},
     {VK_PAUSE, ouzel::input::Keyboard::Key::PAUSE},
-    {VK_CAPITAL, ouzel::input::Keyboard::Key::CAPITAL},
+    {VK_CAPITAL, ouzel::input::Keyboard::Key::CAPS_LOCK},
 
     {VK_ESCAPE, ouzel::input::Keyboard::Key::ESCAPE},
     {VK_SPACE, ouzel::input::Keyboard::Key::SPACE},
-    {VK_PRIOR, ouzel::input::Keyboard::Key::PRIOR},
-    {VK_NEXT, ouzel::input::Keyboard::Key::NEXT},
+    {VK_PRIOR, ouzel::input::Keyboard::Key::PAGE_UP},
+    {VK_NEXT, ouzel::input::Keyboard::Key::PAGE_DOWN},
     {VK_END, ouzel::input::Keyboard::Key::END},
     {VK_HOME, ouzel::input::Keyboard::Key::HOME},
     {VK_LEFT, ouzel::input::Keyboard::Key::LEFT},
@@ -43,7 +43,7 @@ static const std::unordered_map<UINT, ouzel::input::Keyboard::Key> keyMap = {
     {VK_PRINT, ouzel::input::Keyboard::Key::PRINT},
     {VK_EXECUTE, ouzel::input::Keyboard::Key::EXECUTE},
 
-    {VK_SNAPSHOT, ouzel::input::Keyboard::Key::SNAPSHOT},
+    {VK_SNAPSHOT, ouzel::input::Keyboard::Key::PRINT_SCREEN},
     {VK_INSERT, ouzel::input::Keyboard::Key::INSERT},
     {VK_DELETE, ouzel::input::Keyboard::Key::DEL},
     {VK_HELP, ouzel::input::Keyboard::Key::HELP},
@@ -134,8 +134,8 @@ static const std::unordered_map<UINT, ouzel::input::Keyboard::Key> keyMap = {
     {VK_F23, ouzel::input::Keyboard::Key::F23},
     {VK_F24, ouzel::input::Keyboard::Key::F24},
 
-    {VK_NUMLOCK, ouzel::input::Keyboard::Key::NUMLOCK},
-    {VK_SCROLL, ouzel::input::Keyboard::Key::SCROLL},
+    {VK_NUMLOCK, ouzel::input::Keyboard::Key::NUM_LOCK},
+    {VK_SCROLL, ouzel::input::Keyboard::Key::SCROLL_LOCK},
     {VK_LSHIFT, ouzel::input::Keyboard::Key::LEFT_SHIFT},
     {VK_RSHIFT, ouzel::input::Keyboard::Key::RIGHT_SHIFT},
     {VK_LCONTROL, ouzel::input::Keyboard::Key::LEFT_CONTROL},

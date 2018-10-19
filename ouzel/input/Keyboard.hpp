@@ -24,7 +24,7 @@ namespace ouzel
                 CLEAR,          // CLEAR key
                 RETURN,         // ENTER key
                 PAUSE,          // PAUSE key
-                CAPITAL,        // CAPS LOCK key
+                CAPS_LOCK,      // CAPS LOCK key
                 KANA,           // IME Kana mode
                 HANGUEL,        // IME Hanguel mode (maintained for compatibility use HANGUL)
                 HANGUL,         // IME Hangul mode
@@ -38,8 +38,8 @@ namespace ouzel
                 ACCEPT,         // IME accept
                 MODECHANGE,     // IME mode change request
                 SPACE,          // SPACEBAR
-                PRIOR,          // PAGE UP key
-                NEXT,           // PAGE DOWN key
+                PAGE_UP,        // PAGE UP key
+                PAGE_DOWN,      // PAGE DOWN key
                 END,            // END key
                 HOME,           // HOME key
                 LEFT,           // LEFT ARROW key
@@ -49,7 +49,7 @@ namespace ouzel
                 SELECT,         // SELECT key
                 PRINT,          // PRINT key
                 EXECUTE,        // EXECUTE key
-                SNAPSHOT,       // PRINT SCREEN key
+                PRINT_SCREEN,   // PRINT SCREEN key
                 INSERT,         // INS key
                 DEL,            // DEL key
                 EQUAL,          // EQUAL key
@@ -134,8 +134,8 @@ namespace ouzel
                 F22,            // F22 key
                 F23,            // F23 key
                 F24,            // F24 key
-                NUMLOCK,        // NUM LOCK key
-                SCROLL,         // SCROLL LOCK key
+                NUM_LOCK,       // NUM LOCK key
+                SCROLL_LOCK,    // SCROLL LOCK key
                 LEFT_SHIFT,     // Left SHIFT key
                 RIGHT_SHIFT,    // Right SHIFT key
                 LEFT_CONTROL,   // Left CONTROL key

@@ -92,9 +92,9 @@ static const std::unordered_map<uint16_t, ouzel::input::Keyboard::Key> keyMap = 
     {NSSelectFunctionKey, ouzel::input::Keyboard::Key::SELECT},
     {NSPrintFunctionKey, ouzel::input::Keyboard::Key::PRINT},
     {NSExecuteFunctionKey, ouzel::input::Keyboard::Key::EXECUTE},
-    {NSPrintScreenFunctionKey, ouzel::input::Keyboard::Key::SNAPSHOT},
+    {NSPrintScreenFunctionKey, ouzel::input::Keyboard::Key::PRINT_SCREEN},
     {NSPauseFunctionKey, ouzel::input::Keyboard::Key::PAUSE},
-    {NSScrollLockFunctionKey, ouzel::input::Keyboard::Key::SCROLL},
+    {NSScrollLockFunctionKey, ouzel::input::Keyboard::Key::SCROLL_LOCK},
     {kVK_Delete, ouzel::input::Keyboard::Key::BACKSPACE},
     {kVK_Tab, ouzel::input::Keyboard::Key::TAB},
     {kVK_Return, ouzel::input::Keyboard::Key::RETURN},
@@ -149,8 +149,8 @@ static const std::unordered_map<uint16_t, ouzel::input::Keyboard::Key> keyMap = 
 
     {kVK_ANSI_Comma, ouzel::input::Keyboard::Key::COMMA},
     {kVK_ANSI_Period, ouzel::input::Keyboard::Key::PERIOD},
-    {kVK_PageUp, ouzel::input::Keyboard::Key::PRIOR},
-    {kVK_PageDown, ouzel::input::Keyboard::Key::NEXT},
+    {kVK_PageUp, ouzel::input::Keyboard::Key::PAGE_UP},
+    {kVK_PageDown, ouzel::input::Keyboard::Key::PAGE_DOWN},
 
     {kVK_ANSI_Keypad0, ouzel::input::Keyboard::Key::NUMPAD_0},
     {kVK_ANSI_Keypad1, ouzel::input::Keyboard::Key::NUMPAD_1},
