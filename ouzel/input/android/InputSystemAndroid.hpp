@@ -14,8 +14,6 @@ namespace ouzel
         class InputSystemAndroid: public InputSystem
         {
         public:
-            static Keyboard::Key convertKeyCode(jint keyCode);
-
             InputSystemAndroid(EventHandler& initEventHandler);
             virtual ~InputSystemAndroid();
 

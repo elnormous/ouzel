@@ -1,5 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <unordered_map>
 #include <fcntl.h>
 #include <unistd.h>
 #include <linux/input.h>
@@ -26,6 +27,160 @@ static constexpr size_t bitsToLongs(size_t n)
 static inline bool isBitSet(const unsigned long* array, int bit)
 {
     return (array[bit / BITS_PER_LONG] & (1LL << (bit % BITS_PER_LONG))) != 0;
+}
+
+static const std::unordered_map<uint16_t, ouzel::input::Keyboard::Key> keyMap = {
+    {KEY_ESC, ouzel::input::Keyboard::Key::ESCAPE},
+    {KEY_1, ouzel::input::Keyboard::Key::NUM_1},
+    {KEY_2, ouzel::input::Keyboard::Key::NUM_2},
+    {KEY_3, ouzel::input::Keyboard::Key::NUM_3},
+    {KEY_4, ouzel::input::Keyboard::Key::NUM_4},
+    {KEY_5, ouzel::input::Keyboard::Key::NUM_5},
+    {KEY_6, ouzel::input::Keyboard::Key::NUM_6},
+    {KEY_7, ouzel::input::Keyboard::Key::NUM_7},
+    {KEY_8, ouzel::input::Keyboard::Key::NUM_8},
+    {KEY_9, ouzel::input::Keyboard::Key::NUM_9},
+    {KEY_0, ouzel::input::Keyboard::Key::NUM_0},
+    {KEY_MINUS, ouzel::input::Keyboard::Key::MINUS},
+    {KEY_EQUAL, ouzel::input::Keyboard::Key::PLUS},
+    {KEY_BACKSPACE, ouzel::input::Keyboard::Key::BACKSPACE},
+    {KEY_TAB, ouzel::input::Keyboard::Key::TAB},
+    {KEY_Q, ouzel::input::Keyboard::Key::Q},
+    {KEY_W, ouzel::input::Keyboard::Key::W},
+    {KEY_E, ouzel::input::Keyboard::Key::E},
+    {KEY_R, ouzel::input::Keyboard::Key::R},
+    {KEY_T, ouzel::input::Keyboard::Key::T},
+    {KEY_Y, ouzel::input::Keyboard::Key::Y},
+    {KEY_U, ouzel::input::Keyboard::Key::U},
+    {KEY_I, ouzel::input::Keyboard::Key::I},
+    {KEY_O, ouzel::input::Keyboard::Key::O},
+    {KEY_P, ouzel::input::Keyboard::Key::P},
+    {KEY_LEFTBRACE, ouzel::input::Keyboard::Key::LEFT_BRACKET},
+    {KEY_RIGHTBRACE, ouzel::input::Keyboard::Key::RIGHT_BRACKET},
+    {KEY_ENTER, ouzel::input::Keyboard::Key::RETURN},
+    {KEY_LEFTCTRL, ouzel::input::Keyboard::Key::LEFT_CONTROL},
+    {KEY_A, ouzel::input::Keyboard::Key::A},
+    {KEY_S, ouzel::input::Keyboard::Key::S},
+    {KEY_D, ouzel::input::Keyboard::Key::D},
+    {KEY_F, ouzel::input::Keyboard::Key::F},
+    {KEY_G, ouzel::input::Keyboard::Key::G},
+    {KEY_H, ouzel::input::Keyboard::Key::H},
+    {KEY_J, ouzel::input::Keyboard::Key::J},
+    {KEY_K, ouzel::input::Keyboard::Key::K},
+    {KEY_L, ouzel::input::Keyboard::Key::L},
+    {KEY_SEMICOLON, ouzel::input::Keyboard::Key::SEMICOLON},
+    {KEY_APOSTROPHE, ouzel::input::Keyboard::Key::QUOTE},
+    {KEY_GRAVE, ouzel::input::Keyboard::Key::GRAVE},
+    {KEY_LEFTSHIFT, ouzel::input::Keyboard::Key::LEFT_SHIFT},
+    {KEY_BACKSLASH, ouzel::input::Keyboard::Key::BACKSLASH},
+    {KEY_Z, ouzel::input::Keyboard::Key::Z},
+    {KEY_X, ouzel::input::Keyboard::Key::X},
+    {KEY_C, ouzel::input::Keyboard::Key::C},
+    {KEY_V, ouzel::input::Keyboard::Key::V},
+    {KEY_B, ouzel::input::Keyboard::Key::B},
+    {KEY_N, ouzel::input::Keyboard::Key::N},
+    {KEY_M, ouzel::input::Keyboard::Key::M},
+    {KEY_COMMA, ouzel::input::Keyboard::Key::COMMA},
+    {KEY_DOT, ouzel::input::Keyboard::Key::PERIOD},
+    {KEY_SLASH, ouzel::input::Keyboard::Key::SLASH},
+    {KEY_RIGHTSHIFT, ouzel::input::Keyboard::Key::RIGHT_SHIFT},
+    {KEY_KPASTERISK, ouzel::input::Keyboard::Key::MULTIPLY},
+    {KEY_LEFTALT, ouzel::input::Keyboard::Key::LEFT_ALT},
+    {KEY_SPACE, ouzel::input::Keyboard::Key::SPACE},
+    {KEY_CAPSLOCK, ouzel::input::Keyboard::Key::CAPITAL},
+    {KEY_F1, ouzel::input::Keyboard::Key::F1},
+    {KEY_F2, ouzel::input::Keyboard::Key::F2},
+    {KEY_F3, ouzel::input::Keyboard::Key::F3},
+    {KEY_F4, ouzel::input::Keyboard::Key::F4},
+    {KEY_F5, ouzel::input::Keyboard::Key::F5},
+    {KEY_F6, ouzel::input::Keyboard::Key::F6},
+    {KEY_F7, ouzel::input::Keyboard::Key::F7},
+    {KEY_F8, ouzel::input::Keyboard::Key::F8},
+    {KEY_F9, ouzel::input::Keyboard::Key::F9},
+    {KEY_F10, ouzel::input::Keyboard::Key::F10},
+    {KEY_NUMLOCK, ouzel::input::Keyboard::Key::NUMLOCK},
+    {KEY_SCROLLLOCK, ouzel::input::Keyboard::Key::SCROLL},
+    {KEY_KP7, ouzel::input::Keyboard::Key::NUMPAD_7},
+    {KEY_KP8, ouzel::input::Keyboard::Key::NUMPAD_8},
+    {KEY_KP9, ouzel::input::Keyboard::Key::NUMPAD_9},
+    {KEY_KPMINUS, ouzel::input::Keyboard::Key::SUBTRACT},
+    {KEY_KP4, ouzel::input::Keyboard::Key::NUMPAD_4},
+    {KEY_KP5, ouzel::input::Keyboard::Key::NUMPAD_5},
+    {KEY_KP6, ouzel::input::Keyboard::Key::NUMPAD_6},
+    {KEY_KPPLUS, ouzel::input::Keyboard::Key::ADD},
+    {KEY_KP1, ouzel::input::Keyboard::Key::NUMPAD_1},
+    {KEY_KP2, ouzel::input::Keyboard::Key::NUMPAD_2},
+    {KEY_KP3, ouzel::input::Keyboard::Key::NUMPAD_3},
+    {KEY_KP0, ouzel::input::Keyboard::Key::NUMPAD_0},
+    {KEY_KPDOT, ouzel::input::Keyboard::Key::DECIMAL},
+
+    {KEY_ZENKAKUHANKAKU, ouzel::input::Keyboard::Key::NONE}, // ??
+    {KEY_102ND, ouzel::input::Keyboard::Key::LESS},
+    {KEY_F11, ouzel::input::Keyboard::Key::F11},
+    {KEY_F12, ouzel::input::Keyboard::Key::F12},
+    {KEY_RO, ouzel::input::Keyboard::Key::NONE}, // ??
+    {KEY_KATAKANA, ouzel::input::Keyboard::Key::NONE}, // ??
+    {KEY_HIRAGANA, ouzel::input::Keyboard::Key::NONE}, // ??
+    {KEY_HENKAN, ouzel::input::Keyboard::Key::NONE}, // ??
+    {KEY_KATAKANAHIRAGANA, ouzel::input::Keyboard::Key::NONE}, // ??
+    {KEY_MUHENKAN, ouzel::input::Keyboard::Key::NONE}, // ??
+    {KEY_KPJPCOMMA, ouzel::input::Keyboard::Key::NONE}, // ??
+    {KEY_KPENTER, ouzel::input::Keyboard::Key::RETURN},
+    {KEY_RIGHTCTRL, ouzel::input::Keyboard::Key::RIGHT_CONTROL},
+    {KEY_KPSLASH, ouzel::input::Keyboard::Key::DIVIDE},
+    {KEY_SYSRQ, ouzel::input::Keyboard::Key::NONE}, // ??
+    {KEY_RIGHTALT, ouzel::input::Keyboard::Key::RIGHT_ALT},
+    {KEY_LINEFEED, ouzel::input::Keyboard::Key::NONE}, // ??
+    {KEY_HOME, ouzel::input::Keyboard::Key::HOME},
+    {KEY_UP, ouzel::input::Keyboard::Key::UP},
+    {KEY_PAGEUP, ouzel::input::Keyboard::Key::PRIOR},
+    {KEY_LEFT, ouzel::input::Keyboard::Key::LEFT},
+    {KEY_RIGHT, ouzel::input::Keyboard::Key::RIGHT},
+    {KEY_END, ouzel::input::Keyboard::Key::END},
+    {KEY_DOWN, ouzel::input::Keyboard::Key::DOWN},
+    {KEY_PAGEDOWN, ouzel::input::Keyboard::Key::NEXT},
+    {KEY_INSERT, ouzel::input::Keyboard::Key::INSERT},
+    {KEY_DELETE, ouzel::input::Keyboard::Key::DEL},
+    {KEY_MACRO, ouzel::input::Keyboard::Key::NONE}, // ??
+    {KEY_MUTE, ouzel::input::Keyboard::Key::NONE}, // ??
+    {KEY_VOLUMEDOWN, ouzel::input::Keyboard::Key::NONE}, // ??
+    {KEY_VOLUMEUP, ouzel::input::Keyboard::Key::NONE}, // ??
+    {KEY_POWER, ouzel::input::Keyboard::Key::NONE}, // ??
+    {KEY_KPEQUAL, ouzel::input::Keyboard::Key::EQUAL},
+    {KEY_KPPLUSMINUS, ouzel::input::Keyboard::Key::NONE}, // ??
+    {KEY_PAUSE, ouzel::input::Keyboard::Key::PAUSE},
+    {KEY_SCALE, ouzel::input::Keyboard::Key::NONE}, //?
+
+    {KEY_KPCOMMA, ouzel::input::Keyboard::Key::SEPARATOR},
+    {KEY_HANGEUL, ouzel::input::Keyboard::Key::NONE}, // KEY_HANGUEL
+    {KEY_HANJA, ouzel::input::Keyboard::Key::HANJA},
+    {KEY_YEN, ouzel::input::Keyboard::Key::NONE}, // ??
+    {KEY_LEFTMETA, ouzel::input::Keyboard::Key::LEFT_SUPER},
+    {KEY_RIGHTMETA, ouzel::input::Keyboard::Key::RIGHT_SUPER},
+    {KEY_COMPOSE, ouzel::input::Keyboard::Key::NONE}, // ??
+
+    {KEY_F13, ouzel::input::Keyboard::Key::F13},
+    {KEY_F14, ouzel::input::Keyboard::Key::F14},
+    {KEY_F15, ouzel::input::Keyboard::Key::F15},
+    {KEY_F16, ouzel::input::Keyboard::Key::F16},
+    {KEY_F17, ouzel::input::Keyboard::Key::F17},
+    {KEY_F18, ouzel::input::Keyboard::Key::F18},
+    {KEY_F19, ouzel::input::Keyboard::Key::F19},
+    {KEY_F20, ouzel::input::Keyboard::Key::F20},
+    {KEY_F21, ouzel::input::Keyboard::Key::F21},
+    {KEY_F22, ouzel::input::Keyboard::Key::F22},
+    {KEY_F23, ouzel::input::Keyboard::Key::F23},
+    {KEY_F24, ouzel::input::Keyboard::Key::F24}
+};
+
+static ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)
+{
+    auto i = keyMap.find(keyCode);
+
+    if (i != keyMap.end())
+        return i->second;
+    else
+        return ouzel::input::Keyboard::Key::NONE;
 }
 
 namespace ouzel
@@ -238,9 +393,9 @@ namespace ouzel
                     {
                         case EV_KEY:
                             if (event.value == 1 || event.value == 2) // press or repeat
-                                keyboardDevice->handleKeyPress(InputSystemLinux::convertKeyCode(event.code));
+                                keyboardDevice->handleKeyPress(convertKeyCode(event.code));
                             else if (event.value == 0) // release
-                                keyboardDevice->handleKeyRelease(InputSystemLinux::convertKeyCode(event.code));
+                                keyboardDevice->handleKeyRelease(convertKeyCode(event.code));
                             break;
                     }
                 }

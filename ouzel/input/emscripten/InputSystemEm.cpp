@@ -7,6 +7,124 @@
 #include "core/Engine.hpp"
 #include "utils/Log.hpp"
 
+static std::map<std::string, ouzel::input::Keyboard::Key> keyMap = {
+    {"Backspace", ouzel::input::Keyboard::Key::BACKSPACE},
+    {"Tab", ouzel::input::Keyboard::Key::TAB},
+    {"Enter", ouzel::input::Keyboard::Key::RETURN},
+    {"ShiftLeft", ouzel::input::Keyboard::Key::LEFT_SHIFT},
+    {"ShiftRight", ouzel::input::Keyboard::Key::RIGHT_SHIFT},
+    {"ControlLeft", ouzel::input::Keyboard::Key::LEFT_CONTROL},
+    {"ControlRight", ouzel::input::Keyboard::Key::RIGHT_CONTROL},
+    {"AltLeft", ouzel::input::Keyboard::Key::LEFT_ALT},
+    {"AltRight", ouzel::input::Keyboard::Key::RIGHT_ALT},
+    {"MetaLeft", ouzel::input::Keyboard::Key::LEFT_SUPER},
+    {"MetaRight", ouzel::input::Keyboard::Key::RIGHT_SUPER},
+    {"Pause", ouzel::input::Keyboard::Key::PAUSE},
+    {"CapsLock", ouzel::input::Keyboard::Key::CAPITAL},
+    {"Escape", ouzel::input::Keyboard::Key::ESCAPE},
+    {"PageUp", ouzel::input::Keyboard::Key::PRIOR},
+    {"PageDown", ouzel::input::Keyboard::Key::NEXT},
+    {"Home", ouzel::input::Keyboard::Key::HOME},
+    {"End", ouzel::input::Keyboard::Key::END},
+    {"ArrowLeft", ouzel::input::Keyboard::Key::LEFT},
+    {"ArrowUp", ouzel::input::Keyboard::Key::UP},
+    {"ArrowRight", ouzel::input::Keyboard::Key::RIGHT},
+    {"ArrowDown", ouzel::input::Keyboard::Key::DOWN},
+    {"Insert", ouzel::input::Keyboard::Key::INSERT},
+    {"Delete", ouzel::input::Keyboard::Key::DEL},
+    {"Digit0", ouzel::input::Keyboard::Key::NUM_0},
+    {"Digit1", ouzel::input::Keyboard::Key::NUM_1},
+    {"Digit2", ouzel::input::Keyboard::Key::NUM_2},
+    {"Digit3", ouzel::input::Keyboard::Key::NUM_3},
+    {"Digit4", ouzel::input::Keyboard::Key::NUM_4},
+    {"Digit5", ouzel::input::Keyboard::Key::NUM_5},
+    {"Digit6", ouzel::input::Keyboard::Key::NUM_6},
+    {"Digit7", ouzel::input::Keyboard::Key::NUM_7},
+    {"Digit8", ouzel::input::Keyboard::Key::NUM_8},
+    {"Digit9", ouzel::input::Keyboard::Key::NUM_9},
+    {"KeyA", ouzel::input::Keyboard::Key::A},
+    {"KeyB", ouzel::input::Keyboard::Key::B},
+    {"KeyC", ouzel::input::Keyboard::Key::C},
+    {"KeyD", ouzel::input::Keyboard::Key::D},
+    {"KeyE", ouzel::input::Keyboard::Key::E},
+    {"KeyF", ouzel::input::Keyboard::Key::F},
+    {"KeyG", ouzel::input::Keyboard::Key::G},
+    {"KeyH", ouzel::input::Keyboard::Key::H},
+    {"KeyI", ouzel::input::Keyboard::Key::I},
+    {"KeyJ", ouzel::input::Keyboard::Key::J},
+    {"KeyK", ouzel::input::Keyboard::Key::K},
+    {"KeyL", ouzel::input::Keyboard::Key::L},
+    {"KeyM", ouzel::input::Keyboard::Key::M},
+    {"KeyN", ouzel::input::Keyboard::Key::N},
+    {"KeyO", ouzel::input::Keyboard::Key::O},
+    {"KeyP", ouzel::input::Keyboard::Key::P},
+    {"KeyQ", ouzel::input::Keyboard::Key::Q},
+    {"KeyR", ouzel::input::Keyboard::Key::R},
+    {"KeyS", ouzel::input::Keyboard::Key::S},
+    {"KeyT", ouzel::input::Keyboard::Key::T},
+    {"KeyU", ouzel::input::Keyboard::Key::U},
+    {"KeyV", ouzel::input::Keyboard::Key::V},
+    {"KeyW", ouzel::input::Keyboard::Key::W},
+    {"KeyX", ouzel::input::Keyboard::Key::X},
+    {"KeyY", ouzel::input::Keyboard::Key::Y},
+    {"KeyZ", ouzel::input::Keyboard::Key::Z},
+    {"OSLeft", ouzel::input::Keyboard::Key::LEFT_SUPER},
+    {"OSRight", ouzel::input::Keyboard::Key::RIGHT_SUPER},
+    {"Delete", ouzel::input::Keyboard::Key::DEL},
+    {"NumpadEnter", ouzel::input::Keyboard::Key::SEPARATOR},
+    {"NumpadDigit0", ouzel::input::Keyboard::Key::NUMPAD_0},
+    {"NumpadDigit1", ouzel::input::Keyboard::Key::NUMPAD_1},
+    {"NumpadDigit2", ouzel::input::Keyboard::Key::NUMPAD_2},
+    {"NumpadDigit3", ouzel::input::Keyboard::Key::NUMPAD_3},
+    {"NumpadDigit4", ouzel::input::Keyboard::Key::NUMPAD_4},
+    {"NumpadDigit5", ouzel::input::Keyboard::Key::NUMPAD_5},
+    {"NumpadDigit6", ouzel::input::Keyboard::Key::NUMPAD_6},
+    {"NumpadDigit7", ouzel::input::Keyboard::Key::NUMPAD_7},
+    {"NumpadDigit8", ouzel::input::Keyboard::Key::NUMPAD_8},
+    {"NumpadDigit9", ouzel::input::Keyboard::Key::NUMPAD_9},
+    {"NumpadMultiply", ouzel::input::Keyboard::Key::MULTIPLY},
+    {"NumpadAdd", ouzel::input::Keyboard::Key::ADD},
+    {"NumpadSubtract", ouzel::input::Keyboard::Key::SUBTRACT},
+    {"NumpadDecimal", ouzel::input::Keyboard::Key::DECIMAL},
+    {"NumpadDivide", ouzel::input::Keyboard::Key::DIVIDE},
+    {"F1", ouzel::input::Keyboard::Key::F1},
+    {"F2", ouzel::input::Keyboard::Key::F2},
+    {"F3", ouzel::input::Keyboard::Key::F3},
+    {"F4", ouzel::input::Keyboard::Key::F4},
+    {"F5", ouzel::input::Keyboard::Key::F5},
+    {"F6", ouzel::input::Keyboard::Key::F6},
+    {"F7", ouzel::input::Keyboard::Key::F7},
+    {"F8", ouzel::input::Keyboard::Key::F8},
+    {"F9", ouzel::input::Keyboard::Key::F9},
+    {"F10", ouzel::input::Keyboard::Key::F10},
+    {"F11", ouzel::input::Keyboard::Key::F11},
+    {"F12", ouzel::input::Keyboard::Key::F12},
+    {"NumLock", ouzel::input::Keyboard::Key::NUMLOCK},
+    {"ScrollLock", ouzel::input::Keyboard::Key::SCROLL},
+    {"Semicolon", ouzel::input::Keyboard::Key::SEMICOLON},
+    {"Equal", ouzel::input::Keyboard::Key::EQUAL},
+    {"Comma", ouzel::input::Keyboard::Key::COMMA},
+    {"Minus", ouzel::input::Keyboard::Key::MINUS},
+    {"Period", ouzel::input::Keyboard::Key::PERIOD},
+    {"Slash", ouzel::input::Keyboard::Key::SLASH},
+    {"Backquote", ouzel::input::Keyboard::Key::GRAVE},
+    {"BracketLeft", ouzel::input::Keyboard::Key::LEFT_BRACKET},
+    {"Backslash", ouzel::input::Keyboard::Key::BACKSLASH},
+    {"BracketRight", ouzel::input::Keyboard::Key::RIGHT_BRACKET},
+    {"Quote", ouzel::input::Keyboard::Key::QUOTE},
+    {"IntlBackslash", ouzel::input::Keyboard::Key::LESS}
+};
+
+static ouzel::input::Keyboard::Key convertKeyCode(const EM_UTF8 key[32])
+{
+    auto i = keyMap.find(key);
+
+    if (i != keyMap.end())
+        return i->second;
+    else
+        return ouzel::input::Keyboard::Key::NONE;
+}
+
 static EM_BOOL emKeyCallback(int eventType, const EmscriptenKeyboardEvent* keyEvent, void* userData)
 {
     ouzel::input::KeyboardDevice* keyboardDevice = static_cast<ouzel::input::KeyboardDevice*>(userData);
@@ -15,10 +133,10 @@ static EM_BOOL emKeyCallback(int eventType, const EmscriptenKeyboardEvent* keyEv
     {
         case EMSCRIPTEN_EVENT_KEYPRESS:
         case EMSCRIPTEN_EVENT_KEYDOWN:
-            keyboardDevice->handleKeyPress(ouzel::input::InputSystemEm::convertKeyCode(keyEvent->code));
+            keyboardDevice->handleKeyPress(convertKeyCode(keyEvent->code));
             return true;
         case EMSCRIPTEN_EVENT_KEYUP:
-            keyboardDevice->handleKeyRelease(ouzel::input::InputSystemEm::convertKeyCode(keyEvent->code));
+            keyboardDevice->handleKeyRelease(convertKeyCode(keyEvent->code));
             return true;
     }
 
@@ -160,124 +278,6 @@ namespace ouzel
 {
     namespace input
     {
-        static std::map<std::string, Keyboard::Key> keyMap = {
-            {"Backspace", Keyboard::Key::BACKSPACE},
-            {"Tab", Keyboard::Key::TAB},
-            {"Enter", Keyboard::Key::RETURN},
-            {"ShiftLeft", Keyboard::Key::LEFT_SHIFT},
-            {"ShiftRight", Keyboard::Key::RIGHT_SHIFT},
-            {"ControlLeft", Keyboard::Key::LEFT_CONTROL},
-            {"ControlRight", Keyboard::Key::RIGHT_CONTROL},
-            {"AltLeft", Keyboard::Key::LEFT_ALT},
-            {"AltRight", Keyboard::Key::RIGHT_ALT},
-            {"MetaLeft", Keyboard::Key::LEFT_SUPER},
-            {"MetaRight", Keyboard::Key::RIGHT_SUPER},
-            {"Pause", Keyboard::Key::PAUSE},
-            {"CapsLock", Keyboard::Key::CAPITAL},
-            {"Escape", Keyboard::Key::ESCAPE},
-            {"PageUp", Keyboard::Key::PRIOR},
-            {"PageDown", Keyboard::Key::NEXT},
-            {"Home", Keyboard::Key::HOME},
-            {"End", Keyboard::Key::END},
-            {"ArrowLeft", Keyboard::Key::LEFT},
-            {"ArrowUp", Keyboard::Key::UP},
-            {"ArrowRight", Keyboard::Key::RIGHT},
-            {"ArrowDown", Keyboard::Key::DOWN},
-            {"Insert", Keyboard::Key::INSERT},
-            {"Delete", Keyboard::Key::DEL},
-            {"Digit0", Keyboard::Key::NUM_0},
-            {"Digit1", Keyboard::Key::NUM_1},
-            {"Digit2", Keyboard::Key::NUM_2},
-            {"Digit3", Keyboard::Key::NUM_3},
-            {"Digit4", Keyboard::Key::NUM_4},
-            {"Digit5", Keyboard::Key::NUM_5},
-            {"Digit6", Keyboard::Key::NUM_6},
-            {"Digit7", Keyboard::Key::NUM_7},
-            {"Digit8", Keyboard::Key::NUM_8},
-            {"Digit9", Keyboard::Key::NUM_9},
-            {"KeyA", Keyboard::Key::A},
-            {"KeyB", Keyboard::Key::B},
-            {"KeyC", Keyboard::Key::C},
-            {"KeyD", Keyboard::Key::D},
-            {"KeyE", Keyboard::Key::E},
-            {"KeyF", Keyboard::Key::F},
-            {"KeyG", Keyboard::Key::G},
-            {"KeyH", Keyboard::Key::H},
-            {"KeyI", Keyboard::Key::I},
-            {"KeyJ", Keyboard::Key::J},
-            {"KeyK", Keyboard::Key::K},
-            {"KeyL", Keyboard::Key::L},
-            {"KeyM", Keyboard::Key::M},
-            {"KeyN", Keyboard::Key::N},
-            {"KeyO", Keyboard::Key::O},
-            {"KeyP", Keyboard::Key::P},
-            {"KeyQ", Keyboard::Key::Q},
-            {"KeyR", Keyboard::Key::R},
-            {"KeyS", Keyboard::Key::S},
-            {"KeyT", Keyboard::Key::T},
-            {"KeyU", Keyboard::Key::U},
-            {"KeyV", Keyboard::Key::V},
-            {"KeyW", Keyboard::Key::W},
-            {"KeyX", Keyboard::Key::X},
-            {"KeyY", Keyboard::Key::Y},
-            {"KeyZ", Keyboard::Key::Z},
-            {"OSLeft", Keyboard::Key::LEFT_SUPER},
-            {"OSRight", Keyboard::Key::RIGHT_SUPER},
-            {"Delete", Keyboard::Key::DEL},
-            {"NumpadEnter", Keyboard::Key::SEPARATOR},
-            {"NumpadDigit0", Keyboard::Key::NUMPAD_0},
-            {"NumpadDigit1", Keyboard::Key::NUMPAD_1},
-            {"NumpadDigit2", Keyboard::Key::NUMPAD_2},
-            {"NumpadDigit3", Keyboard::Key::NUMPAD_3},
-            {"NumpadDigit4", Keyboard::Key::NUMPAD_4},
-            {"NumpadDigit5", Keyboard::Key::NUMPAD_5},
-            {"NumpadDigit6", Keyboard::Key::NUMPAD_6},
-            {"NumpadDigit7", Keyboard::Key::NUMPAD_7},
-            {"NumpadDigit8", Keyboard::Key::NUMPAD_8},
-            {"NumpadDigit9", Keyboard::Key::NUMPAD_9},
-            {"NumpadMultiply", Keyboard::Key::MULTIPLY},
-            {"NumpadAdd", Keyboard::Key::ADD},
-            {"NumpadSubtract", Keyboard::Key::SUBTRACT},
-            {"NumpadDecimal", Keyboard::Key::DECIMAL},
-            {"NumpadDivide", Keyboard::Key::DIVIDE},
-            {"F1", Keyboard::Key::F1},
-            {"F2", Keyboard::Key::F2},
-            {"F3", Keyboard::Key::F3},
-            {"F4", Keyboard::Key::F4},
-            {"F5", Keyboard::Key::F5},
-            {"F6", Keyboard::Key::F6},
-            {"F7", Keyboard::Key::F7},
-            {"F8", Keyboard::Key::F8},
-            {"F9", Keyboard::Key::F9},
-            {"F10", Keyboard::Key::F10},
-            {"F11", Keyboard::Key::F11},
-            {"F12", Keyboard::Key::F12},
-            {"NumLock", Keyboard::Key::NUMLOCK},
-            {"ScrollLock", Keyboard::Key::SCROLL},
-            {"Semicolon", Keyboard::Key::SEMICOLON},
-            {"Equal", Keyboard::Key::EQUAL},
-            {"Comma", Keyboard::Key::COMMA},
-            {"Minus", Keyboard::Key::MINUS},
-            {"Period", Keyboard::Key::PERIOD},
-            {"Slash", Keyboard::Key::SLASH},
-            {"Backquote", Keyboard::Key::GRAVE},
-            {"BracketLeft", Keyboard::Key::LEFT_BRACKET},
-            {"Backslash", Keyboard::Key::BACKSLASH},
-            {"BracketRight", Keyboard::Key::RIGHT_BRACKET},
-            {"Quote", Keyboard::Key::QUOTE},
-            {"IntlBackslash", Keyboard::Key::LESS}
-        };
-
-        Keyboard::Key InputSystemEm::convertKeyCode(const EM_UTF8 key[32])
-        {
-            auto i = keyMap.find(key);
-
-            if (i != keyMap.end())
-                return i->second;
-            else
-                return Keyboard::Key::NONE;
-        }
-
         InputSystemEm::InputSystemEm(EventHandler& initEventHandler):
             InputSystem(initEventHandler),
             keyboardDevice(new KeyboardDevice(*this, ++lastDeviceId)),
