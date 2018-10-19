@@ -29,7 +29,7 @@ static const std::unordered_map<KeySym, ouzel::input::Keyboard::Key> keyMap = {
     {XK_Clear, ouzel::input::Keyboard::Key::CLEAR},
     {XK_Return, ouzel::input::Keyboard::Key::RETURN},
     {XK_Pause, ouzel::input::Keyboard::Key::PAUSE},
-    {XK_Scroll_Lock, ouzel::input::Keyboard::Key::SCROLL},
+    {XK_Scroll_Lock, ouzel::input::Keyboard::Key::SCROLL_LOCK},
     {XK_Sys_Req, ouzel::input::Keyboard::Key::NONE}, // ?
     {XK_Escape, ouzel::input::Keyboard::Key::ESCAPE},
     {XK_Insert, ouzel::input::Keyboard::Key::INSERT},
@@ -39,11 +39,11 @@ static const std::unordered_map<KeySym, ouzel::input::Keyboard::Key> keyMap = {
     {XK_Up, ouzel::input::Keyboard::Key::UP},
     {XK_Right, ouzel::input::Keyboard::Key::RIGHT},
     {XK_Down, ouzel::input::Keyboard::Key::DOWN},
-    {XK_Prior, ouzel::input::Keyboard::Key::PRIOR}, // also XK_Page_Up
-    {XK_Next, ouzel::input::Keyboard::Key::NEXT}, // also XK_Page_Down
+    {XK_Prior, ouzel::input::Keyboard::Key::PAGE_UP}, // also XK_Page_Up
+    {XK_Next, ouzel::input::Keyboard::Key::PAGE_DOWN}, // also XK_Page_Down
     {XK_End, ouzel::input::Keyboard::Key::END},
     {XK_Begin, ouzel::input::Keyboard::Key::HOME},
-    {XK_Num_Lock, ouzel::input::Keyboard::Key::NUMLOCK},
+    {XK_Num_Lock, ouzel::input::Keyboard::Key::NUM_LOCK},
     {XK_KP_Space, ouzel::input::Keyboard::Key::SPACE},
     {XK_KP_Tab, ouzel::input::Keyboard::Key::TAB},
     {XK_KP_Enter, ouzel::input::Keyboard::Key::RETURN},
@@ -51,17 +51,17 @@ static const std::unordered_map<KeySym, ouzel::input::Keyboard::Key> keyMap = {
     {XK_KP_F2, ouzel::input::Keyboard::Key::F2},
     {XK_KP_F3, ouzel::input::Keyboard::Key::F3},
     {XK_KP_F4, ouzel::input::Keyboard::Key::F4},
-    {XK_KP_Home, ouzel::input::Keyboard::Key::HOME},
-    {XK_KP_Left, ouzel::input::Keyboard::Key::LEFT},
-    {XK_KP_Up, ouzel::input::Keyboard::Key::UP},
-    {XK_KP_Right, ouzel::input::Keyboard::Key::RIGHT},
-    {XK_KP_Down, ouzel::input::Keyboard::Key::DOWN},
-    {XK_Print, ouzel::input::Keyboard::Key::PRINT},
-    {XK_KP_Prior, ouzel::input::Keyboard::Key::PRIOR}, // alos XK_KP_Page_Up
-    {XK_KP_Next, ouzel::input::Keyboard::Key::NEXT}, // also XK_KP_Page_Down
-    {XK_KP_End, ouzel::input::Keyboard::Key::END},
-    {XK_KP_Begin, ouzel::input::Keyboard::Key::HOME},
-    {XK_KP_Insert, ouzel::input::Keyboard::Key::INSERT},
+    {XK_KP_Home, ouzel::input::Keyboard::Key::NUMPAD_7},
+    {XK_KP_Left, ouzel::input::Keyboard::Key::NUMPAD_4},
+    {XK_KP_Up, ouzel::input::Keyboard::Key::NUMPAD_8},
+    {XK_KP_Right, ouzel::input::Keyboard::Key::NUMPAD_6},
+    {XK_KP_Down, ouzel::input::Keyboard::Key::NUMPAD_2},
+    {XK_Print, ouzel::input::Keyboard::Key::PRINT_SCREEN},
+    {XK_KP_Prior, ouzel::input::Keyboard::Key::NUMPAD_9}, // alos XK_KP_Page_Up
+    {XK_KP_Next, ouzel::input::Keyboard::Key::NUMPAD_3}, // also XK_KP_Page_Down
+    {XK_KP_End, ouzel::input::Keyboard::Key::NUMPAD_1},
+    {XK_KP_Begin, ouzel::input::Keyboard::Key::NUMPAD_5},
+    {XK_KP_Insert, ouzel::input::Keyboard::Key::NUMPAD_0},
     {XK_KP_Delete, ouzel::input::Keyboard::Key::DEL},
     {XK_KP_Equal, ouzel::input::Keyboard::Key::EQUAL},
     {XK_KP_Multiply, ouzel::input::Keyboard::Key::MULTIPLY},
@@ -96,8 +96,8 @@ static const std::unordered_map<KeySym, ouzel::input::Keyboard::Key> keyMap = {
     {XK_Shift_R, ouzel::input::Keyboard::Key::RIGHT_SHIFT},
     {XK_Control_L, ouzel::input::Keyboard::Key::LEFT_CONTROL},
     {XK_Control_R, ouzel::input::Keyboard::Key::RIGHT_CONTROL},
-    {XK_Caps_Lock, ouzel::input::Keyboard::Key::CAPITAL},
-    {XK_Shift_Lock, ouzel::input::Keyboard::Key::CAPITAL},
+    {XK_Caps_Lock, ouzel::input::Keyboard::Key::CAPS_LOCK},
+    {XK_Shift_Lock, ouzel::input::Keyboard::Key::CAPS_LOCK},
     {XK_Meta_L, ouzel::input::Keyboard::Key::LEFT_SUPER},
     {XK_Meta_R, ouzel::input::Keyboard::Key::RIGHT_SUPER},
     {XK_Alt_L, ouzel::input::Keyboard::Key::LEFT_ALT},
