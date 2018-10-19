@@ -24,8 +24,6 @@ namespace ouzel
         class InputSystemTVOS: public InputSystem
         {
         public:
-            static Keyboard::Key convertKeyCode(NSInteger keyCode);
-
             InputSystemTVOS(EventHandler& initEventHandler);
             virtual ~InputSystemTVOS();
 

@@ -31,9 +31,6 @@ namespace ouzel
         class InputSystemMacOS: public InputSystem
         {
         public:
-            static Keyboard::Key convertKeyCode(uint16_t keyCode);
-            static NSUInteger getKeyMask(uint16_t keyCode);
-
             InputSystemMacOS(EventHandler& initEventHandler);
             virtual ~InputSystemMacOS();
 

@@ -1,5 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <unordered_map>
+#import <UIKit/UIPress.h>
 #import "ViewIOS.h"
 #include "core/Engine.hpp"
 #include "core/Window.hpp"
@@ -79,6 +81,26 @@
     }
 }
 
+static const std::unordered_map<NSInteger, ouzel::input::Keyboard::Key> keyMap = {
+    {UIPressTypeUpArrow, ouzel::input::Keyboard::Key::UP},
+    {UIPressTypeDownArrow, ouzel::input::Keyboard::Key::DOWN},
+    {UIPressTypeLeftArrow, ouzel::input::Keyboard::Key::LEFT},
+    {UIPressTypeRightArrow, ouzel::input::Keyboard::Key::RIGHT},
+    {UIPressTypeSelect, ouzel::input::Keyboard::Key::SELECT},
+    {UIPressTypeMenu, ouzel::input::Keyboard::Key::MENU},
+    {UIPressTypePlayPause, ouzel::input::Keyboard::Key::PAUSE}
+};
+
+static ouzel::input::Keyboard::Key convertKeyCode(NSInteger keyCode)
+{
+    auto i = keyMap.find(keyCode);
+
+    if (i != keyMap.end())
+        return i->second;
+    else
+        return ouzel::input::Keyboard::Key::NONE;
+}
+
 -(void)pressesBegan:(NSSet<UIPress*>*)presses withEvent:(UIPressesEvent*)event
 {
     bool forward = false;
@@ -87,7 +109,7 @@
     ouzel::input::KeyboardDevice* keyboardDevice = inputSystemIOS->getKeyboardDevice();
     for (UIPress* press in presses)
     {
-        std::future<bool> f = keyboardDevice->handleKeyPress(ouzel::input::InputSystemIOS::convertKeyCode(press.type));
+        std::future<bool> f = keyboardDevice->handleKeyPress(convertKeyCode(press.type));
         if (press.type == UIPressTypeMenu && !f.get())
             forward = true;
     }
@@ -104,7 +126,7 @@
     ouzel::input::KeyboardDevice* keyboardDevice = inputSystemIOS->getKeyboardDevice();
     for (UIPress* press in presses)
     {
-        std::future<bool> f = keyboardDevice->handleKeyRelease(ouzel::input::InputSystemIOS::convertKeyCode(press.type));
+        std::future<bool> f = keyboardDevice->handleKeyRelease(convertKeyCode(press.type));
         if (press.type == UIPressTypeMenu && !f.get())
             forward = true;
     }
@@ -121,7 +143,7 @@
     ouzel::input::KeyboardDevice* keyboardDevice = inputSystemIOS->getKeyboardDevice();
     for (UIPress* press in presses)
     {
-        std::future<bool> f = keyboardDevice->handleKeyRelease(ouzel::input::InputSystemIOS::convertKeyCode(press.type));
+        std::future<bool> f = keyboardDevice->handleKeyRelease(convertKeyCode(press.type));
         if (press.type == UIPressTypeMenu && !f.get())
             forward = true;
     }

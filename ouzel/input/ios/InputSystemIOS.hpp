@@ -24,8 +24,6 @@ namespace ouzel
         class InputSystemIOS: public InputSystem
         {
         public:
-            static Keyboard::Key convertKeyCode(NSInteger keyCode);
-
             InputSystemIOS(EventHandler& initEventHandler);
             virtual ~InputSystemIOS();
 
