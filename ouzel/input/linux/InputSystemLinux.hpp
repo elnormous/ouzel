@@ -2,13 +2,8 @@
 
 #pragma once
 
-#include "core/Setup.h"
 #include <memory>
 #include <unordered_map>
-#if OUZEL_SUPPORTS_X11
-#  include <X11/keysym.h>
-#  include <X11/X.h>
-#endif
 #include "input/InputSystem.hpp"
 #include "input/Keyboard.hpp"
 #include "input/linux/EventDevice.hpp"
@@ -22,12 +17,6 @@ namespace ouzel
         class InputSystemLinux: public InputSystem
         {
         public:
-#if OUZEL_SUPPORTS_X11
-            static Keyboard::Key convertKeyCode(KeySym keyCode);
-#else
-            static Keyboard::Key convertKeyCode(uint16_t keyCode);
-#endif
-
             InputSystemLinux(EventHandler& initEventHandler);
             virtual ~InputSystemLinux();
 

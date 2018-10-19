@@ -18,8 +18,6 @@ namespace ouzel
         class InputSystemEm: public InputSystem
         {
         public:
-            static Keyboard::Key convertKeyCode(const EM_UTF8 key[32]);
-
             InputSystemEm(EventHandler& initEventHandler);
             virtual ~InputSystemEm() {}
 

@@ -7,6 +7,8 @@
 #  include "GL/gl.h"
 #  include "GL/glext.h"
 #  include <X11/XKBlib.h>
+#  include <X11/keysym.h>
+#  include <X11/X.h>
 #  include <X11/extensions/scrnsaver.h>
 #  include <X11/extensions/XInput2.h>
 #endif
@@ -17,6 +19,208 @@
 #include "input/linux/InputSystemLinux.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
+
+#if OUZEL_SUPPORTS_X11
+static const std::unordered_map<KeySym, ouzel::input::Keyboard::Key> keyMap = {
+    {XK_BackSpace, ouzel::input::Keyboard::Key::BACKSPACE},
+    {XK_Tab, ouzel::input::Keyboard::Key::TAB},
+    {XK_ISO_Left_Tab, ouzel::input::Keyboard::Key::TAB},
+    {XK_Linefeed, ouzel::input::Keyboard::Key::NONE}, // ?
+    {XK_Clear, ouzel::input::Keyboard::Key::CLEAR},
+    {XK_Return, ouzel::input::Keyboard::Key::RETURN},
+    {XK_Pause, ouzel::input::Keyboard::Key::PAUSE},
+    {XK_Scroll_Lock, ouzel::input::Keyboard::Key::SCROLL},
+    {XK_Sys_Req, ouzel::input::Keyboard::Key::NONE}, // ?
+    {XK_Escape, ouzel::input::Keyboard::Key::ESCAPE},
+    {XK_Insert, ouzel::input::Keyboard::Key::INSERT},
+    {XK_Delete, ouzel::input::Keyboard::Key::DEL},
+    {XK_Home, ouzel::input::Keyboard::Key::HOME},
+    {XK_Left, ouzel::input::Keyboard::Key::LEFT},
+    {XK_Up, ouzel::input::Keyboard::Key::UP},
+    {XK_Right, ouzel::input::Keyboard::Key::RIGHT},
+    {XK_Down, ouzel::input::Keyboard::Key::DOWN},
+    {XK_Prior, ouzel::input::Keyboard::Key::PRIOR}, // also XK_Page_Up
+    {XK_Next, ouzel::input::Keyboard::Key::NEXT}, // also XK_Page_Down
+    {XK_End, ouzel::input::Keyboard::Key::END},
+    {XK_Begin, ouzel::input::Keyboard::Key::HOME},
+    {XK_Num_Lock, ouzel::input::Keyboard::Key::NUMLOCK},
+    {XK_KP_Space, ouzel::input::Keyboard::Key::SPACE},
+    {XK_KP_Tab, ouzel::input::Keyboard::Key::TAB},
+    {XK_KP_Enter, ouzel::input::Keyboard::Key::RETURN},
+    {XK_KP_F1, ouzel::input::Keyboard::Key::F1},
+    {XK_KP_F2, ouzel::input::Keyboard::Key::F2},
+    {XK_KP_F3, ouzel::input::Keyboard::Key::F3},
+    {XK_KP_F4, ouzel::input::Keyboard::Key::F4},
+    {XK_KP_Home, ouzel::input::Keyboard::Key::HOME},
+    {XK_KP_Left, ouzel::input::Keyboard::Key::LEFT},
+    {XK_KP_Up, ouzel::input::Keyboard::Key::UP},
+    {XK_KP_Right, ouzel::input::Keyboard::Key::RIGHT},
+    {XK_KP_Down, ouzel::input::Keyboard::Key::DOWN},
+    {XK_Print, ouzel::input::Keyboard::Key::PRINT},
+    {XK_KP_Prior, ouzel::input::Keyboard::Key::PRIOR}, // alos XK_KP_Page_Up
+    {XK_KP_Next, ouzel::input::Keyboard::Key::NEXT}, // also XK_KP_Page_Down
+    {XK_KP_End, ouzel::input::Keyboard::Key::END},
+    {XK_KP_Begin, ouzel::input::Keyboard::Key::HOME},
+    {XK_KP_Insert, ouzel::input::Keyboard::Key::INSERT},
+    {XK_KP_Delete, ouzel::input::Keyboard::Key::DEL},
+    {XK_KP_Equal, ouzel::input::Keyboard::Key::EQUAL},
+    {XK_KP_Multiply, ouzel::input::Keyboard::Key::MULTIPLY},
+    {XK_KP_Add, ouzel::input::Keyboard::Key::ADD},
+    {XK_KP_Separator, ouzel::input::Keyboard::Key::SEPARATOR},
+    {XK_KP_Subtract, ouzel::input::Keyboard::Key::SUBTRACT},
+    {XK_KP_Decimal, ouzel::input::Keyboard::Key::DECIMAL},
+    {XK_KP_Divide, ouzel::input::Keyboard::Key::DIVIDE},
+    {XK_KP_0, ouzel::input::Keyboard::Key::NUMPAD_0},
+    {XK_KP_1, ouzel::input::Keyboard::Key::NUMPAD_1},
+    {XK_KP_2, ouzel::input::Keyboard::Key::NUMPAD_2},
+    {XK_KP_3, ouzel::input::Keyboard::Key::NUMPAD_3},
+    {XK_KP_4, ouzel::input::Keyboard::Key::NUMPAD_4},
+    {XK_KP_5, ouzel::input::Keyboard::Key::NUMPAD_5},
+    {XK_KP_6, ouzel::input::Keyboard::Key::NUMPAD_6},
+    {XK_KP_7, ouzel::input::Keyboard::Key::NUMPAD_7},
+    {XK_KP_8, ouzel::input::Keyboard::Key::NUMPAD_8},
+    {XK_KP_9, ouzel::input::Keyboard::Key::NUMPAD_9},
+    {XK_F1, ouzel::input::Keyboard::Key::F1},
+    {XK_F2, ouzel::input::Keyboard::Key::F2},
+    {XK_F3, ouzel::input::Keyboard::Key::F3},
+    {XK_F4, ouzel::input::Keyboard::Key::F4},
+    {XK_F5, ouzel::input::Keyboard::Key::F5},
+    {XK_F6, ouzel::input::Keyboard::Key::F6},
+    {XK_F7, ouzel::input::Keyboard::Key::F7},
+    {XK_F8, ouzel::input::Keyboard::Key::F8},
+    {XK_F9, ouzel::input::Keyboard::Key::F9},
+    {XK_F10, ouzel::input::Keyboard::Key::F10},
+    {XK_F11, ouzel::input::Keyboard::Key::F11},
+    {XK_F12, ouzel::input::Keyboard::Key::F12},
+    {XK_Shift_L, ouzel::input::Keyboard::Key::LEFT_SHIFT},
+    {XK_Shift_R, ouzel::input::Keyboard::Key::RIGHT_SHIFT},
+    {XK_Control_L, ouzel::input::Keyboard::Key::LEFT_CONTROL},
+    {XK_Control_R, ouzel::input::Keyboard::Key::RIGHT_CONTROL},
+    {XK_Caps_Lock, ouzel::input::Keyboard::Key::CAPITAL},
+    {XK_Shift_Lock, ouzel::input::Keyboard::Key::CAPITAL},
+    {XK_Meta_L, ouzel::input::Keyboard::Key::LEFT_SUPER},
+    {XK_Meta_R, ouzel::input::Keyboard::Key::RIGHT_SUPER},
+    {XK_Alt_L, ouzel::input::Keyboard::Key::LEFT_ALT},
+    {XK_Alt_R, ouzel::input::Keyboard::Key::RIGHT_ALT},
+    {XK_ISO_Level3_Shift, ouzel::input::Keyboard::Key::RIGHT_SUPER},
+    {XK_Menu, ouzel::input::Keyboard::Key::LEFT_SUPER},
+    {XK_space, ouzel::input::Keyboard::Key::SPACE},
+    {XK_exclam, ouzel::input::Keyboard::Key::NUM_1},
+    {XK_quotedbl, ouzel::input::Keyboard::Key::NUM_2},
+    {XK_section, ouzel::input::Keyboard::Key::NONE}, // ?
+    {XK_numbersign, ouzel::input::Keyboard::Key::SLASH},
+    {XK_dollar, ouzel::input::Keyboard::Key::NUM_4},
+    {XK_percent, ouzel::input::Keyboard::Key::NUM_5},
+    {XK_ampersand, ouzel::input::Keyboard::Key::NUM_7},
+    {XK_apostrophe, ouzel::input::Keyboard::Key::QUOTE},
+    {XK_parenleft, ouzel::input::Keyboard::Key::NUM_9},
+    {XK_parenright, ouzel::input::Keyboard::Key::NUM_0},
+    {XK_asterisk, ouzel::input::Keyboard::Key::NUM_8},
+    {XK_plus, ouzel::input::Keyboard::Key::PLUS},
+    {XK_comma, ouzel::input::Keyboard::Key::COMMA},
+    {XK_minus, ouzel::input::Keyboard::Key::MINUS},
+    {XK_period, ouzel::input::Keyboard::Key::PERIOD},
+    {XK_slash, ouzel::input::Keyboard::Key::SLASH},
+    {XK_0, ouzel::input::Keyboard::Key::NUM_0},
+    {XK_1, ouzel::input::Keyboard::Key::NUM_1},
+    {XK_2, ouzel::input::Keyboard::Key::NUM_2},
+    {XK_3, ouzel::input::Keyboard::Key::NUM_3},
+    {XK_4, ouzel::input::Keyboard::Key::NUM_4},
+    {XK_5, ouzel::input::Keyboard::Key::NUM_5},
+    {XK_6, ouzel::input::Keyboard::Key::NUM_6},
+    {XK_7, ouzel::input::Keyboard::Key::NUM_7},
+    {XK_8, ouzel::input::Keyboard::Key::NUM_8},
+    {XK_9, ouzel::input::Keyboard::Key::NUM_9},
+    {XK_colon, ouzel::input::Keyboard::Key::SEMICOLON},
+    {XK_semicolon, ouzel::input::Keyboard::Key::SEMICOLON},
+    {XK_less, ouzel::input::Keyboard::Key::COMMA},
+    {XK_equal, ouzel::input::Keyboard::Key::PLUS},
+    {XK_greater, ouzel::input::Keyboard::Key::PERIOD},
+    {XK_question, ouzel::input::Keyboard::Key::SLASH},
+    {XK_at, ouzel::input::Keyboard::Key::NUM_2}, // ?
+    {XK_mu, ouzel::input::Keyboard::Key::NONE}, // ?
+    {XK_EuroSign, ouzel::input::Keyboard::Key::NONE}, // ?
+    {XK_A, ouzel::input::Keyboard::Key::A},
+    {XK_B, ouzel::input::Keyboard::Key::B},
+    {XK_C, ouzel::input::Keyboard::Key::C},
+    {XK_D, ouzel::input::Keyboard::Key::D},
+    {XK_E, ouzel::input::Keyboard::Key::E},
+    {XK_F, ouzel::input::Keyboard::Key::F},
+    {XK_G, ouzel::input::Keyboard::Key::G},
+    {XK_H, ouzel::input::Keyboard::Key::H},
+    {XK_I, ouzel::input::Keyboard::Key::I},
+    {XK_J, ouzel::input::Keyboard::Key::J},
+    {XK_K, ouzel::input::Keyboard::Key::K},
+    {XK_L, ouzel::input::Keyboard::Key::L},
+    {XK_M, ouzel::input::Keyboard::Key::M},
+    {XK_N, ouzel::input::Keyboard::Key::N},
+    {XK_O, ouzel::input::Keyboard::Key::O},
+    {XK_P, ouzel::input::Keyboard::Key::P},
+    {XK_Q, ouzel::input::Keyboard::Key::Q},
+    {XK_R, ouzel::input::Keyboard::Key::R},
+    {XK_S, ouzel::input::Keyboard::Key::S},
+    {XK_T, ouzel::input::Keyboard::Key::T},
+    {XK_U, ouzel::input::Keyboard::Key::U},
+    {XK_V, ouzel::input::Keyboard::Key::V},
+    {XK_W, ouzel::input::Keyboard::Key::W},
+    {XK_X, ouzel::input::Keyboard::Key::X},
+    {XK_Y, ouzel::input::Keyboard::Key::Y},
+    {XK_Z, ouzel::input::Keyboard::Key::Z},
+    {XK_bracketleft, ouzel::input::Keyboard::Key::LEFT_BRACKET},
+    {XK_backslash, ouzel::input::Keyboard::Key::BACKSLASH},
+    {XK_bracketright, ouzel::input::Keyboard::Key::RIGHT_BRACKET},
+    {XK_asciicircum, ouzel::input::Keyboard::Key::BACKSLASH},
+    {XK_dead_circumflex, ouzel::input::Keyboard::Key::BACKSLASH},
+    {XK_degree, ouzel::input::Keyboard::Key::NONE}, // ?
+    {XK_underscore, ouzel::input::Keyboard::Key::MINUS},
+    {XK_grave, ouzel::input::Keyboard::Key::GRAVE},
+    {XK_dead_grave, ouzel::input::Keyboard::Key::GRAVE},
+    {XK_acute, ouzel::input::Keyboard::Key::RIGHT_BRACKET},
+    {XK_dead_acute, ouzel::input::Keyboard::Key::RIGHT_BRACKET},
+    {XK_a, ouzel::input::Keyboard::Key::A},
+    {XK_b, ouzel::input::Keyboard::Key::B},
+    {XK_c, ouzel::input::Keyboard::Key::C},
+    {XK_d, ouzel::input::Keyboard::Key::D},
+    {XK_e, ouzel::input::Keyboard::Key::E},
+    {XK_f, ouzel::input::Keyboard::Key::F},
+    {XK_g, ouzel::input::Keyboard::Key::G},
+    {XK_h, ouzel::input::Keyboard::Key::H},
+    {XK_i, ouzel::input::Keyboard::Key::I},
+    {XK_j, ouzel::input::Keyboard::Key::J},
+    {XK_k, ouzel::input::Keyboard::Key::K},
+    {XK_l, ouzel::input::Keyboard::Key::L},
+    {XK_m, ouzel::input::Keyboard::Key::M},
+    {XK_n, ouzel::input::Keyboard::Key::N},
+    {XK_o, ouzel::input::Keyboard::Key::O},
+    {XK_p, ouzel::input::Keyboard::Key::P},
+    {XK_q, ouzel::input::Keyboard::Key::Q},
+    {XK_r, ouzel::input::Keyboard::Key::R},
+    {XK_s, ouzel::input::Keyboard::Key::S},
+    {XK_t, ouzel::input::Keyboard::Key::T},
+    {XK_u, ouzel::input::Keyboard::Key::U},
+    {XK_v, ouzel::input::Keyboard::Key::V},
+    {XK_w, ouzel::input::Keyboard::Key::W},
+    {XK_x, ouzel::input::Keyboard::Key::X},
+    {XK_y, ouzel::input::Keyboard::Key::Y},
+    {XK_z, ouzel::input::Keyboard::Key::Z},
+    {XK_ssharp, ouzel::input::Keyboard::Key::LEFT_BRACKET},
+    {XK_adiaeresis, ouzel::input::Keyboard::Key::QUOTE},
+    {XK_odiaeresis, ouzel::input::Keyboard::Key::GRAVE},
+    {XK_udiaeresis, ouzel::input::Keyboard::Key::SEMICOLON},
+    {XK_Super_L, ouzel::input::Keyboard::Key::LEFT_SUPER},
+    {XK_Super_R, ouzel::input::Keyboard::Key::RIGHT_SUPER}
+};
+
+static ouzel::input::Keyboard::Key convertKeyCode(KeySym keyCode)
+{
+    auto i = keyMap.find(keyCode);
+
+    if (i != keyMap.end())
+        return i->second;
+    else
+        return ouzel::input::Keyboard::Key::NONE;
+}
+#endif
 
 namespace ouzel
 {
@@ -128,13 +332,9 @@ namespace ouzel
                                                            event.xkey.state & ShiftMask ? 1 : 0);
 
                         if (event.type == KeyPress)
-                        {
-                            keyboardDevice->handleKeyPress(input::InputSystemLinux::convertKeyCode(keySym));
-                        }
+                            keyboardDevice->handleKeyPress(convertKeyCode(keySym));
                         else
-                        {
-                            keyboardDevice->handleKeyRelease(input::InputSystemLinux::convertKeyCode(keySym));
-                        }
+                            keyboardDevice->handleKeyRelease(convertKeyCode(keySym));
                         break;
                     }
                     case ButtonPress: // mouse button
