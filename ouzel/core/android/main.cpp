@@ -128,7 +128,7 @@ static const std::unordered_map<jint, ouzel::input::Keyboard::Key> keyMap = {
     {AKEYCODE_Z, ouzel::input::Keyboard::Key::Z},
 
     {AKEYCODE_SEMICOLON, ouzel::input::Keyboard::Key::SEMICOLON},
-    {AKEYCODE_EQUALS, ouzel::input::Keyboard::Key::PLUS},
+    {AKEYCODE_EQUALS, ouzel::input::Keyboard::Key::EQUAL},
     {AKEYCODE_COMMA, ouzel::input::Keyboard::Key::COMMA},
     {AKEYCODE_PERIOD, ouzel::input::Keyboard::Key::PERIOD},
     {AKEYCODE_SLASH, ouzel::input::Keyboard::Key::SLASH},
@@ -141,7 +141,7 @@ static const std::unordered_map<jint, ouzel::input::Keyboard::Key> keyMap = {
 
     {AKEYCODE_DEL, ouzel::input::Keyboard::Key::BACKSPACE},
     {AKEYCODE_TAB, ouzel::input::Keyboard::Key::TAB},
-    {AKEYCODE_ENTER, ouzel::input::Keyboard::Key::RETURN},
+    {AKEYCODE_ENTER, ouzel::input::Keyboard::Key::ENTER},
     {AKEYCODE_BREAK, ouzel::input::Keyboard::Key::PAUSE},
 
     {AKEYCODE_BACK, ouzel::input::Keyboard::Key::ESCAPE},
@@ -167,6 +167,28 @@ static const std::unordered_map<jint, ouzel::input::Keyboard::Key> keyMap = {
     {AKEYCODE_F11, ouzel::input::Keyboard::Key::F11},
     {AKEYCODE_F12, ouzel::input::Keyboard::Key::F12},
 
+    {AKEYCODE_NUMPAD_0, ouzel::input::Keyboard::Key::NUMPAD_0},
+    {AKEYCODE_NUMPAD_1, ouzel::input::Keyboard::Key::NUMPAD_1},
+    {AKEYCODE_NUMPAD_2, ouzel::input::Keyboard::Key::NUMPAD_2},
+    {AKEYCODE_NUMPAD_3, ouzel::input::Keyboard::Key::NUMPAD_3},
+    {AKEYCODE_NUMPAD_4, ouzel::input::Keyboard::Key::NUMPAD_4},
+    {AKEYCODE_NUMPAD_5, ouzel::input::Keyboard::Key::NUMPAD_5},
+    {AKEYCODE_NUMPAD_6, ouzel::input::Keyboard::Key::NUMPAD_6},
+    {AKEYCODE_NUMPAD_7, ouzel::input::Keyboard::Key::NUMPAD_7},
+    {AKEYCODE_NUMPAD_8, ouzel::input::Keyboard::Key::NUMPAD_8},
+    {AKEYCODE_NUMPAD_9, ouzel::input::Keyboard::Key::NUMPAD_9},
+
+    {AKEYCODE_NUMPAD_DIVIDE, ouzel::input::Keyboard::Key::NUMPAD_DIVIDE},
+    {AKEYCODE_NUMPAD_MULTIPLY, ouzel::input::Keyboard::Key::NUMPAD_MULTIPLY},
+    {AKEYCODE_NUMPAD_SUBTRACT, ouzel::input::Keyboard::Key::NUMPAD_MINUS},
+    {AKEYCODE_NUMPAD_ADD, ouzel::input::Keyboard::Key::NUMPAD_PLUS},
+    {AKEYCODE_NUMPAD_DOT, ouzel::input::Keyboard::Key::NUMPAD_DECIMAL},
+    {AKEYCODE_NUMPAD_COMMA, ouzel::input::Keyboard::Key::NUMPAD_SEPARATOR},
+    {AKEYCODE_NUMPAD_ENTER, ouzel::input::Keyboard::Key::NUMPAD_ENTER},
+    {AKEYCODE_NUMPAD_EQUALS, ouzel::input::Keyboard::Key::NUMPAD_EQUAL},
+    {AKEYCODE_NUMPAD_LEFT_PAREN, ouzel::input::Keyboard::Key::NUMPAD_LEFT_PAREN},
+    {AKEYCODE_NUMPAD_RIGHT_PAREN, ouzel::input::Keyboard::Key::NUMPAD_RIGHT_PAREN},
+
     {AKEYCODE_SHIFT_LEFT, ouzel::input::Keyboard::Key::LEFT_SHIFT},
     {AKEYCODE_SHIFT_RIGHT, ouzel::input::Keyboard::Key::RIGHT_SHIFT},
     {AKEYCODE_CTRL_LEFT, ouzel::input::Keyboard::Key::LEFT_CONTROL},
@@ -174,7 +196,8 @@ static const std::unordered_map<jint, ouzel::input::Keyboard::Key> keyMap = {
     {AKEYCODE_ALT_LEFT, ouzel::input::Keyboard::Key::LEFT_ALT},
     {AKEYCODE_ALT_RIGHT, ouzel::input::Keyboard::Key::RIGHT_ALT},
     {AKEYCODE_META_LEFT, ouzel::input::Keyboard::Key::LEFT_SUPER},
-    {AKEYCODE_META_RIGHT, ouzel::input::Keyboard::Key::RIGHT_SUPER}
+    {AKEYCODE_META_RIGHT, ouzel::input::Keyboard::Key::RIGHT_SUPER},
+    {AKEYCODE_MENU, ouzel::input::Keyboard::Key::MENU}
 };
 
 static ouzel::input::Keyboard::Key convertKeyCode(jint keyCode)

@@ -97,7 +97,7 @@ static const std::unordered_map<uint16_t, ouzel::input::Keyboard::Key> keyMap = 
     {NSScrollLockFunctionKey, ouzel::input::Keyboard::Key::SCROLL_LOCK},
     {kVK_Delete, ouzel::input::Keyboard::Key::BACKSPACE},
     {kVK_Tab, ouzel::input::Keyboard::Key::TAB},
-    {kVK_Return, ouzel::input::Keyboard::Key::RETURN},
+    {kVK_Return, ouzel::input::Keyboard::Key::ENTER},
     {kVK_Escape, ouzel::input::Keyboard::Key::ESCAPE},
     {kVK_Control, ouzel::input::Keyboard::Key::LEFT_CONTROL},
     {kVK_RightControl, ouzel::input::Keyboard::Key::RIGHT_CONTROL},
@@ -163,20 +163,21 @@ static const std::unordered_map<uint16_t, ouzel::input::Keyboard::Key> keyMap = 
     {kVK_ANSI_Keypad8, ouzel::input::Keyboard::Key::NUMPAD_8},
     {kVK_ANSI_Keypad9, ouzel::input::Keyboard::Key::NUMPAD_9},
 
-    {kVK_ANSI_KeypadDecimal, ouzel::input::Keyboard::Key::DECIMAL},
-    {kVK_ANSI_KeypadMultiply, ouzel::input::Keyboard::Key::MULTIPLY},
-    {kVK_ANSI_KeypadPlus, ouzel::input::Keyboard::Key::PLUS},
-    {kVK_ANSI_KeypadClear, ouzel::input::Keyboard::Key::OEM_CLEAR},
-    {kVK_ANSI_KeypadDivide, ouzel::input::Keyboard::Key::DIVIDE},
-    {kVK_ANSI_KeypadEnter, ouzel::input::Keyboard::Key::RETURN},
-    {kVK_ANSI_KeypadMinus, ouzel::input::Keyboard::Key::SUBTRACT},
+    {kVK_ANSI_KeypadDecimal, ouzel::input::Keyboard::Key::NUMPAD_DECIMAL},
+    {kVK_ANSI_KeypadMultiply, ouzel::input::Keyboard::Key::NUMPAD_MULTIPLY},
+    {kVK_ANSI_KeypadPlus, ouzel::input::Keyboard::Key::NUMPAD_PLUS},
+    {kVK_ANSI_KeypadClear, ouzel::input::Keyboard::Key::NUM_LOCK},
+    {kVK_ANSI_KeypadDivide, ouzel::input::Keyboard::Key::NUMPAD_DIVIDE},
+    {kVK_ANSI_KeypadEnter, ouzel::input::Keyboard::Key::NUMPAD_ENTER},
+    {kVK_ANSI_KeypadMinus, ouzel::input::Keyboard::Key::NUMPAD_MINUS},
 
     {kVK_ANSI_Semicolon, ouzel::input::Keyboard::Key::SEMICOLON},
     {kVK_ANSI_Slash, ouzel::input::Keyboard::Key::SLASH},
     {kVK_ANSI_Grave, ouzel::input::Keyboard::Key::GRAVE},
     {kVK_ANSI_LeftBracket, ouzel::input::Keyboard::Key::LEFT_BRACKET},
     {kVK_ANSI_Backslash, ouzel::input::Keyboard::Key::BACKSLASH},
-    {kVK_ANSI_RightBracket, ouzel::input::Keyboard::Key::RIGHT_BRACKET}
+    {kVK_ANSI_RightBracket, ouzel::input::Keyboard::Key::RIGHT_BRACKET},
+    {0x6E, ouzel::input::Keyboard::Key::MENU}
 };
 
 static ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)

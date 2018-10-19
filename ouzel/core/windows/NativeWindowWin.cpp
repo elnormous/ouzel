@@ -22,7 +22,7 @@ static const std::unordered_map<UINT, ouzel::input::Keyboard::Key> keyMap = {
     {VK_BACK, ouzel::input::Keyboard::Key::BACKSPACE},
     {VK_TAB, ouzel::input::Keyboard::Key::TAB},
     {VK_CLEAR, ouzel::input::Keyboard::Key::CLEAR},
-    {VK_RETURN, ouzel::input::Keyboard::Key::RETURN},
+    {VK_RETURN, ouzel::input::Keyboard::Key::ENTER},
 
     {VK_MENU, ouzel::input::Keyboard::Key::LEFT_ALT},
     {VK_PAUSE, ouzel::input::Keyboard::Key::PAUSE},
@@ -102,12 +102,12 @@ static const std::unordered_map<UINT, ouzel::input::Keyboard::Key> keyMap = {
     {VK_NUMPAD8, ouzel::input::Keyboard::Key::NUMPAD_8},
     {VK_NUMPAD9, ouzel::input::Keyboard::Key::NUMPAD_9},
 
-    {VK_MULTIPLY, ouzel::input::Keyboard::Key::MULTIPLY},
-    {VK_ADD, ouzel::input::Keyboard::Key::ADD},
-    {VK_SEPARATOR, ouzel::input::Keyboard::Key::SEPARATOR},
-    {VK_SUBTRACT, ouzel::input::Keyboard::Key::SUBTRACT},
-    {VK_DECIMAL, ouzel::input::Keyboard::Key::DECIMAL},
-    {VK_DIVIDE, ouzel::input::Keyboard::Key::DIVIDE},
+    {VK_MULTIPLY, ouzel::input::Keyboard::Key::NUMPAD_MULTIPLY},
+    {VK_ADD, ouzel::input::Keyboard::Key::NUMPAD_PLUS},
+    {VK_SEPARATOR, ouzel::input::Keyboard::Key::NUMPAD_SEPARATOR},
+    {VK_SUBTRACT, ouzel::input::Keyboard::Key::NUMPAD_MINUS},
+    {VK_DECIMAL, ouzel::input::Keyboard::Key::NUMPAD_DECIMAL},
+    {VK_DIVIDE, ouzel::input::Keyboard::Key::NUMPAD_DIVIDE},
 
     {VK_F1, ouzel::input::Keyboard::Key::F1},
     {VK_F2, ouzel::input::Keyboard::Key::F2},
