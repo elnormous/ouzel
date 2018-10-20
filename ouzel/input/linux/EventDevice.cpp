@@ -115,7 +115,7 @@ static const std::unordered_map<uint16_t, ouzel::input::Keyboard::Key> keyMap = 
     {KEY_KPDOT, ouzel::input::Keyboard::Key::NUMPAD_DECIMAL},
 
     {KEY_ZENKAKUHANKAKU, ouzel::input::Keyboard::Key::NONE}, // ??
-    {KEY_102ND, ouzel::input::Keyboard::Key::LESS},
+    {KEY_102ND, ouzel::input::Keyboard::Key::INTL_BACKSLASH},
     {KEY_F11, ouzel::input::Keyboard::Key::F11},
     {KEY_F12, ouzel::input::Keyboard::Key::F12},
     {KEY_RO, ouzel::input::Keyboard::Key::NONE}, // ??

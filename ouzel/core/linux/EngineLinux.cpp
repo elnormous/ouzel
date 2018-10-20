@@ -100,6 +100,8 @@ static const std::unordered_map<KeySym, ouzel::input::Keyboard::Key> keyMap = {
     {XK_Shift_Lock, ouzel::input::Keyboard::Key::CAPS_LOCK},
     {XK_Meta_L, ouzel::input::Keyboard::Key::LEFT_SUPER},
     {XK_Meta_R, ouzel::input::Keyboard::Key::RIGHT_SUPER},
+    {XK_Hyper_L, ouzel::input::Keyboard::Key::LEFT_SUPER},
+    {XK_Hyper_R, ouzel::input::Keyboard::Key::RIGHT_SUPER},
     {XK_Alt_L, ouzel::input::Keyboard::Key::LEFT_ALT},
     {XK_Alt_R, ouzel::input::Keyboard::Key::RIGHT_ALT},
     {XK_ISO_Level3_Shift, ouzel::input::Keyboard::Key::RIGHT_ALT},
@@ -209,7 +211,7 @@ static const std::unordered_map<KeySym, ouzel::input::Keyboard::Key> keyMap = {
     {XK_udiaeresis, ouzel::input::Keyboard::Key::SEMICOLON},
     {XK_Super_L, ouzel::input::Keyboard::Key::LEFT_SUPER},
     {XK_Super_R, ouzel::input::Keyboard::Key::RIGHT_SUPER},
-    {XK_Help, ouzel::input::Keyboard::Key::HELP},
+    {XK_Help, ouzel::input::Keyboard::Key::HELP}
 };
 
 static ouzel::input::Keyboard::Key convertKeyCode(KeySym keyCode)

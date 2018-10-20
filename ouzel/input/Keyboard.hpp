@@ -159,7 +159,7 @@ namespace ouzel
                 RIGHT_BRACKET,      // for US    "]}"
                 QUOTE,              // for US    "'""
                 OEM_AX,             // for Japan "AX"
-                LESS,               // "<>" or "\|"
+                INTL_BACKSLASH,     // "<>" or "\|"
                 ATTN,               // Attn key
                 CRSEL,              // CrSel key
                 EXSEL,              // ExSel key
