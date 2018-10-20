@@ -5,6 +5,14 @@
 #include "core/Platform.h"
 #include "Config.h"
 
+#ifndef OUZEL_DEVELOPER_NAME
+#error "OUZEL_DEVELOPER_NAME must be set"
+#endif
+
+#ifndef OUZEL_APPLICATION_NAME
+#error "OUZEL_APPLICATION_NAME must be set"
+#endif
+
 // OpenGL
 #ifndef OUZEL_ENABLE_OPENGL
 #define OUZEL_ENABLE_OPENGL 1
