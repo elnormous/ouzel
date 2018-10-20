@@ -56,9 +56,6 @@ The following code will open create a scene with a sprite in the center of it:
 ```cpp
 #include "ouzel.hpp"
 
-std::string DEVELOPER_NAME = "developer";
-std::string APPLICATION_NAME = "game";
-
 class Example: public ouzel::Application
 {
 public:

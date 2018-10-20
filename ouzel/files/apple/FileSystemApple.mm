@@ -6,11 +6,6 @@
 #include "FileSystemApple.hpp"
 #include "utils/Errors.hpp"
 
-#if OUZEL_PLATFORM_MACOS
-extern std::string DEVELOPER_NAME;
-extern std::string APPLICATION_NAME;
-#endif
-
 namespace ouzel
 {
     std::string getStorageDirectoryApple(bool user)
@@ -27,7 +22,7 @@ namespace ouzel
         NSString* identifier = [[NSBundle mainBundle] bundleIdentifier];
 
         if (!identifier)
-            identifier = [NSString stringWithFormat:@"%s.%s", DEVELOPER_NAME.c_str(), APPLICATION_NAME.c_str()];
+            identifier = [NSString stringWithFormat:@"%s.%s", OUZEL_DEVELOPER_NAME, OUZEL_APPLICATION_NAME];
 
         NSURL* path = [applicationSupportDirectory URLByAppendingPathComponent:identifier];
 
