@@ -99,6 +99,7 @@ static const std::unordered_map<jint, ouzel::input::Keyboard::Key> keyMap = {
     {AKEYCODE_DPAD_DOWN, ouzel::input::Keyboard::Key::DOWN},
     {AKEYCODE_DPAD_LEFT, ouzel::input::Keyboard::Key::LEFT},
     {AKEYCODE_DPAD_RIGHT, ouzel::input::Keyboard::Key::RIGHT},
+    {AKEYCODE_DPAD_CENTER, ouzel::input::Keyboard::Key::SELECT},
 
     {AKEYCODE_A, ouzel::input::Keyboard::Key::A},
     {AKEYCODE_B, ouzel::input::Keyboard::Key::B},
@@ -197,7 +198,17 @@ static const std::unordered_map<jint, ouzel::input::Keyboard::Key> keyMap = {
     {AKEYCODE_ALT_RIGHT, ouzel::input::Keyboard::Key::RIGHT_ALT},
     {AKEYCODE_META_LEFT, ouzel::input::Keyboard::Key::LEFT_SUPER},
     {AKEYCODE_META_RIGHT, ouzel::input::Keyboard::Key::RIGHT_SUPER},
-    {AKEYCODE_MENU, ouzel::input::Keyboard::Key::MENU}
+    {AKEYCODE_MENU, ouzel::input::Keyboard::Key::MENU},
+    {AKEYCODE_CLEAR, ouzel::input::Keyboard::Key::CLEAR},
+    {AKEYCODE_ESCAPE, ouzel::input::Keyboard::Key::ESCAPE},
+    {AKEYCODE_CAPS_LOCK, ouzel::input::Keyboard::Key::CAPS_LOCK},
+    {AKEYCODE_SCROLL_LOCK, ouzel::input::Keyboard::Key::SCROLL_LOCK},
+    {AKEYCODE_SYSRQ, ouzel::input::Keyboard::Key::PRINT_SCREEN},
+    {AKEYCODE_MOVE_HOME, ouzel::input::Keyboard::Key::HOME},
+    {AKEYCODE_MOVE_END, ouzel::input::Keyboard::Key::END},
+    {AKEYCODE_INSERT, ouzel::input::Keyboard::Key::INSERT},
+    {AKEYCODE_SLEEP, ouzel::input::Keyboard::Key::SLEEP},
+    {AKEYCODE_HELP, ouzel::input::Keyboard::Key::HELP}
 };
 
 static ouzel::input::Keyboard::Key convertKeyCode(jint keyCode)
