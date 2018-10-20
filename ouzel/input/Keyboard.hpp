@@ -97,7 +97,8 @@ namespace ouzel
                 LEFT_SUPER,         // Left Windows key (Microsoft Natural keyboard) on Windows, left Command key on macOS
                 RIGHT_SUPER,        // Right Windows key (Natural keyboard) on Windows, right Command key on macOS
                 MENU,               // Applications key (Natural keyboard)
-                SLEEP,              // Computer Sleep key
+                SLEEP,              // Computer sleep key
+                POWER,              // Computer power key
                 NUMPAD_0,           // Numeric keypad 0 key
                 NUMPAD_1,           // Numeric keypad 1 key
                 NUMPAD_2,           // Numeric keypad 2 key
@@ -171,6 +172,16 @@ namespace ouzel
                 PLAY,               // Play key
                 ZOOM,               // Zoom key
                 PA1,                // PA1 key
+                BACK,               // AC back key
+                FORWARD,            // AC forward key
+                REFRESH,            // AC refresh key
+                STOP,               // AC stop key
+                SEARCH,             // AC search key
+                BOOKMARKS,          // AC bookmarks key
+                HOMEPAGE,           // AC home key
+                MUTE,               // Audio mute button
+                VOLUME_DOWN,        // Audio volume down button
+                VOLUME_UP,          // Audio volume up button
                 COUNT
             };
 
