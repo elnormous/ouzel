@@ -4,6 +4,9 @@
 
 #include "core/Platform.h"
 
+#define OUZEL_DEVELOPER_NAME "org.ouzel"
+#define OUZEL_APPLICATION_NAME "sample"
+
 #define OUZEL_ENABLE_OPENGL 1
 #define OUZEL_ENABLE_DIRECT3D11 1
 #define OUZEL_ENABLE_METAL 1

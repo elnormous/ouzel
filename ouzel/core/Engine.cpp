@@ -1,8 +1,8 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include "Setup.h"
 #include <algorithm>
 #include "Engine.hpp"
-#include "Setup.h"
 #include "utils/INI.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
@@ -74,8 +74,6 @@
 #    define TEXTURE_VERTEX_SHADER_METAL TextureVSIOS_metallib
 #  endif
 #endif
-
-extern std::string APPLICATION_NAME;
 
 namespace ouzel
 {
@@ -259,7 +257,7 @@ namespace ouzel
                                 resizable,
                                 fullscreen,
                                 exclusiveFullscreen,
-                                APPLICATION_NAME,
+                                OUZEL_APPLICATION_NAME,
                                 graphicsDriver,
                                 highDpi,
                                 depth));

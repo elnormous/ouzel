@@ -27,11 +27,6 @@ extern "C" id NSTemporaryDirectory();
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"
 
-#if OUZEL_PLATFORM_WINDOWS || OUZEL_PLATFORM_LINUX
-extern std::string DEVELOPER_NAME;
-extern std::string APPLICATION_NAME;
-#endif
-
 namespace ouzel
 {
 #if OUZEL_PLATFORM_WINDOWS
@@ -97,7 +92,7 @@ namespace ouzel
 
         std::string path = appDataDirectory;
 
-        path += DIRECTORY_SEPARATOR + DEVELOPER_NAME;
+        path += DIRECTORY_SEPARATOR + OUZEL_DEVELOPER_NAME;
 
         if (!directoryExists(path))
         {
@@ -108,7 +103,7 @@ namespace ouzel
                 throw FileError("Failed to create directory " + path);
         }
 
-        path += DIRECTORY_SEPARATOR + APPLICATION_NAME;
+        path += DIRECTORY_SEPARATOR + OUZEL_APPLICATION_NAME;
 
         if (!directoryExists(path))
         {
@@ -145,7 +140,7 @@ namespace ouzel
                 path = pwent.pw_dir;
         }
 
-        path += DIRECTORY_SEPARATOR + "." + DEVELOPER_NAME;
+        path += DIRECTORY_SEPARATOR + "." + OUZEL_DEVELOPER_NAME;
 
         if (!directoryExists(path))
         {
@@ -153,7 +148,7 @@ namespace ouzel
                 throw FileError("Failed to create directory " + path);
         }
 
-        path += DIRECTORY_SEPARATOR + APPLICATION_NAME;
+        path += DIRECTORY_SEPARATOR + OUZEL_APPLICATION_NAME;
 
         if (!directoryExists(path))
         {

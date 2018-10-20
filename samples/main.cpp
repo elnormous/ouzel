@@ -11,9 +11,6 @@
 #include "SoundSample.hpp"
 #include "PerspectiveSample.hpp"
 
-std::string DEVELOPER_NAME = "org.ouzel";
-std::string APPLICATION_NAME = "samples";
-
 using namespace ouzel;
 
 class Samples: public ouzel::Application
