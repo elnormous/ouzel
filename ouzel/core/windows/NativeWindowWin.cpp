@@ -156,7 +156,7 @@ static const std::unordered_map<UINT, ouzel::input::Keyboard::Key> keyMap = {
     {VK_OEM_7, ouzel::input::Keyboard::Key::QUOTE},
     {VK_OEM_8, ouzel::input::Keyboard::Key::GRAVE},
     {VK_OEM_AX, ouzel::input::Keyboard::Key::OEM_AX},
-    {VK_OEM_102, ouzel::input::Keyboard::Key::LESS}
+    {VK_OEM_102, ouzel::input::Keyboard::Key::INTL_BACKSLASH}
 };
 
 static ouzel::input::Keyboard::Key convertKeyCode(UINT keyCode)
