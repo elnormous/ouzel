@@ -57,7 +57,7 @@ static const std::unordered_map<KeySym, ouzel::input::Keyboard::Key> keyMap = {
     {XK_KP_Right, ouzel::input::Keyboard::Key::NUMPAD_6},
     {XK_KP_Down, ouzel::input::Keyboard::Key::NUMPAD_2},
     {XK_Print, ouzel::input::Keyboard::Key::PRINT_SCREEN},
-    {XK_KP_Prior, ouzel::input::Keyboard::Key::NUMPAD_9}, // alos XK_KP_Page_Up
+    {XK_KP_Prior, ouzel::input::Keyboard::Key::NUMPAD_9}, // also XK_KP_Page_Up
     {XK_KP_Next, ouzel::input::Keyboard::Key::NUMPAD_3}, // also XK_KP_Page_Down
     {XK_KP_End, ouzel::input::Keyboard::Key::NUMPAD_1},
     {XK_KP_Begin, ouzel::input::Keyboard::Key::NUMPAD_5},
@@ -102,7 +102,7 @@ static const std::unordered_map<KeySym, ouzel::input::Keyboard::Key> keyMap = {
     {XK_Meta_R, ouzel::input::Keyboard::Key::RIGHT_SUPER},
     {XK_Alt_L, ouzel::input::Keyboard::Key::LEFT_ALT},
     {XK_Alt_R, ouzel::input::Keyboard::Key::RIGHT_ALT},
-    {XK_ISO_Level3_Shift, ouzel::input::Keyboard::Key::RIGHT_SUPER},
+    {XK_ISO_Level3_Shift, ouzel::input::Keyboard::Key::RIGHT_ALT},
     {XK_Menu, ouzel::input::Keyboard::Key::MENU},
     {XK_space, ouzel::input::Keyboard::Key::SPACE},
     {XK_exclam, ouzel::input::Keyboard::Key::NUM_1},
@@ -208,7 +208,8 @@ static const std::unordered_map<KeySym, ouzel::input::Keyboard::Key> keyMap = {
     {XK_odiaeresis, ouzel::input::Keyboard::Key::GRAVE},
     {XK_udiaeresis, ouzel::input::Keyboard::Key::SEMICOLON},
     {XK_Super_L, ouzel::input::Keyboard::Key::LEFT_SUPER},
-    {XK_Super_R, ouzel::input::Keyboard::Key::RIGHT_SUPER}
+    {XK_Super_R, ouzel::input::Keyboard::Key::RIGHT_SUPER},
+    {XK_Help, ouzel::input::Keyboard::Key::HELP},
 };
 
 static ouzel::input::Keyboard::Key convertKeyCode(KeySym keyCode)
