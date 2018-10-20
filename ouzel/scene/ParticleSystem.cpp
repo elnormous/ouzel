@@ -197,7 +197,7 @@ namespace ouzel
                         else
                         {
                             particles[i] = particles[particleCount - 1];
-                            particleCount--;
+                            --particleCount;
                         }
                     }
 
@@ -218,7 +218,7 @@ namespace ouzel
                     {
                         const Matrix4& inverseTransform = actor->getInverseTransform();
 
-                        for (uint32_t i = 0; i < particleCount; i++)
+                        for (uint32_t i = 0; i < particleCount; ++i)
                         {
                             Vector3 position = particles[i].position;
                             inverseTransform.transformPoint(position);
@@ -228,7 +228,7 @@ namespace ouzel
                 }
                 else if (particleSystemData.positionType == ParticleSystemData::PositionType::GROUPED)
                 {
-                    for (uint32_t i = 0; i < particleCount; i++)
+                    for (uint32_t i = 0; i < particleCount; ++i)
                         boundingBox.insertPoint(particles[i].position);
                 }
             }

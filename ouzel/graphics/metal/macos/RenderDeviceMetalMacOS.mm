@@ -113,7 +113,7 @@ namespace ouzel
             CFArrayRef displayModes = CGDisplayCopyAllDisplayModes(kCGDirectMainDisplay, nullptr);
             const CFIndex displayModeCount = CFArrayGetCount(displayModes);
 
-            for (CFIndex i = 0; i < displayModeCount; i++)
+            for (CFIndex i = 0; i < displayModeCount; ++i)
             {
                 const CGDisplayModeRef displayMode = (const CGDisplayModeRef)CFArrayGetValueAtIndex(displayModes, i);
 
