@@ -142,10 +142,10 @@ static const std::unordered_map<uint16_t, ouzel::input::Keyboard::Key> keyMap = 
     {KEY_INSERT, ouzel::input::Keyboard::Key::INSERT},
     {KEY_DELETE, ouzel::input::Keyboard::Key::DEL},
     {KEY_MACRO, ouzel::input::Keyboard::Key::NONE}, // ??
-    {KEY_MUTE, ouzel::input::Keyboard::Key::NONE}, // ??
-    {KEY_VOLUMEDOWN, ouzel::input::Keyboard::Key::NONE}, // ??
-    {KEY_VOLUMEUP, ouzel::input::Keyboard::Key::NONE}, // ??
-    {KEY_POWER, ouzel::input::Keyboard::Key::NONE}, // ??
+    {KEY_MUTE, ouzel::input::Keyboard::Key::MUTE},
+    {KEY_VOLUMEDOWN, ouzel::input::Keyboard::Key::VOLUME_DOWN},
+    {KEY_VOLUMEUP, ouzel::input::Keyboard::Key::VOLUME_UP},
+    {KEY_POWER, ouzel::input::Keyboard::Key::POWER},
     {KEY_KPEQUAL, ouzel::input::Keyboard::Key::NUMPAD_EQUAL},
     {KEY_KPPLUSMINUS, ouzel::input::Keyboard::Key::NUMPAD_PLUSMINUS},
     {KEY_PAUSE, ouzel::input::Keyboard::Key::PAUSE},
@@ -176,7 +176,15 @@ static const std::unordered_map<uint16_t, ouzel::input::Keyboard::Key> keyMap = 
     {KEY_CLEAR, ouzel::input::Keyboard::Key::CLEAR},
     {KEY_SLEEP, ouzel::input::Keyboard::Key::SLEEP},
     {KEY_SYSRQ, ouzel::input::Keyboard::Key::PRINT_SCREEN},
-    {KEY_HELP, ouzel::input::Keyboard::Key::HELP}
+    {KEY_HELP, ouzel::input::Keyboard::Key::HELP},
+
+    {KEY_BACK, ouzel::input::Keyboard::Key::BACK},
+    {KEY_FORWARD, ouzel::input::Keyboard::Key::FORWARD},
+    {KEY_REFRESH, ouzel::input::Keyboard::Key::REFRESH},
+    {KEY_STOP, ouzel::input::Keyboard::Key::STOP},
+    {KEY_FIND, ouzel::input::Keyboard::Key::SEARCH},
+    {KEY_BOOKMARKS, ouzel::input::Keyboard::Key::BOOKMARKS},
+    {KEY_HOMEPAGE, ouzel::input::Keyboard::Key::HOMEPAGE}
 };
 
 static ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)

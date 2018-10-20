@@ -208,6 +208,7 @@ static const std::unordered_map<jint, ouzel::input::Keyboard::Key> keyMap = {
     {AKEYCODE_MOVE_END, ouzel::input::Keyboard::Key::END},
     {AKEYCODE_INSERT, ouzel::input::Keyboard::Key::INSERT},
     {AKEYCODE_SLEEP, ouzel::input::Keyboard::Key::SLEEP},
+    {AKEYCODE_POWER, ouzel::input::Keyboard::Key::POWER},
     {AKEYCODE_HELP, ouzel::input::Keyboard::Key::HELP},
     {AKEYCODE_YEN, ouzel::input::Keyboard::Key::YEN},
     {AKEYCODE_RO, ouzel::input::Keyboard::Key::RO},
@@ -216,6 +217,14 @@ static const std::unordered_map<jint, ouzel::input::Keyboard::Key> keyMap = {
     {AKEYCODE_MUHENKAN, ouzel::input::Keyboard::Key::MUHENKAN},
     {AKEYCODE_HENKAN, ouzel::input::Keyboard::Key::HENKAN},
     
+    {AKEYCODE_HOME, ouzel::input::Keyboard::Key::HOME},
+    {AKEYCODE_BACK, ouzel::input::Keyboard::Key::BACK},
+    {AKEYCODE_FORWARD, ouzel::input::Keyboard::Key::FORWARD},
+    {AKEYCODE_SEARCH, ouzel::input::Keyboard::Key::SEARCH},
+    {AKEYCODE_BOOKMARK, ouzel::input::Keyboard::Key::BOOKMARKS},
+    {AKEYCODE_VOLUME_MUTE, ouzel::input::Keyboard::Key::MUTE},
+    {AKEYCODE_VOLUME_UP, ouzel::input::Keyboard::Key::VOLUME_UP},
+    {AKEYCODE_VOLUME_DOWN, ouzel::input::Keyboard::Key::VOLUME_DOWN}
 };
 
 static ouzel::input::Keyboard::Key convertKeyCode(jint keyCode)
