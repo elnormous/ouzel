@@ -177,7 +177,11 @@ static const std::unordered_map<uint16_t, ouzel::input::Keyboard::Key> keyMap = 
     {kVK_ANSI_LeftBracket, ouzel::input::Keyboard::Key::LEFT_BRACKET},
     {kVK_ANSI_Backslash, ouzel::input::Keyboard::Key::BACKSLASH},
     {kVK_ANSI_RightBracket, ouzel::input::Keyboard::Key::RIGHT_BRACKET},
-    {0x6E, ouzel::input::Keyboard::Key::MENU}
+    {0x6E, ouzel::input::Keyboard::Key::MENU},
+
+    {kVK_JIS_Yen, ouzel::input::Keyboard::Key::YEN},
+    {kVK_JIS_KeypadComma, ouzel::input::Keyboard::Key::NUMPAD_JPCOMMA},
+    {kVK_JIS_Kana, ouzel::input::Keyboard::Key::KANA}
 };
 
 static ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)

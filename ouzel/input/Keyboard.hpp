@@ -25,13 +25,17 @@ namespace ouzel
                 ENTER,              // ENTER key
                 PAUSE,              // PAUSE key
                 CAPS_LOCK,          // CAPS LOCK key
-                KANA,               // IME Kana mode
-                HANGUEL,            // IME Hanguel mode (maintained for compatibility use HANGUL)
-                HANGUL,             // IME Hangul mode
-                JUNJA,              // IME Junja mode
-                FINAL,              // IME final mode
-                HANJA,              // IME Hanja mode
-                KANJI,              // IME Kanji mode
+                KANA,               // Japanese kana key
+                HANJA,              // Japanese Hanja key
+                KANJI,              // Japanese Kanji key
+                YEN,                // Japanese Yen key
+                RO,                 // Japanese Ro key
+                KATAKANA,           // Japanese Katakana key
+                HIRAGANA,           // Japanese Hiragana key
+                KATAKANA_HIRAGANA,  // Japanese Katakana / Hiragana key
+                HENKAN,             // Japanese Henkan key
+                MUHENKAN,           // Japanese non-conversion key
+                NUMPAD_JPCOMMA,     // Japanese numeric keypad comma key
                 ESCAPE,             // ESC key
                 CONVERT,            // IME convert
                 NONCONVERT,         // IME nonconvert

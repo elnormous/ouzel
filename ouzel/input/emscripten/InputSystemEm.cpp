@@ -130,8 +130,8 @@ static std::map<std::string, ouzel::input::Keyboard::Key> keyMap = {
     {"Quote", ouzel::input::Keyboard::Key::QUOTE},
     {"IntlBackslash", ouzel::input::Keyboard::Key::INTL_BACKSLASH},
     {"PrintScreen", ouzel::input::Keyboard::Key::PRINT_SCREEN},
-    {"IntlRo", ouzel::input::Keyboard::Key::NONE}, // ?
-    {"IntlYen", ouzel::input::Keyboard::Key::NONE} // ?
+    {"IntlRo", ouzel::input::Keyboard::Key::RO},
+    {"IntlYen", ouzel::input::Keyboard::Key::YEN}
 };
 
 static ouzel::input::Keyboard::Key convertKeyCode(const EM_UTF8 key[32])

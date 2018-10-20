@@ -118,13 +118,13 @@ static const std::unordered_map<uint16_t, ouzel::input::Keyboard::Key> keyMap = 
     {KEY_102ND, ouzel::input::Keyboard::Key::INTL_BACKSLASH},
     {KEY_F11, ouzel::input::Keyboard::Key::F11},
     {KEY_F12, ouzel::input::Keyboard::Key::F12},
-    {KEY_RO, ouzel::input::Keyboard::Key::NONE}, // ??
-    {KEY_KATAKANA, ouzel::input::Keyboard::Key::NONE}, // ??
-    {KEY_HIRAGANA, ouzel::input::Keyboard::Key::NONE}, // ??
-    {KEY_HENKAN, ouzel::input::Keyboard::Key::NONE}, // ??
-    {KEY_KATAKANAHIRAGANA, ouzel::input::Keyboard::Key::NONE}, // ??
-    {KEY_MUHENKAN, ouzel::input::Keyboard::Key::NONE}, // ??
-    {KEY_KPJPCOMMA, ouzel::input::Keyboard::Key::NONE}, // ??
+    {KEY_RO, ouzel::input::Keyboard::Key::RO},
+    {KEY_KATAKANA, ouzel::input::Keyboard::Key::KATAKANA},
+    {KEY_HIRAGANA, ouzel::input::Keyboard::Key::HIRAGANA},
+    {KEY_HENKAN, ouzel::input::Keyboard::Key::HENKAN},
+    {KEY_KATAKANAHIRAGANA, ouzel::input::Keyboard::Key::KATAKANA_HIRAGANA},
+    {KEY_MUHENKAN, ouzel::input::Keyboard::Key::MUHENKAN},
+    {KEY_KPJPCOMMA, ouzel::input::Keyboard::Key::NUMPAD_JPCOMMA},
     {KEY_KPENTER, ouzel::input::Keyboard::Key::NUMPAD_ENTER},
     {KEY_RIGHTCTRL, ouzel::input::Keyboard::Key::RIGHT_CONTROL},
     {KEY_KPSLASH, ouzel::input::Keyboard::Key::NUMPAD_DIVIDE},
@@ -152,9 +152,9 @@ static const std::unordered_map<uint16_t, ouzel::input::Keyboard::Key> keyMap = 
     {KEY_SCALE, ouzel::input::Keyboard::Key::NONE}, //?
 
     {KEY_KPCOMMA, ouzel::input::Keyboard::Key::NUMPAD_SEPARATOR},
-    {KEY_HANGEUL, ouzel::input::Keyboard::Key::NONE}, // KEY_HANGUEL
+    {KEY_HANGEUL, ouzel::input::Keyboard::Key::KANA},
     {KEY_HANJA, ouzel::input::Keyboard::Key::HANJA},
-    {KEY_YEN, ouzel::input::Keyboard::Key::NONE}, // ??
+    {KEY_YEN, ouzel::input::Keyboard::Key::YEN},
     {KEY_LEFTMETA, ouzel::input::Keyboard::Key::LEFT_SUPER},
     {KEY_RIGHTMETA, ouzel::input::Keyboard::Key::RIGHT_SUPER},
     {KEY_COMPOSE, ouzel::input::Keyboard::Key::NONE}, // ??
