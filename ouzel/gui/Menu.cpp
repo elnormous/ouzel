@@ -116,7 +116,7 @@ namespace ouzel
                 if (widgetIterator == widgets.end())
                     widgetIterator = widgets.begin();
                 else
-                    widgetIterator++;
+                    ++widgetIterator;
 
                 if (widgetIterator != widgets.end() && (*widgetIterator)->isEnabled())
                 {
@@ -140,7 +140,7 @@ namespace ouzel
             do
             {
                 if (widgetIterator == widgets.begin()) widgetIterator = widgets.end();
-                if (widgetIterator != widgets.begin()) widgetIterator--;
+                if (widgetIterator != widgets.begin()) --widgetIterator;
 
                 if (widgetIterator != widgets.end() && (*widgetIterator)->isEnabled())
                 {
