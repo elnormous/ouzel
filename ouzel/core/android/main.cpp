@@ -224,7 +224,14 @@ static const std::unordered_map<jint, ouzel::input::Keyboard::Key> keyMap = {
     {AKEYCODE_BOOKMARK, ouzel::input::Keyboard::Key::BOOKMARKS},
     {AKEYCODE_VOLUME_MUTE, ouzel::input::Keyboard::Key::MUTE},
     {AKEYCODE_VOLUME_UP, ouzel::input::Keyboard::Key::VOLUME_UP},
-    {AKEYCODE_VOLUME_DOWN, ouzel::input::Keyboard::Key::VOLUME_DOWN}
+    {AKEYCODE_VOLUME_DOWN, ouzel::input::Keyboard::Key::VOLUME_DOWN},
+    {AKEYCODE_MEDIA_PLAY, ouzel::input::Keyboard::Key::AUDIO_PLAY},
+    {AKEYCODE_MEDIA_PLAY_PAUSE, ouzel::input::Keyboard::Key::AUDIO_PLAY},
+    {AKEYCODE_MEDIA_STOP, ouzel::input::Keyboard::Key::AUDIO_STOP},
+    {AKEYCODE_MEDIA_NEXT, ouzel::input::Keyboard::Key::AUDIO_NEXT},
+    {AKEYCODE_MEDIA_PREVIOUS, ouzel::input::Keyboard::Key::AUDIO_PREVIOUS},
+    {AKEYCODE_ENVELOPE, ouzel::input::Keyboard::Key::MAIL}
+    
 };
 
 static ouzel::input::Keyboard::Key convertKeyCode(jint keyCode)

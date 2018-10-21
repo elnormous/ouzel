@@ -169,8 +169,6 @@ namespace ouzel
                 CRSEL,              // CrSel key
                 EXSEL,              // ExSel key
                 EREOF,              // Erase EOF key
-                PLAY,               // Play key
-                ZOOM,               // Zoom key
                 PA1,                // PA1 key
                 BACK,               // AC back key
                 FORWARD,            // AC forward key
@@ -182,6 +180,12 @@ namespace ouzel
                 MUTE,               // Audio mute button
                 VOLUME_DOWN,        // Audio volume down button
                 VOLUME_UP,          // Audio volume up button
+                AUDIO_PLAY,         // Play/pause media key
+                AUDIO_STOP,         // Stop media key
+                AUDIO_NEXT,         // Play next media key
+                AUDIO_PREVIOUS,     // Play previous media key
+                MEDIA_SELECT,       // Launch media select key
+                MAIL,               // Mail function key
                 COUNT
             };
 
