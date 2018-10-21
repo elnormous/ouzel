@@ -91,7 +91,7 @@ static std::map<std::string, ouzel::input::Keyboard::Key> keyMap = {
     {"NumpadComma", ouzel::input::Keyboard::Key::NUMPAD_SEPARATOR},
     {"NumpadDecimal", ouzel::input::Keyboard::Key::NUMPAD_DECIMAL},
     {"NumpadDivide", ouzel::input::Keyboard::Key::NUMPAD_DIVIDE},
-    {"NumpadEqual", ouzel::input::Keyboard::Key::NUMPAD_EQUAL,
+    {"NumpadEqual", ouzel::input::Keyboard::Key::NUMPAD_EQUAL},
     {"F1", ouzel::input::Keyboard::Key::F1},
     {"F2", ouzel::input::Keyboard::Key::F2},
     {"F3", ouzel::input::Keyboard::Key::F3},
