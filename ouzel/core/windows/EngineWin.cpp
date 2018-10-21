@@ -12,14 +12,23 @@ namespace ouzel
 {
     EngineWin::EngineWin(int initArgc, LPWSTR* initArgv)
     {
+
         if (initArgv)
         {
-            char temporaryCString[256];
+            int bufferSize;
+            std::vector<char> buffer;
+
             for (int i = 0; i < initArgc; ++i)
             {
-                WideCharToMultiByte(CP_UTF8, 0, initArgv[i], -1, temporaryCString, sizeof(temporaryCString), nullptr, nullptr);
+                bufferSize = WideCharToMultiByte(CP_UTF8, 0, initArgv[i], -1, nullptr, 0, nullptr, nullptr);
+                if (bufferSize == 0)
+                    throw FileError("Failed to convert wide char to UTF-8");
 
-                args.push_back(temporaryCString);
+                buffer.resize(bufferSize);
+                if (WideCharToMultiByte(CP_UTF8, 0, initArgv[i], -1, buffer.data(), bufferSize, nullptr, nullptr) == 0)
+                    throw FileError("Failed to convert wide char to UTF-8");
+
+                args.push_back(buffer.data());
             }
         }
     }
@@ -140,11 +149,15 @@ namespace ouzel
 
     void EngineWin::openURL(const std::string& url)
     {
-        wchar_t urlBuffer[256];
-        if (MultiByteToWideChar(CP_UTF8, 0, url.c_str(), -1, urlBuffer, 256) == 0)
+        int buferSize = MultiByteToWideChar(CP_UTF8, 0, url.c_str(), -1, nullptr, 0);
+        if (buferSize == 0)
             throw SystemError("Failed to convert UTF-8 to wide char");
 
-        intptr_t result = reinterpret_cast<intptr_t>(ShellExecuteW(nullptr, L"open", urlBuffer, nullptr, nullptr, SW_SHOWNORMAL));
+        std::vector<WCHAR> buffer(buferSize);
+        if (MultiByteToWideChar(CP_UTF8, 0, url.c_str(), -1, buffer.data(), buferSize) == 0)
+            throw SystemError("Failed to convert UTF-8 to wide char");
+
+        intptr_t result = reinterpret_cast<intptr_t>(ShellExecuteW(nullptr, L"open", buffer.data(), nullptr, nullptr, SW_SHOWNORMAL));
         if (result <= 32)
             throw SystemError("Failed to execute open");
     }

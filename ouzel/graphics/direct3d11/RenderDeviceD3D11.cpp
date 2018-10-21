@@ -139,9 +139,13 @@ namespace ouzel
                 throw SystemError("Failed to get the DXGI adapter description, error: " + std::to_string(hr));
             else
             {
-                char deviceName[256];
-                WideCharToMultiByte(CP_UTF8, 0, adapterDesc.Description, -1, deviceName, sizeof(deviceName), nullptr, nullptr);
-                Log(Log::Level::INFO) << "Using " << deviceName << " for rendering";
+                int bufferSize = WideCharToMultiByte(CP_UTF8, 0, adapterDesc.Description, -1, nullptr, 0, nullptr, nullptr);
+                if (bufferSize != 0)
+                {
+                    std::vector<char> buffer(bufferSize);
+                    if (WideCharToMultiByte(CP_UTF8, 0, adapterDesc.Description, -1, buffer.data(), bufferSize, nullptr, nullptr) != 0)
+                        Log(Log::Level::INFO) << "Using " << buffer.data() << " for rendering";
+                }
             }
 
             NativeWindowWin* windowWin = static_cast<NativeWindowWin*>(window->getNativeWindow());

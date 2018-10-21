@@ -22,9 +22,13 @@ namespace ouzel
             int32_t vendorId = LOWORD(instance->guidProduct.Data1);
             int32_t productId = HIWORD(instance->guidProduct.Data1);
 
-            int bytesNeeded = WideCharToMultiByte(CP_UTF8, 0, instance->tszProductName, -1, nullptr, 0, nullptr, nullptr);
-            name.resize(bytesNeeded);
-            WideCharToMultiByte(CP_UTF8, 0, instance->tszProductName, -1, &name.front(), bytesNeeded, nullptr, nullptr);
+            int bufferSize = WideCharToMultiByte(CP_UTF8, 0, instance->tszProductName, -1, nullptr, 0, nullptr, nullptr);
+            if (bufferSize != 0)
+            {
+                std::vector<char> buffer(bufferSize);
+                if (WideCharToMultiByte(CP_UTF8, 0, instance->tszProductName, -1, buffer.data(), bufferSize, nullptr, nullptr) != 0)
+                    name = buffer.data();
+            }
 
             HRESULT hr = directInput->CreateDevice(instance->guidInstance, &device, nullptr);
             if (FAILED(hr))

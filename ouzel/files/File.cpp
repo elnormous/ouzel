@@ -28,12 +28,12 @@ namespace ouzel
         else
             createDisposition = (mode & CREATE) ? OPEN_ALWAYS : OPEN_EXISTING;
 
-        int size = MultiByteToWideChar(CP_UTF8, 0, filename.c_str(), -1, nullptr, 0);
-        if (size == 0)
+        int bufferSize = MultiByteToWideChar(CP_UTF8, 0, filename.c_str(), -1, nullptr, 0);
+        if (bufferSize == 0)
             throw FileError("Failed to convert UTF-8 to wide char");
 
-        std::vector<WCHAR> buffer(size);
-        if (MultiByteToWideChar(CP_UTF8, 0, filename.c_str(), -1, buffer.data(), size) == 0)
+        std::vector<WCHAR> buffer(bufferSize);
+        if (MultiByteToWideChar(CP_UTF8, 0, filename.c_str(), -1, buffer.data(), bufferSize) == 0)
             throw FileError("Failed to convert the filename to wide char");
 
         // relative paths longer than MAX_PATH are not supported

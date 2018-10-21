@@ -13,10 +13,13 @@
 
 BOOL CALLBACK enumCallback(LPGUID, LPCWSTR description, LPCWSTR, LPVOID)
 {
-    char temp[256];
-    WideCharToMultiByte(CP_UTF8, 0, description, -1, temp, sizeof(temp), nullptr, nullptr);
-
-    ouzel::Log(ouzel::Log::Level::INFO) << "Using " << temp << " for audio";
+    int bufferSize = WideCharToMultiByte(CP_UTF8, 0, description, -1, nullptr, 0, nullptr, nullptr);
+    if (bufferSize != 0)
+    {
+        std::vector<char> buffer(bufferSize);
+        if (WideCharToMultiByte(CP_UTF8, 0, description, -1, buffer.data(), bufferSize, nullptr, nullptr) != 0)
+            ouzel::Log(ouzel::Log::Level::INFO) << "Using " << buffer.data() << " for audio";
+    }
     return FALSE;
 }
 
