@@ -61,8 +61,13 @@ namespace ouzel
             }
             syslog(priority, "%s", s.c_str());
 #elif OUZEL_PLATFORM_WINDOWS
-            std::vector<WCHAR> buffer(s.length() + 1 + 1); // for the newline and the terminating char
-            if (MultiByteToWideChar(CP_UTF8, 0, s.c_str(), -1, buffer.data(), static_cast<int>(buffer.size())) == 0)
+            int bufferSize = MultiByteToWideChar(CP_UTF8, 0, s.c_str(), -1, nullptr, 0);
+            if (bufferSize == 0)
+                return;
+
+            ++bufferSize; // for the newline
+            std::vector<WCHAR> buffer(bufferSize);
+            if (MultiByteToWideChar(CP_UTF8, 0, s.c_str(), -1, buffer.data(), bufferSize) == 0)
                 return;
 
             StringCchCatW(buffer.data(), buffer.size(), L"\n");

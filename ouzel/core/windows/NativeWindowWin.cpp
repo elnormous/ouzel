@@ -516,12 +516,15 @@ namespace ouzel
         if (size.width > 0.0F) width = windowRect.right - windowRect.left;
         if (size.height > 0.0F) height = windowRect.bottom - windowRect.top;
 
-        wchar_t titleBuffer[256] = L"";
-
-        if (!title.empty() && MultiByteToWideChar(CP_UTF8, 0, title.c_str(), -1, titleBuffer, 256) == 0)
+        int titleBufferSize = MultiByteToWideChar(CP_UTF8, 0, title.c_str(), -1, nullptr, 0);
+        if (titleBufferSize == 0)
             throw SystemError("Failed to convert UTF-8 to wide char");
 
-        window = CreateWindowExW(windowExStyle, WINDOW_CLASS_NAME, titleBuffer, windowStyle,
+        std::vector<WCHAR> titleBuffer(titleBufferSize);
+        if (MultiByteToWideChar(CP_UTF8, 0, title.c_str(), -1, titleBuffer.data(), titleBufferSize) == 0)
+            throw SystemError("Failed to convert UTF-8 to wide char");
+
+        window = CreateWindowExW(windowExStyle, WINDOW_CLASS_NAME, titleBuffer.data(), windowStyle,
                                  x, y, width, height, nullptr, nullptr, instance, nullptr);
 
         if (!window)
@@ -583,12 +586,15 @@ namespace ouzel
     {
         if (title != newTitle)
         {
-            wchar_t titleBuffer[256] = L"";
-
-            if (!newTitle.empty() && MultiByteToWideChar(CP_UTF8, 0, newTitle.c_str(), -1, titleBuffer, 256) == 0)
+            int titleBufferSize = MultiByteToWideChar(CP_UTF8, 0, newTitle.c_str(), -1, nullptr, 0);
+            if (titleBufferSize == 0)
                 throw SystemError("Failed to convert UTF-8 to wide char");
 
-            SetWindowTextW(window, titleBuffer);
+            std::vector<WCHAR> titleBuffer(titleBufferSize);
+            if (MultiByteToWideChar(CP_UTF8, 0, newTitle.c_str(), -1, titleBuffer.data(), titleBufferSize) == 0)
+                throw SystemError("Failed to convert UTF-8 to wide char");
+
+            SetWindowTextW(window, titleBuffer.data());
         }
 
         NativeWindow::setTitle(newTitle);
