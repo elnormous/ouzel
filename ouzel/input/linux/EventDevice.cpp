@@ -189,7 +189,8 @@ static const std::unordered_map<uint16_t, ouzel::input::Keyboard::Key> keyMap = 
     {KEY_STOP, ouzel::input::Keyboard::Key::STOP},
     {KEY_FIND, ouzel::input::Keyboard::Key::SEARCH},
     {KEY_BOOKMARKS, ouzel::input::Keyboard::Key::BOOKMARKS},
-    {KEY_HOMEPAGE, ouzel::input::Keyboard::Key::HOMEPAGE}
+    {KEY_HOMEPAGE, ouzel::input::Keyboard::Key::HOMEPAGE},
+    {KEY_MODE, ouzel::input::Keyboard::Key::MODE_CHANGE}
 };
 
 static ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)

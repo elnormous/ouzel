@@ -211,6 +211,7 @@ static const std::unordered_map<KeySym, ouzel::input::Keyboard::Key> keyMap = {
     {XK_udiaeresis, ouzel::input::Keyboard::Key::SEMICOLON},
     {XK_Super_L, ouzel::input::Keyboard::Key::LEFT_SUPER},
     {XK_Super_R, ouzel::input::Keyboard::Key::RIGHT_SUPER},
+    {XK_Mode_switch, ouzel::input::Keyboard::Key::MODE_CHANGE},
     {XK_Help, ouzel::input::Keyboard::Key::HELP},
     {XK_yen, ouzel::input::Keyboard::Key::YEN},
     {XK_Kanji, ouzel::input::Keyboard::Key::KANJI},
