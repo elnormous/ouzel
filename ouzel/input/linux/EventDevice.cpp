@@ -128,7 +128,7 @@ static const std::unordered_map<uint16_t, ouzel::input::Keyboard::Key> keyMap = 
     {KEY_KPENTER, ouzel::input::Keyboard::Key::NUMPAD_ENTER},
     {KEY_RIGHTCTRL, ouzel::input::Keyboard::Key::RIGHT_CONTROL},
     {KEY_KPSLASH, ouzel::input::Keyboard::Key::NUMPAD_DIVIDE},
-    {KEY_SYSRQ, ouzel::input::Keyboard::Key::NONE}, // ??
+    {KEY_SYSRQ, ouzel::input::Keyboard::Key::PRINT_SCREEN},
     {KEY_RIGHTALT, ouzel::input::Keyboard::Key::RIGHT_ALT},
     {KEY_LINEFEED, ouzel::input::Keyboard::Key::NONE}, // ??
     {KEY_HOME, ouzel::input::Keyboard::Key::HOME},
@@ -142,9 +142,15 @@ static const std::unordered_map<uint16_t, ouzel::input::Keyboard::Key> keyMap = 
     {KEY_INSERT, ouzel::input::Keyboard::Key::INSERT},
     {KEY_DELETE, ouzel::input::Keyboard::Key::DEL},
     {KEY_MACRO, ouzel::input::Keyboard::Key::NONE}, // ??
+    {KEY_MAIL, ouzel::input::Keyboard::Key::MAIL},
     {KEY_MUTE, ouzel::input::Keyboard::Key::MUTE},
     {KEY_VOLUMEDOWN, ouzel::input::Keyboard::Key::VOLUME_DOWN},
     {KEY_VOLUMEUP, ouzel::input::Keyboard::Key::VOLUME_UP},
+    {KEY_NEXTSONG, ouzel::input::Keyboard::Key::AUDIO_NEXT},
+    {KEY_PLAYPAUSE, ouzel::input::Keyboard::Key::AUDIO_PLAY},
+    {KEY_PREVIOUSSONG, ouzel::input::Keyboard::Key::AUDIO_PREVIOUS},
+    {KEY_STOPCD, ouzel::input::Keyboard::Key::AUDIO_STOP},
+
     {KEY_POWER, ouzel::input::Keyboard::Key::POWER},
     {KEY_KPEQUAL, ouzel::input::Keyboard::Key::NUMPAD_EQUAL},
     {KEY_KPPLUSMINUS, ouzel::input::Keyboard::Key::NUMPAD_PLUSMINUS},
@@ -175,7 +181,6 @@ static const std::unordered_map<uint16_t, ouzel::input::Keyboard::Key> keyMap = 
     {KEY_MENU, ouzel::input::Keyboard::Key::MENU},
     {KEY_CLEAR, ouzel::input::Keyboard::Key::CLEAR},
     {KEY_SLEEP, ouzel::input::Keyboard::Key::SLEEP},
-    {KEY_SYSRQ, ouzel::input::Keyboard::Key::PRINT_SCREEN},
     {KEY_HELP, ouzel::input::Keyboard::Key::HELP},
 
     {KEY_BACK, ouzel::input::Keyboard::Key::BACK},
