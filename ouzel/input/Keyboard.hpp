@@ -164,6 +164,8 @@ namespace ouzel
                 INTL_BACKSLASH,     // "<>" or "\|"
                 CRSEL,              // CrSel key
                 EXSEL,              // ExSel key
+                APP1,               // Launch application 1 key
+                APP2,               // Launch application 2 key
                 BACK,               // AC back key
                 FORWARD,            // AC forward key
                 REFRESH,            // AC refresh key

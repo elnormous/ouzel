@@ -181,6 +181,8 @@ static const std::unordered_map<uint16_t, ouzel::input::Keyboard::Key> keyMap = 
     {KEY_MENU, ouzel::input::Keyboard::Key::MENU},
     {KEY_CLEAR, ouzel::input::Keyboard::Key::CLEAR},
     {KEY_SLEEP, ouzel::input::Keyboard::Key::SLEEP},
+    {KEY_PROG1, ouzel::input::Keyboard::Key::APP1},
+    {KEY_PROG2, ouzel::input::Keyboard::Key::APP2},
     {KEY_HELP, ouzel::input::Keyboard::Key::HELP},
 
     {KEY_BACK, ouzel::input::Keyboard::Key::BACK},
