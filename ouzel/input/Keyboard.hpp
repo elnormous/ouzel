@@ -37,10 +37,6 @@ namespace ouzel
                 MUHENKAN,           // Japanese non-conversion key
                 NUMPAD_JPCOMMA,     // Japanese numeric keypad comma key
                 ESCAPE,             // ESC key
-                CONVERT,            // IME convert
-                NONCONVERT,         // IME nonconvert
-                ACCEPT,             // IME accept
-                MODECHANGE,         // IME mode change request
                 SPACE,              // SPACEBAR
                 PAGE_UP,            // PAGE UP key
                 PAGE_DOWN,          // PAGE DOWN key
@@ -152,6 +148,7 @@ namespace ouzel
                 RIGHT_CONTROL,      // Right CONTROL key
                 LEFT_ALT,           // Left alt key
                 RIGHT_ALT,          // Right alt key
+                MODE_CHANGE,        // Mode change key
                 SEMICOLON,          // for US    ";:"
                 PLUS,               // Plus Key   "+"
                 COMMA,              // Comma Key  ","
@@ -165,11 +162,8 @@ namespace ouzel
                 QUOTE,              // for US    "'""
                 OEM_AX,             // for Japan "AX"
                 INTL_BACKSLASH,     // "<>" or "\|"
-                ATTN,               // Attn key
                 CRSEL,              // CrSel key
                 EXSEL,              // ExSel key
-                EREOF,              // Erase EOF key
-                PA1,                // PA1 key
                 BACK,               // AC back key
                 FORWARD,            // AC forward key
                 REFRESH,            // AC refresh key
