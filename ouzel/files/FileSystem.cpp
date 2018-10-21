@@ -3,21 +3,24 @@
 #include "core/Setup.h"
 
 #include <algorithm>
-#include <sys/stat.h>
 #if OUZEL_PLATFORM_WINDOWS
-#include <Windows.h>
-#include <Shlobj.h>
-#include <Shlwapi.h>
+#  include <Windows.h>
+#  include <Shlobj.h>
+#  include <Shlwapi.h>
 #elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-#include <objc/message.h>
-#include <CoreFoundation/CoreFoundation.h>
-#include "apple/FileSystemApple.hpp"
+#  include <objc/message.h>
+#  include <CoreFoundation/CoreFoundation.h>
+#  include "apple/FileSystemApple.hpp"
 extern "C" id NSTemporaryDirectory();
 #elif OUZEL_PLATFORM_LINUX
-#include <pwd.h>
-#include <unistd.h>
+#  include <pwd.h>
+#  include <unistd.h>
 #elif OUZEL_PLATFORM_ANDROID
-#include "core/android/EngineAndroid.hpp"
+#  include "core/android/EngineAndroid.hpp"
+#endif
+
+#if !OUZEL_PLATFORM_WINDOWS
+#  include <sys/stat.h>
 #endif
 
 #include "FileSystem.hpp"
@@ -108,8 +111,18 @@ namespace ouzel
             if (MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, buffer.data(), bufferSize) == 0)
                 throw FileError("Failed to convert UTF-8 to wide char");
 
-            if (!CreateDirectoryW(buffer.data(), nullptr))
-                throw FileError("Failed to create directory " + path);
+            // relative paths longer than MAX_PATH are not supported
+            if (buffer.size() > MAX_PATH)
+                buffer.insert(buffer.begin(), { L'\\', L'\\', L'?', L'\\' });
+
+            DWORD attributes = GetFileAttributesW(buffer.data());
+            if (attributes == INVALID_FILE_ATTRIBUTES)
+            {
+                if (!CreateDirectoryW(buffer.data(), nullptr))
+                    throw FileError("Failed to create directory " + path);
+            }
+            else if ((attributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
+                throw FileError(path + " is not a directory");
         }
 
         path += DIRECTORY_SEPARATOR + OUZEL_APPLICATION_NAME;
@@ -124,8 +137,18 @@ namespace ouzel
             if (MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, buffer.data(), bufferSize) == 0)
                 throw FileError("Failed to convert UTF-8 to wide char");
 
-            if (!CreateDirectoryW(buffer.data(), nullptr))
-                throw FileError("Failed to create directory " + path);
+            // relative paths longer than MAX_PATH are not supported
+            if (buffer.size() > MAX_PATH)
+                buffer.insert(buffer.begin(), { L'\\', L'\\', L'?', L'\\' });
+
+            DWORD attributes = GetFileAttributesW(buffer.data());
+            if (attributes == INVALID_FILE_ATTRIBUTES)
+            {
+                if (!CreateDirectoryW(buffer.data(), nullptr))
+                    throw FileError("Failed to create directory " + path);
+            }
+            else if ((attributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
+                throw FileError(path + " is not a directory");
         }
 
         return path;
@@ -319,11 +342,31 @@ namespace ouzel
         if (exists) return true;
 #endif
 
+#if OUZEL_PLATFORM_WINDOWS
+        int bufferSize = MultiByteToWideChar(CP_UTF8, 0, dirname.c_str(), -1, nullptr, 0);
+        if (bufferSize == 0)
+            throw FileError("Failed to convert UTF-8 to wide char");
+
+        std::vector<WCHAR> buffer(bufferSize);
+        if (MultiByteToWideChar(CP_UTF8, 0, dirname.c_str(), -1, buffer.data(), bufferSize) == 0)
+            throw FileError("Failed to convert UTF-8 to wide char");
+
+        // relative paths longer than MAX_PATH are not supported
+        if (buffer.size() > MAX_PATH)
+            buffer.insert(buffer.begin(), { L'\\', L'\\', L'?', L'\\' });
+
+        DWORD attributes = GetFileAttributesW(buffer.data());
+        if (attributes == INVALID_FILE_ATTRIBUTES)
+            return false;
+
+        return (attributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
+#else
         struct stat buf;
         if (stat(dirname.c_str(), &buf) != 0)
             return false;
 
         return (buf.st_mode & S_IFMT) == S_IFDIR;
+#endif
     }
 
     bool FileSystem::fileExists(const std::string& filename) const
@@ -340,11 +383,31 @@ namespace ouzel
         }
 #endif
 
+#if OUZEL_PLATFORM_WINDOWS
+        int bufferSize = MultiByteToWideChar(CP_UTF8, 0, filename.c_str(), -1, nullptr, 0);
+        if (bufferSize == 0)
+            throw FileError("Failed to convert UTF-8 to wide char");
+
+        std::vector<WCHAR> buffer(bufferSize);
+        if (MultiByteToWideChar(CP_UTF8, 0, filename.c_str(), -1, buffer.data(), bufferSize) == 0)
+            throw FileError("Failed to convert UTF-8 to wide char");
+
+        // relative paths longer than MAX_PATH are not supported
+        if (buffer.size() > MAX_PATH)
+            buffer.insert(buffer.begin(), { L'\\', L'\\', L'?', L'\\' });
+
+        DWORD attributes = GetFileAttributesW(buffer.data());
+        if (attributes == INVALID_FILE_ATTRIBUTES)
+            return false;
+
+        return (attributes & FILE_ATTRIBUTE_DIRECTORY) == 0;
+#else
         struct stat buf;
         if (stat(filename.c_str(), &buf) != 0)
             return false;
 
         return (buf.st_mode & S_IFMT) == S_IFREG;
+#endif
     }
 
     std::string FileSystem::getPath(const std::string& filename, bool searchResources) const
