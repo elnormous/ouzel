@@ -237,10 +237,7 @@ namespace ouzel
         void RenderDeviceOGLMacOS::renderCallback()
         {
             if ([NSOpenGLContext currentContext] != openGLContext)
-            {
                 [openGLContext makeCurrentContext];
-                [openGLContext update];
-            }
 
             if (running) process();
         }
