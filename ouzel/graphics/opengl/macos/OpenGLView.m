@@ -9,6 +9,11 @@
 
 @implementation OpenGLView
 
+-(BOOL)wantsLayer
+{
+    return YES;
+}
+
 -(id)makeBackingLayer
 {
     return [CALayer layer];
