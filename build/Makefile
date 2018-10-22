@@ -212,7 +212,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/metal/RenderTargetResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/ShaderResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/TextureResourceMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/OpenGLView.m \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/OpenGLView.mm \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/RenderDeviceOGLMacOS.mm \
 	$(ROOT_DIR)/../ouzel/input/macos/GamepadDeviceGC.mm \
 	$(ROOT_DIR)/../ouzel/input/macos/GamepadDeviceIOKit.cpp \
