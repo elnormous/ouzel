@@ -4,9 +4,20 @@
 
 #if OUZEL_COMPILE_OPENGL
 
+#import <QuartzCore/QuartzCore.h>
 #include "OpenGLView.h"
 
 @implementation OpenGLView
+
+-(BOOL)wantsLayer
+{
+    return YES;
+}
+
+-(id)makeBackingLayer
+{
+    return [CALayer layer];
+}
 
 @end
 
