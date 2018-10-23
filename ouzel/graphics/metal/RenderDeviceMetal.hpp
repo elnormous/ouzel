@@ -125,7 +125,8 @@ namespace ouzel
 
             struct ShaderConstantBuffer
             {
-                MTLBufferPtr buffer = nil;
+                std::vector<MTLBufferPtr> buffers;
+                uint32_t index = 0;
                 uint32_t offset = 0;
             };
 
