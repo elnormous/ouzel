@@ -141,17 +141,6 @@ namespace ouzel
             renderPassDescriptor.depthAttachment.loadAction = MTLLoadActionClear;
             renderPassDescriptor.depthAttachment.clearDepth = clearDepth;
             renderPassDescriptor.depthAttachment.storeAction = MTLStoreActionStore;
-
-            for (ShaderConstantBuffer& shaderConstantBuffer : shaderConstantBuffers)
-            {
-                MTLBufferPtr buffer = [device newBufferWithLength:BUFFER_SIZE
-                                                          options:MTLResourceCPUCacheModeWriteCombined];
-
-                if (!buffer)
-                    throw SystemError("Failed to create Metal buffer");
-
-                shaderConstantBuffer.buffers.push_back(buffer);
-            }
         }
 
         void RenderDeviceMetal::setClearColorBuffer(bool clear)
@@ -758,27 +747,28 @@ namespace ouzel
                             shaderData.insert(shaderData.end(), fragmentShaderConstant.begin(), fragmentShaderConstant.end());
                         }
 
-                        MTLBufferPtr currentBuffer;
-
                         shaderConstantBuffer.offset = ((shaderConstantBuffer.offset + currentShader->getFragmentShaderAlignment() - 1) /
                                                        currentShader->getFragmentShaderAlignment()) * currentShader->getFragmentShaderAlignment(); // round up to nearest aligned pointer
 
 
                         if (shaderConstantBuffer.offset + getVectorSize(shaderData) > BUFFER_SIZE)
                         {
-                            currentBuffer = [device newBufferWithLength:BUFFER_SIZE
-                                                                options:MTLResourceCPUCacheModeWriteCombined];
-
-                            if (!currentBuffer)
-                                throw SystemError("Failed to create Metal buffer");
-
-                            shaderConstantBuffer.buffers.push_back(currentBuffer);
-
                             ++shaderConstantBuffer.index;
                             shaderConstantBuffer.offset = 0;
                         }
-                        else
-                            currentBuffer = shaderConstantBuffer.buffers[shaderConstantBuffer.index];
+
+                        if (shaderConstantBuffer.index >= shaderConstantBuffer.buffers.size())
+                        {
+                            MTLBufferPtr buffer = [device newBufferWithLength:BUFFER_SIZE
+                                                                      options:MTLResourceCPUCacheModeWriteCombined];
+
+                            if (!buffer)
+                                throw SystemError("Failed to create Metal buffer");
+
+                            shaderConstantBuffer.buffers.push_back(buffer);
+                        }
+
+                        MTLBufferPtr currentBuffer = shaderConstantBuffer.buffers[shaderConstantBuffer.index];
 
                         std::copy(reinterpret_cast<const char*>(shaderData.data()),
                                   reinterpret_cast<const char*>(shaderData.data()) + static_cast<uint32_t>(sizeof(float) * shaderData.size()),
@@ -814,19 +804,22 @@ namespace ouzel
 
                         if (shaderConstantBuffer.offset + getVectorSize(shaderData) > BUFFER_SIZE)
                         {
-                            currentBuffer = [device newBufferWithLength:BUFFER_SIZE
-                                                                options:MTLResourceCPUCacheModeWriteCombined];
-
-                            if (!currentBuffer)
-                                throw SystemError("Failed to create Metal buffer");
-
-                            shaderConstantBuffer.buffers.push_back(currentBuffer);
-
                             ++shaderConstantBuffer.index;
                             shaderConstantBuffer.offset = 0;
                         }
-                        else
-                            currentBuffer = shaderConstantBuffer.buffers[shaderConstantBuffer.index];
+
+                        if (shaderConstantBuffer.index >= shaderConstantBuffer.buffers.size())
+                        {
+                            MTLBufferPtr buffer = [device newBufferWithLength:BUFFER_SIZE
+                                                                      options:MTLResourceCPUCacheModeWriteCombined];
+
+                            if (!buffer)
+                                throw SystemError("Failed to create Metal buffer");
+
+                            shaderConstantBuffer.buffers.push_back(buffer);
+                        }
+
+                        currentBuffer = shaderConstantBuffer.buffers[shaderConstantBuffer.index];
 
                         std::copy(reinterpret_cast<const char*>(shaderData.data()),
                                   reinterpret_cast<const char*>(shaderData.data()) + static_cast<uint32_t>(sizeof(float) * shaderData.size()),
