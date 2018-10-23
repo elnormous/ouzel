@@ -50,7 +50,8 @@ namespace ouzel
             resources.clear();
 
             for (const ShaderConstantBuffer& shaderConstantBuffer : shaderConstantBuffers)
-                [shaderConstantBuffer.buffer release];
+                for (MTLBufferPtr buffer : shaderConstantBuffer.buffers)
+                    [buffer release];
 
             for (id<MTLDepthStencilState> depthStencilState : depthStencilStates)
                 if (depthStencilState) [depthStencilState release];
@@ -143,11 +144,13 @@ namespace ouzel
 
             for (ShaderConstantBuffer& shaderConstantBuffer : shaderConstantBuffers)
             {
-                shaderConstantBuffer.buffer = [device newBufferWithLength:BUFFER_SIZE
-                                                                  options:MTLResourceCPUCacheModeWriteCombined];
+                MTLBufferPtr buffer = [device newBufferWithLength:BUFFER_SIZE
+                                                          options:MTLResourceCPUCacheModeWriteCombined];
 
-                if (!shaderConstantBuffer.buffer)
+                if (!buffer)
                     throw SystemError("Failed to create Metal buffer");
+
+                shaderConstantBuffer.buffers.push_back(buffer);
             }
         }
 
@@ -287,6 +290,8 @@ namespace ouzel
 
             if (++shaderConstantBufferIndex >= BUFFER_COUNT) shaderConstantBufferIndex = 0;
             ShaderConstantBuffer& shaderConstantBuffer = shaderConstantBuffers[shaderConstantBufferIndex];
+            shaderConstantBuffer.index = 0;
+            shaderConstantBuffer.offset = 0;
             ShaderResourceMetal* currentShader = nullptr;
 
             std::unique_ptr<Command> command;
@@ -753,19 +758,33 @@ namespace ouzel
                             shaderData.insert(shaderData.end(), fragmentShaderConstant.begin(), fragmentShaderConstant.end());
                         }
 
-                        //ShaderConstantBuffer& shaderConstantBuffer = shaderConstantBuffers[shaderConstantBufferIndex];
+                        MTLBufferPtr currentBuffer;
 
                         shaderConstantBuffer.offset = ((shaderConstantBuffer.offset + currentShader->getFragmentShaderAlignment() - 1) /
                                                        currentShader->getFragmentShaderAlignment()) * currentShader->getFragmentShaderAlignment(); // round up to nearest aligned pointer
 
+
                         if (shaderConstantBuffer.offset + getVectorSize(shaderData) > BUFFER_SIZE)
+                        {
+                            currentBuffer = [device newBufferWithLength:BUFFER_SIZE
+                                                                options:MTLResourceCPUCacheModeWriteCombined];
+
+                            if (!currentBuffer)
+                                throw SystemError("Failed to create Metal buffer");
+
+                            shaderConstantBuffer.buffers.push_back(currentBuffer);
+
+                            ++shaderConstantBuffer.index;
                             shaderConstantBuffer.offset = 0;
+                        }
+                        else
+                            currentBuffer = shaderConstantBuffer.buffers[shaderConstantBuffer.index];
 
                         std::copy(reinterpret_cast<const char*>(shaderData.data()),
                                   reinterpret_cast<const char*>(shaderData.data()) + static_cast<uint32_t>(sizeof(float) * shaderData.size()),
-                                  static_cast<char*>([shaderConstantBuffer.buffer contents]) + shaderConstantBuffer.offset);
+                                  static_cast<char*>([currentBuffer contents]) + shaderConstantBuffer.offset);
 
-                        [currentRenderCommandEncoder setFragmentBuffer:shaderConstantBuffer.buffer
+                        [currentRenderCommandEncoder setFragmentBuffer:currentBuffer
                                                                 offset:shaderConstantBuffer.offset
                                                                atIndex:1];
 
@@ -794,13 +813,26 @@ namespace ouzel
                                                        currentShader->getVertexShaderAlignment()) * currentShader->getVertexShaderAlignment(); // round up to nearest aligned pointer
 
                         if (shaderConstantBuffer.offset + getVectorSize(shaderData) > BUFFER_SIZE)
+                        {
+                            currentBuffer = [device newBufferWithLength:BUFFER_SIZE
+                                                                options:MTLResourceCPUCacheModeWriteCombined];
+
+                            if (!currentBuffer)
+                                throw SystemError("Failed to create Metal buffer");
+
+                            shaderConstantBuffer.buffers.push_back(currentBuffer);
+
+                            ++shaderConstantBuffer.index;
                             shaderConstantBuffer.offset = 0;
+                        }
+                        else
+                            currentBuffer = shaderConstantBuffer.buffers[shaderConstantBuffer.index];
 
                         std::copy(reinterpret_cast<const char*>(shaderData.data()),
                                   reinterpret_cast<const char*>(shaderData.data()) + static_cast<uint32_t>(sizeof(float) * shaderData.size()),
-                                  static_cast<char*>([shaderConstantBuffer.buffer contents]) + shaderConstantBuffer.offset);
+                                  static_cast<char*>([currentBuffer contents]) + shaderConstantBuffer.offset);
 
-                        [currentRenderCommandEncoder setVertexBuffer:shaderConstantBuffer.buffer
+                        [currentRenderCommandEncoder setVertexBuffer:currentBuffer
                                                               offset:shaderConstantBuffer.offset
                                                              atIndex:1];
 
