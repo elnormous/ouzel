@@ -14,8 +14,8 @@ namespace ouzel
 {
     class EventDispatcher final
     {
-        friend Engine;
     public:
+        EventDispatcher();
         ~EventDispatcher();
 
         EventDispatcher(const EventDispatcher&) = delete;
@@ -33,13 +33,10 @@ namespace ouzel
         // posts the event for dispatching on the game thread
         std::future<bool> postEvent(const Event& event);
 
-    protected:
-        EventDispatcher();
-
-    private:
         // dispatches all queued events on the game thread
         void dispatchEvents();
 
+    private:
         std::vector<EventHandler*> eventHandlers;
         std::set<EventHandler*> eventHandlerAddSet;
         std::set<EventHandler*> eventHandlerDeleteSet;

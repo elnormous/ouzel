@@ -18,7 +18,6 @@
 
 namespace ouzel
 {
-    class Engine;
     class Window;
 
     namespace graphics
@@ -27,7 +26,6 @@ namespace ouzel
 
         class Renderer final
         {
-            friend Engine;
             friend Window;
         public:
             enum class Driver
@@ -60,6 +58,16 @@ namespace ouzel
                 SOLID,
                 WIREFRAME
             };
+
+            Renderer(Driver driver,
+                     Window* newWindow,
+                     const Size2& newSize,
+                     uint32_t newSampleCount,
+                     Texture::Filter newTextureFilter,
+                     uint32_t newMaxAnisotropy,
+                     bool newVerticalSync,
+                     bool newDepth,
+                     bool newDebugRenderer);
 
             Renderer(const Renderer&) = delete;
             Renderer& operator=(const Renderer&) = delete;
@@ -111,16 +119,6 @@ namespace ouzel
             void waitForNextFrame();
 
         protected:
-            explicit Renderer(Driver driver,
-                              Window* newWindow,
-                              const Size2& newSize,
-                              uint32_t newSampleCount,
-                              Texture::Filter newTextureFilter,
-                              uint32_t newMaxAnisotropy,
-                              bool newVerticalSync,
-                              bool newDepth,
-                              bool newDebugRenderer);
-
             void setSize(const Size2& newSize);
 
             std::unique_ptr<RenderDevice> device;
