@@ -28,6 +28,11 @@ namespace ouzel
             friend MouseDevice;
             friend TouchpadDevice;
         public:
+            struct Resource
+            {
+                void* data;
+            };
+
             struct Command
             {
                 enum class Type
@@ -57,11 +62,11 @@ namespace ouzel
                     float speed;
                     bool visible;
                     bool locked;
-                    NativeCursor* nativeCursor;
                 };
 
                 Gamepad::Motor motor;
                 Vector2 position;
+                std::shared_ptr<Resource> cursor;
             };
 
             struct Event

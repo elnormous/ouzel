@@ -18,7 +18,7 @@ namespace ouzel
         class NativeCursorMacOS: public NativeCursor
         {
         public:
-            explicit NativeCursorMacOS(InputManager& initInputManager);
+            explicit NativeCursorMacOS(InputSystem& initInputSystem);
             virtual ~NativeCursorMacOS();
 
             virtual void init(SystemCursor newSystemCursor) override;

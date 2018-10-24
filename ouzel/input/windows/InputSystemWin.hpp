@@ -17,6 +17,7 @@ namespace ouzel
     {
         class GamepadDeviceDI;
         class GamepadDeviceXI;
+        class NativeCursorWin;
 
         class InputSystemWin: public InputSystem
         {
@@ -46,6 +47,8 @@ namespace ouzel
             IDirectInput8W* directInput = nullptr;
             std::vector<std::unique_ptr<GamepadDeviceDI>> gamepadsDI;
             std::unique_ptr<GamepadDeviceXI> gamepadsXI[XUSER_MAX_COUNT];
+
+            std::vector<std::unique_ptr<NativeCursorWin>> cursors;
         };
     }
 }

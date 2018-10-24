@@ -39,6 +39,7 @@ namespace ouzel
             std::unique_ptr<TouchpadDevice> touchpadDevice;
 
             std::unordered_map<int, std::unique_ptr<EventDevice>> eventDevices;
+            std::vector<std::unique_ptr<NativeCursorLinux>> cursors;
         };
     }
 }

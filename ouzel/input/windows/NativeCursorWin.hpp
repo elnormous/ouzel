@@ -15,7 +15,7 @@ namespace ouzel
         class NativeCursorWin: public NativeCursor
         {
         public:
-            explicit NativeCursorWin(InputManager& initInputManager);
+            explicit NativeCursorWin(InputSystem& initInputSystem);
             virtual ~NativeCursorWin();
 
             virtual void init(SystemCursor newSystemCursor) override;
