@@ -14,8 +14,8 @@ namespace ouzel
 {
     namespace input
     {
-        NativeCursorLinux::NativeCursorLinux(InputManager& initInputManager):
-            NativeCursor(initInputManager)
+        NativeCursorLinux::NativeCursorLinux(InputSystem& initInputSystem):
+            NativeCursor(initInputSystem)
         {
         }
 

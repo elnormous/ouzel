@@ -13,7 +13,11 @@ namespace ouzel
     {
         Cursor::Cursor()
         {
-            //nativeCursor = engine->getInputManager()->createNativeCursor();
+            InputSystem::Command command;
+            command.type = InputSystem::Command::Type::CREATE_CURSOR;
+            command.cursor = nativeCursor;
+
+            engine->getInputManager()->getInputSystem()->addCommand(command);
         }
 
         Cursor::Cursor(SystemCursor systemCursor):
@@ -30,7 +34,11 @@ namespace ouzel
 
         Cursor::~Cursor()
         {
-            //if (engine && nativeCursor) engine->getInputManager()->deleteNativeCursor(nativeCursor);
+            InputSystem::Command command;
+            command.type = InputSystem::Command::Type::DESTROY_CURSOR;
+            command.cursor = nativeCursor;
+
+            engine->getInputManager()->getInputSystem()->addCommand(command);
         }
 
         void Cursor::init(SystemCursor systemCursor)

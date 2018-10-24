@@ -15,7 +15,7 @@ namespace ouzel
         class NativeCursorLinux: public NativeCursor
         {
         public:
-            explicit NativeCursorLinux(InputManager& initInputManager);
+            explicit NativeCursorLinux(InputSystem& initInputSystem);
             virtual ~NativeCursorLinux();
 
             virtual void init(SystemCursor newSystemCursor) override;

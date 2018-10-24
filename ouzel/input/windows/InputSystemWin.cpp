@@ -6,6 +6,7 @@
 #include "InputSystemWin.hpp"
 #include "GamepadDeviceDI.hpp"
 #include "GamepadDeviceXI.hpp"
+#include "NativeCursorWin.hpp"
 #include "core/Engine.hpp"
 #include "core/windows/NativeWindowWin.hpp"
 #include "utils/Errors.hpp"
@@ -83,6 +84,29 @@ namespace ouzel
                     {
                         if (inputDevice == mouseDevice.get())
                             mouseDevice->setPosition(command.position);
+                    }
+                    break;
+                }
+                case Command::Type::CREATE_CURSOR:
+                {
+                    std::unique_ptr<NativeCursorWin> cursor(new NativeCursorWin(*this));
+
+                    if (command.cursor)
+                        command.cursor->data = cursor.get();
+
+                    cursors.push_back(std::move(cursor));
+                    break;
+                }
+                case Command::Type::DESTROY_CURSOR:
+                {
+                    if (command.cursor)
+                    {
+                        void* cursor = command.cursor->data;
+                        auto i = std::find_if(cursors.begin(), cursors.end(), [cursor](const std::unique_ptr<NativeCursorWin>& other) {
+                            return other.get() == cursor;
+                        });
+
+                        if (i != cursors.end()) cursors.erase(i);
                     }
                     break;
                 }

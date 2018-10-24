@@ -1,14 +1,14 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "NativeCursor.hpp"
-#include "input/InputManager.hpp"
+#include "input/InputSystem.hpp"
 
 namespace ouzel
 {
     namespace input
     {
-        NativeCursor::NativeCursor(InputManager& initInputManager):
-            inputManager(initInputManager)
+        NativeCursor::NativeCursor(InputSystem& initInputSystem):
+            inputSystem(initInputSystem)
         {
         }
 

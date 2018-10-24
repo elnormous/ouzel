@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <string>
 #include <vector>
+#include "input/InputSystem.hpp"
 #include "graphics/PixelFormat.hpp"
 #include "math/Size2.hpp"
 #include "math/Vector2.hpp"
@@ -13,8 +14,6 @@ namespace ouzel
 {
     namespace input
     {
-        class NativeCursor;
-
         enum class SystemCursor
         {
             DEFAULT,
@@ -47,10 +46,8 @@ namespace ouzel
                       graphics::PixelFormat pixelFormat,
                       const Vector2& hotSpot);
 
-            inline NativeCursor* getNativeCursor() const { return nativeCursor; }
-
         private:
-            NativeCursor* nativeCursor = nullptr;
+            std::shared_ptr<InputSystem::Resource> nativeCursor;
         };
     } // namespace input
 } // namespace ouzel

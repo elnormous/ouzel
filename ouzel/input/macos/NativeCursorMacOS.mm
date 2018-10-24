@@ -6,8 +6,8 @@ namespace ouzel
 {
     namespace input
     {
-        NativeCursorMacOS::NativeCursorMacOS(InputManager& initInputManager):
-            NativeCursor(initInputManager)
+        NativeCursorMacOS::NativeCursorMacOS(InputSystem& initInputSystem):
+            NativeCursor(initInputSystem)
         {
         }
 

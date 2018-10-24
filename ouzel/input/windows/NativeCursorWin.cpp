@@ -7,8 +7,8 @@ namespace ouzel
 {
     namespace input
     {
-        NativeCursorWin::NativeCursorWin(InputManager& initInputManager):
-            NativeCursor(initInputManager)
+        NativeCursorWin::NativeCursorWin(InputSystem& initInputSystem):
+            NativeCursor(initInputSystem)
         {
         }
 

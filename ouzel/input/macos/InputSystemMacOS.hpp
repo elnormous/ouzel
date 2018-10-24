@@ -28,6 +28,8 @@ namespace ouzel
 {
     namespace input
     {
+        class NativeCursorMacOS;
+
         class InputSystemMacOS: public InputSystem
         {
         public:
@@ -60,6 +62,8 @@ namespace ouzel
 
             id connectDelegate = nil;
             IOHIDManagerRef hidManager = nullptr;
+
+            std::vector<std::unique_ptr<NativeCursorMacOS>> cursors;
         };
     }
 }
