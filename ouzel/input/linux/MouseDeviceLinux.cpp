@@ -57,5 +57,10 @@ namespace ouzel
             XSync(display, False);
 #endif
         }
+
+        void MouseDeviceLinux::setCursor(NativeCursorMacOS* newCursor)
+        {
+            cursor = newCursor;
+        }
     } // namespace input
 } // namespace ouzel

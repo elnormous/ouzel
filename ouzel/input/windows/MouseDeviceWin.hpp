@@ -8,6 +8,8 @@ namespace ouzel
 {
     namespace input
     {
+        class NativeCursorWin;
+
         class MouseDeviceWin: public MouseDevice
         {
         public:
@@ -20,6 +22,12 @@ namespace ouzel
             void setPosition(const Vector2& position);
             void setCursorVisible(bool visible);
             void setCursorLocked(bool locked);
+
+            NativeCursorWin* getCursor() const { return cursor; }
+            void setCursor(NativeCursorWin* newCursor);
+
+        private:
+            NativeCursorWin* cursor = nullptr;
         };
     } // namespace input
 } // namespace ouzel

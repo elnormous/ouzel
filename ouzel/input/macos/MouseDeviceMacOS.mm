@@ -31,5 +31,10 @@ namespace ouzel
         {
             CGAssociateMouseAndMouseCursorPosition(!locked);
         }
+
+        void MouseDeviceMacOS::setCursor(NativeCursorMacOS* newCursor)
+        {
+            cursor = newCursor;
+        }
     } // namespace input
 } // namespace ouzel

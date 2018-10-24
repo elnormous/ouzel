@@ -29,8 +29,6 @@ namespace ouzel
             switch (systemCursor)
             {
                 case SystemCursor::DEFAULT:
-                    cursor = [NSCursor arrowCursor];
-                    break;
                 case SystemCursor::ARROW:
                     cursor = [NSCursor arrowCursor];
                     break;
@@ -57,9 +55,9 @@ namespace ouzel
         }
 
         void NativeCursorMacOS::init(const std::vector<uint8_t>& newData,
-                                       const Size2& newSize,
-                                       graphics::PixelFormat newPixelFormat,
-                                       const Vector2& newHotSpot)
+                                     const Size2& newSize,
+                                     graphics::PixelFormat newPixelFormat,
+                                     const Vector2& newHotSpot)
         {
             NativeCursor::init(newData,
                                  newSize,

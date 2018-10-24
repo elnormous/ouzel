@@ -112,6 +112,11 @@ namespace ouzel
                 }
                 case Command::Type::SET_CURSOR:
                 {
+                    if (InputDevice* inputDevice = getInputDevice(command.deviceId))
+                    {
+                        if (inputDevice == mouseDevice.get() && command.cursor)
+                            mouseDevice->setCursor(static_cast<NativeCursorWin*>(command.cursor->data));
+                    }
                     break;
                 }
                 case Command::Type::SET_CURSOR_VISIBLE:
