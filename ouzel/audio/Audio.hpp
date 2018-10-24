@@ -12,7 +12,6 @@
 
 namespace ouzel
 {
-    class Engine;
     class Window;
 
     namespace audio
@@ -22,7 +21,6 @@ namespace ouzel
 
         class Audio final
         {
-            friend Engine;
         public:
             enum class Driver
             {
@@ -65,6 +63,7 @@ namespace ouzel
                 FLOAT32
             };
 
+            Audio(Driver driver, bool debugAudio, Window* window);
             ~Audio();
 
             Audio(const Audio&) = delete;
@@ -86,9 +85,7 @@ namespace ouzel
                                  std::vector<float>& dst, uint32_t dstFrames,
                                  uint32_t channels);
 
-        protected:
-            explicit Audio(Driver driver, bool debugAudio, Window* window);
-
+        private:
             std::unique_ptr<AudioDevice> device;
 
             std::vector<Listener*> listeners;

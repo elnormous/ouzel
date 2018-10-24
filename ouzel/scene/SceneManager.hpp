@@ -11,16 +11,14 @@
 
 namespace ouzel
 {
-    class Engine;
-
     namespace scene
     {
         class Scene;
 
         class SceneManager final
         {
-            friend Engine;
         public:
+            SceneManager();
             ~SceneManager();
 
             SceneManager(const SceneManager&) = delete;
@@ -52,9 +50,6 @@ namespace ouzel
             }
 
             inline Scene* getScene() const { return scenes.empty() ? nullptr : scenes.back(); }
-
-        protected:
-            SceneManager();
 
         private:
             std::vector<Scene*> scenes;

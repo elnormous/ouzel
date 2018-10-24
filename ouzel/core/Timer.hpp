@@ -4,12 +4,10 @@
 
 namespace ouzel
 {
-    class Engine;
-
     class Timer final
     {
-        friend Engine;
     public:
+        Timer();
         ~Timer() = default;
 
         Timer(const Timer&) = delete;
@@ -19,8 +17,5 @@ namespace ouzel
         Timer& operator=(Timer&&) = delete;
 
         void update(float delta);
-
-    protected:
-        Timer();
     };
 }

@@ -10,12 +10,18 @@
 
 namespace ouzel
 {
-    class Engine;
-
     class Window final: public NativeWindow::EventHandler
     {
-        friend Engine;
     public:
+
+        Window(const Size2& newSize,
+               bool newResizable,
+               bool newFullscreen,
+               bool newExclusiveFullscreen,
+               const std::string& newTitle,
+               graphics::Renderer::Driver graphicsDriver,
+               bool newHighDpi,
+               bool depth);
         Window(const Window&) = delete;
         Window& operator=(const Window&) = delete;
 
@@ -25,6 +31,7 @@ namespace ouzel
         inline NativeWindow* getNativeWindow() const { return nativeWindow.get(); }
 
         void close();
+        void update();
 
         inline const Size2& getSize() const { return size; }
         void setSize(const Size2& newSize);
@@ -50,18 +57,6 @@ namespace ouzel
         {
             return Vector2(position.x * size.width, position.y * size.height);
         }
-
-    protected:
-        Window(const Size2& newSize,
-               bool newResizable,
-               bool newFullscreen,
-               bool newExclusiveFullscreen,
-               const std::string& newTitle,
-               graphics::Renderer::Driver graphicsDriver,
-               bool newHighDpi,
-               bool depth);
-
-        void update();
 
     private:
         virtual bool handleEvent(const NativeWindow::Event& event) override;

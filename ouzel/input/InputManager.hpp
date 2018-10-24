@@ -11,8 +11,6 @@
 
 namespace ouzel
 {
-    class Engine;
-
     namespace input
     {
         class Controller;
@@ -23,14 +21,15 @@ namespace ouzel
 
         class InputManager final: public InputSystem::EventHandler
         {
-            friend Engine;
         public:
+            InputManager();
             InputManager(const InputManager&) = delete;
             InputManager& operator=(const InputManager&) = delete;
 
             InputManager(InputManager&&) = delete;
             InputManager& operator=(InputManager&&) = delete;
 
+            void update();
             InputSystem* getInputSystem() const { return inputSystem.get(); }
 
             const std::vector<Controller*>& getControllers() const { return controllers; }
@@ -43,10 +42,6 @@ namespace ouzel
 
             void showVirtualKeyboard();
             void hideVirtualKeyboard();
-
-        protected:
-            InputManager();
-            void update();
 
         private:
             virtual bool handleEvent(const InputSystem::Event& event) override;
