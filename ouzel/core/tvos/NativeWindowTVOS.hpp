@@ -23,12 +23,13 @@ typedef id UITextFieldPtr;
 
 namespace ouzel
 {
-    class Window;
-
     class NativeWindowTVOS: public NativeWindow
     {
-        friend Window;
     public:
+        NativeWindowTVOS(EventHandler& initEventHandler,
+                         const std::string& newTitle,
+                         graphics::Renderer::Driver graphicsDriver,
+                         bool newHighDpi);
         virtual ~NativeWindowTVOS();
 
         inline UIWindowPtr getNativeWindow() const { return window; }
@@ -37,12 +38,7 @@ namespace ouzel
 
         void handleResize(const Size2& newSize);
 
-    protected:
-        NativeWindowTVOS(EventHandler& initEventHandler,
-                         const std::string& newTitle,
-                         graphics::Renderer::Driver graphicsDriver,
-                         bool newHighDpi);
-
+    private:
         UIScreenPtr screen = nil;
         UIWindowPtr window = nil;
         UIViewPtr view = nil;

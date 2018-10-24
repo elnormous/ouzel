@@ -22,14 +22,20 @@ typedef struct
 
 namespace ouzel
 {
-    class Window;
     class EngineLinux;
 
     class NativeWindowLinux: public NativeWindow
     {
-        friend Window;
         friend EngineLinux;
     public:
+        NativeWindowLinux(EventHandler& initEventHandler,
+                          const Size2& newSize,
+                          bool newResizable,
+                          bool newFullscreen,
+                          bool newExclusiveFullscreen,
+                          const std::string& newTitle,
+                          graphics::Renderer::Driver graphicsDriver,
+                          bool depth);
         virtual ~NativeWindowLinux();
 
         virtual void close() override;
@@ -48,15 +54,7 @@ namespace ouzel
         const EGL_DISPMANX_WINDOW_T& getNativeWindow() const { return window; }
 #endif
 
-    protected:
-        NativeWindowLinux(EventHandler& initEventHandler,
-                          const Size2& newSize,
-                          bool newResizable,
-                          bool newFullscreen,
-                          bool newExclusiveFullscreen,
-                          const std::string& newTitle,
-                          graphics::Renderer::Driver graphicsDriver,
-                          bool depth);
+    private:
         virtual void toggleFullscreen();
         void handleResize(const Size2& newSize);
 
