@@ -58,7 +58,7 @@ namespace ouzel
 #endif
         }
 
-        void MouseDeviceLinux::setCursor(NativeCursorWin* newCursor)
+        void MouseDeviceLinux::setCursor(NativeCursorLinux* newCursor)
         {
             cursor = newCursor;
         }
