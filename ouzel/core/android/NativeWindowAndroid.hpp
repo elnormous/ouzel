@@ -9,12 +9,11 @@
 
 namespace ouzel
 {
-    class Window;
-
     class NativeWindowAndroid: public NativeWindow
     {
-        friend Window;
     public:
+        NativeWindowAndroid(EventHandler& initEventHandler,
+                            const std::string& newTitle);
         virtual ~NativeWindowAndroid();
 
         void handleResize(const Size2& newSize);
@@ -23,10 +22,7 @@ namespace ouzel
 
         ANativeWindow* getNativeWindow() const { return window; }
 
-    protected:
-        NativeWindowAndroid(EventHandler& initEventHandler,
-                            const std::string& newTitle);
-
+    private:
         ANativeWindow* window = nullptr;
     };
 }

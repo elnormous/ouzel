@@ -25,12 +25,17 @@ typedef uint32_t CGDirectDisplayID;
 
 namespace ouzel
 {
-    class Window;
-
     class NativeWindowMacOS: public NativeWindow
     {
-        friend Window;
     public:
+        NativeWindowMacOS(EventHandler& initEventHandler,
+                          const Size2& newSize,
+                          bool newResizable,
+                          bool newFullscreen,
+                          bool newExclusiveFullscreen,
+                          const std::string& newTitle,
+                          graphics::Renderer::Driver graphicsDriver,
+                          bool newHighDpi);
         virtual ~NativeWindowMacOS();
 
         virtual void close() override;
@@ -50,16 +55,7 @@ namespace ouzel
         inline NSScreenPtr getScreen() const { return screen; }
         inline CGDirectDisplayID getDisplayId() const { return displayId; }
 
-    protected:
-        NativeWindowMacOS(EventHandler& initEventHandler,
-                          const Size2& newSize,
-                          bool newResizable,
-                          bool newFullscreen,
-                          bool newExclusiveFullscreen,
-                          const std::string& newTitle,
-                          graphics::Renderer::Driver graphicsDriver,
-                          bool newHighDpi);
-
+    private:
         NSWindowPtr window = nil;
         NSViewPtr view = nil;
         NSWindowDelegatePtr windowDelegate = nil;

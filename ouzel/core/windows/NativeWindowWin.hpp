@@ -11,14 +11,19 @@
 
 namespace ouzel
 {
-    class Window;
     class EngineWin;
 
     class NativeWindowWin : public NativeWindow
     {
-        friend Window;
         friend EngineWin;
     public:
+        NativeWindowWin(EventHandler& initEventHandler,
+                        const Size2& newSize,
+                        bool newResizable,
+                        bool newFullscreen,
+                        bool newExclusiveFullscreen,
+                        const std::string& newTitle,
+                        bool newHighDpi);
         virtual ~NativeWindowWin();
 
         virtual void close() override;
@@ -41,15 +46,7 @@ namespace ouzel
 
         HMONITOR getMonitor() const { return monitor; }
 
-    protected:
-        NativeWindowWin(EventHandler& initEventHandler,
-                        const Size2& newSize,
-                        bool newResizable,
-                        bool newFullscreen,
-                        bool newExclusiveFullscreen,
-                        const std::string& newTitle,
-                        bool newHighDpi);
-
+    private:
         void switchFullscreen(bool newFullscreen);
 
         ATOM windowClass = 0;

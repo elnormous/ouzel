@@ -6,22 +6,17 @@
 
 namespace ouzel
 {
-    class Window;
-
     class NativeWindowEm: public NativeWindow
     {
-        friend Window;
     public:
-        virtual void setSize(const Size2& newSize) override;
-        virtual void setFullscreen(bool newFullscreen) override;
-
-        void handleResize();
-
-    protected:
         NativeWindowEm(EventHandler& initEventHandler,
                        const Size2& newSize,
                        bool newFullscreen,
                        const std::string& newTitle,
                        bool newHighDpi);
+        virtual void setSize(const Size2& newSize) override;
+        virtual void setFullscreen(bool newFullscreen) override;
+
+        void handleResize();
     };
 }
