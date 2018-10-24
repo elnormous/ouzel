@@ -14,6 +14,8 @@ namespace ouzel
 {
     namespace input
     {
+        class NativeCursorLinux;
+
         class InputSystemLinux: public InputSystem
         {
         public:
