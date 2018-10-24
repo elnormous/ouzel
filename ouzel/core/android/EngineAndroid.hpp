@@ -60,7 +60,7 @@ namespace ouzel
         jmethodID addFlagsMethod = nullptr;
         jmethodID clearFlagsMethod = nullptr;
         ALooper* looper = nullptr;
-        int fd[2];
+        int looperPipe[2];
 
         std::string filesDirectory;
         std::string cacheDirectory;

@@ -29,10 +29,8 @@ static int looperCallback(int fd, int events, void* data)
 namespace ouzel
 {
     EngineAndroid::EngineAndroid(JavaVM* initJavaVM):
-        javaVM(initJavaVM)
+        javaVM(initJavaVM), looperPipe{-1, -1}
     {
-        std::fill(std::begin(fd), std::end(fd), 0);
-
         JNIEnv* jniEnv;
 
         if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
@@ -62,8 +60,8 @@ namespace ouzel
         }
 
         if (looper) ALooper_release(looper);
-        if (fd[0]) close(fd[0]);
-        if (fd[1]) close(fd[1]);
+        if (looperPipe[0] != -1) close(looperPipe[0]);
+        if (looperPipe[1] != -1) close(looperPipe[1]);
     }
 
     void EngineAndroid::onCreate(jobject initMainActivity)
@@ -133,10 +131,10 @@ namespace ouzel
             throw SystemError("Main thread has no looper");
 
         ALooper_acquire(looper);
-        if (pipe(fd) != 0)
+        if (pipe(looperPipe) != 0)
             throw SystemError("Failed to create pipe, error: " + std::to_string(errno));
 
-        if (ALooper_addFd(looper, fd[0], ALOOPER_POLL_CALLBACK, ALOOPER_EVENT_INPUT, looperCallback, this) != 1)
+        if (ALooper_addFd(looper, looperPipe[0], ALOOPER_POLL_CALLBACK, ALOOPER_EVENT_INPUT, looperCallback, this) != 1)
             throw SystemError("Failed to add looper file descriptor");
     }
 
@@ -244,7 +242,7 @@ namespace ouzel
         }
 
         char command = 1;
-        if (write(fd[1], &command, sizeof(command)) == -1)
+        if (write(looperPipe[1], &command, sizeof(command)) == -1)
             throw SystemError("Failed to write to pipe");
     }
 
