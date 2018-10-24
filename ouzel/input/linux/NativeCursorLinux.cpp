@@ -48,8 +48,6 @@ namespace ouzel
             switch (systemCursor)
             {
                 case SystemCursor::DEFAULT:
-                    cursor = XcursorLibraryLoadCursor(display, "arrow");
-                    break;
                 case SystemCursor::ARROW:
                     cursor = XcursorLibraryLoadCursor(display, "arrow");
                     break;
@@ -74,9 +72,9 @@ namespace ouzel
         }
 
         void NativeCursorLinux::init(const std::vector<uint8_t>& newData,
-                                       const Size2& newSize,
-                                       graphics::PixelFormat newPixelFormat,
-                                       const Vector2& newHotSpot)
+                                     const Size2& newSize,
+                                     graphics::PixelFormat newPixelFormat,
+                                     const Vector2& newHotSpot)
         {
             NativeCursor::init(newData,
                                  newSize,
