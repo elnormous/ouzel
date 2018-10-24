@@ -31,7 +31,7 @@ namespace ouzel
         inline DISPMANX_DISPLAY_HANDLE_T getDisplay() const { return display; }
 #endif
 
-    protected:
+    private:
         void executeAll();
 
         std::queue<std::function<void(void)>> executeQueue;

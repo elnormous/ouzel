@@ -26,7 +26,7 @@ namespace ouzel
 
         void executeAll();
 
-    protected:
+    private:
         std::queue<std::function<void(void)>> executeQueue;
         std::mutex executeMutex;
 

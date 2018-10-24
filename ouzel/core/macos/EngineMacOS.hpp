@@ -26,7 +26,7 @@ namespace ouzel
 
         void executeAll();
 
-    protected:
+    private:
         virtual void main() override;
 
         std::queue<std::function<void(void)>> executeQueue;
