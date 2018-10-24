@@ -50,7 +50,7 @@ namespace ouzel
                 ClipCursor(nullptr);
         }
 
-        void MouseDeviceWin::setCursor(NativeCursorMacOS* newCursor)
+        void MouseDeviceWin::setCursor(NativeCursorWin* newCursor)
         {
             cursor = newCursor;
         }
