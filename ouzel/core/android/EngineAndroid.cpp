@@ -190,7 +190,7 @@ namespace ouzel
                     event->orientation = SystemEvent::Orientation::LANDSCAPE;
                     break;
                 default:
-                    event.->orientation = SystemEvent::Orientation::UNKNOWN;
+                    event->orientation = SystemEvent::Orientation::UNKNOWN;
                     break;
             }
 
