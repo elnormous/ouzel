@@ -62,10 +62,11 @@ namespace ouzel
                                         bool newDepth,
                                         bool newDebugRenderer)
         {
-            EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
             NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(newWindow->getNativeWindow());
 
 #if OUZEL_OPENGL_INTERFACE_GLX
+            EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
+
             // make sure OpenGL's GLX extension supported
             int dummy;
             if (!glXQueryExtension(engineLinux->getDisplay(), &dummy, &dummy))
