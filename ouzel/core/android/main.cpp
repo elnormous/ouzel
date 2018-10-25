@@ -77,10 +77,9 @@ extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onConf
 
 extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onLowMemory(JNIEnv*, jclass)
 {
-    ouzel::Event event;
-    event.type = ouzel::Event::Type::LOW_MEMORY;
-
-    engine->getEventDispatcher().postEvent(event);
+    std::unique_ptr<ouzel::SystemEvent> event(new ouzel::SystemEvent());
+    event->type = ouzel::Event::Type::LOW_MEMORY;
+    engine->getEventDispatcher().postEvent(std::move(event));
 }
 
 static const std::unordered_map<jint, ouzel::input::Keyboard::Key> keyMap = {
