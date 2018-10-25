@@ -17,9 +17,9 @@ GUISample::GUISample():
     label3("UTF-8 ĀāČč\nNew line", "ArialBlack.fnt", 1.0F, Color::WHITE, Vector2(0.0F, 0.5F)),
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
 {
-    handler.gamepadHandler = bind(&GUISample::handleGamepad, this, placeholders::_1, placeholders::_2);
-    handler.uiHandler = bind(&GUISample::handleUI, this, placeholders::_1, placeholders::_2);
-    handler.keyboardHandler = bind(&GUISample::handleKeyboard, this, placeholders::_1, placeholders::_2);
+    handler.gamepadHandler = bind(&GUISample::handleGamepad, this, placeholders::_1);
+    handler.uiHandler = bind(&GUISample::handleUI, this, placeholders::_1);
+    handler.keyboardHandler = bind(&GUISample::handleKeyboard, this, placeholders::_1);
     engine->getEventDispatcher().addEventHandler(&handler);
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
@@ -60,9 +60,9 @@ GUISample::GUISample():
     menu.addWidget(&backButton);
 }
 
-bool GUISample::handleGamepad(Event::Type type, const GamepadEvent& event)
+bool GUISample::handleGamepad(const GamepadEvent& event)
 {
-    if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
+    if (event.type == Event::Type::GAMEPAD_BUTTON_CHANGE)
     {
         if (event.pressed &&
             event.button == Gamepad::Button::FACE_RIGHT)
@@ -72,9 +72,9 @@ bool GUISample::handleGamepad(Event::Type type, const GamepadEvent& event)
     return false;
 }
 
-bool GUISample::handleUI(Event::Type type, const UIEvent& event)
+bool GUISample::handleUI(const UIEvent& event)
 {
-    if (type == Event::Type::ACTOR_CLICK)
+    if (event.type == Event::Type::ACTOR_CLICK)
     {
         if (event.actor == &backButton)
             engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
@@ -90,9 +90,9 @@ bool GUISample::handleUI(Event::Type type, const UIEvent& event)
     return false;
 }
 
-bool GUISample::handleKeyboard(Event::Type type, const KeyboardEvent& event) const
+bool GUISample::handleKeyboard(const KeyboardEvent& event) const
 {
-    if (type == Event::Type::KEY_PRESS)
+    if (event.type == Event::Type::KEY_PRESS)
     {
         switch (event.key)
         {
@@ -104,7 +104,7 @@ bool GUISample::handleKeyboard(Event::Type type, const KeyboardEvent& event) con
                 break;
         }
     }
-    else if (type == Event::Type::KEY_RELEASE)
+    else if (event.type == Event::Type::KEY_RELEASE)
     {
         switch (event.key)
         {

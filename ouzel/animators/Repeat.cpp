@@ -41,10 +41,10 @@ namespace ouzel
                     float remainingTime = currentTime - animators.front()->getLength() * static_cast<float>(currentCount);
                     animators.front()->setProgress(remainingTime / animators.front()->getLength());
 
-                    Event resetEvent;
-                    resetEvent.type = Event::Type::ANIMATION_RESET;
-                    resetEvent.animationEvent.component = this;
-                    engine->getEventDispatcher().dispatchEvent(resetEvent);
+                    std::unique_ptr<AnimationEvent> resetEvent(new AnimationEvent());
+                    resetEvent->type = Event::Type::ANIMATION_RESET;
+                    resetEvent->component = this;
+                    engine->getEventDispatcher().dispatchEvent(std::move(resetEvent));
                 }
                 else
                 {
@@ -53,10 +53,10 @@ namespace ouzel
                     currentTime = length;
                     progress = 1.0F;
 
-                    Event finishEvent;
-                    finishEvent.type = Event::Type::ANIMATION_FINISH;
-                    finishEvent.animationEvent.component = this;
-                    engine->getEventDispatcher().dispatchEvent(finishEvent);
+                    std::unique_ptr<AnimationEvent> finishEvent(new AnimationEvent());
+                    finishEvent->type = Event::Type::ANIMATION_FINISH;
+                    finishEvent->component = this;
+                    engine->getEventDispatcher().dispatchEvent(std::move(finishEvent));
                 }
             }
         }

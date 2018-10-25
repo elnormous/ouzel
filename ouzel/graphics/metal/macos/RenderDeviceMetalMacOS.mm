@@ -90,7 +90,7 @@ namespace ouzel
 
             colorFormat = metalLayer.pixelFormat;
 
-            eventHandler.windowHandler = std::bind(&RenderDeviceMetalMacOS::handleWindow, this, std::placeholders::_1, std::placeholders::_2);
+            eventHandler.windowHandler = std::bind(&RenderDeviceMetalMacOS::handleWindow, this, std::placeholders::_1);
             engine->getEventDispatcher().addEventHandler(&eventHandler);
 
             CGDirectDisplayID displayId = windowMacOS->getDisplayId();
@@ -126,9 +126,9 @@ namespace ouzel
             return result;
         }
 
-        bool RenderDeviceMetalMacOS::handleWindow(Event::Type type, const WindowEvent& event)
+        bool RenderDeviceMetalMacOS::handleWindow(const WindowEvent& event)
         {
-            if (type == Event::Type::SCREEN_CHANGE)
+            if (event.type == Event::Type::SCREEN_CHANGE)
             {
                 engine->executeOnMainThread([this, event]() {
                     if (displayLink)

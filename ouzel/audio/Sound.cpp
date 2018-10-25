@@ -143,9 +143,10 @@ namespace ouzel
             playing = true;
             repeating = repeatSound;
 
-            Event resetEvent;
-            resetEvent.type = Event::Type::SOUND_START;
-            resetEvent.soundEvent.sound = this;
+            std::unique_ptr<SoundEvent> startEvent(new SoundEvent());
+            startEvent->type = Event::Type::SOUND_START;
+            startEvent->sound = this;
+            engine->getEventDispatcher().postEvent(std::move(startEvent));
 
             if (stream)
             {
@@ -216,10 +217,10 @@ namespace ouzel
         // executed on audio thread
         void Sound::onReset()
         {
-            Event event;
-            event.type = Event::Type::SOUND_RESET;
-            event.soundEvent.sound = this;
-            engine->getEventDispatcher().postEvent(event);
+            std::unique_ptr<SoundEvent> event(new SoundEvent());
+            event->type = Event::Type::SOUND_RESET;
+            event->sound = this;
+            engine->getEventDispatcher().postEvent(std::move(event));
         }
 
         // executed on audio thread
@@ -227,10 +228,10 @@ namespace ouzel
         {
             playing = false;
 
-            Event event;
-            event.type = Event::Type::SOUND_FINISH;
-            event.soundEvent.sound = this;
-            engine->getEventDispatcher().postEvent(event);
+            std::unique_ptr<SoundEvent> event(new SoundEvent());
+            event->type = Event::Type::SOUND_FINISH;
+            event->sound = this;
+            engine->getEventDispatcher().postEvent(std::move(event));
         }
 
         void Sound::setAttributes(Vector3&,

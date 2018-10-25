@@ -39,9 +39,9 @@ namespace ouzel
             virtual void enter() override;
             virtual void leave() override;
 
-            bool handleKeyboard(Event::Type type, const KeyboardEvent& event);
-            bool handleGamepad(Event::Type type, const GamepadEvent& event);
-            bool handleUI(Event::Type type, const UIEvent& event);
+            bool handleKeyboard(const KeyboardEvent& event);
+            bool handleGamepad(const GamepadEvent& event);
+            bool handleUI(const UIEvent& event);
 
             std::vector<Widget*> widgets;
             Widget* selectedWidget = nullptr;

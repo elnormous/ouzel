@@ -48,7 +48,7 @@ namespace ouzel
 
         private:
             void update(float delta);
-            bool handleUpdate(Event::Type eventType, const UpdateEvent& event);
+            bool handleUpdate(const UpdateEvent& event);
 
             void createParticleMesh();
             void updateParticleMesh();

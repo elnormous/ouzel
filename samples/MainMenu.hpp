@@ -11,8 +11,8 @@ public:
     MainMenu();
 
 private:
-    bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event);
-    bool handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event);
+    bool handleUI(const ouzel::UIEvent& event);
+    bool handleKeyboard(const ouzel::KeyboardEvent& event);
 
     ouzel::scene::Layer layer;
     ouzel::scene::Camera camera;

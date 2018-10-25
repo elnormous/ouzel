@@ -51,7 +51,7 @@ namespace ouzel
             virtual void setSize(const Size2& newSize) override;
             virtual void present() override;
 
-            bool handleWindow(Event::Type type, const WindowEvent& event);
+            bool handleWindow(const WindowEvent& event);
 
             NSOpenGLContextPtr openGLContext = nil;
             NSOpenGLPixelFormatPtr pixelFormat = nil;

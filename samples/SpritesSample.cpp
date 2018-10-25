@@ -13,9 +13,9 @@ SpritesSample::SpritesSample():
     wireframeButton("button.png", "button_selected.png", "button_down.png", "", "Wireframe", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
 {
-    handler.gamepadHandler = bind(&SpritesSample::handleGamepad, this, placeholders::_1, placeholders::_2);
-    handler.uiHandler = bind(&SpritesSample::handleUI, this, placeholders::_1, placeholders::_2);
-    handler.keyboardHandler = bind(&SpritesSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
+    handler.gamepadHandler = bind(&SpritesSample::handleGamepad, this, placeholders::_1);
+    handler.uiHandler = bind(&SpritesSample::handleUI, this, placeholders::_1);
+    handler.keyboardHandler = bind(&SpritesSample::handleKeyboard, this, placeholders::_1);
     engine->getEventDispatcher().addEventHandler(&handler);
 
     camera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
@@ -72,9 +72,9 @@ SpritesSample::SpritesSample():
     menu.addWidget(&backButton);
 }
 
-bool SpritesSample::handleGamepad(Event::Type type, const GamepadEvent& event)
+bool SpritesSample::handleGamepad(const GamepadEvent& event)
 {
-    if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
+    if (event.type == Event::Type::GAMEPAD_BUTTON_CHANGE)
     {
         if (event.pressed &&
             event.button == Gamepad::Button::FACE_RIGHT)
@@ -84,9 +84,9 @@ bool SpritesSample::handleGamepad(Event::Type type, const GamepadEvent& event)
     return false;
 }
 
-bool SpritesSample::handleUI(Event::Type type, const UIEvent& event)
+bool SpritesSample::handleUI(const UIEvent& event)
 {
-    if (type == Event::Type::ACTOR_CLICK)
+    if (event.type == Event::Type::ACTOR_CLICK)
     {
         if (event.actor == &backButton)
             engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
@@ -99,9 +99,9 @@ bool SpritesSample::handleUI(Event::Type type, const UIEvent& event)
     return false;
 }
 
-bool SpritesSample::handleKeyboard(Event::Type type, const KeyboardEvent& event) const
+bool SpritesSample::handleKeyboard(const KeyboardEvent& event) const
 {
-    if (type == Event::Type::KEY_PRESS)
+    if (event.type == Event::Type::KEY_PRESS)
     {
         switch (event.key)
         {
@@ -113,7 +113,7 @@ bool SpritesSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
                 break;
         }
     }
-    else if (type == Event::Type::KEY_RELEASE)
+    else if (event.type == Event::Type::KEY_RELEASE)
     {
         switch (event.key)
         {

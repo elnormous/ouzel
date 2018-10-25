@@ -16,9 +16,9 @@ namespace ouzel
         Scene::Scene():
             eventHandler(EventHandler::PRIORITY_MAX + 1)
         {
-            eventHandler.windowHandler = std::bind(&Scene::handleWindow, this, std::placeholders::_1, std::placeholders::_2);
-            eventHandler.mouseHandler = std::bind(&Scene::handleMouse, this, std::placeholders::_1, std::placeholders::_2);
-            eventHandler.touchHandler = std::bind(&Scene::handleTouch, this, std::placeholders::_1, std::placeholders::_2);
+            eventHandler.windowHandler = std::bind(&Scene::handleWindow, this, std::placeholders::_1);
+            eventHandler.mouseHandler = std::bind(&Scene::handleMouse, this, std::placeholders::_1);
+            eventHandler.touchHandler = std::bind(&Scene::handleTouch, this, std::placeholders::_1);
         }
 
         Scene::~Scene()
@@ -184,17 +184,17 @@ namespace ouzel
                 layer->leave();
         }
 
-        bool Scene::handleWindow(Event::Type type, const WindowEvent&)
+        bool Scene::handleWindow(const WindowEvent& event)
         {
-            if (type == Event::Type::RESOLUTION_CHANGE)
+            if (event.type == Event::Type::RESOLUTION_CHANGE)
                 recalculateProjection();
 
             return false;
         }
 
-        bool Scene::handleMouse(Event::Type type, const MouseEvent& event)
+        bool Scene::handleMouse(const MouseEvent& event)
         {
-            switch (type)
+            switch (event.type)
             {
                 case Event::Type::MOUSE_PRESS:
                 {
@@ -229,9 +229,9 @@ namespace ouzel
             return false;
         }
 
-        bool Scene::handleTouch(Event::Type type, const TouchEvent& event)
+        bool Scene::handleTouch(const TouchEvent& event)
         {
-            switch (type)
+            switch (event.type)
             {
                 case Event::Type::TOUCH_BEGIN:
                 {
@@ -276,14 +276,12 @@ namespace ouzel
         {
             if (actor)
             {
-                Event event;
-                event.type = Event::Type::ACTOR_ENTER;
-
-                event.uiEvent.actor = actor;
-                event.uiEvent.touchId = pointerId;
-                event.uiEvent.position = position;
-
-                engine->getEventDispatcher().dispatchEvent(event);
+                std::unique_ptr<UIEvent> event(new UIEvent());
+                event->type = Event::Type::ACTOR_ENTER;
+                event->actor = actor;
+                event->touchId = pointerId;
+                event->position = position;
+                engine->getEventDispatcher().dispatchEvent(std::move(event));
             }
         }
 
@@ -291,14 +289,12 @@ namespace ouzel
         {
             if (actor)
             {
-                Event event;
-                event.type = Event::Type::ACTOR_LEAVE;
-
-                event.uiEvent.actor = actor;
-                event.uiEvent.touchId = pointerId;
-                event.uiEvent.position = position;
-
-                engine->getEventDispatcher().dispatchEvent(event);
+                std::unique_ptr<UIEvent> event(new UIEvent());
+                event->type = Event::Type::ACTOR_LEAVE;
+                event->actor = actor;
+                event->touchId = pointerId;
+                event->position = position;
+                engine->getEventDispatcher().dispatchEvent(std::move(event));
             }
         }
 
@@ -308,15 +304,13 @@ namespace ouzel
             {
                 pointerDownOnActors[pointerId] = std::make_pair(actor, localPosition);
 
-                Event event;
-                event.type = Event::Type::ACTOR_PRESS;
-
-                event.uiEvent.actor = actor;
-                event.uiEvent.touchId = pointerId;
-                event.uiEvent.position = position;
-                event.uiEvent.localPosition = localPosition;
-
-                engine->getEventDispatcher().dispatchEvent(event);
+                std::unique_ptr<UIEvent> event(new UIEvent());
+                event->type = Event::Type::ACTOR_PRESS;
+                event->actor = actor;
+                event->touchId = pointerId;
+                event->position = position;
+                event->localPosition = localPosition;
+                engine->getEventDispatcher().dispatchEvent(std::move(event));
             }
         }
 
@@ -330,26 +324,24 @@ namespace ouzel
 
                 if (pointerDownOnActor.first)
                 {
-                    Event releaseEvent;
-                    releaseEvent.type = Event::Type::ACTOR_RELEASE;
+                    std::unique_ptr<UIEvent> releaseEvent(new UIEvent());
+                    releaseEvent->type = Event::Type::ACTOR_RELEASE;
+                    releaseEvent->actor = pointerDownOnActor.first;
+                    releaseEvent->touchId = pointerId;
+                    releaseEvent->position = position;
+                    releaseEvent->localPosition = pointerDownOnActor.second;
 
-                    releaseEvent.uiEvent.actor = pointerDownOnActor.first;
-                    releaseEvent.uiEvent.touchId = pointerId;
-                    releaseEvent.uiEvent.position = position;
-                    releaseEvent.uiEvent.localPosition = pointerDownOnActor.second;
-
-                    engine->getEventDispatcher().dispatchEvent(releaseEvent);
+                    engine->getEventDispatcher().dispatchEvent(std::move(releaseEvent));
 
                     if (pointerDownOnActor.first == actor)
                     {
-                        Event clickEvent;
-                        clickEvent.type = Event::Type::ACTOR_CLICK;
+                        std::unique_ptr<UIEvent> clickEvent(new UIEvent());
+                        clickEvent->type = Event::Type::ACTOR_CLICK;
+                        clickEvent->actor = actor;
+                        clickEvent->touchId = pointerId;
+                        clickEvent->position = position;
 
-                        clickEvent.uiEvent.actor = actor;
-                        clickEvent.uiEvent.touchId = pointerId;
-                        clickEvent.uiEvent.position = position;
-
-                        engine->getEventDispatcher().dispatchEvent(clickEvent);
+                        engine->getEventDispatcher().dispatchEvent(std::move(clickEvent));
                     }
                 }
             }
@@ -362,16 +354,14 @@ namespace ouzel
         {
             if (actor)
             {
-                Event event;
-                event.type = Event::Type::ACTOR_DRAG;
-
-                event.uiEvent.actor = actor;
-                event.uiEvent.touchId = pointerId;
-                event.uiEvent.difference = difference;
-                event.uiEvent.position = position;
-                event.uiEvent.localPosition = localPosition;
-
-                engine->getEventDispatcher().dispatchEvent(event);
+                std::unique_ptr<UIEvent> event(new UIEvent());
+                event->type = Event::Type::ACTOR_DRAG;
+                event->actor = actor;
+                event->touchId = pointerId;
+                event->difference = difference;
+                event->position = position;
+                event->localPosition = localPosition;
+                engine->getEventDispatcher().dispatchEvent(std::move(event));
             }
         }
     } // namespace scene

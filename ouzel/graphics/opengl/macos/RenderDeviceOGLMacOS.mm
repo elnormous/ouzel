@@ -158,7 +158,7 @@ namespace ouzel
                                   newDepth,
                                   newDebugRenderer);
 
-            eventHandler.windowHandler = std::bind(&RenderDeviceOGLMacOS::handleWindow, this, std::placeholders::_1, std::placeholders::_2);
+            eventHandler.windowHandler = std::bind(&RenderDeviceOGLMacOS::handleWindow, this, std::placeholders::_1);
             engine->getEventDispatcher().addEventHandler(&eventHandler);
 
             CGDirectDisplayID displayId = windowMacOS->getDisplayId();
@@ -206,9 +206,9 @@ namespace ouzel
             [openGLContext flushBuffer];
         }
 
-        bool RenderDeviceOGLMacOS::handleWindow(Event::Type type, const WindowEvent& event)
+        bool RenderDeviceOGLMacOS::handleWindow(const WindowEvent& event)
         {
-            if (type == Event::Type::SCREEN_CHANGE)
+            if (event.type == Event::Type::SCREEN_CHANGE)
             {
                 engine->executeOnMainThread([this, event]() {
                     if (displayLink)

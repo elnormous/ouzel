@@ -13,7 +13,7 @@ namespace ouzel
         Animator::Animator(float initLength):
             Component(Component::ANIMATOR), length(initLength)
         {
-            updateHandler.updateHandler = std::bind(&Animator::handleUpdate, this, std::placeholders::_1, std::placeholders::_2);
+            updateHandler.updateHandler = std::bind(&Animator::handleUpdate, this, std::placeholders::_1);
         }
 
         Animator::~Animator()
@@ -40,10 +40,10 @@ namespace ouzel
                     progress = 1.0F;
                     currentTime = length;
 
-                    Event finishEvent;
-                    finishEvent.type = Event::Type::ANIMATION_FINISH;
-                    finishEvent.animationEvent.component = this;
-                    engine->getEventDispatcher().dispatchEvent(finishEvent);
+                    std::unique_ptr<AnimationEvent> finishEvent(new AnimationEvent());
+                    finishEvent->type = Event::Type::ANIMATION_FINISH;
+                    finishEvent->component = this;
+                    engine->getEventDispatcher().dispatchEvent(std::move(finishEvent));
                 }
                 else
                 {
@@ -57,7 +57,7 @@ namespace ouzel
                 updateHandler.remove();
         }
 
-        bool Animator::handleUpdate(Event::Type, const UpdateEvent& event)
+        bool Animator::handleUpdate(const UpdateEvent& event)
         {
             update(event.delta);
             return false;
@@ -68,10 +68,10 @@ namespace ouzel
             engine->getEventDispatcher().addEventHandler(&updateHandler);
             play();
 
-            Event startEvent;
-            startEvent.type = Event::Type::ANIMATION_START;
-            startEvent.animationEvent.component = this;
-            engine->getEventDispatcher().dispatchEvent(startEvent);
+            std::unique_ptr<AnimationEvent> startEvent(new AnimationEvent());
+            startEvent->type = Event::Type::ANIMATION_START;
+            startEvent->component = this;
+            engine->getEventDispatcher().dispatchEvent(std::move(startEvent));
         }
 
         void Animator::play()

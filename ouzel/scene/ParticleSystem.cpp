@@ -25,7 +25,7 @@ namespace ouzel
             blendState = engine->getCache().getBlendState(BLEND_ALPHA);
             whitePixelTexture = engine->getCache().getTexture(TEXTURE_WHITE_PIXEL);
 
-            updateHandler.updateHandler = std::bind(&ParticleSystem::handleUpdate, this, std::placeholders::_1, std::placeholders::_2);
+            updateHandler.updateHandler = std::bind(&ParticleSystem::handleUpdate, this, std::placeholders::_1);
         }
 
         ParticleSystem::ParticleSystem(const std::string& filename):
@@ -122,10 +122,10 @@ namespace ouzel
                     active = false;
                     updateHandler.remove();
 
-                    Event finishEvent;
-                    finishEvent.type = Event::Type::ANIMATION_FINISH;
-                    finishEvent.animationEvent.component = this;
-                    engine->getEventDispatcher().dispatchEvent(finishEvent);
+                    std::unique_ptr<AnimationEvent> finishEvent(new AnimationEvent());
+                    finishEvent->type = Event::Type::ANIMATION_FINISH;
+                    finishEvent->component = this;
+                    engine->getEventDispatcher().dispatchEvent(std::move(finishEvent));
 
                     return;
                 }
@@ -234,7 +234,7 @@ namespace ouzel
             }
         }
 
-        bool ParticleSystem::handleUpdate(Event::Type, const UpdateEvent& event)
+        bool ParticleSystem::handleUpdate(const UpdateEvent& event)
         {
             update(event.delta);
             return false;
@@ -281,10 +281,10 @@ namespace ouzel
 
                 if (particleCount == 0)
                 {
-                    Event startEvent;
-                    startEvent.type = Event::Type::ANIMATION_START;
-                    startEvent.animationEvent.component = this;
-                    engine->getEventDispatcher().dispatchEvent(startEvent);
+                    std::unique_ptr<AnimationEvent> startEvent(new AnimationEvent());
+                    startEvent->type = Event::Type::ANIMATION_START;
+                    startEvent->component = this;
+                    engine->getEventDispatcher().dispatchEvent(std::move(startEvent));
                 }
             }
         }

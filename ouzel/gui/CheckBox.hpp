@@ -31,7 +31,7 @@ namespace ouzel
             inline scene::Sprite* getDisabledSprite() const { return disabledSprite.get(); }
 
         protected:
-            bool handleUI(Event::Type type,const UIEvent& event);
+            bool handleUI(const UIEvent& event);
 
             void updateSprite();
 

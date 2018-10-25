@@ -17,9 +17,9 @@ SoundSample::SoundSample():
     ambientButton("button.png", "button_selected.png", "button_down.png", "", "Ambient", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
     musicButton("button.png", "button_selected.png", "button_down.png", "", "Music", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
 {
-    handler.gamepadHandler = bind(&SoundSample::handleGamepad, this, placeholders::_1, placeholders::_2);
-    handler.uiHandler = bind(&SoundSample::handleUI, this, placeholders::_1, placeholders::_2);
-    handler.keyboardHandler = bind(&SoundSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
+    handler.gamepadHandler = bind(&SoundSample::handleGamepad, this, placeholders::_1);
+    handler.uiHandler = bind(&SoundSample::handleUI, this, placeholders::_1);
+    handler.keyboardHandler = bind(&SoundSample::handleKeyboard, this, placeholders::_1);
     engine->getEventDispatcher().addEventHandler(&handler);
 
     engine->getAudio()->addListener(&listener);
@@ -75,9 +75,9 @@ SoundSample::SoundSample():
     menu.addWidget(&backButton);
 }
 
-bool SoundSample::handleGamepad(Event::Type type, const GamepadEvent& event)
+bool SoundSample::handleGamepad(const GamepadEvent& event)
 {
-    if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
+    if (event.type == Event::Type::GAMEPAD_BUTTON_CHANGE)
     {
         if (event.pressed &&
             event.button == Gamepad::Button::FACE_RIGHT)
@@ -87,9 +87,9 @@ bool SoundSample::handleGamepad(Event::Type type, const GamepadEvent& event)
     return false;
 }
 
-bool SoundSample::handleUI(Event::Type type, const UIEvent& event)
+bool SoundSample::handleUI(const UIEvent& event)
 {
-    if (type == Event::Type::ACTOR_CLICK)
+    if (event.type == Event::Type::ACTOR_CLICK)
     {
         if (event.actor == &backButton)
             engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
@@ -108,9 +108,9 @@ bool SoundSample::handleUI(Event::Type type, const UIEvent& event)
     return false;
 }
 
-bool SoundSample::handleKeyboard(Event::Type type, const KeyboardEvent& event) const
+bool SoundSample::handleKeyboard(const KeyboardEvent& event) const
 {
-    if (type == Event::Type::KEY_PRESS)
+    if (event.type == Event::Type::KEY_PRESS)
     {
         switch (event.key)
         {
@@ -122,7 +122,7 @@ bool SoundSample::handleKeyboard(Event::Type type, const KeyboardEvent& event) c
                 break;
         }
     }
-    else if (type == Event::Type::KEY_RELEASE)
+    else if (event.type == Event::Type::KEY_RELEASE)
     {
         switch (event.key)
         {

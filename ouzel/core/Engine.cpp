@@ -90,9 +90,9 @@ namespace ouzel
     {
         if (active)
         {
-            Event event;
-            event.type = Event::Type::ENGINE_STOP;
-            eventDispatcher.postEvent(event);
+            std::unique_ptr<SystemEvent> event(new SystemEvent());
+            event->type = Event::Type::ENGINE_STOP;
+            eventDispatcher.postEvent(std::move(event));
         }
 
         paused = true;
@@ -538,9 +538,9 @@ namespace ouzel
     {
         if (!active)
         {
-            Event event;
-            event.type = Event::Type::ENGINE_START;
-            eventDispatcher.postEvent(event);
+            std::unique_ptr<SystemEvent> event(new SystemEvent());
+            event->type = Event::Type::ENGINE_START;
+            eventDispatcher.postEvent(std::move(event));
 
             active = true;
             paused = false;
@@ -557,9 +557,9 @@ namespace ouzel
     {
         if (active && !paused)
         {
-            Event event;
-            event.type = Event::Type::ENGINE_PAUSE;
-            eventDispatcher.postEvent(event);
+            std::unique_ptr<SystemEvent> event(new SystemEvent());
+            event->type = Event::Type::ENGINE_PAUSE;
+            eventDispatcher.postEvent(std::move(event));
 
             paused = true;
         }
@@ -569,9 +569,9 @@ namespace ouzel
     {
         if (active && paused)
         {
-            Event event;
-            event.type = Event::Type::ENGINE_RESUME;
-            eventDispatcher.postEvent(event);
+            std::unique_ptr<SystemEvent> event(new SystemEvent());
+            event->type = Event::Type::ENGINE_RESUME;
+            eventDispatcher.postEvent(std::move(event));
 
             paused = false;
 
@@ -588,9 +588,9 @@ namespace ouzel
 
         if (active)
         {
-            Event event;
-            event.type = Event::Type::ENGINE_STOP;
-            eventDispatcher.postEvent(event);
+            std::unique_ptr<SystemEvent> event(new SystemEvent());
+            event->type = Event::Type::ENGINE_STOP;
+            eventDispatcher.postEvent(std::move(event));
 
             active = false;
         }
@@ -623,10 +623,10 @@ namespace ouzel
             previousUpdateTime = currentTime;
             float delta = std::chrono::duration_cast<std::chrono::microseconds>(diff).count() / 1000000.0F;
 
-            Event updateEvent;
-            updateEvent.type = Event::Type::UPDATE;
-            updateEvent.updateEvent.delta = delta;
-            eventDispatcher.dispatchEvent(updateEvent);
+            std::unique_ptr<UpdateEvent> updateEvent(new UpdateEvent());
+            updateEvent->type = Event::Type::UPDATE;
+            updateEvent->delta = delta;
+            eventDispatcher.dispatchEvent(std::move(updateEvent));
         }
 
         inputManager->update();

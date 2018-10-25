@@ -40,19 +40,19 @@ namespace ouzel
 
         bool Gamepad::handleButtonValueChange(Gamepad::Button button, bool pressed, float value)
         {
-            Event event;
-            event.type = Event::Type::GAMEPAD_BUTTON_CHANGE;
-            event.gamepadEvent.gamepad = this;
-            event.gamepadEvent.button = button;
-            event.gamepadEvent.previousPressed = buttonStates[static_cast<uint32_t>(button)].pressed;
-            event.gamepadEvent.pressed = pressed;
-            event.gamepadEvent.value = value;
-            event.gamepadEvent.previousValue = buttonStates[static_cast<uint32_t>(button)].value;
+            std::unique_ptr<GamepadEvent> event(new GamepadEvent());
+            event->type = Event::Type::GAMEPAD_BUTTON_CHANGE;
+            event->gamepad = this;
+            event->button = button;
+            event->previousPressed = buttonStates[static_cast<uint32_t>(button)].pressed;
+            event->pressed = pressed;
+            event->value = value;
+            event->previousValue = buttonStates[static_cast<uint32_t>(button)].value;
 
             buttonStates[static_cast<uint32_t>(button)].pressed = pressed;
             buttonStates[static_cast<uint32_t>(button)].value = value;
 
-            return engine->getEventDispatcher().dispatchEvent(event);
+            return engine->getEventDispatcher().dispatchEvent(std::move(event));
         }
 
         void Gamepad::setVibration(Motor motor, float speed)

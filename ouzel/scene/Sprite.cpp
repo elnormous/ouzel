@@ -19,7 +19,7 @@ namespace ouzel
         {
             whitePixelTexture = engine->getCache().getTexture(TEXTURE_WHITE_PIXEL);
 
-            updateHandler.updateHandler = std::bind(&Sprite::handleUpdate, this, std::placeholders::_1, std::placeholders::_2);
+            updateHandler.updateHandler = std::bind(&Sprite::handleUpdate, this, std::placeholders::_1);
 
             currentAnimation = animationQueue.end();
         }
@@ -158,22 +158,22 @@ namespace ouzel
                             {
                                 currentTime = fmodf(currentTime, length);
 
-                                Event resetEvent;
-                                resetEvent.type = Event::Type::ANIMATION_RESET;
-                                resetEvent.animationEvent.component = this;
-                                resetEvent.animationEvent.name = currentAnimation->animation->name;
-                                engine->getEventDispatcher().dispatchEvent(resetEvent);
+                                std::unique_ptr<AnimationEvent> resetEvent(new AnimationEvent());
+                                resetEvent->type = Event::Type::ANIMATION_RESET;
+                                resetEvent->component = this;
+                                resetEvent->name = currentAnimation->animation->name;
+                                engine->getEventDispatcher().dispatchEvent(std::move(resetEvent));
                                 break;
                             }
                             else
                             {
                                 if (running)
                                 {
-                                    Event finishEvent;
-                                    finishEvent.type = Event::Type::ANIMATION_FINISH;
-                                    finishEvent.animationEvent.component = this;
-                                    finishEvent.animationEvent.name = currentAnimation->animation->name;
-                                    engine->getEventDispatcher().dispatchEvent(finishEvent);
+                                    std::unique_ptr<AnimationEvent> finishEvent(new AnimationEvent());
+                                    finishEvent->type = Event::Type::ANIMATION_FINISH;
+                                    finishEvent->component = this;
+                                    finishEvent->name = currentAnimation->animation->name;
+                                    engine->getEventDispatcher().dispatchEvent(std::move(finishEvent));
                                 }
 
                                 auto nextAnimation = std::next(currentAnimation);
@@ -187,11 +187,11 @@ namespace ouzel
                                 {
                                     currentTime -= length;
 
-                                    Event startEvent;
-                                    startEvent.type = Event::Type::ANIMATION_START;
-                                    startEvent.animationEvent.component = this;
-                                    startEvent.animationEvent.name = nextAnimation->animation->name;
-                                    engine->getEventDispatcher().dispatchEvent(startEvent);
+                                    std::unique_ptr<AnimationEvent> startEvent(new AnimationEvent());
+                                    startEvent->type = Event::Type::ANIMATION_START;
+                                    startEvent->component = this;
+                                    startEvent->name = nextAnimation->animation->name;
+                                    engine->getEventDispatcher().dispatchEvent(std::move(startEvent));
                                 }
                             }
                         }
@@ -202,7 +202,7 @@ namespace ouzel
             }
         }
 
-        bool Sprite::handleUpdate(Event::Type, const UpdateEvent& event)
+        bool Sprite::handleUpdate(const UpdateEvent& event)
         {
             update(event.delta);
             return false;

@@ -54,35 +54,35 @@
     UIDevice* device = note.object;
     UIDeviceOrientation orientation = device.orientation;
 
-    ouzel::Event event;
-    event.type = ouzel::Event::Type::ORIENTATION_CHANGE;
+    std::unique_ptr<ouzel::SystemEvent> event(new ouzel::SystemEvent());
+    event->type = ouzel::Event::Type::ORIENTATION_CHANGE;
 
     switch (orientation)
     {
         case UIDeviceOrientationPortrait:
-            event.systemEvent.orientation = ouzel::SystemEvent::Orientation::PORTRAIT;
+            event->orientation = ouzel::SystemEvent::Orientation::PORTRAIT;
             break;
         case UIDeviceOrientationPortraitUpsideDown:
-            event.systemEvent.orientation = ouzel::SystemEvent::Orientation::PORTRAIT_REVERSE;
+            event->orientation = ouzel::SystemEvent::Orientation::PORTRAIT_REVERSE;
             break;
         case UIDeviceOrientationLandscapeLeft:
-            event.systemEvent.orientation = ouzel::SystemEvent::Orientation::LANDSCAPE;
+            event->orientation = ouzel::SystemEvent::Orientation::LANDSCAPE;
             break;
         case UIDeviceOrientationLandscapeRight:
-            event.systemEvent.orientation = ouzel::SystemEvent::Orientation::LANDSCAPE_REVERSE;
+            event->orientation = ouzel::SystemEvent::Orientation::LANDSCAPE_REVERSE;
             break;
         case UIDeviceOrientationFaceUp:
-            event.systemEvent.orientation = ouzel::SystemEvent::Orientation::FACE_UP;
+            event->orientation = ouzel::SystemEvent::Orientation::FACE_UP;
             break;
         case UIDeviceOrientationFaceDown:
-            event.systemEvent.orientation = ouzel::SystemEvent::Orientation::FACE_DOWN;
+            event->orientation = ouzel::SystemEvent::Orientation::FACE_DOWN;
             break;
         default:
-            event.systemEvent.orientation = ouzel::SystemEvent::Orientation::UNKNOWN;
+            event->orientation = ouzel::SystemEvent::Orientation::UNKNOWN;
             break;
     }
 
-    ouzel::engine->getEventDispatcher().postEvent(event);
+    ouzel::engine->getEventDispatcher().postEvent(std::move(event));
 
     if (self.view)
     {
