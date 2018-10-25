@@ -81,6 +81,8 @@ namespace ouzel
             {
                 switch (event.type)
                 {
+                    case Event::Type::KEYBOARD_CONNECT:
+                    case Event::Type::KEYBOARD_DISCONNECT:
                     case Event::Type::KEY_PRESS:
                     case Event::Type::KEY_RELEASE:
                     case Event::Type::KEY_REPEAT:
@@ -88,6 +90,8 @@ namespace ouzel
                             handled = eventHandler->keyboardHandler(event.type, event.keyboardEvent);
                         break;
 
+                    case Event::Type::MOUSE_CONNECT:
+                    case Event::Type::MOUSE_DISCONNECT:
                     case Event::Type::MOUSE_PRESS:
                     case Event::Type::MOUSE_RELEASE:
                     case Event::Type::MOUSE_SCROLL:
@@ -96,6 +100,8 @@ namespace ouzel
                         if (eventHandler->mouseHandler)
                             handled = eventHandler->mouseHandler(event.type, event.mouseEvent);
                         break;
+                    case Event::Type::TOUCHPAD_CONNECT:
+                    case Event::Type::TOUCHPAD_DISCONNECT:
                     case Event::Type::TOUCH_BEGIN:
                     case Event::Type::TOUCH_MOVE:
                     case Event::Type::TOUCH_END:
