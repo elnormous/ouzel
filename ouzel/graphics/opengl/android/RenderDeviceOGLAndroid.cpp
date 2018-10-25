@@ -82,7 +82,7 @@ namespace ouzel
 
             surface = eglCreateWindowSurface(display, config, windowAndroid->getNativeWindow(), nullptr);
             if (surface == EGL_NO_SURFACE)
-                throw SystemError("Failed to create EGL window surface");
+                throw SystemError("Failed to create EGL window surface, error: " + std::to_string(eglGetError()));
 
             for (EGLint version = 3; version >= 2; --version)
             {
@@ -177,7 +177,7 @@ namespace ouzel
 
             EGLint format;
             if (!eglGetConfigAttrib(display, config, EGL_NATIVE_VISUAL_ID, &format))
-                throw SystemError("Failed to get config attribute " + std::to_string(eglGetError()));
+                throw SystemError("Failed to get config attribute, error: " + std::to_string(eglGetError()));
 
             NativeWindowAndroid* windowAndroid = static_cast<NativeWindowAndroid*>(window->getNativeWindow());
 
@@ -185,7 +185,7 @@ namespace ouzel
 
             surface = eglCreateWindowSurface(display, config, windowAndroid->getNativeWindow(), nullptr);
             if (surface == EGL_NO_SURFACE)
-                throw SystemError("Failed to create EGL window surface");
+                throw SystemError("Failed to create EGL window surface, error: " + std::to_string(eglGetError()));
 
             for (EGLint version = 3; version >= 2; --version)
             {
