@@ -267,6 +267,11 @@ namespace ouzel
             throw SystemError("Failed to open display");
 #else
         bcm_host_init();
+
+        display = vc_dispmanx_display_open(0);
+        if (display == DISPMANX_NO_HANDLE)
+            throw SystemError("Failed to open display");
+
 #endif
 
         init();
