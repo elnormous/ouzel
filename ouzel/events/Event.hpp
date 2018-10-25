@@ -16,103 +16,6 @@
 
 namespace ouzel
 {
-    struct KeyboardEvent
-    {
-        input::Keyboard* keyboard = nullptr;
-        input::Keyboard::Key key = input::Keyboard::Key::NONE;
-    };
-
-    struct MouseEvent
-    {
-        input::Mouse* mouse = nullptr;
-        input::Mouse::Button button = input::Mouse::Button::NONE;
-        Vector2 difference;
-        Vector2 position;
-        Vector2 scroll;
-        bool locked = false;
-    };
-
-    struct TouchEvent
-    {
-        input::Touchpad* touchpad = nullptr;
-        uint64_t touchId = 0;
-        Vector2 difference;
-        Vector2 position;
-        float force = 1.0F;
-    };
-
-    struct GamepadEvent
-    {
-        input::Gamepad* gamepad = nullptr;
-        input::Gamepad::Button button = input::Gamepad::Button::NONE;
-        bool pressed = false;
-        bool previousPressed = false;
-        float value = 0.0F;
-        float previousValue = 0.0F;
-    };
-
-    struct WindowEvent
-    {
-        Window* window = nullptr;
-        Size2 size;
-        std::string title;
-        bool fullscreen = false;
-        uint32_t screenId = 0;
-    };
-
-    struct SystemEvent
-    {
-        enum class Orientation
-        {
-            UNKNOWN,
-            PORTRAIT,
-            PORTRAIT_REVERSE,
-            LANDSCAPE,
-            LANDSCAPE_REVERSE,
-            FACE_UP,
-            FACE_DOWN
-        };
-
-        Orientation orientation;
-        std::string filename;
-    };
-
-    namespace scene
-    {
-        class Actor;
-        class Component;
-    }
-
-    struct UIEvent
-    {
-        scene::Actor* actor;
-        uint64_t touchId = 0;
-        Vector2 difference;
-        Vector2 position;
-        Vector3 localPosition;
-    };
-
-    struct AnimationEvent
-    {
-        scene::Component* component;
-        std::string name;
-    };
-
-    struct SoundEvent
-    {
-        audio::Sound* sound;
-    };
-
-    struct UpdateEvent
-    {
-        float delta;
-    };
-
-    struct UserEvent
-    {
-        std::vector<std::string> parameters;
-    };
-
     struct Event
     {
         enum class Type
@@ -187,17 +90,102 @@ namespace ouzel
         };
 
         Type type;
+    };
 
-        KeyboardEvent keyboardEvent;
-        MouseEvent mouseEvent;
-        TouchEvent touchEvent;
-        GamepadEvent gamepadEvent;
-        WindowEvent windowEvent;
-        SystemEvent systemEvent;
-        UIEvent uiEvent;
-        AnimationEvent animationEvent;
-        SoundEvent soundEvent;
-        UpdateEvent updateEvent;
-        UserEvent userEvent;
+    struct KeyboardEvent: public Event
+    {
+        input::Keyboard* keyboard = nullptr;
+        input::Keyboard::Key key = input::Keyboard::Key::NONE;
+    };
+
+    struct MouseEvent: public Event
+    {
+        input::Mouse* mouse = nullptr;
+        input::Mouse::Button button = input::Mouse::Button::NONE;
+        Vector2 difference;
+        Vector2 position;
+        Vector2 scroll;
+        bool locked = false;
+    };
+
+    struct TouchEvent: public Event
+    {
+        input::Touchpad* touchpad = nullptr;
+        uint64_t touchId = 0;
+        Vector2 difference;
+        Vector2 position;
+        float force = 1.0F;
+    };
+
+    struct GamepadEvent: public Event
+    {
+        input::Gamepad* gamepad = nullptr;
+        input::Gamepad::Button button = input::Gamepad::Button::NONE;
+        bool pressed = false;
+        bool previousPressed = false;
+        float value = 0.0F;
+        float previousValue = 0.0F;
+    };
+
+    struct WindowEvent: public Event
+    {
+        Window* window = nullptr;
+        Size2 size;
+        std::string title;
+        bool fullscreen = false;
+        uint32_t screenId = 0;
+    };
+
+    struct SystemEvent: public Event
+    {
+        enum class Orientation
+        {
+            UNKNOWN,
+            PORTRAIT,
+            PORTRAIT_REVERSE,
+            LANDSCAPE,
+            LANDSCAPE_REVERSE,
+            FACE_UP,
+            FACE_DOWN
+        };
+
+        Orientation orientation;
+        std::string filename;
+    };
+
+    namespace scene
+    {
+        class Actor;
+        class Component;
+    }
+
+    struct UIEvent: public Event
+    {
+        scene::Actor* actor;
+        uint64_t touchId = 0;
+        Vector2 difference;
+        Vector2 position;
+        Vector3 localPosition;
+    };
+
+    struct AnimationEvent: public Event
+    {
+        scene::Component* component;
+        std::string name;
+    };
+
+    struct SoundEvent: public Event
+    {
+        audio::Sound* sound;
+    };
+
+    struct UpdateEvent: public Event
+    {
+        float delta;
+    };
+
+    struct UserEvent: public Event
+    {
+        std::vector<std::string> parameters;
     };
 }

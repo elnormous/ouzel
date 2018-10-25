@@ -178,23 +178,23 @@ namespace ouzel
         {
             orientation = newOrientation;
 
-            Event event;
-            event.type = Event::Type::ORIENTATION_CHANGE;
+            std::unique_ptr<SystemEvent> event(new SystemEvent());
+            event->type = Event::Type::ORIENTATION_CHANGE;
 
             switch (orientation)
             {
                 case ORIENTATION_PORTRAIT:
-                    event.systemEvent.orientation = SystemEvent::Orientation::PORTRAIT;
+                    event->orientation = SystemEvent::Orientation::PORTRAIT;
                     break;
                 case ORIENTATION_LANDSCAPE:
-                    event.systemEvent.orientation = SystemEvent::Orientation::LANDSCAPE;
+                    event->orientation = SystemEvent::Orientation::LANDSCAPE;
                     break;
                 default:
-                    event.systemEvent.orientation = SystemEvent::Orientation::UNKNOWN;
+                    event.->orientation = SystemEvent::Orientation::UNKNOWN;
                     break;
             }
 
-            eventDispatcher.postEvent(event);
+            eventDispatcher.postEvent(std::move(event));
         }
     }
 

@@ -21,17 +21,17 @@ namespace ouzel
 
         void remove();
 
-        std::function<bool(Event::Type, const KeyboardEvent&)> keyboardHandler;
-        std::function<bool(Event::Type, const MouseEvent&)> mouseHandler;
-        std::function<bool(Event::Type, const TouchEvent&)> touchHandler;
-        std::function<bool(Event::Type, const GamepadEvent&)> gamepadHandler;
-        std::function<bool(Event::Type, const WindowEvent&)> windowHandler;
-        std::function<bool(Event::Type, const SystemEvent&)> systemHandler;
-        std::function<bool(Event::Type, const UIEvent&)> uiHandler;
-        std::function<bool(Event::Type, const AnimationEvent&)> animationHandler;
-        std::function<bool(Event::Type, const SoundEvent&)> soundHandler;
-        std::function<bool(Event::Type, const UpdateEvent&)> updateHandler;
-        std::function<bool(Event::Type, const UserEvent&)> userHandler;
+        std::function<bool(const KeyboardEvent&)> keyboardHandler;
+        std::function<bool(const MouseEvent&)> mouseHandler;
+        std::function<bool(const TouchEvent&)> touchHandler;
+        std::function<bool(const GamepadEvent&)> gamepadHandler;
+        std::function<bool(const WindowEvent&)> windowHandler;
+        std::function<bool(const SystemEvent&)> systemHandler;
+        std::function<bool(const UIEvent&)> uiHandler;
+        std::function<bool(const AnimationEvent&)> animationHandler;
+        std::function<bool(const SoundEvent&)> soundHandler;
+        std::function<bool(const UpdateEvent&)> updateHandler;
+        std::function<bool(const UserEvent&)> userHandler;
 
     private:
         int32_t priority;

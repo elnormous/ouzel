@@ -53,7 +53,7 @@ namespace ouzel
 
         eventHandlerAddSet.clear();
 
-        std::pair<std::promise<bool>, Event> event;
+        std::pair<std::promise<bool>, std::unique_ptr<Event>> event;
 
         for (;;)
         {
@@ -65,12 +65,14 @@ namespace ouzel
                 eventQueue.pop();
             }
 
-            event.first.set_value(dispatchEvent(event.second));
+            event.first.set_value(dispatchEvent(std::move(event.second)));
         }
     }
 
-    bool EventDispatcher::dispatchEvent(const Event& event)
+    bool EventDispatcher::dispatchEvent(std::unique_ptr<Event>&& event)
     {
+        if (!event) return false;
+
         bool handled = false;
 
         for (const EventHandler* eventHandler : eventHandlers)
@@ -79,7 +81,7 @@ namespace ouzel
 
             if (i == eventHandlerDeleteSet.end())
             {
-                switch (event.type)
+                switch (event->type)
                 {
                     case Event::Type::KEYBOARD_CONNECT:
                     case Event::Type::KEYBOARD_DISCONNECT:
@@ -87,9 +89,8 @@ namespace ouzel
                     case Event::Type::KEY_RELEASE:
                     case Event::Type::KEY_REPEAT:
                         if (eventHandler->keyboardHandler)
-                            handled = eventHandler->keyboardHandler(event.type, event.keyboardEvent);
+                            handled = eventHandler->keyboardHandler(*static_cast<KeyboardEvent*>(event.get()));
                         break;
-
                     case Event::Type::MOUSE_CONNECT:
                     case Event::Type::MOUSE_DISCONNECT:
                     case Event::Type::MOUSE_PRESS:
@@ -98,7 +99,7 @@ namespace ouzel
                     case Event::Type::MOUSE_MOVE:
                     case Event::Type::MOUSE_CURSOR_LOCK_CHANGE:
                         if (eventHandler->mouseHandler)
-                            handled = eventHandler->mouseHandler(event.type, event.mouseEvent);
+                            handled = eventHandler->mouseHandler(*static_cast<MouseEvent*>(event.get()));
                         break;
                     case Event::Type::TOUCHPAD_CONNECT:
                     case Event::Type::TOUCHPAD_DISCONNECT:
@@ -107,13 +108,13 @@ namespace ouzel
                     case Event::Type::TOUCH_END:
                     case Event::Type::TOUCH_CANCEL:
                         if (eventHandler->touchHandler)
-                            handled = eventHandler->touchHandler(event.type, event.touchEvent);
+                            handled = eventHandler->touchHandler(*static_cast<TouchEvent*>(event.get()));
                         break;
                     case Event::Type::GAMEPAD_CONNECT:
                     case Event::Type::GAMEPAD_DISCONNECT:
                     case Event::Type::GAMEPAD_BUTTON_CHANGE:
                         if (eventHandler->gamepadHandler)
-                            handled = eventHandler->gamepadHandler(event.type, event.gamepadEvent);
+                            handled = eventHandler->gamepadHandler(*static_cast<GamepadEvent*>(event.get()));
                         break;
                     case Event::Type::WINDOW_SIZE_CHANGE:
                     case Event::Type::WINDOW_TITLE_CHANGE:
@@ -121,7 +122,7 @@ namespace ouzel
                     case Event::Type::SCREEN_CHANGE:
                     case Event::Type::RESOLUTION_CHANGE:
                         if (eventHandler->windowHandler)
-                            handled = eventHandler->windowHandler(event.type, event.windowEvent);
+                            handled = eventHandler->windowHandler(*static_cast<WindowEvent*>(event.get()));
                         break;
                     case Event::Type::ENGINE_START:
                     case Event::Type::ENGINE_STOP:
@@ -131,7 +132,7 @@ namespace ouzel
                     case Event::Type::LOW_MEMORY:
                     case Event::Type::OPEN_FILE:
                         if (eventHandler->systemHandler)
-                            handled = eventHandler->systemHandler(event.type, event.systemEvent);
+                            handled = eventHandler->systemHandler(*static_cast<SystemEvent*>(event.get()));
                         break;
                     case Event::Type::ACTOR_ENTER:
                     case Event::Type::ACTOR_LEAVE:
@@ -141,27 +142,27 @@ namespace ouzel
                     case Event::Type::ACTOR_DRAG:
                     case Event::Type::WIDGET_CHANGE:
                         if (eventHandler->uiHandler)
-                            handled = eventHandler->uiHandler(event.type, event.uiEvent);
+                            handled = eventHandler->uiHandler(*static_cast<UIEvent*>(event.get()));
                         break;
                     case Event::Type::ANIMATION_START:
                     case Event::Type::ANIMATION_RESET:
                     case Event::Type::ANIMATION_FINISH:
                         if (eventHandler->animationHandler)
-                            handled = eventHandler->animationHandler(event.type, event.animationEvent);
+                            handled = eventHandler->animationHandler(*static_cast<AnimationEvent*>(event.get()));
                         break;
                     case Event::Type::SOUND_START:
                     case Event::Type::SOUND_RESET:
                     case Event::Type::SOUND_FINISH:
                         if (eventHandler->soundHandler)
-                            handled = eventHandler->soundHandler(event.type, event.soundEvent);
+                            handled = eventHandler->soundHandler(*static_cast<SoundEvent*>(event.get()));
                         break;
                     case Event::Type::UPDATE:
                         if (eventHandler->updateHandler)
-                            handled = eventHandler->updateHandler(event.type, event.updateEvent);
+                            handled = eventHandler->updateHandler(*static_cast<UpdateEvent*>(event.get()));
                         break;
                     case Event::Type::USER:
                         if (eventHandler->userHandler)
-                            handled = eventHandler->userHandler(event.type, event.userEvent);
+                            handled = eventHandler->userHandler(*static_cast<UserEvent*>(event.get()));
                         break;
                     default:
                         return false; // custom event should not be sent
@@ -202,7 +203,7 @@ namespace ouzel
             eventHandlerAddSet.erase(setIterator);
     }
 
-    std::future<bool> EventDispatcher::postEvent(const Event& event)
+    std::future<bool> EventDispatcher::postEvent(std::unique_ptr<Event>&& event)
     {
         std::future<bool> future;
 
@@ -210,7 +211,7 @@ namespace ouzel
         std::unique_lock<std::mutex> lock(eventQueueMutex);
         std::promise<bool> promise;
         future = promise.get_future();
-        eventQueue.push(std::pair<std::promise<bool>, Event>(std::move(promise), event));
+        eventQueue.push(std::pair<std::promise<bool>, std::unique_ptr<Event>>(std::move(promise), std::move(event)));
 #else
         std::promise<bool> promise;
         future = promise.get_future();

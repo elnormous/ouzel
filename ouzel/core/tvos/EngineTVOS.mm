@@ -51,10 +51,10 @@
 {
     if (ouzel::engine)
     {
-        ouzel::Event event;
-        event.type = ouzel::Event::Type::LOW_MEMORY;
+        std::unique_ptr<ouzel::SystemEvent> event(new ouzel::SystemEvent());
+        event->type = ouzel::Event::Type::LOW_MEMORY;
 
-        ouzel::engine->getEventDispatcher().postEvent(event);
+        ouzel::engine->getEventDispatcher().postEvent(std::move(event));
     }
 }
 

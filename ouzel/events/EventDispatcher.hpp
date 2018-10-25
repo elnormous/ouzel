@@ -4,6 +4,7 @@
 
 #include <cstdint>
 #include <future>
+#include <memory>
 #include <queue>
 #include <set>
 #include <vector>
@@ -28,10 +29,10 @@ namespace ouzel
         void removeEventHandler(EventHandler* eventHandler);
 
         // dispatches the event immediately
-        bool dispatchEvent(const Event& event);
+        bool dispatchEvent(std::unique_ptr<Event>&& event);
 
         // posts the event for dispatching on the game thread
-        std::future<bool> postEvent(const Event& event);
+        std::future<bool> postEvent(std::unique_ptr<Event>&& event);
 
         // dispatches all queued events on the game thread
         void dispatchEvents();
@@ -42,6 +43,6 @@ namespace ouzel
         std::set<EventHandler*> eventHandlerDeleteSet;
 
         std::mutex eventQueueMutex;
-        std::queue<std::pair<std::promise<bool>, Event>> eventQueue;
+        std::queue<std::pair<std::promise<bool>, std::unique_ptr<Event>>> eventQueue;
     };
 }

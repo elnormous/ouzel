@@ -18,11 +18,11 @@ PerspectiveSample::PerspectiveSample():
     if (Mouse* mouse = engine->getInputManager()->getMouse())
         mouse->setCursor(&cursor);
 
-    handler.keyboardHandler = bind(&PerspectiveSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
-    handler.mouseHandler = bind(&PerspectiveSample::handleMouse, this, placeholders::_1, placeholders::_2);
-    handler.touchHandler = bind(&PerspectiveSample::handleTouch, this, placeholders::_1, placeholders::_2);
-    handler.gamepadHandler = bind(&PerspectiveSample::handleGamepad, this, placeholders::_1, placeholders::_2);
-    handler.uiHandler = bind(&PerspectiveSample::handleUI, this, placeholders::_1, placeholders::_2);
+    handler.keyboardHandler = bind(&PerspectiveSample::handleKeyboard, this, placeholders::_1);
+    handler.mouseHandler = bind(&PerspectiveSample::handleMouse, this, placeholders::_1);
+    handler.touchHandler = bind(&PerspectiveSample::handleTouch, this, placeholders::_1);
+    handler.gamepadHandler = bind(&PerspectiveSample::handleGamepad, this, placeholders::_1);
+    handler.uiHandler = bind(&PerspectiveSample::handleUI, this, placeholders::_1);
 
     engine->getEventDispatcher().addEventHandler(&handler);
 
@@ -87,9 +87,9 @@ PerspectiveSample::PerspectiveSample():
     menu.addWidget(&backButton);
 }
 
-bool PerspectiveSample::handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event)
+bool PerspectiveSample::handleUI(const ouzel::UIEvent& event)
 {
-    if (type == Event::Type::ACTOR_CLICK)
+    if (event.type == Event::Type::ACTOR_CLICK)
     {
         if (event.actor == &backButton)
             engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
@@ -98,10 +98,10 @@ bool PerspectiveSample::handleUI(ouzel::Event::Type type, const ouzel::UIEvent& 
     return false;
 }
 
-bool PerspectiveSample::handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event)
+bool PerspectiveSample::handleKeyboard(const ouzel::KeyboardEvent& event)
 {
-    if (type == Event::Type::KEY_PRESS ||
-        type == Event::Type::KEY_REPEAT)
+    if (event.type == Event::Type::KEY_PRESS ||
+        event.type == Event::Type::KEY_REPEAT)
     {
         switch (event.key)
         {
@@ -138,7 +138,7 @@ bool PerspectiveSample::handleKeyboard(ouzel::Event::Type type, const ouzel::Key
 
         //engine->getAudio()->setListenerRotation(camera.getRotation());
     }
-    else if (type == Event::Type::KEY_RELEASE)
+    else if (event.type == Event::Type::KEY_RELEASE)
     {
         switch (event.key)
         {
@@ -153,9 +153,9 @@ bool PerspectiveSample::handleKeyboard(ouzel::Event::Type type, const ouzel::Key
     return false;
 }
 
-bool PerspectiveSample::handleMouse(ouzel::Event::Type type, const ouzel::MouseEvent& event)
+bool PerspectiveSample::handleMouse(const ouzel::MouseEvent& event)
 {
-    if (type == Event::Type::MOUSE_MOVE &&
+    if (event.type == Event::Type::MOUSE_MOVE &&
         event.mouse->isButtonDown(Mouse::Button::LEFT))
     {
         cameraRotation.x -= event.difference.y;
@@ -170,9 +170,9 @@ bool PerspectiveSample::handleMouse(ouzel::Event::Type type, const ouzel::MouseE
     return false;
 }
 
-bool PerspectiveSample::handleTouch(ouzel::Event::Type type, const ouzel::TouchEvent& event)
+bool PerspectiveSample::handleTouch(const ouzel::TouchEvent& event)
 {
-    if (type == Event::Type::TOUCH_MOVE)
+    if (event.type == Event::Type::TOUCH_MOVE)
     {
         cameraRotation.x -= event.difference.y;
         cameraRotation.y -= event.difference.x;
@@ -186,9 +186,9 @@ bool PerspectiveSample::handleTouch(ouzel::Event::Type type, const ouzel::TouchE
     return false;
 }
 
-bool PerspectiveSample::handleGamepad(Event::Type type, const GamepadEvent& event)
+bool PerspectiveSample::handleGamepad(const GamepadEvent& event)
 {
-    if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
+    if (event.type == Event::Type::GAMEPAD_BUTTON_CHANGE)
     {
         if (event.pressed &&
             event.button == Gamepad::Button::FACE_RIGHT)

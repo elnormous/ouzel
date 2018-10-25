@@ -24,8 +24,8 @@ MainMenu::MainMenu():
     soundButton("button.png", "button_selected.png", "button_down.png", "", "Sound", "arial.fnt", 1.0F, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
     perspectiveButton("button.png", "button_selected.png", "button_down.png", "", "Perspective", "arial.fnt", 1.0F, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)
 {
-    handler.uiHandler = bind(&MainMenu::handleUI, this, placeholders::_1, placeholders::_2);
-    handler.keyboardHandler = bind(&MainMenu::handleKeyboard, this, placeholders::_1, placeholders::_2);
+    handler.uiHandler = bind(&MainMenu::handleUI, this, placeholders::_1);
+    handler.keyboardHandler = bind(&MainMenu::handleKeyboard, this, placeholders::_1);
     engine->getEventDispatcher().addEventHandler(&handler);
 
     addLayer(&layer);
@@ -62,9 +62,9 @@ MainMenu::MainMenu():
     menu.addWidget(&perspectiveButton);
 }
 
-bool MainMenu::handleKeyboard(Event::Type type, const KeyboardEvent& event)
+bool MainMenu::handleKeyboard(const KeyboardEvent& event)
 {
-    if (type == Event::Type::KEY_PRESS)
+    if (event.type == Event::Type::KEY_PRESS)
     {
         switch (event.key)
         {
@@ -75,7 +75,7 @@ bool MainMenu::handleKeyboard(Event::Type type, const KeyboardEvent& event)
                 break;
         }
     }
-    else if (type == Event::Type::KEY_RELEASE)
+    else if (event.type == Event::Type::KEY_RELEASE)
     {
         switch (event.key)
         {
@@ -90,9 +90,9 @@ bool MainMenu::handleKeyboard(Event::Type type, const KeyboardEvent& event)
     return false;
 }
 
-bool MainMenu::handleUI(Event::Type type, const UIEvent& event)
+bool MainMenu::handleUI(const UIEvent& event)
 {
-    if (type == Event::Type::ACTOR_CLICK)
+    if (event.type == Event::Type::ACTOR_CLICK)
     {
         if (event.actor == &gitHubButton)
             engine->openURL("https://github.com/elnormous/ouzel");

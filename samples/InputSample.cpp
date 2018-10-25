@@ -14,16 +14,16 @@ public:
     Mover():
         scene::Component(10)
     {
-        handler.keyboardHandler = bind(&Mover::handleKeyboard, this, placeholders::_1, placeholders::_2);
+        handler.keyboardHandler = bind(&Mover::handleKeyboard, this, placeholders::_1);
 
         engine->getEventDispatcher().addEventHandler(&handler);
     }
 
-    bool handleKeyboard(Event::Type eventType, const KeyboardEvent& event)
+    bool handleKeyboard(const KeyboardEvent& event)
     {
         if (actor)
         {
-            if (eventType == Event::Type::KEY_PRESS)
+            if (event.type == Event::Type::KEY_PRESS)
             {
                 Vector2 position = actor->getPosition();
 
@@ -62,11 +62,11 @@ InputSample::InputSample():
 {
     cursor.init("cursor.png", Vector2(0.0F, 63.0F));
 
-    handler.keyboardHandler = bind(&InputSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
-    handler.mouseHandler = bind(&InputSample::handleMouse, this, placeholders::_1, placeholders::_2);
-    handler.touchHandler = bind(&InputSample::handleTouch, this, placeholders::_1, placeholders::_2);
-    handler.gamepadHandler = bind(&InputSample::handleGamepad, this, placeholders::_1, placeholders::_2);
-    handler.uiHandler = bind(&InputSample::handleUI, this, placeholders::_1, placeholders::_2);
+    handler.keyboardHandler = bind(&InputSample::handleKeyboard, this, placeholders::_1);
+    handler.mouseHandler = bind(&InputSample::handleMouse, this, placeholders::_1);
+    handler.touchHandler = bind(&InputSample::handleTouch, this, placeholders::_1);
+    handler.gamepadHandler = bind(&InputSample::handleGamepad, this, placeholders::_1);
+    handler.uiHandler = bind(&InputSample::handleUI, this, placeholders::_1);
 
     engine->getEventDispatcher().addEventHandler(&handler);
 
@@ -112,9 +112,9 @@ InputSample::InputSample():
     }
 }
 
-bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
+bool InputSample::handleKeyboard(const KeyboardEvent& event)
 {
-    if (type == Event::Type::KEY_PRESS)
+    if (event.type == Event::Type::KEY_PRESS)
     {
         Vector2 flamePosition = camera.convertWorldToNormalized(flame.getPosition());
 
@@ -152,7 +152,7 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
 
         flame.setPosition(worldLocation);
     }
-    else if (type == Event::Type::KEY_RELEASE)
+    else if (event.type == Event::Type::KEY_RELEASE)
     {
         switch (event.key)
         {
@@ -167,9 +167,9 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
     return false;
 }
 
-bool InputSample::handleMouse(Event::Type type, const MouseEvent& event)
+bool InputSample::handleMouse(const MouseEvent& event)
 {
-    switch (type)
+    switch (event.type)
     {
         case Event::Type::MOUSE_MOVE:
         {
@@ -184,7 +184,7 @@ bool InputSample::handleMouse(Event::Type type, const MouseEvent& event)
     return false;
 }
 
-bool InputSample::handleTouch(Event::Type, const TouchEvent& event)
+bool InputSample::handleTouch(const TouchEvent& event)
 {
     Vector2 worldLocation = camera.convertNormalizedToWorld(event.position);
     flame.setPosition(worldLocation);
@@ -192,9 +192,9 @@ bool InputSample::handleTouch(Event::Type, const TouchEvent& event)
     return false;
 }
 
-bool InputSample::handleGamepad(Event::Type type, const GamepadEvent& event)
+bool InputSample::handleGamepad(const GamepadEvent& event)
 {
-    if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
+    if (event.type == Event::Type::GAMEPAD_BUTTON_CHANGE)
     {
         Vector2 flamePosition = camera.convertWorldToNormalized(flame.getPosition());
 
@@ -234,9 +234,9 @@ bool InputSample::handleGamepad(Event::Type type, const GamepadEvent& event)
     return false;
 }
 
-bool InputSample::handleUI(Event::Type type, const UIEvent& event) const
+bool InputSample::handleUI(const UIEvent& event) const
 {
-    if (type == Event::Type::ACTOR_CLICK)
+    if (event.type == Event::Type::ACTOR_CLICK)
     {
         if (event.actor == &backButton)
         {

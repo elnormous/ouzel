@@ -11,9 +11,9 @@ public:
     RTSample();
 
 private:
-    bool handleGamepad(ouzel::Event::Type type, const ouzel::GamepadEvent& event);
-    bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event) const;
-    bool handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event) const;
+    bool handleGamepad(const ouzel::GamepadEvent& event);
+    bool handleUI(const ouzel::UIEvent& event) const;
+    bool handleKeyboard(const ouzel::KeyboardEvent& event) const;
 
     ouzel::scene::Layer layer;
     ouzel::scene::Camera camera;

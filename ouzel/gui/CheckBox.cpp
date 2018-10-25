@@ -17,7 +17,7 @@ namespace ouzel
                            const std::string& tickImage):
             eventHandler(EventHandler::PRIORITY_MAX + 1)
         {
-            eventHandler.uiHandler = std::bind(&CheckBox::handleUI, this, std::placeholders::_1, std::placeholders::_2);
+            eventHandler.uiHandler = std::bind(&CheckBox::handleUI, this, std::placeholders::_1);
             engine->getEventDispatcher().addEventHandler(&eventHandler);
 
             if (!normalImage.empty())
@@ -78,28 +78,28 @@ namespace ouzel
             updateSprite();
         }
 
-        bool CheckBox::handleUI(Event::Type type, const UIEvent& event)
+        bool CheckBox::handleUI(const UIEvent& event)
         {
             if (!enabled) return false;
 
             if (event.actor == this)
             {
-                if (type == Event::Type::ACTOR_ENTER)
+                if (event.type == Event::Type::ACTOR_ENTER)
                 {
                     pointerOver = true;
                     updateSprite();
                 }
-                else if (type == Event::Type::ACTOR_LEAVE)
+                else if (event.type == Event::Type::ACTOR_LEAVE)
                 {
                     pointerOver = false;
                     updateSprite();
                 }
-                else if (type == Event::Type::ACTOR_PRESS)
+                else if (event.type == Event::Type::ACTOR_PRESS)
                 {
                     pressed = true;
                     updateSprite();
                 }
-                else if (type == Event::Type::ACTOR_RELEASE)
+                else if (event.type == Event::Type::ACTOR_RELEASE)
                 {
                     if (pressed)
                     {
@@ -107,16 +107,16 @@ namespace ouzel
                         updateSprite();
                     }
                 }
-                else if (type == Event::Type::ACTOR_CLICK)
+                else if (event.type == Event::Type::ACTOR_CLICK)
                 {
                     pressed = false;
                     checked = !checked;
                     updateSprite();
 
-                    Event changeEvent;
-                    changeEvent.type = Event::Type::WIDGET_CHANGE;
-                    changeEvent.uiEvent.actor = event.actor;
-                    engine->getEventDispatcher().dispatchEvent(changeEvent);
+                    std::unique_ptr<UIEvent> changeEvent(new UIEvent());
+                    changeEvent->type = Event::Type::WIDGET_CHANGE;
+                    changeEvent->actor = event.actor;
+                    engine->getEventDispatcher().dispatchEvent(std::move(changeEvent));
                 }
             }
 

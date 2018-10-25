@@ -15,7 +15,7 @@ namespace ouzel
     {
         Button::Button()
         {
-            eventHandler.uiHandler = std::bind(&Button::handleUI, this, std::placeholders::_1, std::placeholders::_2);
+            eventHandler.uiHandler = std::bind(&Button::handleUI, this, std::placeholders::_1);
             engine->getEventDispatcher().addEventHandler(&eventHandler);
 
             pickable = true;
@@ -38,7 +38,7 @@ namespace ouzel
             labelPressedColor(initLabelPressedColor),
             labelDisabledColor(initLabelDisabledColor)
         {
-            eventHandler.uiHandler = std::bind(&Button::handleUI, this, std::placeholders::_1, std::placeholders::_2);
+            eventHandler.uiHandler = std::bind(&Button::handleUI, this, std::placeholders::_1);
             engine->getEventDispatcher().addEventHandler(&eventHandler);
 
             if (!normalImage.empty())
@@ -99,29 +99,29 @@ namespace ouzel
             updateSprite();
         }
 
-        bool Button::handleUI(Event::Type type, const UIEvent& event)
+        bool Button::handleUI(const UIEvent& event)
         {
             if (!enabled) return false;
 
             if (event.actor == this)
             {
-                if (type == Event::Type::ACTOR_ENTER)
+                if (event.type == Event::Type::ACTOR_ENTER)
                 {
                     pointerOver = true;
                     updateSprite();
                 }
-                else if (type == Event::Type::ACTOR_LEAVE)
+                else if (event.type == Event::Type::ACTOR_LEAVE)
                 {
                     pointerOver = false;
                     updateSprite();
                 }
-                else if (type == Event::Type::ACTOR_PRESS)
+                else if (event.type == Event::Type::ACTOR_PRESS)
                 {
                     pressed = true;
                     updateSprite();
                 }
-                else if (type == Event::Type::ACTOR_RELEASE ||
-                         type == Event::Type::ACTOR_CLICK)
+                else if (event.type == Event::Type::ACTOR_RELEASE ||
+                         event.type == Event::Type::ACTOR_CLICK)
                 {
                     if (pressed)
                     {

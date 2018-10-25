@@ -64,9 +64,9 @@ namespace ouzel
             virtual void enter();
             virtual void leave();
 
-            bool handleWindow(Event::Type type, const WindowEvent& event);
-            bool handleMouse(Event::Type type, const MouseEvent& event);
-            bool handleTouch(Event::Type type, const TouchEvent& event);
+            bool handleWindow(const WindowEvent& event);
+            bool handleMouse(const MouseEvent& event);
+            bool handleTouch(const TouchEvent& event);
 
             void pointerEnterActor(uint64_t pointerId, Actor* actor, const Vector2& position);
             void pointerLeaveActor(uint64_t pointerId, Actor* actor, const Vector2& position);

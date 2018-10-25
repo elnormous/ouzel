@@ -59,39 +59,39 @@ namespace ouzel
         {
             buttonStates[static_cast<uint32_t>(button)] = true;
 
-            Event event;
-            event.type = Event::Type::MOUSE_PRESS;
-            event.mouseEvent.mouse = this;
-            event.mouseEvent.button = button;
-            event.mouseEvent.position = pos;
+            std::unique_ptr<MouseEvent> event(new MouseEvent());
+            event->type = Event::Type::MOUSE_PRESS;
+            event->mouse = this;
+            event->button = button;
+            event->position = pos;
 
-            return engine->getEventDispatcher().dispatchEvent(event);
+            return engine->getEventDispatcher().dispatchEvent(std::move(event));
         }
 
         bool Mouse::handleButtonRelease(Mouse::Button button, const Vector2& pos)
         {
             buttonStates[static_cast<uint32_t>(button)] = false;
 
-            Event event;
-            event.type = Event::Type::MOUSE_RELEASE;
-            event.mouseEvent.mouse = this;
-            event.mouseEvent.button = button;
-            event.mouseEvent.position = pos;
+            std::unique_ptr<MouseEvent> event(new MouseEvent());
+            event->type = Event::Type::MOUSE_RELEASE;
+            event->mouse = this;
+            event->button = button;
+            event->position = pos;
 
-            return engine->getEventDispatcher().dispatchEvent(event);
+            return engine->getEventDispatcher().dispatchEvent(std::move(event));
         }
 
         bool Mouse::handleMove(const Vector2& pos)
         {
-            Event event;
-            event.type = Event::Type::MOUSE_MOVE;
-            event.mouseEvent.mouse = this;
-            event.mouseEvent.difference = pos - position;
-            event.mouseEvent.position = pos;
+            std::unique_ptr<MouseEvent> event(new MouseEvent());
+            event->type = Event::Type::MOUSE_MOVE;
+            event->mouse = this;
+            event->difference = pos - position;
+            event->position = pos;
 
             position = pos;
 
-            return engine->getEventDispatcher().dispatchEvent(event);
+            return engine->getEventDispatcher().dispatchEvent(std::move(event));
         }
 
         bool Mouse::handleRelativeMove(const Vector2& pos)
@@ -106,25 +106,25 @@ namespace ouzel
 
         bool Mouse::handleScroll(const Vector2& scroll, const Vector2& pos)
         {
-            Event event;
-            event.type = Event::Type::MOUSE_SCROLL;
-            event.mouseEvent.mouse = this;
-            event.mouseEvent.position = pos;
-            event.mouseEvent.scroll = scroll;
+            std::unique_ptr<MouseEvent> event(new MouseEvent());
+            event->type = Event::Type::MOUSE_SCROLL;
+            event->mouse = this;
+            event->position = pos;
+            event->scroll = scroll;
 
-            return engine->getEventDispatcher().dispatchEvent(event);
+            return engine->getEventDispatcher().dispatchEvent(std::move(event));
         }
 
         bool Mouse::handleCursorLockChange(bool locked)
         {
             cursorLocked = locked;
 
-            Event event;
-            event.type = Event::Type::MOUSE_CURSOR_LOCK_CHANGE;
-            event.mouseEvent.mouse = this;
-            event.mouseEvent.locked = cursorLocked;
+            std::unique_ptr<MouseEvent> event(new MouseEvent());
+            event->type = Event::Type::MOUSE_CURSOR_LOCK_CHANGE;
+            event->mouse = this;
+            event->locked = cursorLocked;
 
-            return engine->getEventDispatcher().dispatchEvent(event);
+            return engine->getEventDispatcher().dispatchEvent(std::move(event));
         }
     } // namespace input
 } // namespace ouzel

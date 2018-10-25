@@ -18,21 +18,21 @@ namespace ouzel
 
         bool Keyboard::handleKeyPress(Keyboard::Key key)
         {
-            Event event;
-            event.keyboardEvent.keyboard = this;
-            event.keyboardEvent.key = key;
+            std::unique_ptr<KeyboardEvent> event(new KeyboardEvent());
+            event->keyboard = this;
+            event->key = key;
 
             if (!keyStates[static_cast<uint32_t>(key)])
             {
                 keyStates[static_cast<uint32_t>(key)] = true;
 
-                event.type = Event::Type::KEY_PRESS;
-                return engine->getEventDispatcher().dispatchEvent(event);
+                event->type = Event::Type::KEY_PRESS;
+                return engine->getEventDispatcher().dispatchEvent(std::move(event));
             }
             else
             {
-                event.type = Event::Type::KEY_REPEAT;
-                return engine->getEventDispatcher().dispatchEvent(event);
+                event->type = Event::Type::KEY_REPEAT;
+                return engine->getEventDispatcher().dispatchEvent(std::move(event));
             }
         }
 
@@ -40,12 +40,12 @@ namespace ouzel
         {
             keyStates[static_cast<uint32_t>(key)] = false;
 
-            Event event;
-            event.type = Event::Type::KEY_RELEASE;
-            event.keyboardEvent.keyboard = this;
-            event.keyboardEvent.key = key;
+            std::unique_ptr<KeyboardEvent> event(new KeyboardEvent());
+            event->type = Event::Type::KEY_RELEASE;
+            event->keyboard = this;
+            event->key = key;
 
-            return engine->getEventDispatcher().dispatchEvent(event);
+            return engine->getEventDispatcher().dispatchEvent(std::move(event));
         }
     } // namespace input
 } // namespace ouzel

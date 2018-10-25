@@ -12,9 +12,9 @@ RTSample::RTSample():
     characterSprite("run.json"),
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
 {
-    handler.gamepadHandler = bind(&RTSample::handleGamepad, this, placeholders::_1, placeholders::_2);
-    handler.uiHandler = bind(&RTSample::handleUI, this, placeholders::_1, placeholders::_2);
-    handler.keyboardHandler = bind(&RTSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
+    handler.gamepadHandler = bind(&RTSample::handleGamepad, this, placeholders::_1);
+    handler.uiHandler = bind(&RTSample::handleUI, this, placeholders::_1);
+    handler.keyboardHandler = bind(&RTSample::handleKeyboard, this, placeholders::_1);
     engine->getEventDispatcher().addEventHandler(&handler);
 
     addLayer(&rtLayer);
@@ -65,9 +65,9 @@ RTSample::RTSample():
     menu.addWidget(&backButton);
 }
 
-bool RTSample::handleGamepad(Event::Type type, const GamepadEvent& event)
+bool RTSample::handleGamepad(const GamepadEvent& event)
 {
-    if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
+    if (event.type == Event::Type::GAMEPAD_BUTTON_CHANGE)
     {
         if (event.pressed &&
             event.button == Gamepad::Button::FACE_RIGHT)
@@ -77,17 +77,17 @@ bool RTSample::handleGamepad(Event::Type type, const GamepadEvent& event)
     return false;
 }
 
-bool RTSample::handleUI(Event::Type type, const UIEvent& event) const
+bool RTSample::handleUI(const UIEvent& event) const
 {
-    if (type == Event::Type::ACTOR_CLICK && event.actor == &backButton)
+    if (event.type == Event::Type::ACTOR_CLICK && event.actor == &backButton)
         engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
 
     return false;
 }
 
-bool RTSample::handleKeyboard(Event::Type type, const KeyboardEvent& event) const
+bool RTSample::handleKeyboard(const KeyboardEvent& event) const
 {
-    if (type == Event::Type::KEY_PRESS)
+    if (event.type == Event::Type::KEY_PRESS)
     {
         switch (event.key)
         {
@@ -99,7 +99,7 @@ bool RTSample::handleKeyboard(Event::Type type, const KeyboardEvent& event) cons
                 break;
         }
     }
-    else if (type == Event::Type::KEY_RELEASE)
+    else if (event.type == Event::Type::KEY_RELEASE)
     {
         switch (event.key)
         {

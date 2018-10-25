@@ -12,9 +12,9 @@ namespace ouzel
     {
         Menu::Menu()
         {
-            eventHandler.keyboardHandler = std::bind(&Menu::handleKeyboard, this, std::placeholders::_1, std::placeholders::_2);
-            eventHandler.gamepadHandler = std::bind(&Menu::handleGamepad, this, std::placeholders::_1, std::placeholders::_2);
-            eventHandler.uiHandler = std::bind(&Menu::handleUI, this, std::placeholders::_1, std::placeholders::_2);
+            eventHandler.keyboardHandler = std::bind(&Menu::handleKeyboard, this, std::placeholders::_1);
+            eventHandler.gamepadHandler = std::bind(&Menu::handleGamepad, this, std::placeholders::_1);
+            eventHandler.uiHandler = std::bind(&Menu::handleUI, this, std::placeholders::_1);
         }
 
         void Menu::enter()
@@ -151,11 +151,11 @@ namespace ouzel
             while (widgetIterator != firstWidgetIterator);
         }
 
-        bool Menu::handleKeyboard(Event::Type type, const KeyboardEvent& event)
+        bool Menu::handleKeyboard(const KeyboardEvent& event)
         {
             if (!enabled) return false;
 
-            if (type == Event::Type::KEY_PRESS && !widgets.empty())
+            if (event.type == Event::Type::KEY_PRESS && !widgets.empty())
             {
                 switch (event.key)
                 {
@@ -173,13 +173,11 @@ namespace ouzel
                     {
                         if (selectedWidget)
                         {
-                            Event clickEvent;
-                            clickEvent.type = Event::Type::ACTOR_CLICK;
-
-                            clickEvent.uiEvent.actor = selectedWidget;
-                            clickEvent.uiEvent.position = selectedWidget->getPosition();
-
-                            engine->getEventDispatcher().dispatchEvent(clickEvent);
+                            std::unique_ptr<UIEvent> clickEvent(new UIEvent());
+                            clickEvent->type = Event::Type::ACTOR_CLICK;
+                            clickEvent->actor = selectedWidget;
+                            clickEvent->position = selectedWidget->getPosition();
+                            engine->getEventDispatcher().dispatchEvent(std::move(clickEvent));
                         }
                         break;
                     }
@@ -191,11 +189,11 @@ namespace ouzel
             return false;
         }
 
-        bool Menu::handleGamepad(Event::Type type, const GamepadEvent& event)
+        bool Menu::handleGamepad(const GamepadEvent& event)
         {
             if (!enabled) return false;
 
-            if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
+            if (event.type == Event::Type::GAMEPAD_BUTTON_CHANGE)
             {
                 if (event.button == input::Gamepad::Button::DPAD_LEFT ||
                     event.button == input::Gamepad::Button::DPAD_UP)
@@ -222,13 +220,11 @@ namespace ouzel
                 {
                     if (!event.previousPressed && event.pressed && selectedWidget)
                     {
-                        Event clickEvent;
-                        clickEvent.type = Event::Type::ACTOR_CLICK;
-
-                        clickEvent.uiEvent.actor = selectedWidget;
-                        clickEvent.uiEvent.position = selectedWidget->getPosition();
-
-                        engine->getEventDispatcher().dispatchEvent(clickEvent);
+                        std::unique_ptr<UIEvent> clickEvent(new UIEvent());
+                        clickEvent->type = Event::Type::ACTOR_CLICK;
+                        clickEvent->actor = selectedWidget;
+                        clickEvent->position = selectedWidget->getPosition();
+                        engine->getEventDispatcher().dispatchEvent(std::move(clickEvent));
                     }
                 }
 #endif
@@ -237,11 +233,11 @@ namespace ouzel
             return false;
         }
 
-        bool Menu::handleUI(Event::Type type, const UIEvent& event)
+        bool Menu::handleUI(const UIEvent& event)
         {
             if (!enabled) return false;
 
-            if (type == Event::Type::ACTOR_ENTER)
+            if (event.type == Event::Type::ACTOR_ENTER)
                 if (std::find(widgets.begin(), widgets.end(), event.actor) != widgets.end())
                     selectWidget(static_cast<Widget*>(event.actor));
 

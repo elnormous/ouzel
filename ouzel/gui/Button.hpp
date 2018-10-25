@@ -41,7 +41,7 @@ namespace ouzel
         protected:
             virtual void setSelected(bool newSelected) override;
 
-            bool handleUI(Event::Type type, const UIEvent& event);
+            bool handleUI(const UIEvent& event);
 
             void updateSprite();
 

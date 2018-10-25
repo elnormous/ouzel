@@ -15,65 +15,65 @@ namespace ouzel
 
         bool Touchpad::handleTouchBegin(uint64_t touchId, const Vector2& position, float force)
         {
-            Event event;
-            event.type = Event::Type::TOUCH_BEGIN;
-            event.touchEvent.touchpad = this;
-            event.touchEvent.touchId = touchId;
-            event.touchEvent.position = position;
-            event.touchEvent.force = force;
+            std::unique_ptr<TouchEvent> event(new TouchEvent());
+            event->type = Event::Type::TOUCH_BEGIN;
+            event->touchpad = this;
+            event->touchId = touchId;
+            event->position = position;
+            event->force = force;
 
             touchPositions[touchId] = position;
 
-            return engine->getEventDispatcher().dispatchEvent(event);
+            return engine->getEventDispatcher().dispatchEvent(std::move(event));
         }
 
         bool Touchpad::handleTouchEnd(uint64_t touchId, const Vector2& position, float force)
         {
-            Event event;
-            event.type = Event::Type::TOUCH_END;
-            event.touchEvent.touchpad = this;
-            event.touchEvent.touchId = touchId;
-            event.touchEvent.position = position;
-            event.touchEvent.force = force;
+            std::unique_ptr<TouchEvent> event(new TouchEvent());
+            event->type = Event::Type::TOUCH_END;
+            event->touchpad = this;
+            event->touchId = touchId;
+            event->position = position;
+            event->force = force;
 
             auto i = touchPositions.find(touchId);
 
             if (i != touchPositions.end())
                 touchPositions.erase(i);
 
-            return engine->getEventDispatcher().dispatchEvent(event);
+            return engine->getEventDispatcher().dispatchEvent(std::move(event));
         }
 
         bool Touchpad::handleTouchMove(uint64_t touchId, const Vector2& position, float force)
         {
-            Event event;
-            event.type = Event::Type::TOUCH_MOVE;
-            event.touchEvent.touchpad = this;
-            event.touchEvent.touchId = touchId;
-            event.touchEvent.difference = position - touchPositions[touchId];
-            event.touchEvent.position = position;
-            event.touchEvent.force = force;
+            std::unique_ptr<TouchEvent> event(new TouchEvent());
+            event->type = Event::Type::TOUCH_MOVE;
+            event->touchpad = this;
+            event->touchId = touchId;
+            event->difference = position - touchPositions[touchId];
+            event->position = position;
+            event->force = force;
 
             touchPositions[touchId] = position;
 
-            return engine->getEventDispatcher().dispatchEvent(event);
+            return engine->getEventDispatcher().dispatchEvent(std::move(event));
         }
 
         bool Touchpad::handleTouchCancel(uint64_t touchId, const Vector2& position, float force)
         {
-            Event event;
-            event.type = Event::Type::TOUCH_CANCEL;
-            event.touchEvent.touchpad = this;
-            event.touchEvent.touchId = touchId;
-            event.touchEvent.position = position;
-            event.touchEvent.force = force;
+            std::unique_ptr<TouchEvent> event(new TouchEvent());
+            event->type = Event::Type::TOUCH_CANCEL;
+            event->touchpad = this;
+            event->touchId = touchId;
+            event->position = position;
+            event->force = force;
 
             auto i = touchPositions.find(touchId);
 
             if (i != touchPositions.end())
                 touchPositions.erase(i);
 
-            return engine->getEventDispatcher().dispatchEvent(event);
+            return engine->getEventDispatcher().dispatchEvent(std::move(event));
         }
     } // namespace input
 } // namespace ouzel

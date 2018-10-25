@@ -10,11 +10,11 @@ using namespace input;
 
 GameSample::GameSample()
 {
-    handler.keyboardHandler = bind(&GameSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
-    handler.mouseHandler = bind(&GameSample::handleMouse, this, placeholders::_1, placeholders::_2);
-    handler.touchHandler = bind(&GameSample::handleTouch, this, placeholders::_1, placeholders::_2);
-    handler.gamepadHandler = bind(&GameSample::handleGamepad, this, placeholders::_1, placeholders::_2);
-    handler.uiHandler = bind(&GameSample::handleUI, this, placeholders::_1, placeholders::_2);
+    handler.keyboardHandler = bind(&GameSample::handleKeyboard, this, placeholders::_1);
+    handler.mouseHandler = bind(&GameSample::handleMouse, this, placeholders::_1);
+    handler.touchHandler = bind(&GameSample::handleTouch, this, placeholders::_1);
+    handler.gamepadHandler = bind(&GameSample::handleGamepad, this, placeholders::_1);
+    handler.uiHandler = bind(&GameSample::handleUI, this, placeholders::_1);
 
     engine->getEventDispatcher().addEventHandler(&handler);
 
@@ -23,9 +23,9 @@ GameSample::GameSample()
     layer.addChild(&cameraActor);
 }
 
-bool GameSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
+bool GameSample::handleKeyboard(const KeyboardEvent& event)
 {
-    if (type == Event::Type::KEY_PRESS)
+    if (event.type == Event::Type::KEY_PRESS)
     {
         switch (event.key)
         {
@@ -37,7 +37,7 @@ bool GameSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
                 break;
         }
     }
-    else if (type == Event::Type::KEY_RELEASE)
+    else if (event.type == Event::Type::KEY_RELEASE)
     {
         switch (event.key)
         {
@@ -52,27 +52,27 @@ bool GameSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
     return false;
 }
 
-bool GameSample::handleMouse(Event::Type type, const MouseEvent&)
+bool GameSample::handleMouse(const MouseEvent& event)
 {
-    if (type == Event::Type::MOUSE_PRESS)
+    if (event.type == Event::Type::MOUSE_PRESS)
     {
 
     }
     return false;
 }
 
-bool GameSample::handleTouch(Event::Type type, const TouchEvent&)
+bool GameSample::handleTouch(const TouchEvent& event)
 {
-    if (type == Event::Type::TOUCH_BEGIN)
+    if (event.type == Event::Type::TOUCH_BEGIN)
     {
 
     }
     return false;
 }
 
-bool GameSample::handleGamepad(Event::Type type, const GamepadEvent& event)
+bool GameSample::handleGamepad(const GamepadEvent& event)
 {
-    if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
+    if (event.type == Event::Type::GAMEPAD_BUTTON_CHANGE)
     {
         if (event.pressed &&
             event.button == Gamepad::Button::FACE_RIGHT)
@@ -82,7 +82,7 @@ bool GameSample::handleGamepad(Event::Type type, const GamepadEvent& event)
     return false;
 }
 
-bool GameSample::handleUI(Event::Type, const UIEvent&) const
+bool GameSample::handleUI(const UIEvent&) const
 {
     return false;
 }
