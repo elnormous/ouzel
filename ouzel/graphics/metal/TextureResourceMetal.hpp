@@ -46,7 +46,7 @@ namespace ouzel
             }
         };
 
-        class TextureResourceMetal: public RenderResource
+        class TextureResourceMetal final: public RenderResource
         {
         public:
             explicit TextureResourceMetal(RenderDeviceMetal& renderDeviceMetal);

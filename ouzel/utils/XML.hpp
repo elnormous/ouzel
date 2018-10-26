@@ -12,7 +12,7 @@ namespace ouzel
     {
         class Data;
 
-        class Node
+        class Node final
         {
             friend Data;
         public:
@@ -66,7 +66,7 @@ namespace ouzel
             std::vector<Node> children;
         };
 
-        class Data
+        class Data final
         {
         public:
             Data();

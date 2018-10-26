@@ -43,7 +43,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RenderDeviceMetalMacOS: public RenderDeviceMetal
+        class RenderDeviceMetalMacOS final: public RenderDeviceMetal
         {
             friend Renderer;
         public:

@@ -25,7 +25,7 @@ namespace ouzel
     {
         class RenderDeviceOGL;
 
-        class TextureResourceOGL: public RenderResourceOGL
+        class TextureResourceOGL final: public RenderResourceOGL
         {
         public:
             explicit TextureResourceOGL(RenderDeviceOGL& renderDeviceOGL);

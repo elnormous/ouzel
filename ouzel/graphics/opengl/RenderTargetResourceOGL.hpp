@@ -10,7 +10,7 @@ namespace ouzel
     {
         class RenderDeviceOGL;
 
-        class RenderTargetResourceOGL: public RenderResourceOGL
+        class RenderTargetResourceOGL final: public RenderResourceOGL
         {
         public:
             RenderTargetResourceOGL(RenderDeviceOGL& renderDeviceOGL);

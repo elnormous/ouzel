@@ -24,7 +24,7 @@ namespace ouzel
     {
         class RenderDeviceMetal;
 
-        class BlendStateResourceMetal: public RenderResource
+        class BlendStateResourceMetal final: public RenderResource
         {
         public:
             BlendStateResourceMetal(RenderDeviceMetal& renderDeviceMetal);

@@ -9,7 +9,7 @@
 
 namespace ouzel
 {
-    class Box2
+    class Box2 final
     {
     public:
         Vector2 min;

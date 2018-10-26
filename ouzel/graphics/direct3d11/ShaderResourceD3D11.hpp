@@ -17,7 +17,7 @@ namespace ouzel
     {
         class RenderDeviceD3D11;
 
-        class ShaderResourceD3D11: public RenderResource
+        class ShaderResourceD3D11 final: public RenderResource
         {
         public:
             explicit ShaderResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11);

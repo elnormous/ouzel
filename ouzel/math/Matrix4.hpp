@@ -15,7 +15,7 @@
 
 namespace ouzel
 {
-    class Matrix4
+    class Matrix4 final
     {
     public:
 #if OUZEL_SUPPORTS_SSE

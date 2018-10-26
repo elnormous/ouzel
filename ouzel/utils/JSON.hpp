@@ -265,7 +265,7 @@ namespace ouzel
             std::string stringValue;
         };
 
-        class Data: public Value
+        class Data final: public Value
         {
         public:
             Data();

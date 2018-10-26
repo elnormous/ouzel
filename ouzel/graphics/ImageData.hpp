@@ -11,7 +11,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        class ImageData
+        class ImageData final
         {
         public:
             ImageData();
@@ -23,7 +23,7 @@ namespace ouzel
             inline const Size2& getSize() const { return size; }
             inline const std::vector<uint8_t>& getData() const { return data; }
 
-        protected:
+        private:
             PixelFormat pixelFormat = PixelFormat::DEFAULT;
             Size2 size;
             std::vector<uint8_t> data;

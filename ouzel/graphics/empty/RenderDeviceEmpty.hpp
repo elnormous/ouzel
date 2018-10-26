@@ -8,7 +8,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RenderDeviceEmpty: public RenderDevice
+        class RenderDeviceEmpty final: public RenderDevice
         {
             friend Renderer;
         protected:

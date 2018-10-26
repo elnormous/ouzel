@@ -13,7 +13,7 @@ namespace ouzel
 {
     namespace obf
     {
-        class Value
+        class Value final
         {
         public:
             using ByteArray = std::vector<uint8_t>;

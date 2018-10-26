@@ -16,7 +16,7 @@ namespace ouzel
     {
         class RenderDeviceD3D11;
 
-        class BufferResourceD3D11: public RenderResource
+        class BufferResourceD3D11 final: public RenderResource
         {
         public:
             explicit BufferResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11);

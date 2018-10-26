@@ -8,7 +8,7 @@ namespace ouzel
 {
     class Size2;
 
-    class Size3
+    class Size3 final
     {
     public:
         float width = 0.0F;

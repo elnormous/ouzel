@@ -25,7 +25,7 @@ namespace ouzel
     {
         class RenderDeviceMetal;
 
-        class ShaderResourceMetal: public RenderResource
+        class ShaderResourceMetal final: public RenderResource
         {
         public:
             explicit ShaderResourceMetal(RenderDeviceMetal& renderDeviceMetal);
