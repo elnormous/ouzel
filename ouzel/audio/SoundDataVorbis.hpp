@@ -10,7 +10,7 @@ namespace ouzel
 {
     namespace audio
     {
-        class SoundDataVorbis: public SoundData
+        class SoundDataVorbis final: public SoundData
         {
         public:
             SoundDataVorbis();
