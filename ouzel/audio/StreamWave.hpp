@@ -9,7 +9,7 @@ namespace ouzel
 {
     namespace audio
     {
-        class StreamWave: public Stream
+        class StreamWave final: public Stream
         {
         public:
             virtual void reset() override;

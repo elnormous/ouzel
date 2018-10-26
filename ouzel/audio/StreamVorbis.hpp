@@ -12,7 +12,7 @@ namespace ouzel
 {
     namespace audio
     {
-        class StreamVorbis: public Stream
+        class StreamVorbis final: public Stream
         {
         public:
             explicit StreamVorbis(const std::vector<uint8_t>& data);
