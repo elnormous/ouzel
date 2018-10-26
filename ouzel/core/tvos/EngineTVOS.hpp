@@ -10,7 +10,7 @@
 
 namespace ouzel
 {
-    class EngineTVOS: public Engine
+    class EngineTVOS final: public Engine
     {
     public:
         EngineTVOS(int initArgc, char* initArgv[]);

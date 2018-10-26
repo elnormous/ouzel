@@ -12,7 +12,7 @@
 
 namespace ouzel
 {
-    class EngineLinux: public Engine
+    class EngineLinux final: public Engine
     {
     public:
         EngineLinux(int initArgc, char* initArgv[]);

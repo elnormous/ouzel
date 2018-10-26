@@ -10,7 +10,7 @@
 
 namespace ouzel
 {
-    class EngineMacOS: public Engine
+    class EngineMacOS final: public Engine
     {
     public:
         EngineMacOS(int argc, char* argv[]);

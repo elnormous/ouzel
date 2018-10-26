@@ -13,7 +13,7 @@ namespace ouzel
 {
     class EngineWin;
 
-    class NativeWindowWin : public NativeWindow
+    class NativeWindowWin final: public NativeWindow
     {
         friend EngineWin;
     public:

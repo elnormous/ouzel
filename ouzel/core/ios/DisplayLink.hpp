@@ -20,7 +20,7 @@ typedef void (*RenderCallback)(void*);
 
 namespace ouzel
 {
-    class DisplayLink
+    class DisplayLink final
     {
     public:
         DisplayLink(RenderCallback initCallback, void* initUserInfo):

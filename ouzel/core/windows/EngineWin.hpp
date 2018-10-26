@@ -10,7 +10,7 @@
 
 namespace ouzel
 {
-    class EngineWin : public Engine
+    class EngineWin final: public Engine
     {
     public:
         EngineWin(int initArgc, LPWSTR* initArgv);
