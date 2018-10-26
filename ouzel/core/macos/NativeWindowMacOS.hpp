@@ -25,7 +25,7 @@ typedef uint32_t CGDirectDisplayID;
 
 namespace ouzel
 {
-    class NativeWindowMacOS: public NativeWindow
+    class NativeWindowMacOS final: public NativeWindow
     {
     public:
         NativeWindowMacOS(EventHandler& initEventHandler,

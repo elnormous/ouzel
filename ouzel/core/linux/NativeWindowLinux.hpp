@@ -24,7 +24,7 @@ namespace ouzel
 {
     class EngineLinux;
 
-    class NativeWindowLinux: public NativeWindow
+    class NativeWindowLinux final: public NativeWindow
     {
         friend EngineLinux;
     public:

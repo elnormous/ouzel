@@ -10,7 +10,7 @@
 
 namespace ouzel
 {
-    class EngineAndroid: public Engine
+    class EngineAndroid final: public Engine
     {
     public:
         static const jint ORIENTATION_PORTRAIT = 0x00000001;

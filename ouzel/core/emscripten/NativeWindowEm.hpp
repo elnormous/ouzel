@@ -6,7 +6,7 @@
 
 namespace ouzel
 {
-    class NativeWindowEm: public NativeWindow
+    class NativeWindowEm final: public NativeWindow
     {
     public:
         NativeWindowEm(EventHandler& initEventHandler,

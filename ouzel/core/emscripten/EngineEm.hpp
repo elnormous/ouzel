@@ -6,7 +6,7 @@
 
 namespace ouzel
 {
-    class EngineEm: public Engine
+    class EngineEm final: public Engine
     {
     public:
         EngineEm(int argc, char* argv[]);

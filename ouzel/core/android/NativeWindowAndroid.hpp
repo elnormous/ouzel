@@ -9,7 +9,7 @@
 
 namespace ouzel
 {
-    class NativeWindowAndroid: public NativeWindow
+    class NativeWindowAndroid final: public NativeWindow
     {
     public:
         NativeWindowAndroid(EventHandler& initEventHandler,

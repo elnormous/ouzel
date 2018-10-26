@@ -23,7 +23,7 @@ typedef id UITextFieldPtr;
 
 namespace ouzel
 {
-    class NativeWindowIOS: public NativeWindow
+    class NativeWindowIOS final: public NativeWindow
     {
     public:
         NativeWindowIOS(EventHandler& initEventHandler,
