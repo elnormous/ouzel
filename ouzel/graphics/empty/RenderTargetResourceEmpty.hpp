@@ -10,7 +10,7 @@ namespace ouzel
     {
         class RenderDeviceEmpty;
 
-        class RenderTargetResourceEmpty: public RenderResource
+        class RenderTargetResourceEmpty final: public RenderResource
         {
         public:
             RenderTargetResourceEmpty(RenderDeviceEmpty& renderDeviceEmpty);

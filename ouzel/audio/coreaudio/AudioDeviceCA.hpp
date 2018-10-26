@@ -18,7 +18,7 @@ namespace ouzel
 {
     namespace audio
     {
-        class AudioDeviceCA: public AudioDevice
+        class AudioDeviceCA final: public AudioDevice
         {
             friend Audio;
         public:

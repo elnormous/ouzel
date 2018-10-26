@@ -17,7 +17,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RenderDeviceD3D11: public RenderDevice
+        class RenderDeviceD3D11 final: public RenderDevice
         {
             friend Renderer;
         public:

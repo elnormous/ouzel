@@ -25,7 +25,7 @@ namespace ouzel
     {
         class RenderDeviceOGL;
 
-        class BlendStateResourceOGL: public RenderResourceOGL
+        class BlendStateResourceOGL final: public RenderResourceOGL
         {
         public:
             BlendStateResourceOGL(RenderDeviceOGL& renderDeviceOGL);

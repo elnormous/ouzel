@@ -9,7 +9,7 @@ namespace ouzel
 {
     class Vector4;
 
-    class Plane
+    class Plane final
     {
     public:
         float a = 0.0F;

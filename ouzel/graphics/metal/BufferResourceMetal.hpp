@@ -23,7 +23,7 @@ namespace ouzel
     {
         class RenderDeviceMetal;
 
-        class BufferResourceMetal: public RenderResource
+        class BufferResourceMetal final: public RenderResource
         {
         public:
             explicit BufferResourceMetal(RenderDeviceMetal& renderDeviceMetal);

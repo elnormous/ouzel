@@ -13,7 +13,7 @@ namespace ouzel
     {
         class Data;
 
-        class Section
+        class Section final
         {
             friend Data;
         public:
@@ -38,7 +38,7 @@ namespace ouzel
             std::map<std::string, std::string> values;
         };
 
-        class Data
+        class Data final
         {
         public:
             Data();

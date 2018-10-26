@@ -15,7 +15,7 @@ namespace ouzel
     class Vector3;
     class Color;
 
-    class Vector4
+    class Vector4 final
     {
     public:
 #if OUZEL_SUPPORTS_SSE

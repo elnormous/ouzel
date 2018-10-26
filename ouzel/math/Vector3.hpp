@@ -10,7 +10,7 @@ namespace ouzel
     class Vector4;
     class Color;
 
-    class Vector3
+    class Vector3 final
     {
     public:
         float x = 0.0F;

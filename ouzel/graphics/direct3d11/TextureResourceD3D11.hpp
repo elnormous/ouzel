@@ -30,7 +30,7 @@ namespace ouzel
             }
         };
 
-        class TextureResourceD3D11: public RenderResource
+        class TextureResourceD3D11 final: public RenderResource
         {
         public:
             explicit TextureResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11);

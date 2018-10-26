@@ -24,7 +24,7 @@ namespace ouzel
 {
     namespace audio
     {
-        class AudioDeviceAL: public AudioDevice
+        class AudioDeviceAL final: public AudioDevice
         {
             friend Audio;
         public:

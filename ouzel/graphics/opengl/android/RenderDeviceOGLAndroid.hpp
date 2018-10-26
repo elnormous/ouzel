@@ -16,7 +16,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RenderDeviceOGLAndroid: public RenderDeviceOGL
+        class RenderDeviceOGLAndroid final: public RenderDeviceOGL
         {
             friend Renderer;
         public:

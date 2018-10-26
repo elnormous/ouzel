@@ -25,7 +25,7 @@ namespace ouzel
     {
         class RenderDeviceOGL;
 
-        class BufferResourceOGL: public RenderResourceOGL
+        class BufferResourceOGL final: public RenderResourceOGL
         {
         public:
             explicit BufferResourceOGL(RenderDeviceOGL& renderDeviceOGL);

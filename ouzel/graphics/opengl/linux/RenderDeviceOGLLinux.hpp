@@ -21,7 +21,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RenderDeviceOGLLinux: public RenderDeviceOGL
+        class RenderDeviceOGLLinux final: public RenderDeviceOGL
         {
             friend Renderer;
         public:

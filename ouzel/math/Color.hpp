@@ -11,7 +11,7 @@ namespace ouzel
     class Vector3;
     class Vector4;
 
-    class Color
+    class Color final
     {
     public:
         static const uint32_t BLACK = 0x000000ff;

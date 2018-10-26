@@ -11,7 +11,7 @@ namespace ouzel
 {
     class Box2;
 
-    class Box3
+    class Box3 final
     {
     public:
         Vector3 min;

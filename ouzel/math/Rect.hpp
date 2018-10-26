@@ -7,7 +7,7 @@
 
 namespace ouzel
 {
-    class Rect
+    class Rect final
     {
     public:
         Vector2 position;

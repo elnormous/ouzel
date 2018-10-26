@@ -17,7 +17,7 @@ namespace ouzel
 {
     namespace audio
     {
-        class AudioDeviceXA2: public AudioDevice, public IXAudio2VoiceCallback
+        class AudioDeviceXA2 final: public AudioDevice, public IXAudio2VoiceCallback
         {
             friend Audio;
         public:

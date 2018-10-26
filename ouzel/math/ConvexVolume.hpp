@@ -9,7 +9,7 @@
 
 namespace ouzel
 {
-    class ConvexVolume
+    class ConvexVolume final
     {
     public:
         ConvexVolume()

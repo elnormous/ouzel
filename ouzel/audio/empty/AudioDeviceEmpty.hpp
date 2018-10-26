@@ -8,7 +8,7 @@ namespace ouzel
 {
     namespace audio
     {
-        class AudioDeviceEmpty: public AudioDevice
+        class AudioDeviceEmpty final: public AudioDevice
         {
             friend Audio;
         protected:
