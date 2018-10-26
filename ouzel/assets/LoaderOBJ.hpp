@@ -8,7 +8,7 @@ namespace ouzel
 {
     namespace assets
     {
-        class LoaderOBJ: public Loader
+        class LoaderOBJ final: public Loader
         {
         public:
             static const uint32_t TYPE = Loader::STATIC_MESH;

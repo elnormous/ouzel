@@ -8,7 +8,7 @@ namespace ouzel
 {
     namespace assets
     {
-        class LoaderImage: public Loader
+        class LoaderImage final: public Loader
         {
         public:
             static const uint32_t TYPE = Loader::IMAGE;

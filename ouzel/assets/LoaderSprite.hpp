@@ -8,7 +8,7 @@ namespace ouzel
 {
     namespace assets
     {
-        class LoaderSprite: public Loader
+        class LoaderSprite final: public Loader
         {
         public:
             static const uint32_t TYPE = Loader::SPRITE;

@@ -8,7 +8,7 @@ namespace ouzel
 {
     namespace assets
     {
-        class LoaderParticleSystem: public Loader
+        class LoaderParticleSystem final: public Loader
         {
         public:
             static const uint32_t TYPE = Loader::PARTICLE_SYSTEM;

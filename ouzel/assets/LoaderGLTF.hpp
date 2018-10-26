@@ -8,7 +8,7 @@ namespace ouzel
 {
     namespace assets
     {
-        class LoaderGLTF: public Loader
+        class LoaderGLTF final: public Loader
         {
         public:
             static const uint32_t TYPE = Loader::SKINNED_MESH;
