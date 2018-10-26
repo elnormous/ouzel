@@ -8,7 +8,7 @@ namespace ouzel
 {
     namespace assets
     {
-        class LoaderMTL: public Loader
+        class LoaderMTL final: public Loader
         {
         public:
             static const uint32_t TYPE = Loader::MATERIAL;

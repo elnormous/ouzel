@@ -23,7 +23,7 @@ namespace ouzel
     {
         class Cache;
 
-        class Asset
+        class Asset final
         {
         public:
             Asset(uint32_t initType,

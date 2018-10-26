@@ -8,7 +8,7 @@ namespace ouzel
 {
     namespace assets
     {
-        class LoaderBMF: public Loader
+        class LoaderBMF final: public Loader
         {
         public:
             static const uint32_t TYPE = Loader::FONT;

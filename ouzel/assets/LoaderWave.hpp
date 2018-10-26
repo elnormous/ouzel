@@ -8,7 +8,7 @@ namespace ouzel
 {
     namespace assets
     {
-        class LoaderWave: public Loader
+        class LoaderWave final: public Loader
         {
         public:
             static const uint32_t TYPE = Loader::SOUND;
