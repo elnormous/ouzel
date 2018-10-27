@@ -13,7 +13,7 @@ namespace ouzel
     {
         class InputManager;
 
-        class Touchpad: public Controller
+        class Touchpad final: public Controller
         {
             friend InputManager;
         public:

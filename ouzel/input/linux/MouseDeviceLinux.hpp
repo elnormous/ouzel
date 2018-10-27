@@ -10,7 +10,7 @@ namespace ouzel
     {
         class NativeCursorLinux;
 
-        class MouseDeviceLinux: public MouseDevice
+        class MouseDeviceLinux final: public MouseDevice
         {
         public:
             MouseDeviceLinux(InputSystem& initInputSystem,

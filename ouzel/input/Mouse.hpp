@@ -12,7 +12,7 @@ namespace ouzel
     {
         class Cursor;
 
-        class Mouse: public Controller
+        class Mouse final: public Controller
         {
             friend InputManager;
         public:

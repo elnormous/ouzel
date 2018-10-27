@@ -11,7 +11,7 @@ namespace ouzel
 {
     namespace input
     {
-        class InputSystemAndroid: public InputSystem
+        class InputSystemAndroid final: public InputSystem
         {
         public:
             InputSystemAndroid(EventHandler& initEventHandler);

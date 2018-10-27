@@ -6,7 +6,7 @@
 
 namespace ouzel
 {
-    class BMFont: public Font
+    class BMFont final: public Font
     {
     public:
         BMFont();

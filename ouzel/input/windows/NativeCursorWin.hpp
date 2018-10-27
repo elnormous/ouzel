@@ -12,7 +12,7 @@ namespace ouzel
 {
     namespace input
     {
-        class NativeCursorWin: public NativeCursor
+        class NativeCursorWin final: public NativeCursor
         {
         public:
             explicit NativeCursorWin(InputSystem& initInputSystem);

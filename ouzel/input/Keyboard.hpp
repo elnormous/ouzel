@@ -11,7 +11,7 @@ namespace ouzel
     {
         class InputManager;
 
-        class Keyboard: public Controller
+        class Keyboard final: public Controller
         {
             friend InputManager;
         public:

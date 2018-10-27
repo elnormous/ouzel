@@ -25,7 +25,7 @@ namespace ouzel
             I_BEAM
         };
 
-        class Cursor
+        class Cursor final
         {
         public:
             Cursor();

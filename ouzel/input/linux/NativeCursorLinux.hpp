@@ -12,7 +12,7 @@ namespace ouzel
 {
     namespace input
     {
-        class NativeCursorLinux: public NativeCursor
+        class NativeCursorLinux final: public NativeCursor
         {
         public:
             explicit NativeCursorLinux(InputSystem& initInputSystem);

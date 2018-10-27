@@ -8,7 +8,7 @@ namespace ouzel
 {
     namespace input
     {
-        class KeyboardDeviceWin: public KeyboardDevice
+        class KeyboardDeviceWin final: public KeyboardDevice
         {
         public:
             KeyboardDeviceWin(InputSystem& initInputSystem,

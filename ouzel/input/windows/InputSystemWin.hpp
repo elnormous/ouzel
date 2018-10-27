@@ -19,7 +19,7 @@ namespace ouzel
         class GamepadDeviceXI;
         class NativeCursorWin;
 
-        class InputSystemWin: public InputSystem
+        class InputSystemWin final: public InputSystem
         {
         public:
             InputSystemWin(EventHandler& initEventHandler);
