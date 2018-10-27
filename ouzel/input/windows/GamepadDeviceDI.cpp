@@ -388,7 +388,7 @@ namespace ouzel
                     handleButtonValueChange(Gamepad::Button::DPAD_LEFT,
                                             (newBitmask & 0x08) > 0,
                                             (newBitmask & 0x08) > 0 ? 1.0F : 0.0F);
-                
+
                 hatValue = newDIState.rgdwPOV[0];
             }
 
@@ -424,7 +424,7 @@ namespace ouzel
                                      newValue,
                                      axis.min, axis.range,
                                      axis.negativeButton, axis.positiveButton);
-                        
+
                     axis.value = newValue;
                 }
             }
