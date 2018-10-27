@@ -9,7 +9,7 @@ namespace ouzel
 {
     namespace input
     {
-        class GamepadDeviceAndroid: public GamepadDevice
+        class GamepadDeviceAndroid final: public GamepadDevice
         {
         public:
             GamepadDeviceAndroid(InputSystem& initInputSystem,

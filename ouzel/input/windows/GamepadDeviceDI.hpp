@@ -18,7 +18,7 @@ namespace ouzel
 {
     namespace input
     {
-        class GamepadDeviceDI: public GamepadDeviceWin
+        class GamepadDeviceDI final: public GamepadDeviceWin
         {
         public:
             GamepadDeviceDI(InputSystem& initInputSystem,

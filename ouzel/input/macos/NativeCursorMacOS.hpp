@@ -15,7 +15,7 @@ namespace ouzel
 {
     namespace input
     {
-        class NativeCursorMacOS: public NativeCursor
+        class NativeCursorMacOS final: public NativeCursor
         {
         public:
             explicit NativeCursorMacOS(InputSystem& initInputSystem);

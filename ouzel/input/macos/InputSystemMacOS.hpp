@@ -30,7 +30,7 @@ namespace ouzel
     {
         class NativeCursorMacOS;
 
-        class InputSystemMacOS: public InputSystem
+        class InputSystemMacOS final: public InputSystem
         {
         public:
             InputSystemMacOS(EventHandler& initEventHandler);

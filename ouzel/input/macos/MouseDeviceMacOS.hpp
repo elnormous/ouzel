@@ -11,7 +11,7 @@ namespace ouzel
     {
         class NativeCursorMacOS;
 
-        class MouseDeviceMacOS: public MouseDevice
+        class MouseDeviceMacOS final: public MouseDevice
         {
         public:
             MouseDeviceMacOS(InputSystem& initInputSystem,

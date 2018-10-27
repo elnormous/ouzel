@@ -16,7 +16,7 @@ namespace ouzel
     {
         class NativeCursorLinux;
 
-        class InputSystemLinux: public InputSystem
+        class InputSystemLinux final: public InputSystem
         {
         public:
             InputSystemLinux(EventHandler& initEventHandler);

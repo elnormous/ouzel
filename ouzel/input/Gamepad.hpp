@@ -12,7 +12,7 @@ namespace ouzel
     {
         class InputManager;
 
-        class Gamepad: public Controller
+        class Gamepad final: public Controller
         {
             friend InputManager;
         public:

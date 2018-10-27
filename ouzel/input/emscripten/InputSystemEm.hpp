@@ -15,7 +15,7 @@ namespace ouzel
     {
         class GamepadDeviceEm;
 
-        class InputSystemEm: public InputSystem
+        class InputSystemEm final: public InputSystem
         {
         public:
             InputSystemEm(EventHandler& initEventHandler);

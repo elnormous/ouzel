@@ -10,7 +10,7 @@ namespace ouzel
     {
         class NativeCursorWin;
 
-        class MouseDeviceWin: public MouseDevice
+        class MouseDeviceWin final: public MouseDevice
         {
         public:
             MouseDeviceWin(InputSystem& initInputSystem,

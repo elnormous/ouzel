@@ -21,7 +21,7 @@ namespace ouzel
     {
         class GamepadDeviceTVOS;
 
-        class InputSystemTVOS: public InputSystem
+        class InputSystemTVOS final: public InputSystem
         {
         public:
             InputSystemTVOS(EventHandler& initEventHandler);

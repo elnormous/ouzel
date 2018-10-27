@@ -8,7 +8,7 @@ namespace ouzel
 {
     namespace input
     {
-        class MouseDeviceEm: public MouseDevice
+        class MouseDeviceEm final: public MouseDevice
         {
         public:
             MouseDeviceEm(InputSystem& initInputSystem,

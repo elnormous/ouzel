@@ -7,7 +7,7 @@
 
 namespace ouzel
 {
-    class TTFont: public Font
+    class TTFont final: public Font
     {
     public:
         TTFont();

@@ -8,7 +8,7 @@ namespace ouzel
 {
     namespace input
     {
-        class KeyboardDeviceLinux: public KeyboardDevice
+        class KeyboardDeviceLinux final: public KeyboardDevice
         {
         public:
             KeyboardDeviceLinux(InputSystem& initInputSystem,
