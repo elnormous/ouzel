@@ -686,7 +686,7 @@ namespace ouzel
                             if (axisIterator != axes.end())
                             {
                                 Axis& axis = axisIterator->second;
-               
+
                                 handleAxisChange(axis.value,
                                                  event.value,
                                                  axis.min, axis.range,
