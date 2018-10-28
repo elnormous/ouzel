@@ -564,19 +564,7 @@ namespace ouzel
                 }
             }
 
-            {
-                Log extensionLog = engine->log(Log::Level::ALL);
-
-                extensionLog << "Supported OpenGL extensions: ";
-                bool first = true;
-
-                for (const std::string& extension : extensions)
-                {
-                    if (!first) extensionLog << ", ";
-                    first = false;
-                    extensionLog << extension;
-                }
-            }
+            engine->log(Log::Level::ALL) << "Supported OpenGL extensions: " << extensions;
 
             anisotropicFilteringSupported = false;
             npotTexturesSupported = false;
