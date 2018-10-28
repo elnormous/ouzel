@@ -26,28 +26,30 @@ namespace ouzel
             ALL
         };
 
-        static Level getThreshold() { return threshold; }
-        static void setThreshold(Level newThreshold) { threshold = newThreshold; }
-
-        explicit Log(Level initLevel = Level::INFO): level(initLevel)
+        explicit Log(Level initLevel = Level::INFO, Level initThreshold = Level::ALL):
+            level(initLevel), threshold(initThreshold)
         {
         }
 
         Log(const Log& other)
         {
+            threshold = other.threshold;
             level = other.level;
             s = other.s;
         }
 
         Log(Log&& other)
         {
+            threshold = other.threshold;
             level = other.level;
             other.level = Level::INFO;
+            other.threshold = Level::ALL;
             s = std::move(other.s);
         }
 
         Log& operator=(const Log& other)
         {
+            threshold = other.threshold;
             level = other.level;
             s = other.s;
 
@@ -56,9 +58,14 @@ namespace ouzel
 
         Log& operator=(Log&& other)
         {
-            level = other.level;
-            other.level = Level::INFO;
-            s = std::move(other.s);
+            if (&other != this)
+            {
+                threshold = other.threshold;
+                level = other.level;
+                other.level = Level::INFO;
+                other.threshold = Level::ALL;
+                s = std::move(other.s);
+            }
 
             return *this;
         }
@@ -183,8 +190,8 @@ namespace ouzel
         }
 
     private:
-        static Level threshold;
         Level level = Level::INFO;
+        Level threshold = Log::Level::ALL;
         std::string s;
     };
 }

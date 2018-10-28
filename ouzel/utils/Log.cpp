@@ -25,13 +25,6 @@
 
 namespace ouzel
 {
-#ifdef DEBUG
-    Log::Level Log::threshold = Log::Level::ALL;
-#else
-    Log::Level Log::threshold = Log::Level::INFO;
-
-#endif
-
     Log::~Log()
     {
         if (!s.empty())

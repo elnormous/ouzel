@@ -39,7 +39,8 @@ namespace ouzel
     const std::string FileSystem::DIRECTORY_SEPARATOR = "/";
 #endif
 
-    FileSystem::FileSystem()
+    FileSystem::FileSystem(Engine& initEngine):
+        engine(initEngine)
     {
 #if OUZEL_PLATFORM_WINDOWS
         WCHAR buffer[MAX_PATH];
@@ -51,7 +52,7 @@ namespace ouzel
             throw FileError("Failed to convert wide char to UTF-8");
 
         appPath = getDirectoryPart(appFilename);
-        engine->log(Log::Level::INFO) << "Application directory: " << appPath;
+        engine.log(Log::Level::INFO) << "Application directory: " << appPath;
 
 #elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
         CFBundleRef bundle = CFBundleGetMainBundle(); // [NSBundle mainBundle]
@@ -63,7 +64,7 @@ namespace ouzel
             CFURLGetFileSystemRepresentation(path, TRUE, reinterpret_cast<UInt8*>(resourceDirectory), sizeof(resourceDirectory));
             CFRelease(path);
             appPath = resourceDirectory;
-            engine->log(Log::Level::INFO) << "Application directory: " << appPath;
+            engine.log(Log::Level::INFO) << "Application directory: " << appPath;
         }
         else
             throw FileError("Failed to get current directory");
@@ -74,7 +75,7 @@ namespace ouzel
         if (readlink("/proc/self/exe", executableDirectory, sizeof(executableDirectory)) != -1)
         {
             appPath = getDirectoryPart(executableDirectory);
-            engine->log(Log::Level::INFO) << "Application directory: " << appPath;
+            engine.log(Log::Level::INFO) << "Application directory: " << appPath;
         }
         else
             throw FileError("Failed to get current directory");

@@ -80,7 +80,13 @@ namespace ouzel
     Engine* engine = nullptr;
 
     Engine::Engine():
-        cache(fileSystem), assetBundle(cache), active(false), paused(false),
+#ifdef DEBUG
+        logThreshold(Log::Level::ALL),
+#else
+        logThreshold(Log::Level::INFO),
+#endif
+        fileSystem(*this), cache(fileSystem), assetBundle(cache),
+        active(false), paused(false),
         oneUpdatePerFrame(false), screenSaverEnabled(true)
     {
         engine = this;
