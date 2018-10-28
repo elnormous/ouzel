@@ -27,12 +27,12 @@ static CVReturn renderCallback(CVDisplayLinkRef,
         }
         catch (const std::exception& e)
         {
-            ouzel::Log(ouzel::Log::Level::ERR) << e.what();
+            ouzel::engine->log(ouzel::Log::Level::ERR) << e.what();
             return kCVReturnError;
         }
         catch (...)
         {
-            ouzel::Log(ouzel::Log::Level::ERR) << "Unknown error occurred";
+            ouzel::engine->log(ouzel::Log::Level::ERR) << "Unknown error occurred";
             return kCVReturnError;
         }
     }

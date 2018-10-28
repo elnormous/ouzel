@@ -8,6 +8,7 @@
 #include "GL/glext.h"
 #include "GL/wglext.h"
 #include "RenderDeviceOGLWin.hpp"
+#include "core/Engine.hpp"
 #include "core/Window.hpp"
 #include "core/windows/NativeWindowWin.hpp"
 #include "utils/Errors.hpp"
@@ -248,7 +249,7 @@ namespace ouzel
 
                     if (renderContext)
                     {
-                        Log(Log::Level::INFO) << "OpenGL " << openGLVersion << " context created";
+                        engine->log(Log::Level::INFO) << "OpenGL " << openGLVersion << " context created";
                         break;
                     }
                 }
@@ -299,11 +300,11 @@ namespace ouzel
                 }
                 catch (const std::exception& e)
                 {
-                    Log(Log::Level::ERR) << e.what();
+                    engine->log(Log::Level::ERR) << e.what();
                 }
                 catch (...)
                 {
-                    Log(Log::Level::ERR) << "Unknown error occurred";
+                    engine->log(Log::Level::ERR) << "Unknown error occurred";
                 }
             }
         }

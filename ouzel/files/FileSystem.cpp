@@ -26,6 +26,7 @@ extern "C" id NSTemporaryDirectory();
 #include "FileSystem.hpp"
 #include "File.hpp"
 #include "Archive.hpp"
+#include "core/Engine.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"
@@ -50,7 +51,7 @@ namespace ouzel
             throw FileError("Failed to convert wide char to UTF-8");
 
         appPath = getDirectoryPart(appFilename);
-        Log(Log::Level::INFO) << "Application directory: " << appPath;
+        engine->log(Log::Level::INFO) << "Application directory: " << appPath;
 
 #elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
         CFBundleRef bundle = CFBundleGetMainBundle(); // [NSBundle mainBundle]
@@ -62,7 +63,7 @@ namespace ouzel
             CFURLGetFileSystemRepresentation(path, TRUE, reinterpret_cast<UInt8*>(resourceDirectory), sizeof(resourceDirectory));
             CFRelease(path);
             appPath = resourceDirectory;
-            Log(Log::Level::INFO) << "Application directory: " << appPath;
+            engine->log(Log::Level::INFO) << "Application directory: " << appPath;
         }
         else
             throw FileError("Failed to get current directory");
@@ -73,7 +74,7 @@ namespace ouzel
         if (readlink("/proc/self/exe", executableDirectory, sizeof(executableDirectory)) != -1)
         {
             appPath = getDirectoryPart(executableDirectory);
-            Log(Log::Level::INFO) << "Application directory: " << appPath;
+            engine->log(Log::Level::INFO) << "Application directory: " << appPath;
         }
         else
             throw FileError("Failed to get current directory");

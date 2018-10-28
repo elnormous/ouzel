@@ -14,12 +14,12 @@ int main(int argc, char* argv[])
     }
     catch (const std::exception& e)
     {
-        ouzel::Log(ouzel::Log::Level::ERR) << e.what();
+        ouzel::engine->log(ouzel::Log::Level::ERR) << e.what();
         return EXIT_FAILURE;
     }
     catch (...)
     {
-        ouzel::Log(ouzel::Log::Level::ERR) << "Unknown error occurred";
+        ouzel::engine->log(ouzel::Log::Level::ERR) << "Unknown error occurred";
         return EXIT_FAILURE;
     }
 }

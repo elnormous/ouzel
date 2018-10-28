@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "GamepadDeviceDI.hpp"
+#include "core/Engine.hpp"
 #include "core/windows/NativeWindowWin.hpp"
 #include "input/GamepadConfig.hpp"
 #include "utils/Errors.hpp"
@@ -93,7 +94,7 @@ namespace ouzel
                         // Set the range for the axis
                         hr = device->SetProperty(DIPROP_DEADZONE, &propertyDeadZone.diph);
                         if (FAILED(hr))
-                            Log(Log::Level::WARN) << "Failed to set DirectInput device dead zone property, error: " << hr;
+                            engine->log(Log::Level::WARN) << "Failed to set DirectInput device dead zone property, error: " << hr;
 
                         DIPROPRANGE propertyAxisRange;
                         propertyAxisRange.diph.dwSize = sizeof(propertyAxisRange);
@@ -175,7 +176,7 @@ namespace ouzel
 
                 hr = device->SetProperty(DIPROP_AUTOCENTER, &propertyAutoCenter.diph);
                 if (FAILED(hr))
-                    Log(Log::Level::WARN) << "Failed to set DirectInput device autocenter property, error: " << hr;
+                    engine->log(Log::Level::WARN) << "Failed to set DirectInput device autocenter property, error: " << hr;
             }
 
             DIPROPDWORD propertyBufferSize;

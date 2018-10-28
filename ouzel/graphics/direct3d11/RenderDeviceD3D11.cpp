@@ -12,6 +12,7 @@
 #include "RenderTargetResourceD3D11.hpp"
 #include "ShaderResourceD3D11.hpp"
 #include "TextureResourceD3D11.hpp"
+#include "core/Engine.hpp"
 #include "core/Window.hpp"
 #include "core/windows/NativeWindowWin.hpp"
 #include "utils/Errors.hpp"
@@ -144,7 +145,7 @@ namespace ouzel
                 {
                     std::vector<char> buffer(bufferSize);
                     if (WideCharToMultiByte(CP_UTF8, 0, adapterDesc.Description, -1, buffer.data(), bufferSize, nullptr, nullptr) != 0)
-                        Log(Log::Level::INFO) << "Using " << buffer.data() << " for rendering";
+                        engine->log(Log::Level::INFO) << "Using " << buffer.data() << " for rendering";
                 }
             }
 
@@ -167,7 +168,7 @@ namespace ouzel
             if (supportedSampleCount != sampleCount)
             {
                 sampleCount = supportedSampleCount;
-                Log(Log::Level::WARN) << "Chosen sample count not supported, using: " << sampleCount;
+                engine->log(Log::Level::WARN) << "Chosen sample count not supported, using: " << sampleCount;
             }
 
             DXGI_SWAP_CHAIN_DESC swapChainDesc;
@@ -1260,11 +1261,11 @@ namespace ouzel
                 }
                 catch (const std::exception& e)
                 {
-                    Log(Log::Level::ERR) << e.what();
+                    engine->log(Log::Level::ERR) << e.what();
                 }
                 catch (...)
                 {
-                    Log(Log::Level::ERR) << "Unknown error occurred";
+                    engine->log(Log::Level::ERR) << "Unknown error occurred";
                 }
             }
         }

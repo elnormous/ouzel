@@ -24,6 +24,7 @@
 #include "localization/Localization.hpp"
 #include "network/Network.hpp"
 #include "utils/INI.hpp"
+#include "utils/Log.hpp"
 
 namespace ouzel
 {
@@ -56,6 +57,7 @@ namespace ouzel
 
         inline const std::vector<std::string>& getArgs() const { return args; }
 
+        inline Log log(Log::Level level = Log::Level::INFO) const { return Log(level); }
         inline FileSystem& getFileSystem() { return fileSystem; }
         inline EventDispatcher& getEventDispatcher() { return eventDispatcher; }
         inline assets::Cache& getCache() { return cache; }

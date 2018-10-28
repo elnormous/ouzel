@@ -10,6 +10,7 @@ extern "C" id const AVAudioSessionCategoryAmbient;
 #endif
 
 #include "AudioDeviceCA.hpp"
+#include "core/Engine.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
@@ -40,12 +41,12 @@ static OSStatus outputCallback(void* inRefCon,
     }
     catch (const std::exception& e)
     {
-        ouzel::Log(ouzel::Log::Level::ERR) << e.what();
+        ouzel::engine->log(ouzel::Log::Level::ERR) << e.what();
         return -1;
     }
     catch (...)
     {
-        ouzel::Log(ouzel::Log::Level::ERR) << "Unknown error occurred";
+        ouzel::engine->log(ouzel::Log::Level::ERR) << "Unknown error occurred";
         return -1;
     }
 
@@ -145,7 +146,7 @@ namespace ouzel
                     name = temp.data();
                 }
 
-                Log(Log::Level::INFO) << "Using " << name << " for audio";
+                engine->log(Log::Level::INFO) << "Using " << name << " for audio";
 
                 CFRelease(tempStringRef);
             }
@@ -216,7 +217,7 @@ namespace ouzel
 
             if (result != noErr)
             {
-                Log(Log::Level::WARN) << "Failed to set CoreAudio unit stream format to float, error: " << result;
+                engine->log(Log::Level::WARN) << "Failed to set CoreAudio unit stream format to float, error: " << result;
 
                 streamDescription.mFormatFlags = kLinearPCMFormatFlagIsPacked | kAudioFormatFlagIsSignedInteger;
                 streamDescription.mBitsPerChannel = 16;

@@ -541,7 +541,7 @@ namespace ouzel
         resolution = size;
 
         if (!RegisterTouchWindow(window, 0))
-            Log(Log::Level::WARN) << "Failed to enable touch for window";
+            engine->log(Log::Level::WARN) << "Failed to enable touch for window";
 
         ShowWindow(window, SW_SHOW);
         SetWindowLongPtr(window, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
