@@ -9,11 +9,12 @@
 namespace ouzel
 {
     class Archive;
+    class Engine;
 
     class FileSystem final
     {
     public:
-        FileSystem();
+        FileSystem(Engine& initEngine);
         FileSystem(const FileSystem&) = delete;
         FileSystem& operator=(const FileSystem&) = delete;
 
@@ -43,6 +44,7 @@ namespace ouzel
         bool fileExists(const std::string& filename) const;
 
     private:
+        Engine& engine;
         std::string appPath;
         std::vector<std::string> resourcePaths;
         std::vector<Archive*> archives;

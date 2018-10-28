@@ -57,7 +57,10 @@ namespace ouzel
 
         inline const std::vector<std::string>& getArgs() const { return args; }
 
-        inline Log log(Log::Level level = Log::Level::INFO) const { return Log(level); }
+        inline Log log(Log::Level level = Log::Level::INFO) const { return Log(level, logThreshold); }
+        inline Log::Level getLogThreshold() { return logThreshold; }
+        inline void setLogThreshold(Log::Level newThreshold) { logThreshold = newThreshold; }
+
         inline FileSystem& getFileSystem() { return fileSystem; }
         inline EventDispatcher& getEventDispatcher() { return eventDispatcher; }
         inline assets::Cache& getCache() { return cache; }
@@ -95,6 +98,7 @@ namespace ouzel
     protected:
         virtual void main();
 
+        std::atomic<Log::Level> logThreshold;
         FileSystem fileSystem;
         EventDispatcher eventDispatcher;
         std::unique_ptr<Window> window;
