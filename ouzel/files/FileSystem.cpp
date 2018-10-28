@@ -199,8 +199,8 @@ namespace ouzel
 #elif OUZEL_PLATFORM_ANDROID
         OUZEL_UNUSED(user);
 
-        EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(engine);
-        return engineAndroid->getFilesDirectory();
+        EngineAndroid& engineAndroid = static_cast<EngineAndroid&>(engine);
+        return engineAndroid.getFilesDirectory();
 #else
         return "";
 #endif
@@ -234,9 +234,8 @@ namespace ouzel
         else
             return "/tmp";
 #elif OUZEL_PLATFORM_ANDROID
-        EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(engine);
-
-        return engineAndroid->getCacheDirectory();
+        EngineAndroid& engineAndroid = static_cast<EngineAndroid&>(engine);
+        return engineAndroid.getCacheDirectory();
 #else
         return "";
 #endif
@@ -259,9 +258,9 @@ namespace ouzel
 #if OUZEL_PLATFORM_ANDROID
         if (!isAbsolutePath(filename))
         {
-            EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(engine);
+            EngineAndroid& engineAndroid = static_cast<EngineAndroid&>(engine);
 
-            AAsset* asset = AAssetManager_open(engineAndroid->getAssetManager(), filename.c_str(), AASSET_MODE_STREAMING);
+            AAsset* asset = AAssetManager_open(engineAndroid.getAssetManager(), filename.c_str(), AASSET_MODE_STREAMING);
 
             if (!asset)
                 throw FileError("Failed to open file " + filename);
@@ -335,9 +334,9 @@ namespace ouzel
     bool FileSystem::directoryExists(const std::string& dirname) const
     {
 #if OUZEL_PLATFORM_ANDROID
-        EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(engine);
+        EngineAndroid& engineAndroid = static_cast<EngineAndroid&>(engine);
 
-        AAssetDir* assetDir = AAssetManager_openDir(engineAndroid->getAssetManager(), dirname.c_str());
+        AAssetDir* assetDir = AAssetManager_openDir(engineAndroid.getAssetManager(), dirname.c_str());
         bool exists = AAssetDir_getNextFileName(assetDir) != nullptr;
         AAssetDir_close(assetDir);
 
@@ -374,9 +373,9 @@ namespace ouzel
     bool FileSystem::fileExists(const std::string& filename) const
     {
 #if OUZEL_PLATFORM_ANDROID
-        EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(engine);
+        EngineAndroid& engineAndroid = static_cast<EngineAndroid&>(engine);
 
-        AAsset* asset = AAssetManager_open(engineAndroid->getAssetManager(), filename.c_str(), AASSET_MODE_STREAMING);
+        AAsset* asset = AAssetManager_open(engineAndroid.getAssetManager(), filename.c_str(), AASSET_MODE_STREAMING);
 
         if (asset)
         {
