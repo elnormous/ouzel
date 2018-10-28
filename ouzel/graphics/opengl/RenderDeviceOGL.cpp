@@ -655,9 +655,7 @@ namespace ouzel
             {
                 if (extension == "GL_OES_texture_npot" ||
                     extension == "GL_ARB_texture_non_power_of_two")
-                {
                     npotTexturesSupported = true;
-                }
                 else if (extension == "GL_EXT_debug_marker")
                 {
                     glPushGroupMarkerEXTProc = getExtProcAddress<PFNGLPUSHGROUPMARKEREXTPROC>("glPushGroupMarkerEXT");
@@ -694,9 +692,7 @@ namespace ouzel
                 }
 #  if !OUZEL_OPENGL_INTERFACE_EAGL
                 else if (extension == "GL_EXT_copy_image")
-                {
                     glCopyImageSubDataProc = getExtProcAddress<PFNGLCOPYIMAGESUBDATAEXTPROC>("glCopyImageSubDataEXT");
-                }
                 else if (extension == "GL_EXT_multisampled_render_to_texture")
                 {
                     multisamplingSupported = true;
@@ -711,9 +707,7 @@ namespace ouzel
 #  endif
 #else
                 else if (extension == "GL_ARB_copy_image")
-                {
                     glCopyImageSubDataProc = getExtProcAddress<PFNGLCOPYIMAGESUBDATAPROC>("glCopyImageSubData");
-                }
                 else if (extension == "GL_ARB_vertex_array_object")
                 {
                     glGenVertexArraysProc = getExtProcAddress<PFNGLGENVERTEXARRAYSPROC>("glGenVertexArrays");
