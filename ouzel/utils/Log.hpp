@@ -3,6 +3,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include "math/Matrix4.hpp"
 #include "math/Quaternion.hpp"
 #include "math/Size2.hpp"
@@ -92,6 +93,23 @@ namespace ouzel
         {
             if (level <= threshold)
                 s += val;
+
+            return *this;
+        }
+
+        Log& operator<<(const std::vector<std::string>& val)
+        {
+            if (level <= threshold)
+            {
+                bool first = true;
+
+                for (const std::string& str : val)
+                {
+                    if (!first) s += ", ";
+                    first = false;
+                    s += str;
+                }
+            }
 
             return *this;
         }
