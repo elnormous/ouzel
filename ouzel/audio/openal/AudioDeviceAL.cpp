@@ -89,11 +89,11 @@ namespace ouzel
 
             engine->log(Log::Level::ALL) << "Supported OpenAL extensions: " << extensions;
 
-            bool floatSupported = false;
+            bool float32Supported = false;
             for (const std::string& extension : extensions)
             {
                 if (extension == "AL_EXT_float32")
-                    floatSupported = true;
+                    float32Supported = true;
             }
 
 #if !OUZEL_PLATFORM_EMSCRIPTEN
@@ -120,7 +120,7 @@ namespace ouzel
             {
                 case 1:
                 {
-                    if (floatSupported)
+                    if (float32Supported)
                     {
                         format = AL_FORMAT_MONO_FLOAT32;
                         sampleFormat = Audio::SampleFormat::FLOAT32;
@@ -136,7 +136,7 @@ namespace ouzel
                 }
                 case 2:
                 {
-                    if (floatSupported)
+                    if (float32Supported)
                     {
                         format = AL_FORMAT_STEREO_FLOAT32;
                         sampleFormat = Audio::SampleFormat::FLOAT32;
