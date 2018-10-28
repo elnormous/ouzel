@@ -6,6 +6,7 @@
 
 #include "RenderDeviceMetalTVOS.hpp"
 #include "MetalView.h"
+#include "core/Engine.hpp"
 #include "core/Window.hpp"
 #include "core/tvos/NativeWindowTVOS.hpp"
 #include "utils/Errors.hpp"
