@@ -25,7 +25,8 @@ namespace ouzel
             ALL
         };
 
-        static Level threshold;
+        static Level getThreshold() { return threshold; }
+        static void setThreshold(Level newThreshold) { threshold = newThreshold; }
 
         explicit Log(Level initLevel = Level::INFO): level(initLevel)
         {
@@ -164,6 +165,7 @@ namespace ouzel
         }
 
     private:
+        static Level threshold;
         Level level = Level::INFO;
         std::string s;
     };
