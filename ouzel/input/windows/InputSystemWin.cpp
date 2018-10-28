@@ -47,7 +47,7 @@ namespace ouzel
                     gamepadsXI[userIndex].reset(new GamepadDeviceXI(*this, ++lastDeviceId, userIndex));
                 }
                 else if (result != ERROR_DEVICE_NOT_CONNECTED)
-                    Log(Log::Level::WARN) << "Failed to get state for gamepad " << userIndex;
+                    engine->log(Log::Level::WARN) << "Failed to get state for gamepad " << userIndex;
             }
 
             hr = directInput->EnumDevices(DI8DEVCLASS_GAMECTRL, enumDevicesCallback, this, DIEDFL_ATTACHEDONLY);
@@ -188,7 +188,7 @@ namespace ouzel
                         if (result == ERROR_SUCCESS)
                             gamepadsXI[userIndex].reset(new GamepadDeviceXI(*this, ++lastDeviceId, userIndex));
                         else if (result != ERROR_DEVICE_NOT_CONNECTED)
-                            Log(Log::Level::WARN) << "Failed to get state for gamepad " << userIndex;
+                            engine->log(Log::Level::WARN) << "Failed to get state for gamepad " << userIndex;
                     }
                 }
 

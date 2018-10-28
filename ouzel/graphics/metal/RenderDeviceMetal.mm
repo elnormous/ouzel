@@ -12,6 +12,7 @@
 #include "ShaderResourceMetal.hpp"
 #include "TextureResourceMetal.hpp"
 #include "BlendStateResourceMetal.hpp"
+#include "core/Engine.hpp"
 #include "events/EventDispatcher.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
@@ -101,7 +102,7 @@ namespace ouzel
                 throw SystemError("Failed to create Metal device");
 
             if (device.name)
-                Log(Log::Level::INFO) << "Using " << [device.name cStringUsingEncoding:NSUTF8StringEncoding] << " for rendering";
+                engine->log(Log::Level::INFO) << "Using " << [device.name cStringUsingEncoding:NSUTF8StringEncoding] << " for rendering";
 
             metalCommandQueue = [device newCommandQueue];
 

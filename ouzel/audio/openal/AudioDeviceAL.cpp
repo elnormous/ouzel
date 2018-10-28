@@ -10,6 +10,7 @@ extern "C" id const AVAudioSessionCategoryAmbient;
 #endif
 
 #include "AudioDeviceAL.hpp"
+#include "core/Engine.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"
@@ -31,7 +32,7 @@ namespace ouzel
             const ALCchar* deviceName = alcGetString(nullptr, ALC_DEFAULT_DEVICE_SPECIFIER);
 
             if (deviceName)
-                Log(Log::Level::INFO) << "Using " << deviceName << " for audio";
+                engine->log(Log::Level::INFO) << "Using " << deviceName << " for audio";
 
             device = alcOpenDevice(deviceName);
 
@@ -65,7 +66,7 @@ namespace ouzel
             format71 = alGetEnumValue("AL_FORMAT_71CHN16");
 
             if ((error = alGetError()) != AL_NO_ERROR)
-                Log(Log::Level::WARN) << "Failed to get OpenAL enum values";
+                engine->log(Log::Level::WARN) << "Failed to get OpenAL enum values";
 #endif
 
             alGenSources(1, &sourceId);
@@ -225,11 +226,11 @@ namespace ouzel
                 }
                 catch (const std::exception& e)
                 {
-                    ouzel::Log(ouzel::Log::Level::ERR) << e.what();
+                    ouzel::engine->log(ouzel::Log::Level::ERR) << e.what();
                 }
                 catch (...)
                 {
-                    ouzel::Log(ouzel::Log::Level::ERR) << "Unknown error occurred";
+                    ouzel::engine->log(ouzel::Log::Level::ERR) << "Unknown error occurred";
                 }
             }
 #endif

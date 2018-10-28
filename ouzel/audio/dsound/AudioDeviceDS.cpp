@@ -5,6 +5,7 @@
 #if OUZEL_COMPILE_DIRECTSOUND
 
 #include "AudioDeviceDS.hpp"
+#include "core/Engine.hpp"
 #include "core/Window.hpp"
 #include "core/windows/NativeWindowWin.hpp"
 #include "utils/Errors.hpp"
@@ -18,7 +19,7 @@ BOOL CALLBACK enumCallback(LPGUID, LPCWSTR description, LPCWSTR, LPVOID)
     {
         std::vector<char> buffer(bufferSize);
         if (WideCharToMultiByte(CP_UTF8, 0, description, -1, buffer.data(), bufferSize, nullptr, nullptr) != 0)
-            ouzel::Log(ouzel::Log::Level::INFO) << "Using " << buffer.data() << " for audio";
+            ouzel::engine->log(ouzel::Log::Level::INFO) << "Using " << buffer.data() << " for audio";
     }
     return FALSE;
 }
@@ -191,11 +192,11 @@ namespace ouzel
                 }
                 catch (const std::exception& e)
                 {
-                    Log(Log::Level::ERR) << e.what();
+                    engine->log(Log::Level::ERR) << e.what();
                 }
                 catch (...)
                 {
-                    Log(Log::Level::ERR) << "Unknown error occurred";
+                    engine->log(Log::Level::ERR) << "Unknown error occurred";
                 }
             }
         }

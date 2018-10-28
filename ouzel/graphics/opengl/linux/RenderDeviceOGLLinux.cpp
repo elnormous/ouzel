@@ -122,7 +122,7 @@ namespace ouzel
                     {
                         apiMajorVersion = 3;
                         apiMinorVersion = 2;
-                        Log(Log::Level::INFO) << "GLX OpenGL 3.2 context created";
+                        engine->log(Log::Level::INFO) << "GLX OpenGL 3.2 context created";
                     }
                 }
             }
@@ -135,7 +135,7 @@ namespace ouzel
                 {
                     apiMajorVersion = 2;
                     apiMinorVersion = 0;
-                    Log(Log::Level::INFO) << "GLX OpenGL 2 context created";
+                    engine->log(Log::Level::INFO) << "GLX OpenGL 2 context created";
                 }
                 else
                     throw SystemError("Failed to create GLX context");
@@ -203,7 +203,7 @@ namespace ouzel
                 {
                     apiMajorVersion = version;
                     apiMinorVersion = 0;
-                    Log(Log::Level::INFO) << "EGL OpenGL ES " << version << " context created";
+                    engine->log(Log::Level::INFO) << "EGL OpenGL ES " << version << " context created";
                     break;
                 }
             }
@@ -298,17 +298,17 @@ namespace ouzel
                 }
                 catch (const std::exception& e)
                 {
-                    Log(Log::Level::ERR) << e.what();
+                    engine->log(Log::Level::ERR) << e.what();
                 }
                 catch (...)
                 {
-                    Log(Log::Level::ERR) << "Unknown error occurred";
+                    engine->log(Log::Level::ERR) << "Unknown error occurred";
                 }
             }
 
 #if OUZEL_OPENGL_INTERFACE_EGL
             if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
-                Log(Log::Level::ERR) << "Failed to unset EGL context, error: " << eglGetError();
+                engine->log(Log::Level::ERR) << "Failed to unset EGL context, error: " << eglGetError();
 #endif
         }
     } // namespace graphics

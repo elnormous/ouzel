@@ -40,7 +40,7 @@ extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onSurf
     }
     catch (const std::exception& e)
     {
-        ouzel::Log(ouzel::Log::Level::ERR) << e.what();
+        ouzel::engine->log(ouzel::Log::Level::ERR) << e.what();
     }
 }
 

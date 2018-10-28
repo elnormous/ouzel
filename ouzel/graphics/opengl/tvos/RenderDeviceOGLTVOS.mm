@@ -5,6 +5,7 @@
 #if OUZEL_PLATFORM_TVOS && OUZEL_COMPILE_OPENGL
 
 #include "RenderDeviceOGLTVOS.hpp"
+#include "core/Engine.hpp"
 #include "core/Window.hpp"
 #include "core/tvos/NativeWindowTVOS.hpp"
 #include "utils/Errors.hpp"
@@ -19,11 +20,11 @@ static void renderCallback(void* userInfo)
     }
     catch (const std::exception& e)
     {
-        ouzel::Log(ouzel::Log::Level::ERR) << e.what();
+        ouzel::engine->log(ouzel::Log::Level::ERR) << e.what();
     }
     catch (...)
     {
-        ouzel::Log(ouzel::Log::Level::ERR) << "Unknown error occurred";
+        ouzel::engine->log(ouzel::Log::Level::ERR) << "Unknown error occurred";
     }
 }
 
@@ -77,7 +78,7 @@ namespace ouzel
             {
                 apiMajorVersion = 3;
                 apiMinorVersion = 0;
-                Log(Log::Level::INFO) << "EAGL OpenGL ES 3 context created";
+                engine->log(Log::Level::INFO) << "EAGL OpenGL ES 3 context created";
             }
             else
             {
@@ -87,7 +88,7 @@ namespace ouzel
                 {
                     apiMajorVersion = 2;
                     apiMinorVersion = 0;
-                    Log(Log::Level::INFO) << "EAGL OpenGL ES 2 context created";
+                    engine->log(Log::Level::INFO) << "EAGL OpenGL ES 2 context created";
                 }
                 else
                     throw SystemError("Failed to create EAGL context");

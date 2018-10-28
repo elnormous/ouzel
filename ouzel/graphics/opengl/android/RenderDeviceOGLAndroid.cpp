@@ -5,6 +5,7 @@
 #if OUZEL_PLATFORM_ANDROID && OUZEL_COMPILE_OPENGL
 
 #include "RenderDeviceOGLAndroid.hpp"
+#include "core/Engine.hpp"
 #include "core/Window.hpp"
 #include "core/android/NativeWindowAndroid.hpp"
 #include "utils/Errors.hpp"
@@ -105,7 +106,7 @@ namespace ouzel
                 {
                     apiMajorVersion = version;
                     apiMinorVersion = 0;
-                    Log(Log::Level::INFO) << "EGL OpenGL ES " << version << " context created";
+                    engine->log(Log::Level::INFO) << "EGL OpenGL ES " << version << " context created";
                     break;
                 }
             }
@@ -208,7 +209,7 @@ namespace ouzel
                 {
                     apiMajorVersion = version;
                     apiMinorVersion = 0;
-                    Log(Log::Level::INFO) << "EGL OpenGL ES " << version << " context created";
+                    engine->log(Log::Level::INFO) << "EGL OpenGL ES " << version << " context created";
                     break;
                 }
             }
@@ -267,10 +268,10 @@ namespace ouzel
             if (context)
             {
                 if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
-                    Log(Log::Level::ERR) << "Failed to unset EGL context";
+                    engine->log(Log::Level::ERR) << "Failed to unset EGL context";
 
                 if (!eglDestroyContext(display, context))
-                    Log(Log::Level::ERR) << "Failed to destroy EGL context";
+                    engine->log(Log::Level::ERR) << "Failed to destroy EGL context";
 
                 context = nullptr;
             }
@@ -278,7 +279,7 @@ namespace ouzel
             if (surface)
             {
                 if (!eglDestroySurface(display, surface))
-                    Log(Log::Level::ERR) << "Failed to destroy EGL surface";
+                    engine->log(Log::Level::ERR) << "Failed to destroy EGL surface";
 
                 surface = nullptr;
             }
@@ -305,16 +306,16 @@ namespace ouzel
                 }
                 catch (const std::exception& e)
                 {
-                    Log(Log::Level::ERR) << e.what();
+                    engine->log(Log::Level::ERR) << e.what();
                 }
                 catch (...)
                 {
-                    Log(Log::Level::ERR) << "Unknown error occurred";
+                    engine->log(Log::Level::ERR) << "Unknown error occurred";
                 }
             }
 
             if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
-                Log(Log::Level::ERR) << "Failed to unset EGL context, error: " << eglGetError();
+                engine->log(Log::Level::ERR) << "Failed to unset EGL context, error: " << eglGetError();
         }
     } // namespace graphics
 } // namespace ouzel

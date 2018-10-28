@@ -54,7 +54,7 @@ namespace ouzel
             }
             else
             {
-                Log(Log::Level::INFO) << "Failed to load " << XAUDIO2_DLL_28;
+                engine->log(Log::Level::INFO) << "Failed to load " << XAUDIO2_DLL_28;
 
                 xAudio2Library = LoadLibraryA(XAUDIO2_DLL_27);
 
@@ -204,11 +204,11 @@ namespace ouzel
                 }
                 catch (const std::exception& e)
                 {
-                    Log(Log::Level::ERR) << e.what();
+                    engine->log(Log::Level::ERR) << e.what();
                 }
                 catch (...)
                 {
-                    Log(Log::Level::ERR) << "Unknown error occurred";
+                    engine->log(Log::Level::ERR) << "Unknown error occurred";
                 }
             }
         }

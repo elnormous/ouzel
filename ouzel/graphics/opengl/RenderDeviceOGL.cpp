@@ -36,6 +36,7 @@
 #include "RenderTargetResourceOGL.hpp"
 #include "ShaderResourceOGL.hpp"
 #include "TextureResourceOGL.hpp"
+#include "core/Engine.hpp"
 #include "core/Window.hpp"
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"
@@ -429,9 +430,9 @@ namespace ouzel
             GLenum error;
 
             if ((error = glGetErrorProc()) != GL_NO_ERROR || !deviceName)
-                Log(Log::Level::WARN) << "Failed to get OpenGL renderer, error: " + std::to_string(error);
+                engine->log(Log::Level::WARN) << "Failed to get OpenGL renderer, error: " + std::to_string(error);
             else
-                Log(Log::Level::INFO) << "Using " << reinterpret_cast<const char*>(deviceName) << " for rendering";
+                engine->log(Log::Level::INFO) << "Using " << reinterpret_cast<const char*>(deviceName) << " for rendering";
 
             glEnableProc = getCoreProcAddress<PFNGLENABLEPROC>("glEnable");
             glDisableProc = getCoreProcAddress<PFNGLDISABLEPROC>("glDisable");
@@ -537,7 +538,7 @@ namespace ouzel
                 glGetIntegervProc(GL_NUM_EXTENSIONS, &extensionCount);
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    Log(Log::Level::WARN) << "Failed to get OpenGL extension count, error: " + std::to_string(error);
+                    engine->log(Log::Level::WARN) << "Failed to get OpenGL extension count, error: " + std::to_string(error);
                 else
                 {
                     for (GLuint i = 0; i < static_cast<GLuint>(extensionCount); ++i)
@@ -553,7 +554,7 @@ namespace ouzel
                 const GLubyte* extensionPtr = glGetStringProc(GL_EXTENSIONS);
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR || !extensionPtr)
-                    Log(Log::Level::WARN) << "Failed to get OpenGL extensions";
+                    engine->log(Log::Level::WARN) << "Failed to get OpenGL extensions";
                 else
                 {
                     std::istringstream extensionStringStream(reinterpret_cast<const char*>(extensionPtr));
@@ -564,7 +565,7 @@ namespace ouzel
             }
 
             {
-                Log extensionLog(Log::Level::ALL);
+                Log extensionLog = engine->log(Log::Level::ALL);
 
                 extensionLog << "Supported OpenGL extensions: ";
                 bool first = true;

@@ -6,6 +6,7 @@
 #include "AudioDevice.hpp"
 #include "Listener.hpp"
 #include "alsa/AudioDeviceALSA.hpp"
+#include "core/Engine.hpp"
 #include "coreaudio/AudioDeviceCA.hpp"
 #include "dsound/AudioDeviceDS.hpp"
 #include "empty/AudioDeviceEmpty.hpp"
@@ -62,42 +63,42 @@ namespace ouzel
             {
 #if OUZEL_COMPILE_OPENAL
                 case Driver::OPENAL:
-                    Log(Log::Level::INFO) << "Using OpenAL audio driver";
+                    engine->log(Log::Level::INFO) << "Using OpenAL audio driver";
                     device.reset(new AudioDeviceAL());
                     break;
 #endif
 #if OUZEL_COMPILE_DIRECTSOUND
                 case Driver::DIRECTSOUND:
-                    Log(Log::Level::INFO) << "Using DirectSound audio driver";
+                    engine->log(Log::Level::INFO) << "Using DirectSound audio driver";
                     device.reset(new AudioDeviceDS(window));
                     break;
 #endif
 #if OUZEL_COMPILE_XAUDIO2
                 case Driver::XAUDIO2:
-                    Log(Log::Level::INFO) << "Using XAudio 2 audio driver";
+                    engine->log(Log::Level::INFO) << "Using XAudio 2 audio driver";
                     device.reset(new AudioDeviceXA2(debugAudio));
                     break;
 #endif
 #if OUZEL_COMPILE_OPENSL
                 case Driver::OPENSL:
-                    Log(Log::Level::INFO) << "Using OpenSL ES audio driver";
+                    engine->log(Log::Level::INFO) << "Using OpenSL ES audio driver";
                     device.reset(new AudioDeviceSL());
                     break;
 #endif
 #if OUZEL_COMPILE_COREAUDIO
                 case Driver::COREAUDIO:
-                    Log(Log::Level::INFO) << "Using CoreAudio audio driver";
+                    engine->log(Log::Level::INFO) << "Using CoreAudio audio driver";
                     device.reset(new AudioDeviceCA());
                     break;
 #endif
 #if OUZEL_COMPILE_ALSA
                 case Driver::ALSA:
-                    Log(Log::Level::INFO) << "Using ALSA audio driver";
+                    engine->log(Log::Level::INFO) << "Using ALSA audio driver";
                     device.reset(new AudioDeviceALSA());
                     break;
 #endif
                 default:
-                    Log(Log::Level::INFO) << "Not using audio driver";
+                    engine->log(Log::Level::INFO) << "Not using audio driver";
                     device.reset(new AudioDeviceEmpty());
                     OUZEL_UNUSED(debugAudio);
                     OUZEL_UNUSED(window);

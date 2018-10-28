@@ -112,7 +112,7 @@ namespace ouzel
 
         void InputSystemIOS::startGamepadDiscovery()
         {
-            Log(Log::Level::INFO) << "Started gamepad discovery";
+            engine->log(Log::Level::INFO) << "Started gamepad discovery";
 
             [GCController startWirelessControllerDiscoveryWithCompletionHandler:
              ^(void){ handleGamepadDiscoveryCompleted(); }];
@@ -120,14 +120,14 @@ namespace ouzel
 
         void InputSystemIOS::stopGamepadDiscovery()
         {
-            Log(Log::Level::INFO) << "Stopped gamepad discovery";
+            engine->log(Log::Level::INFO) << "Stopped gamepad discovery";
 
             [GCController stopWirelessControllerDiscovery];
         }
 
         void InputSystemIOS::handleGamepadDiscoveryCompleted()
         {
-            Log(Log::Level::INFO) << "Gamepad discovery completed";
+            engine->log(Log::Level::INFO) << "Gamepad discovery completed";
         }
 
         void InputSystemIOS::handleGamepadConnected(GCControllerPtr controller)

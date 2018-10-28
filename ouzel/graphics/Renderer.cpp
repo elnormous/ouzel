@@ -5,6 +5,7 @@
 #include "RenderDevice.hpp"
 #include "events/EventHandler.hpp"
 #include "events/EventDispatcher.hpp"
+#include "core/Engine.hpp"
 #include "core/Window.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
@@ -86,7 +87,7 @@ namespace ouzel
             {
 #if OUZEL_COMPILE_OPENGL
                 case Driver::OPENGL:
-                    Log(Log::Level::INFO) << "Using OpenGL render driver";
+                    engine->log(Log::Level::INFO) << "Using OpenGL render driver";
 #if OUZEL_PLATFORM_MACOS
                     device.reset(new RenderDeviceOGLMacOS());
 #elif OUZEL_PLATFORM_IOS
@@ -108,13 +109,13 @@ namespace ouzel
 #endif
 #if OUZEL_COMPILE_DIRECT3D11
                 case Driver::DIRECT3D11:
-                    Log(Log::Level::INFO) << "Using Direct3D 11 render driver";
+                    engine->log(Log::Level::INFO) << "Using Direct3D 11 render driver";
                     device.reset(new RenderDeviceD3D11());
                     break;
 #endif
 #if OUZEL_COMPILE_METAL
                 case Driver::METAL:
-                    Log(Log::Level::INFO) << "Using Metal render driver";
+                    engine->log(Log::Level::INFO) << "Using Metal render driver";
 #if OUZEL_PLATFORM_MACOS
                     device.reset(new RenderDeviceMetalMacOS());
 #elif OUZEL_PLATFORM_IOS
@@ -125,7 +126,7 @@ namespace ouzel
                     break;
 #endif
                 default:
-                    Log(Log::Level::INFO) << "Not using render driver";
+                    engine->log(Log::Level::INFO) << "Not using render driver";
                     device.reset(new RenderDeviceEmpty());
                     break;
             }

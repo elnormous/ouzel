@@ -26,12 +26,12 @@ static CVReturn renderCallback(CVDisplayLinkRef,
         }
         catch (const std::exception& e)
         {
-            ouzel::Log(ouzel::Log::Level::ERR) << e.what();
+            ouzel::engine->log(ouzel::Log::Level::ERR) << e.what();
             return kCVReturnError;
         }
         catch (...)
         {
-            ouzel::Log(ouzel::Log::Level::ERR) << "Unknown error occurred";
+            ouzel::engine->log(ouzel::Log::Level::ERR) << "Unknown error occurred";
             return kCVReturnError;
         }
     }
@@ -118,17 +118,17 @@ namespace ouzel
                         case NSOpenGLProfileVersionLegacy:
                             apiMajorVersion = 2;
                             apiMinorVersion = 0;
-                            Log(Log::Level::INFO) << "OpenGL 2 pixel format created";
+                            engine->log(Log::Level::INFO) << "OpenGL 2 pixel format created";
                             break;
                         case NSOpenGLProfileVersion3_2Core:
                             apiMajorVersion = 3;
                             apiMinorVersion = 2;
-                            Log(Log::Level::INFO) << "OpenGL 3.2 pixel format created";
+                            engine->log(Log::Level::INFO) << "OpenGL 3.2 pixel format created";
                             break;
                         case NSOpenGLProfileVersion4_1Core:
                             apiMajorVersion = 4;
                             apiMinorVersion = 1;
-                            Log(Log::Level::INFO) << "OpenGL 4.1 pixel format created";
+                            engine->log(Log::Level::INFO) << "OpenGL 4.1 pixel format created";
                             break;
                     }
                     break;

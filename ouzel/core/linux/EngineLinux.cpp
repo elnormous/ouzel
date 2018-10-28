@@ -308,10 +308,10 @@ namespace ouzel
                 XISelectEvents(display, windowLinux->getNativeWindow(), &eventMask, 1);
             }
             else
-                Log(Log::Level::WARN) << "XInput2 not supported";
+                engine->log(Log::Level::WARN) << "XInput2 not supported";
         }
         else
-            Log(Log::Level::WARN) << "XInput not supported";
+            engine->log(Log::Level::WARN) << "XInput not supported";
 
         XEvent event;
 
