@@ -54,6 +54,7 @@ namespace ouzel
             uint32_t nextBuffer = 0;
             ALuint bufferIds[2];
 
+            uint32_t sampleSize = 0;
             std::vector<uint8_t> data;
 
 #if OUZEL_MULTITHREADED

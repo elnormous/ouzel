@@ -4,6 +4,7 @@
 
 #if OUZEL_COMPILE_OPENAL
 
+#include <sstream>
 #if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
 #include <objc/message.h>
 extern "C" id const AVAudioSessionCategoryAmbient;
@@ -14,6 +15,14 @@ extern "C" id const AVAudioSessionCategoryAmbient;
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"
+
+#ifndef AL_FORMAT_MONO_FLOAT32
+#  define AL_FORMAT_MONO_FLOAT32                      0x10010
+#endif
+
+#ifndef AL_FORMAT_STEREO_FLOAT32
+#  define AL_FORMAT_STEREO_FLOAT32                    0x10011
+#endif
 
 namespace ouzel
 {
@@ -31,8 +40,7 @@ namespace ouzel
 
             const ALCchar* deviceName = alcGetString(nullptr, ALC_DEFAULT_DEVICE_SPECIFIER);
 
-            if (deviceName)
-                engine->log(Log::Level::INFO) << "Using " << deviceName << " for audio";
+            engine->log(Log::Level::INFO) << "Using " << reinterpret_cast<const char*>(deviceName) << " for audio";
 
             device = alcOpenDevice(deviceName);
 
@@ -57,7 +65,36 @@ namespace ouzel
             if ((alcError = alcGetError(device)) != ALC_NO_ERROR)
                 throw SystemError("Failed to make OpenAL context current, error: " + std::to_string(alcError));
 
+            const ALchar* audioRenderer = alGetString(AL_RENDERER);
+
             ALenum error;
+
+            if ((error = alGetError()) != AL_NO_ERROR || !audioRenderer)
+                engine->log(Log::Level::WARN) << "Failed to get OpenAL renderer, error: " + std::to_string(error);
+            else
+                engine->log(Log::Level::INFO) << "Using " << reinterpret_cast<const char*>(audioRenderer) << " audio renderer";
+
+            std::vector<std::string> extensions;
+            const ALchar* extensionPtr = alGetString(AL_EXTENSIONS);
+
+            if ((error = alGetError()) != AL_NO_ERROR || !extensionPtr)
+                engine->log(Log::Level::WARN) << "Failed to get OpenGL extensions";
+            else
+            {
+                std::istringstream extensionStringStream(reinterpret_cast<const char*>(extensionPtr));
+
+                for (std::string extension; extensionStringStream >> extension;)
+                    extensions.push_back(extension);
+            }
+
+            engine->log(Log::Level::ALL) << "Supported OpenAL extensions: " << extensions;
+
+            bool floatSupported = false;
+            for (const std::string& extension : extensions)
+            {
+                if (extension == "AL_EXT_float32")
+                    floatSupported = true;
+            }
 
 #if !OUZEL_PLATFORM_EMSCRIPTEN
             format40 = alGetEnumValue("AL_FORMAT_QUAD16");
@@ -81,26 +118,78 @@ namespace ouzel
 
             switch (channels)
             {
-                case 1: format = AL_FORMAT_MONO16; break;
-                case 2: format = AL_FORMAT_STEREO16; break;
-                case 4: format = format40; break;
-                case 6: format = format51; break;
-                case 7: format = format61; break;
-                case 8: format = format71; break;
+                case 1:
+                {
+                    if (floatSupported)
+                    {
+                        format = AL_FORMAT_MONO_FLOAT32;
+                        sampleFormat = Audio::SampleFormat::FLOAT32;
+                        sampleSize = sizeof(float);
+                    }
+                    else
+                    {
+                        format = AL_FORMAT_MONO16;
+                        sampleFormat = Audio::SampleFormat::SINT16;
+                        sampleSize = sizeof(uint16_t);
+                    }
+                    break;
+                }
+                case 2:
+                {
+                    if (floatSupported)
+                    {
+                        format = AL_FORMAT_STEREO_FLOAT32;
+                        sampleFormat = Audio::SampleFormat::FLOAT32;
+                        sampleSize = sizeof(float);
+                    }
+                    else
+                    {
+                        format = AL_FORMAT_STEREO16;
+                        sampleFormat = Audio::SampleFormat::SINT16;
+                        sampleSize = sizeof(int16_t);
+                    }
+                    break;
+                }
+                case 4:
+                {
+                    format = format40;
+                    sampleFormat = Audio::SampleFormat::SINT16;
+                    sampleSize = sizeof(int16_t);
+                    break;
+                }
+                case 6:
+                {
+                    format = format51;
+                    sampleFormat = Audio::SampleFormat::SINT16;
+                    sampleSize = sizeof(int16_t);
+                    break;
+                }
+                case 7:
+                {
+                    format = format61;
+                    sampleFormat = Audio::SampleFormat::SINT16;
+                    sampleSize = sizeof(int16_t);
+                    break;
+                }
+                case 8:
+                {
+                    format = format71;
+                    sampleFormat = Audio::SampleFormat::SINT16;
+                    sampleSize = sizeof(int16_t);
+                    break;
+                }
                 default:
                     throw SystemError("Invalid channel count");
             }
 
-            sampleFormat = Audio::SampleFormat::SINT16;
-
-            getData(bufferSize / (channels * sizeof(int16_t)), data);
+            getData(bufferSize / (channels * sampleSize), data);
 
             alBufferData(bufferIds[0], format,
                          data.data(),
                          static_cast<ALsizei>(data.size()),
                          static_cast<ALsizei>(sampleRate));
 
-            getData(bufferSize / (channels * sizeof(int16_t)), data);
+            getData(bufferSize / (channels * sampleSize), data);
 
             alBufferData(bufferIds[1], format,
                          data.data(),
@@ -186,7 +275,7 @@ namespace ouzel
                 if ((error = alGetError()) != AL_NO_ERROR)
                     throw SystemError("Failed to unqueue OpenAL buffer, error: " + std::to_string(error));
 
-                getData(bufferSize / (channels * sizeof(int16_t)), data);
+                getData(bufferSize / (channels * sampleSize), data);
 
                 alBufferData(bufferIds[nextBuffer], format,
                              data.data(),
