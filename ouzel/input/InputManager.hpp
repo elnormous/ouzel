@@ -51,8 +51,6 @@ namespace ouzel
             Mouse* mouse = nullptr;
             Touchpad* touchpad = nullptr;
 
-            std::vector<std::unique_ptr<Gamepad>> gamepads;
-
             std::unordered_map<uint32_t, std::unique_ptr<Controller>> controllerMap;
             std::vector<Controller*> controllers;
 

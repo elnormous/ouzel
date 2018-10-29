@@ -289,8 +289,6 @@ namespace ouzel
 
         void setRotation(const Quaternion& rotation)
         {
-            Matrix4 result;
-
             float wx = rotation.w * rotation.x;
             float wy = rotation.w * rotation.y;
             float wz = rotation.w * rotation.z;

@@ -71,11 +71,6 @@ namespace ouzel
                 accumulatedTime = 0.0F;
                 currentAccumulatedFPS = 0.0F;
             }
-
-            {
-                std::unique_lock<std::mutex> lock(resourceMutex);
-                //resourceDeleteSet.clear();
-            }
         }
 
         void RenderDevice::setSize(const Size2& newSize)

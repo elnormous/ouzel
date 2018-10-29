@@ -46,7 +46,7 @@ namespace ouzel
                 SET_TEXTURES
             };
 
-            Command(Type initType):
+            explicit Command(Type initType):
                 type(initType)
             {
             }
