@@ -32,7 +32,6 @@ namespace ouzel
                       bool newDepth,
                       bool newDebugRenderer) override;
 
-        private:
             DisplayLink displayLink;
         };
     } // namespace graphics
