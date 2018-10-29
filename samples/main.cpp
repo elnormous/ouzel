@@ -34,10 +34,8 @@ public:
 
             if (*arg == "-sample")
             {
-                auto nextArg = ++arg;
-
-                if (nextArg != args.end())
-                    sample = *nextArg;
+                if (++arg != args.end())
+                    sample = *arg;
                 else
                     ouzel::Log(ouzel::Log::Level::WARN) << "No sample specified";
             }
