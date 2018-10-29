@@ -92,13 +92,13 @@ namespace ouzel
         Type type;
     };
 
-    struct KeyboardEvent final: public Event
+    struct KeyboardEvent final: Event
     {
         input::Keyboard* keyboard = nullptr;
         input::Keyboard::Key key = input::Keyboard::Key::NONE;
     };
 
-    struct MouseEvent final: public Event
+    struct MouseEvent final: Event
     {
         input::Mouse* mouse = nullptr;
         input::Mouse::Button button = input::Mouse::Button::NONE;
@@ -108,7 +108,7 @@ namespace ouzel
         bool locked = false;
     };
 
-    struct TouchEvent final: public Event
+    struct TouchEvent final: Event
     {
         input::Touchpad* touchpad = nullptr;
         uint64_t touchId = 0;
@@ -117,7 +117,7 @@ namespace ouzel
         float force = 1.0F;
     };
 
-    struct GamepadEvent final: public Event
+    struct GamepadEvent final: Event
     {
         input::Gamepad* gamepad = nullptr;
         input::Gamepad::Button button = input::Gamepad::Button::NONE;
@@ -127,7 +127,7 @@ namespace ouzel
         float previousValue = 0.0F;
     };
 
-    struct WindowEvent final: public Event
+    struct WindowEvent final: Event
     {
         Window* window = nullptr;
         Size2 size;
@@ -136,7 +136,7 @@ namespace ouzel
         uint32_t screenId = 0;
     };
 
-    struct SystemEvent final: public Event
+    struct SystemEvent final: Event
     {
         enum class Orientation
         {
@@ -159,7 +159,7 @@ namespace ouzel
         class Component;
     }
 
-    struct UIEvent final: public Event
+    struct UIEvent final: Event
     {
         scene::Actor* actor;
         uint64_t touchId = 0;
@@ -168,23 +168,23 @@ namespace ouzel
         Vector3 localPosition;
     };
 
-    struct AnimationEvent final: public Event
+    struct AnimationEvent final: Event
     {
         scene::Component* component;
         std::string name;
     };
 
-    struct SoundEvent final: public Event
+    struct SoundEvent final: Event
     {
         audio::Sound* sound;
     };
 
-    struct UpdateEvent final: public Event
+    struct UpdateEvent final: Event
     {
         float delta;
     };
 
-    struct UserEvent final: public Event
+    struct UserEvent final: Event
     {
         std::vector<std::string> parameters;
     };
