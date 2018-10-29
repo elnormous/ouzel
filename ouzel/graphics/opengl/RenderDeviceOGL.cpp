@@ -1067,10 +1067,10 @@ namespace ouzel
                     {
                         const SetFillModeCommad* setFillModeCommad = static_cast<const SetFillModeCommad*>(command.get());
 
-    #if OUZEL_SUPPORTS_OPENGLES
+#if OUZEL_SUPPORTS_OPENGLES
                         if (setFillModeCommad->fillMode != Renderer::FillMode::SOLID)
                             throw DataError("Unsupported fill mode");
-    #else
+#else
                         GLenum fillMode = GL_NONE;
 
                         switch (setFillModeCommad->fillMode)
@@ -1081,7 +1081,7 @@ namespace ouzel
                         }
 
                         setPolygonFillMode(fillMode);
-    #endif
+#endif
                         break;
                     }
 

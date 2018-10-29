@@ -66,6 +66,7 @@ namespace ouzel
         class EventHandler
         {
         public:
+            virtual ~EventHandler() {}
             virtual bool handleEvent(const Event& event) = 0;
         };
 

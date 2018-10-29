@@ -261,7 +261,7 @@ namespace ouzel
 
             dispatch_semaphore_wait(inflightSemaphore, DISPATCH_TIME_FOREVER);
 
-            MTLCommandBufferPtr currentCommandBuffer = [metalCommandQueue commandBuffer];
+            id<MTLCommandBuffer> currentCommandBuffer = [metalCommandQueue commandBuffer];
 
             if (!currentCommandBuffer)
                 throw DataError("Failed to create Metal command buffer");
@@ -273,7 +273,7 @@ namespace ouzel
              }];
 
             MTLRenderPassDescriptorPtr currentRenderPassDescriptor = nil;
-            MTLRenderCommandEncoderPtr currentRenderCommandEncoder = nil;
+            id<MTLRenderCommandEncoder> currentRenderCommandEncoder = nil;
             PipelineStateDesc currentPipelineStateDesc;
             MTLTexturePtr currentRenderTarget = nil;
             std::vector<float> shaderData;
