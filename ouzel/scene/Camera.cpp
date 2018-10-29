@@ -205,7 +205,7 @@ namespace ouzel
             if (projectionMode == ProjectionMode::ORTHOGRAPHIC)
             {
                 // calculate center point of the box
-                Vector2 diff = box.max - box.min;
+                Vector2 diff = Vector2(box.max - box.min);
 
                 // offset the center point, so that it is relative to 0,0
                 Vector3 v3p(box.min.x + diff.x / 2.0F, box.min.y + diff.y / 2.0F, 0.0F);

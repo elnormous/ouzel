@@ -45,7 +45,7 @@ AnimationsSample::AnimationsSample():
     drawActor.setPosition(Vector2(-300, 0.0F));
     layer.addChild(&drawActor);
 
-    shake.reset(new scene::Shake(10.0F, Vector2(10.0F, 20.0F), 20.0F));
+    shake.reset(new scene::Shake(10.0F, Vector3(10.0F, 20.0F, 0.0F), 20.0F));
     drawActor.addComponent(shake);
     shake->start();
 
@@ -55,7 +55,7 @@ AnimationsSample::AnimationsSample():
     witch.addComponent(&witchSprite);
     layer.addChild(&witch);
 
-    witchScale.reset(new scene::Scale(2.0F, Vector2(0.1F, 0.1F), false));
+    witchScale.reset(new scene::Scale(2.0F, Vector3(0.1F, 0.1F, 0.0F), false));
     witchFade.reset(new scene::Fade(2.0F, 0.4F));
 
     vector<scene::Animator*> parallel = {
@@ -84,7 +84,7 @@ AnimationsSample::AnimationsSample():
     layer.addChild(&ball);
 
     ballDelay.reset(new scene::Animator(1.0F));
-    ballMove.reset(new scene::Move(2.0F, Vector2(0.0F, -240.0F), false));
+    ballMove.reset(new scene::Move(2.0F, Vector3(0.0F, -240.0F, 0.0F), false));
     ballEase.reset(new scene::Ease(ballMove, scene::Ease::Mode::EASE_OUT, scene::Ease::Func::BOUNCE));
 
     vector<scene::Animator*> sequence2 = {

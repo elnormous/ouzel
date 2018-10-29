@@ -100,7 +100,7 @@ namespace ouzel
                 {
                     std::vector<std::pair<Actor*, Vector3>> actors;
 
-                    Vector2 worldPosition = camera->convertNormalizedToWorld(position);
+                    Vector2 worldPosition = Vector2(camera->convertNormalizedToWorld(position));
 
                     findActors(worldPosition, actors);
 
@@ -121,7 +121,7 @@ namespace ouzel
 
                 if (renderTargets || !camera->getRenderTarget())
                 {
-                    Vector2 worldPosition = camera->convertNormalizedToWorld(position);
+                    Vector2 worldPosition = Vector2(camera->convertNormalizedToWorld(position));
 
                     std::vector<std::pair<Actor*, Vector3>> actors;
                     findActors(worldPosition, actors);
@@ -147,7 +147,7 @@ namespace ouzel
                     worldEdges.reserve(edges.size());
 
                     for (const Vector2& edge : edges)
-                        worldEdges.push_back(camera->convertNormalizedToWorld(edge));
+                        worldEdges.push_back(Vector2(camera->convertNormalizedToWorld(edge)));
 
                     std::vector<Actor*> actors;
                     findActors(worldEdges, actors);
