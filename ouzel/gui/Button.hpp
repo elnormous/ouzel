@@ -30,7 +30,7 @@ namespace ouzel
                    Color initLabelPressedColor = Color::WHITE,
                    Color initLabelDisabledColor = Color::WHITE);
 
-            virtual void setEnabled(bool newEnabled) override;
+            void setEnabled(bool newEnabled) override;
 
             inline scene::Sprite* getNormalSprite() const { return normalSprite.get(); }
             inline scene::Sprite* getSelectedSprite() const { return selectedSprite.get(); }
@@ -39,7 +39,7 @@ namespace ouzel
             inline scene::TextRenderer* getLabelDrawable() const { return labelDrawable.get(); }
 
         protected:
-            virtual void setSelected(bool newSelected) override;
+            void setSelected(bool newSelected) override;
 
             bool handleUI(const UIEvent& event);
 

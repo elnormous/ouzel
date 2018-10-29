@@ -37,7 +37,7 @@ namespace ouzel
                       BlendState::Operation alphaOperation,
                       uint8_t colorMask);
 
-            virtual void reload() override {}
+            void reload() override {}
 
             inline GLenum getModeRGB() const { return modeRGB; }
             inline GLenum getModeAlpha() const { return modeAlpha; }

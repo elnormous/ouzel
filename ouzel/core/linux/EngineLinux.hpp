@@ -20,10 +20,10 @@ namespace ouzel
 
         void run();
 
-        virtual void executeOnMainThread(const std::function<void(void)>& func) override;
-        virtual void openURL(const std::string& url) override;
+        void executeOnMainThread(const std::function<void(void)>& func) override;
+        void openURL(const std::string& url) override;
 
-        virtual void setScreenSaverEnabled(bool newScreenSaverEnabled) override;
+        void setScreenSaverEnabled(bool newScreenSaverEnabled) override;
 
 #if OUZEL_SUPPORTS_X11
         inline Display* getDisplay() const { return display; }

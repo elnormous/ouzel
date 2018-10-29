@@ -26,11 +26,11 @@ namespace ouzel
                         bool newHighDpi);
         virtual ~NativeWindowWin();
 
-        virtual void close() override;
+        void close() override;
 
-        virtual void setSize(const Size2& newSize) override;
-        virtual void setTitle(const std::string& newTitle) override;
-        virtual void setFullscreen(bool newFullscreen) override;
+        void setSize(const Size2& newSize) override;
+        void setTitle(const std::string& newTitle) override;
+        void setFullscreen(bool newFullscreen) override;
 
         void handleResize(const Size2& newSize);
         void handleMove();

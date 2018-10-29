@@ -20,7 +20,7 @@ namespace ouzel
                      const std::string& disabledImage,
                      const std::string& tickImage);
 
-            virtual void setEnabled(bool newEnabled) override;
+            void setEnabled(bool newEnabled) override;
 
             virtual void setChecked(bool newChecked);
             virtual bool isChecked() const { return checked; }

@@ -18,16 +18,16 @@ namespace ouzel
 
         void run();
 
-        virtual void executeOnMainThread(const std::function<void(void)>& func) override;
+        void executeOnMainThread(const std::function<void(void)>& func) override;
 
-        virtual void openURL(const std::string& url) override;
+        void openURL(const std::string& url) override;
 
-        virtual void setScreenSaverEnabled(bool newScreenSaverEnabled) override;
+        void setScreenSaverEnabled(bool newScreenSaverEnabled) override;
 
         void executeAll();
 
     private:
-        virtual void main() override;
+        void main() override;
 
         std::queue<std::function<void(void)>> executeQueue;
         std::mutex executeMutex;

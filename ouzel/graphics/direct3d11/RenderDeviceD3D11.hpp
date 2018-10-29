@@ -28,7 +28,7 @@ namespace ouzel
             void setClearColor(Color newClearColor);
             void setClearDepth(float newClearDepth);
 
-            virtual std::vector<Size2> getSupportedResolutions() const override;
+            std::vector<Size2> getSupportedResolutions() const override;
 
             ID3D11Device* getDevice() const { return device; }
             ID3D11DeviceContext* getContext() const { return context; }
@@ -39,28 +39,28 @@ namespace ouzel
         protected:
             RenderDeviceD3D11();
 
-            virtual void init(Window* newWindow,
-                              const Size2& newSize,
-                              uint32_t newSampleCount,
-                              Texture::Filter newTextureFilter,
-                              uint32_t newMaxAnisotropy,
-                              bool newVerticalSync,
-                              bool newDepth,
-                              bool newDebugRenderer) override;
+            void init(Window* newWindow,
+                      const Size2& newSize,
+                      uint32_t newSampleCount,
+                      Texture::Filter newTextureFilter,
+                      uint32_t newMaxAnisotropy,
+                      bool newVerticalSync,
+                      bool newDepth,
+                      bool newDebugRenderer) override;
 
             virtual void setSize(const Size2& newSize);
 
-            virtual void process() override;
+            void process() override;
             void resizeBackBuffer(UINT newWidth, UINT newHeight);
             void uploadBuffer(ID3D11Buffer* buffer, const void* data, uint32_t dataSize);
-            virtual void generateScreenshot(const std::string& filename) override;
+            void generateScreenshot(const std::string& filename) override;
             void main();
 
-            virtual RenderResource* createBlendState() override;
-            virtual RenderResource* createBuffer() override;
-            virtual RenderResource* createRenderTarget() override;
-            virtual RenderResource* createShader() override;
-            virtual RenderResource* createTexture() override;
+            RenderResource* createBlendState() override;
+            RenderResource* createBuffer() override;
+            RenderResource* createRenderTarget() override;
+            RenderResource* createShader() override;
+            RenderResource* createTexture() override;
 
             IDXGIOutput* getOutput() const;
 

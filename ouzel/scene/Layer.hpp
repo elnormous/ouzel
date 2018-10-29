@@ -26,7 +26,7 @@ namespace ouzel
 
             virtual void draw();
 
-            virtual void addChild(Actor* actor) override;
+            void addChild(Actor* actor) override;
 
             inline const std::vector<Camera*>& getCameras() const { return cameras; }
 
@@ -48,7 +48,7 @@ namespace ouzel
             void removeLight(Light* light);
 
             virtual void recalculateProjection();
-            virtual void enter() override;
+            void enter() override;
 
             Scene* scene = nullptr;
 

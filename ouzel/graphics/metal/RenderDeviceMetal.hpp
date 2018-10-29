@@ -80,25 +80,25 @@ namespace ouzel
         protected:
             RenderDeviceMetal();
 
-            virtual void init(Window* newWindow,
-                              const Size2& newSize,
-                              uint32_t newSampleCount,
-                              Texture::Filter newTextureFilter,
-                              uint32_t newMaxAnisotropy,
-                              bool newVerticalSync,
-                              bool newDepth,
-                              bool newDebugRenderer) override;
+            void init(Window* newWindow,
+                      const Size2& newSize,
+                      uint32_t newSampleCount,
+                      Texture::Filter newTextureFilter,
+                      uint32_t newMaxAnisotropy,
+                      bool newVerticalSync,
+                      bool newDepth,
+                      bool newDebugRenderer) override;
 
-            virtual void setSize(const Size2& newSize) override;
+            void setSize(const Size2& newSize) override;
 
-            virtual void process() override;
-            virtual void generateScreenshot(const std::string& filename) override;
+            void process() override;
+            void generateScreenshot(const std::string& filename) override;
 
-            virtual RenderResource* createBlendState() override;
-            virtual RenderResource* createBuffer() override;
-            virtual RenderResource* createRenderTarget() override;
-            virtual RenderResource* createShader() override;
-            virtual RenderResource* createTexture() override;
+            RenderResource* createBlendState() override;
+            RenderResource* createBuffer() override;
+            RenderResource* createRenderTarget() override;
+            RenderResource* createShader() override;
+            RenderResource* createTexture() override;
 
             class PipelineStateDesc
             {

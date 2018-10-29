@@ -35,7 +35,7 @@ namespace ouzel
                       const std::vector<uint8_t>& newData,
                       uint32_t newSize);
 
-            virtual void reload() override;
+            void reload() override;
 
             void setData(const std::vector<uint8_t>& newData);
 

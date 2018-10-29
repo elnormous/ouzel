@@ -30,7 +30,7 @@ namespace ouzel
         public:
             virtual ~AudioDeviceAL();
 
-            virtual void process() override;
+            void process() override;
 
             inline ALCdevice* getDevice() const { return device; }
             inline ALCcontext* getContext() const { return context; }

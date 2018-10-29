@@ -14,22 +14,22 @@ namespace ouzel
         protected:
             RenderDeviceEmpty();
 
-            virtual void init(Window* newWindow,
-                              const Size2& newSize,
-                              uint32_t newSampleCount,
-                              Texture::Filter newTextureFilter,
-                              uint32_t newMaxAnisotropy,
-                              bool newVerticalSync,
-                              bool newDepth,
-                              bool newDebugRenderer) override;
+            void init(Window* newWindow,
+                      const Size2& newSize,
+                      uint32_t newSampleCount,
+                      Texture::Filter newTextureFilter,
+                      uint32_t newMaxAnisotropy,
+                      bool newVerticalSync,
+                      bool newDepth,
+                      bool newDebugRenderer) override;
 
-            virtual void process() override;
+            void process() override;
 
-            virtual RenderResource* createBlendState() override;
-            virtual RenderResource* createBuffer() override;
-            virtual RenderResource* createRenderTarget() override;
-            virtual RenderResource* createTexture() override;
-            virtual RenderResource* createShader() override;
+            RenderResource* createBlendState() override;
+            RenderResource* createBuffer() override;
+            RenderResource* createRenderTarget() override;
+            RenderResource* createTexture() override;
+            RenderResource* createShader() override;
         };
     } // namespace graphics
 } // namespace ouzel

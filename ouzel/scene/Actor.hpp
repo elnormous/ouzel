@@ -103,7 +103,7 @@ namespace ouzel
             inline ActorContainer* getParent() const { return parent; }
             void removeFromParent();
 
-            virtual void addChild(Actor* actor) override;
+            void addChild(Actor* actor) override;
 
             void addComponent(Component* component);
 
@@ -132,7 +132,7 @@ namespace ouzel
             Box3 getBoundingBox() const;
 
         protected:
-            virtual void setLayer(Layer* newLayer) override;
+            void setLayer(Layer* newLayer) override;
 
             void updateLocalTransform();
             void updateTransform(const Matrix4& newParentTransform);

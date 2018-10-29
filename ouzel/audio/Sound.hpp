@@ -54,13 +54,13 @@ namespace ouzel
             bool isPlaying() const { return playing; }
             bool isRepeating() const { return repeating; }
 
-            virtual void addRenderCommands(std::vector<AudioDevice::RenderCommand>& renderCommands) override;
+            void addRenderCommands(std::vector<AudioDevice::RenderCommand>& renderCommands) override;
 
-            virtual void onReset() override;
-            virtual void onStop() override;
+            void onReset() override;
+            void onStop() override;
 
         private:
-            virtual void updateTransform() override;
+            void updateTransform() override;
 
             static void setAttributes(Vector3& listenerPosition,
                                       Quaternion& listenerRotation,

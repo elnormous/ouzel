@@ -44,7 +44,7 @@ namespace ouzel
             void hideVirtualKeyboard();
 
         private:
-            virtual bool handleEvent(const InputSystem::Event& event) override;
+            bool handleEvent(const InputSystem::Event& event) override;
 
             std::unique_ptr<InputSystem> inputSystem;
             Keyboard* keyboard = nullptr;

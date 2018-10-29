@@ -38,11 +38,11 @@ namespace ouzel
                           bool newHighDpi);
         virtual ~NativeWindowMacOS();
 
-        virtual void close() override;
+        void close() override;
 
-        virtual void setSize(const Size2& newSize) override;
-        virtual void setFullscreen(bool newFullscreen) override;
-        virtual void setTitle(const std::string& newTitle) override;
+        void setSize(const Size2& newSize) override;
+        void setFullscreen(bool newFullscreen) override;
+        void setTitle(const std::string& newTitle) override;
 
         void handleResize();
         void handleClose();

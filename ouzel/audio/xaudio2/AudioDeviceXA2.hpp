@@ -28,13 +28,13 @@ namespace ouzel
 
             void run();
 
-            virtual void STDMETHODCALLTYPE OnVoiceProcessingPassStart(UINT32 bytesRequired) override;
-            virtual void STDMETHODCALLTYPE OnVoiceProcessingPassEnd() override;
-            virtual void STDMETHODCALLTYPE OnStreamEnd() override;
-            virtual void STDMETHODCALLTYPE OnBufferStart(void* bufferContext) override;
-            virtual void STDMETHODCALLTYPE OnBufferEnd(void* bufferContext) override;
-            virtual void STDMETHODCALLTYPE OnLoopEnd(void* bufferContext) override;
-            virtual void STDMETHODCALLTYPE OnVoiceError(void* bufferContext, HRESULT error) override;
+            void STDMETHODCALLTYPE OnVoiceProcessingPassStart(UINT32 bytesRequired) override;
+            void STDMETHODCALLTYPE OnVoiceProcessingPassEnd() override;
+            void STDMETHODCALLTYPE OnStreamEnd() override;
+            void STDMETHODCALLTYPE OnBufferStart(void* bufferContext) override;
+            void STDMETHODCALLTYPE OnBufferEnd(void* bufferContext) override;
+            void STDMETHODCALLTYPE OnLoopEnd(void* bufferContext) override;
+            void STDMETHODCALLTYPE OnVoiceError(void* bufferContext, HRESULT error) override;
 
         private:
             HMODULE xAudio2Library = nullptr;

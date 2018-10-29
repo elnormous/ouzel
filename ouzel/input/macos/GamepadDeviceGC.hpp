@@ -28,7 +28,7 @@ namespace ouzel
             bool isAbsoluteDPadValues() const;
 
             int32_t getPlayerIndex() const;
-            virtual void setPlayerIndex(int32_t playerIndex) override;
+            void setPlayerIndex(int32_t playerIndex) override;
 
             GCControllerPtr getController() const { return controller; }
 

@@ -45,7 +45,7 @@ namespace ouzel
             inline void setIntensity(float newIntensity) { intensity = newIntensity; }
 
         protected:
-            virtual void setLayer(Layer* newLayer) override;
+            void setLayer(Layer* newLayer) override;
 
         private:
             Type type = Type::POINT;
