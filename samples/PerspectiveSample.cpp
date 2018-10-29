@@ -135,8 +135,6 @@ bool PerspectiveSample::handleKeyboard(const ouzel::KeyboardEvent& event)
         if (cameraRotation.x > TAU / 6.0F) cameraRotation.x = TAU / 6.0F;
 
         cameraActor.setRotation(Vector3(cameraRotation.x, cameraRotation.y, 0.0F));
-
-        //engine->getAudio()->setListenerRotation(camera.getRotation());
     }
     else if (event.type == Event::Type::KEY_RELEASE)
     {

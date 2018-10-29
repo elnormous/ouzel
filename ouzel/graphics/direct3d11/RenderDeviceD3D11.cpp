@@ -689,14 +689,12 @@ namespace ouzel
 
                     case Command::Type::PUSH_DEBUG_MARKER:
                     {
-                        // const PushDebugMarkerCommand* pushDebugMarkerCommand = static_cast<const PushDebugMarkerCommand*>(command.get());
                         // D3D11 does not support debug markers
                         break;
                     }
 
                     case Command::Type::POP_DEBUG_MARKER:
                     {
-                        // const PopDebugMarkerCommand* popDebugMarkerCommand = static_cast<const PopDebugMarkerCommand*>(command.get());
                         // D3D11 does not support debug markers
                         break;
                     }

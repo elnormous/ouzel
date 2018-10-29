@@ -1244,7 +1244,6 @@ namespace ouzel
 
                     case Command::Type::POP_DEBUG_MARKER:
                     {
-                        //const PopDebugMarkerCommand* popDebugMarkerCommand = static_cast<const PopDebugMarkerCommand*>(command.get());
                         if (glPopGroupMarkerEXTProc) glPopGroupMarkerEXTProc();
                         break;
                     }

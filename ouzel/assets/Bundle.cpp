@@ -31,10 +31,9 @@ namespace ouzel
             for (auto i = loaders.rbegin(); i != loaders.rend(); ++i)
             {
                 Loader* loader = *i;
-                if (loader->getType() == loaderType)
-                {
-                    if (loader->loadAsset(*this, filename, data, mipmaps)) return;
-                }
+                if (loader->getType() == loaderType &&
+                    loader->loadAsset(*this, filename, data, mipmaps))
+                    return;
             }
 
             throw FileError("Failed to load asset " + filename);
