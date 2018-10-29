@@ -59,7 +59,7 @@ namespace ouzel
         {
         }
 
-        Color(float color[4]):
+        explicit Color(float color[4]):
             r(static_cast<uint8_t>(color[0] * 255.0F)),
             g(static_cast<uint8_t>(color[1] * 255.0F)),
             b(static_cast<uint8_t>(color[2] * 255.0F)),
@@ -67,10 +67,10 @@ namespace ouzel
         {
         }
 
-        Color(const Vector3& vec);
+        explicit Color(const Vector3& vec);
         Color& operator=(const Vector3& vec);
 
-        Color(const Vector4& vec);
+        explicit Color(const Vector4& vec);
         Color& operator=(const Vector4& vec);
 
         inline float normR() const { return r / 255.0F; }

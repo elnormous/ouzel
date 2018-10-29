@@ -52,7 +52,7 @@ namespace ouzel
 
             static const uint32_t LAYERS = 4;
 
-            Texture(Renderer& initRenderer);
+            explicit Texture(Renderer& initRenderer);
             ~Texture();
 
             Texture(const Texture&) = delete;

@@ -13,7 +13,7 @@ namespace ouzel
         public:
             static const uint32_t TYPE = Loader::PARTICLE_SYSTEM;
 
-            LoaderParticleSystem(Cache& initCache);
+            explicit LoaderParticleSystem(Cache& initCache);
             bool loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps = true) override;
         };
     } // namespace assets

@@ -13,7 +13,7 @@ namespace ouzel
         class RenderTargetResourceMetal final: public RenderResource
         {
         public:
-            RenderTargetResourceMetal(RenderDeviceMetal& renderDeviceMetal);
+            explicit RenderTargetResourceMetal(RenderDeviceMetal& renderDeviceMetal);
         };
     } // namespace graphics
 } // namespace ouzel

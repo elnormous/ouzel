@@ -11,7 +11,7 @@ namespace ouzel
         class RenderResource
         {
         public:
-            RenderResource(RenderDevice& initRenderDevice):
+            explicit RenderResource(RenderDevice& initRenderDevice):
                 renderDevice(initRenderDevice) {}
             virtual ~RenderResource() {}
 

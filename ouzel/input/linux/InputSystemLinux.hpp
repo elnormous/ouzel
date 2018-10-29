@@ -19,7 +19,7 @@ namespace ouzel
         class InputSystemLinux final: public InputSystem
         {
         public:
-            InputSystemLinux(EventHandler& initEventHandler);
+            explicit InputSystemLinux(EventHandler& initEventHandler);
             virtual ~InputSystemLinux();
 
             void executeCommand(const Command& command) override;

@@ -13,7 +13,7 @@ namespace ouzel
         class RenderTargetResourceD3D11 final: public RenderResource
         {
         public:
-            RenderTargetResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11);
+            explicit RenderTargetResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11);
         };
     } // namespace graphics
 } // namespace ouzel
