@@ -59,7 +59,7 @@ namespace ouzel
         }
 
     private:
-        virtual bool handleEvent(const NativeWindow::Event& event) override;
+        bool handleEvent(const NativeWindow::Event& event) override;
 
         std::unique_ptr<NativeWindow> nativeWindow;
 

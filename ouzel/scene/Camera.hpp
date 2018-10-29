@@ -90,10 +90,10 @@ namespace ouzel
             inline void setWireframe(bool newWireframe) { wireframe = newWireframe; }
 
         protected:
-            virtual void setActor(Actor* newActor) override;
-            virtual void setLayer(Layer* newLayer) override;
+            void setActor(Actor* newActor) override;
+            void setLayer(Layer* newLayer) override;
 
-            virtual void updateTransform() override;
+            void updateTransform() override;
             void calculateViewProjection() const;
 
             ProjectionMode projectionMode;

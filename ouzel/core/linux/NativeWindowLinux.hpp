@@ -38,11 +38,11 @@ namespace ouzel
                           bool depth);
         virtual ~NativeWindowLinux();
 
-        virtual void close() override;
+        void close() override;
 
-        virtual void setSize(const Size2& newSize) override;
-        virtual void setFullscreen(bool newFullscreen) override;
-        virtual void setTitle(const std::string& newTitle) override;
+        void setSize(const Size2& newSize) override;
+        void setFullscreen(bool newFullscreen) override;
+        void setTitle(const std::string& newTitle) override;
 
 #if OUZEL_SUPPORTS_X11
         inline ::Window getNativeWindow() const { return window; }

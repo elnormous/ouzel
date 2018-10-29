@@ -17,7 +17,7 @@ namespace ouzel
             InputSystemAndroid(EventHandler& initEventHandler);
             virtual ~InputSystemAndroid();
 
-            virtual void executeCommand(const Command& command) override;
+            void executeCommand(const Command& command) override;
 
             KeyboardDevice* getKeyboardDevice() const { return keyboardDevice.get(); }
             MouseDevice* getMouseDevice() const { return mouseDevice.get(); }

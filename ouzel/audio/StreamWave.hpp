@@ -12,7 +12,7 @@ namespace ouzel
         class StreamWave final: public Stream
         {
         public:
-            virtual void reset() override;
+            void reset() override;
 
             inline uint32_t getOffset() const { return offset; }
             inline void setOffset(uint32_t newOffset) { offset = newOffset; }

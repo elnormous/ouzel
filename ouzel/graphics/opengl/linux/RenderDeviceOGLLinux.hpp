@@ -27,21 +27,21 @@ namespace ouzel
         public:
             virtual ~RenderDeviceOGLLinux();
 
-            virtual std::vector<Size2> getSupportedResolutions() const override;
+            std::vector<Size2> getSupportedResolutions() const override;
 
         private:
             RenderDeviceOGLLinux();
 
-            virtual void init(Window* newWindow,
-                              const Size2& newSize,
-                              uint32_t newSampleCount,
-                              Texture::Filter newTextureFilter,
-                              uint32_t newMaxAnisotropy,
-                              bool newVerticalSync,
-                              bool newDepth,
-                              bool newDebugRenderer) override;
+            void init(Window* newWindow,
+                      const Size2& newSize,
+                      uint32_t newSampleCount,
+                      Texture::Filter newTextureFilter,
+                      uint32_t newMaxAnisotropy,
+                      bool newVerticalSync,
+                      bool newDepth,
+                      bool newDebugRenderer) override;
 
-            virtual void present() override;
+            void present() override;
             void main();
 
 #if OUZEL_OPENGL_INTERFACE_GLX

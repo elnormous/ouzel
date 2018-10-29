@@ -15,7 +15,7 @@ namespace ouzel
         public:
             RenderTargetResourceOGL(RenderDeviceOGL& renderDeviceOGL);
 
-            virtual void reload() override;
+            void reload() override;
         };
     } // namespace graphics
 } // namespace ouzel

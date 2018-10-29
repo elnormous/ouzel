@@ -36,7 +36,7 @@ namespace ouzel
                       uint32_t newSampleCount = 1,
                       PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
 
-            virtual void reload() override;
+            void reload() override;
 
             void setData(const std::vector<Texture::Level>& newLevels);
             void setFilter(Texture::Filter newFilter);

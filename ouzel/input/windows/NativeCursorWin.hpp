@@ -18,11 +18,11 @@ namespace ouzel
             explicit NativeCursorWin(InputSystem& initInputSystem);
             virtual ~NativeCursorWin();
 
-            virtual void init(SystemCursor newSystemCursor) override;
-            virtual void init(const std::vector<uint8_t>& newData,
-                              const Size2& newSize,
-                              graphics::PixelFormat newPixelFormat,
-                              const Vector2& newHotSpot) override;
+            void init(SystemCursor newSystemCursor) override;
+            void init(const std::vector<uint8_t>& newData,
+                      const Size2& newSize,
+                      graphics::PixelFormat newPixelFormat,
+                      const Vector2& newHotSpot) override;
 
             HCURSOR getNativeCursor() const { return cursor; }
 

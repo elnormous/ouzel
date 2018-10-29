@@ -41,7 +41,7 @@ namespace ouzel
                       const std::string& fragmentShaderFunction,
                       const std::string& vertexShaderFunction);
 
-            virtual void reload() override;
+            void reload() override;
 
             struct Location
             {

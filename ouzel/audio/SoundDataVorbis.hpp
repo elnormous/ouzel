@@ -16,10 +16,10 @@ namespace ouzel
             SoundDataVorbis();
             SoundDataVorbis(const std::vector<uint8_t>& initData);
 
-            virtual std::shared_ptr<Stream> createStream() override;
+            std::shared_ptr<Stream> createStream() override;
 
         protected:
-            virtual void readData(Stream* stream, uint32_t frames, std::vector<float>& result) override;
+            void readData(Stream* stream, uint32_t frames, std::vector<float>& result) override;
 
             std::vector<uint8_t> data;
         };

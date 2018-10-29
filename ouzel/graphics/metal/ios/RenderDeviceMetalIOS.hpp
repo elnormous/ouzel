@@ -23,14 +23,14 @@ namespace ouzel
             void renderCallback();
 
         private:
-            virtual void init(Window* newWindow,
-                              const Size2& newSize,
-                              uint32_t newSampleCount,
-                              Texture::Filter newTextureFilter,
-                              uint32_t newMaxAnisotropy,
-                              bool newVerticalSync,
-                              bool newDepth,
-                              bool newDebugRenderer) override;
+            void init(Window* newWindow,
+                      const Size2& newSize,
+                      uint32_t newSampleCount,
+                      Texture::Filter newTextureFilter,
+                      uint32_t newMaxAnisotropy,
+                      bool newVerticalSync,
+                      bool newDepth,
+                      bool newDebugRenderer) override;
 
         private:
             DisplayLink displayLink;

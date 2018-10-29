@@ -49,20 +49,20 @@ namespace ouzel
         public:
             virtual ~RenderDeviceMetalMacOS();
 
-            virtual std::vector<Size2> getSupportedResolutions() const override;
+            std::vector<Size2> getSupportedResolutions() const override;
 
             void renderCallback();
 
         private:
             RenderDeviceMetalMacOS();
-            virtual void init(Window* newWindow,
-                              const Size2& newSize,
-                              uint32_t newSampleCount,
-                              Texture::Filter newTextureFilter,
-                              uint32_t newMaxAnisotropy,
-                              bool newVerticalSync,
-                              bool newDepth,
-                              bool newDebugRenderer) override;
+            void init(Window* newWindow,
+                      const Size2& newSize,
+                      uint32_t newSampleCount,
+                      Texture::Filter newTextureFilter,
+                      uint32_t newMaxAnisotropy,
+                      bool newVerticalSync,
+                      bool newDepth,
+                      bool newDebugRenderer) override;
 
             bool handleWindow(const WindowEvent& event);
 

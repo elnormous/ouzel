@@ -27,7 +27,7 @@ namespace ouzel
             InputSystemTVOS(EventHandler& initEventHandler);
             virtual ~InputSystemTVOS();
 
-            virtual void executeCommand(const Command& command) override;
+            void executeCommand(const Command& command) override;
 
             KeyboardDevice* getKeyboardDevice() const { return keyboardDevice.get(); }
 

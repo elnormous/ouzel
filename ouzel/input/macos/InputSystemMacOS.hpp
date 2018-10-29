@@ -36,7 +36,7 @@ namespace ouzel
             InputSystemMacOS(EventHandler& initEventHandler);
             virtual ~InputSystemMacOS();
 
-            virtual void executeCommand(const Command& command) override;
+            void executeCommand(const Command& command) override;
 
             KeyboardDevice* getKeyboardDevice() const { return keyboardDevice.get(); }
             MouseDeviceMacOS* getMouseDevice() const { return mouseDevice.get(); }

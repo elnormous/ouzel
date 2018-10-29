@@ -33,17 +33,17 @@ namespace ouzel
             void renderCallback();
 
         private:
-            virtual void init(Window* newWindow,
-                              const Size2& newSize,
-                              uint32_t newSampleCount,
-                              Texture::Filter newTextureFilter,
-                              uint32_t newMaxAnisotropy,
-                              bool newVerticalSync,
-                              bool newDepth,
-                              bool newDebugRenderer) override;
+            void init(Window* newWindow,
+                      const Size2& newSize,
+                      uint32_t newSampleCount,
+                      Texture::Filter newTextureFilter,
+                      uint32_t newMaxAnisotropy,
+                      bool newVerticalSync,
+                      bool newDepth,
+                      bool newDebugRenderer) override;
 
-            virtual void setSize(const Size2& newSize) override;
-            virtual void present() override;
+            void setSize(const Size2& newSize) override;
+            void present() override;
 
             void createFrameBuffer();
 

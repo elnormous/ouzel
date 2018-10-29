@@ -14,9 +14,9 @@ namespace ouzel
         public:
             Menu();
 
-            virtual void setEnabled(bool newEnabled) override;
+            void setEnabled(bool newEnabled) override;
 
-            virtual bool removeChild(Actor* actor) override;
+            bool removeChild(Actor* actor) override;
 
             virtual void addWidget(Widget* widget);
 
@@ -36,8 +36,8 @@ namespace ouzel
             virtual void selectPreviousWidget();
 
         protected:
-            virtual void enter() override;
-            virtual void leave() override;
+            void enter() override;
+            void leave() override;
 
             bool handleKeyboard(const KeyboardEvent& event);
             bool handleGamepad(const GamepadEvent& event);

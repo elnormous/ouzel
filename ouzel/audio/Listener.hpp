@@ -23,7 +23,7 @@ namespace ouzel
             AudioDevice::RenderCommand getRenderCommand();
 
         protected:
-            virtual void updateTransform() override;
+            void updateTransform() override;
 
             static void setAttributes(Vector3& listenerPosition,
                                       Quaternion& listenerRotation,

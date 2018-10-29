@@ -17,7 +17,7 @@ namespace ouzel
         public:
             explicit StreamVorbis(const std::vector<uint8_t>& data);
             virtual ~StreamVorbis();
-            virtual void reset() override;
+            void reset() override;
 
             inline stb_vorbis* getVorbisStream() const { return vorbisStream; }
 

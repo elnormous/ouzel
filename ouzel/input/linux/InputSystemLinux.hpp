@@ -22,7 +22,7 @@ namespace ouzel
             InputSystemLinux(EventHandler& initEventHandler);
             virtual ~InputSystemLinux();
 
-            virtual void executeCommand(const Command& command) override;
+            void executeCommand(const Command& command) override;
 
             KeyboardDeviceLinux* getKeyboardDevice() const { return keyboardDevice.get(); }
             MouseDeviceLinux* getMouseDevice() const { return mouseDevice.get(); }
