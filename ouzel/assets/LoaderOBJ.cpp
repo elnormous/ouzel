@@ -218,7 +218,8 @@ namespace ouzel
 
                         skipLine(data, iterator);
 
-                        //cache.loadAsset(Loader::MATERIAL, value, mipmaps);
+                        if (!bundle.getMaterial(filename))
+                            bundle.loadAsset(Loader::MATERIAL, value, mipmaps);
                     }
                     else if (keyword == "usemtl")
                     {
