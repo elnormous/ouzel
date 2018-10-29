@@ -113,7 +113,7 @@ namespace ouzel
         class SetRenderTargetCommand: public Command
         {
         public:
-            SetRenderTargetCommand(RenderResource* initRenderTarget):
+            explicit SetRenderTargetCommand(RenderResource* initRenderTarget):
                 Command(Command::Type::SET_RENDER_TARGET),
                 renderTarget(initRenderTarget)
             {
@@ -125,7 +125,7 @@ namespace ouzel
         class ClearRenderTargetCommand: public Command
         {
         public:
-            ClearRenderTargetCommand(RenderResource* initRenderTarget):
+            explicit ClearRenderTargetCommand(RenderResource* initRenderTarget):
                 Command(Command::Type::CLEAR_RENDER_TARGET),
                 renderTarget(initRenderTarget)
             {
@@ -178,7 +178,7 @@ namespace ouzel
         class ComputeCommand: public Command
         {
         public:
-            ComputeCommand(RenderResource* initShader):
+            explicit ComputeCommand(RenderResource* initShader):
                 Command(Command::Type::COMPUTE),
                 shader(initShader)
             {
@@ -190,7 +190,7 @@ namespace ouzel
         class SetCullModeCommad: public Command
         {
         public:
-            SetCullModeCommad(Renderer::CullMode initCullMode):
+            explicit SetCullModeCommad(Renderer::CullMode initCullMode):
                 Command(Command::Type::SET_CULL_MODE),
                 cullMode(initCullMode)
             {
@@ -202,7 +202,7 @@ namespace ouzel
         class SetFillModeCommad: public Command
         {
         public:
-            SetFillModeCommad(Renderer::FillMode initFillMode):
+            explicit SetFillModeCommad(Renderer::FillMode initFillMode):
                 Command(Command::Type::SET_FILL_MODE),
                 fillMode(initFillMode)
             {
@@ -229,7 +229,7 @@ namespace ouzel
         class SetViewportCommand: public Command
         {
         public:
-            SetViewportCommand(const Rect& initViewport):
+            explicit SetViewportCommand(const Rect& initViewport):
                 Command(Command::Type::SET_VIEWPORT),
                 viewport(initViewport)
             {
@@ -511,7 +511,7 @@ namespace ouzel
         class SetTexturesCommand: public Command
         {
         public:
-            SetTexturesCommand(RenderResource* initTextures[Texture::LAYERS]):
+            explicit SetTexturesCommand(RenderResource* initTextures[Texture::LAYERS]):
                 Command(Command::Type::SET_TEXTURES)
             {
                 for (uint32_t i = 0; i < Texture::LAYERS; ++i)

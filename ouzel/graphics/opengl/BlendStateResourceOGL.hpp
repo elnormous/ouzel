@@ -28,7 +28,7 @@ namespace ouzel
         class BlendStateResourceOGL final: public RenderResourceOGL
         {
         public:
-            BlendStateResourceOGL(RenderDeviceOGL& renderDeviceOGL);
+            explicit BlendStateResourceOGL(RenderDeviceOGL& renderDeviceOGL);
 
             void init(bool enableBlending,
                       BlendState::Factor colorBlendSource, BlendState::Factor colorBlendDest,
