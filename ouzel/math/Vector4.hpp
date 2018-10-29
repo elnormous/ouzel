@@ -60,13 +60,13 @@ namespace ouzel
         {
         }
 
-        Vector4(const Vector2& v);
+        explicit Vector4(const Vector2& v);
         Vector4& operator=(const Vector2& v);
 
-        Vector4(const Vector3& v);
+        explicit Vector4(const Vector3& v);
         Vector4& operator=(const Vector3& v);
 
-        Vector4(Color color);
+        explicit Vector4(Color color);
         Vector4& operator=(Color color);
 
         bool isZero() const

@@ -22,7 +22,7 @@ namespace ouzel
         class InputSystemWin final: public InputSystem
         {
         public:
-            InputSystemWin(EventHandler& initEventHandler);
+            explicit InputSystemWin(EventHandler& initEventHandler);
             virtual ~InputSystemWin();
 
             void executeCommand(const Command& command) override;

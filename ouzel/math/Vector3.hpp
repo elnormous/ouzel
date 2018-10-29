@@ -31,16 +31,16 @@ namespace ouzel
         {
         }
 
-        Vector3(const Vector2& vec);
+        explicit Vector3(const Vector2& vec);
         Vector3(const Vector2& vec, float aZ);
 
         Vector3& operator=(const Vector2& vec);
 
-        Vector3(const Vector4& vec);
+        explicit Vector3(const Vector4& vec);
 
         Vector3& operator=(const Vector4& vec);
 
-        Vector3(Color color);
+        explicit Vector3(Color color);
         Vector3& operator=(Color color);
 
         inline bool isZero() const

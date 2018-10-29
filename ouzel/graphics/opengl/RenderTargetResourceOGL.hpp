@@ -13,7 +13,7 @@ namespace ouzel
         class RenderTargetResourceOGL final: public RenderResourceOGL
         {
         public:
-            RenderTargetResourceOGL(RenderDeviceOGL& renderDeviceOGL);
+            explicit RenderTargetResourceOGL(RenderDeviceOGL& renderDeviceOGL);
 
             void reload() override;
         };

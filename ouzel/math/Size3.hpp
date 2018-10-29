@@ -24,7 +24,7 @@ namespace ouzel
         {
         }
 
-        Size3(const Vector3& point):
+        explicit Size3(const Vector3& point):
             width(point.x), height(point.y), depth(point.z)
         {
         }
@@ -37,7 +37,7 @@ namespace ouzel
             return *this;
         }
 
-        Size3(const Size2& s);
+        explicit Size3(const Size2& s);
         Size3& operator=(const Size2& s);
 
         inline const Size3 operator+(const Size3& size) const

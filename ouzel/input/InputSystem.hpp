@@ -122,7 +122,7 @@ namespace ouzel
                 virtual bool handleEvent(const Event& event) = 0;
             };
 
-            InputSystem(EventHandler& initEventHandler);
+            explicit InputSystem(EventHandler& initEventHandler);
             virtual ~InputSystem() {}
 
             void addCommand(const Command& command);

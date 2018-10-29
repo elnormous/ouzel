@@ -24,7 +24,7 @@ namespace ouzel
                 BINDABLE_DEPTH_BUFFER = 0x08,
             };
 
-            RenderTarget(Renderer& initRenderer);
+            explicit RenderTarget(Renderer& initRenderer);
 
             inline RenderResource* getResource() const { return resource; }
             inline RenderResource* getColorTextureResource() const { return colorTexture; }

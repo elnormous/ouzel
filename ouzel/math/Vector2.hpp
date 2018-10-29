@@ -30,11 +30,11 @@ namespace ouzel
         {
         }
 
-        Vector2(const Vector3& vec);
+        explicit Vector2(const Vector3& vec);
 
         Vector2& operator=(const Vector3& vec);
 
-        Vector2(const Vector4& vec);
+        explicit Vector2(const Vector4& vec);
 
         Vector2& operator=(const Vector4& vec);
 

@@ -27,7 +27,7 @@ namespace ouzel
                 VERTEX
             };
 
-            Buffer(Renderer& initRenderer);
+            explicit Buffer(Renderer& initRenderer);
             ~Buffer();
 
             Buffer(const Buffer&) = delete;

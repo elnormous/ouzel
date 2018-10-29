@@ -14,7 +14,7 @@ namespace ouzel
     class FileSystem final
     {
     public:
-        FileSystem(Engine& initEngine);
+        explicit FileSystem(Engine& initEngine);
         FileSystem(const FileSystem&) = delete;
         FileSystem& operator=(const FileSystem&) = delete;
 

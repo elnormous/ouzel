@@ -44,7 +44,7 @@ namespace ouzel
                 m41, m42, m43, m44);
         }
 
-        Matrix4(const float* array)
+        explicit Matrix4(const float* array)
         {
             set(array);
         }

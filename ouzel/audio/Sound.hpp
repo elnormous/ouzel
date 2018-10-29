@@ -21,7 +21,7 @@ namespace ouzel
             friend Audio;
         public:
             Sound();
-            Sound(const std::shared_ptr<SoundData>& initSoundData);
+            explicit Sound(const std::shared_ptr<SoundData>& initSoundData);
             virtual ~Sound();
 
             Sound(Sound&& sound);

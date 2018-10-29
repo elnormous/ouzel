@@ -30,7 +30,7 @@ namespace ouzel
                 uint32_t size;
             };
 
-            Shader(Renderer& initRenderer);
+            explicit Shader(Renderer& initRenderer);
             ~Shader();
 
             Shader(const Shader&) = delete;

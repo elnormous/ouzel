@@ -14,7 +14,7 @@ namespace ouzel
         {
         public:
             SoundDataWave();
-            SoundDataWave(const std::vector<uint8_t>& initData);
+            explicit SoundDataWave(const std::vector<uint8_t>& initData);
 
             std::shared_ptr<Stream> createStream() override;
 

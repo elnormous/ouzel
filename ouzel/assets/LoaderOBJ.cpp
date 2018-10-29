@@ -266,7 +266,7 @@ namespace ouzel
                     }
                     else if (keyword == "vt")
                     {
-                        Vector3 texCoord;
+                        Vector2 texCoord;
 
                         skipWhitespaces(data, iterator);
                         texCoord.x = parseFloat(data, iterator);
