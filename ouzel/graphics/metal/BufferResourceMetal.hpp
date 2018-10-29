@@ -27,7 +27,7 @@ namespace ouzel
         {
         public:
             explicit BufferResourceMetal(RenderDeviceMetal& renderDeviceMetal);
-            virtual ~BufferResourceMetal();
+            ~BufferResourceMetal();
 
             void init(Buffer::Usage newUsage, uint32_t newFlags,
                       const std::vector<uint8_t>& newData,

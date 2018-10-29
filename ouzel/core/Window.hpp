@@ -46,7 +46,7 @@ namespace ouzel
         bool isExclusiveFullscreen() const { return exclusiveFullscreen; }
 
         inline const std::string& getTitle() const { return title; }
-        virtual void setTitle(const std::string& newTitle);
+        void setTitle(const std::string& newTitle);
 
         inline Vector2 convertWindowToNormalizedLocation(const Vector2& position) const
         {

@@ -21,7 +21,7 @@ namespace ouzel
         {
         public:
             explicit ShaderResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11);
-            virtual ~ShaderResourceD3D11();
+            ~ShaderResourceD3D11();
 
             void init(const std::vector<uint8_t>& fragmentShaderData,
                       const std::vector<uint8_t>& vertexShaderData,

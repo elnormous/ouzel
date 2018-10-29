@@ -29,7 +29,7 @@ namespace ouzel
         {
         public:
             explicit TextureResourceOGL(RenderDeviceOGL& renderDeviceOGL);
-            virtual ~TextureResourceOGL();
+            ~TextureResourceOGL();
 
             void init(const std::vector<Texture::Level>& newLevels,
                       uint32_t newFlags = 0,

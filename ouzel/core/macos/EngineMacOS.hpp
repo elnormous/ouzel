@@ -14,7 +14,7 @@ namespace ouzel
     {
     public:
         EngineMacOS(int argc, char* argv[]);
-        virtual ~EngineMacOS();
+        ~EngineMacOS();
 
         void run();
 

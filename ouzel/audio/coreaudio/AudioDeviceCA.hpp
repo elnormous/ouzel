@@ -22,7 +22,7 @@ namespace ouzel
         {
             friend Audio;
         public:
-            virtual ~AudioDeviceCA();
+            ~AudioDeviceCA();
 
             void outputCallback(AudioBufferList* ioData);
 

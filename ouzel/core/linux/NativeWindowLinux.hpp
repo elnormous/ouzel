@@ -36,7 +36,7 @@ namespace ouzel
                           const std::string& newTitle,
                           graphics::Renderer::Driver graphicsDriver,
                           bool depth);
-        virtual ~NativeWindowLinux();
+        ~NativeWindowLinux();
 
         void close() override;
 

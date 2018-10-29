@@ -21,7 +21,7 @@ namespace ouzel
         {
             friend Audio;
         public:
-            virtual ~AudioDeviceXA2();
+            ~AudioDeviceXA2();
 
         protected:
             AudioDeviceXA2(bool debugAudio);

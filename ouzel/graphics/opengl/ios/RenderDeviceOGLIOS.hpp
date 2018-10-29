@@ -28,7 +28,7 @@ namespace ouzel
             friend Renderer;
         public:
             RenderDeviceOGLIOS();
-            virtual ~RenderDeviceOGLIOS();
+            ~RenderDeviceOGLIOS();
 
             void renderCallback();
 

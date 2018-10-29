@@ -20,7 +20,7 @@ namespace ouzel
         {
         public:
             explicit BlendStateResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11);
-            virtual ~BlendStateResourceD3D11();
+            ~BlendStateResourceD3D11();
 
             void init(bool enableBlending,
                       BlendState::Factor colorBlendSource, BlendState::Factor colorBlendDest,

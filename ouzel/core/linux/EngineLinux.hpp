@@ -16,7 +16,7 @@ namespace ouzel
     {
     public:
         EngineLinux(int initArgc, char* initArgv[]);
-        virtual ~EngineLinux();
+        ~EngineLinux();
 
         void run();
 

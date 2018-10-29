@@ -19,7 +19,7 @@ namespace ouzel
         {
             friend Audio;
         public:
-            virtual ~AudioDeviceDS();
+            ~AudioDeviceDS();
 
             IDirectSound8* getDirectSound() const { return directSound; }
 

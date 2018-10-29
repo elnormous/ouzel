@@ -15,7 +15,7 @@ namespace ouzel
         {
         public:
             explicit InputSystemAndroid(EventHandler& initEventHandler);
-            virtual ~InputSystemAndroid();
+            ~InputSystemAndroid();
 
             void executeCommand(const Command& command) override;
 

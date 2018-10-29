@@ -22,7 +22,7 @@ namespace ouzel
         {
             friend Renderer;
         public:
-            virtual ~RenderDeviceOGLWin();
+            ~RenderDeviceOGLWin();
 
         private:
             RenderDeviceOGLWin();

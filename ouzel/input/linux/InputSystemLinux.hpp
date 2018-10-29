@@ -20,7 +20,7 @@ namespace ouzel
         {
         public:
             explicit InputSystemLinux(EventHandler& initEventHandler);
-            virtual ~InputSystemLinux();
+            ~InputSystemLinux();
 
             void executeCommand(const Command& command) override;
 

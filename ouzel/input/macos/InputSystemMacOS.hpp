@@ -34,7 +34,7 @@ namespace ouzel
         {
         public:
             explicit InputSystemMacOS(EventHandler& initEventHandler);
-            virtual ~InputSystemMacOS();
+            ~InputSystemMacOS();
 
             void executeCommand(const Command& command) override;
 

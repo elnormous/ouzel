@@ -66,7 +66,7 @@ namespace ouzel
 
             static bool available();
 
-            virtual ~RenderDeviceMetal();
+            ~RenderDeviceMetal();
 
             void setClearColorBuffer(bool clear);
             void setClearDepthBuffer(bool clear);

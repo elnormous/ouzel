@@ -19,7 +19,7 @@ namespace ouzel
         {
         public:
             InputSystemEm(EventHandler& initEventHandler);
-            virtual ~InputSystemEm() {}
+            ~InputSystemEm() {}
 
             void executeCommand(const Command& command) override;
 

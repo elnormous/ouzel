@@ -29,7 +29,7 @@ namespace ouzel
         {
         public:
             explicit BufferResourceOGL(RenderDeviceOGL& renderDeviceOGL);
-            virtual ~BufferResourceOGL();
+            ~BufferResourceOGL();
 
             void init(Buffer::Usage newUsage, uint32_t newFlags,
                       const std::vector<uint8_t>& newData,

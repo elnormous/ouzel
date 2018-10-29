@@ -14,7 +14,7 @@ namespace ouzel
     {
     public:
         EngineTVOS(int initArgc, char* initArgv[]);
-        virtual ~EngineTVOS();
+        ~EngineTVOS();
 
         void run();
 

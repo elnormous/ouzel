@@ -20,7 +20,7 @@ namespace ouzel
         {
             friend Audio;
         public:
-            virtual ~AudioDeviceSL();
+            ~AudioDeviceSL();
 
             void enqueue(SLAndroidSimpleBufferQueueItf bufferQueue);
 

@@ -12,13 +12,13 @@ namespace ouzel
         BMFont();
         explicit BMFont(const std::vector<uint8_t>& data);
 
-        virtual void getVertices(const std::string& text,
-                                 Color color,
-                                 float fontSize,
-                                 const Vector2& anchor,
-                                 std::vector<uint16_t>& indices,
-                                 std::vector<graphics::Vertex>& vertices,
-                                 std::shared_ptr<graphics::Texture>& texture) override;
+        void getVertices(const std::string& text,
+                         Color color,
+                         float fontSize,
+                         const Vector2& anchor,
+                         std::vector<uint16_t>& indices,
+                         std::vector<graphics::Vertex>& vertices,
+                         std::shared_ptr<graphics::Texture>& texture) override;
 
     private:
         int16_t getKerningPair(uint32_t, uint32_t);

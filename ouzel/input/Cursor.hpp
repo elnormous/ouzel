@@ -31,7 +31,7 @@ namespace ouzel
             Cursor();
             explicit Cursor(SystemCursor systemCursor);
             explicit Cursor(const std::string& filename, const Vector2& hotSpot = Vector2());
-            virtual ~Cursor();
+            ~Cursor();
 
             Cursor(const Cursor&) = delete;
             Cursor& operator=(const Cursor&) = delete;

@@ -18,7 +18,7 @@ namespace ouzel
         {
             friend Renderer;
         public:
-            virtual ~RenderDeviceOGLEm();
+            ~RenderDeviceOGLEm();
 
         private:
             void init(Window* newWindow,

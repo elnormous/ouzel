@@ -33,16 +33,16 @@ namespace ouzel
             inline const Size2& getSize() const { return size; }
 
             inline bool getClearColorBuffer() const { return clearColorBuffer; }
-            virtual void setClearColorBuffer(bool clear);
+            void setClearColorBuffer(bool clear);
 
             inline bool getClearDepthBuffer() const { return clearDepthBuffer; }
-            virtual void setClearDepthBuffer(bool clear);
+            void setClearDepthBuffer(bool clear);
 
             inline Color getClearColor() const { return clearColor; }
-            virtual void setClearColor(Color color);
+            void setClearColor(Color color);
 
             inline float getClearDepth() const { return clearDepth; }
-            virtual void setClearDepth(float clear);
+            void setClearDepth(float clear);
 
         private:
             Renderer& renderer;

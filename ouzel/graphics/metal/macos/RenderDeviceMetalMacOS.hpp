@@ -47,7 +47,7 @@ namespace ouzel
         {
             friend Renderer;
         public:
-            virtual ~RenderDeviceMetalMacOS();
+            ~RenderDeviceMetalMacOS();
 
             std::vector<Size2> getSupportedResolutions() const override;
 

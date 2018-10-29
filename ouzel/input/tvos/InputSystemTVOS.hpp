@@ -25,7 +25,7 @@ namespace ouzel
         {
         public:
             explicit InputSystemTVOS(EventHandler& initEventHandler);
-            virtual ~InputSystemTVOS();
+            ~InputSystemTVOS();
 
             void executeCommand(const Command& command) override;
 
