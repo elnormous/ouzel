@@ -13,7 +13,6 @@ namespace ouzel
     class Window final: public NativeWindow::EventHandler
     {
     public:
-
         Window(const Size2& newSize,
                bool newResizable,
                bool newFullscreen,

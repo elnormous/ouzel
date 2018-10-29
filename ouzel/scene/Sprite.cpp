@@ -80,12 +80,12 @@ namespace ouzel
 
                 SpriteData::Animation animation;
 
-                Rect rectangle(0.0f,
-                               0.0f,
+                Rect rectangle(0.0F,
+                               0.0F,
                                texture->getSize().width,
                                texture->getSize().height);
 
-                SpriteData::Frame frame = SpriteData::Frame("", texture->getSize(), rectangle, false, texture->getSize(), Vector2(), Vector2(0.5f, 0.5f));
+                SpriteData::Frame frame = SpriteData::Frame("", texture->getSize(), rectangle, false, texture->getSize(), Vector2(), Vector2(0.5F, 0.5F));
                 animation.frames.push_back(frame);
 
                 animations[""] = std::move(animation);
