@@ -11,7 +11,7 @@ namespace ouzel
         class RenderResourceOGL: public RenderResource
         {
         public:
-            RenderResourceOGL(RenderDevice& renderDevice):
+            explicit RenderResourceOGL(RenderDevice& renderDevice):
                 RenderResource(renderDevice) {}
 
             virtual void reload() = 0;
