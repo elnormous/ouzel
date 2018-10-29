@@ -14,7 +14,7 @@ namespace ouzel
     public:
         NativeWindowAndroid(EventHandler& initEventHandler,
                             const std::string& newTitle);
-        virtual ~NativeWindowAndroid();
+        ~NativeWindowAndroid();
 
         void handleResize(const Size2& newSize);
         void handleSurfaceChange(jobject surface);

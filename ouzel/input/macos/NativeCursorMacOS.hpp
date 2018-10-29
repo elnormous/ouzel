@@ -19,7 +19,7 @@ namespace ouzel
         {
         public:
             explicit NativeCursorMacOS(InputSystem& initInputSystem);
-            virtual ~NativeCursorMacOS();
+            ~NativeCursorMacOS();
 
             void init(SystemCursor newSystemCursor) override;
             void init(const std::vector<uint8_t>& newData,

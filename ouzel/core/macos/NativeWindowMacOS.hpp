@@ -36,7 +36,7 @@ namespace ouzel
                           const std::string& newTitle,
                           graphics::Renderer::Driver graphicsDriver,
                           bool newHighDpi);
-        virtual ~NativeWindowMacOS();
+        ~NativeWindowMacOS();
 
         void close() override;
 

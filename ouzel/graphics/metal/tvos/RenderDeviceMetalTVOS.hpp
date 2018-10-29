@@ -18,7 +18,7 @@ namespace ouzel
             friend Renderer;
         public:
             RenderDeviceMetalTVOS();
-            virtual ~RenderDeviceMetalTVOS();
+            ~RenderDeviceMetalTVOS();
 
             void renderCallback();
 

@@ -29,7 +29,7 @@ namespace ouzel
         {
         public:
             explicit ShaderResourceMetal(RenderDeviceMetal& renderDeviceMetal);
-            virtual ~ShaderResourceMetal();
+            ~ShaderResourceMetal();
 
             void init(const std::vector<uint8_t>& fragmentShaderData,
                       const std::vector<uint8_t>& vertexShaderData,

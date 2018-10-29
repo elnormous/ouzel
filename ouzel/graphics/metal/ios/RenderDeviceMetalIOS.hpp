@@ -18,7 +18,7 @@ namespace ouzel
             friend Renderer;
         public:
             RenderDeviceMetalIOS();
-            virtual ~RenderDeviceMetalIOS();
+            ~RenderDeviceMetalIOS();
 
             void renderCallback();
 

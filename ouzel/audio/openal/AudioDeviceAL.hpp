@@ -28,7 +28,7 @@ namespace ouzel
         {
             friend Audio;
         public:
-            virtual ~AudioDeviceAL();
+            ~AudioDeviceAL();
 
             void process() override;
 

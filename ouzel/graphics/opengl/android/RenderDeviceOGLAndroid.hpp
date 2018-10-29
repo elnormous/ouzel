@@ -20,7 +20,7 @@ namespace ouzel
         {
             friend Renderer;
         public:
-            virtual ~RenderDeviceOGLAndroid();
+            ~RenderDeviceOGLAndroid();
 
             void reload();
             void destroy();

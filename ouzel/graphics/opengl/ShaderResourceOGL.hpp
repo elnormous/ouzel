@@ -29,7 +29,7 @@ namespace ouzel
         {
         public:
             explicit ShaderResourceOGL(RenderDeviceOGL& renderDeviceOGL);
-            virtual ~ShaderResourceOGL();
+            ~ShaderResourceOGL();
 
             void init(const std::vector<uint8_t>& newFragmentShader,
                       const std::vector<uint8_t>& newVertexShader,

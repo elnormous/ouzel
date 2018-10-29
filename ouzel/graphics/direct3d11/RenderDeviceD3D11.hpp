@@ -21,7 +21,7 @@ namespace ouzel
         {
             friend Renderer;
         public:
-            virtual ~RenderDeviceD3D11();
+            ~RenderDeviceD3D11();
 
             void setClearColorBuffer(bool clear);
             void setClearDepthBuffer(bool clear);

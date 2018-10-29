@@ -16,7 +16,7 @@ namespace ouzel
         {
         public:
             explicit NativeCursorLinux(InputSystem& initInputSystem);
-            virtual ~NativeCursorLinux();
+            ~NativeCursorLinux();
 
             void init(SystemCursor newSystemCursor) override;
             void init(const std::vector<uint8_t>& newData,

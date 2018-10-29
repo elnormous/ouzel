@@ -16,7 +16,7 @@ namespace ouzel
         {
         public:
             explicit NativeCursorWin(InputSystem& initInputSystem);
-            virtual ~NativeCursorWin();
+            ~NativeCursorWin();
 
             void init(SystemCursor newSystemCursor) override;
             void init(const std::vector<uint8_t>& newData,

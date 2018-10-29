@@ -28,7 +28,7 @@ namespace ouzel
             friend Renderer;
         public:
             RenderDeviceOGLTVOS();
-            virtual ~RenderDeviceOGLTVOS();
+            ~RenderDeviceOGLTVOS();
 
             void renderCallback();
 

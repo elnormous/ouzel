@@ -17,7 +17,7 @@ namespace ouzel
         static const jint ORIENTATION_LANDSCAPE = 0x00000002;
 
         EngineAndroid(JavaVM* initJavaVM);
-        virtual ~EngineAndroid();
+        ~EngineAndroid();
 
         void onCreate(jobject initMainActivity);
         void onSurfaceCreated(jobject newSurface);

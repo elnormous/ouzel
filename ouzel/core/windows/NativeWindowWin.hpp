@@ -24,7 +24,7 @@ namespace ouzel
                         bool newExclusiveFullscreen,
                         const std::string& newTitle,
                         bool newHighDpi);
-        virtual ~NativeWindowWin();
+        ~NativeWindowWin();
 
         void close() override;
 

@@ -25,7 +25,7 @@ namespace ouzel
         {
             friend Renderer;
         public:
-            virtual ~RenderDeviceOGLLinux();
+            ~RenderDeviceOGLLinux();
 
             std::vector<Size2> getSupportedResolutions() const override;
 

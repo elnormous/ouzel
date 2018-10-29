@@ -20,7 +20,7 @@ namespace ouzel
         {
             friend Audio;
         public:
-            virtual ~AudioDeviceALSA();
+            ~AudioDeviceALSA();
 
         protected:
             AudioDeviceALSA();

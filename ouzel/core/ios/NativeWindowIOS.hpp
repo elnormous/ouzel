@@ -30,7 +30,7 @@ namespace ouzel
                         const std::string& newTitle,
                         graphics::Renderer::Driver graphicsDriver,
                         bool newHighDpi);
-        virtual ~NativeWindowIOS();
+        ~NativeWindowIOS();
 
         inline UIWindowPtr getNativeWindow() const { return window; }
         inline UIViewPtr getNativeView() const { return view; }

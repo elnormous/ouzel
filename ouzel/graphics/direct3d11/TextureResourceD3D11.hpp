@@ -34,7 +34,7 @@ namespace ouzel
         {
         public:
             explicit TextureResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11);
-            virtual ~TextureResourceD3D11();
+            ~TextureResourceD3D11();
 
             void init(const std::vector<Texture::Level>& levels,
                       uint32_t newFlags = 0,

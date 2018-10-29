@@ -25,7 +25,7 @@ namespace ouzel
                             uint32_t initId,
                             const DIDEVICEINSTANCEW* aInstance, IDirectInput8W* directInput, HWND window);
 
-            virtual ~GamepadDeviceDI();
+            ~GamepadDeviceDI();
             void update();
 
             const DIDEVICEINSTANCEW* getInstance() const { return instance; }

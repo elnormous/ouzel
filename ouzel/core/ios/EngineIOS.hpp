@@ -14,7 +14,7 @@ namespace ouzel
     {
     public:
         EngineIOS(int initArgc, char* initArgv[]);
-        virtual ~EngineIOS();
+        ~EngineIOS();
 
         void run();
 

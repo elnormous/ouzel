@@ -50,7 +50,7 @@ namespace ouzel
         {
         public:
             explicit TextureResourceMetal(RenderDeviceMetal& renderDeviceMetal);
-            virtual ~TextureResourceMetal();
+            ~TextureResourceMetal();
 
             void init(const std::vector<Texture::Level>& levels,
                       uint32_t newFlags = 0,

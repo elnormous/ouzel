@@ -25,7 +25,7 @@ namespace ouzel
         {
         public:
             InputSystemIOS(EventHandler& initEventHandler);
-            virtual ~InputSystemIOS();
+            ~InputSystemIOS();
 
             void executeCommand(const Command& command) override;
 

@@ -14,7 +14,7 @@ namespace ouzel
     {
     public:
         EngineWin(int initArgc, LPWSTR* initArgv);
-        virtual ~EngineWin();
+        ~EngineWin();
 
         void run();
 
