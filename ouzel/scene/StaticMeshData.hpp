@@ -15,10 +15,10 @@ namespace ouzel
         {
         public:
             StaticMeshData() {}
-            StaticMeshData(Box3 newBoundingBox,
+            StaticMeshData(Box3 initBoundingBox,
                            const std::vector<uint32_t> indices,
                            const std::vector<graphics::Vertex>& vertices,
-                           const std::shared_ptr<graphics::Material>& newMaterial);
+                           const std::shared_ptr<graphics::Material>& initMaterial);
 
             Box3 boundingBox;
             std::shared_ptr<graphics::Material> material;

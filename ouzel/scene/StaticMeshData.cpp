@@ -8,13 +8,13 @@ namespace ouzel
 {
     namespace scene
     {
-        StaticMeshData::StaticMeshData(Box3 newBoundingBox,
+        StaticMeshData::StaticMeshData(Box3 initBoundingBox,
                                        const std::vector<uint32_t> indices,
                                        const std::vector<graphics::Vertex>& vertices,
-                                       const std::shared_ptr<graphics::Material>& newMaterial)
+                                       const std::shared_ptr<graphics::Material>& initMaterial):
+            boundingBox(initBoundingBox),
+            material(initMaterial)
         {
-            boundingBox = newBoundingBox;
-
             indexCount = static_cast<uint32_t>(indices.size());
             indexSize = sizeof(uint32_t);
 
@@ -23,8 +23,6 @@ namespace ouzel
 
             vertexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer());
             vertexBuffer->init(graphics::Buffer::Usage::VERTEX, 0, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)));
-
-            material = newMaterial;
         }
     } // namespace scene
 } // namespace ouzel
