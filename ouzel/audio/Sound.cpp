@@ -47,7 +47,7 @@ namespace ouzel
             rolloffFactor = other.rolloffFactor;
             minDistance = other.minDistance;
             maxDistance = other.maxDistance;
-            other.transformDirty = other.transformDirty;
+            transformDirty = other.transformDirty;
             spatialized = other.spatialized;
             playing = other.playing.load();
             repeating = other.repeating;
@@ -80,7 +80,7 @@ namespace ouzel
                 rolloffFactor = other.rolloffFactor;
                 minDistance = other.minDistance;
                 maxDistance = other.maxDistance;
-                other.transformDirty = other.transformDirty;
+                transformDirty = other.transformDirty;
                 spatialized = other.spatialized;
                 playing = other.playing.load();
                 repeating = other.repeating;
