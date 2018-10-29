@@ -264,7 +264,7 @@ namespace ouzel
         void Sprite::setOffset(const Vector2& newOffset)
         {
             offset = newOffset;
-            Matrix4::createTranslation(offset, offsetMatrix);
+            Matrix4::createTranslation(Vector3(offset), offsetMatrix);
             updateBoundingBox();
         }
 
@@ -383,7 +383,7 @@ namespace ouzel
                 const SpriteData::Frame& frame = currentAnimation->animation->frames[currentFrame];
 
                 boundingBox = frame.getBoundingBox();
-                boundingBox += offset;
+                boundingBox += Vector3(offset);
             }
             else
                 boundingBox.reset();

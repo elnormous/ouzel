@@ -27,7 +27,7 @@ namespace ouzel
 
         bool Component::pointOn(const Vector2& position) const
         {
-            return boundingBox.containsPoint(position);
+            return boundingBox.containsPoint(Vector3(position));
         }
 
         inline void gatherPolygonProjectionExtents(const std::vector<Vector2>& vertList,

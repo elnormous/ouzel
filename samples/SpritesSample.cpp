@@ -33,7 +33,7 @@ SpritesSample::SpritesSample():
     layer.addChild(&character);
     character.setPosition(Vector2(-300.0F, 0.0F));
 
-    move.reset(new scene::Move(4.0F, Vector2(300.0F, 0.0F)));
+    move.reset(new scene::Move(4.0F, Vector3(300.0F, 0.0F, 0.0F)));
     character.addComponent(move);
     move->start();
 

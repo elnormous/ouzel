@@ -25,7 +25,7 @@ public:
         {
             if (event.type == Event::Type::KEY_PRESS)
             {
-                Vector2 position = actor->getPosition();
+                Vector2 position = Vector2(actor->getPosition());
 
                 switch (event.key)
                 {
@@ -107,7 +107,7 @@ InputSample::InputSample():
     {
         mouse->setCursor(&cursor);
 
-        Vector2 worldLocation = camera.convertNormalizedToWorld(mouse->getPosition());
+        Vector2 worldLocation = Vector2(camera.convertNormalizedToWorld(mouse->getPosition()));
         flame.setPosition(worldLocation);
     }
 }
@@ -148,7 +148,7 @@ bool InputSample::handleKeyboard(const KeyboardEvent& event)
                 break;
         }
 
-        Vector2 worldLocation = camera.convertNormalizedToWorld(flamePosition);
+        Vector2 worldLocation = Vector2(camera.convertNormalizedToWorld(flamePosition));
 
         flame.setPosition(worldLocation);
     }
@@ -173,7 +173,7 @@ bool InputSample::handleMouse(const MouseEvent& event)
     {
         case Event::Type::MOUSE_MOVE:
         {
-            Vector2 worldLocation = camera.convertNormalizedToWorld(event.position);
+            Vector2 worldLocation = Vector2(camera.convertNormalizedToWorld(event.position));
             flame.setPosition(worldLocation);
             break;
         }
@@ -186,7 +186,7 @@ bool InputSample::handleMouse(const MouseEvent& event)
 
 bool InputSample::handleTouch(const TouchEvent& event)
 {
-    Vector2 worldLocation = camera.convertNormalizedToWorld(event.position);
+    Vector2 worldLocation = Vector2(camera.convertNormalizedToWorld(event.position));
     flame.setPosition(worldLocation);
 
     return false;
@@ -227,7 +227,7 @@ bool InputSample::handleGamepad(const GamepadEvent& event)
                 break;
         }
 
-        Vector2 worldLocation = camera.convertNormalizedToWorld(flamePosition);
+        Vector2 worldLocation = Vector2(camera.convertNormalizedToWorld(flamePosition));
         flame.setPosition(worldLocation);
     }
 

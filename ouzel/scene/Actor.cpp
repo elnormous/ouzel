@@ -166,7 +166,7 @@ namespace ouzel
 
         bool Actor::pointOn(const Vector2& worldPosition) const
         {
-            Vector2 localPosition = convertWorldToLocal(worldPosition);
+            Vector2 localPosition = Vector2(convertWorldToLocal(Vector3(worldPosition)));
 
             for (Component* component : components)
             {
@@ -185,7 +185,7 @@ namespace ouzel
 
             for (const Vector2& edge : edges)
             {
-                Vector3 transformedEdge = edge;
+                Vector3 transformedEdge = Vector3(edge);
 
                 inverse.transformPoint(transformedEdge);
 
