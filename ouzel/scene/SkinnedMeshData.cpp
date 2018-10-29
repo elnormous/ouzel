@@ -8,12 +8,11 @@ namespace ouzel
 {
     namespace scene
     {
-        SkinnedMeshData::SkinnedMeshData(Box3 newBoundingBox,
-                                         const std::shared_ptr<graphics::Material>& newMaterial)
+        SkinnedMeshData::SkinnedMeshData(Box3 initBoundingBox,
+                                         const std::shared_ptr<graphics::Material>& initMaterial):
+            boundingBox(initBoundingBox),
+            material(initMaterial)
         {
-            boundingBox = newBoundingBox;
-
-            material = newMaterial;
         }
     } // namespace scene
 } // namespace ouzel

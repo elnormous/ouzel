@@ -15,10 +15,9 @@ namespace ouzel
         {
         }
 
-        SoundDataVorbis::SoundDataVorbis(const std::vector<uint8_t>& initData)
+        SoundDataVorbis::SoundDataVorbis(const std::vector<uint8_t>& initData):
+            data(initData)
         {
-            data = initData;
-
             stb_vorbis* vorbisStream = stb_vorbis_open_memory(data.data(), static_cast<int>(data.size()), nullptr, nullptr);
 
             if (!vorbisStream)

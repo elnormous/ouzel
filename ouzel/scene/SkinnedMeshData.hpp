@@ -20,8 +20,8 @@ namespace ouzel
             };
 
             SkinnedMeshData() {}
-            SkinnedMeshData(Box3 newBoundingBox,
-                            const std::shared_ptr<graphics::Material>& newMaterial);
+            SkinnedMeshData(Box3 initBoundingBox,
+                            const std::shared_ptr<graphics::Material>& initMaterial);
 
             Box3 boundingBox;
             std::shared_ptr<graphics::Material> material;
