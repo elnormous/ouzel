@@ -40,19 +40,19 @@ namespace ouzel
                                            newExclusiveFullscreen,
                                            newTitle,
                                            graphicsDriver,
-                                           newHighDpi))
+                                           newHighDpi)),
 #elif OUZEL_PLATFORM_IOS
         nativeWindow(new NativeWindowIOS(*this,
                                          newTitle,
                                          graphicsDriver,
-                                         newHighDpi))
+                                         newHighDpi)),
 #elif OUZEL_PLATFORM_TVOS
         nativeWindow(new NativeWindowTVOS(*this,
                                           newTitle,
                                           graphicsDriver,
-                                          newHighDpi))
+                                          newHighDpi)),
 #elif OUZEL_PLATFORM_ANDROID
-        nativeWindow(new NativeWindowAndroid(*this, newTitle))
+        nativeWindow(new NativeWindowAndroid(*this, newTitle)),
 #elif OUZEL_PLATFORM_LINUX
         nativeWindow(new NativeWindowLinux(*this,
                                            newSize,
@@ -61,7 +61,7 @@ namespace ouzel
                                            newExclusiveFullscreen,
                                            newTitle,
                                            graphicsDriver,
-                                           depth))
+                                           depth)),
 #elif OUZEL_PLATFORM_WINDOWS
         nativeWindow(new NativeWindowWin(*this,
                                          newSize,
@@ -69,22 +69,29 @@ namespace ouzel
                                          newFullscreen,
                                          newExclusiveFullscreen,
                                          newTitle,
-                                         newHighDpi))
+                                         newHighDpi)),
 #elif OUZEL_PLATFORM_EMSCRIPTEN
         nativeWindow(new NativeWindowEm(*this,
                                         newSize,
                                         newFullscreen,
                                         newTitle,
-                                        newHighDpi))
+                                        newHighDpi)),
 #else
-        resource(new NativeWindow(*this,
-                                  newSize,
-                                  newResizable,
-                                  newFullscreen,
-                                  newExclusiveFullscreen,
-                                  newTitle,
-                                  newHighDpi))
+        nativeWindow(new NativeWindow(*this,
+                                      newSize,
+                                      newResizable,
+                                      newFullscreen,
+                                      newExclusiveFullscreen,
+                                      newTitle,
+                                      newHighDpi)),
 #endif
+        size(nativeWindow->getSize()),
+        resolution(nativeWindow->getResolution()),
+        resizable(newResizable),
+        fullscreen(newFullscreen),
+        exclusiveFullscreen(newExclusiveFullscreen),
+        highDpi(newHighDpi),
+        title(newTitle)
     {
         OUZEL_UNUSED(newSize);
         OUZEL_UNUSED(newResizable);
@@ -93,14 +100,6 @@ namespace ouzel
         OUZEL_UNUSED(graphicsDriver);
         OUZEL_UNUSED(newHighDpi);
         OUZEL_UNUSED(depth);
-
-        size = nativeWindow->getSize();
-        resolution = nativeWindow->getResolution();
-        resizable = newResizable;
-        fullscreen = newFullscreen;
-        exclusiveFullscreen = newExclusiveFullscreen;
-        highDpi = newHighDpi;
-        title = newTitle;
     }
 
     void Window::update()
