@@ -59,6 +59,7 @@ namespace ouzel
                        bool preserveProcessingInstructions = false);
             void encode(std::vector<uint8_t>& data) const;
 
+        private:
             Type type = Type::NONE;
 
             std::string value;

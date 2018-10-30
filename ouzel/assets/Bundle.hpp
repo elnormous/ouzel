@@ -102,7 +102,7 @@ namespace ouzel
             void setStaticMeshData(const std::string& filename, const scene::StaticMeshData& newStaticMeshData);
             void releaseStaticMeshData();
 
-        protected:
+        private:
             Cache& cache;
 
             std::map<std::string, std::shared_ptr<graphics::Texture>> textures;

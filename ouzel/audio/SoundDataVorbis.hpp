@@ -18,7 +18,7 @@ namespace ouzel
 
             std::shared_ptr<Stream> createStream() override;
 
-        protected:
+        private:
             void readData(Stream* stream, uint32_t frames, std::vector<float>& result) override;
 
             std::vector<uint8_t> data;
