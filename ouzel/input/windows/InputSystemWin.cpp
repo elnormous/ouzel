@@ -89,30 +89,20 @@ namespace ouzel
                 }
                 case Command::Type::CREATE_CURSOR:
                 {
-                    std::unique_ptr<NativeCursorWin> cursor(new NativeCursorWin(*this));
+                    if (command.cursorResource > cursors.size())
+                        cursors.resize(command.cursorResource);
 
-                    if (command.cursor)
-                        command.cursor->data = cursor.get();
-
-                    cursors.push_back(std::move(cursor));
+                    cursors[command.cursorResource - 1].reset(new NativeCursorWin(*this));
                     break;
                 }
                 case Command::Type::DESTROY_CURSOR:
                 {
-                    if (command.cursor)
-                    {
-                        void* cursor = command.cursor->data;
-                        auto i = std::find_if(cursors.begin(), cursors.end(), [cursor](const std::unique_ptr<NativeCursorWin>& other) {
-                            return other.get() == cursor;
-                        });
-
-                        if (i != cursors.end()) cursors.erase(i);
-                    }
+                    cursors[command.cursorResource].reset();
                     break;
                 }
                 case Command::Type::INIT_CURSOR:
                 {
-                    NativeCursorWin* cursor = static_cast<NativeCursorWin*>(command.cursor->data);
+                    NativeCursorWin* cursor = cursors[command.cursorResource - 1].get();
 
                     if (command.data.empty())
                         cursor->init(command.data, command.size,
@@ -125,8 +115,8 @@ namespace ouzel
                 {
                     if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
-                        if (inputDevice == mouseDevice.get() && command.cursor)
-                            mouseDevice->setCursor(static_cast<NativeCursorWin*>(command.cursor->data));
+                        if (inputDevice == mouseDevice.get())
+                            mouseDevice->setCursor(cursors[command.cursorResource - 1].get());
                     }
                     break;
                 }

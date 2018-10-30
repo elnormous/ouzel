@@ -11,24 +11,26 @@ namespace ouzel
 {
     namespace input
     {
-        Cursor::Cursor():
-            nativeCursor(std::make_shared<InputSystem::Resource>())
+        Cursor::Cursor(InputManager& initInputManager):
+            inputManager(initInputManager)
         {
+            cursorResource = inputManager.getInputSystem()->getResourceId();
+
             InputSystem::Command command;
             command.type = InputSystem::Command::Type::CREATE_CURSOR;
-            command.cursor = nativeCursor;
+            command.cursorResource = cursorResource;
 
             engine->getInputManager()->getInputSystem()->addCommand(command);
         }
 
-        Cursor::Cursor(SystemCursor systemCursor):
-            Cursor()
+        Cursor::Cursor(InputManager& initInputManager, SystemCursor systemCursor):
+            Cursor(initInputManager)
         {
             init(systemCursor);
         }
 
-        Cursor::Cursor(const std::string& filename, const Vector2& hotSpot):
-            Cursor()
+        Cursor::Cursor(InputManager& initInputManager, const std::string& filename, const Vector2& hotSpot):
+            Cursor(initInputManager)
         {
             init(filename, hotSpot);
         }
@@ -37,16 +39,16 @@ namespace ouzel
         {
             InputSystem::Command command;
             command.type = InputSystem::Command::Type::DESTROY_CURSOR;
-            command.cursor = nativeCursor;
+            command.cursorResource = cursorResource;
 
-            engine->getInputManager()->getInputSystem()->addCommand(command);
+            inputManager.getInputSystem()->deleteResourceId(cursorResource);
         }
 
         void Cursor::init(SystemCursor systemCursor)
         {
             InputSystem::Command command;
             command.type = InputSystem::Command::Type::INIT_CURSOR;
-            command.cursor = nativeCursor;
+            command.cursorResource = cursorResource;
             command.systemCursor = systemCursor;
 
             engine->getInputManager()->getInputSystem()->addCommand(command);
@@ -138,7 +140,7 @@ namespace ouzel
                           const Vector2& hotSpot)
         {
             InputSystem::Command command;
-            command.cursor = nativeCursor;
+            command.cursorResource = cursorResource;
             command.type = InputSystem::Command::Type::INIT_CURSOR;
             command.data = data;
             command.size = size;

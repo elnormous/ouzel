@@ -18,9 +18,9 @@ namespace ouzel
         class Cursor final
         {
         public:
-            Cursor();
-            explicit Cursor(SystemCursor systemCursor);
-            explicit Cursor(const std::string& filename, const Vector2& hotSpot = Vector2());
+            Cursor(InputManager& initInputManager);
+            explicit Cursor(InputManager& initInputManager, SystemCursor systemCursor);
+            explicit Cursor(InputManager& initInputManager, const std::string& filename, const Vector2& hotSpot = Vector2());
             ~Cursor();
 
             Cursor(const Cursor&) = delete;
@@ -37,7 +37,8 @@ namespace ouzel
                       const Vector2& hotSpot);
 
         private:
-            std::shared_ptr<InputSystem::Resource> nativeCursor;
+            InputManager& inputManager;
+            uint64_t cursorResource;
         };
     } // namespace input
 } // namespace ouzel
