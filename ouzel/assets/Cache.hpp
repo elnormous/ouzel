@@ -54,14 +54,13 @@ namespace ouzel
             const scene::SkinnedMeshData* getSkinnedMeshData(const std::string& filename) const;
             const scene::StaticMeshData* getStaticMeshData(const std::string& filename) const;
 
-        protected:
+        private:
             void addBundle(Bundle* bundle);
             void removeBundle(Bundle* bundle);
 
             void addLoader(Loader* loader);
             void removeLoader(Loader* loader);
 
-        private:
             FileSystem& fileSystem;
 
             std::vector<Bundle*> bundles;

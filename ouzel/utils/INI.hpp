@@ -31,7 +31,7 @@ namespace ouzel
             void setValue(const std::string& key, const std::string& value);
             void deleteValue(const std::string& key);
 
-        protected:
+        private:
             void encode(std::vector<uint8_t>& data) const;
 
             std::string name;

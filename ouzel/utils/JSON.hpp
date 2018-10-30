@@ -256,6 +256,7 @@ namespace ouzel
                             std::vector<Token>::const_iterator& iterator);
             void encodeValue(std::vector<uint8_t>& data) const;
 
+        private:
             Type type = Type::NONE;
             bool boolValue = false;
             bool nullValue = false;

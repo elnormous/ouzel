@@ -118,7 +118,7 @@ namespace ouzel
 
             void waitForNextFrame();
 
-        protected:
+        private:
             void setSize(const Size2& newSize);
 
             std::unique_ptr<RenderDevice> device;
