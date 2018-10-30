@@ -12,7 +12,7 @@ namespace ouzel
     namespace input
     {
         Cursor::Cursor():
-            nativeCursor(new InputSystem::Resource())
+            nativeCursor(std::make_shared<InputSystem::Resource>())
         {
             InputSystem::Command command;
             command.type = InputSystem::Command::Type::CREATE_CURSOR;
