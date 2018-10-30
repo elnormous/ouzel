@@ -57,8 +57,6 @@ namespace ouzel
                 throw SystemError("Failed to load cursor");
 
             shared = true;
-
-            reactivate();
         }
 
         void NativeCursorWin::init(const std::vector<uint8_t>& newData,
@@ -67,9 +65,9 @@ namespace ouzel
                                    const Vector2& newHotSpot)
         {
             NativeCursor::init(newData,
-                                 newSize,
-                                 newPixelFormat,
-                                 newHotSpot);
+                               newSize,
+                               newPixelFormat,
+                               newHotSpot);
 
             if (cursor)
             {
@@ -141,8 +139,6 @@ namespace ouzel
 
                 shared = false;
             }
-
-            reactivate();
         }
     } // namespace input
 } // namespace ouzel

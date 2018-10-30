@@ -556,6 +556,9 @@
     <ClInclude Include="..\ouzel\input\NativeCursor.hpp">
       <Filter>ouzel\input</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\input\SystemCursor.hpp">
+      <Filter>ouzel\input</Filter>
+    </ClInclude>
     <ClInclude Include="..\ouzel\input\windows\NativeCursorWin.hpp">
       <Filter>ouzel\input\windows</Filter>
     </ClInclude>

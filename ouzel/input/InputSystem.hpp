@@ -11,7 +11,10 @@
 #include "input/GamepadDevice.hpp"
 #include "input/KeyboardDevice.hpp"
 #include "input/MouseDevice.hpp"
+#include "input/SystemCursor.hpp"
 #include "input/TouchpadDevice.hpp"
+#include "graphics/PixelFormat.hpp"
+#include "math/Size2.hpp"
 #include "math/Vector2.hpp"
 
 namespace ouzel
@@ -28,12 +31,12 @@ namespace ouzel
             friend MouseDevice;
             friend TouchpadDevice;
         public:
-            struct Resource
+            struct Resource final
             {
                 void* data;
             };
 
-            struct Command
+            struct Command final
             {
                 enum class Type
                 {
@@ -45,6 +48,7 @@ namespace ouzel
                     SET_POSITION,
                     CREATE_CURSOR,
                     DESTROY_CURSOR,
+                    INIT_CURSOR,
                     SET_CURSOR,
                     SET_CURSOR_VISIBLE,
                     SET_CURSOR_LOCKED,
@@ -67,9 +71,14 @@ namespace ouzel
                 Gamepad::Motor motor;
                 Vector2 position;
                 std::shared_ptr<Resource> cursor;
+                SystemCursor systemCursor;
+                std::vector<uint8_t> data;
+                Size2 size;
+                graphics::PixelFormat pixelFormat;
+                Vector2 hotSpot;
             };
 
-            struct Event
+            struct Event final
             {
                 enum class Type
                 {

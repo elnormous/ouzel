@@ -68,7 +68,6 @@ namespace ouzel
                     break;
             }
 #endif
-            reactivate();
         }
 
         void NativeCursorLinux::init(const std::vector<uint8_t>& newData,
@@ -77,9 +76,9 @@ namespace ouzel
                                      const Vector2& newHotSpot)
         {
             NativeCursor::init(newData,
-                                 newSize,
-                                 newPixelFormat,
-                                 newHotSpot);
+                               newSize,
+                               newPixelFormat,
+                               newHotSpot);
 
 #if OUZEL_SUPPORTS_X11
             EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
@@ -123,7 +122,6 @@ namespace ouzel
                 XcursorImageDestroy(cursorImage);
             }
 #endif
-            reactivate();
         }
     } // namespace input
 } // namespace ouzel
