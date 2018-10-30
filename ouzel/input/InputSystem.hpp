@@ -146,12 +146,11 @@ namespace ouzel
             void removeInputDevice(const InputDevice& inputDevice);
             InputDevice* getInputDevice(uint32_t id);
 
-            std::unordered_map<uint32_t, InputDevice*> inputDevices;
-
         private:
             EventHandler& eventHandler;
             std::mutex eventQueueMutex;
             std::queue<std::pair<std::promise<bool>, Event>> eventQueue;
+            std::unordered_map<uint32_t, InputDevice*> inputDevices;
         };
     } // namespace input
 } // namespace ouzel
