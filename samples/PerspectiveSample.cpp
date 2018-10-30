@@ -11,6 +11,7 @@ using namespace graphics;
 using namespace input;
 
 PerspectiveSample::PerspectiveSample():
+    cursor(*engine->getInputManager()),
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
 {
     cursor.init(SystemCursor::CROSS);

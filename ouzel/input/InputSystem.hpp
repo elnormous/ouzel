@@ -31,11 +31,6 @@ namespace ouzel
             friend MouseDevice;
             friend TouchpadDevice;
         public:
-            struct Resource final
-            {
-                void* data;
-            };
-
             struct Command final
             {
                 enum class Type
@@ -70,7 +65,7 @@ namespace ouzel
 
                 Gamepad::Motor motor;
                 Vector2 position;
-                std::shared_ptr<Resource> cursor;
+                uint64_t cursorResource;
                 SystemCursor systemCursor;
                 std::vector<uint8_t> data;
                 Size2 size;
@@ -140,6 +135,23 @@ namespace ouzel
 
             void dispatchEvents();
 
+            uint64_t getResourceId()
+            {
+                if (deletedResourceIds.empty())
+                    return ++lastResourceId; // zero is reserved for null resource
+                else
+                {
+                    uint64_t resourceId = deletedResourceIds.front();
+                    deletedResourceIds.pop();
+                    return resourceId;
+                }
+            }
+
+            void deleteResourceId(uint64_t resourceId)
+            {
+                deletedResourceIds.push(resourceId);
+            }
+
         protected:
             std::future<bool> postEvent(const Event& event);
             void addInputDevice(InputDevice& inputDevice);
@@ -151,6 +163,9 @@ namespace ouzel
             std::mutex eventQueueMutex;
             std::queue<std::pair<std::promise<bool>, Event>> eventQueue;
             std::unordered_map<uint32_t, InputDevice*> inputDevices;
+
+            uint64_t lastResourceId = 0;
+            std::queue<uint64_t> deletedResourceIds;
         };
     } // namespace input
 } // namespace ouzel
