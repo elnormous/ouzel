@@ -50,8 +50,6 @@ namespace ouzel
             }
 
             if (cursor) [cursor retain];
-
-            reactivate();
         }
 
         void NativeCursorMacOS::init(const std::vector<uint8_t>& newData,
@@ -60,9 +58,9 @@ namespace ouzel
                                      const Vector2& newHotSpot)
         {
             NativeCursor::init(newData,
-                                 newSize,
-                                 newPixelFormat,
-                                 newHotSpot);
+                               newSize,
+                               newPixelFormat,
+                               newHotSpot);
 
             if (cursor)
             {
@@ -101,8 +99,6 @@ namespace ouzel
                 [image release];
                 [rep release];
             }
-
-            reactivate();
         }
     } // namespace input
 } // namespace ouzel

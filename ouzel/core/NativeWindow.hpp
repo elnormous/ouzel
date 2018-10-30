@@ -12,7 +12,7 @@ namespace ouzel
     class NativeWindow
     {
     public:
-        class Command
+        class Command final
         {
         public:
             enum class Type
@@ -35,7 +35,7 @@ namespace ouzel
             std::string title;
         };
 
-        class Event
+        class Event final
         {
         public:
             enum class Type

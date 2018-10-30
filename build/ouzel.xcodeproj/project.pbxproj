@@ -1224,6 +1224,7 @@
 		30724D811F353A0800D915ED /* ViewIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewIOS.h; sourceTree = "<group>"; };
 		30724D841F353A1800D915ED /* ViewTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewTVOS.mm; sourceTree = "<group>"; };
 		30724D851F353A1800D915ED /* ViewTVOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewTVOS.h; sourceTree = "<group>"; };
+		307726CE2187F2880050F94C /* SystemCursor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SystemCursor.hpp; sourceTree = "<group>"; };
 		307F9FFC1F1E9CA000BA73CB /* GamepadDeviceGC.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GamepadDeviceGC.hpp; sourceTree = "<group>"; };
 		307F9FFD1F1E9CA000BA73CB /* GamepadDeviceGC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GamepadDeviceGC.mm; sourceTree = "<group>"; };
 		3082C3461D94A8D90090FC9D /* PixelFormat.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PixelFormat.hpp; sourceTree = "<group>"; };
@@ -1690,6 +1691,7 @@
 				30EEADB821605A4000D2F525 /* MouseDevice.hpp */,
 				3049DCD81EDCD0450000997A /* NativeCursor.cpp */,
 				3049DCD91EDCD0450000997A /* NativeCursor.hpp */,
+				307726CE2187F2880050F94C /* SystemCursor.hpp */,
 				30FFBE312158FB3F004B0BD3 /* Touchpad.cpp */,
 				30BB848E2084410500C145A2 /* Touchpad.hpp */,
 				30EEADC621618F2C00D2F525 /* TouchpadDevice.cpp */,

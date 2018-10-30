@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include "input/InputSystem.hpp"
+#include "input/SystemCursor.hpp"
 #include "graphics/PixelFormat.hpp"
 #include "math/Size2.hpp"
 #include "math/Vector2.hpp"
@@ -14,17 +15,6 @@ namespace ouzel
 {
     namespace input
     {
-        enum class SystemCursor
-        {
-            DEFAULT,
-            ARROW,
-            HAND,
-            HORIZONTAL_RESIZE,
-            VERTICAL_RESIZE,
-            CROSS,
-            I_BEAM
-        };
-
         class Cursor final
         {
         public:

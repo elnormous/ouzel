@@ -302,6 +302,7 @@
     <ClInclude Include="..\ouzel\input\InputSystem.hpp" />
     <ClInclude Include="..\ouzel\input\Keyboard.hpp" />
     <ClInclude Include="..\ouzel\input\Mouse.hpp" />
+    <ClInclude Include="..\ouzel\input\SystemCursor.hpp" />
     <ClInclude Include="..\ouzel\input\Touchpad.hpp" />
     <ClInclude Include="..\ouzel\input\TouchpadDevice.hpp" />
     <ClInclude Include="..\ouzel\input\windows\GamepadDeviceWin.hpp" />

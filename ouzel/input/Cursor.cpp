@@ -11,7 +11,8 @@ namespace ouzel
 {
     namespace input
     {
-        Cursor::Cursor()
+        Cursor::Cursor():
+            nativeCursor(new InputSystem::Resource())
         {
             InputSystem::Command command;
             command.type = InputSystem::Command::Type::CREATE_CURSOR;
@@ -43,9 +44,12 @@ namespace ouzel
 
         void Cursor::init(SystemCursor systemCursor)
         {
-            /*engine->executeOnMainThread(std::bind(static_cast<void(NativeCursor::*)(SystemCursor)>(&NativeCursor::init),
-                                                  nativeCursor,
-                                                  systemCursor));*/
+            InputSystem::Command command;
+            command.type = InputSystem::Command::Type::INIT_CURSOR;
+            command.cursor = nativeCursor;
+            command.systemCursor = systemCursor;
+
+            engine->getInputManager()->getInputSystem()->addCommand(command);
         }
 
         void Cursor::init(const std::string& filename, const Vector2& hotSpot)
@@ -133,12 +137,15 @@ namespace ouzel
                           graphics::PixelFormat pixelFormat,
                           const Vector2& hotSpot)
         {
-            /*engine->executeOnMainThread(std::bind(static_cast<void(NativeCursor::*)(const std::vector<uint8_t>&, const Size2&, graphics::PixelFormat, const Vector2&)>(&NativeCursor::init),
-                                                  nativeCursor,
-                                                  data,
-                                                  size,
-                                                  pixelFormat,
-                                                  hotSpot));*/
+            InputSystem::Command command;
+            command.cursor = nativeCursor;
+            command.type = InputSystem::Command::Type::INIT_CURSOR;
+            command.data = data;
+            command.size = size;
+            command.pixelFormat = pixelFormat;
+            command.hotSpot = hotSpot;
+
+            engine->getInputManager()->getInputSystem()->addCommand(command);
         }
     } // namespace input
 } // namespace ouzel

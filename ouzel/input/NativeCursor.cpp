@@ -31,11 +31,5 @@ namespace ouzel
             pixelFormat = newPixelFormat;
             hotSpot = newHotSpot;
         }
-
-        void NativeCursor::reactivate()
-        {
-            //if (inputSystem.currentNativeCursor == this)
-            //    inputSystem.activateNativeCursor(this);
-        }
     } // namespace input
 } // namespace ouzel

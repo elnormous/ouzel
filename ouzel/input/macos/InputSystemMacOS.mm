@@ -167,7 +167,19 @@ namespace ouzel
                         });
 
                         if (i != cursors.end()) cursors.erase(i);
+                        command.cursor->data = nullptr;
                     }
+                    break;
+                }
+                case Command::Type::INIT_CURSOR:
+                {
+                    NativeCursorMacOS* cursor = static_cast<NativeCursorMacOS*>(command.cursor->data);
+
+                    if (command.data.empty())
+                        cursor->init(command.data, command.size,
+                                     command.pixelFormat, command.hotSpot);
+                    else
+                        cursor->init(command.systemCursor);
                     break;
                 }
                 case Command::Type::SET_CURSOR:

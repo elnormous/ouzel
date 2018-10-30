@@ -110,6 +110,17 @@ namespace ouzel
                     }
                     break;
                 }
+                case Command::Type::INIT_CURSOR:
+                {
+                    NativeCursorWin* cursor = static_cast<NativeCursorWin*>(command.cursor->data);
+
+                    if (command.data.empty())
+                        cursor->init(command.data, command.size,
+                                     command.pixelFormat, command.hotSpot);
+                    else
+                        cursor->init(command.systemCursor);
+                    break;
+                }
                 case Command::Type::SET_CURSOR:
                 {
                     if (InputDevice* inputDevice = getInputDevice(command.deviceId))

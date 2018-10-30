@@ -26,8 +26,6 @@ namespace ouzel
                               const Vector2& newHotSpot);
 
         protected:
-            void reactivate();
-
             InputSystem& inputSystem;
             SystemCursor systemCursor = SystemCursor::DEFAULT;
             std::vector<uint8_t> data;
