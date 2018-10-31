@@ -105,10 +105,10 @@ namespace ouzel
                     NativeCursorWin* cursor = cursors[command.cursorResource - 1].get();
 
                     if (command.data.empty())
+                        cursor->init(command.systemCursor);
+                    else
                         cursor->init(command.data, command.size,
                                      command.pixelFormat, command.hotSpot);
-                    else
-                        cursor->init(command.systemCursor);
                     break;
                 }
                 case Command::Type::SET_CURSOR:

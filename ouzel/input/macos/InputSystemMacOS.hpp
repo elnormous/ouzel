@@ -49,6 +49,8 @@ namespace ouzel
             void handleGamepadConnected(IOHIDDeviceRef device);
             void handleGamepadDisconnected(IOHIDDeviceRef device);
 
+            NSCursorPtr getCursor() const;
+
         private:
             void startGamepadDiscovery();
             void stopGamepadDiscovery();
@@ -64,6 +66,10 @@ namespace ouzel
             IOHIDManagerRef hidManager = nullptr;
 
             std::vector<std::unique_ptr<NativeCursorMacOS>> cursors;
+
+            unsigned char emptyCursorData[4] = {0, 0, 0, 0};
+            NSCursorPtr emptyCursor = nil;
+            NSCursorPtr defaultCursor = nil;
         };
     }
 }

@@ -3,6 +3,7 @@
 #import <objc/message.h>
 #include "InputSystemMacOS.hpp"
 #include "NativeCursorMacOS.hpp"
+#include "core/macos/NativeWindowMacOS.hpp"
 #include "core/Engine.hpp"
 #include "events/Event.hpp"
 #include "utils/Errors.hpp"
@@ -67,6 +68,27 @@ namespace ouzel
             mouseDevice(new MouseDeviceMacOS(*this, ++lastDeviceId)),
             touchpadDevice(new TouchpadDevice(*this, ++lastDeviceId))
         {
+            defaultCursor = [NSCursor arrowCursor];
+
+            unsigned char* data = emptyCursorData;
+
+            NSImage* image = [[[NSImage alloc] initWithSize:NSMakeSize(1, 1)] autorelease];
+            NSBitmapImageRep* imageRep = [[[NSBitmapImageRep alloc]
+                                           initWithBitmapDataPlanes:&data
+                                           pixelsWide:1
+                                           pixelsHigh:1
+                                           bitsPerSample:8
+                                           samplesPerPixel:4
+                                           hasAlpha:YES
+                                           isPlanar:NO
+                                           colorSpaceName:NSDeviceRGBColorSpace
+                                           bitmapFormat:NSAlphaNonpremultipliedBitmapFormat
+                                           bytesPerRow:4
+                                           bitsPerPixel:32] autorelease];
+
+            [image addRepresentation:imageRep];
+            emptyCursor = [[NSCursor alloc] initWithImage:image hotSpot:NSMakePoint(0, 0)];
+
             connectDelegate = [[ConnectDelegate alloc] initWithInput:this];
 
             [[NSNotificationCenter defaultCenter] addObserver:connectDelegate
@@ -105,6 +127,9 @@ namespace ouzel
 
         InputSystemMacOS::~InputSystemMacOS()
         {
+            if (emptyCursor)
+                [emptyCursor release];
+
             if (connectDelegate)
                 [connectDelegate release];
 
@@ -165,10 +190,17 @@ namespace ouzel
                     NativeCursorMacOS* cursor = cursors[command.cursorResource - 1].get();
 
                     if (command.data.empty())
+                        cursor->init(command.systemCursor);
+                    else
                         cursor->init(command.data, command.size,
                                      command.pixelFormat, command.hotSpot);
-                    else
-                        cursor->init(command.systemCursor);
+
+                    if (mouseDevice->getCursor() == cursor)
+                    {
+                        NativeWindowMacOS* windowMacOS = static_cast<NativeWindowMacOS*>(engine->getWindow()->getNativeWindow());
+                        [windowMacOS->getNativeWindow() invalidateCursorRectsForView:windowMacOS->getNativeView()];
+                    }
+
                     break;
                 }
                 case Command::Type::SET_CURSOR:
@@ -176,7 +208,15 @@ namespace ouzel
                     if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
                         if (inputDevice == mouseDevice.get())
-                            mouseDevice->setCursor(cursors[command.cursorResource - 1].get());
+                        {
+                            if (command.cursorResource)
+                                mouseDevice->setCursor(cursors[command.cursorResource - 1].get());
+                            else
+                                mouseDevice->setCursor(nullptr);
+
+                            NativeWindowMacOS* windowMacOS = static_cast<NativeWindowMacOS*>(engine->getWindow()->getNativeWindow());
+                            [windowMacOS->getNativeWindow() invalidateCursorRectsForView:windowMacOS->getNativeView()];
+                        }
                     }
                     break;
                 }
@@ -305,6 +345,19 @@ namespace ouzel
 
             if (i != gamepadDevicesIOKit.end())
                 gamepadDevicesIOKit.erase(i);
+        }
+
+        NSCursorPtr InputSystemMacOS::getCursor() const
+        {
+            if (mouseDevice->isCursorVisible())
+            {
+                if (mouseDevice->getCursor())
+                    return mouseDevice->getCursor()->getNativeCursor();
+                else
+                    return defaultCursor;
+            }
+            else
+                return emptyCursor;
         }
     } // namespace input
 } // namespace ouzel
