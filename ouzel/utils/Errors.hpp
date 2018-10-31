@@ -27,13 +27,6 @@ namespace ouzel
         explicit FileError(const char* str): std::runtime_error(str) {}
     };
 
-    class NetworkError final: public std::runtime_error
-    {
-    public:
-        explicit NetworkError(const std::string& str): std::runtime_error(str) {}
-        explicit NetworkError(const char* str): std::runtime_error(str) {}
-    };
-
     class ParseError final: public std::runtime_error
     {
     public:
