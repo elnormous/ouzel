@@ -1,12 +1,12 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <system_error>
 #if defined(_WIN32)
 #  include <Windows.h>
 #else
 #  include <pthread.h>
 #endif
 #include "Utils.hpp"
-#include "Errors.hpp"
 
 #if defined(_WIN32)
 static const DWORD MS_VC_EXCEPTION = 0x406D1388;
@@ -47,11 +47,13 @@ namespace ouzel
         }
 #else
 #  ifdef __APPLE__
-        if (pthread_setname_np(name.c_str()) != 0)
-            throw ThreadError("Failed to set thread name");
+        int error = pthread_setname_np(name.c_str());
+        if (error != 0)
+            throw std::system_error(error, std::system_category(), "Failed to set thread name");
 #  elif defined(__linux__) || defined(__ANDROID__)
-        if (pthread_setname_np(pthread_self(), name.c_str()) != 0)
-            throw ThreadError("Failed to set thread name");
+        int error = pthread_setname_np(pthread_self(), name.c_str());
+        if (error != 0)
+            throw std::system_error(error, std::system_category(), "Failed to set thread name");
 #  endif
 #endif
     }

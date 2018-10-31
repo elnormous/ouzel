@@ -1,5 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <system_error>
 #include <cstdlib>
 #include <unistd.h>
 #include <android/window.h>
@@ -15,7 +16,7 @@ static int looperCallback(int fd, int events, void* data)
     {
         char command;
         if (read(fd, &command, sizeof(command)) == -1)
-            throw ouzel::SystemError("Failed to read from pipe");
+            throw std::system_error(errno, std::system_category(), "Failed to read from pipe");
 
         ouzel::EngineAndroid* engineAndroid = static_cast<ouzel::EngineAndroid*>(data);
 
@@ -131,8 +132,8 @@ namespace ouzel
             throw SystemError("Main thread has no looper");
 
         ALooper_acquire(looper);
-        if (pipe(looperPipe) != 0)
-            throw SystemError("Failed to create pipe, error: " + std::to_string(errno));
+        if (pipe(looperPipe) == -1)
+            throw std::system_error(errno, std::system_category(), "Failed to create pipe");
 
         if (ALooper_addFd(looper, looperPipe[0], ALOOPER_POLL_CALLBACK, ALOOPER_EVENT_INPUT, looperCallback, this) != 1)
             throw SystemError("Failed to add looper file descriptor");
@@ -243,7 +244,7 @@ namespace ouzel
 
         char command = 1;
         if (write(looperPipe[1], &command, sizeof(command)) == -1)
-            throw SystemError("Failed to write to pipe");
+            throw std::system_error(errno, std::system_category(), "Failed to write to pipe");
     }
 
     void EngineAndroid::openURL(const std::string& url)
