@@ -30,6 +30,8 @@ namespace ouzel
             mouseDevice(new MouseDeviceWin(*this, ++lastDeviceId)),
             touchpadDevice(new TouchpadDevice(*this, ++lastDeviceId))
         {
+            defaultCursor = LoadCursor(nullptr, IDC_ARROW);
+
             HINSTANCE instance = GetModuleHandleW(nullptr);
             HRESULT hr = DirectInput8Create(instance, DIRECTINPUT_VERSION, IID_IDirectInput8W, reinterpret_cast<LPVOID*>(&directInput), nullptr);
             if (FAILED(hr))
@@ -109,6 +111,9 @@ namespace ouzel
                     else
                         cursor->init(command.data, command.size,
                                      command.pixelFormat, command.hotSpot);
+
+                    if (mouseDevice->getCursor() == cursor)
+                        updateCursor();
                     break;
                 }
                 case Command::Type::SET_CURSOR:
@@ -116,7 +121,14 @@ namespace ouzel
                     if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
                         if (inputDevice == mouseDevice.get())
-                            mouseDevice->setCursor(cursors[command.cursorResource - 1].get());
+                        {
+                            if (command.cursorResource)
+                                mouseDevice->setCursor(cursors[command.cursorResource - 1].get());
+                            else
+                                mouseDevice->setCursor(nullptr);
+
+                            updateCursor();
+                        }
                     }
                     break;
                 }
@@ -300,6 +312,19 @@ namespace ouzel
                                                                                               windowWin->getNativeWindow())));
                 }
             }
+        }
+
+        void InputSystemWin::updateCursor()
+        {
+            if (mouseDevice->isCursorVisible())
+            {
+                if (mouseDevice->getCursor())
+                    SetCursor(mouseDevice->getCursor()->getNativeCursor());
+                else
+                    SetCursor(defaultCursor);
+            }
+            else
+                SetCursor(nullptr);
         }
     } // namespace input
 } // namespace ouzel
