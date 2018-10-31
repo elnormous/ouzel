@@ -36,7 +36,7 @@ namespace ouzel
             IDirectInput8W* getDirectInput() const { return directInput; }
             void handleDeviceConnect(const DIDEVICEINSTANCEW* didInstance);
 
-            void updateCursor();
+            void updateCursor() const;
 
         private:
             bool discovering = false;

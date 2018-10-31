@@ -32,7 +32,7 @@ namespace ouzel
 
         void MouseDeviceLinux::setCursorVisible(bool visible)
         {
-            // TODO: implement
+            cursorVisible = visible;
         }
 
         void MouseDeviceLinux::setCursorLocked(bool locked)

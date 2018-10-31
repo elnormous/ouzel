@@ -99,6 +99,14 @@ namespace ouzel
                 }
                 case Command::Type::DESTROY_CURSOR:
                 {
+                    NativeCursorWin* cursor = cursors[command.cursorResource - 1].get();
+
+                    if (mouseDevice->getCursor() == cursor)
+                    {
+                        mouseDevice->setCursor(nullptr);
+                        updateCursor();
+                    }
+
                     cursors[command.cursorResource].reset();
                     break;
                 }
@@ -314,7 +322,7 @@ namespace ouzel
             }
         }
 
-        void InputSystemWin::updateCursor()
+        void InputSystemWin::updateCursor() const
         {
             if (mouseDevice->isCursorVisible())
             {
