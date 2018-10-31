@@ -30,9 +30,6 @@ namespace ouzel
             int error = WSAStartup(sockVersion, &wsaData);
             if (error != 0)
                 throw std::system_error(error, std::system_category(), "Failed to start WinSock failed");
-
-            if (wsaData.wVersion != sockVersion)
-                throw std::system_error(WSAEINVALIDPROVIDER, std::system_category(), "Incorrect WinSock version");
 #endif
         }
 
