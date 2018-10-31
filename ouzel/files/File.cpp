@@ -1,5 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <system_error>
 #if !defined(_WIN32)
 #include <fcntl.h>
 #include <sys/stat.h>
@@ -7,7 +8,6 @@
 #endif
 #include <vector>
 #include "File.hpp"
-#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -30,11 +30,11 @@ namespace ouzel
 
         int bufferSize = MultiByteToWideChar(CP_UTF8, 0, filename.c_str(), -1, nullptr, 0);
         if (bufferSize == 0)
-            throw FileError("Failed to convert UTF-8 to wide char");
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
 
         std::vector<WCHAR> buffer(bufferSize);
         if (MultiByteToWideChar(CP_UTF8, 0, filename.c_str(), -1, buffer.data(), bufferSize) == 0)
-            throw FileError("Failed to convert the filename to wide char");
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to convert the filename to wide char");
 
         // relative paths longer than MAX_PATH are not supported
         if (buffer.size() > MAX_PATH)
@@ -42,7 +42,7 @@ namespace ouzel
 
         file = CreateFileW(buffer.data(), access, 0, nullptr, createDisposition, FILE_ATTRIBUTE_NORMAL, nullptr);
         if (file == INVALID_HANDLE_VALUE)
-            throw FileError("Failed to open file");
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to open file");
 #else
         int access = 0;
         if ((mode & READ) && (mode & WRITE)) access |= O_RDWR;
@@ -54,7 +54,7 @@ namespace ouzel
 
         fd = open(filename.c_str(), access, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
         if (fd == -1)
-            throw FileError("Failed to open file");
+            throw std::system_error(errno, std::system_category(), "Failed to open file");
 #endif
     }
 
@@ -108,7 +108,7 @@ namespace ouzel
                 uint32_t bytesRead = read(dest, remaining);
 
                 if (bytesRead == 0)
-                    throw FileError("End of file reached");
+                    return 0; // End of file reached
 
                 remaining -= bytesRead;
                 dest += bytesRead;
@@ -119,22 +119,16 @@ namespace ouzel
         else
         {
 #if defined(_WIN32)
-            if (file == INVALID_HANDLE_VALUE)
-                throw FileError("File is not open");
-
             DWORD n;
             if (!ReadFile(file, buffer, size, &n, nullptr))
-                throw FileError("Failed to read from file");
+                throw std::system_error(GetLastError(), std::system_category(), "Failed to read from file");
 
             return static_cast<uint32_t>(n);
 #else
-            if (fd == -1)
-                throw FileError("File is not open");
-
             ssize_t ret = ::read(fd, buffer, size);
 
             if (ret == -1)
-                throw FileError("Failed to read from file");
+                throw std::system_error(errno, std::system_category(), "Failed to read from file");
 
             return static_cast<uint32_t>(ret);
 #endif
@@ -160,22 +154,16 @@ namespace ouzel
         else
         {
 #if defined(_WIN32)
-            if (file == INVALID_HANDLE_VALUE)
-                throw FileError("File is not open");
-
             DWORD n;
             if (!WriteFile(file, buffer, size, &n, nullptr))
-                throw FileError("Failed to write to file");
+                throw std::system_error(GetLastError(), std::system_category(), "Failed to write to file");
 
             return static_cast<uint32_t>(n);
 #else
-            if (fd == -1)
-                throw FileError("File is not open");
-
             ssize_t ret = ::write(fd, buffer, size);
 
             if (ret == -1)
-                throw FileError("Failed to write to file");
+                throw std::system_error(errno, std::system_category(), "Failed to write to file");
 
             return static_cast<uint32_t>(ret);
 #endif
@@ -185,38 +173,33 @@ namespace ouzel
     void File::seek(int32_t offset, int method) const
     {
 #if defined(_WIN32)
-        if (file == INVALID_HANDLE_VALUE)
-            throw FileError("File is not open");
-
         DWORD moveMethod = 0;
         if (method == BEGIN) moveMethod = FILE_BEGIN;
         else if (method == CURRENT) moveMethod = FILE_CURRENT;
         else if (method == END) moveMethod = FILE_END;
-        if (SetFilePointer(file, offset, nullptr, moveMethod) == 0)
-            throw FileError("Failed to seek file");
+        if (SetFilePointer(file, offset, nullptr, moveMethod) == INVALID_SET_FILE_POINTER)
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to seek file");
 #else
-        if (fd == -1)
-            throw FileError("File is not open");
-
         int whence = 0;
         if (method == BEGIN) whence = SEEK_SET;
         else if (method == CURRENT) whence = SEEK_CUR;
         else if (method == END) whence = SEEK_END;
         if (lseek(fd, offset, whence) == -1)
-            throw FileError("Failed to seek file");
+            throw std::system_error(errno, std::system_category(), "Failed to seek file");
 #endif
     }
 
     uint32_t File::getOffset() const
     {
 #if defined(_WIN32)
-        if (file == INVALID_HANDLE_VALUE) return 0;
         DWORD ret = SetFilePointer(file, 0, nullptr, FILE_CURRENT);
+        if (ret == INVALID_SET_FILE_POINTER)
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to seek file");
         return static_cast<uint32_t>(ret);
 #else
-        if (fd == -1) return 0;
         off_t ret = lseek(fd, 0, SEEK_CUR);
-        if (ret == -1) return 0;
+        if (ret == -1)
+            throw std::system_error(errno, std::system_category(), "Failed to seek file");
         return static_cast<uint32_t>(ret);
 #endif
     }
