@@ -191,7 +191,7 @@ namespace ouzel
                         [windowMacOS->getNativeWindow() invalidateCursorRectsForView:windowMacOS->getNativeView()];
                     }
 
-                    cursors[command.cursorResource].reset();
+                    cursors[command.cursorResource - 1].reset();
                     break;
                 }
                 case Command::Type::INIT_CURSOR:
