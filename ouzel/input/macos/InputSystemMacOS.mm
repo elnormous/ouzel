@@ -182,6 +182,15 @@ namespace ouzel
                 }
                 case Command::Type::DESTROY_CURSOR:
                 {
+                    NativeCursorMacOS* cursor = cursors[command.cursorResource - 1].get();
+
+                    if (mouseDevice->getCursor() == cursor)
+                    {
+                        mouseDevice->setCursor(nullptr);
+                        NativeWindowMacOS* windowMacOS = static_cast<NativeWindowMacOS*>(engine->getWindow()->getNativeWindow());
+                        [windowMacOS->getNativeWindow() invalidateCursorRectsForView:windowMacOS->getNativeView()];
+                    }
+
                     cursors[command.cursorResource].reset();
                     break;
                 }

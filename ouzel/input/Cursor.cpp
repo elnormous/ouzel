@@ -19,8 +19,7 @@ namespace ouzel
             InputSystem::Command command;
             command.type = InputSystem::Command::Type::CREATE_CURSOR;
             command.cursorResource = cursorResource;
-
-            engine->getInputManager()->getInputSystem()->addCommand(command);
+            inputManager.getInputSystem()->addCommand(command);
         }
 
         Cursor::Cursor(InputManager& initInputManager, SystemCursor systemCursor):
@@ -40,6 +39,7 @@ namespace ouzel
             InputSystem::Command command;
             command.type = InputSystem::Command::Type::DESTROY_CURSOR;
             command.cursorResource = cursorResource;
+            inputManager.getInputSystem()->addCommand(command);
 
             inputManager.getInputSystem()->deleteResourceId(cursorResource);
         }
@@ -50,8 +50,7 @@ namespace ouzel
             command.type = InputSystem::Command::Type::INIT_CURSOR;
             command.cursorResource = cursorResource;
             command.systemCursor = systemCursor;
-
-            engine->getInputManager()->getInputSystem()->addCommand(command);
+            inputManager.getInputSystem()->addCommand(command);
         }
 
         void Cursor::init(const std::string& filename, const Vector2& hotSpot)
@@ -146,8 +145,7 @@ namespace ouzel
             command.size = size;
             command.pixelFormat = pixelFormat;
             command.hotSpot = hotSpot;
-
-            engine->getInputManager()->getInputSystem()->addCommand(command);
+            inputManager.getInputSystem()->addCommand(command);
         }
     } // namespace input
 } // namespace ouzel

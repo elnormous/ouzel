@@ -4,6 +4,9 @@
 
 #include <memory>
 #include <unordered_map>
+#if OUZEL_SUPPORTS_X11
+#  include <X11/X.h>
+#endif
 #include "input/InputSystem.hpp"
 #include "input/Keyboard.hpp"
 #include "input/linux/EventDevice.hpp"
@@ -33,6 +36,10 @@ namespace ouzel
             void update();
 
         private:
+#if OUZEL_SUPPORTS_X11
+            void updateCursor() const;
+#endif
+
             bool discovering = false;
 
             uint32_t lastDeviceId = 0;
@@ -42,6 +49,10 @@ namespace ouzel
 
             std::unordered_map<int, std::unique_ptr<EventDevice>> eventDevices;
             std::vector<std::unique_ptr<NativeCursorLinux>> cursors;
+
+#if OUZEL_SUPPORTS_X11
+            ::Cursor emptyCursor = None;
+#endif
         };
     }
 }

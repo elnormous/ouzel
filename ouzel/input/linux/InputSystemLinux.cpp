@@ -31,6 +31,22 @@ namespace ouzel
             InputSystem(initEventHandler)
 #endif
         {
+#if OUZEL_SUPPORTS_X11
+            EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
+            Display* display = engineLinux->getDisplay();
+
+            char data[1] = {0};
+
+            Pixmap pixmap = XCreateBitmapFromData(display, DefaultRootWindow(display), data, 1, 1);
+            if (pixmap)
+            {
+                XColor color;
+                color.red = color.green = color.blue = 0;
+
+                emptyCursor = XCreatePixmapCursor(display, pixmap, pixmap, &color, &color, 0, 0);
+                XFreePixmap(display, pixmap);
+            }
+#endif
             DIR* dir = opendir("/dev/input");
 
             if (!dir)
@@ -60,6 +76,13 @@ namespace ouzel
 
         InputSystemLinux::~InputSystemLinux()
         {
+#if OUZEL_SUPPORTS_X11
+            if (engine)
+            {
+                EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
+                if (emptyCursor != None) XFreeCursor(engineLinux->getDisplay(), emptyCursor);
+            }
+#endif
         }
 
         void InputSystemLinux::executeCommand(const Command& command)
@@ -99,6 +122,16 @@ namespace ouzel
                 }
                 case Command::Type::DESTROY_CURSOR:
                 {
+#if OUZEL_SUPPORTS_X11
+                    NativeCursorLinux* cursor = cursors[command.cursorResource - 1].get();
+
+                    if (mouseDevice->getCursor() == cursor)
+                    {
+                        mouseDevice->setCursor(nullptr);
+                        updateCursor();
+                    }
+#endif
+
                     cursors[command.cursorResource].reset();
                     break;
                 }
@@ -111,6 +144,11 @@ namespace ouzel
                     else
                         cursor->init(command.data, command.size,
                                      command.pixelFormat, command.hotSpot);
+
+#if OUZEL_SUPPORTS_X11
+                        if (mouseDevice->getCursor() == cursor)
+                            updateCursor();
+#endif
                     break;
                 }
                 case Command::Type::SET_CURSOR:
@@ -118,7 +156,15 @@ namespace ouzel
                     if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
                         if (inputDevice == mouseDevice.get())
-                            mouseDevice->setCursor(cursors[command.cursorResource - 1].get());
+                        {
+                            if (command.cursorResource)
+                                mouseDevice->setCursor(cursors[command.cursorResource - 1].get());
+                            else
+                                mouseDevice->setCursor(nullptr);
+#if OUZEL_SUPPORTS_X11
+                            updateCursor();
+#endif
+                        }
                     }
                     break;
                 }
@@ -216,5 +262,25 @@ namespace ouzel
                 closedir(dir);
             }
         }
+
+#if OUZEL_SUPPORTS_X11
+        void InputSystemLinux::updateCursor() const
+        {
+            EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
+            NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(engine->getWindow()->getNativeWindow());
+            Display* display = engineLinux->getDisplay();
+            ::Window window = windowLinux->getNativeWindow();
+
+            if (mouseDevice->isCursorVisible())
+            {
+                if (mouseDevice->getCursor())
+                    XDefineCursor(display, window, mouseDevice->getCursor()->getNativeCursor());
+                else
+                    XUndefineCursor(display, window);
+            }
+            else
+                XDefineCursor(display, window, emptyCursor);
+        }
+#endif
     } // namespace input
 } // namespace ouzel
