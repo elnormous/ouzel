@@ -82,6 +82,23 @@ namespace ouzel
 
             void executeOnRenderThread(const std::function<void(void)>& func);
 
+            uint64_t getResourceId()
+            {
+                if (deletedResourceIds.empty())
+                    return ++lastResourceId; // zero is reserved for null resource
+                else
+                {
+                    uint64_t resourceId = deletedResourceIds.front();
+                    deletedResourceIds.pop();
+                    return resourceId;
+                }
+            }
+
+            void deleteResourceId(uint64_t resourceId)
+            {
+                deletedResourceIds.push(resourceId);
+            }
+
         protected:
             explicit RenderDevice(Renderer::Driver initDriver);
             void waitForNextFrame();
@@ -160,6 +177,9 @@ namespace ouzel
             bool newFrame = false;
             std::mutex frameMutex;
             std::condition_variable frameCondition;
+
+            uint64_t lastResourceId = 0;
+            std::queue<uint64_t> deletedResourceIds;
         };
     } // namespace graphics
 } // namespace ouzel
