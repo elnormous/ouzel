@@ -367,8 +367,8 @@ static LRESULT CALLBACK windowProc(HWND window, UINT message, WPARAM wParam, LPA
         {
             if (LOWORD(lParam) == HTCLIENT)
             {
-                /*ouzel::input::InputManagerWin* inputWin = static_cast<ouzel::input::InputManagerWin*>(ouzel::engine->getInputManager());
-                inputWin->updateCursor();*/
+                ouzel::input::InputSystemWin* inputSystemWin = static_cast<ouzel::input::InputSystemWin*>(ouzel::engine->getInputManager()->getInputSystem());
+                inputSystemWin->updateCursor();
                 return TRUE;
             }
             break;

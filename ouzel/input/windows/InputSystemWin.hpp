@@ -36,6 +36,8 @@ namespace ouzel
             IDirectInput8W* getDirectInput() const { return directInput; }
             void handleDeviceConnect(const DIDEVICEINSTANCEW* didInstance);
 
+            void updateCursor();
+
         private:
             bool discovering = false;
 
@@ -49,6 +51,8 @@ namespace ouzel
             std::unique_ptr<GamepadDeviceXI> gamepadsXI[XUSER_MAX_COUNT];
 
             std::vector<std::unique_ptr<NativeCursorWin>> cursors;
+
+            HCURSOR defaultCursor = nullptr;
         };
     }
 }

@@ -20,6 +20,7 @@ namespace ouzel
             }
 
             void setPosition(const Vector2& position);
+            bool isCursorVisible() const { return cursorVisible; }
             void setCursorVisible(bool visible);
             void setCursorLocked(bool locked);
 
@@ -28,6 +29,7 @@ namespace ouzel
 
         private:
             NativeCursorWin* cursor = nullptr;
+            bool cursorVisible = true;
         };
     } // namespace input
 } // namespace ouzel

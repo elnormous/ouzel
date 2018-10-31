@@ -23,7 +23,7 @@ namespace ouzel
 
         void MouseDeviceWin::setCursorVisible(bool visible)
         {
-            // TODO: implement
+            cursorVisible = visible;
         }
 
         void MouseDeviceWin::setCursorLocked(bool locked)
