@@ -362,7 +362,7 @@ namespace ouzel
         return (attributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
 #else
         struct stat buf;
-        if (stat(dirname.c_str(), &buf) != 0)
+        if (stat(dirname.c_str(), &buf) == -1)
             return false;
 
         return (buf.st_mode & S_IFMT) == S_IFDIR;
@@ -403,7 +403,7 @@ namespace ouzel
         return (attributes & FILE_ATTRIBUTE_DIRECTORY) == 0;
 #else
         struct stat buf;
-        if (stat(filename.c_str(), &buf) != 0)
+        if (stat(filename.c_str(), &buf) == -1)
             return false;
 
         return (buf.st_mode & S_IFMT) == S_IFREG;
