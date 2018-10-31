@@ -107,7 +107,7 @@ namespace ouzel
                         updateCursor();
                     }
 
-                    cursors[command.cursorResource].reset();
+                    cursors[command.cursorResource - 1].reset();
                     break;
                 }
                 case Command::Type::INIT_CURSOR:
