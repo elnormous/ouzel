@@ -1,5 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <system_error>
 #include <unordered_map>
 #include <fcntl.h>
 #include <unistd.h>
@@ -12,7 +13,6 @@
 #include "input/MouseDevice.hpp"
 #include "input/TouchpadDevice.hpp"
 #include "core/Engine.hpp"
-#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
 static const float THUMB_DEADZONE = 0.2F;
@@ -215,7 +215,7 @@ namespace ouzel
             fd = open(filename.c_str(), O_RDONLY);
 
             if (fd == -1)
-                throw SystemError("Failed to open device file");
+                throw std::system_error(errno, std::system_category(), "Failed to open device file");
 
             if (ioctl(fd, EVIOCGRAB, 1) == -1)
                 engine->log(Log::Level::WARN) << "Failed to grab device";
@@ -238,7 +238,7 @@ namespace ouzel
                 ioctl(fd, EVIOCGBIT(EV_ABS, sizeof(absBits)), absBits) == -1 ||
                 ioctl(fd, EVIOCGBIT(EV_REL, sizeof(relBits)), relBits) == -1 ||
                 ioctl(fd, EVIOCGBIT(EV_KEY, sizeof(keyBits)), keyBits) == -1)
-                throw SystemError("Failed to get device event bits");
+                throw std::system_error(errno, std::system_category(), "Failed to get device event bits");
 
             if (isBitSet(eventBits, EV_KEY) && (
                     isBitSet(keyBits, KEY_1) ||
@@ -265,19 +265,19 @@ namespace ouzel
                     input_absinfo info;
 
                     if (ioctl(fd, EVIOCGABS(ABS_MT_SLOT), &info) == -1)
-                        throw SystemError("Failed to get device info");
+                        throw std::system_error(errno, std::system_category(), "Failed to get device info");
 
                     touchSlots.resize(info.maximum + 1);
 
                     if (ioctl(fd, EVIOCGABS(ABS_MT_POSITION_X), &info) == -1)
-                        throw SystemError("Failed to get device info");
+                        throw std::system_error(errno, std::system_category(), "Failed to get device info");
 
                     touchMinX = info.minimum;
                     touchMaxX = info.maximum;
                     touchRangeX = touchMaxX - touchMinX;
 
                     if (ioctl(fd, EVIOCGABS(ABS_MT_POSITION_Y), &info) == -1)
-                        throw SystemError("Failed to get device info");
+                        throw std::system_error(errno, std::system_category(), "Failed to get device info");
 
                     touchMinY = info.minimum;
                     touchMaxY = info.maximum;
@@ -305,7 +305,7 @@ namespace ouzel
 
                 struct input_id id;
                 if (ioctl(fd, EVIOCGID, &id) == -1)
-                    throw SystemError("Failed to get device info");
+                    throw std::system_error(errno, std::system_category(), "Failed to get device info");
 
                 const GamepadConfig& gamepadConfig = getGamepadConfig(id.vendor, id.product);
 
@@ -340,7 +340,7 @@ namespace ouzel
                         input_absinfo info;
 
                         if (ioctl(fd, EVIOCGABS(usage), &info) == -1)
-                            throw SystemError("Failed to get device info");
+                            throw std::system_error(errno, std::system_category(), "Failed to get device info");
 
                         axis.min = info.minimum;
                         axis.max = info.maximum;
@@ -401,7 +401,7 @@ namespace ouzel
             ssize_t bytesRead = read(fd, events, sizeof(events));
 
             if (bytesRead == -1)
-                throw SystemError("Failed to read from " + filename); // TODO: disconnect the device
+                throw std::system_error(errno, std::system_category(), "Failed to read from " + filename);
 
             int count = bytesRead / sizeof(input_event);
 
@@ -581,7 +581,7 @@ namespace ouzel
 
                                     request->code = ABS_MT_TRACKING_ID;
                                     if (ioctl(fd, EVIOCGMTSLOTS(size), request) == -1)
-                                        throw SystemError("Failed to get device info");
+                                        throw std::system_error(errno, std::system_category(), "Failed to get device info");
 
                                     for (size_t i = 0; i < touchSlots.size(); ++i)
                                     {
@@ -601,7 +601,7 @@ namespace ouzel
 
                                     request->code = ABS_MT_POSITION_X;
                                     if (ioctl(fd, EVIOCGMTSLOTS(size), request) == -1)
-                                        throw SystemError("Failed to get device info");
+                                        throw std::system_error(errno, std::system_category(), "Failed to get device info");
 
                                     for (size_t i = 0; i < touchSlots.size(); ++i)
                                     {
@@ -616,7 +616,7 @@ namespace ouzel
 
                                     request->code = ABS_MT_POSITION_Y;
                                     if (ioctl(fd, EVIOCGMTSLOTS(size), request) == -1)
-                                        throw SystemError("Failed to get device info");
+                                        throw std::system_error(errno, std::system_category(), "Failed to get device info");
 
                                     for (size_t i = 0; i < touchSlots.size(); ++i)
                                     {
@@ -646,7 +646,7 @@ namespace ouzel
 
                                     input_absinfo info;
                                     if (ioctl(fd, EVIOCGABS(ABS_MT_SLOT), &info) == -1)
-                                        throw SystemError("Failed to get device info");
+                                        throw std::system_error(errno, std::system_category(), "Failed to get device info");
                                     currentTouchSlot = info.value;
 
                                     break;
