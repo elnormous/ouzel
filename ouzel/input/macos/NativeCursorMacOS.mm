@@ -78,26 +78,23 @@ namespace ouzel
 
                 unsigned char* rgba = data.data();
 
-                NSImage* image = [[NSImage alloc] initWithSize:NSMakeSize(width, height)];
-                NSBitmapImageRep* rep = [[NSBitmapImageRep alloc]
-                                         initWithBitmapDataPlanes:&rgba
-                                         pixelsWide:width
-                                         pixelsHigh:height
-                                         bitsPerSample:channelSize * 8
-                                         samplesPerPixel:channelCount
-                                         hasAlpha:YES
-                                         isPlanar:NO
-                                         colorSpaceName:NSDeviceRGBColorSpace
-                                         bitmapFormat:NSAlphaNonpremultipliedBitmapFormat
-                                         bytesPerRow:width * bytesPerPixel
-                                         bitsPerPixel:bytesPerPixel * 8];
+                NSImage* image = [[[NSImage alloc] initWithSize:NSMakeSize(width, height)] autorelease];
+                NSBitmapImageRep* imageRep = [[[NSBitmapImageRep alloc]
+                                               initWithBitmapDataPlanes:&rgba
+                                               pixelsWide:width
+                                               pixelsHigh:height
+                                               bitsPerSample:channelSize * 8
+                                               samplesPerPixel:channelCount
+                                               hasAlpha:YES
+                                               isPlanar:NO
+                                               colorSpaceName:NSDeviceRGBColorSpace
+                                               bitmapFormat:NSAlphaNonpremultipliedBitmapFormat
+                                               bytesPerRow:width * bytesPerPixel
+                                               bitsPerPixel:bytesPerPixel * 8] autorelease];
 
-                [image addRepresentation:rep];
+                [image addRepresentation:imageRep];
                 cursor = [[NSCursor alloc] initWithImage:image
                                                  hotSpot:NSMakePoint(hotSpot.x, size.height - hotSpot.y - 1.0F)];
-
-                [image release];
-                [rep release];
             }
         }
     } // namespace input

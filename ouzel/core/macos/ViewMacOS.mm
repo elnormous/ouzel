@@ -38,18 +38,11 @@
 {
     [super resetCursorRects];
 
-    /*ouzel::input::InputManagerMacOS* inputMacOS = static_cast<ouzel::input::InputManagerMacOS*>(ouzel::engine->getInputManager());
+    ouzel::input::InputSystemMacOS* inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
+    NSCursor* cursor = inputSystemMacOS->getCursor();
 
-    if (inputMacOS->isCursorVisible())
-    {
-        [self addCursorRect:[self bounds] cursor:inputMacOS->getNativeCursor()];
-        [inputMacOS->getNativeCursor() set];
-    }
-    else
-    {
-        [self addCursorRect:[self bounds] cursor:inputMacOS->getEmptyCursor()];
-        [inputMacOS->getEmptyCursor() set];
-    }*/
+    [self addCursorRect:[self bounds] cursor:cursor];
+    [cursor set];
 }
 
 #if !defined(__MAC_10_12) || __MAC_OS_X_VERSION_MAX_ALLOWED < __MAC_10_12

@@ -4,9 +4,10 @@
 
 #if defined(__OBJC__)
 #import <AppKit/AppKit.h>
+typedef NSCursor* NSCursorPtr;
 #else
 #include <objc/objc.h>
-typedef id NSCursor;
+typedef id NSCursorPtr;
 #endif
 
 #include "input/NativeCursor.hpp"
@@ -27,10 +28,10 @@ namespace ouzel
                       graphics::PixelFormat newPixelFormat,
                       const Vector2& newHotSpot) override;
 
-            inline NSCursor* getNativeCursor() const { return cursor; }
+            inline NSCursorPtr getNativeCursor() const { return cursor; }
 
         private:
-            NSCursor* cursor = nil;
+            NSCursorPtr cursor = nil;
         };
     } // namespace input
 } // namespace ouzel

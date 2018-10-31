@@ -21,7 +21,8 @@ namespace ouzel
             }
 
             void setPosition(const Vector2& position);
-            void setCursorVisible(bool visible);
+            bool isCursorVisible() const { return cursorVisible; }
+            void setCursorVisible(bool newVisible);
             void setCursorLocked(bool locked);
 
             NativeCursorMacOS* getCursor() const { return cursor; }
@@ -29,6 +30,7 @@ namespace ouzel
 
         private:
             NativeCursorMacOS* cursor = nullptr;
+            bool cursorVisible = true;
         };
     } // namespace input
 } // namespace ouzel

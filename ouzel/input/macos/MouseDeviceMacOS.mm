@@ -24,7 +24,7 @@ namespace ouzel
 
         void MouseDeviceMacOS::setCursorVisible(bool visible)
         {
-            // TODO: implement
+            cursorVisible = visible;
         }
 
         void MouseDeviceMacOS::setCursorLocked(bool locked)

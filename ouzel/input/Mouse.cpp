@@ -4,6 +4,7 @@
 #include <iterator>
 #include "Mouse.hpp"
 #include "InputManager.hpp"
+#include "Cursor.hpp"
 #include "core/Engine.hpp"
 #include "events/EventDispatcher.hpp"
 
@@ -53,6 +54,12 @@ namespace ouzel
         void Mouse::setCursor(const Cursor* newCursor)
         {
             cursor = newCursor;
+
+            InputSystem::Command command;
+            command.type = InputSystem::Command::Type::SET_CURSOR;
+            command.deviceId = deviceId;
+            command.cursorResource = cursor->getCursorResource();
+            inputManager.getInputSystem()->addCommand(command);
         }
 
         bool Mouse::handleButtonPress(Mouse::Button button, const Vector2& pos)
