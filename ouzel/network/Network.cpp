@@ -1,5 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <system_error>
 #ifdef _WIN32
 #  ifndef NOMINMAX
 #    define NOMINMAX
@@ -16,7 +17,6 @@
 #endif
 #include "Network.hpp"
 #include "Client.hpp"
-#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -29,10 +29,10 @@ namespace ouzel
             WSADATA wsaData;
             int error = WSAStartup(sockVersion, &wsaData);
             if (error != 0)
-                throw NetworkError("Failed to start WinSock failed, error: " + std::to_string(error));
+                throw std::system_error(error, std::system_category(), "Failed to start WinSock failed");
 
             if (wsaData.wVersion != sockVersion)
-                throw NetworkError("Incorrect WinSock version");
+                throw std::system_error(WSAEINVALIDPROVIDER, std::system_category(), "Incorrect WinSock version");
 #endif
         }
 
@@ -61,7 +61,7 @@ namespace ouzel
 #else
                 int error = errno;
 #endif
-                throw NetworkError("Failed to get address info of " + address + ", error: " + std::to_string(error));
+                throw std::system_error(error, std::system_category(), "Failed to get address info of " + address);
             }
 
             sockaddr_in* addr = reinterpret_cast<sockaddr_in*>(info->ai_addr);
