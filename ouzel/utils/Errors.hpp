@@ -40,11 +40,4 @@ namespace ouzel
         explicit SystemError(const std::string& str): std::runtime_error(str) {}
         explicit SystemError(const char* str): std::runtime_error(str) {}
     };
-
-    class ThreadError final: public std::runtime_error
-    {
-    public:
-        explicit ThreadError(const std::string& str): std::runtime_error(str) {}
-        explicit ThreadError(const char* str): std::runtime_error(str) {}
-    };
 }
