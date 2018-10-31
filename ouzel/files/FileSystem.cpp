@@ -3,6 +3,7 @@
 #include "core/Setup.h"
 
 #include <algorithm>
+#include <system_error>
 #if OUZEL_PLATFORM_WINDOWS
 #  include <Windows.h>
 #  include <Shlobj.h>
@@ -45,11 +46,11 @@ namespace ouzel
 #if OUZEL_PLATFORM_WINDOWS
         WCHAR buffer[MAX_PATH];
         if (!GetModuleFileNameW(GetModuleHandle(nullptr), buffer, MAX_PATH))
-            throw FileError("Failed to get module filename");
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to get module filename");
 
         char appFilename[1024];
         if (WideCharToMultiByte(CP_UTF8, 0, buffer, -1, appFilename, sizeof(appFilename), nullptr, nullptr) == 0)
-            throw FileError("Failed to convert wide char to UTF-8");
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
 
         appPath = getDirectoryPart(appFilename);
         engine.log(Log::Level::INFO) << "Application directory: " << appPath;
@@ -72,13 +73,11 @@ namespace ouzel
 #elif OUZEL_PLATFORM_LINUX
         char executableDirectory[1024];
 
-        if (readlink("/proc/self/exe", executableDirectory, sizeof(executableDirectory)) != -1)
-        {
-            appPath = getDirectoryPart(executableDirectory);
-            engine.log(Log::Level::INFO) << "Application directory: " << appPath;
-        }
-        else
-            throw FileError("Failed to get current directory");
+        if (readlink("/proc/self/exe", executableDirectory, sizeof(executableDirectory)) == -1)
+            throw std::system_error(errno, std::system_category(), "Failed to get current directory");
+        
+        appPath = getDirectoryPart(executableDirectory);
+        engine.log(Log::Level::INFO) << "Application directory: " << appPath;            
 #endif
     }
 
@@ -93,11 +92,11 @@ namespace ouzel
 
         int bufferSize = WideCharToMultiByte(CP_UTF8, 0, appDataPath, -1, nullptr, 0, nullptr, nullptr);
         if (bufferSize == 0)
-            throw FileError("Failed to convert wide char to UTF-8");
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
 
         std::vector<char> appDataBuffer(bufferSize);
         if (WideCharToMultiByte(CP_UTF8, 0, appDataPath, -1, appDataBuffer.data(), bufferSize, nullptr, nullptr) == 0)
-            throw FileError("Failed to convert wide char to UTF-8");
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
 
         std::string path = appDataBuffer.data();
 
@@ -107,11 +106,11 @@ namespace ouzel
         {
             bufferSize = MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, nullptr, 0);
             if (bufferSize == 0)
-                throw FileError("Failed to convert UTF-8 to wide char");
+                throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
 
             std::vector<WCHAR> buffer(bufferSize);
             if (MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, buffer.data(), bufferSize) == 0)
-                throw FileError("Failed to convert UTF-8 to wide char");
+                throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
 
             // relative paths longer than MAX_PATH are not supported
             if (buffer.size() > MAX_PATH)
@@ -121,7 +120,7 @@ namespace ouzel
             if (attributes == INVALID_FILE_ATTRIBUTES)
             {
                 if (!CreateDirectoryW(buffer.data(), nullptr))
-                    throw FileError("Failed to create directory " + path);
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to create directory " + path);
             }
             else if ((attributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
                 throw FileError(path + " is not a directory");
@@ -133,11 +132,11 @@ namespace ouzel
         {
             bufferSize = MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, nullptr, 0);
             if (bufferSize == 0)
-                throw FileError("Failed to convert UTF-8 to wide char");
+                throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
 
             std::vector<WCHAR> buffer(bufferSize);
             if (MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, buffer.data(), bufferSize) == 0)
-                throw FileError("Failed to convert UTF-8 to wide char");
+                throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
 
             // relative paths longer than MAX_PATH are not supported
             if (buffer.size() > MAX_PATH)
@@ -147,7 +146,7 @@ namespace ouzel
             if (attributes == INVALID_FILE_ATTRIBUTES)
             {
                 if (!CreateDirectoryW(buffer.data(), nullptr))
-                    throw FileError("Failed to create directory " + path);
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to create directory " + path);
             }
             else if ((attributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
                 throw FileError(path + " is not a directory");
@@ -183,16 +182,16 @@ namespace ouzel
 
         if (!directoryExists(path))
         {
-            if (mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) != 0)
-                throw FileError("Failed to create directory " + path);
+            if (mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == -1)
+                throw std::system_error(errno, std::system_category(), "Failed to create directory " + path);
         }
 
         path += DIRECTORY_SEPARATOR + OUZEL_APPLICATION_NAME;
 
         if (!directoryExists(path))
         {
-            if (mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) != 0)
-                throw FileError("Failed to create directory " + path);
+            if (mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == -1)
+                throw std::system_error(errno, std::system_category(), "Failed to create directory " + path);
         }
 
         return path;
@@ -214,11 +213,11 @@ namespace ouzel
         {
             int bufferSize = WideCharToMultiByte(CP_UTF8, 0, buffer, -1, nullptr, 0, nullptr, nullptr);
             if (bufferSize == 0)
-                throw FileError("Failed to convert wide char to UTF-8");
+                throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
 
             std::vector<char> tempDirectoryBuffer(bufferSize);
             if (WideCharToMultiByte(CP_UTF8, 0, buffer, -1, tempDirectoryBuffer.data(), bufferSize, nullptr, nullptr) == 0)
-                throw FileError("Failed to convert wide char to UTF-8");
+                throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
 
             return tempDirectoryBuffer.data();
         }
@@ -346,11 +345,11 @@ namespace ouzel
 #if OUZEL_PLATFORM_WINDOWS
         int bufferSize = MultiByteToWideChar(CP_UTF8, 0, dirname.c_str(), -1, nullptr, 0);
         if (bufferSize == 0)
-            throw FileError("Failed to convert UTF-8 to wide char");
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
 
         std::vector<WCHAR> buffer(bufferSize);
         if (MultiByteToWideChar(CP_UTF8, 0, dirname.c_str(), -1, buffer.data(), bufferSize) == 0)
-            throw FileError("Failed to convert UTF-8 to wide char");
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
 
         // relative paths longer than MAX_PATH are not supported
         if (buffer.size() > MAX_PATH)
@@ -387,11 +386,11 @@ namespace ouzel
 #if OUZEL_PLATFORM_WINDOWS
         int bufferSize = MultiByteToWideChar(CP_UTF8, 0, filename.c_str(), -1, nullptr, 0);
         if (bufferSize == 0)
-            throw FileError("Failed to convert UTF-8 to wide char");
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
 
         std::vector<WCHAR> buffer(bufferSize);
         if (MultiByteToWideChar(CP_UTF8, 0, filename.c_str(), -1, buffer.data(), bufferSize) == 0)
-            throw FileError("Failed to convert UTF-8 to wide char");
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
 
         // relative paths longer than MAX_PATH are not supported
         if (buffer.size() > MAX_PATH)
@@ -502,11 +501,11 @@ namespace ouzel
 #if OUZEL_PLATFORM_WINDOWS
         int bufferSize = MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, nullptr, 0);
         if (bufferSize == 0)
-            throw FileError("Failed to convert UTF-8 to wide char");
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
 
         std::vector<WCHAR> buffer(bufferSize);
         if (MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, buffer.data(), bufferSize) == 0)
-            throw FileError("Failed to convert UTF-8 to wide char");
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
 
         // relative paths longer than MAX_PATH are not supported
         if (buffer.size() > MAX_PATH)

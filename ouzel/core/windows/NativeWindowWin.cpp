@@ -1,5 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <system_error>
 #include <unordered_map>
 #include <Windows.h>
 #include <windowsx.h>
@@ -11,7 +12,6 @@
 #include "graphics/Renderer.hpp"
 #include "graphics/RenderDevice.hpp"
 #include "graphics/direct3d11/RenderDeviceD3D11.hpp"
-#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
 static const LONG_PTR SIGNATURE_MASK = 0x0FFFFFF00;
@@ -493,7 +493,7 @@ namespace ouzel
 
         windowClass = RegisterClassExW(&wc);
         if (!windowClass)
-            throw SystemError("Failed to register window class");
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to register window class");
 
         windowWindowedStyle = WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_CLIPSIBLINGS | WS_BORDER | WS_DLGFRAME | WS_THICKFRAME | WS_GROUP | WS_TABSTOP;
 
@@ -509,7 +509,8 @@ namespace ouzel
         windowExStyle = WS_EX_APPWINDOW;
 
         RECT windowRect = {0, 0, static_cast<LONG>(size.width), static_cast<LONG>(size.height)};
-        AdjustWindowRectEx(&windowRect, windowStyle, FALSE, windowExStyle);
+        if (!AdjustWindowRectEx(&windowRect, windowStyle, FALSE, windowExStyle))
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to adjust window rectangle");
 
         int width = CW_USEDEFAULT;
         int height = CW_USEDEFAULT;
@@ -518,17 +519,17 @@ namespace ouzel
 
         int titleBufferSize = MultiByteToWideChar(CP_UTF8, 0, title.c_str(), -1, nullptr, 0);
         if (titleBufferSize == 0)
-            throw SystemError("Failed to convert UTF-8 to wide char");
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
 
         std::vector<WCHAR> titleBuffer(titleBufferSize);
         if (MultiByteToWideChar(CP_UTF8, 0, title.c_str(), -1, titleBuffer.data(), titleBufferSize) == 0)
-            throw SystemError("Failed to convert UTF-8 to wide char");
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
 
         window = CreateWindowExW(windowExStyle, WINDOW_CLASS_NAME, titleBuffer.data(), windowStyle,
                                  x, y, width, height, nullptr, nullptr, instance, nullptr);
 
         if (!window)
-            throw SystemError("Failed to create window");
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to create window");
 
         monitor = MonitorFromWindow(window, MONITOR_DEFAULTTONEAREST);
 
@@ -573,9 +574,11 @@ namespace ouzel
         UINT swpFlags = SWP_NOMOVE | SWP_NOZORDER;
 
         RECT rect = { 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) };
-        AdjustWindowRectEx(&rect, windowStyle, GetMenu(window) ? TRUE : FALSE, windowExStyle);
+        if (!AdjustWindowRectEx(&rect, windowStyle, GetMenu(window) ? TRUE : FALSE, windowExStyle))
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to adjust window rectangle");
 
-        SetWindowPos(window, nullptr, 0, 0, rect.right - rect.left, rect.bottom - rect.top, swpFlags);
+        if (!SetWindowPos(window, nullptr, 0, 0, rect.right - rect.left, rect.bottom - rect.top, swpFlags))
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to set window position");
 
         resolution = size;
 
@@ -588,13 +591,14 @@ namespace ouzel
         {
             int titleBufferSize = MultiByteToWideChar(CP_UTF8, 0, newTitle.c_str(), -1, nullptr, 0);
             if (titleBufferSize == 0)
-                throw SystemError("Failed to convert UTF-8 to wide char");
+                throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
 
             std::vector<WCHAR> titleBuffer(titleBufferSize);
             if (MultiByteToWideChar(CP_UTF8, 0, newTitle.c_str(), -1, titleBuffer.data(), titleBufferSize) == 0)
-                throw SystemError("Failed to convert UTF-8 to wide char");
+                throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
 
-            SetWindowTextW(window, titleBuffer.data());
+            if (!SetWindowTextW(window, titleBuffer.data()))
+                throw std::system_error(GetLastError(), std::system_category(), "Failed to set window title");
         }
 
         NativeWindow::setTitle(newTitle);
@@ -753,39 +757,37 @@ namespace ouzel
         UINT inputCount = LOWORD(wParam);
         std::vector<TOUCHINPUT> touches(inputCount);
 
-        if (GetTouchInputInfo(reinterpret_cast<HTOUCHINPUT>(lParam), inputCount, touches.data(), sizeof(TOUCHINPUT)))
+        if (!GetTouchInputInfo(reinterpret_cast<HTOUCHINPUT>(lParam), inputCount, touches.data(), sizeof(TOUCHINPUT)))
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to get touch info");
+        
+        Vector2 position;
+
+        for (const TOUCHINPUT& touch : touches)
         {
-            Vector2 position;
+            position.x = static_cast<float>(touch.x / 100);
+            position.y = static_cast<float>(touch.y / 100);
 
-            for (const TOUCHINPUT& touch : touches)
+            if (touch.dwFlags & TOUCHEVENTF_DOWN)
             {
-                position.x = static_cast<float>(touch.x / 100);
-                position.y = static_cast<float>(touch.y / 100);
-
-                if (touch.dwFlags & TOUCHEVENTF_DOWN)
-                {
-                    touchpadDevice->handleTouchBegin(touch.dwID,
-                                                     engine->getWindow()->convertWindowToNormalizedLocation(position));
-                }
-
-                if (touch.dwFlags & TOUCHEVENTF_UP)
-                {
-                    touchpadDevice->handleTouchEnd(touch.dwID,
-                                                   engine->getWindow()->convertWindowToNormalizedLocation(position));
-                }
-
-                if (touch.dwFlags & TOUCHEVENTF_MOVE)
-                {
-                    touchpadDevice->handleTouchMove(touch.dwID,
-                                                    engine->getWindow()->convertWindowToNormalizedLocation(position));
-                }
+                touchpadDevice->handleTouchBegin(touch.dwID,
+                                                 engine->getWindow()->convertWindowToNormalizedLocation(position));
             }
 
-            if (!CloseTouchInputHandle(reinterpret_cast<HTOUCHINPUT>(lParam)))
-                throw SystemError("Failed to close touch input handle");
+            if (touch.dwFlags & TOUCHEVENTF_UP)
+            {
+                touchpadDevice->handleTouchEnd(touch.dwID,
+                                               engine->getWindow()->convertWindowToNormalizedLocation(position));
+            }
+
+            if (touch.dwFlags & TOUCHEVENTF_MOVE)
+            {
+                touchpadDevice->handleTouchMove(touch.dwID,
+                                                engine->getWindow()->convertWindowToNormalizedLocation(position));
+            }
         }
-        else
-            throw SystemError("Failed to get touch info");
+
+        if (!CloseTouchInputHandle(reinterpret_cast<HTOUCHINPUT>(lParam)))
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to close touch input handle");            
     }
 
     void NativeWindowWin::addAccelerator(HACCEL accelerator)

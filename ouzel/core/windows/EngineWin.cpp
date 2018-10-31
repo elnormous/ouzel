@@ -1,5 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <system_error>
 #include <Windows.h>
 #include <cstdlib>
 #include "EngineWin.hpp"
@@ -22,11 +23,11 @@ namespace ouzel
             {
                 bufferSize = WideCharToMultiByte(CP_UTF8, 0, initArgv[i], -1, nullptr, 0, nullptr, nullptr);
                 if (bufferSize == 0)
-                    throw FileError("Failed to convert wide char to UTF-8");
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
 
                 buffer.resize(bufferSize);
                 if (WideCharToMultiByte(CP_UTF8, 0, initArgv[i], -1, buffer.data(), bufferSize, nullptr, nullptr) == 0)
-                    throw FileError("Failed to convert wide char to UTF-8");
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
 
                 args.push_back(buffer.data());
             }
@@ -101,7 +102,7 @@ namespace ouzel
                 else if (ret == -1)
                 {
                     exit();
-                    throw SystemError("Failed to get message");
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to get message");
                 }
                 else
                 {
@@ -151,11 +152,11 @@ namespace ouzel
     {
         int buferSize = MultiByteToWideChar(CP_UTF8, 0, url.c_str(), -1, nullptr, 0);
         if (buferSize == 0)
-            throw SystemError("Failed to convert UTF-8 to wide char");
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
 
         std::vector<WCHAR> buffer(buferSize);
         if (MultiByteToWideChar(CP_UTF8, 0, url.c_str(), -1, buffer.data(), buferSize) == 0)
-            throw SystemError("Failed to convert UTF-8 to wide char");
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
 
         intptr_t result = reinterpret_cast<intptr_t>(ShellExecuteW(nullptr, L"open", buffer.data(), nullptr, nullptr, SW_SHOWNORMAL));
         if (result <= 32)
