@@ -2,27 +2,32 @@
 
 #pragma once
 
+#include <cstdint>
+#include <vector>
+
 #include "core/Setup.h"
 #if OUZEL_SUPPORTS_X11
 #  include <X11/X.h>
 #endif
-#include "input/NativeCursor.hpp"
+
+#include "input/Cursor.hpp"
+#include "math/Size2.hpp"
 
 namespace ouzel
 {
     namespace input
     {
-        class NativeCursorLinux final: public NativeCursor
+        class NativeCursorLinux final
         {
         public:
-            explicit NativeCursorLinux(InputSystem& initInputSystem);
+            explicit NativeCursorLinux();
             ~NativeCursorLinux();
 
-            void init(SystemCursor newSystemCursor) override;
-            void init(const std::vector<uint8_t>& newData,
-                      const Size2& newSize,
-                      graphics::PixelFormat newPixelFormat,
-                      const Vector2& newHotSpot) override;
+            void init(SystemCursor systemCursor);
+            void init(const std::vector<uint8_t>& data,
+                      const Size2& size,
+                      graphics::PixelFormat pixelFormat,
+                      const Vector2& hotSpot);
 
 #if OUZEL_SUPPORTS_X11
             ::Cursor getNativeCursor() const { return cursor; }

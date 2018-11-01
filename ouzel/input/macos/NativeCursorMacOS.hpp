@@ -2,31 +2,35 @@
 
 #pragma once
 
+#include <cstdint>
+#include <vector>
+
 #if defined(__OBJC__)
-#import <AppKit/AppKit.h>
+#  import <AppKit/AppKit.h>
 typedef NSCursor* NSCursorPtr;
 #else
-#include <objc/objc.h>
+#  include <objc/objc.h>
 typedef id NSCursorPtr;
 #endif
 
-#include "input/NativeCursor.hpp"
+#include "input/Cursor.hpp"
+#include "math/Size2.hpp"
 
 namespace ouzel
 {
     namespace input
     {
-        class NativeCursorMacOS final: public NativeCursor
+        class NativeCursorMacOS final
         {
         public:
-            explicit NativeCursorMacOS(InputSystem& initInputSystem);
+            explicit NativeCursorMacOS();
             ~NativeCursorMacOS();
 
-            void init(SystemCursor newSystemCursor) override;
-            void init(const std::vector<uint8_t>& newData,
-                      const Size2& newSize,
-                      graphics::PixelFormat newPixelFormat,
-                      const Vector2& newHotSpot) override;
+            void init(SystemCursor systemCursor);
+            void init(const std::vector<uint8_t>& data,
+                      const Size2& size,
+                      graphics::PixelFormat pixelFormat,
+                      const Vector2& hotSpot);
 
             inline NSCursorPtr getNativeCursor() const { return cursor; }
 

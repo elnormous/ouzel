@@ -2,7 +2,6 @@
 
 #include "Cursor.hpp"
 #include "InputManager.hpp"
-#include "NativeCursor.hpp"
 #include "core/Engine.hpp"
 #include "utils/Errors.hpp"
 #include "stb_image.h"
@@ -15,11 +14,6 @@ namespace ouzel
             inputManager(initInputManager)
         {
             cursorResource = inputManager.getInputSystem()->getResourceId();
-
-            InputSystem::Command command;
-            command.type = InputSystem::Command::Type::CREATE_CURSOR;
-            command.cursorResource = cursorResource;
-            inputManager.getInputSystem()->addCommand(command);
         }
 
         Cursor::Cursor(InputManager& initInputManager, SystemCursor systemCursor):

@@ -2,27 +2,32 @@
 
 #pragma once
 
+#include <cstdint>
+#include <vector>
+
 #ifndef NOMINMAX
 #  define NOMINMAX
 #endif
 #include <Windows.h>
-#include "input/NativeCursor.hpp"
+
+#include "input/Cursor.hpp"
+#include "math/Size2.hpp"
 
 namespace ouzel
 {
     namespace input
     {
-        class NativeCursorWin final: public NativeCursor
+        class NativeCursorWin final
         {
         public:
-            explicit NativeCursorWin(InputSystem& initInputSystem);
+            explicit NativeCursorWin();
             ~NativeCursorWin();
 
-            void init(SystemCursor newSystemCursor) override;
-            void init(const std::vector<uint8_t>& newData,
-                      const Size2& newSize,
-                      graphics::PixelFormat newPixelFormat,
-                      const Vector2& newHotSpot) override;
+            void init(SystemCursor systemCursor);
+            void init(const std::vector<uint8_t>& data,
+                      const Size2& size,
+                      graphics::PixelFormat pixelFormat,
+                      const Vector2& hotSpot);
 
             HCURSOR getNativeCursor() const { return cursor; }
 

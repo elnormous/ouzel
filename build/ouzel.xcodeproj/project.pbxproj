@@ -423,12 +423,6 @@
 		3049DCDD1EDCD0450000997A /* Cursor.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3049DCD71EDCD0450000997A /* Cursor.hpp */; };
 		3049DCDE1EDCD0450000997A /* Cursor.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3049DCD71EDCD0450000997A /* Cursor.hpp */; };
 		3049DCDF1EDCD0450000997A /* Cursor.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3049DCD71EDCD0450000997A /* Cursor.hpp */; };
-		3049DCE01EDCD0450000997A /* NativeCursor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3049DCD81EDCD0450000997A /* NativeCursor.cpp */; };
-		3049DCE11EDCD0450000997A /* NativeCursor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3049DCD81EDCD0450000997A /* NativeCursor.cpp */; };
-		3049DCE21EDCD0450000997A /* NativeCursor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3049DCD81EDCD0450000997A /* NativeCursor.cpp */; };
-		3049DCE31EDCD0450000997A /* NativeCursor.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3049DCD91EDCD0450000997A /* NativeCursor.hpp */; };
-		3049DCE41EDCD0450000997A /* NativeCursor.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3049DCD91EDCD0450000997A /* NativeCursor.hpp */; };
-		3049DCE51EDCD0450000997A /* NativeCursor.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3049DCD91EDCD0450000997A /* NativeCursor.hpp */; };
 		3049DCE81EDCD1FA0000997A /* NativeCursorMacOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3049DCE61EDCD1FA0000997A /* NativeCursorMacOS.hpp */; };
 		3049DCE91EDCD1FA0000997A /* NativeCursorMacOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3049DCE71EDCD1FA0000997A /* NativeCursorMacOS.mm */; };
 		304A8E501C237C70008B1151 /* ouzel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2A1C237C70008B1151 /* ouzel.hpp */; };
@@ -1093,8 +1087,6 @@
 		3049DCB31ED8687C0000997A /* ConvexVolume.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ConvexVolume.hpp; sourceTree = "<group>"; };
 		3049DCD61EDCD0450000997A /* Cursor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cursor.cpp; sourceTree = "<group>"; };
 		3049DCD71EDCD0450000997A /* Cursor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Cursor.hpp; sourceTree = "<group>"; };
-		3049DCD81EDCD0450000997A /* NativeCursor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NativeCursor.cpp; sourceTree = "<group>"; };
-		3049DCD91EDCD0450000997A /* NativeCursor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NativeCursor.hpp; sourceTree = "<group>"; };
 		3049DCE61EDCD1FA0000997A /* NativeCursorMacOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NativeCursorMacOS.hpp; sourceTree = "<group>"; };
 		3049DCE71EDCD1FA0000997A /* NativeCursorMacOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NativeCursorMacOS.mm; sourceTree = "<group>"; };
 		304A8E251C237C30008B1151 /* libouzel_macos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libouzel_macos.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1687,8 +1679,6 @@
 				30BB848C20843FCD00C145A2 /* Mouse.hpp */,
 				30EEADC221618DD800D2F525 /* MouseDevice.cpp */,
 				30EEADB821605A4000D2F525 /* MouseDevice.hpp */,
-				3049DCD81EDCD0450000997A /* NativeCursor.cpp */,
-				3049DCD91EDCD0450000997A /* NativeCursor.hpp */,
 				307726CE2187F2880050F94C /* SystemCursor.hpp */,
 				30FFBE312158FB3F004B0BD3 /* Touchpad.cpp */,
 				30BB848E2084410500C145A2 /* Touchpad.hpp */,
@@ -2041,7 +2031,6 @@
 				30519CD31F9B53CB00AF3DC4 /* LoaderImage.hpp in Headers */,
 				303821361D81876E00677CAB /* BlendStateResourceEmpty.hpp in Headers */,
 				30216B761ED464730073E3D5 /* Material.hpp in Headers */,
-				3049DCE31EDCD0450000997A /* NativeCursor.hpp in Headers */,
 				306B0E631C567D05005C75C1 /* ShapeRenderer.hpp in Headers */,
 				3085DA23211A4A5500F4C2D0 /* Socket.hpp in Headers */,
 				303820631D816C7700677CAB /* EngineIOS.hpp in Headers */,
@@ -2198,7 +2187,6 @@
 				3072370F1FAFDAB8002EA399 /* JSON.hpp in Headers */,
 				303821381D81876E00677CAB /* BlendStateResourceEmpty.hpp in Headers */,
 				30216B781ED464730073E3D5 /* Material.hpp in Headers */,
-				3049DCE51EDCD0450000997A /* NativeCursor.hpp in Headers */,
 				306B0E641C567D05005C75C1 /* ShapeRenderer.hpp in Headers */,
 				304B275A1C9384A600BA162D /* Size3.hpp in Headers */,
 				303820301D80A55700677CAB /* BufferResourceMetal.hpp in Headers */,
@@ -2444,7 +2432,6 @@
 				303821371D81876E00677CAB /* BlendStateResourceEmpty.hpp in Headers */,
 				30419DE41D162BCF00A63759 /* Audio.hpp in Headers */,
 				C6AC8A8D215BD7D500F14D75 /* MouseDeviceMacOS.hpp in Headers */,
-				3049DCE41EDCD0450000997A /* NativeCursor.hpp in Headers */,
 				30575AA11C39CB790009C8A7 /* Scene.hpp in Headers */,
 				3038215B1D81876E00677CAB /* TextureResourceEmpty.hpp in Headers */,
 				3047F76A1C4D2C2000774E3D /* Sequence.hpp in Headers */,
@@ -2654,7 +2641,6 @@
 				309BA3131F183D6E006F2240 /* AudioDeviceCA.cpp in Sources */,
 				30B8598C1F3D286600A16952 /* TTFont.cpp in Sources */,
 				30FFBE3A2158FD8D004B0BD3 /* Mouse.cpp in Sources */,
-				3049DCE01EDCD0450000997A /* NativeCursor.cpp in Sources */,
 				304E76391F7095DE0025C0DB /* Client.cpp in Sources */,
 				303821691D81876E00677CAB /* AudioDeviceEmpty.cpp in Sources */,
 				30381FB51D80A3F900677CAB /* AudioDeviceAL.cpp in Sources */,
@@ -2820,7 +2806,6 @@
 				309BA3151F183D6E006F2240 /* AudioDeviceCA.cpp in Sources */,
 				30B8598E1F3D286600A16952 /* TTFont.cpp in Sources */,
 				30FFBE3C2158FD8D004B0BD3 /* Mouse.cpp in Sources */,
-				3049DCE21EDCD0450000997A /* NativeCursor.cpp in Sources */,
 				304E763B1F7095DE0025C0DB /* Client.cpp in Sources */,
 				30EEADC121618DC400D2F525 /* KeyboardDevice.cpp in Sources */,
 				3038216B1D81876E00677CAB /* AudioDeviceEmpty.cpp in Sources */,
@@ -2985,7 +2970,6 @@
 				3038207E1D816C9E00677CAB /* EngineMacOS.mm in Sources */,
 				309BA3141F183D6E006F2240 /* AudioDeviceCA.cpp in Sources */,
 				3038216A1D81876E00677CAB /* AudioDeviceEmpty.cpp in Sources */,
-				3049DCE11EDCD0450000997A /* NativeCursor.cpp in Sources */,
 				3053FF711F43834900760E67 /* SpriteData.cpp in Sources */,
 				304E763A1F7095DE0025C0DB /* Client.cpp in Sources */,
 				304A8E641C237C70008B1151 /* Renderer.cpp in Sources */,
