@@ -8,7 +8,7 @@
 
 #include <vector>
 #include <d3d11.h>
-#include "graphics/d3d11/RenderResourceD3D11.hpp"
+#include "graphics/direct3d11/RenderResourceD3D11.hpp"
 #include "graphics/Shader.hpp"
 
 namespace ouzel
