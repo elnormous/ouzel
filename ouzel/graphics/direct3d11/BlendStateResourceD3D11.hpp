@@ -7,7 +7,7 @@
 #if OUZEL_COMPILE_DIRECT3D11
 
 #include <d3d11.h>
-#include "graphics/d3d11/RenderResourceD3D11.hpp"
+#include "graphics/direct3d11/RenderResourceD3D11.hpp"
 #include "graphics/BlendState.hpp"
 
 namespace ouzel
