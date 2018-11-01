@@ -41,7 +41,6 @@ namespace ouzel
 
             if (renderThread.joinable()) renderThread.join();
 
-            resourceDeleteSet.clear();
             resources.clear();
 
             for (ID3D11DepthStencilState* depthStencilState : depthStencilStates)
