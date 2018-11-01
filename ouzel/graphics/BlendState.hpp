@@ -64,7 +64,7 @@ namespace ouzel
                       Operation newAlphaOperation,
                       uint8_t newColorMask = COLOR_MASK_ALL);
 
-            inline uint64_t getResource() const { return resource; }
+            inline uintptr_t getResource() const { return resource; }
 
             inline bool isBlendingEnabled() const { return enableBlending; }
 
@@ -79,7 +79,7 @@ namespace ouzel
 
         private:
             Renderer& renderer;
-            uint64_t resource = 0;
+            uintptr_t resource = 0;
 
             BlendState::Factor colorBlendSource = BlendState::Factor::ONE;
             BlendState::Factor colorBlendDest = BlendState::Factor::ZERO;

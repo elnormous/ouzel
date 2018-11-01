@@ -42,7 +42,7 @@ namespace ouzel
             void setData(const void* newData, uint32_t newSize);
             void setData(const std::vector<uint8_t>& newData);
 
-            inline uint64_t getResource() const { return resource; }
+            inline uintptr_t getResource() const { return resource; }
 
             inline Usage getUsage() const { return usage; }
             inline uint32_t getFlags() const { return flags; }
@@ -50,7 +50,7 @@ namespace ouzel
 
         private:
             Renderer& renderer;
-            uint64_t resource = 0;
+            uintptr_t resource = 0;
 
             Buffer::Usage usage;
             uint32_t flags = 0;

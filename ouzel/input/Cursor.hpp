@@ -40,7 +40,7 @@ namespace ouzel
 
         private:
             InputManager& inputManager;
-            uint64_t cursorResource = 0;
+            uintptr_t cursorResource = 0;
         };
     } // namespace input
 } // namespace ouzel

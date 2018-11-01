@@ -199,12 +199,12 @@ namespace ouzel
             device->executeOnRenderThread(std::bind(&RenderDevice::generateScreenshot, device.get(), filename));
         }
 
-        void Renderer::setRenderTarget(uint64_t renderTarget)
+        void Renderer::setRenderTarget(uintptr_t renderTarget)
         {
             device->addCommand(std::unique_ptr<Command>(new SetRenderTargetCommand(renderTarget)));
         }
 
-        void Renderer::clearRenderTarget(uint64_t renderTarget)
+        void Renderer::clearRenderTarget(uintptr_t renderTarget)
         {
             device->addCommand(std::unique_ptr<Command>(new ClearRenderTargetCommand(renderTarget)));
         }
@@ -234,16 +234,16 @@ namespace ouzel
             device->addCommand(std::unique_ptr<Command>(new SetDepthStateCommand(depthTest, depthWrite)));
         }
 
-        void Renderer::setPipelineState(uint64_t blendState,
-                                        uint64_t shader)
+        void Renderer::setPipelineState(uintptr_t blendState,
+                                        uintptr_t shader)
         {
             device->addCommand(std::unique_ptr<Command>(new SetPipelineStateCommand(blendState, shader)));
         }
 
-        void Renderer::draw(uint64_t indexBuffer,
+        void Renderer::draw(uintptr_t indexBuffer,
                             uint32_t indexCount,
                             uint32_t indexSize,
-                            uint64_t vertexBuffer,
+                            uintptr_t vertexBuffer,
                             DrawMode drawMode,
                             uint32_t startIndex)
         {
@@ -275,9 +275,9 @@ namespace ouzel
                                                                                       vertexShaderConstants)));
         }
 
-        void Renderer::setTextures(const std::vector<uint64_t>& textures)
+        void Renderer::setTextures(const std::vector<uintptr_t>& textures)
         {
-            uint64_t newTextures[Texture::LAYERS];
+            uintptr_t newTextures[Texture::LAYERS];
 
             for (uint32_t i = 0; i < Texture::LAYERS; ++i)
                 newTextures[i] = (i < textures.size()) ? textures[i] : 0;

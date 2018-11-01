@@ -75,7 +75,7 @@ namespace ouzel
                       uint32_t newFlags = 0,
                       PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
 
-            inline uint64_t getResource() const { return resource; }
+            inline uintptr_t getResource() const { return resource; }
 
             inline const Size2& getSize() const { return size; }
 
@@ -114,7 +114,7 @@ namespace ouzel
 
         private:
             Renderer& renderer;
-            uint64_t resource = 0;
+            uintptr_t resource = 0;
 
             Size2 size;
             uint32_t flags = 0;

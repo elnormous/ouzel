@@ -235,7 +235,7 @@ namespace ouzel
                 std::vector<std::vector<float>> vertexShaderConstants(1);
                 vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
 
-                std::vector<uint64_t> textures;
+                std::vector<uintptr_t> textures;
                 if (wireframe) textures.push_back(whitePixelTexture->getResource());
                 else
                 {
