@@ -24,4 +24,3 @@ namespace ouzel
         };
     } // namespace graphics
 } // namespace ouzel
-
