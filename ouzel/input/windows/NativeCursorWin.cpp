@@ -7,8 +7,7 @@ namespace ouzel
 {
     namespace input
     {
-        NativeCursorWin::NativeCursorWin(InputSystem& initInputSystem):
-            NativeCursor(initInputSystem)
+        NativeCursorWin::NativeCursorWin()
         {
         }
 
@@ -17,10 +16,8 @@ namespace ouzel
             if (cursor && !shared) DestroyCursor(cursor);
         }
 
-        void NativeCursorWin::init(SystemCursor newSystemCursor)
+        void NativeCursorWin::init(SystemCursor systemCursor)
         {
-            NativeCursor::init(newSystemCursor);
-
             if (cursor)
             {
                 if (!shared) DestroyCursor(cursor);
@@ -59,16 +56,11 @@ namespace ouzel
             shared = true;
         }
 
-        void NativeCursorWin::init(const std::vector<uint8_t>& newData,
-                                   const Size2& newSize,
-                                   graphics::PixelFormat newPixelFormat,
-                                   const Vector2& newHotSpot)
+        void NativeCursorWin::init(const std::vector<uint8_t>& data,
+                                   const Size2& size,
+                                   graphics::PixelFormat pixelFormat,
+                                   const Vector2& hotSpot)
         {
-            NativeCursor::init(newData,
-                               newSize,
-                               newPixelFormat,
-                               newHotSpot);
-
             if (cursor)
             {
                 if (!shared) DestroyCursor(cursor);

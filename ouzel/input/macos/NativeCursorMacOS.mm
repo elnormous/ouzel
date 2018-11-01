@@ -6,8 +6,7 @@ namespace ouzel
 {
     namespace input
     {
-        NativeCursorMacOS::NativeCursorMacOS(InputSystem& initInputSystem):
-            NativeCursor(initInputSystem)
+        NativeCursorMacOS::NativeCursorMacOS()
         {
         }
 
@@ -16,10 +15,8 @@ namespace ouzel
             if (cursor) [cursor release];
         }
 
-        void NativeCursorMacOS::init(SystemCursor newSystemCursor)
+        void NativeCursorMacOS::init(SystemCursor systemCursor)
         {
-            NativeCursor::init(newSystemCursor);
-
             if (cursor)
             {
                 [cursor release];
@@ -52,16 +49,11 @@ namespace ouzel
             if (cursor) [cursor retain];
         }
 
-        void NativeCursorMacOS::init(const std::vector<uint8_t>& newData,
-                                     const Size2& newSize,
-                                     graphics::PixelFormat newPixelFormat,
-                                     const Vector2& newHotSpot)
+        void NativeCursorMacOS::init(const std::vector<uint8_t>& data,
+                                     const Size2& size,
+                                     graphics::PixelFormat pixelFormat,
+                                     const Vector2& hotSpot)
         {
-            NativeCursor::init(newData,
-                               newSize,
-                               newPixelFormat,
-                               newHotSpot);
-
             if (cursor)
             {
                 [cursor release];
@@ -76,7 +68,8 @@ namespace ouzel
                 NSInteger width = static_cast<NSInteger>(size.width);
                 NSInteger height = static_cast<NSInteger>(size.height);
 
-                unsigned char* rgba = data.data();
+                std::vector<uint8_t> copy = data;
+                unsigned char* rgba = copy.data();
 
                 NSImage* image = [[[NSImage alloc] initWithSize:NSMakeSize(width, height)] autorelease];
                 NSBitmapImageRep* imageRep = [[[NSBitmapImageRep alloc]

@@ -118,7 +118,6 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/input/KeyboardDevice.cpp \
 	$(ROOT_DIR)/../ouzel/input/Mouse.cpp \
 	$(ROOT_DIR)/../ouzel/input/MouseDevice.cpp \
-	$(ROOT_DIR)/../ouzel/input/NativeCursor.cpp \
 	$(ROOT_DIR)/../ouzel/input/Touchpad.cpp \
 	$(ROOT_DIR)/../ouzel/input/TouchpadDevice.cpp \
 	$(ROOT_DIR)/../ouzel/localization/Language.cpp \

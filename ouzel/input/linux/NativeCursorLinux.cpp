@@ -6,7 +6,6 @@
 #  include <X11/Xcursor/Xcursor.h>
 #endif
 #include "NativeCursorLinux.hpp"
-#include "core/Engine.hpp"
 #include "core/linux/EngineLinux.hpp"
 #include "utils/Errors.hpp"
 
@@ -14,8 +13,7 @@ namespace ouzel
 {
     namespace input
     {
-        NativeCursorLinux::NativeCursorLinux(InputSystem& initInputSystem):
-            NativeCursor(initInputSystem)
+        NativeCursorLinux::NativeCursorLinux()
         {
         }
 
@@ -31,10 +29,8 @@ namespace ouzel
 #endif
         }
 
-        void NativeCursorLinux::init(SystemCursor newSystemCursor)
+        void NativeCursorLinux::init(SystemCursor systemCursor)
         {
-            NativeCursor::init(newSystemCursor);
-
 #if OUZEL_SUPPORTS_X11
             EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
             Display* display = engineLinux->getDisplay();
@@ -70,16 +66,11 @@ namespace ouzel
 #endif
         }
 
-        void NativeCursorLinux::init(const std::vector<uint8_t>& newData,
-                                     const Size2& newSize,
-                                     graphics::PixelFormat newPixelFormat,
-                                     const Vector2& newHotSpot)
+        void NativeCursorLinux::init(const std::vector<uint8_t>& data,
+                                     const Size2& size,
+                                     graphics::PixelFormat pixelFormat,
+                                     const Vector2& hotSpot)
         {
-            NativeCursor::init(newData,
-                               newSize,
-                               newPixelFormat,
-                               newHotSpot);
-
 #if OUZEL_SUPPORTS_X11
             EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
             Display* display = engineLinux->getDisplay();

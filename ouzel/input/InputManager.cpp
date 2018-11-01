@@ -7,7 +7,6 @@
 #include "Keyboard.hpp"
 #include "Mouse.hpp"
 #include "Touchpad.hpp"
-#include "NativeCursor.hpp"
 #include "core/Engine.hpp"
 #include "events/EventDispatcher.hpp"
 #include "math/MathUtils.hpp"

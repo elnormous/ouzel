@@ -112,12 +112,20 @@ namespace ouzel
                     }
                     break;
                 }
-                case Command::Type::CREATE_CURSOR:
+                case Command::Type::INIT_CURSOR:
                 {
                     if (command.cursorResource > cursors.size())
                         cursors.resize(command.cursorResource);
 
-                    cursors[command.cursorResource - 1].reset(new NativeCursorLinux(*this));
+                    std::unique_ptr<NativeCursorLinux> cursor(new NativeCursorLinux());
+
+                    if (command.data.empty())
+                        cursor->init(command.systemCursor);
+                    else
+                        cursor->init(command.data, command.size,
+                                     command.pixelFormat, command.hotSpot);
+
+                    cursors[command.cursorResource - 1] = std::move(cursor);
                     break;
                 }
                 case Command::Type::DESTROY_CURSOR:
@@ -133,22 +141,6 @@ namespace ouzel
 #endif
 
                     cursors[command.cursorResource - 1].reset();
-                    break;
-                }
-                case Command::Type::INIT_CURSOR:
-                {
-                    NativeCursorLinux* cursor = cursors[command.cursorResource - 1].get();
-
-                    if (command.data.empty())
-                        cursor->init(command.systemCursor);
-                    else
-                        cursor->init(command.data, command.size,
-                                     command.pixelFormat, command.hotSpot);
-
-#if OUZEL_SUPPORTS_X11
-                        if (mouseDevice->getCursor() == cursor)
-                            updateCursor();
-#endif
                     break;
                 }
                 case Command::Type::SET_CURSOR:

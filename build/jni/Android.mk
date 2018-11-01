@@ -117,7 +117,6 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
 	../../ouzel/input/KeyboardDevice.cpp \
 	../../ouzel/input/Mouse.cpp \
 	../../ouzel/input/MouseDevice.cpp \
-	../../ouzel/input/NativeCursor.cpp \
 	../../ouzel/input/Touchpad.cpp \
 	../../ouzel/input/TouchpadDevice.cpp \
     ../../ouzel/localization/Language.cpp \
