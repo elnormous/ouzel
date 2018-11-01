@@ -15,6 +15,7 @@ namespace ouzel
                 renderDevice(initRenderDevice)
             {
             }
+            virtual ~RenderResourceOGL() {}
 
             virtual void reload() = 0;
 
