@@ -147,7 +147,7 @@ namespace ouzel
         {
             clearColorBuffer = clear;
 
-            device->addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(nullptr,
+            device->addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(0,
                                                                                              clearColorBuffer,
                                                                                              clearDepthBuffer,
                                                                                              clearColor,
@@ -158,7 +158,7 @@ namespace ouzel
         {
             clearDepthBuffer = clear;
 
-            device->addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(nullptr,
+            device->addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(0,
                                                                                              clearColorBuffer,
                                                                                              clearDepthBuffer,
                                                                                              clearColor,
@@ -169,7 +169,7 @@ namespace ouzel
         {
             clearColor = color;
 
-            device->addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(nullptr,
+            device->addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(0,
                                                                                              clearColorBuffer,
                                                                                              clearDepthBuffer,
                                                                                              clearColor,
@@ -180,7 +180,7 @@ namespace ouzel
         {
             clearDepth = newClearDepth;
 
-            device->addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(nullptr,
+            device->addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(0,
                                                                                              clearColorBuffer,
                                                                                              clearDepthBuffer,
                                                                                              clearColor,
@@ -199,12 +199,12 @@ namespace ouzel
             device->executeOnRenderThread(std::bind(&RenderDevice::generateScreenshot, device.get(), filename));
         }
 
-        void Renderer::setRenderTarget(RenderResource* renderTarget)
+        void Renderer::setRenderTarget(uint64_t renderTarget)
         {
             device->addCommand(std::unique_ptr<Command>(new SetRenderTargetCommand(renderTarget)));
         }
 
-        void Renderer::clearRenderTarget(RenderResource* renderTarget)
+        void Renderer::clearRenderTarget(uint64_t renderTarget)
         {
             device->addCommand(std::unique_ptr<Command>(new ClearRenderTargetCommand(renderTarget)));
         }
@@ -234,16 +234,16 @@ namespace ouzel
             device->addCommand(std::unique_ptr<Command>(new SetDepthStateCommand(depthTest, depthWrite)));
         }
 
-        void Renderer::setPipelineState(RenderResource* blendState,
-                                        RenderResource* shader)
+        void Renderer::setPipelineState(uint64_t blendState,
+                                        uint64_t shader)
         {
             device->addCommand(std::unique_ptr<Command>(new SetPipelineStateCommand(blendState, shader)));
         }
 
-        void Renderer::draw(RenderResource* indexBuffer,
+        void Renderer::draw(uint64_t indexBuffer,
                             uint32_t indexCount,
                             uint32_t indexSize,
-                            RenderResource* vertexBuffer,
+                            uint64_t vertexBuffer,
                             DrawMode drawMode,
                             uint32_t startIndex)
         {
@@ -275,12 +275,12 @@ namespace ouzel
                                                                                       vertexShaderConstants)));
         }
 
-        void Renderer::setTextures(const std::vector<RenderResource*>& textures)
+        void Renderer::setTextures(const std::vector<uint64_t>& textures)
         {
-            RenderResource* newTextures[Texture::LAYERS];
+            uint64_t newTextures[Texture::LAYERS];
 
             for (uint32_t i = 0; i < Texture::LAYERS; ++i)
-                newTextures[i] = (i < textures.size()) ? textures[i] : nullptr;
+                newTextures[i] = (i < textures.size()) ? textures[i] : 0;
 
             device->addCommand(std::unique_ptr<Command>(new SetTexturesCommand(newTextures)));
         }

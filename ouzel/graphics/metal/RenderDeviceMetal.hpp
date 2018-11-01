@@ -7,13 +7,14 @@
 #if OUZEL_COMPILE_METAL
 
 #include <map>
+#include <memory>
 #include <vector>
 #include <dispatch/dispatch.h>
 
 #if defined(__OBJC__)
-#import <CoreVideo/CoreVideo.h>
-#import <QuartzCore/QuartzCore.h>
-#import <Metal/Metal.h>
+#  import <CoreVideo/CoreVideo.h>
+#  import <QuartzCore/QuartzCore.h>
+#  import <Metal/Metal.h>
 typedef CAMetalLayer* CAMetalLayerPtr;
 typedef id<MTLDevice> MTLDevicePtr;
 typedef id<MTLBuffer> MTLBufferPtr;
@@ -24,8 +25,8 @@ typedef id<MTLRenderPipelineState> MTLRenderPipelineStatePtr;
 typedef id<MTLTexture> MTLTexturePtr;
 typedef id<MTLDepthStencilState> MTLDepthStencilStatePtr;
 #else
-#include <objc/objc.h>
-#include <objc/NSObjCRuntime.h>
+#  include <objc/objc.h>
+#  include <objc/NSObjCRuntime.h>
 typedef id CAMetalLayerPtr;
 typedef id MTLDevicePtr;
 typedef id MTLBufferPtr;
@@ -38,10 +39,10 @@ typedef id MTLRenderPipelineStatePtr;
 typedef id MTLTexturePtr;
 typedef id MTLDepthStencilStatePtr;
 typedef NSUInteger MTLPixelFormat;
-#define MTLPixelFormatInvalid 0
+#  define MTLPixelFormatInvalid 0
 typedef NSUInteger MTLLoadAction;
-#define MTLLoadActionDontCare 0
-#define MTLLoadActionClear 2
+#  define MTLLoadActionDontCare 0
+#  define MTLLoadActionClear 2
 #endif
 
 #include "graphics/RenderDevice.hpp"
@@ -91,12 +92,6 @@ namespace ouzel
 
             void process() override;
             void generateScreenshot(const std::string& filename) override;
-
-            RenderResource* createBlendState() override;
-            RenderResource* createBuffer() override;
-            RenderResource* createRenderTarget() override;
-            RenderResource* createShader() override;
-            RenderResource* createTexture() override;
 
             class PipelineStateDesc
             {
@@ -148,6 +143,8 @@ namespace ouzel
             dispatch_semaphore_t inflightSemaphore;
 
             std::map<PipelineStateDesc, MTLRenderPipelineStatePtr> pipelineStates;
+
+            std::vector<std::unique_ptr<RenderResourceMetal>> resources;
         };
     } // namespace graphics
 } // namespace ouzel

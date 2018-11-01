@@ -11,12 +11,14 @@ namespace ouzel
         Shader::Shader(Renderer& initRenderer):
             renderer(initRenderer)
         {
-            resource = renderer.getDevice()->createShader();
+            resource = renderer.getDevice()->getResourceId();
         }
 
         Shader::~Shader()
         {
-            if (resource) renderer.getDevice()->deleteResource(resource);
+            RenderDevice* renderDevice = renderer.getDevice();
+            renderDevice->addCommand(std::unique_ptr<Command>(new DeleteShaderCommand(resource)));
+            if (resource) renderDevice->deleteResourceId(resource);
         }
 
         void Shader::init(const std::vector<uint8_t>& newFragmentShader,

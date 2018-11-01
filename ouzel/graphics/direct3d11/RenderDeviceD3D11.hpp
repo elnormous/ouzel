@@ -8,7 +8,9 @@
 
 #include <atomic>
 #include <map>
+#include <memory>
 #include <thread>
+#include <vector>
 #include <d3d11.h>
 #include "graphics/RenderDevice.hpp"
 #include "graphics/direct3d11/TextureResourceD3D11.hpp"
@@ -56,12 +58,6 @@ namespace ouzel
             void generateScreenshot(const std::string& filename) override;
             void main();
 
-            RenderResource* createBlendState() override;
-            RenderResource* createBuffer() override;
-            RenderResource* createRenderTarget() override;
-            RenderResource* createShader() override;
-            RenderResource* createTexture() override;
-
             IDXGIOutput* getOutput() const;
 
             ID3D11Device* device = nullptr;
@@ -84,6 +80,8 @@ namespace ouzel
 
             std::atomic_bool running;
             std::thread renderThread;
+
+            std::vector<std::unique_ptr<RenderResourceD3D11>> resources;
         };
     } // namespace graphics
 } // namespace ouzel

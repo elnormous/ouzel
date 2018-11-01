@@ -2,19 +2,24 @@
 
 #pragma once
 
-#include "graphics/RenderResource.hpp"
-
 namespace ouzel
 {
     namespace graphics
     {
-        class RenderResourceOGL: public RenderResource
+        class RenderDeviceOGL;
+
+        class RenderResourceOGL
         {
         public:
-            explicit RenderResourceOGL(RenderDevice& renderDevice):
-                RenderResource(renderDevice) {}
+            explicit RenderResourceOGL(RenderDeviceOGL& initRenderDevice):
+                renderDevice(initRenderDevice)
+            {
+            }
 
             virtual void reload() = 0;
+
+        protected:
+            RenderDeviceOGL& renderDevice;
         };
     } // namespace graphics
 } // namespace ouzel

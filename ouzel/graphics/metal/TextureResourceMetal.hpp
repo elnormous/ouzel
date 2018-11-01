@@ -23,7 +23,7 @@ typedef NSUInteger MTLLoadAction;
 #endif
 
 #include <tuple>
-#include "graphics/RenderResource.hpp"
+#include "graphics/metal/RenderResourceMetal.hpp"
 #include "graphics/Texture.hpp"
 
 namespace ouzel
@@ -46,7 +46,7 @@ namespace ouzel
             }
         };
 
-        class TextureResourceMetal final: public RenderResource
+        class TextureResourceMetal final: public RenderResourceMetal
         {
         public:
             explicit TextureResourceMetal(RenderDeviceMetal& renderDeviceMetal);

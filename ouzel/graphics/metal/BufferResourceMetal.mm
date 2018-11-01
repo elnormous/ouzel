@@ -14,7 +14,7 @@ namespace ouzel
     namespace graphics
     {
         BufferResourceMetal::BufferResourceMetal(RenderDeviceMetal& renderDeviceMetal):
-            RenderResource(renderDeviceMetal)
+            RenderResourceMetal(renderDeviceMetal)
         {
         }
 

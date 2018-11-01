@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include "RenderDevice.hpp"
-#include "RenderResource.hpp"
 
 namespace ouzel
 {
@@ -81,21 +80,6 @@ namespace ouzel
         std::vector<Size2> RenderDevice::getSupportedResolutions() const
         {
             return std::vector<Size2>();
-        }
-
-        void RenderDevice::deleteResource(RenderResource* resource)
-        {
-            std::unique_lock<std::mutex> lock(resourceMutex);
-
-            auto resourceIterator = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<RenderResource>& ptr) {
-                return ptr.get() == resource;
-            });
-
-            if (resourceIterator != resources.end())
-            {
-                resourceDeleteSet.push_back(std::move(*resourceIterator));
-                resources.erase(resourceIterator);
-            }
         }
 
         void RenderDevice::flushCommands()

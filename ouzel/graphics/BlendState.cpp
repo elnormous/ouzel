@@ -11,12 +11,14 @@ namespace ouzel
         BlendState::BlendState(Renderer& initRenderer):
             renderer(initRenderer)
         {
-            resource = renderer.getDevice()->createBlendState();
+            resource = renderer.getDevice()->getResourceId();
         }
 
         BlendState::~BlendState()
         {
-            if (resource) renderer.getDevice()->deleteResource(resource);
+            RenderDevice* renderDevice = renderer.getDevice();
+            renderDevice->addCommand(std::unique_ptr<Command>(new DeleteBlendStateCommand(resource)));
+            if (resource) renderDevice->deleteResourceId(resource);
         }
 
         void BlendState::init(bool newEnableBlending,

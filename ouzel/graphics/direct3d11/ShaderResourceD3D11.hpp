@@ -8,7 +8,7 @@
 
 #include <vector>
 #include <d3d11.h>
-#include "graphics/RenderResource.hpp"
+#include "graphics/d3d11/RenderResourceD3D11.hpp"
 #include "graphics/Shader.hpp"
 
 namespace ouzel
@@ -17,7 +17,7 @@ namespace ouzel
     {
         class RenderDeviceD3D11;
 
-        class ShaderResourceD3D11 final: public RenderResource
+        class ShaderResourceD3D11 final: public RenderResourceD3D11
         {
         public:
             explicit ShaderResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11);

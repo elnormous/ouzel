@@ -20,22 +20,20 @@ namespace ouzel
 
         TextureResourceOGL::~TextureResourceOGL()
         {
-            RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
-
             if (depthBufferId)
-                renderDeviceOGL.deleteRenderBuffer(depthBufferId);
+                renderDevice.deleteRenderBuffer(depthBufferId);
 
             if (colorBufferId)
-                renderDeviceOGL.deleteRenderBuffer(colorBufferId);
+                renderDevice.deleteRenderBuffer(colorBufferId);
 
             if (frameBufferId)
-                renderDeviceOGL.deleteFrameBuffer(frameBufferId);
+                renderDevice.deleteFrameBuffer(frameBufferId);
 
             if (depthTextureId)
-                renderDeviceOGL.deleteTexture(depthTextureId);
+                renderDevice.deleteTexture(depthTextureId);
 
             if (textureId)
-                renderDeviceOGL.deleteTexture(textureId);
+                renderDevice.deleteTexture(textureId);
         }
 
         static GLenum getOGLInternalPixelFormat(PixelFormat pixelFormat, uint32_t openGLVersion)
@@ -234,8 +232,7 @@ namespace ouzel
 
             createTexture();
 
-            RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
-            renderDeviceOGL.bindTexture(textureId, 0);
+            renderDevice.bindTexture(textureId, 0);
 
             if (flags & Texture::RENDER_TARGET)
             {
@@ -252,8 +249,8 @@ namespace ouzel
             {
                 if (!levels.empty())
                 {
-                    if (renderDeviceOGL.isTextureBaseLevelSupported()) glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-                    if (renderDeviceOGL.isTextureMaxLevelSupported()) glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
+                    if (renderDevice.isTextureBaseLevelSupported()) glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+                    if (renderDevice.isTextureMaxLevelSupported()) glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
 
                     GLenum error;
 
@@ -298,15 +295,14 @@ namespace ouzel
 
             createTexture();
 
-            RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
-            renderDeviceOGL.bindTexture(textureId, 0);
+            renderDevice.bindTexture(textureId, 0);
 
             if (!(flags & Texture::RENDER_TARGET))
             {
                 if (!levels.empty())
                 {
-                    if (renderDeviceOGL.isTextureBaseLevelSupported()) glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-                    if (renderDeviceOGL.isTextureMaxLevelSupported()) glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
+                    if (renderDevice.isTextureBaseLevelSupported()) glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+                    if (renderDevice.isTextureMaxLevelSupported()) glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
 
                     GLenum error;
 
@@ -351,8 +347,7 @@ namespace ouzel
             if (!textureId)
                 throw DataError("Texture not initialized");
 
-            RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
-            renderDeviceOGL.bindTexture(textureId, 0);
+            renderDevice.bindTexture(textureId, 0);
 
             if (!(flags & Texture::RENDER_TARGET))
             {
@@ -382,10 +377,9 @@ namespace ouzel
             if (!textureId)
                 throw DataError("Texture not initialized");
 
-            RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
-            renderDeviceOGL.bindTexture(textureId, 0);
+            renderDevice.bindTexture(textureId, 0);
 
-            Texture::Filter finalFilter = (filter == Texture::Filter::DEFAULT) ? renderDeviceOGL.getTextureFilter() : filter;
+            Texture::Filter finalFilter = (filter == Texture::Filter::DEFAULT) ? renderDevice.getTextureFilter() : filter;
 
             switch (finalFilter)
             {
@@ -423,8 +417,7 @@ namespace ouzel
             if (!textureId)
                 throw DataError("Texture not initialized");
 
-            RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
-            renderDeviceOGL.bindTexture(textureId, 0);
+            renderDevice.bindTexture(textureId, 0);
 
             switch (addressX)
             {
@@ -454,8 +447,7 @@ namespace ouzel
             if (!textureId)
                 throw DataError("Texture not initialized");
 
-            RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
-            renderDeviceOGL.bindTexture(textureId, 0);
+            renderDevice.bindTexture(textureId, 0);
 
             switch (addressY)
             {
@@ -485,12 +477,11 @@ namespace ouzel
             if (!textureId)
                 throw DataError("Texture not initialized");
 
-            RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
-            renderDeviceOGL.bindTexture(textureId, 0);
+            renderDevice.bindTexture(textureId, 0);
 
-            uint32_t finalMaxAnisotropy = (maxAnisotropy == 0) ? renderDeviceOGL.getMaxAnisotropy() : maxAnisotropy;
+            uint32_t finalMaxAnisotropy = (maxAnisotropy == 0) ? renderDevice.getMaxAnisotropy() : maxAnisotropy;
 
-            if (finalMaxAnisotropy > 1 && renderDeviceOGL.isAnisotropicFilteringSupported())
+            if (finalMaxAnisotropy > 1 && renderDevice.isAnisotropicFilteringSupported())
             {
                 glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, static_cast<GLint>(finalMaxAnisotropy));
 
@@ -538,35 +529,33 @@ namespace ouzel
 
         void TextureResourceOGL::createTexture()
         {
-            RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
-
             if (depthBufferId)
             {
-                renderDeviceOGL.deleteRenderBuffer(depthBufferId);
+                renderDevice.deleteRenderBuffer(depthBufferId);
                 depthBufferId = 0;
             }
 
             if (colorBufferId)
             {
-                renderDeviceOGL.deleteRenderBuffer(colorBufferId);
+                renderDevice.deleteRenderBuffer(colorBufferId);
                 colorBufferId = 0;
             }
 
             if (frameBufferId)
             {
-                renderDeviceOGL.deleteFrameBuffer(frameBufferId);
+                renderDevice.deleteFrameBuffer(frameBufferId);
                 frameBufferId = 0;
             }
 
             if (textureId)
             {
-                renderDeviceOGL.deleteTexture(textureId);
+                renderDevice.deleteTexture(textureId);
                 textureId = 0;
             }
 
             if (depthTextureId)
             {
-                renderDeviceOGL.deleteTexture(depthTextureId);
+                renderDevice.deleteTexture(depthTextureId);
                 depthTextureId = 0;
             }
 
@@ -577,12 +566,12 @@ namespace ouzel
             if ((error = glGetErrorProc()) != GL_NO_ERROR)
                 throw DataError("Failed to create texture, error: " + std::to_string(error));
 
-            renderDeviceOGL.bindTexture(textureId, 0);
+            renderDevice.bindTexture(textureId, 0);
 
             width = static_cast<GLsizei>(levels.front().size.width);
             height = static_cast<GLsizei>(levels.front().size.height);
 
-            oglInternalPixelFormat = getOGLInternalPixelFormat(pixelFormat, renderDeviceOGL.getAPIMajorVersion());
+            oglInternalPixelFormat = getOGLInternalPixelFormat(pixelFormat, renderDevice.getAPIMajorVersion());
 
             if (oglInternalPixelFormat == GL_NONE)
                 throw DataError("Invalid pixel format");
@@ -597,20 +586,20 @@ namespace ouzel
             if (oglPixelType == GL_NONE)
                 throw DataError("Invalid pixel format");
 
-            if ((flags & Texture::RENDER_TARGET) && renderDeviceOGL.isRenderTargetsSupported())
+            if ((flags & Texture::RENDER_TARGET) && renderDevice.isRenderTargetsSupported())
             {
                 glGenFramebuffersProc(1, &frameBufferId);
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
                     throw DataError("Failed to create frame buffer, error: " + std::to_string(error));
 
-                renderDeviceOGL.bindFrameBuffer(frameBufferId);
+                renderDevice.bindFrameBuffer(frameBufferId);
 
                 if (glCheckFramebufferStatusProc(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
                 {
                     if (flags & Texture::BINDABLE_COLOR_BUFFER)
                     {
-                        renderDeviceOGL.bindTexture(textureId, 0);
+                        renderDevice.bindTexture(textureId, 0);
 
                         glTexImage2DProc(GL_TEXTURE_2D, 0, static_cast<GLint>(oglInternalPixelFormat),
                                      width, height, 0,
@@ -624,7 +613,7 @@ namespace ouzel
                         glGenRenderbuffersProc(1, &colorBufferId);
                         glBindRenderbufferProc(GL_RENDERBUFFER, colorBufferId);
 
-                        if (sampleCount > 1 && renderDeviceOGL.isMultisamplingSupported())
+                        if (sampleCount > 1 && renderDevice.isMultisamplingSupported())
                         {
                             glRenderbufferStorageMultisampleProc(GL_RENDERBUFFER,
                                                                  static_cast<GLsizei>(sampleCount),
@@ -646,7 +635,7 @@ namespace ouzel
                         {
                             glGenTexturesProc(1, &depthTextureId);
 
-                            renderDeviceOGL.bindTexture(depthTextureId, 0);
+                            renderDevice.bindTexture(depthTextureId, 0);
 
                             glTexImage2DProc(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24,
                                          width, height, 0,GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
@@ -658,7 +647,7 @@ namespace ouzel
                             glGenRenderbuffersProc(1, &depthBufferId);
                             glBindRenderbufferProc(GL_RENDERBUFFER, depthBufferId);
 
-                            if (sampleCount > 1 && renderDeviceOGL.isMultisamplingSupported())
+                            if (sampleCount > 1 && renderDevice.isMultisamplingSupported())
                             {
                                 glRenderbufferStorageMultisampleProc(GL_RENDERBUFFER,
                                                                      static_cast<GLsizei>(sampleCount),
@@ -686,10 +675,9 @@ namespace ouzel
 
         void TextureResourceOGL::setTextureParameters()
         {
-            RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
-            renderDeviceOGL.bindTexture(textureId, 0);
+            renderDevice.bindTexture(textureId, 0);
 
-            Texture::Filter finalFilter = (filter == Texture::Filter::DEFAULT) ? renderDeviceOGL.getTextureFilter() : filter;
+            Texture::Filter finalFilter = (filter == Texture::Filter::DEFAULT) ? renderDevice.getTextureFilter() : filter;
 
             switch (finalFilter)
             {
@@ -755,9 +743,9 @@ namespace ouzel
             if ((error = glGetErrorProc()) != GL_NO_ERROR)
                 throw DataError("Failed to set texture wrap mode, error: " + std::to_string(error));
 
-            uint32_t finalMaxAnisotropy = (maxAnisotropy == 0) ? renderDeviceOGL.getMaxAnisotropy() : maxAnisotropy;
+            uint32_t finalMaxAnisotropy = (maxAnisotropy == 0) ? renderDevice.getMaxAnisotropy() : maxAnisotropy;
 
-            if (finalMaxAnisotropy > 1 && renderDeviceOGL.isAnisotropicFilteringSupported())
+            if (finalMaxAnisotropy > 1 && renderDevice.isAnisotropicFilteringSupported())
             {
                 glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, static_cast<GLint>(finalMaxAnisotropy));
 

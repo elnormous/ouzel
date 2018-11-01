@@ -9,8 +9,10 @@
 #include <cstring>
 #include <atomic>
 #include <map>
+#include <memory>
 #include <queue>
 #include <utility>
+#include <vector>
 
 #if OUZEL_SUPPORTS_OPENGLES
 #  include "GLES/gl.h"
@@ -135,7 +137,6 @@ extern PFNGLPUSHGROUPMARKEREXTPROC glPushGroupMarkerEXTProc;
 extern PFNGLPOPGROUPMARKEREXTPROC glPopGroupMarkerEXTProc;
 
 #include "graphics/RenderDevice.hpp"
-#include "graphics/RenderResource.hpp"
 #include "graphics/opengl/ShaderResourceOGL.hpp"
 #include "utils/Errors.hpp"
 
@@ -537,12 +538,6 @@ namespace ouzel
             virtual void present();
             void generateScreenshot(const std::string& filename) override;
 
-            RenderResource* createBlendState() override;
-            RenderResource* createBuffer() override;
-            RenderResource* createRenderTarget() override;
-            RenderResource* createShader() override;
-            RenderResource* createTexture() override;
-
             GLuint frameBufferId = 0;
             GLsizei frameBufferWidth = 0;
             GLsizei frameBufferHeight = 0;
@@ -607,6 +602,8 @@ namespace ouzel
             };
 
             StateCache stateCache;
+
+            std::vector<std::unique_ptr<RenderResourceOGL>> resources;
         };
     } // namespace graphics
 } // namespace ouzel

@@ -51,7 +51,7 @@ namespace ouzel
         }
 
         TextureResourceMetal::TextureResourceMetal(RenderDeviceMetal& renderDeviceMetal):
-            RenderResource(renderDeviceMetal)
+            RenderResourceMetal(renderDeviceMetal)
         {
         }
 

@@ -15,7 +15,7 @@ typedef NSUInteger MTLBlendOperation;
 typedef NSUInteger MTLColorWriteMask;
 #endif
 
-#include "graphics/RenderResource.hpp"
+#include "graphics/metal/RenderResourceMetal.hpp"
 #include "graphics/BlendState.hpp"
 
 namespace ouzel
@@ -24,7 +24,7 @@ namespace ouzel
     {
         class RenderDeviceMetal;
 
-        class BlendStateResourceMetal final: public RenderResource
+        class BlendStateResourceMetal final: public RenderResourceMetal
         {
         public:
             BlendStateResourceMetal(RenderDeviceMetal& renderDeviceMetal);
