@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "graphics/RenderResource.hpp"
+#include "graphics/metal/RenderResourceMetal.hpp"
 
 namespace ouzel
 {
@@ -10,7 +10,7 @@ namespace ouzel
     {
         class RenderDeviceMetal;
 
-        class RenderTargetResourceMetal final: public RenderResource
+        class RenderTargetResourceMetal final: public RenderResourceMetal
         {
         public:
             explicit RenderTargetResourceMetal(RenderDeviceMetal& renderDeviceMetal);

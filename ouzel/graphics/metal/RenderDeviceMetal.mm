@@ -47,7 +47,6 @@ namespace ouzel
 
         RenderDeviceMetal::~RenderDeviceMetal()
         {
-            resourceDeleteSet.clear();
             resources.clear();
 
             for (const ShaderConstantBuffer& shaderConstantBuffer : shaderConstantBuffers)
@@ -318,7 +317,7 @@ namespace ouzel
 
                         if (setRenderTargetCommand->renderTarget)
                         {
-                            TextureResourceMetal* renderTargetMetal = static_cast<TextureResourceMetal*>(setRenderTargetCommand->renderTarget);
+                            TextureResourceMetal* renderTargetMetal = static_cast<TextureResourceMetal*>(resources[setRenderTargetCommand->renderTarget - 1].get());
 
                             currentRenderTarget = renderTargetMetal->getTexture();
                             newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
@@ -361,7 +360,7 @@ namespace ouzel
                     {
                         const SetRenderTargetParametersCommand* setRenderTargetParametersCommand = static_cast<const SetRenderTargetParametersCommand*>(command.get());
 
-                        TextureResourceMetal* renderTargetMetal = static_cast<TextureResourceMetal*>(setRenderTargetParametersCommand->renderTarget);
+                        TextureResourceMetal* renderTargetMetal = static_cast<TextureResourceMetal*>(resources[setRenderTargetParametersCommand->renderTarget - 1].get());
 
                         if (renderTargetMetal)
                         {
@@ -395,7 +394,7 @@ namespace ouzel
                         // render target
                         if (clearCommand->renderTarget)
                         {
-                            TextureResourceMetal* renderTargetMetal = static_cast<TextureResourceMetal*>(clearCommand->renderTarget);
+                            TextureResourceMetal* renderTargetMetal = static_cast<TextureResourceMetal*>(resources[clearCommand->renderTarget - 1].get());
 
                             newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
                             if (!newRenderPassDescriptor) break;
@@ -576,8 +575,8 @@ namespace ouzel
                         if (!currentRenderCommandEncoder)
                             throw DataError("Metal render command encoder not initialized");
 
-                        BlendStateResourceMetal* blendStateMetal = static_cast<BlendStateResourceMetal*>(setPipelineStateCommand->blendState);
-                        ShaderResourceMetal* shaderMetal = static_cast<ShaderResourceMetal*>(setPipelineStateCommand->shader);
+                        BlendStateResourceMetal* blendStateMetal = static_cast<BlendStateResourceMetal*>(resources[setPipelineStateCommand->blendState - 1].get());
+                        ShaderResourceMetal* shaderMetal = static_cast<ShaderResourceMetal*>(resources[setPipelineStateCommand->shader - 1].get());
                         currentShader = shaderMetal;
 
                         currentPipelineStateDesc.blendState = blendStateMetal;
@@ -597,8 +596,8 @@ namespace ouzel
                             throw DataError("Metal render command encoder not initialized");
 
                         // mesh buffer
-                        BufferResourceMetal* indexBufferMetal = static_cast<BufferResourceMetal*>(drawCommand->indexBuffer);
-                        BufferResourceMetal* vertexBufferMetal = static_cast<BufferResourceMetal*>(drawCommand->vertexBuffer);
+                        BufferResourceMetal* indexBufferMetal = static_cast<BufferResourceMetal*>(resources[drawCommand->indexBuffer - 1].get());
+                        BufferResourceMetal* vertexBufferMetal = static_cast<BufferResourceMetal*>(resources[drawCommand->vertexBuffer - 1].get());
 
                         assert(indexBufferMetal);
                         assert(indexBufferMetal->getBuffer());
@@ -668,7 +667,7 @@ namespace ouzel
                     {
                         const InitBlendStateCommand* initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command.get());
 
-                        BlendStateResourceMetal* blendStateResourceMetal = static_cast<BlendStateResourceMetal*>(initBlendStateCommand->blendState);
+                        std::unique_ptr<BlendStateResourceMetal> blendStateResourceMetal(new BlendStateResourceMetal(*this));
                         blendStateResourceMetal->init(initBlendStateCommand->enableBlending,
                                                       initBlendStateCommand->colorBlendSource,
                                                       initBlendStateCommand->colorBlendDest,
@@ -677,6 +676,17 @@ namespace ouzel
                                                       initBlendStateCommand->alphaBlendDest,
                                                       initBlendStateCommand->alphaOperation,
                                                       initBlendStateCommand->colorMask);
+
+                        if (initBlendStateCommand->blendState > resources.size())
+                            resources.resize(initBlendStateCommand->blendState);
+                        resources[initBlendStateCommand->blendState - 1] = std::move(blendStateResourceMetal);
+                        break;
+                    }
+
+                    case Command::Type::DELETE_BLEND_STATE:
+                    {
+                        const DeleteBlendStateCommand* deleteBlendStateCommand = static_cast<const DeleteBlendStateCommand*>(command.get());
+                        resources[deleteBlendStateCommand->blendState - 1].reset();
                         break;
                     }
 
@@ -684,11 +694,22 @@ namespace ouzel
                     {
                         const InitBufferCommand* initBufferCommand = static_cast<const InitBufferCommand*>(command.get());
 
-                        BufferResourceMetal* bufferResourceMetal = static_cast<BufferResourceMetal*>(initBufferCommand->buffer);
+                        std::unique_ptr<BufferResourceMetal> bufferResourceMetal(new BufferResourceMetal(*this));
                         bufferResourceMetal->init(initBufferCommand->usage,
                                                   initBufferCommand->flags,
                                                   initBufferCommand->data,
                                                   initBufferCommand->size);
+
+                        if (initBufferCommand->buffer > resources.size())
+                            resources.resize(initBufferCommand->buffer);
+                        resources[initBufferCommand->buffer - 1] = std::move(bufferResourceMetal);
+                        break;
+                    }
+
+                    case Command::Type::DELETE_BUFFER:
+                    {
+                        const DeleteBufferCommand* deleteBufferCommand = static_cast<const DeleteBufferCommand*>(command.get());
+                        resources[deleteBufferCommand->buffer - 1].reset();
                         break;
                     }
 
@@ -696,7 +717,7 @@ namespace ouzel
                     {
                         const SetBufferDataCommand* setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command.get());
 
-                        BufferResourceMetal* bufferResourceMetal = static_cast<BufferResourceMetal*>(setBufferDataCommand->buffer);
+                        BufferResourceMetal* bufferResourceMetal = static_cast<BufferResourceMetal*>(resources[setBufferDataCommand->buffer - 1].get());
                         bufferResourceMetal->setData(setBufferDataCommand->data);
                         break;
                     }
@@ -705,7 +726,7 @@ namespace ouzel
                     {
                         const InitShaderCommand* initShaderCommand = static_cast<const InitShaderCommand*>(command.get());
 
-                        ShaderResourceMetal* shaderResourceMetal = static_cast<ShaderResourceMetal*>(initShaderCommand->shader);
+                        std::unique_ptr<ShaderResourceMetal> shaderResourceMetal(new ShaderResourceMetal(*this));
                         shaderResourceMetal->init(initShaderCommand->fragmentShader,
                                                   initShaderCommand->vertexShader,
                                                   initShaderCommand->vertexAttributes,
@@ -716,6 +737,16 @@ namespace ouzel
                                                   initShaderCommand->fragmentShaderFunction,
                                                   initShaderCommand->vertexShaderFunction);
 
+                        if (initShaderCommand->shader > resources.size())
+                            resources.resize(initShaderCommand->shader);
+                        resources[initShaderCommand->shader - 1] = std::move(shaderResourceMetal);
+                        break;
+                    }
+
+                    case Command::Type::DELETE_SHADER:
+                    {
+                        const DeleteShaderCommand* deleteShaderCommand = static_cast<const DeleteShaderCommand*>(command.get());
+                        resources[deleteShaderCommand->shader - 1].reset();
                         break;
                     }
 
@@ -839,12 +870,22 @@ namespace ouzel
                     {
                         const InitTextureCommand* initTextureCommand = static_cast<const InitTextureCommand*>(command.get());
 
-                        TextureResourceMetal* textureResourceMetal = static_cast<TextureResourceMetal*>(initTextureCommand->texture);
+                        std::unique_ptr<TextureResourceMetal> textureResourceMetal(new TextureResourceMetal(*this));
                         textureResourceMetal->init(initTextureCommand->levels,
                                                    initTextureCommand->flags,
                                                    initTextureCommand->sampleCount,
                                                    initTextureCommand->pixelFormat);
 
+                        if (initTextureCommand->texture > resources.size())
+                            resources.resize(initTextureCommand->texture);
+                        resources[initTextureCommand->texture - 1] = std::move(textureResourceMetal);
+                        break;
+                    }
+
+                    case Command::Type::DELETE_TEXTURE:
+                    {
+                        const DeleteTextureCommand* deleteTextureCommand = static_cast<const DeleteTextureCommand*>(command.get());
+                        resources[deleteTextureCommand->texture - 1].reset();
                         break;
                     }
 
@@ -852,7 +893,7 @@ namespace ouzel
                     {
                         const SetTextureDataCommand* setTextureDataCommand = static_cast<const SetTextureDataCommand*>(command.get());
 
-                        TextureResourceMetal* textureResourceMetal = static_cast<TextureResourceMetal*>(setTextureDataCommand->texture);
+                        TextureResourceMetal* textureResourceMetal = static_cast<TextureResourceMetal*>(resources[setTextureDataCommand->texture - 1].get());
                         textureResourceMetal->setData(setTextureDataCommand->levels);
 
                         break;
@@ -862,7 +903,7 @@ namespace ouzel
                     {
                         const SetTextureParametersCommand* setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
 
-                        TextureResourceMetal* textureResourceMetal = static_cast<TextureResourceMetal*>(setTextureParametersCommand->texture);
+                        TextureResourceMetal* textureResourceMetal = static_cast<TextureResourceMetal*>(resources[setTextureParametersCommand->texture - 1].get());
                         textureResourceMetal->setFilter(setTextureParametersCommand->filter);
                         textureResourceMetal->setAddressX(setTextureParametersCommand->addressX);
                         textureResourceMetal->setAddressY(setTextureParametersCommand->addressY);
@@ -880,7 +921,7 @@ namespace ouzel
 
                         for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
                         {
-                            TextureResourceMetal* textureMetal = static_cast<TextureResourceMetal*>(setTexturesCommand->textures[layer]);
+                            TextureResourceMetal* textureMetal = static_cast<TextureResourceMetal*>(resources[setTexturesCommand->textures[layer] - 1].get());
 
                             if (textureMetal)
                             {
@@ -924,51 +965,6 @@ namespace ouzel
 
             if (!stbi_write_png(filename.c_str(), static_cast<int>(width), static_cast<int>(height), 4, data.get(), static_cast<int>(width * 4)))
                 throw FileError("Failed to save image to file");
-        }
-
-        RenderResource* RenderDeviceMetal::createBlendState()
-        {
-            std::unique_lock<std::mutex> lock(resourceMutex);
-
-            RenderResource* blendState = new BlendStateResourceMetal(*this);
-            resources.push_back(std::unique_ptr<RenderResource>(blendState));
-            return blendState;
-        }
-
-        RenderResource* RenderDeviceMetal::createBuffer()
-        {
-            std::unique_lock<std::mutex> lock(resourceMutex);
-
-            RenderResource* buffer = new BufferResourceMetal(*this);
-            resources.push_back(std::unique_ptr<RenderResource>(buffer));
-            return buffer;
-        }
-
-        RenderResource* RenderDeviceMetal::createRenderTarget()
-        {
-            std::unique_lock<std::mutex> lock(resourceMutex);
-
-            RenderResource* renderTarget = new RenderTargetResourceMetal(*this);
-            resources.push_back(std::unique_ptr<RenderResource>(renderTarget));
-            return renderTarget;
-        }
-
-        RenderResource* RenderDeviceMetal::createShader()
-        {
-            std::unique_lock<std::mutex> lock(resourceMutex);
-
-            RenderResource* shader = new ShaderResourceMetal(*this);
-            resources.push_back(std::unique_ptr<RenderResource>(shader));
-            return shader;
-        }
-
-        RenderResource* RenderDeviceMetal::createTexture()
-        {
-            std::unique_lock<std::mutex> lock(resourceMutex);
-
-            RenderResource* texture = new TextureResourceMetal(*this);
-            resources.push_back(std::unique_ptr<RenderResource>(texture));
-            return texture;
         }
 
         MTLRenderPipelineStatePtr RenderDeviceMetal::getPipelineState(const PipelineStateDesc& desc)

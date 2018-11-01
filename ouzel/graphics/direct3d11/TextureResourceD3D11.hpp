@@ -8,7 +8,7 @@
 
 #include <tuple>
 #include <d3d11.h>
-#include "graphics/RenderResource.hpp"
+#include "graphics/d3d11/RenderResourceD3D11.hpp"
 #include "graphics/Texture.hpp"
 
 namespace ouzel
@@ -30,7 +30,7 @@ namespace ouzel
             }
         };
 
-        class TextureResourceD3D11 final: public RenderResource
+        class TextureResourceD3D11 final: public RenderResourceD3D11
         {
         public:
             explicit TextureResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11);

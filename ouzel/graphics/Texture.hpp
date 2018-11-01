@@ -13,7 +13,6 @@ namespace ouzel
     namespace graphics
     {
         class Renderer;
-        class RenderResource;
 
         class Texture final
         {
@@ -76,7 +75,7 @@ namespace ouzel
                       uint32_t newFlags = 0,
                       PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
 
-            inline RenderResource* getResource() const { return resource; }
+            inline uint64_t getResource() const { return resource; }
 
             inline const Size2& getSize() const { return size; }
 
@@ -115,7 +114,7 @@ namespace ouzel
 
         private:
             Renderer& renderer;
-            RenderResource* resource = nullptr;
+            uint64_t resource = 0;
 
             Size2 size;
             uint32_t flags = 0;

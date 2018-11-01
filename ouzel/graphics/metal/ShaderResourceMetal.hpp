@@ -16,7 +16,7 @@ typedef id MTLFunctionPtr;
 typedef id MTLVertexDescriptorPtr;
 #endif
 
-#include "graphics/RenderResource.hpp"
+#include "graphics/metal/RenderResourceMetal.hpp"
 #include "graphics/Shader.hpp"
 
 namespace ouzel
@@ -25,7 +25,7 @@ namespace ouzel
     {
         class RenderDeviceMetal;
 
-        class ShaderResourceMetal final: public RenderResource
+        class ShaderResourceMetal final: public RenderResourceMetal
         {
         public:
             explicit ShaderResourceMetal(RenderDeviceMetal& renderDeviceMetal);

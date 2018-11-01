@@ -24,12 +24,6 @@ namespace ouzel
                       bool newDebugRenderer) override;
 
             void process() override;
-
-            RenderResource* createBlendState() override;
-            RenderResource* createBuffer() override;
-            RenderResource* createRenderTarget() override;
-            RenderResource* createTexture() override;
-            RenderResource* createShader() override;
         };
     } // namespace graphics
 } // namespace ouzel

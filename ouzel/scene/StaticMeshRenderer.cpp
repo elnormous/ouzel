@@ -61,12 +61,12 @@ namespace ouzel
             std::vector<std::vector<float>> vertexShaderConstants(1);
             vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
 
-            std::vector<graphics::RenderResource*> textures;
+            std::vector<uint64_t> textures;
             if (wireframe) textures.push_back(whitePixelTexture->getResource());
             else
             {
                 for (const std::shared_ptr<graphics::Texture>& texture : material->textures)
-                    textures.push_back(texture ? texture->getResource() : nullptr);
+                    textures.push_back(texture ? texture->getResource() : 0);
             }
 
             engine->getRenderer()->setCullMode(material->cullMode);

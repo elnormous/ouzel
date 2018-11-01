@@ -14,7 +14,7 @@ typedef id<MTLBuffer> MTLBufferPtr;
 typedef id MTLBufferPtr;
 #endif
 
-#include "graphics/RenderResource.hpp"
+#include "graphics/metal/RenderResourceMetal.hpp"
 #include "graphics/Buffer.hpp"
 
 namespace ouzel
@@ -23,7 +23,7 @@ namespace ouzel
     {
         class RenderDeviceMetal;
 
-        class BufferResourceMetal final: public RenderResource
+        class BufferResourceMetal final: public RenderResourceMetal
         {
         public:
             explicit BufferResourceMetal(RenderDeviceMetal& renderDeviceMetal);

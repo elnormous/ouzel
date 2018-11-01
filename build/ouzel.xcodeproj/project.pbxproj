@@ -639,9 +639,6 @@
 		305BAE9F204A37DC00EB4C5B /* FileSystemApple.mm in Sources */ = {isa = PBXBuildFile; fileRef = 305BAE9D204A37DC00EB4C5B /* FileSystemApple.mm */; };
 		305BAEA0204A37DC00EB4C5B /* FileSystemApple.mm in Sources */ = {isa = PBXBuildFile; fileRef = 305BAE9D204A37DC00EB4C5B /* FileSystemApple.mm */; };
 		305BAEA1204A37DC00EB4C5B /* FileSystemApple.mm in Sources */ = {isa = PBXBuildFile; fileRef = 305BAE9D204A37DC00EB4C5B /* FileSystemApple.mm */; };
-		305BDDDF1F27F6BC00BD4969 /* RenderResource.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 305BDDDB1F27F6BC00BD4969 /* RenderResource.hpp */; };
-		305BDDE01F27F6BC00BD4969 /* RenderResource.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 305BDDDB1F27F6BC00BD4969 /* RenderResource.hpp */; };
-		305BDDE11F27F6BC00BD4969 /* RenderResource.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 305BDDDB1F27F6BC00BD4969 /* RenderResource.hpp */; };
 		306672601F964A77004515F2 /* Light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3066725E1F964A77004515F2 /* Light.cpp */; };
 		306672611F964A77004515F2 /* Light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3066725E1F964A77004515F2 /* Light.cpp */; };
 		306672621F964A77004515F2 /* Light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3066725E1F964A77004515F2 /* Light.cpp */; };
@@ -1197,7 +1194,6 @@
 		305B999B1C42A695008589E1 /* BMFont.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BMFont.hpp; sourceTree = "<group>"; };
 		305BAE9D204A37DC00EB4C5B /* FileSystemApple.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FileSystemApple.mm; sourceTree = "<group>"; };
 		305BAEA5204A387C00EB4C5B /* FileSystemApple.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FileSystemApple.hpp; sourceTree = "<group>"; };
-		305BDDDB1F27F6BC00BD4969 /* RenderResource.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderResource.hpp; sourceTree = "<group>"; };
 		3066725E1F964A77004515F2 /* Light.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Light.cpp; sourceTree = "<group>"; };
 		3066725F1F964A77004515F2 /* Light.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Light.hpp; sourceTree = "<group>"; };
 		30673DD11F7A694F00EAFAB0 /* NativeWindow.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NativeWindow.cpp; sourceTree = "<group>"; };
@@ -1564,7 +1560,6 @@
 				30C758B41F4A0309008499DC /* RenderDevice.hpp */,
 				304A8E3E1C237C70008B1151 /* Renderer.cpp */,
 				304A8E3F1C237C70008B1151 /* Renderer.hpp */,
-				305BDDDB1F27F6BC00BD4969 /* RenderResource.hpp */,
 				30AEFA1220C0FB2E00CDFD33 /* RenderTarget.cpp */,
 				30AEFA1320C0FB2E00CDFD33 /* RenderTarget.hpp */,
 				303696EA1E32DE08007F4211 /* Shader.cpp */,
@@ -2111,7 +2106,6 @@
 				3031C13F1F0C43D0002CA717 /* StreamVorbis.hpp in Headers */,
 				300862D72154720C00D8CC45 /* InputSystemIOS.hpp in Headers */,
 				30575AC91C3B17540009C8A7 /* Button.hpp in Headers */,
-				305BDDDF1F27F6BC00BD4969 /* RenderResource.hpp in Headers */,
 				303B75391C2A3C8200FEDE92 /* Engine.hpp in Headers */,
 				306A26EB1F5DE76E00E2B0B6 /* SoundInput.hpp in Headers */,
 				303B75661C2A3CBF00FEDE92 /* SceneManager.hpp in Headers */,
@@ -2264,7 +2258,6 @@
 				3031C1411F0C43D0002CA717 /* StreamVorbis.hpp in Headers */,
 				30673DD81F7A694F00EAFAB0 /* NativeWindow.hpp in Headers */,
 				30724D871F353A1800D915ED /* ViewTVOS.h in Headers */,
-				305BDDE11F27F6BC00BD4969 /* RenderResource.hpp in Headers */,
 				30AEFA3920C0FD7400CDFD33 /* RenderTargetResourceMetal.hpp in Headers */,
 				30575ACA1C3B17540009C8A7 /* Button.hpp in Headers */,
 				30AEFA3120C0FD6000CDFD33 /* RenderTargetResourceOGL.hpp in Headers */,
@@ -2450,7 +2443,6 @@
 				30519CD41F9B53CB00AF3DC4 /* LoaderImage.hpp in Headers */,
 				303821371D81876E00677CAB /* BlendStateResourceEmpty.hpp in Headers */,
 				30419DE41D162BCF00A63759 /* Audio.hpp in Headers */,
-				305BDDE01F27F6BC00BD4969 /* RenderResource.hpp in Headers */,
 				C6AC8A8D215BD7D500F14D75 /* MouseDeviceMacOS.hpp in Headers */,
 				3049DCE41EDCD0450000997A /* NativeCursor.hpp in Headers */,
 				30575AA11C39CB790009C8A7 /* Scene.hpp in Headers */,

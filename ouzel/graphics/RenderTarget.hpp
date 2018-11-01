@@ -11,7 +11,6 @@ namespace ouzel
     namespace graphics
     {
         class Renderer;
-        class RenderResource;
 
         class RenderTarget final
         {
@@ -25,10 +24,11 @@ namespace ouzel
             };
 
             explicit RenderTarget(Renderer& initRenderer);
+            ~RenderTarget();
 
-            inline RenderResource* getResource() const { return resource; }
-            inline RenderResource* getColorTextureResource() const { return colorTexture; }
-            inline RenderResource* getDepthTextureResource() const { return depthTexture; }
+            inline uint64_t getResource() const { return resource; }
+            inline uint64_t getColorTextureResource() const { return colorTexture; }
+            inline uint64_t getDepthTextureResource() const { return depthTexture; }
 
             inline const Size2& getSize() const { return size; }
 
@@ -46,9 +46,9 @@ namespace ouzel
 
         private:
             Renderer& renderer;
-            RenderResource* resource = nullptr;
-            RenderResource* colorTexture = nullptr;
-            RenderResource* depthTexture = nullptr;
+            uint64_t resource = 0;
+            uint64_t colorTexture = 0;
+            uint64_t depthTexture = 0;
 
             Size2 size;
             bool clearColorBuffer = true;

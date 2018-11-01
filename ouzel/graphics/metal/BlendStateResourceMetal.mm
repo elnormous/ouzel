@@ -12,7 +12,7 @@ namespace ouzel
     namespace graphics
     {
         BlendStateResourceMetal::BlendStateResourceMetal(RenderDeviceMetal& renderDeviceMetal):
-            RenderResource(renderDeviceMetal)
+            RenderResourceMetal(renderDeviceMetal)
         {
         }
 

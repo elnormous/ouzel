@@ -14,7 +14,6 @@ namespace ouzel
     namespace graphics
     {
         class Renderer;
-        class RenderResource;
 
         class Shader final
         {
@@ -49,13 +48,13 @@ namespace ouzel
                       const std::string& fragmentShaderFunction = "",
                       const std::string& vertexShaderFunction = "");
 
-            inline RenderResource* getResource() const { return resource; }
+            inline uint64_t getResource() const { return resource; }
 
             const std::set<Vertex::Attribute::Usage>& getVertexAttributes() const;
 
         private:
             Renderer& renderer;
-            RenderResource* resource = nullptr;
+            uint64_t resource = 0;
 
             std::set<Vertex::Attribute::Usage> vertexAttributes;
 

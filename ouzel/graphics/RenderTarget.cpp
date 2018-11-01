@@ -1,6 +1,8 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "RenderTarget.hpp"
+#include "Renderer.hpp"
+#include "RenderDevice.hpp"
 
 namespace ouzel
 {
@@ -9,6 +11,14 @@ namespace ouzel
         RenderTarget::RenderTarget(Renderer& initRenderer):
             renderer(initRenderer)
         {
+            resource = renderer.getDevice()->getResourceId();
+        }
+
+        RenderTarget::~RenderTarget()
+        {
+            RenderDevice* renderDevice = renderer.getDevice();
+            renderDevice->addCommand(std::unique_ptr<Command>(new DeleteRenderTargetCommand(resource)));
+            if (resource) renderDevice->deleteResourceId(resource);
         }
 
         void RenderTarget::setClearColorBuffer(bool clear)

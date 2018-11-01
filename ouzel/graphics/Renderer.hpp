@@ -95,26 +95,26 @@ namespace ouzel
 
             void saveScreenshot(const std::string& filename);
 
-            void setRenderTarget(RenderResource* renderTarget);
-            void clearRenderTarget(RenderResource* renderTarget);
+            void setRenderTarget(uint64_t renderTarget);
+            void clearRenderTarget(uint64_t renderTarget);
             void setCullMode(Renderer::CullMode cullMode);
             void setFillMode(Renderer::FillMode fillMode);
             void setScissorTest(bool enabled, const Rect& rectangle);
             void setViewport(const Rect& viewport);
             void setDepthState(bool depthTest, bool depthWrite);
-            void setPipelineState(RenderResource* blendState,
-                                  RenderResource* shader);
-            void draw(RenderResource* indexBuffer,
+            void setPipelineState(uint64_t blendState,
+                                  uint64_t shader);
+            void draw(uint64_t indexBuffer,
                       uint32_t indexCount,
                       uint32_t indexSize,
-                      RenderResource* vertexBuffer,
+                      uint64_t vertexBuffer,
                       DrawMode drawMode,
                       uint32_t startIndex);
             void pushDebugMarker(const std::string& name);
             void popDebugMarker();
             void setShaderConstants(std::vector<std::vector<float>> fragmentShaderConstants,
                                     std::vector<std::vector<float>> vertexShaderConstants);
-            void setTextures(const std::vector<RenderResource*>& textures);
+            void setTextures(const std::vector<uint64_t>& textures);
 
             void waitForNextFrame();
 

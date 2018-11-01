@@ -115,13 +115,6 @@ namespace ouzel
             void executeAll();
             virtual void setSize(const Size2& newSize);
 
-            virtual RenderResource* createBlendState() = 0;
-            virtual RenderResource* createBuffer() = 0;
-            virtual RenderResource* createRenderTarget() = 0;
-            virtual RenderResource* createShader() = 0;
-            virtual RenderResource* createTexture() = 0;
-            virtual void deleteResource(RenderResource* resource);
-
             virtual void generateScreenshot(const std::string& filename);
 
             Renderer::Driver driver;
@@ -152,10 +145,6 @@ namespace ouzel
             float clearDepth = 1.0;
             bool clearColorBuffer = true;
             bool clearDepthBuffer = false;
-
-            std::mutex resourceMutex;
-            std::vector<std::unique_ptr<RenderResource>> resources;
-            std::vector<std::unique_ptr<RenderResource>> resourceDeleteSet;
 
             uint32_t drawCallCount = 0;
 

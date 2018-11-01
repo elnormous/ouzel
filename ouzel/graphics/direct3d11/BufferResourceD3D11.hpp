@@ -7,7 +7,7 @@
 #if OUZEL_COMPILE_DIRECT3D11
 
 #include <d3d11.h>
-#include "graphics/RenderResource.hpp"
+#include "graphics/d3d11/RenderResourceD3D11.hpp"
 #include "graphics/Buffer.hpp"
 
 namespace ouzel
@@ -16,7 +16,7 @@ namespace ouzel
     {
         class RenderDeviceD3D11;
 
-        class BufferResourceD3D11 final: public RenderResource
+        class BufferResourceD3D11 final: public RenderResourceD3D11
         {
         public:
             explicit BufferResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11);

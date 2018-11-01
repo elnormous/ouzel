@@ -50,7 +50,7 @@ namespace ouzel
         }
 
         TextureResourceD3D11::TextureResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11):
-            RenderResource(renderDeviceD3D11)
+            RenderResourceD3D11(renderDeviceD3D11)
         {
         }
 
