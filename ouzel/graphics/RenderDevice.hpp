@@ -82,19 +82,19 @@ namespace ouzel
 
             void executeOnRenderThread(const std::function<void(void)>& func);
 
-            uint64_t getResourceId()
+            uintptr_t getResourceId()
             {
                 if (deletedResourceIds.empty())
                     return ++lastResourceId; // zero is reserved for null resource
                 else
                 {
-                    uint64_t resourceId = deletedResourceIds.front();
+                    uintptr_t resourceId = deletedResourceIds.front();
                     deletedResourceIds.pop();
                     return resourceId;
                 }
             }
 
-            void deleteResourceId(uint64_t resourceId)
+            void deleteResourceId(uintptr_t resourceId)
             {
                 deletedResourceIds.push(resourceId);
             }
@@ -167,8 +167,8 @@ namespace ouzel
             std::mutex frameMutex;
             std::condition_variable frameCondition;
 
-            uint64_t lastResourceId = 0;
-            std::queue<uint64_t> deletedResourceIds;
+            uintptr_t lastResourceId = 0;
+            std::queue<uintptr_t> deletedResourceIds;
         };
     } // namespace graphics
 } // namespace ouzel

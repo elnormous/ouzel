@@ -26,9 +26,9 @@ namespace ouzel
             explicit RenderTarget(Renderer& initRenderer);
             ~RenderTarget();
 
-            inline uint64_t getResource() const { return resource; }
-            inline uint64_t getColorTextureResource() const { return colorTexture; }
-            inline uint64_t getDepthTextureResource() const { return depthTexture; }
+            inline uintptr_t getResource() const { return resource; }
+            inline uintptr_t getColorTextureResource() const { return colorTexture; }
+            inline uintptr_t getDepthTextureResource() const { return depthTexture; }
 
             inline const Size2& getSize() const { return size; }
 
@@ -46,9 +46,9 @@ namespace ouzel
 
         private:
             Renderer& renderer;
-            uint64_t resource = 0;
-            uint64_t colorTexture = 0;
-            uint64_t depthTexture = 0;
+            uintptr_t resource = 0;
+            uintptr_t colorTexture = 0;
+            uintptr_t depthTexture = 0;
 
             Size2 size;
             bool clearColorBuffer = true;

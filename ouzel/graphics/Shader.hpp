@@ -48,13 +48,13 @@ namespace ouzel
                       const std::string& fragmentShaderFunction = "",
                       const std::string& vertexShaderFunction = "");
 
-            inline uint64_t getResource() const { return resource; }
+            inline uintptr_t getResource() const { return resource; }
 
             const std::set<Vertex::Attribute::Usage>& getVertexAttributes() const;
 
         private:
             Renderer& renderer;
-            uint64_t resource = 0;
+            uintptr_t resource = 0;
 
             std::set<Vertex::Attribute::Usage> vertexAttributes;
 

@@ -65,7 +65,7 @@ namespace ouzel
 
                 Gamepad::Motor motor;
                 Vector2 position;
-                uint64_t cursorResource;
+                uintptr_t cursorResource;
                 SystemCursor systemCursor;
                 std::vector<uint8_t> data;
                 Size2 size;
@@ -135,19 +135,19 @@ namespace ouzel
 
             void dispatchEvents();
 
-            uint64_t getResourceId()
+            uintptr_t getResourceId()
             {
                 if (deletedResourceIds.empty())
                     return ++lastResourceId; // zero is reserved for null resource
                 else
                 {
-                    uint64_t resourceId = deletedResourceIds.front();
+                    uintptr_t resourceId = deletedResourceIds.front();
                     deletedResourceIds.pop();
                     return resourceId;
                 }
             }
 
-            void deleteResourceId(uint64_t resourceId)
+            void deleteResourceId(uintptr_t resourceId)
             {
                 deletedResourceIds.push(resourceId);
             }
@@ -164,8 +164,8 @@ namespace ouzel
             std::queue<std::pair<std::promise<bool>, Event>> eventQueue;
             std::unordered_map<uint32_t, InputDevice*> inputDevices;
 
-            uint64_t lastResourceId = 0;
-            std::queue<uint64_t> deletedResourceIds;
+            uintptr_t lastResourceId = 0;
+            std::queue<uintptr_t> deletedResourceIds;
         };
     } // namespace input
 } // namespace ouzel

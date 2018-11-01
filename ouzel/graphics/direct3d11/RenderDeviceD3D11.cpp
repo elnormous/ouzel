@@ -714,7 +714,7 @@ namespace ouzel
 
                         if (initBlendStateCommand->blendState > resources.size())
                             resources.resize(initBlendStateCommand->blendState);
-                        resources[initBlendStateCommand->blendState - 1] = std::move(BlendStateResourceD3D11);
+                        resources[initBlendStateCommand->blendState - 1] = std::move(blendStateResourceD3D11);
                         break;
                     }
 
