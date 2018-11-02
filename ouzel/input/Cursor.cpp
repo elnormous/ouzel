@@ -30,12 +30,15 @@ namespace ouzel
 
         Cursor::~Cursor()
         {
-            InputSystem::Command command;
-            command.type = InputSystem::Command::Type::DESTROY_CURSOR;
-            command.cursorResource = cursorResource;
-            inputManager.getInputSystem()->addCommand(command);
+            if (cursorResource)
+            {
+                InputSystem::Command command;
+                command.type = InputSystem::Command::Type::DESTROY_CURSOR;
+                command.cursorResource = cursorResource;
+                inputManager.getInputSystem()->addCommand(command);
 
-            inputManager.getInputSystem()->deleteResourceId(cursorResource);
+                inputManager.getInputSystem()->deleteResourceId(cursorResource);
+            }
         }
 
         void Cursor::init(SystemCursor systemCursor)

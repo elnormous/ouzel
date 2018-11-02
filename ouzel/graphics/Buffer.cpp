@@ -17,9 +17,12 @@ namespace ouzel
 
         Buffer::~Buffer()
         {
-            RenderDevice* renderDevice = renderer.getDevice();
-            renderDevice->addCommand(std::unique_ptr<Command>(new DeleteBufferCommand(resource)));
-            if (resource) renderDevice->deleteResourceId(resource);
+            if (resource)
+            {
+                RenderDevice* renderDevice = renderer.getDevice();
+                renderDevice->addCommand(std::unique_ptr<Command>(new DeleteBufferCommand(resource)));
+                renderDevice->deleteResourceId(resource);
+            }
         }
 
         void Buffer::init(Usage newUsage, uint32_t newFlags, uint32_t newSize)
