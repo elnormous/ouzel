@@ -20,14 +20,12 @@ namespace ouzel
         class NativeCursorWin final
         {
         public:
-            explicit NativeCursorWin();
+            explicit NativeCursorWin(SystemCursor systemCursor);
+            NativeCursorWin(const std::vector<uint8_t>& data,
+                            const Size2& size,
+                            graphics::PixelFormat pixelFormat,
+                            const Vector2& hotSpot);
             ~NativeCursorWin();
-
-            void init(SystemCursor systemCursor);
-            void init(const std::vector<uint8_t>& data,
-                      const Size2& size,
-                      graphics::PixelFormat pixelFormat,
-                      const Vector2& hotSpot);
 
             HCURSOR getNativeCursor() const { return cursor; }
 

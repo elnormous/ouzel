@@ -7,23 +7,8 @@ namespace ouzel
 {
     namespace input
     {
-        NativeCursorWin::NativeCursorWin()
+        NativeCursorWin::NativeCursorWin(SystemCursor systemCursor)
         {
-        }
-
-        NativeCursorWin::~NativeCursorWin()
-        {
-            if (cursor && !shared) DestroyCursor(cursor);
-        }
-
-        void NativeCursorWin::init(SystemCursor systemCursor)
-        {
-            if (cursor)
-            {
-                if (!shared) DestroyCursor(cursor);
-                cursor = 0;
-            }
-
             switch (systemCursor)
             {
                 case SystemCursor::DEFAULT:
@@ -56,17 +41,11 @@ namespace ouzel
             shared = true;
         }
 
-        void NativeCursorWin::init(const std::vector<uint8_t>& data,
-                                   const Size2& size,
-                                   graphics::PixelFormat pixelFormat,
-                                   const Vector2& hotSpot)
+        NativeCursorWin::NativeCursorWin(const std::vector<uint8_t>& data,
+                                         const Size2& size,
+                                         graphics::PixelFormat pixelFormat,
+                                         const Vector2& hotSpot)
         {
-            if (cursor)
-            {
-                if (!shared) DestroyCursor(cursor);
-                cursor = 0;
-            }
-
             if (!data.empty())
             {
                 LONG width = static_cast<LONG>(size.width);
@@ -131,6 +110,11 @@ namespace ouzel
 
                 shared = false;
             }
+        }
+
+        NativeCursorWin::~NativeCursorWin()
+        {
+            if (cursor && !shared) DestroyCursor(cursor);
         }
     } // namespace input
 } // namespace ouzel

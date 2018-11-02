@@ -23,14 +23,12 @@ namespace ouzel
         class NativeCursorMacOS final
         {
         public:
-            explicit NativeCursorMacOS();
+            explicit NativeCursorMacOS(SystemCursor systemCursor);
+            NativeCursorMacOS(const std::vector<uint8_t>& data,
+                              const Size2& size,
+                              graphics::PixelFormat pixelFormat,
+                              const Vector2& hotSpot);
             ~NativeCursorMacOS();
-
-            void init(SystemCursor systemCursor);
-            void init(const std::vector<uint8_t>& data,
-                      const Size2& size,
-                      graphics::PixelFormat pixelFormat,
-                      const Vector2& hotSpot);
 
             inline NSCursorPtr getNativeCursor() const { return cursor; }
 

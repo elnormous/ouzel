@@ -13,33 +13,11 @@ namespace ouzel
 {
     namespace input
     {
-        NativeCursorLinux::NativeCursorLinux()
-        {
-        }
-
-        NativeCursorLinux::~NativeCursorLinux()
-        {
-#if OUZEL_SUPPORTS_X11
-            if (engine)
-            {
-                EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
-                Display* display = engineLinux->getDisplay();
-                if (cursor != None) XFreeCursor(display, cursor);
-            }
-#endif
-        }
-
-        void NativeCursorLinux::init(SystemCursor systemCursor)
+        NativeCursorLinux::NativeCursorLinux(SystemCursor systemCursor)
         {
 #if OUZEL_SUPPORTS_X11
             EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
             Display* display = engineLinux->getDisplay();
-
-            if (cursor != None)
-            {
-                XFreeCursor(display, cursor);
-                cursor = None;
-            }
 
             switch (systemCursor)
             {
@@ -66,20 +44,14 @@ namespace ouzel
 #endif
         }
 
-        void NativeCursorLinux::init(const std::vector<uint8_t>& data,
-                                     const Size2& size,
-                                     graphics::PixelFormat pixelFormat,
-                                     const Vector2& hotSpot)
+        NativeCursorLinux::NativeCursorLinux(const std::vector<uint8_t>& data,
+                                             const Size2& size,
+                                             graphics::PixelFormat pixelFormat,
+                                             const Vector2& hotSpot)
         {
 #if OUZEL_SUPPORTS_X11
             EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
             Display* display = engineLinux->getDisplay();
-
-            if (cursor != None)
-            {
-                XFreeCursor(display, cursor);
-                cursor = None;
-            }
 
             if (!data.empty())
             {
@@ -111,6 +83,18 @@ namespace ouzel
                 cursor = XcursorImageLoadCursor(display, cursorImage);
 
                 XcursorImageDestroy(cursorImage);
+            }
+#endif
+        }
+
+        NativeCursorLinux::~NativeCursorLinux()
+        {
+#if OUZEL_SUPPORTS_X11
+            if (engine)
+            {
+                EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
+                Display* display = engineLinux->getDisplay();
+                if (cursor != None) XFreeCursor(display, cursor);
             }
 #endif
         }

@@ -6,23 +6,8 @@ namespace ouzel
 {
     namespace input
     {
-        NativeCursorMacOS::NativeCursorMacOS()
+        NativeCursorMacOS::NativeCursorMacOS(SystemCursor systemCursor)
         {
-        }
-
-        NativeCursorMacOS::~NativeCursorMacOS()
-        {
-            if (cursor) [cursor release];
-        }
-
-        void NativeCursorMacOS::init(SystemCursor systemCursor)
-        {
-            if (cursor)
-            {
-                [cursor release];
-                cursor = nil;
-            }
-
             switch (systemCursor)
             {
                 case SystemCursor::DEFAULT:
@@ -49,17 +34,11 @@ namespace ouzel
             if (cursor) [cursor retain];
         }
 
-        void NativeCursorMacOS::init(const std::vector<uint8_t>& data,
-                                     const Size2& size,
-                                     graphics::PixelFormat pixelFormat,
-                                     const Vector2& hotSpot)
+        NativeCursorMacOS::NativeCursorMacOS(const std::vector<uint8_t>& data,
+                                             const Size2& size,
+                                             graphics::PixelFormat pixelFormat,
+                                             const Vector2& hotSpot)
         {
-            if (cursor)
-            {
-                [cursor release];
-                cursor = nil;
-            }
-
             if (!data.empty())
             {
                 NSInteger bytesPerPixel = graphics::getPixelSize(pixelFormat);
@@ -89,6 +68,11 @@ namespace ouzel
                 cursor = [[NSCursor alloc] initWithImage:image
                                                  hotSpot:NSMakePoint(hotSpot.x, size.height - hotSpot.y - 1.0F)];
             }
+        }
+
+        NativeCursorMacOS::~NativeCursorMacOS()
+        {
+            if (cursor) [cursor release];
         }
     } // namespace input
 } // namespace ouzel

@@ -20,14 +20,12 @@ namespace ouzel
         class NativeCursorLinux final
         {
         public:
-            explicit NativeCursorLinux();
+            explicit NativeCursorLinux(SystemCursor systemCursor);
+            NativeCursorLinux(const std::vector<uint8_t>& data,
+                              const Size2& size,
+                              graphics::PixelFormat pixelFormat,
+                              const Vector2& hotSpot);
             ~NativeCursorLinux();
-
-            void init(SystemCursor systemCursor);
-            void init(const std::vector<uint8_t>& data,
-                      const Size2& size,
-                      graphics::PixelFormat pixelFormat,
-                      const Vector2& hotSpot);
 
 #if OUZEL_SUPPORTS_X11
             ::Cursor getNativeCursor() const { return cursor; }
