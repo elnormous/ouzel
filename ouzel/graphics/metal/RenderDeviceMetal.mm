@@ -360,10 +360,9 @@ namespace ouzel
                     {
                         const SetRenderTargetParametersCommand* setRenderTargetParametersCommand = static_cast<const SetRenderTargetParametersCommand*>(command.get());
 
-                        TextureResourceMetal* renderTargetMetal = static_cast<TextureResourceMetal*>(resources[setRenderTargetParametersCommand->renderTarget - 1].get());
-
-                        if (renderTargetMetal)
+                        if (setRenderTargetParametersCommand->renderTarget)
                         {
+                            TextureResourceMetal* renderTargetMetal = static_cast<TextureResourceMetal*>(resources[setRenderTargetParametersCommand->renderTarget - 1].get());
                             renderTargetMetal->setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
                             renderTargetMetal->setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
                             renderTargetMetal->setClearColor(setRenderTargetParametersCommand->clearColor);
@@ -921,12 +920,16 @@ namespace ouzel
 
                         for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
                         {
-                            TextureResourceMetal* textureMetal = static_cast<TextureResourceMetal*>(resources[setTexturesCommand->textures[layer] - 1].get());
-
-                            if (textureMetal)
+                            if (setTexturesCommand->textures[layer])
                             {
-                                [currentRenderCommandEncoder setFragmentTexture:textureMetal ? textureMetal->getTexture() : nil atIndex:layer];
-                                [currentRenderCommandEncoder setFragmentSamplerState:textureMetal ? textureMetal->getSamplerState() : nil atIndex:layer];
+                                TextureResourceMetal* textureMetal = static_cast<TextureResourceMetal*>(resources[setTexturesCommand->textures[layer] - 1].get());
+                                [currentRenderCommandEncoder setFragmentTexture:textureMetal->getTexture() atIndex:layer];
+                                [currentRenderCommandEncoder setFragmentSamplerState:textureMetal->getSamplerState() atIndex:layer];
+                            }
+                            else
+                            {
+                                [currentRenderCommandEncoder setFragmentTexture:nil atIndex:layer];
+                                [currentRenderCommandEncoder setFragmentSamplerState:nil atIndex:layer];
                             }
                         }
 
