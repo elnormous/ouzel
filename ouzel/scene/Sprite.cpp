@@ -374,10 +374,13 @@ namespace ouzel
         void Sprite::updateBoundingBox()
         {
             if (currentAnimation != animationQueue.end() &&
-                currentAnimation->animation->frameInterval > 0.0F &&
                 !currentAnimation->animation->frames.empty())
             {
-                size_t currentFrame = static_cast<size_t>(currentTime / currentAnimation->animation->frameInterval);
+                size_t currentFrame = 0;
+
+                if (currentAnimation->animation->frameInterval >= 0.0F)
+                    currentFrame = static_cast<size_t>(currentTime / currentAnimation->animation->frameInterval);
+
                 if (currentFrame >= currentAnimation->animation->frames.size()) currentFrame = currentAnimation->animation->frames.size() - 1;
 
                 const SpriteData::Frame& frame = currentAnimation->animation->frames[currentFrame];
