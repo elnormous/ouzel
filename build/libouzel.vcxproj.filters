@@ -481,9 +481,6 @@
     <ClInclude Include="..\ouzel\graphics\direct3d11\BlendStateResourceD3D11.hpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\empty\BlendStateResourceEmpty.hpp">
-      <Filter>ouzel\graphics\empty</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\graphics\opengl\BlendStateResourceOGL.hpp">
       <Filter>ouzel\graphics\opengl</Filter>
     </ClInclude>
@@ -501,9 +498,6 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\direct3d11\BufferResourceD3D11.hpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\empty\BufferResourceEmpty.hpp">
-      <Filter>ouzel\graphics\empty</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\opengl\BufferResourceOGL.hpp">
       <Filter>ouzel\graphics\opengl</Filter>
@@ -805,17 +799,11 @@
     <ClInclude Include="..\ouzel\graphics\direct3d11\ShaderResourceD3D11.hpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\empty\ShaderResourceEmpty.hpp">
-      <Filter>ouzel\graphics\empty</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\graphics\opengl\ShaderResourceOGL.hpp">
       <Filter>ouzel\graphics\opengl</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\direct3d11\TextureResourceD3D11.hpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\empty\TextureResourceEmpty.hpp">
-      <Filter>ouzel\graphics\empty</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\opengl\TextureResourceOGL.hpp">
       <Filter>ouzel\graphics\opengl</Filter>
@@ -934,9 +922,6 @@
     <ClInclude Include="..\ouzel\graphics\direct3d11\RenderTargetResourceD3D11.hpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\empty\RenderTargetResourceEmpty.hpp">
-      <Filter>ouzel\graphics\empty</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\graphics\opengl\RenderTargetResourceOGL.hpp">
       <Filter>ouzel\graphics\opengl</Filter>
     </ClInclude>
@@ -948,9 +933,6 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\direct3d11\RenderResourceD3D11.hpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\empty\RenderResourceEmpty.hpp">
-      <Filter>ouzel\graphics\empty</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\opengl\RenderResourceOGL.hpp">
       <Filter>ouzel\graphics\opengl</Filter>
