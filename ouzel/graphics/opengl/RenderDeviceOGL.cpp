@@ -912,7 +912,6 @@ namespace ouzel
                             TextureResourceOGL* renderTargetOGL = static_cast<TextureResourceOGL*>(resources[setRenderTargetCommand->renderTarget - 1].get());
 
                             if (!renderTargetOGL->getFrameBufferId()) break;
-
                             newFrameBufferId = renderTargetOGL->getFrameBufferId();
                         }
                         else
@@ -929,10 +928,9 @@ namespace ouzel
                     {
                         const SetRenderTargetParametersCommand* setRenderTargetParametersCommand = static_cast<const SetRenderTargetParametersCommand*>(command.get());
 
-                        TextureResourceOGL* renderTargetOGL = static_cast<TextureResourceOGL*>(resources[setRenderTargetParametersCommand->renderTarget - 1].get());
-
-                        if (renderTargetOGL)
+                        if (setRenderTargetParametersCommand->renderTarget)
                         {
+                            TextureResourceOGL* renderTargetOGL = static_cast<TextureResourceOGL*>(resources[setRenderTargetParametersCommand->renderTarget - 1].get());
                             renderTargetOGL->setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
                             renderTargetOGL->setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
                             renderTargetOGL->setClearColor(setRenderTargetParametersCommand->clearColor);
@@ -1427,10 +1425,11 @@ namespace ouzel
 
                         for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
                         {
-                            TextureResourceOGL* textureOGL = static_cast<TextureResourceOGL*>(resources[setTexturesCommand->textures[layer] - 1].get());
-
-                            if (textureOGL)
+                            if (setTexturesCommand->textures[layer])
+                            {
+                                TextureResourceOGL* textureOGL = static_cast<TextureResourceOGL*>(resources[setTexturesCommand->textures[layer] - 1].get());
                                 bindTexture(textureOGL->getTextureId(), layer);
+                            }
                             else
                                 bindTexture(0, layer);
                         }

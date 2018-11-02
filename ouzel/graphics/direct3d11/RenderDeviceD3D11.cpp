@@ -411,7 +411,6 @@ namespace ouzel
                         if (setRenderTargetParametersCommand->renderTarget)
                         {
                             TextureResourceD3D11* renderTargetD3D11 = static_cast<TextureResourceD3D11*>(resources[setRenderTargetParametersCommand->renderTarget - 1].get());
-
                             renderTargetD3D11->setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
                             renderTargetD3D11->setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
                             renderTargetD3D11->setClearColor(setRenderTargetParametersCommand->clearColor);
