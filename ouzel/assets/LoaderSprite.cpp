@@ -16,7 +16,7 @@ namespace ouzel
         {
         }
 
-        bool LoaderSprite::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool)
+        bool LoaderSprite::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
         {
             scene::SpriteData spriteData;
 
@@ -28,7 +28,13 @@ namespace ouzel
 
             const json::Value& metaObject = document["meta"];
 
-            spriteData.texture = cache.getTexture(metaObject["image"].as<std::string>());
+            std::string imageFilename = metaObject["image"].as<std::string>();
+            spriteData.texture = cache.getTexture(imageFilename);
+            if (!spriteData.texture)
+            {
+                bundle.loadAsset(Loader::IMAGE, imageFilename, mipmaps);
+                spriteData.texture = cache.getTexture(imageFilename);
+            }
 
             if (!spriteData.texture)
                 return false;

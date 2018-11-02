@@ -17,6 +17,7 @@ namespace ouzel
         {
             try
             {
+                // TODO: move the loader here
                 std::shared_ptr<TTFont> font = std::make_shared<TTFont>(data, mipmaps);
                 bundle.setFont(filename, font);
             }

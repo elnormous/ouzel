@@ -218,7 +218,7 @@ namespace ouzel
 
                         skipLine(data, iterator);
 
-                        if (!bundle.getMaterial(filename))
+                        if (!cache.getMaterial(filename))
                             bundle.loadAsset(Loader::MATERIAL, value, mipmaps);
                     }
                     else if (keyword == "usemtl")
