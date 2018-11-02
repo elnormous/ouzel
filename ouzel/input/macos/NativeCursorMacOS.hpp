@@ -24,7 +24,7 @@ namespace ouzel
         {
         public:
             explicit NativeCursorMacOS(SystemCursor systemCursor);
-            NativeCursorMacOS(const std::vector<uint8_t>& data,
+            NativeCursorMacOS(const std::vector<uint8_t>& newData,
                               const Size2& size,
                               graphics::PixelFormat pixelFormat,
                               const Vector2& hotSpot);
@@ -34,6 +34,7 @@ namespace ouzel
 
         private:
             NSCursorPtr cursor = nil;
+            std::vector<uint8_t> data;
         };
     } // namespace input
 } // namespace ouzel

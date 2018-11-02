@@ -34,10 +34,11 @@ namespace ouzel
             if (cursor) [cursor retain];
         }
 
-        NativeCursorMacOS::NativeCursorMacOS(const std::vector<uint8_t>& data,
+        NativeCursorMacOS::NativeCursorMacOS(const std::vector<uint8_t>& newData,
                                              const Size2& size,
                                              graphics::PixelFormat pixelFormat,
-                                             const Vector2& hotSpot)
+                                             const Vector2& hotSpot):
+            data(newData)
         {
             if (!data.empty())
             {
@@ -47,8 +48,7 @@ namespace ouzel
                 NSInteger width = static_cast<NSInteger>(size.width);
                 NSInteger height = static_cast<NSInteger>(size.height);
 
-                std::vector<uint8_t> copy = data;
-                unsigned char* rgba = copy.data();
+                unsigned char* rgba = data.data();
 
                 NSImage* image = [[[NSImage alloc] initWithSize:NSMakeSize(width, height)] autorelease];
                 NSBitmapImageRep* imageRep = [[[NSBitmapImageRep alloc]
