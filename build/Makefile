@@ -71,12 +71,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/files/Archive.cpp \
 	$(ROOT_DIR)/../ouzel/files/File.cpp \
 	$(ROOT_DIR)/../ouzel/files/FileSystem.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/empty/BlendStateResourceEmpty.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/empty/BufferResourceEmpty.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/empty/RenderDeviceEmpty.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/empty/RenderTargetResourceEmpty.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/empty/ShaderResourceEmpty.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/empty/TextureResourceEmpty.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/BlendStateResourceOGL.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/BufferResourceOGL.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/RenderDeviceOGL.cpp \
