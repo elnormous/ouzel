@@ -177,15 +177,17 @@ namespace ouzel
                     if (command.cursorResource > cursors.size())
                         cursors.resize(command.cursorResource);
 
-                    std::unique_ptr<NativeCursorMacOS> cursor(new NativeCursorMacOS());
-
                     if (command.data.empty())
-                        cursor->init(command.systemCursor);
+                    {
+                        std::unique_ptr<NativeCursorMacOS> cursor(new NativeCursorMacOS(command.systemCursor));
+                        cursors[command.cursorResource - 1] = std::move(cursor);
+                    }
                     else
-                        cursor->init(command.data, command.size,
-                                     command.pixelFormat, command.hotSpot);
-
-                    cursors[command.cursorResource - 1] = std::move(cursor);
+                    {
+                        std::unique_ptr<NativeCursorMacOS> cursor(new NativeCursorMacOS(command.data, command.size,
+                                                                                        command.pixelFormat, command.hotSpot));
+                        cursors[command.cursorResource - 1] = std::move(cursor);
+                    }
                     break;
                 }
                 case Command::Type::DESTROY_CURSOR:
