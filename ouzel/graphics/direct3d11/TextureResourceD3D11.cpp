@@ -49,9 +49,36 @@ namespace ouzel
             }
         }
 
-        TextureResourceD3D11::TextureResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11):
-            RenderResourceD3D11(renderDeviceD3D11)
+        TextureResourceD3D11::TextureResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11,
+                                                   const std::vector<Texture::Level>& levels,
+                                                   uint32_t newFlags,
+                                                   uint32_t newSampleCount,
+                                                   PixelFormat newPixelFormat):
+            RenderResourceD3D11(renderDeviceD3D11),
+            flags(newFlags),
+            mipmaps(static_cast<uint32_t>(levels.size())),
+            sampleCount(newSampleCount),
+            pixelFormat(newPixelFormat)
         {
+            if ((flags & Texture::RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
+                throw DataError("Invalid mip map count");
+
+            createTexture(levels);
+
+            if (flags & Texture::RENDER_TARGET)
+            {
+                frameBufferClearColor[0] = clearColor.normR();
+                frameBufferClearColor[1] = clearColor.normG();
+                frameBufferClearColor[2] = clearColor.normB();
+                frameBufferClearColor[3] = clearColor.normA();
+            }
+
+            samplerDescriptor.filter = renderDevice.getTextureFilter();
+            samplerDescriptor.addressX = Texture::Address::CLAMP;
+            samplerDescriptor.addressY = Texture::Address::CLAMP;
+            samplerDescriptor.maxAnisotropy = renderDevice.getMaxAnisotropy();
+
+            updateSamplerState();
         }
 
         TextureResourceD3D11::~TextureResourceD3D11()
@@ -73,37 +100,6 @@ namespace ouzel
 
             if (samplerState)
                 samplerState->Release();
-        }
-
-        void TextureResourceD3D11::init(const std::vector<Texture::Level>& levels,
-                                        uint32_t newFlags,
-                                        uint32_t newSampleCount,
-                                        PixelFormat newPixelFormat)
-        {
-            flags = newFlags;
-            mipmaps = static_cast<uint32_t>(levels.size());
-            sampleCount = newSampleCount;
-            pixelFormat = newPixelFormat;
-
-            if ((flags & Texture::RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
-                throw DataError("Invalid mip map count");
-
-            createTexture(levels);
-
-            if (flags & Texture::RENDER_TARGET)
-            {
-                frameBufferClearColor[0] = clearColor.normR();
-                frameBufferClearColor[1] = clearColor.normG();
-                frameBufferClearColor[2] = clearColor.normB();
-                frameBufferClearColor[3] = clearColor.normA();
-            }
-
-            samplerDescriptor.filter = renderDevice.getTextureFilter();
-            samplerDescriptor.addressX = Texture::Address::CLAMP;
-            samplerDescriptor.addressY = Texture::Address::CLAMP;
-            samplerDescriptor.maxAnisotropy = renderDevice.getMaxAnisotropy();
-
-            updateSamplerState();
         }
 
         void TextureResourceD3D11::setData(const std::vector<Texture::Level>& levels)

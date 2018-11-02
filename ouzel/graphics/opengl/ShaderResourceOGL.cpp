@@ -12,55 +12,31 @@ namespace ouzel
 {
     namespace graphics
     {
-        ShaderResourceOGL::ShaderResourceOGL(RenderDeviceOGL& renderDeviceOGL):
-            RenderResourceOGL(renderDeviceOGL)
+        ShaderResourceOGL::ShaderResourceOGL(RenderDeviceOGL& renderDeviceOGL,
+                                             const std::vector<uint8_t>& newFragmentShader,
+                                             const std::vector<uint8_t>& newVertexShader,
+                                             const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
+                                             const std::vector<Shader::ConstantInfo>& newFragmentShaderConstantInfo,
+                                             const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
+                                             uint32_t,
+                                             uint32_t,
+                                             const std::string&,
+                                             const std::string&):
+            RenderResourceOGL(renderDeviceOGL),
+            fragmentShaderData(newFragmentShader),
+            vertexShaderData(newVertexShader),
+            vertexAttributes(newVertexAttributes),
+            fragmentShaderConstantInfo(newFragmentShaderConstantInfo),
+            vertexShaderConstantInfo(newVertexShaderConstantInfo)
         {
+            compileShader();
         }
 
         ShaderResourceOGL::~ShaderResourceOGL()
         {
-            RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
-            if (programId) renderDeviceOGL.deleteProgram(programId);
+            if (programId) renderDevice.deleteProgram(programId);
             if (vertexShaderId) glDeleteShaderProc(vertexShaderId);
             if (fragmentShaderId) glDeleteShaderProc(fragmentShaderId);
-        }
-
-        void ShaderResourceOGL::init(const std::vector<uint8_t>& newFragmentShader,
-                                     const std::vector<uint8_t>& newVertexShader,
-                                     const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
-                                     const std::vector<Shader::ConstantInfo>& newFragmentShaderConstantInfo,
-                                     const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
-                                     uint32_t,
-                                     uint32_t,
-                                     const std::string&,
-                                     const std::string&)
-        {
-            fragmentShaderData = newFragmentShader;
-            vertexShaderData = newVertexShader;
-            vertexAttributes = newVertexAttributes;
-            fragmentShaderConstantInfo = newFragmentShaderConstantInfo;
-            vertexShaderConstantInfo = newVertexShaderConstantInfo;
-
-            if (programId)
-            {
-                RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
-                renderDeviceOGL.deleteProgram(programId);
-                programId = 0;
-            }
-
-            if (vertexShaderId)
-            {
-                glDeleteShaderProc(vertexShaderId);
-                vertexShaderId = 0;
-            }
-
-            if (fragmentShaderId)
-            {
-                glDeleteShaderProc(fragmentShaderId);
-                fragmentShaderId = 0;
-            }
-
-            compileShader();
         }
 
         void ShaderResourceOGL::reload()
@@ -213,8 +189,7 @@ namespace ouzel
             if ((error = glGetErrorProc()) != GL_NO_ERROR)
                 throw DataError("Failed to detach shader, error: " + std::to_string(error));
 
-            RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
-            renderDeviceOGL.useProgram(programId);
+            renderDevice.useProgram(programId);
 
             GLint texture0Location = glGetUniformLocationProc(programId, "texture0");
             if (texture0Location != -1) glUniform1iProc(texture0Location, 0);

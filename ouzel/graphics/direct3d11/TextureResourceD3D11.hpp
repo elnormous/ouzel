@@ -33,13 +33,12 @@ namespace ouzel
         class TextureResourceD3D11 final: public RenderResourceD3D11
         {
         public:
-            explicit TextureResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11);
+            TextureResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11,
+                                 const std::vector<Texture::Level>& levels,
+                                 uint32_t newFlags = 0,
+                                 uint32_t newSampleCount = 1,
+                                 PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
             ~TextureResourceD3D11();
-
-            void init(const std::vector<Texture::Level>& levels,
-                      uint32_t newFlags = 0,
-                      uint32_t newSampleCount = 1,
-                      PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
 
             void setData(const std::vector<Texture::Level>& levels);
             void setFilter(Texture::Filter filter);

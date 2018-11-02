@@ -49,17 +49,14 @@ namespace ouzel
             }
         }
 
-        BlendStateResourceOGL::BlendStateResourceOGL(RenderDeviceOGL& renderDeviceOGL):
+        BlendStateResourceOGL::BlendStateResourceOGL(RenderDeviceOGL& renderDeviceOGL,
+                                                     bool enableBlending,
+                                                     BlendState::Factor colorBlendSource, BlendState::Factor colorBlendDest,
+                                                     BlendState::Operation colorOperation,
+                                                     BlendState::Factor alphaBlendSource, BlendState::Factor alphaBlendDest,
+                                                     BlendState::Operation alphaOperation,
+                                                     uint8_t colorMask):
             RenderResourceOGL(renderDeviceOGL)
-        {
-        }
-
-        void BlendStateResourceOGL::init(bool enableBlending,
-                                         BlendState::Factor colorBlendSource, BlendState::Factor colorBlendDest,
-                                         BlendState::Operation colorOperation,
-                                         BlendState::Factor alphaBlendSource, BlendState::Factor alphaBlendDest,
-                                         BlendState::Operation alphaOperation,
-                                         uint8_t colorMask)
         {
             modeRGB = getBlendOperation(colorOperation);
             modeAlpha = getBlendOperation(alphaOperation);

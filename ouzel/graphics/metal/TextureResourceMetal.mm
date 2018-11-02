@@ -50,36 +50,17 @@ namespace ouzel
             }
         }
 
-        TextureResourceMetal::TextureResourceMetal(RenderDeviceMetal& renderDeviceMetal):
-            RenderResourceMetal(renderDeviceMetal)
+        TextureResourceMetal::TextureResourceMetal(RenderDeviceMetal& renderDeviceMetal,
+                                                   const std::vector<Texture::Level>& levels,
+                                                   uint32_t newFlags,
+                                                   uint32_t newSampleCount,
+                                                   PixelFormat newPixelFormat):
+            RenderResourceMetal(renderDeviceMetal),
+            flags(newFlags),
+            mipmaps(static_cast<uint32_t>(levels.size())),
+            sampleCount(newSampleCount),
+            pixelFormat(newPixelFormat)
         {
-        }
-
-        TextureResourceMetal::~TextureResourceMetal()
-        {
-            if (msaaTexture)
-                [msaaTexture release];
-
-            if (renderPassDescriptor)
-                [renderPassDescriptor release];
-
-            if (texture)
-                [texture release];
-
-            if (samplerState)
-                [samplerState release];
-        }
-
-        void TextureResourceMetal::init(const std::vector<Texture::Level>& levels,
-                                        uint32_t newFlags,
-                                        uint32_t newSampleCount,
-                                        PixelFormat newPixelFormat)
-        {
-            flags = newFlags;
-            mipmaps = static_cast<uint32_t>(levels.size());
-            sampleCount = newSampleCount;
-            pixelFormat = newPixelFormat;
-
             if ((flags & Texture::RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
                 throw DataError("Invalid mip map count");
 
@@ -121,6 +102,21 @@ namespace ouzel
             samplerDescriptor.maxAnisotropy = renderDevice.getMaxAnisotropy();
 
             updateSamplerState();
+        }
+
+        TextureResourceMetal::~TextureResourceMetal()
+        {
+            if (msaaTexture)
+                [msaaTexture release];
+
+            if (renderPassDescriptor)
+                [renderPassDescriptor release];
+
+            if (texture)
+                [texture release];
+
+            if (samplerState)
+                [samplerState release];
         }
 
         void TextureResourceMetal::setData(const std::vector<Texture::Level>& levels)
@@ -331,10 +327,8 @@ namespace ouzel
 
         void TextureResourceMetal::updateSamplerState()
         {
-            RenderDeviceMetal& renderDeviceMetal = static_cast<RenderDeviceMetal&>(renderDevice);
-
             if (samplerState) [samplerState release];
-            samplerState = renderDeviceMetal.getSamplerState(samplerDescriptor);
+            samplerState = renderDevice.getSamplerState(samplerDescriptor);
 
             if (!samplerState)
                 throw DataError("Failed to get Metal sampler state");

@@ -1249,15 +1249,15 @@ namespace ouzel
                     {
                         const InitBlendStateCommand* initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command.get());
 
-                        std::unique_ptr<BlendStateResourceOGL> blendStateResourceOGL(new BlendStateResourceOGL(*this));
-                        blendStateResourceOGL->init(initBlendStateCommand->enableBlending,
-                                                    initBlendStateCommand->colorBlendSource,
-                                                    initBlendStateCommand->colorBlendDest,
-                                                    initBlendStateCommand->colorOperation,
-                                                    initBlendStateCommand->alphaBlendSource,
-                                                    initBlendStateCommand->alphaBlendDest,
-                                                    initBlendStateCommand->alphaOperation,
-                                                    initBlendStateCommand->colorMask);
+                        std::unique_ptr<BlendStateResourceOGL> blendStateResourceOGL(new BlendStateResourceOGL(*this,
+                                                                                                               initBlendStateCommand->enableBlending,
+                                                                                                               initBlendStateCommand->colorBlendSource,
+                                                                                                               initBlendStateCommand->colorBlendDest,
+                                                                                                               initBlendStateCommand->colorOperation,
+                                                                                                               initBlendStateCommand->alphaBlendSource,
+                                                                                                               initBlendStateCommand->alphaBlendDest,
+                                                                                                               initBlendStateCommand->alphaOperation,
+                                                                                                               initBlendStateCommand->colorMask));
 
                         if (initBlendStateCommand->blendState > resources.size())
                             resources.resize(initBlendStateCommand->blendState);
@@ -1276,11 +1276,11 @@ namespace ouzel
                     {
                         const InitBufferCommand* initBufferCommand = static_cast<const InitBufferCommand*>(command.get());
 
-                        std::unique_ptr<BufferResourceOGL> bufferResourceOGL(new BufferResourceOGL(*this));
-                        bufferResourceOGL->init(initBufferCommand->usage,
-                                                initBufferCommand->flags,
-                                                initBufferCommand->data,
-                                                initBufferCommand->size);
+                        std::unique_ptr<BufferResourceOGL> bufferResourceOGL(new BufferResourceOGL(*this,
+                                                                                                   initBufferCommand->usage,
+                                                                                                   initBufferCommand->flags,
+                                                                                                   initBufferCommand->data,
+                                                                                                   initBufferCommand->size));
                         
                         if (initBufferCommand->buffer > resources.size())
                             resources.resize(initBufferCommand->buffer);
@@ -1308,16 +1308,16 @@ namespace ouzel
                     {
                         const InitShaderCommand* initShaderCommand = static_cast<const InitShaderCommand*>(command.get());
 
-                        std::unique_ptr<ShaderResourceOGL> shaderResourceOGL(new ShaderResourceOGL(*this));
-                        shaderResourceOGL->init(initShaderCommand->fragmentShader,
-                                                initShaderCommand->vertexShader,
-                                                initShaderCommand->vertexAttributes,
-                                                initShaderCommand->fragmentShaderConstantInfo,
-                                                initShaderCommand->vertexShaderConstantInfo,
-                                                initShaderCommand->fragmentShaderDataAlignment,
-                                                initShaderCommand->vertexShaderDataAlignment,
-                                                initShaderCommand->fragmentShaderFunction,
-                                                initShaderCommand->vertexShaderFunction);
+                        std::unique_ptr<ShaderResourceOGL> shaderResourceOGL(new ShaderResourceOGL(*this,
+                                                                                                   initShaderCommand->fragmentShader,
+                                                                                                   initShaderCommand->vertexShader,
+                                                                                                   initShaderCommand->vertexAttributes,
+                                                                                                   initShaderCommand->fragmentShaderConstantInfo,
+                                                                                                   initShaderCommand->vertexShaderConstantInfo,
+                                                                                                   initShaderCommand->fragmentShaderDataAlignment,
+                                                                                                   initShaderCommand->vertexShaderDataAlignment,
+                                                                                                   initShaderCommand->fragmentShaderFunction,
+                                                                                                   initShaderCommand->vertexShaderFunction));
 
                         if (initShaderCommand->shader > resources.size())
                             resources.resize(initShaderCommand->shader);
@@ -1378,11 +1378,11 @@ namespace ouzel
                     {
                         const InitTextureCommand* initTextureCommand = static_cast<const InitTextureCommand*>(command.get());
 
-                        std::unique_ptr<TextureResourceOGL> textureResourceOGL(new TextureResourceOGL(*this));
-                        textureResourceOGL->init(initTextureCommand->levels,
-                                                 initTextureCommand->flags,
-                                                 initTextureCommand->sampleCount,
-                                                 initTextureCommand->pixelFormat);
+                        std::unique_ptr<TextureResourceOGL> textureResourceOGL(new TextureResourceOGL(*this,
+                                                                                                      initTextureCommand->levels,
+                                                                                                      initTextureCommand->flags,
+                                                                                                      initTextureCommand->sampleCount,
+                                                                                                      initTextureCommand->pixelFormat));
 
                         if (initTextureCommand->texture > resources.size())
                             resources.resize(initTextureCommand->texture);

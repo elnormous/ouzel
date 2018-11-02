@@ -19,12 +19,11 @@ namespace ouzel
         class BufferResourceD3D11 final: public RenderResourceD3D11
         {
         public:
-            explicit BufferResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11);
+            BufferResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11,
+                                Buffer::Usage newUsage, uint32_t newFlags,
+                                const std::vector<uint8_t>& data,
+                                uint32_t newSize);
             ~BufferResourceD3D11();
-
-            void init(Buffer::Usage newUsage, uint32_t newFlags,
-                      const std::vector<uint8_t>& data,
-                      uint32_t newSize);
 
             void setData(const std::vector<uint8_t>& data);
 

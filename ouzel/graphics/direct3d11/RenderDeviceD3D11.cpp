@@ -701,15 +701,15 @@ namespace ouzel
                     {
                         const InitBlendStateCommand* initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command.get());
 
-                        std::unique_ptr<BlendStateResourceD3D11> blendStateResourceD3D11(new BlendStateResourceD3D11(*this));
-                        blendStateResourceD3D11->init(initBlendStateCommand->enableBlending,
-                                                      initBlendStateCommand->colorBlendSource,
-                                                      initBlendStateCommand->colorBlendDest,
-                                                      initBlendStateCommand->colorOperation,
-                                                      initBlendStateCommand->alphaBlendSource,
-                                                      initBlendStateCommand->alphaBlendDest,
-                                                      initBlendStateCommand->alphaOperation,
-                                                      initBlendStateCommand->colorMask);
+                        std::unique_ptr<BlendStateResourceD3D11> blendStateResourceD3D11(new BlendStateResourceD3D11(*this,
+                                                                                                                     initBlendStateCommand->enableBlending,
+                                                                                                                     initBlendStateCommand->colorBlendSource,
+                                                                                                                     initBlendStateCommand->colorBlendDest,
+                                                                                                                     initBlendStateCommand->colorOperation,
+                                                                                                                     initBlendStateCommand->alphaBlendSource,
+                                                                                                                     initBlendStateCommand->alphaBlendDest,
+                                                                                                                     initBlendStateCommand->alphaOperation,
+                                                                                                                     initBlendStateCommand->colorMask));
 
                         if (initBlendStateCommand->blendState > resources.size())
                             resources.resize(initBlendStateCommand->blendState);
@@ -728,12 +728,12 @@ namespace ouzel
                     {
                         const InitBufferCommand* initBufferCommand = static_cast<const InitBufferCommand*>(command.get());
 
-                        std::unique_ptr<BufferResourceD3D11> bufferResourceD3D11(new BufferResourceD3D11(*this));
-                        bufferResourceD3D11->init(initBufferCommand->usage,
-                                                  initBufferCommand->flags,
-                                                  initBufferCommand->data,
-                                                  initBufferCommand->size);
-                        
+                        std::unique_ptr<BufferResourceD3D11> bufferResourceD3D11(new BufferResourceD3D11(*this,
+                                                                                                         initBufferCommand->usage,
+                                                                                                         initBufferCommand->flags,
+                                                                                                         initBufferCommand->data,
+                                                                                                         initBufferCommand->size));
+
                         if (initBufferCommand->buffer > resources.size())
                             resources.resize(initBufferCommand->buffer);
                         resources[initBufferCommand->buffer - 1] = std::move(bufferResourceD3D11);
@@ -760,16 +760,16 @@ namespace ouzel
                     {
                         const InitShaderCommand* initShaderCommand = static_cast<const InitShaderCommand*>(command.get());
 
-                        std::unique_ptr<ShaderResourceD3D11> shaderResourceD3D11(new ShaderResourceD3D11(*this));
-                        shaderResourceD3D11->init(initShaderCommand->fragmentShader,
-                                                  initShaderCommand->vertexShader,
-                                                  initShaderCommand->vertexAttributes,
-                                                  initShaderCommand->fragmentShaderConstantInfo,
-                                                  initShaderCommand->vertexShaderConstantInfo,
-                                                  initShaderCommand->fragmentShaderDataAlignment,
-                                                  initShaderCommand->vertexShaderDataAlignment,
-                                                  initShaderCommand->fragmentShaderFunction,
-                                                  initShaderCommand->vertexShaderFunction);
+                        std::unique_ptr<ShaderResourceD3D11> shaderResourceD3D11(new ShaderResourceD3D11(*this,
+                                                                                                         initShaderCommand->fragmentShader,
+                                                                                                         initShaderCommand->vertexShader,
+                                                                                                         initShaderCommand->vertexAttributes,
+                                                                                                         initShaderCommand->fragmentShaderConstantInfo,
+                                                                                                         initShaderCommand->vertexShaderConstantInfo,
+                                                                                                         initShaderCommand->fragmentShaderDataAlignment,
+                                                                                                         initShaderCommand->vertexShaderDataAlignment,
+                                                                                                         initShaderCommand->fragmentShaderFunction,
+                                                                                                         initShaderCommand->vertexShaderFunction));
 
                         if (initShaderCommand->shader > resources.size())
                             resources.resize(initShaderCommand->shader);
@@ -850,11 +850,11 @@ namespace ouzel
                     {
                         const InitTextureCommand* initTextureCommand = static_cast<const InitTextureCommand*>(command.get());
 
-                        std::unique_ptr<TextureResourceD3D11> textureResourceD3D11(new TextureResourceD3D11(*this));
-                        textureResourceD3D11->init(initTextureCommand->levels,
-                                                   initTextureCommand->flags,
-                                                   initTextureCommand->sampleCount,
-                                                   initTextureCommand->pixelFormat);
+                        std::unique_ptr<TextureResourceD3D11> textureResourceD3D11(new TextureResourceD3D11(*this,
+                                                                                                            initTextureCommand->levels,
+                                                                                                            initTextureCommand->flags,
+                                                                                                            initTextureCommand->sampleCount,
+                                                                                                            initTextureCommand->pixelFormat));
 
                         if (initTextureCommand->texture > resources.size())
                             resources.resize(initTextureCommand->texture);

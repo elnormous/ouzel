@@ -20,18 +20,17 @@ namespace ouzel
         class ShaderResourceD3D11 final: public RenderResourceD3D11
         {
         public:
-            explicit ShaderResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11);
+            ShaderResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11,
+                                const std::vector<uint8_t>& fragmentShaderData,
+                                const std::vector<uint8_t>& vertexShaderData,
+                                const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
+                                const std::vector<Shader::ConstantInfo>& newFragmentShaderConstantInfo,
+                                const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
+                                uint32_t,
+                                uint32_t,
+                                const std::string& fragmentShaderFunction,
+                                const std::string& vertexShaderFunction);
             ~ShaderResourceD3D11();
-
-            void init(const std::vector<uint8_t>& fragmentShaderData,
-                      const std::vector<uint8_t>& vertexShaderData,
-                      const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
-                      const std::vector<Shader::ConstantInfo>& newFragmentShaderConstantInfo,
-                      const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
-                      uint32_t,
-                      uint32_t,
-                      const std::string& fragmentShaderFunction,
-                      const std::string& vertexShaderFunction);
 
             struct Location
             {

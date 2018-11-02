@@ -13,27 +13,23 @@ namespace ouzel
 {
     namespace graphics
     {
-        BufferResourceMetal::BufferResourceMetal(RenderDeviceMetal& renderDeviceMetal):
-            RenderResourceMetal(renderDeviceMetal)
+        BufferResourceMetal::BufferResourceMetal(RenderDeviceMetal& renderDeviceMetal,
+                                                 Buffer::Usage newUsage, uint32_t newFlags,
+                                                 const std::vector<uint8_t>& data,
+                                                 uint32_t newSize):
+            RenderResourceMetal(renderDeviceMetal),
+            usage(newUsage),
+            flags(newFlags)
         {
+            createBuffer(newSize);
+
+            if (!data.empty())
+                std::copy(data.begin(), data.end(), static_cast<uint8_t*>([buffer contents]));
         }
 
         BufferResourceMetal::~BufferResourceMetal()
         {
             if (buffer) [buffer release];
-        }
-
-        void BufferResourceMetal::init(Buffer::Usage newUsage, uint32_t newFlags,
-                                       const std::vector<uint8_t>& data,
-                                       uint32_t newSize)
-        {
-            usage = newUsage;
-            flags = newFlags;
-
-            createBuffer(newSize);
-
-            if (!data.empty())
-                std::copy(data.begin(), data.end(), static_cast<uint8_t*>([buffer contents]));
         }
 
         void BufferResourceMetal::setData(const std::vector<uint8_t>& data)
@@ -63,10 +59,8 @@ namespace ouzel
             {
                 size = newSize;
 
-                RenderDeviceMetal& renderDeviceMetal = static_cast<RenderDeviceMetal&>(renderDevice);
-
-                buffer = [renderDeviceMetal.getDevice() newBufferWithLength:size
-                                                                    options:MTLResourceCPUCacheModeWriteCombined];
+                buffer = [renderDevice.getDevice() newBufferWithLength:size
+                                                               options:MTLResourceCPUCacheModeWriteCombined];
 
                 if (!buffer)
                     throw DataError("Failed to create Metal buffer");

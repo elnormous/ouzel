@@ -81,47 +81,21 @@ namespace ouzel
             return DXGI_FORMAT_UNKNOWN;
         }
 
-        ShaderResourceD3D11::ShaderResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11):
-            RenderResourceD3D11(renderDeviceD3D11)
+        ShaderResourceD3D11::ShaderResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11,
+                                                 const std::vector<uint8_t>& fragmentShaderData,
+                                                 const std::vector<uint8_t>& vertexShaderData,
+                                                 const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
+                                                 const std::vector<Shader::ConstantInfo>& newFragmentShaderConstantInfo,
+                                                 const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
+                                                 uint32_t,
+                                                 uint32_t,
+                                                 const std::string&,
+                                                 const std::string&):
+            RenderResourceD3D11(renderDeviceD3D11),
+            vertexAttributes(newVertexAttributes),
+            fragmentShaderConstantInfo(newFragmentShaderConstantInfo),
+            vertexShaderConstantInfo(newVertexShaderConstantInfo)
         {
-        }
-
-        ShaderResourceD3D11::~ShaderResourceD3D11()
-        {
-            if (fragmentShader)
-                fragmentShader->Release();
-
-            if (vertexShader)
-                vertexShader->Release();
-
-            if (inputLayout)
-                inputLayout->Release();
-
-            if (fragmentShaderConstantBuffer)
-                fragmentShaderConstantBuffer->Release();
-
-            if (vertexShaderConstantBuffer)
-                vertexShaderConstantBuffer->Release();
-        }
-
-        void ShaderResourceD3D11::init(const std::vector<uint8_t>& fragmentShaderData,
-                                       const std::vector<uint8_t>& vertexShaderData,
-                                       const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
-                                       const std::vector<Shader::ConstantInfo>& newFragmentShaderConstantInfo,
-                                       const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
-                                       uint32_t,
-                                       uint32_t,
-                                       const std::string&,
-                                       const std::string&)
-        {
-            vertexAttributes = newVertexAttributes;
-            fragmentShaderConstantInfo = newFragmentShaderConstantInfo;
-            vertexShaderConstantInfo = newVertexShaderConstantInfo;
-
-
-            if (fragmentShader) fragmentShader->Release();
-
-            RenderDeviceD3D11& renderDeviceD3D11 = static_cast<RenderDeviceD3D11&>(renderDevice);
             HRESULT hr = renderDeviceD3D11.getDevice()->CreatePixelShader(fragmentShaderData.data(), fragmentShaderData.size(), nullptr, &fragmentShader);
             if (FAILED(hr))
                 throw DataError("Failed to create a Direct3D 11 pixel shader, error: " + std::to_string(hr));
@@ -263,6 +237,24 @@ namespace ouzel
             hr = renderDeviceD3D11.getDevice()->CreateBuffer(&vertexShaderConstantBufferDesc, nullptr, &vertexShaderConstantBuffer);
             if (FAILED(hr))
                 throw DataError("Failed to create Direct3D 11 constant buffer, error: " + std::to_string(hr));
+        }
+
+        ShaderResourceD3D11::~ShaderResourceD3D11()
+        {
+            if (fragmentShader)
+                fragmentShader->Release();
+
+            if (vertexShader)
+                vertexShader->Release();
+
+            if (inputLayout)
+                inputLayout->Release();
+
+            if (fragmentShaderConstantBuffer)
+                fragmentShaderConstantBuffer->Release();
+
+            if (vertexShaderConstantBuffer)
+                vertexShaderConstantBuffer->Release();
         }
     } // namespace graphics
 } // namespace ouzel

@@ -27,14 +27,13 @@ namespace ouzel
         class BlendStateResourceMetal final: public RenderResourceMetal
         {
         public:
-            BlendStateResourceMetal(RenderDeviceMetal& renderDeviceMetal);
-
-            void init(bool enableBlending,
-                      BlendState::Factor colorBlendSource, BlendState::Factor colorBlendDest,
-                      BlendState::Operation colorOperation,
-                      BlendState::Factor alphaBlendSource, BlendState::Factor alphaBlendDest,
-                      BlendState::Operation alphaOperation,
-                      uint8_t colorMask);
+            BlendStateResourceMetal(RenderDeviceMetal& renderDeviceMetal,
+                                    bool enableBlending,
+                                    BlendState::Factor colorBlendSource, BlendState::Factor colorBlendDest,
+                                    BlendState::Operation colorOperation,
+                                    BlendState::Factor alphaBlendSource, BlendState::Factor alphaBlendDest,
+                                    BlendState::Operation alphaOperation,
+                                    uint8_t colorMask);
 
             inline MTLBlendOperation getRGBBlendOperation() const { return rgbBlendOperation; }
             inline MTLBlendOperation getAlphaBlendOperation() const { return alphaBlendOperation; }

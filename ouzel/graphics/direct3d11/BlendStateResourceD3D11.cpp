@@ -12,17 +12,6 @@ namespace ouzel
 {
     namespace graphics
     {
-        BlendStateResourceD3D11::BlendStateResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11):
-            RenderResourceD3D11(renderDeviceD3D11)
-        {
-        }
-
-        BlendStateResourceD3D11::~BlendStateResourceD3D11()
-        {
-            if (blendState)
-                blendState->Release();
-        }
-
         static D3D11_BLEND getBlendFactor(BlendState::Factor blendFactor)
         {
             switch (blendFactor)
@@ -57,14 +46,15 @@ namespace ouzel
             }
         }
 
-        void BlendStateResourceD3D11::init(bool enableBlending,
-                                           BlendState::Factor colorBlendSource, BlendState::Factor colorBlendDest,
-                                           BlendState::Operation colorOperation,
-                                           BlendState::Factor alphaBlendSource, BlendState::Factor alphaBlendDest,
-                                           BlendState::Operation alphaOperation,
-                                           uint8_t colorMask)
+        BlendStateResourceD3D11::BlendStateResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11,
+                                                         bool enableBlending,
+                                                         BlendState::Factor colorBlendSource, BlendState::Factor colorBlendDest,
+                                                         BlendState::Operation colorOperation,
+                                                         BlendState::Factor alphaBlendSource, BlendState::Factor alphaBlendDest,
+                                                         BlendState::Operation alphaOperation,
+                                                         uint8_t colorMask):
+            RenderResourceD3D11(renderDeviceD3D11)
         {
-            // Blending state
             D3D11_BLEND_DESC blendStateDesc;
             blendStateDesc.AlphaToCoverageEnable = FALSE;
             blendStateDesc.IndependentBlendEnable = FALSE;
@@ -86,10 +76,15 @@ namespace ouzel
 
             if (blendState) blendState->Release();
 
-            RenderDeviceD3D11& renderDeviceD3D11 = static_cast<RenderDeviceD3D11&>(renderDevice);
             HRESULT hr = renderDeviceD3D11.getDevice()->CreateBlendState(&blendStateDesc, &blendState);
             if (FAILED(hr))
                 throw DataError("Failed to create Direct3D 11 blend state, error: " + std::to_string(hr));
+        }
+
+        BlendStateResourceD3D11::~BlendStateResourceD3D11()
+        {
+            if (blendState)
+                blendState->Release();
         }
     } // namespace graphics
 } // namespace ouzel
