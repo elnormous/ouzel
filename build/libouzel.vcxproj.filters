@@ -25,9 +25,6 @@
     <ClCompile Include="..\ouzel\graphics\direct3d11\BlendStateResourceD3D11.cpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\empty\BlendStateResourceEmpty.cpp">
-      <Filter>ouzel\graphics\empty</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\graphics\opengl\BlendStateResourceOGL.cpp">
       <Filter>ouzel\graphics\opengl</Filter>
     </ClCompile>
@@ -45,9 +42,6 @@
     </ClCompile>
     <ClCompile Include="..\ouzel\graphics\direct3d11\BufferResourceD3D11.cpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\empty\BufferResourceEmpty.cpp">
-      <Filter>ouzel\graphics\empty</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\graphics\opengl\BufferResourceOGL.cpp">
       <Filter>ouzel\graphics\opengl</Filter>
@@ -328,17 +322,11 @@
     <ClCompile Include="..\ouzel\graphics\direct3d11\ShaderResourceD3D11.cpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\empty\ShaderResourceEmpty.cpp">
-      <Filter>ouzel\graphics\empty</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\graphics\opengl\ShaderResourceOGL.cpp">
       <Filter>ouzel\graphics\opengl</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\graphics\direct3d11\TextureResourceD3D11.cpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\empty\TextureResourceEmpty.cpp">
-      <Filter>ouzel\graphics\empty</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\graphics\opengl\TextureResourceOGL.cpp">
       <Filter>ouzel\graphics\opengl</Filter>
@@ -426,9 +414,6 @@
     </ClCompile>
     <ClCompile Include="..\ouzel\assets\LoaderGLTF.cpp">
       <Filter>ouzel\assets</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\empty\RenderTargetResourceEmpty.cpp">
-      <Filter>ouzel\graphics\empty</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\graphics\opengl\RenderTargetResourceOGL.cpp">
       <Filter>ouzel\graphics\opengl</Filter>

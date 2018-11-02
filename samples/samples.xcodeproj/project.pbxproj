@@ -150,6 +150,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		300902ED218BC64600B00BF4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 30B492A01CDF816F0021E170 /* ouzel.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 304A8E241C237C30008B1151;
+			remoteInfo = libouzel_macos;
+		};
+		300902EF218BC64C00B00BF4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 30B492A01CDF816F0021E170 /* ouzel.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 303B76321C355A3B00FEDE92;
+			remoteInfo = libouzel_tvos;
+		};
+		300902F1218BC65300B00BF4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 30B492A01CDF816F0021E170 /* ouzel.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 303B75321C2A3C5800FEDE92;
+			remoteInfo = libouzel_ios;
+		};
 		30B492A61CDF81700021E170 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 30B492A01CDF816F0021E170 /* ouzel.xcodeproj */;
@@ -488,6 +509,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				300902F2218BC65300B00BF4 /* PBXTargetDependency */,
 			);
 			name = samples_ios;
 			productName = blackbird;
@@ -505,6 +527,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				300902F0218BC64C00B00BF4 /* PBXTargetDependency */,
 			);
 			name = samples_tvos;
 			productName = blackbird;
@@ -522,6 +545,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				300902EE218BC64600B00BF4 /* PBXTargetDependency */,
 			);
 			name = samples_macos;
 			productName = blackbird;
@@ -747,6 +771,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		300902EE218BC64600B00BF4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = libouzel_macos;
+			targetProxy = 300902ED218BC64600B00BF4 /* PBXContainerItemProxy */;
+		};
+		300902F0218BC64C00B00BF4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = libouzel_tvos;
+			targetProxy = 300902EF218BC64C00B00BF4 /* PBXContainerItemProxy */;
+		};
+		300902F2218BC65300B00BF4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = libouzel_ios;
+			targetProxy = 300902F1218BC65300B00BF4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		303B761E1C34CFE300FEDE92 /* Debug */ = {
