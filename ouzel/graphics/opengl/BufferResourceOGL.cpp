@@ -12,35 +12,21 @@ namespace ouzel
 {
     namespace graphics
     {
-        BufferResourceOGL::BufferResourceOGL(RenderDeviceOGL& renderDeviceOGL):
-            RenderResourceOGL(renderDeviceOGL)
+        BufferResourceOGL::BufferResourceOGL(RenderDeviceOGL& renderDeviceOGL,
+                                             Buffer::Usage newUsage, uint32_t newFlags,
+                                             const std::vector<uint8_t>& newData,
+                                             uint32_t newSize):
+            RenderResourceOGL(renderDeviceOGL),
+            usage(newUsage),
+            flags(newFlags),
+            data(newData)
         {
-        }
-
-        BufferResourceOGL::~BufferResourceOGL()
-        {
-            RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
-
-            if (bufferId)
-                renderDeviceOGL.deleteBuffer(bufferId);
-        }
-
-        void BufferResourceOGL::init(Buffer::Usage newUsage, uint32_t newFlags,
-                                     const std::vector<uint8_t>& newData,
-                                     uint32_t newSize)
-        {
-            usage = newUsage;
-            flags = newFlags;
-            data = newData;
-
             createBuffer();
 
             size = static_cast<GLsizeiptr>(newSize);
 
             if (size > 0)
             {
-                RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
-
                 renderDeviceOGL.bindBuffer(bufferType, bufferId);
 
                 if (data.empty())
@@ -57,6 +43,12 @@ namespace ouzel
             }
         }
 
+        BufferResourceOGL::~BufferResourceOGL()
+        {
+            if (bufferId)
+                renderDevice.deleteBuffer(bufferId);
+        }
+
         void BufferResourceOGL::reload()
         {
             bufferId = 0;
@@ -65,9 +57,7 @@ namespace ouzel
 
             if (size > 0)
             {
-                RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
-
-                renderDeviceOGL.bindBuffer(bufferType, bufferId);
+                renderDevice.bindBuffer(bufferType, bufferId);
 
                 if (data.empty())
                     glBufferDataProc(bufferType, size, nullptr,
@@ -96,8 +86,7 @@ namespace ouzel
             if (!bufferId)
                 throw DataError("Buffer not initialized");
 
-            RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
-            renderDeviceOGL.bindBuffer(bufferType, bufferId);
+            renderDevice.bindBuffer(bufferType, bufferId);
 
             if (static_cast<GLsizeiptr>(data.size()) > size)
             {
@@ -124,8 +113,7 @@ namespace ouzel
 
         void BufferResourceOGL::createBuffer()
         {
-            RenderDeviceOGL& renderDeviceOGL = static_cast<RenderDeviceOGL&>(renderDevice);
-            if (bufferId) renderDeviceOGL.deleteBuffer(bufferId);
+            if (bufferId) renderDevice.deleteBuffer(bufferId);
 
             glGenBuffersProc(1, &bufferId);
 

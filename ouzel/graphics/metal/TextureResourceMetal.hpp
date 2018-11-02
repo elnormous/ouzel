@@ -49,13 +49,12 @@ namespace ouzel
         class TextureResourceMetal final: public RenderResourceMetal
         {
         public:
-            explicit TextureResourceMetal(RenderDeviceMetal& renderDeviceMetal);
+            TextureResourceMetal(RenderDeviceMetal& renderDeviceMetal,
+                                 const std::vector<Texture::Level>& levels,
+                                 uint32_t newFlags = 0,
+                                 uint32_t newSampleCount = 1,
+                                 PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
             ~TextureResourceMetal();
-
-            void init(const std::vector<Texture::Level>& levels,
-                      uint32_t newFlags = 0,
-                      uint32_t newSampleCount = 1,
-                      PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
 
             void setData(const std::vector<Texture::Level>& levels);
             void setFilter(Texture::Filter filter);

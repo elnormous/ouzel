@@ -14,18 +14,6 @@ namespace ouzel
 {
     namespace graphics
     {
-        ShaderResourceMetal::ShaderResourceMetal(RenderDeviceMetal& renderDeviceMetal):
-            RenderResourceMetal(renderDeviceMetal)
-        {
-        }
-
-        ShaderResourceMetal::~ShaderResourceMetal()
-        {
-            if (vertexShader) [vertexShader release];
-            if (fragmentShader) [fragmentShader release];
-            if (vertexDescriptor) [vertexDescriptor release];
-        }
-
         static MTLVertexFormat getVertexFormat(DataType dataType)
         {
             switch (dataType)
@@ -95,20 +83,21 @@ namespace ouzel
             return MTLVertexFormatInvalid;
         }
 
-        void ShaderResourceMetal::init(const std::vector<uint8_t>& fragmentShaderData,
-                                       const std::vector<uint8_t>& vertexShaderData,
-                                       const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
-                                       const std::vector<Shader::ConstantInfo>& newFragmentShaderConstantInfo,
-                                       const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
-                                       uint32_t newFragmentShaderDataAlignment,
-                                       uint32_t newVertexShaderDataAlignment,
-                                       const std::string& fragmentShaderFunction,
-                                       const std::string& vertexShaderFunction)
+        ShaderResourceMetal::ShaderResourceMetal(RenderDeviceMetal& renderDeviceMetal,
+                                                 const std::vector<uint8_t>& fragmentShaderData,
+                                                 const std::vector<uint8_t>& vertexShaderData,
+                                                 const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
+                                                 const std::vector<Shader::ConstantInfo>& newFragmentShaderConstantInfo,
+                                                 const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
+                                                 uint32_t newFragmentShaderDataAlignment,
+                                                 uint32_t newVertexShaderDataAlignment,
+                                                 const std::string& fragmentShaderFunction,
+                                                 const std::string& vertexShaderFunction):
+            RenderResourceMetal(renderDeviceMetal),
+            vertexAttributes(newVertexAttributes),
+            fragmentShaderConstantInfo(newFragmentShaderConstantInfo),
+            vertexShaderConstantInfo(newVertexShaderConstantInfo)
         {
-            vertexAttributes = newVertexAttributes;
-            fragmentShaderConstantInfo = newFragmentShaderConstantInfo;
-            vertexShaderConstantInfo = newVertexShaderConstantInfo;
-
             if (newFragmentShaderDataAlignment)
                 fragmentShaderAlignment = newFragmentShaderDataAlignment;
             else
@@ -156,7 +145,6 @@ namespace ouzel
             vertexDescriptor.layouts[0].stepRate = 1;
             vertexDescriptor.layouts[0].stepFunction = MTLVertexStepFunctionPerVertex;
 
-            RenderDeviceMetal& renderDeviceMetal = static_cast<RenderDeviceMetal&>(renderDevice);
             NSError* err;
 
             dispatch_data_t fragmentShaderDispatchData = dispatch_data_create(fragmentShaderData.data(), fragmentShaderData.size(), nullptr, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
@@ -226,6 +214,13 @@ namespace ouzel
                     vertexShaderConstantSize += info.size;
                 }
             }
+        }
+
+        ShaderResourceMetal::~ShaderResourceMetal()
+        {
+            if (vertexShader) [vertexShader release];
+            if (fragmentShader) [fragmentShader release];
+            if (vertexDescriptor) [vertexDescriptor release];
         }
     } // namespace graphics
 } // namespace ouzel

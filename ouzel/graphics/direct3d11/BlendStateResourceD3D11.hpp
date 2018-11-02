@@ -19,15 +19,14 @@ namespace ouzel
         class BlendStateResourceD3D11 final: public RenderResourceD3D11
         {
         public:
-            explicit BlendStateResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11);
+            BlendStateResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11,
+                                    bool enableBlending,
+                                    BlendState::Factor colorBlendSource, BlendState::Factor colorBlendDest,
+                                    BlendState::Operation colorOperation,
+                                    BlendState::Factor alphaBlendSource, BlendState::Factor alphaBlendDest,
+                                    BlendState::Operation alphaOperation,
+                                    uint8_t colorMask);
             ~BlendStateResourceD3D11();
-
-            void init(bool enableBlending,
-                      BlendState::Factor colorBlendSource, BlendState::Factor colorBlendDest,
-                      BlendState::Operation colorOperation,
-                      BlendState::Factor alphaBlendSource, BlendState::Factor alphaBlendDest,
-                      BlendState::Operation alphaOperation,
-                      uint8_t colorMask);
 
             ID3D11BlendState* getBlendState() const { return blendState; }
 

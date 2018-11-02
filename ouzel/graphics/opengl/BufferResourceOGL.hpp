@@ -28,12 +28,11 @@ namespace ouzel
         class BufferResourceOGL final: public RenderResourceOGL
         {
         public:
-            explicit BufferResourceOGL(RenderDeviceOGL& renderDeviceOGL);
+            BufferResourceOGL(RenderDeviceOGL& renderDeviceOGL,
+                              Buffer::Usage newUsage, uint32_t newFlags,
+                              const std::vector<uint8_t>& newData,
+                              uint32_t newSize);
             ~BufferResourceOGL();
-
-            void init(Buffer::Usage newUsage, uint32_t newFlags,
-                      const std::vector<uint8_t>& newData,
-                      uint32_t newSize);
 
             void reload() override;
 

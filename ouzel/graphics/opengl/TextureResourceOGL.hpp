@@ -28,13 +28,12 @@ namespace ouzel
         class TextureResourceOGL final: public RenderResourceOGL
         {
         public:
-            explicit TextureResourceOGL(RenderDeviceOGL& renderDeviceOGL);
+            TextureResourceOGL(RenderDeviceOGL& renderDeviceOGL,
+                               const std::vector<Texture::Level>& newLevels,
+                               uint32_t newFlags = 0,
+                               uint32_t newSampleCount = 1,
+                               PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
             ~TextureResourceOGL();
-
-            void init(const std::vector<Texture::Level>& newLevels,
-                      uint32_t newFlags = 0,
-                      uint32_t newSampleCount = 1,
-                      PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
 
             void reload() override;
 

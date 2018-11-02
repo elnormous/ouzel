@@ -26,12 +26,11 @@ namespace ouzel
         class BufferResourceMetal final: public RenderResourceMetal
         {
         public:
-            explicit BufferResourceMetal(RenderDeviceMetal& renderDeviceMetal);
+            BufferResourceMetal(RenderDeviceMetal& renderDeviceMetal,
+                                Buffer::Usage newUsage, uint32_t newFlags,
+                                const std::vector<uint8_t>& newData,
+                                uint32_t newSize);
             ~BufferResourceMetal();
-
-            void init(Buffer::Usage newUsage, uint32_t newFlags,
-                      const std::vector<uint8_t>& newData,
-                      uint32_t newSize);
 
             void setData(const std::vector<uint8_t>& data);
 

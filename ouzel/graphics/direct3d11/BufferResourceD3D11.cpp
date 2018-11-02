@@ -12,25 +12,21 @@ namespace ouzel
 {
     namespace graphics
     {
-        BufferResourceD3D11::BufferResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11):
-            RenderResourceD3D11(renderDeviceD3D11)
+        BufferResourceD3D11::BufferResourceD3D11(RenderDeviceD3D11& renderDeviceD3D11,
+                                                 Buffer::Usage newUsage, uint32_t newFlags,
+                                                 const std::vector<uint8_t>& data,
+                                                 uint32_t newSize):
+            RenderResourceD3D11(renderDeviceD3D11),
+            usage(newUsage),
+            flags(newFlags),
+            size(static_cast<UINT>(newSize))
         {
+            createBuffer(newSize, data);
         }
 
         BufferResourceD3D11::~BufferResourceD3D11()
         {
             if (buffer) buffer->Release();
-        }
-
-        void BufferResourceD3D11::init(Buffer::Usage newUsage, uint32_t newFlags,
-                                       const std::vector<uint8_t>& data,
-                                       uint32_t newSize)
-        {
-            usage = newUsage;
-            flags = newFlags;
-            size = static_cast<UINT>(newSize);
-
-            createBuffer(newSize, data);
         }
 
         void BufferResourceD3D11::setData(const std::vector<uint8_t>& data)
@@ -52,14 +48,13 @@ namespace ouzel
                     mappedSubresource.RowPitch = 0;
                     mappedSubresource.DepthPitch = 0;
 
-                    RenderDeviceD3D11& renderDeviceD3D11 = static_cast<RenderDeviceD3D11&>(renderDevice);
-                    HRESULT hr = renderDeviceD3D11.getContext()->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource);
+                    HRESULT hr = renderDevice.getContext()->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource);
                     if (FAILED(hr))
                         throw DataError("Failed to lock Direct3D 11 buffer, error: " + std::to_string(hr));
 
                     std::copy(data.begin(), data.end(), static_cast<uint8_t*>(mappedSubresource.pData));
 
-                    renderDeviceD3D11.getContext()->Unmap(buffer, 0);
+                    renderDevice.getContext()->Unmap(buffer, 0);
                 }
             }
         }
@@ -96,11 +91,10 @@ namespace ouzel
                 bufferDesc.MiscFlags = 0;
                 bufferDesc.StructureByteStride = 0;
 
-                RenderDeviceD3D11& renderDeviceD3D11 = static_cast<RenderDeviceD3D11&>(renderDevice);
                 HRESULT hr;
 
                 if (data.empty())
-                    hr = renderDeviceD3D11.getDevice()->CreateBuffer(&bufferDesc, nullptr, &buffer);
+                    hr = renderDevice.getDevice()->CreateBuffer(&bufferDesc, nullptr, &buffer);
                 else
                 {
                     D3D11_SUBRESOURCE_DATA bufferResourceData;
@@ -108,7 +102,7 @@ namespace ouzel
                     bufferResourceData.SysMemPitch = 0;
                     bufferResourceData.SysMemSlicePitch = 0;
 
-                    hr = renderDeviceD3D11.getDevice()->CreateBuffer(&bufferDesc, &bufferResourceData, &buffer);
+                    hr = renderDevice.getDevice()->CreateBuffer(&bufferDesc, &bufferResourceData, &buffer);
                 }
 
                 if (FAILED(hr))
