@@ -16,9 +16,12 @@ namespace ouzel
 
         BlendState::~BlendState()
         {
-            RenderDevice* renderDevice = renderer.getDevice();
-            renderDevice->addCommand(std::unique_ptr<Command>(new DeleteBlendStateCommand(resource)));
-            if (resource) renderDevice->deleteResourceId(resource);
+            if (resource)
+            {
+                RenderDevice* renderDevice = renderer.getDevice();
+                renderDevice->addCommand(std::unique_ptr<Command>(new DeleteBlendStateCommand(resource)));
+                renderDevice->deleteResourceId(resource);
+            }
         }
 
         void BlendState::init(bool newEnableBlending,

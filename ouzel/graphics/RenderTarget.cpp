@@ -16,9 +16,12 @@ namespace ouzel
 
         RenderTarget::~RenderTarget()
         {
-            RenderDevice* renderDevice = renderer.getDevice();
-            renderDevice->addCommand(std::unique_ptr<Command>(new DeleteRenderTargetCommand(resource)));
-            if (resource) renderDevice->deleteResourceId(resource);
+            if (resource)
+            {
+                RenderDevice* renderDevice = renderer.getDevice();
+                renderDevice->addCommand(std::unique_ptr<Command>(new DeleteRenderTargetCommand(resource)));
+                renderDevice->deleteResourceId(resource);
+            }
         }
 
         void RenderTarget::setClearColorBuffer(bool clear)

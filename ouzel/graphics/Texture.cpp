@@ -20,9 +20,12 @@ namespace ouzel
 
         Texture::~Texture()
         {
-            RenderDevice* renderDevice = renderer.getDevice();
-            renderDevice->addCommand(std::unique_ptr<Command>(new DeleteTextureCommand(resource)));
-            if (resource) renderDevice->deleteResourceId(resource);
+            if (resource)
+            {
+                RenderDevice* renderDevice = renderer.getDevice();
+                renderDevice->addCommand(std::unique_ptr<Command>(new DeleteTextureCommand(resource)));
+                renderDevice->deleteResourceId(resource);
+            }
         }
 
         static void imageA8Downsample2x2(uint32_t width, uint32_t height, uint32_t pitch, const uint8_t* src, uint8_t* dst)
