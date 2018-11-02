@@ -408,10 +408,10 @@ namespace ouzel
                     {
                         const SetRenderTargetParametersCommand* setRenderTargetParametersCommand = static_cast<const SetRenderTargetParametersCommand*>(command.get());
 
-                        TextureResourceD3D11* renderTargetD3D11 = static_cast<TextureResourceD3D11*>(resources[setRenderTargetParametersCommand->renderTarget - 1].get());
-
-                        if (renderTargetD3D11)
+                        if (setRenderTargetParametersCommand->renderTarget)
                         {
+                            TextureResourceD3D11* renderTargetD3D11 = static_cast<TextureResourceD3D11*>(resources[setRenderTargetParametersCommand->renderTarget - 1].get());
+
                             renderTargetD3D11->setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
                             renderTargetD3D11->setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
                             renderTargetD3D11->setClearColor(setRenderTargetParametersCommand->clearColor);
@@ -851,12 +851,15 @@ namespace ouzel
                     {
                         const InitTextureCommand* initTextureCommand = static_cast<const InitTextureCommand*>(command.get());
 
-                        TextureResourceD3D11* textureResourceD3D11 = static_cast<TextureResourceD3D11*>(resources[initTextureCommand->texture - 1].get());
+                        std::unique_ptr<TextureResourceD3D11> textureResourceD3D11(new TextureResourceD3D11(*this));
                         textureResourceD3D11->init(initTextureCommand->levels,
                                                    initTextureCommand->flags,
                                                    initTextureCommand->sampleCount,
                                                    initTextureCommand->pixelFormat);
 
+                        if (initTextureCommand->texture > resources.size())
+                            resources.resize(initTextureCommand->texture);
+                        resources[initTextureCommand->texture - 1] = std::move(textureResourceD3D11);
                         break;
                     }
 
@@ -899,10 +902,9 @@ namespace ouzel
 
                         for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
                         {
-                            TextureResourceD3D11* textureD3D11 = static_cast<TextureResourceD3D11*>(resources[setTexturesCommand->textures[layer] - 1].get());
-
-                            if (textureD3D11)
+                            if (setTexturesCommand->textures[layer])
                             {
+                                TextureResourceD3D11* textureD3D11 = static_cast<TextureResourceD3D11*>(resources[setTexturesCommand->textures[layer] - 1].get());
                                 resourceViews[layer] = textureD3D11->getResourceView();
                                 samplers[layer] = textureD3D11->getSamplerState();
                             }
