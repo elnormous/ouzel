@@ -15,7 +15,7 @@ namespace ouzel
         {
         }
 
-        bool LoaderParticleSystem::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool)
+        bool LoaderParticleSystem::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
         {
             scene::ParticleSystemData particleSystemData;
 
@@ -105,7 +105,17 @@ namespace ouzel
             if (document.hasMember("finishColorVarianceBlue")) particleSystemData.finishColorBlueVariance = document["finishColorVarianceBlue"].as<float>();
             if (document.hasMember("finishColorVarianceAlpha")) particleSystemData.finishColorAlphaVariance = document["finishColorVarianceAlpha"].as<float>();
 
-            if (document.hasMember("textureFileName")) particleSystemData.texture = cache.getTexture(document["textureFileName"].as<std::string>());
+            if (document.hasMember("textureFileName"))
+            {
+                std::string textureFileName = document["textureFileName"].as<std::string>();
+                particleSystemData.texture = cache.getTexture(textureFileName);
+
+                if (!particleSystemData.texture)
+                {
+                    bundle.loadAsset(Loader::IMAGE, textureFileName, mipmaps);
+                    particleSystemData.texture = cache.getTexture(textureFileName);
+                }
+            }
 
             particleSystemData.emissionRate = static_cast<float>(particleSystemData.maxParticles) / particleSystemData.particleLifespan;
 
