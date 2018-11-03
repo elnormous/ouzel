@@ -207,16 +207,16 @@ namespace ouzel
                 {
                     if (msaaTexture) [msaaTexture release];
 
-                    MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat: MTLPixelFormatBGRA8Unorm
-                                                                                                    width: frameBufferWidth
-                                                                                                   height: frameBufferHeight
-                                                                                                mipmapped: NO];
+                    MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatBGRA8Unorm
+                                                                                                    width:frameBufferWidth
+                                                                                                   height:frameBufferHeight
+                                                                                                mipmapped:NO];
                     desc.textureType = MTLTextureType2DMultisample;
                     desc.storageMode = MTLStorageModePrivate;
                     desc.sampleCount = sampleCount;
                     desc.usage = MTLTextureUsageRenderTarget;
 
-                    msaaTexture = [device newTextureWithDescriptor: desc];
+                    msaaTexture = [device newTextureWithDescriptor:desc];
 
                     if (!msaaTexture)
                         throw DataError("Failed to create MSAA texture");
@@ -440,7 +440,7 @@ namespace ouzel
                         viewport.znear = 0.0f;
                         viewport.zfar = 1.0f;
 
-                        [currentRenderCommandEncoder setViewport: viewport];
+                        [currentRenderCommandEncoder setViewport:viewport];
                         [currentRenderCommandEncoder setDepthStencilState:depthStencilStates[1]]; // enable depth write
 
                         currentRenderPassDescriptor.colorAttachments[0].loadAction = newColorBufferLoadAction;
@@ -526,7 +526,7 @@ namespace ouzel
                             scissorRect.height = currentRenderTarget.height;
                         }
 
-                        [currentRenderCommandEncoder setScissorRect: scissorRect];
+                        [currentRenderCommandEncoder setScissorRect:scissorRect];
 
                         break;
                     }
@@ -546,7 +546,7 @@ namespace ouzel
                         viewport.znear = 0.0f;
                         viewport.zfar = 1.0f;
 
-                        [currentRenderCommandEncoder setViewport: viewport];
+                        [currentRenderCommandEncoder setViewport:viewport];
 
                         break;
                     }

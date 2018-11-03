@@ -116,7 +116,7 @@ namespace ouzel
         [mainMenuItem setSubmenu:subMenu];
 
         NSMenuItem* quitItem = [[[NSMenuItem alloc] initWithTitle:@"Quit" action:@selector(handleQuit:) keyEquivalent:@"q"] autorelease];
-        [quitItem setTarget: [application delegate]];
+        [quitItem setTarget:[application delegate]];
         [subMenu addItem:quitItem];
 
         application.mainMenu = mainMenu;
