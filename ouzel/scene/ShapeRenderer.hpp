@@ -21,10 +21,10 @@ namespace ouzel
 
             ShapeRenderer();
 
-            virtual void draw(const Matrix4& transformMatrix,
-                              float opacity,
-                              const Matrix4& renderViewProjection,
-                              bool wireframe) override;
+            void draw(const Matrix4& transformMatrix,
+                      float opacity,
+                      const Matrix4& renderViewProjection,
+                      bool wireframe) override;
 
             void clear();
 

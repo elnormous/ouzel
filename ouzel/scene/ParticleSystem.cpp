@@ -28,6 +28,12 @@ namespace ouzel
             updateHandler.updateHandler = std::bind(&ParticleSystem::handleUpdate, this, std::placeholders::_1);
         }
 
+        ParticleSystem::ParticleSystem(const ParticleSystemData& initParticleSystemData):
+            ParticleSystem()
+        {
+            init(initParticleSystemData);
+        }
+
         ParticleSystem::ParticleSystem(const std::string& filename):
             ParticleSystem()
         {

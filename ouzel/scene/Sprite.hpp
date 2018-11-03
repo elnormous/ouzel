@@ -34,10 +34,10 @@ namespace ouzel
 
             void update(float delta);
 
-            virtual void draw(const Matrix4& transformMatrix,
-                              float opacity,
-                              const Matrix4& renderViewProjection,
-                              bool wireframe) override;
+            void draw(const Matrix4& transformMatrix,
+                      float opacity,
+                      const Matrix4& renderViewProjection,
+                      bool wireframe) override;
 
             inline const std::shared_ptr<graphics::Material>& getMaterial() const { return material; }
             inline void setMaterial(const std::shared_ptr<graphics::Material>& newMaterial) { material = newMaterial; }
