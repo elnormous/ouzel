@@ -26,12 +26,13 @@ namespace ouzel
             static const uint32_t CLASS = Component::PARTICLE_SYSTEM;
 
             ParticleSystem();
+            explicit ParticleSystem(const ParticleSystemData& initParticleSystemData);
             explicit ParticleSystem(const std::string& filename);
 
-            virtual void draw(const Matrix4& transformMatrix,
-                              float opacity,
-                              const Matrix4& renderViewProjection,
-                              bool wireframe) override;
+            void draw(const Matrix4& transformMatrix,
+                      float opacity,
+                      const Matrix4& renderViewProjection,
+                      bool wireframe) override;
 
             void init(const ParticleSystemData& newParticleSystemData);
             void init(const std::string& filename);

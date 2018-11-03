@@ -26,10 +26,10 @@ namespace ouzel
                          Color initColor = Color::WHITE,
                          const Vector2& initTextAnchor = Vector2(0.5F, 0.5F));
 
-            virtual void draw(const Matrix4& transformMatrix,
-                              float opacity,
-                              const Matrix4& renderViewProjection,
-                              bool wireframe) override;
+            void draw(const Matrix4& transformMatrix,
+                      float opacity,
+                      const Matrix4& renderViewProjection,
+                      bool wireframe) override;
 
             void setFont(const std::string& fontFile);
 
