@@ -781,7 +781,6 @@ namespace ouzel
                         shaderConstantBuffer.offset = ((shaderConstantBuffer.offset + currentShader->getFragmentShaderAlignment() - 1) /
                                                        currentShader->getFragmentShaderAlignment()) * currentShader->getFragmentShaderAlignment(); // round up to nearest aligned pointer
 
-
                         if (shaderConstantBuffer.offset + getVectorSize(shaderData) > BUFFER_SIZE)
                         {
                             ++shaderConstantBuffer.index;

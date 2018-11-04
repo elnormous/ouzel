@@ -26,7 +26,6 @@
     return YES;
 }
 
-
 static const std::unordered_map<NSInteger, ouzel::input::Keyboard::Key> keyMap = {
     {UIPressTypeUpArrow, ouzel::input::Keyboard::Key::UP},
     {UIPressTypeDownArrow, ouzel::input::Keyboard::Key::DOWN},

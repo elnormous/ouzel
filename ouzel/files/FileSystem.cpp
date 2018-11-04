@@ -75,9 +75,9 @@ namespace ouzel
 
         if (readlink("/proc/self/exe", executableDirectory, sizeof(executableDirectory)) == -1)
             throw std::system_error(errno, std::system_category(), "Failed to get current directory");
-        
+
         appPath = getDirectoryPart(executableDirectory);
-        engine.log(Log::Level::INFO) << "Application directory: " << appPath;            
+        engine.log(Log::Level::INFO) << "Application directory: " << appPath;
 #endif
     }
 

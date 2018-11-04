@@ -1281,7 +1281,7 @@ namespace ouzel
                                                                                                    initBufferCommand->flags,
                                                                                                    initBufferCommand->data,
                                                                                                    initBufferCommand->size));
-                        
+
                         if (initBufferCommand->buffer > resources.size())
                             resources.resize(initBufferCommand->buffer);
                         resources[initBufferCommand->buffer - 1] = std::move(bufferResourceOGL);

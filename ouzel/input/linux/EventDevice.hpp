@@ -41,7 +41,6 @@ namespace ouzel
                                   int32_t min, int32_t range,
                                   Gamepad::Button negativeButton, Gamepad::Button positiveButton);
 
-
             int fd = -1;
             std::string filename;
             std::string name;

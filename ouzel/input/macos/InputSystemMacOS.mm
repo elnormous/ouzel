@@ -56,8 +56,6 @@ static void deviceRemoved(void* ctx, IOReturn, void*, IOHIDDeviceRef device)
     inputMacOS->handleGamepadDisconnected(device);
 }
 
-
-
 namespace ouzel
 {
     namespace input
