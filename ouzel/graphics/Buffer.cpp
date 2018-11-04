@@ -10,9 +10,61 @@ namespace ouzel
     namespace graphics
     {
         Buffer::Buffer(Renderer& initRenderer):
-            renderer(initRenderer)
+            renderer(initRenderer),
+            resource(renderer.getDevice()->getResourceId())
         {
-            resource = renderer.getDevice()->getResourceId();
+        }
+
+        Buffer::Buffer(Renderer& initRenderer, Usage initUsage, uint32_t initFlags, uint32_t initSize):
+            renderer(initRenderer),
+            resource(renderer.getDevice()->getResourceId()),
+            usage(initUsage),
+            flags(initFlags),
+            size(initSize)
+        {
+            RenderDevice* renderDevice = renderer.getDevice();
+
+            renderDevice->addCommand(std::unique_ptr<Command>(new InitBufferCommand(resource,
+                                                                                    initUsage,
+                                                                                    initFlags,
+                                                                                    std::vector<uint8_t>(),
+                                                                                    initSize)));
+        }
+
+        Buffer::Buffer(Renderer& initRenderer, Usage initUsage, uint32_t initFlags, const void* initData, uint32_t initSize):
+            renderer(initRenderer),
+            resource(renderer.getDevice()->getResourceId()),
+            usage(initUsage),
+            flags(initFlags),
+            size(initSize)
+        {
+            RenderDevice* renderDevice = renderer.getDevice();
+
+            renderDevice->addCommand(std::unique_ptr<Command>(new InitBufferCommand(resource,
+                                                                                    initUsage,
+                                                                                    initFlags,
+                                                                                    std::vector<uint8_t>(static_cast<const uint8_t*>(initData),
+                                                                                                         static_cast<const uint8_t*>(initData) + initSize),
+                                                                                    initSize)));
+        }
+
+        Buffer::Buffer(Renderer& initRenderer, Usage initUsage, uint32_t initFlags, const std::vector<uint8_t>& initData, uint32_t initSize):
+            renderer(initRenderer),
+            resource(renderer.getDevice()->getResourceId()),
+            usage(initUsage),
+            flags(initFlags),
+            size(initSize)
+        {
+            if (!initData.empty() && initSize != initData.size())
+                throw DataError("Invalid buffer data");
+
+            RenderDevice* renderDevice = renderer.getDevice();
+
+            renderDevice->addCommand(std::unique_ptr<Command>(new InitBufferCommand(resource,
+                                                                                    initUsage,
+                                                                                    initFlags,
+                                                                                    initData,
+                                                                                    initSize)));
         }
 
         Buffer::~Buffer()

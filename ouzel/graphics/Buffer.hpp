@@ -27,6 +27,9 @@ namespace ouzel
             };
 
             explicit Buffer(Renderer& initRenderer);
+            Buffer(Renderer& initRenderer, Usage newUsage, uint32_t newFlags, uint32_t newSize = 0);
+            Buffer(Renderer& initRenderer, Usage newUsage, uint32_t newFlags, const void* newData, uint32_t newSize);
+            Buffer(Renderer& initRenderer, Usage newUsage, uint32_t newFlags, const std::vector<uint8_t>& newData, uint32_t newSize);
             ~Buffer();
 
             Buffer(const Buffer&) = delete;

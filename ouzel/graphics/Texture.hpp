@@ -52,6 +52,23 @@ namespace ouzel
             static const uint32_t LAYERS = 4;
 
             explicit Texture(Renderer& initRenderer);
+            Texture(Renderer& initRenderer,
+                    const Size2& newSize,
+                    uint32_t newFlags = 0,
+                    uint32_t newMipmaps = 0,
+                    uint32_t newSampleCount = 1,
+                    PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
+            Texture(Renderer& initRenderer,
+                    const std::vector<uint8_t>& newData,
+                    const Size2& newSize,
+                    uint32_t newFlags = 0,
+                    uint32_t newMipmaps = 0,
+                    PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
+            Texture(Renderer& initRenderer,
+                    const std::vector<Level>& newLevels,
+                    const Size2& newSize,
+                    uint32_t newFlags = 0,
+                    PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
             ~Texture();
 
             Texture(const Texture&) = delete;

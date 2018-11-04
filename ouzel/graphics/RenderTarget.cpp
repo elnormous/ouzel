@@ -9,9 +9,9 @@ namespace ouzel
     namespace graphics
     {
         RenderTarget::RenderTarget(Renderer& initRenderer):
-            renderer(initRenderer)
+            renderer(initRenderer),
+            resource(renderer.getDevice()->getResourceId())
         {
-            resource = renderer.getDevice()->getResourceId();
         }
 
         RenderTarget::~RenderTarget()

@@ -12,22 +12,6 @@ namespace ouzel
 {
     namespace graphics
     {
-        Texture::Texture(Renderer& initRenderer):
-            renderer(initRenderer)
-        {
-            resource = renderer.getDevice()->getResourceId();
-        }
-
-        Texture::~Texture()
-        {
-            if (resource)
-            {
-                RenderDevice* renderDevice = renderer.getDevice();
-                renderDevice->addCommand(std::unique_ptr<Command>(new DeleteTextureCommand(resource)));
-                renderDevice->deleteResourceId(resource);
-            }
-        }
-
         static void imageA8Downsample2x2(uint32_t width, uint32_t height, uint32_t pitch, const uint8_t* src, uint8_t* dst)
         {
             const uint32_t dstWidth = width >> 1;
@@ -484,6 +468,114 @@ namespace ouzel
             }
 
             return levels;
+        }
+
+        Texture::Texture(Renderer& initRenderer):
+            renderer(initRenderer),
+            resource(renderer.getDevice()->getResourceId())
+        {
+        }
+
+        Texture::Texture(Renderer& initRenderer,
+                         const Size2& initSize,
+                         uint32_t initFlags,
+                         uint32_t initMipmaps,
+                         uint32_t initSampleCount,
+                         PixelFormat initPixelFormat):
+            renderer(initRenderer),
+            resource(renderer.getDevice()->getResourceId()),
+            size(initSize),
+            flags(initFlags),
+            mipmaps(initMipmaps),
+            sampleCount(initSampleCount),
+            pixelFormat(initPixelFormat)
+        {
+            if ((flags & RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
+                throw DataError("Invalid mip map count");
+
+            if (!renderer.getDevice()->isNPOTTexturesSupported() &&
+                (!isPOT(static_cast<uint32_t>(size.width)) || isPOT(static_cast<uint32_t>(size.height))))
+                mipmaps = 1;
+
+            std::vector<Level> levels = calculateSizes(size, std::vector<uint8_t>(), mipmaps, pixelFormat);
+
+            renderer.getDevice()->addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
+                                                                                             levels,
+                                                                                             flags,
+                                                                                             sampleCount,
+                                                                                             pixelFormat)));
+        }
+
+        Texture::Texture(Renderer& initRenderer,
+                         const std::vector<uint8_t>& initData,
+                         const Size2& initSize,
+                         uint32_t initFlags,
+                         uint32_t initMipmaps,
+                         PixelFormat initPixelFormat):
+            renderer(initRenderer),
+            resource(renderer.getDevice()->getResourceId()),
+            size(initSize),
+            flags(initFlags),
+            mipmaps(initMipmaps),
+            sampleCount(1),
+            pixelFormat(initPixelFormat)
+        {
+            if ((flags & RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
+                throw DataError("Invalid mip map count");
+
+            if (!renderer.getDevice()->isNPOTTexturesSupported() &&
+                (!isPOT(static_cast<uint32_t>(size.width)) || isPOT(static_cast<uint32_t>(size.height))))
+                mipmaps = 1;
+
+            std::vector<Level> levels = calculateSizes(size, initData, mipmaps, pixelFormat);
+
+            renderer.getDevice()->addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
+                                                                                             levels,
+                                                                                             flags,
+                                                                                             sampleCount,
+                                                                                             pixelFormat)));
+        }
+
+        Texture::Texture(Renderer& initRenderer,
+                         const std::vector<Level>& initLevels,
+                         const Size2& initSize,
+                         uint32_t initFlags,
+                         PixelFormat initPixelFormat):
+            renderer(initRenderer),
+            resource(renderer.getDevice()->getResourceId()),
+            size(initSize),
+            flags(initFlags),
+            mipmaps(static_cast<uint32_t>(initLevels.size())),
+            sampleCount(1),
+            pixelFormat(initPixelFormat)
+        {
+            if ((flags & RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
+                throw DataError("Invalid mip map count");
+
+            std::vector<Level> levels = initLevels;
+
+            if (!renderer.getDevice()->isNPOTTexturesSupported() &&
+                (!isPOT(static_cast<uint32_t>(size.width)) || isPOT(static_cast<uint32_t>(size.height))))
+            {
+                mipmaps = 1;
+                levels.resize(1);
+            }
+
+            renderer.getDevice()->addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
+                                                                                             levels,
+                                                                                             flags,
+                                                                                             sampleCount,
+                                                                                             pixelFormat)));
+        }
+
+        Texture::~Texture()
+        {
+            if (resource)
+            {
+                RenderDevice* renderDevice = renderer.getDevice();
+                renderDevice->addCommand(std::unique_ptr<Command>(new DeleteTextureCommand(resource)));
+                renderDevice->deleteResourceId(resource);
+            }
         }
 
         void Texture::init(const Size2& newSize,
