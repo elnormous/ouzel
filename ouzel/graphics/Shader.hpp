@@ -30,6 +30,16 @@ namespace ouzel
             };
 
             explicit Shader(Renderer& initRenderer);
+            Shader(Renderer& initRenderer,
+                   const std::vector<uint8_t>& initFragmentShader,
+                   const std::vector<uint8_t>& initVertexShader,
+                   const std::set<Vertex::Attribute::Usage>& initVertexAttributes,
+                   const std::vector<ConstantInfo>& initFragmentShaderConstantInfo,
+                   const std::vector<ConstantInfo>& initVertexShaderConstantInfo,
+                   uint32_t initFragmentShaderDataAlignment = 0,
+                   uint32_t initVertexShaderDataAlignment = 0,
+                   const std::string& fragmentShaderFunction = "",
+                   const std::string& vertexShaderFunction = "");
             ~Shader();
 
             Shader(const Shader&) = delete;

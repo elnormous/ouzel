@@ -9,9 +9,37 @@ namespace ouzel
     namespace graphics
     {
         Shader::Shader(Renderer& initRenderer):
-            renderer(initRenderer)
+            renderer(initRenderer),
+            resource(renderer.getDevice()->getResourceId())
         {
-            resource = renderer.getDevice()->getResourceId();
+        }
+
+        Shader::Shader(Renderer& initRenderer,
+                       const std::vector<uint8_t>& initFragmentShader,
+                       const std::vector<uint8_t>& initVertexShader,
+                       const std::set<Vertex::Attribute::Usage>& initVertexAttributes,
+                       const std::vector<ConstantInfo>& initFragmentShaderConstantInfo,
+                       const std::vector<ConstantInfo>& initVertexShaderConstantInfo,
+                       uint32_t initFragmentShaderDataAlignment,
+                       uint32_t initVertexShaderDataAlignment,
+                       const std::string& fragmentShaderFunction,
+                       const std::string& vertexShaderFunction):
+            renderer(initRenderer),
+            resource(renderer.getDevice()->getResourceId()),
+            vertexAttributes(initVertexAttributes)
+        {
+            RenderDevice* renderDevice = renderer.getDevice();
+
+            renderDevice->addCommand(std::unique_ptr<Command>(new InitShaderCommand(resource,
+                                                                                    initFragmentShader,
+                                                                                    initVertexShader,
+                                                                                    initVertexAttributes,
+                                                                                    initFragmentShaderConstantInfo,
+                                                                                    initVertexShaderConstantInfo,
+                                                                                    initFragmentShaderDataAlignment,
+                                                                                    initVertexShaderDataAlignment,
+                                                                                    fragmentShaderFunction,
+                                                                                    vertexShaderFunction)));
         }
 
         Shader::~Shader()
@@ -31,8 +59,8 @@ namespace ouzel
                           const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
                           uint32_t newFragmentShaderDataAlignment,
                           uint32_t newVertexShaderDataAlignment,
-                          const std::string& newFragmentShaderFunction,
-                          const std::string& newVertexShaderFunction)
+                          const std::string& fragmentShaderFunction,
+                          const std::string& vertexShaderFunction)
         {
             vertexAttributes = newVertexAttributes;
             fragmentShaderFilename.clear();
@@ -48,8 +76,8 @@ namespace ouzel
                                                                                     newVertexShaderConstantInfo,
                                                                                     newFragmentShaderDataAlignment,
                                                                                     newVertexShaderDataAlignment,
-                                                                                    newFragmentShaderFunction,
-                                                                                    newVertexShaderFunction)));
+                                                                                    fragmentShaderFunction,
+                                                                                    vertexShaderFunction)));
         }
 
         const std::set<Vertex::Attribute::Usage>& Shader::getVertexAttributes() const

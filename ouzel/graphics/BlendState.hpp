@@ -49,6 +49,13 @@ namespace ouzel
             };
 
             explicit BlendState(Renderer& initRenderer);
+            BlendState(Renderer& initRenderer,
+                       bool initEnableBlending,
+                       Factor initColorBlendSource, Factor initColorBlendDest,
+                       Operation initColorOperation,
+                       Factor initAlphaBlendSource, Factor initAlphaBlendDest,
+                       Operation initAlphaOperation,
+                       uint8_t initColorMask = COLOR_MASK_ALL);
             ~BlendState();
 
             BlendState(const BlendState&) = delete;

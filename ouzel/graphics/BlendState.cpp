@@ -9,9 +9,38 @@ namespace ouzel
     namespace graphics
     {
         BlendState::BlendState(Renderer& initRenderer):
-            renderer(initRenderer)
+            renderer(initRenderer),
+            resource(renderer.getDevice()->getResourceId())
         {
-            resource = renderer.getDevice()->getResourceId();
+        }
+
+        BlendState::BlendState(Renderer& initRenderer,
+                               bool initEnableBlending,
+                               Factor initColorBlendSource, Factor initColorBlendDest,
+                               Operation initColorOperation,
+                               Factor initAlphaBlendSource, Factor initAlphaBlendDest,
+                               Operation initAlphaOperation,
+                               uint8_t initColorMask):
+            renderer(initRenderer),
+            resource(renderer.getDevice()->getResourceId()),
+            enableBlending(initEnableBlending),
+            colorBlendSource(initColorBlendSource),
+            colorBlendDest(initColorBlendDest),
+            colorOperation(initColorOperation),
+            alphaBlendSource(initAlphaBlendSource),
+            alphaBlendDest(initAlphaBlendDest),
+            alphaOperation(initAlphaOperation),
+            colorMask(initColorMask)
+        {
+            RenderDevice* renderDevice = renderer.getDevice();
+
+            renderDevice->addCommand(std::unique_ptr<Command>(new InitBlendStateCommand(resource,
+                                                                                        initEnableBlending,
+                                                                                        initColorBlendSource, initColorBlendDest,
+                                                                                        initColorOperation,
+                                                                                        initAlphaBlendSource, initAlphaBlendDest,
+                                                                                        initAlphaOperation,
+                                                                                        initColorMask)));
         }
 
         BlendState::~BlendState()
