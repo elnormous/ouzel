@@ -18,9 +18,9 @@ namespace ouzel
         class Cursor final
         {
         public:
-            Cursor(InputManager& initInputManager);
-            explicit Cursor(InputManager& initInputManager, SystemCursor systemCursor);
-            explicit Cursor(InputManager& initInputManager, const std::string& filename, const Vector2& hotSpot = Vector2());
+            explicit Cursor(InputManager& initInputManager);
+            Cursor(InputManager& initInputManager, SystemCursor systemCursor);
+            Cursor(InputManager& initInputManager, const std::string& filename, const Vector2& hotSpot = Vector2());
             ~Cursor();
 
             Cursor(const Cursor&) = delete;

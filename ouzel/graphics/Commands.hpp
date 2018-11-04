@@ -368,7 +368,7 @@ namespace ouzel
         class DeleteBlendStateCommand: public Command
         {
         public:
-            DeleteBlendStateCommand(uintptr_t initBlendState):
+            explicit DeleteBlendStateCommand(uintptr_t initBlendState):
                 Command(Command::Type::DELETE_BLEND_STATE),
                 blendState(initBlendState)
             {
@@ -404,7 +404,7 @@ namespace ouzel
         class DeleteBufferCommand: public Command
         {
         public:
-            DeleteBufferCommand(uintptr_t initBuffer):
+            explicit DeleteBufferCommand(uintptr_t initBuffer):
                 Command(Command::Type::DELETE_BUFFER),
                 buffer(initBuffer)
             {
@@ -470,7 +470,7 @@ namespace ouzel
         class DeleteShaderCommand: public Command
         {
         public:
-            DeleteShaderCommand(uintptr_t initShader):
+            explicit DeleteShaderCommand(uintptr_t initShader):
                 Command(Command::Type::DELETE_SHADER),
                 shader(initShader)
             {
@@ -521,7 +521,7 @@ namespace ouzel
         class DeleteTextureCommand: public Command
         {
         public:
-            DeleteTextureCommand(uintptr_t initTexture):
+            explicit DeleteTextureCommand(uintptr_t initTexture):
                 Command(Command::Type::DELETE_TEXTURE),
                 texture(initTexture)
             {
