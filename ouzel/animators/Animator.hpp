@@ -38,7 +38,7 @@ namespace ouzel
 
             inline Actor* getTargetActor() const { return targetActor; }
 
-            virtual void addAnimator(Animator* animator);
+            void addAnimator(Animator* animator);
 
             template<typename T> void addAnimator(const std::unique_ptr<T>& animator)
             {
@@ -51,7 +51,7 @@ namespace ouzel
                 ownedAnimators.push_back(std::move(animator));
             }
 
-            virtual bool removeAnimator(Animator* animator);
+            bool removeAnimator(Animator* animator);
 
             template<typename T> bool removeAnimator(const std::unique_ptr<T>& animator)
             {
