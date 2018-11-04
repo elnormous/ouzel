@@ -30,7 +30,7 @@ namespace ouzel
 
             virtual void draw();
 
-            virtual void addLayer(Layer* layer);
+            void addLayer(Layer* layer);
 
             template<typename T> void addLayer(const std::unique_ptr<T>& layer)
             {
@@ -43,7 +43,7 @@ namespace ouzel
                 ownedLayers.push_back(std::move(layer));
             }
 
-            virtual bool removeLayer(Layer* layer);
+            bool removeLayer(Layer* layer);
 
             template<typename T> bool removeLayer(const std::unique_ptr<T>& layer)
             {
