@@ -17,7 +17,6 @@
 static const LONG_PTR SIGNATURE_MASK = 0x0FFFFFF00;
 static const LONG_PTR MOUSEEVENTF_FROMTOUCH = 0x0FF515700;
 
-
 static const std::unordered_map<uint8_t, ouzel::input::Keyboard::Key> scanCodeMap =
 {
     {0x01, ouzel::input::Keyboard::Key::ESCAPE},
@@ -759,7 +758,7 @@ namespace ouzel
 
         if (!GetTouchInputInfo(reinterpret_cast<HTOUCHINPUT>(lParam), inputCount, touches.data(), sizeof(TOUCHINPUT)))
             throw std::system_error(GetLastError(), std::system_category(), "Failed to get touch info");
-        
+
         Vector2 position;
 
         for (const TOUCHINPUT& touch : touches)
@@ -787,7 +786,7 @@ namespace ouzel
         }
 
         if (!CloseTouchInputHandle(reinterpret_cast<HTOUCHINPUT>(lParam)))
-            throw std::system_error(GetLastError(), std::system_category(), "Failed to close touch input handle");            
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to close touch input handle");
     }
 
     void NativeWindowWin::addAccelerator(HACCEL accelerator)
