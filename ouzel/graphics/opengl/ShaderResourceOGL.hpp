@@ -42,7 +42,7 @@ namespace ouzel
 
             void reload() override;
 
-            struct Location
+            struct Location final
             {
                 GLint location;
                 DataType dataType;

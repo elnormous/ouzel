@@ -43,7 +43,7 @@ namespace ouzel
             IDirectInputDevice8W* device = nullptr;
             DWORD hatValue = 0xffffffff;
 
-            struct Button
+            struct Button final
             {
                 Gamepad::Button button = Gamepad::Button::NONE;
                 BYTE value = 0;
@@ -51,7 +51,7 @@ namespace ouzel
 
             std::unordered_map<DWORD, Button> buttons;
 
-            struct Axis
+            struct Axis final
             {
                 Gamepad::Axis axis = Gamepad::Axis::NONE;
                 LONG min = 0;

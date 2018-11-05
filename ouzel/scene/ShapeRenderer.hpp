@@ -62,7 +62,7 @@ namespace ouzel
             inline void setBlendState(const std::shared_ptr<graphics::BlendState>& newBlendState)  { blendState = newBlendState; }
 
         private:
-            struct DrawCommand
+            struct DrawCommand final
             {
                 graphics::Renderer::DrawMode mode;
                 uint32_t indexCount;

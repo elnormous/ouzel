@@ -12,7 +12,7 @@ namespace ouzel
         class SkinnedMeshData
         {
         public:
-            struct Bone
+            struct Bone final
             {
                 Bone* parent = nullptr;
                 Vector3 position;

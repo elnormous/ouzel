@@ -34,7 +34,7 @@ namespace ouzel
             IOHIDElementRef hatElement = nullptr;
             CFIndex hatValue = 8;
 
-            struct Button
+            struct Button final
             {
                 Gamepad::Button button = Gamepad::Button::NONE;
                 CFIndex value = 0;
@@ -42,7 +42,7 @@ namespace ouzel
 
             std::unordered_map<IOHIDElementRef, Button> buttons;
 
-            struct Axis
+            struct Axis final
             {
                 Gamepad::Axis axis = Gamepad::Axis::NONE;
                 CFIndex min = 0;

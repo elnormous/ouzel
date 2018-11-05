@@ -33,7 +33,7 @@ namespace ouzel
         FileSystem& fileSystem;
         File file;
 
-        struct Entry
+        struct Entry final
         {
             uint32_t offset;
             uint32_t size;

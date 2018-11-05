@@ -58,7 +58,7 @@ namespace ouzel
                 std::shared_ptr<graphics::Buffer> vertexBuffer;
             };
 
-            struct Animation
+            struct Animation final
             {
                 std::string name;
                 std::vector<Frame> frames;

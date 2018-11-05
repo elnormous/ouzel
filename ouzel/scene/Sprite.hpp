@@ -66,7 +66,7 @@ namespace ouzel
             std::shared_ptr<graphics::Material> material;
             std::map<std::string, SpriteData::Animation> animations;
 
-            struct QueuedAnimation
+            struct QueuedAnimation final
             {
                 const SpriteData::Animation* animation;
                 bool repeat;

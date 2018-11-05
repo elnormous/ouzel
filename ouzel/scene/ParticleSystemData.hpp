@@ -11,7 +11,7 @@ namespace ouzel
 {
     namespace scene
     {
-        struct ParticleSystemData
+        struct ParticleSystemData final
         {
             enum class EmitterType
             {

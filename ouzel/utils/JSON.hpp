@@ -12,7 +12,7 @@ namespace ouzel
 {
     namespace json
     {
-        struct Token
+        struct Token final
         {
             enum class Type
             {

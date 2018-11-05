@@ -66,7 +66,7 @@ namespace ouzel
                 COUNT
             };
 
-            struct ButtonState
+            struct ButtonState final
             {
                 bool pressed = false;
                 float value = 0.0F;

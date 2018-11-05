@@ -32,7 +32,7 @@ namespace ouzel
     {
         class RenderDeviceMetal;
 
-        class SamplerStateDescriptor
+        class SamplerStateDescriptor final
         {
         public:
             Texture::Filter filter;
