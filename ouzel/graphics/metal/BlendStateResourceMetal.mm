@@ -62,7 +62,7 @@ namespace ouzel
             destinationRGBBlendFactor = getBlendFactor(colorBlendDest);
             sourceAlphaBlendFactor = getBlendFactor(alphaBlendSource);
             destinationAlphaBlendFactor = getBlendFactor(alphaBlendDest);
-            metalBlendingEnabled = enableBlending;
+            blendingEnabled = enableBlending;
 
             colorWriteMask = MTLColorWriteMaskNone;
             if (colorMask & BlendState::COLOR_MASK_RED) colorWriteMask |= MTLColorWriteMaskRed;

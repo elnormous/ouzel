@@ -56,7 +56,8 @@ namespace ouzel
                                                      BlendState::Factor alphaBlendSource, BlendState::Factor alphaBlendDest,
                                                      BlendState::Operation alphaOperation,
                                                      uint8_t colorMask):
-            RenderResourceOGL(renderDeviceOGL)
+            RenderResourceOGL(renderDeviceOGL),
+            blendEnabled(enableBlending)
         {
             modeRGB = getBlendOperation(colorOperation);
             modeAlpha = getBlendOperation(alphaOperation);
@@ -65,8 +66,6 @@ namespace ouzel
             destFactorRGB = getBlendFactor(colorBlendDest);
             sourceFactorAlpha = getBlendFactor(alphaBlendSource);
             destFactorAlpha = getBlendFactor(alphaBlendDest);
-
-            glBlendEnabled = enableBlending;
 
             redMask = (colorMask & BlendState::COLOR_MASK_RED) ? GL_TRUE : GL_FALSE;
             greenMask = (colorMask & BlendState::COLOR_MASK_GREEN) ? GL_TRUE : GL_FALSE;

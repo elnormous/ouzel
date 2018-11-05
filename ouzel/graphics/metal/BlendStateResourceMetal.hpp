@@ -42,7 +42,7 @@ namespace ouzel
             inline MTLBlendFactor getSourceAlphaBlendFactor() const { return sourceAlphaBlendFactor; }
             inline MTLBlendFactor getDestinationAlphaBlendFactor() const { return destinationAlphaBlendFactor; }
             inline MTLColorWriteMask getColorWriteMask() const { return colorWriteMask; }
-            inline bool isMetalBlendingEnabled() const { return metalBlendingEnabled; }
+            inline bool isBlendingEnabled() const { return blendingEnabled; }
 
         private:
             MTLBlendOperation rgbBlendOperation;
@@ -52,7 +52,7 @@ namespace ouzel
             MTLBlendFactor sourceAlphaBlendFactor;
             MTLBlendFactor destinationAlphaBlendFactor;
             MTLColorWriteMask colorWriteMask;
-            bool metalBlendingEnabled;
+            bool blendingEnabled;
         };
     } // namespace graphics
 } // namespace ouzel

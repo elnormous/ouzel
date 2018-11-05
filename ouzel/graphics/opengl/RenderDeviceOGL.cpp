@@ -1127,7 +1127,7 @@ namespace ouzel
 
                         if (blendStateOGL)
                         {
-                            setBlendState(blendStateOGL->isGLBlendEnabled(),
+                            setBlendState(blendStateOGL->isBlendEnabled(),
                                           blendStateOGL->getModeRGB(),
                                           blendStateOGL->getModeAlpha(),
                                           blendStateOGL->getSourceFactorRGB(),
