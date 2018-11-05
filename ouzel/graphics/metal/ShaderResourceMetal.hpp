@@ -40,7 +40,7 @@ namespace ouzel
                                 const std::string& vertexShaderFunction);
             ~ShaderResourceMetal();
 
-            struct Location
+            struct Location final
             {
                 uint32_t offset;
                 uint32_t size;

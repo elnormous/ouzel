@@ -41,7 +41,7 @@ namespace ouzel
 
         static const uint32_t SPACING = 2;
 
-        struct CharDescriptor
+        struct CharDescriptor final
         {
             uint16_t x = 0;
             uint16_t y = 0;

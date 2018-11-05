@@ -9,7 +9,7 @@ namespace ouzel
 {
     namespace input
     {
-        struct GamepadConfig
+        struct GamepadConfig final
         {
             std::array<Gamepad::Button, 24> buttonMap;
             std::array<Gamepad::Axis, 6> axisMap; // X, Y, Z, RX, RY, RZ

@@ -17,7 +17,7 @@ namespace ouzel
     {
         class RenderDeviceD3D11;
 
-        struct SamplerStateDesc
+        struct SamplerStateDesc final
         {
             Texture::Filter filter;
             Texture::Address addressX;

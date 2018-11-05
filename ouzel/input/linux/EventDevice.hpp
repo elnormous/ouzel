@@ -51,7 +51,7 @@ namespace ouzel
             std::unique_ptr<TouchpadDevice> touchpadDevice;
 
             Vector2 cursorPosition;
-            struct Slot
+            struct Slot final
             {
                 int32_t trackingId;
                 int32_t positionX;
@@ -80,7 +80,7 @@ namespace ouzel
             int32_t hat0XValue = 0;
             int32_t hat0YValue = 0;
 
-            struct Button
+            struct Button final
             {
                 Gamepad::Button button = Gamepad::Button::NONE;
                 int32_t value = 0;
@@ -88,7 +88,7 @@ namespace ouzel
 
             std::unordered_map<uint32_t, Button> buttons;
 
-            struct Axis
+            struct Axis final
             {
                 Gamepad::Axis axis = Gamepad::Axis::NONE;
                 int32_t min = 0;

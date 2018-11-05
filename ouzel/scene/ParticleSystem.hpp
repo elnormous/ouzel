@@ -63,7 +63,7 @@ namespace ouzel
             std::shared_ptr<graphics::Texture> texture;
             std::shared_ptr<graphics::Texture> whitePixelTexture;
 
-            struct Particle
+            struct Particle final
             {
                 float life = 0.0F;
 

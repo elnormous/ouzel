@@ -7,7 +7,7 @@
 
 namespace ouzel
 {
-    struct TranslationInfo
+    struct TranslationInfo final
     {
         uint32_t stringLength;
         uint32_t stringOffset;

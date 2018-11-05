@@ -32,7 +32,7 @@ namespace ouzel
                                 const std::string& vertexShaderFunction);
             ~ShaderResourceD3D11();
 
-            struct Location
+            struct Location final
             {
                 uint32_t offset;
                 uint32_t size;

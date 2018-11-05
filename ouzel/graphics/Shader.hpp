@@ -18,7 +18,7 @@ namespace ouzel
         class Shader final
         {
         public:
-            class ConstantInfo
+            class ConstantInfo final
             {
             public:
                 ConstantInfo(const std::string& initName, DataType initDataType):

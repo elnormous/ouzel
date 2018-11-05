@@ -42,7 +42,7 @@ namespace ouzel
                 MIRROR_REPEAT
             };
 
-            struct Level
+            struct Level final
             {
                 Size2 size;
                 uint32_t pitch;
