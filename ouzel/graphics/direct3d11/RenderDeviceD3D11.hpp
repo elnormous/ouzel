@@ -25,11 +25,6 @@ namespace ouzel
         public:
             ~RenderDeviceD3D11();
 
-            void setClearColorBuffer(bool clear);
-            void setClearDepthBuffer(bool clear);
-            void setClearColor(Color newClearColor);
-            void setClearDepth(float newClearDepth);
-
             std::vector<Size2> getSupportedResolutions() const override;
 
             ID3D11Device* getDevice() const { return device; }
@@ -51,6 +46,11 @@ namespace ouzel
                       bool newDebugRenderer) override;
 
             virtual void setSize(const Size2& newSize);
+
+            void setClearColorBuffer(bool clear);
+            void setClearDepthBuffer(bool clear);
+            void setClearColor(Color newClearColor);
+            void setClearDepth(float newClearDepth);
 
             void process() override;
             void resizeBackBuffer(UINT newWidth, UINT newHeight);

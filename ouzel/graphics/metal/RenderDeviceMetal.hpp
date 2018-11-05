@@ -67,11 +67,6 @@ namespace ouzel
 
             ~RenderDeviceMetal();
 
-            void setClearColorBuffer(bool clear);
-            void setClearDepthBuffer(bool clear);
-            void setClearColor(Color newClearColor);
-            void setClearDepth(float newClearDepth);
-
             inline MTLDevicePtr getDevice() const { return device; }
 
             MTLSamplerStatePtr getSamplerState(const SamplerStateDescriptor& descriptor);
@@ -89,6 +84,11 @@ namespace ouzel
                       bool newDebugRenderer) override;
 
             void setSize(const Size2& newSize) override;
+
+            void setClearColorBuffer(bool clear);
+            void setClearDepthBuffer(bool clear);
+            void setClearColor(Color newClearColor);
+            void setClearDepth(float newClearDepth);
 
             void process() override;
             void generateScreenshot(const std::string& filename) override;
