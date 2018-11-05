@@ -14,7 +14,7 @@ Supported platforms:
 * iOS 8+
 * tvOS 9+
 * Android 3.0+
-* Emscripten ([sample](http://www.ouzelengine.org/samples/))
+* Emscripten ([sample](http://www.ouzel.org/samples/))
 
 Supported rendering backends:
 
@@ -124,7 +124,7 @@ You can build Android samples and run them on an Android device by executing the
 ```shell
 $ gradle assembleDebug
 $ gradle installDebug
-$ adb shell am start -n org.ouzelengine/org.ouzelengine.MainActivity
+$ adb shell am start -n org.ouzel/org.ouzel.MainActivity
 ```
 
 ## System requirements
