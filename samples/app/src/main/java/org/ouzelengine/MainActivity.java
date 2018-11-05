@@ -1,7 +1,7 @@
 // Copyright (C) 2018 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-package org.ouzelengine;
+package org.ouzel;
 
 import android.app.Activity;
 import android.content.res.Configuration;
