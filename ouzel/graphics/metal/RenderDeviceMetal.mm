@@ -1000,7 +1000,7 @@ namespace ouzel
                 if (desc.blendState)
                 {
                     // blending
-                    pipelineStateDescriptor.colorAttachments[0].blendingEnabled = desc.blendState->isMetalBlendingEnabled() ? YES : NO;
+                    pipelineStateDescriptor.colorAttachments[0].blendingEnabled = desc.blendState->isBlendingEnabled() ? YES : NO;
 
                     pipelineStateDescriptor.colorAttachments[0].sourceRGBBlendFactor = desc.blendState->getSourceRGBBlendFactor();
                     pipelineStateDescriptor.colorAttachments[0].destinationRGBBlendFactor = desc.blendState->getDestinationRGBBlendFactor();

@@ -45,7 +45,7 @@ namespace ouzel
             inline GLenum getDestFactorRGB() const { return destFactorRGB; }
             inline GLenum getSourceFactorAlpha() const { return sourceFactorAlpha; }
             inline GLenum getDestFactorAlpha() const { return destFactorAlpha; }
-            inline bool isGLBlendEnabled() const { return glBlendEnabled; }
+            inline bool isBlendEnabled() const { return blendEnabled; }
 
             inline GLboolean getRedMask() const { return redMask; }
             inline GLboolean getGreenMask() const { return greenMask; }
@@ -59,7 +59,7 @@ namespace ouzel
             GLenum destFactorRGB = GL_NONE;
             GLenum sourceFactorAlpha = GL_NONE;
             GLenum destFactorAlpha = GL_NONE;
-            bool glBlendEnabled = false;
+            bool blendEnabled = false;
 
             GLboolean redMask = GL_FALSE;
             GLboolean greenMask = GL_FALSE;
