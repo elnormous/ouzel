@@ -63,8 +63,6 @@ namespace ouzel
                           const std::string& vertexShaderFunction)
         {
             vertexAttributes = newVertexAttributes;
-            fragmentShaderFilename.clear();
-            vertexShaderFilename.clear();
 
             RenderDevice* renderDevice = renderer.getDevice();
 
