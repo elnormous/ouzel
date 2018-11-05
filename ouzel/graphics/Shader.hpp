@@ -67,9 +67,6 @@ namespace ouzel
             uintptr_t resource = 0;
 
             std::set<Vertex::Attribute::Usage> vertexAttributes;
-
-            std::string fragmentShaderFilename;
-            std::string vertexShaderFilename;
         };
     } // namespace graphics
 } // namespace ouzel
