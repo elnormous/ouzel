@@ -79,8 +79,10 @@
     <ClCompile Include="..\ouzel\files\FileSystem.cpp" />
     <ClCompile Include="..\ouzel\graphics\BlendState.cpp" />
     <ClCompile Include="..\ouzel\graphics\Buffer.cpp" />
+    <ClCompile Include="..\ouzel\graphics\DepthStencilState.cpp" />
     <ClCompile Include="..\ouzel\graphics\direct3d11\BlendStateResourceD3D11.cpp" />
     <ClCompile Include="..\ouzel\graphics\direct3d11\BufferResourceD3D11.cpp" />
+    <ClCompile Include="..\ouzel\graphics\direct3d11\DepthStencilStateResourceD3D11.cpp" />
     <ClCompile Include="..\ouzel\graphics\direct3d11\RenderDeviceD3D11.cpp" />
     <ClCompile Include="..\ouzel\graphics\direct3d11\RenderTargetResourceD3D11.cpp" />
     <ClCompile Include="..\ouzel\graphics\direct3d11\ShaderResourceD3D11.cpp" />
@@ -90,6 +92,7 @@
     <ClCompile Include="..\ouzel\graphics\Material.cpp" />
     <ClCompile Include="..\ouzel\graphics\opengl\BlendStateResourceOGL.cpp" />
     <ClCompile Include="..\ouzel\graphics\opengl\BufferResourceOGL.cpp" />
+    <ClCompile Include="..\ouzel\graphics\opengl\DepthStencilStateResourceOGL.cpp" />
     <ClCompile Include="..\ouzel\graphics\opengl\RenderDeviceOGL.cpp" />
     <ClCompile Include="..\ouzel\graphics\opengl\RenderTargetResourceOGL.cpp" />
     <ClCompile Include="..\ouzel\graphics\opengl\ShaderResourceOGL.cpp" />
@@ -239,8 +242,10 @@
     <ClInclude Include="..\ouzel\graphics\Buffer.hpp" />
     <ClInclude Include="..\ouzel\graphics\Commands.hpp" />
     <ClInclude Include="..\ouzel\graphics\DataType.hpp" />
+    <ClInclude Include="..\ouzel\graphics\DepthStencilState.hpp" />
     <ClInclude Include="..\ouzel\graphics\direct3d11\BlendStateResourceD3D11.hpp" />
     <ClInclude Include="..\ouzel\graphics\direct3d11\BufferResourceD3D11.hpp" />
+    <ClInclude Include="..\ouzel\graphics\direct3d11\DepthStencilStateResourceD3D11.hpp" />
     <ClInclude Include="..\ouzel\graphics\direct3d11\RenderDeviceD3D11.hpp" />
     <ClInclude Include="..\ouzel\graphics\direct3d11\RenderResourceD3D11.hpp" />
     <ClInclude Include="..\ouzel\graphics\direct3d11\RenderTargetResourceD3D11.hpp" />
@@ -251,6 +256,7 @@
     <ClInclude Include="..\ouzel\graphics\Material.hpp" />
     <ClInclude Include="..\ouzel\graphics\opengl\BlendStateResourceOGL.hpp" />
     <ClInclude Include="..\ouzel\graphics\opengl\BufferResourceOGL.hpp" />
+    <ClInclude Include="..\ouzel\graphics\opengl\DepthStencilStateResourceOGL.hpp" />
     <ClInclude Include="..\ouzel\graphics\opengl\RenderDeviceOGL.hpp" />
     <ClInclude Include="..\ouzel\graphics\opengl\RenderResourceOGL.hpp" />
     <ClInclude Include="..\ouzel\graphics\opengl\RenderTargetResourceOGL.hpp" />

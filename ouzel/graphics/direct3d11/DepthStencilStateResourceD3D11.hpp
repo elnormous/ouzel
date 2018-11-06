@@ -5,7 +5,7 @@
 
 #include "core/Setup.h"
 
-#if OUZEL_COMPILE_D3D11
+#if OUZEL_COMPILE_DIRECT3D11
 
 #include <d3d11.h>
 #include "graphics/direct3d11/RenderResourceD3D11.hpp"
