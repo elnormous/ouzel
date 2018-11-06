@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef ANIMATOR_HPP
+#define ANIMATOR_HPP
 
 #include <functional>
 #include <memory>
@@ -83,3 +84,5 @@ namespace ouzel
         };
     } // namespace scene
 } // namespace ouzel
+
+#endif // ANIMATOR_HPP

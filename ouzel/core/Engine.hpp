@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef ENGINE_HPP
+#define ENGINE_HPP
 
 #include <atomic>
 #include <chrono>
@@ -131,3 +132,5 @@ namespace ouzel
 
     extern Engine* engine;
 }
+
+#endif // ENGINE_HPP

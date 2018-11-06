@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef LANGUAGE_HPP
+#define LANGUAGE_HPP
 
 #include <cstdint>
 #include <map>
@@ -20,3 +21,5 @@ namespace ouzel
         std::map<std::string, std::string> strings;
     };
 }
+
+#endif // LANGUAGE_HPP

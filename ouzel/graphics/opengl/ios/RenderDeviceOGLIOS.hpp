@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef RENDERDEVICEOGLIOS_HPP
+#define RENDERDEVICEOGLIOS_HPP
 
 #include "core/Setup.h"
 
@@ -64,3 +65,5 @@ namespace ouzel
 } // namespace ouzel
 
 #endif
+
+#endif // RENDERDEVICEOGLIOS_HPP

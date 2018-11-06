@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef INPUTSYSTEM_HPP
+#define INPUTSYSTEM_HPP
 
 #include <cstdint>
 #include <future>
@@ -168,3 +169,5 @@ namespace ouzel
         };
     } // namespace input
 } // namespace ouzel
+
+#endif // INPUTSYSTEM_HPP

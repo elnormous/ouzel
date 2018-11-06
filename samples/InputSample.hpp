@@ -1,7 +1,8 @@
 // Copyright (C) 2018 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#pragma once
+#ifndef INPUTSAMPLE_HPP
+#define INPUTSAMPLE_HPP
 
 #include "ouzel.hpp"
 
@@ -36,3 +37,5 @@ private:
 
     ouzel::input::Cursor cursor;
 };
+
+#endif // INPUTSAMPLE_HPP

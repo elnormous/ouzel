@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef SCENE_HPP
+#define SCENE_HPP
 
 #include <vector>
 #include <unordered_map>
@@ -87,3 +88,5 @@ namespace ouzel
         };
     } // namespace scene
 } // namespace ouzel
+
+#endif // SCENE_HPP

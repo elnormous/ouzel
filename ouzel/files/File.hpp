@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef FILE_HPP
+#define FILE_HPP
 
 #include <string>
 
@@ -68,3 +69,5 @@ namespace ouzel
 #endif
     };
 }
+
+#endif // FILE_HPP

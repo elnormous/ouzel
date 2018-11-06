@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef NATIVEWINDOW_HPP
+#define NATIVEWINDOW_HPP
 
 #include <mutex>
 #include <string>
@@ -126,3 +127,5 @@ namespace ouzel
         std::queue<Event> commandQueue;
     };
 }
+
+#endif // NATIVEWINDOW_HPP

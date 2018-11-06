@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef ACTOR_HPP
+#define ACTOR_HPP
 
 #include "scene/ActorContainer.hpp"
 #include "math/Box3.hpp"
@@ -176,3 +177,5 @@ namespace ouzel
         };
     } // namespace scene
 } // namespace ouzel
+
+#endif // ACTOR_HPP

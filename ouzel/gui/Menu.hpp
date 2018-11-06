@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef MENU_HPP
+#define MENU_HPP
 
 #include "gui/Widget.hpp"
 #include "events/EventHandler.hpp"
@@ -50,3 +51,5 @@ namespace ouzel
         };
     } // namespace gui
 } // namespace ouzel
+
+#endif // MENU_HPP

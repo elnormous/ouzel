@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef GAMEPAD_HPP
+#define GAMEPAD_HPP
 
 #include <cstdint>
 #include <string>
@@ -108,3 +109,5 @@ namespace ouzel
         };
     } // namespace input
 } // namespace ouzel
+
+#endif // GAMEPAD_HPP

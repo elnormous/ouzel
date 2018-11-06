@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef BLENDSTATERESOURCEOGL_HPP
+#define BLENDSTATERESOURCEOGL_HPP
 
 #include "core/Setup.h"
 
@@ -70,3 +71,5 @@ namespace ouzel
 } // namespace ouzel
 
 #endif
+
+#endif // BLENDSTATERESOURCEOGL_HPP

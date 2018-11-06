@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef CONTROLLER_HPP
+#define CONTROLLER_HPP
 
 namespace ouzel
 {
@@ -34,3 +35,5 @@ namespace ouzel
         };
     } // namespace input
 } // namespace ouzel
+
+#endif // CONTROLLER_HPP

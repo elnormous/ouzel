@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef ENGINEWIN_HPP
+#define ENGINEWIN_HPP
 
 #ifndef NOMINMAX
 #  define NOMINMAX
@@ -28,3 +29,5 @@ namespace ouzel
         std::mutex executeMutex;
     };
 }
+
+#endif // ENGINEWIN_HPP

@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef GAMEPADDEVICEIOKIT_HPP
+#define GAMEPADDEVICEIOKIT_HPP
 
 #include <unordered_map>
 #include <IOKit/hid/IOHIDManager.h>
@@ -60,3 +61,5 @@ namespace ouzel
         };
     } // namespace input
 } // namespace ouzel
+
+#endif // GAMEPADDEVICEIOKIT_HPP

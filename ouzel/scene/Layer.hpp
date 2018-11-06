@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef LAYER_HPP
+#define LAYER_HPP
 
 #include <cstdint>
 #include <vector>
@@ -59,3 +60,5 @@ namespace ouzel
         };
     } // namespace scene
 } // namespace ouzel
+
+#endif // LAYER_HPP

@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef INPUTSYSTEMIOS_HPP
+#define INPUTSYSTEMIOS_HPP
 
 #include <memory>
 #include <unordered_map>
@@ -52,3 +53,5 @@ namespace ouzel
         };
     } // namespace input
 } // namespace ouzel
+
+#endif // INPUTSYSTEMIOS_HPP

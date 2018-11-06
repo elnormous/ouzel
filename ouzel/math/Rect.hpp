@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef RECT_HPP
+#define RECT_HPP
 
 #include "math/Vector2.hpp"
 #include "math/Size2.hpp"
@@ -204,3 +205,5 @@ namespace ouzel
         }
     };
 }
+
+#endif // RECT_HPP

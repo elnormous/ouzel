@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef SCROLLBAR_HPP
+#define SCROLLBAR_HPP
 
 #include "gui/Widget.hpp"
 
@@ -15,3 +16,5 @@ namespace ouzel
         };
     } // namespace gui
 } // namespace ouzel
+
+#endif // SCROLLBAR_HPP

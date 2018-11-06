@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef NATIVEWINDOWEM_HPP
+#define NATIVEWINDOWEM_HPP
 
 #include "core/NativeWindow.hpp"
 
@@ -20,3 +21,5 @@ namespace ouzel
         void handleResize();
     };
 }
+
+#endif // NATIVEWINDOWEM_HPP

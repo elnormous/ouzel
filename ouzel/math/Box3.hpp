@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef BOX3_HPP
+#define BOX3_HPP
 
 #include <cstdint>
 #include <limits>
@@ -129,3 +130,5 @@ namespace ouzel
         }
     };
 }
+
+#endif // BOX3_HPP

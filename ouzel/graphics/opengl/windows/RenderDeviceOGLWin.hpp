@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef RENDERDEVICEOGLWIN_HPP
+#define RENDERDEVICEOGLWIN_HPP
 
 #include "core/Setup.h"
 
@@ -48,3 +49,5 @@ namespace ouzel
 } // namespace ouzel
 
 #endif
+
+#endif // RENDERDEVICEOGLWIN_HPP

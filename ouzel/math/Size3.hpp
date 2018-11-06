@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef SIZE3_HPP
+#define SIZE3_HPP
 
 #include "math/Vector3.hpp"
 
@@ -142,3 +143,5 @@ namespace ouzel
         return Size3(size.width / v.x, size.height / v.y, size.depth / v.z);
     }
 }
+
+#endif // SIZE3_HPP

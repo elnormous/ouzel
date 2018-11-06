@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef AUDIODEVICEAL_HPP
+#define AUDIODEVICEAL_HPP
 
 #include "core/Setup.h"
 
@@ -66,3 +67,5 @@ namespace ouzel
 } // namespace ouzel
 
 #endif
+
+#endif // AUDIODEVICEAL_HPP

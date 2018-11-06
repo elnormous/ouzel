@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef LOADERGLTF_HPP
+#define LOADERGLTF_HPP
 
 #include "assets/Loader.hpp"
 
@@ -18,3 +19,5 @@ namespace ouzel
         };
     } // namespace assets
 } // namespace ouzel
+
+#endif // LOADERGLTF_HPP

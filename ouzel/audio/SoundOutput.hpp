@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef SOUNDOUTPUT_HPP
+#define SOUNDOUTPUT_HPP
 
 #include <vector>
 
@@ -24,3 +25,5 @@ namespace ouzel
         };
     } // namespace audio
 } // namespace ouzel
+
+#endif // SOUNDOUTPUT_HPP

@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef IMAGEDATA_HPP
+#define IMAGEDATA_HPP
 
 #include <cstdint>
 #include <vector>
@@ -30,3 +31,5 @@ namespace ouzel
         };
     } // namespace graphics
 } // namespace ouzel
+
+#endif // IMAGEDATA_HPP

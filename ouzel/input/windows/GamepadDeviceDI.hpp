@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef GAMEPADDEVICEDI_HPP
+#define GAMEPADDEVICEDI_HPP
 
 #include <string>
 #include <unordered_map>
@@ -70,3 +71,5 @@ namespace ouzel
         };
     } // namespace input
 } // namespace ouzel
+
+#endif // GAMEPADDEVICEDI_HPP

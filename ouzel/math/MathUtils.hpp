@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef MATHUTILS_HPP
+#define MATHUTILS_HPP
 
 #include <cstdint>
 #include <cmath>
@@ -80,3 +81,5 @@ namespace ouzel
         return fabsf(a - b) <= tolerance;
     }
 }
+
+#endif // MATHUTILS_HPP

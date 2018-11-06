@@ -1,7 +1,8 @@
 // Copyright (C) 2018 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#pragma once
+#ifndef GUISAMPLE_HPP
+#define GUISAMPLE_HPP
 
 #include "ouzel.hpp"
 
@@ -31,3 +32,5 @@ private:
     ouzel::gui::Menu menu;
     ouzel::gui::Button backButton;
 };
+
+#endif // GUISAMPLE_HPP

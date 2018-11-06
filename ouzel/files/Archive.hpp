@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef ARCHIVE_HPP
+#define ARCHIVE_HPP
 
 #include <cstdint>
 #include <map>
@@ -42,3 +43,5 @@ namespace ouzel
         std::map<std::string, Entry> entries;
     };
 }
+
+#endif // ARCHIVE_HPP

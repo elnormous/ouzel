@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef RENDERER_HPP
+#define RENDERER_HPP
 
 #include <cstdint>
 #include <functional>
@@ -131,3 +132,5 @@ namespace ouzel
         };
     } // namespace graphics
 } // namespace ouzel
+
+#endif // RENDERER_HPP

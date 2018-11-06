@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef ENGINELINUX_HPP
+#define ENGINELINUX_HPP
 
 #include "core/Setup.h"
 #if OUZEL_SUPPORTS_X11
@@ -44,3 +45,5 @@ namespace ouzel
 #endif
     };
 }
+
+#endif // ENGINELINUX_HPP
