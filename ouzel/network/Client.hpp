@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef CLIENT_HPP
-#define CLIENT_HPP
+#pragma once
 
 #include "Socket.hpp"
 
@@ -27,5 +26,3 @@ namespace ouzel
         };
     } // namespace network
 } // namespace ouzel
-
-#endif // CLIENT_HPP

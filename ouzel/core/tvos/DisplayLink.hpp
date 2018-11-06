@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef DISPLAYLINK_HPP
-#define DISPLAYLINK_HPP
+#pragma once
 
 #include <thread>
 #if defined(__OBJC__)
@@ -50,5 +49,3 @@ namespace ouzel
         NSRunLoopPtr runLoop = nil;
     };
 }
-
-#endif // DISPLAYLINK_HPP

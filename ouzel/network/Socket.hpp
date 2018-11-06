@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef SOCKET_HPP
-#define SOCKET_HPP
+#pragma once
 
 #ifdef _WIN32
 #  ifndef NOMINMAX
@@ -35,5 +34,3 @@ namespace ouzel
         };
     } // namespace network
 } // namespace ouzel
-
-#endif // SOCKET_HPP

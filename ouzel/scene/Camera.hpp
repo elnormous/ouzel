@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef CAMERA_HPP
-#define CAMERA_HPP
+#pragma once
 
 #include <memory>
 #include "scene/Component.hpp"
@@ -128,5 +127,3 @@ namespace ouzel
         };
     } // namespace scene
 } // namespace ouzel
-
-#endif // CAMERA_HPP

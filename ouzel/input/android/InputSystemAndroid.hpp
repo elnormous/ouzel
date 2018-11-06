@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef INPUTSYSTEMANDROID_HPP
-#define INPUTSYSTEMANDROID_HPP
+#pragma once
 
 #include <memory>
 #include <jni.h>
@@ -44,5 +43,3 @@ namespace ouzel
         };
     }
 }
-
-#endif // INPUTSYSTEMANDROID_HPP

@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef LOCALIZATION_HPP
-#define LOCALIZATION_HPP
+#pragma once
 
 #include <cstdint>
 #include <memory>
@@ -25,5 +24,3 @@ namespace ouzel
         std::shared_ptr<Language> currentLanguage;
     };
 }
-
-#endif // LOCALIZATION_HPP

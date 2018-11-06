@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef RENDERDEVICEOGLANDROID_HPP
-#define RENDERDEVICEOGLANDROID_HPP
+#pragma once
 
 #include "core/Setup.h"
 
@@ -50,5 +49,3 @@ namespace ouzel
 } // namespace ouzel
 
 #endif
-
-#endif // RENDERDEVICEOGLANDROID_HPP

@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef MIXER_HPP
-#define MIXER_HPP
+#pragma once
 
 #include "audio/SoundInput.hpp"
 #include "audio/SoundOutput.hpp"
@@ -49,5 +48,3 @@ namespace ouzel
         };
     } // namespace audio
 } // namespace ouzel
-
-#endif // MIXER_HPP

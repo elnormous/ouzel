@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef MOVE_HPP
-#define MOVE_HPP
+#pragma once
 
 #include "animators/Animator.hpp"
 #include "math/Vector3.hpp"
@@ -29,5 +28,3 @@ namespace ouzel
         };
     } // namespace scene
 } // namespace ouzel
-
-#endif // MOVE_HPP

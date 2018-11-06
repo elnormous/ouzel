@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef RENDERTARGETRESOURCEOGL_HPP
-#define RENDERTARGETRESOURCEOGL_HPP
+#pragma once
 
 #include "graphics/opengl/RenderResourceOGL.hpp"
 
@@ -20,5 +19,3 @@ namespace ouzel
         };
     } // namespace graphics
 } // namespace ouzel
-
-#endif // RENDERTARGETRESOURCEOGL_HPP

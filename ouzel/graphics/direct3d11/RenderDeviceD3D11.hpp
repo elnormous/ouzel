@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef RENDERDEVICED3D11_HPP
-#define RENDERDEVICED3D11_HPP
+#pragma once
 
 #include "core/Setup.h"
 
@@ -88,5 +87,3 @@ namespace ouzel
 } // namespace ouzel
 
 #endif
-
-#endif // RENDERDEVICED3D11_HPP

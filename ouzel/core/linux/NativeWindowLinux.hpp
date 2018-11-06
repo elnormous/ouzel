@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef NATIVEWINDOWLINUX_HPP
-#define NATIVEWINDOWLINUX_HPP
+#pragma once
 
 #include "core/Setup.h"
 #include <cstdint>
@@ -73,5 +72,3 @@ namespace ouzel
 #endif
     };
 }
-
-#endif // NATIVEWINDOWLINUX_HPP

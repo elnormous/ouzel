@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef PLATFORM_H
-#define PLATFORM_H
+#pragma once
 
 #if defined (__GLIBC__) || defined(__ANDROID__)
 #  include <endian.h>
@@ -197,5 +196,3 @@
 #if defined(__SSE__)
 #  define OUZEL_SUPPORTS_SSE 1
 #endif
-
-#endif // PLATFORM_H

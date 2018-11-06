@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef GAMEPADCONFIG_HPP
-#define GAMEPADCONFIG_HPP
+#pragma once
 
 #include <array>
 #include "input/Gamepad.hpp"
@@ -336,5 +335,3 @@ namespace ouzel
         }
     }
 }
-
-#endif // GAMEPADCONFIG_HPP

@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef AUDIODEVICEEMPTY_HPP
-#define AUDIODEVICEEMPTY_HPP
+#pragma once
 
 #include "audio/AudioDevice.hpp"
 
@@ -17,5 +16,3 @@ namespace ouzel
         };
     } // namespace audio
 } // namespace ouzel
-
-#endif // AUDIODEVICEEMPTY_HPP

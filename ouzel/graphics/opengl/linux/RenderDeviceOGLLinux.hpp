@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef RENDERDEVICEOGLLINUX_HPP
-#define RENDERDEVICEOGLLINUX_HPP
+#pragma once
 
 #include "core/Setup.h"
 
@@ -59,5 +58,3 @@ namespace ouzel
 } // namespace ouzel
 
 #endif
-
-#endif // RENDERDEVICEOGLLINUX_HPP

@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef TEXTURERESOURCEMETAL_HPP
-#define TEXTURERESOURCEMETAL_HPP
+#pragma once
 
 #include "core/Setup.h"
 
@@ -125,5 +124,3 @@ namespace ouzel
 } // namespace ouzel
 
 #endif
-
-#endif // TEXTURERESOURCEMETAL_HPP

@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef QUATERNION_HPP
-#define QUATERNION_HPP
+#pragma once
 
 #include "math/Vector3.hpp"
 
@@ -223,5 +222,3 @@ namespace ouzel
         }
     };
 }
-
-#endif // QUATERNION_HPP

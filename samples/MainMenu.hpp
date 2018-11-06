@@ -1,8 +1,7 @@
 // Copyright (C) 2018 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#ifndef MAINMENU_HPP
-#define MAINMENU_HPP
+#pragma once
 
 #include "ouzel.hpp"
 
@@ -31,5 +30,3 @@ private:
     ouzel::gui::Button soundButton;
     ouzel::gui::Button perspectiveButton;
 };
-
-#endif // MAINMENU_HPP

@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef BLENDSTATERESOURCED3D11_HPP
-#define BLENDSTATERESOURCED3D11_HPP
+#pragma once
 
 #include "core/Setup.h"
 
@@ -38,5 +37,3 @@ namespace ouzel
 } // namespace ouzel
 
 #endif
-
-#endif // BLENDSTATERESOURCED3D11_HPP

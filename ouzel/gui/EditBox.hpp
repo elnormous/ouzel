@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef EDITBOX_HPP
-#define EDITBOX_HPP
+#pragma once
 
 #include <string>
 #include "gui/Widget.hpp"
@@ -23,5 +22,3 @@ namespace ouzel
         };
     } // namespace gui
 } // namespace ouzel
-
-#endif // EDITBOX_HPP

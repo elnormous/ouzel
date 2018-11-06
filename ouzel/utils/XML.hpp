@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef XML_HPP
-#define XML_HPP
+#pragma once
 
 #include <map>
 #include <string>
@@ -90,5 +89,3 @@ namespace ouzel
         };
     } // namespace xml
 } // namespace ouzel
-
-#endif // XML_HPP

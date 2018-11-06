@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef DEFAULTCONFIG_H
-#define DEFAULTCONFIG_H
+#pragma once
 
 #include "core/Platform.h"
 
@@ -18,5 +17,3 @@
 #define OUZEL_ENABLE_OPENSL 1
 #define OUZEL_ENABLE_COREAUDIO 1
 #define OUZEL_ENABLE_ALSA 1
-
-#endif // DEFAULTCONFIG_H

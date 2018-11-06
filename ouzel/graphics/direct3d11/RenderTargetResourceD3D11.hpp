@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef RENDERTARGETRESOURCED3D11_HPP
-#define RENDERTARGETRESOURCED3D11_HPP
+#pragma once
 
 #include "graphics/direct3d11/RenderResourceD3D11.hpp"
 
@@ -18,5 +17,3 @@ namespace ouzel
         };
     } // namespace graphics
 } // namespace ouzel
-
-#endif // RENDERTARGETRESOURCED3D11_HPP

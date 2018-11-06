@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef FILESYSTEM_HPP
-#define FILESYSTEM_HPP
+#pragma once
 
 #include <string>
 #include <vector>
@@ -51,5 +50,3 @@ namespace ouzel
         std::vector<Archive*> archives;
     };
 }
-
-#endif // FILESYSTEM_HPP

@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef TIMER_HPP
-#define TIMER_HPP
+#pragma once
 
 namespace ouzel
 {
@@ -20,5 +19,3 @@ namespace ouzel
         void update(float delta);
     };
 }
-
-#endif // TIMER_HPP

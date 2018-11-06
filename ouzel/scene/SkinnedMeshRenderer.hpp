@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef SKINNEDMESHRENDERER_HPP
-#define SKINNEDMESHRENDERER_HPP
+#pragma once
 
 #include "scene/Component.hpp"
 #include "scene/SkinnedMeshData.hpp"
@@ -36,5 +35,3 @@ namespace ouzel
         };
     } // namespace scene
 } // namespace ouzel
-
-#endif // SKINNEDMESHRENDERER_HPP

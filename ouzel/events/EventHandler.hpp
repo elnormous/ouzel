@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef EVENTHANDLER_HPP
-#define EVENTHANDLER_HPP
+#pragma once
 
 #include <functional>
 #include <cstdint>
@@ -39,5 +38,3 @@ namespace ouzel
         EventDispatcher* eventDispatcher = nullptr;
     };
 }
-
-#endif // EVENTHANDLER_HPP

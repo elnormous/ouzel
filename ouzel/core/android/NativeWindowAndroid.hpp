@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef NATIVEWINDOWANDROID_HPP
-#define NATIVEWINDOWANDROID_HPP
+#pragma once
 
 #include <jni.h>
 #include <android/native_window.h>
@@ -27,5 +26,3 @@ namespace ouzel
         ANativeWindow* window = nullptr;
     };
 }
-
-#endif // NATIVEWINDOWANDROID_HPP

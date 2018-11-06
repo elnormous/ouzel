@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef AUDIODEVICEXA2_HPP
-#define AUDIODEVICEXA2_HPP
+#pragma once
 
 #include "core/Setup.h"
 
@@ -57,5 +56,3 @@ namespace ouzel
 } // namespace ouzel
 
 #endif
-
-#endif // AUDIODEVICEXA2_HPP

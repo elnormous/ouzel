@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef PARALLEL_HPP
-#define PARALLEL_HPP
+#pragma once
 
 #include <vector>
 #include "animators/Animator.hpp"
@@ -21,5 +20,3 @@ namespace ouzel
         };
     } // namespace scene
 } // namespace ouzel
-
-#endif // PARALLEL_HPP

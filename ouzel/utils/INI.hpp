@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef INI_HPP
-#define INI_HPP
+#pragma once
 
 #include <cstdint>
 #include <map>
@@ -63,5 +62,3 @@ namespace ouzel
         };
     } // namespace ini
 } // namespace ouzel
-
-#endif // INI_HPP

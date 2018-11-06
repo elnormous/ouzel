@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef MOUSE_HPP
-#define MOUSE_HPP
+#pragma once
 
 #include <cstdint>
 #include "input/Controller.hpp"
@@ -58,5 +57,3 @@ namespace ouzel
     } // namespace input
 } // namespace ouzel
 
-
-#endif // MOUSE_HPP

@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef LISTENER_HPP
-#define LISTENER_HPP
+#pragma once
 
 #include <cfloat>
 #include "audio/AudioDevice.hpp"
@@ -42,5 +41,3 @@ namespace ouzel
         };
     } // namespace audio
 } // namespace ouzel
-
-#endif // LISTENER_HPP

@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef NATIVEWINDOWMACOS_HPP
-#define NATIVEWINDOWMACOS_HPP
+#pragma once
 
 #include <CoreGraphics/CGGeometry.h>
 
@@ -66,5 +65,3 @@ namespace ouzel
         CGRect windowRect;
     };
 }
-
-#endif // NATIVEWINDOWMACOS_HPP
