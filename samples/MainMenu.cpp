@@ -70,7 +70,10 @@ bool MainMenu::handleKeyboard(const KeyboardEvent& event)
         {
             case Keyboard::Key::ESCAPE:
                 engine->exit();
-                return true;
+                break;
+            case Keyboard::Key::MENU:
+            case Keyboard::Key::BACK:
+                return false;
             default:
                 break;
         }
@@ -81,13 +84,14 @@ bool MainMenu::handleKeyboard(const KeyboardEvent& event)
         {
             case Keyboard::Key::ESCAPE:
             case Keyboard::Key::MENU:
-                return true;
+            case Keyboard::Key::BACK:
+                return false;
             default:
                 break;
         }
     }
 
-    return false;
+    return true;
 }
 
 bool MainMenu::handleUI(const UIEvent& event)

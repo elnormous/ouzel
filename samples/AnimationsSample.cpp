@@ -137,6 +137,7 @@ bool AnimationsSample::handleKeyboard(const KeyboardEvent& event) const
         {
             case Keyboard::Key::ESCAPE:
             case Keyboard::Key::MENU:
+            case Keyboard::Key::BACK:
                 engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 return true;
             default:
@@ -149,6 +150,7 @@ bool AnimationsSample::handleKeyboard(const KeyboardEvent& event) const
         {
             case Keyboard::Key::ESCAPE:
             case Keyboard::Key::MENU:
+            case Keyboard::Key::BACK:
                 return true;
             default:
                 break;

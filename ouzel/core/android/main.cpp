@@ -144,7 +144,6 @@ static const std::unordered_map<jint, ouzel::input::Keyboard::Key> keyMap = {
     {AKEYCODE_ENTER, ouzel::input::Keyboard::Key::ENTER},
     {AKEYCODE_BREAK, ouzel::input::Keyboard::Key::PAUSE},
 
-    {AKEYCODE_BACK, ouzel::input::Keyboard::Key::ESCAPE},
     {AKEYCODE_PAGE_UP, ouzel::input::Keyboard::Key::PAGE_UP},
     {AKEYCODE_PAGE_DOWN, ouzel::input::Keyboard::Key::PAGE_DOWN},
 

@@ -141,6 +141,7 @@ bool InputSample::handleKeyboard(const KeyboardEvent& event)
                 break;
             case Keyboard::Key::ESCAPE:
             case Keyboard::Key::MENU:
+            case Keyboard::Key::BACK:
                 if (Mouse* mouse = engine->getInputManager()->getMouse())
                     mouse->setCursorVisible(true);
                 engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
@@ -159,6 +160,7 @@ bool InputSample::handleKeyboard(const KeyboardEvent& event)
         {
             case Keyboard::Key::ESCAPE:
             case Keyboard::Key::MENU:
+            case Keyboard::Key::BACK:
                 return true;
             default:
                 break;
