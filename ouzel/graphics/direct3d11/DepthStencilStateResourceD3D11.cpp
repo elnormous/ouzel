@@ -6,6 +6,7 @@
 
 #include "DepthStencilStateResourceD3D11.hpp"
 #include "RenderDeviceD3D11.hpp"
+#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -50,7 +51,7 @@ namespace ouzel
             depthStencilStateDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
             depthStencilStateDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
 
-            hr = device->CreateDepthStencilState(&depthStencilStateDesc, &depthStencilState);
+            HRESULT hr = renderDevice.getDevice()->CreateDepthStencilState(&depthStencilStateDesc, &depthStencilState);
             if (FAILED(hr))
                 throw SystemError("Failed to create Direct3D 11 depth stencil state, error: " + std::to_string(hr));
         }
