@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef AUDIODEVICE_HPP
-#define AUDIODEVICE_HPP
+#pragma once
 
 #include <mutex>
 #include <queue>
@@ -87,5 +86,3 @@ namespace ouzel
         };
     } // namespace audio
 } // namespace ouzel
-
-#endif // AUDIODEVICE_HPP

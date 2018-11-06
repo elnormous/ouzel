@@ -1,8 +1,7 @@
 // Copyright (C) 2018 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#ifndef PERSPECTIVESAMPLE_HPP
-#define PERSPECTIVESAMPLE_HPP
+#pragma once
 
 #include "ouzel.hpp"
 
@@ -48,5 +47,3 @@ private:
 
     ouzel::input::Cursor cursor;
 };
-
-#endif // PERSPECTIVESAMPLE_HPP

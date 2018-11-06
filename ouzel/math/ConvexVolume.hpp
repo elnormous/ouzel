@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef CONVEXVOLUME_HPP
-#define CONVEXVOLUME_HPP
+#pragma once
 
 #include <vector>
 #include "math/Box3.hpp"
@@ -74,5 +73,3 @@ namespace ouzel
         std::vector<Plane> planes;
     };
 }
-
-#endif // CONVEXVOLUME_HPP

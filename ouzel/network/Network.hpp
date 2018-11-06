@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef NETWORK_HPP
-#define NETWORK_HPP
+#pragma once
 
 #ifdef _WIN32
 #  ifndef NOMINMAX
@@ -53,5 +52,3 @@ namespace ouzel
         };
     } // namespace network
 } // namespace ouzel
-
-#endif // NETWORK_HPP

@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OBF_HPP
-#define OBF_HPP
+#pragma once
 
 #include <cassert>
 #include <cstdint>
@@ -439,5 +438,3 @@ namespace ouzel
         };
     } // namespace obf
 } // namespace ouzel
-
-#endif // OBF_HPP

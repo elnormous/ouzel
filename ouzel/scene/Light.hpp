@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef LIGHT_HPP
-#define LIGHT_HPP
+#pragma once
 
 #include "scene/Component.hpp"
 #include "math/Color.hpp"
@@ -58,5 +57,3 @@ namespace ouzel
         };
     } // namespace scene
 } // namespace ouzel
-
-#endif // LIGHT_HPP

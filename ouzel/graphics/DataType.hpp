@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef DATATYPE_HPP
-#define DATATYPE_HPP
+#pragma once
 
 #include <cstdint>
 
@@ -153,5 +152,3 @@ namespace ouzel
         }
     } // namespace graphics
 } // namespace ouzel
-
-#endif // DATATYPE_HPP

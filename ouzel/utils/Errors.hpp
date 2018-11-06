@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef ERRORS_HPP
-#define ERRORS_HPP
+#pragma once
 
 #include <stdexcept>
 
@@ -42,5 +41,3 @@ namespace ouzel
         explicit SystemError(const char* str): std::runtime_error(str) {}
     };
 }
-
-#endif // ERRORS_HPP

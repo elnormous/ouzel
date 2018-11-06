@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef UTILS_HPP
-#define UTILS_HPP
+#pragma once
 
 #include <string>
 #include <vector>
@@ -435,5 +434,3 @@ namespace ouzel
 
     void setCurrentThreadName(const std::string& name);
 }
-
-#endif // UTILS_HPP

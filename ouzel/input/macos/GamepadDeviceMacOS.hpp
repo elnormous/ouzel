@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef GAMEPADDEVICEMACOS_HPP
-#define GAMEPADDEVICEMACOS_HPP
+#pragma once
 
 #include <string>
 #include "input/GamepadDevice.hpp"
@@ -26,5 +25,3 @@ namespace ouzel
         };
     } // namespace input
 } // namespace ouzel
-
-#endif // GAMEPADDEVICEMACOS_HPP

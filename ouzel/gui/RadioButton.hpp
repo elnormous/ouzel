@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef RADIOBUTTON_HPP
-#define RADIOBUTTON_HPP
+#pragma once
 
 #include "gui/Widget.hpp"
 
@@ -26,5 +25,3 @@ namespace ouzel
         };
     } // namespace gui
 } // namespace ouzel
-
-#endif // RADIOBUTTON_HPP

@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef SOUND_HPP
-#define SOUND_HPP
+#pragma once
 
 #include <cfloat>
 #include <atomic>
@@ -105,5 +104,3 @@ namespace ouzel
         };
     } // namespace audio
 } // namespace ouzel
-
-#endif // SOUND_HPP

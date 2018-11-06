@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef RENDERDEVICEOGLMACOS_HPP
-#define RENDERDEVICEOGLMACOS_HPP
+#pragma once
 
 #include "core/Setup.h"
 
@@ -66,5 +65,3 @@ namespace ouzel
 } // namespace ouzel
 
 #endif
-
-#endif // RENDERDEVICEOGLMACOS_HPP

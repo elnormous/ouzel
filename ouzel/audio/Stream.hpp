@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef STREAM_HPP
-#define STREAM_HPP
+#pragma once
 
 #include <cstdint>
 #include <atomic>
@@ -54,5 +53,3 @@ namespace ouzel
         };
     } // namespace audio
 } // namespace ouzel
-
-#endif // STREAM_HPP

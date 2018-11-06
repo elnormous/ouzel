@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef FADE_HPP
-#define FADE_HPP
+#pragma once
 
 #include "animators/Animator.hpp"
 
@@ -28,5 +27,3 @@ namespace ouzel
         };
     } // namespace scene
 } // namespace ouzel
-
-#endif // FADE_HPP

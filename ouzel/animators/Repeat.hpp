@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef REPEAT_HPP
-#define REPEAT_HPP
+#pragma once
 
 #include <cstdint>
 #include "animators/Animator.hpp"
@@ -27,5 +26,3 @@ namespace ouzel
         };
     } // namespace scene
 } // namespace ouzel
-
-#endif // REPEAT_HPP

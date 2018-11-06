@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef ENGINEMACOS_HPP
-#define ENGINEMACOS_HPP
+#pragma once
 
 #if !defined(__OBJC__)
 #include <objc/objc.h>
@@ -37,5 +36,3 @@ namespace ouzel
         id executeHanlder = nil;
     };
 }
-
-#endif // ENGINEMACOS_HPP

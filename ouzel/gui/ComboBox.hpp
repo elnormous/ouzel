@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef COMBOBOX_HPP
-#define COMBOBOX_HPP
+#pragma once
 
 #include "gui/Widget.hpp"
 
@@ -16,5 +15,3 @@ namespace ouzel
         };
     } // namespace gui
 } // namespace ouzel
-
-#endif // COMBOBOX_HPP

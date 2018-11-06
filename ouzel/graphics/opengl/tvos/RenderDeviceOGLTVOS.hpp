@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef RENDERDEVICEOGLTVOS_HPP
-#define RENDERDEVICEOGLTVOS_HPP
+#pragma once
 
 #include "core/Setup.h"
 
@@ -65,5 +64,3 @@ namespace ouzel
 } // namespace ouzel
 
 #endif
-
-#endif // RENDERDEVICEOGLTVOS_HPP

@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef ENGINEANDROID_HPP
-#define ENGINEANDROID_HPP
+#pragma once
 
 #include <jni.h>
 #include <android/asset_manager.h>
@@ -70,5 +69,3 @@ namespace ouzel
         std::mutex executeMutex;
     };
 }
-
-#endif // ENGINEANDROID_HPP

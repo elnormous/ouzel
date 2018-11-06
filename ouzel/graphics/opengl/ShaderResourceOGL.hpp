@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef SHADERRESOURCEOGL_HPP
-#define SHADERRESOURCEOGL_HPP
+#pragma once
 
 #include "core/Setup.h"
 
@@ -80,5 +79,3 @@ namespace ouzel
 } // namespace ouzel
 
 #endif
-
-#endif // SHADERRESOURCEOGL_HPP

@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef MATERIAL_HPP
-#define MATERIAL_HPP
+#pragma once
 
 #include <memory>
 #include "graphics/Renderer.hpp"
@@ -34,5 +33,3 @@ namespace ouzel
         };
     } // namespace graphics
 } // namespace ouzel
-
-#endif // MATERIAL_HPP

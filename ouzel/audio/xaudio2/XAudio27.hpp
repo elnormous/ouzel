@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef XAUDIO27_HPP
-#define XAUDIO27_HPP
+#pragma once
 
 #include "core/Setup.h"
 
@@ -28,5 +27,3 @@ HRESULT IXAudio2CreateSourceVoice(IXAudio2* pXAudio2,
                                   const XAUDIO2_EFFECT_CHAIN* pEffectChain = nullptr);
 
 #endif
-
-#endif // XAUDIO27_HPP

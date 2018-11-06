@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef SPRITEDATA_HPP
-#define SPRITEDATA_HPP
+#pragma once
 
 #include <map>
 #include <memory>
@@ -73,5 +72,3 @@ namespace ouzel
         };
     } // namespace scene
 } // namespace ouzel
-
-#endif // SPRITEDATA_HPP

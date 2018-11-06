@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef SOUNDDATAVORBIS_HPP
-#define SOUNDDATAVORBIS_HPP
+#pragma once
 
 #include <cstdint>
 #include <vector>
@@ -26,5 +25,3 @@ namespace ouzel
         };
     } // namespace audio
 } // namespace ouzel
-
-#endif // SOUNDDATAVORBIS_HPP

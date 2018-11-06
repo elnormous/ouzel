@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef WIDGET_HPP
-#define WIDGET_HPP
+#pragma once
 
 #include "scene/Actor.hpp"
 
@@ -33,5 +32,3 @@ namespace ouzel
         };
     } // namespace gui
 } // namespace ouzel
-
-#endif // WIDGET_HPP

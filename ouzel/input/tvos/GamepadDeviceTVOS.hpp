@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef GAMEPADDEVICETVOS_HPP
-#define GAMEPADDEVICETVOS_HPP
+#pragma once
 
 #include <string>
 #if defined(__OBJC__)
@@ -41,5 +40,3 @@ namespace ouzel
         };
     } // namespace input
 } // namespace ouzel
-
-#endif // GAMEPADDEVICETVOS_HPP

@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef RENDERRESOURCEOGL_HPP
-#define RENDERRESOURCEOGL_HPP
+#pragma once
 
 namespace ouzel
 {
@@ -25,5 +24,3 @@ namespace ouzel
         };
     } // namespace graphics
 } // namespace ouzel
-
-#endif // RENDERRESOURCEOGL_HPP

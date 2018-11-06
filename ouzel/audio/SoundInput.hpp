@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef SOUNDINPUT_HPP
-#define SOUNDINPUT_HPP
+#pragma once
 
 #include "audio/AudioDevice.hpp"
 
@@ -27,5 +26,3 @@ namespace ouzel
         };
     } // namespace audio
 } // namespace ouzel
-
-#endif // SOUNDINPUT_HPP

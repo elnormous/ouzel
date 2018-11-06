@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef CACHE_HPP
-#define CACHE_HPP
+#pragma once
 
 #include <memory>
 #include <string>
@@ -81,5 +80,3 @@ namespace ouzel
         };
     } // namespace assets
 } // namespace ouzel
-
-#endif // CACHE_HPP
