@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef OUZEL_CHECKBOX_HPP
+#define OUZEL_CHECKBOX_HPP
 
 #include "gui/Widget.hpp"
 #include "scene/Sprite.hpp"
@@ -49,3 +50,5 @@ namespace ouzel
         };
     } // namespace gui
 } // namespace ouzel
+
+#endif // OUZEL_CHECKBOX_HPP

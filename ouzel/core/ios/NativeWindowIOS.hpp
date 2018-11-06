@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef OUZEL_NATIVEWINDOWIOS_HPP
+#define OUZEL_NATIVEWINDOWIOS_HPP
 
 #if defined(__OBJC__)
 #import <UIKit/UIKit.h>
@@ -47,3 +48,5 @@ namespace ouzel
         UITextFieldPtr textField = nil;
     };
 }
+
+#endif // OUZEL_NATIVEWINDOWIOS_HPP

@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef OUZEL_CURSOR_HPP
+#define OUZEL_CURSOR_HPP
 
 #include <cstdint>
 #include <string>
@@ -44,3 +45,5 @@ namespace ouzel
         };
     } // namespace input
 } // namespace ouzel
+
+#endif // OUZEL_CURSOR_HPP

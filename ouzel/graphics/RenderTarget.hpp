@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef OUZEL_RENDERTARGET_HPP
+#define OUZEL_RENDERTARGET_HPP
 
 #include <memory>
 #include "math/Color.hpp"
@@ -58,3 +59,5 @@ namespace ouzel
         };
     } // namespace graphics
 } // namespace ouzel
+
+#endif // OUZEL_RENDERTARGET_HPP

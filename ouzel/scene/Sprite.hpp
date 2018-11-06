@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef OUZEL_SPRITE_HPP
+#define OUZEL_SPRITE_HPP
 
 #include <list>
 #include "scene/Component.hpp"
@@ -88,3 +89,5 @@ namespace ouzel
         };
     } // namespace scene
 } // namespace ouzel
+
+#endif // OUZEL_SPRITE_HPP

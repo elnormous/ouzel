@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef OUZEL_BLENDSTATE_HPP
+#define OUZEL_BLENDSTATE_HPP
 
 #include <cstdint>
 
@@ -99,3 +100,5 @@ namespace ouzel
         };
     } // namespace graphics
 } // namespace ouzel
+
+#endif // OUZEL_BLENDSTATE_HPP

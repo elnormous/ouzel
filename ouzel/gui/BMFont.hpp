@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef OUZEL_BMFONT_HPP
+#define OUZEL_BMFONT_HPP
 
 #include "Font.hpp"
 
@@ -50,3 +51,5 @@ namespace ouzel
         std::shared_ptr<graphics::Texture> fontTexture;
     };
 }
+
+#endif // OUZEL_BMFONT_HPP

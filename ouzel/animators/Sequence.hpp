@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef OUZEL_SEQUENCE_HPP
+#define OUZEL_SEQUENCE_HPP
 
 #include <vector>
 #include "animators/Animator.hpp"
@@ -25,3 +26,5 @@ namespace ouzel
         };
     } // namespace scene
 } // namespace ouzel
+
+#endif // OUZEL_SEQUENCE_HPP

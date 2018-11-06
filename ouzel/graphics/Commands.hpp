@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef OUZEL_COMMANDS_HPP
+#define OUZEL_COMMANDS_HPP
 
 #include "graphics/BlendState.hpp"
 #include "graphics/Buffer.hpp"
@@ -583,3 +584,5 @@ namespace ouzel
         };
     } // namespace graphics
 } // namespace ouzel
+
+#endif // OUZEL_COMMANDS_HPP

@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef OUZEL_WINDOW_HPP
+#define OUZEL_WINDOW_HPP
 
 #include <memory>
 #include <string>
@@ -73,3 +74,5 @@ namespace ouzel
         std::string title;
     };
 }
+
+#endif // OUZEL_WINDOW_HPP

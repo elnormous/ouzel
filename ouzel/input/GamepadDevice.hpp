@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef OUZEL_GAMEPADDEVICE_HPP
+#define OUZEL_GAMEPADDEVICE_HPP
 
 #include <future>
 #include "input/InputDevice.hpp"
@@ -22,3 +23,5 @@ namespace ouzel
         };
     } // namespace input
 } // namespace ouzel
+
+#endif // OUZEL_GAMEPADDEVICE_HPP

@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef OUZEL_ENGINETVOS_HPP
+#define OUZEL_ENGINETVOS_HPP
 
 #if !defined(__OBJC__)
 #include <objc/objc.h>
@@ -35,3 +36,5 @@ namespace ouzel
         id executeHanlder = nil;
     };
 }
+
+#endif // OUZEL_ENGINETVOS_HPP

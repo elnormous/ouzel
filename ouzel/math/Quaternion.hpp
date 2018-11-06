@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef OUZEL_QUATERNION_HPP
+#define OUZEL_QUATERNION_HPP
 
 #include "math/Vector3.hpp"
 
@@ -222,3 +223,5 @@ namespace ouzel
         }
     };
 }
+
+#endif // OUZEL_QUATERNION_HPP

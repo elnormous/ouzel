@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef OUZEL_RENDERTARGETRESOURCEMETAL_HPP
+#define OUZEL_RENDERTARGETRESOURCEMETAL_HPP
 
 #include "graphics/metal/RenderResourceMetal.hpp"
 
@@ -17,3 +18,5 @@ namespace ouzel
         };
     } // namespace graphics
 } // namespace ouzel
+
+#endif // OUZEL_RENDERTARGETRESOURCEMETAL_HPP

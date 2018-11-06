@@ -11,3 +11,5 @@
 @end
 
 #endif
+
+#endif // OUZEL_METALVIEW_H

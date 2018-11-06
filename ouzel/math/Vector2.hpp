@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef OUZEL_VECTOR2_HPP
+#define OUZEL_VECTOR2_HPP
 
 #include <cstddef>
 #include <cmath>
@@ -216,3 +217,5 @@ namespace ouzel
         return Vector2(vec.x * scalar, vec.y * scalar);
     }
 }
+
+#endif // OUZEL_VECTOR2_HPP

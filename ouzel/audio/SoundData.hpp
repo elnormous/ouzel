@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef OUZEL_SOUNDDATA_HPP
+#define OUZEL_SOUNDDATA_HPP
 
 #include <cstdint>
 #include <memory>
@@ -44,3 +45,5 @@ namespace ouzel
         };
     } // namespace audio
 } // namespace ouzel
+
+#endif // OUZEL_SOUNDDATA_HPP

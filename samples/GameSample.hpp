@@ -1,7 +1,8 @@
 // Copyright (C) 2018 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#pragma once
+#ifndef GAMESAMPLE_HPP
+#define GAMESAMPLE_HPP
 
 #include "ouzel.hpp"
 
@@ -23,3 +24,5 @@ private:
 
     ouzel::EventHandler handler;
 };
+
+#endif // GAMESAMPLE_HPP

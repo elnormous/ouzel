@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef OUZEL_INPUTMANAGER_HPP
+#define OUZEL_INPUTMANAGER_HPP
 
 #include <memory>
 #include <mutex>
@@ -58,3 +59,5 @@ namespace ouzel
         };
     } // namespace input
 } // namespace ouzel
+
+#endif // OUZEL_INPUTMANAGER_HPP

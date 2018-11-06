@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef OUZEL_ENGINEEM_HPP
+#define OUZEL_ENGINEEM_HPP
 
 #include "core/Engine.hpp"
 
@@ -19,3 +20,5 @@ namespace ouzel
         void openURL(const std::string& url) override;
     };
 }
+
+#endif // OUZEL_ENGINEEM_HPP

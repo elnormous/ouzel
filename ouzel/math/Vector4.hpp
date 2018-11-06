@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef OUZEL_VECTOR4_HPP
+#define OUZEL_VECTOR4_HPP
 
 #include <cstddef>
 
@@ -277,3 +278,5 @@ namespace ouzel
         return result;
     }
 }
+
+#endif // OUZEL_VECTOR4_HPP

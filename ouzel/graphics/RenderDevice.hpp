@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef OUZEL_RENDERDEVICE_HPP
+#define OUZEL_RENDERDEVICE_HPP
 
 #include <condition_variable>
 #include <mutex>
@@ -172,3 +173,5 @@ namespace ouzel
         };
     } // namespace graphics
 } // namespace ouzel
+
+#endif // OUZEL_RENDERDEVICE_HPP

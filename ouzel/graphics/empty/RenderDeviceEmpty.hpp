@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef OUZEL_RENDERDEVICEEMPTY_HPP
+#define OUZEL_RENDERDEVICEEMPTY_HPP
 
 #include "graphics/RenderDevice.hpp"
 
@@ -18,3 +19,5 @@ namespace ouzel
         };
     } // namespace graphics
 } // namespace ouzel
+
+#endif // OUZEL_RENDERDEVICEEMPTY_HPP

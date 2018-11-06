@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef OUZEL_BUNDLE_HPP
+#define OUZEL_BUNDLE_HPP
 
 #include <map>
 #include <memory>
@@ -118,3 +119,5 @@ namespace ouzel
         };
     } // namespace assets
 } // namespace ouzel
+
+#endif // OUZEL_BUNDLE_HPP
