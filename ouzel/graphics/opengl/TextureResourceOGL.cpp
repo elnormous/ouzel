@@ -591,81 +591,79 @@ namespace ouzel
 
                 renderDevice.bindFrameBuffer(frameBufferId);
 
-                if (glCheckFramebufferStatusProc(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+                if (flags & Texture::BINDABLE_COLOR_BUFFER)
                 {
-                    if (flags & Texture::BINDABLE_COLOR_BUFFER)
+                    renderDevice.bindTexture(textureId, 0);
+
+                    glTexImage2DProc(GL_TEXTURE_2D, 0, static_cast<GLint>(oglInternalPixelFormat),
+                                    width, height, 0,
+                                    oglPixelFormat, oglPixelType, nullptr);
+
+                    // TODO: blit multisample render buffer to texture
+                    glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0);
+                }
+                else
+                {
+                    glGenRenderbuffersProc(1, &colorBufferId);
+                    glBindRenderbufferProc(GL_RENDERBUFFER, colorBufferId);
+
+                    if (sampleCount > 1 && renderDevice.isMultisamplingSupported())
                     {
-                        renderDevice.bindTexture(textureId, 0);
-
-                        glTexImage2DProc(GL_TEXTURE_2D, 0, static_cast<GLint>(oglInternalPixelFormat),
-                                     width, height, 0,
-                                     oglPixelFormat, oglPixelType, nullptr);
-
-                        // TODO: blit multisample render buffer to texture
-                        glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0);
+                        glRenderbufferStorageMultisampleProc(GL_RENDERBUFFER,
+                                                                static_cast<GLsizei>(sampleCount),
+                                                                oglInternalPixelFormat,
+                                                                width, height);
                     }
                     else
                     {
-                        glGenRenderbuffersProc(1, &colorBufferId);
-                        glBindRenderbufferProc(GL_RENDERBUFFER, colorBufferId);
+                        glRenderbufferStorageProc(GL_RENDERBUFFER, oglInternalPixelFormat,
+                                                    width, height);
+                    }
+
+                    glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorBufferId);
+                }
+
+                if (flags & Texture::DEPTH_BUFFER)
+                {
+                    if (flags & Texture::BINDABLE_DEPTH_BUFFER)
+                    {
+                        glGenTexturesProc(1, &depthTextureId);
+
+                        renderDevice.bindTexture(depthTextureId, 0);
+
+                        glTexImage2DProc(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24,
+                                        width, height, 0,GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
+
+                        glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthTextureId, 0);
+                    }
+                    else
+                    {
+                        glGenRenderbuffersProc(1, &depthBufferId);
+                        glBindRenderbufferProc(GL_RENDERBUFFER, depthBufferId);
 
                         if (sampleCount > 1 && renderDevice.isMultisamplingSupported())
                         {
                             glRenderbufferStorageMultisampleProc(GL_RENDERBUFFER,
-                                                                 static_cast<GLsizei>(sampleCount),
-                                                                 oglInternalPixelFormat,
-                                                                 width, height);
+                                                                    static_cast<GLsizei>(sampleCount),
+                                                                    GL_DEPTH_COMPONENT,
+                                                                    width, height);
                         }
                         else
                         {
-                            glRenderbufferStorageProc(GL_RENDERBUFFER, oglInternalPixelFormat,
-                                                      width, height);
+                            glRenderbufferStorageProc(GL_RENDERBUFFER, GL_DEPTH_COMPONENT,
+                                                        width, height);
                         }
 
-                        glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorBufferId);
+                        glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBufferId);
                     }
-
-                    if (flags & Texture::DEPTH_BUFFER)
-                    {
-                        if (flags & Texture::BINDABLE_DEPTH_BUFFER)
-                        {
-                            glGenTexturesProc(1, &depthTextureId);
-
-                            renderDevice.bindTexture(depthTextureId, 0);
-
-                            glTexImage2DProc(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24,
-                                         width, height, 0,GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
-
-                            glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthTextureId, 0);
-                        }
-                        else
-                        {
-                            glGenRenderbuffersProc(1, &depthBufferId);
-                            glBindRenderbufferProc(GL_RENDERBUFFER, depthBufferId);
-
-                            if (sampleCount > 1 && renderDevice.isMultisamplingSupported())
-                            {
-                                glRenderbufferStorageMultisampleProc(GL_RENDERBUFFER,
-                                                                     static_cast<GLsizei>(sampleCount),
-                                                                     GL_DEPTH_COMPONENT,
-                                                                     width, height);
-                            }
-                            else
-                            {
-                                glRenderbufferStorageProc(GL_RENDERBUFFER, GL_DEPTH_COMPONENT,
-                                                          width, height);
-                            }
-
-                            glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBufferId);
-                        }
-                    }
-
-                    if (glCheckFramebufferStatusProc(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-                        throw DataError("Failed to create frame buffer");
-
-                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw DataError("Failed to create frame buffer, error: " + std::to_string(error));
                 }
+
+                GLenum status;
+                if ((status = glCheckFramebufferStatusProc(GL_FRAMEBUFFER)) != GL_FRAMEBUFFER_COMPLETE)
+                    throw DataError("Failed to create frame buffer, status: " + std::to_string(status));
+
+                if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                    throw DataError("Failed to check frame buffer status, error: " + std::to_string(error));
             }
         }
 

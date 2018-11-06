@@ -60,10 +60,10 @@ namespace ouzel
             std::string getShaderMessage(GLuint shaderId);
             std::string getProgramMessage();
 
-            std::set<Vertex::Attribute::Usage> vertexAttributes;
-
             std::vector<uint8_t> fragmentShaderData;
             std::vector<uint8_t> vertexShaderData;
+
+            std::set<Vertex::Attribute::Usage> vertexAttributes;
 
             std::vector<Shader::ConstantInfo> fragmentShaderConstantInfo;
             std::vector<Shader::ConstantInfo> vertexShaderConstantInfo;

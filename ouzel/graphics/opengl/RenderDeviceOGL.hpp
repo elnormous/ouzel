@@ -7,6 +7,7 @@
 #if OUZEL_COMPILE_OPENGL
 
 #include <cstring>
+#include <array>
 #include <atomic>
 #include <map>
 #include <memory>
@@ -162,7 +163,6 @@ namespace ouzel
                     stateCache.textureId[layer] = textureId;
 
                     GLenum error;
-
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw SystemError("Failed to bind texture, error: " + std::to_string(error));
                 }
@@ -176,7 +176,6 @@ namespace ouzel
                     stateCache.programId = programId;
 
                     GLenum error;
-
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw SystemError("Failed to bind program, error: " + std::to_string(error));
                 }
@@ -190,7 +189,6 @@ namespace ouzel
                     stateCache.frameBufferId = bufferId;
 
                     GLenum error;
-
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw SystemError("Failed to bind frame buffer, error: " + std::to_string(error));
                 }
@@ -206,7 +204,6 @@ namespace ouzel
                     currentBufferId = bufferId;
 
                     GLenum error;
-
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw SystemError("Failed to bind element array buffer, error: " + std::to_string(error));
                 }
@@ -226,7 +223,6 @@ namespace ouzel
                         glDisableProc(GL_SCISSOR_TEST);
 
                     GLenum error;
-
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw SystemError("Failed to set scissor test, error: " + std::to_string(error));
 
@@ -248,7 +244,6 @@ namespace ouzel
                     }
 
                     GLenum error;
-
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw SystemError("Failed to set scissor test, error: " + std::to_string(error));
                 }
@@ -261,7 +256,6 @@ namespace ouzel
                     glDepthMaskProc(flag ? GL_TRUE : GL_FALSE);
 
                     GLenum error;
-
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw SystemError("Failed to change depth mask state, error: " + std::to_string(error));
 
@@ -279,7 +273,6 @@ namespace ouzel
                         glDisableProc(GL_DEPTH_TEST);
 
                     GLenum error;
-
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw SystemError("Failed to change depth test state, error: " + std::to_string(error));
 
@@ -304,7 +297,6 @@ namespace ouzel
                     stateCache.viewportHeight = height;
 
                     GLenum error;
-
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw SystemError("Failed to set viewport, error: " + std::to_string(error));
                 }
@@ -328,7 +320,6 @@ namespace ouzel
                     stateCache.blendEnabled = blendEnabled;
 
                     GLenum error;
-
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw SystemError("Failed to enable blend state, error: " + std::to_string(error));
                 }
@@ -362,7 +353,6 @@ namespace ouzel
                     }
 
                     GLenum error;
-
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw SystemError("Failed to set blend state, error: " + std::to_string(error));
                 }
@@ -386,7 +376,6 @@ namespace ouzel
                     stateCache.alphaMask = alphaMask;
 
                     GLenum error;
-
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw SystemError("Failed to set color mask, error: " + std::to_string(error));
                 }
@@ -405,7 +394,6 @@ namespace ouzel
                     stateCache.cullEnabled = cullEnabled;
 
                     GLenum error;
-
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw SystemError("Failed to enable cull face, error: " + std::to_string(error));
                 }
@@ -419,7 +407,6 @@ namespace ouzel
                     }
 
                     GLenum error;
-
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw SystemError("Failed to set cull face, error: " + std::to_string(error));
                 }
@@ -438,25 +425,23 @@ namespace ouzel
                     stateCache.clearDepth = clearDepthValue;
 
                     GLenum error;
-
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw SystemError("Failed to enable cull face, error: " + std::to_string(error));
                 }
             }
 
-            inline void setClearColorValue(const float* clearColorValue)
+            inline void setClearColorValue(std::array<GLfloat, 4> clearColorValue)
             {
-                if (memcmp(stateCache.clearColor, clearColorValue, sizeof(stateCache.clearColor)) != 0)
+                if (stateCache.clearColor != clearColorValue)
                 {
                     glClearColorProc(clearColorValue[0],
                                      clearColorValue[1],
                                      clearColorValue[2],
                                      clearColorValue[3]);
 
-                    memcpy(stateCache.clearColor, clearColorValue, sizeof(stateCache.clearColor));
+                    stateCache.clearColor = clearColorValue;
 
                     GLenum error;
-
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw SystemError("Failed to enable cull face, error: " + std::to_string(error));
                 }
@@ -544,7 +529,7 @@ namespace ouzel
             GLuint vertexArrayId = 0;
 
             GLbitfield clearMask = 0;
-            GLfloat frameBufferClearColor[4];
+            std::array<GLfloat, 4> frameBufferClearColor;
             bool textureBaseLevelSupported = true;
             bool textureMaxLevelSupported = true;
 
@@ -597,7 +582,7 @@ namespace ouzel
                 bool cullEnabled = false;
                 GLenum cullFace = GL_NONE;
 
-                float clearColor[4];
+                std::array<GLfloat, 4> clearColor;
                 float clearDepth = 1.0F;
             };
 
