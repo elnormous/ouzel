@@ -31,6 +31,7 @@ bool GameSample::handleKeyboard(const KeyboardEvent& event)
         {
             case Keyboard::Key::ESCAPE:
             case Keyboard::Key::MENU:
+            case Keyboard::Key::BACK:
                 engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 return true;
             default:
@@ -43,6 +44,7 @@ bool GameSample::handleKeyboard(const KeyboardEvent& event)
         {
             case Keyboard::Key::ESCAPE:
             case Keyboard::Key::MENU:
+            case Keyboard::Key::BACK:
                 return true;
             default:
                 break;
