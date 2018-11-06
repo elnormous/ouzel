@@ -2,7 +2,7 @@
 
 #include "core/Setup.h"
 
-#if OUZEL_COMPILE_D3D11
+#if OUZEL_COMPILE_DIRECT3D11
 
 #include "DepthStencilStateResourceD3D11.hpp"
 #include "RenderDeviceD3D11.hpp"

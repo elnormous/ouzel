@@ -455,6 +455,15 @@
     <ClCompile Include="..\ouzel\input\Gamepad.cpp">
       <Filter>ouzel\input</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\DepthStencilState.cpp">
+      <Filter>ouzel\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\opengl\DepthStencilStateResourceOGL.cpp">
+      <Filter>ouzel\graphics\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\direct3d11\DepthStencilStateResourceD3D11.cpp">
+      <Filter>ouzel\graphics\direct3d11</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\animators\Animator.hpp">
@@ -960,6 +969,15 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\input\Gamepad.hpp">
       <Filter>ouzel\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\DepthStencilState.hpp">
+      <Filter>ouzel\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\DepthStencilStateResourceOGL.hpp">
+      <Filter>ouzel\graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\direct3d11\DepthStencilStateResourceD3D11.hpp">
+      <Filter>ouzel\graphics\direct3d11</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
