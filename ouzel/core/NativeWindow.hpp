@@ -67,8 +67,10 @@ namespace ouzel
         class EventHandler
         {
         public:
-            virtual ~EventHandler() {}
             virtual bool handleEvent(const Event& event) = 0;
+
+        protected:
+            ~EventHandler() {}
         };
 
         NativeWindow(EventHandler& initEventHandler,
