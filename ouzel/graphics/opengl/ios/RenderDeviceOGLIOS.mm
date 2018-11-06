@@ -146,7 +146,7 @@ namespace ouzel
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
                     throw SystemError("Failed to blit MSAA texture, error: " + std::to_string(error));
 
-                // reset framebuffer
+                // reset frame buffer
                 const GLenum discard[] = {GL_COLOR_ATTACHMENT0, GL_DEPTH_ATTACHMENT};
                 glDiscardFramebufferEXTProc(GL_READ_FRAMEBUFFER_APPLE, 1, discard);
 
@@ -209,7 +209,7 @@ namespace ouzel
                 GLenum status = glCheckFramebufferStatusProc(GL_FRAMEBUFFER);
 
                 if (status != GL_FRAMEBUFFER_COMPLETE)
-                    throw SystemError("Failed to create framebuffer object, status: " + std::to_string(status));
+                    throw SystemError("Failed to create frame buffer object, status: " + std::to_string(status));
 
                 // create MSAA frame buffer
                 glGenFramebuffersProc(1, &msaaFrameBufferId);
@@ -234,7 +234,7 @@ namespace ouzel
                 status = glCheckFramebufferStatusProc(GL_FRAMEBUFFER);
 
                 if (status != GL_FRAMEBUFFER_COMPLETE)
-                    throw SystemError("Failed to create framebuffer object, status: " + std::to_string(status));
+                    throw SystemError("Failed to create frame buffer object, status: " + std::to_string(status));
 
                 frameBufferId = msaaFrameBufferId;
             }
@@ -264,7 +264,7 @@ namespace ouzel
                 GLenum status = glCheckFramebufferStatusProc(GL_FRAMEBUFFER);
 
                 if (status != GL_FRAMEBUFFER_COMPLETE)
-                    throw SystemError("Failed to create framebuffer object, status: " + std::to_string(status));
+                    throw SystemError("Failed to create frame buffer object, status: " + std::to_string(status));
 
                 frameBufferId = resolveFrameBufferId;
             }

@@ -93,8 +93,8 @@ namespace ouzel
                 0
             };
 
-            std::unique_ptr<GLXFBConfig, int(*)(void*)> framebufferConfig(glXChooseFBConfig(engineLinux->getDisplay(), screenIndex, attributes, &fbcount), XFree);
-            if (framebufferConfig)
+            std::unique_ptr<GLXFBConfig, int(*)(void*)> frameBufferConfig(glXChooseFBConfig(engineLinux->getDisplay(), screenIndex, attributes, &fbcount), XFree);
+            if (frameBufferConfig)
             {
                 PFNGLXCREATECONTEXTATTRIBSARBPROC glXCreateContextAttribsProc = reinterpret_cast<PFNGLXCREATECONTEXTATTRIBSARBPROC>(glXGetProcAddress(reinterpret_cast<const GLubyte*>("glXCreateContextAttribsARB")));
 
@@ -116,7 +116,7 @@ namespace ouzel
 
                     contextAttribs.push_back(0);
 
-                    context = glXCreateContextAttribsProc(engineLinux->getDisplay(), *framebufferConfig, nullptr, True, contextAttribs.data());
+                    context = glXCreateContextAttribsProc(engineLinux->getDisplay(), *frameBufferConfig, nullptr, True, contextAttribs.data());
 
                     if (context)
                     {

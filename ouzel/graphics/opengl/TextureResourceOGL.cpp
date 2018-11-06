@@ -311,16 +311,16 @@ namespace ouzel
                     if (!levels[level].data.empty())
                     {
                         glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
-                                     static_cast<GLsizei>(levels[level].size.width),
-                                     static_cast<GLsizei>(levels[level].size.height), 0,
-                                     oglPixelFormat, oglPixelType, levels[level].data.data());
+                                         static_cast<GLsizei>(levels[level].size.width),
+                                         static_cast<GLsizei>(levels[level].size.height), 0,
+                                         oglPixelFormat, oglPixelType, levels[level].data.data());
                     }
                     else
                     {
                         glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
-                                     static_cast<GLsizei>(levels[level].size.width),
-                                     static_cast<GLsizei>(levels[level].size.height), 0,
-                                     oglPixelFormat, oglPixelType, nullptr);
+                                         static_cast<GLsizei>(levels[level].size.width),
+                                         static_cast<GLsizei>(levels[level].size.height), 0,
+                                         oglPixelFormat, oglPixelType, nullptr);
                     }
                 }
 
@@ -352,10 +352,10 @@ namespace ouzel
                     if (!levels[level].data.empty())
                     {
                         glTexSubImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), 0, 0,
-                                        static_cast<GLsizei>(levels[level].size.width),
-                                        static_cast<GLsizei>(levels[level].size.height),
-                                        oglPixelFormat, oglPixelType,
-                                        levels[level].data.data());
+                                            static_cast<GLsizei>(levels[level].size.width),
+                                            static_cast<GLsizei>(levels[level].size.height),
+                                            oglPixelFormat, oglPixelType,
+                                            levels[level].data.data());
                     }
                 }
 
@@ -596,11 +596,14 @@ namespace ouzel
                     renderDevice.bindTexture(textureId, 0);
 
                     glTexImage2DProc(GL_TEXTURE_2D, 0, static_cast<GLint>(oglInternalPixelFormat),
-                                    width, height, 0,
-                                    oglPixelFormat, oglPixelType, nullptr);
+                                     width, height, 0,
+                                     oglPixelFormat, oglPixelType, nullptr);
 
                     // TODO: blit multisample render buffer to texture
                     glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0);
+
+                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                        throw DataError("Failed to set frame buffer's color texture, error: " + std::to_string(error));
                 }
                 else
                 {
@@ -610,17 +613,26 @@ namespace ouzel
                     if (sampleCount > 1 && renderDevice.isMultisamplingSupported())
                     {
                         glRenderbufferStorageMultisampleProc(GL_RENDERBUFFER,
-                                                                static_cast<GLsizei>(sampleCount),
-                                                                oglInternalPixelFormat,
-                                                                width, height);
+                                                             static_cast<GLsizei>(sampleCount),
+                                                             oglInternalPixelFormat,
+                                                             width, height);
+
+                        if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                            throw DataError("Failed to set color render buffer's multisample storage, error: " + std::to_string(error));
                     }
                     else
                     {
                         glRenderbufferStorageProc(GL_RENDERBUFFER, oglInternalPixelFormat,
-                                                    width, height);
+                                                  width, height);
+
+                        if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                            throw DataError("Failed to set color render buffer's storage, error: " + std::to_string(error));
                     }
 
                     glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorBufferId);
+
+                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                        throw DataError("Failed to set frame buffer's color render buffer, error: " + std::to_string(error));
                 }
 
                 if (flags & Texture::DEPTH_BUFFER)
@@ -632,9 +644,12 @@ namespace ouzel
                         renderDevice.bindTexture(depthTextureId, 0);
 
                         glTexImage2DProc(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24,
-                                        width, height, 0,GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
+                                         width, height, 0,GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
 
                         glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthTextureId, 0);
+
+                        if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                            throw DataError("Failed to set frame buffer's depth texture, error: " + std::to_string(error));
                     }
                     else
                     {
@@ -644,17 +659,26 @@ namespace ouzel
                         if (sampleCount > 1 && renderDevice.isMultisamplingSupported())
                         {
                             glRenderbufferStorageMultisampleProc(GL_RENDERBUFFER,
-                                                                    static_cast<GLsizei>(sampleCount),
-                                                                    GL_DEPTH_COMPONENT,
-                                                                    width, height);
+                                                                 static_cast<GLsizei>(sampleCount),
+                                                                 GL_DEPTH_COMPONENT24,
+                                                                 width, height);
+
+                            if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                                throw DataError("Failed to set depth render buffer's multisample storage, error: " + std::to_string(error));
                         }
                         else
                         {
-                            glRenderbufferStorageProc(GL_RENDERBUFFER, GL_DEPTH_COMPONENT,
-                                                        width, height);
+                            glRenderbufferStorageProc(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24,
+                                                      width, height);
+
+                            if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                                throw DataError("Failed to set depth render buffer's storage, error: " + std::to_string(error));
                         }
 
                         glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBufferId);
+
+                        if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                            throw DataError("Failed to set frame buffer's depth render buffer, error: " + std::to_string(error));
                     }
                 }
 
