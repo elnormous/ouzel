@@ -44,8 +44,10 @@ namespace ouzel
 
             void addCommand(std::unique_ptr<Command>&& command)
             {
-                std::unique_lock<std::mutex> lock(commandQueueMutex);
-                commandQueue.push(std::forward<std::unique_ptr<Command>>(command));
+                {
+                    std::unique_lock<std::mutex> lock(commandQueueMutex);
+                    commandQueue.push(std::forward<std::unique_ptr<Command>>(command));
+                }
                 commandQueueCondition.notify_all();
             }
 

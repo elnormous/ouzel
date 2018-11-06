@@ -487,9 +487,10 @@ namespace ouzel
         event.xclient.data.l[3] = 0; // unused
         event.xclient.data.l[4] = 0; // unused
 
-        std::unique_lock<std::mutex> lock(executeMutex);
-
-        executeQueue.push(func);
+        {
+            std::unique_lock<std::mutex> lock(executeMutex);
+            executeQueue.push(func);
+        }
 
         if (!XSendEvent(display, windowLinux->getNativeWindow(), False, NoEventMask, &event))
             throw SystemError("Failed to send X11 delete message");

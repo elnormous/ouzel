@@ -205,16 +205,13 @@ namespace ouzel
 
     std::future<bool> EventDispatcher::postEvent(std::unique_ptr<Event>&& event)
     {
-        std::future<bool> future;
+        std::promise<bool> promise;
+        std::future<bool> future = promise.get_future();
 
 #if OUZEL_MULTITHREADED
         std::unique_lock<std::mutex> lock(eventQueueMutex);
-        std::promise<bool> promise;
-        future = promise.get_future();
         eventQueue.push(std::pair<std::promise<bool>, std::unique_ptr<Event>>(std::move(promise), std::move(event)));
 #else
-        std::promise<bool> promise;
-        future = promise.get_future();
         promise.set_value(dispatchEvent(event));
 #endif
 
