@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef OUZEL_COMPONENT_HPP
+#define OUZEL_COMPONENT_HPP
 
 #include <memory>
 #include <vector>
@@ -79,3 +80,5 @@ namespace ouzel
         };
     } // namespace scene
 } // namespace ouzel
+
+#endif // OUZEL_COMPONENT_HPP

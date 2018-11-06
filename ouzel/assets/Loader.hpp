@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef OUZEL_LOADER_HPP
+#define OUZEL_LOADER_HPP
 
 #include <string>
 #include <vector>
@@ -47,3 +48,5 @@ namespace ouzel
         };
     } // namespace assets
 } // namespace ouzel
+
+#endif // OUZEL_LOADER_HPP

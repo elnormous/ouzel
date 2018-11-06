@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef OUZEL_STATICMESHDATA_HPP
+#define OUZEL_STATICMESHDATA_HPP
 
 #include <vector>
 #include "graphics/Buffer.hpp"
@@ -29,3 +30,5 @@ namespace ouzel
         };
     } // namespace scene
 } // namespace ouzel
+
+#endif // OUZEL_STATICMESHDATA_HPP

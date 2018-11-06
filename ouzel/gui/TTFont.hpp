@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef OUZEL_TTFONT_HPP
+#define OUZEL_TTFONT_HPP
 
 #include "stb_truetype.h"
 #include "gui/Font.hpp"
@@ -32,3 +33,5 @@ namespace ouzel
         bool mipmaps = true;
     };
 }
+
+#endif // OUZEL_TTFONT_HPP

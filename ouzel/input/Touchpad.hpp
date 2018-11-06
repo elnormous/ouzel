@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef OUZEL_TOUCHPAD_HPP
+#define OUZEL_TOUCHPAD_HPP
 
 #include <cstdint>
 #include <unordered_map>
@@ -30,3 +31,5 @@ namespace ouzel
         };
     } // namespace input
 } // namespace ouzel
+
+#endif // OUZEL_TOUCHPAD_HPP

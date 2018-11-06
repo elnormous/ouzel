@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef OUZEL_NATIVECURSORLINUX_HPP
+#define OUZEL_NATIVECURSORLINUX_HPP
 
 #include <cstdint>
 #include <vector>
@@ -38,3 +39,5 @@ namespace ouzel
         };
     } // namespace input
 } // namespace ouzel
+
+#endif // OUZEL_NATIVECURSORLINUX_HPP

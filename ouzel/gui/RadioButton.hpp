@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef OUZEL_RADIOBUTTON_HPP
+#define OUZEL_RADIOBUTTON_HPP
 
 #include "gui/Widget.hpp"
 
@@ -25,3 +26,5 @@ namespace ouzel
         };
     } // namespace gui
 } // namespace ouzel
+
+#endif // OUZEL_RADIOBUTTON_HPP

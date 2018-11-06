@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef OUZEL_APPLICATION_HPP
+#define OUZEL_APPLICATION_HPP
 
 namespace ouzel
 {
@@ -10,3 +11,5 @@ namespace ouzel
         virtual ~Application() {}
     };
 }
+
+#endif // OUZEL_APPLICATION_HPP

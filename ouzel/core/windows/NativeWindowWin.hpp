@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef OUZEL_NATIVEWINDOWWIN_HPP
+#define OUZEL_NATIVEWINDOWWIN_HPP
 
 #ifndef NOMINMAX
 #  define NOMINMAX
@@ -65,3 +66,5 @@ namespace ouzel
         std::set<HACCEL> accelerators;
     };
 }
+
+#endif // OUZEL_NATIVEWINDOWWIN_HPP

@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef OUZEL_ENGINEANDROID_HPP
+#define OUZEL_ENGINEANDROID_HPP
 
 #include <jni.h>
 #include <android/asset_manager.h>
@@ -69,3 +70,5 @@ namespace ouzel
         std::mutex executeMutex;
     };
 }
+
+#endif // OUZEL_ENGINEANDROID_HPP

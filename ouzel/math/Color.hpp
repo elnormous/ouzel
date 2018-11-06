@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef OUZEL_COLOR_HPP
+#define OUZEL_COLOR_HPP
 
 #include <cstddef>
 #include <cstdint>
@@ -87,3 +88,5 @@ namespace ouzel
         }
     };
 } // namespace ouzel
+
+#endif // OUZEL_COLOR_HPP

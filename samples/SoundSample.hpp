@@ -1,7 +1,8 @@
 // Copyright (C) 2018 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#pragma once
+#ifndef SOUNDSAMPLE_HPP
+#define SOUNDSAMPLE_HPP
 
 #include "ouzel.hpp"
 
@@ -39,3 +40,5 @@ private:
 
     ouzel::EventHandler handler;
 };
+
+#endif // SOUNDSAMPLE_HPP

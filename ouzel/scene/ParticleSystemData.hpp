@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef OUZEL_PARTICLESYSTEMDATA_HPP
+#define OUZEL_PARTICLESYSTEMDATA_HPP
 
 #include <memory>
 #include <string>
@@ -107,3 +108,5 @@ namespace ouzel
         };
     } // namespace scene
 } // namespace ouzel
+
+#endif // OUZEL_PARTICLESYSTEMDATA_HPP
