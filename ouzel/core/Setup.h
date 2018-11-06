@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef SETUP_H
+#define SETUP_H
 
 #include "core/Platform.h"
 #include "Config.h"
@@ -84,3 +85,5 @@
 #if OUZEL_SUPPORTS_ALSA && OUZEL_ENABLE_ALSA
 #define OUZEL_COMPILE_ALSA 1
 #endif
+
+#endif // SETUP_H

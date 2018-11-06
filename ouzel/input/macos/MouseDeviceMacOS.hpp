@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef MOUSEDEVICEMACOS_HPP
+#define MOUSEDEVICEMACOS_HPP
 
 #include "input/MouseDevice.hpp"
 #include "input/Mouse.hpp"
@@ -34,3 +35,5 @@ namespace ouzel
         };
     } // namespace input
 } // namespace ouzel
+
+#endif // MOUSEDEVICEMACOS_HPP

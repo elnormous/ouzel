@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef GAMEPADDEVICEGC_HPP
+#define GAMEPADDEVICEGC_HPP
 
 #if defined(__OBJC__)
 #include <GameController/GameController.h>
@@ -38,3 +39,5 @@ namespace ouzel
         };
     } // namespace input
 } // namespace ouzel
+
+#endif // GAMEPADDEVICEGC_HPP

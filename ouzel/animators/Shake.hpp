@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef SHAKE_HPP
+#define SHAKE_HPP
 
 #include <cstdint>
 #include <vector>
@@ -31,3 +32,5 @@ namespace ouzel
         };
     } // namespace scene
 } // namespace ouzel
+
+#endif // SHAKE_HPP

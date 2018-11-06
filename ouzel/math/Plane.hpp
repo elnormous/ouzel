@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef PLANE_HPP
+#define PLANE_HPP
 
 #include <cmath>
 #include "MathUtils.hpp"
@@ -58,3 +59,5 @@ namespace ouzel
         }
     };
 }
+
+#endif // PLANE_HPP

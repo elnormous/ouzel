@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef LOG_HPP
+#define LOG_HPP
 
 #include <string>
 #include <vector>
@@ -195,3 +196,5 @@ namespace ouzel
         std::string s;
     };
 }
+
+#endif // LOG_HPP

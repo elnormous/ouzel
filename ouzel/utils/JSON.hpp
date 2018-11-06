@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef JSON_HPP
+#define JSON_HPP
 
 #include <cassert>
 #include <map>
@@ -282,3 +283,5 @@ namespace ouzel
         };
     } // namespace json
 } // namespace ouzel
+
+#endif // JSON_HPP

@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef LOADERIMAGE_HPP
+#define LOADERIMAGE_HPP
 
 #include "assets/Loader.hpp"
 
@@ -18,3 +19,5 @@ namespace ouzel
         };
     } // namespace assets
 } // namespace ouzel
+
+#endif // LOADERIMAGE_HPP

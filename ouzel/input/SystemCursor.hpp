@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef SYSTEMCURSOR_HPP
+#define SYSTEMCURSOR_HPP
 
 namespace ouzel
 {
@@ -18,3 +19,5 @@ namespace ouzel
         };
     } // namespace input
 } // namespace ouzel
+
+#endif // SYSTEMCURSOR_HPP

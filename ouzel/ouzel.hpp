@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef OUZEL_HPP
+#define OUZEL_HPP
 
 #include "animators/Animator.hpp"
 #include "animators/Ease.hpp"
@@ -116,3 +117,5 @@
 #include "utils/OBF.hpp"
 #include "utils/Utils.hpp"
 #include "utils/XML.hpp"
+
+#endif // OUZEL_HPP

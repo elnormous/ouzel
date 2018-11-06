@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef PARTICLESYSTEM_HPP
+#define PARTICLESYSTEM_HPP
 
 #include <string>
 #include <vector>
@@ -120,3 +121,5 @@ namespace ouzel
         };
     } // namespace scene
 } // namespace ouzel
+
+#endif // PARTICLESYSTEM_HPP

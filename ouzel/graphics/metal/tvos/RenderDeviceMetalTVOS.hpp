@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef RENDERDEVICEMETALTVOS_HPP
+#define RENDERDEVICEMETALTVOS_HPP
 
 #include "core/Setup.h"
 
@@ -38,3 +39,5 @@ namespace ouzel
 } // namespace ouzel
 
 #endif
+
+#endif // RENDERDEVICEMETALTVOS_HPP

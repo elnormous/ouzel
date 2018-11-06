@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef ROTATE_HPP
+#define ROTATE_HPP
 
 #include "animators/Animator.hpp"
 #include "math/Quaternion.hpp"
@@ -28,3 +29,5 @@ namespace ouzel
         };
     } // namespace scene
 } // namespace ouzel
+
+#endif // ROTATE_HPP

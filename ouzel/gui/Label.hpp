@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef LABEL_HPP
+#define LABEL_HPP
 
 #include <memory>
 #include <string>
@@ -32,3 +33,5 @@ namespace ouzel
         };
     } // namespace gui
 } // namespace ouzel
+
+#endif // LABEL_HPP

@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef VECTOR3_HPP
+#define VECTOR3_HPP
 
 #include <cstddef>
 
@@ -254,3 +255,5 @@ namespace ouzel
         return Vector3(vec.x * scalar, vec.y * scalar, vec.z * scalar);
     }
 }
+
+#endif // VECTOR3_HPP

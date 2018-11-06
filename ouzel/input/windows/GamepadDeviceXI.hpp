@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef GAMEPADDEVICEXI_HPP
+#define GAMEPADDEVICEXI_HPP
 
 #ifndef NOMINMAX
 #  define NOMINMAX
@@ -39,3 +40,5 @@ namespace ouzel
         };
     } // namespace input
 } // namespace ouzel
+
+#endif // GAMEPADDEVICEXI_HPP

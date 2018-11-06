@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef VERTEX_HPP
+#define VERTEX_HPP
 
 #include <vector>
 #include "graphics/DataType.hpp"
@@ -56,3 +57,5 @@ namespace ouzel
         };
     } // namespace graphics
 } // namespace ouzel
+
+#endif // VERTEX_HPP

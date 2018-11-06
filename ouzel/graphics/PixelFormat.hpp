@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef PIXELFORMAT_HPP
+#define PIXELFORMAT_HPP
 
 namespace ouzel
 {
@@ -174,3 +175,5 @@ namespace ouzel
         }
     } // namespace graphics
 } // namespace ouzel
+
+#endif // PIXELFORMAT_HPP

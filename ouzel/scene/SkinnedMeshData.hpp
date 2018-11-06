@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef SKINNEDMESHDATA_HPP
+#define SKINNEDMESHDATA_HPP
 
 #include <vector>
 #include "graphics/Material.hpp"
@@ -28,3 +29,5 @@ namespace ouzel
         };
     } // namespace scene
 } // namespace ouzel
+
+#endif // SKINNEDMESHDATA_HPP

@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef KEYBOARDDEVICELINUX_HPP
+#define KEYBOARDDEVICELINUX_HPP
 
 #include "input/KeyboardDevice.hpp"
 
@@ -19,3 +20,5 @@ namespace ouzel
         };
     } // namespace input
 } // namespace ouzel
+
+#endif // KEYBOARDDEVICELINUX_HPP

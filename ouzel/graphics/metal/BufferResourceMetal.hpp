@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef BUFFERRESOURCEMETAL_HPP
+#define BUFFERRESOURCEMETAL_HPP
 
 #include "core/Setup.h"
 
@@ -53,3 +54,5 @@ namespace ouzel
 } // namespace ouzel
 
 #endif
+
+#endif // BUFFERRESOURCEMETAL_HPP

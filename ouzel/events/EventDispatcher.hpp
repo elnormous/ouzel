@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef EVENTDISPATCHER_HPP
+#define EVENTDISPATCHER_HPP
 
 #include <cstdint>
 #include <future>
@@ -46,3 +47,5 @@ namespace ouzel
         std::queue<std::pair<std::promise<bool>, std::unique_ptr<Event>>> eventQueue;
     };
 }
+
+#endif // EVENTDISPATCHER_HPP

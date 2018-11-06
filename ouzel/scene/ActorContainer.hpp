@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef ACTORCONTAINER_HPP
+#define ACTORCONTAINER_HPP
 
 #include <memory>
 #include <vector>
@@ -70,3 +71,5 @@ namespace ouzel
         };
     } // namespace scene
 } // namespace ouzel
+
+#endif // ACTORCONTAINER_HPP

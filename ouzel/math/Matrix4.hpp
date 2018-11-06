@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef MATRIX4_HPP
+#define MATRIX4_HPP
 
 #include <algorithm>
 #include "core/Setup.h"
@@ -436,3 +437,5 @@ namespace ouzel
         return x;
     }
 }
+
+#endif // MATRIX4_HPP

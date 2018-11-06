@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#pragma once
+#ifndef FONT_HPP
+#define FONT_HPP
 
 #include <cstdint>
 #include <string>
@@ -35,3 +36,5 @@ namespace ouzel
                                  std::shared_ptr<graphics::Texture>& texture) = 0;
     };
 }
+
+#endif // FONT_HPP
