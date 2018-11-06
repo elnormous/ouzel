@@ -7,6 +7,7 @@
 #include "scene/Component.hpp"
 #include "math/MathUtils.hpp"
 #include "math/Rect.hpp"
+#include "graphics/DepthStencilState.hpp"
 #include "graphics/Texture.hpp"
 
 namespace ouzel
@@ -82,10 +83,9 @@ namespace ouzel
             void setRenderTarget(const std::shared_ptr<graphics::Texture>& newRenderTarget);
             inline const std::shared_ptr<graphics::Texture>& getRenderTarget() const { return renderTarget; }
 
-            inline bool getDepthWrite() const { return depthWrite; }
-            inline void setDepthWrite(bool newDepthWrite) { depthWrite = newDepthWrite; }
             inline bool getDepthTest() const { return depthTest; }
-            inline void setDepthTest(bool newDepthTest) { depthTest = newDepthTest; }
+            void setDepthTest(bool newDepthTest);
+            inline const std::shared_ptr<graphics::DepthStencilState>& getDepthStencilState() const { return depthStencilState; }
 
             inline bool getWireframe() const { return wireframe; }
             inline void setWireframe(bool newWireframe) { wireframe = newWireframe; }
@@ -113,7 +113,6 @@ namespace ouzel
             Vector2 contentScale;
             Vector2 contentPosition;
 
-            bool depthWrite = false;
             bool depthTest = false;
             bool wireframe = false;
 
@@ -125,6 +124,7 @@ namespace ouzel
             mutable Matrix4 inverseViewProjection;
 
             std::shared_ptr<graphics::Texture> renderTarget;
+            std::shared_ptr<graphics::DepthStencilState> depthStencilState;
         };
     } // namespace scene
 } // namespace ouzel

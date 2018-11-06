@@ -3,6 +3,10 @@
 #ifndef OUZEL_RENDERTARGETRESOURCEOGL_HPP
 #define OUZEL_RENDERTARGETRESOURCEOGL_HPP
 
+#include "core/Setup.h"
+
+#if OUZEL_COMPILE_OPENGL
+
 #include "graphics/opengl/RenderResourceOGL.hpp"
 
 namespace ouzel
@@ -20,5 +24,7 @@ namespace ouzel
         };
     } // namespace graphics
 } // namespace ouzel
+
+#endif
 
 #endif // OUZEL_RENDERTARGETRESOURCEOGL_HPP

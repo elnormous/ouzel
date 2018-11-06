@@ -128,8 +128,7 @@ namespace ouzel
             ShaderConstantBuffer shaderConstantBuffers[BUFFER_COUNT];
 
             MTLRenderPassDescriptorPtr renderPassDescriptor = nil;
-
-            MTLDepthStencilStatePtr depthStencilStates[4];
+            MTLDepthStencilStatePtr defaultDepthStencilState = nil;
 
             MTLTexturePtr msaaTexture = nil;
             MTLTexturePtr depthTexture = nil;

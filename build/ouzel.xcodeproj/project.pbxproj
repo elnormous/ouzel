@@ -14,6 +14,24 @@
 		300862DB2154725500D8CC45 /* InputSystemTVOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 300862D92154725400D8CC45 /* InputSystemTVOS.hpp */; };
 		300862DC2154725500D8CC45 /* InputSystemTVOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 300862DA2154725500D8CC45 /* InputSystemTVOS.mm */; };
 		300862E02155CCED00D8CC45 /* GamepadDeviceMacOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 300862DE2155CCED00D8CC45 /* GamepadDeviceMacOS.hpp */; };
+		300902FE219224B100B00BF4 /* DepthStencilState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 300902FC219224B100B00BF4 /* DepthStencilState.cpp */; };
+		300902FF219224B100B00BF4 /* DepthStencilState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 300902FC219224B100B00BF4 /* DepthStencilState.cpp */; };
+		30090300219224B100B00BF4 /* DepthStencilState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 300902FC219224B100B00BF4 /* DepthStencilState.cpp */; };
+		30090301219224B100B00BF4 /* DepthStencilState.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 300902FD219224B100B00BF4 /* DepthStencilState.hpp */; };
+		30090302219224B100B00BF4 /* DepthStencilState.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 300902FD219224B100B00BF4 /* DepthStencilState.hpp */; };
+		30090303219224B100B00BF4 /* DepthStencilState.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 300902FD219224B100B00BF4 /* DepthStencilState.hpp */; };
+		3009030621922DEE00B00BF4 /* DepthStencilStateResourceMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3009030421922DEE00B00BF4 /* DepthStencilStateResourceMetal.mm */; };
+		3009030721922DEE00B00BF4 /* DepthStencilStateResourceMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3009030421922DEE00B00BF4 /* DepthStencilStateResourceMetal.mm */; };
+		3009030821922DEE00B00BF4 /* DepthStencilStateResourceMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3009030421922DEE00B00BF4 /* DepthStencilStateResourceMetal.mm */; };
+		3009030921922DEE00B00BF4 /* DepthStencilStateResourceMetal.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3009030521922DEE00B00BF4 /* DepthStencilStateResourceMetal.hpp */; };
+		3009030A21922DEE00B00BF4 /* DepthStencilStateResourceMetal.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3009030521922DEE00B00BF4 /* DepthStencilStateResourceMetal.hpp */; };
+		3009030B21922DEE00B00BF4 /* DepthStencilStateResourceMetal.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3009030521922DEE00B00BF4 /* DepthStencilStateResourceMetal.hpp */; };
+		3009030E21922E1300B00BF4 /* DepthStencilStateResourceOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3009030C21922E1300B00BF4 /* DepthStencilStateResourceOGL.cpp */; };
+		3009030F21922E1300B00BF4 /* DepthStencilStateResourceOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3009030C21922E1300B00BF4 /* DepthStencilStateResourceOGL.cpp */; };
+		3009031021922E1300B00BF4 /* DepthStencilStateResourceOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3009030C21922E1300B00BF4 /* DepthStencilStateResourceOGL.cpp */; };
+		3009031121922E1300B00BF4 /* DepthStencilStateResourceOGL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3009030D21922E1300B00BF4 /* DepthStencilStateResourceOGL.hpp */; };
+		3009031221922E1300B00BF4 /* DepthStencilStateResourceOGL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3009030D21922E1300B00BF4 /* DepthStencilStateResourceOGL.hpp */; };
+		3009031321922E1300B00BF4 /* DepthStencilStateResourceOGL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3009030D21922E1300B00BF4 /* DepthStencilStateResourceOGL.hpp */; };
 		3009341C1C88698500CC50D3 /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3009341A1C88698500CC50D3 /* Window.cpp */; };
 		3009341D1C88698500CC50D3 /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3009341A1C88698500CC50D3 /* Window.cpp */; };
 		3009341E1C88698500CC50D3 /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3009341A1C88698500CC50D3 /* Window.cpp */; };
@@ -917,6 +935,12 @@
 		300862DA2154725500D8CC45 /* InputSystemTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = InputSystemTVOS.mm; sourceTree = "<group>"; };
 		300862DE2155CCED00D8CC45 /* GamepadDeviceMacOS.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GamepadDeviceMacOS.hpp; sourceTree = "<group>"; };
 		300902E5218A761500B00BF4 /* RenderResourceMetal.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RenderResourceMetal.hpp; sourceTree = "<group>"; };
+		300902FC219224B100B00BF4 /* DepthStencilState.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DepthStencilState.cpp; sourceTree = "<group>"; };
+		300902FD219224B100B00BF4 /* DepthStencilState.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DepthStencilState.hpp; sourceTree = "<group>"; };
+		3009030421922DEE00B00BF4 /* DepthStencilStateResourceMetal.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DepthStencilStateResourceMetal.mm; sourceTree = "<group>"; };
+		3009030521922DEE00B00BF4 /* DepthStencilStateResourceMetal.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DepthStencilStateResourceMetal.hpp; sourceTree = "<group>"; };
+		3009030C21922E1300B00BF4 /* DepthStencilStateResourceOGL.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DepthStencilStateResourceOGL.cpp; sourceTree = "<group>"; };
+		3009030D21922E1300B00BF4 /* DepthStencilStateResourceOGL.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DepthStencilStateResourceOGL.hpp; sourceTree = "<group>"; };
 		3009341A1C88698500CC50D3 /* Window.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Window.cpp; sourceTree = "<group>"; };
 		3009341B1C88698500CC50D3 /* Window.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Window.hpp; sourceTree = "<group>"; };
 		3009342C1C88978D00CC50D3 /* NativeWindowTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NativeWindowTVOS.mm; sourceTree = "<group>"; };
@@ -1488,6 +1512,8 @@
 				303696D31E32DDA9007F4211 /* Buffer.hpp */,
 				30F249ED20A7681E0007D417 /* Commands.hpp */,
 				301457091E40FB5100BA75DB /* DataType.hpp */,
+				300902FC219224B100B00BF4 /* DepthStencilState.cpp */,
+				300902FD219224B100B00BF4 /* DepthStencilState.hpp */,
 				303820881D816EAB00677CAB /* empty */,
 				303B74E11C277A7500FEDE92 /* ImageData.cpp */,
 				303B74E21C277A7500FEDE92 /* ImageData.hpp */,
@@ -1554,6 +1580,8 @@
 				30381F301D80A3EC00677CAB /* BlendStateResourceOGL.hpp */,
 				30381F391D80A3EC00677CAB /* BufferResourceOGL.cpp */,
 				30381F3A1D80A3EC00677CAB /* BufferResourceOGL.hpp */,
+				3009030C21922E1300B00BF4 /* DepthStencilStateResourceOGL.cpp */,
+				3009030D21922E1300B00BF4 /* DepthStencilStateResourceOGL.hpp */,
 				303820C91D817E3400677CAB /* ios */,
 				303820CB1D817E3B00677CAB /* macos */,
 				30381F3D1D80A3EC00677CAB /* RenderDeviceOGL.cpp */,
@@ -1822,6 +1850,8 @@
 				30381FC81D80A40700677CAB /* BlendStateResourceMetal.mm */,
 				303820281D80A55700677CAB /* BufferResourceMetal.hpp */,
 				303820271D80A55700677CAB /* BufferResourceMetal.mm */,
+				3009030521922DEE00B00BF4 /* DepthStencilStateResourceMetal.hpp */,
+				3009030421922DEE00B00BF4 /* DepthStencilStateResourceMetal.mm */,
 				303B04741E207A3E00011CBE /* ios */,
 				303B04751E207A4800011CBE /* macos */,
 				30381FD11D80A40700677CAB /* RenderDeviceMetal.hpp */,
@@ -2027,6 +2057,7 @@
 				3038216C1D81876E00677CAB /* AudioDeviceEmpty.hpp in Headers */,
 				30C56C5F1CAA88F8007AEF8F /* CheckBox.hpp in Headers */,
 				30381FB81D80A3F900677CAB /* AudioDeviceAL.hpp in Headers */,
+				30090301219224B100B00BF4 /* DepthStencilState.hpp in Headers */,
 				30519CC31F9B53B700AF3DC4 /* LoaderBMF.hpp in Headers */,
 				30575AD11C3B175D0009C8A7 /* Label.hpp in Headers */,
 				30519CDB1F9B53DB00AF3DC4 /* LoaderSprite.hpp in Headers */,
@@ -2043,6 +2074,7 @@
 				306A26EB1F5DE76E00E2B0B6 /* SoundInput.hpp in Headers */,
 				303B75661C2A3CBF00FEDE92 /* SceneManager.hpp in Headers */,
 				30F5DD3B1F09756400E14E84 /* Stream.hpp in Headers */,
+				3009031121922E1300B00BF4 /* DepthStencilStateResourceOGL.hpp in Headers */,
 				3047F7421C4C344A00774E3D /* Animator.hpp in Headers */,
 				304736DC1E0B4776009BC562 /* Box3.hpp in Headers */,
 				30ADCBBE1E9A957C000DC9AC /* RenderDeviceMetalIOS.hpp in Headers */,
@@ -2092,6 +2124,7 @@
 				305B68D61ED1B31D003352A2 /* Timer.hpp in Headers */,
 				300C39ED1E51355000330E4F /* SoundDataWave.hpp in Headers */,
 				30CC89FC203C5DFB00E2C8C3 /* File.hpp in Headers */,
+				3009030921922DEE00B00BF4 /* DepthStencilStateResourceMetal.hpp in Headers */,
 				303B75681C2A3CBF00FEDE92 /* Sprite.hpp in Headers */,
 				30381F8E1D80A3EC00677CAB /* TextureResourceOGL.hpp in Headers */,
 				30A9C13E1CAEBA540084C4BF /* Language.hpp in Headers */,
@@ -2133,6 +2166,7 @@
 				304B275A1C9384A600BA162D /* Size3.hpp in Headers */,
 				303820301D80A55700677CAB /* BufferResourceMetal.hpp in Headers */,
 				30419DE61D162BCF00A63759 /* Audio.hpp in Headers */,
+				3009030B21922DEE00B00BF4 /* DepthStencilStateResourceMetal.hpp in Headers */,
 				303696D11E32DD9C007F4211 /* BlendState.hpp in Headers */,
 				30CC89FE203C5DFB00E2C8C3 /* File.hpp in Headers */,
 				30519CBD1F9B53AB00AF3DC4 /* LoaderWave.hpp in Headers */,
@@ -2186,8 +2220,10 @@
 				30673DD81F7A694F00EAFAB0 /* NativeWindow.hpp in Headers */,
 				30724D871F353A1800D915ED /* ViewTVOS.h in Headers */,
 				30AEFA3920C0FD7400CDFD33 /* RenderTargetResourceMetal.hpp in Headers */,
+				3009031321922E1300B00BF4 /* DepthStencilStateResourceOGL.hpp in Headers */,
 				30575ACA1C3B17540009C8A7 /* Button.hpp in Headers */,
 				30AEFA3120C0FD6000CDFD33 /* RenderTargetResourceOGL.hpp in Headers */,
+				30090303219224B100B00BF4 /* DepthStencilState.hpp in Headers */,
 				306A26C81F5DD19E00E2B0B6 /* SoundOutput.hpp in Headers */,
 				303B76641C355A3B00FEDE92 /* SceneManager.hpp in Headers */,
 				3047F7431C4C344A00774E3D /* Animator.hpp in Headers */,
@@ -2337,9 +2373,11 @@
 				3047F7491C4C350D00774E3D /* Move.hpp in Headers */,
 				30A883681E7432DA004A033F /* Archive.hpp in Headers */,
 				30216B841ED5C3900073E3D5 /* Plane.hpp in Headers */,
+				3009030A21922DEE00B00BF4 /* DepthStencilStateResourceMetal.hpp in Headers */,
 				304A8E731C237C70008B1151 /* Vector3.hpp in Headers */,
 				304A8EA31C270833008B1151 /* Vertex.hpp in Headers */,
 				30A9C1341CAE80570084C4BF /* Localization.hpp in Headers */,
+				30090302219224B100B00BF4 /* DepthStencilState.hpp in Headers */,
 				3038207D1D816C9E00677CAB /* EngineMacOS.hpp in Headers */,
 				30575AD01C3B175D0009C8A7 /* Label.hpp in Headers */,
 				30575A921C38BD370009C8A7 /* Box2.hpp in Headers */,
@@ -2353,6 +2391,7 @@
 				30381F891D80A3EC00677CAB /* ShaderResourceOGL.hpp in Headers */,
 				3031C1381F0C4350002CA717 /* SoundDataVorbis.hpp in Headers */,
 				30381F8F1D80A3EC00677CAB /* TextureResourceOGL.hpp in Headers */,
+				3009031221922E1300B00BF4 /* DepthStencilStateResourceOGL.hpp in Headers */,
 				305B998C1C41EFFA008589E1 /* Menu.hpp in Headers */,
 				30AEFA1820C0FB2E00CDFD33 /* RenderTarget.hpp in Headers */,
 				3038202F1D80A55700677CAB /* BufferResourceMetal.hpp in Headers */,
@@ -2577,6 +2616,7 @@
 				304E76391F7095DE0025C0DB /* Client.cpp in Sources */,
 				303821691D81876E00677CAB /* AudioDeviceEmpty.cpp in Sources */,
 				30381FB51D80A3F900677CAB /* AudioDeviceAL.cpp in Sources */,
+				3009030621922DEE00B00BF4 /* DepthStencilStateResourceMetal.mm in Sources */,
 				30EEADC721618F2C00D2F525 /* TouchpadDevice.cpp in Sources */,
 				30724D821F353A0800D915ED /* ViewIOS.mm in Sources */,
 				300C39F01E51355000330E4F /* SoundDataWave.cpp in Sources */,
@@ -2618,6 +2658,7 @@
 				303B755D1C2A3CB700FEDE92 /* Vertex.cpp in Sources */,
 				30FE384E1DFDE49E00305B3B /* Quaternion.cpp in Sources */,
 				3038200C1D80A40700677CAB /* ShaderResourceMetal.mm in Sources */,
+				300902FE219224B100B00BF4 /* DepthStencilState.cpp in Sources */,
 				3072370A1FAFDAB8002EA399 /* JSON.cpp in Sources */,
 				301EB3A31CCD691800466E92 /* Component.cpp in Sources */,
 				30519CF01F9B53FF00AF3DC4 /* LoaderOBJ.cpp in Sources */,
@@ -2640,6 +2681,7 @@
 				30ADCBBF1E9A957C000DC9AC /* RenderDeviceMetalIOS.mm in Sources */,
 				303B04AE1E207B2700011CBE /* MetalView.m in Sources */,
 				30575AC61C3B17540009C8A7 /* Button.cpp in Sources */,
+				3009030E21922E1300B00BF4 /* DepthStencilStateResourceOGL.cpp in Sources */,
 				303821451D81876E00677CAB /* RenderDeviceEmpty.cpp in Sources */,
 				303B753D1C2A3C8E00FEDE92 /* FileSystem.cpp in Sources */,
 				303B75571C2A3CB700FEDE92 /* Vector2.cpp in Sources */,
@@ -2737,6 +2779,7 @@
 				304E763B1F7095DE0025C0DB /* Client.cpp in Sources */,
 				30EEADC121618DC400D2F525 /* KeyboardDevice.cpp in Sources */,
 				3038216B1D81876E00677CAB /* AudioDeviceEmpty.cpp in Sources */,
+				3009030821922DEE00B00BF4 /* DepthStencilStateResourceMetal.mm in Sources */,
 				30381FB71D80A3F900677CAB /* AudioDeviceAL.cpp in Sources */,
 				300C39F21E51355000330E4F /* SoundDataWave.cpp in Sources */,
 				30A9C13C1CAEBA540084C4BF /* Language.cpp in Sources */,
@@ -2778,6 +2821,7 @@
 				301EB3AC1CCD77F600466E92 /* TextRenderer.cpp in Sources */,
 				3072370C1FAFDAB8002EA399 /* JSON.cpp in Sources */,
 				3009342E1C88978D00CC50D3 /* NativeWindowTVOS.mm in Sources */,
+				30090300219224B100B00BF4 /* DepthStencilState.cpp in Sources */,
 				30519CF21F9B53FF00AF3DC4 /* LoaderOBJ.cpp in Sources */,
 				3047F7501C4C4FAF00774E3D /* Rotate.cpp in Sources */,
 				30519CC21F9B53B700AF3DC4 /* LoaderBMF.cpp in Sources */,
@@ -2800,6 +2844,7 @@
 				300862DC2154725500D8CC45 /* InputSystemTVOS.mm in Sources */,
 				303B04A61E207B1000011CBE /* MetalView.m in Sources */,
 				303821471D81876E00677CAB /* RenderDeviceEmpty.cpp in Sources */,
+				3009031021922E1300B00BF4 /* DepthStencilStateResourceOGL.cpp in Sources */,
 				303B76441C355A3B00FEDE92 /* FileSystem.cpp in Sources */,
 				303B76461C355A3B00FEDE92 /* Vector2.cpp in Sources */,
 				30FFBE392158FD8D004B0BD3 /* Keyboard.cpp in Sources */,
@@ -2922,6 +2967,7 @@
 				30EEADCC216A44EC00D2F525 /* InputDevice.cpp in Sources */,
 				30EEADC421618DD800D2F525 /* MouseDevice.cpp in Sources */,
 				305B99891C41EFFA008589E1 /* Menu.cpp in Sources */,
+				3009030F21922E1300B00BF4 /* DepthStencilStateResourceOGL.cpp in Sources */,
 				30519CD91F9B53DB00AF3DC4 /* LoaderSprite.cpp in Sources */,
 				C61B49F22174B83900B818F1 /* SkinnedMeshRenderer.cpp in Sources */,
 				30EEADC021618DC400D2F525 /* KeyboardDevice.cpp in Sources */,
@@ -2986,6 +3032,7 @@
 				30519CE91F9B53F500AF3DC4 /* LoaderMTL.cpp in Sources */,
 				C6AC8A8C215BD7D500F14D75 /* MouseDeviceMacOS.mm in Sources */,
 				30381F501D80A3EC00677CAB /* BlendStateResourceOGL.cpp in Sources */,
+				300902FF219224B100B00BF4 /* DepthStencilState.cpp in Sources */,
 				3047F73E1C4C344A00774E3D /* Animator.cpp in Sources */,
 				304B27791C95C54D00BA162D /* EditBox.cpp in Sources */,
 				304A8E511C237C70008B1151 /* Camera.cpp in Sources */,
@@ -3012,6 +3059,7 @@
 				303B04BE1E207B6D00011CBE /* RenderDeviceOGLMacOS.mm in Sources */,
 				30B546561D90575B00E45DB6 /* RadioButtonGroup.cpp in Sources */,
 				304A8E6E1C237C70008B1151 /* Utils.cpp in Sources */,
+				3009030721922DEE00B00BF4 /* DepthStencilStateResourceMetal.mm in Sources */,
 				303696CD1E32DD9C007F4211 /* BlendState.cpp in Sources */,
 				30575A9E1C39CB790009C8A7 /* Scene.cpp in Sources */,
 				306A26B41F5DD17700E2B0B6 /* Listener.cpp in Sources */,

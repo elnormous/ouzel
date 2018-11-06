@@ -278,5 +278,17 @@ namespace ouzel
             renderTarget = newRenderTarget;
             recalculateProjection();
         }
+
+        void Camera::setDepthTest(bool newDepthTest)
+        {
+            depthTest = newDepthTest;
+
+            if (depthTest)
+                depthStencilState = std::make_shared<graphics::DepthStencilState>(*engine->getRenderer(),
+                                                                                  true, true,
+                                                                                  graphics::DepthStencilState::CompareFunction::LESS_EQUAL);
+            else
+                depthStencilState.reset();
+        }
     } // namespace scene
 } // namespace ouzel

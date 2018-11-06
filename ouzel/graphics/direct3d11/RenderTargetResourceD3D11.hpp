@@ -3,6 +3,10 @@
 #ifndef OUZEL_RENDERTARGETRESOURCED3D11_HPP
 #define OUZEL_RENDERTARGETRESOURCED3D11_HPP
 
+#include "core/Setup.h"
+
+#if OUZEL_COMPILE_DIRECT3D11
+
 #include "graphics/direct3d11/RenderResourceD3D11.hpp"
 
 namespace ouzel
@@ -18,5 +22,7 @@ namespace ouzel
         };
     } // namespace graphics
 } // namespace ouzel
+
+#endif
 
 #endif // OUZEL_RENDERTARGETRESOURCED3D11_HPP

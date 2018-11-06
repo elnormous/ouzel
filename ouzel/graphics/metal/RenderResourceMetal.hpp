@@ -3,6 +3,10 @@
 #ifndef OUZEL_RENDERRESOURCEMETAL_HPP
 #define OUZEL_RENDERRESOURCEMETAL_HPP
 
+#include "core/Setup.h"
+
+#if OUZEL_COMPILE_METAL
+
 namespace ouzel
 {
     namespace graphics
@@ -24,5 +28,7 @@ namespace ouzel
         };
     } // namespace graphics
 } // namespace ouzel
+
+#endif
 
 #endif // OUZEL_RENDERRESOURCEMETAL_HPP

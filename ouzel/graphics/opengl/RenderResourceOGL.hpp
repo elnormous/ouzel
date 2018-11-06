@@ -3,6 +3,10 @@
 #ifndef OUZEL_RENDERRESOURCEOGL_HPP
 #define OUZEL_RENDERRESOURCEOGL_HPP
 
+#include "core/Setup.h"
+
+#if OUZEL_COMPILE_OPENGL
+
 namespace ouzel
 {
     namespace graphics
@@ -25,5 +29,7 @@ namespace ouzel
         };
     } // namespace graphics
 } // namespace ouzel
+
+#endif
 
 #endif // OUZEL_RENDERRESOURCEOGL_HPP

@@ -30,7 +30,6 @@ PerspectiveSample::PerspectiveSample():
     engine->getRenderer()->setClearDepthBuffer(true);
 
     camera.setDepthTest(true);
-    camera.setDepthWrite(true);
 
     camera.setProjectionMode(scene::Camera::ProjectionMode::PERSPECTIVE);
     camera.setFarPlane(1000.0F);

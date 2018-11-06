@@ -74,12 +74,14 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/empty/RenderDeviceEmpty.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/BlendStateResourceOGL.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/BufferResourceOGL.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/DepthStencilStateResourceOGL.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/RenderDeviceOGL.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/RenderTargetResourceOGL.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/ShaderResourceOGL.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/TextureResourceOGL.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/BlendState.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Buffer.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/DepthStencilState.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/ImageData.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Material.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Renderer.cpp \
@@ -164,6 +166,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/dsound/AudioDeviceDS.cpp \
 	$(ROOT_DIR)/../ouzel/core/windows/NativeWindowWin.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/direct3d11/BlendStateResourceD3D11.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/direct3d11/BufferResourceD3D11.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/direct3d11/DepthStencilStateResourceD3D11.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/direct3d11/RenderDeviceD3D11.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/direct3d11/ShaderResourceD3D11.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/direct3d11/TextureResourceD3D11.cpp \
@@ -202,6 +205,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/metal/macos/RenderDeviceMetalMacOS.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/BlendStateResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/BufferResourceMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/DepthStencilStateResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/RenderDeviceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/RenderTargetResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/ShaderResourceMetal.mm \
@@ -226,6 +230,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/metal/ios/RenderDeviceMetalIOS.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/BlendStateResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/BufferResourceMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/DepthStencilStateResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/RenderDeviceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/RenderTargetResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/ShaderResourceMetal.mm \
@@ -249,6 +254,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/metal/tvos/RenderDeviceMetalTVOS.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/BlendStateResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/BufferResourceMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/DepthStencilStateResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/RenderDeviceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/RenderTargetResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/ShaderResourceMetal.mm \

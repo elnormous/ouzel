@@ -73,8 +73,7 @@ namespace ouzel
 
         void Bundle::releaseTextures()
         {
-            for (auto i = textures.begin(); i != textures.end();)
-                i = textures.erase(i);
+            textures.clear();
         }
 
         std::shared_ptr<graphics::Shader> Bundle::getShader(const std::string& shaderName) const
@@ -94,8 +93,7 @@ namespace ouzel
 
         void Bundle::releaseShaders()
         {
-            for (auto i = shaders.begin(); i != shaders.end();)
-                i = shaders.erase(i);
+            shaders.clear();
         }
 
         std::shared_ptr<graphics::BlendState> Bundle::getBlendState(const std::string& blendStateName) const
@@ -115,8 +113,27 @@ namespace ouzel
 
         void Bundle::releaseBlendStates()
         {
-            for (auto i = blendStates.begin(); i != blendStates.end();)
-                i = blendStates.erase(i);
+            blendStates.clear();
+        }
+
+        std::shared_ptr<graphics::DepthStencilState> Bundle::getDepthStencilState(const std::string& depthStencilStateName) const
+        {
+            auto i = depthStencilStates.find(depthStencilStateName);
+
+            if (i != depthStencilStates.end())
+                return i->second;
+
+            return nullptr;
+        }
+
+        void Bundle::setDepthStencilState(const std::string& depthStencilStateName, const std::shared_ptr<graphics::DepthStencilState>& depthStencilState)
+        {
+            depthStencilStates[depthStencilStateName] = depthStencilState;
+        }
+
+        void Bundle::releaseDepthStencilStates()
+        {
+            depthStencilStates.clear();
         }
 
         void Bundle::preloadSpriteData(const std::string& filename, bool mipmaps,

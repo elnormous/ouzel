@@ -7,11 +7,12 @@
 #if OUZEL_COMPILE_METAL
 
 #include "RenderDeviceMetal.hpp"
+#include "BlendStateResourceMetal.hpp"
 #include "BufferResourceMetal.hpp"
+#include "DepthStencilStateResourceMetal.hpp"
 #include "RenderTargetResourceMetal.hpp"
 #include "ShaderResourceMetal.hpp"
 #include "TextureResourceMetal.hpp"
-#include "BlendStateResourceMetal.hpp"
 #include "core/Engine.hpp"
 #include "events/EventDispatcher.hpp"
 #include "utils/Errors.hpp"
@@ -41,8 +42,6 @@ namespace ouzel
         {
             apiMajorVersion = 1;
             apiMinorVersion = 0;
-
-            std::fill(std::begin(depthStencilStates), std::end(depthStencilStates), nil);
         }
 
         RenderDeviceMetal::~RenderDeviceMetal()
@@ -52,9 +51,6 @@ namespace ouzel
             for (const ShaderConstantBuffer& shaderConstantBuffer : shaderConstantBuffers)
                 for (MTLBufferPtr buffer : shaderConstantBuffer.buffers)
                     [buffer release];
-
-            for (id<MTLDepthStencilState> depthStencilState : depthStencilStates)
-                if (depthStencilState) [depthStencilState release];
 
             for (const auto& samplerState : samplerStates)
                 [samplerState.second release];
@@ -67,6 +63,8 @@ namespace ouzel
                 [pipelineState.second release];
 
             if (metalCommandQueue) [metalCommandQueue release];
+
+            if (defaultDepthStencilState) [defaultDepthStencilState release];
 
             if (renderPassDescriptor) [renderPassDescriptor release];
 
@@ -110,23 +108,6 @@ namespace ouzel
 
             if (depth) depthFormat = MTLPixelFormatDepth32Float;
 
-            uint32_t depthStencilStateIndex = 0;
-
-            for (uint32_t depthEnable = 0; depthEnable < 2; ++depthEnable)
-            {
-                for (uint32_t depthWriteMask = 0; depthWriteMask < 2; ++depthWriteMask)
-                {
-                    MTLDepthStencilDescriptor* depthStencilDescriptor = [MTLDepthStencilDescriptor new];
-
-                    depthStencilDescriptor.depthCompareFunction = (depthEnable == 0) ? MTLCompareFunctionAlways : MTLCompareFunctionLessEqual; // depth read
-                    depthStencilDescriptor.depthWriteEnabled = (depthWriteMask == 0) ? NO : YES; // depth write
-                    depthStencilStates[depthStencilStateIndex] = [device newDepthStencilStateWithDescriptor:depthStencilDescriptor];
-                    [depthStencilDescriptor release];
-
-                    ++depthStencilStateIndex;
-                }
-            }
-
             renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
 
             if (!renderPassDescriptor)
@@ -141,6 +122,13 @@ namespace ouzel
             renderPassDescriptor.depthAttachment.loadAction = MTLLoadActionClear;
             renderPassDescriptor.depthAttachment.clearDepth = clearDepth;
             renderPassDescriptor.depthAttachment.storeAction = MTLStoreActionStore;
+
+            MTLDepthStencilDescriptor* depthStencilDescriptor = [MTLDepthStencilDescriptor new];
+
+            depthStencilDescriptor.depthCompareFunction = MTLCompareFunctionAlways; // depth read
+            depthStencilDescriptor.depthWriteEnabled = YES; // depth write
+            defaultDepthStencilState = [device newDepthStencilStateWithDescriptor:depthStencilDescriptor];
+            [depthStencilDescriptor release];
         }
 
         void RenderDeviceMetal::setClearColorBuffer(bool clear)
@@ -352,7 +340,6 @@ namespace ouzel
                             currentRenderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionLoad;
                             currentRenderPassDescriptor.depthAttachment.loadAction = MTLLoadActionLoad;
                         }
-
                         break;
                     }
 
@@ -441,7 +428,7 @@ namespace ouzel
                         viewport.zfar = 1.0f;
 
                         [currentRenderCommandEncoder setViewport:viewport];
-                        [currentRenderCommandEncoder setDepthStencilState:depthStencilStates[1]]; // enable depth write
+                        // TODO: enable depth and stencil writing
 
                         currentRenderPassDescriptor.colorAttachments[0].loadAction = newColorBufferLoadAction;
                         currentRenderPassDescriptor.depthAttachment.loadAction = newDepthBufferLoadAction;
@@ -551,18 +538,42 @@ namespace ouzel
                         break;
                     }
 
-                    case Command::Type::SET_DEPTH_STATE:
+                    case Command::Type::INIT_DEPTH_STENCIL_STATE:
                     {
-                        const SetDepthStateCommand* setDepthStateCommand = static_cast<const SetDepthStateCommand*>(command.get());
+                        const InitDepthStencilStateCommand* initDepthStencilStateCommand = static_cast<const InitDepthStencilStateCommand*>(command.get());
+                        std::unique_ptr<DepthStencilStateResourceMetal> depthStencilStateResourceMetal(new DepthStencilStateResourceMetal(*this,
+                                                                                                                                          initDepthStencilStateCommand->depthTest,
+                                                                                                                                          initDepthStencilStateCommand->depthWrite,
+                                                                                                                                          initDepthStencilStateCommand->compareFunction));
+
+                        if (initDepthStencilStateCommand->depthStencilState > resources.size())
+                            resources.resize(initDepthStencilStateCommand->depthStencilState);
+                        resources[initDepthStencilStateCommand->depthStencilState - 1] = std::move(depthStencilStateResourceMetal);
+
+                        break;
+                    }
+
+                    case Command::Type::DELETE_DEPTH_STENCIL_STATE:
+                    {
+                        const DeleteDepthStencilStateCommand* deleteDepthStencilStateCommand = static_cast<const DeleteDepthStencilStateCommand*>(command.get());
+                        resources[deleteDepthStencilStateCommand->depthStencilState - 1].reset();
+                        break;
+                    }
+
+                    case Command::Type::SET_DEPTH_STENCIL_STATE:
+                    {
+                        const SetDepthStencilStateCommand* setDepthStencilStateCommand = static_cast<const SetDepthStencilStateCommand*>(command.get());
 
                         if (!currentRenderCommandEncoder)
                             throw DataError("Metal render command encoder not initialized");
 
-                        uint32_t depthTestIndex = setDepthStateCommand->depthTest ? 1 : 0;
-                        uint32_t depthWriteIndex = setDepthStateCommand->depthWrite ? 1 : 0;
-                        uint32_t depthStencilStateIndex = depthTestIndex * 2 + depthWriteIndex;
-
-                        [currentRenderCommandEncoder setDepthStencilState:depthStencilStates[depthStencilStateIndex]];
+                        if (setDepthStencilStateCommand->depthStencilState)
+                        {
+                            DepthStencilStateResourceMetal* depthStencilStateMetal = static_cast<DepthStencilStateResourceMetal*>(resources[setDepthStencilStateCommand->depthStencilState - 1].get());
+                            [currentRenderCommandEncoder setDepthStencilState:depthStencilStateMetal->getDepthStencilState()];
+                        }
+                        else
+                            [currentRenderCommandEncoder setDepthStencilState:defaultDepthStencilState];
 
                         break;
                     }

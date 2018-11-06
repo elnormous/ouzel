@@ -36,7 +36,7 @@ namespace ouzel
 
                 engine->getRenderer()->setRenderTarget(camera->getRenderTarget() ? camera->getRenderTarget()->getResource() : 0);
                 engine->getRenderer()->setViewport(camera->getRenderViewport());
-                engine->getRenderer()->setDepthState(camera->getDepthTest(), camera->getDepthWrite());
+                engine->getRenderer()->setDepthStencilState(camera->getDepthStencilState() ? camera->getDepthStencilState()->getResource() : 0);
 
                 for (Actor* actor : drawQueue)
                 {
