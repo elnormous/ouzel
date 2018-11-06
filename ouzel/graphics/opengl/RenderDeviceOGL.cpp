@@ -953,7 +953,7 @@ namespace ouzel
 
                         GLuint newFrameBufferId = 0;
                         GLbitfield newClearMask = 0;
-                        const float* newClearColor;
+                        const std::array<float, 4>* newClearColor;
                         GLfloat newClearDepth;
                         GLsizei renderTargetWidth = 0;
                         GLsizei renderTargetHeight = 0;
@@ -967,7 +967,7 @@ namespace ouzel
                             renderTargetWidth = renderTargetOGL->getWidth();
                             renderTargetHeight = renderTargetOGL->getHeight();
                             newFrameBufferId = renderTargetOGL->getFrameBufferId();
-                            newClearColor = renderTargetOGL->getFrameBufferClearColor();
+                            newClearColor = &renderTargetOGL->getFrameBufferClearColor();
                             newClearDepth = renderTargetOGL->getClearDepth();
                             newClearMask = renderTargetOGL->getClearMask();
                         }
@@ -976,7 +976,7 @@ namespace ouzel
                             renderTargetWidth = frameBufferWidth;
                             renderTargetHeight = frameBufferHeight;
                             newFrameBufferId = frameBufferId;
-                            newClearColor = frameBufferClearColor;
+                            newClearColor = &frameBufferClearColor;
                             newClearDepth = clearDepth;
                             newClearMask = clearMask;
                         }
@@ -999,7 +999,7 @@ namespace ouzel
                             }
 
                             if (newClearMask & GL_COLOR_BUFFER_BIT)
-                                setClearColorValue(newClearColor);
+                                setClearColorValue(*newClearColor);
 
                             glClearProc(newClearMask);
 

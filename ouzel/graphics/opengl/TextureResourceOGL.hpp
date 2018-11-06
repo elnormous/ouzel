@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include <array>
+
 #include "core/Setup.h"
 
 #if OUZEL_COMPILE_OPENGL
@@ -68,19 +70,19 @@ namespace ouzel
             inline GLsizei getHeight() const { return height; }
 
             inline GLbitfield getClearMask() const { return clearMask; }
-            inline const GLfloat* getFrameBufferClearColor() const { return frameBufferClearColor; }
+            inline const std::array<GLfloat, 4>& getFrameBufferClearColor() const { return frameBufferClearColor; }
 
         private:
             void createTexture();
             void setTextureParameters();
 
-            uint32_t flags = 0;
-            uint32_t mipmaps = 0;
             bool clearColorBuffer = true;
             bool clearDepthBuffer = false;
             Color clearColor;
             float clearDepth = 1.0F;
             std::vector<Texture::Level> levels;
+            uint32_t flags = 0;
+            uint32_t mipmaps = 0;
             uint32_t sampleCount = 1;
             PixelFormat pixelFormat = PixelFormat::RGBA8_UNORM;
             Texture::Filter filter = Texture::Filter::DEFAULT;
@@ -102,7 +104,7 @@ namespace ouzel
             GLuint depthBufferId = 0;
 
             GLbitfield clearMask = 0;
-            GLfloat frameBufferClearColor[4];
+            std::array<GLfloat, 4> frameBufferClearColor;
         };
     } // namespace graphics
 } // namespace ouzel
