@@ -9,6 +9,7 @@
 #include "audio/SoundData.hpp"
 #include "files/FileSystem.hpp"
 #include "graphics/BlendState.hpp"
+#include "graphics/DepthStencilState.hpp"
 #include "graphics/Material.hpp"
 #include "graphics/Shader.hpp"
 #include "graphics/Texture.hpp"
@@ -72,6 +73,10 @@ namespace ouzel
             void setBlendState(const std::string& blendStateName, const std::shared_ptr<graphics::BlendState>& blendState);
             void releaseBlendStates();
 
+            std::shared_ptr<graphics::DepthStencilState> getDepthStencilState(const std::string& depthStencilStateName) const;
+            void setDepthStencilState(const std::string& depthStencilStateName, const std::shared_ptr<graphics::DepthStencilState>& depthStencilState);
+            void releaseDepthStencilStates();
+
             void preloadSpriteData(const std::string& filename, bool mipmaps = true,
                                    uint32_t spritesX = 1, uint32_t spritesY = 1,
                                    const Vector2& pivot = Vector2(0.5F, 0.5F));
@@ -110,6 +115,7 @@ namespace ouzel
             std::map<std::string, std::shared_ptr<graphics::Shader>> shaders;
             std::map<std::string, scene::ParticleSystemData> particleSystemData;
             std::map<std::string, std::shared_ptr<graphics::BlendState>> blendStates;
+            std::map<std::string, std::shared_ptr<graphics::DepthStencilState>> depthStencilStates;
             std::map<std::string, scene::SpriteData> spriteData;
             std::map<std::string, std::shared_ptr<Font>> fonts;
             std::map<std::string, std::shared_ptr<audio::SoundData>> soundData;

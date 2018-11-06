@@ -9,6 +9,7 @@
 #include "RenderDeviceD3D11.hpp"
 #include "BlendStateResourceD3D11.hpp"
 #include "BufferResourceD3D11.hpp"
+#include "DepthStencilStateResourceD3D11.hpp"
 #include "RenderTargetResourceD3D11.hpp"
 #include "ShaderResourceD3D11.hpp"
 #include "TextureResourceD3D11.hpp"
@@ -31,7 +32,6 @@ namespace ouzel
             apiMinorVersion = 0;
 
             std::fill(std::begin(rasterizerStates), std::end(rasterizerStates), nullptr);
-            std::fill(std::begin(depthStencilStates), std::end(depthStencilStates), nullptr);
         }
 
         RenderDeviceD3D11::~RenderDeviceD3D11()
@@ -43,11 +43,8 @@ namespace ouzel
 
             resources.clear();
 
-            for (ID3D11DepthStencilState* depthStencilState : depthStencilStates)
-            {
-                if (depthStencilState)
-                    depthStencilState->Release();
-            }
+            if (defaultDepthStencilState)
+                defaultDepthStencilState->Release();
 
             if (depthStencilView)
                 depthStencilView->Release();
@@ -243,36 +240,6 @@ namespace ouzel
                 }
             }
 
-            uint32_t depthStencilStateIndex = 0;
-
-            for (uint32_t depthEnable = 0; depthEnable < 2; ++depthEnable)
-            {
-                for (uint32_t depthWriteMask = 0; depthWriteMask < 2; ++depthWriteMask)
-                {
-                    D3D11_DEPTH_STENCIL_DESC depthStencilStateDesc;
-                    depthStencilStateDesc.DepthEnable = (depthEnable == 0) ? FALSE : TRUE;
-                    depthStencilStateDesc.DepthWriteMask = (depthWriteMask == 0) ? D3D11_DEPTH_WRITE_MASK_ZERO : D3D11_DEPTH_WRITE_MASK_ALL;
-                    depthStencilStateDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
-                    depthStencilStateDesc.StencilEnable = FALSE;
-                    depthStencilStateDesc.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
-                    depthStencilStateDesc.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
-                    depthStencilStateDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
-                    depthStencilStateDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
-                    depthStencilStateDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
-                    depthStencilStateDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
-                    depthStencilStateDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
-                    depthStencilStateDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
-                    depthStencilStateDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
-                    depthStencilStateDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
-
-                    hr = device->CreateDepthStencilState(&depthStencilStateDesc, &depthStencilStates[depthStencilStateIndex]);
-                    if (FAILED(hr))
-                        throw SystemError("Failed to create Direct3D 11 depth stencil state, error: " + std::to_string(hr));
-
-                    ++depthStencilStateIndex;
-                }
-            }
-
             if (depth)
             {
                 D3D11_TEXTURE2D_DESC depthStencilDesc;
@@ -295,6 +262,26 @@ namespace ouzel
                 if (FAILED(hr))
                     throw SystemError("Failed to create Direct3D 11 depth stencil view, error: " + std::to_string(hr));
             }
+
+            D3D11_DEPTH_STENCIL_DESC depthStencilStateDesc;
+            depthStencilStateDesc.DepthEnable = FALSE;
+            depthStencilStateDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+            depthStencilStateDesc.DepthFunc = D3D11_COMPARISON_ALWAYS;
+            depthStencilStateDesc.StencilEnable = FALSE;
+            depthStencilStateDesc.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
+            depthStencilStateDesc.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
+            depthStencilStateDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+            depthStencilStateDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+            depthStencilStateDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+            depthStencilStateDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+            depthStencilStateDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+            depthStencilStateDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+            depthStencilStateDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+            depthStencilStateDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+
+            hr = device->CreateDepthStencilState(&depthStencilStateDesc, &defaultDepthStencilState);
+            if (FAILED(hr))
+                throw SystemError("Failed to create Direct3D 11 depth stencil state, error: " + std::to_string(hr));
 
             frameBufferClearColor[0] = clearColor.normR();
             frameBufferClearColor[1] = clearColor.normG();
@@ -585,15 +572,38 @@ namespace ouzel
                         break;
                     }
 
-                    case Command::Type::SET_DEPTH_STATE:
+                    case Command::Type::INIT_DEPTH_STENCIL_STATE:
                     {
-                        const SetDepthStateCommand* setDepthStateCommand = static_cast<const SetDepthStateCommand*>(command.get());
+                        const InitDepthStencilStateCommand* initDepthStencilStateCommand = static_cast<const InitDepthStencilStateCommand*>(command.get());
+                        std::unique_ptr<DepthStencilStateResourceD3D11> depthStencilStateResourceD3D11(new DepthStencilStateResourceD3D11(*this,
+                                                                                                                                          initDepthStencilStateCommand->depthTest,
+                                                                                                                                          initDepthStencilStateCommand->depthWrite,
+                                                                                                                                          initDepthStencilStateCommand->compareFunction));
 
-                        uint32_t depthTestIndex = setDepthStateCommand->depthTest ? 1 : 0;
-                        uint32_t depthWriteIndex = setDepthStateCommand->depthWrite ? 1 : 0;
-                        uint32_t depthStencilStateIndex = depthTestIndex * 2 + depthWriteIndex;
+                        if (initDepthStencilStateCommand->depthStencilState > resources.size())
+                            resources.resize(initDepthStencilStateCommand->depthStencilState);
+                        resources[initDepthStencilStateCommand->depthStencilState - 1] = std::move(depthStencilStateResourceD3D11);
+                        break;
+                    }
 
-                        context->OMSetDepthStencilState(depthStencilStates[depthStencilStateIndex], 0);
+                    case Command::Type::DELETE_DEPTH_STENCIL_STATE:
+                    {
+                        const DeleteDepthStencilStateCommand* deleteDepthStencilStateCommand = static_cast<const DeleteDepthStencilStateCommand*>(command.get());
+                        resources[deleteDepthStencilStateCommand->depthStencilState - 1].reset();
+                        break;
+                    }
+
+                    case Command::Type::SET_DEPTH_STENCIL_STATE:
+                    {
+                        const SetDepthStencilStateCommand* setDepthStencilStateCommand = static_cast<const SetDepthStencilStateCommand*>(command.get());
+
+                        if (setDepthStencilStateCommand->depthStencilState)
+                        {
+                            DepthStencilStateResourceD3D11* depthStencilStateD3D11 = static_cast<DepthStencilStateResourceD3D11*>(resources[setDepthStencilStateCommand->depthStencilState - 1].get());
+                            context->OMSetDepthStencilState(depthStencilStateD3D11->getDepthStencilState(), 0);
+                        }
+                        else
+                            context->OMSetDepthStencilState(defaultDepthStencilState, 0);
 
                         break;
                     }

@@ -71,7 +71,7 @@ namespace ouzel
             ID3D11RasterizerState* rasterizerStates[12];
             ID3D11Texture2D* depthStencilTexture = nullptr;
             ID3D11DepthStencilView* depthStencilView = nullptr;
-            ID3D11DepthStencilState* depthStencilStates[4];
+            ID3D11DepthStencilState* defaultDepthStencilState = nullptr;
 
             UINT frameBufferWidth = 0;
             UINT frameBufferHeight = 0;

@@ -250,20 +250,6 @@ namespace ouzel
                 }
             }
 
-            inline void setDepthMask(bool flag)
-            {
-                if (stateCache.depthMask != flag)
-                {
-                    glDepthMaskProc(flag ? GL_TRUE : GL_FALSE);
-
-                    GLenum error;
-                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw SystemError("Failed to change depth mask state, error: " + std::to_string(error));
-
-                    stateCache.depthMask = flag;
-                }
-            }
-
             inline void enableDepthTest(bool enable)
             {
                 if (stateCache.depthTestEnabled != enable)
@@ -278,6 +264,34 @@ namespace ouzel
                         throw SystemError("Failed to change depth test state, error: " + std::to_string(error));
 
                     stateCache.depthTestEnabled = enable;
+                }
+            }
+
+            inline void setDepthMask(GLboolean flag)
+            {
+                if (stateCache.depthMask != flag)
+                {
+                    glDepthMaskProc(flag);
+
+                    GLenum error;
+                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                        throw SystemError("Failed to change depth mask state, error: " + std::to_string(error));
+
+                    stateCache.depthMask = flag;
+                }
+            }
+
+            inline void setDepthFunc(GLenum depthFunc)
+            {
+                if (stateCache.depthFunc != depthFunc)
+                {
+                    glDepthFuncProc(depthFunc);
+
+                    GLenum error;
+                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                        throw SystemError("Failed to change depth test state, error: " + std::to_string(error));
+
+                    stateCache.depthFunc = depthFunc;
                 }
             }
 
@@ -573,8 +587,9 @@ namespace ouzel
                 GLsizei scissorWidth = 0;
                 GLsizei scissorHeight = 0;
 
-                bool depthMask = true;
                 bool depthTestEnabled = false;
+                GLboolean depthMask = GL_TRUE;
+                GLenum depthFunc = GL_LESS;
 
                 GLint viewportX = 0;
                 GLint viewportY = 0;

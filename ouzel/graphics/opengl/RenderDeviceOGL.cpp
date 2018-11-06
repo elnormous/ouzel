@@ -33,6 +33,7 @@
 #include "RenderDeviceOGL.hpp"
 #include "BlendStateResourceOGL.hpp"
 #include "BufferResourceOGL.hpp"
+#include "DepthStencilStateResourceOGL.hpp"
 #include "RenderTargetResourceOGL.hpp"
 #include "ShaderResourceOGL.hpp"
 #include "TextureResourceOGL.hpp"
@@ -742,7 +743,6 @@ namespace ouzel
             if (!multisamplingSupported) sampleCount = 1;
 
             glDisableProc(GL_DITHER);
-            glDepthFuncProc(GL_LEQUAL);
 
             if ((error = glGetErrorProc()) != GL_NO_ERROR)
                 throw SystemError("Failed to set depth function, error: " + std::to_string(error));
@@ -1107,12 +1107,45 @@ namespace ouzel
                         break;
                     }
 
-                    case Command::Type::SET_DEPTH_STATE:
+                    case Command::Type::INIT_DEPTH_STENCIL_STATE:
                     {
-                        const SetDepthStateCommand* setDepthStateCommand = static_cast<const SetDepthStateCommand*>(command.get());
+                        const InitDepthStencilStateCommand* initDepthStencilStateCommand = static_cast<const InitDepthStencilStateCommand*>(command.get());
+                        std::unique_ptr<DepthStencilStateResourceOGL> depthStencilStateResourceOGL(new DepthStencilStateResourceOGL(*this,
+                                                                                                                                    initDepthStencilStateCommand->depthTest,
+                                                                                                                                    initDepthStencilStateCommand->depthWrite,
+                                                                                                                                    initDepthStencilStateCommand->compareFunction));
 
-                        enableDepthTest(setDepthStateCommand->depthTest);
-                        setDepthMask(setDepthStateCommand->depthWrite);
+                        if (initDepthStencilStateCommand->depthStencilState > resources.size())
+                            resources.resize(initDepthStencilStateCommand->depthStencilState);
+                        resources[initDepthStencilStateCommand->depthStencilState - 1] = std::move(depthStencilStateResourceOGL);
+                        break;
+                    }
+
+                    case Command::Type::DELETE_DEPTH_STENCIL_STATE:
+                    {
+                        const DeleteDepthStencilStateCommand* deleteDepthStencilStateCommand = static_cast<const DeleteDepthStencilStateCommand*>(command.get());
+                        resources[deleteDepthStencilStateCommand->depthStencilState - 1].reset();
+                        break;
+                    }
+
+                    case Command::Type::SET_DEPTH_STENCIL_STATE:
+                    {
+                        const SetDepthStencilStateCommand* setDepthStencilStateCommand = static_cast<const SetDepthStencilStateCommand*>(command.get());
+
+                        if (setDepthStencilStateCommand->depthStencilState)
+                        {
+                            DepthStencilStateResourceOGL* depthStencilStateResourceOGL = static_cast<DepthStencilStateResourceOGL*>(resources[setDepthStencilStateCommand->depthStencilState - 1].get());
+
+                            enableDepthTest(depthStencilStateResourceOGL->getDepthTest());
+                            setDepthMask(depthStencilStateResourceOGL->getDepthMask());
+                            glDepthFuncProc(depthStencilStateResourceOGL->getCompareFunction());
+                        }
+                        else
+                        {
+                            enableDepthTest(false);
+                            setDepthMask(GL_TRUE);
+                            setDepthFunc(GL_LESS);
+                        }
 
                         break;
                     }

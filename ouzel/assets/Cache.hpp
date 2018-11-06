@@ -47,6 +47,7 @@ namespace ouzel
             std::shared_ptr<graphics::Texture> getTexture(const std::string& filename) const;
             std::shared_ptr<graphics::Shader> getShader(const std::string& shaderName) const;
             std::shared_ptr<graphics::BlendState> getBlendState(const std::string& blendStateName) const;
+            std::shared_ptr<graphics::DepthStencilState> getDepthStencilState(const std::string& depthStencilStateName) const;
             const scene::SpriteData* getSpriteData(const std::string& filename) const;
             const scene::ParticleSystemData* getParticleSystemData(const std::string& filename) const;
             std::shared_ptr<Font> getFont(const std::string& filename) const;

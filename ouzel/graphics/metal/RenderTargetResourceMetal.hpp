@@ -3,6 +3,10 @@
 #ifndef OUZEL_RENDERTARGETRESOURCEMETAL_HPP
 #define OUZEL_RENDERTARGETRESOURCEMETAL_HPP
 
+#include "core/Setup.h"
+
+#if OUZEL_COMPILE_METAL
+
 #include "graphics/metal/RenderResourceMetal.hpp"
 
 namespace ouzel
@@ -18,5 +22,7 @@ namespace ouzel
         };
     } // namespace graphics
 } // namespace ouzel
+
+#endif
 
 #endif // OUZEL_RENDERTARGETRESOURCEMETAL_HPP

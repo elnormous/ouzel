@@ -5,6 +5,7 @@
 
 #include "graphics/BlendState.hpp"
 #include "graphics/Buffer.hpp"
+#include "graphics/DepthStencilState.hpp"
 #include "graphics/RenderTarget.hpp"
 #include "graphics/Shader.hpp"
 #include "graphics/Texture.hpp"
@@ -30,7 +31,9 @@ namespace ouzel
                 SET_FILL_MODE,
                 SET_SCISSOR_TEST,
                 SET_VIEWPORT,
-                SET_DEPTH_STATE,
+                INIT_DEPTH_STENCIL_STATE,
+                DELETE_DEPTH_STENCIL_STATE,
+                SET_DEPTH_STENCIL_STATE,
                 SET_PIPELINE_STATE,
                 DRAW,
                 PUSH_DEBUG_MARKER,
@@ -254,19 +257,49 @@ namespace ouzel
             Rect viewport;
         };
 
-        class SetDepthStateCommand: public Command
+        class InitDepthStencilStateCommand: public Command
         {
         public:
-            SetDepthStateCommand(bool initDepthTest,
-                                 bool initDepthWrite):
-                Command(Command::Type::SET_DEPTH_STATE),
+            InitDepthStencilStateCommand(uintptr_t initDepthStencilState,
+                                         bool initDepthTest,
+                                         bool initDepthWrite,
+                                         DepthStencilState::CompareFunction initCompareFunction):
+                Command(Command::Type::INIT_DEPTH_STENCIL_STATE),
+                depthStencilState(initDepthStencilState),
                 depthTest(initDepthTest),
-                depthWrite(initDepthWrite)
+                depthWrite(initDepthWrite),
+                compareFunction(initCompareFunction)
             {
             }
 
+            uintptr_t depthStencilState;
             bool depthTest;
             bool depthWrite;
+            DepthStencilState::CompareFunction compareFunction;
+        };
+
+        class DeleteDepthStencilStateCommand: public Command
+        {
+        public:
+            explicit DeleteDepthStencilStateCommand(uintptr_t initDepthStencilState):
+                Command(Command::Type::DELETE_DEPTH_STENCIL_STATE),
+                depthStencilState(initDepthStencilState)
+            {
+            }
+
+            uintptr_t depthStencilState;
+        };
+
+        class SetDepthStencilStateCommand: public Command
+        {
+        public:
+            SetDepthStencilStateCommand(uintptr_t initDepthStencilState):
+                Command(Command::Type::SET_DEPTH_STENCIL_STATE),
+                depthStencilState(initDepthStencilState)
+            {
+            }
+
+            uintptr_t depthStencilState;
         };
 
         class SetPipelineStateCommand: public Command

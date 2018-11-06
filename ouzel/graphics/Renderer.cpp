@@ -229,9 +229,9 @@ namespace ouzel
             device->addCommand(std::unique_ptr<Command>(new SetViewportCommand(viewport)));
         }
 
-        void Renderer::setDepthState(bool depthTest, bool depthWrite)
+        void Renderer::setDepthStencilState(uintptr_t depthStencilState)
         {
-            device->addCommand(std::unique_ptr<Command>(new SetDepthStateCommand(depthTest, depthWrite)));
+            device->addCommand(std::unique_ptr<Command>(new SetDepthStencilStateCommand(depthStencilState)));
         }
 
         void Renderer::setPipelineState(uintptr_t blendState,

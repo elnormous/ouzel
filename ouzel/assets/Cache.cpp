@@ -90,6 +90,15 @@ namespace ouzel
             return nullptr;
         }
 
+        std::shared_ptr<graphics::DepthStencilState> Cache::getDepthStencilState(const std::string& depthStencilStateName) const
+        {
+            for (Bundle* bundle : bundles)
+                if (std::shared_ptr<graphics::DepthStencilState> depthStencilState = bundle->getDepthStencilState(depthStencilStateName))
+                    return depthStencilState;
+
+            return nullptr;
+        }
+
         const scene::SpriteData* Cache::getSpriteData(const std::string& filename) const
         {
             for (Bundle* bundle : bundles)

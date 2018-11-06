@@ -102,7 +102,7 @@ namespace ouzel
             void setFillMode(Renderer::FillMode fillMode);
             void setScissorTest(bool enabled, const Rect& rectangle);
             void setViewport(const Rect& viewport);
-            void setDepthState(bool depthTest, bool depthWrite);
+            void setDepthStencilState(uintptr_t depthStencilState);
             void setPipelineState(uintptr_t blendState,
                                   uintptr_t shader);
             void draw(uintptr_t indexBuffer,
