@@ -79,7 +79,7 @@ private:
     ouzel::scene::Actor cameraActor;
     ouzel::scene::Sprite playerSprite;
     ouzel::scene::Actor player;
-    assets::Bundle assets;
+    ouzel::assets::Bundle assets;
 }
 
 std::unique_ptr<ouzel::Application> ouzel::main(const std::vector<std::string>& args)
