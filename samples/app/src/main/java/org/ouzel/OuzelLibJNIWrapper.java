@@ -30,4 +30,5 @@ public class OuzelLibJNIWrapper
     public static native boolean onKeyUp(int keyCode);
 
     public static native boolean onTouchEvent(MotionEvent event);
+    public static native boolean onGenericMotionEvent(MotionEvent event);
 }

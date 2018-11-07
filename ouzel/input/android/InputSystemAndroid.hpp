@@ -25,6 +25,7 @@ namespace ouzel
             TouchpadDevice* getTouchpadDevice() const { return touchpadDevice.get(); }
 
             jboolean handleTouchEvent(jobject event);
+            jboolean handleGenericMotionEvent(jobject event);
 
         private:
             uint32_t lastDeviceId = 0;
@@ -41,6 +42,7 @@ namespace ouzel
             jmethodID getXMethod = nullptr;
             jmethodID getYMethod = nullptr;
             jmethodID getPressureMethod = nullptr;
+            jmethodID getAxisValueMethod = nullptr;
         };
     }
 }

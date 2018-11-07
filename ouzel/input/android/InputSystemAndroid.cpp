@@ -35,6 +35,7 @@ namespace ouzel
             getXMethod = jniEnv->GetMethodID(motionEventClass, "getX", "(I)F");
             getYMethod = jniEnv->GetMethodID(motionEventClass, "getY", "(I)F");
             getPressureMethod = jniEnv->GetMethodID(motionEventClass, "getPressure", "(I)F");
+            getAxisValueMethod = jniEnv->GetMethodID(motionEventClass, "getAxisValue", "(I)F");
         }
 
         InputSystemAndroid::~InputSystemAndroid()
@@ -88,7 +89,6 @@ namespace ouzel
                     jint toolType = jniEnv->CallIntMethod(event, getToolTypeMethod, 0);
                     jfloat x = jniEnv->CallFloatMethod(event, getXMethod, 0);
                     jfloat y = jniEnv->CallFloatMethod(event, getYMethod, 0);
-                    jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, 0);
 
                     if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
                     {
@@ -100,6 +100,7 @@ namespace ouzel
                              toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
                     {
                         jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
+                        jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, 0);
                         touchpadDevice->handleTouchBegin(static_cast<uint64_t>(pointerId), engine->getWindow()->convertWindowToNormalizedLocation(Vector2(x, y)), pressure);
                         return true;
                     }
@@ -112,7 +113,6 @@ namespace ouzel
                     jint toolType = jniEnv->CallIntMethod(event, getToolTypeMethod, pointerIndex);
                     jfloat x = jniEnv->CallFloatMethod(event, getXMethod, pointerIndex);
                     jfloat y = jniEnv->CallFloatMethod(event, getYMethod, pointerIndex);
-                    jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, pointerIndex);
 
                     if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
                     {
@@ -124,30 +124,8 @@ namespace ouzel
                              toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
                     {
                         jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, pointerIndex);
+                        jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, pointerIndex);
                         touchpadDevice->handleTouchBegin(static_cast<uint64_t>(pointerId), engine->getWindow()->convertWindowToNormalizedLocation(Vector2(x, y)), pressure);
-                        return true;
-                    }
-
-                    break;
-                }
-                case AMOTION_EVENT_ACTION_HOVER_MOVE:
-                {
-                    jint toolType = jniEnv->CallIntMethod(event, getToolTypeMethod, 0);
-                    jfloat x = jniEnv->CallFloatMethod(event, getXMethod, 0);
-                    jfloat y = jniEnv->CallFloatMethod(event, getYMethod, 0);
-                    jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, 0);
-
-                    if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
-                    {
-                        mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(Vector2(x, y)));
-                        return true;
-                    }
-                    else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
-                        toolType == AMOTION_EVENT_TOOL_TYPE_STYLUS ||
-                        toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
-                    {
-                        jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
-                        touchpadDevice->handleTouchMove(static_cast<uint64_t>(pointerId), engine->getWindow()->convertWindowToNormalizedLocation(Vector2(x, y)), pressure);
                         return true;
                     }
 
@@ -158,7 +136,6 @@ namespace ouzel
                     jint toolType = jniEnv->CallIntMethod(event, getToolTypeMethod, 0);
                     jfloat x = jniEnv->CallFloatMethod(event, getXMethod, 0);
                     jfloat y = jniEnv->CallFloatMethod(event, getYMethod, 0);
-                    jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, 0);
 
                     if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
                     {
@@ -170,6 +147,7 @@ namespace ouzel
                         toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
                     {
                         jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
+                        jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, 0);
                         touchpadDevice->handleTouchMove(static_cast<uint64_t>(pointerId), engine->getWindow()->convertWindowToNormalizedLocation(Vector2(x, y)), pressure);
                         return true;
                     }
@@ -181,7 +159,6 @@ namespace ouzel
                     jint toolType = jniEnv->CallIntMethod(event, getToolTypeMethod, 0);
                     jfloat x = jniEnv->CallFloatMethod(event, getXMethod, 0);
                     jfloat y = jniEnv->CallFloatMethod(event, getYMethod, 0);
-                    jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, 0);
 
                     if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
                     {
@@ -193,6 +170,7 @@ namespace ouzel
                              toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
                     {
                         jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
+                        jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, 0);
                         touchpadDevice->handleTouchEnd(static_cast<uint64_t>(pointerId), engine->getWindow()->convertWindowToNormalizedLocation(Vector2(x, y)), pressure);
                         return true;
                     }
@@ -205,7 +183,6 @@ namespace ouzel
                     jint toolType = jniEnv->CallIntMethod(event, getToolTypeMethod, pointerIndex);
                     jfloat x = jniEnv->CallFloatMethod(event, getXMethod, pointerIndex);
                     jfloat y = jniEnv->CallFloatMethod(event, getYMethod, pointerIndex);
-                    jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, pointerIndex);
 
                     if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
                     {
@@ -217,6 +194,7 @@ namespace ouzel
                              toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
                     {
                         jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
+                        jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, pointerIndex);
                         touchpadDevice->handleTouchEnd(static_cast<uint64_t>(pointerId), engine->getWindow()->convertWindowToNormalizedLocation(Vector2(x, y)), pressure);
                         return true;
                     }
@@ -226,10 +204,8 @@ namespace ouzel
                 case AMOTION_EVENT_ACTION_CANCEL:
                 {
                     jint toolType = jniEnv->CallIntMethod(event, getToolTypeMethod, 0);
-                    jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
                     jfloat x = jniEnv->CallFloatMethod(event, getXMethod, 0);
                     jfloat y = jniEnv->CallFloatMethod(event, getYMethod, 0);
-                    jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, 0);
 
                     if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
                     {
@@ -240,10 +216,53 @@ namespace ouzel
                              toolType == AMOTION_EVENT_TOOL_TYPE_STYLUS ||
                              toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
                     {
+                        jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
+                        jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, 0);
                         touchpadDevice->handleTouchCancel(static_cast<uint64_t>(pointerId), engine->getWindow()->convertWindowToNormalizedLocation(Vector2(x, y)), pressure);
                         return true;
                     }
 
+                    break;
+                }
+            }
+
+            return false;
+        }
+
+        jboolean InputSystemAndroid::handleGenericMotionEvent(jobject event)
+        {
+            JNIEnv* jniEnv;
+
+            if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
+                throw SystemError("Failed to get JNI environment");
+
+            jint action = jniEnv->CallIntMethod(event, getActionMethod);
+            jint toolType = jniEnv->CallIntMethod(event, getToolTypeMethod, 0);
+            jfloat x = jniEnv->CallFloatMethod(event, getXMethod, 0);
+            jfloat y = jniEnv->CallFloatMethod(event, getYMethod, 0);
+
+            switch (action & AMOTION_EVENT_ACTION_MASK)
+            {
+                case AMOTION_EVENT_ACTION_HOVER_MOVE:
+                {
+                    if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
+                    {
+                        mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(Vector2(x, y)));
+                        return true;
+                    }
+                    break;
+                }
+                case AMOTION_EVENT_ACTION_SCROLL:
+                {
+                    jfloat scrollX = jniEnv->CallFloatMethod(event, getAxisValueMethod, AMOTION_EVENT_AXIS_HSCROLL);
+                    jfloat scrollY = jniEnv->CallFloatMethod(event, getAxisValueMethod, AMOTION_EVENT_AXIS_VSCROLL);
+
+                    if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
+                    {
+                        mouseDevice->handleScroll(Vector2(scrollX, scrollY),
+                                                  engine->getWindow()->convertWindowToNormalizedLocation(Vector2(x, y)));
+                        return true;
+                    }
                     break;
                 }
             }

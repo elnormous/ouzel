@@ -270,3 +270,9 @@ extern "C" JNIEXPORT jboolean JNICALL Java_org_ouzel_OuzelLibJNIWrapper_onTouchE
     ouzel::input::InputSystemAndroid* inputSystemAndroid = static_cast<ouzel::input::InputSystemAndroid*>(ouzel::engine->getInputManager()->getInputSystem());
     return inputSystemAndroid->handleTouchEvent(event);
 }
+
+extern "C" JNIEXPORT jboolean JNICALL Java_org_ouzel_OuzelLibJNIWrapper_onGenericMotionEvent(JNIEnv*, jclass, jobject event)
+{
+    ouzel::input::InputSystemAndroid* inputSystemAndroid = static_cast<ouzel::input::InputSystemAndroid*>(ouzel::engine->getInputManager()->getInputSystem());
+    return inputSystemAndroid->handleGenericMotionEvent(event);
+}
