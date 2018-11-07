@@ -49,6 +49,13 @@ public class View extends SurfaceView implements SurfaceHolder.Callback
 
         getHolder().addCallback(this);
         setFocusableInTouchMode(true);
+        if (android.os.Build.VERSION.SDK_INT >= 19)
+            setSystemUiVisibility(SYSTEM_UI_FLAG_LAYOUT_STABLE |
+                SYSTEM_UI_FLAG_LOW_PROFILE |
+                SYSTEM_UI_FLAG_FULLSCREEN |
+                SYSTEM_UI_FLAG_HIDE_NAVIGATION |
+                SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
+                SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
     }
 
     @Override public boolean onTouchEvent(MotionEvent event)
