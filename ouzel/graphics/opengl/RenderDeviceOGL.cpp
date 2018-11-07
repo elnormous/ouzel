@@ -1066,7 +1066,7 @@ namespace ouzel
 
 #if OUZEL_SUPPORTS_OPENGLES
                         if (setFillModeCommad->fillMode != Renderer::FillMode::SOLID)
-                            throw DataError("Unsupported fill mode");
+                            engine->log(Log::Level::WARN) << "Unsupported fill mode";
 #else
                         GLenum fillMode = GL_NONE;
 
