@@ -45,7 +45,7 @@ namespace ouzel
                 // clear all the render targets
                 for (Camera* camera : layer->getCameras())
                 {
-                    uint64_t renderTarget = camera->getRenderTarget() ? camera->getRenderTarget()->getResource() : 0;
+                    uintptr_t renderTarget = camera->getRenderTarget() ? camera->getRenderTarget()->getResource() : 0;
 
                     if (clearedRenderTargets.insert(renderTarget).second)
                         engine->getRenderer()->clearRenderTarget(renderTarget);
