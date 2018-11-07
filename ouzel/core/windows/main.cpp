@@ -24,9 +24,4 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
         ouzel::engine->log(ouzel::Log::Level::ERR) << e.what();
         return EXIT_FAILURE;
     }
-    catch (...)
-    {
-        ouzel::engine->log(ouzel::Log::Level::ERR) << "Unknown error occurred";
-        return EXIT_FAILURE;
-    }
 }

@@ -682,11 +682,6 @@ namespace ouzel
             engine->log(Log::Level::ERR) << e.what();
             exit();
         }
-        catch (...)
-        {
-            engine->log(Log::Level::ERR) << "Unknown error occurred";
-            exit();
-        }
     }
 
     void Engine::openURL(const std::string&)

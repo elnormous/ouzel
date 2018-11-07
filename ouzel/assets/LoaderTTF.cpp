@@ -21,7 +21,7 @@ namespace ouzel
                 std::shared_ptr<TTFont> font = std::make_shared<TTFont>(data, mipmaps);
                 bundle.setFont(filename, font);
             }
-            catch (...)
+            catch (const std::exception&)
             {
                 return false;
             }

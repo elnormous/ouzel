@@ -300,10 +300,6 @@ namespace ouzel
                 {
                     engine->log(Log::Level::ERR) << e.what();
                 }
-                catch (...)
-                {
-                    engine->log(Log::Level::ERR) << "Unknown error occurred";
-                }
             }
 
 #if OUZEL_OPENGL_INTERFACE_EGL

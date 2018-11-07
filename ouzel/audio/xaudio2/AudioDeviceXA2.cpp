@@ -206,10 +206,6 @@ namespace ouzel
                 {
                     engine->log(Log::Level::ERR) << e.what();
                 }
-                catch (...)
-                {
-                    engine->log(Log::Level::ERR) << "Unknown error occurred";
-                }
             }
         }
 
