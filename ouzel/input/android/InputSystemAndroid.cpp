@@ -241,6 +241,8 @@ namespace ouzel
             jfloat x = jniEnv->CallFloatMethod(event, getXMethod, 0);
             jfloat y = jniEnv->CallFloatMethod(event, getYMethod, 0);
 
+            engine->log() << (action & AMOTION_EVENT_ACTION_MASK);
+
             switch (action & AMOTION_EVENT_ACTION_MASK)
             {
                 case AMOTION_EVENT_ACTION_HOVER_MOVE:

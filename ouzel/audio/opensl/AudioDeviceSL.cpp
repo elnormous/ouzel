@@ -21,10 +21,6 @@ static void playerCallback(SLAndroidSimpleBufferQueueItf bufferQueue, void* cont
     {
         ouzel::engine->log(ouzel::Log::Level::ERR) << e.what();
     }
-    catch (...)
-    {
-        ouzel::engine->log(ouzel::Log::Level::ERR) << "Unknown error occurred";
-    }
 }
 
 namespace ouzel

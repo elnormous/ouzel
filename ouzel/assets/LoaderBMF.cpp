@@ -21,7 +21,7 @@ namespace ouzel
                 std::shared_ptr<BMFont> font = std::make_shared<BMFont>(data);
                 bundle.setFont(filename, font);
             }
-            catch (...)
+            catch (const std::exception&)
             {
                 return false;
             }

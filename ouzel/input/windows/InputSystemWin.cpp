@@ -171,7 +171,7 @@ namespace ouzel
                     {
                         gamepadsXI[userIndex]->update();
                     }
-                    catch (...)
+                    catch (const std::exception&)
                     {
                         gamepadsXI[userIndex].reset();
                     }
@@ -185,7 +185,7 @@ namespace ouzel
                     (*i)->update();
                     ++i;
                 }
-                catch (...)
+                catch (const std::exception&)
                 {
                     i = gamepadsDI.erase(i);
                 }

@@ -65,7 +65,7 @@ namespace ouzel
                         std::unique_ptr<EventDevice> eventDevice(new EventDevice(*this, filename));
                         eventDevices.insert(std::make_pair(eventDevice->getFd(), std::move(eventDevice)));
                     }
-                    catch (...)
+                    catch (const std::exception&)
                     {
                     }
                 }
@@ -217,7 +217,7 @@ namespace ouzel
                             i->second->update();
                             ++i;
                         }
-                        catch (...)
+                        catch (const std::exception&)
                         {
                             i = eventDevices.erase(i);
                         }
@@ -247,7 +247,7 @@ namespace ouzel
                             std::unique_ptr<EventDevice> eventDevice(new EventDevice(*this, filename));
                             eventDevices.insert(std::make_pair(eventDevice->getFd(), std::move(eventDevice)));
                         }
-                        catch (...)
+                        catch (const std::exception&)
                         {
                         }
                     }

@@ -22,10 +22,6 @@ static void renderCallback(void* userInfo)
     {
         ouzel::engine->log(ouzel::Log::Level::ERR) << e.what();
     }
-    catch (...)
-    {
-        ouzel::engine->log(ouzel::Log::Level::ERR) << "Unknown error occurred";
-    }
 }
 
 namespace ouzel
