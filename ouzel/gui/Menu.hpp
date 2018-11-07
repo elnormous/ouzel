@@ -19,7 +19,7 @@ namespace ouzel
 
             bool removeChild(Actor* actor) override;
 
-            virtual void addWidget(Widget* widget);
+            void addWidget(Widget* widget);
 
             template<typename T> void addWidget(const std::unique_ptr<T>& widget)
             {
@@ -33,8 +33,8 @@ namespace ouzel
             }
 
             void selectWidget(Widget* widget);
-            virtual void selectNextWidget();
-            virtual void selectPreviousWidget();
+            void selectNextWidget();
+            void selectPreviousWidget();
 
         protected:
             void enter() override;
