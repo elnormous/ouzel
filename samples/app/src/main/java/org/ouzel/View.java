@@ -63,6 +63,11 @@ public class View extends SurfaceView implements SurfaceHolder.Callback
         return OuzelLibJNIWrapper.onTouchEvent(event);
     }
 
+    @Override public boolean onGenericMotionEvent(MotionEvent event)
+    {
+        return OuzelLibJNIWrapper.onGenericMotionEvent(event);
+    }
+
     @Override public boolean onKeyDown(int keyCode, KeyEvent event)
     {
         onInputEvent(event);
