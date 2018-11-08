@@ -268,7 +268,9 @@ namespace ouzel
             static const std::vector<std::pair<jint, Mouse::Button>> buttons = {
                 {AMOTION_EVENT_BUTTON_PRIMARY, Mouse::Button::LEFT},
                 {AMOTION_EVENT_BUTTON_SECONDARY, Mouse::Button::RIGHT},
-                {AMOTION_EVENT_BUTTON_TERTIARY, Mouse::Button::MIDDLE}
+                {AMOTION_EVENT_BUTTON_TERTIARY, Mouse::Button::MIDDLE},
+                {AMOTION_EVENT_BUTTON_BACK, Mouse::Button::BACK},
+                {AMOTION_EVENT_BUTTON_FORWARD, Mouse::Button::FORWARD}
             };
 
             for (const auto& button : buttons)
