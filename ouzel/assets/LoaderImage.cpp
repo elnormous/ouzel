@@ -74,8 +74,8 @@ namespace ouzel
                     {
                         for (int x = 0; x < width; ++x)
                         {
-                            size_t sourceOffset = static_cast<size_t>((y * height + x) * 3);
-                            size_t destinationOffset = static_cast<size_t>((y * height + x) * 4);
+                            size_t sourceOffset = static_cast<size_t>((y * width + x) * 3);
+                            size_t destinationOffset = static_cast<size_t>((y * width + x) * 4);
                             imageData[destinationOffset + 0] = tempData[sourceOffset + 0];
                             imageData[destinationOffset + 1] = tempData[sourceOffset + 1];
                             imageData[destinationOffset + 2] = tempData[sourceOffset + 2];
