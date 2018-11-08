@@ -38,17 +38,12 @@ namespace ouzel
                 engine->getRenderer()->setViewport(camera->getRenderViewport());
                 engine->getRenderer()->setDepthStencilState(camera->getDepthStencilState() ? camera->getDepthStencilState()->getResource() : 0);
 
-                for (Actor* actor : drawQueue)
-                {
-                    actor->draw(camera, false);
+                engine->getRenderer()->setFillMode(camera->getWireframe() ?
+                                                   graphics::Renderer::FillMode::WIREFRAME :
+                                                   graphics::Renderer::FillMode::SOLID);
 
-                    if (camera->getWireframe())
-                    {
-                        engine->getRenderer()->setFillMode(graphics::Renderer::FillMode::WIREFRAME);
-                        actor->draw(camera, true);
-                        engine->getRenderer()->setFillMode(graphics::Renderer::FillMode::SOLID);
-                    }
-                }
+                for (Actor* actor : drawQueue)
+                    actor->draw(camera, false);
             }
         }
 

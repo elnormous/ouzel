@@ -36,8 +36,6 @@ namespace ouzel
             uint32_t indexSize = 0;
             std::shared_ptr<graphics::Buffer> indexBuffer;
             std::shared_ptr<graphics::Buffer> vertexBuffer;
-
-            std::shared_ptr<graphics::Texture> whitePixelTexture;
         };
     } // namespace scene
 } // namespace ouzel
