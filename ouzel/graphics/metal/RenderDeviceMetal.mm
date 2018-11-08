@@ -126,7 +126,7 @@ namespace ouzel
             MTLDepthStencilDescriptor* depthStencilDescriptor = [MTLDepthStencilDescriptor new];
 
             depthStencilDescriptor.depthCompareFunction = MTLCompareFunctionAlways; // depth read
-            depthStencilDescriptor.depthWriteEnabled = YES; // depth write
+            depthStencilDescriptor.depthWriteEnabled = NO; // depth write
             defaultDepthStencilState = [device newDepthStencilStateWithDescriptor:depthStencilDescriptor];
             [depthStencilDescriptor release];
         }
