@@ -36,6 +36,7 @@ namespace ouzel
             getYMethod = jniEnv->GetMethodID(motionEventClass, "getY", "(I)F");
             getPressureMethod = jniEnv->GetMethodID(motionEventClass, "getPressure", "(I)F");
             getAxisValueMethod = jniEnv->GetMethodID(motionEventClass, "getAxisValue", "(I)F");
+            getButtonStateMethod = jniEnv->GetMethodID(motionEventClass, "getButtonState", "()I");
         }
 
         InputSystemAndroid::~InputSystemAndroid()
@@ -91,10 +92,7 @@ namespace ouzel
                     jfloat y = jniEnv->CallFloatMethod(event, getYMethod, 0);
 
                     if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
-                    {
-                        mouseDevice->handleButtonPress(Mouse::Button::LEFT, engine->getWindow()->convertWindowToNormalizedLocation(Vector2(x, y)));
-                        return true;
-                    }
+                        return updateButtonState(jniEnv->CallIntMethod(event, getButtonStateMethod), x, y);
                     else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
                              toolType == AMOTION_EVENT_TOOL_TYPE_STYLUS ||
                              toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
@@ -115,10 +113,7 @@ namespace ouzel
                     jfloat y = jniEnv->CallFloatMethod(event, getYMethod, pointerIndex);
 
                     if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
-                    {
-                        mouseDevice->handleButtonPress(Mouse::Button::LEFT, engine->getWindow()->convertWindowToNormalizedLocation(Vector2(x, y)));
-                        return true;
-                    }
+                        return updateButtonState(jniEnv->CallIntMethod(event, getButtonStateMethod), x, y);
                     else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
                              toolType == AMOTION_EVENT_TOOL_TYPE_STYLUS ||
                              toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
@@ -139,7 +134,8 @@ namespace ouzel
 
                     if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
                     {
-                        mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(Vector2(x, y)));
+                        if (!updateButtonState(jniEnv->CallIntMethod(event, getButtonStateMethod), x, y))
+                            mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(Vector2(x, y)));
                         return true;
                     }
                     else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
@@ -161,10 +157,7 @@ namespace ouzel
                     jfloat y = jniEnv->CallFloatMethod(event, getYMethod, 0);
 
                     if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
-                    {
-                        mouseDevice->handleButtonRelease(Mouse::Button::LEFT, engine->getWindow()->convertWindowToNormalizedLocation(Vector2(x, y)));
-                        return true;
-                    }
+                        return updateButtonState(jniEnv->CallIntMethod(event, getButtonStateMethod), x, y);
                     else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
                              toolType == AMOTION_EVENT_TOOL_TYPE_STYLUS ||
                              toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
@@ -185,10 +178,7 @@ namespace ouzel
                     jfloat y = jniEnv->CallFloatMethod(event, getYMethod, pointerIndex);
 
                     if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
-                    {
-                        mouseDevice->handleButtonRelease(Mouse::Button::LEFT, engine->getWindow()->convertWindowToNormalizedLocation(Vector2(x, y)));
-                        return true;
-                    }
+                        return updateButtonState(jniEnv->CallIntMethod(event, getButtonStateMethod), x, y);
                     else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
                              toolType == AMOTION_EVENT_TOOL_TYPE_STYLUS ||
                              toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
@@ -209,7 +199,8 @@ namespace ouzel
 
                     if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
                     {
-                        mouseDevice->handleButtonRelease(Mouse::Button::LEFT, engine->getWindow()->convertWindowToNormalizedLocation(Vector2(x, y)));
+                        if (!updateButtonState(jniEnv->CallIntMethod(event, getButtonStateMethod), x, y))
+                            mouseDevice->handleButtonRelease(Mouse::Button::LEFT, engine->getWindow()->convertWindowToNormalizedLocation(Vector2(x, y)));
                         return true;
                     }
                     else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
@@ -241,8 +232,6 @@ namespace ouzel
             jfloat x = jniEnv->CallFloatMethod(event, getXMethod, 0);
             jfloat y = jniEnv->CallFloatMethod(event, getYMethod, 0);
 
-            engine->log() << (action & AMOTION_EVENT_ACTION_MASK);
-
             switch (action & AMOTION_EVENT_ACTION_MASK)
             {
                 case AMOTION_EVENT_ACTION_HOVER_MOVE:
@@ -270,6 +259,33 @@ namespace ouzel
             }
 
             return false;
+        }
+
+        bool InputSystemAndroid::updateButtonState(jint newButtonState, jint x, jint y)
+        {
+            bool result = false;
+
+            static const std::vector<std::pair<jint, Mouse::Button>> buttons = {
+                {AMOTION_EVENT_BUTTON_PRIMARY, Mouse::Button::LEFT},
+                {AMOTION_EVENT_BUTTON_SECONDARY, Mouse::Button::RIGHT},
+                {AMOTION_EVENT_BUTTON_TERTIARY, Mouse::Button::MIDDLE}
+            };
+
+            for (const auto& button : buttons)
+            {
+                if ((newButtonState & button.first) != (buttonState & button.first))
+                {
+                    if (newButtonState & button.first)
+                        mouseDevice->handleButtonPress(button.second, engine->getWindow()->convertWindowToNormalizedLocation(Vector2(x, y)));
+                    else
+                        mouseDevice->handleButtonRelease(button.second, engine->getWindow()->convertWindowToNormalizedLocation(Vector2(x, y)));
+
+                    result = true;
+                }
+            }
+
+            buttonState = newButtonState;
+            return result;
         }
     } // namespace input
 } // namespace ouzel
