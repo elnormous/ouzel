@@ -17,8 +17,6 @@ namespace ouzel
         Sprite::Sprite():
             Component(CLASS)
         {
-            whitePixelTexture = engine->getCache().getTexture(TEXTURE_WHITE_PIXEL);
-
             updateHandler.updateHandler = std::bind(&Sprite::handleUpdate, this, std::placeholders::_1);
 
             currentAnimation = animationQueue.end();
@@ -236,12 +234,8 @@ namespace ouzel
                 vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
 
                 std::vector<uintptr_t> textures;
-                if (wireframe) textures.push_back(whitePixelTexture->getResource());
-                else
-                {
-                    for (const std::shared_ptr<graphics::Texture>& texture : material->textures)
-                        textures.push_back(texture ? texture->getResource() : 0);
-                }
+                for (const std::shared_ptr<graphics::Texture>& texture : material->textures)
+                    textures.push_back(texture ? texture->getResource() : 0);
 
                 engine->getRenderer()->setCullMode(material->cullMode);
                 engine->getRenderer()->setPipelineState(material->blendState->getResource(),

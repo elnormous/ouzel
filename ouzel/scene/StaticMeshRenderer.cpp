@@ -10,7 +10,6 @@ namespace ouzel
         StaticMeshRenderer::StaticMeshRenderer():
             Component(CLASS)
         {
-            whitePixelTexture = engine->getCache().getTexture(TEXTURE_WHITE_PIXEL);
         }
 
         StaticMeshRenderer::StaticMeshRenderer(const StaticMeshData& meshData):
@@ -62,12 +61,8 @@ namespace ouzel
             vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
 
             std::vector<uintptr_t> textures;
-            if (wireframe) textures.push_back(whitePixelTexture->getResource());
-            else
-            {
-                for (const std::shared_ptr<graphics::Texture>& texture : material->textures)
-                    textures.push_back(texture ? texture->getResource() : 0);
-            }
+            for (const std::shared_ptr<graphics::Texture>& texture : material->textures)
+                textures.push_back(texture ? texture->getResource() : 0);
 
             engine->getRenderer()->setCullMode(material->cullMode);
             engine->getRenderer()->setPipelineState(material->blendState->getResource(),

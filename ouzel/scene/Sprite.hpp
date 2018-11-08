@@ -76,8 +76,6 @@ namespace ouzel
             std::list<QueuedAnimation> animationQueue;
             std::list<QueuedAnimation>::iterator currentAnimation;
 
-            std::shared_ptr<graphics::Texture> whitePixelTexture;
-
             Vector2 offset;
             Matrix4 offsetMatrix = Matrix4::identity();
 
