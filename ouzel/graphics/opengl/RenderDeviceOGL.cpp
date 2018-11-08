@@ -1143,7 +1143,7 @@ namespace ouzel
                         else
                         {
                             enableDepthTest(false);
-                            setDepthMask(GL_TRUE);
+                            setDepthMask(GL_FALSE);
                             setDepthFunc(GL_LESS);
                         }
 

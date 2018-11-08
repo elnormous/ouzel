@@ -265,7 +265,7 @@ namespace ouzel
 
             D3D11_DEPTH_STENCIL_DESC depthStencilStateDesc;
             depthStencilStateDesc.DepthEnable = FALSE;
-            depthStencilStateDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+            depthStencilStateDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
             depthStencilStateDesc.DepthFunc = D3D11_COMPARISON_ALWAYS;
             depthStencilStateDesc.StencilEnable = FALSE;
             depthStencilStateDesc.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
