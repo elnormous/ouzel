@@ -28,6 +28,8 @@ namespace ouzel
             jboolean handleGenericMotionEvent(jobject event);
 
         private:
+            bool updateButtonState(jint newButtonState, jint x, jint y);
+
             uint32_t lastDeviceId = 0;
             std::unique_ptr<KeyboardDevice> keyboardDevice;
             std::unique_ptr<MouseDevice> mouseDevice;
@@ -43,6 +45,8 @@ namespace ouzel
             jmethodID getYMethod = nullptr;
             jmethodID getPressureMethod = nullptr;
             jmethodID getAxisValueMethod = nullptr;
+            jmethodID getButtonStateMethod = nullptr;
+            jint buttonState = 0;
         };
     }
 }
