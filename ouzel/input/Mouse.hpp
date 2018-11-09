@@ -27,6 +27,7 @@ namespace ouzel
                 X2,             // Windows 2000/XP: X2 mouse button
                 BACK,           // Back mouse button
                 FORWARD,        // Forward mouse button
+                TASK,        // Task mouse button
                 COUNT
             };
 

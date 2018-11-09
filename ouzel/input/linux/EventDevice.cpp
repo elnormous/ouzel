@@ -195,6 +195,17 @@ static const std::unordered_map<uint16_t, ouzel::input::Keyboard::Key> keyMap = 
     {KEY_MODE, ouzel::input::Keyboard::Key::MODE_CHANGE}
 };
 
+static const std::unordered_map<uint16_t, ouzel::input::Mouse::Button> buttonMap = {
+    {BTN_LEFT, ouzel::input::Mouse::Button::LEFT},
+    {BTN_RIGHT, ouzel::input::Mouse::Button::RIGHT},
+    {BTN_MIDDLE, ouzel::input::Mouse::Button::MIDDLE},
+    {BTN_SIDE, ouzel::input::Mouse::Button::X1},
+    {BTN_EXTRA, ouzel::input::Mouse::Button::X2},
+    {BTN_FORWARD, ouzel::input::Mouse::Button::FORWARD},
+    {BTN_BACK, ouzel::input::Mouse::Button::BACK},
+    {BTN_TASK, ouzel::input::Mouse::Button::TASK}
+};
+
 static ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)
 {
     auto i = keyMap.find(keyCode);
@@ -203,6 +214,16 @@ static ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)
         return i->second;
     else
         return ouzel::input::Keyboard::Key::NONE;
+}
+
+static ouzel::input::Mouse::Button convertButtonCode(uint16_t buttonCode)
+{
+    auto i = buttonMap.find(buttonCode);
+
+    if (i != buttonMap.end())
+        return i->second;
+    else
+        return ouzel::input::Mouse::Button::NONE;
 }
 
 namespace ouzel
@@ -465,25 +486,10 @@ namespace ouzel
                         }
                         case EV_KEY:
                         {
-                            Mouse::Button button = Mouse::Button::NONE;
-
-                            switch (event.code)
-                            {
-                            case BTN_LEFT:
-                                button = Mouse::Button::LEFT;
-                                break;
-                            case BTN_RIGHT:
-                                button = Mouse::Button::RIGHT;
-                                break;
-                            case BTN_MIDDLE:
-                                button = Mouse::Button::MIDDLE;
-                                break;
-                            }
-
                             if (event.value == 1)
-                                mouseDevice->handleButtonPress(button, cursorPosition);
+                                mouseDevice->handleButtonPress(convertButtonCode(event.code), cursorPosition);
                             else if (event.value == 0)
-                                mouseDevice->handleButtonRelease(button, cursorPosition);
+                                mouseDevice->handleButtonRelease(convertButtonCode(event.code), cursorPosition);
                             break;
                         }
                     }
