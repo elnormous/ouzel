@@ -96,19 +96,6 @@ std::unique_ptr<ouzel::Application> ouzel::main(const std::vector<std::string>& 
 
 ## Compilation
 
-Ouzel uses the stb submodule. The following command has to be run after cloning the Ouzel engine:
-
-```shell
-$ git submodule update --init
-```
-
-or these commands if you have a really old version of git:
-
-```shell
-$ git submodule init
-$ git submodule update
-```
-
 GNU makefile, Xcode project, and Visual Studio project files are located in the "build" directory. Makefile and project files for sample project are located in the "samples" directory.
 
 You will need to download OpenGL (e.g. Mesa), ALSA, and OpenAL drivers installed in order to build Ouzel on Linux. For x86 Linux also libx11, libxcursor, libxi, and libxss are required.
