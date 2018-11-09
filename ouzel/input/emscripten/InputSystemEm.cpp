@@ -173,10 +173,10 @@ static EM_BOOL emMouseCallback(int eventType, const EmscriptenMouseEvent* mouseE
             button = ouzel::input::Mouse::Button::LEFT;
             break;
         case 1:
-            button = ouzel::input::Mouse::Button::RIGHT;
+            button = ouzel::input::Mouse::Button::MIDDLE;
             break;
         case 2:
-            button = ouzel::input::Mouse::Button::MIDDLE;
+            button = ouzel::input::Mouse::Button::RIGHT;
             break;
         default:
             button = ouzel::input::Mouse::Button::NONE;

@@ -269,8 +269,8 @@ namespace ouzel
                 {AMOTION_EVENT_BUTTON_PRIMARY, Mouse::Button::LEFT},
                 {AMOTION_EVENT_BUTTON_SECONDARY, Mouse::Button::RIGHT},
                 {AMOTION_EVENT_BUTTON_TERTIARY, Mouse::Button::MIDDLE},
-                {AMOTION_EVENT_BUTTON_BACK, Mouse::Button::BACK},
-                {AMOTION_EVENT_BUTTON_FORWARD, Mouse::Button::FORWARD}
+                {AMOTION_EVENT_BUTTON_BACK, Mouse::Button::X1},
+                {AMOTION_EVENT_BUTTON_FORWARD, Mouse::Button::X2}
             };
 
             for (const auto& button : buttons)
