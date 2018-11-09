@@ -72,9 +72,11 @@ namespace ouzel
 #elif OUZEL_PLATFORM_LINUX
         char executableDirectory[1024];
 
-        if (readlink("/proc/self/exe", executableDirectory, sizeof(executableDirectory)) == -1)
+        ssize_t length;
+        if ((length = readlink("/proc/self/exe", executableDirectory, sizeof(executableDirectory))) == -1)
             throw std::system_error(errno, std::system_category(), "Failed to get current directory");
 
+        executableDirectory[length] = '\0';
         appPath = getDirectoryPart(executableDirectory);
         engine.log(Log::Level::INFO) << "Application directory: " << appPath;
 #endif
