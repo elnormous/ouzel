@@ -72,7 +72,7 @@ namespace ouzel
             if (resource)
             {
                 RenderDevice* renderDevice = renderer.getDevice();
-                renderDevice->addCommand(std::unique_ptr<Command>(new DeleteBufferCommand(resource)));
+                renderDevice->addCommand(std::unique_ptr<Command>(new DeleteResourceCommand(resource)));
                 renderDevice->deleteResourceId(resource);
             }
         }

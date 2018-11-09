@@ -20,8 +20,8 @@ namespace ouzel
             enum Type
             {
                 PRESENT,
+                DELETE_RESOURCE,
                 INIT_RENDER_TARGET,
-                DELETE_RENDER_TARGET,
                 SET_RENDER_TARGET_PARAMETERS,
                 SET_RENDER_TARGET,
                 CLEAR_RENDER_TARGET,
@@ -32,22 +32,17 @@ namespace ouzel
                 SET_SCISSOR_TEST,
                 SET_VIEWPORT,
                 INIT_DEPTH_STENCIL_STATE,
-                DELETE_DEPTH_STENCIL_STATE,
                 SET_DEPTH_STENCIL_STATE,
                 SET_PIPELINE_STATE,
                 DRAW,
                 PUSH_DEBUG_MARKER,
                 POP_DEBUG_MARKER,
                 INIT_BLEND_STATE,
-                DELETE_BLEND_STATE,
                 INIT_BUFFER,
-                DELETE_BUFFER,
                 SET_BUFFER_DATA,
                 INIT_SHADER,
-                DELETE_SHADER,
                 SET_SHADER_CONSTANTS,
                 INIT_TEXTURE,
-                DELETE_TEXTURE,
                 SET_TEXTURE_DATA,
                 SET_TEXTURE_PARAMETERS,
                 SET_TEXTURES
@@ -67,6 +62,17 @@ namespace ouzel
         {
         public:
             PresentCommand(): Command(Command::Type::PRESENT) {}
+        };
+
+        class DeleteResourceCommand: public Command
+        {
+        public:
+            DeleteResourceCommand(uintptr_t initResource):
+                Command(Command::Type::DELETE_RESOURCE),
+                resource(initResource)
+            {}
+
+            uintptr_t resource;
         };
 
         class InitRenderTargetCommand: public Command
@@ -91,18 +97,6 @@ namespace ouzel
             uint32_t height;
             uint32_t sampleCount;
             PixelFormat pixelFormat;
-        };
-
-        class DeleteRenderTargetCommand: public Command
-        {
-        public:
-            explicit DeleteRenderTargetCommand(uintptr_t initRenderTarget):
-                Command(Command::Type::DELETE_RENDER_TARGET),
-                renderTarget(initRenderTarget)
-            {
-            }
-
-            uintptr_t renderTarget;
         };
 
         class SetRenderTargetParametersCommand: public Command
@@ -278,18 +272,6 @@ namespace ouzel
             DepthStencilState::CompareFunction compareFunction;
         };
 
-        class DeleteDepthStencilStateCommand: public Command
-        {
-        public:
-            explicit DeleteDepthStencilStateCommand(uintptr_t initDepthStencilState):
-                Command(Command::Type::DELETE_DEPTH_STENCIL_STATE),
-                depthStencilState(initDepthStencilState)
-            {
-            }
-
-            uintptr_t depthStencilState;
-        };
-
         class SetDepthStencilStateCommand: public Command
         {
         public:
@@ -399,18 +381,6 @@ namespace ouzel
             uint8_t colorMask;
         };
 
-        class DeleteBlendStateCommand: public Command
-        {
-        public:
-            explicit DeleteBlendStateCommand(uintptr_t initBlendState):
-                Command(Command::Type::DELETE_BLEND_STATE),
-                blendState(initBlendState)
-            {
-            }
-
-            uintptr_t blendState;
-        };
-
         class InitBufferCommand: public Command
         {
         public:
@@ -433,18 +403,6 @@ namespace ouzel
             uint32_t flags;
             std::vector<uint8_t> data;
             uint32_t size;
-        };
-
-        class DeleteBufferCommand: public Command
-        {
-        public:
-            explicit DeleteBufferCommand(uintptr_t initBuffer):
-                Command(Command::Type::DELETE_BUFFER),
-                buffer(initBuffer)
-            {
-            }
-
-            uintptr_t buffer;
         };
 
         class SetBufferDataCommand: public Command
@@ -501,18 +459,6 @@ namespace ouzel
             std::string vertexShaderFunction;
         };
 
-        class DeleteShaderCommand: public Command
-        {
-        public:
-            explicit DeleteShaderCommand(uintptr_t initShader):
-                Command(Command::Type::DELETE_SHADER),
-                shader(initShader)
-            {
-            }
-
-            uintptr_t shader;
-        };
-
         class SetShaderConstantsCommand: public Command
         {
         public:
@@ -550,18 +496,6 @@ namespace ouzel
             uint32_t flags;
             uint32_t sampleCount;
             PixelFormat pixelFormat;
-        };
-
-        class DeleteTextureCommand: public Command
-        {
-        public:
-            explicit DeleteTextureCommand(uintptr_t initTexture):
-                Command(Command::Type::DELETE_TEXTURE),
-                texture(initTexture)
-            {
-            }
-
-            uintptr_t texture;
         };
 
         class SetTextureDataCommand: public Command

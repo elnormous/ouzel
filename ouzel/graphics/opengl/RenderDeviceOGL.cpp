@@ -901,6 +901,14 @@ namespace ouzel
                         present();
                         break;
                     }
+
+                    case Command::Type::DELETE_RESOURCE:
+                    {
+                        const DeleteResourceCommand* deleteResourceCommand = static_cast<const DeleteResourceCommand*>(command.get());
+                        resources[deleteResourceCommand->resource - 1].reset();
+                        break;
+                    }
+
                     case Command::Type::SET_RENDER_TARGET:
                     {
                         const SetRenderTargetCommand* setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command.get());
@@ -1121,13 +1129,6 @@ namespace ouzel
                         break;
                     }
 
-                    case Command::Type::DELETE_DEPTH_STENCIL_STATE:
-                    {
-                        const DeleteDepthStencilStateCommand* deleteDepthStencilStateCommand = static_cast<const DeleteDepthStencilStateCommand*>(command.get());
-                        resources[deleteDepthStencilStateCommand->depthStencilState - 1].reset();
-                        break;
-                    }
-
                     case Command::Type::SET_DEPTH_STENCIL_STATE:
                     {
                         const SetDepthStencilStateCommand* setDepthStencilStateCommand = static_cast<const SetDepthStencilStateCommand*>(command.get());
@@ -1298,13 +1299,6 @@ namespace ouzel
                         break;
                     }
 
-                    case Command::Type::DELETE_BLEND_STATE:
-                    {
-                        const DeleteBlendStateCommand* deleteBlendStateCommand = static_cast<const DeleteBlendStateCommand*>(command.get());
-                        resources[deleteBlendStateCommand->blendState - 1].reset();
-                        break;
-                    }
-
                     case Command::Type::INIT_BUFFER:
                     {
                         const InitBufferCommand* initBufferCommand = static_cast<const InitBufferCommand*>(command.get());
@@ -1318,13 +1312,6 @@ namespace ouzel
                         if (initBufferCommand->buffer > resources.size())
                             resources.resize(initBufferCommand->buffer);
                         resources[initBufferCommand->buffer - 1] = std::move(bufferResourceOGL);
-                        break;
-                    }
-
-                    case Command::Type::DELETE_BUFFER:
-                    {
-                        const DeleteBufferCommand* deleteBufferCommand = static_cast<const DeleteBufferCommand*>(command.get());
-                        resources[deleteBufferCommand->buffer - 1].reset();
                         break;
                     }
 
@@ -1355,13 +1342,6 @@ namespace ouzel
                         if (initShaderCommand->shader > resources.size())
                             resources.resize(initShaderCommand->shader);
                         resources[initShaderCommand->shader - 1] = std::move(shaderResourceOGL);
-                        break;
-                    }
-
-                    case Command::Type::DELETE_SHADER:
-                    {
-                        const DeleteShaderCommand* deleteShaderCommand = static_cast<const DeleteShaderCommand*>(command.get());
-                        resources[deleteShaderCommand->shader - 1].reset();
                         break;
                     }
 
@@ -1420,13 +1400,6 @@ namespace ouzel
                         if (initTextureCommand->texture > resources.size())
                             resources.resize(initTextureCommand->texture);
                         resources[initTextureCommand->texture - 1] = std::move(textureResourceOGL);
-                        break;
-                    }
-
-                    case Command::Type::DELETE_TEXTURE:
-                    {
-                        const DeleteTextureCommand* deleteTextureCommand = static_cast<const DeleteTextureCommand*>(command.get());
-                        resources[deleteTextureCommand->texture - 1].reset();
                         break;
                     }
 
