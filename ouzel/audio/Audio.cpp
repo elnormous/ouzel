@@ -15,7 +15,6 @@
 #include "xaudio2/AudioDeviceXA2.hpp"
 #include "math/MathUtils.hpp"
 #include "utils/Log.hpp"
-#include "utils/Utils.hpp"
 
 namespace ouzel
 {
@@ -100,8 +99,8 @@ namespace ouzel
                 default:
                     engine->log(Log::Level::INFO) << "Not using audio driver";
                     device.reset(new AudioDeviceEmpty());
-                    OUZEL_UNUSED(debugAudio);
-                    OUZEL_UNUSED(window);
+                    (void)debugAudio;
+                    (void)window;
                     break;
             }
         }

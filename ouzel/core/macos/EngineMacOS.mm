@@ -126,7 +126,7 @@ namespace ouzel
         [pool release];
     }
 
-    void EngineMacOS::executeOnMainThread(const std::function<void(void)>& func)
+    void EngineMacOS::executeOnMainThread(const std::function<void()>& func)
     {
         {
             std::unique_lock<std::mutex> lock(executeMutex);
@@ -187,7 +187,7 @@ namespace ouzel
 
     void EngineMacOS::executeAll()
     {
-        std::function<void(void)> func;
+        std::function<void()> func;
 
         for (;;)
         {

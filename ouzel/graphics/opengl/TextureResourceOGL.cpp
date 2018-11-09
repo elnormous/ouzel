@@ -6,7 +6,6 @@
 
 #include "TextureResourceOGL.hpp"
 #include "RenderDeviceOGL.hpp"
-#include "utils/Utils.hpp"
 #include "utils/Errors.hpp"
 
 namespace ouzel
@@ -152,7 +151,7 @@ namespace ouzel
                 }
             }
 #else
-            OUZEL_UNUSED(openGLVersion);
+            (void)openGLVersion;
 
             switch (pixelFormat)
             {

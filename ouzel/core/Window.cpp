@@ -4,7 +4,6 @@
 #include "Setup.h"
 #include "Engine.hpp"
 #include "events/EventDispatcher.hpp"
-#include "utils/Utils.hpp"
 
 #if OUZEL_PLATFORM_MACOS
 #include "macos/NativeWindowMacOS.hpp"
@@ -93,13 +92,13 @@ namespace ouzel
         highDpi(newHighDpi),
         title(newTitle)
     {
-        OUZEL_UNUSED(newSize);
-        OUZEL_UNUSED(newResizable);
-        OUZEL_UNUSED(newFullscreen);
-        OUZEL_UNUSED(newExclusiveFullscreen);
-        OUZEL_UNUSED(graphicsDriver);
-        OUZEL_UNUSED(newHighDpi);
-        OUZEL_UNUSED(depth);
+        (void)newSize;
+        (void)newResizable;
+        (void)newFullscreen;
+        (void)newExclusiveFullscreen;
+        (void)graphicsDriver;
+        (void)newHighDpi;
+        (void)depth;
     }
 
     void Window::update()

@@ -117,7 +117,7 @@ namespace ouzel
         exit();
     }
 
-    void EngineWin::executeOnMainThread(const std::function<void(void)>& func)
+    void EngineWin::executeOnMainThread(const std::function<void()>& func)
     {
         NativeWindowWin* windowWin = static_cast<NativeWindowWin*>(window->getNativeWindow());
 
@@ -131,7 +131,7 @@ namespace ouzel
 
     void EngineWin::executeAll()
     {
-        std::function<void(void)> func;
+        std::function<void()> func;
 
         for (;;)
         {

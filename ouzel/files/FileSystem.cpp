@@ -30,7 +30,6 @@ extern "C" id NSTemporaryDirectory();
 #include "core/Engine.hpp"
 #include "utils/Errors.hpp"
 #include "utils/Log.hpp"
-#include "utils/Utils.hpp"
 
 namespace ouzel
 {
@@ -196,7 +195,7 @@ namespace ouzel
 
         return path;
 #elif OUZEL_PLATFORM_ANDROID
-        OUZEL_UNUSED(user);
+        (void)user;
 
         EngineAndroid& engineAndroid = static_cast<EngineAndroid&>(engine);
         return engineAndroid.getFilesDirectory();
