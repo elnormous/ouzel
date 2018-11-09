@@ -223,6 +223,14 @@ static const std::unordered_map<KeySym, ouzel::input::Keyboard::Key> keyMap = {
     {XK_Hiragana_Katakana, ouzel::input::Keyboard::Key::KATAKANA_HIRAGANA}
 };
 
+static const std::unordered_map<unsigned int, ouzel::input::Mouse::Button> buttonMap = {
+    {Button1, ouzel::input::Mouse::Button::LEFT},
+    {Button2, ouzel::input::Mouse::Button::MIDDLE},
+    {Button3, ouzel::input::Mouse::Button::RIGHT},
+    {8, ouzel::input::Mouse::Button::X1},
+    {9, ouzel::input::Mouse::Button::X2}
+};
+
 static ouzel::input::Keyboard::Key convertKeyCode(KeySym keyCode)
 {
     auto i = keyMap.find(keyCode);
@@ -231,6 +239,16 @@ static ouzel::input::Keyboard::Key convertKeyCode(KeySym keyCode)
         return i->second;
     else
         return ouzel::input::Keyboard::Key::NONE;
+}
+
+static ouzel::input::Mouse::Button convertButtonCode(unsigned int buttonCode)
+{
+    auto i = buttonMap.find(buttonCode);
+
+    if (i != buttonMap.end())
+        return i->second;
+    else
+        return ouzel::input::Mouse::Button::NONE;
 }
 #endif
 
@@ -363,34 +381,12 @@ namespace ouzel
                         Vector2 pos(static_cast<float>(event.xbutton.x),
                                     static_cast<float>(event.xbutton.y));
 
-                        input::Mouse::Button button;
-
-                        switch (event.xbutton.button)
-                        {
-                        case 1:
-                            button = input::Mouse::Button::LEFT;
-                            break;
-                        case 2:
-                            button = input::Mouse::Button::RIGHT;
-                            break;
-                        case 3:
-                            button = input::Mouse::Button::MIDDLE;
-                            break;
-                        default:
-                            button = input::Mouse::Button::NONE;
-                            break;
-                        }
-
                         if (event.type == ButtonPress)
-                        {
-                            mouseDevice->handleButtonPress(button,
+                            mouseDevice->handleButtonPress(convertButtonCode(event.xbutton.button),
                                                            window->convertWindowToNormalizedLocation(pos));
-                        }
                         else
-                        {
-                            mouseDevice->handleButtonRelease(button,
+                            mouseDevice->handleButtonRelease(convertButtonCode(event.xbutton.button),
                                                              window->convertWindowToNormalizedLocation(pos));
-                        }
                         break;
                     }
                     case MotionNotify:
