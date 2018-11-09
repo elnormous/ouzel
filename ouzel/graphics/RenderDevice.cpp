@@ -93,7 +93,7 @@ namespace ouzel
         {
         }
 
-        void RenderDevice::executeOnRenderThread(const std::function<void(void)>& func)
+        void RenderDevice::executeOnRenderThread(const std::function<void()>& func)
         {
             std::unique_lock<std::mutex> lock(executeMutex);
             executeQueue.push(func);
@@ -101,7 +101,7 @@ namespace ouzel
 
         void RenderDevice::executeAll()
         {
-            std::function<void(void)> func;
+            std::function<void()> func;
 
             for (;;)
             {

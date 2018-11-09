@@ -83,7 +83,7 @@ namespace ouzel
             inline float getFPS() const { return currentFPS; }
             inline float getAccumulatedFPS() const { return accumulatedFPS; }
 
-            void executeOnRenderThread(const std::function<void(void)>& func);
+            void executeOnRenderThread(const std::function<void()>& func);
 
             uintptr_t getResourceId()
             {
@@ -163,7 +163,7 @@ namespace ouzel
             float currentAccumulatedFPS = 0.0F;
             std::atomic<float> accumulatedFPS;
 
-            std::queue<std::function<void(void)>> executeQueue;
+            std::queue<std::function<void()>> executeQueue;
             std::mutex executeMutex;
 
             bool newFrame = false;

@@ -16,8 +16,6 @@
 #include <cpu-features.h>
 #endif
 
-#define OUZEL_UNUSED(x) (void)(x)
-
 namespace ouzel
 {
 #if OUZEL_PLATFORM_ANDROID && OUZEL_SUPPORTS_NEON_CHECK

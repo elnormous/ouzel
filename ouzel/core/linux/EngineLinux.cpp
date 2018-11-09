@@ -471,7 +471,7 @@ namespace ouzel
         exit();
     }
 
-    void EngineLinux::executeOnMainThread(const std::function<void(void)>& func)
+    void EngineLinux::executeOnMainThread(const std::function<void()>& func)
     {
 #if OUZEL_SUPPORTS_X11
         NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(window->getNativeWindow());
@@ -523,7 +523,7 @@ namespace ouzel
 
     void EngineLinux::executeAll()
     {
-        std::function<void(void)> func;
+        std::function<void()> func;
 
         for (;;)
         {
