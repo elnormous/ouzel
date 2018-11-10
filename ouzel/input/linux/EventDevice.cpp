@@ -199,10 +199,10 @@ static const std::unordered_map<uint16_t, ouzel::input::Mouse::Button> buttonMap
     {BTN_LEFT, ouzel::input::Mouse::Button::LEFT},
     {BTN_RIGHT, ouzel::input::Mouse::Button::RIGHT},
     {BTN_MIDDLE, ouzel::input::Mouse::Button::MIDDLE},
-    {BTN_SIDE, ouzel::input::Mouse::Button::NONE}, //?
-    {BTN_EXTRA, ouzel::input::Mouse::Button::NONE}, //?
-    {BTN_FORWARD, ouzel::input::Mouse::Button::X2},
-    {BTN_BACK, ouzel::input::Mouse::Button::X1},
+    {BTN_SIDE, ouzel::input::Mouse::Button::X1},
+    {BTN_EXTRA, ouzel::input::Mouse::Button::X2},
+    {BTN_FORWARD, ouzel::input::Mouse::Button::NONE}, //?
+    {BTN_BACK, ouzel::input::Mouse::Button::NONE}, //?
     {BTN_TASK, ouzel::input::Mouse::Button::NONE} //?
 };
 
