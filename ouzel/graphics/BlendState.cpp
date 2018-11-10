@@ -23,14 +23,14 @@ namespace ouzel
                                uint8_t initColorMask):
             renderer(initRenderer),
             resource(renderer.getDevice()->getResourceId()),
-            enableBlending(initEnableBlending),
             colorBlendSource(initColorBlendSource),
             colorBlendDest(initColorBlendDest),
             colorOperation(initColorOperation),
             alphaBlendSource(initAlphaBlendSource),
             alphaBlendDest(initAlphaBlendDest),
             alphaOperation(initAlphaOperation),
-            colorMask(initColorMask)
+            colorMask(initColorMask),
+            enableBlending(initEnableBlending)
         {
             RenderDevice* renderDevice = renderer.getDevice();
 
