@@ -56,9 +56,9 @@
 #  define OUZEL_MULTITHREADED 1
 #  define OUZEL_ARCHITECTURE_X86
 
-#  if defined(_M_X64)
+#  if defined(_M_X64) || defined(__x86_64__)
 #    define OUZEL_64BITS 1
-#  elif defined(_M_IX86)
+#  elif defined(_M_IX86) || defined(__i386__)
 #    define OUZEL_32BITS 1
 #  else
 #    error "Unsupported architecture"
