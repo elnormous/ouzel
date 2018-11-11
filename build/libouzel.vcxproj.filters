@@ -979,6 +979,12 @@
     <ClInclude Include="..\ouzel\graphics\direct3d11\DepthStencilStateResourceD3D11.hpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\DrawMode.hpp">
+      <Filter>ouzel\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\RasterizerState.hpp">
+      <Filter>ouzel\graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ouzel">
