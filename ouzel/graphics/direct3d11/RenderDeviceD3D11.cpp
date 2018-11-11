@@ -360,7 +360,7 @@ namespace ouzel
 
                 std::unique_ptr<Command> command;
 
-                while (commandBuffer.commands.empty())
+                while (!commandBuffer.commands.empty())
                 {
                     command = std::move(commandBuffer.commands.front());
                     commandBuffer.commands.pop();
