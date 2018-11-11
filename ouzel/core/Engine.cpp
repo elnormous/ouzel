@@ -8,7 +8,6 @@
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"
 #include "graphics/Renderer.hpp"
-#include "graphics/RenderDevice.hpp"
 #include "audio/Audio.hpp"
 
 #if OUZEL_COMPILE_OPENGL
@@ -638,7 +637,7 @@ namespace ouzel
         inputManager->update();
         window->update();
 
-        if (renderer->getDevice()->getRefillQueue())
+        if (renderer->getRefillQueue())
             sceneManager.draw();
 
         audio->update();

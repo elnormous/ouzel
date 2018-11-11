@@ -87,6 +87,7 @@ namespace ouzel
             void addCommand(std::unique_ptr<Command>&& command);
 
             void waitForNextFrame();
+            inline bool getRefillQueue() const { return refillQueue; }
 
         private:
             void handleEvent(const RenderDevice::Event& event);
@@ -100,6 +101,11 @@ namespace ouzel
             bool clearColorBuffer = true;
             bool clearDepthBuffer = false;
             CommandBuffer commandBuffer;
+
+            bool newFrame = false;
+            std::mutex frameMutex;
+            std::condition_variable frameCondition;
+            std::atomic_bool refillQueue;
         };
     } // namespace graphics
 } // namespace ouzel

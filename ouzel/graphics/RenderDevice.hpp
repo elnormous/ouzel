@@ -61,11 +61,8 @@ namespace ouzel
 
             virtual std::vector<Size2> getSupportedResolutions() const;
 
-            inline bool getRefillQueue() const { return refillQueue; }
-
             void submitCommandBuffer(CommandBuffer&& commandBuffer)
             {
-                refillQueue = false;
                 {
                     std::unique_lock<std::mutex> lock(commandQueueMutex);
                     commandQueue.push(std::forward<CommandBuffer>(commandBuffer));
@@ -125,7 +122,6 @@ namespace ouzel
         protected:
             explicit RenderDevice(Driver initDriver,
                                   const std::function<void(const Event&)>& initCallback);
-            void waitForNextFrame();
 
             virtual void init(Window* newWindow,
                               const Size2& newSize,
@@ -176,7 +172,6 @@ namespace ouzel
             std::queue<CommandBuffer> commandQueue;
             std::mutex commandQueueMutex;
             std::condition_variable commandQueueCondition;
-            std::atomic_bool refillQueue;
 
             std::atomic<float> currentFPS;
             std::chrono::steady_clock::time_point previousFrameTime;
@@ -187,10 +182,6 @@ namespace ouzel
 
             std::queue<std::function<void()>> executeQueue;
             std::mutex executeMutex;
-
-            bool newFrame = false;
-            std::mutex frameMutex;
-            std::condition_variable frameCondition;
 
             uintptr_t lastResourceId = 0;
             std::queue<uintptr_t> deletedResourceIds;
