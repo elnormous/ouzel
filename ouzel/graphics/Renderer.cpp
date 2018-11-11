@@ -76,7 +76,8 @@ namespace ouzel
                            uint32_t newMaxAnisotropy,
                            bool newVerticalSync,
                            bool newDepth,
-                           bool newDebugRenderer)
+                           bool newDebugRenderer):
+            refillQueue(true)
         {
             for (uint32_t i = 0; i < 256; ++i)
             {
@@ -146,6 +147,15 @@ namespace ouzel
 
         void Renderer::handleEvent(const RenderDevice::Event& event)
         {
+            if (event.type == RenderDevice::Event::Type::FRAME)
+            {
+                {
+                    std::unique_lock<std::mutex> lock(frameMutex);
+                    newFrame = true;
+                    refillQueue = true;
+                }
+                frameCondition.notify_all();
+            }
         }
 
         void Renderer::setClearColorBuffer(bool clear)
@@ -295,6 +305,7 @@ namespace ouzel
             addCommand(std::unique_ptr<Command>(new PresentCommand()));
             device->submitCommandBuffer(std::move(commandBuffer));
             commandBuffer = CommandBuffer();
+            refillQueue = false;
         }
 
         void Renderer::addCommand(std::unique_ptr<Command>&& command)
@@ -304,7 +315,9 @@ namespace ouzel
 
         void Renderer::waitForNextFrame()
         {
-            device->waitForNextFrame();
+            std::unique_lock<std::mutex> lock(frameMutex);
+            while (!newFrame) frameCondition.wait(lock);
+            newFrame = false;
         }
     } // namespace graphics
 } // namespace ouzel
