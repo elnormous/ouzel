@@ -6,9 +6,9 @@
 
 namespace ouzel
 {
-    NativeWindowAndroid::NativeWindowAndroid(EventHandler& initEventHandler,
+    NativeWindowAndroid::NativeWindowAndroid(const std::function<void(const Event&)>& initCallback,
                                              const std::string& newTitle):
-        NativeWindow(initEventHandler,
+        NativeWindow(initCallback,
                      Size2(),
                      true,
                      true,

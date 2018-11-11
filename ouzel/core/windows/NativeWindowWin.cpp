@@ -444,14 +444,14 @@ static const LPCWSTR WINDOW_CLASS_NAME = L"OuzelWindow";
 
 namespace ouzel
 {
-    NativeWindowWin::NativeWindowWin(EventHandler& initEventHandler,
+    NativeWindowWin::NativeWindowWin(const std::function<void(const Event&)>& initCallback,
                                      const Size2& newSize,
                                      bool newResizable,
                                      bool newFullscreen,
                                      bool newExclusiveFullscreen,
                                      const std::string& newTitle,
                                      bool newHighDpi):
-        NativeWindow(initEventHandler,
+        NativeWindow(initCallback,
                      newSize,
                      newResizable,
                      newFullscreen,

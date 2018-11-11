@@ -13,7 +13,7 @@ namespace ouzel
     class NativeWindowAndroid final: public NativeWindow
     {
     public:
-        NativeWindowAndroid(EventHandler& initEventHandler,
+        NativeWindowAndroid(const std::function<void(const Event&)>& initCallback,
                             const std::string& newTitle);
         ~NativeWindowAndroid();
 

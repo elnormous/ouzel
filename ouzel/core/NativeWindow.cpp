@@ -4,7 +4,7 @@
 
 namespace ouzel
 {
-    NativeWindow::NativeWindow(EventHandler& initEventHandler,
+    NativeWindow::NativeWindow(const std::function<void(const Event&)>& initCallback,
                                const Size2& newSize,
                                bool newResizable,
                                bool newFullscreen,
@@ -17,7 +17,7 @@ namespace ouzel
         exclusiveFullscreen(newExclusiveFullscreen),
         highDpi(newHighDpi),
         title(newTitle),
-        eventHandler(initEventHandler)
+        callback(initCallback)
     {
 
     }
@@ -53,7 +53,7 @@ namespace ouzel
                 eventQueue.pop();
             }
 
-            eventHandler.handleEvent(event);
+            callback(event);
         }
     }
 

@@ -64,16 +64,7 @@ namespace ouzel
             };
         };
 
-        class EventHandler
-        {
-        public:
-            virtual bool handleEvent(const Event& event) = 0;
-
-        protected:
-            ~EventHandler() {}
-        };
-
-        NativeWindow(EventHandler& initEventHandler,
+        NativeWindow(const std::function<void(const Event&)>& initCallback,
                      const Size2& newSize,
                      bool newResizable,
                      bool newFullscreen,
@@ -121,7 +112,7 @@ namespace ouzel
         std::string title;
 
     private:
-        EventHandler& eventHandler;
+        std::function<void(const Event&)> callback;
         std::mutex eventQueueMutex;
         std::queue<Event> eventQueue;
 

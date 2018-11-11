@@ -33,21 +33,21 @@ namespace ouzel
     {
         InputManager::InputManager():
 #if OUZEL_PLATFORM_MACOS
-            inputSystem(new InputSystemMacOS(*this))
+            inputSystem(new InputSystemMacOS(std::bind(&InputManager::handleEvent, this, std::placeholders::_1)))
 #elif OUZEL_PLATFORM_IOS
-            inputSystem(new InputSystemIOS(*this))
+            inputSystem(new InputSystemIOS(std::bind(&InputManager::handleEvent, this, std::placeholders::_1)))
 #elif OUZEL_PLATFORM_TVOS
-            inputSystem(new InputSystemTVOS(*this))
+            inputSystem(new InputSystemTVOS(std::bind(&InputManager::handleEvent, this, std::placeholders::_1)))
 #elif OUZEL_PLATFORM_ANDROID
-            inputSystem(new InputSystemAndroid(*this))
+            inputSystem(new InputSystemAndroid(std::bind(&InputManager::handleEvent, this, std::placeholders::_1)))
 #elif OUZEL_PLATFORM_LINUX
-            inputSystem(new InputSystemLinux(*this))
+            inputSystem(new InputSystemLinux(std::bind(&InputManager::handleEvent, this, std::placeholders::_1)))
 #elif OUZEL_PLATFORM_WINDOWS
-            inputSystem(new InputSystemWin(*this))
+            inputSystem(new InputSystemWin(std::bind(&InputManager::handleEvent, this, std::placeholders::_1)))
 #elif OUZEL_PLATFORM_EMSCRIPTEN
-            inputSystem(new InputSystemEm(*this))
+            inputSystem(new InputSystemEm(std::bind(&InputManager::handleEvent, this, std::placeholders::_1)))
 #else
-            inputSystem(new InputSystem(*this))
+            inputSystem(new InputSystem(std::bind(&InputManager::handleEvent, this, std::placeholders::_1)))
 #endif
         {
         }
@@ -314,6 +314,9 @@ namespace ouzel
                     }
                     break;
                 }
+                default:
+                    throw std::runtime_error("Unhandled event");
+                    break;
             }
 
             return handled;

@@ -29,7 +29,7 @@ namespace ouzel
     class NativeWindowMacOS final: public NativeWindow
     {
     public:
-        NativeWindowMacOS(EventHandler& initEventHandler,
+        NativeWindowMacOS(const std::function<void(const Event&)>& initCallback,
                           const Size2& newSize,
                           bool newResizable,
                           bool newFullscreen,

@@ -27,7 +27,7 @@ namespace ouzel
     class NativeWindowIOS final: public NativeWindow
     {
     public:
-        NativeWindowIOS(EventHandler& initEventHandler,
+        NativeWindowIOS(const std::function<void(const Event&)>& initCallback,
                         const std::string& newTitle,
                         graphics::Driver graphicsDriver,
                         bool newHighDpi);

@@ -11,7 +11,7 @@
 
 namespace ouzel
 {
-    class Window final: public NativeWindow::EventHandler
+    class Window final
     {
     public:
         Window(const Size2& newSize,
@@ -59,7 +59,7 @@ namespace ouzel
         }
 
     private:
-        bool handleEvent(const NativeWindow::Event& event) override;
+        void handleEvent(const NativeWindow::Event& event);
 
         std::unique_ptr<NativeWindow> nativeWindow;
 

@@ -15,7 +15,7 @@ namespace ouzel
         class InputSystemAndroid final: public InputSystem
         {
         public:
-            explicit InputSystemAndroid(EventHandler& initEventHandler);
+            explicit InputSystemAndroid(const std::function<bool(const Event&)>& initCallback);
             ~InputSystemAndroid();
 
             void executeCommand(const Command& command) override;

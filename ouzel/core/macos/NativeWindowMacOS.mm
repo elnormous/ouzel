@@ -58,7 +58,7 @@
 
 namespace ouzel
 {
-    NativeWindowMacOS::NativeWindowMacOS(EventHandler& initEventHandler,
+    NativeWindowMacOS::NativeWindowMacOS(const std::function<void(const Event&)>& initCallback,
                                          const Size2& newSize,
                                          bool newResizable,
                                          bool newFullscreen,
@@ -66,7 +66,7 @@ namespace ouzel
                                          const std::string& newTitle,
                                          graphics::Driver graphicsDriver,
                                          bool newHighDpi):
-        NativeWindow(initEventHandler,
+        NativeWindow(initCallback,
                      newSize,
                      newResizable,
                      newFullscreen,

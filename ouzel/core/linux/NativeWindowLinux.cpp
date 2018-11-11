@@ -17,7 +17,7 @@ static const long _NET_WM_STATE_TOGGLE = 2;
 
 namespace ouzel
 {
-    NativeWindowLinux::NativeWindowLinux(EventHandler& initEventHandler,
+    NativeWindowLinux::NativeWindowLinux(const std::function<void(const Event&)>& initCallback,
                                          const Size2& newSize,
                                          bool newResizable,
                                          bool newFullscreen,
@@ -25,7 +25,7 @@ namespace ouzel
                                          const std::string& newTitle,
                                          graphics::Driver graphicsDriver,
                                          bool depth):
-        NativeWindow(initEventHandler,
+        NativeWindow(initCallback,
                      newSize,
                      newResizable,
                      newFullscreen,

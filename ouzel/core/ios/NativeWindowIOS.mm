@@ -97,11 +97,11 @@
 
 namespace ouzel
 {
-    NativeWindowIOS::NativeWindowIOS(EventHandler& initEventHandler,
+    NativeWindowIOS::NativeWindowIOS(const std::function<void(const Event&)>& initCallback,
                                      const std::string& newTitle,
                                      graphics::Driver graphicsDriver,
                                      bool newHighDpi):
-        NativeWindow(initEventHandler,
+        NativeWindow(initCallback,
                      Size2(),
                      true,
                      true,

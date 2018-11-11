@@ -23,7 +23,7 @@ namespace ouzel
         class InputSystemLinux final: public InputSystem
         {
         public:
-            explicit InputSystemLinux(EventHandler& initEventHandler);
+            explicit InputSystemLinux(const std::function<bool(const Event&)>& initCallback);
             ~InputSystemLinux();
 
             void executeCommand(const Command& command) override;
