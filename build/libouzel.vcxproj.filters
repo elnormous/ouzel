@@ -985,6 +985,18 @@
     <ClInclude Include="..\ouzel\graphics\RasterizerState.hpp">
       <Filter>ouzel\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\audio\Channel.hpp">
+      <Filter>ouzel\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\Driver.hpp">
+      <Filter>ouzel\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\SampleFormat.hpp">
+      <Filter>ouzel\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\Driver.hpp">
+      <Filter>ouzel\graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ouzel">
