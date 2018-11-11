@@ -8,8 +8,8 @@ namespace ouzel
 {
     namespace input
     {
-        InputSystem::InputSystem(EventHandler& initEventHandler):
-            eventHandler(initEventHandler)
+        InputSystem::InputSystem(const std::function<bool(const Event&)>& initCallback):
+            callback(initCallback)
         {
         }
 
@@ -31,7 +31,7 @@ namespace ouzel
                     eventQueue.pop();
                 }
 
-                p.first.set_value(eventHandler.handleEvent(p.second));
+                p.first.set_value(callback(p.second));
             }
         }
 

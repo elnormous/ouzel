@@ -20,7 +20,7 @@ namespace ouzel
         class Mouse;
         class Touchpad;
 
-        class InputManager final: public InputSystem::EventHandler
+        class InputManager final
         {
         public:
             InputManager();
@@ -45,7 +45,7 @@ namespace ouzel
             void hideVirtualKeyboard();
 
         private:
-            bool handleEvent(const InputSystem::Event& event) override;
+            bool handleEvent(const InputSystem::Event& event);
 
             std::unique_ptr<InputSystem> inputSystem;
             Keyboard* keyboard = nullptr;

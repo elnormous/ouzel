@@ -29,7 +29,7 @@ namespace ouzel
     {
         friend EngineLinux;
     public:
-        NativeWindowLinux(EventHandler& initEventHandler,
+        NativeWindowLinux(const std::function<void(const Event&)>& initCallback,
                           const Size2& newSize,
                           bool newResizable,
                           bool newFullscreen,

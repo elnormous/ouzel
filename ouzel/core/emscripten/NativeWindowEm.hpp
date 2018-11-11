@@ -10,7 +10,7 @@ namespace ouzel
     class NativeWindowEm final: public NativeWindow
     {
     public:
-        NativeWindowEm(EventHandler& initEventHandler,
+        NativeWindowEm(const std::function<void(const Event&)>& initCallback,
                        const Size2& newSize,
                        bool newFullscreen,
                        const std::string& newTitle,

@@ -42,8 +42,8 @@ namespace ouzel
 {
     namespace input
     {
-        InputSystemTVOS::InputSystemTVOS(EventHandler& initEventHandler):
-            InputSystem(initEventHandler),
+        InputSystemTVOS::InputSystemTVOS(const std::function<bool(const Event&)>& initCallback):
+            InputSystem(initCallback),
             keyboardDevice(new KeyboardDevice(*this, ++lastDeviceId))
         {
             connectDelegate = [[ConnectDelegate alloc] initWithInput:this];

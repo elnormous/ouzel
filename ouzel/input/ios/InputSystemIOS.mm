@@ -42,8 +42,8 @@ namespace ouzel
 {
     namespace input
     {
-        InputSystemIOS::InputSystemIOS(EventHandler& initEventHandler):
-            InputSystem(initEventHandler),
+        InputSystemIOS::InputSystemIOS(const std::function<bool(const Event&)>& initCallback):
+            InputSystem(initCallback),
             keyboardDevice(new KeyboardDevice(*this, ++lastDeviceId)),
             touchpadDevice(new TouchpadDevice(*this, ++lastDeviceId))
         {

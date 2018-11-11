@@ -30,12 +30,12 @@ static EM_BOOL emFullscreenCallback(int eventType, const void*, void* userData)
 
 namespace ouzel
 {
-    NativeWindowEm::NativeWindowEm(EventHandler& initEventHandler,
+    NativeWindowEm::NativeWindowEm(const std::function<void(const Event&)>& initCallback,
                                    const Size2& newSize,
                                    bool newFullscreen,
                                    const std::string& newTitle,
                                    bool newHighDpi):
-        NativeWindow(initEventHandler,
+        NativeWindow(initCallback,
                      newSize,
                      true,
                      newFullscreen,

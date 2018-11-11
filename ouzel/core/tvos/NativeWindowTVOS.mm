@@ -40,11 +40,11 @@
 
 namespace ouzel
 {
-    NativeWindowTVOS::NativeWindowTVOS(EventHandler& initEventHandler,
+    NativeWindowTVOS::NativeWindowTVOS(const std::function<void(const Event&)>& initCallback,
                                        const std::string& newTitle,
                                        graphics::Driver graphicsDriver,
                                        bool newHighDpi):
-        NativeWindow(initEventHandler,
+        NativeWindow(initCallback,
                      Size2(),
                      true,
                      true,

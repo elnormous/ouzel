@@ -18,7 +18,7 @@ namespace ouzel
     {
         friend EngineWin;
     public:
-        NativeWindowWin(EventHandler& initEventHandler,
+        NativeWindowWin(const std::function<void(const Event&)>& initCallback,
                         const Size2& newSize,
                         bool newResizable,
                         bool newFullscreen,

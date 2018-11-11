@@ -21,14 +21,14 @@ namespace ouzel
 {
     namespace input
     {
-        InputSystemLinux::InputSystemLinux(EventHandler& initEventHandler):
+        InputSystemLinux::InputSystemLinux(const std::function<bool(const Event&)>& initCallback):
 #if OUZEL_SUPPORTS_X11
-            InputSystem(initEventHandler),
+            InputSystem(initCallback),
             keyboardDevice(new KeyboardDeviceLinux(*this, ++lastDeviceId)),
             mouseDevice(new MouseDeviceLinux(*this, ++lastDeviceId)),
             touchpadDevice(new TouchpadDevice(*this, ++lastDeviceId))
 #else
-            InputSystem(initEventHandler)
+            InputSystem(initCallback)
 #endif
         {
 #if OUZEL_SUPPORTS_X11
