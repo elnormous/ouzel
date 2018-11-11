@@ -905,7 +905,6 @@ namespace ouzel
                     {
                         case Command::Type::PRESENT:
                         {
-                            refillQueue = false;
                             present();
                             break;
                         }
