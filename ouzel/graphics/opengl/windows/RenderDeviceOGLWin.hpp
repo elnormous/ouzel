@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_RENDERDEVICEOGLWIN_HPP
-#define OUZEL_RENDERDEVICEOGLWIN_HPP
+#ifndef OUZEL_GRAPHICS_RENDERDEVICEOGLWIN_HPP
+#define OUZEL_GRAPHICS_RENDERDEVICEOGLWIN_HPP
 
 #include "core/Setup.h"
 
@@ -23,10 +23,10 @@ namespace ouzel
         {
             friend Renderer;
         public:
+            RenderDeviceOGLWin(const std::function<void(const Event&)>& initCallback);
             ~RenderDeviceOGLWin();
 
         private:
-            RenderDeviceOGLWin();
             void init(Window* newWindow,
                       const Size2& newSize,
                       uint32_t newSampleCount,
@@ -50,4 +50,4 @@ namespace ouzel
 
 #endif
 
-#endif // OUZEL_RENDERDEVICEOGLWIN_HPP
+#endif // OUZEL_GRAPHICS_RENDERDEVICEOGLWIN_HPP

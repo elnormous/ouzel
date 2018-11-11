@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_RENDERDEVICEMETAL_HPP
-#define OUZEL_RENDERDEVICEMETAL_HPP
+#ifndef OUZEL_GRAPHICS_RENDERDEVICEMETAL_HPP
+#define OUZEL_GRAPHICS_RENDERDEVICEMETAL_HPP
 
 #include "core/Setup.h"
 
@@ -73,7 +73,7 @@ namespace ouzel
             MTLSamplerStatePtr getSamplerState(const SamplerStateDescriptor& descriptor);
 
         protected:
-            RenderDeviceMetal();
+            RenderDeviceMetal(const std::function<void(const Event&)>& initCallback);
 
             void init(Window* newWindow,
                       const Size2& newSize,
@@ -151,4 +151,4 @@ namespace ouzel
 
 #endif
 
-#endif // OUZEL_RENDERDEVICEMETAL_HPP
+#endif // OUZEL_GRAPHICS_RENDERDEVICEMETAL_HPP

@@ -43,7 +43,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        std::set<Renderer::Driver> Renderer::getAvailableRenderDrivers()
+        std::set<Driver> Renderer::getAvailableRenderDrivers()
         {
             static std::set<Driver> availableDrivers;
 
@@ -90,45 +90,45 @@ namespace ouzel
                 case Driver::OPENGL:
                     engine->log(Log::Level::INFO) << "Using OpenGL render driver";
 #if OUZEL_PLATFORM_MACOS
-                    device.reset(new RenderDeviceOGLMacOS());
+                    device.reset(new RenderDeviceOGLMacOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
 #elif OUZEL_PLATFORM_IOS
-                    device.reset(new RenderDeviceOGLIOS());
+                    device.reset(new RenderDeviceOGLIOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
 #elif OUZEL_PLATFORM_TVOS
-                    device.reset(new RenderDeviceOGLTVOS());
+                    device.reset(new RenderDeviceOGLTVOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
 #elif OUZEL_PLATFORM_ANDROID
-                    device.reset(new RenderDeviceOGLAndroid());
+                    device.reset(new RenderDeviceOGLAndroid(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
 #elif OUZEL_PLATFORM_LINUX
-                    device.reset(new RenderDeviceOGLLinux());
+                    device.reset(new RenderDeviceOGLLinux(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
 #elif OUZEL_PLATFORM_WINDOWS
-                    device.reset(new RenderDeviceOGLWin());
+                    device.reset(new RenderDeviceOGLWin(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
 #elif OUZEL_PLATFORM_EMSCRIPTEN
-                    device.reset(new RenderDeviceOGLEm());
+                    device.reset(new RenderDeviceOGLEm(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
 #else
-                    device.reset(new RenderDeviceOGL());
+                    device.reset(new RenderDeviceOGL(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
 #endif
                     break;
 #endif
 #if OUZEL_COMPILE_DIRECT3D11
                 case Driver::DIRECT3D11:
                     engine->log(Log::Level::INFO) << "Using Direct3D 11 render driver";
-                    device.reset(new RenderDeviceD3D11());
+                    device.reset(new RenderDeviceD3D11(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
                     break;
 #endif
 #if OUZEL_COMPILE_METAL
                 case Driver::METAL:
                     engine->log(Log::Level::INFO) << "Using Metal render driver";
 #if OUZEL_PLATFORM_MACOS
-                    device.reset(new RenderDeviceMetalMacOS());
+                    device.reset(new RenderDeviceMetalMacOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
 #elif OUZEL_PLATFORM_IOS
-                    device.reset(new RenderDeviceMetalIOS());
+                    device.reset(new RenderDeviceMetalIOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
 #elif OUZEL_PLATFORM_TVOS
-                    device.reset(new RenderDeviceMetalTVOS());
+                    device.reset(new RenderDeviceMetalTVOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
 #endif
                     break;
 #endif
                 default:
                     engine->log(Log::Level::INFO) << "Not using render driver";
-                    device.reset(new RenderDeviceEmpty());
+                    device.reset(new RenderDeviceEmpty(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
                     break;
             }
 
@@ -142,6 +142,10 @@ namespace ouzel
                          newVerticalSync,
                          newDepth,
                          newDebugRenderer);
+        }
+
+        void Renderer::handleEvent(const RenderDevice::Event& event)
+        {
         }
 
         void Renderer::setClearColorBuffer(bool clear)

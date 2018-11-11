@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_RENDERDEVICEOGLLINUX_HPP
-#define OUZEL_RENDERDEVICEOGLLINUX_HPP
+#ifndef OUZEL_GRAPHICS_RENDERDEVICEOGLLINUX_HPP
+#define OUZEL_GRAPHICS_RENDERDEVICEOGLLINUX_HPP
 
 #include "core/Setup.h"
 
@@ -26,13 +26,12 @@ namespace ouzel
         {
             friend Renderer;
         public:
+            RenderDeviceOGLLinux(const std::function<void(const Event&)>& initCallback);
             ~RenderDeviceOGLLinux();
 
             std::vector<Size2> getSupportedResolutions() const override;
 
         private:
-            RenderDeviceOGLLinux();
-
             void init(Window* newWindow,
                       const Size2& newSize,
                       uint32_t newSampleCount,
@@ -60,4 +59,4 @@ namespace ouzel
 
 #endif
 
-#endif // OUZEL_RENDERDEVICEOGLLINUX_HPP
+#endif // OUZEL_GRAPHICS_RENDERDEVICEOGLLINUX_HPP

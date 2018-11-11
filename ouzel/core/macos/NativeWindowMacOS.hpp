@@ -35,7 +35,7 @@ namespace ouzel
                           bool newFullscreen,
                           bool newExclusiveFullscreen,
                           const std::string& newTitle,
-                          graphics::Renderer::Driver graphicsDriver,
+                          graphics::Driver graphicsDriver,
                           bool newHighDpi);
         ~NativeWindowMacOS();
 

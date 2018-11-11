@@ -4,6 +4,7 @@
 #include "Setup.h"
 #include "Engine.hpp"
 #include "events/EventDispatcher.hpp"
+#include "graphics/Renderer.hpp"
 
 #if OUZEL_PLATFORM_MACOS
 #include "macos/NativeWindowMacOS.hpp"
@@ -28,7 +29,7 @@ namespace ouzel
                    bool newFullscreen,
                    bool newExclusiveFullscreen,
                    const std::string& newTitle,
-                   graphics::Renderer::Driver graphicsDriver,
+                   graphics::Driver graphicsDriver,
                    bool newHighDpi,
                    bool depth):
 #if OUZEL_PLATFORM_MACOS

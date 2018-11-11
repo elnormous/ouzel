@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_RENDERDEVICEOGLANDROID_HPP
-#define OUZEL_RENDERDEVICEOGLANDROID_HPP
+#ifndef OUZEL_GRAPHICS_RENDERDEVICEOGLANDROID_HPP
+#define OUZEL_GRAPHICS_RENDERDEVICEOGLANDROID_HPP
 
 #include "core/Setup.h"
 
@@ -21,6 +21,7 @@ namespace ouzel
         {
             friend Renderer;
         public:
+            RenderDeviceOGLAndroid(const std::function<void(const Event&)>& initCallback);
             ~RenderDeviceOGLAndroid();
 
             void reload();
@@ -51,4 +52,4 @@ namespace ouzel
 
 #endif
 
-#endif // OUZEL_RENDERDEVICEOGLANDROID_HPP
+#endif // OUZEL_GRAPHICS_RENDERDEVICEOGLANDROID_HPP

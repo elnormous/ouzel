@@ -37,8 +37,8 @@ namespace ouzel
             return false;
         }
 
-        RenderDeviceMetal::RenderDeviceMetal():
-            RenderDevice(Renderer::Driver::METAL)
+        RenderDeviceMetal::RenderDeviceMetal(const std::function<void(const Event&)>& initCallback):
+            RenderDevice(Driver::METAL, initCallback)
         {
             apiMajorVersion = 1;
             apiMinorVersion = 0;

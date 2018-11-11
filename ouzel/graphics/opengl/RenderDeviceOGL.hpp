@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_RENDERDEVICEOGL_HPP
-#define OUZEL_RENDERDEVICEOGL_HPP
+#ifndef OUZEL_GRAPHICS_RENDERDEVICEOGL_HPP
+#define OUZEL_GRAPHICS_RENDERDEVICEOGL_HPP
 
 #include "core/Setup.h"
 
@@ -516,7 +516,7 @@ namespace ouzel
 #endif
 
         protected:
-            RenderDeviceOGL();
+            RenderDeviceOGL(const std::function<void(const Event&)>& initCallback);
 
             void init(Window* newWindow,
                       const Size2& newSize,
@@ -611,4 +611,4 @@ namespace ouzel
 
 #endif
 
-#endif // OUZEL_RENDERDEVICEOGL_HPP
+#endif // OUZEL_GRAPHICS_RENDERDEVICEOGL_HPP

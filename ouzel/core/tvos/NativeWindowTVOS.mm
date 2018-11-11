@@ -42,7 +42,7 @@ namespace ouzel
 {
     NativeWindowTVOS::NativeWindowTVOS(EventHandler& initEventHandler,
                                        const std::string& newTitle,
-                                       graphics::Renderer::Driver graphicsDriver,
+                                       graphics::Driver graphicsDriver,
                                        bool newHighDpi):
         NativeWindow(initEventHandler,
                      Size2(),
@@ -66,16 +66,16 @@ namespace ouzel
 
         switch (graphicsDriver)
         {
-            case graphics::Renderer::Driver::EMPTY:
+            case graphics::Driver::EMPTY:
                 view = [[ViewTVOS alloc] initWithFrame:windowFrame];
                 break;
 #if OUZEL_COMPILE_OPENGL
-            case graphics::Renderer::Driver::OPENGL:
+            case graphics::Driver::OPENGL:
                 view = [[OpenGLView alloc] initWithFrame:windowFrame];
                 break;
 #endif
 #if OUZEL_COMPILE_METAL
-            case graphics::Renderer::Driver::METAL:
+            case graphics::Driver::METAL:
                 view = [[MetalView alloc] initWithFrame:windowFrame];
                 break;
 #endif

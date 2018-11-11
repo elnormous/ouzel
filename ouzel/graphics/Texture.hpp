@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_TEXTURE_HPP
-#define OUZEL_TEXTURE_HPP
+#ifndef OUZEL_GRAPHICS_TEXTURE_HPP
+#define OUZEL_GRAPHICS_TEXTURE_HPP
 
 #include <cstdint>
 #include <vector>
@@ -151,4 +151,4 @@ namespace ouzel
     } // namespace graphics
 } // namespace ouzel
 
-#endif // OUZEL_TEXTURE_HPP
+#endif // OUZEL_GRAPHICS_TEXTURE_HPP

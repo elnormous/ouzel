@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_SHADER_HPP
-#define OUZEL_SHADER_HPP
+#ifndef OUZEL_GRAPHICS_SHADER_HPP
+#define OUZEL_GRAPHICS_SHADER_HPP
 
 #include <cstdint>
 #include <set>
@@ -72,4 +72,4 @@ namespace ouzel
     } // namespace graphics
 } // namespace ouzel
 
-#endif // OUZEL_SHADER_HPP
+#endif // OUZEL_GRAPHICS_SHADER_HPP

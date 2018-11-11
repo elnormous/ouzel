@@ -28,7 +28,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        RenderDeviceOGLIOS::RenderDeviceOGLIOS():
+        RenderDeviceOGLIOS::RenderDeviceOGLIOS(const std::function<void(const Event&)>& initCallback):
+            RenderDeviceOGL(initCallback),
             displayLink(::renderCallback, this)
         {
         }

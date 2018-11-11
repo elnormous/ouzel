@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef DRAWMODE_HPP
-#define DRAWMODE_HPP
+#ifndef OUZEL_GRAPHICS_DRAWMODE_HPP
+#define OUZEL_GRAPHICS_DRAWMODE_HPP
 
 namespace ouzel
 {
@@ -18,4 +18,4 @@ namespace ouzel
     } // namespace graphics
 } // namespace ouzel
 
-#endif // DRAWMODE_HPP
+#endif // OUZEL_GRAPHICS_DRAWMODE_HPP

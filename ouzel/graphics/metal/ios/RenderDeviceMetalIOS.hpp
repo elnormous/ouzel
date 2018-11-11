@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_RENDERDEVICEMETALIOS_HPP
-#define OUZEL_RENDERDEVICEMETALIOS_HPP
+#ifndef OUZEL_GRAPHICS_RENDERDEVICEMETALIOS_HPP
+#define OUZEL_GRAPHICS_RENDERDEVICEMETALIOS_HPP
 
 #include "core/Setup.h"
 
@@ -18,7 +18,7 @@ namespace ouzel
         {
             friend Renderer;
         public:
-            RenderDeviceMetalIOS();
+            RenderDeviceMetalIOS(const std::function<void(const Event&)>& initCallback);
             ~RenderDeviceMetalIOS();
 
             void renderCallback();
@@ -40,4 +40,4 @@ namespace ouzel
 
 #endif
 
-#endif // OUZEL_RENDERDEVICEMETALIOS_HPP
+#endif // OUZEL_GRAPHICS_RENDERDEVICEMETALIOS_HPP

@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef RASTERIZERSTATE_HPP
-#define RASTERIZERSTATE_HPP
+#ifndef OUZEL_GRAPHICS_RASTERIZERSTATE_HPP
+#define OUZEL_GRAPHICS_RASTERIZERSTATE_HPP
 
 namespace ouzel
 {
@@ -22,4 +22,4 @@ namespace ouzel
     } // namespace graphics
 } // namespace ouzel
 
-#endif // RASTERIZERSTATE_HPP
+#endif // OUZEL_GRAPHICS_RASTERIZERSTATE_HPP

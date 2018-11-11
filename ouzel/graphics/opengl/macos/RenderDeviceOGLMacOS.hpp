@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_RENDERDEVICEOGLMACOS_HPP
-#define OUZEL_RENDERDEVICEOGLMACOS_HPP
+#ifndef OUZEL_GRAPHICS_RENDERDEVICEOGLMACOS_HPP
+#define OUZEL_GRAPHICS_RENDERDEVICEOGLMACOS_HPP
 
 #include "core/Setup.h"
 
@@ -30,6 +30,7 @@ namespace ouzel
         {
             friend Renderer;
         public:
+            RenderDeviceOGLMacOS(const std::function<void(const Event&)>& initCallback);
             ~RenderDeviceOGLMacOS();
 
             std::vector<Size2> getSupportedResolutions() const override;
@@ -39,7 +40,6 @@ namespace ouzel
             void renderCallback();
 
         protected:
-            RenderDeviceOGLMacOS();
             void init(Window* newWindow,
                       const Size2& newSize,
                       uint32_t newSampleCount,
@@ -67,4 +67,4 @@ namespace ouzel
 
 #endif
 
-#endif // OUZEL_RENDERDEVICEOGLMACOS_HPP
+#endif // OUZEL_GRAPHICS_RENDERDEVICEOGLMACOS_HPP

@@ -28,7 +28,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        RenderDeviceOGLTVOS::RenderDeviceOGLTVOS():
+        RenderDeviceOGLTVOS::RenderDeviceOGLTVOS(const std::function<void(const Event&)>& initCallback):
+            RenderDeviceOGL(initCallback),
             displayLink(::renderCallback, this)
         {
         }

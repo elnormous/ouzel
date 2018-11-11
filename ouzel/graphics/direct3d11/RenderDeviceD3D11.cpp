@@ -25,8 +25,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        RenderDeviceD3D11::RenderDeviceD3D11():
-            RenderDevice(Renderer::Driver::DIRECT3D11), running(false)
+        RenderDeviceD3D11::RenderDeviceD3D11(const std::function<void(const Event&)>& initCallback):
+            RenderDevice(Driver::DIRECT3D11, initCallback), running(false)
         {
             apiMajorVersion = 11;
             apiMinorVersion = 0;

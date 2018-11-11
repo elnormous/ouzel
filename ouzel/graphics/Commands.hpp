@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_COMMANDS_HPP
-#define OUZEL_COMMANDS_HPP
+#ifndef OUZEL_GRAPHICS_COMMANDS_HPP
+#define OUZEL_GRAPHICS_COMMANDS_HPP
 
 #include <queue>
 #include <string>
@@ -564,4 +564,4 @@ namespace ouzel
     } // namespace graphics
 } // namespace ouzel
 
-#endif // OUZEL_COMMANDS_HPP
+#endif // OUZEL_GRAPHICS_COMMANDS_HPP

@@ -1,17 +1,28 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_RENDERDEVICE_HPP
-#define OUZEL_RENDERDEVICE_HPP
+#ifndef OUZEL_GRAPHICS_RENDERDEVICE_HPP
+#define OUZEL_GRAPHICS_RENDERDEVICE_HPP
 
 #include <condition_variable>
 #include <mutex>
-#include "graphics/Renderer.hpp"
+#include "graphics/Commands.hpp"
+#include "graphics/Driver.hpp"
+#include "graphics/Texture.hpp"
 #include "graphics/Vertex.hpp"
+#include "math/Matrix4.hpp"
+#include "math/Size2.hpp"
 
 namespace ouzel
 {
+    class Window;
+    
     namespace graphics
     {
+        class Renderer;
+        class BlendState;
+        class Buffer;
+        class Shader;
+
         class RenderDevice
         {
             friend Renderer;
@@ -20,6 +31,16 @@ namespace ouzel
             friend Shader;
             friend Texture;
         public:
+            struct Event
+            {
+                enum class Type
+                {
+                    FRAME
+                };
+
+                Type type;
+            };
+
             virtual ~RenderDevice();
 
             RenderDevice(const RenderDevice&) = delete;
@@ -28,7 +49,7 @@ namespace ouzel
             RenderDevice(RenderDevice&&) = delete;
             RenderDevice& operator=(RenderDevice&&) = delete;
 
-            inline Renderer::Driver getDriver() const { return driver; }
+            inline Driver getDriver() const { return driver; }
 
             virtual void process();
 
@@ -101,7 +122,8 @@ namespace ouzel
             }
 
         protected:
-            explicit RenderDevice(Renderer::Driver initDriver);
+            explicit RenderDevice(Driver initDriver,
+                                  const std::function<void(const Event&)>& initCallback);
             void waitForNextFrame();
 
             virtual void init(Window* newWindow,
@@ -118,7 +140,8 @@ namespace ouzel
 
             virtual void generateScreenshot(const std::string& filename);
 
-            Renderer::Driver driver;
+            Driver driver;
+            std::function<void(const Event&)> callback;
 
             Window* window = nullptr;
 
@@ -174,4 +197,4 @@ namespace ouzel
     } // namespace graphics
 } // namespace ouzel
 
-#endif // OUZEL_RENDERDEVICE_HPP
+#endif // OUZEL_GRAPHICS_RENDERDEVICE_HPP

@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_RENDERDEVICEOGLIOS_HPP
-#define OUZEL_RENDERDEVICEOGLIOS_HPP
+#ifndef OUZEL_GRAPHICS_RENDERDEVICEOGLIOS_HPP
+#define OUZEL_GRAPHICS_RENDERDEVICEOGLIOS_HPP
 
 #include "core/Setup.h"
 
@@ -28,7 +28,7 @@ namespace ouzel
         {
             friend Renderer;
         public:
-            RenderDeviceOGLIOS();
+            RenderDeviceOGLIOS(const std::function<void(const Event&)>& initCallback);
             ~RenderDeviceOGLIOS();
 
             void renderCallback();
@@ -66,4 +66,4 @@ namespace ouzel
 
 #endif
 
-#endif // OUZEL_RENDERDEVICEOGLIOS_HPP
+#endif // OUZEL_GRAPHICS_RENDERDEVICEOGLIOS_HPP

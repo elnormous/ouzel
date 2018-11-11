@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_RENDERRESOURCEOGL_HPP
-#define OUZEL_RENDERRESOURCEOGL_HPP
+#ifndef OUZEL_GRAPHICS_RENDERRESOURCEOGL_HPP
+#define OUZEL_GRAPHICS_RENDERRESOURCEOGL_HPP
 
 #include "core/Setup.h"
 
@@ -32,4 +32,4 @@ namespace ouzel
 
 #endif
 
-#endif // OUZEL_RENDERRESOURCEOGL_HPP
+#endif // OUZEL_GRAPHICS_RENDERRESOURCEOGL_HPP

@@ -16,6 +16,11 @@ namespace ouzel
 {
     namespace graphics
     {
+        RenderDeviceOGLAndroid::RenderDeviceOGLAndroid(const std::function<void(const Event&)>& initCallback):
+            RenderDeviceOGL(initEventHanler)
+        {
+        }
+
         RenderDeviceOGLAndroid::~RenderDeviceOGLAndroid()
         {
             running = false;

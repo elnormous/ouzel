@@ -123,7 +123,7 @@ namespace ouzel
     {
         setCurrentThreadName("Main");
 
-        graphics::Renderer::Driver graphicsDriver = graphics::Renderer::Driver::DEFAULT;
+        graphics::Driver graphicsDriver = graphics::Driver::DEFAULT;
         Size2 size;
         uint32_t sampleCount = 1; // MSAA sample count
         graphics::Texture::Filter textureFilter = graphics::Texture::Filter::POINT;
@@ -157,15 +157,15 @@ namespace ouzel
         if (!graphicsDriverValue.empty())
         {
             if (graphicsDriverValue == "default")
-                graphicsDriver = graphics::Renderer::Driver::DEFAULT;
+                graphicsDriver = graphics::Driver::DEFAULT;
             else if (graphicsDriverValue == "empty")
-                graphicsDriver = graphics::Renderer::Driver::EMPTY;
+                graphicsDriver = graphics::Driver::EMPTY;
             else if (graphicsDriverValue == "opengl")
-                graphicsDriver = graphics::Renderer::Driver::OPENGL;
+                graphicsDriver = graphics::Driver::OPENGL;
             else if (graphicsDriverValue == "direct3d11")
-                graphicsDriver = graphics::Renderer::Driver::DIRECT3D11;
+                graphicsDriver = graphics::Driver::DIRECT3D11;
             else if (graphicsDriverValue == "metal")
-                graphicsDriver = graphics::Renderer::Driver::METAL;
+                graphicsDriver = graphics::Driver::METAL;
             else
                 throw ConfigError("Invalid graphics driver specified");
         }
@@ -245,18 +245,18 @@ namespace ouzel
         std::string debugAudioValue = userEngineSection.getValue("debugAudio", defaultEngineSection.getValue("debugAudio"));
         if (!debugAudioValue.empty()) debugAudio = (debugAudioValue == "true" || debugAudioValue == "1" || debugAudioValue == "yes");
 
-        if (graphicsDriver == graphics::Renderer::Driver::DEFAULT)
+        if (graphicsDriver == graphics::Driver::DEFAULT)
         {
             auto availableDrivers = graphics::Renderer::getAvailableRenderDrivers();
 
-            if (availableDrivers.find(graphics::Renderer::Driver::METAL) != availableDrivers.end())
-                graphicsDriver = graphics::Renderer::Driver::METAL;
-            else if (availableDrivers.find(graphics::Renderer::Driver::DIRECT3D11) != availableDrivers.end())
-                graphicsDriver = graphics::Renderer::Driver::DIRECT3D11;
-            else if (availableDrivers.find(graphics::Renderer::Driver::OPENGL) != availableDrivers.end())
-                graphicsDriver = graphics::Renderer::Driver::OPENGL;
+            if (availableDrivers.find(graphics::Driver::METAL) != availableDrivers.end())
+                graphicsDriver = graphics::Driver::METAL;
+            else if (availableDrivers.find(graphics::Driver::DIRECT3D11) != availableDrivers.end())
+                graphicsDriver = graphics::Driver::DIRECT3D11;
+            else if (availableDrivers.find(graphics::Driver::OPENGL) != availableDrivers.end())
+                graphicsDriver = graphics::Driver::OPENGL;
             else
-                graphicsDriver = graphics::Renderer::Driver::EMPTY;
+                graphicsDriver = graphics::Driver::EMPTY;
         }
 
         window.reset(new Window(size,
@@ -306,7 +306,7 @@ namespace ouzel
         switch (graphicsDriver)
         {
 #if OUZEL_COMPILE_OPENGL
-            case graphics::Renderer::Driver::OPENGL:
+            case graphics::Driver::OPENGL:
             {
                 std::shared_ptr<graphics::Shader> textureShader = std::make_shared<graphics::Shader>(*renderer);
 
@@ -409,7 +409,7 @@ namespace ouzel
 #endif
 
 #if OUZEL_COMPILE_DIRECT3D11
-            case graphics::Renderer::Driver::DIRECT3D11:
+            case graphics::Driver::DIRECT3D11:
             {
                 std::shared_ptr<graphics::Shader> textureShader = std::make_shared<graphics::Shader>(*renderer);
                 textureShader->init(std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_D3D11), std::end(TEXTURE_PIXEL_SHADER_D3D11)),
@@ -433,7 +433,7 @@ namespace ouzel
 #endif
 
 #if OUZEL_COMPILE_METAL
-            case graphics::Renderer::Driver::METAL:
+            case graphics::Driver::METAL:
             {
                 std::shared_ptr<graphics::Shader> textureShader = std::make_shared<graphics::Shader>(*renderer);
                 textureShader->init(std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_METAL), std::end(TEXTURE_PIXEL_SHADER_METAL)),
