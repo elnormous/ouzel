@@ -23,7 +23,7 @@ namespace ouzel
                                          bool newFullscreen,
                                          bool newExclusiveFullscreen,
                                          const std::string& newTitle,
-                                         graphics::Renderer::Driver graphicsDriver,
+                                         graphics::Driver graphicsDriver,
                                          bool depth):
         NativeWindow(initEventHandler,
                      newSize,
@@ -50,7 +50,7 @@ namespace ouzel
 
         switch (graphicsDriver)
         {
-            case graphics::Renderer::Driver::EMPTY:
+            case graphics::Driver::EMPTY:
             {
                 XSetWindowAttributes swa;
                 swa.background_pixel = XWhitePixel(display, screenIndex);
@@ -65,7 +65,7 @@ namespace ouzel
                 break;
             }
 #  if OUZEL_COMPILE_OPENGL
-            case graphics::Renderer::Driver::OPENGL:
+            case graphics::Driver::OPENGL:
             {
                 // find an OpenGL-capable RGB visual
                 static int doubleBuffer[] = {

@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_DEPTHSTENCILSTATE_H
-#define OUZEL_DEPTHSTENCILSTATE_H
+#ifndef OUZEL_GRAPHICS_DEPTHSTENCILSTATE_HPP
+#define OUZEL_GRAPHICS_DEPTHSTENCILSTATE_HPP
 
 #include <cstdint>
 
@@ -56,4 +56,4 @@ namespace ouzel
     } // namespace graphics
 } // namespace ouzel
 
-#endif // OUZEL_DEPTHSTENCILSTATE_H
+#endif // OUZEL_GRAPHICS_DEPTHSTENCILSTATE_HPP

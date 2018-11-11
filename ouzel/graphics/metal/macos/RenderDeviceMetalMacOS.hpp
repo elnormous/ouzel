@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_RENDERDEVICEMETALMACOS_HPP
-#define OUZEL_RENDERDEVICEMETALMACOS_HPP
+#ifndef OUZEL_GRAPHICS_RENDERDEVICEMETALMACOS_HPP
+#define OUZEL_GRAPHICS_RENDERDEVICEMETALMACOS_HPP
 
 #include "core/Setup.h"
 
@@ -48,6 +48,7 @@ namespace ouzel
         {
             friend Renderer;
         public:
+            RenderDeviceMetalMacOS(const std::function<void(const Event&)>& initCallback);
             ~RenderDeviceMetalMacOS();
 
             std::vector<Size2> getSupportedResolutions() const override;
@@ -55,7 +56,6 @@ namespace ouzel
             void renderCallback();
 
         private:
-            RenderDeviceMetalMacOS();
             void init(Window* newWindow,
                       const Size2& newSize,
                       uint32_t newSampleCount,
@@ -77,4 +77,4 @@ namespace ouzel
 
 #endif
 
-#endif // OUZEL_RENDERDEVICEMETALMACOS_HPP
+#endif // OUZEL_GRAPHICS_RENDERDEVICEMETALMACOS_HPP

@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_RENDERDEVICEOGLTVOS_HPP
-#define OUZEL_RENDERDEVICEOGLTVOS_HPP
+#ifndef OUZEL_GRAPHICS_RENDERDEVICEOGLTVOS_HPP
+#define OUZEL_GRAPHICS_RENDERDEVICEOGLTVOS_HPP
 
 #include "core/Setup.h"
 
@@ -28,7 +28,7 @@ namespace ouzel
         {
             friend Renderer;
         public:
-            RenderDeviceOGLTVOS();
+            RenderDeviceOGLTVOS(const std::function<void(const Event&)>& initCallback);
             ~RenderDeviceOGLTVOS();
 
             void renderCallback();
@@ -66,4 +66,4 @@ namespace ouzel
 
 #endif
 
-#endif // OUZEL_RENDERDEVICEOGLTVOS_HPP
+#endif // OUZEL_GRAPHICS_RENDERDEVICEOGLTVOS_HPP

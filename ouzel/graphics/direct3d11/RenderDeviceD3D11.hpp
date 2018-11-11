@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_RENDERDEVICED3D11_HPP
-#define OUZEL_RENDERDEVICED3D11_HPP
+#ifndef OUZEL_GRAPHICS_RENDERDEVICED3D11_HPP
+#define OUZEL_GRAPHICS_RENDERDEVICED3D11_HPP
 
 #include "core/Setup.h"
 
@@ -35,7 +35,7 @@ namespace ouzel
             void setFullscreen(bool newFullscreen);
 
         protected:
-            RenderDeviceD3D11();
+            RenderDeviceD3D11(const std::function<void(const Event&)>& initCallback);
 
             void init(Window* newWindow,
                       const Size2& newSize,
@@ -89,4 +89,4 @@ namespace ouzel
 
 #endif
 
-#endif // OUZEL_RENDERDEVICED3D11_HPP
+#endif // OUZEL_GRAPHICS_RENDERDEVICED3D11_HPP

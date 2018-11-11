@@ -38,7 +38,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        RenderDeviceOGLMacOS::RenderDeviceOGLMacOS():
+        RenderDeviceOGLMacOS::RenderDeviceOGLMacOS(const std::function<void(const Event&)>& initCallback):
+            RenderDeviceOGL(initCallback),
             running(false)
         {
         }
@@ -205,7 +206,7 @@ namespace ouzel
 
         bool RenderDeviceOGLMacOS::handleWindow(const WindowEvent& event)
         {
-            if (event.type == Event::Type::SCREEN_CHANGE)
+            if (event.type == ouzel::Event::Type::SCREEN_CHANGE)
             {
                 engine->executeOnMainThread([this, event]() {
                     if (displayLink)

@@ -29,7 +29,7 @@ namespace ouzel
     public:
         NativeWindowIOS(EventHandler& initEventHandler,
                         const std::string& newTitle,
-                        graphics::Renderer::Driver graphicsDriver,
+                        graphics::Driver graphicsDriver,
                         bool newHighDpi);
         ~NativeWindowIOS();
 

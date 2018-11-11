@@ -39,7 +39,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        RenderDeviceMetalMacOS::RenderDeviceMetalMacOS():
+        RenderDeviceMetalMacOS::RenderDeviceMetalMacOS(const std::function<void(const Event&)>& initCallback):
+            RenderDeviceMetal(initCallback),
             running(false)
         {
         }
@@ -125,7 +126,7 @@ namespace ouzel
 
         bool RenderDeviceMetalMacOS::handleWindow(const WindowEvent& event)
         {
-            if (event.type == Event::Type::SCREEN_CHANGE)
+            if (event.type == ouzel::Event::Type::SCREEN_CHANGE)
             {
                 engine->executeOnMainThread([this, event]() {
 

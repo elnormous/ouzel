@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_METALVIEW_H
-#define OUZEL_METALVIEW_H
+#ifndef OUZEL_GRAPHICS_METALVIEW_H
+#define OUZEL_GRAPHICS_METALVIEW_H
 
 #include "core/Setup.h"
 
@@ -15,4 +15,4 @@
 
 #endif
 
-#endif // OUZEL_METALVIEW_H
+#endif // OUZEL_GRAPHICS_METALVIEW_H

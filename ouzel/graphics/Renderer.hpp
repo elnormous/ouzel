@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_RENDERER_HPP
-#define OUZEL_RENDERER_HPP
+#ifndef OUZEL_GRAPHICS_RENDERER_HPP
+#define OUZEL_GRAPHICS_RENDERER_HPP
 
 #include <cstdint>
 #include <functional>
@@ -12,6 +12,8 @@
 #include <set>
 #include <atomic>
 #include "graphics/Commands.hpp"
+#include "graphics/Driver.hpp"
+#include "graphics/RenderDevice.hpp"
 #include "math/Rect.hpp"
 #include "math/Matrix4.hpp"
 #include "math/Size2.hpp"
@@ -19,25 +21,12 @@
 
 namespace ouzel
 {
-    class Window;
-
     namespace graphics
     {
-        class RenderDevice;
-
         class Renderer final
         {
             friend Window;
         public:
-            enum class Driver
-            {
-                DEFAULT,
-                EMPTY,
-                OPENGL,
-                DIRECT3D11,
-                METAL
-            };
-
             Renderer(Driver driver,
                      Window* newWindow,
                      const Size2& newSize,
@@ -100,6 +89,7 @@ namespace ouzel
             void waitForNextFrame();
 
         private:
+            void handleEvent(const RenderDevice::Event& event);
             void setSize(const Size2& newSize);
 
             std::unique_ptr<RenderDevice> device;
@@ -114,4 +104,4 @@ namespace ouzel
     } // namespace graphics
 } // namespace ouzel
 
-#endif // OUZEL_RENDERER_HPP
+#endif // OUZEL_GRAPHICS_RENDERER_HPP

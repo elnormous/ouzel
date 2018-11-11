@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_RENDERDEVICEOGLEM_HPP
-#define OUZEL_RENDERDEVICEOGLEM_HPP
+#ifndef OUZEL_GRAPHICS_RENDERDEVICEOGLEM_HPP
+#define OUZEL_GRAPHICS_RENDERDEVICEOGLEM_HPP
 
 #include "core/Setup.h"
 
@@ -19,6 +19,7 @@ namespace ouzel
         {
             friend Renderer;
         public:
+            RenderDeviceOGLEm(const std::function<void(const Event&)>& initCallback);
             ~RenderDeviceOGLEm();
 
         private:
@@ -38,4 +39,4 @@ namespace ouzel
 
 #endif
 
-#endif // OUZEL_RENDERDEVICEOGLEM_HPP
+#endif // OUZEL_GRAPHICS_RENDERDEVICEOGLEM_HPP

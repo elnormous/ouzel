@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_RENDERRESOURCEMETAL_HPP
-#define OUZEL_RENDERRESOURCEMETAL_HPP
+#ifndef OUZEL_GRAPHICS_RENDERRESOURCEMETAL_HPP
+#define OUZEL_GRAPHICS_RENDERRESOURCEMETAL_HPP
 
 #include "core/Setup.h"
 
@@ -31,4 +31,4 @@ namespace ouzel
 
 #endif
 
-#endif // OUZEL_RENDERRESOURCEMETAL_HPP
+#endif // OUZEL_GRAPHICS_RENDERRESOURCEMETAL_HPP

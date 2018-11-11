@@ -127,7 +127,8 @@ namespace ouzel
             HGLRC renderContext = 0;
         };
 
-        RenderDeviceOGLWin::RenderDeviceOGLWin():
+        RenderDeviceOGLWin::RenderDeviceOGLWin(const std::function<void(const Event&)>& initCallback):
+            RenderDeviceOGL(initCallback),
             running(false)
         {
         }

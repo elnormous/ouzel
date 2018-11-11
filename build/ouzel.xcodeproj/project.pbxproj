@@ -1247,6 +1247,7 @@
 		30B859931F3D2F3200A16952 /* Font.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Font.hpp; sourceTree = "<group>"; };
 		30BA5FB22198B42D0032AC23 /* RasterizerState.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RasterizerState.hpp; sourceTree = "<group>"; };
 		30BA5FB32198B4900032AC23 /* DrawMode.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DrawMode.hpp; sourceTree = "<group>"; };
+		30BA5FB42198CE810032AC23 /* Driver.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Driver.hpp; sourceTree = "<group>"; };
 		30BB848B20843FBE00C145A2 /* Controller.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Controller.hpp; sourceTree = "<group>"; };
 		30BB848C20843FCD00C145A2 /* Mouse.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Mouse.hpp; sourceTree = "<group>"; };
 		30BB848D20843FDB00C145A2 /* Keyboard.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Keyboard.hpp; sourceTree = "<group>"; };
@@ -1517,6 +1518,7 @@
 				300902FC219224B100B00BF4 /* DepthStencilState.cpp */,
 				300902FD219224B100B00BF4 /* DepthStencilState.hpp */,
 				30BA5FB32198B4900032AC23 /* DrawMode.hpp */,
+				30BA5FB42198CE810032AC23 /* Driver.hpp */,
 				303820881D816EAB00677CAB /* empty */,
 				303B74E11C277A7500FEDE92 /* ImageData.cpp */,
 				303B74E21C277A7500FEDE92 /* ImageData.hpp */,

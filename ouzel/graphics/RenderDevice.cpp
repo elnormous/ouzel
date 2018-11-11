@@ -7,8 +7,10 @@ namespace ouzel
 {
     namespace graphics
     {
-        RenderDevice::RenderDevice(Renderer::Driver initDriver):
+        RenderDevice::RenderDevice(Driver initDriver,
+                                   const std::function<void(const Event&)>& initCallback):
             driver(initDriver),
+            callback(initCallback),
             projectionTransform(Matrix4::identity()),
             renderTargetProjectionTransform(Matrix4::identity()),
             refillQueue(false),
@@ -45,6 +47,10 @@ namespace ouzel
 
         void RenderDevice::process()
         {
+            Event event;
+            event.type = Event::Type::FRAME;
+            callback(event);
+
             {
                 std::unique_lock<std::mutex> lock(frameMutex);
                 newFrame = true;

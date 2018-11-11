@@ -351,8 +351,8 @@ namespace ouzel
             }
         }
 
-        RenderDeviceOGL::RenderDeviceOGL():
-            RenderDevice(Renderer::Driver::OPENGL)
+        RenderDeviceOGL::RenderDeviceOGL(const std::function<void(const Event&)>& initCallback):
+            RenderDevice(Driver::OPENGL, initCallback)
         {
             projectionTransform = Matrix4(1.0F, 0.0F, 0.0F, 0.0F,
                                           0.0F, 1.0F, 0.0F, 0.0F,

@@ -6,8 +6,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        RenderDeviceEmpty::RenderDeviceEmpty():
-            RenderDevice(Renderer::Driver::EMPTY)
+        RenderDeviceEmpty::RenderDeviceEmpty(const std::function<void(const Event&)>& initCallback):
+            RenderDevice(Driver::EMPTY, initCallback)
         {
         }
 

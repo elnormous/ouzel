@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_TEXTURERESOURCEOGL_HPP
-#define OUZEL_TEXTURERESOURCEOGL_HPP
+#ifndef OUZEL_GRAPHICS_TEXTURERESOURCEOGL_HPP
+#define OUZEL_GRAPHICS_TEXTURERESOURCEOGL_HPP
 
 #include <array>
 
@@ -112,4 +112,4 @@ namespace ouzel
 
 #endif
 
-#endif // OUZEL_TEXTURERESOURCEOGL_HPP
+#endif // OUZEL_GRAPHICS_TEXTURERESOURCEOGL_HPP

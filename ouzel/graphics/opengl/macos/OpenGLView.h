@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_OPENGLVIEW_H
-#define OUZEL_OPENGLVIEW_H
+#ifndef OUZEL_GRAPHICS_OPENGLVIEW_H
+#define OUZEL_GRAPHICS_OPENGLVIEW_H
 
 #include "core/Setup.h"
 
@@ -15,4 +15,4 @@
 
 #endif
 
-#endif // OUZEL_OPENGLVIEW_H
+#endif // OUZEL_GRAPHICS_OPENGLVIEW_H

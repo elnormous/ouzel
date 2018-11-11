@@ -29,7 +29,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        RenderDeviceMetalTVOS::RenderDeviceMetalTVOS():
+        RenderDeviceMetalTVOS::RenderDeviceMetalTVOS(const std::function<void(const Event&)>& initCallback):
+            RenderDeviceMetal(initCallback),
             displayLink(::renderCallback, this)
         {
         }
