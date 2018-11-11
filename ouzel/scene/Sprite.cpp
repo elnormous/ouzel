@@ -45,7 +45,7 @@ namespace ouzel
         void Sprite::init(const SpriteData& spriteData)
         {
             material = std::make_shared<graphics::Material>();
-            material->cullMode = graphics::Renderer::CullMode::NONE;
+            material->cullMode = graphics::CullMode::NONE;
             material->blendState = spriteData.blendState ? spriteData.blendState : engine->getCache().getBlendState(BLEND_ALPHA);
             material->shader = spriteData.shader ? spriteData.shader : engine->getCache().getShader(SHADER_TEXTURE);
             material->textures[0] = spriteData.texture;
@@ -62,7 +62,7 @@ namespace ouzel
         void Sprite::init(const std::string& filename)
         {
             material = std::make_shared<graphics::Material>();
-            material->cullMode = graphics::Renderer::CullMode::NONE;
+            material->cullMode = graphics::CullMode::NONE;
             material->shader = engine->getCache().getShader(SHADER_TEXTURE);
             material->blendState = engine->getCache().getBlendState(BLEND_ALPHA);
 
@@ -101,7 +101,7 @@ namespace ouzel
                           const Vector2& pivot)
         {
             material = std::make_shared<graphics::Material>();
-            material->cullMode = graphics::Renderer::CullMode::NONE;
+            material->cullMode = graphics::CullMode::NONE;
             material->shader = engine->getCache().getShader(SHADER_TEXTURE);
             material->blendState = engine->getCache().getBlendState(BLEND_ALPHA);
             material->textures[0] = newTexture;
@@ -250,7 +250,7 @@ namespace ouzel
                                             frame.getIndexCount(),
                                             sizeof(uint16_t),
                                             frame.getVertexBuffer()->getResource(),
-                                            graphics::Renderer::DrawMode::TRIANGLE_LIST,
+                                            graphics::DrawMode::TRIANGLE_LIST,
                                             0);
             }
         }

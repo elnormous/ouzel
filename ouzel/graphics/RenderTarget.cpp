@@ -18,8 +18,8 @@ namespace ouzel
         {
             if (resource)
             {
+                renderer.addCommand(std::unique_ptr<Command>(new DeleteResourceCommand(resource)));
                 RenderDevice* renderDevice = renderer.getDevice();
-                renderDevice->addCommand(std::unique_ptr<Command>(new DeleteResourceCommand(resource)));
                 renderDevice->deleteResourceId(resource);
             }
         }

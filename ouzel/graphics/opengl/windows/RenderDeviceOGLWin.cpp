@@ -135,7 +135,9 @@ namespace ouzel
         RenderDeviceOGLWin::~RenderDeviceOGLWin()
         {
             running = false;
-            flushCommands();
+            CommandBuffer commandBuffer;
+            commandBuffer.commands.push(std::unique_ptr<Command>(new PresentCommand()));
+            submitCommandBuffer(std::move(commandBuffer));
 
             if (renderThread.joinable()) renderThread.join();
 

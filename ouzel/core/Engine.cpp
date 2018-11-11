@@ -639,10 +639,7 @@ namespace ouzel
         window->update();
 
         if (renderer->getDevice()->getRefillQueue())
-        {
             sceneManager.draw();
-            renderer->getDevice()->flushCommands();
-        }
 
         audio->update();
 

@@ -883,571 +883,580 @@ namespace ouzel
 
             ShaderResourceOGL* currentShader = nullptr;
 
-            std::unique_ptr<Command> command;
+            CommandBuffer commandBuffer;
 
             for (;;)
             {
                 {
                     std::unique_lock<std::mutex> lock(commandQueueMutex);
                     while (commandQueue.empty()) commandQueueCondition.wait(lock);
-                    command = std::move(commandQueue.front());
+                    commandBuffer = std::move(commandQueue.front());
                     commandQueue.pop();
                 }
 
-                switch (command->type)
+                std::unique_ptr<Command> command;
+
+                while (commandBuffer.commands.empty())
                 {
-                    case Command::Type::PRESENT:
+                    command = std::move(commandBuffer.commands.front());
+                    commandBuffer.commands.pop();
+
+                    switch (command->type)
                     {
-                        present();
-                        break;
-                    }
-
-                    case Command::Type::DELETE_RESOURCE:
-                    {
-                        const DeleteResourceCommand* deleteResourceCommand = static_cast<const DeleteResourceCommand*>(command.get());
-                        resources[deleteResourceCommand->resource - 1].reset();
-                        break;
-                    }
-
-                    case Command::Type::SET_RENDER_TARGET:
-                    {
-                        const SetRenderTargetCommand* setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command.get());
-
-                        GLuint newFrameBufferId = 0;
-
-                        if (setRenderTargetCommand->renderTarget)
+                        case Command::Type::PRESENT:
                         {
-                            TextureResourceOGL* renderTargetOGL = static_cast<TextureResourceOGL*>(resources[setRenderTargetCommand->renderTarget - 1].get());
-
-                            if (!renderTargetOGL->getFrameBufferId()) break;
-                            newFrameBufferId = renderTargetOGL->getFrameBufferId();
-                        }
-                        else
-                            newFrameBufferId = frameBufferId;
-
-                        bindFrameBuffer(newFrameBufferId);
-
-                        // TODO: update cull mode
-
-                        break;
-                    }
-
-                    case Command::Type::SET_RENDER_TARGET_PARAMETERS:
-                    {
-                        const SetRenderTargetParametersCommand* setRenderTargetParametersCommand = static_cast<const SetRenderTargetParametersCommand*>(command.get());
-
-                        if (setRenderTargetParametersCommand->renderTarget)
-                        {
-                            TextureResourceOGL* renderTargetOGL = static_cast<TextureResourceOGL*>(resources[setRenderTargetParametersCommand->renderTarget - 1].get());
-                            renderTargetOGL->setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
-                            renderTargetOGL->setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
-                            renderTargetOGL->setClearColor(setRenderTargetParametersCommand->clearColor);
-                            renderTargetOGL->setClearDepth(setRenderTargetParametersCommand->clearDepth);
-                        }
-                        else
-                        {
-                            setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
-                            setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
-                            setClearColor(setRenderTargetParametersCommand->clearColor);
-                            setClearDepth(setRenderTargetParametersCommand->clearDepth);
+                            refillQueue = false;
+                            present();
+                            break;
                         }
 
-                        break;
-                    }
-
-                    case Command::Type::CLEAR_RENDER_TARGET:
-                    {
-                        const ClearRenderTargetCommand* clearCommand = static_cast<const ClearRenderTargetCommand*>(command.get());
-
-                        GLuint newFrameBufferId = 0;
-                        GLbitfield newClearMask = 0;
-                        const std::array<float, 4>* newClearColor;
-                        GLfloat newClearDepth;
-                        GLsizei renderTargetWidth = 0;
-                        GLsizei renderTargetHeight = 0;
-
-                        if (clearCommand->renderTarget)
+                        case Command::Type::DELETE_RESOURCE:
                         {
-                            TextureResourceOGL* renderTargetOGL = static_cast<TextureResourceOGL*>(resources[clearCommand->renderTarget - 1].get());
-
-                            if (!renderTargetOGL->getFrameBufferId()) break;
-
-                            renderTargetWidth = renderTargetOGL->getWidth();
-                            renderTargetHeight = renderTargetOGL->getHeight();
-                            newFrameBufferId = renderTargetOGL->getFrameBufferId();
-                            newClearColor = &renderTargetOGL->getFrameBufferClearColor();
-                            newClearDepth = renderTargetOGL->getClearDepth();
-                            newClearMask = renderTargetOGL->getClearMask();
-                        }
-                        else
-                        {
-                            renderTargetWidth = frameBufferWidth;
-                            renderTargetHeight = frameBufferHeight;
-                            newFrameBufferId = frameBufferId;
-                            newClearColor = &frameBufferClearColor;
-                            newClearDepth = clearDepth;
-                            newClearMask = clearMask;
+                            const DeleteResourceCommand* deleteResourceCommand = static_cast<const DeleteResourceCommand*>(command.get());
+                            resources[deleteResourceCommand->resource - 1].reset();
+                            break;
                         }
 
-                        if (newClearMask)
+                        case Command::Type::SET_RENDER_TARGET:
                         {
+                            const SetRenderTargetCommand* setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command.get());
+
+                            GLuint newFrameBufferId = 0;
+
+                            if (setRenderTargetCommand->renderTarget)
+                            {
+                                TextureResourceOGL* renderTargetOGL = static_cast<TextureResourceOGL*>(resources[setRenderTargetCommand->renderTarget - 1].get());
+
+                                if (!renderTargetOGL->getFrameBufferId()) break;
+                                newFrameBufferId = renderTargetOGL->getFrameBufferId();
+                            }
+                            else
+                                newFrameBufferId = frameBufferId;
+
                             bindFrameBuffer(newFrameBufferId);
 
-                            setViewport(0, 0,
-                                        renderTargetWidth,
-                                        renderTargetHeight);
+                            // TODO: update cull mode
 
-                            setScissorTest(false, 0, 0, renderTargetWidth, renderTargetHeight);
+                            break;
+                        }
 
-                            if (newClearMask & GL_DEPTH_BUFFER_BIT)
+                        case Command::Type::SET_RENDER_TARGET_PARAMETERS:
+                        {
+                            const SetRenderTargetParametersCommand* setRenderTargetParametersCommand = static_cast<const SetRenderTargetParametersCommand*>(command.get());
+
+                            if (setRenderTargetParametersCommand->renderTarget)
                             {
-                                // allow clearing the depth buffer
-                                setDepthMask(true);
-                                setClearDepthValue(newClearDepth);
+                                TextureResourceOGL* renderTargetOGL = static_cast<TextureResourceOGL*>(resources[setRenderTargetParametersCommand->renderTarget - 1].get());
+                                renderTargetOGL->setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
+                                renderTargetOGL->setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
+                                renderTargetOGL->setClearColor(setRenderTargetParametersCommand->clearColor);
+                                renderTargetOGL->setClearDepth(setRenderTargetParametersCommand->clearDepth);
+                            }
+                            else
+                            {
+                                setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
+                                setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
+                                setClearColor(setRenderTargetParametersCommand->clearColor);
+                                setClearDepth(setRenderTargetParametersCommand->clearDepth);
                             }
 
-                            if (newClearMask & GL_COLOR_BUFFER_BIT)
-                                setClearColorValue(*newClearColor);
+                            break;
+                        }
 
-                            glClearProc(newClearMask);
+                        case Command::Type::CLEAR_RENDER_TARGET:
+                        {
+                            const ClearRenderTargetCommand* clearCommand = static_cast<const ClearRenderTargetCommand*>(command.get());
+
+                            GLuint newFrameBufferId = 0;
+                            GLbitfield newClearMask = 0;
+                            const std::array<float, 4>* newClearColor;
+                            GLfloat newClearDepth;
+                            GLsizei renderTargetWidth = 0;
+                            GLsizei renderTargetHeight = 0;
+
+                            if (clearCommand->renderTarget)
+                            {
+                                TextureResourceOGL* renderTargetOGL = static_cast<TextureResourceOGL*>(resources[clearCommand->renderTarget - 1].get());
+
+                                if (!renderTargetOGL->getFrameBufferId()) break;
+
+                                renderTargetWidth = renderTargetOGL->getWidth();
+                                renderTargetHeight = renderTargetOGL->getHeight();
+                                newFrameBufferId = renderTargetOGL->getFrameBufferId();
+                                newClearColor = &renderTargetOGL->getFrameBufferClearColor();
+                                newClearDepth = renderTargetOGL->getClearDepth();
+                                newClearMask = renderTargetOGL->getClearMask();
+                            }
+                            else
+                            {
+                                renderTargetWidth = frameBufferWidth;
+                                renderTargetHeight = frameBufferHeight;
+                                newFrameBufferId = frameBufferId;
+                                newClearColor = &frameBufferClearColor;
+                                newClearDepth = clearDepth;
+                                newClearMask = clearMask;
+                            }
+
+                            if (newClearMask)
+                            {
+                                bindFrameBuffer(newFrameBufferId);
+
+                                setViewport(0, 0,
+                                            renderTargetWidth,
+                                            renderTargetHeight);
+
+                                setScissorTest(false, 0, 0, renderTargetWidth, renderTargetHeight);
+
+                                if (newClearMask & GL_DEPTH_BUFFER_BIT)
+                                {
+                                    // allow clearing the depth buffer
+                                    setDepthMask(true);
+                                    setClearDepthValue(newClearDepth);
+                                }
+
+                                if (newClearMask & GL_COLOR_BUFFER_BIT)
+                                    setClearColorValue(*newClearColor);
+
+                                glClearProc(newClearMask);
+
+                                GLenum error;
+
+                                if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                                    throw DataError("Failed to clear frame buffer, error: " + std::to_string(error));
+                            }
+
+                            break;
+                        }
+
+                        case Command::Type::BLIT:
+                        {
+    #if !OUZEL_SUPPORTS_OPENGLES
+                            const BlitCommand* blitCommand = static_cast<const BlitCommand*>(command.get());
+
+                            TextureResourceOGL* sourceTextureOGL = static_cast<TextureResourceOGL*>(resources[blitCommand->sourceTexture - 1].get());
+                            TextureResourceOGL* destinationTextureOGL = static_cast<TextureResourceOGL*>(resources[blitCommand->destinationTexture - 1].get());
+
+                            if (glCopyImageSubDataProc)
+                                glCopyImageSubDataProc(sourceTextureOGL->getTextureId(),
+                                                       GL_TEXTURE_2D,
+                                                       static_cast<GLint>(blitCommand->sourceLevel),
+                                                       static_cast<GLint>(blitCommand->sourceX),
+                                                       static_cast<GLint>(blitCommand->sourceY),
+                                                       0,
+                                                       destinationTextureOGL->getTextureId(),
+                                                       GL_TEXTURE_2D,
+                                                       static_cast<GLint>(blitCommand->destinationLevel),
+                                                       static_cast<GLint>(blitCommand->destinationX),
+                                                       static_cast<GLint>(blitCommand->destinationY),
+                                                       0,
+                                                       static_cast<GLsizei>(blitCommand->sourceWidth),
+                                                       static_cast<GLsizei>(blitCommand->sourceHeight),
+                                                       0);
+    #endif
+                            // TODO: copy data if glCopyImageSubData is not available
+                            break;
+                        }
+
+                        case Command::Type::SET_CULL_MODE:
+                        {
+                            const SetCullModeCommad* setCullModeCommad = static_cast<const SetCullModeCommad*>(command.get());
+
+                            GLenum cullFace = GL_NONE;
+
+                            switch (setCullModeCommad->cullMode)
+                            {
+                                case CullMode::NONE: cullFace = GL_NONE; break;
+                                case CullMode::FRONT: cullFace = ((stateCache.frameBufferId != frameBufferId) ? GL_FRONT : GL_BACK); break; // flip the faces, because of the flipped y-axis
+                                case CullMode::BACK: cullFace = ((stateCache.frameBufferId != frameBufferId) ? GL_BACK : GL_FRONT); break;
+                                default: throw DataError("Invalid cull mode");
+                            }
+
+                            setCullFace(cullFace != GL_NONE, cullFace);
+
+                            break;
+                        }
+
+                        case Command::Type::SET_FILL_MODE:
+                        {
+                            const SetFillModeCommad* setFillModeCommad = static_cast<const SetFillModeCommad*>(command.get());
+
+    #if OUZEL_SUPPORTS_OPENGLES
+                            if (setFillModeCommad->fillMode != FillMode::SOLID)
+                                engine->log(Log::Level::WARN) << "Unsupported fill mode";
+    #else
+                            GLenum fillMode = GL_NONE;
+
+                            switch (setFillModeCommad->fillMode)
+                            {
+                                case FillMode::SOLID: fillMode = GL_FILL; break;
+                                case FillMode::WIREFRAME: fillMode = GL_LINE; break;
+                                default: throw DataError("Invalid fill mode");
+                            }
+
+                            setPolygonFillMode(fillMode);
+    #endif
+                            break;
+                        }
+
+                        case Command::Type::SET_SCISSOR_TEST:
+                        {
+                            const SetScissorTestCommand* setScissorTestCommand = static_cast<const SetScissorTestCommand*>(command.get());
+
+                            setScissorTest(setScissorTestCommand->enabled,
+                                           static_cast<GLint>(setScissorTestCommand->rectangle.position.x),
+                                           static_cast<GLint>(setScissorTestCommand->rectangle.position.y),
+                                           static_cast<GLsizei>(setScissorTestCommand->rectangle.size.width),
+                                           static_cast<GLsizei>(setScissorTestCommand->rectangle.size.height));
+
+                            break;
+                        }
+
+                        case Command::Type::SET_VIEWPORT:
+                        {
+                            const SetViewportCommand* setViewportCommand = static_cast<const SetViewportCommand*>(command.get());
+
+                            setViewport(static_cast<GLint>(setViewportCommand->viewport.position.x),
+                                        static_cast<GLint>(setViewportCommand->viewport.position.y),
+                                        static_cast<GLsizei>(setViewportCommand->viewport.size.width),
+                                        static_cast<GLsizei>(setViewportCommand->viewport.size.height));
+
+                            break;
+                        }
+
+                        case Command::Type::INIT_DEPTH_STENCIL_STATE:
+                        {
+                            const InitDepthStencilStateCommand* initDepthStencilStateCommand = static_cast<const InitDepthStencilStateCommand*>(command.get());
+                            std::unique_ptr<DepthStencilStateResourceOGL> depthStencilStateResourceOGL(new DepthStencilStateResourceOGL(*this,
+                                                                                                                                        initDepthStencilStateCommand->depthTest,
+                                                                                                                                        initDepthStencilStateCommand->depthWrite,
+                                                                                                                                        initDepthStencilStateCommand->compareFunction));
+
+                            if (initDepthStencilStateCommand->depthStencilState > resources.size())
+                                resources.resize(initDepthStencilStateCommand->depthStencilState);
+                            resources[initDepthStencilStateCommand->depthStencilState - 1] = std::move(depthStencilStateResourceOGL);
+                            break;
+                        }
+
+                        case Command::Type::SET_DEPTH_STENCIL_STATE:
+                        {
+                            const SetDepthStencilStateCommand* setDepthStencilStateCommand = static_cast<const SetDepthStencilStateCommand*>(command.get());
+
+                            if (setDepthStencilStateCommand->depthStencilState)
+                            {
+                                DepthStencilStateResourceOGL* depthStencilStateResourceOGL = static_cast<DepthStencilStateResourceOGL*>(resources[setDepthStencilStateCommand->depthStencilState - 1].get());
+
+                                enableDepthTest(depthStencilStateResourceOGL->getDepthTest());
+                                setDepthMask(depthStencilStateResourceOGL->getDepthMask());
+                                glDepthFuncProc(depthStencilStateResourceOGL->getCompareFunction());
+                            }
+                            else
+                            {
+                                enableDepthTest(false);
+                                setDepthMask(GL_FALSE);
+                                setDepthFunc(GL_LESS);
+                            }
+
+                            break;
+                        }
+
+                        case Command::Type::SET_PIPELINE_STATE:
+                        {
+                            const SetPipelineStateCommand* setPipelineStateCommand = static_cast<const SetPipelineStateCommand*>(command.get());
+
+                            BlendStateResourceOGL* blendStateOGL = static_cast<BlendStateResourceOGL*>(resources[setPipelineStateCommand->blendState - 1].get());
+                            ShaderResourceOGL* shaderOGL = static_cast<ShaderResourceOGL*>(resources[setPipelineStateCommand->shader - 1].get());
+                            currentShader = shaderOGL;
+
+                            if (blendStateOGL)
+                            {
+                                setBlendState(blendStateOGL->isBlendEnabled(),
+                                              blendStateOGL->getModeRGB(),
+                                              blendStateOGL->getModeAlpha(),
+                                              blendStateOGL->getSourceFactorRGB(),
+                                              blendStateOGL->getDestFactorRGB(),
+                                              blendStateOGL->getSourceFactorAlpha(),
+                                              blendStateOGL->getDestFactorAlpha());
+
+                                setColorMask(blendStateOGL->getRedMask(),
+                                             blendStateOGL->getGreenMask(),
+                                             blendStateOGL->getBlueMask(),
+                                             blendStateOGL->getAlphaMask());
+                            }
+                            else
+                            {
+                                setBlendState(false, 0, 0, 0, 0, 0, 0);
+                                setColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+                            }
+
+                            if (shaderOGL)
+                            {
+                                assert(shaderOGL->getProgramId());
+                                useProgram(shaderOGL->getProgramId());
+                            }
+                            else
+                                useProgram(0);
+
+                            break;
+                        }
+
+                        case Command::Type::DRAW:
+                        {
+                            const DrawCommand* drawCommand = static_cast<const DrawCommand*>(command.get());
+
+                            // mesh buffer
+                            BufferResourceOGL* indexBufferOGL = static_cast<BufferResourceOGL*>(resources[drawCommand->indexBuffer - 1].get());
+                            BufferResourceOGL* vertexBufferOGL = static_cast<BufferResourceOGL*>(resources[drawCommand->vertexBuffer - 1].get());
+
+                            assert(indexBufferOGL);
+                            assert(indexBufferOGL->getBufferId());
+                            assert(vertexBufferOGL);
+                            assert(vertexBufferOGL->getBufferId());
+
+                            // draw
+                            GLenum mode;
+
+                            switch (drawCommand->drawMode)
+                            {
+                                case DrawMode::POINT_LIST: mode = GL_POINTS; break;
+                                case DrawMode::LINE_LIST: mode = GL_LINES; break;
+                                case DrawMode::LINE_STRIP: mode = GL_LINE_STRIP; break;
+                                case DrawMode::TRIANGLE_LIST: mode = GL_TRIANGLES; break;
+                                case DrawMode::TRIANGLE_STRIP: mode = GL_TRIANGLE_STRIP; break;
+                                default: throw DataError("Invalid draw mode");
+                            }
+
+                            bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId());
+                            bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId());
+
+                            GLuint vertexOffset = 0;
+
+                            for (GLuint index = 0; index < Vertex::ATTRIBUTES.size(); ++index)
+                            {
+                                const Vertex::Attribute& vertexAttribute = Vertex::ATTRIBUTES[index];
+
+                                glEnableVertexAttribArrayProc(index);
+                                glVertexAttribPointerProc(index,
+                                                          getArraySize(vertexAttribute.dataType),
+                                                          getVertexFormat(vertexAttribute.dataType),
+                                                          isNormalized(vertexAttribute.dataType),
+                                                          static_cast<GLsizei>(sizeof(Vertex)),
+                                                          static_cast<const GLchar*>(nullptr) + vertexOffset);
+
+                                vertexOffset += getDataTypeSize(vertexAttribute.dataType);
+                            }
 
                             GLenum error;
 
                             if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                                throw DataError("Failed to clear frame buffer, error: " + std::to_string(error));
-                        }
+                                throw DataError("Failed to update vertex attributes, error: " + std::to_string(error));
 
-                        break;
-                    }
+                            assert(drawCommand->indexCount);
+                            assert(indexBufferOGL->getSize());
+                            assert(vertexBufferOGL->getSize());
 
-                    case Command::Type::BLIT:
-                    {
-#if !OUZEL_SUPPORTS_OPENGLES
-                        const BlitCommand* blitCommand = static_cast<const BlitCommand*>(command.get());
+                            GLenum indexType;
 
-                        TextureResourceOGL* sourceTextureOGL = static_cast<TextureResourceOGL*>(resources[blitCommand->sourceTexture - 1].get());
-                        TextureResourceOGL* destinationTextureOGL = static_cast<TextureResourceOGL*>(resources[blitCommand->destinationTexture - 1].get());
-
-                        if (glCopyImageSubDataProc)
-                            glCopyImageSubDataProc(sourceTextureOGL->getTextureId(),
-                                                   GL_TEXTURE_2D,
-                                                   static_cast<GLint>(blitCommand->sourceLevel),
-                                                   static_cast<GLint>(blitCommand->sourceX),
-                                                   static_cast<GLint>(blitCommand->sourceY),
-                                                   0,
-                                                   destinationTextureOGL->getTextureId(),
-                                                   GL_TEXTURE_2D,
-                                                   static_cast<GLint>(blitCommand->destinationLevel),
-                                                   static_cast<GLint>(blitCommand->destinationX),
-                                                   static_cast<GLint>(blitCommand->destinationY),
-                                                   0,
-                                                   static_cast<GLsizei>(blitCommand->sourceWidth),
-                                                   static_cast<GLsizei>(blitCommand->sourceHeight),
-                                                   0);
-#endif
-                        // TODO: copy data if glCopyImageSubData is not available
-                        break;
-                    }
-
-                    case Command::Type::SET_CULL_MODE:
-                    {
-                        const SetCullModeCommad* setCullModeCommad = static_cast<const SetCullModeCommad*>(command.get());
-
-                        GLenum cullFace = GL_NONE;
-
-                        switch (setCullModeCommad->cullMode)
-                        {
-                            case Renderer::CullMode::NONE: cullFace = GL_NONE; break;
-                            case Renderer::CullMode::FRONT: cullFace = ((stateCache.frameBufferId != frameBufferId) ? GL_FRONT : GL_BACK); break; // flip the faces, because of the flipped y-axis
-                            case Renderer::CullMode::BACK: cullFace = ((stateCache.frameBufferId != frameBufferId) ? GL_BACK : GL_FRONT); break;
-                            default: throw DataError("Invalid cull mode");
-                        }
-
-                        setCullFace(cullFace != GL_NONE, cullFace);
-
-                        break;
-                    }
-
-                    case Command::Type::SET_FILL_MODE:
-                    {
-                        const SetFillModeCommad* setFillModeCommad = static_cast<const SetFillModeCommad*>(command.get());
-
-#if OUZEL_SUPPORTS_OPENGLES
-                        if (setFillModeCommad->fillMode != Renderer::FillMode::SOLID)
-                            engine->log(Log::Level::WARN) << "Unsupported fill mode";
-#else
-                        GLenum fillMode = GL_NONE;
-
-                        switch (setFillModeCommad->fillMode)
-                        {
-                            case Renderer::FillMode::SOLID: fillMode = GL_FILL; break;
-                            case Renderer::FillMode::WIREFRAME: fillMode = GL_LINE; break;
-                            default: throw DataError("Invalid fill mode");
-                        }
-
-                        setPolygonFillMode(fillMode);
-#endif
-                        break;
-                    }
-
-                    case Command::Type::SET_SCISSOR_TEST:
-                    {
-                        const SetScissorTestCommand* setScissorTestCommand = static_cast<const SetScissorTestCommand*>(command.get());
-
-                        setScissorTest(setScissorTestCommand->enabled,
-                                       static_cast<GLint>(setScissorTestCommand->rectangle.position.x),
-                                       static_cast<GLint>(setScissorTestCommand->rectangle.position.y),
-                                       static_cast<GLsizei>(setScissorTestCommand->rectangle.size.width),
-                                       static_cast<GLsizei>(setScissorTestCommand->rectangle.size.height));
-
-                        break;
-                    }
-
-                    case Command::Type::SET_VIEWPORT:
-                    {
-                        const SetViewportCommand* setViewportCommand = static_cast<const SetViewportCommand*>(command.get());
-
-                        setViewport(static_cast<GLint>(setViewportCommand->viewport.position.x),
-                                    static_cast<GLint>(setViewportCommand->viewport.position.y),
-                                    static_cast<GLsizei>(setViewportCommand->viewport.size.width),
-                                    static_cast<GLsizei>(setViewportCommand->viewport.size.height));
-
-                        break;
-                    }
-
-                    case Command::Type::INIT_DEPTH_STENCIL_STATE:
-                    {
-                        const InitDepthStencilStateCommand* initDepthStencilStateCommand = static_cast<const InitDepthStencilStateCommand*>(command.get());
-                        std::unique_ptr<DepthStencilStateResourceOGL> depthStencilStateResourceOGL(new DepthStencilStateResourceOGL(*this,
-                                                                                                                                    initDepthStencilStateCommand->depthTest,
-                                                                                                                                    initDepthStencilStateCommand->depthWrite,
-                                                                                                                                    initDepthStencilStateCommand->compareFunction));
-
-                        if (initDepthStencilStateCommand->depthStencilState > resources.size())
-                            resources.resize(initDepthStencilStateCommand->depthStencilState);
-                        resources[initDepthStencilStateCommand->depthStencilState - 1] = std::move(depthStencilStateResourceOGL);
-                        break;
-                    }
-
-                    case Command::Type::SET_DEPTH_STENCIL_STATE:
-                    {
-                        const SetDepthStencilStateCommand* setDepthStencilStateCommand = static_cast<const SetDepthStencilStateCommand*>(command.get());
-
-                        if (setDepthStencilStateCommand->depthStencilState)
-                        {
-                            DepthStencilStateResourceOGL* depthStencilStateResourceOGL = static_cast<DepthStencilStateResourceOGL*>(resources[setDepthStencilStateCommand->depthStencilState - 1].get());
-
-                            enableDepthTest(depthStencilStateResourceOGL->getDepthTest());
-                            setDepthMask(depthStencilStateResourceOGL->getDepthMask());
-                            glDepthFuncProc(depthStencilStateResourceOGL->getCompareFunction());
-                        }
-                        else
-                        {
-                            enableDepthTest(false);
-                            setDepthMask(GL_FALSE);
-                            setDepthFunc(GL_LESS);
-                        }
-
-                        break;
-                    }
-
-                    case Command::Type::SET_PIPELINE_STATE:
-                    {
-                        const SetPipelineStateCommand* setPipelineStateCommand = static_cast<const SetPipelineStateCommand*>(command.get());
-
-                        BlendStateResourceOGL* blendStateOGL = static_cast<BlendStateResourceOGL*>(resources[setPipelineStateCommand->blendState - 1].get());
-                        ShaderResourceOGL* shaderOGL = static_cast<ShaderResourceOGL*>(resources[setPipelineStateCommand->shader - 1].get());
-                        currentShader = shaderOGL;
-
-                        if (blendStateOGL)
-                        {
-                            setBlendState(blendStateOGL->isBlendEnabled(),
-                                          blendStateOGL->getModeRGB(),
-                                          blendStateOGL->getModeAlpha(),
-                                          blendStateOGL->getSourceFactorRGB(),
-                                          blendStateOGL->getDestFactorRGB(),
-                                          blendStateOGL->getSourceFactorAlpha(),
-                                          blendStateOGL->getDestFactorAlpha());
-
-                            setColorMask(blendStateOGL->getRedMask(),
-                                         blendStateOGL->getGreenMask(),
-                                         blendStateOGL->getBlueMask(),
-                                         blendStateOGL->getAlphaMask());
-                        }
-                        else
-                        {
-                            setBlendState(false, 0, 0, 0, 0, 0, 0);
-                            setColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-                        }
-
-                        if (shaderOGL)
-                        {
-                            assert(shaderOGL->getProgramId());
-                            useProgram(shaderOGL->getProgramId());
-                        }
-                        else
-                            useProgram(0);
-
-                        break;
-                    }
-
-                    case Command::Type::DRAW:
-                    {
-                        const DrawCommand* drawCommand = static_cast<const DrawCommand*>(command.get());
-
-                        // mesh buffer
-                        BufferResourceOGL* indexBufferOGL = static_cast<BufferResourceOGL*>(resources[drawCommand->indexBuffer - 1].get());
-                        BufferResourceOGL* vertexBufferOGL = static_cast<BufferResourceOGL*>(resources[drawCommand->vertexBuffer - 1].get());
-
-                        assert(indexBufferOGL);
-                        assert(indexBufferOGL->getBufferId());
-                        assert(vertexBufferOGL);
-                        assert(vertexBufferOGL->getBufferId());
-
-                        // draw
-                        GLenum mode;
-
-                        switch (drawCommand->drawMode)
-                        {
-                            case Renderer::DrawMode::POINT_LIST: mode = GL_POINTS; break;
-                            case Renderer::DrawMode::LINE_LIST: mode = GL_LINES; break;
-                            case Renderer::DrawMode::LINE_STRIP: mode = GL_LINE_STRIP; break;
-                            case Renderer::DrawMode::TRIANGLE_LIST: mode = GL_TRIANGLES; break;
-                            case Renderer::DrawMode::TRIANGLE_STRIP: mode = GL_TRIANGLE_STRIP; break;
-                            default: throw DataError("Invalid draw mode");
-                        }
-
-                        bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId());
-                        bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId());
-
-                        GLuint vertexOffset = 0;
-
-                        for (GLuint index = 0; index < Vertex::ATTRIBUTES.size(); ++index)
-                        {
-                            const Vertex::Attribute& vertexAttribute = Vertex::ATTRIBUTES[index];
-
-                            glEnableVertexAttribArrayProc(index);
-                            glVertexAttribPointerProc(index,
-                                                      getArraySize(vertexAttribute.dataType),
-                                                      getVertexFormat(vertexAttribute.dataType),
-                                                      isNormalized(vertexAttribute.dataType),
-                                                      static_cast<GLsizei>(sizeof(Vertex)),
-                                                      static_cast<const GLchar*>(nullptr) + vertexOffset);
-
-                            vertexOffset += getDataTypeSize(vertexAttribute.dataType);
-                        }
-
-                        GLenum error;
-
-                        if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                            throw DataError("Failed to update vertex attributes, error: " + std::to_string(error));
-
-                        assert(drawCommand->indexCount);
-                        assert(indexBufferOGL->getSize());
-                        assert(vertexBufferOGL->getSize());
-
-                        GLenum indexType;
-
-                        switch (drawCommand->indexSize)
-                        {
-                            case 2: indexType = GL_UNSIGNED_SHORT; break;
-                            case 4: indexType = GL_UNSIGNED_INT; break;
-                            default: throw DataError("Invalid index size");
-                        }
-
-                        glDrawElementsProc(mode,
-                                           static_cast<GLsizei>(drawCommand->indexCount),
-                                           indexType,
-                                           static_cast<const char*>(nullptr) + (drawCommand->startIndex * drawCommand->indexSize));
-
-                        if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                            throw DataError("Failed to draw elements, error: " + std::to_string(error));
-
-                        break;
-                    }
-
-                    case Command::Type::PUSH_DEBUG_MARKER:
-                    {
-                        const PushDebugMarkerCommand* pushDebugMarkerCommand = static_cast<const PushDebugMarkerCommand*>(command.get());
-                        if (glPushGroupMarkerEXTProc) glPushGroupMarkerEXTProc(0, pushDebugMarkerCommand->name.c_str());
-                        break;
-                    }
-
-                    case Command::Type::POP_DEBUG_MARKER:
-                    {
-                        if (glPopGroupMarkerEXTProc) glPopGroupMarkerEXTProc();
-                        break;
-                    }
-
-                    case Command::Type::INIT_BLEND_STATE:
-                    {
-                        const InitBlendStateCommand* initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command.get());
-
-                        std::unique_ptr<BlendStateResourceOGL> blendStateResourceOGL(new BlendStateResourceOGL(*this,
-                                                                                                               initBlendStateCommand->enableBlending,
-                                                                                                               initBlendStateCommand->colorBlendSource,
-                                                                                                               initBlendStateCommand->colorBlendDest,
-                                                                                                               initBlendStateCommand->colorOperation,
-                                                                                                               initBlendStateCommand->alphaBlendSource,
-                                                                                                               initBlendStateCommand->alphaBlendDest,
-                                                                                                               initBlendStateCommand->alphaOperation,
-                                                                                                               initBlendStateCommand->colorMask));
-
-                        if (initBlendStateCommand->blendState > resources.size())
-                            resources.resize(initBlendStateCommand->blendState);
-                        resources[initBlendStateCommand->blendState - 1] = std::move(blendStateResourceOGL);
-                        break;
-                    }
-
-                    case Command::Type::INIT_BUFFER:
-                    {
-                        const InitBufferCommand* initBufferCommand = static_cast<const InitBufferCommand*>(command.get());
-
-                        std::unique_ptr<BufferResourceOGL> bufferResourceOGL(new BufferResourceOGL(*this,
-                                                                                                   initBufferCommand->usage,
-                                                                                                   initBufferCommand->flags,
-                                                                                                   initBufferCommand->data,
-                                                                                                   initBufferCommand->size));
-
-                        if (initBufferCommand->buffer > resources.size())
-                            resources.resize(initBufferCommand->buffer);
-                        resources[initBufferCommand->buffer - 1] = std::move(bufferResourceOGL);
-                        break;
-                    }
-
-                    case Command::Type::SET_BUFFER_DATA:
-                    {
-                        const SetBufferDataCommand* setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command.get());
-
-                        BufferResourceOGL* bufferResourceOGL = static_cast<BufferResourceOGL*>(resources[setBufferDataCommand->buffer - 1].get());
-                        bufferResourceOGL->setData(setBufferDataCommand->data);
-                        break;
-                    }
-
-                    case Command::Type::INIT_SHADER:
-                    {
-                        const InitShaderCommand* initShaderCommand = static_cast<const InitShaderCommand*>(command.get());
-
-                        std::unique_ptr<ShaderResourceOGL> shaderResourceOGL(new ShaderResourceOGL(*this,
-                                                                                                   initShaderCommand->fragmentShader,
-                                                                                                   initShaderCommand->vertexShader,
-                                                                                                   initShaderCommand->vertexAttributes,
-                                                                                                   initShaderCommand->fragmentShaderConstantInfo,
-                                                                                                   initShaderCommand->vertexShaderConstantInfo,
-                                                                                                   initShaderCommand->fragmentShaderDataAlignment,
-                                                                                                   initShaderCommand->vertexShaderDataAlignment,
-                                                                                                   initShaderCommand->fragmentShaderFunction,
-                                                                                                   initShaderCommand->vertexShaderFunction));
-
-                        if (initShaderCommand->shader > resources.size())
-                            resources.resize(initShaderCommand->shader);
-                        resources[initShaderCommand->shader - 1] = std::move(shaderResourceOGL);
-                        break;
-                    }
-
-                    case Command::Type::SET_SHADER_CONSTANTS:
-                    {
-                        const SetShaderConstantsCommand* setShaderConstantsCommand = static_cast<const SetShaderConstantsCommand*>(command.get());
-
-                        if (!currentShader)
-                            throw DataError("No shader set");
-
-                        // pixel shader constants
-                        const std::vector<ShaderResourceOGL::Location>& fragmentShaderConstantLocations = currentShader->getFragmentShaderConstantLocations();
-
-                        if (setShaderConstantsCommand->fragmentShaderConstants.size() > fragmentShaderConstantLocations.size())
-                            throw DataError("Invalid pixel shader constant size");
-
-                        for (size_t i = 0; i < setShaderConstantsCommand->fragmentShaderConstants.size(); ++i)
-                        {
-                            const ShaderResourceOGL::Location& fragmentShaderConstantLocation = fragmentShaderConstantLocations[i];
-                            const std::vector<float>& fragmentShaderConstant = setShaderConstantsCommand->fragmentShaderConstants[i];
-
-                            setUniform(fragmentShaderConstantLocation.location,
-                                       fragmentShaderConstantLocation.dataType,
-                                       fragmentShaderConstant.data());
-                        }
-
-                        // vertex shader constants
-                        const std::vector<ShaderResourceOGL::Location>& vertexShaderConstantLocations = currentShader->getVertexShaderConstantLocations();
-
-                        if (setShaderConstantsCommand->vertexShaderConstants.size() > vertexShaderConstantLocations.size())
-                            throw DataError("Invalid vertex shader constant size");
-
-                        for (size_t i = 0; i < setShaderConstantsCommand->vertexShaderConstants.size(); ++i)
-                        {
-                            const ShaderResourceOGL::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
-                            const std::vector<float>& vertexShaderConstant = setShaderConstantsCommand->vertexShaderConstants[i];
-
-                            setUniform(vertexShaderConstantLocation.location,
-                                       vertexShaderConstantLocation.dataType,
-                                       vertexShaderConstant.data());
-                        }
-
-                        break;
-                    }
-
-                    case Command::Type::INIT_TEXTURE:
-                    {
-                        const InitTextureCommand* initTextureCommand = static_cast<const InitTextureCommand*>(command.get());
-
-                        std::unique_ptr<TextureResourceOGL> textureResourceOGL(new TextureResourceOGL(*this,
-                                                                                                      initTextureCommand->levels,
-                                                                                                      initTextureCommand->flags,
-                                                                                                      initTextureCommand->sampleCount,
-                                                                                                      initTextureCommand->pixelFormat));
-
-                        if (initTextureCommand->texture > resources.size())
-                            resources.resize(initTextureCommand->texture);
-                        resources[initTextureCommand->texture - 1] = std::move(textureResourceOGL);
-                        break;
-                    }
-
-                    case Command::Type::SET_TEXTURE_DATA:
-                    {
-                        const SetTextureDataCommand* setTextureDataCommand = static_cast<const SetTextureDataCommand*>(command.get());
-
-                        TextureResourceOGL* textureResourceOGL = static_cast<TextureResourceOGL*>(resources[setTextureDataCommand->texture - 1].get());
-                        textureResourceOGL->setData(setTextureDataCommand->levels);
-
-                        break;
-                    }
-
-                    case Command::Type::SET_TEXTURE_PARAMETERS:
-                    {
-                        const SetTextureParametersCommand* setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
-
-                        TextureResourceOGL* textureResourceOGL = static_cast<TextureResourceOGL*>(resources[setTextureParametersCommand->texture - 1].get());
-                        textureResourceOGL->setFilter(setTextureParametersCommand->filter);
-                        textureResourceOGL->setAddressX(setTextureParametersCommand->addressX);
-                        textureResourceOGL->setAddressY(setTextureParametersCommand->addressY);
-                        textureResourceOGL->setMaxAnisotropy(setTextureParametersCommand->maxAnisotropy);
-                        break;
-                    }
-
-                    case Command::Type::SET_TEXTURES:
-                    {
-                        const SetTexturesCommand* setTexturesCommand = static_cast<const SetTexturesCommand*>(command.get());
-
-                        for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
-                        {
-                            if (setTexturesCommand->textures[layer])
+                            switch (drawCommand->indexSize)
                             {
-                                TextureResourceOGL* textureOGL = static_cast<TextureResourceOGL*>(resources[setTexturesCommand->textures[layer] - 1].get());
-                                bindTexture(textureOGL->getTextureId(), layer);
+                                case 2: indexType = GL_UNSIGNED_SHORT; break;
+                                case 4: indexType = GL_UNSIGNED_INT; break;
+                                default: throw DataError("Invalid index size");
                             }
-                            else
-                                bindTexture(0, layer);
+
+                            glDrawElementsProc(mode,
+                                               static_cast<GLsizei>(drawCommand->indexCount),
+                                               indexType,
+                                               static_cast<const char*>(nullptr) + (drawCommand->startIndex * drawCommand->indexSize));
+
+                            if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                                throw DataError("Failed to draw elements, error: " + std::to_string(error));
+
+                            break;
                         }
 
-                        break;
+                        case Command::Type::PUSH_DEBUG_MARKER:
+                        {
+                            const PushDebugMarkerCommand* pushDebugMarkerCommand = static_cast<const PushDebugMarkerCommand*>(command.get());
+                            if (glPushGroupMarkerEXTProc) glPushGroupMarkerEXTProc(0, pushDebugMarkerCommand->name.c_str());
+                            break;
+                        }
+
+                        case Command::Type::POP_DEBUG_MARKER:
+                        {
+                            if (glPopGroupMarkerEXTProc) glPopGroupMarkerEXTProc();
+                            break;
+                        }
+
+                        case Command::Type::INIT_BLEND_STATE:
+                        {
+                            const InitBlendStateCommand* initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command.get());
+
+                            std::unique_ptr<BlendStateResourceOGL> blendStateResourceOGL(new BlendStateResourceOGL(*this,
+                                                                                                                   initBlendStateCommand->enableBlending,
+                                                                                                                   initBlendStateCommand->colorBlendSource,
+                                                                                                                   initBlendStateCommand->colorBlendDest,
+                                                                                                                   initBlendStateCommand->colorOperation,
+                                                                                                                   initBlendStateCommand->alphaBlendSource,
+                                                                                                                   initBlendStateCommand->alphaBlendDest,
+                                                                                                                   initBlendStateCommand->alphaOperation,
+                                                                                                                   initBlendStateCommand->colorMask));
+
+                            if (initBlendStateCommand->blendState > resources.size())
+                                resources.resize(initBlendStateCommand->blendState);
+                            resources[initBlendStateCommand->blendState - 1] = std::move(blendStateResourceOGL);
+                            break;
+                        }
+
+                        case Command::Type::INIT_BUFFER:
+                        {
+                            const InitBufferCommand* initBufferCommand = static_cast<const InitBufferCommand*>(command.get());
+
+                            std::unique_ptr<BufferResourceOGL> bufferResourceOGL(new BufferResourceOGL(*this,
+                                                                                                       initBufferCommand->usage,
+                                                                                                       initBufferCommand->flags,
+                                                                                                       initBufferCommand->data,
+                                                                                                       initBufferCommand->size));
+
+                            if (initBufferCommand->buffer > resources.size())
+                                resources.resize(initBufferCommand->buffer);
+                            resources[initBufferCommand->buffer - 1] = std::move(bufferResourceOGL);
+                            break;
+                        }
+
+                        case Command::Type::SET_BUFFER_DATA:
+                        {
+                            const SetBufferDataCommand* setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command.get());
+
+                            BufferResourceOGL* bufferResourceOGL = static_cast<BufferResourceOGL*>(resources[setBufferDataCommand->buffer - 1].get());
+                            bufferResourceOGL->setData(setBufferDataCommand->data);
+                            break;
+                        }
+
+                        case Command::Type::INIT_SHADER:
+                        {
+                            const InitShaderCommand* initShaderCommand = static_cast<const InitShaderCommand*>(command.get());
+
+                            std::unique_ptr<ShaderResourceOGL> shaderResourceOGL(new ShaderResourceOGL(*this,
+                                                                                                       initShaderCommand->fragmentShader,
+                                                                                                       initShaderCommand->vertexShader,
+                                                                                                       initShaderCommand->vertexAttributes,
+                                                                                                       initShaderCommand->fragmentShaderConstantInfo,
+                                                                                                       initShaderCommand->vertexShaderConstantInfo,
+                                                                                                       initShaderCommand->fragmentShaderDataAlignment,
+                                                                                                       initShaderCommand->vertexShaderDataAlignment,
+                                                                                                       initShaderCommand->fragmentShaderFunction,
+                                                                                                       initShaderCommand->vertexShaderFunction));
+
+                            if (initShaderCommand->shader > resources.size())
+                                resources.resize(initShaderCommand->shader);
+                            resources[initShaderCommand->shader - 1] = std::move(shaderResourceOGL);
+                            break;
+                        }
+
+                        case Command::Type::SET_SHADER_CONSTANTS:
+                        {
+                            const SetShaderConstantsCommand* setShaderConstantsCommand = static_cast<const SetShaderConstantsCommand*>(command.get());
+
+                            if (!currentShader)
+                                throw DataError("No shader set");
+
+                            // pixel shader constants
+                            const std::vector<ShaderResourceOGL::Location>& fragmentShaderConstantLocations = currentShader->getFragmentShaderConstantLocations();
+
+                            if (setShaderConstantsCommand->fragmentShaderConstants.size() > fragmentShaderConstantLocations.size())
+                                throw DataError("Invalid pixel shader constant size");
+
+                            for (size_t i = 0; i < setShaderConstantsCommand->fragmentShaderConstants.size(); ++i)
+                            {
+                                const ShaderResourceOGL::Location& fragmentShaderConstantLocation = fragmentShaderConstantLocations[i];
+                                const std::vector<float>& fragmentShaderConstant = setShaderConstantsCommand->fragmentShaderConstants[i];
+
+                                setUniform(fragmentShaderConstantLocation.location,
+                                           fragmentShaderConstantLocation.dataType,
+                                           fragmentShaderConstant.data());
+                            }
+
+                            // vertex shader constants
+                            const std::vector<ShaderResourceOGL::Location>& vertexShaderConstantLocations = currentShader->getVertexShaderConstantLocations();
+
+                            if (setShaderConstantsCommand->vertexShaderConstants.size() > vertexShaderConstantLocations.size())
+                                throw DataError("Invalid vertex shader constant size");
+
+                            for (size_t i = 0; i < setShaderConstantsCommand->vertexShaderConstants.size(); ++i)
+                            {
+                                const ShaderResourceOGL::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
+                                const std::vector<float>& vertexShaderConstant = setShaderConstantsCommand->vertexShaderConstants[i];
+
+                                setUniform(vertexShaderConstantLocation.location,
+                                           vertexShaderConstantLocation.dataType,
+                                           vertexShaderConstant.data());
+                            }
+
+                            break;
+                        }
+
+                        case Command::Type::INIT_TEXTURE:
+                        {
+                            const InitTextureCommand* initTextureCommand = static_cast<const InitTextureCommand*>(command.get());
+
+                            std::unique_ptr<TextureResourceOGL> textureResourceOGL(new TextureResourceOGL(*this,
+                                                                                                          initTextureCommand->levels,
+                                                                                                          initTextureCommand->flags,
+                                                                                                          initTextureCommand->sampleCount,
+                                                                                                          initTextureCommand->pixelFormat));
+
+                            if (initTextureCommand->texture > resources.size())
+                                resources.resize(initTextureCommand->texture);
+                            resources[initTextureCommand->texture - 1] = std::move(textureResourceOGL);
+                            break;
+                        }
+
+                        case Command::Type::SET_TEXTURE_DATA:
+                        {
+                            const SetTextureDataCommand* setTextureDataCommand = static_cast<const SetTextureDataCommand*>(command.get());
+
+                            TextureResourceOGL* textureResourceOGL = static_cast<TextureResourceOGL*>(resources[setTextureDataCommand->texture - 1].get());
+                            textureResourceOGL->setData(setTextureDataCommand->levels);
+
+                            break;
+                        }
+
+                        case Command::Type::SET_TEXTURE_PARAMETERS:
+                        {
+                            const SetTextureParametersCommand* setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
+
+                            TextureResourceOGL* textureResourceOGL = static_cast<TextureResourceOGL*>(resources[setTextureParametersCommand->texture - 1].get());
+                            textureResourceOGL->setFilter(setTextureParametersCommand->filter);
+                            textureResourceOGL->setAddressX(setTextureParametersCommand->addressX);
+                            textureResourceOGL->setAddressY(setTextureParametersCommand->addressY);
+                            textureResourceOGL->setMaxAnisotropy(setTextureParametersCommand->maxAnisotropy);
+                            break;
+                        }
+
+                        case Command::Type::SET_TEXTURES:
+                        {
+                            const SetTexturesCommand* setTexturesCommand = static_cast<const SetTexturesCommand*>(command.get());
+
+                            for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
+                            {
+                                if (setTexturesCommand->textures[layer])
+                                {
+                                    TextureResourceOGL* textureOGL = static_cast<TextureResourceOGL*>(resources[setTexturesCommand->textures[layer] - 1].get());
+                                    bindTexture(textureOGL->getTextureId(), layer);
+                                }
+                                else
+                                    bindTexture(0, layer);
+                            }
+
+                            break;
+                        }
+
+                        default:
+                            throw DataError("Invalid command");
                     }
 
-                    default:
-                        throw DataError("Invalid command");
+                    if (command->type == Command::Type::PRESENT) return;
                 }
-
-                if (command->type == Command::Type::PRESENT) break;
             }
         }
 

@@ -65,7 +65,7 @@ namespace ouzel
         private:
             struct DrawCommand final
             {
-                graphics::Renderer::DrawMode mode;
+                graphics::DrawMode mode;
                 uint32_t indexCount;
                 uint32_t startIndex;
             };

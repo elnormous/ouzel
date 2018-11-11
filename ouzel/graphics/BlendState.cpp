@@ -32,23 +32,21 @@ namespace ouzel
             colorMask(initColorMask),
             enableBlending(initEnableBlending)
         {
-            RenderDevice* renderDevice = renderer.getDevice();
-
-            renderDevice->addCommand(std::unique_ptr<Command>(new InitBlendStateCommand(resource,
-                                                                                        initEnableBlending,
-                                                                                        initColorBlendSource, initColorBlendDest,
-                                                                                        initColorOperation,
-                                                                                        initAlphaBlendSource, initAlphaBlendDest,
-                                                                                        initAlphaOperation,
-                                                                                        initColorMask)));
+            renderer.addCommand(std::unique_ptr<Command>(new InitBlendStateCommand(resource,
+                                                                                   initEnableBlending,
+                                                                                   initColorBlendSource, initColorBlendDest,
+                                                                                   initColorOperation,
+                                                                                   initAlphaBlendSource, initAlphaBlendDest,
+                                                                                   initAlphaOperation,
+                                                                                   initColorMask)));
         }
 
         BlendState::~BlendState()
         {
             if (resource)
             {
+                renderer.addCommand(std::unique_ptr<Command>(new DeleteResourceCommand(resource)));
                 RenderDevice* renderDevice = renderer.getDevice();
-                renderDevice->addCommand(std::unique_ptr<Command>(new DeleteResourceCommand(resource)));
                 renderDevice->deleteResourceId(resource);
             }
         }
@@ -69,15 +67,13 @@ namespace ouzel
             alphaOperation = newAlphaOperation;
             colorMask = newColorMask;
 
-            RenderDevice* renderDevice = renderer.getDevice();
-
-            renderDevice->addCommand(std::unique_ptr<Command>(new InitBlendStateCommand(resource,
-                                                                                        newEnableBlending,
-                                                                                        newColorBlendSource, newColorBlendDest,
-                                                                                        newColorOperation,
-                                                                                        newAlphaBlendSource, newAlphaBlendDest,
-                                                                                        newAlphaOperation,
-                                                                                        newColorMask)));
+            renderer.addCommand(std::unique_ptr<Command>(new InitBlendStateCommand(resource,
+                                                                                   newEnableBlending,
+                                                                                   newColorBlendSource, newColorBlendDest,
+                                                                                   newColorOperation,
+                                                                                   newAlphaBlendSource, newAlphaBlendDest,
+                                                                                   newAlphaOperation,
+                                                                                   newColorMask)));
         }
     } // namespace graphics
 } // namespace ouzel

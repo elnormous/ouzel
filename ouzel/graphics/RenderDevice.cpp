@@ -82,13 +82,6 @@ namespace ouzel
             return std::vector<Size2>();
         }
 
-        void RenderDevice::flushCommands()
-        {
-            refillQueue = false;
-
-            addCommand(std::unique_ptr<Command>(new PresentCommand()));
-        }
-
         void RenderDevice::generateScreenshot(const std::string&)
         {
         }

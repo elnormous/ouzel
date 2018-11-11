@@ -2,6 +2,7 @@
 
 #include "core/Setup.h"
 #include "Renderer.hpp"
+#include "Commands.hpp"
 #include "RenderDevice.hpp"
 #include "events/EventHandler.hpp"
 #include "events/EventDispatcher.hpp"
@@ -147,44 +148,44 @@ namespace ouzel
         {
             clearColorBuffer = clear;
 
-            device->addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(0,
-                                                                                             clearColorBuffer,
-                                                                                             clearDepthBuffer,
-                                                                                             clearColor,
-                                                                                             clearDepth)));
+            addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(0,
+                                                                                     clearColorBuffer,
+                                                                                     clearDepthBuffer,
+                                                                                     clearColor,
+                                                                                     clearDepth)));
         }
 
         void Renderer::setClearDepthBuffer(bool clear)
         {
             clearDepthBuffer = clear;
 
-            device->addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(0,
-                                                                                             clearColorBuffer,
-                                                                                             clearDepthBuffer,
-                                                                                             clearColor,
-                                                                                             clearDepth)));
+            addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(0,
+                                                                                     clearColorBuffer,
+                                                                                     clearDepthBuffer,
+                                                                                     clearColor,
+                                                                                     clearDepth)));
         }
 
         void Renderer::setClearColor(Color color)
         {
             clearColor = color;
 
-            device->addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(0,
-                                                                                             clearColorBuffer,
-                                                                                             clearDepthBuffer,
-                                                                                             clearColor,
-                                                                                             clearDepth)));
+            addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(0,
+                                                                                     clearColorBuffer,
+                                                                                     clearDepthBuffer,
+                                                                                     clearColor,
+                                                                                     clearDepth)));
         }
 
         void Renderer::setClearDepth(float newClearDepth)
         {
             clearDepth = newClearDepth;
 
-            device->addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(0,
-                                                                                             clearColorBuffer,
-                                                                                             clearDepthBuffer,
-                                                                                             clearColor,
-                                                                                             clearDepth)));
+            addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(0,
+                                                                                     clearColorBuffer,
+                                                                                     clearDepthBuffer,
+                                                                                     clearColor,
+                                                                                     clearDepth)));
         }
 
         void Renderer::setSize(const Size2& newSize)
@@ -201,43 +202,43 @@ namespace ouzel
 
         void Renderer::setRenderTarget(uintptr_t renderTarget)
         {
-            device->addCommand(std::unique_ptr<Command>(new SetRenderTargetCommand(renderTarget)));
+            addCommand(std::unique_ptr<Command>(new SetRenderTargetCommand(renderTarget)));
         }
 
         void Renderer::clearRenderTarget(uintptr_t renderTarget)
         {
-            device->addCommand(std::unique_ptr<Command>(new ClearRenderTargetCommand(renderTarget)));
+            addCommand(std::unique_ptr<Command>(new ClearRenderTargetCommand(renderTarget)));
         }
 
-        void Renderer::setCullMode(Renderer::CullMode cullMode)
+        void Renderer::setCullMode(CullMode cullMode)
         {
-            device->addCommand(std::unique_ptr<Command>(new SetCullModeCommad(cullMode)));
+            addCommand(std::unique_ptr<Command>(new SetCullModeCommad(cullMode)));
         }
 
-        void Renderer::setFillMode(Renderer::FillMode fillMode)
+        void Renderer::setFillMode(FillMode fillMode)
         {
-            device->addCommand(std::unique_ptr<Command>(new SetFillModeCommad(fillMode)));
+            addCommand(std::unique_ptr<Command>(new SetFillModeCommad(fillMode)));
         }
 
         void Renderer::setScissorTest(bool enabled, const Rect& rectangle)
         {
-            device->addCommand(std::unique_ptr<Command>(new SetScissorTestCommand(enabled, rectangle)));
+            addCommand(std::unique_ptr<Command>(new SetScissorTestCommand(enabled, rectangle)));
         }
 
         void Renderer::setViewport(const Rect& viewport)
         {
-            device->addCommand(std::unique_ptr<Command>(new SetViewportCommand(viewport)));
+            addCommand(std::unique_ptr<Command>(new SetViewportCommand(viewport)));
         }
 
         void Renderer::setDepthStencilState(uintptr_t depthStencilState)
         {
-            device->addCommand(std::unique_ptr<Command>(new SetDepthStencilStateCommand(depthStencilState)));
+            addCommand(std::unique_ptr<Command>(new SetDepthStencilStateCommand(depthStencilState)));
         }
 
         void Renderer::setPipelineState(uintptr_t blendState,
                                         uintptr_t shader)
         {
-            device->addCommand(std::unique_ptr<Command>(new SetPipelineStateCommand(blendState, shader)));
+            addCommand(std::unique_ptr<Command>(new SetPipelineStateCommand(blendState, shader)));
         }
 
         void Renderer::draw(uintptr_t indexBuffer,
@@ -250,29 +251,29 @@ namespace ouzel
             if (!indexBuffer || !vertexBuffer)
                 throw DataError("Invalid mesh buffer passed to render queue");
 
-            device->addCommand(std::unique_ptr<Command>(new DrawCommand(indexBuffer,
-                                                                        indexCount,
-                                                                        indexSize,
-                                                                        vertexBuffer,
-                                                                        drawMode,
-                                                                        startIndex)));
+            addCommand(std::unique_ptr<Command>(new DrawCommand(indexBuffer,
+                                                                indexCount,
+                                                                indexSize,
+                                                                vertexBuffer,
+                                                                drawMode,
+                                                                startIndex)));
         }
 
         void Renderer::pushDebugMarker(const std::string& name)
         {
-            device->addCommand(std::unique_ptr<Command>(new PushDebugMarkerCommand(name)));
+            addCommand(std::unique_ptr<Command>(new PushDebugMarkerCommand(name)));
         }
 
         void Renderer::popDebugMarker()
         {
-            device->addCommand(std::unique_ptr<Command>(new PopDebugMarkerCommand()));
+            addCommand(std::unique_ptr<Command>(new PopDebugMarkerCommand()));
         }
 
         void Renderer::setShaderConstants(std::vector<std::vector<float>> fragmentShaderConstants,
                                           std::vector<std::vector<float>> vertexShaderConstants)
         {
-            device->addCommand(std::unique_ptr<Command>(new SetShaderConstantsCommand(fragmentShaderConstants,
-                                                                                      vertexShaderConstants)));
+            addCommand(std::unique_ptr<Command>(new SetShaderConstantsCommand(fragmentShaderConstants,
+                                                                              vertexShaderConstants)));
         }
 
         void Renderer::setTextures(const std::vector<uintptr_t>& textures)
@@ -282,7 +283,19 @@ namespace ouzel
             for (uint32_t i = 0; i < Texture::LAYERS; ++i)
                 newTextures[i] = (i < textures.size()) ? textures[i] : 0;
 
-            device->addCommand(std::unique_ptr<Command>(new SetTexturesCommand(newTextures)));
+            addCommand(std::unique_ptr<Command>(new SetTexturesCommand(newTextures)));
+        }
+
+        void Renderer::present()
+        {
+            addCommand(std::unique_ptr<Command>(new PresentCommand()));
+            device->submitCommandBuffer(std::move(commandBuffer));
+            commandBuffer = CommandBuffer();
+        }
+
+        void Renderer::addCommand(std::unique_ptr<Command>&& command)
+        {
+            commandBuffer.commands.push(std::forward<std::unique_ptr<Command>>(command));
         }
 
         void Renderer::waitForNextFrame()

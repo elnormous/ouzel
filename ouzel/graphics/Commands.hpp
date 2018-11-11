@@ -3,12 +3,17 @@
 #ifndef OUZEL_COMMANDS_HPP
 #define OUZEL_COMMANDS_HPP
 
+#include <queue>
+#include <string>
 #include "graphics/BlendState.hpp"
 #include "graphics/Buffer.hpp"
 #include "graphics/DepthStencilState.hpp"
+#include "graphics/DrawMode.hpp"
+#include "graphics/RasterizerState.hpp"
 #include "graphics/RenderTarget.hpp"
 #include "graphics/Shader.hpp"
 #include "graphics/Texture.hpp"
+#include "math/Rect.hpp"
 
 namespace ouzel
 {
@@ -203,25 +208,25 @@ namespace ouzel
         class SetCullModeCommad: public Command
         {
         public:
-            explicit SetCullModeCommad(Renderer::CullMode initCullMode):
+            explicit SetCullModeCommad(CullMode initCullMode):
                 Command(Command::Type::SET_CULL_MODE),
                 cullMode(initCullMode)
             {
             }
 
-            Renderer::CullMode cullMode;
+            CullMode cullMode;
         };
 
         class SetFillModeCommad: public Command
         {
         public:
-            explicit SetFillModeCommad(Renderer::FillMode initFillMode):
+            explicit SetFillModeCommad(FillMode initFillMode):
                 Command(Command::Type::SET_FILL_MODE),
                 fillMode(initFillMode)
             {
             }
 
-            Renderer::FillMode fillMode;
+            FillMode fillMode;
         };
 
         class SetScissorTestCommand: public Command
@@ -306,7 +311,7 @@ namespace ouzel
                         uint32_t initIndexCount,
                         uint32_t initIndexSize,
                         uintptr_t initVertexBuffer,
-                        Renderer::DrawMode initDrawMode,
+                        DrawMode initDrawMode,
                         uint32_t initStartIndex):
                 Command(Command::Type::DRAW),
                 indexBuffer(initIndexBuffer),
@@ -322,7 +327,7 @@ namespace ouzel
             uint32_t indexCount;
             uint32_t indexSize;
             uintptr_t vertexBuffer;
-            Renderer::DrawMode drawMode;
+            DrawMode drawMode;
             uint32_t startIndex;
         };
 
@@ -548,6 +553,13 @@ namespace ouzel
             }
 
             uintptr_t textures[Texture::LAYERS];
+        };
+
+        class CommandBuffer
+        {
+        public:
+            std::string name;
+            std::queue<std::unique_ptr<Command>> commands;
         };
     } // namespace graphics
 } // namespace ouzel

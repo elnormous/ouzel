@@ -49,7 +49,7 @@ namespace ouzel
                             renderViewProjection,
                             wireframe);
 
-            material->cullMode = graphics::Renderer::CullMode::NONE;
+            material->cullMode = graphics::CullMode::NONE;
 
             Matrix4 modelViewProj = renderViewProjection * transformMatrix;
             float colorVector[] = {material->diffuseColor.normR(), material->diffuseColor.normG(), material->diffuseColor.normB(), material->diffuseColor.normA() * opacity * material->opacity};
@@ -74,7 +74,7 @@ namespace ouzel
                                         indexCount,
                                         indexSize,
                                         vertexBuffer->getResource(),
-                                        graphics::Renderer::DrawMode::TRIANGLE_LIST,
+                                        graphics::DrawMode::TRIANGLE_LIST,
                                         0);
         }
     } // namespace scene
