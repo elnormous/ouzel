@@ -11,7 +11,7 @@
 #include <queue>
 #include <set>
 #include <atomic>
-#include "graphics/Texture.hpp"
+#include "graphics/Commands.hpp"
 #include "math/Rect.hpp"
 #include "math/Matrix4.hpp"
 #include "math/Size2.hpp"
@@ -36,28 +36,6 @@ namespace ouzel
                 OPENGL,
                 DIRECT3D11,
                 METAL
-            };
-
-            enum class DrawMode
-            {
-                POINT_LIST,
-                LINE_LIST,
-                LINE_STRIP,
-                TRIANGLE_LIST,
-                TRIANGLE_STRIP
-            };
-
-            enum class CullMode
-            {
-                NONE,
-                FRONT,
-                BACK
-            };
-
-            enum class FillMode
-            {
-                SOLID,
-                WIREFRAME
             };
 
             Renderer(Driver driver,
@@ -98,8 +76,8 @@ namespace ouzel
 
             void setRenderTarget(uintptr_t renderTarget);
             void clearRenderTarget(uintptr_t renderTarget);
-            void setCullMode(Renderer::CullMode cullMode);
-            void setFillMode(Renderer::FillMode fillMode);
+            void setCullMode(CullMode cullMode);
+            void setFillMode(FillMode fillMode);
             void setScissorTest(bool enabled, const Rect& rectangle);
             void setViewport(const Rect& viewport);
             void setDepthStencilState(uintptr_t depthStencilState);
@@ -116,6 +94,8 @@ namespace ouzel
             void setShaderConstants(std::vector<std::vector<float>> fragmentShaderConstants,
                                     std::vector<std::vector<float>> vertexShaderConstants);
             void setTextures(const std::vector<uintptr_t>& textures);
+            void present();
+            void addCommand(std::unique_ptr<Command>&& command);
 
             void waitForNextFrame();
 
@@ -129,6 +109,7 @@ namespace ouzel
             float clearDepth = 1.0;
             bool clearColorBuffer = true;
             bool clearDepthBuffer = false;
+            CommandBuffer commandBuffer;
         };
     } // namespace graphics
 } // namespace ouzel

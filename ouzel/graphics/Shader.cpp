@@ -28,26 +28,24 @@ namespace ouzel
             resource(renderer.getDevice()->getResourceId()),
             vertexAttributes(initVertexAttributes)
         {
-            RenderDevice* renderDevice = renderer.getDevice();
-
-            renderDevice->addCommand(std::unique_ptr<Command>(new InitShaderCommand(resource,
-                                                                                    initFragmentShader,
-                                                                                    initVertexShader,
-                                                                                    initVertexAttributes,
-                                                                                    initFragmentShaderConstantInfo,
-                                                                                    initVertexShaderConstantInfo,
-                                                                                    initFragmentShaderDataAlignment,
-                                                                                    initVertexShaderDataAlignment,
-                                                                                    fragmentShaderFunction,
-                                                                                    vertexShaderFunction)));
+            renderer.addCommand(std::unique_ptr<Command>(new InitShaderCommand(resource,
+                                                                               initFragmentShader,
+                                                                               initVertexShader,
+                                                                               initVertexAttributes,
+                                                                               initFragmentShaderConstantInfo,
+                                                                               initVertexShaderConstantInfo,
+                                                                               initFragmentShaderDataAlignment,
+                                                                               initVertexShaderDataAlignment,
+                                                                               fragmentShaderFunction,
+                                                                               vertexShaderFunction)));
         }
 
         Shader::~Shader()
         {
             if (resource)
             {
+                renderer.addCommand(std::unique_ptr<Command>(new DeleteResourceCommand(resource)));
                 RenderDevice* renderDevice = renderer.getDevice();
-                renderDevice->addCommand(std::unique_ptr<Command>(new DeleteResourceCommand(resource)));
                 renderDevice->deleteResourceId(resource);
             }
         }
@@ -64,18 +62,16 @@ namespace ouzel
         {
             vertexAttributes = newVertexAttributes;
 
-            RenderDevice* renderDevice = renderer.getDevice();
-
-            renderDevice->addCommand(std::unique_ptr<Command>(new InitShaderCommand(resource,
-                                                                                    newFragmentShader,
-                                                                                    newVertexShader,
-                                                                                    newVertexAttributes,
-                                                                                    newFragmentShaderConstantInfo,
-                                                                                    newVertexShaderConstantInfo,
-                                                                                    newFragmentShaderDataAlignment,
-                                                                                    newVertexShaderDataAlignment,
-                                                                                    fragmentShaderFunction,
-                                                                                    vertexShaderFunction)));
+            renderer.addCommand(std::unique_ptr<Command>(new InitShaderCommand(resource,
+                                                                               newFragmentShader,
+                                                                               newVertexShader,
+                                                                               newVertexAttributes,
+                                                                               newFragmentShaderConstantInfo,
+                                                                               newVertexShaderConstantInfo,
+                                                                               newFragmentShaderDataAlignment,
+                                                                               newVertexShaderDataAlignment,
+                                                                               fragmentShaderFunction,
+                                                                               vertexShaderFunction)));
         }
 
         const std::set<Vertex::Attribute::Usage>& Shader::getVertexAttributes() const

@@ -1245,6 +1245,8 @@
 		30B8598B1F3D286600A16952 /* TTFont.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TTFont.hpp; sourceTree = "<group>"; };
 		30B859921F3D2F3200A16952 /* Font.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Font.cpp; sourceTree = "<group>"; };
 		30B859931F3D2F3200A16952 /* Font.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Font.hpp; sourceTree = "<group>"; };
+		30BA5FB22198B42D0032AC23 /* RasterizerState.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RasterizerState.hpp; sourceTree = "<group>"; };
+		30BA5FB32198B4900032AC23 /* DrawMode.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DrawMode.hpp; sourceTree = "<group>"; };
 		30BB848B20843FBE00C145A2 /* Controller.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Controller.hpp; sourceTree = "<group>"; };
 		30BB848C20843FCD00C145A2 /* Mouse.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Mouse.hpp; sourceTree = "<group>"; };
 		30BB848D20843FDB00C145A2 /* Keyboard.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Keyboard.hpp; sourceTree = "<group>"; };
@@ -1514,6 +1516,7 @@
 				301457091E40FB5100BA75DB /* DataType.hpp */,
 				300902FC219224B100B00BF4 /* DepthStencilState.cpp */,
 				300902FD219224B100B00BF4 /* DepthStencilState.hpp */,
+				30BA5FB32198B4900032AC23 /* DrawMode.hpp */,
 				303820881D816EAB00677CAB /* empty */,
 				303B74E11C277A7500FEDE92 /* ImageData.cpp */,
 				303B74E21C277A7500FEDE92 /* ImageData.hpp */,
@@ -1522,6 +1525,7 @@
 				30547E351CB3D6570055EE79 /* metal */,
 				303B75131C288CCE00FEDE92 /* opengl */,
 				3082C3461D94A8D90090FC9D /* PixelFormat.hpp */,
+				30BA5FB22198B42D0032AC23 /* RasterizerState.hpp */,
 				30C758B31F4A0309008499DC /* RenderDevice.cpp */,
 				30C758B41F4A0309008499DC /* RenderDevice.hpp */,
 				304A8E3E1C237C70008B1151 /* Renderer.cpp */,

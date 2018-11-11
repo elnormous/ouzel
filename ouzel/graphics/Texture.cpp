@@ -499,11 +499,11 @@ namespace ouzel
 
             std::vector<Level> levels = calculateSizes(size, std::vector<uint8_t>(), mipmaps, pixelFormat);
 
-            renderer.getDevice()->addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
-                                                                                             levels,
-                                                                                             flags,
-                                                                                             sampleCount,
-                                                                                             pixelFormat)));
+            renderer.addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
+                                                                                levels,
+                                                                                flags,
+                                                                                sampleCount,
+                                                                                pixelFormat)));
         }
 
         Texture::Texture(Renderer& initRenderer,
@@ -529,11 +529,11 @@ namespace ouzel
 
             std::vector<Level> levels = calculateSizes(size, initData, mipmaps, pixelFormat);
 
-            renderer.getDevice()->addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
-                                                                                             levels,
-                                                                                             flags,
-                                                                                             sampleCount,
-                                                                                             pixelFormat)));
+            renderer.addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
+                                                                                levels,
+                                                                                flags,
+                                                                                sampleCount,
+                                                                                pixelFormat)));
         }
 
         Texture::Texture(Renderer& initRenderer,
@@ -561,19 +561,19 @@ namespace ouzel
                 levels.resize(1);
             }
 
-            renderer.getDevice()->addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
-                                                                                             levels,
-                                                                                             flags,
-                                                                                             sampleCount,
-                                                                                             pixelFormat)));
+            renderer.addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
+                                                                                levels,
+                                                                                flags,
+                                                                                sampleCount,
+                                                                                pixelFormat)));
         }
 
         Texture::~Texture()
         {
             if (resource)
             {
+                renderer.addCommand(std::unique_ptr<Command>(new DeleteResourceCommand(resource)));
                 RenderDevice* renderDevice = renderer.getDevice();
-                renderDevice->addCommand(std::unique_ptr<Command>(new DeleteResourceCommand(resource)));
                 renderDevice->deleteResourceId(resource);
             }
         }
@@ -599,11 +599,11 @@ namespace ouzel
 
             std::vector<Level> levels = calculateSizes(size, std::vector<uint8_t>(), mipmaps, pixelFormat);
 
-            renderer.getDevice()->addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
-                                                                                             levels,
-                                                                                             flags,
-                                                                                             sampleCount,
-                                                                                             pixelFormat)));
+            renderer.addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
+                                                                                levels,
+                                                                                flags,
+                                                                                sampleCount,
+                                                                                pixelFormat)));
         }
 
         void Texture::init(const std::vector<uint8_t>& newData,
@@ -627,11 +627,11 @@ namespace ouzel
 
             std::vector<Level> levels = calculateSizes(size, newData, mipmaps, pixelFormat);
 
-            renderer.getDevice()->addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
-                                                                                             levels,
-                                                                                             flags,
-                                                                                             sampleCount,
-                                                                                             pixelFormat)));
+            renderer.addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
+                                                                                levels,
+                                                                                flags,
+                                                                                sampleCount,
+                                                                                pixelFormat)));
         }
 
         void Texture::init(const std::vector<Level>& newLevels,
@@ -657,11 +657,11 @@ namespace ouzel
                 levels.resize(1);
             }
 
-            renderer.getDevice()->addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
-                                                                                             levels,
-                                                                                             flags,
-                                                                                             sampleCount,
-                                                                                             pixelFormat)));
+            renderer.addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
+                                                                                levels,
+                                                                                flags,
+                                                                                sampleCount,
+                                                                                pixelFormat)));
         }
 
         void Texture::setData(const std::vector<uint8_t>& newData)
@@ -671,96 +671,96 @@ namespace ouzel
 
             std::vector<Level> levels = calculateSizes(size, newData, mipmaps, pixelFormat);
 
-            renderer.getDevice()->addCommand(std::unique_ptr<Command>(new SetTextureDataCommand(resource,
-                                                                                                levels)));
+            renderer.addCommand(std::unique_ptr<Command>(new SetTextureDataCommand(resource,
+                                                                                   levels)));
         }
 
         void Texture::setFilter(Filter newFilter)
         {
             filter = newFilter;
 
-            renderer.getDevice()->addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource,
-                                                                                                      filter,
-                                                                                                      addressX,
-                                                                                                      addressY,
-                                                                                                      maxAnisotropy)));
+            renderer.addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource,
+                                                                                         filter,
+                                                                                         addressX,
+                                                                                         addressY,
+                                                                                         maxAnisotropy)));
         }
 
         void Texture::setAddressX(Address newAddressX)
         {
             addressX = newAddressX;
 
-            renderer.getDevice()->addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource,
-                                                                                                      filter,
-                                                                                                      addressX,
-                                                                                                      addressY,
-                                                                                                      maxAnisotropy)));
+            renderer.addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource,
+                                                                                         filter,
+                                                                                         addressX,
+                                                                                         addressY,
+                                                                                         maxAnisotropy)));
         }
 
         void Texture::setAddressY(Address newAddressY)
         {
             addressY = newAddressY;
 
-            renderer.getDevice()->addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource,
-                                                                                                      filter,
-                                                                                                      addressX,
-                                                                                                      addressY,
-                                                                                                      maxAnisotropy)));
+            renderer.addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource,
+                                                                                         filter,
+                                                                                         addressX,
+                                                                                         addressY,
+                                                                                         maxAnisotropy)));
         }
 
         void Texture::setMaxAnisotropy(uint32_t newMaxAnisotropy)
         {
             maxAnisotropy = newMaxAnisotropy;
 
-            renderer.getDevice()->addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource,
-                                                                                                      filter,
-                                                                                                      addressX,
-                                                                                                      addressY,
-                                                                                                      maxAnisotropy)));
+            renderer.addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource,
+                                                                                         filter,
+                                                                                         addressX,
+                                                                                         addressY,
+                                                                                         maxAnisotropy)));
         }
 
         void Texture::setClearColorBuffer(bool clear)
         {
             clearColorBuffer = clear;
 
-            renderer.getDevice()->addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(resource,
-                                                                                                           clearColorBuffer,
-                                                                                                           clearDepthBuffer,
-                                                                                                           clearColor,
-                                                                                                           clearDepth)));
+            renderer.addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(resource,
+                                                                                              clearColorBuffer,
+                                                                                              clearDepthBuffer,
+                                                                                              clearColor,
+                                                                                              clearDepth)));
         }
 
         void Texture::setClearDepthBuffer(bool clear)
         {
             clearDepthBuffer = clear;
 
-            renderer.getDevice()->addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(resource,
-                                                                                                           clearColorBuffer,
-                                                                                                           clearDepthBuffer,
-                                                                                                           clearColor,
-                                                                                                           clearDepth)));
+            renderer.addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(resource,
+                                                                                              clearColorBuffer,
+                                                                                              clearDepthBuffer,
+                                                                                              clearColor,
+                                                                                              clearDepth)));
         }
 
         void Texture::setClearColor(Color color)
         {
             clearColor = color;
 
-            renderer.getDevice()->addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(resource,
-                                                                                                           clearColorBuffer,
-                                                                                                           clearDepthBuffer,
-                                                                                                           clearColor,
-                                                                                                           clearDepth)));
+            renderer.addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(resource,
+                                                                                              clearColorBuffer,
+                                                                                              clearDepthBuffer,
+                                                                                              clearColor,
+                                                                                              clearDepth)));
         }
 
         void Texture::setClearDepth(float depth)
         {
             clearDepth = depth;
 
-            renderer.getDevice()->addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(resource,
-                                                                                                           clearColorBuffer,
-                                                                                                           clearDepthBuffer,
-                                                                                                           clearColor,
-                                                                                                           clearDepth)));
+            renderer.addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(resource,
+                                                                                              clearColorBuffer,
+                                                                                              clearDepthBuffer,
+                                                                                              clearColor,
+                                                                                              clearDepth)));
         }
 
     } // namespace graphics

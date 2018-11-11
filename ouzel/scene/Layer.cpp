@@ -39,8 +39,8 @@ namespace ouzel
                 engine->getRenderer()->setDepthStencilState(camera->getDepthStencilState() ? camera->getDepthStencilState()->getResource() : 0);
 
                 engine->getRenderer()->setFillMode(camera->getWireframe() ?
-                                                   graphics::Renderer::FillMode::WIREFRAME :
-                                                   graphics::Renderer::FillMode::SOLID);
+                                                   graphics::FillMode::WIREFRAME :
+                                                   graphics::FillMode::SOLID);
 
                 for (Actor* actor : drawQueue)
                     actor->draw(camera, false);

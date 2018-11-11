@@ -271,70 +271,161 @@ namespace ouzel
             shaderConstantBuffer.offset = 0;
             ShaderResourceMetal* currentShader = nullptr;
 
-            std::unique_ptr<Command> command;
+            CommandBuffer commandBuffer;
 
             for (;;)
             {
                 {
                     std::unique_lock<std::mutex> lock(commandQueueMutex);
                     while (commandQueue.empty()) commandQueueCondition.wait(lock);
-                    command = std::move(commandQueue.front());
+                    commandBuffer = std::move(commandQueue.front());
                     commandQueue.pop();
                 }
 
-                switch (command->type)
+                std::unique_ptr<Command> command;
+
+                while (commandBuffer.commands.empty())
                 {
-                    case Command::Type::PRESENT:
+                    command = std::move(commandBuffer.commands.front());
+                    commandBuffer.commands.pop();
+
+                    switch (command->type)
                     {
-                        if (currentRenderCommandEncoder)
-                            [currentRenderCommandEncoder endEncoding];
-
-                        if (currentCommandBuffer)
+                        case Command::Type::PRESENT:
                         {
-                            [currentCommandBuffer presentDrawable:currentMetalDrawable];
-                            [currentCommandBuffer commit];
-                        }
-                        break;
-                    }
+                            refillQueue = false;
+                            if (currentRenderCommandEncoder)
+                                [currentRenderCommandEncoder endEncoding];
 
-                    case Command::Type::DELETE_RESOURCE:
-                    {
-                        const DeleteResourceCommand* deleteResourceCommand = static_cast<const DeleteResourceCommand*>(command.get());
-                        resources[deleteResourceCommand->resource - 1].reset();
-                        break;
-                    }
-
-                    case Command::Type::SET_RENDER_TARGET:
-                    {
-                        const SetRenderTargetCommand* setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command.get());
-
-                        MTLRenderPassDescriptorPtr newRenderPassDescriptor;
-
-                        if (setRenderTargetCommand->renderTarget)
-                        {
-                            TextureResourceMetal* renderTargetMetal = static_cast<TextureResourceMetal*>(resources[setRenderTargetCommand->renderTarget - 1].get());
-
-                            currentRenderTarget = renderTargetMetal->getTexture();
-                            newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
-                            if (!newRenderPassDescriptor) break;
-
-                            currentPipelineStateDesc.sampleCount = renderTargetMetal->getSampleCount();
-                            currentPipelineStateDesc.colorFormat = renderTargetMetal->getColorFormat();
-                            currentPipelineStateDesc.depthFormat = renderTargetMetal->getDepthFormat();
-
-                        }
-                        else
-                        {
-                            currentRenderTarget = currentMetalTexture;
-                            newRenderPassDescriptor = renderPassDescriptor;
-                            currentPipelineStateDesc.sampleCount = sampleCount;
-                            currentPipelineStateDesc.colorFormat = colorFormat;
-                            currentPipelineStateDesc.depthFormat = depthFormat;
+                            if (currentCommandBuffer)
+                            {
+                                [currentCommandBuffer presentDrawable:currentMetalDrawable];
+                                [currentCommandBuffer commit];
+                            }
+                            break;
                         }
 
-                        if (currentRenderPassDescriptor != newRenderPassDescriptor ||
-                            !currentRenderCommandEncoder)
+                        case Command::Type::DELETE_RESOURCE:
                         {
+                            const DeleteResourceCommand* deleteResourceCommand = static_cast<const DeleteResourceCommand*>(command.get());
+                            resources[deleteResourceCommand->resource - 1].reset();
+                            break;
+                        }
+
+                        case Command::Type::SET_RENDER_TARGET:
+                        {
+                            const SetRenderTargetCommand* setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command.get());
+
+                            MTLRenderPassDescriptorPtr newRenderPassDescriptor;
+
+                            if (setRenderTargetCommand->renderTarget)
+                            {
+                                TextureResourceMetal* renderTargetMetal = static_cast<TextureResourceMetal*>(resources[setRenderTargetCommand->renderTarget - 1].get());
+
+                                currentRenderTarget = renderTargetMetal->getTexture();
+                                newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
+                                if (!newRenderPassDescriptor) break;
+
+                                currentPipelineStateDesc.sampleCount = renderTargetMetal->getSampleCount();
+                                currentPipelineStateDesc.colorFormat = renderTargetMetal->getColorFormat();
+                                currentPipelineStateDesc.depthFormat = renderTargetMetal->getDepthFormat();
+
+                            }
+                            else
+                            {
+                                currentRenderTarget = currentMetalTexture;
+                                newRenderPassDescriptor = renderPassDescriptor;
+                                currentPipelineStateDesc.sampleCount = sampleCount;
+                                currentPipelineStateDesc.colorFormat = colorFormat;
+                                currentPipelineStateDesc.depthFormat = depthFormat;
+                            }
+
+                            if (currentRenderPassDescriptor != newRenderPassDescriptor ||
+                                !currentRenderCommandEncoder)
+                            {
+                                if (currentRenderCommandEncoder)
+                                    [currentRenderCommandEncoder endEncoding];
+
+                                currentRenderPassDescriptor = newRenderPassDescriptor;
+                                currentRenderCommandEncoder = [currentCommandBuffer renderCommandEncoderWithDescriptor:currentRenderPassDescriptor];
+
+                                if (!currentRenderCommandEncoder)
+                                    throw DataError("Failed to create Metal render command encoder");
+
+                                currentRenderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionLoad;
+                                currentRenderPassDescriptor.depthAttachment.loadAction = MTLLoadActionLoad;
+                            }
+                            break;
+                        }
+
+                        case Command::Type::SET_RENDER_TARGET_PARAMETERS:
+                        {
+                            const SetRenderTargetParametersCommand* setRenderTargetParametersCommand = static_cast<const SetRenderTargetParametersCommand*>(command.get());
+
+                            if (setRenderTargetParametersCommand->renderTarget)
+                            {
+                                TextureResourceMetal* renderTargetMetal = static_cast<TextureResourceMetal*>(resources[setRenderTargetParametersCommand->renderTarget - 1].get());
+                                renderTargetMetal->setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
+                                renderTargetMetal->setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
+                                renderTargetMetal->setClearColor(setRenderTargetParametersCommand->clearColor);
+                                renderTargetMetal->setClearDepth(setRenderTargetParametersCommand->clearDepth);
+                            }
+                            else
+                            {
+                                setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
+                                setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
+                                setClearColor(setRenderTargetParametersCommand->clearColor);
+                                setClearDepth(setRenderTargetParametersCommand->clearDepth);
+                            }
+
+                            break;
+                        }
+
+                        case Command::Type::CLEAR_RENDER_TARGET:
+                        {
+                            const ClearRenderTargetCommand* clearCommand = static_cast<const ClearRenderTargetCommand*>(command.get());
+
+                            MTLRenderPassDescriptorPtr newRenderPassDescriptor;
+                            MTLLoadAction newColorBufferLoadAction = MTLLoadActionLoad;
+                            MTLLoadAction newDepthBufferLoadAction = MTLLoadActionLoad;
+
+                            NSUInteger renderTargetWidth = 0;
+                            NSUInteger renderTargetHeight = 0;
+
+                            // render target
+                            if (clearCommand->renderTarget)
+                            {
+                                TextureResourceMetal* renderTargetMetal = static_cast<TextureResourceMetal*>(resources[clearCommand->renderTarget - 1].get());
+
+                                newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
+                                if (!newRenderPassDescriptor) break;
+
+                                currentRenderTarget = renderTargetMetal->getTexture();
+                                currentPipelineStateDesc.sampleCount = renderTargetMetal->getSampleCount();
+                                currentPipelineStateDesc.colorFormat = renderTargetMetal->getColorFormat();
+                                currentPipelineStateDesc.depthFormat = renderTargetMetal->getDepthFormat();
+
+                                renderTargetWidth = renderTargetMetal->getWidth();
+                                renderTargetHeight = renderTargetMetal->getHeight();
+
+                                newColorBufferLoadAction = renderTargetMetal->getColorBufferLoadAction();
+                                newDepthBufferLoadAction = renderTargetMetal->getDepthBufferLoadAction();
+                            }
+                            else
+                            {
+                                currentRenderTarget = currentMetalTexture;
+                                newRenderPassDescriptor = renderPassDescriptor;
+                                currentPipelineStateDesc.sampleCount = sampleCount;
+                                currentPipelineStateDesc.colorFormat = colorFormat;
+                                currentPipelineStateDesc.depthFormat = depthFormat;
+
+                                renderTargetWidth = frameBufferWidth;
+                                renderTargetHeight = frameBufferHeight;
+
+                                newColorBufferLoadAction = colorBufferLoadAction;
+                                newDepthBufferLoadAction = depthBufferLoadAction;
+                            }
+
                             if (currentRenderCommandEncoder)
                                 [currentRenderCommandEncoder endEncoding];
 
@@ -344,584 +435,502 @@ namespace ouzel
                             if (!currentRenderCommandEncoder)
                                 throw DataError("Failed to create Metal render command encoder");
 
-                            currentRenderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionLoad;
-                            currentRenderPassDescriptor.depthAttachment.loadAction = MTLLoadActionLoad;
-                        }
-                        break;
-                    }
+                            MTLViewport viewport;
+                            viewport.originX = viewport.originY = 0.0;
+                            viewport.width = static_cast<double>(renderTargetWidth);
+                            viewport.height = static_cast<double>(renderTargetHeight);
+                            viewport.znear = 0.0f;
+                            viewport.zfar = 1.0f;
 
-                    case Command::Type::SET_RENDER_TARGET_PARAMETERS:
-                    {
-                        const SetRenderTargetParametersCommand* setRenderTargetParametersCommand = static_cast<const SetRenderTargetParametersCommand*>(command.get());
+                            [currentRenderCommandEncoder setViewport:viewport];
+                            // TODO: enable depth and stencil writing
 
-                        if (setRenderTargetParametersCommand->renderTarget)
-                        {
-                            TextureResourceMetal* renderTargetMetal = static_cast<TextureResourceMetal*>(resources[setRenderTargetParametersCommand->renderTarget - 1].get());
-                            renderTargetMetal->setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
-                            renderTargetMetal->setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
-                            renderTargetMetal->setClearColor(setRenderTargetParametersCommand->clearColor);
-                            renderTargetMetal->setClearDepth(setRenderTargetParametersCommand->clearDepth);
-                        }
-                        else
-                        {
-                            setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
-                            setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
-                            setClearColor(setRenderTargetParametersCommand->clearColor);
-                            setClearDepth(setRenderTargetParametersCommand->clearDepth);
+                            currentRenderPassDescriptor.colorAttachments[0].loadAction = newColorBufferLoadAction;
+                            currentRenderPassDescriptor.depthAttachment.loadAction = newDepthBufferLoadAction;
+
+                            break;
                         }
 
-                        break;
-                    }
-
-                    case Command::Type::CLEAR_RENDER_TARGET:
-                    {
-                        const ClearRenderTargetCommand* clearCommand = static_cast<const ClearRenderTargetCommand*>(command.get());
-
-                        MTLRenderPassDescriptorPtr newRenderPassDescriptor;
-                        MTLLoadAction newColorBufferLoadAction = MTLLoadActionLoad;
-                        MTLLoadAction newDepthBufferLoadAction = MTLLoadActionLoad;
-
-                        NSUInteger renderTargetWidth = 0;
-                        NSUInteger renderTargetHeight = 0;
-
-                        // render target
-                        if (clearCommand->renderTarget)
+                        case Command::Type::BLIT:
                         {
-                            TextureResourceMetal* renderTargetMetal = static_cast<TextureResourceMetal*>(resources[clearCommand->renderTarget - 1].get());
-
-                            newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
-                            if (!newRenderPassDescriptor) break;
-
-                            currentRenderTarget = renderTargetMetal->getTexture();
-                            currentPipelineStateDesc.sampleCount = renderTargetMetal->getSampleCount();
-                            currentPipelineStateDesc.colorFormat = renderTargetMetal->getColorFormat();
-                            currentPipelineStateDesc.depthFormat = renderTargetMetal->getDepthFormat();
-
-                            renderTargetWidth = renderTargetMetal->getWidth();
-                            renderTargetHeight = renderTargetMetal->getHeight();
-
-                            newColorBufferLoadAction = renderTargetMetal->getColorBufferLoadAction();
-                            newDepthBufferLoadAction = renderTargetMetal->getDepthBufferLoadAction();
-                        }
-                        else
-                        {
-                            currentRenderTarget = currentMetalTexture;
-                            newRenderPassDescriptor = renderPassDescriptor;
-                            currentPipelineStateDesc.sampleCount = sampleCount;
-                            currentPipelineStateDesc.colorFormat = colorFormat;
-                            currentPipelineStateDesc.depthFormat = depthFormat;
-
-                            renderTargetWidth = frameBufferWidth;
-                            renderTargetHeight = frameBufferHeight;
-
-                            newColorBufferLoadAction = colorBufferLoadAction;
-                            newDepthBufferLoadAction = depthBufferLoadAction;
+                            //const BlitCommand* blitCommand = static_cast<const BlitCommand*>(command.get());
+                            //MTLBlitCommandEncoder
+                            break;
                         }
 
-                        if (currentRenderCommandEncoder)
-                            [currentRenderCommandEncoder endEncoding];
-
-                        currentRenderPassDescriptor = newRenderPassDescriptor;
-                        currentRenderCommandEncoder = [currentCommandBuffer renderCommandEncoderWithDescriptor:currentRenderPassDescriptor];
-
-                        if (!currentRenderCommandEncoder)
-                            throw DataError("Failed to create Metal render command encoder");
-
-                        MTLViewport viewport;
-                        viewport.originX = viewport.originY = 0.0;
-                        viewport.width = static_cast<double>(renderTargetWidth);
-                        viewport.height = static_cast<double>(renderTargetHeight);
-                        viewport.znear = 0.0f;
-                        viewport.zfar = 1.0f;
-
-                        [currentRenderCommandEncoder setViewport:viewport];
-                        // TODO: enable depth and stencil writing
-
-                        currentRenderPassDescriptor.colorAttachments[0].loadAction = newColorBufferLoadAction;
-                        currentRenderPassDescriptor.depthAttachment.loadAction = newDepthBufferLoadAction;
-
-                        break;
-                    }
-
-                    case Command::Type::BLIT:
-                    {
-                        //const BlitCommand* blitCommand = static_cast<const BlitCommand*>(command.get());
-                        //MTLBlitCommandEncoder
-                        break;
-                    }
-
-                    case Command::Type::SET_CULL_MODE:
-                    {
-                        const SetCullModeCommad* setCullModeCommad = static_cast<const SetCullModeCommad*>(command.get());
-
-                        if (!currentRenderCommandEncoder)
-                            throw DataError("Metal render command encoder not initialized");
-
-                        MTLCullMode cullMode;
-
-                        switch (setCullModeCommad->cullMode)
+                        case Command::Type::SET_CULL_MODE:
                         {
-                            case Renderer::CullMode::NONE: cullMode = MTLCullModeNone; break;
-                            case Renderer::CullMode::FRONT: cullMode = MTLCullModeFront; break;
-                            case Renderer::CullMode::BACK: cullMode = MTLCullModeBack; break;
-                            default: throw DataError("Invalid cull mode");
-                        }
+                            const SetCullModeCommad* setCullModeCommad = static_cast<const SetCullModeCommad*>(command.get());
 
-                        [currentRenderCommandEncoder setCullMode:cullMode];
+                            if (!currentRenderCommandEncoder)
+                                throw DataError("Metal render command encoder not initialized");
 
-                        break;
-                    }
+                            MTLCullMode cullMode;
 
-                    case Command::Type::SET_FILL_MODE:
-                    {
-                        const SetFillModeCommad* setFillModeCommad = static_cast<const SetFillModeCommad*>(command.get());
-
-                        if (!currentRenderCommandEncoder)
-                            throw DataError("Metal render command encoder not initialized");
-
-                        MTLTriangleFillMode fillMode;
-
-                        switch (setFillModeCommad->fillMode)
-                        {
-                            case Renderer::FillMode::SOLID: fillMode = MTLTriangleFillModeFill; break;
-                            case Renderer::FillMode::WIREFRAME: fillMode = MTLTriangleFillModeLines; break;
-                            default: throw DataError("Invalid fill mode");
-                        }
-
-                        [currentRenderCommandEncoder setTriangleFillMode:fillMode];
-
-                        break;
-                    }
-
-                    case Command::Type::SET_SCISSOR_TEST:
-                    {
-                        const SetScissorTestCommand* setScissorTestCommand = static_cast<const SetScissorTestCommand*>(command.get());
-
-                        if (!currentRenderCommandEncoder)
-                            throw DataError("Metal render command encoder not initialized");
-
-                        MTLScissorRect scissorRect;
-
-                        if (setScissorTestCommand->enabled)
-                        {
-                            scissorRect.x = static_cast<NSUInteger>(setScissorTestCommand->rectangle.position.x);
-                            scissorRect.y = static_cast<NSUInteger>(setScissorTestCommand->rectangle.position.y);
-                            scissorRect.width = static_cast<NSUInteger>(setScissorTestCommand->rectangle.size.width);
-                            scissorRect.height = static_cast<NSUInteger>(setScissorTestCommand->rectangle.size.height);
-                            if (scissorRect.x >= currentRenderTarget.width) scissorRect.x = currentRenderTarget.width - 1;
-                            if (scissorRect.y >= currentRenderTarget.height) scissorRect.y = currentRenderTarget.height - 1;
-                            if (scissorRect.width > currentRenderTarget.width - scissorRect.x) scissorRect.width = currentRenderTarget.width - scissorRect.x;
-                            if (scissorRect.height > currentRenderTarget.height - scissorRect.y) scissorRect.height = currentRenderTarget.height - scissorRect.y;
-                        }
-                        else
-                        {
-                            scissorRect.x = scissorRect.y = 0;
-                            scissorRect.width = currentRenderTarget.width;
-                            scissorRect.height = currentRenderTarget.height;
-                        }
-
-                        [currentRenderCommandEncoder setScissorRect:scissorRect];
-
-                        break;
-                    }
-
-                    case Command::Type::SET_VIEWPORT:
-                    {
-                        const SetViewportCommand* setViewportCommand = static_cast<const SetViewportCommand*>(command.get());
-
-                        if (!currentRenderCommandEncoder)
-                            throw DataError("Metal render command encoder not initialized");
-
-                        MTLViewport viewport;
-                        viewport.originX = static_cast<double>(setViewportCommand->viewport.position.x);
-                        viewport.originY = static_cast<double>(setViewportCommand->viewport.position.y);
-                        viewport.width = static_cast<double>(setViewportCommand->viewport.size.width);
-                        viewport.height = static_cast<double>(setViewportCommand->viewport.size.height);
-                        viewport.znear = 0.0f;
-                        viewport.zfar = 1.0f;
-
-                        [currentRenderCommandEncoder setViewport:viewport];
-
-                        break;
-                    }
-
-                    case Command::Type::INIT_DEPTH_STENCIL_STATE:
-                    {
-                        const InitDepthStencilStateCommand* initDepthStencilStateCommand = static_cast<const InitDepthStencilStateCommand*>(command.get());
-                        std::unique_ptr<DepthStencilStateResourceMetal> depthStencilStateResourceMetal(new DepthStencilStateResourceMetal(*this,
-                                                                                                                                          initDepthStencilStateCommand->depthTest,
-                                                                                                                                          initDepthStencilStateCommand->depthWrite,
-                                                                                                                                          initDepthStencilStateCommand->compareFunction));
-
-                        if (initDepthStencilStateCommand->depthStencilState > resources.size())
-                            resources.resize(initDepthStencilStateCommand->depthStencilState);
-                        resources[initDepthStencilStateCommand->depthStencilState - 1] = std::move(depthStencilStateResourceMetal);
-
-                        break;
-                    }
-
-                    case Command::Type::SET_DEPTH_STENCIL_STATE:
-                    {
-                        const SetDepthStencilStateCommand* setDepthStencilStateCommand = static_cast<const SetDepthStencilStateCommand*>(command.get());
-
-                        if (!currentRenderCommandEncoder)
-                            throw DataError("Metal render command encoder not initialized");
-
-                        if (setDepthStencilStateCommand->depthStencilState)
-                        {
-                            DepthStencilStateResourceMetal* depthStencilStateMetal = static_cast<DepthStencilStateResourceMetal*>(resources[setDepthStencilStateCommand->depthStencilState - 1].get());
-                            [currentRenderCommandEncoder setDepthStencilState:depthStencilStateMetal->getDepthStencilState()];
-                        }
-                        else
-                            [currentRenderCommandEncoder setDepthStencilState:defaultDepthStencilState];
-
-                        break;
-                    }
-
-                    case Command::Type::SET_PIPELINE_STATE:
-                    {
-                        const SetPipelineStateCommand* setPipelineStateCommand = static_cast<const SetPipelineStateCommand*>(command.get());
-
-                        if (!currentRenderCommandEncoder)
-                            throw DataError("Metal render command encoder not initialized");
-
-                        BlendStateResourceMetal* blendStateMetal = static_cast<BlendStateResourceMetal*>(resources[setPipelineStateCommand->blendState - 1].get());
-                        ShaderResourceMetal* shaderMetal = static_cast<ShaderResourceMetal*>(resources[setPipelineStateCommand->shader - 1].get());
-                        currentShader = shaderMetal;
-
-                        currentPipelineStateDesc.blendState = blendStateMetal;
-                        currentPipelineStateDesc.shader = shaderMetal;
-
-                        MTLRenderPipelineStatePtr pipelineState = getPipelineState(currentPipelineStateDesc);
-                        if (pipelineState) [currentRenderCommandEncoder setRenderPipelineState:pipelineState];
-
-                        break;
-                    }
-
-                    case Command::Type::DRAW:
-                    {
-                        const DrawCommand* drawCommand = static_cast<const DrawCommand*>(command.get());
-
-                        if (!currentRenderCommandEncoder)
-                            throw DataError("Metal render command encoder not initialized");
-
-                        // mesh buffer
-                        BufferResourceMetal* indexBufferMetal = static_cast<BufferResourceMetal*>(resources[drawCommand->indexBuffer - 1].get());
-                        BufferResourceMetal* vertexBufferMetal = static_cast<BufferResourceMetal*>(resources[drawCommand->vertexBuffer - 1].get());
-
-                        assert(indexBufferMetal);
-                        assert(indexBufferMetal->getBuffer());
-                        assert(vertexBufferMetal);
-                        assert(vertexBufferMetal->getBuffer());
-
-                        [currentRenderCommandEncoder setVertexBuffer:vertexBufferMetal->getBuffer() offset:0 atIndex:0];
-
-                        // draw
-                        MTLPrimitiveType primitiveType;
-
-                        switch (drawCommand->drawMode)
-                        {
-                            case Renderer::DrawMode::POINT_LIST: primitiveType = MTLPrimitiveTypePoint; break;
-                            case Renderer::DrawMode::LINE_LIST: primitiveType = MTLPrimitiveTypeLine; break;
-                            case Renderer::DrawMode::LINE_STRIP: primitiveType = MTLPrimitiveTypeLineStrip; break;
-                            case Renderer::DrawMode::TRIANGLE_LIST: primitiveType = MTLPrimitiveTypeTriangle; break;
-                            case Renderer::DrawMode::TRIANGLE_STRIP: primitiveType = MTLPrimitiveTypeTriangleStrip; break;
-                            default: throw DataError("Invalid draw mode");
-                        }
-
-                        assert(drawCommand->indexCount);
-                        assert(indexBufferMetal->getSize());
-                        assert(vertexBufferMetal->getSize());
-
-                        MTLIndexType indexType;
-
-                        switch (drawCommand->indexSize)
-                        {
-                            case 2: indexType = MTLIndexTypeUInt16; break;
-                            case 4: indexType = MTLIndexTypeUInt32; break;
-                            default: throw DataError("Invalid index size");
-                        }
-
-                        [currentRenderCommandEncoder drawIndexedPrimitives:primitiveType
-                                                                indexCount:drawCommand->indexCount
-                                                                 indexType:indexType
-                                                               indexBuffer:indexBufferMetal->getBuffer()
-                                                         indexBufferOffset:drawCommand->startIndex * drawCommand->indexSize];
-
-                        break;
-                    }
-
-                    case Command::Type::PUSH_DEBUG_MARKER:
-                    {
-                        const PushDebugMarkerCommand* pushDebugMarkerCommand = static_cast<const PushDebugMarkerCommand*>(command.get());
-
-                        if (!currentRenderCommandEncoder)
-                            throw DataError("Metal render command encoder not initialized");
-
-                        [currentRenderCommandEncoder pushDebugGroup:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:pushDebugMarkerCommand->name.c_str()])];
-                        break;
-                    }
-
-                    case Command::Type::POP_DEBUG_MARKER:
-                    {
-                        //const PopDebugMarkerCommand* popDebugMarkerCommand = static_cast<const PopDebugMarkerCommand*>(command);
-
-                        if (!currentRenderCommandEncoder)
-                            throw DataError("Metal render command encoder not initialized");
-
-                        [currentRenderCommandEncoder popDebugGroup];
-                        break;
-                    }
-
-                    case Command::Type::INIT_BLEND_STATE:
-                    {
-                        const InitBlendStateCommand* initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command.get());
-
-                        std::unique_ptr<BlendStateResourceMetal> blendStateResourceMetal(new BlendStateResourceMetal(*this,
-                                                                                                                     initBlendStateCommand->enableBlending,
-                                                                                                                     initBlendStateCommand->colorBlendSource,
-                                                                                                                     initBlendStateCommand->colorBlendDest,
-                                                                                                                     initBlendStateCommand->colorOperation,
-                                                                                                                     initBlendStateCommand->alphaBlendSource,
-                                                                                                                     initBlendStateCommand->alphaBlendDest,
-                                                                                                                     initBlendStateCommand->alphaOperation,
-                                                                                                                     initBlendStateCommand->colorMask));
-
-                        if (initBlendStateCommand->blendState > resources.size())
-                            resources.resize(initBlendStateCommand->blendState);
-                        resources[initBlendStateCommand->blendState - 1] = std::move(blendStateResourceMetal);
-                        break;
-                    }
-
-                    case Command::Type::INIT_BUFFER:
-                    {
-                        const InitBufferCommand* initBufferCommand = static_cast<const InitBufferCommand*>(command.get());
-
-                        std::unique_ptr<BufferResourceMetal> bufferResourceMetal(new BufferResourceMetal(*this,
-                                                                                                         initBufferCommand->usage,
-                                                                                                         initBufferCommand->flags,
-                                                                                                         initBufferCommand->data,
-                                                                                                         initBufferCommand->size));
-
-                        if (initBufferCommand->buffer > resources.size())
-                            resources.resize(initBufferCommand->buffer);
-                        resources[initBufferCommand->buffer - 1] = std::move(bufferResourceMetal);
-                        break;
-                    }
-
-                    case Command::Type::SET_BUFFER_DATA:
-                    {
-                        const SetBufferDataCommand* setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command.get());
-
-                        BufferResourceMetal* bufferResourceMetal = static_cast<BufferResourceMetal*>(resources[setBufferDataCommand->buffer - 1].get());
-                        bufferResourceMetal->setData(setBufferDataCommand->data);
-                        break;
-                    }
-
-                    case Command::Type::INIT_SHADER:
-                    {
-                        const InitShaderCommand* initShaderCommand = static_cast<const InitShaderCommand*>(command.get());
-
-                        std::unique_ptr<ShaderResourceMetal> shaderResourceMetal(new ShaderResourceMetal(*this,
-                                                                                                         initShaderCommand->fragmentShader,
-                                                                                                         initShaderCommand->vertexShader,
-                                                                                                         initShaderCommand->vertexAttributes,
-                                                                                                         initShaderCommand->fragmentShaderConstantInfo,
-                                                                                                         initShaderCommand->vertexShaderConstantInfo,
-                                                                                                         initShaderCommand->fragmentShaderDataAlignment,
-                                                                                                         initShaderCommand->vertexShaderDataAlignment,
-                                                                                                         initShaderCommand->fragmentShaderFunction,
-                                                                                                         initShaderCommand->vertexShaderFunction));
-
-                        if (initShaderCommand->shader > resources.size())
-                            resources.resize(initShaderCommand->shader);
-                        resources[initShaderCommand->shader - 1] = std::move(shaderResourceMetal);
-                        break;
-                    }
-
-                    case Command::Type::SET_SHADER_CONSTANTS:
-                    {
-                        const SetShaderConstantsCommand* setShaderConstantsCommand = static_cast<const SetShaderConstantsCommand*>(command.get());
-
-                        if (!currentRenderCommandEncoder)
-                            throw DataError("Metal render command encoder not initialized");
-
-                        if (!currentShader)
-                            throw DataError("No shader set");
-
-                        // pixel shader constants
-                        const std::vector<ShaderResourceMetal::Location>& fragmentShaderConstantLocations = currentShader->getFragmentShaderConstantLocations();
-
-                        if (setShaderConstantsCommand->fragmentShaderConstants.size() > fragmentShaderConstantLocations.size())
-                            throw DataError("Invalid pixel shader constant size");
-
-                        shaderData.clear();
-
-                        for (size_t i = 0; i < setShaderConstantsCommand->fragmentShaderConstants.size(); ++i)
-                        {
-                            const ShaderResourceMetal::Location& fragmentShaderConstantLocation = fragmentShaderConstantLocations[i];
-                            const std::vector<float>& fragmentShaderConstant = setShaderConstantsCommand->fragmentShaderConstants[i];
-
-                            if (sizeof(float) * fragmentShaderConstant.size() != fragmentShaderConstantLocation.size)
-                                throw DataError("Invalid pixel shader constant size");
-
-                            shaderData.insert(shaderData.end(), fragmentShaderConstant.begin(), fragmentShaderConstant.end());
-                        }
-
-                        shaderConstantBuffer.offset = ((shaderConstantBuffer.offset + currentShader->getFragmentShaderAlignment() - 1) /
-                                                       currentShader->getFragmentShaderAlignment()) * currentShader->getFragmentShaderAlignment(); // round up to nearest aligned pointer
-
-                        if (shaderConstantBuffer.offset + getVectorSize(shaderData) > BUFFER_SIZE)
-                        {
-                            ++shaderConstantBuffer.index;
-                            shaderConstantBuffer.offset = 0;
-                        }
-
-                        if (shaderConstantBuffer.index >= shaderConstantBuffer.buffers.size())
-                        {
-                            MTLBufferPtr buffer = [device newBufferWithLength:BUFFER_SIZE
-                                                                      options:MTLResourceCPUCacheModeWriteCombined];
-
-                            if (!buffer)
-                                throw SystemError("Failed to create Metal buffer");
-
-                            shaderConstantBuffer.buffers.push_back(buffer);
-                        }
-
-                        MTLBufferPtr currentBuffer = shaderConstantBuffer.buffers[shaderConstantBuffer.index];
-
-                        std::copy(reinterpret_cast<const char*>(shaderData.data()),
-                                  reinterpret_cast<const char*>(shaderData.data()) + static_cast<uint32_t>(sizeof(float) * shaderData.size()),
-                                  static_cast<char*>([currentBuffer contents]) + shaderConstantBuffer.offset);
-
-                        [currentRenderCommandEncoder setFragmentBuffer:currentBuffer
-                                                                offset:shaderConstantBuffer.offset
-                                                               atIndex:1];
-
-                        shaderConstantBuffer.offset += static_cast<uint32_t>(getVectorSize(shaderData));
-
-                        // vertex shader constants
-                        const std::vector<ShaderResourceMetal::Location>& vertexShaderConstantLocations = currentShader->getVertexShaderConstantLocations();
-
-                        if (setShaderConstantsCommand->vertexShaderConstants.size() > vertexShaderConstantLocations.size())
-                            throw DataError("Invalid vertex shader constant size");
-
-                        shaderData.clear();
-
-                        for (size_t i = 0; i < setShaderConstantsCommand->vertexShaderConstants.size(); ++i)
-                        {
-                            const ShaderResourceMetal::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
-                            const std::vector<float>& vertexShaderConstant = setShaderConstantsCommand->vertexShaderConstants[i];
-
-                            if (sizeof(float) * vertexShaderConstant.size() != vertexShaderConstantLocation.size)
-                                throw DataError("Invalid vertex shader constant size");
-
-                            shaderData.insert(shaderData.end(), vertexShaderConstant.begin(), vertexShaderConstant.end());
-                        }
-
-                        shaderConstantBuffer.offset = ((shaderConstantBuffer.offset + currentShader->getVertexShaderAlignment() - 1) /
-                                                       currentShader->getVertexShaderAlignment()) * currentShader->getVertexShaderAlignment(); // round up to nearest aligned pointer
-
-                        if (shaderConstantBuffer.offset + getVectorSize(shaderData) > BUFFER_SIZE)
-                        {
-                            ++shaderConstantBuffer.index;
-                            shaderConstantBuffer.offset = 0;
-                        }
-
-                        if (shaderConstantBuffer.index >= shaderConstantBuffer.buffers.size())
-                        {
-                            MTLBufferPtr buffer = [device newBufferWithLength:BUFFER_SIZE
-                                                                      options:MTLResourceCPUCacheModeWriteCombined];
-
-                            if (!buffer)
-                                throw SystemError("Failed to create Metal buffer");
-
-                            shaderConstantBuffer.buffers.push_back(buffer);
-                        }
-
-                        currentBuffer = shaderConstantBuffer.buffers[shaderConstantBuffer.index];
-
-                        std::copy(reinterpret_cast<const char*>(shaderData.data()),
-                                  reinterpret_cast<const char*>(shaderData.data()) + static_cast<uint32_t>(sizeof(float) * shaderData.size()),
-                                  static_cast<char*>([currentBuffer contents]) + shaderConstantBuffer.offset);
-
-                        [currentRenderCommandEncoder setVertexBuffer:currentBuffer
-                                                              offset:shaderConstantBuffer.offset
-                                                             atIndex:1];
-
-                        shaderConstantBuffer.offset += static_cast<uint32_t>(getVectorSize(shaderData));
-
-                        break;
-                    }
-
-                    case Command::Type::INIT_TEXTURE:
-                    {
-                        const InitTextureCommand* initTextureCommand = static_cast<const InitTextureCommand*>(command.get());
-
-                        std::unique_ptr<TextureResourceMetal> textureResourceMetal(new TextureResourceMetal(*this,
-                                                                                                            initTextureCommand->levels,
-                                                                                                            initTextureCommand->flags,
-                                                                                                            initTextureCommand->sampleCount,
-                                                                                                            initTextureCommand->pixelFormat));
-
-                        if (initTextureCommand->texture > resources.size())
-                            resources.resize(initTextureCommand->texture);
-                        resources[initTextureCommand->texture - 1] = std::move(textureResourceMetal);
-                        break;
-                    }
-
-                    case Command::Type::SET_TEXTURE_DATA:
-                    {
-                        const SetTextureDataCommand* setTextureDataCommand = static_cast<const SetTextureDataCommand*>(command.get());
-
-                        TextureResourceMetal* textureResourceMetal = static_cast<TextureResourceMetal*>(resources[setTextureDataCommand->texture - 1].get());
-                        textureResourceMetal->setData(setTextureDataCommand->levels);
-
-                        break;
-                    }
-
-                    case Command::Type::SET_TEXTURE_PARAMETERS:
-                    {
-                        const SetTextureParametersCommand* setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
-
-                        TextureResourceMetal* textureResourceMetal = static_cast<TextureResourceMetal*>(resources[setTextureParametersCommand->texture - 1].get());
-                        textureResourceMetal->setFilter(setTextureParametersCommand->filter);
-                        textureResourceMetal->setAddressX(setTextureParametersCommand->addressX);
-                        textureResourceMetal->setAddressY(setTextureParametersCommand->addressY);
-                        textureResourceMetal->setMaxAnisotropy(setTextureParametersCommand->maxAnisotropy);
-
-                        break;
-                    }
-
-                    case Command::Type::SET_TEXTURES:
-                    {
-                        const SetTexturesCommand* setTexturesCommand = static_cast<const SetTexturesCommand*>(command.get());
-
-                        if (!currentRenderCommandEncoder)
-                            throw DataError("Metal render command encoder not initialized");
-
-                        for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
-                        {
-                            if (setTexturesCommand->textures[layer])
+                            switch (setCullModeCommad->cullMode)
                             {
-                                TextureResourceMetal* textureMetal = static_cast<TextureResourceMetal*>(resources[setTexturesCommand->textures[layer] - 1].get());
-                                [currentRenderCommandEncoder setFragmentTexture:textureMetal->getTexture() atIndex:layer];
-                                [currentRenderCommandEncoder setFragmentSamplerState:textureMetal->getSamplerState() atIndex:layer];
+                                case CullMode::NONE: cullMode = MTLCullModeNone; break;
+                                case CullMode::FRONT: cullMode = MTLCullModeFront; break;
+                                case CullMode::BACK: cullMode = MTLCullModeBack; break;
+                                default: throw DataError("Invalid cull mode");
+                            }
+
+                            [currentRenderCommandEncoder setCullMode:cullMode];
+
+                            break;
+                        }
+
+                        case Command::Type::SET_FILL_MODE:
+                        {
+                            const SetFillModeCommad* setFillModeCommad = static_cast<const SetFillModeCommad*>(command.get());
+
+                            if (!currentRenderCommandEncoder)
+                                throw DataError("Metal render command encoder not initialized");
+
+                            MTLTriangleFillMode fillMode;
+
+                            switch (setFillModeCommad->fillMode)
+                            {
+                                case FillMode::SOLID: fillMode = MTLTriangleFillModeFill; break;
+                                case FillMode::WIREFRAME: fillMode = MTLTriangleFillModeLines; break;
+                                default: throw DataError("Invalid fill mode");
+                            }
+
+                            [currentRenderCommandEncoder setTriangleFillMode:fillMode];
+
+                            break;
+                        }
+
+                        case Command::Type::SET_SCISSOR_TEST:
+                        {
+                            const SetScissorTestCommand* setScissorTestCommand = static_cast<const SetScissorTestCommand*>(command.get());
+
+                            if (!currentRenderCommandEncoder)
+                                throw DataError("Metal render command encoder not initialized");
+
+                            MTLScissorRect scissorRect;
+
+                            if (setScissorTestCommand->enabled)
+                            {
+                                scissorRect.x = static_cast<NSUInteger>(setScissorTestCommand->rectangle.position.x);
+                                scissorRect.y = static_cast<NSUInteger>(setScissorTestCommand->rectangle.position.y);
+                                scissorRect.width = static_cast<NSUInteger>(setScissorTestCommand->rectangle.size.width);
+                                scissorRect.height = static_cast<NSUInteger>(setScissorTestCommand->rectangle.size.height);
+                                if (scissorRect.x >= currentRenderTarget.width) scissorRect.x = currentRenderTarget.width - 1;
+                                if (scissorRect.y >= currentRenderTarget.height) scissorRect.y = currentRenderTarget.height - 1;
+                                if (scissorRect.width > currentRenderTarget.width - scissorRect.x) scissorRect.width = currentRenderTarget.width - scissorRect.x;
+                                if (scissorRect.height > currentRenderTarget.height - scissorRect.y) scissorRect.height = currentRenderTarget.height - scissorRect.y;
                             }
                             else
                             {
-                                [currentRenderCommandEncoder setFragmentTexture:nil atIndex:layer];
-                                [currentRenderCommandEncoder setFragmentSamplerState:nil atIndex:layer];
+                                scissorRect.x = scissorRect.y = 0;
+                                scissorRect.width = currentRenderTarget.width;
+                                scissorRect.height = currentRenderTarget.height;
                             }
+
+                            [currentRenderCommandEncoder setScissorRect:scissorRect];
+
+                            break;
                         }
 
-                        break;
+                        case Command::Type::SET_VIEWPORT:
+                        {
+                            const SetViewportCommand* setViewportCommand = static_cast<const SetViewportCommand*>(command.get());
+
+                            if (!currentRenderCommandEncoder)
+                                throw DataError("Metal render command encoder not initialized");
+
+                            MTLViewport viewport;
+                            viewport.originX = static_cast<double>(setViewportCommand->viewport.position.x);
+                            viewport.originY = static_cast<double>(setViewportCommand->viewport.position.y);
+                            viewport.width = static_cast<double>(setViewportCommand->viewport.size.width);
+                            viewport.height = static_cast<double>(setViewportCommand->viewport.size.height);
+                            viewport.znear = 0.0f;
+                            viewport.zfar = 1.0f;
+
+                            [currentRenderCommandEncoder setViewport:viewport];
+
+                            break;
+                        }
+
+                        case Command::Type::INIT_DEPTH_STENCIL_STATE:
+                        {
+                            const InitDepthStencilStateCommand* initDepthStencilStateCommand = static_cast<const InitDepthStencilStateCommand*>(command.get());
+                            std::unique_ptr<DepthStencilStateResourceMetal> depthStencilStateResourceMetal(new DepthStencilStateResourceMetal(*this,
+                                                                                                                                              initDepthStencilStateCommand->depthTest,
+                                                                                                                                              initDepthStencilStateCommand->depthWrite,
+                                                                                                                                              initDepthStencilStateCommand->compareFunction));
+
+                            if (initDepthStencilStateCommand->depthStencilState > resources.size())
+                                resources.resize(initDepthStencilStateCommand->depthStencilState);
+                            resources[initDepthStencilStateCommand->depthStencilState - 1] = std::move(depthStencilStateResourceMetal);
+
+                            break;
+                        }
+
+                        case Command::Type::SET_DEPTH_STENCIL_STATE:
+                        {
+                            const SetDepthStencilStateCommand* setDepthStencilStateCommand = static_cast<const SetDepthStencilStateCommand*>(command.get());
+
+                            if (!currentRenderCommandEncoder)
+                                throw DataError("Metal render command encoder not initialized");
+
+                            if (setDepthStencilStateCommand->depthStencilState)
+                            {
+                                DepthStencilStateResourceMetal* depthStencilStateMetal = static_cast<DepthStencilStateResourceMetal*>(resources[setDepthStencilStateCommand->depthStencilState - 1].get());
+                                [currentRenderCommandEncoder setDepthStencilState:depthStencilStateMetal->getDepthStencilState()];
+                            }
+                            else
+                                [currentRenderCommandEncoder setDepthStencilState:defaultDepthStencilState];
+
+                            break;
+                        }
+
+                        case Command::Type::SET_PIPELINE_STATE:
+                        {
+                            const SetPipelineStateCommand* setPipelineStateCommand = static_cast<const SetPipelineStateCommand*>(command.get());
+
+                            if (!currentRenderCommandEncoder)
+                                throw DataError("Metal render command encoder not initialized");
+
+                            BlendStateResourceMetal* blendStateMetal = static_cast<BlendStateResourceMetal*>(resources[setPipelineStateCommand->blendState - 1].get());
+                            ShaderResourceMetal* shaderMetal = static_cast<ShaderResourceMetal*>(resources[setPipelineStateCommand->shader - 1].get());
+                            currentShader = shaderMetal;
+
+                            currentPipelineStateDesc.blendState = blendStateMetal;
+                            currentPipelineStateDesc.shader = shaderMetal;
+
+                            MTLRenderPipelineStatePtr pipelineState = getPipelineState(currentPipelineStateDesc);
+                            if (pipelineState) [currentRenderCommandEncoder setRenderPipelineState:pipelineState];
+
+                            break;
+                        }
+
+                        case Command::Type::DRAW:
+                        {
+                            const DrawCommand* drawCommand = static_cast<const DrawCommand*>(command.get());
+
+                            if (!currentRenderCommandEncoder)
+                                throw DataError("Metal render command encoder not initialized");
+
+                            // mesh buffer
+                            BufferResourceMetal* indexBufferMetal = static_cast<BufferResourceMetal*>(resources[drawCommand->indexBuffer - 1].get());
+                            BufferResourceMetal* vertexBufferMetal = static_cast<BufferResourceMetal*>(resources[drawCommand->vertexBuffer - 1].get());
+
+                            assert(indexBufferMetal);
+                            assert(indexBufferMetal->getBuffer());
+                            assert(vertexBufferMetal);
+                            assert(vertexBufferMetal->getBuffer());
+
+                            [currentRenderCommandEncoder setVertexBuffer:vertexBufferMetal->getBuffer() offset:0 atIndex:0];
+
+                            // draw
+                            MTLPrimitiveType primitiveType;
+
+                            switch (drawCommand->drawMode)
+                            {
+                                case DrawMode::POINT_LIST: primitiveType = MTLPrimitiveTypePoint; break;
+                                case DrawMode::LINE_LIST: primitiveType = MTLPrimitiveTypeLine; break;
+                                case DrawMode::LINE_STRIP: primitiveType = MTLPrimitiveTypeLineStrip; break;
+                                case DrawMode::TRIANGLE_LIST: primitiveType = MTLPrimitiveTypeTriangle; break;
+                                case DrawMode::TRIANGLE_STRIP: primitiveType = MTLPrimitiveTypeTriangleStrip; break;
+                                default: throw DataError("Invalid draw mode");
+                            }
+
+                            assert(drawCommand->indexCount);
+                            assert(indexBufferMetal->getSize());
+                            assert(vertexBufferMetal->getSize());
+
+                            MTLIndexType indexType;
+
+                            switch (drawCommand->indexSize)
+                            {
+                                case 2: indexType = MTLIndexTypeUInt16; break;
+                                case 4: indexType = MTLIndexTypeUInt32; break;
+                                default: throw DataError("Invalid index size");
+                            }
+
+                            [currentRenderCommandEncoder drawIndexedPrimitives:primitiveType
+                                                                    indexCount:drawCommand->indexCount
+                                                                     indexType:indexType
+                                                                   indexBuffer:indexBufferMetal->getBuffer()
+                                                             indexBufferOffset:drawCommand->startIndex * drawCommand->indexSize];
+
+                            break;
+                        }
+
+                        case Command::Type::PUSH_DEBUG_MARKER:
+                        {
+                            const PushDebugMarkerCommand* pushDebugMarkerCommand = static_cast<const PushDebugMarkerCommand*>(command.get());
+
+                            if (!currentRenderCommandEncoder)
+                                throw DataError("Metal render command encoder not initialized");
+
+                            [currentRenderCommandEncoder pushDebugGroup:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:pushDebugMarkerCommand->name.c_str()])];
+                            break;
+                        }
+
+                        case Command::Type::POP_DEBUG_MARKER:
+                        {
+                            //const PopDebugMarkerCommand* popDebugMarkerCommand = static_cast<const PopDebugMarkerCommand*>(command);
+
+                            if (!currentRenderCommandEncoder)
+                                throw DataError("Metal render command encoder not initialized");
+
+                            [currentRenderCommandEncoder popDebugGroup];
+                            break;
+                        }
+
+                        case Command::Type::INIT_BLEND_STATE:
+                        {
+                            const InitBlendStateCommand* initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command.get());
+
+                            std::unique_ptr<BlendStateResourceMetal> blendStateResourceMetal(new BlendStateResourceMetal(*this,
+                                                                                                                         initBlendStateCommand->enableBlending,
+                                                                                                                         initBlendStateCommand->colorBlendSource,
+                                                                                                                         initBlendStateCommand->colorBlendDest,
+                                                                                                                         initBlendStateCommand->colorOperation,
+                                                                                                                         initBlendStateCommand->alphaBlendSource,
+                                                                                                                         initBlendStateCommand->alphaBlendDest,
+                                                                                                                         initBlendStateCommand->alphaOperation,
+                                                                                                                         initBlendStateCommand->colorMask));
+
+                            if (initBlendStateCommand->blendState > resources.size())
+                                resources.resize(initBlendStateCommand->blendState);
+                            resources[initBlendStateCommand->blendState - 1] = std::move(blendStateResourceMetal);
+                            break;
+                        }
+
+                        case Command::Type::INIT_BUFFER:
+                        {
+                            const InitBufferCommand* initBufferCommand = static_cast<const InitBufferCommand*>(command.get());
+
+                            std::unique_ptr<BufferResourceMetal> bufferResourceMetal(new BufferResourceMetal(*this,
+                                                                                                             initBufferCommand->usage,
+                                                                                                             initBufferCommand->flags,
+                                                                                                             initBufferCommand->data,
+                                                                                                             initBufferCommand->size));
+
+                            if (initBufferCommand->buffer > resources.size())
+                                resources.resize(initBufferCommand->buffer);
+                            resources[initBufferCommand->buffer - 1] = std::move(bufferResourceMetal);
+                            break;
+                        }
+
+                        case Command::Type::SET_BUFFER_DATA:
+                        {
+                            const SetBufferDataCommand* setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command.get());
+
+                            BufferResourceMetal* bufferResourceMetal = static_cast<BufferResourceMetal*>(resources[setBufferDataCommand->buffer - 1].get());
+                            bufferResourceMetal->setData(setBufferDataCommand->data);
+                            break;
+                        }
+
+                        case Command::Type::INIT_SHADER:
+                        {
+                            const InitShaderCommand* initShaderCommand = static_cast<const InitShaderCommand*>(command.get());
+
+                            std::unique_ptr<ShaderResourceMetal> shaderResourceMetal(new ShaderResourceMetal(*this,
+                                                                                                             initShaderCommand->fragmentShader,
+                                                                                                             initShaderCommand->vertexShader,
+                                                                                                             initShaderCommand->vertexAttributes,
+                                                                                                             initShaderCommand->fragmentShaderConstantInfo,
+                                                                                                             initShaderCommand->vertexShaderConstantInfo,
+                                                                                                             initShaderCommand->fragmentShaderDataAlignment,
+                                                                                                             initShaderCommand->vertexShaderDataAlignment,
+                                                                                                             initShaderCommand->fragmentShaderFunction,
+                                                                                                             initShaderCommand->vertexShaderFunction));
+
+                            if (initShaderCommand->shader > resources.size())
+                                resources.resize(initShaderCommand->shader);
+                            resources[initShaderCommand->shader - 1] = std::move(shaderResourceMetal);
+                            break;
+                        }
+
+                        case Command::Type::SET_SHADER_CONSTANTS:
+                        {
+                            const SetShaderConstantsCommand* setShaderConstantsCommand = static_cast<const SetShaderConstantsCommand*>(command.get());
+
+                            if (!currentRenderCommandEncoder)
+                                throw DataError("Metal render command encoder not initialized");
+
+                            if (!currentShader)
+                                throw DataError("No shader set");
+
+                            // pixel shader constants
+                            const std::vector<ShaderResourceMetal::Location>& fragmentShaderConstantLocations = currentShader->getFragmentShaderConstantLocations();
+
+                            if (setShaderConstantsCommand->fragmentShaderConstants.size() > fragmentShaderConstantLocations.size())
+                                throw DataError("Invalid pixel shader constant size");
+
+                            shaderData.clear();
+
+                            for (size_t i = 0; i < setShaderConstantsCommand->fragmentShaderConstants.size(); ++i)
+                            {
+                                const ShaderResourceMetal::Location& fragmentShaderConstantLocation = fragmentShaderConstantLocations[i];
+                                const std::vector<float>& fragmentShaderConstant = setShaderConstantsCommand->fragmentShaderConstants[i];
+
+                                if (sizeof(float) * fragmentShaderConstant.size() != fragmentShaderConstantLocation.size)
+                                    throw DataError("Invalid pixel shader constant size");
+
+                                shaderData.insert(shaderData.end(), fragmentShaderConstant.begin(), fragmentShaderConstant.end());
+                            }
+
+                            shaderConstantBuffer.offset = ((shaderConstantBuffer.offset + currentShader->getFragmentShaderAlignment() - 1) /
+                                                           currentShader->getFragmentShaderAlignment()) * currentShader->getFragmentShaderAlignment(); // round up to nearest aligned pointer
+
+                            if (shaderConstantBuffer.offset + getVectorSize(shaderData) > BUFFER_SIZE)
+                            {
+                                ++shaderConstantBuffer.index;
+                                shaderConstantBuffer.offset = 0;
+                            }
+
+                            if (shaderConstantBuffer.index >= shaderConstantBuffer.buffers.size())
+                            {
+                                MTLBufferPtr buffer = [device newBufferWithLength:BUFFER_SIZE
+                                                                          options:MTLResourceCPUCacheModeWriteCombined];
+
+                                if (!buffer)
+                                    throw SystemError("Failed to create Metal buffer");
+
+                                shaderConstantBuffer.buffers.push_back(buffer);
+                            }
+
+                            MTLBufferPtr currentBuffer = shaderConstantBuffer.buffers[shaderConstantBuffer.index];
+
+                            std::copy(reinterpret_cast<const char*>(shaderData.data()),
+                                      reinterpret_cast<const char*>(shaderData.data()) + static_cast<uint32_t>(sizeof(float) * shaderData.size()),
+                                      static_cast<char*>([currentBuffer contents]) + shaderConstantBuffer.offset);
+
+                            [currentRenderCommandEncoder setFragmentBuffer:currentBuffer
+                                                                    offset:shaderConstantBuffer.offset
+                                                                   atIndex:1];
+
+                            shaderConstantBuffer.offset += static_cast<uint32_t>(getVectorSize(shaderData));
+
+                            // vertex shader constants
+                            const std::vector<ShaderResourceMetal::Location>& vertexShaderConstantLocations = currentShader->getVertexShaderConstantLocations();
+
+                            if (setShaderConstantsCommand->vertexShaderConstants.size() > vertexShaderConstantLocations.size())
+                                throw DataError("Invalid vertex shader constant size");
+
+                            shaderData.clear();
+
+                            for (size_t i = 0; i < setShaderConstantsCommand->vertexShaderConstants.size(); ++i)
+                            {
+                                const ShaderResourceMetal::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
+                                const std::vector<float>& vertexShaderConstant = setShaderConstantsCommand->vertexShaderConstants[i];
+
+                                if (sizeof(float) * vertexShaderConstant.size() != vertexShaderConstantLocation.size)
+                                    throw DataError("Invalid vertex shader constant size");
+
+                                shaderData.insert(shaderData.end(), vertexShaderConstant.begin(), vertexShaderConstant.end());
+                            }
+
+                            shaderConstantBuffer.offset = ((shaderConstantBuffer.offset + currentShader->getVertexShaderAlignment() - 1) /
+                                                           currentShader->getVertexShaderAlignment()) * currentShader->getVertexShaderAlignment(); // round up to nearest aligned pointer
+
+                            if (shaderConstantBuffer.offset + getVectorSize(shaderData) > BUFFER_SIZE)
+                            {
+                                ++shaderConstantBuffer.index;
+                                shaderConstantBuffer.offset = 0;
+                            }
+
+                            if (shaderConstantBuffer.index >= shaderConstantBuffer.buffers.size())
+                            {
+                                MTLBufferPtr buffer = [device newBufferWithLength:BUFFER_SIZE
+                                                                          options:MTLResourceCPUCacheModeWriteCombined];
+
+                                if (!buffer)
+                                    throw SystemError("Failed to create Metal buffer");
+
+                                shaderConstantBuffer.buffers.push_back(buffer);
+                            }
+
+                            currentBuffer = shaderConstantBuffer.buffers[shaderConstantBuffer.index];
+
+                            std::copy(reinterpret_cast<const char*>(shaderData.data()),
+                                      reinterpret_cast<const char*>(shaderData.data()) + static_cast<uint32_t>(sizeof(float) * shaderData.size()),
+                                      static_cast<char*>([currentBuffer contents]) + shaderConstantBuffer.offset);
+
+                            [currentRenderCommandEncoder setVertexBuffer:currentBuffer
+                                                                  offset:shaderConstantBuffer.offset
+                                                                 atIndex:1];
+
+                            shaderConstantBuffer.offset += static_cast<uint32_t>(getVectorSize(shaderData));
+
+                            break;
+                        }
+
+                        case Command::Type::INIT_TEXTURE:
+                        {
+                            const InitTextureCommand* initTextureCommand = static_cast<const InitTextureCommand*>(command.get());
+
+                            std::unique_ptr<TextureResourceMetal> textureResourceMetal(new TextureResourceMetal(*this,
+                                                                                                                initTextureCommand->levels,
+                                                                                                                initTextureCommand->flags,
+                                                                                                                initTextureCommand->sampleCount,
+                                                                                                                initTextureCommand->pixelFormat));
+
+                            if (initTextureCommand->texture > resources.size())
+                                resources.resize(initTextureCommand->texture);
+                            resources[initTextureCommand->texture - 1] = std::move(textureResourceMetal);
+                            break;
+                        }
+
+                        case Command::Type::SET_TEXTURE_DATA:
+                        {
+                            const SetTextureDataCommand* setTextureDataCommand = static_cast<const SetTextureDataCommand*>(command.get());
+
+                            TextureResourceMetal* textureResourceMetal = static_cast<TextureResourceMetal*>(resources[setTextureDataCommand->texture - 1].get());
+                            textureResourceMetal->setData(setTextureDataCommand->levels);
+
+                            break;
+                        }
+
+                        case Command::Type::SET_TEXTURE_PARAMETERS:
+                        {
+                            const SetTextureParametersCommand* setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
+
+                            TextureResourceMetal* textureResourceMetal = static_cast<TextureResourceMetal*>(resources[setTextureParametersCommand->texture - 1].get());
+                            textureResourceMetal->setFilter(setTextureParametersCommand->filter);
+                            textureResourceMetal->setAddressX(setTextureParametersCommand->addressX);
+                            textureResourceMetal->setAddressY(setTextureParametersCommand->addressY);
+                            textureResourceMetal->setMaxAnisotropy(setTextureParametersCommand->maxAnisotropy);
+
+                            break;
+                        }
+
+                        case Command::Type::SET_TEXTURES:
+                        {
+                            const SetTexturesCommand* setTexturesCommand = static_cast<const SetTexturesCommand*>(command.get());
+
+                            if (!currentRenderCommandEncoder)
+                                throw DataError("Metal render command encoder not initialized");
+
+                            for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
+                            {
+                                if (setTexturesCommand->textures[layer])
+                                {
+                                    TextureResourceMetal* textureMetal = static_cast<TextureResourceMetal*>(resources[setTexturesCommand->textures[layer] - 1].get());
+                                    [currentRenderCommandEncoder setFragmentTexture:textureMetal->getTexture() atIndex:layer];
+                                    [currentRenderCommandEncoder setFragmentSamplerState:textureMetal->getSamplerState() atIndex:layer];
+                                }
+                                else
+                                {
+                                    [currentRenderCommandEncoder setFragmentTexture:nil atIndex:layer];
+                                    [currentRenderCommandEncoder setFragmentSamplerState:nil atIndex:layer];
+                                }
+                            }
+
+                            break;
+                        }
+
+                        default: throw DataError("Invalid command");
                     }
 
-                    default: throw DataError("Invalid command");
+                    if (command->type == Command::Type::PRESENT) return;
                 }
-
-                if (command->type == Command::Type::PRESENT) break;
             }
         }
 

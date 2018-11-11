@@ -24,20 +24,18 @@ namespace ouzel
             depthWrite(initDepthWrite),
             compareFunction(initCompareFunction)
         {
-            RenderDevice* renderDevice = renderer.getDevice();
-
-            renderDevice->addCommand(std::unique_ptr<Command>(new InitDepthStencilStateCommand(resource,
-                                                                                               initDepthTest,
-                                                                                               initDepthWrite,
-                                                                                               initCompareFunction)));
+            renderer.addCommand(std::unique_ptr<Command>(new InitDepthStencilStateCommand(resource,
+                                                                                          initDepthTest,
+                                                                                          initDepthWrite,
+                                                                                          initCompareFunction)));
         }
 
         DepthStencilState::~DepthStencilState()
         {
             if (resource)
             {
+                renderer.addCommand(std::unique_ptr<Command>(new DeleteResourceCommand(resource)));
                 RenderDevice* renderDevice = renderer.getDevice();
-                renderDevice->addCommand(std::unique_ptr<Command>(new DeleteResourceCommand(resource)));
                 renderDevice->deleteResourceId(resource);
             }
         }
@@ -50,12 +48,10 @@ namespace ouzel
             depthWrite = newDepthWrite;
             compareFunction = newCompareFunction;
 
-            RenderDevice* renderDevice = renderer.getDevice();
-
-            renderDevice->addCommand(std::unique_ptr<Command>(new InitDepthStencilStateCommand(resource,
-                                                                                               newDepthTest,
-                                                                                               newDepthWrite,
-                                                                                               newCompareFunction)));
+            renderer.addCommand(std::unique_ptr<Command>(new InitDepthStencilStateCommand(resource,
+                                                                                          newDepthTest,
+                                                                                          newDepthWrite,
+                                                                                          newCompareFunction)));
         }
     } // namespace graphics
 } // namespace ouzel

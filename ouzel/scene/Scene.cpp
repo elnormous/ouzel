@@ -53,6 +53,8 @@ namespace ouzel
 
                 layer->draw();
             }
+
+            engine->getRenderer()->present();
         }
 
         void Scene::addLayer(Layer* layer)

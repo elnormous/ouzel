@@ -7,7 +7,6 @@
 #include <mutex>
 #include "graphics/Renderer.hpp"
 #include "graphics/Vertex.hpp"
-#include "graphics/Commands.hpp"
 
 namespace ouzel
 {
@@ -42,16 +41,14 @@ namespace ouzel
 
             inline bool getRefillQueue() const { return refillQueue; }
 
-            void addCommand(std::unique_ptr<Command>&& command)
+            void submitCommandBuffer(CommandBuffer&& commandBuffer)
             {
                 {
                     std::unique_lock<std::mutex> lock(commandQueueMutex);
-                    commandQueue.push(std::forward<std::unique_ptr<Command>>(command));
+                    commandQueue.push(std::forward<CommandBuffer>(commandBuffer));
                 }
                 commandQueueCondition.notify_all();
             }
-
-            void flushCommands();
 
             Vector2 convertScreenToNormalizedLocation(const Vector2& position)
             {
@@ -151,7 +148,7 @@ namespace ouzel
 
             uint32_t drawCallCount = 0;
 
-            std::queue<std::unique_ptr<Command>> commandQueue;
+            std::queue<CommandBuffer> commandQueue;
             std::mutex commandQueueMutex;
             std::condition_variable commandQueueCondition;
             std::atomic_bool refillQueue;
