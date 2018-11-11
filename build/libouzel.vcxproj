@@ -251,6 +251,7 @@
     <ClInclude Include="..\ouzel\graphics\direct3d11\RenderTargetResourceD3D11.hpp" />
     <ClInclude Include="..\ouzel\graphics\direct3d11\ShaderResourceD3D11.hpp" />
     <ClInclude Include="..\ouzel\graphics\direct3d11\TextureResourceD3D11.hpp" />
+    <ClInclude Include="..\ouzel\graphics\DrawMode.hpp" />
     <ClInclude Include="..\ouzel\graphics\empty\RenderDeviceEmpty.hpp" />
     <ClInclude Include="..\ouzel\graphics\ImageData.hpp" />
     <ClInclude Include="..\ouzel\graphics\Material.hpp" />
@@ -264,6 +265,7 @@
     <ClInclude Include="..\ouzel\graphics\opengl\TextureResourceOGL.hpp" />
     <ClInclude Include="..\ouzel\graphics\opengl\windows\RenderDeviceOGLWin.hpp" />
     <ClInclude Include="..\ouzel\graphics\PixelFormat.hpp" />
+    <ClInclude Include="..\ouzel\graphics\RasterizerState.hpp" />
     <ClInclude Include="..\ouzel\graphics\RenderDevice.hpp" />
     <ClInclude Include="..\ouzel\graphics\Renderer.hpp" />
     <ClInclude Include="..\ouzel\graphics\RenderResource.hpp" />
