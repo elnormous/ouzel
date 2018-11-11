@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_MOUSEDEVICEWIN_HPP
-#define OUZEL_MOUSEDEVICEWIN_HPP
+#ifndef OUZEL_INPUT_MOUSEDEVICEWIN_HPP
+#define OUZEL_INPUT_MOUSEDEVICEWIN_HPP
 
 #include "input/MouseDevice.hpp"
 
@@ -35,4 +35,4 @@ namespace ouzel
     } // namespace input
 } // namespace ouzel
 
-#endif // OUZEL_MOUSEDEVICEWIN_HPP
+#endif // OUZEL_INPUT_MOUSEDEVICEWIN_HPP

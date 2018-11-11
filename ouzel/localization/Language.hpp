@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_LANGUAGE_HPP
-#define OUZEL_LANGUAGE_HPP
+#ifndef OUZEL_LOCALIZATION_LANGUAGE_HPP
+#define OUZEL_LOCALIZATION_LANGUAGE_HPP
 
 #include <cstdint>
 #include <map>
@@ -22,4 +22,4 @@ namespace ouzel
     };
 }
 
-#endif // OUZEL_LANGUAGE_HPP
+#endif // OUZEL_LOCALIZATION_LANGUAGE_HPP

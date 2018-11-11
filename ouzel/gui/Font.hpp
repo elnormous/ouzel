@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_FONT_HPP
-#define OUZEL_FONT_HPP
+#ifndef OUZEL_GUI_FONT_HPP
+#define OUZEL_GUI_FONT_HPP
 
 #include <cstdint>
 #include <string>
@@ -37,4 +37,4 @@ namespace ouzel
     };
 }
 
-#endif // OUZEL_FONT_HPP
+#endif // OUZEL_GUI_FONT_HPP

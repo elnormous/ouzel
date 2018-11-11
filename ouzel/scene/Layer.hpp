@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_LAYER_HPP
-#define OUZEL_LAYER_HPP
+#ifndef OUZEL_SCENE_LAYER_HPP
+#define OUZEL_SCENE_LAYER_HPP
 
 #include <cstdint>
 #include <vector>
@@ -61,4 +61,4 @@ namespace ouzel
     } // namespace scene
 } // namespace ouzel
 
-#endif // OUZEL_LAYER_HPP
+#endif // OUZEL_SCENE_LAYER_HPP

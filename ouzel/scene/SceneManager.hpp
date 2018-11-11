@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_SCENEMANAGER_HPP
-#define OUZEL_SCENEMANAGER_HPP
+#ifndef OUZEL_SCENE_SCENEMANAGER_HPP
+#define OUZEL_SCENE_SCENEMANAGER_HPP
 
 #include <functional>
 #include <memory>
@@ -59,4 +59,4 @@ namespace ouzel
     } // namespace scene
 } // namespace ouzel
 
-#endif // OUZEL_SCENEMANAGER_HPP
+#endif // OUZEL_SCENE_SCENEMANAGER_HPP

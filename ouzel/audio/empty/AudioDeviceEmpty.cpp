@@ -7,7 +7,7 @@ namespace ouzel
     namespace audio
     {
         AudioDeviceEmpty::AudioDeviceEmpty():
-            AudioDevice(Audio::Driver::EMPTY)
+            AudioDevice(Driver::EMPTY)
         {
         }
     } // namespace audio

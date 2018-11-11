@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_GAMEPADDEVICEIOS_HPP
-#define OUZEL_GAMEPADDEVICEIOS_HPP
+#ifndef OUZEL_INPUT_GAMEPADDEVICEIOS_HPP
+#define OUZEL_INPUT_GAMEPADDEVICEIOS_HPP
 
 #include <string>
 #if defined(__OBJC__)
@@ -42,4 +42,4 @@ namespace ouzel
     } // namespace input
 } // namespace ouzel
 
-#endif // OUZEL_GAMEPADDEVICEIOS_HPP
+#endif // OUZEL_INPUT_GAMEPADDEVICEIOS_HPP

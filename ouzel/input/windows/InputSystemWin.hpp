@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_INPUTSYSTEMWIN_HPP
-#define OUZEL_INPUTSYSTEMWIN_HPP
+#ifndef OUZEL_INPUT_INPUTSYSTEMWIN_HPP
+#define OUZEL_INPUT_INPUTSYSTEMWIN_HPP
 
 #include <memory>
 #define DIRECTINPUT_VERSION 0x0800
@@ -58,4 +58,4 @@ namespace ouzel
     }
 }
 
-#endif // OUZEL_INPUTSYSTEMWIN_HPP
+#endif // OUZEL_INPUT_INPUTSYSTEMWIN_HPP

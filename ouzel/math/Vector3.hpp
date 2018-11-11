@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_VECTOR3_HPP
-#define OUZEL_VECTOR3_HPP
+#ifndef OUZEL_MATH_VECTOR3_HPP
+#define OUZEL_MATH_VECTOR3_HPP
 
 #include <cstddef>
 
@@ -256,4 +256,4 @@ namespace ouzel
     }
 }
 
-#endif // OUZEL_VECTOR3_HPP
+#endif // OUZEL_MATH_VECTOR3_HPP

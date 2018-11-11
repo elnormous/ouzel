@@ -9,7 +9,7 @@ namespace ouzel
 {
     namespace audio
     {
-        AudioDevice::AudioDevice(Audio::Driver initDriver):
+        AudioDevice::AudioDevice(Driver initDriver):
             driver(initDriver)
         {
             buffers.resize(1000);
@@ -143,7 +143,7 @@ namespace ouzel
 
             switch (sampleFormat)
             {
-                case Audio::SampleFormat::SINT16:
+                case SampleFormat::SINT16:
                 {
                     result.resize(frames * channels * sizeof(int16_t));
                     int16_t* resultPtr = reinterpret_cast<int16_t*>(result.data());
@@ -155,7 +155,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case Audio::SampleFormat::FLOAT32:
+                case SampleFormat::FLOAT32:
                 {
                     result.reserve(frames * channels * sizeof(float));
                     result.assign(reinterpret_cast<uint8_t*>(buffers[buffer].data()),

@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_NATIVEWINDOWIOS_HPP
-#define OUZEL_NATIVEWINDOWIOS_HPP
+#ifndef OUZEL_CORE_NATIVEWINDOWIOS_HPP
+#define OUZEL_CORE_NATIVEWINDOWIOS_HPP
 
 #if defined(__OBJC__)
 #import <UIKit/UIKit.h>
@@ -49,4 +49,4 @@ namespace ouzel
     };
 }
 
-#endif // OUZEL_NATIVEWINDOWIOS_HPP
+#endif // OUZEL_CORE_NATIVEWINDOWIOS_HPP

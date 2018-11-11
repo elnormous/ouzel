@@ -53,7 +53,7 @@ namespace ouzel
     namespace audio
     {
         AudioDeviceCA::AudioDeviceCA():
-            AudioDevice(Audio::Driver::COREAUDIO)
+            AudioDevice(Driver::COREAUDIO)
         {
             OSStatus result;
 
@@ -225,13 +225,13 @@ namespace ouzel
                     throw SystemError("Failed to set CoreAudio unit stream format, error: " + std::to_string(result));
                 else
                 {
-                    sampleFormat = Audio::SampleFormat::SINT16;
+                    sampleFormat = SampleFormat::SINT16;
                     sampleSize = sizeof(int16_t);
                 }
             }
             else
             {
-                sampleFormat = Audio::SampleFormat::FLOAT32;
+                sampleFormat = SampleFormat::FLOAT32;
                 sampleSize = sizeof(float);
             }
 

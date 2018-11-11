@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_EVENTDEVICE_HPP
-#define OUZEL_EVENTDEVICE_HPP
+#ifndef OUZEL_INPUT_EVENTDEVICE_HPP
+#define OUZEL_INPUT_EVENTDEVICE_HPP
 
 #include <cstdint>
 #include <array>
@@ -108,4 +108,4 @@ namespace ouzel
     } // namespace input
 } // namespace ouzel
 
-#endif // OUZEL_EVENTDEVICE_HPP
+#endif // OUZEL_INPUT_EVENTDEVICE_HPP

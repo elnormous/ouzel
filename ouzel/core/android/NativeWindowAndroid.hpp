@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_NATIVEWINDOWANDROID_HPP
-#define OUZEL_NATIVEWINDOWANDROID_HPP
+#ifndef OUZEL_CORE_NATIVEWINDOWANDROID_HPP
+#define OUZEL_CORE_NATIVEWINDOWANDROID_HPP
 
 #include <jni.h>
 #include <android/native_window.h>
@@ -28,4 +28,4 @@ namespace ouzel
     };
 }
 
-#endif // OUZEL_NATIVEWINDOWANDROID_HPP
+#endif // OUZEL_CORE_NATIVEWINDOWANDROID_HPP

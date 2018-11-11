@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_FILE_HPP
-#define OUZEL_FILE_HPP
+#ifndef OUZEL_FILES_FILE_HPP
+#define OUZEL_FILES_FILE_HPP
 
 #include <string>
 
@@ -70,4 +70,4 @@ namespace ouzel
     };
 }
 
-#endif // OUZEL_FILE_HPP
+#endif // OUZEL_FILES_FILE_HPP

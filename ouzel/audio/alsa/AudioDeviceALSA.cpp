@@ -15,7 +15,7 @@ namespace ouzel
     namespace audio
     {
         AudioDeviceALSA::AudioDeviceALSA():
-            AudioDevice(Audio::Driver::ALSA), running(true)
+            AudioDevice(Driver::ALSA), running(true)
         {
             int err;
             if ((err = snd_pcm_open(&playbackHandle, "default", SND_PCM_STREAM_PLAYBACK, 0)) < 0)
@@ -37,14 +37,14 @@ namespace ouzel
                 if ((err = snd_pcm_hw_params_set_format(playbackHandle, hwParams, SND_PCM_FORMAT_FLOAT_LE)) < 0)
                     throw SystemError("Failed to set sample format, error: " + std::to_string(err));
 
-                sampleFormat = Audio::SampleFormat::FLOAT32;
+                sampleFormat = SampleFormat::FLOAT32;
             }
             else if (snd_pcm_hw_params_test_format(playbackHandle, hwParams, SND_PCM_FORMAT_S16_LE) == 0)
             {
                 if ((err = snd_pcm_hw_params_set_format(playbackHandle, hwParams, SND_PCM_FORMAT_S16_LE)) < 0)
                     throw SystemError("Failed to set sample format, error: " + std::to_string(err));
 
-                sampleFormat = Audio::SampleFormat::SINT16;
+                sampleFormat = SampleFormat::SINT16;
             }
             else
                 throw SystemError("No supported format");

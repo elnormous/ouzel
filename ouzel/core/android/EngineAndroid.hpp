@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_ENGINEANDROID_HPP
-#define OUZEL_ENGINEANDROID_HPP
+#ifndef OUZEL_CORE_ENGINEANDROID_HPP
+#define OUZEL_CORE_ENGINEANDROID_HPP
 
 #include <jni.h>
 #include <android/asset_manager.h>
@@ -71,4 +71,4 @@ namespace ouzel
     };
 }
 
-#endif // OUZEL_ENGINEANDROID_HPP
+#endif // OUZEL_CORE_ENGINEANDROID_HPP

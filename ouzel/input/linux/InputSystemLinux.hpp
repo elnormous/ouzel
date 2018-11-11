@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_INPUTSYSTEMLINUX_HPP
-#define OUZEL_INPUTSYSTEMLINUX_HPP
+#ifndef OUZEL_INPUT_INPUTSYSTEMLINUX_HPP
+#define OUZEL_INPUT_INPUTSYSTEMLINUX_HPP
 
 #include <memory>
 #include <unordered_map>
@@ -58,4 +58,4 @@ namespace ouzel
     }
 }
 
-#endif // OUZEL_INPUTSYSTEMLINUX_HPP
+#endif // OUZEL_INPUT_INPUTSYSTEMLINUX_HPP

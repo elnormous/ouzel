@@ -20,36 +20,36 @@ namespace ouzel
 {
     namespace audio
     {
-        std::set<Audio::Driver> Audio::getAvailableAudioDrivers()
+        std::set<Driver> Audio::getAvailableAudioDrivers()
         {
             static std::set<Driver> availableDrivers;
 
             if (availableDrivers.empty())
             {
-                availableDrivers.insert(Audio::Driver::EMPTY);
+                availableDrivers.insert(Driver::EMPTY);
 
 #if OUZEL_COMPILE_OPENAL
-                availableDrivers.insert(Audio::Driver::OPENAL);
+                availableDrivers.insert(Driver::OPENAL);
 #endif
 
 #if OUZEL_COMPILE_DIRECTSOUND
-                availableDrivers.insert(Audio::Driver::DIRECTSOUND);
+                availableDrivers.insert(Driver::DIRECTSOUND);
 #endif
 
 #if OUZEL_COMPILE_XAUDIO2
-                availableDrivers.insert(Audio::Driver::XAUDIO2);
+                availableDrivers.insert(Driver::XAUDIO2);
 #endif
 
 #if OUZEL_COMPILE_OPENSL
-                availableDrivers.insert(Audio::Driver::OPENSL);
+                availableDrivers.insert(Driver::OPENSL);
 #endif
 
 #if OUZEL_COMPILE_COREAUDIO
-                availableDrivers.insert(Audio::Driver::COREAUDIO);
+                availableDrivers.insert(Driver::COREAUDIO);
 #endif
 
 #if OUZEL_COMPILE_ALSA
-                availableDrivers.insert(Audio::Driver::ALSA);
+                availableDrivers.insert(Driver::ALSA);
 #endif
             }
 

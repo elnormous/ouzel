@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_OBF_HPP
-#define OUZEL_OBF_HPP
+#ifndef OUZEL_UTILS_OBF_HPP
+#define OUZEL_UTILS_OBF_HPP
 
 #include <cassert>
 #include <cstdint>
@@ -440,4 +440,4 @@ namespace ouzel
     } // namespace obf
 } // namespace ouzel
 
-#endif // OUZEL_OBF_HPP
+#endif // OUZEL_UTILS_OBF_HPP

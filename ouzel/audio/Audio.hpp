@@ -1,13 +1,14 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_AUDIO_HPP
-#define OUZEL_AUDIO_HPP
+#ifndef OUZEL_AUDIO_AUDIO_HPP
+#define OUZEL_AUDIO_AUDIO_HPP
 
 #include <cstdint>
 #include <functional>
 #include <memory>
 #include <set>
 #include <vector>
+#include "audio/Driver.hpp"
 #include "math/Quaternion.hpp"
 #include "math/Vector3.hpp"
 
@@ -23,47 +24,6 @@ namespace ouzel
         class Audio final
         {
         public:
-            enum class Driver
-            {
-                DEFAULT,
-                EMPTY,
-                OPENAL,
-                DIRECTSOUND,
-                XAUDIO2,
-                OPENSL,
-                COREAUDIO,
-                ALSA
-            };
-
-            enum class Channel
-            {
-                FRONT_LEFT = 0,
-                FRONT_RIGHT = 1,
-                CENTER = 2,
-                LFE = 3,
-                BACK_LEFT = 4,
-                BACK_RIGHT = 5,
-                SIDE_LEFT = 6,
-                SIDE_RIGHT = 7
-            };
-
-            enum class ChannelConfiguration
-            {
-                MONO,
-                STEREO,
-                QUAD,
-                SURROUND51,
-                SURROUND51_REAR,
-                SURROUND61,
-                SURROUND71
-            };
-
-            enum class SampleFormat
-            {
-                SINT16,
-                FLOAT32
-            };
-
             Audio(Driver driver, bool debugAudio, Window* window);
             ~Audio();
 
@@ -73,7 +33,7 @@ namespace ouzel
             Audio(Audio&&) = delete;
             Audio& operator=(Audio&&) = delete;
 
-            static std::set<Audio::Driver> getAvailableAudioDrivers();
+            static std::set<Driver> getAvailableAudioDrivers();
 
             inline AudioDevice* getDevice() const { return device.get(); }
 
@@ -94,4 +54,4 @@ namespace ouzel
     } // namespace audio
 } // namespace ouzel
 
-#endif // OUZEL_AUDIO_HPP
+#endif // OUZEL_AUDIO_AUDIO_HPP

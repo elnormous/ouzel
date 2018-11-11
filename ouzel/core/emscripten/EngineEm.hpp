@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_ENGINEEM_HPP
-#define OUZEL_ENGINEEM_HPP
+#ifndef OUZEL_CORE_ENGINEEM_HPP
+#define OUZEL_CORE_ENGINEEM_HPP
 
 #include "core/Engine.hpp"
 
@@ -21,4 +21,4 @@ namespace ouzel
     };
 }
 
-#endif // OUZEL_ENGINEEM_HPP
+#endif // OUZEL_CORE_ENGINEEM_HPP

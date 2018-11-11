@@ -1,17 +1,21 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_AUDIODEVICE_HPP
-#define OUZEL_AUDIODEVICE_HPP
+#ifndef OUZEL_AUDIO_AUDIODEVICE_HPP
+#define OUZEL_AUDIO_AUDIODEVICE_HPP
 
 #include <mutex>
 #include <queue>
 #include <vector>
-#include "audio/Audio.hpp"
+#include "audio/Driver.hpp"
+#include "audio/SampleFormat.hpp"
+#include "math/Quaternion.hpp"
+#include "math/Vector3.hpp"
 
 namespace ouzel
 {
     namespace audio
     {
+        class Audio;
         class ListenerResource;
         class MixerResource;
 
@@ -55,7 +59,7 @@ namespace ouzel
             void setRenderCommands(const std::vector<RenderCommand>& newRenderCommands);
 
         protected:
-            explicit AudioDevice(Audio::Driver initDriver);
+            explicit AudioDevice(Driver initDriver);
 
             void getData(uint32_t frames, std::vector<uint8_t>& result);
             void processRenderCommands(uint32_t frames,
@@ -69,12 +73,12 @@ namespace ouzel
                                       float rolloffFactor,
                                       std::vector<float>& result);
 
-            Audio::Driver driver;
+            Driver driver;
 
             uint16_t apiMajorVersion = 0;
             uint16_t apiMinorVersion = 0;
 
-            Audio::SampleFormat sampleFormat = Audio::SampleFormat::SINT16;
+            SampleFormat sampleFormat = SampleFormat::SINT16;
             const uint32_t bufferSize = 2 * 4096;
             const uint32_t sampleRate = 44100;
             const uint16_t channels = 2;
@@ -88,4 +92,4 @@ namespace ouzel
     } // namespace audio
 } // namespace ouzel
 
-#endif // OUZEL_AUDIODEVICE_HPP
+#endif // OUZEL_AUDIO_AUDIODEVICE_HPP

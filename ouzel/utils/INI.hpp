@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_INI_HPP
-#define OUZEL_INI_HPP
+#ifndef OUZEL_UTILS_INI_HPP
+#define OUZEL_UTILS_INI_HPP
 
 #include <cstdint>
 #include <map>
@@ -64,4 +64,4 @@ namespace ouzel
     } // namespace ini
 } // namespace ouzel
 
-#endif // OUZEL_INI_HPP
+#endif // OUZEL_UTILS_INI_HPP

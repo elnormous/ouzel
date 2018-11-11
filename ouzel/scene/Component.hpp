@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_COMPONENT_HPP
-#define OUZEL_COMPONENT_HPP
+#ifndef OUZEL_SCENE_COMPONENT_HPP
+#define OUZEL_SCENE_COMPONENT_HPP
 
 #include <memory>
 #include <vector>
@@ -81,4 +81,4 @@ namespace ouzel
     } // namespace scene
 } // namespace ouzel
 
-#endif // OUZEL_COMPONENT_HPP
+#endif // OUZEL_SCENE_COMPONENT_HPP

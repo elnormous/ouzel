@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_NATIVEWINDOWMACOS_HPP
-#define OUZEL_NATIVEWINDOWMACOS_HPP
+#ifndef OUZEL_CORE_NATIVEWINDOWMACOS_HPP
+#define OUZEL_CORE_NATIVEWINDOWMACOS_HPP
 
 #include <CoreGraphics/CGGeometry.h>
 
@@ -67,4 +67,4 @@ namespace ouzel
     };
 }
 
-#endif // OUZEL_NATIVEWINDOWMACOS_HPP
+#endif // OUZEL_CORE_NATIVEWINDOWMACOS_HPP

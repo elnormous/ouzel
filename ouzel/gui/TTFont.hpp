@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_TTFONT_HPP
-#define OUZEL_TTFONT_HPP
+#ifndef OUZEL_GUI_TTFONT_HPP
+#define OUZEL_GUI_TTFONT_HPP
 
 #include "stb_truetype.h"
 #include "gui/Font.hpp"
@@ -34,4 +34,4 @@ namespace ouzel
     };
 }
 
-#endif // OUZEL_TTFONT_HPP
+#endif // OUZEL_GUI_TTFONT_HPP

@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_INPUTSYSTEMMACOS_HPP
-#define OUZEL_INPUTSYSTEMMACOS_HPP
+#ifndef OUZEL_INPUT_INPUTSYSTEMMACOS_HPP
+#define OUZEL_INPUT_INPUTSYSTEMMACOS_HPP
 
 #include <memory>
 #include <unordered_map>
@@ -75,4 +75,4 @@ namespace ouzel
     }
 }
 
-#endif // OUZEL_INPUTSYSTEMMACOS_HPP
+#endif // OUZEL_INPUT_INPUTSYSTEMMACOS_HPP

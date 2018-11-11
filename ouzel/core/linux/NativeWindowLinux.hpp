@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_NATIVEWINDOWLINUX_HPP
-#define OUZEL_NATIVEWINDOWLINUX_HPP
+#ifndef OUZEL_CORE_NATIVEWINDOWLINUX_HPP
+#define OUZEL_CORE_NATIVEWINDOWLINUX_HPP
 
 #include "core/Setup.h"
 #include <cstdint>
@@ -74,4 +74,4 @@ namespace ouzel
     };
 }
 
-#endif // OUZEL_NATIVEWINDOWLINUX_HPP
+#endif // OUZEL_CORE_NATIVEWINDOWLINUX_HPP

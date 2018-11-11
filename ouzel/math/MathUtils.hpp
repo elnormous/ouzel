@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_MATHUTILS_HPP
-#define OUZEL_MATHUTILS_HPP
+#ifndef OUZEL_MATH_MATHUTILS_HPP
+#define OUZEL_MATH_MATHUTILS_HPP
 
 #include <cstdint>
 #include <cmath>
@@ -82,4 +82,4 @@ namespace ouzel
     }
 }
 
-#endif // OUZEL_MATHUTILS_HPP
+#endif // OUZEL_MATH_MATHUTILS_HPP

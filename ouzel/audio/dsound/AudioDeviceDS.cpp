@@ -29,7 +29,7 @@ namespace ouzel
     namespace audio
     {
         AudioDeviceDS::AudioDeviceDS(Window* window):
-            AudioDevice(Audio::Driver::DIRECTSOUND), running(true)
+            AudioDevice(Driver::DIRECTSOUND), running(true)
         {
             std::fill(std::begin(notifyEvents), std::end(notifyEvents), INVALID_HANDLE_VALUE);
 
@@ -72,7 +72,7 @@ namespace ouzel
             if (FAILED(hr))
                 throw SystemError("Failed to set DirectSound buffer format, error: " + std::to_string(hr));
 
-            sampleFormat = Audio::SampleFormat::SINT16;
+            sampleFormat = SampleFormat::SINT16;
 
             IDirectSoundBuffer* tempBuffer = nullptr;
 

@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_GAMEPADDEVICEWIN_HPP
-#define OUZEL_GAMEPADDEVICEWIN_HPP
+#ifndef OUZEL_INPUT_GAMEPADDEVICEWIN_HPP
+#define OUZEL_INPUT_GAMEPADDEVICEWIN_HPP
 
 #include <cstdint>
 #include "input/GamepadDevice.hpp"
@@ -22,4 +22,4 @@ namespace ouzel
     } // namespace input
 } // namespace ouzel
 
-#endif // OUZEL_GAMEPADDEVICEWIN_HPP
+#endif // OUZEL_INPUT_GAMEPADDEVICEWIN_HPP

@@ -28,7 +28,7 @@ namespace ouzel
     namespace audio
     {
         AudioDeviceSL::AudioDeviceSL():
-            AudioDevice(Audio::Driver::OPENSL)
+            AudioDevice(Driver::OPENSL)
         {
             const SLuint32 engineMixIIDCount = 1;
             const SLInterfaceID engineMixIID = SL_IID_ENGINE;
@@ -89,7 +89,7 @@ namespace ouzel
             if ((*engine)->CreateAudioPlayer(engine, &playerObject, &dataSource, &dataSink, playerIIDCount, playerIIDs, playerReqs) != SL_RESULT_SUCCESS)
                 throw SystemError("Failed to create OpenSL player object");
 
-            sampleFormat = Audio::SampleFormat::SINT16;
+            sampleFormat = SampleFormat::SINT16;
 
             if ((*playerObject)->Realize(playerObject, SL_BOOLEAN_FALSE) != SL_RESULT_SUCCESS)
                 throw SystemError("Failed to create OpenSL player object");

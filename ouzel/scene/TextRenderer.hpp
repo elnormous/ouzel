@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_TEXTRENDERER_HPP
-#define OUZEL_TEXTRENDERER_HPP
+#ifndef OUZEL_SCENE_TEXTRENDERER_HPP
+#define OUZEL_SCENE_TEXTRENDERER_HPP
 
 #include <string>
 #include "scene/Component.hpp"
@@ -79,4 +79,4 @@ namespace ouzel
     } // namespace scene
 } // namespace ouzel
 
-#endif // OUZEL_TEXTRENDERER_HPP
+#endif // OUZEL_SCENE_TEXTRENDERER_HPP

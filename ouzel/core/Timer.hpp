@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_TIMER_HPP
-#define OUZEL_TIMER_HPP
+#ifndef OUZEL_CORE_TIMER_HPP
+#define OUZEL_CORE_TIMER_HPP
 
 namespace ouzel
 {
@@ -21,4 +21,4 @@ namespace ouzel
     };
 }
 
-#endif // OUZEL_TIMER_HPP
+#endif // OUZEL_CORE_TIMER_HPP

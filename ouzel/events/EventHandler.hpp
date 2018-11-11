@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_EVENTHANDLER_HPP
-#define OUZEL_EVENTHANDLER_HPP
+#ifndef OUZEL_EVENTS_EVENTHANDLER_HPP
+#define OUZEL_EVENTS_EVENTHANDLER_HPP
 
 #include <functional>
 #include <cstdint>
@@ -40,4 +40,4 @@ namespace ouzel
     };
 }
 
-#endif // OUZEL_EVENTHANDLER_HPP
+#endif // OUZEL_EVENTS_EVENTHANDLER_HPP

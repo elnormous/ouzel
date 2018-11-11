@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_KEYBOARD_HPP
-#define OUZEL_KEYBOARD_HPP
+#ifndef OUZEL_INPUT_KEYBOARD_HPP
+#define OUZEL_INPUT_KEYBOARD_HPP
 
 #include <cstdint>
 #include "input/Controller.hpp"
@@ -200,4 +200,4 @@ namespace ouzel
     } // namespace input
 } // namespace ouzel
 
-#endif // OUZEL_KEYBOARD_HPP
+#endif // OUZEL_INPUT_KEYBOARD_HPP

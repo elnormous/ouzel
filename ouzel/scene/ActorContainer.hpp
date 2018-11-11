@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_ACTORCONTAINER_HPP
-#define OUZEL_ACTORCONTAINER_HPP
+#ifndef OUZEL_SCENE_ACTORCONTAINER_HPP
+#define OUZEL_SCENE_ACTORCONTAINER_HPP
 
 #include <memory>
 #include <vector>
@@ -72,4 +72,4 @@ namespace ouzel
     } // namespace scene
 } // namespace ouzel
 
-#endif // OUZEL_ACTORCONTAINER_HPP
+#endif // OUZEL_SCENE_ACTORCONTAINER_HPP

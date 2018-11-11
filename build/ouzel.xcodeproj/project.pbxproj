@@ -1248,6 +1248,9 @@
 		30BA5FB22198B42D0032AC23 /* RasterizerState.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RasterizerState.hpp; sourceTree = "<group>"; };
 		30BA5FB32198B4900032AC23 /* DrawMode.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DrawMode.hpp; sourceTree = "<group>"; };
 		30BA5FB42198CE810032AC23 /* Driver.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Driver.hpp; sourceTree = "<group>"; };
+		30BA5FB52198E2610032AC23 /* Driver.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Driver.hpp; sourceTree = "<group>"; };
+		30BA5FB62198E37A0032AC23 /* SampleFormat.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SampleFormat.hpp; sourceTree = "<group>"; };
+		30BA5FB72198E43A0032AC23 /* Channel.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Channel.hpp; sourceTree = "<group>"; };
 		30BB848B20843FBE00C145A2 /* Controller.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Controller.hpp; sourceTree = "<group>"; };
 		30BB848C20843FCD00C145A2 /* Mouse.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Mouse.hpp; sourceTree = "<group>"; };
 		30BB848D20843FDB00C145A2 /* Keyboard.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Keyboard.hpp; sourceTree = "<group>"; };
@@ -1694,13 +1697,16 @@
 				30419DE01D162BCF00A63759 /* Audio.hpp */,
 				30C758AB1F4A0196008499DC /* AudioDevice.cpp */,
 				30C758AC1F4A0196008499DC /* AudioDevice.hpp */,
+				30BA5FB72198E43A0032AC23 /* Channel.hpp */,
 				309BA3101F183D3D006F2240 /* coreaudio */,
+				30BA5FB52198E2610032AC23 /* Driver.hpp */,
 				3038210A1D81874D00677CAB /* empty */,
 				306A26B11F5DD17700E2B0B6 /* Listener.cpp */,
 				306A26B21F5DD17700E2B0B6 /* Listener.hpp */,
 				306A26B91F5DD19300E2B0B6 /* Mixer.cpp */,
 				306A26BA1F5DD19300E2B0B6 /* Mixer.hpp */,
 				30419E6C1D20254100A63759 /* openal */,
+				30BA5FB62198E37A0032AC23 /* SampleFormat.hpp */,
 				30419DE71D162BDC00A63759 /* Sound.cpp */,
 				30419DE81D162BDC00A63759 /* Sound.hpp */,
 				30419DEF1D162BEF00A63759 /* SoundData.cpp */,

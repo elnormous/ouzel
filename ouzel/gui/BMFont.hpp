@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_BMFONT_HPP
-#define OUZEL_BMFONT_HPP
+#ifndef OUZEL_GUI_BMFONT_HPP
+#define OUZEL_GUI_BMFONT_HPP
 
 #include "Font.hpp"
 
@@ -52,4 +52,4 @@ namespace ouzel
     };
 }
 
-#endif // OUZEL_BMFONT_HPP
+#endif // OUZEL_GUI_BMFONT_HPP

@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_XAUDIO27_HPP
-#define OUZEL_XAUDIO27_HPP
+#ifndef OUZEL_AUDIO_XAUDIO27_HPP
+#define OUZEL_AUDIO_XAUDIO27_HPP
 
 #include "core/Setup.h"
 
@@ -29,4 +29,4 @@ HRESULT IXAudio2CreateSourceVoice(IXAudio2* pXAudio2,
 
 #endif
 
-#endif // OUZEL_XAUDIO27_HPP
+#endif // OUZEL_AUDIO_XAUDIO27_HPP

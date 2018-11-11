@@ -135,7 +135,7 @@ namespace ouzel
         bool debugRenderer = false;
         bool exclusiveFullscreen = false;
         bool highDpi = true; // should high DPI resolution be used
-        audio::Audio::Driver audioDriver = audio::Audio::Driver::DEFAULT;
+        audio::Driver audioDriver = audio::Driver::DEFAULT;
         bool debugAudio = false;
 
         defaultSettings = ini::Data(fileSystem.readFile("settings.ini"));
@@ -223,21 +223,21 @@ namespace ouzel
         if (!audioDriverValue.empty())
         {
             if (audioDriverValue == "default")
-                audioDriver = audio::Audio::Driver::DEFAULT;
+                audioDriver = audio::Driver::DEFAULT;
             else if (audioDriverValue == "empty")
-                audioDriver = audio::Audio::Driver::EMPTY;
+                audioDriver = audio::Driver::EMPTY;
             else if (audioDriverValue == "openal")
-                audioDriver = audio::Audio::Driver::OPENAL;
+                audioDriver = audio::Driver::OPENAL;
             else if (audioDriverValue == "directsound")
-                audioDriver = audio::Audio::Driver::DIRECTSOUND;
+                audioDriver = audio::Driver::DIRECTSOUND;
             else if (audioDriverValue == "xaudio2")
-                audioDriver = audio::Audio::Driver::XAUDIO2;
+                audioDriver = audio::Driver::XAUDIO2;
             else if (audioDriverValue == "opensl")
-                audioDriver = audio::Audio::Driver::OPENSL;
+                audioDriver = audio::Driver::OPENSL;
             else if (audioDriverValue == "coreaudio")
-                audioDriver = audio::Audio::Driver::COREAUDIO;
+                audioDriver = audio::Driver::COREAUDIO;
             else if (audioDriverValue == "alsa")
-                audioDriver = audio::Audio::Driver::ALSA;
+                audioDriver = audio::Driver::ALSA;
             else
                 throw ConfigError("Invalid audio driver specified");
         }
@@ -278,24 +278,24 @@ namespace ouzel
                                               depth,
                                               debugRenderer));
 
-        if (audioDriver == audio::Audio::Driver::DEFAULT)
+        if (audioDriver == audio::Driver::DEFAULT)
         {
             auto availableDrivers = audio::Audio::getAvailableAudioDrivers();
 
-            if (availableDrivers.find(audio::Audio::Driver::COREAUDIO) != availableDrivers.end())
-                audioDriver = audio::Audio::Driver::COREAUDIO;
-            else if (availableDrivers.find(audio::Audio::Driver::ALSA) != availableDrivers.end())
-                audioDriver = audio::Audio::Driver::ALSA;
-            else if (availableDrivers.find(audio::Audio::Driver::OPENAL) != availableDrivers.end())
-                audioDriver = audio::Audio::Driver::OPENAL;
-            else if (availableDrivers.find(audio::Audio::Driver::XAUDIO2) != availableDrivers.end())
-                audioDriver = audio::Audio::Driver::XAUDIO2;
-            else if (availableDrivers.find(audio::Audio::Driver::DIRECTSOUND) != availableDrivers.end())
-                audioDriver = audio::Audio::Driver::DIRECTSOUND;
-            else if (availableDrivers.find(audio::Audio::Driver::OPENSL) != availableDrivers.end())
-                audioDriver = audio::Audio::Driver::OPENSL;
+            if (availableDrivers.find(audio::Driver::COREAUDIO) != availableDrivers.end())
+                audioDriver = audio::Driver::COREAUDIO;
+            else if (availableDrivers.find(audio::Driver::ALSA) != availableDrivers.end())
+                audioDriver = audio::Driver::ALSA;
+            else if (availableDrivers.find(audio::Driver::OPENAL) != availableDrivers.end())
+                audioDriver = audio::Driver::OPENAL;
+            else if (availableDrivers.find(audio::Driver::XAUDIO2) != availableDrivers.end())
+                audioDriver = audio::Driver::XAUDIO2;
+            else if (availableDrivers.find(audio::Driver::DIRECTSOUND) != availableDrivers.end())
+                audioDriver = audio::Driver::DIRECTSOUND;
+            else if (availableDrivers.find(audio::Driver::OPENSL) != availableDrivers.end())
+                audioDriver = audio::Driver::OPENSL;
             else
-                audioDriver = audio::Audio::Driver::EMPTY;
+                audioDriver = audio::Driver::EMPTY;
         }
 
         audio.reset(new audio::Audio(audioDriver, debugAudio, window.get()));
