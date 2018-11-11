@@ -293,7 +293,6 @@ namespace ouzel
                     {
                         case Command::Type::PRESENT:
                         {
-                            refillQueue = false;
                             if (currentRenderCommandEncoder)
                                 [currentRenderCommandEncoder endEncoding];
 

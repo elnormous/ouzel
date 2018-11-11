@@ -369,7 +369,6 @@ namespace ouzel
                     {
                         case Command::Type::PRESENT:
                         {
-                            refillQueue = false;
                             swapChain->Present(swapInterval, 0);
                             break;
                         }
