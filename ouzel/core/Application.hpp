@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_APPLICATION_HPP
-#define OUZEL_APPLICATION_HPP
+#ifndef OUZEL_CORE_APPLICATION_HPP
+#define OUZEL_CORE_APPLICATION_HPP
 
 namespace ouzel
 {
@@ -12,4 +12,4 @@ namespace ouzel
     };
 }
 
-#endif // OUZEL_APPLICATION_HPP
+#endif // OUZEL_CORE_APPLICATION_HPP

@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_NATIVEWINDOW_HPP
-#define OUZEL_NATIVEWINDOW_HPP
+#ifndef OUZEL_CORE_NATIVEWINDOW_HPP
+#define OUZEL_CORE_NATIVEWINDOW_HPP
 
 #include <mutex>
 #include <string>
@@ -130,4 +130,4 @@ namespace ouzel
     };
 }
 
-#endif // OUZEL_NATIVEWINDOW_HPP
+#endif // OUZEL_CORE_NATIVEWINDOW_HPP

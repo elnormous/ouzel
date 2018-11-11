@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_DISPLAYLINK_HPP
-#define OUZEL_DISPLAYLINK_HPP
+#ifndef OUZEL_CORE_DISPLAYLINK_HPP
+#define OUZEL_CORE_DISPLAYLINK_HPP
 
 #include <functional>
 #include <thread>
@@ -52,4 +52,4 @@ namespace ouzel
     };
 }
 
-#endif // OUZEL_DISPLAYLINK_HPP
+#endif // OUZEL_CORE_DISPLAYLINK_HPP

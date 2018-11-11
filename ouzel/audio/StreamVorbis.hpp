@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_STREAMVORBIS_HPP
-#define OUZEL_STREAMVORBIS_HPP
+#ifndef OUZEL_AUDIO_STREAMVORBIS_HPP
+#define OUZEL_AUDIO_STREAMVORBIS_HPP
 
 #include <cstdint>
 #include <vector>
@@ -28,4 +28,4 @@ namespace ouzel
     } // namespace audio
 } // namespace ouzel
 
-#endif // OUZEL_STREAMVORBIS_HPP
+#endif // OUZEL_AUDIO_STREAMVORBIS_HPP

@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_SHAPERENDERER_HPP
-#define OUZEL_SHAPERENDERER_HPP
+#ifndef OUZEL_SCENE_SHAPERENDERER_HPP
+#define OUZEL_SCENE_SHAPERENDERER_HPP
 
 #include <vector>
 #include "scene/Component.hpp"
@@ -84,4 +84,4 @@ namespace ouzel
     } // namespace scene
 } // namespace ouzel
 
-#endif // OUZEL_SHAPERENDERER_HPP
+#endif // OUZEL_SCENE_SHAPERENDERER_HPP

@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_SKINNEDMESHDATA_HPP
-#define OUZEL_SKINNEDMESHDATA_HPP
+#ifndef OUZEL_SCENE_SKINNEDMESHDATA_HPP
+#define OUZEL_SCENE_SKINNEDMESHDATA_HPP
 
 #include <vector>
 #include "graphics/Material.hpp"
@@ -30,4 +30,4 @@ namespace ouzel
     } // namespace scene
 } // namespace ouzel
 
-#endif // OUZEL_SKINNEDMESHDATA_HPP
+#endif // OUZEL_SCENE_SKINNEDMESHDATA_HPP

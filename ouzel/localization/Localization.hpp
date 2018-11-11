@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_LOCALIZATION_HPP
-#define OUZEL_LOCALIZATION_HPP
+#ifndef OUZEL_LOCALIZATION_LOCALIZATION_HPP
+#define OUZEL_LOCALIZATION_LOCALIZATION_HPP
 
 #include <cstdint>
 #include <memory>
@@ -26,4 +26,4 @@ namespace ouzel
     };
 }
 
-#endif // OUZEL_LOCALIZATION_HPP
+#endif // OUZEL_LOCALIZATION_LOCALIZATION_HPP

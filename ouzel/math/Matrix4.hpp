@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_MATRIX4_HPP
-#define OUZEL_MATRIX4_HPP
+#ifndef OUZEL_MATH_MATRIX4_HPP
+#define OUZEL_MATH_MATRIX4_HPP
 
 #include <algorithm>
 #include "core/Setup.h"
@@ -438,4 +438,4 @@ namespace ouzel
     }
 }
 
-#endif // OUZEL_MATRIX4_HPP
+#endif // OUZEL_MATH_MATRIX4_HPP

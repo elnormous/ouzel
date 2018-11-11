@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_ENGINEMACOS_HPP
-#define OUZEL_ENGINEMACOS_HPP
+#ifndef OUZEL_CORE_ENGINEMACOS_HPP
+#define OUZEL_CORE_ENGINEMACOS_HPP
 
 #if !defined(__OBJC__)
 #include <objc/objc.h>
@@ -38,4 +38,4 @@ namespace ouzel
     };
 }
 
-#endif // OUZEL_ENGINEMACOS_HPP
+#endif // OUZEL_CORE_ENGINEMACOS_HPP

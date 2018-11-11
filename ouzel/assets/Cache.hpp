@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_CACHE_HPP
-#define OUZEL_CACHE_HPP
+#ifndef OUZEL_ASSETS_CACHE_HPP
+#define OUZEL_ASSETS_CACHE_HPP
 
 #include <memory>
 #include <string>
@@ -83,4 +83,4 @@ namespace ouzel
     } // namespace assets
 } // namespace ouzel
 
-#endif // OUZEL_CACHE_HPP
+#endif // OUZEL_ASSETS_CACHE_HPP

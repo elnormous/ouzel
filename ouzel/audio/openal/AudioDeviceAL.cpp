@@ -29,7 +29,7 @@ namespace ouzel
     namespace audio
     {
         AudioDeviceAL::AudioDeviceAL():
-            AudioDevice(Audio::Driver::OPENAL)
+            AudioDevice(Driver::OPENAL)
         {
 #if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
             id audioSession = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("AVAudioSession"), sel_getUid("sharedInstance"));
@@ -123,13 +123,13 @@ namespace ouzel
                     if (float32Supported)
                     {
                         format = AL_FORMAT_MONO_FLOAT32;
-                        sampleFormat = Audio::SampleFormat::FLOAT32;
+                        sampleFormat = SampleFormat::FLOAT32;
                         sampleSize = sizeof(float);
                     }
                     else
                     {
                         format = AL_FORMAT_MONO16;
-                        sampleFormat = Audio::SampleFormat::SINT16;
+                        sampleFormat = SampleFormat::SINT16;
                         sampleSize = sizeof(uint16_t);
                     }
                     break;
@@ -139,13 +139,13 @@ namespace ouzel
                     if (float32Supported)
                     {
                         format = AL_FORMAT_STEREO_FLOAT32;
-                        sampleFormat = Audio::SampleFormat::FLOAT32;
+                        sampleFormat = SampleFormat::FLOAT32;
                         sampleSize = sizeof(float);
                     }
                     else
                     {
                         format = AL_FORMAT_STEREO16;
-                        sampleFormat = Audio::SampleFormat::SINT16;
+                        sampleFormat = SampleFormat::SINT16;
                         sampleSize = sizeof(int16_t);
                     }
                     break;
@@ -153,28 +153,28 @@ namespace ouzel
                 case 4:
                 {
                     format = format40;
-                    sampleFormat = Audio::SampleFormat::SINT16;
+                    sampleFormat = SampleFormat::SINT16;
                     sampleSize = sizeof(int16_t);
                     break;
                 }
                 case 6:
                 {
                     format = format51;
-                    sampleFormat = Audio::SampleFormat::SINT16;
+                    sampleFormat = SampleFormat::SINT16;
                     sampleSize = sizeof(int16_t);
                     break;
                 }
                 case 7:
                 {
                     format = format61;
-                    sampleFormat = Audio::SampleFormat::SINT16;
+                    sampleFormat = SampleFormat::SINT16;
                     sampleSize = sizeof(int16_t);
                     break;
                 }
                 case 8:
                 {
                     format = format71;
-                    sampleFormat = Audio::SampleFormat::SINT16;
+                    sampleFormat = SampleFormat::SINT16;
                     sampleSize = sizeof(int16_t);
                     break;
                 }

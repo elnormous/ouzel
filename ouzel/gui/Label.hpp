@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_LABEL_HPP
-#define OUZEL_LABEL_HPP
+#ifndef OUZEL_GUI_LABEL_HPP
+#define OUZEL_GUI_LABEL_HPP
 
 #include <memory>
 #include <string>
@@ -34,4 +34,4 @@ namespace ouzel
     } // namespace gui
 } // namespace ouzel
 
-#endif // OUZEL_LABEL_HPP
+#endif // OUZEL_GUI_LABEL_HPP

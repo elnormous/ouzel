@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_LOG_HPP
-#define OUZEL_LOG_HPP
+#ifndef OUZEL_UTILS_LOG_HPP
+#define OUZEL_UTILS_LOG_HPP
 
 #include <string>
 #include <vector>
@@ -197,4 +197,4 @@ namespace ouzel
     };
 }
 
-#endif // OUZEL_LOG_HPP
+#endif // OUZEL_UTILS_LOG_HPP

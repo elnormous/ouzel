@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_GAMEPAD_HPP
-#define OUZEL_GAMEPAD_HPP
+#ifndef OUZEL_INPUT_GAMEPAD_HPP
+#define OUZEL_INPUT_GAMEPAD_HPP
 
 #include <cstdint>
 #include <string>
@@ -110,4 +110,4 @@ namespace ouzel
     } // namespace input
 } // namespace ouzel
 
-#endif // OUZEL_GAMEPAD_HPP
+#endif // OUZEL_INPUT_GAMEPAD_HPP

@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_MIXER_HPP
-#define OUZEL_MIXER_HPP
+#ifndef OUZEL_AUDIO_MIXER_HPP
+#define OUZEL_AUDIO_MIXER_HPP
 
 #include "audio/SoundInput.hpp"
 #include "audio/SoundOutput.hpp"
@@ -50,4 +50,4 @@ namespace ouzel
     } // namespace audio
 } // namespace ouzel
 
-#endif // OUZEL_MIXER_HPP
+#endif // OUZEL_AUDIO_MIXER_HPP

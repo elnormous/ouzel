@@ -21,7 +21,7 @@ namespace ouzel
     namespace audio
     {
         AudioDeviceXA2::AudioDeviceXA2(bool debugAudio):
-            AudioDevice(Audio::Driver::XAUDIO2), running(true)
+            AudioDevice(Driver::XAUDIO2), running(true)
         {
             xAudio2Library = LoadLibraryA(XAUDIO2_DLL_28);
 
@@ -106,7 +106,7 @@ namespace ouzel
                     throw SystemError("Failed to create source voice, error: " + std::to_string(hr));
             }
 
-            sampleFormat = Audio::SampleFormat::FLOAT32;
+            sampleFormat = SampleFormat::FLOAT32;
 
             getData(bufferSize / (channels * sizeof(float)), data[0]);
 

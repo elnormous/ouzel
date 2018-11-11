@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_FILESYSTEM_HPP
-#define OUZEL_FILESYSTEM_HPP
+#ifndef OUZEL_FILES_FILESYSTEM_HPP
+#define OUZEL_FILES_FILESYSTEM_HPP
 
 #include <string>
 #include <vector>
@@ -52,4 +52,4 @@ namespace ouzel
     };
 }
 
-#endif // OUZEL_FILESYSTEM_HPP
+#endif // OUZEL_FILES_FILESYSTEM_HPP

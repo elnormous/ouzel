@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_NATIVECURSORWIN_HPP
-#define OUZEL_NATIVECURSORWIN_HPP
+#ifndef OUZEL_INPUT_NATIVECURSORWIN_HPP
+#define OUZEL_INPUT_NATIVECURSORWIN_HPP
 
 #include <cstdint>
 #include <vector>
@@ -37,4 +37,4 @@ namespace ouzel
     } // namespace input
 } // namespace ouzel
 
-#endif // OUZEL_NATIVECURSORWIN_HPP
+#endif // OUZEL_INPUT_NATIVECURSORWIN_HPP

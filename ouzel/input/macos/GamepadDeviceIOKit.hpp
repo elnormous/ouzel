@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_GAMEPADDEVICEIOKIT_HPP
-#define OUZEL_GAMEPADDEVICEIOKIT_HPP
+#ifndef OUZEL_INPUT_GAMEPADDEVICEIOKIT_HPP
+#define OUZEL_INPUT_GAMEPADDEVICEIOKIT_HPP
 
 #include <unordered_map>
 #include <IOKit/hid/IOHIDManager.h>
@@ -62,4 +62,4 @@ namespace ouzel
     } // namespace input
 } // namespace ouzel
 
-#endif // OUZEL_GAMEPADDEVICEIOKIT_HPP
+#endif // OUZEL_INPUT_GAMEPADDEVICEIOKIT_HPP

@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_ERRORS_HPP
-#define OUZEL_ERRORS_HPP
+#ifndef OUZEL_UTILS_ERRORS_HPP
+#define OUZEL_UTILS_ERRORS_HPP
 
 #include <stdexcept>
 
@@ -43,4 +43,4 @@ namespace ouzel
     };
 }
 
-#endif // OUZEL_ERRORS_HPP
+#endif // OUZEL_UTILS_ERRORS_HPP

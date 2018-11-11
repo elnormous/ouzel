@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_GAMEPADDEVICEGC_HPP
-#define OUZEL_GAMEPADDEVICEGC_HPP
+#ifndef OUZEL_INPUT_GAMEPADDEVICEGC_HPP
+#define OUZEL_INPUT_GAMEPADDEVICEGC_HPP
 
 #if defined(__OBJC__)
 #include <GameController/GameController.h>
@@ -40,4 +40,4 @@ namespace ouzel
     } // namespace input
 } // namespace ouzel
 
-#endif // OUZEL_GAMEPADDEVICEGC_HPP
+#endif // OUZEL_INPUT_GAMEPADDEVICEGC_HPP

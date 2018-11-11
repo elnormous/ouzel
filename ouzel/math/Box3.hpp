@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_BOX3_HPP
-#define OUZEL_BOX3_HPP
+#ifndef OUZEL_MATH_BOX3_HPP
+#define OUZEL_MATH_BOX3_HPP
 
 #include <cstdint>
 #include <limits>
@@ -131,4 +131,4 @@ namespace ouzel
     };
 }
 
-#endif // OUZEL_BOX3_HPP
+#endif // OUZEL_MATH_BOX3_HPP

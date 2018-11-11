@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_STATICMESHRENDERER_HPP
-#define OUZEL_STATICMESHRENDERER_HPP
+#ifndef OUZEL_SCENE_STATICMESHRENDERER_HPP
+#define OUZEL_SCENE_STATICMESHRENDERER_HPP
 
 #include "scene/Component.hpp"
 #include "scene/StaticMeshData.hpp"
@@ -40,4 +40,4 @@ namespace ouzel
     } // namespace scene
 } // namespace ouzel
 
-#endif // OUZEL_STATICMESHRENDERER_HPP
+#endif // OUZEL_SCENE_STATICMESHRENDERER_HPP

@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_SIZE3_HPP
-#define OUZEL_SIZE3_HPP
+#ifndef OUZEL_MATH_SIZE3_HPP
+#define OUZEL_MATH_SIZE3_HPP
 
 #include "math/Vector3.hpp"
 
@@ -144,4 +144,4 @@ namespace ouzel
     }
 }
 
-#endif // OUZEL_SIZE3_HPP
+#endif // OUZEL_MATH_SIZE3_HPP

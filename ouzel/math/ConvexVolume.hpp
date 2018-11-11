@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_CONVEXVOLUME_HPP
-#define OUZEL_CONVEXVOLUME_HPP
+#ifndef OUZEL_MATH_CONVEXVOLUME_HPP
+#define OUZEL_MATH_CONVEXVOLUME_HPP
 
 #include <vector>
 #include "math/Box3.hpp"
@@ -75,4 +75,4 @@ namespace ouzel
     };
 }
 
-#endif // OUZEL_CONVEXVOLUME_HPP
+#endif // OUZEL_MATH_CONVEXVOLUME_HPP

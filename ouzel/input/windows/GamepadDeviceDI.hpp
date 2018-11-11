@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_GAMEPADDEVICEDI_HPP
-#define OUZEL_GAMEPADDEVICEDI_HPP
+#ifndef OUZEL_INPUT_GAMEPADDEVICEDI_HPP
+#define OUZEL_INPUT_GAMEPADDEVICEDI_HPP
 
 #include <string>
 #include <unordered_map>
@@ -72,4 +72,4 @@ namespace ouzel
     } // namespace input
 } // namespace ouzel
 
-#endif // OUZEL_GAMEPADDEVICEDI_HPP
+#endif // OUZEL_INPUT_GAMEPADDEVICEDI_HPP

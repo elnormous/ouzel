@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_XML_HPP
-#define OUZEL_XML_HPP
+#ifndef OUZEL_UTILS_XML_HPP
+#define OUZEL_UTILS_XML_HPP
 
 #include <map>
 #include <string>
@@ -91,4 +91,4 @@ namespace ouzel
     } // namespace xml
 } // namespace ouzel
 
-#endif // OUZEL_XML_HPP
+#endif // OUZEL_UTILS_XML_HPP

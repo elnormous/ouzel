@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_LOADERMTL_HPP
-#define OUZEL_LOADERMTL_HPP
+#ifndef OUZEL_ASSETS_LOADERMTL_HPP
+#define OUZEL_ASSETS_LOADERMTL_HPP
 
 #include "assets/Loader.hpp"
 
@@ -20,4 +20,4 @@ namespace ouzel
     } // namespace assets
 } // namespace ouzel
 
-#endif // OUZEL_LOADERMTL_HPP
+#endif // OUZEL_ASSETS_LOADERMTL_HPP

@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_ENGINEWIN_HPP
-#define OUZEL_ENGINEWIN_HPP
+#ifndef OUZEL_CORE_ENGINEWIN_HPP
+#define OUZEL_CORE_ENGINEWIN_HPP
 
 #ifndef NOMINMAX
 #  define NOMINMAX
@@ -30,4 +30,4 @@ namespace ouzel
     };
 }
 
-#endif // OUZEL_ENGINEWIN_HPP
+#endif // OUZEL_CORE_ENGINEWIN_HPP

@@ -3,6 +3,7 @@
 #ifndef OUZEL_GRAPHICS_RENDERDEVICE_HPP
 #define OUZEL_GRAPHICS_RENDERDEVICE_HPP
 
+#include <atomic>
 #include <condition_variable>
 #include <mutex>
 #include "graphics/Commands.hpp"
