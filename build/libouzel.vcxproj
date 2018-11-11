@@ -205,8 +205,11 @@
     <ClInclude Include="..\ouzel\assets\LoaderWave.hpp" />
     <ClInclude Include="..\ouzel\audio\Audio.hpp" />
     <ClInclude Include="..\ouzel\audio\AudioDevice.hpp" />
+    <ClInclude Include="..\ouzel\audio\Channel.hpp" />
+    <ClInclude Include="..\ouzel\audio\Driver.hpp" />
     <ClInclude Include="..\ouzel\audio\dsound\AudioDeviceDS.hpp" />
     <ClInclude Include="..\ouzel\audio\empty\AudioDeviceEmpty.hpp" />
+    <ClInclude Include="..\ouzel\audio\SampleFormat.hpp" />
     <ClInclude Include="..\ouzel\audio\SoundInput.hpp" />
     <ClInclude Include="..\ouzel\audio\Listener.hpp" />
     <ClInclude Include="..\ouzel\audio\Mixer.hpp" />
@@ -252,6 +255,7 @@
     <ClInclude Include="..\ouzel\graphics\direct3d11\ShaderResourceD3D11.hpp" />
     <ClInclude Include="..\ouzel\graphics\direct3d11\TextureResourceD3D11.hpp" />
     <ClInclude Include="..\ouzel\graphics\DrawMode.hpp" />
+    <ClInclude Include="..\ouzel\graphics\Driver.hpp" />
     <ClInclude Include="..\ouzel\graphics\empty\RenderDeviceEmpty.hpp" />
     <ClInclude Include="..\ouzel\graphics\ImageData.hpp" />
     <ClInclude Include="..\ouzel\graphics\Material.hpp" />
