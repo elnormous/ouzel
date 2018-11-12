@@ -5,9 +5,10 @@
 
 #include <cstddef>
 
+#include "Vector2.hpp"
+
 namespace ouzel
 {
-    class Vector2;
     class Vector4;
     class Color;
 
@@ -32,10 +33,19 @@ namespace ouzel
         {
         }
 
-        explicit Vector3(const Vector2& vec);
-        Vector3(const Vector2& vec, float aZ);
+        explicit Vector3(const Vector2& vec):
+            x(vec.x), y(vec.y)
+        {
+        }
 
-        Vector3& operator=(const Vector2& vec);
+        Vector3& operator=(const Vector2& vec)
+        {
+            x = vec.x;
+            y = vec.y;
+            z = 0.0F;
+
+            return *this;
+        }
 
         explicit Vector3(const Vector4& vec);
 
@@ -170,9 +180,21 @@ namespace ouzel
 
         float getMax() const;
 
+        inline const Vector3 operator+(const Vector2& vec) const
+        {
+            return Vector3(x + vec.x, y + vec.y, z);
+        }
+
         inline const Vector3 operator+(const Vector3& vec) const
         {
             return Vector3(x + vec.x, y + vec.y, z + vec.z);
+        }
+
+        inline Vector3& operator+=(const Vector2& vec)
+        {
+            x += vec.x;
+            y += vec.y;
+            return *this;
         }
 
         inline Vector3& operator+=(const Vector3& vec)
@@ -183,9 +205,21 @@ namespace ouzel
             return *this;
         }
 
+        inline const Vector3 operator-(const Vector2& vec) const
+        {
+            return Vector3(x - vec.x, y - vec.y, z);
+        }
+
         inline const Vector3 operator-(const Vector3& vec) const
         {
             return Vector3(x - vec.x, y - vec.y, z - vec.z);
+        }
+
+        inline Vector3& operator-=(const Vector2& vec)
+        {
+            x -= vec.x;
+            y -= vec.y;
+            return *this;
         }
 
         inline Vector3& operator-=(const Vector3& vec)
