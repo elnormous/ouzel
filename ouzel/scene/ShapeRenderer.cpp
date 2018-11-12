@@ -515,10 +515,7 @@ namespace ouzel
                         graphics::Vertex vertex(Vector3(), color, Vector2(), Vector3(0.0F, 0.0F, -1.0F));
 
                         for (uint16_t n = 0; n < controlPoints.size(); ++n)
-                        {
-                            vertex.position += Vector3(static_cast<float>(binomialCoefficients[n]) * powf(t, n) *
-                                                       powf(1.0F - t, static_cast<float>(controlPoints.size() - n - 1)) * controlPoints[n]);
-                        }
+                            vertex.position += static_cast<float>(binomialCoefficients[n]) * powf(t, n) * powf(1.0F - t, static_cast<float>(controlPoints.size() - n - 1)) * controlPoints[n];
 
                         indices.push_back(startVertex + static_cast<uint16_t>(command.indexCount));
                         ++command.indexCount;

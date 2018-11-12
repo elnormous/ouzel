@@ -5,6 +5,7 @@
 
 #include <cstdint>
 #include <limits>
+#include "math/Vector2.hpp"
 #include "math/Vector3.hpp"
 #include "math/Size3.hpp"
 
@@ -96,11 +97,25 @@ namespace ouzel
             if (point.z > max.z) max.z = point.z;
         }
 
+        inline const Box3 operator+(const Vector2& v) const
+        {
+            Box3 result(*this);
+            result += v;
+            return result;
+        }
+
         inline const Box3 operator+(const Vector3& v) const
         {
             Box3 result(*this);
             result += v;
             return result;
+        }
+
+        inline Box3& operator+=(const Vector2& v)
+        {
+            min += v;
+            max += v;
+            return *this;
         }
 
         inline Box3& operator+=(const Vector3& v)
@@ -110,11 +125,25 @@ namespace ouzel
             return *this;
         }
 
+        inline const Box3 operator-(const Vector2& v) const
+        {
+            Box3 result(*this);
+            result -= v;
+            return result;
+        }
+
         inline const Box3 operator-(const Vector3& v) const
         {
             Box3 result(*this);
             result -= v;
             return result;
+        }
+
+        inline Box3& operator-=(const Vector2& v)
+        {
+            min -= v;
+            max -= v;
+            return *this;
         }
 
         inline Box3& operator-=(const Vector3& v)

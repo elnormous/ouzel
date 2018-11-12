@@ -10,10 +10,11 @@
 #include <xmmintrin.h>
 #endif
 
+#include "Vector2.hpp"
+#include "Vector3.hpp"
+
 namespace ouzel
 {
-    class Vector2;
-    class Vector3;
     class Color;
 
     class Vector4 final
@@ -61,11 +62,33 @@ namespace ouzel
         {
         }
 
-        explicit Vector4(const Vector2& v);
-        Vector4& operator=(const Vector2& v);
+        explicit Vector4(const Vector2& vec):
+            x(vec.x), y(vec.y), z(0.0F), w(0.0F)
+        {
+        }
 
-        explicit Vector4(const Vector3& v);
-        Vector4& operator=(const Vector3& v);
+        Vector4& operator=(const Vector2& vec)
+        {
+            x = vec.x;
+            y = vec.y;
+            z = 0.0F;
+            w = 0.0F;
+            return *this;
+        }
+
+        explicit Vector4(const Vector3& vec):
+            x(vec.x), y(vec.y), z(vec.z), w(0.0F)
+        {
+        }
+
+        Vector4& operator=(const Vector3& vec)
+        {
+            x = vec.x;
+            y = vec.y;
+            z = vec.z;
+            w = 0.0F;
+            return *this;
+        }
 
         explicit Vector4(Color color);
         Vector4& operator=(Color color);
@@ -81,22 +104,6 @@ namespace ouzel
         }
 
         static float angle(const Vector4& v1, const Vector4& v2);
-
-        void add(const Vector4& vec)
-        {
-            x += vec.x;
-            y += vec.y;
-            z += vec.z;
-            w += vec.w;
-        }
-
-        static void add(const Vector4& v1, const Vector4& v2, Vector4& dst)
-        {
-            dst.x = v1.x + v2.x;
-            dst.y = v1.y + v2.y;
-            dst.z = v1.z + v2.z;
-            dst.w = v1.w + v2.w;
-        }
 
         void clamp(const Vector4& min, const Vector4& max);
         static void clamp(const Vector4& vec, const Vector4& min, const Vector4& max, Vector4& dst);
@@ -164,51 +171,87 @@ namespace ouzel
             w = newW;
         }
 
-        void subtract(const Vector4& vec)
-        {
-            x -= vec.x;
-            y -= vec.y;
-            z -= vec.z;
-            w -= vec.w;
-        }
-
-        static void subtract(const Vector4& v1, const Vector4& v2, Vector4& dst)
-        {
-            dst.x = v1.x - v2.x;
-            dst.y = v1.y - v2.y;
-            dst.z = v1.z - v2.z;
-            dst.w = v1.w - v2.w;
-        }
-
         void smooth(const Vector4& target, float elapsedTime, float responseTime);
 
         float getMin() const;
 
         float getMax() const;
 
+        inline const Vector4 operator+(const Vector2& vec) const
+        {
+            return Vector4(x + vec.x, y + vec.y, z, w);
+        }
+
+        inline const Vector4 operator+(const Vector3& vec) const
+        {
+            return Vector4(x + vec.x, y + vec.y, z + vec.z, w);
+        }
+
         inline const Vector4 operator+(const Vector4& vec) const
         {
-            Vector4 result(*this);
-            result.add(vec);
-            return result;
+            return Vector4(x + vec.x, y + vec.y, z + vec.z, w + vec.w);
+        }
+
+        inline Vector4& operator+=(const Vector2& vec)
+        {
+            x += vec.x;
+            y += vec.y;
+            return *this;
+        }
+
+        inline Vector4& operator+=(const Vector3& vec)
+        {
+            x += vec.x;
+            y += vec.y;
+            z += vec.z;
+            return *this;
         }
 
         inline Vector4& operator+=(const Vector4& vec)
         {
-            add(vec);
+            x += vec.x;
+            y += vec.y;
+            z += vec.z;
+            w += vec.w;
             return *this;
+        }
+
+        inline const Vector4 operator-(const Vector2& vec) const
+        {
+            return Vector4(x - vec.x, y - vec.y, z, w);
+        }
+
+        inline const Vector4 operator-(const Vector3& vec) const
+        {
+            return Vector4(x - vec.x, y - vec.y, z - vec.z, w);
         }
 
         inline const Vector4 operator-(const Vector4& vec) const
         {
-            Vector4 result(*this);
-            result.subtract(vec);
-            return result;
+            return Vector4(x - vec.x, y - vec.y, z - vec.z, w - vec.w);
+        }
+
+        inline Vector4& operator-=(const Vector2& vec)
+        {
+            x -= vec.x;
+            y -= vec.y;
+            return *this;
+        }
+
+        inline Vector4& operator-=(const Vector3& vec)
+        {
+            x -= vec.x;
+            y -= vec.y;
+            z -= vec.z;
+            return *this;
         }
 
         inline Vector4& operator-=(const Vector4& vec)
         {
-            subtract(vec);
+            x -= vec.x;
+            y -= vec.y;
+            z -= vec.z;
+            w -= vec.w;
             return *this;
         }
 

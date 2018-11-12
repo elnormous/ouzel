@@ -11,34 +11,6 @@
 
 namespace ouzel
 {
-    Vector4::Vector4(const Vector2& vec):
-        x(vec.x), y(vec.y), z(0.0F), w(0.0F)
-    {
-    }
-
-    Vector4& Vector4::operator=(const Vector2& vec)
-    {
-        x = vec.x;
-        y = vec.y;
-        z = 0.0F;
-        w = 0.0F;
-        return *this;
-    }
-
-    Vector4::Vector4(const Vector3& vec):
-        x(vec.x), y(vec.y), z(vec.z), w(0.0F)
-    {
-    }
-
-    Vector4& Vector4::operator=(const Vector3& vec)
-    {
-        x = vec.x;
-        y = vec.y;
-        z = vec.z;
-        w = 0.0F;
-        return *this;
-    }
-
     Vector4::Vector4(Color color)
     {
         x = color.normR();

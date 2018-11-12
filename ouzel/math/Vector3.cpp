@@ -11,25 +11,6 @@
 
 namespace ouzel
 {
-    Vector3::Vector3(const Vector2& vec):
-        x(vec.x), y(vec.y)
-    {
-    }
-
-    Vector3::Vector3(const Vector2& vec, float aZ):
-        x(vec.x), y(vec.y), z(aZ)
-    {
-    }
-
-    Vector3& Vector3::operator=(const Vector2& vec)
-    {
-        x = vec.x;
-        y = vec.y;
-        z = 0.0F;
-
-        return *this;
-    }
-
     Vector3::Vector3(const Vector4& vec):
         x(vec.x), y(vec.y), z(vec.z)
     {
