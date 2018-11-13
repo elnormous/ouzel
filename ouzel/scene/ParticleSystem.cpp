@@ -413,7 +413,7 @@ namespace ouzel
                         particles[i].life = fmaxf(particleSystemData.particleLifespan + particleSystemData.particleLifespanVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine), 0.0F);
 
                         particles[i].position = particleSystemData.sourcePosition + position + Vector2(particleSystemData.sourcePositionVariance.x * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine),
-                                                                                                         particleSystemData.sourcePositionVariance.y * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine));
+                                                                                                       particleSystemData.sourcePositionVariance.y * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine));
 
                         particles[i].size = fmaxf(particleSystemData.startParticleSize + particleSystemData.startParticleSizeVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine), 0.0F);
 
