@@ -5,9 +5,9 @@
 
 #include <cstdint>
 #include <limits>
+#include "math/Size3.hpp"
 #include "math/Vector2.hpp"
 #include "math/Vector3.hpp"
-#include "math/Size3.hpp"
 
 namespace ouzel
 {
@@ -85,6 +85,14 @@ namespace ouzel
         bool isEmpty() const
         {
             return min.x > max.x || min.y > max.y || min.z > max.z;
+        }
+
+        void insertPoint(const Vector2& point)
+        {
+            if (point.x < min.x) min.x = point.x;
+            if (point.x > max.x) max.x = point.x;
+            if (point.y < min.y) min.y = point.y;
+            if (point.y > max.y) max.y = point.y;
         }
 
         void insertPoint(const Vector3& point)
