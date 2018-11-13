@@ -36,8 +36,8 @@ namespace ouzel
 
             if (dirty)
             {
-                indexBuffer->setData(indices.data(), static_cast<uint32_t>(getVectorSize(indices)));
-                vertexBuffer->setData(vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)));
+                if (!indices.empty()) indexBuffer->setData(indices.data(), static_cast<uint32_t>(getVectorSize(indices)));
+                if (!vertices.empty()) vertexBuffer->setData(vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)));
                 dirty = false;
             }
 
@@ -97,8 +97,8 @@ namespace ouzel
                 indices.push_back(startVertex + 0);
                 indices.push_back(startVertex + 1);
 
-                boundingBox.insertPoint(start);
-                boundingBox.insertPoint(finish);
+                boundingBox.insertPoint(Vector3(start));
+                boundingBox.insertPoint(Vector3(finish));
             }
             else
             {
@@ -178,8 +178,8 @@ namespace ouzel
 
                 indices.push_back(startVertex + 1);
 
-                boundingBox.insertPoint(position - Vector2(radius, radius));
-                boundingBox.insertPoint(position + Vector2(radius, radius));
+                boundingBox.insertPoint(Vector3(position - Vector2(radius, radius)));
+                boundingBox.insertPoint(Vector3(position + Vector2(radius, radius)));
             }
             else
             {
@@ -201,8 +201,8 @@ namespace ouzel
 
                     indices.push_back(startVertex);
 
-                    boundingBox.insertPoint(position - Vector2(radius, radius));
-                    boundingBox.insertPoint(position + Vector2(radius, radius));
+                    boundingBox.insertPoint(Vector3(position - Vector2(radius, radius)));
+                    boundingBox.insertPoint(Vector3(position + Vector2(radius, radius)));
                 }
                 else
                 {
@@ -291,8 +291,8 @@ namespace ouzel
                 indices.push_back(startVertex + 2);
                 indices.push_back(startVertex + 3);
 
-                boundingBox.insertPoint(rectangle.bottomLeft());
-                boundingBox.insertPoint(rectangle.topRight());
+                boundingBox.insertPoint(Vector3(rectangle.bottomLeft()));
+                boundingBox.insertPoint(Vector3(rectangle.topRight()));
             }
             else
             {
@@ -324,8 +324,8 @@ namespace ouzel
                     indices.push_back(startVertex + 3);
                     indices.push_back(startVertex + 0);
 
-                    boundingBox.insertPoint(rectangle.bottomLeft());
-                    boundingBox.insertPoint(rectangle.topRight());
+                    boundingBox.insertPoint(Vector3(rectangle.bottomLeft()));
+                    boundingBox.insertPoint(Vector3(rectangle.topRight()));
                 }
                 else
                 {
@@ -394,8 +394,8 @@ namespace ouzel
                     indices.push_back(startVertex + 1);
                     indices.push_back(startVertex + 7);
 
-                    boundingBox.insertPoint(rectangle.bottomLeft() - Vector2(halfThickness, halfThickness));
-                    boundingBox.insertPoint(rectangle.topRight() + Vector2(halfThickness, halfThickness));
+                    boundingBox.insertPoint(Vector3(rectangle.bottomLeft() - Vector2(halfThickness, halfThickness)));
+                    boundingBox.insertPoint(Vector3(rectangle.topRight() + Vector2(halfThickness, halfThickness)));
                 }
             }
 
@@ -434,7 +434,7 @@ namespace ouzel
                 }
 
                 for (uint16_t i = 0; i < edges.size(); ++i)
-                    boundingBox.insertPoint(edges[i]);
+                    boundingBox.insertPoint(Vector3(edges[i]));
             }
             else
             {
@@ -453,7 +453,7 @@ namespace ouzel
                     indices.push_back(startVertex);
 
                     for (uint16_t i = 0; i < edges.size(); ++i)
-                        boundingBox.insertPoint(edges[i]);
+                        boundingBox.insertPoint(Vector3(edges[i]));
                 }
                 else
                 {
@@ -501,7 +501,7 @@ namespace ouzel
                         indices.push_back(startVertex + static_cast<uint16_t>(command.indexCount));
                         ++command.indexCount;
                         vertices.push_back(graphics::Vertex(Vector3(controlPoints[i]), color, Vector2(), Vector3(0.0F, 0.0F, -1.0F)));
-                        boundingBox.insertPoint(controlPoints[i]);
+                        boundingBox.insertPoint(Vector3(controlPoints[i]));
                     }
                 }
                 else
