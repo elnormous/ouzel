@@ -58,16 +58,14 @@ namespace ouzel
         CFBundleRef bundle = CFBundleGetMainBundle();
         CFURLRef path = CFBundleCopyResourcesDirectoryURL(bundle);
 
-        if (path)
-        {
-            char resourceDirectory[1024];
-            CFURLGetFileSystemRepresentation(path, TRUE, reinterpret_cast<UInt8*>(resourceDirectory), sizeof(resourceDirectory));
-            CFRelease(path);
-            appPath = resourceDirectory;
-            engine.log(Log::Level::INFO) << "Application directory: " << appPath;
-        }
-        else
+        if (!path)
             throw FileError("Failed to get current directory");
+
+        char resourceDirectory[1024];
+        CFURLGetFileSystemRepresentation(path, TRUE, reinterpret_cast<UInt8*>(resourceDirectory), sizeof(resourceDirectory));
+        CFRelease(path);
+        appPath = resourceDirectory;
+        engine.log(Log::Level::INFO) << "Application directory: " << appPath;
 
 #elif OUZEL_PLATFORM_LINUX
         char executableDirectory[1024];
@@ -115,7 +113,7 @@ namespace ouzel
 
             // relative paths longer than MAX_PATH are not supported
             if (buffer.size() > MAX_PATH)
-                buffer.insert(buffer.begin(), { L'\\', L'\\', L'?', L'\\' });
+                buffer.insert(buffer.begin(), {L'\\', L'\\', L'?', L'\\'});
 
             DWORD attributes = GetFileAttributesW(buffer.data());
             if (attributes == INVALID_FILE_ATTRIBUTES)
@@ -141,7 +139,7 @@ namespace ouzel
 
             // relative paths longer than MAX_PATH are not supported
             if (buffer.size() > MAX_PATH)
-                buffer.insert(buffer.begin(), { L'\\', L'\\', L'?', L'\\' });
+                buffer.insert(buffer.begin(), {L'\\', L'\\', L'?', L'\\'});
 
             DWORD attributes = GetFileAttributesW(buffer.data());
             if (attributes == INVALID_FILE_ATTRIBUTES)
@@ -388,7 +386,7 @@ namespace ouzel
 
         // relative paths longer than MAX_PATH are not supported
         if (buffer.size() > MAX_PATH)
-            buffer.insert(buffer.begin(), { L'\\', L'\\', L'?', L'\\' });
+            buffer.insert(buffer.begin(), {L'\\', L'\\', L'?', L'\\'});
 
         DWORD attributes = GetFileAttributesW(buffer.data());
         if (attributes == INVALID_FILE_ATTRIBUTES)
@@ -429,7 +427,7 @@ namespace ouzel
 
         // relative paths longer than MAX_PATH are not supported
         if (buffer.size() > MAX_PATH)
-            buffer.insert(buffer.begin(), { L'\\', L'\\', L'?', L'\\' });
+            buffer.insert(buffer.begin(), {L'\\', L'\\', L'?', L'\\'});
 
         DWORD attributes = GetFileAttributesW(buffer.data());
         if (attributes == INVALID_FILE_ATTRIBUTES)
@@ -544,7 +542,7 @@ namespace ouzel
 
         // relative paths longer than MAX_PATH are not supported
         if (buffer.size() > MAX_PATH)
-            buffer.insert(buffer.begin(), { L'\\', L'\\', L'?', L'\\' });
+            buffer.insert(buffer.begin(), {L'\\', L'\\', L'?', L'\\'});
 
         return PathIsRelativeW(buffer.data()) == FALSE;
 #else
