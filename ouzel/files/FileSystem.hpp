@@ -15,14 +15,14 @@ namespace ouzel
     class FileSystem final
     {
     public:
+        static const std::string DIRECTORY_SEPARATOR;
+
         explicit FileSystem(Engine& initEngine);
         FileSystem(const FileSystem&) = delete;
         FileSystem& operator=(const FileSystem&) = delete;
 
         FileSystem(FileSystem&&) = delete;
         FileSystem& operator=(FileSystem&&) = delete;
-
-        static const std::string DIRECTORY_SEPARATOR;
 
         std::string getStorageDirectory(bool user = true) const;
         std::string getTempDirectory() const;

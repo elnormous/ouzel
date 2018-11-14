@@ -10,8 +10,8 @@
 #  include <Shlwapi.h>
 #elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
 #  include <objc/message.h>
+#  include <objc/NSObjCRuntime.h>
 #  include <CoreFoundation/CoreFoundation.h>
-#  include "apple/FileSystemApple.hpp"
 extern "C" id NSTemporaryDirectory();
 #elif OUZEL_PLATFORM_LINUX
 #  include <pwd.h>
@@ -154,8 +154,40 @@ namespace ouzel
         }
 
         return path;
-#elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-        return getStorageDirectoryApple(user);
+#elif OUZEL_PLATFORM_MACOS
+        id fileManager = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("NSFileManager"), sel_getUid("defaultManager"));
+
+        static const NSUInteger NSApplicationSupportDirectory = 14;
+        static const NSUInteger NSUserDomainMask = 1;
+        static const NSUInteger NSLocalDomainMask = 2;
+
+        id error;
+        id applicationSupportDirectory = reinterpret_cast<id (*)(id, SEL, NSUInteger, NSUInteger, id, BOOL, id*)>(&objc_msgSend)(fileManager, sel_getUid("URLForDirectory:inDomain:appropriateForURL:create:error:"), NSApplicationSupportDirectory, user ? NSUserDomainMask : NSLocalDomainMask, nil, YES, &error);
+
+        if (!applicationSupportDirectory)
+            throw SystemError("Failed to get application support directory");
+
+        id bundle = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("NSBundle"), sel_getUid("mainBundle"));
+        id identifier = reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(bundle, sel_getUid("bundleIdentifier"));
+        id path = reinterpret_cast<id (*)(id, SEL, id)>(&objc_msgSend)(applicationSupportDirectory, sel_getUid("URLByAppendingPathComponent:"), identifier);
+        reinterpret_cast<void (*)(id, SEL, id, BOOL, id, id)>(&objc_msgSend)(fileManager, sel_getUid("createDirectoryAtURL:withIntermediateDirectories:attributes:error:"), path, YES, nil, nil);
+        id pathString = reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(path, sel_getUid("path"));
+        return reinterpret_cast<const char* (*)(id, SEL)>(&objc_msgSend)(pathString, sel_getUid("UTF8String"));
+#elif OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+        id fileManager = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("NSFileManager"), sel_getUid("defaultManager"));
+
+        static const NSUInteger NSDocumentDirectory = 9;
+        static const NSUInteger NSUserDomainMask = 1;
+        static const NSUInteger NSLocalDomainMask = 2;
+
+        id error;
+        id documentDirectory = reinterpret_cast<id (*)(id, SEL, NSUInteger, NSUInteger, id, BOOL, id*)>(&objc_msgSend)(fileManager, sel_getUid("URLForDirectory:inDomain:appropriateForURL:create:error:"), NSDocumentDirectory, user ? NSUserDomainMask : NSLocalDomainMask, nil, YES, &error);
+
+        if (!documentDirectory)
+            throw SystemError("Failed to get document directory");
+
+        id documentDirectoryString = reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(documentDirectory, sel_getUid("path"));
+        return reinterpret_cast<const char* (*)(id, SEL)>(&objc_msgSend)(documentDirectoryString, sel_getUid("UTF8String"));
 #elif OUZEL_PLATFORM_LINUX
         std::string path;
 

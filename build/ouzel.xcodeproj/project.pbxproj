@@ -624,9 +624,6 @@
 		305B99A21C42A97E008589E1 /* BMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B999A1C42A695008589E1 /* BMFont.cpp */; };
 		305B99A31C42A97E008589E1 /* BMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B999A1C42A695008589E1 /* BMFont.cpp */; };
 		305B99A41C42A97F008589E1 /* BMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B999A1C42A695008589E1 /* BMFont.cpp */; };
-		305BAE9F204A37DC00EB4C5B /* FileSystemApple.mm in Sources */ = {isa = PBXBuildFile; fileRef = 305BAE9D204A37DC00EB4C5B /* FileSystemApple.mm */; };
-		305BAEA0204A37DC00EB4C5B /* FileSystemApple.mm in Sources */ = {isa = PBXBuildFile; fileRef = 305BAE9D204A37DC00EB4C5B /* FileSystemApple.mm */; };
-		305BAEA1204A37DC00EB4C5B /* FileSystemApple.mm in Sources */ = {isa = PBXBuildFile; fileRef = 305BAE9D204A37DC00EB4C5B /* FileSystemApple.mm */; };
 		306672601F964A77004515F2 /* Light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3066725E1F964A77004515F2 /* Light.cpp */; };
 		306672611F964A77004515F2 /* Light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3066725E1F964A77004515F2 /* Light.cpp */; };
 		306672621F964A77004515F2 /* Light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3066725E1F964A77004515F2 /* Light.cpp */; };
@@ -1169,8 +1166,6 @@
 		305B99901C41F06F008589E1 /* Widget.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Widget.hpp; sourceTree = "<group>"; };
 		305B999A1C42A695008589E1 /* BMFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BMFont.cpp; sourceTree = "<group>"; };
 		305B999B1C42A695008589E1 /* BMFont.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BMFont.hpp; sourceTree = "<group>"; };
-		305BAE9D204A37DC00EB4C5B /* FileSystemApple.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FileSystemApple.mm; sourceTree = "<group>"; };
-		305BAEA5204A387C00EB4C5B /* FileSystemApple.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FileSystemApple.hpp; sourceTree = "<group>"; };
 		3066725E1F964A77004515F2 /* Light.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Light.cpp; sourceTree = "<group>"; };
 		3066725F1F964A77004515F2 /* Light.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Light.hpp; sourceTree = "<group>"; };
 		30673DD11F7A694F00EAFAB0 /* NativeWindow.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NativeWindow.cpp; sourceTree = "<group>"; };
@@ -1932,8 +1927,6 @@
 		305BAEA6204A3B1F00EB4C5B /* apple */ = {
 			isa = PBXGroup;
 			children = (
-				305BAE9D204A37DC00EB4C5B /* FileSystemApple.mm */,
-				305BAEA5204A387C00EB4C5B /* FileSystemApple.hpp */,
 			);
 			path = apple;
 			sourceTree = "<group>";
@@ -2771,7 +2764,6 @@
 				303B75611C2A3CBF00FEDE92 /* Actor.cpp in Sources */,
 				3011E1C31EFFE6DE00CB1DDC /* INI.cpp in Sources */,
 				3049DCDA1EDCD0450000997A /* Cursor.cpp in Sources */,
-				305BAE9F204A37DC00EB4C5B /* FileSystemApple.mm in Sources */,
 				30FFBE322158FB3F004B0BD3 /* Touchpad.cpp in Sources */,
 				30575A901C38BD370009C8A7 /* Box2.cpp in Sources */,
 				30381F851D80A3EC00677CAB /* ShaderResourceOGL.cpp in Sources */,
@@ -2934,7 +2926,6 @@
 				303B76881C355A5800FEDE92 /* main.cpp in Sources */,
 				3011E1C51EFFE6DE00CB1DDC /* INI.cpp in Sources */,
 				3049DCDC1EDCD0450000997A /* Cursor.cpp in Sources */,
-				305BAEA1204A37DC00EB4C5B /* FileSystemApple.mm in Sources */,
 				30FFBE342158FB3F004B0BD3 /* Touchpad.cpp in Sources */,
 				30575A911C38BD370009C8A7 /* Box2.cpp in Sources */,
 				30381F871D80A3EC00677CAB /* ShaderResourceOGL.cpp in Sources */,
@@ -3098,7 +3089,6 @@
 				30B859951F3D2F3200A16952 /* Font.cpp in Sources */,
 				3011E1C41EFFE6DE00CB1DDC /* INI.cpp in Sources */,
 				30381F861D80A3EC00677CAB /* ShaderResourceOGL.cpp in Sources */,
-				305BAEA0204A37DC00EB4C5B /* FileSystemApple.mm in Sources */,
 				3049DCDB1EDCD0450000997A /* Cursor.cpp in Sources */,
 				305B68D41ED1B31D003352A2 /* Timer.cpp in Sources */,
 				304A8E5A1C237C70008B1151 /* Matrix4.cpp in Sources */,

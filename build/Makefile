@@ -200,7 +200,6 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/core/macos/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/macos/NativeWindowMacOS.mm \
 	$(ROOT_DIR)/../ouzel/core/macos/ViewMacOS.mm \
-	$(ROOT_DIR)/../ouzel/files/apple/FileSystemApple.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/metal/macos/MetalView.m \
 	$(ROOT_DIR)/../ouzel/graphics/metal/macos/RenderDeviceMetalMacOS.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/BlendStateResourceMetal.mm \
@@ -225,7 +224,6 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/core/ios/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/ios/NativeWindowIOS.mm \
 	$(ROOT_DIR)/../ouzel/core/ios/ViewIOS.mm \
-	$(ROOT_DIR)/../ouzel/files/apple/FileSystemApple.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/metal/ios/MetalView.m \
 	$(ROOT_DIR)/../ouzel/graphics/metal/ios/RenderDeviceMetalIOS.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/BlendStateResourceMetal.mm \
@@ -249,7 +247,6 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/core/tvos/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/tvos/NativeWindowTVOS.mm \
 	$(ROOT_DIR)/../ouzel/core/tvos/ViewTVOS.mm \
-	$(ROOT_DIR)/../ouzel/files/apple/FileSystemApple.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/metal/tvos/MetalView.m \
 	$(ROOT_DIR)/../ouzel/graphics/metal/tvos/RenderDeviceMetalTVOS.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/BlendStateResourceMetal.mm \
