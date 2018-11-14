@@ -70,18 +70,6 @@ namespace ouzel
                 commandQueueCondition.notify_all();
             }
 
-            Vector2 convertScreenToNormalizedLocation(const Vector2& position)
-            {
-                return Vector2(position.x / size.width,
-                               1.0F - (position.y / size.height));
-            }
-
-            Vector2 convertNormalizedToScreenLocation(const Vector2& position)
-            {
-                return Vector2(position.x * size.width,
-                               (1.0F - position.y) * size.height);
-            }
-
             inline uint32_t getDrawCallCount() const { return drawCallCount; }
 
             inline uint16_t getAPIMajorVersion() const { return apiMajorVersion; }
