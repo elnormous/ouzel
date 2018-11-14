@@ -89,6 +89,18 @@ namespace ouzel
             void waitForNextFrame();
             inline bool getRefillQueue() const { return refillQueue; }
 
+            Vector2 convertScreenToNormalizedLocation(const Vector2& position)
+            {
+                return Vector2(position.x / size.width,
+                               1.0F - (position.y / size.height));
+            }
+
+            Vector2 convertNormalizedToScreenLocation(const Vector2& position)
+            {
+                return Vector2(position.x * size.width,
+                               (1.0F - position.y) * size.height);
+            }
+
         private:
             void handleEvent(const RenderDevice::Event& event);
             void setSize(const Size2& newSize);
