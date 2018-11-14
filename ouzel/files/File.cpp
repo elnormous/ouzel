@@ -38,7 +38,7 @@ namespace ouzel
 
         // relative paths longer than MAX_PATH are not supported
         if (buffer.size() > MAX_PATH)
-            buffer.insert(buffer.begin(), { L'\\', L'\\', L'?', L'\\' });
+            buffer.insert(buffer.begin(), {L'\\', L'\\', L'?', L'\\'});
 
         file = CreateFileW(buffer.data(), access, 0, nullptr, createDisposition, FILE_ATTRIBUTE_NORMAL, nullptr);
         if (file == INVALID_HANDLE_VALUE)
