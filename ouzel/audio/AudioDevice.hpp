@@ -58,6 +58,23 @@ namespace ouzel
 
             void setRenderCommands(const std::vector<RenderCommand>& newRenderCommands);
 
+            uintptr_t getResourceId()
+            {
+                if (deletedResourceIds.empty())
+                    return ++lastResourceId; // zero is reserved for null resource
+                else
+                {
+                    uintptr_t resourceId = deletedResourceIds.front();
+                    deletedResourceIds.pop();
+                    return resourceId;
+                }
+            }
+
+            void deleteResourceId(uintptr_t resourceId)
+            {
+                deletedResourceIds.push(resourceId);
+            }
+
         protected:
             explicit AudioDevice(Driver initDriver);
 
@@ -88,6 +105,9 @@ namespace ouzel
 
             std::vector<RenderCommand> renderQueue;
             std::mutex renderQueueMutex;
+
+            uintptr_t lastResourceId = 0;
+            std::queue<uintptr_t> deletedResourceIds;
         };
     } // namespace audio
 } // namespace ouzel
