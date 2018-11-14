@@ -55,8 +55,8 @@ namespace ouzel
         engine.log(Log::Level::INFO) << "Application directory: " << appPath;
 
 #elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-        CFBundleRef bundle = CFBundleGetMainBundle(); // [NSBundle mainBundle]
-        CFURLRef path = CFBundleCopyResourcesDirectoryURL(bundle); // [bundle resourceURL]
+        CFBundleRef bundle = CFBundleGetMainBundle();
+        CFURLRef path = CFBundleCopyResourcesDirectoryURL(bundle);
 
         if (path)
         {
@@ -166,9 +166,13 @@ namespace ouzel
         if (!applicationSupportDirectory)
             throw SystemError("Failed to get application support directory");
 
-        id bundle = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("NSBundle"), sel_getUid("mainBundle"));
-        id identifier = reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(bundle, sel_getUid("bundleIdentifier"));
-        id path = reinterpret_cast<id (*)(id, SEL, id)>(&objc_msgSend)(applicationSupportDirectory, sel_getUid("URLByAppendingPathComponent:"), identifier);
+        CFBundleRef bundle = CFBundleGetMainBundle();
+        CFStringRef identifier = CFBundleGetIdentifier(bundle);
+
+        if (!identifier)
+            throw SystemError("Failed to get bundle identifier");
+
+        id path = reinterpret_cast<id (*)(id, SEL, CFStringRef)>(&objc_msgSend)(applicationSupportDirectory, sel_getUid("URLByAppendingPathComponent:"), identifier);
         reinterpret_cast<void (*)(id, SEL, id, BOOL, id, id)>(&objc_msgSend)(fileManager, sel_getUid("createDirectoryAtURL:withIntermediateDirectories:attributes:error:"), path, YES, nil, nil);
         id pathString = reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(path, sel_getUid("path"));
         return reinterpret_cast<const char* (*)(id, SEL)>(&objc_msgSend)(pathString, sel_getUid("UTF8String"));
