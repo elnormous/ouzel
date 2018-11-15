@@ -17,7 +17,7 @@ private:
     bool handleKeyboard(const ouzel::KeyboardEvent& event) const;
 
     ouzel::audio::Listener listener;
-    ouzel::audio::Mixer soundMixer;
+    ouzel::audio::Gain soundGain;
 
     ouzel::audio::Sound test8BitSound;
     ouzel::audio::Sound test24BitSound;

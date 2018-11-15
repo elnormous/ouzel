@@ -3,10 +3,12 @@
 #ifndef OUZEL_AUDIO_AUDIODEVICE_HPP
 #define OUZEL_AUDIO_AUDIODEVICE_HPP
 
+#include <memory>
 #include <mutex>
 #include <queue>
 #include <vector>
 #include "audio/Driver.hpp"
+#include "audio/Processor.hpp"
 #include "audio/SampleFormat.hpp"
 #include "math/Quaternion.hpp"
 #include "math/Vector3.hpp"
@@ -108,6 +110,8 @@ namespace ouzel
 
             uintptr_t lastResourceId = 0;
             std::queue<uintptr_t> deletedResourceIds;
+
+            std::unique_ptr<Processor> processors;
         };
     } // namespace audio
 } // namespace ouzel
