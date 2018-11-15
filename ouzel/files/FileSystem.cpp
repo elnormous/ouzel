@@ -168,10 +168,7 @@ namespace ouzel
         CFStringRef identifier = CFBundleGetIdentifier(bundle);
 
         if (!identifier)
-        {
-            identifier = CFStringCreateWithFormat(nil, nil, CFSTR("%s.%s"), OUZEL_DEVELOPER_NAME, OUZEL_APPLICATION_NAME);
-            CFAutorelease(identifier);
-        }
+            identifier = CFSTR(OUZEL_DEVELOPER_NAME "." OUZEL_APPLICATION_NAME);
 
         id path = reinterpret_cast<id (*)(id, SEL, CFStringRef)>(&objc_msgSend)(applicationSupportDirectory, sel_getUid("URLByAppendingPathComponent:"), identifier);
         reinterpret_cast<void (*)(id, SEL, id, BOOL, id, id)>(&objc_msgSend)(fileManager, sel_getUid("createDirectoryAtURL:withIntermediateDirectories:attributes:error:"), path, YES, nil, nil);
