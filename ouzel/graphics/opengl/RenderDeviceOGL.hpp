@@ -445,7 +445,7 @@ namespace ouzel
                 }
             }
 
-            inline void setClearColorValue(std::array<GLfloat, 4> clearColorValue)
+            inline void setClearColorValue(const std::array<GLfloat, 4>& clearColorValue)
             {
                 if (stateCache.clearColor != clearColorValue)
                 {
