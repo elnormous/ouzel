@@ -209,23 +209,31 @@ namespace ouzel
                 throw FileError("Failed to get home directory");
             else
                 path = pwent.pw_dir;
+
+            path += DIRECTORY_SEPARATOR + ".local";
+
+            if (!directoryExists(path))
+                if (mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == -1)
+                    throw std::system_error(errno, std::system_category(), "Failed to create directory " + path);
+
+            path += DIRECTORY_SEPARATOR + "share";
+
+            if (!directoryExists(path))
+                if (mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == -1)
+                    throw std::system_error(errno, std::system_category(), "Failed to create directory " + path);
         }
 
-        path += DIRECTORY_SEPARATOR + "." + OUZEL_DEVELOPER_NAME;
+        path += DIRECTORY_SEPARATOR + OUZEL_DEVELOPER_NAME;
 
         if (!directoryExists(path))
-        {
             if (mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == -1)
                 throw std::system_error(errno, std::system_category(), "Failed to create directory " + path);
-        }
 
         path += DIRECTORY_SEPARATOR + OUZEL_APPLICATION_NAME;
 
         if (!directoryExists(path))
-        {
             if (mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == -1)
                 throw std::system_error(errno, std::system_category(), "Failed to create directory " + path);
-        }
 
         return path;
 #elif OUZEL_PLATFORM_ANDROID
