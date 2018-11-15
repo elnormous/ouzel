@@ -60,7 +60,7 @@ namespace ouzel
             throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
 
         std::vector<char> appFilename(bufferSize);
-        if (WideCharToMultiByte(CP_UTF8, 0, buffer, -1, appFilename.data(), bufferSize, nullptr, nullptr) == 0)
+        if (WideCharToMultiByte(CP_UTF8, 0, buffer.data(), -1, appFilename.data(), bufferSize, nullptr, nullptr) == 0)
             throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
 
         appPath = getDirectoryPart(appFilename.data());
