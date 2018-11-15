@@ -346,9 +346,6 @@
     <ClCompile Include="..\ouzel\audio\Listener.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\Mixer.cpp">
-      <Filter>ouzel\audio</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\audio\SoundOutput.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
@@ -463,6 +460,24 @@
     </ClCompile>
     <ClCompile Include="..\ouzel\graphics\direct3d11\DepthStencilStateResourceD3D11.cpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\audio\Delay.cpp">
+      <Filter>ouzel\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\audio\Filter.cpp">
+      <Filter>ouzel\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\audio\Gain.cpp">
+      <Filter>ouzel\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\audio\Panner.cpp">
+      <Filter>ouzel\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\audio\Pitch.cpp">
+      <Filter>ouzel\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\audio\Processor.cpp">
+      <Filter>ouzel\audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -832,9 +847,6 @@
     <ClInclude Include="..\ouzel\audio\Listener.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\Mixer.hpp">
-      <Filter>ouzel\audio</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\audio\SoundOutput.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
@@ -996,6 +1008,24 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\Driver.hpp">
       <Filter>ouzel\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\Delay.hpp">
+      <Filter>ouzel\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\Filter.hpp">
+      <Filter>ouzel\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\Gain.hpp">
+      <Filter>ouzel\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\Panner.hpp">
+      <Filter>ouzel\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\Pitch.hpp">
+      <Filter>ouzel\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\Processor.hpp">
+      <Filter>ouzel\audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
