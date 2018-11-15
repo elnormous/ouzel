@@ -43,15 +43,27 @@ namespace ouzel
         engine(initEngine)
     {
 #if OUZEL_PLATFORM_WINDOWS
-        WCHAR buffer[MAX_PATH];
-        if (!GetModuleFileNameW(GetModuleHandle(nullptr), buffer, MAX_PATH))
-            throw std::system_error(GetLastError(), std::system_category(), "Failed to get module filename");
+        std::vector<WCHAR> buffer(MAX_PATH);
+        for (;;)
+        {
+            if (!GetModuleFileNameW(GetModuleHandleW(nullptr), buffer.data(), static_cast<DWORD>(buffer.size())))
+                throw std::system_error(GetLastError(), std::system_category(), "Failed to get module filename");
 
-        char appFilename[1024];
-        if (WideCharToMultiByte(CP_UTF8, 0, buffer, -1, appFilename, sizeof(appFilename), nullptr, nullptr) == 0)
+            if (GetLastError() == ERROR_INSUFFICIENT_BUFFER)
+                buffer.resize(buffer.size() * 2);
+            else
+                break;
+        }
+
+        int bufferSize = WideCharToMultiByte(CP_UTF8, 0, buffer, -1, nullptr, 0, nullptr, nullptr);
+        if (bufferSize == 0)
             throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
 
-        appPath = getDirectoryPart(appFilename);
+        std::vector<char> appFilename(bufferSize);
+        if (WideCharToMultiByte(CP_UTF8, 0, buffer, -1, appFilename.data(), bufferSize, nullptr, nullptr) == 0)
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
+
+        appPath = getDirectoryPart(appFilename.data());
         engine.log(Log::Level::INFO) << "Application directory: " << appPath;
 
 #elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
