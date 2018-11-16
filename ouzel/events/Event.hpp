@@ -31,7 +31,6 @@ namespace ouzel
             KEYBOARD_DISCONNECT,
             KEY_PRESS,
             KEY_RELEASE,
-            KEY_REPEAT,
 
             // mouse events
             MOUSE_CONNECT,

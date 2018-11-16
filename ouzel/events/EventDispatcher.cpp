@@ -87,7 +87,6 @@ namespace ouzel
                     case Event::Type::KEYBOARD_DISCONNECT:
                     case Event::Type::KEY_PRESS:
                     case Event::Type::KEY_RELEASE:
-                    case Event::Type::KEY_REPEAT:
                         if (eventHandler->keyboardHandler)
                             handled = eventHandler->keyboardHandler(*static_cast<KeyboardEvent*>(event.get()));
                         break;

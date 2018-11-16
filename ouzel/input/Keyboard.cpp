@@ -29,11 +29,8 @@ namespace ouzel
                 event->type = Event::Type::KEY_PRESS;
                 return engine->getEventDispatcher().dispatchEvent(std::move(event));
             }
-            else
-            {
-                event->type = Event::Type::KEY_REPEAT;
-                return engine->getEventDispatcher().dispatchEvent(std::move(event));
-            }
+
+            return false;
         }
 
         bool Keyboard::handleKeyRelease(Keyboard::Key key)
