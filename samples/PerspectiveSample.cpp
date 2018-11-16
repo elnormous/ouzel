@@ -100,8 +100,7 @@ bool PerspectiveSample::handleUI(const ouzel::UIEvent& event)
 
 bool PerspectiveSample::handleKeyboard(const ouzel::KeyboardEvent& event)
 {
-    if (event.type == Event::Type::KEY_PRESS ||
-        event.type == Event::Type::KEY_REPEAT)
+    if (event.type == Event::Type::KEY_PRESS)
     {
         switch (event.key)
         {
