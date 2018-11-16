@@ -37,8 +37,6 @@ namespace ouzel
 
             inline AudioDevice* getDevice() const { return device.get(); }
 
-            void update();
-
             void addListener(Listener* listener);
             void removeListener(Listener* listener);
 
