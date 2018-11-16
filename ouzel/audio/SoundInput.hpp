@@ -20,7 +20,7 @@ namespace ouzel
             inline SoundOutput* getOutput() const { return output; }
             void setOutput(SoundOutput* newOutput);
 
-            virtual void addRenderCommands(std::vector<AudioDevice::RenderCommand>& renderCommands) = 0;
+            virtual void addRenderCommands(std::vector<AudioDevice::RenderCommand>& renderCommands) {}
 
         protected:
             SoundOutput* output = nullptr;

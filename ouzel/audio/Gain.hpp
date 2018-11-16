@@ -3,11 +3,14 @@
 #ifndef OUZEL_AUDIO_GAIN_HPP
 #define OUZEL_AUDIO_GAIN_HPP
 
+#include "audio/SoundInput.hpp"
+#include "audio/SoundOutput.hpp"
+
 namespace ouzel
 {
     namespace audio
     {
-        class Gain final
+        class Gain final: public SoundInput, public SoundOutput
         {
         public:
             float getGain() const { return gain; }
