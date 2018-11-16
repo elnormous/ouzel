@@ -47,17 +47,17 @@ namespace ouzel
 
             inline RenderDevice* getDevice() const { return device.get(); }
 
-            void setClearColorBuffer(bool clear);
             inline bool getClearColorBuffer() const { return clearColorBuffer; }
+            void setClearColorBuffer(bool clear);
 
-            void setClearDepthBuffer(bool clear);
             inline bool getClearDepthBuffer() const { return clearDepthBuffer; }
+            void setClearDepthBuffer(bool clear);
 
-            void setClearColor(Color color);
             inline Color getClearColor() const { return clearColor; }
+            void setClearColor(Color color);
 
-            void setClearDepth(float newClearDepth);
             inline float getClearDepth() const { return clearDepth; }
+            void setClearDepth(float newClearDepth);
 
             inline const Size2& getSize() const { return size; }
 

@@ -36,39 +36,39 @@ namespace ouzel
                                bool parentHidden);
             virtual void draw(Camera* camera, bool wireframe);
 
+            virtual const Vector3& getPosition() const { return position; }
             virtual void setPosition(const Vector2& newPosition);
             virtual void setPosition(const Vector3& newPosition);
-            virtual const Vector3& getPosition() const { return position; }
 
-            void setOrder(int32_t newOrder) { order = newOrder; }
             inline int32_t getOrder() const { return order; }
+            void setOrder(int32_t newOrder) { order = newOrder; }
 
+            virtual const Quaternion& getRotation() const { return rotation; }
             virtual void setRotation(const Quaternion& newRotation);
             virtual void setRotation(const Vector3& newRotation);
             virtual void setRotation(float newRotation);
-            virtual const Quaternion& getRotation() const { return rotation; }
 
+            virtual const Vector3& getScale() const { return scale; }
             virtual void setScale(const Vector2& newScale);
             virtual void setScale(const Vector3& newScale);
-            virtual const Vector3& getScale() const { return scale; }
 
-            virtual void setOpacity(float newOpacity);
             virtual float getOpacity() const { return opacity; }
+            virtual void setOpacity(float newOpacity);
 
-            virtual void setFlipX(bool newFlipX);
             virtual bool getFlipX() const { return flipX; }
+            virtual void setFlipX(bool newFlipX);
 
-            virtual void setFlipY(bool newFlipY);
             virtual bool getFlipY() const { return flipY; }
+            virtual void setFlipY(bool newFlipY);
 
-            virtual void setPickable(bool newPickable) { pickable = newPickable; }
             virtual bool isPickable() const { return pickable; }
+            virtual void setPickable(bool newPickable) { pickable = newPickable; }
 
             virtual bool isCullDisabled() const { return cullDisabled; }
             virtual void setCullDisabled(bool newCullDisabled) { cullDisabled = newCullDisabled; }
 
-            virtual void setHidden(bool newHidden);
             virtual bool isHidden() const { return hidden; }
+            virtual void setHidden(bool newHidden);
             bool isWorldHidden() const { return worldHidden; }
 
             virtual bool pointOn(const Vector2& worldPosition) const;

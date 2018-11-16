@@ -63,6 +63,31 @@ namespace ouzel
         }
     }
 
+    Vector3 Quaternion::getEulerAngles() const
+    {
+        Vector3 result;
+
+        result.x = atan2f(2.0F * (y * z + w * x), w * w - x * x - y * y + z * z);
+        result.y = asinf(-2.0F * (x * z - w * y));
+        result.z = atan2f(2.0F * (x * y + w * z), w * w + x * x - y * y - z * z);
+        return result;
+    }
+
+    float Quaternion::getEulerAngleX() const
+    {
+        return atan2f(2.0F * (y * z + w * x), w * w - x * x - y * y + z * z);
+    }
+
+    float Quaternion::getEulerAngleY() const
+    {
+        return asinf(-2.0F * (x * z - w * y));
+    }
+
+    float Quaternion::getEulerAngleZ() const
+    {
+        return atan2f(2.0F * (x * y + w * z), w * w + x * x - y * y - z * z);
+    }
+
     void Quaternion::setEulerAngles(const Vector3& angles)
     {
         float angle;
@@ -88,30 +113,5 @@ namespace ouzel
         y = cr * spcy + sr * cpsy;
         z = cr * cpsy - sr * spcy;
         w = cr * cpcy + sr * spsy;
-    }
-
-    Vector3 Quaternion::getEulerAngles() const
-    {
-        Vector3 result;
-
-        result.x = atan2f(2.0F * (y * z + w * x), w * w - x * x - y * y + z * z);
-        result.y = asinf(-2.0F * (x * z - w * y));
-        result.z = atan2f(2.0F * (x * y + w * z), w * w + x * x - y * y - z * z);
-        return result;
-    }
-
-    float Quaternion::getEulerAngleX() const
-    {
-        return atan2f(2.0F * (y * z + w * x), w * w - x * x - y * y + z * z);
-    }
-
-    float Quaternion::getEulerAngleY() const
-    {
-        return asinf(-2.0F * (x * z - w * y));
-    }
-
-    float Quaternion::getEulerAngleZ() const
-    {
-        return atan2f(2.0F * (x * y + w * z), w * w + x * x - y * y - z * z);
     }
 }

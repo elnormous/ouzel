@@ -10,6 +10,11 @@ namespace ouzel
         class Pitch final
         {
         public:
+            float getPitch() const { return pitch; }
+            void setPitch(float newPitch);
+
+        private:
+            float pitch = 1.0f;
         };
     } // namespace audio
 } // namespace ouzel
