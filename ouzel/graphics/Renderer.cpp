@@ -302,10 +302,10 @@ namespace ouzel
 
         void Renderer::present()
         {
+            refillQueue = false;
             addCommand(std::unique_ptr<Command>(new PresentCommand()));
             device->submitCommandBuffer(std::move(commandBuffer));
             commandBuffer = CommandBuffer();
-            refillQueue = false;
         }
 
         void Renderer::addCommand(std::unique_ptr<Command>&& command)
