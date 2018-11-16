@@ -53,8 +53,8 @@ namespace ouzel
                               const Matrix4& renderViewProjection,
                               bool wireframe);
 
-            virtual void setBoundingBox(const Box3& newBoundingBox) { boundingBox = newBoundingBox; }
             virtual const Box3& getBoundingBox() const { return boundingBox; }
+            virtual void setBoundingBox(const Box3& newBoundingBox) { boundingBox = newBoundingBox; }
 
             virtual bool pointOn(const Vector2& position) const;
             virtual bool shapeOverlaps(const std::vector<Vector2>& edges) const;

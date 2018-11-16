@@ -10,6 +10,11 @@ namespace ouzel
         class Gain final
         {
         public:
+            float getGain() const { return gain; }
+            void setGain(float newGain);
+
+        private:
+            float gain = 0.0f;
         };
     } // namespace audio
 } // namespace ouzel

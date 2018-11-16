@@ -45,8 +45,8 @@ namespace ouzel
             bool isRunning() const { return running; }
             bool isActive() const { return active; }
 
-            inline void setPositionType(ParticleSystemData::PositionType newPositionType) { particleSystemData.positionType = newPositionType; }
             inline ParticleSystemData::PositionType getPositionType() const { return particleSystemData.positionType; }
+            inline void setPositionType(ParticleSystemData::PositionType newPositionType) { particleSystemData.positionType = newPositionType; }
 
         private:
             void update(float delta);

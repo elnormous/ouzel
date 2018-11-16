@@ -183,11 +183,11 @@ namespace ouzel
         void rotate(float angle, Vector3 axis);
         void getRotation(float& angle, Vector3& axis);
 
-        void setEulerAngles(const Vector3& angles);
         Vector3 getEulerAngles() const;
         float getEulerAngleX() const;
         float getEulerAngleY() const;
         float getEulerAngleZ() const;
+        void setEulerAngles(const Vector3& angles);
 
         inline const Vector3 operator*(const Vector3& vector) const
         {
