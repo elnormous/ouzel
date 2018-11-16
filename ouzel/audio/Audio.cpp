@@ -111,16 +111,6 @@ namespace ouzel
                 listener->audio = nullptr;
         }
 
-        void Audio::update()
-        {
-            std::vector<AudioDevice::RenderCommand> renderCommands;
-
-            for (Listener* listener : listeners)
-                renderCommands.push_back(listener->getRenderCommand());
-
-            device->setRenderCommands(renderCommands);
-        }
-
         void Audio::addListener(Listener* listener)
         {
             if (listener->audio != this)

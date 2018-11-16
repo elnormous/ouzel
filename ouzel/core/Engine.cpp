@@ -640,8 +640,6 @@ namespace ouzel
         if (renderer->getRefillQueue())
             sceneManager.draw();
 
-        audio->update();
-
         if (oneUpdatePerFrame) renderer->waitForNextFrame();
     }
 
