@@ -301,7 +301,13 @@ static LRESULT CALLBACK windowProc(HWND window, UINT message, WPARAM wParam, LPA
             if (ouzel::engine)
             {
                 if (wParam)
+                {
                     ouzel::engine->resume();
+
+                    POINT cursorPos;
+                    GetCursorPos(&cursorPos);
+                    windowWin->handleMouseMove(cursorPos.x, cursorPos.y);
+                }
                 else
                     ouzel::engine->pause();
             }
@@ -677,6 +683,15 @@ namespace ouzel
             keyboardDevice->handleKeyPress(convertKeyCode(lParam, wParam));
         else if (message == WM_KEYUP || message == WM_SYSKEYUP)
             keyboardDevice->handleKeyRelease(convertKeyCode(lParam, wParam));
+    }
+
+    void NativeWindowWin::handleMouseMove(LONG x, LONG y)
+    {
+        input::InputSystemWin* inputSystemWin = static_cast<input::InputSystemWin*>(engine->getInputManager()->getInputSystem());
+        input::MouseDeviceWin* mouseDevice = inputSystemWin->getMouseDevice();
+
+        Vector2 position(static_cast<float>(x), static_cast<float>(y));
+        mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(position));
     }
 
     void NativeWindowWin::handleMouseMoveEvent(UINT, WPARAM, LPARAM lParam)
