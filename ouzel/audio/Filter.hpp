@@ -13,6 +13,13 @@ namespace ouzel
         class Filter final: public SoundInput, public SoundOutput
         {
         public:
+            Filter();
+
+            Filter(const Filter&) = delete;
+            Filter& operator=(const Filter&) = delete;
+
+            Filter(Filter&&) = delete;
+            Filter& operator=(Filter&&) = delete;
         };
     } // namespace audio
 } // namespace ouzel

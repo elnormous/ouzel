@@ -6,6 +6,10 @@ namespace ouzel
 {
     namespace audio
     {
+        Gain::Gain()
+        {
+        }
+
         void Gain::setGain(float newGain)
         {
             gain = newGain;

@@ -13,6 +13,13 @@ namespace ouzel
         class Panner final: public SoundInput, public SoundOutput
         {
         public:
+            Panner();
+
+            Panner(const Panner&) = delete;
+            Panner& operator=(const Panner&) = delete;
+
+            Panner(Panner&&) = delete;
+            Panner& operator=(Panner&&) = delete;
         };
     } // namespace audio
 } // namespace ouzel
