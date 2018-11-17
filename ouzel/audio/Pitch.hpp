@@ -13,6 +13,14 @@ namespace ouzel
         class Pitch final: public SoundInput, public SoundOutput
         {
         public:
+            Pitch();
+
+            Pitch(const Pitch&) = delete;
+            Pitch& operator=(const Pitch&) = delete;
+
+            Pitch(Pitch&&) = delete;
+            Pitch& operator=(Pitch&&) = delete;
+            
             float getPitch() const { return pitch; }
             void setPitch(float newPitch);
 

@@ -6,6 +6,10 @@ namespace ouzel
 {
     namespace audio
     {
+        Pitch::Pitch()
+        {
+        }
+
         void Pitch::setPitch(float newPitch)
         {
             pitch = newPitch;

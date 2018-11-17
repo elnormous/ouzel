@@ -6,5 +6,8 @@ namespace ouzel
 {
     namespace audio
     {
+        Filter::Filter()
+        {
+        }
     } // namespace audio
 } // namespace ouzel

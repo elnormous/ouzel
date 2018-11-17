@@ -6,5 +6,8 @@ namespace ouzel
 {
     namespace audio
     {
+        Panner::Panner()
+        {
+        }
     } // namespace audio
 } // namespace ouzel

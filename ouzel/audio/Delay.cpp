@@ -6,5 +6,13 @@ namespace ouzel
 {
     namespace audio
     {
+        Delay::Delay()
+        {
+        }
+
+        void Delay::setDelay(float newDelay)
+        {
+            delay = newDelay;
+        }
     } // namespace audio
 } // namespace ouzel
