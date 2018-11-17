@@ -45,22 +45,22 @@ namespace ouzel
                 RESOLUTION_CHANGE,
                 FULLSCREEN_CHANGE,
                 SCREEN_CHANGE,
+                FOCUS_CHANGE,
                 CLOSE
             };
 
             Event() {}
             explicit Event(Type initType): type(initType) {}
-            Event(Type initType, const Size2& initSize): type(initType), size(initSize) {}
-            Event(Type initType, bool initFullscreen): type(initType), fullscreen(initFullscreen) {}
-            Event(Type initType, uint32_t initDisplayId): type(initType), displayId(initDisplayId) {}
 
             Type type;
 
             union
             {
                 Size2 size;
+                Size2 resolution;
                 bool fullscreen;
                 uint32_t displayId;
+                bool focus;
             };
         };
 

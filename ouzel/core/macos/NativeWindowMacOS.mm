@@ -241,7 +241,9 @@ namespace ouzel
             [window setFrame:newFrame display:YES animate:NO];
             resolution = size * contentScale;
 
-            postEvent(Event(Event::Type::RESOLUTION_CHANGE, resolution));
+            Event resolutionChangeEvent(Event::Type::RESOLUTION_CHANGE);
+            resolutionChangeEvent.resolution = resolution;
+            postEvent(resolutionChangeEvent);
         }
     }
 
@@ -309,8 +311,13 @@ namespace ouzel
                      static_cast<float>(frame.size.height));
         resolution = size * contentScale;
 
-        postEvent(Event(Event::Type::SIZE_CHANGE, size));
-        postEvent(Event(Event::Type::RESOLUTION_CHANGE, resolution));
+        Event sizeChangeEvent(Event::Type::SIZE_CHANGE);
+        sizeChangeEvent.size = size;
+        postEvent(sizeChangeEvent);
+
+        Event resolutionChangeEvent(Event::Type::RESOLUTION_CHANGE);
+        resolutionChangeEvent.resolution = resolution;
+        postEvent(resolutionChangeEvent);
     }
 
     void NativeWindowMacOS::handleClose()
@@ -322,7 +329,9 @@ namespace ouzel
     {
         fullscreen = newFullscreen;
 
-        postEvent(Event(Event::Type::FULLSCREEN_CHANGE, fullscreen));
+        Event fullscreenChangeEvent(Event::Type::FULLSCREEN_CHANGE);
+        fullscreenChangeEvent.fullscreen = fullscreen;
+        postEvent(fullscreenChangeEvent);
     }
 
     void NativeWindowMacOS::handleScaleFactorChange()
@@ -332,7 +341,9 @@ namespace ouzel
             contentScale = static_cast<float>(window.backingScaleFactor);
             resolution = size * contentScale;
 
-            postEvent(Event(Event::Type::RESOLUTION_CHANGE, resolution));
+            Event resolutionChangeEvent(Event::Type::RESOLUTION_CHANGE);
+            resolutionChangeEvent.resolution = resolution;
+            postEvent(resolutionChangeEvent);
         }
     }
 
@@ -341,6 +352,8 @@ namespace ouzel
         screen = [window screen];
         displayId = [[[screen deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
 
-        postEvent(Event(Event::Type::SCREEN_CHANGE, displayId));
+        Event screenChangeEvent(Event::Type::SCREEN_CHANGE);
+        screenChangeEvent.displayId = displayId;
+        postEvent(screenChangeEvent);
     }
 }

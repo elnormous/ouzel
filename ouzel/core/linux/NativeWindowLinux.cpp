@@ -239,7 +239,9 @@ namespace ouzel
 
         resolution = size;
 
-        postEvent(Event(Event::Type::RESOLUTION_CHANGE, resolution));
+        Event resolutionChangeEvent(Event::Type::RESOLUTION_CHANGE);
+        resolutionChangeEvent.resolution = resolution;
+        postEvent(resolutionChangeEvent);
 #endif
     }
 
@@ -289,7 +291,12 @@ namespace ouzel
         size = newSize;
         resolution = size;
 
-        postEvent(Event(Event::Type::SIZE_CHANGE, size));
-        postEvent(Event(Event::Type::RESOLUTION_CHANGE, resolution));
+        Event sizeChangeEvent(Event::Type::SIZE_CHANGE);
+        sizeChangeEvent.size = size;
+        postEvent(sizeChangeEvent);
+
+        Event resolutionChangeEvent(Event::Type::RESOLUTION_CHANGE);
+        resolutionChangeEvent.resolution = resolution;
+        postEvent(resolutionChangeEvent);
     }
 }

@@ -297,30 +297,14 @@ static LRESULT CALLBACK windowProc(HWND window, UINT message, WPARAM wParam, LPA
     switch (message)
     {
         case WM_ACTIVATEAPP:
-        {
-            if (ouzel::engine)
-            {
-                if (wParam)
-                {
-                    ouzel::engine->resume();
-
-                    POINT cursorPos;
-                    GetCursorPos(&cursorPos);
-                    windowWin->handleMouseMove(cursorPos.x, cursorPos.y);
-                }
-                else
-                    ouzel::engine->pause();
-            }
+            window->handleActivateEvent(wParam);
             break;
-        }
         case WM_KEYDOWN:
         case WM_KEYUP:
         case WM_SYSKEYDOWN:
         case WM_SYSKEYUP:
-        {
             windowWin->handleKeyEvent(message, wParam, lParam);
             break;
-        }
         case WM_LBUTTONDOWN:
         case WM_LBUTTONUP:
         case WM_RBUTTONDOWN:
@@ -352,22 +336,18 @@ static LRESULT CALLBACK windowProc(HWND window, UINT message, WPARAM wParam, LPA
             // don't handle mouse event that came from touch
             if ((extraInfo & SIGNATURE_MASK) != MOUSEEVENTF_FROMTOUCH)
             {
-                windowWin->handleMouseMoveEvent(message, wParam, lParam);
+                windowWin->handleMouseMoveEvent(lParam);
                 return 0;
             }
             break;
         }
         case WM_MOUSEWHEEL:
         case WM_MOUSEHWHEEL:
-        {
             windowWin->handleMouseWheelEvent(message, wParam, lParam);
             return 0;
-        }
         case WM_TOUCH:
-        {
             windowWin->handleTouchEvent(wParam, lParam);
             return 0;
-        }
         case WM_SETCURSOR:
         {
             if (LOWORD(lParam) == HTCLIENT)
@@ -398,10 +378,8 @@ static LRESULT CALLBACK windowProc(HWND window, UINT message, WPARAM wParam, LPA
             return 0;
         }
         case WM_MOVE:
-        {
             windowWin->handleMove();
             break;
-        }
         case WM_ERASEBKGND:
         {
             // Erase background only for the Empty renderer
@@ -431,10 +409,8 @@ static LRESULT CALLBACK windowProc(HWND window, UINT message, WPARAM wParam, LPA
             break;
         }
         case WM_DESTROY:
-        {
             PostQuitMessage(0);
             return 0;
-        }
         case WM_USER:
         {
             ouzel::EngineWin* engineWin = static_cast<ouzel::EngineWin*>(ouzel::engine);
@@ -587,7 +563,9 @@ namespace ouzel
 
         resolution = size;
 
-        postEvent(Event(Event::Type::RESOLUTION_CHANGE, resolution));
+        Event resolutionChangeEvent(Event::Type::RESOLUTION_CHANGE);
+        resolutionChangeEvent.resolution = resolution;
+        postEvent(resolutionChangeEvent);
     }
 
     void NativeWindowWin::setTitle(const std::string& newTitle)
@@ -665,13 +643,37 @@ namespace ouzel
         size = newSize;
         resolution = size;
 
-        postEvent(Event(Event::Type::SIZE_CHANGE, size));
-        postEvent(Event(Event::Type::RESOLUTION_CHANGE, resolution));
+        Event sizeChangeEvent(Event::Type::SIZE_CHANGE);
+        sizeChangeEvent.size = size;
+        postEvent(sizeChangeEvent);
+
+        Event resolutionChangeEvent(Event::Type::RESOLUTION_CHANGE);
+        resolutionChangeEvent.resolution = resolution;
+        postEvent(resolutionChangeEvent);
     }
 
     void NativeWindowWin::handleMove()
     {
         monitor = MonitorFromWindow(window, MONITOR_DEFAULTTONEAREST);
+    }
+
+    void NativeWindowWin::handleActivateEvent(WPARAM wParam)
+    {
+        Event focusChangeEvent(Event::Type::FOCUS_CHANGE);
+        focusChangeEvent.focus = wParam != 0;
+        postEvent(focusChangeEvent);
+
+        if (wParam)
+        {
+                input::InputSystemWin* inputSystemWin = static_cast<input::InputSystemWin*>(engine->getInputManager()->getInputSystem());
+                input::MouseDeviceWin* mouseDevice = inputSystemWin->getMouseDevice();
+
+                POINT cursorPos;
+                GetCursorPos(&cursorPos);
+                Vector2 position(static_cast<float>(cursorPos.x),
+                                static_cast<float>(cursorPos.y));
+                mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(position));
+        }
     }
 
     void NativeWindowWin::handleKeyEvent(UINT message, WPARAM wParam, LPARAM lParam)
@@ -685,16 +687,7 @@ namespace ouzel
             keyboardDevice->handleKeyRelease(convertKeyCode(lParam, wParam));
     }
 
-    void NativeWindowWin::handleMouseMove(LONG x, LONG y)
-    {
-        input::InputSystemWin* inputSystemWin = static_cast<input::InputSystemWin*>(engine->getInputManager()->getInputSystem());
-        input::MouseDeviceWin* mouseDevice = inputSystemWin->getMouseDevice();
-
-        Vector2 position(static_cast<float>(x), static_cast<float>(y));
-        mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(position));
-    }
-
-    void NativeWindowWin::handleMouseMoveEvent(UINT, WPARAM, LPARAM lParam)
+    void NativeWindowWin::handleMouseMoveEvent(LPARAM lParam)
     {
         input::InputSystemWin* inputSystemWin = static_cast<input::InputSystemWin*>(engine->getInputManager()->getInputSystem());
         input::MouseDeviceWin* mouseDevice = inputSystemWin->getMouseDevice();

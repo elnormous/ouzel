@@ -125,7 +125,7 @@ namespace ouzel
             }
             case NativeWindow::Event::Type::RESOLUTION_CHANGE:
             {
-                resolution = event.size;
+                resolution = event.resolution;
 
                 engine->getRenderer()->setSize(resolution);
 
@@ -157,6 +157,14 @@ namespace ouzel
                 screenChangeEvent->window = this;
                 screenChangeEvent->screenId = event.displayId;
                 engine->getEventDispatcher().dispatchEvent(std::move(screenChangeEvent));
+                break;
+            }
+            case NativeWindow::Event::Type::FOCUS_CHANGE:
+            {
+                if (event.focus)
+                    engine->resume();
+                else
+                    engine->pause();
                 break;
             }
             case NativeWindow::Event::Type::CLOSE:
