@@ -42,7 +42,7 @@ namespace ouzel
 {
     namespace input
     {
-        InputSystemTVOS::InputSystemTVOS(const std::function<bool(const Event&)>& initCallback):
+        InputSystemTVOS::InputSystemTVOS(const std::function<std::future<bool>(const Event&)>& initCallback):
             InputSystem(initCallback),
             keyboardDevice(new KeyboardDevice(*this, ++lastDeviceId))
         {

@@ -11,7 +11,7 @@ namespace ouzel
 {
     namespace input
     {
-        InputSystemAndroid::InputSystemAndroid(const std::function<bool(const Event&)>& initCallback):
+        InputSystemAndroid::InputSystemAndroid(const std::function<std::future<bool>(const Event&)>& initCallback):
             InputSystem(initCallback),
             keyboardDevice(new KeyboardDevice(*this, ++lastDeviceId)),
             mouseDevice(new MouseDevice(*this, ++lastDeviceId)),

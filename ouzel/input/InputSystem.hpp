@@ -5,7 +5,6 @@
 
 #include <cstdint>
 #include <future>
-#include <mutex>
 #include <queue>
 #include <unordered_map>
 #include <vector>
@@ -120,13 +119,11 @@ namespace ouzel
                 float force = 1.0F;
             };
 
-            explicit InputSystem(const std::function<bool(const Event&)>& initCallback);
+            explicit InputSystem(const std::function<std::future<bool>(const Event&)>& initCallback);
             virtual ~InputSystem() {}
 
             void addCommand(const Command& command);
             virtual void executeCommand(const Command&) {}
-
-            void dispatchEvents();
 
             uintptr_t getResourceId()
             {
@@ -152,9 +149,7 @@ namespace ouzel
             InputDevice* getInputDevice(uint32_t id);
 
         private:
-            std::function<bool(const Event&)> callback;
-            std::mutex eventQueueMutex;
-            std::queue<std::pair<std::promise<bool>, Event>> eventQueue;
+            std::function<std::future<bool>(const Event&)> callback;
             std::unordered_map<uint32_t, InputDevice*> inputDevices;
 
             uintptr_t lastResourceId = 0;

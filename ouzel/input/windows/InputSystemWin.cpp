@@ -24,7 +24,7 @@ namespace ouzel
 {
     namespace input
     {
-        InputSystemWin::InputSystemWin(const std::function<bool(const Event&)>& initCallback):
+        InputSystemWin::InputSystemWin(const std::function<std::future<bool>(const Event&)>& initCallback):
             InputSystem(initCallback),
             keyboardDevice(new KeyboardDeviceWin(*this, ++lastDeviceId)),
             mouseDevice(new MouseDeviceWin(*this, ++lastDeviceId)),

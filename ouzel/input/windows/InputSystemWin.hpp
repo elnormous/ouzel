@@ -23,7 +23,7 @@ namespace ouzel
         class InputSystemWin final: public InputSystem
         {
         public:
-            explicit InputSystemWin(const std::function<bool(const Event&)>& initCallback);
+            explicit InputSystemWin(const std::function<std::future<bool>(const Event&)>& initCallback);
             ~InputSystemWin();
 
             void executeCommand(const Command& command) override;

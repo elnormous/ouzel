@@ -33,29 +33,52 @@ namespace ouzel
     {
         InputManager::InputManager():
 #if OUZEL_PLATFORM_MACOS
-            inputSystem(new InputSystemMacOS(std::bind(&InputManager::handleEvent, this, std::placeholders::_1)))
+            inputSystem(new InputSystemMacOS(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
 #elif OUZEL_PLATFORM_IOS
-            inputSystem(new InputSystemIOS(std::bind(&InputManager::handleEvent, this, std::placeholders::_1)))
+            inputSystem(new InputSystemIOS(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
 #elif OUZEL_PLATFORM_TVOS
-            inputSystem(new InputSystemTVOS(std::bind(&InputManager::handleEvent, this, std::placeholders::_1)))
+            inputSystem(new InputSystemTVOS(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
 #elif OUZEL_PLATFORM_ANDROID
-            inputSystem(new InputSystemAndroid(std::bind(&InputManager::handleEvent, this, std::placeholders::_1)))
+            inputSystem(new InputSystemAndroid(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
 #elif OUZEL_PLATFORM_LINUX
-            inputSystem(new InputSystemLinux(std::bind(&InputManager::handleEvent, this, std::placeholders::_1)))
+            inputSystem(new InputSystemLinux(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
 #elif OUZEL_PLATFORM_WINDOWS
-            inputSystem(new InputSystemWin(std::bind(&InputManager::handleEvent, this, std::placeholders::_1)))
+            inputSystem(new InputSystemWin(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
 #elif OUZEL_PLATFORM_EMSCRIPTEN
-            inputSystem(new InputSystemEm(std::bind(&InputManager::handleEvent, this, std::placeholders::_1)))
+            inputSystem(new InputSystemEm(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
 #else
-            inputSystem(new InputSystem(std::bind(&InputManager::handleEvent, this, std::placeholders::_1)))
+            inputSystem(new InputSystem(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
 #endif
         {
         }
 
         void InputManager::update()
         {
-            inputSystem->dispatchEvents();
+            for (;;)
+            {
+                std::pair<std::promise<bool>, InputSystem::Event> p;
+                {
+                    std::unique_lock<std::mutex> lock(eventQueueMutex);
+                    if (eventQueue.empty()) break;
+
+                    p = std::move(eventQueue.front());
+                    eventQueue.pop();
+                }
+
+                p.first.set_value(handleEvent(p.second));
+            }
         }
+
+        std::future<bool> InputManager::eventCallback(const InputSystem::Event& event)
+        {
+            std::pair<std::promise<bool>, InputSystem::Event> p(std::promise<bool>(), event);
+            std::future<bool> f = p.first.get_future();
+
+            std::unique_lock<std::mutex> lock(eventQueueMutex);
+            eventQueue.push(std::move(p));
+
+            return f;
+        };
 
         bool InputManager::handleEvent(const InputSystem::Event& event)
         {

@@ -59,6 +59,7 @@ namespace ouzel
         }
 
     private:
+        void eventCallback(const NativeWindow::Event& event);
         void handleEvent(const NativeWindow::Event& event);
 
         std::unique_ptr<NativeWindow> nativeWindow;
@@ -72,6 +73,9 @@ namespace ouzel
         uint32_t displayId = 0;
 
         std::string title;
+
+        std::mutex eventQueueMutex;
+        std::queue<NativeWindow::Event> eventQueue;
     };
 }
 

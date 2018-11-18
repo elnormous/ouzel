@@ -19,7 +19,7 @@ namespace ouzel
         class InputSystemEm final: public InputSystem
         {
         public:
-            InputSystemEm(const std::function<bool(const Event&)>& initCallback);
+            InputSystemEm(const std::function<std::future<bool>(const Event&)>& initCallback);
             ~InputSystemEm() {}
 
             void executeCommand(const Command& command) override;

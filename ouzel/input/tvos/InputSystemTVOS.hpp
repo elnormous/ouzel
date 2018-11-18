@@ -25,7 +25,7 @@ namespace ouzel
         class InputSystemTVOS final: public InputSystem
         {
         public:
-            explicit InputSystemTVOS(const std::function<bool(const Event&)>& initCallback);
+            explicit InputSystemTVOS(const std::function<std::future<bool>(const Event&)>& initCallback);
             ~InputSystemTVOS();
 
             void executeCommand(const Command& command) override;

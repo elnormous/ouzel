@@ -41,25 +41,8 @@ namespace ouzel
         title = newTitle;
     }
 
-    void NativeWindow::dispatchEvents()
-    {
-        for (;;)
-        {
-            Event event;
-            {
-                std::unique_lock<std::mutex> lock(eventQueueMutex);
-                if (eventQueue.empty()) break;
-                event = eventQueue.front();
-                eventQueue.pop();
-            }
-
-            callback(event);
-        }
-    }
-
     void NativeWindow::postEvent(const Event& event)
     {
-        std::unique_lock<std::mutex> lock(eventQueueMutex);
-        eventQueue.push(event);
+        callback(event);
     }
 }

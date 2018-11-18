@@ -21,7 +21,7 @@ namespace ouzel
 {
     namespace input
     {
-        InputSystemLinux::InputSystemLinux(const std::function<bool(const Event&)>& initCallback):
+        InputSystemLinux::InputSystemLinux(const std::function<std::future<bool>(const Event&)>& initCallback):
 #if OUZEL_SUPPORTS_X11
             InputSystem(initCallback),
             keyboardDevice(new KeyboardDeviceLinux(*this, ++lastDeviceId)),
