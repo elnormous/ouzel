@@ -125,9 +125,9 @@ namespace ouzel
 
         [window setCollectionBehavior:exclusiveFullscreen ? NSWindowCollectionBehaviorFullScreenAuxiliary : NSWindowCollectionBehaviorFullScreenPrimary];
 
-        if (exclusiveFullscreen)
+        if (fullscreen)
         {
-            if (fullscreen)
+            if (exclusiveFullscreen)
             {
                 if (CGDisplayCapture(displayId) != kCGErrorSuccess)
                     throw SystemError("Failed to capture the main display");
@@ -141,10 +141,7 @@ namespace ouzel
                 CGWindowLevel windowLevel = CGShieldingWindowLevel();
                 [window setLevel:windowLevel];
             }
-        }
-        else
-        {
-            if (fullscreen)
+            else
                 [window toggleFullScreen:nil];
         }
 
