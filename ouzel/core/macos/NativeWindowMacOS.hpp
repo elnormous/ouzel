@@ -50,6 +50,8 @@ namespace ouzel
         void handleFullscreenChange(bool newFullscreen);
         void handleScaleFactorChange();
         void handleScreenChange();
+        void handleBecomeKeyChange();
+        void handleResignKeyChange();
 
         inline NSWindowPtr getNativeWindow() const { return window; }
         inline NSViewPtr getNativeView() const { return view; }

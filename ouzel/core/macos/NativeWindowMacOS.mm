@@ -54,6 +54,16 @@
     window->handleScreenChange();
 }
 
+-(void)windowDidBecomeKey:(__unused NSNotification*)notification
+{
+    window->handleBecomeKeyChange();
+}
+
+-(void)windowDidResignKey:(__unused NSNotification*)notification
+{
+    window->handleResignKeyChange();
+}
+
 @end
 
 namespace ouzel
@@ -355,5 +365,19 @@ namespace ouzel
         Event screenChangeEvent(Event::Type::SCREEN_CHANGE);
         screenChangeEvent.displayId = displayId;
         postEvent(screenChangeEvent);
+    }
+
+    void NativeWindowMacOS::handleBecomeKeyChange()
+    {
+        Event focusChangeEvent(Event::Type::FOCUS_CHANGE);
+        focusChangeEvent.focus = true;
+        postEvent(focusChangeEvent);
+    }
+
+    void NativeWindowMacOS::handleResignKeyChange()
+    {
+        Event focusChangeEvent(Event::Type::FOCUS_CHANGE);
+        focusChangeEvent.focus = false;
+        postEvent(focusChangeEvent);
     }
 }

@@ -46,12 +46,12 @@
 
 -(void)applicationDidBecomeActive:(__unused NSNotification*)notification
 {
-    ouzel::engine->resume();
+    //ouzel::engine->resume();
 }
 
 -(void)applicationDidResignActive:(__unused NSNotification*)notification
 {
-    ouzel::engine->pause();
+    //ouzel::engine->pause();
 }
 
 -(void)handleQuit:(__unused id)sender
