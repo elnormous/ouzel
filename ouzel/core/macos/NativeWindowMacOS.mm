@@ -253,7 +253,7 @@ namespace ouzel
 
             Event resolutionChangeEvent(Event::Type::RESOLUTION_CHANGE);
             resolutionChangeEvent.resolution = resolution;
-            postEvent(resolutionChangeEvent);
+            sendEvent(resolutionChangeEvent);
         }
     }
 
@@ -323,16 +323,16 @@ namespace ouzel
 
         Event sizeChangeEvent(Event::Type::SIZE_CHANGE);
         sizeChangeEvent.size = size;
-        postEvent(sizeChangeEvent);
+        sendEvent(sizeChangeEvent);
 
         Event resolutionChangeEvent(Event::Type::RESOLUTION_CHANGE);
         resolutionChangeEvent.resolution = resolution;
-        postEvent(resolutionChangeEvent);
+        sendEvent(resolutionChangeEvent);
     }
 
     void NativeWindowMacOS::handleClose()
     {
-        postEvent(Event(Event::Type::CLOSE));
+        sendEvent(Event(Event::Type::CLOSE));
     }
 
     void NativeWindowMacOS::handleFullscreenChange(bool newFullscreen)
@@ -341,7 +341,7 @@ namespace ouzel
 
         Event fullscreenChangeEvent(Event::Type::FULLSCREEN_CHANGE);
         fullscreenChangeEvent.fullscreen = fullscreen;
-        postEvent(fullscreenChangeEvent);
+        sendEvent(fullscreenChangeEvent);
     }
 
     void NativeWindowMacOS::handleScaleFactorChange()
@@ -353,7 +353,7 @@ namespace ouzel
 
             Event resolutionChangeEvent(Event::Type::RESOLUTION_CHANGE);
             resolutionChangeEvent.resolution = resolution;
-            postEvent(resolutionChangeEvent);
+            sendEvent(resolutionChangeEvent);
         }
     }
 
@@ -364,20 +364,20 @@ namespace ouzel
 
         Event screenChangeEvent(Event::Type::SCREEN_CHANGE);
         screenChangeEvent.displayId = displayId;
-        postEvent(screenChangeEvent);
+        sendEvent(screenChangeEvent);
     }
 
     void NativeWindowMacOS::handleBecomeKeyChange()
     {
         Event focusChangeEvent(Event::Type::FOCUS_CHANGE);
         focusChangeEvent.focus = true;
-        postEvent(focusChangeEvent);
+        sendEvent(focusChangeEvent);
     }
 
     void NativeWindowMacOS::handleResignKeyChange()
     {
         Event focusChangeEvent(Event::Type::FOCUS_CHANGE);
         focusChangeEvent.focus = false;
-        postEvent(focusChangeEvent);
+        sendEvent(focusChangeEvent);
     }
 }

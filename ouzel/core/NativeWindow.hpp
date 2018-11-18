@@ -97,7 +97,7 @@ namespace ouzel
         virtual void setTitle(const std::string& newTitle);
 
     protected:
-        void postEvent(const Event& event);
+        void sendEvent(const Event& event);
 
         Size2 size;
         Size2 resolution;

@@ -18,7 +18,7 @@ namespace ouzel
             engine->executeOnMainThread(std::bind(&InputSystem::executeCommand, this, command));
         }
 
-        std::future<bool> InputSystem::postEvent(const Event& event)
+        std::future<bool> InputSystem::sendEvent(const Event& event)
         {
             return callback(event);
         }
@@ -30,7 +30,7 @@ namespace ouzel
             deviceConnectEvent.deviceId = inputDevice.getId();
             deviceConnectEvent.deviceType = inputDevice.getType();
             inputDevices.insert(std::make_pair(inputDevice.getId(), &inputDevice));
-            postEvent(deviceConnectEvent);
+            sendEvent(deviceConnectEvent);
         }
 
         void InputSystem::removeInputDevice(const InputDevice& inputDevice)
@@ -43,7 +43,7 @@ namespace ouzel
                 deviceDisconnectEvent.type = Event::Type::DEVICE_DISCONNECT;
                 deviceDisconnectEvent.deviceId = inputDevice.getId();
                 deviceDisconnectEvent.deviceType = inputDevice.getType();
-                postEvent(deviceDisconnectEvent);
+                sendEvent(deviceDisconnectEvent);
                 inputDevices.erase(i);
             }
         }

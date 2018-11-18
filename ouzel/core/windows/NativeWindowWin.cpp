@@ -565,7 +565,7 @@ namespace ouzel
 
         Event resolutionChangeEvent(Event::Type::RESOLUTION_CHANGE);
         resolutionChangeEvent.resolution = resolution;
-        postEvent(resolutionChangeEvent);
+        sendEvent(resolutionChangeEvent);
     }
 
     void NativeWindowWin::setTitle(const std::string& newTitle)
@@ -645,11 +645,11 @@ namespace ouzel
 
         Event sizeChangeEvent(Event::Type::SIZE_CHANGE);
         sizeChangeEvent.size = size;
-        postEvent(sizeChangeEvent);
+        sendEvent(sizeChangeEvent);
 
         Event resolutionChangeEvent(Event::Type::RESOLUTION_CHANGE);
         resolutionChangeEvent.resolution = resolution;
-        postEvent(resolutionChangeEvent);
+        sendEvent(resolutionChangeEvent);
     }
 
     void NativeWindowWin::handleMove()
@@ -661,7 +661,7 @@ namespace ouzel
     {
         Event focusChangeEvent(Event::Type::FOCUS_CHANGE);
         focusChangeEvent.focus = wParam != 0;
-        postEvent(focusChangeEvent);
+        sendEvent(focusChangeEvent);
 
         if (wParam)
         {
@@ -680,14 +680,14 @@ namespace ouzel
     {
         Event focusChangeEvent(Event::Type::FOCUS_CHANGE);
         focusChangeEvent.focus = false;
-        postEvent(focusChangeEvent);
+        sendEvent(focusChangeEvent);
     }
 
     void NativeWindowWin::handleRestoreEvent()
     {
         Event focusChangeEvent(Event::Type::FOCUS_CHANGE);
         focusChangeEvent.focus = true;
-        postEvent(focusChangeEvent);
+        sendEvent(focusChangeEvent);
 
         input::InputSystemWin* inputSystemWin = static_cast<input::InputSystemWin*>(engine->getInputManager()->getInputSystem());
         input::MouseDeviceWin* mouseDevice = inputSystemWin->getMouseDevice();
