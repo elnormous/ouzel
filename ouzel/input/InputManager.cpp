@@ -82,8 +82,6 @@ namespace ouzel
 
         bool InputManager::handleEvent(const InputSystem::Event& event)
         {
-            bool handled = false;
-
             switch (event.type)
             {
                 case InputSystem::Event::Type::DEVICE_CONNECT:
@@ -98,8 +96,7 @@ namespace ouzel
                             connectEvent->gamepad = gamepadController.get();
                             controllers.push_back(gamepadController.get());
                             controllerMap.insert(std::make_pair(event.deviceId, std::move(gamepadController)));
-                            handled = engine->getEventDispatcher().dispatchEvent(std::move(connectEvent));
-                            break;
+                            return engine->getEventDispatcher().dispatchEvent(std::move(connectEvent));
                         }
                         case Controller::Type::KEYBOARD:
                         {
@@ -110,8 +107,7 @@ namespace ouzel
                             connectEvent->keyboard = keyboardController.get();
                             controllers.push_back(keyboardController.get());
                             controllerMap.insert(std::make_pair(event.deviceId, std::move(keyboardController)));
-                            handled = engine->getEventDispatcher().dispatchEvent(std::move(connectEvent));
-                            break;
+                            return engine->getEventDispatcher().dispatchEvent(std::move(connectEvent));
                         }
                         case Controller::Type::MOUSE:
                         {
@@ -122,8 +118,7 @@ namespace ouzel
                             if (!mouse) mouse = mouseController.get();
                             controllers.push_back(mouseController.get());
                             controllerMap.insert(std::make_pair(event.deviceId, std::move(mouseController)));
-                            handled = engine->getEventDispatcher().dispatchEvent(std::move(connectEvent));
-                            break;
+                            return engine->getEventDispatcher().dispatchEvent(std::move(connectEvent));
                         }
                         case Controller::Type::TOUCHPAD:
                         {
@@ -134,14 +129,15 @@ namespace ouzel
                             if (!touchpad) touchpad = touchpadController.get();
                             controllers.push_back(touchpadController.get());
                             controllerMap.insert(std::make_pair(event.deviceId, std::move(touchpadController)));
-                            handled = engine->getEventDispatcher().dispatchEvent(std::move(connectEvent));
-                            break;
+                            return engine->getEventDispatcher().dispatchEvent(std::move(connectEvent));
                         }
                     }
                     break;
                 }
                 case InputSystem::Event::Type::DEVICE_DISCONNECT:
                 {
+                    bool handled = false;
+
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
                     {
@@ -200,12 +196,12 @@ namespace ouzel
                         controllerMap.erase(i);
                     }
 
-                    break;
+                    return handled;
                 }
                 case InputSystem::Event::Type::DEVICE_DISCOVERY_COMPLETE:
                 {
                     discovering = false;
-                    break;
+                    return true;
                 }
                 case InputSystem::Event::Type::GAMEPAD_BUTTON_CHANGE:
                 {
@@ -213,7 +209,7 @@ namespace ouzel
                     if (i != controllerMap.end())
                     {
                         Gamepad* gamepad = static_cast<Gamepad*>(i->second.get());
-                        handled = gamepad->handleButtonValueChange(event.gamepadButton, event.pressed, event.value);
+                        return gamepad->handleButtonValueChange(event.gamepadButton, event.pressed, event.value);
                     }
                     break;
                 }
@@ -223,7 +219,7 @@ namespace ouzel
                     if (i != controllerMap.end())
                     {
                         Keyboard* keyboardController = static_cast<Keyboard*>(i->second.get());
-                        handled = keyboardController->handleKeyPress(event.keyboardKey);
+                        return keyboardController->handleKeyPress(event.keyboardKey);
                     }
                     break;
                 }
@@ -233,7 +229,7 @@ namespace ouzel
                     if (i != controllerMap.end())
                     {
                         Keyboard* keyboardController = static_cast<Keyboard*>(i->second.get());
-                        handled = keyboardController->handleKeyRelease(event.keyboardKey);
+                        return keyboardController->handleKeyRelease(event.keyboardKey);
                     }
                     break;
                 }
@@ -243,7 +239,7 @@ namespace ouzel
                     if (i != controllerMap.end())
                     {
                         Mouse* mouseController = static_cast<Mouse*>(i->second.get());
-                        handled = mouseController->handleButtonPress(event.mouseButton, event.position);
+                        return mouseController->handleButtonPress(event.mouseButton, event.position);
                     }
                     break;
                 }
@@ -253,7 +249,7 @@ namespace ouzel
                     if (i != controllerMap.end())
                     {
                         Mouse* mouseController = static_cast<Mouse*>(i->second.get());
-                        handled = mouseController->handleButtonRelease(event.mouseButton, event.position);
+                        return mouseController->handleButtonRelease(event.mouseButton, event.position);
                     }
                     break;
                 }
@@ -263,7 +259,7 @@ namespace ouzel
                     if (i != controllerMap.end())
                     {
                         Mouse* mouseController = static_cast<Mouse*>(i->second.get());
-                        handled = mouseController->handleScroll(event.scroll, event.position);
+                        return mouseController->handleScroll(event.scroll, event.position);
                     }
                     break;
                 }
@@ -273,7 +269,7 @@ namespace ouzel
                     if (i != controllerMap.end())
                     {
                         Mouse* mouseController = static_cast<Mouse*>(i->second.get());
-                        handled = mouseController->handleMove(event.position);
+                        return mouseController->handleMove(event.position);
                     }
                     break;
                 }
@@ -283,7 +279,7 @@ namespace ouzel
                     if (i != controllerMap.end())
                     {
                         Mouse* mouseController = static_cast<Mouse*>(i->second.get());
-                        handled = mouseController->handleRelativeMove(event.position);
+                        return mouseController->handleRelativeMove(event.position);
                     }
                     break;
                 }
@@ -293,7 +289,7 @@ namespace ouzel
                     if (i != controllerMap.end())
                     {
                         Mouse* mouseController = static_cast<Mouse*>(i->second.get());
-                        handled = mouseController->handleCursorLockChange(event.locked);
+                        return mouseController->handleCursorLockChange(event.locked);
                     }
                     break;
                 }
@@ -303,7 +299,7 @@ namespace ouzel
                     if (i != controllerMap.end())
                     {
                         Touchpad* touchpadController = static_cast<Touchpad*>(i->second.get());
-                        handled = touchpadController->handleTouchBegin(event.touchId, event.position);
+                        return touchpadController->handleTouchBegin(event.touchId, event.position);
                     }
                     break;
                 }
@@ -313,7 +309,7 @@ namespace ouzel
                     if (i != controllerMap.end())
                     {
                         Touchpad* touchpadController = static_cast<Touchpad*>(i->second.get());
-                        handled = touchpadController->handleTouchMove(event.touchId, event.position);
+                        return touchpadController->handleTouchMove(event.touchId, event.position);
                     }
                     break;
                 }
@@ -323,7 +319,7 @@ namespace ouzel
                     if (i != controllerMap.end())
                     {
                         Touchpad* touchpadController = static_cast<Touchpad*>(i->second.get());
-                        handled = touchpadController->handleTouchEnd(event.touchId, event.position);
+                        return touchpadController->handleTouchEnd(event.touchId, event.position);
                     }
                     break;
                 }
@@ -333,7 +329,7 @@ namespace ouzel
                     if (i != controllerMap.end())
                     {
                         Touchpad* touchpadController = static_cast<Touchpad*>(i->second.get());
-                        handled = touchpadController->handleTouchCancel(event.touchId, event.position);
+                        return touchpadController->handleTouchCancel(event.touchId, event.position);
                     }
                     break;
                 }
@@ -342,7 +338,7 @@ namespace ouzel
                     break;
             }
 
-            return handled;
+            return false;
         }
 
         void InputManager::startDeviceDiscovery()

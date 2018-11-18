@@ -261,9 +261,7 @@ namespace ouzel
         {
             engine->log(Log::Level::INFO) << "Gamepad discovery completed";
 
-            Event event;
-            event.type = Event::Type::DEVICE_DISCOVERY_COMPLETE;
-            postEvent(event);
+            postEvent(Event(Event::Type::DEVICE_DISCOVERY_COMPLETE));
         }
 
         void InputSystemMacOS::handleGamepadConnected(GCControllerPtr controller)

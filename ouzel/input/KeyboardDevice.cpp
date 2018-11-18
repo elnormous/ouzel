@@ -9,8 +9,7 @@ namespace ouzel
     {
         std::future<bool> KeyboardDevice::handleKeyPress(Keyboard::Key key)
         {
-            InputSystem::Event event;
-            event.type = InputSystem::Event::Type::KEY_PRESS;
+            InputSystem::Event event(InputSystem::Event::Type::KEY_PRESS);
             event.deviceId = id;
             event.keyboardKey = key;
             return inputSystem.postEvent(event);
@@ -18,8 +17,7 @@ namespace ouzel
 
         std::future<bool> KeyboardDevice::handleKeyRelease(Keyboard::Key key)
         {
-            InputSystem::Event event;
-            event.type = InputSystem::Event::Type::KEY_RELEASE;
+            InputSystem::Event event(InputSystem::Event::Type::KEY_RELEASE);
             event.deviceId = id;
             event.keyboardKey = key;
             return inputSystem.postEvent(event);

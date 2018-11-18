@@ -72,8 +72,9 @@ namespace ouzel
                 Vector2 hotSpot;
             };
 
-            struct Event final
+            class Event final
             {
+            public:
                 enum class Type
                 {
                     DEVICE_CONNECT,
@@ -97,6 +98,9 @@ namespace ouzel
                     TOUCH_END,
                     TOUCH_CANCEL
                 };
+
+                Event() {}
+                explicit Event(Type initType): type(initType) {}
 
                 Type type;
                 Controller::Type deviceType;

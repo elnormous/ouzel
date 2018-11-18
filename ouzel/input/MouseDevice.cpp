@@ -9,8 +9,7 @@ namespace ouzel
     {
         std::future<bool> MouseDevice::handleButtonPress(Mouse::Button button, const Vector2& position)
         {
-            InputSystem::Event event;
-            event.type = InputSystem::Event::Type::MOUSE_PRESS;
+            InputSystem::Event event(InputSystem::Event::Type::MOUSE_PRESS);
             event.deviceId = id;
             event.mouseButton = button;
             event.position = position;
@@ -19,8 +18,7 @@ namespace ouzel
 
         std::future<bool> MouseDevice::handleButtonRelease(Mouse::Button button, const Vector2& position)
         {
-            InputSystem::Event event;
-            event.type = InputSystem::Event::Type::MOUSE_RELEASE;
+            InputSystem::Event event(InputSystem::Event::Type::MOUSE_RELEASE);
             event.deviceId = id;
             event.mouseButton = button;
             event.position = position;
@@ -29,8 +27,7 @@ namespace ouzel
 
         std::future<bool> MouseDevice::handleMove(const Vector2& position)
         {
-            InputSystem::Event event;
-            event.type = InputSystem::Event::Type::MOUSE_MOVE;
+            InputSystem::Event event(InputSystem::Event::Type::MOUSE_MOVE);
             event.deviceId = id;
             event.position = position;
             return inputSystem.postEvent(event);
@@ -38,8 +35,7 @@ namespace ouzel
 
         std::future<bool> MouseDevice::handleRelativeMove(const Vector2& position)
         {
-            InputSystem::Event event;
-            event.type = InputSystem::Event::Type::MOUSE_RELATIVE_MOVE;
+            InputSystem::Event event(InputSystem::Event::Type::MOUSE_RELATIVE_MOVE);
             event.deviceId = id;
             event.position = position;
             return inputSystem.postEvent(event);
@@ -47,8 +43,7 @@ namespace ouzel
 
         std::future<bool> MouseDevice::handleScroll(const Vector2& scroll, const Vector2& position)
         {
-            InputSystem::Event event;
-            event.type = InputSystem::Event::Type::MOUSE_SCROLL;
+            InputSystem::Event event(InputSystem::Event::Type::MOUSE_SCROLL);
             event.deviceId = id;
             event.position = position;
             event.scroll = scroll;
@@ -57,8 +52,7 @@ namespace ouzel
 
         std::future<bool> MouseDevice::handleCursorLockChange(bool locked)
         {
-            InputSystem::Event event;
-            event.type = InputSystem::Event::Type::MOUSE_LOCK_CHANGED;
+            InputSystem::Event event(InputSystem::Event::Type::MOUSE_LOCK_CHANGED);
             event.deviceId = id;
             event.locked = locked;
             return inputSystem.postEvent(event);
