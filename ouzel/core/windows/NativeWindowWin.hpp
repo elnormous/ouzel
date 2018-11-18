@@ -36,6 +36,8 @@ namespace ouzel
         void handleResize(const Size2& newSize);
         void handleMove();
         void handleActivateEvent(WPARAM wParam);
+        void handleMinimizeEvent();
+        void handleRestoreEvent();
         void handleKeyEvent(UINT message, WPARAM wParam, LPARAM lParam);
         void handleMouseMoveEvent(LPARAM lParam);
         void handleMouseButtonEvent(UINT message, WPARAM wParam, LPARAM lParam);

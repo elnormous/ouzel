@@ -655,11 +655,7 @@ namespace ouzel
             while (active)
             {
                 if (!paused)
-                {
                     update();
-
-                    // TODO: implement sleep to reduce the power consumption
-                }
                 else
                 {
                     std::unique_lock<std::mutex> lock(updateMutex);
