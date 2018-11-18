@@ -57,6 +57,8 @@ namespace ouzel
 
     private:
         virtual void toggleFullscreen();
+        void handleFocusIn();
+        void handleFocusOut();
         void handleResize(const Size2& newSize);
 
 #if OUZEL_SUPPORTS_X11

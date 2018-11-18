@@ -286,6 +286,20 @@ namespace ouzel
 #endif
     }
 
+    void NativeWindowLinux::handleFocusIn()
+    {
+        Event focusChangeEvent(Event::Type::FOCUS_CHANGE);
+        focusChangeEvent.focus = true;
+        postEvent(focusChangeEvent);
+    }
+
+    void NativeWindowLinux::handleFocusOut()
+    {
+        Event focusChangeEvent(Event::Type::FOCUS_CHANGE);
+        focusChangeEvent.focus = false;
+        postEvent(focusChangeEvent);
+    }
+
     void NativeWindowLinux::handleResize(const Size2& newSize)
     {
         size = newSize;
