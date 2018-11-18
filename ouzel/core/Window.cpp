@@ -34,7 +34,7 @@ namespace ouzel
                    bool newHighDpi,
                    bool depth):
 #if OUZEL_PLATFORM_MACOS
-        nativeWindow(new NativeWindowMacOS(std::bind(&Window::handleEvent, this, std::placeholders::_1),
+        nativeWindow(new NativeWindowMacOS(std::bind(&Window::eventCallback, this, std::placeholders::_1),
                                            newSize,
                                            newResizable,
                                            newFullscreen,
@@ -43,19 +43,19 @@ namespace ouzel
                                            graphicsDriver,
                                            newHighDpi)),
 #elif OUZEL_PLATFORM_IOS
-        nativeWindow(new NativeWindowIOS(std::bind(&Window::handleEvent, this, std::placeholders::_1),
+        nativeWindow(new NativeWindowIOS(std::bind(&Window::eventCallback, this, std::placeholders::_1),
                                          newTitle,
                                          graphicsDriver,
                                          newHighDpi)),
 #elif OUZEL_PLATFORM_TVOS
-        nativeWindow(new NativeWindowTVOS(std::bind(&Window::handleEvent, this, std::placeholders::_1),
+        nativeWindow(new NativeWindowTVOS(std::bind(&Window::eventCallback, this, std::placeholders::_1),
                                           newTitle,
                                           graphicsDriver,
                                           newHighDpi)),
 #elif OUZEL_PLATFORM_ANDROID
-        nativeWindow(new NativeWindowAndroid(std::bind(&Window::handleEvent, this, std::placeholders::_1), newTitle)),
+        nativeWindow(new NativeWindowAndroid(std::bind(&Window::eventCallback, this, std::placeholders::_1), newTitle)),
 #elif OUZEL_PLATFORM_LINUX
-        nativeWindow(new NativeWindowLinux(std::bind(&Window::handleEvent, this, std::placeholders::_1),
+        nativeWindow(new NativeWindowLinux(std::bind(&Window::eventCallback, this, std::placeholders::_1),
                                            newSize,
                                            newResizable,
                                            newFullscreen,
@@ -64,7 +64,7 @@ namespace ouzel
                                            graphicsDriver,
                                            depth)),
 #elif OUZEL_PLATFORM_WINDOWS
-        nativeWindow(new NativeWindowWin(std::bind(&Window::handleEvent, this, std::placeholders::_1),
+        nativeWindow(new NativeWindowWin(std::bind(&Window::eventCallback, this, std::placeholders::_1),
                                          newSize,
                                          newResizable,
                                          newFullscreen,
@@ -72,13 +72,13 @@ namespace ouzel
                                          newTitle,
                                          newHighDpi)),
 #elif OUZEL_PLATFORM_EMSCRIPTEN
-        nativeWindow(new NativeWindowEm(std::bind(&Window::handleEvent, this, std::placeholders::_1),
+        nativeWindow(new NativeWindowEm(std::bind(&Window::eventCallback, this, std::placeholders::_1),
                                         newSize,
                                         newFullscreen,
                                         newTitle,
                                         newHighDpi)),
 #else
-        nativeWindow(new NativeWindow(std::bind(&Window::handleEvent, this, std::placeholders::_1),
+        nativeWindow(new NativeWindow(std::bind(&Window::eventCallback, this, std::placeholders::_1),
                                       newSize,
                                       newResizable,
                                       newFullscreen,
@@ -105,7 +105,34 @@ namespace ouzel
 
     void Window::update()
     {
-        nativeWindow->dispatchEvents();
+        for (;;)
+        {
+            NativeWindow::Event event;
+            {
+                std::unique_lock<std::mutex> lock(eventQueueMutex);
+                if (eventQueue.empty()) break;
+                event = eventQueue.front();
+                eventQueue.pop();
+            }
+
+            handleEvent(event);
+        }
+    }
+
+    void Window::eventCallback(const NativeWindow::Event& event)
+    {
+        if (event.type == NativeWindow::Event::Type::FOCUS_CHANGE)
+        {
+            if (event.focus)
+                engine->resume();
+            else
+                engine->pause();
+        }
+        else
+        {
+            std::unique_lock<std::mutex> lock(eventQueueMutex);
+            eventQueue.push(event);
+        }
     }
 
     void Window::handleEvent(const NativeWindow::Event& event)
@@ -157,14 +184,6 @@ namespace ouzel
                 screenChangeEvent->window = this;
                 screenChangeEvent->screenId = event.displayId;
                 engine->getEventDispatcher().dispatchEvent(std::move(screenChangeEvent));
-                break;
-            }
-            case NativeWindow::Event::Type::FOCUS_CHANGE:
-            {
-                if (event.focus)
-                    engine->resume();
-                else
-                    engine->pause();
                 break;
             }
             case NativeWindow::Event::Type::CLOSE:

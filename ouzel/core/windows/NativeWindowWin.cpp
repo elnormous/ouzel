@@ -366,7 +366,7 @@ static LRESULT CALLBACK windowProc(HWND window, UINT message, WPARAM wParam, LPA
                     windowWin->handleMinimizeEvent();
                     break;
                 case SIZE_RESTORED:
-                    windowWim->handleRestoreEvent();
+                    windowWin->handleRestoreEvent();
                     windowWin->handleResize(ouzel::Size2(static_cast<float>(LOWORD(lParam)),
                                                          static_cast<float>(HIWORD(lParam))));
                     break;

@@ -25,7 +25,7 @@ namespace ouzel
         class InputSystemIOS final: public InputSystem
         {
         public:
-            InputSystemIOS(const std::function<bool(const Event&)>& initCallback);
+            InputSystemIOS(const std::function<std::future<bool>(const Event&)>& initCallback);
             ~InputSystemIOS();
 
             void executeCommand(const Command& command) override;

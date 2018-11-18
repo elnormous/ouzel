@@ -60,7 +60,7 @@ namespace ouzel
 {
     namespace input
     {
-        InputSystemMacOS::InputSystemMacOS(const std::function<bool(const Event&)>& initCallback):
+        InputSystemMacOS::InputSystemMacOS(const std::function<std::future<bool>(const Event&)>& initCallback):
             InputSystem(initCallback),
             keyboardDevice(new KeyboardDevice(*this, ++lastDeviceId)),
             mouseDevice(new MouseDeviceMacOS(*this, ++lastDeviceId)),

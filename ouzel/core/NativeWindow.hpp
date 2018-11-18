@@ -96,8 +96,6 @@ namespace ouzel
         inline const std::string& getTitle() const { return title; }
         virtual void setTitle(const std::string& newTitle);
 
-        void dispatchEvents();
-
     protected:
         void postEvent(const Event& event);
 
@@ -113,8 +111,6 @@ namespace ouzel
 
     private:
         std::function<void(const Event&)> callback;
-        std::mutex eventQueueMutex;
-        std::queue<Event> eventQueue;
 
         std::mutex commandQueueMutex;
         std::queue<Event> commandQueue;

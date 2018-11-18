@@ -297,7 +297,7 @@ namespace ouzel
 {
     namespace input
     {
-        InputSystemEm::InputSystemEm(const std::function<bool(const Event&)>& initCallback):
+        InputSystemEm::InputSystemEm(const std::function<std::future<bool>(const Event&)>& initCallback):
             InputSystem(initCallback),
             keyboardDevice(new KeyboardDevice(*this, ++lastDeviceId)),
             mouseDevice(new MouseDeviceEm(*this, ++lastDeviceId)),

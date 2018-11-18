@@ -5,6 +5,7 @@
 
 #include <memory>
 #include <mutex>
+#include <queue>
 #include <vector>
 #include <unordered_map>
 #include "input/InputSystem.hpp"
@@ -45,7 +46,11 @@ namespace ouzel
             void hideVirtualKeyboard();
 
         private:
+            std::future<bool> eventCallback(const InputSystem::Event& event);
             bool handleEvent(const InputSystem::Event& event);
+
+            std::mutex eventQueueMutex;
+            std::queue<std::pair<std::promise<bool>, InputSystem::Event>> eventQueue;
 
             std::unique_ptr<InputSystem> inputSystem;
             Keyboard* keyboard = nullptr;
