@@ -297,7 +297,7 @@ static LRESULT CALLBACK windowProc(HWND window, UINT message, WPARAM wParam, LPA
     switch (message)
     {
         case WM_ACTIVATEAPP:
-            window->handleActivateEvent(wParam);
+            windowWin->handleActivateEvent(wParam);
             break;
         case WM_KEYDOWN:
         case WM_KEYUP:

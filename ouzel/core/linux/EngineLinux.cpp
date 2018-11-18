@@ -351,10 +351,10 @@ namespace ouzel
                         break;
                     }
                     case FocusIn:
-                        resume();
+                        windowLinux->handleFocusIn();
                         break;
                     case FocusOut:
-                        pause();
+                        windowLinux->handleFocusOut();
                         break;
                     case KeyPress: // keyboard
                     case KeyRelease:
