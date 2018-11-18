@@ -363,10 +363,10 @@ static LRESULT CALLBACK windowProc(HWND window, UINT message, WPARAM wParam, LPA
             switch (wParam)
             {
                 case SIZE_MINIMIZED:
-                    ouzel::engine->pause();
+                    windowWin->handleMinimizeEvent();
                     break;
                 case SIZE_RESTORED:
-                    ouzel::engine->resume();
+                    windowWim->handleRestoreEvent();
                     windowWin->handleResize(ouzel::Size2(static_cast<float>(LOWORD(lParam)),
                                                          static_cast<float>(HIWORD(lParam))));
                     break;
@@ -674,6 +674,29 @@ namespace ouzel
                                 static_cast<float>(cursorPos.y));
                 mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(position));
         }
+    }
+
+    void NativeWindowWin::handleMinimizeEvent()
+    {
+        Event focusChangeEvent(Event::Type::FOCUS_CHANGE);
+        focusChangeEvent.focus = false;
+        postEvent(focusChangeEvent);
+    }
+
+    void NativeWindowWin::handleRestoreEvent()
+    {
+        Event focusChangeEvent(Event::Type::FOCUS_CHANGE);
+        focusChangeEvent.focus = true;
+        postEvent(focusChangeEvent);
+
+        input::InputSystemWin* inputSystemWin = static_cast<input::InputSystemWin*>(engine->getInputManager()->getInputSystem());
+        input::MouseDeviceWin* mouseDevice = inputSystemWin->getMouseDevice();
+
+        POINT cursorPos;
+        GetCursorPos(&cursorPos);
+        Vector2 position(static_cast<float>(cursorPos.x),
+                        static_cast<float>(cursorPos.y));
+        mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(position));
     }
 
     void NativeWindowWin::handleKeyEvent(UINT message, WPARAM wParam, LPARAM lParam)
