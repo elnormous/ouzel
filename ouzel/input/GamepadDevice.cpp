@@ -9,9 +9,7 @@ namespace ouzel
     {
         std::future<bool> GamepadDevice::handleButtonValueChange(Gamepad::Button button, bool pressed, float value)
         {
-            InputSystem::Event event;
-            event.type = InputSystem::Event::Type::GAMEPAD_BUTTON_CHANGE;
-
+            InputSystem::Event event(InputSystem::Event::Type::GAMEPAD_BUTTON_CHANGE);
             event.deviceId = id;
             event.gamepadButton = button;
             event.pressed = pressed;
