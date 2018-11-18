@@ -147,7 +147,7 @@ namespace ouzel
             }
 
         protected:
-            std::future<bool> postEvent(const Event& event);
+            std::future<bool> sendEvent(const Event& event);
             void addInputDevice(InputDevice& inputDevice);
             void removeInputDevice(const InputDevice& inputDevice);
             InputDevice* getInputDevice(uint32_t id);

@@ -41,7 +41,7 @@ namespace ouzel
         title = newTitle;
     }
 
-    void NativeWindow::postEvent(const Event& event)
+    void NativeWindow::sendEvent(const Event& event)
     {
         callback(event);
     }

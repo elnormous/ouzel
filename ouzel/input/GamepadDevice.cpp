@@ -15,7 +15,7 @@ namespace ouzel
             event.pressed = pressed;
             event.value = value;
 
-            return inputSystem.postEvent(event);
+            return inputSystem.sendEvent(event);
         }
     } // namespace input
 } // namespace ouzel

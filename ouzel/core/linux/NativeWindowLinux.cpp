@@ -241,7 +241,7 @@ namespace ouzel
 
         Event resolutionChangeEvent(Event::Type::RESOLUTION_CHANGE);
         resolutionChangeEvent.resolution = resolution;
-        postEvent(resolutionChangeEvent);
+        sendEvent(resolutionChangeEvent);
 #endif
     }
 
@@ -290,14 +290,14 @@ namespace ouzel
     {
         Event focusChangeEvent(Event::Type::FOCUS_CHANGE);
         focusChangeEvent.focus = true;
-        postEvent(focusChangeEvent);
+        sendEvent(focusChangeEvent);
     }
 
     void NativeWindowLinux::handleFocusOut()
     {
         Event focusChangeEvent(Event::Type::FOCUS_CHANGE);
         focusChangeEvent.focus = false;
-        postEvent(focusChangeEvent);
+        sendEvent(focusChangeEvent);
     }
 
     void NativeWindowLinux::handleResize(const Size2& newSize)
@@ -307,10 +307,10 @@ namespace ouzel
 
         Event sizeChangeEvent(Event::Type::SIZE_CHANGE);
         sizeChangeEvent.size = size;
-        postEvent(sizeChangeEvent);
+        sendEvent(sizeChangeEvent);
 
         Event resolutionChangeEvent(Event::Type::RESOLUTION_CHANGE);
         resolutionChangeEvent.resolution = resolution;
-        postEvent(resolutionChangeEvent);
+        sendEvent(resolutionChangeEvent);
     }
 }
