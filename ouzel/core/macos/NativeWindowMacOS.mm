@@ -147,6 +147,9 @@ namespace ouzel
 
         [window setTitle:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:title.c_str()])];
 
+        if ([NSWindow respondsToSelector:@selector(setAllowsAutomaticWindowTabbing:)])
+             [NSWindow setAllowsAutomaticWindowTabbing:NO];
+
         NSRect windowFrame = [NSWindow contentRectForFrameRect:[window frame]
                                                      styleMask:[window styleMask]];
 
