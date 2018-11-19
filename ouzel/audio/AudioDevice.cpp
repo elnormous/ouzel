@@ -34,20 +34,20 @@ namespace ouzel
                 {
                     case Command::Type::INIT_NODE:
                     {
-                        if (command.resourceId > nodes.size())
-                            nodes.resize(command.resourceId);
+                        if (command.nodeId > nodes.size())
+                            nodes.resize(command.nodeId);
 
-                        nodes[command.resourceId - 1] = command.createFunction();
+                        nodes[command.nodeId - 1] = command.createFunction();
                         break;
                     }
-                    case Command::Type::DESTROY_NODE:
+                    case Command::Type::DELETE_NODE:
                     {
-                        nodes[command.resourceId - 1].reset();
+                        nodes[command.nodeId - 1].reset();
                         break;
                     }
                     case Command::Type::UPDATE_NODE:
                     {
-                        command.updateFunction(nodes[command.resourceId - 1].get());
+                        command.updateFunction(nodes[command.nodeId - 1].get());
                         break;
                     }
                     case Command::Type::ADD_INPUT_NODE:

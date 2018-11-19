@@ -16,6 +16,7 @@ namespace ouzel
         {
         public:
             Gain(Audio& initAudio);
+            ~Gain();
 
             Gain(const Gain&) = delete;
             Gain& operator=(const Gain&) = delete;

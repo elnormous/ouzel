@@ -11,14 +11,29 @@ namespace ouzel
 {
     namespace audio
     {
+        class ListenerProcessor final: public Node
+        {
+        public:
+            ListenerProcessor()
+            {
+            }
+
+            void process(std::vector<float>& samples, uint32_t& channels,
+                         uint32_t& sampleRate, Vector3& position) override
+            {
+            }
+        };
+
         Listener::Listener(Audio& initAudio):
             scene::Component(scene::Component::LISTENER),
-            audio(initAudio)
+            audio(initAudio),
+            nodeId(audio.initNode([]() { return std::unique_ptr<Node>(new ListenerProcessor()); }))
         {
         }
 
         Listener::~Listener()
         {
+            if (nodeId) audio.deleteNode(nodeId);
         }
 
         void Listener::updateTransform()

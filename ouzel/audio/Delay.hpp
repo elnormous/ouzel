@@ -16,6 +16,7 @@ namespace ouzel
         {
         public:
             Delay(Audio& initAudio);
+            ~Delay();
 
             Delay(const Delay&) = delete;
             Delay& operator=(const Delay&) = delete;

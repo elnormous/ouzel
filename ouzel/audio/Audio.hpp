@@ -10,6 +10,7 @@
 #include <vector>
 #include "audio/Driver.hpp"
 #include "audio/Destination.hpp"
+#include "audio/Node.hpp"
 #include "math/Quaternion.hpp"
 #include "math/Vector3.hpp"
 
@@ -37,6 +38,10 @@ namespace ouzel
             static std::set<Driver> getAvailableAudioDrivers();
 
             inline AudioDevice* getDevice() const { return device.get(); }
+
+            uintptr_t initNode(const std::function<std::unique_ptr<Node>(void)>& createFunction);
+            void deleteNode(uintptr_t nodeId);
+            void updateNode(uintptr_t nodeId, const std::function<void(Node*)>& updateFunction);
 
             static void resample(const std::vector<float>& src, uint32_t srcFrames,
                                  std::vector<float>& dst, uint32_t dstFrames,

@@ -16,6 +16,7 @@ namespace ouzel
         {
         public:
             Pitch(Audio& initAudio);
+            ~Pitch();
 
             Pitch(const Pitch&) = delete;
             Pitch& operator=(const Pitch&) = delete;
