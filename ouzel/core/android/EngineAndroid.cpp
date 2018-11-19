@@ -296,17 +296,17 @@ namespace ouzel
     {
         std::function<void()> func;
 
+        for (;;)
         {
             std::unique_lock<std::mutex> lock(executeMutex);
+            if (executeQueue.empty()) break;
+            
+            func = std::move(executeQueue.front());
+            executeQueue.pop();
+            lock.unlock();
 
-            if (!executeQueue.empty())
-            {
-                func = std::move(executeQueue.front());
-                executeQueue.pop();
-            }
+            if (func) func();
         }
-
-        if (func) func();
     }
 
     void EngineAndroid::main()

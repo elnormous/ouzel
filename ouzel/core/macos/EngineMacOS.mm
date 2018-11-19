@@ -191,14 +191,13 @@ namespace ouzel
 
         for (;;)
         {
-            {
-                std::unique_lock<std::mutex> lock(executeMutex);
+            std::unique_lock<std::mutex> lock(executeMutex);
 
-                if (executeQueue.empty()) break;
+            if (executeQueue.empty()) break;
 
-                func = std::move(executeQueue.front());
-                executeQueue.pop();
-            }
+            func = std::move(executeQueue.front());
+            executeQueue.pop();
+            lock.unlock();
 
             if (func) func();
         }

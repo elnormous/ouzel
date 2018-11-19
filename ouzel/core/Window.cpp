@@ -105,15 +105,16 @@ namespace ouzel
 
     void Window::update()
     {
+        NativeWindow::Event event;
+
         for (;;)
         {
-            NativeWindow::Event event;
-            {
-                std::unique_lock<std::mutex> lock(eventQueueMutex);
-                if (eventQueue.empty()) break;
-                event = eventQueue.front();
-                eventQueue.pop();
-            }
+            
+            std::unique_lock<std::mutex> lock(eventQueueMutex);
+            if (eventQueue.empty()) break;
+            event = std::move(eventQueue.front());
+            eventQueue.pop();
+            lock.unlock();
 
             handleEvent(event);
         }

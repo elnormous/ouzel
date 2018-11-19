@@ -96,13 +96,12 @@ namespace ouzel
 
             for (;;)
             {
-                {
-                    std::unique_lock<std::mutex> lock(executeMutex);
-                    if (executeQueue.empty()) break;
+                std::unique_lock<std::mutex> lock(executeMutex);
+                if (executeQueue.empty()) break;
 
-                    func = std::move(executeQueue.front());
-                    executeQueue.pop();
-                }
+                func = std::move(executeQueue.front());
+                executeQueue.pop();
+                lock.unlock();
 
                 if (func) func();
             }

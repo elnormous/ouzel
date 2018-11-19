@@ -57,13 +57,12 @@ namespace ouzel
 
         for (;;)
         {
-            {
-                std::unique_lock<std::mutex> lock(eventQueueMutex);
-                if (eventQueue.empty()) break;
+            std::unique_lock<std::mutex> lock(eventQueueMutex);
+            if (eventQueue.empty()) break;
 
-                event = std::move(eventQueue.front());
-                eventQueue.pop();
-            }
+            event = std::move(eventQueue.front());
+            eventQueue.pop();
+            lock.unlock();
 
             event.first.set_value(dispatchEvent(std::move(event.second)));
         }
