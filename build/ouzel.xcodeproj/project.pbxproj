@@ -815,12 +815,12 @@
 		30C3F28C219D0847003FE9ED /* Filter.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30C3F270219D0847003FE9ED /* Filter.hpp */; };
 		30C3F28D219D0847003FE9ED /* Filter.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30C3F270219D0847003FE9ED /* Filter.hpp */; };
 		30C3F28E219D0847003FE9ED /* Filter.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30C3F270219D0847003FE9ED /* Filter.hpp */; };
-		30C3F291219D0DD9003FE9ED /* Processor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30C3F28F219D0DD9003FE9ED /* Processor.cpp */; };
-		30C3F292219D0DD9003FE9ED /* Processor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30C3F28F219D0DD9003FE9ED /* Processor.cpp */; };
-		30C3F293219D0DD9003FE9ED /* Processor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30C3F28F219D0DD9003FE9ED /* Processor.cpp */; };
-		30C3F294219D0DD9003FE9ED /* Processor.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30C3F290219D0DD9003FE9ED /* Processor.hpp */; };
-		30C3F295219D0DD9003FE9ED /* Processor.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30C3F290219D0DD9003FE9ED /* Processor.hpp */; };
-		30C3F296219D0DD9003FE9ED /* Processor.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30C3F290219D0DD9003FE9ED /* Processor.hpp */; };
+		30C3F291219D0DD9003FE9ED /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30C3F28F219D0DD9003FE9ED /* Node.cpp */; };
+		30C3F292219D0DD9003FE9ED /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30C3F28F219D0DD9003FE9ED /* Node.cpp */; };
+		30C3F293219D0DD9003FE9ED /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30C3F28F219D0DD9003FE9ED /* Node.cpp */; };
+		30C3F294219D0DD9003FE9ED /* Node.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30C3F290219D0DD9003FE9ED /* Node.hpp */; };
+		30C3F295219D0DD9003FE9ED /* Node.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30C3F290219D0DD9003FE9ED /* Node.hpp */; };
+		30C3F296219D0DD9003FE9ED /* Node.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30C3F290219D0DD9003FE9ED /* Node.hpp */; };
 		30C56C5B1CAA88F8007AEF8F /* CheckBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30C56C591CAA88F8007AEF8F /* CheckBox.cpp */; };
 		30C56C5C1CAA88F8007AEF8F /* CheckBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30C56C591CAA88F8007AEF8F /* CheckBox.cpp */; };
 		30C56C5D1CAA88F8007AEF8F /* CheckBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30C56C591CAA88F8007AEF8F /* CheckBox.cpp */; };
@@ -1288,8 +1288,8 @@
 		30C3F26E219D0846003FE9ED /* Filter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Filter.cpp; sourceTree = "<group>"; };
 		30C3F26F219D0847003FE9ED /* Pitch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Pitch.cpp; sourceTree = "<group>"; };
 		30C3F270219D0847003FE9ED /* Filter.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Filter.hpp; sourceTree = "<group>"; };
-		30C3F28F219D0DD9003FE9ED /* Processor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Processor.cpp; sourceTree = "<group>"; };
-		30C3F290219D0DD9003FE9ED /* Processor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Processor.hpp; sourceTree = "<group>"; };
+		30C3F28F219D0DD9003FE9ED /* Node.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Node.cpp; sourceTree = "<group>"; };
+		30C3F290219D0DD9003FE9ED /* Node.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Node.hpp; sourceTree = "<group>"; };
 		30C56C591CAA88F8007AEF8F /* CheckBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CheckBox.cpp; sourceTree = "<group>"; };
 		30C56C5A1CAA88F8007AEF8F /* CheckBox.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CheckBox.hpp; sourceTree = "<group>"; };
 		30C56C631CAB3F2D007AEF8F /* RadioButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RadioButton.cpp; sourceTree = "<group>"; };
@@ -1749,8 +1749,8 @@
 				30C3F26B219D0846003FE9ED /* Panner.hpp */,
 				30C3F26F219D0847003FE9ED /* Pitch.cpp */,
 				30C3F269219D0846003FE9ED /* Pitch.hpp */,
-				30C3F28F219D0DD9003FE9ED /* Processor.cpp */,
-				30C3F290219D0DD9003FE9ED /* Processor.hpp */,
+				30C3F28F219D0DD9003FE9ED /* Node.cpp */,
+				30C3F290219D0DD9003FE9ED /* Node.hpp */,
 				30BA5FB62198E37A0032AC23 /* SampleFormat.hpp */,
 				30419DE71D162BDC00A63759 /* Sound.cpp */,
 				30419DE81D162BDC00A63759 /* Sound.hpp */,
@@ -2140,7 +2140,7 @@
 				30216B831ED5C3900073E3D5 /* Plane.hpp in Headers */,
 				30575AC01C39D9850009C8A7 /* ActorContainer.hpp in Headers */,
 				309BA3161F183D6E006F2240 /* AudioDeviceCA.hpp in Headers */,
-				30C3F294219D0DD9003FE9ED /* Processor.hpp in Headers */,
+				30C3F294219D0DD9003FE9ED /* Node.hpp in Headers */,
 				303B75621C2A3CBF00FEDE92 /* Actor.hpp in Headers */,
 				303696EF1E32DE08007F4211 /* Shader.hpp in Headers */,
 				3047F77B1C4D39C500774E3D /* Repeat.hpp in Headers */,
@@ -2221,7 +2221,7 @@
 				30EF36681CA845DC00F04F29 /* ComboBox.hpp in Headers */,
 				30AEFA1120C0A90400CDFD33 /* LoaderGLTF.hpp in Headers */,
 				3072370F1FAFDAB8002EA399 /* JSON.hpp in Headers */,
-				30C3F296219D0DD9003FE9ED /* Processor.hpp in Headers */,
+				30C3F296219D0DD9003FE9ED /* Node.hpp in Headers */,
 				30216B781ED464730073E3D5 /* Material.hpp in Headers */,
 				306B0E641C567D05005C75C1 /* ShapeRenderer.hpp in Headers */,
 				304B275A1C9384A600BA162D /* Size3.hpp in Headers */,
@@ -2412,7 +2412,7 @@
 				305B68D71ED1B31D003352A2 /* Timer.hpp in Headers */,
 				30F5DD441F09757100E14E84 /* StreamWave.hpp in Headers */,
 				30C3F284219D0847003FE9ED /* Delay.hpp in Headers */,
-				30C3F295219D0DD9003FE9ED /* Processor.hpp in Headers */,
+				30C3F295219D0DD9003FE9ED /* Node.hpp in Headers */,
 				303B04BD1E207B6D00011CBE /* RenderDeviceOGLMacOS.hpp in Headers */,
 				30519CC41F9B53B700AF3DC4 /* LoaderBMF.hpp in Headers */,
 				30381FB91D80A3F900677CAB /* AudioDeviceAL.hpp in Headers */,
@@ -2739,7 +2739,7 @@
 				30519CC01F9B53B700AF3DC4 /* LoaderBMF.cpp in Sources */,
 				301EB3AB1CCD77F600466E92 /* TextRenderer.cpp in Sources */,
 				303B75651C2A3CBF00FEDE92 /* SceneManager.cpp in Sources */,
-				30C3F291219D0DD9003FE9ED /* Processor.cpp in Sources */,
+				30C3F291219D0DD9003FE9ED /* Node.cpp in Sources */,
 				30AEFA1420C0FB2E00CDFD33 /* RenderTarget.cpp in Sources */,
 				30F5DD401F09757100E14E84 /* StreamWave.cpp in Sources */,
 				3038202B1D80A55700677CAB /* BufferResourceMetal.mm in Sources */,
@@ -2906,7 +2906,7 @@
 				303820141D80A40700677CAB /* TextureResourceMetal.mm in Sources */,
 				30AEFA1620C0FB2E00CDFD33 /* RenderTarget.cpp in Sources */,
 				303B763E1C355A3B00FEDE92 /* SceneManager.cpp in Sources */,
-				30C3F293219D0DD9003FE9ED /* Processor.cpp in Sources */,
+				30C3F293219D0DD9003FE9ED /* Node.cpp in Sources */,
 				30F5DD421F09757100E14E84 /* StreamWave.cpp in Sources */,
 				303B763F1C355A3B00FEDE92 /* MathUtils.cpp in Sources */,
 				30EEADC921618F2C00D2F525 /* TouchpadDevice.cpp in Sources */,
@@ -3127,7 +3127,7 @@
 				30519CB91F9B53AB00AF3DC4 /* LoaderWave.cpp in Sources */,
 				303B04BC1E207B6D00011CBE /* OpenGLView.mm in Sources */,
 				30AEFA0D20C0A90400CDFD33 /* LoaderGLTF.cpp in Sources */,
-				30C3F292219D0DD9003FE9ED /* Processor.cpp in Sources */,
+				30C3F292219D0DD9003FE9ED /* Node.cpp in Sources */,
 				30ADCBB61E9A9479000DC9AC /* RenderDeviceMetalMacOS.mm in Sources */,
 				303820011D80A40700677CAB /* RenderDeviceMetal.mm in Sources */,
 				304A8E5C1C237C70008B1151 /* Actor.cpp in Sources */,

@@ -20,6 +20,9 @@ namespace ouzel
 
             Filter(Filter&&) = delete;
             Filter& operator=(Filter&&) = delete;
+
+        private:
+            uintptr_t nodeId = 0;
         };
     } // namespace audio
 } // namespace ouzel

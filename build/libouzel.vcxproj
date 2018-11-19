@@ -50,7 +50,7 @@
     <ClCompile Include="..\ouzel\audio\Gain.cpp" />
     <ClCompile Include="..\ouzel\audio\Panner.cpp" />
     <ClCompile Include="..\ouzel\audio\Pitch.cpp" />
-    <ClCompile Include="..\ouzel\audio\Processor.cpp" />
+    <ClCompile Include="..\ouzel\audio\Node.cpp" />
     <ClCompile Include="..\ouzel\audio\SoundInput.cpp" />
     <ClCompile Include="..\ouzel\audio\Listener.cpp" />
     <ClCompile Include="..\ouzel\audio\SoundOutput.cpp" />

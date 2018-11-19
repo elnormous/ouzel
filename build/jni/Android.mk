@@ -48,9 +48,9 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
 	../../ouzel/audio/Filter.cpp \
 	../../ouzel/audio/Gain.cpp \
     ../../ouzel/audio/Listener.cpp \
+	../../ouzel/audio/Node.cpp \
     ../../ouzel/audio/Panner.cpp \
 	../../ouzel/audio/Pitch.cpp \
-	../../ouzel/audio/Processor.cpp \
     ../../ouzel/audio/Sound.cpp \
     ../../ouzel/audio/SoundData.cpp \
     ../../ouzel/audio/SoundDataVorbis.cpp \
