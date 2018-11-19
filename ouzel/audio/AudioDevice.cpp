@@ -27,6 +27,7 @@ namespace ouzel
                 std::unique_lock<std::mutex> lock(commandMutex);
                 if (commandQueue.empty()) break;
                 command = std::move(commandQueue.front());
+                commandQueue.pop();
                 lock.unlock();
 
                 switch (command.type)
