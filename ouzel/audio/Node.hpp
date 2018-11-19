@@ -3,6 +3,7 @@
 #ifndef OUZEL_AUDIO_NODE_HPP
 #define OUZEL_AUDIO_NODE_HPP
 
+#include <cstdint>
 #include <vector>
 #include "math/Quaternion.hpp"
 #include "math/Vector3.hpp"
