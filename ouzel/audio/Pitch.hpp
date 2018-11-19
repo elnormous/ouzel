@@ -10,10 +10,12 @@ namespace ouzel
 {
     namespace audio
     {
+        class Audio;
+
         class Pitch final: public SoundInput, public SoundOutput
         {
         public:
-            Pitch();
+            Pitch(Audio& initAudio);
 
             Pitch(const Pitch&) = delete;
             Pitch& operator=(const Pitch&) = delete;
@@ -25,6 +27,7 @@ namespace ouzel
             void setPitch(float newPitch);
 
         private:
+            Audio& audio;
             uintptr_t nodeId = 0;
             float pitch = 1.0f;
         };

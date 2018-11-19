@@ -63,10 +63,9 @@ namespace ouzel
 
             void submitCommandBuffer(CommandBuffer&& commandBuffer)
             {
-                {
-                    std::unique_lock<std::mutex> lock(commandQueueMutex);
-                    commandQueue.push(std::forward<CommandBuffer>(commandBuffer));
-                }
+                std::unique_lock<std::mutex> lock(commandQueueMutex);
+                commandQueue.push(std::forward<CommandBuffer>(commandBuffer));
+                lock.unlock();
                 commandQueueCondition.notify_all();
             }
 

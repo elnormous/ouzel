@@ -106,11 +106,9 @@ namespace ouzel
 #if OUZEL_MULTITHREADED
         if (updateThread.joinable())
         {
-            {
-                std::unique_lock<std::mutex> lock(updateMutex);
-                updateCondition.notify_all();
-            }
-
+            std::unique_lock<std::mutex> lock(updateMutex);
+            updateCondition.notify_all();
+            lock.unlock();
             updateThread.join();
         }
 #endif
@@ -581,7 +579,6 @@ namespace ouzel
             paused = false;
 
 #if OUZEL_MULTITHREADED
-            std::unique_lock<std::mutex> lock(updateMutex);
             updateCondition.notify_all();
 #endif
         }
@@ -604,11 +601,9 @@ namespace ouzel
         if (updateThread.joinable() &&
             updateThread.get_id() != std::this_thread::get_id())
         {
-            {
-                std::unique_lock<std::mutex> lock(updateMutex);
-                updateCondition.notify_all();
-            }
-
+            std::unique_lock<std::mutex> lock(updateMutex);
+            updateCondition.notify_all();
+            lock.unlock();
             updateThread.join();
         }
 #endif

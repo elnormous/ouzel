@@ -14,11 +14,13 @@ namespace ouzel
 {
     namespace audio
     {
+        class Audio;
+
         class Listener: public SoundOutput, public scene::Component
         {
             friend Audio;
         public:
-            Listener();
+            Listener(Audio& initAudio);
             virtual ~Listener();
 
             AudioDevice::RenderCommand getRenderCommand();
@@ -34,7 +36,9 @@ namespace ouzel
                                       const Vector3& position,
                                       const Quaternion& rotation);
 
-            Audio* audio = nullptr;
+        private:
+            Audio& audio;
+            uintptr_t nodeId = 0;
 
             Vector3 position;
             Quaternion rotation;

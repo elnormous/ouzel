@@ -148,11 +148,9 @@ namespace ouzel
 
             if (audioThread.joinable())
             {
-                {
-                    std::unique_lock<std::mutex> lock(fillDataMutex);
-                    fillDataCondition.notify_all();
-                }
-
+                std::unique_lock<std::mutex> lock(fillDataMutex);
+                fillDataCondition.notify_all();
+                lock.unlock();
                 audioThread.join();
             }
 
@@ -229,6 +227,7 @@ namespace ouzel
         {
             std::unique_lock<std::mutex> lock(fillDataMutex);
             fillData = true;
+            lock.unlock();
             fillDataCondition.notify_all();
         }
 

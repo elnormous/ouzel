@@ -21,6 +21,44 @@ namespace ouzel
 
         void AudioDevice::process()
         {
+            Command command;
+            for (;;)
+            {
+                std::unique_lock<std::mutex> lock(commandMutex);
+                if (commandQueue.empty()) break;
+                command = std::move(commandQueue.front());
+                lock.unlock();
+
+                switch (command.type)
+                {
+                    case Command::Type::INIT_NODE:
+                    {
+                        if (command.resourceId > nodes.size())
+                            nodes.resize(command.resourceId);
+
+                        nodes[command.resourceId - 1] = command.createFunction();
+                        break;
+                    }
+                    case Command::Type::DESTROY_NODE:
+                    {
+                        nodes[command.resourceId - 1].reset();
+                        break;
+                    }
+                    case Command::Type::UPDATE_NODE:
+                    {
+                        command.updateFunction(nodes[command.resourceId - 1].get());
+                        break;
+                    }
+                    case Command::Type::SET_INPUT:
+                    {
+                        break;
+                    }
+                    case Command::Type::SET_OUTPUT:
+                    {
+                        break;
+                    }
+                }
+            }
         }
 
         void AudioDevice::setRenderCommands(const std::vector<RenderCommand>& newRenderCommands)
@@ -165,6 +203,14 @@ namespace ouzel
                 default:
                     throw DataError("Invalid sample format");
             }
+        }
+
+        void AudioDevice::addCommand(const Command& command)
+        {
+            std::unique_lock<std::mutex> lock(commandMutex);
+            commandQueue.push(command);
+            lock.unlock();
+            commandConditionVariable.notify_all();
         }
     } // namespace audio
 } // namespace ouzel

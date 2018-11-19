@@ -10,10 +10,12 @@ namespace ouzel
 {
     namespace audio
     {
+        class Audio;
+
         class Gain final: public SoundInput, public SoundOutput
         {
         public:
-            Gain();
+            Gain(Audio& initAudio);
 
             Gain(const Gain&) = delete;
             Gain& operator=(const Gain&) = delete;
@@ -25,6 +27,7 @@ namespace ouzel
             void setGain(float newGain);
 
         private:
+            Audio& audio;
             uintptr_t nodeId = 0;
             float gain = 0.0F;
         };

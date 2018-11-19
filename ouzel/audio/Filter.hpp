@@ -10,10 +10,12 @@ namespace ouzel
 {
     namespace audio
     {
+        class Audio;
+
         class Filter final: public SoundInput, public SoundOutput
         {
         public:
-            Filter();
+            Filter(Audio& initAudio);
 
             Filter(const Filter&) = delete;
             Filter& operator=(const Filter&) = delete;
@@ -22,6 +24,7 @@ namespace ouzel
             Filter& operator=(Filter&&) = delete;
 
         private:
+            Audio& audio;
             uintptr_t nodeId = 0;
         };
     } // namespace audio

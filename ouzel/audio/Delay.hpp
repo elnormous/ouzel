@@ -10,10 +10,12 @@ namespace ouzel
 {
     namespace audio
     {
+        class Audio;
+
         class Delay final: public SoundInput, public SoundOutput
         {
         public:
-            Delay();
+            Delay(Audio& initAudio);
 
             Delay(const Delay&) = delete;
             Delay& operator=(const Delay&) = delete;
@@ -25,6 +27,7 @@ namespace ouzel
             void setDelay(float newDelay);
 
         private:
+            Audio& audio;
             uintptr_t nodeId = 0;
             float delay = 0.0F;
         };

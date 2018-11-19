@@ -11,14 +11,14 @@ namespace ouzel
 {
     namespace audio
     {
-        Listener::Listener():
-            scene::Component(scene::Component::LISTENER)
+        Listener::Listener(Audio& initAudio):
+            scene::Component(scene::Component::LISTENER),
+            audio(initAudio)
         {
         }
 
         Listener::~Listener()
         {
-            if (audio) audio->removeListener(this);
         }
 
         void Listener::updateTransform()

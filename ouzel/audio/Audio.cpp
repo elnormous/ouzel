@@ -107,31 +107,14 @@ namespace ouzel
 
         Audio::~Audio()
         {
-            for (Listener* listener : listeners)
-                listener->audio = nullptr;
         }
 
         void Audio::addListener(Listener* listener)
         {
-            if (listener->audio != this)
-            {
-                if (listener->audio) listener->audio->removeListener(listener);
-                listeners.push_back(listener);
-                listener->audio = this;
-            }
         }
 
         void Audio::removeListener(Listener* listener)
         {
-            if (listener->audio == this)
-            {
-                listener->audio = nullptr;
-
-                auto i = std::find(listeners.begin(), listeners.end(), listener);
-
-                if (i != listeners.end())
-                    listeners.erase(i);
-            }
         }
 
         void Audio::resample(const std::vector<float>& src, uint32_t srcFrames,

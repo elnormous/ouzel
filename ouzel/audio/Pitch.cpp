@@ -6,7 +6,8 @@ namespace ouzel
 {
     namespace audio
     {
-        Pitch::Pitch()
+        Pitch::Pitch(Audio& initAudio):
+            audio(initAudio)
         {
         }
 
