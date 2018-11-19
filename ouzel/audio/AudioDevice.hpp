@@ -3,12 +3,13 @@
 #ifndef OUZEL_AUDIO_AUDIODEVICE_HPP
 #define OUZEL_AUDIO_AUDIODEVICE_HPP
 
+#include <functional>
 #include <memory>
 #include <mutex>
 #include <queue>
 #include <vector>
 #include "audio/Driver.hpp"
-#include "audio/Processor.hpp"
+#include "audio/Node.hpp"
 #include "audio/SampleFormat.hpp"
 #include "math/Quaternion.hpp"
 #include "math/Vector3.hpp"
@@ -18,13 +19,31 @@ namespace ouzel
     namespace audio
     {
         class Audio;
-        class ListenerResource;
-        class MixerResource;
+        class ListenerNode;
+        class MixerNode;
 
         class AudioDevice
         {
             friend Audio;
         public:
+            struct Command
+            {
+                enum class Type
+                {
+                    INIT_NODE,
+                    DESTROY_NODE,
+                    UPDATE_NODE,
+                    SET_INPUT,
+                    SET_OUTPUT,
+                };
+
+                Type type;
+                uintptr_t resourceId;
+                std::function<std::unique_ptr<Node>(void)> createFunction;
+                std::function<void(Node*)> updateFunction;
+            };
+
+            explicit AudioDevice(Driver initDriver);
             virtual ~AudioDevice();
 
             AudioDevice(const AudioDevice&) = delete;
@@ -60,26 +79,24 @@ namespace ouzel
 
             void setRenderCommands(const std::vector<RenderCommand>& newRenderCommands);
 
-            uintptr_t getResourceId()
+            uintptr_t getNodeId()
             {
-                if (deletedResourceIds.empty())
-                    return ++lastResourceId; // zero is reserved for null resource
+                if (deletedNodeIds.empty())
+                    return ++lastNodeId; // zero is reserved for null node
                 else
                 {
-                    uintptr_t resourceId = deletedResourceIds.front();
-                    deletedResourceIds.pop();
-                    return resourceId;
+                    uintptr_t nodeId = deletedNodeIds.front();
+                    deletedNodeIds.pop();
+                    return nodeId;
                 }
             }
 
-            void deleteResourceId(uintptr_t resourceId)
+            void deleteNodeId(uintptr_t nodeId)
             {
-                deletedResourceIds.push(resourceId);
+                deletedNodeIds.push(nodeId);
             }
 
         protected:
-            explicit AudioDevice(Driver initDriver);
-
             void getData(uint32_t frames, std::vector<uint8_t>& result);
             void processRenderCommands(uint32_t frames,
                                        std::vector<float>& result);
@@ -108,10 +125,10 @@ namespace ouzel
             std::vector<RenderCommand> renderQueue;
             std::mutex renderQueueMutex;
 
-            uintptr_t lastResourceId = 0;
-            std::queue<uintptr_t> deletedResourceIds;
+            uintptr_t lastNodeId = 0;
+            std::queue<uintptr_t> deletedNodeIds;
 
-            std::unique_ptr<Processor> processors;
+            std::vector<std::unique_ptr<Node>> nodes;
         };
     } // namespace audio
 } // namespace ouzel

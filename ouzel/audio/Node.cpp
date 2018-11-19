@@ -1,6 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include "Processor.hpp"
+#include "Node.hpp"
 
 namespace ouzel
 {

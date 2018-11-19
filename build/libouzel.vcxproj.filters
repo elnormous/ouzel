@@ -476,7 +476,7 @@
     <ClCompile Include="..\ouzel\audio\Pitch.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\Processor.cpp">
+    <ClCompile Include="..\ouzel\audio\Node.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
   </ItemGroup>

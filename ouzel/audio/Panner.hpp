@@ -20,6 +20,9 @@ namespace ouzel
 
             Panner(Panner&&) = delete;
             Panner& operator=(Panner&&) = delete;
+
+        private:
+            uintptr_t nodeId = 0;
         };
     } // namespace audio
 } // namespace ouzel
