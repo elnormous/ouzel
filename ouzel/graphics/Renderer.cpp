@@ -149,11 +149,10 @@ namespace ouzel
         {
             if (event.type == RenderDevice::Event::Type::FRAME)
             {
-                {
-                    std::unique_lock<std::mutex> lock(frameMutex);
-                    newFrame = true;
-                    refillQueue = true;
-                }
+                std::unique_lock<std::mutex> lock(frameMutex);
+                newFrame = true;
+                refillQueue = true;
+                lock.unlock();
                 frameCondition.notify_all();
             }
         }

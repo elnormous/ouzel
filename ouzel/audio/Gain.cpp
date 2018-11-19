@@ -15,7 +15,8 @@ namespace ouzel
             }
         };
 
-        Gain::Gain()
+        Gain::Gain(Audio& initAudio):
+            audio(initAudio)
         {
         }
 

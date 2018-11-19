@@ -10,10 +10,12 @@ namespace ouzel
 {
     namespace audio
     {
+        class Audio;
+
         class Panner final: public SoundInput, public SoundOutput
         {
         public:
-            Panner();
+            Panner(Audio& initAudio);
 
             Panner(const Panner&) = delete;
             Panner& operator=(const Panner&) = delete;
@@ -22,6 +24,7 @@ namespace ouzel
             Panner& operator=(Panner&&) = delete;
 
         private:
+            Audio& audio;
             uintptr_t nodeId = 0;
         };
     } // namespace audio

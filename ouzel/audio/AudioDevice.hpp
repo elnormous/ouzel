@@ -79,6 +79,8 @@ namespace ouzel
 
             void setRenderCommands(const std::vector<RenderCommand>& newRenderCommands);
 
+            void addCommand(const Command& command);
+
             uintptr_t getNodeId()
             {
                 if (deletedNodeIds.empty())
@@ -129,6 +131,11 @@ namespace ouzel
             std::queue<uintptr_t> deletedNodeIds;
 
             std::vector<std::unique_ptr<Node>> nodes;
+
+        private:
+            std::mutex commandMutex;
+            std::condition_variable commandConditionVariable;
+            std::queue<Command> commandQueue;
         };
     } // namespace audio
 } // namespace ouzel

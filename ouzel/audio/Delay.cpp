@@ -1,12 +1,14 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "Delay.hpp"
+#include "Audio.hpp"
 
 namespace ouzel
 {
     namespace audio
     {
-        Delay::Delay()
+        Delay::Delay(Audio& initAudio):
+            audio(initAudio)
         {
         }
 
