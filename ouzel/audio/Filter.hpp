@@ -3,8 +3,8 @@
 #ifndef OUZEL_AUDIO_FILTER_HPP
 #define OUZEL_AUDIO_FILTER_HPP
 
-#include "audio/SoundInput.hpp"
-#include "audio/SoundOutput.hpp"
+#include "audio/Source.hpp"
+#include "audio/Destination.hpp"
 
 namespace ouzel
 {
@@ -12,7 +12,7 @@ namespace ouzel
     {
         class Audio;
 
-        class Filter final: public SoundInput, public SoundOutput
+        class Filter final: public Source, public Destination
         {
         public:
             Filter(Audio& initAudio);

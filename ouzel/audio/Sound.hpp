@@ -6,7 +6,7 @@
 #include <cfloat>
 #include <atomic>
 #include <memory>
-#include "audio/SoundInput.hpp"
+#include "audio/Source.hpp"
 #include "audio/Stream.hpp"
 #include "scene/Component.hpp"
 #include "math/Vector3.hpp"
@@ -17,7 +17,7 @@ namespace ouzel
     {
         class SoundData;
 
-        class Sound: public SoundInput, public Stream::EventListener, public scene::Component
+        class Sound: public Source, public Stream::EventListener, public scene::Component
         {
             friend Audio;
         public:

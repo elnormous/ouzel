@@ -9,7 +9,7 @@
 #include <set>
 #include <vector>
 #include "audio/Driver.hpp"
-#include "audio/SoundOutput.hpp"
+#include "audio/Destination.hpp"
 #include "math/Quaternion.hpp"
 #include "math/Vector3.hpp"
 
@@ -22,7 +22,7 @@ namespace ouzel
         class AudioDevice;
         class Listener;
 
-        class Audio final: public SoundOutput
+        class Audio final: public Destination
         {
         public:
             Audio(Driver driver, bool debugAudio, Window* window);
