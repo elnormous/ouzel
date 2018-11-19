@@ -54,16 +54,16 @@ namespace ouzel
 
         void InputManager::update()
         {
+            std::pair<std::promise<bool>, InputSystem::Event> p;
+
             for (;;)
             {
-                std::pair<std::promise<bool>, InputSystem::Event> p;
-                {
-                    std::unique_lock<std::mutex> lock(eventQueueMutex);
-                    if (eventQueue.empty()) break;
+                std::unique_lock<std::mutex> lock(eventQueueMutex);
+                if (eventQueue.empty()) break;
 
-                    p = std::move(eventQueue.front());
-                    eventQueue.pop();
-                }
+                p = std::move(eventQueue.front());
+                eventQueue.pop();
+                lock.unlock();
 
                 p.first.set_value(handleEvent(p.second));
             }
