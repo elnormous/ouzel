@@ -109,14 +109,6 @@ namespace ouzel
         {
         }
 
-        void Audio::addListener(Listener* listener)
-        {
-        }
-
-        void Audio::removeListener(Listener* listener)
-        {
-        }
-
         void Audio::resample(const std::vector<float>& src, uint32_t srcFrames,
                              std::vector<float>& dst, uint32_t dstFrames,
                              uint32_t channels)

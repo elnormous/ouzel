@@ -24,28 +24,28 @@ SoundSample::SoundSample():
     handler.keyboardHandler = bind(&SoundSample::handleKeyboard, this, placeholders::_1);
     engine->getEventDispatcher().addEventHandler(&handler);
 
-    engine->getAudio()->addListener(&listener);
+    listener.setOutput(engine->getAudio());
 
-    //soundMixer.setOutput(&listener);
-    //soundMixer.setGain(1.2F);
+    soundGain.setOutput(&listener);
+    soundGain.setGain(1.2F);
 
     test8BitSound = Sound(engine->getCache().getSoundData("8-bit.wav"));
     test8BitSound.setPitch(2.0F);
-    //test8BitSound.setOutput(&soundMixer);
+    test8BitSound.setOutput(&soundGain);
 
     test24BitSound = Sound(engine->getCache().getSoundData("24-bit.wav"));
     test24BitSound.setPitch(0.5F);
-    //test24BitSound.setOutput(&soundMixer);
+    test24BitSound.setOutput(&soundGain);
 
     jumpSound = Sound(engine->getCache().getSoundData("jump.wav"));
 
     guiLayer.addChild(&soundActor);
     soundActor.addComponent(&jumpSound);
     soundActor.setPosition(Vector3(8.0F, 0.0F, 10.0F));
-    //jumpSound.setOutput(&soundMixer);
+    jumpSound.setOutput(&soundGain);
 
     ambientSound = Sound(engine->getCache().getSoundData("ambient.wav"));
-    //ambientSound.setOutput(&soundMixer);
+    ambientSound.setOutput(&soundGain);
 
     music = Sound(engine->getCache().getSoundData("music.ogg"));
     music.setOutput(&listener);

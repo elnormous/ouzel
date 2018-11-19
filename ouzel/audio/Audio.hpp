@@ -9,6 +9,7 @@
 #include <set>
 #include <vector>
 #include "audio/Driver.hpp"
+#include "audio/SoundOutput.hpp"
 #include "math/Quaternion.hpp"
 #include "math/Vector3.hpp"
 
@@ -21,7 +22,7 @@ namespace ouzel
         class AudioDevice;
         class Listener;
 
-        class Audio final
+        class Audio final: public SoundOutput
         {
         public:
             Audio(Driver driver, bool debugAudio, Window* window);
@@ -37,17 +38,12 @@ namespace ouzel
 
             inline AudioDevice* getDevice() const { return device.get(); }
 
-            void addListener(Listener* listener);
-            void removeListener(Listener* listener);
-
             static void resample(const std::vector<float>& src, uint32_t srcFrames,
                                  std::vector<float>& dst, uint32_t dstFrames,
                                  uint32_t channels);
 
         private:
             std::unique_ptr<AudioDevice> device;
-
-            std::vector<Listener*> listeners;
         };
     } // namespace audio
 } // namespace ouzel

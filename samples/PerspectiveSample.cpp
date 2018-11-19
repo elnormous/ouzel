@@ -60,7 +60,7 @@ PerspectiveSample::PerspectiveSample():
     character.setPosition(Vector2(10.0F, 0.0F));
 
     cameraActor.addComponent(&listener);
-    engine->getAudio()->addListener(&listener);
+    listener.setOutput(engine->getAudio());
 
     jumpSound = Sound(engine->getCache().getSoundData("jump.wav"));
     jumpSound.setOutput(&listener);

@@ -5,6 +5,7 @@
 
 #include <cfloat>
 #include "audio/AudioDevice.hpp"
+#include "audio/SoundInput.hpp"
 #include "audio/SoundOutput.hpp"
 #include "scene/Component.hpp"
 #include "math/Quaternion.hpp"
@@ -16,7 +17,7 @@ namespace ouzel
     {
         class Audio;
 
-        class Listener: public SoundOutput, public scene::Component
+        class Listener: public SoundInput, public SoundOutput, public scene::Component
         {
             friend Audio;
         public:
