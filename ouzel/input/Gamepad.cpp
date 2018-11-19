@@ -20,8 +20,7 @@ namespace ouzel
         {
             absoluteDPadValues = newAbsoluteDPadValues;
 
-            InputSystem::Command command;
-            command.type = InputSystem::Command::Type::SET_ABSOLUTE_DPAD_VALUES;
+            InputSystem::Command command(InputSystem::Command::Type::SET_ABSOLUTE_DPAD_VALUES);
             command.deviceId = deviceId;
             command.absoluteDPadValues = absoluteDPadValues;
             inputManager.getInputSystem()->addCommand(command);
@@ -31,8 +30,7 @@ namespace ouzel
         {
             playerIndex = newPlayerIndex;
 
-            InputSystem::Command command;
-            command.type = InputSystem::Command::Type::SET_PLAYER_INDEX;
+            InputSystem::Command command(InputSystem::Command::Type::SET_PLAYER_INDEX);
             command.deviceId = deviceId;
             command.playerIndex = playerIndex;
             inputManager.getInputSystem()->addCommand(command);
@@ -59,8 +57,7 @@ namespace ouzel
         {
             vibration[static_cast<uint32_t>(motor)] = speed;
 
-            InputSystem::Command command;
-            command.type = InputSystem::Command::Type::SET_VIBRATION;
+            InputSystem::Command command(InputSystem::Command::Type::SET_VIBRATION);
             command.deviceId = deviceId;
             command.motor = motor;
             command.speed = speed;

@@ -25,6 +25,9 @@ namespace ouzel
                 SET_TITLE
             };
 
+            Command() {}
+            explicit Command(Type initType): type(initType) {}
+            
             Type type;
 
             union
