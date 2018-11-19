@@ -32,13 +32,16 @@ namespace ouzel
                 enum class Type
                 {
                     INIT_NODE,
-                    DESTROY_NODE,
+                    DELETE_NODE,
                     UPDATE_NODE,
                     ADD_INPUT_NODE
                 };
 
+                Command() {}
+                explicit Command(Type initType): type(initType) {}
+
                 Type type;
-                uintptr_t resourceId;
+                uintptr_t nodeId;
                 std::function<std::unique_ptr<Node>(void)> createFunction;
                 std::function<void(Node*)> updateFunction;
             };

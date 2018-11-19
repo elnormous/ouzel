@@ -16,6 +16,7 @@ namespace ouzel
         {
         public:
             Panner(Audio& initAudio);
+            ~Panner();
 
             Panner(const Panner&) = delete;
             Panner& operator=(const Panner&) = delete;

@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "Gain.hpp"
-#include "Node.hpp"
+#include "Audio.hpp"
 
 namespace ouzel
 {
@@ -13,16 +13,42 @@ namespace ouzel
             GainProcessor()
             {
             }
+
+            void process(std::vector<float>& samples, uint32_t&,
+                         uint32_t&, Vector3&) override
+            {
+                for (float& sample : samples)
+                    sample *= gain;
+            }
+
+            void setGain(float newGain)
+            {
+                gain = newGain;
+            }
+
+        private:
+            float gain = 1.0F;
         };
 
         Gain::Gain(Audio& initAudio):
-            audio(initAudio)
+            audio(initAudio),
+            nodeId(audio.initNode([]() { return std::unique_ptr<Node>(new GainProcessor()); }))
         {
+        }
+
+        Gain::~Gain()
+        {
+            if (nodeId) audio.deleteNode(nodeId);
         }
 
         void Gain::setGain(float newGain)
         {
             gain = newGain;
+
+            audio.updateNode(nodeId, [newGain](Node* node) {
+                GainProcessor* gainProcessor = static_cast<GainProcessor*>(node);
+                gainProcessor->setGain(newGain);
+            });
         }
     } // namespace audio
 } // namespace ouzel

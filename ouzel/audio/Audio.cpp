@@ -109,6 +109,31 @@ namespace ouzel
         {
         }
 
+        uintptr_t Audio::initNode(const std::function<std::unique_ptr<Node>(void)>& createFunction)
+        {
+            uintptr_t nodeId = device->getNodeId();
+            AudioDevice::Command command(AudioDevice::Command::Type::INIT_NODE);
+            command.nodeId = nodeId;
+            command.createFunction = createFunction;
+            device->addCommand(command);
+            return nodeId;
+        }
+
+        void Audio::deleteNode(uintptr_t nodeId)
+        {
+            AudioDevice::Command command(AudioDevice::Command::Type::DELETE_NODE);
+            command.nodeId = nodeId;
+            device->addCommand(command);
+        }
+
+        void Audio::updateNode(uintptr_t nodeId, const std::function<void(Node*)>& updateFunction)
+        {
+            AudioDevice::Command command(AudioDevice::Command::Type::UPDATE_NODE);
+            command.nodeId = nodeId;
+            command.updateFunction = updateFunction;
+            device->addCommand(command);
+        }
+
         void Audio::resample(const std::vector<float>& src, uint32_t srcFrames,
                              std::vector<float>& dst, uint32_t dstFrames,
                              uint32_t channels)

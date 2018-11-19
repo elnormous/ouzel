@@ -16,6 +16,7 @@ namespace ouzel
         {
         public:
             Filter(Audio& initAudio);
+            ~Filter();
 
             Filter(const Filter&) = delete;
             Filter& operator=(const Filter&) = delete;

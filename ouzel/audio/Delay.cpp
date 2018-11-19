@@ -7,9 +7,28 @@ namespace ouzel
 {
     namespace audio
     {
-        Delay::Delay(Audio& initAudio):
-            audio(initAudio)
+        class DelayProcessor final: public Node
         {
+        public:
+            DelayProcessor()
+            {
+            }
+
+            void process(std::vector<float>& samples, uint32_t& channels,
+                         uint32_t& sampleRate, Vector3& position) override
+            {
+            }
+        };
+
+        Delay::Delay(Audio& initAudio):
+            audio(initAudio),
+            nodeId(audio.initNode([]() { return std::unique_ptr<Node>(new DelayProcessor()); }))
+        {
+        }
+
+        Delay::~Delay()
+        {
+            if (nodeId) audio.deleteNode(nodeId);
         }
 
         void Delay::setDelay(float newDelay)
