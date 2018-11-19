@@ -18,6 +18,14 @@ namespace ouzel
         class Texture final
         {
         public:
+            enum class Type
+            {
+                ONE_DIMENSIONAL,
+                TWO_DIMENSIONAL,
+                THREE_DIMENSIONAL,
+                CUBE
+            };
+
             enum Flags
             {
                 DYNAMIC = 0x01,
@@ -134,6 +142,7 @@ namespace ouzel
             Renderer& renderer;
             uintptr_t resource = 0;
 
+            Type type = Type::TWO_DIMENSIONAL;
             Size2 size;
             uint32_t flags = 0;
             uint32_t mipmaps = 0;
