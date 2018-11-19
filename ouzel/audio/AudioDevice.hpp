@@ -3,6 +3,7 @@
 #ifndef OUZEL_AUDIO_AUDIODEVICE_HPP
 #define OUZEL_AUDIO_AUDIODEVICE_HPP
 
+#include <condition_variable>
 #include <functional>
 #include <memory>
 #include <mutex>
