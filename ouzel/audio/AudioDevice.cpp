@@ -50,34 +50,28 @@ namespace ouzel
                         command.updateFunction(nodes[command.resourceId - 1].get());
                         break;
                     }
-                    case Command::Type::SET_INPUT:
+                    case Command::Type::ADD_INPUT_NODE:
                     {
                         break;
                     }
-                    case Command::Type::SET_OUTPUT:
-                    {
-                        break;
-                    }
+                    default:
+                        throw DataError("Invalid command");
                 }
             }
         }
 
         void AudioDevice::setRenderCommands(const std::vector<RenderCommand>& newRenderCommands)
         {
-            std::unique_lock<std::mutex> renderQueueLock(renderQueueMutex);
+            std::unique_lock<std::mutex> lock(renderQueueMutex);
 
             renderQueue = newRenderCommands;
         }
 
         void AudioDevice::processRenderCommands(uint32_t frames, std::vector<float>& result)
         {
-            std::vector<RenderCommand> renderCommands;
-
-            {
-                std::unique_lock<std::mutex> renderQueueLock(renderQueueMutex);
-
-                renderCommands = renderQueue;
-            }
+            std::unique_lock<std::mutex> lock(renderQueueMutex);
+            std::vector<RenderCommand> renderCommands = std::move(renderQueue);
+            lock.unlock();
 
             uint32_t buffer = currentBuffer;
             if (++currentBuffer > buffers.size()) return; // out of buffers

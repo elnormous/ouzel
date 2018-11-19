@@ -34,8 +34,7 @@ namespace ouzel
                     INIT_NODE,
                     DESTROY_NODE,
                     UPDATE_NODE,
-                    SET_INPUT,
-                    SET_OUTPUT,
+                    ADD_INPUT_NODE
                 };
 
                 Type type;
