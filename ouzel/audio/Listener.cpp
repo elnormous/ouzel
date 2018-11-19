@@ -3,7 +3,7 @@
 #include "Listener.hpp"
 #include "Audio.hpp"
 #include "AudioDevice.hpp"
-#include "SoundInput.hpp"
+#include "Source.hpp"
 #include "scene/Actor.hpp"
 #include "math/MathUtils.hpp"
 
@@ -29,9 +29,6 @@ namespace ouzel
         AudioDevice::RenderCommand Listener::getRenderCommand()
         {
             AudioDevice::RenderCommand renderCommand;
-
-            for (SoundInput* input : inputs)
-                input->addRenderCommands(renderCommand.renderCommands);
 
             if (transformDirty && actor)
             {

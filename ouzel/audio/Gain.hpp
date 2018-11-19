@@ -3,8 +3,8 @@
 #ifndef OUZEL_AUDIO_GAIN_HPP
 #define OUZEL_AUDIO_GAIN_HPP
 
-#include "audio/SoundInput.hpp"
-#include "audio/SoundOutput.hpp"
+#include "audio/Source.hpp"
+#include "audio/Destination.hpp"
 
 namespace ouzel
 {
@@ -12,7 +12,7 @@ namespace ouzel
     {
         class Audio;
 
-        class Gain final: public SoundInput, public SoundOutput
+        class Gain final: public Source, public Destination
         {
         public:
             Gain(Audio& initAudio);

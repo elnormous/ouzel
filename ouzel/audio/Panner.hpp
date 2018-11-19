@@ -3,8 +3,8 @@
 #ifndef OUZEL_AUDIO_PANNER_HPP
 #define OUZEL_AUDIO_PANNER_HPP
 
-#include "audio/SoundInput.hpp"
-#include "audio/SoundOutput.hpp"
+#include "audio/Source.hpp"
+#include "audio/Destination.hpp"
 
 namespace ouzel
 {
@@ -12,7 +12,7 @@ namespace ouzel
     {
         class Audio;
 
-        class Panner final: public SoundInput, public SoundOutput
+        class Panner final: public Source, public Destination
         {
         public:
             Panner(Audio& initAudio);
