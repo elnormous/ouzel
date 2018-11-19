@@ -31,8 +31,9 @@ namespace ouzel
             friend MouseDevice;
             friend TouchpadDevice;
         public:
-            struct Command final
+            class Command final
             {
+            public:
                 enum class Type
                 {
                     START_DEVICE_DISCOVERY,
@@ -49,6 +50,9 @@ namespace ouzel
                     SHOW_VIRTUAL_KEYBOARD,
                     HIDE_VIRTUAL_KEYBOARD
                 };
+
+                Command() {}
+                explicit Command(Type initType): type(initType) {}
 
                 Type type;
                 uint32_t deviceId = 0;
