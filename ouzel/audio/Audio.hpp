@@ -9,7 +9,7 @@
 #include <set>
 #include <vector>
 #include "audio/Driver.hpp"
-#include "audio/Destination.hpp"
+#include "audio/SoundOutput.hpp"
 #include "audio/Node.hpp"
 #include "math/Quaternion.hpp"
 #include "math/Vector3.hpp"
@@ -23,7 +23,7 @@ namespace ouzel
         class AudioDevice;
         class Listener;
 
-        class Audio final: public Destination
+        class Audio final: public SoundOutput
         {
         public:
             Audio(Driver driver, bool debugAudio, Window* window);
@@ -42,10 +42,6 @@ namespace ouzel
             uintptr_t initNode(const std::function<std::unique_ptr<Node>(void)>& createFunction);
             void deleteNode(uintptr_t nodeId);
             void updateNode(uintptr_t nodeId, const std::function<void(Node*)>& updateFunction);
-
-            static void resample(const std::vector<float>& src, uint32_t srcFrames,
-                                 std::vector<float>& dst, uint32_t dstFrames,
-                                 uint32_t channels);
 
         private:
             std::unique_ptr<AudioDevice> device;

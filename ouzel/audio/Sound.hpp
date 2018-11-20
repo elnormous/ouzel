@@ -4,7 +4,7 @@
 #define OUZEL_AUDIO_SOUND_HPP
 
 #include <memory>
-#include "audio/Source.hpp"
+#include "audio/SoundInput.hpp"
 #include "audio/Stream.hpp"
 #include "math/Vector3.hpp"
 
@@ -14,7 +14,7 @@ namespace ouzel
     {
         class SoundData;
 
-        class Sound: public Source, public Stream::EventListener
+        class Sound: public SoundInput, public Stream::EventListener
         {
             friend Audio;
         public:

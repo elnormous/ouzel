@@ -50,14 +50,14 @@ namespace ouzel
                         command.updateFunction(nodes[command.nodeId - 1].get());
                         break;
                     }
-                    case Command::Type::ADD_SOURCE_NODE:
+                    case Command::Type::ADD_OUTPUT_NODE:
                     {
-                        nodes[command.nodeId - 1]->addSource(nodes[command.sourceNodeId - 1].get());
+                        nodes[command.nodeId - 1]->addOutputNode(nodes[command.destinationNodeId - 1].get());
                         break;
                     }
-                    case Command::Type::SET_OUTPUT_NODE:
+                    case Command::Type::SET_DESTINATION_NODE:
                     {
-                        outputNode = command.nodeId ? nodes[command.nodeId - 1].get() : nullptr;
+                        destinationNode = command.nodeId ? nodes[command.nodeId - 1].get() : nullptr;
                         break;
                     }
                     default:
@@ -76,13 +76,13 @@ namespace ouzel
             buffers[buffer].resize(frames * channels);
             std::fill(buffers[buffer].begin(), buffers[buffer].end(), 0.0F);
 
-            if (outputNode)
+            if (destinationNode)
             {
                 uint16_t inputChannels = channels;
                 uint32_t inputSampleRate = sampleRate;
                 Vector3 inputPosition;
 
-                outputNode->process(buffers[buffer], inputChannels, inputSampleRate, inputPosition);
+                destinationNode->process(buffers[buffer], inputChannels, inputSampleRate, inputPosition);
             }
 
             for (float& f : buffers[buffer])

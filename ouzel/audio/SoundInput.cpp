@@ -1,18 +1,18 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include "Source.hpp"
-#include "Destination.hpp"
+#include "SoundInput.hpp"
+#include "SoundOutput.hpp"
 
 namespace ouzel
 {
     namespace audio
     {
-        Source::~Source()
+        SoundInput::~SoundInput()
         {
             if (output) output->removeInput(this);
         }
 
-        void Source::setOutput(Destination* newOutput)
+        void SoundInput::setOutput(SoundOutput* newOutput)
         {
             if (output) output->removeInput(this);
             output = newOutput;

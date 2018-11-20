@@ -45,7 +45,6 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/audio/Audio.cpp \
     ../../ouzel/audio/AudioDevice.cpp \
 	../../ouzel/audio/Delay.cpp \
-	../../ouzel/audio/Destination.cpp \
 	../../ouzel/audio/Filter.cpp \
 	../../ouzel/audio/Gain.cpp \
     ../../ouzel/audio/Listener.cpp \
@@ -56,7 +55,8 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/audio/SoundData.cpp \
     ../../ouzel/audio/SoundDataVorbis.cpp \
     ../../ouzel/audio/SoundDataWave.cpp \
-    ../../ouzel/audio/Source.cpp \
+    ../../ouzel/audio/SoundInput.cpp \
+	../../ouzel/audio/SoundOutput.cpp \
     ../../ouzel/audio/Stream.cpp \
     ../../ouzel/audio/StreamVorbis.cpp \
     ../../ouzel/audio/StreamWave.cpp \

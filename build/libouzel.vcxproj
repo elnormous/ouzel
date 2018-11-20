@@ -51,9 +51,9 @@
     <ClCompile Include="..\ouzel\audio\Panner.cpp" />
     <ClCompile Include="..\ouzel\audio\Pitch.cpp" />
     <ClCompile Include="..\ouzel\audio\Node.cpp" />
-    <ClCompile Include="..\ouzel\audio\Source.cpp" />
+    <ClCompile Include="..\ouzel\audio\SoundInput.cpp" />
     <ClCompile Include="..\ouzel\audio\Listener.cpp" />
-    <ClCompile Include="..\ouzel\audio\Destination.cpp" />
+    <ClCompile Include="..\ouzel\audio\SoundOutput.cpp" />
     <ClCompile Include="..\ouzel\audio\Sound.cpp" />
     <ClCompile Include="..\ouzel\audio\SoundData.cpp" />
     <ClCompile Include="..\ouzel\audio\SoundDataVorbis.cpp" />
@@ -221,9 +221,9 @@
     <ClInclude Include="..\ouzel\audio\Pitch.hpp" />
     <ClInclude Include="..\ouzel\audio\Processor.hpp" />
     <ClInclude Include="..\ouzel\audio\SampleFormat.hpp" />
-    <ClInclude Include="..\ouzel\audio\Source.hpp" />
+    <ClInclude Include="..\ouzel\audio\SoundInput.hpp" />
     <ClInclude Include="..\ouzel\audio\Listener.hpp" />
-    <ClInclude Include="..\ouzel\audio\Destination.hpp" />
+    <ClInclude Include="..\ouzel\audio\SoundOutput.hpp" />
     <ClInclude Include="..\ouzel\audio\Sound.hpp" />
     <ClInclude Include="..\ouzel\audio\SoundData.hpp" />
     <ClInclude Include="..\ouzel\audio\SoundDataVorbis.hpp" />
