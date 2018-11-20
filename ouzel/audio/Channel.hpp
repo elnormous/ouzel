@@ -14,20 +14,15 @@ namespace ouzel
             CENTER = 2,
             LFE = 3,
             BACK_LEFT = 4,
-            BACK_RIGHT = 5,
-            SIDE_LEFT = 6,
-            SIDE_RIGHT = 7
+            BACK_RIGHT = 5
         };
 
         enum class ChannelConfiguration
         {
-            MONO,
-            STEREO,
-            QUAD,
-            SURROUND51,
-            SURROUND51_REAR,
-            SURROUND61,
-            SURROUND71
+            MONO, // mono
+            STEREO, // left, right
+            QUAD, // front left, front right, back left, back right
+            SURROUND51 // front left, front right, center, LFE, back left, back right
         };
     } // namespace audio
 } // namespace ouzel

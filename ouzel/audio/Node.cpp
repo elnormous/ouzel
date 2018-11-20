@@ -13,6 +13,21 @@ namespace ouzel
                 destination->removeSource(this);
         }
 
+        void Node::process(std::vector<float>& samples, uint16_t& channels,
+                           uint32_t& sampleRate, Vector3& position)
+        {
+            buffer.resize(samples.size());
+            std::fill(buffer.begin(), buffer.end(), 0.0F);
+
+            for (Node* source : sources)
+            {
+                source->process(buffer, channels, sampleRate, position);
+
+                for (uint32_t i = 0; i < samples.size(); ++i)
+                    samples[i] += buffer[i];
+            }
+        }
+
         void Node::addSource(Node* node)
         {
             auto i = std::find(sources.begin(), sources.end(), node);
