@@ -20,6 +20,20 @@ namespace ouzel
 {
     namespace audio
     {
+        class Sink final: public Node
+        {
+        public:
+            Sink()
+            {
+            }
+
+            void process(std::vector<float>& samples, uint32_t& channels,
+                         uint32_t& sampleRate, Vector3& position) override
+            {
+                std::fill(samples.begin(), samples.end(), 0.0F);
+            }
+        };
+
         std::set<Driver> Audio::getAvailableAudioDrivers()
         {
             static std::set<Driver> availableDrivers;
@@ -103,6 +117,12 @@ namespace ouzel
                     (void)window;
                     break;
             }
+
+            sinkNodeId = initNode([]() { return std::unique_ptr<Node>(new Sink()); });
+
+            AudioDevice::Command command(AudioDevice::Command::Type::SET_OUTPUT_NODE);
+            command.nodeId = sinkNodeId;
+            device->addCommand(command);
         }
 
         Audio::~Audio()

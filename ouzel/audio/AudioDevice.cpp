@@ -54,108 +54,14 @@ namespace ouzel
                     {
                         break;
                     }
+                    case Command::Type::SET_OUTPUT_NODE:
+                    {
+                        outputNode = command.nodeId ? nodes[command.nodeId - 1].get() : nullptr;
+                        break;
+                    }
                     default:
                         throw DataError("Invalid command");
                 }
-            }
-        }
-
-        void AudioDevice::setRenderCommands(const std::vector<RenderCommand>& newRenderCommands)
-        {
-            std::unique_lock<std::mutex> lock(renderQueueMutex);
-
-            renderQueue = newRenderCommands;
-        }
-
-        void AudioDevice::processRenderCommands(uint32_t frames, std::vector<float>& result)
-        {
-            std::unique_lock<std::mutex> lock(renderQueueMutex);
-            std::vector<RenderCommand> renderCommands = std::move(renderQueue);
-            lock.unlock();
-
-            uint32_t buffer = currentBuffer;
-            if (++currentBuffer > buffers.size()) return; // out of buffers
-
-            buffers[buffer].resize(frames * channels);
-            std::fill(buffers[buffer].begin(), buffers[buffer].end(), 0.0F);
-
-            for (const RenderCommand& renderCommand : renderCommands)
-            {
-                processRenderCommand(renderCommand,
-                                     frames,
-                                     Vector3(), // listener position
-                                     Quaternion(), // listener rotation
-                                     1.0F, // pitch
-                                     1.0F, // gain
-                                     1.0F, // rolloff factor
-                                     buffers[buffer]);
-
-                if (buffers[buffer].size() > result.size()) result.resize(buffers[buffer].size(), 0.0F);
-
-                for (uint32_t i = 0; i < buffers[buffer].size() && i < result.size(); ++i)
-                {
-                    // mix the sound into the buffer
-                    result[i] += buffers[buffer][i];
-                }
-            }
-        }
-
-        void AudioDevice::processRenderCommand(const RenderCommand& renderCommand,
-                                               uint32_t frames,
-                                               Vector3 listenerPosition,
-                                               Quaternion listenerRotation,
-                                               float pitch,
-                                               float gain,
-                                               float rolloffFactor,
-                                               std::vector<float>& result)
-        {
-            uint32_t buffer = currentBuffer;
-
-            if (++currentBuffer > buffers.size()) return; // out of buffers
-
-            buffers[buffer].resize(frames * channels);
-            std::fill(buffers[buffer].begin(), buffers[buffer].end(), 0.0F);
-
-            if (renderCommand.attributeCallback)
-            {
-                renderCommand.attributeCallback(listenerPosition,
-                                                listenerRotation,
-                                                pitch,
-                                                gain,
-                                                rolloffFactor);
-            }
-
-            for (const RenderCommand& command : renderCommand.renderCommands)
-            {
-                processRenderCommand(command,
-                                     frames,
-                                     listenerPosition,
-                                     listenerRotation,
-                                     pitch,
-                                     gain,
-                                     rolloffFactor,
-                                     buffers[buffer]);
-
-                if (buffers[buffer].size() > result.size()) result.resize(buffers[buffer].size());
-
-                for (uint32_t i = 0; i < buffers[buffer].size() && i < result.size(); ++i)
-                {
-                    // mix the sound into the buffer
-                    result[i] += buffers[buffer][i];
-                }
-            }
-
-            if (renderCommand.renderCallback)
-            {
-                renderCommand.renderCallback(frames,
-                                             channels,
-                                             sampleRate,
-                                             listenerPosition,
-                                             listenerRotation,
-                                             pitch,
-                                             gain,
-                                             rolloffFactor,
-                                             result);
             }
         }
 
@@ -169,7 +75,7 @@ namespace ouzel
             buffers[buffer].resize(frames * channels);
             std::fill(buffers[buffer].begin(), buffers[buffer].end(), 0.0F);
 
-            processRenderCommands(frames, buffers[buffer]);
+            // TODO: render data
 
             for (float& f : buffers[buffer])
                 f = clamp(f, -1.0F, 1.0F);

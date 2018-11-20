@@ -55,38 +55,11 @@ namespace ouzel
             bool isPlaying() const { return playing; }
             bool isRepeating() const { return repeating; }
 
-            void addRenderCommands(std::vector<AudioDevice::RenderCommand>& renderCommands) override;
-
             void onReset() override;
             void onStop() override;
 
         private:
             void updateTransform() override;
-
-            static void setAttributes(Vector3& listenerPosition,
-                                      Quaternion& listenerRotation,
-                                      float& pitch,
-                                      float& gain,
-                                      float& rolloffFactor,
-                                      float pitchScale,
-                                      float gainScale,
-                                      float rolloffScale);
-
-            static void render(uint32_t frames,
-                               uint16_t channels,
-                               uint32_t sampleRate,
-                               const Vector3& listenerPosition,
-                               const Quaternion& listenerRotation,
-                               float pitch,
-                               float gain,
-                               float rolloffFactor,
-                               std::vector<float>& result,
-                               const std::shared_ptr<SoundData>& soundData,
-                               const std::shared_ptr<Stream>& stream,
-                               const Vector3& position,
-                               float minDistance,
-                               float maxDistance,
-                               bool spatialized);
 
             std::shared_ptr<SoundData> soundData;
             std::shared_ptr<Stream> stream;
