@@ -3,9 +3,11 @@
 #ifndef OUZEL_AUDIO_PANNER_HPP
 #define OUZEL_AUDIO_PANNER_HPP
 
+#include <cfloat>
 #include "audio/Source.hpp"
 #include "audio/Destination.hpp"
 #include "math/Vector3.hpp"
+#include "scene/Component.hpp"
 
 namespace ouzel
 {
@@ -13,7 +15,7 @@ namespace ouzel
     {
         class Audio;
 
-        class Panner final: public Source, public Destination
+        class Panner final: public Source, public Destination, public scene::Component
         {
         public:
             Panner(Audio& initAudio);
@@ -28,10 +30,24 @@ namespace ouzel
             const Vector3& getPosition() const { return position; }
             void setPosition(const Vector3& newPosition);
 
+            inline float getRolloffFactor() const { return rolloffFactor; }
+            void setRolloffFactor(float newRolloffFactor);
+
+            inline float getMinDistance() const { return minDistance; }
+            void setMinDistance(float newMinDistance);
+
+            inline float getMaxDistance() const { return maxDistance; }
+            void setMaxDistance(float newMaxDistance);
+
         private:
+            void updateTransform() override;
+
             Audio& audio;
             uintptr_t nodeId = 0;
             Vector3 position;
+            float rolloffFactor = 1.0F;
+            float minDistance = 1.0F;
+            float maxDistance = FLT_MAX;
         };
     } // namespace audio
 } // namespace ouzel

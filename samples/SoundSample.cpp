@@ -12,6 +12,9 @@ using namespace input;
 SoundSample::SoundSample():
     listener(*engine->getAudio()),
     soundGain(*engine->getAudio()),
+    test8BitPitch(*engine->getAudio()),
+    test24BitPitch(*engine->getAudio()),
+    jumpPanner(*engine->getAudio()),
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
     test8BitButton("button.png", "button_selected.png", "button_down.png", "", "8-bit", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
     test24BitButton("button.png", "button_selected.png", "button_down.png", "", "24-bit", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
@@ -30,19 +33,22 @@ SoundSample::SoundSample():
     soundGain.setGain(1.2F);
 
     test8BitSound = Sound(engine->getCache().getSoundData("8-bit.wav"));
-    test8BitSound.setPitch(2.0F);
-    test8BitSound.setOutput(&soundGain);
+    test8BitPitch.setPitch(2.0F);
+    test8BitSound.setOutput(&test8BitPitch);
+    test8BitPitch.setOutput(&soundGain);
 
     test24BitSound = Sound(engine->getCache().getSoundData("24-bit.wav"));
-    test24BitSound.setPitch(0.5F);
-    test24BitSound.setOutput(&soundGain);
+    test24BitPitch.setPitch(0.5F);
+    test24BitSound.setOutput(&test24BitPitch);
+    test24BitPitch.setOutput(&soundGain);
 
     jumpSound = Sound(engine->getCache().getSoundData("jump.wav"));
 
     guiLayer.addChild(&soundActor);
-    soundActor.addComponent(&jumpSound);
+    soundActor.addComponent(&jumpPanner);
     soundActor.setPosition(Vector3(8.0F, 0.0F, 10.0F));
-    jumpSound.setOutput(&soundGain);
+    jumpSound.setOutput(&jumpPanner);
+    jumpPanner.setOutput(&soundGain);
 
     ambientSound = Sound(engine->getCache().getSoundData("ambient.wav"));
     ambientSound.setOutput(&soundGain);

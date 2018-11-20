@@ -20,8 +20,14 @@ private:
     ouzel::audio::Gain soundGain;
 
     ouzel::audio::Sound test8BitSound;
+    ouzel::audio::Pitch test8BitPitch;
+
     ouzel::audio::Sound test24BitSound;
+    ouzel::audio::Pitch test24BitPitch;
+
     ouzel::audio::Sound jumpSound;
+    ouzel::audio::Panner jumpPanner;
+
     ouzel::audio::Sound ambientSound;
     ouzel::audio::Sound music;
 
