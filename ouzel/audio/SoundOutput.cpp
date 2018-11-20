@@ -1,27 +1,27 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <algorithm>
-#include "Destination.hpp"
-#include "Source.hpp"
+#include "SoundOutput.hpp"
+#include "SoundInput.hpp"
 
 namespace ouzel
 {
     namespace audio
     {
-        Destination::~Destination()
+        SoundOutput::~SoundOutput()
         {
-            for (Source* input : inputs)
+            for (SoundInput* input : inputs)
                 input->output = nullptr;
         }
 
-        void Destination::addInput(Source* input)
+        void SoundOutput::addInput(SoundInput* input)
         {
             auto inputIterator = std::find(inputs.begin(), inputs.end(), input);
 
             if (inputIterator == inputs.end()) inputs.push_back(input);
         }
 
-        void Destination::removeInput(Source* input)
+        void SoundOutput::removeInput(SoundInput* input)
         {
             auto inputIterator = std::find(inputs.begin(), inputs.end(), input);
 

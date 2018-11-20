@@ -9,19 +9,19 @@ namespace ouzel
 {
     namespace audio
     {
-        class Source;
+        class SoundInput;
 
-        class Destination
+        class SoundOutput
         {
-            friend Source;
+            friend SoundInput;
         public:
-            virtual ~Destination();
+            virtual ~SoundOutput();
 
         private:
-            void addInput(Source* input);
-            void removeInput(Source* input);
+            void addInput(SoundInput* input);
+            void removeInput(SoundInput* input);
 
-            std::vector<Source*> inputs;
+            std::vector<SoundInput*> inputs;
         };
     } // namespace audio
 } // namespace ouzel

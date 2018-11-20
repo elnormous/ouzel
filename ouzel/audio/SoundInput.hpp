@@ -9,19 +9,19 @@ namespace ouzel
 {
     namespace audio
     {
-        class Destination;
+        class SoundOutput;
 
-        class Source
+        class SoundInput
         {
-            friend Destination;
+            friend SoundOutput;
         public:
-            virtual ~Source();
+            virtual ~SoundInput();
 
-            inline Destination* getOutput() const { return output; }
-            void setOutput(Destination* newOutput);
+            inline SoundOutput* getOutput() const { return output; }
+            void setOutput(SoundOutput* newOutput);
 
         protected:
-            Destination* output = nullptr;
+            SoundOutput* output = nullptr;
         };
     } // namespace audio
 } // namespace ouzel

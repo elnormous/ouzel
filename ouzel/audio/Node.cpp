@@ -9,8 +9,8 @@ namespace ouzel
     {
         Node::~Node()
         {
-            for (Node* destination : destinations)
-                destination->removeSource(this);
+            for (Node* outputNode : outputNodes)
+                outputNode->removeInputNode(this);
         }
 
         void Node::process(std::vector<float>& samples, uint16_t& channels,
@@ -19,47 +19,47 @@ namespace ouzel
             buffer.resize(samples.size());
             std::fill(buffer.begin(), buffer.end(), 0.0F);
 
-            for (Node* source : sources)
+            for (Node* inputNode : inputNodes)
             {
-                source->process(buffer, channels, sampleRate, position);
+                inputNode->process(buffer, channels, sampleRate, position);
 
                 for (uint32_t i = 0; i < samples.size(); ++i)
                     samples[i] += buffer[i];
             }
         }
 
-        void Node::addSource(Node* node)
+        void Node::addOutputNode(Node* node)
         {
-            auto i = std::find(sources.begin(), sources.end(), node);
-            if (i == sources.end())
+            auto i = std::find(outputNodes.begin(), outputNodes.end(), node);
+            if (i == outputNodes.end())
             {
-                node->addDestination(this);
-                sources.push_back(node);
+                node->addInputNode(this);
+                outputNodes.push_back(node);
             }
         }
 
-        void Node::removeSource(Node* node)
+        void Node::removeOutputNode(Node* node)
         {
-            auto i = std::find(sources.begin(), sources.end(), node);
-            if (i != sources.end())
+            auto i = std::find(outputNodes.begin(), outputNodes.end(), node);
+            if (i != outputNodes.end())
             {
-                node->removeDestination(this);
-                sources.erase(i);
+                node->removeInputNode(this);
+                outputNodes.erase(i);
             }
         }
 
-        void Node::addDestination(Node* node)
+        void Node::addInputNode(Node* node)
         {
-            auto i = std::find(destinations.begin(), destinations.end(), node);
-            if (i == destinations.end())
-                destinations.push_back(node);
+            auto i = std::find(inputNodes.begin(), inputNodes.end(), node);
+            if (i == inputNodes.end())
+                inputNodes.push_back(node);
         }
 
-        void Node::removeDestination(Node* node)
+        void Node::removeInputNode(Node* node)
         {
-            auto i = std::find(destinations.begin(), destinations.end(), node);
-            if (i != destinations.end())
-                destinations.erase(i);
+            auto i = std::find(inputNodes.begin(), inputNodes.end(), node);
+            if (i != inputNodes.end())
+                inputNodes.erase(i);
         }
     } // namespace audio
 } // namespace ouzel

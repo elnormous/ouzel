@@ -27,15 +27,15 @@ namespace ouzel
             virtual void process(std::vector<float>& samples, uint16_t& channels,
                                  uint32_t& sampleRate, Vector3& position);
 
-            void addSource(Node* node);
-            void removeSource(Node* node);
+            void addOutputNode(Node* node);
+            void removeOutputNode(Node* node);
 
         private:
-            void addDestination(Node* node);
-            void removeDestination(Node* node);
+            void addInputNode(Node* node);
+            void removeInputNode(Node* node);
 
-            std::vector<Node*> sources;
-            std::vector<Node*> destinations;
+            std::vector<Node*> inputNodes;
+            std::vector<Node*> outputNodes;
 
             std::vector<float> buffer;
         };

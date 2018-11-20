@@ -20,10 +20,10 @@ namespace ouzel
 {
     namespace audio
     {
-        class Sink final: public Node
+        class Destination final: public Node
         {
         public:
-            Sink()
+            Destination()
             {
             }
 
@@ -31,8 +31,6 @@ namespace ouzel
                          uint32_t& sampleRate, Vector3& position) override
             {
                 Node::process(samples, channels, sampleRate, position);
-
-                std::fill(samples.begin(), samples.end(), 0.0F);
             }
         };
 
@@ -120,9 +118,9 @@ namespace ouzel
                     break;
             }
 
-            sinkNodeId = initNode([]() { return std::unique_ptr<Node>(new Sink()); });
+            sinkNodeId = initNode([]() { return std::unique_ptr<Node>(new Destination()); });
 
-            AudioDevice::Command command(AudioDevice::Command::Type::SET_OUTPUT_NODE);
+            AudioDevice::Command command(AudioDevice::Command::Type::SET_DESTINATION_NODE);
             command.nodeId = sinkNodeId;
             device->addCommand(command);
         }
@@ -154,49 +152,6 @@ namespace ouzel
             command.nodeId = nodeId;
             command.updateFunction = updateFunction;
             device->addCommand(command);
-        }
-
-        void Audio::resample(const std::vector<float>& src, uint32_t srcFrames,
-                             std::vector<float>& dst, uint32_t dstFrames,
-                             uint32_t channels)
-        {
-            if (dstFrames > 0) // do resampling only if destination is not empty
-            {
-                if (srcFrames == 0) // source is empty
-                {
-                    dst.resize(dstFrames * channels);
-
-                    std::fill(dst.begin(), dst.end(), 0.0F);
-                }
-                else
-                {
-                    float srcIncrement = static_cast<float>(srcFrames - 1) / static_cast<float>(dstFrames - 1);
-                    float srcPosition = 0.0F;
-
-                    dst.resize(dstFrames * channels);
-
-                    for (uint32_t frame = 0; frame < dstFrames - 1; ++frame)
-                    {
-                        uint32_t srcCurrentFrame = static_cast<uint32_t>(srcPosition);
-                        float frac = srcPosition - srcCurrentFrame;
-
-                        srcPosition += srcIncrement;
-                        uint32_t srcNextFrame = srcCurrentFrame + 1;
-
-                        for (uint32_t channel = 0; channel < channels; ++channel)
-                        {
-                            uint32_t srcCurrentPosition = srcCurrentFrame * channels + channel;
-                            uint32_t srcNextPosition = srcNextFrame * channels + channel;
-
-                            dst[frame * channels + channel] = ouzel::lerp(src[srcCurrentPosition], src[srcNextPosition], frac);
-                        }
-                    }
-
-                    // fill the last frame of the destination with the last frame of the source
-                    for (uint32_t channel = 0; channel < channels; ++channel)
-                        dst[(dstFrames - 1) * channels + channel] = src[(srcFrames - 1) * channels + channel];
-                }
-            }
         }
     } // namespace audio
 } // namespace ouzel

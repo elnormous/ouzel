@@ -29,7 +29,7 @@ namespace ouzel
             SoundData& operator=(SoundData&&) = delete;
 
             virtual std::shared_ptr<Stream> createStream() = 0;
-            void getData(Stream* stream, uint32_t frames, uint32_t neededChannels, uint32_t neededSampleRate, float pitch, std::vector<float>& result);
+            void getData(Stream* stream, uint32_t frames, uint32_t neededChannels, uint32_t neededSampleRate, std::vector<float>& result);
 
             inline uint16_t getChannels() const { return channels; }
             inline uint32_t getSampleRate() const { return sampleRate; }

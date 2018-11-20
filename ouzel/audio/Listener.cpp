@@ -3,7 +3,7 @@
 #include "Listener.hpp"
 #include "Audio.hpp"
 #include "AudioDevice.hpp"
-#include "Source.hpp"
+#include "SoundInput.hpp"
 #include "scene/Actor.hpp"
 #include "math/MathUtils.hpp"
 

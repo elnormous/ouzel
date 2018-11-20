@@ -4,8 +4,8 @@
 #define OUZEL_AUDIO_PANNER_HPP
 
 #include <cfloat>
-#include "audio/Source.hpp"
-#include "audio/Destination.hpp"
+#include "audio/SoundInput.hpp"
+#include "audio/SoundOutput.hpp"
 #include "math/Vector3.hpp"
 #include "scene/Component.hpp"
 
@@ -15,7 +15,7 @@ namespace ouzel
     {
         class Audio;
 
-        class Panner final: public Source, public Destination, public scene::Component
+        class Panner final: public SoundInput, public SoundOutput, public scene::Component
         {
         public:
             Panner(Audio& initAudio);

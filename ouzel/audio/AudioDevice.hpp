@@ -34,8 +34,8 @@ namespace ouzel
                     INIT_NODE,
                     DELETE_NODE,
                     UPDATE_NODE,
-                    ADD_SOURCE_NODE,
-                    SET_OUTPUT_NODE
+                    ADD_OUTPUT_NODE,
+                    SET_DESTINATION_NODE
                 };
 
                 Command() {}
@@ -43,7 +43,7 @@ namespace ouzel
 
                 Type type;
                 uintptr_t nodeId;
-                uintptr_t sourceNodeId;
+                uintptr_t destinationNodeId;
                 std::function<std::unique_ptr<Node>(void)> createFunction;
                 std::function<void(Node*)> updateFunction;
             };
@@ -103,7 +103,7 @@ namespace ouzel
 
             Driver driver;
 
-            Node* outputNode = nullptr;
+            Node* destinationNode = nullptr;
             std::mutex commandMutex;
             std::condition_variable commandConditionVariable;
             std::queue<Command> commandQueue;

@@ -346,10 +346,10 @@
     <ClCompile Include="..\ouzel\audio\Listener.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\Destination.cpp">
+    <ClCompile Include="..\ouzel\audio\SoundOutput.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\Source.cpp">
+    <ClCompile Include="..\ouzel\audio\SoundInput.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\network\Client.cpp">
@@ -847,10 +847,10 @@
     <ClInclude Include="..\ouzel\audio\Listener.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\Destination.hpp">
+    <ClInclude Include="..\ouzel\audio\SoundOutput.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\Source.hpp">
+    <ClInclude Include="..\ouzel\audio\SoundInput.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\network\Client.hpp">
