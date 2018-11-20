@@ -12,6 +12,7 @@ using namespace input;
 
 PerspectiveSample::PerspectiveSample():
     listener(*engine->getAudio()),
+    jumpPanner(*engine->getAudio()),
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
     cursor(*engine->getInputManager())
 {
@@ -63,9 +64,10 @@ PerspectiveSample::PerspectiveSample():
     listener.setOutput(engine->getAudio());
 
     jumpSound = Sound(engine->getCache().getSoundData("jump.wav"));
-    jumpSound.setOutput(&listener);
-    jumpSound.setRolloffFactor(0.01F);
-    character.addComponent(&jumpSound);
+    jumpSound.setOutput(&jumpPanner);
+    jumpPanner.setOutput(&listener);
+    jumpPanner.setRolloffFactor(0.01F);
+    character.addComponent(&jumpPanner);
 
     rotate.reset(new scene::Rotate(10.0F, Vector3(0.0F, TAU, 0.0F)));
     character.addComponent(rotate);
