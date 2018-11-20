@@ -1028,7 +1028,7 @@ namespace ouzel
 
                         case Command::Type::BLIT:
                         {
-    #if !OUZEL_SUPPORTS_OPENGLES
+#if !OUZEL_SUPPORTS_OPENGLES
                             const BlitCommand* blitCommand = static_cast<const BlitCommand*>(command.get());
 
                             TextureResourceOGL* sourceTextureOGL = static_cast<TextureResourceOGL*>(resources[blitCommand->sourceTexture - 1].get());
@@ -1050,7 +1050,7 @@ namespace ouzel
                                                        static_cast<GLsizei>(blitCommand->sourceWidth),
                                                        static_cast<GLsizei>(blitCommand->sourceHeight),
                                                        0);
-    #endif
+#endif
                             // TODO: copy data if glCopyImageSubData is not available
                             break;
                         }
@@ -1078,10 +1078,10 @@ namespace ouzel
                         {
                             const SetFillModeCommad* setFillModeCommad = static_cast<const SetFillModeCommad*>(command.get());
 
-    #if OUZEL_SUPPORTS_OPENGLES
+#if OUZEL_SUPPORTS_OPENGLES
                             if (setFillModeCommad->fillMode != FillMode::SOLID)
                                 engine->log(Log::Level::WARN) << "Unsupported fill mode";
-    #else
+#else
                             GLenum fillMode = GL_NONE;
 
                             switch (setFillModeCommad->fillMode)
@@ -1092,7 +1092,7 @@ namespace ouzel
                             }
 
                             setPolygonFillMode(fillMode);
-    #endif
+#endif
                             break;
                         }
 
