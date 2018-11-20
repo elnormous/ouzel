@@ -145,7 +145,7 @@ namespace ouzel
 
                 CFRelease(tempStringRef);
             }
-#endif // #if OUZEL_PLATFORM_MACOS
+#endif // OUZEL_PLATFORM_MACOS
 
 #if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
             id audioSession = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("AVAudioSession"), sel_getUid("sharedInstance"));
