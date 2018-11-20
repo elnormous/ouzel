@@ -25,7 +25,7 @@ namespace ouzel
             Node& operator=(Node&&) = delete;
 
             virtual void process(std::vector<float>& samples, uint16_t& channels,
-                                 uint32_t& sampleRate, Vector3& position) = 0;
+                                 uint32_t& sampleRate, Vector3& position);
 
             void addSource(Node* node);
             void removeSource(Node* node);
@@ -36,6 +36,8 @@ namespace ouzel
 
             std::vector<Node*> sources;
             std::vector<Node*> destinations;
+
+            std::vector<float> buffer;
         };
     } // namespace audio
 } // namespace ouzel

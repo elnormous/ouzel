@@ -82,7 +82,6 @@ namespace ouzel
                 uint32_t inputSampleRate = sampleRate;
                 Vector3 inputPosition;
 
-                // TODO: render data
                 outputNode->process(buffers[buffer], inputChannels, inputSampleRate, inputPosition);
             }
 
