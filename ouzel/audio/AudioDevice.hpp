@@ -34,7 +34,8 @@ namespace ouzel
                     INIT_NODE,
                     DELETE_NODE,
                     UPDATE_NODE,
-                    ADD_INPUT_NODE
+                    ADD_INPUT_NODE,
+                    SET_OUTPUT_NODE
                 };
 
                 Command() {}
@@ -55,32 +56,10 @@ namespace ouzel
             AudioDevice(AudioDevice&&) = delete;
             AudioDevice& operator=(AudioDevice&&) = delete;
 
-            virtual void process();
-
             inline uint16_t getAPIMajorVersion() const { return apiMajorVersion; }
             inline uint16_t getAPIMinorVersion() const { return apiMinorVersion; }
 
-            struct RenderCommand
-            {
-                std::function<void(Vector3& listenerPosition,
-                                   Quaternion& listenerRotation,
-                                   float& pitch,
-                                   float& gain,
-                                   float& rolloffFactor)> attributeCallback;
-
-                std::function<void(uint32_t frames,
-                                   uint16_t channels,
-                                   uint32_t sampleRate,
-                                   const Vector3& listenerPosition,
-                                   const Quaternion& listenerRotation,
-                                   float pitch,
-                                   float gain,
-                                   float rolloffFactor,
-                                   std::vector<float>& result)> renderCallback;
-                std::vector<RenderCommand> renderCommands;
-            };
-
-            void setRenderCommands(const std::vector<RenderCommand>& newRenderCommands);
+            virtual void process();
 
             void addCommand(const Command& command);
 
@@ -103,39 +82,27 @@ namespace ouzel
 
         protected:
             void getData(uint32_t frames, std::vector<uint8_t>& result);
-            void processRenderCommands(uint32_t frames,
-                                       std::vector<float>& result);
-            void processRenderCommand(const RenderCommand& renderCommand,
-                                      uint32_t frames,
-                                      Vector3 listenerPosition,
-                                      Quaternion listenerRotation,
-                                      float pitch,
-                                      float gain,
-                                      float rolloffFactor,
-                                      std::vector<float>& result);
-
-            Driver driver;
-
-            uint16_t apiMajorVersion = 0;
-            uint16_t apiMinorVersion = 0;
 
             SampleFormat sampleFormat = SampleFormat::SINT16;
             const uint32_t bufferSize = 2 * 4096;
             const uint32_t sampleRate = 44100;
             const uint16_t channels = 2;
 
+        private:
             std::vector<std::vector<float>> buffers;
             uint32_t currentBuffer = 0;
-
-            std::vector<RenderCommand> renderQueue;
-            std::mutex renderQueueMutex;
 
             uintptr_t lastNodeId = 0;
             std::queue<uintptr_t> deletedNodeIds;
 
             std::vector<std::unique_ptr<Node>> nodes;
 
-        private:
+            Driver driver;
+
+            uint16_t apiMajorVersion = 0;
+            uint16_t apiMinorVersion = 0;
+
+            Node* outputNode = nullptr;
             std::mutex commandMutex;
             std::condition_variable commandConditionVariable;
             std::queue<Command> commandQueue;

@@ -24,18 +24,8 @@ namespace ouzel
             Listener(Audio& initAudio);
             virtual ~Listener();
 
-            AudioDevice::RenderCommand getRenderCommand();
-
         protected:
             void updateTransform() override;
-
-            static void setAttributes(Vector3& listenerPosition,
-                                      Quaternion& listenerRotation,
-                                      float& pitch,
-                                      float& gain,
-                                      float& rolloffScale,
-                                      const Vector3& position,
-                                      const Quaternion& rotation);
 
         private:
             Audio& audio;

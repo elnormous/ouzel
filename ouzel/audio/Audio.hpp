@@ -49,6 +49,7 @@ namespace ouzel
 
         private:
             std::unique_ptr<AudioDevice> device;
+            uintptr_t sinkNodeId;
         };
     } // namespace audio
 } // namespace ouzel
