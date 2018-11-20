@@ -16,7 +16,7 @@ namespace ouzel
         {
         public:
             Node() {}
-            virtual ~Node() {}
+            virtual ~Node();
 
             Node(const Node&) = delete;
             Node& operator=(const Node&) = delete;
@@ -24,8 +24,18 @@ namespace ouzel
             Node(Node&&) = delete;
             Node& operator=(Node&&) = delete;
 
-            virtual void process(std::vector<float>& samples, uint32_t& channels,
+            virtual void process(std::vector<float>& samples, uint16_t& channels,
                                  uint32_t& sampleRate, Vector3& position) = 0;
+
+            void addSource(Node* node);
+            void removeSource(Node* node);
+
+        private:
+            void addDestination(Node* node);
+            void removeDestination(Node* node);
+
+            std::vector<Node*> sources;
+            std::vector<Node*> destinations;
         };
     } // namespace audio
 } // namespace ouzel

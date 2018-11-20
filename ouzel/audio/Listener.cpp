@@ -18,7 +18,7 @@ namespace ouzel
             {
             }
 
-            void process(std::vector<float>& samples, uint32_t& channels,
+            void process(std::vector<float>& samples, uint16_t& channels,
                          uint32_t& sampleRate, Vector3& position) override
             {
             }

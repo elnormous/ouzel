@@ -5,6 +5,7 @@
 
 #include "audio/Source.hpp"
 #include "audio/Destination.hpp"
+#include "math/Vector3.hpp"
 
 namespace ouzel
 {
@@ -24,9 +25,13 @@ namespace ouzel
             Panner(Panner&&) = delete;
             Panner& operator=(Panner&&) = delete;
 
+            const Vector3& getPosition() const { return position; }
+            void setPosition(const Vector3& newPosition);
+
         private:
             Audio& audio;
             uintptr_t nodeId = 0;
+            Vector3 position;
         };
     } // namespace audio
 } // namespace ouzel

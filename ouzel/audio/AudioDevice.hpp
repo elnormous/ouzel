@@ -34,7 +34,7 @@ namespace ouzel
                     INIT_NODE,
                     DELETE_NODE,
                     UPDATE_NODE,
-                    ADD_INPUT_NODE,
+                    ADD_SOURCE_NODE,
                     SET_OUTPUT_NODE
                 };
 
@@ -43,6 +43,7 @@ namespace ouzel
 
                 Type type;
                 uintptr_t nodeId;
+                uintptr_t sourceNodeId;
                 std::function<std::unique_ptr<Node>(void)> createFunction;
                 std::function<void(Node*)> updateFunction;
             };
@@ -83,6 +84,9 @@ namespace ouzel
         protected:
             void getData(uint32_t frames, std::vector<uint8_t>& result);
 
+            uint16_t apiMajorVersion = 0;
+            uint16_t apiMinorVersion = 0;
+            
             SampleFormat sampleFormat = SampleFormat::SINT16;
             const uint32_t bufferSize = 2 * 4096;
             const uint32_t sampleRate = 44100;
@@ -98,9 +102,6 @@ namespace ouzel
             std::vector<std::unique_ptr<Node>> nodes;
 
             Driver driver;
-
-            uint16_t apiMajorVersion = 0;
-            uint16_t apiMinorVersion = 0;
 
             Node* outputNode = nullptr;
             std::mutex commandMutex;
