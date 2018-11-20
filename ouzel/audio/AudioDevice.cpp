@@ -50,8 +50,9 @@ namespace ouzel
                         command.updateFunction(nodes[command.nodeId - 1].get());
                         break;
                     }
-                    case Command::Type::ADD_INPUT_NODE:
+                    case Command::Type::ADD_SOURCE_NODE:
                     {
+                        nodes[command.nodeId - 1]->addSource(nodes[command.sourceNodeId - 1].get());
                         break;
                     }
                     case Command::Type::SET_OUTPUT_NODE:
@@ -75,7 +76,15 @@ namespace ouzel
             buffers[buffer].resize(frames * channels);
             std::fill(buffers[buffer].begin(), buffers[buffer].end(), 0.0F);
 
-            // TODO: render data
+            if (outputNode)
+            {
+                uint16_t inputChannels = channels;
+                uint32_t inputSampleRate = sampleRate;
+                Vector3 inputPosition;
+
+                // TODO: render data
+                outputNode->process(buffers[buffer], inputChannels, inputSampleRate, inputPosition);
+            }
 
             for (float& f : buffers[buffer])
                 f = clamp(f, -1.0F, 1.0F);

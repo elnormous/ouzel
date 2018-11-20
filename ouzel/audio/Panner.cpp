@@ -14,10 +14,19 @@ namespace ouzel
             {
             }
 
-            void process(std::vector<float>& samples, uint32_t& channels,
-                         uint32_t& sampleRate, Vector3& position) override
+            void process(std::vector<float>&, uint16_t&,
+                         uint32_t&, Vector3& pos) override
             {
+                position = pos;
             }
+
+            void setPosition(const Vector3& newPosition)
+            {
+                position = newPosition;
+            }
+
+        private:
+            Vector3 position;
         };
 
         Panner::Panner(Audio& initAudio):
@@ -29,6 +38,16 @@ namespace ouzel
         Panner::~Panner()
         {
             if (nodeId) audio.deleteNode(nodeId);
+        }
+
+        void Panner::setPosition(const Vector3& newPosition)
+        {
+            position = newPosition;
+
+            audio.updateNode(nodeId, [newPosition](Node* node) {
+                PannerProcessor* pannerProcessor = static_cast<PannerProcessor*>(node);
+                pannerProcessor->setPosition(newPosition);
+            });
         }
     } // namespace audio
 } // namespace ouzel
