@@ -49,42 +49,6 @@
                                       static_cast<float>(size.height)));
 }
 
--(void)deviceOrientationDidChange:(NSNotification*)note
-{
-    UIDevice* device = note.object;
-    UIDeviceOrientation orientation = device.orientation;
-
-    std::unique_ptr<ouzel::SystemEvent> event(new ouzel::SystemEvent());
-    event->type = ouzel::Event::Type::ORIENTATION_CHANGE;
-
-    switch (orientation)
-    {
-        case UIDeviceOrientationPortrait:
-            event->orientation = ouzel::SystemEvent::Orientation::PORTRAIT;
-            break;
-        case UIDeviceOrientationPortraitUpsideDown:
-            event->orientation = ouzel::SystemEvent::Orientation::PORTRAIT_REVERSE;
-            break;
-        case UIDeviceOrientationLandscapeLeft:
-            event->orientation = ouzel::SystemEvent::Orientation::LANDSCAPE;
-            break;
-        case UIDeviceOrientationLandscapeRight:
-            event->orientation = ouzel::SystemEvent::Orientation::LANDSCAPE_REVERSE;
-            break;
-        case UIDeviceOrientationFaceUp:
-            event->orientation = ouzel::SystemEvent::Orientation::FACE_UP;
-            break;
-        case UIDeviceOrientationFaceDown:
-            event->orientation = ouzel::SystemEvent::Orientation::FACE_DOWN;
-            break;
-        default:
-            event->orientation = ouzel::SystemEvent::Orientation::UNKNOWN;
-            break;
-    }
-
-    ouzel::engine->getEventDispatcher().postEvent(std::move(event));
-}
-
 @end
 
 namespace ouzel
@@ -107,11 +71,6 @@ namespace ouzel
 
         viewController = [[[ViewController alloc] initWithWindow:this] autorelease];
         window.rootViewController = viewController;
-
-        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-        [[NSNotificationCenter defaultCenter] addObserver:viewController selector:@selector(deviceOrientationDidChange:)
-                                                     name:UIDeviceOrientationDidChangeNotification
-                                                   object:[UIDevice currentDevice]];
 
         CGRect windowFrame = [window bounds];
 

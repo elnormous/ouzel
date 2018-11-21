@@ -11,6 +11,11 @@
 
 -(BOOL)application:(__unused UIApplication*)application willFinishLaunchingWithOptions:(__unused NSDictionary*)launchOptions
 {
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceOrientationDidChange:)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:[UIDevice currentDevice]];
+    
     ouzel::engine->init();
 
     return YES;
@@ -56,6 +61,42 @@
 
         ouzel::engine->getEventDispatcher().postEvent(std::move(event));
     }
+}
+
+-(void)deviceOrientationDidChange:(NSNotification*)note
+{
+    UIDevice* device = note.object;
+    UIDeviceOrientation orientation = device.orientation;
+
+    std::unique_ptr<ouzel::SystemEvent> event(new ouzel::SystemEvent());
+    event->type = ouzel::Event::Type::ORIENTATION_CHANGE;
+
+    switch (orientation)
+    {
+        case UIDeviceOrientationPortrait:
+            event->orientation = ouzel::SystemEvent::Orientation::PORTRAIT;
+            break;
+        case UIDeviceOrientationPortraitUpsideDown:
+            event->orientation = ouzel::SystemEvent::Orientation::PORTRAIT_REVERSE;
+            break;
+        case UIDeviceOrientationLandscapeLeft:
+            event->orientation = ouzel::SystemEvent::Orientation::LANDSCAPE;
+            break;
+        case UIDeviceOrientationLandscapeRight:
+            event->orientation = ouzel::SystemEvent::Orientation::LANDSCAPE_REVERSE;
+            break;
+        case UIDeviceOrientationFaceUp:
+            event->orientation = ouzel::SystemEvent::Orientation::FACE_UP;
+            break;
+        case UIDeviceOrientationFaceDown:
+            event->orientation = ouzel::SystemEvent::Orientation::FACE_DOWN;
+            break;
+        default:
+            event->orientation = ouzel::SystemEvent::Orientation::UNKNOWN;
+            break;
+    }
+
+    ouzel::engine->getEventDispatcher().postEvent(std::move(event));
 }
 
 @end
