@@ -194,10 +194,29 @@ namespace ouzel
 #endif
     }
 
+    void NativeWindowLinux::executeCommand(const Command& command)
+    {
+        switch (command.type)
+        {
+            case Command::Type::CHANGE_SIZE:
+                setSize(command.size);
+                break;
+            case Command::Type::CHANGE_FULLSCREEN:
+                setFullscreen(command.fullscreen);
+                break;
+            case Command::Type::CLOSE:
+                close();
+                break;
+            case Command::Type::SET_TITLE:
+                setTitle(command.title);
+                break;
+            default:
+                throw SystemError("Invalid command");
+        }
+    }
+
     void NativeWindowLinux::close()
     {
-        NativeWindow::close();
-
 #if OUZEL_SUPPORTS_X11
         if (!protocolsAtom || !deleteAtom) return;
 
@@ -218,7 +237,7 @@ namespace ouzel
 
     void NativeWindowLinux::setSize(const Size2& newSize)
     {
-        NativeWindow::setSize(newSize);
+        size = newSize;
 
 #if OUZEL_SUPPORTS_X11
         XWindowChanges changes;
@@ -249,7 +268,7 @@ namespace ouzel
     {
         if (fullscreen != newFullscreen) toggleFullscreen();
 
-        NativeWindow::setFullscreen(newFullscreen);
+        fullscreen = newFullscreen;
     }
 
     void NativeWindowLinux::setTitle(const std::string& newTitle)
@@ -258,7 +277,7 @@ namespace ouzel
         if (title != newTitle) XStoreName(display, window, newTitle.c_str());
 #endif
 
-        NativeWindow::setTitle(newTitle);
+        title = newTitle;
     }
 
     void NativeWindowLinux::toggleFullscreen()

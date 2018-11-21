@@ -39,11 +39,13 @@ namespace ouzel
                           bool depth);
         ~NativeWindowLinux();
 
-        void close() override;
+        void executeCommand(const Command& command) override;
 
-        void setSize(const Size2& newSize) override;
-        void setFullscreen(bool newFullscreen) override;
-        void setTitle(const std::string& newTitle) override;
+        void close();
+
+        void setSize(const Size2& newSize);
+        void setFullscreen(bool newFullscreen);
+        void setTitle(const std::string& newTitle);
 
 #if OUZEL_SUPPORTS_X11
         inline ::Window getNativeWindow() const { return window; }

@@ -211,10 +211,29 @@ namespace ouzel
         if (windowDelegate) [windowDelegate release];
     }
 
+    void NativeWindowMacOS::executeCommand(const Command& command)
+    {
+        switch (command.type)
+        {
+            case Command::Type::CHANGE_SIZE:
+                setSize(command.size);
+                break;
+            case Command::Type::CHANGE_FULLSCREEN:
+                setFullscreen(command.fullscreen);
+                break;
+            case Command::Type::CLOSE:
+                close();
+                break;
+            case Command::Type::SET_TITLE:
+                setTitle(command.title);
+                break;
+            default:
+                throw SystemError("Invalid command");
+        }
+    }
+
     void NativeWindowMacOS::close()
     {
-        NativeWindow::close();
-
         if (view)
         {
             [view release];
@@ -238,7 +257,7 @@ namespace ouzel
 
     void NativeWindowMacOS::setSize(const Size2& newSize)
     {
-        NativeWindow::setSize(newSize);
+        size = newSize;
 
         NSRect frame = [window frame];
 
@@ -297,7 +316,7 @@ namespace ouzel
             }
         }
 
-        NativeWindow::setFullscreen(newFullscreen);
+        fullscreen = newFullscreen;
     }
 
     void NativeWindowMacOS::setTitle(const std::string& newTitle)
@@ -309,7 +328,7 @@ namespace ouzel
             window.title = objCTitle;
         }
 
-        NativeWindow::setTitle(newTitle);
+        title = newTitle;
     }
 
     void NativeWindowMacOS::handleResize()

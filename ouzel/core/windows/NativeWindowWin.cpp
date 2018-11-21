@@ -538,16 +538,35 @@ namespace ouzel
             UnregisterClassW(WINDOW_CLASS_NAME, GetModuleHandleW(nullptr));
     }
 
+    void NativeWindowWin::executeCommand(const Command& command)
+    {
+        switch (command.type)
+        {
+            case Command::Type::CHANGE_SIZE:
+                setSize(command.size);
+                break;
+            case Command::Type::CHANGE_FULLSCREEN:
+                setFullscreen(command.fullscreen);
+                break;
+            case Command::Type::CLOSE:
+                close();
+                break;
+            case Command::Type::SET_TITLE:
+                setTitle(command.title);
+                break;
+            default:
+                throw SystemError("Invalid command");
+        }
+    }
+
     void NativeWindowWin::close()
     {
-        NativeWindow::close();
-
         SendMessage(window, WM_CLOSE, 0, 0);
     }
 
     void NativeWindowWin::setSize(const Size2& newSize)
     {
-        NativeWindow::setSize(newSize);
+        size = newSize;
 
         UINT width = static_cast<UINT>(newSize.width);
         UINT height = static_cast<UINT>(newSize.height);
@@ -584,12 +603,12 @@ namespace ouzel
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to set window title");
         }
 
-        NativeWindow::setTitle(newTitle);
+        title = newTitle;
     }
 
     void NativeWindowWin::setFullscreen(bool newFullscreen)
     {
-        NativeWindow::setFullscreen(newFullscreen);
+        fullscreen = newFullscreen;
 
         switchFullscreen(newFullscreen);
     }

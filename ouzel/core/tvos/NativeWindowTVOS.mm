@@ -110,6 +110,23 @@ namespace ouzel
         if (window) [window release];
     }
 
+    void NativeWindowTVOS::executeCommand(const Command& command)
+    {
+        switch (command.type)
+        {
+            case Command::Type::CHANGE_SIZE:
+                break;
+            case Command::Type::CHANGE_FULLSCREEN:
+                break;
+            case Command::Type::CLOSE:
+                break;
+            case Command::Type::SET_TITLE:
+                break;
+            default:
+                throw SystemError("Invalid command");
+        }
+    }
+
     void NativeWindowTVOS::handleResize(const Size2& newSize)
     {
         size = newSize;

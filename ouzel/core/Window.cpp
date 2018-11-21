@@ -198,7 +198,8 @@ namespace ouzel
 
     void Window::close()
     {
-        engine->executeOnMainThread(std::bind(&NativeWindow::close, nativeWindow.get()));
+        NativeWindow::Command command(NativeWindow::Command::Type::CLOSE);
+        nativeWindow->addCommand(command);
     }
 
     void Window::setSize(const Size2& newSize)
@@ -207,7 +208,9 @@ namespace ouzel
         {
             size = newSize;
 
-            engine->executeOnMainThread(std::bind(&NativeWindow::setSize, nativeWindow.get(), newSize));
+            NativeWindow::Command command(NativeWindow::Command::Type::CHANGE_SIZE);
+            command.size = newSize;
+            nativeWindow->addCommand(command);
 
             std::unique_ptr<WindowEvent> event(new WindowEvent());
             event->type = Event::Type::WINDOW_SIZE_CHANGE;
@@ -225,7 +228,9 @@ namespace ouzel
         {
             fullscreen = newFullscreen;
 
-            engine->executeOnMainThread(std::bind(&NativeWindow::setFullscreen, nativeWindow.get(), newFullscreen));
+            NativeWindow::Command command(NativeWindow::Command::Type::CHANGE_FULLSCREEN);
+            command.fullscreen = newFullscreen;
+            nativeWindow->addCommand(command);
 
             std::unique_ptr<WindowEvent> event(new WindowEvent());
             event->type = Event::Type::FULLSCREEN_CHANGE;
@@ -243,7 +248,9 @@ namespace ouzel
         {
             title = newTitle;
 
-            engine->executeOnMainThread(std::bind(&NativeWindow::setTitle, nativeWindow.get(), newTitle));
+            NativeWindow::Command command(NativeWindow::Command::Type::SET_TITLE);
+            command.title = newTitle;
+            nativeWindow->addCommand(command);
 
             std::unique_ptr<WindowEvent> event(new WindowEvent());
             event->type = Event::Type::WINDOW_TITLE_CHANGE;
