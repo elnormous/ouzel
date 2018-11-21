@@ -4,7 +4,6 @@
 #include <string>
 #include "LoaderMTL.hpp"
 #include "Bundle.hpp"
-#include "core/Engine.hpp"
 #include "utils/Errors.hpp"
 
 namespace ouzel
