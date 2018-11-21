@@ -1450,7 +1450,7 @@ namespace ouzel
                         }
 
                         default:
-                            throw DataError("Invalid command");
+                            throw SystemError("Invalid command");
                     }
 
                     if (command->type == Command::Type::PRESENT) return;

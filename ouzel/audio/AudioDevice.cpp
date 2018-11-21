@@ -61,7 +61,7 @@ namespace ouzel
                         break;
                     }
                     default:
-                        throw DataError("Invalid command");
+                        throw SystemError("Invalid command");
                 }
             }
         }

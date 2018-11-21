@@ -19,7 +19,6 @@ namespace ouzel
             enum class Type
             {
                 CHANGE_SIZE,
-                CHANGE_RESOLUTION,
                 CHANGE_FULLSCREEN,
                 CLOSE,
                 SET_TITLE
@@ -82,22 +81,16 @@ namespace ouzel
         NativeWindow(NativeWindow&&) = delete;
         NativeWindow& operator=(NativeWindow&&) = delete;
 
-        virtual void close();
+        void addCommand(const Command& command);
+        virtual void executeCommand(const Command&) {}
 
         inline const Size2& getSize() const { return size; }
-        virtual void setSize(const Size2& newSize);
         inline const Size2& getResolution() const { return resolution; }
         inline float getContentScale() const { return contentScale; }
-
         inline bool isResizable() const { return resizable; }
-
-        virtual void setFullscreen(bool newFullscreen);
         inline bool isFullscreen() const { return fullscreen; }
-
         inline bool isExclusiveFullscreen() const { return exclusiveFullscreen; }
-
         inline const std::string& getTitle() const { return title; }
-        virtual void setTitle(const std::string& newTitle);
 
     protected:
         void sendEvent(const Event& event);

@@ -73,9 +73,28 @@ namespace ouzel
         resolution = size;
     }
 
+    void NativeWindowEm::executeCommand(const Command& command)
+    {
+        switch (command.type)
+        {
+            case Command::Type::CHANGE_SIZE:
+                setSize(command.size);
+                break;
+            case Command::Type::CHANGE_FULLSCREEN:
+                setFullscreen(command.fullscreen);
+                break;
+            case Command::Type::CLOSE:
+                break;
+            case Command::Type::SET_TITLE:
+                break;
+            default:
+                throw SystemError("Invalid command");
+        }
+    }
+
     void NativeWindowEm::setSize(const Size2& newSize)
     {
-        NativeWindow::setSize(newSize);
+        size = newSize;
 
         emscripten_set_canvas_size(static_cast<int>(newSize.width),
                                    static_cast<int>(newSize.height));
@@ -83,6 +102,8 @@ namespace ouzel
 
     void NativeWindowEm::setFullscreen(bool newFullscreen)
     {
+        fullscreen = newFullscreen;
+
         if (newFullscreen)
         {
             EmscriptenFullscreenStrategy s;

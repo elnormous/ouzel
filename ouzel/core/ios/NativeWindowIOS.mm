@@ -172,6 +172,24 @@ namespace ouzel
         if (window) [window release];
     }
 
+    void NativeWindowIOS::executeCommand(const Command& command)
+    {
+        switch (command.type)
+        {
+            case Command::Type::CHANGE_SIZE:
+                break;
+            case Command::Type::CHANGE_FULLSCREEN:
+                // TODO: implement (hide status bar)
+                break;
+            case Command::Type::CLOSE:
+                break;
+            case Command::Type::SET_TITLE:
+                break;
+            default:
+                throw SystemError("Invalid command");
+        }
+    }
+
     void NativeWindowIOS::handleResize(const Size2& newSize)
     {
         size = newSize;

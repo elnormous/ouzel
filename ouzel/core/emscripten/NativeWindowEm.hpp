@@ -15,8 +15,11 @@ namespace ouzel
                        bool newFullscreen,
                        const std::string& newTitle,
                        bool newHighDpi);
-        void setSize(const Size2& newSize) override;
-        void setFullscreen(bool newFullscreen) override;
+
+        void executeCommand(const Command& command) override;
+
+        void setSize(const Size2& newSize);
+        void setFullscreen(bool newFullscreen);
 
         void handleResize();
     };

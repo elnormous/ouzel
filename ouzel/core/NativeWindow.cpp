@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "NativeWindow.hpp"
+#include "Engine.hpp"
 
 namespace ouzel
 {
@@ -22,23 +23,9 @@ namespace ouzel
 
     }
 
-    void NativeWindow::close()
+    void NativeWindow::addCommand(const Command& command)
     {
-    }
-
-    void NativeWindow::setSize(const Size2& newSize)
-    {
-        size = newSize;
-    }
-
-    void NativeWindow::setFullscreen(bool newFullscreen)
-    {
-        fullscreen = newFullscreen;
-    }
-
-    void NativeWindow::setTitle(const std::string& newTitle)
-    {
-        title = newTitle;
+        engine->executeOnMainThread(std::bind(&NativeWindow::executeCommand, this, command));
     }
 
     void NativeWindow::sendEvent(const Event& event)

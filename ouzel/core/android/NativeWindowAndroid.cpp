@@ -35,6 +35,24 @@ namespace ouzel
         if (window) ANativeWindow_release(window);
     }
 
+    void NativeWindowAndroid::executeCommand(const Command& command)
+    {
+        switch (command.type)
+        {
+            case Command::Type::CHANGE_SIZE:
+                break;
+            case Command::Type::CHANGE_FULLSCREEN:
+                // TODO: implement (hide status bar and UI buttons)
+                break;
+            case Command::Type::CLOSE:
+                break;
+            case Command::Type::SET_TITLE:
+                break;
+            default:
+                throw SystemError("Invalid command");
+        }
+    }
+
     void NativeWindowAndroid::handleResize(const Size2& newSize)
     {
         size = newSize;
