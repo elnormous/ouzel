@@ -46,7 +46,7 @@ namespace ouzel
         {
             friend Cache;
         public:
-            explicit Bundle(Cache& initCache, FileSystem& initFileSystem);
+            Bundle(Cache& initCache, FileSystem& initFileSystem);
             ~Bundle();
 
             Bundle(const Bundle&) = delete;

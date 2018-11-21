@@ -18,7 +18,6 @@
 #include "assets/LoaderTTF.hpp"
 #include "assets/LoaderVorbis.hpp"
 #include "assets/LoaderWave.hpp"
-#include "files/FileSystem.hpp"
 
 namespace ouzel
 {
@@ -32,7 +31,7 @@ namespace ouzel
             friend Bundle;
             friend Loader;
         public:
-            explicit Cache(FileSystem& initFileSystem);
+            Cache();
 
             Cache(const Cache&) = delete;
             Cache& operator=(const Cache&) = delete;
@@ -61,8 +60,6 @@ namespace ouzel
 
             void addLoader(Loader* loader);
             void removeLoader(Loader* loader);
-
-            FileSystem& fileSystem;
 
             std::vector<Bundle*> bundles;
             std::vector<Loader*> loaders;
