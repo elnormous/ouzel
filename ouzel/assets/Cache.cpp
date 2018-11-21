@@ -19,8 +19,7 @@ namespace ouzel
 {
     namespace assets
     {
-        Cache::Cache(FileSystem& initFileSystem):
-            fileSystem(initFileSystem),
+        Cache::Cache():
             loaderBMF(*this),
             loaderCollada(*this),
             loaderGLTF(*this),
