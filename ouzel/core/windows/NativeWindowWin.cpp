@@ -12,6 +12,7 @@
 #include "graphics/Renderer.hpp"
 #include "graphics/RenderDevice.hpp"
 #include "graphics/direct3d11/RenderDeviceD3D11.hpp"
+#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
 static const LONG_PTR SIGNATURE_MASK = 0x0FFFFFF00;
