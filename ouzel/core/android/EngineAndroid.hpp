@@ -20,8 +20,6 @@ namespace ouzel
         EngineAndroid(JavaVM* initJavaVM);
         ~EngineAndroid();
 
-        void executeCommand(const Command& command) override;
-
         void onCreate(jobject initMainActivity);
         void onSurfaceCreated(jobject newSurface);
         void onSurfaceDestroyed();
