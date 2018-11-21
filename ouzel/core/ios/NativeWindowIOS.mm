@@ -83,14 +83,6 @@
     }
 
     ouzel::engine->getEventDispatcher().postEvent(std::move(event));
-
-    if (self.view)
-    {
-        CGSize size = self.view.frame.size;
-
-        window->handleResize(ouzel::Size2(static_cast<float>(size.width),
-                                          static_cast<float>(size.height)));
-    }
 }
 
 @end
