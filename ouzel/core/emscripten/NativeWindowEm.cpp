@@ -3,6 +3,7 @@
 #include <emscripten.h>
 #include <emscripten/html5.h>
 #include "NativeWindowEm.hpp"
+#include "utils/Errors.hpp"
 
 static EM_BOOL emResizeCallback(int eventType, const EmscriptenUiEvent* uiEvent, void* userData)
 {

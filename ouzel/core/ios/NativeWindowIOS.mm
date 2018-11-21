@@ -45,8 +45,8 @@
 {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 
-    window->setSize(ouzel::Size2(static_cast<float>(size.width),
-                                 static_cast<float>(size.height)));
+    window->handleResize(ouzel::Size2(static_cast<float>(size.width),
+                                      static_cast<float>(size.height)));
 }
 
 -(void)deviceOrientationDidChange:(NSNotification*)note

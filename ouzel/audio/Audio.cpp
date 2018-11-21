@@ -129,6 +129,11 @@ namespace ouzel
         {
         }
 
+        void Audio::update()
+        {
+            // TODO: handle events from the audio device
+        }
+
         uintptr_t Audio::initNode(const std::function<std::unique_ptr<Node>(void)>& createFunction)
         {
             uintptr_t nodeId = device->getNodeId();
