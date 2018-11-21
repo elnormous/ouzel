@@ -39,6 +39,8 @@ namespace ouzel
 
             inline AudioDevice* getDevice() const { return device.get(); }
 
+            void update();
+
             uintptr_t initNode(const std::function<std::unique_ptr<Node>(void)>& createFunction);
             void deleteNode(uintptr_t nodeId);
             void updateNode(uintptr_t nodeId, const std::function<void(Node*)>& updateFunction);

@@ -13,8 +13,7 @@ namespace ouzel
     namespace graphics
     {
         RenderDeviceOGLEm::RenderDeviceOGLEm(const std::function<void(const Event&)>& initCallback):
-            RenderDeviceOGL(initCallback),
-            running(false)
+            RenderDeviceOGL(initCallback)
         {
         }
 

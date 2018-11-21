@@ -631,6 +631,7 @@ namespace ouzel
 
         inputManager->update();
         window->update();
+        audio->update();
 
         if (renderer->getRefillQueue())
             sceneManager.draw();
