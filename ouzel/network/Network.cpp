@@ -26,10 +26,12 @@ namespace ouzel
         {
 #ifdef _WIN32
             WORD sockVersion = MAKEWORD(2, 2);
-            WSADATA wsaData;
+            WSADATA data;
             int error = WSAStartup(sockVersion, &wsaData);
             if (error != 0)
                 throw std::system_error(error, std::system_category(), "Failed to start WinSock failed");
+
+            wsaStarted = true;
 
             if (LOBYTE(wsaData.wVersion) != 2 || HIBYTE(wsaData.wVersion) != 2)
                 throw std::runtime_error("Invalid WinSock version");
@@ -42,42 +44,27 @@ namespace ouzel
             if (endpoint != INVALID_SOCKET)
                 closesocket(endpoint);
 
-            WSACleanup();
+            if (wsaStarted) WSACleanup();
 #else
             if (endpoint != -1)
                 close(endpoint);
 #endif
         }
 
-        void Network::getAddress(const std::string& address, uint32_t& result)
+        uint32_t Network::getAddress(const std::string& address)
         {
             addrinfo* info;
-#ifdef _WIN32
-            for (;;)
-            {
-                int ret = getaddrinfo(address.c_str(), nullptr, nullptr, &info);
-
-                if (ret != 0)
-                {
-                    int error = WSAGetLastError();
-                    if (error == WSANOTINITIALISED) initWSA();
-                    else
-                        throw std::system_error(error, std::system_category(), "Failed to get address info of " + address);
-                }
-                else
-                    break;
-            }
-#else
             int ret = getaddrinfo(address.c_str(), nullptr, nullptr, &info);
 
             if (ret != 0)
                 throw std::system_error(errno, std::system_category(), "Failed to get address info of " + address);
-#endif
 
             sockaddr_in* addr = reinterpret_cast<sockaddr_in*>(info->ai_addr);
-            result = ntohl(addr->sin_addr.s_addr);
+            uint32_t result = ntohl(addr->sin_addr.s_addr);
 
             freeaddrinfo(info);
+
+            return result;
         }
 
         void Network::listen(const std::string& address, uint16_t port)
