@@ -237,15 +237,15 @@ namespace ouzel
 
             if (width > 0 && height > 0)
             {
-                MTLPixelFormat metalPixelFormat = getMetalPixelFormat(pixelFormat);
+                colorFormat = getMetalPixelFormat(pixelFormat);
 
-                if (metalPixelFormat == MTLPixelFormatInvalid)
+                if (colorFormat == MTLPixelFormatInvalid)
                     throw DataError("Invalid pixel format");
 
-                MTLTextureDescriptor* textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:metalPixelFormat
-                                                                                                             width:width
-                                                                                                            height:height
-                                                                                                         mipmapped:(levels.size() > 1) ? YES : NO];
+                MTLTextureDescriptor* textureDescriptor = [[[MTLTextureDescriptor alloc] init] autorelease];
+                textureDescriptor.pixelFormat = colorFormat;
+                textureDescriptor.width = width;
+                textureDescriptor.height = height;
                 textureDescriptor.textureType = MTLTextureType2D;
                 textureDescriptor.mipmapLevelCount = static_cast<NSUInteger>(levels.size());
 
@@ -256,8 +256,6 @@ namespace ouzel
                 }
                 else
                     textureDescriptor.usage = MTLTextureUsageShaderRead;
-
-                colorFormat = textureDescriptor.pixelFormat;
 
                 texture = [renderDeviceMetal.getDevice() newTextureWithDescriptor:textureDescriptor];
 
@@ -274,13 +272,14 @@ namespace ouzel
 
                 if (sampleCount > 1)
                 {
-                    MTLTextureDescriptor* textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:static_cast<MTLPixelFormat>(colorFormat)
-                                                                                                                 width:width
-                                                                                                                height:height
-                                                                                                             mipmapped:NO];
+                    MTLTextureDescriptor* textureDescriptor = [[[MTLTextureDescriptor alloc] init] autorelease];
+                    textureDescriptor.pixelFormat = colorFormat;
+                    textureDescriptor.width = width;
+                    textureDescriptor.height = height;
                     textureDescriptor.textureType = MTLTextureType2DMultisample;
                     textureDescriptor.storageMode = MTLStorageModePrivate;
                     textureDescriptor.sampleCount = sampleCount;
+                    textureDescriptor.mipmapLevelCount = 1;
                     textureDescriptor.usage = MTLTextureUsageRenderTarget;
 
                     msaaTexture = [renderDeviceMetal.getDevice() newTextureWithDescriptor:textureDescriptor];
@@ -302,14 +301,14 @@ namespace ouzel
                 {
                     depthFormat = MTLPixelFormatDepth32Float;
 
-                    MTLTextureDescriptor* textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:static_cast<MTLPixelFormat>(depthFormat)
-                                                                                                                 width:width
-                                                                                                                height:height
-                                                                                                             mipmapped:NO];
-
+                    MTLTextureDescriptor* textureDescriptor = [[[MTLTextureDescriptor alloc] init] autorelease];
+                    textureDescriptor.pixelFormat = depthFormat;
+                    textureDescriptor.width = width;
+                    textureDescriptor.height = height;
                     textureDescriptor.textureType = (sampleCount > 1) ? MTLTextureType2DMultisample : MTLTextureType2D;
                     textureDescriptor.storageMode = MTLStorageModePrivate;
                     textureDescriptor.sampleCount = sampleCount;
+                    textureDescriptor.mipmapLevelCount = 1;
                     textureDescriptor.usage = MTLTextureUsageRenderTarget;
                     if (flags & Texture::BINDABLE_DEPTH_BUFFER) textureDescriptor.usage |= MTLTextureUsageShaderRead;
 
