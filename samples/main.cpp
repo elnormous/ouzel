@@ -17,7 +17,7 @@ class Samples: public ouzel::Application
 {
 public:
     explicit Samples(const std::vector<std::string>& args):
-        bundle(new assets::Bundle(engine->getCache()))
+        bundle(new assets::Bundle(engine->getCache(), engine->getFileSystem()))
     {
         // disable screen saver
         engine->setScreenSaverEnabled(false);
