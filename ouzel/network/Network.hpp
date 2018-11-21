@@ -36,7 +36,7 @@ namespace ouzel
             Network(Network&&) = delete;
             Network& operator=(Network&&) = delete;
 
-            static void getAddress(const std::string& address, uint32_t& result);
+            static uint32_t getAddress(const std::string& address);
 
             void listen(const std::string& address, uint16_t port);
             void connect(const std::string& address, uint16_t port);
@@ -44,6 +44,7 @@ namespace ouzel
 
         private:
 #ifdef _WIN32
+            bool wsaStarted = false;
             SOCKET endpoint = INVALID_SOCKET;
 #else
             int endpoint = -1;
