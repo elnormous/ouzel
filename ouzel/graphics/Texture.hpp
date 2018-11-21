@@ -18,11 +18,11 @@ namespace ouzel
         class Texture final
         {
         public:
-            enum class Type
+            enum class Dimensions
             {
-                ONE_DIMENSIONAL,
-                TWO_DIMENSIONAL,
-                THREE_DIMENSIONAL,
+                ONE,
+                TWO,
+                THREE,
                 CUBE
             };
 
@@ -142,7 +142,7 @@ namespace ouzel
             Renderer& renderer;
             uintptr_t resource = 0;
 
-            Type type = Type::TWO_DIMENSIONAL;
+            Dimensions dimensions = Dimensions::TWO;
             Size2 size;
             uint32_t flags = 0;
             uint32_t mipmaps = 0;
