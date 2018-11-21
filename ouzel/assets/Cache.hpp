@@ -40,7 +40,6 @@ namespace ouzel
             Cache(Cache&&) = delete;
             Cache& operator=(Cache&&) = delete;
 
-            FileSystem& getFileSystem() const { return fileSystem; }
             const std::vector<Bundle*>& getBundles() const { return bundles; }
             const std::vector<Loader*>& getLoaders() const { return loaders; }
 

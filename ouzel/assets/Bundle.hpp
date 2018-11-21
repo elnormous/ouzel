@@ -46,7 +46,7 @@ namespace ouzel
         {
             friend Cache;
         public:
-            explicit Bundle(Cache& initCache);
+            explicit Bundle(Cache& initCache, FileSystem& initFileSystem);
             ~Bundle();
 
             Bundle(const Bundle&) = delete;
@@ -110,6 +110,7 @@ namespace ouzel
 
         private:
             Cache& cache;
+            FileSystem& fileSystem;
 
             std::map<std::string, std::shared_ptr<graphics::Texture>> textures;
             std::map<std::string, std::shared_ptr<graphics::Shader>> shaders;

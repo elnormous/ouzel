@@ -84,7 +84,7 @@ namespace ouzel
 #else
         logThreshold(Log::Level::INFO),
 #endif
-        fileSystem(*this), cache(fileSystem), assetBundle(cache),
+        fileSystem(*this), cache(fileSystem), assetBundle(cache, fileSystem),
         active(false), paused(false),
         oneUpdatePerFrame(false), screenSaverEnabled(true)
     {
