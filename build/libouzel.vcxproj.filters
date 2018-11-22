@@ -479,6 +479,12 @@
     <ClCompile Include="..\ouzel\audio\Node.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\core\System.cpp">
+      <Filter>ouzel\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\core\windows\SystemWin.cpp">
+      <Filter>ouzel\core\windows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\animators\Animator.hpp">
@@ -1026,6 +1032,12 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\Processor.hpp">
       <Filter>ouzel\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\core\System.hpp">
+      <Filter>ouzel\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\core\windows\SystemWin.hpp">
+      <Filter>ouzel\core\windows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
