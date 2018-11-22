@@ -68,6 +68,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/audio/StreamVorbis.cpp \
 	$(ROOT_DIR)/../ouzel/audio/StreamWave.cpp \
 	$(ROOT_DIR)/../ouzel/core/Engine.cpp \
+	$(ROOT_DIR)/../ouzel/core/System.cpp \
 	$(ROOT_DIR)/../ouzel/core/NativeWindow.cpp \
 	$(ROOT_DIR)/../ouzel/core/Timer.cpp \
 	$(ROOT_DIR)/../ouzel/core/Window.cpp \
