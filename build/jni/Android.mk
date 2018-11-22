@@ -63,6 +63,7 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/core/android/EngineAndroid.cpp \
     ../../ouzel/core/android/main.cpp \
     ../../ouzel/core/android/NativeWindowAndroid.cpp \
+	../../ouzel/core/android/SystemAndroid.cpp \
     ../../ouzel/core/Engine.cpp \
 	../../ouzel/core/NativeWindow.cpp \
 	../../ouzel/core/System.cpp \
