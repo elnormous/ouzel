@@ -170,6 +170,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/dsound/AudioDeviceDS.cpp \
 	$(ROOT_DIR)/../ouzel/core/windows/EngineWin.cpp \
 	$(ROOT_DIR)/../ouzel/core/windows/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/windows/NativeWindowWin.cpp \
+	$(ROOT_DIR)/../ouzel/core/windows/SystemWin.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/direct3d11/BlendStateResourceD3D11.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/direct3d11/BufferResourceD3D11.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/direct3d11/DepthStencilStateResourceD3D11.cpp \
@@ -190,6 +191,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/alsa/AudioDeviceALSA.cpp \
 	$(ROOT_DIR)/../ouzel/core/linux/EngineLinux.cpp \
 	$(ROOT_DIR)/../ouzel/core/linux/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/linux/NativeWindowLinux.cpp \
+	$(ROOT_DIR)/../ouzel/core/linux/SystemLinux.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/linux/RenderDeviceOGLLinux.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/EventDevice.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/InputSystemLinux.cpp \
@@ -205,6 +207,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/core/macos/EngineMacOS.mm \
 	$(ROOT_DIR)/../ouzel/core/macos/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/macos/NativeWindowMacOS.mm \
+	$(ROOT_DIR)/../ouzel/core/macos/SystemMacOS.mm \
 	$(ROOT_DIR)/../ouzel/core/macos/ViewMacOS.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/macos/MetalView.m \
 	$(ROOT_DIR)/../ouzel/graphics/metal/macos/RenderDeviceMetalMacOS.mm \
@@ -229,6 +232,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/core/ios/EngineIOS.mm \
 	$(ROOT_DIR)/../ouzel/core/ios/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/ios/NativeWindowIOS.mm \
+	$(ROOT_DIR)/../ouzel/core/ios/SystemIOS.mm \
 	$(ROOT_DIR)/../ouzel/core/ios/ViewIOS.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/ios/MetalView.m \
 	$(ROOT_DIR)/../ouzel/graphics/metal/ios/RenderDeviceMetalIOS.mm \
@@ -252,6 +256,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/core/tvos/EngineTVOS.mm \
 	$(ROOT_DIR)/../ouzel/core/tvos/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/tvos/NativeWindowTVOS.mm \
+	$(ROOT_DIR)/../ouzel/core/tvos/SystemTVOS.mm \
 	$(ROOT_DIR)/../ouzel/core/tvos/ViewTVOS.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/tvos/MetalView.m \
 	$(ROOT_DIR)/../ouzel/graphics/metal/tvos/RenderDeviceMetalTVOS.mm \
@@ -273,6 +278,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/EngineEm.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/NativeWindowEm.cpp \
+	$(ROOT_DIR)/../ouzel/core/emscripten/SystemEm.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/emscripten/RenderDeviceOGLEm.cpp \
 	$(ROOT_DIR)/../ouzel/input/emscripten/GamepadDeviceEm.cpp \
 	$(ROOT_DIR)/../ouzel/input/emscripten/InputSystemEm.cpp \
