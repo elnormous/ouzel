@@ -860,6 +860,12 @@
 		30CC89FC203C5DFB00E2C8C3 /* File.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30CC89F8203C5DFB00E2C8C3 /* File.hpp */; };
 		30CC89FD203C5DFB00E2C8C3 /* File.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30CC89F8203C5DFB00E2C8C3 /* File.hpp */; };
 		30CC89FE203C5DFB00E2C8C3 /* File.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30CC89F8203C5DFB00E2C8C3 /* File.hpp */; };
+		30CEB36921A6385C00525637 /* System.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30CEB36721A6385C00525637 /* System.cpp */; };
+		30CEB36A21A6385C00525637 /* System.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30CEB36721A6385C00525637 /* System.cpp */; };
+		30CEB36B21A6385C00525637 /* System.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30CEB36721A6385C00525637 /* System.cpp */; };
+		30CEB36C21A6385C00525637 /* System.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30CEB36821A6385C00525637 /* System.hpp */; };
+		30CEB36D21A6385C00525637 /* System.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30CEB36821A6385C00525637 /* System.hpp */; };
+		30CEB36E21A6385C00525637 /* System.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30CEB36821A6385C00525637 /* System.hpp */; };
 		30DADE9C1C5167BC001A63B4 /* Cache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30DADE9A1C5167BC001A63B4 /* Cache.cpp */; };
 		30DADE9D1C5167BC001A63B4 /* Cache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30DADE9A1C5167BC001A63B4 /* Cache.cpp */; };
 		30DADE9E1C5167BC001A63B4 /* Cache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30DADE9A1C5167BC001A63B4 /* Cache.cpp */; };
@@ -1306,6 +1312,8 @@
 		30C758BF1F4A23BD008499DC /* DisplayLink.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DisplayLink.mm; sourceTree = "<group>"; };
 		30CC89F7203C5DFB00E2C8C3 /* File.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = File.cpp; sourceTree = "<group>"; };
 		30CC89F8203C5DFB00E2C8C3 /* File.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = File.hpp; sourceTree = "<group>"; };
+		30CEB36721A6385C00525637 /* System.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = System.cpp; sourceTree = "<group>"; };
+		30CEB36821A6385C00525637 /* System.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = System.hpp; sourceTree = "<group>"; };
 		30DADE9A1C5167BC001A63B4 /* Cache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cache.cpp; sourceTree = "<group>"; };
 		30DADE9B1C5167BC001A63B4 /* Cache.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Cache.hpp; sourceTree = "<group>"; };
 		30E75F3E1D7B783B000300D4 /* EventHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventHandler.cpp; sourceTree = "<group>"; };
@@ -1594,6 +1602,8 @@
 				30673DD21F7A694F00EAFAB0 /* NativeWindow.hpp */,
 				30856EF81F7B289B00AA6222 /* Platform.h */,
 				304A8E871C248204008B1151 /* Setup.h */,
+				30CEB36721A6385C00525637 /* System.cpp */,
+				30CEB36821A6385C00525637 /* System.hpp */,
 				305B68D11ED1B31D003352A2 /* Timer.cpp */,
 				305B68D21ED1B31D003352A2 /* Timer.hpp */,
 				303B76311C355A3400FEDE92 /* tvos */,
@@ -2178,6 +2188,7 @@
 				306A26C61F5DD19E00E2B0B6 /* SoundOutput.hpp in Headers */,
 				30519CAF1F9B4E3E00AF3DC4 /* Loader.hpp in Headers */,
 				303B75601C2A3CBF00FEDE92 /* Camera.hpp in Headers */,
+				30CEB36C21A6385C00525637 /* System.hpp in Headers */,
 				3047F7521C4C4FAF00774E3D /* Rotate.hpp in Headers */,
 				303B75371C2A3C8200FEDE92 /* Setup.h in Headers */,
 				3047F7731C4D2C3900774E3D /* Parallel.hpp in Headers */,
@@ -2297,6 +2308,7 @@
 				304736DE1E0B4776009BC562 /* Box3.hpp in Headers */,
 				30216B851ED5C3900073E3D5 /* Plane.hpp in Headers */,
 				303B76661C355A3B00FEDE92 /* Actor.hpp in Headers */,
+				30CEB36E21A6385C00525637 /* System.hpp in Headers */,
 				309BA3181F183D6E006F2240 /* AudioDeviceCA.hpp in Headers */,
 				3009342F1C88978D00CC50D3 /* NativeWindowTVOS.hpp in Headers */,
 				3047F77C1C4D39C500774E3D /* Repeat.hpp in Headers */,
@@ -2415,6 +2427,7 @@
 				30C3F295219D0DD9003FE9ED /* Node.hpp in Headers */,
 				303B04BD1E207B6D00011CBE /* RenderDeviceOGLMacOS.hpp in Headers */,
 				30519CC41F9B53B700AF3DC4 /* LoaderBMF.hpp in Headers */,
+				30CEB36D21A6385C00525637 /* System.hpp in Headers */,
 				30381FB91D80A3F900677CAB /* AudioDeviceAL.hpp in Headers */,
 				30B546591D90575B00E45DB6 /* RadioButtonGroup.hpp in Headers */,
 				30673DD71F7A694F00EAFAB0 /* NativeWindow.hpp in Headers */,
@@ -2824,6 +2837,7 @@
 				303B75381C2A3C8200FEDE92 /* Engine.cpp in Sources */,
 				303B75551C2A3CB700FEDE92 /* Size2.cpp in Sources */,
 				3047F7781C4D39C500774E3D /* Repeat.cpp in Sources */,
+				30CEB36921A6385C00525637 /* System.cpp in Sources */,
 				304736D91E0B4776009BC562 /* Box3.cpp in Sources */,
 				302261811FDB8C59005279FC /* LoaderCollada.cpp in Sources */,
 				30C758AD1F4A0196008499DC /* AudioDevice.cpp in Sources */,
@@ -2991,6 +3005,7 @@
 				303B76541C355A3B00FEDE92 /* Actor.cpp in Sources */,
 				3047F7791C4D39C500774E3D /* Repeat.cpp in Sources */,
 				304736DB1E0B4776009BC562 /* Box3.cpp in Sources */,
+				30CEB36B21A6385C00525637 /* System.cpp in Sources */,
 				302261831FDB8C59005279FC /* LoaderCollada.cpp in Sources */,
 				30C758AF1F4A0196008499DC /* AudioDevice.cpp in Sources */,
 				303696D61E32DDA9007F4211 /* Buffer.cpp in Sources */,
@@ -3019,6 +3034,7 @@
 				3053FF711F43834900760E67 /* SpriteData.cpp in Sources */,
 				304E763A1F7095DE0025C0DB /* Client.cpp in Sources */,
 				304A8E641C237C70008B1151 /* Renderer.cpp in Sources */,
+				30CEB36A21A6385C00525637 /* System.cpp in Sources */,
 				307F9FFF1F1E9CA000BA73CB /* GamepadDeviceGC.mm in Sources */,
 				300C39F11E51355000330E4F /* SoundDataWave.cpp in Sources */,
 				30381FB61D80A3F900677CAB /* AudioDeviceAL.cpp in Sources */,
