@@ -146,8 +146,9 @@ namespace ouzel
 {
     namespace graphics
     {
-        struct OpenGLErrorCategory: public std::error_category
+        class OpenGLErrorCategory: public std::error_category
         {
+        public:
             const char* name() const noexcept override
             {
                 return "OpenGL";
