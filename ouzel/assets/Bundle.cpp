@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <cctype>
+#include <stdexcept>
 #include "Bundle.hpp"
 #include "Cache.hpp"
 #include "Loader.hpp"
@@ -36,7 +37,7 @@ namespace ouzel
                     return;
             }
 
-            throw FileError("Failed to load asset " + filename);
+            throw std::runtime_error("Failed to load asset " + filename);
         }
 
         void Bundle::loadAssets(const std::string& filename)
