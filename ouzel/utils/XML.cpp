@@ -493,7 +493,6 @@ namespace ouzel
                     break;
                 case Node::Type::TYPE_DECLARATION:
                     throw ParseError("Type declarations are not supported");
-                    break;
                 case Node::Type::PROCESSING_INSTRUCTION:
                     data.insert(data.end(), {'<', '?'});
                     data.insert(data.end(), value.begin(), value.end());

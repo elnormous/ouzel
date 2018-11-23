@@ -153,25 +153,25 @@ namespace ouzel
             size.height += verticalAmount * 2;
         }
 
-        Rect& operator=(const Rect& r)
+        Rect& operator=(const Rect& other)
         {
-            position.x = r.position.x;
-            position.y = r.position.y;
-            size.width = r.size.width;
-            size.height = r.size.height;
+            position.x = other.position.x;
+            position.y = other.position.y;
+            size.width = other.size.width;
+            size.height = other.size.height;
             return *this;
         }
 
-        bool operator==(const Rect& r) const
+        bool operator==(const Rect& other) const
         {
-            return position.x == r.position.x && size.width == r.size.width &&
-                position.y == r.position.y && size.height == r.size.height;
+            return position.x == other.position.x && size.width == other.size.width &&
+                position.y == other.position.y && size.height == other.size.height;
         }
 
-        bool operator!=(const Rect& r) const
+        bool operator!=(const Rect& other) const
         {
-            return position.x != r.position.x || size.width != r.size.width ||
-                position.y != r.position.y || size.height != r.size.height;
+            return position.x != other.position.x || size.width != other.size.width ||
+                position.y != other.position.y || size.height != other.size.height;
         }
 
         inline const Rect operator*(float scalar) const
