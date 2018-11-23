@@ -1628,7 +1628,6 @@
 		303B75121C2883C800FEDE92 /* files */ = {
 			isa = PBXGroup;
 			children = (
-				305BAEA6204A3B1F00EB4C5B /* apple */,
 				30A883621E7432DA004A033F /* Archive.cpp */,
 				30A883631E7432DA004A033F /* Archive.hpp */,
 				30CC89F7203C5DFB00E2C8C3 /* File.cpp */,
@@ -2000,13 +1999,6 @@
 				304A8E2F1C237C70008B1151 /* EventHandler.hpp */,
 			);
 			path = events;
-			sourceTree = "<group>";
-		};
-		305BAEA6204A3B1F00EB4C5B /* apple */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = apple;
 			sourceTree = "<group>";
 		};
 		3098A5511EA01C6600528A54 /* macos */ = {
