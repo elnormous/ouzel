@@ -15,8 +15,9 @@ namespace ouzel
 {
     namespace graphics
     {
-        struct EGLErrorCategory: public std::error_category
+        class EGLErrorCategory: public std::error_category
         {
+        public:
             const char* name() const noexcept override
             {
                 return "EGL";

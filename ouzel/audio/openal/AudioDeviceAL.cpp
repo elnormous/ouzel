@@ -27,8 +27,9 @@ namespace ouzel
 {
     namespace audio
     {
-        struct ALCErrorCategory: public std::error_category
+        class ALCErrorCategory: public std::error_category
         {
+        public:
             const char* name() const noexcept override
             {
                 return "OpenAL";
@@ -50,8 +51,9 @@ namespace ouzel
 
         const ALCErrorCategory alcErrorCategory {};
 
-        struct OpenALErrorCategory: public std::error_category
+        class OpenALErrorCategory: public std::error_category
         {
+        public:
             const char* name() const noexcept override
             {
                 return "OpenAL";
