@@ -18,11 +18,13 @@ extern "C" id const AVAudioSessionCategoryAmbient;
 
 static OSStatus deviceListChanged(AudioObjectID, UInt32, const AudioObjectPropertyAddress*, void*)
 {
+    // TODO: implement
     return 0;
 }
 
 static OSStatus deviceUnplugged(AudioObjectID, UInt32, const AudioObjectPropertyAddress*, void*)
 {
+    // TODO: implement
     return noErr;
 }
 #endif
@@ -64,8 +66,7 @@ namespace ouzel
                 kAudioObjectPropertyElementMaster
             };
 
-            result = AudioObjectAddPropertyListener(kAudioObjectSystemObject, &deviceListAddress, deviceListChanged, this);
-            if (result != noErr)
+            if ((result = AudioObjectAddPropertyListener(kAudioObjectSystemObject, &deviceListAddress, deviceListChanged, this)) != noErr)
                 throw SystemError("Failed to add CoreAudio property listener, error: " + std::to_string(result));
 
             static const AudioObjectPropertyAddress defaultDeviceAddress = {
@@ -75,10 +76,8 @@ namespace ouzel
             };
 
             UInt32 size = sizeof(AudioDeviceID);
-            result = AudioObjectGetPropertyData(kAudioObjectSystemObject, &defaultDeviceAddress,
-                                                0, nullptr, &size, &deviceId);
-
-            if (result != noErr)
+            if ((result = AudioObjectGetPropertyData(kAudioObjectSystemObject, &defaultDeviceAddress,
+                                                     0, nullptr, &size, &deviceId)) != noErr)
                 throw SystemError("Failed to get CoreAudio output device, error: " + std::to_string(result));
 
             static const AudioObjectPropertyAddress aliveAddress = {
@@ -89,9 +88,7 @@ namespace ouzel
 
             UInt32 alive = 0;
             size = sizeof(alive);
-            result = AudioObjectGetPropertyData(deviceId, &aliveAddress, 0, nullptr, &size, &alive);
-
-            if (result != noErr)
+            if ((result = AudioObjectGetPropertyData(deviceId, &aliveAddress, 0, nullptr, &size, &alive)) != noErr)
                 throw SystemError("Failed to get CoreAudio device status, error: " + std::to_string(result));
 
             if (!alive)
@@ -105,9 +102,7 @@ namespace ouzel
 
             pid_t pid = 0;
             size = sizeof(pid);
-            result = AudioObjectGetPropertyData(deviceId, &hogModeAddress, 0, nullptr, &size, &pid);
-
-            if (result != noErr)
+            if ((result = AudioObjectGetPropertyData(deviceId, &hogModeAddress, 0, nullptr, &size, &pid)) != noErr)
                 throw SystemError("Failed to check if CoreAudio device is in hog mode, error: " + std::to_string(result));
 
             if (pid != -1)
@@ -122,10 +117,8 @@ namespace ouzel
             CFStringRef tempStringRef = nullptr;
             size = sizeof(CFStringRef);
 
-            result = AudioObjectGetPropertyData(deviceId, &nameAddress,
-                                                0, nullptr, &size, &tempStringRef);
-
-            if (result != noErr)
+            if ((result = AudioObjectGetPropertyData(deviceId, &nameAddress,
+                                                     0, nullptr, &size, &tempStringRef)) != noErr)
                 throw SystemError("Failed to get CoreAudio device name, error: " + std::to_string(result));
 
             if (tempStringRef)
@@ -171,25 +164,19 @@ namespace ouzel
                 throw SystemError("Failed to find requested CoreAudio component");
 
 #if OUZEL_PLATFORM_MACOS
-            result = AudioObjectAddPropertyListener(deviceId, &aliveAddress, deviceUnplugged, this);
-
-            if (result != noErr)
+            if ((result = AudioObjectAddPropertyListener(deviceId, &aliveAddress, deviceUnplugged, this)) != noErr)
                 throw SystemError("Failed to add CoreAudio property listener, error: " + std::to_string(result));
 #endif
 
-            result = AudioComponentInstanceNew(audioComponent, &audioUnit);
-
-            if (result != noErr)
+            if ((result = AudioComponentInstanceNew(audioComponent, &audioUnit)) != noErr)
                 throw SystemError("Failed to create CoreAudio component instance, error: " + std::to_string(result));
 
 #if OUZEL_PLATFORM_MACOS
-            result = AudioUnitSetProperty(audioUnit,
-                                          kAudioOutputUnitProperty_CurrentDevice,
-                                          kAudioUnitScope_Global, 0,
-                                          &deviceId,
-                                          sizeof(AudioDeviceID));
-
-            if (result != noErr)
+            if ((result = AudioUnitSetProperty(audioUnit,
+                                               kAudioOutputUnitProperty_CurrentDevice,
+                                               kAudioUnitScope_Global, 0,
+                                               &deviceId,
+                                               sizeof(AudioDeviceID))) != noErr)
                 throw SystemError("Failed to set CoreAudio unit property, error: " + std::to_string(result));
 #endif
 
@@ -206,28 +193,22 @@ namespace ouzel
             streamDescription.mBytesPerPacket = streamDescription.mBytesPerFrame * streamDescription.mFramesPerPacket;
             streamDescription.mReserved = 0;
 
-            result = AudioUnitSetProperty(audioUnit,
-                                          kAudioUnitProperty_StreamFormat,
-                                          kAudioUnitScope_Input, bus, &streamDescription, sizeof(streamDescription));
-
-            if (result != noErr)
+            if ((result = AudioUnitSetProperty(audioUnit,
+                                               kAudioUnitProperty_StreamFormat,
+                                               kAudioUnitScope_Input, bus, &streamDescription, sizeof(streamDescription))) != noErr)
             {
                 engine->log(Log::Level::WARN) << "Failed to set CoreAudio unit stream format to float, error: " << result;
 
                 streamDescription.mFormatFlags = kLinearPCMFormatFlagIsPacked | kAudioFormatFlagIsSignedInteger;
                 streamDescription.mBitsPerChannel = 16;
 
-                result = AudioUnitSetProperty(audioUnit,
-                                              kAudioUnitProperty_StreamFormat,
-                                              kAudioUnitScope_Input, bus, &streamDescription, sizeof(streamDescription));
-
-                if (result != noErr)
+                if ((result = AudioUnitSetProperty(audioUnit,
+                                                   kAudioUnitProperty_StreamFormat,
+                                                   kAudioUnitScope_Input, bus, &streamDescription, sizeof(streamDescription))) != noErr)
                     throw SystemError("Failed to set CoreAudio unit stream format, error: " + std::to_string(result));
-                else
-                {
-                    sampleFormat = SampleFormat::SINT16;
-                    sampleSize = sizeof(int16_t);
-                }
+
+                sampleFormat = SampleFormat::SINT16;
+                sampleSize = sizeof(int16_t);
             }
             else
             {
@@ -238,21 +219,15 @@ namespace ouzel
             AURenderCallbackStruct callback;
             callback.inputProc = ::outputCallback;
             callback.inputProcRefCon = this;
-            result = AudioUnitSetProperty(audioUnit,
-                                          kAudioUnitProperty_SetRenderCallback,
-                                          kAudioUnitScope_Input, bus, &callback, sizeof(callback));
-
-            if (result != noErr)
+            if ((result = AudioUnitSetProperty(audioUnit,
+                                               kAudioUnitProperty_SetRenderCallback,
+                                               kAudioUnitScope_Input, bus, &callback, sizeof(callback))) != noErr)
                 throw SystemError("Failed to set CoreAudio unit output callback, error: " + std::to_string(result));
 
-            result = AudioUnitInitialize(audioUnit);
-
-            if (result != noErr)
+            if ((result = AudioUnitInitialize(audioUnit)) != noErr)
                 throw SystemError("Failed to initialize CoreAudio unit, error: " + std::to_string(result));
 
-            result = AudioOutputUnitStart(audioUnit);
-
-            if (result != noErr)
+            if ((result = AudioOutputUnitStart(audioUnit)) != noErr)
                 throw SystemError("Failed to start CoreAudio output unit, error: " + std::to_string(result));
         }
 
