@@ -58,8 +58,8 @@ namespace ouzel
 
     void EngineWin::run()
     {
-        HRESULT hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
-        if (FAILED(hr))
+        HRESULT hr;
+        if (FAILED(hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED)))
             throw SystemError("Failed to initialize COM, error: " + std::to_string(hr));
 
 #ifdef DEBUG

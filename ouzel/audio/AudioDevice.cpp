@@ -3,7 +3,6 @@
 #include <algorithm>
 #include "AudioDevice.hpp"
 #include "math/MathUtils.hpp"
-#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -61,7 +60,7 @@ namespace ouzel
                         break;
                     }
                     default:
-                        throw SystemError("Invalid command");
+                        throw std::runtime_error("Invalid command");
                 }
             }
         }
@@ -110,7 +109,7 @@ namespace ouzel
                     break;
                 }
                 default:
-                    throw DataError("Invalid sample format");
+                    throw std::runtime_error("Invalid sample format");
             }
         }
 
