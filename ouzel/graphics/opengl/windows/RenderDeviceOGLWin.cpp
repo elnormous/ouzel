@@ -11,7 +11,6 @@
 #include "core/Engine.hpp"
 #include "core/Window.hpp"
 #include "core/windows/NativeWindowWin.hpp"
-#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"
 
@@ -48,7 +47,7 @@ namespace ouzel
                 windowClass = RegisterClassW(&wc);
 
                 if (!windowClass)
-                    throw SystemError("Failed to register window class");
+                    throw std::runtime_error("Failed to register window class");
 
                 window = CreateWindowW(TEMP_WINDOW_CLASS_NAME, L"TempWindow", 0,
                                        CW_USEDEFAULT, CW_USEDEFAULT,
@@ -56,7 +55,7 @@ namespace ouzel
                                        0, 0, hInstance, 0);
 
                 if (!window)
-                    throw SystemError("Failed to create window");
+                    throw std::runtime_error("Failed to create window");
 
                 deviceContext = GetDC(window);
 
@@ -91,18 +90,18 @@ namespace ouzel
                 int pixelFormat = ChoosePixelFormat(deviceContext, &pixelFormatDesc);
 
                 if (!pixelFormat)
-                    throw SystemError("Failed to choose pixel format");
+                    throw std::runtime_error("Failed to choose pixel format");
 
                 if (!SetPixelFormat(deviceContext, pixelFormat, &pixelFormatDesc))
-                    throw SystemError("Failed to set pixel format");
+                    throw std::runtime_error("Failed to set pixel format");
 
                 renderContext = wglCreateContext(deviceContext);
 
                 if (!renderContext)
-                    throw SystemError("Failed to create OpenGL context");
+                    throw std::runtime_error("Failed to create OpenGL context");
 
                 if (!wglMakeCurrent(deviceContext, renderContext))
-                    throw SystemError("Failed to set current OpenGL context");
+                    throw std::runtime_error("Failed to set current OpenGL context");
             }
 
             ~TempContext()
@@ -167,7 +166,7 @@ namespace ouzel
             deviceContext = GetDC(windowWin->getNativeWindow());
 
             if (!deviceContext)
-                throw SystemError("Failed to get window's device context");
+                throw std::runtime_error("Failed to get window's device context");
 
             int pixelFormat = 0;
 
@@ -218,16 +217,16 @@ namespace ouzel
                 UINT numFormats;
 
                 if (!wglChoosePixelFormatProc(deviceContext, attributeList, nullptr, 1, &pixelFormat, &numFormats))
-                    throw SystemError("Failed to choose pixel format");
+                    throw std::runtime_error("Failed to choose pixel format");
             }
             else
                 pixelFormat = ChoosePixelFormat(deviceContext, &pixelFormatDesc);
 
             if (!pixelFormat)
-                throw SystemError("Failed to choose pixel format");
+                throw std::runtime_error("Failed to choose pixel format");
 
             if (!SetPixelFormat(deviceContext, pixelFormat, &pixelFormatDesc))
-                throw SystemError("Failed to set pixel format");
+                throw std::runtime_error("Failed to set pixel format");
 
             PFNWGLCREATECONTEXTATTRIBSARBPROC wglCreateContextAttribsProc = reinterpret_cast<PFNWGLCREATECONTEXTATTRIBSARBPROC>(wglGetProcAddress("wglCreateContextAttribsARB"));
 
@@ -261,10 +260,10 @@ namespace ouzel
                 renderContext = wglCreateContext(deviceContext);
 
             if (!renderContext)
-                throw SystemError("Failed to create OpenGL context");
+                throw std::runtime_error("Failed to create OpenGL context");
 
             if (!wglMakeCurrent(deviceContext, renderContext))
-                throw SystemError("Failed to set current OpenGL context");
+                throw std::runtime_error("Failed to set current OpenGL context");
 
             RenderDeviceOGL::init(newWindow,
                                   newSize,
@@ -276,7 +275,7 @@ namespace ouzel
                                   newDebugRenderer);
 
             if (!wglMakeCurrent(deviceContext, nullptr))
-                throw SystemError("Failed to unset OpenGL context");
+                throw std::runtime_error("Failed to unset OpenGL context");
 
             running = true;
             renderThread = std::thread(&RenderDeviceOGLWin::main, this);
@@ -285,7 +284,7 @@ namespace ouzel
         void RenderDeviceOGLWin::present()
         {
             if (!SwapBuffers(deviceContext))
-                throw SystemError("Failed to swap buffers");
+                throw std::runtime_error("Failed to swap buffers");
         }
 
         void RenderDeviceOGLWin::main()
@@ -293,7 +292,7 @@ namespace ouzel
             setCurrentThreadName("Render");
 
             if (!wglMakeCurrent(deviceContext, renderContext))
-                throw SystemError("Failed to set current OpenGL context");
+                throw std::runtime_error("Failed to set current OpenGL context");
 
             while (running)
             {

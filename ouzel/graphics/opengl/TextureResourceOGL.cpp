@@ -6,7 +6,6 @@
 
 #include "TextureResourceOGL.hpp"
 #include "RenderDeviceOGL.hpp"
-#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -25,7 +24,7 @@ namespace ouzel
             pixelFormat(newPixelFormat)
         {
             if ((flags & Texture::RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
-                throw DataError("Invalid mip map count");
+                throw std::runtime_error("Invalid mip map count");
 
             createTexture();
 
@@ -52,7 +51,7 @@ namespace ouzel
                     GLenum error;
 
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw DataError("Failed to set texture base and max levels, error: " + std::to_string(error));
+                        throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to set texture base and max levels");
                 }
 
                 for (size_t level = 0; level < levels.size(); ++level)
@@ -76,7 +75,7 @@ namespace ouzel
                 GLenum error;
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw DataError("Failed to upload texture data, error: " + std::to_string(error));
+                    throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to upload texture data");
             }
 
             setTextureParameters();
@@ -302,7 +301,7 @@ namespace ouzel
                     GLenum error;
 
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw DataError("Failed to set texture base and max levels, error: " + std::to_string(error));
+                        throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to set texture base and max levels");
                 }
 
                 for (size_t level = 0; level < levels.size(); ++level)
@@ -326,7 +325,7 @@ namespace ouzel
                 GLenum error;
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw DataError("Failed to upload texture data, error: " + std::to_string(error));
+                    throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to upload texture data");
             }
 
             setTextureParameters();
@@ -335,12 +334,12 @@ namespace ouzel
         void TextureResourceOGL::setData(const std::vector<Texture::Level>& newLevels)
         {
             if (!(flags & Texture::DYNAMIC) || flags & Texture::RENDER_TARGET)
-                throw DataError("Texture is not dynamic");
+                throw std::runtime_error("Texture is not dynamic");
 
             levels = newLevels;
 
             if (!textureId)
-                throw DataError("Texture not initialized");
+                throw std::runtime_error("Texture not initialized");
 
             renderDevice.bindTexture(textureId, 0);
 
@@ -361,7 +360,7 @@ namespace ouzel
                 GLenum error;
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw DataError("Failed to upload texture data, error: " + std::to_string(error));
+                    throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to upload texture data");
             }
         }
 
@@ -370,7 +369,7 @@ namespace ouzel
             filter = newFilter;
 
             if (!textureId)
-                throw DataError("Texture not initialized");
+                throw std::runtime_error("Texture not initialized");
 
             renderDevice.bindTexture(textureId, 0);
 
@@ -396,13 +395,13 @@ namespace ouzel
                     glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                     break;
                 default:
-                    throw DataError("Invalid texture filter");
+                    throw std::runtime_error("Invalid texture filter");
             }
 
             GLenum error;
 
             if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                throw DataError("Failed to set texture filter, error: " + std::to_string(error));
+                throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to set texture filter");
         }
 
         void TextureResourceOGL::setAddressX(Texture::Address newAddressX)
@@ -410,7 +409,7 @@ namespace ouzel
             addressX = newAddressX;
 
             if (!textureId)
-                throw DataError("Texture not initialized");
+                throw std::runtime_error("Texture not initialized");
 
             renderDevice.bindTexture(textureId, 0);
 
@@ -426,13 +425,13 @@ namespace ouzel
                     glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
                     break;
                 default:
-                    throw DataError("Invalid texture address mode");
+                    throw std::runtime_error("Invalid texture address mode");
             }
 
             GLenum error;
 
             if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                throw DataError("Failed to set texture wrap mode, error: " + std::to_string(error));
+                throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to set texture wrap mode");
         }
 
         void TextureResourceOGL::setAddressY(Texture::Address newAddressY)
@@ -440,7 +439,7 @@ namespace ouzel
             addressY = newAddressY;
 
             if (!textureId)
-                throw DataError("Texture not initialized");
+                throw std::runtime_error("Texture not initialized");
 
             renderDevice.bindTexture(textureId, 0);
 
@@ -456,13 +455,13 @@ namespace ouzel
                     glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
                     break;
                 default:
-                    throw DataError("Invalid texture address mode");
+                    throw std::runtime_error("Invalid texture address mode");
             }
 
             GLenum error;
 
             if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                throw DataError("Failed to set texture wrap mode, error: " + std::to_string(error));
+                throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to set texture wrap mode");
         }
 
         void TextureResourceOGL::setMaxAnisotropy(uint32_t newMaxAnisotropy)
@@ -470,7 +469,7 @@ namespace ouzel
             maxAnisotropy = newMaxAnisotropy;
 
             if (!textureId)
-                throw DataError("Texture not initialized");
+                throw std::runtime_error("Texture not initialized");
 
             renderDevice.bindTexture(textureId, 0);
 
@@ -483,7 +482,7 @@ namespace ouzel
                 GLenum error;
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw DataError("Failed to set texture max anisotrophy, error: " + std::to_string(error));
+                    throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to set texture max anisotrophy");
             }
         }
 
@@ -559,7 +558,7 @@ namespace ouzel
             GLenum error;
 
             if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                throw DataError("Failed to create texture, error: " + std::to_string(error));
+                throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to create texture");
 
             renderDevice.bindTexture(textureId, 0);
 
@@ -569,24 +568,24 @@ namespace ouzel
             oglInternalPixelFormat = getOGLInternalPixelFormat(pixelFormat, renderDevice.getAPIMajorVersion());
 
             if (oglInternalPixelFormat == GL_NONE)
-                throw DataError("Invalid pixel format");
+                throw std::runtime_error("Invalid pixel format");
 
             oglPixelFormat = getOGLPixelFormat(pixelFormat);
 
             if (oglPixelFormat == GL_NONE)
-                throw DataError("Invalid pixel format");
+                throw std::runtime_error("Invalid pixel format");
 
             oglPixelType = getOGLPixelType(pixelFormat);
 
             if (oglPixelType == GL_NONE)
-                throw DataError("Invalid pixel format");
+                throw std::runtime_error("Invalid pixel format");
 
             if ((flags & Texture::RENDER_TARGET) && renderDevice.isRenderTargetsSupported())
             {
                 glGenFramebuffersProc(1, &frameBufferId);
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw DataError("Failed to create frame buffer, error: " + std::to_string(error));
+                    throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to create frame buffer");
 
                 renderDevice.bindFrameBuffer(frameBufferId);
 
@@ -602,7 +601,7 @@ namespace ouzel
                     glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0);
 
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw DataError("Failed to set frame buffer's color texture, error: " + std::to_string(error));
+                        throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to set frame buffer's color texture");
                 }
                 else
                 {
@@ -617,7 +616,7 @@ namespace ouzel
                                                              width, height);
 
                         if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                            throw DataError("Failed to set color render buffer's multisample storage, error: " + std::to_string(error));
+                            throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to set color render buffer's multisample storage");
                     }
                     else
                     {
@@ -625,13 +624,13 @@ namespace ouzel
                                                   width, height);
 
                         if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                            throw DataError("Failed to set color render buffer's storage, error: " + std::to_string(error));
+                            throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to set color render buffer's storage");
                     }
 
                     glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorBufferId);
 
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw DataError("Failed to set frame buffer's color render buffer, error: " + std::to_string(error));
+                        throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to set frame buffer's color render buffer");
                 }
 
                 if (flags & Texture::DEPTH_BUFFER)
@@ -648,7 +647,7 @@ namespace ouzel
                         glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthTextureId, 0);
 
                         if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                            throw DataError("Failed to set frame buffer's depth texture, error: " + std::to_string(error));
+                            throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to set frame buffer's depth texture");
                     }
                     else
                     {
@@ -663,7 +662,7 @@ namespace ouzel
                                                                  width, height);
 
                             if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                                throw DataError("Failed to set depth render buffer's multisample storage, error: " + std::to_string(error));
+                                throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to set depth render buffer's multisample storage");
                         }
                         else
                         {
@@ -671,22 +670,22 @@ namespace ouzel
                                                       width, height);
 
                             if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                                throw DataError("Failed to set depth render buffer's storage, error: " + std::to_string(error));
+                                throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to set depth render buffer's storage");
                         }
 
                         glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBufferId);
 
                         if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                            throw DataError("Failed to set frame buffer's depth render buffer, error: " + std::to_string(error));
+                            throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to set frame buffer's depth render buffer");
                     }
                 }
 
                 GLenum status;
                 if ((status = glCheckFramebufferStatusProc(GL_FRAMEBUFFER)) != GL_FRAMEBUFFER_COMPLETE)
-                    throw DataError("Failed to create frame buffer, status: " + std::to_string(status));
+                    throw std::runtime_error("Failed to create frame buffer, status: " + std::to_string(status));
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw DataError("Failed to check frame buffer status, error: " + std::to_string(error));
+                    throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to check frame buffer status");
             }
         }
 
@@ -716,13 +715,13 @@ namespace ouzel
                     glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                     break;
                 default:
-                    throw DataError("Invalid texture filter");
+                    throw std::runtime_error("Invalid texture filter");
             }
 
             GLenum error;
 
             if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                throw DataError("Failed to set texture filter, error: " + std::to_string(error));
+                throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to set texture filter");
 
             switch (addressX)
             {
@@ -736,11 +735,11 @@ namespace ouzel
                     glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
                     break;
                 default:
-                    throw DataError("Invalid texture address mode");
+                    throw std::runtime_error("Invalid texture address mode");
             }
 
             if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                throw DataError("Failed to set texture wrap mode, error: " + std::to_string(error));
+                throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to set texture wrap mode");
 
             switch (addressY)
             {
@@ -754,11 +753,11 @@ namespace ouzel
                     glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
                     break;
                 default:
-                    throw DataError("Invalid texture address mode");
+                    throw std::runtime_error("Invalid texture address mode");
             }
 
             if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                throw DataError("Failed to set texture wrap mode, error: " + std::to_string(error));
+                throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to set texture wrap mode");
 
             uint32_t finalMaxAnisotropy = (maxAnisotropy == 0) ? renderDevice.getMaxAnisotropy() : maxAnisotropy;
 
@@ -767,7 +766,7 @@ namespace ouzel
                 glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, static_cast<GLint>(finalMaxAnisotropy));
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw DataError("Failed to set texture max anisotrophy, error: " + std::to_string(error));
+                    throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to set texture max anisotrophy");
             }
         }
     } // namespace graphics

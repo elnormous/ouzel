@@ -6,7 +6,6 @@
 
 #include "BufferResourceOGL.hpp"
 #include "RenderDeviceOGL.hpp"
-#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -39,7 +38,7 @@ namespace ouzel
                 GLenum error;
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw DataError("Failed to create buffer, error: " + std::to_string(error));
+                    throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to create buffer");
             }
         }
 
@@ -69,22 +68,22 @@ namespace ouzel
                 GLenum error;
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw DataError("Failed to create buffer, error: " + std::to_string(error));
+                    throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to create buffer");
             }
         }
 
         void BufferResourceOGL::setData(const std::vector<uint8_t>& newData)
         {
             if (!(flags & Buffer::DYNAMIC))
-                throw DataError("Buffer is not dynamic");
+                throw std::runtime_error("Buffer is not dynamic");
 
             if (newData.empty())
-                throw DataError("Data is empty");
+                throw std::invalid_argument("Data is empty");
 
             data = newData;
 
             if (!bufferId)
-                throw DataError("Buffer not initialized");
+                throw std::runtime_error("Buffer not initialized");
 
             renderDevice.bindBuffer(bufferType, bufferId);
 
@@ -98,7 +97,7 @@ namespace ouzel
                 GLenum error;
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw DataError("Failed to create buffer, error: " + std::to_string(error));
+                    throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to create buffer");
             }
             else
             {
@@ -107,7 +106,7 @@ namespace ouzel
                 GLenum error;
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw DataError("Failed to upload buffer, error: " + std::to_string(error));
+                    throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to upload buffer");
             }
         }
 
@@ -120,7 +119,7 @@ namespace ouzel
             GLenum error;
 
             if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                throw DataError("Failed to create buffer, error: " + std::to_string(error));
+                throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to create buffer");
 
             switch (usage)
             {
@@ -132,7 +131,7 @@ namespace ouzel
                     break;
                 default:
                     bufferType = 0;
-                    throw DataError("Unsupported buffer type");
+                    throw std::runtime_error("Unsupported buffer type");
             }
         }
     } // namespace graphics

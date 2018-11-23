@@ -7,7 +7,6 @@
 #include "RenderDeviceOGLMacOS.hpp"
 #include "core/macos/NativeWindowMacOS.hpp"
 #include "core/Engine.hpp"
-#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
 static CVReturn renderCallback(CVDisplayLinkRef,
@@ -134,7 +133,7 @@ namespace ouzel
             }
 
             if (!pixelFormat)
-                throw SystemError("Failed to crete OpenGL pixel format");
+                throw std::runtime_error("Failed to crete OpenGL pixel format");
 
             // Create OpenGL context
             openGLContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:nil];
@@ -161,15 +160,15 @@ namespace ouzel
 
             CGDirectDisplayID displayId = windowMacOS->getDisplayId();
             if (CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink) != kCVReturnSuccess)
-                throw SystemError("Failed to create display link");
+                throw std::runtime_error("Failed to create display link");
 
             if (CVDisplayLinkSetOutputCallback(displayLink, ::renderCallback, this) != kCVReturnSuccess)
-                throw SystemError("Failed to set output callback for the display link");
+                throw std::runtime_error("Failed to set output callback for the display link");
 
             running = true;
 
             if (CVDisplayLinkStart(displayLink) != kCVReturnSuccess)
-                throw SystemError("Failed to start display link");
+                throw std::runtime_error("Failed to start display link");
         }
 
         void RenderDeviceOGLMacOS::setSize(const Size2& newSize)
@@ -219,13 +218,13 @@ namespace ouzel
                     const CGDirectDisplayID displayId = event.screenId;
 
                     if (CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink) != kCVReturnSuccess)
-                        throw SystemError("Failed to create display link");
+                        throw std::runtime_error("Failed to create display link");
 
                     if (CVDisplayLinkSetOutputCallback(displayLink, ::renderCallback, this) != kCVReturnSuccess)
-                        throw SystemError("Failed to set output callback for the display link");
+                        throw std::runtime_error("Failed to set output callback for the display link");
 
                     if (CVDisplayLinkStart(displayLink) != kCVReturnSuccess)
-                        throw SystemError("Failed to start display link");
+                        throw std::runtime_error("Failed to start display link");
                 });
             }
 
