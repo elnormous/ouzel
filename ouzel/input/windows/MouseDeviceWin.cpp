@@ -1,9 +1,9 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <system_error>
 #include "MouseDeviceWin.hpp"
 #include "core/Engine.hpp"
 #include "core/windows/NativeWindowWin.hpp"
-#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -44,10 +44,10 @@ namespace ouzel
                 rect.bottom = centerY + 1;
 
                 if (!ClipCursor(&rect))
-                    throw SystemError("Failed to grab pointer");
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to grab pointer");
             }
-            else
-                ClipCursor(nullptr);
+            else if (!ClipCursor(nullptr))
+                throw std::system_error(GetLastError(), std::system_category(), "Failed to free pointer");
         }
 
         void MouseDeviceWin::setCursor(NativeCursorWin* newCursor)
