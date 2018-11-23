@@ -98,8 +98,8 @@ namespace ouzel
 #if OUZEL_PLATFORM_WINDOWS
         WCHAR appDataPath[MAX_PATH];
 
-        HRESULT hr = SHGetFolderPathW(nullptr, (user ? CSIDL_LOCAL_APPDATA : CSIDL_COMMON_APPDATA) | CSIDL_FLAG_CREATE, nullptr, SHGFP_TYPE_CURRENT, appDataPath);
-        if (FAILED(hr))
+        HRESULT hr;
+        if (FAILED(hr = SHGetFolderPathW(nullptr, (user ? CSIDL_LOCAL_APPDATA : CSIDL_COMMON_APPDATA) | CSIDL_FLAG_CREATE, nullptr, SHGFP_TYPE_CURRENT, appDataPath)))
             throw std::runtime_error("Failed to get the path of the AppData directory, error: " + std::to_string(hr)); // TODO: throw a std::system_error
 
         int bufferSize = WideCharToMultiByte(CP_UTF8, 0, appDataPath, -1, nullptr, 0, nullptr, nullptr);

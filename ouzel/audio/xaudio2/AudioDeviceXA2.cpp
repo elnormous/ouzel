@@ -35,8 +35,8 @@ namespace ouzel
                 if (!xAudio2CreateProc)
                     throw SystemError("Failed to get address of XAudio2Create");
 
-                HRESULT hr = xAudio2CreateProc(&xAudio, 0, XAUDIO2_DEFAULT_PROCESSOR);
-                if (FAILED(hr))
+                HRESULT hr;
+                if (FAILED(hr = xAudio2CreateProc(&xAudio, 0, XAUDIO2_DEFAULT_PROCESSOR)))
                     throw SystemError("Failed to initialize XAudio2, error: " + std::to_string(hr));
 
                 if (debugAudio)
@@ -71,8 +71,8 @@ namespace ouzel
                 UINT32 flags = 0;
                 if (debugAudio) flags |= XAUDIO2_DEBUG_ENGINE;
 
-                HRESULT hr = XAudio27CreateProc(&xAudio, flags, XAUDIO2_DEFAULT_PROCESSOR);
-                if (FAILED(hr))
+                HRESULT hr;
+                if (FAILED(hr = XAudio27CreateProc(&xAudio, flags, XAUDIO2_DEFAULT_PROCESSOR)))
                     throw SystemError("Failed to initialize XAudio2, error: " + std::to_string(hr));
             }
 
@@ -87,22 +87,20 @@ namespace ouzel
 
             if (apiMajorVersion == 2 && apiMinorVersion == 7)
             {
-                HRESULT hr = IXAudio2CreateMasteringVoice(xAudio, &masteringVoice);
-                if (FAILED(hr))
+                HRESULT hr;
+                if (FAILED(hr = IXAudio2CreateMasteringVoice(xAudio, &masteringVoice)))
                     throw SystemError("Failed to create XAudio2 mastering voice, error: " + std::to_string(hr));
 
-                hr = IXAudio2CreateSourceVoice(xAudio, &sourceVoice, &waveFormat, 0, XAUDIO2_DEFAULT_FREQ_RATIO, this);
-                if (FAILED(hr))
+                if (FAILED(hr = IXAudio2CreateSourceVoice(xAudio, &sourceVoice, &waveFormat, 0, XAUDIO2_DEFAULT_FREQ_RATIO, this)))
                     throw SystemError("Failed to create source voice, error: " + std::to_string(hr));
             }
             else
             {
-                HRESULT hr = xAudio->CreateMasteringVoice(&masteringVoice);
-                if (FAILED(hr))
+                HRESULT hr;
+                if (FAILED(hr = xAudio->CreateMasteringVoice(&masteringVoice)))
                     throw SystemError("Failed to create XAudio2 mastering voice, error: " + std::to_string(hr));
 
-                hr = xAudio->CreateSourceVoice(&sourceVoice, &waveFormat, 0, XAUDIO2_DEFAULT_FREQ_RATIO, this);
-                if (FAILED(hr))
+                if (FAILED(hr = xAudio->CreateSourceVoice(&sourceVoice, &waveFormat, 0, XAUDIO2_DEFAULT_FREQ_RATIO, this)))
                     throw SystemError("Failed to create source voice, error: " + std::to_string(hr));
             }
 
@@ -121,22 +119,20 @@ namespace ouzel
             bufferData.LoopCount = 0;
             bufferData.pContext = nullptr;
 
-            HRESULT hr = sourceVoice->SubmitSourceBuffer(&bufferData);
-            if (FAILED(hr))
+            HRESULT hr;
+            if (FAILED(hr = sourceVoice->SubmitSourceBuffer(&bufferData)))
                 throw SystemError("Failed to upload sound data, error: " + std::to_string(hr));
 
             getData(bufferSize / (channels * sizeof(float)), data[1]);
             bufferData.AudioBytes = static_cast<UINT32>(data[1].size());
             bufferData.pAudioData = data[1].data();
 
-            hr = sourceVoice->SubmitSourceBuffer(&bufferData);
-            if (FAILED(hr))
+            if (FAILED(hr = sourceVoice->SubmitSourceBuffer(&bufferData)))
                 throw SystemError("Failed to upload sound data, error: " + std::to_string(hr));
 
             nextBuffer = 0;
 
-            hr = sourceVoice->Start();
-            if (FAILED(hr))
+            if (FAILED(hr = sourceVoice->Start()))
                 throw SystemError("Failed to start consuming sound data, error: " + std::to_string(hr));
 
             audioThread = std::thread(&AudioDeviceXA2::run, this);
@@ -192,8 +188,8 @@ namespace ouzel
                     bufferData.LoopCount = 0;
                     bufferData.pContext = nullptr;
 
-                    HRESULT hr = sourceVoice->SubmitSourceBuffer(&bufferData);
-                    if (FAILED(hr))
+                    HRESULT hr;
+                    if (FAILED(hr = sourceVoice->SubmitSourceBuffer(&bufferData)))
                         throw SystemError("Failed to upload sound data, error: " + std::to_string(hr));
 
                     nextBuffer = (nextBuffer == 0) ? 1 : 0;

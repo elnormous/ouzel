@@ -33,8 +33,8 @@ namespace ouzel
             defaultCursor = LoadCursor(nullptr, IDC_ARROW);
 
             HINSTANCE instance = GetModuleHandleW(nullptr);
-            HRESULT hr = DirectInput8Create(instance, DIRECTINPUT_VERSION, IID_IDirectInput8W, reinterpret_cast<LPVOID*>(&directInput), nullptr);
-            if (FAILED(hr))
+            HRESULT hr;
+            if (FAILED(hr = DirectInput8Create(instance, DIRECTINPUT_VERSION, IID_IDirectInput8W, reinterpret_cast<LPVOID*>(&directInput), nullptr)))
                 throw SystemError("Failed to initialize DirectInput, error: " + std::to_string(hr));
 
             for (DWORD userIndex = 0; userIndex < XUSER_MAX_COUNT; ++userIndex)
@@ -52,8 +52,7 @@ namespace ouzel
                     engine->log(Log::Level::WARN) << "Failed to get state for gamepad " << userIndex;
             }
 
-            hr = directInput->EnumDevices(DI8DEVCLASS_GAMECTRL, enumDevicesCallback, this, DIEDFL_ATTACHEDONLY);
-            if (FAILED(hr))
+            if (FAILED(hr = directInput->EnumDevices(DI8DEVCLASS_GAMECTRL, enumDevicesCallback, this, DIEDFL_ATTACHEDONLY)))
                 throw SystemError("Failed to enumerate devices, error: " + std::to_string(hr));
         }
 
@@ -209,8 +208,8 @@ namespace ouzel
                     }
                 }
 
-                HRESULT hr = directInput->EnumDevices(DI8DEVCLASS_GAMECTRL, enumDevicesCallback, this, DIEDFL_ATTACHEDONLY);
-                if (FAILED(hr))
+                HRESULT hr;
+                if (FAILED(hr = directInput->EnumDevices(DI8DEVCLASS_GAMECTRL, enumDevicesCallback, this, DIEDFL_ATTACHEDONLY)))
                     throw SystemError("Failed to enumerate devices, error: " + std::to_string(hr));
             }
         }
@@ -220,10 +219,10 @@ namespace ouzel
             bool isXInputDevice = false;
 
             IWbemLocator* wbemLocator = nullptr;
-            HRESULT hr = CoCreateInstance(__uuidof(WbemLocator), nullptr, CLSCTX_INPROC_SERVER,
-                                          __uuidof(IWbemLocator), reinterpret_cast<LPVOID*>(&wbemLocator));
+            HRESULT hr;
 
-            if (FAILED(hr))
+            if (FAILED(hr = CoCreateInstance(__uuidof(WbemLocator), nullptr, CLSCTX_INPROC_SERVER,
+                                             __uuidof(IWbemLocator), reinterpret_cast<LPVOID*>(&wbemLocator))))
                 throw SystemError("Failed to create WMI locator instance, error: " + std::to_string(hr));
 
             BSTR namespaceStr = SysAllocString(L"\\\\.\\root\\cimv2");
@@ -233,21 +232,17 @@ namespace ouzel
             if (className && namespaceStr && deviceID)
             {
                 IWbemServices* wbemServices = nullptr;
-                hr = wbemLocator->ConnectServer(namespaceStr, nullptr, nullptr, 0L,
-                                                0L, nullptr, nullptr, &wbemServices);
 
-                if (FAILED(hr))
+                if (FAILED(hr = wbemLocator->ConnectServer(namespaceStr, nullptr, nullptr, 0L,
+                                                           0L, nullptr, nullptr, &wbemServices)))
                     throw SystemError("Failed to create a connection to the WMI namespace, error: " + std::to_string(hr));
 
-                hr = CoSetProxyBlanket(wbemServices, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, nullptr,
-                    RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE, nullptr, EOAC_NONE);
-
-                if (FAILED(hr))
+                if (FAILED(hr = CoSetProxyBlanket(wbemServices, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, nullptr,
+                                                  RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE, nullptr, EOAC_NONE)))
                     throw SystemError("Failed to set authentication information, error: " + std::to_string(hr));
 
                 IEnumWbemClassObject* enumDevices = nullptr;
-                hr = wbemServices->CreateInstanceEnum(className, 0, nullptr, &enumDevices);
-                if (FAILED(hr))
+                if (FAILED(hr = wbemServices->CreateInstanceEnum(className, 0, nullptr, &enumDevices)))
                     throw SystemError("Failed to create the device enumerator, error: " + std::to_string(hr));
 
                 // Get 20 at a time
