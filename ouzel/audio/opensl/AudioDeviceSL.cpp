@@ -32,7 +32,7 @@ namespace ouzel
         public:
             const char* name() const noexcept override
             {
-                return "OpenAL";
+                return "OpenSL";
             }
 
             std::string message(int condition) const override
