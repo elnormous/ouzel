@@ -5,7 +5,6 @@
 #if OUZEL_PLATFORM_EMSCRIPTEN && OUZEL_COMPILE_OPENGL
 
 #include "RenderDeviceOGLEm.hpp"
-#include "utils/Errors.hpp"
 #include "utils/Utils.hpp"
 
 namespace ouzel
@@ -46,12 +45,12 @@ namespace ouzel
             webGLContext = emscripten_webgl_create_context(0, &attrs);
 
             if (!webGLContext)
-                throw SystemError("Failed to create WebGL context");
+                throw std::runtime_error("Failed to create WebGL context");
 
             EMSCRIPTEN_RESULT result = emscripten_webgl_make_context_current(webGLContext);
 
             if (result != EMSCRIPTEN_RESULT_SUCCESS)
-                throw SystemError("Failed to make WebGL context current");
+                throw std::runtime_error("Failed to make WebGL context current");
 
             emscripten_set_main_loop_timing(newVerticalSync ? EM_TIMING_RAF : EM_TIMING_SETTIMEOUT, 1);
 

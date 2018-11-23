@@ -189,6 +189,8 @@ namespace ouzel
 {
     namespace graphics
     {
+        const OpenGLErrorCategory openGLErrorCategory;
+
         static GLenum getVertexFormat(DataType dataType)
         {
             switch (dataType)
@@ -401,7 +403,7 @@ namespace ouzel
             const GLubyte* versionPtr = glGetStringProc(GL_VERSION);
 
             if (!versionPtr)
-                throw SystemError("Failed to get OpenGL version");
+                throw std::runtime_error("Failed to get OpenGL version");
 
             std::string versionStr(reinterpret_cast<const char*>(versionPtr));
             std::string versionParts[2];
@@ -422,7 +424,7 @@ namespace ouzel
 
             if (apiMajorVersion < 2 ||
                 apiMajorVersion > 4)
-                throw SystemError("Unsupported OpenGL version");
+                throw std::runtime_error("Unsupported OpenGL version");
 #endif
 
             const GLubyte* deviceName = glGetStringProc(GL_RENDERER);
@@ -745,7 +747,7 @@ namespace ouzel
             glDisableProc(GL_DITHER);
 
             if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                throw SystemError("Failed to set depth function, error: " + std::to_string(error));
+                throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to set depth function");
 
 #if !OUZEL_SUPPORTS_OPENGLES
             if (sampleCount > 1)
@@ -753,7 +755,7 @@ namespace ouzel
                 glEnableProc(GL_MULTISAMPLE);
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw SystemError("Failed to enable multi-sampling, error: " + std::to_string(error));
+                    throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to enable multi-sampling");
             }
 #endif
 
@@ -773,7 +775,7 @@ namespace ouzel
                 glBindVertexArrayProc(vertexArrayId);
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw DataError("Failed to bind vertex array, error: " + std::to_string(error));
+                    throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to bind vertex array");
             }
         }
 
@@ -829,28 +831,28 @@ namespace ouzel
                     glUniform1ivProc(location, 1, reinterpret_cast<const GLint*>(data));
                     break;
                 case DataType::UNSIGNED_INTEGER:
-                    if (!glUniform1uivProc) throw DataError("Unsupported uniform size");
+                    if (!glUniform1uivProc) throw std::runtime_error("Unsupported uniform size");
                     glUniform1uivProc(location, 1, reinterpret_cast<const GLuint*>(data));
                     break;
                 case DataType::INTEGER_VECTOR2:
                     glUniform2ivProc(location, 1, reinterpret_cast<const GLint*>(data));
                     break;
                 case DataType::UNSIGNED_INTEGER_VECTOR2:
-                    if (!glUniform2uivProc) throw DataError("Unsupported uniform size");
+                    if (!glUniform2uivProc) throw std::runtime_error("Unsupported uniform size");
                     glUniform2uivProc(location, 1, reinterpret_cast<const GLuint*>(data));
                     break;
                 case DataType::INTEGER_VECTOR3:
                     glUniform3ivProc(location, 1, reinterpret_cast<const GLint*>(data));
                     break;
                 case DataType::UNSIGNED_INTEGER_VECTOR3:
-                    if (!glUniform3uivProc) throw DataError("Unsupported uniform size");
+                    if (!glUniform3uivProc) throw std::runtime_error("Unsupported uniform size");
                     glUniform3uivProc(location, 1, reinterpret_cast<const GLuint*>(data));
                     break;
                 case DataType::INTEGER_VECTOR4:
                     glUniform4ivProc(location, 1, reinterpret_cast<const GLint*>(data));
                     break;
                 case DataType::UNSIGNED_INTEGER_VECTOR4:
-                    if (!glUniform4uivProc) throw DataError("Unsupported uniform size");
+                    if (!glUniform4uivProc) throw std::runtime_error("Unsupported uniform size");
                     glUniform4uivProc(location, 1, reinterpret_cast<const GLuint*>(data));
                     break;
                 case DataType::FLOAT:
@@ -872,7 +874,7 @@ namespace ouzel
                     glUniformMatrix4fvProc(location, 1, GL_FALSE, reinterpret_cast<const GLfloat*>(data));
                     break;
                 default:
-                    throw DataError("Unsupported uniform size");
+                    throw std::runtime_error("Unsupported uniform size");
             }
         }
 
@@ -1020,7 +1022,7 @@ namespace ouzel
                                 GLenum error;
 
                                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                                    throw DataError("Failed to clear frame buffer, error: " + std::to_string(error));
+                                    throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to clear frame buffer");
                             }
 
                             break;
@@ -1066,7 +1068,7 @@ namespace ouzel
                                 case CullMode::NONE: cullFace = GL_NONE; break;
                                 case CullMode::FRONT: cullFace = ((stateCache.frameBufferId != frameBufferId) ? GL_FRONT : GL_BACK); break; // flip the faces, because of the flipped y-axis
                                 case CullMode::BACK: cullFace = ((stateCache.frameBufferId != frameBufferId) ? GL_BACK : GL_FRONT); break;
-                                default: throw DataError("Invalid cull mode");
+                                default: throw std::runtime_error("Invalid cull mode");
                             }
 
                             setCullFace(cullFace != GL_NONE, cullFace);
@@ -1088,7 +1090,7 @@ namespace ouzel
                             {
                                 case FillMode::SOLID: fillMode = GL_FILL; break;
                                 case FillMode::WIREFRAME: fillMode = GL_LINE; break;
-                                default: throw DataError("Invalid fill mode");
+                                default: throw std::runtime_error("Invalid fill mode");
                             }
 
                             setPolygonFillMode(fillMode);
@@ -1220,7 +1222,7 @@ namespace ouzel
                                 case DrawMode::LINE_STRIP: mode = GL_LINE_STRIP; break;
                                 case DrawMode::TRIANGLE_LIST: mode = GL_TRIANGLES; break;
                                 case DrawMode::TRIANGLE_STRIP: mode = GL_TRIANGLE_STRIP; break;
-                                default: throw DataError("Invalid draw mode");
+                                default: throw std::runtime_error("Invalid draw mode");
                             }
 
                             bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId());
@@ -1246,7 +1248,7 @@ namespace ouzel
                             GLenum error;
 
                             if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                                throw DataError("Failed to update vertex attributes, error: " + std::to_string(error));
+                                throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to update vertex attributes");
 
                             assert(drawCommand->indexCount);
                             assert(indexBufferOGL->getSize());
@@ -1258,7 +1260,7 @@ namespace ouzel
                             {
                                 case 2: indexType = GL_UNSIGNED_SHORT; break;
                                 case 4: indexType = GL_UNSIGNED_INT; break;
-                                default: throw DataError("Invalid index size");
+                                default: throw std::runtime_error("Invalid index size");
                             }
 
                             glDrawElementsProc(mode,
@@ -1267,7 +1269,7 @@ namespace ouzel
                                                static_cast<const char*>(nullptr) + (drawCommand->startIndex * drawCommand->indexSize));
 
                             if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                                throw DataError("Failed to draw elements, error: " + std::to_string(error));
+                                throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to draw elements");
 
                             break;
                         }
@@ -1356,13 +1358,13 @@ namespace ouzel
                             const SetShaderConstantsCommand* setShaderConstantsCommand = static_cast<const SetShaderConstantsCommand*>(command.get());
 
                             if (!currentShader)
-                                throw DataError("No shader set");
+                                throw std::runtime_error("No shader set");
 
                             // pixel shader constants
                             const std::vector<ShaderResourceOGL::Location>& fragmentShaderConstantLocations = currentShader->getFragmentShaderConstantLocations();
 
                             if (setShaderConstantsCommand->fragmentShaderConstants.size() > fragmentShaderConstantLocations.size())
-                                throw DataError("Invalid pixel shader constant size");
+                                throw std::runtime_error("Invalid pixel shader constant size");
 
                             for (size_t i = 0; i < setShaderConstantsCommand->fragmentShaderConstants.size(); ++i)
                             {
@@ -1378,7 +1380,7 @@ namespace ouzel
                             const std::vector<ShaderResourceOGL::Location>& vertexShaderConstantLocations = currentShader->getVertexShaderConstantLocations();
 
                             if (setShaderConstantsCommand->vertexShaderConstants.size() > vertexShaderConstantLocations.size())
-                                throw DataError("Invalid vertex shader constant size");
+                                throw std::runtime_error("Invalid vertex shader constant size");
 
                             for (size_t i = 0; i < setShaderConstantsCommand->vertexShaderConstants.size(); ++i)
                             {
@@ -1450,7 +1452,7 @@ namespace ouzel
                         }
 
                         default:
-                            throw SystemError("Invalid command");
+                            throw std::runtime_error("Invalid command");
                     }
 
                     if (command->type == Command::Type::PRESENT) return;
@@ -1476,7 +1478,7 @@ namespace ouzel
             GLenum error;
 
             if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                throw SystemError("Failed to read pixels from frame buffer, error: " + std::to_string(error));
+                throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to read pixels from frame buffer");
 
             uint32_t temp;
             uint32_t* rgba = reinterpret_cast<uint32_t*>(data.data());
@@ -1491,7 +1493,7 @@ namespace ouzel
             }
 
             if (!stbi_write_png(filename.c_str(), frameBufferWidth, frameBufferHeight, pixelSize, data.data(), frameBufferWidth * pixelSize))
-                throw FileError("Failed to save image to file");
+                throw std::runtime_error("Failed to save image to file");
         }
     } // namespace graphics
 } // namespace ouzel

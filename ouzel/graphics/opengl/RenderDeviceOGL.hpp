@@ -13,6 +13,7 @@
 #include <map>
 #include <memory>
 #include <queue>
+#include <system_error>
 #include <utility>
 #include <vector>
 
@@ -140,12 +141,39 @@ extern PFNGLPOPGROUPMARKEREXTPROC glPopGroupMarkerEXTProc;
 
 #include "graphics/RenderDevice.hpp"
 #include "graphics/opengl/ShaderResourceOGL.hpp"
-#include "utils/Errors.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
+        struct OpenGLErrorCategory: public std::error_category
+        {
+            const char* name() const noexcept override
+            {
+                return "OpenGL";
+            }
+
+            std::string message(int condition) const override
+            {
+                switch (condition)
+                {
+                    case GL_INVALID_ENUM: return "GL_INVALID_ENUM";
+                    case GL_INVALID_VALUE: return "GL_INVALID_VALUE";
+                    case GL_INVALID_OPERATION: return "GL_INVALID_OPERATION";
+                    case GL_STACK_OVERFLOW: return "GL_STACK_OVERFLOW";
+                    case GL_STACK_UNDERFLOW: return "GL_STACK_UNDERFLOW";
+                    case GL_OUT_OF_MEMORY: return "GL_OUT_OF_MEMORY";
+                    case GL_INVALID_FRAMEBUFFER_OPERATION: return "GL_INVALID_FRAMEBUFFER_OPERATION";
+#if !OUZEL_SUPPORTS_OPENGLES
+                    case GL_CONTEXT_LOST: return "GL_CONTEXT_LOST";
+#endif
+                    default: return "Unknown error (" + std::to_string(condition) + ")";
+                }
+            }
+        };
+
+        extern const OpenGLErrorCategory openGLErrorCategory;
+
         class RenderDeviceOGL: public RenderDevice
         {
             friend Renderer;
@@ -165,7 +193,7 @@ namespace ouzel
 
                     GLenum error;
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw SystemError("Failed to bind texture, error: " + std::to_string(error));
+                        throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to bind texture");
                 }
             }
 
@@ -178,7 +206,7 @@ namespace ouzel
 
                     GLenum error;
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw SystemError("Failed to bind program, error: " + std::to_string(error));
+                        throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to bind program");
                 }
             }
 
@@ -191,7 +219,7 @@ namespace ouzel
 
                     GLenum error;
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw SystemError("Failed to bind frame buffer, error: " + std::to_string(error));
+                        throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to bind frame buffer");
                 }
             }
 
@@ -206,7 +234,7 @@ namespace ouzel
 
                     GLenum error;
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw SystemError("Failed to bind element array buffer, error: " + std::to_string(error));
+                        throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to bind element array buffer");
                 }
             }
 
@@ -225,7 +253,7 @@ namespace ouzel
 
                     GLenum error;
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw SystemError("Failed to set scissor test, error: " + std::to_string(error));
+                        throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to set scissor test");
 
                     stateCache.scissorTestEnabled = scissorTestEnabled;
                 }
@@ -246,7 +274,7 @@ namespace ouzel
 
                     GLenum error;
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw SystemError("Failed to set scissor test, error: " + std::to_string(error));
+                        throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to set scissor test");
                 }
             }
 
@@ -261,7 +289,7 @@ namespace ouzel
 
                     GLenum error;
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw SystemError("Failed to change depth test state, error: " + std::to_string(error));
+                        throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to change depth test state");
 
                     stateCache.depthTestEnabled = enable;
                 }
@@ -275,7 +303,7 @@ namespace ouzel
 
                     GLenum error;
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw SystemError("Failed to change depth mask state, error: " + std::to_string(error));
+                        throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to change depth mask state");
 
                     stateCache.depthMask = flag;
                 }
@@ -289,7 +317,7 @@ namespace ouzel
 
                     GLenum error;
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw SystemError("Failed to change depth test state, error: " + std::to_string(error));
+                        throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to change depth test state");
 
                     stateCache.depthFunc = depthFunc;
                 }
@@ -313,7 +341,7 @@ namespace ouzel
 
                     GLenum error;
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw SystemError("Failed to set viewport, error: " + std::to_string(error));
+                        throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to set viewport");
                 }
             }
 
@@ -336,7 +364,7 @@ namespace ouzel
 
                     GLenum error;
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw SystemError("Failed to enable blend state, error: " + std::to_string(error));
+                        throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to enable blend state");
                 }
 
                 if (blendEnabled)
@@ -369,7 +397,7 @@ namespace ouzel
 
                     GLenum error;
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw SystemError("Failed to set blend state, error: " + std::to_string(error));
+                        throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to set blend state");
                 }
             }
 
@@ -392,7 +420,7 @@ namespace ouzel
 
                     GLenum error;
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw SystemError("Failed to set color mask, error: " + std::to_string(error));
+                        throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to set color mask");
                 }
             }
 
@@ -410,7 +438,7 @@ namespace ouzel
 
                     GLenum error;
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw SystemError("Failed to enable cull face, error: " + std::to_string(error));
+                        throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to enable cull face");
                 }
 
                 if (cullEnabled)
@@ -423,7 +451,7 @@ namespace ouzel
 
                     GLenum error;
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw SystemError("Failed to set cull face, error: " + std::to_string(error));
+                        throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to set cull face");
                 }
             }
 
@@ -441,7 +469,7 @@ namespace ouzel
 
                     GLenum error;
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw SystemError("Failed to enable cull face, error: " + std::to_string(error));
+                        throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to enable cull face");
                 }
             }
 
@@ -458,7 +486,7 @@ namespace ouzel
 
                     GLenum error;
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw SystemError("Failed to enable cull face, error: " + std::to_string(error));
+                        throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to enable cull face");
                 }
             }
 
@@ -510,7 +538,7 @@ namespace ouzel
                     GLenum error;
 
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw SystemError("Failed to set blend state, error: " + std::to_string(error));
+                        throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to set blend state");
                 }
             }
 #endif
