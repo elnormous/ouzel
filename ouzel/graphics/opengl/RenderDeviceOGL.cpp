@@ -189,7 +189,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        const OpenGLErrorCategory openGLErrorCategory;
+        const OpenGLErrorCategory openGLErrorCategory {};
 
         static GLenum getVertexFormat(DataType dataType)
         {

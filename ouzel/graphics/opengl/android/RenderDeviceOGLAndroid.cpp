@@ -45,7 +45,7 @@ namespace ouzel
             }
         };
 
-        const EGLErrorCategory eglErrorCategory;
+        const EGLErrorCategory eglErrorCategory {};
 
         RenderDeviceOGLAndroid::RenderDeviceOGLAndroid(const std::function<void(const Event&)>& initCallback):
             RenderDeviceOGL(initCallback)
@@ -114,7 +114,7 @@ namespace ouzel
 
             EGLint format;
             if (!eglGetConfigAttrib(display, config, EGL_NATIVE_VISUAL_ID, &format))
-                throw std::system_error(static_cast<int>(eglGetError()), eglErrorCategory, "Failed to get config attribute");
+                throw std::system_error(eglGetError(), eglErrorCategory, "Failed to get config attribute");
 
             NativeWindowAndroid* windowAndroid = static_cast<NativeWindowAndroid*>(newWindow->getNativeWindow());
 
@@ -122,7 +122,7 @@ namespace ouzel
 
             surface = eglCreateWindowSurface(display, config, windowAndroid->getNativeWindow(), nullptr);
             if (surface == EGL_NO_SURFACE)
-                throw std::system_error(static_cast<int>(eglGetError()), eglErrorCategory, "Failed to create EGL window surface");
+                throw std::system_error(eglGetError(), eglErrorCategory, "Failed to create EGL window surface");
 
             for (EGLint version = 3; version >= 2; --version)
             {
@@ -164,7 +164,7 @@ namespace ouzel
 
             if (!eglQuerySurface(display, surface, EGL_WIDTH, &surfaceWidth) ||
                 !eglQuerySurface(display, surface, EGL_HEIGHT, &surfaceHeight))
-                throw std::system_error(static_cast<int>(eglGetError()), eglErrorCategory, "Failed to get query window size");
+                throw std::system_error(eglGetError(), eglErrorCategory, "Failed to get query window size");
 
             frameBufferWidth = surfaceWidth;
             frameBufferHeight = surfaceHeight;
@@ -220,7 +220,7 @@ namespace ouzel
 
             EGLint format;
             if (!eglGetConfigAttrib(display, config, EGL_NATIVE_VISUAL_ID, &format))
-                throw std::system_error(static_cast<int>(eglGetError()), eglErrorCategory, "Failed to get config attribute");
+                throw std::system_error(eglGetError(), eglErrorCategory, "Failed to get config attribute");
 
             NativeWindowAndroid* windowAndroid = static_cast<NativeWindowAndroid*>(window->getNativeWindow());
 
@@ -228,7 +228,7 @@ namespace ouzel
 
             surface = eglCreateWindowSurface(display, config, windowAndroid->getNativeWindow(), nullptr);
             if (surface == EGL_NO_SURFACE)
-                throw std::system_error(static_cast<int>(eglGetError()), eglErrorCategory, "Failed to create EGL window surface");
+                throw std::system_error(eglGetError(), eglErrorCategory, "Failed to create EGL window surface");
 
             for (EGLint version = 3; version >= 2; --version)
             {
@@ -270,7 +270,7 @@ namespace ouzel
 
             if (!eglQuerySurface(display, surface, EGL_WIDTH, &surfaceWidth) ||
                 !eglQuerySurface(display, surface, EGL_HEIGHT, &surfaceHeight))
-                throw std::system_error(static_cast<int>(eglGetError()), eglErrorCategory, "Failed to get query window size");
+                throw std::system_error(eglGetError(), eglErrorCategory, "Failed to get query window size");
 
             frameBufferWidth = surfaceWidth;
             frameBufferHeight = surfaceHeight;
@@ -330,7 +330,7 @@ namespace ouzel
         void RenderDeviceOGLAndroid::present()
         {
             if (eglSwapBuffers(display, surface) != EGL_TRUE)
-                throw std::system_error(static_cast<int>(eglGetError()), eglErrorCategory, "Failed to swap buffers");
+                throw std::system_error(eglGetError(), eglErrorCategory, "Failed to swap buffers");
         }
 
         void RenderDeviceOGLAndroid::main()
@@ -338,7 +338,7 @@ namespace ouzel
             setCurrentThreadName("Render");
 
             if (!eglMakeCurrent(display, surface, surface, context))
-                throw std::system_error(static_cast<int>(eglGetError()), eglErrorCategory, "Failed to set current EGL context");
+                throw std::system_error(eglGetError(), eglErrorCategory, "Failed to set current EGL context");
 
             while (running)
             {
@@ -347,7 +347,7 @@ namespace ouzel
                     process();
 
                     if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
-                        throw std::system_error(static_cast<int>(eglGetError()), eglErrorCategory, "Failed to unset EGL context");
+                        throw std::system_error(eglGetError(), eglErrorCategory, "Failed to unset EGL context");
                 }
                 catch (const std::exception& e)
                 {
