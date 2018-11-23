@@ -3,6 +3,7 @@
 #include "core/Setup.h"
 
 #include <algorithm>
+#include <stdexcept>
 #include <system_error>
 #if OUZEL_PLATFORM_WINDOWS
 #  include <Windows.h>
@@ -71,7 +72,7 @@ namespace ouzel
         CFURLRef path = CFBundleCopyResourcesDirectoryURL(bundle);
 
         if (!path)
-            throw FileError("Failed to get current directory");
+            throw std::runtime_error("Failed to get current directory");
 
         char resourceDirectory[1024];
         CFURLGetFileSystemRepresentation(path, TRUE, reinterpret_cast<UInt8*>(resourceDirectory), sizeof(resourceDirectory));
@@ -99,7 +100,7 @@ namespace ouzel
 
         HRESULT hr = SHGetFolderPathW(nullptr, (user ? CSIDL_LOCAL_APPDATA : CSIDL_COMMON_APPDATA) | CSIDL_FLAG_CREATE, nullptr, SHGFP_TYPE_CURRENT, appDataPath);
         if (FAILED(hr))
-            throw FileError("Failed to get the path of the AppData directory, error: " + std::to_string(hr));
+            throw std::runtime_error("Failed to get the path of the AppData directory, error: " + std::to_string(hr)); // TODO: throw a std::system_error
 
         int bufferSize = WideCharToMultiByte(CP_UTF8, 0, appDataPath, -1, nullptr, 0, nullptr, nullptr);
         if (bufferSize == 0)
@@ -134,7 +135,7 @@ namespace ouzel
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to create directory " + path);
             }
             else if ((attributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
-                throw FileError(path + " is not a directory");
+                throw std::runtime_error(path + " is not a directory");
         }
 
         path += DIRECTORY_SEPARATOR + OUZEL_APPLICATION_NAME;
@@ -160,7 +161,7 @@ namespace ouzel
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to create directory " + path);
             }
             else if ((attributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
-                throw FileError(path + " is not a directory");
+                throw std::runtime_error(path + " is not a directory");
         }
 
         return path;
@@ -218,7 +219,7 @@ namespace ouzel
                 buffer.resize(buffer.size() * 2);
 
             if (e != 0)
-                throw FileError("Failed to get home directory");
+                throw std::runtime_error("Failed to get home directory");
             else
                 path = pwent.pw_dir;
 
@@ -315,7 +316,7 @@ namespace ouzel
             AAsset* asset = AAssetManager_open(engineAndroid.getAssetManager(), filename.c_str(), AASSET_MODE_STREAMING);
 
             if (!asset)
-                throw FileError("Failed to open file " + filename);
+                throw std::runtime_error("Failed to open file " + filename);
 
             int bytesRead = 0;
 
@@ -332,7 +333,7 @@ namespace ouzel
 
         // file does not exist
         if (path.empty())
-            throw FileError("Failed to find file " + filename);
+            throw std::runtime_error("Failed to find file " + filename);
 
         File file(path, File::Mode::READ);
 

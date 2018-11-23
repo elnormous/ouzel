@@ -141,7 +141,7 @@ namespace ouzel
         {
             userSettings = ini::Data(fileSystem.readFile(fileSystem.getStorageDirectory() + FileSystem::DIRECTORY_SEPARATOR + "settings.ini"));
         }
-        catch (const FileError&)
+        catch (const std::exception&)
         {
             engine->log(Log::Level::INFO) << "User settings not provided";
         }

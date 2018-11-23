@@ -956,7 +956,7 @@ namespace ouzel
             }
 
             if (!stbi_write_png(filename.c_str(), static_cast<int>(width), static_cast<int>(height), 4, data.get(), static_cast<int>(width * 4)))
-                throw FileError("Failed to save image to file");
+                throw std::runtime_error("Failed to save image to file");
         }
 
         MTLRenderPipelineStatePtr RenderDeviceMetal::getPipelineState(const PipelineStateDesc& desc)

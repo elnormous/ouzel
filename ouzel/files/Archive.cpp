@@ -84,7 +84,7 @@ namespace ouzel
         auto i = entries.find(filename);
 
         if (i == entries.end())
-            throw FileError("File " + filename + " does not exist");
+            throw std::runtime_error("File " + filename + " does not exist");
 
         file.seek(static_cast<int32_t>(i->second.offset), File::BEGIN);
 

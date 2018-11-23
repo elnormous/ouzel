@@ -1,5 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <system_error>
 #include "NativeCursorWin.hpp"
 #include "utils/Errors.hpp"
 
@@ -31,12 +32,12 @@ namespace ouzel
                     cursor = LoadCursor(nullptr, IDC_IBEAM);
                     break;
                 default:
-                    cursor = 0;
+                    throw std::runtime_error("Invalid cursor");
                     break;
             }
 
             if (!cursor)
-                throw SystemError("Failed to load cursor");
+                throw std::system_error(GetLastError(), std::system_category(), "Failed to load cursor");
 
             shared = true;
         }

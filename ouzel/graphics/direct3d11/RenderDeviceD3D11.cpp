@@ -1059,7 +1059,7 @@ namespace ouzel
             {
                 context->Unmap(texture, 0);
                 texture->Release();
-                throw FileError("Failed to save screenshot to file");
+                throw std::runtime_error("Failed to save screenshot to file");
             }
 
             context->Unmap(texture, 0);
