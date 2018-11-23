@@ -200,7 +200,8 @@ namespace ouzel
                 if (FAILED(hr = device->Acquire()))
                     throw SystemError("Failed to acquire DirectInput device, error: " + std::to_string(hr));
 
-                result = device->Poll();
+                if (FAILED(hr = device->Poll()))
+                    throw SystemError("Failed to poll DirectInput device, error: " + std::to_string(hr));
             }
 
             return buffered ? checkInputBuffered() : checkInputPolled();
