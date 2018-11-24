@@ -37,8 +37,6 @@ namespace ouzel
 
             if (!cursor)
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to load cursor");
-
-            shared = true;
         }
 
         NativeCursorWin::NativeCursorWin(const std::vector<uint8_t>& data,
