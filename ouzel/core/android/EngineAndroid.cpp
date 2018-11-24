@@ -1,6 +1,5 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include <system_error>
 #include <cstdlib>
 #include <unistd.h>
 #include <android/window.h>
@@ -28,13 +27,16 @@ static int looperCallback(int fd, int events, void* data)
 
 namespace ouzel
 {
+    const JNIErrorCategory jniErrorCategory {};
+
     EngineAndroid::EngineAndroid(JavaVM* initJavaVM):
         javaVM(initJavaVM), looperPipe{-1, -1}
     {
         JNIEnv* jniEnv;
 
-        if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-            throw std::runtime_error("Failed to get JNI environment");
+        jint result;
+        if ((result = javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6)) != JNI_OK)
+            throw std::system_error(result, jniErrorCategory, "Failed to get JNI environment");
 
         uriClass = jniEnv->FindClass("android/net/Uri");
         uriClass = static_cast<jclass>(jniEnv->NewGlobalRef(uriClass));
@@ -68,8 +70,9 @@ namespace ouzel
     {
         JNIEnv* jniEnv;
 
-        if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-            throw std::runtime_error("Failed to get JNI environment");
+        jint result;
+        if ((result = javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6)) != JNI_OK)
+            throw std::system_error(result, jniErrorCategory, "Failed to get JNI environment");
 
         mainActivity = jniEnv->NewGlobalRef(initMainActivity);
 
@@ -142,8 +145,9 @@ namespace ouzel
     {
         JNIEnv* jniEnv;
 
-        if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-            throw std::runtime_error("Failed to get JNI environment");
+        jint result;
+        if ((result = javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6)) != JNI_OK)
+            throw std::system_error(result, jniErrorCategory, "Failed to get JNI environment");
 
         if (surface) jniEnv->DeleteGlobalRef(surface);
         surface = jniEnv->NewGlobalRef(newSurface);
@@ -169,8 +173,9 @@ namespace ouzel
     {
         JNIEnv* jniEnv;
 
-        if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-            throw std::runtime_error("Failed to get JNI environment");
+        jint result;
+        if ((result = javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6)) != JNI_OK)
+            throw std::system_error(result, jniErrorCategory, "Failed to get JNI environment");
 
         jint newOrientation = jniEnv->GetIntField(newConfig, orientationField);
 
@@ -202,8 +207,9 @@ namespace ouzel
     {
         JNIEnv* jniEnv;
 
-        if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-            throw std::runtime_error("Failed to get JNI environment");
+        jint result;
+        if ((result = javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6)) != JNI_OK)
+            throw std::system_error(result, jniErrorCategory, "Failed to get JNI environment");
 
         if (surface)
         {
@@ -251,8 +257,9 @@ namespace ouzel
         executeOnMainThread([url, this]() {
             JNIEnv* jniEnv;
 
-            if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-                throw std::runtime_error("Failed to get JNI environment");
+            jint result;
+            if ((result = javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6)) != JNI_OK)
+                throw std::system_error(result, jniErrorCategory, "Failed to get JNI environment");
 
             jstring actionString = jniEnv->NewStringUTF("android.intent.action.VIEW");
             jstring urlString = jniEnv->NewStringUTF(url.c_str());
@@ -281,8 +288,9 @@ namespace ouzel
         executeOnMainThread([newScreenSaverEnabled, this]() {
             JNIEnv* jniEnv;
 
-            if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-                throw std::runtime_error("Failed to get JNI environment");
+            jint result;
+            if ((result = javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6)) != JNI_OK)
+                throw std::system_error(result, jniErrorCategory, "Failed to get JNI environment");
 
             if (newScreenSaverEnabled)
                 jniEnv->CallVoidMethod(androidWindow, clearFlagsMethod, AWINDOW_FLAG_KEEP_SCREEN_ON);
@@ -315,12 +323,14 @@ namespace ouzel
         attachArgs.version = JNI_VERSION_1_6;
         attachArgs.name = nullptr; // thread name
         attachArgs.group = nullptr; // thread group
-        if (javaVM->AttachCurrentThread(&jniEnv, &attachArgs) != JNI_OK)
-            throw std::runtime_error("Failed to attach current thread to Java VM");
+
+        jint result;
+        if ((result = javaVM->AttachCurrentThread(&jniEnv, &attachArgs)) != JNI_OK)
+            throw std::system_error(result, jniErrorCategory, "Failed to attach current thread to Java VM");
 
         Engine::main();
 
-        if (javaVM->DetachCurrentThread() != JNI_OK)
-            throw std::runtime_error("Failed to detach current thread from Java VM");
+        if ((result = javaVM->DetachCurrentThread()) != JNI_OK)
+            throw std::system_error(result, jniErrorCategory, "Failed to detach current thread from Java VM");
     }
 }

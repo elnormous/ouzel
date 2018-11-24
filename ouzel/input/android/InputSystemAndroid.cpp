@@ -21,8 +21,9 @@ namespace ouzel
             javaVM = engineAndroid->getJavaVM();
             JNIEnv* jniEnv;
 
-            if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-                throw std::runtime_error("Failed to get JNI environment");
+            jint result;
+            if ((result = javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6)) != JNI_OK)
+                throw std::system_error(result, jniErrorCategory, "Failed to get JNI environment");
 
             inputDeviceClass = jniEnv->FindClass("android/view/InputDevice");
             inputDeviceClass = static_cast<jclass>(jniEnv->NewGlobalRef(inputDeviceClass));
@@ -44,9 +45,7 @@ namespace ouzel
             JNIEnv* jniEnv;
 
             if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) == JNI_OK)
-            {
                 if (inputDeviceClass) jniEnv->DeleteGlobalRef(inputDeviceClass);
-            }
         }
 
         void InputSystemAndroid::executeCommand(const Command& command)
@@ -78,8 +77,9 @@ namespace ouzel
         {
             JNIEnv* jniEnv;
 
-            if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-                throw std::runtime_error("Failed to get JNI environment");
+            jint result;
+            if ((result = javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6)) != JNI_OK)
+                throw std::system_error(result, jniErrorCategory, "Failed to get JNI environment");
 
             jint action = jniEnv->CallIntMethod(event, getActionMethod);
 
@@ -224,8 +224,9 @@ namespace ouzel
         {
             JNIEnv* jniEnv;
 
-            if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-                throw std::runtime_error("Failed to get JNI environment");
+            jint result;
+            if ((result = javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6)) != JNI_OK)
+                throw std::system_error(result, jniErrorCategory, "Failed to get JNI environment");
 
             jint action = jniEnv->CallIntMethod(event, getActionMethod);
             jint toolType = jniEnv->CallIntMethod(event, getToolTypeMethod, 0);

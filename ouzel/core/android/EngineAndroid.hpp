@@ -3,6 +3,7 @@
 #ifndef OUZEL_CORE_ENGINEANDROID_HPP
 #define OUZEL_CORE_ENGINEANDROID_HPP
 
+#include <system_error>
 #include <jni.h>
 #include <android/asset_manager.h>
 #include <android/asset_manager_jni.h>
@@ -11,6 +12,28 @@
 
 namespace ouzel
 {
+    class JNIErrorCategory: public std::error_category
+    {
+    public:
+        const char* name() const noexcept override
+        {
+            return "JNI";
+        }
+
+        std::string message(int condition) const override
+        {
+            switch (condition)
+            {
+                case JNI_ERR: return "JNI_ERR";
+                case JNI_EDETACHED: return "JNI_EDETACHED";
+                case JNI_EVERSION: return "JNI_EVERSION";
+                default: return "Unknown error (" + std::to_string(condition) + ")";
+            }
+        }
+    };
+
+    extern const JNIErrorCategory jniErrorCategory;
+
     class EngineAndroid final: public Engine
     {
     public:
