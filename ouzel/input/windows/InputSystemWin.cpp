@@ -1,5 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <system_error>
 #include <Windows.h>
 #include <WbemIdl.h>
 #include <OleAuto.h>
@@ -45,11 +46,9 @@ namespace ouzel
                 DWORD result = XInputGetState(userIndex, &state);
 
                 if (result == ERROR_SUCCESS)
-                {
                     gamepadsXI[userIndex].reset(new GamepadDeviceXI(*this, ++lastDeviceId, userIndex));
-                }
                 else if (result != ERROR_DEVICE_NOT_CONNECTED)
-                    engine->log(Log::Level::WARN) << "Failed to get state for gamepad " << userIndex;
+                    throw std::system_error(result, std::system_category(), "Failed to get state for gamepad " + std::to_string(userIndex));
             }
 
             if (FAILED(hr = directInput->EnumDevices(DI8DEVCLASS_GAMECTRL, enumDevicesCallback, this, DIEDFL_ATTACHEDONLY)))
@@ -204,7 +203,7 @@ namespace ouzel
                         if (result == ERROR_SUCCESS)
                             gamepadsXI[userIndex].reset(new GamepadDeviceXI(*this, ++lastDeviceId, userIndex));
                         else if (result != ERROR_DEVICE_NOT_CONNECTED)
-                            engine->log(Log::Level::WARN) << "Failed to get state for gamepad " << userIndex;
+                            throw std::system_error(result, std::system_category(), "Failed to get state for gamepad " + std::to_string(userIndex));
                     }
                 }
 
