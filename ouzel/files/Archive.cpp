@@ -1,8 +1,8 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <stdexcept>
 #include "Archive.hpp"
 #include "FileSystem.hpp"
-#include "utils/Errors.hpp"
 #include "utils/Utils.hpp"
 
 namespace ouzel
@@ -24,7 +24,7 @@ namespace ouzel
                 break;
 
             if (decodeUInt32Little(&signature) != 0x04034b50)
-                throw ParseError("Bad signature");
+                throw std::runtime_error("Bad signature");
 
             uint8_t version[2];
 
@@ -38,7 +38,7 @@ namespace ouzel
             file.read(&compression, sizeof(compression), true);
 
             if (compression != 0x00)
-                throw ParseError("Unsupported compression");
+                throw std::runtime_error("Unsupported compression");
 
             file.seek(4, File::CURRENT); // skip modification time
             file.seek(4, File::CURRENT); // skip CRC-32

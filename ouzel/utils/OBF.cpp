@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <stdexcept>
 #include "OBF.hpp"
-#include "Errors.hpp"
 #include "Utils.hpp"
 
 namespace ouzel
@@ -12,7 +12,7 @@ namespace ouzel
         static uint32_t readInt8(const std::vector<uint8_t>& buffer, uint32_t offset, uint8_t& result)
         {
             if (buffer.size() - offset < sizeof(result))
-                throw ParseError("Not enough data");
+                throw std::runtime_error("Not enough data");
 
             result = *reinterpret_cast<const uint8_t*>(buffer.data() + offset);
 
@@ -22,7 +22,7 @@ namespace ouzel
         static uint32_t readInt16(const std::vector<uint8_t>& buffer, uint32_t offset, uint16_t& result)
         {
             if (buffer.size() - offset < sizeof(result))
-                throw ParseError("Not enough data");
+                throw std::runtime_error("Not enough data");
 
             result = decodeUInt16Big(buffer.data() + offset);
 
@@ -32,7 +32,7 @@ namespace ouzel
         static uint32_t readInt32(const std::vector<uint8_t>& buffer, uint32_t offset, uint32_t& result)
         {
             if (buffer.size() - offset < sizeof(result))
-                throw ParseError("Not enough data");
+                throw std::runtime_error("Not enough data");
 
             result = decodeUInt32Big(buffer.data() + offset);
 
@@ -42,7 +42,7 @@ namespace ouzel
         static uint32_t readInt64(const std::vector<uint8_t>& buffer, uint32_t offset, uint64_t& result)
         {
             if (buffer.size() - offset < sizeof(result))
-                throw ParseError("Not enough data");
+                throw std::runtime_error("Not enough data");
 
             result = decodeUInt64Big(buffer.data() + offset);
 
@@ -52,7 +52,7 @@ namespace ouzel
         static uint32_t readFloat(const std::vector<uint8_t>& buffer, uint32_t offset, float& result)
         {
             if (buffer.size() - offset < sizeof(float))
-                throw ParseError("Not enough data");
+                throw std::runtime_error("Not enough data");
 
             result = *reinterpret_cast<const float*>(buffer.data() + offset);
 
@@ -62,7 +62,7 @@ namespace ouzel
         static uint32_t readDouble(const std::vector<uint8_t>& buffer, uint32_t offset, double& result)
         {
             if (buffer.size() - offset < sizeof(double))
-                throw ParseError("Not enough data");
+                throw std::runtime_error("Not enough data");
 
             result = *reinterpret_cast<const double*>(buffer.data() + offset);
 
@@ -74,14 +74,14 @@ namespace ouzel
             uint32_t originalOffset = offset;
 
             if (buffer.size() - offset < sizeof(uint16_t))
-                throw ParseError("Not enough data");
+                throw std::runtime_error("Not enough data");
 
             uint16_t length = decodeUInt16Big(buffer.data() + offset);
 
             offset += sizeof(length);
 
             if (buffer.size() - offset < length)
-                throw ParseError("Not enough data");
+                throw std::runtime_error("Not enough data");
 
             result.assign(reinterpret_cast<const char*>(buffer.data() + offset), length);
             offset += length;
@@ -94,14 +94,14 @@ namespace ouzel
             uint32_t originalOffset = offset;
 
             if (buffer.size() - offset < sizeof(uint32_t))
-                throw ParseError("Not enough data");
+                throw std::runtime_error("Not enough data");
 
             uint32_t length = decodeUInt32Big(buffer.data() + offset);
 
             offset += sizeof(length);
 
             if (buffer.size() - offset < length)
-                throw ParseError("Not enough data");
+                throw std::runtime_error("Not enough data");
 
             result.assign(reinterpret_cast<const char*>(buffer.data() + offset), length);
             offset += length;
@@ -114,14 +114,14 @@ namespace ouzel
             uint32_t originalOffset = offset;
 
             if (buffer.size() - offset < sizeof(uint32_t))
-                throw ParseError("Not enough data");
+                throw std::runtime_error("Not enough data");
 
             uint32_t length = decodeUInt32Big(buffer.data() + offset);
 
             offset += sizeof(length);
 
             if (buffer.size() - offset < length)
-                throw ParseError("Not enough data");
+                throw std::runtime_error("Not enough data");
 
             result.assign(reinterpret_cast<const uint8_t*>(buffer.data() + offset),
                           reinterpret_cast<const uint8_t*>(buffer.data() + offset) + length);
@@ -135,7 +135,7 @@ namespace ouzel
             uint32_t originalOffset = offset;
 
             if (buffer.size() - offset < sizeof(uint32_t))
-                throw ParseError("Not enough data");
+                throw std::runtime_error("Not enough data");
 
             uint32_t count = decodeUInt32Big(buffer.data() + offset);
 
@@ -144,7 +144,7 @@ namespace ouzel
             for (uint32_t i = 0; i < count; ++i)
             {
                 if (buffer.size() - offset < sizeof(uint32_t))
-                    throw ParseError("Not enough data");
+                    throw std::runtime_error("Not enough data");
 
                 uint32_t key = decodeUInt32Big(buffer.data() + offset);
 
@@ -167,7 +167,7 @@ namespace ouzel
             uint32_t originalOffset = offset;
 
             if (buffer.size() - offset < sizeof(uint32_t))
-                throw ParseError("Not enough data");
+                throw std::runtime_error("Not enough data");
 
             uint32_t count = decodeUInt32Big(buffer.data() + offset);
 
@@ -191,7 +191,7 @@ namespace ouzel
             uint32_t originalOffset = offset;
 
             if (buffer.size() - offset < sizeof(uint32_t))
-                throw ParseError("Not enough data");
+                throw std::runtime_error("Not enough data");
 
             uint32_t count = decodeUInt32Big(buffer.data() + offset);
 
@@ -200,14 +200,14 @@ namespace ouzel
             for (uint32_t i = 0; i < count; ++i)
             {
                 if (buffer.size() - offset < sizeof(uint16_t))
-                    throw ParseError("Not enough data");
+                    throw std::runtime_error("Not enough data");
 
                 uint16_t length = decodeUInt16Big(buffer.data() + offset);
 
                 offset += sizeof(length);
 
                 if (buffer.size() - offset < length)
-                    throw ParseError("Not enough data");
+                    throw std::runtime_error("Not enough data");
 
                 std::string key(reinterpret_cast<const char*>(buffer.data() + offset), length);
                 offset += length;
@@ -413,7 +413,7 @@ namespace ouzel
             uint32_t originalOffset = offset;
 
             if (buffer.size() - offset < 1)
-                throw ParseError("Not enough data");
+                throw std::runtime_error("Not enough data");
 
             Marker marker = *reinterpret_cast<const Marker*>(buffer.data() + offset);
             offset += 1;
@@ -524,7 +524,7 @@ namespace ouzel
                     break;
                 }
                 default:
-                    throw ParseError("Unsupported marker");
+                    throw std::runtime_error("Unsupported marker");
             }
 
             offset += ret;
@@ -633,7 +633,7 @@ namespace ouzel
                     break;
                 }
                 default:
-                    throw DataError("Unsupported type");
+                    throw std::runtime_error("Unsupported type");
             }
 
             size += ret;

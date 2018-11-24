@@ -14,13 +14,6 @@ namespace ouzel
         explicit DataError(const char* str): std::runtime_error(str) {}
     };
 
-    class ParseError final: public std::runtime_error
-    {
-    public:
-        explicit ParseError(const std::string& str): std::runtime_error(str) {}
-        explicit ParseError(const char* str): std::runtime_error(str) {}
-    };
-
     class SystemError final: public std::runtime_error
     {
     public:

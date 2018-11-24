@@ -3,13 +3,13 @@
 #include <cstdlib>
 #include <iterator>
 #include <map>
+#include <stdexcept>
 #include <string>
 #include <tuple>
 #include "LoaderOBJ.hpp"
 #include "Bundle.hpp"
 #include "Cache.hpp"
 #include "graphics/Material.hpp"
-#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -76,7 +76,7 @@ namespace ouzel
             }
 
             if (result.empty())
-                throw ParseError("Invalid string");
+                throw std::runtime_error("Invalid string");
 
             return result;
         }
@@ -313,7 +313,7 @@ namespace ouzel
                                 positionIndex = static_cast<int32_t>(positions.size()) + positionIndex + 1;
 
                             if (positionIndex < 1 || positionIndex > static_cast<int32_t>(positions.size()))
-                                throw ParseError("Invalid position index");
+                                throw std::runtime_error("Invalid position index");
 
                             std::get<0>(i) = static_cast<uint32_t>(positionIndex);
 
@@ -329,7 +329,7 @@ namespace ouzel
                                         texCoordIndex = static_cast<int32_t>(texCoords.size()) + texCoordIndex + 1;
 
                                     if (texCoordIndex < 1 || texCoordIndex > static_cast<int32_t>(texCoords.size()))
-                                        throw ParseError("Invalid texture coordinate index");
+                                        throw std::runtime_error("Invalid texture coordinate index");
 
                                     std::get<1>(i) = static_cast<uint32_t>(texCoordIndex);
                                 }
@@ -343,7 +343,7 @@ namespace ouzel
                                         normalIndex = static_cast<int32_t>(normals.size()) + normalIndex + 1;
 
                                     if (normalIndex < 1 || normalIndex > static_cast<int32_t>(normals.size()))
-                                        throw ParseError("Invalid normal index");
+                                        throw std::runtime_error("Invalid normal index");
 
                                     std::get<2>(i) = static_cast<uint32_t>(normalIndex);
                                 }
@@ -372,7 +372,7 @@ namespace ouzel
                         }
 
                         if (vertexIndices.size() < 3)
-                            throw ParseError("Invalid face count");
+                            throw std::runtime_error("Invalid face count");
                         else if (vertexIndices.size() == 3)
                         {
                             for (uint32_t vertexIndex : vertexIndices)

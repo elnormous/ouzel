@@ -1,10 +1,10 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <cassert>
+#include <stdexcept>
 #define STB_TRUETYPE_IMPLEMENTATION
 #include "TTFont.hpp"
 #include "core/Engine.hpp"
-#include "utils/Errors.hpp"
 #include "utils/Utils.hpp"
 
 namespace ouzel
@@ -20,10 +20,10 @@ namespace ouzel
         int offset = stbtt_GetFontOffsetForIndex(data.data(), 0);
 
         if (offset == -1)
-            throw ParseError("Not a font");
+            throw std::runtime_error("Not a font");
 
         if (!stbtt_InitFont(&font, data.data(), offset))
-            throw ParseError("Failed to load font");
+            throw std::runtime_error("Failed to load font");
 
         loaded = true;
     }
@@ -37,7 +37,7 @@ namespace ouzel
                              std::shared_ptr<graphics::Texture>& texture)
     {
         if (!loaded)
-            throw DataError("Font not loaded");
+            throw std::runtime_error("Font not loaded");
 
         static const uint32_t SPACING = 2;
 

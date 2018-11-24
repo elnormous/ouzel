@@ -1,9 +1,9 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <stdexcept>
 #include "Cursor.hpp"
 #include "InputManager.hpp"
 #include "core/Engine.hpp"
-#include "utils/Errors.hpp"
 #include "stb_image.h"
 
 namespace ouzel
@@ -60,7 +60,7 @@ namespace ouzel
             stbi_uc* tempData = stbi_load_from_memory(data.data(), static_cast<int>(data.size()), &width, &height, &comp, STBI_default);
 
             if (!tempData)
-                throw ParseError("Failed to load texture, reason: " + std::string(stbi_failure_reason()));
+                throw std::runtime_error("Failed to load texture, reason: " + std::string(stbi_failure_reason()));
 
             size_t pixelSize;
             graphics::PixelFormat pixelFormat;
@@ -119,7 +119,7 @@ namespace ouzel
                 }
                 default:
                     stbi_image_free(tempData);
-                    throw ParseError("Unsupported pixel size");
+                    throw std::runtime_error("Unsupported pixel size");
             }
 
             init(imageData,

@@ -1,9 +1,9 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <stdexcept>
 #include "LoaderCollada.hpp"
 #include "Bundle.hpp"
 #include "scene/SkinnedMeshData.hpp"
-#include "utils/Errors.hpp"
 #include "utils/XML.hpp"
 
 namespace ouzel
@@ -20,12 +20,12 @@ namespace ouzel
             xml::Data colladaData(data);
 
             if (colladaData.getChildren().empty())
-                throw ParseError("Invalid collada Collada file");
+                throw std::runtime_error("Invalid collada Collada file");
 
             xml::Node rootNode = colladaData.getChildren().front();
 
             if (rootNode.getValue() != "COLLADA")
-                throw ParseError("Invalid collada Collada file");
+                throw std::runtime_error("Invalid collada Collada file");
 
             scene::SkinnedMeshData meshData;
 

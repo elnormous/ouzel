@@ -1,5 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <stdexcept>
 #include "core/Setup.h"
 #include "Renderer.hpp"
 #include "Commands.hpp"
@@ -8,7 +9,6 @@
 #include "events/EventDispatcher.hpp"
 #include "core/Engine.hpp"
 #include "core/Window.hpp"
-#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
 #if OUZEL_PLATFORM_MACOS
@@ -262,7 +262,7 @@ namespace ouzel
                             uint32_t startIndex)
         {
             if (!indexBuffer || !vertexBuffer)
-                throw DataError("Invalid mesh buffer passed to render queue");
+                throw std::runtime_error("Invalid mesh buffer passed to render queue");
 
             addCommand(std::unique_ptr<Command>(new DrawCommand(indexBuffer,
                                                                 indexCount,

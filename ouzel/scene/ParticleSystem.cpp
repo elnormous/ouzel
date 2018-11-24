@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <cstdlib>
+#include <stdexcept>
 #include "core/Setup.h"
 #include "ParticleSystem.hpp"
 #include "core/Engine.hpp"
@@ -253,7 +254,7 @@ namespace ouzel
             texture = particleSystemData.texture;
 
             if (!texture)
-                throw DataError("Paricle system data has no texture");
+                throw std::runtime_error("Paricle system data has no texture");
 
             createParticleMesh();
             resume();
@@ -266,7 +267,7 @@ namespace ouzel
             texture = particleSystemData.texture;
 
             if (!texture)
-                throw DataError("Paricle system data has no texture");
+                throw std::runtime_error("Paricle system data has no texture");
 
             createParticleMesh();
             resume();
