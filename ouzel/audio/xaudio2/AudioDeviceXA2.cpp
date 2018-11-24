@@ -20,6 +20,29 @@ namespace ouzel
 {
     namespace audio
     {
+        class XAudio2ErrorCategory: public std::error_category
+        {
+        public:
+            const char* name() const noexcept override
+            {
+                return "XAudio2";
+            }
+
+            std::string message(int condition) const override
+            {
+                switch (condition)
+                {
+                    case XAUDIO2_E_INVALID_CALL: return "XAUDIO2_E_INVALID_CALL";
+                    case XAUDIO2_E_XMA_DECODER_ERROR: return "XAUDIO2_E_XMA_DECODER_ERROR";
+                    case XAUDIO2_E_XAPO_CREATION_FAILED: return "XAUDIO2_E_XAPO_CREATION_FAILED";
+                    case XAUDIO2_E_DEVICE_INVALIDATED: return "XAUDIO2_E_DEVICE_INVALIDATED";
+                    default: return "Unknown error (" + std::to_string(condition) + ")";
+                }
+            }
+        };
+
+        const XAudio2ErrorCategory xAudio2ErrorCategory {};
+
         AudioDeviceXA2::AudioDeviceXA2(bool debugAudio):
             AudioDevice(Driver::XAUDIO2), running(true)
         {
@@ -37,7 +60,7 @@ namespace ouzel
 
                 HRESULT hr;
                 if (FAILED(hr = xAudio2CreateProc(&xAudio, 0, XAUDIO2_DEFAULT_PROCESSOR)))
-                    throw std::runtime_error("Failed to initialize XAudio2, error: " + std::to_string(hr));
+                    throw std::system_error(hr, xAudio2ErrorCategory, "Failed to initialize XAudio2");
 
                 if (debugAudio)
                 {
@@ -73,7 +96,7 @@ namespace ouzel
 
                 HRESULT hr;
                 if (FAILED(hr = XAudio27CreateProc(&xAudio, flags, XAUDIO2_DEFAULT_PROCESSOR)))
-                    throw std::runtime_error("Failed to initialize XAudio2, error: " + std::to_string(hr));
+                    throw std::system_error(hr, xAudio2ErrorCategory, "Failed to initialize XAudio2");
             }
 
             WAVEFORMATEX waveFormat;
@@ -89,19 +112,19 @@ namespace ouzel
             {
                 HRESULT hr;
                 if (FAILED(hr = IXAudio2CreateMasteringVoice(xAudio, &masteringVoice)))
-                    throw std::runtime_error("Failed to create XAudio2 mastering voice, error: " + std::to_string(hr));
+                    throw std::system_error(hr, xAudio2ErrorCategory, "Failed to create XAudio2 mastering voice");
 
                 if (FAILED(hr = IXAudio2CreateSourceVoice(xAudio, &sourceVoice, &waveFormat, 0, XAUDIO2_DEFAULT_FREQ_RATIO, this)))
-                    throw std::runtime_error("Failed to create source voice, error: " + std::to_string(hr));
+                    throw std::system_error(hr, xAudio2ErrorCategory, "Failed to create source voice");
             }
             else
             {
                 HRESULT hr;
                 if (FAILED(hr = xAudio->CreateMasteringVoice(&masteringVoice)))
-                    throw std::runtime_error("Failed to create XAudio2 mastering voice, error: " + std::to_string(hr));
+                    throw std::system_error(hr, xAudio2ErrorCategory, "Failed to create XAudio2 mastering voice");
 
                 if (FAILED(hr = xAudio->CreateSourceVoice(&sourceVoice, &waveFormat, 0, XAUDIO2_DEFAULT_FREQ_RATIO, this)))
-                    throw std::runtime_error("Failed to create source voice, error: " + std::to_string(hr));
+                    throw std::system_error(hr, xAudio2ErrorCategory, "Failed to create source voice");
             }
 
             sampleFormat = SampleFormat::FLOAT32;
@@ -121,19 +144,19 @@ namespace ouzel
 
             HRESULT hr;
             if (FAILED(hr = sourceVoice->SubmitSourceBuffer(&bufferData)))
-                throw std::runtime_error("Failed to upload sound data, error: " + std::to_string(hr));
+                throw std::system_error(hr, xAudio2ErrorCategory, "Failed to upload sound data");
 
             getData(bufferSize / (channels * sizeof(float)), data[1]);
             bufferData.AudioBytes = static_cast<UINT32>(data[1].size());
             bufferData.pAudioData = data[1].data();
 
             if (FAILED(hr = sourceVoice->SubmitSourceBuffer(&bufferData)))
-                throw std::runtime_error("Failed to upload sound data, error: " + std::to_string(hr));
+                throw std::system_error(hr, xAudio2ErrorCategory, "Failed to upload sound data");
 
             nextBuffer = 0;
 
             if (FAILED(hr = sourceVoice->Start()))
-                throw std::runtime_error("Failed to start consuming sound data, error: " + std::to_string(hr));
+                throw std::system_error(hr, xAudio2ErrorCategory, "Failed to start consuming sound data");
 
             audioThread = std::thread(&AudioDeviceXA2::run, this);
         }
@@ -190,7 +213,7 @@ namespace ouzel
 
                     HRESULT hr;
                     if (FAILED(hr = sourceVoice->SubmitSourceBuffer(&bufferData)))
-                        throw std::runtime_error("Failed to upload sound data, error: " + std::to_string(hr));
+                        throw std::system_error(hr, xAudio2ErrorCategory, "Failed to upload sound data");
 
                     nextBuffer = (nextBuffer == 0) ? 1 : 0;
 
