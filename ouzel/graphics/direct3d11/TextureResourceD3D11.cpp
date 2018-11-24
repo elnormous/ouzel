@@ -6,7 +6,6 @@
 
 #include "TextureResourceD3D11.hpp"
 #include "RenderDeviceD3D11.hpp"
-#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -61,7 +60,7 @@ namespace ouzel
             pixelFormat(newPixelFormat)
         {
             if ((flags & Texture::RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
-                throw DataError("Invalid mip map count");
+                throw std::runtime_error("Invalid mip map count");
 
             createTexture(levels);
 
@@ -105,7 +104,7 @@ namespace ouzel
         void TextureResourceD3D11::setData(const std::vector<Texture::Level>& levels)
         {
             if (!(flags & Texture::DYNAMIC) || flags & Texture::RENDER_TARGET)
-                throw DataError("Texture is not dynamic");
+                throw std::runtime_error("Texture is not dynamic");
 
             RenderDeviceD3D11& renderDeviceD3D11 = static_cast<RenderDeviceD3D11&>(renderDevice);
 
@@ -128,7 +127,7 @@ namespace ouzel
                             if (FAILED(hr = renderDeviceD3D11.getContext()->Map(texture, static_cast<UINT>(level),
                                                                                 (level == 0) ? D3D11_MAP_WRITE_DISCARD : D3D11_MAP_WRITE,
                                                                                 0, &mappedSubresource)))
-                                throw DataError("Failed to map Direct3D 11 texture, error: " + std::to_string(hr));
+                                throw std::system_error(hr, direct3D11ErrorCategory, "Failed to map Direct3D 11 texture");
 
                             uint8_t* destination = static_cast<uint8_t*>(mappedSubresource.pData);
 
@@ -264,7 +263,7 @@ namespace ouzel
                 DXGI_FORMAT d3d11PixelFormat = getD3D11PixelFormat(pixelFormat);
 
                 if (d3d11PixelFormat == DXGI_FORMAT_UNKNOWN)
-                    throw DataError("Invalid pixel format");
+                    throw std::runtime_error("Invalid pixel format");
 
                 D3D11_TEXTURE2D_DESC textureDescriptor;
                 textureDescriptor.Width = width;
@@ -295,7 +294,7 @@ namespace ouzel
                 {
                     HRESULT hr;
                     if (FAILED(hr = renderDeviceD3D11.getDevice()->CreateTexture2D(&textureDescriptor, nullptr, &texture)))
-                        throw DataError("Failed to create Direct3D 11 texture, error: " + std::to_string(hr));
+                        throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 texture");
                 }
                 else
                 {
@@ -310,7 +309,7 @@ namespace ouzel
 
                     HRESULT hr;
                     if (FAILED(hr = renderDeviceD3D11.getDevice()->CreateTexture2D(&textureDescriptor, subresourceData.data(), &texture)))
-                        throw DataError("Failed to create Direct3D 11 texture, error: " + std::to_string(hr));
+                        throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 texture");
                 }
 
                 D3D11_SHADER_RESOURCE_VIEW_DESC resourceViewDesc;
@@ -321,7 +320,7 @@ namespace ouzel
 
                 HRESULT hr;
                 if (FAILED(hr = renderDeviceD3D11.getDevice()->CreateShaderResourceView(texture, &resourceViewDesc, &resourceView)))
-                    throw DataError("Failed to create Direct3D 11 shader resource view, error: " + std::to_string(hr));
+                    throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 shader resource view");
 
                 if (flags & Texture::RENDER_TARGET)
                 {
@@ -333,7 +332,7 @@ namespace ouzel
                         renderTargetViewDesc.Texture2D.MipSlice = 0;
 
                     if (FAILED(hr = renderDeviceD3D11.getDevice()->CreateRenderTargetView(texture, &renderTargetViewDesc, &renderTargetView)))
-                        throw DataError("Failed to create Direct3D 11 render target view, error: " + std::to_string(hr));
+                        throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 render target view");
 
                     if (flags & Texture::DEPTH_BUFFER)
                     {
@@ -353,10 +352,10 @@ namespace ouzel
                         depthStencilDesc.MiscFlags = 0;
 
                         if (FAILED(hr = renderDeviceD3D11.getDevice()->CreateTexture2D(&depthStencilDesc, nullptr, &depthStencilTexture)))
-                            throw DataError("Failed to create Direct3D 11 depth stencil texture, error: " + std::to_string(hr));
+                            throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 depth stencil texture");
 
                         if (FAILED(hr = renderDeviceD3D11.getDevice()->CreateDepthStencilView(depthStencilTexture, nullptr, &depthStencilView)))
-                            throw DataError("Failed to create Direct3D 11 depth stencil view, error: " + std::to_string(hr));
+                            throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 depth stencil view");
                     }
                 }
             }
@@ -370,7 +369,7 @@ namespace ouzel
             samplerState = renderDeviceD3D11.getSamplerState(samplerDescriptor);
 
             if (!samplerState)
-                throw DataError("Failed to get D3D11 sampler state");
+                throw std::runtime_error("Failed to get D3D11 sampler state");
 
             samplerState->AddRef();
         }

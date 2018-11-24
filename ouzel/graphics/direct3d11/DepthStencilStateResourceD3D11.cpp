@@ -6,7 +6,6 @@
 
 #include "DepthStencilStateResourceD3D11.hpp"
 #include "RenderDeviceD3D11.hpp"
-#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -53,7 +52,7 @@ namespace ouzel
 
             HRESULT hr;
             if (FAILED(hr = renderDevice.getDevice()->CreateDepthStencilState(&depthStencilStateDesc, &depthStencilState)))
-                throw SystemError("Failed to create Direct3D 11 depth stencil state, error: " + std::to_string(hr));
+                throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 depth stencil state");
         }
 
         DepthStencilStateResourceD3D11::~DepthStencilStateResourceD3D11()

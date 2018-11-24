@@ -6,7 +6,6 @@
 
 #include "BlendStateResourceD3D11.hpp"
 #include "RenderDeviceD3D11.hpp"
-#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -78,7 +77,7 @@ namespace ouzel
 
             HRESULT hr;
             if (FAILED(hr = renderDeviceD3D11.getDevice()->CreateBlendState(&blendStateDesc, &blendState)))
-                throw DataError("Failed to create Direct3D 11 blend state, error: " + std::to_string(hr));
+                throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 blend state");
         }
 
         BlendStateResourceD3D11::~BlendStateResourceD3D11()
