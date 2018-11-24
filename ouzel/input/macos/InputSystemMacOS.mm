@@ -1,6 +1,5 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include <stdexcept>
 #import <objc/message.h>
 #include "InputSystemMacOS.hpp"
 #include "NativeCursorMacOS.hpp"
@@ -60,6 +59,8 @@ namespace ouzel
 {
     namespace input
     {
+        const IOKitErrorCategory ioKitErrorCategory {};
+
         InputSystemMacOS::InputSystemMacOS(const std::function<std::future<bool>(const Event&)>& initCallback):
             InputSystem(initCallback),
             keyboardDevice(new KeyboardDevice(*this, ++lastDeviceId)),
@@ -111,9 +112,9 @@ namespace ouzel
             hidManager = IOHIDManagerCreate(kCFAllocatorDefault, kIOHIDOptionsTypeNone);
 
             IOHIDManagerSetDeviceMatchingMultiple(hidManager, (CFArrayRef)criteria);
-            IOReturn ret = IOHIDManagerOpen(hidManager, kIOHIDOptionsTypeNone);
-            if (ret != kIOReturnSuccess)
-                throw std::runtime_error("Failed to initialize HID manager, error: " + std::to_string(ret));
+            IOReturn ret;
+            if ((ret = IOHIDManagerOpen(hidManager, kIOHIDOptionsTypeNone)) != kIOReturnSuccess)
+                throw std::system_error(ret, ioKitErrorCategory, "Failed to initialize HID manager");
 
             IOHIDManagerRegisterDeviceMatchingCallback(hidManager, deviceAdded, this);
             IOHIDManagerRegisterDeviceRemovalCallback(hidManager, deviceRemoved, this);

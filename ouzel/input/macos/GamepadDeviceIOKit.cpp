@@ -1,6 +1,5 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include <stdexcept>
 #include <vector>
 #include "GamepadDeviceIOKit.hpp"
 #include "InputSystemMacOS.hpp"
@@ -25,9 +24,9 @@ namespace ouzel
             GamepadDeviceMacOS(initInputSystem, initId),
             device(initDevice)
         {
-            IOReturn ret = IOHIDDeviceOpen(device, kIOHIDOptionsTypeNone);
-            if (ret != kIOReturnSuccess)
-                throw std::runtime_error("Failed to open HID device, error: " + std::to_string(ret));
+            IOReturn ret;
+            if ((ret = IOHIDDeviceOpen(device, kIOHIDOptionsTypeNone)) != kIOReturnSuccess)
+                throw std::system_error(ret, ioKitErrorCategory, "Failed to open HID device");
 
             CFStringRef productName = static_cast<CFStringRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey)));
             if (productName)
