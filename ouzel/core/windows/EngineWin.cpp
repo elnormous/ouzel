@@ -10,9 +10,42 @@
 
 namespace ouzel
 {
+    class ShellExecuteErrorCategory: public std::error_category
+    {
+    public:
+        const char* name() const noexcept override
+        {
+            return "ShellExecute";
+        }
+
+        std::string message(int condition) const override
+        {
+            switch (condition)
+            {
+                case 0: return "Out of memory";
+                case ERROR_FILE_NOT_FOUND: return "ERROR_FILE_NOT_FOUND";
+                case ERROR_PATH_NOT_FOUND: return "ERROR_PATH_NOT_FOUND";
+                case ERROR_BAD_FORMAT: return "ERROR_BAD_FORMAT";
+                case SE_ERR_ACCESSDENIED: return "SE_ERR_ACCESSDENIED";
+                case SE_ERR_ASSOCINCOMPLETE: return "SE_ERR_ASSOCINCOMPLETE";
+                case SE_ERR_DDEBUSY: return "SE_ERR_DDEBUSY";
+                case SE_ERR_DDEFAIL: return "SE_ERR_DDEFAIL";
+                case SE_ERR_DDETIMEOUT: return "SE_ERR_DDETIMEOUT";
+                case SE_ERR_DLLNOTFOUND: return "SE_ERR_DLLNOTFOUND";
+                case SE_ERR_FNF: return "SE_ERR_FNF";
+                case SE_ERR_NOASSOC: return "SE_ERR_NOASSOC";
+                case SE_ERR_OOM: return "SE_ERR_OOM";
+                case SE_ERR_PNF: return "SE_ERR_PNF";
+                case SE_ERR_SHARE: return "SE_ERR_SHARE";
+                default: return "Unknown error (" + std::to_string(condition) + ")";
+            }
+        }
+    };
+
+    const ShellExecuteErrorCategory shellExecuteErrorCategory {};
+
     EngineWin::EngineWin(int initArgc, LPWSTR* initArgv)
     {
-
         if (initArgv)
         {
             int bufferSize;
@@ -59,7 +92,7 @@ namespace ouzel
     {
         HRESULT hr;
         if (FAILED(hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED)))
-            throw std::runtime_error("Failed to initialize COM, error: " + std::to_string(hr));
+            throw std::system_error(hr, std::system_category(), "Failed to initialize COM);
 
 #ifdef DEBUG
         if (!AllocConsole())
@@ -159,6 +192,6 @@ namespace ouzel
 
         intptr_t result = reinterpret_cast<intptr_t>(ShellExecuteW(nullptr, L"open", buffer.data(), nullptr, nullptr, SW_SHOWNORMAL));
         if (result <= 32)
-            throw std::runtime_error("Failed to execute open");
+            throw std::system_error(static_cast<int>(result), shellExecuteErrorCategory, "Failed to execute open");
     }
 }
