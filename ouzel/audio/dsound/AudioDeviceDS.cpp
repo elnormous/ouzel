@@ -8,7 +8,6 @@
 #include "core/Engine.hpp"
 #include "core/Window.hpp"
 #include "core/windows/NativeWindowWin.hpp"
-#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"
 
@@ -28,6 +27,48 @@ namespace ouzel
 {
     namespace audio
     {
+        class DirectSoundErrorCategory: public std::error_category
+        {
+        public:
+            const char* name() const noexcept override
+            {
+                return "DirectSound";
+            }
+
+            std::string message(int condition) const override
+            {
+                switch (condition)
+                {
+                    case DSERR_ACCESSDENIED: return "DSERR_ACCESSDENIED";
+                    case DSERR_ALLOCATED: return "DSERR_ALLOCATED";
+                    case DSERR_ALREADYINITIALIZED: return "DSERR_ALREADYINITIALIZED";
+                    case DSERR_BADFORMAT: return "DSERR_BADFORMAT";
+                    case DSERR_BADSENDBUFFERGUID: return "DSERR_BADSENDBUFFERGUID";
+                    case DSERR_BUFFERLOST: return "DSERR_BUFFERLOST";
+                    case DSERR_BUFFERTOOSMALL: return "DSERR_BUFFERTOOSMALL";
+                    case DSERR_CONTROLUNAVAIL: return "DSERR_CONTROLUNAVAIL";
+                    case DSERR_DS8_REQUIRED: return "DSERR_DS8_REQUIRED";
+                    case DSERR_FXUNAVAILABLE: return "DSERR_FXUNAVAILABLE";
+                    case DSERR_GENERIC: return "DSERR_GENERIC";
+                    case DSERR_INVALIDCALL: return "DSERR_INVALIDCALL";
+                    case DSERR_INVALIDPARAM: return "DSERR_INVALIDPARAM";
+                    case DSERR_NOAGGREGATION: return "DSERR_NOAGGREGATION";
+                    case DSERR_NODRIVER: return "DSERR_NODRIVER";
+                    case DSERR_NOINTERFACE: return "DSERR_NOINTERFACE";
+                    case DSERR_OBJECTNOTFOUND: return "DSERR_OBJECTNOTFOUND";
+                    case DSERR_OTHERAPPHASPRIO: return "DSERR_OTHERAPPHASPRIO";
+                    case DSERR_OUTOFMEMORY: return "DSERR_OUTOFMEMORY";
+                    case DSERR_PRIOLEVELNEEDED: return "DSERR_PRIOLEVELNEEDED";
+                    case DSERR_SENDLOOP: return "DSERR_SENDLOOP";
+                    case DSERR_UNINITIALIZED: return "DSERR_UNINITIALIZED";
+                    case DSERR_UNSUPPORTED: return "DSERR_UNSUPPORTED";
+                    default: return "Unknown error (" + std::to_string(condition) + ")";
+                }
+            }
+        };
+
+        const DirectSoundErrorCategory directSoundErrorCategory {};
+
         AudioDeviceDS::AudioDeviceDS(Window* window):
             AudioDevice(Driver::DIRECTSOUND), running(true)
         {
@@ -35,15 +76,15 @@ namespace ouzel
 
             HRESULT hr;
             if (FAILED(hr = DirectSoundEnumerateW(enumCallback, this)))
-                throw SystemError("Failed to enumerate DirectSound 8 devices, error: " + std::to_string(hr));
+                throw std::system_error(result, directSoundErrorCategory, "Failed to enumerate DirectSound 8 devices");
 
             if (FAILED(hr = DirectSoundCreate8(&DSDEVID_DefaultPlayback, &directSound, nullptr)))
-                throw SystemError("Failed to create DirectSound 8 instance, error: " + std::to_string(hr));
+                throw std::system_error(result, directSoundErrorCategory, "Failed to create DirectSound 8 instance");
 
             NativeWindowWin* windowWin = static_cast<NativeWindowWin*>(window->getNativeWindow());
 
             if (FAILED(hr = directSound->SetCooperativeLevel(windowWin->getNativeWindow(), DSSCL_PRIORITY)))
-                throw SystemError("Failed to set cooperative level for DirectSound 8, error: " + std::to_string(hr));
+                throw std::system_error(result, directSoundErrorCategory, "Failed to set cooperative level for DirectSound 8");
 
             DSBUFFERDESC primaryBufferDesc;
             primaryBufferDesc.dwSize = sizeof(primaryBufferDesc);
@@ -54,7 +95,7 @@ namespace ouzel
             primaryBufferDesc.guid3DAlgorithm = GUID_NULL;
 
             if (FAILED(hr = directSound->CreateSoundBuffer(&primaryBufferDesc, &primaryBuffer, nullptr)))
-                throw SystemError("Failed to create DirectSound buffer, error: " + std::to_string(hr));
+                throw std::system_error(result, directSoundErrorCategory, "Failed to create DirectSound buffer");
 
             WAVEFORMATEX waveFormat;
             waveFormat.wFormatTag = WAVE_FORMAT_PCM;
@@ -66,7 +107,7 @@ namespace ouzel
             waveFormat.cbSize = 0;
 
             if (FAILED(hr = primaryBuffer->SetFormat(&waveFormat)))
-                throw SystemError("Failed to set DirectSound buffer format, error: " + std::to_string(hr));
+                throw std::system_error(result, directSoundErrorCategory, "Failed to set DirectSound buffer format");
 
             sampleFormat = SampleFormat::SINT16;
 
@@ -81,18 +122,18 @@ namespace ouzel
             bufferDesc.guid3DAlgorithm = GUID_NULL;
 
             if (FAILED(hr = directSound->CreateSoundBuffer(&bufferDesc, &tempBuffer, nullptr)))
-                throw SystemError("Failed to create DirectSound buffer, error: " + std::to_string(hr));
+                throw std::system_error(result, directSoundErrorCategory, "Failed to create DirectSound buffer");
 
             if (FAILED(hr = tempBuffer->QueryInterface(IID_IDirectSoundBuffer8, reinterpret_cast<void**>(&buffer))))
             {
                 tempBuffer->Release();
-                throw SystemError("Failed to create DirectSound buffer, error: " + std::to_string(hr));
+                throw std::system_error(result, directSoundErrorCategory, "Failed to create DirectSound buffer");
             }
 
             if (FAILED(hr = tempBuffer->QueryInterface(IID_IDirectSoundNotify, reinterpret_cast<void**>(&notify))))
             {
                 tempBuffer->Release();
-                throw SystemError("Failed to get DirectSound notify interface, error: " + std::to_string(hr));
+                throw std::system_error(result, directSoundErrorCategory, "Failed to get DirectSound notify interface");
             }
 
             tempBuffer->Release();
@@ -100,13 +141,13 @@ namespace ouzel
             uint8_t* bufferPointer;
             DWORD lockedBufferSize;
             if (FAILED(hr = buffer->Lock(0, bufferDesc.dwBufferBytes, reinterpret_cast<void**>(&bufferPointer), &lockedBufferSize, nullptr, 0, 0)))
-                throw SystemError("Failed to lock DirectSound buffer, error: " + std::to_string(hr));
+                throw std::system_error(result, directSoundErrorCategory, "Failed to lock DirectSound buffer");
 
             getData(lockedBufferSize / (channels * sizeof(int16_t)), data);
             std::copy(data.begin(), data.end(), bufferPointer);
 
             if (FAILED(hr = buffer->Unlock(bufferPointer, lockedBufferSize, nullptr, 0)))
-                throw SystemError("Failed to unlock DirectSound buffer, error: " + std::to_string(hr));
+                throw std::system_error(result, directSoundErrorCategory, "Failed to unlock DirectSound buffer");
 
             nextBuffer = 0;
 
@@ -121,10 +162,10 @@ namespace ouzel
             positionNotifyEvents[1].hEventNotify = notifyEvents[1];
 
             if (FAILED(hr = notify->SetNotificationPositions(2, positionNotifyEvents)))
-                throw SystemError("Failed to set DirectSound notification positions, error: " + std::to_string(hr));
+                throw std::system_error(result, directSoundErrorCategory, "Failed to set DirectSound notification positions");
 
             if (FAILED(hr = buffer->Play(0, 0, DSBPLAY_LOOPING)))
-                throw SystemError("Failed to play DirectSound buffer, error: " + std::to_string(hr));
+                throw std::system_error(result, directSoundErrorCategory, "Failed to play DirectSound buffer");
 
             audioThread = std::thread(&AudioDeviceDS::run, this);
         }
@@ -166,14 +207,14 @@ namespace ouzel
                         DWORD lockedBufferSize;
                         HRESULT hr;
                         if (FAILED(hr = buffer->Lock(nextBuffer * bufferSize, bufferSize, reinterpret_cast<void**>(&bufferPointer), &lockedBufferSize, nullptr, 0, 0)))
-                            throw SystemError("Failed to lock DirectSound buffer, error: " + std::to_string(hr));
+                            throw std::system_error(result, directSoundErrorCategory, "Failed to lock DirectSound buffer");
 
                         getData(lockedBufferSize / (channels * sizeof(int16_t)), data);
 
                         std::copy(data.begin(), data.end(), bufferPointer);
 
                         if (FAILED(hr = buffer->Unlock(bufferPointer, lockedBufferSize, nullptr, 0)))
-                            throw SystemError("Failed to unlock DirectSound buffer, error: " + std::to_string(hr));
+                            throw std::system_error(result, directSoundErrorCategory, "Failed to unlock DirectSound buffer");
 
                         nextBuffer = (nextBuffer + 1) % 2;
                     }
