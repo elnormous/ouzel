@@ -52,11 +52,8 @@ namespace ouzel
                     case DIERR_NOTEXCLUSIVEACQUIRED: return "DIERR_NOTEXCLUSIVEACQUIRED";
                     case DIERR_NOTFOUND: return "DIERR_NOTFOUND";
                     case DIERR_NOTINITIALIZED: return "DIERR_NOTINITIALIZED";
-                    case DIERR_OBJECTNOTFOUND: return "DIERR_OBJECTNOTFOUND";
                     case DIERR_OLDDIRECTINPUTVERSION: return "DIERR_OLDDIRECTINPUTVERSION";
-                    case DIERR_OTHERAPPHASPRIO: return "DIERR_OTHERAPPHASPRIO";
                     case DIERR_OUTOFMEMORY: return "DIERR_OUTOFMEMORY";
-                    case DIERR_READONLY: return "DIERR_READONLY";
                     case DIERR_REPORTFULL: return "DIERR_REPORTFULL";
                     case DIERR_UNPLUGGED: return "DIERR_UNPLUGGED";
                     case DIERR_UNSUPPORTED: return "DIERR_UNSUPPORTED";
