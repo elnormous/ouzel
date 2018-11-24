@@ -1,5 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <system_error>
 #include "GamepadDeviceXI.hpp"
 #include "utils/Errors.hpp"
 
@@ -30,9 +31,9 @@ namespace ouzel
             if (result != ERROR_SUCCESS)
             {
                 if (result == ERROR_DEVICE_NOT_CONNECTED)
-                    throw SystemError("Gamepad " + std::to_string(playerIndex) + " disconnected");
+                    throw std::runtime_error("Gamepad " + std::to_string(playerIndex) + " disconnected");
                 else
-                    throw SystemError("Failed to get state for gamepad " + std::to_string(playerIndex));
+                    throw std::system_error(result, std::system_category(), "Failed to get state for gamepad " + std::to_string(playerIndex));
             }
 
             if (newState.dwPacketNumber > state.dwPacketNumber)
