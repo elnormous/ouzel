@@ -39,6 +39,7 @@ namespace ouzel
                     case D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD: return "D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD";
                     case DXGI_ERROR_INVALID_CALL: return "DXGI_ERROR_INVALID_CALL";
                     case DXGI_ERROR_WAS_STILL_DRAWING: return "DXGI_ERROR_WAS_STILL_DRAWING";
+                    case DXGI_ERROR_NOT_CURRENTLY_AVAILABLE: return "DXGI_ERROR_NOT_CURRENTLY_AVAILABLE";
                     case E_FAIL: return "E_FAIL";
                     case E_INVALIDARG: return "E_INVALIDARG";
                     case E_OUTOFMEMORY: return "E_OUTOFMEMORY";
