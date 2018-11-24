@@ -641,7 +641,7 @@ namespace ouzel
 
     void Engine::main()
     {
-        setCurrentThreadName("Game");
+        setCurrentThreadName("Application");
 
         try
         {

@@ -321,7 +321,7 @@ namespace ouzel
         JNIEnv* jniEnv;
         JavaVMAttachArgs attachArgs;
         attachArgs.version = JNI_VERSION_1_6;
-        attachArgs.name = nullptr; // thread name
+        attachArgs.name = "Application"; // thread name
         attachArgs.group = nullptr; // thread group
 
         jint result;
