@@ -2,12 +2,12 @@
 
 #include <functional>
 #include <memory>
+#include <stdexcept>
 #include "LoaderImage.hpp"
 #include "Bundle.hpp"
 #include "core/Engine.hpp"
 #include "graphics/ImageData.hpp"
 #include "graphics/Texture.hpp"
-#include "utils/Errors.hpp"
 
 #define STBI_NO_PSD
 #define STBI_NO_HDR
@@ -37,7 +37,7 @@ namespace ouzel
             stbi_uc* tempData = stbi_load_from_memory(data.data(), static_cast<int>(data.size()), &width, &height, &comp, STBI_default);
 
             if (!tempData)
-                throw ParseError("Failed to load texture, reason: " + std::string(stbi_failure_reason()));
+                throw std::runtime_error("Failed to load texture, reason: " + std::string(stbi_failure_reason()));
 
             size_t pixelSize;
             graphics::PixelFormat pixelFormat;
@@ -96,7 +96,7 @@ namespace ouzel
                 }
                 default:
                     stbi_image_free(tempData);
-                    throw ParseError("Unsupported pixel size");
+                    throw std::runtime_error("Unsupported pixel size");
             }
 
             graphics::ImageData image(pixelFormat,

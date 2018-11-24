@@ -1,6 +1,5 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include <system_error>
 #include <Windows.h>
 #include <WbemIdl.h>
 #include <OleAuto.h>
@@ -25,6 +24,8 @@ namespace ouzel
 {
     namespace input
     {
+        const DirectInputErrorCategory directInputErrorCategory {};
+
         InputSystemWin::InputSystemWin(const std::function<std::future<bool>(const Event&)>& initCallback):
             InputSystem(initCallback),
             keyboardDevice(new KeyboardDeviceWin(*this, ++lastDeviceId)),
@@ -36,7 +37,7 @@ namespace ouzel
             HINSTANCE instance = GetModuleHandleW(nullptr);
             HRESULT hr;
             if (FAILED(hr = DirectInput8Create(instance, DIRECTINPUT_VERSION, IID_IDirectInput8W, reinterpret_cast<LPVOID*>(&directInput), nullptr)))
-                throw SystemError("Failed to initialize DirectInput, error: " + std::to_string(hr));
+                throw std::system_error(hr, directInputErrorCategory, "Failed to initialize DirectInput");
 
             for (DWORD userIndex = 0; userIndex < XUSER_MAX_COUNT; ++userIndex)
             {
@@ -52,7 +53,7 @@ namespace ouzel
             }
 
             if (FAILED(hr = directInput->EnumDevices(DI8DEVCLASS_GAMECTRL, enumDevicesCallback, this, DIEDFL_ATTACHEDONLY)))
-                throw SystemError("Failed to enumerate devices, error: " + std::to_string(hr));
+                throw std::system_error(hr, directInputErrorCategory, "Failed to enumerate devices");
         }
 
         InputSystemWin::~InputSystemWin()
@@ -209,7 +210,7 @@ namespace ouzel
 
                 HRESULT hr;
                 if (FAILED(hr = directInput->EnumDevices(DI8DEVCLASS_GAMECTRL, enumDevicesCallback, this, DIEDFL_ATTACHEDONLY)))
-                    throw SystemError("Failed to enumerate devices, error: " + std::to_string(hr));
+                    throw std::system_error(hr, directInputErrorCategory, "Failed to enumerate devices");
             }
         }
 
@@ -222,7 +223,7 @@ namespace ouzel
 
             if (FAILED(hr = CoCreateInstance(__uuidof(WbemLocator), nullptr, CLSCTX_INPROC_SERVER,
                                              __uuidof(IWbemLocator), reinterpret_cast<LPVOID*>(&wbemLocator))))
-                throw SystemError("Failed to create WMI locator instance, error: " + std::to_string(hr));
+                throw std::system_error(hr, directInputErrorCategory, "Failed to create WMI locator instance");
 
             BSTR namespaceStr = SysAllocString(L"\\\\.\\root\\cimv2");
             BSTR className = SysAllocString(L"Win32_PNPEntity");
@@ -234,15 +235,15 @@ namespace ouzel
 
                 if (FAILED(hr = wbemLocator->ConnectServer(namespaceStr, nullptr, nullptr, 0L,
                                                            0L, nullptr, nullptr, &wbemServices)))
-                    throw SystemError("Failed to create a connection to the WMI namespace, error: " + std::to_string(hr));
+                    throw std::system_error(hr, directInputErrorCategory, "Failed to create a connection to the WMI namespace");
 
                 if (FAILED(hr = CoSetProxyBlanket(wbemServices, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, nullptr,
                                                   RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE, nullptr, EOAC_NONE)))
-                    throw SystemError("Failed to set authentication information, error: " + std::to_string(hr));
+                    throw std::system_error(hr, directInputErrorCategory, "Failed to set authentication information");
 
                 IEnumWbemClassObject* enumDevices = nullptr;
                 if (FAILED(hr = wbemServices->CreateInstanceEnum(className, 0, nullptr, &enumDevices)))
-                    throw SystemError("Failed to create the device enumerator, error: " + std::to_string(hr));
+                    throw std::system_error(hr, directInputErrorCategory, "Failed to create the device enumerator");
 
                 // Get 20 at a time
                 ULONG returned = 0;

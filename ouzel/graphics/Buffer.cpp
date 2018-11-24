@@ -1,9 +1,9 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <stdexcept>
 #include "Buffer.hpp"
 #include "Renderer.hpp"
 #include "RenderDevice.hpp"
-#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -52,7 +52,7 @@ namespace ouzel
             size(initSize)
         {
             if (!initData.empty() && initSize != initData.size())
-                throw DataError("Invalid buffer data");
+                throw std::runtime_error("Invalid buffer data");
 
             renderer.addCommand(std::unique_ptr<Command>(new InitBufferCommand(resource,
                                                                                initUsage,
@@ -96,7 +96,7 @@ namespace ouzel
         void Buffer::init(Usage newUsage, uint32_t newFlags, const std::vector<uint8_t>& newData, uint32_t newSize)
         {
             if (!newData.empty() && newSize != newData.size())
-                throw DataError("Invalid buffer data");
+                throw std::runtime_error("Invalid buffer data");
 
             usage = newUsage;
             flags = newFlags;
@@ -119,10 +119,10 @@ namespace ouzel
         void Buffer::setData(const std::vector<uint8_t>& newData)
         {
             if (!(flags & Buffer::DYNAMIC))
-                throw DataError("Buffer is not dynamic");
+                throw std::runtime_error("Buffer is not dynamic");
 
             if (newData.empty())
-                throw DataError("Invalid buffer data");
+                throw std::runtime_error("Invalid buffer data");
 
             if (newData.size() > size) size = static_cast<uint32_t>(newData.size());
 

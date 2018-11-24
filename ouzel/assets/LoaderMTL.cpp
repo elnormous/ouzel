@@ -1,12 +1,12 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <iterator>
+#include <stdexcept>
 #include <string>
 #include "LoaderMTL.hpp"
 #include "Bundle.hpp"
 #include "Cache.hpp"
 #include "core/Engine.hpp"
-#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -73,7 +73,7 @@ namespace ouzel
             }
 
             if (result.empty())
-                throw ParseError("Invalid string");
+                throw std::runtime_error("Invalid string");
 
             return result;
         }

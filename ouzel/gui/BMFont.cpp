@@ -2,10 +2,10 @@
 
 #include <string>
 #include <iterator>
+#include <stdexcept>
 #include "BMFont.hpp"
 #include "core/Engine.hpp"
 #include "assets/Cache.hpp"
-#include "utils/Errors.hpp"
 #include "utils/Utils.hpp"
 
 namespace ouzel
@@ -76,7 +76,7 @@ namespace ouzel
                     break;
                 }
                 if (iterator == str.end())
-                    throw ParseError("Unterminated string");
+                    throw std::runtime_error("Unterminated string");
 
                 result.push_back(static_cast<char>(*iterator));
 
@@ -95,7 +95,7 @@ namespace ouzel
             }
 
             if (result.empty())
-                throw ParseError("Invalid string");
+                throw std::runtime_error("Invalid string");
         }
 
         return result;
@@ -124,7 +124,7 @@ namespace ouzel
         }
 
         if (result.length() < length)
-            throw ParseError("Invalid integer");
+            throw std::runtime_error("Invalid integer");
 
         return result;
     }
@@ -134,7 +134,7 @@ namespace ouzel
                             char token)
     {
         if (iterator == str.end() || *iterator != static_cast<uint8_t>(token))
-            throw ParseError("Unexpected token");
+            throw std::runtime_error("Unexpected token");
 
         ++iterator;
     }

@@ -1,5 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <stdexcept>
 #include "JSON.hpp"
 #include "Errors.hpp"
 #include "Utils.hpp"
@@ -12,7 +13,7 @@ namespace ouzel
                                std::vector<Token>::const_iterator& iterator)
         {
             if (iterator == tokens.end())
-                throw ParseError("Unexpected end of data");
+                throw std::runtime_error("Unexpected end of data");
 
             if (iterator->type == Token::Type::LEFT_BRACE)
                 return parseObject(tokens, iterator);
@@ -27,10 +28,10 @@ namespace ouzel
             else if (iterator->type == Token::Type::OPERATOR_MINUS)
             {
                 if (++iterator == tokens.end())
-                    throw ParseError("Unexpected end of data");
+                    throw std::runtime_error("Unexpected end of data");
 
                 if (iterator->type != Token::Type::LITERAL_NUMBER)
-                    throw ParseError("Expected a number");
+                    throw std::runtime_error("Expected a number");
 
                 type = Type::NUMBER;
                 doubleValue = -std::stod(utf32ToUtf8(iterator->value));
@@ -56,17 +57,17 @@ namespace ouzel
                 ++iterator;
             }
             else
-                throw ParseError("Expected a value");
+                throw std::runtime_error("Expected a value");
         }
 
         void Value::parseObject(const std::vector<Token>& tokens,
                                 std::vector<Token>::const_iterator& iterator)
         {
             if (iterator == tokens.end())
-                throw ParseError("Unexpected end of data");
+                throw std::runtime_error("Unexpected end of data");
 
             if (iterator->type != Token::Type::LEFT_BRACE)
-                throw ParseError("Expected a left brace");
+                throw std::runtime_error("Expected a left brace");
 
             ++iterator; // skip the left brace
 
@@ -75,7 +76,7 @@ namespace ouzel
             for (;;)
             {
                 if (iterator == tokens.end())
-                    throw ParseError("Unexpected end of data");
+                    throw std::runtime_error("Unexpected end of data");
 
                 if (iterator->type == Token::Type::RIGHT_BRACE)
                 {
@@ -88,28 +89,28 @@ namespace ouzel
                 else
                 {
                     if (iterator->type != Token::Type::COMMA)
-                        throw ParseError("Expected a comma");
+                        throw std::runtime_error("Expected a comma");
 
                     if (++iterator == tokens.end())
-                        throw ParseError("Unexpected end of data");
+                        throw std::runtime_error("Unexpected end of data");
                 }
 
                 if (iterator->type != Token::Type::LITERAL_STRING)
-                    throw ParseError("Expected a string literal");
+                    throw std::runtime_error("Expected a string literal");
 
                 std::string key = utf32ToUtf8(iterator->value);
 
                 if (objectValue.find(key) != objectValue.end())
-                    throw ParseError("Duplicate key value " + key);
+                    throw std::runtime_error("Duplicate key value " + key);
 
                 if (++iterator == tokens.end())
-                    throw ParseError("Unexpected end of data");
+                    throw std::runtime_error("Unexpected end of data");
 
                 if (iterator->type != Token::Type::COLON)
-                    throw ParseError("Expected a colon");
+                    throw std::runtime_error("Expected a colon");
 
                 if (++iterator == tokens.end())
-                    throw ParseError("Unexpected end of data");
+                    throw std::runtime_error("Unexpected end of data");
 
                 Value value;
                 value.parseValue(tokens, iterator);
@@ -124,10 +125,10 @@ namespace ouzel
                                std::vector<Token>::const_iterator& iterator)
         {
             if (iterator == tokens.end())
-                throw ParseError("Unexpected end of data");
+                throw std::runtime_error("Unexpected end of data");
 
             if (iterator->type != Token::Type::LEFT_BRACKET)
-                throw ParseError("Expected a left bracket");
+                throw std::runtime_error("Expected a left bracket");
 
             ++iterator; // skip the left bracket
 
@@ -136,7 +137,7 @@ namespace ouzel
             for (;;)
             {
                 if (iterator == tokens.end())
-                    throw ParseError("Unexpected end of data");
+                    throw std::runtime_error("Unexpected end of data");
 
                 if (iterator->type == Token::Type::RIGHT_BRACKET)
                 {
@@ -149,10 +150,10 @@ namespace ouzel
                 else
                 {
                     if (iterator->type != Token::Type::COMMA)
-                        throw ParseError("Expected a comma");
+                        throw std::runtime_error("Expected a comma");
 
                     if (++iterator == tokens.end())
-                        throw ParseError("Unexpected end of data");
+                        throw std::runtime_error("Unexpected end of data");
                 }
 
                 Value value;
@@ -253,7 +254,7 @@ namespace ouzel
                     else data.insert(data.end(), {'f', 'a', 'l', 's', 'e'});
                     break;
                 default:
-                    throw ParseError("Unknown value type");
+                    throw std::runtime_error("Unknown value type");
             }
         }
 
@@ -334,12 +335,12 @@ namespace ouzel
                         token.value.push_back(*iterator);
 
                         if (++iterator == str.end() || (*iterator != '+' && *iterator != '-'))
-                            throw ParseError("Invalid exponent");
+                            throw std::runtime_error("Invalid exponent");
 
                         token.value.push_back(*iterator);
 
                         if (++iterator == str.end() || *iterator < '0' || *iterator > '9')
-                            throw ParseError("Invalid exponent");
+                            throw std::runtime_error("Invalid exponent");
 
                         while (iterator != str.end() &&
                                (*iterator >= '0' && *iterator <= '9'))
@@ -356,7 +357,7 @@ namespace ouzel
                     for (;;)
                     {
                         if (++iterator == str.end())
-                            throw ParseError("Unterminated string literal");
+                            throw std::runtime_error("Unterminated string literal");
 
                         if (*iterator == '"')
                         {
@@ -366,7 +367,7 @@ namespace ouzel
                         else if (*iterator == '\\')
                         {
                             if (++iterator == str.end())
-                                throw ParseError("Unterminated string literal");
+                                throw std::runtime_error("Unterminated string literal");
 
                             if (*iterator == '"') token.value.push_back('"');
                             else if (*iterator == '\\') token.value.push_back('\\');
@@ -379,7 +380,7 @@ namespace ouzel
                             else if (*iterator == 'u')
                             {
                                 if (std::distance<std::vector<uint32_t>::const_iterator>(++iterator, str.end()) < 4)
-                                    throw ParseError("Unexpected end of data");
+                                    throw std::runtime_error("Unexpected end of data");
 
                                 uint32_t c = 0;
 
@@ -391,7 +392,7 @@ namespace ouzel
                                     else if (*iterator >= 'a' && *iterator <='f') code = static_cast<uint8_t>(*iterator) - 'a' + 10;
                                     else if (*iterator >= 'A' && *iterator <='F') code = static_cast<uint8_t>(*iterator) - 'A' + 10;
                                     else
-                                        throw ParseError("Invalid character code");
+                                        throw std::runtime_error("Invalid character code");
 
                                     c = (c << 4) | code;
                                 }
@@ -399,10 +400,10 @@ namespace ouzel
                                 token.value.push_back(c);
                             }
                             else
-                                throw ParseError("Unrecognized escape character");
+                                throw std::runtime_error("Unrecognized escape character");
                         }
                         else if (isControlChar(*iterator))
-                            throw ParseError("Unterminated string literal");
+                            throw std::runtime_error("Unterminated string literal");
                         else
                             token.value.push_back(*iterator);
                     }
@@ -426,7 +427,7 @@ namespace ouzel
                     if ((keywordIterator = keywordMap.find(token.value)) != keywordMap.end())
                         token.type = keywordIterator->second;
                     else
-                        throw ParseError("Unknown keyword " + utf32ToUtf8(token.value));
+                        throw std::runtime_error("Unknown keyword " + utf32ToUtf8(token.value));
                 }
                 else if (*iterator == '-')
                 {
@@ -440,7 +441,7 @@ namespace ouzel
                     continue;
                 }
                 else
-                    throw ParseError("Unknown character");
+                    throw std::runtime_error("Unknown character");
 
                 tokens.push_back(token);
             }
