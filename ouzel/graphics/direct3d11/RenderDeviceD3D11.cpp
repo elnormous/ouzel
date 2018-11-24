@@ -319,8 +319,9 @@ namespace ouzel
         void RenderDeviceD3D11::setFullscreen(bool newFullscreen)
         {
             executeOnRenderThread([newFullscreen, this]() {
-                if (FAILED(swapChain->SetFullscreenState(newFullscreen ? TRUE : FALSE, nullptr)))
-                    throw std::runtime_error("Failed to set fullscreen state");
+                HRESULT hr;
+                if (FAILED(hr = swapChain->SetFullscreenState(newFullscreen ? TRUE : FALSE, nullptr)))
+                    throw std::system_error(hr, direct3D11ErrorCategory, "Failed to set fullscreen state");
             });
         }
 
