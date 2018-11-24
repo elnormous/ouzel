@@ -126,7 +126,7 @@ namespace ouzel
                 GLenum error;
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to bind MSAA frame buffer");
+                    throw std::system_error(make_error_code(error), "Failed to bind MSAA frame buffer");
 
                 if (apiMajorVersion >= 3)
                     glBlitFramebufferProc(0, 0, frameBufferWidth, frameBufferHeight,
@@ -136,14 +136,14 @@ namespace ouzel
                     glResolveMultisampleFramebufferAPPLEProc();
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to blit MSAA texture");
+                    throw std::system_error(make_error_code(error), "Failed to blit MSAA texture");
 
                 // reset frame buffer
                 const GLenum discard[] = {GL_COLOR_ATTACHMENT0, GL_DEPTH_ATTACHMENT};
                 glDiscardFramebufferEXTProc(GL_READ_FRAMEBUFFER_APPLE, 1, discard);
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to discard render buffers");
+                    throw std::system_error(make_error_code(error), "Failed to discard render buffers");
 
                 stateCache.frameBufferId = resolveFrameBufferId;
             }
@@ -201,14 +201,14 @@ namespace ouzel
 
                 GLenum error;
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to set frame buffer's color render buffer");
+                    throw std::system_error(make_error_code(error), "Failed to set frame buffer's color render buffer");
 
                 GLenum status;
                 if ((status = glCheckFramebufferStatusProc(GL_FRAMEBUFFER)) != GL_FRAMEBUFFER_COMPLETE)
                     throw std::runtime_error("Failed to create frame buffer object, status: " + std::to_string(status));
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to check frame buffer status");
+                    throw std::system_error(make_error_code(error), "Failed to check frame buffer status");
 
                 // create MSAA frame buffer
                 glGenFramebuffersProc(1, &msaaFrameBufferId);
@@ -218,7 +218,7 @@ namespace ouzel
                 glRenderbufferStorageMultisampleAPPLEProc(GL_RENDERBUFFER, static_cast<GLsizei>(sampleCount), GL_RGBA8_OES, frameBufferWidth, frameBufferHeight);
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to set color render buffer's multisample storage");
+                    throw std::system_error(make_error_code(error), "Failed to set color render buffer's multisample storage");
 
                 if (depth)
                 {
@@ -227,28 +227,28 @@ namespace ouzel
                     glRenderbufferStorageMultisampleAPPLEProc(GL_RENDERBUFFER, static_cast<GLsizei>(sampleCount), GL_DEPTH_COMPONENT24_OES, frameBufferWidth, frameBufferHeight);
 
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to set depth render buffer's multisample storage");
+                        throw std::system_error(make_error_code(error), "Failed to set depth render buffer's multisample storage");
                 }
 
                 RenderDeviceOGL::bindFrameBuffer(msaaFrameBufferId);
                 glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, msaaColorRenderBufferId);
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to set frame buffer's color render buffer");
+                    throw std::system_error(make_error_code(error), "Failed to set frame buffer's color render buffer");
 
                 if (depth)
                 {
                     glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBufferId);
 
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to set frame buffer's depth render buffer");
+                        throw std::system_error(make_error_code(error), "Failed to set frame buffer's depth render buffer");
                 }
 
                 if ((status = glCheckFramebufferStatusProc(GL_FRAMEBUFFER)) != GL_FRAMEBUFFER_COMPLETE)
                     throw std::runtime_error("Failed to create frame buffer object, status: " + std::to_string(status));
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to check frame buffer status");
+                    throw std::system_error(make_error_code(error), "Failed to check frame buffer status");
 
                 frameBufferId = msaaFrameBufferId;
             }
@@ -268,7 +268,7 @@ namespace ouzel
 
                 GLenum error;
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to set frame buffer's color render buffer");
+                    throw std::system_error(make_error_code(error), "Failed to set frame buffer's color render buffer");
 
                 if (depth)
                 {
@@ -277,12 +277,12 @@ namespace ouzel
                     glRenderbufferStorageProc(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24_OES, frameBufferWidth, frameBufferHeight);
 
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to set depth render buffer's storage");
+                        throw std::system_error(make_error_code(error), "Failed to set depth render buffer's storage");
 
                     glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBufferId);
 
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to set frame buffer's depth render buffer");
+                        throw std::system_error(make_error_code(error), "Failed to set frame buffer's depth render buffer");
                 }
 
                 GLenum status;
@@ -290,7 +290,7 @@ namespace ouzel
                     throw std::runtime_error("Failed to create frame buffer object, status: " + std::to_string(status));
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to check frame buffer status");
+                    throw std::system_error(make_error_code(error), "Failed to check frame buffer status");
 
                 frameBufferId = resolveFrameBufferId;
             }

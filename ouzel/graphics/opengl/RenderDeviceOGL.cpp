@@ -190,6 +190,10 @@ namespace ouzel
     namespace graphics
     {
         const OpenGLErrorCategory openGLErrorCategory {};
+        std::error_code make_error_code(GLenum e)
+        {
+            return std::error_code(static_cast<int>(e), openGLErrorCategory);
+        }
 
         static GLenum getVertexFormat(DataType dataType)
         {
@@ -747,7 +751,7 @@ namespace ouzel
             glDisableProc(GL_DITHER);
 
             if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to set depth function");
+                throw std::system_error(make_error_code(error), "Failed to set depth function");
 
 #if !OUZEL_SUPPORTS_OPENGLES
             if (sampleCount > 1)
@@ -755,7 +759,7 @@ namespace ouzel
                 glEnableProc(GL_MULTISAMPLE);
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to enable multi-sampling");
+                    throw std::system_error(make_error_code(error), "Failed to enable multi-sampling");
             }
 #endif
 
@@ -775,7 +779,7 @@ namespace ouzel
                 glBindVertexArrayProc(vertexArrayId);
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to bind vertex array");
+                    throw std::system_error(make_error_code(error), "Failed to bind vertex array");
             }
         }
 
@@ -1022,7 +1026,7 @@ namespace ouzel
                                 GLenum error;
 
                                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                                    throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to clear frame buffer");
+                                    throw std::system_error(make_error_code(error), "Failed to clear frame buffer");
                             }
 
                             break;
@@ -1248,7 +1252,7 @@ namespace ouzel
                             GLenum error;
 
                             if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                                throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to update vertex attributes");
+                                throw std::system_error(make_error_code(error), "Failed to update vertex attributes");
 
                             assert(drawCommand->indexCount);
                             assert(indexBufferOGL->getSize());
@@ -1269,7 +1273,7 @@ namespace ouzel
                                                static_cast<const char*>(nullptr) + (drawCommand->startIndex * drawCommand->indexSize));
 
                             if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                                throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to draw elements");
+                                throw std::system_error(make_error_code(error), "Failed to draw elements");
 
                             break;
                         }
@@ -1478,7 +1482,7 @@ namespace ouzel
             GLenum error;
 
             if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                throw std::system_error(static_cast<int>(error), openGLErrorCategory, "Failed to read pixels from frame buffer");
+                throw std::system_error(make_error_code(error), "Failed to read pixels from frame buffer");
 
             uint32_t temp;
             uint32_t* rgba = reinterpret_cast<uint32_t*>(data.data());
