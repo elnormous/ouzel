@@ -365,7 +365,6 @@
     <ClInclude Include="..\ouzel\scene\Sprite.hpp" />
     <ClInclude Include="..\ouzel\scene\SpriteData.hpp" />
     <ClInclude Include="..\ouzel\scene\TextRenderer.hpp" />
-    <ClInclude Include="..\ouzel\utils\Errors.hpp" />
     <ClInclude Include="..\ouzel\utils\INI.hpp" />
     <ClInclude Include="..\ouzel\utils\JSON.hpp" />
     <ClInclude Include="..\ouzel\utils\Log.hpp" />

@@ -4,10 +4,10 @@
 
 #if OUZEL_COMPILE_METAL
 
+#include <stdexcept>
 #include "TextureResourceMetal.hpp"
 #include "RenderDeviceMetal.hpp"
 #include "math/MathUtils.hpp"
-#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -62,7 +62,7 @@ namespace ouzel
             pixelFormat(newPixelFormat)
         {
             if ((flags & Texture::RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
-                throw DataError("Invalid mip map count");
+                throw std::runtime_error("Invalid mip map count");
 
             createTexture(levels);
 
@@ -122,7 +122,7 @@ namespace ouzel
         void TextureResourceMetal::setData(const std::vector<Texture::Level>& levels)
         {
             if (!(flags & Texture::DYNAMIC) || flags & Texture::RENDER_TARGET)
-                throw DataError("Texture is not dynamic");
+                throw std::runtime_error("Texture is not dynamic");
 
             if (!texture)
                 createTexture(levels);
@@ -186,7 +186,7 @@ namespace ouzel
             clearColor = color;
 
             if (!renderPassDescriptor)
-                throw DataError("Render pass descriptor not initialized");
+                throw std::runtime_error("Render pass descriptor not initialized");
 
             renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.normR(),
                                                                                     clearColor.normG(),
@@ -199,7 +199,7 @@ namespace ouzel
             clearDepth = newClearDepth;
 
             if (!renderPassDescriptor)
-                throw DataError("Render pass descriptor not initialized");
+                throw std::runtime_error("Render pass descriptor not initialized");
 
             renderPassDescriptor.depthAttachment.clearDepth = clearDepth;
         }
@@ -240,7 +240,7 @@ namespace ouzel
                 colorFormat = getMetalPixelFormat(pixelFormat);
 
                 if (colorFormat == MTLPixelFormatInvalid)
-                    throw DataError("Invalid pixel format");
+                    throw std::runtime_error("Invalid pixel format");
 
                 MTLTextureDescriptor* textureDescriptor = [[[MTLTextureDescriptor alloc] init] autorelease];
                 textureDescriptor.pixelFormat = colorFormat;
@@ -260,7 +260,7 @@ namespace ouzel
                 texture = [renderDeviceMetal.getDevice() newTextureWithDescriptor:textureDescriptor];
 
                 if (!texture)
-                    throw DataError("Failed to create Metal texture");
+                    throw std::runtime_error("Failed to create Metal texture");
             }
 
             if (flags & Texture::RENDER_TARGET)
@@ -268,7 +268,7 @@ namespace ouzel
                 renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
 
                 if (!renderPassDescriptor)
-                    throw DataError("Failed to create Metal render pass descriptor");
+                    throw std::runtime_error("Failed to create Metal render pass descriptor");
 
                 if (sampleCount > 1)
                 {
@@ -285,7 +285,7 @@ namespace ouzel
                     msaaTexture = [renderDeviceMetal.getDevice() newTextureWithDescriptor:textureDescriptor];
 
                     if (!msaaTexture)
-                        throw DataError("Failed to create MSAA texture");
+                        throw std::runtime_error("Failed to create MSAA texture");
 
                     renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionMultisampleResolve;
                     renderPassDescriptor.colorAttachments[0].texture = msaaTexture;
@@ -315,7 +315,7 @@ namespace ouzel
                     depthTexture = [renderDeviceMetal.getDevice() newTextureWithDescriptor:textureDescriptor];
 
                     if (!depthTexture)
-                        throw DataError("Failed to create depth texture");
+                        throw std::runtime_error("Failed to create depth texture");
 
                     renderPassDescriptor.depthAttachment.texture = depthTexture;
                 }
@@ -330,7 +330,7 @@ namespace ouzel
             samplerState = renderDevice.getSamplerState(samplerDescriptor);
 
             if (!samplerState)
-                throw DataError("Failed to get Metal sampler state");
+                throw std::runtime_error("Failed to get Metal sampler state");
 
             [samplerState retain];
         }

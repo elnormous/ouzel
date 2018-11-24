@@ -1,8 +1,8 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <stdexcept>
 #include "NativeWindowAndroid.hpp"
 #include "EngineAndroid.hpp"
-#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -21,7 +21,7 @@ namespace ouzel
         JNIEnv* jniEnv;
 
         if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-            throw SystemError("Failed to get JNI environment");
+            throw std::runtime_error("Failed to get JNI environment");
 
         window = ANativeWindow_fromSurface(jniEnv, engineAndroid->getSurface());
 
@@ -49,7 +49,7 @@ namespace ouzel
             case Command::Type::SET_TITLE:
                 break;
             default:
-                throw SystemError("Invalid command");
+                throw std::runtime_error("Invalid command");
         }
     }
 
@@ -74,7 +74,7 @@ namespace ouzel
         JNIEnv* jniEnv;
 
         if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-            throw SystemError("Failed to get JNI environment");
+            throw std::runtime_error("Failed to get JNI environment");
 
         if (window) ANativeWindow_release(window);
         window = ANativeWindow_fromSurface(jniEnv, surface);

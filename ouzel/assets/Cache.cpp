@@ -12,7 +12,6 @@
 #include "audio/SoundDataVorbis.hpp"
 #include "gui/BMFont.hpp"
 #include "gui/TTFont.hpp"
-#include "utils/Errors.hpp"
 #include "utils/JSON.hpp"
 
 namespace ouzel

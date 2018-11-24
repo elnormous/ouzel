@@ -3,10 +3,11 @@
 #include "core/Setup.h"
 #include <cstdio>
 #include <cstring>
+#include <stdexcept>
+#include <unordered_map>
 #include <dirent.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <unordered_map>
 #include <linux/joystick.h>
 #if OUZEL_SUPPORTS_X11
 #  include <X11/cursorfont.h>
@@ -15,7 +16,6 @@
 #include "NativeCursorLinux.hpp"
 #include "core/linux/EngineLinux.hpp"
 #include "core/linux/NativeWindowLinux.hpp"
-#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -50,7 +50,7 @@ namespace ouzel
             DIR* dir = opendir("/dev/input");
 
             if (!dir)
-                throw SystemError("Failed to open directory");
+                throw std::runtime_error("Failed to open directory");
 
             dirent ent;
             dirent* p;
@@ -205,7 +205,7 @@ namespace ouzel
             int retval = select(maxFd + 1, &rfds, nullptr, nullptr, &tv);
 
             if (retval == -1)
-                throw SystemError("Select failed");
+                throw std::runtime_error("Select failed");
             else if (retval > 0)
             {
                 for (auto i = eventDevices.begin(); i != eventDevices.end();)
@@ -232,7 +232,7 @@ namespace ouzel
                 DIR* dir = opendir("/dev/input");
 
                 if (!dir)
-                    throw SystemError("Failed to open directory");
+                    throw std::runtime_error("Failed to open directory");
 
                 dirent ent;
                 dirent* p;

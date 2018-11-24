@@ -2,7 +2,6 @@
 
 #include <stdexcept>
 #include "JSON.hpp"
-#include "Errors.hpp"
 #include "Utils.hpp"
 
 namespace ouzel

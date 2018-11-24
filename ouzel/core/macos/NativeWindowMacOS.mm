@@ -1,11 +1,11 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <stdexcept>
 #include "NativeWindowMacOS.hpp"
 #include "ViewMacOS.h"
 #include "graphics/RenderDevice.hpp"
 #include "graphics/opengl/macos/OpenGLView.h"
 #include "graphics/metal/macos/MetalView.h"
-#include "utils/Errors.hpp"
 
 @interface WindowDelegate: NSObject<NSWindowDelegate>
 {
@@ -130,7 +130,7 @@ namespace ouzel
             if (exclusiveFullscreen)
             {
                 if (CGDisplayCapture(displayId) != kCGErrorSuccess)
-                    throw SystemError("Failed to capture the main display");
+                    throw std::runtime_error("Failed to capture the main display");
 
                 windowRect = frame;
                 [window setStyleMask:NSBorderlessWindowMask];
@@ -170,7 +170,7 @@ namespace ouzel
                 break;
 #endif
             default:
-                throw SystemError("Unsupported render driver");
+                throw std::runtime_error("Unsupported render driver");
         }
 
         [view setAcceptsTouchEvents:YES];
@@ -228,7 +228,7 @@ namespace ouzel
                 setTitle(command.title);
                 break;
             default:
-                throw SystemError("Invalid command");
+                throw std::runtime_error("Invalid command");
         }
     }
 
@@ -285,7 +285,7 @@ namespace ouzel
                 if (newFullscreen)
                 {
                     if (CGDisplayCapture(displayId) != kCGErrorSuccess)
-                        throw SystemError("Failed to capture the main display");
+                        throw std::runtime_error("Failed to capture the main display");
 
                     windowRect = [window frame];
                     [window setStyleMask:NSBorderlessWindowMask];
@@ -303,7 +303,7 @@ namespace ouzel
                     [window setFrame:windowRect display:YES animate:NO];
 
                     if (CGDisplayRelease(displayId) != kCGErrorSuccess)
-                        throw SystemError("Failed to release the main display");
+                        throw std::runtime_error("Failed to release the main display");
                 }
             }
             else

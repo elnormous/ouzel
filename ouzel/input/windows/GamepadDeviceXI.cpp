@@ -2,7 +2,6 @@
 
 #include <system_error>
 #include "GamepadDeviceXI.hpp"
-#include "utils/Errors.hpp"
 
 namespace ouzel
 {

@@ -1,8 +1,9 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include "core/Setup.h"
+#include <stdexcept>
 #include <cstdlib>
 #include <unistd.h>
+#include "core/Setup.h"
 #if OUZEL_SUPPORTS_X11
 #  include "GL/gl.h"
 #  include "GL/glext.h"
@@ -17,7 +18,6 @@
 #include "events/Event.hpp"
 #include "graphics/RenderDevice.hpp"
 #include "input/linux/InputSystemLinux.hpp"
-#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
 #if OUZEL_SUPPORTS_X11
@@ -276,19 +276,19 @@ namespace ouzel
     {
 #if OUZEL_SUPPORTS_X11
         if (!XInitThreads())
-            throw SystemError("Failed to initialize thread support");
+            throw std::runtime_error("Failed to initialize thread support");
 
         // open a connection to the X server
         display = XOpenDisplay(nullptr);
 
         if (!display)
-            throw SystemError("Failed to open display");
+            throw std::runtime_error("Failed to open display");
 #else
         bcm_host_init();
 
         display = vc_dispmanx_display_open(0);
         if (display == DISPMANX_NO_HANDLE)
-            throw SystemError("Failed to open display");
+            throw std::runtime_error("Failed to open display");
 
 #endif
 
@@ -489,7 +489,7 @@ namespace ouzel
         }
 
         if (!XSendEvent(display, windowLinux->getNativeWindow(), False, NoEventMask, &event))
-            throw SystemError("Failed to send X11 delete message");
+            throw std::runtime_error("Failed to send X11 delete message");
 
         XFlush(display);
 #else

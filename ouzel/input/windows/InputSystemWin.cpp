@@ -9,7 +9,6 @@
 #include "NativeCursorWin.hpp"
 #include "core/Engine.hpp"
 #include "core/windows/NativeWindowWin.hpp"
-#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
 static BOOL CALLBACK enumDevicesCallback(const DIDEVICEINSTANCEW* didInstance, VOID* context)

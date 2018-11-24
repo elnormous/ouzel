@@ -5,10 +5,9 @@
 #if OUZEL_COMPILE_METAL
 
 #include <algorithm>
+#include <stdexcept>
 #include "ShaderResourceMetal.hpp"
 #include "RenderDeviceMetal.hpp"
-#include "files/FileSystem.hpp"
-#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -130,7 +129,7 @@ namespace ouzel
                     MTLVertexFormat vertexFormat = getVertexFormat(vertexAttribute.dataType);
 
                     if (vertexFormat == MTLVertexFormatInvalid)
-                        throw DataError("Invalid vertex format");
+                        throw std::runtime_error("Invalid vertex format");
 
                     vertexDescriptor.attributes[index].format = vertexFormat;
                     vertexDescriptor.attributes[index].offset = offset;
@@ -154,7 +153,7 @@ namespace ouzel
             if (!fragmentShaderLibrary || err != nil)
             {
                 if (fragmentShaderLibrary) [fragmentShaderLibrary release];
-                throw DataError("Failed to load pixel shader, " + std::string(err ? [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding] : "unknown error"));
+                throw std::runtime_error("Failed to load pixel shader, " + std::string(err ? [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding] : "unknown error"));
             }
 
             if (fragmentShader) [fragmentShader release];
@@ -165,7 +164,7 @@ namespace ouzel
 
             if (!fragmentShader || err != nil)
             {
-                throw DataError("Failed to get function from shader, " + std::string(err ? [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding] : "unknown error"));
+                throw std::runtime_error("Failed to get function from shader, " + std::string(err ? [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding] : "unknown error"));
             }
 
             if (!fragmentShaderConstantInfo.empty())
@@ -189,7 +188,7 @@ namespace ouzel
             if (!vertexShaderLibrary || err != nil)
             {
                 if (vertexShaderLibrary) [vertexShaderLibrary release];
-                throw DataError("Failed to load vertex shader, " + std::string(err ? [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding] : "unknown error"));
+                throw std::runtime_error("Failed to load vertex shader, " + std::string(err ? [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding] : "unknown error"));
             }
 
             if (vertexShader) [vertexShader release];
@@ -199,7 +198,7 @@ namespace ouzel
             [vertexShaderLibrary release];
 
             if (!vertexShader || err != nil)
-                throw DataError("Failed to get function from shader, " + std::string(err ? [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding] : "unknown error"));
+                throw std::runtime_error("Failed to get function from shader, " + std::string(err ? [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding] : "unknown error"));
 
             if (!vertexShaderConstantInfo.empty())
             {

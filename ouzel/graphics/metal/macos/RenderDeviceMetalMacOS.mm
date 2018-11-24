@@ -4,11 +4,11 @@
 
 #if OUZEL_PLATFORM_MACOS && OUZEL_COMPILE_METAL
 
+#include <stdexcept>
 #include "RenderDeviceMetalMacOS.hpp"
 #include "MetalView.h"
 #include "core/Engine.hpp"
 #include "core/macos/NativeWindowMacOS.hpp"
-#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
 static CVReturn renderCallback(CVDisplayLinkRef,
@@ -93,15 +93,15 @@ namespace ouzel
 
             CGDirectDisplayID displayId = windowMacOS->getDisplayId();
             if (CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink) != kCVReturnSuccess)
-                throw SystemError("Failed to create display link");
+                throw std::runtime_error("Failed to create display link");
 
             if (CVDisplayLinkSetOutputCallback(displayLink, ::renderCallback, this) != kCVReturnSuccess)
-                throw SystemError("Failed to set output callback for the display link");
+                throw std::runtime_error("Failed to set output callback for the display link");
 
             running = true;
 
             if (CVDisplayLinkStart(displayLink) != kCVReturnSuccess)
-                throw SystemError("Failed to start display link");
+                throw std::runtime_error("Failed to start display link");
         }
 
         std::vector<Size2> RenderDeviceMetalMacOS::getSupportedResolutions() const
@@ -146,15 +146,15 @@ namespace ouzel
                     const CGDirectDisplayID displayId = event.screenId;
 
                     if (CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink) != kCVReturnSuccess)
-                        throw SystemError("Failed to create display link");
+                        throw std::runtime_error("Failed to create display link");
 
                     if (CVDisplayLinkSetOutputCallback(displayLink, ::renderCallback, this) != kCVReturnSuccess)
-                        throw SystemError("Failed to set output callback for the display link");
+                        throw std::runtime_error("Failed to set output callback for the display link");
 
                     running = true;
                     
                     if (CVDisplayLinkStart(displayLink) != kCVReturnSuccess)
-                        throw SystemError("Failed to start display link");
+                        throw std::runtime_error("Failed to start display link");
                 });
             }
 
