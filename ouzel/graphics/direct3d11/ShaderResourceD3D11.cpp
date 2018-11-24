@@ -6,7 +6,6 @@
 
 #include "ShaderResourceD3D11.hpp"
 #include "RenderDeviceD3D11.hpp"
-#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -98,12 +97,12 @@ namespace ouzel
         {
             HRESULT hr;
             if (FAILED(hr = renderDeviceD3D11.getDevice()->CreatePixelShader(fragmentShaderData.data(), fragmentShaderData.size(), nullptr, &fragmentShader)))
-                throw DataError("Failed to create a Direct3D 11 pixel shader, error: " + std::to_string(hr));
+                throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create a Direct3D 11 pixel shader");
 
             if (vertexShader) vertexShader->Release();
 
             if (FAILED(hr = renderDeviceD3D11.getDevice()->CreateVertexShader(vertexShaderData.data(), vertexShaderData.size(), nullptr, &vertexShader)))
-                throw DataError("Failed to create a Direct3D 11 vertex shader, error: " + std::to_string(hr));
+                throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create a Direct3D 11 vertex shader");
 
             std::vector<D3D11_INPUT_ELEMENT_DESC> vertexInputElements;
 
@@ -116,7 +115,7 @@ namespace ouzel
                     DXGI_FORMAT vertexFormat = getVertexFormat(vertexAttribute.dataType);
 
                     if (vertexFormat == DXGI_FORMAT_UNKNOWN)
-                        throw DataError("Invalid vertex format");
+                        throw std::runtime_error("Invalid vertex format");
 
                     const char* semantic;
                     UINT index = 0;
@@ -158,7 +157,7 @@ namespace ouzel
                             index = 1;
                             break;
                         default:
-                            throw DataError("Invalid vertex attribute usage");
+                            throw std::runtime_error("Invalid vertex attribute usage");
                     }
 
                     vertexInputElements.push_back({
@@ -178,7 +177,7 @@ namespace ouzel
                                                                              vertexShaderData.data(),
                                                                              vertexShaderData.size(),
                                                                              &inputLayout)))
-                throw DataError("Failed to create Direct3D 11 input layout for vertex shader, error: " + std::to_string(hr));
+                throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 input layout for vertex shader");
 
             if (!fragmentShaderConstantInfo.empty())
             {
@@ -205,7 +204,7 @@ namespace ouzel
             if (fragmentShaderConstantBuffer) fragmentShaderConstantBuffer->Release();
 
             if (FAILED(hr = renderDeviceD3D11.getDevice()->CreateBuffer(&fragmentShaderConstantBufferDesc, nullptr, &fragmentShaderConstantBuffer)))
-                throw DataError("Failed to create Direct3D 11 constant buffer, error: " + std::to_string(hr));
+                throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 constant buffer");
 
             if (!vertexShaderConstantInfo.empty())
             {
@@ -232,7 +231,7 @@ namespace ouzel
             if (vertexShaderConstantBuffer) vertexShaderConstantBuffer->Release();
 
             if (FAILED(hr = renderDeviceD3D11.getDevice()->CreateBuffer(&vertexShaderConstantBufferDesc, nullptr, &vertexShaderConstantBuffer)))
-                throw DataError("Failed to create Direct3D 11 constant buffer, error: " + std::to_string(hr));
+                throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 constant buffer");
         }
 
         ShaderResourceD3D11::~ShaderResourceD3D11()
