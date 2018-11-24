@@ -154,7 +154,7 @@ namespace ouzel
 
                     if ((result = snd_pcm_writei(playbackHandle, data.data(), frames)) < 0)
                     {
-                        if (err == -EPIPE)
+                        if (result == -EPIPE)
                         {
                             engine->log(Log::Level::WARN) << "Buffer underrun occurred";
 
