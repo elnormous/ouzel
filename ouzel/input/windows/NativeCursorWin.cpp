@@ -64,25 +64,21 @@ namespace ouzel
                 bitmapHeader.bV5BlueMask = 0x000000ff;
                 bitmapHeader.bV5AlphaMask = 0xff000000;
 
-                HDC dc = GetDC(nullptr);
+                dc = GetDC(nullptr);
                 unsigned char* target = nullptr;
-                HBITMAP color = CreateDIBSection(dc,
-                                                 reinterpret_cast<BITMAPINFO*>(&bitmapHeader),
-                                                 DIB_RGB_COLORS,
-                                                 reinterpret_cast<void**>(&target),
-                                                 nullptr,
-                                                 static_cast<DWORD>(0));
-                ReleaseDC(nullptr, dc);
+                color = CreateDIBSection(dc,
+                                         reinterpret_cast<BITMAPINFO*>(&bitmapHeader),
+                                         DIB_RGB_COLORS,
+                                         reinterpret_cast<void**>(&target),
+                                         nullptr,
+                                         static_cast<DWORD>(0));
 
                 if (!color)
                     throw std::runtime_error("Failed to create RGBA bitmap");
 
-                HBITMAP mask = CreateBitmap(width, height, 1, 1, nullptr);
+                mask = CreateBitmap(width, height, 1, 1, nullptr);
                 if (!mask)
-                {
-                    DeleteObject(color);
                     throw std::runtime_error("Failed to create mask bitmap");
-                }
 
                 for (LONG i = 0; i < width * height; ++i)
                 {
@@ -100,21 +96,27 @@ namespace ouzel
                 iconInfo.hbmMask = mask;
                 iconInfo.hbmColor = color;
 
-                cursor = CreateIconIndirect(&iconInfo);
+                ownedCursor = CreateIconIndirect(&iconInfo);
+                if (!ownedCursor)
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to create cursor");
 
-                DeleteObject(color);
-                DeleteObject(mask);
+                cursor = ownedCursor;
 
-                if (!cursor)
-                    throw std::runtime_error("Failed to create cursor");
-
-                shared = false;
+                if (dc) ReleaseDC(nullptr, dc);
+                dc = nullptr;
+                if (color) DeleteObject(color);
+                color = nullptr;
+                if (mask) DeleteObject(mask);
+                mask = nullptr;
             }
         }
 
         NativeCursorWin::~NativeCursorWin()
         {
-            if (cursor && !shared) DestroyCursor(cursor);
+            if (ownedCursor) DestroyCursor(cursor);
+            if (dc) ReleaseDC(nullptr, dc);
+            if (color) DeleteObject(color);
+            if (mask) DeleteObject(mask);
         }
     } // namespace input
 } // namespace ouzel

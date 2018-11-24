@@ -32,7 +32,10 @@ namespace ouzel
 
         private:
             HCURSOR cursor = nullptr;
-            bool shared = false;
+            HCURSOR ownedCursor = nullptr;
+            HDC dc = nullptr;
+            HBITMAP color = nullptr;
+            HBITMAP mask = nullptr;
         };
     } // namespace input
 } // namespace ouzel
