@@ -1,5 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <stdexcept>
 #include "NativeWindowIOS.hpp"
 #include "ViewIOS.h"
 #include "graphics/RenderDevice.hpp"
@@ -7,7 +8,6 @@
 #include "graphics/metal/ios/MetalView.h"
 #include "core/Engine.hpp"
 #include "events/EventDispatcher.hpp"
-#include "utils/Errors.hpp"
 
 @interface ViewController: UIViewController
 {
@@ -93,7 +93,7 @@ namespace ouzel
                 break;
 #endif
             default:
-                throw SystemError("Unsupported render driver");
+                throw std::runtime_error("Unsupported render driver");
         }
 
         textField = [[UITextField alloc] init];
@@ -137,7 +137,7 @@ namespace ouzel
             case Command::Type::SET_TITLE:
                 break;
             default:
-                throw SystemError("Invalid command");
+                throw std::runtime_error("Invalid command");
         }
     }
 

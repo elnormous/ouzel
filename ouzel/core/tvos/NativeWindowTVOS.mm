@@ -1,11 +1,11 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <stdexcept>
 #include "NativeWindowTVOS.hpp"
 #include "ViewTVOS.h"
 #include "graphics/RenderDevice.hpp"
 #include "graphics/opengl/tvos/OpenGLView.h"
 #include "graphics/metal/tvos/MetalView.h"
-#include "utils/Errors.hpp"
 
 @interface ViewController: UIViewController
 {
@@ -80,7 +80,7 @@ namespace ouzel
                 break;
 #endif
             default:
-                throw SystemError("Unsupported render driver");
+                throw std::runtime_error("Unsupported render driver");
         }
 
         textField = [[UITextField alloc] init];
@@ -123,7 +123,7 @@ namespace ouzel
             case Command::Type::SET_TITLE:
                 break;
             default:
-                throw SystemError("Invalid command");
+                throw std::runtime_error("Invalid command");
         }
     }
 

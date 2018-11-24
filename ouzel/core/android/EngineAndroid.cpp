@@ -8,7 +8,6 @@
 #include "NativeWindowAndroid.hpp"
 #include "events/EventDispatcher.hpp"
 #include "graphics/opengl/android/RenderDeviceOGLAndroid.hpp"
-#include "utils/Errors.hpp"
 
 static int looperCallback(int fd, int events, void* data)
 {
@@ -35,7 +34,7 @@ namespace ouzel
         JNIEnv* jniEnv;
 
         if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-            throw SystemError("Failed to get JNI environment");
+            throw std::runtime_error("Failed to get JNI environment");
 
         uriClass = jniEnv->FindClass("android/net/Uri");
         uriClass = static_cast<jclass>(jniEnv->NewGlobalRef(uriClass));
@@ -70,7 +69,7 @@ namespace ouzel
         JNIEnv* jniEnv;
 
         if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-            throw SystemError("Failed to get JNI environment");
+            throw std::runtime_error("Failed to get JNI environment");
 
         mainActivity = jniEnv->NewGlobalRef(initMainActivity);
 
@@ -129,14 +128,14 @@ namespace ouzel
         // looper
         looper = ALooper_forThread(); // this is called on main thread, so it is safe to get the looper here
         if (!looper)
-            throw SystemError("Main thread has no looper");
+            throw std::runtime_error("Main thread has no looper");
 
         ALooper_acquire(looper);
         if (pipe(looperPipe) == -1)
             throw std::system_error(errno, std::system_category(), "Failed to create pipe");
 
         if (ALooper_addFd(looper, looperPipe[0], ALOOPER_POLL_CALLBACK, ALOOPER_EVENT_INPUT, looperCallback, this) != 1)
-            throw SystemError("Failed to add looper file descriptor");
+            throw std::runtime_error("Failed to add looper file descriptor");
     }
 
     void EngineAndroid::onSurfaceCreated(jobject newSurface)
@@ -144,7 +143,7 @@ namespace ouzel
         JNIEnv* jniEnv;
 
         if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-            throw SystemError("Failed to get JNI environment");
+            throw std::runtime_error("Failed to get JNI environment");
 
         if (surface) jniEnv->DeleteGlobalRef(surface);
         surface = jniEnv->NewGlobalRef(newSurface);
@@ -171,7 +170,7 @@ namespace ouzel
         JNIEnv* jniEnv;
 
         if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-            throw SystemError("Failed to get JNI environment");
+            throw std::runtime_error("Failed to get JNI environment");
 
         jint newOrientation = jniEnv->GetIntField(newConfig, orientationField);
 
@@ -204,7 +203,7 @@ namespace ouzel
         JNIEnv* jniEnv;
 
         if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-            throw SystemError("Failed to get JNI environment");
+            throw std::runtime_error("Failed to get JNI environment");
 
         if (surface)
         {
@@ -253,7 +252,7 @@ namespace ouzel
             JNIEnv* jniEnv;
 
             if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-                throw SystemError("Failed to get JNI environment");
+                throw std::runtime_error("Failed to get JNI environment");
 
             jstring actionString = jniEnv->NewStringUTF("android.intent.action.VIEW");
             jstring urlString = jniEnv->NewStringUTF(url.c_str());
@@ -270,7 +269,7 @@ namespace ouzel
             if (jniEnv->ExceptionCheck())
             {
                 jniEnv->ExceptionClear();
-                throw SystemError("Failed to open URL");
+                throw std::runtime_error("Failed to open URL");
             }
         });
     }
@@ -283,7 +282,7 @@ namespace ouzel
             JNIEnv* jniEnv;
 
             if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-                throw SystemError("Failed to get JNI environment");
+                throw std::runtime_error("Failed to get JNI environment");
 
             if (newScreenSaverEnabled)
                 jniEnv->CallVoidMethod(androidWindow, clearFlagsMethod, AWINDOW_FLAG_KEEP_SCREEN_ON);
@@ -317,11 +316,11 @@ namespace ouzel
         attachArgs.name = nullptr; // thread name
         attachArgs.group = nullptr; // thread group
         if (javaVM->AttachCurrentThread(&jniEnv, &attachArgs) != JNI_OK)
-            throw SystemError("Failed to attach current thread to Java VM");
+            throw std::runtime_error("Failed to attach current thread to Java VM");
 
         Engine::main();
 
         if (javaVM->DetachCurrentThread() != JNI_OK)
-            throw SystemError("Failed to detach current thread from Java VM");
+            throw std::runtime_error("Failed to detach current thread from Java VM");
     }
 }

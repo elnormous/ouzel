@@ -6,7 +6,6 @@
 #include "EngineWin.hpp"
 #include "NativeWindowWin.hpp"
 #include "input/windows/InputSystemWin.hpp"
-#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
@@ -60,7 +59,7 @@ namespace ouzel
     {
         HRESULT hr;
         if (FAILED(hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED)))
-            throw SystemError("Failed to initialize COM, error: " + std::to_string(hr));
+            throw std::runtime_error("Failed to initialize COM, error: " + std::to_string(hr));
 
 #ifdef DEBUG
         if (!AllocConsole())
@@ -160,6 +159,6 @@ namespace ouzel
 
         intptr_t result = reinterpret_cast<intptr_t>(ShellExecuteW(nullptr, L"open", buffer.data(), nullptr, nullptr, SW_SHOWNORMAL));
         if (result <= 32)
-            throw SystemError("Failed to execute open");
+            throw std::runtime_error("Failed to execute open");
     }
 }

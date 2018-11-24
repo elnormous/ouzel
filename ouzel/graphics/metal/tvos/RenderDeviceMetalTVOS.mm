@@ -9,7 +9,6 @@
 #include "core/Engine.hpp"
 #include "core/Window.hpp"
 #include "core/tvos/NativeWindowTVOS.hpp"
-#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
 static void renderCallback(void* userInfo)

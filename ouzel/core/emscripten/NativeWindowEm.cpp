@@ -1,9 +1,9 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <stdexcept>
 #include <emscripten.h>
 #include <emscripten/html5.h>
 #include "NativeWindowEm.hpp"
-#include "utils/Errors.hpp"
 
 static EM_BOOL emResizeCallback(int eventType, const EmscriptenUiEvent* uiEvent, void* userData)
 {
@@ -89,7 +89,7 @@ namespace ouzel
             case Command::Type::SET_TITLE:
                 break;
             default:
-                throw SystemError("Invalid command");
+                throw std::runtime_error("Invalid command");
         }
     }
 

@@ -1,10 +1,10 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <stdexcept>
 #include "core/Setup.h"
 #include "MouseDeviceLinux.hpp"
 #include "core/linux/EngineLinux.hpp"
 #include "core/linux/NativeWindowLinux.hpp"
-#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -49,7 +49,7 @@ namespace ouzel
                                     ButtonPressMask | ButtonReleaseMask | PointerMotionMask | FocusChangeMask,
                                     GrabModeAsync, GrabModeAsync,
                                     None, None, CurrentTime) != GrabSuccess)
-                    throw SystemError("Failed to grab pointer");
+                    throw std::runtime_error("Failed to grab pointer");
             }
             else
                 XUngrabPointer(display, CurrentTime);

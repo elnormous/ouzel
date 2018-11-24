@@ -5,7 +5,6 @@
 #include "core/Engine.hpp"
 #include "core/windows/NativeWindowWin.hpp"
 #include "input/GamepadConfig.hpp"
-#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
 static const float THUMB_DEADZONE = 0.2F;

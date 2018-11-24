@@ -1,10 +1,10 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include "Setup.h"
 #include <algorithm>
+#include <stdexcept>
+#include "Setup.h"
 #include "Engine.hpp"
 #include "utils/INI.hpp"
-#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"
 #include "graphics/Renderer.hpp"
@@ -348,7 +348,7 @@ namespace ouzel
                         break;
 #  endif
                     default:
-                        throw SystemError("Unsupported OpenGL version");
+                        throw std::runtime_error("Unsupported OpenGL version");
                 }
 
                 assetBundle.setShader(SHADER_TEXTURE, textureShader);
@@ -397,7 +397,7 @@ namespace ouzel
                         break;
 #  endif
                     default:
-                        throw SystemError("Unsupported OpenGL version");
+                        throw std::runtime_error("Unsupported OpenGL version");
                 }
 
                 assetBundle.setShader(SHADER_COLOR, colorShader);

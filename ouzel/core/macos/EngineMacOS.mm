@@ -1,9 +1,9 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <stdexcept>
 #import <Cocoa/Cocoa.h>
 #import <IOKit/pwr_mgt/IOPMLib.h>
 #include "EngineMacOS.hpp"
-#include "utils/Errors.hpp"
 
 @interface AppDelegate: NSObject<NSApplicationDelegate>
 
@@ -156,7 +156,7 @@ namespace ouzel
                 if (noSleepAssertionID)
                 {
                     if (IOPMAssertionRelease(noSleepAssertionID) != kIOReturnSuccess)
-                        throw SystemError("Failed to enable screen saver");
+                        throw std::runtime_error("Failed to enable screen saver");
 
                     noSleepAssertionID = 0;
                 }
@@ -169,7 +169,7 @@ namespace ouzel
 
                     if (IOPMAssertionCreateWithName(kIOPMAssertionTypePreventUserIdleDisplaySleep,
                                                     kIOPMAssertionLevelOn, reasonForActivity, &noSleepAssertionID) != kIOReturnSuccess)
-                        throw SystemError("Failed to disable screen saver");
+                        throw std::runtime_error("Failed to disable screen saver");
                 }
             }
         });

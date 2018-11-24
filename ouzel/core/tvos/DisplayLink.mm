@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <stdexcept>
 #include "DisplayLink.hpp"
-#include "utils/Errors.hpp"
 #include "utils/Utils.hpp"
 
 @interface DisplayLinkHandler: NSObject
@@ -58,7 +58,7 @@ namespace ouzel
 
             displayLink = [CADisplayLink displayLinkWithTarget:displayLinkHandler selector:@selector(draw:)];
             if (!displayLink)
-                throw SystemError("Failed to create display link");
+                throw std::runtime_error("Failed to create display link");
 
             [displayLink setFrameInterval:1.0F];
         }

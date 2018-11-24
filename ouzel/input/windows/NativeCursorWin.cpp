@@ -2,7 +2,6 @@
 
 #include <system_error>
 #include "NativeCursorWin.hpp"
-#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -76,13 +75,13 @@ namespace ouzel
                 ReleaseDC(nullptr, dc);
 
                 if (!color)
-                    throw SystemError("Failed to create RGBA bitmap");
+                    throw std::runtime_error("Failed to create RGBA bitmap");
 
                 HBITMAP mask = CreateBitmap(width, height, 1, 1, nullptr);
                 if (!mask)
                 {
                     DeleteObject(color);
-                    throw SystemError("Failed to create mask bitmap");
+                    throw std::runtime_error("Failed to create mask bitmap");
                 }
 
                 for (LONG i = 0; i < width * height; ++i)
@@ -107,7 +106,7 @@ namespace ouzel
                 DeleteObject(mask);
 
                 if (!cursor)
-                    throw SystemError("Failed to create cursor");
+                    throw std::runtime_error("Failed to create cursor");
 
                 shared = false;
             }

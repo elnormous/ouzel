@@ -2,6 +2,7 @@
 
 #include "core/Setup.h"
 
+#include <stdexcept>
 #if OUZEL_COMPILE_OPENGL && OUZEL_OPENGL_INTERFACE_GLX
 #  include <GL/glx.h>
 #endif
@@ -9,7 +10,6 @@
 #include "NativeWindowLinux.hpp"
 #include "EngineLinux.hpp"
 #include "graphics/RenderDevice.hpp"
-#include "utils/Errors.hpp"
 
 #if OUZEL_SUPPORTS_X11
 static const long _NET_WM_STATE_TOGGLE = 2;
@@ -80,10 +80,10 @@ namespace ouzel
 
                 visualInfo = glXChooseVisual(display, screenIndex, doubleBuffer);
                 if (!visualInfo)
-                    throw SystemError("Failed to choose visual");
+                    throw std::runtime_error("Failed to choose visual");
 
                 if (visualInfo->c_class != TrueColor)
-                    throw SystemError("TrueColor visual required for this program");
+                    throw std::runtime_error("TrueColor visual required for this program");
 
                 // create an X colormap since probably not using default visual
                 Colormap cmap = XCreateColormap(display, RootWindow(display, visualInfo->screen), visualInfo->visual, AllocNone);
@@ -100,7 +100,7 @@ namespace ouzel
             }
 #  endif
             default:
-                throw SystemError("Unsupported render driver");
+                throw std::runtime_error("Unsupported render driver");
         }
 
         XSetStandardProperties(display, window, title.c_str(), title.c_str(), None, nullptr, 0, nullptr);
@@ -145,7 +145,7 @@ namespace ouzel
         int32_t success = vc_dispmanx_display_get_info(display, &modeInfo);
 
         if (success < 0)
-            throw SystemError("Failed to get display size");
+            throw std::runtime_error("Failed to get display size");
 
         VC_RECT_T dstRect;
         dstRect.x = 0;
@@ -162,7 +162,7 @@ namespace ouzel
         DISPMANX_UPDATE_HANDLE_T dispmanUpdate = vc_dispmanx_update_start(0);
 
         if (dispmanUpdate == DISPMANX_NO_HANDLE)
-            throw SystemError("Failed to start display update");
+            throw std::runtime_error("Failed to start display update");
 
         DISPMANX_ELEMENT_HANDLE_T dispmanElement = vc_dispmanx_element_add(dispmanUpdate, display,
                                                                            0, &dstRect, 0,
@@ -170,7 +170,7 @@ namespace ouzel
                                                                            0, 0, DISPMANX_NO_ROTATE);
 
         if (dispmanElement == DISPMANX_NO_HANDLE)
-            throw SystemError("Failed to add display element");
+            throw std::runtime_error("Failed to add display element");
 
         window.element = dispmanElement;
         window.width = modeInfo.width;
@@ -211,7 +211,7 @@ namespace ouzel
                 setTitle(command.title);
                 break;
             default:
-                throw SystemError("Invalid command");
+                throw std::runtime_error("Invalid command");
         }
     }
 
@@ -231,7 +231,7 @@ namespace ouzel
         event.xclient.data.l[3] = 0; // unused
         event.xclient.data.l[4] = 0; // unused
         if (!XSendEvent(display, window, False, NoEventMask, &event))
-            throw SystemError("Failed to send X11 delete message");
+            throw std::runtime_error("Failed to send X11 delete message");
 #endif
     }
 
@@ -284,10 +284,10 @@ namespace ouzel
     {
 #if OUZEL_SUPPORTS_X11
         if (!stateAtom)
-            throw SystemError("State atom is null");
+            throw std::runtime_error("State atom is null");
 
         if (!stateFullscreenAtom)
-            throw SystemError("Fullscreen state atom is null");
+            throw std::runtime_error("Fullscreen state atom is null");
 
         XEvent event;
         event.type = ClientMessage;
@@ -301,7 +301,7 @@ namespace ouzel
         event.xclient.data.l[4] = 0; // unused
 
         if (!XSendEvent(display, DefaultRootWindow(display), 0, SubstructureRedirectMask | SubstructureNotifyMask, &event))
-            throw SystemError("Failed to send X11 fullscreen message");
+            throw std::runtime_error("Failed to send X11 fullscreen message");
 #endif
     }
 

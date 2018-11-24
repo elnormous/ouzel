@@ -1,5 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <stdexcept>
 #include "core/Setup.h"
 #if OUZEL_SUPPORTS_X11
 #  include <X11/cursorfont.h>
@@ -7,7 +8,6 @@
 #endif
 #include "NativeCursorLinux.hpp"
 #include "core/linux/EngineLinux.hpp"
-#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -61,7 +61,7 @@ namespace ouzel
                 XcursorImage* cursorImage = XcursorImageCreate(width, height);
 
                 if (!cursorImage)
-                    throw SystemError("Failed to create cursor image");
+                    throw std::runtime_error("Failed to create cursor image");
 
                 cursorImage->xhot = static_cast<int>(hotSpot.x);
                 cursorImage->yhot = height - static_cast<int>(hotSpot.y) - 1;

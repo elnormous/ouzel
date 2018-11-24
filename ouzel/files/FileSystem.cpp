@@ -29,7 +29,6 @@ extern "C" id NSTemporaryDirectory();
 #include "File.hpp"
 #include "Archive.hpp"
 #include "core/Engine.hpp"
-#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
@@ -175,7 +174,7 @@ namespace ouzel
         id applicationSupportDirectory = reinterpret_cast<id (*)(id, SEL, NSUInteger, NSUInteger, id, BOOL, id*)>(&objc_msgSend)(fileManager, sel_getUid("URLForDirectory:inDomain:appropriateForURL:create:error:"), NSApplicationSupportDirectory, user ? NSUserDomainMask : NSLocalDomainMask, nil, YES, nil);
 
         if (!applicationSupportDirectory)
-            throw SystemError("Failed to get application support directory");
+            throw std::runtime_error("Failed to get application support directory");
 
         CFBundleRef bundle = CFBundleGetMainBundle();
         CFStringRef identifier = CFBundleGetIdentifier(bundle);
@@ -197,7 +196,7 @@ namespace ouzel
         id documentDirectory = reinterpret_cast<id (*)(id, SEL, NSUInteger, NSUInteger, id, BOOL, id*)>(&objc_msgSend)(fileManager, sel_getUid("URLForDirectory:inDomain:appropriateForURL:create:error:"), NSDocumentDirectory, user ? NSUserDomainMask : NSLocalDomainMask, nil, YES, nil);
 
         if (!documentDirectory)
-            throw SystemError("Failed to get document directory");
+            throw std::runtime_error("Failed to get document directory");
 
         id documentDirectoryString = reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(documentDirectory, sel_getUid("path"));
         return reinterpret_cast<const char* (*)(id, SEL)>(&objc_msgSend)(documentDirectoryString, sel_getUid("UTF8String"));

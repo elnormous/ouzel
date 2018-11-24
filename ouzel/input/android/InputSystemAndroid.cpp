@@ -1,11 +1,11 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <stdexcept>
 #include <android/input.h>
 #include "InputSystemAndroid.hpp"
 #include "GamepadDeviceAndroid.hpp"
 #include "core/android/EngineAndroid.hpp"
 #include "core/Window.hpp"
-#include "utils/Errors.hpp"
 
 namespace ouzel
 {
@@ -22,7 +22,7 @@ namespace ouzel
             JNIEnv* jniEnv;
 
             if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-                throw SystemError("Failed to get JNI environment");
+                throw std::runtime_error("Failed to get JNI environment");
 
             inputDeviceClass = jniEnv->FindClass("android/view/InputDevice");
             inputDeviceClass = static_cast<jclass>(jniEnv->NewGlobalRef(inputDeviceClass));
@@ -79,7 +79,7 @@ namespace ouzel
             JNIEnv* jniEnv;
 
             if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-                throw SystemError("Failed to get JNI environment");
+                throw std::runtime_error("Failed to get JNI environment");
 
             jint action = jniEnv->CallIntMethod(event, getActionMethod);
 
@@ -225,7 +225,7 @@ namespace ouzel
             JNIEnv* jniEnv;
 
             if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-                throw SystemError("Failed to get JNI environment");
+                throw std::runtime_error("Failed to get JNI environment");
 
             jint action = jniEnv->CallIntMethod(event, getActionMethod);
             jint toolType = jniEnv->CallIntMethod(event, getToolTypeMethod, 0);

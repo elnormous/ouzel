@@ -1241,7 +1241,6 @@
 		30856EF81F7B289B00AA6222 /* Platform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Platform.h; sourceTree = "<group>"; };
 		3085DA1E211A4A5500F4C2D0 /* Socket.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Socket.cpp; sourceTree = "<group>"; };
 		3085DA1F211A4A5500F4C2D0 /* Socket.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Socket.hpp; sourceTree = "<group>"; };
-		3091B57420D3DD6000A70DE1 /* Errors.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Errors.hpp; sourceTree = "<group>"; };
 		3098A5531EA01C8A00528A54 /* GamepadDeviceIOKit.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GamepadDeviceIOKit.hpp; sourceTree = "<group>"; };
 		3098A5541EA01C8A00528A54 /* GamepadDeviceIOKit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GamepadDeviceIOKit.cpp; sourceTree = "<group>"; };
 		3098A55B1EA01CA900528A54 /* GamepadDeviceTVOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GamepadDeviceTVOS.hpp; sourceTree = "<group>"; };
@@ -2042,7 +2041,6 @@
 		30A5BF0C1CFCE3F800A977CA /* utils */ = {
 			isa = PBXGroup;
 			children = (
-				3091B57420D3DD6000A70DE1 /* Errors.hpp */,
 				3011E1C11EFFE6DE00CB1DDC /* INI.cpp */,
 				3011E1C21EFFE6DE00CB1DDC /* INI.hpp */,
 				307237081FAFDAB8002EA399 /* JSON.cpp */,

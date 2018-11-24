@@ -5,7 +5,6 @@
 #include "Bundle.hpp"
 #include "Cache.hpp"
 #include "Loader.hpp"
-#include "utils/Errors.hpp"
 #include "utils/JSON.hpp"
 
 namespace ouzel

@@ -1,11 +1,11 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <stdexcept>
 #include "Window.hpp"
 #include "Setup.h"
 #include "Engine.hpp"
 #include "events/EventDispatcher.hpp"
 #include "graphics/Renderer.hpp"
-#include "utils/Errors.hpp"
 
 #if OUZEL_PLATFORM_MACOS
 #include "macos/NativeWindowMacOS.hpp"

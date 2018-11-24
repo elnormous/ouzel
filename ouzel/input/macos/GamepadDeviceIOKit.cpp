@@ -1,11 +1,11 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <stdexcept>
 #include <vector>
 #include "GamepadDeviceIOKit.hpp"
 #include "InputSystemMacOS.hpp"
 #include "input/GamepadConfig.hpp"
 #include "core/Setup.h"
-#include "utils/Errors.hpp"
 
 static const float THUMB_DEADZONE = 0.2F;
 
@@ -27,7 +27,7 @@ namespace ouzel
         {
             IOReturn ret = IOHIDDeviceOpen(device, kIOHIDOptionsTypeNone);
             if (ret != kIOReturnSuccess)
-                throw SystemError("Failed to open HID device, error: " + std::to_string(ret));
+                throw std::runtime_error("Failed to open HID device, error: " + std::to_string(ret));
 
             CFStringRef productName = static_cast<CFStringRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey)));
             if (productName)
@@ -46,14 +46,14 @@ namespace ouzel
             int32_t vendorId;
             CFNumberRef vendor = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDVendorIDKey)));
             if (!vendor)
-                throw SystemError("Failed to get vendor ID");
+                throw std::runtime_error("Failed to get vendor ID");
 
             CFNumberGetValue(vendor, kCFNumberSInt32Type, &vendorId);
 
             int32_t productId;
             CFNumberRef product = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductIDKey)));
             if (!product)
-                throw SystemError("Failed to get product ID");
+                throw std::runtime_error("Failed to get product ID");
 
             CFNumberGetValue(product, kCFNumberSInt32Type, &productId);
 

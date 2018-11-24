@@ -1,12 +1,12 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <stdexcept>
 #import <objc/message.h>
 #include "InputSystemMacOS.hpp"
 #include "NativeCursorMacOS.hpp"
 #include "core/macos/NativeWindowMacOS.hpp"
 #include "core/Engine.hpp"
 #include "events/Event.hpp"
-#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 
 typedef struct CF_BRIDGED_TYPE(id) __IOHIDServiceClient * IOHIDServiceClientRef;
@@ -113,7 +113,7 @@ namespace ouzel
             IOHIDManagerSetDeviceMatchingMultiple(hidManager, (CFArrayRef)criteria);
             IOReturn ret = IOHIDManagerOpen(hidManager, kIOHIDOptionsTypeNone);
             if (ret != kIOReturnSuccess)
-                throw SystemError("Failed to initialize HID manager, error: " + std::to_string(ret));
+                throw std::runtime_error("Failed to initialize HID manager, error: " + std::to_string(ret));
 
             IOHIDManagerRegisterDeviceMatchingCallback(hidManager, deviceAdded, this);
             IOHIDManagerRegisterDeviceRemovalCallback(hidManager, deviceRemoved, this);

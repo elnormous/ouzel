@@ -2,10 +2,10 @@
 
 #include "core/Setup.h"
 
-#include <cassert>
-
 #if OUZEL_COMPILE_METAL
 
+#include <cassert>
+#include <stdexcept>
 #include "RenderDeviceMetal.hpp"
 #include "BlendStateResourceMetal.hpp"
 #include "BufferResourceMetal.hpp"
@@ -15,7 +15,6 @@
 #include "TextureResourceMetal.hpp"
 #include "core/Engine.hpp"
 #include "events/EventDispatcher.hpp"
-#include "utils/Errors.hpp"
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"
 #include "stb_image_write.h"
@@ -96,7 +95,7 @@ namespace ouzel
             device = MTLCreateSystemDefaultDevice();
 
             if (!device)
-                throw SystemError("Failed to create Metal device");
+                throw std::runtime_error("Failed to create Metal device");
 
             if (device.name)
                 engine->log(Log::Level::INFO) << "Using " << [device.name cStringUsingEncoding:NSUTF8StringEncoding] << " for rendering";
@@ -104,14 +103,14 @@ namespace ouzel
             metalCommandQueue = [device newCommandQueue];
 
             if (!metalCommandQueue)
-                throw SystemError("Failed to create Metal command queue");
+                throw std::runtime_error("Failed to create Metal command queue");
 
             if (depth) depthFormat = MTLPixelFormatDepth32Float;
 
             renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
 
             if (!renderPassDescriptor)
-                throw SystemError("Failed to create Metal render pass descriptor");
+                throw std::runtime_error("Failed to create Metal render pass descriptor");
 
             renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
             renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.normR(),
@@ -178,7 +177,7 @@ namespace ouzel
             id<CAMetalDrawable> currentMetalDrawable = [metalLayer nextDrawable];
 
             if (!currentMetalDrawable)
-                throw DataError("Failed to get Metal drawable");
+                throw std::runtime_error("Failed to get Metal drawable");
 
             if (currentMetalTexture) [currentMetalTexture release];
 
@@ -207,7 +206,7 @@ namespace ouzel
                     msaaTexture = [device newTextureWithDescriptor:desc];
 
                     if (!msaaTexture)
-                        throw DataError("Failed to create MSAA texture");
+                        throw std::runtime_error("Failed to create MSAA texture");
 
                     renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionMultisampleResolve;
                     renderPassDescriptor.colorAttachments[0].texture = msaaTexture;
@@ -238,7 +237,7 @@ namespace ouzel
                     depthTexture = [device newTextureWithDescriptor:desc];
 
                     if (!depthTexture)
-                        throw DataError("Failed to create depth texture");
+                        throw std::runtime_error("Failed to create depth texture");
 
                     renderPassDescriptor.depthAttachment.texture = depthTexture;
                 }
@@ -251,7 +250,7 @@ namespace ouzel
             id<MTLCommandBuffer> currentCommandBuffer = [metalCommandQueue commandBuffer];
 
             if (!currentCommandBuffer)
-                throw DataError("Failed to create Metal command buffer");
+                throw std::runtime_error("Failed to create Metal command buffer");
 
             __block dispatch_semaphore_t blockSemaphore = inflightSemaphore;
             [currentCommandBuffer addCompletedHandler:^(id<MTLCommandBuffer>)
@@ -348,7 +347,7 @@ namespace ouzel
                                 currentRenderCommandEncoder = [currentCommandBuffer renderCommandEncoderWithDescriptor:currentRenderPassDescriptor];
 
                                 if (!currentRenderCommandEncoder)
-                                    throw DataError("Failed to create Metal render command encoder");
+                                    throw std::runtime_error("Failed to create Metal render command encoder");
 
                                 currentRenderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionLoad;
                                 currentRenderPassDescriptor.depthAttachment.loadAction = MTLLoadActionLoad;
@@ -431,7 +430,7 @@ namespace ouzel
                             currentRenderCommandEncoder = [currentCommandBuffer renderCommandEncoderWithDescriptor:currentRenderPassDescriptor];
 
                             if (!currentRenderCommandEncoder)
-                                throw DataError("Failed to create Metal render command encoder");
+                                throw std::runtime_error("Failed to create Metal render command encoder");
 
                             MTLViewport viewport;
                             viewport.originX = viewport.originY = 0.0;
@@ -461,7 +460,7 @@ namespace ouzel
                             const SetCullModeCommad* setCullModeCommad = static_cast<const SetCullModeCommad*>(command.get());
 
                             if (!currentRenderCommandEncoder)
-                                throw DataError("Metal render command encoder not initialized");
+                                throw std::runtime_error("Metal render command encoder not initialized");
 
                             MTLCullMode cullMode;
 
@@ -470,7 +469,7 @@ namespace ouzel
                                 case CullMode::NONE: cullMode = MTLCullModeNone; break;
                                 case CullMode::FRONT: cullMode = MTLCullModeFront; break;
                                 case CullMode::BACK: cullMode = MTLCullModeBack; break;
-                                default: throw DataError("Invalid cull mode");
+                                default: throw std::runtime_error("Invalid cull mode");
                             }
 
                             [currentRenderCommandEncoder setCullMode:cullMode];
@@ -483,7 +482,7 @@ namespace ouzel
                             const SetFillModeCommad* setFillModeCommad = static_cast<const SetFillModeCommad*>(command.get());
 
                             if (!currentRenderCommandEncoder)
-                                throw DataError("Metal render command encoder not initialized");
+                                throw std::runtime_error("Metal render command encoder not initialized");
 
                             MTLTriangleFillMode fillMode;
 
@@ -491,7 +490,7 @@ namespace ouzel
                             {
                                 case FillMode::SOLID: fillMode = MTLTriangleFillModeFill; break;
                                 case FillMode::WIREFRAME: fillMode = MTLTriangleFillModeLines; break;
-                                default: throw DataError("Invalid fill mode");
+                                default: throw std::runtime_error("Invalid fill mode");
                             }
 
                             [currentRenderCommandEncoder setTriangleFillMode:fillMode];
@@ -504,7 +503,7 @@ namespace ouzel
                             const SetScissorTestCommand* setScissorTestCommand = static_cast<const SetScissorTestCommand*>(command.get());
 
                             if (!currentRenderCommandEncoder)
-                                throw DataError("Metal render command encoder not initialized");
+                                throw std::runtime_error("Metal render command encoder not initialized");
 
                             MTLScissorRect scissorRect;
 
@@ -536,7 +535,7 @@ namespace ouzel
                             const SetViewportCommand* setViewportCommand = static_cast<const SetViewportCommand*>(command.get());
 
                             if (!currentRenderCommandEncoder)
-                                throw DataError("Metal render command encoder not initialized");
+                                throw std::runtime_error("Metal render command encoder not initialized");
 
                             MTLViewport viewport;
                             viewport.originX = static_cast<double>(setViewportCommand->viewport.position.x);
@@ -571,7 +570,7 @@ namespace ouzel
                             const SetDepthStencilStateCommand* setDepthStencilStateCommand = static_cast<const SetDepthStencilStateCommand*>(command.get());
 
                             if (!currentRenderCommandEncoder)
-                                throw DataError("Metal render command encoder not initialized");
+                                throw std::runtime_error("Metal render command encoder not initialized");
 
                             if (setDepthStencilStateCommand->depthStencilState)
                             {
@@ -589,7 +588,7 @@ namespace ouzel
                             const SetPipelineStateCommand* setPipelineStateCommand = static_cast<const SetPipelineStateCommand*>(command.get());
 
                             if (!currentRenderCommandEncoder)
-                                throw DataError("Metal render command encoder not initialized");
+                                throw std::runtime_error("Metal render command encoder not initialized");
 
                             BlendStateResourceMetal* blendStateMetal = static_cast<BlendStateResourceMetal*>(resources[setPipelineStateCommand->blendState - 1].get());
                             ShaderResourceMetal* shaderMetal = static_cast<ShaderResourceMetal*>(resources[setPipelineStateCommand->shader - 1].get());
@@ -609,7 +608,7 @@ namespace ouzel
                             const DrawCommand* drawCommand = static_cast<const DrawCommand*>(command.get());
 
                             if (!currentRenderCommandEncoder)
-                                throw DataError("Metal render command encoder not initialized");
+                                throw std::runtime_error("Metal render command encoder not initialized");
 
                             // mesh buffer
                             BufferResourceMetal* indexBufferMetal = static_cast<BufferResourceMetal*>(resources[drawCommand->indexBuffer - 1].get());
@@ -632,7 +631,7 @@ namespace ouzel
                                 case DrawMode::LINE_STRIP: primitiveType = MTLPrimitiveTypeLineStrip; break;
                                 case DrawMode::TRIANGLE_LIST: primitiveType = MTLPrimitiveTypeTriangle; break;
                                 case DrawMode::TRIANGLE_STRIP: primitiveType = MTLPrimitiveTypeTriangleStrip; break;
-                                default: throw DataError("Invalid draw mode");
+                                default: throw std::runtime_error("Invalid draw mode");
                             }
 
                             assert(drawCommand->indexCount);
@@ -645,7 +644,7 @@ namespace ouzel
                             {
                                 case 2: indexType = MTLIndexTypeUInt16; break;
                                 case 4: indexType = MTLIndexTypeUInt32; break;
-                                default: throw DataError("Invalid index size");
+                                default: throw std::runtime_error("Invalid index size");
                             }
 
                             [currentRenderCommandEncoder drawIndexedPrimitives:primitiveType
@@ -662,7 +661,7 @@ namespace ouzel
                             const PushDebugMarkerCommand* pushDebugMarkerCommand = static_cast<const PushDebugMarkerCommand*>(command.get());
 
                             if (!currentRenderCommandEncoder)
-                                throw DataError("Metal render command encoder not initialized");
+                                throw std::runtime_error("Metal render command encoder not initialized");
 
                             [currentRenderCommandEncoder pushDebugGroup:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:pushDebugMarkerCommand->name.c_str()])];
                             break;
@@ -673,7 +672,7 @@ namespace ouzel
                             //const PopDebugMarkerCommand* popDebugMarkerCommand = static_cast<const PopDebugMarkerCommand*>(command);
 
                             if (!currentRenderCommandEncoder)
-                                throw DataError("Metal render command encoder not initialized");
+                                throw std::runtime_error("Metal render command encoder not initialized");
 
                             [currentRenderCommandEncoder popDebugGroup];
                             break;
@@ -750,16 +749,16 @@ namespace ouzel
                             const SetShaderConstantsCommand* setShaderConstantsCommand = static_cast<const SetShaderConstantsCommand*>(command.get());
 
                             if (!currentRenderCommandEncoder)
-                                throw DataError("Metal render command encoder not initialized");
+                                throw std::runtime_error("Metal render command encoder not initialized");
 
                             if (!currentShader)
-                                throw DataError("No shader set");
+                                throw std::runtime_error("No shader set");
 
                             // pixel shader constants
                             const std::vector<ShaderResourceMetal::Location>& fragmentShaderConstantLocations = currentShader->getFragmentShaderConstantLocations();
 
                             if (setShaderConstantsCommand->fragmentShaderConstants.size() > fragmentShaderConstantLocations.size())
-                                throw DataError("Invalid pixel shader constant size");
+                                throw std::runtime_error("Invalid pixel shader constant size");
 
                             shaderData.clear();
 
@@ -769,7 +768,7 @@ namespace ouzel
                                 const std::vector<float>& fragmentShaderConstant = setShaderConstantsCommand->fragmentShaderConstants[i];
 
                                 if (sizeof(float) * fragmentShaderConstant.size() != fragmentShaderConstantLocation.size)
-                                    throw DataError("Invalid pixel shader constant size");
+                                    throw std::runtime_error("Invalid pixel shader constant size");
 
                                 shaderData.insert(shaderData.end(), fragmentShaderConstant.begin(), fragmentShaderConstant.end());
                             }
@@ -789,7 +788,7 @@ namespace ouzel
                                                                           options:MTLResourceCPUCacheModeWriteCombined];
 
                                 if (!buffer)
-                                    throw SystemError("Failed to create Metal buffer");
+                                    throw std::runtime_error("Failed to create Metal buffer");
 
                                 shaderConstantBuffer.buffers.push_back(buffer);
                             }
@@ -810,7 +809,7 @@ namespace ouzel
                             const std::vector<ShaderResourceMetal::Location>& vertexShaderConstantLocations = currentShader->getVertexShaderConstantLocations();
 
                             if (setShaderConstantsCommand->vertexShaderConstants.size() > vertexShaderConstantLocations.size())
-                                throw DataError("Invalid vertex shader constant size");
+                                throw std::runtime_error("Invalid vertex shader constant size");
 
                             shaderData.clear();
 
@@ -820,7 +819,7 @@ namespace ouzel
                                 const std::vector<float>& vertexShaderConstant = setShaderConstantsCommand->vertexShaderConstants[i];
 
                                 if (sizeof(float) * vertexShaderConstant.size() != vertexShaderConstantLocation.size)
-                                    throw DataError("Invalid vertex shader constant size");
+                                    throw std::runtime_error("Invalid vertex shader constant size");
 
                                 shaderData.insert(shaderData.end(), vertexShaderConstant.begin(), vertexShaderConstant.end());
                             }
@@ -840,7 +839,7 @@ namespace ouzel
                                                                           options:MTLResourceCPUCacheModeWriteCombined];
 
                                 if (!buffer)
-                                    throw SystemError("Failed to create Metal buffer");
+                                    throw std::runtime_error("Failed to create Metal buffer");
 
                                 shaderConstantBuffer.buffers.push_back(buffer);
                             }
@@ -904,7 +903,7 @@ namespace ouzel
                             const SetTexturesCommand* setTexturesCommand = static_cast<const SetTexturesCommand*>(command.get());
 
                             if (!currentRenderCommandEncoder)
-                                throw DataError("Metal render command encoder not initialized");
+                                throw std::runtime_error("Metal render command encoder not initialized");
 
                             for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
                             {
@@ -924,7 +923,7 @@ namespace ouzel
                             break;
                         }
 
-                        default: throw SystemError("Invalid command");
+                        default: throw std::runtime_error("Invalid command");
                     }
 
                     if (command->type == Command::Type::PRESENT) return;
@@ -935,7 +934,7 @@ namespace ouzel
         void RenderDeviceMetal::generateScreenshot(const std::string& filename)
         {
             if (!currentMetalTexture)
-                throw SystemError("No back buffer");
+                throw std::runtime_error("No back buffer");
 
             NSUInteger width = static_cast<NSUInteger>(currentMetalTexture.width);
             NSUInteger height = static_cast<NSUInteger>(currentMetalTexture.height);
@@ -1009,7 +1008,7 @@ namespace ouzel
                 if (error || !pipelineState)
                 {
                     if (pipelineState) [pipelineState release];
-                    throw SystemError("Failed to created Metal pipeline state");
+                    throw std::runtime_error("Failed to created Metal pipeline state");
                 }
 
                 pipelineStates[desc] = pipelineState;
@@ -1084,7 +1083,7 @@ namespace ouzel
                 [samplerDescriptor release];
 
                 if (!samplerState)
-                    throw SystemError("Failed to create Metal sampler state");
+                    throw std::runtime_error("Failed to create Metal sampler state");
 
                 samplerStates[descriptor] = samplerState;
 
