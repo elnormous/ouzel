@@ -46,7 +46,11 @@ namespace ouzel
         std::vector<WCHAR> buffer(MAX_PATH);
         for (;;)
         {
-            if (!GetModuleFileNameW(GetModuleHandleW(nullptr), buffer.data(), static_cast<DWORD>(buffer.size())))
+            HINSTANCE instance = GetModuleHandleW(nullptr);
+            if (!instance)
+                throw std::system_error(GetLastError(), std::system_category(), "Failed to get module handle");
+
+            if (!GetModuleFileNameW(instance, buffer.data(), static_cast<DWORD>(buffer.size())))
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to get module filename");
 
             if (GetLastError() == ERROR_INSUFFICIENT_BUFFER)

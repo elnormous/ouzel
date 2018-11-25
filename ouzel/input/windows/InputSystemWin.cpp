@@ -34,6 +34,9 @@ namespace ouzel
             defaultCursor = LoadCursor(nullptr, IDC_ARROW);
 
             HINSTANCE instance = GetModuleHandleW(nullptr);
+            if (!instance)
+                throw std::system_error(GetLastError(), std::system_category(), "Failed to get module handle");
+
             HRESULT hr;
             if (FAILED(hr = DirectInput8Create(instance, DIRECTINPUT_VERSION, IID_IDirectInput8W, reinterpret_cast<LPVOID*>(&directInput), nullptr)))
                 throw std::system_error(hr, directInputErrorCategory, "Failed to initialize DirectInput");
