@@ -30,7 +30,7 @@ namespace ouzel
     const JNIErrorCategory jniErrorCategory {};
 
     EngineAndroid::EngineAndroid(JavaVM* initJavaVM):
-        javaVM(initJavaVM), looperPipe{-1, -1}
+        javaVM(initJavaVM)
     {
         JNIEnv* jniEnv;
 

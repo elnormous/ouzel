@@ -83,8 +83,6 @@ namespace ouzel
             reinterpret_cast<BOOL (*)(id, SEL, id, id)>(&objc_msgSend)(audioSession, sel_getUid("setCategory:error:"), AVAudioSessionCategoryAmbient, nil);
 #endif
 
-            std::fill(std::begin(bufferIds), std::end(bufferIds), 0);
-
             const ALCchar* deviceName = alcGetString(nullptr, ALC_DEFAULT_DEVICE_SPECIFIER);
 
             engine->log(Log::Level::INFO) << "Using " << reinterpret_cast<const char*>(deviceName) << " for audio";
