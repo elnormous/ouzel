@@ -110,6 +110,7 @@ namespace ouzel
                 throw std::system_error(hr, directSoundErrorCategory, "Failed to set DirectSound buffer format");
 
             sampleFormat = SampleFormat::SINT16;
+            sampleSize = sizeof(int16_t);
 
             IDirectSoundBuffer* tempBuffer = nullptr;
 
@@ -209,7 +210,7 @@ namespace ouzel
                         if (FAILED(hr = buffer->Lock(nextBuffer * bufferSize, bufferSize, reinterpret_cast<void**>(&bufferPointer), &lockedBufferSize, nullptr, 0, 0)))
                             throw std::system_error(hr, directSoundErrorCategory, "Failed to lock DirectSound buffer");
 
-                        getData(lockedBufferSize / (channels * sizeof(int16_t)), data);
+                        getData(lockedBufferSize / (sampleSize * channels), data);
 
                         std::copy(data.begin(), data.end(), bufferPointer);
 
