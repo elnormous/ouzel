@@ -114,6 +114,13 @@ $ gradle installDebug
 $ adb shell am start -n org.ouzel/org.ouzel.MainActivity
 ```
 
+Because on Raspbian Stretch libEGL.so was renamed to libbrcmEGL.so and libGLESv2.so to libbrcmGLESv2.so you will have to run the following commands before building the samples on Raspbian 8 (Jessie) or older:
+
+```shell
+$ sudo ln -s /opt/vc/lib/libEGL.so /opt/vc/lib/libbrcmEGL.so 
+$ sudo ln -s /opt/vc/lib/libGLESv2.so /opt/vc/lib/libbrcmGLESv2.so
+```
+
 ## System requirements
 * Windows 7+ with Visual Studio 2015 or Visual Studio 2017
 * macOS 10.10+ with Xcode 7.2+
