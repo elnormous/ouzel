@@ -51,7 +51,7 @@ namespace ouzel
                     GLenum error;
 
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw std::system_error(make_error_code(error), "Failed to set texture base and max levels");
+                        throw std::system_error(makeErrorCode(error), "Failed to set texture base and max levels");
                 }
 
                 for (size_t level = 0; level < levels.size(); ++level)
@@ -75,7 +75,7 @@ namespace ouzel
                 GLenum error;
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw std::system_error(make_error_code(error), "Failed to upload texture data");
+                    throw std::system_error(makeErrorCode(error), "Failed to upload texture data");
             }
 
             setTextureParameters();
@@ -301,7 +301,7 @@ namespace ouzel
                     GLenum error;
 
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw std::system_error(make_error_code(error), "Failed to set texture base and max levels");
+                        throw std::system_error(makeErrorCode(error), "Failed to set texture base and max levels");
                 }
 
                 for (size_t level = 0; level < levels.size(); ++level)
@@ -325,7 +325,7 @@ namespace ouzel
                 GLenum error;
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw std::system_error(make_error_code(error), "Failed to upload texture data");
+                    throw std::system_error(makeErrorCode(error), "Failed to upload texture data");
             }
 
             setTextureParameters();
@@ -360,7 +360,7 @@ namespace ouzel
                 GLenum error;
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw std::system_error(make_error_code(error), "Failed to upload texture data");
+                    throw std::system_error(makeErrorCode(error), "Failed to upload texture data");
             }
         }
 
@@ -401,7 +401,7 @@ namespace ouzel
             GLenum error;
 
             if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                throw std::system_error(make_error_code(error), "Failed to set texture filter");
+                throw std::system_error(makeErrorCode(error), "Failed to set texture filter");
         }
 
         void TextureResourceOGL::setAddressX(Texture::Address newAddressX)
@@ -431,7 +431,7 @@ namespace ouzel
             GLenum error;
 
             if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                throw std::system_error(make_error_code(error), "Failed to set texture wrap mode");
+                throw std::system_error(makeErrorCode(error), "Failed to set texture wrap mode");
         }
 
         void TextureResourceOGL::setAddressY(Texture::Address newAddressY)
@@ -461,7 +461,7 @@ namespace ouzel
             GLenum error;
 
             if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                throw std::system_error(make_error_code(error), "Failed to set texture wrap mode");
+                throw std::system_error(makeErrorCode(error), "Failed to set texture wrap mode");
         }
 
         void TextureResourceOGL::setMaxAnisotropy(uint32_t newMaxAnisotropy)
@@ -482,7 +482,7 @@ namespace ouzel
                 GLenum error;
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw std::system_error(make_error_code(error), "Failed to set texture max anisotrophy");
+                    throw std::system_error(makeErrorCode(error), "Failed to set texture max anisotrophy");
             }
         }
 
@@ -558,7 +558,7 @@ namespace ouzel
             GLenum error;
 
             if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                throw std::system_error(make_error_code(error), "Failed to create texture");
+                throw std::system_error(makeErrorCode(error), "Failed to create texture");
 
             renderDevice.bindTexture(textureId, 0);
 
@@ -585,7 +585,7 @@ namespace ouzel
                 glGenFramebuffersProc(1, &frameBufferId);
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw std::system_error(make_error_code(error), "Failed to create frame buffer");
+                    throw std::system_error(makeErrorCode(error), "Failed to create frame buffer");
 
                 renderDevice.bindFrameBuffer(frameBufferId);
 
@@ -601,7 +601,7 @@ namespace ouzel
                     glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0);
 
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw std::system_error(make_error_code(error), "Failed to set frame buffer's color texture");
+                        throw std::system_error(makeErrorCode(error), "Failed to set frame buffer's color texture");
                 }
                 else
                 {
@@ -616,7 +616,7 @@ namespace ouzel
                                                              width, height);
 
                         if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                            throw std::system_error(make_error_code(error), "Failed to set color render buffer's multisample storage");
+                            throw std::system_error(makeErrorCode(error), "Failed to set color render buffer's multisample storage");
                     }
                     else
                     {
@@ -624,13 +624,13 @@ namespace ouzel
                                                   width, height);
 
                         if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                            throw std::system_error(make_error_code(error), "Failed to set color render buffer's storage");
+                            throw std::system_error(makeErrorCode(error), "Failed to set color render buffer's storage");
                     }
 
                     glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorBufferId);
 
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw std::system_error(make_error_code(error), "Failed to set frame buffer's color render buffer");
+                        throw std::system_error(makeErrorCode(error), "Failed to set frame buffer's color render buffer");
                 }
 
                 if (flags & Texture::DEPTH_BUFFER)
@@ -647,7 +647,7 @@ namespace ouzel
                         glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthTextureId, 0);
 
                         if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                            throw std::system_error(make_error_code(error), "Failed to set frame buffer's depth texture");
+                            throw std::system_error(makeErrorCode(error), "Failed to set frame buffer's depth texture");
                     }
                     else
                     {
@@ -662,7 +662,7 @@ namespace ouzel
                                                                  width, height);
 
                             if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                                throw std::system_error(make_error_code(error), "Failed to set depth render buffer's multisample storage");
+                                throw std::system_error(makeErrorCode(error), "Failed to set depth render buffer's multisample storage");
                         }
                         else
                         {
@@ -670,13 +670,13 @@ namespace ouzel
                                                       width, height);
 
                             if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                                throw std::system_error(make_error_code(error), "Failed to set depth render buffer's storage");
+                                throw std::system_error(makeErrorCode(error), "Failed to set depth render buffer's storage");
                         }
 
                         glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBufferId);
 
                         if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                            throw std::system_error(make_error_code(error), "Failed to set frame buffer's depth render buffer");
+                            throw std::system_error(makeErrorCode(error), "Failed to set frame buffer's depth render buffer");
                     }
                 }
 
@@ -685,7 +685,7 @@ namespace ouzel
                     throw std::runtime_error("Failed to create frame buffer, status: " + std::to_string(status));
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw std::system_error(make_error_code(error), "Failed to check frame buffer status");
+                    throw std::system_error(makeErrorCode(error), "Failed to check frame buffer status");
             }
         }
 
@@ -721,7 +721,7 @@ namespace ouzel
             GLenum error;
 
             if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                throw std::system_error(make_error_code(error), "Failed to set texture filter");
+                throw std::system_error(makeErrorCode(error), "Failed to set texture filter");
 
             switch (addressX)
             {
@@ -739,7 +739,7 @@ namespace ouzel
             }
 
             if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                throw std::system_error(make_error_code(error), "Failed to set texture wrap mode");
+                throw std::system_error(makeErrorCode(error), "Failed to set texture wrap mode");
 
             switch (addressY)
             {
@@ -757,7 +757,7 @@ namespace ouzel
             }
 
             if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                throw std::system_error(make_error_code(error), "Failed to set texture wrap mode");
+                throw std::system_error(makeErrorCode(error), "Failed to set texture wrap mode");
 
             uint32_t finalMaxAnisotropy = (maxAnisotropy == 0) ? renderDevice.getMaxAnisotropy() : maxAnisotropy;
 
@@ -766,7 +766,7 @@ namespace ouzel
                 glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, static_cast<GLint>(finalMaxAnisotropy));
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw std::system_error(make_error_code(error), "Failed to set texture max anisotrophy");
+                    throw std::system_error(makeErrorCode(error), "Failed to set texture max anisotrophy");
             }
         }
     } // namespace graphics

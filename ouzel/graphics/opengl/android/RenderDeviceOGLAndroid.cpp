@@ -284,7 +284,7 @@ namespace ouzel
             GLenum error;
 
             if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                throw std::system_error(make_error_code(error), "Failed to set depth function");
+                throw std::system_error(makeErrorCode(error), "Failed to set depth function");
 
             if (glGenVertexArraysProc) glGenVertexArraysProc(1, &vertexArrayId);
 
