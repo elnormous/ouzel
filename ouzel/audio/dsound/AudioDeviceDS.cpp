@@ -72,8 +72,6 @@ namespace ouzel
         AudioDeviceDS::AudioDeviceDS(Window* window):
             AudioDevice(Driver::DIRECTSOUND), running(true)
         {
-            std::fill(std::begin(notifyEvents), std::end(notifyEvents), INVALID_HANDLE_VALUE);
-
             HRESULT hr;
             if (FAILED(hr = DirectSoundEnumerateW(enumCallback, this)))
                 throw std::system_error(hr, directSoundErrorCategory, "Failed to enumerate DirectSound 8 devices");
@@ -153,7 +151,12 @@ namespace ouzel
             nextBuffer = 0;
 
             notifyEvents[0] = CreateEvent(nullptr, true, false, nullptr);
+            if (!notifyEvents[0])
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to create event");
+
             notifyEvents[1] = CreateEvent(nullptr, true, false, nullptr);
+            if (!notifyEvents[1])
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to create event");
 
             DSBPOSITIONNOTIFY positionNotifyEvents[2];
             positionNotifyEvents[0].dwOffset = bufferSize - 1;
@@ -180,7 +183,7 @@ namespace ouzel
             if (audioThread.joinable()) audioThread.join();
 
             for (HANDLE notifyEvent : notifyEvents)
-                if (notifyEvent != INVALID_HANDLE_VALUE) CloseHandle(notifyEvent);
+                if (notifyEvent) CloseHandle(notifyEvent);
 
             if (notify) notify->Release();
             if (buffer) buffer->Release();

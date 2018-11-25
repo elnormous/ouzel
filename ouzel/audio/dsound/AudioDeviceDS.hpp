@@ -35,7 +35,7 @@ namespace ouzel
             IDirectSoundBuffer* primaryBuffer = nullptr;
             IDirectSoundBuffer8* buffer = nullptr;
             IDirectSoundNotify* notify = nullptr;
-            HANDLE notifyEvents[2];
+            HANDLE notifyEvents[2] = {nullptr, nullptr};
 
             uint32_t nextBuffer = 0;
 
