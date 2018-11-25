@@ -4,6 +4,7 @@
 
 #if OUZEL_COMPILE_DIRECTSOUND
 
+#include <system_error>
 #include "AudioDeviceDS.hpp"
 #include "core/Engine.hpp"
 #include "core/Window.hpp"
@@ -199,11 +200,16 @@ namespace ouzel
             {
                 try
                 {
-                    if (WaitForSingleObject(notifyEvents[nextBuffer], INFINITE) == WAIT_OBJECT_0)
+                    DWORD result;
+                    if ((result = WaitForSingleObject(notifyEvents[nextBuffer], INFINITE)) == WAIT_FAILED)
+                            throw std::system_error(GetLastError(), std::system_category(), "Failed to wait for event");
+
+                    if (result == WAIT_OBJECT_0)
                     {
                         if (!running) break;
 
-                        ResetEvent(notifyEvents[nextBuffer]);
+                        if (!ResetEvent(notifyEvents[nextBuffer]))
+                            throw std::system_error(GetLastError(), std::system_category(), "Failed to reset event");
 
                         process();
 
