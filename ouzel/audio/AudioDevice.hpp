@@ -8,6 +8,7 @@
 #include <memory>
 #include <mutex>
 #include <queue>
+#include <set>
 #include <vector>
 #include "audio/Driver.hpp"
 #include "audio/Node.hpp"
@@ -66,19 +67,21 @@ namespace ouzel
 
             uintptr_t getNodeId()
             {
-                if (deletedNodeIds.empty())
+                auto i = deletedNodeIds.begin();
+
+                if (i == deletedNodeIds.end())
                     return ++lastNodeId; // zero is reserved for null node
                 else
                 {
-                    uintptr_t nodeId = deletedNodeIds.front();
-                    deletedNodeIds.pop();
+                    uintptr_t nodeId = *i;
+                    deletedNodeIds.erase(i);
                     return nodeId;
                 }
             }
 
             void deleteNodeId(uintptr_t nodeId)
             {
-                deletedNodeIds.push(nodeId);
+                deletedNodeIds.insert(nodeId);
             }
 
         protected:
@@ -97,7 +100,7 @@ namespace ouzel
             uint32_t currentBuffer = 0;
 
             uintptr_t lastNodeId = 0;
-            std::queue<uintptr_t> deletedNodeIds;
+            std::set<uintptr_t> deletedNodeIds;
 
             std::vector<std::unique_ptr<Node>> nodes;
 

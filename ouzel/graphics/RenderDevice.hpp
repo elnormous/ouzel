@@ -6,6 +6,8 @@
 #include <atomic>
 #include <condition_variable>
 #include <mutex>
+#include <queue>
+#include <set>
 #include "graphics/Commands.hpp"
 #include "graphics/Driver.hpp"
 #include "graphics/Texture.hpp"
@@ -91,19 +93,21 @@ namespace ouzel
 
             uintptr_t getResourceId()
             {
-                if (deletedResourceIds.empty())
+                auto i = deletedResourceIds.begin();
+
+                if (i == deletedResourceIds.end())
                     return ++lastResourceId; // zero is reserved for null resource
                 else
                 {
-                    uintptr_t resourceId = deletedResourceIds.front();
-                    deletedResourceIds.pop();
+                    uintptr_t resourceId = *i;
+                    deletedResourceIds.erase(i);
                     return resourceId;
                 }
             }
 
             void deleteResourceId(uintptr_t resourceId)
             {
-                deletedResourceIds.push(resourceId);
+                deletedResourceIds.insert(resourceId);
             }
 
         protected:
@@ -171,7 +175,7 @@ namespace ouzel
             std::mutex executeMutex;
 
             uintptr_t lastResourceId = 0;
-            std::queue<uintptr_t> deletedResourceIds;
+            std::set<uintptr_t> deletedResourceIds;
         };
     } // namespace graphics
 } // namespace ouzel

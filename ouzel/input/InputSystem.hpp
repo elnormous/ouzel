@@ -5,7 +5,7 @@
 
 #include <cstdint>
 #include <future>
-#include <queue>
+#include <set>
 #include <unordered_map>
 #include <vector>
 #include "input/GamepadDevice.hpp"
@@ -135,19 +135,21 @@ namespace ouzel
 
             uintptr_t getResourceId()
             {
-                if (deletedResourceIds.empty())
+                auto i = deletedResourceIds.begin();
+
+                if (i == deletedResourceIds.end())
                     return ++lastResourceId; // zero is reserved for null resource
                 else
                 {
-                    uintptr_t resourceId = deletedResourceIds.front();
-                    deletedResourceIds.pop();
+                    uintptr_t resourceId = *i;
+                    deletedResourceIds.erase(i);
                     return resourceId;
                 }
             }
 
             void deleteResourceId(uintptr_t resourceId)
             {
-                deletedResourceIds.push(resourceId);
+                deletedResourceIds.insert(resourceId);
             }
 
         protected:
@@ -161,7 +163,7 @@ namespace ouzel
             std::unordered_map<uint32_t, InputDevice*> inputDevices;
 
             uintptr_t lastResourceId = 0;
-            std::queue<uintptr_t> deletedResourceIds;
+            std::set<uintptr_t> deletedResourceIds;
         };
     } // namespace input
 } // namespace ouzel
