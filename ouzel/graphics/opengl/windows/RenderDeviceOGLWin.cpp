@@ -30,14 +30,16 @@ namespace ouzel
         public:
             TempContext()
             {
-                HINSTANCE hInstance = GetModuleHandleW(nullptr);
+                HINSTANCE instance = GetModuleHandleW(nullptr);
+                if (!instance)
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to get module handle");
 
                 WNDCLASSW wc;
                 wc.style = CS_OWNDC;
                 wc.lpfnWndProc = windowProc;
                 wc.cbClsExtra = 0;
                 wc.cbWndExtra = 0;
-                wc.hInstance = hInstance;
+                wc.hInstance = instance;
                 wc.hIcon = 0;
                 wc.hCursor = 0;
                 wc.hbrBackground = 0;
@@ -52,7 +54,7 @@ namespace ouzel
                 window = CreateWindowW(TEMP_WINDOW_CLASS_NAME, L"TempWindow", 0,
                                        CW_USEDEFAULT, CW_USEDEFAULT,
                                        CW_USEDEFAULT, CW_USEDEFAULT,
-                                       0, 0, hInstance, 0);
+                                       0, 0, instance, 0);
 
                 if (!window)
                     throw std::runtime_error("Failed to create window");

@@ -456,6 +456,8 @@ namespace ouzel
         }
 
         HINSTANCE instance = GetModuleHandleW(nullptr);
+        if (!instance)
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to get module handle");
 
         WNDCLASSEXW wc;
         wc.cbSize = sizeof(wc);
