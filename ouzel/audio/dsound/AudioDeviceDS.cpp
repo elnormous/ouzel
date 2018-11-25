@@ -5,6 +5,7 @@
 #if OUZEL_COMPILE_DIRECTSOUND
 
 #include <system_error>
+#include <audiodefs.h>
 #include "AudioDeviceDS.hpp"
 #include "core/Engine.hpp"
 #include "core/Window.hpp"
