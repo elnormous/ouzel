@@ -175,7 +175,7 @@ namespace ouzel
                     {
                         format = AL_FORMAT_MONO16;
                         sampleFormat = SampleFormat::SINT16;
-                        sampleSize = sizeof(uint16_t);
+                        sampleSize = sizeof(int16_t);
                     }
                     break;
                 }

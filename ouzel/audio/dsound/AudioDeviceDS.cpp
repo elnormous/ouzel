@@ -97,19 +97,30 @@ namespace ouzel
                 throw std::system_error(hr, directSoundErrorCategory, "Failed to create DirectSound buffer");
 
             WAVEFORMATEX waveFormat;
-            waveFormat.wFormatTag = WAVE_FORMAT_PCM;
+            waveFormat.wFormatTag = WAVE_FORMAT_IEEE_FLOAT;
             waveFormat.nChannels = channels;
             waveFormat.nSamplesPerSec = sampleRate;
-            waveFormat.wBitsPerSample = 16;
+            waveFormat.wBitsPerSample = 32;
             waveFormat.nBlockAlign = waveFormat.nChannels * (waveFormat.wBitsPerSample / 8);
             waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
             waveFormat.cbSize = 0;
 
             if (FAILED(hr = primaryBuffer->SetFormat(&waveFormat)))
-                throw std::system_error(hr, directSoundErrorCategory, "Failed to set DirectSound buffer format");
+            {
+                waveFormat.wFormatTag = WAVE_FORMAT_PCM;
+                waveFormat.wBitsPerSample = 16;
 
-            sampleFormat = SampleFormat::SINT16;
-            sampleSize = sizeof(int16_t);
+                if (FAILED(hr = primaryBuffer->SetFormat(&waveFormat)))
+                    throw std::system_error(hr, directSoundErrorCategory, "Failed to set DirectSound buffer format");
+
+                sampleFormat = SampleFormat::SINT16;
+                sampleSize = sizeof(int16_t);
+            }
+            else
+            {
+                sampleFormat = SampleFormat::FLOAT32;
+                sampleSize = sizeof(float);
+            }
 
             IDirectSoundBuffer* tempBuffer = nullptr;
 
