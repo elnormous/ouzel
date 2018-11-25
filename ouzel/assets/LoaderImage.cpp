@@ -96,7 +96,7 @@ namespace ouzel
                 }
                 default:
                     stbi_image_free(tempData);
-                    throw std::runtime_error("Unsupported pixel size");
+                    throw std::runtime_error("Unsupported pixel format");
             }
 
             graphics::ImageData image(pixelFormat,

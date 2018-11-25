@@ -20,12 +20,12 @@ namespace ouzel
             xml::Data colladaData(data);
 
             if (colladaData.getChildren().empty())
-                throw std::runtime_error("Invalid collada Collada file");
+                throw std::runtime_error("Invalid Collada file");
 
             xml::Node rootNode = colladaData.getChildren().front();
 
             if (rootNode.getValue() != "COLLADA")
-                throw std::runtime_error("Invalid collada Collada file");
+                throw std::runtime_error("Invalid Collada file");
 
             scene::SkinnedMeshData meshData;
 

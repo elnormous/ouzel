@@ -4,7 +4,7 @@
 
 #if OUZEL_COMPILE_XAUDIO2
 
-#include <stdexcept>
+#include <system_error>
 #include "AudioDeviceXA2.hpp"
 #include "XAudio27.hpp"
 #include "core/Engine.hpp"
@@ -56,7 +56,7 @@ namespace ouzel
                 XAudio2CreateProc xAudio2CreateProc = reinterpret_cast<XAudio2CreateProc>(GetProcAddress(xAudio2Library, "XAudio2Create"));
 
                 if (!xAudio2CreateProc)
-                    throw std::runtime_error("Failed to get address of XAudio2Create");
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to get address of XAudio2Create");
 
                 HRESULT hr;
                 if (FAILED(hr = xAudio2CreateProc(&xAudio, 0, XAUDIO2_DEFAULT_PROCESSOR)))
