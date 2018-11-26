@@ -3,7 +3,7 @@
 #include "core/Setup.h"
 #include <cstdio>
 #include <cstring>
-#include <stdexcept>
+#include <system_error>
 #include <unordered_map>
 #include <dirent.h>
 #include <fcntl.h>
@@ -50,7 +50,7 @@ namespace ouzel
             DIR* dir = opendir("/dev/input");
 
             if (!dir)
-                throw std::runtime_error("Failed to open directory");
+                throw std::system_error(errno, std::system_category(), "Failed to open directory");
 
             dirent ent;
             dirent* p;
@@ -202,11 +202,11 @@ namespace ouzel
                 if (i.first > maxFd) maxFd = i.first;
             }
 
-            int retval = select(maxFd + 1, &rfds, nullptr, nullptr, &tv);
+            int retval;
+            if ((retval = select(maxFd + 1, &rfds, nullptr, nullptr, &tv)) == -1)
+                throw std::system_error(errno, std::system_category(), "Select failed");
 
-            if (retval == -1)
-                throw std::runtime_error("Select failed");
-            else if (retval > 0)
+            if (retval > 0)
             {
                 for (auto i = eventDevices.begin(); i != eventDevices.end();)
                 {
@@ -232,7 +232,7 @@ namespace ouzel
                 DIR* dir = opendir("/dev/input");
 
                 if (!dir)
-                    throw std::runtime_error("Failed to open directory");
+                    throw std::system_error(errno, std::system_category(), "Failed to open directory");
 
                 dirent ent;
                 dirent* p;
