@@ -10,7 +10,8 @@ namespace ouzel
 {
     namespace gui
     {
-        Menu::Menu()
+        Menu::Menu():
+            eventHandler(EventHandler::PRIORITY_MAX + 1)
         {
             eventHandler.keyboardHandler = std::bind(&Menu::handleKeyboard, this, std::placeholders::_1);
             eventHandler.gamepadHandler = std::bind(&Menu::handleGamepad, this, std::placeholders::_1);
