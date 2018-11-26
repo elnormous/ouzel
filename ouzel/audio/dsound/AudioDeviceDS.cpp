@@ -5,13 +5,16 @@
 #if OUZEL_COMPILE_DIRECTSOUND
 
 #include <system_error>
-#include <mmreg.h>
 #include "AudioDeviceDS.hpp"
 #include "core/Engine.hpp"
 #include "core/Window.hpp"
 #include "core/windows/NativeWindowWin.hpp"
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"
+
+#ifndef WAVE_FORMAT_IEEE_FLOAT
+#  define WAVE_FORMAT_IEEE_FLOAT 0x0003
+#endif
 
 BOOL CALLBACK enumCallback(LPGUID, LPCWSTR description, LPCWSTR, LPVOID)
 {
