@@ -333,17 +333,17 @@ namespace ouzel
                 try
                 {
                     process();
-
-#if OUZEL_OPENGL_INTERFACE_EGL
-                    if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
-                        throw std::system_error(eglGetError(), eglErrorCategory, "Failed to unset EGL context");
-#endif
                 }
                 catch (const std::exception& e)
                 {
                     engine->log(Log::Level::ERR) << e.what();
                 }
             }
+
+#if OUZEL_OPENGL_INTERFACE_EGL
+            if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
+                throw std::system_error(eglGetError(), eglErrorCategory, "Failed to unset EGL context");
+#endif
         }
     } // namespace graphics
 } // namespace ouzel
