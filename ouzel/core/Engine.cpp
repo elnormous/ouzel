@@ -256,7 +256,8 @@ namespace ouzel
                 graphicsDriver = graphics::Driver::EMPTY;
         }
 
-        window.reset(new Window(size,
+        window.reset(new Window(*this,
+                                size,
                                 resizable,
                                 fullscreen,
                                 exclusiveFullscreen,
