@@ -11,10 +11,13 @@
 
 namespace ouzel
 {
+    class Engine;
+
     class Window final
     {
     public:
-        Window(const Size2& newSize,
+        Window(Engine& initEngine,
+               const Size2& newSize,
                bool newResizable,
                bool newFullscreen,
                bool newExclusiveFullscreen,
@@ -62,6 +65,7 @@ namespace ouzel
         void eventCallback(const NativeWindow::Event& event);
         void handleEvent(const NativeWindow::Event& event);
 
+        Engine& engine;
         std::unique_ptr<NativeWindow> nativeWindow;
 
         Size2 size;

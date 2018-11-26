@@ -25,7 +25,8 @@
 
 namespace ouzel
 {
-    Window::Window(const Size2& newSize,
+    Window::Window(Engine& initEngine,
+                   const Size2& newSize,
                    bool newResizable,
                    bool newFullscreen,
                    bool newExclusiveFullscreen,
@@ -33,6 +34,7 @@ namespace ouzel
                    graphics::Driver graphicsDriver,
                    bool newHighDpi,
                    bool depth):
+        engine(initEngine),
 #if OUZEL_PLATFORM_MACOS
         nativeWindow(new NativeWindowMacOS(std::bind(&Window::eventCallback, this, std::placeholders::_1),
                                            newSize,
@@ -125,9 +127,9 @@ namespace ouzel
         if (event.type == NativeWindow::Event::Type::FOCUS_CHANGE)
         {
             if (event.focus)
-                engine->resume();
+                engine.resume();
             else
-                engine->pause();
+                engine.pause();
         }
         else
         {
@@ -148,21 +150,21 @@ namespace ouzel
                 sizeChangeEvent->type = Event::Type::WINDOW_SIZE_CHANGE;
                 sizeChangeEvent->window = this;
                 sizeChangeEvent->size = event.size;
-                engine->getEventDispatcher().dispatchEvent(std::move(sizeChangeEvent));
+                engine.getEventDispatcher().dispatchEvent(std::move(sizeChangeEvent));
                 break;
             }
             case NativeWindow::Event::Type::RESOLUTION_CHANGE:
             {
                 resolution = event.resolution;
 
-                engine->getRenderer()->setSize(resolution);
+                engine.getRenderer()->setSize(resolution);
 
                 std::unique_ptr<WindowEvent> resolutionChangeEvent(new WindowEvent());
                 resolutionChangeEvent->type = Event::Type::RESOLUTION_CHANGE;
                 resolutionChangeEvent->window = this;
                 resolutionChangeEvent->size = event.size;
-                engine->getEventDispatcher().dispatchEvent(std::move(resolutionChangeEvent));
-                engine->getRenderer()->setSize(event.size);
+                engine.getEventDispatcher().dispatchEvent(std::move(resolutionChangeEvent));
+                engine.getRenderer()->setSize(event.size);
                 break;
             }
             case NativeWindow::Event::Type::FULLSCREEN_CHANGE:
@@ -173,7 +175,7 @@ namespace ouzel
                 fullscreenChangeEvent->type = Event::Type::FULLSCREEN_CHANGE;
                 fullscreenChangeEvent->window = this;
                 fullscreenChangeEvent->fullscreen = event.fullscreen;
-                engine->getEventDispatcher().dispatchEvent(std::move(fullscreenChangeEvent));
+                engine.getEventDispatcher().dispatchEvent(std::move(fullscreenChangeEvent));
                 break;
             }
             case NativeWindow::Event::Type::SCREEN_CHANGE:
@@ -184,11 +186,11 @@ namespace ouzel
                 screenChangeEvent->type = Event::Type::SCREEN_CHANGE;
                 screenChangeEvent->window = this;
                 screenChangeEvent->screenId = event.displayId;
-                engine->getEventDispatcher().dispatchEvent(std::move(screenChangeEvent));
+                engine.getEventDispatcher().dispatchEvent(std::move(screenChangeEvent));
                 break;
             }
             case NativeWindow::Event::Type::CLOSE:
-                engine->exit();
+                engine.exit();
                 break;
             default:
                 throw std::runtime_error("Unhandled event");
@@ -218,7 +220,7 @@ namespace ouzel
             event->size = size;
             event->title = title;
             event->fullscreen = fullscreen;
-            engine->getEventDispatcher().dispatchEvent(std::move(event));
+            engine.getEventDispatcher().dispatchEvent(std::move(event));
         }
     }
 
@@ -238,7 +240,7 @@ namespace ouzel
             event->size = size;
             event->title = title;
             event->fullscreen = fullscreen;
-            engine->getEventDispatcher().dispatchEvent(std::move(event));
+            engine.getEventDispatcher().dispatchEvent(std::move(event));
         }
     }
 
@@ -258,7 +260,7 @@ namespace ouzel
             event->size = size;
             event->title = title;
             event->fullscreen = fullscreen;
-            engine->getEventDispatcher().dispatchEvent(std::move(event));
+            engine.getEventDispatcher().dispatchEvent(std::move(event));
         }
     }
 }
