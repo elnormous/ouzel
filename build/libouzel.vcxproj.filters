@@ -688,6 +688,9 @@
     <ClInclude Include="..\ouzel\utils\OBF.hpp">
       <Filter>ouzel\utils</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\utils\UTF8.hpp">
+      <Filter>ouzel\utils</Filter>
+    </ClInclude>
     <ClInclude Include="..\ouzel\utils\Utils.hpp">
       <Filter>ouzel\utils</Filter>
     </ClInclude>

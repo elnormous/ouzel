@@ -2,6 +2,7 @@
 
 #include <stdexcept>
 #include "JSON.hpp"
+#include "UTF8.hpp"
 #include "Utils.hpp"
 
 namespace ouzel
@@ -21,7 +22,7 @@ namespace ouzel
             else if (iterator->type == Token::Type::LITERAL_NUMBER)
             {
                 type = Type::NUMBER;
-                doubleValue = std::stod(utf32ToUtf8(iterator->value));
+                doubleValue = std::stod(utf8::fromUtf32(iterator->value));
                 ++iterator;
             }
             else if (iterator->type == Token::Type::OPERATOR_MINUS)
@@ -33,13 +34,13 @@ namespace ouzel
                     throw std::runtime_error("Expected a number");
 
                 type = Type::NUMBER;
-                doubleValue = -std::stod(utf32ToUtf8(iterator->value));
+                doubleValue = -std::stod(utf8::fromUtf32(iterator->value));
                 ++iterator;
             }
             else if (iterator->type == Token::Type::LITERAL_STRING)
             {
                 type = Type::STRING;
-                stringValue = utf32ToUtf8(iterator->value);
+                stringValue = utf8::fromUtf32(iterator->value);
                 ++iterator;
             }
             else if (iterator->type == Token::Type::KEYWORD_TRUE ||
@@ -97,7 +98,7 @@ namespace ouzel
                 if (iterator->type != Token::Type::LITERAL_STRING)
                     throw std::runtime_error("Expected a string literal");
 
-                std::string key = utf32ToUtf8(iterator->value);
+                std::string key = utf8::fromUtf32(iterator->value);
 
                 if (objectValue.find(key) != objectValue.end())
                     throw std::runtime_error("Duplicate key value " + key);
@@ -185,7 +186,7 @@ namespace ouzel
                 }
                 else
                 {
-                    std::string encoded = utf32ToUtf8(c);
+                    std::string encoded = utf8::fromUtf32(c);
                     data.insert(data.end(), encoded.begin(), encoded.end());
                 }
             }
@@ -203,7 +204,7 @@ namespace ouzel
                 }
                 case Type::STRING:
                     data.push_back('"');
-                    encodeString(data, utf8ToUtf32(stringValue));
+                    encodeString(data, utf8::toUtf32(stringValue));
                     data.push_back('"');
                     break;
                 case Type::OBJECT:
@@ -222,7 +223,7 @@ namespace ouzel
                             else data.push_back(',');
 
                             data.push_back('"');
-                            encodeString(data, utf8ToUtf32(value.first));
+                            encodeString(data, utf8::toUtf32(value.first));
                             data.insert(data.end(), {'"', ':'});
                             value.second.encodeValue(data);
                         }
@@ -426,7 +427,7 @@ namespace ouzel
                     if ((keywordIterator = keywordMap.find(token.value)) != keywordMap.end())
                         token.type = keywordIterator->second;
                     else
-                        throw std::runtime_error("Unknown keyword " + utf32ToUtf8(token.value));
+                        throw std::runtime_error("Unknown keyword " + utf8::fromUtf32(token.value));
                 }
                 else if (*iterator == '-')
                 {
@@ -459,12 +460,12 @@ namespace ouzel
                 data[2] == 0xBF)
             {
                 bom = true;
-                str = utf8ToUtf32(std::vector<uint8_t>(data.begin() + 3, data.end()));
+                str = utf8::toUtf32(std::vector<uint8_t>(data.begin() + 3, data.end()));
             }
             else
             {
                 bom = false;
-                str = utf8ToUtf32(data);
+                str = utf8::toUtf32(data);
             }
 
             std::vector<Token> tokens = tokenize(str);

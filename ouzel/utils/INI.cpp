@@ -5,7 +5,7 @@
 #include <iterator>
 #include <stdexcept>
 #include "INI.hpp"
-#include "utils/Utils.hpp"
+#include "utils/UTF8.hpp"
 
 namespace ouzel
 {
@@ -116,12 +116,12 @@ namespace ouzel
                 data[2] == 0xBF)
             {
                 bom = true;
-                str = utf8ToUtf32(std::vector<uint8_t>(data.begin() + 3, data.end()));
+                str = utf8::toUtf32(std::vector<uint8_t>(data.begin() + 3, data.end()));
             }
             else
             {
                 bom = false;
-                str = utf8ToUtf32(data);
+                str = utf8::toUtf32(data);
             }
 
             Section* section = &sections[""]; // default section
@@ -185,7 +185,7 @@ namespace ouzel
                     if (sectionUtf32.empty())
                         throw std::runtime_error("Invalid section name");
 
-                    std::string sectionName = utf32ToUtf8(sectionUtf32);
+                    std::string sectionName = utf8::fromUtf32(sectionUtf32);
 
                     section = &sections[sectionName];
                 }
@@ -257,8 +257,8 @@ namespace ouzel
                     keyUtf32 = trimUtf32(keyUtf32);
                     valueUtf32 = trimUtf32(valueUtf32);
 
-                    std::string key = utf32ToUtf8(keyUtf32);
-                    std::string value = utf32ToUtf8(valueUtf32);
+                    std::string key = utf8::fromUtf32(keyUtf32);
+                    std::string value = utf8::fromUtf32(valueUtf32);
 
                     section->values[key] = value;
                 }
