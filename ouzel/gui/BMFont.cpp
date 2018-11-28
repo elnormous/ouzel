@@ -6,7 +6,7 @@
 #include "BMFont.hpp"
 #include "core/Engine.hpp"
 #include "assets/Cache.hpp"
-#include "utils/Utils.hpp"
+#include "utils/UTF8.hpp"
 
 namespace ouzel
 {
@@ -363,7 +363,7 @@ namespace ouzel
     {
         Vector2 position;
 
-        std::vector<uint32_t> utf32Text = utf8ToUtf32(text);
+        std::vector<uint32_t> utf32Text = utf8::toUtf32(text);
 
         indices.clear();
         vertices.clear();
@@ -459,7 +459,7 @@ namespace ouzel
     {
         float total = 0.0F;
 
-        std::vector<uint32_t> utf32Text = utf8ToUtf32(text);
+        std::vector<uint32_t> utf32Text = utf8::toUtf32(text);
 
         for (auto i = utf32Text.begin(); i != utf32Text.end(); ++i)
         {

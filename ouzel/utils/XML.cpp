@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <stdexcept>
 #include "XML.hpp"
-#include "Utils.hpp"
+#include "UTF8.hpp"
 
 namespace ouzel
 {
@@ -72,7 +72,7 @@ namespace ouzel
                     break;
                 else
                 {
-                    result += utf32ToUtf8(*iterator);
+                    result += utf8::fromUtf32(*iterator);
                     ++iterator;
                 }
             }
@@ -162,7 +162,7 @@ namespace ouzel
                     }
                 }
 
-                result = utf32ToUtf8(c);
+                result = utf8::fromUtf32(c);
             }
             else
                 throw std::runtime_error("Invalid entity");
@@ -202,7 +202,7 @@ namespace ouzel
                 }
                 else
                 {
-                    result += utf32ToUtf8(*iterator);
+                    result += utf8::fromUtf32(*iterator);
                     ++iterator;
                 }
             }
@@ -222,7 +222,7 @@ namespace ouzel
                 else if (c == '>') data.insert(data.end(), {'&', 'g', 't', ';'});
                 else
                 {
-                    std::string encoded = utf32ToUtf8(c);
+                    std::string encoded = utf8::fromUtf32(c);
                     data.insert(data.end(), encoded.begin(), encoded.end());
                 }
             }
@@ -276,7 +276,7 @@ namespace ouzel
                                 }
                             }
 
-                            value += utf32ToUtf8(*iterator);
+                            value += utf8::fromUtf32(*iterator);
                         }
 
                         type = Type::COMMENT;
@@ -309,7 +309,7 @@ namespace ouzel
                                 break;
                             }
 
-                            value += utf32ToUtf8(*iterator);
+                            value += utf8::fromUtf32(*iterator);
                         }
 
                         type = Type::CDATA;
@@ -468,7 +468,7 @@ namespace ouzel
                     }
                     else
                     {
-                        value += utf32ToUtf8(*iterator);
+                        value += utf8::fromUtf32(*iterator);
                         ++iterator;
                     }
                 }
@@ -505,7 +505,7 @@ namespace ouzel
                         {
                             data.insert(data.end(), attribute.first.begin(), attribute.first.end());
                             data.insert(data.end(), {'=', '"'});
-                            encodeString(data, utf8ToUtf32(attribute.second));
+                            encodeString(data, utf8::toUtf32(attribute.second));
                             data.insert(data.end(), '"');
                         }
                     }
@@ -544,7 +544,7 @@ namespace ouzel
                     }
                     break;
                 case Node::Type::TEXT:
-                    encodeString(data, utf8ToUtf32(value));
+                    encodeString(data, utf8::toUtf32(value));
                     break;
                 default:
                     throw std::runtime_error("Unknown node type");
@@ -572,12 +572,12 @@ namespace ouzel
                 data[2] == 0xBF)
             {
                 bom = true;
-                str = utf8ToUtf32(std::vector<uint8_t>(data.begin() + 3, data.end()));
+                str = utf8::toUtf32(std::vector<uint8_t>(data.begin() + 3, data.end()));
             }
             else
             {
                 bom = false;
-                str = utf8ToUtf32(data);
+                str = utf8::toUtf32(data);
             }
 
             bool rootTagFound = false;

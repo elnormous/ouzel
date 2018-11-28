@@ -373,6 +373,7 @@
     <ClInclude Include="..\ouzel\utils\JSON.hpp" />
     <ClInclude Include="..\ouzel\utils\Log.hpp" />
     <ClInclude Include="..\ouzel\utils\OBF.hpp" />
+    <ClInclude Include="..\ouzel\utils\UTF8.hpp" />
     <ClInclude Include="..\ouzel\utils\Utils.hpp" />
     <ClInclude Include="..\ouzel\utils\XML.hpp" />
   </ItemGroup>

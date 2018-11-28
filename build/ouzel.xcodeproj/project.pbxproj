@@ -1372,6 +1372,7 @@
 		C6630AD9215BC65700DB5214 /* InputDevice.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = InputDevice.hpp; sourceTree = "<group>"; };
 		C6AC8A8A215BD7D500F14D75 /* MouseDeviceMacOS.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MouseDeviceMacOS.mm; sourceTree = "<group>"; };
 		C6AC8A8B215BD7D500F14D75 /* MouseDeviceMacOS.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MouseDeviceMacOS.hpp; sourceTree = "<group>"; };
+		C6C9100B21AEB47E00B5FCB7 /* UTF8.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = UTF8.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2059,6 +2060,7 @@
 				3030D5011DAEF1FA007CC8EB /* Log.hpp */,
 				304AA8BC1E1190E4006FA70E /* OBF.cpp */,
 				304AA8BD1E1190E4006FA70E /* OBF.hpp */,
+				C6C9100B21AEB47E00B5FCB7 /* UTF8.hpp */,
 				304A8E481C237C70008B1151 /* Utils.cpp */,
 				304A8E491C237C70008B1151 /* Utils.hpp */,
 				307237101FAFDAC9002EA399 /* XML.cpp */,
