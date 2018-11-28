@@ -485,6 +485,9 @@
     <ClCompile Include="..\ouzel\core\windows\SystemWin.cpp">
       <Filter>ouzel\core\windows</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\audio\Submix.cpp">
+      <Filter>ouzel\audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\animators\Animator.hpp">
@@ -1035,6 +1038,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\core\windows\SystemWin.hpp">
       <Filter>ouzel\core\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\Submix.hpp">
+      <Filter>ouzel\audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
