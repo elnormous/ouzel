@@ -20,20 +20,6 @@ namespace ouzel
 {
     namespace audio
     {
-        class Destination final: public Node
-        {
-        public:
-            Destination()
-            {
-            }
-
-            void process(std::vector<float>& samples, uint16_t& channels,
-                         uint32_t& sampleRate, Vector3& position) override
-            {
-                Node::process(samples, channels, sampleRate, position);
-            }
-        };
-
         std::set<Driver> Audio::getAvailableAudioDrivers()
         {
             static std::set<Driver> availableDrivers;
@@ -70,59 +56,52 @@ namespace ouzel
             return availableDrivers;
         }
 
-        Audio::Audio(Driver driver, bool debugAudio, Window* window)
+        static std::unique_ptr<AudioDevice> createAudioDevice(Driver driver, bool debugAudio, Window* window)
         {
             switch (driver)
             {
 #if OUZEL_COMPILE_OPENAL
                 case Driver::OPENAL:
                     engine->log(Log::Level::INFO) << "Using OpenAL audio driver";
-                    device.reset(new AudioDeviceAL());
-                    break;
+                    return std::unique_ptr<AudioDevice>(new AudioDeviceAL());
 #endif
 #if OUZEL_COMPILE_DIRECTSOUND
                 case Driver::DIRECTSOUND:
                     engine->log(Log::Level::INFO) << "Using DirectSound audio driver";
-                    device.reset(new AudioDeviceDS(window));
-                    break;
+                    return std::unique_ptr<AudioDevice>(new AudioDeviceDS(window));
 #endif
 #if OUZEL_COMPILE_XAUDIO2
                 case Driver::XAUDIO2:
                     engine->log(Log::Level::INFO) << "Using XAudio 2 audio driver";
-                    device.reset(new AudioDeviceXA2(debugAudio));
-                    break;
+                    return std::unique_ptr<AudioDevice>(new AudioDeviceXA2(debugAudio));
 #endif
 #if OUZEL_COMPILE_OPENSL
                 case Driver::OPENSL:
                     engine->log(Log::Level::INFO) << "Using OpenSL ES audio driver";
-                    device.reset(new AudioDeviceSL());
-                    break;
+                    return std::unique_ptr<AudioDevice>(new AudioDeviceSL());
 #endif
 #if OUZEL_COMPILE_COREAUDIO
                 case Driver::COREAUDIO:
                     engine->log(Log::Level::INFO) << "Using CoreAudio audio driver";
-                    device.reset(new AudioDeviceCA());
-                    break;
+                    return std::unique_ptr<AudioDevice>(new AudioDeviceCA());
 #endif
 #if OUZEL_COMPILE_ALSA
                 case Driver::ALSA:
                     engine->log(Log::Level::INFO) << "Using ALSA audio driver";
-                    device.reset(new AudioDeviceALSA());
-                    break;
+                    return std::unique_ptr<AudioDevice>(new AudioDeviceALSA());
 #endif
                 default:
                     engine->log(Log::Level::INFO) << "Not using audio driver";
-                    device.reset(new AudioDeviceEmpty());
                     (void)debugAudio;
                     (void)window;
-                    break;
+                    return std::unique_ptr<AudioDevice>(new AudioDeviceEmpty());
             }
+        }
 
-            sinkNodeId = initNode([]() { return std::unique_ptr<Node>(new Destination()); });
-
-            AudioDevice::Command command(AudioDevice::Command::Type::SET_DESTINATION_NODE);
-            command.nodeId = sinkNodeId;
-            device->addCommand(command);
+        Audio::Audio(Driver driver, bool debugAudio, Window* window):
+            device(createAudioDevice(driver, debugAudio, window)),
+            destination(*this)
+        {
         }
 
         Audio::~Audio()

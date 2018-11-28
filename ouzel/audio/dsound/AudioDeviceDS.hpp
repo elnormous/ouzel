@@ -18,18 +18,15 @@ namespace ouzel
     {
         class AudioDeviceDS final: public AudioDevice
         {
-            friend Audio;
         public:
+            AudioDeviceDS(Window* window);
             ~AudioDeviceDS();
 
             IDirectSound8* getDirectSound() const { return directSound; }
 
-        protected:
-            AudioDeviceDS(Window* window);
-
+        private:
             void run();
 
-        private:
             IDirectSound8* directSound = nullptr;
 
             IDirectSoundBuffer* primaryBuffer = nullptr;

@@ -20,13 +20,11 @@ namespace ouzel
 {
     namespace audio
     {
-        class Audio;
         class ListenerNode;
         class MixerNode;
 
         class AudioDevice
         {
-            friend Audio;
         public:
             struct Command
             {

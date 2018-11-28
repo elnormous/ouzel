@@ -27,8 +27,8 @@ namespace ouzel
     {
         class AudioDeviceAL final: public AudioDevice
         {
-            friend Audio;
         public:
+            AudioDeviceAL();
             ~AudioDeviceAL();
 
             void process() override;
@@ -36,12 +36,9 @@ namespace ouzel
             inline ALCdevice* getDevice() const { return device; }
             inline ALCcontext* getContext() const { return context; }
 
-        protected:
-            AudioDeviceAL();
-
+        private:
             void run();
 
-        private:
             ALCdevice* device = nullptr;
             ALCcontext* context = nullptr;
 
