@@ -11,8 +11,7 @@ namespace ouzel
     {
         class AudioDeviceWASAPI final: public AudioDevice
         {
-            friend Audio;
-        protected:
+        public:
             AudioDeviceWASAPI();
         };
     } // namespace audio

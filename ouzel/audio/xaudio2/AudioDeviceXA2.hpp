@@ -20,13 +20,11 @@ namespace ouzel
     {
         class AudioDeviceXA2 final: public AudioDevice, public IXAudio2VoiceCallback
         {
-            friend Audio;
         public:
+            AudioDeviceXA2(bool debugAudio);
             ~AudioDeviceXA2();
 
-        protected:
-            AudioDeviceXA2(bool debugAudio);
-
+        private:
             void run();
 
             void STDMETHODCALLTYPE OnVoiceProcessingPassStart(UINT32 bytesRequired) override;
@@ -37,7 +35,6 @@ namespace ouzel
             void STDMETHODCALLTYPE OnLoopEnd(void* bufferContext) override;
             void STDMETHODCALLTYPE OnVoiceError(void* bufferContext, HRESULT error) override;
 
-        private:
             HMODULE xAudio2Library = nullptr;
 
             IXAudio2* xAudio = nullptr;

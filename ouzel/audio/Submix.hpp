@@ -3,13 +3,24 @@
 #ifndef AUDIO_SUBMIX_HPP
 #define AUDIO_SUBMIX_HPP
 
+#include <cstdint>
+
 namespace ouzel
 {
     namespace audio
     {
-        class Submix
+        class Audio;
+
+        class Submix final
         {
         public:
+            Submix(Audio& initAudio);
+            void setOutput(Submix* newOutput);
+
+        private:
+            Audio& audio;
+            uintptr_t nodeId;
+            Submix* output = nullptr;
         };
     } // namespace audio
 } // namespace ouzel

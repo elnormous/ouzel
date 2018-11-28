@@ -16,7 +16,6 @@ namespace ouzel
 
         class Sound: public SoundInput, public Stream::EventListener
         {
-            friend Audio;
         public:
             Sound();
             explicit Sound(const std::shared_ptr<SoundData>& initSoundData);

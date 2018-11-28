@@ -11,6 +11,7 @@
 #include "audio/Driver.hpp"
 #include "audio/SoundOutput.hpp"
 #include "audio/Node.hpp"
+#include "audio/Submix.hpp"
 #include "math/Quaternion.hpp"
 #include "math/Vector3.hpp"
 
@@ -45,9 +46,11 @@ namespace ouzel
             void deleteNode(uintptr_t nodeId);
             void updateNode(uintptr_t nodeId, const std::function<void(Node*)>& updateFunction);
 
+            Submix& getDestination() { return destination; }
+
         private:
             std::unique_ptr<AudioDevice> device;
-            uintptr_t sinkNodeId;
+            Submix destination;
         };
     } // namespace audio
 } // namespace ouzel

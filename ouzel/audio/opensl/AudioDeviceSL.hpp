@@ -19,17 +19,14 @@ namespace ouzel
     {
         class AudioDeviceSL final: public AudioDevice
         {
-            friend Audio;
         public:
+            AudioDeviceSL();
             ~AudioDeviceSL();
 
             void enqueue(SLAndroidSimpleBufferQueueItf bufferQueue);
 
             SLEngineItf getEngine() const { return engine; }
             SLObjectItf getOutputMix() const { return outputMixObject; }
-
-        protected:
-            AudioDeviceSL();
 
         private:
             SLObjectItf engineObject = nullptr;

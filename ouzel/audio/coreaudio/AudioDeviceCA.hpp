@@ -21,14 +21,11 @@ namespace ouzel
     {
         class AudioDeviceCA final: public AudioDevice
         {
-            friend Audio;
         public:
+            AudioDeviceCA();
             ~AudioDeviceCA();
 
             void outputCallback(AudioBufferList* ioData);
-
-        protected:
-            AudioDeviceCA();
 
         private:
 #if OUZEL_PLATFORM_MACOS
