@@ -2,6 +2,7 @@
 
 #include <cctype>
 #include <algorithm>
+#include <functional>
 #include <iterator>
 #include <stdexcept>
 #include "INI.hpp"
