@@ -60,6 +60,7 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/audio/Stream.cpp \
     ../../ouzel/audio/StreamVorbis.cpp \
     ../../ouzel/audio/StreamWave.cpp \
+	../../ouzel/audio/Submix.cpp \
     ../../ouzel/core/android/EngineAndroid.cpp \
     ../../ouzel/core/android/main.cpp \
     ../../ouzel/core/android/NativeWindowAndroid.cpp \
