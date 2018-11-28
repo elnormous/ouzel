@@ -62,6 +62,7 @@
     <ClCompile Include="..\ouzel\audio\StreamVorbis.cpp" />
     <ClCompile Include="..\ouzel\audio\StreamWave.cpp" />
     <ClCompile Include="..\ouzel\audio\Submix.cpp" />
+    <ClCompile Include="..\ouzel\audio\wasapi\AudioDeviceWASAPI.cpp" />
     <ClCompile Include="..\ouzel\audio\xaudio2\AudioDeviceXA2.cpp" />
     <ClCompile Include="..\ouzel\audio\xaudio2\XAudio27.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\external\Microsoft DirectX SDK (June 2010)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -235,6 +236,7 @@
     <ClInclude Include="..\ouzel\audio\StreamVorbis.hpp" />
     <ClInclude Include="..\ouzel\audio\StreamWave.hpp" />
     <ClInclude Include="..\ouzel\audio\Submix.hpp" />
+    <ClInclude Include="..\ouzel\audio\wasapi\AudioDeviceWASAPI.hpp" />
     <ClInclude Include="..\ouzel\audio\xaudio2\AudioDeviceXA2.hpp" />
     <ClInclude Include="..\ouzel\audio\xaudio2\XAudio27.hpp" />
     <ClInclude Include="..\ouzel\assets\Cache.hpp" />

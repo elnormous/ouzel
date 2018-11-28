@@ -16,7 +16,8 @@ namespace ouzel
             XAUDIO2,
             OPENSL,
             COREAUDIO,
-            ALSA
+            ALSA,
+            WASAPI
         };
     } // namespace audio
 } // namespace ouzel

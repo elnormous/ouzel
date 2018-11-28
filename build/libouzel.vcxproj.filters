@@ -488,6 +488,9 @@
     <ClCompile Include="..\ouzel\audio\Submix.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\audio\wasapi\AudioDeviceWASAPI.cpp">
+      <Filter>ouzel\audio\wasapi</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\animators\Animator.hpp">
@@ -1042,6 +1045,9 @@
     <ClInclude Include="..\ouzel\audio\Submix.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\audio\wasapi\AudioDeviceWASAPI.hpp">
+      <Filter>ouzel\audio\wasapi</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ouzel">
@@ -1121,6 +1127,9 @@
     </Filter>
     <Filter Include="ouzel\thread">
       <UniqueIdentifier>{07047ccf-c574-4c41-8bd9-f721dd46f07a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ouzel\audio\wasapi">
+      <UniqueIdentifier>{6f214ec4-e87d-4f7f-a227-11016994b584}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
