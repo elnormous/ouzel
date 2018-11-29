@@ -94,7 +94,7 @@ namespace ouzel
 
 #ifdef DEBUG
         if (!AllocConsole())
-            engine->log(Log::Level::INFO) << "Attached to console";
+            log(Log::Level::INFO) << "Attached to console";
 #endif
 
         init();
