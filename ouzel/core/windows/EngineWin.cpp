@@ -123,7 +123,7 @@ namespace ouzel
             }
             else
             {
-                BOOL ret
+                BOOL ret;
                 if ((ret = GetMessage(&message, nullptr, 0, 0)) == -1)
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to get message");
 
