@@ -326,10 +326,10 @@ namespace ouzel
                 XISelectEvents(display, windowLinux->getNativeWindow(), &eventMask, 1);
             }
             else
-                engine->log(Log::Level::WARN) << "XInput2 not supported";
+                log(Log::Level::WARN) << "XInput2 not supported";
         }
         else
-            engine->log(Log::Level::WARN) << "XInput not supported";
+            log(Log::Level::WARN) << "XInput not supported";
 
         XEvent event;
 
@@ -359,7 +359,7 @@ namespace ouzel
                     case KeyPress: // keyboard
                     case KeyRelease:
                     {
-                        ouzel::input::InputSystemLinux* inputSystemLinux = static_cast<ouzel::input::InputSystemLinux*>(ouzel::engine->getInputManager()->getInputSystem());
+                        ouzel::input::InputSystemLinux* inputSystemLinux = static_cast<ouzel::input::InputSystemLinux*>(inputManager->getInputSystem());
                         ouzel::input::KeyboardDevice* keyboardDevice = inputSystemLinux->getKeyboardDevice();
 
                         KeySym keySym = XkbKeycodeToKeysym(display,
@@ -375,7 +375,7 @@ namespace ouzel
                     case ButtonPress: // mouse button
                     case ButtonRelease:
                     {
-                        ouzel::input::InputSystemLinux* inputSystemLinux = static_cast<ouzel::input::InputSystemLinux*>(ouzel::engine->getInputManager()->getInputSystem());
+                        ouzel::input::InputSystemLinux* inputSystemLinux = static_cast<ouzel::input::InputSystemLinux*>(inputManager->getInputSystem());
                         ouzel::input::MouseDeviceLinux* mouseDevice = inputSystemLinux->getMouseDevice();
 
                         Vector2 pos(static_cast<float>(event.xbutton.x),
@@ -391,7 +391,7 @@ namespace ouzel
                     }
                     case MotionNotify:
                     {
-                        ouzel::input::InputSystemLinux* inputSystemLinux = static_cast<ouzel::input::InputSystemLinux*>(ouzel::engine->getInputManager()->getInputSystem());
+                        ouzel::input::InputSystemLinux* inputSystemLinux = static_cast<ouzel::input::InputSystemLinux*>(inputManager->getInputSystem());
                         ouzel::input::MouseDeviceLinux* mouseDevice = inputSystemLinux->getMouseDevice();
 
                         Vector2 pos(static_cast<float>(event.xmotion.x),
@@ -417,7 +417,7 @@ namespace ouzel
                         XGenericEventCookie* cookie = &event.xcookie;
                         if (cookie->extension == xInputOpCode)
                         {
-                            ouzel::input::InputSystemLinux* inputSystemLinux = static_cast<ouzel::input::InputSystemLinux*>(ouzel::engine->getInputManager()->getInputSystem());
+                            ouzel::input::InputSystemLinux* inputSystemLinux = static_cast<ouzel::input::InputSystemLinux*>(inputManager->getInputSystem());
                             ouzel::input::TouchpadDevice* touchpadDevice = inputSystemLinux->getTouchpadDevice();
 
                             switch (cookie->evtype)

@@ -41,7 +41,7 @@ namespace ouzel
             }
             catch (const std::exception& e)
             {
-                engine->log(Log::Level::ERR) << e.what();
+                log(Log::Level::ERR) << e.what();
                 exit();
             }
 
@@ -51,7 +51,7 @@ namespace ouzel
             }
             catch (const std::exception& e)
             {
-                engine->log(Log::Level::ERR) << e.what();
+                log(Log::Level::ERR) << e.what();
             }
 
             try
@@ -60,7 +60,7 @@ namespace ouzel
             }
             catch (const std::exception& e)
             {
-                engine->log(Log::Level::ERR) << e.what();
+                log(Log::Level::ERR) << e.what();
             }
 
             try
@@ -69,7 +69,7 @@ namespace ouzel
             }
             catch (const std::exception& e)
             {
-                engine->log(Log::Level::ERR) << e.what();
+                log(Log::Level::ERR) << e.what();
             }
 
             try
@@ -78,7 +78,7 @@ namespace ouzel
             }
             catch (const std::exception& e)
             {
-                engine->log(Log::Level::ERR) << e.what();
+                log(Log::Level::ERR) << e.what();
             }
         }
         else

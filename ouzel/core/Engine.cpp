@@ -143,7 +143,7 @@ namespace ouzel
         }
         catch (const std::exception&)
         {
-            engine->log(Log::Level::INFO) << "User settings not provided";
+            log(Log::Level::INFO) << "User settings not provided";
         }
 
         const ini::Section& userEngineSection = userSettings.getSection("engine");
@@ -666,7 +666,7 @@ namespace ouzel
         }
         catch (const std::exception& e)
         {
-            engine->log(Log::Level::ERR) << e.what();
+            log(Log::Level::ERR) << e.what();
             exit();
         }
     }
