@@ -519,7 +519,9 @@ namespace ouzel
         if (fullscreen)
             switchFullscreen(fullscreen);
 
-        GetClientRect(window, &windowRect);
+        if (!GetClientRect(window, &windowRect))
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to get client rectangle");
+
         size.width = static_cast<float>(windowRect.right - windowRect.left);
         size.height = static_cast<float>(windowRect.bottom - windowRect.top);
         resolution = size;
@@ -528,7 +530,9 @@ namespace ouzel
             engine->log(Log::Level::WARN) << "Failed to enable touch for window";
 
         ShowWindow(window, SW_SHOW);
-        SetWindowLongPtr(window, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+        
+        if (!SetWindowLongPtr(window, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this)))
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to set window pointer");
     }
 
     NativeWindowWin::~NativeWindowWin()
@@ -628,12 +632,14 @@ namespace ouzel
         else
         {
             windowStyle = (newFullscreen ? windowFullscreenStyle : windowWindowedStyle) | WS_VISIBLE;
-            SetWindowLong(window, GWL_STYLE, windowStyle);
+            if (!SetWindowLong(window, GWL_STYLE, windowStyle))
+                throw std::system_error(GetLastError(), std::system_category(), "Failed to set window style");
 
             if (newFullscreen)
             {
                 RECT windowRect;
-                GetWindowRect(window, &windowRect);
+                if (!GetWindowRect(window, &windowRect))
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to get window rectangle");
 
                 windowX = windowRect.left;
                 windowY = windowRect.top;
@@ -644,15 +650,17 @@ namespace ouzel
                 info.cbSize = sizeof(MONITORINFO);
                 GetMonitorInfo(monitor, &info);
 
-                SetWindowPos(window, nullptr, info.rcMonitor.left, info.rcMonitor.top,
-                             info.rcMonitor.right - info.rcMonitor.left,
-                             info.rcMonitor.bottom - info.rcMonitor.top,
-                             SWP_FRAMECHANGED | SWP_NOZORDER | SWP_NOOWNERZORDER);
+                if (!SetWindowPos(window, nullptr, info.rcMonitor.left, info.rcMonitor.top,
+                                  info.rcMonitor.right - info.rcMonitor.left,
+                                  info.rcMonitor.bottom - info.rcMonitor.top,
+                                  SWP_FRAMECHANGED | SWP_NOZORDER | SWP_NOOWNERZORDER))
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to set window position");
             }
             else
             {
-                SetWindowPos(window, nullptr, windowX, windowY, windowWidth, windowHeight,
-                             SWP_FRAMECHANGED | SWP_NOZORDER | SWP_NOOWNERZORDER);
+                if (!SetWindowPos(window, nullptr, windowX, windowY, windowWidth, windowHeight,
+                                  SWP_FRAMECHANGED | SWP_NOZORDER | SWP_NOOWNERZORDER))
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to set window position");
             }
         }
     }
@@ -690,9 +698,11 @@ namespace ouzel
                 input::MouseDeviceWin* mouseDevice = inputSystemWin->getMouseDevice();
 
                 POINT cursorPos;
-                GetCursorPos(&cursorPos);
+                if (!GetCursorPos(&cursorPos))
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to get cursor position");
+
                 Vector2 position(static_cast<float>(cursorPos.x),
-                                static_cast<float>(cursorPos.y));
+                                 static_cast<float>(cursorPos.y));
                 mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(position));
         }
     }
@@ -714,9 +724,11 @@ namespace ouzel
         input::MouseDeviceWin* mouseDevice = inputSystemWin->getMouseDevice();
 
         POINT cursorPos;
-        GetCursorPos(&cursorPos);
+        if (!GetCursorPos(&cursorPos))
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to get cursor position");
+
         Vector2 position(static_cast<float>(cursorPos.x),
-                        static_cast<float>(cursorPos.y));
+                         static_cast<float>(cursorPos.y));
         mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(position));
     }
 

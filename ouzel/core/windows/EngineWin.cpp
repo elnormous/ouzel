@@ -123,16 +123,14 @@ namespace ouzel
             }
             else
             {
-                BOOL ret = GetMessage(&message, nullptr, 0, 0);
+                BOOL ret
+                if ((ret = GetMessage(&message, nullptr, 0, 0)) == -1)
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to get message");
+
                 if (ret == 0)
                 {
                     exit();
                     break;
-                }
-                else if (ret == -1)
-                {
-                    exit();
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to get message");
                 }
                 else
                 {
@@ -156,7 +154,9 @@ namespace ouzel
             executeQueue.push(func);
         }
 
-        PostMessage(windowWin->getNativeWindow(), WM_USER, 0, 0);
+        if (!PostMessage(windowWin->getNativeWindow(), WM_USER, 0, 0))
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to post message");
+
     }
 
     void EngineWin::executeAll()
