@@ -312,7 +312,7 @@ namespace ouzel
         char buffer[1024];
 
 #if OUZEL_PLATFORM_ANDROID
-        if (!isAbsolutePath(filename))
+        if (pathIsRelative(filename))
         {
             EngineAndroid& engineAndroid = static_cast<EngineAndroid&>(engine);
 
@@ -361,7 +361,7 @@ namespace ouzel
 
     bool FileSystem::resourceFileExists(const std::string& filename) const
     {
-        if (isAbsolutePath(filename))
+        if (!pathIsRelative(filename))
             return fileExists(filename);
         else
         {
@@ -373,7 +373,7 @@ namespace ouzel
             {
                 for (const std::string& path : resourcePaths)
                 {
-                    if (isAbsolutePath(path)) // if resource path is absolute
+                    if (!pathIsRelative(path)) // if resource path is absolute
                         str = path + DIRECTORY_SEPARATOR + filename;
                     else
                         str = appPath + DIRECTORY_SEPARATOR + path + DIRECTORY_SEPARATOR + filename;
@@ -469,7 +469,7 @@ namespace ouzel
 
     std::string FileSystem::getPath(const std::string& filename, bool searchResources) const
     {
-        if (isAbsolutePath(filename))
+        if (!pathIsRelative(filename))
         {
             if (fileExists(filename))
                 return filename;
@@ -485,7 +485,7 @@ namespace ouzel
             {
                 for (const std::string& path : resourcePaths)
                 {
-                    if (isAbsolutePath(path)) // if resource path is absolute
+                    if (!pathIsRelative(path)) // if resource path is absolute
                         str = path + DIRECTORY_SEPARATOR + filename;
                     else
                         str = appPath + DIRECTORY_SEPARATOR + path + DIRECTORY_SEPARATOR + filename;
@@ -553,7 +553,7 @@ namespace ouzel
         return std::string();
     }
 
-    bool FileSystem::isAbsolutePath(const std::string& path)
+    bool FileSystem::pathIsRelative(const std::string& path)
     {
 #if OUZEL_PLATFORM_WINDOWS
         int bufferSize = MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, nullptr, 0);
@@ -568,9 +568,9 @@ namespace ouzel
         if (buffer.size() > MAX_PATH)
             buffer.insert(buffer.begin(), {L'\\', L'\\', L'?', L'\\'});
 
-        return PathIsRelativeW(buffer.data()) == FALSE;
+        return PathIsRelativeW(buffer.data()) == TRUE;
 #else
-        return !path.empty() && path[0] == '/';
+        return path.empty() || path[0] != '/';
 #endif
     }
 }

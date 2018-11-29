@@ -39,7 +39,7 @@ namespace ouzel
         static std::string getExtensionPart(const std::string& path);
         static std::string getFilenamePart(const std::string& path);
         static std::string getDirectoryPart(const std::string& path);
-        static bool isAbsolutePath(const std::string& path);
+        static bool pathIsRelative(const std::string& path);
 
         bool directoryExists(const std::string& dirname) const;
         bool fileExists(const std::string& filename) const;
