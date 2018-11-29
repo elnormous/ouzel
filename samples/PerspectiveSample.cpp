@@ -61,11 +61,11 @@ PerspectiveSample::PerspectiveSample():
     character.setPosition(Vector2(10.0F, 0.0F));
 
     cameraActor.addComponent(&listener);
-    listener.setOutput(engine->getAudio());
+    //listener.setOutput(&engine->getAudio()->getDestination());
 
     jumpSound = Sound(engine->getCache().getSoundData("jump.wav"));
-    jumpSound.setOutput(&jumpPanner);
-    jumpPanner.setOutput(&listener);
+    //jumpSound.setOutput(&jumpPanner);
+    //jumpPanner.setOutput(&listener);
     jumpPanner.setRolloffFactor(0.01F);
     character.addComponent(&jumpPanner);
 

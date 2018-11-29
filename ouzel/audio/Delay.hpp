@@ -3,8 +3,7 @@
 #ifndef OUZEL_AUDIO_DELAY_HPP
 #define OUZEL_AUDIO_DELAY_HPP
 
-#include "audio/SoundInput.hpp"
-#include "audio/SoundOutput.hpp"
+#include "audio/Filter.hpp"
 
 namespace ouzel
 {
@@ -12,7 +11,7 @@ namespace ouzel
     {
         class Audio;
 
-        class Delay final: public SoundInput, public SoundOutput
+        class Delay final: public Filter
         {
         public:
             Delay(Audio& initAudio);
@@ -28,7 +27,6 @@ namespace ouzel
             void setDelay(float newDelay);
 
         private:
-            Audio& audio;
             uintptr_t nodeId = 0;
             float delay = 0.0F;
         };

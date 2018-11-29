@@ -10,12 +10,20 @@ namespace ouzel
     namespace audio
     {
         class Audio;
+        class Filter;
 
         class Submix final
         {
         public:
             Submix(Audio& initAudio);
+            Submix(const Submix&) = delete;
+            Submix& operator=(const Submix&) = delete;
+
+            Submix(Submix&&) = delete;
+            Submix& operator=(Submix&&) = delete;
+
             void setOutput(Submix* newOutput);
+            void addFilter(Filter* filter);
 
         private:
             Audio& audio;

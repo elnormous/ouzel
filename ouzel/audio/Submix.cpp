@@ -19,5 +19,9 @@ namespace ouzel
             output = newOutput;
         }
 
+        void Submix::addFilter(Filter* filter)
+        {
+
+        }
     } // namespace audio
 } // namespace ouzel

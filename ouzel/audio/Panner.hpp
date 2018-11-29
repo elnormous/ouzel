@@ -4,8 +4,7 @@
 #define OUZEL_AUDIO_PANNER_HPP
 
 #include <cfloat>
-#include "audio/SoundInput.hpp"
-#include "audio/SoundOutput.hpp"
+#include "audio/Filter.hpp"
 #include "math/Vector3.hpp"
 #include "scene/Component.hpp"
 
@@ -15,7 +14,7 @@ namespace ouzel
     {
         class Audio;
 
-        class Panner final: public SoundInput, public SoundOutput, public scene::Component
+        class Panner final: public Filter, public scene::Component
         {
         public:
             Panner(Audio& initAudio);
@@ -42,7 +41,6 @@ namespace ouzel
         private:
             void updateTransform() override;
 
-            Audio& audio;
             uintptr_t nodeId = 0;
             Vector3 position;
             float rolloffFactor = 1.0F;

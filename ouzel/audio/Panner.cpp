@@ -52,7 +52,7 @@ namespace ouzel
 
         Panner::Panner(Audio& initAudio):
             scene::Component(scene::Component::SOUND),
-            audio(initAudio),
+            Filter(initAudio),
             nodeId(audio.initNode([]() { return std::unique_ptr<Node>(new PannerProcessor()); }))
         {
         }

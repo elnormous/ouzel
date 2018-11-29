@@ -3,8 +3,7 @@
 #ifndef OUZEL_AUDIO_GAIN_HPP
 #define OUZEL_AUDIO_GAIN_HPP
 
-#include "audio/SoundInput.hpp"
-#include "audio/SoundOutput.hpp"
+#include "audio/Filter.hpp"
 
 namespace ouzel
 {
@@ -12,7 +11,7 @@ namespace ouzel
     {
         class Audio;
 
-        class Gain final: public SoundInput, public SoundOutput
+        class Gain final: public Filter
         {
         public:
             Gain(Audio& initAudio);
@@ -28,7 +27,6 @@ namespace ouzel
             void setGain(float newGain);
 
         private:
-            Audio& audio;
             uintptr_t nodeId = 0;
             float gain = 0.0F;
         };

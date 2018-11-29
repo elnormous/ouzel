@@ -3,8 +3,7 @@
 #ifndef OUZEL_AUDIO_FILTER_HPP
 #define OUZEL_AUDIO_FILTER_HPP
 
-#include "audio/SoundInput.hpp"
-#include "audio/SoundOutput.hpp"
+#include <cstdint>
 
 namespace ouzel
 {
@@ -12,11 +11,11 @@ namespace ouzel
     {
         class Audio;
 
-        class Filter final: public SoundInput, public SoundOutput
+        class Filter
         {
         public:
             Filter(Audio& initAudio);
-            ~Filter();
+            virtual ~Filter();
 
             Filter(const Filter&) = delete;
             Filter& operator=(const Filter&) = delete;
@@ -24,7 +23,7 @@ namespace ouzel
             Filter(Filter&&) = delete;
             Filter& operator=(Filter&&) = delete;
 
-        private:
+        protected:
             Audio& audio;
             uintptr_t nodeId = 0;
         };

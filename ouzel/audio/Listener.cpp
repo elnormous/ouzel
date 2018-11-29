@@ -3,7 +3,6 @@
 #include "Listener.hpp"
 #include "Audio.hpp"
 #include "AudioDevice.hpp"
-#include "SoundInput.hpp"
 #include "scene/Actor.hpp"
 #include "math/MathUtils.hpp"
 
@@ -27,7 +26,7 @@ namespace ouzel
 
         Listener::Listener(Audio& initAudio):
             scene::Component(scene::Component::LISTENER),
-            audio(initAudio),
+            Filter(initAudio),
             nodeId(audio.initNode([]() { return std::unique_ptr<Node>(new ListenerProcessor()); }))
         {
         }
