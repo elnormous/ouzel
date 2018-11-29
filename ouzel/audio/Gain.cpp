@@ -33,7 +33,7 @@ namespace ouzel
         };
 
         Gain::Gain(Audio& initAudio):
-            audio(initAudio),
+            Filter(initAudio),
             nodeId(audio.initNode([]() { return std::unique_ptr<Node>(new GainProcessor()); }))
         {
         }

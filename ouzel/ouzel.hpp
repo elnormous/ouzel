@@ -41,8 +41,6 @@
 #include "audio/SoundData.hpp"
 #include "audio/SoundDataVorbis.hpp"
 #include "audio/SoundDataWave.hpp"
-#include "audio/SoundInput.hpp"
-#include "audio/SoundOutput.hpp"
 #include "audio/Stream.hpp"
 #include "audio/Submix.hpp"
 #include "core/Setup.h"

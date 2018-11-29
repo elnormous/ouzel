@@ -3,8 +3,7 @@
 #ifndef OUZEL_AUDIO_PITCH_HPP
 #define OUZEL_AUDIO_PITCH_HPP
 
-#include "audio/SoundInput.hpp"
-#include "audio/SoundOutput.hpp"
+#include "audio/Filter.hpp"
 
 namespace ouzel
 {
@@ -12,7 +11,7 @@ namespace ouzel
     {
         class Audio;
 
-        class Pitch final: public SoundInput, public SoundOutput
+        class Pitch final: public Filter
         {
         public:
             Pitch(Audio& initAudio);
@@ -28,7 +27,6 @@ namespace ouzel
             void setPitch(float newPitch);
 
         private:
-            Audio& audio;
             uintptr_t nodeId = 0;
             float pitch = 1.0f;
         };

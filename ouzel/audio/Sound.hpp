@@ -4,7 +4,6 @@
 #define OUZEL_AUDIO_SOUND_HPP
 
 #include <memory>
-#include "audio/SoundInput.hpp"
 #include "audio/Stream.hpp"
 #include "math/Vector3.hpp"
 
@@ -12,9 +11,10 @@ namespace ouzel
 {
     namespace audio
     {
+        class Submix;
         class SoundData;
 
-        class Sound: public SoundInput, public Stream::EventListener
+        class Sound: public Stream::EventListener
         {
         public:
             Sound();
@@ -33,12 +33,16 @@ namespace ouzel
             void onReset() override;
             void onStop() override;
 
+            void setOutput(Submix* newOutput);
+            
         private:
             std::shared_ptr<SoundData> soundData;
             std::shared_ptr<Stream> stream;
 
             bool playing = false;
             bool repeating = false;
+
+            Submix* output = nullptr;
         };
     } // namespace audio
 } // namespace ouzel
