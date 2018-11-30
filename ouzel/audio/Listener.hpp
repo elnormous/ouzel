@@ -5,7 +5,6 @@
 
 #include <cfloat>
 #include "audio/AudioDevice.hpp"
-#include "audio/Filter.hpp"
 #include "scene/Component.hpp"
 #include "math/Quaternion.hpp"
 #include "math/Vector3.hpp"
@@ -16,7 +15,7 @@ namespace ouzel
     {
         class Audio;
 
-        class Listener: public Filter, public scene::Component
+        class Listener final: public scene::Component
         {
             friend Audio;
         public:
@@ -27,6 +26,7 @@ namespace ouzel
             void updateTransform() override;
 
         private:
+            Audio& audio;
             uintptr_t nodeId = 0;
 
             Vector3 position;

@@ -25,8 +25,8 @@ namespace ouzel
         };
 
         Listener::Listener(Audio& initAudio):
+            audio(initAudio),
             scene::Component(scene::Component::LISTENER),
-            Filter(initAudio),
             nodeId(audio.initNode([]() { return std::unique_ptr<Node>(new ListenerProcessor()); }))
         {
         }
