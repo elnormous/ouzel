@@ -47,15 +47,15 @@ typedef NSUInteger MTLLoadAction;
 #endif
 
 #include "graphics/RenderDevice.hpp"
-#include "graphics/metal/ShaderResourceMetal.hpp"
-#include "graphics/metal/TextureResourceMetal.hpp"
+#include "graphics/metal/ShaderMetal.hpp"
+#include "graphics/metal/TextureMetal.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class BlendStateResourceMetal;
-        class ShaderResourceMetal;
+        class BlendStateMetal;
+        class ShaderMetal;
 
         class RenderDeviceMetal: public RenderDevice
         {
@@ -97,8 +97,8 @@ namespace ouzel
             class PipelineStateDesc
             {
             public:
-                BlendStateResourceMetal* blendState = nullptr;
-                ShaderResourceMetal* shader = nullptr;
+                BlendStateMetal* blendState = nullptr;
+                ShaderMetal* shader = nullptr;
                 NSUInteger sampleCount = 0;
                 MTLPixelFormat colorFormat;
                 MTLPixelFormat depthFormat;

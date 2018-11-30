@@ -140,7 +140,7 @@ extern PFNGLPUSHGROUPMARKEREXTPROC glPushGroupMarkerEXTProc;
 extern PFNGLPOPGROUPMARKEREXTPROC glPopGroupMarkerEXTProc;
 
 #include "graphics/RenderDevice.hpp"
-#include "graphics/opengl/ShaderResourceOGL.hpp"
+#include "graphics/opengl/ShaderOGL.hpp"
 
 namespace ouzel
 {

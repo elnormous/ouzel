@@ -75,13 +75,13 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/files/FileSystem.cpp \
     ../../ouzel/graphics/empty/RenderDeviceEmpty.cpp \
     ../../ouzel/graphics/opengl/android/RenderDeviceOGLAndroid.cpp \
-    ../../ouzel/graphics/opengl/BlendStateResourceOGL.cpp \
-    ../../ouzel/graphics/opengl/BufferResourceOGL.cpp \
-	../../ouzel/graphics/opengl/DepthStencilStateResourceOGL.cpp \
+    ../../ouzel/graphics/opengl/BlendStateOGL.cpp \
+    ../../ouzel/graphics/opengl/BufferOGL.cpp \
+	../../ouzel/graphics/opengl/DepthStencilStateOGL.cpp \
     ../../ouzel/graphics/opengl/RenderDeviceOGL.cpp \
-	../../ouzel/graphics/opengl/RenderTargetResourceOGL.cpp \
-    ../../ouzel/graphics/opengl/ShaderResourceOGL.cpp \
-    ../../ouzel/graphics/opengl/TextureResourceOGL.cpp \
+	../../ouzel/graphics/opengl/RenderTargetOGL.cpp \
+    ../../ouzel/graphics/opengl/ShaderOGL.cpp \
+    ../../ouzel/graphics/opengl/TextureOGL.cpp \
     ../../ouzel/graphics/BlendState.cpp \
     ../../ouzel/graphics/Buffer.cpp \
 	../../ouzel/graphics/DepthStencilState.cpp \
