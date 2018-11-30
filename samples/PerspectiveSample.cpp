@@ -70,7 +70,7 @@ PerspectiveSample::PerspectiveSample():
     character.addComponent(&jumpPanner);
 
     rotate.reset(new scene::Rotate(10.0F, Vector3(0.0F, TAU, 0.0F)));
-    character.addComponent(rotate);
+    character.addComponent(rotate.get());
     rotate->start();
 
     boxModel.init(*engine->getCache().getStaticMeshData("cube.obj"));

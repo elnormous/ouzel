@@ -307,20 +307,15 @@ namespace ouzel
                 result = true;
             }
 
-            auto ownedIterator = std::find_if(ownedComponents.begin(), ownedComponents.end(), [component](const std::unique_ptr<Component>& other) {
-                return other.get() == component;
-            });
-
-            if (ownedIterator != ownedComponents.end())
-                ownedComponents.erase(ownedIterator);
-
             return result;
         }
 
         void Actor::removeAllComponents()
         {
+            for (auto& component : components)
+                component->actor = nullptr;
+
             components.clear();
-            ownedComponents.clear();
         }
 
         void Actor::setLayer(Layer* newLayer)

@@ -107,24 +107,7 @@ namespace ouzel
             void addChild(Actor* actor) override;
 
             void addComponent(Component* component);
-
-            template<typename T> void addComponent(const std::unique_ptr<T>& component)
-            {
-                addComponent(component.get());
-            }
-
-            template<typename T> void addComponent(std::unique_ptr<T>&& component)
-            {
-                addComponent(component.get());
-                ownedComponents.push_back(std::move(component));
-            }
-
             bool removeComponent(Component* component);
-
-            template<typename T> void removeComponent(const std::unique_ptr<T>& component)
-            {
-                removeComponent(component.get());
-            }
 
             void removeAllComponents();
             inline const std::vector<Component*>& getComponents() const { return components; }
@@ -171,7 +154,6 @@ namespace ouzel
             ActorContainer* parent = nullptr;
 
             std::vector<Component*> components;
-            std::vector<std::unique_ptr<Component>> ownedComponents;
 
             EventHandler animationUpdateHandler;
         };

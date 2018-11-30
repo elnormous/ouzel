@@ -8,53 +8,6 @@ using namespace std;
 using namespace ouzel;
 using namespace input;
 
-class Mover: public scene::Component
-{
-public:
-    Mover():
-        scene::Component(10)
-    {
-        handler.keyboardHandler = bind(&Mover::handleKeyboard, this, placeholders::_1);
-
-        engine->getEventDispatcher().addEventHandler(&handler);
-    }
-
-    bool handleKeyboard(const KeyboardEvent& event)
-    {
-        if (actor)
-        {
-            if (event.type == Event::Type::KEY_PRESS)
-            {
-                Vector2 position = Vector2(actor->getPosition());
-
-                switch (event.key)
-                {
-                    case Keyboard::Key::W:
-                        position.y += 10.0F;
-                        break;
-                    case Keyboard::Key::S:
-                        position.y -= 10.0F;
-                        break;
-                    case Keyboard::Key::A:
-                        position.x -= 10.0F;
-                        break;
-                    case Keyboard::Key::D:
-                        position.x += 10.0F;
-                        break;
-                    default:
-                        break;
-                }
-
-                actor->setPosition(position);
-            }
-        }
-
-        return false;
-    }
-
-    ouzel::EventHandler handler;
-};
-
 InputSample::InputSample():
     hideButton("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
     discoverButton("button.png", "button_selected.png", "button_down.png", "", "Discover gamepads", "arial.fnt", 0.8F, Color::BLACK, Color::BLACK, Color::BLACK),
@@ -75,8 +28,8 @@ InputSample::InputSample():
     camera.setTargetContentSize(Size2(800.0F, 600.0F));
     cameraActor.addComponent(&camera);
 
-    std::unique_ptr<Mover> mover(new Mover());
-    cameraActor.addComponent(std::move(mover));
+    mover.reset(new Mover());
+    cameraActor.addComponent(mover.get());
 
     layer.addChild(&cameraActor);
     addLayer(&layer);

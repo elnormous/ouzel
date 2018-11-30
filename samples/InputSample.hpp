@@ -6,6 +6,53 @@
 
 #include "ouzel.hpp"
 
+class Mover: public ouzel::scene::Component
+{
+public:
+    Mover():
+        ouzel::scene::Component(10)
+    {
+        handler.keyboardHandler = std::bind(&Mover::handleKeyboard, this, std::placeholders::_1);
+
+        ouzel::engine->getEventDispatcher().addEventHandler(&handler);
+    }
+
+    bool handleKeyboard(const ouzel::KeyboardEvent& event)
+    {
+        if (actor)
+        {
+            if (event.type == ouzel::Event::Type::KEY_PRESS)
+            {
+                ouzel::Vector2 position = ouzel::Vector2(actor->getPosition());
+
+                switch (event.key)
+                {
+                    case ouzel::input::Keyboard::Key::W:
+                        position.y += 10.0F;
+                        break;
+                    case ouzel::input::Keyboard::Key::S:
+                        position.y -= 10.0F;
+                        break;
+                    case ouzel::input::Keyboard::Key::A:
+                        position.x -= 10.0F;
+                        break;
+                    case ouzel::input::Keyboard::Key::D:
+                        position.x += 10.0F;
+                        break;
+                    default:
+                        break;
+                }
+
+                actor->setPosition(position);
+            }
+        }
+
+        return false;
+    }
+
+    ouzel::EventHandler handler;
+};
+
 class InputSample: public ouzel::scene::Scene
 {
 public:
@@ -36,6 +83,8 @@ private:
     ouzel::gui::Button backButton;
 
     ouzel::input::Cursor cursor;
+
+    std::unique_ptr<Mover> mover;
 };
 
 #endif // INPUTSAMPLE_HPP
