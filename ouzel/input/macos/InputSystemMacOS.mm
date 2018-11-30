@@ -2,7 +2,7 @@
 
 #import <objc/message.h>
 #include "InputSystemMacOS.hpp"
-#include "NativeCursorMacOS.hpp"
+#include "CursorMacOS.hpp"
 #include "core/macos/NativeWindowMacOS.hpp"
 #include "core/Engine.hpp"
 #include "events/Event.hpp"
@@ -178,12 +178,12 @@ namespace ouzel
 
                     if (command.data.empty())
                     {
-                        std::unique_ptr<NativeCursorMacOS> cursor(new NativeCursorMacOS(command.systemCursor));
+                        std::unique_ptr<CursorMacOS> cursor(new CursorMacOS(command.systemCursor));
                         cursors[command.cursorResource - 1] = std::move(cursor);
                     }
                     else
                     {
-                        std::unique_ptr<NativeCursorMacOS> cursor(new NativeCursorMacOS(command.data, command.size,
+                        std::unique_ptr<CursorMacOS> cursor(new CursorMacOS(command.data, command.size,
                                                                                         command.pixelFormat, command.hotSpot));
                         cursors[command.cursorResource - 1] = std::move(cursor);
                     }
@@ -191,7 +191,7 @@ namespace ouzel
                 }
                 case Command::Type::DESTROY_CURSOR:
                 {
-                    NativeCursorMacOS* cursor = cursors[command.cursorResource - 1].get();
+                    CursorMacOS* cursor = cursors[command.cursorResource - 1].get();
 
                     if (mouseDevice->getCursor() == cursor)
                     {
@@ -350,7 +350,7 @@ namespace ouzel
             if (mouseDevice->isCursorVisible())
             {
                 if (mouseDevice->getCursor())
-                    return mouseDevice->getCursor()->getNativeCursor();
+                    return mouseDevice->getCursor()->getCursor();
                 else
                     return defaultCursor;
             }

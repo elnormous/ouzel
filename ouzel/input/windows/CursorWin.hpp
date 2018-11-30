@@ -18,17 +18,17 @@ namespace ouzel
 {
     namespace input
     {
-        class NativeCursorWin final
+        class CursorWin final
         {
         public:
-            explicit NativeCursorWin(SystemCursor systemCursor);
-            NativeCursorWin(const std::vector<uint8_t>& data,
+            explicit CursorWin(SystemCursor systemCursor);
+            CursorWin(const std::vector<uint8_t>& data,
                             const Size2& size,
                             graphics::PixelFormat pixelFormat,
                             const Vector2& hotSpot);
-            ~NativeCursorWin();
+            ~CursorWin();
 
-            HCURSOR getNativeCursor() const { return cursor; }
+            HCURSOR getCursor() const { return cursor; }
 
         private:
             HCURSOR cursor = nullptr;

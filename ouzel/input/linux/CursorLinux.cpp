@@ -6,14 +6,14 @@
 #  include <X11/cursorfont.h>
 #  include <X11/Xcursor/Xcursor.h>
 #endif
-#include "NativeCursorLinux.hpp"
+#include "CursorLinux.hpp"
 #include "core/linux/EngineLinux.hpp"
 
 namespace ouzel
 {
     namespace input
     {
-        NativeCursorLinux::NativeCursorLinux(SystemCursor systemCursor)
+        CursorLinux::CursorLinux(SystemCursor systemCursor)
         {
 #if OUZEL_SUPPORTS_X11
             EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
@@ -44,7 +44,7 @@ namespace ouzel
 #endif
         }
 
-        NativeCursorLinux::NativeCursorLinux(const std::vector<uint8_t>& data,
+        CursorLinux::CursorLinux(const std::vector<uint8_t>& data,
                                              const Size2& size,
                                              graphics::PixelFormat pixelFormat,
                                              const Vector2& hotSpot)
@@ -87,7 +87,7 @@ namespace ouzel
 #endif
         }
 
-        NativeCursorLinux::~NativeCursorLinux()
+        CursorLinux::~CursorLinux()
         {
 #if OUZEL_SUPPORTS_X11
             if (engine)

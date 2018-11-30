@@ -10,7 +10,7 @@ namespace ouzel
 {
     namespace input
     {
-        class NativeCursorMacOS;
+        class CursorMacOS;
 
         class MouseDeviceMacOS final: public MouseDevice
         {
@@ -26,11 +26,11 @@ namespace ouzel
             void setCursorVisible(bool newVisible);
             void setCursorLocked(bool locked);
 
-            NativeCursorMacOS* getCursor() const { return cursor; }
-            void setCursor(NativeCursorMacOS* newCursor);
+            CursorMacOS* getCursor() const { return cursor; }
+            void setCursor(CursorMacOS* newCursor);
 
         private:
-            NativeCursorMacOS* cursor = nullptr;
+            CursorMacOS* cursor = nullptr;
             bool cursorVisible = true;
         };
     } // namespace input

@@ -1,12 +1,12 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include "NativeCursorMacOS.hpp"
+#include "CursorMacOS.hpp"
 
 namespace ouzel
 {
     namespace input
     {
-        NativeCursorMacOS::NativeCursorMacOS(SystemCursor systemCursor)
+        CursorMacOS::CursorMacOS(SystemCursor systemCursor)
         {
             switch (systemCursor)
             {
@@ -34,7 +34,7 @@ namespace ouzel
             if (cursor) [cursor retain];
         }
 
-        NativeCursorMacOS::NativeCursorMacOS(const std::vector<uint8_t>& newData,
+        CursorMacOS::CursorMacOS(const std::vector<uint8_t>& newData,
                                              const Size2& size,
                                              graphics::PixelFormat pixelFormat,
                                              const Vector2& hotSpot):
@@ -70,7 +70,7 @@ namespace ouzel
             }
         }
 
-        NativeCursorMacOS::~NativeCursorMacOS()
+        CursorMacOS::~CursorMacOS()
         {
             if (cursor) [cursor release];
         }

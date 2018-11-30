@@ -101,7 +101,7 @@ namespace ouzel
 
         extern const IOKitErrorCategory ioKitErrorCategory;
 
-        class NativeCursorMacOS;
+        class CursorMacOS;
 
         class InputSystemMacOS final: public InputSystem
         {
@@ -138,7 +138,7 @@ namespace ouzel
             id connectDelegate = nil;
             IOHIDManagerRef hidManager = nullptr;
 
-            std::vector<std::unique_ptr<NativeCursorMacOS>> cursors;
+            std::vector<std::unique_ptr<CursorMacOS>> cursors;
 
             unsigned char emptyCursorData[4] = {0, 0, 0, 0};
             NSCursorPtr emptyCursor = nil;
