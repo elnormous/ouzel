@@ -139,7 +139,7 @@
     <ClCompile Include="..\ouzel\input\Touchpad.cpp" />
     <ClCompile Include="..\ouzel\input\TouchpadDevice.cpp" />
     <ClCompile Include="..\ouzel\input\windows\InputSystemWin.cpp" />
-    <ClCompile Include="..\ouzel\input\windows\NativeCursorWin.cpp" />
+    <ClCompile Include="..\ouzel\input\windows\CursorWin.cpp" />
     <ClCompile Include="..\ouzel\input\windows\GamepadDeviceDI.cpp" />
     <ClCompile Include="..\ouzel\input\windows\GamepadDeviceXI.cpp" />
     <ClCompile Include="..\ouzel\input\windows\KeyboardDeviceWin.cpp" />
@@ -322,7 +322,7 @@
     <ClInclude Include="..\ouzel\input\TouchpadDevice.hpp" />
     <ClInclude Include="..\ouzel\input\windows\GamepadDeviceWin.hpp" />
     <ClInclude Include="..\ouzel\input\windows\InputSystemWin.hpp" />
-    <ClInclude Include="..\ouzel\input\windows\NativeCursorWin.hpp" />
+    <ClInclude Include="..\ouzel\input\windows\CursorWin.hpp" />
     <ClInclude Include="..\ouzel\input\windows\GamepadDeviceDI.hpp" />
     <ClInclude Include="..\ouzel\input\windows\GamepadDeviceXI.hpp" />
     <ClInclude Include="..\ouzel\input\windows\KeyboardDeviceWin.hpp" />

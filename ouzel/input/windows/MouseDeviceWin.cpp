@@ -50,7 +50,7 @@ namespace ouzel
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to free pointer");
         }
 
-        void MouseDeviceWin::setCursor(NativeCursorWin* newCursor)
+        void MouseDeviceWin::setCursor(CursorWin* newCursor)
         {
             cursor = newCursor;
         }

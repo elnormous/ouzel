@@ -21,8 +21,6 @@ namespace ouzel
 {
     namespace input
     {
-        class NativeCursor;
-
         class InputSystem
         {
             friend InputDevice;

@@ -18,7 +18,7 @@ namespace ouzel
 {
     namespace input
     {
-        class NativeCursorLinux;
+        class CursorLinux;
 
         class InputSystemLinux final: public InputSystem
         {
@@ -49,7 +49,7 @@ namespace ouzel
             std::unique_ptr<TouchpadDevice> touchpadDevice;
 
             std::unordered_map<int, std::unique_ptr<EventDevice>> eventDevices;
-            std::vector<std::unique_ptr<NativeCursorLinux>> cursors;
+            std::vector<std::unique_ptr<CursorLinux>> cursors;
 
 #if OUZEL_SUPPORTS_X11
             ::Cursor emptyCursor = None;

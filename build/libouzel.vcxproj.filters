@@ -67,7 +67,7 @@
     <ClCompile Include="..\ouzel\input\Cursor.cpp">
       <Filter>ouzel\input</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\input\windows\NativeCursorWin.cpp">
+    <ClCompile Include="..\ouzel\input\windows\CursorWin.cpp">
       <Filter>ouzel\input\windows</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\animators\Ease.cpp">
@@ -562,7 +562,7 @@
     <ClInclude Include="..\ouzel\input\SystemCursor.hpp">
       <Filter>ouzel\input</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\input\windows\NativeCursorWin.hpp">
+    <ClInclude Include="..\ouzel\input\windows\CursorWin.hpp">
       <Filter>ouzel\input\windows</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\DataType.hpp">

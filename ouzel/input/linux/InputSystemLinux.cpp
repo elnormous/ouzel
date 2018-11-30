@@ -13,7 +13,7 @@
 #  include <X11/cursorfont.h>
 #endif
 #include "InputSystemLinux.hpp"
-#include "NativeCursorLinux.hpp"
+#include "CursorLinux.hpp"
 #include "core/linux/EngineLinux.hpp"
 #include "core/linux/NativeWindowLinux.hpp"
 
@@ -119,12 +119,12 @@ namespace ouzel
 
                     if (command.data.empty())
                     {
-                        std::unique_ptr<NativeCursorLinux> cursor(new NativeCursorLinux(command.systemCursor));
+                        std::unique_ptr<CursorLinux> cursor(new CursorLinux(command.systemCursor));
                         cursors[command.cursorResource - 1] = std::move(cursor);
                     }
                     else
                     {
-                        std::unique_ptr<NativeCursorLinux> cursor(new NativeCursorLinux(command.data, command.size,
+                        std::unique_ptr<CursorLinux> cursor(new CursorLinux(command.data, command.size,
                                                                                         command.pixelFormat, command.hotSpot));
                         cursors[command.cursorResource - 1] = std::move(cursor);
                     }
@@ -133,7 +133,7 @@ namespace ouzel
                 case Command::Type::DESTROY_CURSOR:
                 {
 #if OUZEL_SUPPORTS_X11
-                    NativeCursorLinux* cursor = cursors[command.cursorResource - 1].get();
+                    CursorLinux* cursor = cursors[command.cursorResource - 1].get();
 
                     if (mouseDevice->getCursor() == cursor)
                     {
@@ -268,7 +268,7 @@ namespace ouzel
             if (mouseDevice->isCursorVisible())
             {
                 if (mouseDevice->getCursor())
-                    XDefineCursor(display, window, mouseDevice->getCursor()->getNativeCursor());
+                    XDefineCursor(display, window, mouseDevice->getCursor()->getCursor());
                 else
                     XUndefineCursor(display, window);
             }

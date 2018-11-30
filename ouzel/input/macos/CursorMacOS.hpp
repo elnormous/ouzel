@@ -21,17 +21,17 @@ namespace ouzel
 {
     namespace input
     {
-        class NativeCursorMacOS final
+        class CursorMacOS final
         {
         public:
-            explicit NativeCursorMacOS(SystemCursor systemCursor);
-            NativeCursorMacOS(const std::vector<uint8_t>& newData,
+            explicit CursorMacOS(SystemCursor systemCursor);
+            CursorMacOS(const std::vector<uint8_t>& newData,
                               const Size2& size,
                               graphics::PixelFormat pixelFormat,
                               const Vector2& hotSpot);
-            ~NativeCursorMacOS();
+            ~CursorMacOS();
 
-            inline NSCursorPtr getNativeCursor() const { return cursor; }
+            inline NSCursorPtr getCursor() const { return cursor; }
 
         private:
             NSCursorPtr cursor = nil;

@@ -1,13 +1,13 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <system_error>
-#include "NativeCursorWin.hpp"
+#include "CursorWin.hpp"
 
 namespace ouzel
 {
     namespace input
     {
-        NativeCursorWin::NativeCursorWin(SystemCursor systemCursor)
+        CursorWin::CursorWin(SystemCursor systemCursor)
         {
             switch (systemCursor)
             {
@@ -39,7 +39,7 @@ namespace ouzel
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to load cursor");
         }
 
-        NativeCursorWin::NativeCursorWin(const std::vector<uint8_t>& data,
+        CursorWin::CursorWin(const std::vector<uint8_t>& data,
                                          const Size2& size,
                                          graphics::PixelFormat pixelFormat,
                                          const Vector2& hotSpot)
@@ -109,7 +109,7 @@ namespace ouzel
             }
         }
 
-        NativeCursorWin::~NativeCursorWin()
+        CursorWin::~CursorWin()
         {
             if (ownedCursor) DestroyCursor(cursor);
             if (dc) ReleaseDC(nullptr, dc);

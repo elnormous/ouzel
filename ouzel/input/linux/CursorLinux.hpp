@@ -18,18 +18,18 @@ namespace ouzel
 {
     namespace input
     {
-        class NativeCursorLinux final
+        class CursorLinux final
         {
         public:
-            explicit NativeCursorLinux(SystemCursor systemCursor);
-            NativeCursorLinux(const std::vector<uint8_t>& data,
+            explicit CursorLinux(SystemCursor systemCursor);
+            CursorLinux(const std::vector<uint8_t>& data,
                               const Size2& size,
                               graphics::PixelFormat pixelFormat,
                               const Vector2& hotSpot);
-            ~NativeCursorLinux();
+            ~CursorLinux();
 
 #if OUZEL_SUPPORTS_X11
-            ::Cursor getNativeCursor() const { return cursor; }
+            ::Cursor getCursor() const { return cursor; }
 #endif
 
         private:

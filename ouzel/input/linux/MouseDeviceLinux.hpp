@@ -9,7 +9,7 @@ namespace ouzel
 {
     namespace input
     {
-        class NativeCursorLinux;
+        class CursorLinux;
 
         class MouseDeviceLinux final: public MouseDevice
         {
@@ -25,11 +25,11 @@ namespace ouzel
             void setCursorVisible(bool visible);
             void setCursorLocked(bool locked);
 
-            NativeCursorLinux* getCursor() const { return cursor; }
-            void setCursor(NativeCursorLinux* newCursor);
+            CursorLinux* getCursor() const { return cursor; }
+            void setCursor(CursorLinux* newCursor);
 
         private:
-            NativeCursorLinux* cursor = nullptr;
+            CursorLinux* cursor = nullptr;
             bool cursorVisible = true;
         };
     } // namespace input

@@ -6,7 +6,7 @@
 #include "InputSystemWin.hpp"
 #include "GamepadDeviceDI.hpp"
 #include "GamepadDeviceXI.hpp"
-#include "NativeCursorWin.hpp"
+#include "CursorWin.hpp"
 #include "core/Engine.hpp"
 #include "core/windows/NativeWindowWin.hpp"
 #include "utils/Log.hpp"
@@ -97,12 +97,12 @@ namespace ouzel
 
                     if (command.data.empty())
                     {
-                        std::unique_ptr<NativeCursorWin> cursor(new NativeCursorWin(command.systemCursor));
+                        std::unique_ptr<CursorWin> cursor(new CursorWin(command.systemCursor));
                         cursors[command.cursorResource - 1] = std::move(cursor);
                     }
                     else
                     {
-                        std::unique_ptr<NativeCursorWin> cursor(new NativeCursorWin(command.data, command.size,
+                        std::unique_ptr<CursorWin> cursor(new CursorWin(command.data, command.size,
                                                                                     command.pixelFormat, command.hotSpot));
                         cursors[command.cursorResource - 1] = std::move(cursor);
                     }
@@ -110,7 +110,7 @@ namespace ouzel
                 }
                 case Command::Type::DESTROY_CURSOR:
                 {
-                    NativeCursorWin* cursor = cursors[command.cursorResource - 1].get();
+                    CursorWin* cursor = cursors[command.cursorResource - 1].get();
 
                     if (mouseDevice->getCursor() == cursor)
                     {
@@ -320,7 +320,7 @@ namespace ouzel
             if (mouseDevice->isCursorVisible())
             {
                 if (mouseDevice->getCursor())
-                    SetCursor(mouseDevice->getCursor()->getNativeCursor());
+                    SetCursor(mouseDevice->getCursor()->getCursor());
                 else
                     SetCursor(defaultCursor);
             }
