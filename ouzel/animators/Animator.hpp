@@ -40,25 +40,7 @@ namespace ouzel
             inline Actor* getTargetActor() const { return targetActor; }
 
             void addAnimator(Animator* animator);
-
-            template<typename T> void addAnimator(const std::unique_ptr<T>& animator)
-            {
-                addAnimator(animator.get());
-            }
-
-            template<typename T> void addAnimator(std::unique_ptr<T>&& animator)
-            {
-                addAnimator(animator.get());
-                ownedAnimators.push_back(std::move(animator));
-            }
-
             bool removeAnimator(Animator* animator);
-
-            template<typename T> bool removeAnimator(const std::unique_ptr<T>& animator)
-            {
-                return removeAnimator(animator.get());
-            }
-
             void removeAllAnimators();
 
             inline Animator* getParent() const { return parent; }
@@ -80,7 +62,6 @@ namespace ouzel
             EventHandler updateHandler;
 
             std::vector<Animator*> animators;
-            std::vector<std::unique_ptr<Animator>> ownedAnimators;
         };
     } // namespace scene
 } // namespace ouzel
