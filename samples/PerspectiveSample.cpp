@@ -4,7 +4,6 @@
 #include "PerspectiveSample.hpp"
 #include "MainMenu.hpp"
 
-using namespace std;
 using namespace ouzel;
 using namespace audio;
 using namespace graphics;
@@ -21,11 +20,11 @@ PerspectiveSample::PerspectiveSample():
     if (Mouse* mouse = engine->getInputManager()->getMouse())
         mouse->setCursor(&cursor);
 
-    handler.keyboardHandler = bind(&PerspectiveSample::handleKeyboard, this, placeholders::_1);
-    handler.mouseHandler = bind(&PerspectiveSample::handleMouse, this, placeholders::_1);
-    handler.touchHandler = bind(&PerspectiveSample::handleTouch, this, placeholders::_1);
-    handler.gamepadHandler = bind(&PerspectiveSample::handleGamepad, this, placeholders::_1);
-    handler.uiHandler = bind(&PerspectiveSample::handleUI, this, placeholders::_1);
+    handler.keyboardHandler = std::bind(&PerspectiveSample::handleKeyboard, this, std::placeholders::_1);
+    handler.mouseHandler = std::bind(&PerspectiveSample::handleMouse, this, std::placeholders::_1);
+    handler.touchHandler = std::bind(&PerspectiveSample::handleTouch, this, std::placeholders::_1);
+    handler.gamepadHandler = std::bind(&PerspectiveSample::handleGamepad, this, std::placeholders::_1);
+    handler.uiHandler = std::bind(&PerspectiveSample::handleUI, this, std::placeholders::_1);
 
     engine->getEventDispatcher().addEventHandler(&handler);
 

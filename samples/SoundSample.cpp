@@ -4,7 +4,6 @@
 #include "SoundSample.hpp"
 #include "MainMenu.hpp"
 
-using namespace std;
 using namespace ouzel;
 using namespace audio;
 using namespace input;
@@ -22,9 +21,9 @@ SoundSample::SoundSample():
     ambientButton("button.png", "button_selected.png", "button_down.png", "", "Ambient", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
     musicButton("button.png", "button_selected.png", "button_down.png", "", "Music", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
 {
-    handler.gamepadHandler = bind(&SoundSample::handleGamepad, this, placeholders::_1);
-    handler.uiHandler = bind(&SoundSample::handleUI, this, placeholders::_1);
-    handler.keyboardHandler = bind(&SoundSample::handleKeyboard, this, placeholders::_1);
+    handler.gamepadHandler = std::bind(&SoundSample::handleGamepad, this, std::placeholders::_1);
+    handler.uiHandler = std::bind(&SoundSample::handleUI, this, std::placeholders::_1);
+    handler.keyboardHandler = std::bind(&SoundSample::handleKeyboard, this, std::placeholders::_1);
     engine->getEventDispatcher().addEventHandler(&handler);
 
     //listener.setOutput(&engine->getAudio()->getDestination());

@@ -4,7 +4,6 @@
 #include "SpritesSample.hpp"
 #include "MainMenu.hpp"
 
-using namespace std;
 using namespace ouzel;
 using namespace input;
 
@@ -13,9 +12,9 @@ SpritesSample::SpritesSample():
     wireframeButton("button.png", "button_selected.png", "button_down.png", "", "Wireframe", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
 {
-    handler.gamepadHandler = bind(&SpritesSample::handleGamepad, this, placeholders::_1);
-    handler.uiHandler = bind(&SpritesSample::handleUI, this, placeholders::_1);
-    handler.keyboardHandler = bind(&SpritesSample::handleKeyboard, this, placeholders::_1);
+    handler.gamepadHandler = std::bind(&SpritesSample::handleGamepad, this, std::placeholders::_1);
+    handler.uiHandler = std::bind(&SpritesSample::handleUI, this, std::placeholders::_1);
+    handler.keyboardHandler = std::bind(&SpritesSample::handleKeyboard, this, std::placeholders::_1);
     engine->getEventDispatcher().addEventHandler(&handler);
 
     camera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);

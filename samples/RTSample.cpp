@@ -4,7 +4,6 @@
 #include "RTSample.hpp"
 #include "MainMenu.hpp"
 
-using namespace std;
 using namespace ouzel;
 using namespace input;
 
@@ -12,9 +11,9 @@ RTSample::RTSample():
     characterSprite("run.json"),
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
 {
-    handler.gamepadHandler = bind(&RTSample::handleGamepad, this, placeholders::_1);
-    handler.uiHandler = bind(&RTSample::handleUI, this, placeholders::_1);
-    handler.keyboardHandler = bind(&RTSample::handleKeyboard, this, placeholders::_1);
+    handler.gamepadHandler = std::bind(&RTSample::handleGamepad, this, std::placeholders::_1);
+    handler.uiHandler = std::bind(&RTSample::handleUI, this, std::placeholders::_1);
+    handler.keyboardHandler = std::bind(&RTSample::handleKeyboard, this, std::placeholders::_1);
     engine->getEventDispatcher().addEventHandler(&handler);
 
     addLayer(&rtLayer);

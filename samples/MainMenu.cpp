@@ -10,7 +10,6 @@
 #include "SoundSample.hpp"
 #include "PerspectiveSample.hpp"
 
-using namespace std;
 using namespace ouzel;
 using namespace input;
 
@@ -24,8 +23,8 @@ MainMenu::MainMenu():
     soundButton("button.png", "button_selected.png", "button_down.png", "", "Sound", "arial.fnt", 1.0F, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
     perspectiveButton("button.png", "button_selected.png", "button_down.png", "", "Perspective", "arial.fnt", 1.0F, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)
 {
-    handler.uiHandler = bind(&MainMenu::handleUI, this, placeholders::_1);
-    handler.keyboardHandler = bind(&MainMenu::handleKeyboard, this, placeholders::_1);
+    handler.uiHandler = std::bind(&MainMenu::handleUI, this, std::placeholders::_1);
+    handler.keyboardHandler = std::bind(&MainMenu::handleKeyboard, this, std::placeholders::_1);
     engine->getEventDispatcher().addEventHandler(&handler);
 
     addLayer(&layer);

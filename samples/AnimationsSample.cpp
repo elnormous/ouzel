@@ -4,16 +4,15 @@
 #include "AnimationsSample.hpp"
 #include "MainMenu.hpp"
 
-using namespace std;
 using namespace ouzel;
 using namespace input;
 
 AnimationsSample::AnimationsSample():
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
 {
-    handler.gamepadHandler = bind(&AnimationsSample::handleGamepad, this, placeholders::_1);
-    handler.uiHandler = bind(&AnimationsSample::handleUI, this, placeholders::_1);
-    handler.keyboardHandler = bind(&AnimationsSample::handleKeyboard, this, placeholders::_1);
+    handler.gamepadHandler = std::bind(&AnimationsSample::handleGamepad, this, std::placeholders::_1);
+    handler.uiHandler = std::bind(&AnimationsSample::handleUI, this, std::placeholders::_1);
+    handler.keyboardHandler = std::bind(&AnimationsSample::handleKeyboard, this, std::placeholders::_1);
     engine->getEventDispatcher().addEventHandler(&handler);
 
     camera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
@@ -58,7 +57,7 @@ AnimationsSample::AnimationsSample():
     witchScale.reset(new scene::Scale(2.0F, Vector3(0.1F, 0.1F, 0.0F), false));
     witchFade.reset(new scene::Fade(2.0F, 0.4F));
 
-    vector<scene::Animator*> parallel = {
+    std::vector<scene::Animator*> parallel = {
         witchScale.get(),
         witchFade.get()
     };
@@ -68,7 +67,7 @@ AnimationsSample::AnimationsSample():
     witchRepeat.reset(new scene::Repeat(witchRotate, 3));
     witchParallel.reset(new scene::Parallel(parallel));
 
-    vector<scene::Animator*> sequence = {
+    std::vector<scene::Animator*> sequence = {
         witchRepeat.get(),
         witchParallel.get()
     };
@@ -87,7 +86,7 @@ AnimationsSample::AnimationsSample():
     ballMove.reset(new scene::Move(2.0F, Vector3(0.0F, -240.0F, 0.0F), false));
     ballEase.reset(new scene::Ease(ballMove, scene::Ease::Mode::EASE_OUT, scene::Ease::Func::BOUNCE));
 
-    vector<scene::Animator*> sequence2 = {
+    std::vector<scene::Animator*> sequence2 = {
         ballDelay.get(),
         ballEase.get()
     };
