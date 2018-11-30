@@ -4,7 +4,6 @@
 #include "GUISample.hpp"
 #include "MainMenu.hpp"
 
-using namespace std;
 using namespace ouzel;
 using namespace input;
 
@@ -17,9 +16,9 @@ GUISample::GUISample():
     label3("UTF-8 ĀāČč\nNew line", "ArialBlack.fnt", 1.0F, Color::WHITE, Vector2(0.0F, 0.5F)),
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
 {
-    handler.gamepadHandler = bind(&GUISample::handleGamepad, this, placeholders::_1);
-    handler.uiHandler = bind(&GUISample::handleUI, this, placeholders::_1);
-    handler.keyboardHandler = bind(&GUISample::handleKeyboard, this, placeholders::_1);
+    handler.gamepadHandler = std::bind(&GUISample::handleGamepad, this, std::placeholders::_1);
+    handler.uiHandler = std::bind(&GUISample::handleUI, this, std::placeholders::_1);
+    handler.keyboardHandler = std::bind(&GUISample::handleKeyboard, this, std::placeholders::_1);
     engine->getEventDispatcher().addEventHandler(&handler);
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);

@@ -4,7 +4,6 @@
 #include "InputSample.hpp"
 #include "MainMenu.hpp"
 
-using namespace std;
 using namespace ouzel;
 using namespace input;
 
@@ -16,11 +15,11 @@ InputSample::InputSample():
 {
     cursor.init("cursor.png", Vector2(0.0F, 63.0F));
 
-    handler.keyboardHandler = bind(&InputSample::handleKeyboard, this, placeholders::_1);
-    handler.mouseHandler = bind(&InputSample::handleMouse, this, placeholders::_1);
-    handler.touchHandler = bind(&InputSample::handleTouch, this, placeholders::_1);
-    handler.gamepadHandler = bind(&InputSample::handleGamepad, this, placeholders::_1);
-    handler.uiHandler = bind(&InputSample::handleUI, this, placeholders::_1);
+    handler.keyboardHandler = std::bind(&InputSample::handleKeyboard, this, std::placeholders::_1);
+    handler.mouseHandler = std::bind(&InputSample::handleMouse, this, std::placeholders::_1);
+    handler.touchHandler = std::bind(&InputSample::handleTouch, this, std::placeholders::_1);
+    handler.gamepadHandler = std::bind(&InputSample::handleGamepad, this, std::placeholders::_1);
+    handler.uiHandler = std::bind(&InputSample::handleUI, this, std::placeholders::_1);
 
     engine->getEventDispatcher().addEventHandler(&handler);
 

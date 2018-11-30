@@ -4,17 +4,16 @@
 #include "GameSample.hpp"
 #include "MainMenu.hpp"
 
-using namespace std;
 using namespace ouzel;
 using namespace input;
 
 GameSample::GameSample()
 {
-    handler.keyboardHandler = bind(&GameSample::handleKeyboard, this, placeholders::_1);
-    handler.mouseHandler = bind(&GameSample::handleMouse, this, placeholders::_1);
-    handler.touchHandler = bind(&GameSample::handleTouch, this, placeholders::_1);
-    handler.gamepadHandler = bind(&GameSample::handleGamepad, this, placeholders::_1);
-    handler.uiHandler = bind(&GameSample::handleUI, this, placeholders::_1);
+    handler.keyboardHandler = std::bind(&GameSample::handleKeyboard, this, std::placeholders::_1);
+    handler.mouseHandler = std::bind(&GameSample::handleMouse, this, std::placeholders::_1);
+    handler.touchHandler = std::bind(&GameSample::handleTouch, this, std::placeholders::_1);
+    handler.gamepadHandler = std::bind(&GameSample::handleGamepad, this, std::placeholders::_1);
+    handler.uiHandler = std::bind(&GameSample::handleUI, this, std::placeholders::_1);
 
     engine->getEventDispatcher().addEventHandler(&handler);
 
