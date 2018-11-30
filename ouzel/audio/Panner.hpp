@@ -12,8 +12,6 @@ namespace ouzel
 {
     namespace audio
     {
-        class Audio;
-
         class Panner final: public Filter, public scene::Component
         {
         public:

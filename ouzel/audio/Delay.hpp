@@ -9,8 +9,6 @@ namespace ouzel
 {
     namespace audio
     {
-        class Audio;
-
         class Delay final: public Filter
         {
         public:
