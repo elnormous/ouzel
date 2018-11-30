@@ -52,13 +52,6 @@ namespace ouzel
                 result = true;
             }
 
-            auto ownedIterator = std::find_if(ownedChildren.begin(), ownedChildren.end(), [actor](const std::unique_ptr<Actor>& other) {
-                return other.get() == actor;
-            });
-
-            if (ownedIterator != ownedChildren.end())
-                ownedChildren.erase(ownedIterator);
-
             return result;
         }
 
@@ -99,7 +92,6 @@ namespace ouzel
             }
 
             children.clear();
-            ownedChildren.clear();
         }
 
         bool ActorContainer::hasChild(Actor* actor, bool recursive) const
