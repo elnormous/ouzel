@@ -15,7 +15,7 @@
 #include <vector>
 #include <d3d11.h>
 #include "graphics/RenderDevice.hpp"
-#include "graphics/direct3d11/TextureResourceD3D11.hpp"
+#include "graphics/direct3d11/TextureD3D11.hpp"
 
 namespace ouzel
 {

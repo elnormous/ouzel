@@ -7,12 +7,12 @@
 #include <cassert>
 #include <stdexcept>
 #include "RenderDeviceMetal.hpp"
-#include "BlendStateResourceMetal.hpp"
-#include "BufferResourceMetal.hpp"
-#include "DepthStencilStateResourceMetal.hpp"
-#include "RenderTargetResourceMetal.hpp"
-#include "ShaderResourceMetal.hpp"
-#include "TextureResourceMetal.hpp"
+#include "BlendStateMetal.hpp"
+#include "BufferMetal.hpp"
+#include "DepthStencilStateMetal.hpp"
+#include "RenderTargetMetal.hpp"
+#include "ShaderMetal.hpp"
+#include "TextureMetal.hpp"
 #include "core/Engine.hpp"
 #include "events/EventDispatcher.hpp"
 #include "utils/Log.hpp"
@@ -268,7 +268,7 @@ namespace ouzel
             ShaderConstantBuffer& shaderConstantBuffer = shaderConstantBuffers[shaderConstantBufferIndex];
             shaderConstantBuffer.index = 0;
             shaderConstantBuffer.offset = 0;
-            ShaderResourceMetal* currentShader = nullptr;
+            ShaderMetal* currentShader = nullptr;
 
             CommandBuffer commandBuffer;
 
@@ -317,7 +317,7 @@ namespace ouzel
 
                             if (setRenderTargetCommand->renderTarget)
                             {
-                                TextureResourceMetal* renderTargetMetal = static_cast<TextureResourceMetal*>(resources[setRenderTargetCommand->renderTarget - 1].get());
+                                TextureMetal* renderTargetMetal = static_cast<TextureMetal*>(resources[setRenderTargetCommand->renderTarget - 1].get());
 
                                 currentRenderTarget = renderTargetMetal->getTexture();
                                 newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
@@ -361,7 +361,7 @@ namespace ouzel
 
                             if (setRenderTargetParametersCommand->renderTarget)
                             {
-                                TextureResourceMetal* renderTargetMetal = static_cast<TextureResourceMetal*>(resources[setRenderTargetParametersCommand->renderTarget - 1].get());
+                                TextureMetal* renderTargetMetal = static_cast<TextureMetal*>(resources[setRenderTargetParametersCommand->renderTarget - 1].get());
                                 renderTargetMetal->setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
                                 renderTargetMetal->setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
                                 renderTargetMetal->setClearColor(setRenderTargetParametersCommand->clearColor);
@@ -392,7 +392,7 @@ namespace ouzel
                             // render target
                             if (clearCommand->renderTarget)
                             {
-                                TextureResourceMetal* renderTargetMetal = static_cast<TextureResourceMetal*>(resources[clearCommand->renderTarget - 1].get());
+                                TextureMetal* renderTargetMetal = static_cast<TextureMetal*>(resources[clearCommand->renderTarget - 1].get());
 
                                 newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
                                 if (!newRenderPassDescriptor) break;
@@ -553,7 +553,7 @@ namespace ouzel
                         case Command::Type::INIT_DEPTH_STENCIL_STATE:
                         {
                             const InitDepthStencilStateCommand* initDepthStencilStateCommand = static_cast<const InitDepthStencilStateCommand*>(command.get());
-                            std::unique_ptr<DepthStencilStateResourceMetal> depthStencilStateResourceMetal(new DepthStencilStateResourceMetal(*this,
+                            std::unique_ptr<DepthStencilStateMetal> depthStencilStateResourceMetal(new DepthStencilStateMetal(*this,
                                                                                                                                               initDepthStencilStateCommand->depthTest,
                                                                                                                                               initDepthStencilStateCommand->depthWrite,
                                                                                                                                               initDepthStencilStateCommand->compareFunction));
@@ -574,7 +574,7 @@ namespace ouzel
 
                             if (setDepthStencilStateCommand->depthStencilState)
                             {
-                                DepthStencilStateResourceMetal* depthStencilStateMetal = static_cast<DepthStencilStateResourceMetal*>(resources[setDepthStencilStateCommand->depthStencilState - 1].get());
+                                DepthStencilStateMetal* depthStencilStateMetal = static_cast<DepthStencilStateMetal*>(resources[setDepthStencilStateCommand->depthStencilState - 1].get());
                                 [currentRenderCommandEncoder setDepthStencilState:depthStencilStateMetal->getDepthStencilState()];
                             }
                             else
@@ -590,8 +590,8 @@ namespace ouzel
                             if (!currentRenderCommandEncoder)
                                 throw std::runtime_error("Metal render command encoder not initialized");
 
-                            BlendStateResourceMetal* blendStateMetal = static_cast<BlendStateResourceMetal*>(resources[setPipelineStateCommand->blendState - 1].get());
-                            ShaderResourceMetal* shaderMetal = static_cast<ShaderResourceMetal*>(resources[setPipelineStateCommand->shader - 1].get());
+                            BlendStateMetal* blendStateMetal = static_cast<BlendStateMetal*>(resources[setPipelineStateCommand->blendState - 1].get());
+                            ShaderMetal* shaderMetal = static_cast<ShaderMetal*>(resources[setPipelineStateCommand->shader - 1].get());
                             currentShader = shaderMetal;
 
                             currentPipelineStateDesc.blendState = blendStateMetal;
@@ -611,8 +611,8 @@ namespace ouzel
                                 throw std::runtime_error("Metal render command encoder not initialized");
 
                             // mesh buffer
-                            BufferResourceMetal* indexBufferMetal = static_cast<BufferResourceMetal*>(resources[drawCommand->indexBuffer - 1].get());
-                            BufferResourceMetal* vertexBufferMetal = static_cast<BufferResourceMetal*>(resources[drawCommand->vertexBuffer - 1].get());
+                            BufferMetal* indexBufferMetal = static_cast<BufferMetal*>(resources[drawCommand->indexBuffer - 1].get());
+                            BufferMetal* vertexBufferMetal = static_cast<BufferMetal*>(resources[drawCommand->vertexBuffer - 1].get());
 
                             assert(indexBufferMetal);
                             assert(indexBufferMetal->getBuffer());
@@ -682,7 +682,7 @@ namespace ouzel
                         {
                             const InitBlendStateCommand* initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command.get());
 
-                            std::unique_ptr<BlendStateResourceMetal> blendStateResourceMetal(new BlendStateResourceMetal(*this,
+                            std::unique_ptr<BlendStateMetal> blendStateResourceMetal(new BlendStateMetal(*this,
                                                                                                                          initBlendStateCommand->enableBlending,
                                                                                                                          initBlendStateCommand->colorBlendSource,
                                                                                                                          initBlendStateCommand->colorBlendDest,
@@ -702,7 +702,7 @@ namespace ouzel
                         {
                             const InitBufferCommand* initBufferCommand = static_cast<const InitBufferCommand*>(command.get());
 
-                            std::unique_ptr<BufferResourceMetal> bufferResourceMetal(new BufferResourceMetal(*this,
+                            std::unique_ptr<BufferMetal> bufferResourceMetal(new BufferMetal(*this,
                                                                                                              initBufferCommand->usage,
                                                                                                              initBufferCommand->flags,
                                                                                                              initBufferCommand->data,
@@ -718,7 +718,7 @@ namespace ouzel
                         {
                             const SetBufferDataCommand* setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command.get());
 
-                            BufferResourceMetal* bufferResourceMetal = static_cast<BufferResourceMetal*>(resources[setBufferDataCommand->buffer - 1].get());
+                            BufferMetal* bufferResourceMetal = static_cast<BufferMetal*>(resources[setBufferDataCommand->buffer - 1].get());
                             bufferResourceMetal->setData(setBufferDataCommand->data);
                             break;
                         }
@@ -727,7 +727,7 @@ namespace ouzel
                         {
                             const InitShaderCommand* initShaderCommand = static_cast<const InitShaderCommand*>(command.get());
 
-                            std::unique_ptr<ShaderResourceMetal> shaderResourceMetal(new ShaderResourceMetal(*this,
+                            std::unique_ptr<ShaderMetal> shaderResourceMetal(new ShaderMetal(*this,
                                                                                                              initShaderCommand->fragmentShader,
                                                                                                              initShaderCommand->vertexShader,
                                                                                                              initShaderCommand->vertexAttributes,
@@ -755,7 +755,7 @@ namespace ouzel
                                 throw std::runtime_error("No shader set");
 
                             // pixel shader constants
-                            const std::vector<ShaderResourceMetal::Location>& fragmentShaderConstantLocations = currentShader->getFragmentShaderConstantLocations();
+                            const std::vector<ShaderMetal::Location>& fragmentShaderConstantLocations = currentShader->getFragmentShaderConstantLocations();
 
                             if (setShaderConstantsCommand->fragmentShaderConstants.size() > fragmentShaderConstantLocations.size())
                                 throw std::runtime_error("Invalid pixel shader constant size");
@@ -764,7 +764,7 @@ namespace ouzel
 
                             for (size_t i = 0; i < setShaderConstantsCommand->fragmentShaderConstants.size(); ++i)
                             {
-                                const ShaderResourceMetal::Location& fragmentShaderConstantLocation = fragmentShaderConstantLocations[i];
+                                const ShaderMetal::Location& fragmentShaderConstantLocation = fragmentShaderConstantLocations[i];
                                 const std::vector<float>& fragmentShaderConstant = setShaderConstantsCommand->fragmentShaderConstants[i];
 
                                 if (sizeof(float) * fragmentShaderConstant.size() != fragmentShaderConstantLocation.size)
@@ -806,7 +806,7 @@ namespace ouzel
                             shaderConstantBuffer.offset += static_cast<uint32_t>(getVectorSize(shaderData));
 
                             // vertex shader constants
-                            const std::vector<ShaderResourceMetal::Location>& vertexShaderConstantLocations = currentShader->getVertexShaderConstantLocations();
+                            const std::vector<ShaderMetal::Location>& vertexShaderConstantLocations = currentShader->getVertexShaderConstantLocations();
 
                             if (setShaderConstantsCommand->vertexShaderConstants.size() > vertexShaderConstantLocations.size())
                                 throw std::runtime_error("Invalid vertex shader constant size");
@@ -815,7 +815,7 @@ namespace ouzel
 
                             for (size_t i = 0; i < setShaderConstantsCommand->vertexShaderConstants.size(); ++i)
                             {
-                                const ShaderResourceMetal::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
+                                const ShaderMetal::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
                                 const std::vector<float>& vertexShaderConstant = setShaderConstantsCommand->vertexShaderConstants[i];
 
                                 if (sizeof(float) * vertexShaderConstant.size() != vertexShaderConstantLocation.size)
@@ -863,7 +863,7 @@ namespace ouzel
                         {
                             const InitTextureCommand* initTextureCommand = static_cast<const InitTextureCommand*>(command.get());
 
-                            std::unique_ptr<TextureResourceMetal> textureResourceMetal(new TextureResourceMetal(*this,
+                            std::unique_ptr<TextureMetal> textureResourceMetal(new TextureMetal(*this,
                                                                                                                 initTextureCommand->levels,
                                                                                                                 initTextureCommand->flags,
                                                                                                                 initTextureCommand->sampleCount,
@@ -879,7 +879,7 @@ namespace ouzel
                         {
                             const SetTextureDataCommand* setTextureDataCommand = static_cast<const SetTextureDataCommand*>(command.get());
 
-                            TextureResourceMetal* textureResourceMetal = static_cast<TextureResourceMetal*>(resources[setTextureDataCommand->texture - 1].get());
+                            TextureMetal* textureResourceMetal = static_cast<TextureMetal*>(resources[setTextureDataCommand->texture - 1].get());
                             textureResourceMetal->setData(setTextureDataCommand->levels);
 
                             break;
@@ -889,7 +889,7 @@ namespace ouzel
                         {
                             const SetTextureParametersCommand* setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
 
-                            TextureResourceMetal* textureResourceMetal = static_cast<TextureResourceMetal*>(resources[setTextureParametersCommand->texture - 1].get());
+                            TextureMetal* textureResourceMetal = static_cast<TextureMetal*>(resources[setTextureParametersCommand->texture - 1].get());
                             textureResourceMetal->setFilter(setTextureParametersCommand->filter);
                             textureResourceMetal->setAddressX(setTextureParametersCommand->addressX);
                             textureResourceMetal->setAddressY(setTextureParametersCommand->addressY);
@@ -909,7 +909,7 @@ namespace ouzel
                             {
                                 if (setTexturesCommand->textures[layer])
                                 {
-                                    TextureResourceMetal* textureMetal = static_cast<TextureResourceMetal*>(resources[setTexturesCommand->textures[layer] - 1].get());
+                                    TextureMetal* textureMetal = static_cast<TextureMetal*>(resources[setTexturesCommand->textures[layer] - 1].get());
                                     [currentRenderCommandEncoder setFragmentTexture:textureMetal->getTexture() atIndex:layer];
                                     [currentRenderCommandEncoder setFragmentSamplerState:textureMetal->getSamplerState() atIndex:layer];
                                 }
