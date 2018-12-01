@@ -485,6 +485,9 @@
     <ClCompile Include="..\ouzel\audio\wasapi\AudioDeviceWASAPI.cpp">
       <Filter>ouzel\audio\wasapi</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\audio\Bus.cpp">
+      <Filter>ouzel\audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\animators\Animator.hpp">
@@ -1038,6 +1041,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\wasapi\AudioDeviceWASAPI.hpp">
       <Filter>ouzel\audio\wasapi</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\Bus.hpp">
+      <Filter>ouzel\audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
