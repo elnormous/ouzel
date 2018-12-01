@@ -101,8 +101,7 @@ namespace ouzel
             const uint16_t channels = 2;
 
         private:
-            std::vector<std::vector<float>> buffers;
-            uint32_t currentBuffer = 0;
+            std::vector<float> buffer;
 
             uintptr_t lastObjectId = 0;
             std::set<uintptr_t> deletedObjectIds;
