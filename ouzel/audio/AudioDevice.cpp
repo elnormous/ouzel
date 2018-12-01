@@ -31,32 +31,46 @@ namespace ouzel
 
                 switch (command.type)
                 {
-                    case Command::Type::INIT_NODE:
+                    case Command::Type::DELETE_OBJECT:
                     {
-                        if (command.nodeId > nodes.size())
-                            nodes.resize(command.nodeId);
+                        objects[command.objectId - 1].reset();
+                        break;
+                    }
+                    case Command::Type::INIT_BUS:
+                        break;
+                    case Command::Type::ADD_LISTENER:
+                        break;
+                    case Command::Type::REMOVE_LISTENER:
+                        break;
+                    case Command::Type::ADD_FILTER:
+                        break;
+                    case Command::Type::REMOVE_FILTER:
+                        break;
+                    case Command::Type::INIT_LISTENER:
+                        break;
+                    case Command::Type::UPDATE_LISTENER:
+                        break;
+                    case Command::Type::INIT_FILTER:
+                    {
+                        if (command.objectId > objects.size())
+                            objects.resize(command.objectId);
 
-                        nodes[command.nodeId - 1] = command.createFunction();
+                        objects[command.objectId - 1] = command.createFunction();
                         break;
                     }
-                    case Command::Type::DELETE_NODE:
+                    case Command::Type::UPDATE_FILTER:
                     {
-                        nodes[command.nodeId - 1].reset();
+                        command.updateFunction(objects[command.objectId - 1].get());
                         break;
                     }
-                    case Command::Type::UPDATE_NODE:
+                    case Command::Type::ADD_OUTPUT_BUS:
                     {
-                        command.updateFunction(nodes[command.nodeId - 1].get());
+                        objects[command.objectId - 1]->addOutputObject(objects[command.destinationObjectId - 1].get());
                         break;
                     }
-                    case Command::Type::ADD_OUTPUT_NODE:
+                    case Command::Type::SET_MASTER_BUS:
                     {
-                        nodes[command.nodeId - 1]->addOutputNode(nodes[command.destinationNodeId - 1].get());
-                        break;
-                    }
-                    case Command::Type::SET_DESTINATION_NODE:
-                    {
-                        destinationNode = command.nodeId ? nodes[command.nodeId - 1].get() : nullptr;
+                        masterBus = command.objectId ? objects[command.objectId - 1].get() : nullptr;
                         break;
                     }
                     default:
@@ -75,13 +89,13 @@ namespace ouzel
             buffers[buffer].resize(frames * channels);
             std::fill(buffers[buffer].begin(), buffers[buffer].end(), 0.0F);
 
-            if (destinationNode)
+            if (masterBus)
             {
                 uint16_t inputChannels = channels;
                 uint32_t inputSampleRate = sampleRate;
                 Vector3 inputPosition;
 
-                destinationNode->process(buffers[buffer], inputChannels, inputSampleRate, inputPosition);
+                masterBus->process(buffers[buffer], inputChannels, inputSampleRate, inputPosition);
             }
 
             for (float& f : buffers[buffer])

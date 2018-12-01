@@ -113,27 +113,27 @@ namespace ouzel
             // TODO: handle events from the audio device
         }
 
-        uintptr_t Audio::initNode(const std::function<std::unique_ptr<Node>(void)>& createFunction)
+        uintptr_t Audio::initObject(const std::function<std::unique_ptr<Object>(void)>& createFunction)
         {
-            uintptr_t nodeId = device->getNodeId();
-            AudioDevice::Command command(AudioDevice::Command::Type::INIT_NODE);
-            command.nodeId = nodeId;
+            uintptr_t objectId = device->getObjectId();
+            AudioDevice::Command command(AudioDevice::Command::Type::INIT_FILTER);
+            command.objectId = objectId;
             command.createFunction = createFunction;
             device->addCommand(command);
-            return nodeId;
+            return objectId;
         }
 
-        void Audio::deleteNode(uintptr_t nodeId)
+        void Audio::deleteObject(uintptr_t objectId)
         {
-            AudioDevice::Command command(AudioDevice::Command::Type::DELETE_NODE);
-            command.nodeId = nodeId;
+            AudioDevice::Command command(AudioDevice::Command::Type::DELETE_OBJECT);
+            command.objectId = objectId;
             device->addCommand(command);
         }
 
-        void Audio::updateNode(uintptr_t nodeId, const std::function<void(Node*)>& updateFunction)
+        void Audio::updateObject(uintptr_t objectId, const std::function<void(Object*)>& updateFunction)
         {
-            AudioDevice::Command command(AudioDevice::Command::Type::UPDATE_NODE);
-            command.nodeId = nodeId;
+            AudioDevice::Command command(AudioDevice::Command::Type::UPDATE_FILTER);
+            command.objectId = objectId;
             command.updateFunction = updateFunction;
             device->addCommand(command);
         }

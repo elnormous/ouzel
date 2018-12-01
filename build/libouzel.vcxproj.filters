@@ -470,7 +470,7 @@
     <ClCompile Include="..\ouzel\audio\Pitch.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\Node.cpp">
+    <ClCompile Include="..\ouzel\audio\Object.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\core\System.cpp">

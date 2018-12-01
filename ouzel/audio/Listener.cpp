@@ -10,7 +10,7 @@ namespace ouzel
 {
     namespace audio
     {
-        class ListenerProcessor final: public Node
+        class ListenerProcessor final: public Object
         {
         public:
             ListenerProcessor()
@@ -20,20 +20,20 @@ namespace ouzel
             void process(std::vector<float>& samples, uint16_t& channels,
                          uint32_t& sampleRate, Vector3& position) override
             {
-                Node::process(samples, channels, sampleRate, position);
+                Object::process(samples, channels, sampleRate, position);
             }
         };
 
         Listener::Listener(Audio& initAudio):
             audio(initAudio),
             scene::Component(scene::Component::LISTENER),
-            nodeId(audio.initNode([]() { return std::unique_ptr<Node>(new ListenerProcessor()); }))
+            objectId(audio.initObject([]() { return std::unique_ptr<Object>(new ListenerProcessor()); }))
         {
         }
 
         Listener::~Listener()
         {
-            if (nodeId) audio.deleteNode(nodeId);
+            if (objectId) audio.deleteObject(objectId);
         }
 
         void Listener::updateTransform()

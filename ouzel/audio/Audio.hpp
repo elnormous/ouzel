@@ -9,7 +9,7 @@
 #include <set>
 #include <vector>
 #include "audio/Driver.hpp"
-#include "audio/Node.hpp"
+#include "audio/Object.hpp"
 #include "audio/Bus.hpp"
 #include "math/Quaternion.hpp"
 #include "math/Vector3.hpp"
@@ -41,9 +41,9 @@ namespace ouzel
 
             void update();
 
-            uintptr_t initNode(const std::function<std::unique_ptr<Node>(void)>& createFunction);
-            void deleteNode(uintptr_t nodeId);
-            void updateNode(uintptr_t nodeId, const std::function<void(Node*)>& updateFunction);
+            uintptr_t initObject(const std::function<std::unique_ptr<Object>(void)>& createFunction);
+            void deleteObject(uintptr_t objectId);
+            void updateObject(uintptr_t objectId, const std::function<void(Object*)>& updateFunction);
 
             Bus& getMasterBus() { return masterBus; }
 

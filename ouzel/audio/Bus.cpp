@@ -8,7 +8,7 @@ namespace ouzel
     {
         Bus::Bus(Audio& initAudio):
             audio(initAudio),
-            nodeId(0)
+            objectId(0)
         {
         }
 
