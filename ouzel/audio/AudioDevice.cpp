@@ -11,7 +11,6 @@ namespace ouzel
         AudioDevice::AudioDevice(Driver initDriver):
             driver(initDriver)
         {
-            buffers.resize(1000);
         }
 
         AudioDevice::~AudioDevice()
@@ -81,13 +80,8 @@ namespace ouzel
 
         void AudioDevice::getData(uint32_t frames, std::vector<uint8_t>& result)
         {
-            currentBuffer = 0;
-            uint32_t buffer = currentBuffer;
-
-            if (++currentBuffer > buffers.size()) return; // out of buffers
-
-            buffers[buffer].resize(frames * channels);
-            std::fill(buffers[buffer].begin(), buffers[buffer].end(), 0.0F);
+            buffer.resize(frames * channels);
+            std::fill(buffer.begin(), buffer.end(), 0.0F);
 
             if (masterBus)
             {
@@ -95,10 +89,10 @@ namespace ouzel
                 uint32_t inputSampleRate = sampleRate;
                 Vector3 inputPosition;
 
-                masterBus->process(buffers[buffer], inputChannels, inputSampleRate, inputPosition);
+                masterBus->process(buffer, inputChannels, inputSampleRate, inputPosition);
             }
 
-            for (float& f : buffers[buffer])
+            for (float& f : buffer)
                 f = clamp(f, -1.0F, 1.0F);
 
             switch (sampleFormat)
@@ -108,9 +102,9 @@ namespace ouzel
                     result.resize(frames * channels * sizeof(int16_t));
                     int16_t* resultPtr = reinterpret_cast<int16_t*>(result.data());
 
-                    for (uint32_t i = 0; i < buffers[buffer].size(); ++i)
+                    for (uint32_t i = 0; i < buffer.size(); ++i)
                     {
-                        *resultPtr = static_cast<int16_t>(buffers[buffer][i] * 32767.0F);
+                        *resultPtr = static_cast<int16_t>(buffer[i] * 32767.0F);
                         ++resultPtr;
                     }
                     break;
@@ -118,8 +112,8 @@ namespace ouzel
                 case SampleFormat::FLOAT32:
                 {
                     result.reserve(frames * channels * sizeof(float));
-                    result.assign(reinterpret_cast<uint8_t*>(buffers[buffer].data()),
-                                  reinterpret_cast<uint8_t*>(buffers[buffer].data()) + buffers[buffer].size() * sizeof(float));
+                    result.assign(reinterpret_cast<uint8_t*>(buffer.data()),
+                                  reinterpret_cast<uint8_t*>(buffer.data()) + buffer.size() * sizeof(float));
                     break;
                 }
                 default:
