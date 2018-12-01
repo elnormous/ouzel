@@ -100,7 +100,7 @@ namespace ouzel
 
         Audio::Audio(Driver driver, bool debugAudio, Window* window):
             device(createAudioDevice(driver, debugAudio, window)),
-            destination(*this)
+            masterBus(*this)
         {
         }
 

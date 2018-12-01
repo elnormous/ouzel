@@ -9,10 +9,14 @@ using namespace audio;
 using namespace input;
 
 SoundSample::SoundSample():
+    bus(*engine->getAudio()),
     listener(*engine->getAudio()),
     soundGain(*engine->getAudio()),
+    test8BitBus(*engine->getAudio()),
     test8BitPitch(*engine->getAudio()),
+    test24BitBus(*engine->getAudio()),
     test24BitPitch(*engine->getAudio()),
+    jumpBus(*engine->getAudio()),
     jumpPanner(*engine->getAudio()),
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
     test8BitButton("button.png", "button_selected.png", "button_down.png", "", "8-bit", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
@@ -26,34 +30,37 @@ SoundSample::SoundSample():
     handler.keyboardHandler = std::bind(&SoundSample::handleKeyboard, this, std::placeholders::_1);
     engine->getEventDispatcher().addEventHandler(&handler);
 
-    //listener.setOutput(&engine->getAudio()->getDestination());
+    bus.addListener(&listener);
 
-    //soundGain.setOutput(&listener);
+    bus.addFilter(&soundGain);
     soundGain.setGain(1.2F);
 
     test8BitSound = Sound(engine->getCache().getSoundData("8-bit.wav"));
     test8BitPitch.setPitch(2.0F);
-    //test8BitSound.setOutput(&test8BitPitch);
-    //test8BitPitch.setOutput(&soundGain);
+    test8BitSound.setOutput(&test8BitBus);
+    test8BitBus.addFilter(&test8BitPitch);
+    test8BitBus.setOutput(&bus);
 
     test24BitSound = Sound(engine->getCache().getSoundData("24-bit.wav"));
     test24BitPitch.setPitch(0.5F);
-    //test24BitSound.setOutput(&test24BitPitch);
-    //test24BitPitch.setOutput(&soundGain);
+    test24BitSound.setOutput(&test24BitBus);
+    test24BitBus.addFilter(&test24BitPitch);
+    test24BitBus.setOutput(&bus);
 
     jumpSound = Sound(engine->getCache().getSoundData("jump.wav"));
 
     guiLayer.addChild(&soundActor);
     soundActor.addComponent(&jumpPanner);
     soundActor.setPosition(Vector3(8.0F, 0.0F, 10.0F));
-    //jumpSound.setOutput(&jumpPanner);
-    //jumpPanner.setOutput(&soundGain);
+    jumpSound.setOutput(&jumpBus);
+    jumpBus.addFilter(&jumpPanner);
+    jumpBus.setOutput(&bus);
 
     ambientSound = Sound(engine->getCache().getSoundData("ambient.wav"));
-    //ambientSound.setOutput(&soundGain);
+    ambientSound.setOutput(&bus);
 
     music = Sound(engine->getCache().getSoundData("music.ogg"));
-    //music.setOutput(&listener);
+    music.setOutput(&bus);
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera.setTargetContentSize(Size2(800.0F, 600.0F));

@@ -10,6 +10,7 @@ using namespace graphics;
 using namespace input;
 
 PerspectiveSample::PerspectiveSample():
+    bus(*engine->getAudio()),
     listener(*engine->getAudio()),
     jumpPanner(*engine->getAudio()),
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
@@ -60,11 +61,12 @@ PerspectiveSample::PerspectiveSample():
     character.setPosition(Vector2(10.0F, 0.0F));
 
     cameraActor.addComponent(&listener);
-    //listener.setOutput(&engine->getAudio()->getDestination());
+    bus.addListener(&listener);
+    bus.setOutput(&engine->getAudio()->getMasterBus());
 
     jumpSound = Sound(engine->getCache().getSoundData("jump.wav"));
-    //jumpSound.setOutput(&jumpPanner);
-    //jumpPanner.setOutput(&listener);
+    jumpSound.setOutput(&bus);
+    bus.addFilter(&jumpPanner);
     jumpPanner.setRolloffFactor(0.01F);
     character.addComponent(&jumpPanner);
 
