@@ -25,7 +25,7 @@ namespace ouzel
             void setGain(float newGain);
 
         private:
-            uintptr_t nodeId = 0;
+            uintptr_t objectId = 0;
             float gain = 0.0F;
         };
     } // namespace audio

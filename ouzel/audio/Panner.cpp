@@ -8,7 +8,7 @@ namespace ouzel
 {
     namespace audio
     {
-        class PannerProcessor final: public Node
+        class PannerProcessor final: public Object
         {
         public:
             PannerProcessor()
@@ -18,7 +18,7 @@ namespace ouzel
             void process(std::vector<float>& samples, uint16_t& channels,
                          uint32_t& sampleRate, Vector3& pos) override
             {
-                Node::process(samples, channels, sampleRate, pos);
+                Object::process(samples, channels, sampleRate, pos);
 
                 position = pos;
             }
@@ -53,20 +53,20 @@ namespace ouzel
         Panner::Panner(Audio& initAudio):
             scene::Component(scene::Component::SOUND),
             Filter(initAudio),
-            nodeId(audio.initNode([]() { return std::unique_ptr<Node>(new PannerProcessor()); }))
+            objectId(audio.initObject([]() { return std::unique_ptr<Object>(new PannerProcessor()); }))
         {
         }
 
         Panner::~Panner()
         {
-            if (nodeId) audio.deleteNode(nodeId);
+            if (objectId) audio.deleteObject(objectId);
         }
 
         void Panner::setPosition(const Vector3& newPosition)
         {
             position = newPosition;
 
-            audio.updateNode(nodeId, [newPosition](Node* node) {
+            audio.updateObject(objectId, [newPosition](Object* node) {
                 PannerProcessor* pannerProcessor = static_cast<PannerProcessor*>(node);
                 pannerProcessor->setPosition(newPosition);
             });
@@ -76,7 +76,7 @@ namespace ouzel
         {
             rolloffFactor = newRolloffFactor;
 
-            audio.updateNode(nodeId, [newRolloffFactor](Node* node) {
+            audio.updateObject(objectId, [newRolloffFactor](Object* node) {
                 PannerProcessor* pannerProcessor = static_cast<PannerProcessor*>(node);
                 pannerProcessor->setRolloffFactor(newRolloffFactor);
             });
@@ -86,7 +86,7 @@ namespace ouzel
         {
             minDistance = newMinDistance;
 
-            audio.updateNode(nodeId, [newMinDistance](Node* node) {
+            audio.updateObject(objectId, [newMinDistance](Object* node) {
                 PannerProcessor* pannerProcessor = static_cast<PannerProcessor*>(node);
                 pannerProcessor->setMinDistance(newMinDistance);
             });
@@ -96,7 +96,7 @@ namespace ouzel
         {
             maxDistance = newMaxDistance;
 
-            audio.updateNode(nodeId, [newMaxDistance](Node* node) {
+            audio.updateObject(objectId, [newMaxDistance](Object* node) {
                 PannerProcessor* pannerProcessor = static_cast<PannerProcessor*>(node);
                 pannerProcessor->setMaxDistance(newMaxDistance);
             });

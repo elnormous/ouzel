@@ -39,7 +39,7 @@ namespace ouzel
         private:
             void updateTransform() override;
 
-            uintptr_t nodeId = 0;
+            uintptr_t objectId = 0;
             Vector3 position;
             float rolloffFactor = 1.0F;
             float minDistance = 1.0F;

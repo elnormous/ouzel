@@ -7,7 +7,7 @@ namespace ouzel
 {
     namespace audio
     {
-        class GainProcessor final: public Node
+        class GainProcessor final: public Object
         {
         public:
             GainProcessor()
@@ -17,7 +17,7 @@ namespace ouzel
             void process(std::vector<float>& samples, uint16_t& channels,
                          uint32_t& sampleRate, Vector3& position) override
             {
-                Node::process(samples, channels, sampleRate, position);
+                Object::process(samples, channels, sampleRate, position);
 
                 for (float& sample : samples)
                     sample *= gain;
@@ -34,20 +34,20 @@ namespace ouzel
 
         Gain::Gain(Audio& initAudio):
             Filter(initAudio),
-            nodeId(audio.initNode([]() { return std::unique_ptr<Node>(new GainProcessor()); }))
+            objectId(audio.initObject([]() { return std::unique_ptr<Object>(new GainProcessor()); }))
         {
         }
 
         Gain::~Gain()
         {
-            if (nodeId) audio.deleteNode(nodeId);
+            if (objectId) audio.deleteObject(objectId);
         }
 
         void Gain::setGain(float newGain)
         {
             gain = newGain;
 
-            audio.updateNode(nodeId, [newGain](Node* node) {
+            audio.updateObject(objectId, [newGain](Object* node) {
                 GainProcessor* gainProcessor = static_cast<GainProcessor*>(node);
                 gainProcessor->setGain(newGain);
             });

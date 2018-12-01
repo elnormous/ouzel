@@ -7,7 +7,7 @@ namespace ouzel
 {
     namespace audio
     {
-        class PitchProcessor final: public Node
+        class PitchProcessor final: public Object
         {
         public:
             PitchProcessor()
@@ -17,19 +17,19 @@ namespace ouzel
             void process(std::vector<float>& samples, uint16_t& channels,
                          uint32_t& sampleRate, Vector3& position) override
             {
-                Node::process(samples, channels, sampleRate, position);
+                Object::process(samples, channels, sampleRate, position);
             }
         };
 
         Pitch::Pitch(Audio& initAudio):
             Filter(initAudio),
-            nodeId(audio.initNode([]() { return std::unique_ptr<Node>(new PitchProcessor()); }))
+            objectId(audio.initObject([]() { return std::unique_ptr<Object>(new PitchProcessor()); }))
         {
         }
 
         Pitch::~Pitch()
         {
-            if (nodeId) audio.deleteNode(nodeId);
+            if (objectId) audio.deleteObject(objectId);
         }
 
         void Pitch::setPitch(float newPitch)

@@ -11,7 +11,7 @@
 #include <set>
 #include <vector>
 #include "audio/Driver.hpp"
-#include "audio/Node.hpp"
+#include "audio/Object.hpp"
 #include "audio/SampleFormat.hpp"
 #include "math/Quaternion.hpp"
 #include "math/Vector3.hpp"
@@ -20,8 +20,8 @@ namespace ouzel
 {
     namespace audio
     {
-        class ListenerNode;
-        class MixerNode;
+        class ListenerObject;
+        class MixerObject;
 
         class AudioDevice
         {
@@ -30,21 +30,28 @@ namespace ouzel
             {
                 enum class Type
                 {
-                    INIT_NODE,
-                    DELETE_NODE,
-                    UPDATE_NODE,
-                    ADD_OUTPUT_NODE,
-                    SET_DESTINATION_NODE
+                    DELETE_OBJECT,
+                    INIT_BUS,
+                    ADD_LISTENER,
+                    REMOVE_LISTENER,
+                    ADD_FILTER,
+                    REMOVE_FILTER,
+                    INIT_LISTENER,
+                    UPDATE_LISTENER,
+                    INIT_FILTER,
+                    UPDATE_FILTER,
+                    ADD_OUTPUT_BUS,
+                    SET_MASTER_BUS
                 };
 
                 Command() {}
                 explicit Command(Type initType): type(initType) {}
 
                 Type type;
-                uintptr_t nodeId;
-                uintptr_t destinationNodeId;
-                std::function<std::unique_ptr<Node>(void)> createFunction;
-                std::function<void(Node*)> updateFunction;
+                uintptr_t objectId;
+                uintptr_t destinationObjectId;
+                std::function<std::unique_ptr<Object>(void)> createFunction;
+                std::function<void(Object*)> updateFunction;
             };
 
             explicit AudioDevice(Driver initDriver);
@@ -63,23 +70,23 @@ namespace ouzel
 
             void addCommand(const Command& command);
 
-            uintptr_t getNodeId()
+            uintptr_t getObjectId()
             {
-                auto i = deletedNodeIds.begin();
+                auto i = deletedObjectIds.begin();
 
-                if (i == deletedNodeIds.end())
-                    return ++lastNodeId; // zero is reserved for null node
+                if (i == deletedObjectIds.end())
+                    return ++lastObjectId; // zero is reserved for null node
                 else
                 {
-                    uintptr_t nodeId = *i;
-                    deletedNodeIds.erase(i);
-                    return nodeId;
+                    uintptr_t objectId = *i;
+                    deletedObjectIds.erase(i);
+                    return objectId;
                 }
             }
 
-            void deleteNodeId(uintptr_t nodeId)
+            void deleteObjectId(uintptr_t objectId)
             {
-                deletedNodeIds.insert(nodeId);
+                deletedObjectIds.insert(objectId);
             }
 
         protected:
@@ -97,14 +104,14 @@ namespace ouzel
             std::vector<std::vector<float>> buffers;
             uint32_t currentBuffer = 0;
 
-            uintptr_t lastNodeId = 0;
-            std::set<uintptr_t> deletedNodeIds;
+            uintptr_t lastObjectId = 0;
+            std::set<uintptr_t> deletedObjectIds;
 
-            std::vector<std::unique_ptr<Node>> nodes;
+            std::vector<std::unique_ptr<Object>> objects;
 
             Driver driver;
 
-            Node* destinationNode = nullptr;
+            Object* masterBus = nullptr;
             std::mutex commandMutex;
             std::condition_variable commandConditionVariable;
             std::queue<Command> commandQueue;

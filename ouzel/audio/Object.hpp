@@ -12,30 +12,30 @@ namespace ouzel
 {
     namespace audio
     {
-        class Node
+        class Object
         {
         public:
-            Node() {}
-            virtual ~Node();
+            Object() {}
+            virtual ~Object();
 
-            Node(const Node&) = delete;
-            Node& operator=(const Node&) = delete;
+            Object(const Object&) = delete;
+            Object& operator=(const Object&) = delete;
 
-            Node(Node&&) = delete;
-            Node& operator=(Node&&) = delete;
+            Object(Object&&) = delete;
+            Object& operator=(Object&&) = delete;
 
             virtual void process(std::vector<float>& samples, uint16_t& channels,
                                  uint32_t& sampleRate, Vector3& position);
 
-            void addOutputNode(Node* node);
-            void removeOutputNode(Node* node);
+            void addOutputObject(Object* node);
+            void removeOutputObject(Object* node);
 
         private:
-            void addInputNode(Node* node);
-            void removeInputNode(Node* node);
+            void addInputObject(Object* node);
+            void removeInputObject(Object* node);
 
-            std::vector<Node*> inputNodes;
-            std::vector<Node*> outputNodes;
+            std::vector<Object*> inputObjects;
+            std::vector<Object*> outputObjects;
 
             std::vector<float> buffer;
         };

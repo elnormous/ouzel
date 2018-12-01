@@ -27,7 +27,7 @@ namespace ouzel
 
         private:
             Audio& audio;
-            uintptr_t nodeId = 0;
+            uintptr_t objectId = 0;
 
             Vector3 position;
             Quaternion rotation;

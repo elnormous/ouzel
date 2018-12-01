@@ -31,7 +31,7 @@ namespace ouzel
             
         protected:
             Audio& audio;
-            uintptr_t nodeId;
+            uintptr_t objectId;
         };
     } // namespace audio
 } // namespace ouzel
