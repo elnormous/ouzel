@@ -85,7 +85,7 @@ namespace ouzel
             engine->getEventDispatcher().postEvent(std::move(event));
         }
 
-        void Sound::setOutput(Submix* newOutput)
+        void Sound::setOutput(Bus* newOutput)
         {
             output = newOutput;
         }

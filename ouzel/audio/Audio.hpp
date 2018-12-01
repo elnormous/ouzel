@@ -10,7 +10,7 @@
 #include <vector>
 #include "audio/Driver.hpp"
 #include "audio/Node.hpp"
-#include "audio/Submix.hpp"
+#include "audio/Bus.hpp"
 #include "math/Quaternion.hpp"
 #include "math/Vector3.hpp"
 
@@ -45,11 +45,11 @@ namespace ouzel
             void deleteNode(uintptr_t nodeId);
             void updateNode(uintptr_t nodeId, const std::function<void(Node*)>& updateFunction);
 
-            Submix& getDestination() { return destination; }
+            Bus& getMasterBus() { return masterBus; }
 
         private:
             std::unique_ptr<AudioDevice> device;
-            Submix destination;
+            Bus masterBus;
         };
     } // namespace audio
 } // namespace ouzel
