@@ -713,6 +713,12 @@
 		30A381F821B201C20043568A /* Bus.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30A381F421B201C20043568A /* Bus.hpp */; };
 		30A381F921B201C20043568A /* Bus.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30A381F421B201C20043568A /* Bus.hpp */; };
 		30A381FA21B201C20043568A /* Bus.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30A381F421B201C20043568A /* Bus.hpp */; };
+		30A381FE21B382A20043568A /* Mixer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A381FC21B382A20043568A /* Mixer.cpp */; };
+		30A381FF21B382A20043568A /* Mixer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A381FC21B382A20043568A /* Mixer.cpp */; };
+		30A3820021B382A20043568A /* Mixer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A381FC21B382A20043568A /* Mixer.cpp */; };
+		30A3820121B382A20043568A /* Mixer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30A381FD21B382A20043568A /* Mixer.hpp */; };
+		30A3820221B382A20043568A /* Mixer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30A381FD21B382A20043568A /* Mixer.hpp */; };
+		30A3820321B382A20043568A /* Mixer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30A381FD21B382A20043568A /* Mixer.hpp */; };
 		30A883641E7432DA004A033F /* Archive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A883621E7432DA004A033F /* Archive.cpp */; };
 		30A883651E7432DA004A033F /* Archive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A883621E7432DA004A033F /* Archive.cpp */; };
 		30A883661E7432DA004A033F /* Archive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A883621E7432DA004A033F /* Archive.cpp */; };
@@ -1250,6 +1256,8 @@
 		30A381EC21AE22740043568A /* Group.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Group.hpp; sourceTree = "<group>"; };
 		30A381F321B201C20043568A /* Bus.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Bus.cpp; sourceTree = "<group>"; };
 		30A381F421B201C20043568A /* Bus.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Bus.hpp; sourceTree = "<group>"; };
+		30A381FC21B382A20043568A /* Mixer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Mixer.cpp; sourceTree = "<group>"; };
+		30A381FD21B382A20043568A /* Mixer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Mixer.hpp; sourceTree = "<group>"; };
 		30A883621E7432DA004A033F /* Archive.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Archive.cpp; sourceTree = "<group>"; };
 		30A883631E7432DA004A033F /* Archive.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Archive.hpp; sourceTree = "<group>"; };
 		30A9C12F1CAE80570084C4BF /* Localization.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Localization.cpp; sourceTree = "<group>"; };
@@ -1775,6 +1783,8 @@
 				30A381EC21AE22740043568A /* Group.hpp */,
 				306A26B11F5DD17700E2B0B6 /* Listener.cpp */,
 				306A26B21F5DD17700E2B0B6 /* Listener.hpp */,
+				30A381FC21B382A20043568A /* Mixer.cpp */,
+				30A381FD21B382A20043568A /* Mixer.hpp */,
 				30C3F28F219D0DD9003FE9ED /* Object.cpp */,
 				30C3F290219D0DD9003FE9ED /* Object.hpp */,
 				30419E6C1D20254100A63759 /* openal */,
@@ -2122,6 +2132,7 @@
 				304AA8C11E1190E4006FA70E /* OBF.hpp in Headers */,
 				30381F521D80A3EC00677CAB /* BlendStateOGL.hpp in Headers */,
 				3047F76B1C4D2C2000774E3D /* Sequence.hpp in Headers */,
+				30A3820121B382A20043568A /* Mixer.hpp in Headers */,
 				30575AAA1C39D1FF0009C8A7 /* Layer.hpp in Headers */,
 				3030D5051DAEF1FA007CC8EB /* Log.hpp in Headers */,
 				30C3F27D219D0847003FE9ED /* Panner.hpp in Headers */,
@@ -2382,6 +2393,7 @@
 				306A26B81F5DD17700E2B0B6 /* Listener.hpp in Headers */,
 				30B859911F3D286600A16952 /* TTFont.hpp in Headers */,
 				304B277E1C95C54D00BA162D /* EditBox.hpp in Headers */,
+				30A3820321B382A20043568A /* Mixer.hpp in Headers */,
 				C61B49F02174B83900B818F1 /* SkinnedMeshRenderer.hpp in Headers */,
 				30C758BA1F4A0309008499DC /* RenderDevice.hpp in Headers */,
 				30419DEE1D162BDC00A63759 /* Sound.hpp in Headers */,
@@ -2500,6 +2512,7 @@
 				3049DCB81ED8687C0000997A /* ConvexVolume.hpp in Headers */,
 				30CEB37121A6403800525637 /* SystemMacOS.hpp in Headers */,
 				303696D01E32DD9C007F4211 /* BlendState.hpp in Headers */,
+				30A3820221B382A20043568A /* Mixer.hpp in Headers */,
 				30419DF41D162BEF00A63759 /* SoundData.hpp in Headers */,
 				304A8E571C237C70008B1151 /* MathUtils.hpp in Headers */,
 				30519CD41F9B53CB00AF3DC4 /* LoaderImage.hpp in Headers */,
@@ -2858,6 +2871,7 @@
 				303696D41E32DDA9007F4211 /* Buffer.cpp in Sources */,
 				30381F791D80A3EC00677CAB /* RenderDeviceOGL.cpp in Sources */,
 				30419DE21D162BCF00A63759 /* Audio.cpp in Sources */,
+				30A381FE21B382A20043568A /* Mixer.cpp in Sources */,
 				30216B801ED5C3900073E3D5 /* Plane.cpp in Sources */,
 				303B75611C2A3CBF00FEDE92 /* Actor.cpp in Sources */,
 				3011E1C31EFFE6DE00CB1DDC /* INI.cpp in Sources */,
@@ -3027,6 +3041,7 @@
 				30381F7B1D80A3EC00677CAB /* RenderDeviceOGL.cpp in Sources */,
 				30419DE31D162BCF00A63759 /* Audio.cpp in Sources */,
 				30EEADC521618DD800D2F525 /* MouseDevice.cpp in Sources */,
+				30A3820021B382A20043568A /* Mixer.cpp in Sources */,
 				30216B821ED5C3900073E3D5 /* Plane.cpp in Sources */,
 				303B76881C355A5800FEDE92 /* main.cpp in Sources */,
 				3011E1C51EFFE6DE00CB1DDC /* INI.cpp in Sources */,
@@ -3071,6 +3086,7 @@
 				303B76081C34A92B00FEDE92 /* InputManager.cpp in Sources */,
 				30519CD11F9B53CB00AF3DC4 /* LoaderImage.cpp in Sources */,
 				304A8E721C237C70008B1151 /* Vector3.cpp in Sources */,
+				30A381FF21B382A20043568A /* Mixer.cpp in Sources */,
 				30A381F621B201C20043568A /* Bus.cpp in Sources */,
 				30575AC51C3B17540009C8A7 /* Button.cpp in Sources */,
 				304AA8BF1E1190E4006FA70E /* OBF.cpp in Sources */,

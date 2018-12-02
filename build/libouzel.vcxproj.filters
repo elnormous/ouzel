@@ -482,6 +482,9 @@
     <ClCompile Include="..\ouzel\audio\Group.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\audio\Mixer.cpp">
+      <Filter>ouzel\audio</Filter>
+    </ClCompile>
     <ClCompile Include="..\ouzel\audio\wasapi\AudioDeviceWASAPI.cpp">
       <Filter>ouzel\audio\wasapi</Filter>
     </ClCompile>
@@ -1037,6 +1040,9 @@
       <Filter>ouzel\core\windows</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\Group.hpp">
+      <Filter>ouzel\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\Mixer.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\wasapi\AudioDeviceWASAPI.hpp">

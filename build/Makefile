@@ -55,7 +55,9 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Delay.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Filter.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Gain.cpp \
+	$(ROOT_DIR)/../ouzel/audio/Group.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Listener.cpp \
+	$(ROOT_DIR)/../ouzel/audio/Mixer.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Object.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Panner.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Pitch.cpp \
@@ -66,7 +68,6 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Stream.cpp \
 	$(ROOT_DIR)/../ouzel/audio/StreamVorbis.cpp \
 	$(ROOT_DIR)/../ouzel/audio/StreamWave.cpp \
-	$(ROOT_DIR)/../ouzel/audio/Group.cpp \
 	$(ROOT_DIR)/../ouzel/core/Engine.cpp \
 	$(ROOT_DIR)/../ouzel/core/System.cpp \
 	$(ROOT_DIR)/../ouzel/core/NativeWindow.cpp \
