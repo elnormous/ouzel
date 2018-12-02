@@ -51,6 +51,7 @@
     <ClCompile Include="..\ouzel\audio\Gain.cpp" />
     <ClCompile Include="..\ouzel\audio\Panner.cpp" />
     <ClCompile Include="..\ouzel\audio\Pitch.cpp" />
+    <ClCompile Include="..\ouzel\audio\Reverb.cpp" />
     <ClCompile Include="..\ouzel\audio\Object.cpp" />
     <ClCompile Include="..\ouzel\audio\Listener.cpp" />
     <ClCompile Include="..\ouzel\audio\Sound.cpp" />
@@ -224,6 +225,7 @@
     <ClInclude Include="..\ouzel\audio\Gain.hpp" />
     <ClInclude Include="..\ouzel\audio\Panner.hpp" />
     <ClInclude Include="..\ouzel\audio\Pitch.hpp" />
+    <ClInclude Include="..\ouzel\audio\Reverb.hpp" />
     <ClInclude Include="..\ouzel\audio\Processor.hpp" />
     <ClInclude Include="..\ouzel\audio\SampleFormat.hpp" />
     <ClInclude Include="..\ouzel\audio\Listener.hpp" />

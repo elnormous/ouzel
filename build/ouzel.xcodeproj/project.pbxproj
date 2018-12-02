@@ -719,6 +719,12 @@
 		30A3820121B382A20043568A /* Mixer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30A381FD21B382A20043568A /* Mixer.hpp */; };
 		30A3820221B382A20043568A /* Mixer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30A381FD21B382A20043568A /* Mixer.hpp */; };
 		30A3820321B382A20043568A /* Mixer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30A381FD21B382A20043568A /* Mixer.hpp */; };
+		30A3820621B49ECF0043568A /* Reverb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A3820421B49ECF0043568A /* Reverb.cpp */; };
+		30A3820721B49ECF0043568A /* Reverb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A3820421B49ECF0043568A /* Reverb.cpp */; };
+		30A3820821B49ECF0043568A /* Reverb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A3820421B49ECF0043568A /* Reverb.cpp */; };
+		30A3820921B49ECF0043568A /* Reverb.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30A3820521B49ECF0043568A /* Reverb.hpp */; };
+		30A3820A21B49ECF0043568A /* Reverb.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30A3820521B49ECF0043568A /* Reverb.hpp */; };
+		30A3820B21B49ECF0043568A /* Reverb.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30A3820521B49ECF0043568A /* Reverb.hpp */; };
 		30A883641E7432DA004A033F /* Archive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A883621E7432DA004A033F /* Archive.cpp */; };
 		30A883651E7432DA004A033F /* Archive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A883621E7432DA004A033F /* Archive.cpp */; };
 		30A883661E7432DA004A033F /* Archive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A883621E7432DA004A033F /* Archive.cpp */; };
@@ -1258,6 +1264,8 @@
 		30A381F421B201C20043568A /* Bus.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Bus.hpp; sourceTree = "<group>"; };
 		30A381FC21B382A20043568A /* Mixer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Mixer.cpp; sourceTree = "<group>"; };
 		30A381FD21B382A20043568A /* Mixer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Mixer.hpp; sourceTree = "<group>"; };
+		30A3820421B49ECF0043568A /* Reverb.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Reverb.cpp; sourceTree = "<group>"; };
+		30A3820521B49ECF0043568A /* Reverb.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Reverb.hpp; sourceTree = "<group>"; };
 		30A883621E7432DA004A033F /* Archive.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Archive.cpp; sourceTree = "<group>"; };
 		30A883631E7432DA004A033F /* Archive.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Archive.hpp; sourceTree = "<group>"; };
 		30A9C12F1CAE80570084C4BF /* Localization.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Localization.cpp; sourceTree = "<group>"; };
@@ -1792,6 +1800,8 @@
 				30C3F26B219D0846003FE9ED /* Panner.hpp */,
 				30C3F26F219D0847003FE9ED /* Pitch.cpp */,
 				30C3F269219D0846003FE9ED /* Pitch.hpp */,
+				30A3820421B49ECF0043568A /* Reverb.cpp */,
+				30A3820521B49ECF0043568A /* Reverb.hpp */,
 				30BA5FB62198E37A0032AC23 /* SampleFormat.hpp */,
 				30419DE71D162BDC00A63759 /* Sound.cpp */,
 				30419DE81D162BDC00A63759 /* Sound.hpp */,
@@ -2189,6 +2199,7 @@
 				306672631F964A77004515F2 /* Light.hpp in Headers */,
 				303B754E1C2A3CB700FEDE92 /* MathUtils.hpp in Headers */,
 				303696C71E32DD8F007F4211 /* Texture.hpp in Headers */,
+				30A3820921B49ECF0043568A /* Reverb.hpp in Headers */,
 				303B753A1C2A3C8200FEDE92 /* EventHandler.hpp in Headers */,
 				3047F74A1C4C350D00774E3D /* Move.hpp in Headers */,
 				303B75821C2B17DC00FEDE92 /* Event.hpp in Headers */,
@@ -2346,6 +2357,7 @@
 				306792F7211F98070006FF79 /* Bundle.hpp in Headers */,
 				303B76691C355A3B00FEDE92 /* Rect.hpp in Headers */,
 				303B766C1C355A3B00FEDE92 /* MathUtils.hpp in Headers */,
+				30A3820B21B49ECF0043568A /* Reverb.hpp in Headers */,
 				3098A55F1EA01CA900528A54 /* GamepadDeviceTVOS.hpp in Headers */,
 				30519CE51F9B53E900AF3DC4 /* LoaderParticleSystem.hpp in Headers */,
 				30AEFA1920C0FB2E00CDFD33 /* RenderTarget.hpp in Headers */,
@@ -2500,6 +2512,7 @@
 				30381F8F1D80A3EC00677CAB /* TextureOGL.hpp in Headers */,
 				3009031221922E1300B00BF4 /* DepthStencilStateOGL.hpp in Headers */,
 				305B998C1C41EFFA008589E1 /* Menu.hpp in Headers */,
+				30A3820A21B49ECF0043568A /* Reverb.hpp in Headers */,
 				30AEFA1820C0FB2E00CDFD33 /* RenderTarget.hpp in Headers */,
 				3038202F1D80A55700677CAB /* BufferMetal.hpp in Headers */,
 				304E763D1F7095DE0025C0DB /* Client.hpp in Headers */,
@@ -2869,6 +2882,7 @@
 				302261811FDB8C59005279FC /* LoaderCollada.cpp in Sources */,
 				30C758AD1F4A0196008499DC /* AudioDevice.cpp in Sources */,
 				303696D41E32DDA9007F4211 /* Buffer.cpp in Sources */,
+				30A3820621B49ECF0043568A /* Reverb.cpp in Sources */,
 				30381F791D80A3EC00677CAB /* RenderDeviceOGL.cpp in Sources */,
 				30419DE21D162BCF00A63759 /* Audio.cpp in Sources */,
 				30A381FE21B382A20043568A /* Mixer.cpp in Sources */,
@@ -3039,6 +3053,7 @@
 				30C758AF1F4A0196008499DC /* AudioDevice.cpp in Sources */,
 				303696D61E32DDA9007F4211 /* Buffer.cpp in Sources */,
 				30381F7B1D80A3EC00677CAB /* RenderDeviceOGL.cpp in Sources */,
+				30A3820821B49ECF0043568A /* Reverb.cpp in Sources */,
 				30419DE31D162BCF00A63759 /* Audio.cpp in Sources */,
 				30EEADC521618DD800D2F525 /* MouseDevice.cpp in Sources */,
 				30A3820021B382A20043568A /* Mixer.cpp in Sources */,
@@ -3073,6 +3088,7 @@
 				30216B641ED462B80073E3D5 /* StaticMeshRenderer.cpp in Sources */,
 				30FFBE3B2158FD8D004B0BD3 /* Mouse.cpp in Sources */,
 				3085DA21211A4A5500F4C2D0 /* Socket.cpp in Sources */,
+				30A3820721B49ECF0043568A /* Reverb.cpp in Sources */,
 				30575ABC1C39D9850009C8A7 /* ActorContainer.cpp in Sources */,
 				30EF36531CA76AE200F04F29 /* ScrollBar.cpp in Sources */,
 				30575AA61C39D1FF0009C8A7 /* Layer.cpp in Sources */,
