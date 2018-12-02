@@ -75,8 +75,8 @@ namespace ouzel
 
         const OpenALErrorCategory openALErrorCategory{};
 
-        AudioDeviceAL::AudioDeviceAL():
-            AudioDevice(Driver::OPENAL)
+        AudioDeviceAL::AudioDeviceAL(Mixer& initMixer):
+            AudioDevice(Driver::OPENAL, initMixer)
         {
 #if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
             id audioSession = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("AVAudioSession"), sel_getUid("sharedInstance"));

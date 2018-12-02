@@ -6,5 +6,9 @@ namespace ouzel
 {
     namespace audio
     {
+        void Mixer::getData(uint32_t frames, uint32_t sampleRate, std::vector<uint8_t>& result)
+        {
+
+        }
     } // namespace audio
 } // namespace ouzel

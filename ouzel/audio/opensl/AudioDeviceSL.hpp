@@ -20,7 +20,7 @@ namespace ouzel
         class AudioDeviceSL final: public AudioDevice
         {
         public:
-            AudioDeviceSL();
+            AudioDeviceSL(Mixer& initMixer);
             ~AudioDeviceSL();
 
             void enqueue(SLAndroidSimpleBufferQueueItf bufferQueue);
