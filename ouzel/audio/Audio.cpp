@@ -56,50 +56,50 @@ namespace ouzel
             return availableDrivers;
         }
 
-        static std::unique_ptr<AudioDevice> createAudioDevice(Driver driver, bool debugAudio, Window* window)
+        static std::unique_ptr<AudioDevice> createAudioDevice(Driver driver, Mixer& mixer, bool debugAudio, Window* window)
         {
             switch (driver)
             {
 #if OUZEL_COMPILE_OPENAL
                 case Driver::OPENAL:
                     engine->log(Log::Level::INFO) << "Using OpenAL audio driver";
-                    return std::unique_ptr<AudioDevice>(new AudioDeviceAL());
+                    return std::unique_ptr<AudioDevice>(new AudioDeviceAL(mixer));
 #endif
 #if OUZEL_COMPILE_DIRECTSOUND
                 case Driver::DIRECTSOUND:
                     engine->log(Log::Level::INFO) << "Using DirectSound audio driver";
-                    return std::unique_ptr<AudioDevice>(new AudioDeviceDS(window));
+                    return std::unique_ptr<AudioDevice>(new AudioDeviceDS(mixer, window));
 #endif
 #if OUZEL_COMPILE_XAUDIO2
                 case Driver::XAUDIO2:
                     engine->log(Log::Level::INFO) << "Using XAudio 2 audio driver";
-                    return std::unique_ptr<AudioDevice>(new AudioDeviceXA2(debugAudio));
+                    return std::unique_ptr<AudioDevice>(new AudioDeviceXA2(mixer, debugAudio));
 #endif
 #if OUZEL_COMPILE_OPENSL
                 case Driver::OPENSL:
                     engine->log(Log::Level::INFO) << "Using OpenSL ES audio driver";
-                    return std::unique_ptr<AudioDevice>(new AudioDeviceSL());
+                    return std::unique_ptr<AudioDevice>(new AudioDeviceSL(mixer));
 #endif
 #if OUZEL_COMPILE_COREAUDIO
                 case Driver::COREAUDIO:
                     engine->log(Log::Level::INFO) << "Using CoreAudio audio driver";
-                    return std::unique_ptr<AudioDevice>(new AudioDeviceCA());
+                    return std::unique_ptr<AudioDevice>(new AudioDeviceCA(mixer));
 #endif
 #if OUZEL_COMPILE_ALSA
                 case Driver::ALSA:
                     engine->log(Log::Level::INFO) << "Using ALSA audio driver";
-                    return std::unique_ptr<AudioDevice>(new AudioDeviceALSA());
+                    return std::unique_ptr<AudioDevice>(new AudioDeviceALSA(mixer));
 #endif
                 default:
                     engine->log(Log::Level::INFO) << "Not using audio driver";
                     (void)debugAudio;
                     (void)window;
-                    return std::unique_ptr<AudioDevice>(new AudioDeviceEmpty());
+                    return std::unique_ptr<AudioDevice>(new AudioDeviceEmpty(mixer));
             }
         }
 
         Audio::Audio(Driver driver, bool debugAudio, Window* window):
-            device(createAudioDevice(driver, debugAudio, window)),
+            device(createAudioDevice(driver, mixer, debugAudio, window)),
             masterBus(*this)
         {
         }

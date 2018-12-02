@@ -74,8 +74,8 @@ namespace ouzel
 
         const DirectSoundErrorCategory directSoundErrorCategory {};
 
-        AudioDeviceDS::AudioDeviceDS(Window* window):
-            AudioDevice(Driver::DIRECTSOUND), running(true)
+        AudioDeviceDS::AudioDeviceDS(Mixer& initMixer, Window* window):
+            AudioDevice(Driver::DIRECTSOUND, initMixer), running(true)
         {
             HRESULT hr;
             if (FAILED(hr = DirectSoundEnumerateW(enumCallback, this)))

@@ -6,8 +6,8 @@ namespace ouzel
 {
     namespace audio
     {
-        AudioDeviceWASAPI::AudioDeviceWASAPI():
-            AudioDevice(Driver::WASAPI)
+        AudioDeviceWASAPI::AudioDeviceWASAPI(Mixer& initMixer):
+            AudioDevice(Driver::WASAPI, initMixer)
         {
         }
     } // namespace audio

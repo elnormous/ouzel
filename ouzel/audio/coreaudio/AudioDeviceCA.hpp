@@ -22,7 +22,7 @@ namespace ouzel
         class AudioDeviceCA final: public AudioDevice
         {
         public:
-            AudioDeviceCA();
+            AudioDeviceCA(Mixer& initMixer);
             ~AudioDeviceCA();
 
             void outputCallback(AudioBufferList* ioData);

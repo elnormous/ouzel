@@ -43,8 +43,8 @@ namespace ouzel
 
         const XAudio2ErrorCategory xAudio2ErrorCategory {};
 
-        AudioDeviceXA2::AudioDeviceXA2(bool debugAudio):
-            AudioDevice(Driver::XAUDIO2), running(true)
+        AudioDeviceXA2::AudioDeviceXA2(Mixer& initMixer, bool debugAudio):
+            AudioDevice(Driver::XAUDIO2, initMixer), running(true)
         {
             xAudio2Library = LoadLibraryA(XAUDIO2_DLL_28);
 

@@ -14,8 +14,8 @@ namespace ouzel
 {
     namespace audio
     {
-        AudioDeviceALSA::AudioDeviceALSA():
-            AudioDevice(Driver::ALSA), running(true)
+        AudioDeviceALSA::AudioDeviceALSA(Mixer& initMixer):
+            AudioDevice(Driver::ALSA, initMixer), running(true)
         {
             int result;
             if ((result = snd_pcm_open(&playbackHandle, "default", SND_PCM_STREAM_PLAYBACK, 0)) < 0)

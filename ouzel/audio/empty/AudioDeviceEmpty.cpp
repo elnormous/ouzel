@@ -6,8 +6,8 @@ namespace ouzel
 {
     namespace audio
     {
-        AudioDeviceEmpty::AudioDeviceEmpty():
-            AudioDevice(Driver::EMPTY)
+        AudioDeviceEmpty::AudioDeviceEmpty(Mixer& initMixer):
+            AudioDevice(Driver::EMPTY, initMixer)
         {
         }
     } // namespace audio

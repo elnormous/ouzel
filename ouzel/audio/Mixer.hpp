@@ -3,6 +3,9 @@
 #ifndef AUDIO_MIXER_HPP
 #define AUDIO_MIXER_HPP
 
+#include <cstdint>
+#include <vector>
+
 namespace ouzel
 {
     namespace audio
@@ -17,6 +20,8 @@ namespace ouzel
 
             Mixer(Mixer&&) = delete;
             Mixer& operator=(Mixer&&) = delete;
+
+            void getData(uint32_t frames, uint32_t sampleRate, std::vector<uint8_t>& result);
         };
     } // namespace audio
 } // namespace ouzel

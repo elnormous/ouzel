@@ -11,6 +11,7 @@
 #include <set>
 #include <vector>
 #include "audio/Driver.hpp"
+#include "audio/Mixer.hpp"
 #include "audio/Object.hpp"
 #include "audio/SampleFormat.hpp"
 #include "math/Quaternion.hpp"
@@ -54,7 +55,7 @@ namespace ouzel
                 std::function<void(Object*)> updateFunction;
             };
 
-            explicit AudioDevice(Driver initDriver);
+            explicit AudioDevice(Driver initDriver, Mixer& initMixer);
             virtual ~AudioDevice();
 
             AudioDevice(const AudioDevice&) = delete;
@@ -109,6 +110,7 @@ namespace ouzel
             std::vector<std::unique_ptr<Object>> objects;
 
             Driver driver;
+            Mixer& mixer;
 
             Object* masterBus = nullptr;
             std::mutex commandMutex;
