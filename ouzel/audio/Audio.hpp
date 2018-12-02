@@ -11,6 +11,7 @@
 #include "audio/Driver.hpp"
 #include "audio/Object.hpp"
 #include "audio/Bus.hpp"
+#include "audio/Mixer.hpp"
 #include "math/Quaternion.hpp"
 #include "math/Vector3.hpp"
 
@@ -38,6 +39,7 @@ namespace ouzel
             static std::set<Driver> getAvailableAudioDrivers();
 
             inline AudioDevice* getDevice() const { return device.get(); }
+            inline Mixer& getMixer() { return mixer; }
 
             void update();
 
@@ -49,6 +51,7 @@ namespace ouzel
 
         private:
             std::unique_ptr<AudioDevice> device;
+            Mixer mixer;
             Bus masterBus;
         };
     } // namespace audio
