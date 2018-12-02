@@ -12,7 +12,7 @@ namespace ouzel
         class AudioDeviceWASAPI final: public AudioDevice
         {
         public:
-            AudioDeviceWASAPI(Mixer& initMixer);
+            explicit AudioDeviceWASAPI(Mixer& initMixer);
         };
     } // namespace audio
 } // namespace ouzel
