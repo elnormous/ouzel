@@ -115,27 +115,27 @@ namespace ouzel
 
         uintptr_t Audio::initObject(const std::function<std::unique_ptr<Object>(void)>& createFunction)
         {
-            uintptr_t objectId = device->getObjectId();
-            AudioDevice::Command command(AudioDevice::Command::Type::INIT_FILTER);
+            uintptr_t objectId = mixer.getObjectId();
+            Mixer::Command command(Mixer::Command::Type::INIT_FILTER);
             command.objectId = objectId;
             command.createFunction = createFunction;
-            device->addCommand(command);
+            mixer.addCommand(command);
             return objectId;
         }
 
         void Audio::deleteObject(uintptr_t objectId)
         {
-            AudioDevice::Command command(AudioDevice::Command::Type::DELETE_OBJECT);
+            Mixer::Command command(Mixer::Command::Type::DELETE_OBJECT);
             command.objectId = objectId;
-            device->addCommand(command);
+            mixer.addCommand(command);
         }
 
         void Audio::updateObject(uintptr_t objectId, const std::function<void(Object*)>& updateFunction)
         {
-            AudioDevice::Command command(AudioDevice::Command::Type::UPDATE_FILTER);
+            Mixer::Command command(Mixer::Command::Type::UPDATE_FILTER);
             command.objectId = objectId;
             command.updateFunction = updateFunction;
-            device->addCommand(command);
+            mixer.addCommand(command);
         }
     } // namespace audio
 } // namespace ouzel
