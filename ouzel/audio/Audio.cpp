@@ -113,16 +113,6 @@ namespace ouzel
             // TODO: handle events from the audio device
         }
 
-        uintptr_t Audio::initObject(const std::function<std::unique_ptr<Processor>(void)>& createFunction)
-        {
-            uintptr_t objectId = mixer.getObjectId();
-            Mixer::Command command(Mixer::Command::Type::INIT_PROCESSOR);
-            command.objectId = objectId;
-            command.createFunction = createFunction;
-            mixer.addCommand(command);
-            return objectId;
-        }
-
         void Audio::deleteObject(uintptr_t objectId)
         {
             Mixer::Command command(Mixer::Command::Type::DELETE_OBJECT);
@@ -130,10 +120,29 @@ namespace ouzel
             mixer.addCommand(command);
         }
 
-        void Audio::updateObject(uintptr_t objectId, const std::function<void(Processor*)>& updateFunction)
+        uintptr_t Audio::initBus()
+        {
+            uintptr_t busId = mixer.getObjectId();
+            Mixer::Command command(Mixer::Command::Type::INIT_BUS);
+            command.busId = busId;
+            mixer.addCommand(command);
+            return busId;
+        }
+
+        uintptr_t Audio::initProcessor(const std::function<std::unique_ptr<Processor>(void)>& createFunction)
+        {
+            uintptr_t processorId = mixer.getObjectId();
+            Mixer::Command command(Mixer::Command::Type::INIT_PROCESSOR);
+            command.processorId = processorId;
+            command.createFunction = createFunction;
+            mixer.addCommand(command);
+            return processorId;
+        }
+
+        void Audio::updateProcessor(uintptr_t processorId, const std::function<void(Processor*)>& updateFunction)
         {
             Mixer::Command command(Mixer::Command::Type::UPDATE_PROCESSOR);
-            command.objectId = objectId;
+            command.processorId = processorId;
             command.updateFunction = updateFunction;
             mixer.addCommand(command);
         }

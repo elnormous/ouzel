@@ -17,19 +17,17 @@ namespace ouzel
             void process(std::vector<float>& samples, uint16_t& channels,
                          uint32_t& sampleRate, Vector3& position) override
             {
-                Object::process(samples, channels, sampleRate, position);
             }
         };
 
         Reverb::Reverb(Audio& initAudio):
-            Filter(initAudio),
-            objectId(audio.initObject([]() { return std::unique_ptr<Processor>(new ReverbProcessor()); }))
+            Filter(initAudio,
+                   initAudio.initProcessor([]() { return std::unique_ptr<Processor>(new ReverbProcessor()); }))
         {
         }
 
         Reverb::~Reverb()
         {
-            if (objectId) audio.deleteObject(objectId);
         }
     } // namespace audio
 } // namespace ouzel

@@ -2,34 +2,23 @@
 
 #include "Filter.hpp"
 #include "Audio.hpp"
+#include "Submix.hpp"
 
 namespace ouzel
 {
     namespace audio
     {
-        class FilterProcessor final: public Processor
-        {
-        public:
-            FilterProcessor()
-            {
-            }
-
-            void process(std::vector<float>& samples, uint16_t& channels,
-                         uint32_t& sampleRate, Vector3& position) override
-            {
-                Object::process(samples, channels, sampleRate, position);
-            }
-        };
-
-        Filter::Filter(Audio& initAudio):
+        Filter::Filter(Audio& initAudio,
+                       uintptr_t initProcessorId):
             audio(initAudio),
-            objectId(audio.initObject([]() { return std::unique_ptr<Processor>(new FilterProcessor()); }))
+            processorId(initProcessorId)
         {
         }
 
         Filter::~Filter()
         {
-            if (objectId) audio.deleteObject(objectId);
+            if (mix) mix->removeFilter(this);
+            if (processorId) audio.deleteObject(processorId);
         }
     } // namespace audio
 } // namespace ouzel

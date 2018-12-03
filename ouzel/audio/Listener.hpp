@@ -14,21 +14,20 @@ namespace ouzel
     namespace audio
     {
         class Audio;
+        class Mix;
 
         class Listener final: public scene::Component
         {
-            friend Audio;
+            friend Mix;
         public:
             Listener(Audio& initAudio);
-            virtual ~Listener();
-
-        protected:
-            void updateTransform() override;
 
         private:
-            Audio& audio;
-            uintptr_t objectId = 0;
+            void updateTransform() override;
 
+            Audio& audio;
+
+            Mix* mix = nullptr;
             Vector3 position;
             Quaternion rotation;
             bool transformDirty = true;

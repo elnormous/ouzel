@@ -4,6 +4,7 @@
 #define OUZEL_AUDIO_MIX_HPP
 
 #include <cstdint>
+#include <vector>
 
 namespace ouzel
 {
@@ -17,12 +18,15 @@ namespace ouzel
         {
         public:
             Mix(Audio& initAudio);
+            virtual ~Mix();
             Mix(const Mix&) = delete;
             Mix& operator=(const Mix&) = delete;
 
             Mix(Mix&&) = delete;
             Mix& operator=(Mix&&) = delete;
 
+            uintptr_t getBusId() const { return busId; }
+            
             void addFilter(Filter* filter);
             void removeFilter(Filter* filter);
 
@@ -31,7 +35,9 @@ namespace ouzel
 
         protected:
             Audio& audio;
-            uintptr_t objectId;
+            uintptr_t busId;
+            std::vector<Filter*> filters;
+            std::vector<Listener*> listeners;
         };
     } // namespace audio
 } // namespace ouzel

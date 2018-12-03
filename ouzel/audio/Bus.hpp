@@ -3,6 +3,7 @@
 #ifndef OUZEL_AUDIO_BUS_HPP
 #define OUZEL_AUDIO_BUS_HPP
 
+#include <vector>
 #include "audio/Object.hpp"
 
 namespace ouzel
@@ -15,6 +16,7 @@ namespace ouzel
         {
         public:
             Bus();
+            ~Bus();
             Bus(const Bus&) = delete;
             Bus& operator=(const Bus&) = delete;
 
@@ -26,8 +28,11 @@ namespace ouzel
             void addProcessor(Processor* processor);
             void removeProcessor(Processor* processor);
 
+            void getData(std::vector<float>& samples, uint16_t& channels,
+                         uint32_t& sampleRate, Vector3& position);
         private:
             Bus* output = nullptr;
+            std::vector<Processor*> processors;
         };
     } // namespace audio
 } // namespace ouzel

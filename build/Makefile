@@ -58,7 +58,6 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Listener.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Mix.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Mixer.cpp \
-	$(ROOT_DIR)/../ouzel/audio/Object.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Panner.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Pitch.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Reverb.cpp \

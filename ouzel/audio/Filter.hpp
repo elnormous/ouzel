@@ -10,11 +10,14 @@ namespace ouzel
     namespace audio
     {
         class Audio;
+        class Mix;
 
         class Filter
         {
+            friend Mix;
         public:
-            Filter(Audio& initAudio);
+            Filter(Audio& initAudio,
+                   uintptr_t initProcessorId);
             virtual ~Filter();
 
             Filter(const Filter&) = delete;
@@ -23,9 +26,12 @@ namespace ouzel
             Filter(Filter&&) = delete;
             Filter& operator=(Filter&&) = delete;
 
+            uintptr_t getProcessorId() const { return processorId; }
+
         protected:
             Audio& audio;
-            uintptr_t objectId = 0;
+            uintptr_t processorId = 0;
+            Mix* mix = nullptr;
         };
     } // namespace audio
 } // namespace ouzel

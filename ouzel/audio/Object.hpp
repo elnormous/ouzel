@@ -16,28 +16,13 @@ namespace ouzel
         {
         public:
             Object() {}
-            virtual ~Object();
+            virtual ~Object() {}
 
             Object(const Object&) = delete;
             Object& operator=(const Object&) = delete;
 
             Object(Object&&) = delete;
             Object& operator=(Object&&) = delete;
-
-            virtual void process(std::vector<float>& samples, uint16_t& channels,
-                                 uint32_t& sampleRate, Vector3& position);
-
-            void addOutputObject(Object* node);
-            void removeOutputObject(Object* node);
-
-        private:
-            void addInputObject(Object* node);
-            void removeInputObject(Object* node);
-
-            std::vector<Object*> inputObjects;
-            std::vector<Object*> outputObjects;
-
-            std::vector<float> buffer;
         };
     } // namespace audio
 } // namespace ouzel
