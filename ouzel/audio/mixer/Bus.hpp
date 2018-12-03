@@ -11,9 +11,12 @@ namespace ouzel
     namespace audio
     {
         class Processor;
+        class Source;
 
         class Bus final: public Object
         {
+            friend Processor;
+            friend Source;
         public:
             Bus();
             ~Bus();
@@ -24,14 +27,21 @@ namespace ouzel
             Bus& operator=(Bus&&) = delete;
 
             void setOutput(Bus* newOutput);
-            
-            void addProcessor(Processor* processor);
-            void removeProcessor(Processor* processor);
 
             void getData(std::vector<float>& samples, uint16_t& channels,
                          uint32_t& sampleRate, Vector3& position);
+
         private:
+            void addInput(Bus* bus);
+            void removeInput(Bus* bus);
+            void addInput(Source* source);
+            void removeInput(Source* source);
+            void addProcessor(Processor* processor);
+            void removeProcessor(Processor* processor);
+
             Bus* output = nullptr;
+            std::vector<Bus*> inputBuses;
+            std::vector<Source*> inputSources;
             std::vector<Processor*> processors;
         };
     } // namespace audio

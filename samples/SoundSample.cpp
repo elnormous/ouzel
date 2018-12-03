@@ -13,11 +13,16 @@ SoundSample::SoundSample():
     listener(*engine->getAudio()),
     soundGain(*engine->getAudio()),
     test8BitSubmix(*engine->getAudio()),
+    test8BitSound(*engine->getAudio(), engine->getCache().getSoundData("8-bit.wav")),
     test8BitPitch(*engine->getAudio()),
     test24BitSubmix(*engine->getAudio()),
+    test24BitSound(*engine->getAudio(), engine->getCache().getSoundData("24-bit.wav")),
     test24BitPitch(*engine->getAudio()),
     jumpSubmix(*engine->getAudio()),
+    jumpSound(*engine->getAudio(), engine->getCache().getSoundData("jump.wav")),
     jumpPanner(*engine->getAudio()),
+    ambientSound(*engine->getAudio(), engine->getCache().getSoundData("ambient.wav")),
+    music(*engine->getAudio(), engine->getCache().getSoundData("music.ogg")),
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
     test8BitButton("button.png", "button_selected.png", "button_down.png", "", "8-bit", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
     test24BitButton("button.png", "button_selected.png", "button_down.png", "", "24-bit", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
@@ -30,36 +35,29 @@ SoundSample::SoundSample():
     handler.keyboardHandler = std::bind(&SoundSample::handleKeyboard, this, std::placeholders::_1);
     engine->getEventDispatcher().addEventHandler(&handler);
 
-    submix.addListener(&listener);
+    listener.setMix(&submix);
 
-    submix.addFilter(&soundGain);
+    soundGain.setMix(&submix);
     soundGain.setGain(1.2F);
 
-    test8BitSound = Sound(engine->getCache().getSoundData("8-bit.wav"));
     test8BitPitch.setPitch(2.0F);
     test8BitSound.setOutput(&test8BitSubmix);
-    test8BitSubmix.addFilter(&test8BitPitch);
+    test8BitPitch.setMix(&test8BitSubmix);
     test8BitSubmix.setOutput(&submix);
 
-    test24BitSound = Sound(engine->getCache().getSoundData("24-bit.wav"));
     test24BitPitch.setPitch(0.5F);
     test24BitSound.setOutput(&test24BitSubmix);
-    test24BitSubmix.addFilter(&test24BitPitch);
+    test24BitPitch.setMix(&test24BitSubmix);
     test24BitSubmix.setOutput(&submix);
-
-    jumpSound = Sound(engine->getCache().getSoundData("jump.wav"));
 
     guiLayer.addChild(&soundActor);
     soundActor.addComponent(&jumpPanner);
     soundActor.setPosition(Vector3(8.0F, 0.0F, 10.0F));
     jumpSound.setOutput(&jumpSubmix);
-    jumpSubmix.addFilter(&jumpPanner);
+    jumpPanner.setMix(&jumpSubmix);
     jumpSubmix.setOutput(&submix);
 
-    ambientSound = Sound(engine->getCache().getSoundData("ambient.wav"));
     ambientSound.setOutput(&submix);
-
-    music = Sound(engine->getCache().getSoundData("music.ogg"));
     music.setOutput(&submix);
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);

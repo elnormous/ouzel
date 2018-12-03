@@ -20,7 +20,6 @@ namespace ouzel
 
             Panner(const Panner&) = delete;
             Panner& operator=(const Panner&) = delete;
-
             Panner(Panner&&) = delete;
             Panner& operator=(Panner&&) = delete;
 

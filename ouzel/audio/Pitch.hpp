@@ -17,7 +17,6 @@ namespace ouzel
 
             Pitch(const Pitch&) = delete;
             Pitch& operator=(const Pitch&) = delete;
-
             Pitch(Pitch&&) = delete;
             Pitch& operator=(Pitch&&) = delete;
             

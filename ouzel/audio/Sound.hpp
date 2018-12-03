@@ -11,15 +11,22 @@ namespace ouzel
 {
     namespace audio
     {
+        class Audio;
         class Mix;
         class SoundData;
 
-        class Sound: public Stream::EventListener
+        class Sound final: public Stream::EventListener
         {
+            friend Mix;
         public:
-            Sound();
-            explicit Sound(const std::shared_ptr<SoundData>& initSoundData);
-            virtual ~Sound();
+            explicit Sound(Audio& initAudio);
+            Sound(Audio& initAudio, const std::shared_ptr<SoundData>& initSoundData);
+            ~Sound();
+
+            Sound(const Sound&) = delete;
+            Sound& operator=(const Sound&) = delete;
+            Sound(Sound&&) = delete;
+            Sound& operator=(Sound&&) = delete;
 
             inline const std::shared_ptr<SoundData>& getSoundData() const { return soundData; }
 
@@ -36,6 +43,9 @@ namespace ouzel
             void setOutput(Mix* newOutput);
             
         private:
+            Audio& audio;
+            uintptr_t sourceId;
+
             std::shared_ptr<SoundData> soundData;
             std::shared_ptr<Stream> stream;
 

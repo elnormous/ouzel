@@ -17,7 +17,6 @@ namespace ouzel
 
             Reverb(const Reverb&) = delete;
             Reverb& operator=(const Reverb&) = delete;
-
             Reverb(Reverb&&) = delete;
             Reverb& operator=(Reverb&&) = delete;
         };

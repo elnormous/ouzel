@@ -17,17 +17,15 @@ namespace ouzel
             Processor()
             {
             }
-
-            ~Processor()
-            {
-                if (bus) bus->removeProcessor(this);
-            }
+            ~Processor();
 
             Processor(const Processor&) = delete;
             Processor& operator=(const Processor&) = delete;
 
             Processor(Processor&&) = delete;
             Processor& operator=(Processor&&) = delete;
+
+            void setBus(Bus* newBus);
 
             virtual void process(std::vector<float>& samples, uint16_t& channels,
                                  uint32_t& sampleRate, Vector3& position) = 0;

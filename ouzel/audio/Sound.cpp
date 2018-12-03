@@ -11,12 +11,14 @@ namespace ouzel
 {
     namespace audio
     {
-        Sound::Sound()
+        Sound::Sound(Audio& initAudio):
+            audio(initAudio),
+            sourceId(audio.initSource())
         {
         }
 
-        Sound::Sound(const std::shared_ptr<SoundData>& initSoundData):
-            Sound()
+        Sound::Sound(Audio& initAudio, const std::shared_ptr<SoundData>& initSoundData):
+            Sound(initAudio)
         {
             soundData = initSoundData;
 
@@ -87,7 +89,14 @@ namespace ouzel
 
         void Sound::setOutput(Mix* newOutput)
         {
+            if (output) output->removeInput(this);
             output = newOutput;
+            if (output) output->addInput(this);
+
+            Mixer::Command command(Mixer::Command::Type::SET_SOURCE_OUTPUT);
+            command.sourceId = sourceId;
+            command.outputBusId = output ? output->getBusId() : 0;
+            audio.getMixer().addCommand(command);
         }
     } // namespace audio
 } // namespace ouzel

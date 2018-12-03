@@ -32,7 +32,6 @@ namespace ouzel
 
             Audio(const Audio&) = delete;
             Audio& operator=(const Audio&) = delete;
-
             Audio(Audio&&) = delete;
             Audio& operator=(Audio&&) = delete;
 
@@ -45,6 +44,7 @@ namespace ouzel
 
             void deleteObject(uintptr_t objectId);
             uintptr_t initBus();
+            uintptr_t initSource();
             uintptr_t initProcessor(const std::function<std::unique_ptr<Processor>(void)>& createFunction);
             void updateProcessor(uintptr_t processorId, const std::function<void(Processor*)>& updateFunction);
 

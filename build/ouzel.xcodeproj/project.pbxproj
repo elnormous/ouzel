@@ -1002,6 +1002,9 @@
 		C6C9103521B55A7B00B5FCB7 /* ToneStream.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9103121B55A7A00B5FCB7 /* ToneStream.hpp */; };
 		C6C9103621B55A7B00B5FCB7 /* ToneStream.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9103121B55A7A00B5FCB7 /* ToneStream.hpp */; };
 		C6C9103721B55A7B00B5FCB7 /* ToneStream.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9103121B55A7A00B5FCB7 /* ToneStream.hpp */; };
+		C6C9103921B572C100B5FCB7 /* Processor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C9103821B572C100B5FCB7 /* Processor.cpp */; };
+		C6C9103A21B572C100B5FCB7 /* Processor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C9103821B572C100B5FCB7 /* Processor.cpp */; };
+		C6C9103B21B572C100B5FCB7 /* Processor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C9103821B572C100B5FCB7 /* Processor.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1418,6 +1421,7 @@
 		C6C9102921B54EE000B5FCB7 /* ToneData.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ToneData.hpp; sourceTree = "<group>"; };
 		C6C9103021B55A7A00B5FCB7 /* ToneStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToneStream.cpp; sourceTree = "<group>"; };
 		C6C9103121B55A7A00B5FCB7 /* ToneStream.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ToneStream.hpp; sourceTree = "<group>"; };
+		C6C9103821B572C100B5FCB7 /* Processor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Processor.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2136,6 +2140,7 @@
 				30A381FC21B382A20043568A /* Mixer.cpp */,
 				30A381FD21B382A20043568A /* Mixer.hpp */,
 				30C3F290219D0DD9003FE9ED /* Object.hpp */,
+				C6C9103821B572C100B5FCB7 /* Processor.cpp */,
 				30A3821E21B4C5E90043568A /* Processor.hpp */,
 				C6C9100D21B54A9600B5FCB7 /* Source.cpp */,
 				C6C9100E21B54A9600B5FCB7 /* Source.hpp */,
@@ -2899,6 +2904,7 @@
 				C6C9103221B55A7B00B5FCB7 /* ToneStream.cpp in Sources */,
 				30381F8B1D80A3EC00677CAB /* TextureOGL.cpp in Sources */,
 				309B48371DEA5EE600A718C5 /* Color.cpp in Sources */,
+				C6C9103921B572C100B5FCB7 /* Processor.cpp in Sources */,
 				30EF36641CA845DC00F04F29 /* ComboBox.cpp in Sources */,
 				30519CE81F9B53F500AF3DC4 /* LoaderMTL.cpp in Sources */,
 				30EF36541CA76AE200F04F29 /* ScrollBar.cpp in Sources */,
@@ -3074,6 +3080,7 @@
 				C6C9103421B55A7B00B5FCB7 /* ToneStream.cpp in Sources */,
 				30381F8D1D80A3EC00677CAB /* TextureOGL.cpp in Sources */,
 				30B859961F3D2F3200A16952 /* Font.cpp in Sources */,
+				C6C9103B21B572C100B5FCB7 /* Processor.cpp in Sources */,
 				30EF36651CA845DC00F04F29 /* ComboBox.cpp in Sources */,
 				30EF36551CA76AE200F04F29 /* ScrollBar.cpp in Sources */,
 				30519CEA1F9B53F500AF3DC4 /* LoaderMTL.cpp in Sources */,
@@ -3265,6 +3272,7 @@
 				30C56C651CAB3F2D007AEF8F /* RadioButton.cpp in Sources */,
 				30419DF11D162BEF00A63759 /* SoundData.cpp in Sources */,
 				3031C1351F0C4350002CA717 /* VorbisData.cpp in Sources */,
+				C6C9103A21B572C100B5FCB7 /* Processor.cpp in Sources */,
 				3031C13D1F0C43D0002CA717 /* VorbisStream.cpp in Sources */,
 				305B99911C41F06F008589E1 /* Widget.cpp in Sources */,
 				30381F6E1D80A3EC00677CAB /* BufferOGL.cpp in Sources */,

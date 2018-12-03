@@ -11,11 +11,13 @@ namespace ouzel
     {
         class Submix final: public Mix
         {
+            friend Mix;
         public:
             Submix(Audio& initAudio);
+            ~Submix();
+            
             Submix(const Submix&) = delete;
             Submix& operator=(const Submix&) = delete;
-
             Submix(Submix&&) = delete;
             Submix& operator=(Submix&&) = delete;
 
