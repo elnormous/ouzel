@@ -9,7 +9,7 @@
 #include <set>
 #include <vector>
 #include "audio/Driver.hpp"
-#include "audio/Object.hpp"
+#include "audio/Processor.hpp"
 #include "audio/Mix.hpp"
 #include "audio/Mixer.hpp"
 #include "math/Quaternion.hpp"
@@ -43,9 +43,9 @@ namespace ouzel
 
             void update();
 
-            uintptr_t initObject(const std::function<std::unique_ptr<Object>(void)>& createFunction);
+            uintptr_t initObject(const std::function<std::unique_ptr<Processor>(void)>& createFunction);
             void deleteObject(uintptr_t objectId);
-            void updateObject(uintptr_t objectId, const std::function<void(Object*)>& updateFunction);
+            void updateObject(uintptr_t objectId, const std::function<void(Processor*)>& updateFunction);
 
             Mix& getMasterMix() { return masterMix; }
 

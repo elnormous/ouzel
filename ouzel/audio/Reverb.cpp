@@ -7,7 +7,7 @@ namespace ouzel
 {
     namespace audio
     {
-        class ReverbProcessor final: public Object
+        class ReverbProcessor final: public Processor
         {
         public:
             ReverbProcessor()
@@ -23,7 +23,7 @@ namespace ouzel
 
         Reverb::Reverb(Audio& initAudio):
             Filter(initAudio),
-            objectId(audio.initObject([]() { return std::unique_ptr<Object>(new ReverbProcessor()); }))
+            objectId(audio.initObject([]() { return std::unique_ptr<Processor>(new ReverbProcessor()); }))
         {
         }
 

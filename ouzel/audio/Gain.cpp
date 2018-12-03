@@ -7,7 +7,7 @@ namespace ouzel
 {
     namespace audio
     {
-        class GainProcessor final: public Object
+        class GainProcessor final: public Processor
         {
         public:
             GainProcessor()
@@ -34,7 +34,7 @@ namespace ouzel
 
         Gain::Gain(Audio& initAudio):
             Filter(initAudio),
-            objectId(audio.initObject([]() { return std::unique_ptr<Object>(new GainProcessor()); }))
+            objectId(audio.initObject([]() { return std::unique_ptr<Processor>(new GainProcessor()); }))
         {
         }
 

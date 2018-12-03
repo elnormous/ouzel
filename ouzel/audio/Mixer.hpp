@@ -11,6 +11,7 @@
 #include <set>
 #include <vector>
 #include "audio/Object.hpp"
+#include "audio/Processor.hpp"
 
 namespace ouzel
 {
@@ -43,8 +44,8 @@ namespace ouzel
                 Type type;
                 uintptr_t objectId;
                 uintptr_t destinationObjectId;
-                std::function<std::unique_ptr<Object>(void)> createFunction;
-                std::function<void(Object*)> updateFunction;
+                std::function<std::unique_ptr<Processor>(void)> createFunction;
+                std::function<void(Processor*)> updateFunction;
             };
 
             Mixer() {}

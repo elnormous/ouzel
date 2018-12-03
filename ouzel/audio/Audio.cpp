@@ -113,7 +113,7 @@ namespace ouzel
             // TODO: handle events from the audio device
         }
 
-        uintptr_t Audio::initObject(const std::function<std::unique_ptr<Object>(void)>& createFunction)
+        uintptr_t Audio::initObject(const std::function<std::unique_ptr<Processor>(void)>& createFunction)
         {
             uintptr_t objectId = mixer.getObjectId();
             Mixer::Command command(Mixer::Command::Type::INIT_PROCESSOR);
@@ -130,7 +130,7 @@ namespace ouzel
             mixer.addCommand(command);
         }
 
-        void Audio::updateObject(uintptr_t objectId, const std::function<void(Object*)>& updateFunction)
+        void Audio::updateObject(uintptr_t objectId, const std::function<void(Processor*)>& updateFunction)
         {
             Mixer::Command command(Mixer::Command::Type::UPDATE_PROCESSOR);
             command.objectId = objectId;

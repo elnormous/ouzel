@@ -7,7 +7,7 @@ namespace ouzel
 {
     namespace audio
     {
-        class FilterProcessor final: public Object
+        class FilterProcessor final: public Processor
         {
         public:
             FilterProcessor()
@@ -23,7 +23,7 @@ namespace ouzel
 
         Filter::Filter(Audio& initAudio):
             audio(initAudio),
-            objectId(audio.initObject([]() { return std::unique_ptr<Object>(new FilterProcessor()); }))
+            objectId(audio.initObject([]() { return std::unique_ptr<Processor>(new FilterProcessor()); }))
         {
         }
 
