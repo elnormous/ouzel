@@ -58,12 +58,14 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
 	../../ouzel/audio/Reverb.cpp \
     ../../ouzel/audio/Sound.cpp \
     ../../ouzel/audio/SoundData.cpp \
-    ../../ouzel/audio/SoundDataVorbis.cpp \
-    ../../ouzel/audio/SoundDataWave.cpp \
     ../../ouzel/audio/Stream.cpp \
-    ../../ouzel/audio/StreamVorbis.cpp \
-    ../../ouzel/audio/StreamWave.cpp \
-	../../ouzel/audio/Submix.cpp \
+    ../../ouzel/audio/Submix.cpp \
+    ../../ouzel/audio/ToneData.cpp \
+    ../../ouzel/audio/ToneStream.cpp \
+    ../../ouzel/audio/VorbisData.cpp \
+    ../../ouzel/audio/VorbisStream.cpp \
+    ../../ouzel/audio/WaveData.cpp \
+    ../../ouzel/audio/WaveStream.cpp \
     ../../ouzel/core/android/EngineAndroid.cpp \
     ../../ouzel/core/android/main.cpp \
     ../../ouzel/core/android/NativeWindowAndroid.cpp \

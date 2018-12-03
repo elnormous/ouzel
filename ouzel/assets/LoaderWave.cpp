@@ -2,7 +2,7 @@
 
 #include "LoaderWave.hpp"
 #include "Bundle.hpp"
-#include "audio/SoundDataWave.hpp"
+#include "audio/WaveData.hpp"
 
 namespace ouzel
 {
@@ -17,7 +17,7 @@ namespace ouzel
         {
             try
             {
-                std::shared_ptr<audio::SoundData> soundData = std::make_shared<audio::SoundDataWave>(data);
+                std::shared_ptr<audio::SoundData> soundData = std::make_shared<audio::WaveData>(data);
                 bundle.setSoundData(filename, soundData);
             }
             catch (const std::exception&)

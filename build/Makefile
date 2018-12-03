@@ -65,12 +65,14 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Reverb.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Sound.cpp \
 	$(ROOT_DIR)/../ouzel/audio/SoundData.cpp \
-	$(ROOT_DIR)/../ouzel/audio/SoundDataVorbis.cpp \
-	$(ROOT_DIR)/../ouzel/audio/SoundDataWave.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Stream.cpp \
-	$(ROOT_DIR)/../ouzel/audio/StreamVorbis.cpp \
-	$(ROOT_DIR)/../ouzel/audio/StreamWave.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Submix.cpp \
+	$(ROOT_DIR)/../ouzel/audio/ToneData.cpp \
+	$(ROOT_DIR)/../ouzel/audio/ToneStream.cpp \
+	$(ROOT_DIR)/../ouzel/audio/VorbisData.cpp \
+	$(ROOT_DIR)/../ouzel/audio/VorbisStream.cpp \
+	$(ROOT_DIR)/../ouzel/audio/WaveData.cpp \
+	$(ROOT_DIR)/../ouzel/audio/WaveStream.cpp \
 	$(ROOT_DIR)/../ouzel/core/Engine.cpp \
 	$(ROOT_DIR)/../ouzel/core/System.cpp \
 	$(ROOT_DIR)/../ouzel/core/NativeWindow.cpp \

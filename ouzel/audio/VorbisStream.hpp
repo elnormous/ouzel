@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_AUDIO_STREAMVORBIS_HPP
-#define OUZEL_AUDIO_STREAMVORBIS_HPP
+#ifndef OUZEL_AUDIO_VORBISSTREAM_HPP
+#define OUZEL_AUDIO_VORBISSTREAM_HPP
 
 #include <cstdint>
 #include <vector>
@@ -13,11 +13,11 @@ namespace ouzel
 {
     namespace audio
     {
-        class StreamVorbis final: public Stream
+        class VorbisStream final: public Stream
         {
         public:
-            explicit StreamVorbis(const std::vector<uint8_t>& data);
-            ~StreamVorbis();
+            explicit VorbisStream(const std::vector<uint8_t>& data);
+            ~VorbisStream();
             void reset() override;
 
             inline stb_vorbis* getVorbisStream() const { return vorbisStream; }
@@ -28,4 +28,4 @@ namespace ouzel
     } // namespace audio
 } // namespace ouzel
 
-#endif // OUZEL_AUDIO_STREAMVORBIS_HPP
+#endif // OUZEL_AUDIO_VORBISSTREAM_HPP
