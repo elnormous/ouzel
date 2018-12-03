@@ -61,8 +61,10 @@
     <ClCompile Include="..\ouzel\audio\Stream.cpp" />
     <ClCompile Include="..\ouzel\audio\StreamVorbis.cpp" />
     <ClCompile Include="..\ouzel\audio\StreamWave.cpp" />
-    <ClCompile Include="..\ouzel\audio\Group.cpp" />
+    <ClCompile Include="..\ouzel\audio\GroupBus.cpp" />
+    <ClCompile Include="..\ouzel\audio\Mix.cpp" />
     <ClCompile Include="..\ouzel\audio\Mixer.cpp" />
+    <ClCompile Include="..\ouzel\audio\Submixer.cpp" />
     <ClCompile Include="..\ouzel\audio\wasapi\AudioDeviceWASAPI.cpp" />
     <ClCompile Include="..\ouzel\audio\xaudio2\AudioDeviceXA2.cpp" />
     <ClCompile Include="..\ouzel\audio\xaudio2\XAudio27.cpp">
@@ -236,8 +238,10 @@
     <ClInclude Include="..\ouzel\audio\Stream.hpp" />
     <ClInclude Include="..\ouzel\audio\StreamVorbis.hpp" />
     <ClInclude Include="..\ouzel\audio\StreamWave.hpp" />
-    <ClInclude Include="..\ouzel\audio\Group.hpp" />
+    <ClInclude Include="..\ouzel\audio\GroupBus.hpp" />
+    <ClInclude Include="..\ouzel\audio\Mix.hpp" />
     <ClInclude Include="..\ouzel\audio\Mixer.hpp" />
+    <ClInclude Include="..\ouzel\audio\Submix.hpp" />
     <ClInclude Include="..\ouzel\audio\wasapi\AudioDeviceWASAPI.hpp" />
     <ClInclude Include="..\ouzel\audio\xaudio2\AudioDeviceXA2.hpp" />
     <ClInclude Include="..\ouzel\audio\xaudio2\XAudio27.hpp" />

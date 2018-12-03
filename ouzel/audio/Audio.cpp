@@ -100,7 +100,7 @@ namespace ouzel
 
         Audio::Audio(Driver driver, bool debugAudio, Window* window):
             device(createAudioDevice(driver, mixer, debugAudio, window)),
-            masterBus(*this)
+            masterMix(*this)
         {
         }
 
@@ -116,7 +116,7 @@ namespace ouzel
         uintptr_t Audio::initObject(const std::function<std::unique_ptr<Object>(void)>& createFunction)
         {
             uintptr_t objectId = mixer.getObjectId();
-            Mixer::Command command(Mixer::Command::Type::INIT_FILTER);
+            Mixer::Command command(Mixer::Command::Type::INIT_PROCESSOR);
             command.objectId = objectId;
             command.createFunction = createFunction;
             mixer.addCommand(command);
@@ -132,7 +132,7 @@ namespace ouzel
 
         void Audio::updateObject(uintptr_t objectId, const std::function<void(Object*)>& updateFunction)
         {
-            Mixer::Command command(Mixer::Command::Type::UPDATE_FILTER);
+            Mixer::Command command(Mixer::Command::Type::UPDATE_PROCESSOR);
             command.objectId = objectId;
             command.updateFunction = updateFunction;
             mixer.addCommand(command);

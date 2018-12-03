@@ -16,19 +16,19 @@ private:
     bool handleUI(const ouzel::UIEvent& event);
     bool handleKeyboard(const ouzel::KeyboardEvent& event) const;
 
-    ouzel::audio::Group bus;
+    ouzel::audio::Submix submix;
     ouzel::audio::Listener listener;
     ouzel::audio::Gain soundGain;
 
-    ouzel::audio::Group test8BitBus;
+    ouzel::audio::Submix test8BitSubmix;
     ouzel::audio::Sound test8BitSound;
     ouzel::audio::Pitch test8BitPitch;
 
-    ouzel::audio::Group test24BitBus;
+    ouzel::audio::Submix test24BitSubmix;
     ouzel::audio::Sound test24BitSound;
     ouzel::audio::Pitch test24BitPitch;
 
-    ouzel::audio::Group jumpBus;
+    ouzel::audio::Submix jumpSubmix;
     ouzel::audio::Sound jumpSound;
     ouzel::audio::Panner jumpPanner;
 

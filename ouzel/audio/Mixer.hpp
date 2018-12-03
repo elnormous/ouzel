@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef AUDIO_MIXER_HPP
-#define AUDIO_MIXER_HPP
+#ifndef OUZEL_AUDIO_MIXER_HPP
+#define OUZEL_AUDIO_MIXER_HPP
 
 #include <condition_variable>
 #include <cstdint>
@@ -27,12 +27,12 @@ namespace ouzel
                     INIT_BUS,
                     ADD_LISTENER,
                     REMOVE_LISTENER,
-                    ADD_FILTER,
-                    REMOVE_FILTER,
+                    ADD_PROCESSOR,
+                    REMOVE_PROCESSOR,
                     INIT_LISTENER,
                     UPDATE_LISTENER,
-                    INIT_FILTER,
-                    UPDATE_FILTER,
+                    INIT_PROCESSOR,
+                    UPDATE_PROCESSOR,
                     ADD_OUTPUT_BUS,
                     SET_MASTER_BUS
                 };
@@ -93,4 +93,4 @@ namespace ouzel
     } // namespace audio
 } // namespace ouzel
 
-#endif // AUDIO_MIXER_HPP
+#endif // OUZEL_AUDIO_MIXER_HPP
