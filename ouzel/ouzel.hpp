@@ -34,7 +34,6 @@
 #include "audio/Driver.hpp"
 #include "audio/Filter.hpp"
 #include "audio/Gain.hpp"
-#include "audio/GroupBus.hpp"
 #include "audio/Listener.hpp"
 #include "audio/Mix.hpp"
 #include "audio/Panner.hpp"

@@ -701,12 +701,6 @@
 		309BA3161F183D6E006F2240 /* AudioDeviceCA.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 309BA3121F183D6E006F2240 /* AudioDeviceCA.hpp */; };
 		309BA3171F183D6E006F2240 /* AudioDeviceCA.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 309BA3121F183D6E006F2240 /* AudioDeviceCA.hpp */; };
 		309BA3181F183D6E006F2240 /* AudioDeviceCA.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 309BA3121F183D6E006F2240 /* AudioDeviceCA.hpp */; };
-		30A381ED21AE22740043568A /* GroupBus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A381EB21AE22740043568A /* GroupBus.cpp */; };
-		30A381EE21AE22740043568A /* GroupBus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A381EB21AE22740043568A /* GroupBus.cpp */; };
-		30A381EF21AE22740043568A /* GroupBus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A381EB21AE22740043568A /* GroupBus.cpp */; };
-		30A381F021AE22740043568A /* GroupBus.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30A381EC21AE22740043568A /* GroupBus.hpp */; };
-		30A381F121AE22740043568A /* GroupBus.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30A381EC21AE22740043568A /* GroupBus.hpp */; };
-		30A381F221AE22740043568A /* GroupBus.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30A381EC21AE22740043568A /* GroupBus.hpp */; };
 		30A381F521B201C20043568A /* Bus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A381F321B201C20043568A /* Bus.cpp */; };
 		30A381F621B201C20043568A /* Bus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A381F321B201C20043568A /* Bus.cpp */; };
 		30A381F721B201C20043568A /* Bus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A381F321B201C20043568A /* Bus.cpp */; };
@@ -1270,8 +1264,6 @@
 		309B48361DEA5EE600A718C5 /* Color.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Color.hpp; sourceTree = "<group>"; };
 		309BA3111F183D6E006F2240 /* AudioDeviceCA.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioDeviceCA.cpp; sourceTree = "<group>"; };
 		309BA3121F183D6E006F2240 /* AudioDeviceCA.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AudioDeviceCA.hpp; sourceTree = "<group>"; };
-		30A381EB21AE22740043568A /* GroupBus.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GroupBus.cpp; sourceTree = "<group>"; };
-		30A381EC21AE22740043568A /* GroupBus.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GroupBus.hpp; sourceTree = "<group>"; };
 		30A381F321B201C20043568A /* Bus.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Bus.cpp; sourceTree = "<group>"; };
 		30A381F421B201C20043568A /* Bus.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Bus.hpp; sourceTree = "<group>"; };
 		30A381FC21B382A20043568A /* Mixer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Mixer.cpp; sourceTree = "<group>"; };
@@ -1803,8 +1795,6 @@
 				30C3F270219D0847003FE9ED /* Filter.hpp */,
 				30C3F267219D0845003FE9ED /* Gain.cpp */,
 				30C3F26C219D0846003FE9ED /* Gain.hpp */,
-				30A381EB21AE22740043568A /* GroupBus.cpp */,
-				30A381EC21AE22740043568A /* GroupBus.hpp */,
 				306A26B11F5DD17700E2B0B6 /* Listener.cpp */,
 				306A26B21F5DD17700E2B0B6 /* Listener.hpp */,
 				30A381FC21B382A20043568A /* Mixer.cpp */,
@@ -2241,7 +2231,6 @@
 				3067D7A8209B450F008DF6AF /* InputSystem.hpp in Headers */,
 				303B755E1C2A3CB700FEDE92 /* Vertex.hpp in Headers */,
 				30519CAF1F9B4E3E00AF3DC4 /* Loader.hpp in Headers */,
-				30A381F021AE22740043568A /* GroupBus.hpp in Headers */,
 				303B75601C2A3CBF00FEDE92 /* Camera.hpp in Headers */,
 				30CEB36C21A6385C00525637 /* System.hpp in Headers */,
 				3047F7521C4C4FAF00774E3D /* Rotate.hpp in Headers */,
@@ -2356,7 +2345,6 @@
 				3009031321922E1300B00BF4 /* DepthStencilStateOGL.hpp in Headers */,
 				30575ACA1C3B17540009C8A7 /* Button.hpp in Headers */,
 				30AEFA3120C0FD6000CDFD33 /* RenderTargetOGL.hpp in Headers */,
-				30A381F221AE22740043568A /* GroupBus.hpp in Headers */,
 				30090303219224B100B00BF4 /* DepthStencilState.hpp in Headers */,
 				303B76641C355A3B00FEDE92 /* SceneManager.hpp in Headers */,
 				3047F7431C4C344A00774E3D /* Animator.hpp in Headers */,
@@ -2504,7 +2492,6 @@
 				30216B671ED462B80073E3D5 /* StaticMeshRenderer.hpp in Headers */,
 				300862D42154712E00D8CC45 /* InputSystemMacOS.hpp in Headers */,
 				30575AA91C39D1FF0009C8A7 /* Layer.hpp in Headers */,
-				30A381F121AE22740043568A /* GroupBus.hpp in Headers */,
 				303B754C1C2A3CA200FEDE92 /* ImageData.hpp in Headers */,
 				30EEADD5216ECEFE00D2F525 /* GamepadConfig.hpp in Headers */,
 				3038200A1D80A40700677CAB /* ShaderMetal.hpp in Headers */,
@@ -2868,7 +2855,6 @@
 				30419DF21D162BEF00A63759 /* SoundData.cpp in Sources */,
 				303B75531C2A3CB700FEDE92 /* Rect.cpp in Sources */,
 				303820F81D817F4900677CAB /* GamepadDeviceIOS.mm in Sources */,
-				30A381ED21AE22740043568A /* GroupBus.cpp in Sources */,
 				30519CB81F9B53AB00AF3DC4 /* LoaderWave.cpp in Sources */,
 				303B04B41E207B6100011CBE /* OpenGLView.m in Sources */,
 				30EEADBF21618DC400D2F525 /* KeyboardDevice.cpp in Sources */,
@@ -3041,7 +3027,6 @@
 				3047F7581C4C4FBA00774E3D /* Scale.cpp in Sources */,
 				3047F7481C4C350D00774E3D /* Move.cpp in Sources */,
 				30381F6F1D80A3EC00677CAB /* BufferOGL.cpp in Sources */,
-				30A381EF21AE22740043568A /* GroupBus.cpp in Sources */,
 				30519CBA1F9B53AB00AF3DC4 /* LoaderWave.cpp in Sources */,
 				303B76491C355A3B00FEDE92 /* Rect.cpp in Sources */,
 				303B04C41E207B7800011CBE /* OpenGLView.m in Sources */,
@@ -3235,7 +3220,6 @@
 				30A3821921B4BDC80043568A /* Submix.cpp in Sources */,
 				304A8E6E1C237C70008B1151 /* Utils.cpp in Sources */,
 				3009030721922DEE00B00BF4 /* DepthStencilStateMetal.mm in Sources */,
-				30A381EE21AE22740043568A /* GroupBus.cpp in Sources */,
 				303696CD1E32DD9C007F4211 /* BlendState.cpp in Sources */,
 				30CEB37221A6403800525637 /* SystemMacOS.cpp in Sources */,
 				30575A9E1C39CB790009C8A7 /* Scene.cpp in Sources */,

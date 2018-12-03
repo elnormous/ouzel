@@ -48,7 +48,6 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
 	../../ouzel/audio/Delay.cpp \
 	../../ouzel/audio/Filter.cpp \
 	../../ouzel/audio/Gain.cpp \
-	../../ouzel/audio/GroupBus.cpp \
     ../../ouzel/audio/Listener.cpp \
 	../../ouzel/audio/Mix.cpp \
 	../../ouzel/audio/Mixer.cpp \

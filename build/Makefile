@@ -55,7 +55,6 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Delay.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Filter.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Gain.cpp \
-	$(ROOT_DIR)/../ouzel/audio/GroupBus.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Listener.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Mix.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Mixer.cpp \

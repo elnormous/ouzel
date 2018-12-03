@@ -17,5 +17,10 @@ namespace ouzel
         void Bus::removeProcessor(Processor* processor)
         {
         }
+
+        void Bus::setOutput(Bus* newOutput)
+        {
+            output = newOutput;
+        }
     } // namespace audio
 } // namespace ouzel

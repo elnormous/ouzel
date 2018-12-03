@@ -3,13 +3,15 @@
 #ifndef OUZEL_AUDIO_BUS_HPP
 #define OUZEL_AUDIO_BUS_HPP
 
+#include "audio/Object.hpp"
+
 namespace ouzel
 {
     namespace audio
     {
         class Processor;
 
-        class Bus
+        class Bus final: public Object
         {
         public:
             Bus();
@@ -19,8 +21,13 @@ namespace ouzel
             Bus(Bus&&) = delete;
             Bus& operator=(Bus&&) = delete;
 
+            void setOutput(Bus* newOutput);
+            
             void addProcessor(Processor* processor);
             void removeProcessor(Processor* processor);
+
+        private:
+            Bus* output = nullptr;
         };
     } // namespace audio
 } // namespace ouzel
