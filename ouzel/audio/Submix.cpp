@@ -24,10 +24,8 @@ namespace ouzel
             output = newOutput;
             output->addInput(this);
 
-            Mixer::Command command(Mixer::Command::Type::SET_BUS_OUTPUT);
-            command.busId = busId;
-            command.outputBusId = output ? output->getBusId() : 0;
-            audio.getMixer().addCommand(command);
+            audio.getMixer().addCommand(std::unique_ptr<Command>(new SetBusOutputCommand(busId,
+                                                                                         output ? output->getBusId() : 0)));
         }
     } // namespace audio
 } // namespace ouzel

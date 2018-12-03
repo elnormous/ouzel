@@ -22,7 +22,7 @@ namespace ouzel
 
         Pitch::Pitch(Audio& initAudio):
             Filter(initAudio,
-                   initAudio.initProcessor([]() { return std::unique_ptr<Processor>(new PitchProcessor()); }))
+                   initAudio.initProcessor(std::unique_ptr<Processor>(new PitchProcessor())))
         {
         }
 

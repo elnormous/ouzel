@@ -115,45 +115,34 @@ namespace ouzel
 
         void Audio::deleteObject(uintptr_t objectId)
         {
-            Mixer::Command command(Mixer::Command::Type::DELETE_OBJECT);
-            command.objectId = objectId;
-            mixer.addCommand(command);
+            mixer.addCommand(std::unique_ptr<Command>(new DeleteObjectCommand(objectId)));
         }
 
         uintptr_t Audio::initBus()
         {
             uintptr_t busId = mixer.getObjectId();
-            Mixer::Command command(Mixer::Command::Type::INIT_BUS);
-            command.busId = busId;
-            mixer.addCommand(command);
+            mixer.addCommand(std::unique_ptr<Command>(new InitBusCommand(busId)));
             return busId;
         }
 
         uintptr_t Audio::initSource()
         {
             uintptr_t sourceId = mixer.getObjectId();
-            Mixer::Command command(Mixer::Command::Type::INIT_SOURCE);
-            command.sourceId = sourceId;
-            mixer.addCommand(command);
+            mixer.addCommand(std::unique_ptr<Command>(new InitSourceCommand(sourceId)));
             return sourceId;
         }
 
-        uintptr_t Audio::initProcessor(const std::function<std::unique_ptr<Processor>(void)>& allocFunction)
+        uintptr_t Audio::initProcessor(std::unique_ptr<Processor>&& processor)
         {
             uintptr_t processorId = mixer.getObjectId();
-            Mixer::Command command(Mixer::Command::Type::INIT_PROCESSOR);
-            command.processorId = processorId;
-            command.processorAllocFunction = allocFunction;
-            mixer.addCommand(command);
+            mixer.addCommand(std::unique_ptr<Command>(new InitProcessorCommand(processorId,
+                                                                               std::forward<std::unique_ptr<Processor>>(processor))));
             return processorId;
         }
 
         void Audio::updateProcessor(uintptr_t processorId, const std::function<void(Processor*)>& updateFunction)
         {
-            Mixer::Command command(Mixer::Command::Type::UPDATE_PROCESSOR);
-            command.processorId = processorId;
-            command.updateFunction = updateFunction;
-            mixer.addCommand(command);
+            mixer.addCommand(std::unique_ptr<Command>(new UpdateProcessorCommand(processorId, updateFunction)));
         }
     } // namespace audio
 } // namespace ouzel

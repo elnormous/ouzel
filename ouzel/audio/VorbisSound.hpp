@@ -14,8 +14,7 @@ namespace ouzel
         class VorbisSound final: public Sound
         {
         public:
-            VorbisSound();
-            explicit VorbisSound(const std::vector<uint8_t>& initData);
+            VorbisSound(Audio& initAudio, const std::vector<uint8_t>& initData);
 
             std::shared_ptr<Stream> createStream() override;
 

@@ -19,7 +19,7 @@ namespace ouzel
         {
             friend Audio;
         public:
-            Sound();
+            Sound(Audio& initAudio);
             virtual ~Sound();
 
             Sound(const Sound&) = delete;
@@ -36,6 +36,8 @@ namespace ouzel
 
         protected:
             virtual void readData(Stream* stream, uint32_t frames, std::vector<float>& result) = 0;
+
+            Audio& audio;
 
             uint16_t channels = 0;
             uint32_t sampleRate = 0;

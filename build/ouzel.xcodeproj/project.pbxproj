@@ -1293,6 +1293,7 @@
 		30A3821621B4BDC80043568A /* Submix.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Submix.cpp; sourceTree = "<group>"; };
 		30A3821721B4BDC80043568A /* Submix.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Submix.hpp; sourceTree = "<group>"; };
 		30A3821E21B4C5E90043568A /* Processor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Processor.hpp; sourceTree = "<group>"; };
+		30A3821F21B5E7B90043568A /* Commands.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Commands.hpp; sourceTree = "<group>"; };
 		30A883621E7432DA004A033F /* Archive.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Archive.cpp; sourceTree = "<group>"; };
 		30A883631E7432DA004A033F /* Archive.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Archive.hpp; sourceTree = "<group>"; };
 		30A9C12F1CAE80570084C4BF /* Localization.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Localization.cpp; sourceTree = "<group>"; };
@@ -2127,6 +2128,7 @@
 			children = (
 				30A381F321B201C20043568A /* Bus.cpp */,
 				30A381F421B201C20043568A /* Bus.hpp */,
+				30A3821F21B5E7B90043568A /* Commands.hpp */,
 				30A381FC21B382A20043568A /* Mixer.cpp */,
 				30A381FD21B382A20043568A /* Mixer.hpp */,
 				30C3F290219D0DD9003FE9ED /* Object.hpp */,

@@ -28,11 +28,8 @@ namespace ouzel
         public:
         };
 
-        WaveSound::WaveSound()
-        {
-        }
-
-        WaveSound::WaveSound(const std::vector<uint8_t>& initData)
+        WaveSound::WaveSound(Audio& initAudio, const std::vector<uint8_t>& initData):
+            Sound(initAudio)
         {
             uint32_t offset = 0;
 

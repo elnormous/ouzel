@@ -14,8 +14,7 @@ namespace ouzel
         class WaveSound final: public Sound
         {
         public:
-            WaveSound();
-            explicit WaveSound(const std::vector<uint8_t>& initData);
+            WaveSound(Audio& initAudio, const std::vector<uint8_t>& initData);
 
             std::shared_ptr<Stream> createStream() override;
 

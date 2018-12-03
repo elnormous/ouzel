@@ -22,12 +22,9 @@ namespace ouzel
         {
         public:
         };
-        
-        VorbisSound::VorbisSound()
-        {
-        }
 
-        VorbisSound::VorbisSound(const std::vector<uint8_t>& initData):
+        VorbisSound::VorbisSound(Audio& initAudio, const std::vector<uint8_t>& initData):
+            Sound(initAudio),
             data(initData)
         {
             stb_vorbis* vorbisStream = stb_vorbis_open_memory(data.data(), static_cast<int>(data.size()), nullptr, nullptr);

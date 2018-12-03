@@ -93,10 +93,8 @@ namespace ouzel
             output = newOutput;
             if (output) output->addInput(this);
 
-            Mixer::Command command(Mixer::Command::Type::SET_SOURCE_OUTPUT);
-            command.sourceId = sourceId;
-            command.outputBusId = output ? output->getBusId() : 0;
-            audio.getMixer().addCommand(command);
+            audio.getMixer().addCommand(std::unique_ptr<Command>(new SetSourceOutputCommand(sourceId,
+                                                                                            output ? output->getBusId() : 0)));
         }
     } // namespace audio
 } // namespace ouzel

@@ -10,17 +10,17 @@ namespace ouzel
 {
     namespace audio
     {
-        void Mixer::addCommand(const Command& command)
+        void Mixer::addCommand(std::unique_ptr<Command>&& command)
         {
             std::unique_lock<std::mutex> lock(commandMutex);
-            commandQueue.push(command);
+            commandQueue.push(std::move(command));
             lock.unlock();
             commandConditionVariable.notify_all();
         }
 
         void Mixer::process()
         {
-            Command command;
+            std::unique_ptr<Command> command;
             for (;;)
             {
                 std::unique_lock<std::mutex> lock(commandMutex);
@@ -29,70 +29,91 @@ namespace ouzel
                 commandQueue.pop();
                 lock.unlock();
 
-                switch (command.type)
+                switch (command->type)
                 {
                     case Command::Type::DELETE_OBJECT:
-                        objects[command.objectId - 1].reset();
+                    {
+                        DeleteObjectCommand* deleteObjectCommand = static_cast<DeleteObjectCommand*>(command.get());
+                        objects[deleteObjectCommand->objectId - 1].reset();
                         break;
+                    }
                     case Command::Type::INIT_BUS:
                     {
-                        if (command.busId > objects.size())
-                            objects.resize(command.busId);
+                        InitBusCommand* initBusCommand = static_cast<InitBusCommand*>(command.get());
 
-                        objects[command.busId - 1].reset(new Bus());
+                        if (initBusCommand->busId > objects.size())
+                            objects.resize(initBusCommand->busId);
+
+                        objects[initBusCommand->busId - 1].reset(new Bus());
                         break;
                     }
                     case Command::Type::SET_BUS_OUTPUT:
                     {
-                        Bus* bus = static_cast<Bus*>(objects[command.busId - 1].get());
-                        bus->setOutput(command.outputBusId ? static_cast<Bus*>(objects[command.outputBusId - 1].get()) : nullptr);
+                        SetBusOutputCommand* setBusOutputCommand = static_cast<SetBusOutputCommand*>(command.get());
+
+                        Bus* bus = static_cast<Bus*>(objects[setBusOutputCommand->busId - 1].get());
+                        bus->setOutput(setBusOutputCommand->outputBusId ? static_cast<Bus*>(objects[setBusOutputCommand->outputBusId - 1].get()) : nullptr);
                         break;
                     }
                     case Command::Type::INIT_SOURCE:
                     {
-                        if (command.sourceId > objects.size())
-                            objects.resize(command.sourceId);
+                        InitSourceCommand* initSourceCommand = static_cast<InitSourceCommand*>(command.get());
 
-                        objects[command.sourceId - 1].reset(new Source());
+                        if (initSourceCommand->sourceId > objects.size())
+                            objects.resize(initSourceCommand->sourceId);
+
+                        objects[initSourceCommand->sourceId - 1].reset(new Source());
                         break;
                     }
                     case Command::Type::INIT_SOURCE_DATA:
                     {
-                        if (command.sourceDataId > objects.size())
-                            objects.resize(command.sourceDataId);
+                        InitSourceDataCommand* initSourceDataCommand = static_cast<InitSourceDataCommand*>(command.get());
 
-                        objects[command.sourceDataId - 1].reset(new SourceData());
+                        if (initSourceDataCommand->sourceDataId > objects.size())
+                            objects.resize(initSourceDataCommand->sourceDataId);
+
+                        objects[initSourceDataCommand->sourceDataId - 1].reset(new SourceData());
                         break;
                     }
                     case Command::Type::SET_SOURCE_OUTPUT:
                     {
-                        Source* source = static_cast<Source*>(objects[command.sourceId - 1].get());
-                        source->setOutput(command.outputBusId ? static_cast<Bus*>(objects[command.outputBusId - 1].get()) : nullptr);
+                        SetSourceOutputCommand* setSourceOutputCommand = static_cast<SetSourceOutputCommand*>(command.get());
+                        
+                        Source* source = static_cast<Source*>(objects[setSourceOutputCommand->sourceId - 1].get());
+                        source->setOutput(setSourceOutputCommand->busId ? static_cast<Bus*>(objects[setSourceOutputCommand->busId - 1].get()) : nullptr);
                         break;
                     }
                     case Command::Type::INIT_PROCESSOR:
                     {
-                        if (command.processorId > objects.size())
-                            objects.resize(command.processorId);
+                        InitProcessorCommand* initProcessorCommand = static_cast<InitProcessorCommand*>(command.get());
 
-                        objects[command.processorId - 1] = command.processorAllocFunction();
+                        if (initProcessorCommand->processorId > objects.size())
+                            objects.resize(initProcessorCommand->processorId);
+
+                        objects[initProcessorCommand->processorId - 1] = std::move(initProcessorCommand->processor);
                         break;
                     }
                     case Command::Type::SET_PROCESSOR_BUS:
                     {
-                        Processor* processor = static_cast<Processor*>(objects[command.processorId - 1].get());
-                        processor->setBus(command.busId ? static_cast<Bus*>(objects[command.busId - 1].get()) : nullptr);
+                        SetProcessorBusCommand* setProcessorBusCommand = static_cast<SetProcessorBusCommand*>(command.get());
+
+                        Processor* processor = static_cast<Processor*>(objects[setProcessorBusCommand->processorId - 1].get());
+                        processor->setBus(setProcessorBusCommand->busId ? static_cast<Bus*>(objects[setProcessorBusCommand->busId - 1].get()) : nullptr);
                         break;
                     }
                     case Command::Type::UPDATE_PROCESSOR:
                     {
-                        Processor* processor = static_cast<Processor*>(objects[command.processorId - 1].get());
-                        command.updateFunction(processor);
+                        UpdateProcessorCommand* updateProcessorCommand = static_cast<UpdateProcessorCommand*>(command.get());
+
+                        Processor* processor = static_cast<Processor*>(objects[updateProcessorCommand->processorId - 1].get());
+                        updateProcessorCommand->updateFunction(processor);
                         break;
                     }
                     case Command::Type::SET_MASTER_BUS:
                     {
-                        masterBus = command.busId ? static_cast<Bus*>(objects[command.busId - 1].get()) : nullptr;
+                        SetMasterBusCommand* setMasterBusCommand = static_cast<SetMasterBusCommand*>(command.get());
+
+                        masterBus = setMasterBusCommand->busId ? static_cast<Bus*>(objects[setMasterBusCommand->busId - 1].get()) : nullptr;
                         break;
                     }
                     default:

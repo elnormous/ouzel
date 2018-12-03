@@ -32,7 +32,7 @@ namespace ouzel
 
         Gain::Gain(Audio& initAudio):
             Filter(initAudio,
-                   initAudio.initProcessor([]() { return std::unique_ptr<Processor>(new GainProcessor()); }))
+                   initAudio.initProcessor(std::unique_ptr<Processor>(new GainProcessor())))
         {
         }
 

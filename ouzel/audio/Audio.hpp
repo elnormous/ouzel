@@ -45,7 +45,7 @@ namespace ouzel
             void deleteObject(uintptr_t objectId);
             uintptr_t initBus();
             uintptr_t initSource();
-            uintptr_t initProcessor(const std::function<std::unique_ptr<Processor>(void)>& allocFunction);
+            uintptr_t initProcessor(std::unique_ptr<Processor>&& processor);
             void updateProcessor(uintptr_t processorId, const std::function<void(Processor*)>& updateFunction);
 
             Mix& getMasterMix() { return masterMix; }
