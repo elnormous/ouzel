@@ -22,7 +22,7 @@ namespace ouzel
 
         Reverb::Reverb(Audio& initAudio):
             Filter(initAudio,
-                   initAudio.initProcessor([]() { return std::unique_ptr<Processor>(new ReverbProcessor()); }))
+                   initAudio.initProcessor(std::unique_ptr<Processor>(new ReverbProcessor())))
         {
         }
 

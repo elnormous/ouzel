@@ -51,7 +51,7 @@ namespace ouzel
         Panner::Panner(Audio& initAudio):
             scene::Component(scene::Component::SOUND),
             Filter(initAudio,
-                   initAudio.initProcessor([]() { return std::unique_ptr<Processor>(new PannerProcessor()); }))
+                   initAudio.initProcessor(std::unique_ptr<Processor>(new PannerProcessor())))
         {
         }
 

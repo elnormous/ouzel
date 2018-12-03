@@ -27,10 +27,8 @@ namespace ouzel
             mix = newMix;
             if (mix) mix->addFilter(this);
 
-            Mixer::Command command(Mixer::Command::Type::SET_PROCESSOR_BUS);
-            command.processorId = processorId;
-            command.busId = mix ? mix->getBusId() : 0;
-            audio.getMixer().addCommand(command);
+            audio.getMixer().addCommand(std::unique_ptr<Command>(new SetProcessorBusCommand(processorId,
+                                                                                            mix ? mix->getBusId() : 0)));
         }
     } // namespace audio
 } // namespace ouzel

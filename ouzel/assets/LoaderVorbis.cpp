@@ -3,6 +3,7 @@
 #include "LoaderVorbis.hpp"
 #include "Bundle.hpp"
 #include "audio/VorbisSound.hpp"
+#include "core/Engine.hpp"
 
 namespace ouzel
 {
@@ -17,7 +18,7 @@ namespace ouzel
         {
             try
             {
-                std::shared_ptr<audio::Sound> sound = std::make_shared<audio::VorbisSound>(data);
+                std::shared_ptr<audio::Sound> sound = std::make_shared<audio::VorbisSound>(*engine->getAudio(), data);
                 bundle.setSound(filename, sound);
             }
             catch (const std::exception&)

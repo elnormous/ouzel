@@ -22,7 +22,7 @@ namespace ouzel
 
         Delay::Delay(Audio& initAudio):
             Filter(initAudio,
-                   initAudio.initProcessor([]() { return std::unique_ptr<Processor>(new DelayProcessor()); }))
+                   initAudio.initProcessor(std::unique_ptr<Processor>(new DelayProcessor())))
         {
         }
 

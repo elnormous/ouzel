@@ -7,7 +7,8 @@ namespace ouzel
 {
     namespace audio
     {
-        Sound::Sound()
+        Sound::Sound(Audio& initAudio):
+            audio(initAudio)
         {
         }
 

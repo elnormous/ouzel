@@ -5,11 +5,11 @@
 
 #include <condition_variable>
 #include <cstdint>
-#include <functional>
 #include <mutex>
 #include <queue>
 #include <set>
 #include <vector>
+#include "audio/mixer/Commands.hpp"
 #include "audio/mixer/Object.hpp"
 #include "audio/mixer/Processor.hpp"
 
@@ -20,36 +20,6 @@ namespace ouzel
         class Mixer
         {
         public:
-            struct Command
-            {
-                enum class Type
-                {
-                    DELETE_OBJECT,
-                    INIT_BUS,
-                    SET_BUS_OUTPUT,
-                    INIT_SOURCE,
-                    SET_SOURCE_OUTPUT,
-                    INIT_SOURCE_DATA,
-                    INIT_PROCESSOR,
-                    SET_PROCESSOR_BUS,
-                    UPDATE_PROCESSOR,
-                    SET_MASTER_BUS
-                };
-
-                Command() {}
-                explicit Command(Type initType): type(initType) {}
-
-                Type type;
-                uintptr_t objectId;
-                uintptr_t busId;
-                uintptr_t sourceId;
-                uintptr_t sourceDataId;
-                uintptr_t processorId;
-                uintptr_t outputBusId;
-                std::function<std::unique_ptr<Processor>(void)> processorAllocFunction;
-                std::function<void(Processor*)> updateFunction;
-            };
-
             Mixer() {}
 
             Mixer(const Mixer&) = delete;
@@ -58,7 +28,7 @@ namespace ouzel
             Mixer(Mixer&&) = delete;
             Mixer& operator=(Mixer&&) = delete;
 
-            void addCommand(const Command& command);
+            void addCommand(std::unique_ptr<Command>&& command);
             
             void process();
             void getData(uint32_t frames, uint32_t sampleRate, uint16_t channels, std::vector<float>& result);
@@ -91,7 +61,7 @@ namespace ouzel
             Bus* masterBus = nullptr;
             std::mutex commandMutex;
             std::condition_variable commandConditionVariable;
-            std::queue<Command> commandQueue;
+            std::queue<std::unique_ptr<Command>> commandQueue;
         };
     } // namespace audio
 } // namespace ouzel
