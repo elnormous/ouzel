@@ -48,6 +48,7 @@
     <ClCompile Include="..\ouzel\audio\empty\AudioDeviceEmpty.cpp" />
     <ClCompile Include="..\ouzel\audio\Filter.cpp" />
     <ClCompile Include="..\ouzel\audio\Gain.cpp" />
+    <ClCompile Include="..\ouzel\audio\mixer\Bus.cpp" />
     <ClCompile Include="..\ouzel\audio\mixer\Mixer.cpp" />
     <ClCompile Include="..\ouzel\audio\Panner.cpp" />
     <ClCompile Include="..\ouzel\audio\Pitch.cpp" />
@@ -55,6 +56,8 @@
     <ClCompile Include="..\ouzel\audio\Listener.cpp" />
     <ClCompile Include="..\ouzel\audio\Sound.cpp" />
     <ClCompile Include="..\ouzel\audio\SoundData.cpp" />
+    <ClCompile Include="..\ouzel\audio\ToneData.cpp" />
+    <ClCompile Include="..\ouzel\audio\ToneStream.cpp" />
     <ClCompile Include="..\ouzel\audio\VorbisData.cpp" />
     <ClCompile Include="..\ouzel\audio\WaveData.cpp" />
     <ClCompile Include="..\ouzel\audio\Stream.cpp" />
@@ -223,6 +226,7 @@
     <ClInclude Include="..\ouzel\audio\empty\AudioDeviceEmpty.hpp" />
     <ClInclude Include="..\ouzel\audio\Filter.hpp" />
     <ClInclude Include="..\ouzel\audio\Gain.hpp" />
+    <ClInclude Include="..\ouzel\audio\mixer\Bus.hpp" />
     <ClInclude Include="..\ouzel\audio\mixer\Mixer.hpp" />
     <ClInclude Include="..\ouzel\audio\mixer\Object.hpp" />
     <ClInclude Include="..\ouzel\audio\Panner.hpp" />
@@ -232,6 +236,8 @@
     <ClInclude Include="..\ouzel\audio\Listener.hpp" />
     <ClInclude Include="..\ouzel\audio\Sound.hpp" />
     <ClInclude Include="..\ouzel\audio\SoundData.hpp" />
+    <ClInclude Include="..\ouzel\audio\ToneData.hpp" />
+    <ClInclude Include="..\ouzel\audio\ToneStream.hpp" />
     <ClInclude Include="..\ouzel\audio\VorbisData.hpp" />
     <ClInclude Include="..\ouzel\audio\WaveData.hpp" />
     <ClInclude Include="..\ouzel\audio\Stream.hpp" />
