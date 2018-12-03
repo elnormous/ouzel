@@ -1,12 +1,12 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include "StreamWave.hpp"
+#include "WaveStream.hpp"
 
 namespace ouzel
 {
     namespace audio
     {
-        void StreamWave::reset()
+        void WaveStream::reset()
         {
             Stream::reset();
 

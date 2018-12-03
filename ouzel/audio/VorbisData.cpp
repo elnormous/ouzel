@@ -1,8 +1,8 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <stdexcept>
-#include "SoundDataVorbis.hpp"
-#include "StreamVorbis.hpp"
+#include "VorbisData.hpp"
+#include "VorbisStream.hpp"
 #include "utils/Utils.hpp"
 
 #include "stb_vorbis.c"
@@ -11,11 +11,11 @@ namespace ouzel
 {
     namespace audio
     {
-        SoundDataVorbis::SoundDataVorbis()
+        VorbisData::VorbisData()
         {
         }
 
-        SoundDataVorbis::SoundDataVorbis(const std::vector<uint8_t>& initData):
+        VorbisData::VorbisData(const std::vector<uint8_t>& initData):
             data(initData)
         {
             stb_vorbis* vorbisStream = stb_vorbis_open_memory(data.data(), static_cast<int>(data.size()), nullptr, nullptr);
@@ -31,14 +31,14 @@ namespace ouzel
             stb_vorbis_close(vorbisStream);
         }
 
-        std::shared_ptr<Stream> SoundDataVorbis::createStream()
+        std::shared_ptr<Stream> VorbisData::createStream()
         {
-            return std::make_shared<StreamVorbis>(data);
+            return std::make_shared<VorbisStream>(data);
         }
 
-        void SoundDataVorbis::readData(Stream* stream, uint32_t frames, std::vector<float>& result)
+        void VorbisData::readData(Stream* stream, uint32_t frames, std::vector<float>& result)
         {
-            StreamVorbis* streamVorbis = static_cast<StreamVorbis*>(stream);
+            VorbisStream* streamVorbis = static_cast<VorbisStream*>(stream);
 
             uint32_t neededSize = frames * channels;
             uint32_t totalSize = 0;

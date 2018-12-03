@@ -2,8 +2,8 @@
 
 #include <iterator>
 #include <stdexcept>
-#include "SoundDataWave.hpp"
-#include "StreamWave.hpp"
+#include "WaveData.hpp"
+#include "WaveStream.hpp"
 #include "utils/Utils.hpp"
 
 enum WaveFormat
@@ -16,11 +16,11 @@ namespace ouzel
 {
     namespace audio
     {
-        SoundDataWave::SoundDataWave()
+        WaveData::WaveData()
         {
         }
 
-        SoundDataWave::SoundDataWave(const std::vector<uint8_t>& initData)
+        WaveData::WaveData(const std::vector<uint8_t>& initData)
         {
             uint32_t offset = 0;
 
@@ -163,14 +163,14 @@ namespace ouzel
                 throw std::runtime_error("Failed to load sound file, unsupported format");
         }
 
-        std::shared_ptr<Stream> SoundDataWave::createStream()
+        std::shared_ptr<Stream> WaveData::createStream()
         {
-            return std::make_shared<StreamWave>();
+            return std::make_shared<WaveStream>();
         }
 
-        void SoundDataWave::readData(Stream* stream, uint32_t frames, std::vector<float>& result)
+        void WaveData::readData(Stream* stream, uint32_t frames, std::vector<float>& result)
         {
-            StreamWave* streamWave = static_cast<StreamWave*>(stream);
+            WaveStream* streamWave = static_cast<WaveStream*>(stream);
 
             uint32_t neededSize = frames * channels;
             uint32_t totalSize = 0;

@@ -274,19 +274,19 @@
     <ClCompile Include="..\ouzel\audio\SoundData.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\SoundDataVorbis.cpp">
+    <ClCompile Include="..\ouzel\audio\VorbisData.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\SoundDataWave.cpp">
+    <ClCompile Include="..\ouzel\audio\WaveData.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\audio\Stream.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\StreamVorbis.cpp">
+    <ClCompile Include="..\ouzel\audio\VorbisStream.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\StreamWave.cpp">
+    <ClCompile Include="..\ouzel\audio\WaveStream.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\graphics\Texture.cpp">
@@ -795,19 +795,19 @@
     <ClInclude Include="..\ouzel\audio\SoundData.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\SoundDataVorbis.hpp">
+    <ClInclude Include="..\ouzel\audio\VorbisData.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\SoundDataWave.hpp">
+    <ClInclude Include="..\ouzel\audio\WaveData.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\Stream.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\StreamVorbis.hpp">
+    <ClInclude Include="..\ouzel\audio\VorbisStream.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\StreamWave.hpp">
+    <ClInclude Include="..\ouzel\audio\WaveStream.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\Texture.hpp">

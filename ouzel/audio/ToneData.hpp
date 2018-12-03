@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_AUDIO_SOUNDDATAWAVE_HPP
-#define OUZEL_AUDIO_SOUNDDATAWAVE_HPP
+#ifndef OUZEL_AUDIO_TONEDATA_HPP
+#define OUZEL_AUDIO_TONEDATA_HPP
 
 #include <cstdint>
 #include <vector>
@@ -11,11 +11,11 @@ namespace ouzel
 {
     namespace audio
     {
-        class SoundDataWave final: public SoundData
+        class ToneData final: public SoundData
         {
         public:
-            SoundDataWave();
-            explicit SoundDataWave(const std::vector<uint8_t>& initData);
+            ToneData();
+            explicit ToneData(const std::vector<uint8_t>& initData);
 
             std::shared_ptr<Stream> createStream() override;
 
@@ -27,4 +27,4 @@ namespace ouzel
     } // namespace audio
 } // namespace ouzel
 
-#endif // OUZEL_AUDIO_SOUNDDATAWAVE_HPP
+#endif // OUZEL_AUDIO_TONEDATA_HPP
