@@ -11,7 +11,7 @@ namespace ouzel
 {
     namespace audio
     {
-        class Bus;
+        class Mix;
         class SoundData;
 
         class Sound: public Stream::EventListener
@@ -33,7 +33,7 @@ namespace ouzel
             void onReset() override;
             void onStop() override;
 
-            void setOutput(Bus* newOutput);
+            void setOutput(Mix* newOutput);
             
         private:
             std::shared_ptr<SoundData> soundData;
@@ -42,7 +42,7 @@ namespace ouzel
             bool playing = false;
             bool repeating = false;
 
-            Bus* output = nullptr;
+            Mix* output = nullptr;
         };
     } // namespace audio
 } // namespace ouzel

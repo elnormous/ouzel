@@ -18,7 +18,7 @@ private:
     bool handleTouch(const ouzel::TouchEvent& event);
     bool handleGamepad(const ouzel::GamepadEvent& event);
 
-    ouzel::audio::Group bus;
+    ouzel::audio::Submix submix;
     ouzel::audio::Listener listener;
 
     ouzel::scene::Layer layer;
@@ -32,6 +32,7 @@ private:
 
     ouzel::scene::Sprite characterSprite;
     ouzel::scene::Actor character;
+    ouzel::audio::Submix jumpSubmix;
     ouzel::audio::Sound jumpSound;
     ouzel::audio::Panner jumpPanner;
 

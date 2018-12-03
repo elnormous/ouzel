@@ -1,21 +1,21 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include "Bus.hpp"
+#include "Submix.hpp"
+#include "Audio.hpp"
 
 namespace ouzel
 {
     namespace audio
     {
-        Bus::Bus()
+        Submix::Submix(Audio& initAudio):
+            Mix(initAudio)
         {
+
         }
 
-        void Bus::addProcessor(Processor* processor)
+        void Submix::setOutput(Mix* newOutput)
         {
-        }
-
-        void Bus::removeProcessor(Processor* processor)
-        {
+            output = newOutput;
         }
     } // namespace audio
 } // namespace ouzel

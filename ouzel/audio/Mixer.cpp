@@ -39,15 +39,15 @@ namespace ouzel
                         break;
                     case Command::Type::REMOVE_LISTENER:
                         break;
-                    case Command::Type::ADD_FILTER:
+                    case Command::Type::ADD_PROCESSOR:
                         break;
-                    case Command::Type::REMOVE_FILTER:
+                    case Command::Type::REMOVE_PROCESSOR:
                         break;
                     case Command::Type::INIT_LISTENER:
                         break;
                     case Command::Type::UPDATE_LISTENER:
                         break;
-                    case Command::Type::INIT_FILTER:
+                    case Command::Type::INIT_PROCESSOR:
                     {
                         if (command.objectId > objects.size())
                             objects.resize(command.objectId);
@@ -55,7 +55,7 @@ namespace ouzel
                         objects[command.objectId - 1] = command.createFunction();
                         break;
                     }
-                    case Command::Type::UPDATE_FILTER:
+                    case Command::Type::UPDATE_PROCESSOR:
                     {
                         command.updateFunction(objects[command.objectId - 1].get());
                         break;

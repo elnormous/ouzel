@@ -48,8 +48,9 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
 	../../ouzel/audio/Delay.cpp \
 	../../ouzel/audio/Filter.cpp \
 	../../ouzel/audio/Gain.cpp \
-	../../ouzel/audio/Group.cpp \
+	../../ouzel/audio/GroupBus.cpp \
     ../../ouzel/audio/Listener.cpp \
+	../../ouzel/audio/Mix.cpp \
 	../../ouzel/audio/Mixer.cpp \
 	../../ouzel/audio/Object.cpp \
     ../../ouzel/audio/Panner.cpp \
@@ -62,6 +63,7 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/audio/Stream.cpp \
     ../../ouzel/audio/StreamVorbis.cpp \
     ../../ouzel/audio/StreamWave.cpp \
+	../../ouzel/audio/Submix.cpp \
     ../../ouzel/core/android/EngineAndroid.cpp \
     ../../ouzel/core/android/main.cpp \
     ../../ouzel/core/android/NativeWindowAndroid.cpp \

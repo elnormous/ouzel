@@ -10,7 +10,7 @@
 #include <vector>
 #include "audio/Driver.hpp"
 #include "audio/Object.hpp"
-#include "audio/Bus.hpp"
+#include "audio/Mix.hpp"
 #include "audio/Mixer.hpp"
 #include "math/Quaternion.hpp"
 #include "math/Vector3.hpp"
@@ -47,12 +47,12 @@ namespace ouzel
             void deleteObject(uintptr_t objectId);
             void updateObject(uintptr_t objectId, const std::function<void(Object*)>& updateFunction);
 
-            Bus& getMasterBus() { return masterBus; }
+            Mix& getMasterMix() { return masterMix; }
 
         private:
             std::unique_ptr<AudioDevice> device;
             Mixer mixer;
-            Bus masterBus;
+            Mix masterMix;
         };
     } // namespace audio
 } // namespace ouzel
