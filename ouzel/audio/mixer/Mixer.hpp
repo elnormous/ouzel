@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_AUDIO_MIXER_HPP
-#define OUZEL_AUDIO_MIXER_HPP
+#ifndef OUZEL_AUDIO_MIXER_MIXER_HPP
+#define OUZEL_AUDIO_MIXER_MIXER_HPP
 
 #include <condition_variable>
 #include <cstdint>
@@ -10,8 +10,8 @@
 #include <queue>
 #include <set>
 #include <vector>
-#include "audio/Object.hpp"
-#include "audio/Processor.hpp"
+#include "audio/mixer/Object.hpp"
+#include "audio/mixer/Processor.hpp"
 
 namespace ouzel
 {
@@ -96,4 +96,4 @@ namespace ouzel
     } // namespace audio
 } // namespace ouzel
 
-#endif // OUZEL_AUDIO_MIXER_HPP
+#endif // OUZEL_AUDIO_MIXER_MIXER_HPP

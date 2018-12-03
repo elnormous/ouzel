@@ -1,10 +1,10 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_AUDIO_PROCESSOR_HPP
-#define OUZEL_AUDIO_PROCESSOR_HPP
+#ifndef OUZEL_AUDIO_MIXER_PROCESSOR_HPP
+#define OUZEL_AUDIO_MIXER_PROCESSOR_HPP
 
-#include "audio/Object.hpp"
-#include "audio/Bus.hpp"
+#include "audio/mixer/Object.hpp"
+#include "audio/mixer/Bus.hpp"
 
 namespace ouzel
 {
@@ -38,4 +38,4 @@ namespace ouzel
     } // namespace audio
 } // namespace ouzel
 
-#endif // OUZEL_AUDIO_PROCESSOR_HPP
+#endif // OUZEL_AUDIO_MIXER_PROCESSOR_HPP

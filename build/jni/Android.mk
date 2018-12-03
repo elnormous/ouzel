@@ -41,16 +41,18 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/assets/LoaderVorbis.cpp \
     ../../ouzel/assets/LoaderWave.cpp \
     ../../ouzel/audio/empty/AudioDeviceEmpty.cpp \
+    ../../ouzel/audio/mixer/Bus.cpp \
+	../../ouzel/audio/mixer/Mixer.cpp \
+    ../../ouzel/audio/mixer/Source.cpp \
+    ../../ouzel/audio/mixer/SourceData.cpp \
     ../../ouzel/audio/opensl/AudioDeviceSL.cpp \
     ../../ouzel/audio/Audio.cpp \
     ../../ouzel/audio/AudioDevice.cpp \
-	../../ouzel/audio/Bus.cpp \
 	../../ouzel/audio/Delay.cpp \
 	../../ouzel/audio/Filter.cpp \
 	../../ouzel/audio/Gain.cpp \
     ../../ouzel/audio/Listener.cpp \
 	../../ouzel/audio/Mix.cpp \
-	../../ouzel/audio/Mixer.cpp \
     ../../ouzel/audio/Panner.cpp \
 	../../ouzel/audio/Pitch.cpp \
 	../../ouzel/audio/Reverb.cpp \
