@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "Mixer.hpp"
+#include "Bus.hpp"
 #include "math/MathUtils.hpp"
 
 namespace ouzel
@@ -29,11 +30,10 @@ namespace ouzel
                 switch (command.type)
                 {
                     case Command::Type::DELETE_OBJECT:
-                    {
                         objects[command.objectId - 1].reset();
                         break;
-                    }
                     case Command::Type::INIT_BUS:
+                        objects[command.objectId - 1].reset(new Bus());
                         break;
                     case Command::Type::ADD_LISTENER:
                         break;
