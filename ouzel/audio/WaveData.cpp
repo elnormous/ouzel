@@ -4,6 +4,8 @@
 #include <stdexcept>
 #include "WaveData.hpp"
 #include "WaveStream.hpp"
+#include "mixer/Source.hpp"
+#include "mixer/SourceData.hpp"
 #include "utils/Utils.hpp"
 
 enum WaveFormat
@@ -16,6 +18,16 @@ namespace ouzel
 {
     namespace audio
     {
+        class WaveSource: public Source
+        {
+        public:
+        };
+
+        class WaveSourceData: public SourceData
+        {
+        public:
+        };
+
         WaveData::WaveData()
         {
         }

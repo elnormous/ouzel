@@ -502,9 +502,6 @@
     <ClCompile Include="..\ouzel\audio\ToneData.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\ToneStream.cpp">
-      <Filter>ouzel\audio</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\audio\mixer\Bus.cpp">
       <Filter>ouzel\audio\mixer</Filter>
     </ClCompile>
@@ -1084,9 +1081,6 @@
       <Filter>ouzel\audio\mixer</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\ToneData.hpp">
-      <Filter>ouzel\audio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\audio\ToneStream.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\mixer\Bus.hpp">

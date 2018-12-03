@@ -3,6 +3,7 @@
 #include "Mixer.hpp"
 #include "Bus.hpp"
 #include "Source.hpp"
+#include "SourceData.hpp"
 #include "math/MathUtils.hpp"
 
 namespace ouzel
@@ -55,6 +56,14 @@ namespace ouzel
                         objects[command.sourceId - 1].reset(new Source());
                         break;
                     }
+                    case Command::Type::INIT_SOURCE_DATA:
+                    {
+                        if (command.sourceDataId > objects.size())
+                            objects.resize(command.sourceDataId);
+
+                        objects[command.sourceDataId - 1].reset(new SourceData());
+                        break;
+                    }
                     case Command::Type::SET_SOURCE_OUTPUT:
                     {
                         Source* source = static_cast<Source*>(objects[command.sourceId - 1].get());
@@ -66,7 +75,7 @@ namespace ouzel
                         if (command.processorId > objects.size())
                             objects.resize(command.processorId);
 
-                        objects[command.processorId - 1] = command.createFunction();
+                        objects[command.processorId - 1] = command.processorAllocFunction();
                         break;
                     }
                     case Command::Type::SET_PROCESSOR_BUS:

@@ -69,7 +69,6 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Stream.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Submix.cpp \
 	$(ROOT_DIR)/../ouzel/audio/ToneData.cpp \
-	$(ROOT_DIR)/../ouzel/audio/ToneStream.cpp \
 	$(ROOT_DIR)/../ouzel/audio/VorbisData.cpp \
 	$(ROOT_DIR)/../ouzel/audio/VorbisStream.cpp \
 	$(ROOT_DIR)/../ouzel/audio/WaveData.cpp \

@@ -19,8 +19,8 @@ namespace ouzel
 
             void setOutput(Bus* newOutput);
 
-            void getData(std::vector<float>& samples, uint16_t& channels,
-                         uint32_t& sampleRate, Vector3& position);
+            virtual void getData(std::vector<float>& samples, uint16_t& channels,
+                                 uint32_t& sampleRate, Vector3& position) {}
 
         private:
             Bus* output = nullptr;

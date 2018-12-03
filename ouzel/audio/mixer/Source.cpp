@@ -18,10 +18,5 @@ namespace ouzel
             output = newOutput;
             if (output) output->addInput(this);
         }
-
-        void Source::getData(std::vector<float>& samples, uint16_t& channels,
-                             uint32_t& sampleRate, Vector3& position)
-        {
-        }
     } // namespace audio
 } // namespace ouzel
