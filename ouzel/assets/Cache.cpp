@@ -124,11 +124,11 @@ namespace ouzel
             return nullptr;
         }
 
-        std::shared_ptr<audio::SoundData> Cache::getSoundData(const std::string& filename) const
+        std::shared_ptr<audio::Sound> Cache::getSound(const std::string& filename) const
         {
             for (Bundle* bundle : bundles)
-                if (std::shared_ptr<audio::SoundData> soundData = bundle->getSoundData(filename))
-                    return soundData;
+                if (std::shared_ptr<audio::Sound> sound = bundle->getSound(filename))
+                    return sound;
 
             return nullptr;
         }

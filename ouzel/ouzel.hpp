@@ -40,7 +40,7 @@
 #include "audio/Reverb.hpp"
 #include "audio/SampleFormat.hpp"
 #include "audio/Voice.hpp"
-#include "audio/SoundData.hpp"
+#include "audio/Sound.hpp"
 #include "audio/VorbisData.hpp"
 #include "audio/WaveData.hpp"
 #include "audio/Stream.hpp"

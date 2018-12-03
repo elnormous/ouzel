@@ -6,7 +6,7 @@
 #include <map>
 #include <memory>
 #include <string>
-#include "audio/SoundData.hpp"
+#include "audio/Sound.hpp"
 #include "files/FileSystem.hpp"
 #include "graphics/BlendState.hpp"
 #include "graphics/DepthStencilState.hpp"
@@ -92,9 +92,9 @@ namespace ouzel
             void setFont(const std::string& filename, const std::shared_ptr<Font>& font);
             void releaseFonts();
 
-            std::shared_ptr<audio::SoundData> getSoundData(const std::string& filename) const;
-            void setSoundData(const std::string& filename, const std::shared_ptr<audio::SoundData>& newSoundData);
-            void releaseSoundData();
+            std::shared_ptr<audio::Sound> getSound(const std::string& filename) const;
+            void setSound(const std::string& filename, const std::shared_ptr<audio::Sound>& newSound);
+            void releaseSound();
 
             std::shared_ptr<graphics::Material> getMaterial(const std::string& filename) const;
             void setMaterial(const std::string& filename, const std::shared_ptr<graphics::Material>& material);
@@ -119,7 +119,7 @@ namespace ouzel
             std::map<std::string, std::shared_ptr<graphics::DepthStencilState>> depthStencilStates;
             std::map<std::string, scene::SpriteData> spriteData;
             std::map<std::string, std::shared_ptr<Font>> fonts;
-            std::map<std::string, std::shared_ptr<audio::SoundData>> soundData;
+            std::map<std::string, std::shared_ptr<audio::Sound>> sounds;
             std::map<std::string, std::shared_ptr<graphics::Material>> materials;
             std::map<std::string, scene::SkinnedMeshData> skinnedMeshData;
             std::map<std::string, scene::StaticMeshData> staticMeshData;

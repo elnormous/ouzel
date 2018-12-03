@@ -13,16 +13,16 @@ SoundSample::SoundSample():
     listener(*engine->getAudio()),
     soundGain(*engine->getAudio()),
     test8BitSubmix(*engine->getAudio()),
-    test8BitSound(*engine->getAudio(), engine->getCache().getSoundData("8-bit.wav")),
+    test8BitVoice(*engine->getAudio(), engine->getCache().getSound("8-bit.wav")),
     test8BitPitch(*engine->getAudio()),
     test24BitSubmix(*engine->getAudio()),
-    test24BitSound(*engine->getAudio(), engine->getCache().getSoundData("24-bit.wav")),
+    test24BitVoice(*engine->getAudio(), engine->getCache().getSound("24-bit.wav")),
     test24BitPitch(*engine->getAudio()),
     jumpSubmix(*engine->getAudio()),
-    jumpSound(*engine->getAudio(), engine->getCache().getSoundData("jump.wav")),
+    jumpVoice(*engine->getAudio(), engine->getCache().getSound("jump.wav")),
     jumpPanner(*engine->getAudio()),
-    ambientSound(*engine->getAudio(), engine->getCache().getSoundData("ambient.wav")),
-    music(*engine->getAudio(), engine->getCache().getSoundData("music.ogg")),
+    ambientVoice(*engine->getAudio(), engine->getCache().getSound("ambient.wav")),
+    music(*engine->getAudio(), engine->getCache().getSound("music.ogg")),
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
     test8BitButton("button.png", "button_selected.png", "button_down.png", "", "8-bit", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
     test24BitButton("button.png", "button_selected.png", "button_down.png", "", "24-bit", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
@@ -41,23 +41,23 @@ SoundSample::SoundSample():
     soundGain.setGain(1.2F);
 
     test8BitPitch.setPitch(2.0F);
-    test8BitSound.setOutput(&test8BitSubmix);
+    test8BitVoice.setOutput(&test8BitSubmix);
     test8BitPitch.setMix(&test8BitSubmix);
     test8BitSubmix.setOutput(&submix);
 
     test24BitPitch.setPitch(0.5F);
-    test24BitSound.setOutput(&test24BitSubmix);
+    test24BitVoice.setOutput(&test24BitSubmix);
     test24BitPitch.setMix(&test24BitSubmix);
     test24BitSubmix.setOutput(&submix);
 
     guiLayer.addChild(&soundActor);
     soundActor.addComponent(&jumpPanner);
     soundActor.setPosition(Vector3(8.0F, 0.0F, 10.0F));
-    jumpSound.setOutput(&jumpSubmix);
+    jumpVoice.setOutput(&jumpSubmix);
     jumpPanner.setMix(&jumpSubmix);
     jumpSubmix.setOutput(&submix);
 
-    ambientSound.setOutput(&submix);
+    ambientVoice.setOutput(&submix);
     music.setOutput(&submix);
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
@@ -106,13 +106,13 @@ bool SoundSample::handleUI(const UIEvent& event)
         if (event.actor == &backButton)
             engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
         else if (event.actor == &test8BitButton)
-            test8BitSound.play();
+            test8BitVoice.play();
         else if (event.actor == &test24BitButton)
-            test24BitSound.play();
+            test24BitVoice.play();
         else if (event.actor == &jumpButton)
-            jumpSound.play(true);
+            jumpVoice.play(true);
         else if (event.actor == &ambientButton)
-            ambientSound.play();
+            ambientVoice.play();
         else if (event.actor == &musicButton)
             music.play();
     }
