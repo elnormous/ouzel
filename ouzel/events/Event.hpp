@@ -6,7 +6,7 @@
 #include <cstdint>
 #include <vector>
 #include <string>
-#include "audio/Sound.hpp"
+#include "audio/Voice.hpp"
 #include "core/Window.hpp"
 #include "math/Vector2.hpp"
 #include "math/Size2.hpp"
@@ -176,7 +176,7 @@ namespace ouzel
 
     struct SoundEvent final: Event
     {
-        audio::Sound* sound;
+        audio::Voice* voice;
     };
 
     struct UpdateEvent final: Event

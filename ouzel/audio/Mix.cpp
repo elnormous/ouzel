@@ -4,8 +4,8 @@
 #include "Audio.hpp"
 #include "Filter.hpp"
 #include "Listener.hpp"
-#include "Sound.hpp"
 #include "Submix.hpp"
+#include "Voice.hpp"
 
 namespace ouzel
 {
@@ -22,8 +22,8 @@ namespace ouzel
             for (Submix* submix : inputSubmixes)
                 submix->output = nullptr;
 
-            for (Sound* sound : inputSounds)
-                sound->output = nullptr;
+            for (Voice* voice : inputVoices)
+                voice->output = nullptr;
 
             for (Filter* filter : filters)
                 filter->mix = nullptr;
@@ -46,16 +46,16 @@ namespace ouzel
             if (i != inputSubmixes.end()) inputSubmixes.erase(i);
         }
 
-        void Mix::addInput(Sound* sound)
+        void Mix::addInput(Voice* voice)
         {
-            auto i = std::find(inputSounds.begin(), inputSounds.end(), sound);
-            if (i == inputSounds.end()) inputSounds.push_back(sound);
+            auto i = std::find(inputVoices.begin(), inputVoices.end(), voice);
+            if (i == inputVoices.end()) inputVoices.push_back(voice);
         }
 
-        void Mix::removeInput(Sound* sound)
+        void Mix::removeInput(Voice* voice)
         {
-            auto i = std::find(inputSounds.begin(), inputSounds.end(), sound);
-            if (i != inputSounds.end()) inputSounds.erase(i);
+            auto i = std::find(inputVoices.begin(), inputVoices.end(), voice);
+            if (i != inputVoices.end()) inputVoices.erase(i);
         }
 
         void Mix::addFilter(Filter* filter)
