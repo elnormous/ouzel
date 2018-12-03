@@ -9,9 +9,9 @@
 #include <set>
 #include <vector>
 #include "audio/Driver.hpp"
-#include "audio/Processor.hpp"
 #include "audio/Mix.hpp"
-#include "audio/Mixer.hpp"
+#include "audio/mixer/Processor.hpp"
+#include "audio/mixer/Mixer.hpp"
 #include "math/Quaternion.hpp"
 #include "math/Vector3.hpp"
 

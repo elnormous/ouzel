@@ -5,8 +5,8 @@
 
 #include <vector>
 #include "audio/Driver.hpp"
-#include "audio/Mixer.hpp"
 #include "audio/SampleFormat.hpp"
+#include "audio/mixer/Mixer.hpp"
 
 namespace ouzel
 {

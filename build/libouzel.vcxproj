@@ -43,12 +43,12 @@
     <ClCompile Include="..\ouzel\assets\LoaderWave.cpp" />
     <ClCompile Include="..\ouzel\audio\Audio.cpp" />
     <ClCompile Include="..\ouzel\audio\AudioDevice.cpp" />
-    <ClCompile Include="..\ouzel\audio\Bus.cpp" />
     <ClCompile Include="..\ouzel\audio\Delay.cpp" />
     <ClCompile Include="..\ouzel\audio\dsound\AudioDeviceDS.cpp" />
     <ClCompile Include="..\ouzel\audio\empty\AudioDeviceEmpty.cpp" />
     <ClCompile Include="..\ouzel\audio\Filter.cpp" />
     <ClCompile Include="..\ouzel\audio\Gain.cpp" />
+    <ClCompile Include="..\ouzel\audio\mixer\Mixer.cpp" />
     <ClCompile Include="..\ouzel\audio\Panner.cpp" />
     <ClCompile Include="..\ouzel\audio\Pitch.cpp" />
     <ClCompile Include="..\ouzel\audio\Reverb.cpp" />
@@ -61,7 +61,8 @@
     <ClCompile Include="..\ouzel\audio\StreamVorbis.cpp" />
     <ClCompile Include="..\ouzel\audio\StreamWave.cpp" />
     <ClCompile Include="..\ouzel\audio\Mix.cpp" />
-    <ClCompile Include="..\ouzel\audio\Mixer.cpp" />
+    <ClCompile Include="..\ouzel\audio\mixer\Source.cpp" />
+    <ClCompile Include="..\ouzel\audio\mixer\SourceData.cpp" />
     <ClCompile Include="..\ouzel\audio\Submix.cpp" />
     <ClCompile Include="..\ouzel\audio\wasapi\AudioDeviceWASAPI.cpp" />
     <ClCompile Include="..\ouzel\audio\xaudio2\AudioDeviceXA2.cpp" />
@@ -215,7 +216,6 @@
     <ClInclude Include="..\ouzel\assets\LoaderWave.hpp" />
     <ClInclude Include="..\ouzel\audio\Audio.hpp" />
     <ClInclude Include="..\ouzel\audio\AudioDevice.hpp" />
-    <ClInclude Include="..\ouzel\audio\Bus.hpp" />
     <ClInclude Include="..\ouzel\audio\Channel.hpp" />
     <ClInclude Include="..\ouzel\audio\Delay.hpp" />
     <ClInclude Include="..\ouzel\audio\Driver.hpp" />
@@ -223,10 +223,11 @@
     <ClInclude Include="..\ouzel\audio\empty\AudioDeviceEmpty.hpp" />
     <ClInclude Include="..\ouzel\audio\Filter.hpp" />
     <ClInclude Include="..\ouzel\audio\Gain.hpp" />
+    <ClInclude Include="..\ouzel\audio\mixer\Mixer.hpp" />
+    <ClInclude Include="..\ouzel\audio\mixer\Object.hpp" />
     <ClInclude Include="..\ouzel\audio\Panner.hpp" />
     <ClInclude Include="..\ouzel\audio\Pitch.hpp" />
     <ClInclude Include="..\ouzel\audio\Reverb.hpp" />
-    <ClInclude Include="..\ouzel\audio\Processor.hpp" />
     <ClInclude Include="..\ouzel\audio\SampleFormat.hpp" />
     <ClInclude Include="..\ouzel\audio\Listener.hpp" />
     <ClInclude Include="..\ouzel\audio\Sound.hpp" />
@@ -237,8 +238,8 @@
     <ClInclude Include="..\ouzel\audio\StreamVorbis.hpp" />
     <ClInclude Include="..\ouzel\audio\StreamWave.hpp" />
     <ClInclude Include="..\ouzel\audio\Mix.hpp" />
-    <ClInclude Include="..\ouzel\audio\Mixer.hpp" />
-    <ClInclude Include="..\ouzel\audio\Processor.hpp" />
+    <ClInclude Include="..\ouzel\audio\mixer\Source.hpp" />
+    <ClInclude Include="..\ouzel\audio\mixer\SourceData.hpp" />
     <ClInclude Include="..\ouzel\audio\Submix.hpp" />
     <ClInclude Include="..\ouzel\audio\wasapi\AudioDeviceWASAPI.hpp" />
     <ClInclude Include="..\ouzel\audio\xaudio2\AudioDeviceXA2.hpp" />

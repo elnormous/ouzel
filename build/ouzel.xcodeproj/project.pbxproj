@@ -978,6 +978,18 @@
 		C61B49F32174B83900B818F1 /* SkinnedMeshRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C61B49E72174B83900B818F1 /* SkinnedMeshRenderer.cpp */; };
 		C6AC8A8C215BD7D500F14D75 /* MouseDeviceMacOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = C6AC8A8A215BD7D500F14D75 /* MouseDeviceMacOS.mm */; };
 		C6AC8A8D215BD7D500F14D75 /* MouseDeviceMacOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6AC8A8B215BD7D500F14D75 /* MouseDeviceMacOS.hpp */; };
+		C6C9100F21B54A9600B5FCB7 /* Source.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C9100D21B54A9600B5FCB7 /* Source.cpp */; };
+		C6C9101021B54A9600B5FCB7 /* Source.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C9100D21B54A9600B5FCB7 /* Source.cpp */; };
+		C6C9101121B54A9600B5FCB7 /* Source.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C9100D21B54A9600B5FCB7 /* Source.cpp */; };
+		C6C9101221B54A9600B5FCB7 /* Source.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9100E21B54A9600B5FCB7 /* Source.hpp */; };
+		C6C9101321B54A9600B5FCB7 /* Source.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9100E21B54A9600B5FCB7 /* Source.hpp */; };
+		C6C9101421B54A9600B5FCB7 /* Source.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9100E21B54A9600B5FCB7 /* Source.hpp */; };
+		C6C9101A21B54B5B00B5FCB7 /* SourceData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C9101821B54B5B00B5FCB7 /* SourceData.cpp */; };
+		C6C9101B21B54B5B00B5FCB7 /* SourceData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C9101821B54B5B00B5FCB7 /* SourceData.cpp */; };
+		C6C9101C21B54B5B00B5FCB7 /* SourceData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C9101821B54B5B00B5FCB7 /* SourceData.cpp */; };
+		C6C9101D21B54B5B00B5FCB7 /* SourceData.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9101921B54B5B00B5FCB7 /* SourceData.hpp */; };
+		C6C9101E21B54B5B00B5FCB7 /* SourceData.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9101921B54B5B00B5FCB7 /* SourceData.hpp */; };
+		C6C9101F21B54B5B00B5FCB7 /* SourceData.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9101921B54B5B00B5FCB7 /* SourceData.hpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1386,6 +1398,10 @@
 		C6AC8A8A215BD7D500F14D75 /* MouseDeviceMacOS.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MouseDeviceMacOS.mm; sourceTree = "<group>"; };
 		C6AC8A8B215BD7D500F14D75 /* MouseDeviceMacOS.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MouseDeviceMacOS.hpp; sourceTree = "<group>"; };
 		C6C9100B21AEB47E00B5FCB7 /* UTF8.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = UTF8.hpp; sourceTree = "<group>"; };
+		C6C9100D21B54A9600B5FCB7 /* Source.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Source.cpp; sourceTree = "<group>"; };
+		C6C9100E21B54A9600B5FCB7 /* Source.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Source.hpp; sourceTree = "<group>"; };
+		C6C9101821B54B5B00B5FCB7 /* SourceData.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SourceData.cpp; sourceTree = "<group>"; };
+		C6C9101921B54B5B00B5FCB7 /* SourceData.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SourceData.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1776,12 +1792,11 @@
 		30419DDE1D162B9100A63759 /* audio */ = {
 			isa = PBXGroup;
 			children = (
+				C6C9101621B54AD600B5FCB7 /* mixer */,
 				30419DDF1D162BCF00A63759 /* Audio.cpp */,
 				30419DE01D162BCF00A63759 /* Audio.hpp */,
 				30C758AB1F4A0196008499DC /* AudioDevice.cpp */,
 				30C758AC1F4A0196008499DC /* AudioDevice.hpp */,
-				30A381F321B201C20043568A /* Bus.cpp */,
-				30A381F421B201C20043568A /* Bus.hpp */,
 				30BA5FB72198E43A0032AC23 /* Channel.hpp */,
 				309BA3101F183D3D006F2240 /* coreaudio */,
 				30C3F268219D0845003FE9ED /* Delay.cpp */,
@@ -1796,15 +1811,11 @@
 				306A26B21F5DD17700E2B0B6 /* Listener.hpp */,
 				30A3820E21B4BDBC0043568A /* Mix.cpp */,
 				30A3820F21B4BDBC0043568A /* Mix.hpp */,
-				30A381FC21B382A20043568A /* Mixer.cpp */,
-				30A381FD21B382A20043568A /* Mixer.hpp */,
-				30C3F290219D0DD9003FE9ED /* Object.hpp */,
 				30419E6C1D20254100A63759 /* openal */,
 				30C3F26A219D0846003FE9ED /* Panner.cpp */,
 				30C3F26B219D0846003FE9ED /* Panner.hpp */,
 				30C3F26F219D0847003FE9ED /* Pitch.cpp */,
 				30C3F269219D0846003FE9ED /* Pitch.hpp */,
-				30A3821E21B4C5E90043568A /* Processor.hpp */,
 				30A3820421B49ECF0043568A /* Reverb.cpp */,
 				30A3820521B49ECF0043568A /* Reverb.hpp */,
 				30BA5FB62198E37A0032AC23 /* SampleFormat.hpp */,
@@ -2097,6 +2108,23 @@
 			path = localization;
 			sourceTree = "<group>";
 		};
+		C6C9101621B54AD600B5FCB7 /* mixer */ = {
+			isa = PBXGroup;
+			children = (
+				30A381F321B201C20043568A /* Bus.cpp */,
+				30A381F421B201C20043568A /* Bus.hpp */,
+				30A381FC21B382A20043568A /* Mixer.cpp */,
+				30A381FD21B382A20043568A /* Mixer.hpp */,
+				30C3F290219D0DD9003FE9ED /* Object.hpp */,
+				30A3821E21B4C5E90043568A /* Processor.hpp */,
+				C6C9100D21B54A9600B5FCB7 /* Source.cpp */,
+				C6C9100E21B54A9600B5FCB7 /* Source.hpp */,
+				C6C9101821B54B5B00B5FCB7 /* SourceData.cpp */,
+				C6C9101921B54B5B00B5FCB7 /* SourceData.hpp */,
+			);
+			path = mixer;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -2193,6 +2221,7 @@
 				30C3F294219D0DD9003FE9ED /* Object.hpp in Headers */,
 				303B75621C2A3CBF00FEDE92 /* Actor.hpp in Headers */,
 				30A3821B21B4BDC80043568A /* Submix.hpp in Headers */,
+				C6C9101221B54A9600B5FCB7 /* Source.hpp in Headers */,
 				303696EF1E32DE08007F4211 /* Shader.hpp in Headers */,
 				3047F77B1C4D39C500774E3D /* Repeat.hpp in Headers */,
 				30519CA41F97EEB700AF3DC4 /* StaticMeshData.hpp in Headers */,
@@ -2229,6 +2258,7 @@
 				303B755E1C2A3CB700FEDE92 /* Vertex.hpp in Headers */,
 				30519CAF1F9B4E3E00AF3DC4 /* Loader.hpp in Headers */,
 				303B75601C2A3CBF00FEDE92 /* Camera.hpp in Headers */,
+				C6C9101D21B54B5B00B5FCB7 /* SourceData.hpp in Headers */,
 				30CEB36C21A6385C00525637 /* System.hpp in Headers */,
 				3047F7521C4C4FAF00774E3D /* Rotate.hpp in Headers */,
 				303B75371C2A3C8200FEDE92 /* Setup.h in Headers */,
@@ -2283,6 +2313,7 @@
 				303696D11E32DD9C007F4211 /* BlendState.hpp in Headers */,
 				30CC89FE203C5DFB00E2C8C3 /* File.hpp in Headers */,
 				30519CBD1F9B53AB00AF3DC4 /* LoaderWave.hpp in Headers */,
+				C6C9101F21B54B5B00B5FCB7 /* SourceData.hpp in Headers */,
 				30381F721D80A3EC00677CAB /* BufferOGL.hpp in Headers */,
 				3085DA25211A4A5500F4C2D0 /* Socket.hpp in Headers */,
 				30B5465A1D90575B00E45DB6 /* RadioButtonGroup.hpp in Headers */,
@@ -2312,6 +2343,7 @@
 				30A3821521B4BDBC0043568A /* Mix.hpp in Headers */,
 				3047F76C1C4D2C2000774E3D /* Sequence.hpp in Headers */,
 				30381F8A1D80A3EC00677CAB /* ShaderOGL.hpp in Headers */,
+				C6C9101421B54A9600B5FCB7 /* Source.hpp in Headers */,
 				3030D5071DAEF1FA007CC8EB /* Log.hpp in Headers */,
 				30575AAB1C39D1FF0009C8A7 /* Layer.hpp in Headers */,
 				30519CFD1F9B54E300AF3DC4 /* LoaderVorbis.hpp in Headers */,
@@ -2518,6 +2550,7 @@
 				30381F891D80A3EC00677CAB /* ShaderOGL.hpp in Headers */,
 				3031C1381F0C4350002CA717 /* SoundDataVorbis.hpp in Headers */,
 				30381F8F1D80A3EC00677CAB /* TextureOGL.hpp in Headers */,
+				C6C9101321B54A9600B5FCB7 /* Source.hpp in Headers */,
 				3009031221922E1300B00BF4 /* DepthStencilStateOGL.hpp in Headers */,
 				305B998C1C41EFFA008589E1 /* Menu.hpp in Headers */,
 				30A3820A21B49ECF0043568A /* Reverb.hpp in Headers */,
@@ -2539,6 +2572,7 @@
 				304A8E571C237C70008B1151 /* MathUtils.hpp in Headers */,
 				30519CD41F9B53CB00AF3DC4 /* LoaderImage.hpp in Headers */,
 				30419DE41D162BCF00A63759 /* Audio.hpp in Headers */,
+				C6C9101E21B54B5B00B5FCB7 /* SourceData.hpp in Headers */,
 				C6AC8A8D215BD7D500F14D75 /* MouseDeviceMacOS.hpp in Headers */,
 				30575AA11C39CB790009C8A7 /* Scene.hpp in Headers */,
 				3047F76A1C4D2C2000774E3D /* Sequence.hpp in Headers */,
@@ -2752,6 +2786,7 @@
 				30EEADC721618F2C00D2F525 /* TouchpadDevice.cpp in Sources */,
 				30724D821F353A0800D915ED /* ViewIOS.mm in Sources */,
 				300C39F01E51355000330E4F /* SoundDataWave.cpp in Sources */,
+				C6C9100F21B54A9600B5FCB7 /* Source.cpp in Sources */,
 				306B0E601C567D05005C75C1 /* ShapeRenderer.cpp in Sources */,
 				305B99A31C42A97E008589E1 /* BMFont.cpp in Sources */,
 				306792F2211F98070006FF79 /* Bundle.cpp in Sources */,
@@ -2880,6 +2915,7 @@
 				30575AD91C3B48740009C8A7 /* EventDispatcher.cpp in Sources */,
 				3030D5021DAEF1FA007CC8EB /* Log.cpp in Sources */,
 				303647151C3DFEAF0024DB5B /* Gamepad.cpp in Sources */,
+				C6C9101A21B54B5B00B5FCB7 /* SourceData.cpp in Sources */,
 				303B755B1C2A3CB700FEDE92 /* Vector4.cpp in Sources */,
 				30575AA71C39D1FF0009C8A7 /* Layer.cpp in Sources */,
 				3047F75F1C4C60B900774E3D /* Fade.cpp in Sources */,
@@ -2923,6 +2959,7 @@
 				30381FB71D80A3F900677CAB /* AudioDeviceAL.cpp in Sources */,
 				300C39F21E51355000330E4F /* SoundDataWave.cpp in Sources */,
 				30A9C13C1CAEBA540084C4BF /* Language.cpp in Sources */,
+				C6C9101121B54A9600B5FCB7 /* Source.cpp in Sources */,
 				306B0E611C567D05005C75C1 /* ShapeRenderer.cpp in Sources */,
 				305B99A41C42A97F008589E1 /* BMFont.cpp in Sources */,
 				306792F4211F98070006FF79 /* Bundle.cpp in Sources */,
@@ -3051,6 +3088,7 @@
 				3030D5041DAEF1FA007CC8EB /* Log.cpp in Sources */,
 				303647161C3DFEAF0024DB5B /* Gamepad.cpp in Sources */,
 				30575AA81C39D1FF0009C8A7 /* Layer.cpp in Sources */,
+				C6C9101C21B54B5B00B5FCB7 /* SourceData.cpp in Sources */,
 				3047F7601C4C60B900774E3D /* Fade.cpp in Sources */,
 				303B76521C355A3B00FEDE92 /* Engine.cpp in Sources */,
 				303B76531C355A3B00FEDE92 /* Size2.cpp in Sources */,
@@ -3104,8 +3142,10 @@
 				30575AA61C39D1FF0009C8A7 /* Layer.cpp in Sources */,
 				30A883651E7432DA004A033F /* Archive.cpp in Sources */,
 				30A9C13A1CAEBA540084C4BF /* Language.cpp in Sources */,
+				C6C9101021B54A9600B5FCB7 /* Source.cpp in Sources */,
 				C61B49E92174B83900B818F1 /* SkinnedMeshData.cpp in Sources */,
 				30519CA21F97EEB700AF3DC4 /* StaticMeshData.cpp in Sources */,
+				C6C9101B21B54B5B00B5FCB7 /* SourceData.cpp in Sources */,
 				30419DE91D162BDC00A63759 /* Sound.cpp in Sources */,
 				306792F3211F98070006FF79 /* Bundle.cpp in Sources */,
 				304B27551C9384A600BA162D /* Size3.cpp in Sources */,

@@ -28,7 +28,6 @@
 #include "assets/LoaderVorbis.hpp"
 #include "assets/LoaderWave.hpp"
 #include "audio/Audio.hpp"
-#include "audio/Bus.hpp"
 #include "audio/Channel.hpp"
 #include "audio/Delay.hpp"
 #include "audio/Driver.hpp"
