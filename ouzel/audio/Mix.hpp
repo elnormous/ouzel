@@ -13,15 +13,15 @@ namespace ouzel
         class Audio;
         class Filter;
         class Listener;
-        class Sound;
         class Submix;
+        class Voice;
 
         class Mix
         {
             friend Filter;
             friend Listener;
-            friend Sound;
             friend Submix;
+            friend Voice;
         public:
             Mix(Audio& initAudio);
             virtual ~Mix();
@@ -36,8 +36,8 @@ namespace ouzel
         protected:
             void addInput(Submix* submix);
             void removeInput(Submix* submix);
-            void addInput(Sound* sound);
-            void removeInput(Sound* sound);
+            void addInput(Voice* voice);
+            void removeInput(Voice* voice);
             void addFilter(Filter* filter);
             void removeFilter(Filter* filter);
             void addListener(Listener* listener);
@@ -46,7 +46,7 @@ namespace ouzel
             Audio& audio;
             uintptr_t busId;
             std::vector<Submix*> inputSubmixes;
-            std::vector<Sound*> inputSounds;
+            std::vector<Voice*> inputVoices;
             std::vector<Filter*> filters;
             std::vector<Listener*> listeners;
         };

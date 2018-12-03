@@ -268,7 +268,7 @@
     <ClCompile Include="..\ouzel\gui\SlideBar.cpp">
       <Filter>ouzel\gui</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\Sound.cpp">
+    <ClCompile Include="..\ouzel\audio\Voice.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\audio\SoundData.cpp">
@@ -798,7 +798,7 @@
     <ClInclude Include="..\ouzel\gui\SlideBar.hpp">
       <Filter>ouzel\gui</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\Sound.hpp">
+    <ClInclude Include="..\ouzel\audio\Voice.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\SoundData.hpp">

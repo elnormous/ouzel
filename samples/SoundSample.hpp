@@ -21,19 +21,19 @@ private:
     ouzel::audio::Gain soundGain;
 
     ouzel::audio::Submix test8BitSubmix;
-    ouzel::audio::Sound test8BitSound;
+    ouzel::audio::Voice test8BitSound;
     ouzel::audio::Pitch test8BitPitch;
 
     ouzel::audio::Submix test24BitSubmix;
-    ouzel::audio::Sound test24BitSound;
+    ouzel::audio::Voice test24BitSound;
     ouzel::audio::Pitch test24BitPitch;
 
     ouzel::audio::Submix jumpSubmix;
-    ouzel::audio::Sound jumpSound;
+    ouzel::audio::Voice jumpSound;
     ouzel::audio::Panner jumpPanner;
 
-    ouzel::audio::Sound ambientSound;
-    ouzel::audio::Sound music;
+    ouzel::audio::Voice ambientSound;
+    ouzel::audio::Voice music;
 
     ouzel::scene::Layer guiLayer;
     ouzel::scene::Camera guiCamera;

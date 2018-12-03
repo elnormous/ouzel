@@ -55,7 +55,7 @@
     <ClCompile Include="..\ouzel\audio\Pitch.cpp" />
     <ClCompile Include="..\ouzel\audio\Reverb.cpp" />
     <ClCompile Include="..\ouzel\audio\Listener.cpp" />
-    <ClCompile Include="..\ouzel\audio\Sound.cpp" />
+    <ClCompile Include="..\ouzel\audio\Voice.cpp" />
     <ClCompile Include="..\ouzel\audio\SoundData.cpp" />
     <ClCompile Include="..\ouzel\audio\ToneData.cpp" />
     <ClCompile Include="..\ouzel\audio\VorbisData.cpp" />
@@ -235,7 +235,7 @@
     <ClInclude Include="..\ouzel\audio\Reverb.hpp" />
     <ClInclude Include="..\ouzel\audio\SampleFormat.hpp" />
     <ClInclude Include="..\ouzel\audio\Listener.hpp" />
-    <ClInclude Include="..\ouzel\audio\Sound.hpp" />
+    <ClInclude Include="..\ouzel\audio\Voice.hpp" />
     <ClInclude Include="..\ouzel\audio\SoundData.hpp" />
     <ClInclude Include="..\ouzel\audio\ToneData.hpp" />
     <ClInclude Include="..\ouzel\audio\VorbisData.hpp" />

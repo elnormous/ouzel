@@ -1,6 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include "Sound.hpp"
+#include "Voice.hpp"
 #include "Audio.hpp"
 #include "AudioDevice.hpp"
 #include "SoundData.hpp"
@@ -11,14 +11,14 @@ namespace ouzel
 {
     namespace audio
     {
-        Sound::Sound(Audio& initAudio):
+        Voice::Voice(Audio& initAudio):
             audio(initAudio),
             sourceId(audio.initSource())
         {
         }
 
-        Sound::Sound(Audio& initAudio, const std::shared_ptr<SoundData>& initSoundData):
-            Sound(initAudio)
+        Voice::Voice(Audio& initAudio, const std::shared_ptr<SoundData>& initSoundData):
+            Voice(initAudio)
         {
             soundData = initSoundData;
 
@@ -29,19 +29,19 @@ namespace ouzel
             }
         }
 
-        Sound::~Sound()
+        Voice::~Voice()
         {
             if (stream) stream->setEventListener(nullptr);
         }
 
-        void Sound::play(bool repeatSound)
+        void Voice::play(bool repeatSound)
         {
             playing = true;
             repeating = repeatSound;
 
             std::unique_ptr<SoundEvent> startEvent(new SoundEvent());
             startEvent->type = Event::Type::SOUND_START;
-            startEvent->sound = this;
+            startEvent->voice = this;
             engine->getEventDispatcher().postEvent(std::move(startEvent));
 
             if (stream)
@@ -51,13 +51,13 @@ namespace ouzel
             }
         }
 
-        void Sound::pause()
+        void Voice::pause()
         {
             playing = false;
             if (stream) stream->setPlaying(false);
         }
 
-        void Sound::stop()
+        void Voice::stop()
         {
             playing = false;
             if (stream)
@@ -68,26 +68,26 @@ namespace ouzel
         }
 
         // executed on audio thread
-        void Sound::onReset()
+        void Voice::onReset()
         {
             std::unique_ptr<SoundEvent> event(new SoundEvent());
             event->type = Event::Type::SOUND_RESET;
-            event->sound = this;
+            event->voice = this;
             engine->getEventDispatcher().postEvent(std::move(event));
         }
 
         // executed on audio thread
-        void Sound::onStop()
+        void Voice::onStop()
         {
             playing = false;
 
             std::unique_ptr<SoundEvent> event(new SoundEvent());
             event->type = Event::Type::SOUND_FINISH;
-            event->sound = this;
+            event->voice = this;
             engine->getEventDispatcher().postEvent(std::move(event));
         }
 
-        void Sound::setOutput(Mix* newOutput)
+        void Voice::setOutput(Mix* newOutput)
         {
             if (output) output->removeInput(this);
             output = newOutput;
