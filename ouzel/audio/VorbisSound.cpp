@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <stdexcept>
-#include "VorbisData.hpp"
+#include "VorbisSound.hpp"
 #include "VorbisStream.hpp"
 #include "mixer/Source.hpp"
 #include "mixer/SourceData.hpp"
@@ -23,11 +23,11 @@ namespace ouzel
         public:
         };
         
-        VorbisData::VorbisData()
+        VorbisSound::VorbisSound()
         {
         }
 
-        VorbisData::VorbisData(const std::vector<uint8_t>& initData):
+        VorbisSound::VorbisSound(const std::vector<uint8_t>& initData):
             data(initData)
         {
             stb_vorbis* vorbisStream = stb_vorbis_open_memory(data.data(), static_cast<int>(data.size()), nullptr, nullptr);
@@ -43,12 +43,12 @@ namespace ouzel
             stb_vorbis_close(vorbisStream);
         }
 
-        std::shared_ptr<Stream> VorbisData::createStream()
+        std::shared_ptr<Stream> VorbisSound::createStream()
         {
             return std::make_shared<VorbisStream>(data);
         }
 
-        void VorbisData::readData(Stream* stream, uint32_t frames, std::vector<float>& result)
+        void VorbisSound::readData(Stream* stream, uint32_t frames, std::vector<float>& result)
         {
             VorbisStream* streamVorbis = static_cast<VorbisStream*>(stream);
 

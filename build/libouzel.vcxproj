@@ -57,9 +57,9 @@
     <ClCompile Include="..\ouzel\audio\Listener.cpp" />
     <ClCompile Include="..\ouzel\audio\Voice.cpp" />
     <ClCompile Include="..\ouzel\audio\Sound.cpp" />
-    <ClCompile Include="..\ouzel\audio\ToneData.cpp" />
-    <ClCompile Include="..\ouzel\audio\VorbisData.cpp" />
-    <ClCompile Include="..\ouzel\audio\WaveData.cpp" />
+    <ClCompile Include="..\ouzel\audio\ToneSound.cpp" />
+    <ClCompile Include="..\ouzel\audio\VorbisSound.cpp" />
+    <ClCompile Include="..\ouzel\audio\WaveSound.cpp" />
     <ClCompile Include="..\ouzel\audio\Stream.cpp" />
     <ClCompile Include="..\ouzel\audio\VorbisStream.cpp" />
     <ClCompile Include="..\ouzel\audio\WaveStream.cpp" />
@@ -237,9 +237,9 @@
     <ClInclude Include="..\ouzel\audio\Listener.hpp" />
     <ClInclude Include="..\ouzel\audio\Voice.hpp" />
     <ClInclude Include="..\ouzel\audio\Sound.hpp" />
-    <ClInclude Include="..\ouzel\audio\ToneData.hpp" />
-    <ClInclude Include="..\ouzel\audio\VorbisData.hpp" />
-    <ClInclude Include="..\ouzel\audio\WaveData.hpp" />
+    <ClInclude Include="..\ouzel\audio\ToneSound.hpp" />
+    <ClInclude Include="..\ouzel\audio\VorbisSound.hpp" />
+    <ClInclude Include="..\ouzel\audio\WaveSound.hpp" />
     <ClInclude Include="..\ouzel\audio\Stream.hpp" />
     <ClInclude Include="..\ouzel\audio\VorbisStream.hpp" />
     <ClInclude Include="..\ouzel\audio\WaveStream.hpp" />

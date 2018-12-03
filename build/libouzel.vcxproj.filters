@@ -274,10 +274,10 @@
     <ClCompile Include="..\ouzel\audio\Sound.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\VorbisData.cpp">
+    <ClCompile Include="..\ouzel\audio\VorbisSound.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\WaveData.cpp">
+    <ClCompile Include="..\ouzel\audio\WaveSound.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\audio\Stream.cpp">
@@ -499,7 +499,7 @@
     <ClCompile Include="..\ouzel\audio\mixer\Mixer.cpp">
       <Filter>ouzel\audio\mixer</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\ToneData.cpp">
+    <ClCompile Include="..\ouzel\audio\ToneSound.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\audio\mixer\Bus.cpp">
@@ -804,10 +804,10 @@
     <ClInclude Include="..\ouzel\audio\Sound.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\VorbisData.hpp">
+    <ClInclude Include="..\ouzel\audio\VorbisSound.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\WaveData.hpp">
+    <ClInclude Include="..\ouzel\audio\WaveSound.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\Stream.hpp">
@@ -1080,7 +1080,7 @@
     <ClInclude Include="..\ouzel\audio\mixer\Mixer.hpp">
       <Filter>ouzel\audio\mixer</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\ToneData.hpp">
+    <ClInclude Include="..\ouzel\audio\ToneSound.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\mixer\Bus.hpp">

@@ -2,7 +2,7 @@
 
 #include <iterator>
 #include <stdexcept>
-#include "WaveData.hpp"
+#include "WaveSound.hpp"
 #include "WaveStream.hpp"
 #include "mixer/Source.hpp"
 #include "mixer/SourceData.hpp"
@@ -28,11 +28,11 @@ namespace ouzel
         public:
         };
 
-        WaveData::WaveData()
+        WaveSound::WaveSound()
         {
         }
 
-        WaveData::WaveData(const std::vector<uint8_t>& initData)
+        WaveSound::WaveSound(const std::vector<uint8_t>& initData)
         {
             uint32_t offset = 0;
 
@@ -175,12 +175,12 @@ namespace ouzel
                 throw std::runtime_error("Failed to load sound file, unsupported format");
         }
 
-        std::shared_ptr<Stream> WaveData::createStream()
+        std::shared_ptr<Stream> WaveSound::createStream()
         {
             return std::make_shared<WaveStream>();
         }
 
-        void WaveData::readData(Stream* stream, uint32_t frames, std::vector<float>& result)
+        void WaveSound::readData(Stream* stream, uint32_t frames, std::vector<float>& result)
         {
             WaveStream* streamWave = static_cast<WaveStream*>(stream);
 
