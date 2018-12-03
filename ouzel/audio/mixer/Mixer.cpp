@@ -2,6 +2,7 @@
 
 #include "Mixer.hpp"
 #include "Bus.hpp"
+#include "Source.hpp"
 #include "math/MathUtils.hpp"
 
 namespace ouzel
@@ -33,42 +34,56 @@ namespace ouzel
                         objects[command.objectId - 1].reset();
                         break;
                     case Command::Type::INIT_BUS:
+                    {
+                        if (command.busId > objects.size())
+                            objects.resize(command.busId);
+
                         objects[command.busId - 1].reset(new Bus());
                         break;
-                    case Command::Type::ADD_LISTENER:
+                    }
+                    case Command::Type::SET_BUS_OUTPUT:
+                    {
+                        Bus* bus = static_cast<Bus*>(objects[command.busId - 1].get());
+                        bus->setOutput(command.outputBusId ? static_cast<Bus*>(objects[command.outputBusId - 1].get()) : nullptr);
                         break;
-                    case Command::Type::REMOVE_LISTENER:
+                    }
+                    case Command::Type::INIT_SOURCE:
+                    {
+                        if (command.sourceId > objects.size())
+                            objects.resize(command.sourceId);
+
+                        objects[command.sourceId - 1].reset(new Source());
                         break;
-                    case Command::Type::ADD_PROCESSOR:
+                    }
+                    case Command::Type::SET_SOURCE_OUTPUT:
+                    {
+                        Source* source = static_cast<Source*>(objects[command.sourceId - 1].get());
+                        source->setOutput(command.outputBusId ? static_cast<Bus*>(objects[command.outputBusId - 1].get()) : nullptr);
                         break;
-                    case Command::Type::REMOVE_PROCESSOR:
-                        break;
-                    case Command::Type::INIT_LISTENER:
-                        break;
-                    case Command::Type::UPDATE_LISTENER:
-                        break;
+                    }
                     case Command::Type::INIT_PROCESSOR:
                     {
-                        if (command.objectId > objects.size())
-                            objects.resize(command.objectId);
+                        if (command.processorId > objects.size())
+                            objects.resize(command.processorId);
 
                         objects[command.processorId - 1] = command.createFunction();
                         break;
                     }
-                    case Command::Type::UPDATE_PROCESSOR:
+                    case Command::Type::SET_PROCESSOR_BUS:
                     {
-                        command.updateFunction(static_cast<Processor*>(objects[command.processorId - 1].get()));
+                        Processor* processor = static_cast<Processor*>(objects[command.processorId - 1].get());
+                        processor->setBus(command.busId ? static_cast<Bus*>(objects[command.busId - 1].get()) : nullptr);
                         break;
                     }
-                    case Command::Type::ADD_OUTPUT_BUS:
+                    case Command::Type::UPDATE_PROCESSOR:
                     {
-                        Bus* bus = static_cast<Bus*>(objects[command.busId - 1].get());
-                        bus->setOutput(static_cast<Bus*>(objects[command.destinationBusId - 1].get()));
+                        Processor* processor = static_cast<Processor*>(objects[command.processorId - 1].get());
+                        command.updateFunction(processor);
                         break;
                     }
                     case Command::Type::SET_MASTER_BUS:
                     {
-                        masterBus = command.objectId ? static_cast<Bus*>(objects[command.busId - 1].get()) : nullptr;
+                        masterBus = command.busId ? static_cast<Bus*>(objects[command.busId - 1].get()) : nullptr;
                         break;
                     }
                     default:

@@ -22,11 +22,12 @@ namespace ouzel
 
             Filter(const Filter&) = delete;
             Filter& operator=(const Filter&) = delete;
-
             Filter(Filter&&) = delete;
             Filter& operator=(Filter&&) = delete;
 
             uintptr_t getProcessorId() const { return processorId; }
+
+            void setMix(Mix* newMix);
 
         protected:
             Audio& audio;

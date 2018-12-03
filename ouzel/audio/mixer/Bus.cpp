@@ -3,6 +3,7 @@
 #include <algorithm>
 #include "Bus.hpp"
 #include "Processor.hpp"
+#include "Source.hpp"
 
 namespace ouzel
 {
@@ -14,13 +15,60 @@ namespace ouzel
 
         Bus::~Bus()
         {
+            if (output) output->removeInput(this);
+
+            for (Bus* inputBus : inputBuses)
+                inputBus->output = nullptr;
+
+            for (Source* source : inputSources)
+                source->output = nullptr;
+
             for (Processor* processor : processors)
                 processor->bus = nullptr;
         }
 
         void Bus::setOutput(Bus* newOutput)
         {
+            if (output) output->removeInput(this);
             output = newOutput;
+            if (output) output->addInput(this);
+        }
+
+        void Bus::getData(std::vector<float>& samples, uint16_t& channels,
+                          uint32_t& sampleRate, Vector3& position)
+        {
+            for (Bus* bus : inputBuses)
+                bus->getData(samples, channels, sampleRate, position);
+
+            for (Source* source : inputSources)
+                source->getData(samples, channels, sampleRate, position);
+
+            for (Processor* processor : processors)
+                processor->process(samples, channels, sampleRate, position);
+        }
+
+        void Bus::addInput(Bus* bus)
+        {
+            auto i = std::find(inputBuses.begin(), inputBuses.end(), bus);
+            if (i == inputBuses.end()) inputBuses.push_back(bus);
+        }
+
+        void Bus::removeInput(Bus* bus)
+        {
+            auto i = std::find(inputBuses.begin(), inputBuses.end(), bus);
+            if (i != inputBuses.end()) inputBuses.erase(i);
+        }
+
+        void Bus::addInput(Source* source)
+        {
+            auto i = std::find(inputSources.begin(), inputSources.end(), source);
+            if (i == inputSources.end()) inputSources.push_back(source);
+        }
+
+        void Bus::removeInput(Source* source)
+        {
+            auto i = std::find(inputSources.begin(), inputSources.end(), source);
+            if (i != inputSources.end()) inputSources.erase(i);
         }
 
         void Bus::addProcessor(Processor* processor)
@@ -44,12 +92,6 @@ namespace ouzel
                 processor->bus = nullptr;
                 processors.erase(i);
             }
-        }
-
-        void Bus::getData(std::vector<float>& samples, uint16_t& channels,
-                          uint32_t& sampleRate, Vector3& position)
-        {
-
         }
     } // namespace audio
 } // namespace ouzel

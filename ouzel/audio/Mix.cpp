@@ -4,6 +4,8 @@
 #include "Audio.hpp"
 #include "Filter.hpp"
 #include "Listener.hpp"
+#include "Sound.hpp"
+#include "Submix.hpp"
 
 namespace ouzel
 {
@@ -17,6 +19,12 @@ namespace ouzel
 
         Mix::~Mix()
         {
+            for (Submix* submix : inputSubmixes)
+                submix->output = nullptr;
+
+            for (Sound* sound : inputSounds)
+                sound->output = nullptr;
+
             for (Filter* filter : filters)
                 filter->mix = nullptr;
 
@@ -26,37 +34,40 @@ namespace ouzel
             if (busId) audio.deleteObject(busId);
         }
 
+        void Mix::addInput(Submix* submix)
+        {
+            auto i = std::find(inputSubmixes.begin(), inputSubmixes.end(), submix);
+            if (i == inputSubmixes.end()) inputSubmixes.push_back(submix);
+        }
+
+        void Mix::removeInput(Submix* submix)
+        {
+            auto i = std::find(inputSubmixes.begin(), inputSubmixes.end(), submix);
+            if (i != inputSubmixes.end()) inputSubmixes.erase(i);
+        }
+
+        void Mix::addInput(Sound* sound)
+        {
+            auto i = std::find(inputSounds.begin(), inputSounds.end(), sound);
+            if (i == inputSounds.end()) inputSounds.push_back(sound);
+        }
+
+        void Mix::removeInput(Sound* sound)
+        {
+            auto i = std::find(inputSounds.begin(), inputSounds.end(), sound);
+            if (i != inputSounds.end()) inputSounds.erase(i);
+        }
+
         void Mix::addFilter(Filter* filter)
         {
             auto i = std::find(filters.begin(), filters.end(), filter);
-
-            if (i == filters.end())
-            {
-                if (filter->mix) filter->mix->removeFilter(filter);
-                filter->mix = this;
-                filters.push_back(filter);
-
-                Mixer::Command command(Mixer::Command::Type::ADD_PROCESSOR);
-                command.busId = busId;
-                command.processorId = filter->getProcessorId();
-                audio.getMixer().addCommand(command);
-            }
+            if (i == filters.end()) filters.push_back(filter);
         }
 
         void Mix::removeFilter(Filter* filter)
         {
             auto i = std::find(filters.begin(), filters.end(), filter);
-
-            if (i != filters.end())
-            {
-                Mixer::Command command(Mixer::Command::Type::REMOVE_PROCESSOR);
-                command.busId = busId;
-                command.processorId = filter->getProcessorId();
-                audio.getMixer().addCommand(command);
-
-                filter->mix = nullptr;
-                filters.erase(i);
-            }
+            if (i != filters.end()) filters.erase(i);
         }
 
         void Mix::addListener(Listener* listener)

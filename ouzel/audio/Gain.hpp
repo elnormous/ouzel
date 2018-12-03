@@ -17,8 +17,7 @@ namespace ouzel
 
             Gain(const Gain&) = delete;
             Gain& operator=(const Gain&) = delete;
-
-            Gain(Audio&&) = delete;
+            Gain(Gain&&) = delete;
             Gain& operator=(Gain&&) = delete;
             
             float getGain() const { return gain; }

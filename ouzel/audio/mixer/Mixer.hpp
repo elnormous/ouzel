@@ -26,15 +26,12 @@ namespace ouzel
                 {
                     DELETE_OBJECT,
                     INIT_BUS,
-                    ADD_LISTENER,
-                    REMOVE_LISTENER,
-                    ADD_PROCESSOR,
-                    REMOVE_PROCESSOR,
-                    INIT_LISTENER,
-                    UPDATE_LISTENER,
+                    SET_BUS_OUTPUT,
+                    INIT_SOURCE,
+                    SET_SOURCE_OUTPUT,
                     INIT_PROCESSOR,
+                    SET_PROCESSOR_BUS,
                     UPDATE_PROCESSOR,
-                    ADD_OUTPUT_BUS,
                     SET_MASTER_BUS
                 };
 
@@ -44,8 +41,9 @@ namespace ouzel
                 Type type;
                 uintptr_t objectId;
                 uintptr_t busId;
-                uintptr_t destinationBusId;
+                uintptr_t sourceId;
                 uintptr_t processorId;
+                uintptr_t outputBusId;
                 std::function<std::unique_ptr<Processor>(void)> createFunction;
                 std::function<void(Processor*)> updateFunction;
             };

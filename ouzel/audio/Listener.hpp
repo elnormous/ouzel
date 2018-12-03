@@ -21,7 +21,15 @@ namespace ouzel
             friend Mix;
         public:
             Listener(Audio& initAudio);
+            ~Listener();
 
+            Listener(const Listener&) = delete;
+            Listener& operator=(const Listener&) = delete;
+            Listener(Listener&&) = delete;
+            Listener& operator=(Listener&&) = delete;
+
+            void setMix(Mix* newMix);
+            
         private:
             void updateTransform() override;
 

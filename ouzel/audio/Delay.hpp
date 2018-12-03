@@ -17,7 +17,6 @@ namespace ouzel
 
             Delay(const Delay&) = delete;
             Delay& operator=(const Delay&) = delete;
-
             Delay(Delay&&) = delete;
             Delay& operator=(Delay&&) = delete;
             

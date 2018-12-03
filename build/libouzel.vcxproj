@@ -50,6 +50,7 @@
     <ClCompile Include="..\ouzel\audio\Gain.cpp" />
     <ClCompile Include="..\ouzel\audio\mixer\Bus.cpp" />
     <ClCompile Include="..\ouzel\audio\mixer\Mixer.cpp" />
+    <ClCompile Include="..\ouzel\audio\mixer\Processor.cpp" />
     <ClCompile Include="..\ouzel\audio\Panner.cpp" />
     <ClCompile Include="..\ouzel\audio\Pitch.cpp" />
     <ClCompile Include="..\ouzel\audio\Reverb.cpp" />
@@ -229,6 +230,7 @@
     <ClInclude Include="..\ouzel\audio\mixer\Bus.hpp" />
     <ClInclude Include="..\ouzel\audio\mixer\Mixer.hpp" />
     <ClInclude Include="..\ouzel\audio\mixer\Object.hpp" />
+    <ClInclude Include="..\ouzel\audio\mixer\Processor.hpp" />
     <ClInclude Include="..\ouzel\audio\Panner.hpp" />
     <ClInclude Include="..\ouzel\audio\Pitch.hpp" />
     <ClInclude Include="..\ouzel\audio\Reverb.hpp" />

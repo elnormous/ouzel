@@ -13,6 +13,7 @@ PerspectiveSample::PerspectiveSample():
     submix(*engine->getAudio()),
     listener(*engine->getAudio()),
     jumpSubmix(*engine->getAudio()),
+    jumpSound(*engine->getAudio(), engine->getCache().getSoundData("jump.wav")),
     jumpPanner(*engine->getAudio()),
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
     cursor(*engine->getInputManager())
@@ -62,13 +63,12 @@ PerspectiveSample::PerspectiveSample():
     character.setPosition(Vector2(10.0F, 0.0F));
 
     cameraActor.addComponent(&listener);
-    submix.addListener(&listener);
+    listener.setMix(&submix);
     submix.setOutput(&engine->getAudio()->getMasterMix());
 
-    jumpSound = Sound(engine->getCache().getSoundData("jump.wav"));
     jumpSubmix.setOutput(&submix);
     jumpSound.setOutput(&jumpSubmix);
-    jumpSubmix.addFilter(&jumpPanner);
+    jumpPanner.setMix(&jumpSubmix);
     jumpPanner.setRolloffFactor(0.01F);
     character.addComponent(&jumpPanner);
 

@@ -508,6 +508,9 @@
     <ClCompile Include="..\ouzel\audio\mixer\Bus.cpp">
       <Filter>ouzel\audio\mixer</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\audio\mixer\Processor.cpp">
+      <Filter>ouzel\audio\mixer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\animators\Animator.hpp">
@@ -1087,6 +1090,9 @@
       <Filter>ouzel\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\mixer\Bus.hpp">
+      <Filter>ouzel\audio\mixer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\mixer\Processor.hpp">
       <Filter>ouzel\audio\mixer</Filter>
     </ClInclude>
   </ItemGroup>
