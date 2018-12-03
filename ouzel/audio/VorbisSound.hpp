@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_AUDIO_TONEDATA_HPP
-#define OUZEL_AUDIO_TONEDATA_HPP
+#ifndef OUZEL_AUDIO_VORBISDATA_HPP
+#define OUZEL_AUDIO_VORBISDATA_HPP
 
 #include <cstdint>
 #include <vector>
@@ -11,20 +11,20 @@ namespace ouzel
 {
     namespace audio
     {
-        class ToneData final: public Sound
+        class VorbisSound final: public Sound
         {
         public:
-            ToneData();
-            explicit ToneData(const std::vector<uint8_t>& initData);
+            VorbisSound();
+            explicit VorbisSound(const std::vector<uint8_t>& initData);
 
             std::shared_ptr<Stream> createStream() override;
 
         private:
             void readData(Stream* stream, uint32_t frames, std::vector<float>& result) override;
 
-            std::vector<float> data;
+            std::vector<uint8_t> data;
         };
     } // namespace audio
 } // namespace ouzel
 
-#endif // OUZEL_AUDIO_TONEDATA_HPP
+#endif // OUZEL_AUDIO_VORBISDATA_HPP
