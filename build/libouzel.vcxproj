@@ -239,6 +239,7 @@
     <ClInclude Include="..\ouzel\audio\StreamWave.hpp" />
     <ClInclude Include="..\ouzel\audio\Mix.hpp" />
     <ClInclude Include="..\ouzel\audio\Mixer.hpp" />
+    <ClInclude Include="..\ouzel\audio\Processor.hpp" />
     <ClInclude Include="..\ouzel\audio\Submix.hpp" />
     <ClInclude Include="..\ouzel\audio\wasapi\AudioDeviceWASAPI.hpp" />
     <ClInclude Include="..\ouzel\audio\xaudio2\AudioDeviceXA2.hpp" />

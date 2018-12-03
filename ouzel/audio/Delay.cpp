@@ -7,7 +7,7 @@ namespace ouzel
 {
     namespace audio
     {
-        class DelayProcessor final: public Object
+        class DelayProcessor final: public Processor
         {
         public:
             DelayProcessor()
@@ -23,7 +23,7 @@ namespace ouzel
 
         Delay::Delay(Audio& initAudio):
             Filter(initAudio),
-            objectId(audio.initObject([]() { return std::unique_ptr<Object>(new DelayProcessor()); }))
+            objectId(audio.initObject([]() { return std::unique_ptr<Processor>(new DelayProcessor()); }))
         {
         }
 

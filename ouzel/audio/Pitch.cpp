@@ -7,7 +7,7 @@ namespace ouzel
 {
     namespace audio
     {
-        class PitchProcessor final: public Object
+        class PitchProcessor final: public Processor
         {
         public:
             PitchProcessor()
@@ -23,7 +23,7 @@ namespace ouzel
 
         Pitch::Pitch(Audio& initAudio):
             Filter(initAudio),
-            objectId(audio.initObject([]() { return std::unique_ptr<Object>(new PitchProcessor()); }))
+            objectId(audio.initObject([]() { return std::unique_ptr<Processor>(new PitchProcessor()); }))
         {
         }
 

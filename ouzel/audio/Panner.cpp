@@ -8,7 +8,7 @@ namespace ouzel
 {
     namespace audio
     {
-        class PannerProcessor final: public Object
+        class PannerProcessor final: public Processor
         {
         public:
             PannerProcessor()
@@ -53,7 +53,7 @@ namespace ouzel
         Panner::Panner(Audio& initAudio):
             scene::Component(scene::Component::SOUND),
             Filter(initAudio),
-            objectId(audio.initObject([]() { return std::unique_ptr<Object>(new PannerProcessor()); }))
+            objectId(audio.initObject([]() { return std::unique_ptr<Processor>(new PannerProcessor()); }))
         {
         }
 

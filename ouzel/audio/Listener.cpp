@@ -10,7 +10,7 @@ namespace ouzel
 {
     namespace audio
     {
-        class ListenerProcessor final: public Object
+        class ListenerProcessor final: public Processor
         {
         public:
             ListenerProcessor()
@@ -27,7 +27,7 @@ namespace ouzel
         Listener::Listener(Audio& initAudio):
             audio(initAudio),
             scene::Component(scene::Component::LISTENER),
-            objectId(audio.initObject([]() { return std::unique_ptr<Object>(new ListenerProcessor()); }))
+            objectId(audio.initObject([]() { return std::unique_ptr<Processor>(new ListenerProcessor()); }))
         {
         }
 

@@ -1274,6 +1274,7 @@
 		30A3820F21B4BDBC0043568A /* Mix.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Mix.hpp; sourceTree = "<group>"; };
 		30A3821621B4BDC80043568A /* Submix.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Submix.cpp; sourceTree = "<group>"; };
 		30A3821721B4BDC80043568A /* Submix.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Submix.hpp; sourceTree = "<group>"; };
+		30A3821E21B4C5E90043568A /* Processor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Processor.hpp; sourceTree = "<group>"; };
 		30A883621E7432DA004A033F /* Archive.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Archive.cpp; sourceTree = "<group>"; };
 		30A883631E7432DA004A033F /* Archive.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Archive.hpp; sourceTree = "<group>"; };
 		30A9C12F1CAE80570084C4BF /* Localization.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Localization.cpp; sourceTree = "<group>"; };
@@ -1797,6 +1798,8 @@
 				30C3F26C219D0846003FE9ED /* Gain.hpp */,
 				306A26B11F5DD17700E2B0B6 /* Listener.cpp */,
 				306A26B21F5DD17700E2B0B6 /* Listener.hpp */,
+				30A3820E21B4BDBC0043568A /* Mix.cpp */,
+				30A3820F21B4BDBC0043568A /* Mix.hpp */,
 				30A381FC21B382A20043568A /* Mixer.cpp */,
 				30A381FD21B382A20043568A /* Mixer.hpp */,
 				30C3F28F219D0DD9003FE9ED /* Object.cpp */,
@@ -1806,6 +1809,7 @@
 				30C3F26B219D0846003FE9ED /* Panner.hpp */,
 				30C3F26F219D0847003FE9ED /* Pitch.cpp */,
 				30C3F269219D0846003FE9ED /* Pitch.hpp */,
+				30A3821E21B4C5E90043568A /* Processor.hpp */,
 				30A3820421B49ECF0043568A /* Reverb.cpp */,
 				30A3820521B49ECF0043568A /* Reverb.hpp */,
 				30BA5FB62198E37A0032AC23 /* SampleFormat.hpp */,
@@ -1823,8 +1827,6 @@
 				3031C13B1F0C43D0002CA717 /* StreamVorbis.hpp */,
 				30F5DD3E1F09757100E14E84 /* StreamWave.cpp */,
 				30F5DD3F1F09757100E14E84 /* StreamWave.hpp */,
-				30A3820E21B4BDBC0043568A /* Mix.cpp */,
-				30A3820F21B4BDBC0043568A /* Mix.hpp */,
 				30A3821621B4BDC80043568A /* Submix.cpp */,
 				30A3821721B4BDC80043568A /* Submix.hpp */,
 			);

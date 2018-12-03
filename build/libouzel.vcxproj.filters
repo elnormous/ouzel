@@ -1054,6 +1054,9 @@
     <ClInclude Include="..\ouzel\audio\Mixer.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\audio\Processor.hpp">
+      <Filter>ouzel\audio</Filter>
+    </ClInclude>
     <ClInclude Include="..\ouzel\audio\Submix.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>

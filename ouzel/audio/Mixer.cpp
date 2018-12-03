@@ -57,7 +57,7 @@ namespace ouzel
                     }
                     case Command::Type::UPDATE_PROCESSOR:
                     {
-                        command.updateFunction(objects[command.objectId - 1].get());
+                        command.updateFunction(static_cast<Processor*>(objects[command.objectId - 1].get()));
                         break;
                     }
                     case Command::Type::ADD_OUTPUT_BUS:
