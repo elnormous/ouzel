@@ -25,7 +25,6 @@ namespace ouzel
             void setDelay(float newDelay);
 
         private:
-            uintptr_t objectId = 0;
             float delay = 0.0F;
         };
     } // namespace audio

@@ -473,9 +473,6 @@
     <ClCompile Include="..\ouzel\audio\Reverb.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\Object.cpp">
-      <Filter>ouzel\audio</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\core\System.cpp">
       <Filter>ouzel\core</Filter>
     </ClCompile>

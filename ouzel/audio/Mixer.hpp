@@ -43,7 +43,9 @@ namespace ouzel
 
                 Type type;
                 uintptr_t objectId;
-                uintptr_t destinationObjectId;
+                uintptr_t busId;
+                uintptr_t destinationBusId;
+                uintptr_t processorId;
                 std::function<std::unique_ptr<Processor>(void)> createFunction;
                 std::function<void(Processor*)> updateFunction;
             };
@@ -86,7 +88,7 @@ namespace ouzel
 
             std::vector<std::unique_ptr<Object>> objects;
 
-            Object* masterBus = nullptr;
+            Bus* masterBus = nullptr;
             std::mutex commandMutex;
             std::condition_variable commandConditionVariable;
             std::queue<Command> commandQueue;

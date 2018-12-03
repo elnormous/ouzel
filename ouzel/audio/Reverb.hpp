@@ -20,9 +20,6 @@ namespace ouzel
 
             Reverb(Reverb&&) = delete;
             Reverb& operator=(Reverb&&) = delete;
-
-        private:
-            uintptr_t objectId = 0;
         };
     } // namespace audio
 } // namespace ouzel

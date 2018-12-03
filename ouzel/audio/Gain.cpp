@@ -17,8 +17,6 @@ namespace ouzel
             void process(std::vector<float>& samples, uint16_t& channels,
                          uint32_t& sampleRate, Vector3& position) override
             {
-                Object::process(samples, channels, sampleRate, position);
-
                 for (float& sample : samples)
                     sample *= gain;
             }
@@ -33,21 +31,20 @@ namespace ouzel
         };
 
         Gain::Gain(Audio& initAudio):
-            Filter(initAudio),
-            objectId(audio.initObject([]() { return std::unique_ptr<Processor>(new GainProcessor()); }))
+            Filter(initAudio,
+                   initAudio.initProcessor([]() { return std::unique_ptr<Processor>(new GainProcessor()); }))
         {
         }
 
         Gain::~Gain()
         {
-            if (objectId) audio.deleteObject(objectId);
         }
 
         void Gain::setGain(float newGain)
         {
             gain = newGain;
 
-            audio.updateObject(objectId, [newGain](Object* node) {
+            audio.updateProcessor(processorId, [newGain](Object* node) {
                 GainProcessor* gainProcessor = static_cast<GainProcessor*>(node);
                 gainProcessor->setGain(newGain);
             });

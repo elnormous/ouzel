@@ -17,19 +17,17 @@ namespace ouzel
             void process(std::vector<float>& samples, uint16_t& channels,
                          uint32_t& sampleRate, Vector3& position) override
             {
-                Object::process(samples, channels, sampleRate, position);
             }
         };
 
         Pitch::Pitch(Audio& initAudio):
-            Filter(initAudio),
-            objectId(audio.initObject([]() { return std::unique_ptr<Processor>(new PitchProcessor()); }))
+            Filter(initAudio,
+                   initAudio.initProcessor([]() { return std::unique_ptr<Processor>(new PitchProcessor()); }))
         {
         }
 
         Pitch::~Pitch()
         {
-            if (objectId) audio.deleteObject(objectId);
         }
 
         void Pitch::setPitch(float newPitch)

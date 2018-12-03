@@ -51,7 +51,6 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/audio/Listener.cpp \
 	../../ouzel/audio/Mix.cpp \
 	../../ouzel/audio/Mixer.cpp \
-	../../ouzel/audio/Object.cpp \
     ../../ouzel/audio/Panner.cpp \
 	../../ouzel/audio/Pitch.cpp \
 	../../ouzel/audio/Reverb.cpp \

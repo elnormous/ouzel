@@ -33,7 +33,7 @@ namespace ouzel
                         objects[command.objectId - 1].reset();
                         break;
                     case Command::Type::INIT_BUS:
-                        objects[command.objectId - 1].reset(new Bus());
+                        objects[command.busId - 1].reset(new Bus());
                         break;
                     case Command::Type::ADD_LISTENER:
                         break;
@@ -52,22 +52,23 @@ namespace ouzel
                         if (command.objectId > objects.size())
                             objects.resize(command.objectId);
 
-                        objects[command.objectId - 1] = command.createFunction();
+                        objects[command.processorId - 1] = command.createFunction();
                         break;
                     }
                     case Command::Type::UPDATE_PROCESSOR:
                     {
-                        command.updateFunction(static_cast<Processor*>(objects[command.objectId - 1].get()));
+                        command.updateFunction(static_cast<Processor*>(objects[command.processorId - 1].get()));
                         break;
                     }
                     case Command::Type::ADD_OUTPUT_BUS:
                     {
-                        objects[command.objectId - 1]->addOutputObject(objects[command.destinationObjectId - 1].get());
+                        Bus* bus = static_cast<Bus*>(objects[command.busId - 1].get());
+                        bus->setOutput(static_cast<Bus*>(objects[command.destinationBusId - 1].get()));
                         break;
                     }
                     case Command::Type::SET_MASTER_BUS:
                     {
-                        masterBus = command.objectId ? objects[command.objectId - 1].get() : nullptr;
+                        masterBus = command.objectId ? static_cast<Bus*>(objects[command.busId - 1].get()) : nullptr;
                         break;
                     }
                     default:
@@ -84,7 +85,7 @@ namespace ouzel
                 uint32_t inputSampleRate = sampleRate;
                 Vector3 inputPosition;
 
-                masterBus->process(result, inputChannels, inputSampleRate, inputPosition);
+                masterBus->getData(result, inputChannels, inputSampleRate, inputPosition);
             }
 
             for (float& f : result)

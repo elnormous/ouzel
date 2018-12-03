@@ -25,7 +25,6 @@ namespace ouzel
             void setPitch(float newPitch);
 
         private:
-            uintptr_t objectId = 0;
             float pitch = 1.0f;
         };
     } // namespace audio

@@ -833,9 +833,6 @@
 		30C3F28C219D0847003FE9ED /* Filter.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30C3F270219D0847003FE9ED /* Filter.hpp */; };
 		30C3F28D219D0847003FE9ED /* Filter.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30C3F270219D0847003FE9ED /* Filter.hpp */; };
 		30C3F28E219D0847003FE9ED /* Filter.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30C3F270219D0847003FE9ED /* Filter.hpp */; };
-		30C3F291219D0DD9003FE9ED /* Object.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30C3F28F219D0DD9003FE9ED /* Object.cpp */; };
-		30C3F292219D0DD9003FE9ED /* Object.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30C3F28F219D0DD9003FE9ED /* Object.cpp */; };
-		30C3F293219D0DD9003FE9ED /* Object.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30C3F28F219D0DD9003FE9ED /* Object.cpp */; };
 		30C3F294219D0DD9003FE9ED /* Object.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30C3F290219D0DD9003FE9ED /* Object.hpp */; };
 		30C3F295219D0DD9003FE9ED /* Object.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30C3F290219D0DD9003FE9ED /* Object.hpp */; };
 		30C3F296219D0DD9003FE9ED /* Object.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30C3F290219D0DD9003FE9ED /* Object.hpp */; };
@@ -1324,7 +1321,6 @@
 		30C3F26E219D0846003FE9ED /* Filter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Filter.cpp; sourceTree = "<group>"; };
 		30C3F26F219D0847003FE9ED /* Pitch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Pitch.cpp; sourceTree = "<group>"; };
 		30C3F270219D0847003FE9ED /* Filter.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Filter.hpp; sourceTree = "<group>"; };
-		30C3F28F219D0DD9003FE9ED /* Object.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Object.cpp; sourceTree = "<group>"; };
 		30C3F290219D0DD9003FE9ED /* Object.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Object.hpp; sourceTree = "<group>"; };
 		30C56C591CAA88F8007AEF8F /* CheckBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CheckBox.cpp; sourceTree = "<group>"; };
 		30C56C5A1CAA88F8007AEF8F /* CheckBox.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CheckBox.hpp; sourceTree = "<group>"; };
@@ -1802,7 +1798,6 @@
 				30A3820F21B4BDBC0043568A /* Mix.hpp */,
 				30A381FC21B382A20043568A /* Mixer.cpp */,
 				30A381FD21B382A20043568A /* Mixer.hpp */,
-				30C3F28F219D0DD9003FE9ED /* Object.cpp */,
 				30C3F290219D0DD9003FE9ED /* Object.hpp */,
 				30419E6C1D20254100A63759 /* openal */,
 				30C3F26A219D0846003FE9ED /* Panner.cpp */,
@@ -2807,7 +2802,6 @@
 				30519CC01F9B53B700AF3DC4 /* LoaderBMF.cpp in Sources */,
 				301EB3AB1CCD77F600466E92 /* TextRenderer.cpp in Sources */,
 				303B75651C2A3CBF00FEDE92 /* SceneManager.cpp in Sources */,
-				30C3F291219D0DD9003FE9ED /* Object.cpp in Sources */,
 				30AEFA1420C0FB2E00CDFD33 /* RenderTarget.cpp in Sources */,
 				30F5DD401F09757100E14E84 /* StreamWave.cpp in Sources */,
 				3038202B1D80A55700677CAB /* BufferMetal.mm in Sources */,
@@ -2978,7 +2972,6 @@
 				303820141D80A40700677CAB /* TextureMetal.mm in Sources */,
 				30AEFA1620C0FB2E00CDFD33 /* RenderTarget.cpp in Sources */,
 				303B763E1C355A3B00FEDE92 /* SceneManager.cpp in Sources */,
-				30C3F293219D0DD9003FE9ED /* Object.cpp in Sources */,
 				30F5DD421F09757100E14E84 /* StreamWave.cpp in Sources */,
 				303B763F1C355A3B00FEDE92 /* MathUtils.cpp in Sources */,
 				30EEADC921618F2C00D2F525 /* TouchpadDevice.cpp in Sources */,
@@ -3207,7 +3200,6 @@
 				30519CB91F9B53AB00AF3DC4 /* LoaderWave.cpp in Sources */,
 				303B04BC1E207B6D00011CBE /* OpenGLView.mm in Sources */,
 				30AEFA0D20C0A90400CDFD33 /* LoaderGLTF.cpp in Sources */,
-				30C3F292219D0DD9003FE9ED /* Object.cpp in Sources */,
 				30ADCBB61E9A9479000DC9AC /* RenderDeviceMetalMacOS.mm in Sources */,
 				303820011D80A40700677CAB /* RenderDeviceMetal.mm in Sources */,
 				304A8E5C1C237C70008B1151 /* Actor.cpp in Sources */,
