@@ -3,7 +3,7 @@
 #include "Voice.hpp"
 #include "Audio.hpp"
 #include "AudioDevice.hpp"
-#include "SoundData.hpp"
+#include "Sound.hpp"
 #include "Stream.hpp"
 #include "core/Engine.hpp"
 
@@ -17,14 +17,14 @@ namespace ouzel
         {
         }
 
-        Voice::Voice(Audio& initAudio, const std::shared_ptr<SoundData>& initSoundData):
+        Voice::Voice(Audio& initAudio, const std::shared_ptr<Sound>& initSound):
             Voice(initAudio)
         {
-            soundData = initSoundData;
+            sound = initSound;
 
-            if (soundData)
+            if (sound)
             {
-                stream = soundData->createStream();
+                stream = sound->createStream();
                 stream->setEventListener(this);
             }
         }

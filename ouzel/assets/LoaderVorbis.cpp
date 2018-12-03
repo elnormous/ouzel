@@ -17,8 +17,8 @@ namespace ouzel
         {
             try
             {
-                std::shared_ptr<audio::SoundData> soundData = std::make_shared<audio::VorbisData>(data);
-                bundle.setSoundData(filename, soundData);
+                std::shared_ptr<audio::Sound> sound = std::make_shared<audio::VorbisData>(data);
+                bundle.setSound(filename, sound);
             }
             catch (const std::exception&)
             {

@@ -13,7 +13,7 @@ PerspectiveSample::PerspectiveSample():
     submix(*engine->getAudio()),
     listener(*engine->getAudio()),
     jumpSubmix(*engine->getAudio()),
-    jumpSound(*engine->getAudio(), engine->getCache().getSoundData("jump.wav")),
+    jumpVoice(*engine->getAudio(), engine->getCache().getSound("jump.wav")),
     jumpPanner(*engine->getAudio()),
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
     cursor(*engine->getInputManager())
@@ -67,7 +67,7 @@ PerspectiveSample::PerspectiveSample():
     submix.setOutput(&engine->getAudio()->getMasterMix());
 
     jumpSubmix.setOutput(&submix);
-    jumpSound.setOutput(&jumpSubmix);
+    jumpVoice.setOutput(&jumpSubmix);
     jumpPanner.setMix(&jumpSubmix);
     jumpPanner.setRolloffFactor(0.01F);
     character.addComponent(&jumpPanner);
@@ -128,7 +128,7 @@ bool PerspectiveSample::handleKeyboard(const ouzel::KeyboardEvent& event)
                 engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 return true;
             case Keyboard::Key::TAB:
-                jumpSound.play();
+                jumpVoice.play();
                 break;
             case Keyboard::Key::S:
                 engine->getRenderer()->saveScreenshot("test.png");

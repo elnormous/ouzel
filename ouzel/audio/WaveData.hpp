@@ -5,13 +5,13 @@
 
 #include <cstdint>
 #include <vector>
-#include "audio/SoundData.hpp"
+#include "audio/Sound.hpp"
 
 namespace ouzel
 {
     namespace audio
     {
-        class WaveData final: public SoundData
+        class WaveData final: public Sound
         {
         public:
             WaveData();

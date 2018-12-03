@@ -13,14 +13,14 @@ namespace ouzel
     {
         class Audio;
         class Mix;
-        class SoundData;
+        class Sound;
 
         class Voice final: public Stream::EventListener
         {
             friend Mix;
         public:
             explicit Voice(Audio& initAudio);
-            Voice(Audio& initAudio, const std::shared_ptr<SoundData>& initSoundData);
+            Voice(Audio& initAudio, const std::shared_ptr<Sound>& initSound);
             ~Voice();
 
             Voice(const Voice&) = delete;
@@ -28,7 +28,7 @@ namespace ouzel
             Voice(Voice&&) = delete;
             Voice& operator=(Voice&&) = delete;
 
-            inline const std::shared_ptr<SoundData>& getSoundData() const { return soundData; }
+            inline const std::shared_ptr<Sound>& getSound() const { return sound; }
 
             void play(bool repeatSound = false);
             void pause();
@@ -46,7 +46,7 @@ namespace ouzel
             Audio& audio;
             uintptr_t sourceId;
 
-            std::shared_ptr<SoundData> soundData;
+            std::shared_ptr<Sound> sound;
             std::shared_ptr<Stream> stream;
 
             bool playing = false;

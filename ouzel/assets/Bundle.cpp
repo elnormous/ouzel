@@ -245,24 +245,24 @@ namespace ouzel
             fonts.clear();
         }
 
-        std::shared_ptr<audio::SoundData> Bundle::getSoundData(const std::string& filename) const
+        std::shared_ptr<audio::Sound> Bundle::getSound(const std::string& filename) const
         {
-            auto i = soundData.find(filename);
+            auto i = sounds.find(filename);
 
-            if (i != soundData.end())
+            if (i != sounds.end())
                 return i->second;
 
             return nullptr;
         }
 
-        void Bundle::setSoundData(const std::string& filename, const std::shared_ptr<audio::SoundData>& newSoundData)
+        void Bundle::setSound(const std::string& filename, const std::shared_ptr<audio::Sound>& newSound)
         {
-            soundData[filename] = newSoundData;
+            sounds[filename] = newSound;
         }
 
-        void Bundle::releaseSoundData()
+        void Bundle::releaseSound()
         {
-            soundData.clear();
+            sounds.clear();
         }
 
         std::shared_ptr<graphics::Material> Bundle::getMaterial(const std::string& filename) const
