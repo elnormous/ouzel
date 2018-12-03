@@ -3,6 +3,8 @@
 #include <stdexcept>
 #include "VorbisData.hpp"
 #include "VorbisStream.hpp"
+#include "mixer/Source.hpp"
+#include "mixer/SourceData.hpp"
 #include "utils/Utils.hpp"
 
 #include "stb_vorbis.c"
@@ -11,6 +13,16 @@ namespace ouzel
 {
     namespace audio
     {
+        class VorbisSource: public Source
+        {
+        public:
+        };
+
+        class VorbisSourceData: public SourceData
+        {
+        public:
+        };
+        
         VorbisData::VorbisData()
         {
         }

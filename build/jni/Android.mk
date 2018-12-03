@@ -62,7 +62,6 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/audio/Stream.cpp \
     ../../ouzel/audio/Submix.cpp \
     ../../ouzel/audio/ToneData.cpp \
-    ../../ouzel/audio/ToneStream.cpp \
     ../../ouzel/audio/VorbisData.cpp \
     ../../ouzel/audio/VorbisStream.cpp \
     ../../ouzel/audio/WaveData.cpp \

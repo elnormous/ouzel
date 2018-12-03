@@ -996,12 +996,6 @@
 		C6C9102D21B54EE000B5FCB7 /* ToneData.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9102921B54EE000B5FCB7 /* ToneData.hpp */; };
 		C6C9102E21B54EE000B5FCB7 /* ToneData.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9102921B54EE000B5FCB7 /* ToneData.hpp */; };
 		C6C9102F21B54EE000B5FCB7 /* ToneData.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9102921B54EE000B5FCB7 /* ToneData.hpp */; };
-		C6C9103221B55A7B00B5FCB7 /* ToneStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C9103021B55A7A00B5FCB7 /* ToneStream.cpp */; };
-		C6C9103321B55A7B00B5FCB7 /* ToneStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C9103021B55A7A00B5FCB7 /* ToneStream.cpp */; };
-		C6C9103421B55A7B00B5FCB7 /* ToneStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C9103021B55A7A00B5FCB7 /* ToneStream.cpp */; };
-		C6C9103521B55A7B00B5FCB7 /* ToneStream.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9103121B55A7A00B5FCB7 /* ToneStream.hpp */; };
-		C6C9103621B55A7B00B5FCB7 /* ToneStream.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9103121B55A7A00B5FCB7 /* ToneStream.hpp */; };
-		C6C9103721B55A7B00B5FCB7 /* ToneStream.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9103121B55A7A00B5FCB7 /* ToneStream.hpp */; };
 		C6C9103921B572C100B5FCB7 /* Processor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C9103821B572C100B5FCB7 /* Processor.cpp */; };
 		C6C9103A21B572C100B5FCB7 /* Processor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C9103821B572C100B5FCB7 /* Processor.cpp */; };
 		C6C9103B21B572C100B5FCB7 /* Processor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C9103821B572C100B5FCB7 /* Processor.cpp */; };
@@ -1419,8 +1413,6 @@
 		C6C9101921B54B5B00B5FCB7 /* SourceData.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SourceData.hpp; sourceTree = "<group>"; };
 		C6C9102821B54EE000B5FCB7 /* ToneData.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ToneData.cpp; sourceTree = "<group>"; };
 		C6C9102921B54EE000B5FCB7 /* ToneData.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ToneData.hpp; sourceTree = "<group>"; };
-		C6C9103021B55A7A00B5FCB7 /* ToneStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToneStream.cpp; sourceTree = "<group>"; };
-		C6C9103121B55A7A00B5FCB7 /* ToneStream.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ToneStream.hpp; sourceTree = "<group>"; };
 		C6C9103821B572C100B5FCB7 /* Processor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Processor.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1849,8 +1841,6 @@
 				30A3821721B4BDC80043568A /* Submix.hpp */,
 				C6C9102821B54EE000B5FCB7 /* ToneData.cpp */,
 				C6C9102921B54EE000B5FCB7 /* ToneData.hpp */,
-				C6C9103021B55A7A00B5FCB7 /* ToneStream.cpp */,
-				C6C9103121B55A7A00B5FCB7 /* ToneStream.hpp */,
 				3031C1321F0C4350002CA717 /* VorbisData.cpp */,
 				3031C1331F0C4350002CA717 /* VorbisData.hpp */,
 				3031C13A1F0C43D0002CA717 /* VorbisStream.cpp */,
@@ -2200,7 +2190,6 @@
 				30FE38511DFDE49E00305B3B /* Quaternion.hpp in Headers */,
 				30A381F821B201C20043568A /* Bus.hpp in Headers */,
 				304AA8C11E1190E4006FA70E /* OBF.hpp in Headers */,
-				C6C9103521B55A7B00B5FCB7 /* ToneStream.hpp in Headers */,
 				30381F521D80A3EC00677CAB /* BlendStateOGL.hpp in Headers */,
 				3047F76B1C4D2C2000774E3D /* Sequence.hpp in Headers */,
 				30A3820121B382A20043568A /* Mixer.hpp in Headers */,
@@ -2405,7 +2394,6 @@
 				C6C9102F21B54EE000B5FCB7 /* ToneData.hpp in Headers */,
 				303B76641C355A3B00FEDE92 /* SceneManager.hpp in Headers */,
 				3047F7431C4C344A00774E3D /* Animator.hpp in Headers */,
-				C6C9103721B55A7B00B5FCB7 /* ToneStream.hpp in Headers */,
 				30F5DD3D1F09756400E14E84 /* Stream.hpp in Headers */,
 				30575AC11C39D9850009C8A7 /* ActorContainer.hpp in Headers */,
 				300862DB2154725500D8CC45 /* InputSystemTVOS.hpp in Headers */,
@@ -2620,7 +2608,6 @@
 				3011E1C71EFFE6DE00CB1DDC /* INI.hpp in Headers */,
 				3098A5571EA01C8A00528A54 /* GamepadDeviceIOKit.hpp in Headers */,
 				303696D81E32DDA9007F4211 /* Buffer.hpp in Headers */,
-				C6C9103621B55A7B00B5FCB7 /* ToneStream.hpp in Headers */,
 				30A9C13D1CAEBA540084C4BF /* Language.hpp in Headers */,
 				300862E02155CCED00D8CC45 /* GamepadDeviceMacOS.hpp in Headers */,
 				30519CF41F9B53FF00AF3DC4 /* LoaderOBJ.hpp in Headers */,
@@ -2901,7 +2888,6 @@
 				3067D7A5209B450F008DF6AF /* InputSystem.cpp in Sources */,
 				30519CB31F9B506F00AF3DC4 /* Loader.cpp in Sources */,
 				30B859941F3D2F3200A16952 /* Font.cpp in Sources */,
-				C6C9103221B55A7B00B5FCB7 /* ToneStream.cpp in Sources */,
 				30381F8B1D80A3EC00677CAB /* TextureOGL.cpp in Sources */,
 				309B48371DEA5EE600A718C5 /* Color.cpp in Sources */,
 				C6C9103921B572C100B5FCB7 /* Processor.cpp in Sources */,
@@ -3077,7 +3063,6 @@
 				30CC89FB203C5DFB00E2C8C3 /* File.cpp in Sources */,
 				30CEB37A21A6404B00525637 /* SystemTVOS.cpp in Sources */,
 				30519CB51F9B506F00AF3DC4 /* Loader.cpp in Sources */,
-				C6C9103421B55A7B00B5FCB7 /* ToneStream.cpp in Sources */,
 				30381F8D1D80A3EC00677CAB /* TextureOGL.cpp in Sources */,
 				30B859961F3D2F3200A16952 /* Font.cpp in Sources */,
 				C6C9103B21B572C100B5FCB7 /* Processor.cpp in Sources */,
@@ -3231,7 +3216,6 @@
 				301EB3AA1CCD77F600466E92 /* TextRenderer.cpp in Sources */,
 				3038202C1D80A55700677CAB /* BufferMetal.mm in Sources */,
 				30F5DD411F09757100E14E84 /* WaveStream.cpp in Sources */,
-				C6C9103321B55A7B00B5FCB7 /* ToneStream.cpp in Sources */,
 				303820131D80A40700677CAB /* TextureMetal.mm in Sources */,
 				30B328841C4E9EAC00040927 /* Ease.cpp in Sources */,
 				304A8E9A1C26F5CF008B1151 /* Size2.cpp in Sources */,

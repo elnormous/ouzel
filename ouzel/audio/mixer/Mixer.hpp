@@ -29,6 +29,7 @@ namespace ouzel
                     SET_BUS_OUTPUT,
                     INIT_SOURCE,
                     SET_SOURCE_OUTPUT,
+                    INIT_SOURCE_DATA,
                     INIT_PROCESSOR,
                     SET_PROCESSOR_BUS,
                     UPDATE_PROCESSOR,
@@ -42,9 +43,10 @@ namespace ouzel
                 uintptr_t objectId;
                 uintptr_t busId;
                 uintptr_t sourceId;
+                uintptr_t sourceDataId;
                 uintptr_t processorId;
                 uintptr_t outputBusId;
-                std::function<std::unique_ptr<Processor>(void)> createFunction;
+                std::function<std::unique_ptr<Processor>(void)> processorAllocFunction;
                 std::function<void(Processor*)> updateFunction;
             };
 
