@@ -38,9 +38,6 @@ namespace ouzel
 
             uint16_t channels = 0;
             uint32_t sampleRate = 0;
-
-            std::vector<float> tempData;
-            std::vector<float> resampledData;
         };
     } // namespace audio
 } // namespace ouzel

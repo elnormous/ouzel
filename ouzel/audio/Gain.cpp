@@ -14,8 +14,8 @@ namespace ouzel
             {
             }
 
-            void process(std::vector<float>& samples, uint16_t& channels,
-                         uint32_t& sampleRate, Vector3& position) override
+            void process(std::vector<float>& samples, uint16_t&,
+                         uint32_t&, Vector3&) override
             {
                 for (float& sample : samples)
                     sample *= gain;
