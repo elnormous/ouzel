@@ -37,11 +37,29 @@ namespace ouzel
         void Bus::getData(std::vector<float>& samples, uint16_t& channels,
                           uint32_t& sampleRate, Vector3& position)
         {
+            std::fill(samples.begin(), samples.end(), 0.0F);
+
+            buffer.resize(samples.size());
+
             for (Bus* bus : inputBuses)
-                bus->getData(samples, channels, sampleRate, position);
+            {
+                bus->getData(buffer, channels, sampleRate, position);
+
+                for (size_t s = 0; s < samples.size(); ++s)
+                    samples[s] += buffer[s];
+
+            }
 
             for (Source* source : inputSources)
-                if (source->isPlaying()) source->getData(samples, channels, sampleRate, position);
+            {
+                if (source->isPlaying())
+                {
+                    source->getData(buffer, channels, sampleRate, position);
+
+                    for (size_t s = 0; s < samples.size(); ++s)
+                        samples[s] += buffer[s];
+                }
+            }
 
             for (Processor* processor : processors)
                 processor->process(samples, channels, sampleRate, position);
