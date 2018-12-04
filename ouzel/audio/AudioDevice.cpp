@@ -26,6 +26,8 @@ namespace ouzel
             buffer.resize(frames * channels);
             std::fill(buffer.begin(), buffer.end(), 0.0F);
 
+            mixer.getData(frames, sampleRate, channels, buffer);
+
             switch (sampleFormat)
             {
                 case SampleFormat::SINT16:

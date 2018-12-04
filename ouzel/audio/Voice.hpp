@@ -4,7 +4,6 @@
 #define OUZEL_AUDIO_SOUND_HPP
 
 #include <memory>
-#include "audio/Stream.hpp"
 #include "math/Vector3.hpp"
 
 namespace ouzel
@@ -15,11 +14,10 @@ namespace ouzel
         class Mix;
         class Sound;
 
-        class Voice final: public Stream::EventListener
+        class Voice final
         {
             friend Mix;
         public:
-            explicit Voice(Audio& initAudio);
             Voice(Audio& initAudio, const std::shared_ptr<Sound>& initSound);
             ~Voice();
 
@@ -30,15 +28,12 @@ namespace ouzel
 
             inline const std::shared_ptr<Sound>& getSound() const { return sound; }
 
-            void play(bool repeatSound = false);
+            void play(bool repeat = false);
             void pause();
             void stop();
 
             bool isPlaying() const { return playing; }
             bool isRepeating() const { return repeating; }
-
-            void onReset() override;
-            void onStop() override;
 
             void setOutput(Mix* newOutput);
             
@@ -47,7 +42,6 @@ namespace ouzel
             uintptr_t sourceId;
 
             std::shared_ptr<Sound> sound;
-            std::shared_ptr<Stream> stream;
 
             bool playing = false;
             bool repeating = false;

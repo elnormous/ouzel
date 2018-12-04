@@ -41,7 +41,7 @@ namespace ouzel
                 bus->getData(samples, channels, sampleRate, position);
 
             for (Source* source : inputSources)
-                source->getData(samples, channels, sampleRate, position);
+                if (source->isPlaying()) source->getData(samples, channels, sampleRate, position);
 
             for (Processor* processor : processors)
                 processor->process(samples, channels, sampleRate, position);

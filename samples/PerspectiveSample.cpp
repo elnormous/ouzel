@@ -62,6 +62,8 @@ PerspectiveSample::PerspectiveSample():
     layer.addChild(&character);
     character.setPosition(Vector2(10.0F, 0.0F));
 
+    submix.setOutput(&engine->getAudio()->getMasterMix());
+    
     cameraActor.addComponent(&listener);
     listener.setMix(&submix);
     submix.setOutput(&engine->getAudio()->getMasterMix());

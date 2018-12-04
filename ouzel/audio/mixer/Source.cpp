@@ -18,5 +18,17 @@ namespace ouzel
             output = newOutput;
             if (output) output->addInput(this);
         }
+
+        void Source::play(bool repeat)
+        {
+            playing = true;
+            repeating = repeat;
+        }
+
+        void Source::stop(bool shouldReset)
+        {
+            playing = false;
+            if (shouldReset) reset();
+        }
     } // namespace audio
 } // namespace ouzel

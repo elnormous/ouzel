@@ -280,15 +280,6 @@
     <ClCompile Include="..\ouzel\audio\WaveSound.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\Stream.cpp">
-      <Filter>ouzel\audio</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\audio\VorbisStream.cpp">
-      <Filter>ouzel\audio</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\audio\WaveStream.cpp">
-      <Filter>ouzel\audio</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\graphics\Texture.cpp">
       <Filter>ouzel\graphics</Filter>
     </ClCompile>
@@ -808,15 +799,6 @@
       <Filter>ouzel\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\WaveSound.hpp">
-      <Filter>ouzel\audio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\audio\Stream.hpp">
-      <Filter>ouzel\audio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\audio\VorbisStream.hpp">
-      <Filter>ouzel\audio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\audio\WaveStream.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\Texture.hpp">

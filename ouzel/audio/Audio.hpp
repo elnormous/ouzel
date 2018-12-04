@@ -44,7 +44,8 @@ namespace ouzel
 
             void deleteObject(uintptr_t objectId);
             uintptr_t initBus();
-            uintptr_t initSource();
+            uintptr_t initSource(uintptr_t sourceDataId);
+            uintptr_t initSourceData(std::unique_ptr<SourceData>&& sourceData);
             uintptr_t initProcessor(std::unique_ptr<Processor>&& processor);
             void updateProcessor(uintptr_t processorId, const std::function<void(Processor*)>& updateFunction);
 
