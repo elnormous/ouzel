@@ -43,6 +43,8 @@ namespace ouzel
             std::vector<Bus*> inputBuses;
             std::vector<Source*> inputSources;
             std::vector<Processor*> processors;
+
+            std::vector<float> buffer;
         };
     } // namespace audio
 } // namespace ouzel
