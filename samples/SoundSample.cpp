@@ -35,6 +35,8 @@ SoundSample::SoundSample():
     handler.keyboardHandler = std::bind(&SoundSample::handleKeyboard, this, std::placeholders::_1);
     engine->getEventDispatcher().addEventHandler(&handler);
 
+    submix.setOutput(&engine->getAudio()->getMasterMix());
+
     listener.setMix(&submix);
 
     soundGain.setMix(&submix);

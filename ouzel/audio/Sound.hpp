@@ -13,13 +13,12 @@ namespace ouzel
     namespace audio
     {
         class Audio;
-        class Stream;
 
         class Sound
         {
             friend Audio;
         public:
-            Sound(Audio& initAudio);
+            Sound(Audio& initAudio, uintptr_t initSourceDataId);
             virtual ~Sound();
 
             Sound(const Sound&) = delete;
@@ -28,16 +27,14 @@ namespace ouzel
             Sound(Sound&&) = delete;
             Sound& operator=(Sound&&) = delete;
 
-            virtual std::shared_ptr<Stream> createStream() = 0;
-            void getData(Stream* stream, uint32_t frames, uint32_t neededChannels, uint32_t neededSampleRate, std::vector<float>& result);
+            uintptr_t getSourceDataId() const { return sourceDataId; }
 
             inline uint16_t getChannels() const { return channels; }
             inline uint32_t getSampleRate() const { return sampleRate; }
 
         protected:
-            virtual void readData(Stream* stream, uint32_t frames, std::vector<float>& result) = 0;
-
             Audio& audio;
+            uintptr_t sourceDataId = 0;
 
             uint16_t channels = 0;
             uint32_t sampleRate = 0;

@@ -20,10 +20,19 @@ namespace ouzel
             void setOutput(Bus* newOutput);
 
             virtual void getData(std::vector<float>& samples, uint16_t& channels,
-                                 uint32_t& sampleRate, Vector3& position) {}
+                                 uint32_t& sampleRate, Vector3& position) = 0;
+
+            bool isPlaying() const { return playing; }
+            void play(bool repeat);
+
+            bool isRepeating() const { return repeating; }
+            void stop(bool shouldReset);
+            virtual void reset() = 0;
 
         private:
             Bus* output = nullptr;
+            bool playing = false;
+            bool repeating = false;
         };
     } // namespace audio
 } // namespace ouzel

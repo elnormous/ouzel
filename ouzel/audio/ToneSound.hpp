@@ -17,11 +17,7 @@ namespace ouzel
             ToneSound();
             explicit ToneSound(const std::vector<uint8_t>& initData);
 
-            std::shared_ptr<Stream> createStream() override;
-
         private:
-            void readData(Stream* stream, uint32_t frames, std::vector<float>& result) override;
-
             std::vector<float> data;
         };
     } // namespace audio

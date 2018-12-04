@@ -55,6 +55,13 @@ namespace ouzel
                         bus->setOutput(setBusOutputCommand->outputBusId ? static_cast<Bus*>(objects[setBusOutputCommand->outputBusId - 1].get()) : nullptr);
                         break;
                     }
+                    case Command::Type::SET_MASTER_BUS:
+                    {
+                        SetMasterBusCommand* setMasterBusCommand = static_cast<SetMasterBusCommand*>(command.get());
+
+                        masterBus = setMasterBusCommand->busId ? static_cast<Bus*>(objects[setMasterBusCommand->busId - 1].get()) : nullptr;
+                        break;
+                    }
                     case Command::Type::INIT_SOURCE:
                     {
                         InitSourceCommand* initSourceCommand = static_cast<InitSourceCommand*>(command.get());
@@ -62,7 +69,24 @@ namespace ouzel
                         if (initSourceCommand->sourceId > objects.size())
                             objects.resize(initSourceCommand->sourceId);
 
-                        objects[initSourceCommand->sourceId - 1].reset(new Source());
+                        SourceData* sourceData = static_cast<SourceData*>(objects[initSourceCommand->sourceDataId - 1].get());
+                        objects[initSourceCommand->sourceId - 1] = sourceData->createSource();
+                        break;
+                    }
+                    case Command::Type::PLAY_SOURCE:
+                    {
+                        PlaySourceCommand* playSourceCommand = static_cast<PlaySourceCommand*>(command.get());
+
+                        Source* source = static_cast<Source*>(objects[playSourceCommand->sourceId - 1].get());
+                        source->play(playSourceCommand->repeat);
+                        break;
+                    }
+                    case Command::Type::STOP_SOURCE:
+                    {
+                        StopSourceCommand* stopSourceCommand = static_cast<StopSourceCommand*>(command.get());
+
+                        Source* source = static_cast<Source*>(objects[stopSourceCommand->sourceId - 1].get());
+                        source->stop(stopSourceCommand->reset);
                         break;
                     }
                     case Command::Type::INIT_SOURCE_DATA:
@@ -72,7 +96,7 @@ namespace ouzel
                         if (initSourceDataCommand->sourceDataId > objects.size())
                             objects.resize(initSourceDataCommand->sourceDataId);
 
-                        objects[initSourceDataCommand->sourceDataId - 1].reset(new SourceData());
+                        objects[initSourceDataCommand->sourceDataId - 1] = std::move(initSourceDataCommand->sourceData);
                         break;
                     }
                     case Command::Type::SET_SOURCE_OUTPUT:
@@ -107,13 +131,6 @@ namespace ouzel
 
                         Processor* processor = static_cast<Processor*>(objects[updateProcessorCommand->processorId - 1].get());
                         updateProcessorCommand->updateFunction(processor);
-                        break;
-                    }
-                    case Command::Type::SET_MASTER_BUS:
-                    {
-                        SetMasterBusCommand* setMasterBusCommand = static_cast<SetMasterBusCommand*>(command.get());
-
-                        masterBus = setMasterBusCommand->busId ? static_cast<Bus*>(objects[setMasterBusCommand->busId - 1].get()) : nullptr;
                         break;
                     }
                     default:

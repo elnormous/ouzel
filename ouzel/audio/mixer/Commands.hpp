@@ -7,14 +7,14 @@
 #include <functional>
 #include <memory>
 
+#include "audio/mixer/Processor.hpp"
+#include "audio/mixer/Source.hpp"
+#include "audio/mixer/SourceData.hpp"
+
 namespace ouzel
 {
     namespace audio
     {
-        class Processor;
-        class Source;
-        class SourceData;
-
         class Command
         {
         public:
@@ -25,6 +25,8 @@ namespace ouzel
                 SET_BUS_OUTPUT,
                 SET_MASTER_BUS,
                 INIT_SOURCE,
+                PLAY_SOURCE,
+                STOP_SOURCE,
                 SET_SOURCE_OUTPUT,
                 INIT_SOURCE_DATA,
                 INIT_PROCESSOR,
@@ -87,12 +89,43 @@ namespace ouzel
         class InitSourceCommand: public Command
         {
         public:
-            InitSourceCommand(uintptr_t initSourceId):
+            InitSourceCommand(uintptr_t initSourceId,
+                              uintptr_t initSourceDataId):
                 Command(Command::Type::INIT_SOURCE),
-                sourceId(initSourceId)
+                sourceId(initSourceId),
+                sourceDataId(initSourceDataId)
             {}
 
             uintptr_t sourceId;
+            uintptr_t sourceDataId;
+        };
+
+        class PlaySourceCommand: public Command
+        {
+        public:
+            PlaySourceCommand(uintptr_t initSourceId,
+                              bool initRepeat):
+                Command(Command::Type::PLAY_SOURCE),
+                sourceId(initSourceId),
+                repeat(initRepeat)
+            {}
+
+            uintptr_t sourceId;
+            bool repeat;
+        };
+
+        class StopSourceCommand: public Command
+        {
+        public:
+            StopSourceCommand(uintptr_t initSourceId,
+                              bool initReset):
+                Command(Command::Type::STOP_SOURCE),
+                sourceId(initSourceId),
+                reset(initReset)
+            {}
+
+            uintptr_t sourceId;
+            bool reset;
         };
 
         class SetSourceOutputCommand: public Command
@@ -112,12 +145,15 @@ namespace ouzel
         class InitSourceDataCommand: public Command
         {
         public:
-            InitSourceDataCommand(uintptr_t initSourceDataId):
+            InitSourceDataCommand(uintptr_t initSourceDataId,
+                                  std::unique_ptr<SourceData>&& initSourceData):
                 Command(Command::Type::INIT_SOURCE_DATA),
-                sourceDataId(initSourceDataId)
+                sourceDataId(initSourceDataId),
+                sourceData(std::forward<std::unique_ptr<SourceData>>(initSourceData))
             {}
 
             uintptr_t sourceDataId;
+            std::unique_ptr<SourceData> sourceData;
         };
 
         class InitProcessorCommand: public Command

@@ -2,7 +2,7 @@
 
 #include <stdexcept>
 #include "VorbisSound.hpp"
-#include "VorbisStream.hpp"
+#include "Audio.hpp"
 #include "mixer/Source.hpp"
 #include "mixer/SourceData.hpp"
 #include "utils/Utils.hpp"
@@ -16,61 +16,84 @@ namespace ouzel
         class VorbisSource: public Source
         {
         public:
+            VorbisSource(const std::vector<uint8_t>& data)
+            {
+                vorbisStream = stb_vorbis_open_memory(data.data(), static_cast<int>(data.size()), nullptr, nullptr);
+            }
+
+            ~VorbisSource()
+            {
+                if (vorbisStream)
+                    stb_vorbis_close(vorbisStream);
+            }
+
+            void reset() override
+            {
+                stb_vorbis_seek_start(vorbisStream);
+            }
+
+            void getData(std::vector<float>& samples, uint16_t& channels,
+                         uint32_t& sampleRate, Vector3& position) override
+            {
+                uint32_t neededSize = static_cast<uint32_t>(samples.size());
+                uint32_t totalSize = 0;
+
+                while (neededSize > 0)
+                {
+                    if (vorbisStream->eof)
+                        reset();
+
+                    int resultFrames = stb_vorbis_get_samples_float_interleaved(vorbisStream, channels, samples.data(), static_cast<int>(neededSize));
+                    totalSize += static_cast<uint32_t>(resultFrames) * channels;
+                    neededSize -= static_cast<uint32_t>(resultFrames) * channels;
+
+                    if (!isRepeating()) break;
+                }
+
+                if (vorbisStream->eof)
+                    reset();
+
+                std::fill(samples.begin() + totalSize, samples.end(), 0.0F);
+            }
+
+        private:
+            stb_vorbis* vorbisStream = nullptr;
         };
 
-        class VorbisSourceData: public SourceData
+        class VorbisData: public SourceData
         {
         public:
+            VorbisData(const std::vector<uint8_t>& initData):
+                data(initData)
+            {
+                stb_vorbis* vorbisStream = stb_vorbis_open_memory(data.data(), static_cast<int>(data.size()), nullptr, nullptr);
+
+                if (!vorbisStream)
+                    throw std::runtime_error("Failed to load Vorbis stream");
+
+                stb_vorbis_info info = stb_vorbis_get_info(vorbisStream);
+
+                channels = static_cast<uint16_t>(info.channels);
+                sampleRate = info.sample_rate;
+
+                stb_vorbis_close(vorbisStream);
+            }
+
+            std::unique_ptr<Source> createSource() override
+            {
+                return std::unique_ptr<Source>(new VorbisSource(data));
+            }
+
+        private:
+            std::vector<uint8_t> data;
+            uint16_t channels = 0;
+            uint32_t sampleRate = 0;
         };
 
         VorbisSound::VorbisSound(Audio& initAudio, const std::vector<uint8_t>& initData):
-            Sound(initAudio),
-            data(initData)
+            Sound(initAudio, initAudio.initSourceData(std::unique_ptr<SourceData>(new VorbisData(initData))))
         {
-            stb_vorbis* vorbisStream = stb_vorbis_open_memory(data.data(), static_cast<int>(data.size()), nullptr, nullptr);
 
-            if (!vorbisStream)
-                throw std::runtime_error("Failed to load Vorbis stream");
-
-            stb_vorbis_info info = stb_vorbis_get_info(vorbisStream);
-
-            channels = static_cast<uint16_t>(info.channels);
-            sampleRate = info.sample_rate;
-
-            stb_vorbis_close(vorbisStream);
-        }
-
-        std::shared_ptr<Stream> VorbisSound::createStream()
-        {
-            return std::make_shared<VorbisStream>(data);
-        }
-
-        void VorbisSound::readData(Stream* stream, uint32_t frames, std::vector<float>& result)
-        {
-            VorbisStream* streamVorbis = static_cast<VorbisStream*>(stream);
-
-            uint32_t neededSize = frames * channels;
-            uint32_t totalSize = 0;
-            stb_vorbis* vorbisStream = streamVorbis->getVorbisStream();
-
-            result.resize(neededSize);
-
-            while (neededSize > 0)
-            {
-                if (vorbisStream->eof)
-                    stream->reset();
-
-                int resultFrames = stb_vorbis_get_samples_float_interleaved(vorbisStream, channels, result.data(), static_cast<int>(neededSize));
-                totalSize += static_cast<uint32_t>(resultFrames) * channels;
-                neededSize -= static_cast<uint32_t>(resultFrames) * channels;
-
-                if (!stream->isRepeating()) break;
-            }
-
-            if (vorbisStream->eof)
-                stream->reset();
-
-            std::fill(result.begin() + totalSize, result.end(), 0.0F);
         }
     } // namespace audio
 } // namespace ouzel

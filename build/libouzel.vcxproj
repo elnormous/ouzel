@@ -60,9 +60,6 @@
     <ClCompile Include="..\ouzel\audio\ToneSound.cpp" />
     <ClCompile Include="..\ouzel\audio\VorbisSound.cpp" />
     <ClCompile Include="..\ouzel\audio\WaveSound.cpp" />
-    <ClCompile Include="..\ouzel\audio\Stream.cpp" />
-    <ClCompile Include="..\ouzel\audio\VorbisStream.cpp" />
-    <ClCompile Include="..\ouzel\audio\WaveStream.cpp" />
     <ClCompile Include="..\ouzel\audio\Mix.cpp" />
     <ClCompile Include="..\ouzel\audio\mixer\Source.cpp" />
     <ClCompile Include="..\ouzel\audio\mixer\SourceData.cpp" />
@@ -241,9 +238,6 @@
     <ClInclude Include="..\ouzel\audio\ToneSound.hpp" />
     <ClInclude Include="..\ouzel\audio\VorbisSound.hpp" />
     <ClInclude Include="..\ouzel\audio\WaveSound.hpp" />
-    <ClInclude Include="..\ouzel\audio\Stream.hpp" />
-    <ClInclude Include="..\ouzel\audio\VorbisStream.hpp" />
-    <ClInclude Include="..\ouzel\audio\WaveStream.hpp" />
     <ClInclude Include="..\ouzel\audio\Mix.hpp" />
     <ClInclude Include="..\ouzel\audio\mixer\Source.hpp" />
     <ClInclude Include="..\ouzel\audio\mixer\SourceData.hpp" />

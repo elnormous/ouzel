@@ -4,71 +4,52 @@
 #include "Audio.hpp"
 #include "AudioDevice.hpp"
 #include "Sound.hpp"
-#include "Stream.hpp"
 #include "core/Engine.hpp"
 
 namespace ouzel
 {
     namespace audio
     {
-        Voice::Voice(Audio& initAudio):
-            audio(initAudio),
-            sourceId(audio.initSource())
-        {
-        }
-
         Voice::Voice(Audio& initAudio, const std::shared_ptr<Sound>& initSound):
-            Voice(initAudio)
+            audio(initAudio),
+            sourceId(audio.initSource(initSound->getSourceDataId()))
         {
             sound = initSound;
-
-            if (sound)
-            {
-                stream = sound->createStream();
-                stream->setEventListener(this);
-            }
         }
 
         Voice::~Voice()
         {
-            if (stream) stream->setEventListener(nullptr);
         }
 
-        void Voice::play(bool repeatSound)
+        void Voice::play(bool repeat)
         {
+            audio.getMixer().addCommand(std::unique_ptr<Command>(new PlaySourceCommand(sourceId, repeat)));
+
             playing = true;
-            repeating = repeatSound;
+            repeating = repeat;
 
             std::unique_ptr<SoundEvent> startEvent(new SoundEvent());
             startEvent->type = Event::Type::SOUND_START;
             startEvent->voice = this;
             engine->getEventDispatcher().postEvent(std::move(startEvent));
-
-            if (stream)
-            {
-                stream->setRepeating(repeatSound);
-                stream->setPlaying(true);
-            }
         }
 
         void Voice::pause()
         {
+            audio.getMixer().addCommand(std::unique_ptr<Command>(new StopSourceCommand(sourceId, false)));
+
             playing = false;
-            if (stream) stream->setPlaying(false);
         }
 
         void Voice::stop()
         {
+            audio.getMixer().addCommand(std::unique_ptr<Command>(new StopSourceCommand(sourceId, true)));
+
             playing = false;
-            if (stream)
-            {
-                stream->setPlaying(false);
-                stream->setShouldReset(true);
-            }
         }
 
         // executed on audio thread
-        void Voice::onReset()
+        /*void Voice::onReset()
         {
             std::unique_ptr<SoundEvent> event(new SoundEvent());
             event->type = Event::Type::SOUND_RESET;
@@ -85,7 +66,7 @@ namespace ouzel
             event->type = Event::Type::SOUND_FINISH;
             event->voice = this;
             engine->getEventDispatcher().postEvent(std::move(event));
-        }
+        }*/
 
         void Voice::setOutput(Mix* newOutput)
         {

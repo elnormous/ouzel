@@ -102,6 +102,7 @@ namespace ouzel
             device(createAudioDevice(driver, mixer, debugAudio, window)),
             masterMix(*this)
         {
+            mixer.addCommand(std::unique_ptr<Command>(new SetMasterBusCommand(masterMix.getBusId())));
         }
 
         Audio::~Audio()
@@ -125,11 +126,19 @@ namespace ouzel
             return busId;
         }
 
-        uintptr_t Audio::initSource()
+        uintptr_t Audio::initSource(uintptr_t sourceDataId)
         {
             uintptr_t sourceId = mixer.getObjectId();
-            mixer.addCommand(std::unique_ptr<Command>(new InitSourceCommand(sourceId)));
+            mixer.addCommand(std::unique_ptr<Command>(new InitSourceCommand(sourceId, sourceDataId)));
             return sourceId;
+        }
+
+        uintptr_t Audio::initSourceData(std::unique_ptr<SourceData>&& sourceData)
+        {
+            uintptr_t sourceDataId = mixer.getObjectId();
+            mixer.addCommand(std::unique_ptr<Command>(new InitSourceDataCommand(sourceDataId,
+                                                                                std::forward<std::unique_ptr<SourceData>>(sourceData))));
+            return sourceDataId;
         }
 
         uintptr_t Audio::initProcessor(std::unique_ptr<Processor>&& processor)

@@ -7,24 +7,15 @@ namespace ouzel
 {
     namespace audio
     {
-        Sound::Sound(Audio& initAudio):
-            audio(initAudio)
+        Sound::Sound(Audio& initAudio, uintptr_t initSourceDataId):
+            audio(initAudio),
+            sourceDataId(initSourceDataId)
         {
         }
 
         Sound::~Sound()
         {
-        }
-
-        void Sound::getData(Stream* stream, uint32_t frames, uint32_t neededChannels, uint32_t neededSampleRate, std::vector<float>& result)
-        {
-            uint32_t neededFrames = static_cast<uint32_t>(frames * sampleRate / neededSampleRate);
-
-            readData(stream, neededFrames, tempData);
-
-            resampledData = tempData;
-
-            result = resampledData;
+            if (sourceDataId) audio.deleteObject(sourceDataId);
         }
     } // namespace audio
 } // namespace ouzel

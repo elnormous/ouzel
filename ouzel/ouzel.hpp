@@ -40,7 +40,6 @@
 #include "audio/Reverb.hpp"
 #include "audio/SampleFormat.hpp"
 #include "audio/Sound.hpp"
-#include "audio/Stream.hpp"
 #include "audio/Submix.hpp"
 #include "audio/ToneSound.hpp"
 #include "audio/Voice.hpp"
