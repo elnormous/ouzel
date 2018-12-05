@@ -2,7 +2,6 @@
 
 #include <cassert>
 #include <algorithm>
-#include <stack>
 #include "ActorContainer.hpp"
 #include "Actor.hpp"
 
@@ -136,12 +135,12 @@ namespace ouzel
         {
             std::vector<std::pair<Actor*, Vector3>> actors;
 
-            std::stack<const ActorContainer*> actorContainers;
+            std::queue<const ActorContainer*> actorContainers;
             actorContainers.push(this);
 
             while (!actorContainers.empty())
             {
-                const ActorContainer* actorContainer = actorContainers.top();
+                const ActorContainer* actorContainer = actorContainers.front();
                 actorContainers.pop();
 
                 for (auto i = actorContainer->children.rbegin(); i != actorContainer->children.rend(); ++i)
@@ -175,12 +174,12 @@ namespace ouzel
         {
             std::vector<Actor*> actors;
 
-            std::stack<const ActorContainer*> actorContainers;
+            std::queue<const ActorContainer*> actorContainers;
             actorContainers.push(this);
 
             while (!actorContainers.empty())
             {
-                const ActorContainer* actorContainer = actorContainers.top();
+                const ActorContainer* actorContainer = actorContainers.front();
                 actorContainers.pop();
 
                 for (auto i = actorContainer->children.rbegin(); i != actorContainer->children.rend(); ++i)
