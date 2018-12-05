@@ -2,6 +2,7 @@
 
 #include <cassert>
 #include <algorithm>
+#include <stack>
 #include "ActorContainer.hpp"
 #include "Actor.hpp"
 
@@ -131,53 +132,79 @@ namespace ouzel
                 actor->setLayer(layer);
         }
 
-        void ActorContainer::findActors(const Vector2& position, std::vector<std::pair<Actor*, Vector3>>& actors) const
+        std::vector<std::pair<Actor*, Vector3>> ActorContainer::findActors(const Vector2& position) const
         {
-            for (auto i = children.rbegin(); i != children.rend(); ++i)
+            std::vector<std::pair<Actor*, Vector3>> actors;
+
+            std::stack<const ActorContainer*> actorContainers;
+            actorContainers.push(this);
+
+            while (!actorContainers.empty())
             {
-                Actor* actor = *i;
+                const ActorContainer* actorContainer = actorContainers.top();
+                actorContainers.pop();
 
-                if (!actor->isHidden())
+                for (auto i = actorContainer->children.rbegin(); i != actorContainer->children.rend(); ++i)
                 {
-                    actor->findActors(position, actors);
+                    Actor* actor = *i;
 
-                    if (actor->isPickable() && actor->pointOn(position))
+                    if (!actor->isHidden())
                     {
-                        std::pair<Actor*, Vector3> result = std::make_pair(actor, actor->convertWorldToLocal(Vector3(position)));
+                        actorContainers.push(actor);
 
-                        auto upperBound = std::upper_bound(actors.begin(), actors.end(), result,
-                                                           [](const std::pair<Actor*, Vector3>& a,
-                                                              const std::pair<Actor*, Vector3>& b) {
-                                                               return a.first->worldOrder < b.first->worldOrder;
-                                                           });
+                        if (actor->isPickable() && actor->pointOn(position))
+                        {
+                            std::pair<Actor*, Vector3> result = std::make_pair(actor, actor->convertWorldToLocal(Vector3(position)));
 
-                        actors.insert(upperBound, result);
+                            auto upperBound = std::upper_bound(actors.begin(), actors.end(), result,
+                                                               [](const std::pair<Actor*, Vector3>& a,
+                                                                  const std::pair<Actor*, Vector3>& b) {
+                                                                   return a.first->worldOrder < b.first->worldOrder;
+                                                               });
+
+                            actors.insert(upperBound, result);
+                        }
                     }
                 }
             }
+
+            return actors;
         }
 
-        void ActorContainer::findActors(const std::vector<Vector2>& edges, std::vector<Actor*>& actors) const
+        std::vector<Actor*> ActorContainer::findActors(const std::vector<Vector2>& edges) const
         {
-            for (auto i = children.rbegin(); i != children.rend(); ++i)
+            std::vector<Actor*> actors;
+
+            std::stack<const ActorContainer*> actorContainers;
+            actorContainers.push(this);
+
+            while (!actorContainers.empty())
             {
-                Actor* actor = *i;
+                const ActorContainer* actorContainer = actorContainers.top();
+                actorContainers.pop();
 
-                if (!actor->isHidden())
+                for (auto i = actorContainer->children.rbegin(); i != actorContainer->children.rend(); ++i)
                 {
-                    actor->findActors(edges, actors);
+                    Actor* actor = *i;
 
-                    if (actor->isPickable() && actor->shapeOverlaps(edges))
+                    if (!actor->isHidden())
                     {
-                        auto upperBound = std::upper_bound(actors.begin(), actors.end(), actor,
-                                                           [](Actor* a, Actor* b) {
-                                                               return a->worldOrder < b->worldOrder;
-                                                           });
+                        actorContainers.push(actor);
 
-                        actors.insert(upperBound, actor);
+                        if (actor->isPickable() && actor->shapeOverlaps(edges))
+                        {
+                            auto upperBound = std::upper_bound(actors.begin(), actors.end(), actor,
+                                                               [](Actor* a, Actor* b) {
+                                                                   return a->worldOrder < b->worldOrder;
+                                                               });
+
+                            actors.insert(upperBound, actor);
+                        }
                     }
                 }
             }
+
+            return actors;
         }
     } // namespace scene
 } // namespace ouzel
