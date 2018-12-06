@@ -289,8 +289,7 @@ namespace ouzel
             if (glGenVertexArraysProc) glGenVertexArraysProc(1, &vertexArrayId);
 
             for (const std::unique_ptr<RenderResourceOGL>& resource : resources)
-                if (resource)
-                    static_cast<RenderResourceOGL*>(resource.get())->reload();
+                if (resource) resource->reload();
 
             if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
                 throw std::runtime_error("Failed to unset EGL context");
