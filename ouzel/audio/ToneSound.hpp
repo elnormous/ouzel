@@ -14,10 +14,19 @@ namespace ouzel
         class ToneSound final: public Sound
         {
         public:
-            explicit ToneSound(Audio& initAudio, float initFrequency, float initAmplitude = 0.5F);
+            enum class Type
+            {
+                SINE,
+                SQUARE,
+                SAWTOOTH,
+                TRIANGLE
+            };
+
+            ToneSound(Audio& initAudio, float initFrequency, Type initType = Type::SINE, float initAmplitude = 0.5F);
 
         private:
             float frequency;
+            Type type;
             float amplitude;
         };
     } // namespace audio
