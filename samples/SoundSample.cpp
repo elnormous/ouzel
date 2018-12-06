@@ -115,17 +115,17 @@ bool SoundSample::handleUI(const UIEvent& event)
         if (event.actor == &backButton)
             engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
         else if (event.actor == &test8BitButton)
-            test8BitVoice.play();
+             test8BitVoice.isPlaying() ? test8BitVoice.pause() : test8BitVoice.play();
         else if (event.actor == &test24BitButton)
-            test24BitVoice.play();
+             test24BitVoice.isPlaying() ? test24BitVoice.pause() : test24BitVoice.play();
         else if (event.actor == &jumpButton)
-            jumpVoice.play(true);
+             jumpVoice.isPlaying() ? jumpVoice.pause() : jumpVoice.play(true);
         else if (event.actor == &ambientButton)
-            ambientVoice.play();
+             ambientVoice.isPlaying() ? ambientVoice.pause() : ambientVoice.play();
         else if (event.actor == &musicButton)
-            music.play();
+            music.isPlaying() ? music.pause() : music.play();
         else if (event.actor == &toneButton)
-            toneVoice.play();
+            toneVoice.isPlaying() ? toneVoice.pause() : toneVoice.play();
     }
 
     return false;
