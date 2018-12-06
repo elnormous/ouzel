@@ -14,11 +14,11 @@ namespace ouzel
         class ToneSound final: public Sound
         {
         public:
-            ToneSound();
-            explicit ToneSound(const std::vector<uint8_t>& initData);
+            explicit ToneSound(Audio& initAudio, float initFrequency, float initAmplitude = 0.5F);
 
         private:
-            std::vector<float> data;
+            float frequency;
+            float amplitude;
         };
     } // namespace audio
 } // namespace ouzel

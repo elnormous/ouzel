@@ -29,15 +29,9 @@ namespace ouzel
 
             uintptr_t getSourceDataId() const { return sourceDataId; }
 
-            inline uint16_t getChannels() const { return channels; }
-            inline uint32_t getSampleRate() const { return sampleRate; }
-
         protected:
             Audio& audio;
             uintptr_t sourceDataId = 0;
-
-            uint16_t channels = 0;
-            uint32_t sampleRate = 0;
         };
     } // namespace audio
 } // namespace ouzel
