@@ -34,6 +34,8 @@ private:
 
     ouzel::audio::Voice ambientVoice;
     ouzel::audio::Voice music;
+    std::shared_ptr<ouzel::audio::Sound> tone;
+    ouzel::audio::Voice toneVoice;
 
     ouzel::scene::Layer guiLayer;
     ouzel::scene::Camera guiCamera;
@@ -47,6 +49,7 @@ private:
     ouzel::gui::Button jumpButton;
     ouzel::gui::Button ambientButton;
     ouzel::gui::Button musicButton;
+    ouzel::gui::Button toneButton;
 
     ouzel::EventHandler handler;
 };
