@@ -139,15 +139,13 @@ namespace ouzel
             }
         }
 
-        void Mixer::getData(uint32_t frames, uint32_t sampleRate, uint16_t channels, std::vector<float>& result)
+        void Mixer::getData(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& result)
         {
             if (masterBus)
             {
-                uint16_t inputChannels = channels;
-                uint32_t inputSampleRate = sampleRate;
                 Vector3 inputPosition;
 
-                masterBus->getData(result, inputChannels, inputSampleRate, inputPosition);
+                masterBus->getData(result, channels, sampleRate, inputPosition);
             }
 
             for (float& f : result)

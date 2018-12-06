@@ -31,7 +31,7 @@ namespace ouzel
             void addCommand(std::unique_ptr<Command>&& command);
             
             void process();
-            void getData(uint32_t frames, uint32_t sampleRate, uint16_t channels, std::vector<float>& result);
+            void getData(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& result);
 
             uintptr_t getObjectId()
             {
