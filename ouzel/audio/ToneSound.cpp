@@ -62,10 +62,10 @@ namespace ouzel
             for (float& sample : samples)
             {
                 sample = sinf(TAU * toneData.getFrequency() * static_cast<float>(offset) / toneData.getSampleRate()) * toneData.getAmplitude();
-                offset %= toneData.getSampleRate();
-
                 ++offset;
             }
+
+            offset %= toneData.getSampleRate();
         }
 
         // TODO: implement wave shape
