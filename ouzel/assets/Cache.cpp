@@ -8,8 +8,6 @@
 #include "scene/ParticleSystemData.hpp"
 #include "scene/SpriteData.hpp"
 #include "files/FileSystem.hpp"
-#include "audio/WaveSound.hpp"
-#include "audio/VorbisSound.hpp"
 #include "gui/BMFont.hpp"
 #include "gui/TTFont.hpp"
 #include "utils/JSON.hpp"

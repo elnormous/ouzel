@@ -59,7 +59,7 @@
     <ClCompile Include="..\ouzel\audio\Sound.cpp" />
     <ClCompile Include="..\ouzel\audio\ToneSound.cpp" />
     <ClCompile Include="..\ouzel\audio\VorbisSound.cpp" />
-    <ClCompile Include="..\ouzel\audio\WaveSound.cpp" />
+    <ClCompile Include="..\ouzel\audio\PCMSound.cpp" />
     <ClCompile Include="..\ouzel\audio\Mix.cpp" />
     <ClCompile Include="..\ouzel\audio\mixer\Source.cpp" />
     <ClCompile Include="..\ouzel\audio\mixer\SourceData.cpp" />
@@ -237,7 +237,7 @@
     <ClInclude Include="..\ouzel\audio\Sound.hpp" />
     <ClInclude Include="..\ouzel\audio\ToneSound.hpp" />
     <ClInclude Include="..\ouzel\audio\VorbisSound.hpp" />
-    <ClInclude Include="..\ouzel\audio\WaveSound.hpp" />
+    <ClInclude Include="..\ouzel\audio\PCMSound.hpp" />
     <ClInclude Include="..\ouzel\audio\Mix.hpp" />
     <ClInclude Include="..\ouzel\audio\mixer\Source.hpp" />
     <ClInclude Include="..\ouzel\audio\mixer\SourceData.hpp" />

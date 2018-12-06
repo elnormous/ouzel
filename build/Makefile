@@ -62,6 +62,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Listener.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Mix.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Panner.cpp \
+	$(ROOT_DIR)/../ouzel/audio/PCMSound.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Pitch.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Reverb.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Sound.cpp \
@@ -69,7 +70,6 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/audio/ToneSound.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Voice.cpp \
 	$(ROOT_DIR)/../ouzel/audio/VorbisSound.cpp \
-	$(ROOT_DIR)/../ouzel/audio/WaveSound.cpp \
 	$(ROOT_DIR)/../ouzel/core/Engine.cpp \
 	$(ROOT_DIR)/../ouzel/core/System.cpp \
 	$(ROOT_DIR)/../ouzel/core/NativeWindow.cpp \
