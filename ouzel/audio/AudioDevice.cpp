@@ -26,7 +26,7 @@ namespace ouzel
             buffer.resize(frames * channels);
             std::fill(buffer.begin(), buffer.end(), 0.0F);
 
-            mixer.getData(frames, sampleRate, channels, buffer);
+            mixer.getData(frames, channels, sampleRate, buffer);
 
             switch (sampleFormat)
             {

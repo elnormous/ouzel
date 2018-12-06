@@ -34,8 +34,8 @@ namespace ouzel
             if (output) output->addInput(this);
         }
 
-        void Bus::getData(std::vector<float>& samples, uint16_t& channels,
-                          uint32_t& sampleRate, Vector3& position)
+        void Bus::getData(std::vector<float>& samples, uint16_t channels,
+                          uint32_t sampleRate, Vector3& position)
         {
             std::fill(samples.begin(), samples.end(), 0.0F);
 
