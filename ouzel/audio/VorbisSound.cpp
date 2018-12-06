@@ -13,13 +13,12 @@ namespace ouzel
 {
     namespace audio
     {
+        class VorbisData;
+
         class VorbisSource: public Source
         {
         public:
-            VorbisSource(const std::vector<uint8_t>& data)
-            {
-                vorbisStream = stb_vorbis_open_memory(data.data(), static_cast<int>(data.size()), nullptr, nullptr);
-            }
+            VorbisSource(VorbisData& vorbisData);
 
             ~VorbisSource()
             {
@@ -79,16 +78,23 @@ namespace ouzel
                 stb_vorbis_close(vorbisStream);
             }
 
+            const std::vector<uint8_t>& getData() const { return data; }
+
             std::unique_ptr<Source> createSource() override
             {
-                return std::unique_ptr<Source>(new VorbisSource(data));
+                return std::unique_ptr<Source>(new VorbisSource(*this));
             }
 
         private:
             std::vector<uint8_t> data;
-            uint16_t channels = 0;
-            uint32_t sampleRate = 0;
         };
+
+        VorbisSource::VorbisSource(VorbisData& vorbisData):
+            Source(vorbisData)
+        {
+            const std::vector<uint8_t>& data = vorbisData.getData();
+            vorbisStream = stb_vorbis_open_memory(data.data(), static_cast<int>(data.size()), nullptr, nullptr);
+        }
 
         VorbisSound::VorbisSound(Audio& initAudio, const std::vector<uint8_t>& initData):
             Sound(initAudio, initAudio.initSourceData(std::unique_ptr<SourceData>(new VorbisData(initData))))

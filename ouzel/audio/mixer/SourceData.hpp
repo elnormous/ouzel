@@ -16,6 +16,13 @@ namespace ouzel
         {
         public:
             virtual std::unique_ptr<Source> createSource() = 0;
+
+            uint16_t getChannels() const { return channels; }
+            uint32_t getSampleRate() const { return sampleRate; }
+
+        protected:
+            uint16_t channels = 0;
+            uint32_t sampleRate = 0;
         };
     } // namespace audio
 } // namespace ouzel
