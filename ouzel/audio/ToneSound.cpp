@@ -50,6 +50,10 @@ namespace ouzel
             float amplitude;
         };
 
+        ToneSource::ToneSource(ToneData& toneData):
+            Source(toneData)
+        {
+        }
 
         void ToneSource::getData(std::vector<float>& samples)
         {

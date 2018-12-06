@@ -23,12 +23,15 @@ SoundSample::SoundSample():
     jumpPanner(*engine->getAudio()),
     ambientVoice(*engine->getAudio(), engine->getCache().getSound("ambient.wav")),
     music(*engine->getAudio(), engine->getCache().getSound("music.ogg")),
+    tone(std::make_shared<ToneSound>(*engine->getAudio(), 200, 0.5F)),
+    toneVoice(*engine->getAudio(), tone),
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
     test8BitButton("button.png", "button_selected.png", "button_down.png", "", "8-bit", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
     test24BitButton("button.png", "button_selected.png", "button_down.png", "", "24-bit", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
     jumpButton("button.png", "button_selected.png", "button_down.png", "", "Jump", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
     ambientButton("button.png", "button_selected.png", "button_down.png", "", "Ambient", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
-    musicButton("button.png", "button_selected.png", "button_down.png", "", "Music", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
+    musicButton("button.png", "button_selected.png", "button_down.png", "", "Music", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
+    toneButton("button.png", "button_selected.png", "button_down.png", "", "Tone", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
 {
     handler.gamepadHandler = std::bind(&SoundSample::handleGamepad, this, std::placeholders::_1);
     handler.uiHandler = std::bind(&SoundSample::handleUI, this, std::placeholders::_1);
@@ -61,6 +64,7 @@ SoundSample::SoundSample():
 
     ambientVoice.setOutput(&submix);
     music.setOutput(&submix);
+    toneVoice.setOutput(&submix);
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera.setTargetContentSize(Size2(800.0F, 600.0F));
@@ -84,6 +88,9 @@ SoundSample::SoundSample():
 
     musicButton.setPosition(Vector2(0.0F, -80.0F));
     menu.addWidget(&musicButton);
+
+    toneButton.setPosition(Vector2(0.0F, -120.0F));
+    menu.addWidget(&toneButton);
 
     backButton.setPosition(Vector2(-200.0F, -200.0F));
     menu.addWidget(&backButton);
@@ -117,6 +124,8 @@ bool SoundSample::handleUI(const UIEvent& event)
             ambientVoice.play();
         else if (event.actor == &musicButton)
             music.play();
+        else if (event.actor == &toneButton)
+            toneVoice.play();
     }
 
     return false;
