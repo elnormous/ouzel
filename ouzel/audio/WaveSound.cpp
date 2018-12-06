@@ -30,8 +30,8 @@ namespace ouzel
                 offset = 0;
             }
 
-            void getData(std::vector<float>& samples, uint16_t& channels,
-                         uint32_t& sampleRate, Vector3& position) override
+        private:
+            void getData(std::vector<float>& samples) override
             {
                 uint32_t neededSize = static_cast<uint32_t>(samples.size());
                 uint32_t totalSize = 0;
@@ -67,7 +67,6 @@ namespace ouzel
                 std::fill(samples.begin() + totalSize, samples.end(), 0.0F);
             }
 
-        private:
             const std::vector<float>& data;
             uint32_t offset = 0;
         };
@@ -238,7 +237,6 @@ namespace ouzel
         WaveSound::WaveSound(Audio& initAudio, const std::vector<uint8_t>& initData):
             Sound(initAudio, initAudio.initSourceData(std::unique_ptr<SourceData>(new WaveData(initData))))
         {
-
         }
     } // namespace audio
 } // namespace ouzel

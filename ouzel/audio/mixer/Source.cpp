@@ -2,6 +2,7 @@
 
 #include "Source.hpp"
 #include "Bus.hpp"
+#include "SourceData.hpp"
 
 namespace ouzel
 {
@@ -15,6 +16,26 @@ namespace ouzel
         Source::~Source()
         {
             if (output) output->removeInput(this);
+        }
+
+        void Source::sampleData(std::vector<float>& samples, uint16_t& channels,
+                                uint32_t& sampleRate, Vector3& position)
+        {
+            getData(samples);
+
+            if (sampleRate != sourceData.getSampleRate())
+            {
+                // TODO: resample
+            }
+
+            if (channels > sourceData.getChannels())
+            {
+                // TODO: upmix
+            }
+            else if (channels < sourceData.getChannels())
+            {
+                // TODO: downmix
+            }
         }
 
         void Source::setOutput(Bus* newOutput)
