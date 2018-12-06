@@ -11,13 +11,11 @@ namespace ouzel
 {
     namespace audio
     {
-        class WaveSound final: public Sound
+        class PCMSound final: public Sound
         {
         public:
-            WaveSound(Audio& initAudio, const std::vector<uint8_t>& initData);
-
-        private:
-            std::vector<float> data;
+            PCMSound(Audio& initAudio, uint16_t channels, uint32_t sampleRate,
+                     const std::vector<float>& samples);
         };
     } // namespace audio
 } // namespace ouzel

@@ -40,12 +40,12 @@
 		300934211C88698500CC50D3 /* Window.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3009341B1C88698500CC50D3 /* Window.hpp */; };
 		3009342E1C88978D00CC50D3 /* NativeWindowTVOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3009342C1C88978D00CC50D3 /* NativeWindowTVOS.mm */; };
 		3009342F1C88978D00CC50D3 /* NativeWindowTVOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3009342D1C88978D00CC50D3 /* NativeWindowTVOS.hpp */; };
-		300C39ED1E51355000330E4F /* WaveSound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 300C39EB1E51355000330E4F /* WaveSound.hpp */; };
-		300C39EE1E51355000330E4F /* WaveSound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 300C39EB1E51355000330E4F /* WaveSound.hpp */; };
-		300C39EF1E51355000330E4F /* WaveSound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 300C39EB1E51355000330E4F /* WaveSound.hpp */; };
-		300C39F01E51355000330E4F /* WaveSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 300C39EC1E51355000330E4F /* WaveSound.cpp */; };
-		300C39F11E51355000330E4F /* WaveSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 300C39EC1E51355000330E4F /* WaveSound.cpp */; };
-		300C39F21E51355000330E4F /* WaveSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 300C39EC1E51355000330E4F /* WaveSound.cpp */; };
+		300C39ED1E51355000330E4F /* PCMSound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 300C39EB1E51355000330E4F /* PCMSound.hpp */; };
+		300C39EE1E51355000330E4F /* PCMSound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 300C39EB1E51355000330E4F /* PCMSound.hpp */; };
+		300C39EF1E51355000330E4F /* PCMSound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 300C39EB1E51355000330E4F /* PCMSound.hpp */; };
+		300C39F01E51355000330E4F /* PCMSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 300C39EC1E51355000330E4F /* PCMSound.cpp */; };
+		300C39F11E51355000330E4F /* PCMSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 300C39EC1E51355000330E4F /* PCMSound.cpp */; };
+		300C39F21E51355000330E4F /* PCMSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 300C39EC1E51355000330E4F /* PCMSound.cpp */; };
 		3011E1C31EFFE6DE00CB1DDC /* INI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3011E1C11EFFE6DE00CB1DDC /* INI.cpp */; };
 		3011E1C41EFFE6DE00CB1DDC /* INI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3011E1C11EFFE6DE00CB1DDC /* INI.cpp */; };
 		3011E1C51EFFE6DE00CB1DDC /* INI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3011E1C11EFFE6DE00CB1DDC /* INI.cpp */; };
@@ -1002,8 +1002,8 @@
 		3009341B1C88698500CC50D3 /* Window.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Window.hpp; sourceTree = "<group>"; };
 		3009342C1C88978D00CC50D3 /* NativeWindowTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NativeWindowTVOS.mm; sourceTree = "<group>"; };
 		3009342D1C88978D00CC50D3 /* NativeWindowTVOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NativeWindowTVOS.hpp; sourceTree = "<group>"; };
-		300C39EB1E51355000330E4F /* WaveSound.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WaveSound.hpp; sourceTree = "<group>"; };
-		300C39EC1E51355000330E4F /* WaveSound.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WaveSound.cpp; sourceTree = "<group>"; };
+		300C39EB1E51355000330E4F /* PCMSound.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PCMSound.hpp; sourceTree = "<group>"; };
+		300C39EC1E51355000330E4F /* PCMSound.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PCMSound.cpp; sourceTree = "<group>"; };
 		3011E1C11EFFE6DE00CB1DDC /* INI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = INI.cpp; sourceTree = "<group>"; };
 		3011E1C21EFFE6DE00CB1DDC /* INI.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = INI.hpp; sourceTree = "<group>"; };
 		301457091E40FB5100BA75DB /* DataType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DataType.hpp; sourceTree = "<group>"; };
@@ -1803,6 +1803,8 @@
 				30419E6C1D20254100A63759 /* openal */,
 				30C3F26A219D0846003FE9ED /* Panner.cpp */,
 				30C3F26B219D0846003FE9ED /* Panner.hpp */,
+				300C39EC1E51355000330E4F /* PCMSound.cpp */,
+				300C39EB1E51355000330E4F /* PCMSound.hpp */,
 				30C3F26F219D0847003FE9ED /* Pitch.cpp */,
 				30C3F269219D0846003FE9ED /* Pitch.hpp */,
 				30A3820421B49ECF0043568A /* Reverb.cpp */,
@@ -1818,8 +1820,6 @@
 				30419DE81D162BDC00A63759 /* Voice.hpp */,
 				3031C1321F0C4350002CA717 /* VorbisSound.cpp */,
 				3031C1331F0C4350002CA717 /* VorbisSound.hpp */,
-				300C39EC1E51355000330E4F /* WaveSound.cpp */,
-				300C39EB1E51355000330E4F /* WaveSound.hpp */,
 			);
 			path = audio;
 			sourceTree = "<group>";
@@ -2249,7 +2249,7 @@
 				303B75371C2A3C8200FEDE92 /* Setup.h in Headers */,
 				3047F7731C4D2C3900774E3D /* Parallel.hpp in Headers */,
 				305B68D61ED1B31D003352A2 /* Timer.hpp in Headers */,
-				300C39ED1E51355000330E4F /* WaveSound.hpp in Headers */,
+				300C39ED1E51355000330E4F /* PCMSound.hpp in Headers */,
 				30CC89FC203C5DFB00E2C8C3 /* File.hpp in Headers */,
 				3009030921922DEE00B00BF4 /* DepthStencilStateMetal.hpp in Headers */,
 				303B75681C2A3CBF00FEDE92 /* Sprite.hpp in Headers */,
@@ -2415,7 +2415,7 @@
 				303B76791C355A3B00FEDE92 /* Sprite.hpp in Headers */,
 				3047F7741C4D2C3900774E3D /* Parallel.hpp in Headers */,
 				305B68D81ED1B31D003352A2 /* Timer.hpp in Headers */,
-				300C39EF1E51355000330E4F /* WaveSound.hpp in Headers */,
+				300C39EF1E51355000330E4F /* PCMSound.hpp in Headers */,
 				30381F901D80A3EC00677CAB /* TextureOGL.hpp in Headers */,
 				30A9C13F1CAEBA540084C4BF /* Language.hpp in Headers */,
 				303B767B1C355A3B00FEDE92 /* ParticleSystem.hpp in Headers */,
@@ -2576,7 +2576,7 @@
 				300862E02155CCED00D8CC45 /* GamepadDeviceMacOS.hpp in Headers */,
 				30519CF41F9B53FF00AF3DC4 /* LoaderOBJ.hpp in Headers */,
 				3030D5061DAEF1FA007CC8EB /* Log.hpp in Headers */,
-				300C39EE1E51355000330E4F /* WaveSound.hpp in Headers */,
+				300C39EE1E51355000330E4F /* PCMSound.hpp in Headers */,
 				309B483B1DEA5EE600A718C5 /* Color.hpp in Headers */,
 				30C3F28D219D0847003FE9ED /* Filter.hpp in Headers */,
 				30ADCBB71E9A9479000DC9AC /* RenderDeviceMetalMacOS.hpp in Headers */,
@@ -2766,7 +2766,7 @@
 				3009030621922DEE00B00BF4 /* DepthStencilStateMetal.mm in Sources */,
 				30EEADC721618F2C00D2F525 /* TouchpadDevice.cpp in Sources */,
 				30724D821F353A0800D915ED /* ViewIOS.mm in Sources */,
-				300C39F01E51355000330E4F /* WaveSound.cpp in Sources */,
+				300C39F01E51355000330E4F /* PCMSound.cpp in Sources */,
 				C6C9100F21B54A9600B5FCB7 /* Source.cpp in Sources */,
 				306B0E601C567D05005C75C1 /* ShapeRenderer.cpp in Sources */,
 				305B99A31C42A97E008589E1 /* BMFont.cpp in Sources */,
@@ -2937,7 +2937,7 @@
 				3038216B1D81876E00677CAB /* AudioDeviceEmpty.cpp in Sources */,
 				3009030821922DEE00B00BF4 /* DepthStencilStateMetal.mm in Sources */,
 				30381FB71D80A3F900677CAB /* AudioDeviceAL.cpp in Sources */,
-				300C39F21E51355000330E4F /* WaveSound.cpp in Sources */,
+				300C39F21E51355000330E4F /* PCMSound.cpp in Sources */,
 				30A9C13C1CAEBA540084C4BF /* Language.cpp in Sources */,
 				C6C9101121B54A9600B5FCB7 /* Source.cpp in Sources */,
 				306B0E611C567D05005C75C1 /* ShapeRenderer.cpp in Sources */,
@@ -3108,7 +3108,7 @@
 				304A8E641C237C70008B1151 /* Renderer.cpp in Sources */,
 				30CEB36A21A6385C00525637 /* System.cpp in Sources */,
 				307F9FFF1F1E9CA000BA73CB /* GamepadDeviceGC.mm in Sources */,
-				300C39F11E51355000330E4F /* WaveSound.cpp in Sources */,
+				300C39F11E51355000330E4F /* PCMSound.cpp in Sources */,
 				30381FB61D80A3F900677CAB /* AudioDeviceAL.cpp in Sources */,
 				30AEFA3520C0FD7400CDFD33 /* RenderTargetMetal.mm in Sources */,
 				303820871D816C9E00677CAB /* NativeWindowMacOS.mm in Sources */,

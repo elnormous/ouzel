@@ -55,6 +55,7 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/audio/Listener.cpp \
 	../../ouzel/audio/Mix.cpp \
     ../../ouzel/audio/Panner.cpp \
+    ../../ouzel/audio/PCMSound.cpp \
 	../../ouzel/audio/Pitch.cpp \
 	../../ouzel/audio/Reverb.cpp \
     ../../ouzel/audio/Sound.cpp \
@@ -62,7 +63,6 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/audio/ToneSound.cpp \
 	../../ouzel/audio/Voice.cpp \
     ../../ouzel/audio/VorbisSound.cpp \
-    ../../ouzel/audio/WaveSound.cpp \
     ../../ouzel/core/android/EngineAndroid.cpp \
     ../../ouzel/core/android/main.cpp \
     ../../ouzel/core/android/NativeWindowAndroid.cpp \
