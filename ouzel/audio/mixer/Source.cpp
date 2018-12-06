@@ -7,6 +7,11 @@ namespace ouzel
 {
     namespace audio
     {
+        Source::Source(SourceData& initSourceData):
+            sourceData(initSourceData)
+        {
+        }
+
         Source::~Source()
         {
             if (output) output->removeInput(this);

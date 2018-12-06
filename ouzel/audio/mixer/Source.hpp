@@ -10,11 +10,13 @@ namespace ouzel
     namespace audio
     {
         class Bus;
+        class SourceData;
 
         class Source: public Object
         {
             friend Bus;
         public:
+            Source(SourceData& initSourceData);
             ~Source();
 
             void setOutput(Bus* newOutput);
@@ -30,6 +32,7 @@ namespace ouzel
             virtual void reset() = 0;
 
         private:
+            SourceData& sourceData;
             Bus* output = nullptr;
             bool playing = false;
             bool repeating = false;

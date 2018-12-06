@@ -18,14 +18,12 @@ namespace ouzel
 {
     namespace audio
     {
+        class WaveData;
+
         class WaveSource: public Source
         {
         public:
-            WaveSource(const std::vector<float>& initData):
-                data(initData)
-            {
-
-            }
+            WaveSource(WaveData& waveData);
 
             void reset() override
             {
@@ -220,16 +218,22 @@ namespace ouzel
                     throw std::runtime_error("Failed to load sound file, unsupported format");
             }
 
+            const std::vector<float>& getData() const { return data; }
+
             std::unique_ptr<Source> createSource() override
             {
-                return std::unique_ptr<Source>(new WaveSource(data));
+                return std::unique_ptr<Source>(new WaveSource(*this));
             }
 
         private:
             std::vector<float> data;
-            uint16_t channels = 0;
-            uint32_t sampleRate = 0;
         };
+
+        WaveSource::WaveSource(WaveData& waveData):
+            Source(waveData),
+            data(waveData.getData())
+        {
+        }
 
         WaveSound::WaveSound(Audio& initAudio, const std::vector<uint8_t>& initData):
             Sound(initAudio, initAudio.initSourceData(std::unique_ptr<SourceData>(new WaveData(initData))))
