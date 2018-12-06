@@ -19,10 +19,10 @@ namespace ouzel
             Source(SourceData& initSourceData);
             ~Source();
 
-            void setOutput(Bus* newOutput);
+            void sampleData(std::vector<float>& samples, uint16_t& channels,
+                            uint32_t& sampleRate, Vector3& position);
 
-            virtual void getData(std::vector<float>& samples, uint16_t& channels,
-                                 uint32_t& sampleRate, Vector3& position) = 0;
+            void setOutput(Bus* newOutput);
 
             bool isPlaying() const { return playing; }
             void play(bool repeat);
@@ -31,7 +31,9 @@ namespace ouzel
             void stop(bool shouldReset);
             virtual void reset() = 0;
 
-        private:
+        protected:
+            virtual void getData(std::vector<float>& samples) = 0;
+
             SourceData& sourceData;
             Bus* output = nullptr;
             bool playing = false;

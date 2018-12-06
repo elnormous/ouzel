@@ -54,7 +54,7 @@ namespace ouzel
             {
                 if (source->isPlaying())
                 {
-                    source->getData(buffer, channels, sampleRate, position);
+                    source->sampleData(buffer, channels, sampleRate, position);
 
                     for (size_t s = 0; s < samples.size(); ++s)
                         samples[s] += buffer[s];
