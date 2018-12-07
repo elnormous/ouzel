@@ -251,7 +251,7 @@ namespace ouzel
                     {
                         uint32_t sourceFrames = (frames * sourceSampleRate + sampleRate - 1) / sampleRate; // round up
                         source->getData(sourceFrames, resampleBuffer);
-                        resample(channels, sourceFrames, resampleBuffer, frames, mixBuffer);
+                        resample(sourceChannels, sourceFrames, resampleBuffer, frames, mixBuffer);
                     }
                     else
                         source->getData(frames, mixBuffer);
