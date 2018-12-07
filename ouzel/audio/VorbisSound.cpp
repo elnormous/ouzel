@@ -32,28 +32,7 @@ namespace ouzel
             }
 
         private:
-            void getData(std::vector<float>& samples) override
-            {
-                uint32_t neededSize = static_cast<uint32_t>(samples.size());
-                uint32_t totalSize = 0;
-
-                while (neededSize > 0)
-                {
-                    if (vorbisStream->eof)
-                        reset();
-
-                    int resultFrames = stb_vorbis_get_samples_float_interleaved(vorbisStream, sourceData.getChannels(), samples.data(), static_cast<int>(neededSize));
-                    totalSize += static_cast<uint32_t>(resultFrames) * sourceData.getChannels();
-                    neededSize -= static_cast<uint32_t>(resultFrames) * sourceData.getChannels();
-
-                    if (!isRepeating()) break;
-                }
-
-                if (vorbisStream->eof)
-                    reset();
-
-                std::fill(samples.begin() + totalSize, samples.end(), 0.0F);
-            }
+            void getData(uint32_t frames, std::vector<float>& samples) override;
 
             stb_vorbis* vorbisStream = nullptr;
         };
@@ -93,6 +72,31 @@ namespace ouzel
         {
             const std::vector<uint8_t>& data = vorbisData.getData();
             vorbisStream = stb_vorbis_open_memory(data.data(), static_cast<int>(data.size()), nullptr, nullptr);
+        }
+
+        void VorbisSource::getData(uint32_t frames, std::vector<float>& samples)
+        {
+            uint32_t neededSize = frames * sourceData.getChannels();
+            samples.resize(neededSize);
+
+            uint32_t totalSize = 0;
+
+            while (neededSize > 0)
+            {
+                if (vorbisStream->eof)
+                    reset();
+
+                int resultFrames = stb_vorbis_get_samples_float_interleaved(vorbisStream, sourceData.getChannels(), samples.data(), static_cast<int>(neededSize));
+                totalSize += static_cast<uint32_t>(resultFrames) * sourceData.getChannels();
+                neededSize -= static_cast<uint32_t>(resultFrames) * sourceData.getChannels();
+
+                if (!isRepeating()) break;
+            }
+
+            if (vorbisStream->eof)
+                reset();
+
+            std::fill(samples.begin() + totalSize, samples.end(), 0.0F);
         }
 
         VorbisSound::VorbisSound(Audio& initAudio, const std::vector<uint8_t>& initData):

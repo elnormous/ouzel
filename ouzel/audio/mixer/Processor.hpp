@@ -27,8 +27,8 @@ namespace ouzel
 
             void setBus(Bus* newBus);
 
-            virtual void process(std::vector<float>& samples, uint16_t& channels,
-                                 uint32_t& sampleRate, Vector3& position) = 0;
+            virtual void process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+                                 Vector3 listenerPosition, std::vector<float>& samples) = 0;
 
         private:
             Bus* bus = nullptr;
