@@ -532,7 +532,8 @@ namespace ouzel
         ShowWindow(window, SW_SHOW);
         
         if (!SetWindowLongPtr(window, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this)))
-            throw std::system_error(GetLastError(), std::system_category(), "Failed to set window pointer");
+            if (DWORD error = GetLastError())
+                throw std::system_error(error, std::system_category(), "Failed to set window pointer");
     }
 
     NativeWindowWin::~NativeWindowWin()

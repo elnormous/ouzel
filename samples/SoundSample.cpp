@@ -23,7 +23,7 @@ SoundSample::SoundSample():
     jumpPanner(*engine->getAudio()),
     ambientVoice(*engine->getAudio(), engine->getCache().getSound("ambient.wav")),
     music(*engine->getAudio(), engine->getCache().getSound("music.ogg")),
-    tone(std::make_shared<ToneSound>(*engine->getAudio(), 200, ToneSound::Type::SINE, 0.5F)),
+    tone(std::make_shared<ToneSound>(*engine->getAudio(), 200.0F, ToneSound::Type::SINE, 0.5F)),
     toneVoice(*engine->getAudio(), tone),
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
     test8BitButton("button.png", "button_selected.png", "button_down.png", "", "8-bit", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
