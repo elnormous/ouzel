@@ -3,6 +3,7 @@
 #include "Source.hpp"
 #include "Bus.hpp"
 #include "SourceData.hpp"
+#include "math/MathUtils.hpp"
 
 namespace ouzel
 {
@@ -21,14 +22,45 @@ namespace ouzel
         void Source::sampleData(uint32_t frames, uint16_t channels, uint32_t sampleRate,
                                 Vector3 listenerPosition, std::vector<float>& samples)
         {
-            getData(frames, buffer);
+            const uint32_t sourceChannels = sourceData.getChannels();
+            const uint32_t sourceSampleRate = sourceData.getSampleRate();
 
-            if (sampleRate != sourceData.getSampleRate())
+            if (sampleRate != sourceSampleRate)
             {
-                // TODO: resample
-            }
+                uint32_t sourceFrames = (frames * sourceSampleRate + sampleRate - 1) / sampleRate; // round up
+                getData(sourceFrames, resampleBuffer);
 
-            uint32_t sourceChannels = sourceData.getChannels();
+                float sourceIncrement = static_cast<float>(sourceFrames - 1) / static_cast<float>(frames - 1);
+                float sourcePosition = 0.0F;
+
+                buffer.resize(frames * sourceChannels);
+
+                for (uint32_t frame = 0; frame < frames - 1; ++frame)
+                {
+                    uint32_t sourceCurrentFrame = static_cast<uint32_t>(sourcePosition);
+                    float fraction = sourcePosition - sourceCurrentFrame;
+
+                    uint32_t sourceNextFrame = sourceCurrentFrame + 1;
+
+                    for (uint32_t channel = 0; channel < sourceChannels; ++channel)
+                    {
+                        uint32_t sourceCurrentPosition = sourceCurrentFrame * sourceChannels + channel;
+                        uint32_t sourceNextPosition = sourceNextFrame * sourceChannels + channel;
+
+                        buffer[frame * sourceChannels + channel] = ouzel::lerp(resampleBuffer[sourceCurrentPosition],
+                                                                               resampleBuffer[sourceNextPosition],
+                                                                               fraction);
+                    }
+
+                    sourcePosition += sourceIncrement;
+                }
+
+                // fill the last frame of the destination with the last frame of the source
+                for (uint32_t channel = 0; channel < sourceChannels; ++channel)
+                    buffer[(frames - 1) * sourceChannels + channel] = resampleBuffer[(sourceFrames - 1) * sourceChannels + channel];
+            }
+            else
+                getData(frames, buffer);
 
             samples.resize(frames * channels);
             

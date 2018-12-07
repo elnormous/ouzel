@@ -38,6 +38,7 @@ namespace ouzel
             Bus* output = nullptr;
             bool playing = false;
             bool repeating = false;
+            std::vector<float> resampleBuffer;
             std::vector<float> buffer;
         };
     } // namespace audio
