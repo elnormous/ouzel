@@ -19,8 +19,9 @@ namespace ouzel
             Source(SourceData& initSourceData);
             ~Source();
 
-            void sampleData(uint32_t frames, uint16_t channels, uint32_t sampleRate,
-                            Vector3 listenerPosition, std::vector<float>& samples);
+            const SourceData& getSourceData() const { return sourceData; }
+
+            virtual void getData(uint32_t frames, std::vector<float>& samples) = 0;
 
             void setOutput(Bus* newOutput);
 
@@ -32,8 +33,6 @@ namespace ouzel
             virtual void reset() = 0;
 
         protected:
-            virtual void getData(uint32_t frames, std::vector<float>& samples) = 0;
-
             SourceData& sourceData;
             Bus* output = nullptr;
             bool playing = false;

@@ -31,9 +31,9 @@ namespace ouzel
                 stb_vorbis_seek_start(vorbisStream);
             }
 
-        private:
             void getData(uint32_t frames, std::vector<float>& samples) override;
-
+            
+        private:
             stb_vorbis* vorbisStream = nullptr;
         };
 
