@@ -250,17 +250,16 @@ namespace ouzel
                     if (sourceSampleRate != sampleRate)
                     {
                         uint32_t sourceFrames = (frames * sourceSampleRate + sampleRate - 1) / sampleRate; // round up
-                        source->getData(sourceFrames, workBuffer);
-                        resample(channels, sourceFrames, workBuffer, frames, buffer);
-                        workBuffer = buffer;
+                        source->getData(sourceFrames, resampleBuffer);
+                        resample(channels, sourceFrames, resampleBuffer, frames, mixBuffer);
                     }
                     else
-                        source->getData(frames, workBuffer);
+                        source->getData(frames, mixBuffer);
 
                     if (sourceChannels != channels)
-                        mix(frames, sourceChannels, workBuffer, channels, buffer);
+                        mix(frames, sourceChannels, mixBuffer, channels, buffer);
                     else
-                        buffer = workBuffer;
+                        buffer = mixBuffer;
 
                     for (size_t s = 0; s < samples.size(); ++s)
                         samples[s] += buffer[s];
