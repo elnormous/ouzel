@@ -44,7 +44,8 @@ namespace ouzel
             std::vector<Source*> inputSources;
             std::vector<Processor*> processors;
 
-            std::vector<float> workBuffer;
+            std::vector<float> resampleBuffer;
+            std::vector<float> mixBuffer;
             std::vector<float> buffer;
         };
     } // namespace audio
