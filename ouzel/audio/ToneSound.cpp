@@ -21,8 +21,9 @@ namespace ouzel
             {
             }
 
-        private:
             void getData(uint32_t frames, std::vector<float>& samples) override;
+            
+        private:
             uint32_t offset = 0;
         };
 
