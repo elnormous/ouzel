@@ -9,20 +9,20 @@ namespace ouzel
     {
         enum class Channel
         {
-            FRONT_LEFT = 0,
-            FRONT_RIGHT = 1,
+            LEFT = 0,
+            RIGHT = 1,
             CENTER = 2,
             LFE = 3,
-            BACK_LEFT = 4,
-            BACK_RIGHT = 5
+            SURROUND_LEFT = 4,
+            SURROUND_RIGHT = 5
         };
 
         enum class ChannelConfiguration
         {
-            MONO, // mono
-            STEREO, // left, right
-            QUAD, // front left, front right, back left, back right
-            SURROUND51 // front left, front right, center, LFE, back left, back right
+            MONO, // mono (M)
+            STEREO, // left (L), right (R)
+            QUAD, // left (L), right (R), surround left (SL), surround right (SR)
+            SURROUND51 // left (L), right (R), center (C), low-frequency effects (LFE), surround left (SL), surround right (SR)
         };
     } // namespace audio
 } // namespace ouzel

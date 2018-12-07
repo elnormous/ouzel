@@ -17,13 +17,6 @@ namespace ouzel
 {
     namespace audio
     {
-        /*
-            Channel configurations:
-            Mono: mono (0)
-            Stereo: left (0), right (1)
-            Quad: left (0), right (1), surround left (2), surround right (3)
-            5.1: left (0), right (1), center (2), LFE (3) surround left (4), surround right (5)
-        */
         class Mixer
         {
         public:
