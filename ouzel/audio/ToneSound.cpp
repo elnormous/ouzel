@@ -22,7 +22,7 @@ namespace ouzel
             }
 
         private:
-            void getData(std::vector<float>& samples) override;
+            void getData(uint32_t frames, std::vector<float>& samples) override;
             uint32_t offset = 0;
         };
 
@@ -58,9 +58,11 @@ namespace ouzel
         {
         }
 
-        void ToneSource::getData(std::vector<float>& samples)
+        void ToneSource::getData(uint32_t frames, std::vector<float>& samples)
         {
             ToneData& toneData = static_cast<ToneData&>(sourceData);
+
+            samples.resize(frames);
 
             for (float& sample : samples)
             {

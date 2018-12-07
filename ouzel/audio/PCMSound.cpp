@@ -24,41 +24,7 @@ namespace ouzel
             }
 
         private:
-            void getData(std::vector<float>& samples) override
-            {
-                uint32_t neededSize = static_cast<uint32_t>(samples.size());
-                uint32_t totalSize = 0;
-
-                while (neededSize > 0)
-                {
-                    if (isRepeating() && (data.size() - offset) == 0) reset();
-
-                    if (data.size() - offset < neededSize)
-                    {
-                        std::copy(data.begin() + offset,
-                                  data.end(),
-                                  samples.begin() + totalSize);
-                        totalSize += static_cast<uint32_t>(data.size() - offset);
-                        neededSize -= static_cast<uint32_t>(data.size() - offset);
-                        offset = static_cast<uint32_t>(data.size());
-                    }
-                    else
-                    {
-                        std::copy(data.begin() + offset,
-                                  data.begin() + offset + neededSize,
-                                  samples.begin() + totalSize);
-                        totalSize += neededSize;
-                        offset += neededSize;
-                        neededSize = 0;
-                    }
-
-                    if (!isRepeating()) break;
-                }
-
-                if ((data.size() - offset) == 0) reset();
-
-                std::fill(samples.begin() + totalSize, samples.end(), 0.0F);
-            }
+            void getData(uint32_t frames, std::vector<float>& samples) override;
 
             const std::vector<float>& data;
             uint32_t offset = 0;
@@ -90,6 +56,44 @@ namespace ouzel
             Source(pcmData),
             data(pcmData.getSamples())
         {
+        }
+
+        void PCMSource::getData(uint32_t frames, std::vector<float>& samples)
+        {
+            uint32_t neededSize = frames * sourceData.getChannels();
+            samples.resize(neededSize);
+
+            uint32_t totalSize = 0;
+
+            while (neededSize > 0)
+            {
+                if (isRepeating() && (data.size() - offset) == 0) reset();
+
+                if (data.size() - offset < neededSize)
+                {
+                    std::copy(data.begin() + offset,
+                              data.end(),
+                              samples.begin() + totalSize);
+                    totalSize += static_cast<uint32_t>(data.size() - offset);
+                    neededSize -= static_cast<uint32_t>(data.size() - offset);
+                    offset = static_cast<uint32_t>(data.size());
+                }
+                else
+                {
+                    std::copy(data.begin() + offset,
+                              data.begin() + offset + neededSize,
+                              samples.begin() + totalSize);
+                    totalSize += neededSize;
+                    offset += neededSize;
+                    neededSize = 0;
+                }
+                
+                if (!isRepeating()) break;
+            }
+
+            if ((data.size() - offset) == 0) reset();
+
+            std::fill(samples.begin() + totalSize, samples.end(), 0.0F);
         }
 
         PCMSound::PCMSound(Audio& initAudio, uint16_t channels, uint32_t sampleRate,

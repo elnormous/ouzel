@@ -23,9 +23,6 @@ namespace ouzel
 
         void AudioDevice::getData(uint32_t frames, std::vector<uint8_t>& result)
         {
-            buffer.resize(frames * channels);
-            std::fill(buffer.begin(), buffer.end(), 0.0F);
-
             mixer.getData(frames, channels, sampleRate, buffer);
 
             switch (sampleFormat)
