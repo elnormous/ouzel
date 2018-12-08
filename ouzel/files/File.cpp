@@ -52,8 +52,8 @@ namespace ouzel
         if (mode & APPEND) access |= O_APPEND;
         if (mode & TRUNCATE) access |= O_TRUNC;
 
-        fd = open(filename.c_str(), access, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-        if (fd == -1)
+        file = open(filename.c_str(), access, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+        if (file == -1)
             throw std::system_error(errno, std::system_category(), "Failed to open file");
 #endif
     }
@@ -63,7 +63,7 @@ namespace ouzel
 #if defined(_WIN32)
         if (file != INVALID_HANDLE_VALUE) CloseHandle(file);
 #else
-        if (fd != -1) close(fd);
+        if (file != -1) ::close(file);
 #endif
     }
 
@@ -73,8 +73,8 @@ namespace ouzel
         file = other.file;
         other.file = nullptr;
 #else
-        fd = other.fd;
-        other.fd = -1;
+        file = other.file;
+        other.file = -1;
 #endif
     }
 
@@ -87,13 +87,34 @@ namespace ouzel
             file = other.file;
             other.file = nullptr;
 #else
-            if (fd != -1) close(fd);
-            fd = other.fd;
-            other.fd = -1;
+            if (file != -1) ::close(file);
+            file = other.file;
+            other.file = -1;
 #endif
         }
 
         return *this;
+    }
+
+    void File::close()
+    {
+#if defined(_WIN32)
+        if (file != INVALID_HANDLE_VALUE)
+        {
+            HANDLE f = file;
+            file == INVALID_HANDLE_VALUE;
+            if (!CloseHandle(f))
+                throw std::system_error(GetLastError(), std::system_category(), "Failed to close file");
+        }
+#else
+        if (file != -1)
+        {
+            int f = file;
+            file = -1;
+            if (::close(f) == -1)
+                throw std::system_error(errno, std::system_category(), "Failed to close file");
+        }
+#endif
     }
 
     uint32_t File::read(void* buffer, uint32_t size, bool all) const
@@ -125,7 +146,7 @@ namespace ouzel
 
             return static_cast<uint32_t>(n);
 #else
-            ssize_t ret = ::read(fd, buffer, size);
+            ssize_t ret = ::read(file, buffer, size);
 
             if (ret == -1)
                 throw std::system_error(errno, std::system_category(), "Failed to read from file");
@@ -160,7 +181,7 @@ namespace ouzel
 
             return static_cast<uint32_t>(n);
 #else
-            ssize_t ret = ::write(fd, buffer, size);
+            ssize_t ret = ::write(file, buffer, size);
 
             if (ret == -1)
                 throw std::system_error(errno, std::system_category(), "Failed to write to file");
@@ -184,7 +205,7 @@ namespace ouzel
         if (method == BEGIN) whence = SEEK_SET;
         else if (method == CURRENT) whence = SEEK_CUR;
         else if (method == END) whence = SEEK_END;
-        if (lseek(fd, offset, whence) == -1)
+        if (lseek(file, offset, whence) == -1)
             throw std::system_error(errno, std::system_category(), "Failed to seek file");
 #endif
     }
@@ -197,7 +218,7 @@ namespace ouzel
             throw std::system_error(GetLastError(), std::system_category(), "Failed to seek file");
         return static_cast<uint32_t>(ret);
 #else
-        off_t ret = lseek(fd, 0, SEEK_CUR);
+        off_t ret = lseek(file, 0, SEEK_CUR);
         if (ret == -1)
             throw std::system_error(errno, std::system_category(), "Failed to seek file");
         return static_cast<uint32_t>(ret);
