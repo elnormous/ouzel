@@ -29,7 +29,8 @@ namespace ouzel
             void setOutput(Bus* newOutput);
 
             void getData(uint32_t frames, uint16_t channels, uint32_t sampleRate,
-                         Vector3 listenerPosition, std::vector<float>& samples);
+                         const Vector3& listenerPosition, const Quaternion& listenerRotation,
+                         std::vector<float>& samples);
 
         private:
             void addInput(Bus* bus);
