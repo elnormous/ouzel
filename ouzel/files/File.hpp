@@ -52,9 +52,11 @@ namespace ouzel
 #if defined(_WIN32)
             return file != INVALID_HANDLE_VALUE;
 #else
-            return fd != -1;
+            return file != -1;
 #endif
         }
+
+        void close();
 
         uint32_t read(void* buffer, uint32_t size, bool all = false) const;
         uint32_t write(const void* buffer, uint32_t size, bool all = false) const;
@@ -65,7 +67,7 @@ namespace ouzel
 #if defined(_WIN32)
         HANDLE file = INVALID_HANDLE_VALUE;
 #else
-        int fd = -1;
+        int file = -1;
 #endif
     };
 }
