@@ -227,14 +227,15 @@ namespace ouzel
         }
 
         void Bus::getData(uint32_t frames, uint16_t channels, uint32_t sampleRate,
-                          Vector3 listenerPosition, std::vector<float>& samples)
+                          const Vector3& listenerPosition, const Quaternion& listenerRotation,
+                          std::vector<float>& samples)
         {
             samples.resize(frames * channels);
             std::fill(samples.begin(), samples.end(), 0.0F);
 
             for (Bus* bus : inputBuses)
             {
-                bus->getData(frames, channels, sampleRate, listenerPosition, buffer);
+                bus->getData(frames, channels, sampleRate, listenerPosition, listenerRotation, buffer);
 
                 for (size_t s = 0; s < samples.size(); ++s)
                     samples[s] += buffer[s];
@@ -267,7 +268,7 @@ namespace ouzel
             }
 
             for (Processor* processor : processors)
-                processor->process(frames, channels, sampleRate, listenerPosition, samples);
+                processor->process(frames, channels, sampleRate, samples);
         }
 
         void Bus::addInput(Bus* bus)

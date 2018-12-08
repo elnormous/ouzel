@@ -144,8 +144,9 @@ namespace ouzel
             if (masterBus)
             {
                 Vector3 listenerPosition;
+                Quaternion listenerRotation;
 
-                masterBus->getData(frames, channels, sampleRate, listenerPosition, samples);
+                masterBus->getData(frames, channels, sampleRate, listenerPosition, listenerRotation, samples);
             }
 
             for (float& f : samples)
