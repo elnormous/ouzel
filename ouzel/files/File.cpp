@@ -99,21 +99,15 @@ namespace ouzel
     void File::close()
     {
 #if defined(_WIN32)
-        if (file != INVALID_HANDLE_VALUE)
-        {
-            HANDLE f = file;
-            file == INVALID_HANDLE_VALUE;
-            if (!CloseHandle(f))
-                throw std::system_error(GetLastError(), std::system_category(), "Failed to close file");
-        }
+        HANDLE f = file;
+        file == INVALID_HANDLE_VALUE;
+        if (!CloseHandle(f))
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to close file");
 #else
-        if (file != -1)
-        {
-            int f = file;
-            file = -1;
-            if (::close(f) == -1)
-                throw std::system_error(errno, std::system_category(), "Failed to close file");
-        }
+        int f = file;
+        file = -1;
+        if (::close(f) == -1)
+            throw std::system_error(errno, std::system_category(), "Failed to close file");
 #endif
     }
 
