@@ -19,7 +19,7 @@ namespace ouzel
             Delay& operator=(const Delay&) = delete;
             Delay(Delay&&) = delete;
             Delay& operator=(Delay&&) = delete;
-            
+
             float getDelay() const { return delay; }
             void setDelay(float newDelay);
 

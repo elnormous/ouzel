@@ -102,7 +102,7 @@ namespace ouzel
                     case Command::Type::SET_SOURCE_OUTPUT:
                     {
                         SetSourceOutputCommand* setSourceOutputCommand = static_cast<SetSourceOutputCommand*>(command.get());
-                        
+
                         Source* source = static_cast<Source*>(objects[setSourceOutputCommand->sourceId - 1].get());
                         source->setOutput(setSourceOutputCommand->busId ? static_cast<Bus*>(objects[setSourceOutputCommand->busId - 1].get()) : nullptr);
                         break;

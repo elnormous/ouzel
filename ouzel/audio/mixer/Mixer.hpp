@@ -29,7 +29,7 @@ namespace ouzel
             Mixer& operator=(Mixer&&) = delete;
 
             void addCommand(std::unique_ptr<Command>&& command);
-            
+
             void process();
             void getData(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples);
 

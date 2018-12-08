@@ -29,7 +29,7 @@ namespace ouzel
             Listener& operator=(Listener&&) = delete;
 
             void setMix(Mix* newMix);
-            
+
         private:
             void updateTransform() override;
 

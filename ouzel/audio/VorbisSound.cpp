@@ -32,7 +32,7 @@ namespace ouzel
             }
 
             void getData(uint32_t frames, std::vector<float>& samples) override;
-            
+
         private:
             stb_vorbis* vorbisStream = nullptr;
         };
@@ -94,7 +94,10 @@ namespace ouzel
             }
 
             if (vorbisStream->eof)
+            {
+                if (!isRepeating()) playing = false; // TODO: fire event
                 reset();
+            }
 
             std::fill(samples.begin() + totalSize, samples.end(), 0.0F);
         }
