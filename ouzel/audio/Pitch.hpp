@@ -19,7 +19,7 @@ namespace ouzel
             Pitch& operator=(const Pitch&) = delete;
             Pitch(Pitch&&) = delete;
             Pitch& operator=(Pitch&&) = delete;
-            
+
             float getPitch() const { return pitch; }
             void setPitch(float newPitch);
 

@@ -36,7 +36,7 @@ namespace ouzel
             bool isRepeating() const { return repeating; }
 
             void setOutput(Mix* newOutput);
-            
+
         private:
             Audio& audio;
             uintptr_t sourceId;

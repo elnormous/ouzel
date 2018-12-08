@@ -33,7 +33,7 @@ namespace ouzel
 
             uint16_t apiMajorVersion = 0;
             uint16_t apiMinorVersion = 0;
-            
+
             SampleFormat sampleFormat = SampleFormat::SINT16;
             const uint32_t bufferSize = 2 * 4096;
             const uint32_t sampleRate = 44100;

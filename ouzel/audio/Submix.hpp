@@ -15,7 +15,7 @@ namespace ouzel
         public:
             Submix(Audio& initAudio);
             ~Submix();
-            
+
             Submix(const Submix&) = delete;
             Submix& operator=(const Submix&) = delete;
             Submix(Submix&&) = delete;

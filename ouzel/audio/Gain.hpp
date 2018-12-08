@@ -19,7 +19,7 @@ namespace ouzel
             Gain& operator=(const Gain&) = delete;
             Gain(Gain&&) = delete;
             Gain& operator=(Gain&&) = delete;
-            
+
             float getGain() const { return gain; }
             void setGain(float newGain);
 
