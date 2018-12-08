@@ -237,6 +237,9 @@ namespace ouzel
             {
                 bus->getData(frames, channels, sampleRate, listenerPosition, listenerRotation, buffer);
 
+                for (Processor* processor : processors)
+                    processor->process(frames, channels, sampleRate, buffer);
+
                 for (size_t s = 0; s < samples.size(); ++s)
                     samples[s] += buffer[s];
             }
@@ -262,13 +265,13 @@ namespace ouzel
                     else
                         buffer = mixBuffer;
 
+                    for (Processor* processor : processors)
+                        processor->process(frames, channels, sampleRate, buffer);
+
                     for (size_t s = 0; s < samples.size(); ++s)
                         samples[s] += buffer[s];
                 }
             }
-
-            for (Processor* processor : processors)
-                processor->process(frames, channels, sampleRate, samples);
         }
 
         void Bus::addInput(Bus* bus)
