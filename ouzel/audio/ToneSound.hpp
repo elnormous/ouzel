@@ -22,12 +22,15 @@ namespace ouzel
                 TRIANGLE
             };
 
-            ToneSound(Audio& initAudio, float initFrequency, Type initType = Type::SINE, float initAmplitude = 0.5F);
+            ToneSound(Audio& initAudio, float initFrequency,
+                      Type initType = Type::SINE,
+                      float initAmplitude = 0.5F, float initLength = 0.0F);
 
         private:
             float frequency;
             Type type;
             float amplitude;
+            float length;
         };
     } // namespace audio
 } // namespace ouzel

@@ -19,6 +19,7 @@ namespace ouzel
 
             void reset() override
             {
+                offset = 0;
             }
 
             void getData(uint32_t frames, std::vector<float>& samples) override;
@@ -30,10 +31,11 @@ namespace ouzel
         class ToneData: public SourceData
         {
         public:
-            ToneData(float initFrequency, ToneSound::Type initType, float initAmplitude):
+            ToneData(float initFrequency, ToneSound::Type initType, float initAmplitude, float initLength):
                 frequency(initFrequency),
                 type(initType),
-                amplitude(initAmplitude)
+                amplitude(initAmplitude),
+                length(initLength)
             {
                 channels = 1;
                 sampleRate = 44100;
@@ -42,6 +44,7 @@ namespace ouzel
             float getFrequency() const { return frequency; }
             ToneSound::Type getType() const { return type; }
             float getAmplitude() const { return amplitude; }
+            float getLength() const { return length; }
 
             std::unique_ptr<Source> createSource() override
             {
@@ -52,11 +55,41 @@ namespace ouzel
             float frequency;
             ToneSound::Type type;
             float amplitude;
+            float length;
         };
 
         ToneSource::ToneSource(ToneData& toneData):
             Source(toneData)
         {
+        }
+
+        static void generateWave(ToneSound::Type type, uint32_t frames, uint32_t offset,
+                                 float frameLength, float amplitude, std::vector<float>& samples)
+        {
+            for (uint32_t i = 0; i < frames; ++i)
+            {
+                float t = static_cast<float>(offset) * frameLength;
+
+                switch (type)
+                {
+                    case ToneSound::Type::SINE:
+                        samples[i] = sinf(t * TAU);
+                        break;
+                    case ToneSound::Type::SQUARE:
+                        samples[i] = fmodf(roundf(t * 2.0F + 0.5F), 2.0F) * 2.0F - 1.0F;
+                        break;
+                    case ToneSound::Type::SAWTOOTH:
+                        samples[i] = fmodf(t + 0.5F, 1.0F) * 2.0F - 1.0F;
+                        break;
+                    case ToneSound::Type::TRIANGLE:
+                        samples[i] = fabsf(fmodf(t + 0.75F, 1.0F) * 2.0F - 1.0F) * 2.0F - 1.0F;
+                        break;
+                }
+
+                samples[i] *= amplitude;
+
+                ++offset;
+            }
         }
 
         void ToneSource::getData(uint32_t frames, std::vector<float>& samples)
@@ -65,37 +98,68 @@ namespace ouzel
 
             samples.resize(frames);
 
-            for (float& sample : samples)
+            const uint32_t sampleRate = sourceData.getSampleRate();
+            const float length = static_cast<ToneData&>(sourceData).getLength();
+
+            if (length > 0.0F)
             {
-                switch (toneData.getType())
+                const uint32_t frameCount = static_cast<uint32_t>(length * sampleRate);
+                uint32_t neededSize = frames;
+                uint32_t totalSize = 0;
+
+                while (neededSize > 0)
                 {
-                    case ToneSound::Type::SINE:
-                        sample = sinf(offset * TAU * toneData.getFrequency() / toneData.getSampleRate());
-                        break;
-                    case ToneSound::Type::SQUARE:
-                        sample = fmodf(roundf(offset * 2.0F * toneData.getFrequency() / toneData.getSampleRate() + 0.5F), 2.0F) * 2.0F - 1.0F;
-                        break;
-                    case ToneSound::Type::SAWTOOTH:
-                        sample = fmodf(offset * toneData.getFrequency() / toneData.getSampleRate() + 0.5F, 1.0F) * 2.0F - 1.0F;
-                        break;
-                    case ToneSound::Type::TRIANGLE:
-                        sample = fabsf(fmodf(offset * toneData.getFrequency() / toneData.getSampleRate() + 0.75F, 1.0F) * 2.0F - 1.0F) * 2.0F - 1.0F;
-                        break;
+                    if (isRepeating() && (frameCount - offset) == 0) reset();
+
+                    if (frameCount - offset < neededSize)
+                    {
+                        generateWave(toneData.getType(), frameCount - offset, offset,
+                                     toneData.getFrequency() / static_cast<float>(sampleRate),
+                                     toneData.getAmplitude(), samples);
+
+                        totalSize += frameCount - offset;
+                        neededSize -= frameCount - offset;
+                        offset = frameCount;
+                    }
+                    else
+                    {
+                        generateWave(toneData.getType(), neededSize, offset,
+                                     toneData.getFrequency() / static_cast<float>(sampleRate),
+                                     toneData.getAmplitude(), samples);
+
+                        totalSize += neededSize;
+                        offset += neededSize;
+                        neededSize = 0;
+                    }
+
+                    if (!isRepeating()) break;
                 }
 
-                sample *= toneData.getAmplitude();
+                if ((frameCount - offset) == 0)
+                {
+                    if (!isRepeating()) playing = false; // TODO: fire event
+                    reset();
+                }
 
-                ++offset;
+                std::fill(samples.begin() + totalSize, samples.end(), 0.0F);
             }
+            else
+            {
+                generateWave(toneData.getType(), frames, offset,
+                             toneData.getFrequency() / static_cast<float>(sampleRate),
+                             toneData.getAmplitude(), samples);
 
-            offset %= toneData.getSampleRate();
+                offset += frames;
+            }
         }
 
-        ToneSound::ToneSound(Audio& initAudio, float initFrequency, Type initType, float initAmplitude):
-            Sound(initAudio, initAudio.initSourceData(std::unique_ptr<SourceData>(new ToneData(initFrequency, initType, initAmplitude)))),
+        ToneSound::ToneSound(Audio& initAudio, float initFrequency,
+                             Type initType, float initAmplitude, float initLength):
+            Sound(initAudio, initAudio.initSourceData(std::unique_ptr<SourceData>(new ToneData(initFrequency, initType, initAmplitude, initLength)))),
             type(initType),
             frequency(initFrequency),
-            amplitude(initAmplitude)
+            amplitude(initAmplitude),
+            length(initLength)
         {
         }
     } // namespace audio
