@@ -34,49 +34,55 @@ static const uint32_t MAX_FRAME_LENGTH = 8192;
  */
 static void smbFft(float* fftBuffer, unsigned long fftFrameSize, long sign)
 {
-    float wr, wi, arg, *p1, *p2, temp;
-    float tr, ti, ur, ui, *p1r, *p1i, *p2r, *p2i;
-
     for (unsigned long i = 2; i < 2 * fftFrameSize - 2; i += 2)
     {
-        unsigned long bitm, j;
+        unsigned long j = 0;
 
-        for (bitm = 2, j = 0; bitm < 2 * fftFrameSize; bitm <<= 1)
+        for (unsigned long bitm = 2; bitm < 2 * fftFrameSize; bitm <<= 1)
         {
             if (i & bitm) j++;
             j <<= 1;
         }
+
         if (i < j)
         {
-            p1 = fftBuffer + i; p2 = fftBuffer + j;
-            temp = *p1; *(p1++) = *p2;
+            float* p1 = fftBuffer + i;
+            float* p2 = fftBuffer + j;
+            float temp = *p1; *(p1++) = *p2;
             *(p2++) = temp; temp = *p1;
             *p1 = *p2; *p2 = temp;
         }
     }
+
     for (unsigned long k = 0, le = 2; k < (unsigned long)(log(fftFrameSize) / log(2.) + 0.5); k++)
     {
         le <<= 1;
         unsigned long le2 = le >> 1;
-        ur = 1.0;
-        ui = 0.0;
-        arg = ouzel::PI / (le2 >> 1);
-        wr = cos(arg);
-        wi = sign * sin(arg);
+        float ur = 1.0;
+        float ui = 0.0;
+        float arg = ouzel::PI / (le2 >> 1);
+        float wr = cos(arg);
+        float wi = sign * sin(arg);
         for (unsigned long j = 0; j < le2; j += 2)
         {
-            p1r = fftBuffer + j; p1i = p1r + 1;
-            p2r = p1r + le2; p2i = p2r + 1;
+            float* p1r = fftBuffer + j;
+            float* p1i = p1r + 1;
+            float* p2r = p1r + le2;
+            float* p2i = p2r + 1;
             for (unsigned long i = j; i < 2 * fftFrameSize; i += le)
             {
-                tr = *p2r * ur - *p2i * ui;
-                ti = *p2r * ui + *p2i * ur;
-                *p2r = *p1r - tr; *p2i = *p1i - ti;
-                *p1r += tr; *p1i += ti;
-                p1r += le; p1i += le;
-                p2r += le; p2i += le;
+                float tr = *p2r * ur - *p2i * ui;
+                float ti = *p2r * ui + *p2i * ur;
+                *p2r = *p1r - tr;
+                *p2i = *p1i - ti;
+                *p1r += tr;
+                *p1i += ti;
+                p1r += le;
+                p1i += le;
+                p2r += le;
+                p2i += le;
             }
-            tr = ur * wr - ui * wi;
+            float tr = ur * wr - ui * wi;
             ui = ur * wi + ui * wr;
             ur = tr;
         }
