@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_AUDIO_VORBISDATA_HPP
-#define OUZEL_AUDIO_VORBISDATA_HPP
+#ifndef OUZEL_AUDIO_VORBISSOUND_HPP
+#define OUZEL_AUDIO_VORBISSOUND_HPP
 
 #include <cstdint>
 #include <vector>
@@ -22,4 +22,4 @@ namespace ouzel
     } // namespace audio
 } // namespace ouzel
 
-#endif // OUZEL_AUDIO_VORBISDATA_HPP
+#endif // OUZEL_AUDIO_VORBISSOUND_HPP

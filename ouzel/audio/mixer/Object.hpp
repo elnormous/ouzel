@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_AUDIO_NODE_HPP
-#define OUZEL_AUDIO_NODE_HPP
+#ifndef OUZEL_AUDIO_MIXER_OBJECT_HPP
+#define OUZEL_AUDIO_MIXER_OBJECT_HPP
 
 #include <cstdint>
 #include <vector>
@@ -27,4 +27,4 @@ namespace ouzel
     } // namespace audio
 } // namespace ouzel
 
-#endif // OUZEL_AUDIO_NODE_HPP
+#endif // OUZEL_AUDIO_MIXER_OBJECT_HPP
