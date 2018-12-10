@@ -12,7 +12,7 @@ namespace ouzel
         class Pitch final: public Filter
         {
         public:
-            Pitch(Audio& initAudio);
+            Pitch(Audio& initAudio, float initPitch = 1.0F);
             ~Pitch();
 
             Pitch(const Pitch&) = delete;
