@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef AUDIO_REVERB_HPP
-#define AUDIO_REVERB_HPP
+#ifndef OUZEL_AUDIO_REVERB_HPP
+#define OUZEL_AUDIO_REVERB_HPP
 
 #include "audio/Filter.hpp"
 
@@ -23,4 +23,4 @@ namespace ouzel
     } // namespace audio
 } // namespace ouzel
 
-#endif // AUDIO_REVERB_HPP
+#endif // OUZEL_AUDIO_REVERB_HPP
