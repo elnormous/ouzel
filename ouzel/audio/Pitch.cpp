@@ -104,8 +104,6 @@ namespace ouzel
 
             void smbPitchShift(float pitchShift, unsigned long numSampsToProcess, unsigned long fftFrameSize, unsigned long osamp, float sampleRate, float* indata, float* outdata)
             {
-                long qpd;
-
                 // set up some handy variables
                 unsigned long fftFrameSize2 = fftFrameSize / 2;
                 unsigned long stepSize = fftFrameSize / osamp;
@@ -164,7 +162,7 @@ namespace ouzel
                             tmp -= (double)k * expct;
 
                             // map delta phase into +/- Pi interval
-                            qpd = tmp / PI;
+                            long qpd = tmp / PI;
                             if (qpd >= 0) qpd += qpd & 1;
                             else qpd -= qpd & 1;
                             tmp -= PI * (double)qpd;
