@@ -21,17 +21,6 @@
 
 static const uint32_t MAX_FRAME_LENGTH = 8192;
 
-/*
- FFT routine, (C)1996 S.M.Bernsee. Sign = -1 is FFT, 1 is iFFT (inverse)
- Fills fftBuffer[0...2 * fftFrameSize - 1] with the Fourier transform of the
- time domain data in fftBuffer[0...2 * fftFrameSize - 1]. The FFT array takes
- and returns the cosine and sine parts in an interleaved manner, ie.
- fftBuffer[0] = cosPart[0], fftBuffer[1] = sinPart[0], asf. fftFrameSize
- must be a power of 2. It expects a complex input signal (see footnote 2),
- ie. when working with 'common' audio signals our input signal has to be
- passed as {in[0],0.,in[1],0.,in[2],0.,...} asf. In that case, the transform
- of the frequencies of interest is in fftBuffer[0...fftFrameSize].
- */
 static void smbFft(float* fftBuffer, unsigned long fftFrameSize, long sign)
 {
     for (unsigned long i = 2; i < 2 * fftFrameSize - 2; i += 2)
@@ -116,8 +105,8 @@ namespace ouzel
                 // set up some handy variables
                 unsigned long fftFrameSize2 = fftFrameSize / 2;
                 unsigned long stepSize = fftFrameSize / osamp;
-                double freqPerBin = sampleRate / (double)fftFrameSize;
-                double expct = 2.0 * PI * (double)stepSize / (double)fftFrameSize;
+                float freqPerBin = sampleRate / static_cast<float>(fftFrameSize);
+                float expct = 2.0F * PI * static_cast<float>(stepSize) / static_cast<float>(fftFrameSize);
                 unsigned long inFifoLatency = fftFrameSize - stepSize;
                 if (rover == 0) rover = inFifoLatency;
 
@@ -137,11 +126,10 @@ namespace ouzel
                         // do windowing and re,im interleave
                         for (unsigned long k = 0; k < fftFrameSize; k++)
                         {
-                            double window = -0.5 * cos(2.0 * PI * (double)k / (double)fftFrameSize) + 0.5;
+                            float window = -0.5F * cosf(2.0F * PI * static_cast<float>(k) / static_cast<float>(fftFrameSize)) + 0.5F;
                             fftWorksp[2 * k] = inFIFO[k] * window;
-                            fftWorksp[2 * k + 1] = 0.0;
+                            fftWorksp[2 * k + 1] = 0.0F;
                         }
-
 
                         // ***************** ANALYSIS *******************
                         // do transform
@@ -151,41 +139,40 @@ namespace ouzel
                         for (unsigned long k = 0; k <= fftFrameSize2; k++)
                         {
                             // de-interlace FFT buffer
-                            double real = fftWorksp[2 * k];
-                            double imag = fftWorksp[2 * k + 1];
+                            float real = fftWorksp[2 * k];
+                            float imag = fftWorksp[2 * k + 1];
 
                             // compute magnitude and phase
-                            double magn = 2.0 * sqrt(real * real + imag*imag);
+                            float magn = 2.0F * sqrtf(real * real + imag*imag);
 
-                            double phase;
-                            double signx = (imag > 0.) ? 1. : -1.;
-                            if (imag == 0.) phase = 0.;
-                            else if (real == 0.) phase = signx * PI / 2.;
+                            float phase;
+                            float signx = (imag > 0.0F) ? 1.0F : -1.0F;
+                            if (imag == 0.0F) phase = 0.0F;
+                            else if (real == 0.0F) phase = signx * PI / 2.0F;
                             else phase = atan2(imag, real);
 
                             // compute phase difference
-                            double tmp = phase - lastPhase[k];
+                            float tmp = phase - lastPhase[k];
                             lastPhase[k] = phase;
 
                             // subtract expected phase difference
-                            tmp -= (double)k * expct;
+                            tmp -= static_cast<float>(k) * expct;
 
                             // map delta phase into +/- Pi interval
-                            long qpd = tmp / PI;
+                            long qpd = static_cast<long>(tmp / PI);
                             if (qpd >= 0) qpd += qpd & 1;
                             else qpd -= qpd & 1;
-                            tmp -= PI * (double)qpd;
+                            tmp -= PI * static_cast<float>(qpd);
 
                             // get deviation from bin frequency from the +/- Pi interval
-                            tmp = osamp*tmp/(2.0 * PI);
+                            tmp = osamp * tmp / (2.0F * PI);
 
                             // compute the k-th partials' true frequency
-                            tmp = (double)k * freqPerBin + tmp * freqPerBin;
+                            tmp = static_cast<float>(k) * freqPerBin + tmp * freqPerBin;
 
                             // store magnitude and true frequency in analysis arrays
                             anaMagn[k] = magn;
                             anaFreq[k] = tmp;
-
                         }
 
                         // ***************** PROCESSING *******************
@@ -194,7 +181,7 @@ namespace ouzel
                         memset(synFreq, 0, fftFrameSize * sizeof(float));
                         for (unsigned long k = 0; k <= fftFrameSize2; k++)
                         {
-                            unsigned long index = k * pitchShift;
+                            unsigned long index = static_cast<unsigned long>(k * pitchShift);
                             if (index <= fftFrameSize2)
                             {
                                 synMagn[index] += anaMagn[k];
@@ -207,28 +194,28 @@ namespace ouzel
                         for (unsigned long k = 0; k <= fftFrameSize2; k++)
                         {
                             // get magnitude and true frequency from synthesis arrays
-                            double magn = synMagn[k];
-                            double tmp = synFreq[k];
+                            float magn = synMagn[k];
+                            float tmp = synFreq[k];
 
                             // subtract bin mid frequency
-                            tmp -= (double)k * freqPerBin;
+                            tmp -= static_cast<float>(k) * freqPerBin;
 
                             // get bin deviation from freq deviation
                             tmp /= freqPerBin;
 
                             // take osamp into account
-                            tmp = 2.0 * PI * tmp / osamp;
+                            tmp = 2.0F * PI * tmp / osamp;
 
                             // add the overlap phase advance back in
-                            tmp += (double)k * expct;
+                            tmp += static_cast<float>(k) * expct;
 
                             // accumulate delta phase to get bin phase
                             sumPhase[k] += tmp;
-                            double phase = sumPhase[k];
+                            float phase = sumPhase[k];
 
                             // get real and imag part and re-interleave
-                            fftWorksp[2 * k] = magn * cos(phase);
-                            fftWorksp[2 * k + 1] = magn * sin(phase);
+                            fftWorksp[2 * k] = magn * cosf(phase);
+                            fftWorksp[2 * k + 1] = magn * sinf(phase);
                         }
 
                         // zero negative frequencies
@@ -238,10 +225,10 @@ namespace ouzel
                         smbFft(fftWorksp, fftFrameSize, 1);
 
                         // do windowing and add to output accumulator
-                        for(unsigned long k = 0; k < fftFrameSize; k++)
+                        for (unsigned long k = 0; k < fftFrameSize; k++)
                         {
-                            double window = -0.5 * cos(2.0 * PI * (double)k / (double)fftFrameSize) + 0.5;
-                            outputAccum[k] += 2.0 * window * fftWorksp[2 * k] / (fftFrameSize2 * osamp);
+                            float window = -0.5F * cos(2.0F * PI * static_cast<float>(k) / static_cast<float>(fftFrameSize)) + 0.5F;
+                            outputAccum[k] += 2.0F * window * fftWorksp[2 * k] / (fftFrameSize2 * osamp);
                         }
                         for (unsigned long k = 0; k < stepSize; k++) outFIFO[k] = outputAccum[k];
 
@@ -287,7 +274,7 @@ namespace ouzel
                     for (uint32_t sample = 0; sample < frames; ++sample)
                         channelSamples[sample] = samples[sample * channels + channel];
 
-                    stft[channel].smbPitchShift(pitch, frames, 512, 16, sampleRate, channelSamples.data(), channelSamples.data());
+                    stft[channel].smbPitchShift(pitch, frames, 1024, 4, sampleRate, channelSamples.data(), channelSamples.data());
 
                     for (uint32_t sample = 0; sample < frames; ++sample)
                         samples[sample * channels + channel] = channelSamples[sample];
