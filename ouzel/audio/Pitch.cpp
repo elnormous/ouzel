@@ -87,6 +87,9 @@ namespace ouzel
 {
     namespace audio
     {
+        static const float MIN_PITCH = 0.5F;
+        static const float MAX_PITCH = 2.0F;
+
         class STFT
         {
         public:
@@ -263,7 +266,7 @@ namespace ouzel
         {
         public:
             PitchProcessor(float initPitch):
-                pitch(initPitch)
+                pitch(clamp(initPitch, MIN_PITCH, MAX_PITCH))
             {
             }
 
@@ -287,7 +290,7 @@ namespace ouzel
 
             void setPitch(float newPitch)
             {
-                pitch = newPitch;
+                pitch = clamp(newPitch, MIN_PITCH, MAX_PITCH);
             }
 
         private:
