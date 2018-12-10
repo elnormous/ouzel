@@ -86,7 +86,8 @@ namespace ouzel
                 if (vorbisStream->eof)
                     reset();
 
-                int resultFrames = stb_vorbis_get_samples_float_interleaved(vorbisStream, sourceData.getChannels(), samples.data(), static_cast<int>(neededSize));
+                int resultFrames = stb_vorbis_get_samples_float_interleaved(vorbisStream, sourceData.getChannels(),
+                                                                            samples.data() + totalSize, static_cast<int>(neededSize));
                 totalSize += static_cast<uint32_t>(resultFrames) * sourceData.getChannels();
                 neededSize -= static_cast<uint32_t>(resultFrames) * sourceData.getChannels();
 

@@ -40,6 +40,7 @@
 #include "audio/Pitch.hpp"
 #include "audio/Reverb.hpp"
 #include "audio/SampleFormat.hpp"
+#include "audio/SilenceSound.hpp"
 #include "audio/Sound.hpp"
 #include "audio/Submix.hpp"
 #include "audio/ToneSound.hpp"

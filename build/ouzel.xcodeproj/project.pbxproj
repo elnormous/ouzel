@@ -91,6 +91,12 @@
 		302511B01CD3CA2200D04209 /* ParticleSystemData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302511AF1CD3CA2200D04209 /* ParticleSystemData.cpp */; };
 		302511B11CD3CA2200D04209 /* ParticleSystemData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302511AF1CD3CA2200D04209 /* ParticleSystemData.cpp */; };
 		302511B21CD3CA2200D04209 /* ParticleSystemData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302511AF1CD3CA2200D04209 /* ParticleSystemData.cpp */; };
+		302B728421BDE302006EBC59 /* SilenceSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302B728221BDE301006EBC59 /* SilenceSound.cpp */; };
+		302B728521BDE302006EBC59 /* SilenceSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302B728221BDE301006EBC59 /* SilenceSound.cpp */; };
+		302B728621BDE302006EBC59 /* SilenceSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302B728221BDE301006EBC59 /* SilenceSound.cpp */; };
+		302B728721BDE302006EBC59 /* SilenceSound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 302B728321BDE302006EBC59 /* SilenceSound.hpp */; };
+		302B728821BDE302006EBC59 /* SilenceSound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 302B728321BDE302006EBC59 /* SilenceSound.hpp */; };
+		302B728921BDE302006EBC59 /* SilenceSound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 302B728321BDE302006EBC59 /* SilenceSound.hpp */; };
 		3030D5021DAEF1FA007CC8EB /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3030D5001DAEF1FA007CC8EB /* Log.cpp */; };
 		3030D5031DAEF1FA007CC8EB /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3030D5001DAEF1FA007CC8EB /* Log.cpp */; };
 		3030D5041DAEF1FA007CC8EB /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3030D5001DAEF1FA007CC8EB /* Log.cpp */; };
@@ -1020,6 +1026,8 @@
 		3022617F1FDB8C59005279FC /* LoaderCollada.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LoaderCollada.cpp; sourceTree = "<group>"; };
 		302261801FDB8C59005279FC /* LoaderCollada.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LoaderCollada.hpp; sourceTree = "<group>"; };
 		302511AF1CD3CA2200D04209 /* ParticleSystemData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParticleSystemData.cpp; sourceTree = "<group>"; };
+		302B728221BDE301006EBC59 /* SilenceSound.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SilenceSound.cpp; sourceTree = "<group>"; };
+		302B728321BDE302006EBC59 /* SilenceSound.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SilenceSound.hpp; sourceTree = "<group>"; };
 		3030D5001DAEF1FA007CC8EB /* Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Log.cpp; sourceTree = "<group>"; };
 		3030D5011DAEF1FA007CC8EB /* Log.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Log.hpp; sourceTree = "<group>"; };
 		3031C1321F0C4350002CA717 /* VorbisSound.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VorbisSound.cpp; sourceTree = "<group>"; };
@@ -1810,6 +1818,8 @@
 				30A3820421B49ECF0043568A /* Reverb.cpp */,
 				30A3820521B49ECF0043568A /* Reverb.hpp */,
 				30BA5FB62198E37A0032AC23 /* SampleFormat.hpp */,
+				302B728221BDE301006EBC59 /* SilenceSound.cpp */,
+				302B728321BDE302006EBC59 /* SilenceSound.hpp */,
 				30419DEF1D162BEF00A63759 /* Sound.cpp */,
 				30419DF01D162BEF00A63759 /* Sound.hpp */,
 				30A3821621B4BDC80043568A /* Submix.cpp */,
@@ -2161,6 +2171,7 @@
 				30519CEB1F9B53F500AF3DC4 /* LoaderMTL.hpp in Headers */,
 				30FE38511DFDE49E00305B3B /* Quaternion.hpp in Headers */,
 				30A381F821B201C20043568A /* Bus.hpp in Headers */,
+				302B728721BDE302006EBC59 /* SilenceSound.hpp in Headers */,
 				304AA8C11E1190E4006FA70E /* OBF.hpp in Headers */,
 				30381F521D80A3EC00677CAB /* BlendStateOGL.hpp in Headers */,
 				3047F76B1C4D2C2000774E3D /* Sequence.hpp in Headers */,
@@ -2376,6 +2387,7 @@
 				30C758C01F4A23BD008499DC /* DisplayLink.hpp in Headers */,
 				303B76681C355A3B00FEDE92 /* InputManager.hpp in Headers */,
 				30C758B21F4A0196008499DC /* AudioDevice.hpp in Headers */,
+				302B728921BDE302006EBC59 /* SilenceSound.hpp in Headers */,
 				305B99961C41F06F008589E1 /* Widget.hpp in Headers */,
 				306792F7211F98070006FF79 /* Bundle.hpp in Headers */,
 				303B76691C355A3B00FEDE92 /* Rect.hpp in Headers */,
@@ -2557,6 +2569,7 @@
 				C6C9102E21B54EE000B5FCB7 /* ToneSound.hpp in Headers */,
 				C6AC8A8D215BD7D500F14D75 /* MouseDeviceMacOS.hpp in Headers */,
 				30575AA11C39CB790009C8A7 /* Scene.hpp in Headers */,
+				302B728821BDE302006EBC59 /* SilenceSound.hpp in Headers */,
 				3047F76A1C4D2C2000774E3D /* Sequence.hpp in Headers */,
 				303820101D80A40700677CAB /* TextureMetal.hpp in Headers */,
 				304736DD1E0B4776009BC562 /* Box3.hpp in Headers */,
@@ -2857,6 +2870,7 @@
 				30519CE81F9B53F500AF3DC4 /* LoaderMTL.cpp in Sources */,
 				30EF36541CA76AE200F04F29 /* ScrollBar.cpp in Sources */,
 				30381F4F1D80A3EC00677CAB /* BlendStateOGL.cpp in Sources */,
+				302B728421BDE302006EBC59 /* SilenceSound.cpp in Sources */,
 				303B04B61E207B6100011CBE /* RenderDeviceOGLIOS.mm in Sources */,
 				30575ABD1C39D9850009C8A7 /* ActorContainer.cpp in Sources */,
 				3047F7571C4C4FBA00774E3D /* Scale.cpp in Sources */,
@@ -3029,6 +3043,7 @@
 				30EF36551CA76AE200F04F29 /* ScrollBar.cpp in Sources */,
 				30519CEA1F9B53F500AF3DC4 /* LoaderMTL.cpp in Sources */,
 				309B48391DEA5EE600A718C5 /* Color.cpp in Sources */,
+				302B728621BDE302006EBC59 /* SilenceSound.cpp in Sources */,
 				30381F511D80A3EC00677CAB /* BlendStateOGL.cpp in Sources */,
 				30EA71211D52783000AE8C3E /* EngineTVOS.mm in Sources */,
 				30575ABE1C39D9850009C8A7 /* ActorContainer.cpp in Sources */,
@@ -3127,6 +3142,7 @@
 				30519CA21F97EEB700AF3DC4 /* StaticMeshData.cpp in Sources */,
 				C6C9101B21B54B5B00B5FCB7 /* SourceData.cpp in Sources */,
 				30419DE91D162BDC00A63759 /* Voice.cpp in Sources */,
+				302B728521BDE302006EBC59 /* SilenceSound.cpp in Sources */,
 				306792F3211F98070006FF79 /* Bundle.cpp in Sources */,
 				304B27551C9384A600BA162D /* Size3.cpp in Sources */,
 				303B76081C34A92B00FEDE92 /* InputManager.cpp in Sources */,
