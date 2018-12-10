@@ -3,6 +3,7 @@
 #include <cmath>
 #include "Pitch.hpp"
 #include "Audio.hpp"
+#include "math/MathUtils.hpp"
 
 /****************************************************************************
  * COPYRIGHT 1999-2015 Stephan M. Bernsee <s.bernsee [AT] zynaptiq [DOT] com>
@@ -58,7 +59,7 @@ static void smbFft(float* fftBuffer, unsigned long fftFrameSize, long sign)
         unsigned long le2 = le >> 1;
         ur = 1.0;
         ui = 0.0;
-        arg = M_PI / (le2 >> 1);
+        arg = ouzel::PI / (le2 >> 1);
         wr = cos(arg);
         wi = sign * sin(arg);
         for (unsigned long j = 0; j < le2; j += 2)
@@ -124,6 +125,7 @@ namespace ouzel
             }
 
         private:
+            // TODO: handle each channel separately
             void smbPitchShift(float pitchShift, unsigned long numSampsToProcess, unsigned long fftFrameSize, unsigned long osamp, float sampleRate, float* indata, float* outdata)
             {
                 double magn, phase, tmp, window, real, imag;
@@ -132,7 +134,7 @@ namespace ouzel
                 unsigned long fftFrameSize2 = fftFrameSize / 2;
                 unsigned long stepSize = fftFrameSize / osamp;
                 double freqPerBin = sampleRate / (double)fftFrameSize;
-                double expct = 2. * M_PI * (double)stepSize / (double)fftFrameSize;
+                double expct = 2. * PI * (double)stepSize / (double)fftFrameSize;
                 unsigned long inFifoLatency = fftFrameSize - stepSize;
                 if (gRover == 0) gRover = inFifoLatency;
 
@@ -152,7 +154,7 @@ namespace ouzel
                         /* do windowing and re,im interleave */
                         for (unsigned long k = 0; k < fftFrameSize; k++)
                         {
-                            window = -.5 * cos(2. * M_PI*(double)k / (double)fftFrameSize) + .5;
+                            window = -.5 * cos(2. * PI * (double)k / (double)fftFrameSize) + .5;
                             gFFTworksp[2 * k] = gInFIFO[k] * window;
                             gFFTworksp[2 * k + 1] = 0.;
                         }
@@ -175,7 +177,7 @@ namespace ouzel
                             // avoid domain error
                             double signx = (imag > 0.) ? 1. : -1.;
                             if (imag == 0.) phase = 0.;
-                            else if (real == 0.) phase = signx * M_PI / 2.;
+                            else if (real == 0.) phase = signx * PI / 2.;
                             else phase = atan2(imag, real);
 
                             // compute phase difference
@@ -186,13 +188,13 @@ namespace ouzel
                             tmp -= (double)k * expct;
 
                             /* map delta phase into +/- Pi interval */
-                            unsigned long qpd = tmp / M_PI;
+                            unsigned long qpd = tmp / PI;
                             if (qpd >= 0) qpd += qpd&1;
                             else qpd -= qpd&1;
-                            tmp -= M_PI*(double)qpd;
+                            tmp -= PI * (double)qpd;
 
                             /* get deviation from bin frequency from the +/- Pi interval */
-                            tmp = osamp * tmp / (2. * M_PI);
+                            tmp = osamp * tmp / (2. * PI);
 
                             /* compute the k-th partials' true frequency */
                             tmp = (double)k * freqPerBin + tmp * freqPerBin;
@@ -232,7 +234,7 @@ namespace ouzel
                             tmp /= freqPerBin;
 
                             // take osamp into account
-                            tmp = 2. * M_PI * tmp / osamp;
+                            tmp = 2. * PI * tmp / osamp;
 
                             // add the overlap phase advance back in
                             tmp += (double)k * expct;
@@ -255,7 +257,7 @@ namespace ouzel
                         // do windowing and add to output accumulator
                         for (unsigned long k = 0; k < fftFrameSize; k++)
                         {
-                            window = -.5 * cos(2. * M_PI*(double)k / (double)fftFrameSize) + .5;
+                            window = -.5 * cos(2. * PI * (double)k / (double)fftFrameSize) + .5;
                             gOutputAccum[k] += 2. * window * gFFTworksp[2 * k] / (fftFrameSize2 * osamp);
                         }
                         for (unsigned long k = 0; k < stepSize; k++) gOutFIFO[k] = gOutputAccum[k];
