@@ -3387,6 +3387,7 @@
 					../ouzel,
 					../shaders,
 					../external/khronos,
+					../external/smbPitchShift,
 					../external/stb,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
@@ -3447,6 +3448,7 @@
 					../ouzel,
 					../shaders,
 					../external/khronos,
+					../external/smbPitchShift,
 					../external/stb,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;

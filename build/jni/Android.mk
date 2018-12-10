@@ -14,6 +14,7 @@ LOCAL_CPPFLAGS += -std=c++11 -fexceptions
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../ouzel \
     $(LOCAL_PATH)/../../shaders \
     $(LOCAL_PATH)/../../external/khronos \
+	$(LOCAL_PATH)/../../external/smbPitchShift \
 	$(LOCAL_PATH)/../../external/stb
 
 LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \

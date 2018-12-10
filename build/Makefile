@@ -20,8 +20,9 @@ endif
 CXXFLAGS=-c -std=c++11 -Wall -O2 \
 	-I"$(ROOT_DIR)/../ouzel" \
 	-I"$(ROOT_DIR)/../shaders" \
-	-I"$(ROOT_DIR)/../external/stb" \
-	-I"$(ROOT_DIR)/../external/khronos"
+	-I"$(ROOT_DIR)/../external/khronos" \
+	-I"$(ROOT_DIR)/../external/smbPitchShift" \
+	-I"$(ROOT_DIR)/../external/stb"
 CFLAGS=-c -Wall -O2 \
 	-I"$(ROOT_DIR)/../ouzel"
 SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
