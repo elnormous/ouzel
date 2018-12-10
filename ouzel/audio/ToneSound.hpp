@@ -3,8 +3,6 @@
 #ifndef OUZEL_AUDIO_TONEDATA_HPP
 #define OUZEL_AUDIO_TONEDATA_HPP
 
-#include <cstdint>
-#include <vector>
 #include "audio/Sound.hpp"
 
 namespace ouzel

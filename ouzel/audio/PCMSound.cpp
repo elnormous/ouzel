@@ -20,14 +20,13 @@ namespace ouzel
 
             void reset() override
             {
-                offset = 0;
+                position = 0;
             }
 
             void getData(uint32_t frames, std::vector<float>& samples) override;
 
         private:
-            const std::vector<float>& data;
-            uint32_t offset = 0;
+            uint32_t position = 0;
         };
 
         class PCMData: public SourceData
@@ -53,8 +52,7 @@ namespace ouzel
         };
 
         PCMSource::PCMSource(PCMData& pcmData):
-            Source(pcmData),
-            data(pcmData.getSamples())
+            Source(pcmData)
         {
         }
 
@@ -63,35 +61,38 @@ namespace ouzel
             uint32_t neededSize = frames * sourceData.getChannels();
             samples.resize(neededSize);
 
+            PCMData& pcmData = static_cast<PCMData&>(sourceData);
+            const std::vector<float>& data = pcmData.getSamples();
+
             uint32_t totalSize = 0;
 
             while (neededSize > 0)
             {
-                if (isRepeating() && (data.size() - offset) == 0) reset();
+                if (isRepeating() && (data.size() - position) == 0) reset();
 
-                if (data.size() - offset < neededSize)
+                if (data.size() - position < neededSize)
                 {
-                    std::copy(data.begin() + offset,
+                    std::copy(data.begin() + position,
                               data.end(),
                               samples.begin() + totalSize);
-                    totalSize += static_cast<uint32_t>(data.size() - offset);
-                    neededSize -= static_cast<uint32_t>(data.size() - offset);
-                    offset = static_cast<uint32_t>(data.size());
+                    totalSize += static_cast<uint32_t>(data.size() - position);
+                    neededSize -= static_cast<uint32_t>(data.size() - position);
+                    position = static_cast<uint32_t>(data.size());
                 }
                 else
                 {
-                    std::copy(data.begin() + offset,
-                              data.begin() + offset + neededSize,
+                    std::copy(data.begin() + position,
+                              data.begin() + position + neededSize,
                               samples.begin() + totalSize);
                     totalSize += neededSize;
-                    offset += neededSize;
+                    position += neededSize;
                     neededSize = 0;
                 }
 
                 if (!isRepeating()) break;
             }
 
-            if ((data.size() - offset) == 0)
+            if ((data.size() - position) == 0)
             {
                 if (!isRepeating()) playing = false; // TODO: fire event
                 reset();

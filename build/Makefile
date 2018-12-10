@@ -65,6 +65,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/audio/PCMSound.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Pitch.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Reverb.cpp \
+	$(ROOT_DIR)/../ouzel/audio/SilenceSound.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Sound.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Submix.cpp \
 	$(ROOT_DIR)/../ouzel/audio/ToneSound.cpp \

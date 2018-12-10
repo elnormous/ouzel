@@ -19,13 +19,13 @@ namespace ouzel
 
             void reset() override
             {
-                offset = 0;
+                position = 0;
             }
 
             void getData(uint32_t frames, std::vector<float>& samples) override;
 
         private:
-            uint32_t offset = 0;
+            uint32_t position = 0;
         };
 
         class ToneData: public SourceData
@@ -64,7 +64,7 @@ namespace ouzel
         }
 
         static void generateWave(ToneSound::Type type, uint32_t frames, uint32_t offset,
-                                 float frameLength, float amplitude, std::vector<float>& samples)
+                                 float frameLength, float amplitude, float* samples)
         {
             for (uint32_t i = 0; i < frames; ++i)
             {
@@ -109,33 +109,33 @@ namespace ouzel
 
                 while (neededSize > 0)
                 {
-                    if (isRepeating() && (frameCount - offset) == 0) reset();
+                    if (isRepeating() && (frameCount - position) == 0) reset();
 
-                    if (frameCount - offset < neededSize)
+                    if (frameCount - position < neededSize)
                     {
-                        generateWave(toneData.getType(), frameCount - offset, offset,
+                        generateWave(toneData.getType(), frameCount - position, position,
                                      toneData.getFrequency() / static_cast<float>(sampleRate),
-                                     toneData.getAmplitude(), samples);
+                                     toneData.getAmplitude(), samples.data() + totalSize);
 
-                        totalSize += frameCount - offset;
-                        neededSize -= frameCount - offset;
-                        offset = frameCount;
+                        totalSize += frameCount - position;
+                        neededSize -= frameCount - position;
+                        position = frameCount;
                     }
                     else
                     {
-                        generateWave(toneData.getType(), neededSize, offset,
+                        generateWave(toneData.getType(), neededSize, position,
                                      toneData.getFrequency() / static_cast<float>(sampleRate),
-                                     toneData.getAmplitude(), samples);
+                                     toneData.getAmplitude(), samples.data() + totalSize);
 
                         totalSize += neededSize;
-                        offset += neededSize;
+                        position += neededSize;
                         neededSize = 0;
                     }
 
                     if (!isRepeating()) break;
                 }
 
-                if ((frameCount - offset) == 0)
+                if ((frameCount - position) == 0)
                 {
                     if (!isRepeating()) playing = false; // TODO: fire event
                     reset();
@@ -145,11 +145,11 @@ namespace ouzel
             }
             else
             {
-                generateWave(toneData.getType(), frames, offset,
+                generateWave(toneData.getType(), frames, position,
                              toneData.getFrequency() / static_cast<float>(sampleRate),
-                             toneData.getAmplitude(), samples);
+                             toneData.getAmplitude(), samples.data());
 
-                offset += frames;
+                position += frames;
             }
         }
 
