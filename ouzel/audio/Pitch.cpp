@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <cmath>
+#include <cstring>
 #include "Pitch.hpp"
 #include "Audio.hpp"
 #include "math/MathUtils.hpp"
