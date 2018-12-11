@@ -41,6 +41,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <complex>
 #include <cstring>
 
 namespace smb
@@ -48,15 +49,7 @@ namespace smb
     static const float PI = 3.14159265358979323846F;
     static const unsigned long MAX_FRAME_LENGTH = 8192;
 
-    // don't use std::complex, because its arithmetic operations are slow
-    template<class T>
-    struct Complex
-    {
-        T real;
-        T imag;
-    };
-
-    static void fft(Complex<float>* fftBuffer, unsigned long fftFrameSize, long sign)
+    static void fft(std::complex<float>* fftBuffer, unsigned long fftFrameSize, long sign)
     {
         for (unsigned long i = 1; i < fftFrameSize - 1; i++)
         {
@@ -79,30 +72,27 @@ namespace smb
             unsigned long step2 = step >> 1;
             float arg = PI / step2;
 
-            Complex<float> w{std::cos(arg), std::sin(arg) * sign};
-            Complex<float> u{1.0, 0.0};
+            std::complex<float> w{std::cos(arg), std::sin(arg) * sign};
+            std::complex<float> u{1.0, 0.0};
             for (unsigned long j = 0; j < step2; j++)
             {
                 for (unsigned long k = j; k < fftFrameSize; k += step)
                 {
+                    // don't use operator* because it is slow
                     // temp = fftBuffer[k + step2] * u
-                    Complex<float> temp;
-                    temp.real = fftBuffer[k + step2].real * u.real - fftBuffer[k + step2].imag * u.imag;
-                    temp.imag = fftBuffer[k + step2].real * u.imag + fftBuffer[k + step2].imag * u.real;
+                    std::complex<float> temp;
+                    temp.real(fftBuffer[k + step2].real() * u.real() - fftBuffer[k + step2].imag() * u.imag());
+                    temp.imag(fftBuffer[k + step2].real() * u.imag() + fftBuffer[k + step2].imag() * u.real());
 
-                    // FFTBuffer[k + step2] = FFTBuffer[k] - temp
-                    fftBuffer[k + step2].real = fftBuffer[k].real - temp.real;
-                    fftBuffer[k + step2].imag = fftBuffer[k].imag - temp.imag;
-
-                    // FFTBuffer[k] += temp
-                    fftBuffer[k].real += temp.real;
-                    fftBuffer[k].imag += temp.imag;
+                    fftBuffer[k + step2] = fftBuffer[k] - temp;
+                    fftBuffer[k] += temp;
                 }
 
+                // don't use operator*= because it is slow
                 // u *= w;
-                float tempReal = u.real;
-                u.real = tempReal * w.real - u.imag * w.imag;
-                u.imag = tempReal * w.imag + u.imag * w.real;
+                float tempReal = u.real();
+                u.real(tempReal * w.real() - u.imag() * w.imag());
+                u.imag(tempReal * w.imag() + u.imag() * w.real());
 
             }
         }
@@ -115,7 +105,7 @@ namespace smb
         {
             std::fill(std::begin(inFIFO), std::end(inFIFO), 0.0F);
             std::fill(std::begin(outFIFO), std::end(outFIFO), 0.0F);
-            std::fill(std::begin(fftWorksp), std::end(fftWorksp), Complex<float>{0.0F, 0.0F});
+            std::fill(std::begin(fftWorksp), std::end(fftWorksp), std::complex<float>{0.0F, 0.0F});
             std::fill(std::begin(lastPhase), std::end(lastPhase), 0.0F);
             std::fill(std::begin(sumPhase), std::end(sumPhase), 0.0F);
             std::fill(std::begin(outputAccum), std::end(outputAccum), 0.0F);
@@ -157,8 +147,8 @@ namespace smb
                     for (unsigned long k = 0; k < fftFrameSize; k++)
                     {
                         float window = -0.5F * std::cos(2.0F * PI * static_cast<float>(k) / static_cast<float>(fftFrameSize)) + 0.5F;
-                        fftWorksp[k].real = inFIFO[k] * window;
-                        fftWorksp[k].imag = 0.0F;
+                        fftWorksp[k].real(inFIFO[k] * window);
+                        fftWorksp[k].imag(0.0F);
                     }
 
                     // ***************** ANALYSIS *******************
@@ -169,8 +159,8 @@ namespace smb
                     for (unsigned long k = 0; k <= fftFrameSize2; k++)
                     {
                         // de-interlace FFT buffer
-                        float real = fftWorksp[k].real;
-                        float imag = fftWorksp[k].imag;
+                        float real = fftWorksp[k].real();
+                        float imag = fftWorksp[k].imag();
 
                         // compute magnitude and phase
                         float magn = 2.0F * sqrtf(real * real + imag * imag);
@@ -244,8 +234,8 @@ namespace smb
                         float phase = sumPhase[k];
 
                         // get real and imag part and re-interleave
-                        fftWorksp[k].real = magn * std::cos(phase);
-                        fftWorksp[k].imag = magn * std::sin(phase);
+                        fftWorksp[k].real(magn * std::cos(phase));
+                        fftWorksp[k].imag(magn * std::sin(phase));
                     }
 
                     // zero negative frequencies
@@ -258,7 +248,7 @@ namespace smb
                     for (unsigned long k = 0; k < fftFrameSize; k++)
                     {
                         float window = -0.5F * cos(2.0F * PI * static_cast<float>(k) / static_cast<float>(fftFrameSize)) + 0.5F;
-                        outputAccum[k] += 2.0F * window * fftWorksp[k].real / (fftFrameSize2 * oversamp);
+                        outputAccum[k] += 2.0F * window * fftWorksp[k].real() / (fftFrameSize2 * oversamp);
                     }
                     unsigned long k;
                     for (k = 0 ; k < stepSize; k++) outFIFO[k] = outputAccum[k];
@@ -276,7 +266,7 @@ namespace smb
     private:
         float inFIFO[MAX_FRAME_LENGTH];
         float outFIFO[MAX_FRAME_LENGTH];
-        Complex<float> fftWorksp[MAX_FRAME_LENGTH];
+        std::complex<float> fftWorksp[MAX_FRAME_LENGTH];
         float lastPhase[MAX_FRAME_LENGTH / 2 + 1];
         float sumPhase[MAX_FRAME_LENGTH / 2 + 1];
         float outputAccum[2 * MAX_FRAME_LENGTH];
