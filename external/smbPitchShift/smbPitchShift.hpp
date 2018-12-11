@@ -15,7 +15,7 @@
 * numSampsToProcess-1]. The two buffers can be identical (ie. it can process the
 * data in-place). fftFrameSize defines the FFT frame size used for the
 * processing. Typical values are 1024, 2048 and 4096. It may be any value <=
-* MAX_FRAME_LENGTH but it MUST be a power of 2. osamp is the STFT
+* MAX_FRAME_LENGTH but it MUST be a power of 2. oversamp is the STFT
 * oversampling factor which also determines the overlap between adjacent STFT
 * frames. It should at least be 4 for moderate scaling ratios. A value of 32 is
 * recommended for best quality. sampleRate takes the sample rate for the signal 
@@ -56,17 +56,6 @@ namespace smb
         T imag;
     };
 
-    /* 
-        FFT routine, (C)1996 S.M.Bernsee. Sign = -1 is FFT, 1 is iFFT (inverse)
-        Fills fftBuffer[0...2*fftFrameSize-1] with the Fourier transform of the
-        time domain data in fftBuffer[0...2*fftFrameSize-1]. The FFT array takes
-        and returns the cosine and sine parts in an interleaved manner, ie.
-        fftBuffer[0] = cosPart[0], fftBuffer[1] = sinPart[0], asf. fftFrameSize
-        must be a power of 2. It expects a complex input signal (see footnote 2),
-        ie. when working with 'common' audio signals our input signal has to be
-        passed as {in[0],0.,in[1],0.,in[2],0.,...} asf. In that case, the transform
-        of the frequencies of interest is in fftBuffer[0...fftFrameSize].
-    */
     static void fft(Complex<float>* fftBuffer, unsigned long fftFrameSize, long sign)
     {
         for (unsigned long i = 1; i < fftFrameSize - 1; i++)
@@ -140,11 +129,12 @@ namespace smb
             Time Fourier Transform.
             Author: (c)1999-2015 Stephan M. Bernsee <s.bernsee [AT] zynaptiq [DOT] com>
         */
-        void process(float pitchShift, unsigned long numSampsToProcess, unsigned long fftFrameSize, unsigned long osamp, float sampleRate, float* indata, float* outdata)
+        void process(float pitchShift, unsigned long numSampsToProcess, unsigned long fftFrameSize,
+                     unsigned long oversamp, float sampleRate, float* indata, float* outdata)
         {
             // set up some handy variables
             unsigned long fftFrameSize2 = fftFrameSize / 2;
-            unsigned long stepSize = fftFrameSize / osamp;
+            unsigned long stepSize = fftFrameSize / oversamp;
             float freqPerBin = sampleRate / static_cast<float>(fftFrameSize);
             float expct = 2.0F * PI * static_cast<float>(stepSize) / static_cast<float>(fftFrameSize);
             unsigned long inFifoLatency = fftFrameSize - stepSize;
@@ -205,7 +195,7 @@ namespace smb
                         tmp -= PI * static_cast<float>(qpd);
 
                         // get deviation from bin frequency from the +/- Pi interval
-                        tmp = osamp * tmp / (2.0F * PI);
+                        tmp = oversamp * tmp / (2.0F * PI);
 
                         // compute the k-th partials' true frequency
                         tmp = static_cast<float>(k) * freqPerBin + tmp * freqPerBin;
@@ -243,8 +233,8 @@ namespace smb
                         // get bin deviation from freq deviation
                         tmp /= freqPerBin;
 
-                        // take osamp into account
-                        tmp = 2.0F * PI * tmp / osamp;
+                        // take oversampling factor into account
+                        tmp = 2.0F * PI * tmp / oversamp;
 
                         // add the overlap phase advance back in
                         tmp += static_cast<float>(k) * expct;
@@ -268,15 +258,17 @@ namespace smb
                     for (unsigned long k = 0; k < fftFrameSize; k++)
                     {
                         float window = -0.5F * cos(2.0F * PI * static_cast<float>(k) / static_cast<float>(fftFrameSize)) + 0.5F;
-                        outputAccum[k] += 2.0F * window * fftWorksp[k].real / (fftFrameSize2 * osamp);
+                        outputAccum[k] += 2.0F * window * fftWorksp[k].real / (fftFrameSize2 * oversamp);
                     }
-                    for (unsigned long k = 0; k < stepSize; k++) outFIFO[k] = outputAccum[k];
-
+                    unsigned long k;
+                    for (k = 0 ; k < stepSize; k++) outFIFO[k] = outputAccum[k];
                     // shift accumulator
-                    memmove(outputAccum, outputAccum + stepSize, fftFrameSize * sizeof(float));
+                    unsigned long j;
+                    for (j = 0; k < fftFrameSize; k++, j++) outputAccum[j] = outputAccum[k];
+                    for (; j < fftFrameSize; j++) outputAccum[j] = 0.0;
 
                     // move input FIFO
-                    for (unsigned long k = 0; k < inFifoLatency; k++) inFIFO[k] = inFIFO[k + stepSize];
+                    for (k = 0; k < inFifoLatency; k++) inFIFO[k] = inFIFO[k + stepSize];
                 }
             }
         }
