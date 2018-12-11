@@ -40,13 +40,21 @@
 #define SMBPITCHSHIFT_HPP
 
 #include <algorithm>
-#include <cstring>
 #include <cmath>
+#include <cstring>
 
 namespace smb
 {
     static const float PI = 3.14159265358979323846F;
     static const unsigned long MAX_FRAME_LENGTH = 8192;
+
+    // don't use std::complex, because its arithmetic operations are slow
+    template<class T>
+    struct Complex
+    {
+        T real;
+        T imag;
+    };
 
     /* 
         FFT routine, (C)1996 S.M.Bernsee. Sign = -1 is FFT, 1 is iFFT (inverse)
@@ -59,56 +67,54 @@ namespace smb
         passed as {in[0],0.,in[1],0.,in[2],0.,...} asf. In that case, the transform
         of the frequencies of interest is in fftBuffer[0...fftFrameSize].
     */
-    static void fft(float* fftBuffer, unsigned long fftFrameSize, long sign)
+    static void fft(Complex<float>* fftBuffer, unsigned long fftFrameSize, long sign)
     {
-        for (unsigned long i = 2; i < 2 * fftFrameSize - 2; i += 2)
+        for (unsigned long i = 1; i < fftFrameSize - 1; i++)
         {
             unsigned long j = 0;
 
-            for (unsigned long bitm = 2; bitm < 2 * fftFrameSize; bitm <<= 1)
+            for (unsigned long bitm = 1; bitm < fftFrameSize; bitm <<= 1)
             {
                 if (i & bitm) j++;
                 j <<= 1;
             }
+            j >>= 1;
 
             if (i < j)
-            {
                 std::swap(fftBuffer[i], fftBuffer[j]);
-                std::swap(fftBuffer[i + 1], fftBuffer[j + 1]);
-            }
         }
 
-        for (unsigned long k = 0, le = 2; k < (unsigned long)(log(fftFrameSize) / log(2.0F) + 0.5F); k++)
+        unsigned long step = 2;
+        for (unsigned long i = 1; i < fftFrameSize; i <<= 1, step <<= 1)
         {
-            le <<= 1;
-            unsigned long le2 = le >> 1;
-            float ur = 1.0F;
-            float ui = 0.0F;
-            float arg = PI / (le2 >> 1);
-            float wr = cos(arg);
-            float wi = sign * sin(arg);
-            for (unsigned long j = 0; j < le2; j += 2)
+            unsigned long step2 = step >> 1;
+            float arg = PI / step2;
+
+            Complex<float> w{std::cos(arg), std::sin(arg) * sign};
+            Complex<float> u{1.0, 0.0};
+            for (unsigned long j = 0; j < step2; j++)
             {
-                float* p1r = fftBuffer + j;
-                float* p1i = p1r + 1;
-                float* p2r = p1r + le2;
-                float* p2i = p2r + 1;
-                for (unsigned long i = j; i < 2 * fftFrameSize; i += le)
+                for (unsigned long k = j; k < fftFrameSize; k += step)
                 {
-                    float tr = *p2r * ur - *p2i * ui;
-                    float ti = *p2r * ui + *p2i * ur;
-                    *p2r = *p1r - tr;
-                    *p2i = *p1i - ti;
-                    *p1r += tr;
-                    *p1i += ti;
-                    p1r += le;
-                    p1i += le;
-                    p2r += le;
-                    p2i += le;
+                    // temp = fftBuffer[k + step2] * u
+                    Complex<float> temp;
+                    temp.real = fftBuffer[k + step2].real * u.real - fftBuffer[k + step2].imag * u.imag;
+                    temp.imag = fftBuffer[k + step2].real * u.imag + fftBuffer[k + step2].imag * u.real;
+
+                    // FFTBuffer[k + step2] = FFTBuffer[k] - temp
+                    fftBuffer[k + step2].real = fftBuffer[k].real - temp.real;
+                    fftBuffer[k + step2].imag = fftBuffer[k].imag - temp.imag;
+
+                    // FFTBuffer[k] += temp
+                    fftBuffer[k].real += temp.real;
+                    fftBuffer[k].imag += temp.imag;
                 }
-                float tr = ur * wr - ui * wi;
-                ui = ur * wi + ui * wr;
-                ur = tr;
+
+                // u *= w;
+                float tempReal = u.real;
+                u.real = tempReal * w.real - u.imag * w.imag;
+                u.imag = tempReal * w.imag + u.imag * w.real;
+
             }
         }
     }
@@ -118,14 +124,14 @@ namespace smb
     public:
         PitchShift()
         {
-            memset(inFIFO, 0, MAX_FRAME_LENGTH * sizeof(float));
-            memset(outFIFO, 0, MAX_FRAME_LENGTH * sizeof(float));
-            memset(fftWorksp, 0, 2 * MAX_FRAME_LENGTH * sizeof(float));
-            memset(lastPhase, 0, (MAX_FRAME_LENGTH / 2 + 1) * sizeof(float));
-            memset(sumPhase, 0, (MAX_FRAME_LENGTH / 2 + 1) * sizeof(float));
-            memset(outputAccum, 0, 2 * MAX_FRAME_LENGTH * sizeof(float));
-            memset(anaFreq, 0, MAX_FRAME_LENGTH * sizeof(float));
-            memset(anaMagn, 0, MAX_FRAME_LENGTH * sizeof(float));
+            std::fill(std::begin(inFIFO), std::end(inFIFO), 0.0F);
+            std::fill(std::begin(outFIFO), std::end(outFIFO), 0.0F);
+            std::fill(std::begin(fftWorksp), std::end(fftWorksp), Complex<float>{0.0F, 0.0F});
+            std::fill(std::begin(lastPhase), std::end(lastPhase), 0.0F);
+            std::fill(std::begin(sumPhase), std::end(sumPhase), 0.0F);
+            std::fill(std::begin(outputAccum), std::end(outputAccum), 0.0F);
+            std::fill(std::begin(anaFreq), std::end(anaFreq), 0.0F);
+            std::fill(std::begin(anaMagn), std::end(anaMagn), 0.0F);
         }
 
         /*
@@ -160,9 +166,9 @@ namespace smb
                     // do windowing and re,im interleave
                     for (unsigned long k = 0; k < fftFrameSize; k++)
                     {
-                        float window = -0.5F * cosf(2.0F * PI * static_cast<float>(k) / static_cast<float>(fftFrameSize)) + 0.5F;
-                        fftWorksp[2 * k] = inFIFO[k] * window;
-                        fftWorksp[2 * k + 1] = 0.0F;
+                        float window = -0.5F * std::cos(2.0F * PI * static_cast<float>(k) / static_cast<float>(fftFrameSize)) + 0.5F;
+                        fftWorksp[k].real = inFIFO[k] * window;
+                        fftWorksp[k].imag = 0.0F;
                     }
 
                     // ***************** ANALYSIS *******************
@@ -173,17 +179,17 @@ namespace smb
                     for (unsigned long k = 0; k <= fftFrameSize2; k++)
                     {
                         // de-interlace FFT buffer
-                        float real = fftWorksp[2 * k];
-                        float imag = fftWorksp[2 * k + 1];
+                        float real = fftWorksp[k].real;
+                        float imag = fftWorksp[k].imag;
 
                         // compute magnitude and phase
-                        float magn = 2.0F * sqrtf(real * real + imag*imag);
+                        float magn = 2.0F * sqrtf(real * real + imag * imag);
 
                         float phase;
                         float signx = (imag > 0.0F) ? 1.0F : -1.0F;
                         if (imag == 0.0F) phase = 0.0F;
                         else if (real == 0.0F) phase = signx * PI / 2.0F;
-                        else phase = atan2(imag, real);
+                        else phase = std::atan2(imag, real);
 
                         // compute phase difference
                         float tmp = phase - lastPhase[k];
@@ -248,12 +254,12 @@ namespace smb
                         float phase = sumPhase[k];
 
                         // get real and imag part and re-interleave
-                        fftWorksp[2 * k] = magn * cosf(phase);
-                        fftWorksp[2 * k + 1] = magn * sinf(phase);
+                        fftWorksp[k].real = magn * std::cos(phase);
+                        fftWorksp[k].imag = magn * std::sin(phase);
                     }
 
                     // zero negative frequencies
-                    for (unsigned long k = fftFrameSize + 2; k < 2 * fftFrameSize; k++) fftWorksp[k] = 0.0;
+                    for (unsigned long k = fftFrameSize + 1; k < fftFrameSize; k++) fftWorksp[k] = {0.0F, 0.0F};
 
                     // do inverse transform
                     fft(fftWorksp, fftFrameSize, 1);
@@ -262,12 +268,12 @@ namespace smb
                     for (unsigned long k = 0; k < fftFrameSize; k++)
                     {
                         float window = -0.5F * cos(2.0F * PI * static_cast<float>(k) / static_cast<float>(fftFrameSize)) + 0.5F;
-                        outputAccum[k] += 2.0F * window * fftWorksp[2 * k] / (fftFrameSize2 * osamp);
+                        outputAccum[k] += 2.0F * window * fftWorksp[k].real / (fftFrameSize2 * osamp);
                     }
                     for (unsigned long k = 0; k < stepSize; k++) outFIFO[k] = outputAccum[k];
 
                     // shift accumulator
-                    memmove(outputAccum, outputAccum+stepSize, fftFrameSize * sizeof(float));
+                    memmove(outputAccum, outputAccum + stepSize, fftFrameSize * sizeof(float));
 
                     // move input FIFO
                     for (unsigned long k = 0; k < inFifoLatency; k++) inFIFO[k] = inFIFO[k + stepSize];
@@ -278,7 +284,7 @@ namespace smb
     private:
         float inFIFO[MAX_FRAME_LENGTH];
         float outFIFO[MAX_FRAME_LENGTH];
-        float fftWorksp[2 * MAX_FRAME_LENGTH];
+        Complex<float> fftWorksp[MAX_FRAME_LENGTH];
         float lastPhase[MAX_FRAME_LENGTH / 2 + 1];
         float sumPhase[MAX_FRAME_LENGTH / 2 + 1];
         float outputAccum[2 * MAX_FRAME_LENGTH];
