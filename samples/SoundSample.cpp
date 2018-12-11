@@ -43,7 +43,7 @@ SoundSample::SoundSample():
     listener.setMix(&submix);
 
     soundGain.setMix(&submix);
-    soundGain.setGain(1.2F);
+    soundGain.setGain(1.0F);
 
     test8BitPitch.setPitch(2.0F);
     test8BitVoice.setOutput(&test8BitSubmix);

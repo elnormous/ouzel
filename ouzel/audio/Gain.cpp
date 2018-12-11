@@ -1,5 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <cmath>
 #include "Gain.hpp"
 #include "Audio.hpp"
 
@@ -18,16 +19,18 @@ namespace ouzel
                          std::vector<float>& samples) override
             {
                 for (float& sample : samples)
-                    sample *= gain;
+                    sample *= gainFactor;
             }
 
             void setGain(float newGain)
             {
                 gain = newGain;
+                gainFactor = powf(10.0F, gain / 20.0F);
             }
 
         private:
-            float gain = 1.0F;
+            float gain = 0.0F;
+            float gainFactor = 1.0F;
         };
 
         Gain::Gain(Audio& initAudio):
