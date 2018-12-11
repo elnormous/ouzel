@@ -217,8 +217,8 @@ namespace smb
 
                     // ***************** PROCESSING *******************
                     // this does the actual pitch shifting
-                    memset(synMagn, 0, fftFrameSize * sizeof(float));
-                    memset(synFreq, 0, fftFrameSize * sizeof(float));
+                    std::fill(std::begin(synMagn), std::begin(synMagn) + fftFrameSize, 0.0F);
+                    std::fill(std::begin(synFreq), std::begin(synFreq) + fftFrameSize, 0.0F);
                     for (unsigned long k = 0; k <= fftFrameSize2; k++)
                     {
                         unsigned long index = static_cast<unsigned long>(k * pitchShift);
