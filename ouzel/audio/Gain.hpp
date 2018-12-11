@@ -24,7 +24,7 @@ namespace ouzel
             void setGain(float newGain);
 
         private:
-            float gain = 0.0F;
+            float gain = 0.0F; // dB
         };
     } // namespace audio
 } // namespace ouzel
