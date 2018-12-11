@@ -39,6 +39,7 @@
 #ifndef SMBPITCHSHIFT_HPP
 #define SMBPITCHSHIFT_HPP
 
+#include <algorithm>
 #include <cstring>
 #include <cmath>
 
@@ -72,21 +73,18 @@ namespace smb
 
             if (i < j)
             {
-                float* p1 = fftBuffer + i;
-                float* p2 = fftBuffer + j;
-                float temp = *p1; *(p1++) = *p2;
-                *(p2++) = temp; temp = *p1;
-                *p1 = *p2; *p2 = temp;
+                std::swap(fftBuffer[i], fftBuffer[j]);
+                std::swap(fftBuffer[i + 1], fftBuffer[j + 1]);
             }
         }
 
-        for (unsigned long k = 0, le = 2; k < (unsigned long)(log(fftFrameSize) / log(2.) + 0.5); k++)
+        for (unsigned long k = 0, le = 2; k < (unsigned long)(log(fftFrameSize) / log(2.0F) + 0.5F); k++)
         {
             le <<= 1;
             unsigned long le2 = le >> 1;
-            float ur = 1.0;
-            float ui = 0.0;
-            float arg = ouzel::PI / (le2 >> 1);
+            float ur = 1.0F;
+            float ui = 0.0F;
+            float arg = PI / (le2 >> 1);
             float wr = cos(arg);
             float wi = sign * sin(arg);
             for (unsigned long j = 0; j < le2; j += 2)
