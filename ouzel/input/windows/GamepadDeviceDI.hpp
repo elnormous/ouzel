@@ -40,7 +40,7 @@ namespace ouzel
 
             std::string name;
 
-            constexpr DIDEVICEINSTANCEW* instance = nullptr;
+            const DIDEVICEINSTANCEW* instance = nullptr;
             IDirectInputDevice8W* device = nullptr;
             DWORD hatValue = 0xffffffff;
 
