@@ -5,6 +5,7 @@
 
 #include <condition_variable>
 #include <cstdint>
+#include <functional>
 #include <mutex>
 #include <queue>
 #include <set>
@@ -20,7 +21,24 @@ namespace ouzel
         class Mixer
         {
         public:
-            Mixer() {}
+            class Event
+            {
+            public:
+                enum class Type
+                {
+                    SOURCE_STARTED,
+                    SOURCE_RESET,
+                    SOURCE_STOPPED
+                };
+
+                Event() {}
+                explicit Event(Type initType): type(initType) {}
+
+                Type type;
+                uintptr_t objectId;
+            };
+
+            Mixer(const std::function<void(const Event&)>& initCallback);
 
             Mixer(const Mixer&) = delete;
             Mixer& operator=(const Mixer&) = delete;
@@ -53,6 +71,8 @@ namespace ouzel
             }
 
         private:
+            std::function<void(const Event&)> callback;
+
             uintptr_t lastObjectId = 0;
             std::set<uintptr_t> deletedObjectIds;
 

@@ -10,6 +10,11 @@ namespace ouzel
 {
     namespace audio
     {
+        Mixer::Mixer(const std::function<void(const Event&)>& initCallback):
+            callback(initCallback)
+        {
+        }
+
         void Mixer::addCommand(std::unique_ptr<Command>&& command)
         {
             std::unique_lock<std::mutex> lock(commandMutex);

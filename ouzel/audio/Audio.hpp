@@ -52,6 +52,8 @@ namespace ouzel
             Mix& getMasterMix() { return masterMix; }
 
         private:
+            void eventCallback(const Mixer::Event& event);
+
             std::unique_ptr<AudioDevice> device;
             Mixer mixer;
             Mix masterMix;
