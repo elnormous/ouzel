@@ -100,6 +100,7 @@ namespace ouzel
 
         Audio::Audio(Driver driver, bool debugAudio, Window* window):
             device(createAudioDevice(driver, mixer, debugAudio, window)),
+            mixer(std::bind(&Audio::eventCallback, this, std::placeholders::_1)),
             masterMix(*this)
         {
             mixer.addCommand(std::unique_ptr<Command>(new SetMasterBusCommand(masterMix.getBusId())));
@@ -152,6 +153,11 @@ namespace ouzel
         void Audio::updateProcessor(uintptr_t processorId, const std::function<void(Processor*)>& updateFunction)
         {
             mixer.addCommand(std::unique_ptr<Command>(new UpdateProcessorCommand(processorId, updateFunction)));
+        }
+
+        void Audio::eventCallback(const Mixer::Event& event)
+        {
+
         }
     } // namespace audio
 } // namespace ouzel
