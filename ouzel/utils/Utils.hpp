@@ -51,7 +51,7 @@ namespace ouzel
 
     inline int64_t decodeInt64Big(const void* buffer)
     {
-        const uint8_t* bytes = reinterpret_cast<const uint8_t*>(buffer);
+        const uint8_t* bytes = static_cast<const uint8_t*>(buffer);
 
         return static_cast<int64_t>(bytes[7]) |
             static_cast<int64_t>(bytes[6]) << 8 |
@@ -65,7 +65,7 @@ namespace ouzel
 
     inline uint64_t decodeUInt64Big(const void* buffer)
     {
-        const uint8_t* bytes = reinterpret_cast<const uint8_t*>(buffer);
+        const uint8_t* bytes = static_cast<const uint8_t*>(buffer);
 
         return static_cast<uint64_t>(bytes[7]) |
             static_cast<uint64_t>(bytes[6]) << 8 |
@@ -79,7 +79,7 @@ namespace ouzel
 
     inline int64_t decodeInt64Little(const void* buffer)
     {
-        const uint8_t* bytes = reinterpret_cast<const uint8_t*>(buffer);
+        const uint8_t* bytes = static_cast<const uint8_t*>(buffer);
 
         return static_cast<int64_t>(bytes[0]) |
             static_cast<int64_t>(bytes[1]) << 8 |
@@ -93,7 +93,7 @@ namespace ouzel
 
     inline uint64_t decodeUInt64Little(const void* buffer)
     {
-        const uint8_t* bytes = reinterpret_cast<const uint8_t*>(buffer);
+        const uint8_t* bytes = static_cast<const uint8_t*>(buffer);
 
         return static_cast<uint64_t>(bytes[0]) |
             static_cast<uint64_t>(bytes[1]) << 8 |
@@ -107,7 +107,7 @@ namespace ouzel
 
     inline int32_t decodeInt32Big(const void* buffer)
     {
-        const uint8_t* bytes = reinterpret_cast<const uint8_t*>(buffer);
+        const uint8_t* bytes = static_cast<const uint8_t*>(buffer);
 
         return static_cast<int32_t>(bytes[3]) |
             static_cast<int32_t>(bytes[2]) << 8 |
@@ -117,7 +117,7 @@ namespace ouzel
 
     inline uint32_t decodeUInt32Big(const void* buffer)
     {
-        const uint8_t* bytes = reinterpret_cast<const uint8_t*>(buffer);
+        const uint8_t* bytes = static_cast<const uint8_t*>(buffer);
 
         return static_cast<uint32_t>(bytes[3]) |
             static_cast<uint32_t>(bytes[2]) << 8 |
@@ -127,7 +127,7 @@ namespace ouzel
 
     inline int32_t decodeInt32Little(const void* buffer)
     {
-        const uint8_t* bytes = reinterpret_cast<const uint8_t*>(buffer);
+        const uint8_t* bytes = static_cast<const uint8_t*>(buffer);
 
         return static_cast<int32_t>(bytes[0]) |
             static_cast<int32_t>(bytes[1]) << 8 |
@@ -137,7 +137,7 @@ namespace ouzel
 
     inline uint32_t decodeUInt32Little(const void* buffer)
     {
-        const uint8_t* bytes = reinterpret_cast<const uint8_t*>(buffer);
+        const uint8_t* bytes = static_cast<const uint8_t*>(buffer);
 
         return static_cast<uint32_t>(bytes[0]) |
             static_cast<uint32_t>(bytes[1]) << 8 |
@@ -147,7 +147,7 @@ namespace ouzel
 
     inline int16_t decodeInt16Big(const void* buffer)
     {
-        const uint8_t* bytes = reinterpret_cast<const uint8_t*>(buffer);
+        const uint8_t* bytes = static_cast<const uint8_t*>(buffer);
 
         int32_t result = static_cast<int32_t>(bytes[1]) |
             static_cast<int32_t>(bytes[0]) << 8;
@@ -157,7 +157,7 @@ namespace ouzel
 
     inline uint16_t decodeUInt16Big(const void* buffer)
     {
-        const uint8_t* bytes = reinterpret_cast<const uint8_t*>(buffer);
+        const uint8_t* bytes = static_cast<const uint8_t*>(buffer);
 
         uint32_t result = static_cast<uint32_t>(bytes[1]) |
             static_cast<uint32_t>(bytes[0]) << 8;
@@ -167,7 +167,7 @@ namespace ouzel
 
     inline int16_t decodeInt16Little(const void* buffer)
     {
-        const uint8_t* bytes = reinterpret_cast<const uint8_t*>(buffer);
+        const uint8_t* bytes = static_cast<const uint8_t*>(buffer);
 
         int32_t result = static_cast<int32_t>(bytes[0]) |
             static_cast<int32_t>(bytes[1]) << 8;
@@ -177,7 +177,7 @@ namespace ouzel
 
     inline uint16_t decodeUInt16Little(const void* buffer)
     {
-        const uint8_t* bytes = reinterpret_cast<const uint8_t*>(buffer);
+        const uint8_t* bytes = static_cast<const uint8_t*>(buffer);
 
         uint32_t result = static_cast<uint32_t>(bytes[0]) |
             static_cast<uint32_t>(bytes[1]) << 8;
@@ -189,7 +189,7 @@ namespace ouzel
 
     inline void encodeInt64Big(void* buffer, int64_t value)
     {
-        uint8_t* bytes = reinterpret_cast<uint8_t*>(buffer);
+        uint8_t* bytes = static_cast<uint8_t*>(buffer);
 
         bytes[0] = static_cast<uint8_t>(value >> 56);
         bytes[1] = static_cast<uint8_t>(value >> 48);
@@ -203,7 +203,7 @@ namespace ouzel
 
     inline void encodeUInt64Big(void* buffer, uint64_t value)
     {
-        uint8_t* bytes = reinterpret_cast<uint8_t*>(buffer);
+        uint8_t* bytes = static_cast<uint8_t*>(buffer);
 
         bytes[0] = static_cast<uint8_t>(value >> 56);
         bytes[1] = static_cast<uint8_t>(value >> 48);
@@ -217,7 +217,7 @@ namespace ouzel
 
     inline void encodeInt64Little(void* buffer, int64_t value)
     {
-        uint8_t* bytes = reinterpret_cast<uint8_t*>(buffer);
+        uint8_t* bytes = static_cast<uint8_t*>(buffer);
 
         bytes[7] = static_cast<uint8_t>(value >> 56);
         bytes[6] = static_cast<uint8_t>(value >> 48);
@@ -231,7 +231,7 @@ namespace ouzel
 
     inline void encodeUInt64Little(void* buffer, uint64_t value)
     {
-        uint8_t* bytes = reinterpret_cast<uint8_t*>(buffer);
+        uint8_t* bytes = static_cast<uint8_t*>(buffer);
 
         bytes[7] = static_cast<uint8_t>(value >> 56);
         bytes[6] = static_cast<uint8_t>(value >> 48);
@@ -245,7 +245,7 @@ namespace ouzel
 
     inline void encodeInt32Big(void* buffer, int32_t value)
     {
-        uint8_t* bytes = reinterpret_cast<uint8_t*>(buffer);
+        uint8_t* bytes = static_cast<uint8_t*>(buffer);
 
         bytes[0] = static_cast<uint8_t>(value >> 24);
         bytes[1] = static_cast<uint8_t>(value >> 16);
@@ -255,7 +255,7 @@ namespace ouzel
 
     inline void encodeUInt32Big(void* buffer, uint32_t value)
     {
-        uint8_t* bytes = reinterpret_cast<uint8_t*>(buffer);
+        uint8_t* bytes = static_cast<uint8_t*>(buffer);
 
         bytes[0] = static_cast<uint8_t>(value >> 24);
         bytes[1] = static_cast<uint8_t>(value >> 16);
@@ -265,7 +265,7 @@ namespace ouzel
 
     inline void encodeInt32Little(void* buffer, int32_t value)
     {
-        uint8_t* bytes = reinterpret_cast<uint8_t*>(buffer);
+        uint8_t* bytes = static_cast<uint8_t*>(buffer);
 
         bytes[3] = static_cast<uint8_t>(value >> 24);
         bytes[2] = static_cast<uint8_t>(value >> 16);
@@ -275,7 +275,7 @@ namespace ouzel
 
     inline void encodeUInt32Little(void* buffer, uint32_t value)
     {
-        uint8_t* bytes = reinterpret_cast<uint8_t*>(buffer);
+        uint8_t* bytes = static_cast<uint8_t*>(buffer);
 
         bytes[3] = static_cast<uint8_t>(value >> 24);
         bytes[2] = static_cast<uint8_t>(value >> 16);
@@ -285,7 +285,7 @@ namespace ouzel
 
     inline void encodeInt16Big(void* buffer, int16_t value)
     {
-        uint8_t* bytes = reinterpret_cast<uint8_t*>(buffer);
+        uint8_t* bytes = static_cast<uint8_t*>(buffer);
 
         bytes[0] = static_cast<uint8_t>(value >> 8);
         bytes[1] = static_cast<uint8_t>(value);
@@ -293,7 +293,7 @@ namespace ouzel
 
     inline void encodeUInt16Big(void* buffer, uint16_t value)
     {
-        uint8_t* bytes = reinterpret_cast<uint8_t*>(buffer);
+        uint8_t* bytes = static_cast<uint8_t*>(buffer);
 
         bytes[0] = static_cast<uint8_t>(value >> 8);
         bytes[1] = static_cast<uint8_t>(value);
@@ -301,7 +301,7 @@ namespace ouzel
 
     inline void encodeInt16Little(void* buffer, int16_t value)
     {
-        uint8_t* bytes = reinterpret_cast<uint8_t*>(buffer);
+        uint8_t* bytes = static_cast<uint8_t*>(buffer);
 
         bytes[1] = static_cast<uint8_t>(value >> 8);
         bytes[0] = static_cast<uint8_t>(value);
@@ -309,7 +309,7 @@ namespace ouzel
 
     inline void encodeUInt16Little(void* buffer, uint16_t value)
     {
-        uint8_t* bytes = reinterpret_cast<uint8_t*>(buffer);
+        uint8_t* bytes = static_cast<uint8_t*>(buffer);
 
         bytes[1] = static_cast<uint8_t>(value >> 8);
         bytes[0] = static_cast<uint8_t>(value);

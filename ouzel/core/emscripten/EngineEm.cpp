@@ -10,7 +10,7 @@
 
 static void loop(void* arg)
 {
-    reinterpret_cast<ouzel::EngineEm*>(arg)->step();
+    static_cast<ouzel::EngineEm*>(arg)->step();
 }
 
 namespace ouzel

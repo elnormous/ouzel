@@ -10,7 +10,7 @@ static constexpr float THUMB_DEADZONE = 0.2F;
 
 static void deviceInput(void* ctx, IOReturn, void*, IOHIDValueRef value)
 {
-    ouzel::input::GamepadDeviceIOKit* gamepadDevice = reinterpret_cast<ouzel::input::GamepadDeviceIOKit*>(ctx);
+    ouzel::input::GamepadDeviceIOKit* gamepadDevice = static_cast<ouzel::input::GamepadDeviceIOKit*>(ctx);
     gamepadDevice->handleInput(value);
 }
 

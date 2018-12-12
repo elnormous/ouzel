@@ -13,7 +13,7 @@
 
 static BOOL CALLBACK enumDevicesCallback(const DIDEVICEINSTANCEW* didInstance, VOID* context)
 {
-    ouzel::input::InputSystemWin* inputWin = reinterpret_cast<ouzel::input::InputSystemWin*>(context);
+    ouzel::input::InputSystemWin* inputWin = static_cast<ouzel::input::InputSystemWin*>(context);
     inputWin->handleDeviceConnect(didInstance);
 
     return DIENUM_CONTINUE;
