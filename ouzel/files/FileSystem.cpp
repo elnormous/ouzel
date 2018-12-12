@@ -171,9 +171,9 @@ namespace ouzel
 #elif OUZEL_PLATFORM_MACOS
         id fileManager = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("NSFileManager"), sel_getUid("defaultManager"));
 
-        static const NSUInteger NSApplicationSupportDirectory = 14;
-        static const NSUInteger NSUserDomainMask = 1;
-        static const NSUInteger NSLocalDomainMask = 2;
+        static constexpr NSUInteger NSApplicationSupportDirectory = 14;
+        static constexpr NSUInteger NSUserDomainMask = 1;
+        static constexpr NSUInteger NSLocalDomainMask = 2;
 
         id applicationSupportDirectory = reinterpret_cast<id (*)(id, SEL, NSUInteger, NSUInteger, id, BOOL, id*)>(&objc_msgSend)(fileManager, sel_getUid("URLForDirectory:inDomain:appropriateForURL:create:error:"), NSApplicationSupportDirectory, user ? NSUserDomainMask : NSLocalDomainMask, nil, YES, nil);
 
@@ -193,9 +193,9 @@ namespace ouzel
 #elif OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
         id fileManager = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("NSFileManager"), sel_getUid("defaultManager"));
 
-        static const NSUInteger NSDocumentDirectory = 9;
-        static const NSUInteger NSUserDomainMask = 1;
-        static const NSUInteger NSLocalDomainMask = 2;
+        static constexpr NSUInteger NSDocumentDirectory = 9;
+        static constexpr NSUInteger NSUserDomainMask = 1;
+        static constexpr NSUInteger NSLocalDomainMask = 2;
 
         id documentDirectory = reinterpret_cast<id (*)(id, SEL, NSUInteger, NSUInteger, id, BOOL, id*)>(&objc_msgSend)(fileManager, sel_getUid("URLForDirectory:inDomain:appropriateForURL:create:error:"), NSDocumentDirectory, user ? NSUserDomainMask : NSLocalDomainMask, nil, YES, nil);
 

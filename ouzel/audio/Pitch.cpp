@@ -11,8 +11,8 @@ namespace ouzel
 {
     namespace audio
     {
-        static const float MIN_PITCH = 0.5F;
-        static const float MAX_PITCH = 2.0F;
+        static constexpr float MIN_PITCH = 0.5F;
+        static constexpr float MAX_PITCH = 2.0F;
 
         class PitchProcessor final: public Processor
         {

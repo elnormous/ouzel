@@ -37,8 +37,8 @@ namespace ouzel
     class EngineAndroid final: public Engine
     {
     public:
-        static const jint ORIENTATION_PORTRAIT = 0x00000001;
-        static const jint ORIENTATION_LANDSCAPE = 0x00000002;
+        static constexpr jint ORIENTATION_PORTRAIT = 0x00000001;
+        static constexpr jint ORIENTATION_LANDSCAPE = 0x00000002;
 
         EngineAndroid(JavaVM* initJavaVM);
         ~EngineAndroid();

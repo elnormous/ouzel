@@ -12,7 +12,7 @@ namespace ouzel
         class LoaderGLTF final: public Loader
         {
         public:
-            static const uint32_t TYPE = Loader::SKINNED_MESH;
+            static constexpr uint32_t TYPE = Loader::SKINNED_MESH;
 
             explicit LoaderGLTF(Cache& initCache);
             bool loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps = true) override;

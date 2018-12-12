@@ -12,7 +12,7 @@
 #include "graphics/RenderDevice.hpp"
 
 #if OUZEL_SUPPORTS_X11
-static const long _NET_WM_STATE_TOGGLE = 2;
+static constexpr long _NET_WM_STATE_TOGGLE = 2;
 #endif
 
 namespace ouzel

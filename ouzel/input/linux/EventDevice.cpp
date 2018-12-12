@@ -15,9 +15,9 @@
 #include "core/Engine.hpp"
 #include "utils/Log.hpp"
 
-static const float THUMB_DEADZONE = 0.2F;
+static constexpr float THUMB_DEADZONE = 0.2F;
 
-static const uint32_t BITS_PER_LONG = 8 * sizeof(long);
+static constexpr uint32_t BITS_PER_LONG = 8 * sizeof(long);
 
 static constexpr size_t bitsToLongs(size_t n)
 {
@@ -340,7 +340,7 @@ namespace ouzel
                     }
                 }
 
-                static const std::array<uint32_t, 6> axisUsageMap = {
+                static constexpr std::array<uint32_t, 6> axisUsageMap = {
                     ABS_X,
                     ABS_Y,
                     ABS_Z,

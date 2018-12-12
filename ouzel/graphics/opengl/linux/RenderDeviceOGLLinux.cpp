@@ -115,7 +115,7 @@ namespace ouzel
 
             int fbcount = 0;
 
-            static const int attributes[] = {
+            static constexpr int attributes[] = {
                 GLX_X_RENDERABLE, GL_TRUE,
                 GLX_RENDER_TYPE, GLX_RGBA_BIT,
                 GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,

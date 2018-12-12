@@ -6,7 +6,7 @@
 #include "input/GamepadConfig.hpp"
 #include "core/Setup.h"
 
-static const float THUMB_DEADZONE = 0.2F;
+static constexpr float THUMB_DEADZONE = 0.2F;
 
 static void deviceInput(void* ctx, IOReturn, void*, IOHIDValueRef value)
 {

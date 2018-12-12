@@ -12,7 +12,7 @@ namespace ouzel
         class LoaderVorbis final: public Loader
         {
         public:
-            static const uint32_t TYPE = Loader::SOUND;
+            static constexpr uint32_t TYPE = Loader::SOUND;
 
             explicit LoaderVorbis(Cache& initCache);
             bool loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps = true) override;

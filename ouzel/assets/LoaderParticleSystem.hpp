@@ -12,7 +12,7 @@ namespace ouzel
         class LoaderParticleSystem final: public Loader
         {
         public:
-            static const uint32_t TYPE = Loader::PARTICLE_SYSTEM;
+            static constexpr uint32_t TYPE = Loader::PARTICLE_SYSTEM;
 
             explicit LoaderParticleSystem(Cache& initCache);
             bool loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps = true) override;
