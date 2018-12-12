@@ -75,13 +75,7 @@ namespace ouzel
                                         bool newDepth,
                                         bool newDebugRenderer)
         {
-            NSOpenGLPixelFormatAttribute openGLVersions[] = {
-                NSOpenGLProfileVersion4_1Core,
-                NSOpenGLProfileVersion3_2Core,
-                NSOpenGLProfileVersionLegacy
-            };
-
-            for (NSOpenGLPixelFormatAttribute openGLVersion : openGLVersions)
+            for (NSOpenGLPixelFormatAttribute openGLVersion : {NSOpenGLProfileVersion4_1Core, NSOpenGLProfileVersion3_2Core, NSOpenGLProfileVersionLegacy})
             {
                 // Create pixel format
                 std::vector<NSOpenGLPixelFormatAttribute> attributes =

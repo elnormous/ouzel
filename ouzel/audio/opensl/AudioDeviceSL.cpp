@@ -71,9 +71,9 @@ namespace ouzel
             AudioDevice(Driver::OPENSL, initMixer)
         {
             SLresult result;
-            const SLuint32 engineMixIIDCount = 1;
-            const SLInterfaceID engineMixIID = SL_IID_ENGINE;
-            const SLboolean engineMixReq = SL_BOOLEAN_TRUE;
+            constexpr SLuint32 engineMixIIDCount = 1;
+            constexpr SLInterfaceID engineMixIID = SL_IID_ENGINE;
+            constexpr SLboolean engineMixReq = SL_BOOLEAN_TRUE;
 
             if ((result = slCreateEngine(&engineObject, 0, nullptr, engineMixIIDCount, &engineMixIID, &engineMixReq)) != SL_RESULT_SUCCESS)
                 throw std::system_error(makeErrorCode(result), "Failed to create OpenSL engine object");
@@ -123,9 +123,9 @@ namespace ouzel
             dataSink.pLocator = &dataLocatorOut;
             dataSink.pFormat = nullptr;
 
-            const SLuint32 playerIIDCount = 3;
-            const SLInterfaceID playerIIDs[] = {SL_IID_BUFFERQUEUE, SL_IID_PLAY, SL_IID_VOLUME};
-            const SLboolean playerReqs[] = {SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE};
+            constexpr SLuint32 playerIIDCount = 3;
+            constexpr SLInterfaceID playerIIDs[] = {SL_IID_BUFFERQUEUE, SL_IID_PLAY, SL_IID_VOLUME};
+            constexpr SLboolean playerReqs[] = {SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE};
 
             if ((result = (*engine)->CreateAudioPlayer(engine, &playerObject, &dataSource, &dataSink, playerIIDCount, playerIIDs, playerReqs)) != SL_RESULT_SUCCESS)
                 throw std::system_error(makeErrorCode(result), "Failed to create OpenSL player object");
