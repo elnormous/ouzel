@@ -149,20 +149,20 @@ namespace ouzel
 
         static float backIn(float t)
         {
-            const float s = 1.70158F;
+            static constexpr float s = 1.70158F;
             return t * t * ((s + 1.0F) * t - s);
         }
 
         static float backOut(float t)
         {
-            const float s = 1.70158F;
+            static constexpr float s = 1.70158F;
             t -= 1.0F;
             return t * t * ((s + 1.0F) * t + s) + 1.0F;
         }
 
         static float backInOut(float t)
         {
-            const float s = 1.70158F * 1.525F;
+            static constexpr float s = 1.70158F * 1.525F;
             if (t < 0.5F)
             {
                 t *= 2.0F;
@@ -180,7 +180,7 @@ namespace ouzel
             if (t == 0.0F) return 0.0F;
             if (t == 1.0F) return 1.0F;
 
-            float p = 0.3F;
+            static constexpr float p = 0.3F;
 
             t -= 1.0F;
 
@@ -192,7 +192,7 @@ namespace ouzel
             if (t == 0.0F) return 0.0F;
             if (t == 1.0F) return 1.0F;
 
-            float p = 0.3F;
+            static constexpr float p = 0.3F;
 
             return powf(2.0F, -10.0F * t) * sinf((t - p / 4.0F) * (2.0F * PI) / p) + 1.0F;
         }
@@ -202,7 +202,7 @@ namespace ouzel
             if (t == 0.0F) return 0.0F;
             if (t == 1.0F) return 1.0F;
 
-            float p = 0.3F * 1.5F;
+            static constexpr float p = 0.3F * 1.5F;
 
             if (t < 0.5F)
             {

@@ -207,7 +207,7 @@ namespace ouzel
                 throw std::system_error(result, coreAudioErrorCategory, "Failed to set CoreAudio unit property");
 #endif
 
-            const AudioUnitElement bus = 0;
+            constexpr AudioUnitElement bus = 0;
 
             AudioStreamBasicDescription streamDescription;
             streamDescription.mSampleRate = sampleRate;
@@ -268,7 +268,7 @@ namespace ouzel
                 callback.inputProc = nullptr;
                 callback.inputProcRefCon = nullptr;
 
-                const AudioUnitElement bus = 0;
+                constexpr AudioUnitElement bus = 0;
 
                 AudioUnitSetProperty(audioUnit,
                                      kAudioUnitProperty_SetRenderCallback,

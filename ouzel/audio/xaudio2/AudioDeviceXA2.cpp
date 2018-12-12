@@ -89,7 +89,7 @@ namespace ouzel
                 else
                     throw std::runtime_error("Failed to load " + std::string(XAUDIO2_DLL_27));
 
-                const UINT XAUDIO2_DEBUG_ENGINE = 0x0001;
+                constexpr UINT XAUDIO2_DEBUG_ENGINE = 0x0001;
 
                 UINT32 flags = 0;
                 if (debugAudio) flags |= XAUDIO2_DEBUG_ENGINE;

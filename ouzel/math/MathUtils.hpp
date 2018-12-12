@@ -61,8 +61,8 @@ namespace ouzel
         return (x < lo) ? lo : ((x > hi) ? hi : x);
     }
 
-    constexpr const uint64_t INITIAL_FNV = 2166136261U;
-    constexpr const uint64_t FNV_MULTIPLE = 16777619;
+    constexpr uint64_t INITIAL_FNV = 2166136261U;
+    constexpr uint64_t FNV_MULTIPLE = 16777619;
 
     // Fowler / Noll / Vo (FNV) hash
     inline uint64_t fnvHash(uint64_t s)
