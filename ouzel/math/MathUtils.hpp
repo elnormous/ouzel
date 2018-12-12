@@ -9,9 +9,9 @@
 
 namespace ouzel
 {
-    const float TAU = 6.28318530717958647692F;
-    const float PI = 3.14159265358979323846F;
-    const float SQRT2 = 1.4142135623730950488F;
+    constexpr float TAU = 6.28318530717958647692F;
+    constexpr float PI = 3.14159265358979323846F;
+    constexpr float SQRT2 = 1.4142135623730950488F;
 
     inline float lerp(float v0, float v1, float t)
     {
@@ -61,8 +61,8 @@ namespace ouzel
         return (x < lo) ? lo : ((x > hi) ? hi : x);
     }
 
-    static const uint64_t INITIAL_FNV = 2166136261U;
-    static const uint64_t FNV_MULTIPLE = 16777619;
+    constexpr const uint64_t INITIAL_FNV = 2166136261U;
+    constexpr const uint64_t FNV_MULTIPLE = 16777619;
 
     // Fowler / Noll / Vo (FNV) hash
     inline uint64_t fnvHash(uint64_t s)

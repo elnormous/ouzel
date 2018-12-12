@@ -14,6 +14,8 @@
 #include "utils/Utils.hpp"
 #include "math/MathUtils.hpp"
 
+static constexpr float UPDATE_STEP = 1.0F / 60.0F;
+
 namespace ouzel
 {
     namespace scene
@@ -92,7 +94,6 @@ namespace ouzel
         {
             timeSinceUpdate += delta;
 
-            static const float UPDATE_STEP = 1.0F / 60.0F;
             bool needsBoundingBoxUpdate = false;
 
             while (timeSinceUpdate >= UPDATE_STEP)

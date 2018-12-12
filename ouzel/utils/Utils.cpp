@@ -9,7 +9,7 @@
 #include "Utils.hpp"
 
 #if defined(_WIN32)
-static const DWORD MS_VC_EXCEPTION = 0x406D1388;
+static constexpr DWORD MS_VC_EXCEPTION = 0x406D1388;
 #pragma pack(push,8)
 typedef struct tagTHREADNAME_INFO
 {

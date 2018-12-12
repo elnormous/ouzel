@@ -14,7 +14,7 @@
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"
 
-static const LPCWSTR TEMP_WINDOW_CLASS_NAME = L"TempWindow";
+static constexpr LPCWSTR TEMP_WINDOW_CLASS_NAME = L"TempWindow";
 
 static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
 {

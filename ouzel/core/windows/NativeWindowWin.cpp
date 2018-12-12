@@ -14,8 +14,8 @@
 #include "graphics/direct3d11/RenderDeviceD3D11.hpp"
 #include "utils/Log.hpp"
 
-static const LONG_PTR SIGNATURE_MASK = 0x0FFFFFF00;
-static const LONG_PTR MOUSEEVENTF_FROMTOUCH = 0x0FF515700;
+static constexpr LONG_PTR SIGNATURE_MASK = 0x0FFFFFF00;
+static constexpr LONG_PTR MOUSEEVENTF_FROMTOUCH = 0x0FF515700;
 
 static const std::unordered_map<uint8_t, ouzel::input::Keyboard::Key> scanCodeMap =
 {
@@ -422,7 +422,7 @@ static LRESULT CALLBACK windowProc(HWND window, UINT message, WPARAM wParam, LPA
     return DefWindowProcW(window, message, wParam, lParam);
 }
 
-static const LPCWSTR WINDOW_CLASS_NAME = L"OuzelWindow";
+static constexpr LPCWSTR WINDOW_CLASS_NAME = L"OuzelWindow";
 
 namespace ouzel
 {

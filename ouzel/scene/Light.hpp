@@ -14,7 +14,7 @@ namespace ouzel
         class Light: public Component
         {
         public:
-            static const uint32_t CLASS = Component::LIGHT;
+            static constexpr uint32_t CLASS = Component::LIGHT;
 
             enum class Type
             {

@@ -15,7 +15,7 @@ namespace ouzel
     {
         friend EventDispatcher;
     public:
-        static const int32_t PRIORITY_MAX = 0x1000;
+        static constexpr int32_t PRIORITY_MAX = 0x1000;
 
         explicit EventHandler(int32_t initPriority = 0): priority(initPriority) {}
         ~EventHandler();

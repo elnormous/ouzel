@@ -7,8 +7,8 @@
 #include "input/GamepadConfig.hpp"
 #include "utils/Log.hpp"
 
-static const float THUMB_DEADZONE = 0.2F;
-static const size_t INPUT_QUEUE_SIZE = 32;
+static constexpr float THUMB_DEADZONE = 0.2F;
+static constexpr size_t INPUT_QUEUE_SIZE = 32;
 
 namespace ouzel
 {

@@ -35,7 +35,7 @@
 #include "graphics/direct3d11/RenderDeviceD3D11.hpp"
 #include "graphics/metal/RenderDeviceMetal.hpp"
 
-static const float GAMMA = 2.2F;
+static constexpr float GAMMA = 2.2F;
 uint8_t GAMMA_ENCODE[256];
 float GAMMA_DECODE[256];
 

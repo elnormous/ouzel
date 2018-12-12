@@ -19,7 +19,7 @@ namespace ouzel
         class TextRenderer: public Component
         {
         public:
-            static const uint32_t CLASS = Component::TEXT_RENDERER;
+            static constexpr uint32_t CLASS = Component::TEXT_RENDERER;
 
             TextRenderer(const std::string& fontFile,
                          float initFontSize = 1.0F,

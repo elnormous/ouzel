@@ -317,7 +317,7 @@ namespace ouzel
 
     template<typename T> std::string hexToString(T n, size_t len = 0)
     {
-        static const char* digits = "0123456789ABCDEF";
+        static constexpr char* digits = "0123456789ABCDEF";
         if (len == 0)
         {
             len = 1;

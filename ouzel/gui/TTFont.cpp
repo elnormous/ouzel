@@ -39,7 +39,7 @@ namespace ouzel
         if (!loaded)
             throw std::runtime_error("Font not loaded");
 
-        static const uint32_t SPACING = 2;
+        static constexpr uint32_t SPACING = 2;
 
         struct CharDescriptor final
         {

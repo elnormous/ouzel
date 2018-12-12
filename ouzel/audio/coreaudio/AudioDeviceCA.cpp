@@ -87,7 +87,7 @@ namespace ouzel
             OSStatus result;
 
 #if OUZEL_PLATFORM_MACOS
-            static const AudioObjectPropertyAddress deviceListAddress = {
+            static constexpr AudioObjectPropertyAddress deviceListAddress = {
                 kAudioHardwarePropertyDevices,
                 kAudioObjectPropertyScopeGlobal,
                 kAudioObjectPropertyElementMaster
@@ -96,7 +96,7 @@ namespace ouzel
             if ((result = AudioObjectAddPropertyListener(kAudioObjectSystemObject, &deviceListAddress, deviceListChanged, this)) != noErr)
                 throw std::system_error(result, coreAudioErrorCategory, "Failed to add CoreAudio property listener");
 
-            static const AudioObjectPropertyAddress defaultDeviceAddress = {
+            static constexpr AudioObjectPropertyAddress defaultDeviceAddress = {
                 kAudioHardwarePropertyDefaultOutputDevice,
                 kAudioObjectPropertyScopeGlobal,
                 kAudioObjectPropertyElementMaster
@@ -107,7 +107,7 @@ namespace ouzel
                                                      0, nullptr, &size, &deviceId)) != noErr)
                 throw std::system_error(result, coreAudioErrorCategory, "Failed to get CoreAudio output device");
 
-            static const AudioObjectPropertyAddress aliveAddress = {
+            static constexpr AudioObjectPropertyAddress aliveAddress = {
                 kAudioDevicePropertyDeviceIsAlive,
                 kAudioDevicePropertyScopeOutput,
                 kAudioObjectPropertyElementMaster
@@ -121,7 +121,7 @@ namespace ouzel
             if (!alive)
                 throw std::system_error(result, coreAudioErrorCategory, "Requested CoreAudio device is not alive");
 
-            static const AudioObjectPropertyAddress hogModeAddress = {
+            static constexpr AudioObjectPropertyAddress hogModeAddress = {
                 kAudioDevicePropertyHogMode,
                 kAudioDevicePropertyScopeOutput,
                 kAudioObjectPropertyElementMaster
@@ -135,7 +135,7 @@ namespace ouzel
             if (pid != -1)
                 throw std::runtime_error("Requested CoreAudio device is being hogged");
 
-            static const AudioObjectPropertyAddress nameAddress = {
+            static constexpr AudioObjectPropertyAddress nameAddress = {
                 kAudioObjectPropertyName,
                 kAudioDevicePropertyScopeOutput,
                 kAudioObjectPropertyElementMaster
@@ -278,7 +278,7 @@ namespace ouzel
             }
 
 #if OUZEL_PLATFORM_MACOS
-            static const AudioObjectPropertyAddress deviceListAddress = {
+            static constexpr AudioObjectPropertyAddress deviceListAddress = {
                 kAudioHardwarePropertyDevices,
                 kAudioObjectPropertyScopeGlobal,
                 kAudioObjectPropertyElementMaster
@@ -288,7 +288,7 @@ namespace ouzel
 
             if (deviceId)
             {
-                static const AudioObjectPropertyAddress aliveAddress = {
+                static constexpr AudioObjectPropertyAddress aliveAddress = {
                     kAudioDevicePropertyDeviceIsAlive,
                     kAudioDevicePropertyScopeOutput,
                     kAudioObjectPropertyElementMaster

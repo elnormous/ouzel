@@ -7,7 +7,7 @@
 #include <emscripten/html5.h>
 #include "GamepadDeviceEm.hpp"
 
-static const float THUMB_DEADZONE = 0.2F;
+static constexpr float THUMB_DEADZONE = 0.2F;
 
 namespace ouzel
 {
