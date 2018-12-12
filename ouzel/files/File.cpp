@@ -100,7 +100,7 @@ namespace ouzel
     {
 #if defined(_WIN32)
         HANDLE f = file;
-        file == INVALID_HANDLE_VALUE;
+        file = INVALID_HANDLE_VALUE;
         if (!CloseHandle(f))
             throw std::system_error(GetLastError(), std::system_category(), "Failed to close file");
 #else
