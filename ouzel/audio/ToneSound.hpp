@@ -25,8 +25,8 @@ namespace ouzel
                       float initAmplitude = 0.5F, float initLength = 0.0F);
 
         private:
-            float frequency;
             Type type;
+            float frequency;
             float amplitude;
             float length;
         };

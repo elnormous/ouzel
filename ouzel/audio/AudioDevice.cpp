@@ -8,7 +8,7 @@ namespace ouzel
     namespace audio
     {
         AudioDevice::AudioDevice(Driver initDriver, Mixer& initMixer):
-            mixer(initMixer), driver(initDriver)
+            driver(initDriver), mixer(initMixer)
         {
         }
 
