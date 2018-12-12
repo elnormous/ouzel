@@ -21,8 +21,8 @@ namespace ouzel
     {
         class Client;
 
-        const uint32_t ANY_ADDRESS = 0;
-        const uint16_t ANY_PORT = 0;
+        constexpr uint32_t ANY_ADDRESS = 0;
+        constexpr uint16_t ANY_PORT = 0;
 
         class Network final
         {
