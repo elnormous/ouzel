@@ -832,50 +832,50 @@ namespace ouzel
             switch (dataType)
             {
                 case DataType::INTEGER:
-                    glUniform1ivProc(location, 1, reinterpret_cast<const GLint*>(data));
+                    glUniform1ivProc(location, 1, static_cast<const GLint*>(data));
                     break;
                 case DataType::UNSIGNED_INTEGER:
                     if (!glUniform1uivProc) throw std::runtime_error("Unsupported uniform size");
-                    glUniform1uivProc(location, 1, reinterpret_cast<const GLuint*>(data));
+                    glUniform1uivProc(location, 1, static_cast<const GLuint*>(data));
                     break;
                 case DataType::INTEGER_VECTOR2:
-                    glUniform2ivProc(location, 1, reinterpret_cast<const GLint*>(data));
+                    glUniform2ivProc(location, 1, static_cast<const GLint*>(data));
                     break;
                 case DataType::UNSIGNED_INTEGER_VECTOR2:
                     if (!glUniform2uivProc) throw std::runtime_error("Unsupported uniform size");
-                    glUniform2uivProc(location, 1, reinterpret_cast<const GLuint*>(data));
+                    glUniform2uivProc(location, 1, static_cast<const GLuint*>(data));
                     break;
                 case DataType::INTEGER_VECTOR3:
-                    glUniform3ivProc(location, 1, reinterpret_cast<const GLint*>(data));
+                    glUniform3ivProc(location, 1, static_cast<const GLint*>(data));
                     break;
                 case DataType::UNSIGNED_INTEGER_VECTOR3:
                     if (!glUniform3uivProc) throw std::runtime_error("Unsupported uniform size");
-                    glUniform3uivProc(location, 1, reinterpret_cast<const GLuint*>(data));
+                    glUniform3uivProc(location, 1, static_cast<const GLuint*>(data));
                     break;
                 case DataType::INTEGER_VECTOR4:
-                    glUniform4ivProc(location, 1, reinterpret_cast<const GLint*>(data));
+                    glUniform4ivProc(location, 1, static_cast<const GLint*>(data));
                     break;
                 case DataType::UNSIGNED_INTEGER_VECTOR4:
                     if (!glUniform4uivProc) throw std::runtime_error("Unsupported uniform size");
-                    glUniform4uivProc(location, 1, reinterpret_cast<const GLuint*>(data));
+                    glUniform4uivProc(location, 1, static_cast<const GLuint*>(data));
                     break;
                 case DataType::FLOAT:
-                    glUniform1fvProc(location, 1, reinterpret_cast<const GLfloat*>(data));
+                    glUniform1fvProc(location, 1, static_cast<const GLfloat*>(data));
                     break;
                 case DataType::FLOAT_VECTOR2:
-                    glUniform2fvProc(location, 1, reinterpret_cast<const GLfloat*>(data));
+                    glUniform2fvProc(location, 1, static_cast<const GLfloat*>(data));
                     break;
                 case DataType::FLOAT_VECTOR3:
-                    glUniform3fvProc(location, 1, reinterpret_cast<const GLfloat*>(data));
+                    glUniform3fvProc(location, 1, static_cast<const GLfloat*>(data));
                     break;
                 case DataType::FLOAT_VECTOR4:
-                    glUniform4fvProc(location, 1, reinterpret_cast<const GLfloat*>(data));
+                    glUniform4fvProc(location, 1, static_cast<const GLfloat*>(data));
                     break;
                 case DataType::FLOAT_MATRIX3:
-                    glUniformMatrix3fvProc(location, 1, GL_FALSE, reinterpret_cast<const GLfloat*>(data));
+                    glUniformMatrix3fvProc(location, 1, GL_FALSE, static_cast<const GLfloat*>(data));
                     break;
                 case DataType::FLOAT_MATRIX4:
-                    glUniformMatrix4fvProc(location, 1, GL_FALSE, reinterpret_cast<const GLfloat*>(data));
+                    glUniformMatrix4fvProc(location, 1, GL_FALSE, static_cast<const GLfloat*>(data));
                     break;
                 default:
                     throw std::runtime_error("Unsupported uniform size");

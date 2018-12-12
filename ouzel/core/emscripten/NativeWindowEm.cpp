@@ -9,7 +9,7 @@ static EM_BOOL emResizeCallback(int eventType, const EmscriptenUiEvent* uiEvent,
 {
     if (eventType == EMSCRIPTEN_EVENT_RESIZE)
     {
-        ouzel::NativeWindowEm* nativeWindowEm = reinterpret_cast<ouzel::NativeWindowEm*>(userData);
+        ouzel::NativeWindowEm* nativeWindowEm = static_cast<ouzel::NativeWindowEm*>(userData);
         nativeWindowEm->handleResize();
         return true;
     }
@@ -21,7 +21,7 @@ static EM_BOOL emFullscreenCallback(int eventType, const void*, void* userData)
 {
     if (eventType == EMSCRIPTEN_EVENT_CANVASRESIZED)
     {
-        ouzel::NativeWindowEm* nativeWindowEm = reinterpret_cast<ouzel::NativeWindowEm*>(userData);
+        ouzel::NativeWindowEm* nativeWindowEm = static_cast<ouzel::NativeWindowEm*>(userData);
         nativeWindowEm->handleResize();
         return true;
     }
