@@ -33,7 +33,7 @@ namespace ouzel
                     for (uint32_t sample = 0; sample < frames; ++sample)
                         channelSamples[sample] = samples[sample * channels + channel];
 
-                    pitchShift[channel].process(pitch, frames, 1024, 4, sampleRate, channelSamples.data(), channelSamples.data());
+                    pitchShift[channel].process(pitch, frames, 1024, 4, static_cast<float>(sampleRate), channelSamples.data(), channelSamples.data());
 
                     for (uint32_t sample = 0; sample < frames; ++sample)
                         samples[sample * channels + channel] = channelSamples[sample];
