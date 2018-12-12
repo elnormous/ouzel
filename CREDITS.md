@@ -7,4 +7,4 @@
 | [Agris Dūmiņš](https://github.com/agriic)                | Code review |
 | [Marlin Watts-Woods](https://github.com/Hotspotmar)      | True-Type font support |
 
-Special thanks to [Sean Barrett](https://github.com/nothings) for maintaining the [stb single-file public domain libraries](https://github.com/nothings/stb).
+Special thanks to [Sean Barrett](https://github.com/nothings) for maintaining the [stb single-file public domain libraries](https://github.com/nothings/stb) and [Stephan Bernsee](http://blogs.zynaptiq.com/bernsee/) for the [smbPitchShift](http://blogs.zynaptiq.com/bernsee/repo/smbPitchShift.cpp).
