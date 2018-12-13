@@ -34,6 +34,33 @@ namespace ouzel
             if (busId) audio.deleteObject(busId);
         }
 
+        void Mix::addFilter(Filter* filter)
+        {
+            auto i = std::find(filters.begin(), filters.end(), filter);
+            if (i == filters.end())
+            {
+                if (filter->mix) filter->mix->removeFilter(filter);
+                filter->mix = this;
+                filters.push_back(filter);
+
+                audio.getMixer().addCommand(std::unique_ptr<Command>(new AddProcessorCommand(busId,
+                                                                                             filter->getProcessorId())));
+            }
+        }
+
+        void Mix::removeFilter(Filter* filter)
+        {
+            auto i = std::find(filters.begin(), filters.end(), filter);
+            if (i != filters.end())
+            {
+                filter->mix = nullptr;
+                filters.erase(i);
+
+                audio.getMixer().addCommand(std::unique_ptr<Command>(new RemoveProcessorCommand(busId,
+                                                                                                filter->getProcessorId())));
+            }
+        }
+        
         void Mix::addInput(Submix* submix)
         {
             auto i = std::find(inputSubmixes.begin(), inputSubmixes.end(), submix);
@@ -56,18 +83,6 @@ namespace ouzel
         {
             auto i = std::find(inputVoices.begin(), inputVoices.end(), voice);
             if (i != inputVoices.end()) inputVoices.erase(i);
-        }
-
-        void Mix::addFilter(Filter* filter)
-        {
-            auto i = std::find(filters.begin(), filters.end(), filter);
-            if (i == filters.end()) filters.push_back(filter);
-        }
-
-        void Mix::removeFilter(Filter* filter)
-        {
-            auto i = std::find(filters.begin(), filters.end(), filter);
-            if (i != filters.end()) filters.erase(i);
         }
 
         void Mix::addListener(Listener* listener)

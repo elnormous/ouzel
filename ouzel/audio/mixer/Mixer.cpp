@@ -60,6 +60,24 @@ namespace ouzel
                         bus->setOutput(setBusOutputCommand->outputBusId ? static_cast<Bus*>(objects[setBusOutputCommand->outputBusId - 1].get()) : nullptr);
                         break;
                     }
+                    case Command::Type::ADD_PROCESSOR:
+                    {
+                        AddProcessorCommand* addProcessorCommand = static_cast<AddProcessorCommand*>(command.get());
+
+                        Bus* bus = static_cast<Bus*>(objects[addProcessorCommand->busId - 1].get());
+                        Processor* processor = static_cast<Processor*>(objects[addProcessorCommand->processorId - 1].get());
+                        bus->addProcessor(processor);
+                        break;
+                    }
+                    case Command::Type::REMOVE_PROCESSOR:
+                    {
+                        RemoveProcessorCommand* removeProcessorCommand = static_cast<RemoveProcessorCommand*>(command.get());
+
+                        Bus* bus = static_cast<Bus*>(objects[removeProcessorCommand->busId - 1].get());
+                        Processor* processor = static_cast<Processor*>(objects[removeProcessorCommand->processorId - 1].get());
+                        bus->removeProcessor(processor);
+                        break;
+                    }
                     case Command::Type::SET_MASTER_BUS:
                     {
                         SetMasterBusCommand* setMasterBusCommand = static_cast<SetMasterBusCommand*>(command.get());
@@ -120,14 +138,6 @@ namespace ouzel
                             objects.resize(initProcessorCommand->processorId);
 
                         objects[initProcessorCommand->processorId - 1] = std::move(initProcessorCommand->processor);
-                        break;
-                    }
-                    case Command::Type::SET_PROCESSOR_BUS:
-                    {
-                        SetProcessorBusCommand* setProcessorBusCommand = static_cast<SetProcessorBusCommand*>(command.get());
-
-                        Processor* processor = static_cast<Processor*>(objects[setProcessorBusCommand->processorId - 1].get());
-                        processor->setBus(setProcessorBusCommand->busId ? static_cast<Bus*>(objects[setProcessorBusCommand->busId - 1].get()) : nullptr);
                         break;
                     }
                     case Command::Type::UPDATE_PROCESSOR:

@@ -23,6 +23,8 @@ namespace ouzel
                 DELETE_OBJECT,
                 INIT_BUS,
                 SET_BUS_OUTPUT,
+                ADD_PROCESSOR,
+                REMOVE_PROCESSOR,
                 SET_MASTER_BUS,
                 INIT_SOURCE,
                 PLAY_SOURCE,
@@ -30,7 +32,6 @@ namespace ouzel
                 SET_SOURCE_OUTPUT,
                 INIT_SOURCE_DATA,
                 INIT_PROCESSOR,
-                SET_PROCESSOR_BUS,
                 UPDATE_PROCESSOR
             };
 
@@ -73,6 +74,34 @@ namespace ouzel
 
             uintptr_t busId;
             uintptr_t outputBusId;
+        };
+
+        class AddProcessorCommand: public Command
+        {
+        public:
+            AddProcessorCommand(uintptr_t initBusId,
+                                uintptr_t initProcessorId):
+                Command(Command::Type::ADD_PROCESSOR),
+                busId(initBusId),
+                processorId(initProcessorId)
+            {}
+
+            uintptr_t busId;
+            uintptr_t processorId;
+        };
+
+        class RemoveProcessorCommand: public Command
+        {
+        public:
+            RemoveProcessorCommand(uintptr_t initBusId,
+                                   uintptr_t initProcessorId):
+                Command(Command::Type::REMOVE_PROCESSOR),
+                busId(initBusId),
+                processorId(initProcessorId)
+            {}
+
+            uintptr_t busId;
+            uintptr_t processorId;
         };
 
         class SetMasterBusCommand: public Command
@@ -168,20 +197,6 @@ namespace ouzel
 
             uintptr_t processorId;
             std::unique_ptr<Processor> processor;
-        };
-
-        class SetProcessorBusCommand: public Command
-        {
-        public:
-            SetProcessorBusCommand(uintptr_t initProcessorId,
-                                   uintptr_t initBusId):
-                Command(Command::Type::SET_PROCESSOR_BUS),
-                processorId(initProcessorId),
-                busId(initBusId)
-            {}
-
-            uintptr_t processorId;
-            uintptr_t busId;
         };
 
         class UpdateProcessorCommand: public Command
