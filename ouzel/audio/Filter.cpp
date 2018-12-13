@@ -20,15 +20,5 @@ namespace ouzel
             if (mix) mix->removeFilter(this);
             if (processorId) audio.deleteObject(processorId);
         }
-
-        void Filter::setMix(Mix* newMix)
-        {
-            if (mix) mix->removeFilter(this);
-            mix = newMix;
-            if (mix) mix->addFilter(this);
-
-            audio.getMixer().addCommand(std::unique_ptr<Command>(new SetProcessorBusCommand(processorId,
-                                                                                            mix ? mix->getBusId() : 0)));
-        }
     } // namespace audio
 } // namespace ouzel

@@ -25,8 +25,6 @@ namespace ouzel
             Processor(Processor&&) = delete;
             Processor& operator=(Processor&&) = delete;
 
-            void setBus(Bus* newBus);
-
             virtual void process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
                                  std::vector<float>& samples) = 0;
 

@@ -274,6 +274,29 @@ namespace ouzel
             }
         }
 
+        void Bus::addProcessor(Processor* processor)
+        {
+            auto i = std::find(processors.begin(), processors.end(), processor);
+
+            if (i == processors.end())
+            {
+                if (processor->bus) processor->bus->removeProcessor(processor);
+                processor->bus = this;
+                processors.push_back(processor);
+            }
+        }
+
+        void Bus::removeProcessor(Processor* processor)
+        {
+            auto i = std::find(processors.begin(), processors.end(), processor);
+
+            if (i != processors.end())
+            {
+                processor->bus = nullptr;
+                processors.erase(i);
+            }
+        }
+        
         void Bus::addInput(Bus* bus)
         {
             auto i = std::find(inputBuses.begin(), inputBuses.end(), bus);
@@ -296,29 +319,6 @@ namespace ouzel
         {
             auto i = std::find(inputSources.begin(), inputSources.end(), source);
             if (i != inputSources.end()) inputSources.erase(i);
-        }
-
-        void Bus::addProcessor(Processor* processor)
-        {
-            auto i = std::find(processors.begin(), processors.end(), processor);
-
-            if (i == processors.end())
-            {
-                if (processor->bus) processor->bus->removeProcessor(processor);
-                processor->bus = this;
-                processors.push_back(processor);
-            }
-        }
-
-        void Bus::removeProcessor(Processor* processor)
-        {
-            auto i = std::find(processors.begin(), processors.end(), processor);
-
-            if (i != processors.end())
-            {
-                processor->bus = nullptr;
-                processors.erase(i);
-            }
         }
     } // namespace audio
 } // namespace ouzel

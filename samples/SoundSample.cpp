@@ -41,25 +41,24 @@ SoundSample::SoundSample():
     submix.setOutput(&engine->getAudio()->getMasterMix());
 
     listener.setMix(&submix);
-
-    soundGain.setMix(&submix);
+    submix.addFilter(&soundGain);
     soundGain.setGain(1.0F);
 
     test8BitPitch.setPitch(2.0F);
     test8BitVoice.setOutput(&test8BitSubmix);
-    test8BitPitch.setMix(&test8BitSubmix);
+    test8BitSubmix.addFilter(&test8BitPitch);
     test8BitSubmix.setOutput(&submix);
 
     test24BitPitch.setPitch(0.5F);
     test24BitVoice.setOutput(&test24BitSubmix);
-    test24BitPitch.setMix(&test24BitSubmix);
+    test24BitSubmix.addFilter(&test24BitPitch);
     test24BitSubmix.setOutput(&submix);
 
     guiLayer.addChild(&soundActor);
     soundActor.addComponent(&jumpPanner);
     soundActor.setPosition(Vector3(8.0F, 0.0F, 10.0F));
     jumpVoice.setOutput(&jumpSubmix);
-    jumpPanner.setMix(&jumpSubmix);
+    jumpSubmix.addFilter(&jumpPanner);
     jumpSubmix.setOutput(&submix);
 
     ambientVoice.setOutput(&submix);

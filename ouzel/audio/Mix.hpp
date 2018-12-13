@@ -18,7 +18,6 @@ namespace ouzel
 
         class Mix
         {
-            friend Filter;
             friend Listener;
             friend Submix;
             friend Voice;
@@ -33,13 +32,14 @@ namespace ouzel
 
             uintptr_t getBusId() const { return busId; }
 
+            void addFilter(Filter* filter);
+            void removeFilter(Filter* filter);
+
         protected:
             void addInput(Submix* submix);
             void removeInput(Submix* submix);
             void addInput(Voice* voice);
             void removeInput(Voice* voice);
-            void addFilter(Filter* filter);
-            void removeFilter(Filter* filter);
             void addListener(Listener* listener);
             void removeListener(Listener* listener);
 

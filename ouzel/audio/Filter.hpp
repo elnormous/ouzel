@@ -27,8 +27,6 @@ namespace ouzel
 
             uintptr_t getProcessorId() const { return processorId; }
 
-            void setMix(Mix* newMix);
-
         protected:
             Audio& audio;
             uintptr_t processorId = 0;

@@ -32,13 +32,14 @@ namespace ouzel
                          const Vector3& listenerPosition, const Quaternion& listenerRotation,
                          std::vector<float>& samples);
 
+            void addProcessor(Processor* processor);
+            void removeProcessor(Processor* processor);
+
         private:
             void addInput(Bus* bus);
             void removeInput(Bus* bus);
             void addInput(Source* source);
             void removeInput(Source* source);
-            void addProcessor(Processor* processor);
-            void removeProcessor(Processor* processor);
 
             Bus* output = nullptr;
             std::vector<Bus*> inputBuses;
