@@ -50,17 +50,22 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/audio/opensl/AudioDeviceSL.cpp \
     ../../ouzel/audio/Audio.cpp \
     ../../ouzel/audio/AudioDevice.cpp \
+	../../ouzel/audio/Container.cpp \
 	../../ouzel/audio/Delay.cpp \
 	../../ouzel/audio/Filter.cpp \
 	../../ouzel/audio/Gain.cpp \
     ../../ouzel/audio/Listener.cpp \
 	../../ouzel/audio/Mix.cpp \
     ../../ouzel/audio/Panner.cpp \
+	../../ouzel/audio/ParallelContainer.cpp \
     ../../ouzel/audio/PCMSound.cpp \
 	../../ouzel/audio/Pitch.cpp \
+	../../ouzel/audio/RandomContainer.cpp \
 	../../ouzel/audio/Reverb.cpp \
+	../../ouzel/audio/SequenceContainer.cpp \
 	../../ouzel/audio/SilenceSound.cpp \
     ../../ouzel/audio/Sound.cpp \
+	../../ouzel/audio/Source.cpp \
     ../../ouzel/audio/Submix.cpp \
     ../../ouzel/audio/ToneSound.cpp \
 	../../ouzel/audio/Voice.cpp \
