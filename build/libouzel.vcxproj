@@ -472,7 +472,7 @@
       <PrecompiledHeaderFile />
       <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;_UNICODE;UNICODE;NOMINMAX;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level4</WarningLevel>
-      <ObjectFileName>$(IntDir)/%(RelativeDir)</ObjectFileName>
+      <ObjectFileName>$(IntDir)%(Directory)</ObjectFileName>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -492,7 +492,7 @@
       <PrecompiledHeaderFile />
       <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;_UNICODE;UNICODE;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level4</WarningLevel>
-      <ObjectFileName>$(IntDir)/%(RelativeDir)</ObjectFileName>
+      <ObjectFileName>$(IntDir)%(Directory)</ObjectFileName>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -512,7 +512,7 @@
       <PrecompiledHeaderFile />
       <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;_UNICODE;UNICODE;NOMINMAX;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level4</WarningLevel>
-      <ObjectFileName>$(IntDir)/%(RelativeDir)</ObjectFileName>
+      <ObjectFileName>$(IntDir)%(Directory)</ObjectFileName>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -532,7 +532,7 @@
       <PrecompiledHeaderFile />
       <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;_UNICODE;UNICODE;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level4</WarningLevel>
-      <ObjectFileName>$(IntDir)/%(RelativeDir)</ObjectFileName>
+      <ObjectFileName>$(IntDir)%(Directory)</ObjectFileName>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
