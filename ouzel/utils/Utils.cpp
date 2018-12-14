@@ -24,7 +24,7 @@ typedef struct tagTHREADNAME_INFO
 namespace ouzel
 {
 #if OUZEL_PLATFORM_ANDROID && OUZEL_SUPPORTS_NEON_CHECK
-    AnrdoidNEONChecker anrdoidNEONChecker;
+    AnrdoidNeonChecker anrdoidNeonChecker;
 #endif
 
     std::mt19937 randomEngine(std::random_device{}());
