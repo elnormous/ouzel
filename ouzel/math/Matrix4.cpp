@@ -255,7 +255,7 @@ namespace ouzel
     {
 #if OUZEL_SUPPORTS_NEON
 #if OUZEL_SUPPORTS_NEON_CHECK
-        if (anrdoidNEONChecker.isNEONAvailable())
+        if (anrdoidNeonChecker.isNeonAvailable())
         {
 #endif
 
@@ -346,7 +346,7 @@ namespace ouzel
     {
 #if OUZEL_SUPPORTS_NEON
 #if OUZEL_SUPPORTS_NEON_CHECK
-        if (anrdoidNEONChecker.isNEONAvailable())
+        if (anrdoidNeonChecker.isNeonAvailable())
         {
 #endif
 
@@ -550,7 +550,7 @@ namespace ouzel
     {
 #if OUZEL_SUPPORTS_NEON
 #if OUZEL_SUPPORTS_NEON_CHECK
-        if (anrdoidNEONChecker.isNEONAvailable())
+        if (anrdoidNeonChecker.isNeonAvailable())
         {
 #endif
 
@@ -638,7 +638,7 @@ namespace ouzel
     {
 #if OUZEL_SUPPORTS_NEON
 #if OUZEL_SUPPORTS_NEON_CHECK
-        if (anrdoidNEONChecker.isNEONAvailable())
+        if (anrdoidNeonChecker.isNeonAvailable())
         {
 #endif
 
@@ -837,7 +837,7 @@ namespace ouzel
     {
 #if OUZEL_SUPPORTS_NEON
 #if OUZEL_SUPPORTS_NEON_CHECK
-        if (anrdoidNEONChecker.isNEONAvailable())
+        if (anrdoidNeonChecker.isNeonAvailable())
         {
 #endif
 
@@ -1032,7 +1032,7 @@ namespace ouzel
     {
 #if OUZEL_SUPPORTS_NEON
 #if OUZEL_SUPPORTS_NEON_CHECK
-        if (anrdoidNEONChecker.isNEONAvailable())
+        if (anrdoidNeonChecker.isNeonAvailable())
         {
 #endif
 
@@ -1115,7 +1115,7 @@ namespace ouzel
     {
 #if OUZEL_SUPPORTS_NEON
 #if OUZEL_SUPPORTS_NEON_CHECK
-        if (anrdoidNEONChecker.isNEONAvailable())
+        if (anrdoidNeonChecker.isNeonAvailable())
         {
 #endif
 
@@ -1216,7 +1216,7 @@ namespace ouzel
     {
 #if OUZEL_SUPPORTS_NEON
 #if OUZEL_SUPPORTS_NEON_CHECK
-        if (anrdoidNEONChecker.isNEONAvailable())
+        if (anrdoidNeonChecker.isNeonAvailable())
         {
 #endif
 

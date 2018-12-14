@@ -19,10 +19,10 @@
 namespace ouzel
 {
 #if OUZEL_PLATFORM_ANDROID && OUZEL_SUPPORTS_NEON_CHECK
-    class AnrdoidNEONChecker
+    class AnrdoidNeonChecker
     {
     public:
-        AnrdoidNEONChecker()
+        AnrdoidNeonChecker()
         {
             if (android_getCpuFamily() == ANDROID_CPU_FAMILY_ARM && (android_getCpuFeatures() & ANDROID_CPU_ARM_FEATURE_NEON) != 0)
                 neonAvailable = true;
@@ -30,13 +30,13 @@ namespace ouzel
                 neonAvailable = false;
         }
 
-        bool isNEONAvailable() const { return neonAvailable; }
+        bool isNeonAvailable() const { return neonAvailable; }
 
     private:
         bool neonAvailable;
     };
 
-    extern AnrdoidNEONChecker anrdoidNEONChecker;
+    extern AnrdoidNeonChecker anrdoidNeonChecker;
 #endif
 
     extern std::mt19937 randomEngine;
