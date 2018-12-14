@@ -79,11 +79,6 @@ namespace ouzel
     Engine* engine = nullptr;
 
     Engine::Engine():
-#ifdef DEBUG
-        logThreshold(Log::Level::ALL),
-#else
-        logThreshold(Log::Level::INFO),
-#endif
         fileSystem(*this), assetBundle(cache, fileSystem),
         active(false), paused(false),
         oneUpdatePerFrame(false), screenSaverEnabled(true)

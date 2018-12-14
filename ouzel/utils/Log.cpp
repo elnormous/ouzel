@@ -28,39 +28,52 @@ namespace ouzel
     Log::~Log()
     {
         if (!s.empty())
+            logger.logString(s, level);
+    }
+
+    void Logger::logLoop()
+    {
+        for (;;)
         {
+            std::unique_lock<std::mutex> lock(queueMutex);
+            while (running && logQueue.empty()) logCondition.wait(lock);
+            if (!running) break;
+            std::pair<Log::Level, std::string> str = std::move(logQueue.front());
+            logQueue.pop();
+            lock.unlock();
+
 #if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX
-            switch (level)
+            switch (str.first)
             {
-                case Level::ERR:
-                case Level::WARN:
-                    std::cerr << s << std::endl;
+                case Log::Level::ERR:
+                case Log::Level::WARN:
+                    std::cerr << str.second << std::endl;
                     break;
-                case Level::INFO:
-                case Level::ALL:
-                    std::cout << s << std::endl;
+                case Log::Level::INFO:
+                case Log::Level::ALL:
+                    std::cout << str.second << std::endl;
                     break;
                 default: break;
             }
 #elif OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
             int priority = 0;
-            switch (level)
+            switch (str.first)
             {
-                case Level::ERR: priority = LOG_ERR; break;
-                case Level::WARN: priority = LOG_WARNING; break;
-                case Level::INFO: priority = LOG_INFO; break;
-                case Level::ALL: priority = LOG_DEBUG; break;
+                case Log::Level::ERR: priority = LOG_ERR; break;
+                case Log::Level::WARN: priority = LOG_WARNING; break;
+                case Log::Level::INFO: priority = LOG_INFO; break;
+                case Log::Level::ALL: priority = LOG_DEBUG; break;
                 default: break;
             }
-            syslog(priority, "%s", s.c_str());
+            syslog(priority, "%s", str.second.c_str());
 #elif OUZEL_PLATFORM_WINDOWS
-            int bufferSize = MultiByteToWideChar(CP_UTF8, 0, s.c_str(), -1, nullptr, 0);
+            int bufferSize = MultiByteToWideChar(CP_UTF8, 0, str.second.c_str(), -1, nullptr, 0);
             if (bufferSize == 0)
                 return;
 
             ++bufferSize; // for the newline
             std::vector<WCHAR> buffer(bufferSize);
-            if (MultiByteToWideChar(CP_UTF8, 0, s.c_str(), -1, buffer.data(), bufferSize) == 0)
+            if (MultiByteToWideChar(CP_UTF8, 0, str.second.c_str(), -1, buffer.data(), bufferSize) == 0)
                 return;
 
             StringCchCatW(buffer.data(), buffer.size(), L"\n");
@@ -68,17 +81,17 @@ namespace ouzel
 
 #  if DEBUG
             HANDLE handle = 0;
-            switch (level)
+            switch (str.first)
             {
-            case Level::ERR:
-            case Level::WARN:
-                handle = GetStdHandle(STD_ERROR_HANDLE);
-                break;
-            case Level::INFO:
-            case Level::ALL:
-                handle = GetStdHandle(STD_OUTPUT_HANDLE);
-                break;
-            default: break;
+                case Log::Level::ERR:
+                case Log::Level::WARN:
+                    handle = GetStdHandle(STD_ERROR_HANDLE);
+                    break;
+                case Log::Level::INFO:
+                case Log::Level::ALL:
+                    handle = GetStdHandle(STD_OUTPUT_HANDLE);
+                    break;
+                default: break;
             }
 
             if (handle)
@@ -87,23 +100,23 @@ namespace ouzel
                 WriteConsoleW(handle, buffer.data(), static_cast<DWORD>(wcslen(buffer.data())), &bytesWritten, nullptr);
             }
 #  endif
-
 #elif OUZEL_PLATFORM_ANDROID
             int priority = 0;
-            switch (level)
+            switch (str.first)
             {
-                case Level::ERR: priority = ANDROID_LOG_ERROR; break;
-                case Level::WARN: priority = ANDROID_LOG_WARN; break;
-                case Level::INFO: priority = ANDROID_LOG_INFO; break;
-                case Level::ALL: priority = ANDROID_LOG_DEBUG; break;
+                case Log::Level::ERR: priority = ANDROID_LOG_ERROR; break;
+                case Log::Level::WARN: priority = ANDROID_LOG_WARN; break;
+                case Log::Level::INFO: priority = ANDROID_LOG_INFO; break;
+                case Log::Level::ALL: priority = ANDROID_LOG_DEBUG; break;
                 default: break;
             }
-            __android_log_print(priority, "Ouzel", "%s", s.c_str());
+            __android_log_print(priority, "Ouzel", "%s", str.second.c_str());
 #elif OUZEL_PLATFORM_EMSCRIPTEN
             int flags = EM_LOG_CONSOLE;
-            if (level == Level::ERR) flags |= EM_LOG_ERROR;
-            else if (level == Level::WARN) flags |= EM_LOG_WARN;
-            emscripten_log(flags, "%s", s.c_str());
+            if (str.first == Log::Level::ERR) flags |= EM_LOG_ERROR;
+            else if (str.first == Level::WARN) flags |= EM_LOG_WARN;
+            emscripten_log(flags, "%s", str.second.c_str());
+
 #endif
         }
     }
