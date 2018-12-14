@@ -502,6 +502,21 @@
     <ClCompile Include="..\ouzel\audio\mixer\Processor.cpp">
       <Filter>ouzel\audio\mixer</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\audio\SequenceContainer.cpp">
+      <Filter>ouzel\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\audio\Source.cpp">
+      <Filter>ouzel\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\audio\Container.cpp">
+      <Filter>ouzel\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\audio\ParallelContainer.cpp">
+      <Filter>ouzel\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\audio\RandomContainer.cpp">
+      <Filter>ouzel\audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\animators\Animator.hpp">
@@ -1050,9 +1065,6 @@
     <ClInclude Include="..\ouzel\audio\wasapi\AudioDeviceWASAPI.hpp">
       <Filter>ouzel\audio\wasapi</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\Processor.hpp">
-      <Filter>ouzel\audio\mixer</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\audio\mixer\Object.hpp">
       <Filter>ouzel\audio\mixer</Filter>
     </ClInclude>
@@ -1079,6 +1091,21 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\mixer\Processor.hpp">
       <Filter>ouzel\audio\mixer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\SequenceContainer.hpp">
+      <Filter>ouzel\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\Source.hpp">
+      <Filter>ouzel\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\Container.hpp">
+      <Filter>ouzel\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\ParallelContainer.hpp">
+      <Filter>ouzel\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\RandomContainer.hpp">
+      <Filter>ouzel\audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
