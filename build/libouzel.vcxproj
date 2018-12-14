@@ -43,6 +43,7 @@
     <ClCompile Include="..\ouzel\assets\LoaderWave.cpp" />
     <ClCompile Include="..\ouzel\audio\Audio.cpp" />
     <ClCompile Include="..\ouzel\audio\AudioDevice.cpp" />
+    <ClCompile Include="..\ouzel\audio\Container.cpp" />
     <ClCompile Include="..\ouzel\audio\Delay.cpp" />
     <ClCompile Include="..\ouzel\audio\dsound\AudioDeviceDS.cpp" />
     <ClCompile Include="..\ouzel\audio\empty\AudioDeviceEmpty.cpp" />
@@ -52,9 +53,13 @@
     <ClCompile Include="..\ouzel\audio\mixer\Mixer.cpp" />
     <ClCompile Include="..\ouzel\audio\mixer\Processor.cpp" />
     <ClCompile Include="..\ouzel\audio\Panner.cpp" />
+    <ClCompile Include="..\ouzel\audio\ParallelContainer.cpp" />
     <ClCompile Include="..\ouzel\audio\Pitch.cpp" />
+    <ClCompile Include="..\ouzel\audio\RandomContainer.cpp" />
     <ClCompile Include="..\ouzel\audio\Reverb.cpp" />
     <ClCompile Include="..\ouzel\audio\Listener.cpp" />
+    <ClCompile Include="..\ouzel\audio\SequenceContainer.cpp" />
+    <ClCompile Include="..\ouzel\audio\Source.cpp" />
     <ClCompile Include="..\ouzel\audio\Voice.cpp" />
     <ClCompile Include="..\ouzel\audio\SilenceSound.cpp" />
     <ClCompile Include="..\ouzel\audio\Sound.cpp" />
@@ -218,6 +223,7 @@
     <ClInclude Include="..\ouzel\audio\Audio.hpp" />
     <ClInclude Include="..\ouzel\audio\AudioDevice.hpp" />
     <ClInclude Include="..\ouzel\audio\Channel.hpp" />
+    <ClInclude Include="..\ouzel\audio\Container.hpp" />
     <ClInclude Include="..\ouzel\audio\Delay.hpp" />
     <ClInclude Include="..\ouzel\audio\Driver.hpp" />
     <ClInclude Include="..\ouzel\audio\dsound\AudioDeviceDS.hpp" />
@@ -230,10 +236,14 @@
     <ClInclude Include="..\ouzel\audio\mixer\Object.hpp" />
     <ClInclude Include="..\ouzel\audio\mixer\Processor.hpp" />
     <ClInclude Include="..\ouzel\audio\Panner.hpp" />
+    <ClInclude Include="..\ouzel\audio\ParallelContainer.hpp" />
     <ClInclude Include="..\ouzel\audio\Pitch.hpp" />
+    <ClInclude Include="..\ouzel\audio\RandomContainer.hpp" />
     <ClInclude Include="..\ouzel\audio\Reverb.hpp" />
     <ClInclude Include="..\ouzel\audio\SampleFormat.hpp" />
     <ClInclude Include="..\ouzel\audio\Listener.hpp" />
+    <ClInclude Include="..\ouzel\audio\SequenceContainer.hpp" />
+    <ClInclude Include="..\ouzel\audio\Source.hpp" />
     <ClInclude Include="..\ouzel\audio\Voice.hpp" />
     <ClInclude Include="..\ouzel\audio\SilenceSound.hpp" />
     <ClInclude Include="..\ouzel\audio\Sound.hpp" />
