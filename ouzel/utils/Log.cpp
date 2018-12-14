@@ -105,7 +105,6 @@ namespace ouzel
             else if (level == Level::WARN) flags |= EM_LOG_WARN;
             emscripten_log(flags, "%s", s.c_str());
 #endif
-            s.clear();
         }
     }
 }
