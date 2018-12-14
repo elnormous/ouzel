@@ -37,10 +37,10 @@ public:
                 if (++arg != args.end())
                     sample = *arg;
                 else
-                    ouzel::Log(ouzel::Log::Level::WARN) << "No sample specified";
+                    ouzel::engine->log(ouzel::Log::Level::WARN) << "No sample specified";
             }
             else
-                ouzel::Log(ouzel::Log::Level::WARN) << "Invalid argument \"" << *arg << "\"";
+                ouzel::engine->log(ouzel::Log::Level::WARN) << "Invalid argument \"" << *arg << "\"";
         }
 
         engine->getFileSystem().addResourcePath("Resources");
