@@ -204,15 +204,18 @@ namespace ouzel
 
         void log(const std::string& str, Log::Level level = Log::Level::INFO) const
         {
-#if OUZEL_MULTITHREADED
-            std::unique_lock<std::mutex> lock(queueMutex);
-            logQueue.push(std::make_pair(level, str));
-            lock.unlock();
-            logCondition.notify_all();
-#else
             if (level <= threshold)
+            {
+#if OUZEL_MULTITHREADED
+                std::unique_lock<std::mutex> lock(queueMutex);
+                logQueue.push(std::make_pair(level, str));
+                lock.unlock();
+                logCondition.notify_all();
+#else
+
                 logString(str, level);
 #endif
+            }
         }
 
     private:
