@@ -123,8 +123,7 @@ namespace ouzel
             logQueue.pop();
             lock.unlock();
 
-            if (str.first <= threshold)
-                logString(str.second, str.first);
+            logString(str.second, str.first);
         }
     }
 #endif
