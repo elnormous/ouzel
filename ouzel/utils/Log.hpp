@@ -210,7 +210,8 @@ namespace ouzel
             lock.unlock();
             logCondition.notify_all();
 #else
-            logString(str, level);
+            if (level <= threshold)
+                logString(str, level);
 #endif
         }
 
