@@ -448,22 +448,10 @@
     <ClCompile Include="..\ouzel\graphics\direct3d11\DepthStencilStateD3D11.cpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\Delay.cpp">
-      <Filter>ouzel\audio</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\audio\Filter.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\Gain.cpp">
-      <Filter>ouzel\audio</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\audio\Panner.cpp">
-      <Filter>ouzel\audio</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\audio\Pitch.cpp">
-      <Filter>ouzel\audio</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\audio\Reverb.cpp">
+    <ClCompile Include="..\ouzel\audio\Filters.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\core\System.cpp">
@@ -1035,22 +1023,10 @@
     <ClInclude Include="..\ouzel\graphics\Driver.hpp">
       <Filter>ouzel\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\Delay.hpp">
-      <Filter>ouzel\audio</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\audio\Filter.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\Gain.hpp">
-      <Filter>ouzel\audio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\audio\Panner.hpp">
-      <Filter>ouzel\audio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\audio\Pitch.hpp">
-      <Filter>ouzel\audio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\audio\Reverb.hpp">
+    <ClInclude Include="..\ouzel\audio\Filters.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\core\System.hpp">
