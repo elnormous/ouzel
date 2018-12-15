@@ -3,6 +3,7 @@
 #ifndef OUZEL_UTILS_LOG_HPP
 #define OUZEL_UTILS_LOG_HPP
 
+#include <atomic>
 #include <condition_variable>
 #include <mutex>
 #include <queue>
@@ -179,16 +180,21 @@ namespace ouzel
     {
     public:
         explicit Logger(Log::Level initThreshold = Log::Level::ALL):
-            threshold(initThreshold), logThread(&Logger::logLoop, this)
+            threshold(initThreshold)
         {
+#if OUZEL_MULTITHREADED
+            logThread = std::thread(&Logger::logLoop, this);
+#endif
         }
 
         ~Logger()
         {
+#if OUZEL_MULTITHREADED
             std::unique_lock<std::mutex> lock(queueMutex);
             running = false;
             lock.unlock();
             logCondition.notify_all();
+#endif
         }
 
         Log log(Log::Level level = Log::Level::INFO) const
@@ -196,16 +202,20 @@ namespace ouzel
             return Log(*this, level);
         }
 
-        void logString(const std::string& str, Log::Level level = Log::Level::INFO) const
+        void log(const std::string& str, Log::Level level = Log::Level::INFO) const
         {
+#if OUZEL_MULTITHREADED
             std::unique_lock<std::mutex> lock(queueMutex);
             logQueue.push(std::make_pair(level, str));
             lock.unlock();
             logCondition.notify_all();
+#else
+            logString(str, level);
+#endif
         }
 
     private:
-        void logLoop();
+        void logString(const std::string& str, Log::Level level = Log::Level::INFO) const;
 
 #ifdef DEBUG
         std::atomic<Log::Level> threshold{Log::Level::ALL};
@@ -213,11 +223,15 @@ namespace ouzel
         std::atomic<Log::Level> threshold{Log::Level::INFO};
 #endif
 
+#if OUZEL_MULTITHREADED
+        void logLoop();
+
         mutable std::condition_variable logCondition;
         mutable std::mutex queueMutex;
         mutable std::queue<std::pair<Log::Level, std::string>> logQueue;
         std::thread logThread;
         bool running = true;
+#endif
     };
 }
 

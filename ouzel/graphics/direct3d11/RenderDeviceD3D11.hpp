@@ -110,7 +110,7 @@ namespace ouzel
             UINT swapInterval = 0;
             FLOAT frameBufferClearColor[4];
 
-            std::atomic_bool running;
+            std::atomic_bool running{false};
             std::thread renderThread;
 
             std::vector<std::unique_ptr<RenderResourceD3D11>> resources;

@@ -79,9 +79,7 @@ namespace ouzel
     Engine* engine = nullptr;
 
     Engine::Engine():
-        fileSystem(*this), assetBundle(cache, fileSystem),
-        active(false), paused(false),
-        oneUpdatePerFrame(false), screenSaverEnabled(true)
+        fileSystem(*this), assetBundle(cache, fileSystem)
     {
         engine = this;
     }

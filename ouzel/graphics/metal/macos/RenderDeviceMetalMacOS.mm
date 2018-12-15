@@ -40,8 +40,7 @@ namespace ouzel
     namespace graphics
     {
         RenderDeviceMetalMacOS::RenderDeviceMetalMacOS(const std::function<void(const Event&)>& initCallback):
-            RenderDeviceMetal(initCallback),
-            running(false)
+            RenderDeviceMetal(initCallback)
         {
         }
 

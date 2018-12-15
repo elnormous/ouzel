@@ -12,9 +12,7 @@ namespace ouzel
             driver(initDriver),
             callback(initCallback),
             projectionTransform(Matrix4::identity()),
-            renderTargetProjectionTransform(Matrix4::identity()),
-            currentFPS(0.0F),
-            accumulatedFPS(0.0F)
+            renderTargetProjectionTransform(Matrix4::identity())
         {
         }
 

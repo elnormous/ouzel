@@ -27,7 +27,7 @@ namespace ouzel
         const Direct3D11ErrorCategory direct3D11ErrorCategory {};
 
         RenderDeviceD3D11::RenderDeviceD3D11(const std::function<void(const Event&)>& initCallback):
-            RenderDevice(Driver::DIRECT3D11, initCallback), running(false)
+            RenderDevice(Driver::DIRECT3D11, initCallback)
         {
             apiMajorVersion = 11;
             apiMinorVersion = 0;
