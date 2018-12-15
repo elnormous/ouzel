@@ -44,7 +44,7 @@ namespace ouzel
         const XAudio2ErrorCategory xAudio2ErrorCategory {};
 
         AudioDeviceXA2::AudioDeviceXA2(Mixer& initMixer, bool debugAudio):
-            AudioDevice(Driver::XAUDIO2, initMixer), running(true)
+            AudioDevice(Driver::XAUDIO2, initMixer)
         {
             xAudio2Library = LoadLibraryA(XAUDIO2_DLL_28);
 
@@ -158,6 +158,7 @@ namespace ouzel
             if (FAILED(hr = sourceVoice->Start()))
                 throw std::system_error(hr, xAudio2ErrorCategory, "Failed to start consuming sound data");
 
+            running = true;
             audioThread = std::thread(&AudioDeviceXA2::run, this);
         }
 

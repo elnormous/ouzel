@@ -75,7 +75,7 @@ namespace ouzel
         const DirectSoundErrorCategory directSoundErrorCategory {};
 
         AudioDeviceDS::AudioDeviceDS(Mixer& initMixer, Window* window):
-            AudioDevice(Driver::DIRECTSOUND, initMixer), running(true)
+            AudioDevice(Driver::DIRECTSOUND, initMixer)
         {
             HRESULT hr;
             if (FAILED(hr = DirectSoundEnumerateW(enumCallback, this)))
@@ -187,6 +187,7 @@ namespace ouzel
             if (FAILED(hr = buffer->Play(0, 0, DSBPLAY_LOOPING)))
                 throw std::system_error(hr, directSoundErrorCategory, "Failed to play DirectSound buffer");
 
+            running = true;
             audioThread = std::thread(&AudioDeviceDS::run, this);
         }
 

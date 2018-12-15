@@ -164,12 +164,12 @@ namespace ouzel
             std::mutex commandQueueMutex;
             std::condition_variable commandQueueCondition;
 
-            std::atomic<float> currentFPS;
+            std::atomic<float> currentFPS{0.0F};
             std::chrono::steady_clock::time_point previousFrameTime;
 
             float accumulatedTime = 0.0F;
             float currentAccumulatedFPS = 0.0F;
-            std::atomic<float> accumulatedFPS;
+            std::atomic<float> accumulatedFPS{0.0F};
 
             std::queue<std::function<void()>> executeQueue;
             std::mutex executeMutex;

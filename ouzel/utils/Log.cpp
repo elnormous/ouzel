@@ -28,9 +28,90 @@ namespace ouzel
     Log::~Log()
     {
         if (!s.empty())
-            logger.logString(s, level);
+            logger.log(s, level);
     }
 
+    void Logger::logString(const std::string& str, Log::Level level) const
+    {
+#if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX
+        switch (level)
+        {
+            case Log::Level::ERR:
+            case Log::Level::WARN:
+                std::cerr << str << std::endl;
+                break;
+            case Log::Level::INFO:
+            case Log::Level::ALL:
+                std::cout << str << std::endl;
+                break;
+            default: break;
+        }
+#elif OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+        int priority = 0;
+        switch (level)
+        {
+            case Log::Level::ERR: priority = LOG_ERR; break;
+            case Log::Level::WARN: priority = LOG_WARNING; break;
+            case Log::Level::INFO: priority = LOG_INFO; break;
+            case Log::Level::ALL: priority = LOG_DEBUG; break;
+            default: break;
+        }
+        syslog(priority, "%s", str.c_str());
+#elif OUZEL_PLATFORM_WINDOWS
+        int bufferSize = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, nullptr, 0);
+        if (bufferSize == 0)
+            return;
+
+        ++bufferSize; // for the newline
+        std::vector<WCHAR> buffer(bufferSize);
+        if (MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, buffer.data(), bufferSize) == 0)
+            return;
+
+        StringCchCatW(buffer.data(), buffer.size(), L"\n");
+        OutputDebugStringW(buffer.data());
+
+#  if DEBUG
+        HANDLE handle = 0;
+        switch (level)
+        {
+            case Log::Level::ERR:
+            case Log::Level::WARN:
+                handle = GetStdHandle(STD_ERROR_HANDLE);
+                break;
+            case Log::Level::INFO:
+            case Log::Level::ALL:
+                handle = GetStdHandle(STD_OUTPUT_HANDLE);
+                break;
+            default: break;
+        }
+
+        if (handle)
+        {
+            DWORD bytesWritten;
+            WriteConsoleW(handle, buffer.data(), static_cast<DWORD>(wcslen(buffer.data())), &bytesWritten, nullptr);
+        }
+#  endif
+#elif OUZEL_PLATFORM_ANDROID
+        int priority = 0;
+        switch (level)
+        {
+            case Log::Level::ERR: priority = ANDROID_LOG_ERROR; break;
+            case Log::Level::WARN: priority = ANDROID_LOG_WARN; break;
+            case Log::Level::INFO: priority = ANDROID_LOG_INFO; break;
+            case Log::Level::ALL: priority = ANDROID_LOG_DEBUG; break;
+            default: break;
+        }
+        __android_log_print(priority, "Ouzel", "%s", str.c_str());
+#elif OUZEL_PLATFORM_EMSCRIPTEN
+        int flags = EM_LOG_CONSOLE;
+        if (level == Log::Level::ERR) flags |= EM_LOG_ERROR;
+        else if (level == Log::Level::WARN) flags |= EM_LOG_WARN;
+        emscripten_log(flags, "%s", str.c_str());
+
+#endif
+    }
+
+#if OUZEL_MULTITHREADED
     void Logger::logLoop()
     {
         for (;;)
@@ -42,82 +123,8 @@ namespace ouzel
             logQueue.pop();
             lock.unlock();
 
-#if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX
-            switch (str.first)
-            {
-                case Log::Level::ERR:
-                case Log::Level::WARN:
-                    std::cerr << str.second << std::endl;
-                    break;
-                case Log::Level::INFO:
-                case Log::Level::ALL:
-                    std::cout << str.second << std::endl;
-                    break;
-                default: break;
-            }
-#elif OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-            int priority = 0;
-            switch (str.first)
-            {
-                case Log::Level::ERR: priority = LOG_ERR; break;
-                case Log::Level::WARN: priority = LOG_WARNING; break;
-                case Log::Level::INFO: priority = LOG_INFO; break;
-                case Log::Level::ALL: priority = LOG_DEBUG; break;
-                default: break;
-            }
-            syslog(priority, "%s", str.second.c_str());
-#elif OUZEL_PLATFORM_WINDOWS
-            int bufferSize = MultiByteToWideChar(CP_UTF8, 0, str.second.c_str(), -1, nullptr, 0);
-            if (bufferSize == 0)
-                return;
-
-            ++bufferSize; // for the newline
-            std::vector<WCHAR> buffer(bufferSize);
-            if (MultiByteToWideChar(CP_UTF8, 0, str.second.c_str(), -1, buffer.data(), bufferSize) == 0)
-                return;
-
-            StringCchCatW(buffer.data(), buffer.size(), L"\n");
-            OutputDebugStringW(buffer.data());
-
-#  if DEBUG
-            HANDLE handle = 0;
-            switch (str.first)
-            {
-                case Log::Level::ERR:
-                case Log::Level::WARN:
-                    handle = GetStdHandle(STD_ERROR_HANDLE);
-                    break;
-                case Log::Level::INFO:
-                case Log::Level::ALL:
-                    handle = GetStdHandle(STD_OUTPUT_HANDLE);
-                    break;
-                default: break;
-            }
-
-            if (handle)
-            {
-                DWORD bytesWritten;
-                WriteConsoleW(handle, buffer.data(), static_cast<DWORD>(wcslen(buffer.data())), &bytesWritten, nullptr);
-            }
-#  endif
-#elif OUZEL_PLATFORM_ANDROID
-            int priority = 0;
-            switch (str.first)
-            {
-                case Log::Level::ERR: priority = ANDROID_LOG_ERROR; break;
-                case Log::Level::WARN: priority = ANDROID_LOG_WARN; break;
-                case Log::Level::INFO: priority = ANDROID_LOG_INFO; break;
-                case Log::Level::ALL: priority = ANDROID_LOG_DEBUG; break;
-                default: break;
-            }
-            __android_log_print(priority, "Ouzel", "%s", str.second.c_str());
-#elif OUZEL_PLATFORM_EMSCRIPTEN
-            int flags = EM_LOG_CONSOLE;
-            if (str.first == Log::Level::ERR) flags |= EM_LOG_ERROR;
-            else if (str.first == Level::WARN) flags |= EM_LOG_WARN;
-            emscripten_log(flags, "%s", str.second.c_str());
-
-#endif
+            logString(str.second, str.first);
         }
     }
+#endif
 }

@@ -76,8 +76,7 @@ namespace ouzel
                            uint32_t newMaxAnisotropy,
                            bool newVerticalSync,
                            bool newDepth,
-                           bool newDebugRenderer):
-            refillQueue(true)
+                           bool newDebugRenderer)
         {
             for (uint32_t i = 0; i < 256; ++i)
             {

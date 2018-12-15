@@ -121,11 +121,11 @@ namespace ouzel
 #endif
         std::chrono::steady_clock::time_point previousUpdateTime;
 
-        std::atomic_bool active;
-        std::atomic_bool paused;
-        std::atomic_bool oneUpdatePerFrame;
+        std::atomic_bool active{false};
+        std::atomic_bool paused{false};
+        std::atomic_bool oneUpdatePerFrame{false};
 
-        std::atomic_bool screenSaverEnabled;
+        std::atomic_bool screenSaverEnabled{true};
         std::vector<std::string> args;
     };
 

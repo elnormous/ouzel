@@ -54,8 +54,7 @@ namespace ouzel
 #endif
 
         RenderDeviceOGLLinux::RenderDeviceOGLLinux(const std::function<void(const Event&)>& initCallback):
-            RenderDeviceOGL(initCallback),
-            running(false)
+            RenderDeviceOGL(initCallback)
         {
         }
 

@@ -56,7 +56,7 @@ namespace ouzel
             std::vector<uint8_t> data;
 
 #if OUZEL_MULTITHREADED
-            std::atomic_bool running;
+            std::atomic_bool running{false};
             std::thread audioThread;
 #endif
         };

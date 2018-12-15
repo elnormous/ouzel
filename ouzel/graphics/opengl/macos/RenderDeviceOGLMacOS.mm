@@ -38,8 +38,7 @@ namespace ouzel
     namespace graphics
     {
         RenderDeviceOGLMacOS::RenderDeviceOGLMacOS(const std::function<void(const Event&)>& initCallback):
-            RenderDeviceOGL(initCallback),
-            running(false)
+            RenderDeviceOGL(initCallback)
         {
         }
 

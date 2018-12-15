@@ -15,7 +15,7 @@ namespace ouzel
     namespace audio
     {
         AudioDeviceALSA::AudioDeviceALSA(Mixer& initMixer):
-            AudioDevice(Driver::ALSA, initMixer), running(true)
+            AudioDevice(Driver::ALSA, initMixer)
         {
             int result;
             if ((result = snd_pcm_open(&playbackHandle, "default", SND_PCM_STREAM_PLAYBACK, 0)) < 0)
@@ -98,6 +98,7 @@ namespace ouzel
             snd_pcm_sw_params_free(swParams);
             swParams = nullptr;
 
+            running = true;
             audioThread = std::thread(&AudioDeviceALSA::run, this);
         }
 

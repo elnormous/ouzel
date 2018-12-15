@@ -117,7 +117,7 @@ namespace ouzel
             bool newFrame = false;
             std::mutex frameMutex;
             std::condition_variable frameCondition;
-            std::atomic_bool refillQueue;
+            std::atomic_bool refillQueue{true};
         };
     } // namespace graphics
 } // namespace ouzel
