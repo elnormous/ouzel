@@ -265,13 +265,13 @@ namespace ouzel
                     else
                         buffer = mixBuffer;
 
-                    for (Processor* processor : processors)
-                        processor->process(frames, channels, sampleRate, buffer);
-
                     for (size_t s = 0; s < samples.size(); ++s)
                         samples[s] += buffer[s];
                 }
             }
+
+            for (Processor* processor : processors)
+                processor->process(frames, channels, sampleRate, samples);
         }
 
         void Bus::addProcessor(Processor* processor)
@@ -296,7 +296,7 @@ namespace ouzel
                 processors.erase(i);
             }
         }
-        
+
         void Bus::addInput(Bus* bus)
         {
             auto i = std::find(inputBuses.begin(), inputBuses.end(), bus);
