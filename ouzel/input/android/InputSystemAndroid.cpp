@@ -15,7 +15,7 @@ namespace ouzel
             InputSystem(initCallback),
             keyboardDevice(new KeyboardDevice(*this, ++lastDeviceId)),
             mouseDevice(new MouseDevice(*this, ++lastDeviceId)),
-            touchpadDevice(new TouchpadDevice(*this, ++lastDeviceId))
+            touchpadDevice(new TouchpadDevice(*this, ++lastDeviceId, true))
         {
             EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(engine);
             javaVM = engineAndroid->getJavaVM();

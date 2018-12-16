@@ -233,42 +233,45 @@ namespace ouzel
 
         bool Scene::handleTouch(const TouchEvent& event)
         {
-            switch (event.type)
+            if (event.touchpad->isScreen())
             {
-                case Event::Type::TOUCH_BEGIN:
+                switch (event.type)
                 {
-                    std::pair<Actor*, Vector3> actor = pickActor(event.position);
-                    pointerDownOnActor(event.touchId, actor.first, event.position, actor.second);
-                    break;
-                }
-                case Event::Type::TOUCH_END:
-                {
-                    std::pair<Actor*, Vector3> actor = pickActor(event.position);
-                    pointerUpOnActor(event.touchId, actor.first, event.position);
-                    break;
-                }
-                case Event::Type::TOUCH_MOVE:
-                {
-                    std::pair<Actor*, Vector3> previousActor = pickActor(event.position - event.difference);
-                    pointerLeaveActor(0, previousActor.first, event.position);
+                    case Event::Type::TOUCH_BEGIN:
+                    {
+                        std::pair<Actor*, Vector3> actor = pickActor(event.position);
+                        pointerDownOnActor(event.touchId, actor.first, event.position, actor.second);
+                        break;
+                    }
+                    case Event::Type::TOUCH_END:
+                    {
+                        std::pair<Actor*, Vector3> actor = pickActor(event.position);
+                        pointerUpOnActor(event.touchId, actor.first, event.position);
+                        break;
+                    }
+                    case Event::Type::TOUCH_MOVE:
+                    {
+                        std::pair<Actor*, Vector3> previousActor = pickActor(event.position - event.difference);
+                        pointerLeaveActor(0, previousActor.first, event.position);
 
-                    std::pair<Actor*, Vector3> actor = pickActor(event.position);
-                    pointerEnterActor(0, actor.first, event.position);
+                        std::pair<Actor*, Vector3> actor = pickActor(event.position);
+                        pointerEnterActor(0, actor.first, event.position);
 
-                    auto i = pointerDownOnActors.find(event.touchId);
+                        auto i = pointerDownOnActors.find(event.touchId);
 
-                    if (i != pointerDownOnActors.end())
-                        pointerDragActor(event.touchId, i->second.first, event.position, event.difference, i->second.second);
-                    break;
+                        if (i != pointerDownOnActors.end())
+                            pointerDragActor(event.touchId, i->second.first, event.position, event.difference, i->second.second);
+                        break;
+                    }
+                    case Event::Type::TOUCH_CANCEL:
+                    {
+                        std::pair<Actor*, Vector3> actor = pickActor(event.position);
+                        pointerUpOnActor(event.touchId, actor.first, event.position);
+                        break;
+                    }
+                    default:
+                        break;
                 }
-                case Event::Type::TOUCH_CANCEL:
-                {
-                    std::pair<Actor*, Vector3> actor = pickActor(event.position);
-                    pointerUpOnActor(event.touchId, actor.first, event.position);
-                    break;
-                }
-                default:
-                    break;
             }
 
             return false;

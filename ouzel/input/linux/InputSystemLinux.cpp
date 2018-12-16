@@ -26,7 +26,7 @@ namespace ouzel
             InputSystem(initCallback),
             keyboardDevice(new KeyboardDeviceLinux(*this, ++lastDeviceId)),
             mouseDevice(new MouseDeviceLinux(*this, ++lastDeviceId)),
-            touchpadDevice(new TouchpadDevice(*this, ++lastDeviceId))
+            touchpadDevice(new TouchpadDevice(*this, ++lastDeviceId, true))
 #else
             InputSystem(initCallback)
 #endif

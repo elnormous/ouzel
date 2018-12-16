@@ -29,7 +29,7 @@ namespace ouzel
             InputSystem(initCallback),
             keyboardDevice(new KeyboardDeviceWin(*this, ++lastDeviceId)),
             mouseDevice(new MouseDeviceWin(*this, ++lastDeviceId)),
-            touchpadDevice(new TouchpadDevice(*this, ++lastDeviceId))
+            touchpadDevice(new TouchpadDevice(*this, ++lastDeviceId, true))
         {
             defaultCursor = LoadCursor(nullptr, IDC_ARROW);
 

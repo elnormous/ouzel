@@ -7,6 +7,25 @@ namespace ouzel
 {
     namespace input
     {
+        MouseDevice::MouseDevice(InputSystem& initInputSystem, uint32_t initId):
+            InputDevice(initInputSystem, initId, Controller::Type::MOUSE)
+        {
+            InputSystem::Event deviceConnectEvent;
+            deviceConnectEvent.type = InputSystem::Event::Type::DEVICE_CONNECT;
+            deviceConnectEvent.deviceId = id;
+            deviceConnectEvent.deviceType = type;
+            inputSystem.sendEvent(deviceConnectEvent);
+        }
+
+        MouseDevice::~MouseDevice()
+        {
+            InputSystem::Event deviceDisconnectEvent;
+            deviceDisconnectEvent.type = InputSystem::Event::Type::DEVICE_DISCONNECT;
+            deviceDisconnectEvent.deviceId = id;
+            deviceDisconnectEvent.deviceType = type;
+            inputSystem.sendEvent(deviceDisconnectEvent);
+        }
+
         std::future<bool> MouseDevice::handleButtonPress(Mouse::Button button, const Vector2& position)
         {
             InputSystem::Event event(InputSystem::Event::Type::MOUSE_PRESS);

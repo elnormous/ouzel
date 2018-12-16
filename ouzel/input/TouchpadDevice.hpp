@@ -14,10 +14,8 @@ namespace ouzel
         class TouchpadDevice: public InputDevice
         {
         public:
-            TouchpadDevice(InputSystem& initInputSystem, uint32_t initId):
-                InputDevice(initInputSystem, initId, Controller::Type::TOUCHPAD)
-            {
-            }
+            TouchpadDevice(InputSystem& initInputSystem, uint32_t initId, bool screen);
+            ~TouchpadDevice();
 
             std::future<bool> handleTouchBegin(uint64_t touchId, const Vector2& position, float force = 1.0F);
             std::future<bool> handleTouchEnd(uint64_t touchId, const Vector2& position, float force = 1.0F);

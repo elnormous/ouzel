@@ -301,7 +301,7 @@ namespace ouzel
             InputSystem(initCallback),
             keyboardDevice(new KeyboardDevice(*this, ++lastDeviceId)),
             mouseDevice(new MouseDeviceEm(*this, ++lastDeviceId)),
-            touchpadDevice(new TouchpadDevice(*this, ++lastDeviceId))
+            touchpadDevice(new TouchpadDevice(*this, ++lastDeviceId, true))
         {
             emscripten_set_keypress_callback(nullptr, keyboardDevice.get(), true, emKeyCallback);
             emscripten_set_keydown_callback(nullptr, keyboardDevice.get(), true, emKeyCallback);
