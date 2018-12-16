@@ -18,7 +18,9 @@ namespace ouzel
         {
             friend InputManager;
         public:
-            Touchpad(InputManager& initInputManager, uint32_t initDeviceId);
+            Touchpad(InputManager& initInputManager, uint32_t initDeviceId, bool initScreen);
+
+            bool isScreen() const { return screen; }
 
         protected:
             bool handleTouchBegin(uint64_t touchId, const Vector2& position, float force = 1.0F);
@@ -28,6 +30,7 @@ namespace ouzel
 
         private:
             std::unordered_map<uint64_t, Vector2> touchPositions;
+            bool screen = false;
         };
     } // namespace input
 } // namespace ouzel

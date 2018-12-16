@@ -65,7 +65,7 @@ namespace ouzel
             InputSystem(initCallback),
             keyboardDevice(new KeyboardDevice(*this, ++lastDeviceId)),
             mouseDevice(new MouseDeviceMacOS(*this, ++lastDeviceId)),
-            touchpadDevice(new TouchpadDevice(*this, ++lastDeviceId))
+            touchpadDevice(new TouchpadDevice(*this, ++lastDeviceId, false))
         {
             defaultCursor = [NSCursor arrowCursor];
 

@@ -114,6 +114,7 @@ namespace ouzel
                     Gamepad::Button gamepadButton;
                     uint64_t touchId;
                 };
+                bool screen = false;
                 bool locked = false;
                 bool pressed = false;
                 bool previousPressed = false;

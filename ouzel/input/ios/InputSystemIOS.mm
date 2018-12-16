@@ -45,7 +45,7 @@ namespace ouzel
         InputSystemIOS::InputSystemIOS(const std::function<std::future<bool>(const Event&)>& initCallback):
             InputSystem(initCallback),
             keyboardDevice(new KeyboardDevice(*this, ++lastDeviceId)),
-            touchpadDevice(new TouchpadDevice(*this, ++lastDeviceId))
+            touchpadDevice(new TouchpadDevice(*this, ++lastDeviceId, true))
         {
             connectDelegate = [[ConnectDelegate alloc] initWithInput:this];
 

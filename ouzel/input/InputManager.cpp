@@ -124,7 +124,7 @@ namespace ouzel
                         {
                             std::unique_ptr<TouchEvent> connectEvent(new TouchEvent());
                             connectEvent->type = Event::Type::TOUCHPAD_CONNECT;
-                            std::unique_ptr<Touchpad> touchpadController(new Touchpad(*this, event.deviceId));
+                            std::unique_ptr<Touchpad> touchpadController(new Touchpad(*this, event.deviceId, event.screen));
                             connectEvent->touchpad = touchpadController.get();
                             if (!touchpad) touchpad = touchpadController.get();
                             controllers.push_back(touchpadController.get());

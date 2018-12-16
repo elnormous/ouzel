@@ -7,6 +7,26 @@ namespace ouzel
 {
     namespace input
     {
+        TouchpadDevice::TouchpadDevice(InputSystem& initInputSystem, uint32_t initId, bool screen):
+            InputDevice(initInputSystem, initId, Controller::Type::TOUCHPAD)
+        {
+            InputSystem::Event deviceConnectEvent;
+            deviceConnectEvent.type = InputSystem::Event::Type::DEVICE_CONNECT;
+            deviceConnectEvent.deviceId = id;
+            deviceConnectEvent.deviceType = type;
+            deviceConnectEvent.screen = screen;
+            inputSystem.sendEvent(deviceConnectEvent);
+        }
+
+        TouchpadDevice::~TouchpadDevice()
+        {
+            InputSystem::Event deviceDisconnectEvent;
+            deviceDisconnectEvent.type = InputSystem::Event::Type::DEVICE_DISCONNECT;
+            deviceDisconnectEvent.deviceId = id;
+            deviceDisconnectEvent.deviceType = type;
+            inputSystem.sendEvent(deviceDisconnectEvent);
+        }
+
         std::future<bool> TouchpadDevice::handleTouchBegin(uint64_t touchId, const Vector2& position, float force)
         {
             InputSystem::Event event(InputSystem::Event::Type::TOUCH_BEGIN);

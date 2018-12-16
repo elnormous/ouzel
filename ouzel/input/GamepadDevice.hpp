@@ -14,10 +14,8 @@ namespace ouzel
         class GamepadDevice: public InputDevice
         {
         public:
-            GamepadDevice(InputSystem& initInputSystem, uint32_t initId):
-                InputDevice(initInputSystem, initId, Controller::Type::GAMEPAD)
-            {
-            }
+            GamepadDevice(InputSystem& initInputSystem, uint32_t initId);
+            ~GamepadDevice();
 
             std::future<bool> handleButtonValueChange(Gamepad::Button button, bool pressed, float value);
         };

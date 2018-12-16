@@ -281,7 +281,7 @@ namespace ouzel
                     (isBitSet(keyBits, BTN_TOOL_FINGER) && !isBitSet(keyBits, BTN_TOOL_PEN)) || // touchpad
                     isBitSet(keyBits, BTN_TOUCH)) // touchscreen
                 {
-                    touchpadDevice.reset(new TouchpadDevice(inputSystem, inputSystem.getNextDeviceId()));
+                    touchpadDevice.reset(new TouchpadDevice(inputSystem, inputSystem.getNextDeviceId(), false));
 
                     input_absinfo info;
 
