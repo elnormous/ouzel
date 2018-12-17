@@ -35,6 +35,7 @@ namespace ouzel
             Audio(Audio&&) = delete;
             Audio& operator=(Audio&&) = delete;
 
+            static Driver getDriver(const std::string& driver);
             static std::set<Driver> getAvailableAudioDrivers();
 
             inline AudioDevice* getDevice() const { return device.get(); }

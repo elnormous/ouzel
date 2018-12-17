@@ -43,6 +43,7 @@ namespace ouzel
             Renderer(Renderer&&) = delete;
             Renderer& operator=(Renderer&&) = delete;
 
+            static Driver getDriver(const std::string& driver);
             static std::set<Driver> getAvailableRenderDrivers();
 
             inline RenderDevice* getDevice() const { return device.get(); }

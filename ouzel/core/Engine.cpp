@@ -113,7 +113,6 @@ namespace ouzel
     {
         setCurrentThreadName("Main");
 
-        graphics::Driver graphicsDriver = graphics::Driver::DEFAULT;
         Size2 size;
         uint32_t sampleCount = 1; // MSAA sample count
         graphics::Texture::Filter textureFilter = graphics::Texture::Filter::POINT;
@@ -125,7 +124,6 @@ namespace ouzel
         bool debugRenderer = false;
         bool exclusiveFullscreen = false;
         bool highDpi = true; // should high DPI resolution be used
-        audio::Driver audioDriver = audio::Driver::DEFAULT;
         bool debugAudio = false;
 
         defaultSettings = ini::Data(fileSystem.readFile("settings.ini"));
@@ -143,22 +141,6 @@ namespace ouzel
         const ini::Section& defaultEngineSection = defaultSettings.getSection("engine");
 
         std::string graphicsDriverValue = userEngineSection.getValue("graphicsDriver", defaultEngineSection.getValue("graphicsDriver"));
-
-        if (!graphicsDriverValue.empty())
-        {
-            if (graphicsDriverValue == "default")
-                graphicsDriver = graphics::Driver::DEFAULT;
-            else if (graphicsDriverValue == "empty")
-                graphicsDriver = graphics::Driver::EMPTY;
-            else if (graphicsDriverValue == "opengl")
-                graphicsDriver = graphics::Driver::OPENGL;
-            else if (graphicsDriverValue == "direct3d11")
-                graphicsDriver = graphics::Driver::DIRECT3D11;
-            else if (graphicsDriverValue == "metal")
-                graphicsDriver = graphics::Driver::METAL;
-            else
-                throw std::runtime_error("Invalid graphics driver specified");
-        }
 
         std::string widthValue = userEngineSection.getValue("width", defaultEngineSection.getValue("width"));
         if (!widthValue.empty()) size.width = std::stof(widthValue);
@@ -210,44 +192,10 @@ namespace ouzel
 
         std::string audioDriverValue = userEngineSection.getValue("audioDriver", defaultEngineSection.getValue("audioDriver"));
 
-        if (!audioDriverValue.empty())
-        {
-            if (audioDriverValue == "default")
-                audioDriver = audio::Driver::DEFAULT;
-            else if (audioDriverValue == "empty")
-                audioDriver = audio::Driver::EMPTY;
-            else if (audioDriverValue == "openal")
-                audioDriver = audio::Driver::OPENAL;
-            else if (audioDriverValue == "directsound")
-                audioDriver = audio::Driver::DIRECTSOUND;
-            else if (audioDriverValue == "xaudio2")
-                audioDriver = audio::Driver::XAUDIO2;
-            else if (audioDriverValue == "opensl")
-                audioDriver = audio::Driver::OPENSL;
-            else if (audioDriverValue == "coreaudio")
-                audioDriver = audio::Driver::COREAUDIO;
-            else if (audioDriverValue == "alsa")
-                audioDriver = audio::Driver::ALSA;
-            else
-                throw std::runtime_error("Invalid audio driver specified");
-        }
-
         std::string debugAudioValue = userEngineSection.getValue("debugAudio", defaultEngineSection.getValue("debugAudio"));
         if (!debugAudioValue.empty()) debugAudio = (debugAudioValue == "true" || debugAudioValue == "1" || debugAudioValue == "yes");
 
-        if (graphicsDriver == graphics::Driver::DEFAULT)
-        {
-            auto availableDrivers = graphics::Renderer::getAvailableRenderDrivers();
-
-            if (availableDrivers.find(graphics::Driver::METAL) != availableDrivers.end())
-                graphicsDriver = graphics::Driver::METAL;
-            else if (availableDrivers.find(graphics::Driver::DIRECT3D11) != availableDrivers.end())
-                graphicsDriver = graphics::Driver::DIRECT3D11;
-            else if (availableDrivers.find(graphics::Driver::OPENGL) != availableDrivers.end())
-                graphicsDriver = graphics::Driver::OPENGL;
-            else
-                graphicsDriver = graphics::Driver::EMPTY;
-        }
+        graphics::Driver graphicsDriver = graphics::Renderer::getDriver(graphicsDriverValue);
 
         window.reset(new Window(*this,
                                 size,
@@ -269,26 +217,7 @@ namespace ouzel
                                               depth,
                                               debugRenderer));
 
-        if (audioDriver == audio::Driver::DEFAULT)
-        {
-            auto availableDrivers = audio::Audio::getAvailableAudioDrivers();
-
-            if (availableDrivers.find(audio::Driver::COREAUDIO) != availableDrivers.end())
-                audioDriver = audio::Driver::COREAUDIO;
-            else if (availableDrivers.find(audio::Driver::ALSA) != availableDrivers.end())
-                audioDriver = audio::Driver::ALSA;
-            else if (availableDrivers.find(audio::Driver::OPENAL) != availableDrivers.end())
-                audioDriver = audio::Driver::OPENAL;
-            else if (availableDrivers.find(audio::Driver::XAUDIO2) != availableDrivers.end())
-                audioDriver = audio::Driver::XAUDIO2;
-            else if (availableDrivers.find(audio::Driver::DIRECTSOUND) != availableDrivers.end())
-                audioDriver = audio::Driver::DIRECTSOUND;
-            else if (availableDrivers.find(audio::Driver::OPENSL) != availableDrivers.end())
-                audioDriver = audio::Driver::OPENSL;
-            else
-                audioDriver = audio::Driver::EMPTY;
-        }
-
+        audio::Driver audioDriver = audio::Audio::getDriver(audioDriverValue);
         audio.reset(new audio::Audio(audioDriver, debugAudio, window.get()));
 
         inputManager.reset(new input::InputManager());

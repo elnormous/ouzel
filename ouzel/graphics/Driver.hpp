@@ -9,7 +9,6 @@ namespace ouzel
     {
         enum class Driver
         {
-            DEFAULT,
             EMPTY,
             OPENGL,
             DIRECT3D11,
