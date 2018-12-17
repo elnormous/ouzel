@@ -20,6 +20,45 @@ namespace ouzel
 {
     namespace audio
     {
+        Driver Audio::getDriver(const std::string& driver)
+        {
+            if (driver.empty() || driver == "default")
+            {
+                auto availableDrivers = Audio::getAvailableAudioDrivers();
+
+                if (availableDrivers.find(Driver::COREAUDIO) != availableDrivers.end())
+                    return Driver::COREAUDIO;
+                else if (availableDrivers.find(Driver::ALSA) != availableDrivers.end())
+                    return Driver::ALSA;
+                else if (availableDrivers.find(Driver::OPENAL) != availableDrivers.end())
+                    return Driver::OPENAL;
+                else if (availableDrivers.find(Driver::XAUDIO2) != availableDrivers.end())
+                    return Driver::XAUDIO2;
+                else if (availableDrivers.find(Driver::DIRECTSOUND) != availableDrivers.end())
+                    return Driver::DIRECTSOUND;
+                else if (availableDrivers.find(Driver::OPENSL) != availableDrivers.end())
+                    return Driver::OPENSL;
+                else
+                    return Driver::EMPTY;
+            }
+            else if (driver == "empty")
+                return Driver::EMPTY;
+            else if (driver == "openal")
+                return Driver::OPENAL;
+            else if (driver == "directsound")
+                return Driver::DIRECTSOUND;
+            else if (driver == "xaudio2")
+                return Driver::XAUDIO2;
+            else if (driver == "opensl")
+                return Driver::OPENSL;
+            else if (driver == "coreaudio")
+                return Driver::COREAUDIO;
+            else if (driver == "alsa")
+                return Driver::ALSA;
+            else
+                throw std::runtime_error("Invalid audio driver");
+        }
+
         std::set<Driver> Audio::getAvailableAudioDrivers()
         {
             static std::set<Driver> availableDrivers;

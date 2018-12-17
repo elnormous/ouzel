@@ -43,6 +43,33 @@ namespace ouzel
 {
     namespace graphics
     {
+        Driver Renderer::getDriver(const std::string& driver)
+        {
+            if (driver.empty() || driver == "default")
+            {
+                auto availableDrivers = getAvailableRenderDrivers();
+
+                if (availableDrivers.find(Driver::METAL) != availableDrivers.end())
+                    return Driver::METAL;
+                else if (availableDrivers.find(Driver::DIRECT3D11) != availableDrivers.end())
+                    return Driver::DIRECT3D11;
+                else if (availableDrivers.find(Driver::OPENGL) != availableDrivers.end())
+                    return Driver::OPENGL;
+                else
+                    return Driver::EMPTY;
+            }
+            else if (driver == "empty")
+                return Driver::EMPTY;
+            else if (driver == "opengl")
+                return Driver::OPENGL;
+            else if (driver == "direct3d11")
+                return Driver::DIRECT3D11;
+            else if (driver == "metal")
+                return Driver::METAL;
+            else
+                throw std::runtime_error("Invalid graphics driver");
+        }
+
         std::set<Driver> Renderer::getAvailableRenderDrivers()
         {
             static std::set<Driver> availableDrivers;
