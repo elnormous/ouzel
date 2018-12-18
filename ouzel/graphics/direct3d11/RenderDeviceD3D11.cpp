@@ -106,6 +106,7 @@ namespace ouzel
             if (debugRenderer)
                 deviceCreationFlags |= D3D11_CREATE_DEVICE_DEBUG;
 
+            D3D_FEATURE_LEVEL featureLevel;
             HRESULT hr;
             if (FAILED(hr = D3D11CreateDevice(nullptr, // adapter
                                               D3D_DRIVER_TYPE_HARDWARE,
@@ -115,11 +116,11 @@ namespace ouzel
                                               0, // no feature levels
                                               D3D11_SDK_VERSION,
                                               &device,
-                                              nullptr,
+                                              &featureLevel,
                                               &context)))
                 throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create the Direct3D 11 device");
 
-            if (device->GetFeatureLevel() < D3D_FEATURE_LEVEL_10_0)
+            if (featureLevel < D3D_FEATURE_LEVEL_10_0)
                 npotTexturesSupported = false;
 
             IDXGIDevice* dxgiDevice;
