@@ -1,6 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include "ToneSound.hpp"
+#include "OscillatorSound.hpp"
 #include "Audio.hpp"
 #include "mixer/Source.hpp"
 #include "mixer/SourceData.hpp"
@@ -10,12 +10,12 @@ namespace ouzel
 {
     namespace audio
     {
-        class ToneData;
+        class OscillatorData;
 
-        class ToneSource: public Source
+        class OscillatorSource: public Source
         {
         public:
-            ToneSource(ToneData& toneData);
+            OscillatorSource(OscillatorData& oscillatorData);
 
             void reset() override
             {
@@ -28,10 +28,10 @@ namespace ouzel
             uint32_t position = 0;
         };
 
-        class ToneData: public SourceData
+        class OscillatorData: public SourceData
         {
         public:
-            ToneData(float initFrequency, ToneSound::Type initType, float initAmplitude, float initLength):
+            OscillatorData(float initFrequency, OscillatorSound::Type initType, float initAmplitude, float initLength):
                 frequency(initFrequency),
                 type(initType),
                 amplitude(initAmplitude),
@@ -42,28 +42,28 @@ namespace ouzel
             }
 
             float getFrequency() const { return frequency; }
-            ToneSound::Type getType() const { return type; }
+            OscillatorSound::Type getType() const { return type; }
             float getAmplitude() const { return amplitude; }
             float getLength() const { return length; }
 
             std::unique_ptr<Source> createSource() override
             {
-                return std::unique_ptr<Source>(new ToneSource(*this));
+                return std::unique_ptr<Source>(new OscillatorSource(*this));
             }
 
         private:
             float frequency;
-            ToneSound::Type type;
+            OscillatorSound::Type type;
             float amplitude;
             float length;
         };
 
-        ToneSource::ToneSource(ToneData& toneData):
-            Source(toneData)
+        OscillatorSource::OscillatorSource(OscillatorData& oscillatorData):
+            Source(oscillatorData)
         {
         }
 
-        static void generateWave(ToneSound::Type type, uint32_t frames, uint32_t offset,
+        static void generateWave(OscillatorSound::Type type, uint32_t frames, uint32_t offset,
                                  float frameLength, float amplitude, float* samples)
         {
             for (uint32_t i = 0; i < frames; ++i)
@@ -72,16 +72,16 @@ namespace ouzel
 
                 switch (type)
                 {
-                    case ToneSound::Type::SINE:
+                    case OscillatorSound::Type::SINE:
                         samples[i] = sinf(t * TAU);
                         break;
-                    case ToneSound::Type::SQUARE:
+                    case OscillatorSound::Type::SQUARE:
                         samples[i] = fmodf(roundf(t * 2.0F + 0.5F), 2.0F) * 2.0F - 1.0F;
                         break;
-                    case ToneSound::Type::SAWTOOTH:
+                    case OscillatorSound::Type::SAWTOOTH:
                         samples[i] = fmodf(t + 0.5F, 1.0F) * 2.0F - 1.0F;
                         break;
-                    case ToneSound::Type::TRIANGLE:
+                    case OscillatorSound::Type::TRIANGLE:
                         samples[i] = fabsf(fmodf(t + 0.75F, 1.0F) * 2.0F - 1.0F) * 2.0F - 1.0F;
                         break;
                 }
@@ -92,14 +92,14 @@ namespace ouzel
             }
         }
 
-        void ToneSource::getData(uint32_t frames, std::vector<float>& samples)
+        void OscillatorSource::getData(uint32_t frames, std::vector<float>& samples)
         {
-            ToneData& toneData = static_cast<ToneData&>(sourceData);
+            OscillatorData& oscillatorData = static_cast<OscillatorData&>(sourceData);
 
             samples.resize(frames);
 
             const uint32_t sampleRate = sourceData.getSampleRate();
-            const float length = static_cast<ToneData&>(sourceData).getLength();
+            const float length = static_cast<OscillatorData&>(sourceData).getLength();
 
             if (length > 0.0F)
             {
@@ -113,9 +113,9 @@ namespace ouzel
 
                     if (frameCount - position < neededSize)
                     {
-                        generateWave(toneData.getType(), frameCount - position, position,
-                                     toneData.getFrequency() / static_cast<float>(sampleRate),
-                                     toneData.getAmplitude(), samples.data() + totalSize);
+                        generateWave(oscillatorData.getType(), frameCount - position, position,
+                                     oscillatorData.getFrequency() / static_cast<float>(sampleRate),
+                                     oscillatorData.getAmplitude(), samples.data() + totalSize);
 
                         totalSize += frameCount - position;
                         neededSize -= frameCount - position;
@@ -123,9 +123,9 @@ namespace ouzel
                     }
                     else
                     {
-                        generateWave(toneData.getType(), neededSize, position,
-                                     toneData.getFrequency() / static_cast<float>(sampleRate),
-                                     toneData.getAmplitude(), samples.data() + totalSize);
+                        generateWave(oscillatorData.getType(), neededSize, position,
+                                     oscillatorData.getFrequency() / static_cast<float>(sampleRate),
+                                     oscillatorData.getAmplitude(), samples.data() + totalSize);
 
                         totalSize += neededSize;
                         position += neededSize;
@@ -145,17 +145,17 @@ namespace ouzel
             }
             else
             {
-                generateWave(toneData.getType(), frames, position,
-                             toneData.getFrequency() / static_cast<float>(sampleRate),
-                             toneData.getAmplitude(), samples.data());
+                generateWave(oscillatorData.getType(), frames, position,
+                             oscillatorData.getFrequency() / static_cast<float>(sampleRate),
+                             oscillatorData.getAmplitude(), samples.data());
 
                 position += frames;
             }
         }
 
-        ToneSound::ToneSound(Audio& initAudio, float initFrequency,
-                             Type initType, float initAmplitude, float initLength):
-            Sound(initAudio, initAudio.initSourceData(std::unique_ptr<SourceData>(new ToneData(initFrequency, initType, initAmplitude, initLength)))),
+        OscillatorSound::OscillatorSound(Audio& initAudio, float initFrequency,
+                                         Type initType, float initAmplitude, float initLength):
+            Sound(initAudio, initAudio.initSourceData(std::unique_ptr<SourceData>(new OscillatorData(initFrequency, initType, initAmplitude, initLength)))),
             type(initType),
             frequency(initFrequency),
             amplitude(initAmplitude),

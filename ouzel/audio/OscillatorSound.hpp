@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_AUDIO_TONESOUND_HPP
-#define OUZEL_AUDIO_TONESOUND_HPP
+#ifndef OUZEL_AUDIO_OSCILLATORSOUND_HPP
+#define OUZEL_AUDIO_OSCILLATORSOUND_HPP
 
 #include "audio/Sound.hpp"
 
@@ -9,7 +9,7 @@ namespace ouzel
 {
     namespace audio
     {
-        class ToneSound final: public Sound
+        class OscillatorSound final: public Sound
         {
         public:
             enum class Type
@@ -20,9 +20,9 @@ namespace ouzel
                 TRIANGLE
             };
 
-            ToneSound(Audio& initAudio, float initFrequency,
-                      Type initType = Type::SINE,
-                      float initAmplitude = 0.5F, float initLength = 0.0F);
+            OscillatorSound(Audio& initAudio, float initFrequency,
+                            Type initType = Type::SINE,
+                            float initAmplitude = 0.5F, float initLength = 0.0F);
 
         private:
             Type type;
@@ -33,4 +33,4 @@ namespace ouzel
     } // namespace audio
 } // namespace ouzel
 
-#endif // OUZEL_AUDIO_TONESOUND_HPP
+#endif // OUZEL_AUDIO_OSCILLATORSOUND_HPP

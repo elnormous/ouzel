@@ -55,6 +55,7 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
 	../../ouzel/audio/Filters.cpp \
     ../../ouzel/audio/Listener.cpp \
 	../../ouzel/audio/Mix.cpp \
+    ../../ouzel/audio/OscillatorSound.cpp \
 	../../ouzel/audio/ParallelContainer.cpp \
     ../../ouzel/audio/PCMSound.cpp \
 	../../ouzel/audio/RandomContainer.cpp \
@@ -63,7 +64,6 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/audio/Sound.cpp \
 	../../ouzel/audio/Source.cpp \
     ../../ouzel/audio/Submix.cpp \
-    ../../ouzel/audio/ToneSound.cpp \
 	../../ouzel/audio/Voice.cpp \
     ../../ouzel/audio/VorbisSound.cpp \
     ../../ouzel/core/android/EngineAndroid.cpp \

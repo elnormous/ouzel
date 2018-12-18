@@ -62,6 +62,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Filters.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Listener.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Mix.cpp \
+	$(ROOT_DIR)/../ouzel/audio/OscillatorSound.cpp \
 	$(ROOT_DIR)/../ouzel/audio/ParallelContainer.cpp \
 	$(ROOT_DIR)/../ouzel/audio/PCMSound.cpp \
 	$(ROOT_DIR)/../ouzel/audio/RandomContainer.cpp \
@@ -70,7 +71,6 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Sound.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Source.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Submix.cpp \
-	$(ROOT_DIR)/../ouzel/audio/ToneSound.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Voice.cpp \
 	$(ROOT_DIR)/../ouzel/audio/VorbisSound.cpp \
 	$(ROOT_DIR)/../ouzel/core/Engine.cpp \
