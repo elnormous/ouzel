@@ -108,10 +108,9 @@ namespace ouzel
 
     void EngineTVOS::executeOnMainThread(const std::function<void()>& func)
     {
-        {
-            std::unique_lock<std::mutex> lock(executeMutex);
-            executeQueue.push(func);
-        }
+        std::unique_lock<std::mutex> lock(executeMutex);
+        executeQueue.push(func);
+        lock.unlock();
 
         [executeHanlder performSelectorOnMainThread:@selector(executeAll) withObject:nil waitUntilDone:NO];
     }

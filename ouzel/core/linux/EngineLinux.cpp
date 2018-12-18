@@ -483,10 +483,9 @@ namespace ouzel
         event.xclient.data.l[3] = 0; // unused
         event.xclient.data.l[4] = 0; // unused
 
-        {
-            std::unique_lock<std::mutex> lock(executeMutex);
-            executeQueue.push(func);
-        }
+        std::unique_lock<std::mutex> lock(executeMutex);
+        executeQueue.push(func);
+        lock.unlock();
 
         if (!XSendEvent(display, windowLinux->getNativeWindow(), False, NoEventMask, &event))
             throw std::runtime_error("Failed to send X11 delete message");
@@ -494,7 +493,6 @@ namespace ouzel
         XFlush(display);
 #else
         std::unique_lock<std::mutex> lock(executeMutex);
-
         executeQueue.push(func);
 #endif
     }

@@ -242,10 +242,9 @@ namespace ouzel
 
     void EngineAndroid::executeOnMainThread(const std::function<void()>& func)
     {
-        {
-            std::unique_lock<std::mutex> lock(executeMutex);
-            executeQueue.push(func);
-        }
+        std::unique_lock<std::mutex> lock(executeMutex);
+        executeQueue.push(func);
+        lock.unlock();
 
         char command = 1;
         if (write(looperPipe[1], &command, sizeof(command)) == -1)
