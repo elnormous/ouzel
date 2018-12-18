@@ -149,10 +149,9 @@ namespace ouzel
     {
         NativeWindowWin* windowWin = static_cast<NativeWindowWin*>(window->getNativeWindow());
 
-        {
-            std::unique_lock<std::mutex> lock(executeMutex);
-            executeQueue.push(func);
-        }
+        std::unique_lock<std::mutex> lock(executeMutex);
+        executeQueue.push(func);
+        lock.unlock();
 
         if (!PostMessage(windowWin->getNativeWindow(), WM_USER, 0, 0))
             throw std::system_error(GetLastError(), std::system_category(), "Failed to post message");
