@@ -45,8 +45,8 @@
 
 namespace smb
 {
-    static const float PI = 3.14159265358979323846F;
-    static const unsigned long MAX_FRAME_LENGTH = 8192;
+    static constexpr float PI = 3.14159265358979323846F;
+    static constexpr unsigned long MAX_FRAME_LENGTH = 8192;
 
     // Use own implementation because std::complex has a poor performance
     template<class T>
