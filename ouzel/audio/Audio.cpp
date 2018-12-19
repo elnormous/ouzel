@@ -13,6 +13,7 @@
 #include "openal/AudioDeviceAL.hpp"
 #include "opensl/AudioDeviceSL.hpp"
 #include "xaudio2/AudioDeviceXA2.hpp"
+#include "wasapi/AudioDeviceWASAPI.hpp"
 #include "math/MathUtils.hpp"
 #include "utils/Log.hpp"
 
@@ -55,6 +56,8 @@ namespace ouzel
                 return Driver::COREAUDIO;
             else if (driver == "alsa")
                 return Driver::ALSA;
+            else if (driver == "wasapi")
+                return Driver::WASAPI;
             else
                 throw std::runtime_error("Invalid audio driver");
         }
@@ -89,6 +92,9 @@ namespace ouzel
 
 #if OUZEL_COMPILE_ALSA
                 availableDrivers.insert(Driver::ALSA);
+#endif
+#if OUZEL_COMPILE_WASAPI
+                availableDrivers.insert(Driver::WASAPI);
 #endif
             }
 
@@ -128,6 +134,11 @@ namespace ouzel
                 case Driver::ALSA:
                     engine->log(Log::Level::INFO) << "Using ALSA audio driver";
                     return std::unique_ptr<AudioDevice>(new AudioDeviceALSA(mixer));
+#endif
+#if OUZEL_COMPILE_WASAPI
+                case Driver::WASAPI:
+                    engine->log(Log::Level::INFO) << "Using WASAPI audio driver";
+                    return std::unique_ptr<AudioDevice>(new AudioDeviceWASAPI(mixer));
 #endif
                 default:
                     engine->log(Log::Level::INFO) << "Not using audio driver";

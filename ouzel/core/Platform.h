@@ -48,6 +48,7 @@
 #  define OUZEL_SUPPORTS_OPENGL 1
 #  define OUZEL_OPENGL_INTERFACE_WGL 1
 #  define OUZEL_SUPPORTS_DIRECTSOUND 1
+#  define OUZEL_SUPPORTS_WASAPI 1
 
 #  if defined(_MSC_VER) // Visual Studio
 #    define OUZEL_SUPPORTS_XAUDIO2 1
