@@ -194,6 +194,7 @@ namespace ouzel
             running = false;
             lock.unlock();
             logCondition.notify_all();
+            if (logThread.joinable()) logThread.join();
 #endif
         }
 
