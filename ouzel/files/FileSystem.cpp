@@ -15,6 +15,7 @@
 #  include <CoreFoundation/CoreFoundation.h>
 extern "C" id NSTemporaryDirectory();
 #elif OUZEL_PLATFORM_LINUX
+#  include <limits.h>
 #  include <pwd.h>
 #  include <unistd.h>
 #elif OUZEL_PLATFORM_ANDROID
@@ -96,10 +97,10 @@ namespace ouzel
         engine.log(Log::Level::INFO) << "Application directory: " << appPath;
 
 #elif OUZEL_PLATFORM_LINUX
-        char executableDirectory[1024];
+        char executableDirectory[PATH_MAX];
 
         ssize_t length;
-        if ((length = readlink("/proc/self/exe", executableDirectory, sizeof(executableDirectory))) == -1)
+        if ((length = readlink("/proc/self/exe", executableDirectory, sizeof(executableDirectory) - 1)) == -1)
             throw std::system_error(errno, std::system_category(), "Failed to get current directory");
 
         executableDirectory[length] = '\0';
