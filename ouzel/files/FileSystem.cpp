@@ -72,15 +72,27 @@ namespace ouzel
 
 #elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
         CFBundleRef bundle = CFBundleGetMainBundle();
-        CFURLRef path = CFBundleCopyResourcesDirectoryURL(bundle);
+        if (!bundle)
+            throw std::runtime_error("Failed to get main bundle");
 
-        if (!path)
+        CFURLRef relativePath = CFBundleCopyResourcesDirectoryURL(bundle);
+        if (!relativePath)
+            throw std::runtime_error("Failed to get resource directory");
+
+        CFURLRef absolutePath = CFURLCopyAbsoluteURL(relativePath);
+        CFRelease(relativePath);
+
+        CFStringRef path = CFURLCopyFileSystemPath(absolutePath, kCFURLPOSIXPathStyle);
+        CFRelease(absolutePath);
+
+        CFIndex maximumSize = CFStringGetMaximumSizeOfFileSystemRepresentation(path);
+        std::vector<char> resourceDirectory(static_cast<size_t>(maximumSize));
+        Boolean result = CFStringGetFileSystemRepresentation(path, resourceDirectory.data(), maximumSize);
+        CFRelease(path);
+        if (!result)
             throw std::runtime_error("Failed to get current directory");
 
-        char resourceDirectory[1024];
-        CFURLGetFileSystemRepresentation(path, TRUE, reinterpret_cast<UInt8*>(resourceDirectory), sizeof(resourceDirectory));
-        CFRelease(path);
-        appPath = resourceDirectory;
+        appPath = resourceDirectory.data();
         engine.log(Log::Level::INFO) << "Application directory: " << appPath;
 
 #elif OUZEL_PLATFORM_LINUX
