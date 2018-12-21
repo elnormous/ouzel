@@ -4,24 +4,24 @@
 #include <string>
 
 #if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX
-#include <unistd.h>
+#  include <unistd.h>
 #endif
 
 #if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-#include <sys/syslog.h>
+#  include <sys/syslog.h>
 #endif
 
 #if OUZEL_PLATFORM_WINDOWS
-#include <Windows.h>
-#include <strsafe.h>
+#  include <Windows.h>
+#  include <strsafe.h>
 #endif
 
 #if OUZEL_PLATFORM_ANDROID
-#include <android/log.h>
+#  include <android/log.h>
 #endif
 
 #if OUZEL_PLATFORM_EMSCRIPTEN
-#include <emscripten.h>
+#  include <emscripten.h>
 #endif
 
 #include "Log.hpp"
