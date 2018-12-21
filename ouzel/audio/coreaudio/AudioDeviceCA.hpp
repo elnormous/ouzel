@@ -8,7 +8,7 @@
 #if OUZEL_COMPILE_COREAUDIO
 
 #if OUZEL_PLATFORM_MACOS
-#include <CoreAudio/CoreAudio.h>
+#  include <CoreAudio/CoreAudio.h>
 #endif
 
 #include <AudioUnit/AudioUnit.h>
