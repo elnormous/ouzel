@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "core/Setup.h"
-#include <string>
 
 #if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX
 #  include <unistd.h>
