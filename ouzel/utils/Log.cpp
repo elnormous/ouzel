@@ -1,8 +1,11 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "core/Setup.h"
-#include <iostream>
 #include <string>
+
+#if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX
+#include <unistd.h>
+#endif
 
 #if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
 #include <sys/syslog.h>
@@ -34,18 +37,33 @@ namespace ouzel
     void Logger::logString(const std::string& str, Log::Level level) const
     {
 #if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX
+        int fd = 0;
         switch (level)
         {
             case Log::Level::ERR:
             case Log::Level::WARN:
-                std::cerr << str << std::endl;
+                fd = STDERR_FILENO;
                 break;
             case Log::Level::INFO:
             case Log::Level::ALL:
-                std::cout << str << std::endl;
+                fd = STDOUT_FILENO;
                 break;
             default: break;
         }
+
+        std::vector<char> output(str.begin(), str.end());
+        output.push_back('\n');
+
+        size_t offset = 0;
+        while (offset < output.size())
+        {
+            ssize_t written = write(fd, output.data() + offset, output.size() - offset);
+            if (written == -1)
+                return;
+
+            offset += static_cast<size_t>(written);
+        }
+
 #elif OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
         int priority = 0;
         switch (level)
