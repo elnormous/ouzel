@@ -220,7 +220,7 @@ namespace ouzel
         }
 
     private:
-        void logString(const std::string& str, Log::Level level = Log::Level::INFO) const;
+        static void logString(const std::string& str, Log::Level level = Log::Level::INFO);
 
 #ifdef DEBUG
         std::atomic<Log::Level> threshold{Log::Level::ALL};
@@ -229,7 +229,20 @@ namespace ouzel
 #endif
 
 #if OUZEL_MULTITHREADED
-        void logLoop();
+        void logLoop()
+        {
+            for (;;)
+            {
+                std::unique_lock<std::mutex> lock(queueMutex);
+                while (running && logQueue.empty()) logCondition.wait(lock);
+                if (!running) break;
+                std::pair<Log::Level, std::string> str = std::move(logQueue.front());
+                logQueue.pop();
+                lock.unlock();
+
+                logString(str.second, str.first);
+            }
+        }
 
         mutable std::condition_variable logCondition;
         mutable std::mutex queueMutex;
