@@ -122,13 +122,10 @@ namespace ouzel
         AudioDeviceWASAPI::AudioDeviceWASAPI(Mixer& initMixer):
             AudioDevice(Driver::WASAPI, initMixer)
         {
-            IMMDeviceEnumerator* enumerator = nullptr;
-
             HRESULT hr;
             if (FAILED(hr = CoCreateInstance(CLSID_MMDeviceEnumerator, nullptr, CLSCTX_ALL, IID_IMMDeviceEnumerator, reinterpret_cast<LPVOID*>(&enumerator))))
                 throw std::system_error(hr, wasapiErrorCategory, "Failed to create device enumerator");
 
-            IMMDevice* device;
             if (FAILED(hr = enumerator->GetDefaultAudioEndpoint(eRender, eConsole, &device)))
                 throw std::system_error(hr, wasapiErrorCategory, "Failed to get audio endpoint");
 
@@ -137,12 +134,55 @@ namespace ouzel
             if (FAILED(hr = enumerator->RegisterEndpointNotificationCallback(notificationClient)))
                 throw std::system_error(hr, wasapiErrorCategory, "Failed to get audio endpoint");
 
-            if (enumerator) enumerator->Release();
+            if (FAILED(hr = device->Activate(IID_IAudioClient, CLSCTX_ALL, nullptr, reinterpret_cast<void**>(&audioClient))))
+                throw std::system_error(hr, wasapiErrorCategory, "Failed to activate audio device");
+
+            WAVEFORMATEX* audioClientWaveFormat;
+
+            if (FAILED(hr = audioClient->GetMixFormat(&audioClientWaveFormat)))
+                throw std::system_error(hr, wasapiErrorCategory, "Failed to get audio mix format");
+
+            WAVEFORMATEX waveFormat;
+            waveFormat.wFormatTag = WAVE_FORMAT_IEEE_FLOAT;
+            waveFormat.nChannels = channels;
+            waveFormat.nSamplesPerSec = sampleRate;
+            waveFormat.wBitsPerSample = 32;
+            waveFormat.nBlockAlign = waveFormat.nChannels * (waveFormat.wBitsPerSample / 8);
+            waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
+            waveFormat.cbSize = 0;
+
+            DWORD streamFlags = 0;
+
+            if (waveFormat.nSamplesPerSec != audioClientWaveFormat->nSamplesPerSec)
+                streamFlags |= AUDCLNT_STREAMFLAGS_RATEADJUST;
+
+            CoTaskMemFree(audioClientWaveFormat);
+
+            if (FAILED(hr = audioClient->Initialize(AUDCLNT_SHAREMODE_SHARED, streamFlags, 0, 0, &waveFormat, nullptr)))
+            {
+                waveFormat.wFormatTag = WAVE_FORMAT_PCM;
+                waveFormat.wBitsPerSample = 16;
+
+                if (FAILED(hr = audioClient->Initialize(AUDCLNT_SHAREMODE_SHARED, streamFlags, 0, 0, &waveFormat, nullptr)))
+                    throw std::system_error(hr, wasapiErrorCategory, "Failed to initialize audio client");
+
+                sampleFormat = SampleFormat::SINT16;
+                sampleSize = sizeof(int16_t);
+            }
+            else
+            {
+                sampleFormat = SampleFormat::FLOAT32;
+                sampleSize = sizeof(float);
+            }
         }
 
         AudioDeviceWASAPI::~AudioDeviceWASAPI()
         {
+            if (renderClient) renderClient->Release();
+            if (audioClient) audioClient->Release();
             if (notificationClient) notificationClient->Release();
+            if (device) device->Release();
+            if (enumerator) enumerator->Release();
         }
     } // namespace audio
 } // namespace ouzel
