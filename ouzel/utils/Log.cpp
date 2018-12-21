@@ -33,7 +33,7 @@ namespace ouzel
             logger.log(s, level);
     }
 
-    void Logger::logString(const std::string& str, Log::Level level) const
+    void Logger::logString(const std::string& str, Log::Level level)
     {
 #if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX
         int fd = 0;
@@ -127,21 +127,4 @@ namespace ouzel
 
 #endif
     }
-
-#if OUZEL_MULTITHREADED
-    void Logger::logLoop()
-    {
-        for (;;)
-        {
-            std::unique_lock<std::mutex> lock(queueMutex);
-            while (running && logQueue.empty()) logCondition.wait(lock);
-            if (!running) break;
-            std::pair<Log::Level, std::string> str = std::move(logQueue.front());
-            logQueue.pop();
-            lock.unlock();
-
-            logString(str.second, str.first);
-        }
-    }
-#endif
 }
