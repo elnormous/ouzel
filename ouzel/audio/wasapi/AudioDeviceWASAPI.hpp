@@ -22,7 +22,13 @@ namespace ouzel
             ~AudioDeviceWASAPI();
 
         private:
+            IMMDeviceEnumerator* enumerator = nullptr;
+            IMMDevice* device = nullptr;
             IMMNotificationClient* notificationClient = nullptr;
+            IAudioClient* audioClient = nullptr;
+            IAudioRenderClient* renderClient = nullptr;
+
+            uint32_t sampleSize = 0;
         };
     } // namespace audio
 } // namespace ouzel
