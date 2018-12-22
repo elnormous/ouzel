@@ -1,27 +1,26 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "core/Setup.h"
-#include <string>
 
 #if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX
-#include <unistd.h>
+#  include <unistd.h>
 #endif
 
 #if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-#include <sys/syslog.h>
+#  include <sys/syslog.h>
 #endif
 
 #if OUZEL_PLATFORM_WINDOWS
-#include <Windows.h>
-#include <strsafe.h>
+#  include <Windows.h>
+#  include <strsafe.h>
 #endif
 
 #if OUZEL_PLATFORM_ANDROID
-#include <android/log.h>
+#  include <android/log.h>
 #endif
 
 #if OUZEL_PLATFORM_EMSCRIPTEN
-#include <emscripten.h>
+#  include <emscripten.h>
 #endif
 
 #include "Log.hpp"
@@ -34,7 +33,7 @@ namespace ouzel
             logger.log(s, level);
     }
 
-    void Logger::logString(const std::string& str, Log::Level level) const
+    void Logger::logString(const std::string& str, Log::Level level)
     {
 #if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX
         int fd = 0;
@@ -128,21 +127,4 @@ namespace ouzel
 
 #endif
     }
-
-#if OUZEL_MULTITHREADED
-    void Logger::logLoop()
-    {
-        for (;;)
-        {
-            std::unique_lock<std::mutex> lock(queueMutex);
-            while (running && logQueue.empty()) logCondition.wait(lock);
-            if (!running) break;
-            std::pair<Log::Level, std::string> str = std::move(logQueue.front());
-            logQueue.pop();
-            lock.unlock();
-
-            logString(str.second, str.first);
-        }
-    }
-#endif
 }

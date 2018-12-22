@@ -11,11 +11,11 @@
 #include "core/ios/DisplayLink.hpp"
 
 #if defined(__OBJC__)
-#import <UIKit/UIKit.h>
+#  import <UIKit/UIKit.h>
 typedef EAGLContext* EAGLContextPtr;
 typedef CAEAGLLayer* CAEAGLLayerPtr;
 #else
-#include <objc/objc.h>
+#  include <objc/objc.h>
 typedef id EAGLContextPtr;
 typedef id CAEAGLLayerPtr;
 #endif
