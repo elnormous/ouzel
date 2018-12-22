@@ -120,22 +120,18 @@ namespace ouzel
 
         void InputSystemTVOS::startGamepadDiscovery()
         {
-            engine->log(Log::Level::INFO) << "Started gamepad discovery";
-
             [GCController startWirelessControllerDiscoveryWithCompletionHandler:
              ^(void){ handleGamepadDiscoveryCompleted(); }];
         }
 
         void InputSystemTVOS::stopGamepadDiscovery()
         {
-            engine->log(Log::Level::INFO) << "Stopped gamepad discovery";
-
             [GCController stopWirelessControllerDiscovery];
         }
 
         void InputSystemTVOS::handleGamepadDiscoveryCompleted()
         {
-            engine->log(Log::Level::INFO) << "Gamepad discovery completed";
+            sendEvent(Event(Event::Type::DEVICE_DISCOVERY_COMPLETE));
         }
 
         void InputSystemTVOS::handleGamepadConnected(GCControllerPtr controller)
