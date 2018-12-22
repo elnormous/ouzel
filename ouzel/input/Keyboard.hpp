@@ -150,17 +150,17 @@ namespace ouzel
                 LEFT_ALT,           // Left alt key
                 RIGHT_ALT,          // Right alt key
                 MODE_CHANGE,        // Mode change key
-                SEMICOLON,          // for US    ";:"
-                PLUS,               // Plus Key   "+"
-                COMMA,              // Comma Key  ","
-                MINUS,              // Minus Key  "-"
+                SEMICOLON,          // for US ";:"
+                PLUS,               // Plus Key "+"
+                COMMA,              // Comma Key ","
+                MINUS,              // Minus Key "-"
                 PERIOD,             // Period Key "."
-                SLASH,              // for US    "/?"
-                GRAVE,              // for US    "`~"
-                LEFT_BRACKET,       // for US    "[{"
-                BACKSLASH,          // for US    "\|"
-                RIGHT_BRACKET,      // for US    "]}"
-                QUOTE,              // for US    "'""
+                SLASH,              // for US "/?"
+                GRAVE,              // for US "`~"
+                LEFT_BRACKET,       // for US "[{"
+                BACKSLASH,          // for US "\|"
+                RIGHT_BRACKET,      // for US "]}"
+                QUOTE,              // for US "'""
                 OEM_AX,             // for Japan "AX"
                 INTL_BACKSLASH,     // "<>" or "\|"
                 CRSEL,              // CrSel key

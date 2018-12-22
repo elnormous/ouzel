@@ -16,11 +16,11 @@ extern "C" id const AVAudioSessionCategoryAmbient;
 #include "utils/Utils.hpp"
 
 #ifndef AL_FORMAT_MONO_FLOAT32
-#  define AL_FORMAT_MONO_FLOAT32                      0x10010
+#  define AL_FORMAT_MONO_FLOAT32 0x10010
 #endif
 
 #ifndef AL_FORMAT_STEREO_FLOAT32
-#  define AL_FORMAT_STEREO_FLOAT32                    0x10011
+#  define AL_FORMAT_STEREO_FLOAT32 0x10011
 #endif
 
 namespace ouzel

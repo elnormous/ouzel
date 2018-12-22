@@ -196,9 +196,9 @@ namespace ouzel
         float c = cosf(angle);
         float s = sinf(angle);
 
-        dst.m[5]  = c;
-        dst.m[9]  = -s;
-        dst.m[6]  = s;
+        dst.m[5] = c;
+        dst.m[9] = -s;
+        dst.m[6] = s;
         dst.m[10] = c;
     }
 
@@ -209,9 +209,9 @@ namespace ouzel
         float c = cosf(angle);
         float s = sinf(angle);
 
-        dst.m[0]  = c;
-        dst.m[8]  = s;
-        dst.m[2]  = -s;
+        dst.m[0] = c;
+        dst.m[8] = s;
+        dst.m[2] = -s;
         dst.m[10] = c;
     }
 
@@ -315,16 +315,16 @@ namespace ouzel
         else
         {
 #endif
-        dst.m[0]  = m[0]  + scalar;
-        dst.m[1]  = m[1]  + scalar;
-        dst.m[2]  = m[2]  + scalar;
-        dst.m[3]  = m[3]  + scalar;
-        dst.m[4]  = m[4]  + scalar;
-        dst.m[5]  = m[5]  + scalar;
-        dst.m[6]  = m[6]  + scalar;
-        dst.m[7]  = m[7]  + scalar;
-        dst.m[8]  = m[8]  + scalar;
-        dst.m[9]  = m[9]  + scalar;
+        dst.m[0] = m[0] + scalar;
+        dst.m[1] = m[1] + scalar;
+        dst.m[2] = m[2] + scalar;
+        dst.m[3] = m[3] + scalar;
+        dst.m[4] = m[4] + scalar;
+        dst.m[5] = m[5] + scalar;
+        dst.m[6] = m[6] + scalar;
+        dst.m[7] = m[7] + scalar;
+        dst.m[8] = m[8] + scalar;
+        dst.m[9] = m[9] + scalar;
         dst.m[10] = m[10] + scalar;
         dst.m[11] = m[11] + scalar;
         dst.m[12] = m[12] + scalar;
@@ -403,16 +403,16 @@ namespace ouzel
         else
         {
 #endif
-        dst.m[0]  = m1.m[0]  + m2.m[0];
-        dst.m[1]  = m1.m[1]  + m2.m[1];
-        dst.m[2]  = m1.m[2]  + m2.m[2];
-        dst.m[3]  = m1.m[3]  + m2.m[3];
-        dst.m[4]  = m1.m[4]  + m2.m[4];
-        dst.m[5]  = m1.m[5]  + m2.m[5];
-        dst.m[6]  = m1.m[6]  + m2.m[6];
-        dst.m[7]  = m1.m[7]  + m2.m[7];
-        dst.m[8]  = m1.m[8]  + m2.m[8];
-        dst.m[9]  = m1.m[9]  + m2.m[9];
+        dst.m[0] = m1.m[0] + m2.m[0];
+        dst.m[1] = m1.m[1] + m2.m[1];
+        dst.m[2] = m1.m[2] + m2.m[2];
+        dst.m[3] = m1.m[3] + m2.m[3];
+        dst.m[4] = m1.m[4] + m2.m[4];
+        dst.m[5] = m1.m[5] + m2.m[5];
+        dst.m[6] = m1.m[6] + m2.m[6];
+        dst.m[7] = m1.m[7] + m2.m[7];
+        dst.m[8] = m1.m[8] + m2.m[8];
+        dst.m[9] = m1.m[9] + m2.m[9];
         dst.m[10] = m1.m[10] + m2.m[10];
         dst.m[11] = m1.m[11] + m2.m[11];
         dst.m[12] = m1.m[12] + m2.m[12];
@@ -513,18 +513,18 @@ namespace ouzel
         if (fabs(det) < std::numeric_limits<float>::min()) return;
 
         Matrix4 inverse;
-        inverse.m[0]  = m[5] * b5 - m[6] * b4 + m[7] * b3;
-        inverse.m[1]  = -m[1] * b5 + m[2] * b4 - m[3] * b3;
-        inverse.m[2]  = m[13] * a5 - m[14] * a4 + m[15] * a3;
-        inverse.m[3]  = -m[9] * a5 + m[10] * a4 - m[11] * a3;
+        inverse.m[0] = m[5] * b5 - m[6] * b4 + m[7] * b3;
+        inverse.m[1] = -m[1] * b5 + m[2] * b4 - m[3] * b3;
+        inverse.m[2] = m[13] * a5 - m[14] * a4 + m[15] * a3;
+        inverse.m[3] = -m[9] * a5 + m[10] * a4 - m[11] * a3;
 
-        inverse.m[4]  = -m[4] * b5 + m[6] * b2 - m[7] * b1;
-        inverse.m[5]  = m[0] * b5 - m[2] * b2 + m[3] * b1;
-        inverse.m[6]  = -m[12] * a5 + m[14] * a2 - m[15] * a1;
-        inverse.m[7]  = m[8] * a5 - m[10] * a2 + m[11] * a1;
+        inverse.m[4] = -m[4] * b5 + m[6] * b2 - m[7] * b1;
+        inverse.m[5] = m[0] * b5 - m[2] * b2 + m[3] * b1;
+        inverse.m[6] = -m[12] * a5 + m[14] * a2 - m[15] * a1;
+        inverse.m[7] = m[8] * a5 - m[10] * a2 + m[11] * a1;
 
-        inverse.m[8]  = m[4] * b4 - m[5] * b2 + m[7] * b0;
-        inverse.m[9]  = -m[0] * b4 + m[1] * b2 - m[3] * b0;
+        inverse.m[8] = m[4] * b4 - m[5] * b2 + m[7] * b0;
+        inverse.m[9] = -m[0] * b4 + m[1] * b2 - m[3] * b0;
         inverse.m[10] = m[12] * a4 - m[13] * a2 + m[15] * a0;
         inverse.m[11] = -m[8] * a4 + m[9] * a2 - m[11] * a0;
 
@@ -607,16 +607,16 @@ namespace ouzel
         else
         {
 #endif
-        dst.m[0]  = m.m[0]  * scalar;
-        dst.m[1]  = m.m[1]  * scalar;
-        dst.m[2]  = m.m[2]  * scalar;
-        dst.m[3]  = m.m[3]  * scalar;
-        dst.m[4]  = m.m[4]  * scalar;
-        dst.m[5]  = m.m[5]  * scalar;
-        dst.m[6]  = m.m[6]  * scalar;
-        dst.m[7]  = m.m[7]  * scalar;
-        dst.m[8]  = m.m[8]  * scalar;
-        dst.m[9]  = m.m[9]  * scalar;
+        dst.m[0] = m.m[0] * scalar;
+        dst.m[1] = m.m[1] * scalar;
+        dst.m[2] = m.m[2] * scalar;
+        dst.m[3] = m.m[3] * scalar;
+        dst.m[4] = m.m[4] * scalar;
+        dst.m[5] = m.m[5] * scalar;
+        dst.m[6] = m.m[6] * scalar;
+        dst.m[7] = m.m[7] * scalar;
+        dst.m[8] = m.m[8] * scalar;
+        dst.m[9] = m.m[9] * scalar;
         dst.m[10] = m.m[10] * scalar;
         dst.m[11] = m.m[11] * scalar;
         dst.m[12] = m.m[12] * scalar;
@@ -801,23 +801,23 @@ namespace ouzel
 #endif
         float product[16];
 
-        product[0]  = m1.m[0] * m2.m[0]  + m1.m[4] * m2.m[1] + m1.m[8]   * m2.m[2]  + m1.m[12] * m2.m[3];
-        product[1]  = m1.m[1] * m2.m[0]  + m1.m[5] * m2.m[1] + m1.m[9]   * m2.m[2]  + m1.m[13] * m2.m[3];
-        product[2]  = m1.m[2] * m2.m[0]  + m1.m[6] * m2.m[1] + m1.m[10]  * m2.m[2]  + m1.m[14] * m2.m[3];
-        product[3]  = m1.m[3] * m2.m[0]  + m1.m[7] * m2.m[1] + m1.m[11]  * m2.m[2]  + m1.m[15] * m2.m[3];
+        product[0] = m1.m[0] * m2.m[0] + m1.m[4] * m2.m[1] + m1.m[8] * m2.m[2] + m1.m[12] * m2.m[3];
+        product[1] = m1.m[1] * m2.m[0] + m1.m[5] * m2.m[1] + m1.m[9] * m2.m[2] + m1.m[13] * m2.m[3];
+        product[2] = m1.m[2] * m2.m[0] + m1.m[6] * m2.m[1] + m1.m[10] * m2.m[2] + m1.m[14] * m2.m[3];
+        product[3] = m1.m[3] * m2.m[0] + m1.m[7] * m2.m[1] + m1.m[11] * m2.m[2] + m1.m[15] * m2.m[3];
 
-        product[4]  = m1.m[0] * m2.m[4]  + m1.m[4] * m2.m[5] + m1.m[8]   * m2.m[6]  + m1.m[12] * m2.m[7];
-        product[5]  = m1.m[1] * m2.m[4]  + m1.m[5] * m2.m[5] + m1.m[9]   * m2.m[6]  + m1.m[13] * m2.m[7];
-        product[6]  = m1.m[2] * m2.m[4]  + m1.m[6] * m2.m[5] + m1.m[10]  * m2.m[6]  + m1.m[14] * m2.m[7];
-        product[7]  = m1.m[3] * m2.m[4]  + m1.m[7] * m2.m[5] + m1.m[11]  * m2.m[6]  + m1.m[15] * m2.m[7];
+        product[4] = m1.m[0] * m2.m[4] + m1.m[4] * m2.m[5] + m1.m[8] * m2.m[6] + m1.m[12] * m2.m[7];
+        product[5] = m1.m[1] * m2.m[4] + m1.m[5] * m2.m[5] + m1.m[9] * m2.m[6] + m1.m[13] * m2.m[7];
+        product[6] = m1.m[2] * m2.m[4] + m1.m[6] * m2.m[5] + m1.m[10] * m2.m[6] + m1.m[14] * m2.m[7];
+        product[7] = m1.m[3] * m2.m[4] + m1.m[7] * m2.m[5] + m1.m[11] * m2.m[6] + m1.m[15] * m2.m[7];
 
-        product[8]  = m1.m[0] * m2.m[8]  + m1.m[4] * m2.m[9] + m1.m[8]   * m2.m[10] + m1.m[12] * m2.m[11];
-        product[9]  = m1.m[1] * m2.m[8]  + m1.m[5] * m2.m[9] + m1.m[9]   * m2.m[10] + m1.m[13] * m2.m[11];
-        product[10] = m1.m[2] * m2.m[8]  + m1.m[6] * m2.m[9] + m1.m[10]  * m2.m[10] + m1.m[14] * m2.m[11];
-        product[11] = m1.m[3] * m2.m[8]  + m1.m[7] * m2.m[9] + m1.m[11]  * m2.m[10] + m1.m[15] * m2.m[11];
+        product[8] = m1.m[0] * m2.m[8] + m1.m[4] * m2.m[9] + m1.m[8] * m2.m[10] + m1.m[12] * m2.m[11];
+        product[9] = m1.m[1] * m2.m[8] + m1.m[5] * m2.m[9] + m1.m[9] * m2.m[10] + m1.m[13] * m2.m[11];
+        product[10] = m1.m[2] * m2.m[8] + m1.m[6] * m2.m[9] + m1.m[10] * m2.m[10] + m1.m[14] * m2.m[11];
+        product[11] = m1.m[3] * m2.m[8] + m1.m[7] * m2.m[9] + m1.m[11] * m2.m[10] + m1.m[15] * m2.m[11];
 
-        product[12] = m1.m[0] * m2.m[12] + m1.m[4] * m2.m[13] + m1.m[8]  * m2.m[14] + m1.m[12] * m2.m[15];
-        product[13] = m1.m[1] * m2.m[12] + m1.m[5] * m2.m[13] + m1.m[9]  * m2.m[14] + m1.m[13] * m2.m[15];
+        product[12] = m1.m[0] * m2.m[12] + m1.m[4] * m2.m[13] + m1.m[8] * m2.m[14] + m1.m[12] * m2.m[15];
+        product[13] = m1.m[1] * m2.m[12] + m1.m[5] * m2.m[13] + m1.m[9] * m2.m[14] + m1.m[13] * m2.m[15];
         product[14] = m1.m[2] * m2.m[12] + m1.m[6] * m2.m[13] + m1.m[10] * m2.m[14] + m1.m[14] * m2.m[15];
         product[15] = m1.m[3] * m2.m[12] + m1.m[7] * m2.m[13] + m1.m[11] * m2.m[14] + m1.m[15] * m2.m[15];
 
@@ -892,16 +892,16 @@ namespace ouzel
         else
         {
 #endif
-        dst.m[0]  = -m[0];
-        dst.m[1]  = -m[1];
-        dst.m[2]  = -m[2];
-        dst.m[3]  = -m[3];
-        dst.m[4]  = -m[4];
-        dst.m[5]  = -m[5];
-        dst.m[6]  = -m[6];
-        dst.m[7]  = -m[7];
-        dst.m[8]  = -m[8];
-        dst.m[9]  = -m[9];
+        dst.m[0] = -m[0];
+        dst.m[1] = -m[1];
+        dst.m[2] = -m[2];
+        dst.m[3] = -m[3];
+        dst.m[4] = -m[4];
+        dst.m[5] = -m[5];
+        dst.m[6] = -m[6];
+        dst.m[7] = -m[7];
+        dst.m[8] = -m[8];
+        dst.m[9] = -m[9];
         dst.m[10] = -m[10];
         dst.m[11] = -m[11];
         dst.m[12] = -m[12];
@@ -999,16 +999,16 @@ namespace ouzel
                       float m31, float m32, float m33, float m34,
                       float m41, float m42, float m43, float m44)
     {
-        m[0]  = m11;
-        m[1]  = m21;
-        m[2]  = m31;
-        m[3]  = m41;
-        m[4]  = m12;
-        m[5]  = m22;
-        m[6]  = m32;
-        m[7]  = m42;
-        m[8]  = m13;
-        m[9]  = m23;
+        m[0] = m11;
+        m[1] = m21;
+        m[2] = m31;
+        m[3] = m41;
+        m[4] = m12;
+        m[5] = m22;
+        m[6] = m32;
+        m[7] = m42;
+        m[8] = m13;
+        m[9] = m23;
         m[10] = m33;
         m[11] = m43;
         m[12] = m14;
@@ -1089,16 +1089,16 @@ namespace ouzel
         else
         {
 #endif
-        dst.m[0]  = m1.m[0]  - m2.m[0];
-        dst.m[1]  = m1.m[1]  - m2.m[1];
-        dst.m[2]  = m1.m[2]  - m2.m[2];
-        dst.m[3]  = m1.m[3]  - m2.m[3];
-        dst.m[4]  = m1.m[4]  - m2.m[4];
-        dst.m[5]  = m1.m[5]  - m2.m[5];
-        dst.m[6]  = m1.m[6]  - m2.m[6];
-        dst.m[7]  = m1.m[7]  - m2.m[7];
-        dst.m[8]  = m1.m[8]  - m2.m[8];
-        dst.m[9]  = m1.m[9]  - m2.m[9];
+        dst.m[0] = m1.m[0] - m2.m[0];
+        dst.m[1] = m1.m[1] - m2.m[1];
+        dst.m[2] = m1.m[2] - m2.m[2];
+        dst.m[3] = m1.m[3] - m2.m[3];
+        dst.m[4] = m1.m[4] - m2.m[4];
+        dst.m[5] = m1.m[5] - m2.m[5];
+        dst.m[6] = m1.m[6] - m2.m[6];
+        dst.m[7] = m1.m[7] - m2.m[7];
+        dst.m[8] = m1.m[8] - m2.m[8];
+        dst.m[9] = m1.m[9] - m2.m[9];
         dst.m[10] = m1.m[10] - m2.m[10];
         dst.m[11] = m1.m[11] - m2.m[11];
         dst.m[12] = m1.m[12] - m2.m[12];

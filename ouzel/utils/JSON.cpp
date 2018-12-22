@@ -302,7 +302,7 @@ namespace ouzel
 
                     ++iterator;
                 }
-                else if ((*iterator >= '0' && *iterator <= '9') ||  // number
+                else if ((*iterator >= '0' && *iterator <= '9') || // number
                          (*iterator == '.' && (iterator + 1) != str.end() &&
                           *(iterator + 1) >= '0' && *(iterator + 1) <= '9')) // starts with a dot
                 {

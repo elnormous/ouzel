@@ -39,10 +39,10 @@ namespace ouzel
                 FACE_RIGHT, // B on Xbox controller, circle on PS controller, A on Nintendo controller
                 FACE_LEFT, // X on Xbox controller, square on PS controller, Y on Nintendo controller
                 FACE_TOP, // Y on Xbox controller, triangle on PS controller, X on Nintendo controller
-                LEFT_SHOULDER,  // L1 for Apple and PS controller
-                LEFT_TRIGGER,   // L2 for Apple and PS controller
+                LEFT_SHOULDER, // L1 for Apple and PS controller
+                LEFT_TRIGGER, // L2 for Apple and PS controller
                 RIGHT_SHOULDER, // R1 for Apple and PS controller
-                RIGHT_TRIGGER,  // R2 for Apple and PS controller
+                RIGHT_TRIGGER, // R2 for Apple and PS controller
                 LEFT_THUMB,
                 RIGHT_THUMB,
                 START,
@@ -94,7 +94,7 @@ namespace ouzel
                 return buttonStates[static_cast<uint32_t>(button)];
             }
 
-            inline float getVibration(Motor motor)  { return vibration[static_cast<uint32_t>(motor)]; }
+            inline float getVibration(Motor motor) { return vibration[static_cast<uint32_t>(motor)]; }
             void setVibration(Motor motor, float speed);
 
         protected:
