@@ -245,23 +245,17 @@ namespace ouzel
 
         void InputSystemMacOS::startGamepadDiscovery()
         {
-            engine->log(Log::Level::INFO) << "Started gamepad discovery";
-
             [GCController startWirelessControllerDiscoveryWithCompletionHandler:
              ^(void){ handleGamepadDiscoveryCompleted(); }];
         }
 
         void InputSystemMacOS::stopGamepadDiscovery()
         {
-            engine->log(Log::Level::INFO) << "Stopped gamepad discovery";
-
             [GCController stopWirelessControllerDiscovery];
         }
 
         void InputSystemMacOS::handleGamepadDiscoveryCompleted()
         {
-            engine->log(Log::Level::INFO) << "Gamepad discovery completed";
-
             sendEvent(Event(Event::Type::DEVICE_DISCOVERY_COMPLETE));
         }
 
