@@ -112,6 +112,8 @@ namespace ouzel
             {
                 switch (condition)
                 {
+                    case REGDB_E_CLASSNOTREG: return "REGDB_E_CLASSNOTREG";
+                    case CLASS_E_NOAGGREGATION: return "CLASS_E_NOAGGREGATION";
                     case E_POINTER: return "E_POINTER";
                     case E_INVALIDARG: return "E_INVALIDARG";
                     case __HRESULT_FROM_WIN32(ERROR_NOT_FOUND) /* E_NOTFOUND */: return "E_NOTFOUND";
