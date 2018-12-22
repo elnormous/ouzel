@@ -8,12 +8,12 @@
 #if OUZEL_PLATFORM_MACOS && OUZEL_COMPILE_OPENGL
 
 #if defined(__OBJC__)
-#import <CoreVideo/CoreVideo.h>
-#import <AppKit/NSOpenGL.h>
+#  import <CoreVideo/CoreVideo.h>
+#  import <AppKit/NSOpenGL.h>
 typedef NSOpenGLContext* NSOpenGLContextPtr;
 typedef NSOpenGLPixelFormat* NSOpenGLPixelFormatPtr;
 #else
-#include <objc/objc.h>
+#  include <objc/objc.h>
 typedef void* CVDisplayLinkRef;
 typedef id NSOpenGLContextPtr;
 typedef id NSOpenGLPixelFormatPtr;
