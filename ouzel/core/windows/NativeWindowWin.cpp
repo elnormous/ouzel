@@ -530,7 +530,7 @@ namespace ouzel
             engine->log(Log::Level::WARN) << "Failed to enable touch for window";
 
         ShowWindow(window, SW_SHOW);
-        
+
         if (!SetWindowLongPtr(window, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this)))
             if (DWORD error = GetLastError())
                 throw std::system_error(error, std::system_category(), "Failed to set window pointer");

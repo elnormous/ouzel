@@ -60,7 +60,7 @@ namespace ouzel
                                                                                                 filter->getProcessorId())));
             }
         }
-        
+
         void Mix::addInput(Submix* submix)
         {
             auto i = std::find(inputSubmixes.begin(), inputSubmixes.end(), submix);

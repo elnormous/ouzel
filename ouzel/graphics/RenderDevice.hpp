@@ -18,7 +18,7 @@
 namespace ouzel
 {
     class Window;
-    
+
     namespace graphics
     {
         class Renderer;
