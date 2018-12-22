@@ -29,6 +29,7 @@ namespace ouzel
             IAudioRenderClient* renderClient = nullptr;
 
             uint32_t sampleSize = 0;
+            bool started = false;
         };
     } // namespace audio
 } // namespace ouzel
