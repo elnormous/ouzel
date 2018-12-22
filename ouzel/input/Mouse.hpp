@@ -58,5 +58,4 @@ namespace ouzel
     } // namespace input
 } // namespace ouzel
 
-
 #endif // OUZEL_INPUT_MOUSE_HPP
