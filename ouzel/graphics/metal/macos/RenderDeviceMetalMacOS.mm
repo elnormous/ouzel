@@ -151,7 +151,7 @@ namespace ouzel
                         throw std::runtime_error("Failed to set output callback for the display link");
 
                     running = true;
-                    
+
                     if (CVDisplayLinkStart(displayLink) != kCVReturnSuccess)
                         throw std::runtime_error("Failed to start display link");
                 });

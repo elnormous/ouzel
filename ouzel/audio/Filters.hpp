@@ -29,7 +29,7 @@ namespace ouzel
         private:
             float delay = 0.0F;
         };
-        
+
         class Gain final: public Filter
         {
         public:

@@ -255,7 +255,7 @@ namespace ouzel
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
                     throw std::system_error(makeErrorCode(error), "Failed to check frame buffer status");
-                
+
                 frameBufferId = msaaFrameBufferId;
             }
             else
