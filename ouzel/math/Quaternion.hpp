@@ -44,9 +44,9 @@ namespace ouzel
 
         inline Quaternion& operator*=(const Quaternion& q)
         {
-            float tempX =  x * q.w + y * q.z - z * q.y + w * q.x;
+            float tempX = x * q.w + y * q.z - z * q.y + w * q.x;
             float tempY = -x * q.z + y * q.w + z * q.x + w * q.y;
-            float tempZ =  x * q.y - y * q.x + z * q.w + w * q.z;
+            float tempZ = x * q.y - y * q.x + z * q.w + w * q.z;
             float tempW = -x * q.x - y * q.y - z * q.z + w * q.w;
 
             x = tempX;

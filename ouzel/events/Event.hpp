@@ -69,7 +69,7 @@ namespace ouzel
             ACTOR_ENTER, // mouse or touch entered the scene actor
             ACTOR_LEAVE, // mouse or touch left the scene actor
             ACTOR_PRESS, // mouse or touch pressed on scene actor
-            ACTOR_RELEASE,  // mouse or touch released on scene actor
+            ACTOR_RELEASE, // mouse or touch released on scene actor
             ACTOR_CLICK, // mouse or touch clicked on scene actor
             ACTOR_DRAG, // mouse or touch dragged scene actor
             WIDGET_CHANGE, // widget changed its value

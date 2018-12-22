@@ -60,7 +60,7 @@ namespace ouzel
             inline void setShader(const std::shared_ptr<graphics::Shader>& newShader) { shader = newShader; }
 
             inline const std::shared_ptr<graphics::BlendState>& getBlendState() const { return blendState; }
-            inline void setBlendState(const std::shared_ptr<graphics::BlendState>& newBlendState)  { blendState = newBlendState; }
+            inline void setBlendState(const std::shared_ptr<graphics::BlendState>& newBlendState) { blendState = newBlendState; }
 
         private:
             struct DrawCommand final
