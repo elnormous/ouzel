@@ -500,11 +500,11 @@ namespace ouzel
     void EngineLinux::openURL(const std::string& url)
     {
 #if OUZEL_SUPPORTS_X11
-		::exit(execl("/usr/bin/xdg-open", "xdg-open", url.c_str(), nullptr));
+        ::exit(execl("/usr/bin/xdg-open", "xdg-open", url.c_str(), nullptr));
 #endif
-	}
+    }
 
-	void EngineLinux::setScreenSaverEnabled(bool newScreenSaverEnabled)
+    void EngineLinux::setScreenSaverEnabled(bool newScreenSaverEnabled)
     {
         Engine::setScreenSaverEnabled(newScreenSaverEnabled);
 

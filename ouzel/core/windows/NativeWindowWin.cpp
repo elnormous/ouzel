@@ -74,7 +74,7 @@ static const std::unordered_map<uint8_t, ouzel::input::Keyboard::Key> scanCodeMa
     {0x35, ouzel::input::Keyboard::Key::SLASH},
     {0x36, ouzel::input::Keyboard::Key::RIGHT_SHIFT},
     {0x37, ouzel::input::Keyboard::Key::PRINT_SCREEN},
-    {0x38, ouzel::input::Keyboard::Key::LEFT_ALT},	
+    {0x38, ouzel::input::Keyboard::Key::LEFT_ALT},
     {0x39, ouzel::input::Keyboard::Key::SPACE},
     {0x3A, ouzel::input::Keyboard::Key::CAPS_LOCK},
     {0x3B, ouzel::input::Keyboard::Key::F1},
