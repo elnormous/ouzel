@@ -279,18 +279,25 @@ namespace ouzel
 
                         process();
 
-                        BYTE* buffer;
-
                         HRESULT hr;
-                        if (FAILED(hr = renderClient->GetBuffer(bufferFrameCount, &buffer)))
-                            throw std::system_error(hr, wasapiErrorCategory, "Failed to get buffer");
+                        UINT32 bufferPadding;
+                        if (FAILED(hr = audioClient->GetCurrentPadding(&bufferPadding)))
+                            throw std::system_error(hr, wasapiErrorCategory, "Failed to get buffer padding");
 
-                        getData(bufferFrameCount, data);
+                        UINT32 frameCount = bufferFrameCount - bufferPadding;
+                        if (frameCount != 0)
+                        {
+                            BYTE* buffer;
+                            if (FAILED(hr = renderClient->GetBuffer(frameCount, &buffer)))
+                                throw std::system_error(hr, wasapiErrorCategory, "Failed to get buffer");
 
-                        std::copy(data.begin(), data.end(), buffer);
+                            getData(frameCount, data);
 
-                        if (FAILED(hr = renderClient->ReleaseBuffer(bufferFrameCount, 0)))
-                            throw std::system_error(hr, wasapiErrorCategory, "Failed to release buffer");
+                            std::copy(data.begin(), data.end(), buffer);
+
+                            if (FAILED(hr = renderClient->ReleaseBuffer(frameCount, 0)))
+                                throw std::system_error(hr, wasapiErrorCategory, "Failed to release buffer");
+                        }
                     }
                 }
                 catch (const std::exception& e)
