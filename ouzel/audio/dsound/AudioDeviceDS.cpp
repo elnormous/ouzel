@@ -9,7 +9,6 @@
 #include "core/Engine.hpp"
 #include "core/Window.hpp"
 #include "core/windows/NativeWindowWin.hpp"
-#include "utils/Log.hpp"
 #include "utils/Utils.hpp"
 
 #ifndef WAVE_FORMAT_IEEE_FLOAT
@@ -166,11 +165,11 @@ namespace ouzel
 
             nextBuffer = 0;
 
-            notifyEvents[0] = CreateEvent(nullptr, true, false, nullptr);
+            notifyEvents[0] = CreateEvent(nullptr, false, false, nullptr);
             if (!notifyEvents[0])
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to create event");
 
-            notifyEvents[1] = CreateEvent(nullptr, true, false, nullptr);
+            notifyEvents[1] = CreateEvent(nullptr, false, false, nullptr);
             if (!notifyEvents[1])
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to create event");
 
@@ -218,14 +217,11 @@ namespace ouzel
                 {
                     DWORD result;
                     if ((result = WaitForSingleObject(notifyEvents[nextBuffer], INFINITE)) == WAIT_FAILED)
-                            throw std::system_error(GetLastError(), std::system_category(), "Failed to wait for event");
+                        throw std::system_error(GetLastError(), std::system_category(), "Failed to wait for event");
 
                     if (result == WAIT_OBJECT_0)
                     {
                         if (!running) break;
-
-                        if (!ResetEvent(notifyEvents[nextBuffer]))
-                            throw std::system_error(GetLastError(), std::system_category(), "Failed to reset event");
 
                         process();
 
