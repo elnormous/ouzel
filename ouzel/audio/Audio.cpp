@@ -27,7 +27,9 @@ namespace ouzel
             {
                 auto availableDrivers = Audio::getAvailableAudioDrivers();
 
-                if (availableDrivers.find(Driver::COREAUDIO) != availableDrivers.end())
+                if (availableDrivers.find(Driver::WASAPI) != availableDrivers.end())
+                    return Driver::WASAPI;
+                else if (availableDrivers.find(Driver::COREAUDIO) != availableDrivers.end())
                     return Driver::COREAUDIO;
                 else if (availableDrivers.find(Driver::ALSA) != availableDrivers.end())
                     return Driver::ALSA;
