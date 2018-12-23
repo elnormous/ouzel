@@ -7,6 +7,8 @@
 
 #if OUZEL_COMPILE_WASAPI
 
+#include <atomic>
+#include <thread>
 #include <Audioclient.h>
 #include <mmdeviceapi.h>
 #include "audio/AudioDevice.hpp"
@@ -22,14 +24,22 @@ namespace ouzel
             ~AudioDeviceWASAPI();
 
         private:
+            void run();
+
             IMMDeviceEnumerator* enumerator = nullptr;
             IMMDevice* device = nullptr;
             IMMNotificationClient* notificationClient = nullptr;
             IAudioClient* audioClient = nullptr;
             IAudioRenderClient* renderClient = nullptr;
+            HANDLE notifyEvent = nullptr;
 
+            UINT32 bufferFrameCount;
             uint32_t sampleSize = 0;
             bool started = false;
+            std::vector<uint8_t> data;
+
+            std::atomic_bool running{false};
+            std::thread audioThread;
         };
     } // namespace audio
 } // namespace ouzel
