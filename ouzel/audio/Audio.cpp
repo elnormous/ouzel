@@ -149,9 +149,9 @@ namespace ouzel
         }
 
         Audio::Audio(Driver driver, bool debugAudio, Window* window):
-            device(createAudioDevice(driver, mixer, debugAudio, window)),
             mixer(std::bind(&Audio::eventCallback, this, std::placeholders::_1)),
-            masterMix(*this)
+            masterMix(*this),
+            device(createAudioDevice(driver, mixer, debugAudio, window))
         {
             mixer.addCommand(std::unique_ptr<Command>(new SetMasterBusCommand(masterMix.getBusId())));
         }

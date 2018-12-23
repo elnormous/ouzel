@@ -33,7 +33,7 @@ namespace ouzel
 
         void SkinnedMeshRenderer::init(const std::string& filename)
         {
-            //init(*engine->getCache().getSkinnedMeshData(filename));
+            init(*engine->getCache().getSkinnedMeshData(filename));
         }
 
         void SkinnedMeshRenderer::draw(const Matrix4& transformMatrix,
