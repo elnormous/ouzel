@@ -195,7 +195,7 @@ namespace ouzel
         {
             running = false;
             for (HANDLE notifyEvent : notifyEvents)
-                SetEvent(notifyEvent);
+                if (notifyEvent) SetEvent(notifyEvent);
 
             if (audioThread.joinable()) audioThread.join();
 
