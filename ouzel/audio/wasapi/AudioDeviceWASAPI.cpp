@@ -4,8 +4,9 @@
 
 #if OUZEL_COMPILE_WASAPI
 
-#include <string>
 #include "AudioDeviceWASAPI.hpp"
+#include "core/Engine.hpp"
+#include "utils/Utils.hpp"
 
 const CLSID CLSID_MMDeviceEnumerator = __uuidof(MMDeviceEnumerator);
 const IID IID_IMMDeviceEnumerator = __uuidof(IMMDeviceEnumerator);
@@ -193,7 +194,7 @@ namespace ouzel
             waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
             waveFormat.cbSize = 0;
 
-            DWORD streamFlags = 0;
+            DWORD streamFlags = AUDCLNT_STREAMFLAGS_EVENTCALLBACK;
 
             if (waveFormat.nSamplesPerSec != audioClientWaveFormat->nSamplesPerSec)
                 streamFlags |= AUDCLNT_STREAMFLAGS_RATEADJUST;
@@ -218,19 +219,37 @@ namespace ouzel
             }
 
             // init output device
-            UINT32 maxFrames;
-            if (FAILED(hr = audioClient->GetBufferSize(&maxFrames)))
+            if (FAILED(hr = audioClient->GetBufferSize(&bufferFrameCount)))
                 throw std::system_error(hr, wasapiErrorCategory, "Failed to get audio buffer size");
-            bufferSize = maxFrames * channels;
+            bufferSize = bufferFrameCount * channels;
+
+            if (FAILED(hr = audioClient->GetService(IID_IAudioRenderClient, reinterpret_cast<void**>(&renderClient))))
+                throw std::system_error(GetLastError(), std::system_category(), "Failed to get render client service");
+
+            notifyEvent = CreateEvent(nullptr, false, false, nullptr);
+            if (!notifyEvent)
+                throw std::system_error(GetLastError(), std::system_category(), "Failed to create event");
+
+            if (FAILED(hr = audioClient->SetEventHandle(notifyEvent)))
+                throw std::system_error(hr, wasapiErrorCategory, "Failed to set event handle");
 
             if (FAILED(hr = audioClient->Start()))
                 throw std::system_error(hr, wasapiErrorCategory, "Failed to start audio");
 
             started = true;
+            running = true;
+            audioThread = std::thread(&AudioDeviceWASAPI::run, this);
         }
 
         AudioDeviceWASAPI::~AudioDeviceWASAPI()
         {
+            running = false;
+            if (notifyEvent) SetEvent(notifyEvent);
+
+            if (audioThread.joinable()) audioThread.join();
+
+            if (notifyEvent) CloseHandle(notifyEvent);
+
             if (renderClient) renderClient->Release();
             if (audioClient)
             {
@@ -240,6 +259,45 @@ namespace ouzel
             if (notificationClient) notificationClient->Release();
             if (device) device->Release();
             if (enumerator) enumerator->Release();
+        }
+
+        void AudioDeviceWASAPI::run()
+        {
+            setCurrentThreadName("Audio");
+
+            while (running)
+            {
+                try
+                {
+                    DWORD result;
+                    if ((result = WaitForSingleObject(notifyEvent, INFINITE)) == WAIT_FAILED)
+                        throw std::system_error(GetLastError(), std::system_category(), "Failed to wait for event");
+
+                    if (result == WAIT_OBJECT_0)
+                    {
+                        if (!running) break;
+
+                        process();
+
+                        BYTE* buffer;
+
+                        HRESULT hr;
+                        if (FAILED(hr = renderClient->GetBuffer(bufferFrameCount, &buffer)))
+                            throw std::system_error(hr, wasapiErrorCategory, "Failed to get buffer");
+
+                        getData(bufferFrameCount, data);
+
+                        std::copy(data.begin(), data.end(), buffer);
+
+                        if (FAILED(hr = renderClient->ReleaseBuffer(bufferFrameCount, 0)))
+                            throw std::system_error(hr, wasapiErrorCategory, "Failed to release buffer");
+                    }
+                }
+                catch (const std::exception& e)
+                {
+                    engine->log(Log::Level::ERR) << e.what();
+                }
+            }
         }
     } // namespace audio
 } // namespace ouzel
