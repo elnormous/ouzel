@@ -137,8 +137,8 @@ namespace smb
     public:
         PitchShift()
         {
-            std::fill(std::begin(inFIFO), std::end(inFIFO), 0.0F);
-            std::fill(std::begin(outFIFO), std::end(outFIFO), 0.0F);
+            std::fill(std::begin(inFifo), std::end(inFifo), 0.0F);
+            std::fill(std::begin(outFifo), std::end(outFifo), 0.0F);
             std::fill(std::begin(fftWorksp), std::end(fftWorksp), Complex<float>{0.0F, 0.0F});
             std::fill(std::begin(lastPhase), std::end(lastPhase), 0.0F);
             std::fill(std::begin(sumPhase), std::end(sumPhase), 0.0F);
@@ -168,8 +168,8 @@ namespace smb
             for (unsigned long i = 0; i < numSampsToProcess; i++)
             {
                 // As long as we have not yet collected enough data just read in
-                inFIFO[rover] = indata[i];
-                outdata[i] = outFIFO[rover - inFifoLatency];
+                inFifo[rover] = indata[i];
+                outdata[i] = outFifo[rover - inFifoLatency];
                 rover++;
 
                 // now we have enough data for processing
@@ -181,7 +181,7 @@ namespace smb
                     for (unsigned long k = 0; k < fftFrameSize; k++)
                     {
                         float window = -0.5F * std::cos(2.0F * PI * static_cast<float>(k) / static_cast<float>(fftFrameSize)) + 0.5F;
-                        fftWorksp[k].real = inFIFO[k] * window;
+                        fftWorksp[k].real = inFifo[k] * window;
                         fftWorksp[k].imag = 0.0F;
                     }
 
@@ -285,21 +285,21 @@ namespace smb
                         outputAccum[k] += 2.0F * window * fftWorksp[k].real / (fftFrameSize2 * oversamp);
                     }
                     unsigned long k;
-                    for (k = 0 ; k < stepSize; k++) outFIFO[k] = outputAccum[k];
+                    for (k = 0 ; k < stepSize; k++) outFifo[k] = outputAccum[k];
                     // shift accumulator
                     unsigned long j;
                     for (j = 0; k < fftFrameSize; k++, j++) outputAccum[j] = outputAccum[k];
                     for (; j < fftFrameSize; j++) outputAccum[j] = 0.0;
 
                     // move input FIFO
-                    for (k = 0; k < inFifoLatency; k++) inFIFO[k] = inFIFO[k + stepSize];
+                    for (k = 0; k < inFifoLatency; k++) inFifo[k] = inFifo[k + stepSize];
                 }
             }
         }
 
     private:
-        float inFIFO[MAX_FRAME_LENGTH];
-        float outFIFO[MAX_FRAME_LENGTH];
+        float inFifo[MAX_FRAME_LENGTH];
+        float outFifo[MAX_FRAME_LENGTH];
         Complex<float> fftWorksp[MAX_FRAME_LENGTH];
         float lastPhase[MAX_FRAME_LENGTH / 2 + 1];
         float sumPhase[MAX_FRAME_LENGTH / 2 + 1];
