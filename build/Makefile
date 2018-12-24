@@ -57,7 +57,6 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/audio/mixer/SourceData.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Audio.cpp \
 	$(ROOT_DIR)/../ouzel/audio/AudioDevice.cpp \
-	$(ROOT_DIR)/../ouzel/audio/Container.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Filter.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Filters.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Listener.cpp \

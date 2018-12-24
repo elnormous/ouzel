@@ -43,7 +43,6 @@
     <ClCompile Include="..\ouzel\assets\LoaderWave.cpp" />
     <ClCompile Include="..\ouzel\audio\Audio.cpp" />
     <ClCompile Include="..\ouzel\audio\AudioDevice.cpp" />
-    <ClCompile Include="..\ouzel\audio\Container.cpp" />
     <ClCompile Include="..\ouzel\audio\dsound\AudioDeviceDS.cpp" />
     <ClCompile Include="..\ouzel\audio\empty\AudioDeviceEmpty.cpp" />
     <ClCompile Include="..\ouzel\audio\Filter.cpp" />
@@ -219,7 +218,6 @@
     <ClInclude Include="..\ouzel\audio\Audio.hpp" />
     <ClInclude Include="..\ouzel\audio\AudioDevice.hpp" />
     <ClInclude Include="..\ouzel\audio\Channel.hpp" />
-    <ClInclude Include="..\ouzel\audio\Container.hpp" />
     <ClInclude Include="..\ouzel\audio\Driver.hpp" />
     <ClInclude Include="..\ouzel\audio\dsound\AudioDeviceDS.hpp" />
     <ClInclude Include="..\ouzel\audio\empty\AudioDeviceEmpty.hpp" />

@@ -913,12 +913,6 @@
 		30FE38511DFDE49E00305B3B /* Quaternion.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30FE384D1DFDE49E00305B3B /* Quaternion.hpp */; };
 		30FE38521DFDE49E00305B3B /* Quaternion.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30FE384D1DFDE49E00305B3B /* Quaternion.hpp */; };
 		30FE38531DFDE49E00305B3B /* Quaternion.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30FE384D1DFDE49E00305B3B /* Quaternion.hpp */; };
-		30FF4D2721C33B2E00153FFF /* Container.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30FF4D2521C33B2E00153FFF /* Container.cpp */; };
-		30FF4D2821C33B2E00153FFF /* Container.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30FF4D2521C33B2E00153FFF /* Container.cpp */; };
-		30FF4D2921C33B2E00153FFF /* Container.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30FF4D2521C33B2E00153FFF /* Container.cpp */; };
-		30FF4D2A21C33B2E00153FFF /* Container.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30FF4D2621C33B2E00153FFF /* Container.hpp */; };
-		30FF4D2B21C33B2E00153FFF /* Container.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30FF4D2621C33B2E00153FFF /* Container.hpp */; };
-		30FF4D2C21C33B2E00153FFF /* Container.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30FF4D2621C33B2E00153FFF /* Container.hpp */; };
 		30FF4D2F21C33B4900153FFF /* RandomContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30FF4D2D21C33B4900153FFF /* RandomContainer.cpp */; };
 		30FF4D3021C33B4900153FFF /* RandomContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30FF4D2D21C33B4900153FFF /* RandomContainer.cpp */; };
 		30FF4D3121C33B4900153FFF /* RandomContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30FF4D2D21C33B4900153FFF /* RandomContainer.cpp */; };
@@ -1377,8 +1371,6 @@
 		30F249ED20A7681E0007D417 /* Commands.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Commands.hpp; sourceTree = "<group>"; };
 		30FE384C1DFDE49E00305B3B /* Quaternion.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Quaternion.cpp; sourceTree = "<group>"; };
 		30FE384D1DFDE49E00305B3B /* Quaternion.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Quaternion.hpp; sourceTree = "<group>"; };
-		30FF4D2521C33B2E00153FFF /* Container.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Container.cpp; sourceTree = "<group>"; };
-		30FF4D2621C33B2E00153FFF /* Container.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Container.hpp; sourceTree = "<group>"; };
 		30FF4D2D21C33B4900153FFF /* RandomContainer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RandomContainer.cpp; sourceTree = "<group>"; };
 		30FF4D2E21C33B4900153FFF /* RandomContainer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RandomContainer.hpp; sourceTree = "<group>"; };
 		30FF4D3521C33B5A00153FFF /* ParallelContainer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ParallelContainer.cpp; sourceTree = "<group>"; };
@@ -1802,8 +1794,6 @@
 				30C758AB1F4A0196008499DC /* AudioDevice.cpp */,
 				30C758AC1F4A0196008499DC /* AudioDevice.hpp */,
 				30BA5FB72198E43A0032AC23 /* Channel.hpp */,
-				30FF4D2521C33B2E00153FFF /* Container.cpp */,
-				30FF4D2621C33B2E00153FFF /* Container.hpp */,
 				309BA3101F183D3D006F2240 /* coreaudio */,
 				30BA5FB52198E2610032AC23 /* Driver.hpp */,
 				3038210A1D81874D00677CAB /* empty */,
@@ -2260,7 +2250,6 @@
 				30575ADC1C3B48740009C8A7 /* EventDispatcher.hpp in Headers */,
 				303B75561C2A3CB700FEDE92 /* Size2.hpp in Headers */,
 				30A883671E7432DA004A033F /* Archive.hpp in Headers */,
-				30FF4D2A21C33B2E00153FFF /* Container.hpp in Headers */,
 				307237151FAFDAC9002EA399 /* XML.hpp in Headers */,
 				3067D7A8209B450F008DF6AF /* InputSystem.hpp in Headers */,
 				303B755E1C2A3CB700FEDE92 /* Vertex.hpp in Headers */,
@@ -2374,7 +2363,6 @@
 				3049DCDF1EDCD0450000997A /* Cursor.hpp in Headers */,
 				30673DD81F7A694F00EAFAB0 /* NativeWindow.hpp in Headers */,
 				30724D871F353A1800D915ED /* ViewTVOS.h in Headers */,
-				30FF4D2C21C33B2E00153FFF /* Container.hpp in Headers */,
 				30AEFA3920C0FD7400CDFD33 /* RenderTargetMetal.hpp in Headers */,
 				3009031321922E1300B00BF4 /* DepthStencilStateOGL.hpp in Headers */,
 				30575ACA1C3B17540009C8A7 /* Button.hpp in Headers */,
@@ -2543,7 +2531,6 @@
 				30A9C1341CAE80570084C4BF /* Localization.hpp in Headers */,
 				30090302219224B100B00BF4 /* DepthStencilState.hpp in Headers */,
 				3038207D1D816C9E00677CAB /* EngineMacOS.hpp in Headers */,
-				30FF4D2B21C33B2E00153FFF /* Container.hpp in Headers */,
 				30575AD01C3B175D0009C8A7 /* Label.hpp in Headers */,
 				30575A921C38BD370009C8A7 /* Box2.hpp in Headers */,
 				303696F01E32DE08007F4211 /* Shader.hpp in Headers */,
@@ -2891,7 +2878,6 @@
 				3047F7471C4C350D00774E3D /* Move.cpp in Sources */,
 				30419DF21D162BEF00A63759 /* Sound.cpp in Sources */,
 				303B75531C2A3CB700FEDE92 /* Rect.cpp in Sources */,
-				30FF4D2721C33B2E00153FFF /* Container.cpp in Sources */,
 				303820F81D817F4900677CAB /* GamepadDeviceIOS.mm in Sources */,
 				30519CB81F9B53AB00AF3DC4 /* LoaderWave.cpp in Sources */,
 				303B04B41E207B6100011CBE /* OpenGLView.m in Sources */,
@@ -3065,7 +3051,6 @@
 				3031C1361F0C4350002CA717 /* VorbisSound.cpp in Sources */,
 				3047F7581C4C4FBA00774E3D /* Scale.cpp in Sources */,
 				3047F7481C4C350D00774E3D /* Move.cpp in Sources */,
-				30FF4D2921C33B2E00153FFF /* Container.cpp in Sources */,
 				30381F6F1D80A3EC00677CAB /* BufferOGL.cpp in Sources */,
 				30519CBA1F9B53AB00AF3DC4 /* LoaderWave.cpp in Sources */,
 				303B76491C355A3B00FEDE92 /* Rect.cpp in Sources */,
@@ -3212,7 +3197,6 @@
 				303B74E41C277CEE00FEDE92 /* ImageData.cpp in Sources */,
 				3009341C1C88698500CC50D3 /* Window.cpp in Sources */,
 				30B8598D1F3D286600A16952 /* TTFont.cpp in Sources */,
-				30FF4D2821C33B2E00153FFF /* Container.cpp in Sources */,
 				303B04AA1E207B1D00011CBE /* MetalView.m in Sources */,
 				304A8E561C237C70008B1151 /* MathUtils.cpp in Sources */,
 				30FF4D4021C33B6800153FFF /* SequenceContainer.cpp in Sources */,
