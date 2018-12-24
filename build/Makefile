@@ -17,13 +17,13 @@ CC=emcc
 CXX=em++
 AR=emar
 endif
-CXXFLAGS=-c -std=c++11 -Wall -O2 \
+CXXFLAGS=-c -std=c++11 -Wall \
 	-I"$(ROOT_DIR)/../ouzel" \
 	-I"$(ROOT_DIR)/../shaders" \
 	-I"$(ROOT_DIR)/../external/khronos" \
 	-I"$(ROOT_DIR)/../external/smbPitchShift" \
 	-I"$(ROOT_DIR)/../external/stb"
-CFLAGS=-c -Wall -O2 \
+CFLAGS=-c -Wall \
 	-I"$(ROOT_DIR)/../ouzel"
 SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/animators/Ease.cpp \
@@ -300,6 +300,9 @@ DEPENDENCIES=$(OBJECTS:.o=.d)
 ifeq ($(debug),1)
 all: CXXFLAGS+=-DDEBUG -g
 all: CFLAGS+=-DDEBUG -g
+else
+all: CXXFLAGS+=-O3
+all: CFLAGS+=-O3
 endif
 all: config
 all: $(ROOT_DIR)/$(LIBRARY)
