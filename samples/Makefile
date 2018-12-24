@@ -90,6 +90,8 @@ endif
 .PHONY: all
 ifeq ($(debug),1)
 all: CXXFLAGS+=-DDEBUG -g
+else
+all: CXXFLAGS+=-O3
 endif
 all: bundle
 
