@@ -20,11 +20,11 @@ namespace ouzel
             enum class Button
             {
                 NONE,
-                LEFT,           // Left mouse button
-                RIGHT,          // Right mouse button
-                MIDDLE,         // Middle mouse button (three-button mouse)
-                X1,             // First extra mouse button
-                X2,             // Second extra mouse button
+                LEFT, // Left mouse button
+                RIGHT, // Right mouse button
+                MIDDLE, // Middle mouse button (three-button mouse)
+                X1, // First extra mouse button
+                X2, // Second extra mouse button
                 COUNT
             };
 
