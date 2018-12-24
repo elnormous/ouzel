@@ -95,6 +95,7 @@ namespace smb
 
     static void fft(Complex<float>* fftBuffer, unsigned long fftFrameSize, long sign)
     {
+        // Bit-reversal permutation applied to a sequence of fftFrameSize items
         for (unsigned long i = 1; i < fftFrameSize - 1; i++)
         {
             unsigned long j = 0;
@@ -110,6 +111,7 @@ namespace smb
                 std::swap(fftBuffer[i], fftBuffer[j]);
         }
 
+        // Iterative form of DanielsonLanczos lemma
         unsigned long step = 2;
         for (unsigned long i = 1; i < fftFrameSize; i <<= 1, step <<= 1)
         {
@@ -157,10 +159,10 @@ namespace smb
                      unsigned long oversamp, float sampleRate, float* indata, float* outdata)
         {
             // set up some handy variables
-            unsigned long fftFrameSize2 = fftFrameSize / 2;
+            unsigned long fftFrameSizeHalf = fftFrameSize / 2;
             unsigned long stepSize = fftFrameSize / oversamp;
             float freqPerBin = sampleRate / static_cast<float>(fftFrameSize);
-            float expct = 2.0F * PI * static_cast<float>(stepSize) / static_cast<float>(fftFrameSize);
+            float expected = 2.0F * PI * static_cast<float>(stepSize) / static_cast<float>(fftFrameSize);
             unsigned long inFifoLatency = fftFrameSize - stepSize;
             if (rover == 0) rover = inFifoLatency;
 
@@ -190,7 +192,7 @@ namespace smb
                     fft(fftWorksp, fftFrameSize, -1);
 
                     // this is the analysis step
-                    for (unsigned long k = 0; k <= fftFrameSize2; k++)
+                    for (unsigned long k = 0; k <= fftFrameSizeHalf; k++)
                     {
                         // de-interlace FFT buffer
                         float real = fftWorksp[k].real;
@@ -210,7 +212,7 @@ namespace smb
                         lastPhase[k] = phase;
 
                         // subtract expected phase difference
-                        tmp -= static_cast<float>(k) * expct;
+                        tmp -= static_cast<float>(k) * expected;
 
                         // map delta phase into +/- Pi interval
                         long qpd = static_cast<long>(tmp / PI);
@@ -233,19 +235,17 @@ namespace smb
                     // this does the actual pitch shifting
                     std::fill(std::begin(synMagn), std::begin(synMagn) + fftFrameSize, 0.0F);
                     std::fill(std::begin(synFreq), std::begin(synFreq) + fftFrameSize, 0.0F);
-                    for (unsigned long k = 0; k <= fftFrameSize2; k++)
+                    for (unsigned long k = 0; k <= fftFrameSizeHalf; k++)
                     {
                         unsigned long index = static_cast<unsigned long>(k * pitchShift);
-                        if (index <= fftFrameSize2)
-                        {
-                            synMagn[index] += anaMagn[k];
-                            synFreq[index] = anaFreq[k] * pitchShift;
-                        }
+                        if (index > fftFrameSizeHalf) break;
+                        synMagn[index] += anaMagn[k];
+                        synFreq[index] = anaFreq[k] * pitchShift;
                     }
 
                     // ***************** SYNTHESIS *******************
                     // this is the synthesis step
-                    for (unsigned long k = 0; k <= fftFrameSize2; k++)
+                    for (unsigned long k = 0; k <= fftFrameSizeHalf; k++)
                     {
                         // get magnitude and true frequency from synthesis arrays
                         float magn = synMagn[k];
@@ -261,7 +261,7 @@ namespace smb
                         tmp = 2.0F * PI * tmp / oversamp;
 
                         // add the overlap phase advance back in
-                        tmp += static_cast<float>(k) * expct;
+                        tmp += static_cast<float>(k) * expected;
 
                         // accumulate delta phase to get bin phase
                         sumPhase[k] += tmp;
@@ -282,7 +282,7 @@ namespace smb
                     for (unsigned long k = 0; k < fftFrameSize; k++)
                     {
                         float window = -0.5F * cos(2.0F * PI * static_cast<float>(k) / static_cast<float>(fftFrameSize)) + 0.5F;
-                        outputAccum[k] += 2.0F * window * fftWorksp[k].real / (fftFrameSize2 * oversamp);
+                        outputAccum[k] += 2.0F * window * fftWorksp[k].real / (fftFrameSizeHalf * oversamp);
                     }
                     unsigned long k;
                     for (k = 0 ; k < stepSize; k++) outFifo[k] = outputAccum[k];
