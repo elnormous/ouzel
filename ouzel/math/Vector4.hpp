@@ -5,9 +5,8 @@
 
 #include <cstddef>
 
-#include "core/Setup.h"
-#if OUZEL_SUPPORTS_SSE
-#include <xmmintrin.h>
+#if defined(__SSE__)
+#  include <xmmintrin.h>
 #endif
 
 #include "Vector2.hpp"
@@ -20,11 +19,11 @@ namespace ouzel
     class Vector4 final
     {
     public:
-#if OUZEL_SUPPORTS_SSE
-#ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable:4201)
-#endif
+#if defined(__SSE__)
+#  ifdef _MSC_VER
+#    pragma warning(push)
+#    pragma warning(disable:4201)
+#  endif
         union
         {
             __m128 s;
@@ -37,9 +36,9 @@ namespace ouzel
                 float w;
             };
         };
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif
+#  ifdef _MSC_VER
+#    pragma warning(pop)
+#  endif
 #else
         float x;
         float y;

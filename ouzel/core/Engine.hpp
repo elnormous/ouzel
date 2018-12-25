@@ -10,7 +10,6 @@
 #include <mutex>
 #include <thread>
 #include <vector>
-#include "core/Setup.h"
 #include "core/Application.hpp"
 #include "core/Timer.hpp"
 #include "core/Window.hpp"
@@ -114,7 +113,7 @@ namespace ouzel
         ini::Data defaultSettings;
         ini::Data userSettings;
 
-#if OUZEL_MULTITHREADED
+#if !defined(__EMSCRIPTEN__)
         std::thread updateThread;
         std::mutex updateMutex;
         std::condition_variable updateCondition;

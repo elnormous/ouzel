@@ -1,5 +1,8 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#if defined(__APPLE__)
+#  include <TargetConditionals.h>
+#endif
 #include <algorithm>
 #include "Menu.hpp"
 #include "core/Engine.hpp"
@@ -216,7 +219,7 @@ namespace ouzel
                 {
                     if (event.previousValue < 0.6F && event.value > 0.6F) selectNextWidget();
                 }
-#if !OUZEL_PLATFORM_IOS && !OUZEL_PLATFORM_TVOS // on iOS and tvOS menu items ar selected with a SELECT button
+#if !defined(__APPLE__) || (!TARGET_OS_IOS && !TARGET_OS_TV) // on iOS and tvOS menu items ar selected with a SELECT button
                 else if (event.button == input::Gamepad::Button::FACE_BOTTOM)
                 {
                     if (!event.previousPressed && event.pressed && selectedWidget)

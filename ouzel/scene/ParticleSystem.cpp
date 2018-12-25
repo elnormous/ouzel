@@ -2,7 +2,6 @@
 
 #include <cstdlib>
 #include <stdexcept>
-#include "core/Setup.h"
 #include "ParticleSystem.hpp"
 #include "core/Engine.hpp"
 #include "SceneManager.hpp"

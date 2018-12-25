@@ -23,7 +23,8 @@ typedef struct tagTHREADNAME_INFO
 
 namespace ouzel
 {
-#if OUZEL_PLATFORM_ANDROID && OUZEL_SUPPORTS_NEON_CHECK
+#if defined(__ANDROID__) && defined(__ARM_NEON__) && defined(__arm__)
+    // NEON support must be checked at runtime on 32-bit Android
     AnrdoidNeonChecker anrdoidNeonChecker;
 #endif
 

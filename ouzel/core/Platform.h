@@ -54,7 +54,6 @@
 #    define OUZEL_SUPPORTS_XAUDIO2 1
 #  endif
 
-#  define OUZEL_MULTITHREADED 1
 #  define OUZEL_ARCHITECTURE_X86
 
 #  if defined(_M_X64) || defined(__x86_64__)
@@ -93,8 +92,6 @@
 #    endif
 #  endif
 
-#  define OUZEL_MULTITHREADED 1
-
 #  if defined(__x86_64__) || defined(__i386__)
 #    define OUZEL_ARCHITECTURE_X86
 #    if defined(__x86_64__)
@@ -109,9 +106,6 @@
 #    elif defined(__arm__)
 #      define OUZEL_32BITS 1
 #    endif
-#    if defined(__ARM_NEON__)
-#      define OUZEL_SUPPORTS_NEON 1
-#    endif
 #  else
 #    error "Unsupported architecture"
 #  endif
@@ -123,7 +117,6 @@
 #  define OUZEL_OPENGL_INTERFACE_EGL 1
 #  define OUZEL_SUPPORTS_OPENSL 1
 #  define OUZEL_SUPPORTS_OPENSLES 1
-#  define OUZEL_MULTITHREADED 1
 
 #  if defined(__x86_64__) || defined(__i386__)
 #    define OUZEL_ARCHITECTURE_X86
@@ -139,12 +132,6 @@
 #    elif defined(__arm__)
 #      define OUZEL_32BITS 1
 #    endif
-#    if defined(__ARM_NEON__)
-#      define OUZEL_SUPPORTS_NEON 1
-#      if defined(__arm__) // NEON support must be checked on Android for 32-bit platforms
-#        define OUZEL_SUPPORTS_NEON_CHECK 1
-#      endif
-#    endif
 #  else
 #    error "Unsupported architecture"
 #  endif
@@ -154,7 +141,6 @@
 #  define OUZEL_SUPPORTS_OPENGL 1
 #  define OUZEL_SUPPORTS_OPENAL 1
 #  define OUZEL_SUPPORTS_ALSA 1
-#  define OUZEL_MULTITHREADED 1
 
 #  if defined(__x86_64__) || defined(__i386__) // x86 Linux
 #    define OUZEL_OPENGL_INTERFACE_GLX 1
@@ -177,9 +163,6 @@
 #      define OUZEL_32BITS 1
 #    endif
 
-#    if defined(__ARM_NEON__)
-#      define OUZEL_SUPPORTS_NEON 1
-#    endif
 #  else
 #    error "Unsupported architecture"
 #  endif
@@ -193,10 +176,6 @@
 
 #else
 # error "Unsupported platform"
-#endif
-
-#if defined(__SSE__)
-#  define OUZEL_SUPPORTS_SSE 1
 #endif
 
 #endif // OUZEL_PLATFORM_H

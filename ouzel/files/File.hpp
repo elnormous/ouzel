@@ -6,14 +6,14 @@
 #include <string>
 
 #if defined(_WIN32)
-#ifndef NOMINMAX
-#  define NOMINMAX
-#endif
-#include <Windows.h>
+#  ifndef NOMINMAX
+#    define NOMINMAX
+#  endif
+#  include <Windows.h>
 #endif
 
 #if defined(__ANDROID__)
-#include <android/asset_manager_jni.h>
+#  include <android/asset_manager_jni.h>
 #endif
 
 namespace ouzel

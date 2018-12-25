@@ -253,7 +253,7 @@ namespace ouzel
             if ((error = alGetError()) != AL_NO_ERROR)
                 throw std::system_error(error, openALErrorCategory, "Failed to play OpenAL source");
 
-#if OUZEL_MULTITHREADED
+#if !defined(__EMSCRIPTEN__)
             running = true;
             audioThread = std::thread(&AudioDeviceAL::run, this);
 #endif
@@ -261,7 +261,7 @@ namespace ouzel
 
         AudioDeviceAL::~AudioDeviceAL()
         {
-#if OUZEL_MULTITHREADED
+#if !defined(__EMSCRIPTEN__)
             running = false;
             if (audioThread.joinable()) audioThread.join();
 #endif
@@ -351,7 +351,7 @@ namespace ouzel
         {
             setCurrentThreadName("Audio");
 
-#if OUZEL_MULTITHREADED
+#if !defined(__EMSCRIPTEN__)
             while (running)
             {
                 try

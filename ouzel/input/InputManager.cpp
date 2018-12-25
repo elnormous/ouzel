@@ -1,7 +1,9 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#if defined(__APPLE__)
+#  include <TargetConditionals.h>
+#endif
 #include <algorithm>
-#include "core/Setup.h"
 #include "InputManager.hpp"
 #include "Gamepad.hpp"
 #include "Keyboard.hpp"
@@ -11,19 +13,19 @@
 #include "events/EventDispatcher.hpp"
 #include "math/MathUtils.hpp"
 
-#if OUZEL_PLATFORM_MACOS
+#if TARGET_OS_MAC
 #  include "input/macos/InputSystemMacOS.hpp"
-#elif OUZEL_PLATFORM_IOS
+#elif TARGET_OS_IOS
 #  include "input/ios/InputSystemIOS.hpp"
-#elif OUZEL_PLATFORM_TVOS
+#elif TARGET_OS_TV
 #  include "input/tvos/InputSystemTVOS.hpp"
-#elif OUZEL_PLATFORM_ANDROID
+#elif defined(__ANDROID__)
 #  include "input/android/InputSystemAndroid.hpp"
-#elif OUZEL_PLATFORM_LINUX
+#elif defined(__linux__)
 #  include "input/linux/InputSystemLinux.hpp"
-#elif OUZEL_PLATFORM_WINDOWS
+#elif defined(_WIN32)
 #  include "input/windows/InputSystemWin.hpp"
-#elif OUZEL_PLATFORM_EMSCRIPTEN
+#elif defined(__EMSCRIPTEN__)
 #  include "input/emscripten/InputSystemEm.hpp"
 #endif
 
@@ -32,19 +34,19 @@ namespace ouzel
     namespace input
     {
         InputManager::InputManager():
-#if OUZEL_PLATFORM_MACOS
+#if TARGET_OS_MAC
             inputSystem(new InputSystemMacOS(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
-#elif OUZEL_PLATFORM_IOS
+#elif TARGET_OS_IOS
             inputSystem(new InputSystemIOS(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
-#elif OUZEL_PLATFORM_TVOS
+#elif TARGET_OS_TV
             inputSystem(new InputSystemTVOS(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
-#elif OUZEL_PLATFORM_ANDROID
+#elif defined(__ANDROID__)
             inputSystem(new InputSystemAndroid(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
-#elif OUZEL_PLATFORM_LINUX
+#elif defined(__linux__)
             inputSystem(new InputSystemLinux(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
-#elif OUZEL_PLATFORM_WINDOWS
+#elif defined(_WIN32)
             inputSystem(new InputSystemWin(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
-#elif OUZEL_PLATFORM_EMSCRIPTEN
+#elif defined(__EMSCRIPTEN__)
             inputSystem(new InputSystemEm(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
 #else
             inputSystem(new InputSystem(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))

@@ -1,25 +1,27 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include "core/Setup.h"
+#if defined(__APPLE__)
+#  include <TargetConditionals.h>
+#endif
 
-#if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX
+#if TARGET_OS_MAC || defined(__linux__)
 #  include <unistd.h>
 #endif
 
-#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+#if TARGET_OS_IOS || TARGET_OS_TV
 #  include <sys/syslog.h>
 #endif
 
-#if OUZEL_PLATFORM_WINDOWS
+#if defined(_WIN32)
 #  include <Windows.h>
 #  include <strsafe.h>
 #endif
 
-#if OUZEL_PLATFORM_ANDROID
+#if defined(__ANDROID__)
 #  include <android/log.h>
 #endif
 
-#if OUZEL_PLATFORM_EMSCRIPTEN
+#if defined(__EMSCRIPTEN__)
 #  include <emscripten.h>
 #endif
 
@@ -35,7 +37,7 @@ namespace ouzel
 
     void Logger::logString(const std::string& str, Log::Level level)
     {
-#if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX
+#if TARGET_OS_MAC || defined(__linux__)
         int fd = 0;
         switch (level)
         {
@@ -63,7 +65,7 @@ namespace ouzel
             offset += static_cast<size_t>(written);
         }
 
-#elif OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+#elif TARGET_OS_IOS || TARGET_OS_TV
         int priority = 0;
         switch (level)
         {
@@ -74,7 +76,7 @@ namespace ouzel
             default: break;
         }
         syslog(priority, "%s", str.c_str());
-#elif OUZEL_PLATFORM_WINDOWS
+#elif defined(_WIN32)
         int bufferSize = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, nullptr, 0);
         if (bufferSize == 0)
             return;
@@ -108,7 +110,7 @@ namespace ouzel
             WriteConsoleW(handle, buffer.data(), static_cast<DWORD>(wcslen(buffer.data())), &bytesWritten, nullptr);
         }
 #  endif
-#elif OUZEL_PLATFORM_ANDROID
+#elif defined(__ANDROID__)
         int priority = 0;
         switch (level)
         {
@@ -119,7 +121,7 @@ namespace ouzel
             default: break;
         }
         __android_log_print(priority, "Ouzel", "%s", str.c_str());
-#elif OUZEL_PLATFORM_EMSCRIPTEN
+#elif defined(__EMSCRIPTEN__)
         int flags = EM_LOG_CONSOLE;
         if (level == Log::Level::ERR) flags |= EM_LOG_ERROR;
         else if (level == Log::Level::WARN) flags |= EM_LOG_WARN;
