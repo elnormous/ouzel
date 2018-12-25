@@ -57,15 +57,13 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/audio/mixer/SourceData.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Audio.cpp \
 	$(ROOT_DIR)/../ouzel/audio/AudioDevice.cpp \
+	$(ROOT_DIR)/../ouzel/audio/Containers.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Filter.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Filters.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Listener.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Mix.cpp \
 	$(ROOT_DIR)/../ouzel/audio/OscillatorSound.cpp \
-	$(ROOT_DIR)/../ouzel/audio/ParallelContainer.cpp \
 	$(ROOT_DIR)/../ouzel/audio/PCMSound.cpp \
-	$(ROOT_DIR)/../ouzel/audio/RandomContainer.cpp \
-	$(ROOT_DIR)/../ouzel/audio/SequenceContainer.cpp \
 	$(ROOT_DIR)/../ouzel/audio/SilenceSound.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Sound.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Source.cpp \

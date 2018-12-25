@@ -29,6 +29,7 @@
 #include "assets/LoaderWave.hpp"
 #include "audio/Audio.hpp"
 #include "audio/Channel.hpp"
+#include "audio/Containers.hpp"
 #include "audio/Driver.hpp"
 #include "audio/Filter.hpp"
 #include "audio/Filters.hpp"
