@@ -97,6 +97,9 @@ namespace ouzel
         appPath = resourceDirectory.data();
         engine.log(Log::Level::INFO) << "Application directory: " << appPath;
 
+#elif defined(__ANDROID__)
+        // not available for Android
+
 #elif defined(__linux__)
         char executableDirectory[PATH_MAX];
 
