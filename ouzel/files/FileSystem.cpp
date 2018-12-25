@@ -15,12 +15,12 @@
 #  include <objc/NSObjCRuntime.h>
 #  include <CoreFoundation/CoreFoundation.h>
 extern "C" id NSTemporaryDirectory();
+#elif defined(__ANDROID__)
+#  include "core/android/EngineAndroid.hpp"
 #elif defined(__linux__)
 #  include <limits.h>
 #  include <pwd.h>
 #  include <unistd.h>
-#elif defined(__ANDROID__)
-#  include "core/android/EngineAndroid.hpp"
 #endif
 
 #if !defined(_WIN32)
@@ -218,6 +218,11 @@ namespace ouzel
 
         id documentDirectoryString = reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(documentDirectory, sel_getUid("path"));
         return reinterpret_cast<const char* (*)(id, SEL)>(&objc_msgSend)(documentDirectoryString, sel_getUid("UTF8String"));
+#elif defined(__ANDROID__)
+        (void)user;
+
+        EngineAndroid& engineAndroid = static_cast<EngineAndroid&>(engine);
+        return engineAndroid.getFilesDirectory();
 #elif defined(__linux__)
         std::string path;
 
@@ -266,11 +271,6 @@ namespace ouzel
                 throw std::system_error(errno, std::system_category(), "Failed to create directory " + path);
 
         return path;
-#elif defined(__ANDROID__)
-        (void)user;
-
-        EngineAndroid& engineAndroid = static_cast<EngineAndroid&>(engine);
-        return engineAndroid.getFilesDirectory();
 #else
         return "";
 #endif
@@ -297,15 +297,15 @@ namespace ouzel
 #elif defined(__APPLE__)
         id temporaryDirectory = NSTemporaryDirectory();
         return reinterpret_cast<const char* (*)(id, SEL)>(&objc_msgSend)(temporaryDirectory, sel_getUid("UTF8String")); // [temporaryDirectory UTF8String]
+#elif defined(__ANDROID__)
+        EngineAndroid& engineAndroid = static_cast<EngineAndroid&>(engine);
+        return engineAndroid.getCacheDirectory();
 #elif defined(__linux__)
         char const* path = getenv("TMPDIR");
         if (path)
             return path;
         else
             return "/tmp";
-#elif defined(__ANDROID__)
-        EngineAndroid& engineAndroid = static_cast<EngineAndroid&>(engine);
-        return engineAndroid.getCacheDirectory();
 #else
         return "";
 #endif
