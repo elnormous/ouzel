@@ -331,6 +331,8 @@ namespace ouzel
         else
             log(Log::Level::WARN) << "XInput not supported";
 
+        executeAtom = XInternAtom(display, "OUZEL_EXECUTE", False);
+
         XEvent event;
 
         while (active)
@@ -344,10 +346,10 @@ namespace ouzel
                 {
                     case ClientMessage:
                     {
-                        if (event.xclient.message_type == windowLinux->getProtocolsAtom() && static_cast<Atom>(event.xclient.data.l[0]) == windowLinux->getDeleteAtom())
-                            exit();
-                        else if (event.xclient.message_type == windowLinux->getExecuteAtom())
+                        if (event.xclient.message_type == executeAtom)
                             executeAll();
+                        else if (event.xclient.message_type == windowLinux->getProtocolsAtom() && static_cast<Atom>(event.xclient.data.l[0]) == windowLinux->getDeleteAtom())
+                            exit();
                         break;
                     }
                     case FocusIn:
@@ -474,8 +476,8 @@ namespace ouzel
 
         XEvent event;
         event.type = ClientMessage;
-        event.xclient.window = windowLinux->getNativeWindow();
-        event.xclient.message_type = windowLinux->getExecuteAtom();
+        event.xclient.window = 0;
+        event.xclient.message_type = executeAtom;
         event.xclient.format = 32; // data is set as 32-bit integers
         event.xclient.data.l[0] = 0;
         event.xclient.data.l[1] = CurrentTime;

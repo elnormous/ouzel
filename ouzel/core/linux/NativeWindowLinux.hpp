@@ -52,7 +52,6 @@ namespace ouzel
         inline XVisualInfo* getVisualInfo() const { return visualInfo; }
         inline Atom getProtocolsAtom() const { return protocolsAtom; }
         inline Atom getDeleteAtom() const { return deleteAtom; }
-        inline Atom getExecuteAtom() const { return executeAtom; }
 #else
         const EGL_DISPMANX_WINDOW_T& getNativeWindow() const { return window; }
 #endif
@@ -71,7 +70,6 @@ namespace ouzel
         Atom protocolsAtom;
         Atom stateAtom;
         Atom stateFullscreenAtom;
-        Atom executeAtom;
 #else
         EGL_DISPMANX_WINDOW_T window;
 #endif

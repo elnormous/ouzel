@@ -134,7 +134,6 @@ namespace ouzel
         XSetWMProtocols(display, window, &deleteAtom, 1);
         stateAtom = XInternAtom(display, "_NET_WM_STATE", False);
         stateFullscreenAtom = XInternAtom(display, "_NET_WM_STATE_FULLSCREEN", False);
-        executeAtom = XInternAtom(display, "OUZEL_EXECUTE", False);
 
         if (fullscreen) toggleFullscreen();
 #else
