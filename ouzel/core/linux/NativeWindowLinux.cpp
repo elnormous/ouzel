@@ -12,7 +12,9 @@
 #include "graphics/RenderDevice.hpp"
 
 #if OUZEL_SUPPORTS_X11
-static constexpr long _NET_WM_STATE_TOGGLE = 2;
+static constexpr long _NET_WM_STATE_REMOVE = 0L;
+static constexpr long _NET_WM_STATE_ADD = 1L;
+static constexpr long _NET_WM_STATE_TOGGLE = 2L;
 #endif
 
 namespace ouzel
@@ -135,7 +137,28 @@ namespace ouzel
         stateAtom = XInternAtom(display, "_NET_WM_STATE", False);
         stateFullscreenAtom = XInternAtom(display, "_NET_WM_STATE_FULLSCREEN", False);
 
-        if (fullscreen) toggleFullscreen();
+        if (fullscreen)
+        {
+            if (!stateAtom)
+                throw std::runtime_error("State atom is null");
+
+            if (!stateFullscreenAtom)
+                throw std::runtime_error("Fullscreen state atom is null");
+
+            XEvent event;
+            event.type = ClientMessage;
+            event.xclient.window = window;
+            event.xclient.message_type = stateAtom;
+            event.xclient.format = 32;
+            event.xclient.data.l[0] = _NET_WM_STATE_ADD;
+            event.xclient.data.l[1] = stateFullscreenAtom;
+            event.xclient.data.l[2] = 0; // no second property to toggle
+            event.xclient.data.l[3] = 1; // source indication: application
+            event.xclient.data.l[4] = 0; // unused
+
+            if (!XSendEvent(display, DefaultRootWindow(display), 0, SubstructureRedirectMask | SubstructureNotifyMask, &event))
+                throw std::runtime_error("Failed to send X11 fullscreen message");
+        }
 #else
         EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
         DISPMANX_DISPLAY_HANDLE_T display = engineLinux->getDisplay();
@@ -265,7 +288,30 @@ namespace ouzel
 
     void NativeWindowLinux::setFullscreen(bool newFullscreen)
     {
-        if (fullscreen != newFullscreen) toggleFullscreen();
+#if OUZEL_SUPPORTS_X11
+        if (fullscreen != newFullscreen)
+        {
+            if (!stateAtom)
+                throw std::runtime_error("State atom is null");
+
+            if (!stateFullscreenAtom)
+                throw std::runtime_error("Fullscreen state atom is null");
+
+            XEvent event;
+            event.type = ClientMessage;
+            event.xclient.window = window;
+            event.xclient.message_type = stateAtom;
+            event.xclient.format = 32;
+            event.xclient.data.l[0] = newFullscreen ? _NET_WM_STATE_ADD : _NET_WM_STATE_REMOVE;
+            event.xclient.data.l[1] = stateFullscreenAtom;
+            event.xclient.data.l[2] = 0; // no second property to toggle
+            event.xclient.data.l[3] = 1; // source indication: application
+            event.xclient.data.l[4] = 0; // unused
+
+            if (!XSendEvent(display, DefaultRootWindow(display), 0, SubstructureRedirectMask | SubstructureNotifyMask, &event))
+                throw std::runtime_error("Failed to send X11 fullscreen message");
+        }
+#endif
 
         fullscreen = newFullscreen;
     }
@@ -277,31 +323,6 @@ namespace ouzel
 #endif
 
         title = newTitle;
-    }
-
-    void NativeWindowLinux::toggleFullscreen()
-    {
-#if OUZEL_SUPPORTS_X11
-        if (!stateAtom)
-            throw std::runtime_error("State atom is null");
-
-        if (!stateFullscreenAtom)
-            throw std::runtime_error("Fullscreen state atom is null");
-
-        XEvent event;
-        event.type = ClientMessage;
-        event.xclient.window = window;
-        event.xclient.message_type = stateAtom;
-        event.xclient.format = 32;
-        event.xclient.data.l[0] = _NET_WM_STATE_TOGGLE;
-        event.xclient.data.l[1] = stateFullscreenAtom;
-        event.xclient.data.l[2] = 0; // no second property to toggle
-        event.xclient.data.l[3] = 1; // source indication: application
-        event.xclient.data.l[4] = 0; // unused
-
-        if (!XSendEvent(display, DefaultRootWindow(display), 0, SubstructureRedirectMask | SubstructureNotifyMask, &event))
-            throw std::runtime_error("Failed to send X11 fullscreen message");
-#endif
     }
 
     void NativeWindowLinux::handleFocusIn()

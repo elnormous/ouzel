@@ -57,7 +57,6 @@ namespace ouzel
 #endif
 
     private:
-        virtual void toggleFullscreen();
         void handleFocusIn();
         void handleFocusOut();
         void handleResize(const Size2& newSize);
