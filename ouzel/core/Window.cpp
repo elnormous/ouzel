@@ -9,7 +9,7 @@
 #include "events/EventDispatcher.hpp"
 #include "graphics/Renderer.hpp"
 
-#if TARGET_OS_MAC
+#if TARGET_OS_OSX
 #include "macos/NativeWindowMacOS.hpp"
 #elif TARGET_OS_IOS
 #include "ios/NativeWindowIOS.hpp"
@@ -37,7 +37,7 @@ namespace ouzel
                    bool newHighDpi,
                    bool depth):
         engine(initEngine),
-#if TARGET_OS_MAC
+#if TARGET_OS_OSX
         nativeWindow(new NativeWindowMacOS(std::bind(&Window::eventCallback, this, std::placeholders::_1),
                                            newSize,
                                            newResizable,

@@ -13,7 +13,7 @@
 #include "events/EventDispatcher.hpp"
 #include "math/MathUtils.hpp"
 
-#if TARGET_OS_MAC
+#if TARGET_OS_OSX
 #  include "input/macos/InputSystemMacOS.hpp"
 #elif TARGET_OS_IOS
 #  include "input/ios/InputSystemIOS.hpp"
@@ -34,7 +34,7 @@ namespace ouzel
     namespace input
     {
         InputManager::InputManager():
-#if TARGET_OS_MAC
+#if TARGET_OS_OSX
             inputSystem(new InputSystemMacOS(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
 #elif TARGET_OS_IOS
             inputSystem(new InputSystemIOS(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
