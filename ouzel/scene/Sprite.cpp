@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include "Sprite.hpp"
-#include "core/Setup.h"
 #include "core/Engine.hpp"
 #include "graphics/Renderer.hpp"
 #include "Camera.hpp"

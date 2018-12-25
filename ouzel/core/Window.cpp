@@ -1,25 +1,27 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#if defined(__APPLE__)
+#  include <TargetConditionals.h>
+#endif
 #include <stdexcept>
 #include "Window.hpp"
-#include "Setup.h"
 #include "Engine.hpp"
 #include "events/EventDispatcher.hpp"
 #include "graphics/Renderer.hpp"
 
-#if OUZEL_PLATFORM_MACOS
+#if TARGET_OS_MAC
 #include "macos/NativeWindowMacOS.hpp"
-#elif OUZEL_PLATFORM_IOS
+#elif TARGET_OS_IOS
 #include "ios/NativeWindowIOS.hpp"
-#elif OUZEL_PLATFORM_TVOS
+#elif TARGET_OS_TV
 #include "tvos/NativeWindowTVOS.hpp"
-#elif OUZEL_PLATFORM_ANDROID
+#elif defined(__ANDROID__)
 #include "android/NativeWindowAndroid.hpp"
-#elif OUZEL_PLATFORM_LINUX
+#elif defined(__linux__)
 #include "linux/NativeWindowLinux.hpp"
-#elif OUZEL_PLATFORM_WINDOWS
+#elif defined(_WIN32)
 #include "windows/NativeWindowWin.hpp"
-#elif OUZEL_PLATFORM_EMSCRIPTEN
+#elif defined(__EMSCRIPTEN__)
 #include "emscripten/NativeWindowEm.hpp"
 #endif
 
@@ -35,7 +37,7 @@ namespace ouzel
                    bool newHighDpi,
                    bool depth):
         engine(initEngine),
-#if OUZEL_PLATFORM_MACOS
+#if TARGET_OS_MAC
         nativeWindow(new NativeWindowMacOS(std::bind(&Window::eventCallback, this, std::placeholders::_1),
                                            newSize,
                                            newResizable,
@@ -44,19 +46,19 @@ namespace ouzel
                                            newTitle,
                                            graphicsDriver,
                                            newHighDpi)),
-#elif OUZEL_PLATFORM_IOS
+#elif TARGET_OS_IOS
         nativeWindow(new NativeWindowIOS(std::bind(&Window::eventCallback, this, std::placeholders::_1),
                                          newTitle,
                                          graphicsDriver,
                                          newHighDpi)),
-#elif OUZEL_PLATFORM_TVOS
+#elif TARGET_OS_TV
         nativeWindow(new NativeWindowTVOS(std::bind(&Window::eventCallback, this, std::placeholders::_1),
                                           newTitle,
                                           graphicsDriver,
                                           newHighDpi)),
-#elif OUZEL_PLATFORM_ANDROID
+#elif defined(__ANDROID__)
         nativeWindow(new NativeWindowAndroid(std::bind(&Window::eventCallback, this, std::placeholders::_1), newTitle)),
-#elif OUZEL_PLATFORM_LINUX
+#elif defined(__linux__)
         nativeWindow(new NativeWindowLinux(std::bind(&Window::eventCallback, this, std::placeholders::_1),
                                            newSize,
                                            newResizable,
@@ -65,7 +67,7 @@ namespace ouzel
                                            newTitle,
                                            graphicsDriver,
                                            depth)),
-#elif OUZEL_PLATFORM_WINDOWS
+#elif defined(_WIN32)
         nativeWindow(new NativeWindowWin(std::bind(&Window::eventCallback, this, std::placeholders::_1),
                                          newSize,
                                          newResizable,
@@ -73,7 +75,7 @@ namespace ouzel
                                          newExclusiveFullscreen,
                                          newTitle,
                                          newHighDpi)),
-#elif OUZEL_PLATFORM_EMSCRIPTEN
+#elif defined(__EMSCRIPTEN__)
         nativeWindow(new NativeWindowEm(std::bind(&Window::eventCallback, this, std::placeholders::_1),
                                         newSize,
                                         newFullscreen,

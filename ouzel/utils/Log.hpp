@@ -182,14 +182,14 @@ namespace ouzel
         explicit Logger(Log::Level initThreshold = Log::Level::ALL):
             threshold(initThreshold)
         {
-#if OUZEL_MULTITHREADED
+#if !defined(__EMSCRIPTEN__)
             logThread = std::thread(&Logger::logLoop, this);
 #endif
         }
 
         ~Logger()
         {
-#if OUZEL_MULTITHREADED
+#if !defined(__EMSCRIPTEN__)
             std::unique_lock<std::mutex> lock(queueMutex);
             running = false;
             lock.unlock();
@@ -207,14 +207,13 @@ namespace ouzel
         {
             if (level <= threshold)
             {
-#if OUZEL_MULTITHREADED
+#if defined(__EMSCRIPTEN__)
+                logString(str, level);
+#else
                 std::unique_lock<std::mutex> lock(queueMutex);
                 logQueue.push(std::make_pair(level, str));
                 lock.unlock();
                 logCondition.notify_all();
-#else
-
-                logString(str, level);
 #endif
             }
         }
@@ -228,7 +227,7 @@ namespace ouzel
         std::atomic<Log::Level> threshold{Log::Level::INFO};
 #endif
 
-#if OUZEL_MULTITHREADED
+#if !defined(__EMSCRIPTEN__)
         void logLoop()
         {
             for (;;)

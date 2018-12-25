@@ -4,7 +4,6 @@
 #include "GamepadDeviceIOKit.hpp"
 #include "InputSystemMacOS.hpp"
 #include "input/GamepadConfig.hpp"
-#include "core/Setup.h"
 
 static constexpr float THUMB_DEADZONE = 0.2F;
 

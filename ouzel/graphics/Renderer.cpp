@@ -20,13 +20,13 @@
 #elif OUZEL_PLATFORM_TVOS
 #  include "graphics/metal/tvos/RenderDeviceMetalTVOS.hpp"
 #  include "graphics/opengl/tvos/RenderDeviceOGLTVOS.hpp"
-#elif OUZEL_PLATFORM_ANDROID
+#elif defined(__ANDROID__)
 #  include "graphics/opengl/android/RenderDeviceOGLAndroid.hpp"
-#elif OUZEL_PLATFORM_LINUX
+#elif defined(__linux__)
 #  include "graphics/opengl/linux/RenderDeviceOGLLinux.hpp"
-#elif OUZEL_PLATFORM_WINDOWS
+#elif defined(_WIN32)
 #  include "graphics/opengl/windows/RenderDeviceOGLWin.hpp"
-#elif OUZEL_PLATFORM_EMSCRIPTEN
+#elif defined(__EMSCRIPTEN__)
 #  include "graphics/opengl/emscripten/RenderDeviceOGLEm.hpp"
 #endif
 
@@ -122,13 +122,13 @@ namespace ouzel
                     device.reset(new RenderDeviceOGLIOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
 #elif OUZEL_PLATFORM_TVOS
                     device.reset(new RenderDeviceOGLTVOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
-#elif OUZEL_PLATFORM_ANDROID
+#elif defined(__ANDROID__)
                     device.reset(new RenderDeviceOGLAndroid(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
-#elif OUZEL_PLATFORM_LINUX
+#elif defined(__linux__)
                     device.reset(new RenderDeviceOGLLinux(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
-#elif OUZEL_PLATFORM_WINDOWS
+#elif defined(_WIN32)
                     device.reset(new RenderDeviceOGLWin(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
-#elif OUZEL_PLATFORM_EMSCRIPTEN
+#elif defined(__EMSCRIPTEN__)
                     device.reset(new RenderDeviceOGLEm(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
 #else
                     device.reset(new RenderDeviceOGL(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));

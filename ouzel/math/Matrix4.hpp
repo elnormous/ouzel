@@ -4,8 +4,7 @@
 #define OUZEL_MATH_MATRIX4_HPP
 
 #include <algorithm>
-#include "core/Setup.h"
-#if OUZEL_SUPPORTS_SSE
+#if defined(__SSE__)
 #include <xmmintrin.h>
 #endif
 #include "math/ConvexVolume.hpp"
@@ -19,7 +18,7 @@ namespace ouzel
     class Matrix4 final
     {
     public:
-#if OUZEL_SUPPORTS_SSE
+#if defined(__SSE__)
         union
         {
             __m128 col[4];

@@ -55,7 +55,7 @@ namespace ouzel
             uint32_t sampleSize = 0;
             std::vector<uint8_t> data;
 
-#if OUZEL_MULTITHREADED
+#if !defined(__EMSCRIPTEN__)
             std::atomic_bool running{false};
             std::thread audioThread;
 #endif

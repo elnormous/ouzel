@@ -96,7 +96,7 @@ namespace ouzel
         paused = true;
         active = false;
 
-#if OUZEL_MULTITHREADED
+#if !defined(__EMSCRIPTEN__)
         if (updateThread.joinable())
         {
             std::unique_lock<std::mutex> lock(updateMutex);
@@ -471,7 +471,7 @@ namespace ouzel
             active = true;
             paused = false;
 
-#if OUZEL_MULTITHREADED
+#if !defined(__EMSCRIPTEN__)
             updateThread = std::thread(&Engine::main, this);
 #else
             main();
@@ -501,7 +501,7 @@ namespace ouzel
 
             paused = false;
 
-#if OUZEL_MULTITHREADED
+#if !defined(__EMSCRIPTEN__)
             updateCondition.notify_all();
 #endif
         }
@@ -520,7 +520,7 @@ namespace ouzel
             active = false;
         }
 
-#if OUZEL_MULTITHREADED
+#if !defined(__EMSCRIPTEN__)
         if (updateThread.joinable() &&
             updateThread.get_id() != std::this_thread::get_id())
         {
@@ -570,7 +570,7 @@ namespace ouzel
         {
             std::unique_ptr<Application> application = ouzel::main(args);
 
-#if OUZEL_MULTITHREADED
+#if !defined(__EMSCRIPTEN__)
             while (active)
             {
                 if (!paused)

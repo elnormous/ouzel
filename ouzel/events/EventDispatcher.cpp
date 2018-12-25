@@ -1,7 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <algorithm>
-#include "core/Setup.h"
 #include "EventDispatcher.hpp"
 #include "EventHandler.hpp"
 #include "utils/Utils.hpp"
@@ -206,11 +205,11 @@ namespace ouzel
         std::promise<bool> promise;
         std::future<bool> future = promise.get_future();
 
-#if OUZEL_MULTITHREADED
-        std::unique_lock<std::mutex> lock(eventQueueMutex);
-        eventQueue.push(std::pair<std::promise<bool>, std::unique_ptr<Event>>(std::move(promise), std::move(event)));
-#else
+#if defined(__EMSCRIPTEN__)
         promise.set_value(dispatchEvent(std::move(event)));
+#else
+        std::unique_lock<std::mutex> lock(eventQueueMutex);
+        eventQueue.push(std::pair<std::promise<bool>, std::unique_ptr<Event>>(std::move(promise), std::move(event)));   
 #endif
 
         return future;

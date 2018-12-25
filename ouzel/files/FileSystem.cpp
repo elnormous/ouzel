@@ -5,24 +5,25 @@
 #include <algorithm>
 #include <stdexcept>
 #include <system_error>
-#if OUZEL_PLATFORM_WINDOWS
+#if defined(_WIN32)
 #  include <Windows.h>
 #  include <Shlobj.h>
 #  include <Shlwapi.h>
-#elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+#elif defined(__APPLE__)
+#  include <TargetConditionals.h>
 #  include <objc/message.h>
 #  include <objc/NSObjCRuntime.h>
 #  include <CoreFoundation/CoreFoundation.h>
 extern "C" id NSTemporaryDirectory();
-#elif OUZEL_PLATFORM_LINUX
+#elif defined(__linux__)
 #  include <limits.h>
 #  include <pwd.h>
 #  include <unistd.h>
-#elif OUZEL_PLATFORM_ANDROID
+#elif defined(__ANDROID__)
 #  include "core/android/EngineAndroid.hpp"
 #endif
 
-#if !OUZEL_PLATFORM_WINDOWS
+#if !defined(_WIN32)
 #  include <sys/stat.h>
 #endif
 
@@ -34,7 +35,7 @@ extern "C" id NSTemporaryDirectory();
 
 namespace ouzel
 {
-#if OUZEL_PLATFORM_WINDOWS
+#if defined(_WIN32)
     const std::string FileSystem::DIRECTORY_SEPARATOR = "\\";
 #else
     const std::string FileSystem::DIRECTORY_SEPARATOR = "/";
@@ -43,7 +44,7 @@ namespace ouzel
     FileSystem::FileSystem(Engine& initEngine):
         engine(initEngine)
     {
-#if OUZEL_PLATFORM_WINDOWS
+#if defined(_WIN32)
         std::vector<WCHAR> buffer(MAX_PATH);
         for (;;)
         {
@@ -71,7 +72,7 @@ namespace ouzel
         appPath = getDirectoryPart(appFilename.data());
         engine.log(Log::Level::INFO) << "Application directory: " << appPath;
 
-#elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+#elif defined(__APPLE__)
         CFBundleRef bundle = CFBundleGetMainBundle();
         if (!bundle)
             throw std::runtime_error("Failed to get main bundle");
@@ -96,7 +97,7 @@ namespace ouzel
         appPath = resourceDirectory.data();
         engine.log(Log::Level::INFO) << "Application directory: " << appPath;
 
-#elif OUZEL_PLATFORM_LINUX
+#elif defined(__linux__)
         char executableDirectory[PATH_MAX];
 
         ssize_t length;
@@ -111,7 +112,7 @@ namespace ouzel
 
     std::string FileSystem::getStorageDirectory(bool user) const
     {
-#if OUZEL_PLATFORM_WINDOWS
+#if defined(_WIN32)
         WCHAR appDataPath[MAX_PATH];
 
         HRESULT hr;
@@ -181,7 +182,7 @@ namespace ouzel
         }
 
         return path;
-#elif OUZEL_PLATFORM_MACOS
+#elif TARGET_OS_MAC
         id fileManager = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("NSFileManager"), sel_getUid("defaultManager"));
 
         static constexpr NSUInteger NSApplicationSupportDirectory = 14;
@@ -203,7 +204,7 @@ namespace ouzel
         reinterpret_cast<void (*)(id, SEL, id, BOOL, id, id)>(&objc_msgSend)(fileManager, sel_getUid("createDirectoryAtURL:withIntermediateDirectories:attributes:error:"), path, YES, nil, nil);
         id pathString = reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(path, sel_getUid("path"));
         return reinterpret_cast<const char* (*)(id, SEL)>(&objc_msgSend)(pathString, sel_getUid("UTF8String"));
-#elif OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+#elif TARGET_OS_IOS || TARGET_OS_TV
         id fileManager = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("NSFileManager"), sel_getUid("defaultManager"));
 
         static constexpr NSUInteger NSDocumentDirectory = 9;
@@ -217,7 +218,7 @@ namespace ouzel
 
         id documentDirectoryString = reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(documentDirectory, sel_getUid("path"));
         return reinterpret_cast<const char* (*)(id, SEL)>(&objc_msgSend)(documentDirectoryString, sel_getUid("UTF8String"));
-#elif OUZEL_PLATFORM_LINUX
+#elif defined(__linux__)
         std::string path;
 
         char* homeDirectory = getenv("XDG_DATA_HOME");
@@ -265,7 +266,7 @@ namespace ouzel
                 throw std::system_error(errno, std::system_category(), "Failed to create directory " + path);
 
         return path;
-#elif OUZEL_PLATFORM_ANDROID
+#elif defined(__ANDROID__)
         (void)user;
 
         EngineAndroid& engineAndroid = static_cast<EngineAndroid&>(engine);
@@ -277,7 +278,7 @@ namespace ouzel
 
     std::string FileSystem::getTempDirectory() const
     {
-#if OUZEL_PLATFORM_WINDOWS
+#if defined(_WIN32)
         WCHAR buffer[MAX_PATH];
         if (GetTempPathW(MAX_PATH, buffer))
         {
@@ -293,16 +294,16 @@ namespace ouzel
         }
         else
             return "";
-#elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+#elif defined(__APPLE__)
         id temporaryDirectory = NSTemporaryDirectory();
         return reinterpret_cast<const char* (*)(id, SEL)>(&objc_msgSend)(temporaryDirectory, sel_getUid("UTF8String")); // [temporaryDirectory UTF8String]
-#elif OUZEL_PLATFORM_LINUX
+#elif defined(__linux__)
         char const* path = getenv("TMPDIR");
         if (path)
             return path;
         else
             return "/tmp";
-#elif OUZEL_PLATFORM_ANDROID
+#elif defined(__ANDROID__)
         EngineAndroid& engineAndroid = static_cast<EngineAndroid&>(engine);
         return engineAndroid.getCacheDirectory();
 #else
@@ -324,7 +325,7 @@ namespace ouzel
         std::vector<uint8_t> data;
         char buffer[1024];
 
-#if OUZEL_PLATFORM_ANDROID
+#if defined(__ANDROID__)
         if (pathIsRelative(filename))
         {
             EngineAndroid& engineAndroid = static_cast<EngineAndroid&>(engine);
@@ -402,7 +403,7 @@ namespace ouzel
 
     bool FileSystem::directoryExists(const std::string& dirname) const
     {
-#if OUZEL_PLATFORM_ANDROID
+#if defined(__ANDROID__)
         EngineAndroid& engineAndroid = static_cast<EngineAndroid&>(engine);
 
         AAssetDir* assetDir = AAssetManager_openDir(engineAndroid.getAssetManager(), dirname.c_str());
@@ -412,7 +413,7 @@ namespace ouzel
         if (exists) return true;
 #endif
 
-#if OUZEL_PLATFORM_WINDOWS
+#if defined(_WIN32)
         int bufferSize = MultiByteToWideChar(CP_UTF8, 0, dirname.c_str(), -1, nullptr, 0);
         if (bufferSize == 0)
             throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
@@ -441,7 +442,7 @@ namespace ouzel
 
     bool FileSystem::fileExists(const std::string& filename) const
     {
-#if OUZEL_PLATFORM_ANDROID
+#if defined(__ANDROID__)
         EngineAndroid& engineAndroid = static_cast<EngineAndroid&>(engine);
 
         AAsset* asset = AAssetManager_open(engineAndroid.getAssetManager(), filename.c_str(), AASSET_MODE_STREAMING);
@@ -453,7 +454,7 @@ namespace ouzel
         }
 #endif
 
-#if OUZEL_PLATFORM_WINDOWS
+#if defined(_WIN32)
         int bufferSize = MultiByteToWideChar(CP_UTF8, 0, filename.c_str(), -1, nullptr, 0);
         if (bufferSize == 0)
             throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
@@ -568,7 +569,7 @@ namespace ouzel
 
     bool FileSystem::pathIsRelative(const std::string& path)
     {
-#if OUZEL_PLATFORM_WINDOWS
+#if defined(_WIN32)
         int bufferSize = MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, nullptr, 0);
         if (bufferSize == 0)
             throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
