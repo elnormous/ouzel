@@ -4,7 +4,9 @@
 #  include <TargetConditionals.h>
 #endif
 
-#if TARGET_OS_MAC || defined(__linux__)
+#if defined(__ANDROID__)
+#  include <android/log.h>
+#elif TARGET_OS_MAC || defined(__linux__)
 #  include <unistd.h>
 #endif
 
@@ -15,10 +17,6 @@
 #if defined(_WIN32)
 #  include <Windows.h>
 #  include <strsafe.h>
-#endif
-
-#if defined(__ANDROID__)
-#  include <android/log.h>
 #endif
 
 #if defined(__EMSCRIPTEN__)
@@ -37,7 +35,18 @@ namespace ouzel
 
     void Logger::logString(const std::string& str, Log::Level level)
     {
-#if TARGET_OS_MAC || defined(__linux__)
+#if defined(__ANDROID__)
+        int priority = 0;
+        switch (level)
+        {
+            case Log::Level::ERR: priority = ANDROID_LOG_ERROR; break;
+            case Log::Level::WARN: priority = ANDROID_LOG_WARN; break;
+            case Log::Level::INFO: priority = ANDROID_LOG_INFO; break;
+            case Log::Level::ALL: priority = ANDROID_LOG_DEBUG; break;
+            default: break;
+        }
+        __android_log_print(priority, "Ouzel", "%s", str.c_str());
+#elif TARGET_OS_MAC || defined(__linux__)
         int fd = 0;
         switch (level)
         {
@@ -110,17 +119,6 @@ namespace ouzel
             WriteConsoleW(handle, buffer.data(), static_cast<DWORD>(wcslen(buffer.data())), &bytesWritten, nullptr);
         }
 #  endif
-#elif defined(__ANDROID__)
-        int priority = 0;
-        switch (level)
-        {
-            case Log::Level::ERR: priority = ANDROID_LOG_ERROR; break;
-            case Log::Level::WARN: priority = ANDROID_LOG_WARN; break;
-            case Log::Level::INFO: priority = ANDROID_LOG_INFO; break;
-            case Log::Level::ALL: priority = ANDROID_LOG_DEBUG; break;
-            default: break;
-        }
-        __android_log_print(priority, "Ouzel", "%s", str.c_str());
 #elif defined(__EMSCRIPTEN__)
         int flags = EM_LOG_CONSOLE;
         if (level == Log::Level::ERR) flags |= EM_LOG_ERROR;
