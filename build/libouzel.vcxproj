@@ -50,10 +50,8 @@
     <ClCompile Include="..\ouzel\audio\mixer\Bus.cpp" />
     <ClCompile Include="..\ouzel\audio\mixer\Mixer.cpp" />
     <ClCompile Include="..\ouzel\audio\mixer\Processor.cpp" />
-    <ClCompile Include="..\ouzel\audio\ParallelContainer.cpp" />
-    <ClCompile Include="..\ouzel\audio\RandomContainer.cpp" />
+    <ClCompile Include="..\ouzel\audio\Containers.cpp" />
     <ClCompile Include="..\ouzel\audio\Listener.cpp" />
-    <ClCompile Include="..\ouzel\audio\SequenceContainer.cpp" />
     <ClCompile Include="..\ouzel\audio\Source.cpp" />
     <ClCompile Include="..\ouzel\audio\Voice.cpp" />
     <ClCompile Include="..\ouzel\audio\SilenceSound.cpp" />
@@ -228,11 +226,9 @@
     <ClInclude Include="..\ouzel\audio\mixer\Mixer.hpp" />
     <ClInclude Include="..\ouzel\audio\mixer\Object.hpp" />
     <ClInclude Include="..\ouzel\audio\mixer\Processor.hpp" />
-    <ClInclude Include="..\ouzel\audio\ParallelContainer.hpp" />
-    <ClInclude Include="..\ouzel\audio\RandomContainer.hpp" />
+    <ClInclude Include="..\ouzel\audio\Containers.hpp" />
     <ClInclude Include="..\ouzel\audio\SampleFormat.hpp" />
     <ClInclude Include="..\ouzel\audio\Listener.hpp" />
-    <ClInclude Include="..\ouzel\audio\SequenceContainer.hpp" />
     <ClInclude Include="..\ouzel\audio\Source.hpp" />
     <ClInclude Include="..\ouzel\audio\Voice.hpp" />
     <ClInclude Include="..\ouzel\audio\SilenceSound.hpp" />
