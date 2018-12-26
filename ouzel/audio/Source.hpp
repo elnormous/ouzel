@@ -4,4 +4,3 @@
 #define OUZEL_AUDIO_SOURCE_HPP
 
 #endif // OUZEL_AUDIO_SOURCE_HPP
-
