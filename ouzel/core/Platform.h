@@ -70,23 +70,23 @@
 #  define OUZEL_SUPPORTS_OPENAL 1
 #  define OUZEL_SUPPORTS_COREAUDIO 1
 
-#  if TARGET_OS_WATCH
+#  if TARGET_OS_WATCH // watchOS
 #    error "Apple Watch is not supported"
-#  elif TARGET_OS_IOS
+#  elif TARGET_OS_IOS // iOS
 #    define OUZEL_PLATFORM_IOS 1
 #    define OUZEL_SUPPORTS_OPENGLES 1
 #    define OUZEL_OPENGL_INTERFACE_EAGL 1
 #    if !TARGET_OS_SIMULATOR
 #      define OUZEL_SUPPORTS_METAL 1
 #    endif
-#  elif TARGET_OS_TV
+#  elif TARGET_OS_TV // tvOS
 #    define OUZEL_PLATFORM_TVOS 1
 #    define OUZEL_SUPPORTS_OPENGLES 1
 #    define OUZEL_OPENGL_INTERFACE_EAGL 1
 #    if !TARGET_OS_SIMULATOR
 #      define OUZEL_SUPPORTS_METAL 1
 #    endif
-#  elif TARGET_OS_MAC
+#  elif TARGET_OS_MAC // any other Apple OS (check this last because it is defined for all Apple platforms)
 #    define OUZEL_PLATFORM_MACOS 1
 #    define OUZEL_OPENGL_INTERFACE_CGL 1
 #    if !TARGET_OS_SIMULATOR
@@ -112,7 +112,7 @@
 #    error "Unsupported architecture"
 #  endif
 
-#elif defined(__ANDROID__) // Android
+#elif defined(__ANDROID__) // Android (check this before Linux because __linux__ is also defined for Android)
 #  define OUZEL_PLATFORM_ANDROID 1
 #  define OUZEL_SUPPORTS_OPENGL 1
 #  define OUZEL_SUPPORTS_OPENGLES 1
