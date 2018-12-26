@@ -4,8 +4,11 @@
 
 #if OUZEL_COMPILE_OPENAL
 
+#if defined(__APPLE__)
+#  include <TargetConditionals.h>
+#endif
 #include <sstream>
-#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+#if TARGET_OS_IOS || TARGET_OS_TV
 #  include <objc/message.h>
 extern "C" id const AVAudioSessionCategoryAmbient;
 #endif
@@ -78,7 +81,7 @@ namespace ouzel
         AudioDeviceAL::AudioDeviceAL(Mixer& initMixer):
             AudioDevice(Driver::OPENAL, initMixer)
         {
-#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+#if TARGET_OS_IOS || TARGET_OS_TV
             id audioSession = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("AVAudioSession"), sel_getUid("sharedInstance"));
             reinterpret_cast<BOOL (*)(id, SEL, id, id)>(&objc_msgSend)(audioSession, sel_getUid("setCategory:error:"), AVAudioSessionCategoryAmbient, nil);
 #endif
@@ -141,7 +144,7 @@ namespace ouzel
                     float32Supported = true;
             }
 
-#if !OUZEL_PLATFORM_EMSCRIPTEN
+#if !defined(__EMSCRIPTEN__)
             format40 = alGetEnumValue("AL_FORMAT_QUAD16");
             format51 = alGetEnumValue("AL_FORMAT_51CHN16");
             format61 = alGetEnumValue("AL_FORMAT_61CHN16");

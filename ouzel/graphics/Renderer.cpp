@@ -1,5 +1,8 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#if defined(__APPLE__)
+#  include <TargetConditionals.h>
+#endif
 #include <stdexcept>
 #include "core/Setup.h"
 #include "Renderer.hpp"
@@ -11,15 +14,15 @@
 #include "core/Window.hpp"
 #include "utils/Log.hpp"
 
-#if OUZEL_PLATFORM_MACOS
-#  include "graphics/metal/macos/RenderDeviceMetalMacOS.hpp"
-#  include "graphics/opengl/macos/RenderDeviceOGLMacOS.hpp"
-#elif OUZEL_PLATFORM_IOS
+#if TARGET_OS_IOS
 #  include "graphics/metal/ios/RenderDeviceMetalIOS.hpp"
 #  include "graphics/opengl/ios/RenderDeviceOGLIOS.hpp"
-#elif OUZEL_PLATFORM_TVOS
+#elif TARGET_OS_TV
 #  include "graphics/metal/tvos/RenderDeviceMetalTVOS.hpp"
 #  include "graphics/opengl/tvos/RenderDeviceOGLTVOS.hpp"
+#elif TARGET_OS_MAC
+#  include "graphics/metal/macos/RenderDeviceMetalMacOS.hpp"
+#  include "graphics/opengl/macos/RenderDeviceOGLMacOS.hpp"
 #elif defined(__ANDROID__)
 #  include "graphics/opengl/android/RenderDeviceOGLAndroid.hpp"
 #elif defined(__linux__)
@@ -116,23 +119,23 @@ namespace ouzel
 #if OUZEL_COMPILE_OPENGL
                 case Driver::OPENGL:
                     engine->log(Log::Level::INFO) << "Using OpenGL render driver";
-#if OUZEL_PLATFORM_MACOS
-                    device.reset(new RenderDeviceOGLMacOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
-#elif OUZEL_PLATFORM_IOS
+#  if TARGET_OS_IOS
                     device.reset(new RenderDeviceOGLIOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
-#elif OUZEL_PLATFORM_TVOS
+#  elif TARGET_OS_TV
                     device.reset(new RenderDeviceOGLTVOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
-#elif defined(__ANDROID__)
+#  elif TARGET_OS_MAC
+                    device.reset(new RenderDeviceOGLMacOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+#  elif defined(__ANDROID__)
                     device.reset(new RenderDeviceOGLAndroid(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
-#elif defined(__linux__)
+#  elif defined(__linux__)
                     device.reset(new RenderDeviceOGLLinux(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
-#elif defined(_WIN32)
+#  elif defined(_WIN32)
                     device.reset(new RenderDeviceOGLWin(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
-#elif defined(__EMSCRIPTEN__)
+#  elif defined(__EMSCRIPTEN__)
                     device.reset(new RenderDeviceOGLEm(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
-#else
+#  else
                     device.reset(new RenderDeviceOGL(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
-#endif
+#  endif
                     break;
 #endif
 #if OUZEL_COMPILE_DIRECT3D11
@@ -144,13 +147,13 @@ namespace ouzel
 #if OUZEL_COMPILE_METAL
                 case Driver::METAL:
                     engine->log(Log::Level::INFO) << "Using Metal render driver";
-#if OUZEL_PLATFORM_MACOS
-                    device.reset(new RenderDeviceMetalMacOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
-#elif OUZEL_PLATFORM_IOS
+#  if TARGET_OS_IOS
                     device.reset(new RenderDeviceMetalIOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
-#elif OUZEL_PLATFORM_TVOS
+#  elif TARGET_OS_TV
                     device.reset(new RenderDeviceMetalTVOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
-#endif
+#  elif TARGET_OS_MAC
+                    device.reset(new RenderDeviceMetalMacOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+#  endif
                     break;
 #endif
                 default:
