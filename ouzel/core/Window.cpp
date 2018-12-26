@@ -9,12 +9,12 @@
 #include "events/EventDispatcher.hpp"
 #include "graphics/Renderer.hpp"
 
-#if TARGET_OS_OSX
-#include "macos/NativeWindowMacOS.hpp"
-#elif TARGET_OS_IOS
+#if TARGET_OS_IOS
 #include "ios/NativeWindowIOS.hpp"
 #elif TARGET_OS_TV
 #include "tvos/NativeWindowTVOS.hpp"
+#elif TARGET_OS_MAC
+#include "macos/NativeWindowMacOS.hpp"
 #elif defined(__ANDROID__)
 #include "android/NativeWindowAndroid.hpp"
 #elif defined(__linux__)
@@ -37,16 +37,7 @@ namespace ouzel
                    bool newHighDpi,
                    bool depth):
         engine(initEngine),
-#if TARGET_OS_OSX
-        nativeWindow(new NativeWindowMacOS(std::bind(&Window::eventCallback, this, std::placeholders::_1),
-                                           newSize,
-                                           newResizable,
-                                           newFullscreen,
-                                           newExclusiveFullscreen,
-                                           newTitle,
-                                           graphicsDriver,
-                                           newHighDpi)),
-#elif TARGET_OS_IOS
+#if TARGET_OS_IOS
         nativeWindow(new NativeWindowIOS(std::bind(&Window::eventCallback, this, std::placeholders::_1),
                                          newTitle,
                                          graphicsDriver,
@@ -56,6 +47,15 @@ namespace ouzel
                                           newTitle,
                                           graphicsDriver,
                                           newHighDpi)),
+#elif TARGET_OS_MAC
+    nativeWindow(new NativeWindowMacOS(std::bind(&Window::eventCallback, this, std::placeholders::_1),
+                                       newSize,
+                                       newResizable,
+                                       newFullscreen,
+                                       newExclusiveFullscreen,
+                                       newTitle,
+                                       graphicsDriver,
+                                       newHighDpi)),
 #elif defined(__ANDROID__)
         nativeWindow(new NativeWindowAndroid(std::bind(&Window::eventCallback, this, std::placeholders::_1), newTitle)),
 #elif defined(__linux__)

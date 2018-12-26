@@ -13,12 +13,12 @@
 #include "events/EventDispatcher.hpp"
 #include "math/MathUtils.hpp"
 
-#if TARGET_OS_OSX
-#  include "input/macos/InputSystemMacOS.hpp"
-#elif TARGET_OS_IOS
+#if TARGET_OS_IOS
 #  include "input/ios/InputSystemIOS.hpp"
 #elif TARGET_OS_TV
 #  include "input/tvos/InputSystemTVOS.hpp"
+#elif TARGET_OS_MAC
+#  include "input/macos/InputSystemMacOS.hpp"
 #elif defined(__ANDROID__)
 #  include "input/android/InputSystemAndroid.hpp"
 #elif defined(__linux__)
@@ -34,12 +34,12 @@ namespace ouzel
     namespace input
     {
         InputManager::InputManager():
-#if TARGET_OS_OSX
-            inputSystem(new InputSystemMacOS(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
-#elif TARGET_OS_IOS
+#if TARGET_OS_IOS
             inputSystem(new InputSystemIOS(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
 #elif TARGET_OS_TV
             inputSystem(new InputSystemTVOS(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
+#elif TARGET_OS_MAC
+        inputSystem(new InputSystemMacOS(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
 #elif defined(__ANDROID__)
             inputSystem(new InputSystemAndroid(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
 #elif defined(__linux__)
