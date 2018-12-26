@@ -6,12 +6,10 @@
 
 #if defined(__ANDROID__)
 #  include <android/log.h>
-#elif TARGET_OS_OSX || defined(__linux__)
-#  include <unistd.h>
-#endif
-
-#if TARGET_OS_IOS || TARGET_OS_TV
+#elif TARGET_OS_IOS || TARGET_OS_TV
 #  include <sys/syslog.h>
+#elif TARGET_OS_MAC || defined(__linux__)
+#  include <unistd.h>
 #endif
 
 #if defined(_WIN32)
@@ -46,7 +44,18 @@ namespace ouzel
             default: break;
         }
         __android_log_print(priority, "Ouzel", "%s", str.c_str());
-#elif TARGET_OS_OSX || defined(__linux__)
+#elif TARGET_OS_IOS || TARGET_OS_TV
+        int priority = 0;
+        switch (level)
+        {
+            case Log::Level::ERR: priority = LOG_ERR; break;
+            case Log::Level::WARN: priority = LOG_WARNING; break;
+            case Log::Level::INFO: priority = LOG_INFO; break;
+            case Log::Level::ALL: priority = LOG_DEBUG; break;
+            default: break;
+        }
+        syslog(priority, "%s", str.c_str());
+#elif TARGET_OS_MAC || defined(__linux__)
         int fd = 0;
         switch (level)
         {
@@ -73,18 +82,6 @@ namespace ouzel
 
             offset += static_cast<size_t>(written);
         }
-
-#elif TARGET_OS_IOS || TARGET_OS_TV
-        int priority = 0;
-        switch (level)
-        {
-            case Log::Level::ERR: priority = LOG_ERR; break;
-            case Log::Level::WARN: priority = LOG_WARNING; break;
-            case Log::Level::INFO: priority = LOG_INFO; break;
-            case Log::Level::ALL: priority = LOG_DEBUG; break;
-            default: break;
-        }
-        syslog(priority, "%s", str.c_str());
 #elif defined(_WIN32)
         int bufferSize = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, nullptr, 0);
         if (bufferSize == 0)
@@ -97,7 +94,6 @@ namespace ouzel
 
         StringCchCatW(buffer.data(), buffer.size(), L"\n");
         OutputDebugStringW(buffer.data());
-
 #  if DEBUG
         HANDLE handle = 0;
         switch (level)

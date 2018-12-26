@@ -185,7 +185,21 @@ namespace ouzel
         }
 
         return path;
-#elif TARGET_OS_OSX
+#elif TARGET_OS_IOS || TARGET_OS_TV
+        id fileManager = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("NSFileManager"), sel_getUid("defaultManager"));
+
+        static constexpr NSUInteger NSDocumentDirectory = 9;
+        static constexpr NSUInteger NSUserDomainMask = 1;
+        static constexpr NSUInteger NSLocalDomainMask = 2;
+
+        id documentDirectory = reinterpret_cast<id (*)(id, SEL, NSUInteger, NSUInteger, id, BOOL, id*)>(&objc_msgSend)(fileManager, sel_getUid("URLForDirectory:inDomain:appropriateForURL:create:error:"), NSDocumentDirectory, user ? NSUserDomainMask : NSLocalDomainMask, nil, YES, nil);
+
+        if (!documentDirectory)
+            throw std::runtime_error("Failed to get document directory");
+
+        id documentDirectoryString = reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(documentDirectory, sel_getUid("path"));
+        return reinterpret_cast<const char* (*)(id, SEL)>(&objc_msgSend)(documentDirectoryString, sel_getUid("UTF8String"));
+#elif TARGET_OS_MAC
         id fileManager = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("NSFileManager"), sel_getUid("defaultManager"));
 
         static constexpr NSUInteger NSApplicationSupportDirectory = 14;
@@ -207,20 +221,6 @@ namespace ouzel
         reinterpret_cast<void (*)(id, SEL, id, BOOL, id, id)>(&objc_msgSend)(fileManager, sel_getUid("createDirectoryAtURL:withIntermediateDirectories:attributes:error:"), path, YES, nil, nil);
         id pathString = reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(path, sel_getUid("path"));
         return reinterpret_cast<const char* (*)(id, SEL)>(&objc_msgSend)(pathString, sel_getUid("UTF8String"));
-#elif TARGET_OS_IOS || TARGET_OS_TV
-        id fileManager = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("NSFileManager"), sel_getUid("defaultManager"));
-
-        static constexpr NSUInteger NSDocumentDirectory = 9;
-        static constexpr NSUInteger NSUserDomainMask = 1;
-        static constexpr NSUInteger NSLocalDomainMask = 2;
-
-        id documentDirectory = reinterpret_cast<id (*)(id, SEL, NSUInteger, NSUInteger, id, BOOL, id*)>(&objc_msgSend)(fileManager, sel_getUid("URLForDirectory:inDomain:appropriateForURL:create:error:"), NSDocumentDirectory, user ? NSUserDomainMask : NSLocalDomainMask, nil, YES, nil);
-
-        if (!documentDirectory)
-            throw std::runtime_error("Failed to get document directory");
-
-        id documentDirectoryString = reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(documentDirectory, sel_getUid("path"));
-        return reinterpret_cast<const char* (*)(id, SEL)>(&objc_msgSend)(documentDirectoryString, sel_getUid("UTF8String"));
 #elif defined(__ANDROID__)
         (void)user;
 

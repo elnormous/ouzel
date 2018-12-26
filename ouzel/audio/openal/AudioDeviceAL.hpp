@@ -10,7 +10,7 @@
 #include <atomic>
 #include <thread>
 
-#if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+#if defined(__APPLE__)
 #  include <OpenAl/al.h>
 #  include <OpenAl/alc.h>
 #else
