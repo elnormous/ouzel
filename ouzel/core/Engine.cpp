@@ -1,5 +1,8 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#if defined(__APPLE__)
+#  include <TargetConditionals.h>
+#endif
 #include <algorithm>
 #include <stdexcept>
 #include "Setup.h"
@@ -44,25 +47,7 @@
 #endif
 
 #if OUZEL_COMPILE_METAL
-#  if OUZEL_PLATFORM_MACOS
-#    include "metal/ColorPSMacOS.h"
-#    include "metal/ColorVSMacOS.h"
-#    include "metal/TexturePSMacOS.h"
-#    include "metal/TextureVSMacOS.h"
-#    define COLOR_PIXEL_SHADER_METAL ColorPSMacOS_metallib
-#    define COLOR_VERTEX_SHADER_METAL ColorVSMacOS_metallib
-#    define TEXTURE_PIXEL_SHADER_METAL TexturePSMacOS_metallib
-#    define TEXTURE_VERTEX_SHADER_METAL TextureVSMacOS_metallib
-#  elif OUZEL_PLATFORM_TVOS
-#    include "metal/ColorPSTVOS.h"
-#    include "metal/ColorVSTVOS.h"
-#    include "metal/TexturePSTVOS.h"
-#    include "metal/TextureVSTVOS.h"
-#    define COLOR_PIXEL_SHADER_METAL ColorPSTVOS_metallib
-#    define COLOR_VERTEX_SHADER_METAL ColorVSTVOS_metallib
-#    define TEXTURE_PIXEL_SHADER_METAL TexturePSTVOS_metallib
-#    define TEXTURE_VERTEX_SHADER_METAL TextureVSTVOS_metallib
-#  elif OUZEL_PLATFORM_IOS
+#  if TARGET_OS_IOS
 #    include "metal/ColorPSIOS.h"
 #    include "metal/ColorVSIOS.h"
 #    include "metal/TexturePSIOS.h"
@@ -71,6 +56,24 @@
 #    define COLOR_VERTEX_SHADER_METAL ColorVSIOS_metallib
 #    define TEXTURE_PIXEL_SHADER_METAL TexturePSIOS_metallib
 #    define TEXTURE_VERTEX_SHADER_METAL TextureVSIOS_metallib
+#  elif TARGET_OS_TV
+#    include "metal/ColorPSTVOS.h"
+#    include "metal/ColorVSTVOS.h"
+#    include "metal/TexturePSTVOS.h"
+#    include "metal/TextureVSTVOS.h"
+#    define COLOR_PIXEL_SHADER_METAL ColorPSTVOS_metallib
+#    define COLOR_VERTEX_SHADER_METAL ColorVSTVOS_metallib
+#    define TEXTURE_PIXEL_SHADER_METAL TexturePSTVOS_metallib
+#    define TEXTURE_VERTEX_SHADER_METAL TextureVSTVOS_metallib
+#  elif TARGET_OS_MAC
+#    include "metal/ColorPSMacOS.h"
+#    include "metal/ColorVSMacOS.h"
+#    include "metal/TexturePSMacOS.h"
+#    include "metal/TextureVSMacOS.h"
+#    define COLOR_PIXEL_SHADER_METAL ColorPSMacOS_metallib
+#    define COLOR_VERTEX_SHADER_METAL ColorVSMacOS_metallib
+#    define TEXTURE_PIXEL_SHADER_METAL TexturePSMacOS_metallib
+#    define TEXTURE_VERTEX_SHADER_METAL TextureVSMacOS_metallib
 #  endif
 #endif
 
