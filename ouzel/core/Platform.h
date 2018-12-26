@@ -70,7 +70,9 @@
 #  define OUZEL_SUPPORTS_OPENAL 1
 #  define OUZEL_SUPPORTS_COREAUDIO 1
 
-#  if TARGET_OS_IOS
+#  if TARGET_OS_WATCH
+#    error "Apple Watch is not supported"
+#  elif TARGET_OS_IOS
 #    define OUZEL_PLATFORM_IOS 1
 #    define OUZEL_SUPPORTS_OPENGLES 1
 #    define OUZEL_OPENGL_INTERFACE_EAGL 1

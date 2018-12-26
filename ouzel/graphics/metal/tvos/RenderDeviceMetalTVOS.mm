@@ -2,7 +2,7 @@
 
 #include "core/Setup.h"
 
-#if OUZEL_PLATFORM_TVOS && OUZEL_COMPILE_METAL
+#if TARGET_OS_TV && OUZEL_COMPILE_METAL
 
 #include "RenderDeviceMetalTVOS.hpp"
 #include "MetalView.h"

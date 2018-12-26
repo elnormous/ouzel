@@ -2,7 +2,7 @@
 
 #include "core/Setup.h"
 
-#if OUZEL_PLATFORM_LINUX && OUZEL_COMPILE_OPENGL
+#if defined(__linux__) && !defined(__ANDROID__) && OUZEL_COMPILE_OPENGL
 
 #if OUZEL_SUPPORTS_X11
 #  include <X11/Xlib.h>

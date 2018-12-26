@@ -5,7 +5,11 @@
 
 #include "core/Setup.h"
 
-#if OUZEL_PLATFORM_IOS && OUZEL_COMPILE_METAL
+#if defined(__APPLE__)
+#  include <TargetConditionals.h>
+#endif
+
+#if TARGET_OS_IOS && OUZEL_COMPILE_METAL
 
 #include "graphics/metal/RenderDeviceMetal.hpp"
 #include "core/ios/DisplayLink.hpp"
