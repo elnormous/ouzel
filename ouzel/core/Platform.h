@@ -84,7 +84,7 @@
 #    if !TARGET_OS_SIMULATOR
 #      define OUZEL_SUPPORTS_METAL 1
 #    endif
-#  elif TARGET_OS_MAC
+#  elif TARGET_OS_OSX
 #    define OUZEL_PLATFORM_MACOS 1
 #    define OUZEL_OPENGL_INTERFACE_CGL 1
 #    if !TARGET_OS_SIMULATOR
