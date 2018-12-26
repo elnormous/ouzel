@@ -6,7 +6,7 @@
 
 #if defined(__ANDROID__)
 #  include <android/log.h>
-#elif TARGET_OS_MAC || defined(__linux__)
+#elif TARGET_OS_OSX || defined(__linux__)
 #  include <unistd.h>
 #endif
 
@@ -46,7 +46,7 @@ namespace ouzel
             default: break;
         }
         __android_log_print(priority, "Ouzel", "%s", str.c_str());
-#elif TARGET_OS_MAC || defined(__linux__)
+#elif TARGET_OS_OSX || defined(__linux__)
         int fd = 0;
         switch (level)
         {

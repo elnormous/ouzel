@@ -185,7 +185,7 @@ namespace ouzel
         }
 
         return path;
-#elif TARGET_OS_MAC
+#elif TARGET_OS_OSX
         id fileManager = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("NSFileManager"), sel_getUid("defaultManager"));
 
         static constexpr NSUInteger NSApplicationSupportDirectory = 14;
