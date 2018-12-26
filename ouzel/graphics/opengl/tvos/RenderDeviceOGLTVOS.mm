@@ -2,7 +2,11 @@
 
 #include "core/Setup.h"
 
-#if OUZEL_PLATFORM_TVOS && OUZEL_COMPILE_OPENGL
+#if defined(__APPLE__)
+#  include <TargetConditionals.h>
+#endif
+
+#if TARGET_OS_TV && OUZEL_COMPILE_OPENGL
 
 #include "RenderDeviceOGLTVOS.hpp"
 #include "core/Engine.hpp"

@@ -2,7 +2,11 @@
 
 #include "core/Setup.h"
 
-#if OUZEL_PLATFORM_IOS && OUZEL_COMPILE_OPENGL
+#if defined(__APPLE__)
+#  include <TargetConditionals.h>
+#endif
+
+#if TARGET_OS_IOS && OUZEL_COMPILE_OPENGL
 
 #include "RenderDeviceOGLIOS.hpp"
 #include "core/Engine.hpp"

@@ -7,7 +7,11 @@
 
 #if OUZEL_COMPILE_COREAUDIO
 
-#if OUZEL_PLATFORM_MACOS
+#if defined(__APPLE__)
+#  include <TargetConditionals.h>
+#endif
+
+#if TARGET_OS_MAC && !TARGET_OS_IOS && !TARGET_OS_TV
 #  include <CoreAudio/CoreAudio.h>
 #endif
 
@@ -28,7 +32,7 @@ namespace ouzel
             void outputCallback(AudioBufferList* ioData);
 
         private:
-#if OUZEL_PLATFORM_MACOS
+#if TARGET_OS_MAC && !TARGET_OS_IOS && !TARGET_OS_TV
             AudioDeviceID deviceId = 0;
 #endif
             AudioComponent audioComponent = nullptr;

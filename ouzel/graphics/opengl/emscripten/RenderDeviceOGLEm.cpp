@@ -2,7 +2,7 @@
 
 #include "core/Setup.h"
 
-#if OUZEL_PLATFORM_EMSCRIPTEN && OUZEL_COMPILE_OPENGL
+#if defined(__EMSCRIPTEN__) && OUZEL_COMPILE_OPENGL
 
 #include "RenderDeviceOGLEm.hpp"
 #include "utils/Utils.hpp"

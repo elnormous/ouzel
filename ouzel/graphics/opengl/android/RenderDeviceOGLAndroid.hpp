@@ -5,7 +5,7 @@
 
 #include "core/Setup.h"
 
-#if OUZEL_PLATFORM_ANDROID && OUZEL_COMPILE_OPENGL
+#if defined(__ANDROID__) && OUZEL_COMPILE_OPENGL
 
 #include <atomic>
 #include <thread>

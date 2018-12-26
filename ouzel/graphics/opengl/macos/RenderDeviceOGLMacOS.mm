@@ -2,7 +2,11 @@
 
 #include "core/Setup.h"
 
-#if OUZEL_PLATFORM_MACOS && OUZEL_COMPILE_OPENGL
+#if defined(__APPLE__)
+#  include <TargetConditionals.h>
+#endif
+
+#if TARGET_OS_MAC && !TARGET_OS_IOS && !TARGET_OS_TV && OUZEL_COMPILE_OPENGL
 
 #include "RenderDeviceOGLMacOS.hpp"
 #include "core/macos/NativeWindowMacOS.hpp"

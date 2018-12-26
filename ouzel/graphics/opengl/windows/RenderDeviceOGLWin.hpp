@@ -5,7 +5,7 @@
 
 #include "core/Setup.h"
 
-#if OUZEL_PLATFORM_WINDOWS && OUZEL_COMPILE_OPENGL
+#if defined(_WIN32) && OUZEL_COMPILE_OPENGL
 
 #include <atomic>
 #include <thread>

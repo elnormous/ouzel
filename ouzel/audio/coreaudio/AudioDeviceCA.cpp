@@ -5,18 +5,14 @@
 #if OUZEL_COMPILE_COREAUDIO
 
 #include <system_error>
-
-#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-#  include <objc/message.h>
-extern "C" id const AVAudioSessionCategoryAmbient;
-#endif
-
 #include "AudioDeviceCA.hpp"
 #include "core/Engine.hpp"
 #include "utils/Log.hpp"
 
-#if OUZEL_PLATFORM_MACOS
-
+#if TARGET_OS_IOS || TARGET_OS_TV
+#  include <objc/message.h>
+extern "C" id const AVAudioSessionCategoryAmbient;
+#elif TARGET_OS_MAC
 static OSStatus deviceListChanged(AudioObjectID, UInt32, const AudioObjectPropertyAddress*, void*)
 {
     // TODO: implement
@@ -86,7 +82,10 @@ namespace ouzel
         {
             OSStatus result;
 
-#if OUZEL_PLATFORM_MACOS
+#if TARGET_OS_IOS || TARGET_OS_TV
+            id audioSession = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("AVAudioSession"), sel_getUid("sharedInstance"));
+            reinterpret_cast<BOOL (*)(id, SEL, id, id)>(&objc_msgSend)(audioSession, sel_getUid("setCategory:error:"), AVAudioSessionCategoryAmbient, nil);
+#elif TARGET_OS_MAC
             static constexpr AudioObjectPropertyAddress deviceListAddress = {
                 kAudioHardwarePropertyDevices,
                 kAudioObjectPropertyScopeGlobal,
@@ -165,20 +164,15 @@ namespace ouzel
 
                 CFRelease(tempStringRef);
             }
-#endif // OUZEL_PLATFORM_MACOS
-
-#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-            id audioSession = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("AVAudioSession"), sel_getUid("sharedInstance"));
-            reinterpret_cast<BOOL (*)(id, SEL, id, id)>(&objc_msgSend)(audioSession, sel_getUid("setCategory:error:"), AVAudioSessionCategoryAmbient, nil);
 #endif
 
             AudioComponentDescription desc;
             desc.componentType = kAudioUnitType_Output;
 
-#if OUZEL_PLATFORM_MACOS
-            desc.componentSubType = kAudioUnitSubType_DefaultOutput;
-#elif OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+#if TARGET_OS_IOS || TARGET_OS_TV
             desc.componentSubType = kAudioUnitSubType_RemoteIO;
+#elif TARGET_OS_MAC
+            desc.componentSubType = kAudioUnitSubType_DefaultOutput;
 #endif
 
             desc.componentManufacturer = kAudioUnitManufacturer_Apple;
@@ -190,7 +184,7 @@ namespace ouzel
             if (!audioComponent)
                 throw std::runtime_error("Failed to find requested CoreAudio component");
 
-#if OUZEL_PLATFORM_MACOS
+#if TARGET_OS_MAC && !TARGET_OS_IOS && !TARGET_OS_TV
             if ((result = AudioObjectAddPropertyListener(deviceId, &aliveAddress, deviceUnplugged, this)) != noErr)
                 throw std::system_error(result, coreAudioErrorCategory, "Failed to add CoreAudio property listener");
 #endif
@@ -198,7 +192,7 @@ namespace ouzel
             if ((result = AudioComponentInstanceNew(audioComponent, &audioUnit)) != noErr)
                 throw std::system_error(result, coreAudioErrorCategory, "Failed to create CoreAudio component instance");
 
-#if OUZEL_PLATFORM_MACOS
+#if TARGET_OS_MAC && !TARGET_OS_IOS && !TARGET_OS_TV
             if ((result = AudioUnitSetProperty(audioUnit,
                                                kAudioOutputUnitProperty_CurrentDevice,
                                                kAudioUnitScope_Global, 0,
@@ -277,7 +271,7 @@ namespace ouzel
                 AudioComponentInstanceDispose(audioUnit);
             }
 
-#if OUZEL_PLATFORM_MACOS
+#if TARGET_OS_MAC && !TARGET_OS_IOS && !TARGET_OS_TV
             static constexpr AudioObjectPropertyAddress deviceListAddress = {
                 kAudioHardwarePropertyDevices,
                 kAudioObjectPropertyScopeGlobal,
