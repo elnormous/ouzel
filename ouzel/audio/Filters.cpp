@@ -11,7 +11,7 @@ namespace ouzel
 {
     namespace audio
     {
-        class DelayProcessor final: public Processor
+        class DelayProcessor final: public mixer::Processor
         {
         public:
             DelayProcessor()
@@ -26,7 +26,7 @@ namespace ouzel
 
         Delay::Delay(Audio& initAudio):
             Filter(initAudio,
-            initAudio.initProcessor(std::unique_ptr<Processor>(new DelayProcessor())))
+            initAudio.initProcessor(std::unique_ptr<mixer::Processor>(new DelayProcessor())))
         {
         }
 
@@ -39,7 +39,7 @@ namespace ouzel
             delay = newDelay;
         }
 
-        class GainProcessor final: public Processor
+        class GainProcessor final: public mixer::Processor
         {
         public:
             GainProcessor()
@@ -66,7 +66,7 @@ namespace ouzel
 
         Gain::Gain(Audio& initAudio):
             Filter(initAudio,
-            initAudio.initProcessor(std::unique_ptr<Processor>(new GainProcessor())))
+            initAudio.initProcessor(std::unique_ptr<mixer::Processor>(new GainProcessor())))
         {
         }
 
@@ -78,13 +78,13 @@ namespace ouzel
         {
             gain = newGain;
 
-            audio.updateProcessor(processorId, [newGain](Object* node) {
+            audio.updateProcessor(processorId, [newGain](mixer::Object* node) {
                 GainProcessor* gainProcessor = static_cast<GainProcessor*>(node);
                 gainProcessor->setGain(newGain);
             });
         }
 
-        class PannerProcessor final: public Processor
+        class PannerProcessor final: public mixer::Processor
         {
         public:
             PannerProcessor()
@@ -125,7 +125,7 @@ namespace ouzel
 
         Panner::Panner(Audio& initAudio):
             Filter(initAudio,
-                   initAudio.initProcessor(std::unique_ptr<Processor>(new PannerProcessor()))),
+                   initAudio.initProcessor(std::unique_ptr<mixer::Processor>(new PannerProcessor()))),
             scene::Component(scene::Component::SOUND)
         {
         }
@@ -138,7 +138,7 @@ namespace ouzel
         {
             position = newPosition;
 
-            audio.updateProcessor(processorId, [newPosition](Object* node) {
+            audio.updateProcessor(processorId, [newPosition](mixer::Object* node) {
                 PannerProcessor* pannerProcessor = static_cast<PannerProcessor*>(node);
                 pannerProcessor->setPosition(newPosition);
             });
@@ -148,7 +148,7 @@ namespace ouzel
         {
             rolloffFactor = newRolloffFactor;
 
-            audio.updateProcessor(processorId, [newRolloffFactor](Object* node) {
+            audio.updateProcessor(processorId, [newRolloffFactor](mixer::Object* node) {
                 PannerProcessor* pannerProcessor = static_cast<PannerProcessor*>(node);
                 pannerProcessor->setRolloffFactor(newRolloffFactor);
             });
@@ -158,7 +158,7 @@ namespace ouzel
         {
             minDistance = newMinDistance;
 
-            audio.updateProcessor(processorId, [newMinDistance](Object* node) {
+            audio.updateProcessor(processorId, [newMinDistance](mixer::Object* node) {
                 PannerProcessor* pannerProcessor = static_cast<PannerProcessor*>(node);
                 pannerProcessor->setMinDistance(newMinDistance);
             });
@@ -168,7 +168,7 @@ namespace ouzel
         {
             maxDistance = newMaxDistance;
 
-            audio.updateProcessor(processorId, [newMaxDistance](Object* node) {
+            audio.updateProcessor(processorId, [newMaxDistance](mixer::Object* node) {
                 PannerProcessor* pannerProcessor = static_cast<PannerProcessor*>(node);
                 pannerProcessor->setMaxDistance(newMaxDistance);
             });
@@ -182,7 +182,7 @@ namespace ouzel
         static constexpr float MIN_PITCH = 0.5F;
         static constexpr float MAX_PITCH = 2.0F;
 
-        class PitchProcessor final: public Processor
+        class PitchProcessor final: public mixer::Processor
         {
         public:
             PitchProcessor(float initPitch):
@@ -221,7 +221,7 @@ namespace ouzel
 
         Pitch::Pitch(Audio& initAudio, float initPitch):
             Filter(initAudio,
-                   initAudio.initProcessor(std::unique_ptr<Processor>(new PitchProcessor(initPitch)))),
+                   initAudio.initProcessor(std::unique_ptr<mixer::Processor>(new PitchProcessor(initPitch)))),
             pitch(initPitch)
         {
         }
@@ -234,13 +234,13 @@ namespace ouzel
         {
             pitch = newPitch;
 
-            audio.updateProcessor(processorId, [newPitch](Object* node) {
+            audio.updateProcessor(processorId, [newPitch](mixer::Object* node) {
                 PitchProcessor* pitchProcessor = static_cast<PitchProcessor*>(node);
                 pitchProcessor->setPitch(newPitch);
             });
         }
 
-        class ReverbProcessor final: public Processor
+        class ReverbProcessor final: public mixer::Processor
         {
         public:
             ReverbProcessor()
@@ -255,7 +255,7 @@ namespace ouzel
 
         Reverb::Reverb(Audio& initAudio):
             Filter(initAudio,
-            initAudio.initProcessor(std::unique_ptr<Processor>(new ReverbProcessor())))
+            initAudio.initProcessor(std::unique_ptr<mixer::Processor>(new ReverbProcessor())))
         {
         }
 

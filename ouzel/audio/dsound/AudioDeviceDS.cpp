@@ -73,7 +73,7 @@ namespace ouzel
 
         const DirectSoundErrorCategory directSoundErrorCategory {};
 
-        AudioDeviceDS::AudioDeviceDS(Mixer& initMixer, Window* window):
+        AudioDeviceDS::AudioDeviceDS(mixer::Mixer& initMixer, Window* window):
             AudioDevice(Driver::DIRECTSOUND, initMixer)
         {
             HRESULT hr;

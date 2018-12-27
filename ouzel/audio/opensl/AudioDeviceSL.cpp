@@ -67,7 +67,7 @@ namespace ouzel
             return std::error_code(static_cast<int>(e), openSLErrorCategory);
         }
 
-        AudioDeviceSL::AudioDeviceSL(Mixer& initMixer):
+        AudioDeviceSL::AudioDeviceSL(mixer::Mixer& initMixer):
             AudioDevice(Driver::OPENSL, initMixer)
         {
             SLresult result;

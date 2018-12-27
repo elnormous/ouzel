@@ -19,7 +19,7 @@ namespace ouzel
         class AudioDeviceDS final: public AudioDevice
         {
         public:
-            AudioDeviceDS(Mixer& initMixer, Window* window);
+            AudioDeviceDS(mixer::Mixer& initMixer, Window* window);
             ~AudioDeviceDS();
 
             IDirectSound8* getDirectSound() const { return directSound; }

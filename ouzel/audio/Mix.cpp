@@ -43,8 +43,8 @@ namespace ouzel
                 filter->mix = this;
                 filters.push_back(filter);
 
-                audio.getMixer().addCommand(std::unique_ptr<Command>(new AddProcessorCommand(busId,
-                                                                                             filter->getProcessorId())));
+                audio.getMixer().addCommand(std::unique_ptr<mixer::Command>(new mixer::AddProcessorCommand(busId,
+                                                                                                           filter->getProcessorId())));
             }
         }
 
@@ -56,8 +56,8 @@ namespace ouzel
                 filter->mix = nullptr;
                 filters.erase(i);
 
-                audio.getMixer().addCommand(std::unique_ptr<Command>(new RemoveProcessorCommand(busId,
-                                                                                                filter->getProcessorId())));
+                audio.getMixer().addCommand(std::unique_ptr<mixer::Command>(new mixer::RemoveProcessorCommand(busId,
+                                                                                                              filter->getProcessorId())));
             }
         }
 

@@ -13,7 +13,7 @@ namespace ouzel
     {
         class PCMData;
 
-        class PCMSource: public Source
+        class PCMSource: public mixer::Source
         {
         public:
             PCMSource(PCMData& pcmData);
@@ -29,7 +29,7 @@ namespace ouzel
             uint32_t position = 0;
         };
 
-        class PCMData: public SourceData
+        class PCMData: public mixer::SourceData
         {
         public:
             PCMData(uint16_t initChannels, uint32_t initSampleRate,
@@ -42,9 +42,9 @@ namespace ouzel
 
             const std::vector<float>& getSamples() const { return samples; }
 
-            std::unique_ptr<Source> createSource() override
+            std::unique_ptr<mixer::Source> createSource() override
             {
-                return std::unique_ptr<Source>(new PCMSource(*this));
+                return std::unique_ptr<mixer::Source>(new PCMSource(*this));
             }
 
         private:
@@ -103,7 +103,7 @@ namespace ouzel
 
         PCMSound::PCMSound(Audio& initAudio, uint16_t channels, uint32_t sampleRate,
                            const std::vector<float>& samples):
-            Sound(initAudio, initAudio.initSourceData(std::unique_ptr<SourceData>(new PCMData(channels, sampleRate, samples))))
+            Sound(initAudio, initAudio.initSourceData(std::unique_ptr<mixer::SourceData>(new PCMData(channels, sampleRate, samples))))
         {
         }
     } // namespace audio

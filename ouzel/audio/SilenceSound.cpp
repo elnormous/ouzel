@@ -11,7 +11,7 @@ namespace ouzel
     {
         class SilenceData;
 
-        class SilenceSource: public Source
+        class SilenceSource: public mixer::Source
         {
         public:
             SilenceSource(SilenceData& toneData);
@@ -27,7 +27,7 @@ namespace ouzel
             uint32_t position = 0;
         };
 
-        class SilenceData: public SourceData
+        class SilenceData: public mixer::SourceData
         {
         public:
             SilenceData(float initLength):
@@ -39,9 +39,9 @@ namespace ouzel
 
             float getLength() const { return length; }
 
-            std::unique_ptr<Source> createSource() override
+            std::unique_ptr<mixer::Source> createSource() override
             {
-                return std::unique_ptr<Source>(new SilenceSource(*this));
+                return std::unique_ptr<mixer::Source>(new SilenceSource(*this));
             }
 
         private:
@@ -99,7 +99,7 @@ namespace ouzel
         }
 
         SilenceSound::SilenceSound(Audio& initAudio, float initLength):
-            Sound(initAudio, initAudio.initSourceData(std::unique_ptr<SourceData>(new SilenceData(initLength)))),
+            Sound(initAudio, initAudio.initSourceData(std::unique_ptr<mixer::SourceData>(new SilenceData(initLength)))),
             length(initLength)
         {
         }

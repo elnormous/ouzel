@@ -77,7 +77,7 @@ namespace ouzel
 
         const CoreAudioErrorCategory coreAudioErrorCategory {};
 
-        AudioDeviceCA::AudioDeviceCA(Mixer& initMixer):
+        AudioDeviceCA::AudioDeviceCA(mixer::Mixer& initMixer):
             AudioDevice(Driver::COREAUDIO, initMixer)
         {
             OSStatus result;
