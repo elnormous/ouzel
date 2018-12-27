@@ -54,16 +54,6 @@
 #    define OUZEL_SUPPORTS_XAUDIO2 1
 #  endif
 
-#  define OUZEL_ARCHITECTURE_X86
-
-#  if defined(_M_X64) || defined(__x86_64__)
-#    define OUZEL_64BITS 1
-#  elif defined(_M_IX86) || defined(__i386__)
-#    define OUZEL_32BITS 1
-#  else
-#    error "Unsupported architecture"
-#  endif
-
 #elif defined(__APPLE__) // macOS, iOS, tvOS
 #  include <TargetConditionals.h>
 #  define OUZEL_SUPPORTS_OPENGL 1
@@ -94,24 +84,6 @@
 #    endif
 #  endif
 
-#  if defined(__x86_64__) || defined(__i386__)
-#    define OUZEL_ARCHITECTURE_X86
-#    if defined(__x86_64__)
-#      define OUZEL_64BITS 1
-#    elif defined(__i386__)
-#      define OUZEL_32BITS 1
-#    endif
-#  elif defined(__arm64__) || defined(__arm__)
-#    define OUZEL_ARCHITECTURE_ARM
-#    if defined(__arm64__)
-#      define OUZEL_64BITS 1
-#    elif defined(__arm__)
-#      define OUZEL_32BITS 1
-#    endif
-#  else
-#    error "Unsupported architecture"
-#  endif
-
 #elif defined(__ANDROID__) // Android (check this before Linux because __linux__ is also defined for Android)
 #  define OUZEL_PLATFORM_ANDROID 1
 #  define OUZEL_SUPPORTS_OPENGL 1
@@ -119,24 +91,6 @@
 #  define OUZEL_OPENGL_INTERFACE_EGL 1
 #  define OUZEL_SUPPORTS_OPENSL 1
 #  define OUZEL_SUPPORTS_OPENSLES 1
-
-#  if defined(__x86_64__) || defined(__i386__)
-#    define OUZEL_ARCHITECTURE_X86
-#    if defined(__x86_64__)
-#      define OUZEL_64BITS 1
-#    elif defined(__i386__)
-#      define OUZEL_32BITS 1
-#    endif
-#  elif defined(__arm64__) || defined(__aarch64__) || defined(__arm__)
-#    define OUZEL_ARCHITECTURE_ARM
-#    if defined(__arm64__) || defined(__aarch64__)
-#      define OUZEL_64BITS 1
-#    elif defined(__arm__)
-#      define OUZEL_32BITS 1
-#    endif
-#  else
-#    error "Unsupported architecture"
-#  endif
 
 #elif defined(__linux__) // Linux
 #  define OUZEL_PLATFORM_LINUX 1
@@ -147,24 +101,9 @@
 #  if defined(__x86_64__) || defined(__i386__) // x86 Linux
 #    define OUZEL_OPENGL_INTERFACE_GLX 1
 #    define OUZEL_SUPPORTS_X11 1
-#    define OUZEL_ARCHITECTURE_X86
-
-#    if defined(__x86_64__)
-#      define OUZEL_64BITS 1
-#    elif defined(__i386__)
-#      define OUZEL_32BITS 1
-#    endif
 #  elif defined(__arm64__) || defined(__aarch64__) || defined(__arm__) // ARM Linux
 #    define OUZEL_SUPPORTS_OPENGLES 1
 #    define OUZEL_OPENGL_INTERFACE_EGL 1
-#    define OUZEL_ARCHITECTURE_ARM
-
-#    if defined(__arm64__) || defined(__aarch64__)
-#      define OUZEL_64BITS 1
-#    elif defined(__arm__)
-#      define OUZEL_32BITS 1
-#    endif
-
 #  else
 #    error "Unsupported architecture"
 #  endif
