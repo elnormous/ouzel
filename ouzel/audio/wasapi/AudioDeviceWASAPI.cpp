@@ -162,7 +162,7 @@ namespace ouzel
 
         const WASAPIErrorCategory wasapiErrorCategory{};
 
-        AudioDeviceWASAPI::AudioDeviceWASAPI(Mixer& initMixer):
+        AudioDeviceWASAPI::AudioDeviceWASAPI(mixer::Mixer& initMixer):
             AudioDevice(Driver::WASAPI, initMixer)
         {
             HRESULT hr;

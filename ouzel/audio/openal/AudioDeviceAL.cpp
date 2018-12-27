@@ -78,7 +78,7 @@ namespace ouzel
 
         const OpenALErrorCategory openALErrorCategory{};
 
-        AudioDeviceAL::AudioDeviceAL(Mixer& initMixer):
+        AudioDeviceAL::AudioDeviceAL(mixer::Mixer& initMixer):
             AudioDevice(Driver::OPENAL, initMixer)
         {
 #if TARGET_OS_IOS || TARGET_OS_TV

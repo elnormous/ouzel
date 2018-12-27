@@ -21,7 +21,7 @@ namespace ouzel
         class AudioDeviceXA2 final: public AudioDevice, public IXAudio2VoiceCallback
         {
         public:
-            AudioDeviceXA2(Mixer& initMixer, bool debugAudio);
+            AudioDeviceXA2(mixer::Mixer& initMixer, bool debugAudio);
             ~AudioDeviceXA2();
 
         private:

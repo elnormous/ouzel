@@ -15,7 +15,7 @@ namespace ouzel
     {
         class VorbisData;
 
-        class VorbisSource: public Source
+        class VorbisSource: public mixer::Source
         {
         public:
             VorbisSource(VorbisData& vorbisData);
@@ -37,7 +37,7 @@ namespace ouzel
             stb_vorbis* vorbisStream = nullptr;
         };
 
-        class VorbisData: public SourceData
+        class VorbisData: public mixer::SourceData
         {
         public:
             VorbisData(const std::vector<uint8_t>& initData):
@@ -58,9 +58,9 @@ namespace ouzel
 
             const std::vector<uint8_t>& getData() const { return data; }
 
-            std::unique_ptr<Source> createSource() override
+            std::unique_ptr<mixer::Source> createSource() override
             {
-                return std::unique_ptr<Source>(new VorbisSource(*this));
+                return std::unique_ptr<mixer::Source>(new VorbisSource(*this));
             }
 
         private:
@@ -104,7 +104,7 @@ namespace ouzel
         }
 
         VorbisSound::VorbisSound(Audio& initAudio, const std::vector<uint8_t>& initData):
-            Sound(initAudio, initAudio.initSourceData(std::unique_ptr<SourceData>(new VorbisData(initData))))
+            Sound(initAudio, initAudio.initSourceData(std::unique_ptr<mixer::SourceData>(new VorbisData(initData))))
         {
         }
     } // namespace audio

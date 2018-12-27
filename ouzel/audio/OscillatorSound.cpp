@@ -12,7 +12,7 @@ namespace ouzel
     {
         class OscillatorData;
 
-        class OscillatorSource: public Source
+        class OscillatorSource: public mixer::Source
         {
         public:
             OscillatorSource(OscillatorData& oscillatorData);
@@ -28,7 +28,7 @@ namespace ouzel
             uint32_t position = 0;
         };
 
-        class OscillatorData: public SourceData
+        class OscillatorData: public mixer::SourceData
         {
         public:
             OscillatorData(float initFrequency, OscillatorSound::Type initType, float initAmplitude, float initLength):
@@ -46,9 +46,9 @@ namespace ouzel
             float getAmplitude() const { return amplitude; }
             float getLength() const { return length; }
 
-            std::unique_ptr<Source> createSource() override
+            std::unique_ptr<mixer::Source> createSource() override
             {
-                return std::unique_ptr<Source>(new OscillatorSource(*this));
+                return std::unique_ptr<mixer::Source>(new OscillatorSource(*this));
             }
 
         private:
@@ -155,7 +155,7 @@ namespace ouzel
 
         OscillatorSound::OscillatorSound(Audio& initAudio, float initFrequency,
                                          Type initType, float initAmplitude, float initLength):
-            Sound(initAudio, initAudio.initSourceData(std::unique_ptr<SourceData>(new OscillatorData(initFrequency, initType, initAmplitude, initLength)))),
+            Sound(initAudio, initAudio.initSourceData(std::unique_ptr<mixer::SourceData>(new OscillatorData(initFrequency, initType, initAmplitude, initLength)))),
             type(initType),
             frequency(initFrequency),
             amplitude(initAmplitude),

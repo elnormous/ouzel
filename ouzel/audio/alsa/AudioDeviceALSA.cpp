@@ -14,7 +14,7 @@ namespace ouzel
 {
     namespace audio
     {
-        AudioDeviceALSA::AudioDeviceALSA(Mixer& initMixer):
+        AudioDeviceALSA::AudioDeviceALSA(mixer::Mixer& initMixer):
             AudioDevice(Driver::ALSA, initMixer)
         {
             int result;

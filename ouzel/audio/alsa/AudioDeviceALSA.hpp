@@ -20,7 +20,7 @@ namespace ouzel
         class AudioDeviceALSA final: public AudioDevice
         {
         public:
-            explicit AudioDeviceALSA(Mixer& initMixer);
+            explicit AudioDeviceALSA(mixer::Mixer& initMixer);
             ~AudioDeviceALSA();
 
         private:
