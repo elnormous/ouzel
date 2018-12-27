@@ -6,5 +6,8 @@ namespace ouzel
 {
     namespace audio
     {
+        namespace mixer
+        {
+        }
     } // namespace audio
 } // namespace ouzel

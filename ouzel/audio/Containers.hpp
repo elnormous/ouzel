@@ -3,21 +3,23 @@
 #ifndef OUZEL_AUDIO_CONTAINERS_HPP
 #define OUZEL_AUDIO_CONTAINERS_HPP
 
+#include "audio/Source.hpp"
+
 namespace ouzel
 {
     namespace audio
     {
-        class ParallelContainer final
+        class ParallelContainer final: public Source
         {
         public:
         };
 
-        class RandomContainer final
+        class RandomContainer final: public Source
         {
         public:
         };
 
-        class SequenceContainer final
+        class SequenceContainer final: public Source
         {
         public:
         };

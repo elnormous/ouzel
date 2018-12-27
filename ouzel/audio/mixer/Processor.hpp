@@ -10,27 +10,30 @@ namespace ouzel
 {
     namespace audio
     {
-        class Processor: public Object
+        namespace mixer
         {
-            friend Bus;
-        public:
-            Processor()
+            class Processor: public Object
             {
-            }
-            ~Processor();
+                friend Bus;
+            public:
+                Processor()
+                {
+                }
+                ~Processor();
 
-            Processor(const Processor&) = delete;
-            Processor& operator=(const Processor&) = delete;
+                Processor(const Processor&) = delete;
+                Processor& operator=(const Processor&) = delete;
 
-            Processor(Processor&&) = delete;
-            Processor& operator=(Processor&&) = delete;
+                Processor(Processor&&) = delete;
+                Processor& operator=(Processor&&) = delete;
 
-            virtual void process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
-                                 std::vector<float>& samples) = 0;
+                virtual void process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+                                     std::vector<float>& samples) = 0;
 
-        private:
-            Bus* bus = nullptr;
-        };
+            private:
+                Bus* bus = nullptr;
+            };
+        }
     } // namespace audio
 } // namespace ouzel
 

@@ -18,71 +18,74 @@ namespace ouzel
 {
     namespace audio
     {
-        class Mixer
+        namespace mixer
         {
-        public:
-            class Event
+            class Mixer
             {
             public:
-                enum class Type
+                class Event
                 {
-                    SOURCE_STARTED,
-                    SOURCE_RESET,
-                    SOURCE_STOPPED
+                public:
+                    enum class Type
+                    {
+                        SOURCE_STARTED,
+                        SOURCE_RESET,
+                        SOURCE_STOPPED
+                    };
+
+                    Event() {}
+                    explicit Event(Type initType): type(initType) {}
+
+                    Type type;
+                    uintptr_t objectId;
                 };
 
-                Event() {}
-                explicit Event(Type initType): type(initType) {}
+                Mixer(const std::function<void(const Event&)>& initCallback);
 
-                Type type;
-                uintptr_t objectId;
-            };
+                Mixer(const Mixer&) = delete;
+                Mixer& operator=(const Mixer&) = delete;
 
-            Mixer(const std::function<void(const Event&)>& initCallback);
+                Mixer(Mixer&&) = delete;
+                Mixer& operator=(Mixer&&) = delete;
 
-            Mixer(const Mixer&) = delete;
-            Mixer& operator=(const Mixer&) = delete;
+                void addCommand(std::unique_ptr<Command>&& command);
 
-            Mixer(Mixer&&) = delete;
-            Mixer& operator=(Mixer&&) = delete;
+                void process();
+                void getData(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples);
 
-            void addCommand(std::unique_ptr<Command>&& command);
-
-            void process();
-            void getData(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples);
-
-            uintptr_t getObjectId()
-            {
-                auto i = deletedObjectIds.begin();
-
-                if (i == deletedObjectIds.end())
-                    return ++lastObjectId; // zero is reserved for null node
-                else
+                uintptr_t getObjectId()
                 {
-                    uintptr_t objectId = *i;
-                    deletedObjectIds.erase(i);
-                    return objectId;
+                    auto i = deletedObjectIds.begin();
+
+                    if (i == deletedObjectIds.end())
+                        return ++lastObjectId; // zero is reserved for null node
+                    else
+                    {
+                        uintptr_t objectId = *i;
+                        deletedObjectIds.erase(i);
+                        return objectId;
+                    }
                 }
-            }
 
-            void deleteObjectId(uintptr_t objectId)
-            {
-                deletedObjectIds.insert(objectId);
-            }
+                void deleteObjectId(uintptr_t objectId)
+                {
+                    deletedObjectIds.insert(objectId);
+                }
 
-        private:
-            std::function<void(const Event&)> callback;
+            private:
+                std::function<void(const Event&)> callback;
 
-            uintptr_t lastObjectId = 0;
-            std::set<uintptr_t> deletedObjectIds;
+                uintptr_t lastObjectId = 0;
+                std::set<uintptr_t> deletedObjectIds;
 
-            std::vector<std::unique_ptr<Object>> objects;
+                std::vector<std::unique_ptr<Object>> objects;
 
-            Bus* masterBus = nullptr;
-            std::mutex commandMutex;
-            std::condition_variable commandConditionVariable;
-            std::queue<std::unique_ptr<Command>> commandQueue;
-        };
+                Bus* masterBus = nullptr;
+                std::mutex commandMutex;
+                std::condition_variable commandConditionVariable;
+                std::queue<std::unique_ptr<Command>> commandQueue;
+            };
+        }
     } // namespace audio
 } // namespace ouzel
 

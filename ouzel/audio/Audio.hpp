@@ -39,23 +39,23 @@ namespace ouzel
             static std::set<Driver> getAvailableAudioDrivers();
 
             inline AudioDevice* getDevice() const { return device.get(); }
-            inline Mixer& getMixer() { return mixer; }
+            inline mixer::Mixer& getMixer() { return mixer; }
 
             void update();
 
             void deleteObject(uintptr_t objectId);
             uintptr_t initBus();
             uintptr_t initSource(uintptr_t sourceDataId);
-            uintptr_t initSourceData(std::unique_ptr<SourceData>&& sourceData);
-            uintptr_t initProcessor(std::unique_ptr<Processor>&& processor);
-            void updateProcessor(uintptr_t processorId, const std::function<void(Processor*)>& updateFunction);
+            uintptr_t initSourceData(std::unique_ptr<mixer::SourceData>&& sourceData);
+            uintptr_t initProcessor(std::unique_ptr<mixer::Processor>&& processor);
+            void updateProcessor(uintptr_t processorId, const std::function<void(mixer::Processor*)>& updateFunction);
 
             Mix& getMasterMix() { return masterMix; }
 
         private:
-            void eventCallback(const Mixer::Event& event);
+            void eventCallback(const mixer::Mixer::Event& event);
 
-            Mixer mixer;
+            mixer::Mixer mixer;
             Mix masterMix;
             std::unique_ptr<AudioDevice> device;
         };

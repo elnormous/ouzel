@@ -15,7 +15,7 @@ namespace ouzel
         class AudioDevice
         {
         public:
-            AudioDevice(Driver initDriver, Mixer& initMixer);
+            AudioDevice(Driver initDriver, mixer::Mixer& initMixer);
             virtual ~AudioDevice();
 
             AudioDevice(const AudioDevice&) = delete;
@@ -43,7 +43,7 @@ namespace ouzel
             std::vector<float> buffer;
 
             Driver driver;
-            Mixer& mixer;
+            mixer::Mixer& mixer;
         };
     } // namespace audio
 } // namespace ouzel

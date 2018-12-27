@@ -15,203 +15,206 @@ namespace ouzel
 {
     namespace audio
     {
-        class Command
+        namespace mixer
         {
-        public:
-            enum class Type
+            class Command
             {
-                DELETE_OBJECT,
-                INIT_BUS,
-                SET_BUS_OUTPUT,
-                ADD_PROCESSOR,
-                REMOVE_PROCESSOR,
-                SET_MASTER_BUS,
-                INIT_SOURCE,
-                PLAY_SOURCE,
-                STOP_SOURCE,
-                SET_SOURCE_OUTPUT,
-                INIT_SOURCE_DATA,
-                INIT_PROCESSOR,
-                UPDATE_PROCESSOR
+            public:
+                enum class Type
+                {
+                    DELETE_OBJECT,
+                    INIT_BUS,
+                    SET_BUS_OUTPUT,
+                    ADD_PROCESSOR,
+                    REMOVE_PROCESSOR,
+                    SET_MASTER_BUS,
+                    INIT_SOURCE,
+                    PLAY_SOURCE,
+                    STOP_SOURCE,
+                    SET_SOURCE_OUTPUT,
+                    INIT_SOURCE_DATA,
+                    INIT_PROCESSOR,
+                    UPDATE_PROCESSOR
+                };
+
+                explicit Command(Type initType): type(initType) {}
+
+                Type type;
             };
 
-            explicit Command(Type initType): type(initType) {}
+            class DeleteObjectCommand: public Command
+            {
+            public:
+                DeleteObjectCommand(uintptr_t initObjectId):
+                    Command(Command::Type::DELETE_OBJECT),
+                    objectId(initObjectId)
+                {}
 
-            Type type;
-        };
+                uintptr_t objectId;
+            };
 
-        class DeleteObjectCommand: public Command
-        {
-        public:
-            DeleteObjectCommand(uintptr_t initObjectId):
-                Command(Command::Type::DELETE_OBJECT),
-                objectId(initObjectId)
-            {}
+            class InitBusCommand: public Command
+            {
+            public:
+                InitBusCommand(uintptr_t initBusId):
+                    Command(Command::Type::INIT_BUS),
+                    busId(initBusId)
+                {}
 
-            uintptr_t objectId;
-        };
+                uintptr_t busId;
+            };
 
-        class InitBusCommand: public Command
-        {
-        public:
-            InitBusCommand(uintptr_t initBusId):
-                Command(Command::Type::INIT_BUS),
-                busId(initBusId)
-            {}
+            class SetBusOutputCommand: public Command
+            {
+            public:
+                SetBusOutputCommand(uintptr_t initBusId,
+                                    uintptr_t initOutputBusId):
+                    Command(Command::Type::SET_BUS_OUTPUT),
+                    busId(initBusId),
+                    outputBusId(initOutputBusId)
+                {}
 
-            uintptr_t busId;
-        };
+                uintptr_t busId;
+                uintptr_t outputBusId;
+            };
 
-        class SetBusOutputCommand: public Command
-        {
-        public:
-            SetBusOutputCommand(uintptr_t initBusId,
-                                uintptr_t initOutputBusId):
-                Command(Command::Type::SET_BUS_OUTPUT),
-                busId(initBusId),
-                outputBusId(initOutputBusId)
-            {}
+            class AddProcessorCommand: public Command
+            {
+            public:
+                AddProcessorCommand(uintptr_t initBusId,
+                                    uintptr_t initProcessorId):
+                    Command(Command::Type::ADD_PROCESSOR),
+                    busId(initBusId),
+                    processorId(initProcessorId)
+                {}
 
-            uintptr_t busId;
-            uintptr_t outputBusId;
-        };
+                uintptr_t busId;
+                uintptr_t processorId;
+            };
 
-        class AddProcessorCommand: public Command
-        {
-        public:
-            AddProcessorCommand(uintptr_t initBusId,
-                                uintptr_t initProcessorId):
-                Command(Command::Type::ADD_PROCESSOR),
-                busId(initBusId),
-                processorId(initProcessorId)
-            {}
+            class RemoveProcessorCommand: public Command
+            {
+            public:
+                RemoveProcessorCommand(uintptr_t initBusId,
+                                       uintptr_t initProcessorId):
+                    Command(Command::Type::REMOVE_PROCESSOR),
+                    busId(initBusId),
+                    processorId(initProcessorId)
+                {}
 
-            uintptr_t busId;
-            uintptr_t processorId;
-        };
+                uintptr_t busId;
+                uintptr_t processorId;
+            };
 
-        class RemoveProcessorCommand: public Command
-        {
-        public:
-            RemoveProcessorCommand(uintptr_t initBusId,
-                                   uintptr_t initProcessorId):
-                Command(Command::Type::REMOVE_PROCESSOR),
-                busId(initBusId),
-                processorId(initProcessorId)
-            {}
+            class SetMasterBusCommand: public Command
+            {
+            public:
+                SetMasterBusCommand(uintptr_t initBusId):
+                    Command(Command::Type::SET_MASTER_BUS),
+                    busId(initBusId)
+                {}
 
-            uintptr_t busId;
-            uintptr_t processorId;
-        };
+                uintptr_t busId;
+            };
 
-        class SetMasterBusCommand: public Command
-        {
-        public:
-            SetMasterBusCommand(uintptr_t initBusId):
-                Command(Command::Type::SET_MASTER_BUS),
-                busId(initBusId)
-            {}
+            class InitSourceCommand: public Command
+            {
+            public:
+                InitSourceCommand(uintptr_t initSourceId,
+                                  uintptr_t initSourceDataId):
+                    Command(Command::Type::INIT_SOURCE),
+                    sourceId(initSourceId),
+                    sourceDataId(initSourceDataId)
+                {}
 
-            uintptr_t busId;
-        };
+                uintptr_t sourceId;
+                uintptr_t sourceDataId;
+            };
 
-        class InitSourceCommand: public Command
-        {
-        public:
-            InitSourceCommand(uintptr_t initSourceId,
-                              uintptr_t initSourceDataId):
-                Command(Command::Type::INIT_SOURCE),
-                sourceId(initSourceId),
-                sourceDataId(initSourceDataId)
-            {}
+            class PlaySourceCommand: public Command
+            {
+            public:
+                PlaySourceCommand(uintptr_t initSourceId,
+                                  bool initRepeat):
+                    Command(Command::Type::PLAY_SOURCE),
+                    sourceId(initSourceId),
+                    repeat(initRepeat)
+                {}
 
-            uintptr_t sourceId;
-            uintptr_t sourceDataId;
-        };
+                uintptr_t sourceId;
+                bool repeat;
+            };
 
-        class PlaySourceCommand: public Command
-        {
-        public:
-            PlaySourceCommand(uintptr_t initSourceId,
-                              bool initRepeat):
-                Command(Command::Type::PLAY_SOURCE),
-                sourceId(initSourceId),
-                repeat(initRepeat)
-            {}
+            class StopSourceCommand: public Command
+            {
+            public:
+                StopSourceCommand(uintptr_t initSourceId,
+                                  bool initReset):
+                    Command(Command::Type::STOP_SOURCE),
+                    sourceId(initSourceId),
+                    reset(initReset)
+                {}
 
-            uintptr_t sourceId;
-            bool repeat;
-        };
+                uintptr_t sourceId;
+                bool reset;
+            };
 
-        class StopSourceCommand: public Command
-        {
-        public:
-            StopSourceCommand(uintptr_t initSourceId,
-                              bool initReset):
-                Command(Command::Type::STOP_SOURCE),
-                sourceId(initSourceId),
-                reset(initReset)
-            {}
+            class SetSourceOutputCommand: public Command
+            {
+            public:
+                SetSourceOutputCommand(uintptr_t initSourceId,
+                                       uintptr_t initBusId):
+                    Command(Command::Type::SET_SOURCE_OUTPUT),
+                    sourceId(initSourceId),
+                    busId(initBusId)
+                {}
 
-            uintptr_t sourceId;
-            bool reset;
-        };
+                uintptr_t sourceId;
+                uintptr_t busId;
+            };
 
-        class SetSourceOutputCommand: public Command
-        {
-        public:
-            SetSourceOutputCommand(uintptr_t initSourceId,
-                                   uintptr_t initBusId):
-                Command(Command::Type::SET_SOURCE_OUTPUT),
-                sourceId(initSourceId),
-                busId(initBusId)
-            {}
+            class InitSourceDataCommand: public Command
+            {
+            public:
+                InitSourceDataCommand(uintptr_t initSourceDataId,
+                                      std::unique_ptr<SourceData>&& initSourceData):
+                    Command(Command::Type::INIT_SOURCE_DATA),
+                    sourceDataId(initSourceDataId),
+                    sourceData(std::forward<std::unique_ptr<SourceData>>(initSourceData))
+                {}
 
-            uintptr_t sourceId;
-            uintptr_t busId;
-        };
+                uintptr_t sourceDataId;
+                std::unique_ptr<SourceData> sourceData;
+            };
 
-        class InitSourceDataCommand: public Command
-        {
-        public:
-            InitSourceDataCommand(uintptr_t initSourceDataId,
-                                  std::unique_ptr<SourceData>&& initSourceData):
-                Command(Command::Type::INIT_SOURCE_DATA),
-                sourceDataId(initSourceDataId),
-                sourceData(std::forward<std::unique_ptr<SourceData>>(initSourceData))
-            {}
+            class InitProcessorCommand: public Command
+            {
+            public:
+                InitProcessorCommand(uintptr_t initProcessorId,
+                                    std::unique_ptr<Processor>&& initProcessor):
+                    Command(Command::Type::INIT_PROCESSOR),
+                    processorId(initProcessorId),
+                    processor(std::forward<std::unique_ptr<Processor>>(initProcessor))
+                {}
 
-            uintptr_t sourceDataId;
-            std::unique_ptr<SourceData> sourceData;
-        };
+                uintptr_t processorId;
+                std::unique_ptr<Processor> processor;
+            };
 
-        class InitProcessorCommand: public Command
-        {
-        public:
-            InitProcessorCommand(uintptr_t initProcessorId,
-                                std::unique_ptr<Processor>&& initProcessor):
-                Command(Command::Type::INIT_PROCESSOR),
-                processorId(initProcessorId),
-                processor(std::forward<std::unique_ptr<Processor>>(initProcessor))
-            {}
+            class UpdateProcessorCommand: public Command
+            {
+            public:
+                UpdateProcessorCommand(uintptr_t initProcessorId,
+                                       std::function<void(Processor*)> initUpdateFunction):
+                    Command(Command::Type::UPDATE_PROCESSOR),
+                    processorId(initProcessorId),
+                    updateFunction(initUpdateFunction)
+                {}
 
-            uintptr_t processorId;
-            std::unique_ptr<Processor> processor;
-        };
-
-        class UpdateProcessorCommand: public Command
-        {
-        public:
-            UpdateProcessorCommand(uintptr_t initProcessorId,
-                                   std::function<void(Processor*)> initUpdateFunction):
-                Command(Command::Type::UPDATE_PROCESSOR),
-                processorId(initProcessorId),
-                updateFunction(initUpdateFunction)
-            {}
-
-            uintptr_t processorId;
-            std::function<void(Processor*)> updateFunction;
-        };
+                uintptr_t processorId;
+                std::function<void(Processor*)> updateFunction;
+            };
+        }
     } // namespace audio
 } // namespace ouzel
 
