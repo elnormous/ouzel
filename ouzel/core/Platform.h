@@ -3,44 +3,6 @@
 #ifndef OUZEL_PLATFORM_H
 #define OUZEL_PLATFORM_H
 
-#if defined (__GLIBC__) || defined(__ANDROID__)
-#  include <endian.h>
-#  if (__BYTE_ORDER == __LITTLE_ENDIAN)
-#    define OUZEL_LITTLE_ENDIAN
-#  elif (__BYTE_ORDER == __BIG_ENDIAN)
-#    define OUZEL_BIG_ENDIAN
-#  else
-#    error Unsupported endianness
-#  endif
-
-#elif defined(_BIG_ENDIAN) && !defined(_LITTLE_ENDIAN) || \
-  defined(__BIG_ENDIAN__) && !defined(__LITTLE_ENDIAN__) || \
-  defined(__BIGENDIAN__) && !defined(__LITTLEENDIAN__) || \
-  defined(_STLP_BIG_ENDIAN) && !defined(_STLP_LITTLE_ENDIAN)
-#  define OUZEL_BIG_ENDIAN
-#elif defined(_LITTLE_ENDIAN) && !defined(_BIG_ENDIAN) || \
-  defined(__LITTLE_ENDIAN__) && !defined(__BIG_ENDIAN__) || \
-  defined(__LITTLEENDIAN__) && !defined(__BIGENDIAN__) || \
-  defined(_STLP_LITTLE_ENDIAN) && !defined(_STLP_BIG_ENDIAN)
-#  define OUZEL_LITTLE_ENDIAN
-#elif defined(_POWER) || defined(__powerpc__) || \
-  defined(__ppc__) || defined(_MIPSEB) || defined(_POWER) || \
-  defined(__ARMEB__)
-#  define OUZEL_BIG_ENDIAN
-#elif defined(__i386__) || \
-  defined(__ia64) || defined(__ia64__) || \
-  defined(_M_IX86) || defined(_M_IA64) || \
-  defined(__amd64) || \
-  defined(__amd64__) || defined(_M_AMD64) || \
-  defined(__x86_64) || defined(__x86_64__) || \
-  defined(_M_X64) || \
-  defined(__ARMEL__) || \
-  (defined(_WIN32) && defined(__ARM__) && defined(_MSC_VER))
-#  define OUZEL_LITTLE_ENDIAN
-#else
-#  error Unsupported endianness
-#endif
-
 #if defined(_WIN32) // Windows
 #  define OUZEL_PLATFORM_WINDOWS 1
 #  define OUZEL_SUPPORTS_DIRECT3D 1
