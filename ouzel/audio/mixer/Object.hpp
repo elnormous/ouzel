@@ -12,18 +12,21 @@ namespace ouzel
 {
     namespace audio
     {
-        class Object
+        namespace mixer
         {
-        public:
-            Object() {}
-            virtual ~Object() {}
+            class Object
+            {
+            public:
+                Object() {}
+                virtual ~Object() {}
 
-            Object(const Object&) = delete;
-            Object& operator=(const Object&) = delete;
+                Object(const Object&) = delete;
+                Object& operator=(const Object&) = delete;
 
-            Object(Object&&) = delete;
-            Object& operator=(Object&&) = delete;
-        };
+                Object(Object&&) = delete;
+                Object& operator=(Object&&) = delete;
+            };
+        }
     } // namespace audio
 } // namespace ouzel
 

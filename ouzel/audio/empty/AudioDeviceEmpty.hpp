@@ -12,7 +12,7 @@ namespace ouzel
         class AudioDeviceEmpty final: public AudioDevice
         {
         public:
-            explicit AudioDeviceEmpty(Mixer& initMixer);
+            explicit AudioDeviceEmpty(mixer::Mixer& initMixer);
         };
     } // namespace audio
 } // namespace ouzel

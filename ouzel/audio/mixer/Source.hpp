@@ -9,35 +9,38 @@ namespace ouzel
 {
     namespace audio
     {
-        class Bus;
-        class SourceData;
-
-        class Source: public Object
+        namespace mixer
         {
-            friend Bus;
-        public:
-            Source(SourceData& initSourceData);
-            ~Source();
+            class Bus;
+            class SourceData;
 
-            const SourceData& getSourceData() const { return sourceData; }
+            class Source: public Object
+            {
+                friend Bus;
+            public:
+                Source(SourceData& initSourceData);
+                ~Source();
 
-            virtual void getData(uint32_t frames, std::vector<float>& samples) = 0;
+                const SourceData& getSourceData() const { return sourceData; }
 
-            void setOutput(Bus* newOutput);
+                virtual void getData(uint32_t frames, std::vector<float>& samples) = 0;
 
-            bool isPlaying() const { return playing; }
-            void play(bool repeat);
+                void setOutput(Bus* newOutput);
 
-            bool isRepeating() const { return repeating; }
-            void stop(bool shouldReset);
-            virtual void reset() = 0;
+                bool isPlaying() const { return playing; }
+                void play(bool repeat);
 
-        protected:
-            SourceData& sourceData;
-            Bus* output = nullptr;
-            bool playing = false;
-            bool repeating = false;
-        };
+                bool isRepeating() const { return repeating; }
+                void stop(bool shouldReset);
+                virtual void reset() = 0;
+
+            protected:
+                SourceData& sourceData;
+                Bus* output = nullptr;
+                bool playing = false;
+                bool repeating = false;
+            };
+        }
     } // namespace audio
 } // namespace ouzel
 

@@ -6,9 +6,12 @@ namespace ouzel
 {
     namespace audio
     {
-        Processor::~Processor()
+        namespace mixer
         {
-            if (bus) bus->removeProcessor(this);
+            Processor::~Processor()
+            {
+                if (bus) bus->removeProcessor(this);
+            }
         }
     } // namespace audio
 } // namespace ouzel

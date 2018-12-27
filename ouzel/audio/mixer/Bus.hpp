@@ -10,46 +10,49 @@ namespace ouzel
 {
     namespace audio
     {
-        class Processor;
-        class Source;
-
-        class Bus final: public Object
+        namespace mixer
         {
-            friend Processor;
-            friend Source;
-        public:
-            Bus();
-            ~Bus();
-            Bus(const Bus&) = delete;
-            Bus& operator=(const Bus&) = delete;
+            class Processor;
+            class Source;
 
-            Bus(Bus&&) = delete;
-            Bus& operator=(Bus&&) = delete;
+            class Bus final: public Object
+            {
+                friend Processor;
+                friend Source;
+            public:
+                Bus();
+                ~Bus();
+                Bus(const Bus&) = delete;
+                Bus& operator=(const Bus&) = delete;
 
-            void setOutput(Bus* newOutput);
+                Bus(Bus&&) = delete;
+                Bus& operator=(Bus&&) = delete;
 
-            void getData(uint32_t frames, uint16_t channels, uint32_t sampleRate,
-                         const Vector3& listenerPosition, const Quaternion& listenerRotation,
-                         std::vector<float>& samples);
+                void setOutput(Bus* newOutput);
 
-            void addProcessor(Processor* processor);
-            void removeProcessor(Processor* processor);
+                void getData(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+                             const Vector3& listenerPosition, const Quaternion& listenerRotation,
+                             std::vector<float>& samples);
 
-        private:
-            void addInput(Bus* bus);
-            void removeInput(Bus* bus);
-            void addInput(Source* source);
-            void removeInput(Source* source);
+                void addProcessor(Processor* processor);
+                void removeProcessor(Processor* processor);
 
-            Bus* output = nullptr;
-            std::vector<Bus*> inputBuses;
-            std::vector<Source*> inputSources;
-            std::vector<Processor*> processors;
+            private:
+                void addInput(Bus* bus);
+                void removeInput(Bus* bus);
+                void addInput(Source* source);
+                void removeInput(Source* source);
 
-            std::vector<float> resampleBuffer;
-            std::vector<float> mixBuffer;
-            std::vector<float> buffer;
-        };
+                Bus* output = nullptr;
+                std::vector<Bus*> inputBuses;
+                std::vector<Source*> inputSources;
+                std::vector<Processor*> processors;
+
+                std::vector<float> resampleBuffer;
+                std::vector<float> mixBuffer;
+                std::vector<float> buffer;
+            };
+        }
     } // namespace audio
 } // namespace ouzel
 
