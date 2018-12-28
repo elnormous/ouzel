@@ -9,12 +9,12 @@
 #include <IOKit/hid/IOHIDManager.h>
 
 #if defined(__OBJC__)
-#import <AppKit/NSCursor.h>
+#  import <AppKit/NSCursor.h>
 typedef NSCursor* NSCursorPtr;
-#include <GameController/GameController.h>
+#  include <GameController/GameController.h>
 typedef GCController* GCControllerPtr;
 #else
-#include <objc/NSObjCRuntime.h>
+#  include <objc/NSObjCRuntime.h>
 typedef id NSCursorPtr;
 typedef id GCControllerPtr;
 #endif

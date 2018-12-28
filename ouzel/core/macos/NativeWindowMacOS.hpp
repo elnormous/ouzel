@@ -6,14 +6,14 @@
 #include <CoreGraphics/CGGeometry.h>
 
 #if defined(__OBJC__)
-#import <Cocoa/Cocoa.h>
-#import <CoreGraphics/CoreGraphics.h>
+#  import <Cocoa/Cocoa.h>
+#  import <CoreGraphics/CoreGraphics.h>
 typedef NSWindow* NSWindowPtr;
 typedef NSView* NSViewPtr;
 typedef id<NSWindowDelegate> NSWindowDelegatePtr;
 typedef NSScreen* NSScreenPtr;
 #else
-#include <objc/NSObjCRuntime.h>
+#  include <objc/NSObjCRuntime.h>
 typedef id NSWindowPtr;
 typedef id NSViewPtr;
 typedef id NSWindowDelegatePtr;

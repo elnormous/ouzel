@@ -5,10 +5,10 @@
 
 #include <string>
 #if defined(__OBJC__)
-#include <GameController/GameController.h>
+#  include <GameController/GameController.h>
 typedef GCController* GCControllerPtr;
 #else
-#include <objc/objc.h>
+#  include <objc/objc.h>
 typedef id GCControllerPtr;
 #endif
 

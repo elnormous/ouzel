@@ -6,11 +6,11 @@
 #include <functional>
 #include <thread>
 #if defined(__OBJC__)
-#import <QuartzCore/QuartzCore.h>
+#  import <QuartzCore/QuartzCore.h>
 typedef CADisplayLink* CADisplayLinkPtr;
 typedef NSRunLoop* NSRunLoopPtr;
 #else
-#include <objc/objc.h>
+#  include <objc/objc.h>
 typedef id CADisplayLinkPtr;
 typedef id NSRunLoopPtr;
 #endif

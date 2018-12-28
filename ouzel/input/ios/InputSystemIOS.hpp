@@ -6,11 +6,11 @@
 #include <memory>
 #include <unordered_map>
 #if defined(__OBJC__)
-#include <GameController/GameController.h>
+#  include <GameController/GameController.h>
 typedef GCController* GCControllerPtr;
 #else
-#include <objc/objc.h>
-#include <objc/NSObjCRuntime.h>
+#  include <objc/objc.h>
+#  include <objc/NSObjCRuntime.h>
 typedef id GCControllerPtr;
 #endif
 
