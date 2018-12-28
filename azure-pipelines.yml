@@ -1,21 +1,25 @@
-# C/C++ with GCC
-# Build your C/C++ project with GCC using make.
-# Add steps that publish test results, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/apps/c-cpp/gcc
-
 trigger:
 - master
 
-pool:
-  vmImage: 'Ubuntu-16.04'
+jobs:
+- job: Linux
+  pool:
+    vmImage: 'Ubuntu-16.04'
 
-steps:
-- script: |
-    sudo apt-get install -y libopenal-dev
-    sudo apt-get install -y libasound2-dev
-    sudo apt-get install -y libxi-dev
-    sudo apt-get install -y libxcursor-dev
-    sudo apt-get install -y libxss-dev
-    cd samples
-    make -j2
-  displayName: 'make'
+  steps:
+  - script: sudo apt-get install -y libopenal-dev
+  - script: sudo apt-get install -y libasound2-dev
+  - script: sudo apt-get install -y libxi-dev
+  - script: sudo apt-get install -y libxcursor-dev
+  - script: sudo apt-get install -y libxss-dev
+  - script: |
+      cd samples
+      make -j2
+    displayName: 'make'
+
+- job: Windows
+  pool:
+    vmImage: 'vs2017-win2016'
+
+  steps:
+  - script: MSBuild.exe samples/samples.vcxproj /property:Configuration=Release
