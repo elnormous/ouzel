@@ -22,4 +22,7 @@ jobs:
     vmImage: 'vs2017-win2016'
 
   steps:
-  - script: MSBuild.exe samples/samples.vcxproj /property:Configuration=Release
+  - task: MSBuild@1
+    inputs:
+      solution: samples/samples.vcxproj
+      configuration: Release
