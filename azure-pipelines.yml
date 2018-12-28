@@ -15,6 +15,7 @@ steps:
     sudo apt-get install -y libasound2-dev
     sudo apt-get install -y libxi-dev
     sudo apt-get install -y libxcursor-dev
+    sudo apt-get install -y libxss-dev
     cd samples
     make -j2
   displayName: 'make'
