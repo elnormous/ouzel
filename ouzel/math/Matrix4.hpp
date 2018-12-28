@@ -5,7 +5,7 @@
 
 #include <algorithm>
 #if defined(__SSE__)
-#include <xmmintrin.h>
+#  include <xmmintrin.h>
 #endif
 #include "math/ConvexVolume.hpp"
 #include "math/Plane.hpp"

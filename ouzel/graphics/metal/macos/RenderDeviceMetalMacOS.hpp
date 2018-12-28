@@ -12,9 +12,9 @@
 #if TARGET_OS_MAC && !TARGET_OS_IOS && !TARGET_OS_TV && OUZEL_COMPILE_METAL
 
 #if defined(__OBJC__)
-#import <CoreVideo/CoreVideo.h>
-#import <QuartzCore/QuartzCore.h>
-#import <Metal/Metal.h>
+#  import <CoreVideo/CoreVideo.h>
+#  import <QuartzCore/QuartzCore.h>
+#  import <Metal/Metal.h>
 typedef CAMetalLayer* CAMetalLayerPtr;
 typedef id<MTLDevice> MTLDevicePtr;
 typedef MTLRenderPassDescriptor* MTLRenderPassDescriptorPtr;
@@ -26,8 +26,8 @@ typedef id<MTLRenderCommandEncoder> MTLRenderCommandEncoderPtr;
 typedef id<MTLTexture> MTLTexturePtr;
 typedef id<MTLDepthStencilState> MTLDepthStencilStatePtr;
 #else
-#include <objc/objc.h>
-#include <objc/NSObjCRuntime.h>
+#  include <objc/objc.h>
+#  include <objc/NSObjCRuntime.h>
 typedef void* CVDisplayLinkRef;
 typedef id CAMetalLayerPtr;
 typedef id MTLDevicePtr;

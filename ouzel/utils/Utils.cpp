@@ -10,7 +10,7 @@
 
 #if defined(_WIN32)
 static constexpr DWORD MS_VC_EXCEPTION = 0x406D1388;
-#pragma pack(push,8)
+#  pragma pack(push,8)
 typedef struct tagTHREADNAME_INFO
 {
     DWORD dwType; // Must be 0x1000.
@@ -18,7 +18,7 @@ typedef struct tagTHREADNAME_INFO
     DWORD dwThreadID; // Thread ID (-1=caller thread).
     DWORD dwFlags; // Reserved for future use, must be zero.
 } THREADNAME_INFO;
-#pragma pack(pop)
+#  pragma pack(pop)
 #endif
 
 namespace ouzel

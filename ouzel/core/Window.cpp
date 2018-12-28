@@ -10,19 +10,19 @@
 #include "graphics/Renderer.hpp"
 
 #if TARGET_OS_IOS
-#include "ios/NativeWindowIOS.hpp"
+#  include "ios/NativeWindowIOS.hpp"
 #elif TARGET_OS_TV
-#include "tvos/NativeWindowTVOS.hpp"
+#  include "tvos/NativeWindowTVOS.hpp"
 #elif TARGET_OS_MAC
-#include "macos/NativeWindowMacOS.hpp"
+#  include "macos/NativeWindowMacOS.hpp"
 #elif defined(__ANDROID__)
-#include "android/NativeWindowAndroid.hpp"
+#  include "android/NativeWindowAndroid.hpp"
 #elif defined(__linux__)
-#include "linux/NativeWindowLinux.hpp"
+#  include "linux/NativeWindowLinux.hpp"
 #elif defined(_WIN32)
-#include "windows/NativeWindowWin.hpp"
+#  include "windows/NativeWindowWin.hpp"
 #elif defined(__EMSCRIPTEN__)
-#include "emscripten/NativeWindowEm.hpp"
+#  include "emscripten/NativeWindowEm.hpp"
 #endif
 
 namespace ouzel

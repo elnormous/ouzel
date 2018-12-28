@@ -4,14 +4,14 @@
 #define OUZEL_CORE_NATIVEWINDOWTVOS_HPP
 
 #if defined(__OBJC__)
-#import <UIKit/UIKit.h>
+#  import <UIKit/UIKit.h>
 typedef UIScreen* UIScreenPtr;
 typedef UIWindow* UIWindowPtr;
 typedef UIView* UIViewPtr;
 typedef UIViewController* UIViewControllerPtr;
 typedef UITextField* UITextFieldPtr;
 #else
-#include <objc/objc.h>
+#  include <objc/objc.h>
 typedef id UIScreenPtr;
 typedef id UIWindowPtr;
 typedef id UIViewPtr;
