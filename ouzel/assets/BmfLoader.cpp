@@ -1,24 +1,24 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include "LoaderTTF.hpp"
+#include "BmfLoader.hpp"
 #include "Bundle.hpp"
-#include "gui/TTFont.hpp"
+#include "gui/BMFont.hpp"
 
 namespace ouzel
 {
     namespace assets
     {
-        LoaderTTF::LoaderTTF(Cache& initCache):
+        BmfLoader::BmfLoader(Cache& initCache):
             Loader(initCache, TYPE)
         {
         }
 
-        bool LoaderTTF::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
+        bool BmfLoader::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool)
         {
             try
             {
                 // TODO: move the loader here
-                std::shared_ptr<TTFont> font = std::make_shared<TTFont>(data, mipmaps);
+                std::shared_ptr<BMFont> font = std::make_shared<BMFont>(data);
                 bundle.setFont(filename, font);
             }
             catch (const std::exception&)

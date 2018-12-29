@@ -3,7 +3,7 @@
 #include <functional>
 #include <memory>
 #include <stdexcept>
-#include "LoaderImage.hpp"
+#include "ImageLoader.hpp"
 #include "Bundle.hpp"
 #include "core/Engine.hpp"
 #include "graphics/ImageData.hpp"
@@ -23,12 +23,12 @@ namespace ouzel
 {
     namespace assets
     {
-        LoaderImage::LoaderImage(Cache& initCache):
+        ImageLoader::ImageLoader(Cache& initCache):
             Loader(initCache, TYPE)
         {
         }
 
-        bool LoaderImage::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
+        bool ImageLoader::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
         {
             int width;
             int height;

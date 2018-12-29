@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_ASSETS_LOADERBMF_HPP
-#define OUZEL_ASSETS_LOADERBMF_HPP
+#ifndef OUZEL_ASSETS_GLTFLOADER_HPP
+#define OUZEL_ASSETS_GLTFLOADER_HPP
 
 #include "assets/Loader.hpp"
 
@@ -9,15 +9,15 @@ namespace ouzel
 {
     namespace assets
     {
-        class LoaderBMF final: public Loader
+        class GltfLoader final: public Loader
         {
         public:
-            static constexpr uint32_t TYPE = Loader::FONT;
+            static constexpr uint32_t TYPE = Loader::SKINNED_MESH;
 
-            explicit LoaderBMF(Cache& initCache);
+            explicit GltfLoader(Cache& initCache);
             bool loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps = true) override;
         };
     } // namespace assets
 } // namespace ouzel
 
-#endif // OUZEL_ASSETS_LOADERBMF_HPP
+#endif // OUZEL_ASSETS_GLTFLOADER_HPP

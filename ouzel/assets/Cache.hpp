@@ -7,17 +7,17 @@
 #include <string>
 #include <map>
 #include "assets/Bundle.hpp"
-#include "assets/LoaderBMF.hpp"
-#include "assets/LoaderCollada.hpp"
-#include "assets/LoaderGLTF.hpp"
-#include "assets/LoaderImage.hpp"
-#include "assets/LoaderMTL.hpp"
-#include "assets/LoaderOBJ.hpp"
-#include "assets/LoaderParticleSystem.hpp"
-#include "assets/LoaderSprite.hpp"
-#include "assets/LoaderTTF.hpp"
-#include "assets/LoaderVorbis.hpp"
-#include "assets/LoaderWave.hpp"
+#include "assets/BmfLoader.hpp"
+#include "assets/ColladaLoader.hpp"
+#include "assets/GltfLoader.hpp"
+#include "assets/ImageLoader.hpp"
+#include "assets/MtlLoader.hpp"
+#include "assets/ObjLoader.hpp"
+#include "assets/ParticleSystemLoader.hpp"
+#include "assets/SpriteLoader.hpp"
+#include "assets/TtfLoader.hpp"
+#include "assets/VorbisLoader.hpp"
+#include "assets/WaveLoader.hpp"
 
 namespace ouzel
 {
@@ -64,17 +64,17 @@ namespace ouzel
             std::vector<Bundle*> bundles;
             std::vector<Loader*> loaders;
 
-            LoaderBMF loaderBMF;
-            LoaderCollada loaderCollada;
-            LoaderGLTF loaderGLTF;
-            LoaderImage loaderImage;
-            LoaderMTL loaderMTL;
-            LoaderOBJ loaderOBJ;
-            LoaderParticleSystem loaderParticleSystem;
-            LoaderSprite loaderSprite;
-            LoaderTTF loaderTTF;
-            LoaderVorbis loaderVorbis;
-            LoaderWave loaderWave;
+            BmfLoader loaderBMF;
+            ColladaLoader loaderCollada;
+            GltfLoader loaderGLTF;
+            ImageLoader loaderImage;
+            MtlLoader loaderMTL;
+            ObjLoader loaderOBJ;
+            ParticleSystemLoader loaderParticleSystem;
+            SpriteLoader loaderSprite;
+            TtfLoader loaderTTF;
+            VorbisLoader loaderVorbis;
+            WaveLoader loaderWave;
         };
     } // namespace assets
 } // namespace ouzel

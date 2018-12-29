@@ -1,6 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include "LoaderParticleSystem.hpp"
+#include "ParticleSystemLoader.hpp"
 #include "Bundle.hpp"
 #include "Cache.hpp"
 #include "scene/ParticleSystemData.hpp"
@@ -10,12 +10,12 @@ namespace ouzel
 {
     namespace assets
     {
-        LoaderParticleSystem::LoaderParticleSystem(Cache& initCache):
+        ParticleSystemLoader::ParticleSystemLoader(Cache& initCache):
             Loader(initCache, TYPE)
         {
         }
 
-        bool LoaderParticleSystem::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
+        bool ParticleSystemLoader::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
         {
             scene::ParticleSystemData particleSystemData;
 

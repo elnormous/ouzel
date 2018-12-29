@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_ASSETS_LOADERTTF_HPP
-#define OUZEL_ASSETS_LOADERTTF_HPP
+#ifndef OUZEL_ASSETS_VORBISLOADER_HPP
+#define OUZEL_ASSETS_VORBISLOADER_HPP
 
 #include "assets/Loader.hpp"
 
@@ -9,15 +9,15 @@ namespace ouzel
 {
     namespace assets
     {
-        class LoaderTTF final: public Loader
+        class VorbisLoader final: public Loader
         {
         public:
-            static constexpr uint32_t TYPE = Loader::FONT;
+            static constexpr uint32_t TYPE = Loader::SOUND;
 
-            explicit LoaderTTF(Cache& initCache);
+            explicit VorbisLoader(Cache& initCache);
             bool loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps = true) override;
         };
     } // namespace assets
 } // namespace ouzel
 
-#endif // OUZEL_ASSETS_LOADERTTF_HPP
+#endif // OUZEL_ASSETS_VORBISLOADER_HPP

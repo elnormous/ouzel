@@ -30,17 +30,17 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
 	../../ouzel/assets/Bundle.cpp \
     ../../ouzel/assets/Cache.cpp \
     ../../ouzel/assets/Loader.cpp \
-    ../../ouzel/assets/LoaderBMF.cpp \
-    ../../ouzel/assets/LoaderCollada.cpp \
-	../../ouzel/assets/LoaderGLTF.cpp \
-    ../../ouzel/assets/LoaderImage.cpp \
-    ../../ouzel/assets/LoaderMTL.cpp \
-    ../../ouzel/assets/LoaderOBJ.cpp \
-    ../../ouzel/assets/LoaderParticleSystem.cpp \
-    ../../ouzel/assets/LoaderSprite.cpp \
-    ../../ouzel/assets/LoaderTTF.cpp \
-    ../../ouzel/assets/LoaderVorbis.cpp \
-    ../../ouzel/assets/LoaderWave.cpp \
+    ../../ouzel/assets/BmfLoader.cpp \
+    ../../ouzel/assets/ColladaLoader.cpp \
+	../../ouzel/assets/GltfLoader.cpp \
+    ../../ouzel/assets/ImageLoader.cpp \
+    ../../ouzel/assets/MtlLoader.cpp \
+    ../../ouzel/assets/ObjLoader.cpp \
+    ../../ouzel/assets/ParticleSystemLoader.cpp \
+    ../../ouzel/assets/SpriteLoader.cpp \
+    ../../ouzel/assets/TtfLoader.cpp \
+    ../../ouzel/assets/VorbisLoader.cpp \
+    ../../ouzel/assets/WaveLoader.cpp \
     ../../ouzel/audio/empty/AudioDeviceEmpty.cpp \
     ../../ouzel/audio/mixer/Bus.cpp \
 	../../ouzel/audio/mixer/Mixer.cpp \
