@@ -4,19 +4,19 @@
 
 #if OUZEL_COMPILE_OPENGL
 
-#include "TextureOGL.hpp"
-#include "RenderDeviceOGL.hpp"
+#include "OGLTexture.hpp"
+#include "OGLRenderDevice.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        TextureOGL::TextureOGL(RenderDeviceOGL& renderDeviceOGL,
+        OGLTexture::OGLTexture(OGLRenderDevice& renderDeviceOGL,
                                const std::vector<Texture::Level>& newLevels,
                                uint32_t newFlags,
                                uint32_t newSampleCount,
                                PixelFormat newPixelFormat):
-            RenderResourceOGL(renderDeviceOGL),
+            OGLRenderResource(renderDeviceOGL),
             levels(newLevels),
             flags(newFlags),
             mipmaps(static_cast<uint32_t>(newLevels.size())),
@@ -81,7 +81,7 @@ namespace ouzel
             setTextureParameters();
         }
 
-        TextureOGL::~TextureOGL()
+        OGLTexture::~OGLTexture()
         {
             if (depthBufferId)
                 renderDevice.deleteRenderBuffer(depthBufferId);
@@ -279,7 +279,7 @@ namespace ouzel
             }
         }
 
-        void TextureOGL::reload()
+        void OGLTexture::reload()
         {
             textureId = 0;
             depthTextureId = 0;
@@ -331,7 +331,7 @@ namespace ouzel
             setTextureParameters();
         }
 
-        void TextureOGL::setData(const std::vector<Texture::Level>& newLevels)
+        void OGLTexture::setData(const std::vector<Texture::Level>& newLevels)
         {
             if (!(flags & Texture::DYNAMIC) || flags & Texture::RENDER_TARGET)
                 throw std::runtime_error("Texture is not dynamic");
@@ -364,7 +364,7 @@ namespace ouzel
             }
         }
 
-        void TextureOGL::setFilter(Texture::Filter newFilter)
+        void OGLTexture::setFilter(Texture::Filter newFilter)
         {
             filter = newFilter;
 
@@ -404,7 +404,7 @@ namespace ouzel
                 throw std::system_error(makeErrorCode(error), "Failed to set texture filter");
         }
 
-        void TextureOGL::setAddressX(Texture::Address newAddressX)
+        void OGLTexture::setAddressX(Texture::Address newAddressX)
         {
             addressX = newAddressX;
 
@@ -434,7 +434,7 @@ namespace ouzel
                 throw std::system_error(makeErrorCode(error), "Failed to set texture wrap mode");
         }
 
-        void TextureOGL::setAddressY(Texture::Address newAddressY)
+        void OGLTexture::setAddressY(Texture::Address newAddressY)
         {
             addressY = newAddressY;
 
@@ -464,7 +464,7 @@ namespace ouzel
                 throw std::system_error(makeErrorCode(error), "Failed to set texture wrap mode");
         }
 
-        void TextureOGL::setMaxAnisotropy(uint32_t newMaxAnisotropy)
+        void OGLTexture::setMaxAnisotropy(uint32_t newMaxAnisotropy)
         {
             maxAnisotropy = newMaxAnisotropy;
 
@@ -486,7 +486,7 @@ namespace ouzel
             }
         }
 
-        void TextureOGL::setClearColorBuffer(bool clear)
+        void OGLTexture::setClearColorBuffer(bool clear)
         {
             clearColorBuffer = clear;
 
@@ -496,7 +496,7 @@ namespace ouzel
                 clearMask &= ~static_cast<GLbitfield>(GL_COLOR_BUFFER_BIT);
         }
 
-        void TextureOGL::setClearDepthBuffer(bool clear)
+        void OGLTexture::setClearDepthBuffer(bool clear)
         {
             clearDepthBuffer = clear;
 
@@ -506,7 +506,7 @@ namespace ouzel
                 clearMask &= ~static_cast<GLbitfield>(GL_DEPTH_BUFFER_BIT);
         }
 
-        void TextureOGL::setClearColor(Color color)
+        void OGLTexture::setClearColor(Color color)
         {
             clearColor = color;
 
@@ -516,12 +516,12 @@ namespace ouzel
             frameBufferClearColor[3] = clearColor.normA();
         }
 
-        void TextureOGL::setClearDepth(float newClearDepth)
+        void OGLTexture::setClearDepth(float newClearDepth)
         {
             clearDepth = newClearDepth;
         }
 
-        void TextureOGL::createTexture()
+        void OGLTexture::createTexture()
         {
             if (depthBufferId)
             {
@@ -689,7 +689,7 @@ namespace ouzel
             }
         }
 
-        void TextureOGL::setTextureParameters()
+        void OGLTexture::setTextureParameters()
         {
             renderDevice.bindTexture(textureId, 0);
 

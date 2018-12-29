@@ -1,31 +1,35 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_GRAPHICS_RENDERDEVICEOGLANDROID_HPP
-#define OUZEL_GRAPHICS_RENDERDEVICEOGLANDROID_HPP
+#ifndef OUZEL_GRAPHICS_OGLRENDERDEVICELINUX_HPP
+#define OUZEL_GRAPHICS_OGLRENDERDEVICELINUX_HPP
 
 #include "core/Setup.h"
 
-#if defined(__ANDROID__) && OUZEL_COMPILE_OPENGL
+#if defined(__linux__) && !defined(__ANDROID__) && OUZEL_COMPILE_OPENGL
 
 #include <atomic>
 #include <thread>
-#include "EGL/egl.h"
-#include "EGL/eglext.h"
-#include "graphics/opengl/RenderDeviceOGL.hpp"
+#if OUZEL_OPENGL_INTERFACE_GLX
+#  include "GL/glcorearb.h"
+#  include <GL/glx.h>
+#elif OUZEL_OPENGL_INTERFACE_EGL
+#  include "EGL/egl.h"
+#  include "EGL/eglext.h"
+#endif
+#include "graphics/opengl/OGLRenderDevice.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class RenderDeviceOGLAndroid final: public RenderDeviceOGL
+        class OGLRenderDeviceLinux final: public OGLRenderDevice
         {
             friend Renderer;
         public:
-            RenderDeviceOGLAndroid(const std::function<void(const Event&)>& initCallback);
-            ~RenderDeviceOGLAndroid();
+            OGLRenderDeviceLinux(const std::function<void(const Event&)>& initCallback);
+            ~OGLRenderDeviceLinux();
 
-            void reload();
-            void destroy();
+            std::vector<Size2> getSupportedResolutions() const override;
 
         private:
             void init(Window* newWindow,
@@ -40,10 +44,13 @@ namespace ouzel
             void present() override;
             void main();
 
+#if OUZEL_OPENGL_INTERFACE_GLX
+            GLXContext context = 0;
+#elif OUZEL_OPENGL_INTERFACE_EGL
             EGLDisplay display = 0;
             EGLSurface surface = 0;
             EGLContext context = 0;
-
+#endif
             std::atomic_bool running{false};
             std::thread renderThread;
         };
@@ -52,4 +59,4 @@ namespace ouzel
 
 #endif
 
-#endif // OUZEL_GRAPHICS_RENDERDEVICEOGLANDROID_HPP
+#endif // OUZEL_GRAPHICS_OGLRENDERDEVICELINUX_HPP

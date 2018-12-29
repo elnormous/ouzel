@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_GRAPHICS_RENDERDEVICEOGLMACOS_HPP
-#define OUZEL_GRAPHICS_RENDERDEVICEOGLMACOS_HPP
+#ifndef OUZEL_GRAPHICS_OGLRENDERDEVICEMACOS_HPP
+#define OUZEL_GRAPHICS_OGLRENDERDEVICEMACOS_HPP
 
 #include "core/Setup.h"
 
@@ -23,19 +23,19 @@ typedef id NSOpenGLContextPtr;
 typedef id NSOpenGLPixelFormatPtr;
 #endif
 
-#include "graphics/opengl/RenderDeviceOGL.hpp"
+#include "graphics/opengl/OGLRenderDevice.hpp"
 #include "events/EventHandler.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class RenderDeviceOGLMacOS final: public RenderDeviceOGL
+        class OGLRenderDeviceMacOS final: public OGLRenderDevice
         {
             friend Renderer;
         public:
-            RenderDeviceOGLMacOS(const std::function<void(const Event&)>& initCallback);
-            ~RenderDeviceOGLMacOS();
+            OGLRenderDeviceMacOS(const std::function<void(const Event&)>& initCallback);
+            ~OGLRenderDeviceMacOS();
 
             std::vector<Size2> getSupportedResolutions() const override;
 
@@ -71,4 +71,4 @@ namespace ouzel
 
 #endif
 
-#endif // OUZEL_GRAPHICS_RENDERDEVICEOGLMACOS_HPP
+#endif // OUZEL_GRAPHICS_OGLRENDERDEVICEMACOS_HPP

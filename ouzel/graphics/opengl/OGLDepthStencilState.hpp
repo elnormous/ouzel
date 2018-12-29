@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef DEPTHSTENCILSTATEOGL_HPP
-#define DEPTHSTENCILSTATEOGL_HPP
+#ifndef OUZEL_GRAPHICS_OGLDEPTHSTENCILSTATE_HPP
+#define OUZEL_GRAPHICS_OGLDEPTHSTENCILSTATE_HPP
 
 #include "core/Setup.h"
 
@@ -17,19 +17,19 @@
 #  include "GL/glext.h"
 #endif
 
-#include "graphics/opengl/RenderResourceOGL.hpp"
+#include "graphics/opengl/OGLRenderResource.hpp"
 #include "graphics/DepthStencilState.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class RenderDeviceOGL;
+        class OGLRenderDevice;
 
-        class DepthStencilStateOGL final: public RenderResourceOGL
+        class OGLDepthStencilState final: public OGLRenderResource
         {
         public:
-            DepthStencilStateOGL(RenderDeviceOGL& renderDeviceOGL,
+            OGLDepthStencilState(OGLRenderDevice& renderDeviceOGL,
                                  bool initDepthTest,
                                  bool initDepthWrite,
                                  DepthStencilState::CompareFunction initCompareFunction);
@@ -50,4 +50,4 @@ namespace ouzel
 
 #endif
 
-#endif // DEPTHSTENCILSTATEOGL_HPP
+#endif // OUZEL_GRAPHICS_OGLDEPTHSTENCILSTATE_HPP

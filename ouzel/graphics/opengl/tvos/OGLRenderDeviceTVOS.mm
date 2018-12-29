@@ -8,7 +8,7 @@
 
 #if TARGET_OS_TV && OUZEL_COMPILE_OPENGL
 
-#include "RenderDeviceOGLTVOS.hpp"
+#include "OGLRenderDeviceTVOS.hpp"
 #include "core/Engine.hpp"
 #include "core/Window.hpp"
 #include "core/tvos/NativeWindowTVOS.hpp"
@@ -18,7 +18,7 @@ static void renderCallback(void* userInfo)
 {
     try
     {
-        ouzel::graphics::RenderDeviceOGLTVOS* renderDevice = static_cast<ouzel::graphics::RenderDeviceOGLTVOS*>(userInfo);
+        ouzel::graphics::OGLRenderDeviceTVOS* renderDevice = static_cast<ouzel::graphics::OGLRenderDeviceTVOS*>(userInfo);
         renderDevice->renderCallback();
     }
     catch (const std::exception& e)
@@ -31,13 +31,13 @@ namespace ouzel
 {
     namespace graphics
     {
-        RenderDeviceOGLTVOS::RenderDeviceOGLTVOS(const std::function<void(const Event&)>& initCallback):
-            RenderDeviceOGL(initCallback),
+        OGLRenderDeviceTVOS::OGLRenderDeviceTVOS(const std::function<void(const Event&)>& initCallback):
+            OGLRenderDevice(initCallback),
             displayLink(::renderCallback, this)
         {
         }
 
-        RenderDeviceOGLTVOS::~RenderDeviceOGLTVOS()
+        OGLRenderDeviceTVOS::~OGLRenderDeviceTVOS()
         {
             displayLink.stop();
             CommandBuffer commandBuffer;
@@ -57,7 +57,7 @@ namespace ouzel
             }
         }
 
-        void RenderDeviceOGLTVOS::init(Window* newWindow,
+        void OGLRenderDeviceTVOS::init(Window* newWindow,
                                        const Size2& newSize,
                                        uint32_t newSampleCount,
                                        Texture::Filter newTextureFilter,
@@ -99,7 +99,7 @@ namespace ouzel
             if (![EAGLContext setCurrentContext:context])
                 throw std::runtime_error("Failed to set current EAGL context");
 
-            RenderDeviceOGL::init(newWindow,
+            OGLRenderDevice::init(newWindow,
                                   newSize,
                                   newSampleCount,
                                   newTextureFilter,
@@ -113,14 +113,14 @@ namespace ouzel
             displayLink.start(verticalSync);
         }
 
-        void RenderDeviceOGLTVOS::setSize(const Size2& newSize)
+        void OGLRenderDeviceTVOS::setSize(const Size2& newSize)
         {
-            RenderDeviceOGL::setSize(newSize);
+            OGLRenderDevice::setSize(newSize);
 
             createFrameBuffer();
         }
 
-        void RenderDeviceOGLTVOS::present()
+        void OGLRenderDeviceTVOS::present()
         {
             if (sampleCount > 1)
             {
@@ -157,7 +157,7 @@ namespace ouzel
             [context presentRenderbuffer:GL_RENDERBUFFER];
         }
 
-        void RenderDeviceOGLTVOS::createFrameBuffer()
+        void OGLRenderDeviceTVOS::createFrameBuffer()
         {
             if (msaaColorRenderBufferId)
             {
@@ -167,7 +167,7 @@ namespace ouzel
 
             if (msaaFrameBufferId)
             {
-                RenderDeviceOGL::deleteFrameBuffer(msaaFrameBufferId);
+                OGLRenderDevice::deleteFrameBuffer(msaaFrameBufferId);
                 msaaFrameBufferId = 0;
             }
 
@@ -185,7 +185,7 @@ namespace ouzel
 
             if (resolveFrameBufferId)
             {
-                RenderDeviceOGL::deleteFrameBuffer(resolveFrameBufferId);
+                OGLRenderDevice::deleteFrameBuffer(resolveFrameBufferId);
                 resolveFrameBufferId = 0;
             }
 
@@ -199,7 +199,7 @@ namespace ouzel
                 if (![context renderbufferStorage:GL_RENDERBUFFER fromDrawable:eaglLayer])
                     throw std::runtime_error("Failed to bind drawable object's storage to render buffer");
 
-                RenderDeviceOGL::bindFrameBuffer(resolveFrameBufferId);
+                OGLRenderDevice::bindFrameBuffer(resolveFrameBufferId);
                 glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
                                               GL_RENDERBUFFER, resolveColorRenderBufferId);
 
@@ -234,7 +234,7 @@ namespace ouzel
                         throw std::system_error(makeErrorCode(error), "Failed to set depth render buffer's multisample storage");
                 }
 
-                RenderDeviceOGL::bindFrameBuffer(msaaFrameBufferId);
+                OGLRenderDevice::bindFrameBuffer(msaaFrameBufferId);
                 glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, msaaColorRenderBufferId);
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
@@ -266,7 +266,7 @@ namespace ouzel
                 if (![context renderbufferStorage:GL_RENDERBUFFER fromDrawable:eaglLayer])
                     throw std::runtime_error("Failed to bind drawable object's storage to render buffer");
 
-                RenderDeviceOGL::bindFrameBuffer(resolveFrameBufferId);
+                OGLRenderDevice::bindFrameBuffer(resolveFrameBufferId);
                 glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
                                               GL_RENDERBUFFER, resolveColorRenderBufferId);
 
@@ -300,7 +300,7 @@ namespace ouzel
             }
         }
 
-        void RenderDeviceOGLTVOS::renderCallback()
+        void OGLRenderDeviceTVOS::renderCallback()
         {
             if (![EAGLContext setCurrentContext:context])
                 throw std::runtime_error("Failed to set current OpenGL context");

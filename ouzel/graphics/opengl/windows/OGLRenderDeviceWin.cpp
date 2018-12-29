@@ -7,7 +7,7 @@
 #include "GL/glcorearb.h"
 #include "GL/glext.h"
 #include "GL/wglext.h"
-#include "RenderDeviceOGLWin.hpp"
+#include "OGLRenderDeviceWin.hpp"
 #include "core/Engine.hpp"
 #include "core/Window.hpp"
 #include "core/windows/NativeWindowWin.hpp"
@@ -128,12 +128,12 @@ namespace ouzel
             HGLRC renderContext = 0;
         };
 
-        RenderDeviceOGLWin::RenderDeviceOGLWin(const std::function<void(const Event&)>& initCallback):
-            RenderDeviceOGL(initCallback)
+        OGLRenderDeviceWin::OGLRenderDeviceWin(const std::function<void(const Event&)>& initCallback):
+            OGLRenderDevice(initCallback)
         {
         }
 
-        RenderDeviceOGLWin::~RenderDeviceOGLWin()
+        OGLRenderDeviceWin::~OGLRenderDeviceWin()
         {
             running = false;
             CommandBuffer commandBuffer;
@@ -149,7 +149,7 @@ namespace ouzel
             }
         }
 
-        void RenderDeviceOGLWin::init(Window* newWindow,
+        void OGLRenderDeviceWin::init(Window* newWindow,
                                       const Size2& newSize,
                                       uint32_t newSampleCount,
                                       Texture::Filter newTextureFilter,
@@ -266,7 +266,7 @@ namespace ouzel
             if (!wglMakeCurrent(deviceContext, renderContext))
                 throw std::runtime_error("Failed to set current OpenGL context");
 
-            RenderDeviceOGL::init(newWindow,
+            OGLRenderDevice::init(newWindow,
                                   newSize,
                                   newSampleCount,
                                   newTextureFilter,
@@ -279,16 +279,16 @@ namespace ouzel
                 throw std::runtime_error("Failed to unset OpenGL context");
 
             running = true;
-            renderThread = std::thread(&RenderDeviceOGLWin::main, this);
+            renderThread = std::thread(&OGLRenderDeviceWin::main, this);
         }
 
-        void RenderDeviceOGLWin::present()
+        void OGLRenderDeviceWin::present()
         {
             if (!SwapBuffers(deviceContext))
                 throw std::runtime_error("Failed to swap buffers");
         }
 
-        void RenderDeviceOGLWin::main()
+        void OGLRenderDeviceWin::main()
         {
             setCurrentThreadName("Render");
 

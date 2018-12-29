@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_GRAPHICS_RENDERDEVICEOGLIOS_HPP
-#define OUZEL_GRAPHICS_RENDERDEVICEOGLIOS_HPP
+#ifndef OUZEL_GRAPHICS_OGLRENDERDEVICETVOS_HPP
+#define OUZEL_GRAPHICS_OGLRENDERDEVICETVOS_HPP
 
 #include "core/Setup.h"
 
@@ -9,10 +9,10 @@
 #  include <TargetConditionals.h>
 #endif
 
-#if TARGET_OS_IOS && OUZEL_COMPILE_OPENGL
+#if TARGET_OS_TV && OUZEL_COMPILE_OPENGL
 
-#include "graphics/opengl/RenderDeviceOGL.hpp"
-#include "core/ios/DisplayLink.hpp"
+#include "graphics/opengl/OGLRenderDevice.hpp"
+#include "core/tvos/DisplayLink.hpp"
 
 #if defined(__OBJC__)
 #  import <UIKit/UIKit.h>
@@ -28,12 +28,12 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RenderDeviceOGLIOS final: public RenderDeviceOGL
+        class OGLRenderDeviceTVOS final: public OGLRenderDevice
         {
             friend Renderer;
         public:
-            RenderDeviceOGLIOS(const std::function<void(const Event&)>& initCallback);
-            ~RenderDeviceOGLIOS();
+            OGLRenderDeviceTVOS(const std::function<void(const Event&)>& initCallback);
+            ~OGLRenderDeviceTVOS();
 
             void renderCallback();
 
@@ -70,4 +70,4 @@ namespace ouzel
 
 #endif
 
-#endif // OUZEL_GRAPHICS_RENDERDEVICEOGLIOS_HPP
+#endif // OUZEL_GRAPHICS_OGLRENDERDEVICETVOS_HPP

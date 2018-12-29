@@ -5,7 +5,7 @@
 #if OUZEL_COMPILE_OPENGL
 
 #include "OpenGLView.h"
-#include "RenderDeviceOGLMacOS.hpp"
+#include "OGLRenderDeviceMacOS.hpp"
 #include "core/Engine.hpp"
 
 @implementation OpenGLView
@@ -14,7 +14,7 @@
 {
     [super setLayer:layer];
 
-    ouzel::graphics::RenderDeviceOGLMacOS* renderDevice = static_cast<ouzel::graphics::RenderDeviceOGLMacOS*>(ouzel::engine->getRenderer()->getDevice());
+    ouzel::graphics::OGLRenderDeviceMacOS* renderDevice = static_cast<ouzel::graphics::OGLRenderDeviceMacOS*>(ouzel::engine->getRenderer()->getDevice());
 
     [renderDevice->getOpenGLContext() update];
 }

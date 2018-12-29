@@ -4,8 +4,8 @@
 
 #if OUZEL_COMPILE_OPENGL
 
-#include "DepthStencilStateOGL.hpp"
-#include "RenderDeviceOGL.hpp"
+#include "OGLDepthStencilState.hpp"
+#include "OGLRenderDevice.hpp"
 
 namespace ouzel
 {
@@ -28,11 +28,11 @@ namespace ouzel
             return GL_NEVER;
         }
 
-        DepthStencilStateOGL::DepthStencilStateOGL(RenderDeviceOGL& renderDeviceOGL,
+        OGLDepthStencilState::OGLDepthStencilState(OGLRenderDevice& renderDeviceOGL,
                                                    bool initDepthTest,
                                                    bool initDepthWrite,
                                                    DepthStencilState::CompareFunction initCompareFunction):
-            RenderResourceOGL(renderDeviceOGL),
+            OGLRenderResource(renderDeviceOGL),
             depthTest(initDepthTest),
             depthMask(initDepthWrite ? GL_TRUE : GL_FALSE),
             compareFunction(getFunction(initCompareFunction))

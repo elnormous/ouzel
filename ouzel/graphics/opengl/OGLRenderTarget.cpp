@@ -4,19 +4,19 @@
 
 #if OUZEL_COMPILE_OPENGL
 
-#include "RenderTargetOGL.hpp"
-#include "RenderDeviceOGL.hpp"
+#include "OGLRenderTarget.hpp"
+#include "OGLRenderDevice.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        RenderTargetOGL::RenderTargetOGL(RenderDeviceOGL& renderDeviceOGL):
-            RenderResourceOGL(renderDeviceOGL)
+        OGLRenderTarget::OGLRenderTarget(OGLRenderDevice& renderDeviceOGL):
+            OGLRenderResource(renderDeviceOGL)
         {
         }
 
-        void RenderTargetOGL::reload()
+        void OGLRenderTarget::reload()
         {
         }
     } // namespace graphics

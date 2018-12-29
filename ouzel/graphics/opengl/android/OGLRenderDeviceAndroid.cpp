@@ -4,7 +4,7 @@
 
 #if defined(__ANDROID__) && OUZEL_COMPILE_OPENGL
 
-#include "RenderDeviceOGLAndroid.hpp"
+#include "OGLRenderDeviceAndroid.hpp"
 #include "core/Engine.hpp"
 #include "core/Window.hpp"
 #include "core/android/NativeWindowAndroid.hpp"
@@ -48,12 +48,12 @@ namespace ouzel
 
         const EGLErrorCategory eglErrorCategory {};
 
-        RenderDeviceOGLAndroid::RenderDeviceOGLAndroid(const std::function<void(const Event&)>& initCallback):
-            RenderDeviceOGL(initCallback)
+        OGLRenderDeviceAndroid::OGLRenderDeviceAndroid(const std::function<void(const Event&)>& initCallback):
+            OGLRenderDevice(initCallback)
         {
         }
 
-        RenderDeviceOGLAndroid::~RenderDeviceOGLAndroid()
+        OGLRenderDeviceAndroid::~OGLRenderDeviceAndroid()
         {
             running = false;
             CommandBuffer commandBuffer;
@@ -75,7 +75,7 @@ namespace ouzel
                 eglTerminate(display);
         }
 
-        void RenderDeviceOGLAndroid::init(Window* newWindow,
+        void OGLRenderDeviceAndroid::init(Window* newWindow,
                                           const Size2&,
                                           uint32_t newSampleCount,
                                           Texture::Filter newTextureFilter,
@@ -173,7 +173,7 @@ namespace ouzel
             Size2 backBufferSize = Size2(static_cast<float>(frameBufferWidth),
                                          static_cast<float>(frameBufferHeight));
 
-            RenderDeviceOGL::init(newWindow,
+            OGLRenderDevice::init(newWindow,
                                   backBufferSize,
                                   newSampleCount,
                                   newTextureFilter,
@@ -186,10 +186,10 @@ namespace ouzel
                 throw std::runtime_error("Failed to unset EGL context");
 
             running = true;
-            renderThread = std::thread(&RenderDeviceOGLAndroid::main, this);
+            renderThread = std::thread(&OGLRenderDeviceAndroid::main, this);
         }
 
-        void RenderDeviceOGLAndroid::reload()
+        void OGLRenderDeviceAndroid::reload()
         {
             running = false;
             CommandBuffer commandBuffer;
@@ -288,17 +288,17 @@ namespace ouzel
 
             if (glGenVertexArraysProc) glGenVertexArraysProc(1, &vertexArrayId);
 
-            for (const std::unique_ptr<RenderResourceOGL>& resource : resources)
+            for (const std::unique_ptr<OGLRenderResource>& resource : resources)
                 if (resource) resource->reload();
 
             if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
                 throw std::runtime_error("Failed to unset EGL context");
 
             running = true;
-            renderThread = std::thread(&RenderDeviceOGLAndroid::main, this);
+            renderThread = std::thread(&OGLRenderDeviceAndroid::main, this);
         }
 
-        void RenderDeviceOGLAndroid::destroy()
+        void OGLRenderDeviceAndroid::destroy()
         {
             running = false;
             CommandBuffer commandBuffer;
@@ -327,13 +327,13 @@ namespace ouzel
             }
         }
 
-        void RenderDeviceOGLAndroid::present()
+        void OGLRenderDeviceAndroid::present()
         {
             if (eglSwapBuffers(display, surface) != EGL_TRUE)
                 throw std::system_error(eglGetError(), eglErrorCategory, "Failed to swap buffers");
         }
 
-        void RenderDeviceOGLAndroid::main()
+        void OGLRenderDeviceAndroid::main()
         {
             setCurrentThreadName("Render");
 

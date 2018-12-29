@@ -6,7 +6,7 @@
 #include "EngineAndroid.hpp"
 #include "NativeWindowAndroid.hpp"
 #include "events/EventDispatcher.hpp"
-#include "graphics/opengl/android/RenderDeviceOGLAndroid.hpp"
+#include "graphics/opengl/android/OGLRenderDeviceAndroid.hpp"
 
 static int looperCallback(int fd, int events, void* data)
 {
@@ -162,7 +162,7 @@ namespace ouzel
                 graphics::RenderDevice* renderDevice = renderer->getDevice();
                 if (renderDevice->getDriver() == graphics::Driver::OPENGL)
                 {
-                    graphics::RenderDeviceOGLAndroid* renderDeviceOGLAndroid = static_cast<graphics::RenderDeviceOGLAndroid*>(renderDevice);
+                    graphics::OGLRenderDeviceAndroid* renderDeviceOGLAndroid = static_cast<graphics::OGLRenderDeviceAndroid*>(renderDevice);
                     renderDeviceOGLAndroid->reload();
                 }
             }
@@ -227,7 +227,7 @@ namespace ouzel
                 graphics::RenderDevice* renderDevice = renderer->getDevice();
                 if (renderDevice->getDriver() == graphics::Driver::OPENGL)
                 {
-                    graphics::RenderDeviceOGLAndroid* renderDeviceOGLAndroid = static_cast<graphics::RenderDeviceOGLAndroid*>(renderDevice);
+                    graphics::OGLRenderDeviceAndroid* renderDeviceOGLAndroid = static_cast<graphics::OGLRenderDeviceAndroid*>(renderDevice);
                     renderDeviceOGLAndroid->destroy();
                 }
             }

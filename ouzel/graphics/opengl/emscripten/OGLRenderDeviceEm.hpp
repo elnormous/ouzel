@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_GRAPHICS_RENDERDEVICEOGLEM_HPP
-#define OUZEL_GRAPHICS_RENDERDEVICEOGLEM_HPP
+#ifndef OUZEL_GRAPHICS_OGLRENDERDEVICEEM_HPP
+#define OUZEL_GRAPHICS_OGLRENDERDEVICEEM_HPP
 
 #include "core/Setup.h"
 
@@ -9,18 +9,18 @@
 
 #include <emscripten.h>
 #include <emscripten/html5.h>
-#include "graphics/opengl/RenderDeviceOGL.hpp"
+#include "graphics/opengl/OGLRenderDevice.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class RenderDeviceOGLEm final: public RenderDeviceOGL
+        class OGLRenderDeviceEm final: public OGLRenderDevice
         {
             friend Renderer;
         public:
-            RenderDeviceOGLEm(const std::function<void(const Event&)>& initCallback);
-            ~RenderDeviceOGLEm();
+            OGLRenderDeviceEm(const std::function<void(const Event&)>& initCallback);
+            ~OGLRenderDeviceEm();
 
         private:
             void init(Window* newWindow,
@@ -39,4 +39,4 @@ namespace ouzel
 
 #endif
 
-#endif // OUZEL_GRAPHICS_RENDERDEVICEOGLEM_HPP
+#endif // OUZEL_GRAPHICS_OGLRENDERDEVICEEM_HPP

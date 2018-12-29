@@ -4,18 +4,18 @@
 
 #if OUZEL_COMPILE_OPENGL
 
-#include "BufferOGL.hpp"
-#include "RenderDeviceOGL.hpp"
+#include "OGLBuffer.hpp"
+#include "OGLRenderDevice.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        BufferOGL::BufferOGL(RenderDeviceOGL& renderDeviceOGL,
+        OGLBuffer::OGLBuffer(OGLRenderDevice& renderDeviceOGL,
                              Buffer::Usage newUsage, uint32_t newFlags,
                              const std::vector<uint8_t>& newData,
                              uint32_t newSize):
-            RenderResourceOGL(renderDeviceOGL),
+            OGLRenderResource(renderDeviceOGL),
             usage(newUsage),
             flags(newFlags),
             data(newData)
@@ -42,13 +42,13 @@ namespace ouzel
             }
         }
 
-        BufferOGL::~BufferOGL()
+        OGLBuffer::~OGLBuffer()
         {
             if (bufferId)
                 renderDevice.deleteBuffer(bufferId);
         }
 
-        void BufferOGL::reload()
+        void OGLBuffer::reload()
         {
             bufferId = 0;
 
@@ -72,7 +72,7 @@ namespace ouzel
             }
         }
 
-        void BufferOGL::setData(const std::vector<uint8_t>& newData)
+        void OGLBuffer::setData(const std::vector<uint8_t>& newData)
         {
             if (!(flags & Buffer::DYNAMIC))
                 throw std::runtime_error("Buffer is not dynamic");
@@ -110,7 +110,7 @@ namespace ouzel
             }
         }
 
-        void BufferOGL::createBuffer()
+        void OGLBuffer::createBuffer()
         {
             if (bufferId) renderDevice.deleteBuffer(bufferId);
 

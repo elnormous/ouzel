@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_GRAPHICS_BUFFEROGL_HPP
-#define OUZEL_GRAPHICS_BUFFEROGL_HPP
+#ifndef OUZEL_GRAPHICS_OGLBUFFER_HPP
+#define OUZEL_GRAPHICS_OGLBUFFER_HPP
 
 #include "core/Setup.h"
 
@@ -17,23 +17,23 @@
 #  include "GL/glext.h"
 #endif
 
-#include "graphics/opengl/RenderResourceOGL.hpp"
+#include "graphics/opengl/OGLRenderResource.hpp"
 #include "graphics/Buffer.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class RenderDeviceOGL;
+        class OGLRenderDevice;
 
-        class BufferOGL final: public RenderResourceOGL
+        class OGLBuffer final: public OGLRenderResource
         {
         public:
-            BufferOGL(RenderDeviceOGL& renderDeviceOGL,
+            OGLBuffer(OGLRenderDevice& renderDeviceOGL,
                       Buffer::Usage newUsage, uint32_t newFlags,
                       const std::vector<uint8_t>& newData,
                       uint32_t newSize);
-            ~BufferOGL();
+            ~OGLBuffer();
 
             void reload() override;
 
@@ -63,4 +63,4 @@ namespace ouzel
 
 #endif
 
-#endif // OUZEL_GRAPHICS_BUFFEROGL_HPP
+#endif // OUZEL_GRAPHICS_OGLBUFFER_HPP
