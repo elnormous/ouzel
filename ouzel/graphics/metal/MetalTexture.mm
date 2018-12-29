@@ -5,8 +5,8 @@
 #if OUZEL_COMPILE_METAL
 
 #include <stdexcept>
-#include "TextureMetal.hpp"
-#include "RenderDeviceMetal.hpp"
+#include "MetalTexture.hpp"
+#include "MetalRenderDevice.hpp"
 #include "math/MathUtils.hpp"
 
 namespace ouzel
@@ -50,12 +50,12 @@ namespace ouzel
             }
         }
 
-        TextureMetal::TextureMetal(RenderDeviceMetal& renderDeviceMetal,
+        MetalTexture::MetalTexture(MetalRenderDevice& renderDeviceMetal,
                                    const std::vector<Texture::Level>& levels,
                                    uint32_t newFlags,
                                    uint32_t newSampleCount,
                                    PixelFormat newPixelFormat):
-            RenderResourceMetal(renderDeviceMetal),
+            MetalRenderResource(renderDeviceMetal),
             flags(newFlags),
             mipmaps(static_cast<uint32_t>(levels.size())),
             sampleCount(newSampleCount),
@@ -104,7 +104,7 @@ namespace ouzel
             updateSamplerState();
         }
 
-        TextureMetal::~TextureMetal()
+        MetalTexture::~MetalTexture()
         {
             if (msaaTexture)
                 [msaaTexture release];
@@ -119,7 +119,7 @@ namespace ouzel
                 [samplerState release];
         }
 
-        void TextureMetal::setData(const std::vector<Texture::Level>& levels)
+        void MetalTexture::setData(const std::vector<Texture::Level>& levels)
         {
             if (!(flags & Texture::DYNAMIC) || flags & Texture::RENDER_TARGET)
                 throw std::runtime_error("Texture is not dynamic");
@@ -143,45 +143,45 @@ namespace ouzel
             }
         }
 
-        void TextureMetal::setFilter(Texture::Filter filter)
+        void MetalTexture::setFilter(Texture::Filter filter)
         {
             samplerDescriptor.filter = (filter == Texture::Filter::DEFAULT) ? renderDevice.getTextureFilter() : filter;
             updateSamplerState();
         }
 
-        void TextureMetal::setAddressX(Texture::Address addressX)
+        void MetalTexture::setAddressX(Texture::Address addressX)
         {
             samplerDescriptor.addressX = addressX;
             updateSamplerState();
         }
 
-        void TextureMetal::setAddressY(Texture::Address addressY)
+        void MetalTexture::setAddressY(Texture::Address addressY)
         {
             samplerDescriptor.addressY = addressY;
             updateSamplerState();
         }
 
-        void TextureMetal::setMaxAnisotropy(uint32_t maxAnisotropy)
+        void MetalTexture::setMaxAnisotropy(uint32_t maxAnisotropy)
         {
             samplerDescriptor.maxAnisotropy = (maxAnisotropy == 0) ? renderDevice.getMaxAnisotropy() : maxAnisotropy;
             updateSamplerState();
         }
 
-        void TextureMetal::setClearColorBuffer(bool clear)
+        void MetalTexture::setClearColorBuffer(bool clear)
         {
             clearColorBuffer = clear;
 
             colorBufferLoadAction = clearColorBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
         }
 
-        void TextureMetal::setClearDepthBuffer(bool clear)
+        void MetalTexture::setClearDepthBuffer(bool clear)
         {
             clearDepthBuffer = clear;
 
             depthBufferLoadAction = clearDepthBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
         }
 
-        void TextureMetal::setClearColor(Color color)
+        void MetalTexture::setClearColor(Color color)
         {
             clearColor = color;
 
@@ -194,7 +194,7 @@ namespace ouzel
                                                                                     clearColor.normA());
         }
 
-        void TextureMetal::setClearDepth(float newClearDepth)
+        void MetalTexture::setClearDepth(float newClearDepth)
         {
             clearDepth = newClearDepth;
 
@@ -204,7 +204,7 @@ namespace ouzel
             renderPassDescriptor.depthAttachment.clearDepth = clearDepth;
         }
 
-        void TextureMetal::createTexture(const std::vector<Texture::Level>& levels)
+        void MetalTexture::createTexture(const std::vector<Texture::Level>& levels)
         {
             if (texture)
             {
@@ -230,7 +230,7 @@ namespace ouzel
                 depthTexture = nil;
             }
 
-            RenderDeviceMetal& renderDeviceMetal = static_cast<RenderDeviceMetal&>(renderDevice);
+            MetalRenderDevice& renderDeviceMetal = static_cast<MetalRenderDevice&>(renderDevice);
 
             width = static_cast<NSUInteger>(levels.front().size.width);
             height = static_cast<NSUInteger>(levels.front().size.height);
@@ -324,7 +324,7 @@ namespace ouzel
             }
         }
 
-        void TextureMetal::updateSamplerState()
+        void MetalTexture::updateSamplerState()
         {
             if (samplerState) [samplerState release];
             samplerState = renderDevice.getSamplerState(samplerDescriptor);

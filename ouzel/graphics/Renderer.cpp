@@ -15,13 +15,13 @@
 #include "utils/Log.hpp"
 
 #if TARGET_OS_IOS
-#  include "graphics/metal/ios/RenderDeviceMetalIOS.hpp"
+#  include "graphics/metal/ios/MetalRenderDeviceIOS.hpp"
 #  include "graphics/opengl/ios/RenderDeviceOGLIOS.hpp"
 #elif TARGET_OS_TV
-#  include "graphics/metal/tvos/RenderDeviceMetalTVOS.hpp"
+#  include "graphics/metal/tvos/MetalRenderDeviceTVOS.hpp"
 #  include "graphics/opengl/tvos/RenderDeviceOGLTVOS.hpp"
 #elif TARGET_OS_MAC
-#  include "graphics/metal/macos/RenderDeviceMetalMacOS.hpp"
+#  include "graphics/metal/macos/MetalRenderDeviceMacOS.hpp"
 #  include "graphics/opengl/macos/RenderDeviceOGLMacOS.hpp"
 #elif defined(__ANDROID__)
 #  include "graphics/opengl/android/RenderDeviceOGLAndroid.hpp"
@@ -36,7 +36,7 @@
 #include "graphics/empty/EmptyRenderDevice.hpp"
 #include "graphics/opengl/RenderDeviceOGL.hpp"
 #include "graphics/direct3d11/RenderDeviceD3D11.hpp"
-#include "graphics/metal/RenderDeviceMetal.hpp"
+#include "graphics/metal/MetalRenderDevice.hpp"
 
 static constexpr float GAMMA = 2.2F;
 uint8_t GAMMA_ENCODE[256];
@@ -90,7 +90,7 @@ namespace ouzel
 #endif
 
 #if OUZEL_COMPILE_METAL
-                if (RenderDeviceMetal::available())
+                if (MetalRenderDevice::available())
                     availableDrivers.insert(Driver::METAL);
 #endif
             }
@@ -148,11 +148,11 @@ namespace ouzel
                 case Driver::METAL:
                     engine->log(Log::Level::INFO) << "Using Metal render driver";
 #  if TARGET_OS_IOS
-                    device.reset(new RenderDeviceMetalIOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device.reset(new MetalRenderDeviceIOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
 #  elif TARGET_OS_TV
-                    device.reset(new RenderDeviceMetalTVOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device.reset(new MetalRenderDeviceTVOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
 #  elif TARGET_OS_MAC
-                    device.reset(new RenderDeviceMetalMacOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device.reset(new MetalRenderDeviceMacOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
 #  endif
                     break;
 #endif

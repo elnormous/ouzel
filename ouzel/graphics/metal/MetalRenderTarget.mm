@@ -4,15 +4,15 @@
 
 #if OUZEL_COMPILE_METAL
 
-#include "RenderTargetMetal.hpp"
-#include "RenderDeviceMetal.hpp"
+#include "MetalRenderTarget.hpp"
+#include "MetalRenderDevice.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        RenderTargetMetal::RenderTargetMetal(RenderDeviceMetal& renderDeviceMetal):
-            RenderResourceMetal(renderDeviceMetal)
+        MetalRenderTarget::MetalRenderTarget(MetalRenderDevice& renderDeviceMetal):
+            MetalRenderResource(renderDeviceMetal)
         {
         }
     } // namespace graphics

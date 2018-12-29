@@ -11,20 +11,20 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RenderDeviceMetal;
+        class MetalRenderDevice;
 
-        class RenderResourceMetal
+        class MetalRenderResource
         {
         public:
-            explicit RenderResourceMetal(RenderDeviceMetal& initRenderDevice):
+            explicit MetalRenderResource(MetalRenderDevice& initRenderDevice):
                 renderDevice(initRenderDevice)
             {
             }
 
-            virtual ~RenderResourceMetal() {}
+            virtual ~MetalRenderResource() {}
 
         protected:
-            RenderDeviceMetal& renderDevice;
+            MetalRenderDevice& renderDevice;
         };
     } // namespace graphics
 } // namespace ouzel

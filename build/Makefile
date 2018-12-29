@@ -214,14 +214,14 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/core/macos/SystemMacOS.mm \
 	$(ROOT_DIR)/../ouzel/core/macos/ViewMacOS.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/macos/MetalView.m \
-	$(ROOT_DIR)/../ouzel/graphics/metal/macos/RenderDeviceMetalMacOS.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/BlendStateMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/BufferMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/DepthStencilStateMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/RenderDeviceMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/RenderTargetMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/ShaderMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/TextureMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/macos/MetalRenderDeviceMacOS.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/MetalBlendState.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/MetalBuffer.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/MetalDepthStencilState.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/MetalRenderDevice.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/MetalRenderTarget.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/MetalShader.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/MetalTexture.mm \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/OpenGLView.mm \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/RenderDeviceOGLMacOS.mm \
 	$(ROOT_DIR)/../ouzel/input/macos/GamepadDeviceGC.mm \
@@ -239,14 +239,14 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/core/ios/SystemIOS.mm \
 	$(ROOT_DIR)/../ouzel/core/ios/ViewIOS.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/ios/MetalView.m \
-	$(ROOT_DIR)/../ouzel/graphics/metal/ios/RenderDeviceMetalIOS.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/BlendStateMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/BufferMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/DepthStencilStateMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/RenderDeviceMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/RenderTargetMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/ShaderMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/TextureMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/ios/MetalRenderDeviceIOS.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/MetalBlendState.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/MetalBuffer.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/MetalDepthStencilState.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/MetalRenderDevice.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/MetalRenderTarget.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/MetalShader.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/MetalTexture.mm \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/ios/OpenGLView.m \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/ios/RenderDeviceOGLIOS.mm \
 	$(ROOT_DIR)/../ouzel/input/ios/GamepadDeviceIOS.mm \
@@ -263,14 +263,14 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/core/tvos/SystemTVOS.mm \
 	$(ROOT_DIR)/../ouzel/core/tvos/ViewTVOS.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/tvos/MetalView.m \
-	$(ROOT_DIR)/../ouzel/graphics/metal/tvos/RenderDeviceMetalTVOS.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/BlendStateMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/BufferMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/DepthStencilStateMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/RenderDeviceMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/RenderTargetMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/ShaderMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/TextureMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/tvos/MetalRenderDeviceTVOS.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/MetalBlendState.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/MetalBuffer.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/MetalDepthStencilState.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/MetalRenderDevice.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/MetalRenderTarget.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/MetalShader.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/MetalTexture.mm \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/tvos/OpenGLView.m \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/tvos/RenderDeviceOGLTVOS.mm \
 	$(ROOT_DIR)/../ouzel/input/tvos/GamepadDeviceTVOS.mm \

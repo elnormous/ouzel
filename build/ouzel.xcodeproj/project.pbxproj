@@ -20,12 +20,12 @@
 		30090301219224B100B00BF4 /* DepthStencilState.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 300902FD219224B100B00BF4 /* DepthStencilState.hpp */; };
 		30090302219224B100B00BF4 /* DepthStencilState.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 300902FD219224B100B00BF4 /* DepthStencilState.hpp */; };
 		30090303219224B100B00BF4 /* DepthStencilState.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 300902FD219224B100B00BF4 /* DepthStencilState.hpp */; };
-		3009030621922DEE00B00BF4 /* DepthStencilStateMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3009030421922DEE00B00BF4 /* DepthStencilStateMetal.mm */; };
-		3009030721922DEE00B00BF4 /* DepthStencilStateMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3009030421922DEE00B00BF4 /* DepthStencilStateMetal.mm */; };
-		3009030821922DEE00B00BF4 /* DepthStencilStateMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3009030421922DEE00B00BF4 /* DepthStencilStateMetal.mm */; };
-		3009030921922DEE00B00BF4 /* DepthStencilStateMetal.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3009030521922DEE00B00BF4 /* DepthStencilStateMetal.hpp */; };
-		3009030A21922DEE00B00BF4 /* DepthStencilStateMetal.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3009030521922DEE00B00BF4 /* DepthStencilStateMetal.hpp */; };
-		3009030B21922DEE00B00BF4 /* DepthStencilStateMetal.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3009030521922DEE00B00BF4 /* DepthStencilStateMetal.hpp */; };
+		3009030621922DEE00B00BF4 /* MetalDepthStencilState.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3009030421922DEE00B00BF4 /* MetalDepthStencilState.mm */; };
+		3009030721922DEE00B00BF4 /* MetalDepthStencilState.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3009030421922DEE00B00BF4 /* MetalDepthStencilState.mm */; };
+		3009030821922DEE00B00BF4 /* MetalDepthStencilState.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3009030421922DEE00B00BF4 /* MetalDepthStencilState.mm */; };
+		3009030921922DEE00B00BF4 /* MetalDepthStencilState.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3009030521922DEE00B00BF4 /* MetalDepthStencilState.hpp */; };
+		3009030A21922DEE00B00BF4 /* MetalDepthStencilState.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3009030521922DEE00B00BF4 /* MetalDepthStencilState.hpp */; };
+		3009030B21922DEE00B00BF4 /* MetalDepthStencilState.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3009030521922DEE00B00BF4 /* MetalDepthStencilState.hpp */; };
 		3009030E21922E1300B00BF4 /* DepthStencilStateOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3009030C21922E1300B00BF4 /* DepthStencilStateOGL.cpp */; };
 		3009030F21922E1300B00BF4 /* DepthStencilStateOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3009030C21922E1300B00BF4 /* DepthStencilStateOGL.cpp */; };
 		3009031021922E1300B00BF4 /* DepthStencilStateOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3009030C21922E1300B00BF4 /* DepthStencilStateOGL.cpp */; };
@@ -181,36 +181,36 @@
 		30381FB81D80A3F900677CAB /* AudioDeviceAL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30381FB01D80A3F900677CAB /* AudioDeviceAL.hpp */; };
 		30381FB91D80A3F900677CAB /* AudioDeviceAL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30381FB01D80A3F900677CAB /* AudioDeviceAL.hpp */; };
 		30381FBA1D80A3F900677CAB /* AudioDeviceAL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30381FB01D80A3F900677CAB /* AudioDeviceAL.hpp */; };
-		30381FDF1D80A40700677CAB /* BlendStateMetal.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30381FC71D80A40700677CAB /* BlendStateMetal.hpp */; };
-		30381FE01D80A40700677CAB /* BlendStateMetal.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30381FC71D80A40700677CAB /* BlendStateMetal.hpp */; };
-		30381FE11D80A40700677CAB /* BlendStateMetal.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30381FC71D80A40700677CAB /* BlendStateMetal.hpp */; };
-		30381FE21D80A40700677CAB /* BlendStateMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30381FC81D80A40700677CAB /* BlendStateMetal.mm */; };
-		30381FE31D80A40700677CAB /* BlendStateMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30381FC81D80A40700677CAB /* BlendStateMetal.mm */; };
-		30381FE41D80A40700677CAB /* BlendStateMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30381FC81D80A40700677CAB /* BlendStateMetal.mm */; };
-		30381FFD1D80A40700677CAB /* RenderDeviceMetal.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30381FD11D80A40700677CAB /* RenderDeviceMetal.hpp */; };
-		30381FFE1D80A40700677CAB /* RenderDeviceMetal.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30381FD11D80A40700677CAB /* RenderDeviceMetal.hpp */; };
-		30381FFF1D80A40700677CAB /* RenderDeviceMetal.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30381FD11D80A40700677CAB /* RenderDeviceMetal.hpp */; };
-		303820001D80A40700677CAB /* RenderDeviceMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30381FD21D80A40700677CAB /* RenderDeviceMetal.mm */; };
-		303820011D80A40700677CAB /* RenderDeviceMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30381FD21D80A40700677CAB /* RenderDeviceMetal.mm */; };
-		303820021D80A40700677CAB /* RenderDeviceMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30381FD21D80A40700677CAB /* RenderDeviceMetal.mm */; };
-		303820091D80A40700677CAB /* ShaderMetal.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30381FD51D80A40700677CAB /* ShaderMetal.hpp */; };
-		3038200A1D80A40700677CAB /* ShaderMetal.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30381FD51D80A40700677CAB /* ShaderMetal.hpp */; };
-		3038200B1D80A40700677CAB /* ShaderMetal.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30381FD51D80A40700677CAB /* ShaderMetal.hpp */; };
-		3038200C1D80A40700677CAB /* ShaderMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30381FD61D80A40700677CAB /* ShaderMetal.mm */; };
-		3038200D1D80A40700677CAB /* ShaderMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30381FD61D80A40700677CAB /* ShaderMetal.mm */; };
-		3038200E1D80A40700677CAB /* ShaderMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30381FD61D80A40700677CAB /* ShaderMetal.mm */; };
-		3038200F1D80A40700677CAB /* TextureMetal.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30381FD71D80A40700677CAB /* TextureMetal.hpp */; };
-		303820101D80A40700677CAB /* TextureMetal.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30381FD71D80A40700677CAB /* TextureMetal.hpp */; };
-		303820111D80A40700677CAB /* TextureMetal.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30381FD71D80A40700677CAB /* TextureMetal.hpp */; };
-		303820121D80A40700677CAB /* TextureMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30381FD81D80A40700677CAB /* TextureMetal.mm */; };
-		303820131D80A40700677CAB /* TextureMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30381FD81D80A40700677CAB /* TextureMetal.mm */; };
-		303820141D80A40700677CAB /* TextureMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30381FD81D80A40700677CAB /* TextureMetal.mm */; };
-		3038202B1D80A55700677CAB /* BufferMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303820271D80A55700677CAB /* BufferMetal.mm */; };
-		3038202C1D80A55700677CAB /* BufferMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303820271D80A55700677CAB /* BufferMetal.mm */; };
-		3038202D1D80A55700677CAB /* BufferMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303820271D80A55700677CAB /* BufferMetal.mm */; };
-		3038202E1D80A55700677CAB /* BufferMetal.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303820281D80A55700677CAB /* BufferMetal.hpp */; };
-		3038202F1D80A55700677CAB /* BufferMetal.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303820281D80A55700677CAB /* BufferMetal.hpp */; };
-		303820301D80A55700677CAB /* BufferMetal.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303820281D80A55700677CAB /* BufferMetal.hpp */; };
+		30381FDF1D80A40700677CAB /* MetalBlendState.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30381FC71D80A40700677CAB /* MetalBlendState.hpp */; };
+		30381FE01D80A40700677CAB /* MetalBlendState.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30381FC71D80A40700677CAB /* MetalBlendState.hpp */; };
+		30381FE11D80A40700677CAB /* MetalBlendState.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30381FC71D80A40700677CAB /* MetalBlendState.hpp */; };
+		30381FE21D80A40700677CAB /* MetalBlendState.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30381FC81D80A40700677CAB /* MetalBlendState.mm */; };
+		30381FE31D80A40700677CAB /* MetalBlendState.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30381FC81D80A40700677CAB /* MetalBlendState.mm */; };
+		30381FE41D80A40700677CAB /* MetalBlendState.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30381FC81D80A40700677CAB /* MetalBlendState.mm */; };
+		30381FFD1D80A40700677CAB /* MetalRenderDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30381FD11D80A40700677CAB /* MetalRenderDevice.hpp */; };
+		30381FFE1D80A40700677CAB /* MetalRenderDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30381FD11D80A40700677CAB /* MetalRenderDevice.hpp */; };
+		30381FFF1D80A40700677CAB /* MetalRenderDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30381FD11D80A40700677CAB /* MetalRenderDevice.hpp */; };
+		303820001D80A40700677CAB /* MetalRenderDevice.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30381FD21D80A40700677CAB /* MetalRenderDevice.mm */; };
+		303820011D80A40700677CAB /* MetalRenderDevice.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30381FD21D80A40700677CAB /* MetalRenderDevice.mm */; };
+		303820021D80A40700677CAB /* MetalRenderDevice.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30381FD21D80A40700677CAB /* MetalRenderDevice.mm */; };
+		303820091D80A40700677CAB /* MetalShader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30381FD51D80A40700677CAB /* MetalShader.hpp */; };
+		3038200A1D80A40700677CAB /* MetalShader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30381FD51D80A40700677CAB /* MetalShader.hpp */; };
+		3038200B1D80A40700677CAB /* MetalShader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30381FD51D80A40700677CAB /* MetalShader.hpp */; };
+		3038200C1D80A40700677CAB /* MetalShader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30381FD61D80A40700677CAB /* MetalShader.mm */; };
+		3038200D1D80A40700677CAB /* MetalShader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30381FD61D80A40700677CAB /* MetalShader.mm */; };
+		3038200E1D80A40700677CAB /* MetalShader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30381FD61D80A40700677CAB /* MetalShader.mm */; };
+		3038200F1D80A40700677CAB /* MetalTexture.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30381FD71D80A40700677CAB /* MetalTexture.hpp */; };
+		303820101D80A40700677CAB /* MetalTexture.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30381FD71D80A40700677CAB /* MetalTexture.hpp */; };
+		303820111D80A40700677CAB /* MetalTexture.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30381FD71D80A40700677CAB /* MetalTexture.hpp */; };
+		303820121D80A40700677CAB /* MetalTexture.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30381FD81D80A40700677CAB /* MetalTexture.mm */; };
+		303820131D80A40700677CAB /* MetalTexture.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30381FD81D80A40700677CAB /* MetalTexture.mm */; };
+		303820141D80A40700677CAB /* MetalTexture.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30381FD81D80A40700677CAB /* MetalTexture.mm */; };
+		3038202B1D80A55700677CAB /* MetalBuffer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303820271D80A55700677CAB /* MetalBuffer.mm */; };
+		3038202C1D80A55700677CAB /* MetalBuffer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303820271D80A55700677CAB /* MetalBuffer.mm */; };
+		3038202D1D80A55700677CAB /* MetalBuffer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303820271D80A55700677CAB /* MetalBuffer.mm */; };
+		3038202E1D80A55700677CAB /* MetalBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303820281D80A55700677CAB /* MetalBuffer.hpp */; };
+		3038202F1D80A55700677CAB /* MetalBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303820281D80A55700677CAB /* MetalBuffer.hpp */; };
+		303820301D80A55700677CAB /* MetalBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303820281D80A55700677CAB /* MetalBuffer.hpp */; };
 		303820631D816C7700677CAB /* EngineIOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303820561D816C7700677CAB /* EngineIOS.hpp */; };
 		303820641D816C7700677CAB /* EngineIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303820571D816C7700677CAB /* EngineIOS.mm */; };
 		303820651D816C7700677CAB /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303820581D816C7700677CAB /* main.cpp */; };
@@ -749,12 +749,12 @@
 		30A9C13D1CAEBA540084C4BF /* Language.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30A9C1391CAEBA540084C4BF /* Language.hpp */; };
 		30A9C13E1CAEBA540084C4BF /* Language.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30A9C1391CAEBA540084C4BF /* Language.hpp */; };
 		30A9C13F1CAEBA540084C4BF /* Language.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30A9C1391CAEBA540084C4BF /* Language.hpp */; };
-		30ADCBB61E9A9479000DC9AC /* RenderDeviceMetalMacOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30ADCBB41E9A9479000DC9AC /* RenderDeviceMetalMacOS.mm */; };
-		30ADCBB71E9A9479000DC9AC /* RenderDeviceMetalMacOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30ADCBB51E9A9479000DC9AC /* RenderDeviceMetalMacOS.hpp */; };
-		30ADCBBA1E9A9550000DC9AC /* RenderDeviceMetalTVOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30ADCBB81E9A9550000DC9AC /* RenderDeviceMetalTVOS.hpp */; };
-		30ADCBBB1E9A9550000DC9AC /* RenderDeviceMetalTVOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30ADCBB91E9A9550000DC9AC /* RenderDeviceMetalTVOS.mm */; };
-		30ADCBBE1E9A957C000DC9AC /* RenderDeviceMetalIOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30ADCBBC1E9A957C000DC9AC /* RenderDeviceMetalIOS.hpp */; };
-		30ADCBBF1E9A957C000DC9AC /* RenderDeviceMetalIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30ADCBBD1E9A957C000DC9AC /* RenderDeviceMetalIOS.mm */; };
+		30ADCBB61E9A9479000DC9AC /* MetalRenderDeviceMacOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30ADCBB41E9A9479000DC9AC /* MetalRenderDeviceMacOS.mm */; };
+		30ADCBB71E9A9479000DC9AC /* MetalRenderDeviceMacOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30ADCBB51E9A9479000DC9AC /* MetalRenderDeviceMacOS.hpp */; };
+		30ADCBBA1E9A9550000DC9AC /* MetalRenderDeviceTVOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30ADCBB81E9A9550000DC9AC /* MetalRenderDeviceTVOS.hpp */; };
+		30ADCBBB1E9A9550000DC9AC /* MetalRenderDeviceTVOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30ADCBB91E9A9550000DC9AC /* MetalRenderDeviceTVOS.mm */; };
+		30ADCBBE1E9A957C000DC9AC /* MetalRenderDeviceIOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30ADCBBC1E9A957C000DC9AC /* MetalRenderDeviceIOS.hpp */; };
+		30ADCBBF1E9A957C000DC9AC /* MetalRenderDeviceIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30ADCBBD1E9A957C000DC9AC /* MetalRenderDeviceIOS.mm */; };
 		30AEFA0C20C0A90400CDFD33 /* GltfLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30AEFA0A20C0A90400CDFD33 /* GltfLoader.cpp */; };
 		30AEFA0D20C0A90400CDFD33 /* GltfLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30AEFA0A20C0A90400CDFD33 /* GltfLoader.cpp */; };
 		30AEFA0E20C0A90400CDFD33 /* GltfLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30AEFA0A20C0A90400CDFD33 /* GltfLoader.cpp */; };
@@ -773,12 +773,12 @@
 		30AEFA2F20C0FD6000CDFD33 /* RenderTargetOGL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30AEFA2B20C0FD6000CDFD33 /* RenderTargetOGL.hpp */; };
 		30AEFA3020C0FD6000CDFD33 /* RenderTargetOGL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30AEFA2B20C0FD6000CDFD33 /* RenderTargetOGL.hpp */; };
 		30AEFA3120C0FD6000CDFD33 /* RenderTargetOGL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30AEFA2B20C0FD6000CDFD33 /* RenderTargetOGL.hpp */; };
-		30AEFA3420C0FD7400CDFD33 /* RenderTargetMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30AEFA3220C0FD7400CDFD33 /* RenderTargetMetal.mm */; };
-		30AEFA3520C0FD7400CDFD33 /* RenderTargetMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30AEFA3220C0FD7400CDFD33 /* RenderTargetMetal.mm */; };
-		30AEFA3620C0FD7400CDFD33 /* RenderTargetMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30AEFA3220C0FD7400CDFD33 /* RenderTargetMetal.mm */; };
-		30AEFA3720C0FD7400CDFD33 /* RenderTargetMetal.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30AEFA3320C0FD7400CDFD33 /* RenderTargetMetal.hpp */; };
-		30AEFA3820C0FD7400CDFD33 /* RenderTargetMetal.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30AEFA3320C0FD7400CDFD33 /* RenderTargetMetal.hpp */; };
-		30AEFA3920C0FD7400CDFD33 /* RenderTargetMetal.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30AEFA3320C0FD7400CDFD33 /* RenderTargetMetal.hpp */; };
+		30AEFA3420C0FD7400CDFD33 /* MetalRenderTarget.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30AEFA3220C0FD7400CDFD33 /* MetalRenderTarget.mm */; };
+		30AEFA3520C0FD7400CDFD33 /* MetalRenderTarget.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30AEFA3220C0FD7400CDFD33 /* MetalRenderTarget.mm */; };
+		30AEFA3620C0FD7400CDFD33 /* MetalRenderTarget.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30AEFA3220C0FD7400CDFD33 /* MetalRenderTarget.mm */; };
+		30AEFA3720C0FD7400CDFD33 /* MetalRenderTarget.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30AEFA3320C0FD7400CDFD33 /* MetalRenderTarget.hpp */; };
+		30AEFA3820C0FD7400CDFD33 /* MetalRenderTarget.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30AEFA3320C0FD7400CDFD33 /* MetalRenderTarget.hpp */; };
+		30AEFA3920C0FD7400CDFD33 /* MetalRenderTarget.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30AEFA3320C0FD7400CDFD33 /* MetalRenderTarget.hpp */; };
 		30B328841C4E9EAC00040927 /* Ease.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30B328821C4E9EAC00040927 /* Ease.cpp */; };
 		30B328851C4E9EAC00040927 /* Ease.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30B328821C4E9EAC00040927 /* Ease.cpp */; };
 		30B328861C4E9EAC00040927 /* Ease.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30B328821C4E9EAC00040927 /* Ease.cpp */; };
@@ -991,11 +991,11 @@
 		300862D92154725400D8CC45 /* InputSystemTVOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputSystemTVOS.hpp; sourceTree = "<group>"; };
 		300862DA2154725500D8CC45 /* InputSystemTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = InputSystemTVOS.mm; sourceTree = "<group>"; };
 		300862DE2155CCED00D8CC45 /* GamepadDeviceMacOS.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GamepadDeviceMacOS.hpp; sourceTree = "<group>"; };
-		300902E5218A761500B00BF4 /* RenderResourceMetal.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RenderResourceMetal.hpp; sourceTree = "<group>"; };
+		300902E5218A761500B00BF4 /* MetalRenderResource.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MetalRenderResource.hpp; sourceTree = "<group>"; };
 		300902FC219224B100B00BF4 /* DepthStencilState.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DepthStencilState.cpp; sourceTree = "<group>"; };
 		300902FD219224B100B00BF4 /* DepthStencilState.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DepthStencilState.hpp; sourceTree = "<group>"; };
-		3009030421922DEE00B00BF4 /* DepthStencilStateMetal.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DepthStencilStateMetal.mm; sourceTree = "<group>"; };
-		3009030521922DEE00B00BF4 /* DepthStencilStateMetal.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DepthStencilStateMetal.hpp; sourceTree = "<group>"; };
+		3009030421922DEE00B00BF4 /* MetalDepthStencilState.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MetalDepthStencilState.mm; sourceTree = "<group>"; };
+		3009030521922DEE00B00BF4 /* MetalDepthStencilState.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MetalDepthStencilState.hpp; sourceTree = "<group>"; };
 		3009030C21922E1300B00BF4 /* DepthStencilStateOGL.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DepthStencilStateOGL.cpp; sourceTree = "<group>"; };
 		3009030D21922E1300B00BF4 /* DepthStencilStateOGL.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DepthStencilStateOGL.hpp; sourceTree = "<group>"; };
 		3009341A1C88698500CC50D3 /* Window.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Window.cpp; sourceTree = "<group>"; };
@@ -1050,16 +1050,16 @@
 		30381F441D80A3EC00677CAB /* TextureOGL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextureOGL.hpp; sourceTree = "<group>"; };
 		30381FAF1D80A3F900677CAB /* AudioDeviceAL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioDeviceAL.cpp; sourceTree = "<group>"; };
 		30381FB01D80A3F900677CAB /* AudioDeviceAL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AudioDeviceAL.hpp; sourceTree = "<group>"; };
-		30381FC71D80A40700677CAB /* BlendStateMetal.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BlendStateMetal.hpp; sourceTree = "<group>"; };
-		30381FC81D80A40700677CAB /* BlendStateMetal.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BlendStateMetal.mm; sourceTree = "<group>"; };
-		30381FD11D80A40700677CAB /* RenderDeviceMetal.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderDeviceMetal.hpp; sourceTree = "<group>"; };
-		30381FD21D80A40700677CAB /* RenderDeviceMetal.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RenderDeviceMetal.mm; sourceTree = "<group>"; };
-		30381FD51D80A40700677CAB /* ShaderMetal.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderMetal.hpp; sourceTree = "<group>"; };
-		30381FD61D80A40700677CAB /* ShaderMetal.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ShaderMetal.mm; sourceTree = "<group>"; };
-		30381FD71D80A40700677CAB /* TextureMetal.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextureMetal.hpp; sourceTree = "<group>"; };
-		30381FD81D80A40700677CAB /* TextureMetal.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TextureMetal.mm; sourceTree = "<group>"; };
-		303820271D80A55700677CAB /* BufferMetal.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BufferMetal.mm; sourceTree = "<group>"; };
-		303820281D80A55700677CAB /* BufferMetal.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BufferMetal.hpp; sourceTree = "<group>"; };
+		30381FC71D80A40700677CAB /* MetalBlendState.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MetalBlendState.hpp; sourceTree = "<group>"; };
+		30381FC81D80A40700677CAB /* MetalBlendState.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MetalBlendState.mm; sourceTree = "<group>"; };
+		30381FD11D80A40700677CAB /* MetalRenderDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MetalRenderDevice.hpp; sourceTree = "<group>"; };
+		30381FD21D80A40700677CAB /* MetalRenderDevice.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MetalRenderDevice.mm; sourceTree = "<group>"; };
+		30381FD51D80A40700677CAB /* MetalShader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MetalShader.hpp; sourceTree = "<group>"; };
+		30381FD61D80A40700677CAB /* MetalShader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MetalShader.mm; sourceTree = "<group>"; };
+		30381FD71D80A40700677CAB /* MetalTexture.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MetalTexture.hpp; sourceTree = "<group>"; };
+		30381FD81D80A40700677CAB /* MetalTexture.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MetalTexture.mm; sourceTree = "<group>"; };
+		303820271D80A55700677CAB /* MetalBuffer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MetalBuffer.mm; sourceTree = "<group>"; };
+		303820281D80A55700677CAB /* MetalBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MetalBuffer.hpp; sourceTree = "<group>"; };
 		303820561D816C7700677CAB /* EngineIOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EngineIOS.hpp; sourceTree = "<group>"; };
 		303820571D816C7700677CAB /* EngineIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EngineIOS.mm; sourceTree = "<group>"; };
 		303820581D816C7700677CAB /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
@@ -1282,20 +1282,20 @@
 		30A9C1301CAE80570084C4BF /* Localization.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Localization.hpp; sourceTree = "<group>"; };
 		30A9C1381CAEBA540084C4BF /* Language.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Language.cpp; sourceTree = "<group>"; };
 		30A9C1391CAEBA540084C4BF /* Language.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Language.hpp; sourceTree = "<group>"; };
-		30ADCBB41E9A9479000DC9AC /* RenderDeviceMetalMacOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RenderDeviceMetalMacOS.mm; sourceTree = "<group>"; };
-		30ADCBB51E9A9479000DC9AC /* RenderDeviceMetalMacOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderDeviceMetalMacOS.hpp; sourceTree = "<group>"; };
-		30ADCBB81E9A9550000DC9AC /* RenderDeviceMetalTVOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderDeviceMetalTVOS.hpp; sourceTree = "<group>"; };
-		30ADCBB91E9A9550000DC9AC /* RenderDeviceMetalTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RenderDeviceMetalTVOS.mm; sourceTree = "<group>"; };
-		30ADCBBC1E9A957C000DC9AC /* RenderDeviceMetalIOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderDeviceMetalIOS.hpp; sourceTree = "<group>"; };
-		30ADCBBD1E9A957C000DC9AC /* RenderDeviceMetalIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RenderDeviceMetalIOS.mm; sourceTree = "<group>"; };
+		30ADCBB41E9A9479000DC9AC /* MetalRenderDeviceMacOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MetalRenderDeviceMacOS.mm; sourceTree = "<group>"; };
+		30ADCBB51E9A9479000DC9AC /* MetalRenderDeviceMacOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MetalRenderDeviceMacOS.hpp; sourceTree = "<group>"; };
+		30ADCBB81E9A9550000DC9AC /* MetalRenderDeviceTVOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MetalRenderDeviceTVOS.hpp; sourceTree = "<group>"; };
+		30ADCBB91E9A9550000DC9AC /* MetalRenderDeviceTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MetalRenderDeviceTVOS.mm; sourceTree = "<group>"; };
+		30ADCBBC1E9A957C000DC9AC /* MetalRenderDeviceIOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MetalRenderDeviceIOS.hpp; sourceTree = "<group>"; };
+		30ADCBBD1E9A957C000DC9AC /* MetalRenderDeviceIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MetalRenderDeviceIOS.mm; sourceTree = "<group>"; };
 		30AEFA0A20C0A90400CDFD33 /* GltfLoader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GltfLoader.cpp; sourceTree = "<group>"; };
 		30AEFA0B20C0A90400CDFD33 /* GltfLoader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GltfLoader.hpp; sourceTree = "<group>"; };
 		30AEFA1220C0FB2E00CDFD33 /* RenderTarget.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RenderTarget.cpp; sourceTree = "<group>"; };
 		30AEFA1320C0FB2E00CDFD33 /* RenderTarget.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RenderTarget.hpp; sourceTree = "<group>"; };
 		30AEFA2A20C0FD5F00CDFD33 /* RenderTargetOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderTargetOGL.cpp; sourceTree = "<group>"; };
 		30AEFA2B20C0FD6000CDFD33 /* RenderTargetOGL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderTargetOGL.hpp; sourceTree = "<group>"; };
-		30AEFA3220C0FD7400CDFD33 /* RenderTargetMetal.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RenderTargetMetal.mm; sourceTree = "<group>"; };
-		30AEFA3320C0FD7400CDFD33 /* RenderTargetMetal.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderTargetMetal.hpp; sourceTree = "<group>"; };
+		30AEFA3220C0FD7400CDFD33 /* MetalRenderTarget.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MetalRenderTarget.mm; sourceTree = "<group>"; };
+		30AEFA3320C0FD7400CDFD33 /* MetalRenderTarget.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MetalRenderTarget.hpp; sourceTree = "<group>"; };
 		30AF9FC32145D6F000F9266B /* RenderResourceOGL.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RenderResourceOGL.hpp; sourceTree = "<group>"; };
 		30B328821C4E9EAC00040927 /* Ease.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Ease.cpp; sourceTree = "<group>"; };
 		30B328831C4E9EAC00040927 /* Ease.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Ease.hpp; sourceTree = "<group>"; };
@@ -1485,8 +1485,8 @@
 			children = (
 				303B04AB1E207B2700011CBE /* MetalView.h */,
 				303B04AC1E207B2700011CBE /* MetalView.m */,
-				30ADCBBC1E9A957C000DC9AC /* RenderDeviceMetalIOS.hpp */,
-				30ADCBBD1E9A957C000DC9AC /* RenderDeviceMetalIOS.mm */,
+				30ADCBBC1E9A957C000DC9AC /* MetalRenderDeviceIOS.hpp */,
+				30ADCBBD1E9A957C000DC9AC /* MetalRenderDeviceIOS.mm */,
 			);
 			path = ios;
 			sourceTree = "<group>";
@@ -1496,8 +1496,8 @@
 			children = (
 				303B04A71E207B1D00011CBE /* MetalView.h */,
 				303B04A81E207B1D00011CBE /* MetalView.m */,
-				30ADCBB51E9A9479000DC9AC /* RenderDeviceMetalMacOS.hpp */,
-				30ADCBB41E9A9479000DC9AC /* RenderDeviceMetalMacOS.mm */,
+				30ADCBB51E9A9479000DC9AC /* MetalRenderDeviceMacOS.hpp */,
+				30ADCBB41E9A9479000DC9AC /* MetalRenderDeviceMacOS.mm */,
 			);
 			path = macos;
 			sourceTree = "<group>";
@@ -1507,8 +1507,8 @@
 			children = (
 				303B04A31E207B1000011CBE /* MetalView.h */,
 				303B04A41E207B1000011CBE /* MetalView.m */,
-				30ADCBB81E9A9550000DC9AC /* RenderDeviceMetalTVOS.hpp */,
-				30ADCBB91E9A9550000DC9AC /* RenderDeviceMetalTVOS.mm */,
+				30ADCBB81E9A9550000DC9AC /* MetalRenderDeviceTVOS.hpp */,
+				30ADCBB91E9A9550000DC9AC /* MetalRenderDeviceTVOS.mm */,
 			);
 			path = tvos;
 			sourceTree = "<group>";
@@ -1953,23 +1953,23 @@
 		30547E351CB3D6570055EE79 /* metal */ = {
 			isa = PBXGroup;
 			children = (
-				30381FC71D80A40700677CAB /* BlendStateMetal.hpp */,
-				30381FC81D80A40700677CAB /* BlendStateMetal.mm */,
-				303820281D80A55700677CAB /* BufferMetal.hpp */,
-				303820271D80A55700677CAB /* BufferMetal.mm */,
-				3009030521922DEE00B00BF4 /* DepthStencilStateMetal.hpp */,
-				3009030421922DEE00B00BF4 /* DepthStencilStateMetal.mm */,
+				30381FC71D80A40700677CAB /* MetalBlendState.hpp */,
+				30381FC81D80A40700677CAB /* MetalBlendState.mm */,
+				303820281D80A55700677CAB /* MetalBuffer.hpp */,
+				303820271D80A55700677CAB /* MetalBuffer.mm */,
+				3009030521922DEE00B00BF4 /* MetalDepthStencilState.hpp */,
+				3009030421922DEE00B00BF4 /* MetalDepthStencilState.mm */,
 				303B04741E207A3E00011CBE /* ios */,
 				303B04751E207A4800011CBE /* macos */,
-				30381FD11D80A40700677CAB /* RenderDeviceMetal.hpp */,
-				30381FD21D80A40700677CAB /* RenderDeviceMetal.mm */,
-				300902E5218A761500B00BF4 /* RenderResourceMetal.hpp */,
-				30AEFA3320C0FD7400CDFD33 /* RenderTargetMetal.hpp */,
-				30AEFA3220C0FD7400CDFD33 /* RenderTargetMetal.mm */,
-				30381FD51D80A40700677CAB /* ShaderMetal.hpp */,
-				30381FD61D80A40700677CAB /* ShaderMetal.mm */,
-				30381FD71D80A40700677CAB /* TextureMetal.hpp */,
-				30381FD81D80A40700677CAB /* TextureMetal.mm */,
+				30381FD11D80A40700677CAB /* MetalRenderDevice.hpp */,
+				30381FD21D80A40700677CAB /* MetalRenderDevice.mm */,
+				300902E5218A761500B00BF4 /* MetalRenderResource.hpp */,
+				30AEFA3320C0FD7400CDFD33 /* MetalRenderTarget.hpp */,
+				30AEFA3220C0FD7400CDFD33 /* MetalRenderTarget.mm */,
+				30381FD51D80A40700677CAB /* MetalShader.hpp */,
+				30381FD61D80A40700677CAB /* MetalShader.mm */,
+				30381FD71D80A40700677CAB /* MetalTexture.hpp */,
+				30381FD81D80A40700677CAB /* MetalTexture.mm */,
 				303B04761E207A4D00011CBE /* tvos */,
 			);
 			path = metal;
@@ -2131,8 +2131,8 @@
 				30CEB37521A6404200525637 /* SystemIOS.hpp in Headers */,
 				30519CFB1F9B54E300AF3DC4 /* VorbisLoader.hpp in Headers */,
 				304B27591C9384A600BA162D /* Size3.hpp in Headers */,
-				3038202E1D80A55700677CAB /* BufferMetal.hpp in Headers */,
-				30AEFA3720C0FD7400CDFD33 /* RenderTargetMetal.hpp in Headers */,
+				3038202E1D80A55700677CAB /* MetalBuffer.hpp in Headers */,
+				30AEFA3720C0FD7400CDFD33 /* MetalRenderTarget.hpp in Headers */,
 				303696CF1E32DD9C007F4211 /* BlendState.hpp in Headers */,
 				30AEFA2F20C0FD6000CDFD33 /* RenderTargetOGL.hpp in Headers */,
 				30419DE51D162BCF00A63759 /* Audio.hpp in Headers */,
@@ -2147,11 +2147,11 @@
 				30EF364F1CA76ACD00F04F29 /* ScrollArea.hpp in Headers */,
 				30724D831F353A0800D915ED /* ViewIOS.h in Headers */,
 				306792F5211F98070006FF79 /* Bundle.hpp in Headers */,
-				30381FDF1D80A40700677CAB /* BlendStateMetal.hpp in Headers */,
+				30381FDF1D80A40700677CAB /* MetalBlendState.hpp in Headers */,
 				303B75581C2A3CB700FEDE92 /* Vector2.hpp in Headers */,
 				30381F7C1D80A3EC00677CAB /* RenderDeviceOGL.hpp in Headers */,
 				304F92A81F4D89C50063EEC0 /* Network.hpp in Headers */,
-				3038200F1D80A40700677CAB /* TextureMetal.hpp in Headers */,
+				3038200F1D80A40700677CAB /* MetalTexture.hpp in Headers */,
 				30575AA21C39CB790009C8A7 /* Scene.hpp in Headers */,
 				301EB3AE1CCD77F600466E92 /* TextRenderer.hpp in Headers */,
 				C61B49EB2174B83900B818F1 /* SkinnedMeshData.hpp in Headers */,
@@ -2176,7 +2176,7 @@
 				303B755C1C2A3CB700FEDE92 /* Vector4.hpp in Headers */,
 				303B756E1C2A3CCA00FEDE92 /* Utils.hpp in Headers */,
 				30C3F28C219D0847003FE9ED /* Filter.hpp in Headers */,
-				30381FFD1D80A40700677CAB /* RenderDeviceMetal.hpp in Headers */,
+				30381FFD1D80A40700677CAB /* MetalRenderDevice.hpp in Headers */,
 				30A3821321B4BDBC0043568A /* Mix.hpp in Headers */,
 				3038216C1D81876E00677CAB /* AudioDeviceEmpty.hpp in Headers */,
 				30C56C5F1CAA88F8007AEF8F /* CheckBox.hpp in Headers */,
@@ -2198,7 +2198,7 @@
 				3009031121922E1300B00BF4 /* DepthStencilStateOGL.hpp in Headers */,
 				3047F7421C4C344A00774E3D /* Animator.hpp in Headers */,
 				304736DC1E0B4776009BC562 /* Box3.hpp in Headers */,
-				30ADCBBE1E9A957C000DC9AC /* RenderDeviceMetalIOS.hpp in Headers */,
+				30ADCBBE1E9A957C000DC9AC /* MetalRenderDeviceIOS.hpp in Headers */,
 				30216B831ED5C3900073E3D5 /* Plane.hpp in Headers */,
 				30FF4D4A21C33D9B00153FFF /* Source.hpp in Headers */,
 				30575AC01C39D9850009C8A7 /* ActorContainer.hpp in Headers */,
@@ -2233,7 +2233,7 @@
 				30B859971F3D2F3200A16952 /* Font.hpp in Headers */,
 				303696D71E32DDA9007F4211 /* Buffer.hpp in Headers */,
 				30C56C991CAC3ECE007AEF8F /* SlideBar.hpp in Headers */,
-				303820091D80A40700677CAB /* ShaderMetal.hpp in Headers */,
+				303820091D80A40700677CAB /* MetalShader.hpp in Headers */,
 				303820F51D817F4900677CAB /* GamepadDeviceIOS.hpp in Headers */,
 				30575ADC1C3B48740009C8A7 /* EventDispatcher.hpp in Headers */,
 				303B75561C2A3CB700FEDE92 /* Size2.hpp in Headers */,
@@ -2251,7 +2251,7 @@
 				305B68D61ED1B31D003352A2 /* Timer.hpp in Headers */,
 				300C39ED1E51355000330E4F /* PCMSound.hpp in Headers */,
 				30CC89FC203C5DFB00E2C8C3 /* File.hpp in Headers */,
-				3009030921922DEE00B00BF4 /* DepthStencilStateMetal.hpp in Headers */,
+				3009030921922DEE00B00BF4 /* MetalDepthStencilState.hpp in Headers */,
 				303B75681C2A3CBF00FEDE92 /* Sprite.hpp in Headers */,
 				30381F8E1D80A3EC00677CAB /* TextureOGL.hpp in Headers */,
 				30A9C13E1CAEBA540084C4BF /* Language.hpp in Headers */,
@@ -2293,9 +2293,9 @@
 				30216B781ED464730073E3D5 /* Material.hpp in Headers */,
 				306B0E641C567D05005C75C1 /* ShapeRenderer.hpp in Headers */,
 				304B275A1C9384A600BA162D /* Size3.hpp in Headers */,
-				303820301D80A55700677CAB /* BufferMetal.hpp in Headers */,
+				303820301D80A55700677CAB /* MetalBuffer.hpp in Headers */,
 				30419DE61D162BCF00A63759 /* Audio.hpp in Headers */,
-				3009030B21922DEE00B00BF4 /* DepthStencilStateMetal.hpp in Headers */,
+				3009030B21922DEE00B00BF4 /* MetalDepthStencilState.hpp in Headers */,
 				303696D11E32DD9C007F4211 /* BlendState.hpp in Headers */,
 				30CC89FE203C5DFB00E2C8C3 /* File.hpp in Headers */,
 				30519CBD1F9B53AB00AF3DC4 /* WaveLoader.hpp in Headers */,
@@ -2307,12 +2307,12 @@
 				30C56C6A1CAB3F2D007AEF8F /* RadioButton.hpp in Headers */,
 				303B76591C355A3B00FEDE92 /* Matrix4.hpp in Headers */,
 				30EF36501CA76ACD00F04F29 /* ScrollArea.hpp in Headers */,
-				30381FE11D80A40700677CAB /* BlendStateMetal.hpp in Headers */,
+				30381FE11D80A40700677CAB /* MetalBlendState.hpp in Headers */,
 				303B765A1C355A3B00FEDE92 /* Vector2.hpp in Headers */,
 				30519CC51F9B53B700AF3DC4 /* BmfLoader.hpp in Headers */,
 				30381F7E1D80A3EC00677CAB /* RenderDeviceOGL.hpp in Headers */,
 				C61B49ED2174B83900B818F1 /* SkinnedMeshData.hpp in Headers */,
-				303820111D80A40700677CAB /* TextureMetal.hpp in Headers */,
+				303820111D80A40700677CAB /* MetalTexture.hpp in Headers */,
 				30575AA31C39CB790009C8A7 /* Scene.hpp in Headers */,
 				301EB3AF1CCD77F600466E92 /* TextRenderer.hpp in Headers */,
 				30419DF61D162BEF00A63759 /* Sound.hpp in Headers */,
@@ -2336,7 +2336,7 @@
 				303B76601C355A3B00FEDE92 /* Vector4.hpp in Headers */,
 				30CEB37921A6404B00525637 /* SystemTVOS.hpp in Headers */,
 				303B76611C355A3B00FEDE92 /* Utils.hpp in Headers */,
-				30381FFF1D80A40700677CAB /* RenderDeviceMetal.hpp in Headers */,
+				30381FFF1D80A40700677CAB /* MetalRenderDevice.hpp in Headers */,
 				30EEADD6216ECEFE00D2F525 /* GamepadConfig.hpp in Headers */,
 				303B76631C355A3B00FEDE92 /* Engine.hpp in Headers */,
 				3038216E1D81876E00677CAB /* AudioDeviceEmpty.hpp in Headers */,
@@ -2353,7 +2353,7 @@
 				3049DCDF1EDCD0450000997A /* Cursor.hpp in Headers */,
 				30673DD81F7A694F00EAFAB0 /* NativeWindow.hpp in Headers */,
 				30724D871F353A1800D915ED /* ViewTVOS.h in Headers */,
-				30AEFA3920C0FD7400CDFD33 /* RenderTargetMetal.hpp in Headers */,
+				30AEFA3920C0FD7400CDFD33 /* MetalRenderTarget.hpp in Headers */,
 				3009031321922E1300B00BF4 /* DepthStencilStateOGL.hpp in Headers */,
 				30575ACA1C3B17540009C8A7 /* Button.hpp in Headers */,
 				30AEFA3120C0FD6000CDFD33 /* RenderTargetOGL.hpp in Headers */,
@@ -2401,14 +2401,14 @@
 				303696D91E32DDA9007F4211 /* Buffer.hpp in Headers */,
 				30519CF51F9B53FF00AF3DC4 /* ObjLoader.hpp in Headers */,
 				304E763E1F7095DE0025C0DB /* Client.hpp in Headers */,
-				3038200B1D80A40700677CAB /* ShaderMetal.hpp in Headers */,
+				3038200B1D80A40700677CAB /* MetalShader.hpp in Headers */,
 				30C56C9A1CAC3ECE007AEF8F /* SlideBar.hpp in Headers */,
 				30575ADD1C3B48740009C8A7 /* EventDispatcher.hpp in Headers */,
 				302261861FDB8C59005279FC /* ColladaLoader.hpp in Headers */,
 				30A883691E7432DA004A033F /* Archive.hpp in Headers */,
 				303B76761C355A3B00FEDE92 /* Vertex.hpp in Headers */,
 				303B76771C355A3B00FEDE92 /* Camera.hpp in Headers */,
-				30ADCBBA1E9A9550000DC9AC /* RenderDeviceMetalTVOS.hpp in Headers */,
+				30ADCBBA1E9A9550000DC9AC /* MetalRenderDeviceTVOS.hpp in Headers */,
 				303B76781C355A3B00FEDE92 /* Setup.h in Headers */,
 				30519CDD1F9B53DB00AF3DC4 /* SpriteLoader.hpp in Headers */,
 				3047F7531C4C4FAF00774E3D /* Rotate.hpp in Headers */,
@@ -2505,14 +2505,14 @@
 				30575AA91C39D1FF0009C8A7 /* Layer.hpp in Headers */,
 				303B754C1C2A3CA200FEDE92 /* ImageData.hpp in Headers */,
 				30EEADD5216ECEFE00D2F525 /* GamepadConfig.hpp in Headers */,
-				3038200A1D80A40700677CAB /* ShaderMetal.hpp in Headers */,
-				30AEFA3820C0FD7400CDFD33 /* RenderTargetMetal.hpp in Headers */,
+				3038200A1D80A40700677CAB /* MetalShader.hpp in Headers */,
+				30AEFA3820C0FD7400CDFD33 /* MetalRenderTarget.hpp in Headers */,
 				30575ADB1C3B48740009C8A7 /* EventDispatcher.hpp in Headers */,
 				304A8E9B1C26F5CF008B1151 /* Size2.hpp in Headers */,
 				3047F7491C4C350D00774E3D /* Move.hpp in Headers */,
 				30A883681E7432DA004A033F /* Archive.hpp in Headers */,
 				30216B841ED5C3900073E3D5 /* Plane.hpp in Headers */,
-				3009030A21922DEE00B00BF4 /* DepthStencilStateMetal.hpp in Headers */,
+				3009030A21922DEE00B00BF4 /* MetalDepthStencilState.hpp in Headers */,
 				304A8E731C237C70008B1151 /* Vector3.hpp in Headers */,
 				304A8EA31C270833008B1151 /* Vertex.hpp in Headers */,
 				30A9C1341CAE80570084C4BF /* Localization.hpp in Headers */,
@@ -2535,7 +2535,7 @@
 				3009031221922E1300B00BF4 /* DepthStencilStateOGL.hpp in Headers */,
 				305B998C1C41EFFA008589E1 /* Menu.hpp in Headers */,
 				30AEFA1820C0FB2E00CDFD33 /* RenderTarget.hpp in Headers */,
-				3038202F1D80A55700677CAB /* BufferMetal.hpp in Headers */,
+				3038202F1D80A55700677CAB /* MetalBuffer.hpp in Headers */,
 				304E763D1F7095DE0025C0DB /* Client.hpp in Headers */,
 				30381F711D80A3EC00677CAB /* BufferOGL.hpp in Headers */,
 				30C56C681CAB3F2D007AEF8F /* RadioButton.hpp in Headers */,
@@ -2559,15 +2559,15 @@
 				30575AA11C39CB790009C8A7 /* Scene.hpp in Headers */,
 				302B728821BDE302006EBC59 /* SilenceSound.hpp in Headers */,
 				3047F76A1C4D2C2000774E3D /* Sequence.hpp in Headers */,
-				303820101D80A40700677CAB /* TextureMetal.hpp in Headers */,
+				303820101D80A40700677CAB /* MetalTexture.hpp in Headers */,
 				304736DD1E0B4776009BC562 /* Box3.hpp in Headers */,
 				30C56C981CAC3ECE007AEF8F /* SlideBar.hpp in Headers */,
-				30381FFE1D80A40700677CAB /* RenderDeviceMetal.hpp in Headers */,
+				30381FFE1D80A40700677CAB /* MetalRenderDevice.hpp in Headers */,
 				309BA3171F183D6E006F2240 /* AudioDeviceCA.hpp in Headers */,
 				304A8E6F1C237C70008B1151 /* Utils.hpp in Headers */,
 				30A3821C21B4BDC80043568A /* Submix.hpp in Headers */,
 				303B75011C28208800FEDE92 /* FileSystem.hpp in Headers */,
-				30381FE01D80A40700677CAB /* BlendStateMetal.hpp in Headers */,
+				30381FE01D80A40700677CAB /* MetalBlendState.hpp in Headers */,
 				303B760A1C34A92B00FEDE92 /* InputManager.hpp in Headers */,
 				304A8E541C237C70008B1151 /* Engine.hpp in Headers */,
 				3011E1C71EFFE6DE00CB1DDC /* INI.hpp in Headers */,
@@ -2580,7 +2580,7 @@
 				300C39EE1E51355000330E4F /* PCMSound.hpp in Headers */,
 				309B483B1DEA5EE600A718C5 /* Color.hpp in Headers */,
 				30C3F28D219D0847003FE9ED /* Filter.hpp in Headers */,
-				30ADCBB71E9A9479000DC9AC /* RenderDeviceMetalMacOS.hpp in Headers */,
+				30ADCBB71E9A9479000DC9AC /* MetalRenderDeviceMacOS.hpp in Headers */,
 				302261851FDB8C59005279FC /* ColladaLoader.hpp in Headers */,
 				3047F7511C4C4FAF00774E3D /* Rotate.hpp in Headers */,
 				30547E7B1CB47E050055EE79 /* Shake.hpp in Headers */,
@@ -2763,7 +2763,7 @@
 				304E76391F7095DE0025C0DB /* Client.cpp in Sources */,
 				303821691D81876E00677CAB /* AudioDeviceEmpty.cpp in Sources */,
 				30381FB51D80A3F900677CAB /* AudioDeviceAL.cpp in Sources */,
-				3009030621922DEE00B00BF4 /* DepthStencilStateMetal.mm in Sources */,
+				3009030621922DEE00B00BF4 /* MetalDepthStencilState.mm in Sources */,
 				30FF4D4721C33D9B00153FFF /* Source.cpp in Sources */,
 				30EEADC721618F2C00D2F525 /* TouchpadDevice.cpp in Sources */,
 				30724D821F353A0800D915ED /* ViewIOS.mm in Sources */,
@@ -2807,7 +2807,7 @@
 				30EEADBB21618DAF00D2F525 /* GamepadDevice.cpp in Sources */,
 				303B755D1C2A3CB700FEDE92 /* Vertex.cpp in Sources */,
 				30FE384E1DFDE49E00305B3B /* Quaternion.cpp in Sources */,
-				3038200C1D80A40700677CAB /* ShaderMetal.mm in Sources */,
+				3038200C1D80A40700677CAB /* MetalShader.mm in Sources */,
 				300902FE219224B100B00BF4 /* DepthStencilState.cpp in Sources */,
 				30A381F521B201C20043568A /* Bus.cpp in Sources */,
 				3072370A1FAFDAB8002EA399 /* JSON.cpp in Sources */,
@@ -2818,17 +2818,17 @@
 				301EB3AB1CCD77F600466E92 /* TextRenderer.cpp in Sources */,
 				303B75651C2A3CBF00FEDE92 /* SceneManager.cpp in Sources */,
 				30AEFA1420C0FB2E00CDFD33 /* RenderTarget.cpp in Sources */,
-				3038202B1D80A55700677CAB /* BufferMetal.mm in Sources */,
-				303820121D80A40700677CAB /* TextureMetal.mm in Sources */,
+				3038202B1D80A55700677CAB /* MetalBuffer.mm in Sources */,
+				303820121D80A40700677CAB /* MetalTexture.mm in Sources */,
 				303B754D1C2A3CB700FEDE92 /* MathUtils.cpp in Sources */,
 				305B99921C41F06F008589E1 /* Widget.cpp in Sources */,
 				30EEADCB216A44EC00D2F525 /* InputDevice.cpp in Sources */,
 				30C56C961CAC3ECE007AEF8F /* SlideBar.cpp in Sources */,
 				305B998A1C41EFFA008589E1 /* Menu.cpp in Sources */,
-				30381FE21D80A40700677CAB /* BlendStateMetal.mm in Sources */,
+				30381FE21D80A40700677CAB /* MetalBlendState.mm in Sources */,
 				30C758B51F4A0309008499DC /* RenderDevice.cpp in Sources */,
 				303B756D1C2A3CCA00FEDE92 /* Utils.cpp in Sources */,
-				30ADCBBF1E9A957C000DC9AC /* RenderDeviceMetalIOS.mm in Sources */,
+				30ADCBBF1E9A957C000DC9AC /* MetalRenderDeviceIOS.mm in Sources */,
 				303B04AE1E207B2700011CBE /* MetalView.m in Sources */,
 				30575AC61C3B17540009C8A7 /* Button.cpp in Sources */,
 				30A3821821B4BDC80043568A /* Submix.cpp in Sources */,
@@ -2845,7 +2845,7 @@
 				30B328851C4E9EAC00040927 /* Ease.cpp in Sources */,
 				30216B631ED462B80073E3D5 /* StaticMeshRenderer.cpp in Sources */,
 				C61B49E82174B83900B818F1 /* SkinnedMeshData.cpp in Sources */,
-				30AEFA3420C0FD7400CDFD33 /* RenderTargetMetal.mm in Sources */,
+				30AEFA3420C0FD7400CDFD33 /* MetalRenderTarget.mm in Sources */,
 				30CC89F9203C5DFB00E2C8C3 /* File.cpp in Sources */,
 				3067D7A5209B450F008DF6AF /* InputSystem.cpp in Sources */,
 				30519CB31F9B506F00AF3DC4 /* Loader.cpp in Sources */,
@@ -2874,7 +2874,7 @@
 				30381F6D1D80A3EC00677CAB /* BufferOGL.cpp in Sources */,
 				30AEFA0C20C0A90400CDFD33 /* GltfLoader.cpp in Sources */,
 				30A9C1321CAE80570084C4BF /* Localization.cpp in Sources */,
-				303820001D80A40700677CAB /* RenderDeviceMetal.mm in Sources */,
+				303820001D80A40700677CAB /* MetalRenderDevice.mm in Sources */,
 				30575ACE1C3B175D0009C8A7 /* Label.cpp in Sources */,
 				303B75401C2A3C9200FEDE92 /* ImageData.cpp in Sources */,
 				303B755F1C2A3CBF00FEDE92 /* Camera.cpp in Sources */,
@@ -2935,7 +2935,7 @@
 				304E763B1F7095DE0025C0DB /* Client.cpp in Sources */,
 				30EEADC121618DC400D2F525 /* KeyboardDevice.cpp in Sources */,
 				3038216B1D81876E00677CAB /* AudioDeviceEmpty.cpp in Sources */,
-				3009030821922DEE00B00BF4 /* DepthStencilStateMetal.mm in Sources */,
+				3009030821922DEE00B00BF4 /* MetalDepthStencilState.mm in Sources */,
 				30FF4D4921C33D9B00153FFF /* Source.cpp in Sources */,
 				30381FB71D80A3F900677CAB /* AudioDeviceAL.cpp in Sources */,
 				300C39F21E51355000330E4F /* PCMSound.cpp in Sources */,
@@ -2972,7 +2972,7 @@
 				3017AEB221D8100E00B07B53 /* SoundCue.cpp in Sources */,
 				303B763C1C355A3B00FEDE92 /* Vertex.cpp in Sources */,
 				30519CE21F9B53E900AF3DC4 /* ParticleSystemLoader.cpp in Sources */,
-				3038200E1D80A40700677CAB /* ShaderMetal.mm in Sources */,
+				3038200E1D80A40700677CAB /* MetalShader.mm in Sources */,
 				301EB3A41CCD691800466E92 /* Component.cpp in Sources */,
 				30216B751ED464730073E3D5 /* Material.cpp in Sources */,
 				30FE38501DFDE49E00305B3B /* Quaternion.cpp in Sources */,
@@ -2984,21 +2984,21 @@
 				30519CF21F9B53FF00AF3DC4 /* ObjLoader.cpp in Sources */,
 				3047F7501C4C4FAF00774E3D /* Rotate.cpp in Sources */,
 				30519CC21F9B53B700AF3DC4 /* BmfLoader.cpp in Sources */,
-				3038202D1D80A55700677CAB /* BufferMetal.mm in Sources */,
-				303820141D80A40700677CAB /* TextureMetal.mm in Sources */,
+				3038202D1D80A55700677CAB /* MetalBuffer.mm in Sources */,
+				303820141D80A40700677CAB /* MetalTexture.mm in Sources */,
 				30AEFA1620C0FB2E00CDFD33 /* RenderTarget.cpp in Sources */,
 				303B763E1C355A3B00FEDE92 /* SceneManager.cpp in Sources */,
 				303B763F1C355A3B00FEDE92 /* MathUtils.cpp in Sources */,
 				30EEADC921618F2C00D2F525 /* TouchpadDevice.cpp in Sources */,
 				30C56C971CAC3ECE007AEF8F /* SlideBar.cpp in Sources */,
-				30381FE41D80A40700677CAB /* BlendStateMetal.mm in Sources */,
+				30381FE41D80A40700677CAB /* MetalBlendState.mm in Sources */,
 				305B99931C41F06F008589E1 /* Widget.cpp in Sources */,
 				30EEADCD216A44ED00D2F525 /* InputDevice.cpp in Sources */,
 				305B998B1C41EFFA008589E1 /* Menu.cpp in Sources */,
 				303B76411C355A3B00FEDE92 /* Utils.cpp in Sources */,
 				30575AC71C3B17540009C8A7 /* Button.cpp in Sources */,
 				30C758B71F4A0309008499DC /* RenderDevice.cpp in Sources */,
-				30ADCBBB1E9A9550000DC9AC /* RenderDeviceMetalTVOS.mm in Sources */,
+				30ADCBBB1E9A9550000DC9AC /* MetalRenderDeviceTVOS.mm in Sources */,
 				300862DC2154725500D8CC45 /* InputSystemTVOS.mm in Sources */,
 				303B04A61E207B1000011CBE /* MetalView.m in Sources */,
 				303821471D81876E00677CAB /* EmptyRenderDevice.cpp in Sources */,
@@ -3014,7 +3014,7 @@
 				3085DA22211A4A5500F4C2D0 /* Socket.cpp in Sources */,
 				304F92A71F4D89C50063EEC0 /* Network.cpp in Sources */,
 				30B328861C4E9EAC00040927 /* Ease.cpp in Sources */,
-				30AEFA3620C0FD7400CDFD33 /* RenderTargetMetal.mm in Sources */,
+				30AEFA3620C0FD7400CDFD33 /* MetalRenderTarget.mm in Sources */,
 				C61B49EA2174B83900B818F1 /* SkinnedMeshData.cpp in Sources */,
 				3098A5601EA01CA900528A54 /* GamepadDeviceTVOS.mm in Sources */,
 				30216B651ED462B80073E3D5 /* StaticMeshRenderer.cpp in Sources */,
@@ -3044,7 +3044,7 @@
 				303B04C41E207B7800011CBE /* OpenGLView.m in Sources */,
 				305B68D51ED1B31D003352A2 /* Timer.cpp in Sources */,
 				30AEFA0E20C0A90400CDFD33 /* GltfLoader.cpp in Sources */,
-				303820021D80A40700677CAB /* RenderDeviceMetal.mm in Sources */,
+				303820021D80A40700677CAB /* MetalRenderDevice.mm in Sources */,
 				30A9C1331CAE80570084C4BF /* Localization.cpp in Sources */,
 				303B764B1C355A3B00FEDE92 /* ImageData.cpp in Sources */,
 				30575ACF1C3B175D0009C8A7 /* Label.cpp in Sources */,
@@ -3111,7 +3111,7 @@
 				300C39F11E51355000330E4F /* PCMSound.cpp in Sources */,
 				3017AEB121D8100E00B07B53 /* SoundCue.cpp in Sources */,
 				30381FB61D80A3F900677CAB /* AudioDeviceAL.cpp in Sources */,
-				30AEFA3520C0FD7400CDFD33 /* RenderTargetMetal.mm in Sources */,
+				30AEFA3520C0FD7400CDFD33 /* MetalRenderTarget.mm in Sources */,
 				303820871D816C9E00677CAB /* NativeWindowMacOS.mm in Sources */,
 				30216B641ED462B80073E3D5 /* StaticMeshRenderer.cpp in Sources */,
 				30FFBE3B2158FD8D004B0BD3 /* Mouse.cpp in Sources */,
@@ -3157,7 +3157,7 @@
 				30519CF91F9B54E300AF3DC4 /* VorbisLoader.cpp in Sources */,
 				3038207F1D816C9E00677CAB /* main.cpp in Sources */,
 				30519CE11F9B53E900AF3DC4 /* ParticleSystemLoader.cpp in Sources */,
-				3038200D1D80A40700677CAB /* ShaderMetal.mm in Sources */,
+				3038200D1D80A40700677CAB /* MetalShader.mm in Sources */,
 				30216B741ED464730073E3D5 /* Material.cpp in Sources */,
 				30AEFA2D20C0FD6000CDFD33 /* RenderTargetOGL.cpp in Sources */,
 				30FE384F1DFDE49E00305B3B /* Quaternion.cpp in Sources */,
@@ -3170,13 +3170,13 @@
 				30519CC11F9B53B700AF3DC4 /* BmfLoader.cpp in Sources */,
 				30C3F287219D0847003FE9ED /* Filter.cpp in Sources */,
 				301EB3AA1CCD77F600466E92 /* TextRenderer.cpp in Sources */,
-				3038202C1D80A55700677CAB /* BufferMetal.mm in Sources */,
-				303820131D80A40700677CAB /* TextureMetal.mm in Sources */,
+				3038202C1D80A55700677CAB /* MetalBuffer.mm in Sources */,
+				303820131D80A40700677CAB /* MetalTexture.mm in Sources */,
 				30B328841C4E9EAC00040927 /* Ease.cpp in Sources */,
 				304A8E9A1C26F5CF008B1151 /* Size2.cpp in Sources */,
 				30EF36631CA845DC00F04F29 /* ComboBox.cpp in Sources */,
 				30C758AE1F4A0196008499DC /* AudioDevice.cpp in Sources */,
-				30381FE31D80A40700677CAB /* BlendStateMetal.mm in Sources */,
+				30381FE31D80A40700677CAB /* MetalBlendState.mm in Sources */,
 				3047F7771C4D39C500774E3D /* Repeat.cpp in Sources */,
 				30FFBE382158FD8D004B0BD3 /* Keyboard.cpp in Sources */,
 				3047F7461C4C350D00774E3D /* Move.cpp in Sources */,
@@ -3219,8 +3219,8 @@
 				303B04BC1E207B6D00011CBE /* OpenGLView.mm in Sources */,
 				30FF4D5321C48DB600153FFF /* Filters.cpp in Sources */,
 				30AEFA0D20C0A90400CDFD33 /* GltfLoader.cpp in Sources */,
-				30ADCBB61E9A9479000DC9AC /* RenderDeviceMetalMacOS.mm in Sources */,
-				303820011D80A40700677CAB /* RenderDeviceMetal.mm in Sources */,
+				30ADCBB61E9A9479000DC9AC /* MetalRenderDeviceMacOS.mm in Sources */,
+				303820011D80A40700677CAB /* MetalRenderDevice.mm in Sources */,
 				304A8E5C1C237C70008B1151 /* Actor.cpp in Sources */,
 				30575AD81C3B48740009C8A7 /* EventDispatcher.cpp in Sources */,
 				30C56C5B1CAA88F8007AEF8F /* CheckBox.cpp in Sources */,
@@ -3233,7 +3233,7 @@
 				30FF4D4821C33D9B00153FFF /* Source.cpp in Sources */,
 				30A3821921B4BDC80043568A /* Submix.cpp in Sources */,
 				304A8E6E1C237C70008B1151 /* Utils.cpp in Sources */,
-				3009030721922DEE00B00BF4 /* DepthStencilStateMetal.mm in Sources */,
+				3009030721922DEE00B00BF4 /* MetalDepthStencilState.mm in Sources */,
 				303696CD1E32DD9C007F4211 /* BlendState.cpp in Sources */,
 				30CEB37221A6403800525637 /* SystemMacOS.cpp in Sources */,
 				30575A9E1C39CB790009C8A7 /* Scene.cpp in Sources */,

@@ -4,7 +4,7 @@
 
 #if TARGET_OS_TV && OUZEL_COMPILE_METAL
 
-#include "RenderDeviceMetalTVOS.hpp"
+#include "MetalRenderDeviceTVOS.hpp"
 #include "MetalView.h"
 #include "core/Engine.hpp"
 #include "core/Window.hpp"
@@ -15,7 +15,7 @@ static void renderCallback(void* userInfo)
 {
     try
     {
-        ouzel::graphics::RenderDeviceMetalTVOS* renderDevice = static_cast<ouzel::graphics::RenderDeviceMetalTVOS*>(userInfo);
+        ouzel::graphics::MetalRenderDeviceTVOS* renderDevice = static_cast<ouzel::graphics::MetalRenderDeviceTVOS*>(userInfo);
         renderDevice->renderCallback();
     }
     catch (const std::exception& e)
@@ -28,13 +28,13 @@ namespace ouzel
 {
     namespace graphics
     {
-        RenderDeviceMetalTVOS::RenderDeviceMetalTVOS(const std::function<void(const Event&)>& initCallback):
-            RenderDeviceMetal(initCallback),
+        MetalRenderDeviceTVOS::MetalRenderDeviceTVOS(const std::function<void(const Event&)>& initCallback):
+            MetalRenderDevice(initCallback),
             displayLink(::renderCallback, this)
         {
         }
 
-        RenderDeviceMetalTVOS::~RenderDeviceMetalTVOS()
+        MetalRenderDeviceTVOS::~MetalRenderDeviceTVOS()
         {
             displayLink.stop();
             CommandBuffer commandBuffer;
@@ -42,7 +42,7 @@ namespace ouzel
             submitCommandBuffer(std::move(commandBuffer));
         }
 
-        void RenderDeviceMetalTVOS::init(Window* newWindow,
+        void MetalRenderDeviceTVOS::init(Window* newWindow,
                                          const Size2& newSize,
                                          uint32_t newSampleCount,
                                          Texture::Filter newTextureFilter,
@@ -51,7 +51,7 @@ namespace ouzel
                                          bool newDepth,
                                          bool newDebugRenderer)
         {
-            RenderDeviceMetal::init(newWindow,
+            MetalRenderDevice::init(newWindow,
                                     newSize,
                                     newSampleCount,
                                     newTextureFilter,
@@ -72,7 +72,7 @@ namespace ouzel
             displayLink.start(verticalSync);
         }
 
-        void RenderDeviceMetalTVOS::renderCallback()
+        void MetalRenderDeviceTVOS::renderCallback()
         {
             process();
         }

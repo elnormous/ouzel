@@ -9,7 +9,7 @@
 #if TARGET_OS_MAC && !TARGET_OS_IOS && !TARGET_OS_TV && OUZEL_COMPILE_METAL
 
 #include <stdexcept>
-#include "RenderDeviceMetalMacOS.hpp"
+#include "MetalRenderDeviceMacOS.hpp"
 #include "MetalView.h"
 #include "core/Engine.hpp"
 #include "core/macos/NativeWindowMacOS.hpp"
@@ -26,7 +26,7 @@ static CVReturn renderCallback(CVDisplayLinkRef,
     {
         try
         {
-            ouzel::graphics::RenderDeviceMetalMacOS* renderDevice = static_cast<ouzel::graphics::RenderDeviceMetalMacOS*>(userInfo);
+            ouzel::graphics::MetalRenderDeviceMacOS* renderDevice = static_cast<ouzel::graphics::MetalRenderDeviceMacOS*>(userInfo);
             renderDevice->renderCallback();
         }
         catch (const std::exception& e)
@@ -43,12 +43,12 @@ namespace ouzel
 {
     namespace graphics
     {
-        RenderDeviceMetalMacOS::RenderDeviceMetalMacOS(const std::function<void(const Event&)>& initCallback):
-            RenderDeviceMetal(initCallback)
+        MetalRenderDeviceMacOS::MetalRenderDeviceMacOS(const std::function<void(const Event&)>& initCallback):
+            MetalRenderDevice(initCallback)
         {
         }
 
-        RenderDeviceMetalMacOS::~RenderDeviceMetalMacOS()
+        MetalRenderDeviceMacOS::~MetalRenderDeviceMacOS()
         {
             running = false;
             CommandBuffer commandBuffer;
@@ -62,7 +62,7 @@ namespace ouzel
             }
         }
 
-        void RenderDeviceMetalMacOS::init(Window* newWindow,
+        void MetalRenderDeviceMacOS::init(Window* newWindow,
                                           const Size2& newSize,
                                           uint32_t newSampleCount,
                                           Texture::Filter newTextureFilter,
@@ -71,7 +71,7 @@ namespace ouzel
                                           bool newDepth,
                                           bool newDebugRenderer)
         {
-            RenderDeviceMetal::init(newWindow,
+            MetalRenderDevice::init(newWindow,
                                     newSize,
                                     newSampleCount,
                                     newTextureFilter,
@@ -91,7 +91,7 @@ namespace ouzel
 
             colorFormat = metalLayer.pixelFormat;
 
-            eventHandler.windowHandler = std::bind(&RenderDeviceMetalMacOS::handleWindow, this, std::placeholders::_1);
+            eventHandler.windowHandler = std::bind(&MetalRenderDeviceMacOS::handleWindow, this, std::placeholders::_1);
             engine->getEventDispatcher().addEventHandler(&eventHandler);
 
             CGDirectDisplayID displayId = windowMacOS->getDisplayId();
@@ -107,7 +107,7 @@ namespace ouzel
                 throw std::runtime_error("Failed to start display link");
         }
 
-        std::vector<Size2> RenderDeviceMetalMacOS::getSupportedResolutions() const
+        std::vector<Size2> MetalRenderDeviceMacOS::getSupportedResolutions() const
         {
             std::vector<Size2> result;
 
@@ -127,7 +127,7 @@ namespace ouzel
             return result;
         }
 
-        bool RenderDeviceMetalMacOS::handleWindow(const WindowEvent& event)
+        bool MetalRenderDeviceMacOS::handleWindow(const WindowEvent& event)
         {
             if (event.type == ouzel::Event::Type::SCREEN_CHANGE)
             {
@@ -164,7 +164,7 @@ namespace ouzel
             return false;
         }
 
-        void RenderDeviceMetalMacOS::renderCallback()
+        void MetalRenderDeviceMacOS::renderCallback()
         {
             if (running) process();
         }

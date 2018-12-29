@@ -47,17 +47,17 @@ typedef NSUInteger MTLLoadAction;
 #endif
 
 #include "graphics/RenderDevice.hpp"
-#include "graphics/metal/ShaderMetal.hpp"
-#include "graphics/metal/TextureMetal.hpp"
+#include "graphics/metal/MetalShader.hpp"
+#include "graphics/metal/MetalTexture.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class BlendStateMetal;
-        class ShaderMetal;
+        class MetalBlendState;
+        class MetalShader;
 
-        class RenderDeviceMetal: public RenderDevice
+        class MetalRenderDevice: public RenderDevice
         {
             friend Renderer;
         public:
@@ -66,14 +66,14 @@ namespace ouzel
 
             static bool available();
 
-            ~RenderDeviceMetal();
+            ~MetalRenderDevice();
 
             inline MTLDevicePtr getDevice() const { return device; }
 
             MTLSamplerStatePtr getSamplerState(const SamplerStateDescriptor& descriptor);
 
         protected:
-            RenderDeviceMetal(const std::function<void(const Event&)>& initCallback);
+            MetalRenderDevice(const std::function<void(const Event&)>& initCallback);
 
             void init(Window* newWindow,
                       const Size2& newSize,
@@ -97,8 +97,8 @@ namespace ouzel
             class PipelineStateDesc
             {
             public:
-                BlendStateMetal* blendState = nullptr;
-                ShaderMetal* shader = nullptr;
+                MetalBlendState* blendState = nullptr;
+                MetalShader* shader = nullptr;
                 NSUInteger sampleCount = 0;
                 MTLPixelFormat colorFormat;
                 MTLPixelFormat depthFormat;
@@ -144,7 +144,7 @@ namespace ouzel
 
             std::map<PipelineStateDesc, MTLRenderPipelineStatePtr> pipelineStates;
 
-            std::vector<std::unique_ptr<RenderResourceMetal>> resources;
+            std::vector<std::unique_ptr<MetalRenderResource>> resources;
         };
     } // namespace graphics
 } // namespace ouzel

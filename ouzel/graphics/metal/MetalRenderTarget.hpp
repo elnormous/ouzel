@@ -7,18 +7,18 @@
 
 #if OUZEL_COMPILE_METAL
 
-#include "graphics/metal/RenderResourceMetal.hpp"
+#include "graphics/metal/MetalRenderResource.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class RenderDeviceMetal;
+        class MetalRenderDevice;
 
-        class RenderTargetMetal final: public RenderResourceMetal
+        class MetalRenderTarget final: public MetalRenderResource
         {
         public:
-            explicit RenderTargetMetal(RenderDeviceMetal& renderDeviceMetal);
+            explicit MetalRenderTarget(MetalRenderDevice& renderDeviceMetal);
         };
     } // namespace graphics
 } // namespace ouzel

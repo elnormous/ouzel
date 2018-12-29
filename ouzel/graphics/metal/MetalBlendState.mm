@@ -4,8 +4,8 @@
 
 #if OUZEL_COMPILE_METAL
 
-#include "BlendStateMetal.hpp"
-#include "RenderDeviceMetal.hpp"
+#include "MetalBlendState.hpp"
+#include "MetalRenderDevice.hpp"
 
 namespace ouzel
 {
@@ -47,14 +47,14 @@ namespace ouzel
             return MTLBlendOperationAdd;
         }
 
-        BlendStateMetal::BlendStateMetal(RenderDeviceMetal& renderDeviceMetal,
+        MetalBlendState::MetalBlendState(MetalRenderDevice& renderDeviceMetal,
                                          bool enableBlending,
                                          BlendState::Factor colorBlendSource, BlendState::Factor colorBlendDest,
                                          BlendState::Operation colorOperation,
                                          BlendState::Factor alphaBlendSource, BlendState::Factor alphaBlendDest,
                                          BlendState::Operation alphaOperation,
                                          uint8_t colorMask):
-            RenderResourceMetal(renderDeviceMetal)
+            MetalRenderResource(renderDeviceMetal)
         {
             rgbBlendOperation = getBlendOperation(colorOperation);
             alphaBlendOperation = getBlendOperation(alphaOperation);

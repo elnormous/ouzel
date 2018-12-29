@@ -24,14 +24,14 @@ typedef NSUInteger MTLLoadAction;
 #endif
 
 #include <tuple>
-#include "graphics/metal/RenderResourceMetal.hpp"
+#include "graphics/metal/MetalRenderResource.hpp"
 #include "graphics/Texture.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class RenderDeviceMetal;
+        class MetalRenderDevice;
 
         class SamplerStateDescriptor final
         {
@@ -47,15 +47,15 @@ namespace ouzel
             }
         };
 
-        class TextureMetal final: public RenderResourceMetal
+        class MetalTexture final: public MetalRenderResource
         {
         public:
-            TextureMetal(RenderDeviceMetal& renderDeviceMetal,
+            MetalTexture(MetalRenderDevice& renderDeviceMetal,
                          const std::vector<Texture::Level>& levels,
                          uint32_t newFlags = 0,
                          uint32_t newSampleCount = 1,
                          PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
-            ~TextureMetal();
+            ~MetalTexture();
 
             void setData(const std::vector<Texture::Level>& levels);
             void setFilter(Texture::Filter filter);

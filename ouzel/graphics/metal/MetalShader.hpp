@@ -17,19 +17,19 @@ typedef id MTLFunctionPtr;
 typedef id MTLVertexDescriptorPtr;
 #endif
 
-#include "graphics/metal/RenderResourceMetal.hpp"
+#include "graphics/metal/MetalRenderResource.hpp"
 #include "graphics/Shader.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class RenderDeviceMetal;
+        class MetalRenderDevice;
 
-        class ShaderMetal final: public RenderResourceMetal
+        class MetalShader final: public MetalRenderResource
         {
         public:
-            ShaderMetal(RenderDeviceMetal& renderDeviceMetal,
+            MetalShader(MetalRenderDevice& renderDeviceMetal,
                         const std::vector<uint8_t>& fragmentShaderData,
                         const std::vector<uint8_t>& vertexShaderData,
                         const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
@@ -39,7 +39,7 @@ namespace ouzel
                         uint32_t newVertexShaderDataAlignment,
                         const std::string& fragmentShaderFunction,
                         const std::string& vertexShaderFunction);
-            ~ShaderMetal();
+            ~MetalShader();
 
             struct Location final
             {

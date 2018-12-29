@@ -4,8 +4,8 @@
 
 #if OUZEL_COMPILE_METAL
 
-#include "DepthStencilStateMetal.hpp"
-#include "RenderDeviceMetal.hpp"
+#include "MetalDepthStencilState.hpp"
+#include "MetalRenderDevice.hpp"
 
 namespace ouzel
 {
@@ -28,11 +28,11 @@ namespace ouzel
             return MTLCompareFunctionNever;
         }
 
-        DepthStencilStateMetal::DepthStencilStateMetal(RenderDeviceMetal& renderDeviceMetal,
+        MetalDepthStencilState::MetalDepthStencilState(MetalRenderDevice& renderDeviceMetal,
                                                        bool initDepthTest,
                                                        bool initDepthWrite,
                                                        DepthStencilState::CompareFunction initCompareFunction):
-            RenderResourceMetal(renderDeviceMetal)
+            MetalRenderResource(renderDeviceMetal)
         {
             MTLDepthStencilDescriptor* depthStencilDescriptor = [MTLDepthStencilDescriptor new];
 
@@ -42,7 +42,7 @@ namespace ouzel
             [depthStencilDescriptor release];
         }
 
-        DepthStencilStateMetal::~DepthStencilStateMetal()
+        MetalDepthStencilState::~MetalDepthStencilState()
         {
             if (depthStencilState) [depthStencilState release];
         }
