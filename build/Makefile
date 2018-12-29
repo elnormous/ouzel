@@ -81,7 +81,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/files/Archive.cpp \
 	$(ROOT_DIR)/../ouzel/files/File.cpp \
 	$(ROOT_DIR)/../ouzel/files/FileSystem.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/empty/RenderDeviceEmpty.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/empty/EmptyRenderDevice.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/BlendStateOGL.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/BufferOGL.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/DepthStencilStateOGL.cpp \

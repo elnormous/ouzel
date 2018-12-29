@@ -33,7 +33,7 @@
 #  include "graphics/opengl/emscripten/RenderDeviceOGLEm.hpp"
 #endif
 
-#include "graphics/empty/RenderDeviceEmpty.hpp"
+#include "graphics/empty/EmptyRenderDevice.hpp"
 #include "graphics/opengl/RenderDeviceOGL.hpp"
 #include "graphics/direct3d11/RenderDeviceD3D11.hpp"
 #include "graphics/metal/RenderDeviceMetal.hpp"
@@ -158,7 +158,7 @@ namespace ouzel
 #endif
                 default:
                     engine->log(Log::Level::INFO) << "Not using render driver";
-                    device.reset(new RenderDeviceEmpty(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device.reset(new EmptyRenderDevice(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
                     break;
             }
 
