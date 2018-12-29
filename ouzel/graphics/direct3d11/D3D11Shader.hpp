@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_GRAPHICS_SHADERD3D11_HPP
-#define OUZEL_GRAPHICS_SHADERD3D11_HPP
+#ifndef OUZEL_GRAPHICS_D3D11SHADER_HPP
+#define OUZEL_GRAPHICS_D3D11SHADER_HPP
 
 #include "core/Setup.h"
 
@@ -9,19 +9,19 @@
 
 #include <vector>
 #include <d3d11.h>
-#include "graphics/direct3d11/RenderResourceD3D11.hpp"
+#include "graphics/direct3d11/D3D11RenderResource.hpp"
 #include "graphics/Shader.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class RenderDeviceD3D11;
+        class D3D11RenderDevice;
 
-        class ShaderD3D11 final: public RenderResourceD3D11
+        class D3D11Shader final: public D3D11RenderResource
         {
         public:
-            ShaderD3D11(RenderDeviceD3D11& renderDeviceD3D11,
+            D3D11Shader(D3D11RenderDevice& renderDeviceD3D11,
                         const std::vector<uint8_t>& fragmentShaderData,
                         const std::vector<uint8_t>& vertexShaderData,
                         const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
@@ -31,7 +31,7 @@ namespace ouzel
                         uint32_t,
                         const std::string& fragmentShaderFunction,
                         const std::string& vertexShaderFunction);
-            ~ShaderD3D11();
+            ~D3D11Shader();
 
             struct Location final
             {
@@ -74,4 +74,4 @@ namespace ouzel
 
 #endif
 
-#endif // OUZEL_GRAPHICS_SHADERD3D11_HPP
+#endif // OUZEL_GRAPHICS_D3D11SHADER_HPP

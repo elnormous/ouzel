@@ -35,7 +35,7 @@
 
 #include "graphics/empty/EmptyRenderDevice.hpp"
 #include "graphics/opengl/RenderDeviceOGL.hpp"
-#include "graphics/direct3d11/RenderDeviceD3D11.hpp"
+#include "graphics/direct3d11/D3D11RenderDevice.hpp"
 #include "graphics/metal/MetalRenderDevice.hpp"
 
 static constexpr float GAMMA = 2.2F;
@@ -141,7 +141,7 @@ namespace ouzel
 #if OUZEL_COMPILE_DIRECT3D11
                 case Driver::DIRECT3D11:
                     engine->log(Log::Level::INFO) << "Using Direct3D 11 render driver";
-                    device.reset(new RenderDeviceD3D11(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device.reset(new D3D11RenderDevice(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
                     break;
 #endif
 #if OUZEL_COMPILE_METAL

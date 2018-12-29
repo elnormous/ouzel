@@ -22,7 +22,7 @@
     <ClCompile Include="..\ouzel\graphics\BlendState.cpp">
       <Filter>ouzel\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\direct3d11\BlendStateD3D11.cpp">
+    <ClCompile Include="..\ouzel\graphics\direct3d11\D3D11BlendState.cpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\graphics\opengl\BlendStateOGL.cpp">
@@ -40,7 +40,7 @@
     <ClCompile Include="..\ouzel\graphics\Buffer.cpp">
       <Filter>ouzel\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\direct3d11\BufferD3D11.cpp">
+    <ClCompile Include="..\ouzel\graphics\direct3d11\D3D11Buffer.cpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\graphics\opengl\BufferOGL.cpp">
@@ -304,7 +304,7 @@
     <ClCompile Include="..\ouzel\audio\xaudio2\XAudio27.cpp">
       <Filter>ouzel\audio\xaudio2</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\direct3d11\RenderDeviceD3D11.cpp">
+    <ClCompile Include="..\ouzel\graphics\direct3d11\D3D11RenderDevice.cpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\graphics\opengl\RenderDeviceOGL.cpp">
@@ -316,13 +316,13 @@
     <ClCompile Include="..\ouzel\graphics\empty\EmptyRenderDevice.cpp">
       <Filter>ouzel\graphics\empty</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\direct3d11\ShaderD3D11.cpp">
+    <ClCompile Include="..\ouzel\graphics\direct3d11\D3D11Shader.cpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\graphics\opengl\ShaderOGL.cpp">
       <Filter>ouzel\graphics\opengl</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\direct3d11\TextureD3D11.cpp">
+    <ClCompile Include="..\ouzel\graphics\direct3d11\D3D11Texture.cpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\graphics\opengl\TextureOGL.cpp">
@@ -406,7 +406,7 @@
     <ClCompile Include="..\ouzel\graphics\opengl\RenderTargetOGL.cpp">
       <Filter>ouzel\graphics\opengl</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\direct3d11\RenderTargetD3D11.cpp">
+    <ClCompile Include="..\ouzel\graphics\direct3d11\D3D11RenderTarget.cpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\network\Socket.cpp">
@@ -448,7 +448,7 @@
     <ClCompile Include="..\ouzel\graphics\opengl\DepthStencilStateOGL.cpp">
       <Filter>ouzel\graphics\opengl</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\direct3d11\DepthStencilStateD3D11.cpp">
+    <ClCompile Include="..\ouzel\graphics\direct3d11\D3D11DepthStencilState.cpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\audio\Filter.cpp">
@@ -522,7 +522,7 @@
     <ClInclude Include="..\ouzel\graphics\BlendState.hpp">
       <Filter>ouzel\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\direct3d11\BlendStateD3D11.hpp">
+    <ClInclude Include="..\ouzel\graphics\direct3d11\D3D11BlendState.hpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\opengl\BlendStateOGL.hpp">
@@ -540,7 +540,7 @@
     <ClInclude Include="..\ouzel\graphics\Buffer.hpp">
       <Filter>ouzel\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\direct3d11\BufferD3D11.hpp">
+    <ClInclude Include="..\ouzel\graphics\direct3d11\D3D11Buffer.hpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\opengl\BufferOGL.hpp">
@@ -825,7 +825,7 @@
     <ClInclude Include="..\ouzel\audio\xaudio2\XAudio27.hpp">
       <Filter>ouzel\audio\xaudio2</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\direct3d11\RenderDeviceD3D11.hpp">
+    <ClInclude Include="..\ouzel\graphics\direct3d11\D3D11RenderDevice.hpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\opengl\RenderDeviceOGL.hpp">
@@ -837,13 +837,13 @@
     <ClInclude Include="..\ouzel\graphics\empty\EmptyRenderDevice.hpp">
       <Filter>ouzel\graphics\empty</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\direct3d11\ShaderD3D11.hpp">
+    <ClInclude Include="..\ouzel\graphics\direct3d11\D3D11Shader.hpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\opengl\ShaderOGL.hpp">
       <Filter>ouzel\graphics\opengl</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\direct3d11\TextureD3D11.hpp">
+    <ClInclude Include="..\ouzel\graphics\direct3d11\D3D11Texture.hpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\opengl\TextureOGL.hpp">
@@ -951,7 +951,7 @@
     <ClInclude Include="..\ouzel\assets\GltfLoader.hpp">
       <Filter>ouzel\assets</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\direct3d11\RenderTargetD3D11.hpp">
+    <ClInclude Include="..\ouzel\graphics\direct3d11\D3D11RenderTarget.hpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\opengl\RenderTargetOGL.hpp">
@@ -963,7 +963,7 @@
     <ClInclude Include="..\ouzel\assets\Bundle.hpp">
       <Filter>ouzel\assets</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\direct3d11\RenderResourceD3D11.hpp">
+    <ClInclude Include="..\ouzel\graphics\direct3d11\D3D11RenderResource.hpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\opengl\RenderResourceOGL.hpp">
@@ -999,7 +999,7 @@
     <ClInclude Include="..\ouzel\graphics\opengl\DepthStencilStateOGL.hpp">
       <Filter>ouzel\graphics\opengl</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\direct3d11\DepthStencilStateD3D11.hpp">
+    <ClInclude Include="..\ouzel\graphics\direct3d11\D3D11DepthStencilState.hpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\DrawMode.hpp">

@@ -11,7 +11,7 @@
 #include "input/windows/InputSystemWin.hpp"
 #include "graphics/Renderer.hpp"
 #include "graphics/RenderDevice.hpp"
-#include "graphics/direct3d11/RenderDeviceD3D11.hpp"
+#include "graphics/direct3d11/D3D11RenderDevice.hpp"
 #include "utils/Log.hpp"
 
 static constexpr LONG_PTR SIGNATURE_MASK = 0x0FFFFFF00;
@@ -626,7 +626,7 @@ namespace ouzel
         {
             if (engine->getRenderer()->getDevice()->getDriver() == graphics::Driver::DIRECT3D11)
             {
-                graphics::RenderDeviceD3D11* renderDeviceD3D11 = static_cast<graphics::RenderDeviceD3D11*>(engine->getRenderer()->getDevice());
+                graphics::D3D11RenderDevice* renderDeviceD3D11 = static_cast<graphics::D3D11RenderDevice*>(engine->getRenderer()->getDevice());
                 renderDeviceD3D11->setFullscreen(newFullscreen);
             }
         }

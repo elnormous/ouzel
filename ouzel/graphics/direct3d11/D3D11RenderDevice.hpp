@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_GRAPHICS_RENDERDEVICED3D11_HPP
-#define OUZEL_GRAPHICS_RENDERDEVICED3D11_HPP
+#ifndef OUZEL_GRAPHICS_D3D11RENDERDEVICE_HPP
+#define OUZEL_GRAPHICS_D3D11RENDERDEVICE_HPP
 
 #include "core/Setup.h"
 
@@ -15,7 +15,7 @@
 #include <vector>
 #include <d3d11.h>
 #include "graphics/RenderDevice.hpp"
-#include "graphics/direct3d11/TextureD3D11.hpp"
+#include "graphics/direct3d11/D3D11Texture.hpp"
 
 namespace ouzel
 {
@@ -51,11 +51,11 @@ namespace ouzel
 
         extern const Direct3D11ErrorCategory direct3D11ErrorCategory;
 
-        class RenderDeviceD3D11 final: public RenderDevice
+        class D3D11RenderDevice final: public RenderDevice
         {
             friend Renderer;
         public:
-            ~RenderDeviceD3D11();
+            ~D3D11RenderDevice();
 
             std::vector<Size2> getSupportedResolutions() const override;
 
@@ -66,7 +66,7 @@ namespace ouzel
             void setFullscreen(bool newFullscreen);
 
         protected:
-            RenderDeviceD3D11(const std::function<void(const Event&)>& initCallback);
+            D3D11RenderDevice(const std::function<void(const Event&)>& initCallback);
 
             void init(Window* newWindow,
                       const Size2& newSize,
@@ -113,11 +113,11 @@ namespace ouzel
             std::atomic_bool running{false};
             std::thread renderThread;
 
-            std::vector<std::unique_ptr<RenderResourceD3D11>> resources;
+            std::vector<std::unique_ptr<D3D11RenderResource>> resources;
         };
     } // namespace graphics
 } // namespace ouzel
 
 #endif
 
-#endif // OUZEL_GRAPHICS_RENDERDEVICED3D11_HPP
+#endif // OUZEL_GRAPHICS_D3D11RENDERDEVICE_HPP

@@ -175,12 +175,12 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/dsound/AudioDeviceDS.cpp \
 	$(ROOT_DIR)/../ouzel/core/windows/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/windows/NativeWindowWin.cpp \
 	$(ROOT_DIR)/../ouzel/core/windows/SystemWin.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/direct3d11/BlendStateD3D11.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/direct3d11/BufferD3D11.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/direct3d11/DepthStencilStateD3D11.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/direct3d11/RenderDeviceD3D11.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/direct3d11/ShaderD3D11.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/direct3d11/TextureD3D11.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/direct3d11/D3D11BlendState.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/direct3d11/D3D11Buffer.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/direct3d11/D3D11DepthStencilState.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/direct3d11/D3D11RenderDevice.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/direct3d11/D3D11Shader.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/direct3d11/D3D11Texture.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/windows/RenderDeviceOGLWin.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/GamepadDeviceDI.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/GamepadDeviceXI.cpp \

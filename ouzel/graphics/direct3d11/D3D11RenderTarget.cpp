@@ -4,15 +4,15 @@
 
 #if OUZEL_COMPILE_DIRECT3D11
 
-#include "RenderTargetD3D11.hpp"
-#include "RenderDeviceD3D11.hpp"
+#include "D3D11RenderTarget.hpp"
+#include "D3D11RenderDevice.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        RenderTargetD3D11::RenderTargetD3D11(RenderDeviceD3D11& renderDeviceD3D11):
-            RenderResourceD3D11(renderDeviceD3D11)
+        D3D11RenderTarget::D3D11RenderTarget(D3D11RenderDevice& renderDeviceD3D11):
+            D3D11RenderResource(renderDeviceD3D11)
         {
         }
     } // namespace graphics
