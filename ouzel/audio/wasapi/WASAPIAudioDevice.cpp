@@ -4,7 +4,7 @@
 
 #if OUZEL_COMPILE_WASAPI
 
-#include "AudioDeviceWASAPI.hpp"
+#include "WASAPIAudioDevice.hpp"
 #include "core/Engine.hpp"
 #include "utils/Utils.hpp"
 
@@ -162,7 +162,7 @@ namespace ouzel
 
         const WASAPIErrorCategory wasapiErrorCategory{};
 
-        AudioDeviceWASAPI::AudioDeviceWASAPI(mixer::Mixer& initMixer):
+        WASAPIAudioDevice::WASAPIAudioDevice(mixer::Mixer& initMixer):
             AudioDevice(Driver::WASAPI, initMixer)
         {
             HRESULT hr;
@@ -238,10 +238,10 @@ namespace ouzel
 
             started = true;
             running = true;
-            audioThread = std::thread(&AudioDeviceWASAPI::run, this);
+            audioThread = std::thread(&WASAPIAudioDevice::run, this);
         }
 
-        AudioDeviceWASAPI::~AudioDeviceWASAPI()
+        WASAPIAudioDevice::~WASAPIAudioDevice()
         {
             running = false;
             if (notifyEvent) SetEvent(notifyEvent);
@@ -261,7 +261,7 @@ namespace ouzel
             if (enumerator) enumerator->Release();
         }
 
-        void AudioDeviceWASAPI::run()
+        void WASAPIAudioDevice::run()
         {
             setCurrentThreadName("Audio");
 

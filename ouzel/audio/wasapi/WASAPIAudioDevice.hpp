@@ -17,11 +17,11 @@ namespace ouzel
 {
     namespace audio
     {
-        class AudioDeviceWASAPI final: public AudioDevice
+        class WASAPIAudioDevice final: public AudioDevice
         {
         public:
-            explicit AudioDeviceWASAPI(mixer::Mixer& initMixer);
-            ~AudioDeviceWASAPI();
+            explicit WASAPIAudioDevice(mixer::Mixer& initMixer);
+            ~WASAPIAudioDevice();
 
         private:
             void run();

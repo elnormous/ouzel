@@ -25,11 +25,11 @@ namespace ouzel
 {
     namespace audio
     {
-        class AudioDeviceAL final: public AudioDevice
+        class OALAudioDevice final: public AudioDevice
         {
         public:
-            explicit AudioDeviceAL(mixer::Mixer& initMixer);
-            ~AudioDeviceAL();
+            explicit OALAudioDevice(mixer::Mixer& initMixer);
+            ~OALAudioDevice();
 
             void process() override;
 

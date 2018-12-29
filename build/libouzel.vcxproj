@@ -43,8 +43,8 @@
     <ClCompile Include="..\ouzel\assets\WaveLoader.cpp" />
     <ClCompile Include="..\ouzel\audio\Audio.cpp" />
     <ClCompile Include="..\ouzel\audio\AudioDevice.cpp" />
-    <ClCompile Include="..\ouzel\audio\dsound\AudioDeviceDS.cpp" />
-    <ClCompile Include="..\ouzel\audio\empty\AudioDeviceEmpty.cpp" />
+    <ClCompile Include="..\ouzel\audio\dsound\DSAudioDevice.cpp" />
+    <ClCompile Include="..\ouzel\audio\empty\EmptyAudioDevice.cpp" />
     <ClCompile Include="..\ouzel\audio\Filter.cpp" />
     <ClCompile Include="..\ouzel\audio\Filters.cpp" />
     <ClCompile Include="..\ouzel\audio\mixer\Bus.cpp" />
@@ -64,8 +64,8 @@
     <ClCompile Include="..\ouzel\audio\mixer\Source.cpp" />
     <ClCompile Include="..\ouzel\audio\mixer\SourceData.cpp" />
     <ClCompile Include="..\ouzel\audio\Submix.cpp" />
-    <ClCompile Include="..\ouzel\audio\wasapi\AudioDeviceWASAPI.cpp" />
-    <ClCompile Include="..\ouzel\audio\xaudio2\AudioDeviceXA2.cpp" />
+    <ClCompile Include="..\ouzel\audio\wasapi\WASAPIAudioDevice.cpp" />
+    <ClCompile Include="..\ouzel\audio\xaudio2\XA2AudioDevice.cpp" />
     <ClCompile Include="..\ouzel\audio\xaudio2\XAudio27.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\external\Microsoft DirectX SDK (June 2010)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\external\Microsoft DirectX SDK (June 2010)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -218,8 +218,8 @@
     <ClInclude Include="..\ouzel\audio\AudioDevice.hpp" />
     <ClInclude Include="..\ouzel\audio\Channel.hpp" />
     <ClInclude Include="..\ouzel\audio\Driver.hpp" />
-    <ClInclude Include="..\ouzel\audio\dsound\AudioDeviceDS.hpp" />
-    <ClInclude Include="..\ouzel\audio\empty\AudioDeviceEmpty.hpp" />
+    <ClInclude Include="..\ouzel\audio\dsound\DSAudioDevice.hpp" />
+    <ClInclude Include="..\ouzel\audio\empty\EmptyAudioDevice.hpp" />
     <ClInclude Include="..\ouzel\audio\Filter.hpp" />
     <ClInclude Include="..\ouzel\audio\Filters.hpp" />
     <ClInclude Include="..\ouzel\audio\mixer\Bus.hpp" />
@@ -242,8 +242,8 @@
     <ClInclude Include="..\ouzel\audio\mixer\Source.hpp" />
     <ClInclude Include="..\ouzel\audio\mixer\SourceData.hpp" />
     <ClInclude Include="..\ouzel\audio\Submix.hpp" />
-    <ClInclude Include="..\ouzel\audio\wasapi\AudioDeviceWASAPI.hpp" />
-    <ClInclude Include="..\ouzel\audio\xaudio2\AudioDeviceXA2.hpp" />
+    <ClInclude Include="..\ouzel\audio\wasapi\WASAPIAudioDevice.hpp" />
+    <ClInclude Include="..\ouzel\audio\xaudio2\XA2AudioDevice.hpp" />
     <ClInclude Include="..\ouzel\audio\xaudio2\XAudio27.hpp" />
     <ClInclude Include="..\ouzel\assets\Cache.hpp" />
     <ClInclude Include="..\ouzel\assets\Loader.hpp" />

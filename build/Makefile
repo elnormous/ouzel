@@ -49,7 +49,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/assets/TtfLoader.cpp \
 	$(ROOT_DIR)/../ouzel/assets/VorbisLoader.cpp \
 	$(ROOT_DIR)/../ouzel/assets/WaveLoader.cpp \
-	$(ROOT_DIR)/../ouzel/audio/empty/AudioDeviceEmpty.cpp \
+	$(ROOT_DIR)/../ouzel/audio/empty/EmptyAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/audio/mixer/Bus.cpp \
 	$(ROOT_DIR)/../ouzel/audio/mixer/Mixer.cpp \
 	$(ROOT_DIR)/../ouzel/audio/mixer/Processor.cpp \
@@ -170,7 +170,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/utils/Utils.cpp \
 	$(ROOT_DIR)/../ouzel/utils/XML.cpp
 ifeq ($(platform),windows)
-SOURCES+=$(ROOT_DIR)/../ouzel/audio/dsound/AudioDeviceDS.cpp \
+SOURCES+=$(ROOT_DIR)/../ouzel/audio/dsound/DSAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/core/windows/EngineWin.cpp \
 	$(ROOT_DIR)/../ouzel/core/windows/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/windows/NativeWindowWin.cpp \
@@ -190,8 +190,8 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/dsound/AudioDeviceDS.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/CursorWin.cpp
 CXXFLAGS+=-DWINVER=0x0601 -D_WIN32_WINNT=0x0601
 else ifeq ($(platform),linux)
-SOURCES+=$(ROOT_DIR)/../ouzel/audio/alsa/AudioDeviceALSA.cpp \
-	$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \
+SOURCES+=$(ROOT_DIR)/../ouzel/audio/alsa/ALSAAudioDevice.cpp \
+	$(ROOT_DIR)/../ouzel/audio/openal/OALAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/core/linux/EngineLinux.cpp \
 	$(ROOT_DIR)/../ouzel/core/linux/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/linux/NativeWindowLinux.cpp \
@@ -206,8 +206,8 @@ ifneq ($(filter arm%,$(architecture)),) # ARM Linux
 CXXFLAGS+=-I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux
 endif
 else ifeq ($(platform),macos)
-SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
-	$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \
+SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/CAAudioDevice.cpp \
+	$(ROOT_DIR)/../ouzel/audio/openal/OALAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/core/macos/EngineMacOS.mm \
 	$(ROOT_DIR)/../ouzel/core/macos/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/macos/NativeWindowMacOS.mm \
@@ -230,8 +230,8 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/input/macos/MouseDeviceMacOS.mm \
 	$(ROOT_DIR)/../ouzel/input/macos/CursorMacOS.cpp
 else ifeq ($(platform),ios)
-SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
-	$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \
+SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/CAAudioDevice.cpp \
+	$(ROOT_DIR)/../ouzel/audio/openal/OALAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/core/ios/DisplayLink.mm \
 	$(ROOT_DIR)/../ouzel/core/ios/EngineIOS.mm \
 	$(ROOT_DIR)/../ouzel/core/ios/main.cpp \
@@ -254,8 +254,8 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
 CXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
 else ifeq ($(platform),tvos)
-SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
-	$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \
+SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/CAAudioDevice.cpp \
+	$(ROOT_DIR)/../ouzel/audio/openal/OALAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/core/tvos/DisplayLink.mm \
 	$(ROOT_DIR)/../ouzel/core/tvos/EngineTVOS.mm \
 	$(ROOT_DIR)/../ouzel/core/tvos/main.cpp \
@@ -278,7 +278,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
 CXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
 else ifeq ($(platform),emscripten)
-SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \
+SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/OALAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/EngineEm.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/NativeWindowEm.cpp \

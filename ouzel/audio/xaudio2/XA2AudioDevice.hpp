@@ -18,11 +18,11 @@ namespace ouzel
 {
     namespace audio
     {
-        class AudioDeviceXA2 final: public AudioDevice, public IXAudio2VoiceCallback
+        class XA2AudioDevice final: public AudioDevice, public IXAudio2VoiceCallback
         {
         public:
-            AudioDeviceXA2(mixer::Mixer& initMixer, bool debugAudio);
-            ~AudioDeviceXA2();
+            XA2AudioDevice(mixer::Mixer& initMixer, bool debugAudio);
+            ~XA2AudioDevice();
 
         private:
             void run();

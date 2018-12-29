@@ -5,7 +5,7 @@
 #if OUZEL_COMPILE_COREAUDIO
 
 #include <system_error>
-#include "AudioDeviceCA.hpp"
+#include "CAAudioDevice.hpp"
 #include "core/Engine.hpp"
 #include "utils/Log.hpp"
 
@@ -32,7 +32,7 @@ static OSStatus outputCallback(void* inRefCon,
                                UInt32, UInt32,
                                AudioBufferList* ioData)
 {
-    ouzel::audio::AudioDeviceCA* audioDeviceCA = static_cast<ouzel::audio::AudioDeviceCA*>(inRefCon);
+    ouzel::audio::CAAudioDevice* audioDeviceCA = static_cast<ouzel::audio::CAAudioDevice*>(inRefCon);
 
     try
     {
@@ -77,7 +77,7 @@ namespace ouzel
 
         const CoreAudioErrorCategory coreAudioErrorCategory {};
 
-        AudioDeviceCA::AudioDeviceCA(mixer::Mixer& initMixer):
+        CAAudioDevice::CAAudioDevice(mixer::Mixer& initMixer):
             AudioDevice(Driver::COREAUDIO, initMixer)
         {
             OSStatus result;
@@ -252,7 +252,7 @@ namespace ouzel
                 throw std::system_error(result, coreAudioErrorCategory, "Failed to start CoreAudio output unit");
         }
 
-        AudioDeviceCA::~AudioDeviceCA()
+        CAAudioDevice::~CAAudioDevice()
         {
             if (audioUnit)
             {
@@ -293,7 +293,7 @@ namespace ouzel
 #endif
         }
 
-        void AudioDeviceCA::outputCallback(AudioBufferList* ioData)
+        void CAAudioDevice::outputCallback(AudioBufferList* ioData)
         {
             process();
 

@@ -1,12 +1,12 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include "AudioDeviceEmpty.hpp"
+#include "EmptyAudioDevice.hpp"
 
 namespace ouzel
 {
     namespace audio
     {
-        AudioDeviceEmpty::AudioDeviceEmpty(mixer::Mixer& initMixer):
+        EmptyAudioDevice::EmptyAudioDevice(mixer::Mixer& initMixer):
             AudioDevice(Driver::EMPTY, initMixer)
         {
         }

@@ -23,11 +23,11 @@ namespace ouzel
 {
     namespace audio
     {
-        class AudioDeviceCA final: public AudioDevice
+        class CAAudioDevice final: public AudioDevice
         {
         public:
-            explicit AudioDeviceCA(mixer::Mixer& initMixer);
-            ~AudioDeviceCA();
+            explicit CAAudioDevice(mixer::Mixer& initMixer);
+            ~CAAudioDevice();
 
             void outputCallback(AudioBufferList* ioData);
 

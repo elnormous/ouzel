@@ -5,15 +5,15 @@
 #include "Audio.hpp"
 #include "AudioDevice.hpp"
 #include "Listener.hpp"
-#include "alsa/AudioDeviceALSA.hpp"
+#include "alsa/ALSAAudioDevice.hpp"
 #include "core/Engine.hpp"
-#include "coreaudio/AudioDeviceCA.hpp"
-#include "dsound/AudioDeviceDS.hpp"
-#include "empty/AudioDeviceEmpty.hpp"
-#include "openal/AudioDeviceAL.hpp"
-#include "opensl/AudioDeviceSL.hpp"
-#include "xaudio2/AudioDeviceXA2.hpp"
-#include "wasapi/AudioDeviceWASAPI.hpp"
+#include "coreaudio/CAAudioDevice.hpp"
+#include "dsound/DSAudioDevice.hpp"
+#include "empty/EmptyAudioDevice.hpp"
+#include "openal/OALAudioDevice.hpp"
+#include "opensl/OSLAudioDevice.hpp"
+#include "xaudio2/XA2AudioDevice.hpp"
+#include "wasapi/WASAPIAudioDevice.hpp"
 #include "math/MathUtils.hpp"
 #include "utils/Log.hpp"
 
@@ -110,43 +110,43 @@ namespace ouzel
 #if OUZEL_COMPILE_OPENAL
                 case Driver::OPENAL:
                     engine->log(Log::Level::INFO) << "Using OpenAL audio driver";
-                    return std::unique_ptr<AudioDevice>(new AudioDeviceAL(mixer));
+                    return std::unique_ptr<AudioDevice>(new OALAudioDevice(mixer));
 #endif
 #if OUZEL_COMPILE_DIRECTSOUND
                 case Driver::DIRECTSOUND:
                     engine->log(Log::Level::INFO) << "Using DirectSound audio driver";
-                    return std::unique_ptr<AudioDevice>(new AudioDeviceDS(mixer, window));
+                    return std::unique_ptr<AudioDevice>(new DSAudioDevice(mixer, window));
 #endif
 #if OUZEL_COMPILE_XAUDIO2
                 case Driver::XAUDIO2:
                     engine->log(Log::Level::INFO) << "Using XAudio 2 audio driver";
-                    return std::unique_ptr<AudioDevice>(new AudioDeviceXA2(mixer, debugAudio));
+                    return std::unique_ptr<AudioDevice>(new XA2AudioDevice(mixer, debugAudio));
 #endif
 #if OUZEL_COMPILE_OPENSL
                 case Driver::OPENSL:
                     engine->log(Log::Level::INFO) << "Using OpenSL ES audio driver";
-                    return std::unique_ptr<AudioDevice>(new AudioDeviceSL(mixer));
+                    return std::unique_ptr<AudioDevice>(new OSLAudioDevice(mixer));
 #endif
 #if OUZEL_COMPILE_COREAUDIO
                 case Driver::COREAUDIO:
                     engine->log(Log::Level::INFO) << "Using CoreAudio audio driver";
-                    return std::unique_ptr<AudioDevice>(new AudioDeviceCA(mixer));
+                    return std::unique_ptr<AudioDevice>(new CAAudioDevice(mixer));
 #endif
 #if OUZEL_COMPILE_ALSA
                 case Driver::ALSA:
                     engine->log(Log::Level::INFO) << "Using ALSA audio driver";
-                    return std::unique_ptr<AudioDevice>(new AudioDeviceALSA(mixer));
+                    return std::unique_ptr<AudioDevice>(new ALSAAudioDevice(mixer));
 #endif
 #if OUZEL_COMPILE_WASAPI
                 case Driver::WASAPI:
                     engine->log(Log::Level::INFO) << "Using WASAPI audio driver";
-                    return std::unique_ptr<AudioDevice>(new AudioDeviceWASAPI(mixer));
+                    return std::unique_ptr<AudioDevice>(new WASAPIAudioDevice(mixer));
 #endif
                 default:
                     engine->log(Log::Level::INFO) << "Not using audio driver";
                     (void)debugAudio;
                     (void)window;
-                    return std::unique_ptr<AudioDevice>(new AudioDeviceEmpty(mixer));
+                    return std::unique_ptr<AudioDevice>(new EmptyAudioDevice(mixer));
             }
         }
 

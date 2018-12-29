@@ -16,11 +16,11 @@ namespace ouzel
 {
     namespace audio
     {
-        class AudioDeviceDS final: public AudioDevice
+        class DSAudioDevice final: public AudioDevice
         {
         public:
-            AudioDeviceDS(mixer::Mixer& initMixer, Window* window);
-            ~AudioDeviceDS();
+            DSAudioDevice(mixer::Mixer& initMixer, Window* window);
+            ~DSAudioDevice();
 
             IDirectSound8* getDirectSound() const { return directSound; }
 
