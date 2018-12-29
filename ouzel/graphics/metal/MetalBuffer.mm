@@ -6,18 +6,18 @@
 
 #include <algorithm>
 #include <stdexcept>
-#include "BufferMetal.hpp"
-#include "RenderDeviceMetal.hpp"
+#include "MetalBuffer.hpp"
+#include "MetalRenderDevice.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        BufferMetal::BufferMetal(RenderDeviceMetal& renderDeviceMetal,
+        MetalBuffer::MetalBuffer(MetalRenderDevice& renderDeviceMetal,
                                  Buffer::Usage newUsage, uint32_t newFlags,
                                  const std::vector<uint8_t>& data,
                                  uint32_t newSize):
-            RenderResourceMetal(renderDeviceMetal),
+            MetalRenderResource(renderDeviceMetal),
             usage(newUsage),
             flags(newFlags)
         {
@@ -27,12 +27,12 @@ namespace ouzel
                 std::copy(data.begin(), data.end(), static_cast<uint8_t*>([buffer contents]));
         }
 
-        BufferMetal::~BufferMetal()
+        MetalBuffer::~MetalBuffer()
         {
             if (buffer) [buffer release];
         }
 
-        void BufferMetal::setData(const std::vector<uint8_t>& data)
+        void MetalBuffer::setData(const std::vector<uint8_t>& data)
         {
             if (!(flags & Buffer::DYNAMIC))
                 throw std::runtime_error("Buffer is not dynamic");
@@ -47,7 +47,7 @@ namespace ouzel
                 std::copy(data.begin(), data.end(), static_cast<uint8_t*>([buffer contents]));
         }
 
-        void BufferMetal::createBuffer(NSUInteger newSize)
+        void MetalBuffer::createBuffer(NSUInteger newSize)
         {
             if (buffer)
             {

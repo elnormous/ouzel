@@ -15,23 +15,23 @@ typedef id<MTLBuffer> MTLBufferPtr;
 typedef id MTLBufferPtr;
 #endif
 
-#include "graphics/metal/RenderResourceMetal.hpp"
+#include "graphics/metal/MetalRenderResource.hpp"
 #include "graphics/Buffer.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class RenderDeviceMetal;
+        class MetalRenderDevice;
 
-        class BufferMetal final: public RenderResourceMetal
+        class MetalBuffer final: public MetalRenderResource
         {
         public:
-            BufferMetal(RenderDeviceMetal& renderDeviceMetal,
+            MetalBuffer(MetalRenderDevice& renderDeviceMetal,
                         Buffer::Usage newUsage, uint32_t newFlags,
                         const std::vector<uint8_t>& newData,
                         uint32_t newSize);
-            ~BufferMetal();
+            ~MetalBuffer();
 
             void setData(const std::vector<uint8_t>& data);
 

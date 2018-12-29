@@ -11,19 +11,19 @@
 
 #if TARGET_OS_TV && OUZEL_COMPILE_METAL
 
-#include "graphics/metal/RenderDeviceMetal.hpp"
+#include "graphics/metal/MetalRenderDevice.hpp"
 #include "core/tvos/DisplayLink.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class RenderDeviceMetalTVOS final: public RenderDeviceMetal
+        class MetalRenderDeviceTVOS final: public MetalRenderDevice
         {
             friend Renderer;
         public:
-            RenderDeviceMetalTVOS(const std::function<void(const Event&)>& initCallback);
-            ~RenderDeviceMetalTVOS();
+            MetalRenderDeviceTVOS(const std::function<void(const Event&)>& initCallback);
+            ~MetalRenderDeviceTVOS();
 
             void renderCallback();
 

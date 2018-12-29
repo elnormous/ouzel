@@ -6,8 +6,8 @@
 
 #include <algorithm>
 #include <stdexcept>
-#include "ShaderMetal.hpp"
-#include "RenderDeviceMetal.hpp"
+#include "MetalShader.hpp"
+#include "MetalRenderDevice.hpp"
 
 namespace ouzel
 {
@@ -82,7 +82,7 @@ namespace ouzel
             return MTLVertexFormatInvalid;
         }
 
-        ShaderMetal::ShaderMetal(RenderDeviceMetal& renderDeviceMetal,
+        MetalShader::MetalShader(MetalRenderDevice& renderDeviceMetal,
                                  const std::vector<uint8_t>& fragmentShaderData,
                                  const std::vector<uint8_t>& vertexShaderData,
                                  const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
@@ -92,7 +92,7 @@ namespace ouzel
                                  uint32_t newVertexShaderDataAlignment,
                                  const std::string& fragmentShaderFunction,
                                  const std::string& vertexShaderFunction):
-            RenderResourceMetal(renderDeviceMetal),
+            MetalRenderResource(renderDeviceMetal),
             vertexAttributes(newVertexAttributes),
             fragmentShaderConstantInfo(newFragmentShaderConstantInfo),
             vertexShaderConstantInfo(newVertexShaderConstantInfo)
@@ -215,7 +215,7 @@ namespace ouzel
             }
         }
 
-        ShaderMetal::~ShaderMetal()
+        MetalShader::~MetalShader()
         {
             if (vertexShader) [vertexShader release];
             if (fragmentShader) [fragmentShader release];

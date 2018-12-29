@@ -11,19 +11,19 @@
 
 #if TARGET_OS_IOS && OUZEL_COMPILE_METAL
 
-#include "graphics/metal/RenderDeviceMetal.hpp"
+#include "graphics/metal/MetalRenderDevice.hpp"
 #include "core/ios/DisplayLink.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class RenderDeviceMetalIOS final: public RenderDeviceMetal
+        class MetalRenderDeviceIOS final: public MetalRenderDevice
         {
             friend Renderer;
         public:
-            RenderDeviceMetalIOS(const std::function<void(const Event&)>& initCallback);
-            ~RenderDeviceMetalIOS();
+            MetalRenderDeviceIOS(const std::function<void(const Event&)>& initCallback);
+            ~MetalRenderDeviceIOS();
 
             void renderCallback();
 

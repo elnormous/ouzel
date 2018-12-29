@@ -17,23 +17,23 @@ typedef id<MTLDepthStencilState> MTLDepthStencilStatePtr;
 typedef id MTLDepthStencilStatePtr;
 #endif
 
-#include "graphics/metal/RenderResourceMetal.hpp"
+#include "graphics/metal/MetalRenderResource.hpp"
 #include "graphics/DepthStencilState.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class RenderDeviceMetal;
+        class MetalRenderDevice;
 
-        class DepthStencilStateMetal final: public RenderResourceMetal
+        class MetalDepthStencilState final: public MetalRenderResource
         {
         public:
-            DepthStencilStateMetal(RenderDeviceMetal& renderDeviceMetal,
+            MetalDepthStencilState(MetalRenderDevice& renderDeviceMetal,
                                    bool initDepthTest,
                                    bool initDepthWrite,
                                    DepthStencilState::CompareFunction initCompareFunction);
-            ~DepthStencilStateMetal();
+            ~MetalDepthStencilState();
 
             MTLDepthStencilStatePtr getDepthStencilState() const { return depthStencilState; }
 
