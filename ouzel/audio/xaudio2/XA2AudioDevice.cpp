@@ -5,7 +5,7 @@
 #if OUZEL_COMPILE_XAUDIO2
 
 #include <system_error>
-#include "AudioDeviceXA2.hpp"
+#include "XA2AudioDevice.hpp"
 #include "XAudio27.hpp"
 #include "core/Engine.hpp"
 #include "utils/Log.hpp"
@@ -43,7 +43,7 @@ namespace ouzel
 
         const XAudio2ErrorCategory xAudio2ErrorCategory {};
 
-        AudioDeviceXA2::AudioDeviceXA2(mixer::Mixer& initMixer, bool debugAudio):
+        XA2AudioDevice::XA2AudioDevice(mixer::Mixer& initMixer, bool debugAudio):
             AudioDevice(Driver::XAUDIO2, initMixer)
         {
             xAudio2Library = LoadLibraryA(XAUDIO2_DLL_28);
@@ -159,10 +159,10 @@ namespace ouzel
                 throw std::system_error(hr, xAudio2ErrorCategory, "Failed to start consuming sound data");
 
             running = true;
-            audioThread = std::thread(&AudioDeviceXA2::run, this);
+            audioThread = std::thread(&XA2AudioDevice::run, this);
         }
 
-        AudioDeviceXA2::~AudioDeviceXA2()
+        XA2AudioDevice::~XA2AudioDevice()
         {
             running = false;
 
@@ -184,7 +184,7 @@ namespace ouzel
             if (xAudio2Library) FreeModule(xAudio2Library);
         }
 
-        void AudioDeviceXA2::run()
+        void XA2AudioDevice::run()
         {
             setCurrentThreadName("Audio");
 
@@ -227,23 +227,23 @@ namespace ouzel
             }
         }
 
-        void AudioDeviceXA2::OnVoiceProcessingPassStart(UINT32)
+        void XA2AudioDevice::OnVoiceProcessingPassStart(UINT32)
         {
         }
 
-        void AudioDeviceXA2::OnVoiceProcessingPassEnd()
+        void XA2AudioDevice::OnVoiceProcessingPassEnd()
         {
         }
 
-        void AudioDeviceXA2::OnStreamEnd()
+        void XA2AudioDevice::OnStreamEnd()
         {
         }
 
-        void AudioDeviceXA2::OnBufferStart(void*)
+        void XA2AudioDevice::OnBufferStart(void*)
         {
         }
 
-        void AudioDeviceXA2::OnBufferEnd(void*)
+        void XA2AudioDevice::OnBufferEnd(void*)
         {
             std::unique_lock<std::mutex> lock(fillDataMutex);
             fillData = true;
@@ -251,11 +251,11 @@ namespace ouzel
             fillDataCondition.notify_all();
         }
 
-        void AudioDeviceXA2::OnLoopEnd(void*)
+        void XA2AudioDevice::OnLoopEnd(void*)
         {
         }
 
-        void AudioDeviceXA2::OnVoiceError(void*, HRESULT error)
+        void XA2AudioDevice::OnVoiceError(void*, HRESULT error)
         {
             throw std::runtime_error("Xaudio2 voice error: " + std::to_string(error));
         }

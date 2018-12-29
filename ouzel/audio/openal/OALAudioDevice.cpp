@@ -13,7 +13,7 @@
 extern "C" id const AVAudioSessionCategoryAmbient;
 #endif
 
-#include "AudioDeviceAL.hpp"
+#include "OALAudioDevice.hpp"
 #include "core/Engine.hpp"
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"
@@ -78,7 +78,7 @@ namespace ouzel
 
         const OpenALErrorCategory openALErrorCategory{};
 
-        AudioDeviceAL::AudioDeviceAL(mixer::Mixer& initMixer):
+        OALAudioDevice::OALAudioDevice(mixer::Mixer& initMixer):
             AudioDevice(Driver::OPENAL, initMixer)
         {
 #if TARGET_OS_IOS || TARGET_OS_TV
@@ -258,11 +258,11 @@ namespace ouzel
 
 #if !defined(__EMSCRIPTEN__)
             running = true;
-            audioThread = std::thread(&AudioDeviceAL::run, this);
+            audioThread = std::thread(&OALAudioDevice::run, this);
 #endif
         }
 
-        AudioDeviceAL::~AudioDeviceAL()
+        OALAudioDevice::~OALAudioDevice()
         {
 #if !defined(__EMSCRIPTEN__)
             running = false;
@@ -296,7 +296,7 @@ namespace ouzel
                 alcCloseDevice(device);
         }
 
-        void AudioDeviceAL::process()
+        void OALAudioDevice::process()
         {
             AudioDevice::process();
 
@@ -350,7 +350,7 @@ namespace ouzel
             }
         }
 
-        void AudioDeviceAL::run()
+        void OALAudioDevice::run()
         {
             setCurrentThreadName("Audio");
 

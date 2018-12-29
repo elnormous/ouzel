@@ -9,10 +9,10 @@ namespace ouzel
 {
     namespace audio
     {
-        class AudioDeviceEmpty final: public AudioDevice
+        class EmptyAudioDevice final: public AudioDevice
         {
         public:
-            explicit AudioDeviceEmpty(mixer::Mixer& initMixer);
+            explicit EmptyAudioDevice(mixer::Mixer& initMixer);
         };
     } // namespace audio
 } // namespace ouzel

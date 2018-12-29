@@ -5,7 +5,7 @@
 #if OUZEL_COMPILE_ALSA
 
 #include <system_error>
-#include "AudioDeviceALSA.hpp"
+#include "ALSAAudioDevice.hpp"
 #include "core/Engine.hpp"
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"
@@ -14,7 +14,7 @@ namespace ouzel
 {
     namespace audio
     {
-        AudioDeviceALSA::AudioDeviceALSA(mixer::Mixer& initMixer):
+        ALSAAudioDevice::ALSAAudioDevice(mixer::Mixer& initMixer):
             AudioDevice(Driver::ALSA, initMixer)
         {
             int result;
@@ -99,10 +99,10 @@ namespace ouzel
             swParams = nullptr;
 
             running = true;
-            audioThread = std::thread(&AudioDeviceALSA::run, this);
+            audioThread = std::thread(&ALSAAudioDevice::run, this);
         }
 
-        AudioDeviceALSA::~AudioDeviceALSA()
+        ALSAAudioDevice::~ALSAAudioDevice()
         {
             running = false;
             if (audioThread.joinable()) audioThread.join();
@@ -112,7 +112,7 @@ namespace ouzel
             if (playbackHandle) snd_pcm_close(playbackHandle);
         }
 
-        void AudioDeviceALSA::run()
+        void ALSAAudioDevice::run()
         {
             setCurrentThreadName("Audio");
 

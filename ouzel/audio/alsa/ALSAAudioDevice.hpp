@@ -17,11 +17,11 @@ namespace ouzel
 {
     namespace audio
     {
-        class AudioDeviceALSA final: public AudioDevice
+        class ALSAAudioDevice final: public AudioDevice
         {
         public:
-            explicit AudioDeviceALSA(mixer::Mixer& initMixer);
-            ~AudioDeviceALSA();
+            explicit ALSAAudioDevice(mixer::Mixer& initMixer);
+            ~ALSAAudioDevice();
 
         private:
             void run();

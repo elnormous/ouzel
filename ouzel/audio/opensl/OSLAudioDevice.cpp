@@ -5,7 +5,7 @@
 #if OUZEL_COMPILE_OPENSL
 
 #include <system_error>
-#include "AudioDeviceSL.hpp"
+#include "OSLAudioDevice.hpp"
 #include "core/Engine.hpp"
 #include "utils/Log.hpp"
 
@@ -13,7 +13,7 @@ static void playerCallback(SLAndroidSimpleBufferQueueItf bufferQueue, void* cont
 {
     try
     {
-        ouzel::audio::AudioDeviceSL* audioDeviceSL = reinterpret_cast<ouzel::audio::AudioDeviceSL*>(context);
+        ouzel::audio::OSLAudioDevice* audioDeviceSL = reinterpret_cast<ouzel::audio::OSLAudioDevice*>(context);
 
         audioDeviceSL->enqueue(bufferQueue);
     }
@@ -67,7 +67,7 @@ namespace ouzel
             return std::error_code(static_cast<int>(e), openSLErrorCategory);
         }
 
-        AudioDeviceSL::AudioDeviceSL(mixer::Mixer& initMixer):
+        OSLAudioDevice::OSLAudioDevice(mixer::Mixer& initMixer):
             AudioDevice(Driver::OPENSL, initMixer)
         {
             SLresult result;
@@ -159,7 +159,7 @@ namespace ouzel
                 throw std::system_error(makeErrorCode(result), "Failed to play sound");
         }
 
-        AudioDeviceSL::~AudioDeviceSL()
+        OSLAudioDevice::~OSLAudioDevice()
         {
             if (playerObject)
                 (*playerObject)->Destroy(playerObject);
@@ -171,7 +171,7 @@ namespace ouzel
                 (*engineObject)->Destroy(engineObject);
         }
 
-        void AudioDeviceSL::enqueue(SLAndroidSimpleBufferQueueItf bufferQueue)
+        void OSLAudioDevice::enqueue(SLAndroidSimpleBufferQueueItf bufferQueue)
         {
             process();
 

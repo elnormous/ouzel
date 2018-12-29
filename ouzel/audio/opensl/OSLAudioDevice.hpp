@@ -17,11 +17,11 @@ namespace ouzel
 {
     namespace audio
     {
-        class AudioDeviceSL final: public AudioDevice
+        class OSLAudioDevice final: public AudioDevice
         {
         public:
-            explicit AudioDeviceSL(mixer::Mixer& initMixer);
-            ~AudioDeviceSL();
+            explicit OSLAudioDevice(mixer::Mixer& initMixer);
+            ~OSLAudioDevice();
 
             void enqueue(SLAndroidSimpleBufferQueueItf bufferQueue);
 

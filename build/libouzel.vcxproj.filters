@@ -10,13 +10,13 @@
     <ClCompile Include="..\ouzel\audio\Audio.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\dsound\AudioDeviceDS.cpp">
+    <ClCompile Include="..\ouzel\audio\dsound\DSAudioDevice.cpp">
       <Filter>ouzel\audio\directsound</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\empty\AudioDeviceEmpty.cpp">
+    <ClCompile Include="..\ouzel\audio\empty\EmptyAudioDevice.cpp">
       <Filter>ouzel\audio\empty</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\xaudio2\AudioDeviceXA2.cpp">
+    <ClCompile Include="..\ouzel\audio\xaudio2\XA2AudioDevice.cpp">
       <Filter>ouzel\audio\xaudio2</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\graphics\BlendState.cpp">
@@ -466,7 +466,7 @@
     <ClCompile Include="..\ouzel\audio\Submix.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\wasapi\AudioDeviceWASAPI.cpp">
+    <ClCompile Include="..\ouzel\audio\wasapi\WASAPIAudioDevice.cpp">
       <Filter>ouzel\audio\wasapi</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\audio\mixer\Source.cpp">
@@ -510,13 +510,13 @@
     <ClInclude Include="..\ouzel\audio\Audio.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\dsound\AudioDeviceDS.hpp">
+    <ClInclude Include="..\ouzel\audio\dsound\DSAudioDevice.hpp">
       <Filter>ouzel\audio\directsound</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\empty\AudioDeviceEmpty.hpp">
+    <ClInclude Include="..\ouzel\audio\empty\EmptyAudioDevice.hpp">
       <Filter>ouzel\audio\empty</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\xaudio2\AudioDeviceXA2.hpp">
+    <ClInclude Include="..\ouzel\audio\xaudio2\XA2AudioDevice.hpp">
       <Filter>ouzel\audio\xaudio2</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\BlendState.hpp">
@@ -1035,7 +1035,7 @@
     <ClInclude Include="..\ouzel\audio\Submix.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\wasapi\AudioDeviceWASAPI.hpp">
+    <ClInclude Include="..\ouzel\audio\wasapi\WASAPIAudioDevice.hpp">
       <Filter>ouzel\audio\wasapi</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\mixer\Object.hpp">

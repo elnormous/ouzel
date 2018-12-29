@@ -5,7 +5,7 @@
 #if OUZEL_COMPILE_DIRECTSOUND
 
 #include <system_error>
-#include "AudioDeviceDS.hpp"
+#include "DSAudioDevice.hpp"
 #include "core/Engine.hpp"
 #include "core/Window.hpp"
 #include "core/windows/NativeWindowWin.hpp"
@@ -73,7 +73,7 @@ namespace ouzel
 
         const DirectSoundErrorCategory directSoundErrorCategory {};
 
-        AudioDeviceDS::AudioDeviceDS(mixer::Mixer& initMixer, Window* window):
+        DSAudioDevice::DSAudioDevice(mixer::Mixer& initMixer, Window* window):
             AudioDevice(Driver::DIRECTSOUND, initMixer)
         {
             HRESULT hr;
@@ -187,10 +187,10 @@ namespace ouzel
                 throw std::system_error(hr, directSoundErrorCategory, "Failed to play DirectSound buffer");
 
             running = true;
-            audioThread = std::thread(&AudioDeviceDS::run, this);
+            audioThread = std::thread(&DSAudioDevice::run, this);
         }
 
-        AudioDeviceDS::~AudioDeviceDS()
+        DSAudioDevice::~DSAudioDevice()
         {
             running = false;
             for (HANDLE notifyEvent : notifyEvents)
@@ -207,7 +207,7 @@ namespace ouzel
             if (directSound) directSound->Release();
         }
 
-        void AudioDeviceDS::run()
+        void DSAudioDevice::run()
         {
             setCurrentThreadName("Audio");
 
