@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_GRAPHICS_BLENDSTATEMETAL_HPP
-#define OUZEL_GRAPHICS_BLENDSTATEMETAL_HPP
+#ifndef OUZEL_GRAPHICS_METALBLENDSTATE_HPP
+#define OUZEL_GRAPHICS_METALBLENDSTATE_HPP
 
 #include "core/Setup.h"
 
@@ -60,4 +60,4 @@ namespace ouzel
 
 #endif
 
-#endif // OUZEL_GRAPHICS_BLENDSTATEMETAL_HPP
+#endif // OUZEL_GRAPHICS_METALBLENDSTATE_HPP
