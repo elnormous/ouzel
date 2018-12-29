@@ -6,7 +6,7 @@
 #include <stdexcept>
 #include <string>
 #include <tuple>
-#include "LoaderOBJ.hpp"
+#include "ObjLoader.hpp"
 #include "Bundle.hpp"
 #include "Cache.hpp"
 #include "graphics/Material.hpp"
@@ -168,12 +168,12 @@ namespace ouzel
             return true;
         }
 
-        LoaderOBJ::LoaderOBJ(Cache& initCache):
+        ObjLoader::ObjLoader(Cache& initCache):
             Loader(initCache, TYPE)
         {
         }
 
-        bool LoaderOBJ::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
+        bool ObjLoader::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
         {
             std::string name = filename;
             std::shared_ptr<graphics::Material> material;

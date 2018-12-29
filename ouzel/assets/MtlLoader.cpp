@@ -3,7 +3,7 @@
 #include <iterator>
 #include <stdexcept>
 #include <string>
-#include "LoaderMTL.hpp"
+#include "MtlLoader.hpp"
 #include "Bundle.hpp"
 #include "Cache.hpp"
 #include "core/Engine.hpp"
@@ -124,12 +124,12 @@ namespace ouzel
             return result;
         }
 
-        LoaderMTL::LoaderMTL(Cache& initCache):
+        MtlLoader::MtlLoader(Cache& initCache):
             Loader(initCache, TYPE)
         {
         }
 
-        bool LoaderMTL::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
+        bool MtlLoader::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
         {
             std::string name = filename;
             std::shared_ptr<graphics::Texture> diffuseTexture;

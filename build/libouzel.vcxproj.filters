@@ -358,34 +358,34 @@
     <ClCompile Include="..\ouzel\assets\Loader.cpp">
       <Filter>ouzel\assets</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\assets\LoaderBMF.cpp">
+    <ClCompile Include="..\ouzel\assets\BmfLoader.cpp">
       <Filter>ouzel\assets</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\assets\LoaderCollada.cpp">
+    <ClCompile Include="..\ouzel\assets\ColladaLoader.cpp">
       <Filter>ouzel\assets</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\assets\LoaderImage.cpp">
+    <ClCompile Include="..\ouzel\assets\ImageLoader.cpp">
       <Filter>ouzel\assets</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\assets\LoaderMTL.cpp">
+    <ClCompile Include="..\ouzel\assets\MtlLoader.cpp">
       <Filter>ouzel\assets</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\assets\LoaderOBJ.cpp">
+    <ClCompile Include="..\ouzel\assets\ObjLoader.cpp">
       <Filter>ouzel\assets</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\assets\LoaderParticleSystem.cpp">
+    <ClCompile Include="..\ouzel\assets\ParticleSystemLoader.cpp">
       <Filter>ouzel\assets</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\assets\LoaderSprite.cpp">
+    <ClCompile Include="..\ouzel\assets\SpriteLoader.cpp">
       <Filter>ouzel\assets</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\assets\LoaderTTF.cpp">
+    <ClCompile Include="..\ouzel\assets\TtfLoader.cpp">
       <Filter>ouzel\assets</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\assets\LoaderVorbis.cpp">
+    <ClCompile Include="..\ouzel\assets\VorbisLoader.cpp">
       <Filter>ouzel\assets</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\assets\LoaderWave.cpp">
+    <ClCompile Include="..\ouzel\assets\WaveLoader.cpp">
       <Filter>ouzel\assets</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\utils\JSON.cpp">
@@ -400,7 +400,7 @@
     <ClCompile Include="..\ouzel\input\InputSystem.cpp">
       <Filter>ouzel\input</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\assets\LoaderGLTF.cpp">
+    <ClCompile Include="..\ouzel\assets\GltfLoader.cpp">
       <Filter>ouzel\assets</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\graphics\opengl\RenderTargetOGL.cpp">
@@ -888,34 +888,34 @@
     <ClInclude Include="..\ouzel\assets\Loader.hpp">
       <Filter>ouzel\assets</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\assets\LoaderBMF.hpp">
+    <ClInclude Include="..\ouzel\assets\BmfLoader.hpp">
       <Filter>ouzel\assets</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\assets\LoaderCollada.hpp">
+    <ClInclude Include="..\ouzel\assets\ColladaLoader.hpp">
       <Filter>ouzel\assets</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\assets\LoaderImage.hpp">
+    <ClInclude Include="..\ouzel\assets\ImageLoader.hpp">
       <Filter>ouzel\assets</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\assets\LoaderMTL.hpp">
+    <ClInclude Include="..\ouzel\assets\MtlLoader.hpp">
       <Filter>ouzel\assets</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\assets\LoaderOBJ.hpp">
+    <ClInclude Include="..\ouzel\assets\ObjLoader.hpp">
       <Filter>ouzel\assets</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\assets\LoaderParticleSystem.hpp">
+    <ClInclude Include="..\ouzel\assets\ParticleSystemLoader.hpp">
       <Filter>ouzel\assets</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\assets\LoaderSprite.hpp">
+    <ClInclude Include="..\ouzel\assets\SpriteLoader.hpp">
       <Filter>ouzel\assets</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\assets\LoaderTTF.hpp">
+    <ClInclude Include="..\ouzel\assets\TtfLoader.hpp">
       <Filter>ouzel\assets</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\assets\LoaderVorbis.hpp">
+    <ClInclude Include="..\ouzel\assets\VorbisLoader.hpp">
       <Filter>ouzel\assets</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\assets\LoaderWave.hpp">
+    <ClInclude Include="..\ouzel\assets\WaveLoader.hpp">
       <Filter>ouzel\assets</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\utils\JSON.hpp">
@@ -948,7 +948,7 @@
     <ClInclude Include="..\ouzel\graphics\Commands.hpp">
       <Filter>ouzel\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\assets\LoaderGLTF.hpp">
+    <ClInclude Include="..\ouzel\assets\GltfLoader.hpp">
       <Filter>ouzel\assets</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\direct3d11\RenderTargetD3D11.hpp">

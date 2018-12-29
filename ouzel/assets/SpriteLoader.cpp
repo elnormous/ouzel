@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <algorithm>
-#include "LoaderSprite.hpp"
+#include "SpriteLoader.hpp"
 #include "Bundle.hpp"
 #include "Cache.hpp"
 #include "scene/SpriteData.hpp"
@@ -11,12 +11,12 @@ namespace ouzel
 {
     namespace assets
     {
-        LoaderSprite::LoaderSprite(Cache& initCache):
+        SpriteLoader::SpriteLoader(Cache& initCache):
             Loader(initCache, TYPE)
         {
         }
 
-        bool LoaderSprite::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
+        bool SpriteLoader::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
         {
             scene::SpriteData spriteData;
 

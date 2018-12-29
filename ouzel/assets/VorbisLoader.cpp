@@ -1,6 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include "LoaderVorbis.hpp"
+#include "VorbisLoader.hpp"
 #include "Bundle.hpp"
 #include "audio/VorbisSound.hpp"
 #include "core/Engine.hpp"
@@ -9,12 +9,12 @@ namespace ouzel
 {
     namespace assets
     {
-        LoaderVorbis::LoaderVorbis(Cache& initCache):
+        VorbisLoader::VorbisLoader(Cache& initCache):
             Loader(initCache, TYPE)
         {
         }
 
-        bool LoaderVorbis::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool)
+        bool VorbisLoader::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool)
         {
             try
             {

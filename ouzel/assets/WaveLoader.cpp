@@ -1,6 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include "LoaderWave.hpp"
+#include "WaveLoader.hpp"
 #include "Bundle.hpp"
 #include "audio/PCMSound.hpp"
 #include "core/Engine.hpp"
@@ -16,12 +16,12 @@ namespace ouzel
 {
     namespace assets
     {
-        LoaderWave::LoaderWave(Cache& initCache):
+        WaveLoader::WaveLoader(Cache& initCache):
             Loader(initCache, TYPE)
         {
         }
 
-        bool LoaderWave::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool)
+        bool WaveLoader::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool)
         {
             try
             {

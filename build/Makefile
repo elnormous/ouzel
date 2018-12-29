@@ -38,17 +38,17 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/assets/Bundle.cpp \
 	$(ROOT_DIR)/../ouzel/assets/Cache.cpp \
 	$(ROOT_DIR)/../ouzel/assets/Loader.cpp \
-	$(ROOT_DIR)/../ouzel/assets/LoaderBMF.cpp \
-	$(ROOT_DIR)/../ouzel/assets/LoaderCollada.cpp \
-	$(ROOT_DIR)/../ouzel/assets/LoaderGLTF.cpp \
-	$(ROOT_DIR)/../ouzel/assets/LoaderImage.cpp \
-	$(ROOT_DIR)/../ouzel/assets/LoaderMTL.cpp \
-	$(ROOT_DIR)/../ouzel/assets/LoaderOBJ.cpp \
-	$(ROOT_DIR)/../ouzel/assets/LoaderParticleSystem.cpp \
-	$(ROOT_DIR)/../ouzel/assets/LoaderSprite.cpp \
-	$(ROOT_DIR)/../ouzel/assets/LoaderTTF.cpp \
-	$(ROOT_DIR)/../ouzel/assets/LoaderVorbis.cpp \
-	$(ROOT_DIR)/../ouzel/assets/LoaderWave.cpp \
+	$(ROOT_DIR)/../ouzel/assets/BmfLoader.cpp \
+	$(ROOT_DIR)/../ouzel/assets/ColladaLoader.cpp \
+	$(ROOT_DIR)/../ouzel/assets/GltfLoader.cpp \
+	$(ROOT_DIR)/../ouzel/assets/ImageLoader.cpp \
+	$(ROOT_DIR)/../ouzel/assets/MtlLoader.cpp \
+	$(ROOT_DIR)/../ouzel/assets/ObjLoader.cpp \
+	$(ROOT_DIR)/../ouzel/assets/ParticleSystemLoader.cpp \
+	$(ROOT_DIR)/../ouzel/assets/SpriteLoader.cpp \
+	$(ROOT_DIR)/../ouzel/assets/TtfLoader.cpp \
+	$(ROOT_DIR)/../ouzel/assets/VorbisLoader.cpp \
+	$(ROOT_DIR)/../ouzel/assets/WaveLoader.cpp \
 	$(ROOT_DIR)/../ouzel/audio/empty/AudioDeviceEmpty.cpp \
 	$(ROOT_DIR)/../ouzel/audio/mixer/Bus.cpp \
 	$(ROOT_DIR)/../ouzel/audio/mixer/Mixer.cpp \

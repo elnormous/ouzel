@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_ASSETS_LOADERIMAGE_HPP
-#define OUZEL_ASSETS_LOADERIMAGE_HPP
+#ifndef OUZEL_ASSETS_COLLADALOADER_HPP
+#define OUZEL_ASSETS_COLLADALOADER_HPP
 
 #include "assets/Loader.hpp"
 
@@ -9,15 +9,15 @@ namespace ouzel
 {
     namespace assets
     {
-        class LoaderImage final: public Loader
+        class ColladaLoader final: public Loader
         {
         public:
-            static constexpr uint32_t TYPE = Loader::IMAGE;
+            static constexpr uint32_t TYPE = Loader::SKINNED_MESH;
 
-            explicit LoaderImage(Cache& initCache);
+            explicit ColladaLoader(Cache& initCache);
             bool loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps = true) override;
         };
     } // namespace assets
 } // namespace ouzel
 
-#endif // OUZEL_ASSETS_LOADERIMAGE_HPP
+#endif // OUZEL_ASSETS_COLLADALOADER_HPP
