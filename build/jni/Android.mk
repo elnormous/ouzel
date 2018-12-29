@@ -78,7 +78,7 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/files/Archive.cpp \
     ../../ouzel/files/File.cpp \
     ../../ouzel/files/FileSystem.cpp \
-    ../../ouzel/graphics/empty/RenderDeviceEmpty.cpp \
+    ../../ouzel/graphics/empty/EmptyRenderDevice.cpp \
     ../../ouzel/graphics/opengl/android/RenderDeviceOGLAndroid.cpp \
     ../../ouzel/graphics/opengl/BlendStateOGL.cpp \
     ../../ouzel/graphics/opengl/BufferOGL.cpp \

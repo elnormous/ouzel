@@ -44,6 +44,7 @@ namespace ouzel
                 Type type;
             };
 
+            RenderDevice(Driver initDriver, const std::function<void(const Event&)>& initCallback);
             virtual ~RenderDevice();
 
             RenderDevice(const RenderDevice&) = delete;
@@ -111,9 +112,6 @@ namespace ouzel
             }
 
         protected:
-            explicit RenderDevice(Driver initDriver,
-                                  const std::function<void(const Event&)>& initCallback);
-
             virtual void init(Window* newWindow,
                               const Size2& newSize,
                               uint32_t newSampleCount,

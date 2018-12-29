@@ -98,7 +98,7 @@
     <ClCompile Include="..\ouzel\graphics\direct3d11\RenderTargetD3D11.cpp" />
     <ClCompile Include="..\ouzel\graphics\direct3d11\ShaderD3D11.cpp" />
     <ClCompile Include="..\ouzel\graphics\direct3d11\TextureD3D11.cpp" />
-    <ClCompile Include="..\ouzel\graphics\empty\RenderDeviceEmpty.cpp" />
+    <ClCompile Include="..\ouzel\graphics\empty\EmptyRenderDevice.cpp" />
     <ClCompile Include="..\ouzel\graphics\ImageData.cpp" />
     <ClCompile Include="..\ouzel\graphics\Material.cpp" />
     <ClCompile Include="..\ouzel\graphics\opengl\BlendStateOGL.cpp" />
@@ -280,7 +280,7 @@
     <ClInclude Include="..\ouzel\graphics\direct3d11\TextureD3D11.hpp" />
     <ClInclude Include="..\ouzel\graphics\DrawMode.hpp" />
     <ClInclude Include="..\ouzel\graphics\Driver.hpp" />
-    <ClInclude Include="..\ouzel\graphics\empty\RenderDeviceEmpty.hpp" />
+    <ClInclude Include="..\ouzel\graphics\empty\EmptyRenderDevice.hpp" />
     <ClInclude Include="..\ouzel\graphics\ImageData.hpp" />
     <ClInclude Include="..\ouzel\graphics\Material.hpp" />
     <ClInclude Include="..\ouzel\graphics\opengl\BlendStateOGL.hpp" />

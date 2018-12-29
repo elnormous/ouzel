@@ -313,7 +313,7 @@
     <ClCompile Include="..\ouzel\graphics\opengl\windows\RenderDeviceOGLWin.cpp">
       <Filter>ouzel\graphics\opengl\windows</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\empty\RenderDeviceEmpty.cpp">
+    <ClCompile Include="..\ouzel\graphics\empty\EmptyRenderDevice.cpp">
       <Filter>ouzel\graphics\empty</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\graphics\direct3d11\ShaderD3D11.cpp">
@@ -834,7 +834,7 @@
     <ClInclude Include="..\ouzel\graphics\opengl\windows\RenderDeviceOGLWin.hpp">
       <Filter>ouzel\graphics\opengl\windows</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\empty\RenderDeviceEmpty.hpp">
+    <ClInclude Include="..\ouzel\graphics\empty\EmptyRenderDevice.hpp">
       <Filter>ouzel\graphics\empty</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\direct3d11\ShaderD3D11.hpp">
