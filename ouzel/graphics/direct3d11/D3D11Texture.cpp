@@ -4,8 +4,8 @@
 
 #if OUZEL_COMPILE_DIRECT3D11
 
-#include "TextureD3D11.hpp"
-#include "RenderDeviceD3D11.hpp"
+#include "D3D11Texture.hpp"
+#include "D3D11RenderDevice.hpp"
 
 namespace ouzel
 {
@@ -48,12 +48,12 @@ namespace ouzel
             }
         }
 
-        TextureD3D11::TextureD3D11(RenderDeviceD3D11& renderDeviceD3D11,
+        D3D11Texture::D3D11Texture(D3D11RenderDevice& renderDeviceD3D11,
                                    const std::vector<Texture::Level>& levels,
                                    uint32_t newFlags,
                                    uint32_t newSampleCount,
                                    PixelFormat newPixelFormat):
-            RenderResourceD3D11(renderDeviceD3D11),
+            D3D11RenderResource(renderDeviceD3D11),
             flags(newFlags),
             mipmaps(static_cast<uint32_t>(levels.size())),
             sampleCount(newSampleCount),
@@ -80,7 +80,7 @@ namespace ouzel
             updateSamplerState();
         }
 
-        TextureD3D11::~TextureD3D11()
+        D3D11Texture::~D3D11Texture()
         {
             if (depthStencilTexture)
                 depthStencilTexture->Release();
@@ -101,12 +101,12 @@ namespace ouzel
                 samplerState->Release();
         }
 
-        void TextureD3D11::setData(const std::vector<Texture::Level>& levels)
+        void D3D11Texture::setData(const std::vector<Texture::Level>& levels)
         {
             if (!(flags & Texture::DYNAMIC) || flags & Texture::RENDER_TARGET)
                 throw std::runtime_error("Texture is not dynamic");
 
-            RenderDeviceD3D11& renderDeviceD3D11 = static_cast<RenderDeviceD3D11&>(renderDevice);
+            D3D11RenderDevice& renderDeviceD3D11 = static_cast<D3D11RenderDevice&>(renderDevice);
 
             if (!texture)
                 createTexture(levels);
@@ -173,45 +173,45 @@ namespace ouzel
             }
         }
 
-        void TextureD3D11::setFilter(Texture::Filter filter)
+        void D3D11Texture::setFilter(Texture::Filter filter)
         {
             samplerDescriptor.filter = (filter == Texture::Filter::DEFAULT) ? renderDevice.getTextureFilter() : filter;
             updateSamplerState();
         }
 
-        void TextureD3D11::setAddressX(Texture::Address addressX)
+        void D3D11Texture::setAddressX(Texture::Address addressX)
         {
             samplerDescriptor.addressX = addressX;
             updateSamplerState();
         }
 
-        void TextureD3D11::setAddressY(Texture::Address addressY)
+        void D3D11Texture::setAddressY(Texture::Address addressY)
         {
             samplerDescriptor.addressY = addressY;
             updateSamplerState();
         }
 
-        void TextureD3D11::setMaxAnisotropy(uint32_t maxAnisotropy)
+        void D3D11Texture::setMaxAnisotropy(uint32_t maxAnisotropy)
         {
             samplerDescriptor.maxAnisotropy = (maxAnisotropy == 0) ? renderDevice.getMaxAnisotropy() : maxAnisotropy;
             updateSamplerState();
         }
 
-        void TextureD3D11::setClearColorBuffer(bool clear)
+        void D3D11Texture::setClearColorBuffer(bool clear)
         {
             clearColorBuffer = clear;
 
             clearFrameBufferView = clearColorBuffer;
         }
 
-        void TextureD3D11::setClearDepthBuffer(bool clear)
+        void D3D11Texture::setClearDepthBuffer(bool clear)
         {
             clearDepthBuffer = clear;
 
             clearDepthBufferView = clearDepthBuffer;
         }
 
-        void TextureD3D11::setClearColor(Color color)
+        void D3D11Texture::setClearColor(Color color)
         {
             clearColor = color;
 
@@ -221,12 +221,12 @@ namespace ouzel
             frameBufferClearColor[3] = clearColor.normA();
         }
 
-        void TextureD3D11::setClearDepth(float newClearDepth)
+        void D3D11Texture::setClearDepth(float newClearDepth)
         {
             clearDepth = newClearDepth;
         }
 
-        void TextureD3D11::createTexture(const std::vector<Texture::Level>& levels)
+        void D3D11Texture::createTexture(const std::vector<Texture::Level>& levels)
         {
             if (texture)
                 texture->Release();
@@ -288,7 +288,7 @@ namespace ouzel
                 textureDescriptor.CPUAccessFlags = (flags & Texture::DYNAMIC && !(flags & Texture::RENDER_TARGET)) ? D3D11_CPU_ACCESS_WRITE : 0;
                 textureDescriptor.MiscFlags = 0;
 
-                RenderDeviceD3D11& renderDeviceD3D11 = static_cast<RenderDeviceD3D11&>(renderDevice);
+                D3D11RenderDevice& renderDeviceD3D11 = static_cast<D3D11RenderDevice&>(renderDevice);
 
                 if (levels.empty() || flags & Texture::RENDER_TARGET)
                 {
@@ -361,9 +361,9 @@ namespace ouzel
             }
         }
 
-        void TextureD3D11::updateSamplerState()
+        void D3D11Texture::updateSamplerState()
         {
-            RenderDeviceD3D11& renderDeviceD3D11 = static_cast<RenderDeviceD3D11&>(renderDevice);
+            D3D11RenderDevice& renderDeviceD3D11 = static_cast<D3D11RenderDevice&>(renderDevice);
 
             if (samplerState) samplerState->Release();
             samplerState = renderDeviceD3D11.getSamplerState(samplerDescriptor);

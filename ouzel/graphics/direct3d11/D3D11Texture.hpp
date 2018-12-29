@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_GRAPHICS_TEXTURED3D11_HPP
-#define OUZEL_GRAPHICS_TEXTURED3D11_HPP
+#ifndef OUZEL_GRAPHICS_D3D11TEXTURE_HPP
+#define OUZEL_GRAPHICS_D3D11TEXTURE_HPP
 
 #include "core/Setup.h"
 
@@ -9,14 +9,14 @@
 
 #include <tuple>
 #include <d3d11.h>
-#include "graphics/direct3d11/RenderResourceD3D11.hpp"
+#include "graphics/direct3d11/D3D11RenderResource.hpp"
 #include "graphics/Texture.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class RenderDeviceD3D11;
+        class D3D11RenderDevice;
 
         struct SamplerStateDesc final
         {
@@ -31,15 +31,15 @@ namespace ouzel
             }
         };
 
-        class TextureD3D11 final: public RenderResourceD3D11
+        class D3D11Texture final: public D3D11RenderResource
         {
         public:
-            TextureD3D11(RenderDeviceD3D11& renderDeviceD3D11,
+            D3D11Texture(D3D11RenderDevice& renderDeviceD3D11,
                          const std::vector<Texture::Level>& levels,
                          uint32_t newFlags = 0,
                          uint32_t newSampleCount = 1,
                          PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
-            ~TextureD3D11();
+            ~D3D11Texture();
 
             void setData(const std::vector<Texture::Level>& levels);
             void setFilter(Texture::Filter filter);
@@ -111,4 +111,4 @@ namespace ouzel
 
 #endif
 
-#endif // OUZEL_GRAPHICS_TEXTURED3D11_HPP
+#endif // OUZEL_GRAPHICS_D3D11TEXTURE_HPP

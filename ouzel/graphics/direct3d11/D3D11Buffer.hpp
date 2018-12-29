@@ -1,30 +1,30 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_GRAPHICS_BUFFERD3D11_HPP
-#define OUZEL_GRAPHICS_BUFFERD3D11_HPP
+#ifndef OUZEL_GRAPHICS_D3D11BUFFER_HPP
+#define OUZEL_GRAPHICS_D3D11BUFFER_HPP
 
 #include "core/Setup.h"
 
 #if OUZEL_COMPILE_DIRECT3D11
 
 #include <d3d11.h>
-#include "graphics/direct3d11/RenderResourceD3D11.hpp"
+#include "graphics/direct3d11/D3D11RenderResource.hpp"
 #include "graphics/Buffer.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class RenderDeviceD3D11;
+        class D3D11RenderDevice;
 
-        class BufferD3D11 final: public RenderResourceD3D11
+        class D3D11Buffer final: public D3D11RenderResource
         {
         public:
-            BufferD3D11(RenderDeviceD3D11& renderDeviceD3D11,
+            D3D11Buffer(D3D11RenderDevice& renderDeviceD3D11,
                         Buffer::Usage newUsage, uint32_t newFlags,
                         const std::vector<uint8_t>& data,
                         uint32_t newSize);
-            ~BufferD3D11();
+            ~D3D11Buffer();
 
             void setData(const std::vector<uint8_t>& data);
 
@@ -48,4 +48,4 @@ namespace ouzel
 
 #endif
 
-#endif // OUZEL_GRAPHICS_BUFFERD3D11_HPP
+#endif // OUZEL_GRAPHICS_D3D11BUFFER_HPP

@@ -4,8 +4,8 @@
 
 #if OUZEL_COMPILE_DIRECT3D11
 
-#include "ShaderD3D11.hpp"
-#include "RenderDeviceD3D11.hpp"
+#include "D3D11Shader.hpp"
+#include "D3D11RenderDevice.hpp"
 
 namespace ouzel
 {
@@ -80,7 +80,7 @@ namespace ouzel
             return DXGI_FORMAT_UNKNOWN;
         }
 
-        ShaderD3D11::ShaderD3D11(RenderDeviceD3D11& renderDeviceD3D11,
+        D3D11Shader::D3D11Shader(D3D11RenderDevice& renderDeviceD3D11,
                                  const std::vector<uint8_t>& fragmentShaderData,
                                  const std::vector<uint8_t>& vertexShaderData,
                                  const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
@@ -90,7 +90,7 @@ namespace ouzel
                                  uint32_t,
                                  const std::string&,
                                  const std::string&):
-            RenderResourceD3D11(renderDeviceD3D11),
+            D3D11RenderResource(renderDeviceD3D11),
             vertexAttributes(newVertexAttributes),
             fragmentShaderConstantInfo(newFragmentShaderConstantInfo),
             vertexShaderConstantInfo(newVertexShaderConstantInfo)
@@ -234,7 +234,7 @@ namespace ouzel
                 throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 constant buffer");
         }
 
-        ShaderD3D11::~ShaderD3D11()
+        D3D11Shader::~D3D11Shader()
         {
             if (fragmentShader)
                 fragmentShader->Release();

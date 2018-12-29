@@ -4,8 +4,8 @@
 
 #if OUZEL_COMPILE_DIRECT3D11
 
-#include "BlendStateD3D11.hpp"
-#include "RenderDeviceD3D11.hpp"
+#include "D3D11BlendState.hpp"
+#include "D3D11RenderDevice.hpp"
 
 namespace ouzel
 {
@@ -45,14 +45,14 @@ namespace ouzel
             }
         }
 
-        BlendStateD3D11::BlendStateD3D11(RenderDeviceD3D11& renderDeviceD3D11,
+        D3D11BlendState::D3D11BlendState(D3D11RenderDevice& renderDeviceD3D11,
                                          bool enableBlending,
                                          BlendState::Factor colorBlendSource, BlendState::Factor colorBlendDest,
                                          BlendState::Operation colorOperation,
                                          BlendState::Factor alphaBlendSource, BlendState::Factor alphaBlendDest,
                                          BlendState::Operation alphaOperation,
                                          uint8_t colorMask):
-            RenderResourceD3D11(renderDeviceD3D11)
+            D3D11RenderResource(renderDeviceD3D11)
         {
             D3D11_BLEND_DESC blendStateDesc;
             blendStateDesc.AlphaToCoverageEnable = FALSE;
@@ -80,7 +80,7 @@ namespace ouzel
                 throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 blend state");
         }
 
-        BlendStateD3D11::~BlendStateD3D11()
+        D3D11BlendState::~D3D11BlendState()
         {
             if (blendState)
                 blendState->Release();

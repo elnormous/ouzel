@@ -4,18 +4,18 @@
 
 #if OUZEL_COMPILE_DIRECT3D11
 
-#include "BufferD3D11.hpp"
-#include "RenderDeviceD3D11.hpp"
+#include "D3D11Buffer.hpp"
+#include "D3D11RenderDevice.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        BufferD3D11::BufferD3D11(RenderDeviceD3D11& renderDeviceD3D11,
+        D3D11Buffer::D3D11Buffer(D3D11RenderDevice& renderDeviceD3D11,
                                  Buffer::Usage newUsage, uint32_t newFlags,
                                  const std::vector<uint8_t>& data,
                                  uint32_t newSize):
-            RenderResourceD3D11(renderDeviceD3D11),
+            D3D11RenderResource(renderDeviceD3D11),
             usage(newUsage),
             flags(newFlags),
             size(static_cast<UINT>(newSize))
@@ -23,12 +23,12 @@ namespace ouzel
             createBuffer(newSize, data);
         }
 
-        BufferD3D11::~BufferD3D11()
+        D3D11Buffer::~D3D11Buffer()
         {
             if (buffer) buffer->Release();
         }
 
-        void BufferD3D11::setData(const std::vector<uint8_t>& data)
+        void D3D11Buffer::setData(const std::vector<uint8_t>& data)
         {
             if (!(flags & Buffer::DYNAMIC))
                 throw std::runtime_error("Buffer is not dynamic");
@@ -58,7 +58,7 @@ namespace ouzel
             }
         }
 
-        void BufferD3D11::createBuffer(UINT newSize, const std::vector<uint8_t>& data)
+        void D3D11Buffer::createBuffer(UINT newSize, const std::vector<uint8_t>& data)
         {
             if (buffer)
             {

@@ -4,8 +4,8 @@
 
 #if OUZEL_COMPILE_DIRECT3D11
 
-#include "DepthStencilStateD3D11.hpp"
-#include "RenderDeviceD3D11.hpp"
+#include "D3D11DepthStencilState.hpp"
+#include "D3D11RenderDevice.hpp"
 
 namespace ouzel
 {
@@ -28,11 +28,11 @@ namespace ouzel
             return D3D11_COMPARISON_NEVER;
         }
 
-        DepthStencilStateD3D11::DepthStencilStateD3D11(RenderDeviceD3D11& renderDeviceD3D11,
+        D3D11DepthStencilState::D3D11DepthStencilState(D3D11RenderDevice& renderDeviceD3D11,
                                                        bool initDepthTest,
                                                        bool initDepthWrite,
                                                        DepthStencilState::CompareFunction initCompareFunction):
-            RenderResourceD3D11(renderDeviceD3D11)
+            D3D11RenderResource(renderDeviceD3D11)
         {
             D3D11_DEPTH_STENCIL_DESC depthStencilStateDesc;
             depthStencilStateDesc.DepthEnable = initDepthTest ? TRUE : FALSE;
@@ -55,7 +55,7 @@ namespace ouzel
                 throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 depth stencil state");
         }
 
-        DepthStencilStateD3D11::~DepthStencilStateD3D11()
+        D3D11DepthStencilState::~D3D11DepthStencilState()
         {
             if (depthStencilState) depthStencilState->Release();
         }
