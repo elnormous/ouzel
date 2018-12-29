@@ -1,30 +1,31 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_GRAPHICS_RENDERDEVICEOGLWIN_HPP
-#define OUZEL_GRAPHICS_RENDERDEVICEOGLWIN_HPP
+#ifndef OUZEL_GRAPHICS_OGLRENDERDEVICEANDROID_HPP
+#define OUZEL_GRAPHICS_OGLRENDERDEVICEANDROID_HPP
 
 #include "core/Setup.h"
 
-#if defined(_WIN32) && OUZEL_COMPILE_OPENGL
+#if defined(__ANDROID__) && OUZEL_COMPILE_OPENGL
 
 #include <atomic>
 #include <thread>
-#ifndef NOMINMAX
-#  define NOMINMAX
-#endif
-#include <Windows.h>
-#include "graphics/opengl/RenderDeviceOGL.hpp"
+#include "EGL/egl.h"
+#include "EGL/eglext.h"
+#include "graphics/opengl/OGLRenderDevice.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class RenderDeviceOGLWin final: public RenderDeviceOGL
+        class OGLRenderDeviceAndroid final: public OGLRenderDevice
         {
             friend Renderer;
         public:
-            RenderDeviceOGLWin(const std::function<void(const Event&)>& initCallback);
-            ~RenderDeviceOGLWin();
+            OGLRenderDeviceAndroid(const std::function<void(const Event&)>& initCallback);
+            ~OGLRenderDeviceAndroid();
+
+            void reload();
+            void destroy();
 
         private:
             void init(Window* newWindow,
@@ -39,8 +40,9 @@ namespace ouzel
             void present() override;
             void main();
 
-            HDC deviceContext = 0;
-            HGLRC renderContext = 0;
+            EGLDisplay display = 0;
+            EGLSurface surface = 0;
+            EGLContext context = 0;
 
             std::atomic_bool running{false};
             std::thread renderThread;
@@ -50,4 +52,4 @@ namespace ouzel
 
 #endif
 
-#endif // OUZEL_GRAPHICS_RENDERDEVICEOGLWIN_HPP
+#endif // OUZEL_GRAPHICS_OGLRENDERDEVICEANDROID_HPP

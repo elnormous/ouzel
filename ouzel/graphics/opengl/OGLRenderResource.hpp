@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_GRAPHICS_RENDERRESOURCEOGL_HPP
-#define OUZEL_GRAPHICS_RENDERRESOURCEOGL_HPP
+#ifndef OUZEL_GRAPHICS_OGLRENDERRESOURCE_HPP
+#define OUZEL_GRAPHICS_OGLRENDERRESOURCE_HPP
 
 #include "core/Setup.h"
 
@@ -11,25 +11,25 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RenderDeviceOGL;
+        class OGLRenderDevice;
 
-        class RenderResourceOGL
+        class OGLRenderResource
         {
         public:
-            explicit RenderResourceOGL(RenderDeviceOGL& initRenderDevice):
+            explicit OGLRenderResource(OGLRenderDevice& initRenderDevice):
                 renderDevice(initRenderDevice)
             {
             }
-            virtual ~RenderResourceOGL() {}
+            virtual ~OGLRenderResource() {}
 
             virtual void reload() = 0;
 
         protected:
-            RenderDeviceOGL& renderDevice;
+            OGLRenderDevice& renderDevice;
         };
     } // namespace graphics
 } // namespace ouzel
 
 #endif
 
-#endif // OUZEL_GRAPHICS_RENDERRESOURCEOGL_HPP
+#endif // OUZEL_GRAPHICS_OGLRENDERRESOURCE_HPP

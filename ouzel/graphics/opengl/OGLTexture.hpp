@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_GRAPHICS_TEXTUREOGL_HPP
-#define OUZEL_GRAPHICS_TEXTUREOGL_HPP
+#ifndef OUZEL_GRAPHICS_OGLTEXTURE_HPP
+#define OUZEL_GRAPHICS_OGLTEXTURE_HPP
 
 #include <array>
 
@@ -19,24 +19,24 @@
 #  include "GL/glext.h"
 #endif
 
-#include "graphics/opengl/RenderResourceOGL.hpp"
+#include "graphics/opengl/OGLRenderResource.hpp"
 #include "graphics/Texture.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class RenderDeviceOGL;
+        class OGLRenderDevice;
 
-        class TextureOGL final: public RenderResourceOGL
+        class OGLTexture final: public OGLRenderResource
         {
         public:
-            TextureOGL(RenderDeviceOGL& renderDeviceOGL,
+            OGLTexture(OGLRenderDevice& renderDeviceOGL,
                        const std::vector<Texture::Level>& newLevels,
                        uint32_t newFlags = 0,
                        uint32_t newSampleCount = 1,
                        PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
-            ~TextureOGL();
+            ~OGLTexture();
 
             void reload() override;
 
@@ -112,4 +112,4 @@ namespace ouzel
 
 #endif
 
-#endif // OUZEL_GRAPHICS_TEXTUREOGL_HPP
+#endif // OUZEL_GRAPHICS_OGLTEXTURE_HPP

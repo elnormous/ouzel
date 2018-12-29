@@ -16,25 +16,25 @@
 
 #if TARGET_OS_IOS
 #  include "graphics/metal/ios/MetalRenderDeviceIOS.hpp"
-#  include "graphics/opengl/ios/RenderDeviceOGLIOS.hpp"
+#  include "graphics/opengl/ios/OGLRenderDeviceIOS.hpp"
 #elif TARGET_OS_TV
 #  include "graphics/metal/tvos/MetalRenderDeviceTVOS.hpp"
-#  include "graphics/opengl/tvos/RenderDeviceOGLTVOS.hpp"
+#  include "graphics/opengl/tvos/OGLRenderDeviceTVOS.hpp"
 #elif TARGET_OS_MAC
 #  include "graphics/metal/macos/MetalRenderDeviceMacOS.hpp"
-#  include "graphics/opengl/macos/RenderDeviceOGLMacOS.hpp"
+#  include "graphics/opengl/macos/OGLRenderDeviceMacOS.hpp"
 #elif defined(__ANDROID__)
-#  include "graphics/opengl/android/RenderDeviceOGLAndroid.hpp"
+#  include "graphics/opengl/android/OGLRenderDeviceAndroid.hpp"
 #elif defined(__linux__)
-#  include "graphics/opengl/linux/RenderDeviceOGLLinux.hpp"
+#  include "graphics/opengl/linux/OGLRenderDeviceLinux.hpp"
 #elif defined(_WIN32)
-#  include "graphics/opengl/windows/RenderDeviceOGLWin.hpp"
+#  include "graphics/opengl/windows/OGLRenderDeviceWin.hpp"
 #elif defined(__EMSCRIPTEN__)
-#  include "graphics/opengl/emscripten/RenderDeviceOGLEm.hpp"
+#  include "graphics/opengl/emscripten/OGLRenderDeviceEm.hpp"
 #endif
 
 #include "graphics/empty/EmptyRenderDevice.hpp"
-#include "graphics/opengl/RenderDeviceOGL.hpp"
+#include "graphics/opengl/OGLRenderDevice.hpp"
 #include "graphics/direct3d11/D3D11RenderDevice.hpp"
 #include "graphics/metal/MetalRenderDevice.hpp"
 
@@ -120,21 +120,21 @@ namespace ouzel
                 case Driver::OPENGL:
                     engine->log(Log::Level::INFO) << "Using OpenGL render driver";
 #  if TARGET_OS_IOS
-                    device.reset(new RenderDeviceOGLIOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device.reset(new OGLRenderDeviceIOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
 #  elif TARGET_OS_TV
-                    device.reset(new RenderDeviceOGLTVOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device.reset(new OGLRenderDeviceTVOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
 #  elif TARGET_OS_MAC
-                    device.reset(new RenderDeviceOGLMacOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device.reset(new OGLRenderDeviceMacOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
 #  elif defined(__ANDROID__)
-                    device.reset(new RenderDeviceOGLAndroid(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device.reset(new OGLRenderDeviceAndroid(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
 #  elif defined(__linux__)
-                    device.reset(new RenderDeviceOGLLinux(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device.reset(new OGLRenderDeviceLinux(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
 #  elif defined(_WIN32)
-                    device.reset(new RenderDeviceOGLWin(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device.reset(new OGLRenderDeviceWin(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
 #  elif defined(__EMSCRIPTEN__)
-                    device.reset(new RenderDeviceOGLEm(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device.reset(new OGLRenderDeviceEm(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
 #  else
-                    device.reset(new RenderDeviceOGL(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device.reset(new OGLRenderDevice(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
 #  endif
                     break;
 #endif

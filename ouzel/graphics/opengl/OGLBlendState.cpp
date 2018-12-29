@@ -4,8 +4,8 @@
 
 #if OUZEL_COMPILE_OPENGL
 
-#include "BlendStateOGL.hpp"
-#include "RenderDeviceOGL.hpp"
+#include "OGLBlendState.hpp"
+#include "OGLRenderDevice.hpp"
 
 namespace ouzel
 {
@@ -49,14 +49,14 @@ namespace ouzel
             }
         }
 
-        BlendStateOGL::BlendStateOGL(RenderDeviceOGL& renderDeviceOGL,
+        OGLBlendState::OGLBlendState(OGLRenderDevice& renderDeviceOGL,
                                      bool enableBlending,
                                      BlendState::Factor colorBlendSource, BlendState::Factor colorBlendDest,
                                      BlendState::Operation colorOperation,
                                      BlendState::Factor alphaBlendSource, BlendState::Factor alphaBlendDest,
                                      BlendState::Operation alphaOperation,
                                      uint8_t colorMask):
-            RenderResourceOGL(renderDeviceOGL),
+            OGLRenderResource(renderDeviceOGL),
             blendEnabled(enableBlending)
         {
             modeRGB = getBlendOperation(colorOperation);

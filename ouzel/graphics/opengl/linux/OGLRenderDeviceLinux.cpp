@@ -8,7 +8,7 @@
 #  include <X11/Xlib.h>
 #  include <X11/extensions/xf86vmode.h>
 #endif
-#include "RenderDeviceOGLLinux.hpp"
+#include "OGLRenderDeviceLinux.hpp"
 #include "core/linux/EngineLinux.hpp"
 #include "core/linux/NativeWindowLinux.hpp"
 #include "utils/Log.hpp"
@@ -53,12 +53,12 @@ namespace ouzel
         const EGLErrorCategory eglErrorCategory {};
 #endif
 
-        RenderDeviceOGLLinux::RenderDeviceOGLLinux(const std::function<void(const Event&)>& initCallback):
-            RenderDeviceOGL(initCallback)
+        OGLRenderDeviceLinux::OGLRenderDeviceLinux(const std::function<void(const Event&)>& initCallback):
+            OGLRenderDevice(initCallback)
         {
         }
 
-        RenderDeviceOGLLinux::~RenderDeviceOGLLinux()
+        OGLRenderDeviceLinux::~OGLRenderDeviceLinux()
         {
             running = false;
             CommandBuffer commandBuffer;
@@ -90,7 +90,7 @@ namespace ouzel
 #endif
         }
 
-        void RenderDeviceOGLLinux::init(Window* newWindow,
+        void OGLRenderDeviceLinux::init(Window* newWindow,
                                         const Size2& newSize,
                                         uint32_t newSampleCount,
                                         Texture::Filter newTextureFilter,
@@ -255,7 +255,7 @@ namespace ouzel
                 throw std::system_error(eglGetError(), eglErrorCategory, "Failed to set EGL frame interval");
 #endif
 
-            RenderDeviceOGL::init(newWindow,
+            OGLRenderDevice::init(newWindow,
                                   newSize,
                                   newSampleCount,
                                   newTextureFilter,
@@ -270,10 +270,10 @@ namespace ouzel
 #endif
 
             running = true;
-            renderThread = std::thread(&RenderDeviceOGLLinux::main, this);
+            renderThread = std::thread(&OGLRenderDeviceLinux::main, this);
         }
 
-        std::vector<Size2> RenderDeviceOGLLinux::getSupportedResolutions() const
+        std::vector<Size2> OGLRenderDeviceLinux::getSupportedResolutions() const
         {
             std::vector<Size2> result;
 
@@ -299,7 +299,7 @@ namespace ouzel
             return result;
         }
 
-        void RenderDeviceOGLLinux::present()
+        void OGLRenderDeviceLinux::present()
         {
 #if OUZEL_OPENGL_INTERFACE_GLX
             EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
@@ -312,7 +312,7 @@ namespace ouzel
 #endif
         }
 
-        void RenderDeviceOGLLinux::main()
+        void OGLRenderDeviceLinux::main()
         {
             setCurrentThreadName("Render");
 

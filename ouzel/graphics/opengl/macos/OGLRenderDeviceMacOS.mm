@@ -8,7 +8,7 @@
 
 #if TARGET_OS_MAC && !TARGET_OS_IOS && !TARGET_OS_TV && OUZEL_COMPILE_OPENGL
 
-#include "RenderDeviceOGLMacOS.hpp"
+#include "OGLRenderDeviceMacOS.hpp"
 #include "core/macos/NativeWindowMacOS.hpp"
 #include "core/Engine.hpp"
 #include "utils/Log.hpp"
@@ -24,7 +24,7 @@ static CVReturn renderCallback(CVDisplayLinkRef,
     {
         try
         {
-            ouzel::graphics::RenderDeviceOGLMacOS* renderDevice = static_cast<ouzel::graphics::RenderDeviceOGLMacOS*>(userInfo);
+            ouzel::graphics::OGLRenderDeviceMacOS* renderDevice = static_cast<ouzel::graphics::OGLRenderDeviceMacOS*>(userInfo);
             renderDevice->renderCallback();
         }
         catch (const std::exception& e)
@@ -41,12 +41,12 @@ namespace ouzel
 {
     namespace graphics
     {
-        RenderDeviceOGLMacOS::RenderDeviceOGLMacOS(const std::function<void(const Event&)>& initCallback):
-            RenderDeviceOGL(initCallback)
+        OGLRenderDeviceMacOS::OGLRenderDeviceMacOS(const std::function<void(const Event&)>& initCallback):
+            OGLRenderDevice(initCallback)
         {
         }
 
-        RenderDeviceOGLMacOS::~RenderDeviceOGLMacOS()
+        OGLRenderDeviceMacOS::~OGLRenderDeviceMacOS()
         {
             running = false;
             CommandBuffer commandBuffer;
@@ -69,7 +69,7 @@ namespace ouzel
                 [pixelFormat release];
         }
 
-        void RenderDeviceOGLMacOS::init(Window* newWindow,
+        void OGLRenderDeviceMacOS::init(Window* newWindow,
                                         const Size2& newSize,
                                         uint32_t newSampleCount,
                                         Texture::Filter newTextureFilter,
@@ -143,7 +143,7 @@ namespace ouzel
             GLint swapInt = newVerticalSync ? 1 : 0;
             [openGLContext setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
 
-            RenderDeviceOGL::init(newWindow,
+            OGLRenderDevice::init(newWindow,
                                   newSize,
                                   newSampleCount,
                                   newTextureFilter,
@@ -152,7 +152,7 @@ namespace ouzel
                                   newDepth,
                                   newDebugRenderer);
 
-            eventHandler.windowHandler = std::bind(&RenderDeviceOGLMacOS::handleWindow, this, std::placeholders::_1);
+            eventHandler.windowHandler = std::bind(&OGLRenderDeviceMacOS::handleWindow, this, std::placeholders::_1);
             engine->getEventDispatcher().addEventHandler(&eventHandler);
 
             CGDirectDisplayID displayId = windowMacOS->getDisplayId();
@@ -168,14 +168,14 @@ namespace ouzel
                 throw std::runtime_error("Failed to start display link");
         }
 
-        void RenderDeviceOGLMacOS::setSize(const Size2& newSize)
+        void OGLRenderDeviceMacOS::setSize(const Size2& newSize)
         {
-            RenderDeviceOGL::setSize(newSize);
+            OGLRenderDevice::setSize(newSize);
 
             [openGLContext update];
         }
 
-        std::vector<Size2> RenderDeviceOGLMacOS::getSupportedResolutions() const
+        std::vector<Size2> OGLRenderDeviceMacOS::getSupportedResolutions() const
         {
             std::vector<Size2> result;
 
@@ -195,12 +195,12 @@ namespace ouzel
             return result;
         }
 
-        void RenderDeviceOGLMacOS::present()
+        void OGLRenderDeviceMacOS::present()
         {
             [openGLContext flushBuffer];
         }
 
-        bool RenderDeviceOGLMacOS::handleWindow(const WindowEvent& event)
+        bool OGLRenderDeviceMacOS::handleWindow(const WindowEvent& event)
         {
             if (event.type == ouzel::Event::Type::SCREEN_CHANGE)
             {
@@ -228,7 +228,7 @@ namespace ouzel
             return false;
         }
 
-        void RenderDeviceOGLMacOS::renderCallback()
+        void OGLRenderDeviceMacOS::renderCallback()
         {
             if ([NSOpenGLContext currentContext] != openGLContext)
                 [openGLContext makeCurrentContext];

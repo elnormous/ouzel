@@ -4,25 +4,25 @@
 
 #if defined(__EMSCRIPTEN__) && OUZEL_COMPILE_OPENGL
 
-#include "RenderDeviceOGLEm.hpp"
+#include "OGLRenderDeviceEm.hpp"
 #include "utils/Utils.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        RenderDeviceOGLEm::RenderDeviceOGLEm(const std::function<void(const Event&)>& initCallback):
-            RenderDeviceOGL(initCallback)
+        OGLRenderDeviceEm::OGLRenderDeviceEm(const std::function<void(const Event&)>& initCallback):
+            OGLRenderDevice(initCallback)
         {
         }
 
-        RenderDeviceOGLEm::~RenderDeviceOGLEm()
+        OGLRenderDeviceEm::~OGLRenderDeviceEm()
         {
             if (webGLContext)
                 emscripten_webgl_destroy_context(webGLContext);
         }
 
-        void RenderDeviceOGLEm::init(Window* newWindow,
+        void OGLRenderDeviceEm::init(Window* newWindow,
                                      const Size2& newSize,
                                      uint32_t newSampleCount,
                                      Texture::Filter newTextureFilter,
@@ -54,7 +54,7 @@ namespace ouzel
 
             emscripten_set_main_loop_timing(newVerticalSync ? EM_TIMING_RAF : EM_TIMING_SETTIMEOUT, 1);
 
-            RenderDeviceOGL::init(newWindow,
+            OGLRenderDevice::init(newWindow,
                                   newSize,
                                   newSampleCount,
                                   newTextureFilter,

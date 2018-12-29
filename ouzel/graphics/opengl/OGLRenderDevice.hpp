@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_GRAPHICS_RENDERDEVICEOGL_HPP
-#define OUZEL_GRAPHICS_RENDERDEVICEOGL_HPP
+#ifndef OUZEL_GRAPHICS_OGLRENDERDEVICE_HPP
+#define OUZEL_GRAPHICS_OGLRENDERDEVICE_HPP
 
 #include "core/Setup.h"
 
@@ -140,7 +140,7 @@ extern PFNGLPUSHGROUPMARKEREXTPROC glPushGroupMarkerEXTProc;
 extern PFNGLPOPGROUPMARKEREXTPROC glPopGroupMarkerEXTProc;
 
 #include "graphics/RenderDevice.hpp"
-#include "graphics/opengl/ShaderOGL.hpp"
+#include "graphics/opengl/OGLShader.hpp"
 
 namespace ouzel
 {
@@ -176,11 +176,11 @@ namespace ouzel
         extern const OpenGLErrorCategory openGLErrorCategory;
         std::error_code makeErrorCode(GLenum e);
 
-        class RenderDeviceOGL: public RenderDevice
+        class OGLRenderDevice: public RenderDevice
         {
             friend Renderer;
         public:
-            virtual ~RenderDeviceOGL();
+            virtual ~OGLRenderDevice();
 
             bool isTextureBaseLevelSupported() const { return textureBaseLevelSupported; }
             bool isTextureMaxLevelSupported() const { return textureMaxLevelSupported; }
@@ -546,7 +546,7 @@ namespace ouzel
 #endif
 
         protected:
-            RenderDeviceOGL(const std::function<void(const Event&)>& initCallback);
+            OGLRenderDevice(const std::function<void(const Event&)>& initCallback);
 
             void init(Window* newWindow,
                       const Size2& newSize,
@@ -634,11 +634,11 @@ namespace ouzel
 
             StateCache stateCache;
 
-            std::vector<std::unique_ptr<RenderResourceOGL>> resources;
+            std::vector<std::unique_ptr<OGLRenderResource>> resources;
         };
     } // namespace graphics
 } // namespace ouzel
 
 #endif
 
-#endif // OUZEL_GRAPHICS_RENDERDEVICEOGL_HPP
+#endif // OUZEL_GRAPHICS_OGLRENDERDEVICE_HPP

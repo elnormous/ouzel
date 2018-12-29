@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_GRAPHICS_BLENDSTATEOGL_HPP
-#define OUZEL_GRAPHICS_BLENDSTATEOGL_HPP
+#ifndef OUZEL_GRAPHICS_OGLBLENDSTATE_HPP
+#define OUZEL_GRAPHICS_OGLBLENDSTATE_HPP
 
 #include "core/Setup.h"
 
@@ -17,19 +17,19 @@
 #  include "GL/glext.h"
 #endif
 
-#include "graphics/opengl/RenderResourceOGL.hpp"
+#include "graphics/opengl/OGLRenderResource.hpp"
 #include "graphics/BlendState.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class RenderDeviceOGL;
+        class OGLRenderDevice;
 
-        class BlendStateOGL final: public RenderResourceOGL
+        class OGLBlendState final: public OGLRenderResource
         {
         public:
-            BlendStateOGL(RenderDeviceOGL& renderDeviceOGL,
+            OGLBlendState(OGLRenderDevice& renderDeviceOGL,
                           bool enableBlending,
                           BlendState::Factor colorBlendSource, BlendState::Factor colorBlendDest,
                           BlendState::Operation colorOperation,
@@ -72,4 +72,4 @@ namespace ouzel
 
 #endif
 
-#endif // OUZEL_GRAPHICS_BLENDSTATEOGL_HPP
+#endif // OUZEL_GRAPHICS_OGLBLENDSTATE_HPP

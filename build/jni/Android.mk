@@ -27,13 +27,13 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/animators/Scale.cpp \
     ../../ouzel/animators/Sequence.cpp \
     ../../ouzel/animators/Shake.cpp \
-	../../ouzel/assets/Bundle.cpp \
-    ../../ouzel/assets/Cache.cpp \
-    ../../ouzel/assets/Loader.cpp \
     ../../ouzel/assets/BmfLoader.cpp \
+	../../ouzel/assets/Bundle.cpp \
+	../../ouzel/assets/Cache.cpp \
     ../../ouzel/assets/ColladaLoader.cpp \
 	../../ouzel/assets/GltfLoader.cpp \
     ../../ouzel/assets/ImageLoader.cpp \
+	../../ouzel/assets/Loader.cpp \
     ../../ouzel/assets/MtlLoader.cpp \
     ../../ouzel/assets/ObjLoader.cpp \
     ../../ouzel/assets/ParticleSystemLoader.cpp \
@@ -79,14 +79,14 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/files/File.cpp \
     ../../ouzel/files/FileSystem.cpp \
     ../../ouzel/graphics/empty/EmptyRenderDevice.cpp \
-    ../../ouzel/graphics/opengl/android/RenderDeviceOGLAndroid.cpp \
-    ../../ouzel/graphics/opengl/BlendStateOGL.cpp \
-    ../../ouzel/graphics/opengl/BufferOGL.cpp \
-	../../ouzel/graphics/opengl/DepthStencilStateOGL.cpp \
-    ../../ouzel/graphics/opengl/RenderDeviceOGL.cpp \
-	../../ouzel/graphics/opengl/RenderTargetOGL.cpp \
-    ../../ouzel/graphics/opengl/ShaderOGL.cpp \
-    ../../ouzel/graphics/opengl/TextureOGL.cpp \
+    ../../ouzel/graphics/opengl/android/OGLRenderDeviceAndroid.cpp \
+    ../../ouzel/graphics/opengl/OGLBlendState.cpp \
+    ../../ouzel/graphics/opengl/OGLBuffer.cpp \
+	../../ouzel/graphics/opengl/OGLDepthStencilState.cpp \
+    ../../ouzel/graphics/opengl/OGLRenderDevice.cpp \
+	../../ouzel/graphics/opengl/OGLRenderTarget.cpp \
+    ../../ouzel/graphics/opengl/OGLShader.cpp \
+    ../../ouzel/graphics/opengl/OGLTexture.cpp \
     ../../ouzel/graphics/BlendState.cpp \
     ../../ouzel/graphics/Buffer.cpp \
 	../../ouzel/graphics/DepthStencilState.cpp \

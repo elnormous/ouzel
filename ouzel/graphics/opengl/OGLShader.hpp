@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_GRAPHICS_SHADEROGL_HPP
-#define OUZEL_GRAPHICS_SHADEROGL_HPP
+#ifndef OUZEL_GRAPHICS_OGLSHADER_HPP
+#define OUZEL_GRAPHICS_OGLSHADER_HPP
 
 #include "core/Setup.h"
 
@@ -17,19 +17,19 @@
 #  include "GL/glext.h"
 #endif
 
-#include "graphics/opengl/RenderResourceOGL.hpp"
+#include "graphics/opengl/OGLRenderResource.hpp"
 #include "graphics/Shader.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class RenderDeviceOGL;
+        class OGLRenderDevice;
 
-        class ShaderOGL final: public RenderResourceOGL
+        class OGLShader final: public OGLRenderResource
         {
         public:
-            ShaderOGL(RenderDeviceOGL& renderDeviceOGL,
+            OGLShader(OGLRenderDevice& renderDeviceOGL,
                       const std::vector<uint8_t>& newFragmentShader,
                       const std::vector<uint8_t>& newVertexShader,
                       const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
@@ -39,7 +39,7 @@ namespace ouzel
                       uint32_t newVertexShaderDataAlignment,
                       const std::string& fragmentShaderFunction,
                       const std::string& vertexShaderFunction);
-            ~ShaderOGL();
+            ~OGLShader();
 
             void reload() override;
 
@@ -81,4 +81,4 @@ namespace ouzel
 
 #endif
 
-#endif // OUZEL_GRAPHICS_SHADEROGL_HPP
+#endif // OUZEL_GRAPHICS_OGLSHADER_HPP

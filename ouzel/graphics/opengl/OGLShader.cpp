@@ -4,14 +4,14 @@
 
 #if OUZEL_COMPILE_OPENGL
 
-#include "ShaderOGL.hpp"
-#include "RenderDeviceOGL.hpp"
+#include "OGLShader.hpp"
+#include "OGLRenderDevice.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        ShaderOGL::ShaderOGL(RenderDeviceOGL& renderDeviceOGL,
+        OGLShader::OGLShader(OGLRenderDevice& renderDeviceOGL,
                              const std::vector<uint8_t>& newFragmentShader,
                              const std::vector<uint8_t>& newVertexShader,
                              const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
@@ -21,7 +21,7 @@ namespace ouzel
                              uint32_t,
                              const std::string&,
                              const std::string&):
-            RenderResourceOGL(renderDeviceOGL),
+            OGLRenderResource(renderDeviceOGL),
             fragmentShaderData(newFragmentShader),
             vertexShaderData(newVertexShader),
             vertexAttributes(newVertexAttributes),
@@ -31,14 +31,14 @@ namespace ouzel
             compileShader();
         }
 
-        ShaderOGL::~ShaderOGL()
+        OGLShader::~OGLShader()
         {
             if (programId) renderDevice.deleteProgram(programId);
             if (vertexShaderId) glDeleteShaderProc(vertexShaderId);
             if (fragmentShaderId) glDeleteShaderProc(fragmentShaderId);
         }
 
-        void ShaderOGL::reload()
+        void OGLShader::reload()
         {
             fragmentShaderId = 0;
             vertexShaderId = 0;
@@ -47,7 +47,7 @@ namespace ouzel
             compileShader();
         }
 
-        std::string ShaderOGL::getShaderMessage(GLuint shaderId)
+        std::string OGLShader::getShaderMessage(GLuint shaderId)
         {
             GLint logLength = 0;
             glGetShaderivProc(shaderId, GL_INFO_LOG_LENGTH, &logLength);
@@ -63,7 +63,7 @@ namespace ouzel
             return std::string();
         }
 
-        std::string ShaderOGL::getProgramMessage()
+        std::string OGLShader::getProgramMessage()
         {
             GLint logLength = 0;
             glGetProgramivProc(programId, GL_INFO_LOG_LENGTH, &logLength);
@@ -79,7 +79,7 @@ namespace ouzel
             return std::string();
         }
 
-        void ShaderOGL::compileShader()
+        void OGLShader::compileShader()
         {
             fragmentShaderId = glCreateShaderProc(GL_FRAGMENT_SHADER);
 
