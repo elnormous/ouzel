@@ -451,14 +451,16 @@ namespace ouzel
                             switch (event.code)
                             {
                                 case ABS_X:
-                                    cursorPosition.x = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(event.value), 0.0F)).x;
+                                    cursorPosition.x = event.value;
                                     break;
                                 case ABS_Y:
-                                    cursorPosition.y = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(0.0F, static_cast<float>(event.value))).y;
+                                    cursorPosition.y = event.value;
                                     break;
                             }
 
-                            mouseDevice->handleMove(cursorPosition);
+                            Vector2 normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(cursorPosition.x),
+                                                                                                                        static_cast<float>(cursorPosition.y)));
+                            mouseDevice->handleMove(normalizedPosition);
                             break;
                         }
                         case EV_REL:
@@ -474,11 +476,19 @@ namespace ouzel
                                     relativePos.y = static_cast<float>(event.value);
                                     break;
                                 case REL_WHEEL:
-                                    mouseDevice->handleScroll(Vector2(0.0F, static_cast<float>(event.value)), cursorPosition);
+                                {
+                                    Vector2 normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(cursorPosition.x),
+                                                                                                                                static_cast<float>(cursorPosition.y)));
+                                    mouseDevice->handleScroll(Vector2(0.0F, static_cast<float>(event.value)), normalizedPosition);
                                     break;
+                                }
                                 case REL_HWHEEL:
-                                    mouseDevice->handleScroll(Vector2(static_cast<float>(event.value), 0.0F), cursorPosition);
+                                {
+                                    Vector2 normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(cursorPosition.x),
+                                                                                                                                static_cast<float>(cursorPosition.y)));
+                                    mouseDevice->handleScroll(Vector2(static_cast<float>(event.value), 0.0F), normalizedPosition);
                                     break;
+                                }
                             }
 
                             mouseDevice->handleRelativeMove(engine->getWindow()->convertWindowToNormalizedLocation(relativePos));
@@ -486,10 +496,13 @@ namespace ouzel
                         }
                         case EV_KEY:
                         {
+                            Vector2 normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(cursorPosition.x),
+                                                                                                                        static_cast<float>(cursorPosition.y)));
+
                             if (event.value == 1)
-                                mouseDevice->handleButtonPress(convertButtonCode(event.code), cursorPosition);
+                                mouseDevice->handleButtonPress(convertButtonCode(event.code), normalizedPosition);
                             else if (event.value == 0)
-                                mouseDevice->handleButtonRelease(convertButtonCode(event.code), cursorPosition);
+                                mouseDevice->handleButtonRelease(convertButtonCode(event.code), normalizedPosition);
                             break;
                         }
                     }

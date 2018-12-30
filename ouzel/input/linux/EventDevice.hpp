@@ -10,7 +10,6 @@
 #include <unordered_map>
 #include <vector>
 #include "input/Gamepad.hpp"
-#include "math/Vector2.hpp"
 
 namespace ouzel
 {
@@ -51,7 +50,12 @@ namespace ouzel
             std::unique_ptr<MouseDevice> mouseDevice;
             std::unique_ptr<TouchpadDevice> touchpadDevice;
 
-            Vector2 cursorPosition;
+            struct Position
+            {
+                int32_t x = 0;
+                int32_t y = 0;
+            };
+            Position cursorPosition;
             struct Slot final
             {
                 int32_t trackingId;

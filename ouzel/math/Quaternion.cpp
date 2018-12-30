@@ -39,9 +39,9 @@ namespace ouzel
         float cosAngle = cosf(angle / 2.0F);
         float sinAngle = sinf(angle / 2.0F);
 
-        v[0] = axis.x * sinAngle;
-        v[1] = axis.y * sinAngle;
-        v[2] = axis.z * sinAngle;
+        v[0] = axis.v[0] * sinAngle;
+        v[1] = axis.v[1] * sinAngle;
+        v[2] = axis.v[2] * sinAngle;
         v[3] = cosAngle;
     }
 
@@ -51,15 +51,15 @@ namespace ouzel
         float s = sqrtf(1.0F - v[3] * v[3]);
         if (s < std::numeric_limits<float>::min()) // too close to zero
         {
-            axis.x = v[0];
-            axis.y = v[1];
-            axis.z = v[2];
+            axis.v[0] = v[0];
+            axis.v[1] = v[1];
+            axis.v[2] = v[2];
         }
         else
         {
-            axis.x = v[0] / s;
-            axis.y = v[1] / s;
-            axis.z = v[2] / s;
+            axis.v[0] = v[0] / s;
+            axis.v[1] = v[1] / s;
+            axis.v[2] = v[2] / s;
         }
     }
 
@@ -67,9 +67,9 @@ namespace ouzel
     {
         Vector3 result;
 
-        result.x = atan2f(2.0F * (v[1] * v[2] + v[3] * v[0]), v[3] * v[3] - v[0] * v[0] - v[1] * v[1] + v[2] * v[2]);
-        result.y = asinf(-2.0F * (v[0] * v[2] - v[3] * v[1]));
-        result.z = atan2f(2.0F * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2]);
+        result.v[0] = atan2f(2.0F * (v[1] * v[2] + v[3] * v[0]), v[3] * v[3] - v[0] * v[0] - v[1] * v[1] + v[2] * v[2]);
+        result.v[1] = asinf(-2.0F * (v[0] * v[2] - v[3] * v[1]));
+        result.v[2] = atan2f(2.0F * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2]);
         return result;
     }
 
@@ -92,15 +92,15 @@ namespace ouzel
     {
         float angle;
 
-        angle = angles.x * 0.5F;
+        angle = angles.v[0] * 0.5F;
         const float sr = sinf(angle);
         const float cr = cosf(angle);
 
-        angle = angles.y * 0.5F;
+        angle = angles.v[1] * 0.5F;
         const float sp = sinf(angle);
         const float cp = cosf(angle);
 
-        angle = angles.z * 0.5F;
+        angle = angles.v[2] * 0.5F;
         const float sy = sinf(angle);
         const float cy = cosf(angle);
 

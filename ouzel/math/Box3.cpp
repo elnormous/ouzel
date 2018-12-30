@@ -21,35 +21,35 @@ namespace ouzel
 
     void Box3::getCorners(Vector3* dst) const
     {
-        // Near face, specified counter-clockwise looking towards the origin from the positive z-axis
+        // Near face, specified counter-clockwise looking towards the origin from the positive v[2]-axis
         // Left-bottom-front
-        dst[0].set(min.x, min.y, min.z);
+        dst[0].set(min.v[0], min.v[1], min.v[2]);
         // Right-bottom-front
-        dst[1].set(max.x, min.y, min.z);
+        dst[1].set(max.v[0], min.v[1], min.v[2]);
         // Right-top-front
-        dst[2].set(max.x, max.y, min.z);
+        dst[2].set(max.v[0], max.v[1], min.v[2]);
         // Left-top-front
-        dst[3].set(min.x, max.y, min.z);
+        dst[3].set(min.v[0], max.v[1], min.v[2]);
         // Left-bottom-back
-        dst[0].set(min.x, min.y, max.z);
+        dst[0].set(min.v[0], min.v[1], max.v[2]);
         // Right-bottom-back
-        dst[1].set(max.x, min.y, max.z);
+        dst[1].set(max.v[0], min.v[1], max.v[2]);
         // Right-top-back
-        dst[2].set(max.x, max.y, max.z);
+        dst[2].set(max.v[0], max.v[1], max.v[2]);
         // Left-top-back
-        dst[3].set(min.x, max.y, max.z);
+        dst[3].set(min.v[0], max.v[1], max.v[2]);
     }
 
     void Box3::merge(const Box3& box)
     {
         // Calculate the new minimum point
-        min.x = std::min(min.x, box.min.x);
-        min.y = std::min(min.y, box.min.y);
-        min.z = std::min(min.z, box.min.z);
+        min.v[0] = std::min(min.v[0], box.min.v[0]);
+        min.v[1] = std::min(min.v[1], box.min.v[1]);
+        min.v[2] = std::min(min.v[2], box.min.v[2]);
 
         // Calculate the new maximum point
-        max.x = std::max(max.x, box.max.x);
-        max.y = std::max(max.y, box.max.y);
-        max.z = std::max(max.y, box.max.z);
+        max.v[0] = std::max(max.v[0], box.max.v[0]);
+        max.v[1] = std::max(max.v[1], box.max.v[1]);
+        max.v[2] = std::max(max.v[1], box.max.v[2]);
     }
 }

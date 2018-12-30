@@ -1107,8 +1107,8 @@ namespace ouzel
                             const SetScissorTestCommand* setScissorTestCommand = static_cast<const SetScissorTestCommand*>(command.get());
 
                             setScissorTest(setScissorTestCommand->enabled,
-                                           static_cast<GLint>(setScissorTestCommand->rectangle.position.x),
-                                           static_cast<GLint>(setScissorTestCommand->rectangle.position.y),
+                                           static_cast<GLint>(setScissorTestCommand->rectangle.position.v[0]),
+                                           static_cast<GLint>(setScissorTestCommand->rectangle.position.v[1]),
                                            static_cast<GLsizei>(setScissorTestCommand->rectangle.size.width),
                                            static_cast<GLsizei>(setScissorTestCommand->rectangle.size.height));
 
@@ -1119,8 +1119,8 @@ namespace ouzel
                         {
                             const SetViewportCommand* setViewportCommand = static_cast<const SetViewportCommand*>(command.get());
 
-                            setViewport(static_cast<GLint>(setViewportCommand->viewport.position.x),
-                                        static_cast<GLint>(setViewportCommand->viewport.position.y),
+                            setViewport(static_cast<GLint>(setViewportCommand->viewport.position.v[0]),
+                                        static_cast<GLint>(setViewportCommand->viewport.position.v[1]),
                                         static_cast<GLsizei>(setViewportCommand->viewport.size.width),
                                         static_cast<GLsizei>(setViewportCommand->viewport.size.height));
 

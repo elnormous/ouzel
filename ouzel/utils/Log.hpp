@@ -127,8 +127,8 @@ namespace ouzel
 
         Log& operator<<(const Quaternion& val)
         {
-            s += std::to_string(val.x()) + "," + std::to_string(val.y()) + "," +
-                std::to_string(val.z()) + "," + std::to_string(val.w());
+            s += std::to_string(val.v[0]) + "," + std::to_string(val.v[1]) + "," +
+                std::to_string(val.v[2]) + "," + std::to_string(val.v[3]);
 
             return *this;
         }
@@ -149,23 +149,23 @@ namespace ouzel
 
         Log& operator<<(const Vector2& val)
         {
-            s += std::to_string(val.x) + "," + std::to_string(val.y);
+            s += std::to_string(val.v[0]) + "," + std::to_string(val.v[1]);
 
             return *this;
         }
 
         Log& operator<<(const Vector3& val)
         {
-            s += std::to_string(val.x) + "," + std::to_string(val.y) + "," +
-                std::to_string(val.z);
+            s += std::to_string(val.v[0]) + "," + std::to_string(val.v[1]) + "," +
+                std::to_string(val.v[2]);
 
             return *this;
         }
 
         Log& operator<<(const Vector4& val)
         {
-            s += std::to_string(val.x) + "," + std::to_string(val.y) + "," +
-                std::to_string(val.z) + "," + std::to_string(val.w);
+            s += std::to_string(val.v[0]) + "," + std::to_string(val.v[1]) + "," +
+                std::to_string(val.v[2]) + "," + std::to_string(val.v[3]);
 
             return *this;
         }

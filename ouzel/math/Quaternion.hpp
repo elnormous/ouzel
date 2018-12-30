@@ -10,12 +10,14 @@ namespace ouzel
     class Quaternion final
     {
     public:
+        float v[4]{0.0F, 0.0F, 0.0F, 0.0F};
+
         Quaternion()
         {
         }
 
-        Quaternion(float initX, float initY, float initZ, float initW):
-            v{initX, initY, initZ, initW}
+        Quaternion(float x, float y, float z, float w):
+            v{x, y, z, w}
         {
         }
 
@@ -41,9 +43,9 @@ namespace ouzel
 
         inline const Quaternion operator*(const Quaternion& q) const
         {
-            return Quaternion( v[0] * q.v[3] + v[1] * q.v[2] - v[2] * q.v[1] + v[3] * q.v[0],
+            return Quaternion(v[0] * q.v[3] + v[1] * q.v[2] - v[2] * q.v[1] + v[3] * q.v[0],
                               -v[0] * q.v[2] + v[1] * q.v[3] + v[2] * q.v[0] + v[3] * q.v[1],
-                               v[0] * q.v[1] - v[1] * q.v[0] + v[2] * q.v[3] + v[3] * q.v[2],
+                              v[0] * q.v[1] - v[1] * q.v[0] + v[2] * q.v[3] + v[3] * q.v[2],
                               -v[0] * q.v[0] - v[1] * q.v[1] - v[2] * q.v[2] + v[3] * q.v[3]);
         }
 
@@ -226,9 +228,6 @@ namespace ouzel
             const float scale = 1.0F - t;
             return (*this = (q1 * scale) + (q2 * t));
         }
-
-    private:
-        float v[4]{0.0F, 0.0F, 0.0F, 0.0F};
     };
 }
 

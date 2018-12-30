@@ -66,7 +66,7 @@ namespace ouzel
 
                 [image addRepresentation:imageRep];
                 cursor = [[NSCursor alloc] initWithImage:image
-                                                 hotSpot:NSMakePoint(hotSpot.x, size.height - hotSpot.y - 1.0F)];
+                                                 hotSpot:NSMakePoint(hotSpot.v[0], size.height - hotSpot.v[1] - 1.0F)];
             }
         }
 

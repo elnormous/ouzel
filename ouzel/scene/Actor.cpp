@@ -85,8 +85,8 @@ namespace ouzel
 
         void Actor::setPosition(const Vector2& newPosition)
         {
-            position.x = newPosition.x;
-            position.y = newPosition.y;
+            position.v[0] = newPosition.v[0];
+            position.v[1] = newPosition.v[1];
 
             updateLocalTransform();
         }
@@ -127,8 +127,8 @@ namespace ouzel
 
         void Actor::setScale(const Vector2& newScale)
         {
-            scale.x = newScale.x;
-            scale.y = newScale.y;
+            scale.v[0] = newScale.v[0];
+            scale.v[1] = newScale.v[1];
 
             updateLocalTransform();
         }
@@ -189,7 +189,7 @@ namespace ouzel
 
                 inverse.transformPoint(transformedEdge);
 
-                transformedEdges.push_back(Vector2(transformedEdge.x, transformedEdge.y));
+                transformedEdges.push_back(Vector2(transformedEdge.v[0], transformedEdge.v[1]));
             }
 
             for (Component* component : components)
@@ -254,9 +254,9 @@ namespace ouzel
 
             localTransform *= rotationMatrix;
 
-            Vector3 finalScale = Vector3(scale.x * (flipX ? -1.0F : 1.0F),
-                                         scale.y * (flipY ? -1.0F : 1.0F),
-                                         scale.z);
+            Vector3 finalScale = Vector3(scale.v[0] * (flipX ? -1.0F : 1.0F),
+                                         scale.v[1] * (flipY ? -1.0F : 1.0F),
+                                         scale.v[2]);
 
             localTransform.scale(finalScale);
 

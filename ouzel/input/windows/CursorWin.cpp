@@ -89,8 +89,8 @@ namespace ouzel
                 ICONINFO iconInfo;
                 ZeroMemory(&iconInfo, sizeof(iconInfo));
                 iconInfo.fIcon = FALSE;
-                iconInfo.xHotspot = static_cast<DWORD>(hotSpot.x);
-                iconInfo.yHotspot = static_cast<int>(size.height) - static_cast<DWORD>(hotSpot.y) - 1;
+                iconInfo.xHotspot = static_cast<DWORD>(hotSpot.v[0]);
+                iconInfo.yHotspot = static_cast<int>(size.height) - static_cast<DWORD>(hotSpot.v[1]) - 1;
                 iconInfo.hbmMask = mask;
                 iconInfo.hbmColor = color;
 

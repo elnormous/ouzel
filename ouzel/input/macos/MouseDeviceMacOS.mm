@@ -18,8 +18,8 @@ namespace ouzel
             NativeWindowMacOS* windowMacOS = static_cast<NativeWindowMacOS*>(engine->getWindow()->getNativeWindow());
             CGPoint windowOrigin = [windowMacOS->getNativeWindow() frame].origin;
 
-            CGWarpMouseCursorPosition(CGPointMake(screenOrigin.x + windowOrigin.x + windowLocation.x,
-                                                  screenOrigin.y + windowOrigin.y + windowLocation.y));
+            CGWarpMouseCursorPosition(CGPointMake(screenOrigin.x + windowOrigin.x + windowLocation.v[0],
+                                                  screenOrigin.y + windowOrigin.y + windowLocation.v[1]));
         }
 
         void MouseDeviceMacOS::setCursorVisible(bool visible)

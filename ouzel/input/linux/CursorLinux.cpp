@@ -63,8 +63,8 @@ namespace ouzel
                 if (!cursorImage)
                     throw std::runtime_error("Failed to create cursor image");
 
-                cursorImage->xhot = static_cast<int>(hotSpot.x);
-                cursorImage->yhot = height - static_cast<int>(hotSpot.y) - 1;
+                cursorImage->xhot = static_cast<int>(hotSpot.v[0]);
+                cursorImage->yhot = height - static_cast<int>(hotSpot.v[1]) - 1;
                 cursorImage->delay = 0;
 
                 unsigned char* target = reinterpret_cast<unsigned char*>(cursorImage->pixels);

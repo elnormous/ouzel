@@ -255,11 +255,11 @@ namespace ouzel
                         Vector3 position;
 
                         skipWhitespaces(data, iterator);
-                        position.x = parseFloat(data, iterator);
+                        position.v[0] = parseFloat(data, iterator);
                         skipWhitespaces(data, iterator);
-                        position.y = parseFloat(data, iterator);
+                        position.v[1] = parseFloat(data, iterator);
                         skipWhitespaces(data, iterator);
-                        position.z = parseFloat(data, iterator);
+                        position.v[2] = parseFloat(data, iterator);
 
                         skipLine(data, iterator);
 
@@ -270,9 +270,9 @@ namespace ouzel
                         Vector2 texCoord;
 
                         skipWhitespaces(data, iterator);
-                        texCoord.x = parseFloat(data, iterator);
+                        texCoord.v[0] = parseFloat(data, iterator);
                         skipWhitespaces(data, iterator);
-                        texCoord.y = parseFloat(data, iterator);
+                        texCoord.v[1] = parseFloat(data, iterator);
 
                         skipLine(data, iterator);
 
@@ -283,11 +283,11 @@ namespace ouzel
                         Vector3 normal;
 
                         skipWhitespaces(data, iterator);
-                        normal.x = parseFloat(data, iterator);
+                        normal.v[0] = parseFloat(data, iterator);
                         skipWhitespaces(data, iterator);
-                        normal.y = parseFloat(data, iterator);
+                        normal.v[1] = parseFloat(data, iterator);
                         skipWhitespaces(data, iterator);
-                        normal.z = parseFloat(data, iterator);
+                        normal.v[2] = parseFloat(data, iterator);
 
                         skipLine(data, iterator);
 

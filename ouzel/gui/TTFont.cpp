@@ -89,8 +89,8 @@ namespace ouzel
                 {
                     charDesc.width = static_cast<uint16_t>(w);
                     charDesc.height = static_cast<uint16_t>(h);
-                    charDesc.offset.x = static_cast<float>(leftBearing * s);
-                    charDesc.offset.y = static_cast<float>(yoff + (ascent - descent) * s);
+                    charDesc.offset.v[0] = static_cast<float>(leftBearing * s);
+                    charDesc.offset.v[1] = static_cast<float>(yoff + (ascent - descent) * s);
                     charDesc.bitmap = std::vector<uint8_t>(bitmap, bitmap + h * w);
                     charDesc.x = width;
 
@@ -176,18 +176,18 @@ namespace ouzel
                 Vector2 rightBottom((f.x + f.width) / static_cast<float>(width),
                                     (f.y + f.height) / static_cast<float>(height));
 
-                textCoords[0] = Vector2(leftTop.x, rightBottom.y);
-                textCoords[1] = Vector2(rightBottom.x, rightBottom.y);
-                textCoords[2] = Vector2(leftTop.x, leftTop.y);
-                textCoords[3] = Vector2(rightBottom.x, leftTop.y);
+                textCoords[0] = Vector2(leftTop.v[0], rightBottom.v[1]);
+                textCoords[1] = Vector2(rightBottom.v[0], rightBottom.v[1]);
+                textCoords[2] = Vector2(leftTop.v[0], leftTop.v[1]);
+                textCoords[3] = Vector2(rightBottom.v[0], leftTop.v[1]);
 
-                vertices.push_back(graphics::Vertex(Vector3(position.x + f.offset.x, -position.y - f.offset.y - f.height, 0.0F),
+                vertices.push_back(graphics::Vertex(Vector3(position.v[0] + f.offset.v[0], -position.v[1] - f.offset.v[1] - f.height, 0.0F),
                                                     color, textCoords[0], Vector3(0.0F, 0.0F, -1.0F)));
-                vertices.push_back(graphics::Vertex(Vector3(position.x + f.offset.x + f.width, -position.y - f.offset.y - f.height, 0.0F),
+                vertices.push_back(graphics::Vertex(Vector3(position.v[0] + f.offset.v[0] + f.width, -position.v[1] - f.offset.v[1] - f.height, 0.0F),
                                                     color, textCoords[1], Vector3(0.0F, 0.0F, -1.0F)));
-                vertices.push_back(graphics::Vertex(Vector3(position.x + f.offset.x, -position.y - f.offset.y, 0.0F),
+                vertices.push_back(graphics::Vertex(Vector3(position.v[0] + f.offset.v[0], -position.v[1] - f.offset.v[1], 0.0F),
                                                     color, textCoords[2], Vector3(0.0F, 0.0F, -1.0F)));
-                vertices.push_back(graphics::Vertex(Vector3(position.x + f.offset.x + f.width, -position.y - f.offset.y, 0.0F),
+                vertices.push_back(graphics::Vertex(Vector3(position.v[0] + f.offset.v[0] + f.width, -position.v[1] - f.offset.v[1], 0.0F),
                                                     color, textCoords[3], Vector3(0.0F, 0.0F, -1.0F)));
 
                 if ((i + 1) != utf32Text.end())
@@ -195,29 +195,29 @@ namespace ouzel
                     int kernAdvance = stbtt_GetCodepointKernAdvance(&font,
                                                                     static_cast<int>(*i),
                                                                     static_cast<int>(*(i + 1)));
-                    position.x += static_cast<float>(kernAdvance) * s;
+                    position.v[0] += static_cast<float>(kernAdvance) * s;
                 }
 
-                position.x += f.advance;
+                position.v[0] += f.advance;
             }
 
             if (*i == static_cast<uint32_t>('\n') || // line feed
                 (i + 1) == utf32Text.end()) // end of string
             {
-                float lineWidth = position.x;
-                position.x = 0.0F;
-                position.y += fontSize + lineGap;
+                float lineWidth = position.v[0];
+                position.v[0] = 0.0F;
+                position.v[1] += fontSize + lineGap;
 
                 for (size_t c = firstChar; c < vertices.size(); ++c)
-                    vertices[c].position.x -= lineWidth * anchor.x;
+                    vertices[c].position.v[0] -= lineWidth * anchor.v[0];
 
                 firstChar = vertices.size();
             }
         }
 
-        float textHeight = position.y;
+        float textHeight = position.v[1];
 
         for (size_t c = 0; c < vertices.size(); ++c)
-            vertices[c].position.y += textHeight * (1.0F - anchor.y);
+            vertices[c].position.v[1] += textHeight * (1.0F - anchor.v[1]);
     }
 }

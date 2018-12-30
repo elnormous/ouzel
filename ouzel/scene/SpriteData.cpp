@@ -21,44 +21,44 @@ namespace ouzel
             indexCount = static_cast<uint32_t>(indices.size());
 
             Vector2 textCoords[4];
-            Vector2 finalOffset(-sourceSize.width * pivot.x + sourceOffset.x,
-                                -sourceSize.height * pivot.y + (sourceSize.height - frameRectangle.size.height - sourceOffset.y));
+            Vector2 finalOffset(-sourceSize.width * pivot.v[0] + sourceOffset.v[0],
+                                -sourceSize.height * pivot.v[1] + (sourceSize.height - frameRectangle.size.height - sourceOffset.v[1]));
 
             if (!rotated)
             {
-                Vector2 leftTop(frameRectangle.position.x / textureSize.width,
-                                frameRectangle.position.y / textureSize.height);
+                Vector2 leftTop(frameRectangle.position.v[0] / textureSize.width,
+                                frameRectangle.position.v[1] / textureSize.height);
 
-                Vector2 rightBottom((frameRectangle.position.x + frameRectangle.size.width) / textureSize.width,
-                                    (frameRectangle.position.y + frameRectangle.size.height) / textureSize.height);
+                Vector2 rightBottom((frameRectangle.position.v[0] + frameRectangle.size.width) / textureSize.width,
+                                    (frameRectangle.position.v[1] + frameRectangle.size.height) / textureSize.height);
 
-                textCoords[0] = Vector2(leftTop.x, rightBottom.y);
-                textCoords[1] = Vector2(rightBottom.x, rightBottom.y);
-                textCoords[2] = Vector2(leftTop.x, leftTop.y);
-                textCoords[3] = Vector2(rightBottom.x, leftTop.y);
+                textCoords[0] = Vector2(leftTop.v[0], rightBottom.v[1]);
+                textCoords[1] = Vector2(rightBottom.v[0], rightBottom.v[1]);
+                textCoords[2] = Vector2(leftTop.v[0], leftTop.v[1]);
+                textCoords[3] = Vector2(rightBottom.v[0], leftTop.v[1]);
             }
             else
             {
-                Vector2 leftTop = Vector2(frameRectangle.position.x / textureSize.width,
-                                          frameRectangle.position.y / textureSize.height);
+                Vector2 leftTop = Vector2(frameRectangle.position.v[0] / textureSize.width,
+                                          frameRectangle.position.v[1] / textureSize.height);
 
-                Vector2 rightBottom = Vector2((frameRectangle.position.x + frameRectangle.size.height) / textureSize.width,
-                                              (frameRectangle.position.y + frameRectangle.size.width) / textureSize.height);
+                Vector2 rightBottom = Vector2((frameRectangle.position.v[0] + frameRectangle.size.height) / textureSize.width,
+                                              (frameRectangle.position.v[1] + frameRectangle.size.width) / textureSize.height);
 
-                textCoords[0] = Vector2(leftTop.x, leftTop.y);
-                textCoords[1] = Vector2(leftTop.x, rightBottom.y);
-                textCoords[2] = Vector2(rightBottom.x, leftTop.y);
-                textCoords[3] = Vector2(rightBottom.x, rightBottom.y);
+                textCoords[0] = Vector2(leftTop.v[0], leftTop.v[1]);
+                textCoords[1] = Vector2(leftTop.v[0], rightBottom.v[1]);
+                textCoords[2] = Vector2(rightBottom.v[0], leftTop.v[1]);
+                textCoords[3] = Vector2(rightBottom.v[0], rightBottom.v[1]);
             }
 
             std::vector<graphics::Vertex> vertices = {
-                graphics::Vertex(Vector3(finalOffset.x, finalOffset.y, 0.0F), Color::WHITE,
+                graphics::Vertex(Vector3(finalOffset.v[0], finalOffset.v[1], 0.0F), Color::WHITE,
                                  textCoords[0], Vector3(0.0F, 0.0F, -1.0F)),
-                graphics::Vertex(Vector3(finalOffset.x + frameRectangle.size.width, finalOffset.y, 0.0F), Color::WHITE,
+                graphics::Vertex(Vector3(finalOffset.v[0] + frameRectangle.size.width, finalOffset.v[1], 0.0F), Color::WHITE,
                                  textCoords[1], Vector3(0.0F, 0.0F, -1.0F)),
-                graphics::Vertex(Vector3(finalOffset.x, finalOffset.y + frameRectangle.size.height, 0.0F), Color::WHITE,
+                graphics::Vertex(Vector3(finalOffset.v[0], finalOffset.v[1] + frameRectangle.size.height, 0.0F), Color::WHITE,
                                  textCoords[2], Vector3(0.0F, 0.0F, -1.0F)),
-                graphics::Vertex(Vector3(finalOffset.x + frameRectangle.size.width, finalOffset.y + frameRectangle.size.height, 0.0F), Color::WHITE,
+                graphics::Vertex(Vector3(finalOffset.v[0] + frameRectangle.size.width, finalOffset.v[1] + frameRectangle.size.height, 0.0F), Color::WHITE,
                                  textCoords[3], Vector3(0.0F, 0.0F, -1.0F))
             };
 
@@ -103,8 +103,8 @@ namespace ouzel
                 boundingBox.insertPoint(Vector2(vertex.position));
 
             // TODO: fix
-            Vector2 finalOffset(-sourceSize.width * pivot.x + sourceOffset.x,
-                                -sourceSize.height * pivot.y + (sourceSize.height - frameRectangle.size.height - sourceOffset.y));
+            Vector2 finalOffset(-sourceSize.width * pivot.v[0] + sourceOffset.v[0],
+                                -sourceSize.height * pivot.v[1] + (sourceSize.height - frameRectangle.size.height - sourceOffset.v[1]));
 
             indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer());
             indexBuffer->init(graphics::Buffer::Usage::INDEX, 0, indices.data(), static_cast<uint32_t>(getVectorSize(indices)));
