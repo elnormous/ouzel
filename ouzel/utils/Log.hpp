@@ -127,8 +127,8 @@ namespace ouzel
 
         Log& operator<<(const Quaternion& val)
         {
-            s += std::to_string(val.x) + "," + std::to_string(val.y) + "," +
-                std::to_string(val.z) + "," + std::to_string(val.w);
+            s += std::to_string(val.x()) + "," + std::to_string(val.y()) + "," +
+                std::to_string(val.z()) + "," + std::to_string(val.w());
 
             return *this;
         }

@@ -273,14 +273,14 @@ namespace ouzel
             float m33 = m[10] / scale.z;
 
             Quaternion result;
-            result.x = sqrtf(std::max(0.0F, 1 + m11 - m22 - m33)) / 2.0F;
-            result.y = sqrtf(std::max(0.0F, 1 - m11 + m22 - m33)) / 2.0F;
-            result.z = sqrtf(std::max(0.0F, 1 - m11 - m22 + m33)) / 2.0F;
-            result.w = sqrtf(std::max(0.0F, 1 + m11 + m22 + m33)) / 2.0F;
+            result.x() = sqrtf(std::max(0.0F, 1 + m11 - m22 - m33)) / 2.0F;
+            result.y() = sqrtf(std::max(0.0F, 1 - m11 + m22 - m33)) / 2.0F;
+            result.z() = sqrtf(std::max(0.0F, 1 - m11 - m22 + m33)) / 2.0F;
+            result.w() = sqrtf(std::max(0.0F, 1 + m11 + m22 + m33)) / 2.0F;
 
-            result.x *= sgn(result.x * (m32 - m23));
-            result.y *= sgn(result.y * (m13 - m31));
-            result.z *= sgn(result.z * (m21 - m12));
+            result.x() *= sgn(result.x() * (m32 - m23));
+            result.y() *= sgn(result.y() * (m13 - m31));
+            result.z() *= sgn(result.z() * (m21 - m12));
 
             result.normalize();
 
@@ -289,18 +289,18 @@ namespace ouzel
 
         void setRotation(const Quaternion& rotation)
         {
-            float wx = rotation.w * rotation.x;
-            float wy = rotation.w * rotation.y;
-            float wz = rotation.w * rotation.z;
+            float wx = rotation.w() * rotation.x();
+            float wy = rotation.w() * rotation.y();
+            float wz = rotation.w() * rotation.z();
 
-            float xx = rotation.x * rotation.x;
-            float xy = rotation.x * rotation.y;
-            float xz = rotation.x * rotation.z;
+            float xx = rotation.x() * rotation.x();
+            float xy = rotation.x() * rotation.y();
+            float xz = rotation.x() * rotation.z();
 
-            float yy = rotation.y * rotation.y;
-            float yz = rotation.y * rotation.z;
+            float yy = rotation.y() * rotation.y();
+            float yz = rotation.y() * rotation.z();
 
-            float zz = rotation.z * rotation.z;
+            float zz = rotation.z() * rotation.z();
 
             m[0] = 1.0F - 2.0F * (yy + zz);
             m[4] = 2.0F * (xy - wz);
