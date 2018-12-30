@@ -26,7 +26,6 @@ namespace ouzel
             float v[4]{0.0F, 0.0F, 0.0F, 0.0F};
         };
 #else
-    private:
         float v[4]{0.0F, 0.0F, 0.0F, 0.0F};
 #endif
 
