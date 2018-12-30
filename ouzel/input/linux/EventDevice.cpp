@@ -465,16 +465,20 @@ namespace ouzel
                         }
                         case EV_REL:
                         {
-                            Vector2 relativePos;
-
                             switch (event.code)
                             {
                                 case REL_X:
-                                    relativePos.x = static_cast<float>(event.value);
+                                {
+                                    Vector2 normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(event.value), 0.0F));
+                                    mouseDevice->handleRelativeMove(normalizedPosition);
                                     break;
+                                }
                                 case REL_Y:
-                                    relativePos.y = static_cast<float>(event.value);
+                                {
+                                    Vector2 normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(0.0F, static_cast<float>(event.value)));
+                                    mouseDevice->handleRelativeMove(normalizedPosition);
                                     break;
+                                }
                                 case REL_WHEEL:
                                 {
                                     Vector2 normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(cursorPosition.x),
@@ -490,8 +494,6 @@ namespace ouzel
                                     break;
                                 }
                             }
-
-                            mouseDevice->handleRelativeMove(engine->getWindow()->convertWindowToNormalizedLocation(relativePos));
                             break;
                         }
                         case EV_KEY:
