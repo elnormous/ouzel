@@ -8,7 +8,7 @@
 
 @implementation OpenGLView
 
--(void)setContext:(NSOpenGLContext*)context
+-(void)setOpenGLContext:(NSOpenGLContext*)context
 {
     openGLContext = context;
 }
