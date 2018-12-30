@@ -50,8 +50,8 @@ namespace ouzel
 
         void set(float newX, float newY, float newWidth, float newHeight)
         {
-            position.x = newX;
-            position.y = newY;
+            position.v[0] = newX;
+            position.v[1] = newY;
             size.width = newWidth;
             size.height = newHeight;
         }
@@ -65,8 +65,8 @@ namespace ouzel
 
         void setPosition(float newX, float newY)
         {
-            position.x = newX;
-            position.y = newY;
+            position.v[0] = newX;
+            position.v[1] = newY;
         }
 
         void setPosition(const Vector2& newPosition)
@@ -76,22 +76,22 @@ namespace ouzel
 
         float left() const
         {
-            return position.x;
+            return position.v[0];
         }
 
         float bottom() const
         {
-            return position.y;
+            return position.v[1];
         }
 
         float right() const
         {
-            return position.x + size.width;
+            return position.v[0] + size.width;
         }
 
         float top() const
         {
-            return position.y + size.height;
+            return position.v[1] + size.height;
         }
 
         Vector2 bottomLeft() const
@@ -101,19 +101,19 @@ namespace ouzel
 
         Vector2 topRight() const
         {
-            return Vector2(position.x + size.width, position.y + size.height);
+            return Vector2(position.v[0] + size.width, position.v[1] + size.height);
         }
 
         bool containsPoint(float x, float y) const
         {
-            return x >= position.x && x <= (position.x + size.width) &&
-                y >= position.y && y <= (position.y + size.height);
+            return x >= position.v[0] && x <= (position.v[0] + size.width) &&
+                y >= position.v[1] && y <= (position.v[1] + size.height);
         }
 
         bool containsPoint(const Vector2& point) const
         {
-            return point.x >= position.x && point.x <= (position.x + size.width) &&
-                point.y >= position.y && point.y <= (position.y + size.height);
+            return point.v[0] >= position.v[0] && point.v[0] <= (position.v[0] + size.width) &&
+                point.v[1] >= position.v[1] && point.v[1] <= (position.v[1] + size.height);
         }
 
         bool contains(float x, float y, float width, float height) const
@@ -123,22 +123,22 @@ namespace ouzel
 
         bool contains(const Rect& r) const
         {
-            return contains(r.position.x, r.position.y, r.size.width, r.size.height);
+            return contains(r.position.v[0], r.position.v[1], r.size.width, r.size.height);
         }
 
         bool intersects(float x, float y, float width, float height) const
         {
             float t;
-            if ((t = x - position.x) > size.width || -t > width)
+            if ((t = x - position.v[0]) > size.width || -t > width)
                 return false;
-            if ((t = y - position.y) > size.height || -t > height)
+            if ((t = y - position.v[1]) > size.height || -t > height)
                 return false;
             return true;
         }
 
         bool intersects(const Rect& r) const
         {
-            return intersects(r.position.x, r.position.y, r.size.width, r.size.height);
+            return intersects(r.position.v[0], r.position.v[1], r.size.width, r.size.height);
         }
 
         static bool intersect(const Rect& r1, const Rect& r2, Rect& dst);
@@ -147,16 +147,16 @@ namespace ouzel
 
         void inflate(float horizontalAmount, float verticalAmount)
         {
-            position.x -= horizontalAmount;
-            position.y -= verticalAmount;
+            position.v[0] -= horizontalAmount;
+            position.v[1] -= verticalAmount;
             size.width += horizontalAmount * 2;
             size.height += verticalAmount * 2;
         }
 
         Rect& operator=(const Rect& other)
         {
-            position.x = other.position.x;
-            position.y = other.position.y;
+            position.v[0] = other.position.v[0];
+            position.v[1] = other.position.v[1];
             size.width = other.size.width;
             size.height = other.size.height;
             return *this;
@@ -164,26 +164,26 @@ namespace ouzel
 
         bool operator==(const Rect& other) const
         {
-            return position.x == other.position.x && size.width == other.size.width &&
-                position.y == other.position.y && size.height == other.size.height;
+            return position.v[0] == other.position.v[0] && size.width == other.size.width &&
+                position.v[1] == other.position.v[1] && size.height == other.size.height;
         }
 
         bool operator!=(const Rect& other) const
         {
-            return position.x != other.position.x || size.width != other.size.width ||
-                position.y != other.position.y || size.height != other.size.height;
+            return position.v[0] != other.position.v[0] || size.width != other.size.width ||
+                position.v[1] != other.position.v[1] || size.height != other.size.height;
         }
 
         inline const Rect operator*(float scalar) const
         {
-            return Rect(position.x * scalar, position.y * scalar,
+            return Rect(position.v[0] * scalar, position.v[1] * scalar,
                         size.width * scalar, size.height * scalar);
         }
 
         inline Rect& operator*=(float scalar)
         {
-            position.x *= scalar;
-            position.y *= scalar;
+            position.v[0] *= scalar;
+            position.v[1] *= scalar;
             size.width *= scalar;
             size.height *= scalar;
             return *this;
@@ -191,14 +191,14 @@ namespace ouzel
 
         inline const Rect operator/(float scalar) const
         {
-            return Rect(position.x / scalar, position.y / scalar,
+            return Rect(position.v[0] / scalar, position.v[1] / scalar,
                         size.width / scalar, size.height / scalar);
         }
 
         inline Rect& operator/=(float scalar)
         {
-            position.x /= scalar;
-            position.y /= scalar;
+            position.v[0] /= scalar;
+            position.v[1] /= scalar;
             size.width /= scalar;
             size.height /= scalar;
             return *this;

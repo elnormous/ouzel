@@ -15,8 +15,8 @@ namespace ouzel
             HWND nativeWindow = static_cast<NativeWindowWin*>(engine->getWindow()->getNativeWindow())->getNativeWindow();
 
             POINT p;
-            p.x = static_cast<LONG>(windowLocation.x);
-            p.y = static_cast<LONG>(windowLocation.y);
+            p.x = static_cast<LONG>(windowLocation.v[0]);
+            p.y = static_cast<LONG>(windowLocation.v[1]);
             ClientToScreen(nativeWindow, &p);
             SetCursorPos(static_cast<int>(p.x), static_cast<int>(p.y));
         }

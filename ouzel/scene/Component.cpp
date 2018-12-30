@@ -56,8 +56,8 @@ namespace ouzel
             {
                 Vector2 edge = aVertList[cur] - aVertList[prev];
 
-                v.x = edge.y;
-                v.y = -edge.x;
+                v.v[0] = edge.v[1];
+                v.v[1] = -edge.v[0];
 
                 float aMin;
                 float aMax;
@@ -79,9 +79,9 @@ namespace ouzel
         {
             std::vector<Vector2> boundingBoxEdges = {
                 Vector2(boundingBox.min),
-                Vector2(boundingBox.max.x, boundingBox.min.y),
+                Vector2(boundingBox.max.v[0], boundingBox.min.v[1]),
                 Vector2(boundingBox.max),
-                Vector2(boundingBox.min.x, boundingBox.max.y)
+                Vector2(boundingBox.min.v[0], boundingBox.max.v[1])
             };
 
             if (findSeparatingAxis(boundingBoxEdges, edges))

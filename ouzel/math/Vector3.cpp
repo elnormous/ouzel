@@ -12,110 +12,110 @@
 namespace ouzel
 {
     Vector3::Vector3(const Vector4& vec):
-        x(vec.x), y(vec.y), z(vec.z)
+        v{vec.v[0], vec.v[1], vec.v[2]}
     {
     }
 
     Vector3& Vector3::operator=(const Vector4& vec)
     {
-        x = vec.x;
-        y = vec.y;
-        z = vec.z;
+        v[0] = vec.v[0];
+        v[1] = vec.v[1];
+        v[2] = vec.v[2];
 
         return *this;
     }
 
     Vector3::Vector3(Color color)
     {
-        x = color.normR();
-        y = color.normG();
-        z = color.normB();
+        v[0] = color.normR();
+        v[1] = color.normG();
+        v[2] = color.normB();
     }
 
     Vector3& Vector3::operator=(Color color)
     {
-        x = color.normR();
-        y = color.normG();
-        z = color.normB();
+        v[0] = color.normR();
+        v[1] = color.normG();
+        v[2] = color.normB();
 
         return *this;
     }
 
     float Vector3::angle(const Vector3& v1, const Vector3& v2)
     {
-        float dx = v1.y * v2.z - v1.z * v2.y;
-        float dy = v1.z * v2.x - v1.x * v2.z;
-        float dz = v1.x * v2.y - v1.y * v2.x;
+        float dx = v1.v[1] * v2.v[2] - v1.v[2] * v2.v[1];
+        float dy = v1.v[2] * v2.v[0] - v1.v[0] * v2.v[2];
+        float dz = v1.v[0] * v2.v[1] - v1.v[1] * v2.v[0];
 
         return atan2f(sqrtf(dx * dx + dy * dy + dz * dz), dot(v1, v2));
     }
 
     void Vector3::clamp(const Vector3& min, const Vector3& max)
     {
-        assert(!(min.x > max.x || min.y > max.y || min.z > max.z));
+        assert(!(min.v[0] > max.v[0] || min.v[1] > max.v[1] || min.v[2] > max.v[2]));
 
-        // clamp the x value
-        if (x < min.x)
-            x = min.x;
-        if (x > max.x)
-            x = max.x;
+        // clamp the v[0] value
+        if (v[0] < min.v[0])
+            v[0] = min.v[0];
+        if (v[0] > max.v[0])
+            v[0] = max.v[0];
 
-        // clamp the y value
-        if (y < min.y)
-            y = min.y;
-        if (y > max.y)
-            y = max.y;
+        // clamp the v[1] value
+        if (v[1] < min.v[1])
+            v[1] = min.v[1];
+        if (v[1] > max.v[1])
+            v[1] = max.v[1];
 
-        // clamp the z value
-        if (z < min.z)
-            z = min.z;
-        if (z > max.z)
-            z = max.z;
+        // clamp the v[2] value
+        if (v[2] < min.v[2])
+            v[2] = min.v[2];
+        if (v[2] > max.v[2])
+            v[2] = max.v[2];
     }
 
     void Vector3::clamp(const Vector3& vec, const Vector3& min, const Vector3& max, Vector3& dst)
     {
-        assert(!(min.x > max.x || min.y > max.y || min.z > max.z));
+        assert(!(min.v[0] > max.v[0] || min.v[1] > max.v[1] || min.v[2] > max.v[2]));
 
-        // clamp the x value
-        dst.x = vec.x;
-        if (dst.x < min.x)
-            dst.x = min.x;
-        if (dst.x > max.x)
-            dst.x = max.x;
+        // clamp the v[0] value
+        dst.v[0] = vec.v[0];
+        if (dst.v[0] < min.v[0])
+            dst.v[0] = min.v[0];
+        if (dst.v[0] > max.v[0])
+            dst.v[0] = max.v[0];
 
-        // clamp the y value
-        dst.y = vec.y;
-        if (dst.y < min.y)
-            dst.y = min.y;
-        if (dst.y > max.y)
-            dst.y = max.y;
+        // clamp the v[1] value
+        dst.v[1] = vec.v[1];
+        if (dst.v[1] < min.v[1])
+            dst.v[1] = min.v[1];
+        if (dst.v[1] > max.v[1])
+            dst.v[1] = max.v[1];
 
-        // clamp the z value
-        dst.z = vec.z;
-        if (dst.z < min.z)
-            dst.z = min.z;
-        if (dst.z > max.z)
-            dst.z = max.z;
+        // clamp the v[2] value
+        dst.v[2] = vec.v[2];
+        if (dst.v[2] < min.v[2])
+            dst.v[2] = min.v[2];
+        if (dst.v[2] > max.v[2])
+            dst.v[2] = max.v[2];
     }
 
     float Vector3::distance(const Vector3& vec) const
     {
-        float dx = vec.x - x;
-        float dy = vec.y - y;
-        float dz = vec.z - z;
+        float dx = vec.v[0] - v[0];
+        float dy = vec.v[1] - v[1];
+        float dz = vec.v[2] - v[2];
 
         return sqrtf(dx * dx + dy * dy + dz * dz);
     }
 
     float Vector3::length() const
     {
-        return sqrtf(x * x + y * y + z * z);
+        return sqrtf(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
     }
 
     void Vector3::normalize()
     {
-        float n = x * x + y * y + z * z;
+        float n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2];
         if (n == 1.0F) // already normalized
             return;
 
@@ -124,9 +124,9 @@ namespace ouzel
             return;
 
         n = 1.0F / n;
-        x *= n;
-        y *= n;
-        z *= n;
+        v[0] *= n;
+        v[1] *= n;
+        v[2] *= n;
     }
 
     void Vector3::smooth(const Vector3& target, float elapsedTime, float responseTime)
@@ -137,11 +137,11 @@ namespace ouzel
 
     float Vector3::getMin() const
     {
-        return std::min(x, std::min(y, z));
+        return std::min(v[0], std::min(v[1], v[2]));
     }
 
     float Vector3::getMax() const
     {
-        return std::max(x, std::max(y, z));
+        return std::max(v[0], std::max(v[1], v[2]));
     }
 }

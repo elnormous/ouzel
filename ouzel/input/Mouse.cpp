@@ -101,8 +101,8 @@ namespace ouzel
         {
             Vector2 newPosition = position + pos;
 
-            newPosition.x = clamp(newPosition.x, 0.0F, 1.0F);
-            newPosition.y = clamp(newPosition.y, 0.0F, 1.0F);
+            newPosition.v[0] = clamp(newPosition.v[0], 0.0F, 1.0F);
+            newPosition.v[1] = clamp(newPosition.v[1], 0.0F, 1.0F);
 
             return handleMove(newPosition);
         }

@@ -53,10 +53,10 @@ namespace ouzel
 
             if (document.hasMember("yCoordFlipped")) particleSystemData.yCoordFlipped = (document["yCoordFlipped"].as<uint32_t>() == 1);
 
-            if (document.hasMember("sourcePositionx")) particleSystemData.sourcePosition.x = document["sourcePositionx"].as<float>();
-            if (document.hasMember("sourcePositiony")) particleSystemData.sourcePosition.y = document["sourcePositiony"].as<float>();
-            if (document.hasMember("sourcePositionVariancex")) particleSystemData.sourcePositionVariance.x = document["sourcePositionVariancex"].as<float>();
-            if (document.hasMember("sourcePositionVariancey")) particleSystemData.sourcePositionVariance.y = document["sourcePositionVariancey"].as<float>();
+            if (document.hasMember("sourcePositionx")) particleSystemData.sourcePosition.v[0] = document["sourcePositionx"].as<float>();
+            if (document.hasMember("sourcePositiony")) particleSystemData.sourcePosition.v[1] = document["sourcePositiony"].as<float>();
+            if (document.hasMember("sourcePositionVariancex")) particleSystemData.sourcePositionVariance.v[0] = document["sourcePositionVariancex"].as<float>();
+            if (document.hasMember("sourcePositionVariancey")) particleSystemData.sourcePositionVariance.v[1] = document["sourcePositionVariancey"].as<float>();
 
             if (document.hasMember("startParticleSize")) particleSystemData.startParticleSize = document["startParticleSize"].as<float>();
             if (document.hasMember("startParticleSizeVariance")) particleSystemData.startParticleSizeVariance = document["startParticleSizeVariance"].as<float>();
@@ -82,8 +82,8 @@ namespace ouzel
 
             if (document.hasMember("rotationIsDir")) particleSystemData.rotationIsDir = document["rotationIsDir"].as<bool>();
 
-            if (document.hasMember("gravityx")) particleSystemData.gravity.x = document["gravityx"].as<float>();
-            if (document.hasMember("gravityy")) particleSystemData.gravity.y = document["gravityy"].as<float>();
+            if (document.hasMember("gravityx")) particleSystemData.gravity.v[0] = document["gravityx"].as<float>();
+            if (document.hasMember("gravityy")) particleSystemData.gravity.v[1] = document["gravityy"].as<float>();
 
             if (document.hasMember("startColorRed")) particleSystemData.startColorRed = document["startColorRed"].as<float>();
             if (document.hasMember("startColorGreen")) particleSystemData.startColorGreen = document["startColorGreen"].as<float>();

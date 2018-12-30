@@ -509,8 +509,8 @@ namespace ouzel
 
                             if (setScissorTestCommand->enabled)
                             {
-                                scissorRect.x = static_cast<NSUInteger>(setScissorTestCommand->rectangle.position.x);
-                                scissorRect.y = static_cast<NSUInteger>(setScissorTestCommand->rectangle.position.y);
+                                scissorRect.x = static_cast<NSUInteger>(setScissorTestCommand->rectangle.position.v[0]);
+                                scissorRect.y = static_cast<NSUInteger>(setScissorTestCommand->rectangle.position.v[1]);
                                 scissorRect.width = static_cast<NSUInteger>(setScissorTestCommand->rectangle.size.width);
                                 scissorRect.height = static_cast<NSUInteger>(setScissorTestCommand->rectangle.size.height);
                                 if (scissorRect.x >= currentRenderTarget.width) scissorRect.x = currentRenderTarget.width - 1;
@@ -538,8 +538,8 @@ namespace ouzel
                                 throw std::runtime_error("Metal render command encoder not initialized");
 
                             MTLViewport viewport;
-                            viewport.originX = static_cast<double>(setViewportCommand->viewport.position.x);
-                            viewport.originY = static_cast<double>(setViewportCommand->viewport.position.y);
+                            viewport.originX = static_cast<double>(setViewportCommand->viewport.position.v[0]);
+                            viewport.originY = static_cast<double>(setViewportCommand->viewport.position.v[1]);
                             viewport.width = static_cast<double>(setViewportCommand->viewport.size.width);
                             viewport.height = static_cast<double>(setViewportCommand->viewport.size.height);
                             viewport.znear = 0.0f;

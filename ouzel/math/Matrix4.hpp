@@ -199,31 +199,31 @@ namespace ouzel
 
         void transformPoint(Vector3& point) const
         {
-            transformVector(point.x, point.y, point.z, 1.0F, point);
+            transformVector(point.v[0], point.v[1], point.v[2], 1.0F, point);
         }
 
         void transformPoint(const Vector3& point, Vector3& dst) const
         {
-            transformVector(point.x, point.y, point.z, 1.0F, dst);
+            transformVector(point.v[0], point.v[1], point.v[2], 1.0F, dst);
         }
 
         void transformVector(Vector3& vector) const
         {
             Vector4 t;
-            transformVector(Vector4(vector.x, vector.y, vector.z, 0.0F), t);
-            vector = Vector3(t.x, t.y, t.z);
+            transformVector(Vector4(vector.v[0], vector.v[1], vector.v[2], 0.0F), t);
+            vector = Vector3(t.v[0], t.v[1], t.v[2]);
         }
 
         void transformVector(const Vector3& vector, Vector3& dst) const
         {
-            transformVector(vector.x, vector.y, vector.z, 0.0F, dst);
+            transformVector(vector.v[0], vector.v[1], vector.v[2], 0.0F, dst);
         }
 
         void transformVector(float x, float y, float z, float w, Vector3& dst) const
         {
             Vector4 t;
             transformVector(Vector4(x, y, z, w), t);
-            dst = Vector3(t.x, t.y, t.z);
+            dst = Vector3(t.v[0], t.v[1], t.v[2]);
         }
 
         void transformVector(Vector4& vector) const
@@ -249,9 +249,9 @@ namespace ouzel
         Vector3 getScale() const
         {
             Vector3 scale;
-            scale.x = Vector3(m[0], m[1], m[2]).length();
-            scale.y = Vector3(m[4], m[5], m[6]).length();
-            scale.z = Vector3(m[8], m[9], m[10]).length();
+            scale.v[0] = Vector3(m[0], m[1], m[2]).length();
+            scale.v[1] = Vector3(m[4], m[5], m[6]).length();
+            scale.v[2] = Vector3(m[8], m[9], m[10]).length();
 
             return scale;
         }
@@ -260,27 +260,27 @@ namespace ouzel
         {
             Vector3 scale = getScale();
 
-            float m11 = m[0] / scale.x;
-            float m21 = m[1] / scale.x;
-            float m31 = m[2] / scale.x;
+            float m11 = m[0] / scale.v[0];
+            float m21 = m[1] / scale.v[0];
+            float m31 = m[2] / scale.v[0];
 
-            float m12 = m[4] / scale.y;
-            float m22 = m[5] / scale.y;
-            float m32 = m[6] / scale.y;
+            float m12 = m[4] / scale.v[1];
+            float m22 = m[5] / scale.v[1];
+            float m32 = m[6] / scale.v[1];
 
-            float m13 = m[8] / scale.z;
-            float m23 = m[9] / scale.z;
-            float m33 = m[10] / scale.z;
+            float m13 = m[8] / scale.v[2];
+            float m23 = m[9] / scale.v[2];
+            float m33 = m[10] / scale.v[2];
 
             Quaternion result;
-            result.x() = sqrtf(std::max(0.0F, 1 + m11 - m22 - m33)) / 2.0F;
-            result.y() = sqrtf(std::max(0.0F, 1 - m11 + m22 - m33)) / 2.0F;
-            result.z() = sqrtf(std::max(0.0F, 1 - m11 - m22 + m33)) / 2.0F;
-            result.w() = sqrtf(std::max(0.0F, 1 + m11 + m22 + m33)) / 2.0F;
+            result.v[0] = sqrtf(std::max(0.0F, 1 + m11 - m22 - m33)) / 2.0F;
+            result.v[1] = sqrtf(std::max(0.0F, 1 - m11 + m22 - m33)) / 2.0F;
+            result.v[2] = sqrtf(std::max(0.0F, 1 - m11 - m22 + m33)) / 2.0F;
+            result.v[3] = sqrtf(std::max(0.0F, 1 + m11 + m22 + m33)) / 2.0F;
 
-            result.x() *= sgn(result.x() * (m32 - m23));
-            result.y() *= sgn(result.y() * (m13 - m31));
-            result.z() *= sgn(result.z() * (m21 - m12));
+            result.v[0] *= sgn(result.v[0] * (m32 - m23));
+            result.v[1] *= sgn(result.v[1] * (m13 - m31));
+            result.v[2] *= sgn(result.v[2] * (m21 - m12));
 
             result.normalize();
 
@@ -289,18 +289,18 @@ namespace ouzel
 
         void setRotation(const Quaternion& rotation)
         {
-            float wx = rotation.w() * rotation.x();
-            float wy = rotation.w() * rotation.y();
-            float wz = rotation.w() * rotation.z();
+            float wx = rotation.v[3] * rotation.v[0];
+            float wy = rotation.v[3] * rotation.v[1];
+            float wz = rotation.v[3] * rotation.v[2];
 
-            float xx = rotation.x() * rotation.x();
-            float xy = rotation.x() * rotation.y();
-            float xz = rotation.x() * rotation.z();
+            float xx = rotation.v[0] * rotation.v[0];
+            float xy = rotation.v[0] * rotation.v[1];
+            float xz = rotation.v[0] * rotation.v[2];
 
-            float yy = rotation.y() * rotation.y();
-            float yz = rotation.y() * rotation.z();
+            float yy = rotation.v[1] * rotation.v[1];
+            float yz = rotation.v[1] * rotation.v[2];
 
-            float zz = rotation.z() * rotation.z();
+            float zz = rotation.v[2] * rotation.v[2];
 
             m[0] = 1.0F - 2.0F * (yy + zz);
             m[4] = 2.0F * (xy - wz);

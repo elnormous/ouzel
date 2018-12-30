@@ -113,16 +113,16 @@ bool PerspectiveSample::handleKeyboard(const ouzel::KeyboardEvent& event)
         switch (event.key)
         {
             case Keyboard::Key::UP:
-                cameraRotation.x -= TAU / 100.0F;
+                cameraRotation.x() -= TAU / 100.0F;
                 break;
             case Keyboard::Key::DOWN:
-                cameraRotation.x += TAU / 100.0F;
+                cameraRotation.x() += TAU / 100.0F;
                 break;
             case Keyboard::Key::LEFT:
-                cameraRotation.y -= TAU / 100.0F;
+                cameraRotation.y() -= TAU / 100.0F;
                 break;
             case Keyboard::Key::RIGHT:
-                cameraRotation.y += TAU / 100.0F;
+                cameraRotation.y() += TAU / 100.0F;
                 break;
             case Keyboard::Key::ESCAPE:
             case Keyboard::Key::MENU:
@@ -139,10 +139,10 @@ bool PerspectiveSample::handleKeyboard(const ouzel::KeyboardEvent& event)
                 break;
         }
 
-        if (cameraRotation.x < -TAU / 6.0F) cameraRotation.x = -TAU / 6.0F;
-        if (cameraRotation.x > TAU / 6.0F) cameraRotation.x = TAU / 6.0F;
+        if (cameraRotation.x() < -TAU / 6.0F) cameraRotation.x() = -TAU / 6.0F;
+        if (cameraRotation.x() > TAU / 6.0F) cameraRotation.x() = TAU / 6.0F;
 
-        cameraActor.setRotation(Vector3(cameraRotation.x, cameraRotation.y, 0.0F));
+        cameraActor.setRotation(Vector3(cameraRotation.x(), cameraRotation.y(), 0.0F));
     }
     else if (event.type == Event::Type::KEY_RELEASE)
     {
@@ -165,13 +165,13 @@ bool PerspectiveSample::handleMouse(const ouzel::MouseEvent& event)
     if (event.type == Event::Type::MOUSE_MOVE &&
         event.mouse->isButtonDown(Mouse::Button::LEFT))
     {
-        cameraRotation.x -= event.difference.y;
-        cameraRotation.y -= event.difference.x;
+        cameraRotation.x() -= event.difference.y();
+        cameraRotation.y() -= event.difference.x();
 
-        if (cameraRotation.x < -TAU / 6.0F) cameraRotation.x = -TAU / 6.0F;
-        if (cameraRotation.x > TAU / 6.0F) cameraRotation.x = TAU / 6.0F;
+        if (cameraRotation.x() < -TAU / 6.0F) cameraRotation.x() = -TAU / 6.0F;
+        if (cameraRotation.x() > TAU / 6.0F) cameraRotation.x() = TAU / 6.0F;
 
-        cameraActor.setRotation(Vector3(cameraRotation.x, cameraRotation.y, 0.0F));
+        cameraActor.setRotation(Vector3(cameraRotation.x(), cameraRotation.y(), 0.0F));
     }
 
     return false;
@@ -181,13 +181,13 @@ bool PerspectiveSample::handleTouch(const ouzel::TouchEvent& event)
 {
     if (event.type == Event::Type::TOUCH_MOVE)
     {
-        cameraRotation.x -= event.difference.y;
-        cameraRotation.y -= event.difference.x;
+        cameraRotation.x() -= event.difference.y();
+        cameraRotation.y() -= event.difference.x();
 
-        if (cameraRotation.x < -TAU / 6.0F) cameraRotation.x = -TAU / 6.0F;
-        if (cameraRotation.x > TAU / 6.0F) cameraRotation.x = TAU / 6.0F;
+        if (cameraRotation.x() < -TAU / 6.0F) cameraRotation.x() = -TAU / 6.0F;
+        if (cameraRotation.x() > TAU / 6.0F) cameraRotation.x() = TAU / 6.0F;
 
-        cameraActor.setRotation(Vector3(cameraRotation.x, cameraRotation.y, 0.0F));
+        cameraActor.setRotation(Vector3(cameraRotation.x(), cameraRotation.y(), 0.0F));
     }
 
     return false;

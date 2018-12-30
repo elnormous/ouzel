@@ -92,14 +92,14 @@ namespace ouzel
 
             Vector2 convertScreenToNormalizedLocation(const Vector2& position)
             {
-                return Vector2(position.x / size.width,
-                               1.0F - (position.y / size.height));
+                return Vector2(position.v[0] / size.width,
+                               1.0F - (position.v[1] / size.height));
             }
 
             Vector2 convertNormalizedToScreenLocation(const Vector2& position)
             {
-                return Vector2(position.x * size.width,
-                               (1.0F - position.y) * size.height);
+                return Vector2(position.v[0] * size.width,
+                               (1.0F - position.v[1]) * size.height);
             }
 
         private:

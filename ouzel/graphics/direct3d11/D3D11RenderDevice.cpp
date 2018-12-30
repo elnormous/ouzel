@@ -547,10 +547,10 @@ namespace ouzel
                             if (setScissorTestCommand->enabled)
                             {
                                 D3D11_RECT rect;
-                                rect.left = static_cast<LONG>(setScissorTestCommand->rectangle.position.x);
-                                rect.top = static_cast<LONG>(setScissorTestCommand->rectangle.position.y);
-                                rect.right = static_cast<LONG>(setScissorTestCommand->rectangle.position.x + setScissorTestCommand->rectangle.size.width);
-                                rect.bottom = static_cast<LONG>(setScissorTestCommand->rectangle.position.y + setScissorTestCommand->rectangle.size.height);
+                                rect.left = static_cast<LONG>(setScissorTestCommand->rectangle.position.v[0]);
+                                rect.top = static_cast<LONG>(setScissorTestCommand->rectangle.position.v[1]);
+                                rect.right = static_cast<LONG>(setScissorTestCommand->rectangle.position.v[0] + setScissorTestCommand->rectangle.size.width);
+                                rect.bottom = static_cast<LONG>(setScissorTestCommand->rectangle.position.v[1] + setScissorTestCommand->rectangle.size.height);
                                 context->RSSetScissorRects(1, &rect);
                             }
 
@@ -569,8 +569,8 @@ namespace ouzel
                             D3D11_VIEWPORT viewport;
                             viewport.MinDepth = 0.0F;
                             viewport.MaxDepth = 1.0F;
-                            viewport.TopLeftX = setViewportCommand->viewport.position.x;
-                            viewport.TopLeftY = setViewportCommand->viewport.position.y;
+                            viewport.TopLeftX = setViewportCommand->viewport.position.v[0];
+                            viewport.TopLeftY = setViewportCommand->viewport.position.v[1];
                             viewport.Width = setViewportCommand->viewport.size.width;
                             viewport.Height = setViewportCommand->viewport.size.height;
                             context->RSSetViewports(1, &viewport);

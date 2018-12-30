@@ -14,20 +14,19 @@ namespace ouzel
     class Vector2 final
     {
     public:
-        float x = 0.0F;
-        float y = 0.0F;
+        float v[2]{0.0F, 0.0F};
 
         Vector2()
         {
         }
 
-        Vector2(float initX, float initY):
-            x(initX), y(initY)
+        Vector2(float x, float y):
+            v{x, y}
         {
         }
 
         Vector2(const Vector2& copy):
-            x(copy.x), y(copy.y)
+            v{copy.v[0], copy.v[1]}
         {
         }
 
@@ -39,22 +38,28 @@ namespace ouzel
 
         Vector2& operator=(const Vector4& vec);
 
+        inline float& x() { return v[0]; }
+        inline float& y() { return v[1]; }
+
+        inline float x() const { return v[0]; }
+        inline float y() const { return v[1]; }
+
         inline bool isZero() const
         {
-            return x == 0.0F && y == 0.0F;
+            return v[0] == 0.0F && v[1] == 0.0F;
         }
 
         inline bool isOne() const
         {
-            return x == 1.0F && y == 1.0F;
+            return v[0] == 1.0F && v[1] == 1.0F;
         }
 
         static float angle(const Vector2& v1, const Vector2& v2);
 
         void add(const Vector2& vec)
         {
-            x += vec.x;
-            y += vec.y;
+            v[0] += vec.v[0];
+            v[1] += vec.v[1];
         }
 
         static void add(const Vector2& v1, const Vector2& v2, Vector2& dst);
@@ -67,46 +72,46 @@ namespace ouzel
 
         float distanceSquared(const Vector2& vec) const
         {
-            float dx = vec.x - x;
-            float dy = vec.y - y;
+            float dx = vec.v[0] - v[0];
+            float dy = vec.v[1] - v[1];
             return dx * dx + dy * dy;
         }
 
         float dot(const Vector2& vec) const
         {
-            return x * vec.x + y * vec.y;
+            return v[0] * vec.v[0] + v[1] * vec.v[1];
         }
 
         static float dot(const Vector2& v1, const Vector2& v2)
         {
-            return v1.x * v2.x + v1.y * v2.y;
+            return v1.v[0] * v2.v[0] + v1.v[1] * v2.v[1];
         }
 
         float length() const;
 
         float lengthSquared() const
         {
-            return x * x + y * y;
+            return v[0] * v[0] + v[1] * v[1];
         }
 
         void negate()
         {
-            x = -x;
-            y = -y;
+            v[0] = -v[0];
+            v[1] = -v[1];
         }
 
         void normalize();
 
         void scale(float scalar)
         {
-            x *= scalar;
-            y *= scalar;
+            v[0] *= scalar;
+            v[1] *= scalar;
         }
 
         void scale(const Vector2& scale)
         {
-            x *= scale.x;
-            y *= scale.y;
+            v[0] *= scale.v[0];
+            v[1] *= scale.v[1];
         }
 
         void rotate(float angle);
@@ -114,20 +119,20 @@ namespace ouzel
 
         void set(float newX, float newY)
         {
-            x = newX;
-            y = newY;
+            v[0] = newX;
+            v[1] = newY;
         }
 
         void subtract(const Vector2& vec)
         {
-            x -= vec.x;
-            y -= vec.y;
+            v[0] -= vec.v[0];
+            v[1] -= vec.v[1];
         }
 
         static void subtract(const Vector2& v1, const Vector2& v2, Vector2& dst)
         {
-            dst.x = v1.x - v2.x;
-            dst.y = v1.y - v2.y;
+            dst.v[0] = v1.v[0] - v2.v[0];
+            dst.v[1] = v1.v[1] - v2.v[1];
         }
 
         void smooth(const Vector2& target, float elapsedTime, float responseTime);
@@ -137,84 +142,84 @@ namespace ouzel
 
         inline const Vector2 operator+(const Vector2& vec) const
         {
-            return Vector2(x + vec.x, y + vec.y);
+            return Vector2(v[0] + vec.v[0], v[1] + vec.v[1]);
         }
 
         inline Vector2& operator+=(const Vector2& vec)
         {
-            x += vec.x;
-            y += vec.y;
+            v[0] += vec.v[0];
+            v[1] += vec.v[1];
             return *this;
         }
 
         inline const Vector2 operator-(const Vector2& vec) const
         {
-            return Vector2(x - vec.x, y - vec.y);
+            return Vector2(v[0] - vec.v[0], v[1] - vec.v[1]);
         }
 
         inline Vector2& operator-=(const Vector2& vec)
         {
-            x -= vec.x;
-            y -= vec.y;
+            v[0] -= vec.v[0];
+            v[1] -= vec.v[1];
             return *this;
         }
 
         inline const Vector2 operator-() const
         {
-            return Vector2(-x, -y);
+            return Vector2(-v[0], -v[1]);
         }
 
         inline const Vector2 operator*(float scalar) const
         {
-            return Vector2(x * scalar, y * scalar);
+            return Vector2(v[0] * scalar, v[1] * scalar);
         }
 
         inline Vector2& operator*=(float scalar)
         {
-            x *= scalar;
-            y *= scalar;
+            v[0] *= scalar;
+            v[1] *= scalar;
             return *this;
         }
 
         inline const Vector2 operator/(float scalar) const
         {
-            return Vector2(x / scalar, y / scalar);
+            return Vector2(v[0] / scalar, v[1] / scalar);
         }
 
         inline Vector2& operator/=(float scalar)
         {
-            x /= scalar;
-            y /= scalar;
+            v[0] /= scalar;
+            v[1] /= scalar;
             return *this;
         }
 
         inline bool operator<(const Vector2& vec) const
         {
-            if (x == vec.x)
-                return y < vec.y;
+            if (v[0] == vec.v[0])
+                return v[1] < vec.v[1];
 
-            return x < vec.x;
+            return v[0] < vec.v[0];
         }
 
         inline bool operator==(const Vector2& vec) const
         {
-            return x == vec.x && y == vec.y;
+            return v[0] == vec.v[0] && v[1] == vec.v[1];
         }
 
         inline bool operator!=(const Vector2& vec) const
         {
-            return x != vec.x || y != vec.y;
+            return v[0] != vec.v[0] || v[1] != vec.v[1];
         }
 
         inline float getAngle() const
         {
-            return atan2f(y, x);
+            return atan2f(v[1], v[0]);
         };
     };
 
     inline const Vector2 operator*(float scalar, const Vector2& vec)
     {
-        return Vector2(vec.x * scalar, vec.y * scalar);
+        return Vector2(vec.v[0] * scalar, vec.v[1] * scalar);
     }
 }
 

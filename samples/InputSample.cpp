@@ -74,16 +74,16 @@ bool InputSample::handleKeyboard(const KeyboardEvent& event)
         switch (event.key)
         {
             case Keyboard::Key::UP:
-                flamePosition.y += 0.01F;
+                flamePosition.y() += 0.01F;
                 break;
             case Keyboard::Key::DOWN:
-                flamePosition.y -= 0.01F;
+                flamePosition.y() -= 0.01F;
                 break;
             case Keyboard::Key::LEFT:
-                flamePosition.x -= 0.01F;
+                flamePosition.x() -= 0.01F;
                 break;
             case Keyboard::Key::RIGHT:
-                flamePosition.x += 0.01F;
+                flamePosition.x() += 0.01F;
                 break;
             case Keyboard::Key::R:
                 engine->getWindow()->setSize(Size2(640.0F, 480.0F));
@@ -141,8 +141,11 @@ bool InputSample::handleMouse(const MouseEvent& event)
 
 bool InputSample::handleTouch(const TouchEvent& event)
 {
-    Vector2 worldLocation = Vector2(camera.convertNormalizedToWorld(event.position));
-    flame.setPosition(worldLocation);
+    if (event.touchpad->isScreen())
+    {
+        Vector2 worldLocation = Vector2(camera.convertNormalizedToWorld(event.position));
+        flame.setPosition(worldLocation);
+    }
 
     return false;
 }
@@ -161,22 +164,22 @@ bool InputSample::handleGamepad(const GamepadEvent& event)
             case Gamepad::Button::DPAD_UP:
             case Gamepad::Button::LEFT_THUMB_UP:
             case Gamepad::Button::RIGHT_THUMB_UP:
-                flamePosition.y = event.value / 2.0F + 0.5F;
+                flamePosition.y() = event.value / 2.0F + 0.5F;
                 break;
             case Gamepad::Button::DPAD_DOWN:
             case Gamepad::Button::LEFT_THUMB_DOWN:
             case Gamepad::Button::RIGHT_THUMB_DOWN:
-                flamePosition.y = -event.value / 2.0F + 0.5F;
+                flamePosition.y() = -event.value / 2.0F + 0.5F;
                 break;
             case Gamepad::Button::DPAD_LEFT:
             case Gamepad::Button::LEFT_THUMB_LEFT:
             case Gamepad::Button::RIGHT_THUMB_LEFT:
-                flamePosition.x = -event.value / 2.0F + 0.5F;
+                flamePosition.x() = -event.value / 2.0F + 0.5F;
                 break;
             case Gamepad::Button::DPAD_RIGHT:
             case Gamepad::Button::LEFT_THUMB_RIGHT:
             case Gamepad::Button::RIGHT_THUMB_RIGHT:
-                flamePosition.x = event.value / 2.0F + 0.5F;
+                flamePosition.x() = event.value / 2.0F + 0.5F;
                 break;
             default:
                 break;

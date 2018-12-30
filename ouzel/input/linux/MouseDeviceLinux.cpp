@@ -24,8 +24,8 @@ namespace ouzel
             Vector2 windowLocation = engine->getWindow()->convertNormalizedToWindowLocation(position);
 
             XWarpPointer(display, None, window, 0, 0, 0, 0,
-                            attributes.x + static_cast<int>(windowLocation.x),
-                            attributes.y + static_cast<int>(windowLocation.y));
+                         attributes.x + static_cast<int>(windowLocation.v[0]),
+                         attributes.y + static_cast<int>(windowLocation.v[1]));
             XSync(display, False);
 #endif
         }

@@ -25,14 +25,14 @@ namespace ouzel
         }
 
         explicit Size2(const Vector2& point):
-            width(point.x), height(point.y)
+            width(point.v[0]), height(point.v[1])
         {
         }
 
         inline Size2& operator=(const Vector2& point)
         {
-            width = point.x;
-            height = point.y;
+            width = point.v[0];
+            height = point.v[1];
             return *this;
         }
 
@@ -120,19 +120,19 @@ namespace ouzel
 
         inline void scale(const Vector2& scale)
         {
-            width *= scale.x;
-            height *= scale.y;
+            width *= scale.v[0];
+            height *= scale.v[1];
         }
     };
 
     inline const Size2 operator*(const Size2& size, const Vector2& v)
     {
-        return Size2(size.width * v.x, size.height * v.y);
+        return Size2(size.width * v.v[0], size.height * v.v[1]);
     }
 
     inline const Size2 operator/(const Size2& size, const Vector2& v)
     {
-        return Size2(size.width / v.x, size.height / v.y);
+        return Size2(size.width / v.v[0], size.height / v.v[1]);
     }
 }
 
