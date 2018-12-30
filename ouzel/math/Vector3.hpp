@@ -32,7 +32,7 @@ namespace ouzel
         }
 
         explicit Vector3(const Vector2& vec):
-            v{vec.v[0], vec.v[1]}
+            v{vec.v[0], vec.v[1], 0.0F}
         {
         }
 
