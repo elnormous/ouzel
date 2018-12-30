@@ -1244,7 +1244,7 @@ namespace ouzel
                                                           getVertexFormat(vertexAttribute.dataType),
                                                           isNormalized(vertexAttribute.dataType),
                                                           static_cast<GLsizei>(sizeof(Vertex)),
-                                                          static_cast<const GLchar*>(nullptr) + vertexOffset);
+                                                          reinterpret_cast<void*>(static_cast<uintptr_t>(vertexOffset)));
 
                                 vertexOffset += getDataTypeSize(vertexAttribute.dataType);
                             }
@@ -1270,7 +1270,7 @@ namespace ouzel
                             glDrawElementsProc(mode,
                                                static_cast<GLsizei>(drawCommand->indexCount),
                                                indexType,
-                                               static_cast<const char*>(nullptr) + (drawCommand->startIndex * drawCommand->indexSize));
+                                               reinterpret_cast<void*>(static_cast<uintptr_t>(drawCommand->startIndex * drawCommand->indexSize)));
 
                             if ((error = glGetErrorProc()) != GL_NO_ERROR)
                                 throw std::system_error(makeErrorCode(error), "Failed to draw elements");
