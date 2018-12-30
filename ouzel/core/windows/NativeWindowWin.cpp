@@ -828,8 +828,8 @@ namespace ouzel
 
         for (const TOUCHINPUT& touch : touches)
         {
-            position.x = static_cast<float>(touch.x / 100);
-            position.y = static_cast<float>(touch.y / 100);
+            position.v[0] = static_cast<float>(touch.x / 100);
+            position.v[1] = static_cast<float>(touch.y / 100);
 
             if (touch.dwFlags & TOUCHEVENTF_DOWN)
             {
