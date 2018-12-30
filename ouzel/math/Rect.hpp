@@ -23,8 +23,8 @@ namespace ouzel
         {
         }
 
-        Rect(float initX, float initY, float width, float height):
-            position(initX, initY), size(width, height)
+        Rect(float x, float y, float width, float height):
+            position(x, y), size(width, height)
         {
         }
 

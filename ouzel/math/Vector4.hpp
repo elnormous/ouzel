@@ -83,7 +83,7 @@ namespace ouzel
         inline float y() const { return v[1]; }
         inline float z() const { return v[2]; }
         inline float w() const { return v[3]; }
-        
+
         bool isZero() const
         {
             return v[0] == 0.0F && v[1] == 0.0F && v[2] == 0.0F && v[3] == 0.0F;
