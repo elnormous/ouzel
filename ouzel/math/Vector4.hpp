@@ -306,10 +306,10 @@ namespace ouzel
         }
     };
 
-    inline const Vector4 operator*(float v[0], const Vector4& vec)
+    inline const Vector4 operator*(float scalar, const Vector4& vec)
     {
         Vector4 result(vec);
-        result.scale(v[0]);
+        result.scale(scalar);
         return result;
     }
 }
