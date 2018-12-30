@@ -222,8 +222,8 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/CAAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/metal/MetalRenderTarget.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/MetalShader.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/MetalTexture.mm \
-	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/OpenGLView.mm \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/OGLRenderDeviceMacOS.mm \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/OpenGLView.m \
 	$(ROOT_DIR)/../ouzel/input/macos/GamepadDeviceGC.mm \
 	$(ROOT_DIR)/../ouzel/input/macos/GamepadDeviceIOKit.cpp \
 	$(ROOT_DIR)/../ouzel/input/macos/InputSystemMacOS.mm \
@@ -247,8 +247,8 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/CAAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/metal/MetalRenderTarget.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/MetalShader.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/MetalTexture.mm \
-	$(ROOT_DIR)/../ouzel/graphics/opengl/ios/OpenGLView.m \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/ios/OGLRenderDeviceIOS.mm \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/ios/OpenGLView.m \
 	$(ROOT_DIR)/../ouzel/input/ios/GamepadDeviceIOS.mm \
 	$(ROOT_DIR)/../ouzel/input/ios/InputSystemIOS.mm
 CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
@@ -271,8 +271,8 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/CAAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/metal/MetalRenderTarget.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/MetalShader.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/MetalTexture.mm \
-	$(ROOT_DIR)/../ouzel/graphics/opengl/tvos/OpenGLView.m \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/tvos/OGLRenderDeviceTVOS.mm \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/tvos/OpenGLView.m \
 	$(ROOT_DIR)/../ouzel/input/tvos/GamepadDeviceTVOS.mm \
 	$(ROOT_DIR)/../ouzel/input/tvos/InputSystemTVOS.mm
 CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
