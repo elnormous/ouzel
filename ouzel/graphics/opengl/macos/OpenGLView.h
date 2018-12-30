@@ -7,9 +7,15 @@
 
 #if OUZEL_COMPILE_OPENGL
 
+#import <AppKit/NSOpenGL.h>
 #import "core/macos/ViewMacOS.h"
 
 @interface OpenGLView: ViewMacOS
+{
+    NSOpenGLContext* openGLContext;
+}
+
+-(void)setContext:(NSOpenGLContext*)context;
 
 @end
 

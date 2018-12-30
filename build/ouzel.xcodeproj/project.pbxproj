@@ -246,7 +246,7 @@
 		303B04B51E207B6100011CBE /* OGLRenderDeviceIOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303B04B11E207B6100011CBE /* OGLRenderDeviceIOS.hpp */; };
 		303B04B61E207B6100011CBE /* OGLRenderDeviceIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303B04B21E207B6100011CBE /* OGLRenderDeviceIOS.mm */; };
 		303B04BB1E207B6D00011CBE /* OpenGLView.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B04B71E207B6D00011CBE /* OpenGLView.h */; };
-		303B04BC1E207B6D00011CBE /* OpenGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303B04B81E207B6D00011CBE /* OpenGLView.mm */; };
+		303B04BC1E207B6D00011CBE /* OpenGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 303B04B81E207B6D00011CBE /* OpenGLView.m */; };
 		303B04BD1E207B6D00011CBE /* OGLRenderDeviceMacOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303B04B91E207B6D00011CBE /* OGLRenderDeviceMacOS.hpp */; };
 		303B04BE1E207B6D00011CBE /* OGLRenderDeviceMacOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303B04BA1E207B6D00011CBE /* OGLRenderDeviceMacOS.mm */; };
 		303B04C31E207B7800011CBE /* OpenGLView.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B04BF1E207B7800011CBE /* OpenGLView.h */; };
@@ -1087,7 +1087,7 @@
 		303B04B11E207B6100011CBE /* OGLRenderDeviceIOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = OGLRenderDeviceIOS.hpp; sourceTree = "<group>"; };
 		303B04B21E207B6100011CBE /* OGLRenderDeviceIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OGLRenderDeviceIOS.mm; sourceTree = "<group>"; };
 		303B04B71E207B6D00011CBE /* OpenGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLView.h; sourceTree = "<group>"; };
-		303B04B81E207B6D00011CBE /* OpenGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenGLView.mm; sourceTree = "<group>"; };
+		303B04B81E207B6D00011CBE /* OpenGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenGLView.m; sourceTree = "<group>"; };
 		303B04B91E207B6D00011CBE /* OGLRenderDeviceMacOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = OGLRenderDeviceMacOS.hpp; sourceTree = "<group>"; };
 		303B04BA1E207B6D00011CBE /* OGLRenderDeviceMacOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OGLRenderDeviceMacOS.mm; sourceTree = "<group>"; };
 		303B04BF1E207B7800011CBE /* OpenGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLView.h; sourceTree = "<group>"; };
@@ -1453,7 +1453,7 @@
 			isa = PBXGroup;
 			children = (
 				303B04B71E207B6D00011CBE /* OpenGLView.h */,
-				303B04B81E207B6D00011CBE /* OpenGLView.mm */,
+				303B04B81E207B6D00011CBE /* OpenGLView.m */,
 				303B04B91E207B6D00011CBE /* OGLRenderDeviceMacOS.hpp */,
 				303B04BA1E207B6D00011CBE /* OGLRenderDeviceMacOS.mm */,
 			);
@@ -3216,7 +3216,7 @@
 				30381F6E1D80A3EC00677CAB /* OGLBuffer.cpp in Sources */,
 				30DADE9C1C5167BC001A63B4 /* Cache.cpp in Sources */,
 				30519CB91F9B53AB00AF3DC4 /* WaveLoader.cpp in Sources */,
-				303B04BC1E207B6D00011CBE /* OpenGLView.mm in Sources */,
+				303B04BC1E207B6D00011CBE /* OpenGLView.m in Sources */,
 				30FF4D5321C48DB600153FFF /* Filters.cpp in Sources */,
 				30AEFA0D20C0A90400CDFD33 /* GltfLoader.cpp in Sources */,
 				30ADCBB61E9A9479000DC9AC /* MetalRenderDeviceMacOS.mm in Sources */,

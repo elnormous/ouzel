@@ -9,6 +9,7 @@
 #if TARGET_OS_MAC && !TARGET_OS_IOS && !TARGET_OS_TV && OUZEL_COMPILE_OPENGL
 
 #include "OGLRenderDeviceMacOS.hpp"
+#include "OpenGLView.h"
 #include "core/macos/NativeWindowMacOS.hpp"
 #include "core/Engine.hpp"
 #include "utils/Log.hpp"
@@ -137,8 +138,10 @@ namespace ouzel
             [openGLContext makeCurrentContext];
 
             NativeWindowMacOS* windowMacOS = static_cast<NativeWindowMacOS*>(newWindow->getNativeWindow());
+            OpenGLView* openGLView = (OpenGLView*)windowMacOS->getNativeView();
 
-            [openGLContext setView:windowMacOS->getNativeView()];
+            [openGLView setContext:openGLContext];
+            [openGLContext setView:openGLView];
 
             GLint swapInt = newVerticalSync ? 1 : 0;
             [openGLContext setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
