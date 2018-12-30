@@ -15,7 +15,7 @@
     NSOpenGLContext* openGLContext;
 }
 
--(void)setContext:(NSOpenGLContext*)context;
+-(void)setOpenGLContext:(NSOpenGLContext*)context;
 
 @end
 
