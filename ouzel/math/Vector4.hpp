@@ -20,11 +20,7 @@ namespace ouzel
     {
     public:
 #if defined(__SSE__)
-        union
-        {
-            __m128 s;
-            float v[4]{0.0F, 0.0F, 0.0F, 0.0F};
-        };
+        alignas(16) float v[4]{0.0F, 0.0F, 0.0F, 0.0F};
 #else
         float v[4]{0.0F, 0.0F, 0.0F, 0.0F};
 #endif

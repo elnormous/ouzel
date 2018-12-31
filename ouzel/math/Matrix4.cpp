@@ -1159,13 +1159,15 @@ namespace ouzel
 #  endif
 
 #elif defined(__SSE__)
-        __m128 col1 = _mm_shuffle_ps(vector.s, vector.s, _MM_SHUFFLE(0, 0, 0, 0));
-        __m128 col2 = _mm_shuffle_ps(vector.s, vector.s, _MM_SHUFFLE(1, 1, 1, 1));
-        __m128 col3 = _mm_shuffle_ps(vector.s, vector.s, _MM_SHUFFLE(2, 2, 2, 2));
-        __m128 col4 = _mm_shuffle_ps(vector.s, vector.s, _MM_SHUFFLE(3, 3, 3, 3));
+        __m128 s = _mm_load_ps(vector.v);
+        __m128 col1 = _mm_shuffle_ps(s, s, _MM_SHUFFLE(0, 0, 0, 0));
+        __m128 col2 = _mm_shuffle_ps(s, s, _MM_SHUFFLE(1, 1, 1, 1));
+        __m128 col3 = _mm_shuffle_ps(s, s, _MM_SHUFFLE(2, 2, 2, 2));
+        __m128 col4 = _mm_shuffle_ps(s, s, _MM_SHUFFLE(3, 3, 3, 3));
 
-        dst.s = _mm_add_ps(_mm_add_ps(_mm_mul_ps(col[0], col1), _mm_mul_ps(col[1], col2)),
-                           _mm_add_ps(_mm_mul_ps(col[2], col3), _mm_mul_ps(col[3], col4)));
+        s = _mm_add_ps(_mm_add_ps(_mm_mul_ps(col[0], col1), _mm_mul_ps(col[1], col2)),
+                       _mm_add_ps(_mm_mul_ps(col[2], col3), _mm_mul_ps(col[3], col4)));
+        _mm_store_ps(dst.v, s);
 #endif
 
 #if (!defined(__ARM_NEON__) && !defined(__SSE__)) || defined(__ANDROID__) && defined(__ARM_NEON__) && defined(__arm__)
