@@ -304,10 +304,10 @@ namespace ouzel
 
 #elif defined(__SSE__)
         __m128 s = _mm_set1_ps(scalar);
-        dst.col[0] = _mm_add_ps(col[0], s);
-        dst.col[1] = _mm_add_ps(col[1], s);
-        dst.col[2] = _mm_add_ps(col[2], s);
-        dst.col[3] = _mm_add_ps(col[3], s);
+        _mm_store_ps(&dst.m[0], _mm_add_ps(_mm_load_ps(&m[0]), s));
+        _mm_store_ps(&dst.m[4], _mm_add_ps(_mm_load_ps(&m[4]), s));
+        _mm_store_ps(&dst.m[8], _mm_add_ps(_mm_load_ps(&m[8]), s));
+        _mm_store_ps(&dst.m[12], _mm_add_ps(_mm_load_ps(&m[12]), s));
 #endif
 
 #if (!defined(__ARM_NEON__) && !defined(__SSE__)) || (defined(__ANDROID__) && defined(__ARM_NEON__) && defined(__arm__))
@@ -392,10 +392,10 @@ namespace ouzel
 #  endif
 
 #elif defined(__SSE__)
-        dst.col[0] = _mm_add_ps(m1.col[0], m2.col[0]);
-        dst.col[1] = _mm_add_ps(m1.col[1], m2.col[1]);
-        dst.col[2] = _mm_add_ps(m1.col[2], m2.col[2]);
-        dst.col[3] = _mm_add_ps(m1.col[3], m2.col[3]);
+        _mm_store_ps(&dst.m[0], _mm_add_ps(_mm_load_ps(&m1.m[0]), _mm_load_ps(&m2.m[0])));
+        _mm_store_ps(&dst.m[4], _mm_add_ps(_mm_load_ps(&m1.m[4]), _mm_load_ps(&m2.m[4])));
+        _mm_store_ps(&dst.m[8], _mm_add_ps(_mm_load_ps(&m1.m[8]), _mm_load_ps(&m2.m[8])));
+        _mm_store_ps(&dst.m[12], _mm_add_ps(_mm_load_ps(&m1.m[12]), _mm_load_ps(&m2.m[12])));
 #endif
 
 #if (!defined(__ARM_NEON__) && !defined(__SSE__)) || (defined(__ANDROID__) && defined(__ARM_NEON__) && defined(__arm__))
@@ -596,10 +596,10 @@ namespace ouzel
 
 #elif defined(__SSE__)
         __m128 s = _mm_set1_ps(scalar);
-        dst.col[0] = _mm_mul_ps(m.col[0], s);
-        dst.col[1] = _mm_mul_ps(m.col[1], s);
-        dst.col[2] = _mm_mul_ps(m.col[2], s);
-        dst.col[3] = _mm_mul_ps(m.col[3], s);
+        _mm_store_ps(&dst.m[0], _mm_mul_ps(_mm_load_ps(&m.m[0]), s));
+        _mm_store_ps(&dst.m[4], _mm_mul_ps(_mm_load_ps(&m.m[4]), s));
+        _mm_store_ps(&dst.m[8], _mm_mul_ps(_mm_load_ps(&m.m[8]), s));
+        _mm_store_ps(&dst.m[12], _mm_mul_ps(_mm_load_ps(&m.m[12]), s));
 #endif
 
 #if (!defined(__ARM_NEON__) && !defined(__SSE__)) || (defined(__ANDROID__) && defined(__ARM_NEON__) && defined(__arm__))
@@ -716,82 +716,77 @@ namespace ouzel
 #  endif
 
 #elif defined(__SSE__)
-        __m128 dest[4];
         {
-            __m128 e0 = _mm_shuffle_ps(m2.col[0], m2.col[0], _MM_SHUFFLE(0, 0, 0, 0));
-            __m128 e1 = _mm_shuffle_ps(m2.col[0], m2.col[0], _MM_SHUFFLE(1, 1, 1, 1));
-            __m128 e2 = _mm_shuffle_ps(m2.col[0], m2.col[0], _MM_SHUFFLE(2, 2, 2, 2));
-            __m128 e3 = _mm_shuffle_ps(m2.col[0], m2.col[0], _MM_SHUFFLE(3, 3, 3, 3));
+            __m128 e0 = _mm_shuffle_ps(_mm_load_ps(&m2.m[0]), _mm_load_ps(&m2.m[0]) , _MM_SHUFFLE(0, 0, 0, 0));
+            __m128 e1 = _mm_shuffle_ps(_mm_load_ps(&m2.m[0]), _mm_load_ps(&m2.m[0]) , _MM_SHUFFLE(1, 1, 1, 1));
+            __m128 e2 = _mm_shuffle_ps(_mm_load_ps(&m2.m[0]), _mm_load_ps(&m2.m[0]) , _MM_SHUFFLE(2, 2, 2, 2));
+            __m128 e3 = _mm_shuffle_ps(_mm_load_ps(&m2.m[0]), _mm_load_ps(&m2.m[0]) , _MM_SHUFFLE(3, 3, 3, 3));
 
-            __m128 v0 = _mm_mul_ps(m1.col[0], e0);
-            __m128 v1 = _mm_mul_ps(m1.col[1], e1);
-            __m128 v2 = _mm_mul_ps(m1.col[2], e2);
-            __m128 v3 = _mm_mul_ps(m1.col[3], e3);
+            __m128 v0 = _mm_mul_ps(_mm_load_ps(&m1.m[0]), e0);
+            __m128 v1 = _mm_mul_ps(_mm_load_ps(&m1.m[4]), e1);
+            __m128 v2 = _mm_mul_ps(_mm_load_ps(&m1.m[8]), e2);
+            __m128 v3 = _mm_mul_ps(_mm_load_ps(&m1.m[12]), e3);
 
             __m128 a0 = _mm_add_ps(v0, v1);
             __m128 a1 = _mm_add_ps(v2, v3);
             __m128 a2 = _mm_add_ps(a0, a1);
 
-            dest[0] = a2;
+            _mm_store_ps(&dst.m[0], a2);
         }
 
         {
-            __m128 e0 = _mm_shuffle_ps(m2.col[1], m2.col[1], _MM_SHUFFLE(0, 0, 0, 0));
-            __m128 e1 = _mm_shuffle_ps(m2.col[1], m2.col[1], _MM_SHUFFLE(1, 1, 1, 1));
-            __m128 e2 = _mm_shuffle_ps(m2.col[1], m2.col[1], _MM_SHUFFLE(2, 2, 2, 2));
-            __m128 e3 = _mm_shuffle_ps(m2.col[1], m2.col[1], _MM_SHUFFLE(3, 3, 3, 3));
+            __m128 e0 = _mm_shuffle_ps(_mm_load_ps(&m2.m[4]), _mm_load_ps(&m2.m[4]), _MM_SHUFFLE(0, 0, 0, 0));
+            __m128 e1 = _mm_shuffle_ps(_mm_load_ps(&m2.m[4]), _mm_load_ps(&m2.m[4]), _MM_SHUFFLE(1, 1, 1, 1));
+            __m128 e2 = _mm_shuffle_ps(_mm_load_ps(&m2.m[4]), _mm_load_ps(&m2.m[4]), _MM_SHUFFLE(2, 2, 2, 2));
+            __m128 e3 = _mm_shuffle_ps(_mm_load_ps(&m2.m[4]), _mm_load_ps(&m2.m[4]), _MM_SHUFFLE(3, 3, 3, 3));
 
-            __m128 v0 = _mm_mul_ps(m1.col[0], e0);
-            __m128 v1 = _mm_mul_ps(m1.col[1], e1);
-            __m128 v2 = _mm_mul_ps(m1.col[2], e2);
-            __m128 v3 = _mm_mul_ps(m1.col[3], e3);
+            __m128 v0 = _mm_mul_ps(_mm_load_ps(&m1.m[0]), e0);
+            __m128 v1 = _mm_mul_ps(_mm_load_ps(&m1.m[4]), e1);
+            __m128 v2 = _mm_mul_ps(_mm_load_ps(&m1.m[8]), e2);
+            __m128 v3 = _mm_mul_ps(_mm_load_ps(&m1.m[12]), e3);
 
             __m128 a0 = _mm_add_ps(v0, v1);
             __m128 a1 = _mm_add_ps(v2, v3);
             __m128 a2 = _mm_add_ps(a0, a1);
 
-            dest[1] = a2;
+            _mm_store_ps(&dst.m[4], a2);
         }
 
         {
-            __m128 e0 = _mm_shuffle_ps(m2.col[2], m2.col[2], _MM_SHUFFLE(0, 0, 0, 0));
-            __m128 e1 = _mm_shuffle_ps(m2.col[2], m2.col[2], _MM_SHUFFLE(1, 1, 1, 1));
-            __m128 e2 = _mm_shuffle_ps(m2.col[2], m2.col[2], _MM_SHUFFLE(2, 2, 2, 2));
-            __m128 e3 = _mm_shuffle_ps(m2.col[2], m2.col[2], _MM_SHUFFLE(3, 3, 3, 3));
+            __m128 e0 = _mm_shuffle_ps(_mm_load_ps(&m2.m[8]), _mm_load_ps(&m2.m[8]), _MM_SHUFFLE(0, 0, 0, 0));
+            __m128 e1 = _mm_shuffle_ps(_mm_load_ps(&m2.m[8]), _mm_load_ps(&m2.m[8]), _MM_SHUFFLE(1, 1, 1, 1));
+            __m128 e2 = _mm_shuffle_ps(_mm_load_ps(&m2.m[8]), _mm_load_ps(&m2.m[8]), _MM_SHUFFLE(2, 2, 2, 2));
+            __m128 e3 = _mm_shuffle_ps(_mm_load_ps(&m2.m[8]), _mm_load_ps(&m2.m[8]), _MM_SHUFFLE(3, 3, 3, 3));
 
-            __m128 v0 = _mm_mul_ps(m1.col[0], e0);
-            __m128 v1 = _mm_mul_ps(m1.col[1], e1);
-            __m128 v2 = _mm_mul_ps(m1.col[2], e2);
-            __m128 v3 = _mm_mul_ps(m1.col[3], e3);
+            __m128 v0 = _mm_mul_ps(_mm_load_ps(&m1.m[0]), e0);
+            __m128 v1 = _mm_mul_ps(_mm_load_ps(&m1.m[4]), e1);
+            __m128 v2 = _mm_mul_ps(_mm_load_ps(&m1.m[8]), e2);
+            __m128 v3 = _mm_mul_ps(_mm_load_ps(&m1.m[12]), e3);
 
             __m128 a0 = _mm_add_ps(v0, v1);
             __m128 a1 = _mm_add_ps(v2, v3);
             __m128 a2 = _mm_add_ps(a0, a1);
 
-            dest[2] = a2;
+            _mm_store_ps(&dst.m[8], a2);
         }
 
         {
-            __m128 e0 = _mm_shuffle_ps(m2.col[3], m2.col[3], _MM_SHUFFLE(0, 0, 0, 0));
-            __m128 e1 = _mm_shuffle_ps(m2.col[3], m2.col[3], _MM_SHUFFLE(1, 1, 1, 1));
-            __m128 e2 = _mm_shuffle_ps(m2.col[3], m2.col[3], _MM_SHUFFLE(2, 2, 2, 2));
-            __m128 e3 = _mm_shuffle_ps(m2.col[3], m2.col[3], _MM_SHUFFLE(3, 3, 3, 3));
+            __m128 e0 = _mm_shuffle_ps(_mm_load_ps(&m2.m[12]), _mm_load_ps(&m2.m[12]), _MM_SHUFFLE(0, 0, 0, 0));
+            __m128 e1 = _mm_shuffle_ps(_mm_load_ps(&m2.m[12]), _mm_load_ps(&m2.m[12]), _MM_SHUFFLE(1, 1, 1, 1));
+            __m128 e2 = _mm_shuffle_ps(_mm_load_ps(&m2.m[12]), _mm_load_ps(&m2.m[12]), _MM_SHUFFLE(2, 2, 2, 2));
+            __m128 e3 = _mm_shuffle_ps(_mm_load_ps(&m2.m[12]), _mm_load_ps(&m2.m[12]), _MM_SHUFFLE(3, 3, 3, 3));
 
-            __m128 v0 = _mm_mul_ps(m1.col[0], e0);
-            __m128 v1 = _mm_mul_ps(m1.col[1], e1);
-            __m128 v2 = _mm_mul_ps(m1.col[2], e2);
-            __m128 v3 = _mm_mul_ps(m1.col[3], e3);
+            __m128 v0 = _mm_mul_ps(_mm_load_ps(&m1.m[0]), e0);
+            __m128 v1 = _mm_mul_ps(_mm_load_ps(&m1.m[4]), e1);
+            __m128 v2 = _mm_mul_ps(_mm_load_ps(&m1.m[8]), e2);
+            __m128 v3 = _mm_mul_ps(_mm_load_ps(&m1.m[12]), e3);
 
             __m128 a0 = _mm_add_ps(v0, v1);
             __m128 a1 = _mm_add_ps(v2, v3);
             __m128 a2 = _mm_add_ps(a0, a1);
 
-            dest[3] = a2;
+            _mm_store_ps(&dst.m[12], a2);
         }
-        dst.col[0] = dest[0];
-        dst.col[1] = dest[1];
-        dst.col[2] = dest[2];
-        dst.col[3] = dest[3];
 #endif
 
 #if (!defined(__ARM_NEON__) && !defined(__SSE__)) || (defined(__ANDROID__) && defined(__ARM_NEON__) && defined(__arm__))
@@ -881,10 +876,10 @@ namespace ouzel
 
 #elif defined(__SSE__)
         __m128 z = _mm_setzero_ps();
-        dst.col[0] = _mm_sub_ps(z, col[0]);
-        dst.col[1] = _mm_sub_ps(z, col[1]);
-        dst.col[2] = _mm_sub_ps(z, col[2]);
-        dst.col[3] = _mm_sub_ps(z, col[3]);
+        _mm_store_ps(&dst.m[0], _mm_sub_ps(z, _mm_load_ps(&m[0])));
+        _mm_store_ps(&dst.m[4], _mm_sub_ps(z, _mm_load_ps(&m[4])));
+        _mm_store_ps(&dst.m[8], _mm_sub_ps(z, _mm_load_ps(&m[8])));
+        _mm_store_ps(&dst.m[12], _mm_sub_ps(z, _mm_load_ps(&m[12])));
 #endif
 
 #if (!defined(__ARM_NEON__) && !defined(__SSE__)) || (defined(__ANDROID__) && defined(__ARM_NEON__) && defined(__arm__))
@@ -1078,10 +1073,10 @@ namespace ouzel
 #  endif
 
 #elif defined(__SSE__)
-        dst.col[0] = _mm_sub_ps(m1.col[0], m2.col[0]);
-        dst.col[1] = _mm_sub_ps(m1.col[1], m2.col[1]);
-        dst.col[2] = _mm_sub_ps(m1.col[2], m2.col[2]);
-        dst.col[3] = _mm_sub_ps(m1.col[3], m2.col[3]);
+        _mm_store_ps(&dst.m[0], _mm_sub_ps(_mm_load_ps(&m1.m[0]), _mm_load_ps(&m2.m[0])));
+        _mm_store_ps(&dst.m[4], _mm_sub_ps(_mm_load_ps(&m1.m[4]), _mm_load_ps(&m2.m[4])));
+        _mm_store_ps(&dst.m[8], _mm_sub_ps(_mm_load_ps(&m1.m[8]), _mm_load_ps(&m2.m[8])));
+        _mm_store_ps(&dst.m[12], _mm_sub_ps(_mm_load_ps(&m1.m[12]), _mm_load_ps(&m2.m[12])));
 #endif
 
 #if (!defined(__ARM_NEON__) && !defined(__SSE__)) || (defined(__ANDROID__) && defined(__ARM_NEON__) && defined(__arm__))
@@ -1165,8 +1160,10 @@ namespace ouzel
         __m128 col3 = _mm_shuffle_ps(s, s, _MM_SHUFFLE(2, 2, 2, 2));
         __m128 col4 = _mm_shuffle_ps(s, s, _MM_SHUFFLE(3, 3, 3, 3));
 
-        s = _mm_add_ps(_mm_add_ps(_mm_mul_ps(col[0], col1), _mm_mul_ps(col[1], col2)),
-                       _mm_add_ps(_mm_mul_ps(col[2], col3), _mm_mul_ps(col[3], col4)));
+        s = _mm_add_ps(_mm_add_ps(_mm_mul_ps(_mm_load_ps(&m[0]), col1),
+                                  _mm_mul_ps(_mm_load_ps(&m[4]), col2)),
+                       _mm_add_ps(_mm_mul_ps(_mm_load_ps(&m[8]), col3),
+                                  _mm_mul_ps(_mm_load_ps(&m[12]), col4)));
         _mm_store_ps(dst.v, s);
 #endif
 
@@ -1252,15 +1249,14 @@ namespace ouzel
 #  endif
 
 #elif defined(__SSE__)
-        __m128 tmp0 = _mm_shuffle_ps(col[0], col[1], 0x44);
-        __m128 tmp2 = _mm_shuffle_ps(col[0], col[1], 0xEE);
-        __m128 tmp1 = _mm_shuffle_ps(col[2], col[3], 0x44);
-        __m128 tmp3 = _mm_shuffle_ps(col[2], col[3], 0xEE);
-
-        dst.col[0] = _mm_shuffle_ps(tmp0, tmp1, 0x88);
-        dst.col[1] = _mm_shuffle_ps(tmp0, tmp1, 0xDD);
-        dst.col[2] = _mm_shuffle_ps(tmp2, tmp3, 0x88);
-        dst.col[3] = _mm_shuffle_ps(tmp2, tmp3, 0xDD);
+        __m128 tmp0 = _mm_shuffle_ps(_mm_load_ps(&m[0]), _mm_load_ps(&m[4]), 0x44);
+        __m128 tmp2 = _mm_shuffle_ps(_mm_load_ps(&m[0]), _mm_load_ps(&m[4]), 0xEE);
+        __m128 tmp1 = _mm_shuffle_ps(_mm_load_ps(&m[8]), _mm_load_ps(&m[12]), 0x44);
+        __m128 tmp3 = _mm_shuffle_ps(_mm_load_ps(&m[8]), _mm_load_ps(&m[12]), 0xEE);
+        _mm_store_ps(&dst.m[0], _mm_shuffle_ps(tmp0, tmp1, 0x88));
+        _mm_store_ps(&dst.m[4], _mm_shuffle_ps(tmp0, tmp1, 0xDD));
+        _mm_store_ps(&dst.m[8], _mm_shuffle_ps(tmp2, tmp3, 0x88));
+        _mm_store_ps(&dst.m[12], _mm_shuffle_ps(tmp2, tmp3, 0xDD));
 #endif
 
 #if (!defined(__ARM_NEON__) && !defined(__SSE__)) || defined(__ANDROID__) && defined(__ARM_NEON__) && defined(__arm__)
