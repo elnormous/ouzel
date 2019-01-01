@@ -716,11 +716,13 @@ namespace ouzel
 #  endif
 
 #elif defined(__SSE__)
+        __m128 dest[4];
+
         {
-            __m128 e0 = _mm_shuffle_ps(_mm_load_ps(&m2.m[0]), _mm_load_ps(&m2.m[0]) , _MM_SHUFFLE(0, 0, 0, 0));
-            __m128 e1 = _mm_shuffle_ps(_mm_load_ps(&m2.m[0]), _mm_load_ps(&m2.m[0]) , _MM_SHUFFLE(1, 1, 1, 1));
-            __m128 e2 = _mm_shuffle_ps(_mm_load_ps(&m2.m[0]), _mm_load_ps(&m2.m[0]) , _MM_SHUFFLE(2, 2, 2, 2));
-            __m128 e3 = _mm_shuffle_ps(_mm_load_ps(&m2.m[0]), _mm_load_ps(&m2.m[0]) , _MM_SHUFFLE(3, 3, 3, 3));
+            __m128 e0 = _mm_set1_ps(m2.m[0]);
+            __m128 e1 = _mm_set1_ps(m2.m[1]);
+            __m128 e2 = _mm_set1_ps(m2.m[2]);
+            __m128 e3 = _mm_set1_ps(m2.m[3]);
 
             __m128 v0 = _mm_mul_ps(_mm_load_ps(&m1.m[0]), e0);
             __m128 v1 = _mm_mul_ps(_mm_load_ps(&m1.m[4]), e1);
@@ -731,14 +733,14 @@ namespace ouzel
             __m128 a1 = _mm_add_ps(v2, v3);
             __m128 a2 = _mm_add_ps(a0, a1);
 
-            _mm_store_ps(&dst.m[0], a2);
+            dest[0] = a2;
         }
 
         {
-            __m128 e0 = _mm_shuffle_ps(_mm_load_ps(&m2.m[4]), _mm_load_ps(&m2.m[4]), _MM_SHUFFLE(0, 0, 0, 0));
-            __m128 e1 = _mm_shuffle_ps(_mm_load_ps(&m2.m[4]), _mm_load_ps(&m2.m[4]), _MM_SHUFFLE(1, 1, 1, 1));
-            __m128 e2 = _mm_shuffle_ps(_mm_load_ps(&m2.m[4]), _mm_load_ps(&m2.m[4]), _MM_SHUFFLE(2, 2, 2, 2));
-            __m128 e3 = _mm_shuffle_ps(_mm_load_ps(&m2.m[4]), _mm_load_ps(&m2.m[4]), _MM_SHUFFLE(3, 3, 3, 3));
+            __m128 e0 = _mm_set1_ps(m2.m[4]);
+            __m128 e1 = _mm_set1_ps(m2.m[5]);
+            __m128 e2 = _mm_set1_ps(m2.m[6]);
+            __m128 e3 = _mm_set1_ps(m2.m[7]);
 
             __m128 v0 = _mm_mul_ps(_mm_load_ps(&m1.m[0]), e0);
             __m128 v1 = _mm_mul_ps(_mm_load_ps(&m1.m[4]), e1);
@@ -749,14 +751,14 @@ namespace ouzel
             __m128 a1 = _mm_add_ps(v2, v3);
             __m128 a2 = _mm_add_ps(a0, a1);
 
-            _mm_store_ps(&dst.m[4], a2);
+            dest[1] = a2;
         }
 
         {
-            __m128 e0 = _mm_shuffle_ps(_mm_load_ps(&m2.m[8]), _mm_load_ps(&m2.m[8]), _MM_SHUFFLE(0, 0, 0, 0));
-            __m128 e1 = _mm_shuffle_ps(_mm_load_ps(&m2.m[8]), _mm_load_ps(&m2.m[8]), _MM_SHUFFLE(1, 1, 1, 1));
-            __m128 e2 = _mm_shuffle_ps(_mm_load_ps(&m2.m[8]), _mm_load_ps(&m2.m[8]), _MM_SHUFFLE(2, 2, 2, 2));
-            __m128 e3 = _mm_shuffle_ps(_mm_load_ps(&m2.m[8]), _mm_load_ps(&m2.m[8]), _MM_SHUFFLE(3, 3, 3, 3));
+            __m128 e0 = _mm_set1_ps(m2.m[8]);
+            __m128 e1 = _mm_set1_ps(m2.m[9]);
+            __m128 e2 = _mm_set1_ps(m2.m[10]);
+            __m128 e3 = _mm_set1_ps(m2.m[11]);
 
             __m128 v0 = _mm_mul_ps(_mm_load_ps(&m1.m[0]), e0);
             __m128 v1 = _mm_mul_ps(_mm_load_ps(&m1.m[4]), e1);
@@ -767,14 +769,14 @@ namespace ouzel
             __m128 a1 = _mm_add_ps(v2, v3);
             __m128 a2 = _mm_add_ps(a0, a1);
 
-            _mm_store_ps(&dst.m[8], a2);
+            dest[2] = a2;
         }
 
         {
-            __m128 e0 = _mm_shuffle_ps(_mm_load_ps(&m2.m[12]), _mm_load_ps(&m2.m[12]), _MM_SHUFFLE(0, 0, 0, 0));
-            __m128 e1 = _mm_shuffle_ps(_mm_load_ps(&m2.m[12]), _mm_load_ps(&m2.m[12]), _MM_SHUFFLE(1, 1, 1, 1));
-            __m128 e2 = _mm_shuffle_ps(_mm_load_ps(&m2.m[12]), _mm_load_ps(&m2.m[12]), _MM_SHUFFLE(2, 2, 2, 2));
-            __m128 e3 = _mm_shuffle_ps(_mm_load_ps(&m2.m[12]), _mm_load_ps(&m2.m[12]), _MM_SHUFFLE(3, 3, 3, 3));
+            __m128 e0 = _mm_set1_ps(m2.m[12]);
+            __m128 e1 = _mm_set1_ps(m2.m[13]);
+            __m128 e2 = _mm_set1_ps(m2.m[14]);
+            __m128 e3 = _mm_set1_ps(m2.m[15]);
 
             __m128 v0 = _mm_mul_ps(_mm_load_ps(&m1.m[0]), e0);
             __m128 v1 = _mm_mul_ps(_mm_load_ps(&m1.m[4]), e1);
@@ -785,8 +787,13 @@ namespace ouzel
             __m128 a1 = _mm_add_ps(v2, v3);
             __m128 a2 = _mm_add_ps(a0, a1);
 
-            _mm_store_ps(&dst.m[12], a2);
+            dest[3] = a2;
         }
+
+        _mm_store_ps(&dst.m[0], dest[0]);
+        _mm_store_ps(&dst.m[4], dest[1]);
+        _mm_store_ps(&dst.m[8], dest[2]);
+        _mm_store_ps(&dst.m[12], dest[3]);
 #endif
 
 #if (!defined(__ARM_NEON__) && !defined(__SSE__)) || (defined(__ANDROID__) && defined(__ARM_NEON__) && defined(__arm__))
