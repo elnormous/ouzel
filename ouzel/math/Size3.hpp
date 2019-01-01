@@ -108,11 +108,6 @@ namespace ouzel
             return width == 0.0F && height == 0.0F && depth == 0.0F;
         }
 
-        inline bool isOne() const
-        {
-            return width == 1.0F && height == 1.0F && depth == 1.0F;
-        }
-
         inline float volume() const
         {
             return width * height * depth;
