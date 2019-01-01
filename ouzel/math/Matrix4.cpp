@@ -716,6 +716,7 @@ namespace ouzel
 #  endif
 
 #elif defined(__SSE__)
+        // keep the result in a separate array in case m1 is the same as m2
         __m128 dest[4];
 
         {
