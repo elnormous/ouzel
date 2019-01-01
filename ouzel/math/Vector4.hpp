@@ -94,11 +94,6 @@ namespace ouzel
             return v[0] == 0.0F && v[1] == 0.0F && v[2] == 0.0F && v[3] == 0.0F;
         }
 
-        bool isOne() const
-        {
-            return v[0] == 1.0F && v[1] == 1.0F && v[2] == 1.0F && v[3] == 1.0F;
-        }
-
         static float angle(const Vector4& v1, const Vector4& v2);
 
         void clamp(const Vector4& min, const Vector4& max);
