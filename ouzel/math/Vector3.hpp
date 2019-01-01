@@ -21,6 +21,11 @@ namespace ouzel
         {
         }
 
+        Vector3(float x, float y):
+            v{x, y, 0.0F}
+        {
+        }
+
         Vector3(float x, float y, float z):
             v{x, y, z}
         {
