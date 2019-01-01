@@ -30,6 +30,13 @@ namespace ouzel
         {
         }
 
+        Vector2& operator=(const Vector2& vec)
+        {
+            v[0] = vec.v[0];
+            v[1] = vec.v[1];
+            return *this;
+        }
+
         explicit Vector2(const Vector3& vec);
 
         Vector2& operator=(const Vector3& vec);

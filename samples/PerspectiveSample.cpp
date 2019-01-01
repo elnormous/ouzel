@@ -179,7 +179,8 @@ bool PerspectiveSample::handleMouse(const ouzel::MouseEvent& event)
 
 bool PerspectiveSample::handleTouch(const ouzel::TouchEvent& event)
 {
-    if (event.type == Event::Type::TOUCH_MOVE)
+    if (event.touchpad->isScreen() &&
+        event.type == Event::Type::TOUCH_MOVE)
     {
         cameraRotation.x() -= event.difference.y();
         cameraRotation.y() -= event.difference.x();

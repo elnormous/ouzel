@@ -48,6 +48,15 @@ namespace ouzel
         {
         }
 
+        Vector4& operator=(const Vector4& vec)
+        {
+            v[0] = vec.v[0];
+            v[1] = vec.v[1];
+            v[2] = vec.v[2];
+            v[3] = vec.v[3];
+            return *this;
+        }
+
         explicit Vector4(const Vector2& vec):
             v{vec.v[0], vec.v[1], 0.0F, 0.0F}
         {
