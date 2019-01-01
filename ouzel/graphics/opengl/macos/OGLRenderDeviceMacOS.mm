@@ -140,7 +140,7 @@ namespace ouzel
             NativeWindowMacOS* windowMacOS = static_cast<NativeWindowMacOS*>(newWindow->getNativeWindow());
             OpenGLView* openGLView = (OpenGLView*)windowMacOS->getNativeView();
 
-            [openGLView setContext:openGLContext];
+            [openGLView setOpenGLContext:openGLContext];
             [openGLContext setView:openGLView];
 
             GLint swapInt = newVerticalSync ? 1 : 0;
