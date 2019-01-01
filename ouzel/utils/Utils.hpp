@@ -17,26 +17,32 @@
 
 namespace ouzel
 {
-#if defined(__ANDROID__) && defined(__ARM_NEON__) && defined(__arm__)
+#if defined(__ARM_NEON__)
+#  if defined(__ANDROID__) && defined(__arm__)
     // NEON support must be checked at runtime on 32-bit Android
     class AnrdoidNeonChecker
     {
     public:
         AnrdoidNeonChecker()
         {
-            if (android_getCpuFamily() == ANDROID_CPU_FAMILY_ARM && (android_getCpuFeatures() & ANDROID_CPU_ARM_FEATURE_NEON) != 0)
-                neonAvailable = true;
-            else
-                neonAvailable = false;
+            neonAvailable = (android_getCpuFamily() == ANDROID_CPU_FAMILY_ARM &&
+                             (android_getCpuFeatures() & ANDROID_CPU_ARM_FEATURE_NEON) != 0);
         }
 
-        bool isNeonAvailable() const { return neonAvailable; }
+        operator bool() const { return neonAvailable; }
 
     private:
         bool neonAvailable;
     };
 
-    extern AnrdoidNeonChecker anrdoidNeonChecker;
+    extern AnrdoidNeonChecker isSimdAvailable;
+#  else
+    constexpr bool isSimdAvailable = true;
+#  endif
+#elif defined(__SSE__)
+    constexpr bool isSimdAvailable = true;
+#else
+    constexpr bool isSimdAvailable = false;
 #endif
 
     extern std::mt19937 randomEngine;
