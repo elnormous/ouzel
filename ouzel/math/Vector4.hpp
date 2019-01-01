@@ -20,12 +20,21 @@ namespace ouzel
     {
     public:
 #if defined(__SSE__)
-        alignas(16) float v[4]{0.0F, 0.0F, 0.0F, 0.0F};
-#else
-        float v[4]{0.0F, 0.0F, 0.0F, 0.0F};
+        alignas(16)
 #endif
+        float v[4]{0.0F, 0.0F, 0.0F, 0.0F};
 
         Vector4()
+        {
+        }
+
+        Vector4(float x, float y):
+            v{x, y, 0.0F, 0.0F}
+        {
+        }
+
+        Vector4(float x, float y, float z):
+            v{x, y, z, 0.0F}
         {
         }
 

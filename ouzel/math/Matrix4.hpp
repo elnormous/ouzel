@@ -19,10 +19,9 @@ namespace ouzel
     {
     public:
 #if defined(__SSE__)
-        alignas(16) float m[16];
-#else
-        float m[16];
+        alignas(16)
 #endif
+        float m[16];
 
         Matrix4()
         {
