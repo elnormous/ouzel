@@ -3,6 +3,9 @@
 #include <algorithm>
 #include <cmath>
 #include <cassert>
+#if defined(__SSE__)
+#  include <xmmintrin.h>
+#endif
 #include "Matrix4.hpp"
 #include "MathUtils.hpp"
 #include "utils/Utils.hpp"
