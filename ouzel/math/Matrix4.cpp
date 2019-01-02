@@ -8,7 +8,6 @@
 #endif
 #include "Matrix4.hpp"
 #include "MathUtils.hpp"
-#include "utils/Utils.hpp"
 
 namespace ouzel
 {
