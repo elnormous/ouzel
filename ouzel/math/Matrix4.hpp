@@ -4,9 +4,6 @@
 #define OUZEL_MATH_MATRIX4_HPP
 
 #include <algorithm>
-#if defined(__SSE__)
-#  include <xmmintrin.h>
-#endif
 #include "math/ConvexVolume.hpp"
 #include "math/Plane.hpp"
 #include "math/Quaternion.hpp"

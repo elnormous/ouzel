@@ -4,11 +4,6 @@
 #define OUZEL_MATH_VECTOR4_HPP
 
 #include <cstddef>
-
-#if defined(__SSE__)
-#  include <xmmintrin.h>
-#endif
-
 #include "Vector2.hpp"
 #include "Vector3.hpp"
 
