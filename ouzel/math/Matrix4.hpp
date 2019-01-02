@@ -4,6 +4,7 @@
 #define OUZEL_MATH_MATRIX4_HPP
 
 #include <algorithm>
+#include <cmath>
 #include "math/ConvexVolume.hpp"
 #include "math/Plane.hpp"
 #include "math/Quaternion.hpp"
@@ -66,14 +67,83 @@ namespace ouzel
         static void createOrthographicFromSize(float width, float height, float zNearPlane, float zFarPlane, Matrix4& dst);
         static void createOrthographicOffCenter(float left, float right, float bottom, float top,
                                                 float zNearPlane, float zFarPlane, Matrix4& dst);
-        static void createScale(const Vector3& scale, Matrix4& dst);
-        static void createScale(float xScale, float yScale, float zScale, Matrix4& dst);
+        
+        static void createScale(const Vector3& scale, Matrix4& dst)
+        {
+            dst.setIdentity();
+
+            dst.m[0] = scale.v[0];
+            dst.m[5] = scale.v[1];
+            dst.m[10] = scale.v[2];
+        }
+
+        static void createScale(float xScale, float yScale, float zScale, Matrix4& dst)
+        {
+            dst.setIdentity();
+
+            dst.m[0] = xScale;
+            dst.m[5] = yScale;
+            dst.m[10] = zScale;
+        }
+        
         static void createRotation(const Vector3& axis, float angle, Matrix4& dst);
-        static void createRotationX(float angle, Matrix4& dst);
-        static void createRotationY(float angle, Matrix4& dst);
-        static void createRotationZ(float angle, Matrix4& dst);
-        static void createTranslation(const Vector3& translation, Matrix4& dst);
-        static void createTranslation(float xTranslation, float yTranslation, float zTranslation, Matrix4& dst);
+
+        static void createRotationX(float angle, Matrix4& dst)
+        {
+            dst.setIdentity();
+
+            float c = std::cosf(angle);
+            float s = std::sinf(angle);
+
+            dst.m[5] = c;
+            dst.m[9] = -s;
+            dst.m[6] = s;
+            dst.m[10] = c;
+        }
+
+        static void createRotationY(float angle, Matrix4& dst)
+        {
+            dst.setIdentity();
+
+            float c = std::cosf(angle);
+            float s = std::sinf(angle);
+
+            dst.m[0] = c;
+            dst.m[8] = s;
+            dst.m[2] = -s;
+            dst.m[10] = c;
+        }
+
+        static void createRotationZ(float angle, Matrix4& dst)
+        {
+            dst.setIdentity();
+
+            float c = std::cosf(angle);
+            float s = std::sinf(angle);
+
+            dst.m[0] = c;
+            dst.m[4] = -s;
+            dst.m[1] = s;
+            dst.m[5] = c;
+        }
+
+        static void createTranslation(const Vector3& translation, Matrix4& dst)
+        {
+            dst.setIdentity();
+
+            dst.m[12] = translation.v[0];
+            dst.m[13] = translation.v[1];
+            dst.m[14] = translation.v[2];
+        }
+        
+        static void createTranslation(float xTranslation, float yTranslation, float zTranslation, Matrix4& dst)
+        {
+            dst.setIdentity();
+
+            dst.m[12] = xTranslation;
+            dst.m[13] = yTranslation;
+            dst.m[14] = zTranslation;
+        }
 
         Plane getFrustumLeftPlane() const
         {
@@ -117,21 +187,69 @@ namespace ouzel
             return frustum;
         }
 
-        void add(float scalar);
+        void add(float scalar)
+        {
+            add(scalar, *this);
+        }
+
         void add(float scalar, Matrix4& dst);
-        void add(const Matrix4& matrix);
+
+        void add(const Matrix4& matrix)
+        {
+            add(*this, matrix, *this);
+        }
+
         static void add(const Matrix4& m1, const Matrix4& m2, Matrix4& dst);
 
         float determinant() const;
 
-        void getUpVector(Vector3& dst) const;
-        void getDownVector(Vector3& dst) const;
-        void getLeftVector(Vector3& dst) const;
-        void getRightVector(Vector3& dst) const;
-        void getForwardVector(Vector3& dst) const;
-        void getBackVector(Vector3& dst) const;
+        inline void getUpVector(Vector3& dst) const
+        {
+            dst.v[0] = m[4];
+            dst.v[1] = m[5];
+            dst.v[2] = m[6];
+        }
 
-        void invert();
+        inline void getDownVector(Vector3& dst) const
+        {
+            dst.v[0] = -m[4];
+            dst.v[1] = -m[5];
+            dst.v[2] = -m[6];
+        }
+
+        inline void getLeftVector(Vector3& dst) const
+        {
+            dst.v[0] = -m[0];
+            dst.v[1] = -m[1];
+            dst.v[2] = -m[2];
+        }
+
+        inline void getRightVector(Vector3& dst) const
+        {
+            dst.v[0] = m[0];
+            dst.v[1] = m[1];
+            dst.v[2] = m[2];
+        }
+
+        inline void getForwardVector(Vector3& dst) const
+        {
+            dst.v[0] = -m[8];
+            dst.v[1] = -m[9];
+            dst.v[2] = -m[10];
+        }
+
+        inline void getBackVector(Vector3& dst) const
+        {
+            dst.v[0] = m[8];
+            dst.v[1] = m[9];
+            dst.v[2] = m[10];
+        }
+
+        void invert()
+        {
+            invert(*this);
+        }
+
         void invert(Matrix4& dst) const;
 
         inline bool isIdentity() const
@@ -265,10 +383,10 @@ namespace ouzel
             float m33 = m[10] / scale.v[2];
 
             Quaternion result;
-            result.v[0] = sqrtf(std::max(0.0F, 1 + m11 - m22 - m33)) / 2.0F;
-            result.v[1] = sqrtf(std::max(0.0F, 1 - m11 + m22 - m33)) / 2.0F;
-            result.v[2] = sqrtf(std::max(0.0F, 1 - m11 - m22 + m33)) / 2.0F;
-            result.v[3] = sqrtf(std::max(0.0F, 1 + m11 + m22 + m33)) / 2.0F;
+            result.v[0] = std::sqrtf(std::max(0.0F, 1 + m11 - m22 - m33)) / 2.0F;
+            result.v[1] = std::sqrtf(std::max(0.0F, 1 - m11 + m22 - m33)) / 2.0F;
+            result.v[2] = std::sqrtf(std::max(0.0F, 1 - m11 - m22 + m33)) / 2.0F;
+            result.v[3] = std::sqrtf(std::max(0.0F, 1 + m11 + m22 + m33)) / 2.0F;
 
             result.v[0] *= sgn(result.v[0] * (m32 - m23));
             result.v[1] *= sgn(result.v[1] * (m13 - m31));

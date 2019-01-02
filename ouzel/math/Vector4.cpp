@@ -1,8 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include <cmath>
-#include <cassert>
 #include <algorithm>
+#include <cassert>
 #include "Vector4.hpp"
 #include "Vector2.hpp"
 #include "Vector3.hpp"
@@ -26,15 +25,6 @@ namespace ouzel
         v[2] = color.normB();
         v[3] = color.normA();
         return *this;
-    }
-
-    float Vector4::angle(const Vector4& v1, const Vector4& v2)
-    {
-        float dx = v1.v[3] * v2.v[0] - v1.v[0] * v2.v[3] - v1.v[1] * v2.v[2] + v1.v[2] * v2.v[1];
-        float dy = v1.v[3] * v2.v[1] - v1.v[1] * v2.v[3] - v1.v[2] * v2.v[0] + v1.v[0] * v2.v[2];
-        float dz = v1.v[3] * v2.v[2] - v1.v[2] * v2.v[3] - v1.v[0] * v2.v[1] + v1.v[1] * v2.v[0];
-
-        return atan2f(sqrtf(dx * dx + dy * dy + dz * dz), dot(v1, v2));
     }
 
     void Vector4::clamp(const Vector4& min, const Vector4& max)
@@ -99,28 +89,13 @@ namespace ouzel
             dst.v[3] = max.v[3];
     }
 
-    float Vector4::distance(const Vector4& vec) const
-    {
-        float dx = vec.v[0] - v[0];
-        float dy = vec.v[1] - v[1];
-        float dz = vec.v[2] - v[2];
-        float dw = vec.v[3] - v[3];
-
-        return sqrtf(dx * dx + dy * dy + dz * dz + dw * dw);
-    }
-
-    float Vector4::length() const
-    {
-        return sqrtf(v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3]);
-    }
-
     void Vector4::normalize()
     {
         float n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
         if (n == 1.0F) // already normalized
             return;
 
-        n = sqrtf(n);
+        n = std::sqrtf(n);
         if (n < std::numeric_limits<float>::min()) // too close to zero
             return;
 
@@ -129,12 +104,6 @@ namespace ouzel
         v[1] *= n;
         v[2] *= n;
         v[3] *= n;
-    }
-
-    void Vector4::smooth(const Vector4& target, float elapsedTime, float responseTime)
-    {
-        if (elapsedTime > 0)
-            *this += (target - *this) * (elapsedTime / (elapsedTime + responseTime));
     }
 
     float Vector4::getMin() const
