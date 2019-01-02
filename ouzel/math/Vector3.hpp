@@ -3,8 +3,8 @@
 #ifndef OUZEL_MATH_VECTOR3_HPP
 #define OUZEL_MATH_VECTOR3_HPP
 
+#include <cmath>
 #include <cstddef>
-
 #include "Vector2.hpp"
 
 namespace ouzel
@@ -77,7 +77,14 @@ namespace ouzel
             return v[0] == 0.0F && v[1] == 0.0F && v[2] == 0.0F;
         }
 
-        static float angle(const Vector3& v1, const Vector3& v2);
+        static float angle(const Vector3& v1, const Vector3& v2)
+        {
+            float dx = v1.v[1] * v2.v[2] - v1.v[2] * v2.v[1];
+            float dy = v1.v[2] * v2.v[0] - v1.v[0] * v2.v[2];
+            float dz = v1.v[0] * v2.v[1] - v1.v[1] * v2.v[0];
+
+            return std::atan2f(std::sqrtf(dx * dx + dy * dy + dz * dz), dot(v1, v2));
+        }
 
         void add(const Vector3& vec)
         {
@@ -115,7 +122,14 @@ namespace ouzel
             return result;
         }
 
-        float distance(const Vector3& vec) const;
+        float distance(const Vector3& vec) const
+        {
+            float dx = vec.v[0] - v[0];
+            float dy = vec.v[1] - v[1];
+            float dz = vec.v[2] - v[2];
+
+            return std::sqrtf(dx * dx + dy * dy + dz * dz);
+        }
 
         float distanceSquared(const Vector3& vec) const
         {
@@ -136,7 +150,10 @@ namespace ouzel
             return v1.v[0] * v2.v[0] + v1.v[1] * v2.v[1] + v1.v[2] * v2.v[2];
         }
 
-        float length() const;
+        float length() const
+        {
+            return std::sqrtf(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
+        }
 
         float lengthSquared() const
         {
@@ -187,7 +204,11 @@ namespace ouzel
             dst.v[2] = v1.v[2] - v2.v[2];
         }
 
-        void smooth(const Vector3& target, float elapsedTime, float responseTime);
+        void smooth(const Vector3& target, float elapsedTime, float responseTime)
+        {
+            if (elapsedTime > 0)
+                *this += (target - *this) * (elapsedTime / (elapsedTime + responseTime));
+        }
 
         float getMin() const;
 

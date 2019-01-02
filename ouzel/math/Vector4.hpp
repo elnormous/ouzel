@@ -3,6 +3,7 @@
 #ifndef OUZEL_MATH_VECTOR4_HPP
 #define OUZEL_MATH_VECTOR4_HPP
 
+#include <cmath>
 #include <cstddef>
 #include "Vector2.hpp"
 #include "Vector3.hpp"
@@ -98,12 +99,27 @@ namespace ouzel
             return v[0] == 0.0F && v[1] == 0.0F && v[2] == 0.0F && v[3] == 0.0F;
         }
 
-        static float angle(const Vector4& v1, const Vector4& v2);
+        static float angle(const Vector4& v1, const Vector4& v2)
+        {
+            float dx = v1.v[3] * v2.v[0] - v1.v[0] * v2.v[3] - v1.v[1] * v2.v[2] + v1.v[2] * v2.v[1];
+            float dy = v1.v[3] * v2.v[1] - v1.v[1] * v2.v[3] - v1.v[2] * v2.v[0] + v1.v[0] * v2.v[2];
+            float dz = v1.v[3] * v2.v[2] - v1.v[2] * v2.v[3] - v1.v[0] * v2.v[1] + v1.v[1] * v2.v[0];
+
+            return std::atan2f(std::sqrtf(dx * dx + dy * dy + dz * dz), dot(v1, v2));
+        }
 
         void clamp(const Vector4& min, const Vector4& max);
         static void clamp(const Vector4& vec, const Vector4& min, const Vector4& max, Vector4& dst);
 
-        float distance(const Vector4& vec) const;
+        float distance(const Vector4& vec) const
+        {
+            float dx = vec.v[0] - v[0];
+            float dy = vec.v[1] - v[1];
+            float dz = vec.v[2] - v[2];
+            float dw = vec.v[3] - v[3];
+
+            return std::sqrtf(dx * dx + dy * dy + dz * dz + dw * dw);
+        }
 
         float distanceSquared(const Vector4& vec) const
         {
@@ -125,14 +141,17 @@ namespace ouzel
             return v1.v[0] * v2.v[0] + v1.v[1] * v2.v[1] + v1.v[2] * v2.v[2] + v1.v[3] * v2.v[3];
         }
 
-        float length() const;
+        inline float length() const
+        {
+            return std::sqrtf(v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3]);
+        }
 
-        float lengthSquared() const
+        inline float lengthSquared() const
         {
             return v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
         }
 
-        void negate()
+        inline void negate()
         {
             v[0] = -v[0];
             v[1] = -v[1];
@@ -166,7 +185,11 @@ namespace ouzel
             v[3] = newW;
         }
 
-        void smooth(const Vector4& target, float elapsedTime, float responseTime);
+        void smooth(const Vector4& target, float elapsedTime, float responseTime)
+        {
+            if (elapsedTime > 0)
+                *this += (target - *this) * (elapsedTime / (elapsedTime + responseTime));
+        }
 
         float getMin() const;
 

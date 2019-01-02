@@ -1,8 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include <cmath>
-#include <cassert>
 #include <algorithm>
+#include <cassert>
 #include "Vector3.hpp"
 #include "Vector2.hpp"
 #include "Vector4.hpp"
@@ -39,15 +38,6 @@ namespace ouzel
         v[2] = color.normB();
 
         return *this;
-    }
-
-    float Vector3::angle(const Vector3& v1, const Vector3& v2)
-    {
-        float dx = v1.v[1] * v2.v[2] - v1.v[2] * v2.v[1];
-        float dy = v1.v[2] * v2.v[0] - v1.v[0] * v2.v[2];
-        float dz = v1.v[0] * v2.v[1] - v1.v[1] * v2.v[0];
-
-        return atan2f(sqrtf(dx * dx + dy * dy + dz * dz), dot(v1, v2));
     }
 
     void Vector3::clamp(const Vector3& min, const Vector3& max)
@@ -99,27 +89,13 @@ namespace ouzel
             dst.v[2] = max.v[2];
     }
 
-    float Vector3::distance(const Vector3& vec) const
-    {
-        float dx = vec.v[0] - v[0];
-        float dy = vec.v[1] - v[1];
-        float dz = vec.v[2] - v[2];
-
-        return sqrtf(dx * dx + dy * dy + dz * dz);
-    }
-
-    float Vector3::length() const
-    {
-        return sqrtf(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
-    }
-
     void Vector3::normalize()
     {
         float n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2];
         if (n == 1.0F) // already normalized
             return;
 
-        n = sqrtf(n);
+        n = std::sqrtf(n);
         if (n < std::numeric_limits<float>::min()) // too close to zero
             return;
 
@@ -127,12 +103,6 @@ namespace ouzel
         v[0] *= n;
         v[1] *= n;
         v[2] *= n;
-    }
-
-    void Vector3::smooth(const Vector3& target, float elapsedTime, float responseTime)
-    {
-        if (elapsedTime > 0)
-            *this += (target - *this) * (elapsedTime / (elapsedTime + responseTime));
     }
 
     float Vector3::getMin() const

@@ -1,7 +1,5 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include <algorithm>
-#include <cmath>
 #include <cassert>
 #if defined(__SSE__)
 #  include <xmmintrin.h>
@@ -71,10 +69,10 @@ namespace ouzel
         assert(zFarPlane != zNearPlane);
 
         float theta = fieldOfView * 0.5F;
-        if (isNearlyEqual(fmodf(theta, PI / 2.0F), 0.0F)) // invalid field of view value
+        if (isNearlyEqual(std::fmodf(theta, PI / 2.0F), 0.0F)) // invalid field of view value
             return;
 
-        float divisor = tanf(theta);
+        float divisor = std::tanf(theta);
         assert(divisor);
         float factor = 1.0F / divisor;
 
@@ -117,24 +115,6 @@ namespace ouzel
         dst.m[15] = 1.0F;
     }
 
-    void Matrix4::createScale(const Vector3& scale, Matrix4& dst)
-    {
-        dst.setIdentity();
-
-        dst.m[0] = scale.v[0];
-        dst.m[5] = scale.v[1];
-        dst.m[10] = scale.v[2];
-    }
-
-    void Matrix4::createScale(float xScale, float yScale, float zScale, Matrix4& dst)
-    {
-        dst.setIdentity();
-
-        dst.m[0] = xScale;
-        dst.m[5] = yScale;
-        dst.m[10] = zScale;
-    }
-
     void Matrix4::createRotation(const Vector3& axis, float angle, Matrix4& dst)
     {
         float x = axis.v[0];
@@ -146,7 +126,7 @@ namespace ouzel
         if (n != 1.0F)
         {
             // Not normalized
-            n = sqrtf(n);
+            n = std::sqrtf(n);
             // Prevent divide too close to zero
             if (n >= std::numeric_limits<float>::min())
             {
@@ -157,8 +137,8 @@ namespace ouzel
             }
         }
 
-        float c = cosf(angle);
-        float s = sinf(angle);
+        float c = std::cosf(angle);
+        float s = std::sinf(angle);
 
         float t = 1.0F - c;
         float tx = t * x;
@@ -190,68 +170,6 @@ namespace ouzel
         dst.m[7] = 0.0F;
         dst.m[11] = 0.0F;
         dst.m[15] = 1.0F;
-    }
-
-    void Matrix4::createRotationX(float angle, Matrix4& dst)
-    {
-        dst.setIdentity();
-
-        float c = cosf(angle);
-        float s = sinf(angle);
-
-        dst.m[5] = c;
-        dst.m[9] = -s;
-        dst.m[6] = s;
-        dst.m[10] = c;
-    }
-
-    void Matrix4::createRotationY(float angle, Matrix4& dst)
-    {
-        dst.setIdentity();
-
-        float c = cosf(angle);
-        float s = sinf(angle);
-
-        dst.m[0] = c;
-        dst.m[8] = s;
-        dst.m[2] = -s;
-        dst.m[10] = c;
-    }
-
-    void Matrix4::createRotationZ(float angle, Matrix4& dst)
-    {
-        dst.setIdentity();
-
-        float c = cosf(angle);
-        float s = sinf(angle);
-
-        dst.m[0] = c;
-        dst.m[4] = -s;
-        dst.m[1] = s;
-        dst.m[5] = c;
-    }
-
-    void Matrix4::createTranslation(const Vector3& translation, Matrix4& dst)
-    {
-        dst.setIdentity();
-
-        dst.m[12] = translation.v[0];
-        dst.m[13] = translation.v[1];
-        dst.m[14] = translation.v[2];
-    }
-
-    void Matrix4::createTranslation(float xTranslation, float yTranslation, float zTranslation, Matrix4& dst)
-    {
-        dst.setIdentity();
-
-        dst.m[12] = xTranslation;
-        dst.m[13] = yTranslation;
-        dst.m[14] = zTranslation;
-    }
-
-    void Matrix4::add(float scalar)
-    {
-        add(scalar, *this);
     }
 
     void Matrix4::add(float scalar, Matrix4& dst)
@@ -324,11 +242,6 @@ namespace ouzel
             dst.m[14] = m[14] + scalar;
             dst.m[15] = m[15] + scalar;
         }
-    }
-
-    void Matrix4::add(const Matrix4& matrix)
-    {
-        add(*this, matrix, *this);
     }
 
     void Matrix4::add(const Matrix4& m1, const Matrix4& m2, Matrix4& dst)
@@ -417,53 +330,6 @@ namespace ouzel
 
         // Calculate the determinant
         return a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
-    }
-
-    void Matrix4::getUpVector(Vector3& dst) const
-    {
-        dst.v[0] = m[4];
-        dst.v[1] = m[5];
-        dst.v[2] = m[6];
-    }
-
-    void Matrix4::getDownVector(Vector3& dst) const
-    {
-        dst.v[0] = -m[4];
-        dst.v[1] = -m[5];
-        dst.v[2] = -m[6];
-    }
-
-    void Matrix4::getLeftVector(Vector3& dst) const
-    {
-        dst.v[0] = -m[0];
-        dst.v[1] = -m[1];
-        dst.v[2] = -m[2];
-    }
-
-    void Matrix4::getRightVector(Vector3& dst) const
-    {
-        dst.v[0] = m[0];
-        dst.v[1] = m[1];
-        dst.v[2] = m[2];
-    }
-
-    void Matrix4::getForwardVector(Vector3& dst) const
-    {
-        dst.v[0] = -m[8];
-        dst.v[1] = -m[9];
-        dst.v[2] = -m[10];
-    }
-
-    void Matrix4::getBackVector(Vector3& dst) const
-    {
-        dst.v[0] = m[8];
-        dst.v[1] = m[9];
-        dst.v[2] = m[10];
-    }
-
-    void Matrix4::invert()
-    {
-        invert(*this);
     }
 
     void Matrix4::invert(Matrix4& dst) const

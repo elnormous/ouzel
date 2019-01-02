@@ -73,16 +73,16 @@ namespace ouzel
                 switch (type)
                 {
                     case OscillatorSound::Type::SINE:
-                        samples[i] = sinf(t * TAU);
+                        samples[i] = std::sinf(t * TAU);
                         break;
                     case OscillatorSound::Type::SQUARE:
-                        samples[i] = fmodf(roundf(t * 2.0F + 0.5F), 2.0F) * 2.0F - 1.0F;
+                        samples[i] = std::fmodf(std::roundf(t * 2.0F + 0.5F), 2.0F) * 2.0F - 1.0F;
                         break;
                     case OscillatorSound::Type::SAWTOOTH:
-                        samples[i] = fmodf(t + 0.5F, 1.0F) * 2.0F - 1.0F;
+                        samples[i] = std::fmodf(t + 0.5F, 1.0F) * 2.0F - 1.0F;
                         break;
                     case OscillatorSound::Type::TRIANGLE:
-                        samples[i] = fabsf(fmodf(t + 0.75F, 1.0F) * 2.0F - 1.0F) * 2.0F - 1.0F;
+                        samples[i] = std::fabsf(std::fmodf(t + 0.75F, 1.0F) * 2.0F - 1.0F) * 2.0F - 1.0F;
                         break;
                 }
 
