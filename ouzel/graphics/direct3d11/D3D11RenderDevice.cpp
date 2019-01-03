@@ -26,6 +26,44 @@ namespace ouzel
     {
         const Direct3D11ErrorCategory direct3D11ErrorCategory {};
 
+        static DXGI_FORMAT getIndexFormat(uint32_t indexSize)
+        {
+            switch (indexSize)
+            {
+                case 2: return DXGI_FORMAT_R16_UINT;
+                case 4: return DXGI_FORMAT_R32_UINT;
+                default: throw std::runtime_error("Invalid index size");
+            }
+        }
+
+        static D3D_PRIMITIVE_TOPOLOGY getPrimitiveTopology(DrawMode drawMode)
+        {
+            switch (drawMode)
+            {
+                case DrawMode::POINT_LIST: return D3D_PRIMITIVE_TOPOLOGY_POINTLIST;
+                case DrawMode::LINE_LIST: return D3D_PRIMITIVE_TOPOLOGY_LINELIST;
+                case DrawMode::LINE_STRIP: return D3D_PRIMITIVE_TOPOLOGY_LINESTRIP;
+                case DrawMode::TRIANGLE_LIST: return D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+                case DrawMode::TRIANGLE_STRIP: return D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP;
+                default: throw std::runtime_error("Invalid draw mode");
+            }
+        }
+
+        static D3D11_TEXTURE_ADDRESS_MODE getTextureAddressMode(Texture::Address address)
+        {
+            switch (address)
+            {
+                case Texture::Address::CLAMP:
+                    return D3D11_TEXTURE_ADDRESS_CLAMP;
+                case Texture::Address::REPEAT:
+                    return D3D11_TEXTURE_ADDRESS_WRAP;
+                case Texture::Address::MIRROR_REPEAT:
+                    return D3D11_TEXTURE_ADDRESS_MIRROR;
+                default:
+                    throw std::runtime_error("Invalid address mode");
+            }
+        }
+
         D3D11RenderDevice::D3D11RenderDevice(const std::function<void(const Event&)>& initCallback):
             RenderDevice(Driver::DIRECT3D11, initCallback)
         {
@@ -495,13 +533,13 @@ namespace ouzel
                             box.back = 0;
 
                             context->CopySubresourceRegion(destinationD3D11Texture->getTexture(),
-                                                        blitCommand->destinationLevel,
-                                                        blitCommand->destinationX,
-                                                        blitCommand->destinationY,
-                                                        0,
-                                                        sourceD3D11Texture->getTexture(),
-                                                        blitCommand->sourceLevel,
-                                                        &box);
+                                                           blitCommand->destinationLevel,
+                                                           blitCommand->destinationX,
+                                                           blitCommand->destinationY,
+                                                           0,
+                                                           sourceD3D11Texture->getTexture(),
+                                                           blitCommand->sourceLevel,
+                                                           &box);
                             break;
                         }
 
@@ -582,9 +620,9 @@ namespace ouzel
                         {
                             const InitDepthStencilStateCommand* initDepthStencilStateCommand = static_cast<const InitDepthStencilStateCommand*>(command.get());
                             std::unique_ptr<D3D11DepthStencilState> depthStencilStateResourceD3D11(new D3D11DepthStencilState(*this,
-                                                                                                                                            initDepthStencilStateCommand->depthTest,
-                                                                                                                                            initDepthStencilStateCommand->depthWrite,
-                                                                                                                                            initDepthStencilStateCommand->compareFunction));
+                                                                                                                              initDepthStencilStateCommand->depthTest,
+                                                                                                                              initDepthStencilStateCommand->depthWrite,
+                                                                                                                              initDepthStencilStateCommand->compareFunction));
 
                             if (initDepthStencilStateCommand->depthStencilState > resources.size())
                                 resources.resize(initDepthStencilStateCommand->depthStencilState);
@@ -657,33 +695,9 @@ namespace ouzel
                             UINT strides[] = {sizeof(Vertex)};
                             UINT offsets[] = {0};
                             context->IASetVertexBuffers(0, 1, buffers, strides, offsets);
-
-                            DXGI_FORMAT indexFormat;
-
-                            switch (drawCommand->indexSize)
-                            {
-                                case 2: indexFormat = DXGI_FORMAT_R16_UINT; break;
-                                case 4: indexFormat = DXGI_FORMAT_R32_UINT; break;
-                                default:
-                                    indexFormat = DXGI_FORMAT_UNKNOWN;
-                                    throw std::runtime_error("Invalid index size");
-                            }
-
-                            context->IASetIndexBuffer(indexD3D11Buffer->getBuffer(), indexFormat, 0);
-
-                            D3D_PRIMITIVE_TOPOLOGY topology;
-
-                            switch (drawCommand->drawMode)
-                            {
-                                case DrawMode::POINT_LIST: topology = D3D_PRIMITIVE_TOPOLOGY_POINTLIST; break;
-                                case DrawMode::LINE_LIST: topology = D3D_PRIMITIVE_TOPOLOGY_LINELIST; break;
-                                case DrawMode::LINE_STRIP: topology = D3D_PRIMITIVE_TOPOLOGY_LINESTRIP; break;
-                                case DrawMode::TRIANGLE_LIST: topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST; break;
-                                case DrawMode::TRIANGLE_STRIP: topology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP; break;
-                                default: throw std::runtime_error("Invalid draw mode");
-                            }
-
-                            context->IASetPrimitiveTopology(topology);
+                            context->IASetIndexBuffer(indexD3D11Buffer->getBuffer(),
+                                                      getIndexFormat(drawCommand->indexSize), 0);
+                            context->IASetPrimitiveTopology(getPrimitiveTopology(drawCommand->drawMode));
 
                             assert(drawCommand->indexCount);
                             assert(indexD3D11Buffer->getSize());
@@ -711,14 +725,14 @@ namespace ouzel
                             const InitBlendStateCommand* initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command.get());
 
                             std::unique_ptr<D3D11BlendState> blendStateResourceD3D11(new D3D11BlendState(*this,
-                                                                                                                        initBlendStateCommand->enableBlending,
-                                                                                                                        initBlendStateCommand->colorBlendSource,
-                                                                                                                        initBlendStateCommand->colorBlendDest,
-                                                                                                                        initBlendStateCommand->colorOperation,
-                                                                                                                        initBlendStateCommand->alphaBlendSource,
-                                                                                                                        initBlendStateCommand->alphaBlendDest,
-                                                                                                                        initBlendStateCommand->alphaOperation,
-                                                                                                                        initBlendStateCommand->colorMask));
+                                                                                                         initBlendStateCommand->enableBlending,
+                                                                                                         initBlendStateCommand->colorBlendSource,
+                                                                                                         initBlendStateCommand->colorBlendDest,
+                                                                                                         initBlendStateCommand->colorOperation,
+                                                                                                         initBlendStateCommand->alphaBlendSource,
+                                                                                                         initBlendStateCommand->alphaBlendDest,
+                                                                                                         initBlendStateCommand->alphaOperation,
+                                                                                                         initBlendStateCommand->colorMask));
 
                             if (initBlendStateCommand->blendState > resources.size())
                                 resources.resize(initBlendStateCommand->blendState);
@@ -731,10 +745,10 @@ namespace ouzel
                             const InitBufferCommand* initBufferCommand = static_cast<const InitBufferCommand*>(command.get());
 
                             std::unique_ptr<D3D11Buffer> bufferResourceD3D11(new D3D11Buffer(*this,
-                                                                                                            initBufferCommand->usage,
-                                                                                                            initBufferCommand->flags,
-                                                                                                            initBufferCommand->data,
-                                                                                                            initBufferCommand->size));
+                                                                                             initBufferCommand->usage,
+                                                                                             initBufferCommand->flags,
+                                                                                             initBufferCommand->data,
+                                                                                             initBufferCommand->size));
 
                             if (initBufferCommand->buffer > resources.size())
                                 resources.resize(initBufferCommand->buffer);
@@ -756,15 +770,15 @@ namespace ouzel
                             const InitShaderCommand* initShaderCommand = static_cast<const InitShaderCommand*>(command.get());
 
                             std::unique_ptr<D3D11Shader> shaderResourceD3D11(new D3D11Shader(*this,
-                                                                                                            initShaderCommand->fragmentShader,
-                                                                                                            initShaderCommand->vertexShader,
-                                                                                                            initShaderCommand->vertexAttributes,
-                                                                                                            initShaderCommand->fragmentShaderConstantInfo,
-                                                                                                            initShaderCommand->vertexShaderConstantInfo,
-                                                                                                            initShaderCommand->fragmentShaderDataAlignment,
-                                                                                                            initShaderCommand->vertexShaderDataAlignment,
-                                                                                                            initShaderCommand->fragmentShaderFunction,
-                                                                                                            initShaderCommand->vertexShaderFunction));
+                                                                                             initShaderCommand->fragmentShader,
+                                                                                             initShaderCommand->vertexShader,
+                                                                                             initShaderCommand->vertexAttributes,
+                                                                                             initShaderCommand->fragmentShaderConstantInfo,
+                                                                                             initShaderCommand->vertexShaderConstantInfo,
+                                                                                             initShaderCommand->fragmentShaderDataAlignment,
+                                                                                             initShaderCommand->vertexShaderDataAlignment,
+                                                                                             initShaderCommand->fragmentShaderFunction,
+                                                                                             initShaderCommand->vertexShaderFunction));
 
                             if (initShaderCommand->shader > resources.size())
                                 resources.resize(initShaderCommand->shader);
@@ -1161,32 +1175,8 @@ namespace ouzel
                     }
                 }
 
-                switch (desc.addressX)
-                {
-                    case Texture::Address::CLAMP:
-                        samplerStateDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
-                        break;
-                    case Texture::Address::REPEAT:
-                        samplerStateDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-                        break;
-                    case Texture::Address::MIRROR_REPEAT:
-                        samplerStateDesc.AddressU = D3D11_TEXTURE_ADDRESS_MIRROR;
-                        break;
-                }
-
-                switch (desc.addressY)
-                {
-                    case Texture::Address::CLAMP:
-                        samplerStateDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
-                        break;
-                    case Texture::Address::REPEAT:
-                        samplerStateDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-                        break;
-                    case Texture::Address::MIRROR_REPEAT:
-                        samplerStateDesc.AddressV = D3D11_TEXTURE_ADDRESS_MIRROR;
-                        break;
-                }
-
+                samplerStateDesc.AddressU = getTextureAddressMode(desc.addressX);
+                samplerStateDesc.AddressV = getTextureAddressMode(desc.addressY);
                 samplerStateDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
                 samplerStateDesc.MipLODBias = 0.0F;
                 samplerStateDesc.MaxAnisotropy = desc.maxAnisotropy;

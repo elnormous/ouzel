@@ -23,6 +23,65 @@ namespace ouzel
 {
     namespace graphics
     {
+        static MTLIndexType getIndexType(uint32_t indexSize)
+        {
+            switch (indexSize)
+            {
+                case 2: return MTLIndexTypeUInt16;
+                case 4: return MTLIndexTypeUInt32;
+                default: throw std::runtime_error("Invalid index size");
+            }
+        }
+
+        static MTLPrimitiveType getPrimitiveType(DrawMode drawMode)
+        {
+            switch (drawMode)
+            {
+                case DrawMode::POINT_LIST: return MTLPrimitiveTypePoint;
+                case DrawMode::LINE_LIST: return MTLPrimitiveTypeLine;
+                case DrawMode::LINE_STRIP: return MTLPrimitiveTypeLineStrip;
+                case DrawMode::TRIANGLE_LIST: return MTLPrimitiveTypeTriangle;
+                case DrawMode::TRIANGLE_STRIP: return MTLPrimitiveTypeTriangleStrip;
+                default: throw std::runtime_error("Invalid draw mode");
+            }
+        }
+
+        static MTLCullMode getCullMode(CullMode cullMode)
+        {
+            switch (cullMode)
+            {
+                case CullMode::NONE: return MTLCullModeNone;
+                case CullMode::FRONT: return MTLCullModeFront;
+                case CullMode::BACK: return MTLCullModeBack;
+                default: throw std::runtime_error("Invalid cull mode");
+            }
+        }
+
+        static MTLTriangleFillMode getFillMode(FillMode fillMode)
+        {
+            switch (fillMode)
+            {
+                case FillMode::SOLID: return MTLTriangleFillModeFill;
+                case FillMode::WIREFRAME: return MTLTriangleFillModeLines;
+                default: throw std::runtime_error("Invalid fill mode");
+            }
+        }
+
+        static MTLSamplerAddressMode getSamplerAddressMode(Texture::Address address)
+        {
+            switch (address)
+            {
+                case Texture::Address::CLAMP:
+                    return MTLSamplerAddressModeClampToEdge;
+                case Texture::Address::REPEAT:
+                    return MTLSamplerAddressModeRepeat;
+                case Texture::Address::MIRROR_REPEAT:
+                    return MTLSamplerAddressModeMirrorRepeat;
+                default:
+                    throw std::runtime_error("Invalid address mode");
+            }
+        }
+
         bool MetalRenderDevice::available()
         {
             id<MTLDevice> device = MTLCreateSystemDefaultDevice();
@@ -462,17 +521,7 @@ namespace ouzel
                             if (!currentRenderCommandEncoder)
                                 throw std::runtime_error("Metal render command encoder not initialized");
 
-                            MTLCullMode cullMode;
-
-                            switch (setCullModeCommad->cullMode)
-                            {
-                                case CullMode::NONE: cullMode = MTLCullModeNone; break;
-                                case CullMode::FRONT: cullMode = MTLCullModeFront; break;
-                                case CullMode::BACK: cullMode = MTLCullModeBack; break;
-                                default: throw std::runtime_error("Invalid cull mode");
-                            }
-
-                            [currentRenderCommandEncoder setCullMode:cullMode];
+                            [currentRenderCommandEncoder setCullMode:getCullMode(setCullModeCommad->cullMode)];
 
                             break;
                         }
@@ -484,16 +533,7 @@ namespace ouzel
                             if (!currentRenderCommandEncoder)
                                 throw std::runtime_error("Metal render command encoder not initialized");
 
-                            MTLTriangleFillMode fillMode;
-
-                            switch (setFillModeCommad->fillMode)
-                            {
-                                case FillMode::SOLID: fillMode = MTLTriangleFillModeFill; break;
-                                case FillMode::WIREFRAME: fillMode = MTLTriangleFillModeLines; break;
-                                default: throw std::runtime_error("Invalid fill mode");
-                            }
-
-                            [currentRenderCommandEncoder setTriangleFillMode:fillMode];
+                            [currentRenderCommandEncoder setTriangleFillMode:getFillMode(setFillModeCommad->fillMode)];
 
                             break;
                         }
@@ -622,34 +662,13 @@ namespace ouzel
                             [currentRenderCommandEncoder setVertexBuffer:vertexMetalBuffer->getBuffer() offset:0 atIndex:0];
 
                             // draw
-                            MTLPrimitiveType primitiveType;
-
-                            switch (drawCommand->drawMode)
-                            {
-                                case DrawMode::POINT_LIST: primitiveType = MTLPrimitiveTypePoint; break;
-                                case DrawMode::LINE_LIST: primitiveType = MTLPrimitiveTypeLine; break;
-                                case DrawMode::LINE_STRIP: primitiveType = MTLPrimitiveTypeLineStrip; break;
-                                case DrawMode::TRIANGLE_LIST: primitiveType = MTLPrimitiveTypeTriangle; break;
-                                case DrawMode::TRIANGLE_STRIP: primitiveType = MTLPrimitiveTypeTriangleStrip; break;
-                                default: throw std::runtime_error("Invalid draw mode");
-                            }
-
                             assert(drawCommand->indexCount);
                             assert(indexMetalBuffer->getSize());
                             assert(vertexMetalBuffer->getSize());
 
-                            MTLIndexType indexType;
-
-                            switch (drawCommand->indexSize)
-                            {
-                                case 2: indexType = MTLIndexTypeUInt16; break;
-                                case 4: indexType = MTLIndexTypeUInt32; break;
-                                default: throw std::runtime_error("Invalid index size");
-                            }
-
-                            [currentRenderCommandEncoder drawIndexedPrimitives:primitiveType
+                            [currentRenderCommandEncoder drawIndexedPrimitives:getPrimitiveType(drawCommand->drawMode)
                                                                     indexCount:drawCommand->indexCount
-                                                                     indexType:indexType
+                                                                     indexType:getIndexType(drawCommand->indexSize)
                                                                    indexBuffer:indexMetalBuffer->getBuffer()
                                                              indexBufferOffset:drawCommand->startIndex * drawCommand->indexSize];
 
@@ -1051,31 +1070,8 @@ namespace ouzel
                         break;
                 }
 
-                switch (descriptor.addressX)
-                {
-                    case Texture::Address::CLAMP:
-                        samplerDescriptor.sAddressMode = MTLSamplerAddressModeClampToEdge;
-                        break;
-                    case Texture::Address::REPEAT:
-                        samplerDescriptor.sAddressMode = MTLSamplerAddressModeRepeat;
-                        break;
-                    case Texture::Address::MIRROR_REPEAT:
-                        samplerDescriptor.sAddressMode = MTLSamplerAddressModeMirrorRepeat;
-                        break;
-                }
-
-                switch (descriptor.addressY)
-                {
-                    case Texture::Address::CLAMP:
-                        samplerDescriptor.tAddressMode = MTLSamplerAddressModeClampToEdge;
-                        break;
-                    case Texture::Address::REPEAT:
-                        samplerDescriptor.tAddressMode = MTLSamplerAddressModeRepeat;
-                        break;
-                    case Texture::Address::MIRROR_REPEAT:
-                        samplerDescriptor.tAddressMode = MTLSamplerAddressModeMirrorRepeat;
-                        break;
-                }
+                samplerDescriptor.sAddressMode = getSamplerAddressMode(descriptor.addressX);
+                samplerDescriptor.tAddressMode = getSamplerAddressMode(descriptor.addressY);
 
                 samplerDescriptor.maxAnisotropy = descriptor.maxAnisotropy;
 

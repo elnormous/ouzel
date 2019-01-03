@@ -11,94 +11,6 @@ namespace ouzel
 {
     namespace graphics
     {
-        OGLTexture::OGLTexture(OGLRenderDevice& renderDeviceOGL,
-                               const std::vector<Texture::Level>& newLevels,
-                               uint32_t newFlags,
-                               uint32_t newSampleCount,
-                               PixelFormat newPixelFormat):
-            OGLRenderResource(renderDeviceOGL),
-            levels(newLevels),
-            flags(newFlags),
-            mipmaps(static_cast<uint32_t>(newLevels.size())),
-            sampleCount(newSampleCount),
-            pixelFormat(newPixelFormat)
-        {
-            if ((flags & Texture::RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
-                throw std::runtime_error("Invalid mip map count");
-
-            createTexture();
-
-            renderDevice.bindTexture(textureId, 0);
-
-            if (flags & Texture::RENDER_TARGET)
-            {
-                clearMask = 0;
-                if (clearColorBuffer) clearMask |= GL_COLOR_BUFFER_BIT;
-                if (clearDepthBuffer) clearMask |= GL_DEPTH_BUFFER_BIT;
-
-                frameBufferClearColor[0] = clearColor.normR();
-                frameBufferClearColor[1] = clearColor.normG();
-                frameBufferClearColor[2] = clearColor.normB();
-                frameBufferClearColor[3] = clearColor.normA();
-            }
-            else
-            {
-                if (!levels.empty())
-                {
-                    if (renderDevice.isTextureBaseLevelSupported()) glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-                    if (renderDevice.isTextureMaxLevelSupported()) glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
-
-                    GLenum error;
-
-                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw std::system_error(makeErrorCode(error), "Failed to set texture base and max levels");
-                }
-
-                for (size_t level = 0; level < levels.size(); ++level)
-                {
-                    if (!levels[level].data.empty())
-                    {
-                        glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
-                                         static_cast<GLsizei>(levels[level].size.width),
-                                         static_cast<GLsizei>(levels[level].size.height), 0,
-                                         oglPixelFormat, oglPixelType, levels[level].data.data());
-                    }
-                    else
-                    {
-                        glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
-                                         static_cast<GLsizei>(levels[level].size.width),
-                                         static_cast<GLsizei>(levels[level].size.height), 0,
-                                         oglPixelFormat, oglPixelType, nullptr);
-                    }
-                }
-
-                GLenum error;
-
-                if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw std::system_error(makeErrorCode(error), "Failed to upload texture data");
-            }
-
-            setTextureParameters();
-        }
-
-        OGLTexture::~OGLTexture()
-        {
-            if (depthBufferId)
-                renderDevice.deleteRenderBuffer(depthBufferId);
-
-            if (colorBufferId)
-                renderDevice.deleteRenderBuffer(colorBufferId);
-
-            if (frameBufferId)
-                renderDevice.deleteFrameBuffer(frameBufferId);
-
-            if (depthTextureId)
-                renderDevice.deleteTexture(depthTextureId);
-
-            if (textureId)
-                renderDevice.deleteTexture(textureId);
-        }
-
         static GLenum getOGLInternalPixelFormat(PixelFormat pixelFormat, uint32_t openGLVersion)
         {
 #if OUZEL_SUPPORTS_OPENGLES
@@ -210,7 +122,7 @@ namespace ouzel
                 case PixelFormat::R16_SINT:
                 case PixelFormat::R32_UINT:
                 case PixelFormat::R32_SINT:
-                     return GL_RED_INTEGER;
+                    return GL_RED_INTEGER;
                 case PixelFormat::RG8_UNORM:
                 case PixelFormat::RG8_SNORM:
                     return GL_RG;
@@ -277,6 +189,109 @@ namespace ouzel
                 default:
                     return 0;
             }
+        }
+
+        static GLint getWrapMode(Texture::Address address)
+        {
+            switch (address)
+            {
+                case Texture::Address::CLAMP:
+                    return GL_CLAMP_TO_EDGE;
+                case Texture::Address::REPEAT:
+                    return GL_REPEAT;
+                case Texture::Address::MIRROR_REPEAT:
+                    return GL_MIRRORED_REPEAT;
+                default:
+                    throw std::runtime_error("Invalid texture address mode");
+            }
+        }
+
+        OGLTexture::OGLTexture(OGLRenderDevice& renderDeviceOGL,
+                               const std::vector<Texture::Level>& newLevels,
+                               uint32_t newFlags,
+                               uint32_t newSampleCount,
+                               PixelFormat newPixelFormat):
+            OGLRenderResource(renderDeviceOGL),
+            levels(newLevels),
+            flags(newFlags),
+            mipmaps(static_cast<uint32_t>(newLevels.size())),
+            sampleCount(newSampleCount),
+            pixelFormat(newPixelFormat)
+        {
+            if ((flags & Texture::RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
+                throw std::runtime_error("Invalid mip map count");
+
+            createTexture();
+
+            renderDevice.bindTexture(textureId, 0);
+
+            if (flags & Texture::RENDER_TARGET)
+            {
+                clearMask = 0;
+                if (clearColorBuffer) clearMask |= GL_COLOR_BUFFER_BIT;
+                if (clearDepthBuffer) clearMask |= GL_DEPTH_BUFFER_BIT;
+
+                frameBufferClearColor[0] = clearColor.normR();
+                frameBufferClearColor[1] = clearColor.normG();
+                frameBufferClearColor[2] = clearColor.normB();
+                frameBufferClearColor[3] = clearColor.normA();
+            }
+            else
+            {
+                if (!levels.empty())
+                {
+                    if (renderDevice.isTextureBaseLevelSupported()) glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+                    if (renderDevice.isTextureMaxLevelSupported()) glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
+
+                    GLenum error;
+
+                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                        throw std::system_error(makeErrorCode(error), "Failed to set texture base and max levels");
+                }
+
+                for (size_t level = 0; level < levels.size(); ++level)
+                {
+                    if (!levels[level].data.empty())
+                    {
+                        glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
+                                         static_cast<GLsizei>(levels[level].size.width),
+                                         static_cast<GLsizei>(levels[level].size.height), 0,
+                                         oglPixelFormat, oglPixelType, levels[level].data.data());
+                    }
+                    else
+                    {
+                        glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
+                                         static_cast<GLsizei>(levels[level].size.width),
+                                         static_cast<GLsizei>(levels[level].size.height), 0,
+                                         oglPixelFormat, oglPixelType, nullptr);
+                    }
+                }
+
+                GLenum error;
+
+                if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                    throw std::system_error(makeErrorCode(error), "Failed to upload texture data");
+            }
+
+            setTextureParameters();
+        }
+
+        OGLTexture::~OGLTexture()
+        {
+            if (depthBufferId)
+                renderDevice.deleteRenderBuffer(depthBufferId);
+
+            if (colorBufferId)
+                renderDevice.deleteRenderBuffer(colorBufferId);
+
+            if (frameBufferId)
+                renderDevice.deleteFrameBuffer(frameBufferId);
+
+            if (depthTextureId)
+                renderDevice.deleteTexture(depthTextureId);
+
+            if (textureId)
+                renderDevice.deleteTexture(textureId);
         }
 
         void OGLTexture::reload()
@@ -412,24 +427,9 @@ namespace ouzel
                 throw std::runtime_error("Texture not initialized");
 
             renderDevice.bindTexture(textureId, 0);
-
-            switch (addressX)
-            {
-                case Texture::Address::CLAMP:
-                    glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-                    break;
-                case Texture::Address::REPEAT:
-                    glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-                    break;
-                case Texture::Address::MIRROR_REPEAT:
-                    glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
-                    break;
-                default:
-                    throw std::runtime_error("Invalid texture address mode");
-            }
+            glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, getWrapMode(addressX));
 
             GLenum error;
-
             if ((error = glGetErrorProc()) != GL_NO_ERROR)
                 throw std::system_error(makeErrorCode(error), "Failed to set texture wrap mode");
         }
@@ -442,24 +442,9 @@ namespace ouzel
                 throw std::runtime_error("Texture not initialized");
 
             renderDevice.bindTexture(textureId, 0);
-
-            switch (addressY)
-            {
-                case Texture::Address::CLAMP:
-                    glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-                    break;
-                case Texture::Address::REPEAT:
-                    glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-                    break;
-                case Texture::Address::MIRROR_REPEAT:
-                    glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
-                    break;
-                default:
-                    throw std::runtime_error("Invalid texture address mode");
-            }
+            glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, getWrapMode(addressY));
 
             GLenum error;
-
             if ((error = glGetErrorProc()) != GL_NO_ERROR)
                 throw std::system_error(makeErrorCode(error), "Failed to set texture wrap mode");
         }
