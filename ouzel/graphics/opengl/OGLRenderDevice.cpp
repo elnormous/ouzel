@@ -195,7 +195,17 @@ namespace ouzel
             return std::error_code(static_cast<int>(e), openGLErrorCategory);
         }
 
-        static GLenum getVertexFormat(DataType dataType)
+        static GLenum getIndexType(uint32_t indexSize)
+        {
+            switch (indexSize)
+            {
+                case 2: return GL_UNSIGNED_SHORT;
+                case 4: return GL_UNSIGNED_INT;
+                default: throw std::runtime_error("Invalid index size");
+            }
+        }
+
+        static GLenum getVertexType(DataType dataType)
         {
             switch (dataType)
             {
@@ -354,6 +364,40 @@ namespace ouzel
                     return GL_TRUE;
                 default:
                     return GL_FALSE;
+            }
+        }
+
+        static GLenum getDrawMode(DrawMode drawMode)
+        {
+            switch (drawMode)
+            {
+                case DrawMode::POINT_LIST: return GL_POINTS;
+                case DrawMode::LINE_LIST: return GL_LINES;
+                case DrawMode::LINE_STRIP: return GL_LINE_STRIP;
+                case DrawMode::TRIANGLE_LIST: return GL_TRIANGLES;
+                case DrawMode::TRIANGLE_STRIP: return GL_TRIANGLE_STRIP;
+                default: throw std::runtime_error("Invalid draw mode");
+            }
+        }
+
+        static GLenum getCullFace(CullMode cullMode, bool flippedY)
+        {
+            switch (cullMode)
+            {
+                case CullMode::NONE: return GL_NONE;
+                case CullMode::FRONT: return flippedY ? GL_BACK : GL_FRONT; // flip the faces, because of the flipped y-axis
+                case CullMode::BACK: return flippedY ? GL_FRONT : GL_BACK;
+                default: throw std::runtime_error("Invalid cull mode");
+            }
+        }
+
+        static GLenum getFillMode(FillMode fillMode)
+        {
+            switch (fillMode)
+            {
+                case FillMode::SOLID: return GL_FILL;
+                case FillMode::WIREFRAME: return GL_LINE;
+                default: throw std::runtime_error("Invalid fill mode");
             }
         }
 
@@ -1065,15 +1109,8 @@ namespace ouzel
                         {
                             const SetCullModeCommad* setCullModeCommad = static_cast<const SetCullModeCommad*>(command.get());
 
-                            GLenum cullFace = GL_NONE;
-
-                            switch (setCullModeCommad->cullMode)
-                            {
-                                case CullMode::NONE: cullFace = GL_NONE; break;
-                                case CullMode::FRONT: cullFace = ((stateCache.frameBufferId != frameBufferId) ? GL_FRONT : GL_BACK); break; // flip the faces, because of the flipped y-axis
-                                case CullMode::BACK: cullFace = ((stateCache.frameBufferId != frameBufferId) ? GL_BACK : GL_FRONT); break;
-                                default: throw std::runtime_error("Invalid cull mode");
-                            }
+                            const GLenum cullFace = getCullFace(setCullModeCommad->cullMode,
+                                                                stateCache.frameBufferId == frameBufferId);
 
                             setCullFace(cullFace != GL_NONE, cullFace);
 
@@ -1088,16 +1125,7 @@ namespace ouzel
                             if (setFillModeCommad->fillMode != FillMode::SOLID)
                                 engine->log(Log::Level::WARN) << "Unsupported fill mode";
 #else
-                            GLenum fillMode = GL_NONE;
-
-                            switch (setFillModeCommad->fillMode)
-                            {
-                                case FillMode::SOLID: fillMode = GL_FILL; break;
-                                case FillMode::WIREFRAME: fillMode = GL_LINE; break;
-                                default: throw std::runtime_error("Invalid fill mode");
-                            }
-
-                            setPolygonFillMode(fillMode);
+                            setPolygonFillMode(getFillMode(setFillModeCommad->fillMode));
 #endif
                             break;
                         }
@@ -1217,18 +1245,6 @@ namespace ouzel
                             assert(vertexOGLBuffer->getBufferId());
 
                             // draw
-                            GLenum mode;
-
-                            switch (drawCommand->drawMode)
-                            {
-                                case DrawMode::POINT_LIST: mode = GL_POINTS; break;
-                                case DrawMode::LINE_LIST: mode = GL_LINES; break;
-                                case DrawMode::LINE_STRIP: mode = GL_LINE_STRIP; break;
-                                case DrawMode::TRIANGLE_LIST: mode = GL_TRIANGLES; break;
-                                case DrawMode::TRIANGLE_STRIP: mode = GL_TRIANGLE_STRIP; break;
-                                default: throw std::runtime_error("Invalid draw mode");
-                            }
-
                             bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexOGLBuffer->getBufferId());
                             bindBuffer(GL_ARRAY_BUFFER, vertexOGLBuffer->getBufferId());
 
@@ -1241,7 +1257,7 @@ namespace ouzel
                                 glEnableVertexAttribArrayProc(index);
                                 glVertexAttribPointerProc(index,
                                                           getArraySize(vertexAttribute.dataType),
-                                                          getVertexFormat(vertexAttribute.dataType),
+                                                          getVertexType(vertexAttribute.dataType),
                                                           isNormalized(vertexAttribute.dataType),
                                                           static_cast<GLsizei>(sizeof(Vertex)),
                                                           reinterpret_cast<void*>(static_cast<uintptr_t>(vertexOffset)));
@@ -1258,18 +1274,9 @@ namespace ouzel
                             assert(indexOGLBuffer->getSize());
                             assert(vertexOGLBuffer->getSize());
 
-                            GLenum indexType;
-
-                            switch (drawCommand->indexSize)
-                            {
-                                case 2: indexType = GL_UNSIGNED_SHORT; break;
-                                case 4: indexType = GL_UNSIGNED_INT; break;
-                                default: throw std::runtime_error("Invalid index size");
-                            }
-
-                            glDrawElementsProc(mode,
+                            glDrawElementsProc(getDrawMode(drawCommand->drawMode),
                                                static_cast<GLsizei>(drawCommand->indexCount),
-                                               indexType,
+                                               getIndexType(drawCommand->indexSize),
                                                reinterpret_cast<void*>(static_cast<uintptr_t>(drawCommand->startIndex * drawCommand->indexSize)));
 
                             if ((error = glGetErrorProc()) != GL_NO_ERROR)
