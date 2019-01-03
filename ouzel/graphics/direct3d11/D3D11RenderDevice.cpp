@@ -2,10 +2,9 @@
 
 #include "core/Setup.h"
 
-#include <cassert>
-
 #if OUZEL_COMPILE_DIRECT3D11
 
+#include <cassert>
 #include "D3D11RenderDevice.hpp"
 #include "D3D11BlendState.hpp"
 #include "D3D11Buffer.hpp"
@@ -853,10 +852,10 @@ namespace ouzel
                             const InitTextureCommand* initTextureCommand = static_cast<const InitTextureCommand*>(command.get());
 
                             std::unique_ptr<D3D11Texture> textureResourceD3D11(new D3D11Texture(*this,
-                                                                                                                initTextureCommand->levels,
-                                                                                                                initTextureCommand->flags,
-                                                                                                                initTextureCommand->sampleCount,
-                                                                                                                initTextureCommand->pixelFormat));
+                                                                                                initTextureCommand->levels,
+                                                                                                initTextureCommand->flags,
+                                                                                                initTextureCommand->sampleCount,
+                                                                                                initTextureCommand->pixelFormat));
 
                             if (initTextureCommand->texture > resources.size())
                                 resources.resize(initTextureCommand->texture);
