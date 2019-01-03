@@ -72,7 +72,7 @@ namespace ouzel
         if (isNearlyEqual(fmodf(theta, PI / 2.0F), 0.0F)) // invalid field of view value
             return;
 
-        float divisor = std::tanf(theta);
+        float divisor = tanf(theta);
         assert(divisor);
         float factor = 1.0F / divisor;
 
