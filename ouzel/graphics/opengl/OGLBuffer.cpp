@@ -130,7 +130,6 @@ namespace ouzel
                     bufferType = GL_ARRAY_BUFFER;
                     break;
                 default:
-                    bufferType = 0;
                     throw std::runtime_error("Unsupported buffer type");
             }
         }
