@@ -1171,6 +1171,8 @@ namespace ouzel
                         case Texture::Filter::TRILINEAR:
                             samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
                             break;
+                        default:
+                            throw std::runtime_error("Invalid texture filter");
                     }
                 }
 

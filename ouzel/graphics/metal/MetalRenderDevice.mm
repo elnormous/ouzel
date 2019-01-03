@@ -1068,6 +1068,8 @@ namespace ouzel
                         samplerDescriptor.magFilter = MTLSamplerMinMagFilterLinear;
                         samplerDescriptor.mipFilter = MTLSamplerMipFilterLinear;
                         break;
+                    default:
+                        throw std::runtime_error("Invalid texture filter");
                 }
 
                 samplerDescriptor.sAddressMode = getSamplerAddressMode(descriptor.addressX);
