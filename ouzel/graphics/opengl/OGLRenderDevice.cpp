@@ -391,6 +391,7 @@ namespace ouzel
             }
         }
 
+#if !OUZEL_SUPPORTS_OPENGLES
         static GLenum getFillMode(FillMode fillMode)
         {
             switch (fillMode)
@@ -400,6 +401,7 @@ namespace ouzel
                 default: throw std::runtime_error("Invalid fill mode");
             }
         }
+#endif
 
         OGLRenderDevice::OGLRenderDevice(const std::function<void(const Event&)>& initCallback):
             RenderDevice(Driver::OPENGL, initCallback)
