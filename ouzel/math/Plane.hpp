@@ -71,7 +71,7 @@ namespace ouzel
 
         static inline Plane makeFrustumPlane(float a, float b, float c, float d)
         {
-            float n = std::sqrtf(a * a + b * b + c * c);
+            float n = sqrtf(a * a + b * b + c * c);
             if (n < std::numeric_limits<float>::min()) // too close to zero
                 return Plane();
 

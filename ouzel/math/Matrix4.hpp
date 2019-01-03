@@ -92,8 +92,8 @@ namespace ouzel
         {
             dst.setIdentity();
 
-            float c = std::cosf(angle);
-            float s = std::sinf(angle);
+            float c = cosf(angle);
+            float s = sinf(angle);
 
             dst.m[5] = c;
             dst.m[9] = -s;
@@ -105,8 +105,8 @@ namespace ouzel
         {
             dst.setIdentity();
 
-            float c = std::cosf(angle);
-            float s = std::sinf(angle);
+            float c = cosf(angle);
+            float s = sinf(angle);
 
             dst.m[0] = c;
             dst.m[8] = s;
@@ -118,8 +118,8 @@ namespace ouzel
         {
             dst.setIdentity();
 
-            float c = std::cosf(angle);
-            float s = std::sinf(angle);
+            float c = cosf(angle);
+            float s = sinf(angle);
 
             dst.m[0] = c;
             dst.m[4] = -s;
@@ -383,10 +383,10 @@ namespace ouzel
             float m33 = m[10] / scale.v[2];
 
             Quaternion result;
-            result.v[0] = std::sqrtf(std::max(0.0F, 1 + m11 - m22 - m33)) / 2.0F;
-            result.v[1] = std::sqrtf(std::max(0.0F, 1 - m11 + m22 - m33)) / 2.0F;
-            result.v[2] = std::sqrtf(std::max(0.0F, 1 - m11 - m22 + m33)) / 2.0F;
-            result.v[3] = std::sqrtf(std::max(0.0F, 1 + m11 + m22 + m33)) / 2.0F;
+            result.v[0] = sqrtf(std::max(0.0F, 1 + m11 - m22 - m33)) / 2.0F;
+            result.v[1] = sqrtf(std::max(0.0F, 1 - m11 + m22 - m33)) / 2.0F;
+            result.v[2] = sqrtf(std::max(0.0F, 1 - m11 - m22 + m33)) / 2.0F;
+            result.v[3] = sqrtf(std::max(0.0F, 1 + m11 + m22 + m33)) / 2.0F;
 
             result.v[0] *= sgn(result.v[0] * (m32 - m23));
             result.v[1] *= sgn(result.v[1] * (m13 - m31));

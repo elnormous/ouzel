@@ -4,7 +4,6 @@
 #define OUZEL_MATH_VECTOR4_HPP
 
 #include <cmath>
-#include <cstddef>
 #include "Vector2.hpp"
 #include "Vector3.hpp"
 
@@ -105,7 +104,7 @@ namespace ouzel
             float dy = v1.v[3] * v2.v[1] - v1.v[1] * v2.v[3] - v1.v[2] * v2.v[0] + v1.v[0] * v2.v[2];
             float dz = v1.v[3] * v2.v[2] - v1.v[2] * v2.v[3] - v1.v[0] * v2.v[1] + v1.v[1] * v2.v[0];
 
-            return std::atan2f(std::sqrtf(dx * dx + dy * dy + dz * dz), dot(v1, v2));
+            return atan2f(sqrtf(dx * dx + dy * dy + dz * dz), dot(v1, v2));
         }
 
         void clamp(const Vector4& min, const Vector4& max);
@@ -118,7 +117,7 @@ namespace ouzel
             float dz = vec.v[2] - v[2];
             float dw = vec.v[3] - v[3];
 
-            return std::sqrtf(dx * dx + dy * dy + dz * dz + dw * dw);
+            return sqrtf(dx * dx + dy * dy + dz * dz + dw * dw);
         }
 
         float distanceSquared(const Vector4& vec) const
@@ -143,7 +142,7 @@ namespace ouzel
 
         inline float length() const
         {
-            return std::sqrtf(v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3]);
+            return sqrtf(v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3]);
         }
 
         inline float lengthSquared() const

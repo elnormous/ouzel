@@ -75,7 +75,7 @@ namespace ouzel
         if (n == 1.0F) // already normalized
             return;
 
-        n = std::sqrtf(n);
+        n = sqrtf(n);
         if (n < std::numeric_limits<float>::min()) // too close to zero
             return;
 
@@ -86,8 +86,8 @@ namespace ouzel
 
     void Vector2::rotate(float angle)
     {
-        float sinAngle = std::sinf(angle);
-        float cosAngle = std::cosf(angle);
+        float sinAngle = sinf(angle);
+        float cosAngle = cosf(angle);
 
         float tempX = v[0] * cosAngle - v[1] * sinAngle;
         v[1] = v[1] * cosAngle + v[0] * sinAngle;
@@ -96,8 +96,8 @@ namespace ouzel
 
     void Vector2::rotate(const Vector2& point, float angle)
     {
-        float sinAngle = std::sinf(angle);
-        float cosAngle = std::cosf(angle);
+        float sinAngle = sinf(angle);
+        float cosAngle = cosf(angle);
 
         if (point.isZero())
         {

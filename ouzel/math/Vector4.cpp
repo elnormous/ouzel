@@ -95,7 +95,7 @@ namespace ouzel
         if (n == 1.0F) // already normalized
             return;
 
-        n = std::sqrtf(n);
+        n = sqrtf(n);
         if (n < std::numeric_limits<float>::min()) // too close to zero
             return;
 

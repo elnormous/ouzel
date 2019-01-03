@@ -12,7 +12,7 @@ namespace ouzel
         if (n == 1.0F) // already normalized
             return 1.0F;
 
-        return std::sqrtf(n);
+        return sqrtf(n);
     }
 
     void Quaternion::normalize()
@@ -21,7 +21,7 @@ namespace ouzel
         if (n == 1.0F) // already normalized
             return;
 
-        n = std::sqrtf(n);
+        n = sqrtf(n);
         if (n < std::numeric_limits<float>::min()) // too close to zero
             return;
 
@@ -36,8 +36,8 @@ namespace ouzel
     {
         axis.normalize();
 
-        float cosAngle = std::cosf(angle / 2.0F);
-        float sinAngle = std::sinf(angle / 2.0F);
+        float cosAngle = cosf(angle / 2.0F);
+        float sinAngle = sinf(angle / 2.0F);
 
         v[0] = axis.v[0] * sinAngle;
         v[1] = axis.v[1] * sinAngle;
@@ -47,8 +47,8 @@ namespace ouzel
 
     void Quaternion::getRotation(float& angle, Vector3& axis)
     {
-        angle = 2.0F * std::acosf(v[3]);
-        float s = std::sqrtf(1.0F - v[3] * v[3]);
+        angle = 2.0F * acosf(v[3]);
+        float s = sqrtf(1.0F - v[3] * v[3]);
         if (s < std::numeric_limits<float>::min()) // too close to zero
         {
             axis.v[0] = v[0];
@@ -67,25 +67,25 @@ namespace ouzel
     {
         Vector3 result;
 
-        result.v[0] = std::atan2f(2.0F * (v[1] * v[2] + v[3] * v[0]), v[3] * v[3] - v[0] * v[0] - v[1] * v[1] + v[2] * v[2]);
-        result.v[1] = std::asinf(-2.0F * (v[0] * v[2] - v[3] * v[1]));
-        result.v[2] = std::atan2f(2.0F * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2]);
+        result.v[0] = atan2f(2.0F * (v[1] * v[2] + v[3] * v[0]), v[3] * v[3] - v[0] * v[0] - v[1] * v[1] + v[2] * v[2]);
+        result.v[1] = asinf(-2.0F * (v[0] * v[2] - v[3] * v[1]));
+        result.v[2] = atan2f(2.0F * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2]);
         return result;
     }
 
     float Quaternion::getEulerAngleX() const
     {
-        return std::atan2f(2.0F * (v[1] * v[2] + v[3] * v[0]), v[3] * v[3] - v[0] * v[0] - v[1] * v[1] + v[2] * v[2]);
+        return atan2f(2.0F * (v[1] * v[2] + v[3] * v[0]), v[3] * v[3] - v[0] * v[0] - v[1] * v[1] + v[2] * v[2]);
     }
 
     float Quaternion::getEulerAngleY() const
     {
-        return std::asinf(-2.0F * (v[0] * v[2] - v[3] * v[1]));
+        return asinf(-2.0F * (v[0] * v[2] - v[3] * v[1]));
     }
 
     float Quaternion::getEulerAngleZ() const
     {
-        return std::atan2f(2.0F * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2]);
+        return atan2f(2.0F * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2]);
     }
 
     void Quaternion::setEulerAngles(const Vector3& angles)
@@ -93,16 +93,16 @@ namespace ouzel
         float angle;
 
         angle = angles.v[0] * 0.5F;
-        const float sr = std::sinf(angle);
-        const float cr = std::cosf(angle);
+        const float sr = sinf(angle);
+        const float cr = cosf(angle);
 
         angle = angles.v[1] * 0.5F;
-        const float sp = std::sinf(angle);
-        const float cp = std::cosf(angle);
+        const float sp = sinf(angle);
+        const float cp = cosf(angle);
 
         angle = angles.v[2] * 0.5F;
-        const float sy = std::sinf(angle);
-        const float cy = std::cosf(angle);
+        const float sy = sinf(angle);
+        const float cy = cosf(angle);
 
         const float cpcy = cp * cy;
         const float spcy = sp * cy;
