@@ -69,7 +69,7 @@ namespace ouzel
         assert(zFarPlane != zNearPlane);
 
         float theta = fieldOfView * 0.5F;
-        if (isNearlyEqual(std::fmodf(theta, PI / 2.0F), 0.0F)) // invalid field of view value
+        if (isNearlyEqual(fmodf(theta, PI / 2.0F), 0.0F)) // invalid field of view value
             return;
 
         float divisor = std::tanf(theta);
@@ -126,7 +126,7 @@ namespace ouzel
         if (n != 1.0F)
         {
             // Not normalized
-            n = std::sqrtf(n);
+            n = sqrtf(n);
             // Prevent divide too close to zero
             if (n >= std::numeric_limits<float>::min())
             {
@@ -137,8 +137,8 @@ namespace ouzel
             }
         }
 
-        float c = std::cosf(angle);
-        float s = std::sinf(angle);
+        float c = cosf(angle);
+        float s = sinf(angle);
 
         float t = 1.0F - c;
         float tx = t * x;

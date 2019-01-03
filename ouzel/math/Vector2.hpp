@@ -4,7 +4,6 @@
 #define OUZEL_MATH_VECTOR2_HPP
 
 #include <cmath>
-#include <cstddef>
 
 namespace ouzel
 {
@@ -59,7 +58,7 @@ namespace ouzel
         static float angle(const Vector2& v1, const Vector2& v2)
         {
             float dz = v1.v[0] * v2.v[1] - v1.v[1] * v2.v[0];
-            return std::atan2f(fabsf(dz), dot(v1, v2));
+            return atan2f(fabsf(dz), dot(v1, v2));
         }
 
         void add(const Vector2& vec)
@@ -83,7 +82,7 @@ namespace ouzel
             float dx = vec.v[0] - v[0];
             float dy = vec.v[1] - v[1];
 
-            return std::sqrtf(dx * dx + dy * dy);
+            return sqrtf(dx * dx + dy * dy);
         }
 
         float distanceSquared(const Vector2& vec) const
@@ -105,7 +104,7 @@ namespace ouzel
 
         float length() const
         {
-            return std::sqrtf(v[0] * v[0] + v[1] * v[1]);
+            return sqrtf(v[0] * v[0] + v[1] * v[1]);
         }
 
         float lengthSquared() const
@@ -236,7 +235,7 @@ namespace ouzel
 
         inline float getAngle() const
         {
-            return std::atan2f(v[1], v[0]);
+            return atan2f(v[1], v[0]);
         };
     };
 
