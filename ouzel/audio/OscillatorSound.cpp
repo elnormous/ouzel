@@ -82,7 +82,7 @@ namespace ouzel
                         samples[i] = fmodf(t + 0.5F, 1.0F) * 2.0F - 1.0F;
                         break;
                     case OscillatorSound::Type::TRIANGLE:
-                        samples[i] = std::fabsf(fmodf(t + 0.75F, 1.0F) * 2.0F - 1.0F) * 2.0F - 1.0F;
+                        samples[i] = fabsf(fmodf(t + 0.75F, 1.0F) * 2.0F - 1.0F) * 2.0F - 1.0F;
                         break;
                 }
 
