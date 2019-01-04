@@ -50,6 +50,18 @@ namespace ouzel
             }
         }
 
+        static MTLTextureType getTextureType(Texture::Dimensions dimensions)
+        {
+            switch (dimensions)
+            {
+                case Texture::Dimensions::ONE: return MTLTextureType1D;
+                case Texture::Dimensions::TWO: return MTLTextureType2D;
+                case Texture::Dimensions::THREE: return MTLTextureType3D;
+                case Texture::Dimensions::CUBE: return MTLTextureTypeCube;
+                default: throw std::runtime_error("Invalid texture type");
+            }
+        }
+
         MetalTexture::MetalTexture(MetalRenderDevice& renderDeviceMetal,
                                    const std::vector<Texture::Level>& levels,
                                    uint32_t newFlags,

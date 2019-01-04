@@ -206,6 +206,18 @@ namespace ouzel
             }
         }
 
+        static GLenum getTextureType(Texture::Dimensions dimensions)
+        {
+            switch (dimensions)
+            {
+                case Texture::Dimensions::ONE: return GL_TEXTURE_1D;
+                case Texture::Dimensions::TWO: return GL_TEXTURE_2D;
+                case Texture::Dimensions::THREE: return GL_TEXTURE_3D;
+                case Texture::Dimensions::CUBE: return GL_TEXTURE_CUBE_MAP;
+                default: throw std::runtime_error("Invalid texture type");
+            }
+        }
+
         OGLTexture::OGLTexture(OGLRenderDevice& renderDeviceOGL,
                                const std::vector<Texture::Level>& newLevels,
                                uint32_t newFlags,
