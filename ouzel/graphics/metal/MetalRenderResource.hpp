@@ -23,6 +23,12 @@ namespace ouzel
 
             virtual ~MetalRenderResource() {}
 
+            MetalRenderResource(const MetalRenderResource&) = delete;
+            MetalRenderResource& operator=(const MetalRenderResource&) = delete;
+
+            MetalRenderResource(MetalRenderResource&&) = delete;
+            MetalRenderResource& operator=(MetalRenderResource&&) = delete;
+
         protected:
             MetalRenderDevice& renderDevice;
         };
