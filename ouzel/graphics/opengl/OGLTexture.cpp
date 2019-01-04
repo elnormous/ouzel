@@ -210,7 +210,9 @@ namespace ouzel
         {
             switch (dimensions)
             {
+#if !OUZEL_SUPPORTS_OPENGLES
                 case Texture::Dimensions::ONE: return GL_TEXTURE_1D;
+#endif
                 case Texture::Dimensions::TWO: return GL_TEXTURE_2D;
                 case Texture::Dimensions::THREE: return GL_TEXTURE_3D;
                 case Texture::Dimensions::CUBE: return GL_TEXTURE_CUBE_MAP;

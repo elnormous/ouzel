@@ -22,6 +22,12 @@ namespace ouzel
             }
             virtual ~OGLRenderResource() {}
 
+            OGLRenderResource(const OGLRenderResource&) = delete;
+            OGLRenderResource& operator=(const OGLRenderResource&) = delete;
+
+            OGLRenderResource(OGLRenderResource&&) = delete;
+            OGLRenderResource& operator=(OGLRenderResource&&) = delete;
+
             virtual void reload() = 0;
 
         protected:
