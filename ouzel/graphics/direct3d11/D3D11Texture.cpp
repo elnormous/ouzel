@@ -80,6 +80,18 @@ namespace ouzel
             updateSamplerState();
         }
 
+        static D3D11_SRV_DIMENSION getShaderViewDimension(Texture::Dimensions dimensions)
+        {
+            switch (dimensions)
+            {
+                case Texture::Dimensions::ONE: return D3D11_SRV_DIMENSION_TEXTURE1D;
+                case Texture::Dimensions::TWO: return D3D11_SRV_DIMENSION_TEXTURE2D;
+                case Texture::Dimensions::THREE: return D3D11_SRV_DIMENSION_TEXTURE3D;
+                case Texture::Dimensions::CUBE: return D3D11_SRV_DIMENSION_TEXTURE3D;
+                default: throw std::runtime_error("Invalid texture type");
+            }
+        }
+
         D3D11Texture::~D3D11Texture()
         {
             if (depthStencilTexture)
