@@ -4,6 +4,7 @@
 #define OUZEL_MATH_VECTOR4_HPP
 
 #include <cmath>
+#include <cstddef>
 #include "Vector2.hpp"
 #include "Vector3.hpp"
 

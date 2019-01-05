@@ -3,6 +3,7 @@
 #ifndef OUZEL_MATH_SIZE2_HPP
 #define OUZEL_MATH_SIZE2_HPP
 
+#include <cstddef>
 #include "math/Vector2.hpp"
 
 namespace ouzel

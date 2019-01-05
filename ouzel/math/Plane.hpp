@@ -4,6 +4,7 @@
 #define OUZEL_MATH_PLANE_HPP
 
 #include <cmath>
+#include <cstddef>
 #include "MathUtils.hpp"
 
 namespace ouzel
