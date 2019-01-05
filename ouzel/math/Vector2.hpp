@@ -62,7 +62,7 @@ namespace ouzel
         static float angle(const Vector2& v1, const Vector2& v2)
         {
             float dz = v1.v[0] * v2.v[1] - v1.v[1] * v2.v[0];
-            return atan2f(fabsf(dz), dot(v1, v2));
+            return atan2f(fabsf(dz), v1.dot(v2));
         }
 
         void add(const Vector2& vec)
@@ -99,11 +99,6 @@ namespace ouzel
         T dot(const Vector2& vec) const
         {
             return v[0] * vec.v[0] + v[1] * vec.v[1];
-        }
-
-        static T dot(const Vector2& v1, const Vector2& v2)
-        {
-            return v1.v[0] * v2.v[0] + v1.v[1] * v2.v[1];
         }
 
         float length() const
