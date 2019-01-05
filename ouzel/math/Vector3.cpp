@@ -6,7 +6,6 @@
 #include "Vector2.hpp"
 #include "Vector4.hpp"
 #include "Color.hpp"
-#include "MathUtils.hpp"
 
 namespace ouzel
 {
