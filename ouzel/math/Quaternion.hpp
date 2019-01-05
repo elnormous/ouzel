@@ -5,6 +5,7 @@
 
 #include <cmath>
 #include <cstddef>
+#include <limits>
 #include "math/Vector3.hpp"
 
 namespace ouzel
