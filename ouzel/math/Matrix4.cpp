@@ -21,9 +21,9 @@ namespace ouzel
     }
 
     template<class T>
-    void Matrix4<T>::createLookAt(float eyePositionX, float eyePositionY, float eyePositionZ,
-                                  float targetPositionX, float targetPositionY, float targetPositionZ,
-                                  float upX, float upY, float upZ,
+    void Matrix4<T>::createLookAt(T eyePositionX, T eyePositionY, T eyePositionZ,
+                                  T targetPositionX, T targetPositionY, T targetPositionZ,
+                                  T upX, T upY, T upZ,
                                   Matrix4& dst)
     {
         Vector3<T> eye(eyePositionX, eyePositionY, eyePositionZ);
@@ -65,8 +65,8 @@ namespace ouzel
     }
 
     template<class T>
-    void Matrix4<T>::createPerspective(float fieldOfView, float aspectRatio,
-                                       float zNearPlane, float zFarPlane,
+    void Matrix4<T>::createPerspective(T fieldOfView, T aspectRatio,
+                                       T zNearPlane, T zFarPlane,
                                        Matrix4& dst)
     {
         assert(zFarPlane != zNearPlane);
@@ -90,8 +90,8 @@ namespace ouzel
     }
 
     template<class T>
-    void Matrix4<T>::createOrthographicFromSize(float width, float height,
-                                                float zNearPlane, float zFarPlane,
+    void Matrix4<T>::createOrthographicFromSize(T width, T height,
+                                                T zNearPlane, T zFarPlane,
                                                 Matrix4& dst)
     {
         float halfWidth = width / 2.0F;
@@ -102,8 +102,8 @@ namespace ouzel
     }
 
     template<class T>
-    void Matrix4<T>::createOrthographicOffCenter(float left, float right, float bottom, float top,
-                                                 float zNearPlane, float zFarPlane, Matrix4& dst)
+    void Matrix4<T>::createOrthographicOffCenter(T left, T right, T bottom, T top,
+                                                 T zNearPlane, T zFarPlane, Matrix4& dst)
     {
         assert(right != left);
         assert(top != bottom);
@@ -179,7 +179,7 @@ namespace ouzel
     }
 
     template<class T>
-    void Matrix4<T>::add(float scalar, Matrix4& dst)
+    void Matrix4<T>::add(T scalar, Matrix4& dst)
     {
         if (isSimdAvailable)
         {
@@ -388,7 +388,7 @@ namespace ouzel
     }
 
     template<class T>
-    void Matrix4<T>::multiply(const Matrix4& m, float scalar, Matrix4& dst)
+    void Matrix4<T>::multiply(const Matrix4& m, T scalar, Matrix4& dst)
     {
         if (isSimdAvailable)
         {
@@ -710,10 +710,10 @@ namespace ouzel
     }
 
     template<class T>
-    void Matrix4<T>::set(const float* array)
+    void Matrix4<T>::set(const T* array)
     {
         assert(array);
-        std::copy(array, array + sizeof(m) / sizeof(float), m);
+        std::copy(array, array + sizeof(m) / sizeof(T), m);
     }
 
     template<class T>
@@ -892,7 +892,7 @@ namespace ouzel
         }
         else
         {
-            float t[16] = {
+            T t[16] = {
                 m[0], m[4], m[8], m[12],
                 m[1], m[5], m[9], m[13],
                 m[2], m[6], m[10], m[14],

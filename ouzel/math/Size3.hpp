@@ -20,7 +20,7 @@ namespace ouzel
         {
         }
 
-        Size3(float initWidth, float initHeight, float initDepth):
+        Size3(T initWidth, T initHeight, T initDepth):
             width(initWidth), height(initHeight), depth(initDepth)
         {
         }
@@ -67,12 +67,12 @@ namespace ouzel
             return *this;
         }
 
-        inline const Size3 operator*(float a) const
+        inline const Size3 operator*(T scalar) const
         {
-            return Size3(width * a, height * a, depth * a);
+            return Size3(width * scalar, height * scalar, depth * scalar);
         }
 
-        inline Size3& operator*=(float scalar)
+        inline Size3& operator*=(T scalar)
         {
             width *= scalar;
             height *= scalar;
@@ -80,12 +80,12 @@ namespace ouzel
             return *this;
         }
 
-        inline const Size3 operator/(float a) const
+        inline const Size3 operator/(T scalar) const
         {
-            return Size3(width / a, height / a, depth / a);
+            return Size3(width / scalar, height / scalar, depth / scalar);
         }
 
-        inline Size3& operator/=(float scalar)
+        inline Size3& operator/=(T scalar)
         {
             width /= scalar;
             height /= scalar;
@@ -105,15 +105,15 @@ namespace ouzel
 
         inline bool isZero() const
         {
-            return width == 0.0F && height == 0.0F && depth == 0.0F;
+            return width == 0 && height == 0 && depth == 0;
         }
 
-        inline float volume() const
+        inline T volume() const
         {
             return width * height * depth;
         }
 
-        inline void scale(float scalar)
+        inline void scale(T scalar)
         {
             width *= scalar;
             height *= scalar;

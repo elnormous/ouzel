@@ -7,7 +7,7 @@
 namespace ouzel
 {
     template<class T>
-    float Plane<T>::dot(const Vector4<T>& vec) const
+    T Plane<T>::dot(const Vector4<T>& vec) const
     {
         return v[0] * vec.v[0] + v[1] * vec.v[1] + v[2] * vec.v[2] + v[3];
     }

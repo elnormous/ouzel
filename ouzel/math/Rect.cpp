@@ -9,12 +9,12 @@ namespace ouzel
     template<class T>
     bool Rect<T>::intersect(const Rect& r1, const Rect& r2, Rect& dst)
     {
-        float xmin = std::max(r1.position.v[0], r2.position.v[0]);
-        float xmax = std::min(r1.right(), r2.right());
+        T xmin = std::max(r1.position.v[0], r2.position.v[0]);
+        T xmax = std::min(r1.right(), r2.right());
         if (xmax > xmin)
         {
-            float ymin = std::max(r1.position.v[1], r2.position.v[1]);
-            float ymax = std::min(r1.bottom(), r2.bottom());
+            T ymin = std::max(r1.position.v[1], r2.position.v[1]);
+            T ymax = std::min(r1.bottom(), r2.bottom());
             if (ymax > ymin)
             {
                 dst.set(xmin, ymin, xmax - xmin, ymax - ymin);
