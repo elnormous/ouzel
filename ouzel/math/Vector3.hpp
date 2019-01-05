@@ -187,13 +187,6 @@ namespace ouzel
             v[2] *= scale.v[2];
         }
 
-        void set(T x, T y, T z)
-        {
-            v[0] = x;
-            v[1] = y;
-            v[2] = z;
-        }
-
         void subtract(const Vector3& vec)
         {
             v[0] -= vec.v[0];

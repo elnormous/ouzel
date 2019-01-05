@@ -32,15 +32,42 @@ namespace ouzel
                 T m31, T m32, T m33, T m34,
                 T m41, T m42, T m43, T m44)
         {
-            set(m11, m12, m13, m14,
-                m21, m22, m23, m24,
-                m31, m32, m33, m34,
-                m41, m42, m43, m44);
+            m[0] = m11;
+            m[1] = m21;
+            m[2] = m31;
+            m[3] = m41;
+            m[4] = m12;
+            m[5] = m22;
+            m[6] = m32;
+            m[7] = m42;
+            m[8] = m13;
+            m[9] = m23;
+            m[10] = m33;
+            m[11] = m43;
+            m[12] = m14;
+            m[13] = m24;
+            m[14] = m34;
+            m[15] = m44;
         }
 
         explicit Matrix4(const T* array)
         {
-            set(array);
+            m[0] = array[0];
+            m[1] = array[1];
+            m[2] = array[2];
+            m[3] = array[3];
+            m[4] = array[4];
+            m[5] = array[5];
+            m[6] = array[6];
+            m[7] = array[7];
+            m[8] = array[8];
+            m[9] = array[9];
+            m[10] = array[10];
+            m[11] = array[11];
+            m[12] = array[12];
+            m[13] = array[13];
+            m[14] = array[14];
+            m[15] = array[15];
         }
 
         Matrix4(const Matrix4& copy)
@@ -366,31 +393,6 @@ namespace ouzel
         {
             scale(s.v[0], s.v[1], s.v[2], dst);
         }
-
-        void set(T m11, T m12, T m13, T m14,
-                 T m21, T m22, T m23, T m24,
-                 T m31, T m32, T m33, T m34,
-                 T m41, T m42, T m43, T m44)
-        {
-            m[0] = m11;
-            m[1] = m21;
-            m[2] = m31;
-            m[3] = m41;
-            m[4] = m12;
-            m[5] = m22;
-            m[6] = m32;
-            m[7] = m42;
-            m[8] = m13;
-            m[9] = m23;
-            m[10] = m33;
-            m[11] = m43;
-            m[12] = m14;
-            m[13] = m24;
-            m[14] = m34;
-            m[15] = m44;
-        }
-        
-        void set(const T* array);
 
         inline void setIdentity()
         {

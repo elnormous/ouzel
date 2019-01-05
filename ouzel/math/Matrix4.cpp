@@ -822,13 +822,6 @@ namespace ouzel
     }
 
     template<class T>
-    void Matrix4<T>::set(const T* array)
-    {
-        assert(array);
-        std::copy(array, array + sizeof(m) / sizeof(T), m);
-    }
-
-    template<class T>
     void Matrix4<T>::subtract(const Matrix4& m1, const Matrix4& m2, Matrix4& dst)
     {
         dst.m[0] = m1.m[0] - m2.m[0];

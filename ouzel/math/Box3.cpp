@@ -25,22 +25,46 @@ namespace ouzel
     void Box3<T>::getCorners(Vector3<T>* dst) const
     {
         // Near face, specified counter-clockwise looking towards the origin from the positive v[2]-axis
-        // Left-bottom-front
-        dst[0].set(min.v[0], min.v[1], min.v[2]);
-        // Right-bottom-front
-        dst[1].set(max.v[0], min.v[1], min.v[2]);
-        // Right-top-front
-        dst[2].set(max.v[0], max.v[1], min.v[2]);
-        // Left-top-front
-        dst[3].set(min.v[0], max.v[1], min.v[2]);
-        // Left-bottom-back
-        dst[0].set(min.v[0], min.v[1], max.v[2]);
-        // Right-bottom-back
-        dst[1].set(max.v[0], min.v[1], max.v[2]);
-        // Right-top-back
-        dst[2].set(max.v[0], max.v[1], max.v[2]);
-        // Left-top-back
-        dst[3].set(min.v[0], max.v[1], max.v[2]);
+        
+        // left-bottom-front
+        dst[0].v[0] = min.v[0];
+        dst[0].v[1] = min.v[1];
+        dst[0].v[2] = min.v[2];
+        
+        // right-bottom-front
+        dst[1].v[0] = max.v[0];
+        dst[1].v[1] = min.v[1];
+        dst[1].v[2] = min.v[2];
+
+        // right-top-front
+        dst[2].v[0] = max.v[0];
+        dst[2].v[1] = max.v[1];
+        dst[2].v[2] = min.v[2];
+
+        // left-top-front
+        dst[3].v[0] = min.v[0];
+        dst[3].v[1] = max.v[1];
+        dst[3].v[2] = min.v[2];
+
+        // left-bottom-back
+        dst[4].v[0] = min.v[0];
+        dst[4].v[1] = min.v[1];
+        dst[4].v[2] = max.v[2];
+
+        // right-bottom-back
+        dst[5].v[0] = max.v[0];
+        dst[5].v[1] = min.v[1];
+        dst[5].v[2] = max.v[2];
+
+        // right-top-back
+        dst[6].v[0] = max.v[0];
+        dst[6].v[1] = max.v[1];
+        dst[6].v[2] = max.v[2];
+
+        // left-top-back
+        dst[7].v[0] = min.v[0];
+        dst[7].v[1] = max.v[1];
+        dst[7].v[2] = max.v[2];
     }
 
     template<class T>

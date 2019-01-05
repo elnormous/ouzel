@@ -17,12 +17,15 @@ namespace ouzel
             T ymax = std::min(r1.bottom(), r2.bottom());
             if (ymax > ymin)
             {
-                dst.set(xmin, ymin, xmax - xmin, ymax - ymin);
+                dst.position.v[0] = xmin;
+                dst.position.v[1] = ymin;
+                dst.size.v[0] = xmax - xmin;
+                dst.size.v[1] = ymax - ymin;
                 return true;
             }
         }
 
-        dst.set(0, 0, 0, 0);
+        dst.position.v[0] = dst.position.v[1] = dst.size.v[0] = dst.size.v[1] = 0;
         return false;
     }
 
