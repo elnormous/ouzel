@@ -333,9 +333,7 @@ namespace ouzel
 
     inline const Vector4 operator*(float scalar, const Vector4& vec)
     {
-        Vector4 result(vec);
-        result.scale(scalar);
-        return result;
+        return Vector4(vec.v[0] * scalar, vec.v[1] * scalar, vec.v[2] * scalar, vec.v[3] * scalar);
     }
 }
 
