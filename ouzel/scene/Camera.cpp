@@ -14,7 +14,7 @@ namespace ouzel
 {
     namespace scene
     {
-        Camera::Camera(Matrix4 initProjection):
+        Camera::Camera(const Matrix4& initProjection):
             Component(CLASS),
             projectionMode(ProjectionMode::CUSTOM), projection(initProjection)
 
