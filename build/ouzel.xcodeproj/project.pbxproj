@@ -907,9 +907,6 @@
 		30EF36661CA845DC00F04F29 /* ComboBox.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30EF36621CA845DC00F04F29 /* ComboBox.hpp */; };
 		30EF36671CA845DC00F04F29 /* ComboBox.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30EF36621CA845DC00F04F29 /* ComboBox.hpp */; };
 		30EF36681CA845DC00F04F29 /* ComboBox.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30EF36621CA845DC00F04F29 /* ComboBox.hpp */; };
-		30FE384E1DFDE49E00305B3B /* Quaternion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30FE384C1DFDE49E00305B3B /* Quaternion.cpp */; };
-		30FE384F1DFDE49E00305B3B /* Quaternion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30FE384C1DFDE49E00305B3B /* Quaternion.cpp */; };
-		30FE38501DFDE49E00305B3B /* Quaternion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30FE384C1DFDE49E00305B3B /* Quaternion.cpp */; };
 		30FE38511DFDE49E00305B3B /* Quaternion.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30FE384D1DFDE49E00305B3B /* Quaternion.hpp */; };
 		30FE38521DFDE49E00305B3B /* Quaternion.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30FE384D1DFDE49E00305B3B /* Quaternion.hpp */; };
 		30FE38531DFDE49E00305B3B /* Quaternion.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30FE384D1DFDE49E00305B3B /* Quaternion.hpp */; };
@@ -1357,7 +1354,6 @@
 		30EF36611CA845DC00F04F29 /* ComboBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ComboBox.cpp; sourceTree = "<group>"; };
 		30EF36621CA845DC00F04F29 /* ComboBox.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ComboBox.hpp; sourceTree = "<group>"; };
 		30F249ED20A7681E0007D417 /* Commands.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Commands.hpp; sourceTree = "<group>"; };
-		30FE384C1DFDE49E00305B3B /* Quaternion.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Quaternion.cpp; sourceTree = "<group>"; };
 		30FE384D1DFDE49E00305B3B /* Quaternion.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Quaternion.hpp; sourceTree = "<group>"; };
 		30FF4D2D21C33B4900153FFF /* Containers.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Containers.cpp; sourceTree = "<group>"; };
 		30FF4D2E21C33B4900153FFF /* Containers.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Containers.hpp; sourceTree = "<group>"; };
@@ -1563,7 +1559,6 @@
 				304A8E341C237C70008B1151 /* Matrix4.cpp */,
 				304A8E351C237C70008B1151 /* Matrix4.hpp */,
 				30216B7F1ED5C3900073E3D5 /* Plane.hpp */,
-				30FE384C1DFDE49E00305B3B /* Quaternion.cpp */,
 				30FE384D1DFDE49E00305B3B /* Quaternion.hpp */,
 				304A8E3C1C237C70008B1151 /* Rect.hpp */,
 				304A8E981C26F5CF008B1151 /* Size2.cpp */,
@@ -2796,7 +2791,6 @@
 				30216B731ED464730073E3D5 /* Material.cpp in Sources */,
 				30EEADBB21618DAF00D2F525 /* GamepadDevice.cpp in Sources */,
 				303B755D1C2A3CB700FEDE92 /* Vertex.cpp in Sources */,
-				30FE384E1DFDE49E00305B3B /* Quaternion.cpp in Sources */,
 				3038200C1D80A40700677CAB /* MetalShader.mm in Sources */,
 				300902FE219224B100B00BF4 /* DepthStencilState.cpp in Sources */,
 				30A381F521B201C20043568A /* Bus.cpp in Sources */,
@@ -2963,7 +2957,6 @@
 				3038200E1D80A40700677CAB /* MetalShader.mm in Sources */,
 				301EB3A41CCD691800466E92 /* Component.cpp in Sources */,
 				30216B751ED464730073E3D5 /* Material.cpp in Sources */,
-				30FE38501DFDE49E00305B3B /* Quaternion.cpp in Sources */,
 				301EB3AC1CCD77F600466E92 /* TextRenderer.cpp in Sources */,
 				3072370C1FAFDAB8002EA399 /* JSON.cpp in Sources */,
 				3009342E1C88978D00CC50D3 /* NativeWindowTVOS.mm in Sources */,
@@ -3146,7 +3139,6 @@
 				3038200D1D80A40700677CAB /* MetalShader.mm in Sources */,
 				30216B741ED464730073E3D5 /* Material.cpp in Sources */,
 				30AEFA2D20C0FD6000CDFD33 /* OGLRenderTarget.cpp in Sources */,
-				30FE384F1DFDE49E00305B3B /* Quaternion.cpp in Sources */,
 				30547E781CB47E050055EE79 /* Shake.cpp in Sources */,
 				3098A5581EA01C8A00528A54 /* GamepadDeviceIOKit.cpp in Sources */,
 				3072370B1FAFDAB8002EA399 /* JSON.cpp in Sources */,

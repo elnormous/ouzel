@@ -193,9 +193,6 @@
     <ClCompile Include="..\ouzel\scene\ParticleSystemData.cpp">
       <Filter>ouzel\scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\math\Quaternion.cpp">
-      <Filter>ouzel\math</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\gui\RadioButton.cpp">
       <Filter>ouzel\gui</Filter>
     </ClCompile>

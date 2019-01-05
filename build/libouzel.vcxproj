@@ -155,7 +155,6 @@
     <ClCompile Include="..\ouzel\math\Color.cpp" />
     <ClCompile Include="..\ouzel\math\MathUtils.cpp" />
     <ClCompile Include="..\ouzel\math\Matrix4.cpp" />
-    <ClCompile Include="..\ouzel\math\Quaternion.cpp" />
     <ClCompile Include="..\ouzel\math\Size2.cpp" />
     <ClCompile Include="..\ouzel\math\Size3.cpp" />
     <ClCompile Include="..\ouzel\math\Vector2.cpp" />
