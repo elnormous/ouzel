@@ -160,14 +160,6 @@ namespace ouzel
 
         void normalize();
 
-        void scale(T scalar)
-        {
-            v[0] *= scalar;
-            v[1] *= scalar;
-            v[2] *= scalar;
-            v[3] *= scalar;
-        }
-
         void scale(const Vector4& scale)
         {
             v[0] *= scale.v[0];
@@ -272,13 +264,16 @@ namespace ouzel
         inline const Vector4 operator*(T scalar) const
         {
             Vector4 result(*this);
-            result.scale(scalar);
+            result *= scalar;
             return result;
         }
 
         inline Vector4& operator*=(T scalar)
         {
-            scale(scalar);
+            v[0] *= scalar;
+            v[1] *= scalar;
+            v[2] *= scalar;
+            v[3] *= scalar;
             return *this;
         }
 

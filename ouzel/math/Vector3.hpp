@@ -90,13 +90,6 @@ namespace ouzel
             return atan2f(sqrtf(dx * dx + dy * dy + dz * dz), dot(axis));
         }
 
-        void add(const Vector3& vec)
-        {
-            v[0] += vec.v[0];
-            v[1] += vec.v[1];
-            v[2] += vec.v[2];
-        }
-
         void clamp(const Vector3& min, const Vector3& max);
 
         void cross(const Vector3& vec)
@@ -160,25 +153,11 @@ namespace ouzel
 
         void normalize();
 
-        void scale(T scalar)
-        {
-            v[0] *= scalar;
-            v[1] *= scalar;
-            v[2] *= scalar;
-        }
-
         void scale(const Vector3& scale)
         {
             v[0] *= scale.v[0];
             v[1] *= scale.v[1];
             v[2] *= scale.v[2];
-        }
-
-        void subtract(const Vector3& vec)
-        {
-            v[0] -= vec.v[0];
-            v[1] -= vec.v[1];
-            v[2] -= vec.v[2];
         }
 
         void smooth(const Vector3& target, T elapsedTime, T responseTime)
