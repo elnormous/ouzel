@@ -64,12 +64,6 @@ namespace ouzel
             return atan2f(v[1], v[0]);
         };
 
-        void add(const Vector2& vec)
-        {
-            v[0] += vec.v[0];
-            v[1] += vec.v[1];
-        }
-
         void clamp(const Vector2& min, const Vector2& max);
 
         float distance(const Vector2& vec) const
@@ -110,12 +104,6 @@ namespace ouzel
 
         void normalize();
 
-        void scale(T scalar)
-        {
-            v[0] *= scalar;
-            v[1] *= scalar;
-        }
-
         void scale(const Vector2& scale)
         {
             v[0] *= scale.v[0];
@@ -124,12 +112,6 @@ namespace ouzel
 
         void rotate(float angle);
         void rotate(const Vector2& point, float angle);
-
-        void subtract(const Vector2& vec)
-        {
-            v[0] -= vec.v[0];
-            v[1] -= vec.v[1];
-        }
 
         void smooth(const Vector2& target, float elapsedTime, float responseTime)
         {
