@@ -23,17 +23,17 @@ namespace ouzel
         {
         }
 
-        Vector4(float x, float y):
-            v{x, y, 0.0F, 0.0F}
+        Vector4(T x, T y):
+            v{x, y, 0, 0}
         {
         }
 
-        Vector4(float x, float y, float z):
-            v{x, y, z, 0.0F}
+        Vector4(T x, T y, T z):
+            v{x, y, z, 0}
         {
         }
 
-        Vector4(float x, float y, float z, float w):
+        Vector4(T x, T y, T z, T w):
             v{x, y, z, w}
         {
         }
@@ -95,7 +95,7 @@ namespace ouzel
 
         bool isZero() const
         {
-            return v[0] == 0.0F && v[1] == 0.0F && v[2] == 0.0F && v[3] == 0.0F;
+            return v[0] == 0 && v[1] == 0 && v[2] == 0 && v[3] == 0;
         }
 
         static float angle(const Vector4& v1, const Vector4& v2)
@@ -130,12 +130,12 @@ namespace ouzel
             return dx * dx + dy * dy + dz * dz + dw * dw;
         }
 
-        float dot(const Vector4& vec) const
+        T dot(const Vector4& vec) const
         {
             return v[0] * vec.v[0] + v[1] * vec.v[1] + v[2] * vec.v[2] + v[3] * vec.v[3];
         }
 
-        static float dot(const Vector4& v1, const Vector4& v2)
+        static T dot(const Vector4& v1, const Vector4& v2)
         {
             return v1.v[0] * v2.v[0] + v1.v[1] * v2.v[1] + v1.v[2] * v2.v[2] + v1.v[3] * v2.v[3];
         }
@@ -160,7 +160,7 @@ namespace ouzel
 
         void normalize();
 
-        void scale(float scalar)
+        void scale(T scalar)
         {
             v[0] *= scalar;
             v[1] *= scalar;
@@ -176,12 +176,12 @@ namespace ouzel
             v[3] *= scale.v[3];
         }
 
-        void set(float newX, float newY, float newZ, float newW)
+        void set(T x, T y, T z, T w)
         {
-            v[0] = newX;
-            v[1] = newY;
-            v[2] = newZ;
-            v[3] = newW;
+            v[0] = x;
+            v[1] = y;
+            v[2] = z;
+            v[3] = w;
         }
 
         void smooth(const Vector4& target, float elapsedTime, float responseTime)
@@ -190,9 +190,9 @@ namespace ouzel
                 *this += (target - *this) * (elapsedTime / (elapsedTime + responseTime));
         }
 
-        float getMin() const;
+        T getMin() const;
 
-        float getMax() const;
+        T getMax() const;
 
         inline const Vector4 operator+(const Vector2<T>& vec) const
         {
@@ -277,25 +277,25 @@ namespace ouzel
             return Vector4(-v[0], -v[1], -v[2], -v[3]);
         }
 
-        inline const Vector4 operator*(float scalar) const
+        inline const Vector4 operator*(T scalar) const
         {
             Vector4 result(*this);
             result.scale(scalar);
             return result;
         }
 
-        inline Vector4& operator*=(float scalar)
+        inline Vector4& operator*=(T scalar)
         {
             scale(scalar);
             return *this;
         }
 
-        inline const Vector4 operator/(float scalar) const
+        inline const Vector4 operator/(T scalar) const
         {
             return Vector4(v[0] / scalar, v[1] / scalar, v[2] / scalar, v[3] / scalar);
         }
 
-        inline Vector4& operator/=(float scalar)
+        inline Vector4& operator/=(T scalar)
         {
             v[0] /= scalar;
             v[1] /= scalar;

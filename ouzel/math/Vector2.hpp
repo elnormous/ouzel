@@ -52,7 +52,7 @@ namespace ouzel
 
         inline bool isZero() const
         {
-            return v[0] == 0.0F && v[1] == 0.0F;
+            return v[0] == 0 && v[1] == 0;
         }
 
         static float angle(const Vector2& v1, const Vector2& v2)
@@ -92,12 +92,12 @@ namespace ouzel
             return dx * dx + dy * dy;
         }
 
-        float dot(const Vector2& vec) const
+        T dot(const Vector2& vec) const
         {
             return v[0] * vec.v[0] + v[1] * vec.v[1];
         }
 
-        static float dot(const Vector2& v1, const Vector2& v2)
+        static T dot(const Vector2& v1, const Vector2& v2)
         {
             return v1.v[0] * v2.v[0] + v1.v[1] * v2.v[1];
         }
@@ -120,7 +120,7 @@ namespace ouzel
 
         void normalize();
 
-        void scale(float scalar)
+        void scale(T scalar)
         {
             v[0] *= scalar;
             v[1] *= scalar;
@@ -135,10 +135,10 @@ namespace ouzel
         void rotate(float angle);
         void rotate(const Vector2& point, float angle);
 
-        void set(float newX, float newY)
+        void set(T x, T y)
         {
-            v[0] = newX;
-            v[1] = newY;
+            v[0] = x;
+            v[1] = y;
         }
 
         void subtract(const Vector2& vec)
@@ -159,8 +159,8 @@ namespace ouzel
                 *this += (target - *this) * (elapsedTime / (elapsedTime + responseTime));
         }
 
-        float getMin() const;
-        float getMax() const;
+        T getMin() const;
+        T getMax() const;
 
         inline const Vector2 operator+(const Vector2& vec) const
         {
@@ -191,24 +191,24 @@ namespace ouzel
             return Vector2(-v[0], -v[1]);
         }
 
-        inline const Vector2 operator*(float scalar) const
+        inline const Vector2 operator*(T scalar) const
         {
             return Vector2(v[0] * scalar, v[1] * scalar);
         }
 
-        inline Vector2& operator*=(float scalar)
+        inline Vector2& operator*=(T scalar)
         {
             v[0] *= scalar;
             v[1] *= scalar;
             return *this;
         }
 
-        inline const Vector2 operator/(float scalar) const
+        inline const Vector2 operator/(T scalar) const
         {
             return Vector2(v[0] / scalar, v[1] / scalar);
         }
 
-        inline Vector2& operator/=(float scalar)
+        inline Vector2& operator/=(T scalar)
         {
             v[0] /= scalar;
             v[1] /= scalar;

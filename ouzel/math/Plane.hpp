@@ -19,7 +19,7 @@ namespace ouzel
         {
         }
 
-        Plane(float a, float b, float c, float d):
+        Plane(T a, T b, T c, T d):
             v{a, b, c, d}
         {
         }
@@ -38,15 +38,15 @@ namespace ouzel
             return *this;
         }
 
-        inline float& a() { return v[0]; }
-        inline float& b() { return v[1]; }
-        inline float& c() { return v[2]; }
-        inline float& d() { return v[3]; }
+        inline T& a() { return v[0]; }
+        inline T& b() { return v[1]; }
+        inline T& c() { return v[2]; }
+        inline T& d() { return v[3]; }
 
-        inline float a() const { return v[0]; }
-        inline float b() const { return v[1]; }
-        inline float c() const { return v[2]; }
-        inline float d() const { return v[3]; }
+        inline T a() const { return v[0]; }
+        inline T b() const { return v[1]; }
+        inline T c() const { return v[2]; }
+        inline T d() const { return v[3]; }
 
         void flip()
         {
@@ -56,7 +56,7 @@ namespace ouzel
             v[3] = -v[3];
         }
 
-        float dot(const Vector4<T>& vec) const;
+        T dot(const Vector4<T>& vec) const;
         void normalize();
 
         inline bool operator==(const Plane& plane) const

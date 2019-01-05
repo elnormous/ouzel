@@ -17,7 +17,7 @@ namespace ouzel
         {
         }
 
-        Quaternion(float x, float y, float z, float w):
+        Quaternion(T x, T y, T z, T w):
             v{x, y, z, w}
         {
         }
@@ -27,19 +27,19 @@ namespace ouzel
         {
         }
 
-        inline float& x() { return v[0]; }
-        inline float& y() { return v[1]; }
-        inline float& z() { return v[2]; }
-        inline float& w() { return v[3]; }
+        inline T& x() { return v[0]; }
+        inline T& y() { return v[1]; }
+        inline T& z() { return v[2]; }
+        inline T& w() { return v[3]; }
 
-        inline float x() const { return v[0]; }
-        inline float y() const { return v[1]; }
-        inline float z() const { return v[2]; }
-        inline float w() const { return v[3]; }
+        inline T x() const { return v[0]; }
+        inline T y() const { return v[1]; }
+        inline T z() const { return v[2]; }
+        inline T w() const { return v[3]; }
 
         static inline Quaternion identity()
         {
-            return Quaternion(0.0F, 0.0F, 0.0F, 1.0F);
+            return Quaternion(0, 0, 0, 1);
         }
 
         inline const Quaternion operator*(const Quaternion& q) const
@@ -52,10 +52,10 @@ namespace ouzel
 
         inline Quaternion& operator*=(const Quaternion& q)
         {
-            float tempX = v[0] * q.v[3] + v[1] * q.v[2] - v[2] * q.v[1] + v[3] * q.v[0];
-            float tempY = -v[0] * q.v[2] + v[1] * q.v[3] + v[2] * q.v[0] + v[3] * q.v[1];
-            float tempZ = v[0] * q.v[1] - v[1] * q.v[0] + v[2] * q.v[3] + v[3] * q.v[2];
-            float tempW = -v[0] * q.v[0] - v[1] * q.v[1] - v[2] * q.v[2] + v[3] * q.v[3];
+            T tempX = v[0] * q.v[3] + v[1] * q.v[2] - v[2] * q.v[1] + v[3] * q.v[0];
+            T tempY = -v[0] * q.v[2] + v[1] * q.v[3] + v[2] * q.v[0] + v[3] * q.v[1];
+            T tempZ = v[0] * q.v[1] - v[1] * q.v[0] + v[2] * q.v[3] + v[3] * q.v[2];
+            T tempW = -v[0] * q.v[0] - v[1] * q.v[1] - v[2] * q.v[2] + v[3] * q.v[3];
 
             v[0] = tempX;
             v[1] = tempY;
@@ -65,7 +65,7 @@ namespace ouzel
             return *this;
         }
 
-        inline const Quaternion operator*(float scalar) const
+        inline const Quaternion operator*(T scalar) const
         {
             return Quaternion(v[0] * scalar,
                               v[1] * scalar,
@@ -73,7 +73,7 @@ namespace ouzel
                               v[3] * scalar);
         }
 
-        inline Quaternion& operator*=(float scalar)
+        inline Quaternion& operator*=(T scalar)
         {
             v[0] *= scalar;
             v[1] *= scalar;
@@ -83,7 +83,7 @@ namespace ouzel
             return *this;
         }
 
-        inline const Quaternion operator/(float scalar) const
+        inline const Quaternion operator/(T scalar) const
         {
             return Quaternion(v[0] / scalar,
                               v[1] / scalar,
@@ -91,7 +91,7 @@ namespace ouzel
                               v[3] / scalar);
         }
 
-        inline Quaternion& operator/=(float scalar)
+        inline Quaternion& operator/=(T scalar)
         {
             v[0] /= scalar;
             v[1] /= scalar;
@@ -175,7 +175,7 @@ namespace ouzel
 
         inline void invert()
         {
-            float n2 = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3]; // norm squared
+            T n2 = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3]; // norm squared
 
             if (n2 == 0.0F) return;
 

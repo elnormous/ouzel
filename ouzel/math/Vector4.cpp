@@ -113,13 +113,13 @@ namespace ouzel
     }
 
     template<class T>
-    float Vector4<T>::getMin() const
+    T Vector4<T>::getMin() const
     {
         return std::min(v[0], std::min(v[1], std::min(v[2], v[3])));
     }
 
     template<class T>
-    float Vector4<T>::getMax() const
+    T Vector4<T>::getMax() const
     {
         return std::max(v[0], std::max(v[1], std::max(v[2], v[3])));
     }

@@ -16,9 +16,9 @@ namespace ouzel
     {
         width = s.width;
         height = s.height;
-        depth = 0.0F;
+        depth = 0;
         return *this;
     }
-    
+
     template class Size3<float>;
 }

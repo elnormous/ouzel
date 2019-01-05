@@ -19,7 +19,7 @@ namespace ouzel
         {
         }
 
-        Size2(float initWidth, float initHeight):
+        Size2(T initWidth, T initHeight):
             width(initWidth), height(initHeight)
         {
         }
@@ -63,24 +63,24 @@ namespace ouzel
             return *this;
         }
 
-        inline const Size2 operator*(float a) const
+        inline const Size2 operator*(T scalar) const
         {
-            return Size2(width * a, height * a);
+            return Size2(width * scalar, height * scalar);
         }
 
-        inline Size2& operator*=(float scalar)
+        inline Size2& operator*=(T scalar)
         {
             width *= scalar;
             height *= scalar;
             return *this;
         }
 
-        inline const Size2 operator/(float a) const
+        inline const Size2 operator/(T scalar) const
         {
-            return Size2(width / a, height / a);
+            return Size2(width / scalar, height / scalar);
         }
 
-        inline Size2& operator/=(float scalar)
+        inline Size2& operator/=(T scalar)
         {
             width /= scalar;
             height /= scalar;
@@ -99,15 +99,15 @@ namespace ouzel
 
         inline bool isZero() const
         {
-            return width == 0.0F && height == 0.0F;
+            return width == 0 && height == 0;
         }
 
-        inline float area() const
+        inline T area() const
         {
             return width * height;
         }
 
-        inline void scale(float scalar)
+        inline void scale(T scalar)
         {
             width *= scalar;
             height *= scalar;
