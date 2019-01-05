@@ -104,17 +104,16 @@ namespace ouzel
             return v[0] == 0 && v[1] == 0 && v[2] == 0 && v[3] == 0;
         }
 
-        static float angle(const Vector4& v1, const Vector4& v2)
+        float getAngle(const Vector4& axis) const
         {
-            float dx = v1.v[3] * v2.v[0] - v1.v[0] * v2.v[3] - v1.v[1] * v2.v[2] + v1.v[2] * v2.v[1];
-            float dy = v1.v[3] * v2.v[1] - v1.v[1] * v2.v[3] - v1.v[2] * v2.v[0] + v1.v[0] * v2.v[2];
-            float dz = v1.v[3] * v2.v[2] - v1.v[2] * v2.v[3] - v1.v[0] * v2.v[1] + v1.v[1] * v2.v[0];
+            float dx = v[3] * axis.v[0] - v[0] * axis.v[3] - v[1] * axis.v[2] + v[2] * axis.v[1];
+            float dy = v[3] * axis.v[1] - v[1] * axis.v[3] - v[2] * axis.v[0] + v[0] * axis.v[2];
+            float dz = v[3] * axis.v[2] - v[2] * axis.v[3] - v[0] * axis.v[1] + v[1] * axis.v[0];
 
-            return atan2f(sqrtf(dx * dx + dy * dy + dz * dz), v1.dot(v2));
+            return atan2f(sqrtf(dx * dx + dy * dy + dz * dz), dot(axis));
         }
 
         void clamp(const Vector4& min, const Vector4& max);
-        static void clamp(const Vector4& vec, const Vector4& min, const Vector4& max, Vector4& dst);
 
         float distance(const Vector4& vec) const
         {

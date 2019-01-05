@@ -55,27 +55,6 @@ namespace ouzel
     }
 
     template<class T>
-    void Vector2<T>::clamp(const Vector2& vec, const Vector2& min,
-                           const Vector2& max, Vector2& dst)
-    {
-        assert(!(min.v[0] > max.v[0] || min.v[1] > max.v[1]));
-
-        // clamp the v[0] value
-        dst.v[0] = vec.v[0];
-        if (dst.v[0] < min.v[0])
-            dst.v[0] = min.v[0];
-        if (dst.v[0] > max.v[0])
-            dst.v[0] = max.v[0];
-
-        // clamp the v[1] value
-        dst.v[1] = vec.v[1];
-        if (dst.v[1] < min.v[1])
-            dst.v[1] = min.v[1];
-        if (dst.v[1] > max.v[1])
-            dst.v[1] = max.v[1];
-    }
-
-    template<class T>
     void Vector2<T>::normalize()
     {
         float n = v[0] * v[0] + v[1] * v[1];
