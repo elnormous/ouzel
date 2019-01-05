@@ -3,6 +3,8 @@
 #ifndef OUZEL_MATH_VECTOR2_HPP
 #define OUZEL_MATH_VECTOR2_HPP
 
+#include <algorithm>
+#include <cassert>
 #include <cmath>
 #include <cstddef>
 
@@ -64,7 +66,22 @@ namespace ouzel
             return atan2f(v[1], v[0]);
         };
 
-        void clamp(const Vector2& min, const Vector2& max);
+        void clamp(const Vector2& min, const Vector2& max)
+        {
+            assert(!(min.v[0] > max.v[0] || min.v[1] > max.v[1]));
+
+            // clamp the v[0] value
+            if (v[0] < min.v[0])
+                v[0] = min.v[0];
+            if (v[0] > max.v[0])
+                v[0] = max.v[0];
+
+            // clamp the v[1] value
+            if (v[1] < min.v[1])
+                v[1] = min.v[1];
+            if (v[1] > max.v[1])
+                v[1] = max.v[1];
+        }
 
         float distance(const Vector2& vec) const
         {
@@ -102,7 +119,20 @@ namespace ouzel
             v[1] = -v[1];
         }
 
-        void normalize();
+        void normalize()
+        {
+            float n = v[0] * v[0] + v[1] * v[1];
+            if (n == 1.0F) // already normalized
+                return;
+
+            n = sqrtf(n);
+            if (n < std::numeric_limits<float>::min()) // too close to zero
+                return;
+
+            n = 1.0F / n;
+            v[0] *= n;
+            v[1] *= n;
+        }
 
         void scale(const Vector2& scale)
         {
@@ -110,8 +140,36 @@ namespace ouzel
             v[1] *= scale.v[1];
         }
 
-        void rotate(float angle);
-        void rotate(const Vector2& point, float angle);
+        void rotate(float angle)
+        {
+            float sinAngle = sinf(angle);
+            float cosAngle = cosf(angle);
+
+            float tempX = v[0] * cosAngle - v[1] * sinAngle;
+            v[1] = v[1] * cosAngle + v[0] * sinAngle;
+            v[0] = tempX;
+        }
+
+        void rotate(const Vector2& point, float angle)
+        {
+            float sinAngle = sinf(angle);
+            float cosAngle = cosf(angle);
+
+            if (point.isZero())
+            {
+                float tempX = v[0] * cosAngle - v[1] * sinAngle;
+                v[1] = v[1] * cosAngle + v[0] * sinAngle;
+                v[0] = tempX;
+            }
+            else
+            {
+                float tempX = v[0] - point.v[0];
+                float tempY = v[1] - point.v[1];
+
+                v[0] = tempX * cosAngle - tempY * sinAngle + point.v[0];
+                v[1] = tempY * cosAngle + tempX * sinAngle + point.v[1];
+            }
+        }
 
         void smooth(const Vector2& target, float elapsedTime, float responseTime)
         {
@@ -119,8 +177,15 @@ namespace ouzel
                 *this += (target - *this) * (elapsedTime / (elapsedTime + responseTime));
         }
 
-        T getMin() const;
-        T getMax() const;
+        T getMin() const
+        {
+            return std::min(v[0], v[1]);
+        }
+
+        T getMax() const
+        {
+            return std::max(v[0], v[1]);
+        }
 
         inline const Vector2 operator+(const Vector2& vec) const
         {

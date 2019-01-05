@@ -3,6 +3,8 @@
 #ifndef OUZEL_MATH_VECTOR3_HPP
 #define OUZEL_MATH_VECTOR3_HPP
 
+#include <algorithm>
+#include <cassert>
 #include <cmath>
 #include <cstddef>
 #include "Vector2.hpp"
@@ -90,7 +92,28 @@ namespace ouzel
             return atan2f(sqrtf(dx * dx + dy * dy + dz * dz), dot(axis));
         }
 
-        void clamp(const Vector3& min, const Vector3& max);
+        void clamp(const Vector3& min, const Vector3& max)
+        {
+            assert(!(min.v[0] > max.v[0] || min.v[1] > max.v[1] || min.v[2] > max.v[2]));
+
+            // clamp the v[0] value
+            if (v[0] < min.v[0])
+                v[0] = min.v[0];
+            if (v[0] > max.v[0])
+                v[0] = max.v[0];
+
+            // clamp the v[1] value
+            if (v[1] < min.v[1])
+                v[1] = min.v[1];
+            if (v[1] > max.v[1])
+                v[1] = max.v[1];
+
+            // clamp the v[2] value
+            if (v[2] < min.v[2])
+                v[2] = min.v[2];
+            if (v[2] > max.v[2])
+                v[2] = max.v[2];
+        }
 
         Vector3 cross(const Vector3& vec) const
         {
@@ -139,7 +162,21 @@ namespace ouzel
             v[2] = -v[2];
         }
 
-        void normalize();
+        void normalize()
+        {
+            float n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2];
+            if (n == 1.0F) // already normalized
+                return;
+
+            n = sqrtf(n);
+            if (n < std::numeric_limits<float>::min()) // too close to zero
+                return;
+
+            n = 1.0F / n;
+            v[0] *= n;
+            v[1] *= n;
+            v[2] *= n;
+        }
 
         void scale(const Vector3& scale)
         {
@@ -154,9 +191,15 @@ namespace ouzel
                 *this += (target - *this) * (elapsedTime / (elapsedTime + responseTime));
         }
 
-        T getMin() const;
+        T getMin() const
+        {
+            return std::min(v[0], std::min(v[1], v[2]));
+        }
 
-        T getMax() const;
+        T getMax() const
+        {
+            return std::max(v[0], std::max(v[1], v[2]));
+        }
 
         inline const Vector3 operator+(const Vector2<T>& vec) const
         {
