@@ -31,8 +31,8 @@ namespace ouzel
         Vector3<T> up(upX, upY, upZ);
         up.normalize();
 
-        Vector3<T> zaxis;
-        Vector3<T>::subtract(target, eye, zaxis);
+        Vector3<T> zaxis = target;
+        target.subtract(eye);
         zaxis.normalize();
 
         Vector3<T> xaxis;
