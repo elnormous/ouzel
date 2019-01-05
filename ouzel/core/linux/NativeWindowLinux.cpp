@@ -42,13 +42,13 @@ namespace ouzel
         Screen* screen = XDefaultScreenOfDisplay(display);
         int screenIndex = XScreenNumberOfScreen(screen);
 
-        if (size.width <= 0.0F) size.width = static_cast<float>(XWidthOfScreen(screen)) * 0.8F;
-        if (size.height <= 0.0F) size.height = static_cast<float>(XHeightOfScreen(screen)) * 0.8F;
+        if (size.v[0] <= 0.0F) size.v[0] = static_cast<float>(XWidthOfScreen(screen)) * 0.8F;
+        if (size.v[1] <= 0.0F) size.v[1] = static_cast<float>(XHeightOfScreen(screen)) * 0.8F;
 
         resolution = size;
 
-        int x = XWidthOfScreen(screen) / 2 - static_cast<int>(size.width / 2.0f);
-        int y = XHeightOfScreen(screen) / 2 - static_cast<int>(size.height / 2.0f);
+        int x = XWidthOfScreen(screen) / 2 - static_cast<int>(size.v[0] / 2.0f);
+        int y = XHeightOfScreen(screen) / 2 - static_cast<int>(size.v[1] / 2.0f);
 
         switch (graphicsDriver)
         {
@@ -60,7 +60,7 @@ namespace ouzel
                 swa.event_mask = FocusChangeMask | KeyPressMask | KeyRelease | ExposureMask | ButtonPressMask | ButtonReleaseMask | PointerMotionMask | StructureNotifyMask;
 
                 window = XCreateWindow(display, RootWindow(display, screenIndex), x, y,
-                                       static_cast<unsigned int>(size.width), static_cast<unsigned int>(size.height),
+                                       static_cast<unsigned int>(size.v[0]), static_cast<unsigned int>(size.v[1]),
                                        0, DefaultDepth(display, screenIndex), InputOutput, DefaultVisual(display, screenIndex),
                                        CWBorderPixel | CWBackPixel | CWEventMask, &swa);
 
@@ -95,7 +95,7 @@ namespace ouzel
                 swa.event_mask = FocusChangeMask | KeyPressMask | KeyRelease | ExposureMask | ButtonPressMask | ButtonReleaseMask | PointerMotionMask | StructureNotifyMask;
 
                 window = XCreateWindow(display, RootWindow(display, visualInfo->screen), x, y,
-                                       static_cast<unsigned int>(size.width), static_cast<unsigned int>(size.height),
+                                       static_cast<unsigned int>(size.v[0]), static_cast<unsigned int>(size.v[1]),
                                        0, visualInfo->depth, InputOutput, visualInfo->visual,
                                        CWBorderPixel | CWColormap | CWEventMask, &swa);
                 break;
@@ -113,10 +113,10 @@ namespace ouzel
             sizeHints.flags = PPosition | PMinSize | PMaxSize;
             sizeHints.x = x;
             sizeHints.y = y;
-            sizeHints.min_width = static_cast<int>(size.width);
-            sizeHints.max_width = static_cast<int>(size.width);
-            sizeHints.min_height = static_cast<int>(size.height);
-            sizeHints.max_height = static_cast<int>(size.height);
+            sizeHints.min_width = static_cast<int>(size.v[0]);
+            sizeHints.max_width = static_cast<int>(size.v[0]);
+            sizeHints.min_height = static_cast<int>(size.v[1]);
+            sizeHints.max_height = static_cast<int>(size.v[1]);
             XSetWMNormalHints(display, window, &sizeHints);
         }
         else
@@ -199,8 +199,8 @@ namespace ouzel
         window.height = modeInfo.height;
         vc_dispmanx_update_submit_sync(dispmanUpdate);
 
-        size.width = static_cast<float>(modeInfo.width);
-        size.height = static_cast<float>(modeInfo.height);
+        size.v[0] = static_cast<float>(modeInfo.width);
+        size.v[1] = static_cast<float>(modeInfo.height);
         resolution = size;
 #endif
     }
@@ -263,16 +263,16 @@ namespace ouzel
 
 #if OUZEL_SUPPORTS_X11
         XWindowChanges changes;
-        changes.width = static_cast<int>(size.width);
-        changes.height = static_cast<int>(size.height);
+        changes.width = static_cast<int>(size.v[0]);
+        changes.height = static_cast<int>(size.v[1]);
         XConfigureWindow(display, window, CWWidth | CWHeight, &changes);
 
         if (!resizable)
         {
             XSizeHints sizeHints;
             sizeHints.flags = PMinSize | PMaxSize;
-            sizeHints.min_width = static_cast<int>(size.width);
-            sizeHints.max_width = static_cast<int>(size.width);
+            sizeHints.min_width = static_cast<int>(size.v[0]);
+            sizeHints.max_width = static_cast<int>(size.v[1]);
             sizeHints.min_height = static_cast<int>(size.height);
             sizeHints.max_height = static_cast<int>(size.height);
             XSetWMNormalHints(display, window, &sizeHints);

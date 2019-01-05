@@ -31,8 +31,8 @@ namespace ouzel
     {
         dst.position.v[0] = std::min(r1.position.v[0], r2.position.v[0]);
         dst.position.v[1] = std::min(r1.position.v[1], r2.position.v[1]);
-        dst.size.width = std::max(r1.position.v[0] + r1.size.width, r2.position.v[0] + r2.size.width) - dst.position.v[0];
-        dst.size.height = std::max(r1.position.v[1] + r1.size.height, r2.position.v[1] + r2.size.height) - dst.position.v[1];
+        dst.size.v[0] = std::max(r1.position.v[0] + r1.size.v[0], r2.position.v[0] + r2.size.v[0]) - dst.position.v[0];
+        dst.size.v[1] = std::max(r1.position.v[1] + r1.size.v[1], r2.position.v[1] + r2.size.v[1]) - dst.position.v[1];
     }
 
     template class Rect<float>;

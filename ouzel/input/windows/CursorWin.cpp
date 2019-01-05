@@ -46,8 +46,8 @@ namespace ouzel
         {
             if (!data.empty())
             {
-                LONG width = static_cast<LONG>(size.width);
-                LONG height = static_cast<LONG>(size.height);
+                LONG width = static_cast<LONG>(size.v[0]);
+                LONG height = static_cast<LONG>(size.v[1]);
 
                 BITMAPV5HEADER bitmapHeader;
                 ZeroMemory(&bitmapHeader, sizeof(bitmapHeader));
@@ -90,7 +90,7 @@ namespace ouzel
                 ZeroMemory(&iconInfo, sizeof(iconInfo));
                 iconInfo.fIcon = FALSE;
                 iconInfo.xHotspot = static_cast<DWORD>(hotSpot.v[0]);
-                iconInfo.yHotspot = static_cast<int>(size.height) - static_cast<DWORD>(hotSpot.v[1]) - 1;
+                iconInfo.yHotspot = static_cast<int>(size.v[1]) - static_cast<DWORD>(hotSpot.v[1]) - 1;
                 iconInfo.hbmMask = mask;
                 iconInfo.hbmColor = color;
 

@@ -491,14 +491,14 @@ namespace ouzel
         windowStyle = windowWindowedStyle;
         windowExStyle = WS_EX_APPWINDOW;
 
-        RECT windowRect = {0, 0, static_cast<LONG>(size.width), static_cast<LONG>(size.height)};
+        RECT windowRect = {0, 0, static_cast<LONG>(size.v[0]), static_cast<LONG>(size.v[1])};
         if (!AdjustWindowRectEx(&windowRect, windowStyle, FALSE, windowExStyle))
             throw std::system_error(GetLastError(), std::system_category(), "Failed to adjust window rectangle");
 
         int width = CW_USEDEFAULT;
         int height = CW_USEDEFAULT;
-        if (size.width > 0.0F) width = windowRect.right - windowRect.left;
-        if (size.height > 0.0F) height = windowRect.bottom - windowRect.top;
+        if (size.v[0] > 0.0F) width = windowRect.right - windowRect.left;
+        if (size.v[1] > 0.0F) height = windowRect.bottom - windowRect.top;
 
         int titleBufferSize = MultiByteToWideChar(CP_UTF8, 0, title.c_str(), -1, nullptr, 0);
         if (titleBufferSize == 0)
@@ -522,8 +522,8 @@ namespace ouzel
         if (!GetClientRect(window, &windowRect))
             throw std::system_error(GetLastError(), std::system_category(), "Failed to get client rectangle");
 
-        size.width = static_cast<float>(windowRect.right - windowRect.left);
-        size.height = static_cast<float>(windowRect.bottom - windowRect.top);
+        size.v[0] = static_cast<float>(windowRect.right - windowRect.left);
+        size.v[1] = static_cast<float>(windowRect.bottom - windowRect.top);
         resolution = size;
 
         if (!RegisterTouchWindow(window, 0))
@@ -575,8 +575,8 @@ namespace ouzel
     {
         size = newSize;
 
-        UINT width = static_cast<UINT>(newSize.width);
-        UINT height = static_cast<UINT>(newSize.height);
+        UINT width = static_cast<UINT>(newSize.v[0]);
+        UINT height = static_cast<UINT>(newSize.v[1]);
 
         UINT swpFlags = SWP_NOMOVE | SWP_NOZORDER;
 

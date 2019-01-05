@@ -146,10 +146,10 @@ namespace ouzel
         std::string graphicsDriverValue = userEngineSection.getValue("graphicsDriver", defaultEngineSection.getValue("graphicsDriver"));
 
         std::string widthValue = userEngineSection.getValue("width", defaultEngineSection.getValue("width"));
-        if (!widthValue.empty()) size.width = std::stof(widthValue);
+        if (!widthValue.empty()) size.v[0] = std::stof(widthValue);
 
         std::string heightValue = userEngineSection.getValue("height", defaultEngineSection.getValue("height"));
-        if (!heightValue.empty()) size.height = std::stof(heightValue);
+        if (!heightValue.empty()) size.v[1] = std::stof(heightValue);
 
         std::string sampleCountValue = userEngineSection.getValue("sampleCount", defaultEngineSection.getValue("sampleCount"));
         if (!sampleCountValue.empty()) sampleCount = static_cast<uint32_t>(std::stoul(sampleCountValue));

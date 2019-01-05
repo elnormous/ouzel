@@ -55,8 +55,8 @@ namespace ouzel
 
             if (!data.empty())
             {
-                int width = static_cast<int>(size.width);
-                int height = static_cast<int>(size.height);
+                int width = static_cast<int>(size.v[0]);
+                int height = static_cast<int>(size.v[1]);
 
                 XcursorImage* cursorImage = XcursorImageCreate(width, height);
 

@@ -53,12 +53,12 @@ namespace ouzel
 
         inline Vector2<float> convertWindowToNormalizedLocation(const Vector2<float>& position) const
         {
-            return Vector2<float>(position.v[0] / size.width, position.v[1] / size.height);
+            return Vector2<float>(position.v[0] / size.v[0], position.v[1] / size.v[1]);
         }
 
         inline Vector2<float> convertNormalizedToWindowLocation(const Vector2<float>& position) const
         {
-            return Vector2<float>(position.v[0] * size.width, position.v[1] * size.height);
+            return Vector2<float>(position.v[0] * size.v[0], position.v[1] * size.v[1]);
         }
 
     private:

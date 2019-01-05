@@ -442,8 +442,8 @@ namespace ouzel
                                newDepth,
                                newDebugRenderer);
 
-            frameBufferWidth = static_cast<GLsizei>(size.width);
-            frameBufferHeight = static_cast<GLsizei>(size.height);
+            frameBufferWidth = static_cast<GLsizei>(size.v[0]);
+            frameBufferHeight = static_cast<GLsizei>(size.v[1]);
 
             glGetStringProc = getCoreProcAddress<PFNGLGETSTRINGPROC>("glGetString");
             glGetIntegervProc = getCoreProcAddress<PFNGLGETINTEGERVPROC>("glGetIntegerv");
@@ -869,8 +869,8 @@ namespace ouzel
         {
             RenderDevice::setSize(newSize);
 
-            frameBufferWidth = static_cast<GLsizei>(size.width);
-            frameBufferHeight = static_cast<GLsizei>(size.height);
+            frameBufferWidth = static_cast<GLsizei>(size.v[0]);
+            frameBufferHeight = static_cast<GLsizei>(size.v[1]);
         }
 
         static void setUniform(GLint location, DataType dataType, const void* data)
@@ -1139,8 +1139,8 @@ namespace ouzel
                             setScissorTest(setScissorTestCommand->enabled,
                                            static_cast<GLint>(setScissorTestCommand->rectangle.position.v[0]),
                                            static_cast<GLint>(setScissorTestCommand->rectangle.position.v[1]),
-                                           static_cast<GLsizei>(setScissorTestCommand->rectangle.size.width),
-                                           static_cast<GLsizei>(setScissorTestCommand->rectangle.size.height));
+                                           static_cast<GLsizei>(setScissorTestCommand->rectangle.size.v[0]),
+                                           static_cast<GLsizei>(setScissorTestCommand->rectangle.size.v[1]));
 
                             break;
                         }
@@ -1151,8 +1151,8 @@ namespace ouzel
 
                             setViewport(static_cast<GLint>(setViewportCommand->viewport.position.v[0]),
                                         static_cast<GLint>(setViewportCommand->viewport.position.v[1]),
-                                        static_cast<GLsizei>(setViewportCommand->viewport.size.width),
-                                        static_cast<GLsizei>(setViewportCommand->viewport.size.height));
+                                        static_cast<GLsizei>(setViewportCommand->viewport.size.v[0]),
+                                        static_cast<GLsizei>(setViewportCommand->viewport.size.v[1]));
 
                             break;
                         }

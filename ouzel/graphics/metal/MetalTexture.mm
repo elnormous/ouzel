@@ -100,8 +100,8 @@ namespace ouzel
                     if (!levels[level].data.empty())
                     {
                         [texture replaceRegion:MTLRegionMake2D(0, 0,
-                                                               static_cast<NSUInteger>(levels[level].size.width),
-                                                               static_cast<NSUInteger>(levels[level].size.height))
+                                                               static_cast<NSUInteger>(levels[level].size.v[0]),
+                                                               static_cast<NSUInteger>(levels[level].size.v[1]))
                                    mipmapLevel:level withBytes:levels[level].data.data()
                                    bytesPerRow:static_cast<NSUInteger>(levels[level].pitch)];
                     }
@@ -146,8 +146,8 @@ namespace ouzel
                     if (!levels[level].data.empty())
                     {
                         [texture replaceRegion:MTLRegionMake2D(0, 0,
-                                                               static_cast<NSUInteger>(levels[level].size.width),
-                                                               static_cast<NSUInteger>(levels[level].size.height))
+                                                               static_cast<NSUInteger>(levels[level].size.v[0]),
+                                                               static_cast<NSUInteger>(levels[level].size.v[1]))
                                    mipmapLevel:level withBytes:levels[level].data.data()
                                    bytesPerRow:static_cast<NSUInteger>(levels[level].pitch)];
                     }
@@ -244,8 +244,8 @@ namespace ouzel
 
             MetalRenderDevice& renderDeviceMetal = static_cast<MetalRenderDevice&>(renderDevice);
 
-            width = static_cast<NSUInteger>(levels.front().size.width);
-            height = static_cast<NSUInteger>(levels.front().size.height);
+            width = static_cast<NSUInteger>(levels.front().size.v[0]);
+            height = static_cast<NSUInteger>(levels.front().size.v[1]);
 
             if (width > 0 && height > 0)
             {

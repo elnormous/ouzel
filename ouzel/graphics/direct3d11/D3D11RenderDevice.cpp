@@ -184,8 +184,8 @@ namespace ouzel
 
             NativeWindowWin* windowWin = static_cast<NativeWindowWin*>(window->getNativeWindow());
 
-            frameBufferWidth = static_cast<UINT>(newSize.width);
-            frameBufferHeight = static_cast<UINT>(newSize.height);
+            frameBufferWidth = static_cast<UINT>(newSize.v[0]);
+            frameBufferHeight = static_cast<UINT>(newSize.v[1]);
 
             UINT qualityLevels;
             UINT supportedSampleCount;
@@ -350,8 +350,8 @@ namespace ouzel
         {
             RenderDevice::setSize(newSize);
 
-            resizeBackBuffer(static_cast<UINT>(size.width),
-                             static_cast<UINT>(size.height));
+            resizeBackBuffer(static_cast<UINT>(size.v[0]),
+                             static_cast<UINT>(size.v[1]));
         }
 
         void D3D11RenderDevice::setFullscreen(bool newFullscreen)
@@ -586,8 +586,8 @@ namespace ouzel
                                 D3D11_RECT rect;
                                 rect.left = static_cast<LONG>(setScissorTestCommand->rectangle.position.v[0]);
                                 rect.top = static_cast<LONG>(setScissorTestCommand->rectangle.position.v[1]);
-                                rect.right = static_cast<LONG>(setScissorTestCommand->rectangle.position.v[0] + setScissorTestCommand->rectangle.size.width);
-                                rect.bottom = static_cast<LONG>(setScissorTestCommand->rectangle.position.v[1] + setScissorTestCommand->rectangle.size.height);
+                                rect.right = static_cast<LONG>(setScissorTestCommand->rectangle.position.v[0] + setScissorTestCommand->rectangle.size.v[0]);
+                                rect.bottom = static_cast<LONG>(setScissorTestCommand->rectangle.position.v[1] + setScissorTestCommand->rectangle.size.v[1]);
                                 context->RSSetScissorRects(1, &rect);
                             }
 
@@ -608,8 +608,8 @@ namespace ouzel
                             viewport.MaxDepth = 1.0F;
                             viewport.TopLeftX = setViewportCommand->viewport.position.v[0];
                             viewport.TopLeftY = setViewportCommand->viewport.position.v[1];
-                            viewport.Width = setViewportCommand->viewport.size.width;
-                            viewport.Height = setViewportCommand->viewport.size.height;
+                            viewport.Width = setViewportCommand->viewport.size.v[0];
+                            viewport.Height = setViewportCommand->viewport.size.v[1];
                             context->RSSetViewports(1, &viewport);
 
                             break;

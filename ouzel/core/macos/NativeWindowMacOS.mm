@@ -91,13 +91,13 @@ namespace ouzel
 
         if (highDpi)
         {
-            windowSize.width = size.width;
-            windowSize.height = size.height;
+            windowSize.width = size.v[0];
+            windowSize.height = size.v[1];
         }
         else
         {
-            windowSize.width = round(size.width / screen.backingScaleFactor);
-            windowSize.height = round(size.height / screen.backingScaleFactor);
+            windowSize.width = round(size.v[0] / screen.backingScaleFactor);
+            windowSize.height = round(size.v[1] / screen.backingScaleFactor);
         }
 
         if (windowSize.width <= 0.0F) windowSize.width = round(screen.frame.size.width * 0.8);
@@ -179,8 +179,8 @@ namespace ouzel
         window.contentView = view;
         [window makeKeyAndOrderFront:nil];
 
-        size.width = static_cast<float>(windowSize.width);
-        size.height = static_cast<float>(windowSize.height);
+        size.v[0] = static_cast<float>(windowSize.width);
+        size.v[1] = static_cast<float>(windowSize.height);
 
         if (highDpi)
         {
@@ -261,7 +261,7 @@ namespace ouzel
 
         NSRect frame = [window frame];
 
-        NSRect newFrame = [NSWindow frameRectForContentRect:NSMakeRect(NSMinX(frame), NSMinY(frame), newSize.width, newSize.height)
+        NSRect newFrame = [NSWindow frameRectForContentRect:NSMakeRect(NSMinX(frame), NSMinY(frame), newSize.v[0], newSize.v[1])
                                                   styleMask:[window styleMask]];
 
         if (frame.size.width != newFrame.size.width ||
