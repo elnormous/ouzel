@@ -82,9 +82,6 @@
 		30216B761ED464730073E3D5 /* Material.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30216B721ED464730073E3D5 /* Material.hpp */; };
 		30216B771ED464730073E3D5 /* Material.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30216B721ED464730073E3D5 /* Material.hpp */; };
 		30216B781ED464730073E3D5 /* Material.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30216B721ED464730073E3D5 /* Material.hpp */; };
-		30216B801ED5C3900073E3D5 /* Plane.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30216B7E1ED5C3900073E3D5 /* Plane.cpp */; };
-		30216B811ED5C3900073E3D5 /* Plane.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30216B7E1ED5C3900073E3D5 /* Plane.cpp */; };
-		30216B821ED5C3900073E3D5 /* Plane.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30216B7E1ED5C3900073E3D5 /* Plane.cpp */; };
 		30216B831ED5C3900073E3D5 /* Plane.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30216B7F1ED5C3900073E3D5 /* Plane.hpp */; };
 		30216B841ED5C3900073E3D5 /* Plane.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30216B7F1ED5C3900073E3D5 /* Plane.hpp */; };
 		30216B851ED5C3900073E3D5 /* Plane.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30216B7F1ED5C3900073E3D5 /* Plane.hpp */; };
@@ -1017,7 +1014,6 @@
 		30216B621ED462B80073E3D5 /* StaticMeshRenderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = StaticMeshRenderer.hpp; sourceTree = "<group>"; };
 		30216B711ED464730073E3D5 /* Material.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Material.cpp; sourceTree = "<group>"; };
 		30216B721ED464730073E3D5 /* Material.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Material.hpp; sourceTree = "<group>"; };
-		30216B7E1ED5C3900073E3D5 /* Plane.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Plane.cpp; sourceTree = "<group>"; };
 		30216B7F1ED5C3900073E3D5 /* Plane.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Plane.hpp; sourceTree = "<group>"; };
 		3022617F1FDB8C59005279FC /* ColladaLoader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ColladaLoader.cpp; sourceTree = "<group>"; };
 		302261801FDB8C59005279FC /* ColladaLoader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ColladaLoader.hpp; sourceTree = "<group>"; };
@@ -1570,7 +1566,6 @@
 				304A8E311C237C70008B1151 /* MathUtils.hpp */,
 				304A8E341C237C70008B1151 /* Matrix4.cpp */,
 				304A8E351C237C70008B1151 /* Matrix4.hpp */,
-				30216B7E1ED5C3900073E3D5 /* Plane.cpp */,
 				30216B7F1ED5C3900073E3D5 /* Plane.hpp */,
 				30FE384C1DFDE49E00305B3B /* Quaternion.cpp */,
 				30FE384D1DFDE49E00305B3B /* Quaternion.hpp */,
@@ -2910,7 +2905,6 @@
 				30381F791D80A3EC00677CAB /* OGLRenderDevice.cpp in Sources */,
 				30419DE21D162BCF00A63759 /* Audio.cpp in Sources */,
 				30A381FE21B382A20043568A /* Mixer.cpp in Sources */,
-				30216B801ED5C3900073E3D5 /* Plane.cpp in Sources */,
 				303B75611C2A3CBF00FEDE92 /* Actor.cpp in Sources */,
 				30FF4D5221C48DB600153FFF /* Filters.cpp in Sources */,
 				3011E1C31EFFE6DE00CB1DDC /* INI.cpp in Sources */,
@@ -3082,7 +3076,6 @@
 				30419DE31D162BCF00A63759 /* Audio.cpp in Sources */,
 				30EEADC521618DD800D2F525 /* MouseDevice.cpp in Sources */,
 				30A3820021B382A20043568A /* Mixer.cpp in Sources */,
-				30216B821ED5C3900073E3D5 /* Plane.cpp in Sources */,
 				303B76881C355A5800FEDE92 /* main.cpp in Sources */,
 				30FF4D5421C48DB600153FFF /* Filters.cpp in Sources */,
 				3011E1C51EFFE6DE00CB1DDC /* INI.cpp in Sources */,
@@ -3255,7 +3248,6 @@
 				302261821FDB8C59005279FC /* ColladaLoader.cpp in Sources */,
 				30381F7A1D80A3EC00677CAB /* OGLRenderDevice.cpp in Sources */,
 				30419DE11D162BCF00A63759 /* Audio.cpp in Sources */,
-				30216B811ED5C3900073E3D5 /* Plane.cpp in Sources */,
 				30FF4D3021C33B4900153FFF /* Containers.cpp in Sources */,
 				304A8E661C237C70008B1151 /* SceneManager.cpp in Sources */,
 				30B859951F3D2F3200A16952 /* Font.cpp in Sources */,
