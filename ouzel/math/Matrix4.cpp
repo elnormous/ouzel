@@ -181,6 +181,27 @@ namespace ouzel
     template<class T>
     void Matrix4<T>::add(T scalar, Matrix4& dst)
     {
+        dst.m[0] = m[0] + scalar;
+        dst.m[1] = m[1] + scalar;
+        dst.m[2] = m[2] + scalar;
+        dst.m[3] = m[3] + scalar;
+        dst.m[4] = m[4] + scalar;
+        dst.m[5] = m[5] + scalar;
+        dst.m[6] = m[6] + scalar;
+        dst.m[7] = m[7] + scalar;
+        dst.m[8] = m[8] + scalar;
+        dst.m[9] = m[9] + scalar;
+        dst.m[10] = m[10] + scalar;
+        dst.m[11] = m[11] + scalar;
+        dst.m[12] = m[12] + scalar;
+        dst.m[13] = m[13] + scalar;
+        dst.m[14] = m[14] + scalar;
+        dst.m[15] = m[15] + scalar;
+    }
+
+    template<>
+    void Matrix4<float>::add(float scalar, Matrix4& dst)
+    {
         if (isSimdAvailable)
         {
 #if defined(__ARM_NEON__)
@@ -253,6 +274,27 @@ namespace ouzel
 
     template<class T>
     void Matrix4<T>::add(const Matrix4& m1, const Matrix4& m2, Matrix4& dst)
+    {
+        dst.m[0] = m1.m[0] + m2.m[0];
+        dst.m[1] = m1.m[1] + m2.m[1];
+        dst.m[2] = m1.m[2] + m2.m[2];
+        dst.m[3] = m1.m[3] + m2.m[3];
+        dst.m[4] = m1.m[4] + m2.m[4];
+        dst.m[5] = m1.m[5] + m2.m[5];
+        dst.m[6] = m1.m[6] + m2.m[6];
+        dst.m[7] = m1.m[7] + m2.m[7];
+        dst.m[8] = m1.m[8] + m2.m[8];
+        dst.m[9] = m1.m[9] + m2.m[9];
+        dst.m[10] = m1.m[10] + m2.m[10];
+        dst.m[11] = m1.m[11] + m2.m[11];
+        dst.m[12] = m1.m[12] + m2.m[12];
+        dst.m[13] = m1.m[13] + m2.m[13];
+        dst.m[14] = m1.m[14] + m2.m[14];
+        dst.m[15] = m1.m[15] + m2.m[15];
+    }
+
+    template<>
+    void Matrix4<float>::add(const Matrix4& m1, const Matrix4& m2, Matrix4& dst)
     {
         if (isSimdAvailable)
         {
@@ -390,6 +432,27 @@ namespace ouzel
     template<class T>
     void Matrix4<T>::multiply(const Matrix4& m, T scalar, Matrix4& dst)
     {
+        dst.m[0] = m.m[0] * scalar;
+        dst.m[1] = m.m[1] * scalar;
+        dst.m[2] = m.m[2] * scalar;
+        dst.m[3] = m.m[3] * scalar;
+        dst.m[4] = m.m[4] * scalar;
+        dst.m[5] = m.m[5] * scalar;
+        dst.m[6] = m.m[6] * scalar;
+        dst.m[7] = m.m[7] * scalar;
+        dst.m[8] = m.m[8] * scalar;
+        dst.m[9] = m.m[9] * scalar;
+        dst.m[10] = m.m[10] * scalar;
+        dst.m[11] = m.m[11] * scalar;
+        dst.m[12] = m.m[12] * scalar;
+        dst.m[13] = m.m[13] * scalar;
+        dst.m[14] = m.m[14] * scalar;
+        dst.m[15] = m.m[15] * scalar;
+    }
+
+    template<>
+    void Matrix4<float>::multiply(const Matrix4& m, float scalar, Matrix4& dst)
+    {
         if (isSimdAvailable)
         {
 #if defined(__ARM_NEON__)
@@ -459,6 +522,34 @@ namespace ouzel
 
     template<class T>
     void Matrix4<T>::multiply(const Matrix4& m1, const Matrix4& m2, Matrix4& dst)
+    {
+        float product[16];
+
+        product[0] = m1.m[0] * m2.m[0] + m1.m[4] * m2.m[1] + m1.m[8] * m2.m[2] + m1.m[12] * m2.m[3];
+        product[1] = m1.m[1] * m2.m[0] + m1.m[5] * m2.m[1] + m1.m[9] * m2.m[2] + m1.m[13] * m2.m[3];
+        product[2] = m1.m[2] * m2.m[0] + m1.m[6] * m2.m[1] + m1.m[10] * m2.m[2] + m1.m[14] * m2.m[3];
+        product[3] = m1.m[3] * m2.m[0] + m1.m[7] * m2.m[1] + m1.m[11] * m2.m[2] + m1.m[15] * m2.m[3];
+
+        product[4] = m1.m[0] * m2.m[4] + m1.m[4] * m2.m[5] + m1.m[8] * m2.m[6] + m1.m[12] * m2.m[7];
+        product[5] = m1.m[1] * m2.m[4] + m1.m[5] * m2.m[5] + m1.m[9] * m2.m[6] + m1.m[13] * m2.m[7];
+        product[6] = m1.m[2] * m2.m[4] + m1.m[6] * m2.m[5] + m1.m[10] * m2.m[6] + m1.m[14] * m2.m[7];
+        product[7] = m1.m[3] * m2.m[4] + m1.m[7] * m2.m[5] + m1.m[11] * m2.m[6] + m1.m[15] * m2.m[7];
+
+        product[8] = m1.m[0] * m2.m[8] + m1.m[4] * m2.m[9] + m1.m[8] * m2.m[10] + m1.m[12] * m2.m[11];
+        product[9] = m1.m[1] * m2.m[8] + m1.m[5] * m2.m[9] + m1.m[9] * m2.m[10] + m1.m[13] * m2.m[11];
+        product[10] = m1.m[2] * m2.m[8] + m1.m[6] * m2.m[9] + m1.m[10] * m2.m[10] + m1.m[14] * m2.m[11];
+        product[11] = m1.m[3] * m2.m[8] + m1.m[7] * m2.m[9] + m1.m[11] * m2.m[10] + m1.m[15] * m2.m[11];
+
+        product[12] = m1.m[0] * m2.m[12] + m1.m[4] * m2.m[13] + m1.m[8] * m2.m[14] + m1.m[12] * m2.m[15];
+        product[13] = m1.m[1] * m2.m[12] + m1.m[5] * m2.m[13] + m1.m[9] * m2.m[14] + m1.m[13] * m2.m[15];
+        product[14] = m1.m[2] * m2.m[12] + m1.m[6] * m2.m[13] + m1.m[10] * m2.m[14] + m1.m[14] * m2.m[15];
+        product[15] = m1.m[3] * m2.m[12] + m1.m[7] * m2.m[13] + m1.m[11] * m2.m[14] + m1.m[15] * m2.m[15];
+
+        std::copy(std::begin(product), std::end(product), dst.m);
+    }
+
+    template<>
+    void Matrix4<float>::multiply(const Matrix4& m1, const Matrix4& m2, Matrix4& dst)
     {
         if (isSimdAvailable)
         {
@@ -644,6 +735,27 @@ namespace ouzel
     template<class T>
     void Matrix4<T>::negate(Matrix4& dst) const
     {
+        dst.m[0] = -m[0];
+        dst.m[1] = -m[1];
+        dst.m[2] = -m[2];
+        dst.m[3] = -m[3];
+        dst.m[4] = -m[4];
+        dst.m[5] = -m[5];
+        dst.m[6] = -m[6];
+        dst.m[7] = -m[7];
+        dst.m[8] = -m[8];
+        dst.m[9] = -m[9];
+        dst.m[10] = -m[10];
+        dst.m[11] = -m[11];
+        dst.m[12] = -m[12];
+        dst.m[13] = -m[13];
+        dst.m[14] = -m[14];
+        dst.m[15] = -m[15];
+    }
+
+    template<>
+    void Matrix4<float>::negate(Matrix4& dst) const
+    {
         if (isSimdAvailable)
         {
 #if defined(__ARM_NEON__)
@@ -719,6 +831,27 @@ namespace ouzel
     template<class T>
     void Matrix4<T>::subtract(const Matrix4& m1, const Matrix4& m2, Matrix4& dst)
     {
+        dst.m[0] = m1.m[0] - m2.m[0];
+        dst.m[1] = m1.m[1] - m2.m[1];
+        dst.m[2] = m1.m[2] - m2.m[2];
+        dst.m[3] = m1.m[3] - m2.m[3];
+        dst.m[4] = m1.m[4] - m2.m[4];
+        dst.m[5] = m1.m[5] - m2.m[5];
+        dst.m[6] = m1.m[6] - m2.m[6];
+        dst.m[7] = m1.m[7] - m2.m[7];
+        dst.m[8] = m1.m[8] - m2.m[8];
+        dst.m[9] = m1.m[9] - m2.m[9];
+        dst.m[10] = m1.m[10] - m2.m[10];
+        dst.m[11] = m1.m[11] - m2.m[11];
+        dst.m[12] = m1.m[12] - m2.m[12];
+        dst.m[13] = m1.m[13] - m2.m[13];
+        dst.m[14] = m1.m[14] - m2.m[14];
+        dst.m[15] = m1.m[15] - m2.m[15];
+    }
+
+    template<>
+    void Matrix4<float>::subtract(const Matrix4& m1, const Matrix4& m2, Matrix4& dst)
+    {
         if (isSimdAvailable)
         {
 #if defined(__ARM_NEON__)
@@ -789,6 +922,16 @@ namespace ouzel
     template<class T>
     void Matrix4<T>::transformVector(const Vector4<T>& vector, Vector4<T>& dst) const
     {
+        assert(&vector != &dst);
+        dst.v[0] = vector.v[0] * m[0] + vector.v[1] * m[4] + vector.v[2] * m[8] + vector.v[3] * m[12];
+        dst.v[1] = vector.v[0] * m[1] + vector.v[1] * m[5] + vector.v[2] * m[9] + vector.v[3] * m[13];
+        dst.v[2] = vector.v[0] * m[2] + vector.v[1] * m[6] + vector.v[2] * m[10] + vector.v[3] * m[14];
+        dst.v[3] = vector.v[0] * m[3] + vector.v[1] * m[7] + vector.v[2] * m[11] + vector.v[3] * m[15];
+    }
+
+    template<>
+    void Matrix4<float>::transformVector(const Vector4<float>& vector, Vector4<float>& dst) const
+    {
         if (isSimdAvailable)
         {
 #if defined(__ARM_NEON__)
@@ -852,6 +995,18 @@ namespace ouzel
     template<class T>
     void Matrix4<T>::transpose(Matrix4& dst) const
     {
+        T t[16] = {
+            m[0], m[4], m[8], m[12],
+            m[1], m[5], m[9], m[13],
+            m[2], m[6], m[10], m[14],
+            m[3], m[7], m[11], m[15]
+        };
+        std::copy(std::begin(t), std::end(t), dst.m);
+    }
+
+    template<>
+    void Matrix4<float>::transpose(Matrix4& dst) const
+    {
         if (isSimdAvailable)
         {
 #if defined(__ARM_NEON__)
@@ -892,7 +1047,7 @@ namespace ouzel
         }
         else
         {
-            T t[16] = {
+            float t[16] = {
                 m[0], m[4], m[8], m[12],
                 m[1], m[5], m[9], m[13],
                 m[2], m[6], m[10], m[14],
