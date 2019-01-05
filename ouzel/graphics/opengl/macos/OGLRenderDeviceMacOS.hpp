@@ -37,7 +37,7 @@ namespace ouzel
             OGLRenderDeviceMacOS(const std::function<void(const Event&)>& initCallback);
             ~OGLRenderDeviceMacOS();
 
-            std::vector<Size2<float>> getSupportedResolutions() const override;
+            std::vector<Size2<uint32_t>> getSupportedResolutions() const override;
 
             inline NSOpenGLContextPtr getOpenGLContext() const { return openGLContext; }
 
@@ -45,7 +45,7 @@ namespace ouzel
 
         protected:
             void init(Window* newWindow,
-                      const Size2<float>& newSize,
+                      const Size2<uint32_t>& newSize,
                       uint32_t newSampleCount,
                       Texture::Filter newTextureFilter,
                       uint32_t newMaxAnisotropy,
@@ -53,7 +53,7 @@ namespace ouzel
                       bool newDepth,
                       bool newDebugRenderer) override;
 
-            void setSize(const Size2<float>& newSize) override;
+            void setSize(const Size2<uint32_t>& newSize) override;
             void present() override;
 
             bool handleWindow(const WindowEvent& event);

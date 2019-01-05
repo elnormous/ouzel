@@ -77,12 +77,12 @@ namespace ouzel
 
                 SpriteData::Animation animation;
 
-                Rect<float> rectangle(0.0F,
-                               0.0F,
-                               texture->getSize().v[0],
-                               texture->getSize().v[1]);
+                Size2<float> size(static_cast<float>(texture->getSize().v[0]),
+                                  static_cast<float>(texture->getSize().v[1]));
 
-                SpriteData::Frame frame = SpriteData::Frame("", texture->getSize(), rectangle, false, texture->getSize(), Vector2<float>(), Vector2<float>(0.5F, 0.5F));
+                Rect<float> rectangle(0.0F, 0.0F, size.v[0], size.v[1]);
+
+                SpriteData::Frame frame = SpriteData::Frame("", size, rectangle, false, size, Vector2<float>(), Vector2<float>(0.5F, 0.5F));
                 animation.frames.push_back(frame);
 
                 animations[""] = std::move(animation);
@@ -106,8 +106,11 @@ namespace ouzel
             material->textures[0] = newTexture;
             animations.clear();
 
-            Size2<float> spriteSize = Size2<float>(material->textures[0]->getSize().v[0] / spritesX,
-                                     material->textures[0]->getSize().v[1] / spritesY);
+            Size2<float> size(static_cast<float>(newTexture->getSize().v[0]),
+                              static_cast<float>(newTexture->getSize().v[1]));
+
+            Size2<float> spriteSize = Size2<float>(size.v[0] / spritesX,
+                                                   size.v[1] / spritesY);
 
             SpriteData::Animation animation;
             animation.frames.reserve(spritesX * spritesY);
@@ -117,11 +120,11 @@ namespace ouzel
                 for (uint32_t y = 0; y < spritesY; ++y)
                 {
                     Rect<float> rectangle(spriteSize.v[0] * x,
-                                   spriteSize.v[1] * y,
-                                   spriteSize.v[0],
-                                   spriteSize.v[1]);
+                                          spriteSize.v[1] * y,
+                                          spriteSize.v[0],
+                                          spriteSize.v[1]);
 
-                    SpriteData::Frame frame = SpriteData::Frame("", newTexture->getSize(), rectangle, false, spriteSize, Vector2<float>(), pivot);
+                    SpriteData::Frame frame = SpriteData::Frame("", size, rectangle, false, spriteSize, Vector2<float>(), pivot);
                     animation.frames.push_back(frame);
                 }
             }

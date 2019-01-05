@@ -69,7 +69,7 @@
 namespace ouzel
 {
     NativeWindowMacOS::NativeWindowMacOS(const std::function<void(const Event&)>& initCallback,
-                                         const Size2<float>& newSize,
+                                         const Size2<uint32_t>& newSize,
                                          bool newResizable,
                                          bool newFullscreen,
                                          bool newExclusiveFullscreen,
@@ -179,13 +179,13 @@ namespace ouzel
         window.contentView = view;
         [window makeKeyAndOrderFront:nil];
 
-        size.v[0] = static_cast<float>(windowSize.width);
-        size.v[1] = static_cast<float>(windowSize.height);
+        size.v[0] = static_cast<uint32_t>(windowSize.width);
+        size.v[1] = static_cast<uint32_t>(windowSize.height);
 
         if (highDpi)
         {
             contentScale = static_cast<float>(screen.backingScaleFactor);
-            resolution = size * contentScale;
+            resolution = size * static_cast<uint32_t>(contentScale);
         }
         else
         {
@@ -255,7 +255,7 @@ namespace ouzel
         }
     }
 
-    void NativeWindowMacOS::setSize(const Size2<float>& newSize)
+    void NativeWindowMacOS::setSize(const Size2<uint32_t>& newSize)
     {
         size = newSize;
 
@@ -268,7 +268,7 @@ namespace ouzel
             frame.size.height != newFrame.size.height)
         {
             [window setFrame:newFrame display:YES animate:NO];
-            resolution = size * contentScale;
+            resolution = size * static_cast<uint32_t>(contentScale);
 
             Event resolutionChangeEvent(Event::Type::RESOLUTION_CHANGE);
             resolutionChangeEvent.resolution = resolution;
@@ -336,9 +336,9 @@ namespace ouzel
         NSRect frame = [NSWindow contentRectForFrameRect:window.frame
                                                styleMask:window.styleMask];
 
-        size = Size2<float>(static_cast<float>(frame.size.width),
-                     static_cast<float>(frame.size.height));
-        resolution = size * contentScale;
+        size = Size2<uint32_t>(static_cast<uint32_t>(frame.size.width),
+                               static_cast<uint32_t>(frame.size.height));
+        resolution = size * static_cast<uint32_t>(contentScale);
 
         Event sizeChangeEvent(Event::Type::SIZE_CHANGE);
         sizeChangeEvent.size = size;
@@ -368,7 +368,7 @@ namespace ouzel
         if (highDpi)
         {
             contentScale = static_cast<float>(window.backingScaleFactor);
-            resolution = size * contentScale;
+            resolution = size * static_cast<uint32_t>(contentScale);
 
             Event resolutionChangeEvent(Event::Type::RESOLUTION_CHANGE);
             resolutionChangeEvent.resolution = resolution;

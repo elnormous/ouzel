@@ -9,7 +9,7 @@ namespace ouzel
     NativeWindowAndroid::NativeWindowAndroid(const std::function<void(const Event&)>& initCallback,
                                              const std::string& newTitle):
         NativeWindow(initCallback,
-                     Size2<float>(),
+                     Size2<uint32_t>(),
                      true,
                      true,
                      true,
@@ -26,8 +26,8 @@ namespace ouzel
 
         window = ANativeWindow_fromSurface(jniEnv, engineAndroid->getSurface());
 
-        size.v[0] = static_cast<float>(ANativeWindow_getWidth(window));
-        size.v[1] = static_cast<float>(ANativeWindow_getHeight(window));
+        size.v[0] = static_cast<uint32_t>(ANativeWindow_getWidth(window));
+        size.v[1] = static_cast<uint32_t>(ANativeWindow_getHeight(window));
         resolution = size;
     }
 
@@ -54,7 +54,7 @@ namespace ouzel
         }
     }
 
-    void NativeWindowAndroid::handleResize(const Size2<float>& newSize)
+    void NativeWindowAndroid::handleResize(const Size2<uint32_t>& newSize)
     {
         size = newSize;
         resolution = size;

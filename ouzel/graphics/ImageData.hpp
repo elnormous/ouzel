@@ -17,16 +17,16 @@ namespace ouzel
         public:
             ImageData();
             ImageData(PixelFormat initPixelFormat,
-                      const Size2<float>& initSize,
+                      const Size2<uint32_t>& initSize,
                       std::vector<uint8_t>& initData);
 
             inline PixelFormat getPixelFormat() const { return pixelFormat; }
-            inline const Size2<float>& getSize() const { return size; }
+            inline const Size2<uint32_t>& getSize() const { return size; }
             inline const std::vector<uint8_t>& getData() const { return data; }
 
         private:
             PixelFormat pixelFormat = PixelFormat::DEFAULT;
-            Size2<float> size;
+            Size2<uint32_t> size;
             std::vector<uint8_t> data;
         };
     } // namespace graphics

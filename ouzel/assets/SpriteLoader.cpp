@@ -39,6 +39,9 @@ namespace ouzel
             if (!spriteData.texture)
                 return false;
 
+            const Size2<float> textureSize(static_cast<float>(spriteData.texture->getSize().v[0]),
+                                           static_cast<float>(spriteData.texture->getSize().v[1]));
+            
             const json::Value& framesArray = document["frames"];
 
             scene::SpriteData::Animation animation;
@@ -93,8 +96,6 @@ namespace ouzel
                     const json::Value& verticesObject = frameObject["vertices"];
                     const json::Value& verticesUVObject = frameObject["verticesUV"];
 
-                    const Size2<float>& textureSize = spriteData.texture->getSize();
-
                     Vector2<float> finalOffset(-sourceSize.v[0] * pivot.v[0] + sourceOffset.v[0],
                                                -sourceSize.v[1] * pivot.v[1] + (sourceSize.v[1] - frameRectangle.size.v[1] - sourceOffset.v[1]));
 
@@ -118,7 +119,7 @@ namespace ouzel
                 {
                     bool rotated = frameObject["rotated"].as<bool>();
 
-                    animation.frames.push_back(scene::SpriteData::Frame(name, spriteData.texture->getSize(), frameRectangle, rotated, sourceSize, sourceOffset, pivot));
+                    animation.frames.push_back(scene::SpriteData::Frame(name, textureSize, frameRectangle, rotated, sourceSize, sourceOffset, pivot));
                 }
             }
 

@@ -57,12 +57,12 @@ namespace ouzel
 
             virtual void process();
 
-            inline const Size2<float>& getSize() const { return size; }
+            inline const Size2<uint32_t>& getSize() const { return size; }
             inline uint32_t getSampleCount() const { return sampleCount; }
             inline Texture::Filter getTextureFilter() const { return textureFilter; }
             inline uint32_t getMaxAnisotropy() const { return maxAnisotropy; }
 
-            virtual std::vector<Size2<float>> getSupportedResolutions() const;
+            virtual std::vector<Size2<uint32_t>> getSupportedResolutions() const;
 
             void submitCommandBuffer(CommandBuffer&& commandBuffer)
             {
@@ -113,7 +113,7 @@ namespace ouzel
 
         protected:
             virtual void init(Window* newWindow,
-                              const Size2<float>& newSize,
+                              const Size2<uint32_t>& newSize,
                               uint32_t newSampleCount,
                               Texture::Filter newTextureFilter,
                               uint32_t newMaxAnisotropy,
@@ -122,7 +122,7 @@ namespace ouzel
                               bool newDebugRenderer);
 
             void executeAll();
-            virtual void setSize(const Size2<float>& newSize);
+            virtual void setSize(const Size2<uint32_t>& newSize);
 
             virtual void generateScreenshot(const std::string& filename);
 
@@ -150,7 +150,7 @@ namespace ouzel
             Matrix4<float> projectionTransform;
             Matrix4<float> renderTargetProjectionTransform;
 
-            Size2<float> size;
+            Size2<uint32_t> size;
             Color clearColor;
             float clearDepth = 1.0;
             bool clearColorBuffer = true;

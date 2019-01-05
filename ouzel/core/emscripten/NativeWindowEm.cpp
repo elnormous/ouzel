@@ -32,7 +32,7 @@ static EM_BOOL emFullscreenCallback(int eventType, const void*, void* userData)
 namespace ouzel
 {
     NativeWindowEm::NativeWindowEm(const std::function<void(const Event&)>& initCallback,
-                                   const Size2<float>& newSize,
+                                   const Size2<uint32_t>& newSize,
                                    bool newFullscreen,
                                    const std::string& newTitle,
                                    bool newHighDpi):
@@ -46,13 +46,13 @@ namespace ouzel
     {
         emscripten_set_resize_callback(nullptr, this, true, emResizeCallback);
 
-        if (size.v[0] <= 0.0F || size.v[1] <= 0.0F)
+        if (size.v[0] == 0 || size.v[1] == 0)
         {
             int width, height, isFullscreen;
             emscripten_get_canvas_size(&width, &height, &isFullscreen);
 
-            if (size.v[0] <= 0.0F) size.v[0] = static_cast<float>(width);
-            if (size.v[1] <= 0.0F) size.v[1] = static_cast<float>(height);
+            if (size.v[0] == 0) size.v[0] = static_cast<uint32_t>(width);
+            if (size.v[1] == 0) size.v[1] = static_cast<uint32_t>(height);
             fullscreen = static_cast<bool>(isFullscreen);
         }
         else
@@ -93,7 +93,7 @@ namespace ouzel
         }
     }
 
-    void NativeWindowEm::setSize(const Size2<float>& newSize)
+    void NativeWindowEm::setSize(const Size2<uint32_t>& newSize)
     {
         size = newSize;
 
@@ -125,7 +125,8 @@ namespace ouzel
         int width, height, isFullscreen;
         emscripten_get_canvas_size(&width, &height, &isFullscreen);
 
-        Size2<float> newSize(static_cast<float>(width), static_cast<float>(height));
+        Size2<uint32_t> newSize(static_cast<uint32_t>(width),
+                                static_cast<uint32_t>(height));
 
         size = newSize;
         resolution = size;

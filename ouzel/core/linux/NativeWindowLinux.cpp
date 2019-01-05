@@ -20,7 +20,7 @@ static constexpr long _NET_WM_STATE_TOGGLE = 2L;
 namespace ouzel
 {
     NativeWindowLinux::NativeWindowLinux(const std::function<void(const Event&)>& initCallback,
-                                         const Size2<float>& newSize,
+                                         const Size2<uint32_t>& newSize,
                                          bool newResizable,
                                          bool newFullscreen,
                                          bool newExclusiveFullscreen,
@@ -42,13 +42,13 @@ namespace ouzel
         Screen* screen = XDefaultScreenOfDisplay(display);
         int screenIndex = XScreenNumberOfScreen(screen);
 
-        if (size.v[0] <= 0.0F) size.v[0] = static_cast<float>(XWidthOfScreen(screen)) * 0.8F;
-        if (size.v[1] <= 0.0F) size.v[1] = static_cast<float>(XHeightOfScreen(screen)) * 0.8F;
+        if (size.v[0] <= 0.0F) size.v[0] = static_cast<uint32_t>(XWidthOfScreen(screen) * 0.8F);
+        if (size.v[1] <= 0.0F) size.v[1] = static_cast<uint32_t>(XHeightOfScreen(screen) * 0.8F);
 
         resolution = size;
 
-        int x = XWidthOfScreen(screen) / 2 - static_cast<int>(size.v[0] / 2.0f);
-        int y = XHeightOfScreen(screen) / 2 - static_cast<int>(size.v[1] / 2.0f);
+        int x = XWidthOfScreen(screen) / 2 - static_cast<int>(size.v[0] / 2);
+        int y = XHeightOfScreen(screen) / 2 - static_cast<int>(size.v[1] / 2);
 
         switch (graphicsDriver)
         {
@@ -199,8 +199,8 @@ namespace ouzel
         window.height = modeInfo.height;
         vc_dispmanx_update_submit_sync(dispmanUpdate);
 
-        size.v[0] = static_cast<float>(modeInfo.width);
-        size.v[1] = static_cast<float>(modeInfo.height);
+        size.v[0] = static_cast<uint32_t>(modeInfo.width);
+        size.v[1] = static_cast<uint32_t>(modeInfo.height);
         resolution = size;
 #endif
     }
@@ -257,7 +257,7 @@ namespace ouzel
 #endif
     }
 
-    void NativeWindowLinux::setSize(const Size2<float>& newSize)
+    void NativeWindowLinux::setSize(const Size2<uint32_t>& newSize)
     {
         size = newSize;
 
@@ -339,7 +339,7 @@ namespace ouzel
         sendEvent(focusChangeEvent);
     }
 
-    void NativeWindowLinux::handleResize(const Size2<float>& newSize)
+    void NativeWindowLinux::handleResize(const Size2<uint32_t>& newSize)
     {
         size = newSize;
         resolution = size;

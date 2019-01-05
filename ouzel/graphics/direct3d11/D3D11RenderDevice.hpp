@@ -57,7 +57,7 @@ namespace ouzel
         public:
             ~D3D11RenderDevice();
 
-            std::vector<Size2<float>> getSupportedResolutions() const override;
+            std::vector<Size2<uint32_t>> getSupportedResolutions() const override;
 
             ID3D11Device* getDevice() const { return device; }
             ID3D11DeviceContext* getContext() const { return context; }
@@ -69,7 +69,7 @@ namespace ouzel
             D3D11RenderDevice(const std::function<void(const Event&)>& initCallback);
 
             void init(Window* newWindow,
-                      const Size2<float>& newSize,
+                      const Size2<uint32_t>& newSize,
                       uint32_t newSampleCount,
                       Texture::Filter newTextureFilter,
                       uint32_t newMaxAnisotropy,
@@ -77,7 +77,7 @@ namespace ouzel
                       bool newDepth,
                       bool newDebugRenderer) override;
 
-            virtual void setSize(const Size2<float>& newSize);
+            virtual void setSize(const Size2<uint32_t>& newSize);
 
             void setClearColorBuffer(bool clear);
             void setClearDepthBuffer(bool clear);

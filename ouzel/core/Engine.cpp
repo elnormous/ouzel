@@ -116,7 +116,7 @@ namespace ouzel
     {
         setCurrentThreadName("Main");
 
-        Size2<float> size;
+        Size2<uint32_t> size;
         uint32_t sampleCount = 1; // MSAA sample count
         graphics::Texture::Filter textureFilter = graphics::Texture::Filter::POINT;
         uint32_t maxAnisotropy = 1;
@@ -146,10 +146,10 @@ namespace ouzel
         std::string graphicsDriverValue = userEngineSection.getValue("graphicsDriver", defaultEngineSection.getValue("graphicsDriver"));
 
         std::string widthValue = userEngineSection.getValue("width", defaultEngineSection.getValue("width"));
-        if (!widthValue.empty()) size.v[0] = std::stof(widthValue);
+        if (!widthValue.empty()) size.v[0] = static_cast<uint32_t>(std::stoul(widthValue));
 
         std::string heightValue = userEngineSection.getValue("height", defaultEngineSection.getValue("height"));
-        if (!heightValue.empty()) size.v[1] = std::stof(heightValue);
+        if (!heightValue.empty()) size.v[1] = static_cast<uint32_t>(std::stoul(heightValue));
 
         std::string sampleCountValue = userEngineSection.getValue("sampleCount", defaultEngineSection.getValue("sampleCount"));
         if (!sampleCountValue.empty()) sampleCount = static_cast<uint32_t>(std::stoul(sampleCountValue));
@@ -459,7 +459,7 @@ namespace ouzel
         assetBundle.setBlendState(BLEND_SCREEN, screenBlendState);
 
         std::shared_ptr<graphics::Texture> whitePixelTexture = std::make_shared<graphics::Texture>(*renderer);
-        whitePixelTexture->init({255, 255, 255, 255}, Size2<float>(1.0F, 1.0F), 0, 1);
+        whitePixelTexture->init({255, 255, 255, 255}, Size2<uint32_t>(1, 1), 0, 1);
         assetBundle.setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
     }
 
