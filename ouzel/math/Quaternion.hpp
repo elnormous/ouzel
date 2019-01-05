@@ -231,8 +231,8 @@ namespace ouzel
         inline Vector3<T> rotateVector(const Vector3<T>& vector) const
         {
             Vector3<T> q(v[0], v[1], v[2]);
-            Vector3<T> t = 2.0F * Vector3<T>::cross(q, vector);
-            return vector + (v[3] * t) + Vector3<T>::cross(q, t);
+            Vector3<T> t = 2.0F * q.cross(vector);
+            return vector + (v[3] * t) + q.cross(t);
         }
 
         inline Vector3<T> getRightVector() const
