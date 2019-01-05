@@ -9,36 +9,38 @@
 
 namespace ouzel
 {
-    void Matrix4::createLookAt(const Vector3& eyePosition,
-                               const Vector3& targetPosition,
-                               const Vector3& up,
-                               Matrix4& dst)
+    template<class T>
+    void Matrix4<T>::createLookAt(const Vector3<T>& eyePosition,
+                                  const Vector3<T>& targetPosition,
+                                  const Vector3<T>& up,
+                                  Matrix4& dst)
     {
         createLookAt(eyePosition.v[0], eyePosition.v[1], eyePosition.v[2],
                      targetPosition.v[0], targetPosition.v[1], targetPosition.v[2],
                      up.v[0], up.v[1], up.v[2], dst);
     }
 
-    void Matrix4::createLookAt(float eyePositionX, float eyePositionY, float eyePositionZ,
-                               float targetPositionX, float targetPositionY, float targetPositionZ,
-                               float upX, float upY, float upZ,
-                               Matrix4& dst)
+    template<class T>
+    void Matrix4<T>::createLookAt(float eyePositionX, float eyePositionY, float eyePositionZ,
+                                  float targetPositionX, float targetPositionY, float targetPositionZ,
+                                  float upX, float upY, float upZ,
+                                  Matrix4& dst)
     {
-        Vector3 eye(eyePositionX, eyePositionY, eyePositionZ);
-        Vector3 target(targetPositionX, targetPositionY, targetPositionZ);
-        Vector3 up(upX, upY, upZ);
+        Vector3<T> eye(eyePositionX, eyePositionY, eyePositionZ);
+        Vector3<T> target(targetPositionX, targetPositionY, targetPositionZ);
+        Vector3<T> up(upX, upY, upZ);
         up.normalize();
 
-        Vector3 zaxis;
-        Vector3::subtract(target, eye, zaxis);
+        Vector3<T> zaxis;
+        Vector3<T>::subtract(target, eye, zaxis);
         zaxis.normalize();
 
-        Vector3 xaxis;
-        Vector3::cross(up, zaxis, xaxis);
+        Vector3<T> xaxis;
+        Vector3<T>::cross(up, zaxis, xaxis);
         xaxis.normalize();
 
-        Vector3 yaxis;
-        Vector3::cross(zaxis, xaxis, yaxis);
+        Vector3<T> yaxis;
+        Vector3<T>::cross(zaxis, xaxis, yaxis);
         yaxis.normalize();
 
         dst.m[0] = xaxis.v[0];
@@ -56,15 +58,16 @@ namespace ouzel
         dst.m[10] = zaxis.v[2];
         dst.m[11] = 0.0F;
 
-        dst.m[12] = Vector3::dot(xaxis, -eye);
-        dst.m[13] = Vector3::dot(yaxis, -eye);
-        dst.m[14] = Vector3::dot(zaxis, -eye);
+        dst.m[12] = Vector3<T>::dot(xaxis, -eye);
+        dst.m[13] = Vector3<T>::dot(yaxis, -eye);
+        dst.m[14] = Vector3<T>::dot(zaxis, -eye);
         dst.m[15] = 1.0F;
     }
 
-    void Matrix4::createPerspective(float fieldOfView, float aspectRatio,
-                                    float zNearPlane, float zFarPlane,
-                                    Matrix4& dst)
+    template<class T>
+    void Matrix4<T>::createPerspective(float fieldOfView, float aspectRatio,
+                                       float zNearPlane, float zFarPlane,
+                                       Matrix4& dst)
     {
         assert(zFarPlane != zNearPlane);
 
@@ -86,9 +89,10 @@ namespace ouzel
         dst.m[14] = -zNearPlane * zFarPlane / (zFarPlane - zNearPlane);
     }
 
-    void Matrix4::createOrthographicFromSize(float width, float height,
-                                             float zNearPlane, float zFarPlane,
-                                             Matrix4& dst)
+    template<class T>
+    void Matrix4<T>::createOrthographicFromSize(float width, float height,
+                                                float zNearPlane, float zFarPlane,
+                                                Matrix4& dst)
     {
         float halfWidth = width / 2.0F;
         float halfHeight = height / 2.0F;
@@ -97,8 +101,9 @@ namespace ouzel
                                     zNearPlane, zFarPlane, dst);
     }
 
-    void Matrix4::createOrthographicOffCenter(float left, float right, float bottom, float top,
-                                              float zNearPlane, float zFarPlane, Matrix4& dst)
+    template<class T>
+    void Matrix4<T>::createOrthographicOffCenter(float left, float right, float bottom, float top,
+                                                 float zNearPlane, float zFarPlane, Matrix4& dst)
     {
         assert(right != left);
         assert(top != bottom);
@@ -115,7 +120,8 @@ namespace ouzel
         dst.m[15] = 1.0F;
     }
 
-    void Matrix4::createRotation(const Vector3& axis, float angle, Matrix4& dst)
+    template<class T>
+    void Matrix4<T>::createRotation(const Vector3<T>& axis, float angle, Matrix4& dst)
     {
         float x = axis.v[0];
         float y = axis.v[1];
@@ -172,7 +178,8 @@ namespace ouzel
         dst.m[15] = 1.0F;
     }
 
-    void Matrix4::add(float scalar, Matrix4& dst)
+    template<class T>
+    void Matrix4<T>::add(float scalar, Matrix4& dst)
     {
         if (isSimdAvailable)
         {
@@ -244,7 +251,8 @@ namespace ouzel
         }
     }
 
-    void Matrix4::add(const Matrix4& m1, const Matrix4& m2, Matrix4& dst)
+    template<class T>
+    void Matrix4<T>::add(const Matrix4& m1, const Matrix4& m2, Matrix4& dst)
     {
         if (isSimdAvailable)
         {
@@ -313,7 +321,8 @@ namespace ouzel
         }
     }
 
-    float Matrix4::determinant() const
+    template<class T>
+    float Matrix4<T>::determinant() const
     {
         float a0 = m[0] * m[5] - m[1] * m[4];
         float a1 = m[0] * m[6] - m[2] * m[4];
@@ -332,7 +341,8 @@ namespace ouzel
         return a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
     }
 
-    void Matrix4::invert(Matrix4& dst) const
+    template<class T>
+    void Matrix4<T>::invert(Matrix4& dst) const
     {
         float a0 = m[0] * m[5] - m[1] * m[4];
         float a1 = m[0] * m[6] - m[2] * m[4];
@@ -377,17 +387,8 @@ namespace ouzel
         multiply(inverse, 1.0F / det, dst);
     }
 
-    void Matrix4::multiply(float scalar)
-    {
-        multiply(scalar, *this);
-    }
-
-    void Matrix4::multiply(float scalar, Matrix4& dst) const
-    {
-        multiply(*this, scalar, dst);
-    }
-
-    void Matrix4::multiply(const Matrix4& m, float scalar, Matrix4& dst)
+    template<class T>
+    void Matrix4<T>::multiply(const Matrix4& m, float scalar, Matrix4& dst)
     {
         if (isSimdAvailable)
         {
@@ -456,12 +457,8 @@ namespace ouzel
         }
     }
 
-    void Matrix4::multiply(const Matrix4& matrix)
-    {
-        multiply(*this, matrix, *this);
-    }
-
-    void Matrix4::multiply(const Matrix4& m1, const Matrix4& m2, Matrix4& dst)
+    template<class T>
+    void Matrix4<T>::multiply(const Matrix4& m1, const Matrix4& m2, Matrix4& dst)
     {
         if (isSimdAvailable)
         {
@@ -644,12 +641,8 @@ namespace ouzel
         }
     }
 
-    void Matrix4::negate()
-    {
-        negate(*this);
-    }
-
-    void Matrix4::negate(Matrix4& dst) const
+    template<class T>
+    void Matrix4<T>::negate(Matrix4& dst) const
     {
         if (isSimdAvailable)
         {
@@ -716,121 +709,15 @@ namespace ouzel
         }
     }
 
-    void Matrix4::rotate(const Vector3& axis, float angle)
-    {
-        rotate(axis, angle, *this);
-    }
-
-    void Matrix4::rotate(const Vector3& axis, float angle, Matrix4& dst) const
-    {
-        Matrix4 r;
-        createRotation(axis, angle, r);
-        multiply(*this, r, dst);
-    }
-
-    void Matrix4::rotateX(float angle)
-    {
-        rotateX(angle, *this);
-    }
-
-    void Matrix4::rotateX(float angle, Matrix4& dst) const
-    {
-        Matrix4 r;
-        createRotationX(angle, r);
-        multiply(*this, r, dst);
-    }
-
-    void Matrix4::rotateY(float angle)
-    {
-        rotateY(angle, *this);
-    }
-
-    void Matrix4::rotateY(float angle, Matrix4& dst) const
-    {
-        Matrix4 r;
-        createRotationY(angle, r);
-        multiply(*this, r, dst);
-    }
-
-    void Matrix4::rotateZ(float angle)
-    {
-        rotateZ(angle, *this);
-    }
-
-    void Matrix4::rotateZ(float angle, Matrix4& dst) const
-    {
-        Matrix4 r;
-        createRotationZ(angle, r);
-        multiply(*this, r, dst);
-    }
-
-    void Matrix4::scale(float value)
-    {
-        scale(value, *this);
-    }
-
-    void Matrix4::scale(float value, Matrix4& dst) const
-    {
-        scale(value, value, value, dst);
-    }
-
-    void Matrix4::scale(float xScale, float yScale, float zScale)
-    {
-        scale(xScale, yScale, zScale, *this);
-    }
-
-    void Matrix4::scale(float xScale, float yScale, float zScale, Matrix4& dst) const
-    {
-        Matrix4 s;
-        createScale(xScale, yScale, zScale, s);
-        multiply(*this, s, dst);
-    }
-
-    void Matrix4::scale(const Vector3& s)
-    {
-        scale(s.v[0], s.v[1], s.v[2], *this);
-    }
-
-    void Matrix4::scale(const Vector3& s, Matrix4& dst) const
-    {
-        scale(s.v[0], s.v[1], s.v[2], dst);
-    }
-
-    void Matrix4::set(float m11, float m12, float m13, float m14,
-                      float m21, float m22, float m23, float m24,
-                      float m31, float m32, float m33, float m34,
-                      float m41, float m42, float m43, float m44)
-    {
-        m[0] = m11;
-        m[1] = m21;
-        m[2] = m31;
-        m[3] = m41;
-        m[4] = m12;
-        m[5] = m22;
-        m[6] = m32;
-        m[7] = m42;
-        m[8] = m13;
-        m[9] = m23;
-        m[10] = m33;
-        m[11] = m43;
-        m[12] = m14;
-        m[13] = m24;
-        m[14] = m34;
-        m[15] = m44;
-    }
-
-    void Matrix4::set(const float* array)
+    template<class T>
+    void Matrix4<T>::set(const float* array)
     {
         assert(array);
         std::copy(array, array + sizeof(m) / sizeof(float), m);
     }
 
-    void Matrix4::subtract(const Matrix4& matrix)
-    {
-        subtract(*this, matrix, *this);
-    }
-
-    void Matrix4::subtract(const Matrix4& m1, const Matrix4& m2, Matrix4& dst)
+    template<class T>
+    void Matrix4<T>::subtract(const Matrix4& m1, const Matrix4& m2, Matrix4& dst)
     {
         if (isSimdAvailable)
         {
@@ -899,7 +786,8 @@ namespace ouzel
         }
     }
 
-    void Matrix4::transformVector(const Vector4& vector, Vector4& dst) const
+    template<class T>
+    void Matrix4<T>::transformVector(const Vector4<T>& vector, Vector4<T>& dst) const
     {
         if (isSimdAvailable)
         {
@@ -961,34 +849,8 @@ namespace ouzel
         }
     }
 
-    void Matrix4::translate(float x, float y, float z)
-    {
-        translate(x, y, z, *this);
-    }
-
-    void Matrix4::translate(float x, float y, float z, Matrix4& dst) const
-    {
-        Matrix4 t;
-        createTranslation(x, y, z, t);
-        multiply(*this, t, dst);
-    }
-
-    void Matrix4::translate(const Vector3& t)
-    {
-        translate(t.v[0], t.v[1], t.v[2], *this);
-    }
-
-    void Matrix4::translate(const Vector3& t, Matrix4& dst) const
-    {
-        translate(t.v[0], t.v[1], t.v[2], dst);
-    }
-
-    void Matrix4::transpose()
-    {
-        transpose(*this);
-    }
-
-    void Matrix4::transpose(Matrix4& dst) const
+    template<class T>
+    void Matrix4<T>::transpose(Matrix4& dst) const
     {
         if (isSimdAvailable)
         {
@@ -1039,4 +901,6 @@ namespace ouzel
             std::copy(std::begin(t), std::end(t), dst.m);
         }
     }
+
+    template class Matrix4<float>;
 }

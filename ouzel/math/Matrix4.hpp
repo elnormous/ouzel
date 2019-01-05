@@ -13,17 +13,17 @@
 
 namespace ouzel
 {
-    class Matrix4 final
+    template<class T> class Matrix4 final
     {
     public:
 #if defined(__SSE__)
         alignas(16)
 #endif
-        float m[16];
+        T m[16];
 
         Matrix4()
         {
-            std::fill(std::begin(m), std::end(m), 0.0F);
+            std::fill(std::begin(m), std::end(m), 0);
         }
 
         Matrix4(float m11, float m12, float m13, float m14,
@@ -52,13 +52,13 @@ namespace ouzel
 
         static inline Matrix4 identity()
         {
-            return Matrix4(1.0F, 0.0F, 0.0F, 0.0F,
-                           0.0F, 1.0F, 0.0F, 0.0F,
-                           0.0F, 0.0F, 1.0F, 0.0F,
-                           0.0F, 0.0F, 0.0F, 1.0F);
+            return Matrix4(1, 0, 0, 0,
+                           0, 1, 0, 0,
+                           0, 0, 1, 0,
+                           0, 0, 0, 1);
         }
 
-        static void createLookAt(const Vector3& eyePosition, const Vector3& targetPosition, const Vector3& up, Matrix4& dst);
+        static void createLookAt(const Vector3<T>& eyePosition, const Vector3<T>& targetPosition, const Vector3<T>& up, Matrix4& dst);
         static void createLookAt(float eyePositionX, float eyePositionY, float eyePositionZ,
                                  float targetPositionX, float targetPositionY, float targetPositionZ,
                                  float upX, float upY, float upZ, Matrix4& dst);
@@ -68,7 +68,7 @@ namespace ouzel
         static void createOrthographicOffCenter(float left, float right, float bottom, float top,
                                                 float zNearPlane, float zFarPlane, Matrix4& dst);
         
-        static void createScale(const Vector3& scale, Matrix4& dst)
+        static void createScale(const Vector3<T>& scale, Matrix4& dst)
         {
             dst.setIdentity();
 
@@ -86,7 +86,7 @@ namespace ouzel
             dst.m[10] = zScale;
         }
         
-        static void createRotation(const Vector3& axis, float angle, Matrix4& dst);
+        static void createRotation(const Vector3<T>& axis, float angle, Matrix4& dst);
 
         static void createRotationX(float angle, Matrix4& dst)
         {
@@ -127,7 +127,7 @@ namespace ouzel
             dst.m[5] = c;
         }
 
-        static void createTranslation(const Vector3& translation, Matrix4& dst)
+        static void createTranslation(const Vector3<T>& translation, Matrix4& dst)
         {
             dst.setIdentity();
 
@@ -145,39 +145,39 @@ namespace ouzel
             dst.m[14] = zTranslation;
         }
 
-        Plane getFrustumLeftPlane() const
+        Plane<T> getFrustumLeftPlane() const
         {
-            return Plane::makeFrustumPlane(m[3] + m[0], m[7] + m[4], m[11] + m[8], m[15] + m[12]);
+            return Plane<T>::makeFrustumPlane(m[3] + m[0], m[7] + m[4], m[11] + m[8], m[15] + m[12]);
         }
 
-        inline Plane getFrustumRightPlane() const
+        inline Plane<T> getFrustumRightPlane() const
         {
-            return Plane::makeFrustumPlane(m[3] - m[0], m[7] - m[4], m[11] - m[8], m[15] - m[12]);
+            return Plane<T>::makeFrustumPlane(m[3] - m[0], m[7] - m[4], m[11] - m[8], m[15] - m[12]);
         }
 
-        inline Plane getFrustumBottomPlane() const
+        inline Plane<T> getFrustumBottomPlane() const
         {
-            return Plane::makeFrustumPlane(m[3] + m[1], m[7] + m[5], m[11] + m[9], m[15] + m[13]);
+            return Plane<T>::makeFrustumPlane(m[3] + m[1], m[7] + m[5], m[11] + m[9], m[15] + m[13]);
         }
 
-        inline Plane getFrustumTopPlane() const
+        inline Plane<T> getFrustumTopPlane() const
         {
-            return Plane::makeFrustumPlane(m[3] - m[1], m[7] - m[5], m[11] - m[9], m[15] - m[13]);
+            return Plane<T>::makeFrustumPlane(m[3] - m[1], m[7] - m[5], m[11] - m[9], m[15] - m[13]);
         }
 
-        inline Plane getFrustumNearPlane() const
+        inline Plane<T> getFrustumNearPlane() const
         {
-            return Plane::makeFrustumPlane(m[3] + m[2], m[7] + m[6], m[11] + m[10], m[15] + m[14]);
+            return Plane<T>::makeFrustumPlane(m[3] + m[2], m[7] + m[6], m[11] + m[10], m[15] + m[14]);
         }
 
-        inline Plane getFrustumFarPlane() const
+        inline Plane<T> getFrustumFarPlane() const
         {
-            return Plane::makeFrustumPlane(m[3] - m[2], m[7] - m[6], m[11] - m[10], m[15] - m[14]);
+            return Plane<T>::makeFrustumPlane(m[3] - m[2], m[7] - m[6], m[11] - m[10], m[15] - m[14]);
         }
 
-        ConvexVolume getFrustum() const
+        ConvexVolume<T> getFrustum() const
         {
-            ConvexVolume frustum;
+            ConvexVolume<T> frustum;
             frustum.planes.push_back(getFrustumLeftPlane());
             frustum.planes.push_back(getFrustumRightPlane());
             frustum.planes.push_back(getFrustumBottomPlane());
@@ -203,42 +203,42 @@ namespace ouzel
 
         float determinant() const;
 
-        inline void getUpVector(Vector3& dst) const
+        inline void getUpVector(Vector3<T>& dst) const
         {
             dst.v[0] = m[4];
             dst.v[1] = m[5];
             dst.v[2] = m[6];
         }
 
-        inline void getDownVector(Vector3& dst) const
+        inline void getDownVector(Vector3<T>& dst) const
         {
             dst.v[0] = -m[4];
             dst.v[1] = -m[5];
             dst.v[2] = -m[6];
         }
 
-        inline void getLeftVector(Vector3& dst) const
+        inline void getLeftVector(Vector3<T>& dst) const
         {
             dst.v[0] = -m[0];
             dst.v[1] = -m[1];
             dst.v[2] = -m[2];
         }
 
-        inline void getRightVector(Vector3& dst) const
+        inline void getRightVector(Vector3<T>& dst) const
         {
             dst.v[0] = m[0];
             dst.v[1] = m[1];
             dst.v[2] = m[2];
         }
 
-        inline void getForwardVector(Vector3& dst) const
+        inline void getForwardVector(Vector3<T>& dst) const
         {
             dst.v[0] = -m[8];
             dst.v[1] = -m[9];
             dst.v[2] = -m[10];
         }
 
-        inline void getBackVector(Vector3& dst) const
+        inline void getBackVector(Vector3<T>& dst) const
         {
             dst.v[0] = m[8];
             dst.v[1] = m[9];
@@ -260,35 +260,135 @@ namespace ouzel
                    m[12] == 0.0F && m[13] == 0.0F && m[14] == 0.0F && m[15] == 1.0F;
         }
 
-        void multiply(float scalar);
-        void multiply(float scalar, Matrix4& dst) const;
+        void multiply(float scalar)
+        {
+            multiply(scalar, *this);
+        }
+
+        void multiply(float scalar, Matrix4& dst) const
+        {
+            multiply(*this, scalar, dst);
+        }
+
         static void multiply(const Matrix4& m, float scalar, Matrix4& dst);
-        void multiply(const Matrix4& matrix);
+
+        void multiply(const Matrix4& matrix)
+        {
+            multiply(*this, matrix, *this);
+        }
+
         static void multiply(const Matrix4& m1, const Matrix4& m2, Matrix4& dst);
 
-        void negate();
+        void negate()
+        {
+            negate(*this);
+        }
+
         void negate(Matrix4& dst) const;
 
-        void rotate(const Vector3& axis, float angle);
-        void rotate(const Vector3& axis, float angle, Matrix4& dst) const;
-        void rotateX(float angle);
-        void rotateX(float angle, Matrix4& dst) const;
-        void rotateY(float angle);
-        void rotateY(float angle, Matrix4& dst) const;
-        void rotateZ(float angle);
-        void rotateZ(float angle, Matrix4& dst) const;
+        void rotate(const Vector3<T>& axis, float angle)
+        {
+            rotate(axis, angle, *this);
+        }
 
-        void scale(float value);
-        void scale(float value, Matrix4& dst) const;
-        void scale(float xScale, float yScale, float zScale);
-        void scale(float xScale, float yScale, float zScale, Matrix4& dst) const;
-        void scale(const Vector3& s);
-        void scale(const Vector3& s, Matrix4& dst) const;
+        void rotate(const Vector3<T>& axis, float angle, Matrix4& dst) const
+        {
+            Matrix4 r;
+            createRotation(axis, angle, r);
+            multiply(*this, r, dst);
+        }
+
+        void rotateX(float angle)
+        {
+            rotateX(angle, *this);
+        }
+
+        void rotateX(float angle, Matrix4& dst) const
+        {
+            Matrix4 r;
+            createRotationX(angle, r);
+            multiply(*this, r, dst);
+        }
+
+        void rotateY(float angle)
+        {
+            rotateY(angle, *this);
+        }
+
+        void rotateY(float angle, Matrix4& dst) const
+        {
+            Matrix4 r;
+            createRotationY(angle, r);
+            multiply(*this, r, dst);
+        }
+
+        void rotateZ(float angle)
+        {
+            rotateZ(angle, *this);
+        }
+
+        void rotateZ(float angle, Matrix4& dst) const
+        {
+            Matrix4 r;
+            createRotationZ(angle, r);
+            multiply(*this, r, dst);
+        }
+
+        void scale(float value)
+        {
+            scale(value, *this);
+        }
+
+        void scale(float value, Matrix4& dst) const
+        {
+            scale(value, value, value, dst);
+        }
+
+        void scale(float xScale, float yScale, float zScale)
+        {
+            scale(xScale, yScale, zScale, *this);
+        }
+
+        void scale(float xScale, float yScale, float zScale, Matrix4& dst) const
+        {
+            Matrix4 s;
+            createScale(xScale, yScale, zScale, s);
+            multiply(*this, s, dst);
+        }
+
+        void scale(const Vector3<T>& s)
+        {
+            scale(s.v[0], s.v[1], s.v[2], *this);
+        }
+
+        void scale(const Vector3<T>& s, Matrix4& dst) const
+        {
+            scale(s.v[0], s.v[1], s.v[2], dst);
+        }
 
         void set(float m11, float m12, float m13, float m14,
                  float m21, float m22, float m23, float m24,
                  float m31, float m32, float m33, float m34,
-                 float m41, float m42, float m43, float m44);
+                 float m41, float m42, float m43, float m44)
+        {
+            m[0] = m11;
+            m[1] = m21;
+            m[2] = m31;
+            m[3] = m41;
+            m[4] = m12;
+            m[5] = m22;
+            m[6] = m32;
+            m[7] = m42;
+            m[8] = m13;
+            m[9] = m23;
+            m[10] = m33;
+            m[11] = m43;
+            m[12] = m14;
+            m[13] = m24;
+            m[14] = m34;
+            m[15] = m44;
+        }
+        
         void set(const float* array);
 
         inline void setIdentity()
@@ -304,71 +404,96 @@ namespace ouzel
             std::fill(m, m + sizeof(m) / sizeof(float), 0.0F);
         }
 
-        void subtract(const Matrix4& matrix);
+        void subtract(const Matrix4& matrix)
+        {
+            subtract(*this, matrix, *this);
+        }
+
         static void subtract(const Matrix4& m1, const Matrix4& m2, Matrix4& dst);
 
-        void transformPoint(Vector3& point) const
+        void transformPoint(Vector3<T>& point) const
         {
             transformVector(point.v[0], point.v[1], point.v[2], 1.0F, point);
         }
 
-        void transformPoint(const Vector3& point, Vector3& dst) const
+        void transformPoint(const Vector3<T>& point, Vector3<T>& dst) const
         {
             transformVector(point.v[0], point.v[1], point.v[2], 1.0F, dst);
         }
 
-        void transformVector(Vector3& vector) const
+        void transformVector(Vector3<T>& vector) const
         {
-            Vector4 t;
-            transformVector(Vector4(vector.v[0], vector.v[1], vector.v[2], 0.0F), t);
-            vector = Vector3(t.v[0], t.v[1], t.v[2]);
+            Vector4<T> t;
+            transformVector(Vector4<T>(vector.v[0], vector.v[1], vector.v[2], 0.0F), t);
+            vector = Vector3<T>(t.v[0], t.v[1], t.v[2]);
         }
 
-        void transformVector(const Vector3& vector, Vector3& dst) const
+        void transformVector(const Vector3<T>& vector, Vector3<T>& dst) const
         {
             transformVector(vector.v[0], vector.v[1], vector.v[2], 0.0F, dst);
         }
 
-        void transformVector(float x, float y, float z, float w, Vector3& dst) const
+        void transformVector(float x, float y, float z, float w, Vector3<T>& dst) const
         {
-            Vector4 t;
-            transformVector(Vector4(x, y, z, w), t);
-            dst = Vector3(t.v[0], t.v[1], t.v[2]);
+            Vector4<T> t;
+            transformVector(Vector4<T>(x, y, z, w), t);
+            dst = Vector3<T>(t.v[0], t.v[1], t.v[2]);
         }
 
-        void transformVector(Vector4& vector) const
+        void transformVector(Vector4<T>& vector) const
         {
             transformVector(vector, vector);
         }
 
-        void transformVector(const Vector4& vector, Vector4& dst) const;
+        void transformVector(const Vector4<T>& vector, Vector4<T>& dst) const;
 
-        void translate(float x, float y, float z);
-        void translate(float x, float y, float z, Matrix4& dst) const;
-        void translate(const Vector3& t);
-        void translate(const Vector3& t, Matrix4& dst) const;
-
-        void transpose();
-        void transpose(Matrix4& dst) const;
-
-        Vector3 getTranslation() const
+        void translate(float x, float y, float z)
         {
-            return Vector3(m[12], m[13], m[14]);
+            translate(x, y, z, *this);
         }
 
-        Vector3 getScale() const
+        void translate(float x, float y, float z, Matrix4& dst) const
         {
-            Vector3 scale;
-            scale.v[0] = Vector3(m[0], m[1], m[2]).length();
-            scale.v[1] = Vector3(m[4], m[5], m[6]).length();
-            scale.v[2] = Vector3(m[8], m[9], m[10]).length();
+            Matrix4 t;
+            createTranslation(x, y, z, t);
+            multiply(*this, t, dst);
+        }
+
+        void translate(const Vector3<T>& t)
+        {
+            translate(t.v[0], t.v[1], t.v[2], *this);
+        }
+
+        void translate(const Vector3<T>& t, Matrix4& dst) const
+        {
+            translate(t.v[0], t.v[1], t.v[2], dst);
+        }
+
+        void transpose()
+        {
+            transpose(*this);
+        }
+        
+        void transpose(Matrix4& dst) const;
+
+        Vector3<T> getTranslation() const
+        {
+            return Vector3<T>(m[12], m[13], m[14]);
+        }
+
+        Vector3<T> getScale() const
+        {
+            Vector3<T> scale;
+            scale.v[0] = Vector3<T>(m[0], m[1], m[2]).length();
+            scale.v[1] = Vector3<T>(m[4], m[5], m[6]).length();
+            scale.v[2] = Vector3<T>(m[8], m[9], m[10]).length();
 
             return scale;
         }
 
-        Quaternion getRotation() const
+        Quaternion<T> getRotation() const
         {
-            Vector3 scale = getScale();
+            Vector3<T> scale = getScale();
 
             float m11 = m[0] / scale.v[0];
             float m21 = m[1] / scale.v[0];
@@ -382,7 +507,7 @@ namespace ouzel
             float m23 = m[9] / scale.v[2];
             float m33 = m[10] / scale.v[2];
 
-            Quaternion result;
+            Quaternion<T> result;
             result.v[0] = sqrtf(std::max(0.0F, 1 + m11 - m22 - m33)) / 2.0F;
             result.v[1] = sqrtf(std::max(0.0F, 1 - m11 + m22 - m33)) / 2.0F;
             result.v[2] = sqrtf(std::max(0.0F, 1 - m11 - m22 + m33)) / 2.0F;
@@ -397,7 +522,7 @@ namespace ouzel
             return result;
         }
 
-        void setRotation(const Quaternion& rotation)
+        void setRotation(const Quaternion<T>& rotation)
         {
             float wx = rotation.v[3] * rotation.v[0];
             float wy = rotation.v[3] * rotation.v[1];
@@ -520,28 +645,32 @@ namespace ouzel
         }
     };
 
-    inline Vector3& operator*=(Vector3& v, const Matrix4& m)
+    template<class T>
+    inline Vector3<T>& operator*=(Vector3<T>& v, const Matrix4<T>& m)
     {
         m.transformVector(v);
         return v;
     }
 
-    inline const Vector3 operator*(const Matrix4& m, const Vector3& v)
+    template<class T>
+    inline const Vector3<T> operator*(const Matrix4<T>& m, const Vector3<T>& v)
     {
-        Vector3 x;
+        Vector3<T> x;
         m.transformVector(v, x);
         return x;
     }
 
-    inline Vector4& operator*=(Vector4& v, const Matrix4& m)
+    template<class T>
+    inline Vector4<T>& operator*=(Vector4<T>& v, const Matrix4<T>& m)
     {
         m.transformVector(v);
         return v;
     }
 
-    inline const Vector4 operator*(const Matrix4& m, const Vector4& v)
+    template<class T>
+    inline const Vector4<T> operator*(const Matrix4<T>& m, const Vector4<T>& v)
     {
-        Vector4 x;
+        Vector4<T> x;
         m.transformVector(v, x);
         return x;
     }

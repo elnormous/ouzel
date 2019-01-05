@@ -14,7 +14,7 @@ namespace ouzel
 {
     namespace scene
     {
-        Camera::Camera(const Matrix4& initProjection):
+        Camera::Camera(const Matrix4<float>& initProjection):
             Component(CLASS),
             projectionMode(ProjectionMode::CUSTOM), projection(initProjection)
 
@@ -22,7 +22,7 @@ namespace ouzel
             calculateViewProjection();
         }
 
-        Camera::Camera(const Size2& initTargetContentSize, ScaleMode initScaleMode):
+        Camera::Camera(const Size2<float>& initTargetContentSize, ScaleMode initScaleMode):
             Component(CLASS),
             projectionMode(ProjectionMode::ORTHOGRAPHIC), targetContentSize(initTargetContentSize),
             scaleMode(initScaleMode)
@@ -68,7 +68,7 @@ namespace ouzel
 
         void Camera::recalculateProjection()
         {
-            Size2 renderTargetSize = renderTarget ?
+            Size2<float> renderTargetSize = renderTarget ?
                 renderTarget->getSize() :
                 engine->getRenderer()->getSize();
 
@@ -110,15 +110,15 @@ namespace ouzel
                         return;
                 }
 
-                contentSize = Size2(renderViewport.size.width / contentScale.v[0], renderViewport.size.height / contentScale.v[1]);
-                contentPosition = Vector2((contentSize.width - targetContentSize.width) / 2.0F,
+                contentSize = Size2<float>(renderViewport.size.width / contentScale.v[0], renderViewport.size.height / contentScale.v[1]);
+                contentPosition = Vector2<float>((contentSize.width - targetContentSize.width) / 2.0F,
                                           (contentSize.height - targetContentSize.height) / 2.0F);
             }
             else
             {
-                contentScale = Vector2(1.0F, 1.0F);
-                contentSize = Size2(renderViewport.size.width, renderViewport.size.height);
-                contentPosition = Vector2(0.0F, 0.0F);
+                contentScale = Vector2<float>(1.0F, 1.0F);
+                contentSize = Size2<float>(renderViewport.size.width, renderViewport.size.height);
+                contentPosition = Vector2<float>(0.0F, 0.0F);
             }
 
             switch (projectionMode)
@@ -127,10 +127,10 @@ namespace ouzel
                     // do nothing
                     break;
                 case ProjectionMode::ORTHOGRAPHIC:
-                    Matrix4::createOrthographicFromSize(contentSize.width, contentSize.height, -1.0F, 1.0F, projection);
+                    Matrix4<float>::createOrthographicFromSize(contentSize.width, contentSize.height, -1.0F, 1.0F, projection);
                     break;
                 case ProjectionMode::PERSPECTIVE:
-                    Matrix4::createPerspective(fov, contentSize.width / contentSize.height, nearPlane, farPlane, projection);
+                    Matrix4<float>::createPerspective(fov, contentSize.width / contentSize.height, nearPlane, farPlane, projection);
                     break;
                 default:
                     return;
@@ -139,21 +139,21 @@ namespace ouzel
             viewProjectionDirty = inverseViewProjectionDirty = true;
         }
 
-        const Matrix4& Camera::getViewProjection() const
+        const Matrix4<float>& Camera::getViewProjection() const
         {
             if (viewProjectionDirty) calculateViewProjection();
 
             return viewProjection;
         }
 
-        const Matrix4& Camera::getRenderViewProjection() const
+        const Matrix4<float>& Camera::getRenderViewProjection() const
         {
             if (viewProjectionDirty) calculateViewProjection();
 
             return renderViewProjection;
         }
 
-        const Matrix4& Camera::getInverseViewProjection() const
+        const Matrix4<float>& Camera::getInverseViewProjection() const
         {
             if (inverseViewProjectionDirty)
             {
@@ -178,10 +178,10 @@ namespace ouzel
             }
         }
 
-        Vector3 Camera::convertNormalizedToWorld(const Vector2& normalizedPosition) const
+        Vector3<float> Camera::convertNormalizedToWorld(const Vector2<float>& normalizedPosition) const
         {
             // convert window normalized to viewport clip position
-            Vector3 result = Vector3(((normalizedPosition.v[0] - viewport.position.v[0]) / viewport.size.width - 0.5F) * 2.0F,
+            Vector3<float> result = Vector3<float>(((normalizedPosition.v[0] - viewport.position.v[0]) / viewport.size.width - 0.5F) * 2.0F,
                                      (((1.0F - normalizedPosition.v[1]) - viewport.position.v[1]) / viewport.size.height - 0.5F) * 2.0F,
                                      0.0F);
 
@@ -190,44 +190,44 @@ namespace ouzel
             return result;
         }
 
-        Vector2 Camera::convertWorldToNormalized(const Vector3& normalizedPosition) const
+        Vector2<float> Camera::convertWorldToNormalized(const Vector3<float>& normalizedPosition) const
         {
-            Vector3 result = normalizedPosition;
+            Vector3<float> result = normalizedPosition;
             getViewProjection().transformPoint(result);
 
             // convert viewport clip position to window normalized
-            return Vector2((result.v[0] / 2.0F + 0.5F) * viewport.size.width + viewport.position.v[0],
+            return Vector2<float>((result.v[0] / 2.0F + 0.5F) * viewport.size.width + viewport.position.v[0],
                            1.0F - ((result.v[1] / 2.0F + 0.5F) * viewport.size.height + viewport.position.v[1]));
         }
 
-        bool Camera::checkVisibility(const Matrix4& boxTransform, const Box3& box) const
+        bool Camera::checkVisibility(const Matrix4<float>& boxTransform, const Box3<float>& box) const
         {
             if (projectionMode == ProjectionMode::ORTHOGRAPHIC)
             {
                 // calculate center point of the box
-                Vector2 diff = Vector2(box.max - box.min);
+                Vector2<float> diff = Vector2<float>(box.max - box.min);
 
                 // offset the center point, so that it is relative to 0,0
-                Vector3 v3p(box.min.v[0] + diff.v[0] / 2.0F, box.min.v[1] + diff.v[1] / 2.0F, 0.0F);
+                Vector3<float> v3p(box.min.v[0] + diff.v[0] / 2.0F, box.min.v[1] + diff.v[1] / 2.0F, 0.0F);
 
                 // apply local transform to the center point
                 boxTransform.transformPoint(v3p);
 
                 // tranform the center to viewport's clip space
-                Vector4 clipPos;
-                getViewProjection().transformVector(Vector4(v3p.v[0], v3p.v[1], v3p.v[2], 1.0F), clipPos);
+                Vector4<float> clipPos;
+                getViewProjection().transformVector(Vector4<float>(v3p.v[0], v3p.v[1], v3p.v[2], 1.0F), clipPos);
 
                 assert(clipPos.v[3] != 0.0F);
 
                 // normalize position of the center point
-                Vector2 v2p((clipPos.v[0] / clipPos.v[3] + 1.0F) * 0.5F,
+                Vector2<float> v2p((clipPos.v[0] / clipPos.v[3] + 1.0F) * 0.5F,
                             (clipPos.v[1] / clipPos.v[3] + 1.0F) * 0.5F);
 
                 // calculate half size
-                Size2 halfSize(diff.v[0] / 2.0F, diff.v[1] / 2.0F);
+                Size2<float> halfSize(diff.v[0] / 2.0F, diff.v[1] / 2.0F);
 
                 // convert content size to world coordinates
-                Size2 halfWorldSize;
+                Size2<float> halfWorldSize;
 
                 halfWorldSize.width = std::max(fabsf(halfSize.width * boxTransform.m[0] + halfSize.height * boxTransform.m[4]),
                                                fabsf(halfSize.width * boxTransform.m[0] - halfSize.height * boxTransform.m[4]));
@@ -239,7 +239,7 @@ namespace ouzel
                 halfWorldSize.height *= (fabsf(viewProjection.m[1]) + fabsf(viewProjection.m[5])) / 2.0F;
 
                 // create visible rect in clip space
-                Rect visibleRect(-halfWorldSize.width,
+                Rect<float> visibleRect(-halfWorldSize.width,
                                  -halfWorldSize.height,
                                  1.0F + halfWorldSize.width * 2.0F,
                                  1.0F + halfWorldSize.height * 2.0F);
@@ -248,14 +248,14 @@ namespace ouzel
             }
             else
             {
-                Matrix4 modelViewProjection = getViewProjection() * boxTransform;
+                Matrix4<float> modelViewProjection = getViewProjection() * boxTransform;
 
-                ConvexVolume frustum = modelViewProjection.getFrustum();
+                ConvexVolume<float> frustum = modelViewProjection.getFrustum();
                 return frustum.isBoxInside(box);
             }
         }
 
-        void Camera::setViewport(const Rect& newViewport)
+        void Camera::setViewport(const Rect<float>& newViewport)
         {
             viewport = newViewport;
             recalculateProjection();
@@ -267,7 +267,7 @@ namespace ouzel
             recalculateProjection();
         }
 
-        void Camera::setTargetContentSize(const Size2& newTargetContentSize)
+        void Camera::setTargetContentSize(const Size2<float>& newTargetContentSize)
         {
             targetContentSize = newTargetContentSize;
             recalculateProjection();

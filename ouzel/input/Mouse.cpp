@@ -18,7 +18,7 @@ namespace ouzel
             std::fill(std::begin(buttonStates), std::end(buttonStates), false);
         }
 
-        void Mouse::setPosition(const Vector2& newPosition)
+        void Mouse::setPosition(const Vector2<float>& newPosition)
         {
             position = newPosition;
 
@@ -58,7 +58,7 @@ namespace ouzel
             inputManager.getInputSystem()->addCommand(command);
         }
 
-        bool Mouse::handleButtonPress(Mouse::Button button, const Vector2& pos)
+        bool Mouse::handleButtonPress(Mouse::Button button, const Vector2<float>& pos)
         {
             buttonStates[static_cast<uint32_t>(button)] = true;
 
@@ -71,7 +71,7 @@ namespace ouzel
             return engine->getEventDispatcher().dispatchEvent(std::move(event));
         }
 
-        bool Mouse::handleButtonRelease(Mouse::Button button, const Vector2& pos)
+        bool Mouse::handleButtonRelease(Mouse::Button button, const Vector2<float>& pos)
         {
             buttonStates[static_cast<uint32_t>(button)] = false;
 
@@ -84,7 +84,7 @@ namespace ouzel
             return engine->getEventDispatcher().dispatchEvent(std::move(event));
         }
 
-        bool Mouse::handleMove(const Vector2& pos)
+        bool Mouse::handleMove(const Vector2<float>& pos)
         {
             std::unique_ptr<MouseEvent> event(new MouseEvent());
             event->type = Event::Type::MOUSE_MOVE;
@@ -97,9 +97,9 @@ namespace ouzel
             return engine->getEventDispatcher().dispatchEvent(std::move(event));
         }
 
-        bool Mouse::handleRelativeMove(const Vector2& pos)
+        bool Mouse::handleRelativeMove(const Vector2<float>& pos)
         {
-            Vector2 newPosition = position + pos;
+            Vector2<float> newPosition = position + pos;
 
             newPosition.v[0] = clamp(newPosition.v[0], 0.0F, 1.0F);
             newPosition.v[1] = clamp(newPosition.v[1], 0.0F, 1.0F);
@@ -107,7 +107,7 @@ namespace ouzel
             return handleMove(newPosition);
         }
 
-        bool Mouse::handleScroll(const Vector2& scroll, const Vector2& pos)
+        bool Mouse::handleScroll(const Vector2<float>& scroll, const Vector2<float>& pos)
         {
             std::unique_ptr<MouseEvent> event(new MouseEvent());
             event->type = Event::Type::MOUSE_SCROLL;

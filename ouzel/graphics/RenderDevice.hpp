@@ -57,12 +57,12 @@ namespace ouzel
 
             virtual void process();
 
-            inline const Size2& getSize() const { return size; }
+            inline const Size2<float>& getSize() const { return size; }
             inline uint32_t getSampleCount() const { return sampleCount; }
             inline Texture::Filter getTextureFilter() const { return textureFilter; }
             inline uint32_t getMaxAnisotropy() const { return maxAnisotropy; }
 
-            virtual std::vector<Size2> getSupportedResolutions() const;
+            virtual std::vector<Size2<float>> getSupportedResolutions() const;
 
             void submitCommandBuffer(CommandBuffer&& commandBuffer)
             {
@@ -82,7 +82,7 @@ namespace ouzel
             inline bool isAnisotropicFilteringSupported() const { return anisotropicFilteringSupported; }
             inline bool isRenderTargetsSupported() const { return renderTargetsSupported; }
 
-            const Matrix4& getProjectionTransform(bool renderTarget) const
+            const Matrix4<float>& getProjectionTransform(bool renderTarget) const
             {
                 return renderTarget ? renderTargetProjectionTransform : projectionTransform;
             }
@@ -113,7 +113,7 @@ namespace ouzel
 
         protected:
             virtual void init(Window* newWindow,
-                              const Size2& newSize,
+                              const Size2<float>& newSize,
                               uint32_t newSampleCount,
                               Texture::Filter newTextureFilter,
                               uint32_t newMaxAnisotropy,
@@ -122,7 +122,7 @@ namespace ouzel
                               bool newDebugRenderer);
 
             void executeAll();
-            virtual void setSize(const Size2& newSize);
+            virtual void setSize(const Size2<float>& newSize);
 
             virtual void generateScreenshot(const std::string& filename);
 
@@ -147,10 +147,10 @@ namespace ouzel
             bool anisotropicFilteringSupported = true;
             bool renderTargetsSupported = true;
 
-            Matrix4 projectionTransform;
-            Matrix4 renderTargetProjectionTransform;
+            Matrix4<float> projectionTransform;
+            Matrix4<float> renderTargetProjectionTransform;
 
-            Size2 size;
+            Size2<float> size;
             Color clearColor;
             float clearDepth = 1.0;
             bool clearColorBuffer = true;

@@ -17,11 +17,11 @@ namespace ouzel
             MouseDevice(InputSystem& initInputSystem, uint32_t initId);
             ~MouseDevice();
 
-            std::future<bool> handleButtonPress(Mouse::Button button, const Vector2& position);
-            std::future<bool> handleButtonRelease(Mouse::Button button, const Vector2& position);
-            std::future<bool> handleMove(const Vector2& position);
-            std::future<bool> handleRelativeMove(const Vector2& position);
-            std::future<bool> handleScroll(const Vector2& scroll, const Vector2& position);
+            std::future<bool> handleButtonPress(Mouse::Button button, const Vector2<float>& position);
+            std::future<bool> handleButtonRelease(Mouse::Button button, const Vector2<float>& position);
+            std::future<bool> handleMove(const Vector2<float>& position);
+            std::future<bool> handleRelativeMove(const Vector2<float>& position);
+            std::future<bool> handleScroll(const Vector2<float>& scroll, const Vector2<float>& position);
             std::future<bool> handleCursorLockChange(bool locked);
         };
     } // namespace input

@@ -29,7 +29,7 @@ namespace ouzel
         public:
             Renderer(Driver driver,
                      Window* newWindow,
-                     const Size2& newSize,
+                     const Size2<float>& newSize,
                      uint32_t newSampleCount,
                      Texture::Filter newTextureFilter,
                      uint32_t newMaxAnisotropy,
@@ -60,7 +60,7 @@ namespace ouzel
             inline float getClearDepth() const { return clearDepth; }
             void setClearDepth(float newClearDepth);
 
-            inline const Size2& getSize() const { return size; }
+            inline const Size2<float>& getSize() const { return size; }
 
             void saveScreenshot(const std::string& filename);
 
@@ -68,8 +68,8 @@ namespace ouzel
             void clearRenderTarget(uintptr_t renderTarget);
             void setCullMode(CullMode cullMode);
             void setFillMode(FillMode fillMode);
-            void setScissorTest(bool enabled, const Rect& rectangle);
-            void setViewport(const Rect& viewport);
+            void setScissorTest(bool enabled, const Rect<float>& rectangle);
+            void setViewport(const Rect<float>& viewport);
             void setDepthStencilState(uintptr_t depthStencilState);
             void setPipelineState(uintptr_t blendState,
                                   uintptr_t shader);
@@ -90,25 +90,25 @@ namespace ouzel
             void waitForNextFrame();
             inline bool getRefillQueue() const { return refillQueue; }
 
-            Vector2 convertScreenToNormalizedLocation(const Vector2& position)
+            Vector2<float> convertScreenToNormalizedLocation(const Vector2<float>& position)
             {
-                return Vector2(position.v[0] / size.width,
-                               1.0F - (position.v[1] / size.height));
+                return Vector2<float>(position.v[0] / size.width,
+                                      1.0F - (position.v[1] / size.height));
             }
 
-            Vector2 convertNormalizedToScreenLocation(const Vector2& position)
+            Vector2<float> convertNormalizedToScreenLocation(const Vector2<float>& position)
             {
-                return Vector2(position.v[0] * size.width,
-                               (1.0F - position.v[1]) * size.height);
+                return Vector2<float>(position.v[0] * size.width,
+                                      (1.0F - position.v[1]) * size.height);
             }
 
         private:
             void handleEvent(const RenderDevice::Event& event);
-            void setSize(const Size2& newSize);
+            void setSize(const Size2<float>& newSize);
 
             std::unique_ptr<RenderDevice> device;
 
-            Size2 size;
+            Size2<float> size;
             Color clearColor;
             float clearDepth = 1.0;
             bool clearColorBuffer = true;

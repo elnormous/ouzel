@@ -6,12 +6,14 @@
 
 namespace ouzel
 {
-    Box3::Box3(const Box2& box):
+    template<class T>
+    Box3<T>::Box3(const Box2<T>& box):
         min(box.min), max(box.max)
     {
     }
 
-    Box3& Box3::operator=(const Box2& box)
+    template<class T>
+    Box3<T>& Box3<T>::operator=(const Box2<T>& box)
     {
         min = box.min;
         max = box.max;
@@ -19,7 +21,8 @@ namespace ouzel
         return *this;
     }
 
-    void Box3::getCorners(Vector3* dst) const
+    template<class T>
+    void Box3<T>::getCorners(Vector3<T>* dst) const
     {
         // Near face, specified counter-clockwise looking towards the origin from the positive v[2]-axis
         // Left-bottom-front
@@ -40,7 +43,8 @@ namespace ouzel
         dst[3].set(min.v[0], max.v[1], max.v[2]);
     }
 
-    void Box3::merge(const Box3& box)
+    template<class T>
+    void Box3<T>::merge(const Box3& box)
     {
         // Calculate the new minimum point
         min.v[0] = std::min(min.v[0], box.min.v[0]);
@@ -52,4 +56,6 @@ namespace ouzel
         max.v[1] = std::max(max.v[1], box.max.v[1]);
         max.v[2] = std::max(max.v[1], box.max.v[2]);
     }
+
+    template class Box3<float>;
 }

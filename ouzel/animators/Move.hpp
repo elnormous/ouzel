@@ -13,7 +13,7 @@ namespace ouzel
         class Move final: public Animator
         {
         public:
-            Move(float initLength, const Vector3& initPosition, bool initRelative = false);
+            Move(float initLength, const Vector3<float>& initPosition, bool initRelative = false);
 
             void play() override;
 
@@ -21,10 +21,10 @@ namespace ouzel
             void updateProgress() override;
 
         private:
-            Vector3 position;
-            Vector3 startPosition;
-            Vector3 targetPosition;
-            Vector3 diff;
+            Vector3<float> position;
+            Vector3<float> startPosition;
+            Vector3<float> targetPosition;
+            Vector3<float> diff;
             bool relative;
         };
     } // namespace scene

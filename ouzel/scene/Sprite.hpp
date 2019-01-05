@@ -25,26 +25,26 @@ namespace ouzel
             explicit Sprite(const std::string& filename);
             explicit Sprite(std::shared_ptr<graphics::Texture> texture,
                             uint32_t spritesX = 1, uint32_t spritesY = 1,
-                            const Vector2& pivot = Vector2(0.5F, 0.5F));
+                            const Vector2<float>& pivot = Vector2<float>(0.5F, 0.5F));
 
             void init(const SpriteData& spriteData);
             void init(const std::string& filename);
             void init(std::shared_ptr<graphics::Texture> newTexture,
                       uint32_t spritesX = 1, uint32_t spritesY = 1,
-                      const Vector2& pivot = Vector2(0.5F, 0.5F));
+                      const Vector2<float>& pivot = Vector2<float>(0.5F, 0.5F));
 
             void update(float delta);
 
-            void draw(const Matrix4& transformMatrix,
+            void draw(const Matrix4<float>& transformMatrix,
                       float opacity,
-                      const Matrix4& renderViewProjection,
+                      const Matrix4<float>& renderViewProjection,
                       bool wireframe) override;
 
             inline const std::shared_ptr<graphics::Material>& getMaterial() const { return material; }
             inline void setMaterial(const std::shared_ptr<graphics::Material>& newMaterial) { material = newMaterial; }
 
-            inline const Vector2& getOffset() const { return offset; }
-            void setOffset(const Vector2& newOffset);
+            inline const Vector2<float>& getOffset() const { return offset; }
+            void setOffset(const Vector2<float>& newOffset);
 
             void play();
             void stop(bool resetAnimation = true);
@@ -76,8 +76,8 @@ namespace ouzel
             std::list<QueuedAnimation> animationQueue;
             std::list<QueuedAnimation>::iterator currentAnimation;
 
-            Vector2 offset;
-            Matrix4 offsetMatrix = Matrix4::identity();
+            Vector2<float> offset;
+            Matrix4<float> offsetMatrix = Matrix4<float>::identity();
 
             bool playing = false;
             bool running = false;

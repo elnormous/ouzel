@@ -138,7 +138,7 @@ namespace ouzel
 
         void Bundle::preloadSpriteData(const std::string& filename, bool mipmaps,
                                       uint32_t spritesX, uint32_t spritesY,
-                                      const Vector2& pivot)
+                                      const Vector2<float>& pivot)
         {
             std::string extension = FileSystem::getExtensionPart(filename);
             std::transform(extension.begin(), extension.end(), extension.begin(), [](unsigned char c){ return std::tolower(c); });
@@ -156,8 +156,8 @@ namespace ouzel
 
                 if (newSpriteData.texture)
                 {
-                    Size2 spriteSize = Size2(newSpriteData.texture->getSize().width / spritesX,
-                                             newSpriteData.texture->getSize().height / spritesY);
+                    Size2<float> spriteSize = Size2<float>(newSpriteData.texture->getSize().width / spritesX,
+                                                           newSpriteData.texture->getSize().height / spritesY);
 
                     scene::SpriteData::Animation animation;
                     animation.frames.reserve(spritesX * spritesY);
@@ -166,12 +166,12 @@ namespace ouzel
                     {
                         for (uint32_t y = 0; y < spritesY; ++y)
                         {
-                            Rect rectangle(spriteSize.width * x,
-                                           spriteSize.height * y,
-                                           spriteSize.width,
-                                           spriteSize.height);
+                            Rect<float> rectangle(spriteSize.width * x,
+                                                  spriteSize.height * y,
+                                                  spriteSize.width,
+                                                  spriteSize.height);
 
-                            scene::SpriteData::Frame frame = scene::SpriteData::Frame(filename, newSpriteData.texture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
+                            scene::SpriteData::Frame frame = scene::SpriteData::Frame(filename, newSpriteData.texture->getSize(), rectangle, false, spriteSize, Vector2<float>(), pivot);
                             animation.frames.push_back(frame);
                         }
                     }

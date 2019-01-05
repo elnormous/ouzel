@@ -24,7 +24,7 @@ namespace ouzel
 
         private:
             void init(Window* newWindow,
-                      const Size2& newSize,
+                      const Size2<float>& newSize,
                       uint32_t newSampleCount,
                       Texture::Filter newTextureFilter,
                       uint32_t newMaxAnisotropy,

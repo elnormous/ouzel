@@ -41,9 +41,9 @@ namespace ouzel
             init(filename);
         }
 
-        void ParticleSystem::draw(const Matrix4& transformMatrix,
+        void ParticleSystem::draw(const Matrix4<float>& transformMatrix,
                                   float opacity,
-                                  const Matrix4& renderViewProjection,
+                                  const Matrix4<float>& renderViewProjection,
                                   bool wireframe)
         {
             Component::draw(transformMatrix,
@@ -59,7 +59,7 @@ namespace ouzel
                     needsMeshUpdate = false;
                 }
 
-                Matrix4 transform;
+                Matrix4<float> transform;
 
                 if (particleSystemData.positionType == ParticleSystemData::PositionType::FREE ||
                     particleSystemData.positionType == ParticleSystemData::PositionType::PARENT)
@@ -148,9 +148,9 @@ namespace ouzel
                         {
                             if (particleSystemData.emitterType == ParticleSystemData::EmitterType::GRAVITY)
                             {
-                                Vector2 tmp;
-                                Vector2 radial;
-                                Vector2 tangential;
+                                Vector2<float> tmp;
+                                Vector2<float> radial;
+                                Vector2<float> tangential;
 
                                 // radial acceleration
                                 if (particles[i].position.v[0] == 0.0F || particles[i].position.v[1] == 0.0F)
@@ -222,11 +222,11 @@ namespace ouzel
                 {
                     if (actor)
                     {
-                        const Matrix4& inverseTransform = actor->getInverseTransform();
+                        const Matrix4<float>& inverseTransform = actor->getInverseTransform();
 
                         for (uint32_t i = 0; i < particleCount; ++i)
                         {
-                            Vector3 position = Vector3(particles[i].position);
+                            Vector3<float> position = Vector3<float>(particles[i].position);
                             inverseTransform.transformPoint(position);
                             boundingBox.insertPoint(position);
                         }
@@ -323,14 +323,14 @@ namespace ouzel
                 indices.push_back(i * 4 + 3);
                 indices.push_back(i * 4 + 2);
 
-                vertices.push_back(graphics::Vertex(Vector3(-1.0F, -1.0F, 0.0F), Color::WHITE,
-                                                    Vector2(0.0F, 1.0F), Vector3(0.0F, 0.0F, -1.0F)));
-                vertices.push_back(graphics::Vertex(Vector3(1.0F, -1.0F, 0.0F), Color::WHITE,
-                                                    Vector2(1.0F, 1.0F), Vector3(0.0F, 0.0F, -1.0F)));
-                vertices.push_back(graphics::Vertex(Vector3(-1.0F, 1.0F, 0.0F), Color::WHITE,
-                                                    Vector2(0.0F, 0.0F), Vector3(0.0F, 0.0F, -1.0F)));
-                vertices.push_back(graphics::Vertex(Vector3(1.0F, 1.0F, 0.0F), Color::WHITE,
-                                                    Vector2(1.0F, 0.0F), Vector3(0.0F, 0.0F, -1.0F)));
+                vertices.push_back(graphics::Vertex(Vector3<float>(-1.0F, -1.0F, 0.0F), Color::WHITE,
+                                                    Vector2<float>(0.0F, 1.0F), Vector3<float>(0.0F, 0.0F, -1.0F)));
+                vertices.push_back(graphics::Vertex(Vector3<float>(1.0F, -1.0F, 0.0F), Color::WHITE,
+                                                    Vector2<float>(1.0F, 1.0F), Vector3<float>(0.0F, 0.0F, -1.0F)));
+                vertices.push_back(graphics::Vertex(Vector3<float>(-1.0F, 1.0F, 0.0F), Color::WHITE,
+                                                    Vector2<float>(0.0F, 0.0F), Vector3<float>(0.0F, 0.0F, -1.0F)));
+                vertices.push_back(graphics::Vertex(Vector3<float>(1.0F, 1.0F, 0.0F), Color::WHITE,
+                                                    Vector2<float>(1.0F, 0.0F), Vector3<float>(0.0F, 0.0F, -1.0F)));
             }
 
             indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer());
@@ -350,25 +350,25 @@ namespace ouzel
                 {
                     size_t i = counter - 1;
 
-                    Vector2 position;
+                    Vector2<float> position;
 
                     if (particleSystemData.positionType == ParticleSystemData::PositionType::FREE)
                         position = particles[i].position;
                     else if (particleSystemData.positionType == ParticleSystemData::PositionType::PARENT)
-                        position = Vector2(actor->getPosition()) + particles[i].position;
+                        position = Vector2<float>(actor->getPosition()) + particles[i].position;
 
                     float size_2 = particles[i].size / 2.0F;
-                    Vector2 v1(-size_2, -size_2);
-                    Vector2 v2(size_2, size_2);
+                    Vector2<float> v1(-size_2, -size_2);
+                    Vector2<float> v2(size_2, size_2);
 
                     float r = -degToRad(particles[i].rotation);
                     float cr = cosf(r);
                     float sr = sinf(r);
 
-                    Vector2 a(v1.v[0] * cr - v1.v[1] * sr, v1.v[0] * sr + v1.v[1] * cr);
-                    Vector2 b(v2.v[0] * cr - v1.v[1] * sr, v2.v[0] * sr + v1.v[1] * cr);
-                    Vector2 c(v2.v[0] * cr - v2.v[1] * sr, v2.v[0] * sr + v2.v[1] * cr);
-                    Vector2 d(v1.v[0] * cr - v2.v[1] * sr, v1.v[0] * sr + v2.v[1] * cr);
+                    Vector2<float> a(v1.v[0] * cr - v1.v[1] * sr, v1.v[0] * sr + v1.v[1] * cr);
+                    Vector2<float> b(v2.v[0] * cr - v1.v[1] * sr, v2.v[0] * sr + v1.v[1] * cr);
+                    Vector2<float> c(v2.v[0] * cr - v2.v[1] * sr, v2.v[0] * sr + v2.v[1] * cr);
+                    Vector2<float> d(v1.v[0] * cr - v2.v[1] * sr, v1.v[0] * sr + v2.v[1] * cr);
 
                     Color color(static_cast<uint8_t>(particles[i].colorRed * 255),
                                 static_cast<uint8_t>(particles[i].colorGreen * 255),
@@ -399,12 +399,12 @@ namespace ouzel
 
             if (count && actor)
             {
-                Vector2 position;
+                Vector2<float> position;
 
                 if (particleSystemData.positionType == ParticleSystemData::PositionType::FREE)
-                    position = actor->convertLocalToWorld(Vector3());
+                    position = actor->convertLocalToWorld(Vector3<float>());
                 else if (particleSystemData.positionType == ParticleSystemData::PositionType::PARENT)
-                    position = actor->convertLocalToWorld(Vector3()) - actor->getPosition();
+                    position = actor->convertLocalToWorld(Vector3<float>()) - actor->getPosition();
 
                 for (uint32_t i = particleCount; i < particleCount + count; ++i)
                 {
@@ -412,7 +412,7 @@ namespace ouzel
                     {
                         particles[i].life = fmaxf(particleSystemData.particleLifespan + particleSystemData.particleLifespanVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine), 0.0F);
 
-                        particles[i].position = particleSystemData.sourcePosition + position + Vector2(particleSystemData.sourcePositionVariance.v[0] * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine),
+                        particles[i].position = particleSystemData.sourcePosition + position + Vector2<float>(particleSystemData.sourcePositionVariance.v[0] * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine),
                                                                                                        particleSystemData.sourcePositionVariance.v[1] * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine));
 
                         particles[i].size = fmaxf(particleSystemData.startParticleSize + particleSystemData.startParticleSizeVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine), 0.0F);
@@ -446,18 +446,18 @@ namespace ouzel
                         if (particleSystemData.rotationIsDir)
                         {
                             float a = degToRad(particleSystemData.angle + particleSystemData.angleVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine));
-                            Vector2 v(cosf(a), sinf(a));
+                            Vector2<float> v(cosf(a), sinf(a));
                             float s = particleSystemData.speed + particleSystemData.speedVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine);
-                            Vector2 dir = v * s;
+                            Vector2<float> dir = v * s;
                             particles[i].direction = dir;
                             particles[i].rotation = -radToDeg(dir.getAngle());
                         }
                         else
                         {
                             float a = degToRad(particleSystemData.angle + particleSystemData.angleVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine));
-                            Vector2 v(cosf(a), sinf(a));
+                            Vector2<float> v(cosf(a), sinf(a));
                             float s = particleSystemData.speed + particleSystemData.speedVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine);
-                            Vector2 dir = v * s;
+                            Vector2<float> dir = v * s;
                             particles[i].direction = dir;
                         }
                     }

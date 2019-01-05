@@ -229,7 +229,7 @@ namespace ouzel
             }
 
             void Bus::getData(uint32_t frames, uint16_t channels, uint32_t sampleRate,
-                              const Vector3& listenerPosition, const Quaternion& listenerRotation,
+                              const Vector3<float>& listenerPosition, const Quaternion<float>& listenerRotation,
                               std::vector<float>& samples)
             {
                 samples.resize(frames * channels);

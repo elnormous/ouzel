@@ -44,16 +44,16 @@ namespace ouzel
             static const std::vector<Attribute> ATTRIBUTES;
 
             Vertex() {}
-            Vertex(const Vector3& initPosition, Color initColor, const Vector2& initTexCoord, const Vector3& initNormal):
+            Vertex(const Vector3<float>& initPosition, Color initColor, const Vector2<float>& initTexCoord, const Vector3<float>& initNormal):
                 position(initPosition), color(initColor), normal(initNormal)
             {
                 texCoords[0] = initTexCoord;
             }
 
-            Vector3 position;
+            Vector3<float> position;
             Color color;
-            Vector2 texCoords[2];
-            Vector3 normal;
+            Vector2<float> texCoords[2];
+            Vector3<float> normal;
         };
     } // namespace graphics
 } // namespace ouzel

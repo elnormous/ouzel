@@ -15,7 +15,7 @@ namespace ouzel
         class Shake final: public Animator
         {
         public:
-            Shake(float initLength, const Vector3& initDistance, float initTimeScale);
+            Shake(float initLength, const Vector3<float>& initDistance, float initTimeScale);
 
             void play() override;
 
@@ -26,9 +26,9 @@ namespace ouzel
             uint32_t seedX;
             uint32_t seedY;
             uint32_t seedZ;
-            Vector3 distance;
+            Vector3<float> distance;
             float timeScale;
-            Vector3 startPosition;
+            Vector3<float> startPosition;
         };
     } // namespace scene
 } // namespace ouzel

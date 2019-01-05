@@ -10,7 +10,7 @@ namespace ouzel
 {
     namespace scene
     {
-        Shake::Shake(float initLength, const Vector3& initDistance, float initTimeScale):
+        Shake::Shake(float initLength, const Vector3<float>& initDistance, float initTimeScale):
             Animator(initLength), distance(initDistance), timeScale(initTimeScale)
         {
             seedX = std::uniform_int_distribution<uint32_t>{0, std::numeric_limits<uint32_t>::max()}(randomEngine);
@@ -38,8 +38,8 @@ namespace ouzel
                 uint64_t x2 = x1 + 1;
                 float t = x - static_cast<float>(x1);
 
-                Vector3 previousPosition;
-                Vector3 nextPosition;
+                Vector3<float> previousPosition;
+                Vector3<float> nextPosition;
 
                 if (x1 != 0)
                 {
@@ -55,7 +55,7 @@ namespace ouzel
                     nextPosition.v[2] = (2.0F * (static_cast<float>(fnvHash(seedZ | (x2 << 32))) / std::numeric_limits<uint64_t>::max()) - 1.0F) * distance.v[2];
                 }
 
-                Vector3 noise(smoothStep(previousPosition.v[0], nextPosition.v[0], t),
+                Vector3<float> noise(smoothStep(previousPosition.v[0], nextPosition.v[0], t),
                               smoothStep(previousPosition.v[1], nextPosition.v[1], t),
                               smoothStep(previousPosition.v[2], nextPosition.v[2], t));
 

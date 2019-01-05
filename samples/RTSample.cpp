@@ -19,7 +19,7 @@ RTSample::RTSample():
     addLayer(&rtLayer);
 
     std::shared_ptr<graphics::Texture> renderTarget = std::make_shared<graphics::Texture>(*engine->getRenderer());
-    renderTarget->init(Size2(256.0F, 256.0F),
+    renderTarget->init(Size2<float>(256.0F, 256.0F),
                        graphics::Texture::RENDER_TARGET |
                        graphics::Texture::BINDABLE_COLOR_BUFFER |
                        graphics::Texture::DEPTH_BUFFER, 1, 1);
@@ -30,13 +30,13 @@ RTSample::RTSample():
     rtLayer.addChild(&rtCameraActor);
 
     camera1.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    camera1.setTargetContentSize(Size2(400.0F, 600.0F));
-    camera1.setViewport(Rect(0.0F, 0.0F, 0.5F, 1.0F));
+    camera1.setTargetContentSize(Size2<float>(400.0F, 600.0F));
+    camera1.setViewport(Rect<float>(0.0F, 0.0F, 0.5F, 1.0F));
     camera1Actor.addComponent(&camera1);
 
     camera2.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    camera2.setTargetContentSize(Size2(400.0F, 600.0F));
-    camera2.setViewport(Rect(0.5F, 0.0F, 0.5F, 1.0F));
+    camera2.setTargetContentSize(Size2<float>(400.0F, 600.0F));
+    camera2.setViewport(Rect<float>(0.5F, 0.0F, 0.5F, 1.0F));
     camera2Actor.addComponent(&camera2);
 
     layer.addChild(&camera1Actor);
@@ -53,14 +53,14 @@ RTSample::RTSample():
     layer.addChild(&rtActor);
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    guiCamera.setTargetContentSize(Size2(800.0F, 600.0F));
+    guiCamera.setTargetContentSize(Size2<float>(800.0F, 600.0F));
     guiCameraActor.addComponent(&guiCamera);
     guiLayer.addChild(&guiCameraActor);
     addLayer(&guiLayer);
 
     guiLayer.addChild(&menu);
 
-    backButton.setPosition(Vector2(-200.0F, -200.0F));
+    backButton.setPosition(Vector2<float>(-200.0F, -200.0F));
     menu.addWidget(&backButton);
 }
 

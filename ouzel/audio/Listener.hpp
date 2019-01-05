@@ -36,8 +36,8 @@ namespace ouzel
             Audio& audio;
 
             Mix* mix = nullptr;
-            Vector3 position;
-            Quaternion rotation;
+            Vector3<float> position;
+            Quaternion<float> rotation;
             bool transformDirty = true;
         };
     } // namespace audio

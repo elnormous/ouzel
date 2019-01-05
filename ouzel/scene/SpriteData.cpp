@@ -9,60 +9,60 @@ namespace ouzel
     namespace scene
     {
         SpriteData::Frame::Frame(const std::string& frameName,
-                                 const Size2& textureSize,
-                                 const Rect& frameRectangle,
+                                 const Size2<float>& textureSize,
+                                 const Rect<float>& frameRectangle,
                                  bool rotated,
-                                 const Size2& sourceSize,
-                                 const Vector2& sourceOffset,
-                                 const Vector2& pivot):
+                                 const Size2<float>& sourceSize,
+                                 const Vector2<float>& sourceOffset,
+                                 const Vector2<float>& pivot):
             name(frameName)
         {
             std::vector<uint16_t> indices = {0, 1, 2, 1, 3, 2};
             indexCount = static_cast<uint32_t>(indices.size());
 
-            Vector2 textCoords[4];
-            Vector2 finalOffset(-sourceSize.width * pivot.v[0] + sourceOffset.v[0],
-                                -sourceSize.height * pivot.v[1] + (sourceSize.height - frameRectangle.size.height - sourceOffset.v[1]));
+            Vector2<float> textCoords[4];
+            Vector2<float> finalOffset(-sourceSize.width * pivot.v[0] + sourceOffset.v[0],
+                                       -sourceSize.height * pivot.v[1] + (sourceSize.height - frameRectangle.size.height - sourceOffset.v[1]));
 
             if (!rotated)
             {
-                Vector2 leftTop(frameRectangle.position.v[0] / textureSize.width,
+                Vector2<float> leftTop(frameRectangle.position.v[0] / textureSize.width,
                                 frameRectangle.position.v[1] / textureSize.height);
 
-                Vector2 rightBottom((frameRectangle.position.v[0] + frameRectangle.size.width) / textureSize.width,
+                Vector2<float> rightBottom((frameRectangle.position.v[0] + frameRectangle.size.width) / textureSize.width,
                                     (frameRectangle.position.v[1] + frameRectangle.size.height) / textureSize.height);
 
-                textCoords[0] = Vector2(leftTop.v[0], rightBottom.v[1]);
-                textCoords[1] = Vector2(rightBottom.v[0], rightBottom.v[1]);
-                textCoords[2] = Vector2(leftTop.v[0], leftTop.v[1]);
-                textCoords[3] = Vector2(rightBottom.v[0], leftTop.v[1]);
+                textCoords[0] = Vector2<float>(leftTop.v[0], rightBottom.v[1]);
+                textCoords[1] = Vector2<float>(rightBottom.v[0], rightBottom.v[1]);
+                textCoords[2] = Vector2<float>(leftTop.v[0], leftTop.v[1]);
+                textCoords[3] = Vector2<float>(rightBottom.v[0], leftTop.v[1]);
             }
             else
             {
-                Vector2 leftTop = Vector2(frameRectangle.position.v[0] / textureSize.width,
+                Vector2<float> leftTop = Vector2<float>(frameRectangle.position.v[0] / textureSize.width,
                                           frameRectangle.position.v[1] / textureSize.height);
 
-                Vector2 rightBottom = Vector2((frameRectangle.position.v[0] + frameRectangle.size.height) / textureSize.width,
+                Vector2<float> rightBottom = Vector2<float>((frameRectangle.position.v[0] + frameRectangle.size.height) / textureSize.width,
                                               (frameRectangle.position.v[1] + frameRectangle.size.width) / textureSize.height);
 
-                textCoords[0] = Vector2(leftTop.v[0], leftTop.v[1]);
-                textCoords[1] = Vector2(leftTop.v[0], rightBottom.v[1]);
-                textCoords[2] = Vector2(rightBottom.v[0], leftTop.v[1]);
-                textCoords[3] = Vector2(rightBottom.v[0], rightBottom.v[1]);
+                textCoords[0] = Vector2<float>(leftTop.v[0], leftTop.v[1]);
+                textCoords[1] = Vector2<float>(leftTop.v[0], rightBottom.v[1]);
+                textCoords[2] = Vector2<float>(rightBottom.v[0], leftTop.v[1]);
+                textCoords[3] = Vector2<float>(rightBottom.v[0], rightBottom.v[1]);
             }
 
             std::vector<graphics::Vertex> vertices = {
-                graphics::Vertex(Vector3(finalOffset.v[0], finalOffset.v[1], 0.0F), Color::WHITE,
-                                 textCoords[0], Vector3(0.0F, 0.0F, -1.0F)),
-                graphics::Vertex(Vector3(finalOffset.v[0] + frameRectangle.size.width, finalOffset.v[1], 0.0F), Color::WHITE,
-                                 textCoords[1], Vector3(0.0F, 0.0F, -1.0F)),
-                graphics::Vertex(Vector3(finalOffset.v[0], finalOffset.v[1] + frameRectangle.size.height, 0.0F), Color::WHITE,
-                                 textCoords[2], Vector3(0.0F, 0.0F, -1.0F)),
-                graphics::Vertex(Vector3(finalOffset.v[0] + frameRectangle.size.width, finalOffset.v[1] + frameRectangle.size.height, 0.0F), Color::WHITE,
-                                 textCoords[3], Vector3(0.0F, 0.0F, -1.0F))
+                graphics::Vertex(Vector3<float>(finalOffset.v[0], finalOffset.v[1], 0.0F), Color::WHITE,
+                                 textCoords[0], Vector3<float>(0.0F, 0.0F, -1.0F)),
+                graphics::Vertex(Vector3<float>(finalOffset.v[0] + frameRectangle.size.width, finalOffset.v[1], 0.0F), Color::WHITE,
+                                 textCoords[1], Vector3<float>(0.0F, 0.0F, -1.0F)),
+                graphics::Vertex(Vector3<float>(finalOffset.v[0], finalOffset.v[1] + frameRectangle.size.height, 0.0F), Color::WHITE,
+                                 textCoords[2], Vector3<float>(0.0F, 0.0F, -1.0F)),
+                graphics::Vertex(Vector3<float>(finalOffset.v[0] + frameRectangle.size.width, finalOffset.v[1] + frameRectangle.size.height, 0.0F), Color::WHITE,
+                                 textCoords[3], Vector3<float>(0.0F, 0.0F, -1.0F))
             };
 
-            boundingBox.set(finalOffset, finalOffset + Vector2(frameRectangle.size.width, frameRectangle.size.height));
+            boundingBox.set(finalOffset, finalOffset + Vector2<float>(frameRectangle.size.width, frameRectangle.size.height));
 
             indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer());
             indexBuffer->init(graphics::Buffer::Usage::INDEX, 0, indices.data(), static_cast<uint32_t>(getVectorSize(indices)));
@@ -79,7 +79,7 @@ namespace ouzel
             indexCount = static_cast<uint32_t>(indices.size());
 
             for (const graphics::Vertex& vertex : vertices)
-                boundingBox.insertPoint(Vector2(vertex.position));
+                boundingBox.insertPoint(Vector2<float>(vertex.position));
 
             indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer());
             indexBuffer->init(graphics::Buffer::Usage::INDEX, 0, indices.data(), static_cast<uint32_t>(getVectorSize(indices)));
@@ -91,19 +91,19 @@ namespace ouzel
         SpriteData::Frame::Frame(const std::string& frameName,
                                  const std::vector<uint16_t>& indices,
                                  const std::vector<graphics::Vertex>& vertices,
-                                 const Rect& frameRectangle,
-                                 const Size2& sourceSize,
-                                 const Vector2& sourceOffset,
-                                 const Vector2& pivot):
+                                 const Rect<float>& frameRectangle,
+                                 const Size2<float>& sourceSize,
+                                 const Vector2<float>& sourceOffset,
+                                 const Vector2<float>& pivot):
             name(frameName)
         {
             indexCount = static_cast<uint32_t>(indices.size());
 
             for (const graphics::Vertex& vertex : vertices)
-                boundingBox.insertPoint(Vector2(vertex.position));
+                boundingBox.insertPoint(Vector2<float>(vertex.position));
 
             // TODO: fix
-            Vector2 finalOffset(-sourceSize.width * pivot.v[0] + sourceOffset.v[0],
+            Vector2<float> finalOffset(-sourceSize.width * pivot.v[0] + sourceOffset.v[0],
                                 -sourceSize.height * pivot.v[1] + (sourceSize.height - frameRectangle.size.height - sourceOffset.v[1]));
 
             indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer());

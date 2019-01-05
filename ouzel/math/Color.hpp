@@ -9,8 +9,8 @@
 
 namespace ouzel
 {
-    class Vector3;
-    class Vector4;
+    template<class T> class Vector3;
+    template<class T> class Vector4;
 
     class Color final
     {
@@ -68,11 +68,11 @@ namespace ouzel
         {
         }
 
-        explicit Color(const Vector3& vec);
-        Color& operator=(const Vector3& vec);
+        explicit Color(const Vector3<float>& vec);
+        Color& operator=(const Vector3<float>& vec);
 
-        explicit Color(const Vector4& vec);
-        Color& operator=(const Vector4& vec);
+        explicit Color(const Vector4<float>& vec);
+        Color& operator=(const Vector4<float>& vec);
 
         inline float normR() const { return r / 255.0F; }
         inline float normG() const { return g / 255.0F; }

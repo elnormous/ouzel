@@ -7,13 +7,13 @@
 
 namespace ouzel
 {
-    class Size3;
+    template<class T> class Size3;
 
-    class Size2 final
+    template<class T> class Size2 final
     {
     public:
-        float width = 0.0F;
-        float height = 0.0F;
+        T width = 0;
+        T height = 0;
 
         Size2()
         {
@@ -24,20 +24,20 @@ namespace ouzel
         {
         }
 
-        explicit Size2(const Vector2& point):
+        explicit Size2(const Vector2<T>& point):
             width(point.v[0]), height(point.v[1])
         {
         }
 
-        inline Size2& operator=(const Vector2& point)
+        inline Size2& operator=(const Vector2<T>& point)
         {
             width = point.v[0];
             height = point.v[1];
             return *this;
         }
 
-        explicit Size2(const Size3& s);
-        Size2& operator=(const Size3& s);
+        explicit Size2(const Size3<T>& s);
+        Size2& operator=(const Size3<T>& s);
 
         inline const Size2 operator+(const Size2& size) const
         {
@@ -113,21 +113,23 @@ namespace ouzel
             height *= scalar;
         }
 
-        inline void scale(const Vector2& scale)
+        inline void scale(const Vector2<T>& scale)
         {
             width *= scale.v[0];
             height *= scale.v[1];
         }
     };
 
-    inline const Size2 operator*(const Size2& size, const Vector2& v)
+    template<class T>
+    inline const Size2<T> operator*(const Size2<T>& size, const Vector2<T>& v)
     {
-        return Size2(size.width * v.v[0], size.height * v.v[1]);
+        return Size2<T>(size.width * v.v[0], size.height * v.v[1]);
     }
 
-    inline const Size2 operator/(const Size2& size, const Vector2& v)
+    template<class T>
+    inline const Size2<T> operator/(const Size2<T>& size, const Vector2<T>& v)
     {
-        return Size2(size.width / v.v[0], size.height / v.v[1]);
+        return Size2<T>(size.width / v.v[0], size.height / v.v[1]);
     }
 }
 

@@ -13,7 +13,7 @@ namespace ouzel
         class Scale final: public Animator
         {
         public:
-            Scale(float initLength, const Vector3& initScale, bool initRelative = false);
+            Scale(float initLength, const Vector3<float>& initScale, bool initRelative = false);
 
             void play() override;
 
@@ -21,10 +21,10 @@ namespace ouzel
             void updateProgress() override;
 
         private:
-            Vector3 scale;
-            Vector3 startScale;
-            Vector3 targetScale;
-            Vector3 diff;
+            Vector3<float> scale;
+            Vector3<float> startScale;
+            Vector3<float> targetScale;
+            Vector3<float> diff;
             bool relative;
         };
     } // namespace scene

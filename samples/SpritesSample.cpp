@@ -18,7 +18,7 @@ SpritesSample::SpritesSample():
     engine->getEventDispatcher().addEventHandler(&handler);
 
     camera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    camera.setTargetContentSize(Size2(800.0F, 600.0F));
+    camera.setTargetContentSize(Size2<float>(800.0F, 600.0F));
     cameraActor.addComponent(&camera);
     layer.addChild(&cameraActor);
     addLayer(&layer);
@@ -30,44 +30,44 @@ SpritesSample::SpritesSample():
 
     character.addComponent(&characterSprite);
     layer.addChild(&character);
-    character.setPosition(Vector2(-300.0F, 0.0F));
+    character.setPosition(Vector2<float>(-300.0F, 0.0F));
 
-    move.reset(new scene::Move(4.0F, Vector3(300.0F, 0.0F, 0.0F)));
+    move.reset(new scene::Move(4.0F, Vector3<float>(300.0F, 0.0F, 0.0F)));
     character.addComponent(move.get());
     move->start();
 
     // fire
     fireSprite.init("fire.json");
-    fireSprite.setOffset(Vector2(0.0F, 20.0F));
+    fireSprite.setOffset(Vector2<float>(0.0F, 20.0F));
     fireSprite.setAnimation("", true);
     fireSprite.play();
 
     fireActor.addComponent(&fireSprite);
-    fireActor.setPosition(Vector2(-100.0F, -140.0F));
+    fireActor.setPosition(Vector2<float>(-100.0F, -140.0F));
     layer.addChild(&fireActor);
 
     // triangle
     triangleSprite.init("triangle.json");
 
     triangleActor.addComponent(&triangleSprite);
-    triangleActor.setPosition(Vector2(100.0F, -140.0F));
+    triangleActor.setPosition(Vector2<float>(100.0F, -140.0F));
     layer.addChild(&triangleActor);
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    guiCamera.setTargetContentSize(Size2(800.0F, 600.0F));
+    guiCamera.setTargetContentSize(Size2<float>(800.0F, 600.0F));
     guiCameraActor.addComponent(&guiCamera);
     guiLayer.addChild(&guiCameraActor);
     addLayer(&guiLayer);
 
     guiLayer.addChild(&menu);
 
-    hideButton.setPosition(Vector2(-200.0F, 200.0F));
+    hideButton.setPosition(Vector2<float>(-200.0F, 200.0F));
     menu.addWidget(&hideButton);
 
-    wireframeButton.setPosition(Vector2(-200.0F, 160.0F));
+    wireframeButton.setPosition(Vector2<float>(-200.0F, 160.0F));
     menu.addWidget(&wireframeButton);
 
-    backButton.setPosition(Vector2(-200.0F, -200.0F));
+    backButton.setPosition(Vector2<float>(-200.0F, -200.0F));
     menu.addWidget(&backButton);
 }
 

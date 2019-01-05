@@ -3,14 +3,15 @@
 #ifndef OUZEL_MATH_QUATERNION_HPP
 #define OUZEL_MATH_QUATERNION_HPP
 
+#include <cmath>
 #include "math/Vector3.hpp"
 
 namespace ouzel
 {
-    class Quaternion final
+    template<class T> class Quaternion final
     {
     public:
-        float v[4]{0.0F, 0.0F, 0.0F, 0.0F};
+        T v[4]{0, 0, 0, 0};
 
         Quaternion()
         {
@@ -187,40 +188,60 @@ namespace ouzel
 
         float getNorm();
         void normalize();
-        void rotate(float angle, Vector3 axis);
-        void getRotation(float& angle, Vector3& axis);
+        void rotate(float angle, Vector3<T> axis);
+        void getRotation(float& angle, Vector3<T>& axis);
 
-        Vector3 getEulerAngles() const;
-        float getEulerAngleX() const;
-        float getEulerAngleY() const;
-        float getEulerAngleZ() const;
-        void setEulerAngles(const Vector3& angles);
+        Vector3<T> getEulerAngles() const
+        {
+            Vector3<T> result;
+            result.v[0] = atan2f(2.0F * (v[1] * v[2] + v[3] * v[0]), v[3] * v[3] - v[0] * v[0] - v[1] * v[1] + v[2] * v[2]);
+            result.v[1] = asinf(-2.0F * (v[0] * v[2] - v[3] * v[1]));
+            result.v[2] = atan2f(2.0F * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2]);
+            return result;
+        }
 
-        inline const Vector3 operator*(const Vector3& vector) const
+        float getEulerAngleX() const
+        {
+            return atan2f(2.0F * (v[1] * v[2] + v[3] * v[0]), v[3] * v[3] - v[0] * v[0] - v[1] * v[1] + v[2] * v[2]);
+        }
+
+        float getEulerAngleY() const
+        {
+            return asinf(-2.0F * (v[0] * v[2] - v[3] * v[1]));
+        }
+
+        float getEulerAngleZ() const
+        {
+            return atan2f(2.0F * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2]);
+        }
+        
+        void setEulerAngles(const Vector3<T>& angles);
+
+        inline const Vector3<T> operator*(const Vector3<T>& vector) const
         {
             return rotateVector(vector);
         }
 
-        inline Vector3 rotateVector(const Vector3& vector) const
+        inline Vector3<T> rotateVector(const Vector3<T>& vector) const
         {
-            Vector3 q(v[0], v[1], v[2]);
-            Vector3 t = 2.0F * Vector3::cross(q, vector);
-            return vector + (v[3] * t) + Vector3::cross(q, t);
+            Vector3<T> q(v[0], v[1], v[2]);
+            Vector3<T> t = 2.0F * Vector3<T>::cross(q, vector);
+            return vector + (v[3] * t) + Vector3<T>::cross(q, t);
         }
 
-        inline Vector3 getRightVector() const
+        inline Vector3<T> getRightVector() const
         {
-            return rotateVector(Vector3(1.0F, 0.0F, 0.0F));
+            return rotateVector(Vector3<T>(1.0F, 0.0F, 0.0F));
         }
 
-        inline Vector3 getUpVector() const
+        inline Vector3<T> getUpVector() const
         {
-            return rotateVector(Vector3(0.0F, 1.0F, 0.0F));
+            return rotateVector(Vector3<T>(0.0F, 1.0F, 0.0F));
         }
 
-        inline Vector3 getForwardVector() const
+        inline Vector3<T> getForwardVector() const
         {
-            return rotateVector(Vector3(0.0F, 0.0F, 1.0F));
+            return rotateVector(Vector3<T>(0.0F, 0.0F, 1.0F));
         }
 
         inline Quaternion& lerp(const Quaternion& q1, const Quaternion& q2, float t)

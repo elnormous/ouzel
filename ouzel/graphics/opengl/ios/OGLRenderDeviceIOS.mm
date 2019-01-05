@@ -58,7 +58,7 @@ namespace ouzel
         }
 
         void OGLRenderDeviceIOS::init(Window* newWindow,
-                                      const Size2& newSize,
+                                      const Size2<float>& newSize,
                                       uint32_t newSampleCount,
                                       Texture::Filter newTextureFilter,
                                       uint32_t newMaxAnisotropy,
@@ -113,7 +113,7 @@ namespace ouzel
             displayLink.start(verticalSync);
         }
 
-        void OGLRenderDeviceIOS::setSize(const Size2& newSize)
+        void OGLRenderDeviceIOS::setSize(const Size2<float>& newSize)
         {
             OGLRenderDevice::setSize(newSize);
 

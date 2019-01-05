@@ -389,7 +389,7 @@ namespace ouzel
             }
         }
 
-        static std::vector<Texture::Level> calculateSizes(const Size2& size,
+        static std::vector<Texture::Level> calculateSizes(const Size2<float>& size,
                                                           const std::vector<uint8_t>& data,
                                                           uint32_t mipmaps,
                                                           PixelFormat pixelFormat)
@@ -421,7 +421,7 @@ namespace ouzel
                 if (newWidth < 1) newWidth = 1;
                 if (newHeight < 1) newHeight = 1;
 
-                Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
+                Size2<float> mipMapSize = Size2<float>(static_cast<float>(newWidth), static_cast<float>(newHeight));
                 pitch = newWidth * pixelSize;
                 bufferSize = pitch * newHeight;
 
@@ -477,7 +477,7 @@ namespace ouzel
         }
 
         Texture::Texture(Renderer& initRenderer,
-                         const Size2& initSize,
+                         const Size2<float>& initSize,
                          uint32_t initFlags,
                          uint32_t initMipmaps,
                          uint32_t initSampleCount,
@@ -508,7 +508,7 @@ namespace ouzel
 
         Texture::Texture(Renderer& initRenderer,
                          const std::vector<uint8_t>& initData,
-                         const Size2& initSize,
+                         const Size2<float>& initSize,
                          uint32_t initFlags,
                          uint32_t initMipmaps,
                          PixelFormat initPixelFormat):
@@ -538,7 +538,7 @@ namespace ouzel
 
         Texture::Texture(Renderer& initRenderer,
                          const std::vector<Level>& initLevels,
-                         const Size2& initSize,
+                         const Size2<float>& initSize,
                          uint32_t initFlags,
                          PixelFormat initPixelFormat):
             renderer(initRenderer),
@@ -578,7 +578,7 @@ namespace ouzel
             }
         }
 
-        void Texture::init(const Size2& newSize,
+        void Texture::init(const Size2<float>& newSize,
                            uint32_t newFlags,
                            uint32_t newMipmaps,
                            uint32_t newSampleCount,
@@ -607,7 +607,7 @@ namespace ouzel
         }
 
         void Texture::init(const std::vector<uint8_t>& newData,
-                           const Size2& newSize,
+                           const Size2<float>& newSize,
                            uint32_t newFlags,
                            uint32_t newMipmaps,
                            PixelFormat newPixelFormat)
@@ -635,7 +635,7 @@ namespace ouzel
         }
 
         void Texture::init(const std::vector<Level>& newLevels,
-                           const Size2& newSize,
+                           const Size2<float>& newSize,
                            uint32_t newFlags,
                            PixelFormat newPixelFormat)
         {

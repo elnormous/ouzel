@@ -11,13 +11,13 @@ namespace ouzel
 {
     class Color;
 
-    class Vector4 final
+    template<class T> class Vector4 final
     {
     public:
 #if defined(__SSE__)
         alignas(16)
 #endif
-        float v[4]{0.0F, 0.0F, 0.0F, 0.0F};
+        T v[4]{0, 0, 0, 0};
 
         Vector4()
         {
@@ -52,12 +52,12 @@ namespace ouzel
             return *this;
         }
 
-        explicit Vector4(const Vector2& vec):
+        explicit Vector4(const Vector2<T>& vec):
             v{vec.v[0], vec.v[1], 0.0F, 0.0F}
         {
         }
 
-        Vector4& operator=(const Vector2& vec)
+        Vector4& operator=(const Vector2<T>& vec)
         {
             v[0] = vec.v[0];
             v[1] = vec.v[1];
@@ -66,12 +66,12 @@ namespace ouzel
             return *this;
         }
 
-        explicit Vector4(const Vector3& vec):
+        explicit Vector4(const Vector3<T>& vec):
             v{vec.v[0], vec.v[1], vec.v[2], 0.0F}
         {
         }
 
-        Vector4& operator=(const Vector3& vec)
+        Vector4& operator=(const Vector3<T>& vec)
         {
             v[0] = vec.v[0];
             v[1] = vec.v[1];
@@ -83,15 +83,15 @@ namespace ouzel
         explicit Vector4(Color color);
         Vector4& operator=(Color color);
 
-        inline float& x() { return v[0]; }
-        inline float& y() { return v[1]; }
-        inline float& z() { return v[2]; }
-        inline float& w() { return v[3]; }
+        inline T& x() { return v[0]; }
+        inline T& y() { return v[1]; }
+        inline T& z() { return v[2]; }
+        inline T& w() { return v[3]; }
 
-        inline float x() const { return v[0]; }
-        inline float y() const { return v[1]; }
-        inline float z() const { return v[2]; }
-        inline float w() const { return v[3]; }
+        inline T x() const { return v[0]; }
+        inline T y() const { return v[1]; }
+        inline T z() const { return v[2]; }
+        inline T w() const { return v[3]; }
 
         bool isZero() const
         {
@@ -194,12 +194,12 @@ namespace ouzel
 
         float getMax() const;
 
-        inline const Vector4 operator+(const Vector2& vec) const
+        inline const Vector4 operator+(const Vector2<T>& vec) const
         {
             return Vector4(v[0] + vec.v[0], v[1] + vec.v[1], v[2], v[3]);
         }
 
-        inline const Vector4 operator+(const Vector3& vec) const
+        inline const Vector4 operator+(const Vector3<T>& vec) const
         {
             return Vector4(v[0] + vec.v[0], v[1] + vec.v[1], v[2] + vec.v[2], v[3]);
         }
@@ -209,14 +209,14 @@ namespace ouzel
             return Vector4(v[0] + vec.v[0], v[1] + vec.v[1], v[2] + vec.v[2], v[3] + vec.v[3]);
         }
 
-        inline Vector4& operator+=(const Vector2& vec)
+        inline Vector4& operator+=(const Vector2<T>& vec)
         {
             v[0] += vec.v[0];
             v[1] += vec.v[1];
             return *this;
         }
 
-        inline Vector4& operator+=(const Vector3& vec)
+        inline Vector4& operator+=(const Vector3<T>& vec)
         {
             v[0] += vec.v[0];
             v[1] += vec.v[1];
@@ -233,12 +233,12 @@ namespace ouzel
             return *this;
         }
 
-        inline const Vector4 operator-(const Vector2& vec) const
+        inline const Vector4 operator-(const Vector2<T>& vec) const
         {
             return Vector4(v[0] - vec.v[0], v[1] - vec.v[1], v[2], v[3]);
         }
 
-        inline const Vector4 operator-(const Vector3& vec) const
+        inline const Vector4 operator-(const Vector3<T>& vec) const
         {
             return Vector4(v[0] - vec.v[0], v[1] - vec.v[1], v[2] - vec.v[2], v[3]);
         }
@@ -248,14 +248,14 @@ namespace ouzel
             return Vector4(v[0] - vec.v[0], v[1] - vec.v[1], v[2] - vec.v[2], v[3] - vec.v[3]);
         }
 
-        inline Vector4& operator-=(const Vector2& vec)
+        inline Vector4& operator-=(const Vector2<T>& vec)
         {
             v[0] -= vec.v[0];
             v[1] -= vec.v[1];
             return *this;
         }
 
-        inline Vector4& operator-=(const Vector3& vec)
+        inline Vector4& operator-=(const Vector3<T>& vec)
         {
             v[0] -= vec.v[0];
             v[1] -= vec.v[1];
@@ -331,9 +331,10 @@ namespace ouzel
         }
     };
 
-    inline const Vector4 operator*(float scalar, const Vector4& vec)
+    template<class T>
+    inline const Vector4<T> operator*(T scalar, const Vector4<T>& vec)
     {
-        return Vector4(vec.v[0] * scalar, vec.v[1] * scalar, vec.v[2] * scalar, vec.v[3] * scalar);
+        return Vector4<T>(vec.v[0] * scalar, vec.v[1] * scalar, vec.v[2] * scalar, vec.v[3] * scalar);
     }
 }
 

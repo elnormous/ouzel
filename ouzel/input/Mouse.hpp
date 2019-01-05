@@ -30,8 +30,8 @@ namespace ouzel
 
             Mouse(InputManager& initInputManager, uint32_t initDeviceId);
 
-            inline const Vector2& getPosition() const { return position; }
-            void setPosition(const Vector2& newPosition);
+            inline const Vector2<float>& getPosition() const { return position; }
+            void setPosition(const Vector2<float>& newPosition);
             inline bool isButtonDown(Button button) const { return buttonStates[static_cast<uint32_t>(button)]; }
             inline bool isCursorVisible() const { return cursorVisible; }
             void setCursorVisible(bool visible);
@@ -41,15 +41,15 @@ namespace ouzel
             void setCursor(const Cursor* newCursor);
 
         protected:
-            bool handleButtonPress(Mouse::Button button, const Vector2& pos);
-            bool handleButtonRelease(Mouse::Button button, const Vector2& pos);
-            bool handleMove(const Vector2& pos);
-            bool handleRelativeMove(const Vector2& pos);
-            bool handleScroll(const Vector2& scroll, const Vector2& pos);
+            bool handleButtonPress(Mouse::Button button, const Vector2<float>& pos);
+            bool handleButtonRelease(Mouse::Button button, const Vector2<float>& pos);
+            bool handleMove(const Vector2<float>& pos);
+            bool handleRelativeMove(const Vector2<float>& pos);
+            bool handleScroll(const Vector2<float>& scroll, const Vector2<float>& pos);
             bool handleCursorLockChange(bool locked);
 
         private:
-            Vector2 position;
+            Vector2<float> position;
             bool buttonStates[static_cast<uint32_t>(Button::COUNT)];
             bool cursorVisible = true;
             bool cursorLocked = false;

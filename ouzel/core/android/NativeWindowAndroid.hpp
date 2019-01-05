@@ -19,7 +19,7 @@ namespace ouzel
 
         void executeCommand(const Command& command) override;
 
-        void handleResize(const Size2& newSize);
+        void handleResize(const Size2<float>& newSize);
         void handleSurfaceChange(jobject surface);
         void handleSurfaceDestroy();
 

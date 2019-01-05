@@ -23,7 +23,7 @@ public:
         {
             if (event.type == ouzel::Event::Type::KEY_PRESS)
             {
-                ouzel::Vector2 position = ouzel::Vector2(actor->getPosition());
+                ouzel::Vector2<float> position = ouzel::Vector2<float>(actor->getPosition());
 
                 switch (event.key)
                 {

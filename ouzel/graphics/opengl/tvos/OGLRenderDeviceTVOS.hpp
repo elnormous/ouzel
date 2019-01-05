@@ -39,7 +39,7 @@ namespace ouzel
 
         private:
             void init(Window* newWindow,
-                      const Size2& newSize,
+                      const Size2<float>& newSize,
                       uint32_t newSampleCount,
                       Texture::Filter newTextureFilter,
                       uint32_t newMaxAnisotropy,
@@ -47,7 +47,7 @@ namespace ouzel
                       bool newDepth,
                       bool newDebugRenderer) override;
 
-            void setSize(const Size2& newSize) override;
+            void setSize(const Size2<float>& newSize) override;
             void present() override;
 
             void createFrameBuffer();

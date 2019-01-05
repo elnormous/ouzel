@@ -10,11 +10,11 @@
 
 namespace ouzel
 {
-    class Box2 final
+    template<class T> class Box2 final
     {
     public:
-        Vector2 min;
-        Vector2 max;
+        Vector2<T> min;
+        Vector2<T> max;
 
         Box2():
             min(std::numeric_limits<float>::max(), std::numeric_limits<float>::max()),
@@ -22,7 +22,7 @@ namespace ouzel
         {
         }
 
-        Box2(const Vector2& initMin, const Vector2& initMax):
+        Box2(const Vector2<T>& initMin, const Vector2<T>& initMax):
             min(initMin), max(initMax)
         {
         }
@@ -32,13 +32,13 @@ namespace ouzel
         {
         }
 
-        inline Vector2 getCenter()
+        inline Vector2<T> getCenter()
         {
-            return Vector2(0.5F * (min.v[0] + max.v[0]),
-                           0.5F * (min.v[1] + max.v[1]));
+            return Vector2<T>((min.v[0] + max.v[0]) / 2,
+                              (min.v[1] + max.v[1]) / 2);
         }
 
-        void getCorners(Vector2* dst) const;
+        void getCorners(Vector2<T>* dst) const;
 
         bool intersects(const Box2& aabb) const
         {
@@ -48,7 +48,7 @@ namespace ouzel
                      aabb.max.v[1] < min.v[1]);
         }
 
-        bool containsPoint(const Vector2& point) const
+        bool containsPoint(const Vector2<T>& point) const
         {
             if (point.v[0] < min.v[0]) return false;
             if (point.v[1] < min.v[1]) return false;
@@ -59,7 +59,7 @@ namespace ouzel
 
         void merge(const Box2& box);
 
-        void set(const Vector2& newMin, const Vector2& newMax)
+        void set(const Vector2<T>& newMin, const Vector2<T>& newMax)
         {
             min = newMin;
             max = newMax;
@@ -76,7 +76,7 @@ namespace ouzel
             return min.v[0] > max.v[0] || min.v[1] > max.v[1];
         }
 
-        void insertPoint(const Vector2& point)
+        void insertPoint(const Vector2<T>& point)
         {
             if (point.v[0] < min.v[0]) min.v[0] = point.v[0];
             if (point.v[0] > max.v[0]) max.v[0] = point.v[0];
@@ -84,37 +84,37 @@ namespace ouzel
             if (point.v[1] > max.v[1]) max.v[1] = point.v[1];
         }
 
-        inline const Box2 operator+(const Vector2& v) const
+        inline const Box2 operator+(const Vector2<T>& v) const
         {
             Box2 result(*this);
             result += v;
             return result;
         }
 
-        inline Box2& operator+=(const Vector2& v)
+        inline Box2& operator+=(const Vector2<T>& v)
         {
             min += v;
             max += v;
             return *this;
         }
 
-        inline const Box2 operator-(const Vector2& v) const
+        inline const Box2 operator-(const Vector2<T>& v) const
         {
             Box2 result(*this);
             result -= v;
             return result;
         }
 
-        inline Box2& operator-=(const Vector2& v)
+        inline Box2& operator-=(const Vector2<T>& v)
         {
             min -= v;
             max -= v;
             return *this;
         }
 
-        inline Size2 getSize() const
+        inline Size2<T> getSize() const
         {
-            return Size2(max.v[0] - min.v[0], max.v[1] - min.v[1]);
+            return Size2<T>(max.v[0] - min.v[0], max.v[1] - min.v[1]);
         }
     };
 }

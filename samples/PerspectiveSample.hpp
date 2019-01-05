@@ -25,7 +25,7 @@ private:
     ouzel::scene::Camera camera;
     ouzel::scene::Actor cameraActor;
 
-    ouzel::Vector3 cameraRotation;
+    ouzel::Vector3<float> cameraRotation;
 
     ouzel::scene::Sprite floorSprite;
     ouzel::scene::Actor floor;

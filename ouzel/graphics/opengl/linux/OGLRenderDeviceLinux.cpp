@@ -91,7 +91,7 @@ namespace ouzel
         }
 
         void OGLRenderDeviceLinux::init(Window* newWindow,
-                                        const Size2& newSize,
+                                        const Size2<float>& newSize,
                                         uint32_t newSampleCount,
                                         Texture::Filter newTextureFilter,
                                         uint32_t newMaxAnisotropy,
@@ -273,9 +273,9 @@ namespace ouzel
             renderThread = std::thread(&OGLRenderDeviceLinux::main, this);
         }
 
-        std::vector<Size2> OGLRenderDeviceLinux::getSupportedResolutions() const
+        std::vector<Size2<float>> OGLRenderDeviceLinux::getSupportedResolutions() const
         {
-            std::vector<Size2> result;
+            std::vector<Size2<float>> result;
 
 #if OUZEL_OPENGL_INTERFACE_GLX
             EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
@@ -287,7 +287,7 @@ namespace ouzel
 
             for (int i = 0; i < modeCount; ++i)
             {
-                result.push_back(Size2(static_cast<float>(modeInfo[i]->hdisplay),
+                result.push_back(Size2<float>(static_cast<float>(modeInfo[i]->hdisplay),
                                        static_cast<float>(modeInfo[i]->vdisplay)));
             }
 

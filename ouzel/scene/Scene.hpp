@@ -57,9 +57,9 @@ namespace ouzel
 
             virtual void recalculateProjection();
 
-            std::pair<Actor*, Vector3> pickActor(const Vector2& position, bool renderTargets = false) const;
-            std::vector<std::pair<Actor*, Vector3>> pickActors(const Vector2& position, bool renderTargets = false) const;
-            std::vector<Actor*> pickActors(const std::vector<Vector2>& edges, bool renderTargets = false) const;
+            std::pair<Actor*, Vector3<float>> pickActor(const Vector2<float>& position, bool renderTargets = false) const;
+            std::vector<std::pair<Actor*, Vector3<float>>> pickActors(const Vector2<float>& position, bool renderTargets = false) const;
+            std::vector<Actor*> pickActors(const std::vector<Vector2<float>>& edges, bool renderTargets = false) const;
 
         protected:
             virtual void enter();
@@ -69,12 +69,12 @@ namespace ouzel
             bool handleMouse(const MouseEvent& event);
             bool handleTouch(const TouchEvent& event);
 
-            void pointerEnterActor(uint64_t pointerId, Actor* actor, const Vector2& position);
-            void pointerLeaveActor(uint64_t pointerId, Actor* actor, const Vector2& position);
-            void pointerDownOnActor(uint64_t pointerId, Actor* actor, const Vector2& position, const Vector3& localPosition);
-            void pointerUpOnActor(uint64_t pointerId, Actor* actor, const Vector2& position);
-            void pointerDragActor(uint64_t pointerId, Actor* actor, const Vector2& position,
-                                  const Vector2& difference, const Vector3& localPosition);
+            void pointerEnterActor(uint64_t pointerId, Actor* actor, const Vector2<float>& position);
+            void pointerLeaveActor(uint64_t pointerId, Actor* actor, const Vector2<float>& position);
+            void pointerDownOnActor(uint64_t pointerId, Actor* actor, const Vector2<float>& position, const Vector3<float>& localPosition);
+            void pointerUpOnActor(uint64_t pointerId, Actor* actor, const Vector2<float>& position);
+            void pointerDragActor(uint64_t pointerId, Actor* actor, const Vector2<float>& position,
+                                  const Vector2<float>& difference, const Vector3<float>& localPosition);
 
             SceneManager* sceneManger = nullptr;
 
@@ -82,7 +82,7 @@ namespace ouzel
             std::vector<std::unique_ptr<Layer>> ownedLayers;
             EventHandler eventHandler;
 
-            std::unordered_map<uint64_t, std::pair<Actor*, Vector3>> pointerDownOnActors;
+            std::unordered_map<uint64_t, std::pair<Actor*, Vector3<float>>> pointerDownOnActors;
 
             bool entered = false;
         };

@@ -6,7 +6,8 @@
 
 namespace ouzel
 {
-    bool Rect::intersect(const Rect& r1, const Rect& r2, Rect& dst)
+    template<class T>
+    bool Rect<T>::intersect(const Rect& r1, const Rect& r2, Rect& dst)
     {
         float xmin = std::max(r1.position.v[0], r2.position.v[0]);
         float xmax = std::min(r1.right(), r2.right());
@@ -25,11 +26,14 @@ namespace ouzel
         return false;
     }
 
-    void Rect::combine(const Rect& r1, const Rect& r2, Rect& dst)
+    template<class T>
+    void Rect<T>::combine(const Rect& r1, const Rect& r2, Rect& dst)
     {
         dst.position.v[0] = std::min(r1.position.v[0], r2.position.v[0]);
         dst.position.v[1] = std::min(r1.position.v[1], r2.position.v[1]);
         dst.size.width = std::max(r1.position.v[0] + r1.size.width, r2.position.v[0] + r2.size.width) - dst.position.v[0];
         dst.size.height = std::max(r1.position.v[1] + r1.size.height, r2.position.v[1] + r2.size.height) - dst.position.v[1];
     }
+
+    template class Rect<float>;
 }

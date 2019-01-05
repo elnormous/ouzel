@@ -53,7 +53,7 @@ namespace ouzel
 
             struct Level final
             {
-                Size2 size;
+                Size2<float> size;
                 uint32_t pitch;
                 std::vector<uint8_t> data;
             };
@@ -62,20 +62,20 @@ namespace ouzel
 
             explicit Texture(Renderer& initRenderer);
             Texture(Renderer& initRenderer,
-                    const Size2& newSize,
+                    const Size2<float>& newSize,
                     uint32_t newFlags = 0,
                     uint32_t newMipmaps = 0,
                     uint32_t newSampleCount = 1,
                     PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
             Texture(Renderer& initRenderer,
                     const std::vector<uint8_t>& newData,
-                    const Size2& newSize,
+                    const Size2<float>& newSize,
                     uint32_t newFlags = 0,
                     uint32_t newMipmaps = 0,
                     PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
             Texture(Renderer& initRenderer,
                     const std::vector<Level>& newLevels,
-                    const Size2& newSize,
+                    const Size2<float>& newSize,
                     uint32_t newFlags = 0,
                     PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
             ~Texture();
@@ -86,24 +86,24 @@ namespace ouzel
             Texture(Texture&&) = delete;
             Texture& operator=(Texture&&) = delete;
 
-            void init(const Size2& newSize,
+            void init(const Size2<float>& newSize,
                       uint32_t newFlags = 0,
                       uint32_t newMipmaps = 0,
                       uint32_t newSampleCount = 1,
                       PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
             void init(const std::vector<uint8_t>& newData,
-                      const Size2& newSize,
+                      const Size2<float>& newSize,
                       uint32_t newFlags = 0,
                       uint32_t newMipmaps = 0,
                       PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
             void init(const std::vector<Level>& newLevels,
-                      const Size2& newSize,
+                      const Size2<float>& newSize,
                       uint32_t newFlags = 0,
                       PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
 
             inline uintptr_t getResource() const { return resource; }
 
-            inline const Size2& getSize() const { return size; }
+            inline const Size2<float>& getSize() const { return size; }
 
             void setData(const std::vector<uint8_t>& newData);
 
@@ -143,7 +143,7 @@ namespace ouzel
             uintptr_t resource = 0;
 
             Dimensions dimensions = Dimensions::TWO;
-            Size2 size;
+            Size2<float> size;
             uint32_t flags = 0;
             uint32_t mipmaps = 0;
             bool clearColorBuffer = true;

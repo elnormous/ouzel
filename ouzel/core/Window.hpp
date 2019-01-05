@@ -17,7 +17,7 @@ namespace ouzel
     {
     public:
         Window(Engine& initEngine,
-               const Size2& newSize,
+               const Size2<float>& newSize,
                bool newResizable,
                bool newFullscreen,
                bool newExclusiveFullscreen,
@@ -36,10 +36,10 @@ namespace ouzel
         void close();
         void update();
 
-        inline const Size2& getSize() const { return size; }
-        void setSize(const Size2& newSize);
+        inline const Size2<float>& getSize() const { return size; }
+        void setSize(const Size2<float>& newSize);
 
-        inline const Size2& getResolution() const { return resolution; }
+        inline const Size2<float>& getResolution() const { return resolution; }
 
         inline bool isResizable() const { return resizable; }
 
@@ -51,14 +51,14 @@ namespace ouzel
         inline const std::string& getTitle() const { return title; }
         void setTitle(const std::string& newTitle);
 
-        inline Vector2 convertWindowToNormalizedLocation(const Vector2& position) const
+        inline Vector2<float> convertWindowToNormalizedLocation(const Vector2<float>& position) const
         {
-            return Vector2(position.v[0] / size.width, position.v[1] / size.height);
+            return Vector2<float>(position.v[0] / size.width, position.v[1] / size.height);
         }
 
-        inline Vector2 convertNormalizedToWindowLocation(const Vector2& position) const
+        inline Vector2<float> convertNormalizedToWindowLocation(const Vector2<float>& position) const
         {
-            return Vector2(position.v[0] * size.width, position.v[1] * size.height);
+            return Vector2<float>(position.v[0] * size.width, position.v[1] * size.height);
         }
 
     private:
@@ -68,8 +68,8 @@ namespace ouzel
         Engine& engine;
         std::unique_ptr<NativeWindow> nativeWindow;
 
-        Size2 size;
-        Size2 resolution;
+        Size2<float> size;
+        Size2<float> resolution;
         bool resizable = false;
         bool fullscreen = false;
         bool exclusiveFullscreen = false;

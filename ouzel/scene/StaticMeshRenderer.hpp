@@ -22,9 +22,9 @@ namespace ouzel
             void init(const StaticMeshData& meshData);
             void init(const std::string& filename);
 
-            void draw(const Matrix4& transformMatrix,
+            void draw(const Matrix4<float>& transformMatrix,
                       float opacity,
-                      const Matrix4& renderViewProjection,
+                      const Matrix4<float>& renderViewProjection,
                       bool wireframe) override;
 
             inline const std::shared_ptr<graphics::Material>& getMaterial() const { return material; }

@@ -37,8 +37,8 @@ namespace ouzel
 
             inline Layer* getLayer() const { return layer; }
 
-            std::vector<std::pair<Actor*, Vector3>> findActors(const Vector2& position) const;
-            std::vector<Actor*> findActors(const std::vector<Vector2>& edges) const;
+            std::vector<std::pair<Actor*, Vector3<float>>> findActors(const Vector2<float>& position) const;
+            std::vector<Actor*> findActors(const std::vector<Vector2<float>>& edges) const;
 
         protected:
             virtual void setLayer(Layer* newLayer);

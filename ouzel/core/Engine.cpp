@@ -116,7 +116,7 @@ namespace ouzel
     {
         setCurrentThreadName("Main");
 
-        Size2 size;
+        Size2<float> size;
         uint32_t sampleCount = 1; // MSAA sample count
         graphics::Texture::Filter textureFilter = graphics::Texture::Filter::POINT;
         uint32_t maxAnisotropy = 1;
@@ -459,7 +459,7 @@ namespace ouzel
         assetBundle.setBlendState(BLEND_SCREEN, screenBlendState);
 
         std::shared_ptr<graphics::Texture> whitePixelTexture = std::make_shared<graphics::Texture>(*renderer);
-        whitePixelTexture->init({255, 255, 255, 255}, Size2(1.0F, 1.0F), 0, 1);
+        whitePixelTexture->init({255, 255, 255, 255}, Size2<float>(1.0F, 1.0F), 0, 1);
         assetBundle.setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
     }
 

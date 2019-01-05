@@ -69,7 +69,7 @@
 namespace ouzel
 {
     NativeWindowMacOS::NativeWindowMacOS(const std::function<void(const Event&)>& initCallback,
-                                         const Size2& newSize,
+                                         const Size2<float>& newSize,
                                          bool newResizable,
                                          bool newFullscreen,
                                          bool newExclusiveFullscreen,
@@ -255,7 +255,7 @@ namespace ouzel
         }
     }
 
-    void NativeWindowMacOS::setSize(const Size2& newSize)
+    void NativeWindowMacOS::setSize(const Size2<float>& newSize)
     {
         size = newSize;
 
@@ -336,7 +336,7 @@ namespace ouzel
         NSRect frame = [NSWindow contentRectForFrameRect:window.frame
                                                styleMask:window.styleMask];
 
-        size = Size2(static_cast<float>(frame.size.width),
+        size = Size2<float>(static_cast<float>(frame.size.width),
                      static_cast<float>(frame.size.height));
         resolution = size * contentScale;
 
