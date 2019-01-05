@@ -3,6 +3,7 @@
 #ifndef OUZEL_MATH_RECT_HPP
 #define OUZEL_MATH_RECT_HPP
 
+#include <algorithm>
 #include "math/Vector2.hpp"
 #include "math/Size2.hpp"
 
@@ -126,9 +127,35 @@ namespace ouzel
             return intersects(r.position.v[0], r.position.v[1], r.size.v[0], r.size.v[1]);
         }
 
-        static bool intersect(const Rect& r1, const Rect& r2, Rect& dst);
+        static bool intersect(const Rect& r1, const Rect& r2, Rect& dst)
+        {
+            T xmin = std::max(r1.position.v[0], r2.position.v[0]);
+            T xmax = std::min(r1.right(), r2.right());
+            if (xmax > xmin)
+            {
+                T ymin = std::max(r1.position.v[1], r2.position.v[1]);
+                T ymax = std::min(r1.bottom(), r2.bottom());
+                if (ymax > ymin)
+                {
+                    dst.position.v[0] = xmin;
+                    dst.position.v[1] = ymin;
+                    dst.size.v[0] = xmax - xmin;
+                    dst.size.v[1] = ymax - ymin;
+                    return true;
+                }
+            }
 
-        static void combine(const Rect& r1, const Rect& r2, Rect& dst);
+            dst.position.v[0] = dst.position.v[1] = dst.size.v[0] = dst.size.v[1] = 0;
+            return false;
+        }
+
+        static void combine(const Rect& r1, const Rect& r2, Rect& dst)
+        {
+            dst.position.v[0] = std::min(r1.position.v[0], r2.position.v[0]);
+            dst.position.v[1] = std::min(r1.position.v[1], r2.position.v[1]);
+            dst.size.v[0] = std::max(r1.position.v[0] + r1.size.v[0], r2.position.v[0] + r2.size.v[0]) - dst.position.v[0];
+            dst.size.v[1] = std::max(r1.position.v[1] + r1.size.v[1], r2.position.v[1] + r2.size.v[1]) - dst.position.v[1];
+        }
 
         void inflate(T horizontalAmount, T verticalAmount)
         {
