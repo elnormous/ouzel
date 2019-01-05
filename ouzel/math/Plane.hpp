@@ -38,14 +38,19 @@ namespace ouzel
             return *this;
         }
 
-        inline T& a() { return v[0]; }
-        inline T& b() { return v[1]; }
-        inline T& c() { return v[2]; }
-        inline T& d() { return v[3]; }
+        inline T& operator[](size_t index) { return v[index]; }
+        inline T operator[](size_t index) const { return v[index]; }
 
+        inline T& a() { return v[0]; }
         inline T a() const { return v[0]; }
+
+        inline T& b() { return v[1]; }
         inline T b() const { return v[1]; }
+
+        inline T& c() { return v[2]; }
         inline T c() const { return v[2]; }
+
+        inline T& d() { return v[3]; }
         inline T d() const { return v[3]; }
 
         void flip()
