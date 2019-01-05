@@ -110,7 +110,7 @@ namespace ouzel
             float dy = v1.v[3] * v2.v[1] - v1.v[1] * v2.v[3] - v1.v[2] * v2.v[0] + v1.v[0] * v2.v[2];
             float dz = v1.v[3] * v2.v[2] - v1.v[2] * v2.v[3] - v1.v[0] * v2.v[1] + v1.v[1] * v2.v[0];
 
-            return atan2f(sqrtf(dx * dx + dy * dy + dz * dz), dot(v1, v2));
+            return atan2f(sqrtf(dx * dx + dy * dy + dz * dz), v1.dot(v2));
         }
 
         void clamp(const Vector4& min, const Vector4& max);
@@ -139,11 +139,6 @@ namespace ouzel
         T dot(const Vector4& vec) const
         {
             return v[0] * vec.v[0] + v[1] * vec.v[1] + v[2] * vec.v[2] + v[3] * vec.v[3];
-        }
-
-        static T dot(const Vector4& v1, const Vector4& v2)
-        {
-            return v1.v[0] * v2.v[0] + v1.v[1] * v2.v[1] + v1.v[2] * v2.v[2] + v1.v[3] * v2.v[3];
         }
 
         inline float length() const

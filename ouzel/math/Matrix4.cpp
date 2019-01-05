@@ -58,9 +58,9 @@ namespace ouzel
         dst.m[10] = zaxis.v[2];
         dst.m[11] = 0.0F;
 
-        dst.m[12] = Vector3<T>::dot(xaxis, -eye);
-        dst.m[13] = Vector3<T>::dot(yaxis, -eye);
-        dst.m[14] = Vector3<T>::dot(zaxis, -eye);
+        dst.m[12] = xaxis.dot(-eye);
+        dst.m[13] = yaxis.dot(-eye);
+        dst.m[14] = zaxis.dot(-eye);
         dst.m[15] = 1.0F;
     }
 
