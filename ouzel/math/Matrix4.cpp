@@ -34,12 +34,10 @@ namespace ouzel
         Vector3<T> zaxis = target - eye;
         zaxis.normalize();
 
-        Vector3<T> xaxis;
-        Vector3<T>::cross(up, zaxis, xaxis);
+        Vector3<T> xaxis = up.cross(zaxis);
         xaxis.normalize();
 
-        Vector3<T> yaxis;
-        Vector3<T>::cross(zaxis, xaxis, yaxis);
+        Vector3<T> yaxis = zaxis.cross(xaxis);
         yaxis.normalize();
 
         dst.m[0] = xaxis.v[0];
