@@ -45,8 +45,8 @@
 {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 
-    window->handleResize(ouzel::Size2<float>(static_cast<float>(size.width),
-                                      static_cast<float>(size.height)));
+    window->handleResize(ouzel::Size2<uint32_t>(static_cast<uint32_t>(size.width),
+                                                static_cast<uint32_t>(size.height)));
 }
 
 @end
