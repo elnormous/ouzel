@@ -7,7 +7,7 @@ namespace ouzel
 {
     namespace scene
     {
-        Rotate::Rotate(float initLength, const Vector3& initRotation, bool initRelative):
+        Rotate::Rotate(float initLength, const Vector3<float>& initRotation, bool initRelative):
             Animator(initLength), rotation(initRotation), relative(initRelative)
         {
         }

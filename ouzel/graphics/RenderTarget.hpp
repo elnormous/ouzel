@@ -31,7 +31,7 @@ namespace ouzel
             inline uintptr_t getColorTextureResource() const { return colorTexture; }
             inline uintptr_t getDepthTextureResource() const { return depthTexture; }
 
-            inline const Size2& getSize() const { return size; }
+            inline const Size2<float>& getSize() const { return size; }
 
             inline bool getClearColorBuffer() const { return clearColorBuffer; }
             void setClearColorBuffer(bool clear);
@@ -51,7 +51,7 @@ namespace ouzel
             uintptr_t colorTexture = 0;
             uintptr_t depthTexture = 0;
 
-            Size2 size;
+            Size2<float> size;
             bool clearColorBuffer = true;
             bool clearDepthBuffer = false;
             Color clearColor;

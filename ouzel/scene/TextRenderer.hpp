@@ -25,11 +25,11 @@ namespace ouzel
                          float initFontSize = 1.0F,
                          const std::string& initText = std::string(),
                          Color initColor = Color::WHITE,
-                         const Vector2& initTextAnchor = Vector2(0.5F, 0.5F));
+                         const Vector2<float>& initTextAnchor = Vector2<float>(0.5F, 0.5F));
 
-            void draw(const Matrix4& transformMatrix,
+            void draw(const Matrix4<float>& transformMatrix,
                       float opacity,
-                      const Matrix4& renderViewProjection,
+                      const Matrix4<float>& renderViewProjection,
                       bool wireframe) override;
 
             void setFont(const std::string& fontFile);
@@ -37,8 +37,8 @@ namespace ouzel
             inline float getFontSize() const { return fontSize; }
             void setFontSize(float newFontSize);
 
-            inline const Vector2& getTextAnchor() const { return textAnchor; }
-            void setTextAnchor(const Vector2& newTextAnchor);
+            inline const Vector2<float>& getTextAnchor() const { return textAnchor; }
+            void setTextAnchor(const Vector2<float>& newTextAnchor);
 
             inline const std::string& getText() const { return text; }
             void setText(const std::string& newText);
@@ -67,7 +67,7 @@ namespace ouzel
             std::shared_ptr<Font> font;
             std::string text;
             float fontSize = 1.0F;
-            Vector2 textAnchor;
+            Vector2<float> textAnchor;
 
             std::vector<uint16_t> indices;
             std::vector<graphics::Vertex> vertices;

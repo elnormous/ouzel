@@ -8,11 +8,11 @@
 
 namespace ouzel
 {
-    class Rect final
+    template<class T> class Rect final
     {
     public:
-        Vector2 position;
-        Size2 size;
+        Vector2<T> position;
+        Size2<T> size;
 
         Rect()
         {
@@ -28,12 +28,12 @@ namespace ouzel
         {
         }
 
-        Rect(const Vector2& initPosition, float width, float height):
+        Rect(const Vector2<T>& initPosition, float width, float height):
             position(initPosition), size(width, height)
         {
         }
 
-        Rect(const Vector2& initPosition, const Size2& initSize):
+        Rect(const Vector2<T>& initPosition, const Size2<T>& initSize):
             position(initPosition), size(initSize)
         {
         }
@@ -56,7 +56,7 @@ namespace ouzel
             size.height = newHeight;
         }
 
-        void set(const Vector2& newPosition, float newWidth, float newHeight)
+        void set(const Vector2<T>& newPosition, float newWidth, float newHeight)
         {
             position = newPosition;
             size.width = newWidth;
@@ -69,7 +69,7 @@ namespace ouzel
             position.v[1] = newY;
         }
 
-        void setPosition(const Vector2& newPosition)
+        void setPosition(const Vector2<T>& newPosition)
         {
             position = newPosition;
         }
@@ -94,14 +94,14 @@ namespace ouzel
             return position.v[1] + size.height;
         }
 
-        Vector2 bottomLeft() const
+        Vector2<T> bottomLeft() const
         {
             return position;
         }
 
-        Vector2 topRight() const
+        Vector2<T> topRight() const
         {
-            return Vector2(position.v[0] + size.width, position.v[1] + size.height);
+            return Vector2<T>(position.v[0] + size.width, position.v[1] + size.height);
         }
 
         bool containsPoint(float x, float y) const
@@ -110,7 +110,7 @@ namespace ouzel
                 y >= position.v[1] && y <= (position.v[1] + size.height);
         }
 
-        bool containsPoint(const Vector2& point) const
+        bool containsPoint(const Vector2<T>& point) const
         {
             return point.v[0] >= position.v[0] && point.v[0] <= (position.v[0] + size.width) &&
                 point.v[1] >= position.v[1] && point.v[1] <= (position.v[1] + size.height);

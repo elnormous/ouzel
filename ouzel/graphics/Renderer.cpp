@@ -100,7 +100,7 @@ namespace ouzel
 
         Renderer::Renderer(Driver driver,
                            Window* newWindow,
-                           const Size2& newSize,
+                           const Size2<float>& newSize,
                            uint32_t newSampleCount,
                            Texture::Filter newTextureFilter,
                            uint32_t newMaxAnisotropy,
@@ -230,7 +230,7 @@ namespace ouzel
                                                                                      clearDepth)));
         }
 
-        void Renderer::setSize(const Size2& newSize)
+        void Renderer::setSize(const Size2<float>& newSize)
         {
             size = newSize;
 
@@ -262,12 +262,12 @@ namespace ouzel
             addCommand(std::unique_ptr<Command>(new SetFillModeCommad(fillMode)));
         }
 
-        void Renderer::setScissorTest(bool enabled, const Rect& rectangle)
+        void Renderer::setScissorTest(bool enabled, const Rect<float>& rectangle)
         {
             addCommand(std::unique_ptr<Command>(new SetScissorTestCommand(enabled, rectangle)));
         }
 
-        void Renderer::setViewport(const Rect& viewport)
+        void Renderer::setViewport(const Rect<float>& viewport)
         {
             addCommand(std::unique_ptr<Command>(new SetViewportCommand(viewport)));
         }

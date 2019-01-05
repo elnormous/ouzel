@@ -8,12 +8,12 @@
 
 namespace ouzel
 {
-    class Vector4;
+    template<class T> class Vector4;
 
-    class Plane final
+    template<class T> class Plane final
     {
     public:
-        float v[4]{0.0F, 0.0F, 0.0F, 0.0F};
+        T v[4]{0, 0, 0, 0};
 
         Plane()
         {
@@ -56,7 +56,7 @@ namespace ouzel
             v[3] = -v[3];
         }
 
-        float dot(const Vector4& vec) const;
+        float dot(const Vector4<T>& vec) const;
         void normalize();
 
         inline bool operator==(const Plane& plane) const

@@ -35,9 +35,9 @@ namespace ouzel
         }
 
         CursorMacOS::CursorMacOS(const std::vector<uint8_t>& newData,
-                                             const Size2& size,
+                                             const Size2<float>& size,
                                              graphics::PixelFormat pixelFormat,
-                                             const Vector2& hotSpot):
+                                             const Vector2<float>& hotSpot):
             data(newData)
         {
             if (!data.empty())

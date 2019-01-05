@@ -48,16 +48,16 @@ namespace ouzel
 
             inline uint32_t getClass() const { return cls; }
 
-            virtual void draw(const Matrix4& transformMatrix,
+            virtual void draw(const Matrix4<float>& transformMatrix,
                               float opacity,
-                              const Matrix4& renderViewProjection,
+                              const Matrix4<float>& renderViewProjection,
                               bool wireframe);
 
-            virtual const Box3& getBoundingBox() const { return boundingBox; }
-            virtual void setBoundingBox(const Box3& newBoundingBox) { boundingBox = newBoundingBox; }
+            virtual const Box3<float>& getBoundingBox() const { return boundingBox; }
+            virtual void setBoundingBox(const Box3<float>& newBoundingBox) { boundingBox = newBoundingBox; }
 
-            virtual bool pointOn(const Vector2& position) const;
-            virtual bool shapeOverlaps(const std::vector<Vector2>& edges) const;
+            virtual bool pointOn(const Vector2<float>& position) const;
+            virtual bool shapeOverlaps(const std::vector<Vector2<float>>& edges) const;
 
             bool isHidden() const { return hidden; }
             void setHidden(bool newHidden) { hidden = newHidden; }
@@ -72,7 +72,7 @@ namespace ouzel
 
             uint32_t cls;
 
-            Box3 boundingBox;
+            Box3<float> boundingBox;
             bool hidden = false;
 
             Layer* layer = nullptr;

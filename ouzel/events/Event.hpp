@@ -102,9 +102,9 @@ namespace ouzel
     {
         input::Mouse* mouse = nullptr;
         input::Mouse::Button button = input::Mouse::Button::NONE;
-        Vector2 difference;
-        Vector2 position;
-        Vector2 scroll;
+        Vector2<float> difference;
+        Vector2<float> position;
+        Vector2<float> scroll;
         bool locked = false;
     };
 
@@ -112,8 +112,8 @@ namespace ouzel
     {
         input::Touchpad* touchpad = nullptr;
         uint64_t touchId = 0;
-        Vector2 difference;
-        Vector2 position;
+        Vector2<float> difference;
+        Vector2<float> position;
         float force = 1.0F;
     };
 
@@ -130,7 +130,7 @@ namespace ouzel
     struct WindowEvent final: Event
     {
         Window* window = nullptr;
-        Size2 size;
+        Size2<float> size;
         std::string title;
         bool fullscreen = false;
         uint32_t screenId = 0;
@@ -163,9 +163,9 @@ namespace ouzel
     {
         scene::Actor* actor;
         uint64_t touchId = 0;
-        Vector2 difference;
-        Vector2 position;
-        Vector3 localPosition;
+        Vector2<float> difference;
+        Vector2<float> position;
+        Vector3<float> localPosition;
     };
 
     struct AnimationEvent final: Event

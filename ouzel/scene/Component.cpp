@@ -18,20 +18,20 @@ namespace ouzel
             if (actor) actor->removeComponent(this);
         }
 
-        void Component::draw(const Matrix4&,
+        void Component::draw(const Matrix4<float>&,
                              float,
-                             const Matrix4&,
+                             const Matrix4<float>&,
                              bool)
         {
         }
 
-        bool Component::pointOn(const Vector2& position) const
+        bool Component::pointOn(const Vector2<float>& position) const
         {
-            return boundingBox.containsPoint(Vector3(position));
+            return boundingBox.containsPoint(Vector3<float>(position));
         }
 
-        inline void gatherPolygonProjectionExtents(const std::vector<Vector2>& vertList,
-                                                   const Vector2& v,
+        inline void gatherPolygonProjectionExtents(const std::vector<Vector2<float>>& vertList,
+                                                   const Vector2<float>& v,
                                                    float& outMin, float& outMax)
         {
             outMin = outMax = v.dot(vertList[0]);
@@ -45,16 +45,16 @@ namespace ouzel
             }
         }
 
-        inline bool findSeparatingAxis(const std::vector<Vector2>& aVertList,
-                                       const std::vector<Vector2>& bVertList)
+        inline bool findSeparatingAxis(const std::vector<Vector2<float>>& aVertList,
+                                       const std::vector<Vector2<float>>& bVertList)
         {
-            Vector2 v;
+            Vector2<float> v;
 
             size_t aVertListSize = aVertList.size();
             size_t prev = aVertListSize - 1;
             for (size_t cur = 0; cur < aVertListSize; ++cur)
             {
-                Vector2 edge = aVertList[cur] - aVertList[prev];
+                Vector2<float> edge = aVertList[cur] - aVertList[prev];
 
                 v.v[0] = edge.v[1];
                 v.v[1] = -edge.v[0];
@@ -75,13 +75,13 @@ namespace ouzel
             return false;
         }
 
-        bool Component::shapeOverlaps(const std::vector<Vector2>& edges) const
+        bool Component::shapeOverlaps(const std::vector<Vector2<float>>& edges) const
         {
-            std::vector<Vector2> boundingBoxEdges = {
-                Vector2(boundingBox.min),
-                Vector2(boundingBox.max.v[0], boundingBox.min.v[1]),
-                Vector2(boundingBox.max),
-                Vector2(boundingBox.min.v[0], boundingBox.max.v[1])
+            std::vector<Vector2<float>> boundingBoxEdges = {
+                Vector2<float>(boundingBox.min),
+                Vector2<float>(boundingBox.max.v[0], boundingBox.min.v[1]),
+                Vector2<float>(boundingBox.max),
+                Vector2<float>(boundingBox.min.v[0], boundingBox.max.v[1])
             };
 
             if (findSeparatingAxis(boundingBoxEdges, edges))

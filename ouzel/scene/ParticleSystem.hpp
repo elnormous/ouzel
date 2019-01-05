@@ -30,9 +30,9 @@ namespace ouzel
             explicit ParticleSystem(const ParticleSystemData& initParticleSystemData);
             explicit ParticleSystem(const std::string& filename);
 
-            void draw(const Matrix4& transformMatrix,
+            void draw(const Matrix4<float>& transformMatrix,
                       float opacity,
-                      const Matrix4& renderViewProjection,
+                      const Matrix4<float>& renderViewProjection,
                       bool wireframe) override;
 
             void init(const ParticleSystemData& newParticleSystemData);
@@ -68,7 +68,7 @@ namespace ouzel
             {
                 float life = 0.0F;
 
-                Vector2 position;
+                Vector2<float> position;
 
                 float colorRed = 0.0F;
                 float colorGreen = 0.0F;
@@ -92,7 +92,7 @@ namespace ouzel
                 float radialAcceleration = 0.0F;
                 float tangentialAcceleration = 0.0F;
 
-                Vector2 direction;
+                Vector2<float> direction;
                 float radius = 0.0F;
                 float degreesPerSecond = 0.0F;
                 float deltaRadius = 0.0F;

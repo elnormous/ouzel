@@ -406,15 +406,15 @@ namespace ouzel
         OGLRenderDevice::OGLRenderDevice(const std::function<void(const Event&)>& initCallback):
             RenderDevice(Driver::OPENGL, initCallback)
         {
-            projectionTransform = Matrix4(1.0F, 0.0F, 0.0F, 0.0F,
-                                          0.0F, 1.0F, 0.0F, 0.0F,
-                                          0.0F, 0.0F, 2.0F, -1.0F,
-                                          0.0F, 0.0F, 0.0F, 1.0F);
+            projectionTransform = Matrix4<float>(1.0F, 0.0F, 0.0F, 0.0F,
+                                                 0.0F, 1.0F, 0.0F, 0.0F,
+                                                 0.0F, 0.0F, 2.0F, -1.0F,
+                                                 0.0F, 0.0F, 0.0F, 1.0F);
 
-            renderTargetProjectionTransform = Matrix4(1.0F, 0.0F, 0.0F, 0.0F,
-                                                      0.0F, -1.0F, 0.0F, 0.0F,
-                                                      0.0F, 0.0F, 2.0F, -1.0F,
-                                                      0.0F, 0.0F, 0.0F, 1.0F);
+            renderTargetProjectionTransform = Matrix4<float>(1.0F, 0.0F, 0.0F, 0.0F,
+                                                             0.0F, -1.0F, 0.0F, 0.0F,
+                                                             0.0F, 0.0F, 2.0F, -1.0F,
+                                                             0.0F, 0.0F, 0.0F, 1.0F);
         }
 
         OGLRenderDevice::~OGLRenderDevice()
@@ -425,7 +425,7 @@ namespace ouzel
         }
 
         void OGLRenderDevice::init(Window* newWindow,
-                                   const Size2& newSize,
+                                   const Size2<float>& newSize,
                                    uint32_t newSampleCount,
                                    Texture::Filter newTextureFilter,
                                    uint32_t newMaxAnisotropy,
@@ -865,7 +865,7 @@ namespace ouzel
             clearDepth = newClearDepth;
         }
 
-        void OGLRenderDevice::setSize(const Size2& newSize)
+        void OGLRenderDevice::setSize(const Size2<float>& newSize)
         {
             RenderDevice::setSize(newSize);
 

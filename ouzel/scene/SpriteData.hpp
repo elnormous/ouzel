@@ -25,12 +25,12 @@ namespace ouzel
             {
             public:
                 Frame(const std::string& frameName,
-                      const Size2& textureSize,
-                      const Rect& frameRectangle,
+                      const Size2<float>& textureSize,
+                      const Rect<float>& frameRectangle,
                       bool rotated,
-                      const Size2& sourceSize,
-                      const Vector2& sourceOffset,
-                      const Vector2& pivot);
+                      const Size2<float>& sourceSize,
+                      const Vector2<float>& sourceOffset,
+                      const Vector2<float>& pivot);
 
                 Frame(const std::string& frameName,
                       const std::vector<uint16_t>& indices,
@@ -39,21 +39,21 @@ namespace ouzel
                 Frame(const std::string& frameName,
                       const std::vector<uint16_t>& indices,
                       const std::vector<graphics::Vertex>& vertices,
-                      const Rect& frameRectangle,
-                      const Size2& sourceSize,
-                      const Vector2& sourceOffset,
-                      const Vector2& pivot);
+                      const Rect<float>& frameRectangle,
+                      const Size2<float>& sourceSize,
+                      const Vector2<float>& sourceOffset,
+                      const Vector2<float>& pivot);
 
                 inline const std::string& getName() const { return name; }
 
-                inline const Box2& getBoundingBox() const { return boundingBox; }
+                inline const Box2<float>& getBoundingBox() const { return boundingBox; }
                 uint32_t getIndexCount() const { return indexCount; }
                 inline const std::shared_ptr<graphics::Buffer>& getIndexBuffer() const { return indexBuffer; };
                 inline const std::shared_ptr<graphics::Buffer>& getVertexBuffer() const { return vertexBuffer; };
 
             private:
                 std::string name;
-                Box2 boundingBox;
+                Box2<float> boundingBox;
                 uint32_t indexCount = 0;
                 std::shared_ptr<graphics::Buffer> indexBuffer;
                 std::shared_ptr<graphics::Buffer> vertexBuffer;

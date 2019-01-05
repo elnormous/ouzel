@@ -10,21 +10,21 @@
 
 namespace ouzel
 {
-    class ConvexVolume final
+    template<class T> class ConvexVolume final
     {
     public:
         ConvexVolume()
         {
         }
 
-        explicit ConvexVolume(const std::vector<Plane>& initPlanes):
+        explicit ConvexVolume(const std::vector<Plane<T>>& initPlanes):
             planes(initPlanes)
         {
         }
 
-        bool isPointInside(const Vector4& position) const
+        bool isPointInside(const Vector4<T>& position) const
         {
-            for (const Plane& plane : planes)
+            for (const Plane<T>& plane : planes)
             {
                 if (plane.dot(position) < 0.0F)
                     return false;
@@ -33,9 +33,9 @@ namespace ouzel
             return true;
         }
 
-        bool isSphereInside(const Vector4& position, float radius) const
+        bool isSphereInside(const Vector4<T>& position, float radius) const
         {
-            for (const Plane& plane : planes)
+            for (const Plane<T>& plane : planes)
             {
                 if (plane.dot(position) < -radius)
                     return false;
@@ -44,18 +44,18 @@ namespace ouzel
             return true;
         }
 
-        bool isBoxInside(const Box3& box) const
+        bool isBoxInside(const Box3<T>& box) const
         {
-            Vector4 leftBottomBack(box.min.v[0], box.min.v[1], box.min.v[2], 1.0F);
-            Vector4 leftBottomFront(box.min.v[0], box.min.v[1], box.max.v[2], 1.0F);
-            Vector4 leftTopBack(box.min.v[0], box.max.v[1], box.min.v[2], 1.0F);
-            Vector4 leftTopFront(box.min.v[0], box.max.v[1], box.max.v[2], 1.0F);
-            Vector4 rightBottomBack(box.max.v[0], box.min.v[1], box.min.v[2], 1.0F);
-            Vector4 rightBottomFront(box.max.v[0], box.min.v[1], box.max.v[2], 1.0F);
-            Vector4 rightTopBack(box.max.v[0], box.max.v[1], box.min.v[2], 1.0F);
-            Vector4 rightTopFront(box.max.v[0], box.max.v[1], box.max.v[2], 1.0F);
+            Vector4<T> leftBottomBack(box.min.v[0], box.min.v[1], box.min.v[2], 1.0F);
+            Vector4<T> leftBottomFront(box.min.v[0], box.min.v[1], box.max.v[2], 1.0F);
+            Vector4<T> leftTopBack(box.min.v[0], box.max.v[1], box.min.v[2], 1.0F);
+            Vector4<T> leftTopFront(box.min.v[0], box.max.v[1], box.max.v[2], 1.0F);
+            Vector4<T> rightBottomBack(box.max.v[0], box.min.v[1], box.min.v[2], 1.0F);
+            Vector4<T> rightBottomFront(box.max.v[0], box.min.v[1], box.max.v[2], 1.0F);
+            Vector4<T> rightTopBack(box.max.v[0], box.max.v[1], box.min.v[2], 1.0F);
+            Vector4<T> rightTopFront(box.max.v[0], box.max.v[1], box.max.v[2], 1.0F);
 
-            for (const Plane& plane : planes)
+            for (const Plane<T>& plane : planes)
             {
                 if (plane.dot(leftBottomBack) < 0.0F &&
                     plane.dot(leftBottomFront) < 0.0F &&
@@ -71,7 +71,7 @@ namespace ouzel
             return true;
         }
 
-        std::vector<Plane> planes;
+        std::vector<Plane<T>> planes;
     };
 }
 

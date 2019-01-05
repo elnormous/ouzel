@@ -10,12 +10,14 @@
 
 namespace ouzel
 {
-    Vector3::Vector3(const Vector4& vec):
+    template<class T>
+    Vector3<T>::Vector3(const Vector4<T>& vec):
         v{vec.v[0], vec.v[1], vec.v[2]}
     {
     }
 
-    Vector3& Vector3::operator=(const Vector4& vec)
+    template<class T>
+    Vector3<T>& Vector3<T>::operator=(const Vector4<T>& vec)
     {
         v[0] = vec.v[0];
         v[1] = vec.v[1];
@@ -24,14 +26,16 @@ namespace ouzel
         return *this;
     }
 
-    Vector3::Vector3(Color color)
+    template<class T>
+    Vector3<T>::Vector3(Color color)
     {
         v[0] = color.normR();
         v[1] = color.normG();
         v[2] = color.normB();
     }
 
-    Vector3& Vector3::operator=(Color color)
+    template<class T>
+    Vector3<T>& Vector3<T>::operator=(Color color)
     {
         v[0] = color.normR();
         v[1] = color.normG();
@@ -40,7 +44,8 @@ namespace ouzel
         return *this;
     }
 
-    void Vector3::clamp(const Vector3& min, const Vector3& max)
+    template<class T>
+    void Vector3<T>::clamp(const Vector3& min, const Vector3& max)
     {
         assert(!(min.v[0] > max.v[0] || min.v[1] > max.v[1] || min.v[2] > max.v[2]));
 
@@ -63,7 +68,9 @@ namespace ouzel
             v[2] = max.v[2];
     }
 
-    void Vector3::clamp(const Vector3& vec, const Vector3& min, const Vector3& max, Vector3& dst)
+    template<class T>
+    void Vector3<T>::clamp(const Vector3& vec, const Vector3& min,
+                           const Vector3& max, Vector3& dst)
     {
         assert(!(min.v[0] > max.v[0] || min.v[1] > max.v[1] || min.v[2] > max.v[2]));
 
@@ -89,7 +96,8 @@ namespace ouzel
             dst.v[2] = max.v[2];
     }
 
-    void Vector3::normalize()
+    template<class T>
+    void Vector3<T>::normalize()
     {
         float n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2];
         if (n == 1.0F) // already normalized
@@ -105,13 +113,17 @@ namespace ouzel
         v[2] *= n;
     }
 
-    float Vector3::getMin() const
+    template<class T>
+    float Vector3<T>::getMin() const
     {
         return std::min(v[0], std::min(v[1], v[2]));
     }
 
-    float Vector3::getMax() const
+    template<class T>
+    float Vector3<T>::getMax() const
     {
         return std::max(v[0], std::max(v[1], v[2]));
     }
+
+    template class Vector3<float>;
 }

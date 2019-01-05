@@ -59,8 +59,8 @@ namespace ouzel
             Panner(Panner&&) = delete;
             Panner& operator=(Panner&&) = delete;
 
-            const Vector3& getPosition() const { return position; }
-            void setPosition(const Vector3& newPosition);
+            const Vector3<float>& getPosition() const { return position; }
+            void setPosition(const Vector3<float>& newPosition);
 
             inline float getRolloffFactor() const { return rolloffFactor; }
             void setRolloffFactor(float newRolloffFactor);
@@ -74,7 +74,7 @@ namespace ouzel
         private:
             void updateTransform() override;
 
-            Vector3 position;
+            Vector3<float> position;
             float rolloffFactor = 1.0F;
             float minDistance = 1.0F;
             float maxDistance = FLT_MAX;

@@ -380,7 +380,7 @@ namespace ouzel
                         ouzel::input::InputSystemLinux* inputSystemLinux = static_cast<ouzel::input::InputSystemLinux*>(inputManager->getInputSystem());
                         ouzel::input::MouseDeviceLinux* mouseDevice = inputSystemLinux->getMouseDevice();
 
-                        Vector2 pos(static_cast<float>(event.xbutton.x),
+                        Vector2<float> pos(static_cast<float>(event.xbutton.x),
                                     static_cast<float>(event.xbutton.y));
 
                         if (event.type == ButtonPress)
@@ -396,7 +396,7 @@ namespace ouzel
                         ouzel::input::InputSystemLinux* inputSystemLinux = static_cast<ouzel::input::InputSystemLinux*>(inputManager->getInputSystem());
                         ouzel::input::MouseDeviceLinux* mouseDevice = inputSystemLinux->getMouseDevice();
 
-                        Vector2 pos(static_cast<float>(event.xmotion.x),
+                        Vector2<float> pos(static_cast<float>(event.xmotion.x),
                                     static_cast<float>(event.xmotion.y));
 
                         mouseDevice->handleMove(window->convertWindowToNormalizedLocation(pos));
@@ -405,7 +405,7 @@ namespace ouzel
                     }
                     case ConfigureNotify:
                     {
-                        windowLinux->handleResize(Size2(static_cast<float>(event.xconfigure.width),
+                        windowLinux->handleResize(Size2<float>(static_cast<float>(event.xconfigure.width),
                                                         static_cast<float>(event.xconfigure.height)));
                         break;
                     }
@@ -428,7 +428,7 @@ namespace ouzel
                                 {
                                     XIDeviceEvent* xievent = reinterpret_cast<XIDeviceEvent*>(cookie->data);
                                     touchpadDevice->handleTouchBegin(xievent->detail,
-                                                                     window->convertWindowToNormalizedLocation(Vector2(static_cast<float>(xievent->event_x),
+                                                                     window->convertWindowToNormalizedLocation(Vector2<float>(static_cast<float>(xievent->event_x),
                                                                                                                        static_cast<float>(xievent->event_y))));
                                     break;
                                 }
@@ -436,7 +436,7 @@ namespace ouzel
                                 {
                                     XIDeviceEvent* xievent = reinterpret_cast<XIDeviceEvent*>(cookie->data);
                                     touchpadDevice->handleTouchEnd(xievent->detail,
-                                                                   window->convertWindowToNormalizedLocation(Vector2(static_cast<float>(xievent->event_x),
+                                                                   window->convertWindowToNormalizedLocation(Vector2<float>(static_cast<float>(xievent->event_x),
                                                                                                                      static_cast<float>(xievent->event_y))));
                                     break;
                                 }
@@ -444,7 +444,7 @@ namespace ouzel
                                 {
                                     XIDeviceEvent* xievent = reinterpret_cast<XIDeviceEvent*>(cookie->data);
                                     touchpadDevice->handleTouchMove(xievent->detail,
-                                                                    window->convertWindowToNormalizedLocation(Vector2(static_cast<float>(xievent->event_x),
+                                                                    window->convertWindowToNormalizedLocation(Vector2<float>(static_cast<float>(xievent->event_x),
                                                                                                                       static_cast<float>(xievent->event_y))));
                                     break;
                                 }

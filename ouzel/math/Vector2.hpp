@@ -7,48 +7,48 @@
 
 namespace ouzel
 {
-    class Vector3;
-    class Vector4;
+    template<class T> class Vector3;
+    template<class T> class Vector4;
 
-    class Vector2 final
+    template<class T> class Vector2 final
     {
     public:
-        float v[2]{0.0F, 0.0F};
+        T v[2]{0, 0};
 
         Vector2()
         {
         }
 
-        Vector2(float x, float y):
+        Vector2(T x, T y):
             v{x, y}
         {
         }
 
-        Vector2(const Vector2& copy):
+        Vector2(const Vector2<T>& copy):
             v{copy.v[0], copy.v[1]}
         {
         }
 
-        Vector2& operator=(const Vector2& vec)
+        Vector2& operator=(const Vector2<T>& vec)
         {
             v[0] = vec.v[0];
             v[1] = vec.v[1];
             return *this;
         }
 
-        explicit Vector2(const Vector3& vec);
+        explicit Vector2(const Vector3<T>& vec);
 
-        Vector2& operator=(const Vector3& vec);
+        Vector2& operator=(const Vector3<T>& vec);
 
-        explicit Vector2(const Vector4& vec);
+        explicit Vector2(const Vector4<T>& vec);
 
-        Vector2& operator=(const Vector4& vec);
+        Vector2& operator=(const Vector4<T>& vec);
 
-        inline float& x() { return v[0]; }
-        inline float& y() { return v[1]; }
+        inline T& x() { return v[0]; }
+        inline T& y() { return v[1]; }
 
-        inline float x() const { return v[0]; }
-        inline float y() const { return v[1]; }
+        inline T x() const { return v[0]; }
+        inline T y() const { return v[1]; }
 
         inline bool isZero() const
         {
@@ -239,9 +239,10 @@ namespace ouzel
         };
     };
 
-    inline const Vector2 operator*(float scalar, const Vector2& vec)
+    template<class T>
+    inline const Vector2<T> operator*(T scalar, const Vector2<T>& vec)
     {
-        return Vector2(vec.v[0] * scalar, vec.v[1] * scalar);
+        return Vector2<T>(vec.v[0] * scalar, vec.v[1] * scalar);
     }
 }
 

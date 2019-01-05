@@ -6,7 +6,7 @@
 namespace ouzel
 {
     NativeWindow::NativeWindow(const std::function<void(const Event&)>& initCallback,
-                               const Size2& newSize,
+                               const Size2<float>& newSize,
                                bool newResizable,
                                bool newFullscreen,
                                bool newExclusiveFullscreen,

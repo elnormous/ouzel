@@ -183,7 +183,7 @@ static EM_BOOL emMouseCallback(int eventType, const EmscriptenMouseEvent* mouseE
             break;
     }
 
-    ouzel::Vector2 position(static_cast<float>(mouseEvent->canvasX),
+    ouzel::Vector2<float> position(static_cast<float>(mouseEvent->canvasX),
                             static_cast<float>(mouseEvent->canvasY));
 
     switch (eventType)
@@ -210,10 +210,10 @@ static EM_BOOL emWheelCallback(int eventType, const EmscriptenWheelEvent* wheelE
 
     if (eventType == EMSCRIPTEN_EVENT_WHEEL)
     {
-        ouzel::Vector2 position(static_cast<float>(wheelEvent->mouse.canvasX),
+        ouzel::Vector2<float> position(static_cast<float>(wheelEvent->mouse.canvasX),
                                 static_cast<float>(wheelEvent->mouse.canvasY));
 
-        mouseDevice->handleScroll(ouzel::Vector2(static_cast<float>(wheelEvent->deltaX), static_cast<float>(wheelEvent->deltaY)),
+        mouseDevice->handleScroll(ouzel::Vector2<float>(static_cast<float>(wheelEvent->deltaX), static_cast<float>(wheelEvent->deltaY)),
                                   ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
 
         return true;
@@ -261,7 +261,7 @@ static EM_BOOL emTouchCallback(int eventType, const EmscriptenTouchEvent* touchE
     {
         if (touchEvent->touches[i].isChanged)
         {
-            ouzel::Vector2 position(static_cast<float>(touchEvent->touches[i].canvasX),
+            ouzel::Vector2<float> position(static_cast<float>(touchEvent->touches[i].canvasX),
                                     static_cast<float>(touchEvent->touches[i].canvasY));
 
             switch (eventType)

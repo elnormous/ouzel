@@ -71,7 +71,7 @@ namespace ouzel
         }
 
         void OGLRenderDeviceMacOS::init(Window* newWindow,
-                                        const Size2& newSize,
+                                        const Size2<float>& newSize,
                                         uint32_t newSampleCount,
                                         Texture::Filter newTextureFilter,
                                         uint32_t newMaxAnisotropy,
@@ -171,16 +171,16 @@ namespace ouzel
                 throw std::runtime_error("Failed to start display link");
         }
 
-        void OGLRenderDeviceMacOS::setSize(const Size2& newSize)
+        void OGLRenderDeviceMacOS::setSize(const Size2<float>& newSize)
         {
             OGLRenderDevice::setSize(newSize);
 
             [openGLContext update];
         }
 
-        std::vector<Size2> OGLRenderDeviceMacOS::getSupportedResolutions() const
+        std::vector<Size2<float>> OGLRenderDeviceMacOS::getSupportedResolutions() const
         {
-            std::vector<Size2> result;
+            std::vector<Size2<float>> result;
 
             CFArrayRef displayModes = CGDisplayCopyAllDisplayModes(kCGDirectMainDisplay, nullptr);
             const CFIndex displayModeCount = CFArrayGetCount(displayModes);
@@ -189,8 +189,8 @@ namespace ouzel
             {
                 const CGDisplayModeRef displayMode = (const CGDisplayModeRef)CFArrayGetValueAtIndex(displayModes, i);
 
-                result.push_back(Size2(static_cast<float>(CGDisplayModeGetWidth(displayMode)),
-                                       static_cast<float>(CGDisplayModeGetHeight(displayMode))));
+                result.push_back(Size2<float>(static_cast<float>(CGDisplayModeGetWidth(displayMode)),
+                                              static_cast<float>(CGDisplayModeGetHeight(displayMode))));
             }
 
             CFRelease(displayModes);

@@ -13,7 +13,7 @@ namespace ouzel
         class Rotate final: public Animator
         {
         public:
-            Rotate(float initLength, const Vector3& initRotation, bool initRelative = false);
+            Rotate(float initLength, const Vector3<float>& initRotation, bool initRelative = false);
 
             void play() override;
 
@@ -21,10 +21,10 @@ namespace ouzel
             void updateProgress() override;
 
         private:
-            Vector3 rotation;
-            Vector3 startRotation;
-            Vector3 targetRotation;
-            Vector3 diff;
+            Vector3<float> rotation;
+            Vector3<float> startRotation;
+            Vector3<float> targetRotation;
+            Vector3<float> diff;
             bool relative;
         };
     } // namespace scene

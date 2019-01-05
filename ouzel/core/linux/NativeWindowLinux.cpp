@@ -20,7 +20,7 @@ static constexpr long _NET_WM_STATE_TOGGLE = 2L;
 namespace ouzel
 {
     NativeWindowLinux::NativeWindowLinux(const std::function<void(const Event&)>& initCallback,
-                                         const Size2& newSize,
+                                         const Size2<float>& newSize,
                                          bool newResizable,
                                          bool newFullscreen,
                                          bool newExclusiveFullscreen,
@@ -257,7 +257,7 @@ namespace ouzel
 #endif
     }
 
-    void NativeWindowLinux::setSize(const Size2& newSize)
+    void NativeWindowLinux::setSize(const Size2<float>& newSize)
     {
         size = newSize;
 
@@ -339,7 +339,7 @@ namespace ouzel
         sendEvent(focusChangeEvent);
     }
 
-    void NativeWindowLinux::handleResize(const Size2& newSize)
+    void NativeWindowLinux::handleResize(const Size2<float>& newSize)
     {
         size = newSize;
         resolution = size;

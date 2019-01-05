@@ -76,7 +76,7 @@ namespace ouzel
         }
 
         void OGLRenderDeviceAndroid::init(Window* newWindow,
-                                          const Size2&,
+                                          const Size2<float>&,
                                           uint32_t newSampleCount,
                                           Texture::Filter newTextureFilter,
                                           uint32_t newMaxAnisotropy,
@@ -170,7 +170,7 @@ namespace ouzel
             frameBufferWidth = surfaceWidth;
             frameBufferHeight = surfaceHeight;
 
-            Size2 backBufferSize = Size2(static_cast<float>(frameBufferWidth),
+            Size2<float> backBufferSize = Size2<float>(static_cast<float>(frameBufferWidth),
                                          static_cast<float>(frameBufferHeight));
 
             OGLRenderDevice::init(newWindow,

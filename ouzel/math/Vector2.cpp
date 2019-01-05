@@ -9,31 +9,36 @@
 
 namespace ouzel
 {
-    Vector2::Vector2(const Vector3& vec):
+    template<class T>
+    Vector2<T>::Vector2(const Vector3<T>& vec):
         v{vec.v[0], vec.v[1]}
     {
     }
 
-    Vector2& Vector2::operator=(const Vector3& vec)
+    template<class T>
+    Vector2<T>& Vector2<T>::operator=(const Vector3<T>& vec)
     {
         v[0] = vec.v[0];
         v[1] = vec.v[1];
         return *this;
     }
 
-    Vector2::Vector2(const Vector4& vec):
+    template<class T>
+    Vector2<T>::Vector2(const Vector4<T>& vec):
         v{vec.v[0], vec.v[1]}
     {
     }
 
-    Vector2& Vector2::operator=(const Vector4& vec)
+    template<class T>
+    Vector2<T>& Vector2<T>::operator=(const Vector4<T>& vec)
     {
         v[0] = vec.v[0];
         v[1] = vec.v[1];
         return *this;
     }
 
-    void Vector2::clamp(const Vector2& min, const Vector2& max)
+    template<class T>
+    void Vector2<T>::clamp(const Vector2& min, const Vector2& max)
     {
         assert(!(min.v[0] > max.v[0] || min.v[1] > max.v[1]));
 
@@ -50,7 +55,9 @@ namespace ouzel
             v[1] = max.v[1];
     }
 
-    void Vector2::clamp(const Vector2& vec, const Vector2& min, const Vector2& max, Vector2& dst)
+    template<class T>
+    void Vector2<T>::clamp(const Vector2& vec, const Vector2& min,
+                           const Vector2& max, Vector2& dst)
     {
         assert(!(min.v[0] > max.v[0] || min.v[1] > max.v[1]));
 
@@ -69,7 +76,8 @@ namespace ouzel
             dst.v[1] = max.v[1];
     }
 
-    void Vector2::normalize()
+    template<class T>
+    void Vector2<T>::normalize()
     {
         float n = v[0] * v[0] + v[1] * v[1];
         if (n == 1.0F) // already normalized
@@ -84,7 +92,8 @@ namespace ouzel
         v[1] *= n;
     }
 
-    void Vector2::rotate(float angle)
+    template<class T>
+    void Vector2<T>::rotate(float angle)
     {
         float sinAngle = sinf(angle);
         float cosAngle = cosf(angle);
@@ -94,7 +103,8 @@ namespace ouzel
         v[0] = tempX;
     }
 
-    void Vector2::rotate(const Vector2& point, float angle)
+    template<class T>
+    void Vector2<T>::rotate(const Vector2& point, float angle)
     {
         float sinAngle = sinf(angle);
         float cosAngle = cosf(angle);
@@ -115,13 +125,17 @@ namespace ouzel
         }
     }
 
-    float Vector2::getMin() const
+    template<class T>
+    float Vector2<T>::getMin() const
     {
         return std::min(v[0], v[1]);
     }
 
-    float Vector2::getMax() const
+    template<class T>
+    float Vector2<T>::getMax() const
     {
         return std::max(v[0], v[1]);
     }
+
+    template class Vector2<float>;
 }

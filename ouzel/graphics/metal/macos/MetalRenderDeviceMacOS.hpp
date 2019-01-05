@@ -55,13 +55,13 @@ namespace ouzel
             MetalRenderDeviceMacOS(const std::function<void(const Event&)>& initCallback);
             ~MetalRenderDeviceMacOS();
 
-            std::vector<Size2> getSupportedResolutions() const override;
+            std::vector<Size2<float>> getSupportedResolutions() const override;
 
             void renderCallback();
 
         private:
             void init(Window* newWindow,
-                      const Size2& newSize,
+                      const Size2<float>& newSize,
                       uint32_t newSampleCount,
                       Texture::Filter newTextureFilter,
                       uint32_t newMaxAnisotropy,

@@ -31,7 +31,7 @@ namespace ouzel
 
             union
             {
-                Size2 size;
+                Size2<float> size;
                 bool fullscreen;
             };
 
@@ -58,8 +58,8 @@ namespace ouzel
 
             union
             {
-                Size2 size;
-                Size2 resolution;
+                Size2<float> size;
+                Size2<float> resolution;
                 bool fullscreen;
                 uint32_t displayId;
                 bool focus;
@@ -67,7 +67,7 @@ namespace ouzel
         };
 
         NativeWindow(const std::function<void(const Event&)>& initCallback,
-                     const Size2& newSize,
+                     const Size2<float>& newSize,
                      bool newResizable,
                      bool newFullscreen,
                      bool newExclusiveFullscreen,
@@ -84,8 +84,8 @@ namespace ouzel
         void addCommand(const Command& command);
         virtual void executeCommand(const Command&) {}
 
-        inline const Size2& getSize() const { return size; }
-        inline const Size2& getResolution() const { return resolution; }
+        inline const Size2<float>& getSize() const { return size; }
+        inline const Size2<float>& getResolution() const { return resolution; }
         inline float getContentScale() const { return contentScale; }
         inline bool isResizable() const { return resizable; }
         inline bool isFullscreen() const { return fullscreen; }
@@ -95,8 +95,8 @@ namespace ouzel
     protected:
         void sendEvent(const Event& event);
 
-        Size2 size;
-        Size2 resolution;
+        Size2<float> size;
+        Size2<float> resolution;
         float contentScale = 1.0F;
         bool resizable = false;
         bool fullscreen = false;

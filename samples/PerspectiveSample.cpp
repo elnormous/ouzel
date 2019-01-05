@@ -37,7 +37,7 @@ PerspectiveSample::PerspectiveSample():
 
     camera.setProjectionMode(scene::Camera::ProjectionMode::PERSPECTIVE);
     camera.setFarPlane(1000.0F);
-    cameraActor.setPosition(Vector3(0.0F, 0.0F, -400.0F));
+    cameraActor.setPosition(Vector3<float>(0.0F, 0.0F, -400.0F));
     cameraActor.addComponent(&camera);
     layer.addChild(&cameraActor);
     addLayer(&layer);
@@ -48,8 +48,8 @@ PerspectiveSample::PerspectiveSample():
 
     floor.addComponent(&floorSprite);
     layer.addChild(&floor);
-    floor.setPosition(Vector2(0.0F, -50.0F));
-    floor.setRotation(Vector3(TAU / 4.04F, TAU / 8.0F, 0.0F));
+    floor.setPosition(Vector2<float>(0.0F, -50.0F));
+    floor.setRotation(Vector3<float>(TAU / 4.04F, TAU / 8.0F, 0.0F));
 
     // character
     characterSprite.init("run.json");
@@ -60,7 +60,7 @@ PerspectiveSample::PerspectiveSample():
 
     character.addComponent(&characterSprite);
     layer.addChild(&character);
-    character.setPosition(Vector2(10.0F, 0.0F));
+    character.setPosition(Vector2<float>(10.0F, 0.0F));
 
     submix.setOutput(&engine->getAudio()->getMasterMix());
     
@@ -74,24 +74,24 @@ PerspectiveSample::PerspectiveSample():
     jumpPanner.setRolloffFactor(0.01F);
     character.addComponent(&jumpPanner);
 
-    rotate.reset(new scene::Rotate(10.0F, Vector3(0.0F, TAU, 0.0F)));
+    rotate.reset(new scene::Rotate(10.0F, Vector3<float>(0.0F, TAU, 0.0F)));
     character.addComponent(rotate.get());
     rotate->start();
 
     boxModel.init(*engine->getCache().getStaticMeshData("cube.obj"));
     box.addComponent(&boxModel);
-    box.setPosition(Vector3(-160.0F, 0.0F, -50.0F));
+    box.setPosition(Vector3<float>(-160.0F, 0.0F, -50.0F));
     layer.addChild(&box);
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    guiCamera.setTargetContentSize(Size2(800.0F, 600.0F));
+    guiCamera.setTargetContentSize(Size2<float>(800.0F, 600.0F));
     guiCameraActor.addComponent(&guiCamera);
     guiLayer.addChild(&guiCameraActor);
     addLayer(&guiLayer);
 
     guiLayer.addChild(&menu);
 
-    backButton.setPosition(Vector2(-200.0F, -200.0F));
+    backButton.setPosition(Vector2<float>(-200.0F, -200.0F));
     menu.addWidget(&backButton);
 }
 
@@ -142,7 +142,7 @@ bool PerspectiveSample::handleKeyboard(const ouzel::KeyboardEvent& event)
         if (cameraRotation.x() < -TAU / 6.0F) cameraRotation.x() = -TAU / 6.0F;
         if (cameraRotation.x() > TAU / 6.0F) cameraRotation.x() = TAU / 6.0F;
 
-        cameraActor.setRotation(Vector3(cameraRotation.x(), cameraRotation.y(), 0.0F));
+        cameraActor.setRotation(Vector3<float>(cameraRotation.x(), cameraRotation.y(), 0.0F));
     }
     else if (event.type == Event::Type::KEY_RELEASE)
     {
@@ -171,7 +171,7 @@ bool PerspectiveSample::handleMouse(const ouzel::MouseEvent& event)
         if (cameraRotation.x() < -TAU / 6.0F) cameraRotation.x() = -TAU / 6.0F;
         if (cameraRotation.x() > TAU / 6.0F) cameraRotation.x() = TAU / 6.0F;
 
-        cameraActor.setRotation(Vector3(cameraRotation.x(), cameraRotation.y(), 0.0F));
+        cameraActor.setRotation(Vector3<float>(cameraRotation.x(), cameraRotation.y(), 0.0F));
     }
 
     return false;
@@ -188,7 +188,7 @@ bool PerspectiveSample::handleTouch(const ouzel::TouchEvent& event)
         if (cameraRotation.x() < -TAU / 6.0F) cameraRotation.x() = -TAU / 6.0F;
         if (cameraRotation.x() > TAU / 6.0F) cameraRotation.x() = TAU / 6.0F;
 
-        cameraActor.setRotation(Vector3(cameraRotation.x(), cameraRotation.y(), 0.0F));
+        cameraActor.setRotation(Vector3<float>(cameraRotation.x(), cameraRotation.y(), 0.0F));
     }
 
     return false;

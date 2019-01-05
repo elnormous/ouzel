@@ -24,9 +24,9 @@ namespace ouzel
             vertexBuffer->init(graphics::Buffer::Usage::VERTEX, graphics::Buffer::DYNAMIC);
         }
 
-        void ShapeRenderer::draw(const Matrix4& transformMatrix,
+        void ShapeRenderer::draw(const Matrix4<float>& transformMatrix,
                                  float opacity,
-                                 const Matrix4& renderViewProjection,
+                                 const Matrix4<float>& renderViewProjection,
                                  bool wireframe)
         {
             Component::draw(transformMatrix,
@@ -41,7 +41,7 @@ namespace ouzel
                 dirty = false;
             }
 
-            Matrix4 modelViewProj = renderViewProjection * transformMatrix;
+            Matrix4<float> modelViewProj = renderViewProjection * transformMatrix;
             float colorVector[] = {1.0F, 1.0F, 1.0F, opacity};
 
             for (const DrawCommand& drawCommand : drawCommands)
@@ -76,7 +76,7 @@ namespace ouzel
             dirty = true;
         }
 
-        void ShapeRenderer::line(const Vector2& start, const Vector2& finish, Color color, float thickness)
+        void ShapeRenderer::line(const Vector2<float>& start, const Vector2<float>& finish, Color color, float thickness)
         {
             assert(thickness >= 0.0F);
 
@@ -89,35 +89,35 @@ namespace ouzel
             {
                 command.mode = graphics::DrawMode::LINE_LIST;
 
-                vertices.push_back(graphics::Vertex(Vector3(start), color, Vector2(), Vector3(0.0F, 0.0F, -1.0F)));
-                vertices.push_back(graphics::Vertex(Vector3(finish), color, Vector2(), Vector3(0.0F, 0.0F, -1.0F)));
+                vertices.push_back(graphics::Vertex(Vector3<float>(start), color, Vector2<float>(), Vector3<float>(0.0F, 0.0F, -1.0F)));
+                vertices.push_back(graphics::Vertex(Vector3<float>(finish), color, Vector2<float>(), Vector3<float>(0.0F, 0.0F, -1.0F)));
 
                 command.indexCount = 2;
 
                 indices.push_back(startVertex + 0);
                 indices.push_back(startVertex + 1);
 
-                boundingBox.insertPoint(Vector3(start));
-                boundingBox.insertPoint(Vector3(finish));
+                boundingBox.insertPoint(Vector3<float>(start));
+                boundingBox.insertPoint(Vector3<float>(finish));
             }
             else
             {
                 command.mode = graphics::DrawMode::TRIANGLE_LIST;
 
-                Vector2 tangent = finish - start;
+                Vector2<float> tangent = finish - start;
                 tangent.normalize();
-                Vector2 normal(-tangent.v[1], tangent.v[0]);
+                Vector2<float> normal(-tangent.v[1], tangent.v[0]);
 
                 float halfThickness = thickness / 2.0F;
 
-                vertices.push_back(graphics::Vertex(Vector3(start - tangent * halfThickness - normal * halfThickness),
-                                                    color, Vector2(), Vector3(0.0F, 0.0F, -1.0F)));
-                vertices.push_back(graphics::Vertex(Vector3(finish + tangent * halfThickness - normal * halfThickness),
-                                                    color, Vector2(), Vector3(0.0F, 0.0F, -1.0F)));
-                vertices.push_back(graphics::Vertex(Vector3(start - tangent * halfThickness + normal * halfThickness),
-                                                    color, Vector2(), Vector3(0.0F, 0.0F, -1.0F)));
-                vertices.push_back(graphics::Vertex(Vector3(finish + tangent * halfThickness + normal * halfThickness),
-                                                    color, Vector2(), Vector3(0.0F, 0.0F, -1.0F)));
+                vertices.push_back(graphics::Vertex(Vector3<float>(start - tangent * halfThickness - normal * halfThickness),
+                                                    color, Vector2<float>(), Vector3<float>(0.0F, 0.0F, -1.0F)));
+                vertices.push_back(graphics::Vertex(Vector3<float>(finish + tangent * halfThickness - normal * halfThickness),
+                                                    color, Vector2<float>(), Vector3<float>(0.0F, 0.0F, -1.0F)));
+                vertices.push_back(graphics::Vertex(Vector3<float>(start - tangent * halfThickness + normal * halfThickness),
+                                                    color, Vector2<float>(), Vector3<float>(0.0F, 0.0F, -1.0F)));
+                vertices.push_back(graphics::Vertex(Vector3<float>(finish + tangent * halfThickness + normal * halfThickness),
+                                                    color, Vector2<float>(), Vector3<float>(0.0F, 0.0F, -1.0F)));
 
                 command.indexCount = 6;
 
@@ -139,7 +139,7 @@ namespace ouzel
             dirty = true;
         }
 
-        void ShapeRenderer::circle(const Vector2& position,
+        void ShapeRenderer::circle(const Vector2<float>& position,
                                    float radius,
                                    Color color,
                                    bool fill,
@@ -159,13 +159,13 @@ namespace ouzel
             {
                 command.mode = graphics::DrawMode::TRIANGLE_STRIP;
 
-                vertices.push_back(graphics::Vertex(Vector3(position), color, Vector2(), Vector3(0.0F, 0.0F, -1.0F))); // center
+                vertices.push_back(graphics::Vertex(Vector3<float>(position), color, Vector2<float>(), Vector3<float>(0.0F, 0.0F, -1.0F))); // center
 
                 for (uint32_t i = 0; i <= segments; ++i)
                 {
-                    vertices.push_back(graphics::Vertex(Vector3((position.v[0] + radius * cosf(i * TAU / static_cast<float>(segments))),
+                    vertices.push_back(graphics::Vertex(Vector3<float>((position.v[0] + radius * cosf(i * TAU / static_cast<float>(segments))),
                                                                 (position.v[1] + radius * sinf(i * TAU / static_cast<float>(segments))),
-                                                                0.0F), color, Vector2(), Vector3(0.0F, 0.0F, -1.0F)));
+                                                                0.0F), color, Vector2<float>(), Vector3<float>(0.0F, 0.0F, -1.0F)));
                 }
 
                 command.indexCount = segments * 2 + 1;
@@ -178,8 +178,8 @@ namespace ouzel
 
                 indices.push_back(startVertex + 1);
 
-                boundingBox.insertPoint(Vector3(position - Vector2(radius, radius)));
-                boundingBox.insertPoint(Vector3(position + Vector2(radius, radius)));
+                boundingBox.insertPoint(Vector3<float>(position - Vector2<float>(radius, radius)));
+                boundingBox.insertPoint(Vector3<float>(position + Vector2<float>(radius, radius)));
             }
             else
             {
@@ -189,9 +189,9 @@ namespace ouzel
 
                     for (uint32_t i = 0; i <= segments; ++i)
                     {
-                        vertices.push_back(graphics::Vertex(Vector3((position.v[0] + radius * cosf(i * TAU / static_cast<float>(segments))),
+                        vertices.push_back(graphics::Vertex(Vector3<float>((position.v[0] + radius * cosf(i * TAU / static_cast<float>(segments))),
                                                                     (position.v[1] + radius * sinf(i * TAU / static_cast<float>(segments))),
-                                                                    0.0F), color, Vector2(), Vector3(0.0F, 0.0F, -1.0F)));
+                                                                    0.0F), color, Vector2<float>(), Vector3<float>(0.0F, 0.0F, -1.0F)));
                     }
 
                     command.indexCount = segments + 1;
@@ -201,8 +201,8 @@ namespace ouzel
 
                     indices.push_back(startVertex);
 
-                    boundingBox.insertPoint(Vector3(position - Vector2(radius, radius)));
-                    boundingBox.insertPoint(Vector3(position + Vector2(radius, radius)));
+                    boundingBox.insertPoint(Vector3<float>(position - Vector2<float>(radius, radius)));
+                    boundingBox.insertPoint(Vector3<float>(position + Vector2<float>(radius, radius)));
                 }
                 else
                 {
@@ -212,13 +212,13 @@ namespace ouzel
 
                     for (uint32_t i = 0; i <= segments; ++i)
                     {
-                        vertices.push_back(graphics::Vertex(Vector3((position.v[0] + (radius - halfThickness) * cosf(i * TAU / static_cast<float>(segments))),
+                        vertices.push_back(graphics::Vertex(Vector3<float>((position.v[0] + (radius - halfThickness) * cosf(i * TAU / static_cast<float>(segments))),
                                                                     (position.v[1] + (radius - halfThickness) * sinf(i * TAU / static_cast<float>(segments))),
-                                                                    0.0F), color, Vector2(), Vector3(0.0F, 0.0F, -1.0F)));
+                                                                    0.0F), color, Vector2<float>(), Vector3<float>(0.0F, 0.0F, -1.0F)));
 
-                        vertices.push_back(graphics::Vertex(Vector3((position.v[0] + (radius + halfThickness) * cosf(i * TAU / static_cast<float>(segments))),
+                        vertices.push_back(graphics::Vertex(Vector3<float>((position.v[0] + (radius + halfThickness) * cosf(i * TAU / static_cast<float>(segments))),
                                                                     (position.v[1] + (radius + halfThickness) * sinf(i * TAU / static_cast<float>(segments))),
-                                                                    0.0F), color, Vector2(), Vector3(0.0F, 0.0F, -1.0F)));
+                                                                    0.0F), color, Vector2<float>(), Vector3<float>(0.0F, 0.0F, -1.0F)));
                     }
 
                     for (const graphics::Vertex& vertex : vertices)
@@ -257,7 +257,7 @@ namespace ouzel
             dirty = true;
         }
 
-        void ShapeRenderer::rectangle(const Rect& rectangle,
+        void ShapeRenderer::rectangle(const Rect<float>& rectangle,
                                       Color color,
                                       bool fill,
                                       float thickness)
@@ -273,14 +273,14 @@ namespace ouzel
             {
                 command.mode = graphics::DrawMode::TRIANGLE_LIST;
 
-                vertices.push_back(graphics::Vertex(Vector3(rectangle.left(), rectangle.bottom(), 0.0F), color,
-                                                    Vector2(), Vector3(0.0F, 0.0F, -1.0F)));
-                vertices.push_back(graphics::Vertex(Vector3(rectangle.right(), rectangle.bottom(), 0.0F), color,
-                                                    Vector2(), Vector3(0.0F, 0.0F, -1.0F)));
-                vertices.push_back(graphics::Vertex(Vector3(rectangle.right(), rectangle.top(), 0.0F), color,
-                                                    Vector2(), Vector3(0.0F, 0.0F, -1.0F)));
-                vertices.push_back(graphics::Vertex(Vector3(rectangle.left(), rectangle.top(), 0.0F), color,
-                                                    Vector2(), Vector3(0.0F, 0.0F, -1.0F)));
+                vertices.push_back(graphics::Vertex(Vector3<float>(rectangle.left(), rectangle.bottom(), 0.0F), color,
+                                                    Vector2<float>(), Vector3<float>(0.0F, 0.0F, -1.0F)));
+                vertices.push_back(graphics::Vertex(Vector3<float>(rectangle.right(), rectangle.bottom(), 0.0F), color,
+                                                    Vector2<float>(), Vector3<float>(0.0F, 0.0F, -1.0F)));
+                vertices.push_back(graphics::Vertex(Vector3<float>(rectangle.right(), rectangle.top(), 0.0F), color,
+                                                    Vector2<float>(), Vector3<float>(0.0F, 0.0F, -1.0F)));
+                vertices.push_back(graphics::Vertex(Vector3<float>(rectangle.left(), rectangle.top(), 0.0F), color,
+                                                    Vector2<float>(), Vector3<float>(0.0F, 0.0F, -1.0F)));
 
                 command.indexCount = 6;
 
@@ -291,8 +291,8 @@ namespace ouzel
                 indices.push_back(startVertex + 2);
                 indices.push_back(startVertex + 3);
 
-                boundingBox.insertPoint(Vector3(rectangle.bottomLeft()));
-                boundingBox.insertPoint(Vector3(rectangle.topRight()));
+                boundingBox.insertPoint(Vector3<float>(rectangle.bottomLeft()));
+                boundingBox.insertPoint(Vector3<float>(rectangle.topRight()));
             }
             else
             {
@@ -301,20 +301,20 @@ namespace ouzel
                     command.mode = graphics::DrawMode::LINE_STRIP;
 
                     // left bottom
-                    vertices.push_back(graphics::Vertex(Vector3(rectangle.left(), rectangle.bottom(), 0.0F), color,
-                                                        Vector2(), Vector3(0.0F, 0.0F, -1.0F)));
+                    vertices.push_back(graphics::Vertex(Vector3<float>(rectangle.left(), rectangle.bottom(), 0.0F), color,
+                                                        Vector2<float>(), Vector3<float>(0.0F, 0.0F, -1.0F)));
 
                     // right bottom
-                    vertices.push_back(graphics::Vertex(Vector3(rectangle.right(), rectangle.bottom(), 0.0F), color,
-                                                        Vector2(), Vector3(0.0F, 0.0F, -1.0F)));
+                    vertices.push_back(graphics::Vertex(Vector3<float>(rectangle.right(), rectangle.bottom(), 0.0F), color,
+                                                        Vector2<float>(), Vector3<float>(0.0F, 0.0F, -1.0F)));
 
                     // right top
-                    vertices.push_back(graphics::Vertex(Vector3(rectangle.right(), rectangle.top(), 0.0F), color,
-                                                        Vector2(), Vector3(0.0F, 0.0F, -1.0F)));
+                    vertices.push_back(graphics::Vertex(Vector3<float>(rectangle.right(), rectangle.top(), 0.0F), color,
+                                                        Vector2<float>(), Vector3<float>(0.0F, 0.0F, -1.0F)));
 
                     // left top
-                    vertices.push_back(graphics::Vertex(Vector3(rectangle.left(), rectangle.top(), 0.0F), color,
-                                                        Vector2(), Vector3(0.0F, 0.0F, -1.0F)));
+                    vertices.push_back(graphics::Vertex(Vector3<float>(rectangle.left(), rectangle.top(), 0.0F), color,
+                                                        Vector2<float>(), Vector3<float>(0.0F, 0.0F, -1.0F)));
 
                     command.indexCount = 5;
 
@@ -324,8 +324,8 @@ namespace ouzel
                     indices.push_back(startVertex + 3);
                     indices.push_back(startVertex + 0);
 
-                    boundingBox.insertPoint(Vector3(rectangle.bottomLeft()));
-                    boundingBox.insertPoint(Vector3(rectangle.topRight()));
+                    boundingBox.insertPoint(Vector3<float>(rectangle.bottomLeft()));
+                    boundingBox.insertPoint(Vector3<float>(rectangle.topRight()));
                 }
                 else
                 {
@@ -334,28 +334,28 @@ namespace ouzel
                     float halfThickness = thickness / 2.0F;
 
                     // left bottom
-                    vertices.push_back(graphics::Vertex(Vector3(rectangle.left() - halfThickness, rectangle.bottom() - halfThickness, 0.0F), color,
-                                                        Vector2(), Vector3(0.0F, 0.0F, -1.0F)));
-                    vertices.push_back(graphics::Vertex(Vector3(rectangle.left() + halfThickness, rectangle.bottom() + halfThickness, 0.0F), color,
-                                                        Vector2(), Vector3(0.0F, 0.0F, -1.0F)));
+                    vertices.push_back(graphics::Vertex(Vector3<float>(rectangle.left() - halfThickness, rectangle.bottom() - halfThickness, 0.0F), color,
+                                                        Vector2<float>(), Vector3<float>(0.0F, 0.0F, -1.0F)));
+                    vertices.push_back(graphics::Vertex(Vector3<float>(rectangle.left() + halfThickness, rectangle.bottom() + halfThickness, 0.0F), color,
+                                                        Vector2<float>(), Vector3<float>(0.0F, 0.0F, -1.0F)));
 
                     // right bottom
-                    vertices.push_back(graphics::Vertex(Vector3(rectangle.right() + halfThickness, rectangle.bottom() - halfThickness, 0.0F), color,
-                                                        Vector2(), Vector3(0.0F, 0.0F, -1.0F)));
-                    vertices.push_back(graphics::Vertex(Vector3(rectangle.right() - halfThickness, rectangle.bottom() + halfThickness, 0.0F), color,
-                                                        Vector2(), Vector3(0.0F, 0.0F, -1.0F)));
+                    vertices.push_back(graphics::Vertex(Vector3<float>(rectangle.right() + halfThickness, rectangle.bottom() - halfThickness, 0.0F), color,
+                                                        Vector2<float>(), Vector3<float>(0.0F, 0.0F, -1.0F)));
+                    vertices.push_back(graphics::Vertex(Vector3<float>(rectangle.right() - halfThickness, rectangle.bottom() + halfThickness, 0.0F), color,
+                                                        Vector2<float>(), Vector3<float>(0.0F, 0.0F, -1.0F)));
 
                     // right top
-                    vertices.push_back(graphics::Vertex(Vector3(rectangle.right() + halfThickness, rectangle.top() + halfThickness, 0.0F), color,
-                                                        Vector2(), Vector3(0.0F, 0.0F, -1.0F)));
-                    vertices.push_back(graphics::Vertex(Vector3(rectangle.right() - halfThickness, rectangle.top() - halfThickness, 0.0F), color,
-                                                        Vector2(), Vector3(0.0F, 0.0F, -1.0F)));
+                    vertices.push_back(graphics::Vertex(Vector3<float>(rectangle.right() + halfThickness, rectangle.top() + halfThickness, 0.0F), color,
+                                                        Vector2<float>(), Vector3<float>(0.0F, 0.0F, -1.0F)));
+                    vertices.push_back(graphics::Vertex(Vector3<float>(rectangle.right() - halfThickness, rectangle.top() - halfThickness, 0.0F), color,
+                                                        Vector2<float>(), Vector3<float>(0.0F, 0.0F, -1.0F)));
 
                     // left top
-                    vertices.push_back(graphics::Vertex(Vector3(rectangle.left() - halfThickness, rectangle.top() + halfThickness, 0.0F), color,
-                                                        Vector2(), Vector3(0.0F, 0.0F, -1.0F)));
-                    vertices.push_back(graphics::Vertex(Vector3(rectangle.left() + halfThickness, rectangle.top() - halfThickness, 0.0F), color,
-                                                        Vector2(), Vector3(0.0F, 0.0F, -1.0F)));
+                    vertices.push_back(graphics::Vertex(Vector3<float>(rectangle.left() - halfThickness, rectangle.top() + halfThickness, 0.0F), color,
+                                                        Vector2<float>(), Vector3<float>(0.0F, 0.0F, -1.0F)));
+                    vertices.push_back(graphics::Vertex(Vector3<float>(rectangle.left() + halfThickness, rectangle.top() - halfThickness, 0.0F), color,
+                                                        Vector2<float>(), Vector3<float>(0.0F, 0.0F, -1.0F)));
 
                     command.indexCount = 24;
                     // bottom
@@ -394,8 +394,8 @@ namespace ouzel
                     indices.push_back(startVertex + 1);
                     indices.push_back(startVertex + 7);
 
-                    boundingBox.insertPoint(Vector3(rectangle.bottomLeft() - Vector2(halfThickness, halfThickness)));
-                    boundingBox.insertPoint(Vector3(rectangle.topRight() + Vector2(halfThickness, halfThickness)));
+                    boundingBox.insertPoint(Vector3<float>(rectangle.bottomLeft() - Vector2<float>(halfThickness, halfThickness)));
+                    boundingBox.insertPoint(Vector3<float>(rectangle.topRight() + Vector2<float>(halfThickness, halfThickness)));
                 }
             }
 
@@ -404,7 +404,7 @@ namespace ouzel
             dirty = true;
         }
 
-        void ShapeRenderer::polygon(const std::vector<Vector2>& edges,
+        void ShapeRenderer::polygon(const std::vector<Vector2<float>>& edges,
                                     Color color,
                                     bool fill,
                                     float thickness)
@@ -422,7 +422,7 @@ namespace ouzel
                 command.mode = graphics::DrawMode::TRIANGLE_LIST;
 
                 for (uint16_t i = 0; i < edges.size(); ++i)
-                    vertices.push_back(graphics::Vertex(Vector3(edges[i]), color, Vector2(), Vector3(0.0F, 0.0F, -1.0F)));
+                    vertices.push_back(graphics::Vertex(Vector3<float>(edges[i]), color, Vector2<float>(), Vector3<float>(0.0F, 0.0F, -1.0F)));
 
                 command.indexCount = static_cast<uint32_t>(edges.size() - 2) * 3;
 
@@ -434,7 +434,7 @@ namespace ouzel
                 }
 
                 for (uint16_t i = 0; i < edges.size(); ++i)
-                    boundingBox.insertPoint(Vector3(edges[i]));
+                    boundingBox.insertPoint(Vector3<float>(edges[i]));
             }
             else
             {
@@ -443,7 +443,7 @@ namespace ouzel
                     command.mode = graphics::DrawMode::LINE_STRIP;
 
                     for (uint16_t i = 0; i < edges.size(); ++i)
-                        vertices.push_back(graphics::Vertex(Vector3(edges[i]), color, Vector2(), Vector3(0.0F, 0.0F, -1.0F)));
+                        vertices.push_back(graphics::Vertex(Vector3<float>(edges[i]), color, Vector2<float>(), Vector3<float>(0.0F, 0.0F, -1.0F)));
 
                     command.indexCount = static_cast<uint32_t>(edges.size()) + 1;
 
@@ -453,7 +453,7 @@ namespace ouzel
                     indices.push_back(startVertex);
 
                     for (uint16_t i = 0; i < edges.size(); ++i)
-                        boundingBox.insertPoint(Vector3(edges[i]));
+                        boundingBox.insertPoint(Vector3<float>(edges[i]));
                 }
                 else
                 {
@@ -476,7 +476,7 @@ namespace ouzel
             return ret;
         }
 
-        void ShapeRenderer::curve(const std::vector<Vector2>& controlPoints,
+        void ShapeRenderer::curve(const std::vector<Vector2<float>>& controlPoints,
                                   Color color,
                                   uint32_t segments,
                                   float thickness)
@@ -500,8 +500,8 @@ namespace ouzel
                     {
                         indices.push_back(startVertex + static_cast<uint16_t>(command.indexCount));
                         ++command.indexCount;
-                        vertices.push_back(graphics::Vertex(Vector3(controlPoints[i]), color, Vector2(), Vector3(0.0F, 0.0F, -1.0F)));
-                        boundingBox.insertPoint(Vector3(controlPoints[i]));
+                        vertices.push_back(graphics::Vertex(Vector3<float>(controlPoints[i]), color, Vector2<float>(), Vector3<float>(0.0F, 0.0F, -1.0F)));
+                        boundingBox.insertPoint(Vector3<float>(controlPoints[i]));
                     }
                 }
                 else
@@ -512,7 +512,7 @@ namespace ouzel
                     {
                         float t = static_cast<float>(segment) / static_cast<float>(segments - 1);
 
-                        graphics::Vertex vertex(Vector3(), color, Vector2(), Vector3(0.0F, 0.0F, -1.0F));
+                        graphics::Vertex vertex(Vector3<float>(), color, Vector2<float>(), Vector3<float>(0.0F, 0.0F, -1.0F));
 
                         for (uint16_t n = 0; n < controlPoints.size(); ++n)
                             vertex.position += static_cast<float>(binomialCoefficients[n]) * powf(t, n) * powf(1.0F - t, static_cast<float>(controlPoints.size() - n - 1)) * controlPoints[n];

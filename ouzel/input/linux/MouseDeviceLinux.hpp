@@ -20,7 +20,7 @@ namespace ouzel
             {
             }
 
-            void setPosition(const Vector2& position);
+            void setPosition(const Vector2<float>& position);
             bool isCursorVisible() const { return cursorVisible; }
             void setCursorVisible(bool visible);
             void setCursorLocked(bool locked);

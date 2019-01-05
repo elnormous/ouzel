@@ -35,7 +35,7 @@ namespace ouzel
 
         Sprite::Sprite(std::shared_ptr<graphics::Texture> texture,
                        uint32_t spritesX, uint32_t spritesY,
-                       const Vector2& pivot):
+                       const Vector2<float>& pivot):
             Sprite()
         {
             init(texture, spritesX, spritesY, pivot);
@@ -77,12 +77,12 @@ namespace ouzel
 
                 SpriteData::Animation animation;
 
-                Rect rectangle(0.0F,
+                Rect<float> rectangle(0.0F,
                                0.0F,
                                texture->getSize().width,
                                texture->getSize().height);
 
-                SpriteData::Frame frame = SpriteData::Frame("", texture->getSize(), rectangle, false, texture->getSize(), Vector2(), Vector2(0.5F, 0.5F));
+                SpriteData::Frame frame = SpriteData::Frame("", texture->getSize(), rectangle, false, texture->getSize(), Vector2<float>(), Vector2<float>(0.5F, 0.5F));
                 animation.frames.push_back(frame);
 
                 animations[""] = std::move(animation);
@@ -97,7 +97,7 @@ namespace ouzel
 
         void Sprite::init(std::shared_ptr<graphics::Texture> newTexture,
                           uint32_t spritesX, uint32_t spritesY,
-                          const Vector2& pivot)
+                          const Vector2<float>& pivot)
         {
             material = std::make_shared<graphics::Material>();
             material->cullMode = graphics::CullMode::NONE;
@@ -106,7 +106,7 @@ namespace ouzel
             material->textures[0] = newTexture;
             animations.clear();
 
-            Size2 spriteSize = Size2(material->textures[0]->getSize().width / spritesX,
+            Size2<float> spriteSize = Size2<float>(material->textures[0]->getSize().width / spritesX,
                                      material->textures[0]->getSize().height / spritesY);
 
             SpriteData::Animation animation;
@@ -116,12 +116,12 @@ namespace ouzel
             {
                 for (uint32_t y = 0; y < spritesY; ++y)
                 {
-                    Rect rectangle(spriteSize.width * x,
+                    Rect<float> rectangle(spriteSize.width * x,
                                    spriteSize.height * y,
                                    spriteSize.width,
                                    spriteSize.height);
 
-                    SpriteData::Frame frame = SpriteData::Frame("", newTexture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
+                    SpriteData::Frame frame = SpriteData::Frame("", newTexture->getSize(), rectangle, false, spriteSize, Vector2<float>(), pivot);
                     animation.frames.push_back(frame);
                 }
             }
@@ -205,9 +205,9 @@ namespace ouzel
             return false;
         }
 
-        void Sprite::draw(const Matrix4& transformMatrix,
+        void Sprite::draw(const Matrix4<float>& transformMatrix,
                           float opacity,
-                          const Matrix4& renderViewProjection,
+                          const Matrix4<float>& renderViewProjection,
                           bool wireframe)
         {
             Component::draw(transformMatrix,
@@ -223,7 +223,7 @@ namespace ouzel
                 size_t currentFrame = static_cast<size_t>(currentTime / currentAnimation->animation->frameInterval);
                 if (currentFrame >= currentAnimation->animation->frames.size()) currentFrame = currentAnimation->animation->frames.size() - 1;
 
-                Matrix4 modelViewProj = renderViewProjection * transformMatrix * offsetMatrix;
+                Matrix4<float> modelViewProj = renderViewProjection * transformMatrix * offsetMatrix;
                 float colorVector[] = {material->diffuseColor.normR(), material->diffuseColor.normG(), material->diffuseColor.normB(), material->diffuseColor.normA() * opacity * material->opacity};
 
                 std::vector<std::vector<float>> fragmentShaderConstants(1);
@@ -254,10 +254,10 @@ namespace ouzel
             }
         }
 
-        void Sprite::setOffset(const Vector2& newOffset)
+        void Sprite::setOffset(const Vector2<float>& newOffset)
         {
             offset = newOffset;
-            Matrix4::createTranslation(Vector3(offset), offsetMatrix);
+            Matrix4<float>::createTranslation(Vector3<float>(offset), offsetMatrix);
             updateBoundingBox();
         }
 

@@ -39,9 +39,9 @@ namespace ouzel
             init(*engine->getCache().getStaticMeshData(filename));
         }
 
-        void StaticMeshRenderer::draw(const Matrix4& transformMatrix,
+        void StaticMeshRenderer::draw(const Matrix4<float>& transformMatrix,
                                       float opacity,
-                                      const Matrix4& renderViewProjection,
+                                      const Matrix4<float>& renderViewProjection,
                                       bool wireframe)
         {
             Component::draw(transformMatrix,
@@ -51,7 +51,7 @@ namespace ouzel
 
             material->cullMode = graphics::CullMode::NONE;
 
-            Matrix4 modelViewProj = renderViewProjection * transformMatrix;
+            Matrix4<float> modelViewProj = renderViewProjection * transformMatrix;
             float colorVector[] = {material->diffuseColor.normR(), material->diffuseColor.normG(), material->diffuseColor.normB(), material->diffuseColor.normA() * opacity * material->opacity};
 
             std::vector<std::vector<float>> fragmentShaderConstants(1);

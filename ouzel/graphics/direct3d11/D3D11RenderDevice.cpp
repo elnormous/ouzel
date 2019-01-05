@@ -121,7 +121,7 @@ namespace ouzel
         }
 
         void D3D11RenderDevice::init(Window* newWindow,
-                                     const Size2& newSize,
+                                     const Size2<float>& newSize,
                                      uint32_t newSampleCount,
                                      Texture::Filter newTextureFilter,
                                      uint32_t newMaxAnisotropy,
@@ -346,7 +346,7 @@ namespace ouzel
             clearDepth = newClearDepth;
         }
 
-        void D3D11RenderDevice::setSize(const Size2& newSize)
+        void D3D11RenderDevice::setSize(const Size2<float>& newSize)
         {
             RenderDevice::setSize(newSize);
 
@@ -955,9 +955,9 @@ namespace ouzel
             return nullptr;
         }
 
-        std::vector<Size2> D3D11RenderDevice::getSupportedResolutions() const
+        std::vector<Size2<float>> D3D11RenderDevice::getSupportedResolutions() const
         {
-            std::vector<Size2> result;
+            std::vector<Size2<float>> result;
 
             IDXGIOutput* output = getOutput();
 
@@ -979,7 +979,7 @@ namespace ouzel
 
                 for (const DXGI_MODE_DESC& displayMode : displayModes)
                 {
-                    result.push_back(Size2(static_cast<float>(displayMode.Width),
+                    result.push_back(Size2<float>(static_cast<float>(displayMode.Width),
                                            static_cast<float>(displayMode.Height)));
                 }
             }

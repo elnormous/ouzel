@@ -7,7 +7,7 @@ namespace ouzel
 {
     namespace scene
     {
-        Move::Move(float initLength, const Vector3& initPosition, bool initRelative):
+        Move::Move(float initLength, const Vector3<float>& initPosition, bool initRelative):
             Animator(initLength), position(initPosition), relative(initRelative)
         {
         }

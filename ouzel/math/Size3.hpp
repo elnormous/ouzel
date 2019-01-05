@@ -7,14 +7,14 @@
 
 namespace ouzel
 {
-    class Size2;
+    template<class T> class Size2;
 
-    class Size3 final
+    template<class T> class Size3 final
     {
     public:
-        float width = 0.0F;
-        float height = 0.0F;
-        float depth = 0.0F;
+        T width = 0;
+        T height = 0;
+        T depth = 0;
 
         Size3()
         {
@@ -25,12 +25,12 @@ namespace ouzel
         {
         }
 
-        explicit Size3(const Vector3& point):
+        explicit Size3(const Vector3<T>& point):
             width(point.v[0]), height(point.v[1]), depth(point.v[2])
         {
         }
 
-        inline Size3& operator=(const Vector3& point)
+        inline Size3& operator=(const Vector3<T>& point)
         {
             width = point.v[0];
             height = point.v[1];
@@ -38,8 +38,8 @@ namespace ouzel
             return *this;
         }
 
-        explicit Size3(const Size2& s);
-        Size3& operator=(const Size2& s);
+        explicit Size3(const Size2<T>& s);
+        Size3& operator=(const Size2<T>& s);
 
         inline const Size3 operator+(const Size3& size) const
         {
@@ -120,7 +120,7 @@ namespace ouzel
             depth *= scalar;
         }
 
-        inline void scale(const Vector3& scale)
+        inline void scale(const Vector3<T>& scale)
         {
             width *= scale.v[0];
             height *= scale.v[1];
@@ -128,14 +128,16 @@ namespace ouzel
         }
     };
 
-    inline const Size3 operator*(const Size3& size, const Vector3& v)
+    template<class T>
+    inline const Size3<T> operator*(const Size3<T>& size, const Vector3<T>& v)
     {
-        return Size3(size.width * v.v[0], size.height * v.v[1], size.depth * v.v[2]);
+        return Size3<T>(size.width * v.v[0], size.height * v.v[1], size.depth * v.v[2]);
     }
 
-    inline const Size3 operator/(const Size3& size, const Vector3& v)
+    template<class T>
+    inline const Size3<T> operator/(const Size3<T>& size, const Vector3<T>& v)
     {
-        return Size3(size.width / v.v[0], size.height / v.v[1], size.depth / v.v[2]);
+        return Size3<T>(size.width / v.v[0], size.height / v.v[1], size.depth / v.v[2]);
     }
 }
 

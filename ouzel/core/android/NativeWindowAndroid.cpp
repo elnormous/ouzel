@@ -9,7 +9,7 @@ namespace ouzel
     NativeWindowAndroid::NativeWindowAndroid(const std::function<void(const Event&)>& initCallback,
                                              const std::string& newTitle):
         NativeWindow(initCallback,
-                     Size2(),
+                     Size2<float>(),
                      true,
                      true,
                      true,
@@ -54,7 +54,7 @@ namespace ouzel
         }
     }
 
-    void NativeWindowAndroid::handleResize(const Size2& newSize)
+    void NativeWindowAndroid::handleResize(const Size2<float>& newSize)
     {
         size = newSize;
         resolution = size;

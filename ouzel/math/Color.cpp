@@ -71,7 +71,8 @@ namespace ouzel
         return *this;
     }
 
-    Color::Color(const Vector3& vec)
+    
+    Color::Color(const Vector3<float>& vec)
     {
         r = static_cast<uint8_t>(vec.v[0] * 255.0F);
         g = static_cast<uint8_t>(vec.v[1] * 255.0F);
@@ -79,7 +80,7 @@ namespace ouzel
         a = 0;
     }
 
-    Color& Color::operator=(const Vector3& vec)
+    Color& Color::operator=(const Vector3<float>& vec)
     {
         r = static_cast<uint8_t>(vec.v[0] * 255.0F);
         g = static_cast<uint8_t>(vec.v[1] * 255.0F);
@@ -89,7 +90,7 @@ namespace ouzel
         return *this;
     }
 
-    Color::Color(const Vector4& vec)
+    Color::Color(const Vector4<float>& vec)
     {
         r = static_cast<uint8_t>(vec.v[0] * 255.0F);
         g = static_cast<uint8_t>(vec.v[1] * 255.0F);
@@ -97,7 +98,7 @@ namespace ouzel
         a = static_cast<uint8_t>(vec.v[3] * 255.0F);
     }
 
-    Color& Color::operator=(const Vector4& vec)
+    Color& Color::operator=(const Vector4<float>& vec)
     {
         r = static_cast<uint8_t>(vec.v[0] * 255.0F);
         g = static_cast<uint8_t>(vec.v[1] * 255.0F);

@@ -31,7 +31,7 @@ namespace ouzel
                 void setOutput(Bus* newOutput);
 
                 void getData(uint32_t frames, uint16_t channels, uint32_t sampleRate,
-                             const Vector3& listenerPosition, const Quaternion& listenerRotation,
+                             const Vector3<float>& listenerPosition, const Quaternion<float>& listenerRotation,
                              std::vector<float>& samples);
 
                 void addProcessor(Processor* processor);

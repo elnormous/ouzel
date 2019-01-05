@@ -7,7 +7,7 @@ namespace ouzel
 {
     namespace scene
     {
-        SkinnedMeshData::SkinnedMeshData(Box3 initBoundingBox,
+        SkinnedMeshData::SkinnedMeshData(Box3<float> initBoundingBox,
                                          const std::shared_ptr<graphics::Material>& initMaterial):
             boundingBox(initBoundingBox),
             material(initMaterial)

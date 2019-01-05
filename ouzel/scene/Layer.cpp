@@ -32,7 +32,7 @@ namespace ouzel
                 std::vector<Actor*> drawQueue;
 
                 for (Actor* actor : children)
-                    actor->visit(drawQueue, Matrix4::identity(), false, camera, 0, false);
+                    actor->visit(drawQueue, Matrix4<float>::identity(), false, camera, 0, false);
 
                 engine->getRenderer()->setRenderTarget(camera->getRenderTarget() ? camera->getRenderTarget()->getResource() : 0);
                 engine->getRenderer()->setViewport(camera->getRenderViewport());
@@ -52,7 +52,7 @@ namespace ouzel
             ActorContainer::addChild(actor);
 
             if (actor)
-                actor->updateTransform(Matrix4::identity());
+                actor->updateTransform(Matrix4<float>::identity());
         }
 
         void Layer::addCamera(Camera* camera)
@@ -85,7 +85,7 @@ namespace ouzel
                 lights.erase(i);
         }
 
-        std::pair<Actor*, Vector3> Layer::pickActor(const Vector2& position, bool renderTargets) const
+        std::pair<Actor*, Vector3<float>> Layer::pickActor(const Vector2<float>& position, bool renderTargets) const
         {
             for (auto i = cameras.rbegin(); i != cameras.rend(); ++i)
             {
@@ -93,19 +93,19 @@ namespace ouzel
 
                 if (renderTargets || !camera->getRenderTarget())
                 {
-                    Vector2 worldPosition = Vector2(camera->convertNormalizedToWorld(position));
+                    Vector2<float> worldPosition = Vector2<float>(camera->convertNormalizedToWorld(position));
 
-                    std::vector<std::pair<Actor*, Vector3>> actors = findActors(worldPosition);
+                    std::vector<std::pair<Actor*, Vector3<float>>> actors = findActors(worldPosition);
                     if (!actors.empty()) return actors.front();
                 }
             }
 
-            return std::make_pair(nullptr, Vector3());
+            return std::make_pair(nullptr, Vector3<float>());
         }
 
-        std::vector<std::pair<Actor*, Vector3>> Layer::pickActors(const Vector2& position, bool renderTargets) const
+        std::vector<std::pair<Actor*, Vector3<float>>> Layer::pickActors(const Vector2<float>& position, bool renderTargets) const
         {
-            std::vector<std::pair<Actor*, Vector3>> result;
+            std::vector<std::pair<Actor*, Vector3<float>>> result;
 
             for (auto i = cameras.rbegin(); i != cameras.rend(); ++i)
             {
@@ -113,9 +113,9 @@ namespace ouzel
 
                 if (renderTargets || !camera->getRenderTarget())
                 {
-                    Vector2 worldPosition = Vector2(camera->convertNormalizedToWorld(position));
+                    Vector2<float> worldPosition = Vector2<float>(camera->convertNormalizedToWorld(position));
 
-                    std::vector<std::pair<Actor*, Vector3>> actors = findActors(worldPosition);
+                    std::vector<std::pair<Actor*, Vector3<float>>> actors = findActors(worldPosition);
                     result.insert(result.end(), actors.begin(), actors.end());
                 }
             }
@@ -123,7 +123,7 @@ namespace ouzel
             return result;
         }
 
-        std::vector<Actor*> Layer::pickActors(const std::vector<Vector2>& edges, bool renderTargets) const
+        std::vector<Actor*> Layer::pickActors(const std::vector<Vector2<float>>& edges, bool renderTargets) const
         {
             std::vector<Actor*> result;
 
@@ -133,11 +133,11 @@ namespace ouzel
 
                 if (renderTargets || !camera->getRenderTarget())
                 {
-                    std::vector<Vector2> worldEdges;
+                    std::vector<Vector2<float>> worldEdges;
                     worldEdges.reserve(edges.size());
 
-                    for (const Vector2& edge : edges)
-                        worldEdges.push_back(Vector2(camera->convertNormalizedToWorld(edge)));
+                    for (const Vector2<float>& edge : edges)
+                        worldEdges.push_back(Vector2<float>(camera->convertNormalizedToWorld(edge)));
 
                     std::vector<Actor*> actors = findActors(worldEdges);
                     result.insert(result.end(), actors.begin(), actors.end());
