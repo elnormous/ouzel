@@ -7,15 +7,15 @@ namespace ouzel
 {
     template<class T>
     Size2<T>::Size2(const Size3<T>& s):
-        width(s.width), height(s.height)
+        v{s.v[0], s.v[1]}
     {
     }
 
     template<class T>
     Size2<T>& Size2<T>::operator=(const Size3<T>& s)
     {
-        width = s.width;
-        height = s.height;
+        v[0] = s.v[0];
+        v[1] = s.v[1];
         return *this;
     }
 

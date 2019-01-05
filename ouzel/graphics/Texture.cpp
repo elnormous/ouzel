@@ -396,8 +396,8 @@ namespace ouzel
         {
             std::vector<Texture::Level> levels;
 
-            uint32_t newWidth = static_cast<uint32_t>(size.width);
-            uint32_t newHeight = static_cast<uint32_t>(size.height);
+            uint32_t newWidth = static_cast<uint32_t>(size.v[0]);
+            uint32_t newHeight = static_cast<uint32_t>(size.v[1]);
 
             uint32_t pixelSize = getPixelSize(pixelFormat);
             uint32_t pitch = newWidth * pixelSize;
@@ -494,7 +494,7 @@ namespace ouzel
                 throw std::runtime_error("Invalid mip map count");
 
             if (!renderer.getDevice()->isNPOTTexturesSupported() &&
-                (!isPOT(static_cast<uint32_t>(size.width)) || isPOT(static_cast<uint32_t>(size.height))))
+                (!isPOT(static_cast<uint32_t>(size.v[0])) || isPOT(static_cast<uint32_t>(size.v[1]))))
                 mipmaps = 1;
 
             std::vector<Level> levels = calculateSizes(size, std::vector<uint8_t>(), mipmaps, pixelFormat);
@@ -524,7 +524,7 @@ namespace ouzel
                 throw std::runtime_error("Invalid mip map count");
 
             if (!renderer.getDevice()->isNPOTTexturesSupported() &&
-                (!isPOT(static_cast<uint32_t>(size.width)) || isPOT(static_cast<uint32_t>(size.height))))
+                (!isPOT(static_cast<uint32_t>(size.v[0])) || isPOT(static_cast<uint32_t>(size.v[1]))))
                 mipmaps = 1;
 
             std::vector<Level> levels = calculateSizes(size, initData, mipmaps, pixelFormat);
@@ -555,7 +555,7 @@ namespace ouzel
             std::vector<Level> levels = initLevels;
 
             if (!renderer.getDevice()->isNPOTTexturesSupported() &&
-                (!isPOT(static_cast<uint32_t>(size.width)) || isPOT(static_cast<uint32_t>(size.height))))
+                (!isPOT(static_cast<uint32_t>(size.v[0])) || isPOT(static_cast<uint32_t>(size.v[1]))))
             {
                 mipmaps = 1;
                 levels.resize(1);
@@ -594,7 +594,7 @@ namespace ouzel
                 throw std::runtime_error("Invalid mip map count");
 
             if (!renderer.getDevice()->isNPOTTexturesSupported() &&
-                (!isPOT(static_cast<uint32_t>(size.width)) || isPOT(static_cast<uint32_t>(size.height))))
+                (!isPOT(static_cast<uint32_t>(size.v[0])) || isPOT(static_cast<uint32_t>(size.v[1]))))
                 mipmaps = 1;
 
             std::vector<Level> levels = calculateSizes(size, std::vector<uint8_t>(), mipmaps, pixelFormat);
@@ -622,7 +622,7 @@ namespace ouzel
                 throw std::runtime_error("Invalid mip map count");
 
             if (!renderer.getDevice()->isNPOTTexturesSupported() &&
-                (!isPOT(static_cast<uint32_t>(size.width)) || isPOT(static_cast<uint32_t>(size.height))))
+                (!isPOT(static_cast<uint32_t>(size.v[0])) || isPOT(static_cast<uint32_t>(size.v[1]))))
                 mipmaps = 1;
 
             std::vector<Level> levels = calculateSizes(size, newData, mipmaps, pixelFormat);
@@ -651,7 +651,7 @@ namespace ouzel
             std::vector<Level> levels = newLevels;
 
             if (!renderer.getDevice()->isNPOTTexturesSupported() &&
-                (!isPOT(static_cast<uint32_t>(size.width)) || isPOT(static_cast<uint32_t>(size.height))))
+                (!isPOT(static_cast<uint32_t>(size.v[0])) || isPOT(static_cast<uint32_t>(size.v[1]))))
             {
                 mipmaps = 1;
                 levels.resize(1);

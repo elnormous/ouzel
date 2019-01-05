@@ -26,8 +26,8 @@ namespace ouzel
 
         window = ANativeWindow_fromSurface(jniEnv, engineAndroid->getSurface());
 
-        size.width = static_cast<float>(ANativeWindow_getWidth(window));
-        size.height = static_cast<float>(ANativeWindow_getHeight(window));
+        size.v[0] = static_cast<float>(ANativeWindow_getWidth(window));
+        size.v[1] = static_cast<float>(ANativeWindow_getHeight(window));
         resolution = size;
     }
 

@@ -12,132 +12,142 @@ namespace ouzel
     template<class T> class Size3 final
     {
     public:
-        T width = 0;
-        T height = 0;
-        T depth = 0;
+        T v[3]{0, 0, 0};
 
         Size3()
         {
         }
 
-        Size3(T initWidth, T initHeight, T initDepth):
-            width(initWidth), height(initHeight), depth(initDepth)
+        Size3(T width, T height, T depth):
+            v{width, height, depth}
         {
         }
 
         explicit Size3(const Vector3<T>& point):
-            width(point.v[0]), height(point.v[1]), depth(point.v[2])
+            v{point.v[0], point.v[1], point.v[2]}
         {
         }
 
         inline Size3& operator=(const Vector3<T>& point)
         {
-            width = point.v[0];
-            height = point.v[1];
-            depth = point.v[2];
+            v[0] = point.v[0];
+            v[1] = point.v[1];
+            v[2] = point.v[2];
             return *this;
         }
 
         explicit Size3(const Size2<T>& s);
         Size3& operator=(const Size2<T>& s);
 
+        inline T& operator[](size_t index) { return v[index]; }
+        inline T operator[](size_t index) const { return v[index]; }
+
+        inline T& width() { return v[0]; }
+        inline T width() const { return v[0]; }
+
+        inline T& height() { return v[1]; }
+        inline T height() const { return v[1]; }
+
+        inline T& depth() { return v[2]; }
+        inline T depth() const { return v[2]; }
+
         inline const Size3 operator+(const Size3& size) const
         {
-            return Size3(width + size.width, height + size.height, depth + size.depth);
+            return Size3(v[0] + size.v[0], v[1] + size.v[1], v[2] + size.v[2]);
         }
 
         inline Size3& operator+=(const Size3& size)
         {
-            width += size.width;
-            height += size.height;
-            depth += size.depth;
+            v[0] += size.v[0];
+            v[1] += size.v[1];
+            v[2] += size.v[2];
             return *this;
         }
 
         inline const Size3 operator-(const Size3& size) const
         {
-            return Size3(width - size.width, height - size.height, depth - size.depth);
+            return Size3(v[0] - size.v[0], v[1] - size.v[1], v[2] - size.v[2]);
         }
 
         inline Size3& operator-=(const Size3& size)
         {
-            width -= size.width;
-            height -= size.height;
-            depth -= size.depth;
+            v[0] -= size.v[0];
+            v[1] -= size.v[1];
+            v[2] -= size.v[2];
             return *this;
         }
 
         inline const Size3 operator*(T scalar) const
         {
-            return Size3(width * scalar, height * scalar, depth * scalar);
+            return Size3(v[0] * scalar, v[1] * scalar, v[2] * scalar);
         }
 
         inline Size3& operator*=(T scalar)
         {
-            width *= scalar;
-            height *= scalar;
-            depth *= scalar;
+            v[0] *= scalar;
+            v[1] *= scalar;
+            v[2] *= scalar;
             return *this;
         }
 
         inline const Size3 operator/(T scalar) const
         {
-            return Size3(width / scalar, height / scalar, depth / scalar);
+            return Size3(v[0] / scalar, v[1] / scalar, v[2] / scalar);
         }
 
         inline Size3& operator/=(T scalar)
         {
-            width /= scalar;
-            height /= scalar;
-            depth /= scalar;
+            v[0] /= scalar;
+            v[1] /= scalar;
+            v[2] /= scalar;
             return *this;
         }
 
         inline bool operator==(const Size3& size) const
         {
-            return width == size.width && height == size.height && depth == size.depth;
+            return v[0] == size.v[0] && v[1] == size.v[1] && v[2] == size.v[2];
         }
 
         inline bool operator!=(const Size3& size) const
         {
-            return width != size.width || height != size.height || depth != size.depth;
+            return v[0] != size.v[0] || v[1] != size.v[1] || v[2] != size.v[2];
         }
 
         inline bool isZero() const
         {
-            return width == 0 && height == 0 && depth == 0;
+            return v[0] == 0 && v[1] == 0 && v[2] == 0;
         }
 
         inline T volume() const
         {
-            return width * height * depth;
+            return v[0] * v[1] * v[2];
         }
 
         inline void scale(T scalar)
         {
-            width *= scalar;
-            height *= scalar;
-            depth *= scalar;
+            v[0] *= scalar;
+            v[1] *= scalar;
+            v[2] *= scalar;
         }
 
         inline void scale(const Vector3<T>& scale)
         {
-            width *= scale.v[0];
-            height *= scale.v[1];
-            depth *= scale.v[2];
+            v[0] *= scale.v[0];
+            v[1] *= scale.v[1];
+            v[2] *= scale.v[2];
         }
     };
 
     template<class T>
     inline const Size3<T> operator*(const Size3<T>& size, const Vector3<T>& v)
     {
-        return Size3<T>(size.width * v.v[0], size.height * v.v[1], size.depth * v.v[2]);
+        return Size3<T>(size.v[0] * v.v[0], size.v[1] * v.v[1], size.v[2] * v.v[2]);
     }
 
     template<class T>
     inline const Size3<T> operator/(const Size3<T>& size, const Vector3<T>& v)
     {
-        return Size3<T>(size.width / v.v[0], size.height / v.v[1], size.depth / v.v[2]);
+        return Size3<T>(size.v[0] / v.v[0], size.v[1] / v.v[1], size.v[2] / v.v[2]);
     }
 }
 

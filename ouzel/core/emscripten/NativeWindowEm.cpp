@@ -46,18 +46,18 @@ namespace ouzel
     {
         emscripten_set_resize_callback(nullptr, this, true, emResizeCallback);
 
-        if (size.width <= 0.0F || size.height <= 0.0F)
+        if (size.v[0] <= 0.0F || size.v[1] <= 0.0F)
         {
             int width, height, isFullscreen;
             emscripten_get_canvas_size(&width, &height, &isFullscreen);
 
-            if (size.width <= 0.0F) size.width = static_cast<float>(width);
-            if (size.height <= 0.0F) size.height = static_cast<float>(height);
+            if (size.v[0] <= 0.0F) size.v[0] = static_cast<float>(width);
+            if (size.v[1] <= 0.0F) size.v[1] = static_cast<float>(height);
             fullscreen = static_cast<bool>(isFullscreen);
         }
         else
-            emscripten_set_canvas_size(static_cast<int>(size.width),
-                                       static_cast<int>(size.height));
+            emscripten_set_canvas_size(static_cast<int>(size.v[0]),
+                                       static_cast<int>(size.v[1]));
 
         if (fullscreen)
         {
@@ -97,8 +97,8 @@ namespace ouzel
     {
         size = newSize;
 
-        emscripten_set_canvas_size(static_cast<int>(newSize.width),
-                                   static_cast<int>(newSize.height));
+        emscripten_set_canvas_size(static_cast<int>(newSize.v[0]),
+                                   static_cast<int>(newSize.v[1]));
     }
 
     void NativeWindowEm::setFullscreen(bool newFullscreen)

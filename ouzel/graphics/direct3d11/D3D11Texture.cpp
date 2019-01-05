@@ -152,8 +152,8 @@ namespace ouzel
                             else
                             {
                                 auto source = levels[level].data.begin();
-                                UINT rowSize = static_cast<UINT>(levels[level].size.width) * getPixelSize(pixelFormat);
-                                UINT rows = static_cast<UINT>(levels[level].size.height);
+                                UINT rowSize = static_cast<UINT>(levels[level].size.v[0]) * getPixelSize(pixelFormat);
+                                UINT rows = static_cast<UINT>(levels[level].size.v[1]);
 
                                 for (UINT row = 0; row < rows; ++row)
                                 {
@@ -267,8 +267,8 @@ namespace ouzel
                 depthStencilView = nullptr;
             }
 
-            width = static_cast<UINT>(levels.front().size.width);
-            height = static_cast<UINT>(levels.front().size.height);
+            width = static_cast<UINT>(levels.front().size.v[0]);
+            height = static_cast<UINT>(levels.front().size.v[1]);
 
             if (width > 0 && height > 0)
             {

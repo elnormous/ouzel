@@ -224,7 +224,7 @@ namespace ouzel
         {
             RenderDevice::setSize(newSize);
 
-            CGSize drawableSize = CGSizeMake(size.width, size.height);
+            CGSize drawableSize = CGSizeMake(size.v[0], size.v[1]);
             metalLayer.drawableSize = drawableSize;
         }
 
@@ -551,8 +551,8 @@ namespace ouzel
                             {
                                 scissorRect.x = static_cast<NSUInteger>(setScissorTestCommand->rectangle.position.v[0]);
                                 scissorRect.y = static_cast<NSUInteger>(setScissorTestCommand->rectangle.position.v[1]);
-                                scissorRect.width = static_cast<NSUInteger>(setScissorTestCommand->rectangle.size.width);
-                                scissorRect.height = static_cast<NSUInteger>(setScissorTestCommand->rectangle.size.height);
+                                scissorRect.width = static_cast<NSUInteger>(setScissorTestCommand->rectangle.size.v[0]);
+                                scissorRect.height = static_cast<NSUInteger>(setScissorTestCommand->rectangle.size.v[1]);
                                 if (scissorRect.x >= currentRenderTarget.width) scissorRect.x = currentRenderTarget.width - 1;
                                 if (scissorRect.y >= currentRenderTarget.height) scissorRect.y = currentRenderTarget.height - 1;
                                 if (scissorRect.width > currentRenderTarget.width - scissorRect.x) scissorRect.width = currentRenderTarget.width - scissorRect.x;
@@ -580,8 +580,8 @@ namespace ouzel
                             MTLViewport viewport;
                             viewport.originX = static_cast<double>(setViewportCommand->viewport.position.v[0]);
                             viewport.originY = static_cast<double>(setViewportCommand->viewport.position.v[1]);
-                            viewport.width = static_cast<double>(setViewportCommand->viewport.size.width);
-                            viewport.height = static_cast<double>(setViewportCommand->viewport.size.height);
+                            viewport.width = static_cast<double>(setViewportCommand->viewport.size.v[0]);
+                            viewport.height = static_cast<double>(setViewportCommand->viewport.size.v[1]);
                             viewport.znear = 0.0f;
                             viewport.zfar = 1.0f;
 

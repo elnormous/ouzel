@@ -268,15 +268,15 @@ namespace ouzel
                     if (!levels[level].data.empty())
                     {
                         glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
-                                         static_cast<GLsizei>(levels[level].size.width),
-                                         static_cast<GLsizei>(levels[level].size.height), 0,
+                                         static_cast<GLsizei>(levels[level].size.v[0]),
+                                         static_cast<GLsizei>(levels[level].size.v[1]), 0,
                                          oglPixelFormat, oglPixelType, levels[level].data.data());
                     }
                     else
                     {
                         glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
-                                         static_cast<GLsizei>(levels[level].size.width),
-                                         static_cast<GLsizei>(levels[level].size.height), 0,
+                                         static_cast<GLsizei>(levels[level].size.v[0]),
+                                         static_cast<GLsizei>(levels[level].size.v[1]), 0,
                                          oglPixelFormat, oglPixelType, nullptr);
                     }
                 }
@@ -338,15 +338,15 @@ namespace ouzel
                     if (!levels[level].data.empty())
                     {
                         glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
-                                         static_cast<GLsizei>(levels[level].size.width),
-                                         static_cast<GLsizei>(levels[level].size.height), 0,
+                                         static_cast<GLsizei>(levels[level].size.v[0]),
+                                         static_cast<GLsizei>(levels[level].size.v[1]), 0,
                                          oglPixelFormat, oglPixelType, levels[level].data.data());
                     }
                     else
                     {
                         glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
-                                         static_cast<GLsizei>(levels[level].size.width),
-                                         static_cast<GLsizei>(levels[level].size.height), 0,
+                                         static_cast<GLsizei>(levels[level].size.v[0]),
+                                         static_cast<GLsizei>(levels[level].size.v[1]), 0,
                                          oglPixelFormat, oglPixelType, nullptr);
                     }
                 }
@@ -379,8 +379,8 @@ namespace ouzel
                     if (!levels[level].data.empty())
                     {
                         glTexSubImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), 0, 0,
-                                            static_cast<GLsizei>(levels[level].size.width),
-                                            static_cast<GLsizei>(levels[level].size.height),
+                                            static_cast<GLsizei>(levels[level].size.v[0]),
+                                            static_cast<GLsizei>(levels[level].size.v[1]),
                                             oglPixelFormat, oglPixelType,
                                             levels[level].data.data());
                     }
@@ -561,8 +561,8 @@ namespace ouzel
 
             renderDevice.bindTexture(textureId, 0);
 
-            width = static_cast<GLsizei>(levels.front().size.width);
-            height = static_cast<GLsizei>(levels.front().size.height);
+            width = static_cast<GLsizei>(levels.front().size.v[0]);
+            height = static_cast<GLsizei>(levels.front().size.v[1]);
 
             oglInternalPixelFormat = getOGLInternalPixelFormat(pixelFormat, renderDevice.getAPIMajorVersion());
 
