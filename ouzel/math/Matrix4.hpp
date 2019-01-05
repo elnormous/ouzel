@@ -24,7 +24,7 @@ namespace ouzel
 
         Matrix4()
         {
-            std::fill(std::begin(m), std::end(m), 0);
+            std::fill(std::begin(m), std::end(m), static_cast<T>(0));
         }
 
         Matrix4(T m11, T m12, T m13, T m14,
@@ -402,7 +402,7 @@ namespace ouzel
 
         inline void setZero()
         {
-            std::fill(m, m + sizeof(m) / sizeof(float), 0.0F);
+            std::fill(m, m + sizeof(m) / sizeof(float), static_cast<T>(0));
         }
 
         void subtract(const Matrix4& matrix)
