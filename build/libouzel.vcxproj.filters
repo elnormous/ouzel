@@ -202,9 +202,6 @@
     <ClCompile Include="..\ouzel\gui\RadioButtonGroup.cpp">
       <Filter>ouzel\gui</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\math\Rect.cpp">
-      <Filter>ouzel\math</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\animators\Repeat.cpp">
       <Filter>ouzel\animators</Filter>
     </ClCompile>
