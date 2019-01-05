@@ -59,11 +59,10 @@ namespace ouzel
             return v[0] == 0 && v[1] == 0;
         }
 
-        static float angle(const Vector2& v1, const Vector2& v2)
+        inline float getAngle() const
         {
-            float dz = v1.v[0] * v2.v[1] - v1.v[1] * v2.v[0];
-            return atan2f(fabsf(dz), v1.dot(v2));
-        }
+            return atan2f(v[1], v[0]);
+        };
 
         void add(const Vector2& vec)
         {
@@ -71,15 +70,7 @@ namespace ouzel
             v[1] += vec.v[1];
         }
 
-        static void add(const Vector2& v1, const Vector2& v2, Vector2& dst)
-        {
-            dst.v[0] = v1.v[0] + v2.v[0];
-            dst.v[1] = v1.v[1] + v2.v[1];
-        }
-
         void clamp(const Vector2& min, const Vector2& max);
-
-        static void clamp(const Vector2& vec, const Vector2& min, const Vector2& max, Vector2& dst);
 
         float distance(const Vector2& vec) const
         {
@@ -138,12 +129,6 @@ namespace ouzel
         {
             v[0] -= vec.v[0];
             v[1] -= vec.v[1];
-        }
-
-        static void subtract(const Vector2& v1, const Vector2& v2, Vector2& dst)
-        {
-            dst.v[0] = v1.v[0] - v2.v[0];
-            dst.v[1] = v1.v[1] - v2.v[1];
         }
 
         void smooth(const Vector2& target, float elapsedTime, float responseTime)
@@ -225,11 +210,6 @@ namespace ouzel
         {
             return v[0] != vec.v[0] || v[1] != vec.v[1];
         }
-
-        inline float getAngle() const
-        {
-            return atan2f(v[1], v[0]);
-        };
     };
 
     template<class T>

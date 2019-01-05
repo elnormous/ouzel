@@ -59,41 +59,6 @@ namespace ouzel
     }
 
     template<class T>
-    void Vector4<T>::clamp(const Vector4& vec, const Vector4& min,
-                           const Vector4& max, Vector4& dst)
-    {
-        assert(!(min.v[0] > max.v[0] || min.v[1] > max.v[1] || min.v[2] > max.v[2] || min.v[3] > max.v[3]));
-
-        // clamp the v[0] value
-        dst.v[0] = vec.v[0];
-        if (dst.v[0] < min.v[0])
-            dst.v[0] = min.v[0];
-        if (dst.v[0] > max.v[0])
-            dst.v[0] = max.v[0];
-
-        // clamp the v[1] value
-        dst.v[1] = vec.v[1];
-        if (dst.v[1] < min.v[1])
-            dst.v[1] = min.v[1];
-        if (dst.v[1] > max.v[1])
-            dst.v[1] = max.v[1];
-
-        // clamp the v[2] value
-        dst.v[2] = vec.v[2];
-        if (dst.v[2] < min.v[2])
-            dst.v[2] = min.v[2];
-        if (dst.v[2] > max.v[2])
-            dst.v[2] = max.v[2];
-
-        // clamp the v[3] value
-        dst.v[3] = vec.v[3];
-        if (dst.v[3] < min.v[3])
-            dst.v[3] = min.v[3];
-        if (dst.v[3] > max.v[3])
-            dst.v[3] = max.v[3];
-    }
-
-    template<class T>
     void Vector4<T>::normalize()
     {
         float n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];

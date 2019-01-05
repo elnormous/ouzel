@@ -81,13 +81,13 @@ namespace ouzel
             return v[0] == 0 && v[1] == 0 && v[2] == 0;
         }
 
-        static float angle(const Vector3& v1, const Vector3& v2)
+        float getAngle(const Vector3& axis) const
         {
-            float dx = v1.v[1] * v2.v[2] - v1.v[2] * v2.v[1];
-            float dy = v1.v[2] * v2.v[0] - v1.v[0] * v2.v[2];
-            float dz = v1.v[0] * v2.v[1] - v1.v[1] * v2.v[0];
+            float dx = v[1] * axis.v[2] - v[2] * axis.v[1];
+            float dy = v[2] * axis.v[0] - v[0] * axis.v[2];
+            float dz = v[0] * axis.v[1] - v[1] * axis.v[0];
 
-            return atan2f(sqrtf(dx * dx + dy * dy + dz * dz), v1.dot(v2));
+            return atan2f(sqrtf(dx * dx + dy * dy + dz * dz), dot(axis));
         }
 
         void add(const Vector3& vec)
@@ -97,15 +97,7 @@ namespace ouzel
             v[2] += vec.v[2];
         }
 
-        static void add(const Vector3& v1, const Vector3& v2, Vector3& dst)
-        {
-            dst.v[0] = v1.v[0] + v2.v[0];
-            dst.v[1] = v1.v[1] + v2.v[1];
-            dst.v[2] = v1.v[2] + v2.v[2];
-        }
-
         void clamp(const Vector3& min, const Vector3& max);
-        static void clamp(const Vector3& vec, const Vector3& min, const Vector3& max, Vector3& dst);
 
         void cross(const Vector3& vec)
         {
@@ -187,13 +179,6 @@ namespace ouzel
             v[0] -= vec.v[0];
             v[1] -= vec.v[1];
             v[2] -= vec.v[2];
-        }
-
-        static void subtract(const Vector3& v1, const Vector3& v2, Vector3& dst)
-        {
-            dst.v[0] = v1.v[0] - v2.v[0];
-            dst.v[1] = v1.v[1] - v2.v[1];
-            dst.v[2] = v1.v[2] - v2.v[2];
         }
 
         void smooth(const Vector3& target, T elapsedTime, T responseTime)
