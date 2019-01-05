@@ -272,9 +272,9 @@ namespace ouzel
             XSizeHints sizeHints;
             sizeHints.flags = PMinSize | PMaxSize;
             sizeHints.min_width = static_cast<int>(size.v[0]);
-            sizeHints.max_width = static_cast<int>(size.v[1]);
-            sizeHints.min_height = static_cast<int>(size.height);
-            sizeHints.max_height = static_cast<int>(size.height);
+            sizeHints.max_width = static_cast<int>(size.v[0]);
+            sizeHints.min_height = static_cast<int>(size.v[1]);
+            sizeHints.max_height = static_cast<int>(size.v[1]);
             XSetWMNormalHints(display, window, &sizeHints);
         }
 
