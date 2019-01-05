@@ -59,16 +59,10 @@ namespace ouzel
 
         void merge(const Box2& box);
 
-        void set(const Vector2<T>& newMin, const Vector2<T>& newMax)
-        {
-            min = newMin;
-            max = newMax;
-        }
-
         void reset()
         {
-            min.set(std::numeric_limits<T>::max(), std::numeric_limits<T>::max());
-            max.set(std::numeric_limits<T>::lowest(), std::numeric_limits<T>::lowest());
+            min.v[0] = min.v[1] = std::numeric_limits<T>::max();
+            max.v[0] = max.v[1] = std::numeric_limits<T>::lowest();
         }
 
         bool isEmpty() const

@@ -182,14 +182,6 @@ namespace ouzel
             v[3] *= scale.v[3];
         }
 
-        void set(T x, T y, T z, T w)
-        {
-            v[0] = x;
-            v[1] = y;
-            v[2] = z;
-            v[3] = w;
-        }
-
         void smooth(const Vector4& target, float elapsedTime, float responseTime)
         {
             if (elapsedTime > 0)

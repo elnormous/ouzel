@@ -62,7 +62,8 @@ namespace ouzel
                                  textCoords[3], Vector3<float>(0.0F, 0.0F, -1.0F))
             };
 
-            boundingBox.set(finalOffset, finalOffset + Vector2<float>(frameRectangle.size.v[0], frameRectangle.size.v[1]));
+            boundingBox.min = finalOffset;
+            boundingBox.max = finalOffset + Vector2<float>(frameRectangle.size.v[0], frameRectangle.size.v[1]);
 
             indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer());
             indexBuffer->init(graphics::Buffer::Usage::INDEX, 0, indices.data(), static_cast<uint32_t>(getVectorSize(indices)));

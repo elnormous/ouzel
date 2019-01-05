@@ -139,12 +139,6 @@ namespace ouzel
         void rotate(float angle);
         void rotate(const Vector2& point, float angle);
 
-        void set(T x, T y)
-        {
-            v[0] = x;
-            v[1] = y;
-        }
-
         void subtract(const Vector2& vec)
         {
             v[0] -= vec.v[0];
