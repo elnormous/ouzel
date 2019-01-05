@@ -44,10 +44,13 @@ namespace ouzel
 
         Vector2& operator=(const Vector4<T>& vec);
 
-        inline T& x() { return v[0]; }
-        inline T& y() { return v[1]; }
+        inline T& operator[](size_t index) { return v[index]; }
+        inline T operator[](size_t index) const { return v[index]; }
 
+        inline T& x() { return v[0]; }
         inline T x() const { return v[0]; }
+        
+        inline T& y() { return v[1]; }
         inline T y() const { return v[1]; }
 
         inline bool isZero() const

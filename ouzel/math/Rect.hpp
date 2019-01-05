@@ -48,19 +48,19 @@ namespace ouzel
             return size.isZero();
         }
 
-        void set(T newX, T newY, T newWidth, T newHeight)
+        void set(T x, T y, T width, T height)
         {
-            position.v[0] = newX;
-            position.v[1] = newY;
-            size.width = newWidth;
-            size.height = newHeight;
+            position.v[0] = x;
+            position.v[1] = y;
+            size.width = width;
+            size.height = height;
         }
 
-        void set(const Vector2<T>& newPosition, T newWidth, T newHeight)
+        void set(const Vector2<T>& newPosition, T width, T height)
         {
             position = newPosition;
-            size.width = newWidth;
-            size.height = newHeight;
+            size.width = width;
+            size.height = height;
         }
 
         void setPosition(T x, T y)

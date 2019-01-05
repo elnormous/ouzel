@@ -63,12 +63,16 @@ namespace ouzel
         explicit Vector3(Color color);
         Vector3& operator=(Color color);
 
+        inline T& operator[](size_t index) { return v[index]; }
+        inline T operator[](size_t index) const { return v[index]; }
+        
         inline T& x() { return v[0]; }
-        inline T& y() { return v[1]; }
-        inline T& z() { return v[2]; }
-
         inline T x() const { return v[0]; }
+
+        inline T& y() { return v[1]; }
         inline T y() const { return v[1]; }
+
+        inline T& z() { return v[2]; }
         inline T z() const { return v[2]; }
 
         inline bool isZero() const
