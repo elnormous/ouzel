@@ -100,7 +100,7 @@ namespace ouzel
 
         Renderer::Renderer(Driver driver,
                            Window* newWindow,
-                           const Size2<float>& newSize,
+                           const Size2<uint32_t>& newSize,
                            uint32_t newSampleCount,
                            Texture::Filter newTextureFilter,
                            uint32_t newMaxAnisotropy,
@@ -230,7 +230,7 @@ namespace ouzel
                                                                                      clearDepth)));
         }
 
-        void Renderer::setSize(const Size2<float>& newSize)
+        void Renderer::setSize(const Size2<uint32_t>& newSize)
         {
             size = newSize;
 

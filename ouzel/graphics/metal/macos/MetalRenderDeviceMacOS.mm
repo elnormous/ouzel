@@ -63,7 +63,7 @@ namespace ouzel
         }
 
         void MetalRenderDeviceMacOS::init(Window* newWindow,
-                                          const Size2<float>& newSize,
+                                          const Size2<uint32_t>& newSize,
                                           uint32_t newSampleCount,
                                           Texture::Filter newTextureFilter,
                                           uint32_t newMaxAnisotropy,
@@ -107,9 +107,9 @@ namespace ouzel
                 throw std::runtime_error("Failed to start display link");
         }
 
-        std::vector<Size2<float>> MetalRenderDeviceMacOS::getSupportedResolutions() const
+        std::vector<Size2<uint32_t>> MetalRenderDeviceMacOS::getSupportedResolutions() const
         {
-            std::vector<Size2<float>> result;
+            std::vector<Size2<uint32_t>> result;
 
             CFArrayRef displayModes = CGDisplayCopyAllDisplayModes(kCGDirectMainDisplay, nullptr);
             const CFIndex displayModeCount = CFArrayGetCount(displayModes);
@@ -118,8 +118,8 @@ namespace ouzel
             {
                 const CGDisplayModeRef displayMode = (const CGDisplayModeRef)CFArrayGetValueAtIndex(displayModes, i);
 
-                result.push_back(Size2<float>(static_cast<float>(CGDisplayModeGetWidth(displayMode)),
-                                              static_cast<float>(CGDisplayModeGetHeight(displayMode))));
+                result.push_back(Size2<uint32_t>(static_cast<uint32_t>(CGDisplayModeGetWidth(displayMode)),
+                                                 static_cast<uint32_t>(CGDisplayModeGetHeight(displayMode))));
             }
 
             CFRelease(displayModes);

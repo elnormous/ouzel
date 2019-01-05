@@ -1,5 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <cstdint>
 #include "Size3.hpp"
 #include "Size2.hpp"
 
@@ -21,4 +22,5 @@ namespace ouzel
     }
 
     template class Size3<float>;
+    template class Size3<uint32_t>;
 }

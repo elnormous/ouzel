@@ -29,7 +29,7 @@ namespace ouzel
         public:
             Renderer(Driver driver,
                      Window* newWindow,
-                     const Size2<float>& newSize,
+                     const Size2<uint32_t>& newSize,
                      uint32_t newSampleCount,
                      Texture::Filter newTextureFilter,
                      uint32_t newMaxAnisotropy,
@@ -60,7 +60,7 @@ namespace ouzel
             inline float getClearDepth() const { return clearDepth; }
             void setClearDepth(float newClearDepth);
 
-            inline const Size2<float>& getSize() const { return size; }
+            inline const Size2<uint32_t>& getSize() const { return size; }
 
             void saveScreenshot(const std::string& filename);
 
@@ -104,11 +104,11 @@ namespace ouzel
 
         private:
             void handleEvent(const RenderDevice::Event& event);
-            void setSize(const Size2<float>& newSize);
+            void setSize(const Size2<uint32_t>& newSize);
 
             std::unique_ptr<RenderDevice> device;
 
-            Size2<float> size;
+            Size2<uint32_t> size;
             Color clearColor;
             float clearDepth = 1.0;
             bool clearColorBuffer = true;

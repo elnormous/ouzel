@@ -367,12 +367,12 @@ static LRESULT CALLBACK windowProc(HWND window, UINT message, WPARAM wParam, LPA
                     break;
                 case SIZE_RESTORED:
                     windowWin->handleRestoreEvent();
-                    windowWin->handleResize(ouzel::Size2<float>(static_cast<float>(LOWORD(lParam)),
-                                                         static_cast<float>(HIWORD(lParam))));
+                    windowWin->handleResize(ouzel::Size2<uint32_t>(static_cast<uint32_t>(LOWORD(lParam)),
+                                                                   static_cast<uint32_t>(HIWORD(lParam))));
                     break;
                 case SIZE_MAXIMIZED:
-                    windowWin->handleResize(ouzel::Size2<float>(static_cast<float>(LOWORD(lParam)),
-                                                         static_cast<float>(HIWORD(lParam))));
+                    windowWin->handleResize(ouzel::Size2<uint32_t>(static_cast<uint32_t>(LOWORD(lParam)),
+                                                                   static_cast<uint32_t>(HIWORD(lParam))));
                     break;
             }
             return 0;
@@ -427,7 +427,7 @@ static constexpr LPCWSTR WINDOW_CLASS_NAME = L"OuzelWindow";
 namespace ouzel
 {
     NativeWindowWin::NativeWindowWin(const std::function<void(const Event&)>& initCallback,
-                                     const Size2<float>& newSize,
+                                     const Size2<uint32_t>& newSize,
                                      bool newResizable,
                                      bool newFullscreen,
                                      bool newExclusiveFullscreen,
@@ -522,8 +522,8 @@ namespace ouzel
         if (!GetClientRect(window, &windowRect))
             throw std::system_error(GetLastError(), std::system_category(), "Failed to get client rectangle");
 
-        size.v[0] = static_cast<float>(windowRect.right - windowRect.left);
-        size.v[1] = static_cast<float>(windowRect.bottom - windowRect.top);
+        size.v[0] = static_cast<uint32_t>(windowRect.right - windowRect.left);
+        size.v[1] = static_cast<uint32_t>(windowRect.bottom - windowRect.top);
         resolution = size;
 
         if (!RegisterTouchWindow(window, 0))
@@ -571,7 +571,7 @@ namespace ouzel
         SendMessage(window, WM_CLOSE, 0, 0);
     }
 
-    void NativeWindowWin::setSize(const Size2<float>& newSize)
+    void NativeWindowWin::setSize(const Size2<uint32_t>& newSize)
     {
         size = newSize;
 
@@ -666,7 +666,7 @@ namespace ouzel
         }
     }
 
-    void NativeWindowWin::handleResize(const Size2<float>& newSize)
+    void NativeWindowWin::handleResize(const Size2<uint32_t>& newSize)
     {
         monitor = MonitorFromWindow(window, MONITOR_DEFAULTTONEAREST);
 
@@ -703,7 +703,7 @@ namespace ouzel
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to get cursor position");
 
                 Vector2<float> position(static_cast<float>(cursorPos.x),
-                                 static_cast<float>(cursorPos.y));
+                                        static_cast<float>(cursorPos.y));
                 mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(position));
         }
     }
@@ -729,7 +729,7 @@ namespace ouzel
             throw std::system_error(GetLastError(), std::system_category(), "Failed to get cursor position");
 
         Vector2<float> position(static_cast<float>(cursorPos.x),
-                         static_cast<float>(cursorPos.y));
+                                static_cast<float>(cursorPos.y));
         mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(position));
     }
 
@@ -750,7 +750,7 @@ namespace ouzel
         input::MouseDeviceWin* mouseDevice = inputSystemWin->getMouseDevice();
 
         Vector2<float> position(static_cast<float>(GET_X_LPARAM(lParam)),
-                         static_cast<float>(GET_Y_LPARAM(lParam)));
+                                static_cast<float>(GET_Y_LPARAM(lParam)));
 
         mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(position));
     }
@@ -761,7 +761,7 @@ namespace ouzel
         input::MouseDeviceWin* mouseDevice = inputSystemWin->getMouseDevice();
 
         Vector2<float> position(static_cast<float>(GET_X_LPARAM(lParam)),
-                         static_cast<float>(GET_Y_LPARAM(lParam)));
+                                static_cast<float>(GET_Y_LPARAM(lParam)));
 
         input::Mouse::Button button;
 
@@ -797,7 +797,7 @@ namespace ouzel
         input::MouseDeviceWin* mouseDevice = inputSystemWin->getMouseDevice();
 
         Vector2<float> position(static_cast<float>(GET_X_LPARAM(lParam)),
-                         static_cast<float>(GET_Y_LPARAM(lParam)));
+                                static_cast<float>(GET_Y_LPARAM(lParam)));
 
         if (message == WM_MOUSEWHEEL)
         {

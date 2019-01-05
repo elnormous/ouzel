@@ -76,7 +76,7 @@ namespace ouzel
             MetalRenderDevice(const std::function<void(const Event&)>& initCallback);
 
             void init(Window* newWindow,
-                      const Size2<float>& newSize,
+                      const Size2<uint32_t>& newSize,
                       uint32_t newSampleCount,
                       Texture::Filter newTextureFilter,
                       uint32_t newMaxAnisotropy,
@@ -84,7 +84,7 @@ namespace ouzel
                       bool newDepth,
                       bool newDebugRenderer) override;
 
-            void setSize(const Size2<float>& newSize) override;
+            void setSize(const Size2<uint32_t>& newSize) override;
 
             void setClearColorBuffer(bool clear);
             void setClearDepthBuffer(bool clear);

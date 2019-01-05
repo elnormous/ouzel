@@ -154,10 +154,13 @@ namespace ouzel
 
                 newSpriteData.texture = getTexture(filename);
 
+                const Size2<float> textureSize(static_cast<float>(newSpriteData.texture->getSize().v[0]),
+                                               static_cast<float>(newSpriteData.texture->getSize().v[1]));
+
                 if (newSpriteData.texture)
                 {
-                    Size2<float> spriteSize = Size2<float>(newSpriteData.texture->getSize().v[0] / spritesX,
-                                                           newSpriteData.texture->getSize().v[1] / spritesY);
+                    Size2<float> spriteSize = Size2<float>(textureSize.v[0] / spritesX,
+                                                           textureSize.v[1] / spritesY);
 
                     scene::SpriteData::Animation animation;
                     animation.frames.reserve(spritesX * spritesY);
@@ -171,7 +174,7 @@ namespace ouzel
                                                   spriteSize.v[0],
                                                   spriteSize.v[1]);
 
-                            scene::SpriteData::Frame frame = scene::SpriteData::Frame(filename, newSpriteData.texture->getSize(), rectangle, false, spriteSize, Vector2<float>(), pivot);
+                            scene::SpriteData::Frame frame = scene::SpriteData::Frame(filename, textureSize, rectangle, false, spriteSize, Vector2<float>(), pivot);
                             animation.frames.push_back(frame);
                         }
                     }

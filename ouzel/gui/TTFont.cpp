@@ -139,7 +139,7 @@ namespace ouzel
         }
 
         texture = std::make_shared<graphics::Texture>(*engine->getRenderer());
-        texture->init(textureData, Size2<float>(width, height), 0, mipmaps ? 0 : 1);
+        texture->init(textureData, Size2<uint32_t>(width, height), 0, mipmaps ? 0 : 1);
 
         Vector2<float> position;
 

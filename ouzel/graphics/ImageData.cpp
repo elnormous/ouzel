@@ -11,7 +11,7 @@ namespace ouzel
         }
 
         ImageData::ImageData(PixelFormat initPixelFormat,
-                             const Size2<float>& initSize,
+                             const Size2<uint32_t>& initSize,
                              std::vector<uint8_t>& initData):
             pixelFormat(initPixelFormat), size(initSize), data(initData)
         {

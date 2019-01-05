@@ -58,7 +58,7 @@ namespace ouzel
                                      graphics::Driver graphicsDriver,
                                      bool newHighDpi):
         NativeWindow(initCallback,
-                     Size2<float>(),
+                     Size2<uint32_t>(),
                      true,
                      true,
                      true,
@@ -74,8 +74,8 @@ namespace ouzel
 
         CGRect windowFrame = [window bounds];
 
-        size = Size2<float>(static_cast<float>(windowFrame.size.width),
-                     static_cast<float>(windowFrame.size.height));
+        size = Size2<uint32_t>(static_cast<uint32_t>(windowFrame.size.width),
+                               static_cast<uint32_t>(windowFrame.size.height));
 
         switch (graphicsDriver)
         {
@@ -109,7 +109,7 @@ namespace ouzel
         if (highDpi)
         {
             contentScale = static_cast<float>(screen.scale);
-            resolution = size * contentScale;
+            resolution = size * static_cast<uint32_t>(contentScale);
         }
         else
             resolution = size;
@@ -141,10 +141,10 @@ namespace ouzel
         }
     }
 
-    void NativeWindowIOS::handleResize(const Size2<float>& newSize)
+    void NativeWindowIOS::handleResize(const Size2<uint32_t>& newSize)
     {
         size = newSize;
-        resolution = size * contentScale;
+        resolution = size * static_cast<uint32_t>(contentScale);
 
         Event sizeChangeEvent(Event::Type::SIZE_CHANGE);
         sizeChangeEvent.size = size;
