@@ -67,9 +67,9 @@ namespace ouzel
             };
 
             std::map<std::string, Animation> animations;
-            std::shared_ptr<graphics::Texture> texture;
-            std::shared_ptr<graphics::BlendState> blendState;
-            std::shared_ptr<graphics::Shader> shader;
+            graphics::Texture* texture = nullptr;
+            graphics::BlendState* blendState = nullptr;
+            graphics::Shader* shader = nullptr;
         };
     } // namespace scene
 } // namespace ouzel

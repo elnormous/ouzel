@@ -3,6 +3,7 @@
 #ifndef OUZEL_GUI_BMFONT_HPP
 #define OUZEL_GUI_BMFONT_HPP
 
+#include <map>
 #include "Font.hpp"
 
 namespace ouzel
@@ -13,13 +14,10 @@ namespace ouzel
         BMFont();
         explicit BMFont(const std::vector<uint8_t>& data);
 
-        void getVertices(const std::string& text,
-                         Color color,
-                         float fontSize,
-                         const Vector2<float>& anchor,
-                         std::vector<uint16_t>& indices,
-                         std::vector<graphics::Vertex>& vertices,
-                         std::shared_ptr<graphics::Texture>& texture) override;
+        RenderData render(const std::string& text,
+                          Color color,
+                          float fontSize,
+                          const Vector2<float>& anchor) override;
 
         float getStringWidth(const std::string& text);
 
@@ -48,7 +46,7 @@ namespace ouzel
         uint16_t kernCount = 0;
         std::unordered_map<uint32_t, CharDescriptor> chars;
         std::map<std::pair<uint32_t, uint32_t>, int16_t> kern;
-        std::shared_ptr<graphics::Texture> fontTexture;
+        graphics::Texture* fontTexture = nullptr;
     };
 }
 

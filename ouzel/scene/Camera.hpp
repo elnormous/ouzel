@@ -80,12 +80,12 @@ namespace ouzel
             inline const Vector2<float>& getContentScale() const { return contentScale; }
             inline const Vector2<float>& getContentPosition() const { return contentPosition; }
 
-            inline const std::shared_ptr<graphics::Texture>& getRenderTarget() const { return renderTarget; }
-            void setRenderTarget(const std::shared_ptr<graphics::Texture>& newRenderTarget);
+            inline graphics::Texture* getRenderTarget() const { return renderTarget; }
+            void setRenderTarget(graphics::Texture* newRenderTarget);
 
             inline bool getDepthTest() const { return depthTest; }
             void setDepthTest(bool newDepthTest);
-            inline const std::shared_ptr<graphics::DepthStencilState>& getDepthStencilState() const { return depthStencilState; }
+            inline graphics::DepthStencilState* getDepthStencilState() const { return depthStencilState.get(); }
 
             inline bool getWireframe() const { return wireframe; }
             inline void setWireframe(bool newWireframe) { wireframe = newWireframe; }
@@ -123,8 +123,8 @@ namespace ouzel
             mutable bool inverseViewProjectionDirty = true;
             mutable Matrix4<float> inverseViewProjection;
 
-            std::shared_ptr<graphics::Texture> renderTarget;
-            std::shared_ptr<graphics::DepthStencilState> depthStencilState;
+            graphics::Texture* renderTarget = nullptr;
+            std::unique_ptr<graphics::DepthStencilState> depthStencilState;
         };
     } // namespace scene
 } // namespace ouzel

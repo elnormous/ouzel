@@ -273,7 +273,7 @@ namespace ouzel
             recalculateProjection();
         }
 
-        void Camera::setRenderTarget(const std::shared_ptr<graphics::Texture>& newRenderTarget)
+        void Camera::setRenderTarget(graphics::Texture* newRenderTarget)
         {
             renderTarget = newRenderTarget;
             recalculateProjection();
@@ -284,9 +284,9 @@ namespace ouzel
             depthTest = newDepthTest;
 
             if (depthTest)
-                depthStencilState = std::make_shared<graphics::DepthStencilState>(*engine->getRenderer(),
-                                                                                  true, true,
-                                                                                  graphics::DepthStencilState::CompareFunction::LESS_EQUAL);
+                depthStencilState.reset(new graphics::DepthStencilState(*engine->getRenderer(),
+                                                                        true, true,
+                                                                        graphics::DepthStencilState::CompareFunction::LESS_EQUAL));
             else
                 depthStencilState.reset();
         }

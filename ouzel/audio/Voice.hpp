@@ -3,7 +3,6 @@
 #ifndef OUZEL_AUDIO_VOICE_HPP
 #define OUZEL_AUDIO_VOICE_HPP
 
-#include <memory>
 #include "math/Vector3.hpp"
 
 namespace ouzel
@@ -18,7 +17,7 @@ namespace ouzel
         {
             friend Mix;
         public:
-            Voice(Audio& initAudio, const std::shared_ptr<Sound>& initSound);
+            Voice(Audio& initAudio, Sound* initSound);
             ~Voice();
 
             Voice(const Voice&) = delete;
@@ -26,7 +25,7 @@ namespace ouzel
             Voice(Voice&&) = delete;
             Voice& operator=(Voice&&) = delete;
 
-            inline const std::shared_ptr<Sound>& getSound() const { return sound; }
+            inline Sound* getSound() const { return sound; }
 
             void play(bool repeat = false);
             void pause();
@@ -41,7 +40,7 @@ namespace ouzel
             Audio& audio;
             uintptr_t sourceId;
 
-            std::shared_ptr<Sound> sound;
+            Sound* sound = nullptr;
 
             bool playing = false;
             bool repeating = false;

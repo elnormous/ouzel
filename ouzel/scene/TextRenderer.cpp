@@ -116,7 +116,13 @@ namespace ouzel
 
             if (font)
             {
-                font->getVertices(text, Color::WHITE, fontSize, textAnchor, indices, vertices, texture);
+                Font::RenderData renderData = font->render(text, Color::WHITE, fontSize, textAnchor);
+
+                indices = renderData.indices;
+                vertices = renderData.vertices;
+                ownedTexture = std::move(renderData.ownedTexture);
+                texture = renderData.texture;
+
                 needsMeshUpdate = true;
 
                 for (const graphics::Vertex& vertex : vertices)
@@ -126,7 +132,8 @@ namespace ouzel
             {
                 indices.clear();
                 vertices.clear();
-                texture.reset();
+                ownedTexture.reset();
+                texture = nullptr;
             }
         }
     } // namespace scene

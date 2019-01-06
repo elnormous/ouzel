@@ -27,12 +27,12 @@ namespace ouzel
                       const Matrix4<float>& renderViewProjection,
                       bool wireframe) override;
 
-            inline const std::shared_ptr<graphics::Material>& getMaterial() const { return material; }
-            inline void setMaterial(const std::shared_ptr<graphics::Material>& newMaterial) { material = newMaterial; }
+            inline graphics::Material* getMaterial() const { return material; }
+            inline void setMaterial(graphics::Material* newMaterial) { material = newMaterial; }
 
         private:
-            std::shared_ptr<graphics::Material> material;
-            std::shared_ptr<graphics::Texture> whitePixelTexture;
+            graphics::Material* material = nullptr;
+            graphics::Texture* whitePixelTexture = nullptr;
         };
     } // namespace scene
 } // namespace ouzel

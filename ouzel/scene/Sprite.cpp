@@ -33,7 +33,7 @@ namespace ouzel
             init(filename);
         }
 
-        Sprite::Sprite(std::shared_ptr<graphics::Texture> texture,
+        Sprite::Sprite(graphics::Texture* texture,
                        uint32_t spritesX, uint32_t spritesY,
                        const Vector2<float>& pivot):
             Sprite()
@@ -71,7 +71,7 @@ namespace ouzel
 
                 animations = spriteData->animations;
             }
-            else if (std::shared_ptr<graphics::Texture> texture = engine->getCache().getTexture(filename))
+            else if (graphics::Texture* texture = engine->getCache().getTexture(filename))
             {
                 material->textures[0] = texture;
 
@@ -95,7 +95,7 @@ namespace ouzel
             updateBoundingBox();
         }
 
-        void Sprite::init(std::shared_ptr<graphics::Texture> newTexture,
+        void Sprite::init(graphics::Texture* newTexture,
                           uint32_t spritesX, uint32_t spritesY,
                           const Vector2<float>& pivot)
         {
@@ -236,7 +236,7 @@ namespace ouzel
                 vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
 
                 std::vector<uintptr_t> textures;
-                for (const std::shared_ptr<graphics::Texture>& texture : material->textures)
+                for (graphics::Texture* texture : material->textures)
                     textures.push_back(texture ? texture->getResource() : 0);
 
                 engine->getRenderer()->setCullMode(material->cullMode);

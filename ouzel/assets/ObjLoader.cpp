@@ -176,7 +176,7 @@ namespace ouzel
         bool ObjLoader::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
         {
             std::string name = filename;
-            std::shared_ptr<graphics::Material> material;
+            graphics::Material* material = nullptr;
             std::vector<Vector3<float>> positions;
             std::vector<Vector2<float>> texCoords;
             std::vector<Vector3<float>> normals;
@@ -243,7 +243,7 @@ namespace ouzel
 
                         skipLine(data, iterator);
 
-                        material.reset();
+                        material = nullptr;
                         vertices.clear();
                         indices.clear();
                         vertexMap.clear();

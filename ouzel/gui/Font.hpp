@@ -5,8 +5,6 @@
 
 #include <cstdint>
 #include <string>
-#include <map>
-#include <memory>
 #include <unordered_map>
 #include <vector>
 #include "math/Color.hpp"
@@ -27,13 +25,18 @@ namespace ouzel
         Font(Font&&) = delete;
         Font& operator=(Font&&) = delete;
 
-        virtual void getVertices(const std::string& text,
-                                 Color color,
-                                 float fontSize,
-                                 const Vector2<float>& anchor,
-                                 std::vector<uint16_t>& indices,
-                                 std::vector<graphics::Vertex>& vertices,
-                                 std::shared_ptr<graphics::Texture>& texture) = 0;
+        struct RenderData
+        {
+            std::vector<uint16_t> indices;
+            std::vector<graphics::Vertex> vertices;
+            std::unique_ptr<graphics::Texture> ownedTexture;
+            graphics::Texture* texture = nullptr;
+        };
+
+        virtual RenderData render(const std::string& text,
+                                  Color color,
+                                  float fontSize,
+                                  const Vector2<float>& anchor) = 0;
     };
 }
 

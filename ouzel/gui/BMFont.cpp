@@ -353,23 +353,20 @@ namespace ouzel
         }
     }
 
-    void BMFont::getVertices(const std::string& text,
-                             Color color,
-                             float fontSize,
-                             const Vector2<float>& anchor,
-                             std::vector<uint16_t>& indices,
-                             std::vector<graphics::Vertex>& vertices,
-                             std::shared_ptr<graphics::Texture>& texture)
+    Font::RenderData BMFont::render(const std::string& text,
+                                    Color color,
+                                    float fontSize,
+                                    const Vector2<float>& anchor)
     {
+
+        RenderData result;
+
         Vector2<float> position;
 
         std::vector<uint32_t> utf32Text = utf8::toUtf32(text);
 
-        indices.clear();
-        vertices.clear();
-
-        indices.reserve(utf32Text.size() * 6);
-        vertices.reserve(utf32Text.size() * 4);
+        result.indices.reserve(utf32Text.size() * 6);
+        result.vertices.reserve(utf32Text.size() * 4);
 
         Vector2<float> textCoords[4];
 
@@ -383,14 +380,14 @@ namespace ouzel
             {
                 const CharDescriptor& f = iter->second;
 
-                uint16_t startIndex = static_cast<uint16_t>(vertices.size());
-                indices.push_back(startIndex + 0);
-                indices.push_back(startIndex + 1);
-                indices.push_back(startIndex + 2);
+                uint16_t startIndex = static_cast<uint16_t>(result.vertices.size());
+                result.indices.push_back(startIndex + 0);
+                result.indices.push_back(startIndex + 1);
+                result.indices.push_back(startIndex + 2);
 
-                indices.push_back(startIndex + 1);
-                indices.push_back(startIndex + 3);
-                indices.push_back(startIndex + 2);
+                result.indices.push_back(startIndex + 1);
+                result.indices.push_back(startIndex + 3);
+                result.indices.push_back(startIndex + 2);
 
                 Vector2<float> leftTop(f.x / static_cast<float>(width),
                                 f.y / static_cast<float>(height));
@@ -403,14 +400,14 @@ namespace ouzel
                 textCoords[2] = Vector2<float>(leftTop.v[0], leftTop.v[1]);
                 textCoords[3] = Vector2<float>(rightBottom.v[0], leftTop.v[1]);
 
-                vertices.push_back(graphics::Vertex(Vector3<float>(position.v[0] + f.xOffset, -position.v[1] - f.yOffset - f.height, 0.0F),
-                                                    color, textCoords[0], Vector3<float>(0.0F, 0.0F, -1.0F)));
-                vertices.push_back(graphics::Vertex(Vector3<float>(position.v[0] + f.xOffset + f.width, -position.v[1] - f.yOffset - f.height, 0.0F),
-                                                    color, textCoords[1], Vector3<float>(0.0F, 0.0F, -1.0F)));
-                vertices.push_back(graphics::Vertex(Vector3<float>(position.v[0] + f.xOffset, -position.v[1] - f.yOffset, 0.0F),
-                                                    color, textCoords[2], Vector3<float>(0.0F, 0.0F, -1.0F)));
-                vertices.push_back(graphics::Vertex(Vector3<float>(position.v[0] + f.xOffset + f.width, -position.v[1] - f.yOffset, 0.0F),
-                                                    color, textCoords[3], Vector3<float>(0.0F, 0.0F, -1.0F)));
+                result.vertices.push_back(graphics::Vertex(Vector3<float>(position.v[0] + f.xOffset, -position.v[1] - f.yOffset - f.height, 0.0F),
+                                                           color, textCoords[0], Vector3<float>(0.0F, 0.0F, -1.0F)));
+                result.vertices.push_back(graphics::Vertex(Vector3<float>(position.v[0] + f.xOffset + f.width, -position.v[1] - f.yOffset - f.height, 0.0F),
+                                                           color, textCoords[1], Vector3<float>(0.0F, 0.0F, -1.0F)));
+                result.vertices.push_back(graphics::Vertex(Vector3<float>(position.v[0] + f.xOffset, -position.v[1] - f.yOffset, 0.0F),
+                                                           color, textCoords[2], Vector3<float>(0.0F, 0.0F, -1.0F)));
+                result.vertices.push_back(graphics::Vertex(Vector3<float>(position.v[0] + f.xOffset + f.width, -position.v[1] - f.yOffset, 0.0F),
+                                                           color, textCoords[3], Vector3<float>(0.0F, 0.0F, -1.0F)));
 
                 if ((i + 1) != utf32Text.end())
                     position.v[0] += static_cast<float>(getKerningPair(*i, *(i + 1)));
@@ -425,24 +422,26 @@ namespace ouzel
                 position.v[0] = 0.0F;
                 position.v[1] += lineHeight;
 
-                for (size_t c = firstChar; c < vertices.size(); ++c)
-                    vertices[c].position.v[0] -= lineWidth * anchor.v[0];
+                for (size_t c = firstChar; c < result.vertices.size(); ++c)
+                    result.vertices[c].position.v[0] -= lineWidth * anchor.v[0];
 
-                firstChar = vertices.size();
+                firstChar = result.vertices.size();
             }
         }
 
         float textHeight = position.v[1];
 
-        for (size_t c = 0; c < vertices.size(); ++c)
+        for (size_t c = 0; c < result.vertices.size(); ++c)
         {
-            vertices[c].position.v[1] += textHeight * (1.0F - anchor.v[1]);
+            result.vertices[c].position.v[1] += textHeight * (1.0F - anchor.v[1]);
 
-            vertices[c].position.v[0] *= fontSize;
-            vertices[c].position.v[1] *= fontSize;
+            result.vertices[c].position.v[0] *= fontSize;
+            result.vertices[c].position.v[1] *= fontSize;
         }
 
-        texture = fontTexture;
+        result.texture = fontTexture;
+
+        return result;
     }
 
     int16_t BMFont::getKerningPair(uint32_t first, uint32_t second)

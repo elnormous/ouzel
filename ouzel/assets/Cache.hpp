@@ -42,15 +42,15 @@ namespace ouzel
             const std::vector<Bundle*>& getBundles() const { return bundles; }
             const std::vector<Loader*>& getLoaders() const { return loaders; }
 
-            std::shared_ptr<graphics::Texture> getTexture(const std::string& filename) const;
-            std::shared_ptr<graphics::Shader> getShader(const std::string& shaderName) const;
-            std::shared_ptr<graphics::BlendState> getBlendState(const std::string& blendStateName) const;
-            std::shared_ptr<graphics::DepthStencilState> getDepthStencilState(const std::string& depthStencilStateName) const;
+            graphics::Texture* getTexture(const std::string& filename) const;
+            graphics::Shader* getShader(const std::string& shaderName) const;
+            graphics::BlendState* getBlendState(const std::string& blendStateName) const;
+            graphics::DepthStencilState* getDepthStencilState(const std::string& depthStencilStateName) const;
             const scene::SpriteData* getSpriteData(const std::string& filename) const;
             const scene::ParticleSystemData* getParticleSystemData(const std::string& filename) const;
-            std::shared_ptr<Font> getFont(const std::string& filename) const;
-            std::shared_ptr<audio::Sound> getSound(const std::string& filename) const;
-            std::shared_ptr<graphics::Material> getMaterial(const std::string& filename) const;
+            Font* getFont(const std::string& filename) const;
+            audio::Sound* getSound(const std::string& filename) const;
+            graphics::Material* getMaterial(const std::string& filename) const;
             const scene::SkinnedMeshData* getSkinnedMeshData(const std::string& filename) const;
             const scene::StaticMeshData* getStaticMeshData(const std::string& filename) const;
 

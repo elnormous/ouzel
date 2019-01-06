@@ -46,25 +46,26 @@ namespace ouzel
             inline Color getColor() const { return color; }
             void setColor(Color newColor);
 
-            inline const std::shared_ptr<graphics::Shader>& getShader() const { return shader; }
-            inline void setShader(const std::shared_ptr<graphics::Shader>& newShader) { shader = newShader; }
+            inline graphics::Shader* getShader() const { return shader; }
+            inline void setShader(graphics::Shader* newShader) { shader = newShader; }
 
-            inline const std::shared_ptr<graphics::BlendState>& getBlendState() const { return blendState; }
-            inline void setBlendState(const std::shared_ptr<graphics::BlendState>& newBlendState) { blendState = newBlendState; }
+            inline graphics::BlendState* getBlendState() const { return blendState; }
+            inline void setBlendState(graphics::BlendState* newBlendState) { blendState = newBlendState; }
 
         private:
             void updateText();
 
-            std::shared_ptr<graphics::Shader> shader;
-            std::shared_ptr<graphics::BlendState> blendState;
+            graphics::Shader* shader = nullptr;
+            graphics::BlendState* blendState = nullptr;
 
             std::shared_ptr<graphics::Buffer> indexBuffer;
             std::shared_ptr<graphics::Buffer> vertexBuffer;
 
-            std::shared_ptr<graphics::Texture> texture;
-            std::shared_ptr<graphics::Texture> whitePixelTexture;
+            std::unique_ptr<graphics::Texture> ownedTexture;
+            graphics::Texture* texture = nullptr;
+            graphics::Texture* whitePixelTexture = nullptr;
 
-            std::shared_ptr<Font> font;
+            Font* font = nullptr;
             std::string text;
             float fontSize = 1.0F;
             Vector2<float> textAnchor;

@@ -14,13 +14,10 @@ namespace ouzel
         TTFont();
         TTFont(const std::vector<uint8_t>& newData, bool newMipmaps = true);
 
-        void getVertices(const std::string& text,
-                         Color color,
-                         float fontSize,
-                         const Vector2<float>& anchor,
-                         std::vector<uint16_t>& indices,
-                         std::vector<graphics::Vertex>& vertices,
-                         std::shared_ptr<graphics::Texture>& texture) override;
+        RenderData render(const std::string& text,
+                          Color color,
+                          float fontSize,
+                          const Vector2<float>& anchor) override;
 
         float getStringWidth(const std::string& text);
 

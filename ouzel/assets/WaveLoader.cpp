@@ -169,8 +169,8 @@ namespace ouzel
                 else
                     throw std::runtime_error("Failed to load sound file, unsupported format");
 
-                std::shared_ptr<audio::Sound> sound = std::make_shared<audio::PCMSound>(*engine->getAudio(), channels, sampleRate, samples);
-                bundle.setSound(filename, sound);
+                std::unique_ptr<audio::Sound> sound(new audio::PCMSound(*engine->getAudio(), channels, sampleRate, samples));
+                bundle.setSound(filename, std::move(sound));
             }
             catch (const std::exception&)
             {

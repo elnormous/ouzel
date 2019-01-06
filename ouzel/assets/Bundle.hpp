@@ -61,20 +61,20 @@ namespace ouzel
 
             void clear();
 
-            std::shared_ptr<graphics::Texture> getTexture(const std::string& filename) const;
-            void setTexture(const std::string& filename, const std::shared_ptr<graphics::Texture>& texture);
+            graphics::Texture* getTexture(const std::string& filename) const;
+            void setTexture(const std::string& filename, std::unique_ptr<graphics::Texture>&& texture);
             void releaseTextures();
 
-            std::shared_ptr<graphics::Shader> getShader(const std::string& shaderName) const;
-            void setShader(const std::string& shaderName, const std::shared_ptr<graphics::Shader>& shader);
+            graphics::Shader* getShader(const std::string& shaderName) const;
+            void setShader(const std::string& shaderName, std::unique_ptr<graphics::Shader>&& shader);
             void releaseShaders();
 
-            std::shared_ptr<graphics::BlendState> getBlendState(const std::string& blendStateName) const;
-            void setBlendState(const std::string& blendStateName, const std::shared_ptr<graphics::BlendState>& blendState);
+            graphics::BlendState* getBlendState(const std::string& blendStateName) const;
+            void setBlendState(const std::string& blendStateName, std::unique_ptr<graphics::BlendState>&& blendState);
             void releaseBlendStates();
 
-            std::shared_ptr<graphics::DepthStencilState> getDepthStencilState(const std::string& depthStencilStateName) const;
-            void setDepthStencilState(const std::string& depthStencilStateName, const std::shared_ptr<graphics::DepthStencilState>& depthStencilState);
+            graphics::DepthStencilState* getDepthStencilState(const std::string& depthStencilStateName) const;
+            void setDepthStencilState(const std::string& depthStencilStateName, std::unique_ptr<graphics::DepthStencilState>&& depthStencilState);
             void releaseDepthStencilStates();
 
             void preloadSpriteData(const std::string& filename, bool mipmaps = true,
@@ -88,16 +88,16 @@ namespace ouzel
             void setParticleSystemData(const std::string& filename, const scene::ParticleSystemData& newParticleSystemData);
             void releaseParticleSystemData();
 
-            std::shared_ptr<Font> getFont(const std::string& filename) const;
-            void setFont(const std::string& filename, const std::shared_ptr<Font>& font);
+            Font* getFont(const std::string& filename) const;
+            void setFont(const std::string& filename, std::unique_ptr<Font>&& font);
             void releaseFonts();
 
-            std::shared_ptr<audio::Sound> getSound(const std::string& filename) const;
-            void setSound(const std::string& filename, const std::shared_ptr<audio::Sound>& newSound);
+            audio::Sound* getSound(const std::string& filename) const;
+            void setSound(const std::string& filename, std::unique_ptr<audio::Sound>&& newSound);
             void releaseSound();
 
-            std::shared_ptr<graphics::Material> getMaterial(const std::string& filename) const;
-            void setMaterial(const std::string& filename, const std::shared_ptr<graphics::Material>& material);
+            graphics::Material* getMaterial(const std::string& filename) const;
+            void setMaterial(const std::string& filename, std::unique_ptr<graphics::Material>&& material);
             void releaseMaterials();
 
             const scene::SkinnedMeshData* getSkinnedMeshData(const std::string& filename) const;
@@ -112,15 +112,15 @@ namespace ouzel
             Cache& cache;
             FileSystem& fileSystem;
 
-            std::map<std::string, std::shared_ptr<graphics::Texture>> textures;
-            std::map<std::string, std::shared_ptr<graphics::Shader>> shaders;
+            std::map<std::string, std::unique_ptr<graphics::Texture>> textures;
+            std::map<std::string, std::unique_ptr<graphics::Shader>> shaders;
             std::map<std::string, scene::ParticleSystemData> particleSystemData;
-            std::map<std::string, std::shared_ptr<graphics::BlendState>> blendStates;
-            std::map<std::string, std::shared_ptr<graphics::DepthStencilState>> depthStencilStates;
+            std::map<std::string, std::unique_ptr<graphics::BlendState>> blendStates;
+            std::map<std::string, std::unique_ptr<graphics::DepthStencilState>> depthStencilStates;
             std::map<std::string, scene::SpriteData> spriteData;
-            std::map<std::string, std::shared_ptr<Font>> fonts;
-            std::map<std::string, std::shared_ptr<audio::Sound>> sounds;
-            std::map<std::string, std::shared_ptr<graphics::Material>> materials;
+            std::map<std::string, std::unique_ptr<Font>> fonts;
+            std::map<std::string, std::unique_ptr<audio::Sound>> sounds;
+            std::map<std::string, std::unique_ptr<graphics::Material>> materials;
             std::map<std::string, scene::SkinnedMeshData> skinnedMeshData;
             std::map<std::string, scene::StaticMeshData> staticMeshData;
         };

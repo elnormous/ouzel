@@ -56,11 +56,11 @@ namespace ouzel
                        uint32_t segments = 16,
                        float thickness = 0.0F);
 
-            inline const std::shared_ptr<graphics::Shader>& getShader() const { return shader; }
-            inline void setShader(const std::shared_ptr<graphics::Shader>& newShader) { shader = newShader; }
+            inline graphics::Shader* getShader() const { return shader; }
+            inline void setShader(graphics::Shader* newShader) { shader = newShader; }
 
-            inline const std::shared_ptr<graphics::BlendState>& getBlendState() const { return blendState; }
-            inline void setBlendState(const std::shared_ptr<graphics::BlendState>& newBlendState) { blendState = newBlendState; }
+            inline graphics::BlendState* getBlendState() const { return blendState; }
+            inline void setBlendState(graphics::BlendState* newBlendState) { blendState = newBlendState; }
 
         private:
             struct DrawCommand final
@@ -70,8 +70,8 @@ namespace ouzel
                 uint32_t startIndex;
             };
 
-            std::shared_ptr<graphics::Shader> shader;
-            std::shared_ptr<graphics::BlendState> blendState;
+            graphics::Shader* shader = nullptr;
+            graphics::BlendState* blendState = nullptr;
             std::shared_ptr<graphics::Buffer> indexBuffer;
             std::shared_ptr<graphics::Buffer> vertexBuffer;
 

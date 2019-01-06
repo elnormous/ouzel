@@ -18,14 +18,14 @@ RTSample::RTSample():
 
     addLayer(&rtLayer);
 
-    std::shared_ptr<graphics::Texture> renderTarget = std::make_shared<graphics::Texture>(*engine->getRenderer());
+    renderTarget.reset(new graphics::Texture(*engine->getRenderer()));
     renderTarget->init(Size2<uint32_t>(256, 256),
                        graphics::Texture::RENDER_TARGET |
                        graphics::Texture::BINDABLE_COLOR_BUFFER |
                        graphics::Texture::DEPTH_BUFFER, 1, 1);
     renderTarget->setClearColor(Color(0, 64, 0));
 
-    rtCamera.setRenderTarget(renderTarget);
+    rtCamera.setRenderTarget(renderTarget.get());
     rtCameraActor.addComponent(&rtCamera);
     rtLayer.addChild(&rtCameraActor);
 
@@ -48,7 +48,7 @@ RTSample::RTSample():
     rtCharacter.addComponent(&characterSprite);
     rtLayer.addChild(&rtCharacter);
 
-    rtSprite.init(renderTarget);
+    rtSprite.init(renderTarget.get());
     rtActor.addComponent(&rtSprite);
     layer.addChild(&rtActor);
 

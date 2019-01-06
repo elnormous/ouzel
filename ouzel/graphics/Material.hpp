@@ -25,9 +25,9 @@ namespace ouzel
             Material(Material&&) = delete;
             Material& operator=(Material&&) = delete;
 
-            std::shared_ptr<BlendState> blendState;
-            std::shared_ptr<Shader> shader;
-            std::shared_ptr<Texture> textures[Texture::LAYERS];
+            BlendState* blendState;
+            Shader* shader;
+            Texture* textures[Texture::LAYERS]{nullptr};
             graphics::CullMode cullMode = graphics::CullMode::BACK;
             Color diffuseColor = Color::WHITE;
             float opacity = 1.0F;

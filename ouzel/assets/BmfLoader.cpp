@@ -18,8 +18,8 @@ namespace ouzel
             try
             {
                 // TODO: move the loader here
-                std::shared_ptr<BMFont> font = std::make_shared<BMFont>(data);
-                bundle.setFont(filename, font);
+                std::unique_ptr<BMFont> font(new BMFont(data));
+                bundle.setFont(filename, std::move(font));
             }
             catch (const std::exception&)
             {

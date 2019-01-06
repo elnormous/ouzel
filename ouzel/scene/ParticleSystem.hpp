@@ -59,10 +59,10 @@ namespace ouzel
 
             ParticleSystemData particleSystemData;
 
-            std::shared_ptr<graphics::Shader> shader;
-            std::shared_ptr<graphics::BlendState> blendState;
-            std::shared_ptr<graphics::Texture> texture;
-            std::shared_ptr<graphics::Texture> whitePixelTexture;
+            graphics::Shader* shader = nullptr;
+            graphics::BlendState* blendState = nullptr;
+            graphics::Texture* texture = nullptr;
+            graphics::Texture* whitePixelTexture = nullptr;
 
             struct Particle final
             {

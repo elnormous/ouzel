@@ -231,7 +231,7 @@ namespace ouzel
 #if OUZEL_COMPILE_OPENGL
             case graphics::Driver::OPENGL:
             {
-                std::shared_ptr<graphics::Shader> textureShader = std::make_shared<graphics::Shader>(*renderer);
+                std::unique_ptr<graphics::Shader> textureShader(new graphics::Shader(*renderer));
 
                 switch (renderer->getDevice()->getAPIMajorVersion())
                 {
@@ -277,9 +277,9 @@ namespace ouzel
                         throw std::runtime_error("Unsupported OpenGL version");
                 }
 
-                assetBundle.setShader(SHADER_TEXTURE, textureShader);
+                assetBundle.setShader(SHADER_TEXTURE, std::move(textureShader));
 
-                std::shared_ptr<graphics::Shader> colorShader = std::make_shared<graphics::Shader>(*renderer);
+                std::unique_ptr<graphics::Shader> colorShader(new graphics::Shader(*renderer));
 
                 switch (renderer->getDevice()->getAPIMajorVersion())
                 {
@@ -326,7 +326,7 @@ namespace ouzel
                         throw std::runtime_error("Unsupported OpenGL version");
                 }
 
-                assetBundle.setShader(SHADER_COLOR, colorShader);
+                assetBundle.setShader(SHADER_COLOR, std::move(colorShader));
                 break;
             }
 #endif
@@ -334,23 +334,23 @@ namespace ouzel
 #if OUZEL_COMPILE_DIRECT3D11
             case graphics::Driver::DIRECT3D11:
             {
-                std::shared_ptr<graphics::Shader> textureShader = std::make_shared<graphics::Shader>(*renderer);
+                std::unique_ptr<graphics::Shader> textureShader(new graphics::Shader(*renderer));
                 textureShader->init(std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_D3D11), std::end(TEXTURE_PIXEL_SHADER_D3D11)),
                                     std::vector<uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_D3D11), std::end(TEXTURE_VERTEX_SHADER_D3D11)),
                                     {graphics::Vertex::Attribute::Usage::POSITION, graphics::Vertex::Attribute::Usage::COLOR, graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0},
                                     {{"color", graphics::DataType::FLOAT_VECTOR4}},
                                     {{"modelViewProj", graphics::DataType::FLOAT_MATRIX4}});
 
-                assetBundle.setShader(SHADER_TEXTURE, textureShader);
+                assetBundle.setShader(SHADER_TEXTURE, std::move(textureShader));
 
-                std::shared_ptr<graphics::Shader> colorShader = std::make_shared<graphics::Shader>(*renderer);
+                std::unique_ptr<graphics::Shader> colorShader(new graphics::Shader(*renderer));
                 colorShader->init(std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_D3D11), std::end(COLOR_PIXEL_SHADER_D3D11)),
                                   std::vector<uint8_t>(std::begin(COLOR_VERTEX_SHADER_D3D11), std::end(COLOR_VERTEX_SHADER_D3D11)),
                                   {graphics::Vertex::Attribute::Usage::POSITION, graphics::Vertex::Attribute::Usage::COLOR},
                                   {{"color", graphics::DataType::FLOAT_VECTOR4}},
                                   {{"modelViewProj", graphics::DataType::FLOAT_MATRIX4}});
 
-                assetBundle.setShader(SHADER_COLOR, colorShader);
+                assetBundle.setShader(SHADER_COLOR, std::move(colorShader));
                 break;
             }
 #endif
@@ -358,7 +358,7 @@ namespace ouzel
 #if OUZEL_COMPILE_METAL
             case graphics::Driver::METAL:
             {
-                std::shared_ptr<graphics::Shader> textureShader = std::make_shared<graphics::Shader>(*renderer);
+                std::unique_ptr<graphics::Shader> textureShader(new graphics::Shader(*renderer));
                 textureShader->init(std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_METAL), std::end(TEXTURE_PIXEL_SHADER_METAL)),
                                     std::vector<uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_METAL), std::end(TEXTURE_VERTEX_SHADER_METAL)),
                                     {graphics::Vertex::Attribute::Usage::POSITION, graphics::Vertex::Attribute::Usage::COLOR, graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0},
@@ -367,9 +367,9 @@ namespace ouzel
                                     256, 256,
                                     "mainPS", "mainVS");
 
-                assetBundle.setShader(SHADER_TEXTURE, textureShader);
+                assetBundle.setShader(SHADER_TEXTURE, std::move(textureShader));
 
-                std::shared_ptr<graphics::Shader> colorShader = std::make_shared<graphics::Shader>(*renderer);
+                std::unique_ptr<graphics::Shader> colorShader(new graphics::Shader(*renderer));
                 colorShader->init(std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_METAL), std::end(COLOR_PIXEL_SHADER_METAL)),
                                   std::vector<uint8_t>(std::begin(COLOR_VERTEX_SHADER_METAL), std::end(COLOR_VERTEX_SHADER_METAL)),
                                   {graphics::Vertex::Attribute::Usage::POSITION, graphics::Vertex::Attribute::Usage::COLOR},
@@ -378,89 +378,82 @@ namespace ouzel
                                   256, 256,
                                   "mainPS", "mainVS");
 
-                assetBundle.setShader(SHADER_COLOR, colorShader);
+                assetBundle.setShader(SHADER_COLOR, std::move(colorShader));
                 break;
             }
 #endif
 
             default:
             {
-                std::shared_ptr<graphics::Shader> textureShader = std::make_shared<graphics::Shader>(*renderer);
-
+                std::unique_ptr<graphics::Shader> textureShader(new graphics::Shader(*renderer));
                 textureShader->init(std::vector<uint8_t>(),
                                     std::vector<uint8_t>(),
                                     {graphics::Vertex::Attribute::Usage::POSITION, graphics::Vertex::Attribute::Usage::COLOR, graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0},
                                     {{"color", graphics::DataType::FLOAT_VECTOR4}},
                                     {{"modelViewProj", graphics::DataType::FLOAT_MATRIX4}});
 
-                assetBundle.setShader(SHADER_TEXTURE, textureShader);
+                assetBundle.setShader(SHADER_TEXTURE, std::move(textureShader));
 
-                std::shared_ptr<graphics::Shader> colorShader = std::make_shared<graphics::Shader>(*renderer);
-
+                std::unique_ptr<graphics::Shader> colorShader(new graphics::Shader(*renderer));
                 colorShader->init(std::vector<uint8_t>(),
                                   std::vector<uint8_t>(),
                                   {graphics::Vertex::Attribute::Usage::POSITION, graphics::Vertex::Attribute::Usage::COLOR},
                                   {{"color", graphics::DataType::FLOAT_VECTOR4}},
                                   {{"modelViewProj", graphics::DataType::FLOAT_MATRIX4}});
 
-                assetBundle.setShader(SHADER_COLOR, colorShader);
+                assetBundle.setShader(SHADER_COLOR, std::move(colorShader));
                 break;
             }
         }
 
-        std::shared_ptr<graphics::BlendState> noBlendState = std::make_shared<graphics::BlendState>(*renderer);
-
+        std::unique_ptr<graphics::BlendState> noBlendState(new graphics::BlendState(*renderer));
         noBlendState->init(false,
                            graphics::BlendState::Factor::ONE, graphics::BlendState::Factor::ZERO,
                            graphics::BlendState::Operation::ADD,
                            graphics::BlendState::Factor::ONE, graphics::BlendState::Factor::ZERO,
                            graphics::BlendState::Operation::ADD);
 
-        assetBundle.setBlendState(BLEND_NO_BLEND, noBlendState);
+        assetBundle.setBlendState(BLEND_NO_BLEND, std::move(noBlendState));
 
-        std::shared_ptr<graphics::BlendState> addBlendState = std::make_shared<graphics::BlendState>(*renderer);
-
+        std::unique_ptr<graphics::BlendState> addBlendState(new graphics::BlendState(*renderer));
         addBlendState->init(true,
                             graphics::BlendState::Factor::ONE, graphics::BlendState::Factor::ONE,
                             graphics::BlendState::Operation::ADD,
                             graphics::BlendState::Factor::ONE, graphics::BlendState::Factor::ONE,
                             graphics::BlendState::Operation::ADD);
 
-        assetBundle.setBlendState(BLEND_ADD, addBlendState);
+        assetBundle.setBlendState(BLEND_ADD, std::move(addBlendState));
 
-        std::shared_ptr<graphics::BlendState> multiplyBlendState = std::make_shared<graphics::BlendState>(*renderer);
-
+        std::unique_ptr<graphics::BlendState> multiplyBlendState(new graphics::BlendState(*renderer));
         multiplyBlendState->init(true,
                                  graphics::BlendState::Factor::DEST_COLOR, graphics::BlendState::Factor::ZERO,
                                  graphics::BlendState::Operation::ADD,
                                  graphics::BlendState::Factor::ONE, graphics::BlendState::Factor::ONE,
                                  graphics::BlendState::Operation::ADD);
 
-        assetBundle.setBlendState(BLEND_MULTIPLY, multiplyBlendState);
+        assetBundle.setBlendState(BLEND_MULTIPLY, std::move(multiplyBlendState));
 
-        std::shared_ptr<graphics::BlendState> alphaBlendState = std::make_shared<graphics::BlendState>(*renderer);
-
+        std::unique_ptr<graphics::BlendState> alphaBlendState(new graphics::BlendState(*renderer));
         alphaBlendState->init(true,
                               graphics::BlendState::Factor::SRC_ALPHA, graphics::BlendState::Factor::INV_SRC_ALPHA,
                               graphics::BlendState::Operation::ADD,
                               graphics::BlendState::Factor::ONE, graphics::BlendState::Factor::ONE,
                               graphics::BlendState::Operation::ADD);
 
-        assetBundle.setBlendState(BLEND_ALPHA, alphaBlendState);
+        assetBundle.setBlendState(BLEND_ALPHA, std::move(alphaBlendState));
 
-        std::shared_ptr<graphics::BlendState> screenBlendState = std::make_shared<graphics::BlendState>(*renderer);
-
+        std::unique_ptr<graphics::BlendState> screenBlendState(new graphics::BlendState(*renderer));
         screenBlendState->init(true,
                                graphics::BlendState::Factor::ONE, graphics::BlendState::Factor::INV_SRC_COLOR,
                                graphics::BlendState::Operation::ADD,
                                graphics::BlendState::Factor::ONE, graphics::BlendState::Factor::ONE,
                                graphics::BlendState::Operation::ADD);
 
-        assetBundle.setBlendState(BLEND_SCREEN, screenBlendState);
+        assetBundle.setBlendState(BLEND_SCREEN, std::move(screenBlendState));
 
-        std::shared_ptr<graphics::Texture> whitePixelTexture = std::make_shared<graphics::Texture>(*renderer);
+        std::unique_ptr<graphics::Texture> whitePixelTexture(new graphics::Texture(*renderer));
         whitePixelTexture->init({255, 255, 255, 255}, Size2<uint32_t>(1, 1), 0, 1);
-        assetBundle.setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
+        assetBundle.setTexture(TEXTURE_WHITE_PIXEL, std::move(whitePixelTexture));
     }
 
     void Engine::start()

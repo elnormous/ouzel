@@ -10,7 +10,7 @@ namespace ouzel
 {
     namespace audio
     {
-        Voice::Voice(Audio& initAudio, const std::shared_ptr<Sound>& initSound):
+        Voice::Voice(Audio& initAudio, Sound* initSound):
             audio(initAudio),
             sourceId(audio.initSource(initSound->getSourceDataId()))
         {

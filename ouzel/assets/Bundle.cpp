@@ -56,19 +56,19 @@ namespace ouzel
                 loadAsset(asset.type, asset.filename, asset.mipmaps);
         }
 
-        std::shared_ptr<graphics::Texture> Bundle::getTexture(const std::string& filename) const
+        graphics::Texture* Bundle::getTexture(const std::string& filename) const
         {
             auto i = textures.find(filename);
 
             if (i != textures.end())
-                return i->second;
+                return i->second.get();
 
             return nullptr;
         }
 
-        void Bundle::setTexture(const std::string& filename, const std::shared_ptr<graphics::Texture>& texture)
+        void Bundle::setTexture(const std::string& filename, std::unique_ptr<graphics::Texture>&& texture)
         {
-            textures[filename] = texture;
+            textures[filename] = std::move(texture);
         }
 
         void Bundle::releaseTextures()
@@ -76,19 +76,19 @@ namespace ouzel
             textures.clear();
         }
 
-        std::shared_ptr<graphics::Shader> Bundle::getShader(const std::string& shaderName) const
+        graphics::Shader* Bundle::getShader(const std::string& shaderName) const
         {
             auto i = shaders.find(shaderName);
 
             if (i != shaders.end())
-                return i->second;
+                return i->second.get();
 
             return nullptr;
         }
 
-        void Bundle::setShader(const std::string& shaderName, const std::shared_ptr<graphics::Shader>& shader)
+        void Bundle::setShader(const std::string& shaderName, std::unique_ptr<graphics::Shader>&& shader)
         {
-            shaders[shaderName] = shader;
+            shaders[shaderName] = std::move(shader);
         }
 
         void Bundle::releaseShaders()
@@ -96,19 +96,19 @@ namespace ouzel
             shaders.clear();
         }
 
-        std::shared_ptr<graphics::BlendState> Bundle::getBlendState(const std::string& blendStateName) const
+        graphics::BlendState* Bundle::getBlendState(const std::string& blendStateName) const
         {
             auto i = blendStates.find(blendStateName);
 
             if (i != blendStates.end())
-                return i->second;
+                return i->second.get();
 
             return nullptr;
         }
 
-        void Bundle::setBlendState(const std::string& blendStateName, const std::shared_ptr<graphics::BlendState>& blendState)
+        void Bundle::setBlendState(const std::string& blendStateName, std::unique_ptr<graphics::BlendState>&& blendState)
         {
-            blendStates[blendStateName] = blendState;
+            blendStates[blendStateName] = std::move(blendState);
         }
 
         void Bundle::releaseBlendStates()
@@ -116,19 +116,19 @@ namespace ouzel
             blendStates.clear();
         }
 
-        std::shared_ptr<graphics::DepthStencilState> Bundle::getDepthStencilState(const std::string& depthStencilStateName) const
+        graphics::DepthStencilState* Bundle::getDepthStencilState(const std::string& depthStencilStateName) const
         {
             auto i = depthStencilStates.find(depthStencilStateName);
 
             if (i != depthStencilStates.end())
-                return i->second;
+                return i->second.get();
 
             return nullptr;
         }
 
-        void Bundle::setDepthStencilState(const std::string& depthStencilStateName, const std::shared_ptr<graphics::DepthStencilState>& depthStencilState)
+        void Bundle::setDepthStencilState(const std::string& depthStencilStateName, std::unique_ptr<graphics::DepthStencilState>&& depthStencilState)
         {
-            depthStencilStates[depthStencilStateName] = depthStencilState;
+            depthStencilStates[depthStencilStateName] = std::move(depthStencilState);
         }
 
         void Bundle::releaseDepthStencilStates()
@@ -228,19 +228,19 @@ namespace ouzel
             particleSystemData.clear();
         }
 
-        std::shared_ptr<Font> Bundle::getFont(const std::string& filename) const
+        Font* Bundle::getFont(const std::string& filename) const
         {
             auto i = fonts.find(filename);
 
             if (i != fonts.end())
-                return i->second;
+                return i->second.get();
 
             return nullptr;
         }
 
-        void Bundle::setFont(const std::string& filename, const std::shared_ptr<Font>& font)
+        void Bundle::setFont(const std::string& filename, std::unique_ptr<Font>&& font)
         {
-            fonts[filename] = font;
+            fonts[filename] = std::move(font);
         }
 
         void Bundle::releaseFonts()
@@ -248,19 +248,19 @@ namespace ouzel
             fonts.clear();
         }
 
-        std::shared_ptr<audio::Sound> Bundle::getSound(const std::string& filename) const
+        audio::Sound* Bundle::getSound(const std::string& filename) const
         {
             auto i = sounds.find(filename);
 
             if (i != sounds.end())
-                return i->second;
+                return i->second.get();
 
             return nullptr;
         }
 
-        void Bundle::setSound(const std::string& filename, const std::shared_ptr<audio::Sound>& newSound)
+        void Bundle::setSound(const std::string& filename, std::unique_ptr<audio::Sound>&& newSound)
         {
-            sounds[filename] = newSound;
+            sounds[filename] = std::move(newSound);
         }
 
         void Bundle::releaseSound()
@@ -268,19 +268,19 @@ namespace ouzel
             sounds.clear();
         }
 
-        std::shared_ptr<graphics::Material> Bundle::getMaterial(const std::string& filename) const
+        graphics::Material* Bundle::getMaterial(const std::string& filename) const
         {
             auto i = materials.find(filename);
 
             if (i != materials.end())
-                return i->second;
+                return i->second.get();
 
             return nullptr;
         }
 
-        void Bundle::setMaterial(const std::string& filename, const std::shared_ptr<graphics::Material>& material)
+        void Bundle::setMaterial(const std::string& filename, std::unique_ptr<graphics::Material>&& material)
         {
-            materials[filename] = material;
+            materials[filename] = std::move(material);
         }
 
         void Bundle::releaseMaterials()

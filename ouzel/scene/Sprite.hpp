@@ -23,13 +23,13 @@ namespace ouzel
             Sprite();
             explicit Sprite(const SpriteData& spriteData);
             explicit Sprite(const std::string& filename);
-            explicit Sprite(std::shared_ptr<graphics::Texture> texture,
+            explicit Sprite(graphics::Texture* texture,
                             uint32_t spritesX = 1, uint32_t spritesY = 1,
                             const Vector2<float>& pivot = Vector2<float>(0.5F, 0.5F));
 
             void init(const SpriteData& spriteData);
             void init(const std::string& filename);
-            void init(std::shared_ptr<graphics::Texture> newTexture,
+            void init(graphics::Texture* newTexture,
                       uint32_t spritesX = 1, uint32_t spritesY = 1,
                       const Vector2<float>& pivot = Vector2<float>(0.5F, 0.5F));
 

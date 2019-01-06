@@ -59,37 +59,37 @@ namespace ouzel
                 loaders.erase(i);
         }
 
-        std::shared_ptr<graphics::Texture> Cache::getTexture(const std::string& filename) const
+        graphics::Texture* Cache::getTexture(const std::string& filename) const
         {
             for (Bundle* bundle : bundles)
-                if (std::shared_ptr<graphics::Texture> texture = bundle->getTexture(filename))
+                if (graphics::Texture* texture = bundle->getTexture(filename))
                     return texture;
 
             return nullptr;
         }
 
-        std::shared_ptr<graphics::Shader> Cache::getShader(const std::string& shaderName) const
+        graphics::Shader* Cache::getShader(const std::string& shaderName) const
         {
             for (Bundle* bundle : bundles)
-                if (std::shared_ptr<graphics::Shader> shader = bundle->getShader(shaderName))
+                if (graphics::Shader* shader = bundle->getShader(shaderName))
                     return shader;
 
             return nullptr;
         }
 
-        std::shared_ptr<graphics::BlendState> Cache::getBlendState(const std::string& blendStateName) const
+        graphics::BlendState* Cache::getBlendState(const std::string& blendStateName) const
         {
             for (Bundle* bundle : bundles)
-                if (std::shared_ptr<graphics::BlendState> blendState = bundle->getBlendState(blendStateName))
+                if (graphics::BlendState* blendState = bundle->getBlendState(blendStateName))
                     return blendState;
 
             return nullptr;
         }
 
-        std::shared_ptr<graphics::DepthStencilState> Cache::getDepthStencilState(const std::string& depthStencilStateName) const
+        graphics::DepthStencilState* Cache::getDepthStencilState(const std::string& depthStencilStateName) const
         {
             for (Bundle* bundle : bundles)
-                if (std::shared_ptr<graphics::DepthStencilState> depthStencilState = bundle->getDepthStencilState(depthStencilStateName))
+                if (graphics::DepthStencilState* depthStencilState = bundle->getDepthStencilState(depthStencilStateName))
                     return depthStencilState;
 
             return nullptr;
@@ -113,28 +113,28 @@ namespace ouzel
             return nullptr;
         }
 
-        std::shared_ptr<Font> Cache::getFont(const std::string& filename) const
+        Font* Cache::getFont(const std::string& filename) const
         {
             for (Bundle* bundle : bundles)
-                if (std::shared_ptr<Font> font = bundle->getFont(filename))
+                if (Font* font = bundle->getFont(filename))
                     return font;
 
             return nullptr;
         }
 
-        std::shared_ptr<audio::Sound> Cache::getSound(const std::string& filename) const
+        audio::Sound* Cache::getSound(const std::string& filename) const
         {
             for (Bundle* bundle : bundles)
-                if (std::shared_ptr<audio::Sound> sound = bundle->getSound(filename))
+                if (audio::Sound* sound = bundle->getSound(filename))
                     return sound;
 
             return nullptr;
         }
 
-        std::shared_ptr<graphics::Material> Cache::getMaterial(const std::string& filename) const
+        graphics::Material* Cache::getMaterial(const std::string& filename) const
         {
             for (Bundle* bundle : bundles)
-                if (std::shared_ptr<graphics::Material> material = bundle->getMaterial(filename))
+                if (graphics::Material* material = bundle->getMaterial(filename))
                     return material;
 
             return nullptr;

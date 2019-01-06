@@ -22,10 +22,10 @@ namespace ouzel
 
             SkinnedMeshData() {}
             SkinnedMeshData(Box3<float> initBoundingBox,
-                            const std::shared_ptr<graphics::Material>& initMaterial);
+                            graphics::Material* initMaterial);
 
             Box3<float> boundingBox;
-            std::shared_ptr<graphics::Material> material;
+            graphics::Material* material = nullptr;
         };
     } // namespace scene
 } // namespace ouzel

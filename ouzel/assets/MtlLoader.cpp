@@ -132,8 +132,8 @@ namespace ouzel
         bool MtlLoader::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
         {
             std::string name = filename;
-            std::shared_ptr<graphics::Texture> diffuseTexture;
-            std::shared_ptr<graphics::Texture> ambientTexture;
+            graphics::Texture* diffuseTexture = nullptr;
+            graphics::Texture* ambientTexture = nullptr;
             Color diffuseColor = Color::WHITE;
             float opacity = 1.0F;
 
@@ -167,7 +167,7 @@ namespace ouzel
                     {
                         if (materialCount)
                         {
-                            std::shared_ptr<graphics::Material> material = std::make_shared<graphics::Material>();
+                            std::unique_ptr<graphics::Material> material(new graphics::Material());
                             material->blendState = cache.getBlendState(BLEND_ALPHA);
                             material->shader = cache.getShader(SHADER_TEXTURE);
                             material->textures[0] = diffuseTexture;
@@ -175,7 +175,7 @@ namespace ouzel
                             material->diffuseColor = diffuseColor;
                             material->opacity = opacity;
 
-                            bundle.setMaterial(name, material);
+                            bundle.setMaterial(name, std::move(material));
                         }
 
                         skipWhitespaces(data, iterator);
@@ -183,8 +183,8 @@ namespace ouzel
 
                         skipLine(data, iterator);
 
-                        diffuseTexture.reset();
-                        ambientTexture.reset();
+                        diffuseTexture = nullptr;
+                        ambientTexture = nullptr;
                         diffuseColor = Color::WHITE;
                         opacity = 1.0F;
                     }
@@ -265,7 +265,7 @@ namespace ouzel
 
             if (materialCount)
             {
-                std::shared_ptr<graphics::Material> material = std::make_shared<graphics::Material>();
+                std::unique_ptr<graphics::Material> material(new graphics::Material());
                 material->blendState = cache.getBlendState(BLEND_ALPHA);
                 material->shader = cache.getShader(SHADER_TEXTURE);
                 material->textures[0] = diffuseTexture;
@@ -273,7 +273,7 @@ namespace ouzel
                 material->diffuseColor = diffuseColor;
                 material->opacity = opacity;
 
-                bundle.setMaterial(name, material);
+                bundle.setMaterial(name, std::move(material));
             }
 
             return true;

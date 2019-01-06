@@ -104,7 +104,7 @@ namespace ouzel
 
             float emissionRate = 0.0F;
 
-            std::shared_ptr<graphics::Texture> texture;
+            graphics::Texture* texture = nullptr;
         };
     } // namespace scene
 } // namespace ouzel
