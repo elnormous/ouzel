@@ -17,10 +17,10 @@ namespace ouzel
             shader = engine->getCache().getShader(SHADER_COLOR);
             blendState = engine->getCache().getBlendState(BLEND_ALPHA);
 
-            indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer());
+            indexBuffer.reset(new graphics::Buffer(*engine->getRenderer()));
             indexBuffer->init(graphics::Buffer::Usage::INDEX, graphics::Buffer::DYNAMIC);
 
-            vertexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer());
+            vertexBuffer.reset(new graphics::Buffer(*engine->getRenderer()));
             vertexBuffer->init(graphics::Buffer::Usage::VERTEX, graphics::Buffer::DYNAMIC);
         }
 

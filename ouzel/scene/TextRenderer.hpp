@@ -58,8 +58,8 @@ namespace ouzel
             graphics::Shader* shader = nullptr;
             graphics::BlendState* blendState = nullptr;
 
-            std::shared_ptr<graphics::Buffer> indexBuffer;
-            std::shared_ptr<graphics::Buffer> vertexBuffer;
+            std::unique_ptr<graphics::Buffer> indexBuffer;
+            std::unique_ptr<graphics::Buffer> vertexBuffer;
 
             std::unique_ptr<graphics::Texture> ownedTexture;
             graphics::Texture* texture = nullptr;
