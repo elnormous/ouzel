@@ -7,8 +7,8 @@ namespace ouzel
 {
     void Localization::addLanguage(const std::string& name, const std::vector<uint8_t>& data)
     {
-        std::shared_ptr<Language> language = std::make_shared<Language>(data);
-        languages[name] = language;
+        std::unique_ptr<Language> language(new Language(data));
+        languages[name] = std::move(language);
     }
 
     void Localization::setLanguage(const std::string& language)
@@ -16,9 +16,9 @@ namespace ouzel
         auto i = languages.find(language);
 
         if (i != languages.end())
-            currentLanguage = i->second;
+            currentLanguage = i->second.get();
         else
-            currentLanguage.reset();
+            currentLanguage = nullptr;
     }
 
     std::string Localization::getString(const std::string& str)
