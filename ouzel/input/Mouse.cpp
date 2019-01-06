@@ -15,7 +15,6 @@ namespace ouzel
         Mouse::Mouse(InputManager& initInputManager, uint32_t initDeviceId):
             Controller(initInputManager, Controller::Type::MOUSE, initDeviceId)
         {
-            std::fill(std::begin(buttonStates), std::end(buttonStates), false);
         }
 
         void Mouse::setPosition(const Vector2<float>& newPosition)
