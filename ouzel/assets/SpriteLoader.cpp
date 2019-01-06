@@ -125,7 +125,7 @@ namespace ouzel
 
             spriteData.animations[""] = std::move(animation);
 
-            bundle.setSpriteData(filename, spriteData);
+            bundle.setSpriteData(filename, std::move(spriteData));
 
             return true;
         }

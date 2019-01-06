@@ -119,7 +119,7 @@ namespace ouzel
 
             particleSystemData.emissionRate = static_cast<float>(particleSystemData.maxParticles) / particleSystemData.particleLifespan;
 
-            bundle.setParticleSystemData(filename, particleSystemData);
+            bundle.setParticleSystemData(filename, std::move(particleSystemData));
 
             return true;
         }

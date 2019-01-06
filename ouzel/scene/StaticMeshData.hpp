@@ -21,12 +21,15 @@ namespace ouzel
                            const std::vector<graphics::Vertex>& vertices,
                            graphics::Material* initMaterial);
 
+            graphics::Buffer* getIndexBuffer() const { return indexBuffer.get(); }
+            graphics::Buffer* getVertexBuffer() const { return vertexBuffer.get(); }
+
             Box3<float> boundingBox;
             graphics::Material* material = nullptr;
             uint32_t indexCount = 0;
             uint32_t indexSize = 0;
-            std::shared_ptr<graphics::Buffer> indexBuffer;
-            std::shared_ptr<graphics::Buffer> vertexBuffer;
+            std::unique_ptr<graphics::Buffer> indexBuffer;
+            std::unique_ptr<graphics::Buffer> vertexBuffer;
         };
     } // namespace scene
 } // namespace ouzel

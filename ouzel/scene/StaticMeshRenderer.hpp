@@ -34,8 +34,8 @@ namespace ouzel
             graphics::Material* material = nullptr;
             uint32_t indexCount = 0;
             uint32_t indexSize = 0;
-            std::shared_ptr<graphics::Buffer> indexBuffer;
-            std::shared_ptr<graphics::Buffer> vertexBuffer;
+            graphics::Buffer* indexBuffer = nullptr;
+            graphics::Buffer* vertexBuffer = nullptr;
         };
     } // namespace scene
 } // namespace ouzel

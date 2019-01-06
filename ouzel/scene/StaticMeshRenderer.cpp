@@ -30,8 +30,8 @@ namespace ouzel
             material = meshData.material;
             indexCount = meshData.indexCount;
             indexSize = meshData.indexSize;
-            indexBuffer = meshData.indexBuffer;
-            vertexBuffer = meshData.vertexBuffer;
+            indexBuffer = meshData.getIndexBuffer();
+            vertexBuffer = meshData.getVertexBuffer();
         }
 
         void StaticMeshRenderer::init(const std::string& filename)

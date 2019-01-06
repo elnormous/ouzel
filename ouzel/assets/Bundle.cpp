@@ -175,13 +175,13 @@ namespace ouzel
                                                   spriteSize.v[1]);
 
                             scene::SpriteData::Frame frame = scene::SpriteData::Frame(filename, textureSize, rectangle, false, spriteSize, Vector2<float>(), pivot);
-                            animation.frames.push_back(frame);
+                            animation.frames.push_back(std::move(frame));
                         }
                     }
 
                     newSpriteData.animations[""] = std::move(animation);
 
-                    spriteData[filename] = newSpriteData;
+                    spriteData[filename] = std::move(newSpriteData);
                 }
             }
             else
@@ -198,9 +198,9 @@ namespace ouzel
             return nullptr;
         }
 
-        void Bundle::setSpriteData(const std::string& filename, const scene::SpriteData& newSpriteData)
+        void Bundle::setSpriteData(const std::string& filename, scene::SpriteData&& newSpriteData)
         {
-            spriteData[filename] = newSpriteData;
+            spriteData[filename] = std::move(newSpriteData);
         }
 
         void Bundle::releaseSpriteData()
@@ -218,9 +218,9 @@ namespace ouzel
             return nullptr;
         }
 
-        void Bundle::setParticleSystemData(const std::string& filename, const scene::ParticleSystemData& newParticleSystemData)
+        void Bundle::setParticleSystemData(const std::string& filename, scene::ParticleSystemData&& newParticleSystemData)
         {
-            particleSystemData[filename] = newParticleSystemData;
+            particleSystemData[filename] = std::move(newParticleSystemData);
         }
 
         void Bundle::releaseParticleSystemData()
@@ -298,9 +298,9 @@ namespace ouzel
             return nullptr;
         }
 
-        void Bundle::setSkinnedMeshData(const std::string& filename, const scene::SkinnedMeshData& newSkinnedMeshData)
+        void Bundle::setSkinnedMeshData(const std::string& filename, scene::SkinnedMeshData&& newSkinnedMeshData)
         {
-            skinnedMeshData[filename] = newSkinnedMeshData;
+            skinnedMeshData[filename] = std::move(newSkinnedMeshData);
         }
 
         void Bundle::releaseSkinnedMeshData()
@@ -318,9 +318,9 @@ namespace ouzel
             return nullptr;
         }
 
-        void Bundle::setStaticMeshData(const std::string& filename, const scene::StaticMeshData& newStaticMeshData)
+        void Bundle::setStaticMeshData(const std::string& filename, scene::StaticMeshData&& newStaticMeshData)
         {
-            staticMeshData[filename] = newStaticMeshData;
+            staticMeshData[filename] = std::move(newStaticMeshData);
         }
 
         void Bundle::releaseStaticMeshData()

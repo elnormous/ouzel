@@ -81,11 +81,11 @@ namespace ouzel
                                    uint32_t spritesX = 1, uint32_t spritesY = 1,
                                    const Vector2<float>& pivot = Vector2<float>(0.5F, 0.5F));
             const scene::SpriteData* getSpriteData(const std::string& filename) const;
-            void setSpriteData(const std::string& filename, const scene::SpriteData& newSpriteData);
+            void setSpriteData(const std::string& filename, scene::SpriteData&& newSpriteData);
             void releaseSpriteData();
 
             const scene::ParticleSystemData* getParticleSystemData(const std::string& filename) const;
-            void setParticleSystemData(const std::string& filename, const scene::ParticleSystemData& newParticleSystemData);
+            void setParticleSystemData(const std::string& filename, scene::ParticleSystemData&& newParticleSystemData);
             void releaseParticleSystemData();
 
             Font* getFont(const std::string& filename) const;
@@ -101,11 +101,11 @@ namespace ouzel
             void releaseMaterials();
 
             const scene::SkinnedMeshData* getSkinnedMeshData(const std::string& filename) const;
-            void setSkinnedMeshData(const std::string& filename, const scene::SkinnedMeshData& newSkinnedMeshData);
+            void setSkinnedMeshData(const std::string& filename, scene::SkinnedMeshData&& newSkinnedMeshData);
             void releaseSkinnedMeshData();
 
             const scene::StaticMeshData* getStaticMeshData(const std::string& filename) const;
-            void setStaticMeshData(const std::string& filename, const scene::StaticMeshData& newStaticMeshData);
+            void setStaticMeshData(const std::string& filename, scene::StaticMeshData&& newStaticMeshData);
             void releaseStaticMeshData();
 
         private:
