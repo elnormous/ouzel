@@ -8,11 +8,10 @@
 #include <map>
 #include <string>
 #include <vector>
+#include "Language.hpp"
 
 namespace ouzel
 {
-    class Language;
-
     class Localization final
     {
     public:
