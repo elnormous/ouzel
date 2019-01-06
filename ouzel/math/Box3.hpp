@@ -99,25 +99,11 @@ namespace ouzel
             if (point.v[2] > max.v[2]) max.v[2] = point.v[2];
         }
 
-        inline const Box3 operator+(const Vector2<T>& v) const
-        {
-            Box3 result(*this);
-            result += v;
-            return result;
-        }
-
         inline const Box3 operator+(const Vector3<T>& v) const
         {
             Box3 result(*this);
             result += v;
             return result;
-        }
-
-        inline Box3& operator+=(const Vector2<T>& v)
-        {
-            min += v;
-            max += v;
-            return *this;
         }
 
         inline Box3& operator+=(const Vector3<T>& v)
@@ -127,25 +113,11 @@ namespace ouzel
             return *this;
         }
 
-        inline const Box3 operator-(const Vector2<T>& v) const
-        {
-            Box3 result(*this);
-            result -= v;
-            return result;
-        }
-
         inline const Box3 operator-(const Vector3<T>& v) const
         {
             Box3 result(*this);
             result -= v;
             return result;
-        }
-
-        inline Box3& operator-=(const Vector2<T>& v)
-        {
-            min -= v;
-            max -= v;
-            return *this;
         }
 
         inline Box3& operator-=(const Vector3<T>& v)

@@ -382,7 +382,11 @@ namespace ouzel
                 const SpriteData::Frame& frame = currentAnimation->animation->frames[currentFrame];
 
                 boundingBox = frame.getBoundingBox();
-                boundingBox += offset;
+                boundingBox.min.v[0] += offset.v[0];
+                boundingBox.min.v[1] += offset.v[1];
+
+                boundingBox.max.v[0] += offset.v[0];
+                boundingBox.max.v[1] += offset.v[1];
             }
             else
                 boundingBox.reset();

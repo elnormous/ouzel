@@ -511,11 +511,12 @@ namespace ouzel
                     for (uint32_t segment = 0; segment < segments; ++segment)
                     {
                         float t = static_cast<float>(segment) / static_cast<float>(segments - 1);
-
-                        graphics::Vertex vertex(Vector3<float>(), color, Vector2<float>(), Vector3<float>(0.0F, 0.0F, -1.0F));
+                        Vector2<float> position;
 
                         for (uint16_t n = 0; n < controlPoints.size(); ++n)
-                            vertex.position += static_cast<float>(binomialCoefficients[n]) * powf(t, n) * powf(1.0F - t, static_cast<float>(controlPoints.size() - n - 1)) * controlPoints[n];
+                            position += static_cast<float>(binomialCoefficients[n]) * powf(t, n) * powf(1.0F - t, static_cast<float>(controlPoints.size() - n - 1)) * controlPoints[n];
+
+                        graphics::Vertex vertex(Vector3<float>(position), color, Vector2<float>(), Vector3<float>(0.0F, 0.0F, -1.0F));
 
                         indices.push_back(startVertex + static_cast<uint16_t>(command.indexCount));
                         ++command.indexCount;

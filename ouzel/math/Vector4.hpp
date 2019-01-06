@@ -228,34 +228,9 @@ namespace ouzel
             return std::max(v[0], std::max(v[1], std::max(v[2], v[3])));
         }
 
-        inline const Vector4 operator+(const Vector2<T>& vec) const
-        {
-            return Vector4(v[0] + vec.v[0], v[1] + vec.v[1], v[2], v[3]);
-        }
-
-        inline const Vector4 operator+(const Vector3<T>& vec) const
-        {
-            return Vector4(v[0] + vec.v[0], v[1] + vec.v[1], v[2] + vec.v[2], v[3]);
-        }
-
         inline const Vector4 operator+(const Vector4& vec) const
         {
             return Vector4(v[0] + vec.v[0], v[1] + vec.v[1], v[2] + vec.v[2], v[3] + vec.v[3]);
-        }
-
-        inline Vector4& operator+=(const Vector2<T>& vec)
-        {
-            v[0] += vec.v[0];
-            v[1] += vec.v[1];
-            return *this;
-        }
-
-        inline Vector4& operator+=(const Vector3<T>& vec)
-        {
-            v[0] += vec.v[0];
-            v[1] += vec.v[1];
-            v[2] += vec.v[2];
-            return *this;
         }
 
         inline Vector4& operator+=(const Vector4& vec)
@@ -267,34 +242,9 @@ namespace ouzel
             return *this;
         }
 
-        inline const Vector4 operator-(const Vector2<T>& vec) const
-        {
-            return Vector4(v[0] - vec.v[0], v[1] - vec.v[1], v[2], v[3]);
-        }
-
-        inline const Vector4 operator-(const Vector3<T>& vec) const
-        {
-            return Vector4(v[0] - vec.v[0], v[1] - vec.v[1], v[2] - vec.v[2], v[3]);
-        }
-
         inline const Vector4 operator-(const Vector4& vec) const
         {
             return Vector4(v[0] - vec.v[0], v[1] - vec.v[1], v[2] - vec.v[2], v[3] - vec.v[3]);
-        }
-
-        inline Vector4& operator-=(const Vector2<T>& vec)
-        {
-            v[0] -= vec.v[0];
-            v[1] -= vec.v[1];
-            return *this;
-        }
-
-        inline Vector4& operator-=(const Vector3<T>& vec)
-        {
-            v[0] -= vec.v[0];
-            v[1] -= vec.v[1];
-            v[2] -= vec.v[2];
-            return *this;
         }
 
         inline Vector4& operator-=(const Vector4& vec)
