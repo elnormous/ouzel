@@ -41,18 +41,7 @@ namespace ouzel
         {
         }
 
-        Color& operator=(uint32_t color)
-        {
-            v[0] = static_cast<uint8_t>((color & 0xFF000000) >> 24);
-            v[1] = static_cast<uint8_t>((color & 0x00FF0000) >> 16);
-            v[2] = static_cast<uint8_t>((color & 0x0000FF00) >> 8);
-            v[3] = static_cast<uint8_t>(color & 0x000000FF);
-
-            return *this;
-        }
-
         Color(const std::string& color);
-        Color& operator=(const std::string& color);
 
         Color(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha = 0xFF):
             v{red, green, blue, alpha}
@@ -70,10 +59,8 @@ namespace ouzel
         }
 
         explicit Color(const Vector3<float>& vec);
-        Color& operator=(const Vector3<float>& vec);
 
         explicit Color(const Vector4<float>& vec);
-        Color& operator=(const Vector4<float>& vec);
 
         inline uint8_t& operator[](size_t index) { return v[index]; }
         inline uint8_t operator[](size_t index) const { return v[index]; }

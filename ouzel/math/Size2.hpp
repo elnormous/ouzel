@@ -29,15 +29,7 @@ namespace ouzel
         {
         }
 
-        inline Size2& operator=(const Vector2<T>& point)
-        {
-            v[0] = point.v[0];
-            v[1] = point.v[1];
-            return *this;
-        }
-
         explicit Size2(const Size3<T>& s);
-        Size2& operator=(const Size3<T>& s);
 
         inline T& operator[](size_t index) { return v[index]; }
         inline T operator[](size_t index) const { return v[index]; }

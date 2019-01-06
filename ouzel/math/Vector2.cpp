@@ -13,25 +13,9 @@ namespace ouzel
     }
 
     template<class T>
-    Vector2<T>& Vector2<T>::operator=(const Vector3<T>& vec)
-    {
-        v[0] = vec.v[0];
-        v[1] = vec.v[1];
-        return *this;
-    }
-
-    template<class T>
     Vector2<T>::Vector2(const Vector4<T>& vec):
         v{vec.v[0], vec.v[1]}
     {
-    }
-
-    template<class T>
-    Vector2<T>& Vector2<T>::operator=(const Vector4<T>& vec)
-    {
-        v[0] = vec.v[0];
-        v[1] = vec.v[1];
-        return *this;
     }
 
     template class Vector2<float>;

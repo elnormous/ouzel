@@ -12,15 +12,6 @@ namespace ouzel
     {
     }
 
-    template<class T>
-    Size3<T>& Size3<T>::operator=(const Size2<T>& s)
-    {
-        v[0] = s.v[0];
-        v[1] = s.v[1];
-        v[2] = 0;
-        return *this;
-    }
-
     template class Size3<float>;
     template class Size3<uint32_t>;
 }

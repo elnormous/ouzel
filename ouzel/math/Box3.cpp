@@ -13,15 +13,6 @@ namespace ouzel
     }
 
     template<class T>
-    Box3<T>& Box3<T>::operator=(const Box2<T>& box)
-    {
-        min = box.min;
-        max = box.max;
-
-        return *this;
-    }
-
-    template<class T>
     void Box3<T>::getCorners(Vector3<T>* dst) const
     {
         // Near face, specified counter-clockwise looking towards the origin from the positive v[2]-axis

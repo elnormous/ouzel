@@ -41,11 +41,7 @@ namespace ouzel
 
         explicit Vector2(const Vector3<T>& vec);
 
-        Vector2& operator=(const Vector3<T>& vec);
-
         explicit Vector2(const Vector4<T>& vec);
-
-        Vector2& operator=(const Vector4<T>& vec);
 
         inline T& operator[](size_t index) { return v[index]; }
         inline T operator[](size_t index) const { return v[index]; }
