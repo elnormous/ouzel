@@ -180,7 +180,7 @@ namespace ouzel
                             std::unique_ptr<UIEvent> clickEvent(new UIEvent());
                             clickEvent->type = Event::Type::ACTOR_CLICK;
                             clickEvent->actor = selectedWidget;
-                            clickEvent->position = selectedWidget->getPosition();
+                            clickEvent->position = Vector2<float>(selectedWidget->getPosition());
                             engine->getEventDispatcher().dispatchEvent(std::move(clickEvent));
                         }
                         break;
@@ -227,7 +227,7 @@ namespace ouzel
                         std::unique_ptr<UIEvent> clickEvent(new UIEvent());
                         clickEvent->type = Event::Type::ACTOR_CLICK;
                         clickEvent->actor = selectedWidget;
-                        clickEvent->position = selectedWidget->getPosition();
+                        clickEvent->position = Vector2<float>(selectedWidget->getPosition());
                         engine->getEventDispatcher().dispatchEvent(std::move(clickEvent));
                     }
                 }

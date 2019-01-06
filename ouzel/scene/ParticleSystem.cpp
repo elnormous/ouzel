@@ -375,16 +375,16 @@ namespace ouzel
                                 static_cast<uint8_t>(particles[i].colorBlue * 255),
                                 static_cast<uint8_t>(particles[i].colorAlpha * 255));
 
-                    vertices[i * 4 + 0].position = a + position;
+                    vertices[i * 4 + 0].position = Vector3<float>(a + position);
                     vertices[i * 4 + 0].color = color;
 
-                    vertices[i * 4 + 1].position = b + position;
+                    vertices[i * 4 + 1].position = Vector3<float>(b + position);
                     vertices[i * 4 + 1].color = color;
 
-                    vertices[i * 4 + 2].position = d + position;
+                    vertices[i * 4 + 2].position = Vector3<float>(d + position);
                     vertices[i * 4 + 2].color = color;
 
-                    vertices[i * 4 + 3].position = c + position;
+                    vertices[i * 4 + 3].position = Vector3<float>(c + position);
                     vertices[i * 4 + 3].color = color;
                 }
 
@@ -402,9 +402,9 @@ namespace ouzel
                 Vector2<float> position;
 
                 if (particleSystemData.positionType == ParticleSystemData::PositionType::FREE)
-                    position = actor->convertLocalToWorld(Vector3<float>());
+                    position = Vector2<float>(actor->convertLocalToWorld(Vector3<float>()));
                 else if (particleSystemData.positionType == ParticleSystemData::PositionType::PARENT)
-                    position = actor->convertLocalToWorld(Vector3<float>()) - actor->getPosition();
+                    position = Vector2<float>(actor->convertLocalToWorld(Vector3<float>()) - actor->getPosition());
 
                 for (uint32_t i = particleCount; i < particleCount + count; ++i)
                 {

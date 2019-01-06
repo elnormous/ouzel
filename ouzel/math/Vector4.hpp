@@ -60,31 +60,12 @@ namespace ouzel
         {
         }
 
-        Vector4& operator=(const Vector2<T>& vec)
-        {
-            v[0] = vec.v[0];
-            v[1] = vec.v[1];
-            v[2] = 0.0F;
-            v[3] = 0.0F;
-            return *this;
-        }
-
         explicit Vector4(const Vector3<T>& vec):
             v{vec.v[0], vec.v[1], vec.v[2], 0.0F}
         {
         }
 
-        Vector4& operator=(const Vector3<T>& vec)
-        {
-            v[0] = vec.v[0];
-            v[1] = vec.v[1];
-            v[2] = vec.v[2];
-            v[3] = 0.0F;
-            return *this;
-        }
-
         explicit Vector4(Color color);
-        Vector4& operator=(Color color);
 
         inline T& operator[](size_t index) { return v[index]; }
         inline T operator[](size_t index) const { return v[index]; }

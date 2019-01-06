@@ -16,15 +16,5 @@ namespace ouzel
         v[3] = color.normA();
     }
 
-    template<class T>
-    Vector4<T>& Vector4<T>::operator=(Color color)
-    {
-        v[0] = color.normR();
-        v[1] = color.normG();
-        v[2] = color.normB();
-        v[3] = color.normA();
-        return *this;
-    }
-
     template class Vector4<float>;
 }

@@ -36,7 +36,6 @@ namespace ouzel
         }
 
         explicit Box3(const Box2<T>& box);
-        Box3& operator=(const Box2<T>& box);
 
         inline Vector3<T> getCenter()
         {
