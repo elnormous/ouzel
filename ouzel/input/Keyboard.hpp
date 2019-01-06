@@ -195,7 +195,7 @@ namespace ouzel
             bool handleKeyRelease(Keyboard::Key key);
 
         private:
-            bool keyStates[static_cast<uint32_t>(Key::COUNT)];
+            bool keyStates[static_cast<uint32_t>(Key::COUNT)]{false};
         };
     } // namespace input
 } // namespace ouzel

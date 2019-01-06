@@ -50,7 +50,7 @@ namespace ouzel
 
         private:
             Vector2<float> position;
-            bool buttonStates[static_cast<uint32_t>(Button::COUNT)];
+            bool buttonStates[static_cast<uint32_t>(Button::COUNT)]{false};
             bool cursorVisible = true;
             bool cursorLocked = false;
             const Cursor* cursor = nullptr;

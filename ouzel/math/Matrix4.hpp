@@ -21,11 +21,10 @@ namespace ouzel
 #if defined(__SSE__)
         alignas(16)
 #endif
-        T m[16];
+        T m[16]{0};
 
         Matrix4()
         {
-            std::fill(std::begin(m), std::end(m), static_cast<T>(0));
         }
 
         Matrix4(T m11, T m12, T m13, T m14,

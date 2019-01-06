@@ -1,6 +1,5 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include <algorithm>
 #include <iterator>
 #include "Gamepad.hpp"
 #include "core/Engine.hpp"
@@ -13,7 +12,6 @@ namespace ouzel
         Gamepad::Gamepad(InputManager& initInputManager, uint32_t initDeviceId):
             Controller(initInputManager, Controller::Type::GAMEPAD, initDeviceId)
         {
-            std::fill(std::begin(vibration), std::end(vibration), 0.0F);
         }
 
         void Gamepad::setAbsoluteDPadValues(bool newAbsoluteDPadValues)

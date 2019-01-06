@@ -105,7 +105,7 @@ namespace ouzel
             int32_t playerIndex = -1;
             bool absoluteDPadValues = false;
             bool attached = false;
-            float vibration[static_cast<uint32_t>(Motor::COUNT)];
+            float vibration[static_cast<uint32_t>(Motor::COUNT)]{0.0F};
         };
     } // namespace input
 } // namespace ouzel
