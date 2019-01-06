@@ -3,6 +3,7 @@
 #ifndef OUZEL_AUDIO_VOICE_HPP
 #define OUZEL_AUDIO_VOICE_HPP
 
+#include <cstdint>
 #include "math/Vector3.hpp"
 
 namespace ouzel
