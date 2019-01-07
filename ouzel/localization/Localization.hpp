@@ -17,7 +17,7 @@ namespace ouzel
     public:
         void addLanguage(const std::string& name, const std::vector<uint8_t>& data);
         void setLanguage(const std::string& language);
-        std::string getString(const std::string& str);
+        std::string getString(const std::string& str) const;
 
     private:
         std::map<std::string, std::unique_ptr<Language>> languages;

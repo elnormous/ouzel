@@ -96,7 +96,7 @@ namespace ouzel
         }
     }
 
-    std::string Language::getString(const std::string& str)
+    std::string Language::getString(const std::string& str) const
     {
         auto i = strings.find(str);
 

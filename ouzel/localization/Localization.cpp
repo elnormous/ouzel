@@ -21,7 +21,7 @@ namespace ouzel
             currentLanguage = nullptr;
     }
 
-    std::string Localization::getString(const std::string& str)
+    std::string Localization::getString(const std::string& str) const
     {
         if (currentLanguage)
             return currentLanguage->getString(str);
