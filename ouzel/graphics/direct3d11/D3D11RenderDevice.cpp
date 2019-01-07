@@ -812,8 +812,8 @@ namespace ouzel
                             }
 
                             uploadBuffer(currentShader->getFragmentShaderConstantBuffer(),
-                                            shaderData.data(),
-                                            static_cast<uint32_t>(sizeof(float) * shaderData.size()));
+                                         shaderData.data(),
+                                         static_cast<uint32_t>(sizeof(float) * shaderData.size()));
 
                             ID3D11Buffer* fragmentShaderConstantBuffers[1] = {currentShader->getFragmentShaderConstantBuffer()};
                             context->PSSetConstantBuffers(0, 1, fragmentShaderConstantBuffers);
@@ -838,8 +838,8 @@ namespace ouzel
                             }
 
                             uploadBuffer(currentShader->getVertexShaderConstantBuffer(),
-                                            shaderData.data(),
-                                            static_cast<uint32_t>(sizeof(float) * shaderData.size()));
+                                         shaderData.data(),
+                                         static_cast<uint32_t>(sizeof(float) * shaderData.size()));
 
                             ID3D11Buffer* vertexShaderConstantBuffers[1] = {currentShader->getVertexShaderConstantBuffer()};
                             context->VSSetConstantBuffers(0, 1, vertexShaderConstantBuffers);

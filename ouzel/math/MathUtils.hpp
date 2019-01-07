@@ -62,15 +62,16 @@ namespace ouzel
         return (x != 0) && (((x - 1) & x) == 0);
     }
 
-    inline uint32_t nextPOT(uint32_t x)
+    template<typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
+    inline T nextPowerOfTwo(T x)
     {
-        x = x - 1;
-        x = x | (x >> 1);
-        x = x | (x >> 2);
-        x = x | (x >> 4);
-        x = x | (x >> 8);
-        x = x | (x >> 16);
-        return x + 1;
+        if (x != 0)
+        {
+            --x;
+            for (uint32_t shift = 1; shift < sizeof(T) * 8; shift *= 2)
+                x = x | (x >> shift);
+        }
+        return ++x;
     }
 
     template<typename T> inline int sgn(T val)
