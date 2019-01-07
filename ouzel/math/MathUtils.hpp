@@ -69,7 +69,7 @@ namespace ouzel
         {
             --x;
             for (uint32_t shift = 1; shift < sizeof(T) * 8; shift *= 2)
-                x = x | (x >> shift);
+                x |= (x >> shift);
         }
         return ++x;
     }
