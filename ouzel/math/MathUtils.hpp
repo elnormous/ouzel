@@ -44,12 +44,12 @@ namespace ouzel
     constexpr float PI = 3.14159265358979323846F;
     constexpr float SQRT2 = 1.4142135623730950488F;
 
-    inline float lerp(float v0, float v1, float t)
+    template<typename T> inline T lerp(T v0, T v1, T t)
     {
-        return (1.0F - t) * v0 + t * v1;
+        return (1 - t) * v0 + t * v1;
     }
 
-    inline float smoothStep(float a, float b, float t)
+    template<typename T> inline T smoothStep(T a, T b, T t)
     {
         float remapSmoothStep = t * t * (3 - 2 * t);
         return lerp(a, b, remapSmoothStep);
@@ -67,7 +67,7 @@ namespace ouzel
         x = x | (x >> 2);
         x = x | (x >> 4);
         x = x | (x >> 8);
-        x = x | (x >>16);
+        x = x | (x >> 16);
         return x + 1;
     }
 
@@ -76,14 +76,14 @@ namespace ouzel
         return (T(0) < val) - (val < T(0));
     }
 
-    inline float degToRad(float x)
+    template<typename T> inline T degToRad(T x)
     {
-        return x * 0.0174532925F;
+        return static_cast<T>(x * 0.01745329252);
     }
 
-    inline float radToDeg(float x)
+    template<typename T> inline T radToDeg(T x)
     {
-        return x * 57.29577951F;
+        return static_cast<T>(x * 57.295779513);
     }
 
     template<typename T>
