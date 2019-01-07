@@ -44,7 +44,7 @@ namespace ouzel
         inline T& w() { return v[3]; }
         inline T w() const { return v[3]; }
 
-        static inline Quaternion identity()
+        static inline constexpr Quaternion identity()
         {
             return Quaternion(0, 0, 0, 1);
         }

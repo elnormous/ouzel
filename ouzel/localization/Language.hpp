@@ -15,7 +15,7 @@ namespace ouzel
         Language() {}
         explicit Language(const std::vector<uint8_t>& data);
 
-        std::string getString(const std::string& str);
+        std::string getString(const std::string& str) const;
 
     private:
         std::map<std::string, std::string> strings;
