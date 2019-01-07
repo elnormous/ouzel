@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <cmath>
 #include <limits>
+#include <type_traits>
 #if defined(__ANDROID__)
 #  include <cpu-features.h>
 #endif
@@ -55,7 +56,8 @@ namespace ouzel
         return lerp(a, b, remapSmoothStep);
     }
 
-    inline bool isPOT(uint32_t x)
+    template<typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
+    inline bool isPowerOfTwo(T x)
     {
         return (x != 0) && (((x - 1) & x) == 0);
     }
