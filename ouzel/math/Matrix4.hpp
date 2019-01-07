@@ -78,7 +78,7 @@ namespace ouzel
         T& operator[](size_t index) { return m[index]; }
         T operator[](size_t index) const { return m[index]; }
 
-        static inline Matrix4 identity()
+        static inline constexpr Matrix4 identity()
         {
             return Matrix4(1, 0, 0, 0,
                            0, 1, 0, 0,
