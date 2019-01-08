@@ -103,9 +103,6 @@
     <ClCompile Include="..\ouzel\graphics\ImageData.cpp">
       <Filter>ouzel\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\utils\INI.cpp">
-      <Filter>ouzel\utils</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\input\InputManager.cpp">
       <Filter>ouzel\input</Filter>
     </ClCompile>

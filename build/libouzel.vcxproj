@@ -181,7 +181,6 @@
     <ClCompile Include="..\ouzel\scene\Sprite.cpp" />
     <ClCompile Include="..\ouzel\scene\SpriteData.cpp" />
     <ClCompile Include="..\ouzel\scene\TextRenderer.cpp" />
-    <ClCompile Include="..\ouzel\utils\INI.cpp" />
     <ClCompile Include="..\ouzel\utils\JSON.cpp" />
     <ClCompile Include="..\ouzel\utils\Log.cpp" />
     <ClCompile Include="..\ouzel\utils\OBF.cpp" />
