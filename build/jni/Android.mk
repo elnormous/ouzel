@@ -160,7 +160,6 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/scene/StaticMeshData.cpp \
     ../../ouzel/scene/StaticMeshRenderer.cpp \
     ../../ouzel/scene/TextRenderer.cpp \
-    ../../ouzel/utils/JSON.cpp \
     ../../ouzel/utils/Log.cpp \
     ../../ouzel/utils/OBF.cpp \
     ../../ouzel/utils/Utils.cpp \
