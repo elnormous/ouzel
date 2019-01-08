@@ -46,9 +46,6 @@
 		300C39F01E51355000330E4F /* PCMSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 300C39EC1E51355000330E4F /* PCMSound.cpp */; };
 		300C39F11E51355000330E4F /* PCMSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 300C39EC1E51355000330E4F /* PCMSound.cpp */; };
 		300C39F21E51355000330E4F /* PCMSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 300C39EC1E51355000330E4F /* PCMSound.cpp */; };
-		3011E1C31EFFE6DE00CB1DDC /* INI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3011E1C11EFFE6DE00CB1DDC /* INI.cpp */; };
-		3011E1C41EFFE6DE00CB1DDC /* INI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3011E1C11EFFE6DE00CB1DDC /* INI.cpp */; };
-		3011E1C51EFFE6DE00CB1DDC /* INI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3011E1C11EFFE6DE00CB1DDC /* INI.cpp */; };
 		3011E1C61EFFE6DE00CB1DDC /* INI.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3011E1C21EFFE6DE00CB1DDC /* INI.hpp */; };
 		3011E1C71EFFE6DE00CB1DDC /* INI.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3011E1C21EFFE6DE00CB1DDC /* INI.hpp */; };
 		3011E1C81EFFE6DE00CB1DDC /* INI.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3011E1C21EFFE6DE00CB1DDC /* INI.hpp */; };
@@ -995,7 +992,6 @@
 		3009342D1C88978D00CC50D3 /* NativeWindowTVOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NativeWindowTVOS.hpp; sourceTree = "<group>"; };
 		300C39EB1E51355000330E4F /* PCMSound.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PCMSound.hpp; sourceTree = "<group>"; };
 		300C39EC1E51355000330E4F /* PCMSound.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PCMSound.cpp; sourceTree = "<group>"; };
-		3011E1C11EFFE6DE00CB1DDC /* INI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = INI.cpp; sourceTree = "<group>"; };
 		3011E1C21EFFE6DE00CB1DDC /* INI.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = INI.hpp; sourceTree = "<group>"; };
 		301457091E40FB5100BA75DB /* DataType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DataType.hpp; sourceTree = "<group>"; };
 		3017AEAE21D8100E00B07B53 /* SoundCue.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SoundCue.cpp; sourceTree = "<group>"; };
@@ -2050,7 +2046,6 @@
 		30A5BF0C1CFCE3F800A977CA /* utils */ = {
 			isa = PBXGroup;
 			children = (
-				3011E1C11EFFE6DE00CB1DDC /* INI.cpp */,
 				3011E1C21EFFE6DE00CB1DDC /* INI.hpp */,
 				307237081FAFDAB8002EA399 /* JSON.cpp */,
 				307237091FAFDAB8002EA399 /* JSON.hpp */,
@@ -2895,7 +2890,6 @@
 				30A381FE21B382A20043568A /* Mixer.cpp in Sources */,
 				303B75611C2A3CBF00FEDE92 /* Actor.cpp in Sources */,
 				30FF4D5221C48DB600153FFF /* Filters.cpp in Sources */,
-				3011E1C31EFFE6DE00CB1DDC /* INI.cpp in Sources */,
 				3049DCDA1EDCD0450000997A /* Cursor.cpp in Sources */,
 				30FFBE322158FB3F004B0BD3 /* Touchpad.cpp in Sources */,
 				30A3821021B4BDBC0043568A /* Mix.cpp in Sources */,
@@ -3064,7 +3058,6 @@
 				30A3820021B382A20043568A /* Mixer.cpp in Sources */,
 				303B76881C355A5800FEDE92 /* main.cpp in Sources */,
 				30FF4D5421C48DB600153FFF /* Filters.cpp in Sources */,
-				3011E1C51EFFE6DE00CB1DDC /* INI.cpp in Sources */,
 				3049DCDC1EDCD0450000997A /* Cursor.cpp in Sources */,
 				30FFBE342158FB3F004B0BD3 /* Touchpad.cpp in Sources */,
 				30A3821221B4BDBC0043568A /* Mix.cpp in Sources */,
@@ -3235,7 +3228,6 @@
 				30FF4D3021C33B4900153FFF /* Containers.cpp in Sources */,
 				304A8E661C237C70008B1151 /* SceneManager.cpp in Sources */,
 				30B859951F3D2F3200A16952 /* Font.cpp in Sources */,
-				3011E1C41EFFE6DE00CB1DDC /* INI.cpp in Sources */,
 				30381F861D80A3EC00677CAB /* OGLShader.cpp in Sources */,
 				3049DCDB1EDCD0450000997A /* Cursor.cpp in Sources */,
 				305B68D41ED1B31D003352A2 /* Timer.cpp in Sources */,

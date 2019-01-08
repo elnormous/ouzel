@@ -160,7 +160,6 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/scene/StaticMeshData.cpp \
 	$(ROOT_DIR)/../ouzel/scene/StaticMeshRenderer.cpp \
 	$(ROOT_DIR)/../ouzel/scene/TextRenderer.cpp \
-	$(ROOT_DIR)/../ouzel/utils/INI.cpp \
 	$(ROOT_DIR)/../ouzel/utils/JSON.cpp \
 	$(ROOT_DIR)/../ouzel/utils/Log.cpp \
 	$(ROOT_DIR)/../ouzel/utils/OBF.cpp \

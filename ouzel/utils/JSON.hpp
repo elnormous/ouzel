@@ -275,8 +275,8 @@ namespace ouzel
 
             std::vector<uint8_t> encode() const;
 
-            bool hasBOM() const { return bom; }
-            void setBOM(bool newBOM) { bom = newBOM; }
+            inline bool hasBOM() const { return bom; }
+            inline void setBOM(bool newBOM) { bom = newBOM; }
 
         private:
             bool bom = false;
