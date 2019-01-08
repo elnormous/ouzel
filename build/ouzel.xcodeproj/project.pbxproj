@@ -657,9 +657,6 @@
 		306B0E621C567D05005C75C1 /* ShapeRenderer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 306B0E5E1C567D05005C75C1 /* ShapeRenderer.hpp */; };
 		306B0E631C567D05005C75C1 /* ShapeRenderer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 306B0E5E1C567D05005C75C1 /* ShapeRenderer.hpp */; };
 		306B0E641C567D05005C75C1 /* ShapeRenderer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 306B0E5E1C567D05005C75C1 /* ShapeRenderer.hpp */; };
-		3072370A1FAFDAB8002EA399 /* JSON.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 307237081FAFDAB8002EA399 /* JSON.cpp */; };
-		3072370B1FAFDAB8002EA399 /* JSON.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 307237081FAFDAB8002EA399 /* JSON.cpp */; };
-		3072370C1FAFDAB8002EA399 /* JSON.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 307237081FAFDAB8002EA399 /* JSON.cpp */; };
 		3072370D1FAFDAB8002EA399 /* JSON.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 307237091FAFDAB8002EA399 /* JSON.hpp */; };
 		3072370E1FAFDAB8002EA399 /* JSON.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 307237091FAFDAB8002EA399 /* JSON.hpp */; };
 		3072370F1FAFDAB8002EA399 /* JSON.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 307237091FAFDAB8002EA399 /* JSON.hpp */; };
@@ -1225,7 +1222,6 @@
 		306A26B21F5DD17700E2B0B6 /* Listener.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Listener.hpp; sourceTree = "<group>"; };
 		306B0E5D1C567D05005C75C1 /* ShapeRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShapeRenderer.cpp; sourceTree = "<group>"; };
 		306B0E5E1C567D05005C75C1 /* ShapeRenderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShapeRenderer.hpp; sourceTree = "<group>"; };
-		307237081FAFDAB8002EA399 /* JSON.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = JSON.cpp; sourceTree = "<group>"; };
 		307237091FAFDAB8002EA399 /* JSON.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = JSON.hpp; sourceTree = "<group>"; };
 		307237101FAFDAC9002EA399 /* XML.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = XML.cpp; sourceTree = "<group>"; };
 		307237111FAFDAC9002EA399 /* XML.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = XML.hpp; sourceTree = "<group>"; };
@@ -2047,7 +2043,6 @@
 			isa = PBXGroup;
 			children = (
 				3011E1C21EFFE6DE00CB1DDC /* INI.hpp */,
-				307237081FAFDAB8002EA399 /* JSON.cpp */,
 				307237091FAFDAB8002EA399 /* JSON.hpp */,
 				3030D5001DAEF1FA007CC8EB /* Log.cpp */,
 				3030D5011DAEF1FA007CC8EB /* Log.hpp */,
@@ -2789,7 +2784,6 @@
 				3038200C1D80A40700677CAB /* MetalShader.mm in Sources */,
 				300902FE219224B100B00BF4 /* DepthStencilState.cpp in Sources */,
 				30A381F521B201C20043568A /* Bus.cpp in Sources */,
-				3072370A1FAFDAB8002EA399 /* JSON.cpp in Sources */,
 				301EB3A31CCD691800466E92 /* Component.cpp in Sources */,
 				30519CF01F9B53FF00AF3DC4 /* ObjLoader.cpp in Sources */,
 				3047F74F1C4C4FAF00774E3D /* Rotate.cpp in Sources */,
@@ -2952,7 +2946,6 @@
 				301EB3A41CCD691800466E92 /* Component.cpp in Sources */,
 				30216B751ED464730073E3D5 /* Material.cpp in Sources */,
 				301EB3AC1CCD77F600466E92 /* TextRenderer.cpp in Sources */,
-				3072370C1FAFDAB8002EA399 /* JSON.cpp in Sources */,
 				3009342E1C88978D00CC50D3 /* NativeWindowTVOS.mm in Sources */,
 				30090300219224B100B00BF4 /* DepthStencilState.cpp in Sources */,
 				30A381F721B201C20043568A /* Bus.cpp in Sources */,
@@ -3134,7 +3127,6 @@
 				30AEFA2D20C0FD6000CDFD33 /* OGLRenderTarget.cpp in Sources */,
 				30547E781CB47E050055EE79 /* Shake.cpp in Sources */,
 				3098A5581EA01C8A00528A54 /* GamepadDeviceIOKit.cpp in Sources */,
-				3072370B1FAFDAB8002EA399 /* JSON.cpp in Sources */,
 				301EB3A21CCD691800466E92 /* Component.cpp in Sources */,
 				30519CF11F9B53FF00AF3DC4 /* ObjLoader.cpp in Sources */,
 				304A8E6A1C237C70008B1151 /* Sprite.cpp in Sources */,

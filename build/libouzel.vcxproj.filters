@@ -376,9 +376,6 @@
     <ClCompile Include="..\ouzel\assets\WaveLoader.cpp">
       <Filter>ouzel\assets</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\utils\JSON.cpp">
-      <Filter>ouzel\utils</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\utils\XML.cpp">
       <Filter>ouzel\utils</Filter>
     </ClCompile>
