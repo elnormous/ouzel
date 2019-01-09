@@ -3,6 +3,11 @@
 #ifndef PREFIX_HPP
 #define PREFIX_HPP
 
+#include <errno.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
 #include <algorithm>
 #include <array>
 #include <atomic>
