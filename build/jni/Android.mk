@@ -11,7 +11,7 @@ LOCAL_ARM_MODE := arm
 LOCAL_CFLAGS := -Wall -Wextra
 LOCAL_WHOLE_STATIC_LIBRARIES += cpufeatures
 LOCAL_CPPFLAGS += -std=c++11 -fexceptions
-LOCAL_PCH := $(LOCAL_PATH)/../Prefix.h
+LOCAL_PCH := $(LOCAL_PATH)/Prefix.h
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../ouzel \
     $(LOCAL_PATH)/../../shaders \
     $(LOCAL_PATH)/../../external/khronos \
