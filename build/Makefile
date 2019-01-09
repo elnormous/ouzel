@@ -297,8 +297,8 @@ else
 all: CXXFLAGS+=-O3
 all: CFLAGS+=-O3
 endif
-all: $(ROOT_DIR)/Prefix.hpp.gch
 all: config
+all: $(ROOT_DIR)/Prefix.hpp.gch
 all: $(ROOT_DIR)/$(LIBRARY)
 
 $(ROOT_DIR)/$(LIBRARY): $(OBJECTS)
