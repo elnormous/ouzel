@@ -307,6 +307,7 @@ $(ROOT_DIR)/$(LIBRARY): $(OBJECTS)
 
 .PHONY: config
 config:
+	$(CXX) $(CXXFLAGS) $(ROOT_DIR)/Prefix.hpp -o $(ROOT_DIR)/Prefix.hpp.gch
 ifeq ($(platform),windows)
 	if not exist $(ROOT_DIR)\..\ouzel\Config.h copy $(ROOT_DIR)\..\ouzel\DefaultConfig.h $(ROOT_DIR)\..\ouzel\Config.h
 else
@@ -316,7 +317,7 @@ else
 endif
 
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) -MMD -MP $< -o $@
+	$(CXX) $(CXXFLAGS) -include $(ROOT_DIR)/Prefix.hpp -MMD -MP $< -o $@
 
 %.o: %.mm
 	$(CXX) -fno-objc-arc $(CXXFLAGS) -MMD -MP $< -o $@
@@ -328,10 +329,12 @@ endif
 clean:
 ifeq ($(platform),windows)
 	-del /f /q "$(ROOT_DIR)\$(LIBRARY)"
+	-del /f /q "$(ROOT_DIR)\Prefix.hpp.gch"
 	-del /s "$(ROOT_DIR)\..\*.o"
 	-del /s "$(ROOT_DIR)\..\*.d"
 else
 	$(RM) $(ROOT_DIR)/$(LIBRARY)
+	$(RM) $(ROOT_DIR)/Prefix.hpp.gch
 	find $(ROOT_DIR)/.. -name '*.o' -type f -delete
 	find $(ROOT_DIR)/.. -name '*.d' -type f -delete
 endif
