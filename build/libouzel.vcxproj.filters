@@ -484,6 +484,9 @@
     <ClCompile Include="..\ouzel\audio\Source.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>ouzel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\animators\Animator.hpp">
@@ -1055,6 +1058,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\Source.hpp">
       <Filter>ouzel\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>ouzel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
