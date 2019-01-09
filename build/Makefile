@@ -297,6 +297,7 @@ else
 all: CXXFLAGS+=-O3
 all: CFLAGS+=-O3
 endif
+all: $(ROOT_DIR)/Prefix.hpp.gch
 all: config
 all: $(ROOT_DIR)/$(LIBRARY)
 
@@ -307,7 +308,6 @@ $(ROOT_DIR)/$(LIBRARY): $(OBJECTS)
 
 .PHONY: config
 config:
-	$(CXX) $(CXXFLAGS) $(ROOT_DIR)/Prefix.hpp -o $(ROOT_DIR)/Prefix.hpp.gch
 ifeq ($(platform),windows)
 	if not exist $(ROOT_DIR)\..\ouzel\Config.h copy $(ROOT_DIR)\..\ouzel\DefaultConfig.h $(ROOT_DIR)\..\ouzel\Config.h
 else
@@ -315,6 +315,9 @@ else
 		cp $(ROOT_DIR)/../ouzel/DefaultConfig.h $(ROOT_DIR)/../ouzel/Config.h; \
 	fi
 endif
+
+$(ROOT_DIR)/Prefix.hpp.gch: $(ROOT_DIR)/Prefix.hpp
+	$(CXX) $(CXXFLAGS) $< -o $@
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -include $(ROOT_DIR)/Prefix.hpp -MMD -MP $< -o $@
