@@ -3,6 +3,11 @@
 #ifndef PREFIX_H
 #define PREFIX_H
 
+#include <errno.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
 #ifdef __cplusplus
 #  include <algorithm>
 #  include <array>
