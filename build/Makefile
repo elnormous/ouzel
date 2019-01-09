@@ -316,7 +316,7 @@ else
 	fi
 endif
 
-$(ROOT_DIR)/Prefix.hpp.gch: $(ROOT_DIR)/Prefix.hpp
+%.hpp.gch: %.hpp
 	$(CXX) $(CXXFLAGS) $< -o $@
 
 %.o: %.cpp
