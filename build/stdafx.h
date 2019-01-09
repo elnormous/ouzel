@@ -3,6 +3,9 @@
 #ifndef STDAFX_H
 #define STDAFX_H
 
+#ifndef NOMINMAX
+#  define NOMINMAX
+#endif
 #include <Windows.h>
 
 #ifdef __cplusplus
