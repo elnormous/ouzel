@@ -1,9 +1,10 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef NOMINMAX
-#  define NOMINMAX
-#endif
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
 #include <Windows.h>
+#undef WIN32_LEAN_AND_MEAN
+#undef NOMINMAX
 #include "KeyboardDeviceWin.hpp"
 
 namespace ouzel

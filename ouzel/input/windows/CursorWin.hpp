@@ -5,10 +5,11 @@
 
 #include <cstdint>
 #include <vector>
-#ifndef NOMINMAX
-#  define NOMINMAX
-#endif
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
 #include <Windows.h>
+#undef WIN32_LEAN_AND_MEAN
+#undef NOMINMAX
 
 #include "input/Cursor.hpp"
 #include "math/Size2.hpp"
