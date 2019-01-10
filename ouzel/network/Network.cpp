@@ -2,11 +2,12 @@
 
 #include <system_error>
 #ifdef _WIN32
-#  ifndef NOMINMAX
-#    define NOMINMAX
-#  endif
+#  define WIN32_LEAN_AND_MEAN
+#  define NOMINMAX
 #  include <WinSock2.h>
 #  include <WS2tcpip.h>
+#  undef WIN32_LEAN_AND_MEAN
+#  undef NOMINMAX
 #else
 #  include <sys/socket.h>
 #  include <netinet/in.h>

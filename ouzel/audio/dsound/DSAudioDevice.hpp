@@ -9,7 +9,11 @@
 
 #include <atomic>
 #include <thread>
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
 #include <dsound.h>
+#undef WIN32_LEAN_AND_MEAN
+#undef NOMINMAX
 #include "audio/AudioDevice.hpp"
 
 namespace ouzel
