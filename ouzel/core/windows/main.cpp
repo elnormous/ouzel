@@ -1,6 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <cstdlib>
+#include <shellapi.h>
 #include "EngineWin.hpp"
 #include "utils/Log.hpp"
 
