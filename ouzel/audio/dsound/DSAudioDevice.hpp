@@ -11,6 +11,7 @@
 #include <thread>
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
+#include <mmreg.h>
 #include <dsound.h>
 #undef WIN32_LEAN_AND_MEAN
 #undef NOMINMAX
