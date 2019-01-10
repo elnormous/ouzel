@@ -1,5 +1,8 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#ifndef NOMINMAX
+#  define NOMINMAX
+#endif
 #include <Windows.h>
 #include <WbemIdl.h>
 #include <OleAuto.h>

@@ -1,6 +1,9 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <system_error>
+#ifndef NOMINMAX
+#  define NOMINMAX
+#endif
 #include <Windows.h>
 #include <cstdlib>
 #include "EngineWin.hpp"

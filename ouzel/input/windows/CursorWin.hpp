@@ -5,7 +5,6 @@
 
 #include <cstdint>
 #include <vector>
-
 #ifndef NOMINMAX
 #  define NOMINMAX
 #endif

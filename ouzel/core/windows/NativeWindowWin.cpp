@@ -2,6 +2,9 @@
 
 #include <system_error>
 #include <unordered_map>
+#ifndef NOMINMAX
+#  define NOMINMAX
+#endif
 #include <Windows.h>
 #include <windowsx.h>
 #include "NativeWindowWin.hpp"
