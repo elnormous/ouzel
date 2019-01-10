@@ -317,7 +317,7 @@ else
 endif
 
 %.hpp.gch: %.hpp
-	$(CXX) $(CXXFLAGS) $< -o $@
+	$(CXX) -x c++-header $(CXXFLAGS) $< -o $@
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -include $(ROOT_DIR)/Prefix.hpp -MMD -MP $< -o $@
