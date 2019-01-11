@@ -297,15 +297,14 @@ else
 all: CXXFLAGS+=-O3
 all: CFLAGS+=-O3
 endif
-all: config $(ROOT_DIR)/$(LIBRARY)
+all: $(ROOT_DIR)/../ouzel/Config.h $(ROOT_DIR)/$(LIBRARY)
 
 $(ROOT_DIR)/$(LIBRARY): $(ROOT_DIR)/Prefix.hpp.gch $(OBJECTS)
 	$(AR) rs $@ $^
 
 -include $(DEPENDENCIES)
 
-.PHONY: config
-config:
+$(ROOT_DIR)/../ouzel/Config.h:
 ifeq ($(platform),windows)
 	if not exist $(ROOT_DIR)\..\ouzel\Config.h copy $(ROOT_DIR)\..\ouzel\DefaultConfig.h $(ROOT_DIR)\..\ouzel\Config.h
 else
