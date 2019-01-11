@@ -297,11 +297,9 @@ else
 all: CXXFLAGS+=-O3
 all: CFLAGS+=-O3
 endif
-all: config
-all: $(ROOT_DIR)/Prefix.hpp.gch
-all: $(ROOT_DIR)/$(LIBRARY)
+all: config $(ROOT_DIR)/$(LIBRARY)
 
-$(ROOT_DIR)/$(LIBRARY): $(OBJECTS)
+$(ROOT_DIR)/$(LIBRARY): $(ROOT_DIR)/Prefix.hpp.gch $(OBJECTS)
 	$(AR) rs $@ $^
 
 -include $(DEPENDENCIES)
@@ -320,13 +318,13 @@ endif
 	$(CXX) -x c++-header $(CXXFLAGS) $< -o $@
 
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) -include $(ROOT_DIR)/Prefix.hpp -MMD -MP $< -o $@
+	$(CXX) -x c++ $(CXXFLAGS) -include $(ROOT_DIR)/Prefix.hpp -MMD -MP $< -o $@
 
 %.o: %.mm
-	$(CXX) -fno-objc-arc $(CXXFLAGS) -MMD -MP $< -o $@
+	$(CXX) -x objective-c++ -fno-objc-arc $(CXXFLAGS) -MMD -MP $< -o $@
 
 %.o: %.m
-	$(CC) -fno-objc-arc $(CFLAGS) -MMD -MP $< -o $@
+	$(CC) -x objective-c -fno-objc-arc $(CFLAGS) -MMD -MP $< -o $@
 
 .PHONY: clean
 clean:
