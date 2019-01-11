@@ -297,9 +297,9 @@ else
 all: CXXFLAGS+=-O3
 all: CFLAGS+=-O3
 endif
-all: $(ROOT_DIR)/../ouzel/Config.h $(ROOT_DIR)/$(LIBRARY)
+all: $(ROOT_DIR)/Prefix.hpp.gch $(ROOT_DIR)/../ouzel/Config.h $(ROOT_DIR)/$(LIBRARY)
 
-$(ROOT_DIR)/$(LIBRARY): $(ROOT_DIR)/Prefix.hpp.gch $(OBJECTS)
+$(ROOT_DIR)/$(LIBRARY): $(OBJECTS)
 	$(AR) rs $@ $^
 
 -include $(DEPENDENCIES)
