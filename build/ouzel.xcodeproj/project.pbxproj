@@ -49,12 +49,6 @@
 		3011E1C61EFFE6DE00CB1DDC /* INI.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3011E1C21EFFE6DE00CB1DDC /* INI.hpp */; };
 		3011E1C71EFFE6DE00CB1DDC /* INI.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3011E1C21EFFE6DE00CB1DDC /* INI.hpp */; };
 		3011E1C81EFFE6DE00CB1DDC /* INI.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3011E1C21EFFE6DE00CB1DDC /* INI.hpp */; };
-		3017AEB021D8100E00B07B53 /* SoundCue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3017AEAE21D8100E00B07B53 /* SoundCue.cpp */; };
-		3017AEB121D8100E00B07B53 /* SoundCue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3017AEAE21D8100E00B07B53 /* SoundCue.cpp */; };
-		3017AEB221D8100E00B07B53 /* SoundCue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3017AEAE21D8100E00B07B53 /* SoundCue.cpp */; };
-		3017AEB321D8100E00B07B53 /* SoundCue.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3017AEAF21D8100E00B07B53 /* SoundCue.hpp */; };
-		3017AEB421D8100E00B07B53 /* SoundCue.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3017AEAF21D8100E00B07B53 /* SoundCue.hpp */; };
-		3017AEB521D8100E00B07B53 /* SoundCue.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3017AEAF21D8100E00B07B53 /* SoundCue.hpp */; };
 		3017AEBE21E5815100B07B53 /* Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 3017AEBD21E5815000B07B53 /* Prefix.pch */; };
 		3017AEBF21E5815100B07B53 /* Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 3017AEBD21E5815000B07B53 /* Prefix.pch */; };
 		3017AEC021E5815100B07B53 /* Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 3017AEBD21E5815000B07B53 /* Prefix.pch */; };
@@ -994,8 +988,6 @@
 		300C39EC1E51355000330E4F /* PCMSound.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PCMSound.cpp; sourceTree = "<group>"; };
 		3011E1C21EFFE6DE00CB1DDC /* INI.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = INI.hpp; sourceTree = "<group>"; };
 		301457091E40FB5100BA75DB /* DataType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DataType.hpp; sourceTree = "<group>"; };
-		3017AEAE21D8100E00B07B53 /* SoundCue.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SoundCue.cpp; sourceTree = "<group>"; };
-		3017AEAF21D8100E00B07B53 /* SoundCue.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SoundCue.hpp; sourceTree = "<group>"; };
 		3017AEBD21E5815000B07B53 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		301EB3A01CCD691800466E92 /* Component.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Component.cpp; sourceTree = "<group>"; };
 		301EB3A11CCD691800466E92 /* Component.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Component.hpp; sourceTree = "<group>"; };
@@ -1791,8 +1783,6 @@
 				302B728321BDE302006EBC59 /* SilenceSound.hpp */,
 				30419DEF1D162BEF00A63759 /* Sound.cpp */,
 				30419DF01D162BEF00A63759 /* Sound.hpp */,
-				3017AEAE21D8100E00B07B53 /* SoundCue.cpp */,
-				3017AEAF21D8100E00B07B53 /* SoundCue.hpp */,
 				30FF4D4521C33D9B00153FFF /* Source.cpp */,
 				30FF4D4621C33D9B00153FFF /* Source.hpp */,
 				30A3821621B4BDC80043568A /* Submix.cpp */,
@@ -2246,7 +2236,6 @@
 				30B8598F1F3D286600A16952 /* TTFont.hpp in Headers */,
 				30519CF31F9B53FF00AF3DC4 /* ObjLoader.hpp in Headers */,
 				301EB3A61CCD691800466E92 /* Component.hpp in Headers */,
-				3017AEB321D8100E00B07B53 /* SoundCue.hpp in Headers */,
 				30C758B81F4A0309008499DC /* RenderDevice.hpp in Headers */,
 				303B75641C2A3CBF00FEDE92 /* ParticleSystem.hpp in Headers */,
 				30419DED1D162BDC00A63759 /* Voice.hpp in Headers */,
@@ -2268,7 +2257,6 @@
 				30575A941C38BD370009C8A7 /* Box2.hpp in Headers */,
 				30EF36681CA845DC00F04F29 /* ComboBox.hpp in Headers */,
 				30AEFA1120C0A90400CDFD33 /* GltfLoader.hpp in Headers */,
-				3017AEB521D8100E00B07B53 /* SoundCue.hpp in Headers */,
 				3072370F1FAFDAB8002EA399 /* JSON.hpp in Headers */,
 				30C3F296219D0DD9003FE9ED /* Object.hpp in Headers */,
 				30216B781ED464730073E3D5 /* Material.hpp in Headers */,
@@ -2499,7 +2487,6 @@
 				304A8E731C237C70008B1151 /* Vector3.hpp in Headers */,
 				304A8EA31C270833008B1151 /* Vertex.hpp in Headers */,
 				30A9C1341CAE80570084C4BF /* Localization.hpp in Headers */,
-				3017AEB421D8100E00B07B53 /* SoundCue.hpp in Headers */,
 				30090302219224B100B00BF4 /* DepthStencilState.hpp in Headers */,
 				3038207D1D816C9E00677CAB /* EngineMacOS.hpp in Headers */,
 				30575AD01C3B175D0009C8A7 /* Label.hpp in Headers */,
@@ -2780,7 +2767,6 @@
 				30673DD31F7A694F00EAFAB0 /* NativeWindow.cpp in Sources */,
 				303696C41E32DD8F007F4211 /* Texture.cpp in Sources */,
 				30C56C5C1CAA88F8007AEF8F /* CheckBox.cpp in Sources */,
-				3017AEB021D8100E00B07B53 /* SoundCue.cpp in Sources */,
 				303696EC1E32DE08007F4211 /* Shader.cpp in Sources */,
 				303820651D816C7700677CAB /* main.cpp in Sources */,
 				30519CF81F9B54E300AF3DC4 /* VorbisLoader.cpp in Sources */,
@@ -2947,7 +2933,6 @@
 				303B763A1C355A3B00FEDE92 /* Vector3.cpp in Sources */,
 				303696EE1E32DE08007F4211 /* Shader.cpp in Sources */,
 				30519CFA1F9B54E300AF3DC4 /* VorbisLoader.cpp in Sources */,
-				3017AEB221D8100E00B07B53 /* SoundCue.cpp in Sources */,
 				303B763C1C355A3B00FEDE92 /* Vertex.cpp in Sources */,
 				30519CE21F9B53E900AF3DC4 /* ParticleSystemLoader.cpp in Sources */,
 				3038200E1D80A40700677CAB /* MetalShader.mm in Sources */,
@@ -3082,7 +3067,6 @@
 				30CEB36A21A6385C00525637 /* System.cpp in Sources */,
 				307F9FFF1F1E9CA000BA73CB /* GamepadDeviceGC.mm in Sources */,
 				300C39F11E51355000330E4F /* PCMSound.cpp in Sources */,
-				3017AEB121D8100E00B07B53 /* SoundCue.cpp in Sources */,
 				30381FB61D80A3F900677CAB /* OALAudioDevice.cpp in Sources */,
 				30AEFA3520C0FD7400CDFD33 /* MetalRenderTarget.mm in Sources */,
 				303820871D816C9E00677CAB /* NativeWindowMacOS.mm in Sources */,
