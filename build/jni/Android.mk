@@ -60,7 +60,6 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/audio/PCMSound.cpp \
 	../../ouzel/audio/SilenceSound.cpp \
     ../../ouzel/audio/Sound.cpp \
-	../../ouzel/audio/SoundCue.cpp \
 	../../ouzel/audio/Source.cpp \
     ../../ouzel/audio/Submix.cpp \
 	../../ouzel/audio/Voice.cpp \
