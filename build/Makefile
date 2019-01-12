@@ -296,7 +296,7 @@ else
 all: CXXFLAGS+=-O3
 all: CFLAGS+=-O3
 endif
-all: $(ROOT_DIR)/../ouzel/Config.h $(ROOT_DIR)/Prefix.hpp.gch $(ROOT_DIR)/$(LIBRARY)
+all: $(ROOT_DIR)/$(LIBRARY)
 
 $(ROOT_DIR)/$(LIBRARY): $(OBJECTS)
 	$(AR) rs $@ $^
@@ -312,28 +312,49 @@ else
 	fi
 endif
 
-%.hpp.gch: %.hpp
-	$(CXX) -x c++-header $(CXXFLAGS) $< -o $@
+.PHONY: $(ROOT_DIR)/pch/cpp/Prefix.pch
+$(ROOT_DIR)/pch/cpp/Prefix.pch:
+	mkdir -p $(ROOT_DIR)/pch/cpp
+	cp -p $(ROOT_DIR)/Prefix.pch $(ROOT_DIR)/pch/cpp/Prefix.pch
 
-%.o: %.cpp
-	$(CXX) -x c++ $(CXXFLAGS) -include $(ROOT_DIR)/Prefix.hpp -MMD -MP $< -o $@
+.PHONY: $(ROOT_DIR)/pch/objcpp/Prefix.pch
+$(ROOT_DIR)/pch/objcpp/Prefix.pch:
+	mkdir -p $(ROOT_DIR)/pch/objcpp
+	cp -p $(ROOT_DIR)/Prefix.pch $(ROOT_DIR)/pch/objcpp/Prefix.pch
 
-%.o: %.mm
-	$(CXX) -x objective-c++ -fno-objc-arc $(CXXFLAGS) -MMD -MP $< -o $@
+.PHONY: $(ROOT_DIR)/pch/objc/Prefix.pch
+$(ROOT_DIR)/pch/objc/Prefix.pch:
+	mkdir -p $(ROOT_DIR)/pch/objc
+	cp -p $(ROOT_DIR)/Prefix.pch $(ROOT_DIR)/pch/objc/Prefix.pch
 
-%.o: %.m
-	$(CC) -x objective-c -fno-objc-arc $(CFLAGS) -MMD -MP $< -o $@
+$(ROOT_DIR)/pch/cpp/Prefix.pch.gch: $(ROOT_DIR)/pch/cpp/Prefix.pch
+	$(CXX) -x c++-header $(CXXFLAGS) $< -o $(ROOT_DIR)/pch/cpp/Prefix.pch.gch
+
+$(ROOT_DIR)/pch/objcpp/Prefix.pch.gch: $(ROOT_DIR)/pch/objcpp/Prefix.pch
+	$(CXX) -x objective-c++-header -fno-objc-arc $(CXXFLAGS) $< -o $(ROOT_DIR)/pch/objcpp/Prefix.pch.gch
+
+$(ROOT_DIR)/pch/objc/Prefix.pch.gch: $(ROOT_DIR)/pch/objc/Prefix.pch
+	$(CC) -x objective-c-header -fno-objc-arc $(CFLAGS) $< -o $(ROOT_DIR)/pch/objc/Prefix.pch.gch
+
+%.o: %.cpp $(ROOT_DIR)/pch/cpp/Prefix.pch.gch $(ROOT_DIR)/../ouzel/Config.h
+	$(CXX) -x c++ $(CXXFLAGS) -include $(ROOT_DIR)/pch/cpp/Prefix.pch -MMD -MP $< -o $@
+
+%.o: %.mm $(ROOT_DIR)/pch/objcpp/Prefix.pch.gch $(ROOT_DIR)/../ouzel/Config.h
+	$(CXX) -x objective-c++ -fno-objc-arc $(CXXFLAGS) -include $(ROOT_DIR)/pch/objcpp/Prefix.pch -MMD -MP $< -o $@
+
+%.o: %.m $(ROOT_DIR)/pch/objc/Prefix.pch.gch $(ROOT_DIR)/../ouzel/Config.h
+	$(CC) -x objective-c -fno-objc-arc $(CFLAGS) -include $(ROOT_DIR)/pch/objc/Prefix.pch -MMD -MP $< -o $@
 
 .PHONY: clean
 clean:
 ifeq ($(platform),windows)
 	-del /f /q "$(ROOT_DIR)\$(LIBRARY)"
-	-del /f /q "$(ROOT_DIR)\Prefix.hpp.gch"
+	-del /s "$(ROOT_DIR)\*.gch"
 	-del /s "$(ROOT_DIR)\..\*.o"
 	-del /s "$(ROOT_DIR)\..\*.d"
 else
-	$(RM) $(ROOT_DIR)/$(LIBRARY)
-	$(RM) $(ROOT_DIR)/Prefix.hpp.gch
+	$(RM) $(ROOT_DIR)/$(LIBRARY) $(ROOT_DIR)/Prefix.cpp.pch $(ROOT_DIR)/Prefix.objc.pch $(ROOT_DIR)/Prefix.objcpp.pch
+	$(RM) -rf $(ROOT_DIR)/pch
 	find $(ROOT_DIR)/.. -name '*.o' -type f -delete
 	find $(ROOT_DIR)/.. -name '*.d' -type f -delete
 endif
