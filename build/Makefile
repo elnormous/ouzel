@@ -314,18 +314,36 @@ endif
 
 .PHONY: $(ROOT_DIR)/pch/cpp/Prefix.pch
 $(ROOT_DIR)/pch/cpp/Prefix.pch:
+ifeq ($(platform),windows)
+	if not exist $(ROOT_DIR)\pch md $(ROOT_DIR)\pch
+	if not exist $(ROOT_DIR)\pch\cpp md $(ROOT_DIR)\pch\cpp
+	copy $(ROOT_DIR)\Prefix.pch $(ROOT_DIR)\pch\cpp\Prefix.pch
+else
 	mkdir -p $(ROOT_DIR)/pch/cpp
 	cp -p $(ROOT_DIR)/Prefix.pch $(ROOT_DIR)/pch/cpp/Prefix.pch
+endif
 
 .PHONY: $(ROOT_DIR)/pch/objcpp/Prefix.pch
 $(ROOT_DIR)/pch/objcpp/Prefix.pch:
+ifeq ($(platform),windows)
+	if not exist $(ROOT_DIR)\pch md $(ROOT_DIR)\pch
+	if not exist $(ROOT_DIR)\pch\objcpp md $(ROOT_DIR)\pch\objcpp
+	copy $(ROOT_DIR)\Prefix.pch $(ROOT_DIR)\pch\objcpp\Prefix.pch
+else
 	mkdir -p $(ROOT_DIR)/pch/objcpp
 	cp -p $(ROOT_DIR)/Prefix.pch $(ROOT_DIR)/pch/objcpp/Prefix.pch
+endif
 
 .PHONY: $(ROOT_DIR)/pch/objc/Prefix.pch
 $(ROOT_DIR)/pch/objc/Prefix.pch:
+ifeq ($(platform),windows)
+	if not exist $(ROOT_DIR)\pch md $(ROOT_DIR)\pch
+	if not exist $(ROOT_DIR)\pch\objc md $(ROOT_DIR)\pch\objc
+	copy $(ROOT_DIR)\Prefix.pch $(ROOT_DIR)\pch\objc\Prefix.pch
+else
 	mkdir -p $(ROOT_DIR)/pch/objc
 	cp -p $(ROOT_DIR)/Prefix.pch $(ROOT_DIR)/pch/objc/Prefix.pch
+endif
 
 $(ROOT_DIR)/pch/cpp/Prefix.pch.gch: $(ROOT_DIR)/pch/cpp/Prefix.pch
 	$(CXX) -x c++-header $(CXXFLAGS) $< -o $(ROOT_DIR)/pch/cpp/Prefix.pch.gch
@@ -349,7 +367,7 @@ $(ROOT_DIR)/pch/objc/Prefix.pch.gch: $(ROOT_DIR)/pch/objc/Prefix.pch
 clean:
 ifeq ($(platform),windows)
 	-del /f /q "$(ROOT_DIR)\$(LIBRARY)"
-	-del /s "$(ROOT_DIR)\*.gch"
+	-rmdir /s $(ROOT_DIR)\pch
 	-del /s "$(ROOT_DIR)\..\*.o"
 	-del /s "$(ROOT_DIR)\..\*.d"
 else
