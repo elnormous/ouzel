@@ -312,37 +312,34 @@ else
 	fi
 endif
 
-.PHONY: $(ROOT_DIR)/pch/cpp/Prefix.pch
-$(ROOT_DIR)/pch/cpp/Prefix.pch:
+$(ROOT_DIR)/pch/cpp/Prefix.pch: $(ROOT_DIR)/Prefix.pch
 ifeq ($(platform),windows)
 	if not exist $(ROOT_DIR)\pch md $(ROOT_DIR)\pch
 	if not exist $(ROOT_DIR)\pch\cpp md $(ROOT_DIR)\pch\cpp
 	copy $(ROOT_DIR)\Prefix.pch $(ROOT_DIR)\pch\cpp\Prefix.pch
 else
 	mkdir -p $(ROOT_DIR)/pch/cpp
-	cp -p $(ROOT_DIR)/Prefix.pch $(ROOT_DIR)/pch/cpp/Prefix.pch
+	cp $(ROOT_DIR)/Prefix.pch $(ROOT_DIR)/pch/cpp/Prefix.pch
 endif
 
-.PHONY: $(ROOT_DIR)/pch/objcpp/Prefix.pch
-$(ROOT_DIR)/pch/objcpp/Prefix.pch:
+$(ROOT_DIR)/pch/objcpp/Prefix.pch: $(ROOT_DIR)/Prefix.pch
 ifeq ($(platform),windows)
 	if not exist $(ROOT_DIR)\pch md $(ROOT_DIR)\pch
 	if not exist $(ROOT_DIR)\pch\objcpp md $(ROOT_DIR)\pch\objcpp
 	copy $(ROOT_DIR)\Prefix.pch $(ROOT_DIR)\pch\objcpp\Prefix.pch
 else
 	mkdir -p $(ROOT_DIR)/pch/objcpp
-	cp -p $(ROOT_DIR)/Prefix.pch $(ROOT_DIR)/pch/objcpp/Prefix.pch
+	cp $(ROOT_DIR)/Prefix.pch $(ROOT_DIR)/pch/objcpp/Prefix.pch
 endif
 
-.PHONY: $(ROOT_DIR)/pch/objc/Prefix.pch
-$(ROOT_DIR)/pch/objc/Prefix.pch:
+$(ROOT_DIR)/pch/objc/Prefix.pch: $(ROOT_DIR)/Prefix.pch
 ifeq ($(platform),windows)
 	if not exist $(ROOT_DIR)\pch md $(ROOT_DIR)\pch
 	if not exist $(ROOT_DIR)\pch\objc md $(ROOT_DIR)\pch\objc
 	copy $(ROOT_DIR)\Prefix.pch $(ROOT_DIR)\pch\objc\Prefix.pch
 else
 	mkdir -p $(ROOT_DIR)/pch/objc
-	cp -p $(ROOT_DIR)/Prefix.pch $(ROOT_DIR)/pch/objc/Prefix.pch
+	cp $(ROOT_DIR)/Prefix.pch $(ROOT_DIR)/pch/objc/Prefix.pch
 endif
 
 $(ROOT_DIR)/pch/cpp/Prefix.pch.gch: $(ROOT_DIR)/pch/cpp/Prefix.pch
