@@ -3,7 +3,8 @@
 #ifndef OUZEL_VIEWTVOS_H
 #define OUZEL_VIEWTVOS_H
 
-#import <UIKit/UIKit.h>
+#import <UIKit/UIView.h>
+#import <UIKit/UITextInput.h>
 
 @interface ViewTVOS: UIView<UIKeyInput>
 

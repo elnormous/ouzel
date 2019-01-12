@@ -3,7 +3,7 @@
 #ifndef OUZEL_VIEWIOS_H
 #define OUZEL_VIEWIOS_H
 
-#import <UIKit/UIKit.h>
+#import <UIKit/UIView.h>
 
 @interface ViewIOS: UIView
 
