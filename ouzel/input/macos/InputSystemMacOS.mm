@@ -1,6 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#import <objc/message.h>
+#include <objc/message.h>
 #include "InputSystemMacOS.hpp"
 #include "CursorMacOS.hpp"
 #include "core/macos/NativeWindowMacOS.hpp"
