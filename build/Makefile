@@ -10,20 +10,19 @@ platform=linux
 else ifeq ($(os),Darwin)
 platform=macos
 endif
-
 endif
 ifeq ($(platform),emscripten)
 CC=emcc
 CXX=em++
 AR=emar
 endif
-CXXFLAGS=-c -std=c++11 -Wall \
+CXXFLAGS=-std=c++11 -Wall \
 	-I"$(ROOT_DIR)/../ouzel" \
 	-I"$(ROOT_DIR)/../shaders" \
 	-I"$(ROOT_DIR)/../external/khronos" \
 	-I"$(ROOT_DIR)/../external/smbPitchShift" \
 	-I"$(ROOT_DIR)/../external/stb"
-CFLAGS=-c -Wall \
+CFLAGS=-Wall \
 	-I"$(ROOT_DIR)/../ouzel"
 SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/animators/Ease.cpp \
@@ -290,8 +289,9 @@ DEPENDENCIES=$(OBJECTS:.o=.d)
 
 .PHONY: all
 ifeq ($(debug),1)
-all: CXXFLAGS+=-DDEBUG -g
-all: CFLAGS+=-DDEBUG -g
+all: CPPFLAGS+=-DDEBUG # C preprocessor flags
+all: CXXFLAGS+=-g # C++ flags
+all: CFLAGS+=-g # C flags
 else
 all: CXXFLAGS+=-O3
 all: CFLAGS+=-O3
@@ -303,6 +303,7 @@ $(ROOT_DIR)/$(LIBRARY): $(OBJECTS)
 
 -include $(DEPENDENCIES)
 
+# The build config file
 $(ROOT_DIR)/../ouzel/Config.h:
 ifeq ($(platform),windows)
 	if not exist $(ROOT_DIR)\..\ouzel\Config.h copy $(ROOT_DIR)\..\ouzel\DefaultConfig.h $(ROOT_DIR)\..\ouzel\Config.h
@@ -312,6 +313,7 @@ else
 	fi
 endif
 
+# Precompiled headers
 $(ROOT_DIR)/pch/cpp/Prefix.pch: $(ROOT_DIR)/Prefix.pch
 ifeq ($(platform),windows)
 	if not exist $(ROOT_DIR)\pch md $(ROOT_DIR)\pch
@@ -343,22 +345,23 @@ else
 endif
 
 $(ROOT_DIR)/pch/cpp/Prefix.pch.gch: $(ROOT_DIR)/pch/cpp/Prefix.pch
-	$(CXX) -x c++-header $(CXXFLAGS) $< -o $(ROOT_DIR)/pch/cpp/Prefix.pch.gch
+	$(CXX) -c -x c++-header $(CPPFLAGS) $(CXXFLAGS) $< -o $(ROOT_DIR)/pch/cpp/Prefix.pch.gch
 
 $(ROOT_DIR)/pch/objcpp/Prefix.pch.gch: $(ROOT_DIR)/pch/objcpp/Prefix.pch
-	$(CXX) -x objective-c++-header -fno-objc-arc $(CXXFLAGS) $< -o $(ROOT_DIR)/pch/objcpp/Prefix.pch.gch
+	$(CXX) -c -x objective-c++-header -fno-objc-arc $(CPPFLAGS) $(CXXFLAGS) $< -o $(ROOT_DIR)/pch/objcpp/Prefix.pch.gch
 
 $(ROOT_DIR)/pch/objc/Prefix.pch.gch: $(ROOT_DIR)/pch/objc/Prefix.pch
-	$(CC) -x objective-c-header -fno-objc-arc $(CFLAGS) $< -o $(ROOT_DIR)/pch/objc/Prefix.pch.gch
+	$(CC) -c -x objective-c-header -fno-objc-arc $(CPPFLAGS) $(CFLAGS) $< -o $(ROOT_DIR)/pch/objc/Prefix.pch.gch
 
+# Source files
 %.o: %.cpp $(ROOT_DIR)/pch/cpp/Prefix.pch.gch $(ROOT_DIR)/../ouzel/Config.h
-	$(CXX) -x c++ $(CXXFLAGS) -include $(ROOT_DIR)/pch/cpp/Prefix.pch -MMD -MP $< -o $@
+	$(CXX) -c -x c++ $(CPPFLAGS) $(CXXFLAGS) -include $(ROOT_DIR)/pch/cpp/Prefix.pch -MMD -MP $< -o $@
 
 %.o: %.mm $(ROOT_DIR)/pch/objcpp/Prefix.pch.gch $(ROOT_DIR)/../ouzel/Config.h
-	$(CXX) -x objective-c++ -fno-objc-arc $(CXXFLAGS) -include $(ROOT_DIR)/pch/objcpp/Prefix.pch -MMD -MP $< -o $@
+	$(CXX) -c -x objective-c++ -fno-objc-arc $(CPPFLAGS) $(CXXFLAGS) -include $(ROOT_DIR)/pch/objcpp/Prefix.pch -MMD -MP $< -o $@
 
 %.o: %.m $(ROOT_DIR)/pch/objc/Prefix.pch.gch $(ROOT_DIR)/../ouzel/Config.h
-	$(CC) -x objective-c -fno-objc-arc $(CFLAGS) -include $(ROOT_DIR)/pch/objc/Prefix.pch -MMD -MP $< -o $@
+	$(CC) -c -x objective-c -fno-objc-arc $(CPPFLAGS) $(CFLAGS) -include $(ROOT_DIR)/pch/objc/Prefix.pch -MMD -MP $< -o $@
 
 .PHONY: clean
 clean:
