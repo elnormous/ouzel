@@ -181,7 +181,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/dsound/DSAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/KeyboardDeviceWin.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/MouseDeviceWin.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/CursorWin.cpp
-CXXFLAGS+=-DWINVER=0x0601 -D_WIN32_WINNT=0x0601
+CPPFLAGS+=-DWINVER=0x0601 -D_WIN32_WINNT=0x0601
 else ifeq ($(platform),linux)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/alsa/ALSAAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/audio/openal/OALAudioDevice.cpp \
