@@ -30,7 +30,8 @@ namespace ouzel
                     {
                         SOURCE_STARTED,
                         SOURCE_RESET,
-                        SOURCE_STOPPED
+                        SOURCE_STOPPED,
+                        STARVATION
                     };
 
                     Event() {}
