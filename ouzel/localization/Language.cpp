@@ -3,7 +3,6 @@
 #include <stdexcept>
 #include <vector>
 #include "Language.hpp"
-#include "utils/Utils.hpp"
 
 namespace ouzel
 {
@@ -29,12 +28,22 @@ namespace ouzel
         uint32_t magic = *reinterpret_cast<const uint32_t*>(data.data() + offset);
         offset += sizeof(magic);
 
-        uint32_t (*decodeUInt32)(const void*) = nullptr;
+        std::function<uint32_t(const uint8_t*)> decodeUInt32;
 
         if (magic == MAGIC_BIG)
-            decodeUInt32 = decodeBigEndian<uint32_t>;
+            decodeUInt32 = [](const uint8_t* bytes) {
+                return static_cast<uint32_t>(bytes[3] |
+                                             (bytes[2] << 8) |
+                                             (bytes[1] << 16) |
+                                             (bytes[0] << 24));
+            };
         else if (magic == MAGIC_LITTLE)
-            decodeUInt32 = decodeLittleEndian<uint32_t>;
+            decodeUInt32 = [](const uint8_t* bytes) {
+                return static_cast<uint32_t>(bytes[0] |
+                                             (bytes[1] << 8) |
+                                             (bytes[2] << 16) |
+                                             (bytes[3] << 24));
+            };
         else
             throw std::runtime_error("Wrong magic " + std::to_string(magic));
 
