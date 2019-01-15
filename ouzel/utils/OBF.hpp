@@ -429,8 +429,11 @@ namespace ouzel
 
         private:
             Type type = Type::NONE;
-            uint64_t intValue = 0;
-            double doubleValue = 0.0;
+            union
+            {
+                uint64_t intValue = 0;
+                double doubleValue;
+            };
             std::string stringValue;
             ByteArray byteArrayValue;
             Object objectValue;
