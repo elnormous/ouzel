@@ -338,7 +338,7 @@ namespace ouzel
 
         void Renderer::addCommand(std::unique_ptr<Command>&& command)
         {
-            commandBuffer.commands.push(std::forward<std::unique_ptr<Command>>(command));
+            commandBuffer.pushCommand(std::move(command));
         }
 
         void Renderer::waitForNextFrame()

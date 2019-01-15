@@ -76,7 +76,7 @@ namespace ouzel
         {
             running = false;
             CommandBuffer commandBuffer;
-            commandBuffer.commands.push(std::unique_ptr<Command>(new PresentCommand()));
+            commandBuffer.pushCommand(std::unique_ptr<Command>(new PresentCommand()));
             submitCommandBuffer(std::move(commandBuffer));
 
             if (renderThread.joinable()) renderThread.join();
@@ -387,10 +387,9 @@ namespace ouzel
 
                 std::unique_ptr<Command> command;
 
-                while (!commandBuffer.commands.empty())
+                while (!commandBuffer.isEmpty())
                 {
-                    command = std::move(commandBuffer.commands.front());
-                    commandBuffer.commands.pop();
+                    command = std::move(commandBuffer.popCommand());
 
                     switch (command->type)
                     {
