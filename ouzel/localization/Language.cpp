@@ -32,9 +32,9 @@ namespace ouzel
         uint32_t (*decodeUInt32)(const void*) = nullptr;
 
         if (magic == MAGIC_BIG)
-            decodeUInt32 = decodeUInt32Big;
+            decodeUInt32 = decodeBigEndian<uint32_t>;
         else if (magic == MAGIC_LITTLE)
-            decodeUInt32 = decodeUInt32Little;
+            decodeUInt32 = decodeLittleEndian<uint32_t>;
         else
             throw std::runtime_error("Wrong magic " + std::to_string(magic));
 

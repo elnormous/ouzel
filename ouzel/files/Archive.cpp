@@ -20,10 +20,10 @@ namespace ouzel
 
             file.read(&signature, sizeof(signature), true);
 
-            if (decodeUInt32Little(&signature) == 0x02014b50) // central directory
+            if (decodeLittleEndian<uint32_t>(&signature) == 0x02014b50) // central directory
                 break;
 
-            if (decodeUInt32Little(&signature) != 0x04034b50)
+            if (decodeLittleEndian<uint32_t>(&signature) != 0x04034b50)
                 throw std::runtime_error("Bad signature");
 
             uint8_t version[2];
@@ -55,20 +55,20 @@ namespace ouzel
             uint16_t extraFieldLength;
             file.read(&extraFieldLength, sizeof(extraFieldLength), true);
 
-            std::vector<char> name(decodeUInt16Little(&fileNameLength) + 1);
+            std::vector<char> name(decodeLittleEndian<uint16_t>(&fileNameLength) + 1);
 
-            file.read(name.data(), decodeUInt16Little(&fileNameLength), true);
+            file.read(name.data(), decodeLittleEndian<uint16_t>(&fileNameLength), true);
 
-            name[decodeUInt16Little(&fileNameLength)] = '\0';
+            name[decodeLittleEndian<uint16_t>(&fileNameLength)] = '\0';
 
             Entry& entry = entries[name.data()];
-            entry.size = decodeUInt32Little(&uncompressedSize);
+            entry.size = decodeLittleEndian<uint32_t>(&uncompressedSize);
 
-            file.seek(decodeUInt16Little(&extraFieldLength), File::CURRENT); // skip extra field
+            file.seek(decodeLittleEndian<uint16_t>(&extraFieldLength), File::CURRENT); // skip extra field
 
             entry.offset = file.getOffset();
 
-            file.seek(decodeInt32Little(&uncompressedSize), File::CURRENT); // skip uncompressed size
+            file.seek(static_cast<int32_t>(decodeLittleEndian<uint32_t>(&uncompressedSize)), File::CURRENT); // skip uncompressed size
         }
     }
 
