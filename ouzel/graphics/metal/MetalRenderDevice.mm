@@ -341,10 +341,9 @@ namespace ouzel
 
                 std::unique_ptr<Command> command;
 
-                while (!commandBuffer.commands.empty())
+                while (!commandBuffer.isEmpty())
                 {
-                    command = std::move(commandBuffer.commands.front());
-                    commandBuffer.commands.pop();
+                    command = std::move(commandBuffer.popCommand());
 
                     switch (command->type)
                     {

@@ -558,6 +558,34 @@ namespace ouzel
         class CommandBuffer
         {
         public:
+            CommandBuffer() {}
+            CommandBuffer(const std::string& initName):
+                name(initName)
+            {
+            }
+
+            inline const std::string& getName() const { return name; }
+
+            inline bool isEmpty() const { return commands.empty(); }
+
+            inline void pushCommand(std::unique_ptr<Command>&& command)
+            {
+                commands.push(std::move(command));
+            }
+
+            inline std::unique_ptr<Command> popCommand()
+            {
+                std::unique_ptr<Command> result = std::move(commands.front());
+                commands.pop();
+                return result;
+            }
+
+            inline const std::queue<std::unique_ptr<Command>>& getCommands() const
+            {
+                return commands;
+            }
+
+        private:
             std::string name;
             std::queue<std::unique_ptr<Command>> commands;
         };
