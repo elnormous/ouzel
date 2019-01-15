@@ -24,7 +24,7 @@ namespace ouzel
             if (buffer.size() - offset < sizeof(result))
                 throw std::runtime_error("Not enough data");
 
-            result = decodeUInt16Big(buffer.data() + offset);
+            result = decodeBigEndian<uint16_t>(buffer.data() + offset);
 
             return sizeof(result);
         }
@@ -34,7 +34,7 @@ namespace ouzel
             if (buffer.size() - offset < sizeof(result))
                 throw std::runtime_error("Not enough data");
 
-            result = decodeUInt32Big(buffer.data() + offset);
+            result = decodeBigEndian<uint32_t>(buffer.data() + offset);
 
             return sizeof(result);
         }
@@ -44,7 +44,7 @@ namespace ouzel
             if (buffer.size() - offset < sizeof(result))
                 throw std::runtime_error("Not enough data");
 
-            result = decodeUInt64Big(buffer.data() + offset);
+            result = decodeBigEndian<uint64_t>(buffer.data() + offset);
 
             return sizeof(result);
         }
@@ -76,7 +76,7 @@ namespace ouzel
             if (buffer.size() - offset < sizeof(uint16_t))
                 throw std::runtime_error("Not enough data");
 
-            uint16_t length = decodeUInt16Big(buffer.data() + offset);
+            uint16_t length = decodeBigEndian<uint16_t>(buffer.data() + offset);
 
             offset += sizeof(length);
 
@@ -96,7 +96,7 @@ namespace ouzel
             if (buffer.size() - offset < sizeof(uint32_t))
                 throw std::runtime_error("Not enough data");
 
-            uint32_t length = decodeUInt32Big(buffer.data() + offset);
+            uint32_t length = decodeBigEndian<uint32_t>(buffer.data() + offset);
 
             offset += sizeof(length);
 
@@ -116,7 +116,7 @@ namespace ouzel
             if (buffer.size() - offset < sizeof(uint32_t))
                 throw std::runtime_error("Not enough data");
 
-            uint32_t length = decodeUInt32Big(buffer.data() + offset);
+            uint32_t length = decodeBigEndian<uint32_t>(buffer.data() + offset);
 
             offset += sizeof(length);
 
@@ -137,7 +137,7 @@ namespace ouzel
             if (buffer.size() - offset < sizeof(uint32_t))
                 throw std::runtime_error("Not enough data");
 
-            uint32_t count = decodeUInt32Big(buffer.data() + offset);
+            uint32_t count = decodeBigEndian<uint32_t>(buffer.data() + offset);
 
             offset += sizeof(count);
 
@@ -146,7 +146,7 @@ namespace ouzel
                 if (buffer.size() - offset < sizeof(uint32_t))
                     throw std::runtime_error("Not enough data");
 
-                uint32_t key = decodeUInt32Big(buffer.data() + offset);
+                uint32_t key = decodeBigEndian<uint32_t>(buffer.data() + offset);
 
                 offset += sizeof(key);
 
@@ -169,7 +169,7 @@ namespace ouzel
             if (buffer.size() - offset < sizeof(uint32_t))
                 throw std::runtime_error("Not enough data");
 
-            uint32_t count = decodeUInt32Big(buffer.data() + offset);
+            uint32_t count = decodeBigEndian<uint32_t>(buffer.data() + offset);
 
             offset += sizeof(count);
 
@@ -193,7 +193,7 @@ namespace ouzel
             if (buffer.size() - offset < sizeof(uint32_t))
                 throw std::runtime_error("Not enough data");
 
-            uint32_t count = decodeUInt32Big(buffer.data() + offset);
+            uint32_t count = decodeBigEndian<uint32_t>(buffer.data() + offset);
 
             offset += sizeof(count);
 
@@ -202,7 +202,7 @@ namespace ouzel
                 if (buffer.size() - offset < sizeof(uint16_t))
                     throw std::runtime_error("Not enough data");
 
-                uint16_t length = decodeUInt16Big(buffer.data() + offset);
+                uint16_t length = decodeBigEndian<uint16_t>(buffer.data() + offset);
 
                 offset += sizeof(length);
 
@@ -236,7 +236,7 @@ namespace ouzel
         {
             uint8_t data[sizeof(value)];
 
-            encodeUInt16Big(data, value);
+            encodeBigEndian<uint16_t>(data, value);
 
             buffer.insert(buffer.end(), std::begin(data), std::end(data));
 
@@ -247,7 +247,7 @@ namespace ouzel
         {
             uint8_t data[sizeof(value)];
 
-            encodeUInt32Big(data, value);
+            encodeBigEndian<uint32_t>(data, value);
 
             buffer.insert(buffer.end(), std::begin(data), std::end(data));
 
@@ -258,7 +258,7 @@ namespace ouzel
         {
             uint8_t data[sizeof(value)];
 
-            encodeUInt64Big(data, value);
+            encodeBigEndian<uint64_t>(data, value);
 
             buffer.insert(buffer.end(), std::begin(data), std::end(data));
 
@@ -287,7 +287,7 @@ namespace ouzel
         {
             uint8_t lengthData[sizeof(uint16_t)];
 
-            encodeUInt16Big(lengthData, static_cast<uint16_t>(value.length()));
+            encodeBigEndian<uint16_t>(lengthData, static_cast<uint16_t>(value.length()));
 
             buffer.insert(buffer.end(), std::begin(lengthData), std::end(lengthData));
 
@@ -305,7 +305,7 @@ namespace ouzel
         {
             uint8_t lengthData[sizeof(uint32_t)];
 
-            encodeUInt32Big(lengthData, static_cast<uint32_t>(value.length()));
+            encodeBigEndian<uint32_t>(lengthData, static_cast<uint32_t>(value.length()));
 
             buffer.insert(buffer.end(), std::begin(lengthData), std::end(lengthData));
 
@@ -323,7 +323,7 @@ namespace ouzel
         {
             uint8_t lengthData[sizeof(uint32_t)];
 
-            encodeUInt32Big(lengthData, static_cast<uint32_t>(value.size()));
+            encodeBigEndian<uint32_t>(lengthData, static_cast<uint32_t>(value.size()));
 
             buffer.insert(buffer.end(), std::begin(lengthData), std::end(lengthData));
 
@@ -339,7 +339,7 @@ namespace ouzel
         {
             uint8_t lengthData[sizeof(uint32_t)];
 
-            encodeUInt32Big(lengthData, static_cast<uint32_t>(value.size()));
+            encodeBigEndian<uint32_t>(lengthData, static_cast<uint32_t>(value.size()));
 
             buffer.insert(buffer.end(), std::begin(lengthData), std::end(lengthData));
 
@@ -349,7 +349,7 @@ namespace ouzel
             {
                 uint8_t keyData[sizeof(uint32_t)];
 
-                encodeUInt32Big(keyData, i.first);
+                encodeBigEndian<uint32_t>(keyData, i.first);
 
                 buffer.insert(buffer.end(), std::begin(keyData), std::end(keyData));
 
@@ -365,7 +365,7 @@ namespace ouzel
         {
             uint8_t lengthData[sizeof(uint32_t)];
 
-            encodeUInt32Big(lengthData, static_cast<uint32_t>(value.size()));
+            encodeBigEndian<uint32_t>(lengthData, static_cast<uint32_t>(value.size()));
 
             buffer.insert(buffer.end(), std::begin(lengthData), std::end(lengthData));
 
@@ -381,7 +381,7 @@ namespace ouzel
         {
             uint8_t sizeData[sizeof(uint32_t)];
 
-            encodeUInt32Big(sizeData, static_cast<uint32_t>(value.size()));
+            encodeBigEndian<uint32_t>(sizeData, static_cast<uint32_t>(value.size()));
 
             buffer.insert(buffer.end(), std::begin(sizeData), std::end(sizeData));
 
@@ -391,7 +391,7 @@ namespace ouzel
             {
                 uint8_t lengthData[sizeof(uint16_t)];
 
-                encodeUInt16Big(lengthData, static_cast<uint16_t>(i.first.length()));
+                encodeBigEndian<uint16_t>(lengthData, static_cast<uint16_t>(i.first.length()));
 
                 buffer.insert(buffer.end(), std::begin(lengthData), std::end(lengthData));
 
