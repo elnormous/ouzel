@@ -112,8 +112,6 @@ namespace ouzel
 
         void OGLBuffer::createBuffer()
         {
-            if (bufferId) renderDevice.deleteBuffer(bufferId);
-
             glGenBuffersProc(1, &bufferId);
 
             GLenum error;
