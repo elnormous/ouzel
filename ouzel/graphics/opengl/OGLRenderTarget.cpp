@@ -14,10 +14,18 @@ namespace ouzel
         OGLRenderTarget::OGLRenderTarget(OGLRenderDevice& renderDeviceOGL):
             OGLRenderResource(renderDeviceOGL)
         {
+            glGenFramebuffersProc(1, &frameBufferId);
+        }
+
+        OGLRenderTarget::~OGLRenderTarget()
+        {
+            if (frameBufferId)
+                renderDevice.deleteFrameBuffer(frameBufferId);
         }
 
         void OGLRenderTarget::reload()
         {
+            glGenFramebuffersProc(1, &frameBufferId);
         }
     } // namespace graphics
 } // namespace ouzel

@@ -7,6 +7,16 @@
 
 #if OUZEL_COMPILE_OPENGL
 
+#if OUZEL_SUPPORTS_OPENGLES
+#  include "GLES/gl.h"
+#  include "GLES2/gl2.h"
+#  include "GLES2/gl2ext.h"
+#  include "GLES3/gl3.h"
+#else
+#  include "GL/glcorearb.h"
+#  include "GL/glext.h"
+#endif
+
 #include "graphics/opengl/OGLRenderResource.hpp"
 
 namespace ouzel
@@ -19,8 +29,14 @@ namespace ouzel
         {
         public:
             explicit OGLRenderTarget(OGLRenderDevice& renderDeviceOGL);
+            ~OGLRenderTarget();
 
             void reload() override;
+
+            inline GLuint getFrameBufferId() const { return frameBufferId; }
+
+        private:
+            GLuint frameBufferId = 0;
         };
     } // namespace graphics
 } // namespace ouzel

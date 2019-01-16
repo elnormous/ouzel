@@ -12,8 +12,16 @@ namespace ouzel
     namespace graphics
     {
         MetalRenderTarget::MetalRenderTarget(MetalRenderDevice& renderDeviceMetal):
-            MetalRenderResource(renderDeviceMetal)
+            MetalRenderResource(renderDeviceMetal),
+            colorBufferLoadAction(MTLLoadActionDontCare),
+            depthBufferLoadAction(MTLLoadActionDontCare)
         {
+        }
+
+        MetalRenderTarget::~MetalRenderTarget()
+        {
+            if (renderPassDescriptor)
+                [renderPassDescriptor release];
         }
     } // namespace graphics
 } // namespace ouzel
