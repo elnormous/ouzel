@@ -36,9 +36,9 @@ namespace ouzel
         public:
             D3D11Texture(D3D11RenderDevice& renderDeviceD3D11,
                          const std::vector<Texture::Level>& levels,
-                         uint32_t newFlags = 0,
-                         uint32_t newSampleCount = 1,
-                         PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
+                         uint32_t initFlags = 0,
+                         uint32_t initSampleCount = 1,
+                         PixelFormat initPixelFormat = PixelFormat::RGBA8_UNORM);
             ~D3D11Texture();
 
             void setData(const std::vector<Texture::Level>& levels);
@@ -51,6 +51,8 @@ namespace ouzel
             void setClearColor(Color color);
             void setClearDepth(float newClearDepth);
 
+            void resolve();
+
             inline uint32_t getFlags() const { return flags; }
             inline uint32_t getMipmaps() const { return mipmaps; }
 
@@ -59,7 +61,6 @@ namespace ouzel
             inline Color getClearColor() const { return clearColor; }
             inline float getClearDepth() const { return clearDepth; }
             inline uint32_t getSampleCount() const { return sampleCount; }
-            inline PixelFormat getPixelFormat() const { return pixelFormat; }
 
             ID3D11Texture2D* getTexture() const { return texture; }
             ID3D11ShaderResourceView* getResourceView() const { return resourceView; }
@@ -88,10 +89,12 @@ namespace ouzel
             Color clearColor;
             float clearDepth = 1.0F;
             uint32_t sampleCount = 1;
-            PixelFormat pixelFormat = PixelFormat::RGBA8_UNORM;
+            DXGI_FORMAT pixelFormat = DXGI_FORMAT_UNKNOWN;
+            uint32_t pixelSize = 0;
             SamplerStateDesc samplerDescriptor;
 
             ID3D11Texture2D* texture = nullptr;
+            ID3D11Texture2D* msaaTexture = nullptr;
             ID3D11ShaderResourceView* resourceView = nullptr;
             ID3D11SamplerState* samplerState = nullptr;
 

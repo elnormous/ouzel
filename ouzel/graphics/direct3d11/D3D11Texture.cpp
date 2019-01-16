@@ -50,17 +50,21 @@ namespace ouzel
 
         D3D11Texture::D3D11Texture(D3D11RenderDevice& renderDeviceD3D11,
                                    const std::vector<Texture::Level>& levels,
-                                   uint32_t newFlags,
-                                   uint32_t newSampleCount,
-                                   PixelFormat newPixelFormat):
+                                   uint32_t initFlags,
+                                   uint32_t initSampleCount,
+                                   PixelFormat initPixelFormat):
             D3D11RenderResource(renderDeviceD3D11),
-            flags(newFlags),
+            flags(initFlags),
             mipmaps(static_cast<uint32_t>(levels.size())),
-            sampleCount(newSampleCount),
-            pixelFormat(newPixelFormat)
+            sampleCount(initSampleCount),
+            pixelFormat(getD3D11PixelFormat(initPixelFormat)),
+            pixelSize(getPixelSize(initPixelFormat))
         {
             if ((flags & Texture::RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
                 throw std::runtime_error("Invalid mip map count");
+
+            if (pixelFormat == DXGI_FORMAT_UNKNOWN)
+                throw std::runtime_error("Invalid pixel format");
 
             createTexture(levels);
 
@@ -105,6 +109,9 @@ namespace ouzel
 
             if (resourceView)
                 resourceView->Release();
+
+            if (msaaTexture)
+                msaaTexture->Release();
 
             if (texture)
                 texture->Release();
@@ -152,7 +159,7 @@ namespace ouzel
                             else
                             {
                                 auto source = levels[level].data.begin();
-                                UINT rowSize = static_cast<UINT>(levels[level].size.v[0]) * getPixelSize(pixelFormat);
+                                uint32_t rowSize = static_cast<uint32_t>(levels[level].size.v[0]) * pixelSize;
                                 UINT rows = static_cast<UINT>(levels[level].size.v[1]);
 
                                 for (UINT row = 0; row < rows; ++row)
@@ -238,10 +245,25 @@ namespace ouzel
             clearDepth = newClearDepth;
         }
 
+        void D3D11Texture::resolve()
+        {
+            if (msaaTexture)
+                renderDevice.getContext().ResolveSubresource(texture, 0, msaaTexture, 0, pixelFormat);
+        }
+
         void D3D11Texture::createTexture(const std::vector<Texture::Level>& levels)
         {
+            if (msaaTexture)
+            {
+                msaaTexture->Release();
+                msaaTexture = nullptr;
+            }
+
             if (texture)
+            {
                 texture->Release();
+                texture = nullptr;
+            }
 
             if (resourceView)
             {
@@ -272,17 +294,12 @@ namespace ouzel
 
             if (width > 0 && height > 0)
             {
-                DXGI_FORMAT d3d11PixelFormat = getD3D11PixelFormat(pixelFormat);
-
-                if (d3d11PixelFormat == DXGI_FORMAT_UNKNOWN)
-                    throw std::runtime_error("Invalid pixel format");
-
                 D3D11_TEXTURE2D_DESC textureDescriptor;
                 textureDescriptor.Width = width;
                 textureDescriptor.Height = height;
                 textureDescriptor.MipLevels = static_cast<UINT>(levels.size());
                 textureDescriptor.ArraySize = 1;
-                textureDescriptor.Format = d3d11PixelFormat;
+                textureDescriptor.Format = pixelFormat;
                 textureDescriptor.SampleDesc.Count = sampleCount;
                 textureDescriptor.SampleDesc.Quality = 0;
                 if (flags & Texture::RENDER_TARGET) textureDescriptor.Usage = D3D11_USAGE_DEFAULT;
@@ -325,7 +342,7 @@ namespace ouzel
                 }
 
                 D3D11_SHADER_RESOURCE_VIEW_DESC resourceViewDesc;
-                resourceViewDesc.Format = d3d11PixelFormat;
+                resourceViewDesc.Format = pixelFormat;
                 resourceViewDesc.ViewDimension = (sampleCount > 1) ? D3D11_SRV_DIMENSION_TEXTURE2DMS : D3D11_SRV_DIMENSION_TEXTURE2D;
                 resourceViewDesc.Texture2D.MostDetailedMip = 0;
                 resourceViewDesc.Texture2D.MipLevels = (sampleCount == 1) ? static_cast<UINT>(levels.size()) : 0;
@@ -337,7 +354,7 @@ namespace ouzel
                 if (flags & Texture::RENDER_TARGET)
                 {
                     D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
-                    renderTargetViewDesc.Format = d3d11PixelFormat;
+                    renderTargetViewDesc.Format = pixelFormat;
                     renderTargetViewDesc.ViewDimension = (sampleCount > 1) ? D3D11_RTV_DIMENSION_TEXTURE2DMS : D3D11_RTV_DIMENSION_TEXTURE2D;
 
                     if (sampleCount == 1)
