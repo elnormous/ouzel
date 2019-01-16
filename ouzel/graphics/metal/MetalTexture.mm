@@ -165,35 +165,27 @@ namespace ouzel
                 }
                 else
                     renderPassDescriptor.depthAttachment.texture = nil;
-            }
 
-            if (flags & Texture::RENDER_TARGET)
-            {
                 colorBufferLoadAction = clearColorBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
                 depthBufferLoadAction = clearDepthBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
 
-                if (renderPassDescriptor)
-                {
-                    renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.normR(),
-                                                                                            clearColor.normG(),
-                                                                                            clearColor.normB(),
-                                                                                            clearColor.normA());
+                renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.normR(),
+                                                                                        clearColor.normG(),
+                                                                                        clearColor.normB(),
+                                                                                        clearColor.normA());
 
-                    renderPassDescriptor.depthAttachment.clearDepth = clearDepth;
-                }
+                renderPassDescriptor.depthAttachment.clearDepth = clearDepth;
             }
             else
             {
                 for (size_t level = 0; level < levels.size(); ++level)
                 {
                     if (!levels[level].data.empty())
-                    {
                         [texture replaceRegion:MTLRegionMake2D(0, 0,
                                                                static_cast<NSUInteger>(levels[level].size.v[0]),
                                                                static_cast<NSUInteger>(levels[level].size.v[1]))
                                    mipmapLevel:level withBytes:levels[level].data.data()
                                    bytesPerRow:static_cast<NSUInteger>(levels[level].pitch)];
-                    }
                 }
             }
 

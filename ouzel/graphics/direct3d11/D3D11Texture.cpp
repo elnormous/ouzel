@@ -181,10 +181,7 @@ namespace ouzel
                     if (FAILED(hr = renderDevice.getDevice()->CreateDepthStencilView(depthStencilTexture, nullptr, &depthStencilView)))
                         throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 depth stencil view");
                 }
-            }
 
-            if (flags & Texture::RENDER_TARGET)
-            {
                 frameBufferClearColor[0] = clearColor.normR();
                 frameBufferClearColor[1] = clearColor.normG();
                 frameBufferClearColor[2] = clearColor.normB();
