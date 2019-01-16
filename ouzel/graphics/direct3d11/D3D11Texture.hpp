@@ -56,9 +56,6 @@ namespace ouzel
             inline uint32_t getFlags() const { return flags; }
             inline uint32_t getMipmaps() const { return mipmaps; }
 
-            inline bool getClearColorBuffer() const { return clearColorBuffer; }
-            inline bool getClearDepthBuffer() const { return clearDepthBuffer; }
-            inline Color getClearColor() const { return clearColor; }
             inline float getClearDepth() const { return clearDepth; }
             inline uint32_t getSampleCount() const { return sampleCount; }
 
@@ -83,9 +80,6 @@ namespace ouzel
 
             uint32_t flags = 0;
             uint32_t mipmaps = 0;
-            bool clearColorBuffer = true;
-            bool clearDepthBuffer = false;
-            Color clearColor;
             float clearDepth = 1.0F;
             uint32_t sampleCount = 1;
             DXGI_FORMAT pixelFormat = DXGI_FORMAT_UNKNOWN;
@@ -104,7 +98,7 @@ namespace ouzel
             ID3D11Texture2D* depthStencilTexture = nullptr;
             ID3D11DepthStencilView* depthStencilView = nullptr;
 
-            FLOAT frameBufferClearColor[4];
+            FLOAT frameBufferClearColor[4]{0.0F, 0.0F, 0.0F, 0.0F};
             bool clearFrameBufferView = true;
             bool clearDepthBufferView = false;
         };

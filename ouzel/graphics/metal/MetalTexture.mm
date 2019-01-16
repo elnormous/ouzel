@@ -72,7 +72,9 @@ namespace ouzel
             mipmaps(static_cast<uint32_t>(levels.size())),
             sampleCount(initSampleCount),
             colorFormat(getMetalPixelFormat(pixelFormat)),
-            depthFormat(MTLPixelFormatDepth32Float)
+            depthFormat(MTLPixelFormatDepth32Float),
+            colorBufferLoadAction(MTLLoadActionDontCare),
+            depthBufferLoadAction(MTLLoadActionDontCare)
         {
             if ((flags & Texture::RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
                 throw std::runtime_error("Invalid mip map count");
@@ -166,15 +168,12 @@ namespace ouzel
                 else
                     renderPassDescriptor.depthAttachment.texture = nil;
 
-                colorBufferLoadAction = clearColorBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
-                depthBufferLoadAction = clearDepthBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
+                colorBufferLoadAction = MTLLoadActionClear;
+                depthBufferLoadAction = MTLLoadActionDontCare;
 
-                renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.normR(),
-                                                                                        clearColor.normG(),
-                                                                                        clearColor.normB(),
-                                                                                        clearColor.normA());
+                renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(0.0F, 0.0F, 0.0F, 0.0F);
 
-                renderPassDescriptor.depthAttachment.clearDepth = clearDepth;
+                renderPassDescriptor.depthAttachment.clearDepth = 1.0F;
             }
             else
             {
@@ -259,39 +258,31 @@ namespace ouzel
 
         void MetalTexture::setClearColorBuffer(bool clear)
         {
-            clearColorBuffer = clear;
-
-            colorBufferLoadAction = clearColorBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
+            colorBufferLoadAction = clear ? MTLLoadActionClear : MTLLoadActionDontCare;
         }
 
         void MetalTexture::setClearDepthBuffer(bool clear)
         {
-            clearDepthBuffer = clear;
-
-            depthBufferLoadAction = clearDepthBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
+            depthBufferLoadAction = clear ? MTLLoadActionClear : MTLLoadActionDontCare;
         }
 
         void MetalTexture::setClearColor(Color color)
         {
-            clearColor = color;
-
             if (!renderPassDescriptor)
                 throw std::runtime_error("Render pass descriptor not initialized");
 
-            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.normR(),
-                                                                                    clearColor.normG(),
-                                                                                    clearColor.normB(),
-                                                                                    clearColor.normA());
+            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(color.normR(),
+                                                                                    color.normG(),
+                                                                                    color.normB(),
+                                                                                    color.normA());
         }
 
         void MetalTexture::setClearDepth(float newClearDepth)
         {
-            clearDepth = newClearDepth;
-
             if (!renderPassDescriptor)
                 throw std::runtime_error("Render pass descriptor not initialized");
 
-            renderPassDescriptor.depthAttachment.clearDepth = clearDepth;
+            renderPassDescriptor.depthAttachment.clearDepth = newClearDepth;
         }
 
         void MetalTexture::updateSamplerState()

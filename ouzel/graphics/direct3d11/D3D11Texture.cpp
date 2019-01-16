@@ -181,11 +181,6 @@ namespace ouzel
                     if (FAILED(hr = renderDevice.getDevice()->CreateDepthStencilView(depthStencilTexture, nullptr, &depthStencilView)))
                         throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 depth stencil view");
                 }
-
-                frameBufferClearColor[0] = clearColor.normR();
-                frameBufferClearColor[1] = clearColor.normG();
-                frameBufferClearColor[2] = clearColor.normB();
-                frameBufferClearColor[3] = clearColor.normA();
             }
 
             samplerDescriptor.filter = renderDevice.getTextureFilter();
@@ -324,26 +319,20 @@ namespace ouzel
 
         void D3D11Texture::setClearColorBuffer(bool clear)
         {
-            clearColorBuffer = clear;
-
-            clearFrameBufferView = clearColorBuffer;
+            clearFrameBufferView = clear;
         }
 
         void D3D11Texture::setClearDepthBuffer(bool clear)
         {
-            clearDepthBuffer = clear;
-
-            clearDepthBufferView = clearDepthBuffer;
+            clearDepthBufferView = clear;
         }
 
         void D3D11Texture::setClearColor(Color color)
         {
-            clearColor = color;
-
-            frameBufferClearColor[0] = clearColor.normR();
-            frameBufferClearColor[1] = clearColor.normG();
-            frameBufferClearColor[2] = clearColor.normB();
-            frameBufferClearColor[3] = clearColor.normA();
+            frameBufferClearColor[0] = color.normR();
+            frameBufferClearColor[1] = color.normG();
+            frameBufferClearColor[2] = color.normB();
+            frameBufferClearColor[3] = color.normA();
         }
 
         void D3D11Texture::setClearDepth(float newClearDepth)
