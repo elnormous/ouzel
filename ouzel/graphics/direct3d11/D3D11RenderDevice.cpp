@@ -373,6 +373,7 @@ namespace ouzel
             uint32_t fillModeIndex = 0;
             uint32_t scissorEnableIndex = 0;
             uint32_t cullModeIndex = 0;
+            D3D11Texture* currentRenderTarget = nullptr;
             D3D11Shader* currentShader = nullptr;
 
             CommandBuffer commandBuffer;
@@ -395,6 +396,9 @@ namespace ouzel
                     {
                         case Command::Type::PRESENT:
                         {
+                            if (currentRenderTarget)
+                                currentRenderTarget->resolve();
+
                             swapChain->Present(swapInterval, 0);
                             break;
                         }
@@ -410,25 +414,32 @@ namespace ouzel
                         {
                             const SetRenderTargetCommand* setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command.get());
 
-                            ID3D11RenderTargetView* newRenderTargetView = nullptr;
-                            ID3D11DepthStencilView* newDepthStencilView = nullptr;
-
+                            D3D11Texture* newRenderTarget = nullptr;
                             if (setRenderTargetCommand->renderTarget)
+                                newRenderTarget = static_cast<D3D11Texture*>(resources[setRenderTargetCommand->renderTarget - 1].get());
+
+                            if (currentRenderTarget != newRenderTarget)
                             {
-                                D3D11Texture* renderTargetD3D11 = static_cast<D3D11Texture*>(resources[setRenderTargetCommand->renderTarget - 1].get());
+                                currentRenderTarget->resolve();
 
-                                if (!renderTargetD3D11->getRenderTargetView()) break;
+                                ID3D11RenderTargetView* newRenderTargetView = nullptr;
+                                ID3D11DepthStencilView* newDepthStencilView = nullptr;
+                                if (newRenderTarget)
+                                {
+                                    if (!newRenderTarget->getRenderTargetView()) break;
+                                    newRenderTargetView = newRenderTarget->getRenderTargetView();
+                                    newDepthStencilView = newRenderTarget->getDepthStencilView();
+                                }
+                                else
+                                {
+                                    newRenderTargetView = renderTargetView;
+                                    newDepthStencilView = depthStencilView;
+                                }
 
-                                newRenderTargetView = renderTargetD3D11->getRenderTargetView();
-                                newDepthStencilView = renderTargetD3D11->getDepthStencilView();
+                                context->OMSetRenderTargets(1, &newRenderTargetView, newDepthStencilView);
+
+                                currentRenderTarget = newRenderTarget;
                             }
-                            else
-                            {
-                                newRenderTargetView = renderTargetView;
-                                newDepthStencilView = depthStencilView;
-                            }
-
-                            context->OMSetRenderTargets(1, &newRenderTargetView, newDepthStencilView);
 
                             break;
                         }
