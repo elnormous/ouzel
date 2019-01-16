@@ -97,7 +97,7 @@ namespace ouzel
             GLuint depthBufferId = 0;
 
             GLbitfield clearMask = 0;
-            std::array<GLfloat, 4> frameBufferClearColor{0.0F, 0.0F, 0.0F, 0.0F};
+            std::array<GLfloat, 4> frameBufferClearColor{{0.0F, 0.0F, 0.0F, 0.0F}};
         };
     } // namespace graphics
 } // namespace ouzel
