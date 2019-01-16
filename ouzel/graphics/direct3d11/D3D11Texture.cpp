@@ -248,7 +248,7 @@ namespace ouzel
         void D3D11Texture::resolve()
         {
             if (msaaTexture)
-                renderDevice.getContext().ResolveSubresource(texture, 0, msaaTexture, 0, pixelFormat);
+                renderDevice.getContext()->ResolveSubresource(texture, 0, msaaTexture, 0, pixelFormat);
         }
 
         void D3D11Texture::createTexture(const std::vector<Texture::Level>& levels)
