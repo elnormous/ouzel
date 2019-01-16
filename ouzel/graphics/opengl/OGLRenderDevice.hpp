@@ -629,7 +629,7 @@ namespace ouzel
                 bool cullEnabled = false;
                 GLenum cullFace = GL_NONE;
 
-                std::array<GLfloat, 4> clearColor;
+                std::array<GLfloat, 4> clearColor{{0.0F, 0.0F, 0.0F, 0.0F}};
                 float clearDepth = 1.0F;
             };
 
