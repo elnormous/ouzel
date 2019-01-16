@@ -64,17 +64,21 @@ namespace ouzel
 
         MetalTexture::MetalTexture(MetalRenderDevice& renderDeviceMetal,
                                    const std::vector<Texture::Level>& levels,
-                                   uint32_t newFlags,
-                                   uint32_t newSampleCount,
-                                   PixelFormat newPixelFormat):
+                                   uint32_t initFlags,
+                                   uint32_t initSampleCount,
+                                   PixelFormat pixelFormat):
             MetalRenderResource(renderDeviceMetal),
-            flags(newFlags),
+            flags(initFlags),
             mipmaps(static_cast<uint32_t>(levels.size())),
-            sampleCount(newSampleCount),
-            pixelFormat(newPixelFormat)
+            sampleCount(initSampleCount),
+            colorFormat(getMetalPixelFormat(pixelFormat)),
+            depthFormat(MTLPixelFormatDepth32Float)
         {
             if ((flags & Texture::RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
                 throw std::runtime_error("Invalid mip map count");
+
+            if (colorFormat == MTLPixelFormatInvalid)
+                throw std::runtime_error("Invalid pixel format");
 
             createTexture(levels);
 
@@ -249,11 +253,6 @@ namespace ouzel
 
             if (width > 0 && height > 0)
             {
-                colorFormat = getMetalPixelFormat(pixelFormat);
-
-                if (colorFormat == MTLPixelFormatInvalid)
-                    throw std::runtime_error("Invalid pixel format");
-
                 MTLTextureDescriptor* textureDescriptor = [[[MTLTextureDescriptor alloc] init] autorelease];
                 textureDescriptor.pixelFormat = colorFormat;
                 textureDescriptor.width = width;
@@ -311,8 +310,6 @@ namespace ouzel
 
                 if (flags & Texture::DEPTH_BUFFER)
                 {
-                    depthFormat = MTLPixelFormatDepth32Float;
-
                     MTLTextureDescriptor* textureDescriptor = [[[MTLTextureDescriptor alloc] init] autorelease];
                     textureDescriptor.pixelFormat = depthFormat;
                     textureDescriptor.width = width;

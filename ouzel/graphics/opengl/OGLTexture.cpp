@@ -221,19 +221,30 @@ namespace ouzel
         }
 
         OGLTexture::OGLTexture(OGLRenderDevice& renderDeviceOGL,
-                               const std::vector<Texture::Level>& newLevels,
-                               uint32_t newFlags,
-                               uint32_t newSampleCount,
-                               PixelFormat newPixelFormat):
+                               const std::vector<Texture::Level>& initLevels,
+                               uint32_t initFlags,
+                               uint32_t initSampleCount,
+                               PixelFormat initPixelFormat):
             OGLRenderResource(renderDeviceOGL),
-            levels(newLevels),
-            flags(newFlags),
-            mipmaps(static_cast<uint32_t>(newLevels.size())),
-            sampleCount(newSampleCount),
-            pixelFormat(newPixelFormat)
+            levels(initLevels),
+            flags(initFlags),
+            mipmaps(static_cast<uint32_t>(initLevels.size())),
+            sampleCount(initSampleCount),
+            internalPixelFormat(getOGLInternalPixelFormat(initPixelFormat, renderDevice.getAPIMajorVersion())),
+            pixelFormat(getOGLPixelFormat(initPixelFormat)),
+            pixelType(getOGLPixelType(initPixelFormat))
         {
             if ((flags & Texture::RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
                 throw std::runtime_error("Invalid mip map count");
+
+            if (internalPixelFormat == GL_NONE)
+                throw std::runtime_error("Invalid pixel format");
+
+            if (pixelFormat == GL_NONE)
+                throw std::runtime_error("Invalid pixel format");
+
+            if (pixelType == GL_NONE)
+                throw std::runtime_error("Invalid pixel format");
 
             createTexture();
 
@@ -267,17 +278,17 @@ namespace ouzel
                 {
                     if (!levels[level].data.empty())
                     {
-                        glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
+                        glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(internalPixelFormat),
                                          static_cast<GLsizei>(levels[level].size.v[0]),
                                          static_cast<GLsizei>(levels[level].size.v[1]), 0,
-                                         oglPixelFormat, oglPixelType, levels[level].data.data());
+                                         pixelFormat, pixelType, levels[level].data.data());
                     }
                     else
                     {
-                        glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
+                        glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(internalPixelFormat),
                                          static_cast<GLsizei>(levels[level].size.v[0]),
                                          static_cast<GLsizei>(levels[level].size.v[1]), 0,
-                                         oglPixelFormat, oglPixelType, nullptr);
+                                         pixelFormat, pixelType, nullptr);
                     }
                 }
 
@@ -337,17 +348,17 @@ namespace ouzel
                 {
                     if (!levels[level].data.empty())
                     {
-                        glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
+                        glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(internalPixelFormat),
                                          static_cast<GLsizei>(levels[level].size.v[0]),
                                          static_cast<GLsizei>(levels[level].size.v[1]), 0,
-                                         oglPixelFormat, oglPixelType, levels[level].data.data());
+                                         pixelFormat, pixelType, levels[level].data.data());
                     }
                     else
                     {
-                        glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
+                        glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(internalPixelFormat),
                                          static_cast<GLsizei>(levels[level].size.v[0]),
                                          static_cast<GLsizei>(levels[level].size.v[1]), 0,
-                                         oglPixelFormat, oglPixelType, nullptr);
+                                         pixelFormat, pixelType, nullptr);
                     }
                 }
 
@@ -381,7 +392,7 @@ namespace ouzel
                         glTexSubImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), 0, 0,
                                             static_cast<GLsizei>(levels[level].size.v[0]),
                                             static_cast<GLsizei>(levels[level].size.v[1]),
-                                            oglPixelFormat, oglPixelType,
+                                            pixelFormat, pixelType,
                                             levels[level].data.data());
                     }
                 }
@@ -564,21 +575,6 @@ namespace ouzel
             width = static_cast<GLsizei>(levels.front().size.v[0]);
             height = static_cast<GLsizei>(levels.front().size.v[1]);
 
-            oglInternalPixelFormat = getOGLInternalPixelFormat(pixelFormat, renderDevice.getAPIMajorVersion());
-
-            if (oglInternalPixelFormat == GL_NONE)
-                throw std::runtime_error("Invalid pixel format");
-
-            oglPixelFormat = getOGLPixelFormat(pixelFormat);
-
-            if (oglPixelFormat == GL_NONE)
-                throw std::runtime_error("Invalid pixel format");
-
-            oglPixelType = getOGLPixelType(pixelFormat);
-
-            if (oglPixelType == GL_NONE)
-                throw std::runtime_error("Invalid pixel format");
-
             if ((flags & Texture::RENDER_TARGET) && renderDevice.isRenderTargetsSupported())
             {
                 glGenFramebuffersProc(1, &frameBufferId);
@@ -592,9 +588,9 @@ namespace ouzel
                 {
                     renderDevice.bindTexture(textureId, 0);
 
-                    glTexImage2DProc(GL_TEXTURE_2D, 0, static_cast<GLint>(oglInternalPixelFormat),
+                    glTexImage2DProc(GL_TEXTURE_2D, 0, static_cast<GLint>(internalPixelFormat),
                                      width, height, 0,
-                                     oglPixelFormat, oglPixelType, nullptr);
+                                     pixelFormat, pixelType, nullptr);
 
                     // TODO: blit multisample render buffer to texture
                     glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0);
@@ -611,7 +607,7 @@ namespace ouzel
                     {
                         glRenderbufferStorageMultisampleProc(GL_RENDERBUFFER,
                                                              static_cast<GLsizei>(sampleCount),
-                                                             oglInternalPixelFormat,
+                                                             internalPixelFormat,
                                                              width, height);
 
                         if ((error = glGetErrorProc()) != GL_NO_ERROR)
@@ -619,7 +615,7 @@ namespace ouzel
                     }
                     else
                     {
-                        glRenderbufferStorageProc(GL_RENDERBUFFER, oglInternalPixelFormat,
+                        glRenderbufferStorageProc(GL_RENDERBUFFER, internalPixelFormat,
                                                   width, height);
 
                         if ((error = glGetErrorProc()) != GL_NO_ERROR)
