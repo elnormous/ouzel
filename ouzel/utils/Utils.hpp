@@ -9,6 +9,7 @@
 #include <limits>
 #include <random>
 #include <string>
+#include <type_traits>
 #include <vector>
 
 namespace ouzel
@@ -21,7 +22,7 @@ namespace ouzel
         return sizeof(T) * vec.size();
     }
 
-    template<class T>
+    template<class T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
     inline T decodeBigEndian(const void* buffer)
     {
         const uint8_t* bytes = static_cast<const uint8_t*>(buffer);
@@ -33,7 +34,7 @@ namespace ouzel
         return result;
     }
 
-    template<class T>
+    template<class T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
     inline T decodeLittleEndian(const void* buffer)
     {
         const uint8_t* bytes = static_cast<const uint8_t*>(buffer);
@@ -45,7 +46,7 @@ namespace ouzel
         return result;
     }
 
-    template<class T>
+    template<class T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
     inline void encodeBigEndian(void* buffer, T value)
     {
         uint8_t* bytes = static_cast<uint8_t*>(buffer);
@@ -54,7 +55,7 @@ namespace ouzel
             bytes[i] = static_cast<uint8_t>(value >> ((sizeof(T) - i - 1) * 8));
     }
 
-    template<class T>
+    template<class T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
     inline T encodeLittleEndian(void* buffer, T value)
     {
         uint8_t* bytes = static_cast<uint8_t*>(buffer);
@@ -63,7 +64,8 @@ namespace ouzel
             bytes[i] = static_cast<uint8_t>(value >> (i * 8));
     }
 
-    template<typename T> std::string hexToString(T n, size_t len = 0)
+    template<typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
+    std::string hexToString(T n, size_t len = 0)
     {
         static constexpr const char* digits = "0123456789ABCDEF";
         if (len == 0)
