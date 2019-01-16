@@ -52,9 +52,9 @@ namespace ouzel
         public:
             MetalTexture(MetalRenderDevice& renderDeviceMetal,
                          const std::vector<Texture::Level>& levels,
-                         uint32_t newFlags = 0,
-                         uint32_t newSampleCount = 1,
-                         PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
+                         uint32_t initFlags = 0,
+                         uint32_t initSampleCount = 1,
+                         PixelFormat pixelFormat = PixelFormat::RGBA8_UNORM);
             ~MetalTexture();
 
             void setData(const std::vector<Texture::Level>& levels);
@@ -75,7 +75,6 @@ namespace ouzel
             inline Color getClearColor() const { return clearColor; }
             inline float getClearDepth() const { return clearDepth; }
             inline uint32_t getSampleCount() const { return sampleCount; }
-            inline PixelFormat getPixelFormat() const { return pixelFormat; }
 
             inline MTLTexturePtr getTexture() const { return texture; }
             inline MTLPixelFormat getColorFormat() const { return colorFormat; }
@@ -101,7 +100,6 @@ namespace ouzel
             Color clearColor;
             float clearDepth = 1.0F;
             uint32_t sampleCount = 1;
-            PixelFormat pixelFormat = PixelFormat::RGBA8_UNORM;
 
             SamplerStateDescriptor samplerDescriptor;
 

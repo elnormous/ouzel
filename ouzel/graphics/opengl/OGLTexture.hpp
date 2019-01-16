@@ -32,10 +32,10 @@ namespace ouzel
         {
         public:
             OGLTexture(OGLRenderDevice& renderDeviceOGL,
-                       const std::vector<Texture::Level>& newLevels,
-                       uint32_t newFlags = 0,
-                       uint32_t newSampleCount = 1,
-                       PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
+                       const std::vector<Texture::Level>& initLevels,
+                       uint32_t initFlags = 0,
+                       uint32_t initSampleCount = 1,
+                       PixelFormat initPixelFormat = PixelFormat::RGBA8_UNORM);
             ~OGLTexture();
 
             void reload() override;
@@ -62,7 +62,6 @@ namespace ouzel
             inline Color getClearColor() const { return clearColor; }
             inline float getClearDepth() const { return clearDepth; }
             inline uint32_t getSampleCount() const { return sampleCount; }
-            inline PixelFormat getPixelFormat() const { return pixelFormat; }
 
             inline GLuint getTextureId() const { return textureId; }
 
@@ -85,7 +84,6 @@ namespace ouzel
             uint32_t flags = 0;
             uint32_t mipmaps = 0;
             uint32_t sampleCount = 1;
-            PixelFormat pixelFormat = PixelFormat::RGBA8_UNORM;
             Texture::Filter filter = Texture::Filter::DEFAULT;
             Texture::Address addressX = Texture::Address::CLAMP;
             Texture::Address addressY = Texture::Address::CLAMP;
@@ -95,9 +93,9 @@ namespace ouzel
 
             GLsizei width = 0;
             GLsizei height = 0;
-            GLenum oglInternalPixelFormat = GL_NONE;
-            GLenum oglPixelFormat = GL_NONE;
-            GLenum oglPixelType = GL_NONE;
+            GLenum internalPixelFormat = GL_NONE;
+            GLenum pixelFormat = GL_NONE;
+            GLenum pixelType = GL_NONE;
 
             GLuint frameBufferId = 0;
             GLuint colorBufferId = 0;
