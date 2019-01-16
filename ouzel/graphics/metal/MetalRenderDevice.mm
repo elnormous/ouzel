@@ -176,13 +176,10 @@ namespace ouzel
                 throw std::runtime_error("Failed to create Metal render pass descriptor");
 
             renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
-            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.normR(),
-                                                                                    clearColor.normG(),
-                                                                                    clearColor.normB(),
-                                                                                    clearColor.normA());
+            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(0.0F, 0.0F, 0.0F, 0.0F);
             renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
             renderPassDescriptor.depthAttachment.loadAction = MTLLoadActionClear;
-            renderPassDescriptor.depthAttachment.clearDepth = clearDepth;
+            renderPassDescriptor.depthAttachment.clearDepth = 1.0F;
             renderPassDescriptor.depthAttachment.storeAction = MTLStoreActionStore;
 
             MTLDepthStencilDescriptor* depthStencilDescriptor = [MTLDepthStencilDescriptor new];
@@ -195,33 +192,25 @@ namespace ouzel
 
         void MetalRenderDevice::setClearColorBuffer(bool clear)
         {
-            clearColorBuffer = clear;
-
-            colorBufferLoadAction = clearColorBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
+            colorBufferLoadAction = clear ? MTLLoadActionClear : MTLLoadActionDontCare;
         }
 
         void MetalRenderDevice::setClearDepthBuffer(bool clear)
         {
-            clearDepthBuffer = clear;
-
-            depthBufferLoadAction = clearDepthBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
+            depthBufferLoadAction = clear ? MTLLoadActionClear : MTLLoadActionDontCare;
         }
 
         void MetalRenderDevice::setClearColor(Color newClearColor)
         {
-            clearColor = newClearColor;
-
-            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.normR(),
-                                                                                    clearColor.normG(),
-                                                                                    clearColor.normB(),
-                                                                                    clearColor.normA());
+            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(newClearColor.normR(),
+                                                                                    newClearColor.normG(),
+                                                                                    newClearColor.normB(),
+                                                                                    newClearColor.normA());
         }
 
         void MetalRenderDevice::setClearDepth(float newClearDepth)
         {
-            clearDepth = newClearDepth;
-
-            renderPassDescriptor.depthAttachment.clearDepth = clearDepth;
+            renderPassDescriptor.depthAttachment.clearDepth = newClearDepth;
         }
 
         void MetalRenderDevice::setSize(const Size2<uint32_t>& newSize)

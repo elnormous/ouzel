@@ -151,10 +151,6 @@ namespace ouzel
             Matrix4<float> renderTargetProjectionTransform;
 
             Size2<uint32_t> size;
-            Color clearColor;
-            float clearDepth = 1.0;
-            bool clearColorBuffer = true;
-            bool clearDepthBuffer = false;
 
             uint32_t drawCallCount = 0;
 

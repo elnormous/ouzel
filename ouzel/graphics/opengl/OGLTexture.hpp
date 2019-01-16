@@ -73,7 +73,6 @@ namespace ouzel
             void createTexture();
             void setTextureParameters();
 
-            float clearDepth = 1.0F;
             std::vector<Texture::Level> levels;
             uint32_t flags = 0;
             uint32_t mipmaps = 0;
@@ -98,6 +97,7 @@ namespace ouzel
 
             GLbitfield clearMask = 0;
             std::array<GLfloat, 4> frameBufferClearColor{{0.0F, 0.0F, 0.0F, 0.0F}};
+            float clearDepth = 1.0F;
         };
     } // namespace graphics
 } // namespace ouzel

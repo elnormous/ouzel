@@ -312,11 +312,6 @@ namespace ouzel
             if (FAILED(hr = device->CreateDepthStencilState(&depthStencilStateDesc, &defaultDepthStencilState)))
                 throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 depth stencil state");
 
-            frameBufferClearColor[0] = clearColor.normR();
-            frameBufferClearColor[1] = clearColor.normG();
-            frameBufferClearColor[2] = clearColor.normB();
-            frameBufferClearColor[3] = clearColor.normA();
-
             running = true;
             renderThread = std::thread(&D3D11RenderDevice::main, this);
         }
@@ -333,12 +328,10 @@ namespace ouzel
 
         void D3D11RenderDevice::setClearColor(Color newClearColor)
         {
-            clearColor = newClearColor;
-
-            frameBufferClearColor[0] = clearColor.normR();
-            frameBufferClearColor[1] = clearColor.normG();
-            frameBufferClearColor[2] = clearColor.normB();
-            frameBufferClearColor[3] = clearColor.normA();
+            frameBufferClearColor[0] = newClearColor.normR();
+            frameBufferClearColor[1] = newClearColor.normG();
+            frameBufferClearColor[2] = newClearColor.normB();
+            frameBufferClearColor[3] = newClearColor.normA();
         }
 
         void D3D11RenderDevice::setClearDepth(float newClearDepth)
