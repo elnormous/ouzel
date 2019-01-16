@@ -533,36 +533,6 @@ namespace ouzel
 
         void OGLTexture::createTexture()
         {
-            if (depthBufferId)
-            {
-                renderDevice.deleteRenderBuffer(depthBufferId);
-                depthBufferId = 0;
-            }
-
-            if (colorBufferId)
-            {
-                renderDevice.deleteRenderBuffer(colorBufferId);
-                colorBufferId = 0;
-            }
-
-            if (frameBufferId)
-            {
-                renderDevice.deleteFrameBuffer(frameBufferId);
-                frameBufferId = 0;
-            }
-
-            if (textureId)
-            {
-                renderDevice.deleteTexture(textureId);
-                textureId = 0;
-            }
-
-            if (depthTextureId)
-            {
-                renderDevice.deleteTexture(depthTextureId);
-                depthTextureId = 0;
-            }
-
             glGenTexturesProc(1, &textureId);
 
             GLenum error;
