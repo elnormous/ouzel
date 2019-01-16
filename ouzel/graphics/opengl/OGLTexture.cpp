@@ -252,14 +252,7 @@ namespace ouzel
 
             if (flags & Texture::RENDER_TARGET)
             {
-                clearMask = 0;
-                if (clearColorBuffer) clearMask |= GL_COLOR_BUFFER_BIT;
-                if (clearDepthBuffer) clearMask |= GL_DEPTH_BUFFER_BIT;
-
-                frameBufferClearColor[0] = clearColor.normR();
-                frameBufferClearColor[1] = clearColor.normG();
-                frameBufferClearColor[2] = clearColor.normB();
-                frameBufferClearColor[3] = clearColor.normA();
+                clearMask = GL_COLOR_BUFFER_BIT;
             }
             else
             {
@@ -498,9 +491,7 @@ namespace ouzel
 
         void OGLTexture::setClearColorBuffer(bool clear)
         {
-            clearColorBuffer = clear;
-
-            if (clearColorBuffer)
+            if (clear)
                 clearMask |= GL_COLOR_BUFFER_BIT;
             else
                 clearMask &= ~static_cast<GLbitfield>(GL_COLOR_BUFFER_BIT);
@@ -508,9 +499,7 @@ namespace ouzel
 
         void OGLTexture::setClearDepthBuffer(bool clear)
         {
-            clearDepthBuffer = clear;
-
-            if (clearDepthBuffer)
+            if (clear)
                 clearMask |= GL_DEPTH_BUFFER_BIT;
             else
                 clearMask &= ~static_cast<GLbitfield>(GL_DEPTH_BUFFER_BIT);
@@ -518,12 +507,10 @@ namespace ouzel
 
         void OGLTexture::setClearColor(Color color)
         {
-            clearColor = color;
-
-            frameBufferClearColor[0] = clearColor.normR();
-            frameBufferClearColor[1] = clearColor.normG();
-            frameBufferClearColor[2] = clearColor.normB();
-            frameBufferClearColor[3] = clearColor.normA();
+            frameBufferClearColor[0] = color.normR();
+            frameBufferClearColor[1] = color.normG();
+            frameBufferClearColor[2] = color.normB();
+            frameBufferClearColor[3] = color.normA();
         }
 
         void OGLTexture::setClearDepth(float newClearDepth)

@@ -18,9 +18,7 @@ typedef id MTLSamplerStatePtr;
 typedef id MTLTexturePtr;
 typedef id MTLRenderPassDescriptorPtr;
 typedef NSUInteger MTLPixelFormat;
-#  define MTLPixelFormatInvalid 0
 typedef NSUInteger MTLLoadAction;
-#  define MTLLoadActionDontCare 0
 #endif
 
 #include <tuple>
@@ -69,11 +67,6 @@ namespace ouzel
 
             inline uint32_t getFlags() const { return flags; }
             inline uint32_t getMipmaps() const { return mipmaps; }
-
-            inline bool getClearColorBuffer() const { return clearColorBuffer; }
-            inline bool getClearDepthBuffer() const { return clearDepthBuffer; }
-            inline Color getClearColor() const { return clearColor; }
-            inline float getClearDepth() const { return clearDepth; }
             inline uint32_t getSampleCount() const { return sampleCount; }
 
             inline MTLTexturePtr getTexture() const { return texture; }
@@ -94,10 +87,6 @@ namespace ouzel
 
             uint32_t flags = 0;
             uint32_t mipmaps = 0;
-            bool clearColorBuffer = true;
-            bool clearDepthBuffer = false;
-            Color clearColor;
-            float clearDepth = 1.0F;
             uint32_t sampleCount = 1;
 
             SamplerStateDescriptor samplerDescriptor;
@@ -112,11 +101,11 @@ namespace ouzel
             MTLTexturePtr msaaTexture = nil;
             MTLTexturePtr depthTexture = nil;
 
-            MTLPixelFormat colorFormat = MTLPixelFormatInvalid;
-            MTLPixelFormat depthFormat = MTLPixelFormatInvalid;
+            MTLPixelFormat colorFormat;
+            MTLPixelFormat depthFormat;
 
-            MTLLoadAction colorBufferLoadAction = MTLLoadActionDontCare;
-            MTLLoadAction depthBufferLoadAction = MTLLoadActionDontCare;
+            MTLLoadAction colorBufferLoadAction;
+            MTLLoadAction depthBufferLoadAction;
         };
     } // namespace graphics
 } // namespace ouzel

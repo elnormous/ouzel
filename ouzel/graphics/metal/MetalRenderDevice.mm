@@ -96,7 +96,11 @@ namespace ouzel
         }
 
         MetalRenderDevice::MetalRenderDevice(const std::function<void(const Event&)>& initCallback):
-            RenderDevice(Driver::METAL, initCallback)
+            RenderDevice(Driver::METAL, initCallback),
+            colorFormat(MTLPixelFormatInvalid),
+            depthFormat(MTLPixelFormatInvalid),
+            colorBufferLoadAction(MTLLoadActionClear),
+            depthBufferLoadAction(MTLLoadActionDontCare)
         {
             apiMajorVersion = 1;
             apiMinorVersion = 0;
