@@ -287,13 +287,13 @@ namespace ouzel
                         UINT32 frameCount = bufferFrameCount - bufferPadding;
                         if (frameCount != 0)
                         {
-                            BYTE* buffer;
-                            if (FAILED(hr = renderClient->GetBuffer(frameCount, &buffer)))
+                            BYTE* renderBuffer;
+                            if (FAILED(hr = renderClient->GetBuffer(frameCount, &renderBuffer)))
                                 throw std::system_error(hr, wasapiErrorCategory, "Failed to get buffer");
 
                             getData(frameCount, data);
 
-                            std::copy(data.begin(), data.end(), buffer);
+                            std::copy(data.begin(), data.end(), renderBuffer);
 
                             if (FAILED(hr = renderClient->ReleaseBuffer(frameCount, 0)))
                                 throw std::system_error(hr, wasapiErrorCategory, "Failed to release buffer");
