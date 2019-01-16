@@ -19,6 +19,14 @@ namespace ouzel
         {
         public:
             explicit D3D11RenderTarget(D3D11RenderDevice& renderDeviceD3D11);
+            ~D3D11RenderTarget();
+
+            ID3D11RenderTargetView* getRenderTargetView() const { return renderTargetView; }
+            ID3D11DepthStencilView* getDepthStencilView() const { return depthStencilView; }
+
+        private:
+            ID3D11RenderTargetView* renderTargetView = nullptr;
+            ID3D11DepthStencilView* depthStencilView = nullptr;
         };
     } // namespace graphics
 } // namespace ouzel

@@ -7,6 +7,15 @@
 
 #if OUZEL_COMPILE_METAL
 
+#if defined(__OBJC__)
+#  import <Metal/Metal.h>
+typedef MTLRenderPassDescriptor* MTLRenderPassDescriptorPtr;
+#else
+#  include <objc/objc.h>
+typedef id MTLRenderPassDescriptorPtr;
+typedef NSUInteger MTLLoadAction;
+#endif
+
 #include "graphics/metal/MetalRenderResource.hpp"
 
 namespace ouzel
@@ -19,6 +28,18 @@ namespace ouzel
         {
         public:
             explicit MetalRenderTarget(MetalRenderDevice& renderDeviceMetal);
+            ~MetalRenderTarget();
+
+            inline MTLRenderPassDescriptorPtr getRenderPassDescriptor() const { return renderPassDescriptor; }
+
+            inline MTLLoadAction getColorBufferLoadAction() const { return colorBufferLoadAction; }
+            inline MTLLoadAction getDepthBufferLoadAction() const { return depthBufferLoadAction; }
+
+        private:
+            MTLRenderPassDescriptorPtr renderPassDescriptor = nil;
+
+            MTLLoadAction colorBufferLoadAction;
+            MTLLoadAction depthBufferLoadAction;
         };
     } // namespace graphics
 } // namespace ouzel

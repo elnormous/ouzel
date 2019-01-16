@@ -15,6 +15,15 @@ namespace ouzel
             D3D11RenderResource(renderDeviceD3D11)
         {
         }
+
+        D3D11RenderTarget::~D3D11RenderTarget()
+        {
+            if (depthStencilView)
+                depthStencilView->Release();
+
+            if (renderTargetView)
+                renderTargetView->Release();
+        }
     } // namespace graphics
 } // namespace ouzel
 
