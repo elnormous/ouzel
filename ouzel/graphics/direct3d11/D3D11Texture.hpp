@@ -79,7 +79,6 @@ namespace ouzel
             bool getClearDepthBufferView() const { return clearDepthBufferView; }
 
         private:
-            void createTexture(const std::vector<Texture::Level>& levels);
             void updateSamplerState();
 
             uint32_t flags = 0;

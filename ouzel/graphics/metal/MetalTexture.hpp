@@ -90,7 +90,6 @@ namespace ouzel
             inline MTLLoadAction getDepthBufferLoadAction() const { return depthBufferLoadAction; }
 
         private:
-            void createTexture(const std::vector<Texture::Level>& levels);
             void updateSamplerState();
 
             uint32_t flags = 0;
