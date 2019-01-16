@@ -108,7 +108,10 @@ namespace ouzel
             UINT frameBufferHeight = 0;
 
             UINT swapInterval = 0;
-            FLOAT frameBufferClearColor[4];
+            FLOAT frameBufferClearColor[4]{0.0F, 0.0F, 0.0F, 0.0F};
+            float clearDepth = 1.0F;
+            bool clearColorBuffer = true;
+            bool clearDepthBuffer = false;
 
             std::atomic_bool running{false};
             std::thread renderThread;

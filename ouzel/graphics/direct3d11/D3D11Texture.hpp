@@ -80,7 +80,6 @@ namespace ouzel
 
             uint32_t flags = 0;
             uint32_t mipmaps = 0;
-            float clearDepth = 1.0F;
             uint32_t sampleCount = 1;
             DXGI_FORMAT pixelFormat = DXGI_FORMAT_UNKNOWN;
             uint32_t pixelSize = 0;
@@ -99,6 +98,7 @@ namespace ouzel
             ID3D11DepthStencilView* depthStencilView = nullptr;
 
             FLOAT frameBufferClearColor[4]{0.0F, 0.0F, 0.0F, 0.0F};
+            float clearDepth = 1.0F;
             bool clearFrameBufferView = true;
             bool clearDepthBufferView = false;
         };

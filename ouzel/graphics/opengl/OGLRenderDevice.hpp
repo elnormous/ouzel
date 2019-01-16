@@ -574,7 +574,8 @@ namespace ouzel
             GLuint vertexArrayId = 0;
 
             GLbitfield clearMask = 0;
-            std::array<GLfloat, 4> frameBufferClearColor;
+            std::array<GLfloat, 4> frameBufferClearColor{{0.0F, 0.0F, 0.0F, 0.0F}};
+            float clearDepth = 1.0F;
             bool textureBaseLevelSupported = true;
             bool textureMaxLevelSupported = true;
 
