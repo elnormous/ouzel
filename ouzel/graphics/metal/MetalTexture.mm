@@ -251,28 +251,26 @@ namespace ouzel
             width = static_cast<NSUInteger>(levels.front().size.v[0]);
             height = static_cast<NSUInteger>(levels.front().size.v[1]);
 
-            if (width > 0 && height > 0)
+            MTLTextureDescriptor* textureDescriptor = [[[MTLTextureDescriptor alloc] init] autorelease];
+            textureDescriptor.pixelFormat = colorFormat;
+            textureDescriptor.width = width;
+            textureDescriptor.height = height;
+            textureDescriptor.textureType = MTLTextureType2D;
+            textureDescriptor.sampleCount = 1;
+            textureDescriptor.mipmapLevelCount = static_cast<NSUInteger>(levels.size());
+
+            if (flags & Texture::RENDER_TARGET)
             {
-                MTLTextureDescriptor* textureDescriptor = [[[MTLTextureDescriptor alloc] init] autorelease];
-                textureDescriptor.pixelFormat = colorFormat;
-                textureDescriptor.width = width;
-                textureDescriptor.height = height;
-                textureDescriptor.textureType = MTLTextureType2D;
-                textureDescriptor.mipmapLevelCount = static_cast<NSUInteger>(levels.size());
-
-                if (flags & Texture::RENDER_TARGET)
-                {
-                    textureDescriptor.usage = MTLTextureUsageRenderTarget;
-                    if (flags & Texture::BINDABLE_COLOR_BUFFER) textureDescriptor.usage |= MTLTextureUsageShaderRead;
-                }
-                else
-                    textureDescriptor.usage = MTLTextureUsageShaderRead;
-
-                texture = [renderDeviceMetal.getDevice() newTextureWithDescriptor:textureDescriptor];
-
-                if (!texture)
-                    throw std::runtime_error("Failed to create Metal texture");
+                textureDescriptor.usage = (sampleCount == 1) ? MTLTextureUsageRenderTarget : 0;
+                if (flags & Texture::BINDABLE_COLOR_BUFFER) textureDescriptor.usage |= MTLTextureUsageShaderRead;
             }
+            else
+                textureDescriptor.usage = MTLTextureUsageShaderRead;
+
+            texture = [renderDeviceMetal.getDevice() newTextureWithDescriptor:textureDescriptor];
+
+            if (!texture)
+                throw std::runtime_error("Failed to create Metal texture");
 
             if (flags & Texture::RENDER_TARGET)
             {
@@ -283,17 +281,17 @@ namespace ouzel
 
                 if (sampleCount > 1)
                 {
-                    MTLTextureDescriptor* textureDescriptor = [[[MTLTextureDescriptor alloc] init] autorelease];
-                    textureDescriptor.pixelFormat = colorFormat;
-                    textureDescriptor.width = width;
-                    textureDescriptor.height = height;
-                    textureDescriptor.textureType = MTLTextureType2DMultisample;
-                    textureDescriptor.storageMode = MTLStorageModePrivate;
-                    textureDescriptor.sampleCount = sampleCount;
-                    textureDescriptor.mipmapLevelCount = 1;
-                    textureDescriptor.usage = MTLTextureUsageRenderTarget;
+                    MTLTextureDescriptor* msaaTextureDescriptor = [[[MTLTextureDescriptor alloc] init] autorelease];
+                    msaaTextureDescriptor.pixelFormat = colorFormat;
+                    msaaTextureDescriptor.width = width;
+                    msaaTextureDescriptor.height = height;
+                    msaaTextureDescriptor.textureType = MTLTextureType2DMultisample;
+                    msaaTextureDescriptor.storageMode = MTLStorageModePrivate;
+                    msaaTextureDescriptor.sampleCount = sampleCount;
+                    msaaTextureDescriptor.mipmapLevelCount = 1;
+                    msaaTextureDescriptor.usage = MTLTextureUsageRenderTarget;
 
-                    msaaTexture = [renderDeviceMetal.getDevice() newTextureWithDescriptor:textureDescriptor];
+                    msaaTexture = [renderDeviceMetal.getDevice() newTextureWithDescriptor:msaaTextureDescriptor];
 
                     if (!msaaTexture)
                         throw std::runtime_error("Failed to create MSAA texture");
@@ -310,18 +308,20 @@ namespace ouzel
 
                 if (flags & Texture::DEPTH_BUFFER)
                 {
-                    MTLTextureDescriptor* textureDescriptor = [[[MTLTextureDescriptor alloc] init] autorelease];
-                    textureDescriptor.pixelFormat = depthFormat;
-                    textureDescriptor.width = width;
-                    textureDescriptor.height = height;
-                    textureDescriptor.textureType = (sampleCount > 1) ? MTLTextureType2DMultisample : MTLTextureType2D;
-                    textureDescriptor.storageMode = MTLStorageModePrivate;
-                    textureDescriptor.sampleCount = sampleCount;
-                    textureDescriptor.mipmapLevelCount = 1;
-                    textureDescriptor.usage = MTLTextureUsageRenderTarget;
-                    if (flags & Texture::BINDABLE_DEPTH_BUFFER) textureDescriptor.usage |= MTLTextureUsageShaderRead;
+                    MTLTextureDescriptor* depthTextureDescriptor = [[[MTLTextureDescriptor alloc] init] autorelease];
+                    depthTextureDescriptor.pixelFormat = depthFormat;
+                    depthTextureDescriptor.width = width;
+                    depthTextureDescriptor.height = height;
+                    //depthTextureDescriptor.textureType = (sampleCount > 1) ? MTLTextureType2DMultisample : MTLTextureType2D;
+                    depthTextureDescriptor.textureType = MTLTextureType2D;
+                    depthTextureDescriptor.storageMode = MTLStorageModePrivate;
+                    //depthTextureDescriptor.sampleCount = sampleCount;
+                    depthTextureDescriptor.sampleCount = 1;
+                    depthTextureDescriptor.mipmapLevelCount = 1;
+                    depthTextureDescriptor.usage = MTLTextureUsageRenderTarget;
+                    if (flags & Texture::BINDABLE_DEPTH_BUFFER) depthTextureDescriptor.usage |= MTLTextureUsageShaderRead;
 
-                    depthTexture = [renderDeviceMetal.getDevice() newTextureWithDescriptor:textureDescriptor];
+                    depthTexture = [renderDeviceMetal.getDevice() newTextureWithDescriptor:depthTextureDescriptor];
 
                     if (!depthTexture)
                         throw std::runtime_error("Failed to create depth texture");
