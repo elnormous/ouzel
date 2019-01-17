@@ -28,10 +28,22 @@ namespace ouzel
             OGLRenderResource(OGLRenderResource&&) = delete;
             OGLRenderResource& operator=(OGLRenderResource&&) = delete;
 
-            virtual void reload() = 0;
+            inline bool isInvalid() const { return invalid; }
+            inline void invalidate() { invalid = true; }
+
+            inline void restore()
+            {
+                if (invalid) reload();
+                invalid = false;
+            }
 
         protected:
+            virtual void reload() = 0;
+
             OGLRenderDevice& renderDevice;
+
+        private:
+            bool invalid = false;
         };
     } // namespace graphics
 } // namespace ouzel
