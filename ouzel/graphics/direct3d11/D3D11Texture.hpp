@@ -56,24 +56,23 @@ namespace ouzel
             inline uint32_t getFlags() const { return flags; }
             inline uint32_t getMipmaps() const { return mipmaps; }
 
-            inline float getClearDepth() const { return clearDepth; }
             inline uint32_t getSampleCount() const { return sampleCount; }
 
-            ID3D11Texture2D* getTexture() const { return texture; }
-            ID3D11ShaderResourceView* getResourceView() const { return resourceView; }
-            ID3D11SamplerState* getSamplerState() const { return samplerState; }
+            inline ID3D11Texture2D* getTexture() const { return texture; }
+            inline ID3D11ShaderResourceView* getResourceView() const { return resourceView; }
+            inline ID3D11SamplerState* getSamplerState() const { return samplerState; }
 
-            ID3D11RenderTargetView* getRenderTargetView() const { return renderTargetView; }
-            ID3D11Texture2D* getDepthStencilTexture() const { return depthStencilTexture; }
-            ID3D11DepthStencilView* getDepthStencilView() const { return depthStencilView; }
+            inline ID3D11RenderTargetView* getRenderTargetView() const { return renderTargetView; }
+            inline ID3D11Texture2D* getDepthStencilTexture() const { return depthStencilTexture; }
+            inline ID3D11DepthStencilView* getDepthStencilView() const { return depthStencilView; }
 
-            const float* getFrameBufferClearColor() const { return frameBufferClearColor; }
+            inline UINT getWidth() const { return width; }
+            inline UINT getHeight() const { return height; }
 
-            UINT getWidth() const { return width; }
-            UINT getHeight() const { return height; }
-
-            bool getClearFrameBufferView() const { return clearFrameBufferView; }
-            bool getClearDepthBufferView() const { return clearDepthBufferView; }
+            inline const float* getFrameBufferClearColor() const { return frameBufferClearColor; }
+            inline float getClearDepth() const { return clearDepth; }
+            inline bool getClearFrameBufferView() const { return clearFrameBufferView; }
+            inline bool getClearDepthBufferView() const { return clearDepthBufferView; }
 
         private:
             void updateSamplerState();

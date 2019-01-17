@@ -57,7 +57,6 @@ namespace ouzel
             inline Texture::Address getAddressX() const { return addressX; }
             inline Texture::Address getAddressY() const { return addressY; }
             inline uint32_t getMaxAnisotropy() const { return maxAnisotropy; }
-            inline float getClearDepth() const { return clearDepth; }
             inline uint32_t getSampleCount() const { return sampleCount; }
 
             inline GLuint getTextureId() const { return textureId; }
@@ -68,6 +67,7 @@ namespace ouzel
 
             inline GLbitfield getClearMask() const { return clearMask; }
             inline const std::array<GLfloat, 4>& getFrameBufferClearColor() const { return frameBufferClearColor; }
+            inline float getClearDepth() const { return clearDepth; }
 
         private:
             void createTexture();
