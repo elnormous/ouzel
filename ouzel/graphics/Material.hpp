@@ -19,14 +19,8 @@ namespace ouzel
         public:
             Material() = default;
 
-            Material(const Material&) = delete;
-            Material& operator=(const Material&) = delete;
-
-            Material(Material&&) = delete;
-            Material& operator=(Material&&) = delete;
-
-            BlendState* blendState;
-            Shader* shader;
+            BlendState* blendState = nullptr;
+            Shader* shader = nullptr;
             Texture* textures[Texture::LAYERS]{nullptr};
             graphics::CullMode cullMode = graphics::CullMode::BACK;
             Color diffuseColor = Color::WHITE;
