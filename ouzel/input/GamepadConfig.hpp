@@ -18,7 +18,7 @@ namespace ouzel
 
         // Playstation 3 controller
         static const GamepadConfig PLAYSTATION_3_CONFIG = {
-            {
+            {{
                 Gamepad::Button::BACK, // Select
                 Gamepad::Button::LEFT_THUMB, // L3
                 Gamepad::Button::RIGHT_THUMB, // R3
@@ -43,20 +43,20 @@ namespace ouzel
                 Gamepad::Button::NONE,
                 Gamepad::Button::NONE,
                 Gamepad::Button::NONE
-            },
-            {
+            }},
+            {{
                 Gamepad::Axis::LEFT_THUMB_X,
                 Gamepad::Axis::LEFT_THUMB_Y,
                 Gamepad::Axis::RIGHT_THUMB_X,
                 Gamepad::Axis::LEFT_TRIGGER,
                 Gamepad::Axis::RIGHT_TRIGGER,
                 Gamepad::Axis::RIGHT_THUMB_Y
-            }
+            }}
         };
 
         // Playstation 4 controller
         static const GamepadConfig PLAYSTATION_4_CONFIG = {
-            {
+            {{
                 Gamepad::Button::FACE_LEFT, // Square
                 Gamepad::Button::FACE_BOTTOM, // Cross
                 Gamepad::Button::FACE_RIGHT, // Circle
@@ -81,20 +81,20 @@ namespace ouzel
                 Gamepad::Button::NONE,
                 Gamepad::Button::NONE,
                 Gamepad::Button::NONE
-            },
-            {
+            }},
+            {{
                 Gamepad::Axis::LEFT_THUMB_X,
                 Gamepad::Axis::LEFT_THUMB_Y,
                 Gamepad::Axis::RIGHT_THUMB_X,
                 Gamepad::Axis::LEFT_TRIGGER,
                 Gamepad::Axis::RIGHT_TRIGGER,
                 Gamepad::Axis::RIGHT_THUMB_Y
-            }
+            }}
         };
 
         // Xbox One controller
         static const GamepadConfig XBOX_ONE_CONFIG = {
-            {
+            {{
                 Gamepad::Button::FACE_BOTTOM, // A
                 Gamepad::Button::FACE_RIGHT, // B
                 Gamepad::Button::FACE_LEFT, // X
@@ -119,20 +119,20 @@ namespace ouzel
                 Gamepad::Button::NONE,
                 Gamepad::Button::NONE,
                 Gamepad::Button::NONE
-            },
-            {
+            }},
+            {{
                 Gamepad::Axis::LEFT_THUMB_X,
                 Gamepad::Axis::LEFT_THUMB_Y,
                 Gamepad::Axis::RIGHT_THUMB_X,
                 Gamepad::Axis::RIGHT_THUMB_Y,
                 Gamepad::Axis::LEFT_TRIGGER,
                 Gamepad::Axis::RIGHT_TRIGGER
-            }
+            }}
         };
 
         // Xbox 360 controller
         static const GamepadConfig XBOX_360_CONFIG = {
-            {
+            {{
                 Gamepad::Button::FACE_BOTTOM, // A
                 Gamepad::Button::FACE_RIGHT, // B
                 Gamepad::Button::FACE_LEFT, // X
@@ -157,20 +157,20 @@ namespace ouzel
                 Gamepad::Button::NONE,
                 Gamepad::Button::NONE,
                 Gamepad::Button::NONE
-            },
-            {
+            }},
+            {{
                 Gamepad::Axis::LEFT_THUMB_X,
                 Gamepad::Axis::LEFT_THUMB_Y,
                 Gamepad::Axis::LEFT_TRIGGER,
                 Gamepad::Axis::RIGHT_THUMB_X,
                 Gamepad::Axis::RIGHT_THUMB_Y,
                 Gamepad::Axis::RIGHT_TRIGGER
-            }
+            }}
         };
 
         // Acme GA07 controller
         static const GamepadConfig ACME_GA07_CONFIG = {
-            {
+            {{
                 Gamepad::Button::FACE_TOP, // 1
                 Gamepad::Button::FACE_RIGHT, // 2
                 Gamepad::Button::FACE_BOTTOM, // 3
@@ -195,20 +195,20 @@ namespace ouzel
                 Gamepad::Button::NONE,
                 Gamepad::Button::NONE,
                 Gamepad::Button::NONE
-            },
-            {
+            }},
+            {{
                 Gamepad::Axis::LEFT_THUMB_X,
                 Gamepad::Axis::LEFT_THUMB_Y,
                 Gamepad::Axis::RIGHT_THUMB_X,
                 Gamepad::Axis::NONE,
                 Gamepad::Axis::NONE,
                 Gamepad::Axis::RIGHT_THUMB_Y
-            }
+            }}
         };
 
         // Generic controller
         static const GamepadConfig GENERIC_CONFIG = {
-            {
+            {{
                 Gamepad::Button::FACE_LEFT,
                 Gamepad::Button::FACE_BOTTOM,
                 Gamepad::Button::FACE_RIGHT,
@@ -233,15 +233,15 @@ namespace ouzel
                 Gamepad::Button::NONE,
                 Gamepad::Button::NONE,
                 Gamepad::Button::NONE
-            },
-            {
+            }},
+            {{
                 Gamepad::Axis::LEFT_THUMB_X,
                 Gamepad::Axis::LEFT_THUMB_Y,
                 Gamepad::Axis::RIGHT_THUMB_X,
                 Gamepad::Axis::LEFT_TRIGGER,
                 Gamepad::Axis::RIGHT_TRIGGER,
                 Gamepad::Axis::RIGHT_THUMB_Y
-            }
+            }}
         };
 
         inline const GamepadConfig& getGamepadConfig(int32_t vendorId, int32_t productId)
