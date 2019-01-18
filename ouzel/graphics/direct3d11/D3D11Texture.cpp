@@ -4,6 +4,7 @@
 
 #if OUZEL_COMPILE_DIRECT3D11
 
+#include <stdexcept>
 #include "D3D11Texture.hpp"
 #include "D3D11RenderDevice.hpp"
 
