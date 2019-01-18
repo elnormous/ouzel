@@ -4,6 +4,7 @@
 
 #if OUZEL_COMPILE_OPENGL
 
+#include <stdexcept>
 #include "OGLTexture.hpp"
 #include "OGLRenderDevice.hpp"
 

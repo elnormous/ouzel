@@ -4,6 +4,7 @@
 
 #if OUZEL_COMPILE_OPENGL
 
+#include <stdexcept>
 #include "OGLRenderTarget.hpp"
 #include "OGLRenderDevice.hpp"
 
@@ -15,6 +16,13 @@ namespace ouzel
             OGLRenderResource(renderDeviceOGL)
         {
             glGenFramebuffersProc(1, &frameBufferId);
+
+            GLenum error;
+
+            if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                throw std::system_error(makeErrorCode(error), "Failed to upload texture data");
+
+            clearMask = GL_COLOR_BUFFER_BIT;
         }
 
         OGLRenderTarget::~OGLRenderTarget()
