@@ -10,21 +10,37 @@ platform=linux
 else ifeq ($(os),Darwin)
 platform=macos
 endif
-
 endif
 ifeq ($(platform),emscripten)
 CC=emcc
 CXX=em++
 AR=emar
 endif
-CXXFLAGS=-c -std=c++11 -Wall \
+CFLAGS=-Wall \
+	-I"$(ROOT_DIR)/../ouzel" \
+	-I"$(ROOT_DIR)/../external/khronos" \
+	-I"$(ROOT_DIR)/../external/smbPitchShift" \
+	-I"$(ROOT_DIR)/../external/stb"
+CXXFLAGS=-std=c++11 \
+	-Wall \
 	-I"$(ROOT_DIR)/../ouzel" \
 	-I"$(ROOT_DIR)/../shaders" \
 	-I"$(ROOT_DIR)/../external/khronos" \
 	-I"$(ROOT_DIR)/../external/smbPitchShift" \
 	-I"$(ROOT_DIR)/../external/stb"
-CFLAGS=-c -Wall \
-	-I"$(ROOT_DIR)/../ouzel"
+OBJCFLAGS=-fno-objc-arc \
+	-Wall \
+	-I"$(ROOT_DIR)/../ouzel" \
+	-I"$(ROOT_DIR)/../external/khronos" \
+	-I"$(ROOT_DIR)/../external/smbPitchShift" \
+	-I"$(ROOT_DIR)/../external/stb"
+OBJCXXFLAGS=-std=c++11 \
+	-fno-objc-arc \
+	-Wall \
+	-I"$(ROOT_DIR)/../ouzel" \
+	-I"$(ROOT_DIR)/../external/khronos" \
+	-I"$(ROOT_DIR)/../external/smbPitchShift" \
+	-I"$(ROOT_DIR)/../external/stb"
 SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/animators/Ease.cpp \
 	$(ROOT_DIR)/../ouzel/animators/Fade.cpp \
@@ -66,7 +82,6 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/audio/PCMSound.cpp \
 	$(ROOT_DIR)/../ouzel/audio/SilenceSound.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Sound.cpp \
-	$(ROOT_DIR)/../ouzel/audio/SoundCue.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Source.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Submix.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Voice.cpp \
@@ -160,8 +175,6 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/scene/StaticMeshData.cpp \
 	$(ROOT_DIR)/../ouzel/scene/StaticMeshRenderer.cpp \
 	$(ROOT_DIR)/../ouzel/scene/TextRenderer.cpp \
-	$(ROOT_DIR)/../ouzel/utils/INI.cpp \
-	$(ROOT_DIR)/../ouzel/utils/JSON.cpp \
 	$(ROOT_DIR)/../ouzel/utils/Log.cpp \
 	$(ROOT_DIR)/../ouzel/utils/OBF.cpp \
 	$(ROOT_DIR)/../ouzel/utils/Utils.cpp \
@@ -185,7 +198,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/dsound/DSAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/KeyboardDeviceWin.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/MouseDeviceWin.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/CursorWin.cpp
-CXXFLAGS+=-DWINVER=0x0601 -D_WIN32_WINNT=0x0601
+CPPFLAGS+=-DWINVER=0x0601 -D_WIN32_WINNT=0x0601
 else ifeq ($(platform),linux)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/alsa/ALSAAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/audio/openal/OALAudioDevice.cpp \
@@ -200,6 +213,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/alsa/ALSAAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/MouseDeviceLinux.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/CursorLinux.cpp
 ifneq ($(filter arm%,$(architecture)),) # ARM Linux
+CFLAGS+=-I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux
 CXXFLAGS+=-I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux
 endif
 else ifeq ($(platform),macos)
@@ -250,6 +264,8 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/CAAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/input/ios/InputSystemIOS.mm
 CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
 CXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
+OBJCFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
+OBJCXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
 else ifeq ($(platform),tvos)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/CAAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/audio/openal/OALAudioDevice.cpp \
@@ -274,6 +290,8 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/CAAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/input/tvos/InputSystemTVOS.mm
 CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
 CXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
+OBJCFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
+OBJCXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
 else ifeq ($(platform),emscripten)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/OALAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/EngineEm.cpp \
@@ -284,6 +302,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/OALAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/input/emscripten/GamepadDeviceEm.cpp \
 	$(ROOT_DIR)/../ouzel/input/emscripten/InputSystemEm.cpp \
 	$(ROOT_DIR)/../ouzel/input/emscripten/MouseDeviceEm.cpp
+CFLAGS+=-s DISABLE_EXCEPTION_CATCHING=0
 CXXFLAGS+=-s DISABLE_EXCEPTION_CATCHING=0
 endif
 BASE_NAMES=$(basename $(SOURCES))
@@ -293,13 +312,17 @@ DEPENDENCIES=$(OBJECTS:.o=.d)
 
 .PHONY: all
 ifeq ($(debug),1)
-all: CXXFLAGS+=-DDEBUG -g
-all: CFLAGS+=-DDEBUG -g
+all: CPPFLAGS+=-DDEBUG # C preprocessor flags
+all: CFLAGS+=-g # C flags
+all: CXXFLAGS+=-g # C++ flags
+all: OBJCFLAGS+=-g # Objective-C flags
+all: OBJCXXFLAGS+=-g # Objective-C++ flags
 else
-all: CXXFLAGS+=-O3
 all: CFLAGS+=-O3
+all: CXXFLAGS+=-O3
+all: OBJCFLAGS+=-O3
+all: OBJCXXFLAGS+=-O3
 endif
-all: config
 all: $(ROOT_DIR)/$(LIBRARY)
 
 $(ROOT_DIR)/$(LIBRARY): $(OBJECTS)
@@ -307,8 +330,8 @@ $(ROOT_DIR)/$(LIBRARY): $(OBJECTS)
 
 -include $(DEPENDENCIES)
 
-.PHONY: config
-config:
+# The build config file
+$(ROOT_DIR)/../ouzel/Config.h:
 ifeq ($(platform),windows)
 	if not exist $(ROOT_DIR)\..\ouzel\Config.h copy $(ROOT_DIR)\..\ouzel\DefaultConfig.h $(ROOT_DIR)\..\ouzel\Config.h
 else
@@ -317,23 +340,66 @@ else
 	fi
 endif
 
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -MMD -MP $< -o $@
+# Precompiled headers
+$(ROOT_DIR)/pch/cpp/Prefix.pch: $(ROOT_DIR)/Prefix.pch
+ifeq ($(platform),windows)
+	if not exist $(ROOT_DIR)\pch md $(ROOT_DIR)\pch
+	if not exist $(ROOT_DIR)\pch\cpp md $(ROOT_DIR)\pch\cpp
+	copy $(ROOT_DIR)\Prefix.pch $(ROOT_DIR)\pch\cpp\Prefix.pch
+else
+	mkdir -p $(ROOT_DIR)/pch/cpp
+	cp $(ROOT_DIR)/Prefix.pch $(ROOT_DIR)/pch/cpp/Prefix.pch
+endif
 
-%.o: %.mm
-	$(CXX) -fno-objc-arc $(CXXFLAGS) -MMD -MP $< -o $@
+$(ROOT_DIR)/pch/objc/Prefix.pch: $(ROOT_DIR)/Prefix.pch
+ifeq ($(platform),windows)
+	if not exist $(ROOT_DIR)\pch md $(ROOT_DIR)\pch
+	if not exist $(ROOT_DIR)\pch\objc md $(ROOT_DIR)\pch\objc
+	copy $(ROOT_DIR)\Prefix.pch $(ROOT_DIR)\pch\objc\Prefix.pch
+else
+	mkdir -p $(ROOT_DIR)/pch/objc
+	cp $(ROOT_DIR)/Prefix.pch $(ROOT_DIR)/pch/objc/Prefix.pch
+endif
 
-%.o: %.m
-	$(CC) -fno-objc-arc $(CFLAGS) -MMD -MP $< -o $@
+$(ROOT_DIR)/pch/objcpp/Prefix.pch: $(ROOT_DIR)/Prefix.pch
+ifeq ($(platform),windows)
+	if not exist $(ROOT_DIR)\pch md $(ROOT_DIR)\pch
+	if not exist $(ROOT_DIR)\pch\objcpp md $(ROOT_DIR)\pch\objcpp
+	copy $(ROOT_DIR)\Prefix.pch $(ROOT_DIR)\pch\objcpp\Prefix.pch
+else
+	mkdir -p $(ROOT_DIR)/pch/objcpp
+	cp $(ROOT_DIR)/Prefix.pch $(ROOT_DIR)/pch/objcpp/Prefix.pch
+endif
+
+$(ROOT_DIR)/pch/cpp/Prefix.pch.gch: $(ROOT_DIR)/pch/cpp/Prefix.pch
+	$(CXX) -c -x c++-header $(CPPFLAGS) $(CXXFLAGS) $< -o $(ROOT_DIR)/pch/cpp/Prefix.pch.gch
+
+$(ROOT_DIR)/pch/objc/Prefix.pch.gch: $(ROOT_DIR)/pch/objc/Prefix.pch
+	$(CC) -c -x objective-c-header $(CPPFLAGS) $(OBJCFLAGS) $< -o $(ROOT_DIR)/pch/objc/Prefix.pch.gch
+
+$(ROOT_DIR)/pch/objcpp/Prefix.pch.gch: $(ROOT_DIR)/pch/objcpp/Prefix.pch
+	$(CXX) -c -x objective-c++-header $(CPPFLAGS) $(OBJCXXFLAGS) $< -o $(ROOT_DIR)/pch/objcpp/Prefix.pch.gch
+
+# Source files
+%.o: %.cpp $(ROOT_DIR)/pch/cpp/Prefix.pch.gch $(ROOT_DIR)/../ouzel/Config.h
+	$(CXX) -c -x c++ $(CPPFLAGS) $(CXXFLAGS) -include $(ROOT_DIR)/pch/cpp/Prefix.pch -MMD -MP $< -o $@
+
+%.o: %.m $(ROOT_DIR)/pch/objc/Prefix.pch.gch $(ROOT_DIR)/../ouzel/Config.h
+	$(CC) -c -x objective-c $(CPPFLAGS) $(OBJCFLAGS) -include $(ROOT_DIR)/pch/objc/Prefix.pch -MMD -MP $< -o $@
+
+%.o: %.mm $(ROOT_DIR)/pch/objcpp/Prefix.pch.gch $(ROOT_DIR)/../ouzel/Config.h
+	$(CXX) -c -x objective-c++ $(CPPFLAGS) $(OBJCXXFLAGS) -include $(ROOT_DIR)/pch/objcpp/Prefix.pch -MMD -MP $< -o $@
 
 .PHONY: clean
 clean:
 ifeq ($(platform),windows)
 	-del /f /q "$(ROOT_DIR)\$(LIBRARY)"
+	-rmdir /s $(ROOT_DIR)\pch
 	-del /s "$(ROOT_DIR)\..\*.o"
 	-del /s "$(ROOT_DIR)\..\*.d"
 else
-	$(RM) $(ROOT_DIR)/$(LIBRARY)
+	$(RM) $(ROOT_DIR)/$(LIBRARY) $(ROOT_DIR)/Prefix.cpp.pch $(ROOT_DIR)/Prefix.objc.pch $(ROOT_DIR)/Prefix.objcpp.pch
+	$(RM) -rf $(ROOT_DIR)/pch
 	find $(ROOT_DIR)/.. -name '*.o' -type f -delete
 	find $(ROOT_DIR)/.. -name '*.d' -type f -delete
 endif

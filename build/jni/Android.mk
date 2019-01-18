@@ -11,6 +11,7 @@ LOCAL_ARM_MODE := arm
 LOCAL_CFLAGS := -Wall -Wextra
 LOCAL_WHOLE_STATIC_LIBRARIES += cpufeatures
 LOCAL_CPPFLAGS += -std=c++11 -fexceptions
+LOCAL_PCH := ../Prefix.pch
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../ouzel \
     $(LOCAL_PATH)/../../shaders \
     $(LOCAL_PATH)/../../external/khronos \
@@ -59,7 +60,6 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/audio/PCMSound.cpp \
 	../../ouzel/audio/SilenceSound.cpp \
     ../../ouzel/audio/Sound.cpp \
-	../../ouzel/audio/SoundCue.cpp \
 	../../ouzel/audio/Source.cpp \
     ../../ouzel/audio/Submix.cpp \
 	../../ouzel/audio/Voice.cpp \
@@ -160,8 +160,6 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/scene/StaticMeshData.cpp \
     ../../ouzel/scene/StaticMeshRenderer.cpp \
     ../../ouzel/scene/TextRenderer.cpp \
-    ../../ouzel/utils/INI.cpp \
-    ../../ouzel/utils/JSON.cpp \
     ../../ouzel/utils/Log.cpp \
     ../../ouzel/utils/OBF.cpp \
     ../../ouzel/utils/Utils.cpp \

@@ -3,9 +3,9 @@
 #ifndef OUZEL_ASSETS_CACHE_HPP
 #define OUZEL_ASSETS_CACHE_HPP
 
+#include <map>
 #include <memory>
 #include <string>
-#include <map>
 #include "assets/Bundle.hpp"
 #include "assets/BmfLoader.hpp"
 #include "assets/ColladaLoader.hpp"

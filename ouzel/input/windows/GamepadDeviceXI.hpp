@@ -3,11 +3,12 @@
 #ifndef OUZEL_INPUT_GAMEPADDEVICEXI_HPP
 #define OUZEL_INPUT_GAMEPADDEVICEXI_HPP
 
-#ifndef NOMINMAX
-#  define NOMINMAX
-#endif
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
 #include <Windows.h>
 #include <Xinput.h>
+#undef WIN32_LEAN_AND_MEAN
+#undef NOMINMAX
 #include "input/Gamepad.hpp"
 #include "input/windows/GamepadDeviceWin.hpp"
 

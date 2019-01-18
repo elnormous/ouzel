@@ -37,7 +37,6 @@ namespace ouzel
             verticalSync = newVerticalSync;
             depth = newDepth;
             debugRenderer = newDebugRenderer;
-            clearColor = Color::BLACK;
 
             previousFrameTime = std::chrono::steady_clock::now();
         }

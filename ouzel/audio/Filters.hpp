@@ -4,6 +4,7 @@
 #define OUZEL_AUDIO_FILTERS_HPP
 
 #include <cfloat>
+#include <utility>
 #include "audio/Filter.hpp"
 #include "math/Vector3.hpp"
 #include "scene/Component.hpp"
@@ -23,11 +24,15 @@ namespace ouzel
             Delay(Delay&&) = delete;
             Delay& operator=(Delay&&) = delete;
 
-            float getDelay() const { return delay; }
-            void setDelay(float newDelay);
+            inline float getDelay() const { return delay; }
+            inline void setDelay(float newDelay);
+
+            inline void setDelayRandom(const std::pair<float, float>& newDelayRandom) { delayRandom = newDelayRandom; }
+            inline const std::pair<float, float>& getDelayRandom() const { return delayRandom; }
 
         private:
             float delay = 0.0F;
+            std::pair<float, float> delayRandom{0.0F, 0.0F};
         };
 
         class Gain final: public Filter
@@ -41,11 +46,15 @@ namespace ouzel
             Gain(Gain&&) = delete;
             Gain& operator=(Gain&&) = delete;
 
-            float getGain() const { return gain; }
+            inline float getGain() const { return gain; }
             void setGain(float newGain);
+
+            inline void setGainRandom(const std::pair<float, float>& newGainRandom) { gainRandom = newGainRandom; }
+            inline const std::pair<float, float>& getGainRandom() const { return gainRandom; }
 
         private:
             float gain = 0.0F; // dB
+            std::pair<float, float> gainRandom{0.0F, 0.0F};
         };
 
         class Panner final: public Filter, public scene::Component
@@ -59,7 +68,7 @@ namespace ouzel
             Panner(Panner&&) = delete;
             Panner& operator=(Panner&&) = delete;
 
-            const Vector3<float>& getPosition() const { return position; }
+            inline const Vector3<float>& getPosition() const { return position; }
             void setPosition(const Vector3<float>& newPosition);
 
             inline float getRolloffFactor() const { return rolloffFactor; }
@@ -91,11 +100,15 @@ namespace ouzel
             Pitch(Pitch&&) = delete;
             Pitch& operator=(Pitch&&) = delete;
 
-            float getPitch() const { return pitch; }
+            inline float getPitch() const { return pitch; }
             void setPitch(float newPitch);
+
+            inline void setPitchRandom(const std::pair<float, float>& newPitchRandom) { pitchRandom = newPitchRandom; }
+            inline const std::pair<float, float>& getPitchRandom() const { return pitchRandom; }
 
         private:
             float pitch = 1.0f;
+            std::pair<float, float> pitchRandom{0.0F, 0.0F};
         };
 
         class Reverb final: public Filter

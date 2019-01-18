@@ -7,6 +7,7 @@
 
 #if OUZEL_COMPILE_DIRECT3D11
 
+#include <d3d11.h>
 #include "graphics/direct3d11/D3D11RenderResource.hpp"
 
 namespace ouzel
@@ -19,6 +20,24 @@ namespace ouzel
         {
         public:
             explicit D3D11RenderTarget(D3D11RenderDevice& renderDeviceD3D11);
+            ~D3D11RenderTarget();
+
+            ID3D11RenderTargetView* getRenderTargetView() const { return renderTargetView; }
+            ID3D11DepthStencilView* getDepthStencilView() const { return depthStencilView; }
+
+            inline const float* getFrameBufferClearColor() const { return frameBufferClearColor; }
+            inline float getClearDepth() const { return clearDepth; }
+            inline bool getClearFrameBufferView() const { return clearFrameBufferView; }
+            inline bool getClearDepthBufferView() const { return clearDepthBufferView; }
+
+        private:
+            ID3D11RenderTargetView* renderTargetView = nullptr;
+            ID3D11DepthStencilView* depthStencilView = nullptr;
+
+            FLOAT frameBufferClearColor[4]{0.0F, 0.0F, 0.0F, 0.0F};
+            float clearDepth = 1.0F;
+            bool clearFrameBufferView = true;
+            bool clearDepthBufferView = false;
         };
     } // namespace graphics
 } // namespace ouzel

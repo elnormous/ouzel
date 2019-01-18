@@ -36,9 +36,9 @@ namespace ouzel
         public:
             D3D11Texture(D3D11RenderDevice& renderDeviceD3D11,
                          const std::vector<Texture::Level>& levels,
-                         uint32_t newFlags = 0,
-                         uint32_t newSampleCount = 1,
-                         PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
+                         uint32_t initFlags = 0,
+                         uint32_t initSampleCount = 1,
+                         PixelFormat initPixelFormat = PixelFormat::RGBA8_UNORM);
             ~D3D11Texture();
 
             void setData(const std::vector<Texture::Level>& levels);
@@ -51,47 +51,41 @@ namespace ouzel
             void setClearColor(Color color);
             void setClearDepth(float newClearDepth);
 
+            void resolve();
+
             inline uint32_t getFlags() const { return flags; }
             inline uint32_t getMipmaps() const { return mipmaps; }
 
-            inline bool getClearColorBuffer() const { return clearColorBuffer; }
-            inline bool getClearDepthBuffer() const { return clearDepthBuffer; }
-            inline Color getClearColor() const { return clearColor; }
-            inline float getClearDepth() const { return clearDepth; }
             inline uint32_t getSampleCount() const { return sampleCount; }
-            inline PixelFormat getPixelFormat() const { return pixelFormat; }
 
-            ID3D11Texture2D* getTexture() const { return texture; }
-            ID3D11ShaderResourceView* getResourceView() const { return resourceView; }
-            ID3D11SamplerState* getSamplerState() const { return samplerState; }
+            inline ID3D11Texture2D* getTexture() const { return texture; }
+            inline ID3D11ShaderResourceView* getResourceView() const { return resourceView; }
+            inline ID3D11SamplerState* getSamplerState() const { return samplerState; }
 
-            ID3D11RenderTargetView* getRenderTargetView() const { return renderTargetView; }
-            ID3D11Texture2D* getDepthStencilTexture() const { return depthStencilTexture; }
-            ID3D11DepthStencilView* getDepthStencilView() const { return depthStencilView; }
+            inline ID3D11RenderTargetView* getRenderTargetView() const { return renderTargetView; }
+            inline ID3D11Texture2D* getDepthStencilTexture() const { return depthStencilTexture; }
+            inline ID3D11DepthStencilView* getDepthStencilView() const { return depthStencilView; }
 
-            const float* getFrameBufferClearColor() const { return frameBufferClearColor; }
+            inline UINT getWidth() const { return width; }
+            inline UINT getHeight() const { return height; }
 
-            UINT getWidth() const { return width; }
-            UINT getHeight() const { return height; }
-
-            bool getClearFrameBufferView() const { return clearFrameBufferView; }
-            bool getClearDepthBufferView() const { return clearDepthBufferView; }
+            inline const float* getFrameBufferClearColor() const { return frameBufferClearColor; }
+            inline float getClearDepth() const { return clearDepth; }
+            inline bool getClearFrameBufferView() const { return clearFrameBufferView; }
+            inline bool getClearDepthBufferView() const { return clearDepthBufferView; }
 
         private:
-            void createTexture(const std::vector<Texture::Level>& levels);
             void updateSamplerState();
 
             uint32_t flags = 0;
             uint32_t mipmaps = 0;
-            bool clearColorBuffer = true;
-            bool clearDepthBuffer = false;
-            Color clearColor;
-            float clearDepth = 1.0F;
             uint32_t sampleCount = 1;
-            PixelFormat pixelFormat = PixelFormat::RGBA8_UNORM;
+            DXGI_FORMAT pixelFormat = DXGI_FORMAT_UNKNOWN;
+            uint32_t pixelSize = 0;
             SamplerStateDesc samplerDescriptor;
 
             ID3D11Texture2D* texture = nullptr;
+            ID3D11Texture2D* msaaTexture = nullptr;
             ID3D11ShaderResourceView* resourceView = nullptr;
             ID3D11SamplerState* samplerState = nullptr;
 
@@ -102,7 +96,8 @@ namespace ouzel
             ID3D11Texture2D* depthStencilTexture = nullptr;
             ID3D11DepthStencilView* depthStencilView = nullptr;
 
-            FLOAT frameBufferClearColor[4];
+            FLOAT frameBufferClearColor[4]{0.0F, 0.0F, 0.0F, 0.0F};
+            float clearDepth = 1.0F;
             bool clearFrameBufferView = true;
             bool clearDepthBufferView = false;
         };

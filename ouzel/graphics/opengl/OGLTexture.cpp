@@ -4,6 +4,7 @@
 
 #if OUZEL_COMPILE_OPENGL
 
+#include <stdexcept>
 #include "OGLTexture.hpp"
 #include "OGLRenderDevice.hpp"
 
@@ -221,19 +222,30 @@ namespace ouzel
         }
 
         OGLTexture::OGLTexture(OGLRenderDevice& renderDeviceOGL,
-                               const std::vector<Texture::Level>& newLevels,
-                               uint32_t newFlags,
-                               uint32_t newSampleCount,
-                               PixelFormat newPixelFormat):
+                               const std::vector<Texture::Level>& initLevels,
+                               uint32_t initFlags,
+                               uint32_t initSampleCount,
+                               PixelFormat initPixelFormat):
             OGLRenderResource(renderDeviceOGL),
-            levels(newLevels),
-            flags(newFlags),
-            mipmaps(static_cast<uint32_t>(newLevels.size())),
-            sampleCount(newSampleCount),
-            pixelFormat(newPixelFormat)
+            levels(initLevels),
+            flags(initFlags),
+            mipmaps(static_cast<uint32_t>(initLevels.size())),
+            sampleCount(initSampleCount),
+            internalPixelFormat(getOGLInternalPixelFormat(initPixelFormat, renderDevice.getAPIMajorVersion())),
+            pixelFormat(getOGLPixelFormat(initPixelFormat)),
+            pixelType(getOGLPixelType(initPixelFormat))
         {
             if ((flags & Texture::RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
                 throw std::runtime_error("Invalid mip map count");
+
+            if (internalPixelFormat == GL_NONE)
+                throw std::runtime_error("Invalid pixel format");
+
+            if (pixelFormat == GL_NONE)
+                throw std::runtime_error("Invalid pixel format");
+
+            if (pixelType == GL_NONE)
+                throw std::runtime_error("Invalid pixel format");
 
             createTexture();
 
@@ -241,14 +253,7 @@ namespace ouzel
 
             if (flags & Texture::RENDER_TARGET)
             {
-                clearMask = 0;
-                if (clearColorBuffer) clearMask |= GL_COLOR_BUFFER_BIT;
-                if (clearDepthBuffer) clearMask |= GL_DEPTH_BUFFER_BIT;
-
-                frameBufferClearColor[0] = clearColor.normR();
-                frameBufferClearColor[1] = clearColor.normG();
-                frameBufferClearColor[2] = clearColor.normB();
-                frameBufferClearColor[3] = clearColor.normA();
+                clearMask = GL_COLOR_BUFFER_BIT;
             }
             else
             {
@@ -267,17 +272,17 @@ namespace ouzel
                 {
                     if (!levels[level].data.empty())
                     {
-                        glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
+                        glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(internalPixelFormat),
                                          static_cast<GLsizei>(levels[level].size.v[0]),
                                          static_cast<GLsizei>(levels[level].size.v[1]), 0,
-                                         oglPixelFormat, oglPixelType, levels[level].data.data());
+                                         pixelFormat, pixelType, levels[level].data.data());
                     }
                     else
                     {
-                        glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
+                        glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(internalPixelFormat),
                                          static_cast<GLsizei>(levels[level].size.v[0]),
                                          static_cast<GLsizei>(levels[level].size.v[1]), 0,
-                                         oglPixelFormat, oglPixelType, nullptr);
+                                         pixelFormat, pixelType, nullptr);
                     }
                 }
 
@@ -337,17 +342,17 @@ namespace ouzel
                 {
                     if (!levels[level].data.empty())
                     {
-                        glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
+                        glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(internalPixelFormat),
                                          static_cast<GLsizei>(levels[level].size.v[0]),
                                          static_cast<GLsizei>(levels[level].size.v[1]), 0,
-                                         oglPixelFormat, oglPixelType, levels[level].data.data());
+                                         pixelFormat, pixelType, levels[level].data.data());
                     }
                     else
                     {
-                        glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
+                        glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(internalPixelFormat),
                                          static_cast<GLsizei>(levels[level].size.v[0]),
                                          static_cast<GLsizei>(levels[level].size.v[1]), 0,
-                                         oglPixelFormat, oglPixelType, nullptr);
+                                         pixelFormat, pixelType, nullptr);
                     }
                 }
 
@@ -381,7 +386,7 @@ namespace ouzel
                         glTexSubImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), 0, 0,
                                             static_cast<GLsizei>(levels[level].size.v[0]),
                                             static_cast<GLsizei>(levels[level].size.v[1]),
-                                            oglPixelFormat, oglPixelType,
+                                            pixelFormat, pixelType,
                                             levels[level].data.data());
                     }
                 }
@@ -487,9 +492,7 @@ namespace ouzel
 
         void OGLTexture::setClearColorBuffer(bool clear)
         {
-            clearColorBuffer = clear;
-
-            if (clearColorBuffer)
+            if (clear)
                 clearMask |= GL_COLOR_BUFFER_BIT;
             else
                 clearMask &= ~static_cast<GLbitfield>(GL_COLOR_BUFFER_BIT);
@@ -497,9 +500,7 @@ namespace ouzel
 
         void OGLTexture::setClearDepthBuffer(bool clear)
         {
-            clearDepthBuffer = clear;
-
-            if (clearDepthBuffer)
+            if (clear)
                 clearMask |= GL_DEPTH_BUFFER_BIT;
             else
                 clearMask &= ~static_cast<GLbitfield>(GL_DEPTH_BUFFER_BIT);
@@ -507,12 +508,10 @@ namespace ouzel
 
         void OGLTexture::setClearColor(Color color)
         {
-            clearColor = color;
-
-            frameBufferClearColor[0] = clearColor.normR();
-            frameBufferClearColor[1] = clearColor.normG();
-            frameBufferClearColor[2] = clearColor.normB();
-            frameBufferClearColor[3] = clearColor.normA();
+            frameBufferClearColor[0] = color.normR();
+            frameBufferClearColor[1] = color.normG();
+            frameBufferClearColor[2] = color.normB();
+            frameBufferClearColor[3] = color.normA();
         }
 
         void OGLTexture::setClearDepth(float newClearDepth)
@@ -522,36 +521,6 @@ namespace ouzel
 
         void OGLTexture::createTexture()
         {
-            if (depthBufferId)
-            {
-                renderDevice.deleteRenderBuffer(depthBufferId);
-                depthBufferId = 0;
-            }
-
-            if (colorBufferId)
-            {
-                renderDevice.deleteRenderBuffer(colorBufferId);
-                colorBufferId = 0;
-            }
-
-            if (frameBufferId)
-            {
-                renderDevice.deleteFrameBuffer(frameBufferId);
-                frameBufferId = 0;
-            }
-
-            if (textureId)
-            {
-                renderDevice.deleteTexture(textureId);
-                textureId = 0;
-            }
-
-            if (depthTextureId)
-            {
-                renderDevice.deleteTexture(depthTextureId);
-                depthTextureId = 0;
-            }
-
             glGenTexturesProc(1, &textureId);
 
             GLenum error;
@@ -563,21 +532,6 @@ namespace ouzel
 
             width = static_cast<GLsizei>(levels.front().size.v[0]);
             height = static_cast<GLsizei>(levels.front().size.v[1]);
-
-            oglInternalPixelFormat = getOGLInternalPixelFormat(pixelFormat, renderDevice.getAPIMajorVersion());
-
-            if (oglInternalPixelFormat == GL_NONE)
-                throw std::runtime_error("Invalid pixel format");
-
-            oglPixelFormat = getOGLPixelFormat(pixelFormat);
-
-            if (oglPixelFormat == GL_NONE)
-                throw std::runtime_error("Invalid pixel format");
-
-            oglPixelType = getOGLPixelType(pixelFormat);
-
-            if (oglPixelType == GL_NONE)
-                throw std::runtime_error("Invalid pixel format");
 
             if ((flags & Texture::RENDER_TARGET) && renderDevice.isRenderTargetsSupported())
             {
@@ -592,9 +546,9 @@ namespace ouzel
                 {
                     renderDevice.bindTexture(textureId, 0);
 
-                    glTexImage2DProc(GL_TEXTURE_2D, 0, static_cast<GLint>(oglInternalPixelFormat),
+                    glTexImage2DProc(GL_TEXTURE_2D, 0, static_cast<GLint>(internalPixelFormat),
                                      width, height, 0,
-                                     oglPixelFormat, oglPixelType, nullptr);
+                                     pixelFormat, pixelType, nullptr);
 
                     // TODO: blit multisample render buffer to texture
                     glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0);
@@ -611,7 +565,7 @@ namespace ouzel
                     {
                         glRenderbufferStorageMultisampleProc(GL_RENDERBUFFER,
                                                              static_cast<GLsizei>(sampleCount),
-                                                             oglInternalPixelFormat,
+                                                             internalPixelFormat,
                                                              width, height);
 
                         if ((error = glGetErrorProc()) != GL_NO_ERROR)
@@ -619,7 +573,7 @@ namespace ouzel
                     }
                     else
                     {
-                        glRenderbufferStorageProc(GL_RENDERBUFFER, oglInternalPixelFormat,
+                        glRenderbufferStorageProc(GL_RENDERBUFFER, internalPixelFormat,
                                                   width, height);
 
                         if ((error = glGetErrorProc()) != GL_NO_ERROR)

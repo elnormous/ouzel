@@ -809,14 +809,7 @@ namespace ouzel
             }
 #endif
 
-            clearMask = 0;
-            if (clearColorBuffer) clearMask |= GL_COLOR_BUFFER_BIT;
-            if (clearDepthBuffer) clearMask |= GL_DEPTH_BUFFER_BIT;
-
-            frameBufferClearColor[0] = clearColor.normR();
-            frameBufferClearColor[1] = clearColor.normG();
-            frameBufferClearColor[2] = clearColor.normB();
-            frameBufferClearColor[3] = clearColor.normA();
+            clearMask = GL_COLOR_BUFFER_BIT;
 
             if (glGenVertexArraysProc)
             {
@@ -831,9 +824,7 @@ namespace ouzel
 
         void OGLRenderDevice::setClearColorBuffer(bool clear)
         {
-            clearColorBuffer = clear;
-
-            if (clearColorBuffer)
+            if (clear)
                 clearMask |= GL_COLOR_BUFFER_BIT;
             else
                 clearMask &= ~static_cast<GLbitfield>(GL_COLOR_BUFFER_BIT);
@@ -842,9 +833,7 @@ namespace ouzel
 
         void OGLRenderDevice::setClearDepthBuffer(bool clear)
         {
-            clearDepthBuffer = clear;
-
-            if (clearDepthBuffer)
+            if (clear)
                 clearMask |= GL_DEPTH_BUFFER_BIT;
             else
                 clearMask &= ~static_cast<GLbitfield>(GL_DEPTH_BUFFER_BIT);
@@ -852,12 +841,10 @@ namespace ouzel
 
         void OGLRenderDevice::setClearColor(Color newClearColor)
         {
-            clearColor = newClearColor;
-
-            frameBufferClearColor[0] = clearColor.normR();
-            frameBufferClearColor[1] = clearColor.normG();
-            frameBufferClearColor[2] = clearColor.normB();
-            frameBufferClearColor[3] = clearColor.normA();
+            frameBufferClearColor[0] = newClearColor.normR();
+            frameBufferClearColor[1] = newClearColor.normG();
+            frameBufferClearColor[2] = newClearColor.normB();
+            frameBufferClearColor[3] = newClearColor.normA();
         }
 
         void OGLRenderDevice::setClearDepth(float newClearDepth)
@@ -947,10 +934,9 @@ namespace ouzel
 
                 std::unique_ptr<Command> command;
 
-                while (!commandBuffer.commands.empty())
+                while (!commandBuffer.isEmpty())
                 {
-                    command = std::move(commandBuffer.commands.front());
-                    commandBuffer.commands.pop();
+                    command = std::move(commandBuffer.popCommand());
 
                     switch (command->type)
                     {

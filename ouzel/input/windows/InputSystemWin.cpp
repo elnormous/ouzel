@@ -1,8 +1,12 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
 #include <Windows.h>
 #include <WbemIdl.h>
 #include <OleAuto.h>
+#undef WIN32_LEAN_AND_MEAN
+#undef NOMINMAX
 #include "InputSystemWin.hpp"
 #include "GamepadDeviceDI.hpp"
 #include "GamepadDeviceXI.hpp"

@@ -57,7 +57,7 @@ namespace ouzel
         {
             running = false;
             CommandBuffer commandBuffer;
-            commandBuffer.commands.push(std::unique_ptr<Command>(new PresentCommand()));
+            commandBuffer.pushCommand(std::unique_ptr<Command>(new PresentCommand()));
             submitCommandBuffer(std::move(commandBuffer));
 
             if (renderThread.joinable()) renderThread.join();
@@ -193,7 +193,7 @@ namespace ouzel
         {
             running = false;
             CommandBuffer commandBuffer;
-            commandBuffer.commands.push(std::unique_ptr<Command>(new PresentCommand()));
+            commandBuffer.pushCommand(std::unique_ptr<Command>(new PresentCommand()));
             submitCommandBuffer(std::move(commandBuffer));
 
             if (renderThread.joinable()) renderThread.join();
@@ -289,7 +289,10 @@ namespace ouzel
             if (glGenVertexArraysProc) glGenVertexArraysProc(1, &vertexArrayId);
 
             for (const std::unique_ptr<OGLRenderResource>& resource : resources)
-                if (resource) resource->reload();
+                if (resource) resource->invalidate();
+
+            for (const std::unique_ptr<OGLRenderResource>& resource : resources)
+                if (resource) resource->restore();
 
             if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
                 throw std::runtime_error("Failed to unset EGL context");
@@ -302,7 +305,7 @@ namespace ouzel
         {
             running = false;
             CommandBuffer commandBuffer;
-            commandBuffer.commands.push(std::unique_ptr<Command>(new PresentCommand()));
+            commandBuffer.pushCommand(std::unique_ptr<Command>(new PresentCommand()));
             submitCommandBuffer(std::move(commandBuffer));
 
             if (renderThread.joinable()) renderThread.join();

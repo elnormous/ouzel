@@ -4,7 +4,6 @@
 #include "Bundle.hpp"
 #include "audio/PCMSound.hpp"
 #include "core/Engine.hpp"
-#include "utils/Utils.hpp"
 
 enum WaveFormat
 {
@@ -42,7 +41,10 @@ namespace ouzel
 
                 offset += 4;
 
-                uint32_t length = decodeUInt32Little(data.data() + offset);
+                uint32_t length = static_cast<uint32_t>(data[offset + 0] |
+                                                        (data[offset + 1] << 8) |
+                                                        (data[offset + 2] << 16) |
+                                                        (data[offset + 3] << 24));
 
                 offset += 4;
 
@@ -78,7 +80,10 @@ namespace ouzel
 
                     offset += 4;
 
-                    uint32_t chunkSize = decodeUInt32Little(data.data() + offset);
+                    uint32_t chunkSize = static_cast<uint32_t>(data[offset + 0] |
+                                                               (data[offset + 1] << 8) |
+                                                               (data[offset + 2] << 16) |
+                                                               (data[offset + 3] << 24));
                     offset += 4;
 
                     if (data.size() < offset + chunkSize)
@@ -91,20 +96,26 @@ namespace ouzel
 
                         uint32_t i = offset;
 
-                        formatTag = decodeUInt16Little(data.data() + i);
+                        formatTag = static_cast<uint16_t>(data[i + 0] |
+                                                          (data[i + 1] << 8));
                         i += 2;
 
-                        channels = decodeUInt16Little(data.data() + i);
+                        channels = static_cast<uint16_t>(data[i + 0] |
+                                                         (data[i + 1] << 8));
                         i += 2;
 
-                        sampleRate = decodeUInt32Little(data.data() + i);
+                        sampleRate = static_cast<uint32_t>(data[i + 0] |
+                                                           (data[i + 1] << 8) |
+                                                           (data[i + 2] << 16) |
+                                                           (data[i + 3] << 24));
                         i += 4;
 
                         i += 4; // average bytes per second
 
                         i += 2; // block align
 
-                        bitsPerSample = decodeUInt16Little(data.data() + i);
+                        bitsPerSample = static_cast<uint16_t>(data[i + 0] |
+                                                              (data[i + 1] << 8));
                         i += 2;
 
                         formatChunkFound = true;

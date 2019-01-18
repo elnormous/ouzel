@@ -103,9 +103,6 @@
     <ClCompile Include="..\ouzel\graphics\ImageData.cpp">
       <Filter>ouzel\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\utils\INI.cpp">
-      <Filter>ouzel\utils</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\input\InputManager.cpp">
       <Filter>ouzel\input</Filter>
     </ClCompile>
@@ -268,9 +265,6 @@
     <ClCompile Include="..\ouzel\audio\Sound.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\SoundCue.cpp">
-      <Filter>ouzel\audio</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\audio\VorbisSound.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
@@ -379,9 +373,6 @@
     <ClCompile Include="..\ouzel\assets\WaveLoader.cpp">
       <Filter>ouzel\assets</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\utils\JSON.cpp">
-      <Filter>ouzel\utils</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\utils\XML.cpp">
       <Filter>ouzel\utils</Filter>
     </ClCompile>
@@ -489,6 +480,9 @@
     </ClCompile>
     <ClCompile Include="..\ouzel\audio\Source.cpp">
       <Filter>ouzel\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>ouzel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -789,9 +783,6 @@
     <ClInclude Include="..\ouzel\audio\Sound.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\SoundCue.hpp">
-      <Filter>ouzel\audio</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\audio\VorbisSound.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
@@ -1061,6 +1052,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\Source.hpp">
       <Filter>ouzel\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>ouzel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

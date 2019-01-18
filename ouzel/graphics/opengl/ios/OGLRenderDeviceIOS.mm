@@ -41,7 +41,7 @@ namespace ouzel
         {
             displayLink.stop();
             CommandBuffer commandBuffer;
-            commandBuffer.commands.push(std::unique_ptr<Command>(new PresentCommand()));
+            commandBuffer.pushCommand(std::unique_ptr<Command>(new PresentCommand()));
             submitCommandBuffer(std::move(commandBuffer));
 
             if (msaaColorRenderBufferId) glDeleteRenderbuffersProc(1, &msaaColorRenderBufferId);

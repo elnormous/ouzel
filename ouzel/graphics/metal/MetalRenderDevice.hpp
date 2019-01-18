@@ -40,10 +40,7 @@ typedef id MTLRenderPipelineStatePtr;
 typedef id MTLTexturePtr;
 typedef id MTLDepthStencilStatePtr;
 typedef NSUInteger MTLPixelFormat;
-#  define MTLPixelFormatInvalid 0
 typedef NSUInteger MTLLoadAction;
-#  define MTLLoadActionDontCare 0
-#  define MTLLoadActionClear 2
 #endif
 
 #include "graphics/RenderDevice.hpp"
@@ -134,11 +131,11 @@ namespace ouzel
             MTLTexturePtr depthTexture = nil;
             std::map<SamplerStateDescriptor, MTLSamplerStatePtr> samplerStates;
 
-            MTLPixelFormat colorFormat = MTLPixelFormatInvalid;
-            MTLPixelFormat depthFormat = MTLPixelFormatInvalid;
+            MTLPixelFormat colorFormat;
+            MTLPixelFormat depthFormat;
 
-            MTLLoadAction colorBufferLoadAction = MTLLoadActionClear;
-            MTLLoadAction depthBufferLoadAction = MTLLoadActionDontCare;
+            MTLLoadAction colorBufferLoadAction;
+            MTLLoadAction depthBufferLoadAction;
 
             dispatch_semaphore_t inflightSemaphore;
 

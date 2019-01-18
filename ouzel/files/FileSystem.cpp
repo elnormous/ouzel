@@ -6,9 +6,13 @@
 #include <stdexcept>
 #include <system_error>
 #if defined(_WIN32)
+#  define WIN32_LEAN_AND_MEAN
+#  define NOMINMAX
 #  include <Windows.h>
 #  include <Shlobj.h>
 #  include <Shlwapi.h>
+#  undef WIN32_LEAN_AND_MEAN
+#  undef NOMINMAX
 #elif defined(__APPLE__)
 #  include <TargetConditionals.h>
 #  include <objc/message.h>

@@ -76,7 +76,7 @@ namespace ouzel
         {
             running = false;
             CommandBuffer commandBuffer;
-            commandBuffer.commands.push(std::unique_ptr<Command>(new PresentCommand()));
+            commandBuffer.pushCommand(std::unique_ptr<Command>(new PresentCommand()));
             submitCommandBuffer(std::move(commandBuffer));
 
             if (renderThread.joinable()) renderThread.join();
@@ -312,11 +312,6 @@ namespace ouzel
             if (FAILED(hr = device->CreateDepthStencilState(&depthStencilStateDesc, &defaultDepthStencilState)))
                 throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 depth stencil state");
 
-            frameBufferClearColor[0] = clearColor.normR();
-            frameBufferClearColor[1] = clearColor.normG();
-            frameBufferClearColor[2] = clearColor.normB();
-            frameBufferClearColor[3] = clearColor.normA();
-
             running = true;
             renderThread = std::thread(&D3D11RenderDevice::main, this);
         }
@@ -333,12 +328,10 @@ namespace ouzel
 
         void D3D11RenderDevice::setClearColor(Color newClearColor)
         {
-            clearColor = newClearColor;
-
-            frameBufferClearColor[0] = clearColor.normR();
-            frameBufferClearColor[1] = clearColor.normG();
-            frameBufferClearColor[2] = clearColor.normB();
-            frameBufferClearColor[3] = clearColor.normA();
+            frameBufferClearColor[0] = newClearColor.normR();
+            frameBufferClearColor[1] = newClearColor.normG();
+            frameBufferClearColor[2] = newClearColor.normB();
+            frameBufferClearColor[3] = newClearColor.normA();
         }
 
         void D3D11RenderDevice::setClearDepth(float newClearDepth)
@@ -373,6 +366,7 @@ namespace ouzel
             uint32_t fillModeIndex = 0;
             uint32_t scissorEnableIndex = 0;
             uint32_t cullModeIndex = 0;
+            D3D11Texture* currentRenderTarget = nullptr;
             D3D11Shader* currentShader = nullptr;
 
             CommandBuffer commandBuffer;
@@ -387,15 +381,17 @@ namespace ouzel
 
                 std::unique_ptr<Command> command;
 
-                while (!commandBuffer.commands.empty())
+                while (!commandBuffer.isEmpty())
                 {
-                    command = std::move(commandBuffer.commands.front());
-                    commandBuffer.commands.pop();
+                    command = std::move(commandBuffer.popCommand());
 
                     switch (command->type)
                     {
                         case Command::Type::PRESENT:
                         {
+                            if (currentRenderTarget)
+                                currentRenderTarget->resolve();
+
                             swapChain->Present(swapInterval, 0);
                             break;
                         }
@@ -411,25 +407,32 @@ namespace ouzel
                         {
                             const SetRenderTargetCommand* setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command.get());
 
-                            ID3D11RenderTargetView* newRenderTargetView = nullptr;
-                            ID3D11DepthStencilView* newDepthStencilView = nullptr;
-
+                            D3D11Texture* newRenderTarget = nullptr;
                             if (setRenderTargetCommand->renderTarget)
+                                newRenderTarget = static_cast<D3D11Texture*>(resources[setRenderTargetCommand->renderTarget - 1].get());
+
+                            if (currentRenderTarget != newRenderTarget)
                             {
-                                D3D11Texture* renderTargetD3D11 = static_cast<D3D11Texture*>(resources[setRenderTargetCommand->renderTarget - 1].get());
+                                currentRenderTarget->resolve();
 
-                                if (!renderTargetD3D11->getRenderTargetView()) break;
+                                ID3D11RenderTargetView* newRenderTargetView = nullptr;
+                                ID3D11DepthStencilView* newDepthStencilView = nullptr;
+                                if (newRenderTarget)
+                                {
+                                    if (!newRenderTarget->getRenderTargetView()) break;
+                                    newRenderTargetView = newRenderTarget->getRenderTargetView();
+                                    newDepthStencilView = newRenderTarget->getDepthStencilView();
+                                }
+                                else
+                                {
+                                    newRenderTargetView = renderTargetView;
+                                    newDepthStencilView = depthStencilView;
+                                }
 
-                                newRenderTargetView = renderTargetD3D11->getRenderTargetView();
-                                newDepthStencilView = renderTargetD3D11->getDepthStencilView();
+                                context->OMSetRenderTargets(1, &newRenderTargetView, newDepthStencilView);
+
+                                currentRenderTarget = newRenderTarget;
                             }
-                            else
-                            {
-                                newRenderTargetView = renderTargetView;
-                                newDepthStencilView = depthStencilView;
-                            }
-
-                            context->OMSetRenderTargets(1, &newRenderTargetView, newDepthStencilView);
 
                             break;
                         }
@@ -812,8 +815,8 @@ namespace ouzel
                             }
 
                             uploadBuffer(currentShader->getFragmentShaderConstantBuffer(),
-                                            shaderData.data(),
-                                            static_cast<uint32_t>(sizeof(float) * shaderData.size()));
+                                         shaderData.data(),
+                                         static_cast<uint32_t>(sizeof(float) * shaderData.size()));
 
                             ID3D11Buffer* fragmentShaderConstantBuffers[1] = {currentShader->getFragmentShaderConstantBuffer()};
                             context->PSSetConstantBuffers(0, 1, fragmentShaderConstantBuffers);
@@ -838,8 +841,8 @@ namespace ouzel
                             }
 
                             uploadBuffer(currentShader->getVertexShaderConstantBuffer(),
-                                            shaderData.data(),
-                                            static_cast<uint32_t>(sizeof(float) * shaderData.size()));
+                                         shaderData.data(),
+                                         static_cast<uint32_t>(sizeof(float) * shaderData.size()));
 
                             ID3D11Buffer* vertexShaderConstantBuffers[1] = {currentShader->getVertexShaderConstantBuffer()};
                             context->VSSetConstantBuffers(0, 1, vertexShaderConstantBuffers);

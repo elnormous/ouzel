@@ -43,8 +43,7 @@ namespace ouzel
             if (!buffer || data.size() > size)
                 createBuffer(static_cast<uint32_t>(data.size()));
 
-            if (!data.empty())
-                std::copy(data.begin(), data.end(), static_cast<uint8_t*>([buffer contents]));
+            std::copy(data.begin(), data.end(), static_cast<uint8_t*>([buffer contents]));
         }
 
         void MetalBuffer::createBuffer(NSUInteger newSize)

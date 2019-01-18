@@ -18,9 +18,7 @@ typedef id MTLSamplerStatePtr;
 typedef id MTLTexturePtr;
 typedef id MTLRenderPassDescriptorPtr;
 typedef NSUInteger MTLPixelFormat;
-#  define MTLPixelFormatInvalid 0
 typedef NSUInteger MTLLoadAction;
-#  define MTLLoadActionDontCare 0
 #endif
 
 #include <tuple>
@@ -52,9 +50,9 @@ namespace ouzel
         public:
             MetalTexture(MetalRenderDevice& renderDeviceMetal,
                          const std::vector<Texture::Level>& levels,
-                         uint32_t newFlags = 0,
-                         uint32_t newSampleCount = 1,
-                         PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
+                         uint32_t initFlags = 0,
+                         uint32_t initSampleCount = 1,
+                         PixelFormat pixelFormat = PixelFormat::RGBA8_UNORM);
             ~MetalTexture();
 
             void setData(const std::vector<Texture::Level>& levels);
@@ -69,13 +67,7 @@ namespace ouzel
 
             inline uint32_t getFlags() const { return flags; }
             inline uint32_t getMipmaps() const { return mipmaps; }
-
-            inline bool getClearColorBuffer() const { return clearColorBuffer; }
-            inline bool getClearDepthBuffer() const { return clearDepthBuffer; }
-            inline Color getClearColor() const { return clearColor; }
-            inline float getClearDepth() const { return clearDepth; }
             inline uint32_t getSampleCount() const { return sampleCount; }
-            inline PixelFormat getPixelFormat() const { return pixelFormat; }
 
             inline MTLTexturePtr getTexture() const { return texture; }
             inline MTLPixelFormat getColorFormat() const { return colorFormat; }
@@ -91,17 +83,11 @@ namespace ouzel
             inline MTLLoadAction getDepthBufferLoadAction() const { return depthBufferLoadAction; }
 
         private:
-            void createTexture(const std::vector<Texture::Level>& levels);
             void updateSamplerState();
 
             uint32_t flags = 0;
             uint32_t mipmaps = 0;
-            bool clearColorBuffer = true;
-            bool clearDepthBuffer = false;
-            Color clearColor;
-            float clearDepth = 1.0F;
             uint32_t sampleCount = 1;
-            PixelFormat pixelFormat = PixelFormat::RGBA8_UNORM;
 
             SamplerStateDescriptor samplerDescriptor;
 
@@ -115,11 +101,11 @@ namespace ouzel
             MTLTexturePtr msaaTexture = nil;
             MTLTexturePtr depthTexture = nil;
 
-            MTLPixelFormat colorFormat = MTLPixelFormatInvalid;
-            MTLPixelFormat depthFormat = MTLPixelFormatInvalid;
+            MTLPixelFormat colorFormat;
+            MTLPixelFormat depthFormat;
 
-            MTLLoadAction colorBufferLoadAction = MTLLoadActionDontCare;
-            MTLLoadAction depthBufferLoadAction = MTLLoadActionDontCare;
+            MTLLoadAction colorBufferLoadAction;
+            MTLLoadAction depthBufferLoadAction;
         };
     } // namespace graphics
 } // namespace ouzel

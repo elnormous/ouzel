@@ -2,8 +2,12 @@
 
 #include <system_error>
 #include <unordered_map>
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
 #include <Windows.h>
 #include <windowsx.h>
+#undef WIN32_LEAN_AND_MEAN
+#undef NOMINMAX
 #include "NativeWindowWin.hpp"
 #include "EngineWin.hpp"
 #include "core/Engine.hpp"

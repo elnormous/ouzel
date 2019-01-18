@@ -11,7 +11,6 @@ platform=linux
 else ifeq ($(os),Darwin)
 platform=macos
 endif
-
 endif
 ifeq ($(platform),emscripten)
 CC=emcc
