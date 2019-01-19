@@ -41,6 +41,7 @@ namespace ouzel
                 renderTargetViewDesc.ViewDimension = (texture->getSampleCount() > 1) ? D3D11_RTV_DIMENSION_TEXTURE2DMS : D3D11_RTV_DIMENSION_TEXTURE2D;
                 renderTargetViewDesc.Texture2D.MipSlice = 0;
 
+                HRESULT hr;
                 if (FAILED(hr = renderDevice.getDevice()->CreateRenderTargetView(texture->getTexture(), &renderTargetViewDesc, &renderTargetView)))
                     throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 render target view");
             }
@@ -56,10 +57,11 @@ namespace ouzel
             if (texture)
             {
                 D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
-                renderTargetViewDesc.Format = texture->getPixelFormat();
-                renderTargetViewDesc.ViewDimension = (texture->getSampleCount() > 1) ? D3D11_DSV_DIMENSION_TEXTURE2DMS : D3D11_DSV_DIMENSION_TEXTURE2D;
-                renderTargetViewDesc.Flags = 0;
+                depthStencilViewDesc.Format = texture->getPixelFormat();
+                depthStencilViewDesc.ViewDimension = (texture->getSampleCount() > 1) ? D3D11_DSV_DIMENSION_TEXTURE2DMS : D3D11_DSV_DIMENSION_TEXTURE2D;
+                depthStencilViewDesc.Flags = 0;
 
+                HRESULT hr;
                 if (FAILED(hr = renderDevice.getDevice()->CreateDepthStencilView(texture->getTexture(), &depthStencilViewDesc, &depthStencilView)))
                     throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 depth stencil view");
             }
