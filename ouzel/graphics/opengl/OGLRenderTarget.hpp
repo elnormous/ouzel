@@ -17,6 +17,7 @@
 #  include "GL/glext.h"
 #endif
 
+#include <set>
 #include "graphics/opengl/OGLRenderResource.hpp"
 
 namespace ouzel
@@ -34,7 +35,8 @@ namespace ouzel
 
             void reload() override;
 
-            void setColorTexture(OGLTexture* texture);
+            void addColorTexture(OGLTexture* texture);
+            void removeColorTexture(OGLTexture* texture);
             void setDepthTexture(OGLTexture* texture);
 
             inline GLuint getFrameBufferId() const { return frameBufferId; }
@@ -46,7 +48,7 @@ namespace ouzel
         private:
             GLuint frameBufferId = 0;
 
-            OGLTexture* colorTexture = nullptr;
+            std::set<OGLTexture*> colorTextures;
             OGLTexture* depthTexture = nullptr;
 
             GLbitfield clearMask = 0;
