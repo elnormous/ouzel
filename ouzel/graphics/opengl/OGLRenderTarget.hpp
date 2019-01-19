@@ -24,6 +24,7 @@ namespace ouzel
     namespace graphics
     {
         class OGLRenderDevice;
+        class OGLTexture;
 
         class OGLRenderTarget final: public OGLRenderResource
         {
@@ -33,6 +34,9 @@ namespace ouzel
 
             void reload() override;
 
+            void setColorTexture(OGLTexture* texture);
+            void setDepthTexture(OGLTexture* texture);
+
             inline GLuint getFrameBufferId() const { return frameBufferId; }
 
             inline GLbitfield getClearMask() const { return clearMask; }
@@ -41,6 +45,9 @@ namespace ouzel
 
         private:
             GLuint frameBufferId = 0;
+
+            OGLTexture* colorTexture = nullptr;
+            OGLTexture* depthTexture = nullptr;
 
             GLbitfield clearMask = 0;
             std::array<GLfloat, 4> frameBufferClearColor{{0.0F, 0.0F, 0.0F, 0.0F}};

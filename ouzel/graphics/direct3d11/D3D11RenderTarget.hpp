@@ -15,12 +15,16 @@ namespace ouzel
     namespace graphics
     {
         class D3D11RenderDevice;
+        class D3D11Texture;
 
         class D3D11RenderTarget final: public D3D11RenderResource
         {
         public:
             explicit D3D11RenderTarget(D3D11RenderDevice& renderDeviceD3D11);
             ~D3D11RenderTarget();
+
+            void setColorTexture(D3D11Texture* texture);
+            void setDepthTexture(D3D11Texture* texture);
 
             ID3D11RenderTargetView* getRenderTargetView() const { return renderTargetView; }
             ID3D11DepthStencilView* getDepthStencilView() const { return depthStencilView; }
@@ -31,6 +35,9 @@ namespace ouzel
             inline bool getClearDepthBufferView() const { return clearDepthBufferView; }
 
         private:
+            D3D11Texture* colorTexture = nullptr;
+            D3D11Texture* depthTexture = nullptr;
+
             ID3D11RenderTargetView* renderTargetView = nullptr;
             ID3D11DepthStencilView* depthStencilView = nullptr;
 

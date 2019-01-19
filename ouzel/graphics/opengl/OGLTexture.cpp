@@ -48,8 +48,8 @@ namespace ouzel
                     case PixelFormat::RGBA32_UINT: return GL_RGBA32UI;
                     case PixelFormat::RGBA32_SINT: return GL_RGBA32I;
                     case PixelFormat::RGBA32_FLOAT: return GL_RGBA32F;
-                    case PixelFormat::D_FLOAT: return GL_DEPTH_COMPONENT24;
-                    case PixelFormat::DS_UNORM: return GL_DEPTH24_STENCIL8;
+                    case PixelFormat::D: return GL_DEPTH_COMPONENT24;
+                    case PixelFormat::DS: return GL_DEPTH24_STENCIL8;
                     default: return GL_NONE;
                 }
             }
@@ -97,8 +97,8 @@ namespace ouzel
                 case PixelFormat::RGBA32_UINT: return GL_RGBA32UI;
                 case PixelFormat::RGBA32_SINT: return GL_RGBA32I;
                 case PixelFormat::RGBA32_FLOAT: return GL_RGBA32F;
-                case PixelFormat::D_FLOAT: return GL_DEPTH_COMPONENT24;
-                case PixelFormat::DS_UNORM: return GL_DEPTH24_STENCIL8;
+                case PixelFormat::D: return GL_DEPTH_COMPONENT24;
+                case PixelFormat::DS: return GL_DEPTH24_STENCIL8;
                 default: return GL_NONE;
             }
 #endif
@@ -144,9 +144,9 @@ namespace ouzel
                 case PixelFormat::RGBA32_UINT:
                 case PixelFormat::RGBA32_SINT:
                     return GL_RGBA_INTEGER;
-                case PixelFormat::D_FLOAT:
+                case PixelFormat::D:
                     return GL_DEPTH_COMPONENT;
-                case PixelFormat::DS_UNORM:
+                case PixelFormat::DS:
                     return GL_DEPTH_STENCIL;
                 default:
                     return 0;
@@ -190,9 +190,9 @@ namespace ouzel
                 case PixelFormat::R32_FLOAT:
                 case PixelFormat::RGBA16_FLOAT:
                 case PixelFormat::RGBA32_FLOAT:
-                case PixelFormat::D_FLOAT:
+                case PixelFormat::D:
                     return GL_FLOAT;
-                case PixelFormat::DS_UNORM:
+                case PixelFormat::DS:
                     return GL_UNSIGNED_INT_24_8;
                 default:
                     return 0;
