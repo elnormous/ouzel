@@ -92,6 +92,35 @@ namespace ouzel
                     throw std::system_error(makeErrorCode(error), "Failed to set frame buffer's depth render buffer");
             }
         }
+
+        void OGLRenderTarget::setClearColorBuffer(bool clear)
+        {
+            if (clear)
+                clearMask |= GL_COLOR_BUFFER_BIT;
+            else
+                clearMask &= ~static_cast<GLbitfield>(GL_COLOR_BUFFER_BIT);
+        }
+
+        void OGLRenderTarget::setClearDepthBuffer(bool clear)
+        {
+            if (clear)
+                clearMask |= GL_DEPTH_BUFFER_BIT;
+            else
+                clearMask &= ~static_cast<GLbitfield>(GL_DEPTH_BUFFER_BIT);
+        }
+
+        void OGLRenderTarget::setClearColor(Color color)
+        {
+            frameBufferClearColor[0] = color.normR();
+            frameBufferClearColor[1] = color.normG();
+            frameBufferClearColor[2] = color.normB();
+            frameBufferClearColor[3] = color.normA();
+        }
+
+        void OGLRenderTarget::setClearDepth(float newClearDepth)
+        {
+            clearDepth = newClearDepth;
+        }
     } // namespace graphics
 } // namespace ouzel
 

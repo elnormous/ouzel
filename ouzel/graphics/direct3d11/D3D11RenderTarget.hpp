@@ -11,6 +11,7 @@
 #include <set>
 #include <vector>
 #include "graphics/direct3d11/D3D11RenderResource.hpp"
+#include "math/Color.hpp"
 
 namespace ouzel
 {
@@ -28,6 +29,11 @@ namespace ouzel
             void addColorTexture(D3D11Texture* texture);
             void removeColorTexture(D3D11Texture* texture);
             void setDepthTexture(D3D11Texture* texture);
+
+            void setClearColorBuffer(bool clear);
+            void setClearDepthBuffer(bool clear);
+            void setClearColor(Color color);
+            void setClearDepth(float newClearDepth);
 
             const std::vector<ID3D11RenderTargetView*>& getRenderTargetViews() const { return renderTargetViews; }
             ID3D11DepthStencilView* getDepthStencilView() const { return depthStencilView; }

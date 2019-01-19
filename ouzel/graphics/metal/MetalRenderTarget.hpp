@@ -14,10 +14,18 @@ typedef MTLRenderPassDescriptor* MTLRenderPassDescriptorPtr;
 #  include <objc/objc.h>
 typedef id MTLRenderPassDescriptorPtr;
 typedef NSUInteger MTLLoadAction;
+typedef struct
+{
+    double red;
+    double green;
+    double blue;
+    double alpha;
+} MTLClearColor;
 #endif
 
 #include <set>
 #include "graphics/metal/MetalRenderResource.hpp"
+#include "math/Color.hpp"
 
 namespace ouzel
 {
@@ -36,6 +44,11 @@ namespace ouzel
             void removeColorTexture(MetalTexture* texture);
             void setDepthTexture(MetalTexture* texture);
 
+            void setClearColorBuffer(bool clear);
+            void setClearDepthBuffer(bool clear);
+            void setClearColor(Color color);
+            void setClearDepth(float newClearDepth);
+
             inline MTLRenderPassDescriptorPtr getRenderPassDescriptor() const { return renderPassDescriptor; }
 
             inline MTLLoadAction getColorBufferLoadAction() const { return colorBufferLoadAction; }
@@ -49,6 +62,8 @@ namespace ouzel
 
             MTLLoadAction colorBufferLoadAction;
             MTLLoadAction depthBufferLoadAction;
+            MTLClearColor clearColor{0.0, 0.0, 0.0, 0.0};
+            double clearDepth = 1.0;
         };
     } // namespace graphics
 } // namespace ouzel
