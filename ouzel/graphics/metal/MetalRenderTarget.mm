@@ -33,14 +33,35 @@ namespace ouzel
                 [renderPassDescriptor release];
         }
 
-        void MetalRenderTarget::setColorTexture(MetalTexture* texture)
+        void MetalRenderTarget::addColorTexture(MetalTexture* texture)
         {
-            colorTexture = texture;
-
-            if (texture)
+            if (texture && colorTextures.insert(texture).second)
             {
-                renderPassDescriptor.colorAttachments[0].storeAction = (texture->getSampleCount() > 1) ? MTLStoreActionMultisampleResolve : MTLStoreActionStore;
-                renderPassDescriptor.colorAttachments[0].texture = texture->getTexture();
+                size_t index = colorTextures.size() - 1;
+                renderPassDescriptor.colorAttachments[index].storeAction = (texture->getSampleCount() > 1) ? MTLStoreActionMultisampleResolve : MTLStoreActionStore;
+                renderPassDescriptor.colorAttachments[index].texture = texture->getTexture();
+            }
+        }
+
+        void MetalRenderTarget::removeColorTexture(MetalTexture* texture)
+        {
+            auto i = colorTextures.find(texture);
+
+            if (i != colorTextures.end())
+            {
+                colorTextures.erase(i);
+
+                size_t index = 0;
+                for (MetalTexture* colorTexture : colorTextures)
+                {
+                    renderPassDescriptor.colorAttachments[index].storeAction = (colorTexture->getSampleCount() > 1) ? MTLStoreActionMultisampleResolve : MTLStoreActionStore;
+                    renderPassDescriptor.colorAttachments[index].texture = colorTexture->getTexture();
+
+                    ++index;
+                }
+
+                renderPassDescriptor.colorAttachments[index].storeAction = MTLStoreActionDontCare;
+                renderPassDescriptor.colorAttachments[index].texture = nil;
             }
         }
 

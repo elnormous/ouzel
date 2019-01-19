@@ -4,6 +4,7 @@
 
 #if OUZEL_COMPILE_DIRECT3D11
 
+#include <algorithm>
 #include <stdexcept>
 #include "D3D11RenderTarget.hpp"
 #include "D3D11RenderDevice.hpp"
@@ -20,51 +21,33 @@ namespace ouzel
 
         D3D11RenderTarget::~D3D11RenderTarget()
         {
-            if (depthStencilView)
-                depthStencilView->Release();
-
-            if (renderTargetView)
-                renderTargetView->Release();
         }
 
-        void D3D11RenderTarget::setColorTexture(D3D11Texture* texture)
+        void D3D11RenderTarget::addColorTexture(D3D11Texture* texture)
         {
-            if (renderTargetView)
-                renderTargetView->Release();
+            if (texture && colorTextures.insert(texture).second)
+                renderTargetViews.push_back(texture->getRenderTargetView());
+        }
 
-            colorTexture = texture;
+        void D3D11RenderTarget::removeColorTexture(D3D11Texture* texture)
+        {
+            auto i = colorTextures.find(texture);
 
-            if (texture)
+            if (i != colorTextures.end())
             {
-                D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
-                renderTargetViewDesc.Format = texture->getPixelFormat();
-                renderTargetViewDesc.ViewDimension = (texture->getSampleCount() > 1) ? D3D11_RTV_DIMENSION_TEXTURE2DMS : D3D11_RTV_DIMENSION_TEXTURE2D;
-                renderTargetViewDesc.Texture2D.MipSlice = 0;
+                colorTextures.erase(i);
 
-                HRESULT hr;
-                if (FAILED(hr = renderDevice.getDevice()->CreateRenderTargetView(texture->getTexture(), &renderTargetViewDesc, &renderTargetView)))
-                    throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 render target view");
+                auto renderTargetViewIterator = std::find(renderTargetViews.begin(), renderTargetViews.end(), texture->getRenderTargetView());
+                if (renderTargetViewIterator != renderTargetViews.end())
+                    renderTargetViews.erase(renderTargetViewIterator);
             }
         }
 
         void D3D11RenderTarget::setDepthTexture(D3D11Texture* texture)
         {
-            if (depthStencilView)
-                depthStencilView->Release();
-
             depthTexture = texture;
 
-            if (texture)
-            {
-                D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
-                depthStencilViewDesc.Format = texture->getPixelFormat();
-                depthStencilViewDesc.ViewDimension = (texture->getSampleCount() > 1) ? D3D11_DSV_DIMENSION_TEXTURE2DMS : D3D11_DSV_DIMENSION_TEXTURE2D;
-                depthStencilViewDesc.Flags = 0;
-
-                HRESULT hr;
-                if (FAILED(hr = renderDevice.getDevice()->CreateDepthStencilView(texture->getTexture(), &depthStencilViewDesc, &depthStencilView)))
-                    throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 depth stencil view");
-            }
+            depthStencilView = texture ? texture->getDepthStencilView() : nullptr;
         }
     } // namespace graphics
 } // namespace ouzel

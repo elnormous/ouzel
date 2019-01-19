@@ -16,6 +16,7 @@ typedef id MTLRenderPassDescriptorPtr;
 typedef NSUInteger MTLLoadAction;
 #endif
 
+#include <set>
 #include "graphics/metal/MetalRenderResource.hpp"
 
 namespace ouzel
@@ -31,7 +32,8 @@ namespace ouzel
             explicit MetalRenderTarget(MetalRenderDevice& renderDeviceMetal);
             ~MetalRenderTarget();
 
-            void setColorTexture(MetalTexture* texture);
+            void addColorTexture(MetalTexture* texture);
+            void removeColorTexture(MetalTexture* texture);
             void setDepthTexture(MetalTexture* texture);
 
             inline MTLRenderPassDescriptorPtr getRenderPassDescriptor() const { return renderPassDescriptor; }
@@ -40,7 +42,7 @@ namespace ouzel
             inline MTLLoadAction getDepthBufferLoadAction() const { return depthBufferLoadAction; }
 
         private:
-            MetalTexture* colorTexture = nullptr;
+            std::set<MetalTexture*> colorTextures;
             MetalTexture* depthTexture = nullptr;
 
             MTLRenderPassDescriptorPtr renderPassDescriptor = nil;

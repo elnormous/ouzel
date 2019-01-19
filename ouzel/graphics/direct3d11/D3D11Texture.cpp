@@ -181,7 +181,12 @@ namespace ouzel
                     if (FAILED(hr = renderDevice.getDevice()->CreateTexture2D(&depthStencilDescriptor, nullptr, &depthStencilTexture)))
                         throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 depth stencil texture");
 
-                    if (FAILED(hr = renderDevice.getDevice()->CreateDepthStencilView(depthStencilTexture, nullptr, &depthStencilView)))
+                    D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
+                    depthStencilViewDesc.Format = DXGI_FORMAT_D32_FLOAT;
+                    depthStencilViewDesc.ViewDimension = (sampleCount > 1) ? D3D11_DSV_DIMENSION_TEXTURE2DMS : D3D11_DSV_DIMENSION_TEXTURE2D;
+                    depthStencilViewDesc.Flags = 0;
+
+                    if (FAILED(hr = renderDevice.getDevice()->CreateDepthStencilView(depthStencilTexture, &depthStencilViewDesc, &depthStencilView)))
                         throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 depth stencil view");
                 }
             }

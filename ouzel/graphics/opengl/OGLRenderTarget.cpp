@@ -34,26 +34,45 @@ namespace ouzel
 
         void OGLRenderTarget::reload()
         {
-            if (colorTexture) colorTexture->reload();
+            for (OGLTexture* colorTexture : colorTextures)
+                colorTexture->reload();
             if (depthTexture) depthTexture->reload();
 
             glGenFramebuffersProc(1, &frameBufferId);
         }
 
-        void OGLRenderTarget::setColorTexture(OGLTexture* texture)
+        void OGLRenderTarget::addColorTexture(OGLTexture* texture)
         {
-            colorTexture = texture;
-
-            if (texture)
+            if (texture && colorTextures.insert(texture).second)
             {
+                GLenum index = static_cast<GLenum>(colorTextures.size() - 1);
                 renderDevice.bindFrameBuffer(frameBufferId);
 
-                glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture->getTextureId(), 0);
-                //glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, texture->getBufferId());
+                glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, GL_TEXTURE_2D, texture->getTextureId(), 0);
+                //glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, GL_RENDERBUFFER, texture->getBufferId());
 
                 GLenum error;
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
                     throw std::system_error(makeErrorCode(error), "Failed to set frame buffer's depth render buffer");
+            }
+        }
+
+        void OGLRenderTarget::removeColorTexture(OGLTexture* texture)
+        {
+            auto i = colorTextures.find(texture);
+
+            if (i != colorTextures.end())
+            {
+                colorTextures.erase(i);
+
+                GLenum index = 0;
+                for (OGLTexture* colorTexture : colorTextures)
+                {
+                    glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, GL_TEXTURE_2D, colorTexture->getTextureId(), 0);
+                    ++index;
+                }
+
+                glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, GL_TEXTURE_2D, 0, 0);
             }
         }
 
@@ -64,7 +83,7 @@ namespace ouzel
             if (texture)
             {
                 renderDevice.bindFrameBuffer(frameBufferId);
-                
+
                 glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, texture->getTextureId(), 0);
                 //glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, texture->getBufferId());
 
