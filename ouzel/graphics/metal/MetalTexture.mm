@@ -47,7 +47,7 @@ namespace ouzel
                 case PixelFormat::RGBA32_SINT: return MTLPixelFormatRGBA32Sint;
                 case PixelFormat::RGBA32_FLOAT: return MTLPixelFormatRGBA32Float;
                 case PixelFormat::D_FLOAT: return MTLPixelFormatDepth32Float;
-                case PixelFormat::DS_FLOAT: return MTLPixelFormatDepth32Float_Stencil8;
+                case PixelFormat::DS_UNORM: return MTLPixelFormatDepth24Unorm_Stencil8;
                 default: return MTLPixelFormatInvalid;
             }
         }
