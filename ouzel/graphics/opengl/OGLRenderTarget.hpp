@@ -19,6 +19,7 @@
 
 #include <set>
 #include "graphics/opengl/OGLRenderResource.hpp"
+#include "math/Color.hpp"
 
 namespace ouzel
 {
@@ -38,6 +39,11 @@ namespace ouzel
             void addColorTexture(OGLTexture* texture);
             void removeColorTexture(OGLTexture* texture);
             void setDepthTexture(OGLTexture* texture);
+
+            void setClearColorBuffer(bool clear);
+            void setClearDepthBuffer(bool clear);
+            void setClearColor(Color color);
+            void setClearDepth(float newClearDepth);
 
             inline GLuint getFrameBufferId() const { return frameBufferId; }
 

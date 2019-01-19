@@ -49,6 +49,29 @@ namespace ouzel
 
             depthStencilView = texture ? texture->getDepthStencilView() : nullptr;
         }
+
+        void D3D11RenderTarget::setClearColorBuffer(bool clear)
+        {
+            clearFrameBufferView = clear;
+        }
+
+        void D3D11RenderTarget::setClearDepthBuffer(bool clear)
+        {
+            clearDepthBufferView = clear;
+        }
+
+        void D3D11RenderTarget::setClearColor(Color color)
+        {
+            frameBufferClearColor[0] = color.normR();
+            frameBufferClearColor[1] = color.normG();
+            frameBufferClearColor[2] = color.normB();
+            frameBufferClearColor[3] = color.normA();
+        }
+
+        void D3D11RenderTarget::setClearDepth(float newClearDepth)
+        {
+            clearDepth = newClearDepth;
+        }
     } // namespace graphics
 } // namespace ouzel
 
