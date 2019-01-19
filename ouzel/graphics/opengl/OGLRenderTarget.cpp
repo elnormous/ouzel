@@ -46,6 +46,8 @@ namespace ouzel
 
             if (texture)
             {
+                renderDevice.bindFrameBuffer(frameBufferId);
+
                 glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture->getTextureId(), 0);
                 //glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, texture->getBufferId());
 
@@ -61,6 +63,8 @@ namespace ouzel
 
             if (texture)
             {
+                renderDevice.bindFrameBuffer(frameBufferId);
+                
                 glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, texture->getTextureId(), 0);
                 //glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, texture->getBufferId());
 
