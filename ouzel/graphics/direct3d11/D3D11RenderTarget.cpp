@@ -55,13 +55,13 @@ namespace ouzel
 
             if (texture)
             {
-                D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
+                D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
                 renderTargetViewDesc.Format = texture->getPixelFormat();
-                renderTargetViewDesc.ViewDimension = (texture->getSampleCount() > 1) ? D3D11_RTV_DIMENSION_TEXTURE2DMS : D3D11_RTV_DIMENSION_TEXTURE2D;
-                renderTargetViewDesc.Texture2D.MipSlice = 0;
+                renderTargetViewDesc.ViewDimension = (texture->getSampleCount() > 1) ? D3D11_DSV_DIMENSION_TEXTURE2DMS : D3D11_DSV_DIMENSION_TEXTURE2D;
+                renderTargetViewDesc.Flags = 0;
 
-                if (FAILED(hr = renderDevice.getDevice()->CreateRenderTargetView(texture->getTexture(), &renderTargetViewDesc, &depthStencilView)))
-                    throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 render target view");
+                if (FAILED(hr = renderDevice.getDevice()->CreateDepthStencilView(texture->getTexture(), &depthStencilViewDesc, &depthStencilView)))
+                    throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 depth stencil view");
             }
         }
     } // namespace graphics

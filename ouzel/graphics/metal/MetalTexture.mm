@@ -46,8 +46,8 @@ namespace ouzel
                 case PixelFormat::RGBA32_UINT: return MTLPixelFormatRGBA32Uint;
                 case PixelFormat::RGBA32_SINT: return MTLPixelFormatRGBA32Sint;
                 case PixelFormat::RGBA32_FLOAT: return MTLPixelFormatRGBA32Float;
-                case PixelFormat::D: return MTLPixelFormatDepth32Float;
-                case PixelFormat::DS: return MTLPixelFormatDepth32Float_Stencil8; // MTLPixelFormatDepth24Unorm_Stencil8 is only available on macOS
+                case PixelFormat::DEPTH: return MTLPixelFormatDepth32Float;
+                case PixelFormat::DEPTH_STENCIL: return MTLPixelFormatDepth32Float_Stencil8; // MTLPixelFormatDepth24Unorm_Stencil8 is only available on macOS
                 default: return MTLPixelFormatInvalid;
             }
         }
