@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include "MetalRenderTarget.hpp"
 #include "MetalRenderDevice.hpp"
+#include "MetalTexture.hpp"
 
 namespace ouzel
 {
@@ -30,6 +31,28 @@ namespace ouzel
         {
             if (renderPassDescriptor)
                 [renderPassDescriptor release];
+        }
+
+        void MetalRenderTarget::setColorTexture(MetalTexture* texture)
+        {
+            colorTexture = texture;
+
+            if (texture)
+            {
+                renderPassDescriptor.colorAttachments[0].storeAction = (texture->getSampleCount() > 1) ? MTLStoreActionMultisampleResolve : MTLStoreActionStore;
+                renderPassDescriptor.colorAttachments[0].texture = texture->getTexture();
+            }
+        }
+
+        void MetalRenderTarget::setDepthTexture(MetalTexture* texture)
+        {
+            depthTexture = texture;
+
+            if (texture)
+            {
+                renderPassDescriptor.depthAttachment.storeAction = (texture->getSampleCount() > 1) ? MTLStoreActionMultisampleResolve : MTLStoreActionStore;
+                renderPassDescriptor.depthAttachment.texture = texture->getTexture();
+            }
         }
     } // namespace graphics
 } // namespace ouzel

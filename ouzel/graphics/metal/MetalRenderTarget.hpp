@@ -23,6 +23,7 @@ namespace ouzel
     namespace graphics
     {
         class MetalRenderDevice;
+        class MetalTexture;
 
         class MetalRenderTarget final: public MetalRenderResource
         {
@@ -30,12 +31,18 @@ namespace ouzel
             explicit MetalRenderTarget(MetalRenderDevice& renderDeviceMetal);
             ~MetalRenderTarget();
 
+            void setColorTexture(MetalTexture* texture);
+            void setDepthTexture(MetalTexture* texture);
+
             inline MTLRenderPassDescriptorPtr getRenderPassDescriptor() const { return renderPassDescriptor; }
 
             inline MTLLoadAction getColorBufferLoadAction() const { return colorBufferLoadAction; }
             inline MTLLoadAction getDepthBufferLoadAction() const { return depthBufferLoadAction; }
 
         private:
+            MetalTexture* colorTexture = nullptr;
+            MetalTexture* depthTexture = nullptr;
+
             MTLRenderPassDescriptorPtr renderPassDescriptor = nil;
 
             MTLLoadAction colorBufferLoadAction;

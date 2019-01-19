@@ -55,8 +55,8 @@ namespace ouzel
 
             inline uint32_t getFlags() const { return flags; }
             inline uint32_t getMipmaps() const { return mipmaps; }
-
             inline uint32_t getSampleCount() const { return sampleCount; }
+            inline DXGI_FORMAT getPixelFormat() const { return pixelFormat; }
 
             inline ID3D11Texture2D* getTexture() const { return texture; }
             inline ID3D11ShaderResourceView* getResourceView() const { return resourceView; }
