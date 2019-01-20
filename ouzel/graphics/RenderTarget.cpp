@@ -48,11 +48,9 @@ namespace ouzel
             }
         }
 
-        void RenderTarget::addColorTexture(const std::shared_ptr<Texture>& texture)
+        void RenderTarget::addColorTexture(Texture* texture)
         {
-            auto i = std::find_if(colorTextures.begin(), colorTextures.end(), [&texture](const std::shared_ptr<Texture>& other) {
-                return texture.get() == other.get();
-            });
+            auto i = std::find(colorTextures.begin(), colorTextures.end(), texture);
 
             if (i == colorTextures.end())
             {
@@ -63,26 +61,9 @@ namespace ouzel
             }
         }
 
-        void RenderTarget::removeColorTexture(const std::shared_ptr<Texture>& texture)
-        {
-            auto i = std::find_if(colorTextures.begin(), colorTextures.end(), [&texture](const std::shared_ptr<Texture>& other) {
-                return texture.get() == other.get();
-            });
-
-            if (i != colorTextures.end())
-            {
-                colorTextures.erase(i);
-
-                renderer.addCommand(std::unique_ptr<Command>(new RemoveRenderTargetColorTextureCommand(resource,
-                                                                                                       texture->getResource())));
-            }
-        }
-
         void RenderTarget::removeColorTexture(Texture* texture)
         {
-            auto i = std::find_if(colorTextures.begin(), colorTextures.end(), [texture](const std::shared_ptr<Texture>& other) {
-                return texture == other.get();
-            });
+            auto i = std::find(colorTextures.begin(), colorTextures.end(), texture);
 
             if (i != colorTextures.end())
             {
@@ -93,7 +74,7 @@ namespace ouzel
             }
         }
 
-        void RenderTarget::setDepthTexture(const std::shared_ptr<Texture>& texture)
+        void RenderTarget::setDepthTexture(Texture* texture)
         {
             depthTexture = texture;
 
