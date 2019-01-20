@@ -355,22 +355,22 @@ namespace ouzel
 
                         case Command::Type::DELETE_RESOURCE:
                         {
-                            const DeleteResourceCommand* deleteResourceCommand = static_cast<const DeleteResourceCommand*>(command.get());
+                            auto deleteResourceCommand = static_cast<const DeleteResourceCommand*>(command.get());
                             resources[deleteResourceCommand->resource - 1].reset();
                             break;
                         }
 
                         case Command::Type::SET_RENDER_TARGET_PARAMETERS:
                         {
-                            const SetRenderTargetParametersCommand* setRenderTargetParametersCommand = static_cast<const SetRenderTargetParametersCommand*>(command.get());
+                            auto setRenderTargetParametersCommand = static_cast<const SetRenderTargetParametersCommand*>(command.get());
 
                             if (setRenderTargetParametersCommand->renderTarget)
                             {
-                                MetalTexture* renderTargetMetal = static_cast<MetalTexture*>(resources[setRenderTargetParametersCommand->renderTarget - 1].get());
-                                renderTargetMetal->setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
-                                renderTargetMetal->setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
-                                renderTargetMetal->setClearColor(setRenderTargetParametersCommand->clearColor);
-                                renderTargetMetal->setClearDepth(setRenderTargetParametersCommand->clearDepth);
+                                MetalTexture* renderTarget = static_cast<MetalTexture*>(resources[setRenderTargetParametersCommand->renderTarget - 1].get());
+                                renderTarget->setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
+                                renderTarget->setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
+                                renderTarget->setClearColor(setRenderTargetParametersCommand->clearColor);
+                                renderTarget->setClearDepth(setRenderTargetParametersCommand->clearDepth);
                             }
                             else
                             {
@@ -412,21 +412,21 @@ namespace ouzel
 
                         case Command::Type::SET_RENDER_TARGET:
                         {
-                            const SetRenderTargetCommand* setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command.get());
+                            auto setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command.get());
 
                             MTLRenderPassDescriptorPtr newRenderPassDescriptor;
 
                             if (setRenderTargetCommand->renderTarget)
                             {
-                                MetalTexture* renderTargetMetal = static_cast<MetalTexture*>(resources[setRenderTargetCommand->renderTarget - 1].get());
+                                MetalTexture* renderTarget = static_cast<MetalTexture*>(resources[setRenderTargetCommand->renderTarget - 1].get());
 
-                                currentRenderTarget = renderTargetMetal->getTexture();
-                                newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
+                                currentRenderTarget = renderTarget->getTexture();
+                                newRenderPassDescriptor = renderTarget->getRenderPassDescriptor();
                                 if (!newRenderPassDescriptor) break;
 
-                                currentPipelineStateDesc.sampleCount = renderTargetMetal->getSampleCount();
-                                currentPipelineStateDesc.colorFormat = renderTargetMetal->getColorFormat();
-                                currentPipelineStateDesc.depthFormat = renderTargetMetal->getDepthFormat();
+                                currentPipelineStateDesc.sampleCount = renderTarget->getSampleCount();
+                                currentPipelineStateDesc.colorFormat = renderTarget->getColorFormat();
+                                currentPipelineStateDesc.depthFormat = renderTarget->getDepthFormat();
 
                             }
                             else
@@ -458,7 +458,7 @@ namespace ouzel
 
                         case Command::Type::CLEAR_RENDER_TARGET:
                         {
-                            const ClearRenderTargetCommand* clearCommand = static_cast<const ClearRenderTargetCommand*>(command.get());
+                            auto clearCommand = static_cast<const ClearRenderTargetCommand*>(command.get());
 
                             MTLRenderPassDescriptorPtr newRenderPassDescriptor;
                             MTLLoadAction newColorBufferLoadAction = MTLLoadActionLoad;
@@ -470,21 +470,21 @@ namespace ouzel
                             // render target
                             if (clearCommand->renderTarget)
                             {
-                                MetalTexture* renderTargetMetal = static_cast<MetalTexture*>(resources[clearCommand->renderTarget - 1].get());
+                                MetalTexture* renderTarget = static_cast<MetalTexture*>(resources[clearCommand->renderTarget - 1].get());
 
-                                newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
+                                newRenderPassDescriptor = renderTarget->getRenderPassDescriptor();
                                 if (!newRenderPassDescriptor) break;
 
-                                currentRenderTarget = renderTargetMetal->getTexture();
-                                currentPipelineStateDesc.sampleCount = renderTargetMetal->getSampleCount();
-                                currentPipelineStateDesc.colorFormat = renderTargetMetal->getColorFormat();
-                                currentPipelineStateDesc.depthFormat = renderTargetMetal->getDepthFormat();
+                                currentRenderTarget = renderTarget->getTexture();
+                                currentPipelineStateDesc.sampleCount = renderTarget->getSampleCount();
+                                currentPipelineStateDesc.colorFormat = renderTarget->getColorFormat();
+                                currentPipelineStateDesc.depthFormat = renderTarget->getDepthFormat();
 
-                                renderTargetWidth = renderTargetMetal->getWidth();
-                                renderTargetHeight = renderTargetMetal->getHeight();
+                                renderTargetWidth = renderTarget->getWidth();
+                                renderTargetHeight = renderTarget->getHeight();
 
-                                newColorBufferLoadAction = renderTargetMetal->getColorBufferLoadAction();
-                                newDepthBufferLoadAction = renderTargetMetal->getDepthBufferLoadAction();
+                                newColorBufferLoadAction = renderTarget->getColorBufferLoadAction();
+                                newDepthBufferLoadAction = renderTarget->getDepthBufferLoadAction();
                             }
                             else
                             {
@@ -528,7 +528,7 @@ namespace ouzel
 
                         case Command::Type::BLIT:
                         {
-                            //const BlitCommand* blitCommand = static_cast<const BlitCommand*>(command.get());
+                            //auto blitCommand = static_cast<const BlitCommand*>(command.get());
                             //MTLBlitCommandEncoder
                             break;
                         }
@@ -559,7 +559,7 @@ namespace ouzel
 
                         case Command::Type::SET_SCISSOR_TEST:
                         {
-                            const SetScissorTestCommand* setScissorTestCommand = static_cast<const SetScissorTestCommand*>(command.get());
+                            auto setScissorTestCommand = static_cast<const SetScissorTestCommand*>(command.get());
 
                             if (!currentRenderCommandEncoder)
                                 throw std::runtime_error("Metal render command encoder not initialized");
@@ -591,7 +591,7 @@ namespace ouzel
 
                         case Command::Type::SET_VIEWPORT:
                         {
-                            const SetViewportCommand* setViewportCommand = static_cast<const SetViewportCommand*>(command.get());
+                            auto setViewportCommand = static_cast<const SetViewportCommand*>(command.get());
 
                             if (!currentRenderCommandEncoder)
                                 throw std::runtime_error("Metal render command encoder not initialized");
@@ -611,30 +611,30 @@ namespace ouzel
 
                         case Command::Type::INIT_DEPTH_STENCIL_STATE:
                         {
-                            const InitDepthStencilStateCommand* initDepthStencilStateCommand = static_cast<const InitDepthStencilStateCommand*>(command.get());
-                            std::unique_ptr<MetalDepthStencilState> depthStencilStateResourceMetal(new MetalDepthStencilState(*this,
-                                                                                                                                              initDepthStencilStateCommand->depthTest,
-                                                                                                                                              initDepthStencilStateCommand->depthWrite,
-                                                                                                                                              initDepthStencilStateCommand->compareFunction));
+                            auto initDepthStencilStateCommand = static_cast<const InitDepthStencilStateCommand*>(command.get());
+                            std::unique_ptr<MetalDepthStencilState> depthStencilState(new MetalDepthStencilState(*this,
+                                                                                                                 initDepthStencilStateCommand->depthTest,
+                                                                                                                 initDepthStencilStateCommand->depthWrite,
+                                                                                                                 initDepthStencilStateCommand->compareFunction));
 
                             if (initDepthStencilStateCommand->depthStencilState > resources.size())
                                 resources.resize(initDepthStencilStateCommand->depthStencilState);
-                            resources[initDepthStencilStateCommand->depthStencilState - 1] = std::move(depthStencilStateResourceMetal);
+                            resources[initDepthStencilStateCommand->depthStencilState - 1] = std::move(depthStencilState);
 
                             break;
                         }
 
                         case Command::Type::SET_DEPTH_STENCIL_STATE:
                         {
-                            const SetDepthStencilStateCommand* setDepthStencilStateCommand = static_cast<const SetDepthStencilStateCommand*>(command.get());
+                            auto setDepthStencilStateCommand = static_cast<const SetDepthStencilStateCommand*>(command.get());
 
                             if (!currentRenderCommandEncoder)
                                 throw std::runtime_error("Metal render command encoder not initialized");
 
                             if (setDepthStencilStateCommand->depthStencilState)
                             {
-                                MetalDepthStencilState* depthStencilStateMetal = static_cast<MetalDepthStencilState*>(resources[setDepthStencilStateCommand->depthStencilState - 1].get());
-                                [currentRenderCommandEncoder setDepthStencilState:depthStencilStateMetal->getDepthStencilState()];
+                                MetalDepthStencilState* depthStencilState = static_cast<MetalDepthStencilState*>(resources[setDepthStencilStateCommand->depthStencilState - 1].get());
+                                [currentRenderCommandEncoder setDepthStencilState:depthStencilState->getDepthStencilState()];
                             }
                             else
                                 [currentRenderCommandEncoder setDepthStencilState:defaultDepthStencilState];
@@ -644,17 +644,17 @@ namespace ouzel
 
                         case Command::Type::SET_PIPELINE_STATE:
                         {
-                            const SetPipelineStateCommand* setPipelineStateCommand = static_cast<const SetPipelineStateCommand*>(command.get());
+                            auto setPipelineStateCommand = static_cast<const SetPipelineStateCommand*>(command.get());
 
                             if (!currentRenderCommandEncoder)
                                 throw std::runtime_error("Metal render command encoder not initialized");
 
-                            MetalBlendState* blendStateMetal = static_cast<MetalBlendState*>(resources[setPipelineStateCommand->blendState - 1].get());
-                            MetalShader* shaderMetal = static_cast<MetalShader*>(resources[setPipelineStateCommand->shader - 1].get());
-                            currentShader = shaderMetal;
+                            MetalBlendState* blendState = static_cast<MetalBlendState*>(resources[setPipelineStateCommand->blendState - 1].get());
+                            MetalShader* shader = static_cast<MetalShader*>(resources[setPipelineStateCommand->shader - 1].get());
+                            currentShader = shader;
 
-                            currentPipelineStateDesc.blendState = blendStateMetal;
-                            currentPipelineStateDesc.shader = shaderMetal;
+                            currentPipelineStateDesc.blendState = blendState;
+                            currentPipelineStateDesc.shader = shader;
 
                             MTLRenderPipelineStatePtr pipelineState = getPipelineState(currentPipelineStateDesc);
                             if (pipelineState) [currentRenderCommandEncoder setRenderPipelineState:pipelineState];
@@ -664,31 +664,31 @@ namespace ouzel
 
                         case Command::Type::DRAW:
                         {
-                            const DrawCommand* drawCommand = static_cast<const DrawCommand*>(command.get());
+                            auto drawCommand = static_cast<const DrawCommand*>(command.get());
 
                             if (!currentRenderCommandEncoder)
                                 throw std::runtime_error("Metal render command encoder not initialized");
 
                             // mesh buffer
-                            MetalBuffer* indexMetalBuffer = static_cast<MetalBuffer*>(resources[drawCommand->indexBuffer - 1].get());
-                            MetalBuffer* vertexMetalBuffer = static_cast<MetalBuffer*>(resources[drawCommand->vertexBuffer - 1].get());
+                            MetalBuffer* indexBuffer = static_cast<MetalBuffer*>(resources[drawCommand->indexBuffer - 1].get());
+                            MetalBuffer* vertexBuffer = static_cast<MetalBuffer*>(resources[drawCommand->vertexBuffer - 1].get());
 
-                            assert(indexMetalBuffer);
-                            assert(indexMetalBuffer->getBuffer());
-                            assert(vertexMetalBuffer);
-                            assert(vertexMetalBuffer->getBuffer());
+                            assert(indexBuffer);
+                            assert(indexBuffer->getBuffer());
+                            assert(vertexBuffer);
+                            assert(vertexBuffer->getBuffer());
 
-                            [currentRenderCommandEncoder setVertexBuffer:vertexMetalBuffer->getBuffer() offset:0 atIndex:0];
+                            [currentRenderCommandEncoder setVertexBuffer:vertexBuffer->getBuffer() offset:0 atIndex:0];
 
                             // draw
                             assert(drawCommand->indexCount);
-                            assert(indexMetalBuffer->getSize());
-                            assert(vertexMetalBuffer->getSize());
+                            assert(indexBuffer->getSize());
+                            assert(vertexBuffer->getSize());
 
                             [currentRenderCommandEncoder drawIndexedPrimitives:getPrimitiveType(drawCommand->drawMode)
                                                                     indexCount:drawCommand->indexCount
                                                                      indexType:getIndexType(drawCommand->indexSize)
-                                                                   indexBuffer:indexMetalBuffer->getBuffer()
+                                                                   indexBuffer:indexBuffer->getBuffer()
                                                              indexBufferOffset:drawCommand->startIndex * drawCommand->indexSize];
 
                             break;
@@ -696,7 +696,7 @@ namespace ouzel
 
                         case Command::Type::PUSH_DEBUG_MARKER:
                         {
-                            const PushDebugMarkerCommand* pushDebugMarkerCommand = static_cast<const PushDebugMarkerCommand*>(command.get());
+                            auto pushDebugMarkerCommand = static_cast<const PushDebugMarkerCommand*>(command.get());
 
                             if (!currentRenderCommandEncoder)
                                 throw std::runtime_error("Metal render command encoder not initialized");
@@ -707,7 +707,7 @@ namespace ouzel
 
                         case Command::Type::POP_DEBUG_MARKER:
                         {
-                            //const PopDebugMarkerCommand* popDebugMarkerCommand = static_cast<const PopDebugMarkerCommand*>(command);
+                            //auto popDebugMarkerCommand = static_cast<const PopDebugMarkerCommand*>(command);
 
                             if (!currentRenderCommandEncoder)
                                 throw std::runtime_error("Metal render command encoder not initialized");
@@ -718,73 +718,73 @@ namespace ouzel
 
                         case Command::Type::INIT_BLEND_STATE:
                         {
-                            const InitBlendStateCommand* initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command.get());
+                            auto initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command.get());
 
-                            std::unique_ptr<MetalBlendState> blendStateResourceMetal(new MetalBlendState(*this,
-                                                                                                                         initBlendStateCommand->enableBlending,
-                                                                                                                         initBlendStateCommand->colorBlendSource,
-                                                                                                                         initBlendStateCommand->colorBlendDest,
-                                                                                                                         initBlendStateCommand->colorOperation,
-                                                                                                                         initBlendStateCommand->alphaBlendSource,
-                                                                                                                         initBlendStateCommand->alphaBlendDest,
-                                                                                                                         initBlendStateCommand->alphaOperation,
-                                                                                                                         initBlendStateCommand->colorMask));
+                            std::unique_ptr<MetalBlendState> blendState(new MetalBlendState(*this,
+                                                                                            initBlendStateCommand->enableBlending,
+                                                                                            initBlendStateCommand->colorBlendSource,
+                                                                                            initBlendStateCommand->colorBlendDest,
+                                                                                            initBlendStateCommand->colorOperation,
+                                                                                            initBlendStateCommand->alphaBlendSource,
+                                                                                            initBlendStateCommand->alphaBlendDest,
+                                                                                            initBlendStateCommand->alphaOperation,
+                                                                                            initBlendStateCommand->colorMask));
 
                             if (initBlendStateCommand->blendState > resources.size())
                                 resources.resize(initBlendStateCommand->blendState);
-                            resources[initBlendStateCommand->blendState - 1] = std::move(blendStateResourceMetal);
+                            resources[initBlendStateCommand->blendState - 1] = std::move(blendState);
                             break;
                         }
 
                         case Command::Type::INIT_BUFFER:
                         {
-                            const InitBufferCommand* initBufferCommand = static_cast<const InitBufferCommand*>(command.get());
+                            auto initBufferCommand = static_cast<const InitBufferCommand*>(command.get());
 
-                            std::unique_ptr<MetalBuffer> bufferResourceMetal(new MetalBuffer(*this,
-                                                                                                             initBufferCommand->usage,
-                                                                                                             initBufferCommand->flags,
-                                                                                                             initBufferCommand->data,
-                                                                                                             initBufferCommand->size));
+                            std::unique_ptr<MetalBuffer> buffer(new MetalBuffer(*this,
+                                                                                initBufferCommand->usage,
+                                                                                initBufferCommand->flags,
+                                                                                initBufferCommand->data,
+                                                                                initBufferCommand->size));
 
                             if (initBufferCommand->buffer > resources.size())
                                 resources.resize(initBufferCommand->buffer);
-                            resources[initBufferCommand->buffer - 1] = std::move(bufferResourceMetal);
+                            resources[initBufferCommand->buffer - 1] = std::move(buffer);
                             break;
                         }
 
                         case Command::Type::SET_BUFFER_DATA:
                         {
-                            const SetBufferDataCommand* setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command.get());
+                            auto setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command.get());
 
-                            MetalBuffer* bufferResourceMetal = static_cast<MetalBuffer*>(resources[setBufferDataCommand->buffer - 1].get());
-                            bufferResourceMetal->setData(setBufferDataCommand->data);
+                            MetalBuffer* buffer = static_cast<MetalBuffer*>(resources[setBufferDataCommand->buffer - 1].get());
+                            buffer->setData(setBufferDataCommand->data);
                             break;
                         }
 
                         case Command::Type::INIT_SHADER:
                         {
-                            const InitShaderCommand* initShaderCommand = static_cast<const InitShaderCommand*>(command.get());
+                            auto initShaderCommand = static_cast<const InitShaderCommand*>(command.get());
 
-                            std::unique_ptr<MetalShader> shaderResourceMetal(new MetalShader(*this,
-                                                                                                             initShaderCommand->fragmentShader,
-                                                                                                             initShaderCommand->vertexShader,
-                                                                                                             initShaderCommand->vertexAttributes,
-                                                                                                             initShaderCommand->fragmentShaderConstantInfo,
-                                                                                                             initShaderCommand->vertexShaderConstantInfo,
-                                                                                                             initShaderCommand->fragmentShaderDataAlignment,
-                                                                                                             initShaderCommand->vertexShaderDataAlignment,
-                                                                                                             initShaderCommand->fragmentShaderFunction,
-                                                                                                             initShaderCommand->vertexShaderFunction));
+                            std::unique_ptr<MetalShader> shader(new MetalShader(*this,
+                                                                                initShaderCommand->fragmentShader,
+                                                                                initShaderCommand->vertexShader,
+                                                                                initShaderCommand->vertexAttributes,
+                                                                                initShaderCommand->fragmentShaderConstantInfo,
+                                                                                initShaderCommand->vertexShaderConstantInfo,
+                                                                                initShaderCommand->fragmentShaderDataAlignment,
+                                                                                initShaderCommand->vertexShaderDataAlignment,
+                                                                                initShaderCommand->fragmentShaderFunction,
+                                                                                initShaderCommand->vertexShaderFunction));
 
                             if (initShaderCommand->shader > resources.size())
                                 resources.resize(initShaderCommand->shader);
-                            resources[initShaderCommand->shader - 1] = std::move(shaderResourceMetal);
+                            resources[initShaderCommand->shader - 1] = std::move(shader);
                             break;
                         }
 
                         case Command::Type::SET_SHADER_CONSTANTS:
                         {
-                            const SetShaderConstantsCommand* setShaderConstantsCommand = static_cast<const SetShaderConstantsCommand*>(command.get());
+                            auto setShaderConstantsCommand = static_cast<const SetShaderConstantsCommand*>(command.get());
 
                             if (!currentRenderCommandEncoder)
                                 throw std::runtime_error("Metal render command encoder not initialized");
@@ -899,46 +899,46 @@ namespace ouzel
 
                         case Command::Type::INIT_TEXTURE:
                         {
-                            const InitTextureCommand* initTextureCommand = static_cast<const InitTextureCommand*>(command.get());
+                            auto initTextureCommand = static_cast<const InitTextureCommand*>(command.get());
 
-                            std::unique_ptr<MetalTexture> textureResourceMetal(new MetalTexture(*this,
-                                                                                                                initTextureCommand->levels,
-                                                                                                                initTextureCommand->flags,
-                                                                                                                initTextureCommand->sampleCount,
-                                                                                                                initTextureCommand->pixelFormat));
+                            std::unique_ptr<MetalTexture> texture(new MetalTexture(*this,
+                                                                                   initTextureCommand->levels,
+                                                                                   initTextureCommand->flags,
+                                                                                   initTextureCommand->sampleCount,
+                                                                                   initTextureCommand->pixelFormat));
 
                             if (initTextureCommand->texture > resources.size())
                                 resources.resize(initTextureCommand->texture);
-                            resources[initTextureCommand->texture - 1] = std::move(textureResourceMetal);
+                            resources[initTextureCommand->texture - 1] = std::move(texture);
                             break;
                         }
 
                         case Command::Type::SET_TEXTURE_DATA:
                         {
-                            const SetTextureDataCommand* setTextureDataCommand = static_cast<const SetTextureDataCommand*>(command.get());
+                            auto setTextureDataCommand = static_cast<const SetTextureDataCommand*>(command.get());
 
-                            MetalTexture* textureResourceMetal = static_cast<MetalTexture*>(resources[setTextureDataCommand->texture - 1].get());
-                            textureResourceMetal->setData(setTextureDataCommand->levels);
+                            MetalTexture* texture = static_cast<MetalTexture*>(resources[setTextureDataCommand->texture - 1].get());
+                            texture->setData(setTextureDataCommand->levels);
 
                             break;
                         }
 
                         case Command::Type::SET_TEXTURE_PARAMETERS:
                         {
-                            const SetTextureParametersCommand* setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
+                            auto setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
 
-                            MetalTexture* textureResourceMetal = static_cast<MetalTexture*>(resources[setTextureParametersCommand->texture - 1].get());
-                            textureResourceMetal->setFilter(setTextureParametersCommand->filter);
-                            textureResourceMetal->setAddressX(setTextureParametersCommand->addressX);
-                            textureResourceMetal->setAddressY(setTextureParametersCommand->addressY);
-                            textureResourceMetal->setMaxAnisotropy(setTextureParametersCommand->maxAnisotropy);
+                            MetalTexture* texture = static_cast<MetalTexture*>(resources[setTextureParametersCommand->texture - 1].get());
+                            texture->setFilter(setTextureParametersCommand->filter);
+                            texture->setAddressX(setTextureParametersCommand->addressX);
+                            texture->setAddressY(setTextureParametersCommand->addressY);
+                            texture->setMaxAnisotropy(setTextureParametersCommand->maxAnisotropy);
 
                             break;
                         }
 
                         case Command::Type::SET_TEXTURES:
                         {
-                            const SetTexturesCommand* setTexturesCommand = static_cast<const SetTexturesCommand*>(command.get());
+                            auto setTexturesCommand = static_cast<const SetTexturesCommand*>(command.get());
 
                             if (!currentRenderCommandEncoder)
                                 throw std::runtime_error("Metal render command encoder not initialized");
@@ -947,9 +947,9 @@ namespace ouzel
                             {
                                 if (setTexturesCommand->textures[layer])
                                 {
-                                    MetalTexture* textureMetal = static_cast<MetalTexture*>(resources[setTexturesCommand->textures[layer] - 1].get());
-                                    [currentRenderCommandEncoder setFragmentTexture:textureMetal->getTexture() atIndex:layer];
-                                    [currentRenderCommandEncoder setFragmentSamplerState:textureMetal->getSamplerState() atIndex:layer];
+                                    MetalTexture* texture = static_cast<MetalTexture*>(resources[setTexturesCommand->textures[layer] - 1].get());
+                                    [currentRenderCommandEncoder setFragmentTexture:texture->getTexture() atIndex:layer];
+                                    [currentRenderCommandEncoder setFragmentSamplerState:texture->getSamplerState() atIndex:layer];
                                 }
                                 else
                                 {
