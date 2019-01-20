@@ -283,6 +283,12 @@ namespace ouzel
             if (parent) parent->removeChild(this);
         }
 
+        void Actor::addComponent(std::unique_ptr<Component>&& component)
+        {
+            addComponent(component.get());
+            ownedComponents.push_back(std::move(component));
+        }
+
         void Actor::addComponent(Component* component)
         {
             assert(component);
@@ -307,6 +313,12 @@ namespace ouzel
                 result = true;
             }
 
+            auto ownedComponentIterator = std::find_if(ownedComponents.begin(), ownedComponents.end(), [component](const std::unique_ptr<Component>& ownedComponent){
+                return component == ownedComponent.get();
+            });
+            if (ownedComponentIterator != ownedComponents.end())
+                ownedComponents.erase(ownedComponentIterator);
+
             return result;
         }
 
@@ -316,6 +328,7 @@ namespace ouzel
                 component->actor = nullptr;
 
             components.clear();
+            ownedComponents.clear();
         }
 
         void Actor::setLayer(Layer* newLayer)
