@@ -8,13 +8,17 @@
 #if OUZEL_COMPILE_DIRECT3D11
 
 #include <d3d11.h>
+#include <set>
+#include <vector>
 #include "graphics/direct3d11/D3D11RenderResource.hpp"
+#include "math/Color.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
         class D3D11RenderDevice;
+        class D3D11Texture;
 
         class D3D11RenderTarget final: public D3D11RenderResource
         {
@@ -22,7 +26,16 @@ namespace ouzel
             explicit D3D11RenderTarget(D3D11RenderDevice& renderDeviceD3D11);
             ~D3D11RenderTarget();
 
-            ID3D11RenderTargetView* getRenderTargetView() const { return renderTargetView; }
+            void addColorTexture(D3D11Texture* texture);
+            void removeColorTexture(D3D11Texture* texture);
+            void setDepthTexture(D3D11Texture* texture);
+
+            void setClearColorBuffer(bool clear);
+            void setClearDepthBuffer(bool clear);
+            void setClearColor(Color color);
+            void setClearDepth(float newClearDepth);
+
+            const std::vector<ID3D11RenderTargetView*>& getRenderTargetViews() const { return renderTargetViews; }
             ID3D11DepthStencilView* getDepthStencilView() const { return depthStencilView; }
 
             inline const float* getFrameBufferClearColor() const { return frameBufferClearColor; }
@@ -31,7 +44,10 @@ namespace ouzel
             inline bool getClearDepthBufferView() const { return clearDepthBufferView; }
 
         private:
-            ID3D11RenderTargetView* renderTargetView = nullptr;
+            std::set<D3D11Texture*> colorTextures;
+            D3D11Texture* depthTexture = nullptr;
+
+            std::vector<ID3D11RenderTargetView*> renderTargetViews;
             ID3D11DepthStencilView* depthStencilView = nullptr;
 
             FLOAT frameBufferClearColor[4]{0.0F, 0.0F, 0.0F, 0.0F};

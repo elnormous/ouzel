@@ -1,5 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <stdexcept>
 #if defined(__SSE__)
 #  include <xmmintrin.h>
 #endif
@@ -79,6 +80,8 @@ namespace ouzel
             _mm_store_ps(&dst.m[4], _mm_add_ps(_mm_load_ps(&m[4]), s));
             _mm_store_ps(&dst.m[8], _mm_add_ps(_mm_load_ps(&m[8]), s));
             _mm_store_ps(&dst.m[12], _mm_add_ps(_mm_load_ps(&m[12]), s));
+#else
+            throw std::runtime_error("Unsupported SIMD architecture");
 #endif
         }
         else
@@ -170,6 +173,8 @@ namespace ouzel
             _mm_store_ps(&dst.m[4], _mm_add_ps(_mm_load_ps(&m1.m[4]), _mm_load_ps(&m2.m[4])));
             _mm_store_ps(&dst.m[8], _mm_add_ps(_mm_load_ps(&m1.m[8]), _mm_load_ps(&m2.m[8])));
             _mm_store_ps(&dst.m[12], _mm_add_ps(_mm_load_ps(&m1.m[12]), _mm_load_ps(&m2.m[12])));
+#else
+            throw std::runtime_error("Unsupported SIMD architecture");
 #endif
         }
         else
@@ -307,6 +312,8 @@ namespace ouzel
             _mm_store_ps(&dst.m[4], _mm_mul_ps(_mm_load_ps(&m.m[4]), s));
             _mm_store_ps(&dst.m[8], _mm_mul_ps(_mm_load_ps(&m.m[8]), s));
             _mm_store_ps(&dst.m[12], _mm_mul_ps(_mm_load_ps(&m.m[12]), s));
+#else
+            throw std::runtime_error("Unsupported SIMD architecture");
 #endif
         }
         else
@@ -512,6 +519,8 @@ namespace ouzel
             _mm_store_ps(&dst.m[4], dest[1]);
             _mm_store_ps(&dst.m[8], dest[2]);
             _mm_store_ps(&dst.m[12], dest[3]);
+#else
+            throw std::runtime_error("Unsupported SIMD architecture");
 #endif
         }
         else
@@ -608,6 +617,8 @@ namespace ouzel
             _mm_store_ps(&dst.m[4], _mm_sub_ps(z, _mm_load_ps(&m[4])));
             _mm_store_ps(&dst.m[8], _mm_sub_ps(z, _mm_load_ps(&m[8])));
             _mm_store_ps(&dst.m[12], _mm_sub_ps(z, _mm_load_ps(&m[12])));
+#else
+            throw std::runtime_error("Unsupported SIMD architecture");
 #endif
         }
         else
@@ -699,6 +710,8 @@ namespace ouzel
             _mm_store_ps(&dst.m[4], _mm_sub_ps(_mm_load_ps(&m1.m[4]), _mm_load_ps(&m2.m[4])));
             _mm_store_ps(&dst.m[8], _mm_sub_ps(_mm_load_ps(&m1.m[8]), _mm_load_ps(&m2.m[8])));
             _mm_store_ps(&dst.m[12], _mm_sub_ps(_mm_load_ps(&m1.m[12]), _mm_load_ps(&m2.m[12])));
+#else
+            throw std::runtime_error("Unsupported SIMD architecture");
 #endif
         }
         else
@@ -783,6 +796,8 @@ namespace ouzel
                                   _mm_add_ps(_mm_mul_ps(_mm_load_ps(&m[8]), col3),
                                              _mm_mul_ps(_mm_load_ps(&m[12]), col4)));
             _mm_store_ps(dst.v, s);
+#else
+            throw std::runtime_error("Unsupported SIMD architecture");
 #endif
         }
         else
@@ -846,6 +861,8 @@ namespace ouzel
             _mm_store_ps(&dst.m[4], _mm_shuffle_ps(tmp0, tmp1, _MM_SHUFFLE(3, 1, 3, 1)));
             _mm_store_ps(&dst.m[8], _mm_shuffle_ps(tmp2, tmp3, _MM_SHUFFLE(2, 0, 2, 0)));
             _mm_store_ps(&dst.m[12], _mm_shuffle_ps(tmp2, tmp3, _MM_SHUFFLE(3, 1, 3, 1)));
+#else
+            throw std::runtime_error("Unsupported SIMD architecture");
 #endif
         }
         else

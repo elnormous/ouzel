@@ -24,7 +24,6 @@ namespace ouzel
                     case PixelFormat::R8_SNORM: return GL_R8_SNORM;
                     case PixelFormat::R8_UINT: return GL_R8UI;
                     case PixelFormat::R8_SINT: return GL_R8I;
-
                     case PixelFormat::R16_UNORM: return GL_NONE;
                     case PixelFormat::R16_SNORM: return GL_NONE;
                     case PixelFormat::R16_UINT: return GL_R16UI;
@@ -41,7 +40,6 @@ namespace ouzel
                     case PixelFormat::RGBA8_SNORM: return GL_RGBA8_SNORM;
                     case PixelFormat::RGBA8_UINT: return GL_RGBA8UI;
                     case PixelFormat::RGBA8_SINT: return GL_RGBA8I;
-
                     case PixelFormat::RGBA16_UNORM: return GL_NONE;
                     case PixelFormat::RGBA16_SNORM: return GL_NONE;
                     case PixelFormat::RGBA16_UINT: return GL_RGBA16UI;
@@ -50,6 +48,8 @@ namespace ouzel
                     case PixelFormat::RGBA32_UINT: return GL_RGBA32UI;
                     case PixelFormat::RGBA32_SINT: return GL_RGBA32I;
                     case PixelFormat::RGBA32_FLOAT: return GL_RGBA32F;
+                    case PixelFormat::DEPTH: return GL_DEPTH_COMPONENT24;
+                    case PixelFormat::DEPTH_STENCIL: return GL_DEPTH24_STENCIL8;
                     default: return GL_NONE;
                 }
             }
@@ -73,7 +73,6 @@ namespace ouzel
                 case PixelFormat::R8_SNORM: return GL_R8_SNORM;
                 case PixelFormat::R8_UINT: return GL_R8UI;
                 case PixelFormat::R8_SINT: return GL_R8I;
-
                 case PixelFormat::R16_UNORM: return GL_R16;
                 case PixelFormat::R16_SNORM: return GL_R16_SNORM;
                 case PixelFormat::R16_UINT: return GL_R16UI;
@@ -90,7 +89,6 @@ namespace ouzel
                 case PixelFormat::RGBA8_SNORM: return GL_RGBA8_SNORM;
                 case PixelFormat::RGBA8_UINT: return GL_RGBA8UI;
                 case PixelFormat::RGBA8_SINT: return GL_RGBA8I;
-
                 case PixelFormat::RGBA16_UNORM: return GL_RGBA16;
                 case PixelFormat::RGBA16_SNORM: return GL_RGBA16_SNORM;
                 case PixelFormat::RGBA16_UINT: return GL_RGBA16UI;
@@ -99,6 +97,8 @@ namespace ouzel
                 case PixelFormat::RGBA32_UINT: return GL_RGBA32UI;
                 case PixelFormat::RGBA32_SINT: return GL_RGBA32I;
                 case PixelFormat::RGBA32_FLOAT: return GL_RGBA32F;
+                case PixelFormat::DEPTH: return GL_DEPTH_COMPONENT24;
+                case PixelFormat::DEPTH_STENCIL: return GL_DEPTH24_STENCIL8;
                 default: return GL_NONE;
             }
 #endif
@@ -144,6 +144,10 @@ namespace ouzel
                 case PixelFormat::RGBA32_UINT:
                 case PixelFormat::RGBA32_SINT:
                     return GL_RGBA_INTEGER;
+                case PixelFormat::DEPTH:
+                    return GL_DEPTH_COMPONENT;
+                case PixelFormat::DEPTH_STENCIL:
+                    return GL_DEPTH_STENCIL;
                 default:
                     return 0;
             }
@@ -186,7 +190,10 @@ namespace ouzel
                 case PixelFormat::R32_FLOAT:
                 case PixelFormat::RGBA16_FLOAT:
                 case PixelFormat::RGBA32_FLOAT:
+                case PixelFormat::DEPTH:
                     return GL_FLOAT;
+                case PixelFormat::DEPTH_STENCIL:
+                    return GL_UNSIGNED_INT_24_8;
                 default:
                     return 0;
             }

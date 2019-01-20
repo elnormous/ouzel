@@ -4,6 +4,7 @@
 #define OUZEL_GRAPHICS_RENDERTARGET_HPP
 
 #include <memory>
+#include <vector>
 #include "math/Color.hpp"
 #include "math/Size2.hpp"
 
@@ -26,11 +27,22 @@ namespace ouzel
             };
 
             explicit RenderTarget(Renderer& initRenderer);
+            RenderTarget(Renderer& initRenderer,
+                         bool initClearColorBuffer,
+                         bool initClearDepthBuffer,
+                         Color initClearColor,
+                         float initClearDepth);
             ~RenderTarget();
 
             inline uintptr_t getResource() const { return resource; }
-            inline Texture* getColorTextureResource() const { return colorTexture; }
-            inline Texture* getDepthTextureResource() const { return depthTexture; }
+
+            void addColorTexture(const std::shared_ptr<Texture>& texture);
+            void removeColorTexture(const std::shared_ptr<Texture>& texture);
+            void removeColorTexture(Texture* texture);
+            inline const std::vector<std::shared_ptr<Texture>>& getColorTextures() const { return colorTextures; }
+
+            void setDepthTexture(const std::shared_ptr<Texture>& texture);
+            inline const std::shared_ptr<Texture>& getDepthTexture() const { return depthTexture; }
 
             inline const Size2<float>& getSize() const { return size; }
 
@@ -49,8 +61,8 @@ namespace ouzel
         private:
             Renderer& renderer;
             uintptr_t resource = 0;
-            Texture* colorTexture = nullptr;
-            Texture* depthTexture = nullptr;
+            std::vector<std::shared_ptr<Texture>> colorTextures;
+            std::shared_ptr<Texture> depthTexture;
 
             Size2<float> size;
             bool clearColorBuffer = true;

@@ -17,13 +17,16 @@
 #  include "GL/glext.h"
 #endif
 
+#include <set>
 #include "graphics/opengl/OGLRenderResource.hpp"
+#include "math/Color.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
         class OGLRenderDevice;
+        class OGLTexture;
 
         class OGLRenderTarget final: public OGLRenderResource
         {
@@ -33,6 +36,15 @@ namespace ouzel
 
             void reload() override;
 
+            void addColorTexture(OGLTexture* texture);
+            void removeColorTexture(OGLTexture* texture);
+            void setDepthTexture(OGLTexture* texture);
+
+            void setClearColorBuffer(bool clear);
+            void setClearDepthBuffer(bool clear);
+            void setClearColor(Color color);
+            void setClearDepth(float newClearDepth);
+
             inline GLuint getFrameBufferId() const { return frameBufferId; }
 
             inline GLbitfield getClearMask() const { return clearMask; }
@@ -41,6 +53,9 @@ namespace ouzel
 
         private:
             GLuint frameBufferId = 0;
+
+            std::set<OGLTexture*> colorTextures;
+            OGLTexture* depthTexture = nullptr;
 
             GLbitfield clearMask = 0;
             std::array<GLfloat, 4> frameBufferClearColor{{0.0F, 0.0F, 0.0F, 0.0F}};

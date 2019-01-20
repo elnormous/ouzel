@@ -383,7 +383,7 @@ namespace ouzel
 
                 while (!commandBuffer.isEmpty())
                 {
-                    command = std::move(commandBuffer.popCommand());
+                    command = commandBuffer.popCommand();
 
                     switch (command->type)
                     {

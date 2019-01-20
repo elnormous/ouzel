@@ -38,7 +38,9 @@ namespace ouzel
             RGBA16_FLOAT,
             RGBA32_UINT,
             RGBA32_SINT,
-            RGBA32_FLOAT
+            RGBA32_FLOAT,
+            DEPTH,
+            DEPTH_STENCIL
         };
 
         inline uint32_t getPixelSize(PixelFormat pixelFormat)
