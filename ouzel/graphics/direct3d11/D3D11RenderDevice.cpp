@@ -398,22 +398,22 @@ namespace ouzel
 
                         case Command::Type::DELETE_RESOURCE:
                         {
-                            const DeleteResourceCommand* deleteResourceCommand = static_cast<const DeleteResourceCommand*>(command.get());
+                            auto deleteResourceCommand = static_cast<const DeleteResourceCommand*>(command.get());
                             resources[deleteResourceCommand->resource - 1].reset();
                             break;
                         }
 
                         case Command::Type::SET_RENDER_TARGET_PARAMETERS:
                         {
-                            const SetRenderTargetParametersCommand* setRenderTargetParametersCommand = static_cast<const SetRenderTargetParametersCommand*>(command.get());
+                            auto setRenderTargetParametersCommand = static_cast<const SetRenderTargetParametersCommand*>(command.get());
 
                             if (setRenderTargetParametersCommand->renderTarget)
                             {
-                                D3D11Texture* renderTargetD3D11 = static_cast<D3D11Texture*>(resources[setRenderTargetParametersCommand->renderTarget - 1].get());
-                                renderTargetD3D11->setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
-                                renderTargetD3D11->setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
-                                renderTargetD3D11->setClearColor(setRenderTargetParametersCommand->clearColor);
-                                renderTargetD3D11->setClearDepth(setRenderTargetParametersCommand->clearDepth);
+                                D3D11Texture* renderTarget = static_cast<D3D11Texture*>(resources[setRenderTargetParametersCommand->renderTarget - 1].get());
+                                renderTarget->setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
+                                renderTarget->setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
+                                renderTarget->setClearColor(setRenderTargetParametersCommand->clearColor);
+                                renderTarget->setClearDepth(setRenderTargetParametersCommand->clearDepth);
                             }
                             else
                             {
@@ -429,7 +429,7 @@ namespace ouzel
                         case Command::ADD_RENDER_TARGET_COLOR_TEXTURE:
                         {
                             auto addRenderTargetColorTextureCommand = static_cast<const AddRenderTargetColorTextureCommand*>(command.get());
-                            D3D11RenderTarget* renderTargetMetal = static_cast<D3D11RenderTarget*>(resources[addRenderTargetColorTextureCommand->renderTarget - 1].get());
+                            D3D11RenderTarget* renderTarget = static_cast<D3D11RenderTarget*>(resources[addRenderTargetColorTextureCommand->renderTarget - 1].get());
                             D3D11Texture* texture = addRenderTargetColorTextureCommand->texture ? static_cast<D3D11Texture*>(resources[addRenderTargetColorTextureCommand->texture - 1].get()) : nullptr;
                             renderTarget->addColorTexture(texture);
                             break;
@@ -438,7 +438,7 @@ namespace ouzel
                         case Command::REMOVE_RENDER_TARGET_COLOR_TEXTURE:
                         {
                             auto removeRenderTargetColorTextureCommand = static_cast<const RemoveRenderTargetColorTextureCommand*>(command.get());
-                            D3D11RenderTarget* renderTargetMetal = static_cast<D3D11RenderTarget*>(resources[removeRenderTargetColorTextureCommand->renderTarget - 1].get());
+                            D3D11RenderTarget* renderTarget = static_cast<D3D11RenderTarget*>(resources[removeRenderTargetColorTextureCommand->renderTarget - 1].get());
                             D3D11Texture* texture = removeRenderTargetColorTextureCommand->texture ? static_cast<D3D11Texture*>(resources[removeRenderTargetColorTextureCommand->texture - 1].get()) : nullptr;
                             renderTarget->removeColorTexture(texture);
                             break;
@@ -447,7 +447,7 @@ namespace ouzel
                         case Command::SET_RENDER_TARGET_DEPTH_TEXTURE:
                         {
                             auto setRenderTargetDepthTextureCommand = static_cast<const SetRenderTargetDepthTextureCommand*>(command.get());
-                            D3D11RenderTarget* renderTargetMetal = static_cast<D3D11RenderTarget*>(resources[setRenderTargetDepthTextureCommand->renderTarget - 1].get());
+                            D3D11RenderTarget* renderTarget = static_cast<D3D11RenderTarget*>(resources[setRenderTargetDepthTextureCommand->renderTarget - 1].get());
                             D3D11Texture* texture = setRenderTargetDepthTextureCommand->texture ? static_cast<D3D11Texture*>(resources[setRenderTargetDepthTextureCommand->texture - 1].get()) : nullptr;
                             renderTarget->setDepthTexture(texture);
                             break;
@@ -455,7 +455,7 @@ namespace ouzel
 
                         case Command::Type::SET_RENDER_TARGET:
                         {
-                            const SetRenderTargetCommand* setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command.get());
+                            auto setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command.get());
 
                             D3D11Texture* newRenderTarget = nullptr;
                             if (setRenderTargetCommand->renderTarget)
@@ -489,7 +489,7 @@ namespace ouzel
 
                         case Command::Type::CLEAR_RENDER_TARGET:
                         {
-                            const ClearRenderTargetCommand* clearCommand = static_cast<const ClearRenderTargetCommand*>(command.get());
+                            auto clearCommand = static_cast<const ClearRenderTargetCommand*>(command.get());
 
                             ID3D11RenderTargetView* newRenderTargetView = nullptr;
                             ID3D11DepthStencilView* newDepthStencilView = nullptr;
@@ -502,18 +502,18 @@ namespace ouzel
 
                             if (clearCommand->renderTarget)
                             {
-                                D3D11Texture* renderTargetD3D11 = static_cast<D3D11Texture*>(resources[clearCommand->renderTarget - 1].get());
+                                D3D11Texture* renderTarget = static_cast<D3D11Texture*>(resources[clearCommand->renderTarget - 1].get());
 
-                                if (!renderTargetD3D11->getRenderTargetView()) break;
+                                if (!renderTarget->getRenderTargetView()) break;
 
-                                renderTargetWidth = renderTargetD3D11->getWidth();
-                                renderTargetHeight = renderTargetD3D11->getHeight();
-                                newRenderTargetView = renderTargetD3D11->getRenderTargetView();
-                                newDepthStencilView = renderTargetD3D11->getDepthStencilView();
-                                newClearColor = renderTargetD3D11->getFrameBufferClearColor();
-                                newClearDepth = renderTargetD3D11->getClearDepth();
-                                newClearFrameBufferView = renderTargetD3D11->getClearFrameBufferView();
-                                newClearDepthBufferView = renderTargetD3D11->getClearDepthBufferView();
+                                renderTargetWidth = renderTarget->getWidth();
+                                renderTargetHeight = renderTarget->getHeight();
+                                newRenderTargetView = renderTarget->getRenderTargetView();
+                                newDepthStencilView = renderTarget->getDepthStencilView();
+                                newClearColor = renderTarget->getFrameBufferClearColor();
+                                newClearDepth = renderTarget->getClearDepth();
+                                newClearFrameBufferView = renderTarget->getClearFrameBufferView();
+                                newClearDepthBufferView = renderTarget->getClearDepthBufferView();
                             }
                             else
                             {
@@ -548,7 +548,7 @@ namespace ouzel
 
                         case Command::Type::BLIT:
                         {
-                            const BlitCommand* blitCommand = static_cast<const BlitCommand*>(command.get());
+                            auto blitCommand = static_cast<const BlitCommand*>(command.get());
 
                             D3D11Texture* sourceD3D11Texture = static_cast<D3D11Texture*>(resources[blitCommand->sourceTexture - 1].get());
                             D3D11Texture* destinationD3D11Texture = static_cast<D3D11Texture*>(resources[blitCommand->destinationTexture - 1].get());
@@ -609,7 +609,7 @@ namespace ouzel
 
                         case Command::Type::SET_SCISSOR_TEST:
                         {
-                            const SetScissorTestCommand* setScissorTestCommand = static_cast<const SetScissorTestCommand*>(command.get());
+                            auto setScissorTestCommand = static_cast<const SetScissorTestCommand*>(command.get());
 
                             if (setScissorTestCommand->enabled)
                             {
@@ -631,7 +631,7 @@ namespace ouzel
 
                         case Command::Type::SET_VIEWPORT:
                         {
-                            const SetViewportCommand* setViewportCommand = static_cast<const SetViewportCommand*>(command.get());
+                            auto setViewportCommand = static_cast<const SetViewportCommand*>(command.get());
 
                             D3D11_VIEWPORT viewport;
                             viewport.MinDepth = 0.0F;
@@ -647,26 +647,26 @@ namespace ouzel
 
                         case Command::Type::INIT_DEPTH_STENCIL_STATE:
                         {
-                            const InitDepthStencilStateCommand* initDepthStencilStateCommand = static_cast<const InitDepthStencilStateCommand*>(command.get());
-                            std::unique_ptr<D3D11DepthStencilState> depthStencilStateResourceD3D11(new D3D11DepthStencilState(*this,
-                                                                                                                              initDepthStencilStateCommand->depthTest,
-                                                                                                                              initDepthStencilStateCommand->depthWrite,
-                                                                                                                              initDepthStencilStateCommand->compareFunction));
+                            auto initDepthStencilStateCommand = static_cast<const InitDepthStencilStateCommand*>(command.get());
+                            std::unique_ptr<D3D11DepthStencilState> depthStencilState(new D3D11DepthStencilState(*this,
+                                                                                                                 initDepthStencilStateCommand->depthTest,
+                                                                                                                 initDepthStencilStateCommand->depthWrite,
+                                                                                                                 initDepthStencilStateCommand->compareFunction));
 
                             if (initDepthStencilStateCommand->depthStencilState > resources.size())
                                 resources.resize(initDepthStencilStateCommand->depthStencilState);
-                            resources[initDepthStencilStateCommand->depthStencilState - 1] = std::move(depthStencilStateResourceD3D11);
+                            resources[initDepthStencilStateCommand->depthStencilState - 1] = std::move(depthStencilState);
                             break;
                         }
 
                         case Command::Type::SET_DEPTH_STENCIL_STATE:
                         {
-                            const SetDepthStencilStateCommand* setDepthStencilStateCommand = static_cast<const SetDepthStencilStateCommand*>(command.get());
+                            auto setDepthStencilStateCommand = static_cast<const SetDepthStencilStateCommand*>(command.get());
 
                             if (setDepthStencilStateCommand->depthStencilState)
                             {
-                                D3D11DepthStencilState* depthStencilStateD3D11 = static_cast<D3D11DepthStencilState*>(resources[setDepthStencilStateCommand->depthStencilState - 1].get());
-                                context->OMSetDepthStencilState(depthStencilStateD3D11->getDepthStencilState(), 0);
+                                D3D11DepthStencilState* depthStencilState = static_cast<D3D11DepthStencilState*>(resources[setDepthStencilStateCommand->depthStencilState - 1].get());
+                                context->OMSetDepthStencilState(depthStencilState->getDepthStencilState(), 0);
                             }
                             else
                                 context->OMSetDepthStencilState(defaultDepthStencilState, 0);
@@ -676,26 +676,26 @@ namespace ouzel
 
                         case Command::Type::SET_PIPELINE_STATE:
                         {
-                            const SetPipelineStateCommand* setPipelineStateCommand = static_cast<const SetPipelineStateCommand*>(command.get());
+                            auto setPipelineStateCommand = static_cast<const SetPipelineStateCommand*>(command.get());
 
-                            D3D11BlendState* blendStateD3D11 = static_cast<D3D11BlendState*>(resources[setPipelineStateCommand->blendState - 1].get());
-                            D3D11Shader* shaderD3D11 = static_cast<D3D11Shader*>(resources[setPipelineStateCommand->shader - 1].get());
-                            currentShader = shaderD3D11;
+                            D3D11BlendState* blendState = static_cast<D3D11BlendState*>(resources[setPipelineStateCommand->blendState - 1].get());
+                            D3D11Shader* shader = static_cast<D3D11Shader*>(resources[setPipelineStateCommand->shader - 1].get());
+                            currentShader = shader;
 
-                            if (blendStateD3D11)
-                                context->OMSetBlendState(blendStateD3D11->getBlendState(), nullptr, 0xffffffff);
+                            if (blendState)
+                                context->OMSetBlendState(blendState->getBlendState(), nullptr, 0xffffffff);
                             else
                                 context->OMSetBlendState(nullptr, nullptr, 0xffffffff);
 
-                            if (shaderD3D11)
+                            if (shader)
                             {
-                                assert(shaderD3D11->getFragmentShader());
-                                assert(shaderD3D11->getVertexShader());
-                                assert(shaderD3D11->getInputLayout());
+                                assert(shader->getFragmentShader());
+                                assert(shader->getVertexShader());
+                                assert(shader->getInputLayout());
 
-                                context->PSSetShader(shaderD3D11->getFragmentShader(), nullptr, 0);
-                                context->VSSetShader(shaderD3D11->getVertexShader(), nullptr, 0);
-                                context->IASetInputLayout(shaderD3D11->getInputLayout());
+                                context->PSSetShader(shader->getFragmentShader(), nullptr, 0);
+                                context->VSSetShader(shader->getVertexShader(), nullptr, 0);
+                                context->IASetInputLayout(shader->getInputLayout());
                             }
                             else
                             {
@@ -709,28 +709,28 @@ namespace ouzel
 
                         case Command::Type::DRAW:
                         {
-                            const DrawCommand* drawCommand = static_cast<const DrawCommand*>(command.get());
+                            auto drawCommand = static_cast<const DrawCommand*>(command.get());
 
                             // draw mesh buffer
-                            D3D11Buffer* indexD3D11Buffer = static_cast<D3D11Buffer*>(resources[drawCommand->indexBuffer - 1].get());
-                            D3D11Buffer* vertexD3D11Buffer = static_cast<D3D11Buffer*>(resources[drawCommand->vertexBuffer - 1].get());
+                            D3D11Buffer* indexBuffer = static_cast<D3D11Buffer*>(resources[drawCommand->indexBuffer - 1].get());
+                            D3D11Buffer* vertexBuffer = static_cast<D3D11Buffer*>(resources[drawCommand->vertexBuffer - 1].get());
 
-                            assert(indexD3D11Buffer);
-                            assert(indexD3D11Buffer->getBuffer());
-                            assert(vertexD3D11Buffer);
-                            assert(vertexD3D11Buffer->getBuffer());
+                            assert(indexBuffer);
+                            assert(indexBuffer->getBuffer());
+                            assert(vertexBuffer);
+                            assert(vertexBuffer->getBuffer());
 
-                            ID3D11Buffer* buffers[] = {vertexD3D11Buffer->getBuffer()};
+                            ID3D11Buffer* buffers[] = {vertexBuffer->getBuffer()};
                             UINT strides[] = {sizeof(Vertex)};
                             UINT offsets[] = {0};
                             context->IASetVertexBuffers(0, 1, buffers, strides, offsets);
-                            context->IASetIndexBuffer(indexD3D11Buffer->getBuffer(),
+                            context->IASetIndexBuffer(indexBuffer->getBuffer(),
                                                       getIndexFormat(drawCommand->indexSize), 0);
                             context->IASetPrimitiveTopology(getPrimitiveTopology(drawCommand->drawMode));
 
                             assert(drawCommand->indexCount);
-                            assert(indexD3D11Buffer->getSize());
-                            assert(vertexD3D11Buffer->getSize());
+                            assert(indexBuffer->getSize());
+                            assert(vertexBuffer->getSize());
 
                             context->DrawIndexed(drawCommand->indexCount, drawCommand->startIndex, 0);
 
@@ -751,73 +751,73 @@ namespace ouzel
 
                         case Command::Type::INIT_BLEND_STATE:
                         {
-                            const InitBlendStateCommand* initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command.get());
+                            auto initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command.get());
 
-                            std::unique_ptr<D3D11BlendState> blendStateResourceD3D11(new D3D11BlendState(*this,
-                                                                                                         initBlendStateCommand->enableBlending,
-                                                                                                         initBlendStateCommand->colorBlendSource,
-                                                                                                         initBlendStateCommand->colorBlendDest,
-                                                                                                         initBlendStateCommand->colorOperation,
-                                                                                                         initBlendStateCommand->alphaBlendSource,
-                                                                                                         initBlendStateCommand->alphaBlendDest,
-                                                                                                         initBlendStateCommand->alphaOperation,
-                                                                                                         initBlendStateCommand->colorMask));
+                            std::unique_ptr<D3D11BlendState> blendState(new D3D11BlendState(*this,
+                                                                                            initBlendStateCommand->enableBlending,
+                                                                                            initBlendStateCommand->colorBlendSource,
+                                                                                            initBlendStateCommand->colorBlendDest,
+                                                                                            initBlendStateCommand->colorOperation,
+                                                                                            initBlendStateCommand->alphaBlendSource,
+                                                                                            initBlendStateCommand->alphaBlendDest,
+                                                                                            initBlendStateCommand->alphaOperation,
+                                                                                            initBlendStateCommand->colorMask));
 
                             if (initBlendStateCommand->blendState > resources.size())
                                 resources.resize(initBlendStateCommand->blendState);
-                            resources[initBlendStateCommand->blendState - 1] = std::move(blendStateResourceD3D11);
+                            resources[initBlendStateCommand->blendState - 1] = std::move(blendState);
                             break;
                         }
 
                         case Command::Type::INIT_BUFFER:
                         {
-                            const InitBufferCommand* initBufferCommand = static_cast<const InitBufferCommand*>(command.get());
+                            auto initBufferCommand = static_cast<const InitBufferCommand*>(command.get());
 
-                            std::unique_ptr<D3D11Buffer> bufferResourceD3D11(new D3D11Buffer(*this,
-                                                                                             initBufferCommand->usage,
-                                                                                             initBufferCommand->flags,
-                                                                                             initBufferCommand->data,
-                                                                                             initBufferCommand->size));
+                            std::unique_ptr<D3D11Buffer> buffer(new D3D11Buffer(*this,
+                                                                                initBufferCommand->usage,
+                                                                                initBufferCommand->flags,
+                                                                                initBufferCommand->data,
+                                                                                initBufferCommand->size));
 
                             if (initBufferCommand->buffer > resources.size())
                                 resources.resize(initBufferCommand->buffer);
-                            resources[initBufferCommand->buffer - 1] = std::move(bufferResourceD3D11);
+                            resources[initBufferCommand->buffer - 1] = std::move(buffer);
                             break;
                         }
 
                         case Command::Type::SET_BUFFER_DATA:
                         {
-                            const SetBufferDataCommand* setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command.get());
+                            auto setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command.get());
 
-                            D3D11Buffer* bufferResourceD3D11 = static_cast<D3D11Buffer*>(resources[setBufferDataCommand->buffer - 1].get());
-                            bufferResourceD3D11->setData(setBufferDataCommand->data);
+                            D3D11Buffer* buffer = static_cast<D3D11Buffer*>(resources[setBufferDataCommand->buffer - 1].get());
+                            buffer->setData(setBufferDataCommand->data);
                             break;
                         }
 
                         case Command::Type::INIT_SHADER:
                         {
-                            const InitShaderCommand* initShaderCommand = static_cast<const InitShaderCommand*>(command.get());
+                            auto initShaderCommand = static_cast<const InitShaderCommand*>(command.get());
 
-                            std::unique_ptr<D3D11Shader> shaderResourceD3D11(new D3D11Shader(*this,
-                                                                                             initShaderCommand->fragmentShader,
-                                                                                             initShaderCommand->vertexShader,
-                                                                                             initShaderCommand->vertexAttributes,
-                                                                                             initShaderCommand->fragmentShaderConstantInfo,
-                                                                                             initShaderCommand->vertexShaderConstantInfo,
-                                                                                             initShaderCommand->fragmentShaderDataAlignment,
-                                                                                             initShaderCommand->vertexShaderDataAlignment,
-                                                                                             initShaderCommand->fragmentShaderFunction,
-                                                                                             initShaderCommand->vertexShaderFunction));
+                            std::unique_ptr<D3D11Shader> shader(new D3D11Shader(*this,
+                                                                                initShaderCommand->fragmentShader,
+                                                                                initShaderCommand->vertexShader,
+                                                                                initShaderCommand->vertexAttributes,
+                                                                                initShaderCommand->fragmentShaderConstantInfo,
+                                                                                initShaderCommand->vertexShaderConstantInfo,
+                                                                                initShaderCommand->fragmentShaderDataAlignment,
+                                                                                initShaderCommand->vertexShaderDataAlignment,
+                                                                                initShaderCommand->fragmentShaderFunction,
+                                                                                initShaderCommand->vertexShaderFunction));
 
                             if (initShaderCommand->shader > resources.size())
                                 resources.resize(initShaderCommand->shader);
-                            resources[initShaderCommand->shader - 1] = std::move(shaderResourceD3D11);
+                            resources[initShaderCommand->shader - 1] = std::move(shader);
                             break;
                         }
 
                         case Command::Type::SET_SHADER_CONSTANTS:
                         {
-                            const SetShaderConstantsCommand* setShaderConstantsCommand = static_cast<const SetShaderConstantsCommand*>(command.get());
+                            auto setShaderConstantsCommand = static_cast<const SetShaderConstantsCommand*>(command.get());
 
                             if (!currentShader)
                                 throw std::runtime_error("No shader set");
@@ -879,46 +879,46 @@ namespace ouzel
 
                         case Command::Type::INIT_TEXTURE:
                         {
-                            const InitTextureCommand* initTextureCommand = static_cast<const InitTextureCommand*>(command.get());
+                            auto initTextureCommand = static_cast<const InitTextureCommand*>(command.get());
 
-                            std::unique_ptr<D3D11Texture> textureResourceD3D11(new D3D11Texture(*this,
-                                                                                                initTextureCommand->levels,
-                                                                                                initTextureCommand->flags,
-                                                                                                initTextureCommand->sampleCount,
-                                                                                                initTextureCommand->pixelFormat));
+                            std::unique_ptr<D3D11Texture> texture(new D3D11Texture(*this,
+                                                                                   initTextureCommand->levels,
+                                                                                   initTextureCommand->flags,
+                                                                                   initTextureCommand->sampleCount,
+                                                                                   initTextureCommand->pixelFormat));
 
                             if (initTextureCommand->texture > resources.size())
                                 resources.resize(initTextureCommand->texture);
-                            resources[initTextureCommand->texture - 1] = std::move(textureResourceD3D11);
+                            resources[initTextureCommand->texture - 1] = std::move(texture);
                             break;
                         }
 
                         case Command::Type::SET_TEXTURE_DATA:
                         {
-                            const SetTextureDataCommand* setTextureDataCommand = static_cast<const SetTextureDataCommand*>(command.get());
+                            auto setTextureDataCommand = static_cast<const SetTextureDataCommand*>(command.get());
 
-                            D3D11Texture* textureResourceD3D11 = static_cast<D3D11Texture*>(resources[setTextureDataCommand->texture - 1].get());
-                            textureResourceD3D11->setData(setTextureDataCommand->levels);
+                            D3D11Texture* texture = static_cast<D3D11Texture*>(resources[setTextureDataCommand->texture - 1].get());
+                            texture->setData(setTextureDataCommand->levels);
 
                             break;
                         }
 
                         case Command::Type::SET_TEXTURE_PARAMETERS:
                         {
-                            const SetTextureParametersCommand* setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
+                            auto setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
 
-                            D3D11Texture* textureResourceD3D11 = static_cast<D3D11Texture*>(resources[setTextureParametersCommand->texture - 1].get());
-                            textureResourceD3D11->setFilter(setTextureParametersCommand->filter);
-                            textureResourceD3D11->setAddressX(setTextureParametersCommand->addressX);
-                            textureResourceD3D11->setAddressY(setTextureParametersCommand->addressY);
-                            textureResourceD3D11->setMaxAnisotropy(setTextureParametersCommand->maxAnisotropy);
+                            D3D11Texture* texture = static_cast<D3D11Texture*>(resources[setTextureParametersCommand->texture - 1].get());
+                            texture->setFilter(setTextureParametersCommand->filter);
+                            texture->setAddressX(setTextureParametersCommand->addressX);
+                            texture->setAddressY(setTextureParametersCommand->addressY);
+                            texture->setMaxAnisotropy(setTextureParametersCommand->maxAnisotropy);
 
                             break;
                         }
 
                         case Command::Type::SET_TEXTURES:
                         {
-                            const SetTexturesCommand* setTexturesCommand = static_cast<const SetTexturesCommand*>(command.get());
+                            auto setTexturesCommand = static_cast<const SetTexturesCommand*>(command.get());
 
                             ID3D11ShaderResourceView* resourceViews[Texture::LAYERS];
                             ID3D11SamplerState* samplers[Texture::LAYERS];
@@ -927,9 +927,9 @@ namespace ouzel
                             {
                                 if (setTexturesCommand->textures[layer])
                                 {
-                                    D3D11Texture* textureD3D11 = static_cast<D3D11Texture*>(resources[setTexturesCommand->textures[layer] - 1].get());
-                                    resourceViews[layer] = textureD3D11->getResourceView();
-                                    samplers[layer] = textureD3D11->getSamplerState();
+                                    D3D11Texture* texture = static_cast<D3D11Texture*>(resources[setTexturesCommand->textures[layer] - 1].get());
+                                    resourceViews[layer] = texture->getResourceView();
+                                    samplers[layer] = texture->getSamplerState();
                                 }
                                 else
                                 {
