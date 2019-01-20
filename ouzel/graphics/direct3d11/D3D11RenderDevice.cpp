@@ -403,6 +403,56 @@ namespace ouzel
                             break;
                         }
 
+                        case Command::Type::SET_RENDER_TARGET_PARAMETERS:
+                        {
+                            const SetRenderTargetParametersCommand* setRenderTargetParametersCommand = static_cast<const SetRenderTargetParametersCommand*>(command.get());
+
+                            if (setRenderTargetParametersCommand->renderTarget)
+                            {
+                                D3D11Texture* renderTargetD3D11 = static_cast<D3D11Texture*>(resources[setRenderTargetParametersCommand->renderTarget - 1].get());
+                                renderTargetD3D11->setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
+                                renderTargetD3D11->setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
+                                renderTargetD3D11->setClearColor(setRenderTargetParametersCommand->clearColor);
+                                renderTargetD3D11->setClearDepth(setRenderTargetParametersCommand->clearDepth);
+                            }
+                            else
+                            {
+                                setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
+                                setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
+                                setClearColor(setRenderTargetParametersCommand->clearColor);
+                                setClearDepth(setRenderTargetParametersCommand->clearDepth);
+                            }
+
+                            break;
+                        }
+
+                        case Command::ADD_RENDER_TARGET_COLOR_TEXTURE:
+                        {
+                            auto addRenderTargetColorTextureCommand = static_cast<const AddRenderTargetColorTextureCommand*>(command.get());
+                            D3D11RenderTarget* renderTargetMetal = static_cast<D3D11RenderTarget*>(resources[addRenderTargetColorTextureCommand->renderTarget - 1].get());
+                            D3D11Texture* texture = addRenderTargetColorTextureCommand->texture ? static_cast<D3D11Texture*>(resources[addRenderTargetColorTextureCommand->texture - 1].get()) : nullptr;
+                            renderTarget->addColorTexture(texture);
+                            break;
+                        }
+
+                        case Command::REMOVE_RENDER_TARGET_COLOR_TEXTURE:
+                        {
+                            auto removeRenderTargetColorTextureCommand = static_cast<const RemoveRenderTargetColorTextureCommand*>(command.get());
+                            D3D11RenderTarget* renderTargetMetal = static_cast<D3D11RenderTarget*>(resources[removeRenderTargetColorTextureCommand->renderTarget - 1].get());
+                            D3D11Texture* texture = removeRenderTargetColorTextureCommand->texture ? static_cast<D3D11Texture*>(resources[removeRenderTargetColorTextureCommand->texture - 1].get()) : nullptr;
+                            renderTarget->removeColorTexture(texture);
+                            break;
+                        }
+
+                        case Command::SET_RENDER_TARGET_DEPTH_TEXTURE:
+                        {
+                            auto setRenderTargetDepthTextureCommand = static_cast<const SetRenderTargetDepthTextureCommand*>(command.get());
+                            D3D11RenderTarget* renderTargetMetal = static_cast<D3D11RenderTarget*>(resources[setRenderTargetDepthTextureCommand->renderTarget - 1].get());
+                            D3D11Texture* texture = setRenderTargetDepthTextureCommand->texture ? static_cast<D3D11Texture*>(resources[setRenderTargetDepthTextureCommand->texture - 1].get()) : nullptr;
+                            renderTarget->setDepthTexture(texture);
+                            break;
+                        }
+
                         case Command::Type::SET_RENDER_TARGET:
                         {
                             const SetRenderTargetCommand* setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command.get());
@@ -432,29 +482,6 @@ namespace ouzel
                                 context->OMSetRenderTargets(1, &newRenderTargetView, newDepthStencilView);
 
                                 currentRenderTarget = newRenderTarget;
-                            }
-
-                            break;
-                        }
-
-                        case Command::Type::SET_RENDER_TARGET_PARAMETERS:
-                        {
-                            const SetRenderTargetParametersCommand* setRenderTargetParametersCommand = static_cast<const SetRenderTargetParametersCommand*>(command.get());
-
-                            if (setRenderTargetParametersCommand->renderTarget)
-                            {
-                                D3D11Texture* renderTargetD3D11 = static_cast<D3D11Texture*>(resources[setRenderTargetParametersCommand->renderTarget - 1].get());
-                                renderTargetD3D11->setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
-                                renderTargetD3D11->setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
-                                renderTargetD3D11->setClearColor(setRenderTargetParametersCommand->clearColor);
-                                renderTargetD3D11->setClearDepth(setRenderTargetParametersCommand->clearDepth);
-                            }
-                            else
-                            {
-                                setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
-                                setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
-                                setClearColor(setRenderTargetParametersCommand->clearColor);
-                                setClearDepth(setRenderTargetParametersCommand->clearDepth);
                             }
 
                             break;

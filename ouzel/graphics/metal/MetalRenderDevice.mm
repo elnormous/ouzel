@@ -360,6 +360,56 @@ namespace ouzel
                             break;
                         }
 
+                        case Command::Type::SET_RENDER_TARGET_PARAMETERS:
+                        {
+                            const SetRenderTargetParametersCommand* setRenderTargetParametersCommand = static_cast<const SetRenderTargetParametersCommand*>(command.get());
+
+                            if (setRenderTargetParametersCommand->renderTarget)
+                            {
+                                MetalTexture* renderTargetMetal = static_cast<MetalTexture*>(resources[setRenderTargetParametersCommand->renderTarget - 1].get());
+                                renderTargetMetal->setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
+                                renderTargetMetal->setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
+                                renderTargetMetal->setClearColor(setRenderTargetParametersCommand->clearColor);
+                                renderTargetMetal->setClearDepth(setRenderTargetParametersCommand->clearDepth);
+                            }
+                            else
+                            {
+                                setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
+                                setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
+                                setClearColor(setRenderTargetParametersCommand->clearColor);
+                                setClearDepth(setRenderTargetParametersCommand->clearDepth);
+                            }
+
+                            break;
+                        }
+
+                        case Command::ADD_RENDER_TARGET_COLOR_TEXTURE:
+                        {
+                            auto addRenderTargetColorTextureCommand = static_cast<const AddRenderTargetColorTextureCommand*>(command.get());
+                            MetalRenderTarget* renderTarget = static_cast<MetalRenderTarget*>(resources[addRenderTargetColorTextureCommand->renderTarget - 1].get());
+                            MetalTexture* texture = addRenderTargetColorTextureCommand->texture ? static_cast<MetalTexture*>(resources[addRenderTargetColorTextureCommand->texture - 1].get()) : nullptr;
+                            renderTarget->addColorTexture(texture);
+                            break;
+                        }
+
+                        case Command::REMOVE_RENDER_TARGET_COLOR_TEXTURE:
+                        {
+                            auto removeRenderTargetColorTextureCommand = static_cast<const RemoveRenderTargetColorTextureCommand*>(command.get());
+                            MetalRenderTarget* renderTarget = static_cast<MetalRenderTarget*>(resources[removeRenderTargetColorTextureCommand->renderTarget - 1].get());
+                            MetalTexture* texture = removeRenderTargetColorTextureCommand->texture ? static_cast<MetalTexture*>(resources[removeRenderTargetColorTextureCommand->texture - 1].get()) : nullptr;
+                            renderTarget->removeColorTexture(texture);
+                            break;
+                        }
+
+                        case Command::SET_RENDER_TARGET_DEPTH_TEXTURE:
+                        {
+                            auto setRenderTargetDepthTextureCommand = static_cast<const SetRenderTargetDepthTextureCommand*>(command.get());
+                            MetalRenderTarget* renderTarget = static_cast<MetalRenderTarget*>(resources[setRenderTargetDepthTextureCommand->renderTarget - 1].get());
+                            MetalTexture* texture = setRenderTargetDepthTextureCommand->texture ? static_cast<MetalTexture*>(resources[setRenderTargetDepthTextureCommand->texture - 1].get()) : nullptr;
+                            renderTarget->setDepthTexture(texture);
+                            break;
+                        }
+
                         case Command::Type::SET_RENDER_TARGET:
                         {
                             const SetRenderTargetCommand* setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command.get());
@@ -403,29 +453,6 @@ namespace ouzel
                                 currentRenderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionLoad;
                                 currentRenderPassDescriptor.depthAttachment.loadAction = MTLLoadActionLoad;
                             }
-                            break;
-                        }
-
-                        case Command::Type::SET_RENDER_TARGET_PARAMETERS:
-                        {
-                            const SetRenderTargetParametersCommand* setRenderTargetParametersCommand = static_cast<const SetRenderTargetParametersCommand*>(command.get());
-
-                            if (setRenderTargetParametersCommand->renderTarget)
-                            {
-                                MetalTexture* renderTargetMetal = static_cast<MetalTexture*>(resources[setRenderTargetParametersCommand->renderTarget - 1].get());
-                                renderTargetMetal->setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
-                                renderTargetMetal->setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
-                                renderTargetMetal->setClearColor(setRenderTargetParametersCommand->clearColor);
-                                renderTargetMetal->setClearDepth(setRenderTargetParametersCommand->clearDepth);
-                            }
-                            else
-                            {
-                                setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
-                                setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
-                                setClearColor(setRenderTargetParametersCommand->clearColor);
-                                setClearDepth(setRenderTargetParametersCommand->clearDepth);
-                            }
-
                             break;
                         }
 
