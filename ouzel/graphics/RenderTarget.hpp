@@ -27,6 +27,11 @@ namespace ouzel
             };
 
             explicit RenderTarget(Renderer& initRenderer);
+            RenderTarget(Renderer& initRenderer,
+                         bool initClearColorBuffer,
+                         bool initClearDepthBuffer,
+                         Color initClearColor,
+                         float initClearDepth);
             ~RenderTarget();
 
             inline uintptr_t getResource() const { return resource; }

@@ -27,6 +27,9 @@ namespace ouzel
                 PRESENT,
                 DELETE_RESOURCE,
                 INIT_RENDER_TARGET,
+                ADD_RENDER_TARGET_COLOR_TEXTURE,
+                REMOVE_RENDER_TARGET_COLOR_TEXTURE,
+                SET_RENDER_TARGET_DEPTH_TEXTURE,
                 SET_RENDER_TARGET_PARAMETERS,
                 SET_RENDER_TARGET,
                 CLEAR_RENDER_TARGET,
@@ -84,24 +87,69 @@ namespace ouzel
         {
         public:
             InitRenderTargetCommand(uintptr_t initRenderTarget,
-                                    uint32_t initWidth,
-                                    uint32_t initHeight,
-                                    uint32_t initSampleCount,
-                                    PixelFormat initPixelFormat):
+                                    bool initClearColorBuffer,
+                                    bool initClearDepthBuffer,
+                                    Color initClearColor,
+                                    float initClearDepth):
                 Command(Command::Type::INIT_RENDER_TARGET),
                 renderTarget(initRenderTarget),
-                width(initWidth),
-                height(initHeight),
-                sampleCount(initSampleCount),
-                pixelFormat(initPixelFormat)
+                clearColorBuffer(initClearColorBuffer),
+                clearDepthBuffer(initClearDepthBuffer),
+                clearColor(initClearColor),
+                clearDepth(initClearDepth)
             {
             }
 
             uintptr_t renderTarget;
-            uint32_t width;
-            uint32_t height;
-            uint32_t sampleCount;
-            PixelFormat pixelFormat;
+            bool clearColorBuffer;
+            bool clearDepthBuffer;
+            Color clearColor;
+            float clearDepth;
+        };
+
+        class AddRenderTargetColorTextureCommand: public Command
+        {
+        public:
+            AddRenderTargetColorTextureCommand(uintptr_t initRenderTarget,
+                                               uintptr_t initTexture):
+                Command(Command::Type::ADD_RENDER_TARGET_COLOR_TEXTURE),
+                renderTarget(initRenderTarget),
+                texture(initTexture)
+            {
+            }
+
+            uintptr_t renderTarget;
+            uintptr_t texture;
+        };
+
+        class RemoveRenderTargetColorTextureCommand: public Command
+        {
+        public:
+            RemoveRenderTargetColorTextureCommand(uintptr_t initRenderTarget,
+                                                  uintptr_t initTexture):
+            Command(Command::Type::REMOVE_RENDER_TARGET_COLOR_TEXTURE),
+            renderTarget(initRenderTarget),
+            texture(initTexture)
+            {
+            }
+
+            uintptr_t renderTarget;
+            uintptr_t texture;
+        };
+
+        class SetRenderTargetDepthTextureCommand: public Command
+        {
+        public:
+            SetRenderTargetDepthTextureCommand(uintptr_t initRenderTarget,
+                                               uintptr_t initTexture):
+                Command(Command::Type::SET_RENDER_TARGET_DEPTH_TEXTURE),
+                renderTarget(initRenderTarget),
+                texture(initTexture)
+            {
+            }
+
+            uintptr_t renderTarget;
+            uintptr_t texture;
         };
 
         class SetRenderTargetParametersCommand: public Command
