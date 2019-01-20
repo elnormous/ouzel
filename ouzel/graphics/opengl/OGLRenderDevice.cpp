@@ -953,26 +953,30 @@ namespace ouzel
                             break;
                         }
 
-                        case Command::Type::SET_RENDER_TARGET:
+                        case Command::ADD_RENDER_TARGET_COLOR_TEXTURE:
                         {
-                            const SetRenderTargetCommand* setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command.get());
+                            auto addRenderTargetColorTextureCommand = static_cast<const AddRenderTargetColorTextureCommand*>(command.get());
+                            OGLRenderTarget* renderTarget = static_cast<OGLRenderTarget*>(resources[addRenderTargetColorTextureCommand->renderTarget - 1].get());
+                            OGLTexture* texture = addRenderTargetColorTextureCommand->texture ? static_cast<OGLTexture*>(resources[addRenderTargetColorTextureCommand->texture - 1].get()) : nullptr;
+                            renderTarget->addColorTexture(texture);
+                            break;
+                        }
 
-                            GLuint newFrameBufferId = 0;
+                        case Command::REMOVE_RENDER_TARGET_COLOR_TEXTURE:
+                        {
+                            auto removeRenderTargetColorTextureCommand = static_cast<const RemoveRenderTargetColorTextureCommand*>(command.get());
+                            OGLRenderTarget* renderTarget = static_cast<OGLRenderTarget*>(resources[removeRenderTargetColorTextureCommand->renderTarget - 1].get());
+                            OGLTexture* texture = removeRenderTargetColorTextureCommand->texture ? static_cast<OGLTexture*>(resources[removeRenderTargetColorTextureCommand->texture - 1].get()) : nullptr;
+                            renderTarget->removeColorTexture(texture);
+                            break;
+                        }
 
-                            if (setRenderTargetCommand->renderTarget)
-                            {
-                                OGLTexture* renderTargetOGL = static_cast<OGLTexture*>(resources[setRenderTargetCommand->renderTarget - 1].get());
-
-                                if (!renderTargetOGL->getFrameBufferId()) break;
-                                newFrameBufferId = renderTargetOGL->getFrameBufferId();
-                            }
-                            else
-                                newFrameBufferId = frameBufferId;
-
-                            bindFrameBuffer(newFrameBufferId);
-
-                            // TODO: update cull mode
-
+                        case Command::SET_RENDER_TARGET_DEPTH_TEXTURE:
+                        {
+                            auto setRenderTargetDepthTextureCommand = static_cast<const SetRenderTargetDepthTextureCommand*>(command.get());
+                            OGLRenderTarget* renderTarget = static_cast<OGLRenderTarget*>(resources[setRenderTargetDepthTextureCommand->renderTarget - 1].get());
+                            OGLTexture* texture = setRenderTargetDepthTextureCommand->texture ? static_cast<OGLTexture*>(resources[setRenderTargetDepthTextureCommand->texture - 1].get()) : nullptr;
+                            renderTarget->setDepthTexture(texture);
                             break;
                         }
 
@@ -995,6 +999,29 @@ namespace ouzel
                                 setClearColor(setRenderTargetParametersCommand->clearColor);
                                 setClearDepth(setRenderTargetParametersCommand->clearDepth);
                             }
+
+                            break;
+                        }
+
+                        case Command::Type::SET_RENDER_TARGET:
+                        {
+                            const SetRenderTargetCommand* setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command.get());
+
+                            GLuint newFrameBufferId = 0;
+
+                            if (setRenderTargetCommand->renderTarget)
+                            {
+                                OGLTexture* renderTargetOGL = static_cast<OGLTexture*>(resources[setRenderTargetCommand->renderTarget - 1].get());
+
+                                if (!renderTargetOGL->getFrameBufferId()) break;
+                                newFrameBufferId = renderTargetOGL->getFrameBufferId();
+                            }
+                            else
+                                newFrameBufferId = frameBufferId;
+
+                            bindFrameBuffer(newFrameBufferId);
+
+                            // TODO: update cull mode
 
                             break;
                         }
