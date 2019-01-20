@@ -23,6 +23,12 @@ namespace ouzel
             }
         }
 
+        void ActorContainer::addChild(std::unique_ptr<Actor>&& actor)
+        {
+            addChild(actor.get());
+            ownedChildren.push_back(std::move(actor));
+        }
+
         void ActorContainer::addChild(Actor* actor)
         {
             assert(actor);
@@ -51,6 +57,12 @@ namespace ouzel
 
                 result = true;
             }
+
+            auto ownedChildIterator = std::find_if(ownedChildren.begin(), ownedChildren.end(), [actor](const std::unique_ptr<Actor>& ownedChild){
+                return actor == ownedChild.get();
+            });
+            if (ownedChildIterator != ownedChildren.end())
+                ownedChildren.erase(ownedChildIterator);
 
             return result;
         }
@@ -92,6 +104,7 @@ namespace ouzel
             }
 
             children.clear();
+            ownedChildren.clear();
         }
 
         bool ActorContainer::hasChild(Actor* actor, bool recursive) const

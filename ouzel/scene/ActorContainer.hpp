@@ -26,6 +26,7 @@ namespace ouzel
             ActorContainer(ActorContainer&&) = delete;
             ActorContainer& operator=(ActorContainer&&) = delete;
 
+            void addChild(std::unique_ptr<Actor>&& actor);
             virtual void addChild(Actor* actor);
             virtual bool removeChild(Actor* actor);
 
@@ -47,6 +48,7 @@ namespace ouzel
             virtual void leave();
 
             std::vector<Actor*> children;
+            std::vector<std::unique_ptr<Actor>> ownedChildren;
 
             Layer* layer = nullptr;
             bool entered = false;
