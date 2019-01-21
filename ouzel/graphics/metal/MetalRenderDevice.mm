@@ -464,9 +464,6 @@ namespace ouzel
                             MTLLoadAction newColorBufferLoadAction = MTLLoadActionLoad;
                             MTLLoadAction newDepthBufferLoadAction = MTLLoadActionLoad;
 
-                            NSUInteger renderTargetWidth = 0;
-                            NSUInteger renderTargetHeight = 0;
-
                             // render target
                             if (clearCommand->renderTarget)
                             {
@@ -480,9 +477,6 @@ namespace ouzel
                                 currentPipelineStateDesc.colorFormat = renderTarget->getColorFormat();
                                 currentPipelineStateDesc.depthFormat = renderTarget->getDepthFormat();
 
-                                renderTargetWidth = renderTarget->getWidth();
-                                renderTargetHeight = renderTarget->getHeight();
-
                                 newColorBufferLoadAction = renderTarget->getColorBufferLoadAction();
                                 newDepthBufferLoadAction = renderTarget->getDepthBufferLoadAction();
                             }
@@ -493,9 +487,6 @@ namespace ouzel
                                 currentPipelineStateDesc.sampleCount = sampleCount;
                                 currentPipelineStateDesc.colorFormat = colorFormat;
                                 currentPipelineStateDesc.depthFormat = depthFormat;
-
-                                renderTargetWidth = frameBufferWidth;
-                                renderTargetHeight = frameBufferHeight;
 
                                 newColorBufferLoadAction = colorBufferLoadAction;
                                 newDepthBufferLoadAction = depthBufferLoadAction;
@@ -510,14 +501,6 @@ namespace ouzel
                             if (!currentRenderCommandEncoder)
                                 throw std::runtime_error("Failed to create Metal render command encoder");
 
-                            MTLViewport viewport;
-                            viewport.originX = viewport.originY = 0.0;
-                            viewport.width = static_cast<double>(renderTargetWidth);
-                            viewport.height = static_cast<double>(renderTargetHeight);
-                            viewport.znear = 0.0f;
-                            viewport.zfar = 1.0f;
-
-                            [currentRenderCommandEncoder setViewport:viewport];
                             // TODO: enable depth and stencil writing
 
                             currentRenderPassDescriptor.colorAttachments[0].loadAction = newColorBufferLoadAction;

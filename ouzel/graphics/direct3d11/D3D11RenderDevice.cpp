@@ -497,8 +497,6 @@ namespace ouzel
                             FLOAT newClearDepth;
                             bool newClearFrameBufferView = false;
                             bool newClearDepthBufferView = false;
-                            UINT renderTargetWidth = 0;
-                            UINT renderTargetHeight = 0;
 
                             if (clearCommand->renderTarget)
                             {
@@ -506,8 +504,6 @@ namespace ouzel
 
                                 if (!renderTarget->getRenderTargetView()) break;
 
-                                renderTargetWidth = renderTarget->getWidth();
-                                renderTargetHeight = renderTarget->getHeight();
                                 newRenderTargetView = renderTarget->getRenderTargetView();
                                 newDepthStencilView = renderTarget->getDepthStencilView();
                                 newClearColor = renderTarget->getFrameBufferClearColor();
@@ -517,8 +513,6 @@ namespace ouzel
                             }
                             else
                             {
-                                renderTargetWidth = frameBufferWidth;
-                                renderTargetHeight = frameBufferHeight;
                                 newRenderTargetView = renderTargetView;
                                 newDepthStencilView = depthStencilView;
                                 newClearColor = frameBufferClearColor;
@@ -528,14 +522,6 @@ namespace ouzel
                             }
 
                             context->OMSetRenderTargets(1, &newRenderTargetView, newDepthStencilView);
-
-                            D3D11_VIEWPORT viewport;
-                            viewport.MinDepth = 0.0F;
-                            viewport.MaxDepth = 1.0F;
-                            viewport.TopLeftX = viewport.TopLeftY = 0.0f;
-                            viewport.Width = static_cast<FLOAT>(renderTargetWidth);
-                            viewport.Height = static_cast<FLOAT>(renderTargetHeight);
-                            context->RSSetViewports(1, &viewport);
 
                             if (newClearFrameBufferView)
                                 context->ClearRenderTargetView(newRenderTargetView, newClearColor);
