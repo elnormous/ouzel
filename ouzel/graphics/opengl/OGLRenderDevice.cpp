@@ -1032,10 +1032,8 @@ namespace ouzel
 
                             GLuint newFrameBufferId = 0;
                             GLbitfield newClearMask = 0;
-                            const std::array<float, 4>* newClearColor;
+                            std::array<float, 4> newClearColor;
                             GLfloat newClearDepth;
-                            GLsizei renderTargetWidth = 0;
-                            GLsizei renderTargetHeight = 0;
 
                             if (clearCommand->renderTarget)
                             {
@@ -1043,19 +1041,15 @@ namespace ouzel
 
                                 if (!renderTarget->getFrameBufferId()) break;
 
-                                renderTargetWidth = renderTarget->getWidth();
-                                renderTargetHeight = renderTarget->getHeight();
                                 newFrameBufferId = renderTarget->getFrameBufferId();
-                                newClearColor = &renderTarget->getFrameBufferClearColor();
+                                newClearColor = renderTarget->getFrameBufferClearColor();
                                 newClearDepth = renderTarget->getClearDepth();
                                 newClearMask = renderTarget->getClearMask();
                             }
                             else
                             {
-                                renderTargetWidth = frameBufferWidth;
-                                renderTargetHeight = frameBufferHeight;
                                 newFrameBufferId = frameBufferId;
-                                newClearColor = &frameBufferClearColor;
+                                newClearColor = frameBufferClearColor;
                                 newClearDepth = clearDepth;
                                 newClearMask = clearMask;
                             }
@@ -1064,23 +1058,25 @@ namespace ouzel
                             {
                                 bindFrameBuffer(newFrameBufferId);
 
-                                setViewport(0, 0,
-                                            renderTargetWidth,
-                                            renderTargetHeight);
-
-                                setScissorTest(false, 0, 0, renderTargetWidth, renderTargetHeight);
+                                if (newClearMask & GL_COLOR_BUFFER_BIT)
+                                    setClearColorValue(newClearColor);
 
                                 if (newClearMask & GL_DEPTH_BUFFER_BIT)
-                                {
-                                    // allow clearing the depth buffer
-                                    setDepthMask(true);
                                     setClearDepthValue(newClearDepth);
-                                }
 
-                                if (newClearMask & GL_COLOR_BUFFER_BIT)
-                                    setClearColorValue(*newClearColor);
+                                // disable the scissor test to clear entire render target
+                                if (stateCache.scissorTestEnabled)
+                                    glDisableProc(GL_SCISSOR_TEST);
+                                // allow clearing the depth buffer
+                                if (newClearMask & GL_DEPTH_BUFFER_BIT && !stateCache.depthMask)
+                                    glDepthMaskProc(true);
 
                                 glClearProc(newClearMask);
+
+                                if (stateCache.scissorTestEnabled)
+                                    glEnableProc(GL_SCISSOR_TEST);
+                                if (newClearMask & GL_DEPTH_BUFFER_BIT && !stateCache.depthMask)
+                                    glDepthMaskProc(false);
 
                                 GLenum error;
 
