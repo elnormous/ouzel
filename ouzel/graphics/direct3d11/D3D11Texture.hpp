@@ -46,10 +46,6 @@ namespace ouzel
             void setAddressX(Texture::Address addressX);
             void setAddressY(Texture::Address addressY);
             void setMaxAnisotropy(uint32_t maxAnisotropy);
-            void setClearColorBuffer(bool clear);
-            void setClearDepthBuffer(bool clear);
-            void setClearColor(Color color);
-            void setClearDepth(float newClearDepth);
 
             void resolve();
 
@@ -63,16 +59,10 @@ namespace ouzel
             inline ID3D11SamplerState* getSamplerState() const { return samplerState; }
 
             inline ID3D11RenderTargetView* getRenderTargetView() const { return renderTargetView; }
-            inline ID3D11Texture2D* getDepthStencilTexture() const { return depthStencilTexture; }
             inline ID3D11DepthStencilView* getDepthStencilView() const { return depthStencilView; }
 
             inline UINT getWidth() const { return width; }
             inline UINT getHeight() const { return height; }
-
-            inline const float* getFrameBufferClearColor() const { return frameBufferClearColor; }
-            inline float getClearDepth() const { return clearDepth; }
-            inline bool getClearFrameBufferView() const { return clearFrameBufferView; }
-            inline bool getClearDepthBufferView() const { return clearDepthBufferView; }
 
         private:
             void updateSamplerState();
@@ -93,13 +83,7 @@ namespace ouzel
             UINT height = 0;
 
             ID3D11RenderTargetView* renderTargetView = nullptr;
-            ID3D11Texture2D* depthStencilTexture = nullptr;
             ID3D11DepthStencilView* depthStencilView = nullptr;
-
-            FLOAT frameBufferClearColor[4]{0.0F, 0.0F, 0.0F, 0.0F};
-            float clearDepth = 1.0F;
-            bool clearFrameBufferView = true;
-            bool clearDepthBufferView = false;
         };
     } // namespace graphics
 } // namespace ouzel

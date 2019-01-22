@@ -68,20 +68,17 @@ namespace ouzel
                                    const std::vector<Texture::Level>& levels,
                                    uint32_t initFlags,
                                    uint32_t initSampleCount,
-                                   PixelFormat pixelFormat):
+                                   PixelFormat initPixelFormat):
             MetalRenderResource(renderDeviceMetal),
             flags(initFlags),
             mipmaps(static_cast<uint32_t>(levels.size())),
             sampleCount(initSampleCount),
-            colorFormat(getMetalPixelFormat(pixelFormat)),
-            depthFormat(MTLPixelFormatDepth32Float),
-            colorBufferLoadAction(MTLLoadActionDontCare),
-            depthBufferLoadAction(MTLLoadActionDontCare)
+            pixelFormat(getMetalPixelFormat(initPixelFormat))
         {
             if ((flags & Texture::BIND_RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
                 throw std::runtime_error("Invalid mip map count");
 
-            if (colorFormat == MTLPixelFormatInvalid)
+            if (pixelFormat == MTLPixelFormatInvalid)
                 throw std::runtime_error("Invalid pixel format");
 
             width = static_cast<NSUInteger>(levels.front().size.v[0]);
@@ -90,18 +87,25 @@ namespace ouzel
             if (!width || !height)
                 throw std::runtime_error("Invalid texture size");
 
+            // TODO: don't create texture if only MSAA is needed
             MTLTextureDescriptor* textureDescriptor = [[[MTLTextureDescriptor alloc] init] autorelease];
-            textureDescriptor.pixelFormat = colorFormat;
+            textureDescriptor.pixelFormat = pixelFormat;
             textureDescriptor.width = width;
             textureDescriptor.height = height;
             textureDescriptor.textureType = MTLTextureType2D;
             textureDescriptor.sampleCount = 1;
             textureDescriptor.mipmapLevelCount = static_cast<NSUInteger>(levels.size());
 
+            if (initPixelFormat == PixelFormat::DEPTH ||
+                initPixelFormat == PixelFormat::DEPTH_STENCIL)
+                textureDescriptor.storageMode = MTLStorageModePrivate;
+
             if (flags & Texture::BIND_RENDER_TARGET)
             {
-                textureDescriptor.usage = (sampleCount == 1) ? MTLTextureUsageRenderTarget : 0;
-                if (flags & Texture::BIND_SHADER) textureDescriptor.usage |= MTLTextureUsageShaderRead;
+                textureDescriptor.usage = MTLTextureUsageRenderTarget;
+                if (flags & Texture::BIND_SHADER &&
+                    !(flags & Texture::Flags::BIND_SHADER_MSAA))
+                    textureDescriptor.usage |= MTLTextureUsageShaderRead;
             }
             else
                 textureDescriptor.usage = MTLTextureUsageShaderRead;
@@ -113,15 +117,10 @@ namespace ouzel
 
             if (flags & Texture::BIND_RENDER_TARGET)
             {
-                renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
-
-                if (!renderPassDescriptor)
-                    throw std::runtime_error("Failed to create Metal render pass descriptor");
-
                 if (sampleCount > 1)
                 {
                     MTLTextureDescriptor* msaaTextureDescriptor = [[[MTLTextureDescriptor alloc] init] autorelease];
-                    msaaTextureDescriptor.pixelFormat = colorFormat;
+                    msaaTextureDescriptor.pixelFormat = pixelFormat;
                     msaaTextureDescriptor.width = width;
                     msaaTextureDescriptor.height = height;
                     msaaTextureDescriptor.textureType = MTLTextureType2DMultisample;
@@ -130,53 +129,14 @@ namespace ouzel
                     msaaTextureDescriptor.mipmapLevelCount = 1;
                     msaaTextureDescriptor.usage = MTLTextureUsageRenderTarget;
 
+                    if (flags & Texture::Flags::BIND_SHADER_MSAA)
+                        msaaTextureDescriptor.usage |= MTLTextureUsageShaderRead;
+
                     msaaTexture = [renderDevice.getDevice() newTextureWithDescriptor:msaaTextureDescriptor];
 
                     if (!msaaTexture)
                         throw std::runtime_error("Failed to create MSAA texture");
-
-                    renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionMultisampleResolve;
-                    renderPassDescriptor.colorAttachments[0].texture = msaaTexture;
-                    renderPassDescriptor.colorAttachments[0].resolveTexture = texture;
                 }
-                else
-                {
-                    renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
-                    renderPassDescriptor.colorAttachments[0].texture = texture;
-                }
-
-                if (flags & Texture::DEPTH_BUFFER)
-                {
-                    MTLTextureDescriptor* depthTextureDescriptor = [[[MTLTextureDescriptor alloc] init] autorelease];
-                    depthTextureDescriptor.pixelFormat = depthFormat;
-                    depthTextureDescriptor.width = width;
-                    depthTextureDescriptor.height = height;
-                    //depthTextureDescriptor.textureType = (sampleCount > 1) ? MTLTextureType2DMultisample : MTLTextureType2D;
-                    depthTextureDescriptor.textureType = MTLTextureType2D;
-                    depthTextureDescriptor.storageMode = MTLStorageModePrivate;
-                    //depthTextureDescriptor.sampleCount = sampleCount;
-                    depthTextureDescriptor.sampleCount = 1;
-                    depthTextureDescriptor.mipmapLevelCount = 1;
-                    depthTextureDescriptor.usage = MTLTextureUsageRenderTarget;
-                    if (flags & Texture::BIND_SHADER) depthTextureDescriptor.usage |= MTLTextureUsageShaderRead;
-
-                    depthTexture = [renderDevice.getDevice() newTextureWithDescriptor:depthTextureDescriptor];
-
-                    if (!depthTexture)
-                        throw std::runtime_error("Failed to create depth texture");
-
-                    renderPassDescriptor.depthAttachment.storeAction = MTLStoreActionStore;
-                    renderPassDescriptor.depthAttachment.texture = depthTexture;
-                }
-                else
-                    renderPassDescriptor.depthAttachment.texture = nil;
-
-                colorBufferLoadAction = MTLLoadActionClear;
-                depthBufferLoadAction = MTLLoadActionDontCare;
-
-                renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(0.0F, 0.0F, 0.0F, 0.0F);
-
-                renderPassDescriptor.depthAttachment.clearDepth = 1.0F;
             }
             else
             {
@@ -203,9 +163,6 @@ namespace ouzel
         {
             if (msaaTexture)
                 [msaaTexture release];
-
-            if (renderPassDescriptor)
-                [renderPassDescriptor release];
 
             if (texture)
                 [texture release];
@@ -257,35 +214,6 @@ namespace ouzel
         {
             samplerDescriptor.maxAnisotropy = (maxAnisotropy == 0) ? renderDevice.getMaxAnisotropy() : maxAnisotropy;
             updateSamplerState();
-        }
-
-        void MetalTexture::setClearColorBuffer(bool clear)
-        {
-            colorBufferLoadAction = clear ? MTLLoadActionClear : MTLLoadActionDontCare;
-        }
-
-        void MetalTexture::setClearDepthBuffer(bool clear)
-        {
-            depthBufferLoadAction = clear ? MTLLoadActionClear : MTLLoadActionDontCare;
-        }
-
-        void MetalTexture::setClearColor(Color color)
-        {
-            if (!renderPassDescriptor)
-                throw std::runtime_error("Render pass descriptor not initialized");
-
-            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(color.normR(),
-                                                                                    color.normG(),
-                                                                                    color.normB(),
-                                                                                    color.normA());
-        }
-
-        void MetalTexture::setClearDepth(float newClearDepth)
-        {
-            if (!renderPassDescriptor)
-                throw std::runtime_error("Render pass descriptor not initialized");
-
-            renderPassDescriptor.depthAttachment.clearDepth = newClearDepth;
         }
 
         void MetalTexture::updateSamplerState()

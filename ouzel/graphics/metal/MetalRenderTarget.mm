@@ -19,6 +19,7 @@ namespace ouzel
                                              Color initClearColor,
                                              float initClearDepth):
             MetalRenderResource(renderDeviceMetal),
+            depthFormat(MTLPixelFormatInvalid),
             colorBufferLoadAction(initClearColorBuffer ? MTLLoadActionClear : MTLLoadActionDontCare),
             depthBufferLoadAction(initClearDepthBuffer ? MTLLoadActionClear : MTLLoadActionDontCare),
             clearColor(MTLClearColorMake(initClearColor.normR(),
@@ -50,6 +51,10 @@ namespace ouzel
                 renderPassDescriptor.colorAttachments[index].storeAction = (texture->getSampleCount() > 1) ? MTLStoreActionMultisampleResolve : MTLStoreActionStore;
                 renderPassDescriptor.colorAttachments[index].texture = texture->getTexture();
                 renderPassDescriptor.colorAttachments[index].clearColor = clearColor;
+
+                colorFormats.push_back(texture->getPixelFormat());
+
+                sampleCount = texture->getSampleCount();
             }
         }
 
@@ -61,11 +66,15 @@ namespace ouzel
             {
                 colorTextures.erase(i);
 
+                colorFormats.clear();
+
                 size_t index = 0;
                 for (MetalTexture* colorTexture : colorTextures)
                 {
                     renderPassDescriptor.colorAttachments[index].storeAction = (colorTexture->getSampleCount() > 1) ? MTLStoreActionMultisampleResolve : MTLStoreActionStore;
                     renderPassDescriptor.colorAttachments[index].texture = colorTexture->getTexture();
+
+                    colorFormats.push_back(colorTexture->getPixelFormat());
 
                     ++index;
                 }
@@ -84,7 +93,11 @@ namespace ouzel
                 renderPassDescriptor.depthAttachment.storeAction = (texture->getSampleCount() > 1) ? MTLStoreActionMultisampleResolve : MTLStoreActionStore;
                 renderPassDescriptor.depthAttachment.texture = texture->getTexture();
                 renderPassDescriptor.depthAttachment.clearDepth = clearDepth;
+                depthFormat = texture->getPixelFormat();
+                sampleCount = texture->getSampleCount();
             }
+            else
+                depthFormat = MTLPixelFormatInvalid;
         }
 
         void MetalRenderTarget::setClearColorBuffer(bool clear)

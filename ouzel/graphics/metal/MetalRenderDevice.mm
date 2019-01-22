@@ -313,13 +313,13 @@ namespace ouzel
             MTLRenderPassDescriptorPtr currentRenderPassDescriptor = nil;
             id<MTLRenderCommandEncoder> currentRenderCommandEncoder = nil;
             PipelineStateDesc currentPipelineStateDesc;
-            MTLTexturePtr currentRenderTarget = nil;
             std::vector<float> shaderData;
 
             if (++shaderConstantBufferIndex >= BUFFER_COUNT) shaderConstantBufferIndex = 0;
             ShaderConstantBuffer& shaderConstantBuffer = shaderConstantBuffers[shaderConstantBufferIndex];
             shaderConstantBuffer.index = 0;
             shaderConstantBuffer.offset = 0;
+            MetalRenderTarget* currentRenderTarget = nullptr;
             MetalShader* currentShader = nullptr;
 
             CommandBuffer commandBuffer;
@@ -381,7 +381,7 @@ namespace ouzel
 
                             if (setRenderTargetParametersCommand->renderTarget)
                             {
-                                MetalTexture* renderTarget = static_cast<MetalTexture*>(resources[setRenderTargetParametersCommand->renderTarget - 1].get());
+                                MetalRenderTarget* renderTarget = static_cast<MetalRenderTarget*>(resources[setRenderTargetParametersCommand->renderTarget - 1].get());
                                 renderTarget->setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
                                 renderTarget->setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
                                 renderTarget->setClearColor(setRenderTargetParametersCommand->clearColor);
@@ -433,23 +433,21 @@ namespace ouzel
 
                             if (setRenderTargetCommand->renderTarget)
                             {
-                                MetalTexture* renderTarget = static_cast<MetalTexture*>(resources[setRenderTargetCommand->renderTarget - 1].get());
+                                currentRenderTarget = static_cast<MetalRenderTarget*>(resources[setRenderTargetCommand->renderTarget - 1].get());
 
-                                currentRenderTarget = renderTarget->getTexture();
-                                newRenderPassDescriptor = renderTarget->getRenderPassDescriptor();
+                                newRenderPassDescriptor = currentRenderTarget->getRenderPassDescriptor();
                                 if (!newRenderPassDescriptor) break;
 
-                                currentPipelineStateDesc.sampleCount = renderTarget->getSampleCount();
-                                currentPipelineStateDesc.colorFormat = renderTarget->getColorFormat();
-                                currentPipelineStateDesc.depthFormat = renderTarget->getDepthFormat();
-
+                                currentPipelineStateDesc.sampleCount = currentRenderTarget->getSampleCount();
+                                currentPipelineStateDesc.colorFormats = currentRenderTarget->getColorFormats();
+                                currentPipelineStateDesc.depthFormat = currentRenderTarget->getDepthFormat();
                             }
                             else
                             {
-                                currentRenderTarget = currentMetalTexture;
+                                currentRenderTarget = nullptr;
                                 newRenderPassDescriptor = renderPassDescriptor;
                                 currentPipelineStateDesc.sampleCount = sampleCount;
-                                currentPipelineStateDesc.colorFormat = colorFormat;
+                                currentPipelineStateDesc.colorFormats = {colorFormat};
                                 currentPipelineStateDesc.depthFormat = depthFormat;
                             }
 
@@ -473,35 +471,24 @@ namespace ouzel
 
                         case Command::Type::CLEAR_RENDER_TARGET:
                         {
-                            auto clearCommand = static_cast<const ClearRenderTargetCommand*>(command.get());
+                            // auto clearCommand = static_cast<const ClearRenderTargetCommand*>(command.get());
 
                             MTLRenderPassDescriptorPtr newRenderPassDescriptor;
                             MTLLoadAction newColorBufferLoadAction = MTLLoadActionLoad;
                             MTLLoadAction newDepthBufferLoadAction = MTLLoadActionLoad;
 
                             // render target
-                            if (clearCommand->renderTarget)
+                            if (currentRenderTarget)
                             {
-                                MetalTexture* renderTarget = static_cast<MetalTexture*>(resources[clearCommand->renderTarget - 1].get());
-
-                                newRenderPassDescriptor = renderTarget->getRenderPassDescriptor();
+                                newRenderPassDescriptor = currentRenderTarget->getRenderPassDescriptor();
                                 if (!newRenderPassDescriptor) break;
 
-                                currentRenderTarget = renderTarget->getTexture();
-                                currentPipelineStateDesc.sampleCount = renderTarget->getSampleCount();
-                                currentPipelineStateDesc.colorFormat = renderTarget->getColorFormat();
-                                currentPipelineStateDesc.depthFormat = renderTarget->getDepthFormat();
-
-                                newColorBufferLoadAction = renderTarget->getColorBufferLoadAction();
-                                newDepthBufferLoadAction = renderTarget->getDepthBufferLoadAction();
+                                newColorBufferLoadAction = currentRenderTarget->getColorBufferLoadAction();
+                                newDepthBufferLoadAction = currentRenderTarget->getDepthBufferLoadAction();
                             }
                             else
                             {
-                                currentRenderTarget = currentMetalTexture;
                                 newRenderPassDescriptor = renderPassDescriptor;
-                                currentPipelineStateDesc.sampleCount = sampleCount;
-                                currentPipelineStateDesc.colorFormat = colorFormat;
-                                currentPipelineStateDesc.depthFormat = depthFormat;
 
                                 newColorBufferLoadAction = colorBufferLoadAction;
                                 newDepthBufferLoadAction = depthBufferLoadAction;
@@ -559,31 +546,25 @@ namespace ouzel
                         {
                             auto setScissorTestCommand = static_cast<const SetScissorTestCommand*>(command.get());
 
-                            if (!currentRenderCommandEncoder)
-                                throw std::runtime_error("Metal render command encoder not initialized");
+                            // create a new render command encoder to set up a new scissor rect
+                            if (currentRenderCommandEncoder)
+                                [currentRenderCommandEncoder endEncoding];
+                            currentRenderCommandEncoder = [currentCommandBuffer renderCommandEncoderWithDescriptor:currentRenderPassDescriptor];
 
                             MTLScissorRect scissorRect;
 
                             if (setScissorTestCommand->enabled)
                             {
+                                if (currentRenderCommandEncoder)
+                                    [currentRenderCommandEncoder endEncoding];
+                                currentRenderCommandEncoder = [currentCommandBuffer renderCommandEncoderWithDescriptor:currentRenderPassDescriptor];
+
                                 scissorRect.x = static_cast<NSUInteger>(setScissorTestCommand->rectangle.position.v[0]);
                                 scissorRect.y = static_cast<NSUInteger>(setScissorTestCommand->rectangle.position.v[1]);
                                 scissorRect.width = static_cast<NSUInteger>(setScissorTestCommand->rectangle.size.v[0]);
                                 scissorRect.height = static_cast<NSUInteger>(setScissorTestCommand->rectangle.size.v[1]);
-                                if (scissorRect.x >= currentRenderTarget.width) scissorRect.x = currentRenderTarget.width - 1;
-                                if (scissorRect.y >= currentRenderTarget.height) scissorRect.y = currentRenderTarget.height - 1;
-                                if (scissorRect.width > currentRenderTarget.width - scissorRect.x) scissorRect.width = currentRenderTarget.width - scissorRect.x;
-                                if (scissorRect.height > currentRenderTarget.height - scissorRect.y) scissorRect.height = currentRenderTarget.height - scissorRect.y;
+                                [currentRenderCommandEncoder setScissorRect:scissorRect];
                             }
-                            else
-                            {
-                                scissorRect.x = scissorRect.y = 0;
-                                scissorRect.width = currentRenderTarget.width;
-                                scissorRect.height = currentRenderTarget.height;
-                            }
-
-                            [currentRenderCommandEncoder setScissorRect:scissorRect];
-
                             break;
                         }
 
@@ -1019,24 +1000,28 @@ namespace ouzel
                     pipelineStateDescriptor.vertexDescriptor = desc.shader->getVertexDescriptor();
                 }
 
-                pipelineStateDescriptor.colorAttachments[0].pixelFormat = desc.colorFormat;
+                for (size_t i = 0; i < desc.colorFormats.size(); ++i)
+                    pipelineStateDescriptor.colorAttachments[i].pixelFormat = desc.colorFormats[i];
                 pipelineStateDescriptor.depthAttachmentPixelFormat = desc.depthFormat;
                 pipelineStateDescriptor.stencilAttachmentPixelFormat = MTLPixelFormatInvalid;
 
                 if (desc.blendState)
                 {
-                    // blending
-                    pipelineStateDescriptor.colorAttachments[0].blendingEnabled = desc.blendState->isBlendingEnabled() ? YES : NO;
+                    for (size_t i = 0; i < desc.colorFormats.size(); ++i)
+                    {
+                        // blending
+                        pipelineStateDescriptor.colorAttachments[i].blendingEnabled = desc.blendState->isBlendingEnabled() ? YES : NO;
 
-                    pipelineStateDescriptor.colorAttachments[0].sourceRGBBlendFactor = desc.blendState->getSourceRGBBlendFactor();
-                    pipelineStateDescriptor.colorAttachments[0].destinationRGBBlendFactor = desc.blendState->getDestinationRGBBlendFactor();
-                    pipelineStateDescriptor.colorAttachments[0].rgbBlendOperation = desc.blendState->getRGBBlendOperation();
+                        pipelineStateDescriptor.colorAttachments[i].sourceRGBBlendFactor = desc.blendState->getSourceRGBBlendFactor();
+                        pipelineStateDescriptor.colorAttachments[i].destinationRGBBlendFactor = desc.blendState->getDestinationRGBBlendFactor();
+                        pipelineStateDescriptor.colorAttachments[i].rgbBlendOperation = desc.blendState->getRGBBlendOperation();
 
-                    pipelineStateDescriptor.colorAttachments[0].sourceAlphaBlendFactor = desc.blendState->getSourceAlphaBlendFactor();
-                    pipelineStateDescriptor.colorAttachments[0].destinationAlphaBlendFactor = desc.blendState->getDestinationAlphaBlendFactor();
-                    pipelineStateDescriptor.colorAttachments[0].alphaBlendOperation = desc.blendState->getAlphaBlendOperation();
+                        pipelineStateDescriptor.colorAttachments[i].sourceAlphaBlendFactor = desc.blendState->getSourceAlphaBlendFactor();
+                        pipelineStateDescriptor.colorAttachments[i].destinationAlphaBlendFactor = desc.blendState->getDestinationAlphaBlendFactor();
+                        pipelineStateDescriptor.colorAttachments[i].alphaBlendOperation = desc.blendState->getAlphaBlendOperation();
 
-                    pipelineStateDescriptor.colorAttachments[0].writeMask = desc.blendState->getColorWriteMask();
+                        pipelineStateDescriptor.colorAttachments[i].writeMask = desc.blendState->getColorWriteMask();
+                    }
                 }
 
                 NSError* error;

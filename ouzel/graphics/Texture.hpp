@@ -31,7 +31,7 @@ namespace ouzel
                 DYNAMIC = 0x01,
                 BIND_RENDER_TARGET = 0x02,
                 BIND_SHADER = 0x04,
-                DEPTH_BUFFER = 0x08
+                BIND_SHADER_MSAA = 0x08
             };
 
             enum class Filter

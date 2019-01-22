@@ -97,13 +97,13 @@ namespace ouzel
                 MetalBlendState* blendState = nullptr;
                 MetalShader* shader = nullptr;
                 NSUInteger sampleCount = 0;
-                MTLPixelFormat colorFormat;
+                std::vector<MTLPixelFormat> colorFormats;
                 MTLPixelFormat depthFormat;
 
                 bool operator<(const PipelineStateDesc& other) const
                 {
-                    return std::tie(blendState, shader, sampleCount, colorFormat, depthFormat) <
-                        std::tie(other.blendState, other.shader, other.sampleCount, colorFormat, other.depthFormat);
+                    return std::tie(blendState, shader, sampleCount, colorFormats, depthFormat) <
+                        std::tie(other.blendState, other.shader, other.sampleCount, colorFormats, other.depthFormat);
                 }
             };
 
