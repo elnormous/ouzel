@@ -176,18 +176,15 @@ namespace ouzel
             if (!(flags & Texture::DYNAMIC) || flags & Texture::BIND_RENDER_TARGET)
                 throw std::runtime_error("Texture is not dynamic");
 
-            if (!(flags & Texture::BIND_RENDER_TARGET))
+            for (size_t level = 0; level < levels.size(); ++level)
             {
-                for (size_t level = 0; level < levels.size(); ++level)
+                if (!levels[level].data.empty())
                 {
-                    if (!levels[level].data.empty())
-                    {
-                        [texture replaceRegion:MTLRegionMake2D(0, 0,
-                                                               static_cast<NSUInteger>(levels[level].size.v[0]),
-                                                               static_cast<NSUInteger>(levels[level].size.v[1]))
-                                   mipmapLevel:level withBytes:levels[level].data.data()
-                                   bytesPerRow:static_cast<NSUInteger>(levels[level].pitch)];
-                    }
+                    [texture replaceRegion:MTLRegionMake2D(0, 0,
+                                                           static_cast<NSUInteger>(levels[level].size.v[0]),
+                                                           static_cast<NSUInteger>(levels[level].size.v[1]))
+                               mipmapLevel:level withBytes:levels[level].data.data()
+                               bytesPerRow:static_cast<NSUInteger>(levels[level].pitch)];
                 }
             }
         }

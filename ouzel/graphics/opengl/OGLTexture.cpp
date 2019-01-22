@@ -368,25 +368,22 @@ namespace ouzel
 
             renderDevice.bindTexture(textureId, 0);
 
-            if (!(flags & Texture::BIND_RENDER_TARGET))
+            for (size_t level = 0; level < levels.size(); ++level)
             {
-                for (size_t level = 0; level < levels.size(); ++level)
+                if (!levels[level].data.empty())
                 {
-                    if (!levels[level].data.empty())
-                    {
-                        glTexSubImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), 0, 0,
-                                            static_cast<GLsizei>(levels[level].size.v[0]),
-                                            static_cast<GLsizei>(levels[level].size.v[1]),
-                                            pixelFormat, pixelType,
-                                            levels[level].data.data());
-                    }
+                    glTexSubImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), 0, 0,
+                                        static_cast<GLsizei>(levels[level].size.v[0]),
+                                        static_cast<GLsizei>(levels[level].size.v[1]),
+                                        pixelFormat, pixelType,
+                                        levels[level].data.data());
                 }
-
-                GLenum error;
-
-                if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw std::system_error(makeErrorCode(error), "Failed to upload texture data");
             }
+
+            GLenum error;
+
+            if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                throw std::system_error(makeErrorCode(error), "Failed to upload texture data");
         }
 
         void OGLTexture::setFilter(Texture::Filter newFilter)
