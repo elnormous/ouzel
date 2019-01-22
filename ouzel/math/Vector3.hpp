@@ -57,7 +57,7 @@ namespace ouzel
 
         inline T& operator[](size_t index) { return v[index]; }
         inline T operator[](size_t index) const { return v[index]; }
-        
+
         inline T& x() { return v[0]; }
         inline T x() const { return v[0]; }
 

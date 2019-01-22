@@ -80,7 +80,6 @@ namespace ouzel
             else
                 renderTargetSize = engine->getRenderer()->getSize();
 
-
             renderViewport.position.v[0] = renderTargetSize.v[0] * viewport.position.v[0];
             renderViewport.position.v[1] = renderTargetSize.v[1] * viewport.position.v[1];
             renderViewport.size.v[0] = renderTargetSize.v[0] * viewport.size.v[0];

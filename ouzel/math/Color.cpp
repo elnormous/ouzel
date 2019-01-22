@@ -57,7 +57,7 @@ namespace ouzel
         v[2] = static_cast<uint8_t>((intValue & 0x0000FF00) >> 8);
         v[3] = static_cast<uint8_t>(intValue & 0x000000FF);
     }
-    
+
     Color::Color(const Vector3<float>& vec)
     {
         v[0] = static_cast<uint8_t>(vec.v[0] * 255.0F);

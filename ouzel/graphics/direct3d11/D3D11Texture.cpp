@@ -95,7 +95,7 @@ namespace ouzel
                 {
                     texturePixelFormat = DXGI_FORMAT_R24G8_TYPELESS;
                     shaderViewPixelFormat = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
-                }    
+                }
             }
 
             width = static_cast<UINT>(levels.front().size.v[0]);
@@ -179,7 +179,7 @@ namespace ouzel
                     HRESULT hr;
                     if (FAILED(hr = renderDevice.getDevice()->CreateTexture2D(&msaaTextureDescriptor, nullptr, &msaaTexture)))
                         throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 texture");
-                    
+
                     if (initPixelFormat == PixelFormat::DEPTH || initPixelFormat == PixelFormat::DEPTH_STENCIL)
                     {
                         D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;

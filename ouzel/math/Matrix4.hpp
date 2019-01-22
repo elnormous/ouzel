@@ -182,7 +182,7 @@ namespace ouzel
             dst.m[14] = zNearPlane / (zNearPlane - zFarPlane);
             dst.m[15] = 1.0F;
         }
-        
+
         static void createScale(const Vector3<T>& scale, Matrix4& dst)
         {
             dst.setIdentity();
@@ -200,7 +200,7 @@ namespace ouzel
             dst.m[5] = yScale;
             dst.m[10] = zScale;
         }
-        
+
         static void createRotation(const Vector3<T>& axis, float angle, Matrix4& dst)
         {
             float x = axis.v[0];
@@ -305,7 +305,7 @@ namespace ouzel
             dst.m[13] = translation.v[1];
             dst.m[14] = translation.v[2];
         }
-        
+
         static void createTranslation(T xTranslation, T yTranslation, T zTranslation, Matrix4& dst)
         {
             dst.setIdentity();
@@ -635,7 +635,7 @@ namespace ouzel
         {
             transpose(*this);
         }
-        
+
         void transpose(Matrix4& dst) const;
 
         Vector3<T> getTranslation() const
