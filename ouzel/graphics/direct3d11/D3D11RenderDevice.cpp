@@ -478,7 +478,7 @@ namespace ouzel
 
                             if (currentRenderTarget != newRenderTarget)
                             {
-                                currentRenderTarget->resolve();
+                                if (currentRenderTarget) currentRenderTarget->resolve();
 
                                 ID3D11RenderTargetView* newRenderTargetView = nullptr;
                                 ID3D11DepthStencilView* newDepthStencilView = nullptr;
