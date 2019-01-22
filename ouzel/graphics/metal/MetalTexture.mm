@@ -101,7 +101,7 @@ namespace ouzel
             if (flags & Texture::RENDER_TARGET)
             {
                 textureDescriptor.usage = (sampleCount == 1) ? MTLTextureUsageRenderTarget : 0;
-                if (flags & Texture::BINDABLE_COLOR_BUFFER) textureDescriptor.usage |= MTLTextureUsageShaderRead;
+                if (flags & Texture::BINDABLE) textureDescriptor.usage |= MTLTextureUsageShaderRead;
             }
             else
                 textureDescriptor.usage = MTLTextureUsageShaderRead;
@@ -158,7 +158,7 @@ namespace ouzel
                     depthTextureDescriptor.sampleCount = 1;
                     depthTextureDescriptor.mipmapLevelCount = 1;
                     depthTextureDescriptor.usage = MTLTextureUsageRenderTarget;
-                    if (flags & Texture::BINDABLE_DEPTH_BUFFER) depthTextureDescriptor.usage |= MTLTextureUsageShaderRead;
+                    if (flags & Texture::BINDABLE) depthTextureDescriptor.usage |= MTLTextureUsageShaderRead;
 
                     depthTexture = [renderDevice.getDevice() newTextureWithDescriptor:depthTextureDescriptor];
 

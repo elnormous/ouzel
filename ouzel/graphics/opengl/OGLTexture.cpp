@@ -549,7 +549,7 @@ namespace ouzel
 
                 renderDevice.bindFrameBuffer(frameBufferId);
 
-                if (flags & Texture::BINDABLE_COLOR_BUFFER)
+                if (flags & Texture::BINDABLE)
                 {
                     renderDevice.bindTexture(textureId, 0);
 
@@ -595,7 +595,7 @@ namespace ouzel
 
                 if (flags & Texture::DEPTH_BUFFER)
                 {
-                    if (flags & Texture::BINDABLE_DEPTH_BUFFER)
+                    if (flags & Texture::BINDABLE)
                     {
                         glGenTexturesProc(1, &depthTextureId);
 

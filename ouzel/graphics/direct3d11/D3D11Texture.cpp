@@ -90,7 +90,7 @@ namespace ouzel
             if (flags & Texture::RENDER_TARGET)
             {
                 textureDescriptor.BindFlags = (sampleCount == 1) ? D3D11_BIND_RENDER_TARGET : 0;
-                if (flags & Texture::BINDABLE_COLOR_BUFFER) textureDescriptor.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
+                if (flags & Texture::BINDABLE) textureDescriptor.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
             }
             else
                 textureDescriptor.BindFlags = D3D11_BIND_SHADER_RESOURCE;
@@ -173,7 +173,7 @@ namespace ouzel
                     depthStencilDescriptor.SampleDesc.Quality = 0;
                     depthStencilDescriptor.Usage = D3D11_USAGE_DEFAULT;
                     depthStencilDescriptor.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-                    if (flags & Texture::BINDABLE_DEPTH_BUFFER) textureDescriptor.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
+                    if (flags & Texture::BINDABLE) textureDescriptor.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
 
                     depthStencilDescriptor.CPUAccessFlags = 0;
                     depthStencilDescriptor.MiscFlags = 0;
