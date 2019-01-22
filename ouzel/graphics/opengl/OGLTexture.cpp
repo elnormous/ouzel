@@ -242,7 +242,7 @@ namespace ouzel
             pixelFormat(getOGLPixelFormat(initPixelFormat)),
             pixelType(getOGLPixelType(initPixelFormat))
         {
-            if ((flags & Texture::RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
+            if ((flags & Texture::BIND_RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
                 throw std::runtime_error("Invalid mip map count");
 
             if (internalPixelFormat == GL_NONE)
@@ -258,7 +258,7 @@ namespace ouzel
 
             renderDevice.bindTexture(textureId, 0);
 
-            if (flags & Texture::RENDER_TARGET)
+            if (flags & Texture::BIND_RENDER_TARGET)
             {
                 clearMask = GL_COLOR_BUFFER_BIT;
             }
@@ -332,7 +332,7 @@ namespace ouzel
 
             renderDevice.bindTexture(textureId, 0);
 
-            if (!(flags & Texture::RENDER_TARGET))
+            if (!(flags & Texture::BIND_RENDER_TARGET))
             {
                 if (!levels.empty())
                 {
@@ -374,7 +374,7 @@ namespace ouzel
 
         void OGLTexture::setData(const std::vector<Texture::Level>& newLevels)
         {
-            if (!(flags & Texture::DYNAMIC) || flags & Texture::RENDER_TARGET)
+            if (!(flags & Texture::DYNAMIC) || flags & Texture::BIND_RENDER_TARGET)
                 throw std::runtime_error("Texture is not dynamic");
 
             levels = newLevels;
@@ -384,7 +384,7 @@ namespace ouzel
 
             renderDevice.bindTexture(textureId, 0);
 
-            if (!(flags & Texture::RENDER_TARGET))
+            if (!(flags & Texture::BIND_RENDER_TARGET))
             {
                 for (size_t level = 0; level < levels.size(); ++level)
                 {
@@ -540,7 +540,7 @@ namespace ouzel
             width = static_cast<GLsizei>(levels.front().size.v[0]);
             height = static_cast<GLsizei>(levels.front().size.v[1]);
 
-            if ((flags & Texture::RENDER_TARGET) && renderDevice.isRenderTargetsSupported())
+            if ((flags & Texture::BIND_RENDER_TARGET) && renderDevice.isRenderTargetsSupported())
             {
                 glGenFramebuffersProc(1, &frameBufferId);
 
@@ -549,7 +549,7 @@ namespace ouzel
 
                 renderDevice.bindFrameBuffer(frameBufferId);
 
-                if (flags & Texture::BINDABLE)
+                if (flags & Texture::BIND_SHADER)
                 {
                     renderDevice.bindTexture(textureId, 0);
 
@@ -595,7 +595,7 @@ namespace ouzel
 
                 if (flags & Texture::DEPTH_BUFFER)
                 {
-                    if (flags & Texture::BINDABLE)
+                    if (flags & Texture::BIND_SHADER)
                     {
                         glGenTexturesProc(1, &depthTextureId);
 

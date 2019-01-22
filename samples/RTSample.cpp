@@ -20,8 +20,8 @@ RTSample::RTSample():
 
     std::shared_ptr<graphics::Texture> renderTarget = std::make_shared<graphics::Texture>(*engine->getRenderer());
     renderTarget->init(Size2<uint32_t>(256, 256),
-                       graphics::Texture::RENDER_TARGET |
-                       graphics::Texture::BINDABLE |
+                       graphics::Texture::BIND_RENDER_TARGET |
+                       graphics::Texture::BIND_SHADER |
                        graphics::Texture::DEPTH_BUFFER, 1, 1);
     renderTarget->setClearColor(Color(0, 64, 0));
 
