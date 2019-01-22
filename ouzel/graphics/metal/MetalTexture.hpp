@@ -52,7 +52,7 @@ namespace ouzel
                          const std::vector<Texture::Level>& levels,
                          uint32_t initFlags = 0,
                          uint32_t initSampleCount = 1,
-                         PixelFormat pixelFormat = PixelFormat::RGBA8_UNORM);
+                         PixelFormat initPixelFormat = PixelFormat::RGBA8_UNORM);
             ~MetalTexture();
 
             void setData(const std::vector<Texture::Level>& levels);
@@ -60,27 +60,18 @@ namespace ouzel
             void setAddressX(Texture::Address addressX);
             void setAddressY(Texture::Address addressY);
             void setMaxAnisotropy(uint32_t maxAnisotropy);
-            void setClearColorBuffer(bool clear);
-            void setClearDepthBuffer(bool clear);
-            void setClearColor(Color color);
-            void setClearDepth(float newClearDepth);
 
             inline uint32_t getFlags() const { return flags; }
             inline uint32_t getMipmaps() const { return mipmaps; }
             inline uint32_t getSampleCount() const { return sampleCount; }
 
             inline MTLTexturePtr getTexture() const { return texture; }
-            inline MTLPixelFormat getColorFormat() const { return colorFormat; }
-            inline MTLPixelFormat getDepthFormat() const { return depthFormat; }
+            inline MTLPixelFormat getPixelFormat() const { return pixelFormat; }
 
             inline MTLSamplerStatePtr getSamplerState() const { return samplerState; }
-            inline MTLRenderPassDescriptorPtr getRenderPassDescriptor() const { return renderPassDescriptor; }
 
             inline NSUInteger getWidth() const { return width; }
             inline NSUInteger getHeight() const { return height; }
-
-            inline MTLLoadAction getColorBufferLoadAction() const { return colorBufferLoadAction; }
-            inline MTLLoadAction getDepthBufferLoadAction() const { return depthBufferLoadAction; }
 
         private:
             void updateSamplerState();
@@ -97,15 +88,9 @@ namespace ouzel
             NSUInteger height = 0;
 
             MTLSamplerStatePtr samplerState = nil;
-            MTLRenderPassDescriptorPtr renderPassDescriptor = nil;
             MTLTexturePtr msaaTexture = nil;
-            MTLTexturePtr depthTexture = nil;
 
-            MTLPixelFormat colorFormat;
-            MTLPixelFormat depthFormat;
-
-            MTLLoadAction colorBufferLoadAction;
-            MTLLoadAction depthBufferLoadAction;
+            MTLPixelFormat pixelFormat;
         };
     } // namespace graphics
 } // namespace ouzel

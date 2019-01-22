@@ -242,7 +242,7 @@ namespace ouzel
             pixelFormat(getOGLPixelFormat(initPixelFormat)),
             pixelType(getOGLPixelType(initPixelFormat))
         {
-            if ((flags & Texture::RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
+            if ((flags & Texture::BIND_RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
                 throw std::runtime_error("Invalid mip map count");
 
             if (internalPixelFormat == GL_NONE)
@@ -258,11 +258,7 @@ namespace ouzel
 
             renderDevice.bindTexture(textureId, 0);
 
-            if (flags & Texture::RENDER_TARGET)
-            {
-                clearMask = GL_COLOR_BUFFER_BIT;
-            }
-            else
+            if (!(flags & Texture::BIND_RENDER_TARGET))
             {
                 if (!levels.empty())
                 {
@@ -304,17 +300,8 @@ namespace ouzel
 
         OGLTexture::~OGLTexture()
         {
-            if (depthBufferId)
-                renderDevice.deleteRenderBuffer(depthBufferId);
-
-            if (colorBufferId)
-                renderDevice.deleteRenderBuffer(colorBufferId);
-
-            if (frameBufferId)
-                renderDevice.deleteFrameBuffer(frameBufferId);
-
-            if (depthTextureId)
-                renderDevice.deleteTexture(depthTextureId);
+            if (bufferId)
+                renderDevice.deleteRenderBuffer(bufferId);
 
             if (textureId)
                 renderDevice.deleteTexture(textureId);
@@ -323,17 +310,14 @@ namespace ouzel
         void OGLTexture::reload()
         {
             textureId = 0;
-            depthTextureId = 0;
-            frameBufferId = 0;
-            colorBufferId = 0;
-            depthBufferId = 0;
+            bufferId = 0;
 
             createTexture();
 
-            renderDevice.bindTexture(textureId, 0);
-
-            if (!(flags & Texture::RENDER_TARGET))
+            if (!(flags & Texture::BIND_RENDER_TARGET))
             {
+                renderDevice.bindTexture(textureId, 0);
+
                 if (!levels.empty())
                 {
                     if (renderDevice.isTextureBaseLevelSupported()) glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
@@ -367,14 +351,14 @@ namespace ouzel
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
                     throw std::system_error(makeErrorCode(error), "Failed to upload texture data");
-            }
 
-            setTextureParameters();
+                setTextureParameters();
+            }
         }
 
         void OGLTexture::setData(const std::vector<Texture::Level>& newLevels)
         {
-            if (!(flags & Texture::DYNAMIC) || flags & Texture::RENDER_TARGET)
+            if (!(flags & Texture::DYNAMIC) || flags & Texture::BIND_RENDER_TARGET)
                 throw std::runtime_error("Texture is not dynamic");
 
             levels = newLevels;
@@ -384,25 +368,22 @@ namespace ouzel
 
             renderDevice.bindTexture(textureId, 0);
 
-            if (!(flags & Texture::RENDER_TARGET))
+            for (size_t level = 0; level < levels.size(); ++level)
             {
-                for (size_t level = 0; level < levels.size(); ++level)
+                if (!levels[level].data.empty())
                 {
-                    if (!levels[level].data.empty())
-                    {
-                        glTexSubImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), 0, 0,
-                                            static_cast<GLsizei>(levels[level].size.v[0]),
-                                            static_cast<GLsizei>(levels[level].size.v[1]),
-                                            pixelFormat, pixelType,
-                                            levels[level].data.data());
-                    }
+                    glTexSubImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), 0, 0,
+                                        static_cast<GLsizei>(levels[level].size.v[0]),
+                                        static_cast<GLsizei>(levels[level].size.v[1]),
+                                        pixelFormat, pixelType,
+                                        levels[level].data.data());
                 }
-
-                GLenum error;
-
-                if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw std::system_error(makeErrorCode(error), "Failed to upload texture data");
             }
+
+            GLenum error;
+
+            if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                throw std::system_error(makeErrorCode(error), "Failed to upload texture data");
         }
 
         void OGLTexture::setFilter(Texture::Filter newFilter)
@@ -497,76 +478,33 @@ namespace ouzel
             }
         }
 
-        void OGLTexture::setClearColorBuffer(bool clear)
-        {
-            if (clear)
-                clearMask |= GL_COLOR_BUFFER_BIT;
-            else
-                clearMask &= ~static_cast<GLbitfield>(GL_COLOR_BUFFER_BIT);
-        }
-
-        void OGLTexture::setClearDepthBuffer(bool clear)
-        {
-            if (clear)
-                clearMask |= GL_DEPTH_BUFFER_BIT;
-            else
-                clearMask &= ~static_cast<GLbitfield>(GL_DEPTH_BUFFER_BIT);
-        }
-
-        void OGLTexture::setClearColor(Color color)
-        {
-            frameBufferClearColor[0] = color.normR();
-            frameBufferClearColor[1] = color.normG();
-            frameBufferClearColor[2] = color.normB();
-            frameBufferClearColor[3] = color.normA();
-        }
-
-        void OGLTexture::setClearDepth(float newClearDepth)
-        {
-            clearDepth = newClearDepth;
-        }
-
         void OGLTexture::createTexture()
         {
-            glGenTexturesProc(1, &textureId);
-
-            GLenum error;
-
-            if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                throw std::system_error(makeErrorCode(error), "Failed to create texture");
-
-            renderDevice.bindTexture(textureId, 0);
-
             width = static_cast<GLsizei>(levels.front().size.v[0]);
             height = static_cast<GLsizei>(levels.front().size.v[1]);
 
-            if ((flags & Texture::RENDER_TARGET) && renderDevice.isRenderTargetsSupported())
+            if ((flags & Texture::BIND_RENDER_TARGET) && renderDevice.isRenderTargetsSupported())
             {
-                glGenFramebuffersProc(1, &frameBufferId);
-
-                if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw std::system_error(makeErrorCode(error), "Failed to create frame buffer");
-
-                renderDevice.bindFrameBuffer(frameBufferId);
-
-                if (flags & Texture::BINDABLE_COLOR_BUFFER)
+                if (flags & Texture::BIND_SHADER)
                 {
+                    glGenTexturesProc(1, &textureId);
+
+                    GLenum error;
+                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                        throw std::system_error(makeErrorCode(error), "Failed to create texture");
+
                     renderDevice.bindTexture(textureId, 0);
 
+                    // TODO: glTexImage2DMultisample for OpenGL
+                    // TODO: glTexStorage2DMultisample for OpenGL ES
                     glTexImage2DProc(GL_TEXTURE_2D, 0, static_cast<GLint>(internalPixelFormat),
                                      width, height, 0,
                                      pixelFormat, pixelType, nullptr);
-
-                    // TODO: blit multisample render buffer to texture
-                    glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0);
-
-                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw std::system_error(makeErrorCode(error), "Failed to set frame buffer's color texture");
                 }
                 else
                 {
-                    glGenRenderbuffersProc(1, &colorBufferId);
-                    glBindRenderbufferProc(GL_RENDERBUFFER, colorBufferId);
+                    glGenRenderbuffersProc(1, &bufferId);
+                    glBindRenderbufferProc(GL_RENDERBUFFER, bufferId);
 
                     if (sampleCount > 1 && renderDevice.isMultisamplingSupported())
                     {
@@ -575,6 +513,7 @@ namespace ouzel
                                                              internalPixelFormat,
                                                              width, height);
 
+                        GLenum error;
                         if ((error = glGetErrorProc()) != GL_NO_ERROR)
                             throw std::system_error(makeErrorCode(error), "Failed to set color render buffer's multisample storage");
                     }
@@ -583,69 +522,19 @@ namespace ouzel
                         glRenderbufferStorageProc(GL_RENDERBUFFER, internalPixelFormat,
                                                   width, height);
 
+                        GLenum error;
                         if ((error = glGetErrorProc()) != GL_NO_ERROR)
                             throw std::system_error(makeErrorCode(error), "Failed to set color render buffer's storage");
                     }
-
-                    glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorBufferId);
-
-                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw std::system_error(makeErrorCode(error), "Failed to set frame buffer's color render buffer");
                 }
+            }
+            else
+            {
+                glGenTexturesProc(1, &textureId);
 
-                if (flags & Texture::DEPTH_BUFFER)
-                {
-                    if (flags & Texture::BINDABLE_DEPTH_BUFFER)
-                    {
-                        glGenTexturesProc(1, &depthTextureId);
-
-                        renderDevice.bindTexture(depthTextureId, 0);
-
-                        glTexImage2DProc(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24,
-                                         width, height, 0,GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
-
-                        glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthTextureId, 0);
-
-                        if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                            throw std::system_error(makeErrorCode(error), "Failed to set frame buffer's depth texture");
-                    }
-                    else
-                    {
-                        glGenRenderbuffersProc(1, &depthBufferId);
-                        glBindRenderbufferProc(GL_RENDERBUFFER, depthBufferId);
-
-                        if (sampleCount > 1 && renderDevice.isMultisamplingSupported())
-                        {
-                            glRenderbufferStorageMultisampleProc(GL_RENDERBUFFER,
-                                                                 static_cast<GLsizei>(sampleCount),
-                                                                 GL_DEPTH_COMPONENT24,
-                                                                 width, height);
-
-                            if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                                throw std::system_error(makeErrorCode(error), "Failed to set depth render buffer's multisample storage");
-                        }
-                        else
-                        {
-                            glRenderbufferStorageProc(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24,
-                                                      width, height);
-
-                            if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                                throw std::system_error(makeErrorCode(error), "Failed to set depth render buffer's storage");
-                        }
-
-                        glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBufferId);
-
-                        if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                            throw std::system_error(makeErrorCode(error), "Failed to set frame buffer's depth render buffer");
-                    }
-                }
-
-                GLenum status;
-                if ((status = glCheckFramebufferStatusProc(GL_FRAMEBUFFER)) != GL_FRAMEBUFFER_COMPLETE)
-                    throw std::runtime_error("Failed to create frame buffer, status: " + std::to_string(status));
-
+                GLenum error;
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                    throw std::system_error(makeErrorCode(error), "Failed to check frame buffer status");
+                    throw std::system_error(makeErrorCode(error), "Failed to create texture");
             }
         }
 

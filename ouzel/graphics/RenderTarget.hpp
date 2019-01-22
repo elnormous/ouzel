@@ -17,14 +17,6 @@ namespace ouzel
         class RenderTarget final
         {
         public:
-            enum Flags
-            {
-                COLOR_BUFFER = 0x01,
-                DEPTH_BUFFER = 0x02,
-                BINDABLE_COLOR_BUFFER = 0x04,
-                BINDABLE_DEPTH_BUFFER = 0x08,
-            };
-
             explicit RenderTarget(Renderer& initRenderer);
             RenderTarget(Renderer& initRenderer,
                          bool initClearColorBuffer,
@@ -32,6 +24,12 @@ namespace ouzel
                          Color initClearColor,
                          float initClearDepth);
             ~RenderTarget();
+
+            RenderTarget(const RenderTarget&) = delete;
+            RenderTarget& operator=(const RenderTarget&) = delete;
+
+            RenderTarget(RenderTarget&&) = delete;
+            RenderTarget& operator=(RenderTarget&&) = delete;
 
             inline uintptr_t getResource() const { return resource; }
 

@@ -8,7 +8,7 @@
 #include "math/MathUtils.hpp"
 #include "math/Rect.hpp"
 #include "graphics/DepthStencilState.hpp"
-#include "graphics/Texture.hpp"
+#include "graphics/RenderTarget.hpp"
 
 namespace ouzel
 {
@@ -80,8 +80,8 @@ namespace ouzel
             inline const Vector2<float>& getContentScale() const { return contentScale; }
             inline const Vector2<float>& getContentPosition() const { return contentPosition; }
 
-            inline graphics::Texture* getRenderTarget() const { return renderTarget; }
-            void setRenderTarget(graphics::Texture* newRenderTarget);
+            inline graphics::RenderTarget* getRenderTarget() const { return renderTarget; }
+            void setRenderTarget(graphics::RenderTarget* newRenderTarget);
 
             inline bool getDepthTest() const { return depthTest; }
             void setDepthTest(bool newDepthTest);
@@ -123,7 +123,7 @@ namespace ouzel
             mutable bool inverseViewProjectionDirty = true;
             mutable Matrix4<float> inverseViewProjection;
 
-            graphics::Texture* renderTarget = nullptr;
+            graphics::RenderTarget* renderTarget = nullptr;
             std::unique_ptr<graphics::DepthStencilState> depthStencilState;
         };
     } // namespace scene

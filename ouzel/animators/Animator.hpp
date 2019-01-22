@@ -39,6 +39,7 @@ namespace ouzel
 
             inline Actor* getTargetActor() const { return targetActor; }
 
+            void addAnimator(std::unique_ptr<Animator>&& animator);
             void addAnimator(Animator* animator);
             bool removeAnimator(Animator* animator);
             void removeAllAnimators();
@@ -62,6 +63,7 @@ namespace ouzel
             EventHandler updateHandler;
 
             std::vector<Animator*> animators;
+            std::vector<std::unique_ptr<Animator>> ownedAnimators;
         };
     } // namespace scene
 } // namespace ouzel

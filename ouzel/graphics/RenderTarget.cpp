@@ -14,10 +14,10 @@ namespace ouzel
             resource(renderer.getDevice()->getResourceId())
         {
             renderer.addCommand(std::unique_ptr<Command>(new InitRenderTargetCommand(resource,
-                                                                                clearColorBuffer,
-                                                                                clearDepthBuffer,
-                                                                                clearColor,
-                                                                                clearDepth)));
+                                                                                     clearColorBuffer,
+                                                                                     clearDepthBuffer,
+                                                                                     clearColor,
+                                                                                     clearDepth)));
         }
 
         RenderTarget::RenderTarget(Renderer& initRenderer,

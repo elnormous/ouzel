@@ -13,18 +13,28 @@ namespace ouzel
 {
     namespace graphics
     {
-        MetalRenderTarget::MetalRenderTarget(MetalRenderDevice& renderDeviceMetal):
+        MetalRenderTarget::MetalRenderTarget(MetalRenderDevice& renderDeviceMetal,
+                                             bool initClearColorBuffer,
+                                             bool initClearDepthBuffer,
+                                             Color initClearColor,
+                                             float initClearDepth):
             MetalRenderResource(renderDeviceMetal),
-            colorBufferLoadAction(MTLLoadActionDontCare),
-            depthBufferLoadAction(MTLLoadActionDontCare)
+            depthFormat(MTLPixelFormatInvalid),
+            colorBufferLoadAction(initClearColorBuffer ? MTLLoadActionClear : MTLLoadActionDontCare),
+            depthBufferLoadAction(initClearDepthBuffer ? MTLLoadActionClear : MTLLoadActionDontCare),
+            clearColor(MTLClearColorMake(initClearColor.normR(),
+                                         initClearColor.normG(),
+                                         initClearColor.normB(),
+                                         initClearColor.normA())),
+            clearDepth(initClearDepth)
         {
             renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
 
             if (!renderPassDescriptor)
                 throw std::runtime_error("Failed to create Metal render pass descriptor");
 
-            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(0.0F, 0.0F, 0.0F, 0.0F);
-            renderPassDescriptor.depthAttachment.clearDepth = 1.0F;
+            renderPassDescriptor.colorAttachments[0].clearColor = clearColor;
+            renderPassDescriptor.depthAttachment.clearDepth = clearDepth;
         }
 
         MetalRenderTarget::~MetalRenderTarget()
@@ -41,6 +51,10 @@ namespace ouzel
                 renderPassDescriptor.colorAttachments[index].storeAction = (texture->getSampleCount() > 1) ? MTLStoreActionMultisampleResolve : MTLStoreActionStore;
                 renderPassDescriptor.colorAttachments[index].texture = texture->getTexture();
                 renderPassDescriptor.colorAttachments[index].clearColor = clearColor;
+
+                colorFormats.push_back(texture->getPixelFormat());
+
+                sampleCount = texture->getSampleCount();
             }
         }
 
@@ -52,11 +66,15 @@ namespace ouzel
             {
                 colorTextures.erase(i);
 
+                colorFormats.clear();
+
                 size_t index = 0;
                 for (MetalTexture* colorTexture : colorTextures)
                 {
                     renderPassDescriptor.colorAttachments[index].storeAction = (colorTexture->getSampleCount() > 1) ? MTLStoreActionMultisampleResolve : MTLStoreActionStore;
                     renderPassDescriptor.colorAttachments[index].texture = colorTexture->getTexture();
+
+                    colorFormats.push_back(colorTexture->getPixelFormat());
 
                     ++index;
                 }
@@ -75,7 +93,11 @@ namespace ouzel
                 renderPassDescriptor.depthAttachment.storeAction = (texture->getSampleCount() > 1) ? MTLStoreActionMultisampleResolve : MTLStoreActionStore;
                 renderPassDescriptor.depthAttachment.texture = texture->getTexture();
                 renderPassDescriptor.depthAttachment.clearDepth = clearDepth;
+                depthFormat = texture->getPixelFormat();
+                sampleCount = texture->getSampleCount();
             }
+            else
+                depthFormat = MTLPixelFormatInvalid;
         }
 
         void MetalRenderTarget::setClearColorBuffer(bool clear)

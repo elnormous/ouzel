@@ -43,7 +43,9 @@ private:
     ouzel::gui::Menu menu;
     ouzel::gui::Button backButton;
 
-    std::unique_ptr<ouzel::graphics::Texture> renderTarget;
+    std::unique_ptr<ouzel::graphics::RenderTarget> renderTarget;
+    std::unique_ptr<ouzel::graphics::Texture> renderTexture;
+    std::unique_ptr<ouzel::graphics::Texture> depthTexture;
 };
 
 #endif // RTSAMPLE_HPP

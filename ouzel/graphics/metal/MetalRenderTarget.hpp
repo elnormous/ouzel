@@ -37,12 +37,20 @@ namespace ouzel
         class MetalRenderTarget final: public MetalRenderResource
         {
         public:
-            explicit MetalRenderTarget(MetalRenderDevice& renderDeviceMetal);
+            explicit MetalRenderTarget(MetalRenderDevice& renderDeviceMetal,
+                                       bool initClearColorBuffer = true,
+                                       bool initClearDepthBuffer = false,
+                                       Color initClearColor = Color(),
+                                       float initClearDepth = 1.0F);
             ~MetalRenderTarget();
 
             void addColorTexture(MetalTexture* texture);
             void removeColorTexture(MetalTexture* texture);
             void setDepthTexture(MetalTexture* texture);
+
+            NSUInteger getSampleCount() const { return sampleCount; }
+            const std::vector<MTLPixelFormat>& getColorFormats() const { return colorFormats; }
+            MTLPixelFormat getDepthFormat() const { return depthFormat; }
 
             void setClearColorBuffer(bool clear);
             void setClearDepthBuffer(bool clear);
@@ -57,6 +65,10 @@ namespace ouzel
         private:
             std::set<MetalTexture*> colorTextures;
             MetalTexture* depthTexture = nullptr;
+
+            NSUInteger sampleCount = 0;
+            std::vector<MTLPixelFormat> colorFormats;
+            MTLPixelFormat depthFormat;
 
             MTLRenderPassDescriptorPtr renderPassDescriptor = nil;
 

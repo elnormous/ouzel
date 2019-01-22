@@ -123,6 +123,12 @@ namespace ouzel
             updateProgress();
         }
 
+        void Animator::addAnimator(std::unique_ptr<Animator>&& animator)
+        {
+            addAnimator(animator.get());
+            ownedAnimators.push_back(std::move(animator));
+        }
+
         void Animator::addAnimator(Animator* animator)
         {
             assert(animator);
@@ -150,6 +156,12 @@ namespace ouzel
                 result = true;
             }
 
+            auto ownedAnimatorIterator = std::find_if(ownedAnimators.begin(), ownedAnimators.end(), [animator](const std::unique_ptr<Animator>& ownedAnimator){
+                return animator == ownedAnimator.get();
+            });
+            if (ownedAnimatorIterator != ownedAnimators.end())
+                ownedAnimators.erase(ownedAnimatorIterator);
+
             return result;
         }
 
@@ -159,6 +171,7 @@ namespace ouzel
                 animator->parent = nullptr;
 
             animators.clear();
+            ownedAnimators.clear();
         }
 
         void Animator::removeFromParent()

@@ -247,9 +247,9 @@ namespace ouzel
             addCommand(std::unique_ptr<Command>(new SetRenderTargetCommand(renderTarget)));
         }
 
-        void Renderer::clearRenderTarget(uintptr_t renderTarget)
+        void Renderer::clearRenderTarget()
         {
-            addCommand(std::unique_ptr<Command>(new ClearRenderTargetCommand(renderTarget)));
+            addCommand(std::unique_ptr<Command>(new ClearRenderTargetCommand()));
         }
 
         void Renderer::setCullMode(CullMode cullMode)

@@ -106,6 +106,7 @@ namespace ouzel
 
             void addChild(Actor* actor) override;
 
+            void addComponent(std::unique_ptr<Component>&& component);
             void addComponent(Component* component);
             bool removeComponent(Component* component);
 
@@ -154,6 +155,7 @@ namespace ouzel
             ActorContainer* parent = nullptr;
 
             std::vector<Component*> components;
+            std::vector<std::unique_ptr<Component>> ownedComponents;
 
             EventHandler animationUpdateHandler;
         };

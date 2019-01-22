@@ -68,9 +68,18 @@ namespace ouzel
 
         void Camera::recalculateProjection()
         {
-            Size2<uint32_t> renderTargetSize = renderTarget ?
-                renderTarget->getSize() :
-                engine->getRenderer()->getSize();
+            Size2<uint32_t> renderTargetSize;
+
+            if (renderTarget)
+            {
+                if (!renderTarget->getColorTextures().empty())
+                    renderTargetSize = renderTarget->getColorTextures()[0]->getSize();
+                else if (renderTarget->getDepthTexture())
+                    renderTargetSize = renderTarget->getDepthTexture()->getSize();
+            }
+            else
+                renderTargetSize = engine->getRenderer()->getSize();
+
 
             renderViewport.position.v[0] = renderTargetSize.v[0] * viewport.position.v[0];
             renderViewport.position.v[1] = renderTargetSize.v[1] * viewport.position.v[1];
@@ -273,7 +282,7 @@ namespace ouzel
             recalculateProjection();
         }
 
-        void Camera::setRenderTarget(graphics::Texture* newRenderTarget)
+        void Camera::setRenderTarget(graphics::RenderTarget* newRenderTarget)
         {
             renderTarget = newRenderTarget;
             recalculateProjection();

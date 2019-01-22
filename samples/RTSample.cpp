@@ -9,7 +9,18 @@ using namespace input;
 
 RTSample::RTSample():
     characterSprite("run.json"),
-    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
+    renderTarget(new graphics::RenderTarget(*engine->getRenderer())),
+    renderTexture(new graphics::Texture(*engine->getRenderer(),
+                                        Size2<uint32_t>(256, 256),
+                                        graphics::Texture::BIND_RENDER_TARGET |
+                                        graphics::Texture::BIND_SHADER, 1, 1)),
+
+    depthTexture(new graphics::Texture(*engine->getRenderer(),
+                                        Size2<uint32_t>(256, 256),
+                                       graphics::Texture::BIND_RENDER_TARGET |
+                                       graphics::Texture::BIND_SHADER, 1, 1,
+                                       graphics::PixelFormat::DEPTH))
 {
     handler.gamepadHandler = std::bind(&RTSample::handleGamepad, this, std::placeholders::_1);
     handler.uiHandler = std::bind(&RTSample::handleUI, this, std::placeholders::_1);
@@ -18,11 +29,8 @@ RTSample::RTSample():
 
     addLayer(&rtLayer);
 
-    renderTarget.reset(new graphics::Texture(*engine->getRenderer()));
-    renderTarget->init(Size2<uint32_t>(256, 256),
-                       graphics::Texture::RENDER_TARGET |
-                       graphics::Texture::BINDABLE_COLOR_BUFFER |
-                       graphics::Texture::DEPTH_BUFFER, 1, 1);
+    renderTarget->addColorTexture(renderTexture.get());
+    renderTarget->setDepthTexture(depthTexture.get());
     renderTarget->setClearColor(Color(0, 64, 0));
 
     rtCamera.setRenderTarget(renderTarget.get());
@@ -48,7 +56,8 @@ RTSample::RTSample():
     rtCharacter.addComponent(&characterSprite);
     rtLayer.addChild(&rtCharacter);
 
-    rtSprite.init(renderTarget.get());
+    rtSprite.init(renderTexture.get());
+
     rtActor.addComponent(&rtSprite);
     layer.addChild(&rtActor);
 
