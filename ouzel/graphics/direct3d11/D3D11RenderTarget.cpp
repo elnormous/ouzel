@@ -83,6 +83,15 @@ namespace ouzel
         {
             clearDepth = newClearDepth;
         }
+
+        void D3D11RenderTarget::resolve()
+        {
+            for (D3D11Texture* colorTexture : colorTextures)
+                colorTexture->resolve();
+
+            if (depthTexture)
+                depthTexture->resolve();
+        }
     } // namespace graphics
 } // namespace ouzel
 
