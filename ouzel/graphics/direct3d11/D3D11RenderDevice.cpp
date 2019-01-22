@@ -494,12 +494,12 @@ namespace ouzel
                             if (currentRenderTarget)
                             {
                                 if (currentRenderTarget->getClearFrameBufferView())
-                                    for (ID3D11RenderTargetView* renderTargetView : currentRenderTarget->getRenderTargetViews())
-                                        context->ClearRenderTargetView(renderTargetView, currentRenderTarget->getFrameBufferClearColor());
+                                    for (ID3D11RenderTargetView* view : currentRenderTarget->getRenderTargetViews())
+                                        context->ClearRenderTargetView(view, currentRenderTarget->getFrameBufferClearColor());
 
                                 if (currentRenderTarget->getClearDepthBufferView())
-                                    if (ID3D11DepthStencilView* depthStencilView = currentRenderTarget->getDepthStencilView())
-                                        context->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH, renderTarget->getClearDepth(), 0);
+                                    if (ID3D11DepthStencilView* view = currentRenderTarget->getDepthStencilView())
+                                        context->ClearDepthStencilView(view, D3D11_CLEAR_DEPTH, currentRenderTarget->getClearDepth(), 0);
                             }
                             else
                             {
