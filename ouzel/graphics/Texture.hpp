@@ -29,9 +29,9 @@ namespace ouzel
             enum Flags
             {
                 DYNAMIC = 0x01,
-                RENDER_TARGET = 0x02,
-                DEPTH_BUFFER = 0x04,
-                BINDABLE = 0x08
+                BIND_RENDER_TARGET = 0x02,
+                BIND_SHADER = 0x04,
+                DEPTH_BUFFER = 0x08
             };
 
             enum class Filter

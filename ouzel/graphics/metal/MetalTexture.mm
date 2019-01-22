@@ -78,7 +78,7 @@ namespace ouzel
             colorBufferLoadAction(MTLLoadActionDontCare),
             depthBufferLoadAction(MTLLoadActionDontCare)
         {
-            if ((flags & Texture::RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
+            if ((flags & Texture::BIND_RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
                 throw std::runtime_error("Invalid mip map count");
 
             if (colorFormat == MTLPixelFormatInvalid)
@@ -98,10 +98,10 @@ namespace ouzel
             textureDescriptor.sampleCount = 1;
             textureDescriptor.mipmapLevelCount = static_cast<NSUInteger>(levels.size());
 
-            if (flags & Texture::RENDER_TARGET)
+            if (flags & Texture::BIND_RENDER_TARGET)
             {
                 textureDescriptor.usage = (sampleCount == 1) ? MTLTextureUsageRenderTarget : 0;
-                if (flags & Texture::BINDABLE) textureDescriptor.usage |= MTLTextureUsageShaderRead;
+                if (flags & Texture::BIND_SHADER) textureDescriptor.usage |= MTLTextureUsageShaderRead;
             }
             else
                 textureDescriptor.usage = MTLTextureUsageShaderRead;
@@ -111,7 +111,7 @@ namespace ouzel
             if (!texture)
                 throw std::runtime_error("Failed to create Metal texture");
 
-            if (flags & Texture::RENDER_TARGET)
+            if (flags & Texture::BIND_RENDER_TARGET)
             {
                 renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
 
@@ -158,7 +158,7 @@ namespace ouzel
                     depthTextureDescriptor.sampleCount = 1;
                     depthTextureDescriptor.mipmapLevelCount = 1;
                     depthTextureDescriptor.usage = MTLTextureUsageRenderTarget;
-                    if (flags & Texture::BINDABLE) depthTextureDescriptor.usage |= MTLTextureUsageShaderRead;
+                    if (flags & Texture::BIND_SHADER) depthTextureDescriptor.usage |= MTLTextureUsageShaderRead;
 
                     depthTexture = [renderDevice.getDevice() newTextureWithDescriptor:depthTextureDescriptor];
 
@@ -216,10 +216,10 @@ namespace ouzel
 
         void MetalTexture::setData(const std::vector<Texture::Level>& levels)
         {
-            if (!(flags & Texture::DYNAMIC) || flags & Texture::RENDER_TARGET)
+            if (!(flags & Texture::DYNAMIC) || flags & Texture::BIND_RENDER_TARGET)
                 throw std::runtime_error("Texture is not dynamic");
 
-            if (!(flags & Texture::RENDER_TARGET))
+            if (!(flags & Texture::BIND_RENDER_TARGET))
             {
                 for (size_t level = 0; level < levels.size(); ++level)
                 {
