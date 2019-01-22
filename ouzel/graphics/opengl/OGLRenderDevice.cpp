@@ -920,6 +920,7 @@ namespace ouzel
             RenderDevice::process();
             executeAll();
 
+            OGLRenderTarget* currentRenderTarget = nullptr;
             OGLShader* currentShader = nullptr;
 
             CommandBuffer commandBuffer;
@@ -1001,7 +1002,7 @@ namespace ouzel
 
                             if (setRenderTargetParametersCommand->renderTarget)
                             {
-                                OGLTexture* renderTarget = static_cast<OGLTexture*>(resources[setRenderTargetParametersCommand->renderTarget - 1].get());
+                                OGLRenderTarget* renderTarget = static_cast<OGLRenderTarget*>(resources[setRenderTargetParametersCommand->renderTarget - 1].get());
                                 renderTarget->setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
                                 renderTarget->setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
                                 renderTarget->setClearColor(setRenderTargetParametersCommand->clearColor);
@@ -1022,19 +1023,18 @@ namespace ouzel
                         {
                             auto setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command.get());
 
-                            GLuint newFrameBufferId = 0;
-
                             if (setRenderTargetCommand->renderTarget)
                             {
-                                OGLTexture* renderTarget = static_cast<OGLTexture*>(resources[setRenderTargetCommand->renderTarget - 1].get());
+                                currentRenderTarget = static_cast<OGLRenderTarget*>(resources[setRenderTargetCommand->renderTarget - 1].get());
 
-                                if (!renderTarget->getFrameBufferId()) break;
-                                newFrameBufferId = renderTarget->getFrameBufferId();
+                                if (!currentRenderTarget->getFrameBufferId()) break;
+                                bindFrameBuffer(currentRenderTarget->getFrameBufferId());
                             }
                             else
-                                newFrameBufferId = frameBufferId;
-
-                            bindFrameBuffer(newFrameBufferId);
+                            {
+                                currentRenderTarget = nullptr;
+                                bindFrameBuffer(frameBufferId);
+                            }
 
                             // TODO: update cull mode
 
@@ -1043,27 +1043,20 @@ namespace ouzel
 
                         case Command::Type::CLEAR_RENDER_TARGET:
                         {
-                            auto clearCommand = static_cast<const ClearRenderTargetCommand*>(command.get());
+                            // auto clearCommand = static_cast<const ClearRenderTargetCommand*>(command.get());
 
-                            GLuint newFrameBufferId = 0;
                             GLbitfield newClearMask = 0;
                             std::array<float, 4> newClearColor;
                             GLfloat newClearDepth;
 
-                            if (clearCommand->renderTarget)
+                            if (currentRenderTarget)
                             {
-                                OGLTexture* renderTarget = static_cast<OGLTexture*>(resources[clearCommand->renderTarget - 1].get());
-
-                                if (!renderTarget->getFrameBufferId()) break;
-
-                                newFrameBufferId = renderTarget->getFrameBufferId();
-                                newClearColor = renderTarget->getFrameBufferClearColor();
-                                newClearDepth = renderTarget->getClearDepth();
-                                newClearMask = renderTarget->getClearMask();
+                                newClearColor = currentRenderTarget->getFrameBufferClearColor();
+                                newClearDepth = currentRenderTarget->getClearDepth();
+                                newClearMask = currentRenderTarget->getClearMask();
                             }
                             else
                             {
-                                newFrameBufferId = frameBufferId;
                                 newClearColor = frameBufferClearColor;
                                 newClearDepth = clearDepth;
                                 newClearMask = clearMask;
@@ -1071,8 +1064,6 @@ namespace ouzel
 
                             if (newClearMask)
                             {
-                                bindFrameBuffer(newFrameBufferId);
-
                                 if (newClearMask & GL_COLOR_BUFFER_BIT)
                                     setClearColorValue(newClearColor);
 

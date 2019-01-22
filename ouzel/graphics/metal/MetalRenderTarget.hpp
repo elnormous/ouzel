@@ -48,6 +48,10 @@ namespace ouzel
             void removeColorTexture(MetalTexture* texture);
             void setDepthTexture(MetalTexture* texture);
 
+            NSUInteger getSampleCount() const { return sampleCount; }
+            const std::vector<MTLPixelFormat>& getColorFormats() const { return colorFormats; }
+            MTLPixelFormat getDepthFormat() const { return depthFormat; }
+
             void setClearColorBuffer(bool clear);
             void setClearDepthBuffer(bool clear);
             void setClearColor(Color color);
@@ -61,6 +65,10 @@ namespace ouzel
         private:
             std::set<MetalTexture*> colorTextures;
             MetalTexture* depthTexture = nullptr;
+
+            NSUInteger sampleCount = 0;
+            std::vector<MTLPixelFormat> colorFormats;
+            MTLPixelFormat depthFormat;
 
             MTLRenderPassDescriptorPtr renderPassDescriptor = nil;
 

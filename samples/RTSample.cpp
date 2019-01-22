@@ -18,11 +18,21 @@ RTSample::RTSample():
 
     addLayer(&rtLayer);
 
-    std::shared_ptr<graphics::Texture> renderTarget = std::make_shared<graphics::Texture>(*engine->getRenderer());
-    renderTarget->init(Size2<uint32_t>(256, 256),
-                       graphics::Texture::BIND_RENDER_TARGET |
-                       graphics::Texture::BIND_SHADER |
-                       graphics::Texture::DEPTH_BUFFER, 1, 1);
+    std::shared_ptr<graphics::RenderTarget> renderTarget = std::make_shared<graphics::RenderTarget>(*engine->getRenderer());
+
+    std::shared_ptr<graphics::Texture> renderTexture = std::make_shared<graphics::Texture>(*engine->getRenderer(),
+                                                                                           Size2<uint32_t>(256, 256),
+                                                                                           graphics::Texture::BIND_RENDER_TARGET |
+                                                                                           graphics::Texture::BIND_SHADER, 1, 1);
+
+    std::shared_ptr<graphics::Texture> depthTexture = std::make_shared<graphics::Texture>(*engine->getRenderer(),
+                                                                                          Size2<uint32_t>(256, 256),
+                                                                                          graphics::Texture::BIND_RENDER_TARGET |
+                                                                                          graphics::Texture::BIND_SHADER, 1, 1,
+                                                                                          graphics::PixelFormat::DEPTH);
+
+    renderTarget->addColorTexture(renderTexture);
+    renderTarget->setDepthTexture(depthTexture);
     renderTarget->setClearColor(Color(0, 64, 0));
 
     rtCamera.setRenderTarget(renderTarget);
@@ -48,7 +58,7 @@ RTSample::RTSample():
     rtCharacter.addComponent(&characterSprite);
     rtLayer.addChild(&rtCharacter);
 
-    rtSprite.init(renderTarget);
+    rtSprite.init(renderTexture);
     rtActor.addComponent(&rtSprite);
     layer.addChild(&rtActor);
 

@@ -160,35 +160,6 @@ namespace ouzel
                 }
                 else if (FAILED(hr = renderDevice.getDevice()->CreateRenderTargetView(texture, &renderTargetViewDesc, &renderTargetView)))
                     throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 render target view");
-
-                if (flags & Texture::DEPTH_BUFFER)
-                {
-                    D3D11_TEXTURE2D_DESC depthStencilDescriptor;
-                    depthStencilDescriptor.Width = width;
-                    depthStencilDescriptor.Height = height;
-                    depthStencilDescriptor.MipLevels = 1;
-                    depthStencilDescriptor.ArraySize = 1;
-                    depthStencilDescriptor.Format = DXGI_FORMAT_D32_FLOAT;
-                    depthStencilDescriptor.SampleDesc.Count = sampleCount;
-                    depthStencilDescriptor.SampleDesc.Quality = 0;
-                    depthStencilDescriptor.Usage = D3D11_USAGE_DEFAULT;
-                    depthStencilDescriptor.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-                    if (flags & Texture::BIND_SHADER) textureDescriptor.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
-
-                    depthStencilDescriptor.CPUAccessFlags = 0;
-                    depthStencilDescriptor.MiscFlags = 0;
-
-                    if (FAILED(hr = renderDevice.getDevice()->CreateTexture2D(&depthStencilDescriptor, nullptr, &depthStencilTexture)))
-                        throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 depth stencil texture");
-
-                    D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
-                    depthStencilViewDesc.Format = DXGI_FORMAT_D32_FLOAT;
-                    depthStencilViewDesc.ViewDimension = (sampleCount > 1) ? D3D11_DSV_DIMENSION_TEXTURE2DMS : D3D11_DSV_DIMENSION_TEXTURE2D;
-                    depthStencilViewDesc.Flags = 0;
-
-                    if (FAILED(hr = renderDevice.getDevice()->CreateDepthStencilView(depthStencilTexture, &depthStencilViewDesc, &depthStencilView)))
-                        throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 depth stencil view");
-                }
             }
 
             samplerDescriptor.filter = renderDevice.getTextureFilter();
@@ -323,29 +294,6 @@ namespace ouzel
         {
             samplerDescriptor.maxAnisotropy = (maxAnisotropy == 0) ? renderDevice.getMaxAnisotropy() : maxAnisotropy;
             updateSamplerState();
-        }
-
-        void D3D11Texture::setClearColorBuffer(bool clear)
-        {
-            clearFrameBufferView = clear;
-        }
-
-        void D3D11Texture::setClearDepthBuffer(bool clear)
-        {
-            clearDepthBufferView = clear;
-        }
-
-        void D3D11Texture::setClearColor(Color color)
-        {
-            frameBufferClearColor[0] = color.normR();
-            frameBufferClearColor[1] = color.normG();
-            frameBufferClearColor[2] = color.normB();
-            frameBufferClearColor[3] = color.normA();
-        }
-
-        void D3D11Texture::setClearDepth(float newClearDepth)
-        {
-            clearDepth = newClearDepth;
         }
 
         void D3D11Texture::resolve()

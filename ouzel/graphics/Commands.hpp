@@ -191,13 +191,10 @@ namespace ouzel
         class ClearRenderTargetCommand: public Command
         {
         public:
-            explicit ClearRenderTargetCommand(uintptr_t initRenderTarget):
-                Command(Command::Type::CLEAR_RENDER_TARGET),
-                renderTarget(initRenderTarget)
+            explicit ClearRenderTargetCommand():
+                Command(Command::Type::CLEAR_RENDER_TARGET)
             {
             }
-
-            uintptr_t renderTarget;
         };
 
         // TODO: implement

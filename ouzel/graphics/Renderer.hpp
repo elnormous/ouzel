@@ -65,7 +65,7 @@ namespace ouzel
             void saveScreenshot(const std::string& filename);
 
             void setRenderTarget(uintptr_t renderTarget);
-            void clearRenderTarget(uintptr_t renderTarget);
+            void clearRenderTarget();
             void setCullMode(CullMode cullMode);
             void setFillMode(FillMode fillMode);
             void setScissorTest(bool enabled, const Rect<float>& rectangle);

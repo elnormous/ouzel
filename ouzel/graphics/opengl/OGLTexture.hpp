@@ -45,10 +45,6 @@ namespace ouzel
             void setAddressX(Texture::Address newAddressX);
             void setAddressY(Texture::Address newAddressY);
             void setMaxAnisotropy(uint32_t newMaxAnisotropy);
-            void setClearColorBuffer(bool clear);
-            void setClearDepthBuffer(bool clear);
-            void setClearColor(Color color);
-            void setClearDepth(float newClearDepth);
 
             inline uint32_t getFlags() const { return flags; }
             inline uint32_t getMipmaps() const { return mipmaps; }
@@ -60,14 +56,10 @@ namespace ouzel
             inline uint32_t getSampleCount() const { return sampleCount; }
 
             inline GLuint getTextureId() const { return textureId; }
+            inline GLuint getBufferId() const { return bufferId; }
 
-            inline GLuint getFrameBufferId() const { return frameBufferId; }
             inline GLsizei getWidth() const { return width; }
             inline GLsizei getHeight() const { return height; }
-
-            inline GLbitfield getClearMask() const { return clearMask; }
-            inline const std::array<GLfloat, 4>& getFrameBufferClearColor() const { return frameBufferClearColor; }
-            inline float getClearDepth() const { return clearDepth; }
 
         private:
             void createTexture();
@@ -83,21 +75,13 @@ namespace ouzel
             uint32_t maxAnisotropy = 0;
 
             GLuint textureId = 0;
+            GLuint bufferId = 0;
 
             GLsizei width = 0;
             GLsizei height = 0;
             GLenum internalPixelFormat = GL_NONE;
             GLenum pixelFormat = GL_NONE;
             GLenum pixelType = GL_NONE;
-
-            GLuint frameBufferId = 0;
-            GLuint colorBufferId = 0;
-            GLuint depthTextureId = 0;
-            GLuint depthBufferId = 0;
-
-            GLbitfield clearMask = 0;
-            std::array<GLfloat, 4> frameBufferClearColor{{0.0F, 0.0F, 0.0F, 0.0F}};
-            float clearDepth = 1.0F;
         };
     } // namespace graphics
 } // namespace ouzel
