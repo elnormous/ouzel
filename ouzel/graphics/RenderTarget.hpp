@@ -26,6 +26,12 @@ namespace ouzel
                          float initClearDepth);
             ~RenderTarget();
 
+            RenderTarget(const RenderTarget&) = delete;
+            RenderTarget& operator=(const RenderTarget&) = delete;
+
+            RenderTarget(RenderTarget&&) = delete;
+            RenderTarget& operator=(RenderTarget&&) = delete;
+
             inline uintptr_t getResource() const { return resource; }
 
             void addColorTexture(const std::shared_ptr<Texture>& texture);
