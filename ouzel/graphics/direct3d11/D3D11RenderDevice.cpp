@@ -389,8 +389,8 @@ namespace ouzel
                     {
                         case Command::Type::PRESENT:
                         {
-                            // TODO: fix if (currentRenderTarget)
-                            //    currentRenderTarget->resolve();
+                            if (currentRenderTarget)
+                                currentRenderTarget->resolve();
 
                             swapChain->Present(swapInterval, 0);
                             break;
@@ -471,6 +471,9 @@ namespace ouzel
                         case Command::Type::SET_RENDER_TARGET:
                         {
                             auto setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command.get());
+
+                            if (currentRenderTarget)
+                                currentRenderTarget->resolve();
 
                             if (setRenderTargetCommand->renderTarget)
                             {

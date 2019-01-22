@@ -38,6 +38,7 @@ namespace ouzel
             void setClearDepthBuffer(bool clear);
             void setClearColor(Color color);
             void setClearDepth(float newClearDepth);
+            void resolve();
 
             const std::vector<ID3D11RenderTargetView*>& getRenderTargetViews() const { return renderTargetViews; }
             ID3D11DepthStencilView* getDepthStencilView() const { return depthStencilView; }
