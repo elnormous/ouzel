@@ -403,6 +403,21 @@ namespace ouzel
                             break;
                         }
 
+                        case Command::INIT_RENDER_TARGET:
+                        {
+                            auto initRenderTargetCommand = static_cast<const InitRenderTargetCommand*>(command.get());
+                            std::unique_ptr<D3D11RenderTarget> renderTarget(new D3D11RenderTarget(*this,
+                                                                                                  initRenderTargetCommand->clearColorBuffer,
+                                                                                                  initRenderTargetCommand->clearDepthBuffer,
+                                                                                                  initRenderTargetCommand->clearColor,
+                                                                                                  initRenderTargetCommand->clearDepth));
+
+                            if (initRenderTargetCommand->renderTarget > resources.size())
+                                resources.resize(initRenderTargetCommand->renderTarget);
+                            resources[initRenderTargetCommand->renderTarget - 1] = std::move(renderTarget);
+                            break;
+                        }
+
                         case Command::Type::SET_RENDER_TARGET_PARAMETERS:
                         {
                             auto setRenderTargetParametersCommand = static_cast<const SetRenderTargetParametersCommand*>(command.get());

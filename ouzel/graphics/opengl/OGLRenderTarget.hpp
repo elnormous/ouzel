@@ -31,7 +31,11 @@ namespace ouzel
         class OGLRenderTarget final: public OGLRenderResource
         {
         public:
-            explicit OGLRenderTarget(OGLRenderDevice& renderDeviceOGL);
+            explicit OGLRenderTarget(OGLRenderDevice& renderDeviceOGL,
+                                     bool initClearColorBuffer = true,
+                                     bool initClearDepthBuffer = false,
+                                     Color initClearColor = Color(),
+                                     float initClearDepth = 1.0F);
             ~OGLRenderTarget();
 
             void reload() override;

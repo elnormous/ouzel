@@ -14,8 +14,19 @@ namespace ouzel
 {
     namespace graphics
     {
-        D3D11RenderTarget::D3D11RenderTarget(D3D11RenderDevice& renderDeviceD3D11):
-            D3D11RenderResource(renderDeviceD3D11)
+        D3D11RenderTarget::D3D11RenderTarget(D3D11RenderDevice& renderDeviceD3D11,
+                                             bool initClearColorBuffer,
+                                             bool initClearDepthBuffer,
+                                             Color initClearColor,
+                                             float initClearDepth):
+            D3D11RenderResource(renderDeviceD3D11),
+            clearFrameBufferView(initClearColorBuffer),
+            clearDepthBufferView(initClearDepthBuffer),
+            frameBufferClearColor{initClearColor.normR(),
+                initClearColor.normG(),
+                initClearColor.normB(),
+                initClearColor.normA()},
+            clearDepth(initClearDepth)
         {
         }
 

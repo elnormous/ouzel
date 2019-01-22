@@ -13,18 +13,27 @@ namespace ouzel
 {
     namespace graphics
     {
-        MetalRenderTarget::MetalRenderTarget(MetalRenderDevice& renderDeviceMetal):
+        MetalRenderTarget::MetalRenderTarget(MetalRenderDevice& renderDeviceMetal,
+                                             bool initClearColorBuffer,
+                                             bool initClearDepthBuffer,
+                                             Color initClearColor,
+                                             float initClearDepth):
             MetalRenderResource(renderDeviceMetal),
-            colorBufferLoadAction(MTLLoadActionDontCare),
-            depthBufferLoadAction(MTLLoadActionDontCare)
+            colorBufferLoadAction(initClearColorBuffer ? MTLLoadActionClear : MTLLoadActionDontCare),
+            depthBufferLoadAction(initClearDepthBuffer ? MTLLoadActionClear : MTLLoadActionDontCare),
+            clearColor(MTLClearColorMake(initClearColor.normR(),
+                                         initClearColor.normG(),
+                                         initClearColor.normB(),
+                                         initClearColor.normA())),
+            clearDepth(initClearDepth)
         {
             renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
 
             if (!renderPassDescriptor)
                 throw std::runtime_error("Failed to create Metal render pass descriptor");
 
-            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(0.0F, 0.0F, 0.0F, 0.0F);
-            renderPassDescriptor.depthAttachment.clearDepth = 1.0F;
+            renderPassDescriptor.colorAttachments[0].clearColor = clearColor;
+            renderPassDescriptor.depthAttachment.clearDepth = clearDepth;
         }
 
         MetalRenderTarget::~MetalRenderTarget()
