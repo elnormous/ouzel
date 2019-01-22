@@ -81,6 +81,23 @@ namespace ouzel
             if (pixelFormat == DXGI_FORMAT_UNKNOWN)
                 throw std::runtime_error("Invalid pixel format");
 
+            DXGI_FORMAT texturePixelFormat = pixelFormat;
+            DXGI_FORMAT shaderViewPixelFormat = pixelFormat;
+
+            if (flags & Texture::BIND_SHADER || flags & Texture::BIND_SHADER_MSAA)
+            {
+                if (initPixelFormat == PixelFormat::DEPTH)
+                {
+                    texturePixelFormat = DXGI_FORMAT_R32_TYPELESS;
+                    shaderViewPixelFormat = DXGI_FORMAT_R32_FLOAT;
+                }
+                else if (initPixelFormat == PixelFormat::DEPTH_STENCIL)
+                {
+                    texturePixelFormat = DXGI_FORMAT_R24G8_TYPELESS;
+                    shaderViewPixelFormat = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
+                }
+            }
+
             width = static_cast<UINT>(levels.front().size.v[0]);
             height = static_cast<UINT>(levels.front().size.v[1]);
 
@@ -92,7 +109,7 @@ namespace ouzel
             textureDescriptor.Height = height;
             textureDescriptor.MipLevels = static_cast<UINT>(levels.size());
             textureDescriptor.ArraySize = 1;
-            textureDescriptor.Format = pixelFormat;
+            textureDescriptor.Format = texturePixelFormat;
             textureDescriptor.SampleDesc.Count = 1;
             textureDescriptor.SampleDesc.Quality = 0;
             if (flags & Texture::BIND_RENDER_TARGET) textureDescriptor.Usage = D3D11_USAGE_DEFAULT;
@@ -101,7 +118,11 @@ namespace ouzel
 
             if (flags & Texture::BIND_RENDER_TARGET)
             {
-                textureDescriptor.BindFlags = (sampleCount == 1) ? D3D11_BIND_RENDER_TARGET : 0;
+                if (initPixelFormat == PixelFormat::DEPTH || initPixelFormat == PixelFormat::DEPTH_STENCIL)
+                    textureDescriptor.BindFlags = (sampleCount == 1) ? D3D11_BIND_DEPTH_STENCIL : 0;
+                else
+                    textureDescriptor.BindFlags = (sampleCount == 1) ? D3D11_BIND_RENDER_TARGET : 0;
+
                 if (flags & Texture::BIND_SHADER &&
                     !(flags & Texture::BIND_SHADER_MSAA))
                     textureDescriptor.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
@@ -143,11 +164,14 @@ namespace ouzel
                     msaaTextureDescriptor.Height = height;
                     msaaTextureDescriptor.MipLevels = 1;
                     msaaTextureDescriptor.ArraySize = 1;
-                    msaaTextureDescriptor.Format = pixelFormat;
+                    msaaTextureDescriptor.Format = texturePixelFormat;
                     msaaTextureDescriptor.SampleDesc.Count = sampleCount;
                     msaaTextureDescriptor.SampleDesc.Quality = 0;
                     msaaTextureDescriptor.Usage = D3D11_USAGE_DEFAULT;
-                    msaaTextureDescriptor.BindFlags = D3D11_BIND_RENDER_TARGET;
+                    if (initPixelFormat == PixelFormat::DEPTH || initPixelFormat == PixelFormat::DEPTH_STENCIL)
+                        msaaTextureDescriptor.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+                    else
+                        msaaTextureDescriptor.BindFlags = D3D11_BIND_RENDER_TARGET;
                     if (flags & Texture::Flags::BIND_SHADER_MSAA) msaaTextureDescriptor.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
                     msaaTextureDescriptor.CPUAccessFlags = 0;
                     msaaTextureDescriptor.MiscFlags = 0;
@@ -155,34 +179,63 @@ namespace ouzel
                     HRESULT hr;
                     if (FAILED(hr = renderDevice.getDevice()->CreateTexture2D(&msaaTextureDescriptor, nullptr, &msaaTexture)))
                         throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 texture");
-                    
-                    D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
-                    renderTargetViewDesc.Format = pixelFormat;
-                    renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2DMS;
-                    renderTargetViewDesc.Texture2D.MipSlice = 0;
 
-                    if (FAILED(hr = renderDevice.getDevice()->CreateRenderTargetView(msaaTexture, &renderTargetViewDesc, &renderTargetView)))
-                        throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 render target view");
+                    if (initPixelFormat == PixelFormat::DEPTH || initPixelFormat == PixelFormat::DEPTH_STENCIL)
+                    {
+                        D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
+                        depthStencilViewDesc.Format = pixelFormat;
+                        depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMS;
+                        depthStencilViewDesc.Texture2D.MipSlice = 0;
+                        depthStencilViewDesc.Flags = 0;
+
+                        if (FAILED(hr = renderDevice.getDevice()->CreateDepthStencilView(msaaTexture, &depthStencilViewDesc, &depthStencilView)))
+                            throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 depth stencil view");
+                    }
+                    else
+                    {
+                        D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
+                        renderTargetViewDesc.Format = pixelFormat;
+                        renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2DMS;
+                        renderTargetViewDesc.Texture2D.MipSlice = 0;
+
+                        if (FAILED(hr = renderDevice.getDevice()->CreateRenderTargetView(msaaTexture, &renderTargetViewDesc, &renderTargetView)))
+                            throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 render target view");
+                    }
                 }
                 else
                 {
-                    D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
-                    renderTargetViewDesc.Format = pixelFormat;
-                    renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
-                    renderTargetViewDesc.Texture2D.MipSlice = 0;
+                    if (initPixelFormat == PixelFormat::DEPTH || initPixelFormat == PixelFormat::DEPTH_STENCIL)
+                    {
+                        D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
+                        depthStencilViewDesc.Format = pixelFormat;
+                        depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+                        depthStencilViewDesc.Texture2D.MipSlice = 0;
+                        depthStencilViewDesc.Flags = 0;
 
-                    HRESULT hr;
-                    if (FAILED(hr = renderDevice.getDevice()->CreateRenderTargetView(texture, &renderTargetViewDesc, &renderTargetView)))
-                        throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 render target view");
+                        HRESULT hr;
+                        if (FAILED(hr = renderDevice.getDevice()->CreateDepthStencilView(texture, &depthStencilViewDesc, &depthStencilView)))
+                            throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 depth stencil view");
+                    }
+                    else
+                    {
+                        D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
+                        renderTargetViewDesc.Format = pixelFormat;
+                        renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+                        renderTargetViewDesc.Texture2D.MipSlice = 0;
+
+                        HRESULT hr;
+                        if (FAILED(hr = renderDevice.getDevice()->CreateRenderTargetView(texture, &renderTargetViewDesc, &renderTargetView)))
+                            throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create Direct3D 11 render target view");
+                    }
                 }
 
-                if (flags & Texture::BIND_SHADER)
+                if (flags & Texture::BIND_SHADER || flags & Texture::BIND_SHADER_MSAA)
                 {
                     D3D11_SHADER_RESOURCE_VIEW_DESC resourceViewDesc;
-                    resourceViewDesc.Format = pixelFormat;
+                    resourceViewDesc.Format = shaderViewPixelFormat;
                     resourceViewDesc.ViewDimension = (flags & Texture::BIND_SHADER_MSAA) ? D3D11_SRV_DIMENSION_TEXTURE2DMS : D3D11_SRV_DIMENSION_TEXTURE2D;
                     resourceViewDesc.Texture2D.MostDetailedMip = 0;
-                    resourceViewDesc.Texture2D.MipLevels = 0;
+                    resourceViewDesc.Texture2D.MipLevels = 1;
 
                     HRESULT hr;
                     if (FAILED(hr = renderDevice.getDevice()->CreateShaderResourceView(texture, &resourceViewDesc, &resourceView)))
@@ -192,7 +245,7 @@ namespace ouzel
             else
             {
                 D3D11_SHADER_RESOURCE_VIEW_DESC resourceViewDesc;
-                resourceViewDesc.Format = pixelFormat;
+                resourceViewDesc.Format = texturePixelFormat;
                 resourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
                 resourceViewDesc.Texture2D.MostDetailedMip = 0;
                 resourceViewDesc.Texture2D.MipLevels = static_cast<UINT>(levels.size());

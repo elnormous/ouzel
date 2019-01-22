@@ -389,8 +389,8 @@ namespace ouzel
                     {
                         case Command::Type::PRESENT:
                         {
-                            // TODO: fix if (currentRenderTarget)
-                            //    currentRenderTarget->resolve();
+                            if (currentRenderTarget)
+                                currentRenderTarget->resolve();
 
                             swapChain->Present(swapInterval, 0);
                             break;
@@ -472,10 +472,13 @@ namespace ouzel
                         {
                             auto setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command.get());
 
+                            if (currentRenderTarget)
+                                currentRenderTarget->resolve();
+
                             if (setRenderTargetCommand->renderTarget)
                             {
                                 currentRenderTarget = static_cast<D3D11RenderTarget*>(resources[setRenderTargetCommand->renderTarget - 1].get());
-                                context->OMSetRenderTargets(static_cast<UINT>(currentRenderTarget->getRenderTargetViews().size()), 
+                                context->OMSetRenderTargets(static_cast<UINT>(currentRenderTarget->getRenderTargetViews().size()),
                                                             currentRenderTarget->getRenderTargetViews().data(),
                                                             currentRenderTarget->getDepthStencilView());
                             }

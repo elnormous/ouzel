@@ -16,12 +16,12 @@ namespace ouzel
     void Box3<T>::getCorners(Vector3<T>* dst) const
     {
         // Near face, specified counter-clockwise looking towards the origin from the positive v[2]-axis
-        
+
         // left-bottom-front
         dst[0].v[0] = min.v[0];
         dst[0].v[1] = min.v[1];
         dst[0].v[2] = min.v[2];
-        
+
         // right-bottom-front
         dst[1].v[0] = max.v[0];
         dst[1].v[1] = min.v[1];

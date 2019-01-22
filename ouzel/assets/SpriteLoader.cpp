@@ -41,7 +41,7 @@ namespace ouzel
 
             const Size2<float> textureSize(static_cast<float>(spriteData.texture->getSize().v[0]),
                                            static_cast<float>(spriteData.texture->getSize().v[1]));
-            
+
             const json::Value& framesArray = document["frames"];
 
             scene::SpriteData::Animation animation;
