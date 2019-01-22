@@ -37,7 +37,11 @@ namespace ouzel
         class MetalRenderTarget final: public MetalRenderResource
         {
         public:
-            explicit MetalRenderTarget(MetalRenderDevice& renderDeviceMetal);
+            explicit MetalRenderTarget(MetalRenderDevice& renderDeviceMetal,
+                                       bool initClearColorBuffer = true,
+                                       bool initClearDepthBuffer = false,
+                                       Color initClearColor = Color(),
+                                       float initClearDepth = 1.0F);
             ~MetalRenderTarget();
 
             void addColorTexture(MetalTexture* texture);

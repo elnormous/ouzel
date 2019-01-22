@@ -953,6 +953,21 @@ namespace ouzel
                             break;
                         }
 
+                        case Command::INIT_RENDER_TARGET:
+                        {
+                            auto initRenderTargetCommand = static_cast<const InitRenderTargetCommand*>(command.get());
+                            std::unique_ptr<OGLRenderTarget> renderTarget(new OGLRenderTarget(*this,
+                                                                                              initRenderTargetCommand->clearColorBuffer,
+                                                                                              initRenderTargetCommand->clearDepthBuffer,
+                                                                                              initRenderTargetCommand->clearColor,
+                                                                                              initRenderTargetCommand->clearDepth));
+
+                            if (initRenderTargetCommand->renderTarget > resources.size())
+                                resources.resize(initRenderTargetCommand->renderTarget);
+                            resources[initRenderTargetCommand->renderTarget - 1] = std::move(renderTarget);
+                            break;
+                        }
+
                         case Command::ADD_RENDER_TARGET_COLOR_TEXTURE:
                         {
                             auto addRenderTargetColorTextureCommand = static_cast<const AddRenderTargetColorTextureCommand*>(command.get());

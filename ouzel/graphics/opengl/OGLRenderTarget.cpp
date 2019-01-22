@@ -13,8 +13,19 @@ namespace ouzel
 {
     namespace graphics
     {
-        OGLRenderTarget::OGLRenderTarget(OGLRenderDevice& renderDeviceOGL):
-            OGLRenderResource(renderDeviceOGL)
+        OGLRenderTarget::OGLRenderTarget(OGLRenderDevice& renderDeviceOGL,
+                                         bool initClearColorBuffer,
+                                         bool initClearDepthBuffer,
+                                         Color initClearColor,
+                                         float initClearDepth):
+            OGLRenderResource(renderDeviceOGL),
+            clearMask((initClearColorBuffer ? GL_COLOR_BUFFER_BIT : 0) |
+                      (initClearDepthBuffer ? GL_DEPTH_BUFFER_BIT : 0)),
+            frameBufferClearColor{initClearColor.normR(),
+                initClearColor.normG(),
+                initClearColor.normB(),
+                initClearColor.normA()},
+            clearDepth(initClearDepth)
         {
             glGenFramebuffersProc(1, &frameBufferId);
 
@@ -22,8 +33,6 @@ namespace ouzel
 
             if ((error = glGetErrorProc()) != GL_NO_ERROR)
                 throw std::system_error(makeErrorCode(error), "Failed to upload texture data");
-
-            clearMask = GL_COLOR_BUFFER_BIT;
         }
 
         OGLRenderTarget::~OGLRenderTarget()
