@@ -478,7 +478,7 @@ namespace ouzel
                             if (setRenderTargetCommand->renderTarget)
                             {
                                 currentRenderTarget = static_cast<D3D11RenderTarget*>(resources[setRenderTargetCommand->renderTarget - 1].get());
-                                context->OMSetRenderTargets(static_cast<UINT>(currentRenderTarget->getRenderTargetViews().size()), 
+                                context->OMSetRenderTargets(static_cast<UINT>(currentRenderTarget->getRenderTargetViews().size()),
                                                             currentRenderTarget->getRenderTargetViews().data(),
                                                             currentRenderTarget->getDepthStencilView());
                             }

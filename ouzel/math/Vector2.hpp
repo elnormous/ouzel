@@ -48,7 +48,7 @@ namespace ouzel
 
         inline T& x() { return v[0]; }
         inline T x() const { return v[0]; }
-        
+
         inline T& y() { return v[1]; }
         inline T y() const { return v[1]; }
 

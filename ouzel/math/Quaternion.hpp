@@ -31,7 +31,7 @@ namespace ouzel
 
         inline T& operator[](size_t index) { return v[index]; }
         inline T operator[](size_t index) const { return v[index]; }
-        
+
         inline T& x() { return v[0]; }
         inline T x() const { return v[0]; }
 
@@ -273,7 +273,7 @@ namespace ouzel
         {
             return atan2f(2.0F * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2]);
         }
-        
+
         void setEulerAngles(const Vector3<T>& angles)
         {
             float angle;
