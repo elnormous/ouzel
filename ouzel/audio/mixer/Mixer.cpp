@@ -121,7 +121,7 @@ namespace ouzel
                             if (initSourceDataCommand->sourceDataId > objects.size())
                                 objects.resize(initSourceDataCommand->sourceDataId);
 
-                            objects[initSourceDataCommand->sourceDataId - 1] = std::move(initSourceDataCommand->sourceData);
+                            objects[initSourceDataCommand->sourceDataId - 1] = initSourceDataCommand->initFunction();
                             break;
                         }
                         case Command::Type::SET_SOURCE_OUTPUT:

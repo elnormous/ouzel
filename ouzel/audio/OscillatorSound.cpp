@@ -155,7 +155,9 @@ namespace ouzel
 
         OscillatorSound::OscillatorSound(Audio& initAudio, float initFrequency,
                                          Type initType, float initAmplitude, float initLength):
-            Sound(initAudio, initAudio.initSourceData(std::unique_ptr<mixer::SourceData>(new OscillatorData(initFrequency, initType, initAmplitude, initLength)))),
+            Sound(initAudio, initAudio.initSourceData([initFrequency, initType, initAmplitude, initLength](){
+                return std::unique_ptr<mixer::SourceData>(new OscillatorData(initFrequency, initType, initAmplitude, initLength));
+            })),
             type(initType),
             frequency(initFrequency),
             amplitude(initAmplitude),

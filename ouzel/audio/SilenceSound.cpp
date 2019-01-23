@@ -99,7 +99,9 @@ namespace ouzel
         }
 
         SilenceSound::SilenceSound(Audio& initAudio, float initLength):
-            Sound(initAudio, initAudio.initSourceData(std::unique_ptr<mixer::SourceData>(new SilenceData(initLength)))),
+            Sound(initAudio, initAudio.initSourceData([initLength](){
+                return std::unique_ptr<mixer::SourceData>(new SilenceData(initLength));
+            })),
             length(initLength)
         {
         }
