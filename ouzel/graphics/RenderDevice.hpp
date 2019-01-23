@@ -78,7 +78,6 @@ namespace ouzel
             inline uint16_t getAPIMinorVersion() const { return apiMinorVersion; }
 
             inline bool isNPOTTexturesSupported() const { return npotTexturesSupported; }
-            inline bool isMultisamplingSupported() const { return multisamplingSupported; }
             inline bool isAnisotropicFilteringSupported() const { return anisotropicFilteringSupported; }
             inline bool isRenderTargetsSupported() const { return renderTargetsSupported; }
 
@@ -143,7 +142,6 @@ namespace ouzel
             bool debugRenderer = false;
 
             bool npotTexturesSupported = true;
-            bool multisamplingSupported = true;
             bool anisotropicFilteringSupported = true;
             bool renderTargetsSupported = true;
 
