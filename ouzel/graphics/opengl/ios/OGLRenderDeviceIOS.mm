@@ -120,12 +120,6 @@ namespace ouzel
             createFrameBuffer();
         }
 
-        /*void OGLRenderDeviceIOS::lockContext()
-        {
-            if (![EAGLContext setCurrentContext:context])
-                throw std::runtime_error("Failed to set current OpenGL context");
-        }*/
-
         void OGLRenderDeviceIOS::present()
         {
             if (sampleCount > 1)
