@@ -52,7 +52,6 @@
     <ClCompile Include="..\ouzel\audio\mixer\Processor.cpp" />
     <ClCompile Include="..\ouzel\audio\Containers.cpp" />
     <ClCompile Include="..\ouzel\audio\Listener.cpp" />
-    <ClCompile Include="..\ouzel\audio\Source.cpp" />
     <ClCompile Include="..\ouzel\audio\Voice.cpp" />
     <ClCompile Include="..\ouzel\audio\SilenceSound.cpp" />
     <ClCompile Include="..\ouzel\audio\Sound.cpp" />
@@ -230,7 +229,6 @@
     <ClInclude Include="..\ouzel\audio\Containers.hpp" />
     <ClInclude Include="..\ouzel\audio\SampleFormat.hpp" />
     <ClInclude Include="..\ouzel\audio\Listener.hpp" />
-    <ClInclude Include="..\ouzel\audio\Source.hpp" />
     <ClInclude Include="..\ouzel\audio\Voice.hpp" />
     <ClInclude Include="..\ouzel\audio\SilenceSound.hpp" />
     <ClInclude Include="..\ouzel\audio\Sound.hpp" />

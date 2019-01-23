@@ -478,9 +478,6 @@
     <ClCompile Include="..\ouzel\audio\Containers.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\Source.cpp">
-      <Filter>ouzel\audio</Filter>
-    </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>ouzel</Filter>
     </ClCompile>
@@ -1048,9 +1045,6 @@
       <Filter>ouzel\audio\mixer</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\Containers.hpp">
-      <Filter>ouzel\audio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\audio\Source.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
