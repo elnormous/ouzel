@@ -27,11 +27,11 @@ namespace ouzel
                 initClearColor.normA()},
             clearDepth(initClearDepth)
         {
-            glGenFramebuffersProc(1, &frameBufferId);
+            renderDevice.glGenFramebuffersProc(1, &frameBufferId);
 
             GLenum error;
 
-            if ((error = glGetErrorProc()) != GL_NO_ERROR)
+            if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
                 throw std::system_error(makeErrorCode(error), "Failed to upload texture data");
         }
 
@@ -47,7 +47,7 @@ namespace ouzel
                 colorTexture->reload();
             if (depthTexture) depthTexture->reload();
 
-            glGenFramebuffersProc(1, &frameBufferId);
+            renderDevice.glGenFramebuffersProc(1, &frameBufferId);
         }
 
         void OGLRenderTarget::addColorTexture(OGLTexture* texture)
@@ -58,19 +58,19 @@ namespace ouzel
                 renderDevice.bindFrameBuffer(frameBufferId);
 
                 if (texture->getTextureId())
-                    glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, GL_TEXTURE_2D, texture->getTextureId(), 0);
+                    renderDevice.glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, GL_TEXTURE_2D, texture->getTextureId(), 0);
                 else
-                    glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, GL_RENDERBUFFER, texture->getBufferId());
+                    renderDevice.glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, GL_RENDERBUFFER, texture->getBufferId());
 
                 GLenum error;
-                if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
                     throw std::system_error(makeErrorCode(error), "Failed to set frame buffer's color render buffer");
 
                 GLenum status;
-                if ((status = glCheckFramebufferStatusProc(GL_FRAMEBUFFER)) != GL_FRAMEBUFFER_COMPLETE)
+                if ((status = renderDevice.glCheckFramebufferStatusProc(GL_FRAMEBUFFER)) != GL_FRAMEBUFFER_COMPLETE)
                     throw std::runtime_error("Failed to create frame buffer, status: " + std::to_string(status));
 
-                if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
                     throw std::system_error(makeErrorCode(error), "Failed to check frame buffer status");
             }
         }
@@ -86,21 +86,21 @@ namespace ouzel
                 GLenum index = 0;
                 for (OGLTexture* colorTexture : colorTextures)
                 {
-                    glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, GL_TEXTURE_2D, colorTexture->getTextureId(), 0);
+                    renderDevice.glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, GL_TEXTURE_2D, colorTexture->getTextureId(), 0);
                     ++index;
                 }
 
-                glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, GL_TEXTURE_2D, 0, 0);
+                renderDevice.glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, GL_TEXTURE_2D, 0, 0);
 
                 GLenum error;
-                if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
                     throw std::system_error(makeErrorCode(error), "Failed to set frame buffer's color render buffer");
 
                 GLenum status;
-                if ((status = glCheckFramebufferStatusProc(GL_FRAMEBUFFER)) != GL_FRAMEBUFFER_COMPLETE)
+                if ((status = renderDevice.glCheckFramebufferStatusProc(GL_FRAMEBUFFER)) != GL_FRAMEBUFFER_COMPLETE)
                     throw std::runtime_error("Failed to create frame buffer, status: " + std::to_string(status));
 
-                if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
                     throw std::system_error(makeErrorCode(error), "Failed to check frame buffer status");
             }
         }
@@ -113,18 +113,18 @@ namespace ouzel
             {
                 renderDevice.bindFrameBuffer(frameBufferId);
 
-                glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, texture->getTextureId(), 0);
+                renderDevice.glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, texture->getTextureId(), 0);
                 //glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, texture->getBufferId());
 
                 GLenum error;
-                if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
                     throw std::system_error(makeErrorCode(error), "Failed to set frame buffer's depth render buffer");
 
                 GLenum status;
-                if ((status = glCheckFramebufferStatusProc(GL_FRAMEBUFFER)) != GL_FRAMEBUFFER_COMPLETE)
+                if ((status = renderDevice.glCheckFramebufferStatusProc(GL_FRAMEBUFFER)) != GL_FRAMEBUFFER_COMPLETE)
                     throw std::runtime_error("Failed to create frame buffer, status: " + std::to_string(status));
 
-                if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
                     throw std::system_error(makeErrorCode(error), "Failed to check frame buffer status");
             }
         }

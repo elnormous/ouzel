@@ -43,118 +43,6 @@
 #include "utils/Utils.hpp"
 #include "stb_image_write.h"
 
-PFNGLGETINTEGERVPROC glGetIntegervProc;
-PFNGLGETSTRINGPROC glGetStringProc;
-PFNGLGETERRORPROC glGetErrorProc;
-PFNGLENABLEPROC glEnableProc;
-PFNGLDISABLEPROC glDisableProc;
-PFNGLBINDTEXTUREPROC glBindTextureProc;
-PFNGLGENTEXTURESPROC glGenTexturesProc;
-PFNGLDELETETEXTURESPROC glDeleteTexturesProc;
-PFNGLTEXPARAMETERIPROC glTexParameteriProc;
-PFNGLTEXIMAGE2DPROC glTexImage2DProc;
-PFNGLTEXSUBIMAGE2DPROC glTexSubImage2DProc;
-PFNGLVIEWPORTPROC glViewportProc;
-PFNGLCLEARPROC glClearProc;
-PFNGLCLEARCOLORPROC glClearColorProc;
-PFNGLCOLORMASKPROC glColorMaskProc;
-PFNGLDEPTHMASKPROC glDepthMaskProc;
-PFNGLDEPTHFUNCPROC glDepthFuncProc;
-PFNGLCULLFACEPROC glCullFaceProc;
-PFNGLSCISSORPROC glScissorProc;
-PFNGLDRAWELEMENTSPROC glDrawElementsProc;
-PFNGLREADPIXELSPROC glReadPixelsProc;
-
-PFNGLBLENDFUNCSEPARATEPROC glBlendFuncSeparateProc;
-PFNGLBLENDEQUATIONSEPARATEPROC glBlendEquationSeparateProc;
-
-PFNGLUNIFORM1IPROC glUniform1iProc;
-PFNGLUNIFORM1FVPROC glUniform1fvProc;
-PFNGLUNIFORM2FVPROC glUniform2fvProc;
-PFNGLUNIFORM3FVPROC glUniform3fvProc;
-PFNGLUNIFORM4FVPROC glUniform4fvProc;
-PFNGLUNIFORM1IVPROC glUniform1ivProc;
-PFNGLUNIFORM2IVPROC glUniform2ivProc;
-PFNGLUNIFORM3IVPROC glUniform3ivProc;
-PFNGLUNIFORM4IVPROC glUniform4ivProc;
-PFNGLUNIFORM1UIVPROC glUniform1uivProc;
-PFNGLUNIFORM2UIVPROC glUniform2uivProc;
-PFNGLUNIFORM3UIVPROC glUniform3uivProc;
-PFNGLUNIFORM4UIVPROC glUniform4uivProc;
-PFNGLUNIFORMMATRIX3FVPROC glUniformMatrix3fvProc;
-PFNGLUNIFORMMATRIX4FVPROC glUniformMatrix4fvProc;
-
-PFNGLACTIVETEXTUREPROC glActiveTextureProc;
-PFNGLGENRENDERBUFFERSPROC glGenRenderbuffersProc;
-PFNGLDELETERENDERBUFFERSPROC glDeleteRenderbuffersProc;
-PFNGLBINDRENDERBUFFERPROC glBindRenderbufferProc;
-PFNGLRENDERBUFFERSTORAGEPROC glRenderbufferStorageProc;
-
-PFNGLGENFRAMEBUFFERSPROC glGenFramebuffersProc;
-PFNGLDELETEFRAMEBUFFERSPROC glDeleteFramebuffersProc;
-PFNGLBINDFRAMEBUFFERPROC glBindFramebufferProc;
-PFNGLCHECKFRAMEBUFFERSTATUSPROC glCheckFramebufferStatusProc;
-PFNGLFRAMEBUFFERRENDERBUFFERPROC glFramebufferRenderbufferProc;
-PFNGLBLITFRAMEBUFFERPROC glBlitFramebufferProc;
-PFNGLFRAMEBUFFERTEXTURE2DPROC glFramebufferTexture2DProc;
-PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC glRenderbufferStorageMultisampleProc;
-
-#if OUZEL_SUPPORTS_OPENGLES
-PFNGLCLEARDEPTHFPROC glClearDepthfProc;
-PFNGLMAPBUFFEROESPROC glMapBufferProc;
-PFNGLUNMAPBUFFEROESPROC glUnmapBufferProc;
-PFNGLMAPBUFFERRANGEEXTPROC glMapBufferRangeProc;
-PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC glFramebufferTexture2DMultisampleProc;
-PFNGLCOPYIMAGESUBDATAEXTPROC glCopyImageSubDataProc;
-#  if OUZEL_OPENGL_INTERFACE_EAGL
-PFNGLDISCARDFRAMEBUFFEREXTPROC glDiscardFramebufferEXTProc;
-PFNGLRENDERBUFFERSTORAGEMULTISAMPLEAPPLEPROC glRenderbufferStorageMultisampleAPPLEProc;
-PFNGLRESOLVEMULTISAMPLEFRAMEBUFFERAPPLEPROC glResolveMultisampleFramebufferAPPLEProc;
-#  endif
-#else
-PFNGLPOLYGONMODEPROC glPolygonModeProc;
-PFNGLCLEARDEPTHPROC glClearDepthProc;
-PFNGLMAPBUFFERPROC glMapBufferProc;
-PFNGLUNMAPBUFFERPROC glUnmapBufferProc;
-PFNGLMAPBUFFERRANGEPROC glMapBufferRangeProc;
-PFNGLCOPYIMAGESUBDATAPROC glCopyImageSubDataProc;
-#endif
-
-PFNGLCREATESHADERPROC glCreateShaderProc;
-PFNGLDELETESHADERPROC glDeleteShaderProc;
-PFNGLATTACHSHADERPROC glAttachShaderProc;
-PFNGLDETACHSHADERPROC glDetachShaderProc;
-PFNGLSHADERSOURCEPROC glShaderSourceProc;
-PFNGLCOMPILESHADERPROC glCompileShaderProc;
-PFNGLBINDATTRIBLOCATIONPROC glBindAttribLocationProc;
-PFNGLGETSHADERIVPROC glGetShaderivProc;
-PFNGLGETSHADERINFOLOGPROC glGetShaderInfoLogProc;
-
-PFNGLCREATEPROGRAMPROC glCreateProgramProc;
-PFNGLDELETEPROGRAMPROC glDeleteProgramProc;
-PFNGLUSEPROGRAMPROC glUseProgramProc;
-PFNGLLINKPROGRAMPROC glLinkProgramProc;
-PFNGLGETPROGRAMIVPROC glGetProgramivProc;
-PFNGLGETPROGRAMINFOLOGPROC glGetProgramInfoLogProc;
-PFNGLGETUNIFORMLOCATIONPROC glGetUniformLocationProc;
-
-PFNGLBINDBUFFERPROC glBindBufferProc;
-PFNGLDELETEBUFFERSPROC glDeleteBuffersProc;
-PFNGLGENBUFFERSPROC glGenBuffersProc;
-PFNGLBUFFERDATAPROC glBufferDataProc;
-PFNGLBUFFERSUBDATAPROC glBufferSubDataProc;
-
-PFNGLGENVERTEXARRAYSPROC glGenVertexArraysProc;
-PFNGLBINDVERTEXARRAYPROC glBindVertexArrayProc;
-PFNGLDELETEVERTEXARRAYSPROC glDeleteVertexArraysProc;
-PFNGLENABLEVERTEXATTRIBARRAYPROC glEnableVertexAttribArrayProc;
-PFNGLDISABLEVERTEXATTRIBARRAYPROC glDisableVertexAttribArrayProc;
-PFNGLVERTEXATTRIBPOINTERPROC glVertexAttribPointerProc;
-
-PFNGLGETSTRINGIPROC glGetStringiProc;
-PFNGLPUSHGROUPMARKEREXTPROC glPushGroupMarkerEXTProc;
-PFNGLPOPGROUPMARKEREXTPROC glPopGroupMarkerEXTProc;
-
 template<typename T>
 static inline T getCoreProcAddress(const char* name)
 {
@@ -620,7 +508,7 @@ namespace ouzel
 
             anisotropicFilteringSupported = false;
             npotTexturesSupported = false;
-            multisamplingSupported = false;
+            bool multisamplingSupported = false;
             textureBaseLevelSupported = false;
             textureMaxLevelSupported = false;
             renderTargetsSupported = false;
@@ -629,17 +517,25 @@ namespace ouzel
             {
 #if !OUZEL_SUPPORTS_OPENGLES
                 if ((apiMajorVersion == 4 && apiMinorVersion >= 6) || // at least OpenGL 4.6
-                    apiMajorVersion >= 5)
+                    apiMajorVersion > 4)
                     anisotropicFilteringSupported = true;
 
                 if ((apiMajorVersion == 4 && apiMinorVersion >= 3) || // at least OpenGL 4.3
-                    apiMajorVersion >= 5)
+                    apiMajorVersion > 4)
+                {
                     glCopyImageSubDataProc = getExtProcAddress<PFNGLCOPYIMAGESUBDATAPROC>("glCopyImageSubData");
+                    glTexStorage2DMultisampleProc = getExtProcAddress<PFNGLTEXSTORAGE2DMULTISAMPLEPROC>("glTexStorage2DMultisample");
+                }
 #endif
             }
 
             if (apiMajorVersion >= 3)
             {
+#if OUZEL_SUPPORTS_OPENGLES
+                if ((apiMajorVersion == 3 && apiMinorVersion >= 1) || // at least OpenGL ES 3.1
+                    apiMajorVersion > 3)
+                    glTexStorage2DMultisampleProc = getExtProcAddress<PFNGLTEXSTORAGE2DMULTISAMPLEPROC>("glTexStorage2DMultisample");
+#endif
                 npotTexturesSupported = true;
                 multisamplingSupported = true;
                 textureBaseLevelSupported = true;
@@ -723,7 +619,7 @@ namespace ouzel
                     glMapBufferRangeProc = getExtProcAddress<PFNGLMAPBUFFERRANGEPROC>("glMapBufferRangeEXT");
 #endif
                 }
-#if OUZEL_SUPPORTS_OPENGLES
+#if OUZEL_SUPPORTS_OPENGLES // OpenGL ES
                 else if (extension == "GL_APPLE_framebuffer_multisample")
                 {
                     multisamplingSupported = true;
@@ -757,7 +653,7 @@ namespace ouzel
                     glFramebufferTexture2DMultisampleProc = getExtProcAddress<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>("glFramebufferTexture2DMultisampleIMG");
                 }
 #  endif
-#else
+#else // OpenGL
                 else if (extension == "GL_ARB_copy_image")
                     glCopyImageSubDataProc = getExtProcAddress<PFNGLCOPYIMAGESUBDATAPROC>("glCopyImageSubData");
                 else if (extension == "GL_ARB_vertex_array_object")
@@ -788,6 +684,11 @@ namespace ouzel
                 {
                     multisamplingSupported = true;
                     glRenderbufferStorageMultisampleProc = getExtProcAddress<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>("glRenderbufferStorageMultisample");
+                }
+                else if (extension == "GL_EXT_multisampled_render_to_texture")
+                {
+                    glRenderbufferStorageMultisampleProc = getExtProcAddress<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>("glRenderbufferStorageMultisample");
+                    glTexStorage2DMultisampleProc = getExtProcAddress<PFNGLTEXSTORAGE2DMULTISAMPLEPROC>("glTexStorage2DMultisample");
                 }
 #endif
             }
@@ -860,7 +761,7 @@ namespace ouzel
             frameBufferHeight = static_cast<GLsizei>(size.v[1]);
         }
 
-        static void setUniform(GLint location, DataType dataType, const void* data)
+        void OGLRenderDevice::setUniform(GLint location, DataType dataType, const void* data)
         {
             switch (dataType)
             {
