@@ -82,7 +82,6 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/audio/PCMSound.cpp \
 	$(ROOT_DIR)/../ouzel/audio/SilenceSound.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Sound.cpp \
-	$(ROOT_DIR)/../ouzel/audio/Source.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Submix.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Voice.cpp \
 	$(ROOT_DIR)/../ouzel/audio/VorbisSound.cpp \

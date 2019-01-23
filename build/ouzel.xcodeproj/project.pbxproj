@@ -907,12 +907,6 @@
 		30FF4D3221C33B4900153FFF /* Containers.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30FF4D2E21C33B4900153FFF /* Containers.hpp */; };
 		30FF4D3321C33B4900153FFF /* Containers.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30FF4D2E21C33B4900153FFF /* Containers.hpp */; };
 		30FF4D3421C33B4A00153FFF /* Containers.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30FF4D2E21C33B4900153FFF /* Containers.hpp */; };
-		30FF4D4721C33D9B00153FFF /* Source.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30FF4D4521C33D9B00153FFF /* Source.cpp */; };
-		30FF4D4821C33D9B00153FFF /* Source.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30FF4D4521C33D9B00153FFF /* Source.cpp */; };
-		30FF4D4921C33D9B00153FFF /* Source.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30FF4D4521C33D9B00153FFF /* Source.cpp */; };
-		30FF4D4A21C33D9B00153FFF /* Source.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30FF4D4621C33D9B00153FFF /* Source.hpp */; };
-		30FF4D4B21C33D9B00153FFF /* Source.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30FF4D4621C33D9B00153FFF /* Source.hpp */; };
-		30FF4D4C21C33D9B00153FFF /* Source.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30FF4D4621C33D9B00153FFF /* Source.hpp */; };
 		30FF4D4F21C48DB600153FFF /* Filters.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30FF4D4D21C48DB400153FFF /* Filters.hpp */; };
 		30FF4D5021C48DB600153FFF /* Filters.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30FF4D4D21C48DB400153FFF /* Filters.hpp */; };
 		30FF4D5121C48DB600153FFF /* Filters.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30FF4D4D21C48DB400153FFF /* Filters.hpp */; };
@@ -1345,8 +1339,6 @@
 		30FE384D1DFDE49E00305B3B /* Quaternion.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Quaternion.hpp; sourceTree = "<group>"; };
 		30FF4D2D21C33B4900153FFF /* Containers.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Containers.cpp; sourceTree = "<group>"; };
 		30FF4D2E21C33B4900153FFF /* Containers.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Containers.hpp; sourceTree = "<group>"; };
-		30FF4D4521C33D9B00153FFF /* Source.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Source.cpp; sourceTree = "<group>"; };
-		30FF4D4621C33D9B00153FFF /* Source.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Source.hpp; sourceTree = "<group>"; };
 		30FF4D4D21C48DB400153FFF /* Filters.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Filters.hpp; sourceTree = "<group>"; };
 		30FF4D4E21C48DB500153FFF /* Filters.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Filters.cpp; sourceTree = "<group>"; };
 		30FFBE312158FB3F004B0BD3 /* Touchpad.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Touchpad.cpp; sourceTree = "<group>"; };
@@ -1783,8 +1775,6 @@
 				302B728321BDE302006EBC59 /* SilenceSound.hpp */,
 				30419DEF1D162BEF00A63759 /* Sound.cpp */,
 				30419DF01D162BEF00A63759 /* Sound.hpp */,
-				30FF4D4521C33D9B00153FFF /* Source.cpp */,
-				30FF4D4621C33D9B00153FFF /* Source.hpp */,
 				30A3821621B4BDC80043568A /* Submix.cpp */,
 				30A3821721B4BDC80043568A /* Submix.hpp */,
 				30419DE71D162BDC00A63759 /* Voice.cpp */,
@@ -2170,7 +2160,6 @@
 				304736DC1E0B4776009BC562 /* Box3.hpp in Headers */,
 				30ADCBBE1E9A957C000DC9AC /* MetalRenderDeviceIOS.hpp in Headers */,
 				30216B831ED5C3900073E3D5 /* Plane.hpp in Headers */,
-				30FF4D4A21C33D9B00153FFF /* Source.hpp in Headers */,
 				30575AC01C39D9850009C8A7 /* ActorContainer.hpp in Headers */,
 				309BA3161F183D6E006F2240 /* CAAudioDevice.hpp in Headers */,
 				30C3F294219D0DD9003FE9ED /* Object.hpp in Headers */,
@@ -2361,7 +2350,6 @@
 				303B76711C355A3B00FEDE92 /* ImageData.hpp in Headers */,
 				303B76721C355A3B00FEDE92 /* Renderer.hpp in Headers */,
 				3067D7AA209B450F008DF6AF /* InputSystem.hpp in Headers */,
-				30FF4D4C21C33D9B00153FFF /* Source.hpp in Headers */,
 				30A9C1361CAE80570084C4BF /* Localization.hpp in Headers */,
 				303B76731C355A3B00FEDE92 /* Size2.hpp in Headers */,
 				3017AEC021E5815100B07B53 /* Prefix.pch in Headers */,
@@ -2435,7 +2423,6 @@
 				C61B49EC2174B83900B818F1 /* SkinnedMeshData.hpp in Headers */,
 				304A8E501C237C70008B1151 /* ouzel.hpp in Headers */,
 				30575ABF1C39D9850009C8A7 /* ActorContainer.hpp in Headers */,
-				30FF4D4B21C33D9B00153FFF /* Source.hpp in Headers */,
 				3038216D1D81876E00677CAB /* EmptyAudioDevice.hpp in Headers */,
 				30519CB01F9B4E3E00AF3DC4 /* Loader.hpp in Headers */,
 				30DADE9F1C5167BC001A63B4 /* Cache.hpp in Headers */,
@@ -2734,7 +2721,6 @@
 				303821691D81876E00677CAB /* EmptyAudioDevice.cpp in Sources */,
 				30381FB51D80A3F900677CAB /* OALAudioDevice.cpp in Sources */,
 				3009030621922DEE00B00BF4 /* MetalDepthStencilState.mm in Sources */,
-				30FF4D4721C33D9B00153FFF /* Source.cpp in Sources */,
 				30EEADC721618F2C00D2F525 /* TouchpadDevice.cpp in Sources */,
 				30724D821F353A0800D915ED /* ViewIOS.mm in Sources */,
 				300C39F01E51355000330E4F /* PCMSound.cpp in Sources */,
@@ -2900,7 +2886,6 @@
 				30EEADC121618DC400D2F525 /* KeyboardDevice.cpp in Sources */,
 				3038216B1D81876E00677CAB /* EmptyAudioDevice.cpp in Sources */,
 				3009030821922DEE00B00BF4 /* MetalDepthStencilState.mm in Sources */,
-				30FF4D4921C33D9B00153FFF /* Source.cpp in Sources */,
 				30381FB71D80A3F900677CAB /* OALAudioDevice.cpp in Sources */,
 				300C39F21E51355000330E4F /* PCMSound.cpp in Sources */,
 				30A9C13C1CAEBA540084C4BF /* Language.cpp in Sources */,
@@ -3184,7 +3169,6 @@
 				30FFBE332158FB3F004B0BD3 /* Touchpad.cpp in Sources */,
 				303B04BE1E207B6D00011CBE /* OGLRenderDeviceMacOS.mm in Sources */,
 				30B546561D90575B00E45DB6 /* RadioButtonGroup.cpp in Sources */,
-				30FF4D4821C33D9B00153FFF /* Source.cpp in Sources */,
 				30A3821921B4BDC80043568A /* Submix.cpp in Sources */,
 				304A8E6E1C237C70008B1151 /* Utils.cpp in Sources */,
 				3009030721922DEE00B00BF4 /* MetalDepthStencilState.mm in Sources */,
