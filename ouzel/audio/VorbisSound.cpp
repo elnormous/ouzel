@@ -3,8 +3,8 @@
 #include <stdexcept>
 #include "VorbisSound.hpp"
 #include "Audio.hpp"
+#include "mixer/Stream.hpp"
 #include "mixer/Source.hpp"
-#include "mixer/SourceData.hpp"
 #include "utils/Utils.hpp"
 
 #include "stb_vorbis.c"
@@ -15,7 +15,7 @@ namespace ouzel
     {
         class VorbisData;
 
-        class VorbisSource: public mixer::Source
+        class VorbisSource: public mixer::Stream
         {
         public:
             VorbisSource(VorbisData& vorbisData);
@@ -37,7 +37,7 @@ namespace ouzel
             stb_vorbis* vorbisStream = nullptr;
         };
 
-        class VorbisData: public mixer::SourceData
+        class VorbisData: public mixer::Source
         {
         public:
             VorbisData(const std::vector<uint8_t>& initData):
@@ -58,9 +58,9 @@ namespace ouzel
 
             const std::vector<uint8_t>& getData() const { return data; }
 
-            std::unique_ptr<mixer::Source> createSource() override
+            std::unique_ptr<mixer::Stream> createStream() override
             {
-                return std::unique_ptr<mixer::Source>(new VorbisSource(*this));
+                return std::unique_ptr<mixer::Stream>(new VorbisSource(*this));
             }
 
         private:
@@ -68,7 +68,7 @@ namespace ouzel
         };
 
         VorbisSource::VorbisSource(VorbisData& vorbisData):
-            Source(vorbisData)
+            Stream(vorbisData)
         {
             const std::vector<uint8_t>& data = vorbisData.getData();
             vorbisStream = stb_vorbis_open_memory(data.data(), static_cast<int>(data.size()), nullptr, nullptr);
@@ -76,7 +76,7 @@ namespace ouzel
 
         void VorbisSource::getData(uint32_t frames, std::vector<float>& samples)
         {
-            uint32_t neededSize = frames * sourceData.getChannels();
+            uint32_t neededSize = frames * source.getChannels();
             samples.resize(neededSize);
 
             uint32_t totalSize = 0;
@@ -86,10 +86,10 @@ namespace ouzel
                 if (vorbisStream->eof)
                     reset();
 
-                int resultFrames = stb_vorbis_get_samples_float_interleaved(vorbisStream, sourceData.getChannels(),
+                int resultFrames = stb_vorbis_get_samples_float_interleaved(vorbisStream, source.getChannels(),
                                                                             samples.data() + totalSize, static_cast<int>(neededSize));
-                totalSize += static_cast<uint32_t>(resultFrames) * sourceData.getChannels();
-                neededSize -= static_cast<uint32_t>(resultFrames) * sourceData.getChannels();
+                totalSize += static_cast<uint32_t>(resultFrames) * source.getChannels();
+                neededSize -= static_cast<uint32_t>(resultFrames) * source.getChannels();
 
                 if (!isRepeating()) break;
             }
@@ -104,8 +104,8 @@ namespace ouzel
         }
 
         VorbisSound::VorbisSound(Audio& initAudio, const std::vector<uint8_t>& initData):
-            Sound(initAudio, initAudio.initSourceData([initData](){
-                return std::unique_ptr<mixer::SourceData>(new VorbisData(initData));
+            Sound(initAudio, initAudio.initSource([initData](){
+                return std::unique_ptr<mixer::Source>(new VorbisData(initData));
             }))
         {
         }

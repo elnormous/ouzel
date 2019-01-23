@@ -3,8 +3,8 @@
 #include <algorithm>
 #include "Bus.hpp"
 #include "Processor.hpp"
+#include "Stream.hpp"
 #include "Source.hpp"
-#include "SourceData.hpp"
 #include "math/MathUtils.hpp"
 
 namespace ouzel
@@ -24,8 +24,8 @@ namespace ouzel
                 for (Bus* inputBus : inputBuses)
                     inputBus->output = nullptr;
 
-                for (Source* source : inputSources)
-                    source->output = nullptr;
+                for (Stream* stream : inputStreams)
+                    stream->output = nullptr;
 
                 for (Processor* processor : processors)
                     processor->bus = nullptr;
@@ -246,21 +246,21 @@ namespace ouzel
                         samples[s] += buffer[s];
                 }
 
-                for (Source* source : inputSources)
+                for (Stream* stream : inputStreams)
                 {
-                    if (source->isPlaying())
+                    if (stream->isPlaying())
                     {
-                        const uint32_t sourceSampleRate = source->getSourceData().getSampleRate();
-                        const uint16_t sourceChannels = source->getSourceData().getChannels();
+                        const uint32_t sourceSampleRate = stream->getSource().getSampleRate();
+                        const uint16_t sourceChannels = stream->getSource().getChannels();
 
                         if (sourceSampleRate != sampleRate)
                         {
                             uint32_t sourceFrames = (frames * sourceSampleRate + sampleRate - 1) / sampleRate; // round up
-                            source->getData(sourceFrames, resampleBuffer);
+                            stream->getData(sourceFrames, resampleBuffer);
                             resample(sourceChannels, sourceFrames, resampleBuffer, frames, mixBuffer);
                         }
                         else
-                            source->getData(frames, mixBuffer);
+                            stream->getData(frames, mixBuffer);
 
                         if (sourceChannels != channels)
                             mix(frames, sourceChannels, mixBuffer, channels, buffer);
@@ -311,16 +311,16 @@ namespace ouzel
                 if (i != inputBuses.end()) inputBuses.erase(i);
             }
 
-            void Bus::addInput(Source* source)
+            void Bus::addInput(Stream* stream)
             {
-                auto i = std::find(inputSources.begin(), inputSources.end(), source);
-                if (i == inputSources.end()) inputSources.push_back(source);
+                auto i = std::find(inputStreams.begin(), inputStreams.end(), stream);
+                if (i == inputStreams.end()) inputStreams.push_back(stream);
             }
 
-            void Bus::removeInput(Source* source)
+            void Bus::removeInput(Stream* stream)
             {
-                auto i = std::find(inputSources.begin(), inputSources.end(), source);
-                if (i != inputSources.end()) inputSources.erase(i);
+                auto i = std::find(inputStreams.begin(), inputStreams.end(), stream);
+                if (i != inputStreams.end()) inputStreams.erase(i);
             }
         }
     } // namespace audio

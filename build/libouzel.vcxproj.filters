@@ -451,10 +451,10 @@
     <ClCompile Include="..\ouzel\audio\wasapi\WASAPIAudioDevice.cpp">
       <Filter>ouzel\audio\wasapi</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\mixer\Source.cpp">
+    <ClCompile Include="..\ouzel\audio\mixer\Stream.cpp">
       <Filter>ouzel\audio\mixer</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\mixer\SourceData.cpp">
+    <ClCompile Include="..\ouzel\audio\mixer\Source.cpp">
       <Filter>ouzel\audio\mixer</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\scene\TextRenderer.cpp">
@@ -1020,10 +1020,10 @@
     <ClInclude Include="..\ouzel\audio\mixer\Object.hpp">
       <Filter>ouzel\audio\mixer</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\mixer\Source.hpp">
+    <ClInclude Include="..\ouzel\audio\mixer\Stream.hpp">
       <Filter>ouzel\audio\mixer</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\mixer\SourceData.hpp">
+    <ClInclude Include="..\ouzel\audio\mixer\Source.hpp">
       <Filter>ouzel\audio\mixer</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\Mix.hpp">

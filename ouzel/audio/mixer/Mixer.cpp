@@ -2,8 +2,8 @@
 
 #include "Mixer.hpp"
 #include "Bus.hpp"
+#include "Stream.hpp"
 #include "Source.hpp"
-#include "SourceData.hpp"
 #include "math/MathUtils.hpp"
 
 namespace ouzel
@@ -40,13 +40,13 @@ namespace ouzel
                     {
                         case Command::Type::DELETE_OBJECT:
                         {
-                            DeleteObjectCommand* deleteObjectCommand = static_cast<DeleteObjectCommand*>(command.get());
+                            auto deleteObjectCommand = static_cast<const DeleteObjectCommand*>(command.get());
                             objects[deleteObjectCommand->objectId - 1].reset();
                             break;
                         }
                         case Command::Type::INIT_BUS:
                         {
-                            InitBusCommand* initBusCommand = static_cast<InitBusCommand*>(command.get());
+                            auto initBusCommand = static_cast<const InitBusCommand*>(command.get());
 
                             if (initBusCommand->busId > objects.size())
                                 objects.resize(initBusCommand->busId);
@@ -56,7 +56,7 @@ namespace ouzel
                         }
                         case Command::Type::SET_BUS_OUTPUT:
                         {
-                            SetBusOutputCommand* setBusOutputCommand = static_cast<SetBusOutputCommand*>(command.get());
+                            auto setBusOutputCommand = static_cast<const SetBusOutputCommand*>(command.get());
 
                             Bus* bus = static_cast<Bus*>(objects[setBusOutputCommand->busId - 1].get());
                             bus->setOutput(setBusOutputCommand->outputBusId ? static_cast<Bus*>(objects[setBusOutputCommand->outputBusId - 1].get()) : nullptr);
@@ -64,7 +64,7 @@ namespace ouzel
                         }
                         case Command::Type::ADD_PROCESSOR:
                         {
-                            AddProcessorCommand* addProcessorCommand = static_cast<AddProcessorCommand*>(command.get());
+                            auto addProcessorCommand = static_cast<const AddProcessorCommand*>(command.get());
 
                             Bus* bus = static_cast<Bus*>(objects[addProcessorCommand->busId - 1].get());
                             Processor* processor = static_cast<Processor*>(objects[addProcessorCommand->processorId - 1].get());
@@ -73,7 +73,7 @@ namespace ouzel
                         }
                         case Command::Type::REMOVE_PROCESSOR:
                         {
-                            RemoveProcessorCommand* removeProcessorCommand = static_cast<RemoveProcessorCommand*>(command.get());
+                            auto removeProcessorCommand = static_cast<const RemoveProcessorCommand*>(command.get());
 
                             Bus* bus = static_cast<Bus*>(objects[removeProcessorCommand->busId - 1].get());
                             Processor* processor = static_cast<Processor*>(objects[removeProcessorCommand->processorId - 1].get());
@@ -82,59 +82,59 @@ namespace ouzel
                         }
                         case Command::Type::SET_MASTER_BUS:
                         {
-                            SetMasterBusCommand* setMasterBusCommand = static_cast<SetMasterBusCommand*>(command.get());
+                            auto setMasterBusCommand = static_cast<const SetMasterBusCommand*>(command.get());
 
                             masterBus = setMasterBusCommand->busId ? static_cast<Bus*>(objects[setMasterBusCommand->busId - 1].get()) : nullptr;
                             break;
                         }
+                        case Command::Type::INIT_STREAM:
+                        {
+                            auto initStreamCommand = static_cast<const InitStreamCommand*>(command.get());
+
+                            if (initStreamCommand->streamId > objects.size())
+                                objects.resize(initStreamCommand->streamId);
+
+                            Source* source = static_cast<Source*>(objects[initStreamCommand->sourceId - 1].get());
+                            objects[initStreamCommand->streamId - 1] = source->createStream();
+                            break;
+                        }
+                        case Command::Type::PLAY_STREAM:
+                        {
+                            auto playStreamCommand = static_cast<const PlayStreamCommand*>(command.get());
+
+                            Stream* stream = static_cast<Stream*>(objects[playStreamCommand->streamId - 1].get());
+                            stream->play(playStreamCommand->repeat);
+                            break;
+                        }
+                        case Command::Type::STOP_STREAM:
+                        {
+                            auto stopStreamCommand = static_cast<const StopStreamCommand*>(command.get());
+
+                            Stream* stream = static_cast<Stream*>(objects[stopStreamCommand->streamId - 1].get());
+                            stream->stop(stopStreamCommand->reset);
+                            break;
+                        }
+                        case Command::Type::SET_STREAM_OUTPUT:
+                        {
+                            auto setStreamOutputCommand = static_cast<const SetStreamOutputCommand*>(command.get());
+
+                            Stream* stream = static_cast<Stream*>(objects[setStreamOutputCommand->streamId - 1].get());
+                            stream->setOutput(setStreamOutputCommand->busId ? static_cast<Bus*>(objects[setStreamOutputCommand->busId - 1].get()) : nullptr);
+                            break;
+                        }
                         case Command::Type::INIT_SOURCE:
                         {
-                            InitSourceCommand* initSourceCommand = static_cast<InitSourceCommand*>(command.get());
+                            auto initSourceCommand = static_cast<const InitSourceCommand*>(command.get());
 
                             if (initSourceCommand->sourceId > objects.size())
                                 objects.resize(initSourceCommand->sourceId);
 
-                            SourceData* sourceData = static_cast<SourceData*>(objects[initSourceCommand->sourceDataId - 1].get());
-                            objects[initSourceCommand->sourceId - 1] = sourceData->createSource();
-                            break;
-                        }
-                        case Command::Type::PLAY_SOURCE:
-                        {
-                            PlaySourceCommand* playSourceCommand = static_cast<PlaySourceCommand*>(command.get());
-
-                            Source* source = static_cast<Source*>(objects[playSourceCommand->sourceId - 1].get());
-                            source->play(playSourceCommand->repeat);
-                            break;
-                        }
-                        case Command::Type::STOP_SOURCE:
-                        {
-                            StopSourceCommand* stopSourceCommand = static_cast<StopSourceCommand*>(command.get());
-
-                            Source* source = static_cast<Source*>(objects[stopSourceCommand->sourceId - 1].get());
-                            source->stop(stopSourceCommand->reset);
-                            break;
-                        }
-                        case Command::Type::INIT_SOURCE_DATA:
-                        {
-                            InitSourceDataCommand* initSourceDataCommand = static_cast<InitSourceDataCommand*>(command.get());
-
-                            if (initSourceDataCommand->sourceDataId > objects.size())
-                                objects.resize(initSourceDataCommand->sourceDataId);
-
-                            objects[initSourceDataCommand->sourceDataId - 1] = initSourceDataCommand->initFunction();
-                            break;
-                        }
-                        case Command::Type::SET_SOURCE_OUTPUT:
-                        {
-                            SetSourceOutputCommand* setSourceOutputCommand = static_cast<SetSourceOutputCommand*>(command.get());
-
-                            Source* source = static_cast<Source*>(objects[setSourceOutputCommand->sourceId - 1].get());
-                            source->setOutput(setSourceOutputCommand->busId ? static_cast<Bus*>(objects[setSourceOutputCommand->busId - 1].get()) : nullptr);
+                            objects[initSourceCommand->sourceId - 1] = initSourceCommand->initFunction();
                             break;
                         }
                         case Command::Type::INIT_PROCESSOR:
                         {
-                            InitProcessorCommand* initProcessorCommand = static_cast<InitProcessorCommand*>(command.get());
+                            auto initProcessorCommand = static_cast<InitProcessorCommand*>(command.get());
 
                             if (initProcessorCommand->processorId > objects.size())
                                 objects.resize(initProcessorCommand->processorId);
@@ -144,7 +144,7 @@ namespace ouzel
                         }
                         case Command::Type::UPDATE_PROCESSOR:
                         {
-                            UpdateProcessorCommand* updateProcessorCommand = static_cast<UpdateProcessorCommand*>(command.get());
+                            auto updateProcessorCommand = static_cast<const UpdateProcessorCommand*>(command.get());
 
                             Processor* processor = static_cast<Processor*>(objects[updateProcessorCommand->processorId - 1].get());
                             updateProcessorCommand->updateFunction(processor);
