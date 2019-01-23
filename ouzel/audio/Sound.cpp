@@ -7,15 +7,15 @@ namespace ouzel
 {
     namespace audio
     {
-        Sound::Sound(Audio& initAudio, uintptr_t initSourceDataId):
+        Sound::Sound(Audio& initAudio, uintptr_t initSourceId):
             audio(initAudio),
-            sourceDataId(initSourceDataId)
+            sourceId(initSourceId)
         {
         }
 
         Sound::~Sound()
         {
-            if (sourceDataId) audio.deleteObject(sourceDataId);
+            if (sourceId) audio.deleteObject(sourceId);
         }
     } // namespace audio
 } // namespace ouzel

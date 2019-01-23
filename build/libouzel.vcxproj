@@ -59,8 +59,8 @@
     <ClCompile Include="..\ouzel\audio\VorbisSound.cpp" />
     <ClCompile Include="..\ouzel\audio\PCMSound.cpp" />
     <ClCompile Include="..\ouzel\audio\Mix.cpp" />
+    <ClCompile Include="..\ouzel\audio\mixer\Stream.cpp" />
     <ClCompile Include="..\ouzel\audio\mixer\Source.cpp" />
-    <ClCompile Include="..\ouzel\audio\mixer\SourceData.cpp" />
     <ClCompile Include="..\ouzel\audio\Submix.cpp" />
     <ClCompile Include="..\ouzel\audio\wasapi\WASAPIAudioDevice.cpp" />
     <ClCompile Include="..\ouzel\audio\xaudio2\XA2AudioDevice.cpp" />
@@ -236,8 +236,8 @@
     <ClInclude Include="..\ouzel\audio\VorbisSound.hpp" />
     <ClInclude Include="..\ouzel\audio\PCMSound.hpp" />
     <ClInclude Include="..\ouzel\audio\Mix.hpp" />
+    <ClInclude Include="..\ouzel\audio\mixer\Stream.hpp" />
     <ClInclude Include="..\ouzel\audio\mixer\Source.hpp" />
-    <ClInclude Include="..\ouzel\audio\mixer\SourceData.hpp" />
     <ClInclude Include="..\ouzel\audio\Submix.hpp" />
     <ClInclude Include="..\ouzel\audio\wasapi\WASAPIAudioDevice.hpp" />
     <ClInclude Include="..\ouzel\audio\xaudio2\XA2AudioDevice.hpp" />

@@ -28,9 +28,9 @@ namespace ouzel
                 public:
                     enum class Type
                     {
-                        SOURCE_STARTED,
-                        SOURCE_RESET,
-                        SOURCE_STOPPED,
+                        STREAM_STARTED,
+                        STREAM_RESET,
+                        STREAM_STOPPED,
                         STARVATION
                     };
 

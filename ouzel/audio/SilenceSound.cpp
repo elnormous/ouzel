@@ -2,8 +2,8 @@
 
 #include "SilenceSound.hpp"
 #include "Audio.hpp"
+#include "mixer/Stream.hpp"
 #include "mixer/Source.hpp"
-#include "mixer/SourceData.hpp"
 
 namespace ouzel
 {
@@ -11,7 +11,7 @@ namespace ouzel
     {
         class SilenceData;
 
-        class SilenceSource: public mixer::Source
+        class SilenceSource: public mixer::Stream
         {
         public:
             SilenceSource(SilenceData& toneData);
@@ -27,7 +27,7 @@ namespace ouzel
             uint32_t position = 0;
         };
 
-        class SilenceData: public mixer::SourceData
+        class SilenceData: public mixer::Source
         {
         public:
             SilenceData(float initLength):
@@ -39,9 +39,9 @@ namespace ouzel
 
             float getLength() const { return length; }
 
-            std::unique_ptr<mixer::Source> createSource() override
+            std::unique_ptr<mixer::Stream> createStream() override
             {
-                return std::unique_ptr<mixer::Source>(new SilenceSource(*this));
+                return std::unique_ptr<mixer::Stream>(new SilenceSource(*this));
             }
 
         private:
@@ -49,18 +49,18 @@ namespace ouzel
         };
 
         SilenceSource::SilenceSource(SilenceData& silenceData):
-            Source(silenceData)
+            Stream(silenceData)
         {
         }
 
         void SilenceSource::getData(uint32_t frames, std::vector<float>& samples)
         {
-            SilenceData& silenceData = static_cast<SilenceData&>(sourceData);
+            SilenceData& silenceData = static_cast<SilenceData&>(source);
 
             samples.resize(frames);
             std::fill(samples.begin(), samples.end(), 0.0F);
 
-            const uint32_t sampleRate = sourceData.getSampleRate();
+            const uint32_t sampleRate = source.getSampleRate();
             const float length = static_cast<SilenceData&>(silenceData).getLength();
 
             if (length > 0.0F)
@@ -99,8 +99,8 @@ namespace ouzel
         }
 
         SilenceSound::SilenceSound(Audio& initAudio, float initLength):
-            Sound(initAudio, initAudio.initSourceData([initLength](){
-                return std::unique_ptr<mixer::SourceData>(new SilenceData(initLength));
+            Sound(initAudio, initAudio.initSource([initLength](){
+                return std::unique_ptr<mixer::Source>(new SilenceData(initLength));
             })),
             length(initLength)
         {

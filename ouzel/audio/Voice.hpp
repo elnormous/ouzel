@@ -39,7 +39,7 @@ namespace ouzel
 
         private:
             Audio& audio;
-            uintptr_t sourceId;
+            uintptr_t streamId;
 
             std::shared_ptr<Sound> sound;
 

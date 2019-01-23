@@ -8,8 +8,8 @@
 #include <memory>
 
 #include "audio/mixer/Processor.hpp"
+#include "audio/mixer/Stream.hpp"
 #include "audio/mixer/Source.hpp"
-#include "audio/mixer/SourceData.hpp"
 
 namespace ouzel
 {
@@ -28,11 +28,11 @@ namespace ouzel
                     ADD_PROCESSOR,
                     REMOVE_PROCESSOR,
                     SET_MASTER_BUS,
+                    INIT_STREAM,
+                    PLAY_STREAM,
+                    STOP_STREAM,
+                    SET_STREAM_OUTPUT,
                     INIT_SOURCE,
-                    PLAY_SOURCE,
-                    STOP_SOURCE,
-                    SET_SOURCE_OUTPUT,
-                    INIT_SOURCE_DATA,
                     INIT_PROCESSOR,
                     UPDATE_PROCESSOR
                 };
@@ -117,74 +117,74 @@ namespace ouzel
                 uintptr_t busId;
             };
 
+            class InitStreamCommand: public Command
+            {
+            public:
+                InitStreamCommand(uintptr_t initStreamId,
+                                  uintptr_t initSourceId):
+                    Command(Command::Type::INIT_STREAM),
+                    streamId(initStreamId),
+                    sourceId(initSourceId)
+                {}
+
+                uintptr_t streamId;
+                uintptr_t sourceId;
+            };
+
+            class PlayStreamCommand: public Command
+            {
+            public:
+                PlayStreamCommand(uintptr_t initStreamId,
+                                  bool initRepeat):
+                    Command(Command::Type::PLAY_STREAM),
+                    streamId(initStreamId),
+                    repeat(initRepeat)
+                {}
+
+                uintptr_t streamId;
+                bool repeat;
+            };
+
+            class StopStreamCommand: public Command
+            {
+            public:
+                StopStreamCommand(uintptr_t initStreamId,
+                                  bool initReset):
+                    Command(Command::Type::STOP_STREAM),
+                    streamId(initStreamId),
+                    reset(initReset)
+                {}
+
+                uintptr_t streamId;
+                bool reset;
+            };
+
+            class SetStreamOutputCommand: public Command
+            {
+            public:
+                SetStreamOutputCommand(uintptr_t initStreamId,
+                                       uintptr_t initBusId):
+                    Command(Command::Type::SET_STREAM_OUTPUT),
+                    streamId(initStreamId),
+                    busId(initBusId)
+                {}
+
+                uintptr_t streamId;
+                uintptr_t busId;
+            };
+
             class InitSourceCommand: public Command
             {
             public:
                 InitSourceCommand(uintptr_t initSourceId,
-                                  uintptr_t initSourceDataId):
+                                  const std::function<std::unique_ptr<Source>()>& initInitFunction):
                     Command(Command::Type::INIT_SOURCE),
                     sourceId(initSourceId),
-                    sourceDataId(initSourceDataId)
-                {}
-
-                uintptr_t sourceId;
-                uintptr_t sourceDataId;
-            };
-
-            class PlaySourceCommand: public Command
-            {
-            public:
-                PlaySourceCommand(uintptr_t initSourceId,
-                                  bool initRepeat):
-                    Command(Command::Type::PLAY_SOURCE),
-                    sourceId(initSourceId),
-                    repeat(initRepeat)
-                {}
-
-                uintptr_t sourceId;
-                bool repeat;
-            };
-
-            class StopSourceCommand: public Command
-            {
-            public:
-                StopSourceCommand(uintptr_t initSourceId,
-                                  bool initReset):
-                    Command(Command::Type::STOP_SOURCE),
-                    sourceId(initSourceId),
-                    reset(initReset)
-                {}
-
-                uintptr_t sourceId;
-                bool reset;
-            };
-
-            class SetSourceOutputCommand: public Command
-            {
-            public:
-                SetSourceOutputCommand(uintptr_t initSourceId,
-                                       uintptr_t initBusId):
-                    Command(Command::Type::SET_SOURCE_OUTPUT),
-                    sourceId(initSourceId),
-                    busId(initBusId)
-                {}
-
-                uintptr_t sourceId;
-                uintptr_t busId;
-            };
-
-            class InitSourceDataCommand: public Command
-            {
-            public:
-                InitSourceDataCommand(uintptr_t initSourceDataId,
-                                      const std::function<std::unique_ptr<SourceData>()>& initInitFunction):
-                    Command(Command::Type::INIT_SOURCE_DATA),
-                    sourceDataId(initSourceDataId),
                     initFunction(initInitFunction)
                 {}
 
-                uintptr_t sourceDataId;
-                std::function<std::unique_ptr<SourceData>()> initFunction;
+                uintptr_t sourceId;
+                std::function<std::unique_ptr<Source>()> initFunction;
             };
 
             class InitProcessorCommand: public Command

@@ -18,7 +18,7 @@ namespace ouzel
         {
             friend Audio;
         public:
-            Sound(Audio& initAudio, uintptr_t initSourceDataId);
+            Sound(Audio& initAudio, uintptr_t initSourceId);
             virtual ~Sound();
 
             Sound(const Sound&) = delete;
@@ -27,11 +27,11 @@ namespace ouzel
             Sound(Sound&&) = delete;
             Sound& operator=(Sound&&) = delete;
 
-            uintptr_t getSourceDataId() const { return sourceDataId; }
+            uintptr_t getSourceId() const { return sourceId; }
 
         protected:
             Audio& audio;
-            uintptr_t sourceDataId = 0;
+            uintptr_t sourceId = 0;
         };
     } // namespace audio
 } // namespace ouzel
