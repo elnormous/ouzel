@@ -177,14 +177,14 @@ namespace ouzel
             {
             public:
                 InitSourceDataCommand(uintptr_t initSourceDataId,
-                                      std::unique_ptr<SourceData>&& initSourceData):
+                                      const std::function<std::unique_ptr<SourceData>()>& initInitFunction):
                     Command(Command::Type::INIT_SOURCE_DATA),
                     sourceDataId(initSourceDataId),
-                    sourceData(std::forward<std::unique_ptr<SourceData>>(initSourceData))
+                    initFunction(initInitFunction)
                 {}
 
                 uintptr_t sourceDataId;
-                std::unique_ptr<SourceData> sourceData;
+                std::function<std::unique_ptr<SourceData>()> initFunction;
             };
 
             class InitProcessorCommand: public Command

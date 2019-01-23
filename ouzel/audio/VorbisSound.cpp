@@ -104,7 +104,9 @@ namespace ouzel
         }
 
         VorbisSound::VorbisSound(Audio& initAudio, const std::vector<uint8_t>& initData):
-            Sound(initAudio, initAudio.initSourceData(std::unique_ptr<mixer::SourceData>(new VorbisData(initData))))
+            Sound(initAudio, initAudio.initSourceData([initData](){
+                return std::unique_ptr<mixer::SourceData>(new VorbisData(initData));
+            }))
         {
         }
     } // namespace audio
