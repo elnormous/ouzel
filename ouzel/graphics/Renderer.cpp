@@ -186,50 +186,6 @@ namespace ouzel
             }
         }
 
-        void Renderer::setClearColorBuffer(bool clear)
-        {
-            clearColorBuffer = clear;
-
-            addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(0,
-                                                                                     clearColorBuffer,
-                                                                                     clearDepthBuffer,
-                                                                                     clearColor,
-                                                                                     clearDepth)));
-        }
-
-        void Renderer::setClearDepthBuffer(bool clear)
-        {
-            clearDepthBuffer = clear;
-
-            addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(0,
-                                                                                     clearColorBuffer,
-                                                                                     clearDepthBuffer,
-                                                                                     clearColor,
-                                                                                     clearDepth)));
-        }
-
-        void Renderer::setClearColor(Color color)
-        {
-            clearColor = color;
-
-            addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(0,
-                                                                                     clearColorBuffer,
-                                                                                     clearDepthBuffer,
-                                                                                     clearColor,
-                                                                                     clearDepth)));
-        }
-
-        void Renderer::setClearDepth(float newClearDepth)
-        {
-            clearDepth = newClearDepth;
-
-            addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(0,
-                                                                                     clearColorBuffer,
-                                                                                     clearDepthBuffer,
-                                                                                     clearColor,
-                                                                                     clearDepth)));
-        }
-
         void Renderer::setSize(const Size2<uint32_t>& newSize)
         {
             size = newSize;
@@ -247,9 +203,15 @@ namespace ouzel
             addCommand(std::unique_ptr<Command>(new SetRenderTargetCommand(renderTarget)));
         }
 
-        void Renderer::clearRenderTarget()
+        void Renderer::clearRenderTarget(bool clearColorBuffer,
+                                         bool clearDepthBuffer,
+                                         Color clearColor,
+                                         float clearDepth)
         {
-            addCommand(std::unique_ptr<Command>(new ClearRenderTargetCommand()));
+            addCommand(std::unique_ptr<Command>(new ClearRenderTargetCommand(clearColorBuffer,
+                                                                             clearDepthBuffer,
+                                                                             clearColor,
+                                                                             clearDepth)));
         }
 
         void Renderer::setCullMode(CullMode cullMode)

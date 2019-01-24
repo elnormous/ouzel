@@ -83,11 +83,6 @@ namespace ouzel
 
             void setSize(const Size2<uint32_t>& newSize) override;
 
-            void setClearColorBuffer(bool clear);
-            void setClearDepthBuffer(bool clear);
-            void setClearColor(Color newClearColor);
-            void setClearDepth(float newClearDepth);
-
             void process() override;
             void generateScreenshot(const std::string& filename) override;
 
@@ -133,9 +128,6 @@ namespace ouzel
 
             MTLPixelFormat colorFormat;
             MTLPixelFormat depthFormat;
-
-            MTLLoadAction colorBufferLoadAction;
-            MTLLoadAction depthBufferLoadAction;
 
             dispatch_semaphore_t inflightSemaphore;
 

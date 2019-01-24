@@ -13,29 +13,7 @@ namespace ouzel
             renderer(initRenderer),
             resource(renderer.getDevice()->getResourceId())
         {
-            renderer.addCommand(std::unique_ptr<Command>(new InitRenderTargetCommand(resource,
-                                                                                     clearColorBuffer,
-                                                                                     clearDepthBuffer,
-                                                                                     clearColor,
-                                                                                     clearDepth)));
-        }
-
-        RenderTarget::RenderTarget(Renderer& initRenderer,
-                                   bool initClearColorBuffer,
-                                   bool initClearDepthBuffer,
-                                   Color initClearColor,
-                                   float initClearDepth):
-            renderer(initRenderer),
-            clearColorBuffer(initClearColorBuffer),
-            clearDepthBuffer(initClearDepthBuffer),
-            clearColor(initClearColor),
-            clearDepth(initClearDepth)
-        {
-            renderer.addCommand(std::unique_ptr<Command>(new InitRenderTargetCommand(resource,
-                                                                                     clearColorBuffer,
-                                                                                     clearDepthBuffer,
-                                                                                     clearColor,
-                                                                                     clearDepth)));
+            renderer.addCommand(std::unique_ptr<Command>(new InitRenderTargetCommand(resource)));
         }
 
         RenderTarget::~RenderTarget()
@@ -97,58 +75,8 @@ namespace ouzel
         {
             depthTexture = texture;
 
-            renderer.addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(resource,
-                                                                                              clearColorBuffer,
-                                                                                              clearDepthBuffer,
-                                                                                              clearColor,
-                                                                                              clearDepth)));
-
             renderer.addCommand(std::unique_ptr<Command>(new SetRenderTargetDepthTextureCommand(resource,
                                                                                                 texture ? texture->getResource() : 0)));
-        }
-
-        void RenderTarget::setClearColorBuffer(bool clear)
-        {
-            clearColorBuffer = clear;
-
-            renderer.addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(resource,
-                                                                                              clearColorBuffer,
-                                                                                              clearDepthBuffer,
-                                                                                              clearColor,
-                                                                                              clearDepth)));
-        }
-
-        void RenderTarget::setClearDepthBuffer(bool clear)
-        {
-            clearDepthBuffer = clear;
-
-            renderer.addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(resource,
-                                                                                              clearColorBuffer,
-                                                                                              clearDepthBuffer,
-                                                                                              clearColor,
-                                                                                              clearDepth)));
-        }
-
-        void RenderTarget::setClearColor(Color color)
-        {
-            clearColor = color;
-
-            renderer.addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(resource,
-                                                                                              clearColorBuffer,
-                                                                                              clearDepthBuffer,
-                                                                                              clearColor,
-                                                                                              clearDepth)));
-        }
-
-        void RenderTarget::setClearDepth(float clear)
-        {
-            clearDepth = clear;
-
-            renderer.addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(resource,
-                                                                                              clearColorBuffer,
-                                                                                              clearDepthBuffer,
-                                                                                              clearColor,
-                                                                                              clearDepth)));
         }
     } // namespace graphics
 } // namespace ouzel

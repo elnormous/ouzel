@@ -79,11 +79,6 @@ namespace ouzel
 
             virtual void setSize(const Size2<uint32_t>& newSize);
 
-            void setClearColorBuffer(bool clear);
-            void setClearDepthBuffer(bool clear);
-            void setClearColor(Color newClearColor);
-            void setClearDepth(float newClearDepth);
-
             void process() override;
             void resizeBackBuffer(UINT newWidth, UINT newHeight);
             void uploadBuffer(ID3D11Buffer* buffer, const void* data, uint32_t dataSize);
@@ -108,10 +103,6 @@ namespace ouzel
             UINT frameBufferHeight = 0;
 
             UINT swapInterval = 0;
-            FLOAT frameBufferClearColor[4]{0.0F, 0.0F, 0.0F, 0.0F};
-            float clearDepth = 1.0F;
-            bool clearColorBuffer = true;
-            bool clearDepthBuffer = false;
 
             std::atomic_bool running{false};
             std::thread renderThread;

@@ -17,6 +17,8 @@ SpritesSample::SpritesSample():
     handler.keyboardHandler = std::bind(&SpritesSample::handleKeyboard, this, std::placeholders::_1);
     engine->getEventDispatcher().addEventHandler(&handler);
 
+    camera.setClearColorBuffer(true);
+    camera.setClearColor(ouzel::Color(64, 64, 64));
     camera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     camera.setTargetContentSize(Size2<float>(800.0F, 600.0F));
     cameraActor.addComponent(&camera);

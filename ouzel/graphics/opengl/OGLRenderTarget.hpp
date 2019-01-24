@@ -31,11 +31,7 @@ namespace ouzel
         class OGLRenderTarget final: public OGLRenderResource
         {
         public:
-            explicit OGLRenderTarget(OGLRenderDevice& renderDeviceOGL,
-                                     bool initClearColorBuffer = true,
-                                     bool initClearDepthBuffer = false,
-                                     Color initClearColor = Color(),
-                                     float initClearDepth = 1.0F);
+            explicit OGLRenderTarget(OGLRenderDevice& renderDeviceOGL);
             ~OGLRenderTarget();
 
             void reload() override;
@@ -51,19 +47,11 @@ namespace ouzel
 
             inline GLuint getFrameBufferId() const { return frameBufferId; }
 
-            inline GLbitfield getClearMask() const { return clearMask; }
-            inline const std::array<GLfloat, 4>& getFrameBufferClearColor() const { return frameBufferClearColor; }
-            inline float getClearDepth() const { return clearDepth; }
-
         private:
             GLuint frameBufferId = 0;
 
             std::set<OGLTexture*> colorTextures;
             OGLTexture* depthTexture = nullptr;
-
-            GLbitfield clearMask = 0;
-            std::array<GLfloat, 4> frameBufferClearColor{{0.0F, 0.0F, 0.0F, 0.0F}};
-            float clearDepth = 1.0F;
         };
     } // namespace graphics
 } // namespace ouzel

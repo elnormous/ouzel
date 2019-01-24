@@ -316,29 +316,6 @@ namespace ouzel
             renderThread = std::thread(&D3D11RenderDevice::main, this);
         }
 
-        void D3D11RenderDevice::setClearColorBuffer(bool clear)
-        {
-            clearColorBuffer = clear;
-        }
-
-        void D3D11RenderDevice::setClearDepthBuffer(bool clear)
-        {
-            clearDepthBuffer = clear;
-        }
-
-        void D3D11RenderDevice::setClearColor(Color newClearColor)
-        {
-            frameBufferClearColor[0] = newClearColor.normR();
-            frameBufferClearColor[1] = newClearColor.normG();
-            frameBufferClearColor[2] = newClearColor.normB();
-            frameBufferClearColor[3] = newClearColor.normA();
-        }
-
-        void D3D11RenderDevice::setClearDepth(float newClearDepth)
-        {
-            clearDepth = newClearDepth;
-        }
-
         void D3D11RenderDevice::setSize(const Size2<uint32_t>& newSize)
         {
             RenderDevice::setSize(newSize);
@@ -406,38 +383,11 @@ namespace ouzel
                         case Command::INIT_RENDER_TARGET:
                         {
                             auto initRenderTargetCommand = static_cast<const InitRenderTargetCommand*>(command.get());
-                            std::unique_ptr<D3D11RenderTarget> renderTarget(new D3D11RenderTarget(*this,
-                                                                                                  initRenderTargetCommand->clearColorBuffer,
-                                                                                                  initRenderTargetCommand->clearDepthBuffer,
-                                                                                                  initRenderTargetCommand->clearColor,
-                                                                                                  initRenderTargetCommand->clearDepth));
+                            std::unique_ptr<D3D11RenderTarget> renderTarget(new D3D11RenderTarget(*this));
 
                             if (initRenderTargetCommand->renderTarget > resources.size())
                                 resources.resize(initRenderTargetCommand->renderTarget);
                             resources[initRenderTargetCommand->renderTarget - 1] = std::move(renderTarget);
-                            break;
-                        }
-
-                        case Command::Type::SET_RENDER_TARGET_PARAMETERS:
-                        {
-                            auto setRenderTargetParametersCommand = static_cast<const SetRenderTargetParametersCommand*>(command.get());
-
-                            if (setRenderTargetParametersCommand->renderTarget)
-                            {
-                                D3D11RenderTarget* renderTarget = static_cast<D3D11RenderTarget*>(resources[setRenderTargetParametersCommand->renderTarget - 1].get());
-                                renderTarget->setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
-                                renderTarget->setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
-                                renderTarget->setClearColor(setRenderTargetParametersCommand->clearColor);
-                                renderTarget->setClearDepth(setRenderTargetParametersCommand->clearDepth);
-                            }
-                            else
-                            {
-                                setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
-                                setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
-                                setClearColor(setRenderTargetParametersCommand->clearColor);
-                                setClearDepth(setRenderTargetParametersCommand->clearDepth);
-                            }
-
                             break;
                         }
 
@@ -492,17 +442,22 @@ namespace ouzel
 
                         case Command::Type::CLEAR_RENDER_TARGET:
                         {
-                            // auto clearCommand = static_cast<const ClearRenderTargetCommand*>(command.get());
+                            auto clearCommand = static_cast<const ClearRenderTargetCommand*>(command.get());
+
+                            FLOAT frameBufferClearColor[4]{clearCommand->clearColor.normR(),
+                                clearCommand->clearColor.normG(),
+                                clearCommand->clearColor.normB(),
+                                clearCommand->clearColor.normA()};
 
                             if (currentRenderTarget)
                             {
-                                if (currentRenderTarget->getClearFrameBufferView())
+                                if (clearCommand->clearColorBuffer)
                                     for (ID3D11RenderTargetView* view : currentRenderTarget->getRenderTargetViews())
-                                        context->ClearRenderTargetView(view, currentRenderTarget->getFrameBufferClearColor());
+                                        context->ClearRenderTargetView(view, frameBufferClearColor);
 
-                                if (currentRenderTarget->getClearDepthBufferView())
+                                if (clearCommand->clearDepthBuffer)
                                     if (ID3D11DepthStencilView* view = currentRenderTarget->getDepthStencilView())
-                                        context->ClearDepthStencilView(view, D3D11_CLEAR_DEPTH, currentRenderTarget->getClearDepth(), 0);
+                                        context->ClearDepthStencilView(view, D3D11_CLEAR_DEPTH, clearCommand->clearDepth, 0);
                             }
                             else
                             {
@@ -510,8 +465,9 @@ namespace ouzel
                                     context->ClearRenderTargetView(renderTargetView, frameBufferClearColor);
 
                                 if (clearDepthBuffer)
-                                    context->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH, clearDepth, 0);
+                                    context->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH, clearCommand->clearDepth, 0);
                             }
+
                             break;
                         }
 

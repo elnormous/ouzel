@@ -125,18 +125,6 @@ namespace ouzel
 
             inline PixelFormat getPixelFormat() const { return pixelFormat; }
 
-            inline bool getClearColorBuffer() const { return clearColorBuffer; }
-            void setClearColorBuffer(bool clear);
-
-            inline bool getClearDepthBuffer() const { return clearDepthBuffer; }
-            void setClearDepthBuffer(bool clear);
-
-            inline Color getClearColor() const { return clearColor; }
-            void setClearColor(Color color);
-
-            inline float getClearDepth() const { return clearDepth; }
-            void setClearDepth(float depth);
-
         private:
             Renderer& renderer;
             uintptr_t resource = 0;
@@ -145,10 +133,6 @@ namespace ouzel
             Size2<uint32_t> size;
             uint32_t flags = 0;
             uint32_t mipmaps = 0;
-            bool clearColorBuffer = true;
-            bool clearDepthBuffer = false;
-            Color clearColor;
-            float clearDepth = 1.0F;
             uint32_t sampleCount = 1;
             PixelFormat pixelFormat = PixelFormat::RGBA8_UNORM;
             Filter filter = Texture::Filter::DEFAULT;

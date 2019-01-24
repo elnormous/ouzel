@@ -48,24 +48,15 @@ namespace ouzel
 
             inline RenderDevice* getDevice() const { return device.get(); }
 
-            inline bool getClearColorBuffer() const { return clearColorBuffer; }
-            void setClearColorBuffer(bool clear);
-
-            inline bool getClearDepthBuffer() const { return clearDepthBuffer; }
-            void setClearDepthBuffer(bool clear);
-
-            inline Color getClearColor() const { return clearColor; }
-            void setClearColor(Color color);
-
-            inline float getClearDepth() const { return clearDepth; }
-            void setClearDepth(float newClearDepth);
-
             inline const Size2<uint32_t>& getSize() const { return size; }
 
             void saveScreenshot(const std::string& filename);
 
             void setRenderTarget(uintptr_t renderTarget);
-            void clearRenderTarget();
+            void clearRenderTarget(bool clearColorBuffer,
+                                   bool clearDepthBuffer,
+                                   Color clearColor,
+                                   float clearDepth);
             void setCullMode(CullMode cullMode);
             void setFillMode(FillMode fillMode);
             void setScissorTest(bool enabled, const Rect<float>& rectangle);
@@ -109,10 +100,6 @@ namespace ouzel
             std::unique_ptr<RenderDevice> device;
 
             Size2<uint32_t> size;
-            Color clearColor;
-            float clearDepth = 1.0;
-            bool clearColorBuffer = true;
-            bool clearDepthBuffer = false;
             CommandBuffer commandBuffer;
 
             bool newFrame = false;

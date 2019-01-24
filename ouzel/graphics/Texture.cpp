@@ -718,50 +718,5 @@ namespace ouzel
                                                                                          addressY,
                                                                                          maxAnisotropy)));
         }
-
-        void Texture::setClearColorBuffer(bool clear)
-        {
-            clearColorBuffer = clear;
-
-            renderer.addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(resource,
-                                                                                              clearColorBuffer,
-                                                                                              clearDepthBuffer,
-                                                                                              clearColor,
-                                                                                              clearDepth)));
-        }
-
-        void Texture::setClearDepthBuffer(bool clear)
-        {
-            clearDepthBuffer = clear;
-
-            renderer.addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(resource,
-                                                                                              clearColorBuffer,
-                                                                                              clearDepthBuffer,
-                                                                                              clearColor,
-                                                                                              clearDepth)));
-        }
-
-        void Texture::setClearColor(Color color)
-        {
-            clearColor = color;
-
-            renderer.addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(resource,
-                                                                                              clearColorBuffer,
-                                                                                              clearDepthBuffer,
-                                                                                              clearColor,
-                                                                                              clearDepth)));
-        }
-
-        void Texture::setClearDepth(float depth)
-        {
-            clearDepth = depth;
-
-            renderer.addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(resource,
-                                                                                              clearColorBuffer,
-                                                                                              clearDepthBuffer,
-                                                                                              clearColor,
-                                                                                              clearDepth)));
-        }
-
     } // namespace graphics
 } // namespace ouzel

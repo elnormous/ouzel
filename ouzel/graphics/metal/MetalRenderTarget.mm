@@ -13,28 +13,14 @@ namespace ouzel
 {
     namespace graphics
     {
-        MetalRenderTarget::MetalRenderTarget(MetalRenderDevice& renderDeviceMetal,
-                                             bool initClearColorBuffer,
-                                             bool initClearDepthBuffer,
-                                             Color initClearColor,
-                                             float initClearDepth):
+        MetalRenderTarget::MetalRenderTarget(MetalRenderDevice& renderDeviceMetal):
             MetalRenderResource(renderDeviceMetal),
-            depthFormat(MTLPixelFormatInvalid),
-            colorBufferLoadAction(initClearColorBuffer ? MTLLoadActionClear : MTLLoadActionDontCare),
-            depthBufferLoadAction(initClearDepthBuffer ? MTLLoadActionClear : MTLLoadActionDontCare),
-            clearColor(MTLClearColorMake(initClearColor.normR(),
-                                         initClearColor.normG(),
-                                         initClearColor.normB(),
-                                         initClearColor.normA())),
-            clearDepth(initClearDepth)
+            depthFormat(MTLPixelFormatInvalid)
         {
             renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
 
             if (!renderPassDescriptor)
                 throw std::runtime_error("Failed to create Metal render pass descriptor");
-
-            renderPassDescriptor.colorAttachments[0].clearColor = clearColor;
-            renderPassDescriptor.depthAttachment.clearDepth = clearDepth;
         }
 
         MetalRenderTarget::~MetalRenderTarget()
@@ -50,7 +36,6 @@ namespace ouzel
                 size_t index = colorTextures.size() - 1;
                 renderPassDescriptor.colorAttachments[index].storeAction = (texture->getSampleCount() > 1) ? MTLStoreActionMultisampleResolve : MTLStoreActionStore;
                 renderPassDescriptor.colorAttachments[index].texture = texture->getTexture();
-                renderPassDescriptor.colorAttachments[index].clearColor = clearColor;
 
                 colorFormats.push_back(texture->getPixelFormat());
 
@@ -92,49 +77,11 @@ namespace ouzel
             {
                 renderPassDescriptor.depthAttachment.storeAction = (texture->getSampleCount() > 1) ? MTLStoreActionMultisampleResolve : MTLStoreActionStore;
                 renderPassDescriptor.depthAttachment.texture = texture->getTexture();
-                renderPassDescriptor.depthAttachment.clearDepth = clearDepth;
                 depthFormat = texture->getPixelFormat();
                 sampleCount = texture->getSampleCount();
             }
             else
                 depthFormat = MTLPixelFormatInvalid;
-        }
-
-        void MetalRenderTarget::setClearColorBuffer(bool clear)
-        {
-            colorBufferLoadAction = clear ? MTLLoadActionClear : MTLLoadActionDontCare;
-        }
-
-        void MetalRenderTarget::setClearDepthBuffer(bool clear)
-        {
-            depthBufferLoadAction = clear ? MTLLoadActionClear : MTLLoadActionDontCare;
-        }
-
-        void MetalRenderTarget::setClearColor(Color color)
-        {
-            if (!renderPassDescriptor)
-                throw std::runtime_error("Render pass descriptor not initialized");
-
-            clearColor = MTLClearColorMake(color.normR(),
-                                           color.normG(),
-                                           color.normB(),
-                                           color.normA());
-
-            for (size_t index = 0; index < colorTextures.size(); ++index)
-            {
-                renderPassDescriptor.colorAttachments[index].clearColor = clearColor;
-                ++index;
-            }
-        }
-
-        void MetalRenderTarget::setClearDepth(float newClearDepth)
-        {
-            if (!renderPassDescriptor)
-                throw std::runtime_error("Render pass descriptor not initialized");
-
-            clearDepth = newClearDepth;
-
-            renderPassDescriptor.depthAttachment.clearDepth = clearDepth;
         }
     } // namespace graphics
 } // namespace ouzel
