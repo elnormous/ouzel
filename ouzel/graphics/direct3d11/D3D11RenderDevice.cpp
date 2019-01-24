@@ -461,10 +461,10 @@ namespace ouzel
                             }
                             else
                             {
-                                if (clearColorBuffer)
+                                if (clearCommand->clearColorBuffer)
                                     context->ClearRenderTargetView(renderTargetView, frameBufferClearColor);
 
-                                if (clearDepthBuffer)
+                                if (clearCommand->clearDepthBuffer)
                                     context->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH, clearCommand->clearDepth, 0);
                             }
 
