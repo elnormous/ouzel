@@ -30,7 +30,6 @@ namespace ouzel
                 ADD_RENDER_TARGET_COLOR_TEXTURE,
                 REMOVE_RENDER_TARGET_COLOR_TEXTURE,
                 SET_RENDER_TARGET_DEPTH_TEXTURE,
-                SET_RENDER_TARGET_PARAMETERS,
                 SET_RENDER_TARGET,
                 CLEAR_RENDER_TARGET,
                 BLIT,
@@ -86,25 +85,13 @@ namespace ouzel
         class InitRenderTargetCommand: public Command
         {
         public:
-            InitRenderTargetCommand(uintptr_t initRenderTarget,
-                                    bool initClearColorBuffer,
-                                    bool initClearDepthBuffer,
-                                    Color initClearColor,
-                                    float initClearDepth):
+            explicit InitRenderTargetCommand(uintptr_t initRenderTarget):
                 Command(Command::Type::INIT_RENDER_TARGET),
-                renderTarget(initRenderTarget),
-                clearColorBuffer(initClearColorBuffer),
-                clearDepthBuffer(initClearDepthBuffer),
-                clearColor(initClearColor),
-                clearDepth(initClearDepth)
+                renderTarget(initRenderTarget)
             {
             }
 
             uintptr_t renderTarget;
-            bool clearColorBuffer;
-            bool clearDepthBuffer;
-            Color clearColor;
-            float clearDepth;
         };
 
         class AddRenderTargetColorTextureCommand: public Command
@@ -152,30 +139,6 @@ namespace ouzel
             uintptr_t texture;
         };
 
-        class SetRenderTargetParametersCommand: public Command
-        {
-        public:
-            SetRenderTargetParametersCommand(uintptr_t initRenderTarget,
-                                             bool initClearColorBuffer,
-                                             bool initClearDepthBuffer,
-                                             Color initClearColor,
-                                             float initClearDepth):
-                Command(Command::Type::SET_RENDER_TARGET_PARAMETERS),
-                renderTarget(initRenderTarget),
-                clearColorBuffer(initClearColorBuffer),
-                clearDepthBuffer(initClearDepthBuffer),
-                clearColor(initClearColor),
-                clearDepth(initClearDepth)
-            {
-            }
-
-            uintptr_t renderTarget;
-            bool clearColorBuffer;
-            bool clearDepthBuffer;
-            Color clearColor;
-            float clearDepth;
-        };
-
         class SetRenderTargetCommand: public Command
         {
         public:
@@ -191,10 +154,22 @@ namespace ouzel
         class ClearRenderTargetCommand: public Command
         {
         public:
-            explicit ClearRenderTargetCommand():
-                Command(Command::Type::CLEAR_RENDER_TARGET)
+            explicit ClearRenderTargetCommand(bool initClearColorBuffer,
+                                              bool initClearDepthBuffer,
+                                              Color initClearColor,
+                                              float initClearDepth):
+                Command(Command::Type::CLEAR_RENDER_TARGET),
+                clearColorBuffer(initClearColorBuffer),
+                clearDepthBuffer(initClearDepthBuffer),
+                clearColor(initClearColor),
+                clearDepth(initClearDepth)
             {
             }
+
+            bool clearColorBuffer;
+            bool clearDepthBuffer;
+            Color clearColor;
+            float clearDepth;
         };
 
         // TODO: implement

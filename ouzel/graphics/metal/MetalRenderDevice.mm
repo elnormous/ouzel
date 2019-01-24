@@ -98,9 +98,7 @@ namespace ouzel
         MetalRenderDevice::MetalRenderDevice(const std::function<void(const Event&)>& initCallback):
             RenderDevice(Driver::METAL, initCallback),
             colorFormat(MTLPixelFormatInvalid),
-            depthFormat(MTLPixelFormatInvalid),
-            colorBufferLoadAction(MTLLoadActionClear),
-            depthBufferLoadAction(MTLLoadActionDontCare)
+            depthFormat(MTLPixelFormatInvalid)
         {
             apiMajorVersion = 1;
             apiMinorVersion = 0;
@@ -188,29 +186,6 @@ namespace ouzel
             depthStencilDescriptor.depthWriteEnabled = NO; // depth write
             defaultDepthStencilState = [device newDepthStencilStateWithDescriptor:depthStencilDescriptor];
             [depthStencilDescriptor release];
-        }
-
-        void MetalRenderDevice::setClearColorBuffer(bool clear)
-        {
-            colorBufferLoadAction = clear ? MTLLoadActionClear : MTLLoadActionDontCare;
-        }
-
-        void MetalRenderDevice::setClearDepthBuffer(bool clear)
-        {
-            depthBufferLoadAction = clear ? MTLLoadActionClear : MTLLoadActionDontCare;
-        }
-
-        void MetalRenderDevice::setClearColor(Color newClearColor)
-        {
-            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(newClearColor.normR(),
-                                                                                    newClearColor.normG(),
-                                                                                    newClearColor.normB(),
-                                                                                    newClearColor.normA());
-        }
-
-        void MetalRenderDevice::setClearDepth(float newClearDepth)
-        {
-            renderPassDescriptor.depthAttachment.clearDepth = newClearDepth;
         }
 
         void MetalRenderDevice::setSize(const Size2<uint32_t>& newSize)
@@ -363,38 +338,11 @@ namespace ouzel
                         case Command::INIT_RENDER_TARGET:
                         {
                             auto initRenderTargetCommand = static_cast<const InitRenderTargetCommand*>(command.get());
-                            std::unique_ptr<MetalRenderTarget> renderTarget(new MetalRenderTarget(*this,
-                                                                                                  initRenderTargetCommand->clearColorBuffer,
-                                                                                                  initRenderTargetCommand->clearDepthBuffer,
-                                                                                                  initRenderTargetCommand->clearColor,
-                                                                                                  initRenderTargetCommand->clearDepth));
+                            std::unique_ptr<MetalRenderTarget> renderTarget(new MetalRenderTarget(*this));
 
                             if (initRenderTargetCommand->renderTarget > resources.size())
                                 resources.resize(initRenderTargetCommand->renderTarget);
                             resources[initRenderTargetCommand->renderTarget - 1] = std::move(renderTarget);
-                            break;
-                        }
-
-                        case Command::Type::SET_RENDER_TARGET_PARAMETERS:
-                        {
-                            auto setRenderTargetParametersCommand = static_cast<const SetRenderTargetParametersCommand*>(command.get());
-
-                            if (setRenderTargetParametersCommand->renderTarget)
-                            {
-                                MetalRenderTarget* renderTarget = static_cast<MetalRenderTarget*>(resources[setRenderTargetParametersCommand->renderTarget - 1].get());
-                                renderTarget->setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
-                                renderTarget->setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
-                                renderTarget->setClearColor(setRenderTargetParametersCommand->clearColor);
-                                renderTarget->setClearDepth(setRenderTargetParametersCommand->clearDepth);
-                            }
-                            else
-                            {
-                                setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
-                                setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
-                                setClearColor(setRenderTargetParametersCommand->clearColor);
-                                setClearDepth(setRenderTargetParametersCommand->clearDepth);
-                            }
-
                             break;
                         }
 
@@ -471,42 +419,33 @@ namespace ouzel
 
                         case Command::Type::CLEAR_RENDER_TARGET:
                         {
-                            // auto clearCommand = static_cast<const ClearRenderTargetCommand*>(command.get());
-
-                            MTLRenderPassDescriptorPtr newRenderPassDescriptor;
-                            MTLLoadAction newColorBufferLoadAction = MTLLoadActionLoad;
-                            MTLLoadAction newDepthBufferLoadAction = MTLLoadActionLoad;
-
-                            // render target
-                            if (currentRenderTarget)
-                            {
-                                newRenderPassDescriptor = currentRenderTarget->getRenderPassDescriptor();
-                                if (!newRenderPassDescriptor) break;
-
-                                newColorBufferLoadAction = currentRenderTarget->getColorBufferLoadAction();
-                                newDepthBufferLoadAction = currentRenderTarget->getDepthBufferLoadAction();
-                            }
-                            else
-                            {
-                                newRenderPassDescriptor = renderPassDescriptor;
-
-                                newColorBufferLoadAction = colorBufferLoadAction;
-                                newDepthBufferLoadAction = depthBufferLoadAction;
-                            }
+                            auto clearCommand = static_cast<const ClearRenderTargetCommand*>(command.get());
 
                             if (currentRenderCommandEncoder)
                                 [currentRenderCommandEncoder endEncoding];
 
-                            currentRenderPassDescriptor = newRenderPassDescriptor;
+                            size_t colorAttachments = 1;
+                            if (currentRenderTarget)
+                                colorAttachments = currentRenderTarget->getColorTextures().size();
+
+                            for (size_t i = 0; i < colorAttachments; ++i)
+                            {
+                                currentRenderPassDescriptor.colorAttachments[i].loadAction = clearCommand->clearColorBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
+                                currentRenderPassDescriptor.colorAttachments[i].clearColor = MTLClearColorMake(clearCommand->clearColor.normR(),
+                                                                                                               clearCommand->clearColor.normG(),
+                                                                                                               clearCommand->clearColor.normB(),
+                                                                                                               clearCommand->clearColor.normA());
+                            }
+
+                            currentRenderPassDescriptor.depthAttachment.loadAction = clearCommand->clearDepthBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
+                            currentRenderPassDescriptor.depthAttachment.clearDepth = clearCommand->clearDepth;
+
                             currentRenderCommandEncoder = [currentCommandBuffer renderCommandEncoderWithDescriptor:currentRenderPassDescriptor];
 
                             if (!currentRenderCommandEncoder)
                                 throw std::runtime_error("Failed to create Metal render command encoder");
 
                             // TODO: enable depth and stencil writing
-
-                            currentRenderPassDescriptor.colorAttachments[0].loadAction = newColorBufferLoadAction;
-                            currentRenderPassDescriptor.depthAttachment.loadAction = newDepthBufferLoadAction;
 
                             break;
                         }

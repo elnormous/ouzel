@@ -51,8 +51,6 @@ public:
 
         bundle->loadAssets("assets.json");
 
-        engine->getRenderer()->setClearColor(ouzel::Color(64, 0, 0));
-
         std::unique_ptr<ouzel::scene::Scene> currentScene;
 
         if (!sample.empty())

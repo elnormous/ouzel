@@ -710,8 +710,6 @@ namespace ouzel
             }
 #endif
 
-            clearMask = GL_COLOR_BUFFER_BIT;
-
             if (glGenVertexArraysProc)
             {
                 glGenVertexArraysProc(1, &vertexArrayId);
@@ -721,36 +719,6 @@ namespace ouzel
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
                     throw std::system_error(makeErrorCode(error), "Failed to bind vertex array");
             }
-        }
-
-        void OGLRenderDevice::setClearColorBuffer(bool clear)
-        {
-            if (clear)
-                clearMask |= GL_COLOR_BUFFER_BIT;
-            else
-                clearMask &= ~static_cast<GLbitfield>(GL_COLOR_BUFFER_BIT);
-
-        }
-
-        void OGLRenderDevice::setClearDepthBuffer(bool clear)
-        {
-            if (clear)
-                clearMask |= GL_DEPTH_BUFFER_BIT;
-            else
-                clearMask &= ~static_cast<GLbitfield>(GL_DEPTH_BUFFER_BIT);
-        }
-
-        void OGLRenderDevice::setClearColor(Color newClearColor)
-        {
-            frameBufferClearColor[0] = newClearColor.normR();
-            frameBufferClearColor[1] = newClearColor.normG();
-            frameBufferClearColor[2] = newClearColor.normB();
-            frameBufferClearColor[3] = newClearColor.normA();
-        }
-
-        void OGLRenderDevice::setClearDepth(float newClearDepth)
-        {
-            clearDepth = newClearDepth;
         }
 
         void OGLRenderDevice::setSize(const Size2<uint32_t>& newSize)
@@ -858,11 +826,7 @@ namespace ouzel
                         case Command::INIT_RENDER_TARGET:
                         {
                             auto initRenderTargetCommand = static_cast<const InitRenderTargetCommand*>(command.get());
-                            std::unique_ptr<OGLRenderTarget> renderTarget(new OGLRenderTarget(*this,
-                                                                                              initRenderTargetCommand->clearColorBuffer,
-                                                                                              initRenderTargetCommand->clearDepthBuffer,
-                                                                                              initRenderTargetCommand->clearColor,
-                                                                                              initRenderTargetCommand->clearDepth));
+                            std::unique_ptr<OGLRenderTarget> renderTarget(new OGLRenderTarget(*this));
 
                             if (initRenderTargetCommand->renderTarget > resources.size())
                                 resources.resize(initRenderTargetCommand->renderTarget);
@@ -897,29 +861,6 @@ namespace ouzel
                             break;
                         }
 
-                        case Command::Type::SET_RENDER_TARGET_PARAMETERS:
-                        {
-                            auto setRenderTargetParametersCommand = static_cast<const SetRenderTargetParametersCommand*>(command.get());
-
-                            if (setRenderTargetParametersCommand->renderTarget)
-                            {
-                                OGLRenderTarget* renderTarget = static_cast<OGLRenderTarget*>(resources[setRenderTargetParametersCommand->renderTarget - 1].get());
-                                renderTarget->setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
-                                renderTarget->setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
-                                renderTarget->setClearColor(setRenderTargetParametersCommand->clearColor);
-                                renderTarget->setClearDepth(setRenderTargetParametersCommand->clearDepth);
-                            }
-                            else
-                            {
-                                setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
-                                setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
-                                setClearColor(setRenderTargetParametersCommand->clearColor);
-                                setClearDepth(setRenderTargetParametersCommand->clearDepth);
-                            }
-
-                            break;
-                        }
-
                         case Command::Type::SET_RENDER_TARGET:
                         {
                             auto setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command.get());
@@ -944,45 +885,36 @@ namespace ouzel
 
                         case Command::Type::CLEAR_RENDER_TARGET:
                         {
-                            // auto clearCommand = static_cast<const ClearRenderTargetCommand*>(command.get());
+                            auto clearCommand = static_cast<const ClearRenderTargetCommand*>(command.get());
 
-                            GLbitfield newClearMask = 0;
-                            std::array<float, 4> newClearColor;
-                            GLfloat newClearDepth;
+                            GLbitfield clearMask = (clearCommand->clearColorBuffer ? GL_COLOR_BUFFER_BIT : 0) |
+                                (clearCommand->clearDepthBuffer ? GL_DEPTH_BUFFER_BIT : 0);
+                            std::array<float, 4> clearColor{clearCommand->clearColor.normR(),
+                                clearCommand->clearColor.normG(),
+                                clearCommand->clearColor.normB(),
+                                clearCommand->clearColor.normA()};
+                            GLfloat clearDepth = clearCommand->clearDepth;
 
-                            if (currentRenderTarget)
+                            if (clearMask)
                             {
-                                newClearColor = currentRenderTarget->getFrameBufferClearColor();
-                                newClearDepth = currentRenderTarget->getClearDepth();
-                                newClearMask = currentRenderTarget->getClearMask();
-                            }
-                            else
-                            {
-                                newClearColor = frameBufferClearColor;
-                                newClearDepth = clearDepth;
-                                newClearMask = clearMask;
-                            }
+                                if (clearCommand->clearColorBuffer)
+                                    setClearColorValue(clearColor);
 
-                            if (newClearMask)
-                            {
-                                if (newClearMask & GL_COLOR_BUFFER_BIT)
-                                    setClearColorValue(newClearColor);
-
-                                if (newClearMask & GL_DEPTH_BUFFER_BIT)
-                                    setClearDepthValue(newClearDepth);
+                                if (clearCommand->clearDepthBuffer)
+                                    setClearDepthValue(clearDepth);
 
                                 // disable the scissor test to clear entire render target
                                 if (stateCache.scissorTestEnabled)
                                     glDisableProc(GL_SCISSOR_TEST);
                                 // allow clearing the depth buffer
-                                if (newClearMask & GL_DEPTH_BUFFER_BIT && !stateCache.depthMask)
+                                if (clearMask & GL_DEPTH_BUFFER_BIT && !stateCache.depthMask)
                                     glDepthMaskProc(true);
 
-                                glClearProc(newClearMask);
+                                glClearProc(clearMask);
 
                                 if (stateCache.scissorTestEnabled)
                                     glEnableProc(GL_SCISSOR_TEST);
-                                if (newClearMask & GL_DEPTH_BUFFER_BIT && !stateCache.depthMask)
+                                if (clearCommand->clearDepthBuffer && !stateCache.depthMask)
                                     glDepthMaskProc(false);
 
                                 GLenum error;

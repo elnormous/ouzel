@@ -14,19 +14,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        D3D11RenderTarget::D3D11RenderTarget(D3D11RenderDevice& renderDeviceD3D11,
-                                             bool initClearColorBuffer,
-                                             bool initClearDepthBuffer,
-                                             Color initClearColor,
-                                             float initClearDepth):
-            D3D11RenderResource(renderDeviceD3D11),
-            clearFrameBufferView(initClearColorBuffer),
-            clearDepthBufferView(initClearDepthBuffer),
-            frameBufferClearColor{initClearColor.normR(),
-                initClearColor.normG(),
-                initClearColor.normB(),
-                initClearColor.normA()},
-            clearDepth(initClearDepth)
+        D3D11RenderTarget::D3D11RenderTarget(D3D11RenderDevice& renderDeviceD3D11):
+            D3D11RenderResource(renderDeviceD3D11)
         {
         }
 
@@ -59,29 +48,6 @@ namespace ouzel
             depthTexture = texture;
 
             depthStencilView = texture ? texture->getDepthStencilView() : nullptr;
-        }
-
-        void D3D11RenderTarget::setClearColorBuffer(bool clear)
-        {
-            clearFrameBufferView = clear;
-        }
-
-        void D3D11RenderTarget::setClearDepthBuffer(bool clear)
-        {
-            clearDepthBufferView = clear;
-        }
-
-        void D3D11RenderTarget::setClearColor(Color color)
-        {
-            frameBufferClearColor[0] = color.normR();
-            frameBufferClearColor[1] = color.normG();
-            frameBufferClearColor[2] = color.normB();
-            frameBufferClearColor[3] = color.normA();
-        }
-
-        void D3D11RenderTarget::setClearDepth(float newClearDepth)
-        {
-            clearDepth = newClearDepth;
         }
 
         void D3D11RenderTarget::resolve()

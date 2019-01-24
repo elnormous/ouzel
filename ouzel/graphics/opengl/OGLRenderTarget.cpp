@@ -13,19 +13,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        OGLRenderTarget::OGLRenderTarget(OGLRenderDevice& renderDeviceOGL,
-                                         bool initClearColorBuffer,
-                                         bool initClearDepthBuffer,
-                                         Color initClearColor,
-                                         float initClearDepth):
-            OGLRenderResource(renderDeviceOGL),
-            clearMask((initClearColorBuffer ? GL_COLOR_BUFFER_BIT : 0) |
-                      (initClearDepthBuffer ? GL_DEPTH_BUFFER_BIT : 0)),
-            frameBufferClearColor{initClearColor.normR(),
-                initClearColor.normG(),
-                initClearColor.normB(),
-                initClearColor.normA()},
-            clearDepth(initClearDepth)
+        OGLRenderTarget::OGLRenderTarget(OGLRenderDevice& renderDeviceOGL):
+            OGLRenderResource(renderDeviceOGL)
         {
             renderDevice.glGenFramebuffersProc(1, &frameBufferId);
 
@@ -127,35 +116,6 @@ namespace ouzel
                 if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
                     throw std::system_error(makeErrorCode(error), "Failed to check frame buffer status");
             }
-        }
-
-        void OGLRenderTarget::setClearColorBuffer(bool clear)
-        {
-            if (clear)
-                clearMask |= GL_COLOR_BUFFER_BIT;
-            else
-                clearMask &= ~static_cast<GLbitfield>(GL_COLOR_BUFFER_BIT);
-        }
-
-        void OGLRenderTarget::setClearDepthBuffer(bool clear)
-        {
-            if (clear)
-                clearMask |= GL_DEPTH_BUFFER_BIT;
-            else
-                clearMask &= ~static_cast<GLbitfield>(GL_DEPTH_BUFFER_BIT);
-        }
-
-        void OGLRenderTarget::setClearColor(Color color)
-        {
-            frameBufferClearColor[0] = color.normR();
-            frameBufferClearColor[1] = color.normG();
-            frameBufferClearColor[2] = color.normB();
-            frameBufferClearColor[3] = color.normA();
-        }
-
-        void OGLRenderTarget::setClearDepth(float newClearDepth)
-        {
-            clearDepth = newClearDepth;
         }
     } // namespace graphics
 } // namespace ouzel

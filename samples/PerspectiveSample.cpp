@@ -31,8 +31,9 @@ PerspectiveSample::PerspectiveSample():
 
     engine->getEventDispatcher().addEventHandler(&handler);
 
-    engine->getRenderer()->setClearDepthBuffer(true);
-
+    camera.setClearColorBuffer(true);
+    camera.setClearColor(ouzel::Color(0, 0, 128));
+    camera.setClearDepthBuffer(true);
     camera.setDepthTest(true);
 
     camera.setProjectionMode(scene::Camera::ProjectionMode::PERSPECTIVE);

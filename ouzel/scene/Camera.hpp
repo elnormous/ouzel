@@ -90,6 +90,18 @@ namespace ouzel
             inline bool getWireframe() const { return wireframe; }
             inline void setWireframe(bool newWireframe) { wireframe = newWireframe; }
 
+            inline bool getClearColorBuffer() const { return clearColorBuffer; }
+            void setClearColorBuffer(bool clear) { clearColorBuffer = clear; }
+
+            inline bool getClearDepthBuffer() const { return clearDepthBuffer; }
+            void setClearDepthBuffer(bool clear) { clearDepthBuffer = clear; }
+
+            inline Color getClearColor() const { return clearColor; }
+            void setClearColor(Color color) { clearColor = color; }
+
+            inline float getClearDepth() const { return clearDepth; }
+            void setClearDepth(float depth) { clearDepth = depth; }
+
         protected:
             void setActor(Actor* newActor) override;
             void setLayer(Layer* newLayer) override;
@@ -125,6 +137,11 @@ namespace ouzel
 
             std::shared_ptr<graphics::RenderTarget> renderTarget;
             std::shared_ptr<graphics::DepthStencilState> depthStencilState;
+
+            bool clearColorBuffer = false;
+            bool clearDepthBuffer = false;
+            Color clearColor;
+            float clearDepth = 1.0F;
         };
     } // namespace scene
 } // namespace ouzel
