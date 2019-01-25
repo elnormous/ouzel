@@ -574,9 +574,8 @@ namespace ouzel
             bool textureBaseLevelSupported = false;
             bool textureMaxLevelSupported = false;
 
-            class StateCache
+            struct StateCache
             {
-            public:
                 GLuint textureId[Texture::LAYERS]{0};
                 GLuint programId = 0;
                 GLuint frameBufferId = 0;
