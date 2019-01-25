@@ -68,8 +68,6 @@ namespace ouzel
         {
             apiMajorVersion = 11;
             apiMinorVersion = 0;
-
-            std::fill(std::begin(rasterizerStates), std::end(rasterizerStates), nullptr);
         }
 
         D3D11RenderDevice::~D3D11RenderDevice()

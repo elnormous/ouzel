@@ -1,7 +1,5 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include <algorithm>
-#include <map>
 #include <stdexcept>
 #include <emscripten.h>
 #include <emscripten/html5.h>
@@ -40,8 +38,6 @@ namespace ouzel
             GamepadDevice(initInputSystem, initId),
             index(initIndex)
         {
-            std::fill(std::begin(axis), std::end(axis), 0.0F);
-            std::fill(std::begin(analogButton), std::end(analogButton), 0.0F);
         }
 
         void GamepadDeviceEm::update()
