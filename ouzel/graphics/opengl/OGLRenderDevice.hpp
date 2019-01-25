@@ -577,19 +577,11 @@ namespace ouzel
             class StateCache
             {
             public:
-                StateCache()
-                {
-                    bufferId[GL_ELEMENT_ARRAY_BUFFER] = 0;
-                    bufferId[GL_ARRAY_BUFFER] = 0;
-                    std::fill(std::begin(textureId), std::end(textureId), 0);
-                    std::fill(std::begin(clearColor), std::end(clearColor), 0.0F);
-                }
-
-                GLuint textureId[Texture::LAYERS];
+                GLuint textureId[Texture::LAYERS]{0};
                 GLuint programId = 0;
                 GLuint frameBufferId = 0;
 
-                std::map<GLuint, GLuint> bufferId;
+                std::map<GLuint, GLuint> bufferId{{GL_ELEMENT_ARRAY_BUFFER, 0}, {GL_ARRAY_BUFFER, 0}};
 
                 bool blendEnabled = false;
                 GLenum blendModeRGB = 0;
