@@ -26,8 +26,8 @@ namespace ouzel
                                        Gamepad::Button negativeButton, Gamepad::Button positiveButton);
 
             long index = 0;
-            double axis[64];
-            double analogButton[64];
+            double axis[64]{0.0};
+            double analogButton[64]{0.0};
         };
     } // namespace input
 } // namespace ouzel

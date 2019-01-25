@@ -94,7 +94,7 @@ namespace ouzel
             ID3D11Texture2D* backBuffer = nullptr;
             ID3D11RenderTargetView* renderTargetView = nullptr;
             std::map<SamplerStateDesc, ID3D11SamplerState*> samplerStates;
-            ID3D11RasterizerState* rasterizerStates[12];
+            ID3D11RasterizerState* rasterizerStates[12]{nullptr};
             ID3D11Texture2D* depthStencilTexture = nullptr;
             ID3D11DepthStencilView* depthStencilView = nullptr;
             ID3D11DepthStencilState* defaultDepthStencilState = nullptr;
