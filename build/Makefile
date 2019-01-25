@@ -340,54 +340,54 @@ else
 endif
 
 # Precompiled headers
-$(ROOT_DIR)/pch/cpp/Prefix.pch: $(ROOT_DIR)/Prefix.pch
+$(ROOT_DIR)/pch/cpp/Prefix.hpp: $(ROOT_DIR)/Prefix.pch
 ifeq ($(platform),windows)
 	if not exist $(ROOT_DIR)\pch md $(ROOT_DIR)\pch
 	if not exist $(ROOT_DIR)\pch\cpp md $(ROOT_DIR)\pch\cpp
-	copy $(ROOT_DIR)\Prefix.pch $(ROOT_DIR)\pch\cpp\Prefix.pch
+	copy $(ROOT_DIR)\Prefix.pch $(ROOT_DIR)\pch\cpp\Prefix.hpp
 else
 	mkdir -p $(ROOT_DIR)/pch/cpp
-	cp $(ROOT_DIR)/Prefix.pch $(ROOT_DIR)/pch/cpp/Prefix.pch
+	cp $(ROOT_DIR)/Prefix.pch $(ROOT_DIR)/pch/cpp/Prefix.hpp
 endif
 
-$(ROOT_DIR)/pch/objc/Prefix.pch: $(ROOT_DIR)/Prefix.pch
+$(ROOT_DIR)/pch/objc/Prefix.h: $(ROOT_DIR)/Prefix.pch
 ifeq ($(platform),windows)
 	if not exist $(ROOT_DIR)\pch md $(ROOT_DIR)\pch
 	if not exist $(ROOT_DIR)\pch\objc md $(ROOT_DIR)\pch\objc
-	copy $(ROOT_DIR)\Prefix.pch $(ROOT_DIR)\pch\objc\Prefix.pch
+	copy $(ROOT_DIR)\Prefix.pch $(ROOT_DIR)\pch\objc\Prefix.h
 else
 	mkdir -p $(ROOT_DIR)/pch/objc
-	cp $(ROOT_DIR)/Prefix.pch $(ROOT_DIR)/pch/objc/Prefix.pch
+	cp $(ROOT_DIR)/Prefix.pch $(ROOT_DIR)/pch/objc/Prefix.h
 endif
 
-$(ROOT_DIR)/pch/objcpp/Prefix.pch: $(ROOT_DIR)/Prefix.pch
+$(ROOT_DIR)/pch/objcpp/Prefix.h: $(ROOT_DIR)/Prefix.pch
 ifeq ($(platform),windows)
 	if not exist $(ROOT_DIR)\pch md $(ROOT_DIR)\pch
 	if not exist $(ROOT_DIR)\pch\objcpp md $(ROOT_DIR)\pch\objcpp
-	copy $(ROOT_DIR)\Prefix.pch $(ROOT_DIR)\pch\objcpp\Prefix.pch
+	copy $(ROOT_DIR)\Prefix.pch $(ROOT_DIR)\pch\objcpp\Prefix.h
 else
 	mkdir -p $(ROOT_DIR)/pch/objcpp
-	cp $(ROOT_DIR)/Prefix.pch $(ROOT_DIR)/pch/objcpp/Prefix.pch
+	cp $(ROOT_DIR)/Prefix.pch $(ROOT_DIR)/pch/objcpp/Prefix.h
 endif
 
-$(ROOT_DIR)/pch/cpp/Prefix.pch.gch: $(ROOT_DIR)/pch/cpp/Prefix.pch
-	$(CXX) -c -x c++-header $(CPPFLAGS) $(CXXFLAGS) $< -o $(ROOT_DIR)/pch/cpp/Prefix.pch.gch
+$(ROOT_DIR)/pch/cpp/Prefix.hpp.gch: $(ROOT_DIR)/pch/cpp/Prefix.hpp
+	$(CXX) -c -x c++-header $(CPPFLAGS) $(CXXFLAGS) $< -o $(ROOT_DIR)/pch/cpp/Prefix.hpp.gch
 
-$(ROOT_DIR)/pch/objc/Prefix.pch.gch: $(ROOT_DIR)/pch/objc/Prefix.pch
-	$(CC) -c -x objective-c-header $(CPPFLAGS) $(OBJCFLAGS) $< -o $(ROOT_DIR)/pch/objc/Prefix.pch.gch
+$(ROOT_DIR)/pch/objc/Prefix.h.gch: $(ROOT_DIR)/pch/objc/Prefix.h
+	$(CC) -c -x objective-c-header $(CPPFLAGS) $(OBJCFLAGS) $< -o $(ROOT_DIR)/pch/objc/Prefix.h.gch
 
-$(ROOT_DIR)/pch/objcpp/Prefix.pch.gch: $(ROOT_DIR)/pch/objcpp/Prefix.pch
-	$(CXX) -c -x objective-c++-header $(CPPFLAGS) $(OBJCXXFLAGS) $< -o $(ROOT_DIR)/pch/objcpp/Prefix.pch.gch
+$(ROOT_DIR)/pch/objcpp/Prefix.h.gch: $(ROOT_DIR)/pch/objcpp/Prefix.h
+	$(CXX) -c -x objective-c++-header $(CPPFLAGS) $(OBJCXXFLAGS) $< -o $(ROOT_DIR)/pch/objcpp/Prefix.h.gch
 
 # Source files
-%.o: %.cpp $(ROOT_DIR)/pch/cpp/Prefix.pch.gch $(ROOT_DIR)/../ouzel/Config.h
-	$(CXX) -c -x c++ $(CPPFLAGS) $(CXXFLAGS) -include $(ROOT_DIR)/pch/cpp/Prefix.pch -MMD -MP $< -o $@
+%.o: %.cpp $(ROOT_DIR)/pch/cpp/Prefix.hpp.gch $(ROOT_DIR)/../ouzel/Config.h
+	$(CXX) -c -x c++ $(CPPFLAGS) $(CXXFLAGS) -include $(ROOT_DIR)/pch/cpp/Prefix.hpp -MMD -MP $< -o $@
 
-%.o: %.m $(ROOT_DIR)/pch/objc/Prefix.pch.gch $(ROOT_DIR)/../ouzel/Config.h
-	$(CC) -c -x objective-c $(CPPFLAGS) $(OBJCFLAGS) -include $(ROOT_DIR)/pch/objc/Prefix.pch -MMD -MP $< -o $@
+%.o: %.m $(ROOT_DIR)/pch/objc/Prefix.h.gch $(ROOT_DIR)/../ouzel/Config.h
+	$(CC) -c -x objective-c $(CPPFLAGS) $(OBJCFLAGS) -include $(ROOT_DIR)/pch/objc/Prefix.h -MMD -MP $< -o $@
 
-%.o: %.mm $(ROOT_DIR)/pch/objcpp/Prefix.pch.gch $(ROOT_DIR)/../ouzel/Config.h
-	$(CXX) -c -x objective-c++ $(CPPFLAGS) $(OBJCXXFLAGS) -include $(ROOT_DIR)/pch/objcpp/Prefix.pch -MMD -MP $< -o $@
+%.o: %.mm $(ROOT_DIR)/pch/objcpp/Prefix.h.gch $(ROOT_DIR)/../ouzel/Config.h
+	$(CXX) -c -x objective-c++ $(CPPFLAGS) $(OBJCXXFLAGS) -include $(ROOT_DIR)/pch/objcpp/Prefix.h -MMD -MP $< -o $@
 
 .PHONY: clean
 clean:
@@ -397,7 +397,7 @@ ifeq ($(platform),windows)
 	-del /s "$(ROOT_DIR)\..\*.o"
 	-del /s "$(ROOT_DIR)\..\*.d"
 else
-	$(RM) $(ROOT_DIR)/$(LIBRARY) $(ROOT_DIR)/Prefix.cpp.pch $(ROOT_DIR)/Prefix.objc.pch $(ROOT_DIR)/Prefix.objcpp.pch
+	$(RM) $(ROOT_DIR)/$(LIBRARY)
 	$(RM) -rf $(ROOT_DIR)/pch
 	find $(ROOT_DIR)/.. -name '*.o' -type f -delete
 	find $(ROOT_DIR)/.. -name '*.d' -type f -delete
