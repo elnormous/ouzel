@@ -340,14 +340,14 @@ else
 endif
 
 # Precompiled headers
-$(ROOT_DIR)/pch/cpp/Prefix.hpp: $(ROOT_DIR)/Prefix.pch
+$(ROOT_DIR)/pch/cpp/Prefix.h: $(ROOT_DIR)/Prefix.pch
 ifeq ($(platform),windows)
 	if not exist $(ROOT_DIR)\pch md $(ROOT_DIR)\pch
 	if not exist $(ROOT_DIR)\pch\cpp md $(ROOT_DIR)\pch\cpp
-	copy $(ROOT_DIR)\Prefix.pch $(ROOT_DIR)\pch\cpp\Prefix.hpp
+	copy $(ROOT_DIR)\Prefix.pch $(ROOT_DIR)\pch\cpp\Prefix.h
 else
 	mkdir -p $(ROOT_DIR)/pch/cpp
-	cp $(ROOT_DIR)/Prefix.pch $(ROOT_DIR)/pch/cpp/Prefix.hpp
+	cp $(ROOT_DIR)/Prefix.pch $(ROOT_DIR)/pch/cpp/Prefix.h
 endif
 
 $(ROOT_DIR)/pch/objc/Prefix.h: $(ROOT_DIR)/Prefix.pch
@@ -370,8 +370,8 @@ else
 	cp $(ROOT_DIR)/Prefix.pch $(ROOT_DIR)/pch/objcpp/Prefix.h
 endif
 
-$(ROOT_DIR)/pch/cpp/Prefix.hpp.gch: $(ROOT_DIR)/pch/cpp/Prefix.hpp
-	$(CXX) -c -x c++-header $(CPPFLAGS) $(CXXFLAGS) $< -o $(ROOT_DIR)/pch/cpp/Prefix.hpp.gch
+$(ROOT_DIR)/pch/cpp/Prefix.h.gch: $(ROOT_DIR)/pch/cpp/Prefix.h
+	$(CXX) -c -x c++-header $(CPPFLAGS) $(CXXFLAGS) $< -o $(ROOT_DIR)/pch/cpp/Prefix.h.gch
 
 $(ROOT_DIR)/pch/objc/Prefix.h.gch: $(ROOT_DIR)/pch/objc/Prefix.h
 	$(CC) -c -x objective-c-header $(CPPFLAGS) $(OBJCFLAGS) $< -o $(ROOT_DIR)/pch/objc/Prefix.h.gch
@@ -380,8 +380,8 @@ $(ROOT_DIR)/pch/objcpp/Prefix.h.gch: $(ROOT_DIR)/pch/objcpp/Prefix.h
 	$(CXX) -c -x objective-c++-header $(CPPFLAGS) $(OBJCXXFLAGS) $< -o $(ROOT_DIR)/pch/objcpp/Prefix.h.gch
 
 # Source files
-%.o: %.cpp $(ROOT_DIR)/pch/cpp/Prefix.hpp.gch $(ROOT_DIR)/../ouzel/Config.h
-	$(CXX) -c -x c++ $(CPPFLAGS) $(CXXFLAGS) -include $(ROOT_DIR)/pch/cpp/Prefix.hpp -MMD -MP $< -o $@
+%.o: %.cpp $(ROOT_DIR)/pch/cpp/Prefix.h.gch $(ROOT_DIR)/../ouzel/Config.h
+	$(CXX) -c -x c++ $(CPPFLAGS) $(CXXFLAGS) -include $(ROOT_DIR)/pch/cpp/Prefix.h -MMD -MP $< -o $@
 
 %.o: %.m $(ROOT_DIR)/pch/objc/Prefix.h.gch $(ROOT_DIR)/../ouzel/Config.h
 	$(CC) -c -x objective-c $(CPPFLAGS) $(OBJCFLAGS) -include $(ROOT_DIR)/pch/objc/Prefix.h -MMD -MP $< -o $@
