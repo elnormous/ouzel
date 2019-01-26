@@ -385,6 +385,7 @@ namespace ouzel
             glViewportProc = getCoreProcAddress<PFNGLVIEWPORTPROC>("glViewport");
             glClearProc = getCoreProcAddress<PFNGLCLEARPROC>("glClear");
             glClearColorProc = getCoreProcAddress<PFNGLCLEARCOLORPROC>("glClearColor");
+            glClearStencilProc = getCoreProcAddress<PFNGLCLEARSTENCILPROC>("glClearStencil");
             glColorMaskProc = getCoreProcAddress<PFNGLCOLORMASKPROC>("glColorMask");
             glDepthMaskProc = getCoreProcAddress<PFNGLDEPTHMASKPROC>("glDepthMask");
             glDepthFuncProc = getCoreProcAddress<PFNGLDEPTHFUNCPROC>("glDepthFunc");
@@ -888,12 +889,12 @@ namespace ouzel
                             auto clearCommand = static_cast<const ClearRenderTargetCommand*>(command.get());
 
                             GLbitfield clearMask = (clearCommand->clearColorBuffer ? GL_COLOR_BUFFER_BIT : 0) |
-                                (clearCommand->clearDepthBuffer ? GL_DEPTH_BUFFER_BIT : 0);
+                                (clearCommand->clearDepthBuffer ? GL_DEPTH_BUFFER_BIT : 0 |
+                                (clearCommand->clearStencilBuffer ? GL_STENCIL_BUFFER_BIT : 0));
                             std::array<float, 4> clearColor{clearCommand->clearColor.normR(),
                                 clearCommand->clearColor.normG(),
                                 clearCommand->clearColor.normB(),
                                 clearCommand->clearColor.normA()};
-                            GLfloat clearDepth = clearCommand->clearDepth;
 
                             if (clearMask)
                             {
@@ -901,7 +902,10 @@ namespace ouzel
                                     setClearColorValue(clearColor);
 
                                 if (clearCommand->clearDepthBuffer)
-                                    setClearDepthValue(clearDepth);
+                                    setClearDepthValue(clearCommand->clearDepth);
+                                
+                                if (clearCommand->clearStencilBuffer)
+                                    setClearStencilValue(static_cast<GLint>(clearCommand->clearStencil));
 
                                 // disable the scissor test to clear entire render target
                                 if (stateCache.scissorTestEnabled)

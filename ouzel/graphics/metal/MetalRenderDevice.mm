@@ -179,6 +179,8 @@ namespace ouzel
             renderPassDescriptor.depthAttachment.loadAction = MTLLoadActionClear;
             renderPassDescriptor.depthAttachment.clearDepth = 1.0F;
             renderPassDescriptor.depthAttachment.storeAction = MTLStoreActionStore;
+            renderPassDescriptor.stencilAttachment.loadAction = MTLLoadActionClear;
+            renderPassDescriptor.stencilAttachment.clearStencil = 0;
 
             MTLDepthStencilDescriptor* depthStencilDescriptor = [MTLDepthStencilDescriptor new];
 
@@ -439,6 +441,9 @@ namespace ouzel
 
                             currentRenderPassDescriptor.depthAttachment.loadAction = clearCommand->clearDepthBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
                             currentRenderPassDescriptor.depthAttachment.clearDepth = clearCommand->clearDepth;
+
+                            currentRenderPassDescriptor.stencilAttachment.loadAction = clearCommand->clearStencilBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
+                            currentRenderPassDescriptor.stencilAttachment.clearStencil = clearCommand->clearStencil;
 
                             currentRenderCommandEncoder = [currentCommandBuffer renderCommandEncoderWithDescriptor:currentRenderPassDescriptor];
 

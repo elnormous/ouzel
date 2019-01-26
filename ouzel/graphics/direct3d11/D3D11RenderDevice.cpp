@@ -453,9 +453,12 @@ namespace ouzel
                                     for (ID3D11RenderTargetView* view : currentRenderTarget->getRenderTargetViews())
                                         context->ClearRenderTargetView(view, frameBufferClearColor);
 
-                                if (clearCommand->clearDepthBuffer)
+                                if (clearCommand->clearDepthBuffer || clearCommand->clearStencilBuffer)
                                     if (ID3D11DepthStencilView* view = currentRenderTarget->getDepthStencilView())
-                                        context->ClearDepthStencilView(view, D3D11_CLEAR_DEPTH, clearCommand->clearDepth, 0);
+                                        context->ClearDepthStencilView(view,
+                                                                       (clearCommand->clearDepthBuffer ? D3D11_CLEAR_DEPTH : 0) | (clearCommand->clearStencilBuffer ? D3D11_CLEAR_STENCIL : 0),
+                                                                       clearCommand->clearDepth,
+                                                                       static_cast<UINT8>(clearCommand->clearStencil));
                             }
                             else
                             {
@@ -463,7 +466,10 @@ namespace ouzel
                                     context->ClearRenderTargetView(renderTargetView, frameBufferClearColor);
 
                                 if (clearCommand->clearDepthBuffer)
-                                    context->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH, clearCommand->clearDepth, 0);
+                                    context->ClearDepthStencilView(depthStencilView,
+                                                                   (clearCommand->clearDepthBuffer ? D3D11_CLEAR_DEPTH : 0) | (clearCommand->clearStencilBuffer ? D3D11_CLEAR_STENCIL : 0),
+                                                                   clearCommand->clearDepth,
+                                                                   static_cast<UINT8>(clearCommand->clearStencil));
                             }
 
                             break;
