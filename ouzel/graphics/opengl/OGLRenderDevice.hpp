@@ -499,7 +499,7 @@ namespace ouzel
             {
                 if (stateCache.clearStencil != clearStencilValue)
                 {
-                    glClearDepthProc(clearStencilValue);
+                    glClearStencilProc(clearStencilValue);
 
                     stateCache.clearStencil = clearStencilValue;
 
