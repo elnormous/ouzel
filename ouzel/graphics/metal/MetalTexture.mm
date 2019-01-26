@@ -52,20 +52,32 @@ namespace ouzel
             }
         }
 
-        static MTLTextureType getTextureType(Texture::Dimensions dimensions)
+        static MTLTextureType getTextureType(Texture::Dimensions dimensions, bool multisample)
         {
-            switch (dimensions)
+            if (multisample)
             {
-                case Texture::Dimensions::ONE: return MTLTextureType1D;
-                case Texture::Dimensions::TWO: return MTLTextureType2D;
-                case Texture::Dimensions::THREE: return MTLTextureType3D;
-                case Texture::Dimensions::CUBE: return MTLTextureTypeCube;
-                default: throw std::runtime_error("Invalid texture type");
+                switch (dimensions)
+                {
+                    case Texture::Dimensions::TWO: return MTLTextureType2DMultisample;
+                    default: throw std::runtime_error("Invalid multisample texture type");
+                }
+            }
+            else
+            {
+                switch (dimensions)
+                {
+                    case Texture::Dimensions::ONE: return MTLTextureType1D;
+                    case Texture::Dimensions::TWO: return MTLTextureType2D;
+                    case Texture::Dimensions::THREE: return MTLTextureType3D;
+                    case Texture::Dimensions::CUBE: return MTLTextureTypeCube;
+                    default: throw std::runtime_error("Invalid texture type");
+                }
             }
         }
 
         MetalTexture::MetalTexture(MetalRenderDevice& renderDeviceMetal,
                                    const std::vector<Texture::Level>& levels,
+                                   Texture::Dimensions dimensions,
                                    uint32_t initFlags,
                                    uint32_t initSampleCount,
                                    PixelFormat initPixelFormat):
@@ -92,7 +104,7 @@ namespace ouzel
             textureDescriptor.pixelFormat = pixelFormat;
             textureDescriptor.width = width;
             textureDescriptor.height = height;
-            textureDescriptor.textureType = MTLTextureType2D;
+            textureDescriptor.textureType = getTextureType(dimensions, false);
             textureDescriptor.sampleCount = 1;
             textureDescriptor.mipmapLevelCount = static_cast<NSUInteger>(levels.size());
 
@@ -123,7 +135,7 @@ namespace ouzel
                     msaaTextureDescriptor.pixelFormat = pixelFormat;
                     msaaTextureDescriptor.width = width;
                     msaaTextureDescriptor.height = height;
-                    msaaTextureDescriptor.textureType = MTLTextureType2DMultisample;
+                    msaaTextureDescriptor.textureType = getTextureType(dimensions, true);
                     msaaTextureDescriptor.storageMode = MTLStorageModePrivate;
                     msaaTextureDescriptor.sampleCount = sampleCount;
                     msaaTextureDescriptor.mipmapLevelCount = 1;

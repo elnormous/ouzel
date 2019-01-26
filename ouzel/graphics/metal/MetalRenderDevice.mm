@@ -821,6 +821,7 @@ namespace ouzel
 
                             std::unique_ptr<MetalTexture> texture(new MetalTexture(*this,
                                                                                    initTextureCommand->levels,
+                                                                                   initTextureCommand->dimensions,
                                                                                    initTextureCommand->flags,
                                                                                    initTextureCommand->sampleCount,
                                                                                    initTextureCommand->pixelFormat));

@@ -1262,6 +1262,7 @@ namespace ouzel
 
                             std::unique_ptr<OGLTexture> texture(new OGLTexture(*this,
                                                                                initTextureCommand->levels,
+                                                                               initTextureCommand->dimensions,
                                                                                initTextureCommand->flags,
                                                                                initTextureCommand->sampleCount,
                                                                                initTextureCommand->pixelFormat));

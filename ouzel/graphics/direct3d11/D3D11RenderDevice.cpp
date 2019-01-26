@@ -806,6 +806,7 @@ namespace ouzel
 
                             std::unique_ptr<D3D11Texture> texture(new D3D11Texture(*this,
                                                                                    initTextureCommand->levels,
+                                                                                   initTextureCommand->dimensions,
                                                                                    initTextureCommand->flags,
                                                                                    initTextureCommand->sampleCount,
                                                                                    initTextureCommand->pixelFormat));
