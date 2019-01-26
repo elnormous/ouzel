@@ -256,7 +256,7 @@ namespace ouzel
 
             createTexture();
 
-            renderDevice.bindTexture(textureId, 0);
+            renderDevice.bindTexture(GL_TEXTURE_2D, 0, textureId);
 
             if (!(flags & Texture::BIND_RENDER_TARGET))
             {
@@ -316,7 +316,7 @@ namespace ouzel
 
             if (!(flags & Texture::BIND_RENDER_TARGET))
             {
-                renderDevice.bindTexture(textureId, 0);
+                renderDevice.bindTexture(GL_TEXTURE_2D, 0, textureId);
 
                 if (!levels.empty())
                 {
@@ -366,7 +366,7 @@ namespace ouzel
             if (!textureId)
                 throw std::runtime_error("Texture not initialized");
 
-            renderDevice.bindTexture(textureId, 0);
+            renderDevice.bindTexture(GL_TEXTURE_2D, 0, textureId);
 
             for (size_t level = 0; level < levels.size(); ++level)
             {
@@ -393,7 +393,7 @@ namespace ouzel
             if (!textureId)
                 throw std::runtime_error("Texture not initialized");
 
-            renderDevice.bindTexture(textureId, 0);
+            renderDevice.bindTexture(GL_TEXTURE_2D, 0, textureId);
 
             Texture::Filter finalFilter = (filter == Texture::Filter::DEFAULT) ? renderDevice.getTextureFilter() : filter;
 
@@ -433,7 +433,7 @@ namespace ouzel
             if (!textureId)
                 throw std::runtime_error("Texture not initialized");
 
-            renderDevice.bindTexture(textureId, 0);
+            renderDevice.bindTexture(GL_TEXTURE_2D, 0, textureId);
             renderDevice.glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, getWrapMode(addressX));
 
             GLenum error;
@@ -448,7 +448,7 @@ namespace ouzel
             if (!textureId)
                 throw std::runtime_error("Texture not initialized");
 
-            renderDevice.bindTexture(textureId, 0);
+            renderDevice.bindTexture(GL_TEXTURE_2D, 0, textureId);
             renderDevice.glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, getWrapMode(addressY));
 
             GLenum error;
@@ -463,7 +463,7 @@ namespace ouzel
             if (!textureId)
                 throw std::runtime_error("Texture not initialized");
 
-            renderDevice.bindTexture(textureId, 0);
+            renderDevice.bindTexture(GL_TEXTURE_2D, 0, textureId);
 
             uint32_t finalMaxAnisotropy = (maxAnisotropy == 0) ? renderDevice.getMaxAnisotropy() : maxAnisotropy;
 
@@ -502,7 +502,7 @@ namespace ouzel
                     }
                     else
                     {
-                        renderDevice.bindTexture(textureId, 0);
+                        renderDevice.bindTexture(GL_TEXTURE_2D, 0, textureId);
 
                         renderDevice.glTexImage2DProc(GL_TEXTURE_2D, 0, static_cast<GLint>(internalPixelFormat),
                                                       width, height, 0,
@@ -551,7 +551,7 @@ namespace ouzel
 
         void OGLTexture::setTextureParameters()
         {
-            renderDevice.bindTexture(textureId, 0);
+            renderDevice.bindTexture(GL_TEXTURE_2D, 0, textureId);
 
             Texture::Filter finalFilter = (filter == Texture::Filter::DEFAULT) ? renderDevice.getTextureFilter() : filter;
 

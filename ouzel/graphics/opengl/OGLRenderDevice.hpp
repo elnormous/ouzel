@@ -187,13 +187,13 @@ namespace ouzel
             bool isTextureBaseLevelSupported() const { return textureBaseLevelSupported; }
             bool isTextureMaxLevelSupported() const { return textureMaxLevelSupported; }
 
-            inline void bindTexture(GLuint textureId, uint32_t layer)
+            inline void bindTexture(GLenum target, GLenum layer, GLuint textureId)
             {
-                if (stateCache.textureId[layer] != textureId)
+                if (stateCache.textures[target].textureId[layer] != textureId)
                 {
                     glActiveTextureProc(GL_TEXTURE0 + layer);
-                    glBindTextureProc(GL_TEXTURE_2D, textureId);
-                    stateCache.textureId[layer] = textureId;
+                    glBindTextureProc(target, textureId);
+                    stateCache.textures[target].textureId[layer] = textureId;
 
                     GLenum error;
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
@@ -227,13 +227,13 @@ namespace ouzel
                 }
             }
 
-            inline void bindBuffer(GLuint bufferType, GLuint bufferId)
+            inline void bindBuffer(GLuint target, GLuint bufferId)
             {
-                GLuint& currentBufferId = stateCache.bufferId[bufferType];
+                GLuint& currentBufferId = stateCache.bufferId[target];
 
                 if (currentBufferId != bufferId)
                 {
-                    glBindBufferProc(bufferType, bufferId);
+                    glBindBufferProc(target, bufferId);
                     currentBufferId = bufferId;
 
                     GLenum error;
@@ -522,11 +522,11 @@ namespace ouzel
 
             void deleteTexture(GLuint textureId)
             {
-                for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
-                {
-                    if (stateCache.textureId[layer] == textureId)
-                        stateCache.textureId[layer] = 0;
-                }
+                for (auto& texture : stateCache.textures)
+                    for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
+                        if (texture.second.textureId[layer] == textureId)
+                            texture.second.textureId[layer] = 0;
+
                 glDeleteTexturesProc(1, &textureId);
             }
 
@@ -576,11 +576,26 @@ namespace ouzel
 
             struct StateCache
             {
-                GLuint textureId[Texture::LAYERS]{0};
+                struct Textures
+                {
+                    GLuint textureId[Texture::LAYERS]{0};
+                };
+
+                std::map<GLenum, Textures> textures{
+#if !OUZEL_SUPPORTS_OPENGLES
+                    {GL_TEXTURE_1D, Textures{}},
+#endif
+                    {GL_TEXTURE_2D, Textures{}},
+                    {GL_TEXTURE_3D, Textures{}},
+                    {GL_TEXTURE_CUBE_MAP, Textures{}}
+                };
                 GLuint programId = 0;
                 GLuint frameBufferId = 0;
 
-                std::map<GLuint, GLuint> bufferId{{GL_ELEMENT_ARRAY_BUFFER, 0}, {GL_ARRAY_BUFFER, 0}};
+                std::map<GLenum, GLuint> bufferId{
+                    {GL_ELEMENT_ARRAY_BUFFER, 0},
+                    {GL_ARRAY_BUFFER, 0}
+                };
 
                 bool blendEnabled = false;
                 GLenum blendModeRGB = 0;

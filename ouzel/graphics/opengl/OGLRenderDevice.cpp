@@ -1303,10 +1303,10 @@ namespace ouzel
                                 if (setTexturesCommand->textures[layer])
                                 {
                                     OGLTexture* texture = static_cast<OGLTexture*>(resources[setTexturesCommand->textures[layer] - 1].get());
-                                    bindTexture(texture->getTextureId(), layer);
+                                    bindTexture(GL_TEXTURE_2D, layer, texture->getTextureId());
                                 }
                                 else
-                                    bindTexture(0, layer);
+                                    bindTexture(GL_TEXTURE_2D, layer, 0);
                             }
 
                             break;
