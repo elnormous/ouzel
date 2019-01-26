@@ -98,7 +98,8 @@ namespace ouzel
         MetalRenderDevice::MetalRenderDevice(const std::function<void(const Event&)>& initCallback):
             RenderDevice(Driver::METAL, initCallback),
             colorFormat(MTLPixelFormatInvalid),
-            depthFormat(MTLPixelFormatInvalid)
+            depthFormat(MTLPixelFormatInvalid),
+            stencilFormat(MTLPixelFormatInvalid)
         {
             apiMajorVersion = 1;
             apiMinorVersion = 0;
@@ -167,6 +168,7 @@ namespace ouzel
                 throw std::runtime_error("Failed to create Metal command queue");
 
             if (depth) depthFormat = MTLPixelFormatDepth32Float;
+            stencilFormat = MTLPixelFormatInvalid;
 
             renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
 
@@ -391,6 +393,7 @@ namespace ouzel
                                 currentPipelineStateDesc.sampleCount = currentRenderTarget->getSampleCount();
                                 currentPipelineStateDesc.colorFormats = currentRenderTarget->getColorFormats();
                                 currentPipelineStateDesc.depthFormat = currentRenderTarget->getDepthFormat();
+                                currentPipelineStateDesc.stencilFormat = currentRenderTarget->getStencilFormat();
                             }
                             else
                             {
@@ -399,6 +402,7 @@ namespace ouzel
                                 currentPipelineStateDesc.sampleCount = sampleCount;
                                 currentPipelineStateDesc.colorFormats = {colorFormat};
                                 currentPipelineStateDesc.depthFormat = depthFormat;
+                                currentPipelineStateDesc.stencilFormat = stencilFormat;
                             }
 
                             if (currentRenderPassDescriptor != newRenderPassDescriptor ||
@@ -948,7 +952,7 @@ namespace ouzel
                 for (size_t i = 0; i < desc.colorFormats.size(); ++i)
                     pipelineStateDescriptor.colorAttachments[i].pixelFormat = desc.colorFormats[i];
                 pipelineStateDescriptor.depthAttachmentPixelFormat = desc.depthFormat;
-                pipelineStateDescriptor.stencilAttachmentPixelFormat = MTLPixelFormatInvalid;
+                pipelineStateDescriptor.stencilAttachmentPixelFormat = desc.stencilFormat;
 
                 if (desc.blendState)
                 {

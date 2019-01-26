@@ -15,7 +15,8 @@ namespace ouzel
     {
         MetalRenderTarget::MetalRenderTarget(MetalRenderDevice& renderDeviceMetal):
             MetalRenderResource(renderDeviceMetal),
-            depthFormat(MTLPixelFormatInvalid)
+            depthFormat(MTLPixelFormatInvalid),
+            stencilFormat(MTLPixelFormatInvalid)
         {
             renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
 

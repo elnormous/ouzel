@@ -94,6 +94,7 @@ namespace ouzel
                 NSUInteger sampleCount = 0;
                 std::vector<MTLPixelFormat> colorFormats;
                 MTLPixelFormat depthFormat;
+                MTLPixelFormat stencilFormat;
 
                 bool operator<(const PipelineStateDesc& other) const
                 {
@@ -128,6 +129,7 @@ namespace ouzel
 
             MTLPixelFormat colorFormat;
             MTLPixelFormat depthFormat;
+            MTLPixelFormat stencilFormat;
 
             dispatch_semaphore_t inflightSemaphore;
 
