@@ -504,12 +504,14 @@ namespace ouzel
         public:
             InitTextureCommand(uintptr_t initTexture,
                                const std::vector<Texture::Level>& initLevels,
+                               Texture::Dimensions initDimensions,
                                uint32_t initFlags,
                                uint32_t initSampleCount,
                                PixelFormat initPixelFormat):
                 Command(Command::Type::INIT_TEXTURE),
                 texture(initTexture),
                 levels(initLevels),
+                dimensions(initDimensions),
                 flags(initFlags),
                 sampleCount(initSampleCount),
                 pixelFormat(initPixelFormat)
@@ -518,6 +520,7 @@ namespace ouzel
 
             uintptr_t texture;
             std::vector<Texture::Level> levels;
+            Texture::Dimensions dimensions;
             uint32_t flags;
             uint32_t sampleCount;
             PixelFormat pixelFormat;

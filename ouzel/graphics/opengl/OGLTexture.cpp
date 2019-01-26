@@ -214,7 +214,7 @@ namespace ouzel
             }
         }
 
-        static GLenum getTextureType(Texture::Dimensions dimensions)
+        static GLenum getTextureTarget(Texture::Dimensions dimensions)
         {
             switch (dimensions)
             {
@@ -230,6 +230,7 @@ namespace ouzel
 
         OGLTexture::OGLTexture(OGLRenderDevice& renderDeviceOGL,
                                const std::vector<Texture::Level>& initLevels,
+                               Texture::Dimensions dimensions,
                                uint32_t initFlags,
                                uint32_t initSampleCount,
                                PixelFormat initPixelFormat):
@@ -238,6 +239,7 @@ namespace ouzel
             flags(initFlags),
             mipmaps(static_cast<uint32_t>(initLevels.size())),
             sampleCount(initSampleCount),
+            textureTarget(getTextureTarget(dimensions)),
             internalPixelFormat(getOGLInternalPixelFormat(initPixelFormat, renderDevice.getAPIMajorVersion())),
             pixelFormat(getOGLPixelFormat(initPixelFormat)),
             pixelType(getOGLPixelType(initPixelFormat))
@@ -256,14 +258,14 @@ namespace ouzel
 
             createTexture();
 
-            renderDevice.bindTexture(GL_TEXTURE_2D, 0, textureId);
+            renderDevice.bindTexture(textureTarget, 0, textureId);
 
             if (!(flags & Texture::BIND_RENDER_TARGET))
             {
                 if (!levels.empty())
                 {
-                    if (renderDevice.isTextureBaseLevelSupported()) renderDevice.glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-                    if (renderDevice.isTextureMaxLevelSupported()) renderDevice.glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
+                    if (renderDevice.isTextureBaseLevelSupported()) renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_BASE_LEVEL, 0);
+                    if (renderDevice.isTextureMaxLevelSupported()) renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
 
                     GLenum error;
 
@@ -316,12 +318,12 @@ namespace ouzel
 
             if (!(flags & Texture::BIND_RENDER_TARGET))
             {
-                renderDevice.bindTexture(GL_TEXTURE_2D, 0, textureId);
+                renderDevice.bindTexture(textureTarget, 0, textureId);
 
                 if (!levels.empty())
                 {
-                    if (renderDevice.isTextureBaseLevelSupported()) renderDevice.glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-                    if (renderDevice.isTextureMaxLevelSupported()) renderDevice.glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
+                    if (renderDevice.isTextureBaseLevelSupported()) renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_BASE_LEVEL, 0);
+                    if (renderDevice.isTextureMaxLevelSupported()) renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
 
                     GLenum error;
 
@@ -366,7 +368,7 @@ namespace ouzel
             if (!textureId)
                 throw std::runtime_error("Texture not initialized");
 
-            renderDevice.bindTexture(GL_TEXTURE_2D, 0, textureId);
+            renderDevice.bindTexture(textureTarget, 0, textureId);
 
             for (size_t level = 0; level < levels.size(); ++level)
             {
@@ -393,7 +395,7 @@ namespace ouzel
             if (!textureId)
                 throw std::runtime_error("Texture not initialized");
 
-            renderDevice.bindTexture(GL_TEXTURE_2D, 0, textureId);
+            renderDevice.bindTexture(textureTarget, 0, textureId);
 
             Texture::Filter finalFilter = (filter == Texture::Filter::DEFAULT) ? renderDevice.getTextureFilter() : filter;
 
@@ -401,20 +403,20 @@ namespace ouzel
             {
                 case Texture::Filter::DEFAULT:
                 case Texture::Filter::POINT:
-                    renderDevice.glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
-                    renderDevice.glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                    renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
+                    renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                     break;
                 case Texture::Filter::LINEAR:
-                    renderDevice.glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
-                    renderDevice.glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                    renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
+                    renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                     break;
                 case Texture::Filter::BILINEAR:
-                    renderDevice.glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
-                    renderDevice.glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                    renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
+                    renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                     break;
                 case Texture::Filter::TRILINEAR:
-                    renderDevice.glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
-                    renderDevice.glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                    renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
+                    renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                     break;
                 default:
                     throw std::runtime_error("Invalid texture filter");
@@ -433,8 +435,8 @@ namespace ouzel
             if (!textureId)
                 throw std::runtime_error("Texture not initialized");
 
-            renderDevice.bindTexture(GL_TEXTURE_2D, 0, textureId);
-            renderDevice.glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, getWrapMode(addressX));
+            renderDevice.bindTexture(textureTarget, 0, textureId);
+            renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_WRAP_S, getWrapMode(addressX));
 
             GLenum error;
             if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
@@ -448,8 +450,8 @@ namespace ouzel
             if (!textureId)
                 throw std::runtime_error("Texture not initialized");
 
-            renderDevice.bindTexture(GL_TEXTURE_2D, 0, textureId);
-            renderDevice.glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, getWrapMode(addressY));
+            renderDevice.bindTexture(textureTarget, 0, textureId);
+            renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_WRAP_T, getWrapMode(addressY));
 
             GLenum error;
             if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
@@ -463,13 +465,13 @@ namespace ouzel
             if (!textureId)
                 throw std::runtime_error("Texture not initialized");
 
-            renderDevice.bindTexture(GL_TEXTURE_2D, 0, textureId);
+            renderDevice.bindTexture(textureTarget, 0, textureId);
 
             uint32_t finalMaxAnisotropy = (maxAnisotropy == 0) ? renderDevice.getMaxAnisotropy() : maxAnisotropy;
 
             if (finalMaxAnisotropy > 1 && renderDevice.isAnisotropicFilteringSupported())
             {
-                renderDevice.glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, static_cast<GLint>(finalMaxAnisotropy));
+                renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAX_ANISOTROPY_EXT, static_cast<GLint>(finalMaxAnisotropy));
 
                 GLenum error;
 
@@ -502,9 +504,9 @@ namespace ouzel
                     }
                     else
                     {
-                        renderDevice.bindTexture(GL_TEXTURE_2D, 0, textureId);
+                        renderDevice.bindTexture(textureTarget, 0, textureId);
 
-                        renderDevice.glTexImage2DProc(GL_TEXTURE_2D, 0, static_cast<GLint>(internalPixelFormat),
+                        renderDevice.glTexImage2DProc(textureTarget, 0, static_cast<GLint>(internalPixelFormat),
                                                       width, height, 0,
                                                       pixelFormat, pixelType, nullptr);
 
@@ -551,7 +553,7 @@ namespace ouzel
 
         void OGLTexture::setTextureParameters()
         {
-            renderDevice.bindTexture(GL_TEXTURE_2D, 0, textureId);
+            renderDevice.bindTexture(textureTarget, 0, textureId);
 
             Texture::Filter finalFilter = (filter == Texture::Filter::DEFAULT) ? renderDevice.getTextureFilter() : filter;
 
@@ -559,20 +561,20 @@ namespace ouzel
             {
                 case Texture::Filter::DEFAULT:
                 case Texture::Filter::POINT:
-                    renderDevice.glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
-                    renderDevice.glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                    renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
+                    renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                     break;
                 case Texture::Filter::LINEAR:
-                    renderDevice.glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
-                    renderDevice.glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                    renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
+                    renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                     break;
                 case Texture::Filter::BILINEAR:
-                    renderDevice.glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
-                    renderDevice.glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                    renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
+                    renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                     break;
                 case Texture::Filter::TRILINEAR:
-                    renderDevice.glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
-                    renderDevice.glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                    renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
+                    renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                     break;
                 default:
                     throw std::runtime_error("Invalid texture filter");
@@ -583,38 +585,12 @@ namespace ouzel
             if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
                 throw std::system_error(makeErrorCode(error), "Failed to set texture filter");
 
-            switch (addressX)
-            {
-                case Texture::Address::CLAMP:
-                    renderDevice.glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-                    break;
-                case Texture::Address::REPEAT:
-                    renderDevice.glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-                    break;
-                case Texture::Address::MIRROR_REPEAT:
-                    renderDevice.glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
-                    break;
-                default:
-                    throw std::runtime_error("Invalid texture address mode");
-            }
+            renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_WRAP_S, getWrapMode(addressX));
 
             if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
                 throw std::system_error(makeErrorCode(error), "Failed to set texture wrap mode");
 
-            switch (addressY)
-            {
-                case Texture::Address::CLAMP:
-                    renderDevice.glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-                    break;
-                case Texture::Address::REPEAT:
-                    renderDevice.glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-                    break;
-                case Texture::Address::MIRROR_REPEAT:
-                    renderDevice.glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
-                    break;
-                default:
-                    throw std::runtime_error("Invalid texture address mode");
-            }
+            renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_WRAP_T, getWrapMode(addressY));
 
             if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
                 throw std::system_error(makeErrorCode(error), "Failed to set texture wrap mode");
@@ -623,7 +599,7 @@ namespace ouzel
 
             if (finalMaxAnisotropy > 1 && renderDevice.isAnisotropicFilteringSupported())
             {
-                renderDevice.glTexParameteriProc(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, static_cast<GLint>(finalMaxAnisotropy));
+                renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAX_ANISOTROPY_EXT, static_cast<GLint>(finalMaxAnisotropy));
 
                 if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
                     throw std::system_error(makeErrorCode(error), "Failed to set texture max anisotrophy");

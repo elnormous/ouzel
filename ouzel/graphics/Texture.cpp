@@ -501,6 +501,7 @@ namespace ouzel
 
             renderer.addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
                                                                                 levels,
+                                                                                Dimensions::TWO,
                                                                                 flags,
                                                                                 sampleCount,
                                                                                 pixelFormat)));
@@ -531,6 +532,7 @@ namespace ouzel
 
             renderer.addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
                                                                                 levels,
+                                                                                Dimensions::TWO,
                                                                                 flags,
                                                                                 sampleCount,
                                                                                 pixelFormat)));
@@ -563,6 +565,7 @@ namespace ouzel
 
             renderer.addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
                                                                                 levels,
+                                                                                Dimensions::TWO,
                                                                                 flags,
                                                                                 sampleCount,
                                                                                 pixelFormat)));
@@ -601,6 +604,7 @@ namespace ouzel
 
             renderer.addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
                                                                                 levels,
+                                                                                Dimensions::TWO,
                                                                                 flags,
                                                                                 sampleCount,
                                                                                 pixelFormat)));
@@ -629,6 +633,7 @@ namespace ouzel
 
             renderer.addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
                                                                                 levels,
+                                                                                Dimensions::TWO,
                                                                                 flags,
                                                                                 sampleCount,
                                                                                 pixelFormat)));
@@ -659,6 +664,7 @@ namespace ouzel
 
             renderer.addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
                                                                                 levels,
+                                                                                Dimensions::TWO,
                                                                                 flags,
                                                                                 sampleCount,
                                                                                 pixelFormat)));
