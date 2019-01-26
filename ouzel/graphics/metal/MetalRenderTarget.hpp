@@ -50,6 +50,7 @@ namespace ouzel
             NSUInteger getSampleCount() const { return sampleCount; }
             const std::vector<MTLPixelFormat>& getColorFormats() const { return colorFormats; }
             MTLPixelFormat getDepthFormat() const { return depthFormat; }
+            MTLPixelFormat getStencilFormat() const { return stencilFormat; }
 
             inline MTLRenderPassDescriptorPtr getRenderPassDescriptor() const { return renderPassDescriptor; }
 
@@ -60,6 +61,7 @@ namespace ouzel
             NSUInteger sampleCount = 0;
             std::vector<MTLPixelFormat> colorFormats;
             MTLPixelFormat depthFormat;
+            MTLPixelFormat stencilFormat;
 
             MTLRenderPassDescriptorPtr renderPassDescriptor = nil;
         };
