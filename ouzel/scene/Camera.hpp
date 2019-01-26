@@ -96,11 +96,17 @@ namespace ouzel
             inline bool getClearDepthBuffer() const { return clearDepthBuffer; }
             void setClearDepthBuffer(bool clear) { clearDepthBuffer = clear; }
 
+            inline bool getClearStencilBuffer() const { return clearStencilBuffer; }
+            void setClearStencilBuffer(bool clear) { clearStencilBuffer = clear; }
+
             inline Color getClearColor() const { return clearColor; }
             void setClearColor(Color color) { clearColor = color; }
 
             inline float getClearDepth() const { return clearDepth; }
             void setClearDepth(float depth) { clearDepth = depth; }
+
+            inline uint32_t getClearStencil() const { return clearStencil; }
+            void setClearDepth(uint32_t stencil) { clearStencil = stencil; }
 
         protected:
             void setActor(Actor* newActor) override;
@@ -140,8 +146,10 @@ namespace ouzel
 
             bool clearColorBuffer = false;
             bool clearDepthBuffer = false;
+            bool clearStencilBuffer = false;
             Color clearColor;
             float clearDepth = 1.0F;
+            uint32_t clearStencil = 0;
         };
     } // namespace scene
 } // namespace ouzel

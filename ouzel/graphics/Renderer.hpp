@@ -55,8 +55,10 @@ namespace ouzel
             void setRenderTarget(uintptr_t renderTarget);
             void clearRenderTarget(bool clearColorBuffer,
                                    bool clearDepthBuffer,
+                                   bool clearStencilBuffer,
                                    Color clearColor,
-                                   float clearDepth);
+                                   float clearDepth,
+                                   uint32_t clearStencil);
             void setCullMode(CullMode cullMode);
             void setFillMode(FillMode fillMode);
             void setScissorTest(bool enabled, const Rect<float>& rectangle);

@@ -83,6 +83,7 @@ namespace ouzel
             PFNGLVIEWPORTPROC glViewportProc = nullptr;
             PFNGLCLEARPROC glClearProc = nullptr;
             PFNGLCLEARCOLORPROC glClearColorProc = nullptr;
+            PFNGLCLEARSTENCILPROC glClearStencilProc = nullptr;
             PFNGLCOLORMASKPROC glColorMaskProc = nullptr;
             PFNGLDEPTHMASKPROC glDepthMaskProc = nullptr;
             PFNGLDEPTHFUNCPROC glDepthFuncProc = nullptr;
@@ -459,24 +460,6 @@ namespace ouzel
                 }
             }
 
-            inline void setClearDepthValue(float clearDepthValue)
-            {
-                if (stateCache.clearDepth != clearDepthValue)
-                {
-#if OUZEL_SUPPORTS_OPENGLES
-                    glClearDepthfProc(clearDepthValue);
-#else
-                    glClearDepthProc(clearDepthValue);
-#endif
-
-                    stateCache.clearDepth = clearDepthValue;
-
-                    GLenum error;
-                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw std::system_error(makeErrorCode(error), "Failed to enable cull face");
-                }
-            }
-
             inline void setClearColorValue(const std::array<GLfloat, 4>& clearColorValue)
             {
                 if (stateCache.clearColor != clearColorValue)
@@ -490,7 +473,39 @@ namespace ouzel
 
                     GLenum error;
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw std::system_error(makeErrorCode(error), "Failed to enable cull face");
+                        throw std::system_error(makeErrorCode(error), "Failed to set clear color");
+                }
+            }
+
+            inline void setClearDepthValue(GLfloat clearDepthValue)
+            {
+                if (stateCache.clearDepth != clearDepthValue)
+                {
+#if OUZEL_SUPPORTS_OPENGLES
+                    glClearDepthfProc(clearDepthValue);
+#else
+                    glClearDepthProc(clearDepthValue);
+#endif
+
+                    stateCache.clearDepth = clearDepthValue;
+
+                    GLenum error;
+                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                        throw std::system_error(makeErrorCode(error), "Failed to set clear depth");
+                }
+            }
+
+            inline void setClearStencilValue(GLint clearStencilValue)
+            {
+                if (stateCache.clearStencil != clearStencilValue)
+                {
+                    glClearDepthProc(clearStencilValue);
+
+                    stateCache.clearStencil = clearStencilValue;
+
+                    GLenum error;
+                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                        throw std::system_error(makeErrorCode(error), "Failed to set clear stencil");
                 }
             }
 
@@ -631,7 +646,8 @@ namespace ouzel
                 GLenum cullFace = GL_NONE;
 
                 std::array<GLfloat, 4> clearColor{{0.0F, 0.0F, 0.0F, 0.0F}};
-                float clearDepth = 1.0F;
+                GLfloat clearDepth = 1.0F;
+                GLint clearStencil = 0;
             };
 
             StateCache stateCache;

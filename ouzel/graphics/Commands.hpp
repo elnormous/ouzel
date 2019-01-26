@@ -156,20 +156,26 @@ namespace ouzel
         public:
             explicit ClearRenderTargetCommand(bool initClearColorBuffer,
                                               bool initClearDepthBuffer,
+                                              bool initClearStencilBuffer,
                                               Color initClearColor,
-                                              float initClearDepth):
+                                              float initClearDepth,
+                                              uint32_t initClearStencil):
                 Command(Command::Type::CLEAR_RENDER_TARGET),
                 clearColorBuffer(initClearColorBuffer),
                 clearDepthBuffer(initClearDepthBuffer),
+                clearStencilBuffer(initClearStencilBuffer),
                 clearColor(initClearColor),
-                clearDepth(initClearDepth)
+                clearDepth(initClearDepth),
+                clearStencil(initClearStencil)
             {
             }
 
             bool clearColorBuffer;
             bool clearDepthBuffer;
+            bool clearStencilBuffer;
             Color clearColor;
             float clearDepth;
+            uint32_t clearStencil;
         };
 
         // TODO: implement

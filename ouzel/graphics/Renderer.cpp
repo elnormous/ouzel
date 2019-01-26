@@ -205,13 +205,17 @@ namespace ouzel
 
         void Renderer::clearRenderTarget(bool clearColorBuffer,
                                          bool clearDepthBuffer,
+                                         bool clearStencilBuffer,
                                          Color clearColor,
-                                         float clearDepth)
+                                         float clearDepth,
+                                         uint32_t clearStencil)
         {
             addCommand(std::unique_ptr<Command>(new ClearRenderTargetCommand(clearColorBuffer,
                                                                              clearDepthBuffer,
+                                                                             clearStencilBuffer,
                                                                              clearColor,
-                                                                             clearDepth)));
+                                                                             clearDepth,
+                                                                             clearStencil)));
         }
 
         void Renderer::setCullMode(CullMode cullMode)
