@@ -100,6 +100,7 @@ namespace ouzel
                 EGL_BLUE_SIZE, 8,
                 EGL_ALPHA_SIZE, 8,
                 EGL_DEPTH_SIZE, newDepth ? 24 : 0,
+                EGL_STENCIL_SIZE, newStencil ? 8 : 0,
                 EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
                 EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
                 EGL_SAMPLE_BUFFERS, (newSampleCount > 1) ? 1 : 0,
