@@ -85,7 +85,8 @@ namespace ouzel
             flags(initFlags),
             mipmaps(static_cast<uint32_t>(levels.size())),
             sampleCount(initSampleCount),
-            pixelFormat(getMetalPixelFormat(initPixelFormat))
+            pixelFormat(getMetalPixelFormat(initPixelFormat)),
+            stencilBuffer(initPixelFormat == PixelFormat::DEPTH_STENCIL)
         {
             if ((flags & Texture::BIND_RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
                 throw std::runtime_error("Invalid mip map count");

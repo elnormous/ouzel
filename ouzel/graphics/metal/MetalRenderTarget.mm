@@ -79,6 +79,7 @@ namespace ouzel
                 renderPassDescriptor.depthAttachment.storeAction = (texture->getSampleCount() > 1) ? MTLStoreActionMultisampleResolve : MTLStoreActionStore;
                 renderPassDescriptor.depthAttachment.texture = texture->getTexture();
                 depthFormat = texture->getPixelFormat();
+                stencilFormat = texture->getStencilBuffer() ? texture->getPixelFormat() : MTLPixelFormatInvalid;
                 sampleCount = texture->getSampleCount();
             }
             else
