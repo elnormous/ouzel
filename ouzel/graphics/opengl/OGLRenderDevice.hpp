@@ -74,6 +74,7 @@ namespace ouzel
             PFNGLGETERRORPROC glGetErrorProc = nullptr;
             PFNGLENABLEPROC glEnableProc = nullptr;
             PFNGLDISABLEPROC glDisableProc = nullptr;
+            PFNGLFRONTFACEPROC glFrontFaceProc = nullptr;
             PFNGLBINDTEXTUREPROC glBindTextureProc = nullptr;
             PFNGLGENTEXTURESPROC glGenTexturesProc = nullptr;
             PFNGLDELETETEXTURESPROC glDeleteTexturesProc = nullptr;
@@ -189,6 +190,19 @@ namespace ouzel
 
             bool isTextureBaseLevelSupported() const { return textureBaseLevelSupported; }
             bool isTextureMaxLevelSupported() const { return textureMaxLevelSupported; }
+
+            inline void setFrontFace(GLenum mode)
+            {
+                if (stateCache.frontFace != mode)
+                {
+                    glFrontFaceProc(mode);
+                    stateCache.frontFace = mode;
+
+                    GLenum error;
+                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                        throw std::system_error(makeErrorCode(error), "Failed to set front face mode");
+                }
+            }
 
             inline void bindTexture(GLenum target, GLenum layer, GLuint textureId)
             {
@@ -608,6 +622,8 @@ namespace ouzel
 
             struct StateCache
             {
+                GLenum frontFace = GL_CCW;
+
                 struct Textures
                 {
                     GLuint textureId[Texture::LAYERS]{0};
