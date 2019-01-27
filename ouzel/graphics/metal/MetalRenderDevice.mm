@@ -169,8 +169,11 @@ namespace ouzel
             if (!metalCommandQueue)
                 throw std::runtime_error("Failed to create Metal command queue");
 
-            if (depth) depthFormat = MTLPixelFormatDepth32Float;
-            stencilFormat = MTLPixelFormatInvalid;
+            if (depth)
+            {
+                depthFormat = stencil ? MTLPixelFormatDepth24Unorm_Stencil8 : MTLPixelFormatDepth32Float;
+                stencilFormat = stencil ? MTLPixelFormatDepth24Unorm_Stencil8 : MTLPixelFormatInvalid;
+            }
 
             renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
 
