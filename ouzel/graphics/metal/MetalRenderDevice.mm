@@ -4,6 +4,7 @@
 
 #if OUZEL_COMPILE_METAL
 
+#include <TargetConditionals.h>
 #include <cassert>
 #include <stdexcept>
 #include "MetalRenderDevice.hpp"
@@ -171,8 +172,13 @@ namespace ouzel
 
             if (depth)
             {
+#if TARGET_OS_IOS || TARGET_OS_TV
+                depthFormat = stencil ? MTLPixelFormatDepth32Float_Stencil8 : MTLPixelFormatDepth32Float;
+                stencilFormat = stencil ? MTLPixelFormatDepth32Float_Stencil8 : MTLPixelFormatInvalid;
+#else
                 depthFormat = stencil ? MTLPixelFormatDepth24Unorm_Stencil8 : MTLPixelFormatDepth32Float;
                 stencilFormat = stencil ? MTLPixelFormatDepth24Unorm_Stencil8 : MTLPixelFormatInvalid;
+#endif
             }
 
             renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
