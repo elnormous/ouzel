@@ -91,7 +91,8 @@ namespace ouzel
                     NSOpenGLPFAOpenGLProfile, openGLVersion,
                     NSOpenGLPFAColorSize, 24,
                     NSOpenGLPFAAlphaSize, 8,
-                    NSOpenGLPFADepthSize, static_cast<NSOpenGLPixelFormatAttribute>(newDepth ? 24 : 0)
+                    NSOpenGLPFADepthSize, static_cast<NSOpenGLPixelFormatAttribute>(newDepth ? 24 : 0),
+                    NSOpenGLPFAStencilSize, static_cast<NSOpenGLPixelFormatAttribute>(newStencil ? 8 : 0)
                 };
 
                 if (newSampleCount)

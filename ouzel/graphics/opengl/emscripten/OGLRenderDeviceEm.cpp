@@ -40,7 +40,7 @@ namespace ouzel
 
             attrs.alpha = true;
             attrs.depth = newDepth;
-            attrs.stencil = false;
+            attrs.stencil = newStencil;
             attrs.antialias = newSampleCount > 0;
 
             webGLContext = emscripten_webgl_create_context(0, &attrs);
