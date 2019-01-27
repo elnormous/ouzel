@@ -53,6 +53,7 @@ namespace ouzel
                                         uint32_t newMaxAnisotropy,
                                         bool newVerticalSync,
                                         bool newDepth,
+                                        bool newStencil,
                                         bool newDebugRenderer)
         {
             MetalRenderDevice::init(newWindow,
@@ -62,6 +63,7 @@ namespace ouzel
                                     newMaxAnisotropy,
                                     newVerticalSync,
                                     newDepth,
+                                    newStencil,
                                     newDebugRenderer);
 
             MetalView* view = (MetalView*)static_cast<NativeWindowIOS*>(newWindow->getNativeWindow())->getNativeView();

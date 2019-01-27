@@ -27,6 +27,7 @@ namespace ouzel
                                 uint32_t newMaxAnisotropy,
                                 bool newVerticalSync,
                                 bool newDepth,
+                                bool newStencil,
                                 bool newDebugRenderer)
         {
             window = newWindow;
@@ -36,6 +37,7 @@ namespace ouzel
             maxAnisotropy = newMaxAnisotropy;
             verticalSync = newVerticalSync;
             depth = newDepth;
+            stencil = newStencil;
             debugRenderer = newDebugRenderer;
 
             previousFrameTime = std::chrono::steady_clock::now();

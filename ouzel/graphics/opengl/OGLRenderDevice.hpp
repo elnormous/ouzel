@@ -588,6 +588,7 @@ namespace ouzel
                       uint32_t newMaxAnisotropy,
                       bool newVerticalSync,
                       bool newDepth,
+                      bool newStencil,
                       bool newDebugRenderer) override;
 
             void setSize(const Size2<uint32_t>& newSize) override;

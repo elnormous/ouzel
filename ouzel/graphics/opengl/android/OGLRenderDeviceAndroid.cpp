@@ -82,6 +82,7 @@ namespace ouzel
                                           uint32_t newMaxAnisotropy,
                                           bool newVerticalSync,
                                           bool newDepth,
+                                          bool newStencil,
                                           bool newDebugRenderer)
         {
             display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
@@ -180,6 +181,7 @@ namespace ouzel
                                   newMaxAnisotropy,
                                   newVerticalSync,
                                   newDepth,
+                                  newStencil,
                                   newDebugRenderer);
 
             if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))

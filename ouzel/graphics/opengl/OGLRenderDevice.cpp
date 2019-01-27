@@ -319,6 +319,7 @@ namespace ouzel
                                    uint32_t newMaxAnisotropy,
                                    bool newVerticalSync,
                                    bool newDepth,
+                                   bool newStencil,
                                    bool newDebugRenderer)
         {
             RenderDevice::init(newWindow,
@@ -328,6 +329,7 @@ namespace ouzel
                                newMaxAnisotropy,
                                newVerticalSync,
                                newDepth,
+                               newStencil,
                                newDebugRenderer);
 
             frameBufferWidth = static_cast<GLsizei>(size.v[0]);
