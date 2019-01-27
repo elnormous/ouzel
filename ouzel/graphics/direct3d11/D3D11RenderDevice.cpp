@@ -580,7 +580,8 @@ namespace ouzel
                             std::unique_ptr<D3D11DepthStencilState> depthStencilState(new D3D11DepthStencilState(*this,
                                                                                                                  initDepthStencilStateCommand->depthTest,
                                                                                                                  initDepthStencilStateCommand->depthWrite,
-                                                                                                                 initDepthStencilStateCommand->compareFunction));
+                                                                                                                 initDepthStencilStateCommand->compareFunction,
+                                                                                                                 initDepthStencilStateCommand->stencilMask));
 
                             if (initDepthStencilStateCommand->depthStencilState > resources.size())
                                 resources.resize(initDepthStencilStateCommand->depthStencilState);

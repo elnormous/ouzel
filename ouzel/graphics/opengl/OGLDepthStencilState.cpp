@@ -31,11 +31,15 @@ namespace ouzel
         OGLDepthStencilState::OGLDepthStencilState(OGLRenderDevice& renderDeviceOGL,
                                                    bool initDepthTest,
                                                    bool initDepthWrite,
-                                                   DepthStencilState::CompareFunction initCompareFunction):
+                                                   DepthStencilState::CompareFunction initCompareFunction,
+                                                   uint32_t initStencilReadMask,
+                                                   uint32_t initStencilWriteMask):
             OGLRenderResource(renderDeviceOGL),
             depthTest(initDepthTest),
             depthMask(initDepthWrite ? GL_TRUE : GL_FALSE),
-            compareFunction(getFunction(initCompareFunction))
+            compareFunction(getFunction(initCompareFunction)),
+            stencilReadMask(initStencilReadMask),
+            stencilWriteMask(initStencilWriteMask)
         {
         }
     } // namespace graphics

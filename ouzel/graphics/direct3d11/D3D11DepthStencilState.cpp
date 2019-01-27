@@ -31,7 +31,9 @@ namespace ouzel
         D3D11DepthStencilState::D3D11DepthStencilState(D3D11RenderDevice& renderDeviceD3D11,
                                                        bool initDepthTest,
                                                        bool initDepthWrite,
-                                                       DepthStencilState::CompareFunction initCompareFunction):
+                                                       DepthStencilState::CompareFunction initCompareFunction,
+                                                       uint32_t initStencilReadMask,
+                                                       uint32_t initStencilWriteMask):
             D3D11RenderResource(renderDeviceD3D11)
         {
             D3D11_DEPTH_STENCIL_DESC depthStencilStateDesc;
@@ -39,8 +41,8 @@ namespace ouzel
             depthStencilStateDesc.DepthWriteMask = initDepthWrite ? D3D11_DEPTH_WRITE_MASK_ALL : D3D11_DEPTH_WRITE_MASK_ZERO;
             depthStencilStateDesc.DepthFunc = getCompareFunction(initCompareFunction);
             depthStencilStateDesc.StencilEnable = FALSE;
-            depthStencilStateDesc.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
-            depthStencilStateDesc.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
+            depthStencilStateDesc.StencilReadMask = static_cast<UINT8>(initStencilReadMask);
+            depthStencilStateDesc.StencilWriteMask = static_cast<UINT8>(initStencilWriteMask);
             depthStencilStateDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
             depthStencilStateDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
             depthStencilStateDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
