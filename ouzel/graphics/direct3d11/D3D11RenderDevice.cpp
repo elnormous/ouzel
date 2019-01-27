@@ -125,6 +125,7 @@ namespace ouzel
                                      uint32_t newMaxAnisotropy,
                                      bool newVerticalSync,
                                      bool newDepth,
+                                     bool newStencil,
                                      bool newDebugRenderer)
         {
             RenderDevice::init(newWindow,
@@ -134,6 +135,7 @@ namespace ouzel
                                newMaxAnisotropy,
                                newVerticalSync,
                                newDepth,
+                               newStencil,
                                newDebugRenderer);
 
             UINT deviceCreationFlags = 0;

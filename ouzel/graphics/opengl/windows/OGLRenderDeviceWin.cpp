@@ -156,6 +156,7 @@ namespace ouzel
                                       uint32_t newMaxAnisotropy,
                                       bool newVerticalSync,
                                       bool newDepth,
+                                      bool newStencil,
                                       bool newDebugRenderer)
         {
             TempContext tempContext;
@@ -273,6 +274,7 @@ namespace ouzel
                                   newMaxAnisotropy,
                                   newVerticalSync,
                                   newDepth,
+                                  newStencil,
                                   newDebugRenderer);
 
             if (!wglMakeCurrent(deviceContext, nullptr))

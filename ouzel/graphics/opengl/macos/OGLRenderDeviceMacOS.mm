@@ -77,6 +77,7 @@ namespace ouzel
                                         uint32_t newMaxAnisotropy,
                                         bool newVerticalSync,
                                         bool newDepth,
+                                        bool newStencil,
                                         bool newDebugRenderer)
         {
             for (NSOpenGLPixelFormatAttribute openGLVersion : {NSOpenGLProfileVersion4_1Core, NSOpenGLProfileVersion3_2Core, NSOpenGLProfileVersionLegacy})
@@ -153,6 +154,7 @@ namespace ouzel
                                   newMaxAnisotropy,
                                   newVerticalSync,
                                   newDepth,
+                                  newStencil,
                                   newDebugRenderer);
 
             eventHandler.windowHandler = std::bind(&OGLRenderDeviceMacOS::handleWindow, this, std::placeholders::_1);

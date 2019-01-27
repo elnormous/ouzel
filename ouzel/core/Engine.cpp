@@ -124,6 +124,7 @@ namespace ouzel
         bool fullscreen = false;
         bool verticalSync = true;
         bool depth = false;
+        bool stencil = false;
         bool debugRenderer = false;
         bool exclusiveFullscreen = false;
         bool highDpi = true; // should high DPI resolution be used
@@ -187,6 +188,9 @@ namespace ouzel
         std::string depthValue = userEngineSection.getValue("depth", defaultEngineSection.getValue("depth"));
         if (!depthValue.empty()) depth = (depthValue == "true" || depthValue == "1" || depthValue == "yes");
 
+        std::string stencilValue = userEngineSection.getValue("stencil", defaultEngineSection.getValue("stencil"));
+        if (!stencilValue.empty()) stencil = (depthValue == "true" || depthValue == "1" || depthValue == "yes");
+
         std::string debugRendererValue = userEngineSection.getValue("debugRenderer", defaultEngineSection.getValue("debugRenderer"));
         if (!debugRendererValue.empty()) debugRenderer = (debugRendererValue == "true" || debugRendererValue == "1" || debugRendererValue == "yes");
 
@@ -218,6 +222,7 @@ namespace ouzel
                                               maxAnisotropy,
                                               verticalSync,
                                               depth,
+                                              stencil,
                                               debugRenderer));
 
         audio::Driver audioDriver = audio::Audio::getDriver(audioDriverValue);

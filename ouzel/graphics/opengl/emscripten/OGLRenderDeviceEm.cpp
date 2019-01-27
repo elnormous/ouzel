@@ -29,6 +29,7 @@ namespace ouzel
                                      uint32_t newMaxAnisotropy,
                                      bool newVerticalSync,
                                      bool newDepth,
+                                     bool newStencil,
                                      bool newDebugRenderer)
         {
             apiMajorVersion = 2;
@@ -61,6 +62,7 @@ namespace ouzel
                                   newMaxAnisotropy,
                                   newVerticalSync,
                                   newDepth,
+                                  newStencil,
                                   newDebugRenderer);
         }
     } // namespace graphics

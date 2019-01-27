@@ -35,6 +35,7 @@ namespace ouzel
                      uint32_t newMaxAnisotropy,
                      bool newVerticalSync,
                      bool newDepth,
+                     bool newStencil,
                      bool newDebugRenderer);
 
             Renderer(const Renderer&) = delete;

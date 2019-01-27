@@ -118,6 +118,7 @@ namespace ouzel
                               uint32_t newMaxAnisotropy,
                               bool newVerticalSync,
                               bool newDepth,
+                              bool newStencil,
                               bool newDebugRenderer);
 
             void executeAll();
@@ -139,6 +140,7 @@ namespace ouzel
 
             bool verticalSync = true;
             bool depth = false;
+            bool stencil = false;
             bool debugRenderer = false;
 
             bool npotTexturesSupported = true;

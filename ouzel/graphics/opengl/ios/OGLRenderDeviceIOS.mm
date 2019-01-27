@@ -64,6 +64,7 @@ namespace ouzel
                                       uint32_t newMaxAnisotropy,
                                       bool newVerticalSync,
                                       bool newDepth,
+                                      bool newStencil,
                                       bool newDebugRenderer)
         {
             UIView* view = static_cast<NativeWindowIOS*>(newWindow->getNativeWindow())->getNativeView();
@@ -106,6 +107,7 @@ namespace ouzel
                                   newMaxAnisotropy,
                                   newVerticalSync,
                                   newDepth,
+                                  newStencil,
                                   newDebugRenderer);
 
             createFrameBuffer();

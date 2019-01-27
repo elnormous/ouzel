@@ -106,6 +106,7 @@ namespace ouzel
                            uint32_t newMaxAnisotropy,
                            bool newVerticalSync,
                            bool newDepth,
+                           bool newStencil,
                            bool newDebugRenderer)
         {
             for (uint32_t i = 0; i < 256; ++i)
@@ -171,6 +172,7 @@ namespace ouzel
                          newMaxAnisotropy,
                          newVerticalSync,
                          newDepth,
+                         newStencil,
                          newDebugRenderer);
         }
 

@@ -97,6 +97,7 @@ namespace ouzel
                                         uint32_t newMaxAnisotropy,
                                         bool newVerticalSync,
                                         bool newDepth,
+                                        bool newStencil,
                                         bool newDebugRenderer)
         {
             NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(newWindow->getNativeWindow());
@@ -262,6 +263,7 @@ namespace ouzel
                                   newMaxAnisotropy,
                                   newVerticalSync,
                                   newDepth,
+                                  newStencil,
                                   newDebugRenderer);
 
 #if OUZEL_OPENGL_INTERFACE_EGL
