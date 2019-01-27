@@ -68,6 +68,7 @@ namespace ouzel
 
             inline MTLTexturePtr getTexture() const { return texture; }
             inline MTLPixelFormat getPixelFormat() const { return pixelFormat; }
+            inline bool getStencilBuffer() const { return stencilBuffer; }
 
             inline MTLSamplerStatePtr getSamplerState() const { return samplerState; }
 
@@ -92,6 +93,7 @@ namespace ouzel
             MTLTexturePtr msaaTexture = nil;
 
             MTLPixelFormat pixelFormat;
+            bool stencilBuffer = false;
         };
     } // namespace graphics
 } // namespace ouzel
