@@ -202,8 +202,10 @@ namespace ouzel
                     throw std::runtime_error("Failed to bind drawable object's storage to render buffer");
 
                 OGLRenderDevice::bindFrameBuffer(resolveFrameBufferId);
-                glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-                                              GL_RENDERBUFFER, resolveColorRenderBufferId);
+                glFramebufferRenderbufferProc(GL_FRAMEBUFFER,
+                                              GL_COLOR_ATTACHMENT0,
+                                              GL_RENDERBUFFER,
+                                              resolveColorRenderBufferId);
 
                 GLenum error;
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
@@ -221,7 +223,11 @@ namespace ouzel
                 glGenRenderbuffersProc(1, &msaaColorRenderBufferId);
 
                 glBindRenderbufferProc(GL_RENDERBUFFER, msaaColorRenderBufferId);
-                glRenderbufferStorageMultisampleAPPLEProc(GL_RENDERBUFFER, static_cast<GLsizei>(sampleCount), GL_RGBA8_OES, frameBufferWidth, frameBufferHeight);
+                glRenderbufferStorageMultisampleAPPLEProc(GL_RENDERBUFFER,
+                                                          static_cast<GLsizei>(sampleCount),
+                                                          GL_RGBA8_OES,
+                                                          frameBufferWidth,
+                                                          frameBufferHeight);
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
                     throw std::system_error(makeErrorCode(error), "Failed to set color render buffer's multisample storage");
@@ -230,21 +236,31 @@ namespace ouzel
                 {
                     glGenRenderbuffersProc(1, &depthRenderBufferId);
                     glBindRenderbufferProc(GL_RENDERBUFFER, depthRenderBufferId);
-                    glRenderbufferStorageMultisampleAPPLEProc(GL_RENDERBUFFER, static_cast<GLsizei>(sampleCount), GL_DEPTH_COMPONENT24_OES, frameBufferWidth, frameBufferHeight);
+                    glRenderbufferStorageMultisampleAPPLEProc(GL_RENDERBUFFER,
+                                                              static_cast<GLsizei>(sampleCount),
+                                                              stencil ? GL_DEPTH_COMPONENT24_OES : GL_DEPTH24_STENCIL8_OES,
+                                                              frameBufferWidth,
+                                                              frameBufferHeight);
 
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw std::system_error(makeErrorCode(error), "Failed to set depth render buffer's multisample storage");
                 }
 
                 OGLRenderDevice::bindFrameBuffer(msaaFrameBufferId);
-                glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, msaaColorRenderBufferId);
+                glFramebufferRenderbufferProc(GL_FRAMEBUFFER,
+                                              GL_COLOR_ATTACHMENT0,
+                                              GL_RENDERBUFFER,
+                                              msaaColorRenderBufferId);
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
                     throw std::system_error(makeErrorCode(error), "Failed to set frame buffer's color render buffer");
 
                 if (depth)
                 {
-                    glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBufferId);
+                    glFramebufferRenderbufferProc(GL_FRAMEBUFFER,
+                                                  GL_DEPTH_ATTACHMENT,
+                                                  GL_RENDERBUFFER,
+                                                  depthRenderBufferId);
 
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw std::system_error(makeErrorCode(error), "Failed to set frame buffer's depth render buffer");
@@ -269,8 +285,10 @@ namespace ouzel
                     throw std::runtime_error("Failed to bind drawable object's storage to render buffer");
 
                 OGLRenderDevice::bindFrameBuffer(resolveFrameBufferId);
-                glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-                                              GL_RENDERBUFFER, resolveColorRenderBufferId);
+                glFramebufferRenderbufferProc(GL_FRAMEBUFFER,
+                                              GL_COLOR_ATTACHMENT0,
+                                              GL_RENDERBUFFER,
+                                              resolveColorRenderBufferId);
 
                 GLenum error;
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
@@ -280,12 +298,18 @@ namespace ouzel
                 {
                     glGenRenderbuffersProc(1, &depthRenderBufferId);
                     glBindRenderbufferProc(GL_RENDERBUFFER, depthRenderBufferId);
-                    glRenderbufferStorageProc(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24_OES, frameBufferWidth, frameBufferHeight);
+                    glRenderbufferStorageProc(GL_RENDERBUFFER,
+                                              stencil ? GL_DEPTH_COMPONENT24_OES : GL_DEPTH24_STENCIL8_OES,
+                                              frameBufferWidth,
+                                              frameBufferHeight);
 
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw std::system_error(makeErrorCode(error), "Failed to set depth render buffer's storage");
 
-                    glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBufferId);
+                    glFramebufferRenderbufferProc(GL_FRAMEBUFFER,
+                                                  GL_DEPTH_ATTACHMENT,
+                                                  GL_RENDERBUFFER,
+                                                  depthRenderBufferId);
 
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw std::system_error(makeErrorCode(error), "Failed to set frame buffer's depth render buffer");
