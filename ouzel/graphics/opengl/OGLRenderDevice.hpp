@@ -87,6 +87,8 @@ namespace ouzel
             PFNGLCOLORMASKPROC glColorMaskProc = nullptr;
             PFNGLDEPTHMASKPROC glDepthMaskProc = nullptr;
             PFNGLDEPTHFUNCPROC glDepthFuncProc = nullptr;
+            PFNGLSTENCILMASKPROC glStencilMaskProc = nullptr;
+            PFNGLSTENCILFUNCPROC glStencilFuncProc = nullptr;
             PFNGLCULLFACEPROC glCullFaceProc = nullptr;
             PFNGLSCISSORPROC glScissorProc = nullptr;
             PFNGLDRAWELEMENTSPROC glDrawElementsProc = nullptr;
@@ -300,34 +302,6 @@ namespace ouzel
                 }
             }
 
-            inline void setDepthMask(GLboolean flag)
-            {
-                if (stateCache.depthMask != flag)
-                {
-                    glDepthMaskProc(flag);
-
-                    GLenum error;
-                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw std::system_error(makeErrorCode(error), "Failed to change depth mask state");
-
-                    stateCache.depthMask = flag;
-                }
-            }
-
-            inline void setDepthFunc(GLenum depthFunc)
-            {
-                if (stateCache.depthFunc != depthFunc)
-                {
-                    glDepthFuncProc(depthFunc);
-
-                    GLenum error;
-                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        throw std::system_error(makeErrorCode(error), "Failed to change depth test state");
-
-                    stateCache.depthFunc = depthFunc;
-                }
-            }
-
             inline void setViewport(GLint x,
                                     GLint y,
                                     GLsizei width,
@@ -426,6 +400,48 @@ namespace ouzel
                     GLenum error;
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw std::system_error(makeErrorCode(error), "Failed to set color mask");
+                }
+            }
+
+            inline void setDepthMask(GLboolean flag)
+            {
+                if (stateCache.depthMask != flag)
+                {
+                    glDepthMaskProc(flag);
+
+                    GLenum error;
+                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                        throw std::system_error(makeErrorCode(error), "Failed to change depth mask state");
+
+                    stateCache.depthMask = flag;
+                }
+            }
+
+            inline void setDepthFunc(GLenum depthFunc)
+            {
+                if (stateCache.depthFunc != depthFunc)
+                {
+                    glDepthFuncProc(depthFunc);
+
+                    GLenum error;
+                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                        throw std::system_error(makeErrorCode(error), "Failed to change depth test state");
+
+                    stateCache.depthFunc = depthFunc;
+                }
+            }
+
+            inline void setStencilMask(GLuint stencilMask)
+            {
+                if (stateCache.stencilMask != stencilMask)
+                {
+                    glStencilMaskProc(stencilMask);
+
+                    GLenum error;
+                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                        throw std::system_error(makeErrorCode(error), "Failed to change stencil mask");
+
+                    stateCache.stencilMask = stencilMask;
                 }
             }
 
@@ -648,6 +664,7 @@ namespace ouzel
                 std::array<GLfloat, 4> clearColor{{0.0F, 0.0F, 0.0F, 0.0F}};
                 GLfloat clearDepth = 1.0F;
                 GLint clearStencil = 0;
+                GLuint stencilMask = 0xFFFFFFFF;
             };
 
             StateCache stateCache;

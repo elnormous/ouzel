@@ -30,7 +30,9 @@ namespace ouzel
             DepthStencilState(Renderer& initRenderer,
                               bool initDepthTest,
                               bool initDepthWrite,
-                              CompareFunction initCompareFunction);
+                              CompareFunction initCompareFunction,
+                              uint32_t initStencilReadMask,
+                              uint32_t initStencilWriteMask);
             ~DepthStencilState();
 
             DepthStencilState(const DepthStencilState&) = delete;
@@ -41,7 +43,9 @@ namespace ouzel
 
             void init(bool newDepthTest,
                       bool newDepthWrite,
-                      CompareFunction newCompareFunction);
+                      CompareFunction newCompareFunction,
+                      uint32_t newStencilReadMask,
+                      uint32_t newStencilWriteMask);
 
             inline uintptr_t getResource() const { return resource; }
 
@@ -52,6 +56,8 @@ namespace ouzel
             bool depthTest = false;
             bool depthWrite = false;
             CompareFunction compareFunction;
+            uint32_t stencilReadMask;
+            uint32_t stencilWriteMask;
         };
     } // namespace graphics
 } // namespace ouzel

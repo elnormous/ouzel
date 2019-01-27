@@ -294,7 +294,9 @@ namespace ouzel
             if (depthTest)
                 depthStencilState = std::make_shared<graphics::DepthStencilState>(*engine->getRenderer(),
                                                                                   true, true,
-                                                                                  graphics::DepthStencilState::CompareFunction::LESS_EQUAL);
+                                                                                  graphics::DepthStencilState::CompareFunction::LESS_EQUAL,
+                                                                                  0xFFFFFFFF,
+                                                                                  0xFFFFFFFF);
             else
                 depthStencilState.reset();
         }

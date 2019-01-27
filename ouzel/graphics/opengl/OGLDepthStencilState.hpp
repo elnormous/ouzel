@@ -32,18 +32,24 @@ namespace ouzel
             OGLDepthStencilState(OGLRenderDevice& renderDeviceOGL,
                                  bool initDepthTest,
                                  bool initDepthWrite,
-                                 DepthStencilState::CompareFunction initCompareFunction);
+                                 DepthStencilState::CompareFunction initCompareFunction,
+                                 uint32_t initStencilReadMask,
+                                 uint32_t initStencilWriteMask);
 
             void reload() override {}
 
             bool getDepthTest() const { return depthTest; }
             GLboolean getDepthMask() const { return depthMask; }
             GLenum getCompareFunction() const { return compareFunction; }
+            GLuint getStencilReadMask() const { return stencilReadMask; }
+            GLuint getStencilWriteMask() const { return stencilWriteMask; }
 
         private:
             bool depthTest = false;
             GLboolean depthMask = GL_TRUE;
             GLenum compareFunction;
+            GLuint stencilReadMask = 0xFFFFFFFF;
+            GLuint stencilWriteMask = 0xFFFFFFFF;
         };
     } // namespace graphics
 } // namespace ouzel

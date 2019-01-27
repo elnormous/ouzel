@@ -389,6 +389,8 @@ namespace ouzel
             glColorMaskProc = getCoreProcAddress<PFNGLCOLORMASKPROC>("glColorMask");
             glDepthMaskProc = getCoreProcAddress<PFNGLDEPTHMASKPROC>("glDepthMask");
             glDepthFuncProc = getCoreProcAddress<PFNGLDEPTHFUNCPROC>("glDepthFunc");
+            glStencilMaskProc = getCoreProcAddress<PFNGLSTENCILMASKPROC>("glStencilMask");
+            glStencilFuncProc = getCoreProcAddress<PFNGLSTENCILFUNCPROC>("glStencilFunc");
             glCullFaceProc = getCoreProcAddress<PFNGLCULLFACEPROC>("glCullFace");
             glScissorProc = getCoreProcAddress<PFNGLSCISSORPROC>("glScissor");
             glDrawElementsProc = getCoreProcAddress<PFNGLDRAWELEMENTSPROC>("glDrawElements");
@@ -1015,7 +1017,9 @@ namespace ouzel
                             std::unique_ptr<OGLDepthStencilState> depthStencilState(new OGLDepthStencilState(*this,
                                                                                                              initDepthStencilStateCommand->depthTest,
                                                                                                              initDepthStencilStateCommand->depthWrite,
-                                                                                                             initDepthStencilStateCommand->compareFunction));
+                                                                                                             initDepthStencilStateCommand->compareFunction,
+                                                                                                             initDepthStencilStateCommand->stencilReadMask,
+                                                                                                             initDepthStencilStateCommand->stencilWriteMask));
 
                             if (initDepthStencilStateCommand->depthStencilState > resources.size())
                                 resources.resize(initDepthStencilStateCommand->depthStencilState);
@@ -1034,12 +1038,14 @@ namespace ouzel
                                 enableDepthTest(depthStencilState->getDepthTest());
                                 setDepthMask(depthStencilState->getDepthMask());
                                 glDepthFuncProc(depthStencilState->getCompareFunction());
+                                setStencilMask(depthStencilState->getStencilWriteMask());
                             }
                             else
                             {
                                 enableDepthTest(false);
                                 setDepthMask(GL_FALSE);
                                 setDepthFunc(GL_LESS);
+                                setStencilMask(0xFFFFFFFF);
                             }
 
                             break;
