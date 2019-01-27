@@ -268,13 +268,13 @@ namespace ouzel
             }
         }
 
-        static GLenum getCullFace(CullMode cullMode, bool flippedY)
+        static GLenum getCullFace(CullMode cullMode)
         {
             switch (cullMode)
             {
                 case CullMode::NONE: return GL_NONE;
-                case CullMode::FRONT: return flippedY ? GL_BACK : GL_FRONT; // flip the faces, because of the flipped y-axis
-                case CullMode::BACK: return flippedY ? GL_FRONT : GL_BACK;
+                case CullMode::FRONT: return GL_FRONT;
+                case CullMode::BACK: return GL_BACK;
                 default: throw std::runtime_error("Invalid cull mode");
             }
         }
@@ -378,6 +378,7 @@ namespace ouzel
 
             glEnableProc = getCoreProcAddress<PFNGLENABLEPROC>("glEnable");
             glDisableProc = getCoreProcAddress<PFNGLDISABLEPROC>("glDisable");
+            glFrontFaceProc = getCoreProcAddress<PFNGLFRONTFACEPROC>("glFrontFace");
             glBindTextureProc = getCoreProcAddress<PFNGLBINDTEXTUREPROC>("glBindTexture");
             glGenTexturesProc = getCoreProcAddress<PFNGLGENTEXTURESPROC>("glGenTextures");
             glDeleteTexturesProc = getCoreProcAddress<PFNGLDELETETEXTURESPROC>("glDeleteTextures");
@@ -724,6 +725,8 @@ namespace ouzel
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
                     throw std::system_error(makeErrorCode(error), "Failed to bind vertex array");
             }
+
+            setFrontFace(GL_CW);
         }
 
         void OGLRenderDevice::setSize(const Size2<uint32_t>& newSize)
@@ -876,15 +879,14 @@ namespace ouzel
 
                                 if (!currentRenderTarget->getFrameBufferId()) break;
                                 bindFrameBuffer(currentRenderTarget->getFrameBufferId());
+                                setFrontFace(GL_CCW);
                             }
                             else
                             {
                                 currentRenderTarget = nullptr;
                                 bindFrameBuffer(frameBufferId);
+                                setFrontFace(GL_CW);
                             }
-
-                            // TODO: update cull mode
-
                             break;
                         }
 
@@ -966,12 +968,8 @@ namespace ouzel
                         case Command::Type::SET_CULL_MODE:
                         {
                             const SetCullModeCommad* setCullModeCommad = static_cast<const SetCullModeCommad*>(command.get());
-
-                            const GLenum cullFace = getCullFace(setCullModeCommad->cullMode,
-                                                                stateCache.frameBufferId == frameBufferId);
-
+                            const GLenum cullFace = getCullFace(setCullModeCommad->cullMode);
                             setCullFace(cullFace != GL_NONE, cullFace);
-
                             break;
                         }
 
