@@ -282,7 +282,7 @@ namespace ouzel
             stateCache = StateCache();
 
             glDisableProc(GL_DITHER);
-            glDepthFunc(GL_LEQUAL);
+            glDepthFuncProc(GL_LEQUAL);
 
             GLenum error;
 
