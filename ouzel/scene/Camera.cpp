@@ -295,6 +295,7 @@ namespace ouzel
                 depthStencilState = std::make_shared<graphics::DepthStencilState>(*engine->getRenderer(),
                                                                                   true, true,
                                                                                   graphics::DepthStencilState::CompareFunction::LESS_EQUAL,
+                                                                                  false,
                                                                                   0xFFFFFFFF,
                                                                                   0xFFFFFFFF,
                                                                                   graphics::DepthStencilState::StencilDescriptor(),

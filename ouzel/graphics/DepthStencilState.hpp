@@ -51,6 +51,7 @@ namespace ouzel
                               bool initDepthTest,
                               bool initDepthWrite,
                               CompareFunction initCompareFunction,
+                              bool initStencilEnabled,
                               uint32_t initStencilReadMask,
                               uint32_t initStencilWriteMask,
                               StencilDescriptor initFrontFaceStencil,
@@ -66,6 +67,7 @@ namespace ouzel
             void init(bool newDepthTest,
                       bool newDepthWrite,
                       CompareFunction newCompareFunction,
+                      bool initStencilEnabled,
                       uint32_t newStencilReadMask,
                       uint32_t newStencilWriteMask,
                       StencilDescriptor initFrontFaceStencil,
@@ -80,6 +82,7 @@ namespace ouzel
             bool depthTest = false;
             bool depthWrite = false;
             CompareFunction compareFunction;
+            bool stencilEnabled = false;
             uint32_t stencilReadMask;
             uint32_t stencilWriteMask;
             StencilDescriptor frontFaceStencil;

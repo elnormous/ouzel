@@ -18,6 +18,7 @@ namespace ouzel
                                              bool initDepthTest,
                                              bool initDepthWrite,
                                              CompareFunction initCompareFunction,
+                                             bool initStencilEnabled,
                                              uint32_t initStencilReadMask,
                                              uint32_t initStencilWriteMask,
                                              StencilDescriptor initFrontFaceStencil,
@@ -27,6 +28,7 @@ namespace ouzel
             depthTest(initDepthTest),
             depthWrite(initDepthWrite),
             compareFunction(initCompareFunction),
+            stencilEnabled(initStencilEnabled),
             stencilReadMask(initStencilReadMask),
             stencilWriteMask(initStencilWriteMask),
             frontFaceStencil(initFrontFaceStencil),
@@ -36,6 +38,7 @@ namespace ouzel
                                                                                           initDepthTest,
                                                                                           initDepthWrite,
                                                                                           initCompareFunction,
+                                                                                          initStencilEnabled,
                                                                                           initStencilReadMask,
                                                                                           initStencilWriteMask,
                                                                                           initFrontFaceStencil,
@@ -55,6 +58,7 @@ namespace ouzel
         void DepthStencilState::init(bool newDepthTest,
                                      bool newDepthWrite,
                                      CompareFunction newCompareFunction,
+                                     bool initStencilEnabled,
                                      uint32_t newStencilReadMask,
                                      uint32_t newStencilWriteMask,
                                      StencilDescriptor initFrontFaceStencil,
@@ -63,6 +67,7 @@ namespace ouzel
             depthTest = newDepthTest;
             depthWrite = newDepthWrite;
             compareFunction = newCompareFunction;
+            stencilEnabled = initStencilEnabled;
             stencilReadMask = newStencilReadMask;
             stencilWriteMask = newStencilWriteMask;
             frontFaceStencil = initFrontFaceStencil;
@@ -72,6 +77,7 @@ namespace ouzel
                                                                                           newDepthTest,
                                                                                           newDepthWrite,
                                                                                           newCompareFunction,
+                                                                                          initStencilEnabled,
                                                                                           newStencilReadMask,
                                                                                           newStencilWriteMask,
                                                                                           initFrontFaceStencil,
