@@ -296,7 +296,9 @@ namespace ouzel
                                                                                   true, true,
                                                                                   graphics::DepthStencilState::CompareFunction::LESS_EQUAL,
                                                                                   0xFFFFFFFF,
-                                                                                  0xFFFFFFFF);
+                                                                                  0xFFFFFFFF,
+                                                                                  graphics::DepthStencilState::StencilDescriptor(),
+                                                                                  graphics::DepthStencilState::StencilDescriptor());
             else
                 depthStencilState.reset();
         }
