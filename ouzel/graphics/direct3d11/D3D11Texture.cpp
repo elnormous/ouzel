@@ -245,7 +245,7 @@ namespace ouzel
                 {
                     D3D11_SHADER_RESOURCE_VIEW_DESC resourceViewDesc;
                     resourceViewDesc.Format = shaderViewPixelFormat;
-                    resourceViewDesc.ViewDimension = getShaderViewDimension(dimensions, (flags & Texture::BIND_SHADER_MSAA));
+                    resourceViewDesc.ViewDimension = getShaderViewDimension(dimensions, (flags & Texture::BIND_SHADER_MSAA) != 0);
                     resourceViewDesc.Texture2D.MostDetailedMip = 0;
                     resourceViewDesc.Texture2D.MipLevels = 1;
 
