@@ -26,13 +26,35 @@ namespace ouzel
                 ALWAYS,
             };
 
+            enum class StencilOperation
+            {
+                KEEP,
+                ZERO,
+                REPLACE,
+                INCREMENT_CLAMP,
+                DECREMENT_CLAMP,
+                INVERT,
+                INCREMENT,
+                DECREMENT
+            };
+
+            struct StencilDescriptor
+            {
+                StencilOperation failureOperation = StencilOperation::KEEP;
+                StencilOperation depthFailureOperation = StencilOperation::KEEP;
+                StencilOperation passOperation = StencilOperation::KEEP;
+                CompareFunction compareFunction = CompareFunction::ALWAYS;
+            };
+
             explicit DepthStencilState(Renderer& initRenderer);
             DepthStencilState(Renderer& initRenderer,
                               bool initDepthTest,
                               bool initDepthWrite,
                               CompareFunction initCompareFunction,
                               uint32_t initStencilReadMask,
-                              uint32_t initStencilWriteMask);
+                              uint32_t initStencilWriteMask,
+                              StencilDescriptor initFrontFaceStencil,
+                              StencilDescriptor initBackFaceStencil);
             ~DepthStencilState();
 
             DepthStencilState(const DepthStencilState&) = delete;
@@ -45,7 +67,9 @@ namespace ouzel
                       bool newDepthWrite,
                       CompareFunction newCompareFunction,
                       uint32_t newStencilReadMask,
-                      uint32_t newStencilWriteMask);
+                      uint32_t newStencilWriteMask,
+                      StencilDescriptor initFrontFaceStencil,
+                      StencilDescriptor initBackFaceStencil);
 
             inline uintptr_t getResource() const { return resource; }
 
@@ -58,6 +82,8 @@ namespace ouzel
             CompareFunction compareFunction;
             uint32_t stencilReadMask;
             uint32_t stencilWriteMask;
+            StencilDescriptor frontFaceStencil;
+            StencilDescriptor backFaceStencil;
         };
     } // namespace graphics
 } // namespace ouzel

@@ -290,14 +290,18 @@ namespace ouzel
                                          bool initDepthWrite,
                                          DepthStencilState::CompareFunction initCompareFunction,
                                          uint32_t initStencilReadMask,
-                                         uint32_t initStencilWriteMask):
+                                         uint32_t initStencilWriteMask,
+                                         DepthStencilState::StencilDescriptor initFrontFaceStencil,
+                                         DepthStencilState::StencilDescriptor initBackFaceStencil):
                 Command(Command::Type::INIT_DEPTH_STENCIL_STATE),
                 depthStencilState(initDepthStencilState),
                 depthTest(initDepthTest),
                 depthWrite(initDepthWrite),
                 compareFunction(initCompareFunction),
                 stencilReadMask(initStencilReadMask),
-                stencilWriteMask(initStencilWriteMask)
+                stencilWriteMask(initStencilWriteMask),
+                frontFaceStencil(initFrontFaceStencil),
+                backFaceStencil(initBackFaceStencil)
             {
             }
 
@@ -307,6 +311,8 @@ namespace ouzel
             DepthStencilState::CompareFunction compareFunction;
             uint32_t stencilReadMask;
             uint32_t stencilWriteMask;
+            DepthStencilState::StencilDescriptor frontFaceStencil;
+            DepthStencilState::StencilDescriptor backFaceStencil;
         };
 
         class SetDepthStencilStateCommand: public Command

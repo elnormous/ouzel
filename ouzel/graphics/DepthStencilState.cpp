@@ -19,21 +19,27 @@ namespace ouzel
                                              bool initDepthWrite,
                                              CompareFunction initCompareFunction,
                                              uint32_t initStencilReadMask,
-                                             uint32_t initStencilWriteMask):
+                                             uint32_t initStencilWriteMask,
+                                             StencilDescriptor initFrontFaceStencil,
+                                             StencilDescriptor initBackFaceStencil):
             renderer(initRenderer),
             resource(renderer.getDevice()->getResourceId()),
             depthTest(initDepthTest),
             depthWrite(initDepthWrite),
             compareFunction(initCompareFunction),
             stencilReadMask(initStencilReadMask),
-            stencilWriteMask(initStencilWriteMask)
+            stencilWriteMask(initStencilWriteMask),
+            frontFaceStencil(initFrontFaceStencil),
+            backFaceStencil(initBackFaceStencil)
         {
             renderer.addCommand(std::unique_ptr<Command>(new InitDepthStencilStateCommand(resource,
                                                                                           initDepthTest,
                                                                                           initDepthWrite,
                                                                                           initCompareFunction,
                                                                                           initStencilReadMask,
-                                                                                          initStencilWriteMask)));
+                                                                                          initStencilWriteMask,
+                                                                                          initFrontFaceStencil,
+                                                                                          initBackFaceStencil)));
         }
 
         DepthStencilState::~DepthStencilState()
@@ -50,20 +56,26 @@ namespace ouzel
                                      bool newDepthWrite,
                                      CompareFunction newCompareFunction,
                                      uint32_t newStencilReadMask,
-                                     uint32_t newStencilWriteMask)
+                                     uint32_t newStencilWriteMask,
+                                     StencilDescriptor initFrontFaceStencil,
+                                     StencilDescriptor initBackFaceStencil)
         {
             depthTest = newDepthTest;
             depthWrite = newDepthWrite;
             compareFunction = newCompareFunction;
             stencilReadMask = newStencilReadMask;
             stencilWriteMask = newStencilWriteMask;
+            frontFaceStencil = initFrontFaceStencil;
+            backFaceStencil = initBackFaceStencil;
 
             renderer.addCommand(std::unique_ptr<Command>(new InitDepthStencilStateCommand(resource,
                                                                                           newDepthTest,
                                                                                           newDepthWrite,
                                                                                           newCompareFunction,
                                                                                           newStencilReadMask,
-                                                                                          newStencilWriteMask)));
+                                                                                          newStencilWriteMask,
+                                                                                          initFrontFaceStencil,
+                                                                                          initBackFaceStencil)));
         }
     } // namespace graphics
 } // namespace ouzel
