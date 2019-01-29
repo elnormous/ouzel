@@ -393,7 +393,8 @@ namespace ouzel
             glDepthMaskProc = getCoreProcAddress<PFNGLDEPTHMASKPROC>("glDepthMask");
             glDepthFuncProc = getCoreProcAddress<PFNGLDEPTHFUNCPROC>("glDepthFunc");
             glStencilMaskProc = getCoreProcAddress<PFNGLSTENCILMASKPROC>("glStencilMask");
-            glStencilFuncProc = getCoreProcAddress<PFNGLSTENCILFUNCPROC>("glStencilFunc");
+            glStencilFuncSeparateProc = getCoreProcAddress<PFNGLSTENCILFUNCSEPARATEPROC>("glStencilFuncSeparate");
+            glStencilOpSeparateProc = getCoreProcAddress<PFNGLSTENCILOPSEPARATEPROC>("glStencilOpSeparate");
             glCullFaceProc = getCoreProcAddress<PFNGLCULLFACEPROC>("glCullFace");
             glScissorProc = getCoreProcAddress<PFNGLSCISSORPROC>("glScissor");
             glDrawElementsProc = getCoreProcAddress<PFNGLDRAWELEMENTSPROC>("glDrawElements");
@@ -916,16 +917,29 @@ namespace ouzel
                                 // disable the scissor test to clear entire render target
                                 if (stateCache.scissorTestEnabled)
                                     glDisableProc(GL_SCISSOR_TEST);
-                                // allow clearing the depth buffer
-                                if (clearMask & GL_DEPTH_BUFFER_BIT && !stateCache.depthMask)
-                                    glDepthMaskProc(true);
+
+                                // disable all masks
+                                if (clearMask & GL_COLOR_BUFFER_BIT)
+                                    glColorMaskProc(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+                                if (clearMask & GL_DEPTH_BUFFER_BIT)
+                                    glDepthMaskProc(GL_TRUE);
+                                if (clearMask & GL_STENCIL_BUFFER_BIT)
+                                    glStencilMaskProc(0xFFFFFFFF);
 
                                 glClearProc(clearMask);
 
                                 if (stateCache.scissorTestEnabled)
                                     glEnableProc(GL_SCISSOR_TEST);
-                                if (clearCommand->clearDepthBuffer && !stateCache.depthMask)
-                                    glDepthMaskProc(false);
+                                // restore the masks
+                                if (clearMask & GL_COLOR_BUFFER_BIT)
+                                    glColorMaskProc(stateCache.redMask,
+                                                    stateCache.greenMask,
+                                                    stateCache.blueMask,
+                                                    stateCache.alphaMask);
+                                if (clearMask & GL_DEPTH_BUFFER_BIT)
+                                    glDepthMaskProc(stateCache.depthMask);
+                                if (clearMask & GL_STENCIL_BUFFER_BIT)
+                                    glStencilMaskProc(stateCache.stencilMask);
 
                                 GLenum error;
 
@@ -1018,8 +1032,11 @@ namespace ouzel
                                                                                                              initDepthStencilStateCommand->depthTest,
                                                                                                              initDepthStencilStateCommand->depthWrite,
                                                                                                              initDepthStencilStateCommand->compareFunction,
+                                                                                                             initDepthStencilStateCommand->stencilEnabled,
                                                                                                              initDepthStencilStateCommand->stencilReadMask,
-                                                                                                             initDepthStencilStateCommand->stencilWriteMask));
+                                                                                                             initDepthStencilStateCommand->stencilWriteMask,
+                                                                                                             initDepthStencilStateCommand->frontFaceStencil,
+                                                                                                             initDepthStencilStateCommand->backFaceStencil));
 
                             if (initDepthStencilStateCommand->depthStencilState > resources.size())
                                 resources.resize(initDepthStencilStateCommand->depthStencilState);
@@ -1038,13 +1055,31 @@ namespace ouzel
                                 enableDepthTest(depthStencilState->getDepthTest());
                                 setDepthMask(depthStencilState->getDepthMask());
                                 glDepthFuncProc(depthStencilState->getCompareFunction());
+                                enableStencilTest(depthStencilState->getStencilTest());
                                 setStencilMask(depthStencilState->getStencilWriteMask());
+                                glStencilOpSeparateProc(GL_FRONT,
+                                                        depthStencilState->getFrontFaceFail(),
+                                                        depthStencilState->getFrontFaceDepthFail(),
+                                                        depthStencilState->getFrontFacePass());
+                                glStencilFuncSeparateProc(GL_FRONT,
+                                                          depthStencilState->getFrontFaceFunction(),
+                                                          0,
+                                                          depthStencilState->getStencilReadMask());
+                                glStencilOpSeparateProc(GL_BACK,
+                                                        depthStencilState->getBackFaceFail(),
+                                                        depthStencilState->getBackFaceDepthFail(),
+                                                        depthStencilState->getBackFacePass());
+                                glStencilFuncSeparateProc(GL_BACK,
+                                                          depthStencilState->getBackFaceFunction(),
+                                                          0,
+                                                          depthStencilState->getStencilReadMask());
                             }
                             else
                             {
                                 enableDepthTest(false);
                                 setDepthMask(GL_FALSE);
                                 setDepthFunc(GL_LESS);
+                                enableStencilTest(false);
                                 setStencilMask(0xFFFFFFFF);
                             }
 

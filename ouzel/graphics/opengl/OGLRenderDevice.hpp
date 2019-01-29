@@ -89,7 +89,8 @@ namespace ouzel
             PFNGLDEPTHMASKPROC glDepthMaskProc = nullptr;
             PFNGLDEPTHFUNCPROC glDepthFuncProc = nullptr;
             PFNGLSTENCILMASKPROC glStencilMaskProc = nullptr;
-            PFNGLSTENCILFUNCPROC glStencilFuncProc = nullptr;
+            PFNGLSTENCILFUNCSEPARATEPROC glStencilFuncSeparateProc = nullptr;
+            PFNGLSTENCILOPSEPARATEPROC glStencilOpSeparateProc = nullptr;
             PFNGLCULLFACEPROC glCullFaceProc = nullptr;
             PFNGLSCISSORPROC glScissorProc = nullptr;
             PFNGLDRAWELEMENTSPROC glDrawElementsProc = nullptr;
@@ -313,6 +314,23 @@ namespace ouzel
                         throw std::system_error(makeErrorCode(error), "Failed to change depth test state");
 
                     stateCache.depthTestEnabled = enable;
+                }
+            }
+
+            inline void enableStencilTest(bool enable)
+            {
+                if (stateCache.stencilTestEnabled != enable)
+                {
+                    if (enable)
+                        glEnableProc(GL_STENCIL_TEST);
+                    else
+                        glDisableProc(GL_STENCIL_TEST);
+
+                    GLenum error;
+                    if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                        throw std::system_error(makeErrorCode(error), "Failed to change stencil test state");
+
+                    stateCache.stencilTestEnabled = enable;
                 }
             }
 
@@ -670,6 +688,8 @@ namespace ouzel
                 bool depthTestEnabled = false;
                 GLboolean depthMask = GL_TRUE;
                 GLenum depthFunc = GL_LESS;
+                bool stencilTestEnabled = false;
+                GLuint stencilMask = 0xFFFFFFFF;
 
                 GLint viewportX = 0;
                 GLint viewportY = 0;
@@ -681,7 +701,6 @@ namespace ouzel
                 std::array<GLfloat, 4> clearColor{{0.0F, 0.0F, 0.0F, 0.0F}};
                 GLfloat clearDepth = 1.0F;
                 GLint clearStencil = 0;
-                GLuint stencilMask = 0xFFFFFFFF;
             };
 
             StateCache stateCache;
