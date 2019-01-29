@@ -240,9 +240,11 @@ namespace ouzel
             addCommand(std::unique_ptr<Command>(new SetViewportCommand(viewport)));
         }
 
-        void Renderer::setDepthStencilState(uintptr_t depthStencilState)
+        void Renderer::setDepthStencilState(uintptr_t depthStencilState,
+                                            uint32_t stencilReferenceValue)
         {
-            addCommand(std::unique_ptr<Command>(new SetDepthStencilStateCommand(depthStencilState)));
+            addCommand(std::unique_ptr<Command>(new SetDepthStencilStateCommand(depthStencilState,
+                                                                                stencilReferenceValue)));
         }
 
         void Renderer::setPipelineState(uintptr_t blendState,

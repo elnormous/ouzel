@@ -321,13 +321,16 @@ namespace ouzel
         class SetDepthStencilStateCommand: public Command
         {
         public:
-            SetDepthStencilStateCommand(uintptr_t initDepthStencilState):
+            SetDepthStencilStateCommand(uintptr_t initDepthStencilState,
+                                        uint32_t initStencilReferenceValue):
                 Command(Command::Type::SET_DEPTH_STENCIL_STATE),
-                depthStencilState(initDepthStencilState)
+                depthStencilState(initDepthStencilState),
+                stencilReferenceValue(initStencilReferenceValue)
             {
             }
 
             uintptr_t depthStencilState;
+            uint32_t stencilReferenceValue;
         };
 
         class SetPipelineStateCommand: public Command
