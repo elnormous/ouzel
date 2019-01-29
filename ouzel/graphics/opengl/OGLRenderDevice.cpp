@@ -906,43 +906,43 @@ namespace ouzel
                             if (clearMask)
                             {
                                 if (clearCommand->clearColorBuffer)
+                                {
                                     setClearColorValue(clearColor);
+                                    glColorMaskProc(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+                                }
 
                                 if (clearCommand->clearDepthBuffer)
+                                {
                                     setClearDepthValue(clearCommand->clearDepth);
+                                    glDepthMaskProc(GL_TRUE);
+                                }
                                 
                                 if (clearCommand->clearStencilBuffer)
+                                {
                                     setClearStencilValue(static_cast<GLint>(clearCommand->clearStencil));
+                                    glStencilMaskProc(0xFFFFFFFF);
+                                }
 
                                 // disable the scissor test to clear entire render target
                                 if (stateCache.scissorTestEnabled)
                                     glDisableProc(GL_SCISSOR_TEST);
-
-                                // disable all masks
-                                if (clearMask & GL_COLOR_BUFFER_BIT)
-                                    glColorMaskProc(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-                                if (clearMask & GL_DEPTH_BUFFER_BIT)
-                                    glDepthMaskProc(GL_TRUE);
-                                if (clearMask & GL_STENCIL_BUFFER_BIT)
-                                    glStencilMaskProc(0xFFFFFFFF);
 
                                 glClearProc(clearMask);
 
                                 if (stateCache.scissorTestEnabled)
                                     glEnableProc(GL_SCISSOR_TEST);
                                 // restore the masks
-                                if (clearMask & GL_COLOR_BUFFER_BIT)
+                                if (clearCommand->clearColorBuffer)
                                     glColorMaskProc(stateCache.redMask,
                                                     stateCache.greenMask,
                                                     stateCache.blueMask,
                                                     stateCache.alphaMask);
-                                if (clearMask & GL_DEPTH_BUFFER_BIT)
+                                if (clearCommand->clearDepthBuffer)
                                     glDepthMaskProc(stateCache.depthMask);
-                                if (clearMask & GL_STENCIL_BUFFER_BIT)
+                                if (clearCommand->clearStencilBuffer)
                                     glStencilMaskProc(stateCache.stencilMask);
 
                                 GLenum error;
-
                                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
                                     throw std::system_error(makeErrorCode(error), "Failed to clear frame buffer");
                             }
