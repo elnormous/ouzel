@@ -553,7 +553,12 @@ namespace ouzel
                             std::unique_ptr<MetalDepthStencilState> depthStencilState(new MetalDepthStencilState(*this,
                                                                                                                  initDepthStencilStateCommand->depthTest,
                                                                                                                  initDepthStencilStateCommand->depthWrite,
-                                                                                                                 initDepthStencilStateCommand->compareFunction));
+                                                                                                                 initDepthStencilStateCommand->compareFunction,
+                                                                                                                 initDepthStencilStateCommand->stencilEnabled,
+                                                                                                                 initDepthStencilStateCommand->stencilReadMask,
+                                                                                                                 initDepthStencilStateCommand->stencilWriteMask,
+                                                                                                                 initDepthStencilStateCommand->frontFaceStencil,
+                                                                                                                 initDepthStencilStateCommand->backFaceStencil));
 
                             if (initDepthStencilStateCommand->depthStencilState > resources.size())
                                 resources.resize(initDepthStencilStateCommand->depthStencilState);
