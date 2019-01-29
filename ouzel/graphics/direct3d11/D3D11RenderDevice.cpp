@@ -602,10 +602,12 @@ namespace ouzel
                             if (setDepthStencilStateCommand->depthStencilState)
                             {
                                 D3D11DepthStencilState* depthStencilState = static_cast<D3D11DepthStencilState*>(resources[setDepthStencilStateCommand->depthStencilState - 1].get());
-                                context->OMSetDepthStencilState(depthStencilState->getDepthStencilState(), 0);
+                                context->OMSetDepthStencilState(depthStencilState->getDepthStencilState(),
+                                                                setDepthStencilStateCommand->stencilReferenceValue);
                             }
                             else
-                                context->OMSetDepthStencilState(defaultDepthStencilState, 0);
+                                context->OMSetDepthStencilState(defaultDepthStencilState,
+                                                                setDepthStencilStateCommand->stencilReferenceValue);
 
                             break;
                         }

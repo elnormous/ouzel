@@ -36,7 +36,8 @@ namespace ouzel
 
                 engine->getRenderer()->setRenderTarget(camera->getRenderTarget() ? camera->getRenderTarget()->getResource() : 0);
                 engine->getRenderer()->setViewport(camera->getRenderViewport());
-                engine->getRenderer()->setDepthStencilState(camera->getDepthStencilState() ? camera->getDepthStencilState()->getResource() : 0);
+                engine->getRenderer()->setDepthStencilState(camera->getDepthStencilState() ? camera->getDepthStencilState()->getResource() : 0,
+                                                            camera->getStencilReferenceValue());
 
                 engine->getRenderer()->setFillMode(camera->getWireframe() ?
                                                    graphics::FillMode::WIREFRAME :

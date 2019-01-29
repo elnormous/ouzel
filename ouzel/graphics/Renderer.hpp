@@ -64,7 +64,8 @@ namespace ouzel
             void setFillMode(FillMode fillMode);
             void setScissorTest(bool enabled, const Rect<float>& rectangle);
             void setViewport(const Rect<float>& viewport);
-            void setDepthStencilState(uintptr_t depthStencilState);
+            void setDepthStencilState(uintptr_t depthStencilState,
+                                      uint32_t stencilReferenceValue);
             void setPipelineState(uintptr_t blendState,
                                   uintptr_t shader);
             void draw(uintptr_t indexBuffer,

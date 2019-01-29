@@ -1063,7 +1063,7 @@ namespace ouzel
                                                         depthStencilState->getFrontFacePass());
                                 glStencilFuncSeparateProc(GL_FRONT,
                                                           depthStencilState->getFrontFaceFunction(),
-                                                          0,
+                                                          static_cast<GLint>(setDepthStencilStateCommand->stencilReferenceValue),
                                                           depthStencilState->getStencilReadMask());
                                 glStencilOpSeparateProc(GL_BACK,
                                                         depthStencilState->getBackFaceFail(),
@@ -1071,7 +1071,7 @@ namespace ouzel
                                                         depthStencilState->getBackFacePass());
                                 glStencilFuncSeparateProc(GL_BACK,
                                                           depthStencilState->getBackFaceFunction(),
-                                                          0,
+                                                          static_cast<GLint>(setDepthStencilStateCommand->stencilReferenceValue),
                                                           depthStencilState->getStencilReadMask());
                             }
                             else

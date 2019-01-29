@@ -514,10 +514,6 @@ namespace ouzel
 
                             if (setScissorTestCommand->enabled)
                             {
-                                if (currentRenderCommandEncoder)
-                                    [currentRenderCommandEncoder endEncoding];
-                                currentRenderCommandEncoder = [currentCommandBuffer renderCommandEncoderWithDescriptor:currentRenderPassDescriptor];
-
                                 scissorRect.x = static_cast<NSUInteger>(setScissorTestCommand->rectangle.position.v[0]);
                                 scissorRect.y = static_cast<NSUInteger>(setScissorTestCommand->rectangle.position.v[1]);
                                 scissorRect.width = static_cast<NSUInteger>(setScissorTestCommand->rectangle.size.v[0]);
@@ -581,6 +577,9 @@ namespace ouzel
                             }
                             else
                                 [currentRenderCommandEncoder setDepthStencilState:defaultDepthStencilState];
+
+                            [currentRenderCommandEncoder setStencilFrontReferenceValue:setDepthStencilStateCommand->stencilReferenceValue
+                                                                    backReferenceValue:setDepthStencilStateCommand->stencilReferenceValue];
 
                             break;
                         }

@@ -87,6 +87,9 @@ namespace ouzel
             void setDepthTest(bool newDepthTest);
             inline const std::shared_ptr<graphics::DepthStencilState>& getDepthStencilState() const { return depthStencilState; }
 
+            uint32_t getStencilReferenceValue() const { return stencilReferenceValue; }
+            void setStencilReferenceValue(uint32_t newStencilReferenceValue) { stencilReferenceValue = newStencilReferenceValue; }
+
             inline bool getWireframe() const { return wireframe; }
             inline void setWireframe(bool newWireframe) { wireframe = newWireframe; }
 
@@ -143,6 +146,7 @@ namespace ouzel
 
             std::shared_ptr<graphics::RenderTarget> renderTarget;
             std::shared_ptr<graphics::DepthStencilState> depthStencilState;
+            uint32_t stencilReferenceValue = 0;
 
             bool clearColorBuffer = false;
             bool clearDepthBuffer = false;
