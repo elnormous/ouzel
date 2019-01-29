@@ -32,7 +32,12 @@ namespace ouzel
             MetalDepthStencilState(MetalRenderDevice& renderDeviceMetal,
                                    bool initDepthTest,
                                    bool initDepthWrite,
-                                   DepthStencilState::CompareFunction initCompareFunction);
+                                   DepthStencilState::CompareFunction initCompareFunction,
+                                   bool initStencilEnabled,
+                                   uint32_t initStencilReadMask,
+                                   uint32_t initStencilWriteMask,
+                                   const DepthStencilState::StencilDescriptor& initFrontFaceStencil,
+                                   const DepthStencilState::StencilDescriptor& initBackFaceStencil);
             ~MetalDepthStencilState();
 
             MTLDepthStencilStatePtr getDepthStencilState() const { return depthStencilState; }
