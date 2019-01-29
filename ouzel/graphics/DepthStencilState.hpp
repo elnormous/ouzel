@@ -34,8 +34,8 @@ namespace ouzel
                 INCREMENT_CLAMP,
                 DECREMENT_CLAMP,
                 INVERT,
-                INCREMENT,
-                DECREMENT
+                INCREMENT_WRAP,
+                DECREMENT_WRAP
             };
 
             struct StencilDescriptor
@@ -54,8 +54,8 @@ namespace ouzel
                               bool initStencilEnabled,
                               uint32_t initStencilReadMask,
                               uint32_t initStencilWriteMask,
-                              StencilDescriptor initFrontFaceStencil,
-                              StencilDescriptor initBackFaceStencil);
+                              const StencilDescriptor& initFrontFaceStencil,
+                              const StencilDescriptor& initBackFaceStencil);
             ~DepthStencilState();
 
             DepthStencilState(const DepthStencilState&) = delete;

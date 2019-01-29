@@ -583,8 +583,11 @@ namespace ouzel
                                                                                                                  initDepthStencilStateCommand->depthTest,
                                                                                                                  initDepthStencilStateCommand->depthWrite,
                                                                                                                  initDepthStencilStateCommand->compareFunction,
+                                                                                                                 initDepthStencilStateCommand->stencilEnabled,
                                                                                                                  initDepthStencilStateCommand->stencilReadMask,
-                                                                                                                 initDepthStencilStateCommand->stencilWriteMask));
+                                                                                                                 initDepthStencilStateCommand->stencilWriteMask,
+                                                                                                                 initDepthStencilStateCommand->frontFaceStencil,
+                                                                                                                 initDepthStencilStateCommand->backFaceStencil));
 
                             if (initDepthStencilStateCommand->depthStencilState > resources.size())
                                 resources.resize(initDepthStencilStateCommand->depthStencilState);

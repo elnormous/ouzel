@@ -292,8 +292,8 @@ namespace ouzel
                                          bool initStencilEnabled,
                                          uint32_t initStencilReadMask,
                                          uint32_t initStencilWriteMask,
-                                         DepthStencilState::StencilDescriptor initFrontFaceStencil,
-                                         DepthStencilState::StencilDescriptor initBackFaceStencil):
+                                         const DepthStencilState::StencilDescriptor& initFrontFaceStencil,
+                                         const DepthStencilState::StencilDescriptor& initBackFaceStencil):
                 Command(Command::Type::INIT_DEPTH_STENCIL_STATE),
                 depthStencilState(initDepthStencilState),
                 depthTest(initDepthTest),

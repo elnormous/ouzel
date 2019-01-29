@@ -21,8 +21,8 @@ namespace ouzel
                                              bool initStencilEnabled,
                                              uint32_t initStencilReadMask,
                                              uint32_t initStencilWriteMask,
-                                             StencilDescriptor initFrontFaceStencil,
-                                             StencilDescriptor initBackFaceStencil):
+                                             const StencilDescriptor& initFrontFaceStencil,
+                                             const StencilDescriptor& initBackFaceStencil):
             renderer(initRenderer),
             resource(renderer.getDevice()->getResourceId()),
             depthTest(initDepthTest),
