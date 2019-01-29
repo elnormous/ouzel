@@ -1083,6 +1083,10 @@ namespace ouzel
                                 setStencilMask(0xFFFFFFFF);
                             }
 
+                            GLenum error;
+                            if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                                throw std::system_error(makeErrorCode(error), "Failed to update depth stencil state");
+
                             break;
                         }
 
@@ -1161,7 +1165,6 @@ namespace ouzel
                             }
 
                             GLenum error;
-
                             if ((error = glGetErrorProc()) != GL_NO_ERROR)
                                 throw std::system_error(makeErrorCode(error), "Failed to update vertex attributes");
 
