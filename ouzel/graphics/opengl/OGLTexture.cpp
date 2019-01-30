@@ -506,7 +506,8 @@ namespace ouzel
                     {
                         renderDevice.bindTexture(textureTarget, 0, textureId);
 
-                        renderDevice.glTexImage2DProc(textureTarget, 0, static_cast<GLint>(internalPixelFormat),
+                        renderDevice.glTexImage2DProc(textureTarget, 0,
+                                                      static_cast<GLint>(internalPixelFormat),
                                                       width, height, 0,
                                                       pixelFormat, pixelType, nullptr);
 
@@ -532,7 +533,8 @@ namespace ouzel
                     }
                     else
                     {
-                        renderDevice.glRenderbufferStorageProc(GL_RENDERBUFFER, internalPixelFormat,
+                        renderDevice.glRenderbufferStorageProc(GL_RENDERBUFFER,
+                                                               internalPixelFormat,
                                                                width, height);
 
                         GLenum error;
