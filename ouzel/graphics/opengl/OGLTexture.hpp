@@ -62,6 +62,8 @@ namespace ouzel
             inline GLsizei getWidth() const { return width; }
             inline GLsizei getHeight() const { return height; }
 
+            inline GLenum getPixelFormat() const { return pixelFormat; }
+
         private:
             void createTexture();
             void setTextureParameters();

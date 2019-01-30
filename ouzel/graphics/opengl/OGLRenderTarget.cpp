@@ -47,9 +47,15 @@ namespace ouzel
                 renderDevice.bindFrameBuffer(frameBufferId);
 
                 if (texture->getTextureId())
-                    renderDevice.glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, GL_TEXTURE_2D, texture->getTextureId(), 0);
+                    renderDevice.glFramebufferTexture2DProc(GL_FRAMEBUFFER,
+                                                            GL_COLOR_ATTACHMENT0 + index,
+                                                            GL_TEXTURE_2D,
+                                                            texture->getTextureId(), 0);
                 else
-                    renderDevice.glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, GL_RENDERBUFFER, texture->getBufferId());
+                    renderDevice.glFramebufferRenderbufferProc(GL_FRAMEBUFFER,
+                                                               GL_COLOR_ATTACHMENT0 + index,
+                                                               GL_RENDERBUFFER,
+                                                               texture->getBufferId());
 
                 GLenum error;
                 if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
@@ -75,11 +81,16 @@ namespace ouzel
                 GLenum index = 0;
                 for (OGLTexture* colorTexture : colorTextures)
                 {
-                    renderDevice.glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, GL_TEXTURE_2D, colorTexture->getTextureId(), 0);
+                    renderDevice.glFramebufferTexture2DProc(GL_FRAMEBUFFER,
+                                                            GL_COLOR_ATTACHMENT0 + index,
+                                                            GL_TEXTURE_2D,
+                                                            colorTexture->getTextureId(), 0);
                     ++index;
                 }
 
-                renderDevice.glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, GL_TEXTURE_2D, 0, 0);
+                renderDevice.glFramebufferTexture2DProc(GL_FRAMEBUFFER,
+                                                        GL_COLOR_ATTACHMENT0 + index,
+                                                        GL_TEXTURE_2D, 0, 0);
 
                 GLenum error;
                 if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
@@ -102,7 +113,10 @@ namespace ouzel
             {
                 renderDevice.bindFrameBuffer(frameBufferId);
 
-                renderDevice.glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, texture->getTextureId(), 0);
+                renderDevice.glFramebufferTexture2DProc(GL_FRAMEBUFFER,
+                                                        (texture->getPixelFormat() == GL_DEPTH_STENCIL) ? GL_DEPTH_STENCIL_ATTACHMENT : GL_DEPTH_ATTACHMENT,
+                                                        GL_TEXTURE_2D,
+                                                        texture->getTextureId(), 0);
                 //glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, texture->getBufferId());
 
                 GLenum error;
