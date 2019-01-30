@@ -3,13 +3,34 @@
 #ifndef OUZEL_AUDIO_CONTAINERS_HPP
 #define OUZEL_AUDIO_CONTAINERS_HPP
 
+#include <vector>
+#include "audio/Sound.hpp"
+
 namespace ouzel
 {
     namespace audio
     {
+        class Track
+        {
+        public:
+            Sound* sound = nullptr;
+        };
+
         class Container
         {
         public:
+            Container(const std::initializer_list<Track>& initTracks):
+                tracks(initTracks)
+            {
+            }
+
+            void addTrack(const Track& track)
+            {
+                tracks.push_back(track);
+            }
+
+        private:
+            std::vector<Track> tracks;
         };
 
         class ParallelContainer final: public Container
