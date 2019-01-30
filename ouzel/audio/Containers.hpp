@@ -3,7 +3,9 @@
 #ifndef OUZEL_AUDIO_CONTAINERS_HPP
 #define OUZEL_AUDIO_CONTAINERS_HPP
 
+#include <cstdint>
 #include <vector>
+#include "audio/Filter.hpp"
 #include "audio/Sound.hpp"
 
 namespace ouzel
@@ -13,7 +15,18 @@ namespace ouzel
         class Track
         {
         public:
+            Track(Sound* initSound, uint32_t initOrder = 0):
+                sound(initSound), order(initOrder)
+            {
+
+            }
+
+            Sound* getSound() const { return sound; }
+            uint32_t getOrder() const { return order; }
+
+        private:
             Sound* sound = nullptr;
+            uint32_t order;
         };
 
         class Container
