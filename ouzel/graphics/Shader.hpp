@@ -49,16 +49,6 @@ namespace ouzel
             Shader(const Shader&) = delete;
             Shader& operator=(const Shader&) = delete;
 
-            void init(const std::vector<uint8_t>& newFragmentShader,
-                      const std::vector<uint8_t>& newVertexShader,
-                      const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
-                      const std::vector<ConstantInfo>& newFragmentShaderConstantInfo,
-                      const std::vector<ConstantInfo>& newVertexShaderConstantInfo,
-                      uint32_t newFragmentShaderDataAlignment = 0,
-                      uint32_t newVertexShaderDataAlignment = 0,
-                      const std::string& fragmentShaderFunction = "",
-                      const std::string& vertexShaderFunction = "");
-
             inline uintptr_t getResource() const { return resource.getId(); }
 
             const std::set<Vertex::Attribute::Usage>& getVertexAttributes() const;

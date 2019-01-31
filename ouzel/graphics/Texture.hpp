@@ -85,21 +85,6 @@ namespace ouzel
             Texture(const Texture&) = delete;
             Texture& operator=(const Texture&) = delete;
 
-            void init(const Size2<uint32_t>& newSize,
-                      uint32_t newFlags = 0,
-                      uint32_t newMipmaps = 0,
-                      uint32_t newSampleCount = 1,
-                      PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
-            void init(const std::vector<uint8_t>& newData,
-                      const Size2<uint32_t>& newSize,
-                      uint32_t newFlags = 0,
-                      uint32_t newMipmaps = 0,
-                      PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
-            void init(const std::vector<Level>& newLevels,
-                      const Size2<uint32_t>& newSize,
-                      uint32_t newFlags = 0,
-                      PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
-
             inline uintptr_t getResource() const { return resource.getId(); }
 
             inline const Size2<uint32_t>& getSize() const { return size; }

@@ -38,31 +38,6 @@ namespace ouzel
                                                                                    vertexShaderFunction)));
         }
 
-        void Shader::init(const std::vector<uint8_t>& newFragmentShader,
-                          const std::vector<uint8_t>& newVertexShader,
-                          const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
-                          const std::vector<Shader::ConstantInfo>& newFragmentShaderConstantInfo,
-                          const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
-                          uint32_t newFragmentShaderDataAlignment,
-                          uint32_t newVertexShaderDataAlignment,
-                          const std::string& fragmentShaderFunction,
-                          const std::string& vertexShaderFunction)
-        {
-            vertexAttributes = newVertexAttributes;
-
-            if (resource.getId())
-                resource.getRenderer()->addCommand(std::unique_ptr<Command>(new InitShaderCommand(resource.getId(),
-                                                                                                  newFragmentShader,
-                                                                                                  newVertexShader,
-                                                                                                  newVertexAttributes,
-                                                                                                  newFragmentShaderConstantInfo,
-                                                                                                  newVertexShaderConstantInfo,
-                                                                                                  newFragmentShaderDataAlignment,
-                                                                                                  newVertexShaderDataAlignment,
-                                                                                                  fragmentShaderFunction,
-                                                                                                  vertexShaderFunction)));
-        }
-
         const std::set<Vertex::Attribute::Usage>& Shader::getVertexAttributes() const
         {
             return vertexAttributes;
