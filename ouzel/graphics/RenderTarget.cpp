@@ -10,18 +10,18 @@ namespace ouzel
     namespace graphics
     {
         RenderTarget::RenderTarget(Renderer& initRenderer):
-            renderer(initRenderer),
-            resource(renderer.getDevice()->getResourceId())
+            renderer(&initRenderer),
+            resource(renderer->getDevice()->getResourceId())
         {
-            renderer.addCommand(std::unique_ptr<Command>(new InitRenderTargetCommand(resource)));
+            renderer->addCommand(std::unique_ptr<Command>(new InitRenderTargetCommand(resource)));
         }
 
         RenderTarget::~RenderTarget()
         {
-            if (resource)
+            if (renderer && resource)
             {
-                renderer.addCommand(std::unique_ptr<Command>(new DeleteResourceCommand(resource)));
-                RenderDevice* renderDevice = renderer.getDevice();
+                renderer->addCommand(std::unique_ptr<Command>(new DeleteResourceCommand(resource)));
+                RenderDevice* renderDevice = renderer->getDevice();
                 renderDevice->deleteResourceId(resource);
             }
         }
@@ -36,8 +36,9 @@ namespace ouzel
             {
                 colorTextures.push_back(texture);
 
-                renderer.addCommand(std::unique_ptr<Command>(new AddRenderTargetColorTextureCommand(resource,
-                                                                                                    texture->getResource())));
+                if (renderer && resource)
+                    renderer->addCommand(std::unique_ptr<Command>(new AddRenderTargetColorTextureCommand(resource,
+                                                                                                         texture->getResource())));
             }
         }
 
@@ -51,8 +52,9 @@ namespace ouzel
             {
                 colorTextures.erase(i);
 
-                renderer.addCommand(std::unique_ptr<Command>(new RemoveRenderTargetColorTextureCommand(resource,
-                                                                                                       texture->getResource())));
+                if (renderer && resource)
+                    renderer->addCommand(std::unique_ptr<Command>(new RemoveRenderTargetColorTextureCommand(resource,
+                                                                                                            texture->getResource())));
             }
         }
 
@@ -66,8 +68,9 @@ namespace ouzel
             {
                 colorTextures.erase(i);
 
-                renderer.addCommand(std::unique_ptr<Command>(new RemoveRenderTargetColorTextureCommand(resource,
-                                                                                                       texture->getResource())));
+                if (renderer && resource)
+                    renderer->addCommand(std::unique_ptr<Command>(new RemoveRenderTargetColorTextureCommand(resource,
+                                                                                                            texture->getResource())));
             }
         }
 
@@ -75,8 +78,9 @@ namespace ouzel
         {
             depthTexture = texture;
 
-            renderer.addCommand(std::unique_ptr<Command>(new SetRenderTargetDepthTextureCommand(resource,
-                                                                                                texture ? texture->getResource() : 0)));
+            if (renderer && resource)
+                renderer->addCommand(std::unique_ptr<Command>(new SetRenderTargetDepthTextureCommand(resource,
+                                                                                                     texture ? texture->getResource() : 0)));
         }
     } // namespace graphics
 } // namespace ouzel

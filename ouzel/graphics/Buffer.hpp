@@ -27,6 +27,10 @@ namespace ouzel
                 VERTEX
             };
 
+            Buffer()
+            {
+            }
+
             explicit Buffer(Renderer& initRenderer);
             Buffer(Renderer& initRenderer, Usage newUsage, uint32_t newFlags, uint32_t newSize = 0);
             Buffer(Renderer& initRenderer, Usage newUsage, uint32_t newFlags, const void* newData, uint32_t newSize);
@@ -44,6 +48,7 @@ namespace ouzel
                 flags = other.flags;
                 size = other.size;
 
+                other.renderer = nullptr;
                 other.resource = 0;
             }
 
@@ -56,6 +61,7 @@ namespace ouzel
                     flags = other.flags;
                     size = other.size;
 
+                    other.renderer = nullptr;
                     other.resource = 0;
                 }
 
@@ -76,7 +82,7 @@ namespace ouzel
             inline uint32_t getSize() const { return size; }
 
         private:
-            Renderer& renderer;
+            Renderer* renderer = nullptr;
             uintptr_t resource = 0;
 
             Buffer::Usage usage;

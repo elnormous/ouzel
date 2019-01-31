@@ -18,6 +18,10 @@ namespace ouzel
         class RenderTarget final
         {
         public:
+            RenderTarget()
+            {
+            }
+            
             explicit RenderTarget(Renderer& initRenderer);
             ~RenderTarget();
 
@@ -31,6 +35,7 @@ namespace ouzel
                 colorTextures = std::move(other.colorTextures);
                 depthTexture = std::move(other.depthTexture);
 
+                other.renderer = nullptr;
                 other.resource = 0;
             }
 
@@ -42,6 +47,7 @@ namespace ouzel
                     colorTextures = std::move(other.colorTextures);
                     depthTexture = std::move(other.depthTexture);
 
+                    other.renderer = nullptr;
                     other.resource = 0;
                 }
 
@@ -59,7 +65,7 @@ namespace ouzel
             inline const std::shared_ptr<Texture>& getDepthTexture() const { return depthTexture; }
 
         private:
-            Renderer& renderer;
+            Renderer* renderer = nullptr;
             uintptr_t resource = 0;
             std::vector<std::shared_ptr<Texture>> colorTextures;
             std::shared_ptr<Texture> depthTexture;

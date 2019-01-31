@@ -9,8 +9,8 @@ namespace ouzel
     namespace graphics
     {
         BlendState::BlendState(Renderer& initRenderer):
-            renderer(initRenderer),
-            resource(renderer.getDevice()->getResourceId())
+            renderer(&initRenderer),
+            resource(renderer->getDevice()->getResourceId())
         {
         }
 
@@ -21,8 +21,8 @@ namespace ouzel
                                Factor initAlphaBlendSource, Factor initAlphaBlendDest,
                                Operation initAlphaOperation,
                                uint8_t initColorMask):
-            renderer(initRenderer),
-            resource(renderer.getDevice()->getResourceId()),
+            renderer(&initRenderer),
+            resource(renderer->getDevice()->getResourceId()),
             colorBlendSource(initColorBlendSource),
             colorBlendDest(initColorBlendDest),
             colorOperation(initColorOperation),
@@ -32,21 +32,21 @@ namespace ouzel
             colorMask(initColorMask),
             enableBlending(initEnableBlending)
         {
-            renderer.addCommand(std::unique_ptr<Command>(new InitBlendStateCommand(resource,
-                                                                                   initEnableBlending,
-                                                                                   initColorBlendSource, initColorBlendDest,
-                                                                                   initColorOperation,
-                                                                                   initAlphaBlendSource, initAlphaBlendDest,
-                                                                                   initAlphaOperation,
-                                                                                   initColorMask)));
+            renderer->addCommand(std::unique_ptr<Command>(new InitBlendStateCommand(resource,
+                                                                                    initEnableBlending,
+                                                                                    initColorBlendSource, initColorBlendDest,
+                                                                                    initColorOperation,
+                                                                                    initAlphaBlendSource, initAlphaBlendDest,
+                                                                                    initAlphaOperation,
+                                                                                    initColorMask)));
         }
 
         BlendState::~BlendState()
         {
-            if (resource)
+            if (renderer && resource)
             {
-                renderer.addCommand(std::unique_ptr<Command>(new DeleteResourceCommand(resource)));
-                RenderDevice* renderDevice = renderer.getDevice();
+                renderer->addCommand(std::unique_ptr<Command>(new DeleteResourceCommand(resource)));
+                RenderDevice* renderDevice = renderer->getDevice();
                 renderDevice->deleteResourceId(resource);
             }
         }
@@ -67,13 +67,14 @@ namespace ouzel
             alphaOperation = newAlphaOperation;
             colorMask = newColorMask;
 
-            renderer.addCommand(std::unique_ptr<Command>(new InitBlendStateCommand(resource,
-                                                                                   newEnableBlending,
-                                                                                   newColorBlendSource, newColorBlendDest,
-                                                                                   newColorOperation,
-                                                                                   newAlphaBlendSource, newAlphaBlendDest,
-                                                                                   newAlphaOperation,
-                                                                                   newColorMask)));
+            if (renderer && resource)
+                renderer->addCommand(std::unique_ptr<Command>(new InitBlendStateCommand(resource,
+                                                                                        newEnableBlending,
+                                                                                        newColorBlendSource, newColorBlendDest,
+                                                                                        newColorOperation,
+                                                                                        newAlphaBlendSource, newAlphaBlendDest,
+                                                                                        newAlphaOperation,
+                                                                                        newColorMask)));
         }
     } // namespace graphics
 } // namespace ouzel

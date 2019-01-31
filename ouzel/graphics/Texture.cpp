@@ -471,8 +471,8 @@ namespace ouzel
         }
 
         Texture::Texture(Renderer& initRenderer):
-            renderer(initRenderer),
-            resource(renderer.getDevice()->getResourceId())
+            renderer(&initRenderer),
+            resource(renderer->getDevice()->getResourceId())
         {
         }
 
@@ -482,8 +482,8 @@ namespace ouzel
                          uint32_t initMipmaps,
                          uint32_t initSampleCount,
                          PixelFormat initPixelFormat):
-            renderer(initRenderer),
-            resource(renderer.getDevice()->getResourceId()),
+            renderer(&initRenderer),
+            resource(renderer->getDevice()->getResourceId()),
             size(initSize),
             flags(initFlags),
             mipmaps(initMipmaps),
@@ -493,13 +493,13 @@ namespace ouzel
             if ((flags & BIND_RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
                 throw std::runtime_error("Invalid mip map count");
 
-            if (!renderer.getDevice()->isNPOTTexturesSupported() &&
+            if (!renderer->getDevice()->isNPOTTexturesSupported() &&
                 (!isPowerOfTwo(size.v[0]) || !isPowerOfTwo(size.v[1])))
                 mipmaps = 1;
 
             std::vector<Level> levels = calculateSizes(size, std::vector<uint8_t>(), mipmaps, pixelFormat);
 
-            renderer.addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
+            renderer->addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
                                                                                 levels,
                                                                                 Dimensions::TWO,
                                                                                 flags,
@@ -513,8 +513,8 @@ namespace ouzel
                          uint32_t initFlags,
                          uint32_t initMipmaps,
                          PixelFormat initPixelFormat):
-            renderer(initRenderer),
-            resource(renderer.getDevice()->getResourceId()),
+            renderer(&initRenderer),
+            resource(renderer->getDevice()->getResourceId()),
             size(initSize),
             flags(initFlags),
             mipmaps(initMipmaps),
@@ -524,13 +524,13 @@ namespace ouzel
             if ((flags & BIND_RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
                 throw std::runtime_error("Invalid mip map count");
 
-            if (!renderer.getDevice()->isNPOTTexturesSupported() &&
+            if (!renderer->getDevice()->isNPOTTexturesSupported() &&
                 (!isPowerOfTwo(size.v[0]) || !isPowerOfTwo(size.v[1])))
                 mipmaps = 1;
 
             std::vector<Level> levels = calculateSizes(size, initData, mipmaps, pixelFormat);
 
-            renderer.addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
+            renderer->addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
                                                                                 levels,
                                                                                 Dimensions::TWO,
                                                                                 flags,
@@ -543,8 +543,8 @@ namespace ouzel
                          const Size2<uint32_t>& initSize,
                          uint32_t initFlags,
                          PixelFormat initPixelFormat):
-            renderer(initRenderer),
-            resource(renderer.getDevice()->getResourceId()),
+            renderer(&initRenderer),
+            resource(renderer->getDevice()->getResourceId()),
             size(initSize),
             flags(initFlags),
             mipmaps(static_cast<uint32_t>(initLevels.size())),
@@ -556,14 +556,14 @@ namespace ouzel
 
             std::vector<Level> levels = initLevels;
 
-            if (!renderer.getDevice()->isNPOTTexturesSupported() &&
+            if (!renderer->getDevice()->isNPOTTexturesSupported() &&
                 (!isPowerOfTwo(size.v[0]) || !isPowerOfTwo(size.v[1])))
             {
                 mipmaps = 1;
                 levels.resize(1);
             }
 
-            renderer.addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
+            renderer->addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
                                                                                 levels,
                                                                                 Dimensions::TWO,
                                                                                 flags,
@@ -573,10 +573,10 @@ namespace ouzel
 
         Texture::~Texture()
         {
-            if (resource)
+            if (renderer && resource)
             {
-                renderer.addCommand(std::unique_ptr<Command>(new DeleteResourceCommand(resource)));
-                RenderDevice* renderDevice = renderer.getDevice();
+                renderer->addCommand(std::unique_ptr<Command>(new DeleteResourceCommand(resource)));
+                RenderDevice* renderDevice = renderer->getDevice();
                 renderDevice->deleteResourceId(resource);
             }
         }
@@ -596,18 +596,19 @@ namespace ouzel
             if ((flags & BIND_RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
                 throw std::runtime_error("Invalid mip map count");
 
-            if (!renderer.getDevice()->isNPOTTexturesSupported() &&
+            if (!renderer->getDevice()->isNPOTTexturesSupported() &&
                 (!isPowerOfTwo(size.v[0]) || !isPowerOfTwo(size.v[1])))
                 mipmaps = 1;
 
             std::vector<Level> levels = calculateSizes(size, std::vector<uint8_t>(), mipmaps, pixelFormat);
 
-            renderer.addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
-                                                                                levels,
-                                                                                Dimensions::TWO,
-                                                                                flags,
-                                                                                sampleCount,
-                                                                                pixelFormat)));
+            if (renderer && resource)
+                renderer->addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
+                                                                                     levels,
+                                                                                     Dimensions::TWO,
+                                                                                     flags,
+                                                                                     sampleCount,
+                                                                                     pixelFormat)));
         }
 
         void Texture::init(const std::vector<uint8_t>& newData,
@@ -625,18 +626,19 @@ namespace ouzel
             if ((flags & BIND_RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
                 throw std::runtime_error("Invalid mip map count");
 
-            if (!renderer.getDevice()->isNPOTTexturesSupported() &&
+            if (!renderer->getDevice()->isNPOTTexturesSupported() &&
                 (!isPowerOfTwo(size.v[0]) || !isPowerOfTwo(size.v[1])))
                 mipmaps = 1;
 
             std::vector<Level> levels = calculateSizes(size, newData, mipmaps, pixelFormat);
 
-            renderer.addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
-                                                                                levels,
-                                                                                Dimensions::TWO,
-                                                                                flags,
-                                                                                sampleCount,
-                                                                                pixelFormat)));
+            if (renderer && resource)
+                renderer->addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
+                                                                                     levels,
+                                                                                     Dimensions::TWO,
+                                                                                     flags,
+                                                                                     sampleCount,
+                                                                                     pixelFormat)));
         }
 
         void Texture::init(const std::vector<Level>& newLevels,
@@ -655,19 +657,20 @@ namespace ouzel
 
             std::vector<Level> levels = newLevels;
 
-            if (!renderer.getDevice()->isNPOTTexturesSupported() &&
+            if (!renderer->getDevice()->isNPOTTexturesSupported() &&
                 (!isPowerOfTwo(size.v[0]) || !isPowerOfTwo(size.v[1])))
             {
                 mipmaps = 1;
                 levels.resize(1);
             }
 
-            renderer.addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
-                                                                                levels,
-                                                                                Dimensions::TWO,
-                                                                                flags,
-                                                                                sampleCount,
-                                                                                pixelFormat)));
+            if (renderer && resource)
+                renderer->addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
+                                                                                     levels,
+                                                                                     Dimensions::TWO,
+                                                                                     flags,
+                                                                                     sampleCount,
+                                                                                     pixelFormat)));
         }
 
         void Texture::setData(const std::vector<uint8_t>& newData)
@@ -677,7 +680,7 @@ namespace ouzel
 
             std::vector<Level> levels = calculateSizes(size, newData, mipmaps, pixelFormat);
 
-            renderer.addCommand(std::unique_ptr<Command>(new SetTextureDataCommand(resource,
+            renderer->addCommand(std::unique_ptr<Command>(new SetTextureDataCommand(resource,
                                                                                    levels)));
         }
 
@@ -685,44 +688,48 @@ namespace ouzel
         {
             filter = newFilter;
 
-            renderer.addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource,
-                                                                                         filter,
-                                                                                         addressX,
-                                                                                         addressY,
-                                                                                         maxAnisotropy)));
+            if (renderer && resource)
+                renderer->addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource,
+                                                                                              filter,
+                                                                                              addressX,
+                                                                                              addressY,
+                                                                                              maxAnisotropy)));
         }
 
         void Texture::setAddressX(Address newAddressX)
         {
             addressX = newAddressX;
 
-            renderer.addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource,
-                                                                                         filter,
-                                                                                         addressX,
-                                                                                         addressY,
-                                                                                         maxAnisotropy)));
+            if (renderer && resource)
+                renderer->addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource,
+                                                                                              filter,
+                                                                                              addressX,
+                                                                                              addressY,
+                                                                                              maxAnisotropy)));
         }
 
         void Texture::setAddressY(Address newAddressY)
         {
             addressY = newAddressY;
 
-            renderer.addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource,
-                                                                                         filter,
-                                                                                         addressX,
-                                                                                         addressY,
-                                                                                         maxAnisotropy)));
+            if (renderer && resource)
+                renderer->addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource,
+                                                                                              filter,
+                                                                                              addressX,
+                                                                                              addressY,
+                                                                                              maxAnisotropy)));
         }
 
         void Texture::setMaxAnisotropy(uint32_t newMaxAnisotropy)
         {
             maxAnisotropy = newMaxAnisotropy;
 
-            renderer.addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource,
-                                                                                         filter,
-                                                                                         addressX,
-                                                                                         addressY,
-                                                                                         maxAnisotropy)));
+            if (renderer && resource)
+                renderer->addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource,
+                                                                                              filter,
+                                                                                              addressX,
+                                                                                              addressY,
+                                                                                              maxAnisotropy)));
         }
     } // namespace graphics
 } // namespace ouzel

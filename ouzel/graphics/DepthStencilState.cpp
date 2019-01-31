@@ -9,8 +9,8 @@ namespace ouzel
     namespace graphics
     {
         DepthStencilState::DepthStencilState(Renderer& initRenderer):
-            renderer(initRenderer),
-            resource(renderer.getDevice()->getResourceId())
+            renderer(&initRenderer),
+            resource(renderer->getDevice()->getResourceId())
         {
         }
 
@@ -23,8 +23,8 @@ namespace ouzel
                                              uint32_t initStencilWriteMask,
                                              const StencilDescriptor& initFrontFaceStencil,
                                              const StencilDescriptor& initBackFaceStencil):
-            renderer(initRenderer),
-            resource(renderer.getDevice()->getResourceId()),
+            renderer(&initRenderer),
+            resource(renderer->getDevice()->getResourceId()),
             depthTest(initDepthTest),
             depthWrite(initDepthWrite),
             compareFunction(initCompareFunction),
@@ -34,23 +34,24 @@ namespace ouzel
             frontFaceStencil(initFrontFaceStencil),
             backFaceStencil(initBackFaceStencil)
         {
-            renderer.addCommand(std::unique_ptr<Command>(new InitDepthStencilStateCommand(resource,
-                                                                                          initDepthTest,
-                                                                                          initDepthWrite,
-                                                                                          initCompareFunction,
-                                                                                          initStencilEnabled,
-                                                                                          initStencilReadMask,
-                                                                                          initStencilWriteMask,
-                                                                                          initFrontFaceStencil,
-                                                                                          initBackFaceStencil)));
+            if (renderer && resource)
+                renderer->addCommand(std::unique_ptr<Command>(new InitDepthStencilStateCommand(resource,
+                                                                                               initDepthTest,
+                                                                                               initDepthWrite,
+                                                                                               initCompareFunction,
+                                                                                               initStencilEnabled,
+                                                                                               initStencilReadMask,
+                                                                                               initStencilWriteMask,
+                                                                                               initFrontFaceStencil,
+                                                                                               initBackFaceStencil)));
         }
 
         DepthStencilState::~DepthStencilState()
         {
-            if (resource)
+            if (renderer && resource)
             {
-                renderer.addCommand(std::unique_ptr<Command>(new DeleteResourceCommand(resource)));
-                RenderDevice* renderDevice = renderer.getDevice();
+                renderer->addCommand(std::unique_ptr<Command>(new DeleteResourceCommand(resource)));
+                RenderDevice* renderDevice = renderer->getDevice();
                 renderDevice->deleteResourceId(resource);
             }
         }
@@ -73,15 +74,16 @@ namespace ouzel
             frontFaceStencil = initFrontFaceStencil;
             backFaceStencil = initBackFaceStencil;
 
-            renderer.addCommand(std::unique_ptr<Command>(new InitDepthStencilStateCommand(resource,
-                                                                                          newDepthTest,
-                                                                                          newDepthWrite,
-                                                                                          newCompareFunction,
-                                                                                          initStencilEnabled,
-                                                                                          newStencilReadMask,
-                                                                                          newStencilWriteMask,
-                                                                                          initFrontFaceStencil,
-                                                                                          initBackFaceStencil)));
+            if (renderer && resource)
+                renderer->addCommand(std::unique_ptr<Command>(new InitDepthStencilStateCommand(resource,
+                                                                                               newDepthTest,
+                                                                                               newDepthWrite,
+                                                                                               newCompareFunction,
+                                                                                               initStencilEnabled,
+                                                                                               newStencilReadMask,
+                                                                                               newStencilWriteMask,
+                                                                                               initFrontFaceStencil,
+                                                                                               initBackFaceStencil)));
         }
     } // namespace graphics
 } // namespace ouzel
