@@ -24,8 +24,29 @@ namespace ouzel
             RenderTarget(const RenderTarget&) = delete;
             RenderTarget& operator=(const RenderTarget&) = delete;
 
-            RenderTarget(RenderTarget&&) = delete;
-            RenderTarget& operator=(RenderTarget&&) = delete;
+            RenderTarget(RenderTarget&& other):
+                renderer(other.renderer)
+            {
+                resource = other.resource;
+                colorTextures = std::move(other.colorTextures);
+                depthTexture = std::move(other.depthTexture);
+
+                other.resource = 0;
+            }
+
+            RenderTarget& operator=(RenderTarget&& other)
+            {
+                if (&other != this)
+                {
+                    resource = other.resource;
+                    colorTextures = std::move(other.colorTextures);
+                    depthTexture = std::move(other.depthTexture);
+
+                    other.resource = 0;
+                }
+
+                return *this;
+            }
 
             inline uintptr_t getResource() const { return resource; }
 

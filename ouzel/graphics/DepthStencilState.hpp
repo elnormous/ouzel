@@ -61,8 +61,41 @@ namespace ouzel
             DepthStencilState(const DepthStencilState&) = delete;
             DepthStencilState& operator=(const DepthStencilState&) = delete;
 
-            DepthStencilState(DepthStencilState&&) = delete;
-            DepthStencilState& operator=(DepthStencilState&&) = delete;
+            DepthStencilState(DepthStencilState&& other):
+                renderer(other.renderer)
+            {
+                resource = other.resource;
+                depthTest = other.depthTest;
+                depthWrite = other.depthWrite;
+                compareFunction = other.compareFunction;
+                stencilEnabled = other.stencilEnabled;
+                stencilReadMask = other.stencilReadMask;
+                stencilWriteMask = other.stencilWriteMask;
+                frontFaceStencil = other.frontFaceStencil;
+                backFaceStencil = other.backFaceStencil;
+
+                other.resource = 0;
+            }
+
+            DepthStencilState& operator=(DepthStencilState&& other)
+            {
+                if (&other != this)
+                {
+                    resource = other.resource;
+                    depthTest = other.depthTest;
+                    depthWrite = other.depthWrite;
+                    compareFunction = other.compareFunction;
+                    stencilEnabled = other.stencilEnabled;
+                    stencilReadMask = other.stencilReadMask;
+                    stencilWriteMask = other.stencilWriteMask;
+                    frontFaceStencil = other.frontFaceStencil;
+                    backFaceStencil = other.backFaceStencil;
+
+                    other.resource = 0;
+                }
+
+                return *this;
+            }
 
             void init(bool newDepthTest,
                       bool newDepthWrite,

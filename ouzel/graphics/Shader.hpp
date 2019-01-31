@@ -46,8 +46,27 @@ namespace ouzel
             Shader(const Shader&) = delete;
             Shader& operator=(const Shader&) = delete;
 
-            Shader(Shader&&) = delete;
-            Shader& operator=(Shader&&) = delete;
+            Shader(Shader&& other):
+                renderer(other.renderer)
+            {
+                resource = other.resource;
+                vertexAttributes = std::move(other.vertexAttributes);
+
+                other.resource = 0;
+            }
+
+            Shader& operator=(Shader&& other)
+            {
+                if (&other != this)
+                {
+                    resource = other.resource;
+                    vertexAttributes = std::move(other.vertexAttributes);
+
+                    other.resource = 0;
+                }
+
+                return *this;
+            }
 
             void init(const std::vector<uint8_t>& newFragmentShader,
                       const std::vector<uint8_t>& newVertexShader,

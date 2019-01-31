@@ -62,8 +62,41 @@ namespace ouzel
             BlendState(const BlendState&) = delete;
             BlendState& operator=(const BlendState&) = delete;
 
-            BlendState(BlendState&&) = delete;
-            BlendState& operator=(BlendState&&) = delete;
+            BlendState(BlendState&& other):
+                renderer(other.renderer)
+            {
+                resource = other.resource;
+                colorBlendSource = other.colorBlendSource;
+                colorBlendDest = other.colorBlendDest;
+                colorOperation = other.colorOperation;
+                alphaBlendSource = other.alphaBlendSource;
+                alphaBlendDest = other.alphaBlendDest;
+                alphaOperation = other.alphaOperation;
+                colorMask = other.colorMask;
+                enableBlending = other.enableBlending;
+
+                other.resource = 0;
+            }
+
+            BlendState& operator=(BlendState&& other)
+            {
+                if (&other != this)
+                {
+                    resource = other.resource;
+                    colorBlendSource = other.colorBlendSource;
+                    colorBlendDest = other.colorBlendDest;
+                    colorOperation = other.colorOperation;
+                    alphaBlendSource = other.alphaBlendSource;
+                    alphaBlendDest = other.alphaBlendDest;
+                    alphaOperation = other.alphaOperation;
+                    colorMask = other.colorMask;
+                    enableBlending = other.enableBlending;
+
+                    other.resource = 0;
+                }
+
+                return *this;
+            }
 
             void init(bool newEnableBlending,
                       Factor newColorBlendSource, Factor newColorBlendDest,
