@@ -41,13 +41,12 @@ namespace ouzel
             Buffer& operator=(const Buffer&) = delete;
 
             Buffer(Buffer&& other):
-                renderer(other.renderer)
+                resource(other.resource),
+                renderer(other.renderer),
+                usage(other.usage),
+                flags(other.flags),
+                size(other.size)
             {
-                resource = other.resource;
-                usage = other.usage;
-                flags = other.flags;
-                size = other.size;
-
                 other.renderer = nullptr;
                 other.resource = 0;
             }
@@ -57,6 +56,7 @@ namespace ouzel
                 if (&other != this)
                 {
                     resource = other.resource;
+                    renderer = other.renderer;
                     usage = other.usage;
                     flags = other.flags;
                     size = other.size;

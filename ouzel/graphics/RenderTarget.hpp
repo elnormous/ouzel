@@ -29,12 +29,11 @@ namespace ouzel
             RenderTarget& operator=(const RenderTarget&) = delete;
 
             RenderTarget(RenderTarget&& other):
-                renderer(other.renderer)
+                resource(other.resource),
+                renderer(other.renderer),
+                colorTextures(std::move(other.colorTextures)),
+                depthTexture(std::move(other.depthTexture))
             {
-                resource = other.resource;
-                colorTextures = std::move(other.colorTextures);
-                depthTexture = std::move(other.depthTexture);
-
                 other.renderer = nullptr;
                 other.resource = 0;
             }
@@ -44,6 +43,7 @@ namespace ouzel
                 if (&other != this)
                 {
                     resource = other.resource;
+                    renderer = other.renderer;
                     colorTextures = std::move(other.colorTextures);
                     depthTexture = std::move(other.depthTexture);
 

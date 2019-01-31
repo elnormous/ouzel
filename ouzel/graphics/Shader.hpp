@@ -51,11 +51,10 @@ namespace ouzel
             Shader& operator=(const Shader&) = delete;
 
             Shader(Shader&& other):
-                renderer(other.renderer)
+                resource(other.resource),
+                renderer(other.renderer),
+                vertexAttributes(std::move(other.vertexAttributes))
             {
-                resource = other.resource;
-                vertexAttributes = std::move(other.vertexAttributes);
-
                 other.renderer = nullptr;
                 other.resource = 0;
             }
@@ -65,6 +64,7 @@ namespace ouzel
                 if (&other != this)
                 {
                     resource = other.resource;
+                    renderer = other.renderer;
                     vertexAttributes = std::move(other.vertexAttributes);
 
                     other.renderer = nullptr;
