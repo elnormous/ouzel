@@ -80,9 +80,20 @@ namespace ouzel
                                     std::vector<std::vector<float>> vertexShaderConstants);
             void setTextures(const std::vector<uintptr_t>& textures);
             void present();
-            void addCommand(std::unique_ptr<Command>&& command)
+            inline void addCommand(std::unique_ptr<Command>&& command)
             {
                 commandBuffer.pushCommand(std::move(command));
+            }
+
+            inline uintptr_t getResourceId()
+            {
+                return device->getResourceId();
+            }
+
+            void deleteResourceId(uintptr_t resourceId)
+            {
+                addCommand(std::unique_ptr<Command>(new DeleteResourceCommand(resourceId)));
+                device->deleteResourceId(resourceId);
             }
 
             void waitForNextFrame();

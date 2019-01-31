@@ -9,18 +9,13 @@ namespace ouzel
     {
         Resource::Resource(Renderer& initRenderer):
             renderer(&initRenderer),
-            id(renderer->getDevice()->getResourceId())
+            id(renderer->getResourceId())
         {
         }
 
         Resource::~Resource()
         {
-            if (id)
-            {
-                renderer->addCommand(std::unique_ptr<Command>(new DeleteResourceCommand(id)));
-                RenderDevice* renderDevice = renderer->getDevice();
-                renderDevice->deleteResourceId(id);
-            }
+            if (id) renderer->deleteResourceId(id);
         }
     } // namespace graphics
 } // namespace ouzel
