@@ -87,20 +87,19 @@ namespace ouzel
             Texture& operator=(const Texture&) = delete;
 
             Texture(Texture&& other):
-                renderer(other.renderer)
+                resource(other.resource),
+                renderer(other.renderer),
+                dimensions(other.dimensions),
+                size(other.size),
+                flags(other.flags),
+                mipmaps(other.mipmaps),
+                sampleCount(other.sampleCount),
+                pixelFormat(other.pixelFormat),
+                filter(other.filter),
+                addressX(other.addressX),
+                addressY(other.addressY),
+                maxAnisotropy(other.maxAnisotropy)
             {
-                resource = other.resource;
-                dimensions = other.dimensions;
-                size = other.size;
-                flags = other.flags;
-                mipmaps = other.mipmaps;
-                sampleCount = other.sampleCount;
-                pixelFormat = other.pixelFormat;
-                filter = other.filter;
-                addressX = other.addressX;
-                addressY = other.addressY;
-                maxAnisotropy = other.maxAnisotropy;
-
                 other.renderer = nullptr;
                 other.resource = 0;
             }
@@ -110,6 +109,7 @@ namespace ouzel
                 if (&other != this)
                 {
                     resource = other.resource;
+                    renderer = other.renderer;
                     dimensions = other.dimensions;
                     size = other.size;
                     flags = other.flags;
