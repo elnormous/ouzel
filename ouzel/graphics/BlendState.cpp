@@ -9,8 +9,7 @@ namespace ouzel
     namespace graphics
     {
         BlendState::BlendState(Renderer& initRenderer):
-            renderer(&initRenderer),
-            resource(renderer->getDevice()->getResourceId())
+            resource(initRenderer)
         {
         }
 
@@ -21,8 +20,7 @@ namespace ouzel
                                Factor initAlphaBlendSource, Factor initAlphaBlendDest,
                                Operation initAlphaOperation,
                                uint8_t initColorMask):
-            renderer(&initRenderer),
-            resource(renderer->getDevice()->getResourceId()),
+            resource(initRenderer),
             colorBlendSource(initColorBlendSource),
             colorBlendDest(initColorBlendDest),
             colorOperation(initColorOperation),
@@ -32,23 +30,13 @@ namespace ouzel
             colorMask(initColorMask),
             enableBlending(initEnableBlending)
         {
-            renderer->addCommand(std::unique_ptr<Command>(new InitBlendStateCommand(resource,
-                                                                                    initEnableBlending,
-                                                                                    initColorBlendSource, initColorBlendDest,
-                                                                                    initColorOperation,
-                                                                                    initAlphaBlendSource, initAlphaBlendDest,
-                                                                                    initAlphaOperation,
-                                                                                    initColorMask)));
-        }
-
-        BlendState::~BlendState()
-        {
-            if (renderer && resource)
-            {
-                renderer->addCommand(std::unique_ptr<Command>(new DeleteResourceCommand(resource)));
-                RenderDevice* renderDevice = renderer->getDevice();
-                renderDevice->deleteResourceId(resource);
-            }
+            initRenderer.addCommand(std::unique_ptr<Command>(new InitBlendStateCommand(resource.getId(),
+                                                                                       initEnableBlending,
+                                                                                       initColorBlendSource, initColorBlendDest,
+                                                                                       initColorOperation,
+                                                                                       initAlphaBlendSource, initAlphaBlendDest,
+                                                                                       initAlphaOperation,
+                                                                                       initColorMask)));
         }
 
         void BlendState::init(bool newEnableBlending,
@@ -67,14 +55,14 @@ namespace ouzel
             alphaOperation = newAlphaOperation;
             colorMask = newColorMask;
 
-            if (renderer && resource)
-                renderer->addCommand(std::unique_ptr<Command>(new InitBlendStateCommand(resource,
-                                                                                        newEnableBlending,
-                                                                                        newColorBlendSource, newColorBlendDest,
-                                                                                        newColorOperation,
-                                                                                        newAlphaBlendSource, newAlphaBlendDest,
-                                                                                        newAlphaOperation,
-                                                                                        newColorMask)));
+            if (resource.getId())
+                resource.getRenderer()->addCommand(std::unique_ptr<Command>(new InitBlendStateCommand(resource.getId(),
+                                                                                                      newEnableBlending,
+                                                                                                      newColorBlendSource, newColorBlendDest,
+                                                                                                      newColorOperation,
+                                                                                                      newAlphaBlendSource, newAlphaBlendDest,
+                                                                                                      newAlphaOperation,
+                                                                                                      newColorMask)));
         }
     } // namespace graphics
 } // namespace ouzel

@@ -3,8 +3,8 @@
 #ifndef OUZEL_GRAPHICS_BUFFER_HPP
 #define OUZEL_GRAPHICS_BUFFER_HPP
 
-#include <cstdint>
 #include <vector>
+#include "graphics/GraphicsResource.hpp"
 
 namespace ouzel
 {
@@ -35,38 +35,9 @@ namespace ouzel
             Buffer(Renderer& initRenderer, Usage newUsage, uint32_t newFlags, uint32_t newSize = 0);
             Buffer(Renderer& initRenderer, Usage newUsage, uint32_t newFlags, const void* newData, uint32_t newSize);
             Buffer(Renderer& initRenderer, Usage newUsage, uint32_t newFlags, const std::vector<uint8_t>& newData, uint32_t newSize);
-            ~Buffer();
 
             Buffer(const Buffer&) = delete;
             Buffer& operator=(const Buffer&) = delete;
-
-            Buffer(Buffer&& other):
-                resource(other.resource),
-                renderer(other.renderer),
-                usage(other.usage),
-                flags(other.flags),
-                size(other.size)
-            {
-                other.renderer = nullptr;
-                other.resource = 0;
-            }
-
-            Buffer& operator=(Buffer&& other)
-            {
-                if (&other != this)
-                {
-                    resource = other.resource;
-                    renderer = other.renderer;
-                    usage = other.usage;
-                    flags = other.flags;
-                    size = other.size;
-
-                    other.renderer = nullptr;
-                    other.resource = 0;
-                }
-
-                return *this;
-            }
 
             void init(Usage newUsage, uint32_t newFlags, uint32_t newSize = 0);
             void init(Usage newUsage, uint32_t newFlags, const void* newData, uint32_t newSize);
@@ -75,15 +46,14 @@ namespace ouzel
             void setData(const void* newData, uint32_t newSize);
             void setData(const std::vector<uint8_t>& newData);
 
-            inline uintptr_t getResource() const { return resource; }
+            inline uintptr_t getResource() const { return resource.getId(); }
 
             inline Usage getUsage() const { return usage; }
             inline uint32_t getFlags() const { return flags; }
             inline uint32_t getSize() const { return size; }
 
         private:
-            Renderer* renderer = nullptr;
-            uintptr_t resource = 0;
+            Resource resource;
 
             Buffer::Usage usage;
             uint32_t flags = 0;

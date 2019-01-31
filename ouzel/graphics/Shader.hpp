@@ -3,10 +3,10 @@
 #ifndef OUZEL_GRAPHICS_SHADER_HPP
 #define OUZEL_GRAPHICS_SHADER_HPP
 
-#include <cstdint>
 #include <set>
 #include <string>
 #include <vector>
+#include "graphics/GraphicsResource.hpp"
 #include "graphics/DataType.hpp"
 #include "graphics/Vertex.hpp"
 
@@ -45,34 +45,9 @@ namespace ouzel
                    uint32_t initVertexShaderDataAlignment = 0,
                    const std::string& fragmentShaderFunction = "",
                    const std::string& vertexShaderFunction = "");
-            ~Shader();
 
             Shader(const Shader&) = delete;
             Shader& operator=(const Shader&) = delete;
-
-            Shader(Shader&& other):
-                resource(other.resource),
-                renderer(other.renderer),
-                vertexAttributes(std::move(other.vertexAttributes))
-            {
-                other.renderer = nullptr;
-                other.resource = 0;
-            }
-
-            Shader& operator=(Shader&& other)
-            {
-                if (&other != this)
-                {
-                    resource = other.resource;
-                    renderer = other.renderer;
-                    vertexAttributes = std::move(other.vertexAttributes);
-
-                    other.renderer = nullptr;
-                    other.resource = 0;
-                }
-
-                return *this;
-            }
 
             void init(const std::vector<uint8_t>& newFragmentShader,
                       const std::vector<uint8_t>& newVertexShader,
@@ -84,13 +59,12 @@ namespace ouzel
                       const std::string& fragmentShaderFunction = "",
                       const std::string& vertexShaderFunction = "");
 
-            inline uintptr_t getResource() const { return resource; }
+            inline uintptr_t getResource() const { return resource.getId(); }
 
             const std::set<Vertex::Attribute::Usage>& getVertexAttributes() const;
 
         private:
-            Renderer* renderer = nullptr;
-            uintptr_t resource = 0;
+            Resource resource;
 
             std::set<Vertex::Attribute::Usage> vertexAttributes;
         };

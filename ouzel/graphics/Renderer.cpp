@@ -306,11 +306,6 @@ namespace ouzel
             commandBuffer = CommandBuffer();
         }
 
-        void Renderer::addCommand(std::unique_ptr<Command>&& command)
-        {
-            commandBuffer.pushCommand(std::move(command));
-        }
-
         void Renderer::waitForNextFrame()
         {
             std::unique_lock<std::mutex> lock(frameMutex);
