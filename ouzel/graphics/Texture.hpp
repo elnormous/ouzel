@@ -59,6 +59,10 @@ namespace ouzel
 
             static constexpr uint32_t LAYERS = 4;
 
+            Texture()
+            {
+            }
+
             explicit Texture(Renderer& initRenderer);
             Texture(Renderer& initRenderer,
                     const Size2<uint32_t>& newSize,
@@ -97,6 +101,7 @@ namespace ouzel
                 addressY = other.addressY;
                 maxAnisotropy = other.maxAnisotropy;
 
+                other.renderer = nullptr;
                 other.resource = 0;
             }
 
@@ -116,6 +121,7 @@ namespace ouzel
                     addressY = other.addressY;
                     maxAnisotropy = other.maxAnisotropy;
 
+                    other.renderer = nullptr;
                     other.resource = 0;
                 }
 
@@ -163,7 +169,7 @@ namespace ouzel
             inline PixelFormat getPixelFormat() const { return pixelFormat; }
 
         private:
-            Renderer& renderer;
+            Renderer* renderer = nullptr;
             uintptr_t resource = 0;
 
             Dimensions dimensions = Dimensions::TWO;

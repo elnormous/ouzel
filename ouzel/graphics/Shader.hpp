@@ -30,6 +30,10 @@ namespace ouzel
                 uint32_t size;
             };
 
+            Shader()
+            {
+            }
+
             explicit Shader(Renderer& initRenderer);
             Shader(Renderer& initRenderer,
                    const std::vector<uint8_t>& initFragmentShader,
@@ -52,6 +56,7 @@ namespace ouzel
                 resource = other.resource;
                 vertexAttributes = std::move(other.vertexAttributes);
 
+                other.renderer = nullptr;
                 other.resource = 0;
             }
 
@@ -62,6 +67,7 @@ namespace ouzel
                     resource = other.resource;
                     vertexAttributes = std::move(other.vertexAttributes);
 
+                    other.renderer = nullptr;
                     other.resource = 0;
                 }
 
@@ -83,7 +89,7 @@ namespace ouzel
             const std::set<Vertex::Attribute::Usage>& getVertexAttributes() const;
 
         private:
-            Renderer& renderer;
+            Renderer* renderer = nullptr;
             uintptr_t resource = 0;
 
             std::set<Vertex::Attribute::Usage> vertexAttributes;

@@ -46,6 +46,10 @@ namespace ouzel
                 CompareFunction compareFunction = CompareFunction::ALWAYS;
             };
 
+            DepthStencilState()
+            {
+            }
+
             explicit DepthStencilState(Renderer& initRenderer);
             DepthStencilState(Renderer& initRenderer,
                               bool initDepthTest,
@@ -74,6 +78,7 @@ namespace ouzel
                 frontFaceStencil = other.frontFaceStencil;
                 backFaceStencil = other.backFaceStencil;
 
+                other.renderer = nullptr;
                 other.resource = 0;
             }
 
@@ -91,6 +96,7 @@ namespace ouzel
                     frontFaceStencil = other.frontFaceStencil;
                     backFaceStencil = other.backFaceStencil;
 
+                    other.renderer = nullptr;
                     other.resource = 0;
                 }
 
@@ -109,15 +115,15 @@ namespace ouzel
             inline uintptr_t getResource() const { return resource; }
 
         private:
-            Renderer& renderer;
+            Renderer* renderer = nullptr;
             uintptr_t resource = 0;
 
             bool depthTest = false;
             bool depthWrite = false;
             CompareFunction compareFunction;
             bool stencilEnabled = false;
-            uint32_t stencilReadMask;
-            uint32_t stencilWriteMask;
+            uint32_t stencilReadMask = 0xFFFFFFFF;
+            uint32_t stencilWriteMask = 0xFFFFFFFF;
             StencilDescriptor frontFaceStencil;
             StencilDescriptor backFaceStencil;
         };
