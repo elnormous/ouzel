@@ -25,8 +25,6 @@ namespace ouzel
                 case DepthStencilState::CompareFunction::ALWAYS: return GL_ALWAYS;
                 default: return GL_NEVER;
             }
-
-            return GL_NEVER;
         }
 
         static GLenum getOperation(DepthStencilState::StencilOperation stencilOperation)

@@ -25,8 +25,6 @@ namespace ouzel
                 case DepthStencilState::CompareFunction::ALWAYS: return D3D11_COMPARISON_ALWAYS;
                 default: return D3D11_COMPARISON_NEVER;
             }
-
-            return D3D11_COMPARISON_NEVER;
         }
 
         static D3D11_STENCIL_OP getStencilOperation(DepthStencilState::StencilOperation stencilOperation)
