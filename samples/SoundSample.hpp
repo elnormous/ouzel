@@ -37,9 +37,9 @@ private:
     std::unique_ptr<ouzel::audio::Sound> tone;
     ouzel::audio::Voice toneVoice;
 
-    ouzel::scene::Layer guiLayer;
-    ouzel::scene::Camera guiCamera;
-    ouzel::scene::Actor guiCameraActor;
+    ouzel::scene::Layer layer;
+    ouzel::scene::Camera camera;
+    ouzel::scene::Actor cameraActor;
     ouzel::gui::Menu menu;
     ouzel::gui::Button backButton;
 

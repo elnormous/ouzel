@@ -79,14 +79,10 @@ namespace ouzel
                       uint32_t newMaxAnisotropy,
                       bool newVerticalSync,
                       bool newDepth,
+                      bool newStencil,
                       bool newDebugRenderer) override;
 
             void setSize(const Size2<uint32_t>& newSize) override;
-
-            void setClearColorBuffer(bool clear);
-            void setClearDepthBuffer(bool clear);
-            void setClearColor(Color newClearColor);
-            void setClearDepth(float newClearDepth);
 
             void process() override;
             void generateScreenshot(const std::string& filename) override;
@@ -99,6 +95,7 @@ namespace ouzel
                 NSUInteger sampleCount = 0;
                 std::vector<MTLPixelFormat> colorFormats;
                 MTLPixelFormat depthFormat;
+                MTLPixelFormat stencilFormat;
 
                 bool operator<(const PipelineStateDesc& other) const
                 {
@@ -133,9 +130,7 @@ namespace ouzel
 
             MTLPixelFormat colorFormat;
             MTLPixelFormat depthFormat;
-
-            MTLLoadAction colorBufferLoadAction;
-            MTLLoadAction depthBufferLoadAction;
+            MTLPixelFormat stencilFormat;
 
             dispatch_semaphore_t inflightSemaphore;
 

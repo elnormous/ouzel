@@ -18,11 +18,15 @@ namespace ouzel
             indexCount = static_cast<uint32_t>(indices.size());
             indexSize = sizeof(uint32_t);
 
-            indexBuffer.reset(new graphics::Buffer(*engine->getRenderer()));
-            indexBuffer->init(graphics::Buffer::Usage::INDEX, 0, indices.data(), static_cast<uint32_t>(getVectorSize(indices)));
+            indexBuffer.reset(new graphics::Buffer(*engine->getRenderer(),
+                                                   graphics::Buffer::Usage::INDEX, 0,
+                                                   indices.data(),
+                                                   static_cast<uint32_t>(getVectorSize(indices))));
 
-            vertexBuffer.reset(new graphics::Buffer(*engine->getRenderer()));
-            vertexBuffer->init(graphics::Buffer::Usage::VERTEX, 0, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)));
+            vertexBuffer.reset(new graphics::Buffer(*engine->getRenderer(),
+                                                    graphics::Buffer::Usage::VERTEX, 0,
+                                                    vertices.data(),
+                                                    static_cast<uint32_t>(getVectorSize(vertices))));
         }
     } // namespace scene
 } // namespace ouzel

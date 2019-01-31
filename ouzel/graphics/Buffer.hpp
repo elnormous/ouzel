@@ -3,8 +3,8 @@
 #ifndef OUZEL_GRAPHICS_BUFFER_HPP
 #define OUZEL_GRAPHICS_BUFFER_HPP
 
-#include <cstdint>
 #include <vector>
+#include "graphics/GraphicsResource.hpp"
 
 namespace ouzel
 {
@@ -27,34 +27,29 @@ namespace ouzel
                 VERTEX
             };
 
+            Buffer()
+            {
+            }
+
             explicit Buffer(Renderer& initRenderer);
             Buffer(Renderer& initRenderer, Usage newUsage, uint32_t newFlags, uint32_t newSize = 0);
             Buffer(Renderer& initRenderer, Usage newUsage, uint32_t newFlags, const void* newData, uint32_t newSize);
             Buffer(Renderer& initRenderer, Usage newUsage, uint32_t newFlags, const std::vector<uint8_t>& newData, uint32_t newSize);
-            ~Buffer();
 
             Buffer(const Buffer&) = delete;
             Buffer& operator=(const Buffer&) = delete;
 
-            Buffer(Buffer&&) = delete;
-            Buffer& operator=(Buffer&&) = delete;
-
-            void init(Usage newUsage, uint32_t newFlags, uint32_t newSize = 0);
-            void init(Usage newUsage, uint32_t newFlags, const void* newData, uint32_t newSize);
-            void init(Usage newUsage, uint32_t newFlags, const std::vector<uint8_t>& newData, uint32_t newSize);
-
             void setData(const void* newData, uint32_t newSize);
             void setData(const std::vector<uint8_t>& newData);
 
-            inline uintptr_t getResource() const { return resource; }
+            inline uintptr_t getResource() const { return resource.getId(); }
 
             inline Usage getUsage() const { return usage; }
             inline uint32_t getFlags() const { return flags; }
             inline uint32_t getSize() const { return size; }
 
         private:
-            Renderer& renderer;
-            uintptr_t resource = 0;
+            Resource resource;
 
             Buffer::Usage usage;
             uint32_t flags = 0;

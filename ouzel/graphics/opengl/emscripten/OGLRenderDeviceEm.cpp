@@ -29,6 +29,7 @@ namespace ouzel
                                      uint32_t newMaxAnisotropy,
                                      bool newVerticalSync,
                                      bool newDepth,
+                                     bool newStencil,
                                      bool newDebugRenderer)
         {
             apiMajorVersion = 2;
@@ -39,7 +40,7 @@ namespace ouzel
 
             attrs.alpha = true;
             attrs.depth = newDepth;
-            attrs.stencil = false;
+            attrs.stencil = newStencil;
             attrs.antialias = newSampleCount > 0;
 
             webGLContext = emscripten_webgl_create_context(0, &attrs);
@@ -61,6 +62,7 @@ namespace ouzel
                                   newMaxAnisotropy,
                                   newVerticalSync,
                                   newDepth,
+                                  newStencil,
                                   newDebugRenderer);
         }
     } // namespace graphics

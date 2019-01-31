@@ -45,10 +45,16 @@ namespace ouzel
                 // clear all the render targets
                 for (Camera* camera : layer->getCameras())
                 {
-                    if (clearedRenderTargets.insert(camera->getRenderTarget()).second)
+                    if ((camera->getClearColorBuffer() || camera->getClearDepthBuffer() || camera->getClearStencilBuffer()) &&
+                        clearedRenderTargets.insert(camera->getRenderTarget()).second)
                     {
                         engine->getRenderer()->setRenderTarget(camera->getRenderTarget() ? camera->getRenderTarget()->getResource() : 0);
-                        engine->getRenderer()->clearRenderTarget();
+                        engine->getRenderer()->clearRenderTarget(camera->getClearColorBuffer(),
+                                                                 camera->getClearDepthBuffer(),
+                                                                 camera->getClearStencilBuffer(),
+                                                                 camera->getClearColor(),
+                                                                 camera->getClearDepth(),
+                                                                 camera->getClearStencil());
                     }
                 }
 

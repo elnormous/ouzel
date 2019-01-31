@@ -17,11 +17,13 @@ namespace ouzel
             shader = engine->getCache().getShader(SHADER_COLOR);
             blendState = engine->getCache().getBlendState(BLEND_ALPHA);
 
-            indexBuffer.reset(new graphics::Buffer(*engine->getRenderer()));
-            indexBuffer->init(graphics::Buffer::Usage::INDEX, graphics::Buffer::DYNAMIC);
+            indexBuffer.reset(new graphics::Buffer(*engine->getRenderer(),
+                                                   graphics::Buffer::Usage::INDEX,
+                                                   graphics::Buffer::DYNAMIC));
 
-            vertexBuffer.reset(new graphics::Buffer(*engine->getRenderer()));
-            vertexBuffer->init(graphics::Buffer::Usage::VERTEX, graphics::Buffer::DYNAMIC);
+            vertexBuffer.reset(new graphics::Buffer(*engine->getRenderer(),
+                                                    graphics::Buffer::Usage::VERTEX,
+                                                    graphics::Buffer::DYNAMIC));
         }
 
         void ShapeRenderer::draw(const Matrix4<float>& transformMatrix,

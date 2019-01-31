@@ -82,6 +82,7 @@ namespace ouzel
                                           uint32_t newMaxAnisotropy,
                                           bool newVerticalSync,
                                           bool newDepth,
+                                          bool newStencil,
                                           bool newDebugRenderer)
         {
             display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
@@ -99,6 +100,7 @@ namespace ouzel
                 EGL_BLUE_SIZE, 8,
                 EGL_ALPHA_SIZE, 8,
                 EGL_DEPTH_SIZE, newDepth ? 24 : 0,
+                EGL_STENCIL_SIZE, newStencil ? 8 : 0,
                 EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
                 EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
                 EGL_SAMPLE_BUFFERS, (newSampleCount > 1) ? 1 : 0,
@@ -180,6 +182,7 @@ namespace ouzel
                                   newMaxAnisotropy,
                                   newVerticalSync,
                                   newDepth,
+                                  newStencil,
                                   newDebugRenderer);
 
             if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
@@ -279,7 +282,7 @@ namespace ouzel
             stateCache = StateCache();
 
             glDisableProc(GL_DITHER);
-            glDepthFunc(GL_LEQUAL);
+            glDepthFuncProc(GL_LEQUAL);
 
             GLenum error;
 

@@ -2,8 +2,8 @@
 
 #include "OscillatorSound.hpp"
 #include "Audio.hpp"
+#include "mixer/Stream.hpp"
 #include "mixer/Source.hpp"
-#include "mixer/SourceData.hpp"
 #include "math/MathUtils.hpp"
 
 namespace ouzel
@@ -12,7 +12,7 @@ namespace ouzel
     {
         class OscillatorData;
 
-        class OscillatorSource: public mixer::Source
+        class OscillatorSource: public mixer::Stream
         {
         public:
             OscillatorSource(OscillatorData& oscillatorData);
@@ -28,7 +28,7 @@ namespace ouzel
             uint32_t position = 0;
         };
 
-        class OscillatorData: public mixer::SourceData
+        class OscillatorData: public mixer::Source
         {
         public:
             OscillatorData(float initFrequency, OscillatorSound::Type initType, float initAmplitude, float initLength):
@@ -46,9 +46,9 @@ namespace ouzel
             float getAmplitude() const { return amplitude; }
             float getLength() const { return length; }
 
-            std::unique_ptr<mixer::Source> createSource() override
+            std::unique_ptr<mixer::Stream> createStream() override
             {
-                return std::unique_ptr<mixer::Source>(new OscillatorSource(*this));
+                return std::unique_ptr<mixer::Stream>(new OscillatorSource(*this));
             }
 
         private:
@@ -59,7 +59,7 @@ namespace ouzel
         };
 
         OscillatorSource::OscillatorSource(OscillatorData& oscillatorData):
-            Source(oscillatorData)
+            Stream(oscillatorData)
         {
         }
 
@@ -94,12 +94,12 @@ namespace ouzel
 
         void OscillatorSource::getData(uint32_t frames, std::vector<float>& samples)
         {
-            OscillatorData& oscillatorData = static_cast<OscillatorData&>(sourceData);
+            OscillatorData& oscillatorData = static_cast<OscillatorData&>(source);
 
             samples.resize(frames);
 
-            const uint32_t sampleRate = sourceData.getSampleRate();
-            const float length = static_cast<OscillatorData&>(sourceData).getLength();
+            const uint32_t sampleRate = source.getSampleRate();
+            const float length = static_cast<OscillatorData&>(source).getLength();
 
             if (length > 0.0F)
             {
@@ -155,7 +155,9 @@ namespace ouzel
 
         OscillatorSound::OscillatorSound(Audio& initAudio, float initFrequency,
                                          Type initType, float initAmplitude, float initLength):
-            Sound(initAudio, initAudio.initSourceData(std::unique_ptr<mixer::SourceData>(new OscillatorData(initFrequency, initType, initAmplitude, initLength)))),
+            Sound(initAudio, initAudio.initSource([initFrequency, initType, initAmplitude, initLength](){
+                return std::unique_ptr<mixer::Source>(new OscillatorData(initFrequency, initType, initAmplitude, initLength));
+            })),
             type(initType),
             frequency(initFrequency),
             amplitude(initAmplitude),

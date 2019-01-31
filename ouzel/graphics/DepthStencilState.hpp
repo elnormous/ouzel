@@ -3,7 +3,7 @@
 #ifndef OUZEL_GRAPHICS_DEPTHSTENCILSTATE_HPP
 #define OUZEL_GRAPHICS_DEPTHSTENCILSTATE_HPP
 
-#include <cstdint>
+#include "graphics/GraphicsResource.hpp"
 
 namespace ouzel
 {
@@ -26,32 +26,57 @@ namespace ouzel
                 ALWAYS,
             };
 
+            enum class StencilOperation
+            {
+                KEEP,
+                ZERO,
+                REPLACE,
+                INCREMENT_CLAMP,
+                DECREMENT_CLAMP,
+                INVERT,
+                INCREMENT_WRAP,
+                DECREMENT_WRAP
+            };
+
+            struct StencilDescriptor
+            {
+                StencilOperation failureOperation = StencilOperation::KEEP;
+                StencilOperation depthFailureOperation = StencilOperation::KEEP;
+                StencilOperation passOperation = StencilOperation::KEEP;
+                CompareFunction compareFunction = CompareFunction::ALWAYS;
+            };
+
+            DepthStencilState()
+            {
+            }
+
             explicit DepthStencilState(Renderer& initRenderer);
             DepthStencilState(Renderer& initRenderer,
                               bool initDepthTest,
                               bool initDepthWrite,
-                              CompareFunction initCompareFunction);
-            ~DepthStencilState();
+                              CompareFunction initCompareFunction,
+                              bool initStencilEnabled,
+                              uint32_t initStencilReadMask,
+                              uint32_t initStencilWriteMask,
+                              const StencilDescriptor& initFrontFaceStencil,
+                              const StencilDescriptor& initBackFaceStencil);
 
             DepthStencilState(const DepthStencilState&) = delete;
             DepthStencilState& operator=(const DepthStencilState&) = delete;
 
-            DepthStencilState(DepthStencilState&&) = delete;
-            DepthStencilState& operator=(DepthStencilState&&) = delete;
-
-            void init(bool newDepthTest,
-                      bool newDepthWrite,
-                      CompareFunction newCompareFunction);
-
-            inline uintptr_t getResource() const { return resource; }
+            inline uintptr_t getResource() const { return resource.getId(); }
 
         private:
-            Renderer& renderer;
-            uintptr_t resource = 0;
+            Resource resource;
 
             bool depthTest = false;
             bool depthWrite = false;
             CompareFunction compareFunction;
+            bool stencilEnabled = false;
+            uint32_t stencilReadMask = 0xFFFFFFFF;
+            uint32_t stencilWriteMask = 0xFFFFFFFF;
+            StencilDescriptor frontFaceStencil;
+            StencilDescriptor backFaceStencil;
         };
     } // namespace graphics
 } // namespace ouzel

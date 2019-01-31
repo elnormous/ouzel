@@ -294,7 +294,12 @@ namespace ouzel
             if (depthTest)
                 depthStencilState.reset(new graphics::DepthStencilState(*engine->getRenderer(),
                                                                         true, true,
-                                                                        graphics::DepthStencilState::CompareFunction::LESS_EQUAL));
+                                                                        graphics::DepthStencilState::CompareFunction::LESS_EQUAL,
+                                                                        false,
+                                                                        0xFFFFFFFF,
+                                                                        0xFFFFFFFF,
+                                                                        graphics::DepthStencilState::StencilDescriptor(),
+                                                                        graphics::DepthStencilState::StencilDescriptor()));
             else
                 depthStencilState.reset();
         }

@@ -35,6 +35,7 @@ namespace ouzel
                      uint32_t newMaxAnisotropy,
                      bool newVerticalSync,
                      bool newDepth,
+                     bool newStencil,
                      bool newDebugRenderer);
 
             Renderer(const Renderer&) = delete;
@@ -48,29 +49,23 @@ namespace ouzel
 
             inline RenderDevice* getDevice() const { return device.get(); }
 
-            inline bool getClearColorBuffer() const { return clearColorBuffer; }
-            void setClearColorBuffer(bool clear);
-
-            inline bool getClearDepthBuffer() const { return clearDepthBuffer; }
-            void setClearDepthBuffer(bool clear);
-
-            inline Color getClearColor() const { return clearColor; }
-            void setClearColor(Color color);
-
-            inline float getClearDepth() const { return clearDepth; }
-            void setClearDepth(float newClearDepth);
-
             inline const Size2<uint32_t>& getSize() const { return size; }
 
             void saveScreenshot(const std::string& filename);
 
             void setRenderTarget(uintptr_t renderTarget);
-            void clearRenderTarget();
+            void clearRenderTarget(bool clearColorBuffer,
+                                   bool clearDepthBuffer,
+                                   bool clearStencilBuffer,
+                                   Color clearColor,
+                                   float clearDepth,
+                                   uint32_t clearStencil);
             void setCullMode(CullMode cullMode);
             void setFillMode(FillMode fillMode);
             void setScissorTest(bool enabled, const Rect<float>& rectangle);
             void setViewport(const Rect<float>& viewport);
-            void setDepthStencilState(uintptr_t depthStencilState);
+            void setDepthStencilState(uintptr_t depthStencilState,
+                                      uint32_t stencilReferenceValue);
             void setPipelineState(uintptr_t blendState,
                                   uintptr_t shader);
             void draw(uintptr_t indexBuffer,
@@ -85,7 +80,21 @@ namespace ouzel
                                     std::vector<std::vector<float>> vertexShaderConstants);
             void setTextures(const std::vector<uintptr_t>& textures);
             void present();
-            void addCommand(std::unique_ptr<Command>&& command);
+            inline void addCommand(std::unique_ptr<Command>&& command)
+            {
+                commandBuffer.pushCommand(std::move(command));
+            }
+
+            inline uintptr_t getResourceId()
+            {
+                return device->getResourceId();
+            }
+
+            void deleteResourceId(uintptr_t resourceId)
+            {
+                addCommand(std::unique_ptr<Command>(new DeleteResourceCommand(resourceId)));
+                device->deleteResourceId(resourceId);
+            }
 
             void waitForNextFrame();
             inline bool getRefillQueue() const { return refillQueue; }
@@ -109,10 +118,6 @@ namespace ouzel
             std::unique_ptr<RenderDevice> device;
 
             Size2<uint32_t> size;
-            Color clearColor;
-            float clearDepth = 1.0;
-            bool clearColorBuffer = true;
-            bool clearDepthBuffer = false;
             CommandBuffer commandBuffer;
 
             bool newFrame = false;

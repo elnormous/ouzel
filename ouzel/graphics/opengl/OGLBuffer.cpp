@@ -29,15 +29,15 @@ namespace ouzel
                 renderDeviceOGL.bindBuffer(bufferType, bufferId);
 
                 if (data.empty())
-                    glBufferDataProc(bufferType, size, nullptr,
-                                     (flags & Texture::DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+                    renderDevice.glBufferDataProc(bufferType, size, nullptr,
+                                                  (flags & Texture::DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
                 else
-                    glBufferDataProc(bufferType, size, data.data(),
-                                     (flags & Texture::DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+                    renderDevice.glBufferDataProc(bufferType, size, data.data(),
+                                                  (flags & Texture::DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
                 GLenum error;
 
-                if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
                     throw std::system_error(makeErrorCode(error), "Failed to create buffer");
             }
         }
@@ -59,15 +59,15 @@ namespace ouzel
                 renderDevice.bindBuffer(bufferType, bufferId);
 
                 if (data.empty())
-                    glBufferDataProc(bufferType, size, nullptr,
-                                     (flags & Texture::DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+                    renderDevice.glBufferDataProc(bufferType, size, nullptr,
+                                                  (flags & Texture::DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
                 else
-                    glBufferDataProc(bufferType, size, data.data(),
-                                     (flags & Texture::DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+                    renderDevice.glBufferDataProc(bufferType, size, data.data(),
+                                                  (flags & Texture::DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
                 GLenum error;
 
-                if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
                     throw std::system_error(makeErrorCode(error), "Failed to create buffer");
             }
         }
@@ -91,32 +91,32 @@ namespace ouzel
             {
                 size = static_cast<GLsizeiptr>(data.size());
 
-                glBufferDataProc(bufferType, size, data.data(),
-                                 (flags & Texture::DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+                renderDevice.glBufferDataProc(bufferType, size, data.data(),
+                                              (flags & Texture::DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
                 GLenum error;
 
-                if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
                     throw std::system_error(makeErrorCode(error), "Failed to create buffer");
             }
             else
             {
-                glBufferSubDataProc(bufferType, 0, static_cast<GLsizeiptr>(data.size()), data.data());
+                renderDevice.glBufferSubDataProc(bufferType, 0, static_cast<GLsizeiptr>(data.size()), data.data());
 
                 GLenum error;
 
-                if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
                     throw std::system_error(makeErrorCode(error), "Failed to upload buffer");
             }
         }
 
         void OGLBuffer::createBuffer()
         {
-            glGenBuffersProc(1, &bufferId);
+            renderDevice.glGenBuffersProc(1, &bufferId);
 
             GLenum error;
 
-            if ((error = glGetErrorProc()) != GL_NO_ERROR)
+            if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
                 throw std::system_error(makeErrorCode(error), "Failed to create buffer");
 
             switch (usage)

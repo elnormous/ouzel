@@ -3,6 +3,7 @@
 #ifndef OUZEL_AUDIO_MIXER_SOURCE_HPP
 #define OUZEL_AUDIO_MIXER_SOURCE_HPP
 
+#include <memory>
 #include "audio/mixer/Object.hpp"
 
 namespace ouzel
@@ -11,34 +12,19 @@ namespace ouzel
     {
         namespace mixer
         {
-            class Bus;
-            class SourceData;
+            class Stream;
 
             class Source: public Object
             {
-                friend Bus;
             public:
-                Source(SourceData& initSourceData);
-                ~Source();
+                virtual std::unique_ptr<Stream> createStream() = 0;
 
-                const SourceData& getSourceData() const { return sourceData; }
-
-                virtual void getData(uint32_t frames, std::vector<float>& samples) = 0;
-
-                void setOutput(Bus* newOutput);
-
-                bool isPlaying() const { return playing; }
-                void play(bool repeat);
-
-                bool isRepeating() const { return repeating; }
-                void stop(bool shouldReset);
-                virtual void reset() = 0;
+                uint16_t getChannels() const { return channels; }
+                uint32_t getSampleRate() const { return sampleRate; }
 
             protected:
-                SourceData& sourceData;
-                Bus* output = nullptr;
-                bool playing = false;
-                bool repeating = false;
+                uint16_t channels = 0;
+                uint32_t sampleRate = 0;
             };
         }
     } // namespace audio

@@ -106,6 +106,7 @@ namespace ouzel
                            uint32_t newMaxAnisotropy,
                            bool newVerticalSync,
                            bool newDepth,
+                           bool newStencil,
                            bool newDebugRenderer)
         {
             for (uint32_t i = 0; i < 256; ++i)
@@ -171,6 +172,7 @@ namespace ouzel
                          newMaxAnisotropy,
                          newVerticalSync,
                          newDepth,
+                         newStencil,
                          newDebugRenderer);
         }
 
@@ -184,50 +186,6 @@ namespace ouzel
                 lock.unlock();
                 frameCondition.notify_all();
             }
-        }
-
-        void Renderer::setClearColorBuffer(bool clear)
-        {
-            clearColorBuffer = clear;
-
-            addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(0,
-                                                                                     clearColorBuffer,
-                                                                                     clearDepthBuffer,
-                                                                                     clearColor,
-                                                                                     clearDepth)));
-        }
-
-        void Renderer::setClearDepthBuffer(bool clear)
-        {
-            clearDepthBuffer = clear;
-
-            addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(0,
-                                                                                     clearColorBuffer,
-                                                                                     clearDepthBuffer,
-                                                                                     clearColor,
-                                                                                     clearDepth)));
-        }
-
-        void Renderer::setClearColor(Color color)
-        {
-            clearColor = color;
-
-            addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(0,
-                                                                                     clearColorBuffer,
-                                                                                     clearDepthBuffer,
-                                                                                     clearColor,
-                                                                                     clearDepth)));
-        }
-
-        void Renderer::setClearDepth(float newClearDepth)
-        {
-            clearDepth = newClearDepth;
-
-            addCommand(std::unique_ptr<Command>(new SetRenderTargetParametersCommand(0,
-                                                                                     clearColorBuffer,
-                                                                                     clearDepthBuffer,
-                                                                                     clearColor,
-                                                                                     clearDepth)));
         }
 
         void Renderer::setSize(const Size2<uint32_t>& newSize)
@@ -247,9 +205,19 @@ namespace ouzel
             addCommand(std::unique_ptr<Command>(new SetRenderTargetCommand(renderTarget)));
         }
 
-        void Renderer::clearRenderTarget()
+        void Renderer::clearRenderTarget(bool clearColorBuffer,
+                                         bool clearDepthBuffer,
+                                         bool clearStencilBuffer,
+                                         Color clearColor,
+                                         float clearDepth,
+                                         uint32_t clearStencil)
         {
-            addCommand(std::unique_ptr<Command>(new ClearRenderTargetCommand()));
+            addCommand(std::unique_ptr<Command>(new ClearRenderTargetCommand(clearColorBuffer,
+                                                                             clearDepthBuffer,
+                                                                             clearStencilBuffer,
+                                                                             clearColor,
+                                                                             clearDepth,
+                                                                             clearStencil)));
         }
 
         void Renderer::setCullMode(CullMode cullMode)
@@ -272,9 +240,11 @@ namespace ouzel
             addCommand(std::unique_ptr<Command>(new SetViewportCommand(viewport)));
         }
 
-        void Renderer::setDepthStencilState(uintptr_t depthStencilState)
+        void Renderer::setDepthStencilState(uintptr_t depthStencilState,
+                                            uint32_t stencilReferenceValue)
         {
-            addCommand(std::unique_ptr<Command>(new SetDepthStencilStateCommand(depthStencilState)));
+            addCommand(std::unique_ptr<Command>(new SetDepthStencilStateCommand(depthStencilState,
+                                                                                stencilReferenceValue)));
         }
 
         void Renderer::setPipelineState(uintptr_t blendState,
@@ -334,11 +304,6 @@ namespace ouzel
             addCommand(std::unique_ptr<Command>(new PresentCommand()));
             device->submitCommandBuffer(std::move(commandBuffer));
             commandBuffer = CommandBuffer();
-        }
-
-        void Renderer::addCommand(std::unique_ptr<Command>&& command)
-        {
-            commandBuffer.pushCommand(std::move(command));
         }
 
         void Renderer::waitForNextFrame()

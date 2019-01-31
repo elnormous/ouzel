@@ -75,14 +75,10 @@ namespace ouzel
                       uint32_t newMaxAnisotropy,
                       bool newVerticalSync,
                       bool newDepth,
+                      bool newStencil,
                       bool newDebugRenderer) override;
 
             virtual void setSize(const Size2<uint32_t>& newSize);
-
-            void setClearColorBuffer(bool clear);
-            void setClearDepthBuffer(bool clear);
-            void setClearColor(Color newClearColor);
-            void setClearDepth(float newClearDepth);
 
             void process() override;
             void resizeBackBuffer(UINT newWidth, UINT newHeight);
@@ -99,7 +95,7 @@ namespace ouzel
             ID3D11Texture2D* backBuffer = nullptr;
             ID3D11RenderTargetView* renderTargetView = nullptr;
             std::map<SamplerStateDesc, ID3D11SamplerState*> samplerStates;
-            ID3D11RasterizerState* rasterizerStates[12];
+            ID3D11RasterizerState* rasterizerStates[12]{nullptr};
             ID3D11Texture2D* depthStencilTexture = nullptr;
             ID3D11DepthStencilView* depthStencilView = nullptr;
             ID3D11DepthStencilState* defaultDepthStencilState = nullptr;
@@ -108,10 +104,6 @@ namespace ouzel
             UINT frameBufferHeight = 0;
 
             UINT swapInterval = 0;
-            FLOAT frameBufferClearColor[4]{0.0F, 0.0F, 0.0F, 0.0F};
-            float clearDepth = 1.0F;
-            bool clearColorBuffer = true;
-            bool clearDepthBuffer = false;
 
             std::atomic_bool running{false};
             std::thread renderThread;

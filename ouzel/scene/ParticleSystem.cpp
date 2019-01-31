@@ -333,11 +333,16 @@ namespace ouzel
                                                     Vector2<float>(1.0F, 0.0F), Vector3<float>(0.0F, 0.0F, -1.0F)));
             }
 
-            indexBuffer.reset(new graphics::Buffer(*engine->getRenderer()));
-            indexBuffer->init(graphics::Buffer::Usage::INDEX, 0, indices.data(), static_cast<uint32_t>(getVectorSize(indices)));
+            indexBuffer.reset(new graphics::Buffer(*engine->getRenderer(),
+                                                   graphics::Buffer::Usage::INDEX, 0,
+                                                   indices.data(),
+                                                   static_cast<uint32_t>(getVectorSize(indices))));
 
-            vertexBuffer.reset(new graphics::Buffer(*engine->getRenderer()));
-            vertexBuffer->init(graphics::Buffer::Usage::VERTEX, graphics::Buffer::DYNAMIC, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)));
+            vertexBuffer.reset(new graphics::Buffer(*engine->getRenderer(),
+                                                    graphics::Buffer::Usage::VERTEX,
+                                                    graphics::Buffer::DYNAMIC,
+                                                    vertices.data(),
+                                                    static_cast<uint32_t>(getVectorSize(vertices))));
 
             particles.resize(particleSystemData.maxParticles);
         }

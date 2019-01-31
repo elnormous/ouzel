@@ -156,6 +156,7 @@ namespace ouzel
                                       uint32_t newMaxAnisotropy,
                                       bool newVerticalSync,
                                       bool newDepth,
+                                      bool newStencil,
                                       bool newDebugRenderer)
         {
             TempContext tempContext;
@@ -210,6 +211,7 @@ namespace ouzel
                     WGL_COLOR_BITS_ARB, 24,
                     WGL_ALPHA_BITS_ARB, 8,
                     WGL_DEPTH_BITS_ARB, newDepth ? 24 : 0,
+                    WGL_STENCIL_BITS_ARB, newStencil ? 8 : 0,
                     WGL_SAMPLE_BUFFERS_ARB, newSampleCount > 0 ? 1 : 0,
                     WGL_SAMPLES_ARB, static_cast<int>(newSampleCount),
                     0,
@@ -273,6 +275,7 @@ namespace ouzel
                                   newMaxAnisotropy,
                                   newVerticalSync,
                                   newDepth,
+                                  newStencil,
                                   newDebugRenderer);
 
             if (!wglMakeCurrent(deviceContext, nullptr))

@@ -3,7 +3,7 @@
 #ifndef OUZEL_GRAPHICS_BLENDSTATE_HPP
 #define OUZEL_GRAPHICS_BLENDSTATE_HPP
 
-#include <cstdint>
+#include "graphics/GraphicsResource.hpp"
 
 namespace ouzel
 {
@@ -49,6 +49,10 @@ namespace ouzel
                 COLOR_MASK_ALL = COLOR_MASK_RED | COLOR_MASK_GREEN | COLOR_MASK_BLUE | COLOR_MASK_ALPHA
             };
 
+            BlendState()
+            {
+            }
+
             explicit BlendState(Renderer& initRenderer);
             BlendState(Renderer& initRenderer,
                        bool initEnableBlending,
@@ -57,22 +61,11 @@ namespace ouzel
                        Factor initAlphaBlendSource, Factor initAlphaBlendDest,
                        Operation initAlphaOperation,
                        uint8_t initColorMask = COLOR_MASK_ALL);
-            ~BlendState();
 
             BlendState(const BlendState&) = delete;
             BlendState& operator=(const BlendState&) = delete;
 
-            BlendState(BlendState&&) = delete;
-            BlendState& operator=(BlendState&&) = delete;
-
-            void init(bool newEnableBlending,
-                      Factor newColorBlendSource, Factor newColorBlendDest,
-                      Operation newColorOperation,
-                      Factor newAlphaBlendSource, Factor newAlphaBlendDest,
-                      Operation newAlphaOperation,
-                      uint8_t newColorMask = COLOR_MASK_ALL);
-
-            inline uintptr_t getResource() const { return resource; }
+            inline uintptr_t getResource() const { return resource.getId(); }
 
             inline bool isBlendingEnabled() const { return enableBlending; }
 
@@ -86,8 +79,7 @@ namespace ouzel
             inline uint8_t getColorMask() const { return colorMask; }
 
         private:
-            Renderer& renderer;
-            uintptr_t resource = 0;
+            Resource resource;
 
             BlendState::Factor colorBlendSource = BlendState::Factor::ONE;
             BlendState::Factor colorBlendDest = BlendState::Factor::ZERO;

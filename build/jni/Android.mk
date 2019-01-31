@@ -46,8 +46,8 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/audio/mixer/Bus.cpp \
 	../../ouzel/audio/mixer/Mixer.cpp \
     ../../ouzel/audio/mixer/Processor.cpp \
+    ../../ouzel/audio/mixer/Stream.cpp \
     ../../ouzel/audio/mixer/Source.cpp \
-    ../../ouzel/audio/mixer/SourceData.cpp \
     ../../ouzel/audio/opensl/OSLAudioDevice.cpp \
     ../../ouzel/audio/Audio.cpp \
     ../../ouzel/audio/AudioDevice.cpp \
@@ -60,7 +60,6 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/audio/PCMSound.cpp \
 	../../ouzel/audio/SilenceSound.cpp \
     ../../ouzel/audio/Sound.cpp \
-	../../ouzel/audio/Source.cpp \
     ../../ouzel/audio/Submix.cpp \
 	../../ouzel/audio/Voice.cpp \
     ../../ouzel/audio/VorbisSound.cpp \
@@ -90,6 +89,7 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/graphics/BlendState.cpp \
     ../../ouzel/graphics/Buffer.cpp \
 	../../ouzel/graphics/DepthStencilState.cpp \
+	../../ouzel/graphics/GraphicsResource.cpp \
     ../../ouzel/graphics/ImageData.cpp \
     ../../ouzel/graphics/Material.cpp \
     ../../ouzel/graphics/Renderer.cpp \

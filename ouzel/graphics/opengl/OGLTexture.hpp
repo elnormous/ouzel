@@ -33,6 +33,7 @@ namespace ouzel
         public:
             OGLTexture(OGLRenderDevice& renderDeviceOGL,
                        const std::vector<Texture::Level>& initLevels,
+                       Texture::Dimensions dimensions,
                        uint32_t initFlags = 0,
                        uint32_t initSampleCount = 1,
                        PixelFormat initPixelFormat = PixelFormat::RGBA8_UNORM);
@@ -61,6 +62,8 @@ namespace ouzel
             inline GLsizei getWidth() const { return width; }
             inline GLsizei getHeight() const { return height; }
 
+            inline GLenum getPixelFormat() const { return pixelFormat; }
+
         private:
             void createTexture();
             void setTextureParameters();
@@ -74,6 +77,7 @@ namespace ouzel
             Texture::Address addressY = Texture::Address::CLAMP;
             uint32_t maxAnisotropy = 0;
 
+            GLenum textureTarget = 0;
             GLuint textureId = 0;
             GLuint bufferId = 0;
 

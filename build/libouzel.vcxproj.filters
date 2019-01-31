@@ -451,10 +451,10 @@
     <ClCompile Include="..\ouzel\audio\wasapi\WASAPIAudioDevice.cpp">
       <Filter>ouzel\audio\wasapi</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\mixer\Source.cpp">
+    <ClCompile Include="..\ouzel\audio\mixer\Stream.cpp">
       <Filter>ouzel\audio\mixer</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\mixer\SourceData.cpp">
+    <ClCompile Include="..\ouzel\audio\mixer\Source.cpp">
       <Filter>ouzel\audio\mixer</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\scene\TextRenderer.cpp">
@@ -478,11 +478,11 @@
     <ClCompile Include="..\ouzel\audio\Containers.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\Source.cpp">
-      <Filter>ouzel\audio</Filter>
-    </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>ouzel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\GraphicsResource.cpp">
+      <Filter>ouzel\graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1023,10 +1023,10 @@
     <ClInclude Include="..\ouzel\audio\mixer\Object.hpp">
       <Filter>ouzel\audio\mixer</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\mixer\Source.hpp">
+    <ClInclude Include="..\ouzel\audio\mixer\Stream.hpp">
       <Filter>ouzel\audio\mixer</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\mixer\SourceData.hpp">
+    <ClInclude Include="..\ouzel\audio\mixer\Source.hpp">
       <Filter>ouzel\audio\mixer</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\Mix.hpp">
@@ -1050,11 +1050,11 @@
     <ClInclude Include="..\ouzel\audio\Containers.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\Source.hpp">
-      <Filter>ouzel\audio</Filter>
-    </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>ouzel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\GraphicsResource.hpp">
+      <Filter>ouzel\graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

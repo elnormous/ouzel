@@ -37,30 +37,22 @@ namespace ouzel
         class MetalRenderTarget final: public MetalRenderResource
         {
         public:
-            explicit MetalRenderTarget(MetalRenderDevice& renderDeviceMetal,
-                                       bool initClearColorBuffer = true,
-                                       bool initClearDepthBuffer = false,
-                                       Color initClearColor = Color(),
-                                       float initClearDepth = 1.0F);
+            explicit MetalRenderTarget(MetalRenderDevice& renderDeviceMetal);
             ~MetalRenderTarget();
 
             void addColorTexture(MetalTexture* texture);
             void removeColorTexture(MetalTexture* texture);
             void setDepthTexture(MetalTexture* texture);
 
+            const std::set<MetalTexture*>& getColorTextures() const { return colorTextures; }
+            MetalTexture* getDepthTexture() const { return depthTexture; }
+
             NSUInteger getSampleCount() const { return sampleCount; }
             const std::vector<MTLPixelFormat>& getColorFormats() const { return colorFormats; }
             MTLPixelFormat getDepthFormat() const { return depthFormat; }
-
-            void setClearColorBuffer(bool clear);
-            void setClearDepthBuffer(bool clear);
-            void setClearColor(Color color);
-            void setClearDepth(float newClearDepth);
+            MTLPixelFormat getStencilFormat() const { return stencilFormat; }
 
             inline MTLRenderPassDescriptorPtr getRenderPassDescriptor() const { return renderPassDescriptor; }
-
-            inline MTLLoadAction getColorBufferLoadAction() const { return colorBufferLoadAction; }
-            inline MTLLoadAction getDepthBufferLoadAction() const { return depthBufferLoadAction; }
 
         private:
             std::set<MetalTexture*> colorTextures;
@@ -69,13 +61,9 @@ namespace ouzel
             NSUInteger sampleCount = 0;
             std::vector<MTLPixelFormat> colorFormats;
             MTLPixelFormat depthFormat;
+            MTLPixelFormat stencilFormat;
 
             MTLRenderPassDescriptorPtr renderPassDescriptor = nil;
-
-            MTLLoadAction colorBufferLoadAction;
-            MTLLoadAction depthBufferLoadAction;
-            MTLClearColor clearColor{0.0, 0.0, 0.0, 0.0};
-            double clearDepth = 1.0;
         };
     } // namespace graphics
 } // namespace ouzel

@@ -31,12 +31,15 @@ RTSample::RTSample():
 
     renderTarget->addColorTexture(renderTexture.get());
     renderTarget->setDepthTexture(depthTexture.get());
-    renderTarget->setClearColor(Color(0, 64, 0));
 
     rtCamera.setRenderTarget(renderTarget.get());
+    rtCamera.setClearColorBuffer(true);
+    rtCamera.setClearColor(Color(0, 64, 0));
+
     rtCameraActor.addComponent(&rtCamera);
     rtLayer.addChild(&rtCameraActor);
 
+    camera1.setClearColorBuffer(true);
     camera1.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     camera1.setTargetContentSize(Size2<float>(400.0F, 600.0F));
     camera1.setViewport(Rect<float>(0.0F, 0.0F, 0.5F, 1.0F));

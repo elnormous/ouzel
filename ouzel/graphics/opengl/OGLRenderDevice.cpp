@@ -43,118 +43,6 @@
 #include "utils/Utils.hpp"
 #include "stb_image_write.h"
 
-PFNGLGETINTEGERVPROC glGetIntegervProc;
-PFNGLGETSTRINGPROC glGetStringProc;
-PFNGLGETERRORPROC glGetErrorProc;
-PFNGLENABLEPROC glEnableProc;
-PFNGLDISABLEPROC glDisableProc;
-PFNGLBINDTEXTUREPROC glBindTextureProc;
-PFNGLGENTEXTURESPROC glGenTexturesProc;
-PFNGLDELETETEXTURESPROC glDeleteTexturesProc;
-PFNGLTEXPARAMETERIPROC glTexParameteriProc;
-PFNGLTEXIMAGE2DPROC glTexImage2DProc;
-PFNGLTEXSUBIMAGE2DPROC glTexSubImage2DProc;
-PFNGLVIEWPORTPROC glViewportProc;
-PFNGLCLEARPROC glClearProc;
-PFNGLCLEARCOLORPROC glClearColorProc;
-PFNGLCOLORMASKPROC glColorMaskProc;
-PFNGLDEPTHMASKPROC glDepthMaskProc;
-PFNGLDEPTHFUNCPROC glDepthFuncProc;
-PFNGLCULLFACEPROC glCullFaceProc;
-PFNGLSCISSORPROC glScissorProc;
-PFNGLDRAWELEMENTSPROC glDrawElementsProc;
-PFNGLREADPIXELSPROC glReadPixelsProc;
-
-PFNGLBLENDFUNCSEPARATEPROC glBlendFuncSeparateProc;
-PFNGLBLENDEQUATIONSEPARATEPROC glBlendEquationSeparateProc;
-
-PFNGLUNIFORM1IPROC glUniform1iProc;
-PFNGLUNIFORM1FVPROC glUniform1fvProc;
-PFNGLUNIFORM2FVPROC glUniform2fvProc;
-PFNGLUNIFORM3FVPROC glUniform3fvProc;
-PFNGLUNIFORM4FVPROC glUniform4fvProc;
-PFNGLUNIFORM1IVPROC glUniform1ivProc;
-PFNGLUNIFORM2IVPROC glUniform2ivProc;
-PFNGLUNIFORM3IVPROC glUniform3ivProc;
-PFNGLUNIFORM4IVPROC glUniform4ivProc;
-PFNGLUNIFORM1UIVPROC glUniform1uivProc;
-PFNGLUNIFORM2UIVPROC glUniform2uivProc;
-PFNGLUNIFORM3UIVPROC glUniform3uivProc;
-PFNGLUNIFORM4UIVPROC glUniform4uivProc;
-PFNGLUNIFORMMATRIX3FVPROC glUniformMatrix3fvProc;
-PFNGLUNIFORMMATRIX4FVPROC glUniformMatrix4fvProc;
-
-PFNGLACTIVETEXTUREPROC glActiveTextureProc;
-PFNGLGENRENDERBUFFERSPROC glGenRenderbuffersProc;
-PFNGLDELETERENDERBUFFERSPROC glDeleteRenderbuffersProc;
-PFNGLBINDRENDERBUFFERPROC glBindRenderbufferProc;
-PFNGLRENDERBUFFERSTORAGEPROC glRenderbufferStorageProc;
-
-PFNGLGENFRAMEBUFFERSPROC glGenFramebuffersProc;
-PFNGLDELETEFRAMEBUFFERSPROC glDeleteFramebuffersProc;
-PFNGLBINDFRAMEBUFFERPROC glBindFramebufferProc;
-PFNGLCHECKFRAMEBUFFERSTATUSPROC glCheckFramebufferStatusProc;
-PFNGLFRAMEBUFFERRENDERBUFFERPROC glFramebufferRenderbufferProc;
-PFNGLBLITFRAMEBUFFERPROC glBlitFramebufferProc;
-PFNGLFRAMEBUFFERTEXTURE2DPROC glFramebufferTexture2DProc;
-PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC glRenderbufferStorageMultisampleProc;
-
-#if OUZEL_SUPPORTS_OPENGLES
-PFNGLCLEARDEPTHFPROC glClearDepthfProc;
-PFNGLMAPBUFFEROESPROC glMapBufferProc;
-PFNGLUNMAPBUFFEROESPROC glUnmapBufferProc;
-PFNGLMAPBUFFERRANGEEXTPROC glMapBufferRangeProc;
-PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC glFramebufferTexture2DMultisampleProc;
-PFNGLCOPYIMAGESUBDATAEXTPROC glCopyImageSubDataProc;
-#  if OUZEL_OPENGL_INTERFACE_EAGL
-PFNGLDISCARDFRAMEBUFFEREXTPROC glDiscardFramebufferEXTProc;
-PFNGLRENDERBUFFERSTORAGEMULTISAMPLEAPPLEPROC glRenderbufferStorageMultisampleAPPLEProc;
-PFNGLRESOLVEMULTISAMPLEFRAMEBUFFERAPPLEPROC glResolveMultisampleFramebufferAPPLEProc;
-#  endif
-#else
-PFNGLPOLYGONMODEPROC glPolygonModeProc;
-PFNGLCLEARDEPTHPROC glClearDepthProc;
-PFNGLMAPBUFFERPROC glMapBufferProc;
-PFNGLUNMAPBUFFERPROC glUnmapBufferProc;
-PFNGLMAPBUFFERRANGEPROC glMapBufferRangeProc;
-PFNGLCOPYIMAGESUBDATAPROC glCopyImageSubDataProc;
-#endif
-
-PFNGLCREATESHADERPROC glCreateShaderProc;
-PFNGLDELETESHADERPROC glDeleteShaderProc;
-PFNGLATTACHSHADERPROC glAttachShaderProc;
-PFNGLDETACHSHADERPROC glDetachShaderProc;
-PFNGLSHADERSOURCEPROC glShaderSourceProc;
-PFNGLCOMPILESHADERPROC glCompileShaderProc;
-PFNGLBINDATTRIBLOCATIONPROC glBindAttribLocationProc;
-PFNGLGETSHADERIVPROC glGetShaderivProc;
-PFNGLGETSHADERINFOLOGPROC glGetShaderInfoLogProc;
-
-PFNGLCREATEPROGRAMPROC glCreateProgramProc;
-PFNGLDELETEPROGRAMPROC glDeleteProgramProc;
-PFNGLUSEPROGRAMPROC glUseProgramProc;
-PFNGLLINKPROGRAMPROC glLinkProgramProc;
-PFNGLGETPROGRAMIVPROC glGetProgramivProc;
-PFNGLGETPROGRAMINFOLOGPROC glGetProgramInfoLogProc;
-PFNGLGETUNIFORMLOCATIONPROC glGetUniformLocationProc;
-
-PFNGLBINDBUFFERPROC glBindBufferProc;
-PFNGLDELETEBUFFERSPROC glDeleteBuffersProc;
-PFNGLGENBUFFERSPROC glGenBuffersProc;
-PFNGLBUFFERDATAPROC glBufferDataProc;
-PFNGLBUFFERSUBDATAPROC glBufferSubDataProc;
-
-PFNGLGENVERTEXARRAYSPROC glGenVertexArraysProc;
-PFNGLBINDVERTEXARRAYPROC glBindVertexArrayProc;
-PFNGLDELETEVERTEXARRAYSPROC glDeleteVertexArraysProc;
-PFNGLENABLEVERTEXATTRIBARRAYPROC glEnableVertexAttribArrayProc;
-PFNGLDISABLEVERTEXATTRIBARRAYPROC glDisableVertexAttribArrayProc;
-PFNGLVERTEXATTRIBPOINTERPROC glVertexAttribPointerProc;
-
-PFNGLGETSTRINGIPROC glGetStringiProc;
-PFNGLPUSHGROUPMARKEREXTPROC glPushGroupMarkerEXTProc;
-PFNGLPOPGROUPMARKEREXTPROC glPopGroupMarkerEXTProc;
-
 template<typename T>
 static inline T getCoreProcAddress(const char* name)
 {
@@ -380,13 +268,13 @@ namespace ouzel
             }
         }
 
-        static GLenum getCullFace(CullMode cullMode, bool flippedY)
+        static GLenum getCullFace(CullMode cullMode)
         {
             switch (cullMode)
             {
                 case CullMode::NONE: return GL_NONE;
-                case CullMode::FRONT: return flippedY ? GL_BACK : GL_FRONT; // flip the faces, because of the flipped y-axis
-                case CullMode::BACK: return flippedY ? GL_FRONT : GL_BACK;
+                case CullMode::FRONT: return GL_FRONT;
+                case CullMode::BACK: return GL_BACK;
                 default: throw std::runtime_error("Invalid cull mode");
             }
         }
@@ -431,6 +319,7 @@ namespace ouzel
                                    uint32_t newMaxAnisotropy,
                                    bool newVerticalSync,
                                    bool newDepth,
+                                   bool newStencil,
                                    bool newDebugRenderer)
         {
             RenderDevice::init(newWindow,
@@ -440,6 +329,7 @@ namespace ouzel
                                newMaxAnisotropy,
                                newVerticalSync,
                                newDepth,
+                               newStencil,
                                newDebugRenderer);
 
             frameBufferWidth = static_cast<GLsizei>(size.v[0]);
@@ -488,6 +378,7 @@ namespace ouzel
 
             glEnableProc = getCoreProcAddress<PFNGLENABLEPROC>("glEnable");
             glDisableProc = getCoreProcAddress<PFNGLDISABLEPROC>("glDisable");
+            glFrontFaceProc = getCoreProcAddress<PFNGLFRONTFACEPROC>("glFrontFace");
             glBindTextureProc = getCoreProcAddress<PFNGLBINDTEXTUREPROC>("glBindTexture");
             glGenTexturesProc = getCoreProcAddress<PFNGLGENTEXTURESPROC>("glGenTextures");
             glDeleteTexturesProc = getCoreProcAddress<PFNGLDELETETEXTURESPROC>("glDeleteTextures");
@@ -497,9 +388,13 @@ namespace ouzel
             glViewportProc = getCoreProcAddress<PFNGLVIEWPORTPROC>("glViewport");
             glClearProc = getCoreProcAddress<PFNGLCLEARPROC>("glClear");
             glClearColorProc = getCoreProcAddress<PFNGLCLEARCOLORPROC>("glClearColor");
+            glClearStencilProc = getCoreProcAddress<PFNGLCLEARSTENCILPROC>("glClearStencil");
             glColorMaskProc = getCoreProcAddress<PFNGLCOLORMASKPROC>("glColorMask");
             glDepthMaskProc = getCoreProcAddress<PFNGLDEPTHMASKPROC>("glDepthMask");
             glDepthFuncProc = getCoreProcAddress<PFNGLDEPTHFUNCPROC>("glDepthFunc");
+            glStencilMaskProc = getCoreProcAddress<PFNGLSTENCILMASKPROC>("glStencilMask");
+            glStencilFuncSeparateProc = getCoreProcAddress<PFNGLSTENCILFUNCSEPARATEPROC>("glStencilFuncSeparate");
+            glStencilOpSeparateProc = getCoreProcAddress<PFNGLSTENCILOPSEPARATEPROC>("glStencilOpSeparate");
             glCullFaceProc = getCoreProcAddress<PFNGLCULLFACEPROC>("glCullFace");
             glScissorProc = getCoreProcAddress<PFNGLSCISSORPROC>("glScissor");
             glDrawElementsProc = getCoreProcAddress<PFNGLDRAWELEMENTSPROC>("glDrawElements");
@@ -620,7 +515,7 @@ namespace ouzel
 
             anisotropicFilteringSupported = false;
             npotTexturesSupported = false;
-            multisamplingSupported = false;
+            bool multisamplingSupported = false;
             textureBaseLevelSupported = false;
             textureMaxLevelSupported = false;
             renderTargetsSupported = false;
@@ -629,17 +524,25 @@ namespace ouzel
             {
 #if !OUZEL_SUPPORTS_OPENGLES
                 if ((apiMajorVersion == 4 && apiMinorVersion >= 6) || // at least OpenGL 4.6
-                    apiMajorVersion >= 5)
+                    apiMajorVersion > 4)
                     anisotropicFilteringSupported = true;
 
                 if ((apiMajorVersion == 4 && apiMinorVersion >= 3) || // at least OpenGL 4.3
-                    apiMajorVersion >= 5)
+                    apiMajorVersion > 4)
+                {
                     glCopyImageSubDataProc = getExtProcAddress<PFNGLCOPYIMAGESUBDATAPROC>("glCopyImageSubData");
+                    glTexStorage2DMultisampleProc = getExtProcAddress<PFNGLTEXSTORAGE2DMULTISAMPLEPROC>("glTexStorage2DMultisample");
+                }
 #endif
             }
 
             if (apiMajorVersion >= 3)
             {
+#if OUZEL_SUPPORTS_OPENGLES
+                if ((apiMajorVersion == 3 && apiMinorVersion >= 1) || // at least OpenGL ES 3.1
+                    apiMajorVersion > 3)
+                    glTexStorage2DMultisampleProc = getExtProcAddress<PFNGLTEXSTORAGE2DMULTISAMPLEPROC>("glTexStorage2DMultisample");
+#endif
                 npotTexturesSupported = true;
                 multisamplingSupported = true;
                 textureBaseLevelSupported = true;
@@ -723,7 +626,7 @@ namespace ouzel
                     glMapBufferRangeProc = getExtProcAddress<PFNGLMAPBUFFERRANGEPROC>("glMapBufferRangeEXT");
 #endif
                 }
-#if OUZEL_SUPPORTS_OPENGLES
+#if OUZEL_SUPPORTS_OPENGLES // OpenGL ES
                 else if (extension == "GL_APPLE_framebuffer_multisample")
                 {
                     multisamplingSupported = true;
@@ -757,7 +660,7 @@ namespace ouzel
                     glFramebufferTexture2DMultisampleProc = getExtProcAddress<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>("glFramebufferTexture2DMultisampleIMG");
                 }
 #  endif
-#else
+#else // OpenGL
                 else if (extension == "GL_ARB_copy_image")
                     glCopyImageSubDataProc = getExtProcAddress<PFNGLCOPYIMAGESUBDATAPROC>("glCopyImageSubData");
                 else if (extension == "GL_ARB_vertex_array_object")
@@ -789,6 +692,11 @@ namespace ouzel
                     multisamplingSupported = true;
                     glRenderbufferStorageMultisampleProc = getExtProcAddress<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>("glRenderbufferStorageMultisample");
                 }
+                else if (extension == "GL_EXT_multisampled_render_to_texture")
+                {
+                    glRenderbufferStorageMultisampleProc = getExtProcAddress<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>("glRenderbufferStorageMultisample");
+                    glTexStorage2DMultisampleProc = getExtProcAddress<PFNGLTEXSTORAGE2DMULTISAMPLEPROC>("glTexStorage2DMultisample");
+                }
 #endif
             }
 
@@ -809,8 +717,6 @@ namespace ouzel
             }
 #endif
 
-            clearMask = GL_COLOR_BUFFER_BIT;
-
             if (glGenVertexArraysProc)
             {
                 glGenVertexArraysProc(1, &vertexArrayId);
@@ -820,36 +726,8 @@ namespace ouzel
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
                     throw std::system_error(makeErrorCode(error), "Failed to bind vertex array");
             }
-        }
 
-        void OGLRenderDevice::setClearColorBuffer(bool clear)
-        {
-            if (clear)
-                clearMask |= GL_COLOR_BUFFER_BIT;
-            else
-                clearMask &= ~static_cast<GLbitfield>(GL_COLOR_BUFFER_BIT);
-
-        }
-
-        void OGLRenderDevice::setClearDepthBuffer(bool clear)
-        {
-            if (clear)
-                clearMask |= GL_DEPTH_BUFFER_BIT;
-            else
-                clearMask &= ~static_cast<GLbitfield>(GL_DEPTH_BUFFER_BIT);
-        }
-
-        void OGLRenderDevice::setClearColor(Color newClearColor)
-        {
-            frameBufferClearColor[0] = newClearColor.normR();
-            frameBufferClearColor[1] = newClearColor.normG();
-            frameBufferClearColor[2] = newClearColor.normB();
-            frameBufferClearColor[3] = newClearColor.normA();
-        }
-
-        void OGLRenderDevice::setClearDepth(float newClearDepth)
-        {
-            clearDepth = newClearDepth;
+            setFrontFace(GL_CW);
         }
 
         void OGLRenderDevice::setSize(const Size2<uint32_t>& newSize)
@@ -860,7 +738,7 @@ namespace ouzel
             frameBufferHeight = static_cast<GLsizei>(size.v[1]);
         }
 
-        static void setUniform(GLint location, DataType dataType, const void* data)
+        void OGLRenderDevice::setUniform(GLint location, DataType dataType, const void* data)
         {
             switch (dataType)
             {
@@ -957,11 +835,7 @@ namespace ouzel
                         case Command::INIT_RENDER_TARGET:
                         {
                             auto initRenderTargetCommand = static_cast<const InitRenderTargetCommand*>(command.get());
-                            std::unique_ptr<OGLRenderTarget> renderTarget(new OGLRenderTarget(*this,
-                                                                                              initRenderTargetCommand->clearColorBuffer,
-                                                                                              initRenderTargetCommand->clearDepthBuffer,
-                                                                                              initRenderTargetCommand->clearColor,
-                                                                                              initRenderTargetCommand->clearDepth));
+                            std::unique_ptr<OGLRenderTarget> renderTarget(new OGLRenderTarget(*this));
 
                             if (initRenderTargetCommand->renderTarget > resources.size())
                                 resources.resize(initRenderTargetCommand->renderTarget);
@@ -996,29 +870,6 @@ namespace ouzel
                             break;
                         }
 
-                        case Command::Type::SET_RENDER_TARGET_PARAMETERS:
-                        {
-                            auto setRenderTargetParametersCommand = static_cast<const SetRenderTargetParametersCommand*>(command.get());
-
-                            if (setRenderTargetParametersCommand->renderTarget)
-                            {
-                                OGLRenderTarget* renderTarget = static_cast<OGLRenderTarget*>(resources[setRenderTargetParametersCommand->renderTarget - 1].get());
-                                renderTarget->setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
-                                renderTarget->setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
-                                renderTarget->setClearColor(setRenderTargetParametersCommand->clearColor);
-                                renderTarget->setClearDepth(setRenderTargetParametersCommand->clearDepth);
-                            }
-                            else
-                            {
-                                setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
-                                setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
-                                setClearColor(setRenderTargetParametersCommand->clearColor);
-                                setClearDepth(setRenderTargetParametersCommand->clearDepth);
-                            }
-
-                            break;
-                        }
-
                         case Command::Type::SET_RENDER_TARGET:
                         {
                             auto setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command.get());
@@ -1029,63 +880,69 @@ namespace ouzel
 
                                 if (!currentRenderTarget->getFrameBufferId()) break;
                                 bindFrameBuffer(currentRenderTarget->getFrameBufferId());
+                                setFrontFace(GL_CCW);
                             }
                             else
                             {
                                 currentRenderTarget = nullptr;
                                 bindFrameBuffer(frameBufferId);
+                                setFrontFace(GL_CW);
                             }
-
-                            // TODO: update cull mode
-
                             break;
                         }
 
                         case Command::Type::CLEAR_RENDER_TARGET:
                         {
-                            // auto clearCommand = static_cast<const ClearRenderTargetCommand*>(command.get());
+                            auto clearCommand = static_cast<const ClearRenderTargetCommand*>(command.get());
 
-                            GLbitfield newClearMask = 0;
-                            std::array<float, 4> newClearColor;
-                            GLfloat newClearDepth;
+                            GLbitfield clearMask = (clearCommand->clearColorBuffer ? GL_COLOR_BUFFER_BIT : 0) |
+                                (clearCommand->clearDepthBuffer ? GL_DEPTH_BUFFER_BIT : 0 |
+                                (clearCommand->clearStencilBuffer ? GL_STENCIL_BUFFER_BIT : 0));
+                            std::array<float, 4> clearColor{clearCommand->clearColor.normR(),
+                                clearCommand->clearColor.normG(),
+                                clearCommand->clearColor.normB(),
+                                clearCommand->clearColor.normA()};
 
-                            if (currentRenderTarget)
+                            if (clearMask)
                             {
-                                newClearColor = currentRenderTarget->getFrameBufferClearColor();
-                                newClearDepth = currentRenderTarget->getClearDepth();
-                                newClearMask = currentRenderTarget->getClearMask();
-                            }
-                            else
-                            {
-                                newClearColor = frameBufferClearColor;
-                                newClearDepth = clearDepth;
-                                newClearMask = clearMask;
-                            }
+                                if (clearCommand->clearColorBuffer)
+                                {
+                                    setClearColorValue(clearColor);
+                                    glColorMaskProc(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+                                }
 
-                            if (newClearMask)
-                            {
-                                if (newClearMask & GL_COLOR_BUFFER_BIT)
-                                    setClearColorValue(newClearColor);
-
-                                if (newClearMask & GL_DEPTH_BUFFER_BIT)
-                                    setClearDepthValue(newClearDepth);
+                                if (clearCommand->clearDepthBuffer)
+                                {
+                                    setClearDepthValue(clearCommand->clearDepth);
+                                    glDepthMaskProc(GL_TRUE);
+                                }
+                                
+                                if (clearCommand->clearStencilBuffer)
+                                {
+                                    setClearStencilValue(static_cast<GLint>(clearCommand->clearStencil));
+                                    glStencilMaskProc(0xFFFFFFFF);
+                                }
 
                                 // disable the scissor test to clear entire render target
                                 if (stateCache.scissorTestEnabled)
                                     glDisableProc(GL_SCISSOR_TEST);
-                                // allow clearing the depth buffer
-                                if (newClearMask & GL_DEPTH_BUFFER_BIT && !stateCache.depthMask)
-                                    glDepthMaskProc(true);
 
-                                glClearProc(newClearMask);
+                                glClearProc(clearMask);
 
                                 if (stateCache.scissorTestEnabled)
                                     glEnableProc(GL_SCISSOR_TEST);
-                                if (newClearMask & GL_DEPTH_BUFFER_BIT && !stateCache.depthMask)
-                                    glDepthMaskProc(false);
+                                // restore the masks
+                                if (clearCommand->clearColorBuffer)
+                                    glColorMaskProc(stateCache.redMask,
+                                                    stateCache.greenMask,
+                                                    stateCache.blueMask,
+                                                    stateCache.alphaMask);
+                                if (clearCommand->clearDepthBuffer)
+                                    glDepthMaskProc(stateCache.depthMask);
+                                if (clearCommand->clearStencilBuffer)
+                                    glStencilMaskProc(stateCache.stencilMask);
 
                                 GLenum error;
-
                                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
                                     throw std::system_error(makeErrorCode(error), "Failed to clear frame buffer");
                             }
@@ -1125,12 +982,8 @@ namespace ouzel
                         case Command::Type::SET_CULL_MODE:
                         {
                             const SetCullModeCommad* setCullModeCommad = static_cast<const SetCullModeCommad*>(command.get());
-
-                            const GLenum cullFace = getCullFace(setCullModeCommad->cullMode,
-                                                                stateCache.frameBufferId == frameBufferId);
-
+                            const GLenum cullFace = getCullFace(setCullModeCommad->cullMode);
                             setCullFace(cullFace != GL_NONE, cullFace);
-
                             break;
                         }
 
@@ -1178,7 +1031,12 @@ namespace ouzel
                             std::unique_ptr<OGLDepthStencilState> depthStencilState(new OGLDepthStencilState(*this,
                                                                                                              initDepthStencilStateCommand->depthTest,
                                                                                                              initDepthStencilStateCommand->depthWrite,
-                                                                                                             initDepthStencilStateCommand->compareFunction));
+                                                                                                             initDepthStencilStateCommand->compareFunction,
+                                                                                                             initDepthStencilStateCommand->stencilEnabled,
+                                                                                                             initDepthStencilStateCommand->stencilReadMask,
+                                                                                                             initDepthStencilStateCommand->stencilWriteMask,
+                                                                                                             initDepthStencilStateCommand->frontFaceStencil,
+                                                                                                             initDepthStencilStateCommand->backFaceStencil));
 
                             if (initDepthStencilStateCommand->depthStencilState > resources.size())
                                 resources.resize(initDepthStencilStateCommand->depthStencilState);
@@ -1197,13 +1055,37 @@ namespace ouzel
                                 enableDepthTest(depthStencilState->getDepthTest());
                                 setDepthMask(depthStencilState->getDepthMask());
                                 glDepthFuncProc(depthStencilState->getCompareFunction());
+                                enableStencilTest(depthStencilState->getStencilTest());
+                                setStencilMask(depthStencilState->getStencilWriteMask());
+                                glStencilOpSeparateProc(GL_FRONT,
+                                                        depthStencilState->getFrontFaceFail(),
+                                                        depthStencilState->getFrontFaceDepthFail(),
+                                                        depthStencilState->getFrontFacePass());
+                                glStencilFuncSeparateProc(GL_FRONT,
+                                                          depthStencilState->getFrontFaceFunction(),
+                                                          static_cast<GLint>(setDepthStencilStateCommand->stencilReferenceValue),
+                                                          depthStencilState->getStencilReadMask());
+                                glStencilOpSeparateProc(GL_BACK,
+                                                        depthStencilState->getBackFaceFail(),
+                                                        depthStencilState->getBackFaceDepthFail(),
+                                                        depthStencilState->getBackFacePass());
+                                glStencilFuncSeparateProc(GL_BACK,
+                                                          depthStencilState->getBackFaceFunction(),
+                                                          static_cast<GLint>(setDepthStencilStateCommand->stencilReferenceValue),
+                                                          depthStencilState->getStencilReadMask());
                             }
                             else
                             {
                                 enableDepthTest(false);
                                 setDepthMask(GL_FALSE);
                                 setDepthFunc(GL_LESS);
+                                enableStencilTest(false);
+                                setStencilMask(0xFFFFFFFF);
                             }
+
+                            GLenum error;
+                            if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                                throw std::system_error(makeErrorCode(error), "Failed to update depth stencil state");
 
                             break;
                         }
@@ -1283,7 +1165,6 @@ namespace ouzel
                             }
 
                             GLenum error;
-
                             if ((error = glGetErrorProc()) != GL_NO_ERROR)
                                 throw std::system_error(makeErrorCode(error), "Failed to update vertex attributes");
 
@@ -1429,6 +1310,7 @@ namespace ouzel
 
                             std::unique_ptr<OGLTexture> texture(new OGLTexture(*this,
                                                                                initTextureCommand->levels,
+                                                                               initTextureCommand->dimensions,
                                                                                initTextureCommand->flags,
                                                                                initTextureCommand->sampleCount,
                                                                                initTextureCommand->pixelFormat));
@@ -1470,10 +1352,10 @@ namespace ouzel
                                 if (setTexturesCommand->textures[layer])
                                 {
                                     OGLTexture* texture = static_cast<OGLTexture*>(resources[setTexturesCommand->textures[layer] - 1].get());
-                                    bindTexture(texture->getTextureId(), layer);
+                                    bindTexture(GL_TEXTURE_2D, layer, texture->getTextureId());
                                 }
                                 else
-                                    bindTexture(0, layer);
+                                    bindTexture(GL_TEXTURE_2D, layer, 0);
                             }
 
                             break;

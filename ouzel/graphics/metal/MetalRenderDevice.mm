@@ -4,6 +4,7 @@
 
 #if OUZEL_COMPILE_METAL
 
+#include <TargetConditionals.h>
 #include <cassert>
 #include <stdexcept>
 #include "MetalRenderDevice.hpp"
@@ -99,8 +100,7 @@ namespace ouzel
             RenderDevice(Driver::METAL, initCallback),
             colorFormat(MTLPixelFormatInvalid),
             depthFormat(MTLPixelFormatInvalid),
-            colorBufferLoadAction(MTLLoadActionClear),
-            depthBufferLoadAction(MTLLoadActionDontCare)
+            stencilFormat(MTLPixelFormatInvalid)
         {
             apiMajorVersion = 1;
             apiMinorVersion = 0;
@@ -142,6 +142,7 @@ namespace ouzel
                                      uint32_t newMaxAnisotropy,
                                      bool newVerticalSync,
                                      bool newDepth,
+                                     bool newStencil,
                                      bool newDebugRenderer)
         {
             RenderDevice::init(newWindow,
@@ -151,6 +152,7 @@ namespace ouzel
                                newMaxAnisotropy,
                                newVerticalSync,
                                newDepth,
+                               newStencil,
                                newDebugRenderer);
 
             inflightSemaphore = dispatch_semaphore_create(BUFFER_COUNT);
@@ -168,7 +170,16 @@ namespace ouzel
             if (!metalCommandQueue)
                 throw std::runtime_error("Failed to create Metal command queue");
 
-            if (depth) depthFormat = MTLPixelFormatDepth32Float;
+            if (depth)
+            {
+#if TARGET_OS_IOS || TARGET_OS_TV
+                depthFormat = stencil ? MTLPixelFormatDepth32Float_Stencil8 : MTLPixelFormatDepth32Float;
+                stencilFormat = stencil ? MTLPixelFormatDepth32Float_Stencil8 : MTLPixelFormatInvalid;
+#else
+                depthFormat = stencil ? MTLPixelFormatDepth24Unorm_Stencil8 : MTLPixelFormatDepth32Float;
+                stencilFormat = stencil ? MTLPixelFormatDepth24Unorm_Stencil8 : MTLPixelFormatInvalid;
+#endif
+            }
 
             renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
 
@@ -181,6 +192,8 @@ namespace ouzel
             renderPassDescriptor.depthAttachment.loadAction = MTLLoadActionClear;
             renderPassDescriptor.depthAttachment.clearDepth = 1.0F;
             renderPassDescriptor.depthAttachment.storeAction = MTLStoreActionStore;
+            renderPassDescriptor.stencilAttachment.loadAction = MTLLoadActionClear;
+            renderPassDescriptor.stencilAttachment.clearStencil = 0;
 
             MTLDepthStencilDescriptor* depthStencilDescriptor = [MTLDepthStencilDescriptor new];
 
@@ -188,29 +201,6 @@ namespace ouzel
             depthStencilDescriptor.depthWriteEnabled = NO; // depth write
             defaultDepthStencilState = [device newDepthStencilStateWithDescriptor:depthStencilDescriptor];
             [depthStencilDescriptor release];
-        }
-
-        void MetalRenderDevice::setClearColorBuffer(bool clear)
-        {
-            colorBufferLoadAction = clear ? MTLLoadActionClear : MTLLoadActionDontCare;
-        }
-
-        void MetalRenderDevice::setClearDepthBuffer(bool clear)
-        {
-            depthBufferLoadAction = clear ? MTLLoadActionClear : MTLLoadActionDontCare;
-        }
-
-        void MetalRenderDevice::setClearColor(Color newClearColor)
-        {
-            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(newClearColor.normR(),
-                                                                                    newClearColor.normG(),
-                                                                                    newClearColor.normB(),
-                                                                                    newClearColor.normA());
-        }
-
-        void MetalRenderDevice::setClearDepth(float newClearDepth)
-        {
-            renderPassDescriptor.depthAttachment.clearDepth = newClearDepth;
         }
 
         void MetalRenderDevice::setSize(const Size2<uint32_t>& newSize)
@@ -363,38 +353,11 @@ namespace ouzel
                         case Command::INIT_RENDER_TARGET:
                         {
                             auto initRenderTargetCommand = static_cast<const InitRenderTargetCommand*>(command.get());
-                            std::unique_ptr<MetalRenderTarget> renderTarget(new MetalRenderTarget(*this,
-                                                                                                  initRenderTargetCommand->clearColorBuffer,
-                                                                                                  initRenderTargetCommand->clearDepthBuffer,
-                                                                                                  initRenderTargetCommand->clearColor,
-                                                                                                  initRenderTargetCommand->clearDepth));
+                            std::unique_ptr<MetalRenderTarget> renderTarget(new MetalRenderTarget(*this));
 
                             if (initRenderTargetCommand->renderTarget > resources.size())
                                 resources.resize(initRenderTargetCommand->renderTarget);
                             resources[initRenderTargetCommand->renderTarget - 1] = std::move(renderTarget);
-                            break;
-                        }
-
-                        case Command::Type::SET_RENDER_TARGET_PARAMETERS:
-                        {
-                            auto setRenderTargetParametersCommand = static_cast<const SetRenderTargetParametersCommand*>(command.get());
-
-                            if (setRenderTargetParametersCommand->renderTarget)
-                            {
-                                MetalRenderTarget* renderTarget = static_cast<MetalRenderTarget*>(resources[setRenderTargetParametersCommand->renderTarget - 1].get());
-                                renderTarget->setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
-                                renderTarget->setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
-                                renderTarget->setClearColor(setRenderTargetParametersCommand->clearColor);
-                                renderTarget->setClearDepth(setRenderTargetParametersCommand->clearDepth);
-                            }
-                            else
-                            {
-                                setClearColorBuffer(setRenderTargetParametersCommand->clearColorBuffer);
-                                setClearDepthBuffer(setRenderTargetParametersCommand->clearDepthBuffer);
-                                setClearColor(setRenderTargetParametersCommand->clearColor);
-                                setClearDepth(setRenderTargetParametersCommand->clearDepth);
-                            }
-
                             break;
                         }
 
@@ -441,6 +404,7 @@ namespace ouzel
                                 currentPipelineStateDesc.sampleCount = currentRenderTarget->getSampleCount();
                                 currentPipelineStateDesc.colorFormats = currentRenderTarget->getColorFormats();
                                 currentPipelineStateDesc.depthFormat = currentRenderTarget->getDepthFormat();
+                                currentPipelineStateDesc.stencilFormat = currentRenderTarget->getStencilFormat();
                             }
                             else
                             {
@@ -449,6 +413,7 @@ namespace ouzel
                                 currentPipelineStateDesc.sampleCount = sampleCount;
                                 currentPipelineStateDesc.colorFormats = {colorFormat};
                                 currentPipelineStateDesc.depthFormat = depthFormat;
+                                currentPipelineStateDesc.stencilFormat = stencilFormat;
                             }
 
                             if (currentRenderPassDescriptor != newRenderPassDescriptor ||
@@ -471,42 +436,36 @@ namespace ouzel
 
                         case Command::Type::CLEAR_RENDER_TARGET:
                         {
-                            // auto clearCommand = static_cast<const ClearRenderTargetCommand*>(command.get());
-
-                            MTLRenderPassDescriptorPtr newRenderPassDescriptor;
-                            MTLLoadAction newColorBufferLoadAction = MTLLoadActionLoad;
-                            MTLLoadAction newDepthBufferLoadAction = MTLLoadActionLoad;
-
-                            // render target
-                            if (currentRenderTarget)
-                            {
-                                newRenderPassDescriptor = currentRenderTarget->getRenderPassDescriptor();
-                                if (!newRenderPassDescriptor) break;
-
-                                newColorBufferLoadAction = currentRenderTarget->getColorBufferLoadAction();
-                                newDepthBufferLoadAction = currentRenderTarget->getDepthBufferLoadAction();
-                            }
-                            else
-                            {
-                                newRenderPassDescriptor = renderPassDescriptor;
-
-                                newColorBufferLoadAction = colorBufferLoadAction;
-                                newDepthBufferLoadAction = depthBufferLoadAction;
-                            }
+                            auto clearCommand = static_cast<const ClearRenderTargetCommand*>(command.get());
 
                             if (currentRenderCommandEncoder)
                                 [currentRenderCommandEncoder endEncoding];
 
-                            currentRenderPassDescriptor = newRenderPassDescriptor;
+                            size_t colorAttachments = 1;
+                            if (currentRenderTarget)
+                                colorAttachments = currentRenderTarget->getColorTextures().size();
+
+                            for (size_t i = 0; i < colorAttachments; ++i)
+                            {
+                                currentRenderPassDescriptor.colorAttachments[i].loadAction = clearCommand->clearColorBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
+                                currentRenderPassDescriptor.colorAttachments[i].clearColor = MTLClearColorMake(clearCommand->clearColor.normR(),
+                                                                                                               clearCommand->clearColor.normG(),
+                                                                                                               clearCommand->clearColor.normB(),
+                                                                                                               clearCommand->clearColor.normA());
+                            }
+
+                            currentRenderPassDescriptor.depthAttachment.loadAction = clearCommand->clearDepthBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
+                            currentRenderPassDescriptor.depthAttachment.clearDepth = clearCommand->clearDepth;
+
+                            currentRenderPassDescriptor.stencilAttachment.loadAction = clearCommand->clearStencilBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
+                            currentRenderPassDescriptor.stencilAttachment.clearStencil = clearCommand->clearStencil;
+
                             currentRenderCommandEncoder = [currentCommandBuffer renderCommandEncoderWithDescriptor:currentRenderPassDescriptor];
 
                             if (!currentRenderCommandEncoder)
                                 throw std::runtime_error("Failed to create Metal render command encoder");
 
                             // TODO: enable depth and stencil writing
-
-                            currentRenderPassDescriptor.colorAttachments[0].loadAction = newColorBufferLoadAction;
-                            currentRenderPassDescriptor.depthAttachment.loadAction = newDepthBufferLoadAction;
 
                             break;
                         }
@@ -555,10 +514,6 @@ namespace ouzel
 
                             if (setScissorTestCommand->enabled)
                             {
-                                if (currentRenderCommandEncoder)
-                                    [currentRenderCommandEncoder endEncoding];
-                                currentRenderCommandEncoder = [currentCommandBuffer renderCommandEncoderWithDescriptor:currentRenderPassDescriptor];
-
                                 scissorRect.x = static_cast<NSUInteger>(setScissorTestCommand->rectangle.position.v[0]);
                                 scissorRect.y = static_cast<NSUInteger>(setScissorTestCommand->rectangle.position.v[1]);
                                 scissorRect.width = static_cast<NSUInteger>(setScissorTestCommand->rectangle.size.v[0]);
@@ -594,7 +549,12 @@ namespace ouzel
                             std::unique_ptr<MetalDepthStencilState> depthStencilState(new MetalDepthStencilState(*this,
                                                                                                                  initDepthStencilStateCommand->depthTest,
                                                                                                                  initDepthStencilStateCommand->depthWrite,
-                                                                                                                 initDepthStencilStateCommand->compareFunction));
+                                                                                                                 initDepthStencilStateCommand->compareFunction,
+                                                                                                                 initDepthStencilStateCommand->stencilEnabled,
+                                                                                                                 initDepthStencilStateCommand->stencilReadMask,
+                                                                                                                 initDepthStencilStateCommand->stencilWriteMask,
+                                                                                                                 initDepthStencilStateCommand->frontFaceStencil,
+                                                                                                                 initDepthStencilStateCommand->backFaceStencil));
 
                             if (initDepthStencilStateCommand->depthStencilState > resources.size())
                                 resources.resize(initDepthStencilStateCommand->depthStencilState);
@@ -617,6 +577,9 @@ namespace ouzel
                             }
                             else
                                 [currentRenderCommandEncoder setDepthStencilState:defaultDepthStencilState];
+
+                            [currentRenderCommandEncoder setStencilFrontReferenceValue:setDepthStencilStateCommand->stencilReferenceValue
+                                                                    backReferenceValue:setDepthStencilStateCommand->stencilReferenceValue];
 
                             break;
                         }
@@ -882,6 +845,7 @@ namespace ouzel
 
                             std::unique_ptr<MetalTexture> texture(new MetalTexture(*this,
                                                                                    initTextureCommand->levels,
+                                                                                   initTextureCommand->dimensions,
                                                                                    initTextureCommand->flags,
                                                                                    initTextureCommand->sampleCount,
                                                                                    initTextureCommand->pixelFormat));
@@ -1003,7 +967,7 @@ namespace ouzel
                 for (size_t i = 0; i < desc.colorFormats.size(); ++i)
                     pipelineStateDescriptor.colorAttachments[i].pixelFormat = desc.colorFormats[i];
                 pipelineStateDescriptor.depthAttachmentPixelFormat = desc.depthFormat;
-                pipelineStateDescriptor.stencilAttachmentPixelFormat = MTLPixelFormatInvalid;
+                pipelineStateDescriptor.stencilAttachmentPixelFormat = desc.stencilFormat;
 
                 if (desc.blendState)
                 {

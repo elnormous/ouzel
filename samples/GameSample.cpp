@@ -15,6 +15,9 @@ GameSample::GameSample()
     handler.gamepadHandler = std::bind(&GameSample::handleGamepad, this, std::placeholders::_1);
     handler.uiHandler = std::bind(&GameSample::handleUI, this, std::placeholders::_1);
 
+    camera.setClearColorBuffer(true);
+    camera.setClearColor(ouzel::Color(64, 0, 0));
+    
     engine->getEventDispatcher().addEventHandler(&handler);
 
     addLayer(&layer);

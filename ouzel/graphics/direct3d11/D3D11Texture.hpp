@@ -36,6 +36,7 @@ namespace ouzel
         public:
             D3D11Texture(D3D11RenderDevice& renderDeviceD3D11,
                          const std::vector<Texture::Level>& levels,
+                         Texture::Dimensions dimensions,
                          uint32_t initFlags = 0,
                          uint32_t initSampleCount = 1,
                          PixelFormat initPixelFormat = PixelFormat::RGBA8_UNORM);

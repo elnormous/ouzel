@@ -49,8 +49,6 @@ namespace ouzel
                             renderViewProjection,
                             wireframe);
 
-            material->cullMode = graphics::CullMode::NONE;
-
             Matrix4<float> modelViewProj = renderViewProjection * transformMatrix;
             float colorVector[] = {material->diffuseColor.normR(), material->diffuseColor.normG(), material->diffuseColor.normB(), material->diffuseColor.normA() * opacity * material->opacity};
 

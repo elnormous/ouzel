@@ -52,7 +52,6 @@
     <ClCompile Include="..\ouzel\audio\mixer\Processor.cpp" />
     <ClCompile Include="..\ouzel\audio\Containers.cpp" />
     <ClCompile Include="..\ouzel\audio\Listener.cpp" />
-    <ClCompile Include="..\ouzel\audio\Source.cpp" />
     <ClCompile Include="..\ouzel\audio\Voice.cpp" />
     <ClCompile Include="..\ouzel\audio\SilenceSound.cpp" />
     <ClCompile Include="..\ouzel\audio\Sound.cpp" />
@@ -60,8 +59,8 @@
     <ClCompile Include="..\ouzel\audio\VorbisSound.cpp" />
     <ClCompile Include="..\ouzel\audio\PCMSound.cpp" />
     <ClCompile Include="..\ouzel\audio\Mix.cpp" />
+    <ClCompile Include="..\ouzel\audio\mixer\Stream.cpp" />
     <ClCompile Include="..\ouzel\audio\mixer\Source.cpp" />
-    <ClCompile Include="..\ouzel\audio\mixer\SourceData.cpp" />
     <ClCompile Include="..\ouzel\audio\Submix.cpp" />
     <ClCompile Include="..\ouzel\audio\wasapi\WASAPIAudioDevice.cpp" />
     <ClCompile Include="..\ouzel\audio\xaudio2\XA2AudioDevice.cpp" />
@@ -98,6 +97,7 @@
     <ClCompile Include="..\ouzel\graphics\direct3d11\D3D11Shader.cpp" />
     <ClCompile Include="..\ouzel\graphics\direct3d11\D3D11Texture.cpp" />
     <ClCompile Include="..\ouzel\graphics\empty\EmptyRenderDevice.cpp" />
+    <ClCompile Include="..\ouzel\graphics\GraphicsResource.cpp" />
     <ClCompile Include="..\ouzel\graphics\ImageData.cpp" />
     <ClCompile Include="..\ouzel\graphics\Material.cpp" />
     <ClCompile Include="..\ouzel\graphics\opengl\OGLBlendState.cpp" />
@@ -230,7 +230,6 @@
     <ClInclude Include="..\ouzel\audio\Containers.hpp" />
     <ClInclude Include="..\ouzel\audio\SampleFormat.hpp" />
     <ClInclude Include="..\ouzel\audio\Listener.hpp" />
-    <ClInclude Include="..\ouzel\audio\Source.hpp" />
     <ClInclude Include="..\ouzel\audio\Voice.hpp" />
     <ClInclude Include="..\ouzel\audio\SilenceSound.hpp" />
     <ClInclude Include="..\ouzel\audio\Sound.hpp" />
@@ -238,8 +237,8 @@
     <ClInclude Include="..\ouzel\audio\VorbisSound.hpp" />
     <ClInclude Include="..\ouzel\audio\PCMSound.hpp" />
     <ClInclude Include="..\ouzel\audio\Mix.hpp" />
+    <ClInclude Include="..\ouzel\audio\mixer\Stream.hpp" />
     <ClInclude Include="..\ouzel\audio\mixer\Source.hpp" />
-    <ClInclude Include="..\ouzel\audio\mixer\SourceData.hpp" />
     <ClInclude Include="..\ouzel\audio\Submix.hpp" />
     <ClInclude Include="..\ouzel\audio\wasapi\WASAPIAudioDevice.hpp" />
     <ClInclude Include="..\ouzel\audio\xaudio2\XA2AudioDevice.hpp" />
@@ -280,6 +279,7 @@
     <ClInclude Include="..\ouzel\graphics\DrawMode.hpp" />
     <ClInclude Include="..\ouzel\graphics\Driver.hpp" />
     <ClInclude Include="..\ouzel\graphics\empty\EmptyRenderDevice.hpp" />
+    <ClInclude Include="..\ouzel\graphics\GraphicsResource.hpp" />
     <ClInclude Include="..\ouzel\graphics\ImageData.hpp" />
     <ClInclude Include="..\ouzel\graphics\Material.hpp" />
     <ClInclude Include="..\ouzel\graphics\opengl\OGLBlendState.hpp" />
@@ -460,7 +460,6 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;_UNICODE;UNICODE;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level4</WarningLevel>
-      <ObjectFileName>$(IntDir)%(Directory)</ObjectFileName>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
@@ -481,7 +480,6 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level4</WarningLevel>
-      <ObjectFileName>$(IntDir)%(Directory)</ObjectFileName>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
@@ -502,7 +500,6 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;_UNICODE;UNICODE;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level4</WarningLevel>
-      <ObjectFileName>$(IntDir)%(Directory)</ObjectFileName>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
@@ -523,7 +520,6 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level4</WarningLevel>
-      <ObjectFileName>$(IntDir)%(Directory)</ObjectFileName>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>

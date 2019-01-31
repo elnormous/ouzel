@@ -4,8 +4,8 @@
 #include <stdexcept>
 #include "PCMSound.hpp"
 #include "Audio.hpp"
+#include "mixer/Stream.hpp"
 #include "mixer/Source.hpp"
-#include "mixer/SourceData.hpp"
 
 namespace ouzel
 {
@@ -13,7 +13,7 @@ namespace ouzel
     {
         class PCMData;
 
-        class PCMSource: public mixer::Source
+        class PCMSource: public mixer::Stream
         {
         public:
             PCMSource(PCMData& pcmData);
@@ -29,7 +29,7 @@ namespace ouzel
             uint32_t position = 0;
         };
 
-        class PCMData: public mixer::SourceData
+        class PCMData: public mixer::Source
         {
         public:
             PCMData(uint16_t initChannels, uint32_t initSampleRate,
@@ -42,9 +42,9 @@ namespace ouzel
 
             const std::vector<float>& getSamples() const { return samples; }
 
-            std::unique_ptr<mixer::Source> createSource() override
+            std::unique_ptr<mixer::Stream> createStream() override
             {
-                return std::unique_ptr<mixer::Source>(new PCMSource(*this));
+                return std::unique_ptr<mixer::Stream>(new PCMSource(*this));
             }
 
         private:
@@ -52,16 +52,16 @@ namespace ouzel
         };
 
         PCMSource::PCMSource(PCMData& pcmData):
-            Source(pcmData)
+            Stream(pcmData)
         {
         }
 
         void PCMSource::getData(uint32_t frames, std::vector<float>& samples)
         {
-            uint32_t neededSize = frames * sourceData.getChannels();
+            uint32_t neededSize = frames * source.getChannels();
             samples.resize(neededSize);
 
-            PCMData& pcmData = static_cast<PCMData&>(sourceData);
+            PCMData& pcmData = static_cast<PCMData&>(source);
             const std::vector<float>& data = pcmData.getSamples();
 
             uint32_t totalSize = 0;
@@ -103,7 +103,9 @@ namespace ouzel
 
         PCMSound::PCMSound(Audio& initAudio, uint16_t channels, uint32_t sampleRate,
                            const std::vector<float>& samples):
-            Sound(initAudio, initAudio.initSourceData(std::unique_ptr<mixer::SourceData>(new PCMData(channels, sampleRate, samples))))
+            Sound(initAudio, initAudio.initSource([channels, sampleRate, samples](){
+                return std::unique_ptr<mixer::Source>(new PCMData(channels, sampleRate, samples));
+            }))
         {
         }
     } // namespace audio

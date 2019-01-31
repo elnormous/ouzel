@@ -104,8 +104,11 @@ namespace ouzel
                                                       static_cast<uint32_t>(height)),
                                       imageData);
 
-            std::unique_ptr<graphics::Texture> texture(new graphics::Texture(*engine->getRenderer()));
-            texture->init(image.getData(), image.getSize(), 0, mipmaps ? 0 : 1, image.getPixelFormat());
+            std::unique_ptr<graphics::Texture> texture(new graphics::Texture(*engine->getRenderer(),
+                                                                             image.getData(),
+                                                                             image.getSize(), 0,
+                                                                             mipmaps ? 0 : 1,
+                                                                             image.getPixelFormat()));
 
             bundle.setTexture(filename, std::move(texture));
 

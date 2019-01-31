@@ -3,8 +3,8 @@
 #ifndef OUZEL_GRAPHICS_TEXTURE_HPP
 #define OUZEL_GRAPHICS_TEXTURE_HPP
 
-#include <cstdint>
 #include <vector>
+#include "graphics/GraphicsResource.hpp"
 #include "graphics/PixelFormat.hpp"
 #include "math/Color.hpp"
 #include "math/Size2.hpp"
@@ -59,6 +59,10 @@ namespace ouzel
 
             static constexpr uint32_t LAYERS = 4;
 
+            Texture()
+            {
+            }
+
             explicit Texture(Renderer& initRenderer);
             Texture(Renderer& initRenderer,
                     const Size2<uint32_t>& newSize,
@@ -77,30 +81,11 @@ namespace ouzel
                     const Size2<uint32_t>& newSize,
                     uint32_t newFlags = 0,
                     PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
-            ~Texture();
 
             Texture(const Texture&) = delete;
             Texture& operator=(const Texture&) = delete;
 
-            Texture(Texture&&) = delete;
-            Texture& operator=(Texture&&) = delete;
-
-            void init(const Size2<uint32_t>& newSize,
-                      uint32_t newFlags = 0,
-                      uint32_t newMipmaps = 0,
-                      uint32_t newSampleCount = 1,
-                      PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
-            void init(const std::vector<uint8_t>& newData,
-                      const Size2<uint32_t>& newSize,
-                      uint32_t newFlags = 0,
-                      uint32_t newMipmaps = 0,
-                      PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
-            void init(const std::vector<Level>& newLevels,
-                      const Size2<uint32_t>& newSize,
-                      uint32_t newFlags = 0,
-                      PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
-
-            inline uintptr_t getResource() const { return resource; }
+            inline uintptr_t getResource() const { return resource.getId(); }
 
             inline const Size2<uint32_t>& getSize() const { return size; }
 
@@ -125,30 +110,13 @@ namespace ouzel
 
             inline PixelFormat getPixelFormat() const { return pixelFormat; }
 
-            inline bool getClearColorBuffer() const { return clearColorBuffer; }
-            void setClearColorBuffer(bool clear);
-
-            inline bool getClearDepthBuffer() const { return clearDepthBuffer; }
-            void setClearDepthBuffer(bool clear);
-
-            inline Color getClearColor() const { return clearColor; }
-            void setClearColor(Color color);
-
-            inline float getClearDepth() const { return clearDepth; }
-            void setClearDepth(float depth);
-
         private:
-            Renderer& renderer;
-            uintptr_t resource = 0;
+            Resource resource;
 
             Dimensions dimensions = Dimensions::TWO;
             Size2<uint32_t> size;
             uint32_t flags = 0;
             uint32_t mipmaps = 0;
-            bool clearColorBuffer = true;
-            bool clearDepthBuffer = false;
-            Color clearColor;
-            float clearDepth = 1.0F;
             uint32_t sampleCount = 1;
             PixelFormat pixelFormat = PixelFormat::RGBA8_UNORM;
             Filter filter = Texture::Filter::DEFAULT;

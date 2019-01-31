@@ -26,9 +26,9 @@ private:
     ouzel::gui::Label label2;
     ouzel::gui::Label label3;
 
-    ouzel::scene::Layer guiLayer;
-    ouzel::scene::Camera guiCamera;
-    ouzel::scene::Actor guiCameraActor;
+    ouzel::scene::Layer layer;
+    ouzel::scene::Camera camera;
+    ouzel::scene::Actor cameraActor;
     ouzel::gui::Menu menu;
     ouzel::gui::Button backButton;
 };

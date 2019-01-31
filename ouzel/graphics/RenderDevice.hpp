@@ -78,7 +78,6 @@ namespace ouzel
             inline uint16_t getAPIMinorVersion() const { return apiMinorVersion; }
 
             inline bool isNPOTTexturesSupported() const { return npotTexturesSupported; }
-            inline bool isMultisamplingSupported() const { return multisamplingSupported; }
             inline bool isAnisotropicFilteringSupported() const { return anisotropicFilteringSupported; }
             inline bool isRenderTargetsSupported() const { return renderTargetsSupported; }
 
@@ -119,6 +118,7 @@ namespace ouzel
                               uint32_t newMaxAnisotropy,
                               bool newVerticalSync,
                               bool newDepth,
+                              bool newStencil,
                               bool newDebugRenderer);
 
             void executeAll();
@@ -140,10 +140,10 @@ namespace ouzel
 
             bool verticalSync = true;
             bool depth = false;
+            bool stencil = false;
             bool debugRenderer = false;
 
             bool npotTexturesSupported = true;
-            bool multisamplingSupported = true;
             bool anisotropicFilteringSupported = true;
             bool renderTargetsSupported = true;
 

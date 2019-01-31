@@ -9,8 +9,7 @@ namespace ouzel
     namespace graphics
     {
         Shader::Shader(Renderer& initRenderer):
-            renderer(initRenderer),
-            resource(renderer.getDevice()->getResourceId())
+            resource(initRenderer)
         {
         }
 
@@ -24,54 +23,19 @@ namespace ouzel
                        uint32_t initVertexShaderDataAlignment,
                        const std::string& fragmentShaderFunction,
                        const std::string& vertexShaderFunction):
-            renderer(initRenderer),
-            resource(renderer.getDevice()->getResourceId()),
+            resource(initRenderer),
             vertexAttributes(initVertexAttributes)
         {
-            renderer.addCommand(std::unique_ptr<Command>(new InitShaderCommand(resource,
-                                                                               initFragmentShader,
-                                                                               initVertexShader,
-                                                                               initVertexAttributes,
-                                                                               initFragmentShaderConstantInfo,
-                                                                               initVertexShaderConstantInfo,
-                                                                               initFragmentShaderDataAlignment,
-                                                                               initVertexShaderDataAlignment,
-                                                                               fragmentShaderFunction,
-                                                                               vertexShaderFunction)));
-        }
-
-        Shader::~Shader()
-        {
-            if (resource)
-            {
-                renderer.addCommand(std::unique_ptr<Command>(new DeleteResourceCommand(resource)));
-                RenderDevice* renderDevice = renderer.getDevice();
-                renderDevice->deleteResourceId(resource);
-            }
-        }
-
-        void Shader::init(const std::vector<uint8_t>& newFragmentShader,
-                          const std::vector<uint8_t>& newVertexShader,
-                          const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
-                          const std::vector<Shader::ConstantInfo>& newFragmentShaderConstantInfo,
-                          const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
-                          uint32_t newFragmentShaderDataAlignment,
-                          uint32_t newVertexShaderDataAlignment,
-                          const std::string& fragmentShaderFunction,
-                          const std::string& vertexShaderFunction)
-        {
-            vertexAttributes = newVertexAttributes;
-
-            renderer.addCommand(std::unique_ptr<Command>(new InitShaderCommand(resource,
-                                                                               newFragmentShader,
-                                                                               newVertexShader,
-                                                                               newVertexAttributes,
-                                                                               newFragmentShaderConstantInfo,
-                                                                               newVertexShaderConstantInfo,
-                                                                               newFragmentShaderDataAlignment,
-                                                                               newVertexShaderDataAlignment,
-                                                                               fragmentShaderFunction,
-                                                                               vertexShaderFunction)));
+            initRenderer.addCommand(std::unique_ptr<Command>(new InitShaderCommand(resource.getId(),
+                                                                                   initFragmentShader,
+                                                                                   initVertexShader,
+                                                                                   initVertexAttributes,
+                                                                                   initFragmentShaderConstantInfo,
+                                                                                   initVertexShaderConstantInfo,
+                                                                                   initFragmentShaderDataAlignment,
+                                                                                   initVertexShaderDataAlignment,
+                                                                                   fragmentShaderFunction,
+                                                                                   vertexShaderFunction)));
         }
 
         const std::set<Vertex::Attribute::Usage>& Shader::getVertexAttributes() const

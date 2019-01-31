@@ -97,6 +97,7 @@ namespace ouzel
                                         uint32_t newMaxAnisotropy,
                                         bool newVerticalSync,
                                         bool newDepth,
+                                        bool newStencil,
                                         bool newDebugRenderer)
         {
             NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(newWindow->getNativeWindow());
@@ -125,6 +126,7 @@ namespace ouzel
                 GLX_BLUE_SIZE, 8,
                 GLX_ALPHA_SIZE, 8,
                 GLX_DEPTH_SIZE, newDepth ? 24 : 0,
+                GLX_STENCIL_SIZE, newStencil ? 8 : 0,
                 GLX_SAMPLE_BUFFERS, (newSampleCount > 1) ? 1 : 0,
                 GLX_SAMPLES, static_cast<int>(newSampleCount),
                 0
@@ -202,6 +204,7 @@ namespace ouzel
                 EGL_BLUE_SIZE, 8,
                 EGL_ALPHA_SIZE, 8,
                 EGL_DEPTH_SIZE, newDepth ? 24 : 0,
+                EGL_STENCIL_SIZE, newStencil ? 8 : 0,
                 EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
                 EGL_SAMPLE_BUFFERS, (newSampleCount > 1) ? 1 : 0,
                 EGL_SAMPLES, static_cast<int>(newSampleCount),
@@ -262,6 +265,7 @@ namespace ouzel
                                   newMaxAnisotropy,
                                   newVerticalSync,
                                   newDepth,
+                                  newStencil,
                                   newDebugRenderer);
 
 #if OUZEL_OPENGL_INTERFACE_EGL

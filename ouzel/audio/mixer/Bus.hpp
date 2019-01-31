@@ -13,12 +13,12 @@ namespace ouzel
         namespace mixer
         {
             class Processor;
-            class Source;
+            class Stream;
 
             class Bus final: public Object
             {
                 friend Processor;
-                friend Source;
+                friend Stream;
             public:
                 Bus();
                 ~Bus();
@@ -40,12 +40,12 @@ namespace ouzel
             private:
                 void addInput(Bus* bus);
                 void removeInput(Bus* bus);
-                void addInput(Source* source);
-                void removeInput(Source* source);
+                void addInput(Stream* stream);
+                void removeInput(Stream* stream);
 
                 Bus* output = nullptr;
                 std::vector<Bus*> inputBuses;
-                std::vector<Source*> inputSources;
+                std::vector<Stream*> inputStreams;
                 std::vector<Processor*> processors;
 
                 std::vector<float> resampleBuffer;

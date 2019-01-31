@@ -69,6 +69,7 @@ namespace ouzel
                                           uint32_t newMaxAnisotropy,
                                           bool newVerticalSync,
                                           bool newDepth,
+                                          bool newStencil,
                                           bool newDebugRenderer)
         {
             MetalRenderDevice::init(newWindow,
@@ -78,6 +79,7 @@ namespace ouzel
                                     newMaxAnisotropy,
                                     newVerticalSync,
                                     newDepth,
+                                    newStencil,
                                     newDebugRenderer);
 
             NativeWindowMacOS* windowMacOS = static_cast<NativeWindowMacOS*>(newWindow->getNativeWindow());

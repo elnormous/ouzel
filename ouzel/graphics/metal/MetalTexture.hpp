@@ -50,6 +50,7 @@ namespace ouzel
         public:
             MetalTexture(MetalRenderDevice& renderDeviceMetal,
                          const std::vector<Texture::Level>& levels,
+                         Texture::Dimensions dimensions,
                          uint32_t initFlags = 0,
                          uint32_t initSampleCount = 1,
                          PixelFormat initPixelFormat = PixelFormat::RGBA8_UNORM);
@@ -67,6 +68,7 @@ namespace ouzel
 
             inline MTLTexturePtr getTexture() const { return texture; }
             inline MTLPixelFormat getPixelFormat() const { return pixelFormat; }
+            inline bool getStencilBuffer() const { return stencilBuffer; }
 
             inline MTLSamplerStatePtr getSamplerState() const { return samplerState; }
 
@@ -91,6 +93,7 @@ namespace ouzel
             MTLTexturePtr msaaTexture = nil;
 
             MTLPixelFormat pixelFormat;
+            bool stencilBuffer = false;
         };
     } // namespace graphics
 } // namespace ouzel

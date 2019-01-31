@@ -124,6 +124,7 @@ namespace ouzel
         bool fullscreen = false;
         bool verticalSync = true;
         bool depth = false;
+        bool stencil = false;
         bool debugRenderer = false;
         bool exclusiveFullscreen = false;
         bool highDpi = true; // should high DPI resolution be used
@@ -187,6 +188,9 @@ namespace ouzel
         std::string depthValue = userEngineSection.getValue("depth", defaultEngineSection.getValue("depth"));
         if (!depthValue.empty()) depth = (depthValue == "true" || depthValue == "1" || depthValue == "yes");
 
+        std::string stencilValue = userEngineSection.getValue("stencil", defaultEngineSection.getValue("stencil"));
+        if (!stencilValue.empty()) stencil = (depthValue == "true" || depthValue == "1" || depthValue == "yes");
+
         std::string debugRendererValue = userEngineSection.getValue("debugRenderer", defaultEngineSection.getValue("debugRenderer"));
         if (!debugRendererValue.empty()) debugRenderer = (debugRendererValue == "true" || debugRendererValue == "1" || debugRendererValue == "yes");
 
@@ -218,6 +222,7 @@ namespace ouzel
                                               maxAnisotropy,
                                               verticalSync,
                                               depth,
+                                              stencil,
                                               debugRenderer));
 
         audio::Driver audioDriver = audio::Audio::getDriver(audioDriverValue);
@@ -231,46 +236,71 @@ namespace ouzel
 #if OUZEL_COMPILE_OPENGL
             case graphics::Driver::OPENGL:
             {
-                std::unique_ptr<graphics::Shader> textureShader(new graphics::Shader(*renderer));
+                std::unique_ptr<graphics::Shader> textureShader;
 
                 switch (renderer->getDevice()->getAPIMajorVersion())
                 {
 #  if OUZEL_SUPPORTS_OPENGLES
                     case 2:
-                        textureShader->init(std::vector<uint8_t>(std::begin(TexturePSGLES2_glsl), std::end(TexturePSGLES2_glsl)),
-                                            std::vector<uint8_t>(std::begin(TextureVSGLES2_glsl), std::end(TextureVSGLES2_glsl)),
-                                            {graphics::Vertex::Attribute::Usage::POSITION, graphics::Vertex::Attribute::Usage::COLOR, graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0},
-                                            {{"color", graphics::DataType::FLOAT_VECTOR4}},
-                                            {{"modelViewProj", graphics::DataType::FLOAT_MATRIX4}});
+                        textureShader.reset(new graphics::Shader(*renderer,
+                                                                 std::vector<uint8_t>(std::begin(TexturePSGLES2_glsl), std::end(TexturePSGLES2_glsl)),
+                                                                 std::vector<uint8_t>(std::begin(TextureVSGLES2_glsl), std::end(TextureVSGLES2_glsl)),
+                                                                 std::set<graphics::Vertex::Attribute::Usage>{
+                                                                     graphics::Vertex::Attribute::Usage::POSITION,
+                                                                     graphics::Vertex::Attribute::Usage::COLOR,
+                                                                     graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0
+                                                                 },
+                                                                 std::vector<graphics::Shader::ConstantInfo>{{"color", graphics::DataType::FLOAT_VECTOR4}},
+                                                                 std::vector<graphics::Shader::ConstantInfo>{{"modelViewProj", graphics::DataType::FLOAT_MATRIX4}}));
                         break;
                     case 3:
-                        textureShader->init(std::vector<uint8_t>(std::begin(TexturePSGLES3_glsl), std::end(TexturePSGLES3_glsl)),
-                                            std::vector<uint8_t>(std::begin(TextureVSGLES3_glsl), std::end(TextureVSGLES3_glsl)),
-                                            {graphics::Vertex::Attribute::Usage::POSITION, graphics::Vertex::Attribute::Usage::COLOR, graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0},
-                                            {{"color", graphics::DataType::FLOAT_VECTOR4}},
-                                            {{"modelViewProj", graphics::DataType::FLOAT_MATRIX4}});
+                        textureShader.reset(new graphics::Shader(*renderer,
+                                                                 std::vector<uint8_t>(std::begin(TexturePSGLES3_glsl), std::end(TexturePSGLES3_glsl)),
+                                                                 std::vector<uint8_t>(std::begin(TextureVSGLES3_glsl), std::end(TextureVSGLES3_glsl)),
+                                                                 std::set<graphics::Vertex::Attribute::Usage>{
+                                                                     graphics::Vertex::Attribute::Usage::POSITION,
+                                                                     graphics::Vertex::Attribute::Usage::COLOR,
+                                                                     graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0
+                                                                 },
+                                                                 std::vector<graphics::Shader::ConstantInfo>{{"color", graphics::DataType::FLOAT_VECTOR4}},
+                                                                 std::vector<graphics::Shader::ConstantInfo>{{"modelViewProj", graphics::DataType::FLOAT_MATRIX4}}));
                         break;
 #  else
                     case 2:
-                        textureShader->init(std::vector<uint8_t>(std::begin(TexturePSGL2_glsl), std::end(TexturePSGL2_glsl)),
-                                            std::vector<uint8_t>(std::begin(TextureVSGL2_glsl), std::end(TextureVSGL2_glsl)),
-                                            {graphics::Vertex::Attribute::Usage::POSITION, graphics::Vertex::Attribute::Usage::COLOR, graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0},
-                                            {{"color", graphics::DataType::FLOAT_VECTOR4}},
-                                            {{"modelViewProj", graphics::DataType::FLOAT_MATRIX4}});
+                        textureShader.reset(new graphics::Shader(*renderer,
+                                                                 std::vector<uint8_t>(std::begin(TexturePSGL2_glsl), std::end(TexturePSGL2_glsl)),
+                                                                 std::vector<uint8_t>(std::begin(TextureVSGL2_glsl), std::end(TextureVSGL2_glsl)),
+                                                                 std::set<graphics::Vertex::Attribute::Usage>{
+                                                                     graphics::Vertex::Attribute::Usage::POSITION,
+                                                                     graphics::Vertex::Attribute::Usage::COLOR,
+                                                                     graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0
+                                                                 },
+                                                                 std::vector<graphics::Shader::ConstantInfo>{{"color", graphics::DataType::FLOAT_VECTOR4}},
+                                                                 std::vector<graphics::Shader::ConstantInfo>{{"modelViewProj", graphics::DataType::FLOAT_MATRIX4}}));
                         break;
                     case 3:
-                        textureShader->init(std::vector<uint8_t>(std::begin(TexturePSGL3_glsl), std::end(TexturePSGL3_glsl)),
-                                            std::vector<uint8_t>(std::begin(TextureVSGL3_glsl), std::end(TextureVSGL3_glsl)),
-                                            {graphics::Vertex::Attribute::Usage::POSITION, graphics::Vertex::Attribute::Usage::COLOR, graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0},
-                                            {{"color", graphics::DataType::FLOAT_VECTOR4}},
-                                            {{"modelViewProj", graphics::DataType::FLOAT_MATRIX4}});
+                        textureShader.reset(new graphics::Shader(*renderer,
+                                                                 std::vector<uint8_t>(std::begin(TexturePSGL3_glsl), std::end(TexturePSGL3_glsl)),
+                                                                 std::vector<uint8_t>(std::begin(TextureVSGL3_glsl), std::end(TextureVSGL3_glsl)),
+                                                                 std::set<graphics::Vertex::Attribute::Usage>{
+                                                                     graphics::Vertex::Attribute::Usage::POSITION,
+                                                                     graphics::Vertex::Attribute::Usage::COLOR,
+                                                                     graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0
+                                                                 },
+                                                                 std::vector<graphics::Shader::ConstantInfo>{{"color", graphics::DataType::FLOAT_VECTOR4}},
+                                                                 std::vector<graphics::Shader::ConstantInfo>{{"modelViewProj", graphics::DataType::FLOAT_MATRIX4}}));
                         break;
                     case 4:
-                        textureShader->init(std::vector<uint8_t>(std::begin(TexturePSGL4_glsl), std::end(TexturePSGL4_glsl)),
-                                            std::vector<uint8_t>(std::begin(TextureVSGL4_glsl), std::end(TextureVSGL4_glsl)),
-                                            {graphics::Vertex::Attribute::Usage::POSITION, graphics::Vertex::Attribute::Usage::COLOR, graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0},
-                                            {{"color", graphics::DataType::FLOAT_VECTOR4}},
-                                            {{"modelViewProj", graphics::DataType::FLOAT_MATRIX4}});
+                        textureShader.reset(new graphics::Shader(*renderer,
+                                                                 std::vector<uint8_t>(std::begin(TexturePSGL4_glsl), std::end(TexturePSGL4_glsl)),
+                                                                 std::vector<uint8_t>(std::begin(TextureVSGL4_glsl), std::end(TextureVSGL4_glsl)),
+                                                                 std::set<graphics::Vertex::Attribute::Usage>{
+                                                                     graphics::Vertex::Attribute::Usage::POSITION,
+                                                                     graphics::Vertex::Attribute::Usage::COLOR,
+                                                                     graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0
+                                                                 },
+                                                                 std::vector<graphics::Shader::ConstantInfo>{{"color", graphics::DataType::FLOAT_VECTOR4}},
+                                                                 std::vector<graphics::Shader::ConstantInfo>{{"modelViewProj", graphics::DataType::FLOAT_MATRIX4}}));
                         break;
 #  endif
                     default:
@@ -285,41 +315,61 @@ namespace ouzel
                 {
 #  if OUZEL_SUPPORTS_OPENGLES
                     case 2:
-                        colorShader->init(std::vector<uint8_t>(std::begin(ColorPSGLES2_glsl), std::end(ColorPSGLES2_glsl)),
-                                          std::vector<uint8_t>(std::begin(ColorVSGLES2_glsl), std::end(ColorVSGLES2_glsl)),
-                                          {graphics::Vertex::Attribute::Usage::POSITION, graphics::Vertex::Attribute::Usage::COLOR},
-                                          {{"color", graphics::DataType::FLOAT_VECTOR4}},
-                                          {{"modelViewProj", graphics::DataType::FLOAT_MATRIX4}});
+                        colorShader.reset(new graphics::Shader(*renderer,
+                                                               std::vector<uint8_t>(std::begin(ColorPSGLES2_glsl), std::end(ColorPSGLES2_glsl)),
+                                                               std::vector<uint8_t>(std::begin(ColorVSGLES2_glsl), std::end(ColorVSGLES2_glsl)),
+                                                               std::set<graphics::Vertex::Attribute::Usage>{
+                                                                   graphics::Vertex::Attribute::Usage::POSITION,
+                                                                   graphics::Vertex::Attribute::Usage::COLOR
+                                                               },
+                                                               std::vector<graphics::Shader::ConstantInfo>{{"color", graphics::DataType::FLOAT_VECTOR4}},
+                                                               std::vector<graphics::Shader::ConstantInfo>{{"modelViewProj", graphics::DataType::FLOAT_MATRIX4}}));
 
                         break;
                     case 3:
-                        colorShader->init(std::vector<uint8_t>(std::begin(ColorPSGLES3_glsl), std::end(ColorPSGLES3_glsl)),
-                                          std::vector<uint8_t>(std::begin(ColorVSGLES3_glsl), std::end(ColorVSGLES3_glsl)),
-                                          {graphics::Vertex::Attribute::Usage::POSITION, graphics::Vertex::Attribute::Usage::COLOR},
-                                          {{"color", graphics::DataType::FLOAT_VECTOR4}},
-                                          {{"modelViewProj", graphics::DataType::FLOAT_MATRIX4}});
+                        colorShader.reset(new graphics::Shader(*renderer,
+                                                               std::vector<uint8_t>(std::begin(ColorPSGLES3_glsl), std::end(ColorPSGLES3_glsl)),
+                                                               std::vector<uint8_t>(std::begin(ColorVSGLES3_glsl), std::end(ColorVSGLES3_glsl)),
+                                                               std::set<graphics::Vertex::Attribute::Usage>{
+                                                                   graphics::Vertex::Attribute::Usage::POSITION,
+                                                                   graphics::Vertex::Attribute::Usage::COLOR
+                                                               },
+                                                               std::vector<graphics::Shader::ConstantInfo>{{"color", graphics::DataType::FLOAT_VECTOR4}},
+                                                               std::vector<graphics::Shader::ConstantInfo>{{"modelViewProj", graphics::DataType::FLOAT_MATRIX4}}));
                         break;
 #  else
                     case 2:
-                        colorShader->init(std::vector<uint8_t>(std::begin(ColorPSGL2_glsl), std::end(ColorPSGL2_glsl)),
-                                          std::vector<uint8_t>(std::begin(ColorVSGL2_glsl), std::end(ColorVSGL2_glsl)),
-                                          {graphics::Vertex::Attribute::Usage::POSITION, graphics::Vertex::Attribute::Usage::COLOR},
-                                          {{"color", graphics::DataType::FLOAT_VECTOR4}},
-                                          {{"modelViewProj", graphics::DataType::FLOAT_MATRIX4}});
+                        colorShader.reset(new graphics::Shader(*renderer,
+                                                               std::vector<uint8_t>(std::begin(ColorPSGL2_glsl), std::end(ColorPSGL2_glsl)),
+                                                               std::vector<uint8_t>(std::begin(ColorVSGL2_glsl), std::end(ColorVSGL2_glsl)),
+                                                               std::set<graphics::Vertex::Attribute::Usage>{
+                                                                   graphics::Vertex::Attribute::Usage::POSITION,
+                                                                   graphics::Vertex::Attribute::Usage::COLOR
+                                                               },
+                                                               std::vector<graphics::Shader::ConstantInfo>{{"color", graphics::DataType::FLOAT_VECTOR4}},
+                                                               std::vector<graphics::Shader::ConstantInfo>{{"modelViewProj", graphics::DataType::FLOAT_MATRIX4}}));
                         break;
                     case 3:
-                        colorShader->init(std::vector<uint8_t>(std::begin(ColorPSGL3_glsl), std::end(ColorPSGL3_glsl)),
-                                          std::vector<uint8_t>(std::begin(ColorVSGL3_glsl), std::end(ColorVSGL3_glsl)),
-                                          {graphics::Vertex::Attribute::Usage::POSITION, graphics::Vertex::Attribute::Usage::COLOR},
-                                          {{"color", graphics::DataType::FLOAT_VECTOR4}},
-                                          {{"modelViewProj", graphics::DataType::FLOAT_MATRIX4}});
+                        colorShader.reset(new graphics::Shader(*renderer,
+                                                               std::vector<uint8_t>(std::begin(ColorPSGL3_glsl), std::end(ColorPSGL3_glsl)),
+                                                               std::vector<uint8_t>(std::begin(ColorVSGL3_glsl), std::end(ColorVSGL3_glsl)),
+                                                               std::set<graphics::Vertex::Attribute::Usage>{
+                                                                   graphics::Vertex::Attribute::Usage::POSITION,
+                                                                   graphics::Vertex::Attribute::Usage::COLOR
+                                                               },
+                                                               std::vector<graphics::Shader::ConstantInfo>{{"color", graphics::DataType::FLOAT_VECTOR4}},
+                                                               std::vector<graphics::Shader::ConstantInfo>{{"modelViewProj", graphics::DataType::FLOAT_MATRIX4}}));
                         break;
                     case 4:
-                        colorShader->init(std::vector<uint8_t>(std::begin(ColorPSGL4_glsl), std::end(ColorPSGL4_glsl)),
-                                          std::vector<uint8_t>(std::begin(ColorVSGL4_glsl), std::end(ColorVSGL4_glsl)),
-                                          {graphics::Vertex::Attribute::Usage::POSITION, graphics::Vertex::Attribute::Usage::COLOR},
-                                          {{"color", graphics::DataType::FLOAT_VECTOR4}},
-                                          {{"modelViewProj", graphics::DataType::FLOAT_MATRIX4}});
+                        colorShader.reset(new graphics::Shader(*renderer,
+                                                               std::vector<uint8_t>(std::begin(ColorPSGL4_glsl), std::end(ColorPSGL4_glsl)),
+                                                               std::vector<uint8_t>(std::begin(ColorVSGL4_glsl), std::end(ColorVSGL4_glsl)),
+                                                               std::set<graphics::Vertex::Attribute::Usage>{
+                                                                   graphics::Vertex::Attribute::Usage::POSITION,
+                                                                   graphics::Vertex::Attribute::Usage::COLOR
+                                                               },
+                                                               std::vector<graphics::Shader::ConstantInfo>{{"color", graphics::DataType::FLOAT_VECTOR4}},
+                                                               std::vector<graphics::Shader::ConstantInfo>{{"modelViewProj", graphics::DataType::FLOAT_MATRIX4}}));
                         break;
 #  endif
                     default:
@@ -334,22 +384,28 @@ namespace ouzel
 #if OUZEL_COMPILE_DIRECT3D11
             case graphics::Driver::DIRECT3D11:
             {
-                std::unique_ptr<graphics::Shader> textureShader(new graphics::Shader(*renderer));
-                textureShader->init(std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_D3D11), std::end(TEXTURE_PIXEL_SHADER_D3D11)),
-                                    std::vector<uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_D3D11), std::end(TEXTURE_VERTEX_SHADER_D3D11)),
-                                    {graphics::Vertex::Attribute::Usage::POSITION, graphics::Vertex::Attribute::Usage::COLOR, graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0},
-                                    {{"color", graphics::DataType::FLOAT_VECTOR4}},
-                                    {{"modelViewProj", graphics::DataType::FLOAT_MATRIX4}});
+                std::unique_ptr<graphics::Shader> textureShader(new graphics::Shader(*renderer,
+                                                                                     std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_D3D11), std::end(TEXTURE_PIXEL_SHADER_D3D11)),
+                                                                                     std::vector<uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_D3D11), std::end(TEXTURE_VERTEX_SHADER_D3D11)),
+                                                                                     std::set<graphics::Vertex::Attribute::Usage>{
+                                                                                         graphics::Vertex::Attribute::Usage::POSITION,
+                                                                                         graphics::Vertex::Attribute::Usage::COLOR,
+                                                                                         graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0
+                                                                                     },
+                                                                                     std::vector<graphics::Shader::ConstantInfo>{{"color", graphics::DataType::FLOAT_VECTOR4}},
+                                                                                     std::vector<graphics::Shader::ConstantInfo>{{"modelViewProj", graphics::DataType::FLOAT_MATRIX4}}));
 
                 assetBundle.setShader(SHADER_TEXTURE, std::move(textureShader));
 
-                std::unique_ptr<graphics::Shader> colorShader(new graphics::Shader(*renderer));
-                colorShader->init(std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_D3D11), std::end(COLOR_PIXEL_SHADER_D3D11)),
-                                  std::vector<uint8_t>(std::begin(COLOR_VERTEX_SHADER_D3D11), std::end(COLOR_VERTEX_SHADER_D3D11)),
-                                  {graphics::Vertex::Attribute::Usage::POSITION, graphics::Vertex::Attribute::Usage::COLOR},
-                                  {{"color", graphics::DataType::FLOAT_VECTOR4}},
-                                  {{"modelViewProj", graphics::DataType::FLOAT_MATRIX4}});
-
+                std::unique_ptr<graphics::Shader> colorShader(new graphics::Shader(*renderer,
+                                                                                   std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_D3D11), std::end(COLOR_PIXEL_SHADER_D3D11)),
+                                                                                   std::vector<uint8_t>(std::begin(COLOR_VERTEX_SHADER_D3D11), std::end(COLOR_VERTEX_SHADER_D3D11)),
+                                                                                   std::set<graphics::Vertex::Attribute::Usage>{
+                                                                                       graphics::Vertex::Attribute::Usage::POSITION,
+                                                                                       graphics::Vertex::Attribute::Usage::COLOR
+                                                                                   },
+                                                                                   std::vector<graphics::Shader::ConstantInfo>{{"color", graphics::DataType::FLOAT_VECTOR4}},
+                                                                                   std::vector<graphics::Shader::ConstantInfo>{{"modelViewProj", graphics::DataType::FLOAT_MATRIX4}}));
                 assetBundle.setShader(SHADER_COLOR, std::move(colorShader));
                 break;
             }
@@ -358,25 +414,32 @@ namespace ouzel
 #if OUZEL_COMPILE_METAL
             case graphics::Driver::METAL:
             {
-                std::unique_ptr<graphics::Shader> textureShader(new graphics::Shader(*renderer));
-                textureShader->init(std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_METAL), std::end(TEXTURE_PIXEL_SHADER_METAL)),
-                                    std::vector<uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_METAL), std::end(TEXTURE_VERTEX_SHADER_METAL)),
-                                    {graphics::Vertex::Attribute::Usage::POSITION, graphics::Vertex::Attribute::Usage::COLOR, graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0},
-                                    {{"color", graphics::DataType::FLOAT_VECTOR4}},
-                                    {{"modelViewProj", graphics::DataType::FLOAT_MATRIX4}},
-                                    256, 256,
-                                    "mainPS", "mainVS");
+                std::unique_ptr<graphics::Shader> textureShader(new graphics::Shader(*renderer,
+                                                                                     std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_METAL), std::end(TEXTURE_PIXEL_SHADER_METAL)),
+                                                                                     std::vector<uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_METAL), std::end(TEXTURE_VERTEX_SHADER_METAL)),
+                                                                                     std::set<graphics::Vertex::Attribute::Usage>{
+                                                                                         graphics::Vertex::Attribute::Usage::POSITION,
+                                                                                         graphics::Vertex::Attribute::Usage::COLOR,
+                                                                                         graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0
+                                                                                     },
+                                                                                     std::vector<graphics::Shader::ConstantInfo>{{"color", graphics::DataType::FLOAT_VECTOR4}},
+                                                                                     std::vector<graphics::Shader::ConstantInfo>{{"modelViewProj", graphics::DataType::FLOAT_MATRIX4}},
+                                                                                     256, 256,
+                                                                                     "mainPS", "mainVS"));
 
                 assetBundle.setShader(SHADER_TEXTURE, std::move(textureShader));
 
-                std::unique_ptr<graphics::Shader> colorShader(new graphics::Shader(*renderer));
-                colorShader->init(std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_METAL), std::end(COLOR_PIXEL_SHADER_METAL)),
-                                  std::vector<uint8_t>(std::begin(COLOR_VERTEX_SHADER_METAL), std::end(COLOR_VERTEX_SHADER_METAL)),
-                                  {graphics::Vertex::Attribute::Usage::POSITION, graphics::Vertex::Attribute::Usage::COLOR},
-                                  {{"color", graphics::DataType::FLOAT_VECTOR4}},
-                                  {{"modelViewProj", graphics::DataType::FLOAT_MATRIX4}},
-                                  256, 256,
-                                  "mainPS", "mainVS");
+                std::unique_ptr<graphics::Shader> colorShader(new graphics::Shader(*renderer,
+                                                                                   std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_METAL), std::end(COLOR_PIXEL_SHADER_METAL)),
+                                                                                   std::vector<uint8_t>(std::begin(COLOR_VERTEX_SHADER_METAL), std::end(COLOR_VERTEX_SHADER_METAL)),
+                                                                                   std::set<graphics::Vertex::Attribute::Usage>{
+                                                                                       graphics::Vertex::Attribute::Usage::POSITION,
+                                                                                       graphics::Vertex::Attribute::Usage::COLOR
+                                                                                   },
+                                                                                   std::vector<graphics::Shader::ConstantInfo>{{"color", graphics::DataType::FLOAT_VECTOR4}},
+                                                                                   std::vector<graphics::Shader::ConstantInfo>{{"modelViewProj",   graphics::DataType::FLOAT_MATRIX4}},
+                                                                                   256, 256,
+                                                                                   "mainPS", "mainVS"));
 
                 assetBundle.setShader(SHADER_COLOR, std::move(colorShader));
                 break;
@@ -385,74 +448,79 @@ namespace ouzel
 
             default:
             {
-                std::unique_ptr<graphics::Shader> textureShader(new graphics::Shader(*renderer));
-                textureShader->init(std::vector<uint8_t>(),
-                                    std::vector<uint8_t>(),
-                                    {graphics::Vertex::Attribute::Usage::POSITION, graphics::Vertex::Attribute::Usage::COLOR, graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0},
-                                    {{"color", graphics::DataType::FLOAT_VECTOR4}},
-                                    {{"modelViewProj", graphics::DataType::FLOAT_MATRIX4}});
+                std::unique_ptr<graphics::Shader> textureShader(new graphics::Shader(*renderer,
+                                                                                     std::vector<uint8_t>(),
+                                                                                     std::vector<uint8_t>(),
+                                                                                     std::set<graphics::Vertex::Attribute::Usage>{
+                                                                                         graphics::Vertex::Attribute::Usage::POSITION,
+                                                                                         graphics::Vertex::Attribute::Usage::COLOR,
+                                                                                         graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0
+                                                                                     },
+                                                                                     std::vector<graphics::Shader::ConstantInfo>{{"color", graphics::DataType::FLOAT_VECTOR4}},
+                                                                                     std::vector<graphics::Shader::ConstantInfo>{{"modelViewProj", graphics::DataType::FLOAT_MATRIX4}}));
 
                 assetBundle.setShader(SHADER_TEXTURE, std::move(textureShader));
 
-                std::unique_ptr<graphics::Shader> colorShader(new graphics::Shader(*renderer));
-                colorShader->init(std::vector<uint8_t>(),
-                                  std::vector<uint8_t>(),
-                                  {graphics::Vertex::Attribute::Usage::POSITION, graphics::Vertex::Attribute::Usage::COLOR},
-                                  {{"color", graphics::DataType::FLOAT_VECTOR4}},
-                                  {{"modelViewProj", graphics::DataType::FLOAT_MATRIX4}});
+                std::unique_ptr<graphics::Shader> colorShader(new graphics::Shader(*renderer,
+                                                                                   std::vector<uint8_t>(),
+                                                                                   std::vector<uint8_t>(),
+                                                                                   std::set<graphics::Vertex::Attribute::Usage>{
+                                                                                       graphics::Vertex::Attribute::Usage::POSITION,
+                                                                                       graphics::Vertex::Attribute::Usage::COLOR
+                                                                                   },
+                                                                                   std::vector<graphics::Shader::ConstantInfo>{{"color", graphics::DataType::FLOAT_VECTOR4}},
+                                                                                   std::vector<graphics::Shader::ConstantInfo>{{"modelViewProj", graphics::DataType::FLOAT_MATRIX4}}));
 
                 assetBundle.setShader(SHADER_COLOR, std::move(colorShader));
                 break;
             }
         }
 
-        std::unique_ptr<graphics::BlendState> noBlendState(new graphics::BlendState(*renderer));
-        noBlendState->init(false,
-                           graphics::BlendState::Factor::ONE, graphics::BlendState::Factor::ZERO,
-                           graphics::BlendState::Operation::ADD,
-                           graphics::BlendState::Factor::ONE, graphics::BlendState::Factor::ZERO,
-                           graphics::BlendState::Operation::ADD);
-
+        std::unique_ptr<graphics::BlendState> noBlendState(new graphics::BlendState(*renderer,
+                                                                                    false,
+                                                                                    graphics::BlendState::Factor::ONE, graphics::BlendState::Factor::ZERO,
+                                                                                    graphics::BlendState::Operation::ADD,
+                                                                                    graphics::BlendState::Factor::ONE, graphics::BlendState::Factor::ZERO,
+                                                                                    graphics::BlendState::Operation::ADD));
         assetBundle.setBlendState(BLEND_NO_BLEND, std::move(noBlendState));
 
-        std::unique_ptr<graphics::BlendState> addBlendState(new graphics::BlendState(*renderer));
-        addBlendState->init(true,
-                            graphics::BlendState::Factor::ONE, graphics::BlendState::Factor::ONE,
-                            graphics::BlendState::Operation::ADD,
-                            graphics::BlendState::Factor::ONE, graphics::BlendState::Factor::ONE,
-                            graphics::BlendState::Operation::ADD);
-
+        std::unique_ptr<graphics::BlendState> addBlendState(new graphics::BlendState(*renderer,
+                                                                                     true,
+                                                                                     graphics::BlendState::Factor::ONE, graphics::BlendState::Factor::ONE,
+                                                                                     graphics::BlendState::Operation::ADD,
+                                                                                     graphics::BlendState::Factor::ONE, graphics::BlendState::Factor::ONE,
+                                                                                     graphics::BlendState::Operation::ADD));
         assetBundle.setBlendState(BLEND_ADD, std::move(addBlendState));
 
-        std::unique_ptr<graphics::BlendState> multiplyBlendState(new graphics::BlendState(*renderer));
-        multiplyBlendState->init(true,
-                                 graphics::BlendState::Factor::DEST_COLOR, graphics::BlendState::Factor::ZERO,
-                                 graphics::BlendState::Operation::ADD,
-                                 graphics::BlendState::Factor::ONE, graphics::BlendState::Factor::ONE,
-                                 graphics::BlendState::Operation::ADD);
-
+        std::unique_ptr<graphics::BlendState> multiplyBlendState(new graphics::BlendState(*renderer,
+                                                                                          true,
+                                                                                          graphics::BlendState::Factor::DEST_COLOR, graphics::BlendState::Factor::ZERO,
+                                                                                          graphics::BlendState::Operation::ADD,
+                                                                                          graphics::BlendState::Factor::ONE, graphics::BlendState::Factor::ONE,
+                                                                                          graphics::BlendState::Operation::ADD));
         assetBundle.setBlendState(BLEND_MULTIPLY, std::move(multiplyBlendState));
 
-        std::unique_ptr<graphics::BlendState> alphaBlendState(new graphics::BlendState(*renderer));
-        alphaBlendState->init(true,
-                              graphics::BlendState::Factor::SRC_ALPHA, graphics::BlendState::Factor::INV_SRC_ALPHA,
-                              graphics::BlendState::Operation::ADD,
-                              graphics::BlendState::Factor::ONE, graphics::BlendState::Factor::ONE,
-                              graphics::BlendState::Operation::ADD);
-
+        std::unique_ptr<graphics::BlendState> alphaBlendState(new graphics::BlendState(*renderer,
+                                                                                       true,
+                                                                                       graphics::BlendState::Factor::SRC_ALPHA, graphics::BlendState::Factor::INV_SRC_ALPHA,
+                                                                                       graphics::BlendState::Operation::ADD,
+                                                                                       graphics::BlendState::Factor::ONE, graphics::BlendState::Factor::ONE,
+                                                                                       graphics::BlendState::Operation::ADD));
         assetBundle.setBlendState(BLEND_ALPHA, std::move(alphaBlendState));
 
-        std::unique_ptr<graphics::BlendState> screenBlendState(new graphics::BlendState(*renderer));
-        screenBlendState->init(true,
-                               graphics::BlendState::Factor::ONE, graphics::BlendState::Factor::INV_SRC_COLOR,
-                               graphics::BlendState::Operation::ADD,
-                               graphics::BlendState::Factor::ONE, graphics::BlendState::Factor::ONE,
-                               graphics::BlendState::Operation::ADD);
-
+        std::unique_ptr<graphics::BlendState> screenBlendState(new graphics::BlendState(*renderer,
+                                                                                        true,
+                                                                                        graphics::BlendState::Factor::ONE, graphics::BlendState::Factor::INV_SRC_COLOR,
+                                                                                        graphics::BlendState::Operation::ADD,
+                                                                                        graphics::BlendState::Factor::ONE, graphics::BlendState::Factor::ONE,
+                                                                                        graphics::BlendState::Operation::ADD));
         assetBundle.setBlendState(BLEND_SCREEN, std::move(screenBlendState));
 
-        std::unique_ptr<graphics::Texture> whitePixelTexture(new graphics::Texture(*renderer));
-        whitePixelTexture->init({255, 255, 255, 255}, Size2<uint32_t>(1, 1), 0, 1);
+        std::unique_ptr<graphics::Texture> whitePixelTexture(new graphics::Texture(*renderer,
+                                                                                   std::vector<uint8_t>{255, 255, 255, 255},
+                                                                                   Size2<uint32_t>(1, 1),
+                                                                                   0, 1));
+
         assetBundle.setTexture(TEXTURE_WHITE_PIXEL, std::move(whitePixelTexture));
     }
 

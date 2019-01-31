@@ -87,8 +87,29 @@ namespace ouzel
             void setDepthTest(bool newDepthTest);
             inline graphics::DepthStencilState* getDepthStencilState() const { return depthStencilState.get(); }
 
+            uint32_t getStencilReferenceValue() const { return stencilReferenceValue; }
+            void setStencilReferenceValue(uint32_t newStencilReferenceValue) { stencilReferenceValue = newStencilReferenceValue; }
+
             inline bool getWireframe() const { return wireframe; }
             inline void setWireframe(bool newWireframe) { wireframe = newWireframe; }
+
+            inline bool getClearColorBuffer() const { return clearColorBuffer; }
+            void setClearColorBuffer(bool clear) { clearColorBuffer = clear; }
+
+            inline bool getClearDepthBuffer() const { return clearDepthBuffer; }
+            void setClearDepthBuffer(bool clear) { clearDepthBuffer = clear; }
+
+            inline bool getClearStencilBuffer() const { return clearStencilBuffer; }
+            void setClearStencilBuffer(bool clear) { clearStencilBuffer = clear; }
+
+            inline Color getClearColor() const { return clearColor; }
+            void setClearColor(Color color) { clearColor = color; }
+
+            inline float getClearDepth() const { return clearDepth; }
+            void setClearDepth(float depth) { clearDepth = depth; }
+
+            inline uint32_t getClearStencil() const { return clearStencil; }
+            void setClearDepth(uint32_t stencil) { clearStencil = stencil; }
 
         protected:
             void setActor(Actor* newActor) override;
@@ -123,8 +144,17 @@ namespace ouzel
             mutable bool inverseViewProjectionDirty = true;
             mutable Matrix4<float> inverseViewProjection;
 
+
             graphics::RenderTarget* renderTarget = nullptr;
             std::unique_ptr<graphics::DepthStencilState> depthStencilState;
+            uint32_t stencilReferenceValue = 0;
+
+            bool clearColorBuffer = false;
+            bool clearDepthBuffer = false;
+            bool clearStencilBuffer = false;
+            Color clearColor;
+            float clearDepth = 1.0F;
+            uint32_t clearStencil = 0;
         };
     } // namespace scene
 } // namespace ouzel

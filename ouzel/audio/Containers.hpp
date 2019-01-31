@@ -3,23 +3,60 @@
 #ifndef OUZEL_AUDIO_CONTAINERS_HPP
 #define OUZEL_AUDIO_CONTAINERS_HPP
 
-#include "audio/Source.hpp"
+#include <cstdint>
+#include <vector>
+#include "audio/Filter.hpp"
+#include "audio/Sound.hpp"
 
 namespace ouzel
 {
     namespace audio
     {
-        class ParallelContainer final: public Source
+        class Track
+        {
+        public:
+            Track(Sound* initSound, uint32_t initOrder = 0):
+                sound(initSound), order(initOrder)
+            {
+
+            }
+
+            Sound* getSound() const { return sound; }
+            uint32_t getOrder() const { return order; }
+
+        private:
+            Sound* sound = nullptr;
+            uint32_t order;
+        };
+
+        class Container
+        {
+        public:
+            Container(const std::initializer_list<Track>& initTracks):
+                tracks(initTracks)
+            {
+            }
+
+            void addTrack(const Track& track)
+            {
+                tracks.push_back(track);
+            }
+
+        private:
+            std::vector<Track> tracks;
+        };
+
+        class ParallelContainer final: public Container
         {
         public:
         };
 
-        class RandomContainer final: public Source
+        class RandomContainer final: public Container
         {
         public:
         };
 
-        class SequenceContainer final: public Source
+        class SequenceContainer final: public Container
         {
         public:
         };

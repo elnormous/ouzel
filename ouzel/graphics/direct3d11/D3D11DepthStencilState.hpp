@@ -23,7 +23,12 @@ namespace ouzel
             D3D11DepthStencilState(D3D11RenderDevice& renderDeviceD3D11,
                                    bool initDepthTest,
                                    bool initDepthWrite,
-                                   DepthStencilState::CompareFunction initCompareFunction);
+                                   DepthStencilState::CompareFunction initCompareFunction,
+                                   bool initStencilEnabled,
+                                   uint32_t initStencilReadMask,
+                                   uint32_t initStencilWriteMask,
+                                   const DepthStencilState::StencilDescriptor& initFrontFaceStencil,
+                                   const DepthStencilState::StencilDescriptor& initBackFaceStencil);
             ~D3D11DepthStencilState();
 
             ID3D11DepthStencilState* getDepthStencilState() const { return depthStencilState; }

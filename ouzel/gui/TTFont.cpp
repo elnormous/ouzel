@@ -137,9 +137,11 @@ namespace ouzel
             }
         }
 
-        result.ownedTexture.reset(new graphics::Texture(*engine->getRenderer()));
+        result.ownedTexture.reset(new graphics::Texture(*engine->getRenderer(),
+                                                        textureData,
+                                                        Size2<uint32_t>(width, height), 0,
+                                                        mipmaps ? 0 : 1));
         result.texture = result.ownedTexture.get();
-        result.texture->init(textureData, Size2<uint32_t>(width, height), 0, mipmaps ? 0 : 1);
 
         Vector2<float> position;
 

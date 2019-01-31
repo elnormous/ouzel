@@ -32,7 +32,12 @@ namespace ouzel
             OGLDepthStencilState(OGLRenderDevice& renderDeviceOGL,
                                  bool initDepthTest,
                                  bool initDepthWrite,
-                                 DepthStencilState::CompareFunction initCompareFunction);
+                                 DepthStencilState::CompareFunction initCompareFunction,
+                                 bool initStencilEnabled,
+                                 uint32_t initStencilReadMask,
+                                 uint32_t initStencilWriteMask,
+                                 const DepthStencilState::StencilDescriptor& initFrontFaceStencil,
+                                 const DepthStencilState::StencilDescriptor& initBackFaceStencil);
 
             void reload() override {}
 
@@ -40,10 +45,33 @@ namespace ouzel
             GLboolean getDepthMask() const { return depthMask; }
             GLenum getCompareFunction() const { return compareFunction; }
 
+            bool getStencilTest() const { return stencilTest; }
+            GLuint getStencilReadMask() const { return stencilReadMask; }
+            GLuint getStencilWriteMask() const { return stencilWriteMask; }
+            GLenum getFrontFaceFail() const { return frontFaceFail; }
+            GLenum getFrontFaceDepthFail() const { return frontFaceDepthFail; }
+            GLenum getFrontFacePass() const { return frontFacePass; }
+            GLenum getFrontFaceFunction() const { return frontFaceFunction; }
+            GLenum getBackFaceFail() const { return backFaceFail; }
+            GLenum getBackFaceDepthFail() const { return backFaceDepthFail; }
+            GLenum getBackFacePass() const { return backFacePass; }
+            GLenum getBackFaceFunction() const { return backFaceFunction; }
+
         private:
             bool depthTest = false;
             GLboolean depthMask = GL_TRUE;
             GLenum compareFunction;
+            bool stencilTest = false;
+            GLuint stencilReadMask = 0xFFFFFFFF;
+            GLuint stencilWriteMask = 0xFFFFFFFF;
+            GLenum frontFaceFail;
+            GLenum frontFaceDepthFail;
+            GLenum frontFacePass;
+            GLenum frontFaceFunction;
+            GLenum backFaceFail;
+            GLenum backFaceDepthFail;
+            GLenum backFacePass;
+            GLenum backFaceFunction;
         };
     } // namespace graphics
 } // namespace ouzel
