@@ -38,31 +38,5 @@ namespace ouzel
                                                                                        initAlphaOperation,
                                                                                        initColorMask)));
         }
-
-        void BlendState::init(bool newEnableBlending,
-                              Factor newColorBlendSource, Factor newColorBlendDest,
-                              Operation newColorOperation,
-                              Factor newAlphaBlendSource, Factor newAlphaBlendDest,
-                              Operation newAlphaOperation,
-                              uint8_t newColorMask)
-        {
-            enableBlending = newEnableBlending;
-            colorBlendSource = newColorBlendSource;
-            colorBlendDest = newColorBlendDest;
-            colorOperation = newColorOperation;
-            alphaBlendSource = newAlphaBlendSource;
-            alphaBlendDest = newAlphaBlendDest;
-            alphaOperation = newAlphaOperation;
-            colorMask = newColorMask;
-
-            if (resource.getId())
-                resource.getRenderer()->addCommand(std::unique_ptr<Command>(new InitBlendStateCommand(resource.getId(),
-                                                                                                      newEnableBlending,
-                                                                                                      newColorBlendSource, newColorBlendDest,
-                                                                                                      newColorOperation,
-                                                                                                      newAlphaBlendSource, newAlphaBlendDest,
-                                                                                                      newAlphaOperation,
-                                                                                                      newColorMask)));
-        }
     } // namespace graphics
 } // namespace ouzel

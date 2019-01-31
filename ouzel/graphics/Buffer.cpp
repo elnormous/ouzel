@@ -57,46 +57,6 @@ namespace ouzel
                                                                                    initSize)));
         }
 
-        void Buffer::init(Usage newUsage, uint32_t newFlags, uint32_t newSize)
-        {
-            usage = newUsage;
-            flags = newFlags;
-            size = newSize;
-
-            if (resource.getId())
-                resource.getRenderer()->addCommand(std::unique_ptr<Command>(new InitBufferCommand(resource.getId(),
-                                                                                                  newUsage,
-                                                                                                  newFlags,
-                                                                                                  std::vector<uint8_t>(),
-                                                                                                  newSize)));
-        }
-
-        void Buffer::init(Usage newUsage, uint32_t newFlags, const void* newData, uint32_t newSize)
-        {
-            init(newUsage,
-                 newFlags,
-                 std::vector<uint8_t>(static_cast<const uint8_t*>(newData),
-                                      static_cast<const uint8_t*>(newData) + newSize),
-                 newSize);
-        }
-
-        void Buffer::init(Usage newUsage, uint32_t newFlags, const std::vector<uint8_t>& newData, uint32_t newSize)
-        {
-            if (!newData.empty() && newSize != newData.size())
-                throw std::runtime_error("Invalid buffer data");
-
-            usage = newUsage;
-            flags = newFlags;
-            size = newSize;
-
-            if (resource.getId())
-                resource.getRenderer()->addCommand(std::unique_ptr<Command>(new InitBufferCommand(resource.getId(),
-                                                                                                  newUsage,
-                                                                                                  newFlags,
-                                                                                                  newData,
-                                                                                                  newSize)));
-        }
-
         void Buffer::setData(const void* newData, uint32_t newSize)
         {
             if (resource.getId())

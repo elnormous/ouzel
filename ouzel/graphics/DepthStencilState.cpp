@@ -42,35 +42,5 @@ namespace ouzel
                                                                                               initFrontFaceStencil,
                                                                                               initBackFaceStencil)));
         }
-
-        void DepthStencilState::init(bool newDepthTest,
-                                     bool newDepthWrite,
-                                     CompareFunction newCompareFunction,
-                                     bool initStencilEnabled,
-                                     uint32_t newStencilReadMask,
-                                     uint32_t newStencilWriteMask,
-                                     StencilDescriptor initFrontFaceStencil,
-                                     StencilDescriptor initBackFaceStencil)
-        {
-            depthTest = newDepthTest;
-            depthWrite = newDepthWrite;
-            compareFunction = newCompareFunction;
-            stencilEnabled = initStencilEnabled;
-            stencilReadMask = newStencilReadMask;
-            stencilWriteMask = newStencilWriteMask;
-            frontFaceStencil = initFrontFaceStencil;
-            backFaceStencil = initBackFaceStencil;
-
-            if (resource.getId())
-                resource.getRenderer()->addCommand(std::unique_ptr<Command>(new InitDepthStencilStateCommand(resource.getId(),
-                                                                                                             newDepthTest,
-                                                                                                             newDepthWrite,
-                                                                                                             newCompareFunction,
-                                                                                                             initStencilEnabled,
-                                                                                                             newStencilReadMask,
-                                                                                                             newStencilWriteMask,
-                                                                                                             initFrontFaceStencil,
-                                                                                                             initBackFaceStencil)));
-        }
     } // namespace graphics
 } // namespace ouzel

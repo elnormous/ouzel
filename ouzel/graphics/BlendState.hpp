@@ -65,13 +65,6 @@ namespace ouzel
             BlendState(const BlendState&) = delete;
             BlendState& operator=(const BlendState&) = delete;
 
-            void init(bool newEnableBlending,
-                      Factor newColorBlendSource, Factor newColorBlendDest,
-                      Operation newColorOperation,
-                      Factor newAlphaBlendSource, Factor newAlphaBlendDest,
-                      Operation newAlphaOperation,
-                      uint8_t newColorMask = COLOR_MASK_ALL);
-
             inline uintptr_t getResource() const { return resource.getId(); }
 
             inline bool isBlendingEnabled() const { return enableBlending; }

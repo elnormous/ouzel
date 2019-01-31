@@ -65,11 +65,15 @@ namespace ouzel
             boundingBox.min = finalOffset;
             boundingBox.max = finalOffset + Vector2<float>(frameRectangle.size.v[0], frameRectangle.size.v[1]);
 
-            indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer());
-            indexBuffer->init(graphics::Buffer::Usage::INDEX, 0, indices.data(), static_cast<uint32_t>(getVectorSize(indices)));
+            indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
+                                                             graphics::Buffer::Usage::INDEX, 0,
+                                                             indices.data(),
+                                                             static_cast<uint32_t>(getVectorSize(indices)));
 
-            vertexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer());
-            vertexBuffer->init(graphics::Buffer::Usage::VERTEX, 0, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)));
+            vertexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
+                                                              graphics::Buffer::Usage::VERTEX,0,
+                                                              vertices.data(),
+                                                              static_cast<uint32_t>(getVectorSize(vertices)));
         }
 
         SpriteData::Frame::Frame(const std::string& frameName,
@@ -82,11 +86,15 @@ namespace ouzel
             for (const graphics::Vertex& vertex : vertices)
                 boundingBox.insertPoint(Vector2<float>(vertex.position));
 
-            indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer());
-            indexBuffer->init(graphics::Buffer::Usage::INDEX, 0, indices.data(), static_cast<uint32_t>(getVectorSize(indices)));
+            indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
+                                                             graphics::Buffer::Usage::INDEX, 0,
+                                                             indices.data(),
+                                                             static_cast<uint32_t>(getVectorSize(indices)));
 
-            vertexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer());
-            vertexBuffer->init(graphics::Buffer::Usage::VERTEX, 0, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)));
+            vertexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
+                                                              graphics::Buffer::Usage::VERTEX, 0,
+                                                              vertices.data(),
+                                                              static_cast<uint32_t>(getVectorSize(vertices)));
         }
 
         SpriteData::Frame::Frame(const std::string& frameName,
@@ -107,11 +115,15 @@ namespace ouzel
             Vector2<float> finalOffset(-sourceSize.v[0] * pivot.v[0] + sourceOffset.v[0],
                                 -sourceSize.v[1] * pivot.v[1] + (sourceSize.v[1] - frameRectangle.size.v[1] - sourceOffset.v[1]));
 
-            indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer());
-            indexBuffer->init(graphics::Buffer::Usage::INDEX, 0, indices.data(), static_cast<uint32_t>(getVectorSize(indices)));
+            indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
+                                                             graphics::Buffer::Usage::INDEX, 0,
+                                                             indices.data(),
+                                                             static_cast<uint32_t>(getVectorSize(indices)));
 
-            vertexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer());
-            vertexBuffer->init(graphics::Buffer::Usage::VERTEX, 0, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)));
+            vertexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
+                                                              graphics::Buffer::Usage::VERTEX, 0,
+                                                              vertices.data(),
+                                                              static_cast<uint32_t>(getVectorSize(vertices)));
         }
     } // namespace scene
 } // namespace ouzel
