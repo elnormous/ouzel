@@ -36,8 +36,31 @@ namespace ouzel
             Buffer(const Buffer&) = delete;
             Buffer& operator=(const Buffer&) = delete;
 
-            Buffer(Buffer&&) = delete;
-            Buffer& operator=(Buffer&&) = delete;
+            Buffer(Buffer&& other):
+                renderer(other.renderer)
+            {
+                resource = other.resource;
+                usage = other.usage;
+                flags = other.flags;
+                size = other.size;
+
+                other.resource = 0;
+            }
+
+            Buffer& operator=(Buffer&& other)
+            {
+                if (&other != this)
+                {
+                    resource = other.resource;
+                    usage = other.usage;
+                    flags = other.flags;
+                    size = other.size;
+
+                    other.resource = 0;
+                }
+
+                return *this;
+            }
 
             void init(Usage newUsage, uint32_t newFlags, uint32_t newSize = 0);
             void init(Usage newUsage, uint32_t newFlags, const void* newData, uint32_t newSize);
