@@ -25,8 +25,6 @@ namespace ouzel
                 case DepthStencilState::CompareFunction::ALWAYS: return MTLCompareFunctionAlways;
                 default: return MTLCompareFunctionNever;
             }
-
-            return MTLCompareFunctionNever;
         }
 
         static MTLStencilOperation getStencilOperation(DepthStencilState::StencilOperation stencilOperation)
