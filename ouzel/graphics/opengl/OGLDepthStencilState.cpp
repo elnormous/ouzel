@@ -23,6 +23,7 @@ namespace ouzel
                 case DepthStencilState::CompareFunction::NOT_EQUAL: return GL_NOTEQUAL;
                 case DepthStencilState::CompareFunction::GREATER_EQUAL: return GL_GEQUAL;
                 case DepthStencilState::CompareFunction::ALWAYS: return GL_ALWAYS;
+                default: return GL_NEVER;
             }
 
             return GL_NEVER;
@@ -40,6 +41,7 @@ namespace ouzel
                 case DepthStencilState::StencilOperation::INVERT: return GL_INVERT;
                 case DepthStencilState::StencilOperation::INCREMENT_WRAP: return GL_INCR_WRAP;
                 case DepthStencilState::StencilOperation::DECREMENT_WRAP: return GL_DECR_WRAP;
+                default: return GL_KEEP;
             }
         }
 

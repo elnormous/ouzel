@@ -23,6 +23,7 @@ namespace ouzel
                 case DepthStencilState::CompareFunction::NOT_EQUAL: return MTLCompareFunctionNotEqual;
                 case DepthStencilState::CompareFunction::GREATER_EQUAL: return MTLCompareFunctionGreaterEqual;
                 case DepthStencilState::CompareFunction::ALWAYS: return MTLCompareFunctionAlways;
+                default: return MTLCompareFunctionNever;
             }
 
             return MTLCompareFunctionNever;
@@ -40,6 +41,7 @@ namespace ouzel
                 case DepthStencilState::StencilOperation::INVERT: return MTLStencilOperationInvert;
                 case DepthStencilState::StencilOperation::INCREMENT_WRAP: return MTLStencilOperationIncrementWrap;
                 case DepthStencilState::StencilOperation::DECREMENT_WRAP: return MTLStencilOperationDecrementWrap;
+                default: return MTLStencilOperationKeep;
             }
         }
 

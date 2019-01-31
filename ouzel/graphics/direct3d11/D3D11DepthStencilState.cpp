@@ -23,6 +23,7 @@ namespace ouzel
                 case DepthStencilState::CompareFunction::NOT_EQUAL: return D3D11_COMPARISON_NOT_EQUAL;
                 case DepthStencilState::CompareFunction::GREATER_EQUAL: return D3D11_COMPARISON_GREATER_EQUAL;
                 case DepthStencilState::CompareFunction::ALWAYS: return D3D11_COMPARISON_ALWAYS;
+                default: return D3D11_COMPARISON_NEVER;
             }
 
             return D3D11_COMPARISON_NEVER;
@@ -40,6 +41,7 @@ namespace ouzel
                 case DepthStencilState::StencilOperation::INVERT: return D3D11_STENCIL_OP_INVERT;
                 case DepthStencilState::StencilOperation::INCREMENT_WRAP: return D3D11_STENCIL_OP_INCR;
                 case DepthStencilState::StencilOperation::DECREMENT_WRAP: return D3D11_STENCIL_OP_DECR;
+                default: return D3D11_STENCIL_OP_KEEP;
             }
         }
 
