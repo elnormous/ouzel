@@ -3,7 +3,7 @@
 #ifndef OUZEL_GRAPHICS_DEPTHSTENCILSTATE_HPP
 #define OUZEL_GRAPHICS_DEPTHSTENCILSTATE_HPP
 
-#include <cstdint>
+#include "graphics/GraphicsResource.hpp"
 
 namespace ouzel
 {
@@ -60,48 +60,9 @@ namespace ouzel
                               uint32_t initStencilWriteMask,
                               const StencilDescriptor& initFrontFaceStencil,
                               const StencilDescriptor& initBackFaceStencil);
-            ~DepthStencilState();
 
             DepthStencilState(const DepthStencilState&) = delete;
             DepthStencilState& operator=(const DepthStencilState&) = delete;
-
-            DepthStencilState(DepthStencilState&& other):
-                resource(other.resource),
-                renderer(other.renderer),
-                depthTest(other.depthTest),
-                depthWrite(other.depthWrite),
-                compareFunction(other.compareFunction),
-                stencilEnabled(other.stencilEnabled),
-                stencilReadMask(other.stencilReadMask),
-                stencilWriteMask(other.stencilWriteMask),
-                frontFaceStencil(other.frontFaceStencil),
-                backFaceStencil(other.backFaceStencil)
-            {
-                other.renderer = nullptr;
-                other.resource = 0;
-            }
-
-            DepthStencilState& operator=(DepthStencilState&& other)
-            {
-                if (&other != this)
-                {
-                    resource = other.resource;
-                    renderer = other.renderer;
-                    depthTest = other.depthTest;
-                    depthWrite = other.depthWrite;
-                    compareFunction = other.compareFunction;
-                    stencilEnabled = other.stencilEnabled;
-                    stencilReadMask = other.stencilReadMask;
-                    stencilWriteMask = other.stencilWriteMask;
-                    frontFaceStencil = other.frontFaceStencil;
-                    backFaceStencil = other.backFaceStencil;
-
-                    other.renderer = nullptr;
-                    other.resource = 0;
-                }
-
-                return *this;
-            }
 
             void init(bool newDepthTest,
                       bool newDepthWrite,
@@ -112,11 +73,10 @@ namespace ouzel
                       StencilDescriptor initFrontFaceStencil,
                       StencilDescriptor initBackFaceStencil);
 
-            inline uintptr_t getResource() const { return resource; }
+            inline uintptr_t getResource() const { return resource.getId(); }
 
         private:
-            Renderer* renderer = nullptr;
-            uintptr_t resource = 0;
+            Resource resource;
 
             bool depthTest = false;
             bool depthWrite = false;

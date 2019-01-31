@@ -89,6 +89,7 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/graphics/BlendState.cpp \
     ../../ouzel/graphics/Buffer.cpp \
 	../../ouzel/graphics/DepthStencilState.cpp \
+	../../ouzel/graphics/GraphicsResource.cpp \
     ../../ouzel/graphics/ImageData.cpp \
     ../../ouzel/graphics/Material.cpp \
     ../../ouzel/graphics/Renderer.cpp \

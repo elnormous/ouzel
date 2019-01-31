@@ -3,8 +3,8 @@
 #ifndef OUZEL_GRAPHICS_TEXTURE_HPP
 #define OUZEL_GRAPHICS_TEXTURE_HPP
 
-#include <cstdint>
 #include <vector>
+#include "graphics/GraphicsResource.hpp"
 #include "graphics/PixelFormat.hpp"
 #include "math/Color.hpp"
 #include "math/Size2.hpp"
@@ -81,52 +81,9 @@ namespace ouzel
                     const Size2<uint32_t>& newSize,
                     uint32_t newFlags = 0,
                     PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
-            ~Texture();
 
             Texture(const Texture&) = delete;
             Texture& operator=(const Texture&) = delete;
-
-            Texture(Texture&& other):
-                resource(other.resource),
-                renderer(other.renderer),
-                dimensions(other.dimensions),
-                size(other.size),
-                flags(other.flags),
-                mipmaps(other.mipmaps),
-                sampleCount(other.sampleCount),
-                pixelFormat(other.pixelFormat),
-                filter(other.filter),
-                addressX(other.addressX),
-                addressY(other.addressY),
-                maxAnisotropy(other.maxAnisotropy)
-            {
-                other.renderer = nullptr;
-                other.resource = 0;
-            }
-
-            Texture& operator=(Texture&& other)
-            {
-                if (&other != this)
-                {
-                    resource = other.resource;
-                    renderer = other.renderer;
-                    dimensions = other.dimensions;
-                    size = other.size;
-                    flags = other.flags;
-                    mipmaps = other.mipmaps;
-                    sampleCount = other.sampleCount;
-                    pixelFormat = other.pixelFormat;
-                    filter = other.filter;
-                    addressX = other.addressX;
-                    addressY = other.addressY;
-                    maxAnisotropy = other.maxAnisotropy;
-
-                    other.renderer = nullptr;
-                    other.resource = 0;
-                }
-
-                return *this;
-            }
 
             void init(const Size2<uint32_t>& newSize,
                       uint32_t newFlags = 0,
@@ -143,7 +100,7 @@ namespace ouzel
                       uint32_t newFlags = 0,
                       PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
 
-            inline uintptr_t getResource() const { return resource; }
+            inline uintptr_t getResource() const { return resource.getId(); }
 
             inline const Size2<uint32_t>& getSize() const { return size; }
 
@@ -169,8 +126,7 @@ namespace ouzel
             inline PixelFormat getPixelFormat() const { return pixelFormat; }
 
         private:
-            Renderer* renderer = nullptr;
-            uintptr_t resource = 0;
+            Resource resource;
 
             Dimensions dimensions = Dimensions::TWO;
             Size2<uint32_t> size;

@@ -106,6 +106,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/BlendState.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Buffer.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/DepthStencilState.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/GraphicsResource.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/ImageData.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Material.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Renderer.cpp \

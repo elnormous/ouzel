@@ -5,6 +5,7 @@
 
 #include <memory>
 #include <vector>
+#include "graphics/GraphicsResource.hpp"
 #include "math/Color.hpp"
 #include "math/Size2.hpp"
 
@@ -23,38 +24,11 @@ namespace ouzel
             }
             
             explicit RenderTarget(Renderer& initRenderer);
-            ~RenderTarget();
 
             RenderTarget(const RenderTarget&) = delete;
             RenderTarget& operator=(const RenderTarget&) = delete;
 
-            RenderTarget(RenderTarget&& other):
-                resource(other.resource),
-                renderer(other.renderer),
-                colorTextures(std::move(other.colorTextures)),
-                depthTexture(std::move(other.depthTexture))
-            {
-                other.renderer = nullptr;
-                other.resource = 0;
-            }
-
-            RenderTarget& operator=(RenderTarget&& other)
-            {
-                if (&other != this)
-                {
-                    resource = other.resource;
-                    renderer = other.renderer;
-                    colorTextures = std::move(other.colorTextures);
-                    depthTexture = std::move(other.depthTexture);
-
-                    other.renderer = nullptr;
-                    other.resource = 0;
-                }
-
-                return *this;
-            }
-
-            inline uintptr_t getResource() const { return resource; }
+            inline uintptr_t getResource() const { return resource.getId(); }
 
             void addColorTexture(const std::shared_ptr<Texture>& texture);
             void removeColorTexture(const std::shared_ptr<Texture>& texture);
@@ -65,8 +39,8 @@ namespace ouzel
             inline const std::shared_ptr<Texture>& getDepthTexture() const { return depthTexture; }
 
         private:
-            Renderer* renderer = nullptr;
-            uintptr_t resource = 0;
+            Resource resource;
+
             std::vector<std::shared_ptr<Texture>> colorTextures;
             std::shared_ptr<Texture> depthTexture;
         };

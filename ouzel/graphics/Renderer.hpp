@@ -80,7 +80,10 @@ namespace ouzel
                                     std::vector<std::vector<float>> vertexShaderConstants);
             void setTextures(const std::vector<uintptr_t>& textures);
             void present();
-            void addCommand(std::unique_ptr<Command>&& command);
+            void addCommand(std::unique_ptr<Command>&& command)
+            {
+                commandBuffer.pushCommand(std::move(command));
+            }
 
             void waitForNextFrame();
             inline bool getRefillQueue() const { return refillQueue; }
