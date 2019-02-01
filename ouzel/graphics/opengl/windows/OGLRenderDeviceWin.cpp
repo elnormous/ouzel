@@ -169,11 +169,9 @@ namespace ouzel
             if (!deviceContext)
                 throw std::runtime_error("Failed to get window's device context");
 
-            PFNWGLGETEXTENSIONSSTRINGARBPROC wglGetExtensionsStringProc = reinterpret_cast<PFNWGLGETEXTENSIONSSTRINGARBPROC>(wglGetProcAddress("wglGetExtensionsStringARB"));
-
             std::vector<std::string> extensions;
 
-            if (wglGetExtensionsStringProc)
+            if (PFNWGLGETEXTENSIONSSTRINGARBPROC wglGetExtensionsStringProc = reinterpret_cast<PFNWGLGETEXTENSIONSSTRINGARBPROC>(wglGetProcAddress("wglGetExtensionsStringARB")))
             {
                 if (const char* extensionPtr = wglGetExtensionsStringProc(deviceContext))
                 {
@@ -187,11 +185,14 @@ namespace ouzel
             }
 
             PFNWGLCHOOSEPIXELFORMATARBPROC wglChoosePixelFormatProc = nullptr;
+            PFNWGLCREATECONTEXTATTRIBSARBPROC wglCreateContextAttribsProc = nullptr;
 
             for (const std::string& extension : extensions)
             {
                 if (extension == "WGL_ARB_pixel_format")
                     wglChoosePixelFormatProc = reinterpret_cast<PFNWGLCHOOSEPIXELFORMATARBPROC>(wglGetProcAddress("wglChoosePixelFormatARB"));
+                else if (extension == "WGL_ARB_create_context")
+                    wglCreateContextAttribsProc = reinterpret_cast<PFNWGLCREATECONTEXTATTRIBSARBPROC>(wglGetProcAddress("wglCreateContextAttribsARB"));
             }
 
             int pixelFormat = 0;
@@ -255,8 +256,6 @@ namespace ouzel
 
             if (!SetPixelFormat(deviceContext, pixelFormat, &pixelFormatDesc))
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to set pixel format");
-
-            PFNWGLCREATECONTEXTATTRIBSARBPROC wglCreateContextAttribsProc = reinterpret_cast<PFNWGLCREATECONTEXTATTRIBSARBPROC>(wglGetProcAddress("wglCreateContextAttribsARB"));
 
             if (wglCreateContextAttribsProc)
             {
