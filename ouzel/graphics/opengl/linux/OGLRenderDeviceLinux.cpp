@@ -112,9 +112,15 @@ namespace ouzel
             if (!glXQueryExtension(engineLinux->getDisplay(), &errorBase, &eventBase))
                 throw std::runtime_error("X server has no OpenGL GLX extension");
 
+            int glxMajor;
+            int glxMinor;
+            if (!glXQueryVersion(engineLinux->getDisplay(), &glxMajor, &glxMinor))
+                throw std::runtime_error("Failed to get GLX version");
+
+            engine->log(Log::Level::ALL) << "GLX version: " << glxMajor << "." << glxMinor;
+
             Screen* screen = XDefaultScreenOfDisplay(engineLinux->getDisplay());
             int screenIndex = XScreenNumberOfScreen(screen);
-
 
             GLXContext tempContext = glXCreateContext(engineLinux->getDisplay(), windowLinux->getVisualInfo(), None, GL_TRUE);
             if (!tempContext)
