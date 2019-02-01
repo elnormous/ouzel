@@ -16,7 +16,7 @@ namespace ouzel
     {
         class Layer;
 
-        class Camera: public Component
+        class Camera final: public Component
         {
             friend Layer;
         public:
@@ -40,7 +40,7 @@ namespace ouzel
             explicit Camera(const Matrix4<float>& initProjection);
             explicit Camera(const Size2<float>& initTargetContentSize = Size2<float>(), ScaleMode initScaleMode = ScaleMode::NONE);
             explicit Camera(float initFov, float initNearPlane = 1.0F, float initFarPlane = 100.0F);
-            virtual ~Camera();
+            ~Camera();
 
             inline ProjectionMode getProjectionMode() const { return projectionMode; }
             void setProjectionMode(ProjectionMode newProjectionMode) { projectionMode = newProjectionMode; }
