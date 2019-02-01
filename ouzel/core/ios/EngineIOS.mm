@@ -132,19 +132,19 @@ namespace ouzel
         for (int i = 0; i < initArgc; ++i)
             args.push_back(initArgv[i]);
 
+        pool = [[NSAutoreleasePool alloc] init];
         executeHanlder = [[ExecuteHandler alloc] initWithEngine:this];
     }
 
     EngineIOS::~EngineIOS()
     {
         if (executeHanlder) [executeHanlder release];
+        if (pool) [pool release];
     }
 
     void EngineIOS::run()
     {
-        NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
         UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
-        [pool release];
     }
 
     void EngineIOS::executeOnMainThread(const std::function<void()>& func)
