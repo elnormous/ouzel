@@ -4,6 +4,7 @@
 
 #if defined(__linux__) && !defined(__ANDROID__) && OUZEL_COMPILE_OPENGL
 
+#include <sstream>
 #if OUZEL_SUPPORTS_X11
 #  include <X11/Xlib.h>
 #  include <X11/extensions/xf86vmode.h>
@@ -106,12 +107,36 @@ namespace ouzel
             EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
 
             // make sure OpenGL's GLX extension supported
-            int dummy;
-            if (!glXQueryExtension(engineLinux->getDisplay(), &dummy, &dummy))
+            int errorBase;
+            int eventBase;
+            if (!glXQueryExtension(engineLinux->getDisplay(), &errorBase, &eventBase))
                 throw std::runtime_error("X server has no OpenGL GLX extension");
 
             Screen* screen = XDefaultScreenOfDisplay(engineLinux->getDisplay());
             int screenIndex = XScreenNumberOfScreen(screen);
+
+            std::vector<std::string> extensions;
+
+            if (const char* extensionsPtr = glXQueryExtensionsString(engineLinux->getDisplay(), screenIndex))
+            {
+                std::istringstream extensionStringStream(reinterpret_cast<const char*>(extensionPtr));
+
+                for (std::string extension; extensionStringStream >> extension;)
+                    extensions.push_back(extension);
+
+                engine->log(Log::Level::ALL) << "Supported GLX extensions: " << extensions;
+            }
+
+            PFNGLXCREATECONTEXTATTRIBSARBPROC glXCreateContextAttribsProc = nullptr;
+            PFNGLXSWAPINTERVALEXTPROC glXSwapIntervalEXTProc = nullptr;
+
+            for (const std::string& extension : extensions)
+            {
+                if (extension == "GLX_ARB_create_context")
+                    glXCreateContextAttribsProc = reinterpret_cast<PFNGLXCREATECONTEXTATTRIBSARBPROC>(glXGetProcAddress(reinterpret_cast<const GLubyte*>("glXCreateContextAttribsARB")));
+                else if (extension == "GLX_EXT_swap_control")
+                    glXSwapIntervalEXTProc = reinterpret_cast<PFNGLXSWAPINTERVALEXTPROC>(glXGetProcAddress(reinterpret_cast<const GLubyte*>("glXSwapIntervalEXT")));
+            }
 
             int fbcount = 0;
 
@@ -135,8 +160,6 @@ namespace ouzel
             std::unique_ptr<GLXFBConfig, int(*)(void*)> frameBufferConfig(glXChooseFBConfig(engineLinux->getDisplay(), screenIndex, attributes, &fbcount), XFree);
             if (frameBufferConfig)
             {
-                PFNGLXCREATECONTEXTATTRIBSARBPROC glXCreateContextAttribsProc = reinterpret_cast<PFNGLXCREATECONTEXTATTRIBSARBPROC>(glXGetProcAddress(reinterpret_cast<const GLubyte*>("glXCreateContextAttribsARB")));
-
                 if (glXCreateContextAttribsProc)
                 {
                     // create an OpenGL rendering context
@@ -184,10 +207,8 @@ namespace ouzel
             if (!glXMakeCurrent(engineLinux->getDisplay(), windowLinux->getNativeWindow(), context))
                 throw std::runtime_error("Failed to make GLX context current");
 
-            PFNGLXSWAPINTERVALEXTPROC glXSwapIntervalEXT = reinterpret_cast<PFNGLXSWAPINTERVALEXTPROC>(glXGetProcAddress(reinterpret_cast<const GLubyte*>("glXSwapIntervalEXT")));
-
-            if (glXSwapIntervalEXT)
-                glXSwapIntervalEXT(engineLinux->getDisplay(), windowLinux->getNativeWindow(), newVerticalSync ? 1 : 0);
+            if (glXSwapIntervalEXTProc)
+                glXSwapIntervalEXTProc(engineLinux->getDisplay(), windowLinux->getNativeWindow(), newVerticalSync ? 1 : 0);
 #elif OUZEL_OPENGL_INTERFACE_EGL
             display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
 
