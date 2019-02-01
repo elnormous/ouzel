@@ -4,6 +4,7 @@
 
 #if defined(_WIN32) && OUZEL_COMPILE_OPENGL
 
+#include <sstream>
 #include <system_error>
 #include "GL/glcorearb.h"
 #include "GL/glext.h"
@@ -162,14 +163,36 @@ namespace ouzel
         {
             TempContext tempContext;
 
-            PFNWGLCHOOSEPIXELFORMATARBPROC wglChoosePixelFormatProc = reinterpret_cast<PFNWGLCHOOSEPIXELFORMATARBPROC>(wglGetProcAddress("wglChoosePixelFormatARB"));
-
             NativeWindowWin* windowWin = static_cast<NativeWindowWin*>(newWindow->getNativeWindow());
 
             deviceContext = GetDC(windowWin->getNativeWindow());
-
             if (!deviceContext)
                 throw std::runtime_error("Failed to get window's device context");
+
+            PFNWGLGETEXTENSIONSSTRINGARBPROC wglGetExtensionsStringProc = reinterpret_cast<PFNWGLGETEXTENSIONSSTRINGARBPROC>(wglGetProcAddress("wglGetExtensionsStringARB"));
+
+            std::vector<std::string> extensions;
+
+            if (wglGetExtensionsStringProc)
+            {
+                if (const char* extensionPtr = wglGetExtensionsStringProc(deviceContext))
+                {
+                    std::istringstream extensionStringStream(reinterpret_cast<const char*>(extensionPtr));
+
+                    for (std::string extension; extensionStringStream >> extension;)
+                        extensions.push_back(extension);
+
+                    engine->log(Log::Level::ALL) << "Supported WGL extensions: " << extensions;
+                }
+            }
+
+            PFNWGLCHOOSEPIXELFORMATARBPROC wglChoosePixelFormatProc = nullptr;
+
+            for (const std::string& extension : extensions)
+            {
+                if (extension == "WGL_ARB_pixel_format")
+                    wglChoosePixelFormatProc = reinterpret_cast<PFNWGLCHOOSEPIXELFORMATARBPROC>(wglGetProcAddress("wglChoosePixelFormatARB"));
+            }
 
             int pixelFormat = 0;
 
