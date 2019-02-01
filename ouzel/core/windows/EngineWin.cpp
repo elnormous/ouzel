@@ -67,6 +67,15 @@ namespace ouzel
                 args.push_back(buffer.data());
             }
         }
+
+        HRESULT hr;
+        if (FAILED(hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED)))
+            throw std::system_error(hr, std::system_category(), "Failed to initialize COM");
+
+#ifdef DEBUG
+        if (!AllocConsole())
+            log(Log::Level::INFO) << "Attached to console";
+#endif
     }
 
     EngineWin::~EngineWin()
@@ -93,15 +102,6 @@ namespace ouzel
 
     void EngineWin::run()
     {
-        HRESULT hr;
-        if (FAILED(hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED)))
-            throw std::system_error(hr, std::system_category(), "Failed to initialize COM");
-
-#ifdef DEBUG
-        if (!AllocConsole())
-            log(Log::Level::INFO) << "Attached to console";
-#endif
-
         init();
         start();
 
