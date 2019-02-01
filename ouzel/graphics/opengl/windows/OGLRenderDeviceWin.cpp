@@ -173,9 +173,9 @@ namespace ouzel
 
             if (PFNWGLGETEXTENSIONSSTRINGARBPROC wglGetExtensionsStringProc = reinterpret_cast<PFNWGLGETEXTENSIONSSTRINGARBPROC>(wglGetProcAddress("wglGetExtensionsStringARB")))
             {
-                if (const char* extensionPtr = wglGetExtensionsStringProc(deviceContext))
+                if (const char* extensionsPtr = wglGetExtensionsStringProc(deviceContext))
                 {
-                    std::istringstream extensionStringStream(reinterpret_cast<const char*>(extensionPtr));
+                    std::istringstream extensionStringStream(reinterpret_cast<const char*>(extensionsPtr));
 
                     for (std::string extension; extensionStringStream >> extension;)
                         extensions.push_back(extension);

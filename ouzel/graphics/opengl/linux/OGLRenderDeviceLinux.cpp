@@ -119,7 +119,7 @@ namespace ouzel
 
             if (const char* extensionsPtr = glXQueryExtensionsString(engineLinux->getDisplay(), screenIndex))
             {
-                std::istringstream extensionStringStream(reinterpret_cast<const char*>(extensionPtr));
+                std::istringstream extensionStringStream(reinterpret_cast<const char*>(extensionsPtr));
 
                 for (std::string extension; extensionStringStream >> extension;)
                     extensions.push_back(extension);
