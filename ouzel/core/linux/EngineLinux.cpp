@@ -258,22 +258,7 @@ namespace ouzel
     {
         for (int i = 0; i < initArgc; ++i)
             args.push_back(initArgv[i]);
-    }
 
-    EngineLinux::~EngineLinux()
-    {
-#if OUZEL_SUPPORTS_X11
-        if (display) XCloseDisplay(display);
-#else
-        if (display != DISPMANX_NO_HANDLE)
-            vc_dispmanx_display_close(display);
-
-        bcm_host_deinit();
-#endif
-    }
-
-    void EngineLinux::run()
-    {
 #if OUZEL_SUPPORTS_X11
         if (!XInitThreads())
             throw std::runtime_error("Failed to initialize thread support");
@@ -291,7 +276,22 @@ namespace ouzel
             throw std::runtime_error("Failed to open display");
 
 #endif
+    }
 
+    EngineLinux::~EngineLinux()
+    {
+#if OUZEL_SUPPORTS_X11
+        if (display) XCloseDisplay(display);
+#else
+        if (display != DISPMANX_NO_HANDLE)
+            vc_dispmanx_display_close(display);
+
+        bcm_host_deinit();
+#endif
+    }
+
+    void EngineLinux::run()
+    {
         init();
         start();
 
