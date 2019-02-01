@@ -115,6 +115,13 @@ namespace ouzel
             Screen* screen = XDefaultScreenOfDisplay(engineLinux->getDisplay());
             int screenIndex = XScreenNumberOfScreen(screen);
 
+
+            GLXContext tempContext = glXCreateContext(engineLinux->getDisplay(), windowLinux->getVisualInfo(), None, GL_TRUE);
+            if (!tempContext)
+                throw std::runtime_error("Failed to create GLX context");
+            if (!glXMakeCurrent(engineLinux->getDisplay(), windowLinux->getNativeWindow(), tempContext))
+                throw std::runtime_error("Failed to make GLX context current");
+
             std::vector<std::string> extensions;
 
             if (const char* extensionsPtr = glXQueryExtensionsString(engineLinux->getDisplay(), screenIndex))
@@ -126,6 +133,9 @@ namespace ouzel
 
                 engine->log(Log::Level::ALL) << "Supported GLX extensions: " << extensions;
             }
+
+            glXMakeCurrent(engineLinux->getDisplay(), None, nullptr);
+            glXDestroyContext(engineLinux->getDisplay(), tempContext);
 
             PFNGLXCREATECONTEXTATTRIBSARBPROC glXCreateContextAttribsProc = nullptr;
             PFNGLXSWAPINTERVALEXTPROC glXSwapIntervalEXTProc = nullptr;
