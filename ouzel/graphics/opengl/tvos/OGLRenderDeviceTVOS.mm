@@ -87,14 +87,12 @@ namespace ouzel
             {
                 context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
 
-                if (context)
-                {
-                    apiMajorVersion = 2;
-                    apiMinorVersion = 0;
-                    engine->log(Log::Level::INFO) << "EAGL OpenGL ES 2 context created";
-                }
-                else
+                if (!context)
                     throw std::runtime_error("Failed to create EAGL context");
+                
+                apiMajorVersion = 2;
+                apiMinorVersion = 0;
+                engine->log(Log::Level::INFO) << "EAGL OpenGL ES 2 context created";
             }
 
             if (![EAGLContext setCurrentContext:context])
