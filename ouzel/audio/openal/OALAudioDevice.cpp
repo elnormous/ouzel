@@ -123,13 +123,13 @@ namespace ouzel
                 engine->log(Log::Level::INFO) << "Using " << reinterpret_cast<const char*>(audioRenderer) << " audio renderer";
 
             std::vector<std::string> extensions;
-            const ALchar* extensionPtr = alGetString(AL_EXTENSIONS);
+            const ALchar* extensionsPtr = alGetString(AL_EXTENSIONS);
 
-            if ((error = alGetError()) != AL_NO_ERROR || !extensionPtr)
+            if ((error = alGetError()) != AL_NO_ERROR || !extensionsPtr)
                 engine->log(Log::Level::WARN) << "Failed to get OpenGL extensions";
             else
             {
-                std::istringstream extensionStringStream(reinterpret_cast<const char*>(extensionPtr));
+                std::istringstream extensionStringStream(reinterpret_cast<const char*>(extensionsPtr));
 
                 for (std::string extension; extensionStringStream >> extension;)
                     extensions.push_back(extension);

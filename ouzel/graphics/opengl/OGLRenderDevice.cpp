@@ -498,13 +498,13 @@ namespace ouzel
             }
             else
             {
-                const GLubyte* extensionPtr = glGetStringProc(GL_EXTENSIONS);
+                const GLubyte* extensionsPtr = glGetStringProc(GL_EXTENSIONS);
 
-                if ((error = glGetErrorProc()) != GL_NO_ERROR || !extensionPtr)
+                if ((error = glGetErrorProc()) != GL_NO_ERROR || !extensionsPtr)
                     engine->log(Log::Level::WARN) << "Failed to get OpenGL extensions";
                 else
                 {
-                    std::istringstream extensionStringStream(reinterpret_cast<const char*>(extensionPtr));
+                    std::istringstream extensionStringStream(reinterpret_cast<const char*>(extensionsPtr));
 
                     for (std::string extension; extensionStringStream >> extension;)
                         extensions.push_back(extension);
