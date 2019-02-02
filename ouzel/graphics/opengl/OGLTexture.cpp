@@ -59,6 +59,8 @@ namespace ouzel
                 {
                     case PixelFormat::A8_UNORM: return GL_ALPHA;
                     case PixelFormat::RGBA8_UNORM: return GL_RGBA;
+                    case PixelFormat::DEPTH: return GL_DEPTH_COMPONENT24;
+                    case PixelFormat::DEPTH_STENCIL: return GL_DEPTH24_STENCIL8;
                     default: return GL_NONE;
                 }
             }
@@ -191,7 +193,7 @@ namespace ouzel
                 case PixelFormat::RGBA16_FLOAT:
                 case PixelFormat::RGBA32_FLOAT:
                 case PixelFormat::DEPTH:
-                    return GL_FLOAT;
+                    return GL_UNSIGNED_INT;
                 case PixelFormat::DEPTH_STENCIL:
                     return GL_UNSIGNED_INT_24_8;
                 default:
