@@ -108,8 +108,6 @@ namespace ouzel
             updateThread.join();
         }
 #endif
-
-        engine = nullptr;
     }
 
     void Engine::init()
