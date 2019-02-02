@@ -192,7 +192,7 @@ namespace ouzel
         {
             size = newSize;
 
-            device->executeOnRenderThread(std::bind(&RenderDevice::setSize, device.get(), size));
+            addCommand(std::unique_ptr<Command>(new ResizeCommand(newSize)));
         }
 
         void Renderer::saveScreenshot(const std::string& filename)

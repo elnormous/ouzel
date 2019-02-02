@@ -174,10 +174,8 @@ namespace ouzel
                 throw std::runtime_error("Failed to start display link");
         }
 
-        void OGLRenderDeviceMacOS::setSize(const Size2<uint32_t>& newSize)
+        void OGLRenderDeviceMacOS::resizeFrameBuffer()
         {
-            OGLRenderDevice::setSize(newSize);
-
             [openGLContext update];
         }
 

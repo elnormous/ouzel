@@ -57,7 +57,6 @@ namespace ouzel
 
             virtual void process();
 
-            inline const Size2<uint32_t>& getSize() const { return size; }
             inline uint32_t getSampleCount() const { return sampleCount; }
             inline Texture::Filter getTextureFilter() const { return textureFilter; }
             inline uint32_t getMaxAnisotropy() const { return maxAnisotropy; }
@@ -122,7 +121,6 @@ namespace ouzel
                               bool newDebugRenderer);
 
             void executeAll();
-            virtual void setSize(const Size2<uint32_t>& newSize);
 
             virtual void generateScreenshot(const std::string& filename);
 
@@ -149,8 +147,6 @@ namespace ouzel
 
             Matrix4<float> projectionTransform;
             Matrix4<float> renderTargetProjectionTransform;
-
-            Size2<uint32_t> size;
 
             uint32_t drawCallCount = 0;
 
