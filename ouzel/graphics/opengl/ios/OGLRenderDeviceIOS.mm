@@ -113,10 +113,8 @@ namespace ouzel
             displayLink.start(verticalSync);
         }
 
-        void OGLRenderDeviceIOS::setSize(const Size2<uint32_t>& newSize)
+        void OGLRenderDeviceIOS::resizeFrameBuffer()
         {
-            OGLRenderDevice::setSize(newSize);
-
             createFrameBuffer();
         }
 

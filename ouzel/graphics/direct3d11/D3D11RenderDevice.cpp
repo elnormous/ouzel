@@ -316,14 +316,6 @@ namespace ouzel
             renderThread = std::thread(&D3D11RenderDevice::main, this);
         }
 
-        void D3D11RenderDevice::setSize(const Size2<uint32_t>& newSize)
-        {
-            RenderDevice::setSize(newSize);
-
-            resizeBackBuffer(static_cast<UINT>(size.v[0]),
-                             static_cast<UINT>(size.v[1]));
-        }
-
         void D3D11RenderDevice::setFullscreen(bool newFullscreen)
         {
             executeOnRenderThread([newFullscreen, this]() {
@@ -364,6 +356,14 @@ namespace ouzel
 
                     switch (command->type)
                     {
+                        case Command::Type::RESIZE:
+                        {
+                            auto resizeCommand = static_cast<const ResizeCommand*>(command.get());
+                            resizeBackBuffer(static_cast<UINT>(size.v[0]),
+                                             static_cast<UINT>(size.v[1]));
+                            break;
+                        }
+
                         case Command::Type::PRESENT:
                         {
                             if (currentRenderTarget)
