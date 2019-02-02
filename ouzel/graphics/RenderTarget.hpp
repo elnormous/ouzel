@@ -22,7 +22,7 @@ namespace ouzel
             RenderTarget()
             {
             }
-            
+
             explicit RenderTarget(Renderer& initRenderer);
 
             RenderTarget(const RenderTarget&) = delete;

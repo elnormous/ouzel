@@ -921,7 +921,7 @@ namespace ouzel
                                     setClearDepthValue(clearCommand->clearDepth);
                                     glDepthMaskProc(GL_TRUE);
                                 }
-                                
+
                                 if (clearCommand->clearStencilBuffer)
                                 {
                                     setClearStencilValue(static_cast<GLint>(clearCommand->clearStencil));

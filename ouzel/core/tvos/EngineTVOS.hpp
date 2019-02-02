@@ -32,7 +32,7 @@ namespace ouzel
 
     private:
         NSAutoreleasePoolPtr pool = nullptr;
-        
+
         std::queue<std::function<void()>> executeQueue;
         std::mutex executeMutex;
 
