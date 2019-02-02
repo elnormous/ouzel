@@ -629,7 +629,7 @@ namespace ouzel
             virtual void present();
             void generateScreenshot(const std::string& filename) override;
             void setUniform(GLint location, DataType dataType, const void* data);
-            
+
             GLuint frameBufferId = 0;
             GLsizei frameBufferWidth = 0;
             GLsizei frameBufferHeight = 0;

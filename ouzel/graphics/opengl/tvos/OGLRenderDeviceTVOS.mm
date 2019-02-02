@@ -89,7 +89,7 @@ namespace ouzel
 
                 if (!context)
                     throw std::runtime_error("Failed to create EAGL context");
-                
+
                 apiMajorVersion = 2;
                 apiMinorVersion = 0;
                 engine->log(Log::Level::INFO) << "EAGL OpenGL ES 2 context created";
