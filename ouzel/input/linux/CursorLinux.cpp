@@ -90,12 +90,9 @@ namespace ouzel
         CursorLinux::~CursorLinux()
         {
 #if OUZEL_SUPPORTS_X11
-            if (engine)
-            {
-                EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
-                Display* display = engineLinux->getDisplay();
-                if (cursor != None) XFreeCursor(display, cursor);
-            }
+            EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
+            Display* display = engineLinux->getDisplay();
+            if (cursor != None) XFreeCursor(display, cursor);
 #endif
         }
     } // namespace input

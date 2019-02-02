@@ -77,11 +77,8 @@ namespace ouzel
         InputSystemLinux::~InputSystemLinux()
         {
 #if OUZEL_SUPPORTS_X11
-            if (engine)
-            {
-                EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
-                if (emptyCursor != None) XFreeCursor(engineLinux->getDisplay(), emptyCursor);
-            }
+            EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
+            if (emptyCursor != None) XFreeCursor(engineLinux->getDisplay(), emptyCursor);
 #endif
         }
 
