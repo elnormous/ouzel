@@ -359,8 +359,8 @@ namespace ouzel
                         case Command::Type::RESIZE:
                         {
                             auto resizeCommand = static_cast<const ResizeCommand*>(command.get());
-                            resizeBackBuffer(static_cast<UINT>(size.v[0]),
-                                             static_cast<UINT>(size.v[1]));
+                            resizeBackBuffer(static_cast<UINT>(resizeCommand->size.v[0]),
+                                             static_cast<UINT>(resizeCommand->size.v[1]));
                             break;
                         }
 
