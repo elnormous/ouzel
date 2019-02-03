@@ -147,7 +147,7 @@ namespace ouzel
         UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
     }
 
-    void EngineIOS::executeOnMainThread(const std::function<void()>& func)
+    void EngineIOS::runOnMainThread(const std::function<void()>& func)
     {
         std::unique_lock<std::mutex> lock(executeMutex);
         executeQueue.push(func);

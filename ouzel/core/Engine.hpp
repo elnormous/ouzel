@@ -84,7 +84,7 @@ namespace ouzel
 
         void update();
 
-        virtual void executeOnMainThread(const std::function<void()>& func) = 0;
+        void executeOnMainThread(const std::function<void()>& func);
 
         virtual void openURL(const std::string& url);
 
@@ -96,6 +96,7 @@ namespace ouzel
 
     protected:
         virtual void main();
+        virtual void runOnMainThread(const std::function<void()>& func) = 0;
 
         Logger logger;
         FileSystem fileSystem;

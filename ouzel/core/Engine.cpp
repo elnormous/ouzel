@@ -629,6 +629,11 @@ namespace ouzel
         if (oneUpdatePerFrame) renderer->waitForNextFrame();
     }
 
+    void Engine::executeOnMainThread(const std::function<void()>& func)
+    {
+        if (active) runOnMainThread(func);
+    }
+
     void Engine::main()
     {
         setCurrentThreadName("Application");

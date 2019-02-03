@@ -22,8 +22,6 @@ namespace ouzel
 
         void run();
 
-        void executeOnMainThread(const std::function<void()>& func) override;
-
         void openURL(const std::string& url) override;
 
         void setScreenSaverEnabled(bool newScreenSaverEnabled) override;
@@ -31,6 +29,8 @@ namespace ouzel
         void executeAll();
 
     private:
+        void runOnMainThread(const std::function<void()>& func) override;
+
         NSAutoreleasePoolPtr pool = nullptr;
 
         std::queue<std::function<void()>> executeQueue;

@@ -20,12 +20,13 @@ namespace ouzel
 
         void run();
 
-        void executeOnMainThread(const std::function<void()>& func) override;
         void openURL(const std::string& url) override;
 
         void executeAll();
 
     private:
+        void runOnMainThread(const std::function<void()>& func) override;
+
         std::queue<std::function<void()>> executeQueue;
         std::mutex executeMutex;
     };
