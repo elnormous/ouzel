@@ -21,7 +21,6 @@ namespace ouzel
 
         void run();
 
-        void executeOnMainThread(const std::function<void()>& func) override;
         void openURL(const std::string& url) override;
 
         void setScreenSaverEnabled(bool newScreenSaverEnabled) override;
@@ -33,6 +32,7 @@ namespace ouzel
 #endif
 
     private:
+        void runOnMainThread(const std::function<void()>& func) override;
         void executeAll();
 
         std::queue<std::function<void()>> executeQueue;

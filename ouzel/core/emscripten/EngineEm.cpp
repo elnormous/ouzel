@@ -85,7 +85,7 @@ namespace ouzel
             emscripten_cancel_main_loop();
     }
 
-    void EngineEm::executeOnMainThread(const std::function<void()>& func)
+    void EngineEm::runOnMainThread(const std::function<void()>& func)
     {
         if (func) func();
     }

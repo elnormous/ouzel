@@ -125,7 +125,7 @@ namespace ouzel
         [application run];
     }
 
-    void EngineMacOS::executeOnMainThread(const std::function<void()>& func)
+    void EngineMacOS::runOnMainThread(const std::function<void()>& func)
     {
         std::unique_lock<std::mutex> lock(executeMutex);
         executeQueue.push(func);

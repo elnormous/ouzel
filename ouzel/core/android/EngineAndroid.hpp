@@ -50,7 +50,6 @@ namespace ouzel
 
         void run();
 
-        void executeOnMainThread(const std::function<void()>& func) override;
         void openURL(const std::string& url) override;
 
         void setScreenSaverEnabled(bool newScreenSaverEnabled) override;
@@ -67,6 +66,7 @@ namespace ouzel
 
     private:
         void main() override;
+        void runOnMainThread(const std::function<void()>& func) override;
 
         JavaVM* javaVM = nullptr;
         jclass uriClass = nullptr;

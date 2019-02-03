@@ -469,7 +469,7 @@ namespace ouzel
         exit();
     }
 
-    void EngineLinux::executeOnMainThread(const std::function<void()>& func)
+    void EngineLinux::runOnMainThread(const std::function<void()>& func)
     {
 #if OUZEL_SUPPORTS_X11
         NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(window->getNativeWindow());
