@@ -149,20 +149,28 @@ namespace ouzel
                     if (bitsPerSample == 8)
                     {
                         for (uint32_t i = 0; i < sampleCount; ++i)
-                            samples[i] = 2.0F * static_cast<float>(soundData[i]) / 255.0F - 1.0F;
+                            samples[i] = 2.0F * soundData[i] / 255.0F - 1.0F;
                     }
                     else if (bitsPerSample == 16)
                     {
                         for (uint32_t i = 0; i < sampleCount; ++i)
-                            samples[i] = static_cast<float>(static_cast<int16_t>(soundData[i * 2] |
-                                                                                 (soundData[i * 2 + 1] << 8))) / 32767.0F;
+                            samples[i] = static_cast<int16_t>(soundData[i * 2] |
+                                                              (soundData[i * 2 + 1] << 8)) / 32767.0F;
                     }
                     else if (bitsPerSample == 24)
                     {
                         for (uint32_t i = 0; i < sampleCount; ++i)
                             samples[i] = static_cast<float>(static_cast<int32_t>((soundData[i * 3] << 8) |
                                                                                  (soundData[i * 3 + 1] << 16) |
-                                                                                 (soundData[i * 3 + 2] << 24))) / 2147483648.0F;
+                                                                                 (soundData[i * 3 + 2] << 24)) / 2147483648.0);
+                    }
+                    else if (bitsPerSample == 32)
+                    {
+                        for (uint32_t i = 0; i < sampleCount; ++i)
+                            samples[i] = static_cast<float>(static_cast<int32_t>(soundData[i * 4] |
+                                                                                 (soundData[i * 4 + 1] << 8) |
+                                                                                 (soundData[i * 4 + 2] << 16) |
+                                                                                 (soundData[i * 4 + 2] << 24)) / 2147483648.0);
                     }
                     else
                         throw std::runtime_error("Failed to load sound file, unsupported bit depth");
