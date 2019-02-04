@@ -77,8 +77,8 @@ namespace ouzel
 
         const CoreAudioErrorCategory coreAudioErrorCategory {};
 
-        CAAudioDevice::CAAudioDevice(mixer::Mixer& initMixer):
-            AudioDevice(Driver::COREAUDIO, initMixer)
+        CAAudioDevice::CAAudioDevice(const std::function<void(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)>& initDataGetter):
+            AudioDevice(Driver::COREAUDIO, initDataGetter)
         {
             OSStatus result;
 
@@ -295,8 +295,6 @@ namespace ouzel
 
         void CAAudioDevice::outputCallback(AudioBufferList* ioData)
         {
-            process();
-
             for (UInt32 i = 0; i < ioData->mNumberBuffers; ++i)
             {
                 AudioBuffer* buffer = &ioData->mBuffers[i];

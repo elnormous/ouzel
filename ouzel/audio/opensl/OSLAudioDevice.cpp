@@ -67,8 +67,8 @@ namespace ouzel
             return std::error_code(static_cast<int>(e), openSLErrorCategory);
         }
 
-        OSLAudioDevice::OSLAudioDevice(mixer::Mixer& initMixer):
-            AudioDevice(Driver::OPENSL, initMixer)
+        OSLAudioDevice::OSLAudioDevice(const std::function<void(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)>& initDataGetter):
+            AudioDevice(Driver::OPENSL, initDataGetter)
         {
             SLresult result;
             constexpr SLuint32 engineMixIIDCount = 1;

@@ -158,6 +158,8 @@ namespace ouzel
 
             void Mixer::getData(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)
             {
+                process();
+
                 if (masterBus)
                 {
                     Vector3<float> listenerPosition;

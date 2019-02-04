@@ -26,7 +26,7 @@ namespace ouzel
         class CAAudioDevice final: public AudioDevice
         {
         public:
-            explicit CAAudioDevice(mixer::Mixer& initMixer);
+            explicit CAAudioDevice(const std::function<void(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)>& initDataGetter);
             ~CAAudioDevice();
 
             void outputCallback(AudioBufferList* ioData);
