@@ -162,8 +162,8 @@ namespace ouzel
 
         const WASAPIErrorCategory wasapiErrorCategory{};
 
-        WASAPIAudioDevice::WASAPIAudioDevice(mixer::Mixer& initMixer):
-            AudioDevice(Driver::WASAPI, initMixer)
+        WASAPIAudioDevice::WASAPIAudioDevice(const std::function<void(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)>& initDataGetter):
+            AudioDevice(Driver::WASAPI, initDataGetter)
         {
             HRESULT hr;
             if (FAILED(hr = CoCreateInstance(CLSID_MMDeviceEnumerator, nullptr, CLSCTX_ALL, IID_IMMDeviceEnumerator, reinterpret_cast<LPVOID*>(&enumerator))))

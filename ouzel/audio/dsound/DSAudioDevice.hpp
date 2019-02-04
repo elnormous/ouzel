@@ -24,7 +24,8 @@ namespace ouzel
         class DSAudioDevice final: public AudioDevice
         {
         public:
-            DSAudioDevice(mixer::Mixer& initMixer, Window* window);
+            DSAudioDevice(const std::function<void(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)>& initDataGetter,
+                          Window* window);
             ~DSAudioDevice();
 
             IDirectSound8* getDirectSound() const { return directSound; }

@@ -7,8 +7,9 @@ namespace ouzel
 {
     namespace audio
     {
-        AudioDevice::AudioDevice(Driver initDriver, mixer::Mixer& initMixer):
-            driver(initDriver), mixer(initMixer)
+        AudioDevice::AudioDevice(Driver initDriver,
+                                 const std::function<void(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)>& initDataGetter):
+            driver(initDriver), dataGetter(initDataGetter)
         {
         }
 
@@ -18,12 +19,12 @@ namespace ouzel
 
         void AudioDevice::process()
         {
-            mixer.process();
         }
 
         void AudioDevice::getData(uint32_t frames, std::vector<uint8_t>& result)
         {
-            mixer.getData(frames, channels, sampleRate, buffer);
+            process();
+            dataGetter(frames, channels, sampleRate, buffer);
 
             switch (sampleFormat)
             {

@@ -20,7 +20,7 @@ namespace ouzel
         class ALSAAudioDevice final: public AudioDevice
         {
         public:
-            explicit ALSAAudioDevice(mixer::Mixer& initMixer);
+            explicit ALSAAudioDevice(const std::function<void(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)>& initDataGetter);
             ~ALSAAudioDevice();
 
         private:

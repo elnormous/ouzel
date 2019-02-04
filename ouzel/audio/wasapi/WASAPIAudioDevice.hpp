@@ -20,7 +20,7 @@ namespace ouzel
         class WASAPIAudioDevice final: public AudioDevice
         {
         public:
-            explicit WASAPIAudioDevice(mixer::Mixer& initMixer);
+            explicit WASAPIAudioDevice(const std::function<void(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)>& initDataGetter);
             ~WASAPIAudioDevice();
 
         private:
