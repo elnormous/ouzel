@@ -95,6 +95,21 @@ namespace ouzel
         void setOneUpdatePerFrame(bool value) { oneUpdatePerFrame = value; }
 
     protected:
+        class Command
+        {
+        public:
+            enum class Type
+            {
+                EXECUTE,
+                OPEN_URL,
+                SET_SCREENSAVER_ENABLED
+            };
+
+            std::function<void()> func;
+            std::string url;
+            bool enabled = false;
+        };
+
         virtual void main();
         virtual void runOnMainThread(const std::function<void()>& func) = 0;
 
