@@ -224,8 +224,6 @@ namespace ouzel
                     {
                         if (!running) break;
 
-                        process();
-
                         uint8_t* bufferPointer;
                         DWORD lockedBufferSize;
                         HRESULT hr;

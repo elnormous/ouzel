@@ -173,8 +173,6 @@ namespace ouzel
 
         void OSLAudioDevice::enqueue(SLAndroidSimpleBufferQueueItf bufferQueue)
         {
-            process();
-
             getData(bufferSize / (channels * sizeof(int16_t)), data);
 
             SLresult result;

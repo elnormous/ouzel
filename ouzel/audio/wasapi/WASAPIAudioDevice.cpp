@@ -277,8 +277,6 @@ namespace ouzel
                     {
                         if (!running) break;
 
-                        process();
-
                         HRESULT hr;
                         UINT32 bufferPadding;
                         if (FAILED(hr = audioClient->GetCurrentPadding(&bufferPadding)))

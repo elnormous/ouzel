@@ -198,8 +198,6 @@ namespace ouzel
 
                     if (!running) break;
 
-                    process();
-
                     getData(bufferSize / (channels * sizeof(float)), data[nextBuffer]);
 
                     XAUDIO2_BUFFER bufferData;
