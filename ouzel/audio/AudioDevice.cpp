@@ -17,13 +17,8 @@ namespace ouzel
         {
         }
 
-        void AudioDevice::process()
-        {
-        }
-
         void AudioDevice::getData(uint32_t frames, std::vector<uint8_t>& result)
         {
-            process();
             dataGetter(frames, channels, sampleRate, buffer);
 
             switch (sampleFormat)
