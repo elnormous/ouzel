@@ -31,7 +31,7 @@ namespace ouzel
             explicit OALAudioDevice(const std::function<void(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)>& initDataGetter);
             ~OALAudioDevice();
 
-            void process() override;
+            void process();
 
             inline ALCdevice* getDevice() const { return device; }
             inline ALCcontext* getContext() const { return context; }

@@ -24,10 +24,10 @@ namespace ouzel
             AudioDevice(AudioDevice&&) = delete;
             AudioDevice& operator=(AudioDevice&&) = delete;
 
+            inline Driver getDriver() const { return driver; }
+            
             inline uint16_t getAPIMajorVersion() const { return apiMajorVersion; }
             inline uint16_t getAPIMinorVersion() const { return apiMinorVersion; }
-
-            virtual void process();
 
         protected:
             void getData(uint32_t frames, std::vector<uint8_t>& result);
@@ -41,10 +41,9 @@ namespace ouzel
             uint16_t channels = 2;
 
         private:
+            Driver driver;
             std::function<void(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)> dataGetter;
             std::vector<float> buffer;
-
-            Driver driver;
         };
     } // namespace audio
 } // namespace ouzel

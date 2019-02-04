@@ -298,8 +298,6 @@ namespace ouzel
 
         void OALAudioDevice::process()
         {
-            AudioDevice::process();
-
             alcMakeContextCurrent(context);
 
             ALCenum alcError;
