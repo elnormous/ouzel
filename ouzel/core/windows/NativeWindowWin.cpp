@@ -839,22 +839,16 @@ namespace ouzel
             position.v[1] = static_cast<float>(touch.y / 100);
 
             if (touch.dwFlags & TOUCHEVENTF_DOWN)
-            {
                 touchpadDevice->handleTouchBegin(touch.dwID,
                                                  engine->getWindow()->convertWindowToNormalizedLocation(position));
-            }
 
             if (touch.dwFlags & TOUCHEVENTF_UP)
-            {
                 touchpadDevice->handleTouchEnd(touch.dwID,
                                                engine->getWindow()->convertWindowToNormalizedLocation(position));
-            }
 
             if (touch.dwFlags & TOUCHEVENTF_MOVE)
-            {
                 touchpadDevice->handleTouchMove(touch.dwID,
                                                 engine->getWindow()->convertWindowToNormalizedLocation(position));
-            }
         }
 
         if (!CloseTouchInputHandle(reinterpret_cast<HTOUCHINPUT>(lParam)))
