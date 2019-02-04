@@ -122,8 +122,6 @@ namespace ouzel
                 {
                     int result;
 
-                    process();
-
                     snd_pcm_sframes_t frames;
 
                     if ((frames = snd_pcm_avail_update(playbackHandle)) < 0)
