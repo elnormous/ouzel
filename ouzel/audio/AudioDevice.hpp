@@ -25,7 +25,7 @@ namespace ouzel
             AudioDevice& operator=(AudioDevice&&) = delete;
 
             inline Driver getDriver() const { return driver; }
-            
+
             inline uint16_t getAPIMajorVersion() const { return apiMajorVersion; }
             inline uint16_t getAPIMinorVersion() const { return apiMinorVersion; }
 
