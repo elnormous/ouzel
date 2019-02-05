@@ -537,6 +537,8 @@ namespace ouzel
         if (!ShowWindow(window, SW_SHOW))
             throw std::runtime_error("Failed to show window");
 
+        SetLastError(ERROR_SUCCESS);
+
         if (!SetWindowLongPtr(window, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this)))
             if (DWORD error = GetLastError())
                 throw std::system_error(error, std::system_category(), "Failed to set window pointer");
