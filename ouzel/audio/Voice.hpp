@@ -28,6 +28,9 @@ namespace ouzel
 
             inline const std::shared_ptr<Sound>& getSound() const { return sound; }
 
+            const Vector3<float>& getPosition() const { return position; }
+            void setPosition(const Vector3<float>& newPosition) const { position = newPosition; }
+
             void play(bool repeat = false);
             void pause();
             void stop();
@@ -42,6 +45,7 @@ namespace ouzel
             uintptr_t streamId;
 
             std::shared_ptr<Sound> sound;
+            Vector3<float> position;
 
             bool playing = false;
             bool repeating = false;
