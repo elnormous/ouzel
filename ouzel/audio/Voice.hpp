@@ -29,7 +29,7 @@ namespace ouzel
             inline const std::shared_ptr<Sound>& getSound() const { return sound; }
 
             const Vector3<float>& getPosition() const { return position; }
-            void setPosition(const Vector3<float>& newPosition) const { position = newPosition; }
+            void setPosition(const Vector3<float>& newPosition) { position = newPosition; }
 
             void play(bool repeat = false);
             void pause();
