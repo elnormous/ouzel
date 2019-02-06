@@ -21,6 +21,7 @@ SoundSample::SoundSample():
     jumpSubmix(*engine->getAudio()),
     jumpVoice(*engine->getAudio(), engine->getCache().getSound("jump.wav")),
     jumpPanner(*engine->getAudio()),
+    jumpReverb(*engine->getAudio()),
     ambientVoice(*engine->getAudio(), engine->getCache().getSound("ambient.wav")),
     music(*engine->getAudio(), engine->getCache().getSound("music.ogg")),
     tone(std::make_shared<OscillatorSound>(*engine->getAudio(), 200.0F, OscillatorSound::Type::SINE, 0.5F, 1.0F)),
@@ -59,6 +60,7 @@ SoundSample::SoundSample():
     soundActor.setPosition(Vector3<float>(8.0F, 0.0F, 10.0F));
     jumpVoice.setOutput(&jumpSubmix);
     jumpSubmix.addEffect(&jumpPanner);
+    jumpSubmix.addEffect(&jumpReverb);
     jumpSubmix.setOutput(&submix);
 
     ambientVoice.setOutput(&submix);
