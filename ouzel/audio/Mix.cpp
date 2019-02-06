@@ -2,7 +2,7 @@
 
 #include "Mix.hpp"
 #include "Audio.hpp"
-#include "Filter.hpp"
+#include "Effect.hpp"
 #include "Listener.hpp"
 #include "Submix.hpp"
 #include "Voice.hpp"
@@ -25,8 +25,8 @@ namespace ouzel
             for (Voice* voice : inputVoices)
                 voice->output = nullptr;
 
-            for (Filter* filter : filters)
-                filter->mix = nullptr;
+            for (Effect* effect : effects)
+                effect->mix = nullptr;
 
             for (Listener* listener : listeners)
                 listener->mix = nullptr;
@@ -34,30 +34,30 @@ namespace ouzel
             if (busId) audio.deleteObject(busId);
         }
 
-        void Mix::addFilter(Filter* filter)
+        void Mix::addEffect(Effect* effect)
         {
-            auto i = std::find(filters.begin(), filters.end(), filter);
-            if (i == filters.end())
+            auto i = std::find(effects.begin(), effects.end(), effect);
+            if (i == effects.end())
             {
-                if (filter->mix) filter->mix->removeFilter(filter);
-                filter->mix = this;
-                filters.push_back(filter);
+                if (effect->mix) effect->mix->removeEffect(effect);
+                effect->mix = this;
+                effects.push_back(effect);
 
                 audio.getMixer().addCommand(std::unique_ptr<mixer::Command>(new mixer::AddProcessorCommand(busId,
-                                                                                                           filter->getProcessorId())));
+                                                                                                           effect->getProcessorId())));
             }
         }
 
-        void Mix::removeFilter(Filter* filter)
+        void Mix::removeEffect(Effect* effect)
         {
-            auto i = std::find(filters.begin(), filters.end(), filter);
-            if (i != filters.end())
+            auto i = std::find(effects.begin(), effects.end(), effect);
+            if (i != effects.end())
             {
-                filter->mix = nullptr;
-                filters.erase(i);
+                effect->mix = nullptr;
+                effects.erase(i);
 
                 audio.getMixer().addCommand(std::unique_ptr<mixer::Command>(new mixer::RemoveProcessorCommand(busId,
-                                                                                                              filter->getProcessorId())));
+                                                                                                              effect->getProcessorId())));
             }
         }
 

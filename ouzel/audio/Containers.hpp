@@ -5,7 +5,7 @@
 
 #include <cstdint>
 #include <vector>
-#include "audio/Filter.hpp"
+#include "audio/Effect.hpp"
 #include "audio/Sound.hpp"
 
 namespace ouzel

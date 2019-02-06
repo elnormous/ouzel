@@ -74,8 +74,8 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Audio.cpp \
 	$(ROOT_DIR)/../ouzel/audio/AudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Containers.cpp \
-	$(ROOT_DIR)/../ouzel/audio/Filter.cpp \
-	$(ROOT_DIR)/../ouzel/audio/Filters.cpp \
+	$(ROOT_DIR)/../ouzel/audio/Effect.cpp \
+	$(ROOT_DIR)/../ouzel/audio/Effects.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Listener.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Mix.cpp \
 	$(ROOT_DIR)/../ouzel/audio/OscillatorSound.cpp \

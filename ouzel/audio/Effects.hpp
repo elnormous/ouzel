@@ -5,7 +5,7 @@
 
 #include <cfloat>
 #include <utility>
-#include "audio/Filter.hpp"
+#include "audio/Effect.hpp"
 #include "math/Vector3.hpp"
 #include "scene/Component.hpp"
 
@@ -13,7 +13,7 @@ namespace ouzel
 {
     namespace audio
     {
-        class Delay final: public Filter
+        class Delay final: public Effect
         {
         public:
             Delay(Audio& initAudio);
@@ -35,7 +35,7 @@ namespace ouzel
             std::pair<float, float> delayRandom{0.0F, 0.0F};
         };
 
-        class Gain final: public Filter
+        class Gain final: public Effect
         {
         public:
             Gain(Audio& initAudio);
@@ -57,7 +57,7 @@ namespace ouzel
             std::pair<float, float> gainRandom{0.0F, 0.0F};
         };
 
-        class Panner final: public Filter, public scene::Component
+        class Panner final: public Effect, public scene::Component
         {
         public:
             Panner(Audio& initAudio);
@@ -89,7 +89,7 @@ namespace ouzel
             float maxDistance = FLT_MAX;
         };
 
-        class Pitch final: public Filter
+        class Pitch final: public Effect
         {
         public:
             Pitch(Audio& initAudio, float initPitch = 1.0F);
@@ -111,7 +111,7 @@ namespace ouzel
             std::pair<float, float> pitchRandom{0.0F, 0.0F};
         };
 
-        class Reverb final: public Filter
+        class Reverb final: public Effect
         {
         public:
             Reverb(Audio& initAudio);
