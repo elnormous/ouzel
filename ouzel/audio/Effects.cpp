@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <cmath>
-#include "Filters.hpp"
+#include "Effects.hpp"
 #include "Audio.hpp"
 #include "scene/Actor.hpp"
 #include "math/MathUtils.hpp"
@@ -25,8 +25,8 @@ namespace ouzel
         };
 
         Delay::Delay(Audio& initAudio):
-            Filter(initAudio,
-            initAudio.initProcessor(std::unique_ptr<mixer::Processor>(new DelayProcessor())))
+            Effect(initAudio,
+                   initAudio.initProcessor(std::unique_ptr<mixer::Processor>(new DelayProcessor())))
         {
         }
 
@@ -65,8 +65,8 @@ namespace ouzel
         };
 
         Gain::Gain(Audio& initAudio):
-            Filter(initAudio,
-            initAudio.initProcessor(std::unique_ptr<mixer::Processor>(new GainProcessor())))
+            Effect(initAudio,
+                   initAudio.initProcessor(std::unique_ptr<mixer::Processor>(new GainProcessor())))
         {
         }
 
@@ -124,7 +124,7 @@ namespace ouzel
         };
 
         Panner::Panner(Audio& initAudio):
-            Filter(initAudio,
+            Effect(initAudio,
                    initAudio.initProcessor(std::unique_ptr<mixer::Processor>(new PannerProcessor()))),
             scene::Component(scene::Component::SOUND)
         {
@@ -220,7 +220,7 @@ namespace ouzel
         };
 
         Pitch::Pitch(Audio& initAudio, float initPitch):
-            Filter(initAudio,
+            Effect(initAudio,
                    initAudio.initProcessor(std::unique_ptr<mixer::Processor>(new PitchProcessor(initPitch)))),
             pitch(initPitch)
         {
@@ -254,8 +254,8 @@ namespace ouzel
         };
 
         Reverb::Reverb(Audio& initAudio):
-            Filter(initAudio,
-            initAudio.initProcessor(std::unique_ptr<mixer::Processor>(new ReverbProcessor())))
+            Effect(initAudio,
+                   initAudio.initProcessor(std::unique_ptr<mixer::Processor>(new ReverbProcessor())))
         {
         }
 

@@ -45,8 +45,8 @@
     <ClCompile Include="..\ouzel\audio\AudioDevice.cpp" />
     <ClCompile Include="..\ouzel\audio\dsound\DSAudioDevice.cpp" />
     <ClCompile Include="..\ouzel\audio\empty\EmptyAudioDevice.cpp" />
-    <ClCompile Include="..\ouzel\audio\Filter.cpp" />
-    <ClCompile Include="..\ouzel\audio\Filters.cpp" />
+    <ClCompile Include="..\ouzel\audio\Effect.cpp" />
+    <ClCompile Include="..\ouzel\audio\Effects.cpp" />
     <ClCompile Include="..\ouzel\audio\mixer\Bus.cpp" />
     <ClCompile Include="..\ouzel\audio\mixer\Mixer.cpp" />
     <ClCompile Include="..\ouzel\audio\mixer\Processor.cpp" />
@@ -220,8 +220,8 @@
     <ClInclude Include="..\ouzel\audio\Driver.hpp" />
     <ClInclude Include="..\ouzel\audio\dsound\DSAudioDevice.hpp" />
     <ClInclude Include="..\ouzel\audio\empty\EmptyAudioDevice.hpp" />
-    <ClInclude Include="..\ouzel\audio\Filter.hpp" />
-    <ClInclude Include="..\ouzel\audio\Filters.hpp" />
+    <ClInclude Include="..\ouzel\audio\Effect.hpp" />
+    <ClInclude Include="..\ouzel\audio\Effects.hpp" />
     <ClInclude Include="..\ouzel\audio\mixer\Bus.hpp" />
     <ClInclude Include="..\ouzel\audio\mixer\Commands.hpp" />
     <ClInclude Include="..\ouzel\audio\mixer\Mixer.hpp" />
