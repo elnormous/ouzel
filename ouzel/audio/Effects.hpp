@@ -114,7 +114,7 @@ namespace ouzel
         class Reverb final: public Effect
         {
         public:
-            Reverb(Audio& initAudio);
+            Reverb(Audio& initAudio, float initDelay = 0.1F, float initDecay = 0.5F);
             ~Reverb();
 
             Reverb(const Reverb&) = delete;
