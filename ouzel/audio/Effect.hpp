@@ -27,10 +27,13 @@ namespace ouzel
 
             uintptr_t getProcessorId() const { return processorId; }
 
+            bool isEnabled() const { return enabled; }
+
         protected:
             Audio& audio;
             uintptr_t processorId = 0;
             Mix* mix = nullptr;
+            bool enabled = true;
         };
     } // namespace audio
 } // namespace ouzel
