@@ -15,7 +15,7 @@ namespace ouzel
     {
         class VorbisData;
 
-        class VorbisSource: public mixer::Stream
+        class VorbisSource final: public mixer::Stream
         {
         public:
             VorbisSource(VorbisData& vorbisData);
@@ -37,7 +37,7 @@ namespace ouzel
             stb_vorbis* vorbisStream = nullptr;
         };
 
-        class VorbisData: public mixer::Source
+        class VorbisData final: public mixer::Source
         {
         public:
             VorbisData(const std::vector<uint8_t>& initData):

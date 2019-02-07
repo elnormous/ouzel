@@ -15,7 +15,7 @@
 
 namespace ouzel
 {
-    class ShellExecuteErrorCategory: public std::error_category
+    class ShellExecuteErrorCategory final: public std::error_category
     {
     public:
         const char* name() const noexcept override

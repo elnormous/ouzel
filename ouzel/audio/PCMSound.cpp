@@ -13,7 +13,7 @@ namespace ouzel
     {
         class PCMData;
 
-        class PCMSource: public mixer::Stream
+        class PCMSource final: public mixer::Stream
         {
         public:
             PCMSource(PCMData& pcmData);
@@ -29,7 +29,7 @@ namespace ouzel
             uint32_t position = 0;
         };
 
-        class PCMData: public mixer::Source
+        class PCMData final: public mixer::Source
         {
         public:
             PCMData(uint16_t initChannels, uint32_t initSampleRate,

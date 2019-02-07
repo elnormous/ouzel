@@ -12,7 +12,7 @@ namespace ouzel
 {
     namespace scene
     {
-        class StaticMeshData
+        class StaticMeshData final
         {
         public:
             StaticMeshData() {}

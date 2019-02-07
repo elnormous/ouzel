@@ -17,7 +17,7 @@ namespace ouzel
 {
     namespace input
     {
-        class DirectInputErrorCategory: public std::error_category
+        class DirectInputErrorCategory final: public std::error_category
         {
         public:
             const char* name() const noexcept override
