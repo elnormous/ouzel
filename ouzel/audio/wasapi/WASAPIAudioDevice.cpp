@@ -18,7 +18,7 @@ namespace ouzel
 {
     namespace audio
     {
-        class NotificationClient: public IMMNotificationClient
+        class NotificationClient final: public IMMNotificationClient
         {
             LONG refCount = 1;
 
@@ -101,7 +101,7 @@ namespace ouzel
             }
         };
 
-        class WASAPIErrorCategory : public std::error_category
+        class WASAPIErrorCategory final: public std::error_category
         {
         public:
             const char* name() const noexcept override

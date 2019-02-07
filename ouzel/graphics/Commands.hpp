@@ -66,7 +66,7 @@ namespace ouzel
             const Type type;
         };
 
-        class ResizeCommand: public Command
+        class ResizeCommand final: public Command
         {
         public:
             ResizeCommand(const Size2<uint32_t>& initSize):
@@ -77,13 +77,13 @@ namespace ouzel
             Size2<uint32_t> size;
         };
 
-        class PresentCommand: public Command
+        class PresentCommand final: public Command
         {
         public:
             PresentCommand(): Command(Command::Type::PRESENT) {}
         };
 
-        class DeleteResourceCommand: public Command
+        class DeleteResourceCommand final: public Command
         {
         public:
             DeleteResourceCommand(uintptr_t initResource):
@@ -94,7 +94,7 @@ namespace ouzel
             uintptr_t resource;
         };
 
-        class InitRenderTargetCommand: public Command
+        class InitRenderTargetCommand final: public Command
         {
         public:
             explicit InitRenderTargetCommand(uintptr_t initRenderTarget):
@@ -106,7 +106,7 @@ namespace ouzel
             uintptr_t renderTarget;
         };
 
-        class AddRenderTargetColorTextureCommand: public Command
+        class AddRenderTargetColorTextureCommand final: public Command
         {
         public:
             AddRenderTargetColorTextureCommand(uintptr_t initRenderTarget,
@@ -121,7 +121,7 @@ namespace ouzel
             uintptr_t texture;
         };
 
-        class RemoveRenderTargetColorTextureCommand: public Command
+        class RemoveRenderTargetColorTextureCommand final: public Command
         {
         public:
             RemoveRenderTargetColorTextureCommand(uintptr_t initRenderTarget,
@@ -136,7 +136,7 @@ namespace ouzel
             uintptr_t texture;
         };
 
-        class SetRenderTargetDepthTextureCommand: public Command
+        class SetRenderTargetDepthTextureCommand final: public Command
         {
         public:
             SetRenderTargetDepthTextureCommand(uintptr_t initRenderTarget,
@@ -151,7 +151,7 @@ namespace ouzel
             uintptr_t texture;
         };
 
-        class SetRenderTargetCommand: public Command
+        class SetRenderTargetCommand final: public Command
         {
         public:
             explicit SetRenderTargetCommand(uintptr_t initRenderTarget):
@@ -163,7 +163,7 @@ namespace ouzel
             uintptr_t renderTarget;
         };
 
-        class ClearRenderTargetCommand: public Command
+        class ClearRenderTargetCommand final: public Command
         {
         public:
             explicit ClearRenderTargetCommand(bool initClearColorBuffer,
@@ -191,7 +191,7 @@ namespace ouzel
         };
 
         // TODO: implement
-        class BlitCommand: public Command
+        class BlitCommand final: public Command
         {
         public:
             BlitCommand(uintptr_t initSourceTexture,
@@ -231,7 +231,7 @@ namespace ouzel
         };
 
         // TODO: implement
-        class ComputeCommand: public Command
+        class ComputeCommand final: public Command
         {
         public:
             explicit ComputeCommand(uintptr_t initShader):
@@ -243,7 +243,7 @@ namespace ouzel
             uintptr_t shader;
         };
 
-        class SetCullModeCommad: public Command
+        class SetCullModeCommad final: public Command
         {
         public:
             explicit SetCullModeCommad(CullMode initCullMode):
@@ -255,7 +255,7 @@ namespace ouzel
             CullMode cullMode;
         };
 
-        class SetFillModeCommad: public Command
+        class SetFillModeCommad final: public Command
         {
         public:
             explicit SetFillModeCommad(FillMode initFillMode):
@@ -267,7 +267,7 @@ namespace ouzel
             FillMode fillMode;
         };
 
-        class SetScissorTestCommand: public Command
+        class SetScissorTestCommand final: public Command
         {
         public:
             SetScissorTestCommand(bool initEnabled,
@@ -282,7 +282,7 @@ namespace ouzel
             Rect<float> rectangle;
         };
 
-        class SetViewportCommand: public Command
+        class SetViewportCommand final: public Command
         {
         public:
             explicit SetViewportCommand(const Rect<float>& initViewport):
@@ -294,7 +294,7 @@ namespace ouzel
             Rect<float> viewport;
         };
 
-        class InitDepthStencilStateCommand: public Command
+        class InitDepthStencilStateCommand final: public Command
         {
         public:
             InitDepthStencilStateCommand(uintptr_t initDepthStencilState,
@@ -330,7 +330,7 @@ namespace ouzel
             DepthStencilState::StencilDescriptor backFaceStencil;
         };
 
-        class SetDepthStencilStateCommand: public Command
+        class SetDepthStencilStateCommand final: public Command
         {
         public:
             SetDepthStencilStateCommand(uintptr_t initDepthStencilState,
@@ -345,7 +345,7 @@ namespace ouzel
             uint32_t stencilReferenceValue;
         };
 
-        class SetPipelineStateCommand: public Command
+        class SetPipelineStateCommand final: public Command
         {
         public:
             SetPipelineStateCommand(uintptr_t initBlendState,
@@ -360,7 +360,7 @@ namespace ouzel
             uintptr_t shader;
         };
 
-        class DrawCommand: public Command
+        class DrawCommand final: public Command
         {
         public:
             DrawCommand(uintptr_t initIndexBuffer,
@@ -387,7 +387,7 @@ namespace ouzel
             uint32_t startIndex;
         };
 
-        class PushDebugMarkerCommand: public Command
+        class PushDebugMarkerCommand final: public Command
         {
         public:
             explicit PushDebugMarkerCommand(const std::string& initName):
@@ -399,7 +399,7 @@ namespace ouzel
             std::string name;
         };
 
-        class PopDebugMarkerCommand: public Command
+        class PopDebugMarkerCommand final: public Command
         {
         public:
             PopDebugMarkerCommand():
@@ -408,7 +408,7 @@ namespace ouzel
             }
         };
 
-        class InitBlendStateCommand: public Command
+        class InitBlendStateCommand final: public Command
         {
         public:
             InitBlendStateCommand(uintptr_t initBlendState,
@@ -442,7 +442,7 @@ namespace ouzel
             uint8_t colorMask;
         };
 
-        class InitBufferCommand: public Command
+        class InitBufferCommand final: public Command
         {
         public:
             InitBufferCommand(uintptr_t initBuffer,
@@ -466,7 +466,7 @@ namespace ouzel
             uint32_t size;
         };
 
-        class SetBufferDataCommand: public Command
+        class SetBufferDataCommand final: public Command
         {
         public:
             SetBufferDataCommand(uintptr_t initBuffer,
@@ -481,7 +481,7 @@ namespace ouzel
             std::vector<uint8_t> data;
         };
 
-        class InitShaderCommand: public Command
+        class InitShaderCommand final: public Command
         {
         public:
             InitShaderCommand(uintptr_t initShader,
@@ -520,7 +520,7 @@ namespace ouzel
             std::string vertexShaderFunction;
         };
 
-        class SetShaderConstantsCommand: public Command
+        class SetShaderConstantsCommand final: public Command
         {
         public:
             SetShaderConstantsCommand(std::vector<std::vector<float>> initFragmentShaderConstants,
@@ -535,7 +535,7 @@ namespace ouzel
             std::vector<std::vector<float>> vertexShaderConstants;
         };
 
-        class InitTextureCommand: public Command
+        class InitTextureCommand final: public Command
         {
         public:
             InitTextureCommand(uintptr_t initTexture,
@@ -562,7 +562,7 @@ namespace ouzel
             PixelFormat pixelFormat;
         };
 
-        class SetTextureDataCommand: public Command
+        class SetTextureDataCommand final: public Command
         {
         public:
             SetTextureDataCommand(uintptr_t initTexture,
@@ -577,7 +577,7 @@ namespace ouzel
             std::vector<Texture::Level> levels;
         };
 
-        class SetTextureParametersCommand: public Command
+        class SetTextureParametersCommand final: public Command
         {
         public:
             SetTextureParametersCommand(uintptr_t initTexture,
@@ -601,7 +601,7 @@ namespace ouzel
             uint32_t maxAnisotropy;
         };
 
-        class SetTexturesCommand: public Command
+        class SetTexturesCommand final: public Command
         {
         public:
             explicit SetTexturesCommand(uintptr_t initTextures[Texture::LAYERS]):
@@ -614,7 +614,7 @@ namespace ouzel
             uintptr_t textures[Texture::LAYERS];
         };
 
-        class CommandBuffer
+        class CommandBuffer final
         {
         public:
             CommandBuffer() {}

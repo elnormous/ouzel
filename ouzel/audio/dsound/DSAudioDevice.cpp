@@ -31,7 +31,7 @@ namespace ouzel
 {
     namespace audio
     {
-        class DirectSoundErrorCategory: public std::error_category
+        class DirectSoundErrorCategory final: public std::error_category
         {
         public:
             const char* name() const noexcept override

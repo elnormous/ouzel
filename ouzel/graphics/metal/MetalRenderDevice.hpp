@@ -85,7 +85,7 @@ namespace ouzel
             void process() override;
             void generateScreenshot(const std::string& filename) override;
 
-            class PipelineStateDesc
+            class PipelineStateDesc final
             {
             public:
                 MetalBlendState* blendState = nullptr;

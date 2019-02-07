@@ -35,7 +35,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        class OpenGLErrorCategory: public std::error_category
+        class OpenGLErrorCategory final: public std::error_category
         {
         public:
             const char* name() const noexcept override

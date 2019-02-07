@@ -20,7 +20,7 @@ namespace ouzel
     namespace graphics
     {
 #if OUZEL_OPENGL_INTERFACE_EGL
-        class EGLErrorCategory: public std::error_category
+        class EGLErrorCategory final: public std::error_category
         {
         public:
             const char* name() const noexcept override
