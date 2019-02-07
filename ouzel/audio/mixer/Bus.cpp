@@ -240,7 +240,8 @@ namespace ouzel
                     bus->getData(frames, channels, sampleRate, listenerPosition, listenerRotation, buffer);
 
                     for (Processor* processor : processors)
-                        processor->process(frames, channels, sampleRate, buffer);
+                        if (processor->isEnabled())
+                            processor->process(frames, channels, sampleRate, buffer);
 
                     for (size_t s = 0; s < samples.size(); ++s)
                         samples[s] += buffer[s];
