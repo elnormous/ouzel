@@ -18,10 +18,10 @@ namespace ouzel
 {
     namespace scene
     {
-        class SpriteData
+        class SpriteData final
         {
         public:
-            class Frame
+            class Frame final
             {
             public:
                 Frame(const std::string& frameName,
