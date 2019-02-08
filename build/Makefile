@@ -164,15 +164,11 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Layer.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Light.cpp \
 	$(ROOT_DIR)/../ouzel/scene/ParticleSystem.cpp \
-	$(ROOT_DIR)/../ouzel/scene/ParticleSystemData.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Scene.cpp \
 	$(ROOT_DIR)/../ouzel/scene/SceneManager.cpp \
 	$(ROOT_DIR)/../ouzel/scene/ShapeRenderer.cpp \
-	$(ROOT_DIR)/../ouzel/scene/SkinnedMeshData.cpp \
 	$(ROOT_DIR)/../ouzel/scene/SkinnedMeshRenderer.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Sprite.cpp \
-	$(ROOT_DIR)/../ouzel/scene/SpriteData.cpp \
-	$(ROOT_DIR)/../ouzel/scene/StaticMeshData.cpp \
 	$(ROOT_DIR)/../ouzel/scene/StaticMeshRenderer.cpp \
 	$(ROOT_DIR)/../ouzel/scene/TextRenderer.cpp \
 	$(ROOT_DIR)/../ouzel/utils/Log.cpp \
