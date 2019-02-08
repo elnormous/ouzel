@@ -149,15 +149,11 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/scene/Layer.cpp \
     ../../ouzel/scene/Light.cpp \
     ../../ouzel/scene/ParticleSystem.cpp \
-    ../../ouzel/scene/ParticleSystemData.cpp \
     ../../ouzel/scene/Scene.cpp \
     ../../ouzel/scene/SceneManager.cpp \
     ../../ouzel/scene/ShapeRenderer.cpp \
-    ../../ouzel/scene/SkinnedMeshData.cpp \
     ../../ouzel/scene/SkinnedMeshRenderer.cpp \
     ../../ouzel/scene/Sprite.cpp \
-    ../../ouzel/scene/SpriteData.cpp \
-    ../../ouzel/scene/StaticMeshData.cpp \
     ../../ouzel/scene/StaticMeshRenderer.cpp \
     ../../ouzel/scene/TextRenderer.cpp \
     ../../ouzel/utils/Log.cpp \

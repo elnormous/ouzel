@@ -3,13 +3,33 @@
 #ifndef OUZEL_SCENE_STATICMESHRENDERER_HPP
 #define OUZEL_SCENE_STATICMESHRENDERER_HPP
 
+#include <vector>
 #include "scene/Component.hpp"
-#include "scene/StaticMeshData.hpp"
+#include "graphics/Buffer.hpp"
+#include "graphics/Material.hpp"
+#include "graphics/Vertex.hpp"
 
 namespace ouzel
 {
     namespace scene
     {
+        class StaticMeshData final
+        {
+        public:
+            StaticMeshData() {}
+            StaticMeshData(Box3<float> initBoundingBox,
+                           const std::vector<uint32_t> indices,
+                           const std::vector<graphics::Vertex>& vertices,
+                           const std::shared_ptr<graphics::Material>& initMaterial);
+
+            Box3<float> boundingBox;
+            std::shared_ptr<graphics::Material> material;
+            uint32_t indexCount = 0;
+            uint32_t indexSize = 0;
+            std::shared_ptr<graphics::Buffer> indexBuffer;
+            std::shared_ptr<graphics::Buffer> vertexBuffer;
+        };
+
         class StaticMeshRenderer: public Component
         {
         public:

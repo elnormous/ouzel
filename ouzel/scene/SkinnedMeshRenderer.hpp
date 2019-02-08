@@ -3,13 +3,36 @@
 #ifndef OUZEL_SCENE_SKINNEDMESHRENDERER_HPP
 #define OUZEL_SCENE_SKINNEDMESHRENDERER_HPP
 
+#include <vector>
 #include "scene/Component.hpp"
-#include "scene/SkinnedMeshData.hpp"
+#include "graphics/Material.hpp"
 
 namespace ouzel
 {
     namespace scene
     {
+        class SkinnedMeshData final
+        {
+        public:
+            struct Bone final
+            {
+                Bone* parent = nullptr;
+                Vector3<float> position;
+                Quaternion<float> rotation;
+            };
+
+            SkinnedMeshData() {}
+            SkinnedMeshData(Box3<float> initBoundingBox,
+                            const std::shared_ptr<graphics::Material>& initMaterial):
+                boundingBox(initBoundingBox),
+                material(initMaterial)
+            {
+            }
+
+            Box3<float> boundingBox;
+            std::shared_ptr<graphics::Material> material;
+        };
+
         class SkinnedMeshRenderer: public Component
         {
         public:
