@@ -3,16 +3,6 @@
 #ifndef OUZEL_HPP
 #define OUZEL_HPP
 
-#include "animators/Animator.hpp"
-#include "animators/Ease.hpp"
-#include "animators/Fade.hpp"
-#include "animators/Move.hpp"
-#include "animators/Parallel.hpp"
-#include "animators/Repeat.hpp"
-#include "animators/Rotate.hpp"
-#include "animators/Scale.hpp"
-#include "animators/Sequence.hpp"
-#include "animators/Shake.hpp"
 #include "assets/Bundle.hpp"
 #include "assets/Cache.hpp"
 #include "assets/Loader.hpp"
@@ -107,6 +97,7 @@
 #include "network/Network.hpp"
 #include "scene/Actor.hpp"
 #include "scene/ActorContainer.hpp"
+#include "scene/Animator.hpp"
 #include "scene/Camera.hpp"
 #include "scene/Component.hpp"
 #include "scene/Layer.hpp"

@@ -41,17 +41,7 @@ OBJCXXFLAGS=-std=c++11 \
 	-I"$(ROOT_DIR)/../external/khronos" \
 	-I"$(ROOT_DIR)/../external/smbPitchShift" \
 	-I"$(ROOT_DIR)/../external/stb"
-SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
-	$(ROOT_DIR)/../ouzel/animators/Ease.cpp \
-	$(ROOT_DIR)/../ouzel/animators/Fade.cpp \
-	$(ROOT_DIR)/../ouzel/animators/Move.cpp \
-	$(ROOT_DIR)/../ouzel/animators/Parallel.cpp \
-	$(ROOT_DIR)/../ouzel/animators/Repeat.cpp \
-	$(ROOT_DIR)/../ouzel/animators/Rotate.cpp \
-	$(ROOT_DIR)/../ouzel/animators/Scale.cpp \
-	$(ROOT_DIR)/../ouzel/animators/Sequence.cpp \
-	$(ROOT_DIR)/../ouzel/animators/Shake.cpp \
-	$(ROOT_DIR)/../ouzel/assets/BmfLoader.cpp \
+SOURCES=$(ROOT_DIR)/../ouzel/assets/BmfLoader.cpp \
 	$(ROOT_DIR)/../ouzel/assets/Bundle.cpp \
 	$(ROOT_DIR)/../ouzel/assets/Cache.cpp \
 	$(ROOT_DIR)/../ouzel/assets/ColladaLoader.cpp \
@@ -159,6 +149,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/network/Socket.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Actor.cpp \
 	$(ROOT_DIR)/../ouzel/scene/ActorContainer.cpp \
+	$(ROOT_DIR)/../ouzel/scene/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Camera.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Component.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Layer.cpp \

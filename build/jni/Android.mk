@@ -18,17 +18,7 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../ouzel \
 	$(LOCAL_PATH)/../../external/smbPitchShift \
 	$(LOCAL_PATH)/../../external/stb
 
-LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
-    ../../ouzel/animators/Ease.cpp \
-    ../../ouzel/animators/Fade.cpp \
-    ../../ouzel/animators/Move.cpp \
-    ../../ouzel/animators/Parallel.cpp \
-    ../../ouzel/animators/Repeat.cpp \
-    ../../ouzel/animators/Rotate.cpp \
-    ../../ouzel/animators/Scale.cpp \
-    ../../ouzel/animators/Sequence.cpp \
-    ../../ouzel/animators/Shake.cpp \
-    ../../ouzel/assets/BmfLoader.cpp \
+LOCAL_SRC_FILES := ../../ouzel/assets/BmfLoader.cpp \
 	../../ouzel/assets/Bundle.cpp \
 	../../ouzel/assets/Cache.cpp \
     ../../ouzel/assets/ColladaLoader.cpp \
@@ -144,6 +134,7 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/network/Socket.cpp \
     ../../ouzel/scene/Actor.cpp \
     ../../ouzel/scene/ActorContainer.cpp \
+    ../../ouzel/scene/Animator.cpp \
     ../../ouzel/scene/Camera.cpp \
     ../../ouzel/scene/Component.cpp \
     ../../ouzel/scene/Layer.cpp \
