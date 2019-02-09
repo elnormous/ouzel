@@ -98,6 +98,7 @@
 #include "scene/Actor.hpp"
 #include "scene/ActorContainer.hpp"
 #include "scene/Animator.hpp"
+#include "scene/Animators.hpp"
 #include "scene/Camera.hpp"
 #include "scene/Component.hpp"
 #include "scene/Layer.hpp"
