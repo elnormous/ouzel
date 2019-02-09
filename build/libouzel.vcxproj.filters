@@ -4,6 +4,9 @@
     <ClCompile Include="..\ouzel\scene\Animator.cpp">
       <Filter>ouzel\scene</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\scene\Animators.cpp">
+      <Filter>ouzel\scene</Filter>
+    </ClCompile>
     <ClCompile Include="..\ouzel\files\Archive.cpp">
       <Filter>ouzel\files</Filter>
     </ClCompile>
@@ -448,6 +451,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\scene\Animator.hpp">
+      <Filter>ouzel\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\scene\Animators.hpp">
       <Filter>ouzel\scene</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\files\Archive.hpp">
