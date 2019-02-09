@@ -534,8 +534,7 @@ namespace ouzel
         if (!RegisterTouchWindow(window, 0))
             engine->log(Log::Level::WARN) << "Failed to enable touch for window";
 
-        if (!ShowWindow(window, SW_SHOW))
-            throw std::runtime_error("Failed to show window");
+        ShowWindow(window, SW_SHOW);
 
         SetLastError(ERROR_SUCCESS);
 
