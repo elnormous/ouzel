@@ -33,7 +33,7 @@ namespace ouzel
             Socket& operator=(Socket&& other);
 
 #ifdef _WIN32
-            operator int() const { return endpoint; }
+            operator SOCKET() const { return endpoint; }
 #else
             operator int() const { return endpoint; }
 #endif
