@@ -19,9 +19,22 @@ namespace ouzel
 {
     namespace network
     {
-        Socket::Socket()
+        Socket::Socket():
+            endpoint(socket(PF_INET, SOCK_STREAM, IPPROTO_TCP))
         {
         }
+
+#ifdef _WIN32
+        Socket::Socket(SOCKET s):
+            endpoint(s)
+        {
+        }
+#else
+        Socket::Socket(int s):
+            endpoint(s)
+        {
+        }
+#endif
 
         Socket::~Socket()
         {

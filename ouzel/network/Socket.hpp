@@ -19,6 +19,11 @@ namespace ouzel
         {
         public:
             Socket();
+#ifdef _WIN32
+            Socket(SOCKET s);
+#else
+            Socket(int s);
+#endif
             ~Socket();
 
             Socket(const Socket&) = delete;
