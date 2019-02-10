@@ -32,6 +32,12 @@ namespace ouzel
             Socket(Socket&& other);
             Socket& operator=(Socket&& other);
 
+#ifdef _WIN32
+            operator int() const { return endpoint; }
+#else
+            operator int() const { return endpoint; }
+#endif
+
         private:
 #ifdef _WIN32
             SOCKET endpoint = INVALID_SOCKET;
