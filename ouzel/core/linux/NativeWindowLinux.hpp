@@ -8,7 +8,7 @@
 #if OUZEL_SUPPORTS_X11
 #  include <X11/Xlib.h>
 #  include <X11/Xutil.h>
-#else
+#elif OUZEL_SUPPORTS_DISPMANX
 #  include <bcm_host.h>
 typedef struct
 {
@@ -52,7 +52,7 @@ namespace ouzel
         inline XVisualInfo* getVisualInfo() const { return visualInfo; }
         inline Atom getProtocolsAtom() const { return protocolsAtom; }
         inline Atom getDeleteAtom() const { return deleteAtom; }
-#else
+#elif OUZEL_SUPPORTS_DISPMANX
         const EGL_DISPMANX_WINDOW_T& getNativeWindow() const { return window; }
 #endif
 
@@ -69,7 +69,7 @@ namespace ouzel
         Atom protocolsAtom = None;
         Atom stateAtom = None;
         Atom stateFullscreenAtom = None;
-#else
+#elif OUZEL_SUPPORTS_DISPMANX
         EGL_DISPMANX_WINDOW_T window;
 #endif
     };

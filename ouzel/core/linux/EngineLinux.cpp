@@ -268,7 +268,7 @@ namespace ouzel
 
         if (!display)
             throw std::runtime_error("Failed to open display");
-#else
+#elif OUZEL_SUPPORTS_DISPMANX
         bcm_host_init();
 
         display = vc_dispmanx_display_open(0);
@@ -282,7 +282,7 @@ namespace ouzel
     {
 #if OUZEL_SUPPORTS_X11
         if (display) XCloseDisplay(display);
-#else
+#elif OUZEL_SUPPORTS_DISPMANX
         if (display != DISPMANX_NO_HANDLE)
             vc_dispmanx_display_close(display);
 
