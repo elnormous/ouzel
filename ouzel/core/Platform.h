@@ -44,7 +44,6 @@
 #  define OUZEL_PLATFORM_ANDROID 1
 #  define OUZEL_SUPPORTS_OPENGL 1
 #  define OUZEL_SUPPORTS_OPENSL 1
-#  define OUZEL_SUPPORTS_OPENSLES 1
 
 #elif defined(__linux__) // Linux
 #  define OUZEL_PLATFORM_LINUX 1
