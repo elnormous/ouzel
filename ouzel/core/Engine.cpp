@@ -14,6 +14,7 @@
 #include "audio/Audio.hpp"
 
 #if OUZEL_COMPILE_OPENGL
+#  include "graphics/opengl/OGL.h"
 #  if OUZEL_OPENGLES
 #    include "opengl/ColorPSGLES2.h"
 #    include "opengl/ColorVSGLES2.h"
