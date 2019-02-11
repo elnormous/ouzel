@@ -9,7 +9,9 @@
 
 #if OUZEL_COMPILE_OPENGL
 
-#if OUZEL_SUPPORTS_OPENGLES
+#include "graphics/opengl/OGL.h"
+
+#if OUZEL_OPENGLES
 #  include "GLES/gl.h"
 #  include "GLES2/gl2.h"
 #  include "GLES2/gl2ext.h"

@@ -40,7 +40,7 @@ namespace ouzel
                 case BlendState::Operation::ADD: return GL_FUNC_ADD;
                 case BlendState::Operation::SUBTRACT: return GL_FUNC_SUBTRACT;
                 case BlendState::Operation::REV_SUBTRACT: return GL_FUNC_REVERSE_SUBTRACT;
-#if !OUZEL_SUPPORTS_OPENGLES
+#if !OUZEL_OPENGLES
                 case BlendState::Operation::MIN: return GL_MIN;
                 case BlendState::Operation::MAX: return GL_MAX;
 #endif

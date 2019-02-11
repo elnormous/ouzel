@@ -14,7 +14,7 @@ namespace ouzel
     {
         static GLenum getOGLInternalPixelFormat(PixelFormat pixelFormat, uint32_t openGLVersion)
         {
-#if OUZEL_SUPPORTS_OPENGLES
+#if OUZEL_OPENGLES
             if (openGLVersion >= 3)
             {
                 switch (pixelFormat)
@@ -220,7 +220,7 @@ namespace ouzel
         {
             switch (dimensions)
             {
-#if !OUZEL_SUPPORTS_OPENGLES
+#if !OUZEL_OPENGLES
                 case Texture::Dimensions::ONE: return GL_TEXTURE_1D;
 #endif
                 case Texture::Dimensions::TWO: return GL_TEXTURE_2D;
