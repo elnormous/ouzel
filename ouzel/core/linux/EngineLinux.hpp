@@ -27,7 +27,7 @@ namespace ouzel
 
 #if OUZEL_SUPPORTS_X11
         inline Display* getDisplay() const { return display; }
-#else
+#elif OUZEL_SUPPORTS_DISPMANX
         inline DISPMANX_DISPLAY_HANDLE_T getDisplay() const { return display; }
 #endif
 
@@ -41,7 +41,7 @@ namespace ouzel
 
 #if OUZEL_SUPPORTS_X11
         Display* display = nullptr;
-#else
+#elif OUZEL_SUPPORTS_DISPMANX
         DISPMANX_DISPLAY_HANDLE_T display = DISPMANX_NO_HANDLE;
 #endif
     };
