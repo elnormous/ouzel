@@ -7,6 +7,8 @@
 
 #if defined(__linux__) && !defined(__ANDROID__) && OUZEL_COMPILE_OPENGL
 
+#include "graphics/opengl/OGL.h"
+
 #include <atomic>
 #include <thread>
 #if OUZEL_OPENGL_INTERFACE_GLX

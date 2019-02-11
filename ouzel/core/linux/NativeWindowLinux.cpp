@@ -3,7 +3,7 @@
 #include "core/Setup.h"
 
 #include <stdexcept>
-#if OUZEL_COMPILE_OPENGL && OUZEL_OPENGL_INTERFACE_GLX
+#if OUZEL_COMPILE_OPENGL && OUZEL_SUPPORTS_X11
 #  include <GL/glx.h>
 #endif
 
