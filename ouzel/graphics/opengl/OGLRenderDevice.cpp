@@ -11,6 +11,8 @@
 #include <cassert>
 #include <sstream>
 
+#include "graphics/opengl/OGL.h"
+
 #if OUZEL_OPENGLES
 #  include "GLES/gl.h"
 #  include "GLES2/gl2.h"
