@@ -260,7 +260,7 @@
     <ClInclude Include="..\ouzel\graphics\GraphicsResource.hpp" />
     <ClInclude Include="..\ouzel\graphics\ImageData.hpp" />
     <ClInclude Include="..\ouzel\graphics\Material.hpp" />
-    <ClInclude Include="..\ouzel\graphics\opengl\OGL.hpp" />
+    <ClInclude Include="..\ouzel\graphics\opengl\OGL.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\OGLBlendState.hpp" />
     <ClInclude Include="..\ouzel\graphics\opengl\OGLBuffer.hpp" />
     <ClInclude Include="..\ouzel\graphics\opengl\OGLDepthStencilState.hpp" />

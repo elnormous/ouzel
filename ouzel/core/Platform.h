@@ -65,7 +65,7 @@
 #  define OUZEL_SUPPORTS_OPENAL 1
 
 #else
-# error "Unsupported platform"
+#  error "Unsupported platform"
 #endif
 
 #endif // OUZEL_PLATFORM_H

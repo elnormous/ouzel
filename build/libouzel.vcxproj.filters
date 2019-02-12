@@ -741,9 +741,6 @@
     <ClInclude Include="..\ouzel\graphics\direct3d11\D3D11RenderDevice.hpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\opengl\OGL.hpp">
-      <Filter>ouzel\graphics\opengl</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\graphics\opengl\OGLRenderDevice.hpp">
       <Filter>ouzel\graphics\opengl</Filter>
     </ClInclude>
@@ -986,6 +983,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\GraphicsResource.hpp">
       <Filter>ouzel\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\OGL.h">
+      <Filter>ouzel\graphics\opengl</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
