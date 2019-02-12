@@ -32,18 +32,6 @@ namespace ouzel
 #endif
         }
 
-#ifdef _WIN32
-        Socket::Socket(SOCKET s):
-            endpoint(s)
-        {
-        }
-#else
-        Socket::Socket(int s):
-            endpoint(s)
-        {
-        }
-#endif
-
         Socket::~Socket()
         {
 #ifdef _WIN32

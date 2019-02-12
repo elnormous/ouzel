@@ -20,9 +20,15 @@ namespace ouzel
         public:
             Socket();
 #ifdef _WIN32
-            Socket(SOCKET s);
+            Socket(SOCKET s):
+                endpoint(s)
+            {
+            }
 #else
-            Socket(int s);
+            Socket(int s):
+                endpoint(s)
+            {
+            }
 #endif
             ~Socket();
 

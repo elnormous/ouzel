@@ -9,9 +9,12 @@ namespace ouzel
 {
     namespace network
     {
+        class Network;
+
         class Client final
         {
         public:
+            Client(Network& initNetwork);
             ~Client();
 
             Client(const Client&) = delete;
@@ -23,6 +26,7 @@ namespace ouzel
             void disconnect();
 
         private:
+            Network* network = nullptr;
             Socket sock;
         };
     } // namespace network
