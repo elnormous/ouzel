@@ -148,7 +148,7 @@ namespace ouzel
 
                 GLenum status;
                 if ((status = renderDevice.glCheckFramebufferStatusProc(GL_FRAMEBUFFER)) != GL_FRAMEBUFFER_COMPLETE)
-                    throw std::runtime_error("Failed to create frame buffer, status: " + std::to_string(status));
+                    throw std::runtime_error("Failed to create frame buffer, status: " + statusToString(status));
 
                 if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
                     throw std::system_error(makeErrorCode(error), "Failed to check frame buffer status");
