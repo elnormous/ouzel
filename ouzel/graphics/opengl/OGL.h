@@ -31,7 +31,7 @@
 #  define OUZEL_OPENGLES 1
 #  define OUZEL_OPENGL_INTERFACE_EGL 1
 #else
-# error "Unsupported platform"
+#  error "Unsupported platform"
 #endif
 
 #endif // OUZEL_GRAPHICS_OGL_H
