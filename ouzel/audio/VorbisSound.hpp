@@ -15,9 +15,6 @@ namespace ouzel
         {
         public:
             VorbisSound(Audio& initAudio, const std::vector<uint8_t>& initData);
-
-        private:
-            std::vector<uint8_t> data;
         };
     } // namespace audio
 } // namespace ouzel
