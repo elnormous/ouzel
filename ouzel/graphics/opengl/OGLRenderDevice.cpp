@@ -89,8 +89,9 @@ namespace ouzel
         {
             switch (indexSize)
             {
+                case 1: return GL_UNSIGNED_BYTE;
                 case 2: return GL_UNSIGNED_SHORT;
-                case 4: return GL_UNSIGNED_INT;
+                case 4: return GL_UNSIGNED_INT; // Supported on OpenGL and OpenGL ES 3 and above
                 default: throw std::runtime_error("Invalid index size");
             }
         }
