@@ -522,6 +522,7 @@ namespace ouzel
             textureBaseLevelSupported = false;
             textureMaxLevelSupported = false;
             renderTargetsSupported = false;
+            uintElementIndexSupported = false;
 
             if (apiMajorVersion >= 4)
             {
@@ -547,10 +548,11 @@ namespace ouzel
                     glTexStorage2DMultisampleProc = getExtProcAddress<PFNGLTEXSTORAGE2DMULTISAMPLEPROC>("glTexStorage2DMultisample");
 #endif
                 npotTexturesSupported = true;
+                renderTargetsSupported = true;
                 multisamplingSupported = true;
                 textureBaseLevelSupported = true;
                 textureMaxLevelSupported = true;
-                renderTargetsSupported = true;
+                uintElementIndexSupported = true;
 
                 glUniform1uivProc = getExtProcAddress<PFNGLUNIFORM1UIVPROC>("glUniform1uiv");
                 glUniform2uivProc = getExtProcAddress<PFNGLUNIFORM2UIVPROC>("glUniform2uiv");
@@ -603,9 +605,10 @@ namespace ouzel
             if (apiMajorVersion >= 2)
             {
 #if !OUZEL_OPENGLES
+                renderTargetsSupported = true;
                 textureBaseLevelSupported = true;
                 textureMaxLevelSupported = true;
-                renderTargetsSupported = true;
+                uintElementIndexSupported = true;
 #endif
             }
 
@@ -648,6 +651,8 @@ namespace ouzel
                     glMapBufferProc = getExtProcAddress<PFNGLMAPBUFFEROESPROC>("glMapBufferOES");
                     glUnmapBufferProc = getExtProcAddress<PFNGLUNMAPBUFFEROESPROC>("glUnmapBufferOES");
                 }
+                else if (extension == "OES_element_index_uint")
+                    uintElementIndexSupported = true;
 #  if !OUZEL_OPENGL_INTERFACE_EAGL
                 else if (extension == "GL_EXT_copy_image")
                     glCopyImageSubDataProc = getExtProcAddress<PFNGLCOPYIMAGESUBDATAEXTPROC>("glCopyImageSubDataEXT");
