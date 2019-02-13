@@ -48,6 +48,7 @@ namespace ouzel
             inline GLuint getFrameBufferId() const { return frameBufferId; }
 
         private:
+            void createFrameBuffer();
             GLuint frameBufferId = 0;
 
             std::set<OGLTexture*> colorTextures;
