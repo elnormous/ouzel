@@ -43,6 +43,27 @@ namespace ouzel
             colorTextures(initColorTextures),
             depthTexture(initDepthTexture)
         {
+            createFrameBuffer();
+        }
+
+        OGLRenderTarget::~OGLRenderTarget()
+        {
+            if (frameBufferId)
+                renderDevice.deleteFrameBuffer(frameBufferId);
+        }
+
+        void OGLRenderTarget::reload()
+        {
+            for (OGLTexture* colorTexture : colorTextures)
+                colorTexture->reload();
+            if (depthTexture) depthTexture->reload();
+
+            frameBufferId = 0;
+            createFrameBuffer();
+        }
+
+        void OGLRenderTarget::createFrameBuffer()
+        {
             renderDevice.glGenFramebuffersProc(1, &frameBufferId);
 
             GLenum error;
@@ -100,21 +121,6 @@ namespace ouzel
                 if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
                     throw std::system_error(makeErrorCode(error), "Failed to check frame buffer status");
             }
-        }
-
-        OGLRenderTarget::~OGLRenderTarget()
-        {
-            if (frameBufferId)
-                renderDevice.deleteFrameBuffer(frameBufferId);
-        }
-
-        void OGLRenderTarget::reload()
-        {
-            for (OGLTexture* colorTexture : colorTextures)
-                colorTexture->reload();
-            if (depthTexture) depthTexture->reload();
-
-            renderDevice.glGenFramebuffersProc(1, &frameBufferId);
         }
     } // namespace graphics
 } // namespace ouzel
