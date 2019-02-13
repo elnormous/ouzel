@@ -28,9 +28,6 @@ namespace ouzel
                 PRESENT,
                 DELETE_RESOURCE,
                 INIT_RENDER_TARGET,
-                ADD_RENDER_TARGET_COLOR_TEXTURE,
-                REMOVE_RENDER_TARGET_COLOR_TEXTURE,
-                SET_RENDER_TARGET_DEPTH_TEXTURE,
                 SET_RENDER_TARGET,
                 CLEAR_RENDER_TARGET,
                 BLIT,
@@ -97,58 +94,19 @@ namespace ouzel
         class InitRenderTargetCommand final: public Command
         {
         public:
-            explicit InitRenderTargetCommand(uintptr_t initRenderTarget):
+            explicit InitRenderTargetCommand(uintptr_t initRenderTarget,
+                                             const std::set<uintptr_t>& initColorTextures,
+                                             uintptr_t initDepthTexture):
                 Command(Command::Type::INIT_RENDER_TARGET),
-                renderTarget(initRenderTarget)
-            {
-            }
-
-            uintptr_t renderTarget;
-        };
-
-        class AddRenderTargetColorTextureCommand final: public Command
-        {
-        public:
-            AddRenderTargetColorTextureCommand(uintptr_t initRenderTarget,
-                                               uintptr_t initTexture):
-                Command(Command::Type::ADD_RENDER_TARGET_COLOR_TEXTURE),
                 renderTarget(initRenderTarget),
-                texture(initTexture)
+                colorTextures(initColorTextures),
+                depthTexture(initDepthTexture)
             {
             }
 
             uintptr_t renderTarget;
-            uintptr_t texture;
-        };
-
-        class RemoveRenderTargetColorTextureCommand final: public Command
-        {
-        public:
-            RemoveRenderTargetColorTextureCommand(uintptr_t initRenderTarget,
-                                                  uintptr_t initTexture):
-            Command(Command::Type::REMOVE_RENDER_TARGET_COLOR_TEXTURE),
-            renderTarget(initRenderTarget),
-            texture(initTexture)
-            {
-            }
-
-            uintptr_t renderTarget;
-            uintptr_t texture;
-        };
-
-        class SetRenderTargetDepthTextureCommand final: public Command
-        {
-        public:
-            SetRenderTargetDepthTextureCommand(uintptr_t initRenderTarget,
-                                               uintptr_t initTexture):
-                Command(Command::Type::SET_RENDER_TARGET_DEPTH_TEXTURE),
-                renderTarget(initRenderTarget),
-                texture(initTexture)
-            {
-            }
-
-            uintptr_t renderTarget;
-            uintptr_t texture;
+            std::set<uintptr_t> colorTextures;
+            uintptr_t depthTexture;
         };
 
         class SetRenderTargetCommand final: public Command
