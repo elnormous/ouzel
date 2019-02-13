@@ -1,6 +1,5 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include <algorithm>
 #include "RenderTarget.hpp"
 #include "Renderer.hpp"
 #include "RenderDevice.hpp"
@@ -9,67 +8,21 @@ namespace ouzel
 {
     namespace graphics
     {
-        RenderTarget::RenderTarget(Renderer& initRenderer):
-            resource(initRenderer)
+        RenderTarget::RenderTarget(Renderer& initRenderer,
+                                   const std::vector<std::shared_ptr<Texture>>& initColorTextures,
+                                   const std::shared_ptr<Texture>& initDepthTexture):
+            resource(initRenderer),
+            colorTextures(initColorTextures),
+            depthTexture(initDepthTexture)
         {
-            initRenderer.addCommand(std::unique_ptr<Command>(new InitRenderTargetCommand(resource.getId())));
-        }
+            std::set<uintptr_t> colorTextureIds;
 
-        void RenderTarget::addColorTexture(const std::shared_ptr<Texture>& texture)
-        {
-            auto i = std::find_if(colorTextures.begin(), colorTextures.end(), [&texture](const std::shared_ptr<Texture>& other) {
-                return texture.get() == other.get();
-            });
+            for (const auto& colorTexture : colorTextures)
+                colorTextureIds.insert(colorTexture ? colorTexture->getResource() : 0);
 
-            if (i == colorTextures.end())
-            {
-                colorTextures.push_back(texture);
-
-                if (resource.getId())
-                    resource.getRenderer()->addCommand(std::unique_ptr<Command>(new AddRenderTargetColorTextureCommand(resource.getId(),
-                                                                                                                       texture->getResource())));
-            }
-        }
-
-        void RenderTarget::removeColorTexture(const std::shared_ptr<Texture>& texture)
-        {
-            auto i = std::find_if(colorTextures.begin(), colorTextures.end(), [&texture](const std::shared_ptr<Texture>& other) {
-                return texture.get() == other.get();
-            });
-
-            if (i != colorTextures.end())
-            {
-                colorTextures.erase(i);
-
-                if (resource.getId())
-                    resource.getRenderer()->addCommand(std::unique_ptr<Command>(new RemoveRenderTargetColorTextureCommand(resource.getId(),
-                                                                                                                          texture->getResource())));
-            }
-        }
-
-        void RenderTarget::removeColorTexture(Texture* texture)
-        {
-            auto i = std::find_if(colorTextures.begin(), colorTextures.end(), [texture](const std::shared_ptr<Texture>& other) {
-                return texture == other.get();
-            });
-
-            if (i != colorTextures.end())
-            {
-                colorTextures.erase(i);
-
-                if (resource.getId())
-                    resource.getRenderer()->addCommand(std::unique_ptr<Command>(new RemoveRenderTargetColorTextureCommand(resource.getId(),
-                                                                                                                          texture->getResource())));
-            }
-        }
-
-        void RenderTarget::setDepthTexture(const std::shared_ptr<Texture>& texture)
-        {
-            depthTexture = texture;
-
-            if (resource.getId())
-                resource.getRenderer()->addCommand(std::unique_ptr<Command>(new SetRenderTargetDepthTextureCommand(resource.getId(),
-                                                                                                                   texture ? texture->getResource() : 0)));
+            initRenderer.addCommand(std::unique_ptr<Command>(new InitRenderTargetCommand(resource.getId(),
+                                                                                         colorTextureIds,
+                                                                                         depthTexture ? depthTexture->getResource() : 0)));
         }
     } // namespace graphics
 } // namespace ouzel

@@ -33,14 +33,12 @@ namespace ouzel
         class OGLRenderTarget final: public OGLRenderResource
         {
         public:
-            explicit OGLRenderTarget(OGLRenderDevice& renderDeviceOGL);
+            explicit OGLRenderTarget(OGLRenderDevice& renderDeviceOGL,
+                                     const std::set<OGLTexture*>& initColorTextures,
+                                     OGLTexture* initDepthTexture);
             ~OGLRenderTarget();
 
             void reload() override;
-
-            void addColorTexture(OGLTexture* texture);
-            void removeColorTexture(OGLTexture* texture);
-            void setDepthTexture(OGLTexture* texture);
 
             void setClearColorBuffer(bool clear);
             void setClearDepthBuffer(bool clear);

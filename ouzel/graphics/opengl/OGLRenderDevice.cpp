@@ -848,38 +848,18 @@ namespace ouzel
                         case Command::INIT_RENDER_TARGET:
                         {
                             auto initRenderTargetCommand = static_cast<const InitRenderTargetCommand*>(command.get());
-                            std::unique_ptr<OGLRenderTarget> renderTarget(new OGLRenderTarget(*this));
+
+                            std::set<OGLTexture*> colorTextures;
+                            for (uintptr_t colorTextureId : initRenderTargetCommand->colorTextures)
+                                colorTextures.insert(getResource<OGLTexture>(colorTextureId));
+
+                            std::unique_ptr<OGLRenderTarget> renderTarget(new OGLRenderTarget(*this,
+                                                                                              colorTextures,
+                                                                                              getResource<OGLTexture>(initRenderTargetCommand->depthTexture)));
 
                             if (initRenderTargetCommand->renderTarget > resources.size())
                                 resources.resize(initRenderTargetCommand->renderTarget);
                             resources[initRenderTargetCommand->renderTarget - 1] = std::move(renderTarget);
-                            break;
-                        }
-
-                        case Command::ADD_RENDER_TARGET_COLOR_TEXTURE:
-                        {
-                            auto addRenderTargetColorTextureCommand = static_cast<const AddRenderTargetColorTextureCommand*>(command.get());
-                            OGLRenderTarget* renderTarget = static_cast<OGLRenderTarget*>(resources[addRenderTargetColorTextureCommand->renderTarget - 1].get());
-                            OGLTexture* texture = addRenderTargetColorTextureCommand->texture ? static_cast<OGLTexture*>(resources[addRenderTargetColorTextureCommand->texture - 1].get()) : nullptr;
-                            renderTarget->addColorTexture(texture);
-                            break;
-                        }
-
-                        case Command::REMOVE_RENDER_TARGET_COLOR_TEXTURE:
-                        {
-                            auto removeRenderTargetColorTextureCommand = static_cast<const RemoveRenderTargetColorTextureCommand*>(command.get());
-                            OGLRenderTarget* renderTarget = static_cast<OGLRenderTarget*>(resources[removeRenderTargetColorTextureCommand->renderTarget - 1].get());
-                            OGLTexture* texture = removeRenderTargetColorTextureCommand->texture ? static_cast<OGLTexture*>(resources[removeRenderTargetColorTextureCommand->texture - 1].get()) : nullptr;
-                            renderTarget->removeColorTexture(texture);
-                            break;
-                        }
-
-                        case Command::SET_RENDER_TARGET_DEPTH_TEXTURE:
-                        {
-                            auto setRenderTargetDepthTextureCommand = static_cast<const SetRenderTargetDepthTextureCommand*>(command.get());
-                            OGLRenderTarget* renderTarget = static_cast<OGLRenderTarget*>(resources[setRenderTargetDepthTextureCommand->renderTarget - 1].get());
-                            OGLTexture* texture = setRenderTargetDepthTextureCommand->texture ? static_cast<OGLTexture*>(resources[setRenderTargetDepthTextureCommand->texture - 1].get()) : nullptr;
-                            renderTarget->setDepthTexture(texture);
                             break;
                         }
 
@@ -889,7 +869,7 @@ namespace ouzel
 
                             if (setRenderTargetCommand->renderTarget)
                             {
-                                currentRenderTarget = static_cast<OGLRenderTarget*>(resources[setRenderTargetCommand->renderTarget - 1].get());
+                                currentRenderTarget = getResource<OGLRenderTarget>(setRenderTargetCommand->renderTarget);
 
                                 if (!currentRenderTarget->getFrameBufferId()) break;
                                 bindFrameBuffer(currentRenderTarget->getFrameBufferId());
@@ -968,8 +948,8 @@ namespace ouzel
 #if !OUZEL_OPENGLES
                             auto blitCommand = static_cast<const BlitCommand*>(command.get());
 
-                            OGLTexture* sourceOGLTexture = static_cast<OGLTexture*>(resources[blitCommand->sourceTexture - 1].get());
-                            OGLTexture* destinationOGLTexture = static_cast<OGLTexture*>(resources[blitCommand->destinationTexture - 1].get());
+                            OGLTexture* sourceOGLTexture = getResource<OGLTexture>(blitCommand->sourceTexture);
+                            OGLTexture* destinationOGLTexture = getResource<OGLTexture>(blitCommand->destinationTexture);
 
                             if (glCopyImageSubDataProc)
                                 glCopyImageSubDataProc(sourceOGLTexture->getTextureId(),
@@ -1063,7 +1043,7 @@ namespace ouzel
 
                             if (setDepthStencilStateCommand->depthStencilState)
                             {
-                                OGLDepthStencilState* depthStencilState = static_cast<OGLDepthStencilState*>(resources[setDepthStencilStateCommand->depthStencilState - 1].get());
+                                OGLDepthStencilState* depthStencilState = getResource<OGLDepthStencilState>(setDepthStencilStateCommand->depthStencilState);
 
                                 enableDepthTest(depthStencilState->getDepthTest());
                                 setDepthMask(depthStencilState->getDepthMask());
@@ -1107,8 +1087,8 @@ namespace ouzel
                         {
                             auto setPipelineStateCommand = static_cast<const SetPipelineStateCommand*>(command.get());
 
-                            OGLBlendState* blendState = static_cast<OGLBlendState*>(resources[setPipelineStateCommand->blendState - 1].get());
-                            OGLShader* shader = static_cast<OGLShader*>(resources[setPipelineStateCommand->shader - 1].get());
+                            OGLBlendState* blendState = getResource<OGLBlendState>(setPipelineStateCommand->blendState);
+                            OGLShader* shader = getResource<OGLShader>(setPipelineStateCommand->shader);
                             currentShader = shader;
 
                             if (blendState)
@@ -1148,8 +1128,8 @@ namespace ouzel
                             auto drawCommand = static_cast<const DrawCommand*>(command.get());
 
                             // mesh buffer
-                            OGLBuffer* indexBuffer = static_cast<OGLBuffer*>(resources[drawCommand->indexBuffer - 1].get());
-                            OGLBuffer* vertexBuffer = static_cast<OGLBuffer*>(resources[drawCommand->vertexBuffer - 1].get());
+                            OGLBuffer* indexBuffer = getResource<OGLBuffer>(drawCommand->indexBuffer);
+                            OGLBuffer* vertexBuffer = getResource<OGLBuffer>(drawCommand->vertexBuffer);
 
                             assert(indexBuffer);
                             assert(indexBuffer->getBufferId());
@@ -1249,7 +1229,7 @@ namespace ouzel
                         {
                             auto setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command.get());
 
-                            OGLBuffer* buffer = static_cast<OGLBuffer*>(resources[setBufferDataCommand->buffer - 1].get());
+                            OGLBuffer* buffer = getResource<OGLBuffer>(setBufferDataCommand->buffer);
                             buffer->setData(setBufferDataCommand->data);
                             break;
                         }
@@ -1338,7 +1318,7 @@ namespace ouzel
                         {
                             auto setTextureDataCommand = static_cast<const SetTextureDataCommand*>(command.get());
 
-                            OGLTexture* texture = static_cast<OGLTexture*>(resources[setTextureDataCommand->texture - 1].get());
+                            OGLTexture* texture = getResource<OGLTexture>(setTextureDataCommand->texture);
                             texture->setData(setTextureDataCommand->levels);
 
                             break;
@@ -1348,7 +1328,7 @@ namespace ouzel
                         {
                             auto setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
 
-                            OGLTexture* texture = static_cast<OGLTexture*>(resources[setTextureParametersCommand->texture - 1].get());
+                            OGLTexture* texture = getResource<OGLTexture>(setTextureParametersCommand->texture);
                             texture->setFilter(setTextureParametersCommand->filter);
                             texture->setAddressX(setTextureParametersCommand->addressX);
                             texture->setAddressY(setTextureParametersCommand->addressY);
@@ -1364,7 +1344,7 @@ namespace ouzel
                             {
                                 if (setTexturesCommand->textures[layer])
                                 {
-                                    OGLTexture* texture = static_cast<OGLTexture*>(resources[setTexturesCommand->textures[layer] - 1].get());
+                                    OGLTexture* texture = getResource<OGLTexture>(setTexturesCommand->textures[layer]);
                                     bindTexture(GL_TEXTURE_2D, layer, texture->getTextureId());
                                 }
                                 else
