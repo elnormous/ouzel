@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_SCENE_SHAPERENDERER_HPP
 #define OUZEL_SCENE_SHAPERENDERER_HPP
