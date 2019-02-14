@@ -588,9 +588,8 @@ namespace ouzel
             void deleteTexture(GLuint textureId)
             {
                 for (auto& texture : stateCache.textures)
-                    for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
-                        if (texture.second.textureId[layer] == textureId)
-                            texture.second.textureId[layer] = 0;
+                    for (uint32_t& boundTextureId : texture.second.textureId)
+                        if (boundTextureId == textureId) boundTextureId = 0;
 
                 glDeleteTexturesProc(1, &textureId);
             }
@@ -656,7 +655,7 @@ namespace ouzel
 
                 struct Textures
                 {
-                    GLuint textureId[Texture::LAYERS]{0};
+                    GLuint textureId[16]{0};
                 };
 
                 std::map<GLenum, Textures> textures{

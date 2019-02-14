@@ -355,7 +355,7 @@ namespace ouzel
                 vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
 
                 std::vector<uintptr_t> textures;
-                textures.reserve(graphics::Texture::LAYERS);
+                textures.reserve(graphics::Material::TEXTURE_LAYERS);
                 for (const std::shared_ptr<graphics::Texture>& texture : material->textures)
                     textures.push_back(texture ? texture->getResource() : 0);
 

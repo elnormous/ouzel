@@ -17,6 +17,8 @@ namespace ouzel
         class Material final
         {
         public:
+            static constexpr uint32_t TEXTURE_LAYERS = 4;
+
             Material() = default;
 
             Material(const Material&) = delete;
@@ -27,7 +29,7 @@ namespace ouzel
 
             std::shared_ptr<BlendState> blendState;
             std::shared_ptr<Shader> shader;
-            std::shared_ptr<Texture> textures[Texture::LAYERS];
+            std::shared_ptr<Texture> textures[TEXTURE_LAYERS];
             graphics::CullMode cullMode = graphics::CullMode::BACK;
             Color diffuseColor = Color::WHITE;
             float opacity = 1.0F;

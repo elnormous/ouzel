@@ -57,8 +57,6 @@ namespace ouzel
                 std::vector<uint8_t> data;
             };
 
-            static constexpr uint32_t LAYERS = 4;
-
             Texture()
             {
             }
