@@ -11,6 +11,10 @@
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"
 
+#ifndef XAUDIO2_DEBUG_ENGINE
+#  define XAUDIO2_DEBUG_ENGINE            0x0001        // Used in XAudio2Create on Windows only
+#endif
+
 static constexpr char* XAUDIO2_DLL_28 = "xaudio2_8.dll";
 static constexpr char* XAUDIO2_DLL_27 = "xaudio2_7.dll";
 
@@ -89,8 +93,6 @@ namespace ouzel
                 }
                 else
                     throw std::runtime_error("Failed to load " + std::string(XAUDIO2_DLL_27));
-
-                constexpr UINT XAUDIO2_DEBUG_ENGINE = 0x0001;
 
                 UINT32 flags = 0;
                 if (debugAudio) flags |= XAUDIO2_DEBUG_ENGINE;
