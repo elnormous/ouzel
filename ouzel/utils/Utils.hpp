@@ -81,6 +81,23 @@ namespace ouzel
         return result;
     }
 
+    inline std::vector<std::string> explodeString(const std::string& str, char delimiter = ' ')
+    {
+        std::string buffer;
+        std::vector<std::string> result;
+
+        for(char c : str)
+            if (c != delimiter) buffer.push_back(c);
+            else if (c == delimiter && !buffer.empty())
+            {
+                result.push_back(buffer);
+                buffer.clear();
+            }
+
+        if (!buffer.empty()) result.push_back(buffer);
+        return result;
+    }
+
     void setCurrentThreadName(const std::string& name);
 }
 

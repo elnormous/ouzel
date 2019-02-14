@@ -9,7 +9,6 @@
 #endif
 
 #include <cassert>
-#include <sstream>
 
 #include "graphics/opengl/OGL.h"
 
@@ -506,12 +505,7 @@ namespace ouzel
                 if ((error = glGetErrorProc()) != GL_NO_ERROR || !extensionsPtr)
                     engine->log(Log::Level::WARN) << "Failed to get OpenGL extensions";
                 else
-                {
-                    std::istringstream extensionStringStream(reinterpret_cast<const char*>(extensionsPtr));
-
-                    for (std::string extension; extensionStringStream >> extension;)
-                        extensions.push_back(extension);
-                }
+                    extensions = explodeString(reinterpret_cast<const char*>(extensionsPtr), ' ');
             }
 
             engine->log(Log::Level::ALL) << "Supported OpenGL extensions: " << extensions;

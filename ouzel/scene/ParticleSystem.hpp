@@ -114,7 +114,7 @@ namespace ouzel
 
             std::shared_ptr<graphics::Texture> texture;
         };
-        
+
         class ParticleSystem: public Component
         {
         public:
