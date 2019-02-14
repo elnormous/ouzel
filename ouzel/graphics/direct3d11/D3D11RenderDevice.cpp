@@ -338,8 +338,8 @@ namespace ouzel
             D3D11RenderTarget* currentRenderTarget = nullptr;
             D3D11Shader* currentShader = nullptr;
 
-            std::vector<ID3D11ShaderResourceView*> resourceViews;
-            std::vector<ID3D11SamplerState*> samplerStates;
+            std::vector<ID3D11ShaderResourceView*> currentResourceViews;
+            std::vector<ID3D11SamplerState*> currentSamplerStates;
 
             CommandBuffer commandBuffer;
 
@@ -842,25 +842,25 @@ namespace ouzel
                         {
                             auto setTexturesCommand = static_cast<const SetTexturesCommand*>(command.get());
 
-                            resourceViews.clear();
-                            samplerStates.clear();
+                            currentResourceViews.clear();
+                            currentSamplerStates.clear();
 
                             for (uintptr_t resource : setTexturesCommand->textures)
                             {
                                 if (D3D11Texture* texture = getResource<D3D11Texture>(resource))
                                 {
-                                    resourceViews.push_back(texture->getResourceView());
-                                    samplerStates.push_back(texture->getSamplerState());
+                                    currentResourceViews.push_back(texture->getResourceView());
+                                    currentSamplerStates.push_back(texture->getSamplerState());
                                 }
                                 else
                                 {
-                                    resourceViews.push_back(nullptr);
-                                    samplerStates.push_back(nullptr);
+                                    currentResourceViews.push_back(nullptr);
+                                    currentSamplerStates.push_back(nullptr);
                                 }
                             }
 
-                            context->PSSetShaderResources(0, static_cast<UINT>(resourceViews.size()), resourceViews.data());
-                            context->PSSetSamplers(0, static_cast<UINT>(samplerStates.size()), samplerStates.data());
+                            context->PSSetShaderResources(0, static_cast<UINT>(currentResourceViews.size()), currentResourceViews.data());
+                            context->PSSetSamplers(0, static_cast<UINT>(currentSamplerStates.size()), currentSamplerStates.data());
 
                             break;
                         }
