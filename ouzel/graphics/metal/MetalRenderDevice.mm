@@ -867,11 +867,10 @@ namespace ouzel
                             if (!currentRenderCommandEncoder)
                                 throw std::runtime_error("Metal render command encoder not initialized");
 
-                            for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
+                            for (uint32_t layer = 0; layer < setTexturesCommand->textures.size(); ++layer)
                             {
-                                if (setTexturesCommand->textures[layer])
+                                if (MetalTexture* texture = getResource<MetalTexture>(setTexturesCommand->textures[layer]))
                                 {
-                                    MetalTexture* texture = getResource<MetalTexture>(setTexturesCommand->textures[layer]);
                                     [currentRenderCommandEncoder setFragmentTexture:texture->getTexture() atIndex:layer];
                                     [currentRenderCommandEncoder setFragmentSamplerState:texture->getSamplerState() atIndex:layer];
                                 }

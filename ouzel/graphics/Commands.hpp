@@ -562,14 +562,13 @@ namespace ouzel
         class SetTexturesCommand final: public Command
         {
         public:
-            explicit SetTexturesCommand(uintptr_t initTextures[Texture::LAYERS]):
-                Command(Command::Type::SET_TEXTURES)
+            explicit SetTexturesCommand(const std::vector<uintptr_t>& initTextures):
+                Command(Command::Type::SET_TEXTURES),
+                textures(initTextures)
             {
-                for (uint32_t i = 0; i < Texture::LAYERS; ++i)
-                    textures[i] = initTextures[i];
             }
 
-            uintptr_t textures[Texture::LAYERS];
+            std::vector<uintptr_t> textures;
         };
 
         class CommandBuffer final

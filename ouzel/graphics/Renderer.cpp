@@ -290,12 +290,7 @@ namespace ouzel
 
         void Renderer::setTextures(const std::vector<uintptr_t>& textures)
         {
-            uintptr_t newTextures[Texture::LAYERS];
-
-            for (uint32_t i = 0; i < Texture::LAYERS; ++i)
-                newTextures[i] = (i < textures.size()) ? textures[i] : 0;
-
-            addCommand(std::unique_ptr<Command>(new SetTexturesCommand(newTextures)));
+            addCommand(std::unique_ptr<Command>(new SetTexturesCommand(textures)));
         }
 
         void Renderer::present()
