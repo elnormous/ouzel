@@ -9,7 +9,7 @@
 #include <string>
 #include <type_traits>
 #include <vector>
-#include "UTF8.hpp"
+#include "utils/UTF8.hpp"
 
 namespace ouzel
 {
