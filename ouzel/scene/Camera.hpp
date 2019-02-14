@@ -37,8 +37,8 @@ namespace ouzel
                 SHOW_ALL
             };
 
-            explicit Camera(const Matrix4<float>& initProjection);
-            explicit Camera(const Size2<float>& initTargetContentSize = Size2<float>(), ScaleMode initScaleMode = ScaleMode::NONE);
+            explicit Camera(const Matrix4F& initProjection);
+            explicit Camera(const Size2F& initTargetContentSize = Size2F(), ScaleMode initScaleMode = ScaleMode::NONE);
             explicit Camera(float initFov, float initNearPlane = 1.0F, float initFarPlane = 100.0F);
             ~Camera();
 
@@ -54,31 +54,31 @@ namespace ouzel
             inline float getFarPlane() const { return farPlane; }
             void setFarPlane(float newFarPlane) { farPlane = newFarPlane; }
 
-            const Matrix4<float>& getProjection() const { return projection; }
+            const Matrix4F& getProjection() const { return projection; }
             void recalculateProjection();
 
-            const Matrix4<float>& getViewProjection() const;
-            const Matrix4<float>& getRenderViewProjection() const;
-            const Matrix4<float>& getInverseViewProjection() const;
+            const Matrix4F& getViewProjection() const;
+            const Matrix4F& getRenderViewProjection() const;
+            const Matrix4F& getInverseViewProjection() const;
 
-            Vector3<float> convertNormalizedToWorld(const Vector2<float>& normalizedPosition) const;
-            Vector2<float> convertWorldToNormalized(const Vector3<float>& worldPosition) const;
+            Vector3F convertNormalizedToWorld(const Vector2F& normalizedPosition) const;
+            Vector2F convertWorldToNormalized(const Vector3F& worldPosition) const;
 
-            bool checkVisibility(const Matrix4<float>& boxTransform, const Box3<float>& box) const;
+            bool checkVisibility(const Matrix4F& boxTransform, const Box3F& box) const;
 
-            inline const Rect<float>& getViewport() const { return viewport; }
-            inline const Rect<float>& getRenderViewport() const { return renderViewport; }
-            void setViewport(const Rect<float>& newViewport);
+            inline const RectF& getViewport() const { return viewport; }
+            inline const RectF& getRenderViewport() const { return renderViewport; }
+            void setViewport(const RectF& newViewport);
 
             inline ScaleMode getScaleMode() const { return scaleMode; }
             void setScaleMode(ScaleMode newScaleMode);
 
-            inline const Size2<float>& getTargetContentSize() const { return targetContentSize; }
-            void setTargetContentSize(const Size2<float>& newTargetContentSize);
+            inline const Size2F& getTargetContentSize() const { return targetContentSize; }
+            void setTargetContentSize(const Size2F& newTargetContentSize);
 
-            inline const Size2<float>& getContentSize() const { return contentSize; }
-            inline const Vector2<float>& getContentScale() const { return contentScale; }
-            inline const Vector2<float>& getContentPosition() const { return contentPosition; }
+            inline const Size2F& getContentSize() const { return contentSize; }
+            inline const Vector2F& getContentScale() const { return contentScale; }
+            inline const Vector2F& getContentPosition() const { return contentPosition; }
 
             inline const std::shared_ptr<graphics::RenderTarget>& getRenderTarget() const { return renderTarget; }
             void setRenderTarget(const std::shared_ptr<graphics::RenderTarget>& newRenderTarget);
@@ -123,26 +123,26 @@ namespace ouzel
             float nearPlane = 1.0F;
             float farPlane = 100.0F;
 
-            Matrix4<float> projection;
+            Matrix4F projection;
 
-            Rect<float> viewport = Rect<float>(0.0F, 0.0F, 1.0F, 1.0F);
-            Rect<float> renderViewport;
-            Size2<float> targetContentSize;
+            RectF viewport = RectF(0.0F, 0.0F, 1.0F, 1.0F);
+            RectF renderViewport;
+            Size2F targetContentSize;
 
             ScaleMode scaleMode = ScaleMode::NONE;
-            Size2<float> contentSize;
-            Vector2<float> contentScale;
-            Vector2<float> contentPosition;
+            Size2F contentSize;
+            Vector2F contentScale;
+            Vector2F contentPosition;
 
             bool depthTest = false;
             bool wireframe = false;
 
             mutable bool viewProjectionDirty = true;
-            mutable Matrix4<float> viewProjection;
-            mutable Matrix4<float> renderViewProjection;
+            mutable Matrix4F viewProjection;
+            mutable Matrix4F renderViewProjection;
 
             mutable bool inverseViewProjectionDirty = true;
-            mutable Matrix4<float> inverseViewProjection;
+            mutable Matrix4F inverseViewProjection;
 
             std::shared_ptr<graphics::RenderTarget> renderTarget;
             std::shared_ptr<graphics::DepthStencilState> depthStencilState;

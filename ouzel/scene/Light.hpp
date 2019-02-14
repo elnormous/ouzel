@@ -33,8 +33,8 @@ namespace ouzel
             inline Color getColor() const { return color; }
             inline void setColor(Color newColor) { color = newColor; }
 
-            inline const Quaternion<float>& getDirection() const { return direction; }
-            inline void setDirection(const Quaternion<float>& newDirection) { direction = newDirection; }
+            inline const QuaternionF& getDirection() const { return direction; }
+            inline void setDirection(const QuaternionF& newDirection) { direction = newDirection; }
 
             inline float getAngle() const { return angle; }
             inline void setAngle(float newAngle) { angle = newAngle; }
@@ -51,7 +51,7 @@ namespace ouzel
         private:
             Type type = Type::POINT;
             Color color;
-            Quaternion<float> direction = Quaternion<float>::identity(); // for spot and directional ligt
+            QuaternionF direction = QuaternionF::identity(); // for spot and directional ligt
             float angle = 0.0F; // for spot light
             float range = 0.0F; // for point and spot light
             float intensity = 1.0F;

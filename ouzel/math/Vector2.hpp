@@ -260,6 +260,8 @@ namespace ouzel
     {
         return Vector2<T>(vec.v[0] * scalar, vec.v[1] * scalar);
     }
+
+    using Vector2F = Vector2<float>;
 }
 
 #endif // OUZEL_MATH_VECTOR2_HPP

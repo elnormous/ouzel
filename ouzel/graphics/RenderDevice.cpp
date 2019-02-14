@@ -11,8 +11,8 @@ namespace ouzel
                                    const std::function<void(const Event&)>& initCallback):
             driver(initDriver),
             callback(initCallback),
-            projectionTransform(Matrix4<float>::identity()),
-            renderTargetProjectionTransform(Matrix4<float>::identity())
+            projectionTransform(Matrix4F::identity()),
+            renderTargetProjectionTransform(Matrix4F::identity())
         {
         }
 

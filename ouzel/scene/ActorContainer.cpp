@@ -144,9 +144,9 @@ namespace ouzel
                 actor->setLayer(layer);
         }
 
-        std::vector<std::pair<Actor*, Vector3<float>>> ActorContainer::findActors(const Vector2<float>& position) const
+        std::vector<std::pair<Actor*, Vector3F>> ActorContainer::findActors(const Vector2F& position) const
         {
-            std::vector<std::pair<Actor*, Vector3<float>>> actors;
+            std::vector<std::pair<Actor*, Vector3F>> actors;
 
             std::queue<const ActorContainer*> actorContainers;
             actorContainers.push(this);
@@ -166,11 +166,11 @@ namespace ouzel
 
                         if (actor->isPickable() && actor->pointOn(position))
                         {
-                            std::pair<Actor*, Vector3<float>> result = std::make_pair(actor, actor->convertWorldToLocal(Vector3<float>(position)));
+                            std::pair<Actor*, Vector3F> result = std::make_pair(actor, actor->convertWorldToLocal(Vector3F(position)));
 
                             auto upperBound = std::upper_bound(actors.begin(), actors.end(), result,
-                                                               [](const std::pair<Actor*, Vector3<float>>& a,
-                                                                  const std::pair<Actor*, Vector3<float>>& b) {
+                                                               [](const std::pair<Actor*, Vector3F>& a,
+                                                                  const std::pair<Actor*, Vector3F>& b) {
                                                                    return a.first->worldOrder < b.first->worldOrder;
                                                                });
 
@@ -183,7 +183,7 @@ namespace ouzel
             return actors;
         }
 
-        std::vector<Actor*> ActorContainer::findActors(const std::vector<Vector2<float>>& edges) const
+        std::vector<Actor*> ActorContainer::findActors(const std::vector<Vector2F>& edges) const
         {
             std::vector<Actor*> actors;
 

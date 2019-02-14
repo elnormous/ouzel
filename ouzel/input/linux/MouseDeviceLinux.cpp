@@ -10,7 +10,7 @@ namespace ouzel
 {
     namespace input
     {
-        void MouseDeviceLinux::setPosition(const Vector2<float>& position)
+        void MouseDeviceLinux::setPosition(const Vector2F& position)
         {
 #if OUZEL_SUPPORTS_X11
             EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
@@ -21,7 +21,7 @@ namespace ouzel
             XWindowAttributes attributes;
             XGetWindowAttributes(display, window, &attributes);
 
-            Vector2<float> windowLocation = engine->getWindow()->convertNormalizedToWindowLocation(position);
+            Vector2F windowLocation = engine->getWindow()->convertNormalizedToWindowLocation(position);
 
             XWarpPointer(display, None, window, 0, 0, 0, 0,
                          attributes.x + static_cast<int>(windowLocation.v[0]),

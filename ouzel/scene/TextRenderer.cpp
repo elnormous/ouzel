@@ -15,7 +15,7 @@ namespace ouzel
                                    float initFontSize,
                                    const std::string& initText,
                                    Color initColor,
-                                   const Vector2<float>& initTextAnchor):
+                                   const Vector2F& initTextAnchor):
             Component(CLASS),
             text(initText),
             fontSize(initFontSize),
@@ -46,7 +46,7 @@ namespace ouzel
             updateText();
         }
 
-        void TextRenderer::setTextAnchor(const Vector2<float>& newTextAnchor)
+        void TextRenderer::setTextAnchor(const Vector2F& newTextAnchor)
         {
             textAnchor = newTextAnchor;
 
@@ -60,9 +60,9 @@ namespace ouzel
             updateText();
         }
 
-        void TextRenderer::draw(const Matrix4<float>& transformMatrix,
+        void TextRenderer::draw(const Matrix4F& transformMatrix,
                                 float opacity,
-                                const Matrix4<float>& renderViewProjection,
+                                const Matrix4F& renderViewProjection,
                                 bool wireframe)
         {
             Component::draw(transformMatrix,
@@ -78,7 +78,7 @@ namespace ouzel
                 needsMeshUpdate = false;
             }
 
-            Matrix4<float> modelViewProj = renderViewProjection * transformMatrix;
+            Matrix4F modelViewProj = renderViewProjection * transformMatrix;
             float colorVector[] = {color.normR(), color.normG(), color.normB(), color.normA() * opacity};
 
             std::vector<std::vector<float>> fragmentShaderConstants(1);

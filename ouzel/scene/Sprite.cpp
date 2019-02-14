@@ -15,61 +15,61 @@ namespace ouzel
     namespace scene
     {
         SpriteData::Frame::Frame(const std::string& frameName,
-                                 const Size2<float>& textureSize,
-                                 const Rect<float>& frameRectangle,
+                                 const Size2F& textureSize,
+                                 const RectF& frameRectangle,
                                  bool rotated,
-                                 const Size2<float>& sourceSize,
-                                 const Vector2<float>& sourceOffset,
-                                 const Vector2<float>& pivot):
+                                 const Size2F& sourceSize,
+                                 const Vector2F& sourceOffset,
+                                 const Vector2F& pivot):
             name(frameName)
         {
             std::vector<uint16_t> indices = {0, 1, 2, 1, 3, 2};
             indexCount = static_cast<uint32_t>(indices.size());
 
-            Vector2<float> textCoords[4];
-            Vector2<float> finalOffset(-sourceSize.v[0] * pivot.v[0] + sourceOffset.v[0],
+            Vector2F textCoords[4];
+            Vector2F finalOffset(-sourceSize.v[0] * pivot.v[0] + sourceOffset.v[0],
                                        -sourceSize.v[1] * pivot.v[1] + (sourceSize.v[1] - frameRectangle.size.v[1] - sourceOffset.v[1]));
 
             if (!rotated)
             {
-                Vector2<float> leftTop(frameRectangle.position.v[0] / textureSize.v[0],
+                Vector2F leftTop(frameRectangle.position.v[0] / textureSize.v[0],
                                        frameRectangle.position.v[1] / textureSize.v[1]);
 
-                Vector2<float> rightBottom((frameRectangle.position.v[0] + frameRectangle.size.v[0]) / textureSize.v[0],
+                Vector2F rightBottom((frameRectangle.position.v[0] + frameRectangle.size.v[0]) / textureSize.v[0],
                                            (frameRectangle.position.v[1] + frameRectangle.size.v[1]) / textureSize.v[1]);
 
-                textCoords[0] = Vector2<float>(leftTop.v[0], rightBottom.v[1]);
-                textCoords[1] = Vector2<float>(rightBottom.v[0], rightBottom.v[1]);
-                textCoords[2] = Vector2<float>(leftTop.v[0], leftTop.v[1]);
-                textCoords[3] = Vector2<float>(rightBottom.v[0], leftTop.v[1]);
+                textCoords[0] = Vector2F(leftTop.v[0], rightBottom.v[1]);
+                textCoords[1] = Vector2F(rightBottom.v[0], rightBottom.v[1]);
+                textCoords[2] = Vector2F(leftTop.v[0], leftTop.v[1]);
+                textCoords[3] = Vector2F(rightBottom.v[0], leftTop.v[1]);
             }
             else
             {
-                Vector2<float> leftTop = Vector2<float>(frameRectangle.position.v[0] / textureSize.v[0],
+                Vector2F leftTop = Vector2F(frameRectangle.position.v[0] / textureSize.v[0],
                                                         frameRectangle.position.v[1] / textureSize.v[1]);
 
-                Vector2<float> rightBottom = Vector2<float>((frameRectangle.position.v[0] + frameRectangle.size.v[1]) / textureSize.v[0],
+                Vector2F rightBottom = Vector2F((frameRectangle.position.v[0] + frameRectangle.size.v[1]) / textureSize.v[0],
                                                             (frameRectangle.position.v[1] + frameRectangle.size.v[0]) / textureSize.v[1]);
 
-                textCoords[0] = Vector2<float>(leftTop.v[0], leftTop.v[1]);
-                textCoords[1] = Vector2<float>(leftTop.v[0], rightBottom.v[1]);
-                textCoords[2] = Vector2<float>(rightBottom.v[0], leftTop.v[1]);
-                textCoords[3] = Vector2<float>(rightBottom.v[0], rightBottom.v[1]);
+                textCoords[0] = Vector2F(leftTop.v[0], leftTop.v[1]);
+                textCoords[1] = Vector2F(leftTop.v[0], rightBottom.v[1]);
+                textCoords[2] = Vector2F(rightBottom.v[0], leftTop.v[1]);
+                textCoords[3] = Vector2F(rightBottom.v[0], rightBottom.v[1]);
             }
 
             std::vector<graphics::Vertex> vertices = {
-                graphics::Vertex(Vector3<float>(finalOffset.v[0], finalOffset.v[1], 0.0F), Color::WHITE,
-                                 textCoords[0], Vector3<float>(0.0F, 0.0F, -1.0F)),
-                graphics::Vertex(Vector3<float>(finalOffset.v[0] + frameRectangle.size.v[0], finalOffset.v[1], 0.0F), Color::WHITE,
-                                 textCoords[1], Vector3<float>(0.0F, 0.0F, -1.0F)),
-                graphics::Vertex(Vector3<float>(finalOffset.v[0], finalOffset.v[1] + frameRectangle.size.v[1], 0.0F), Color::WHITE,
-                                 textCoords[2], Vector3<float>(0.0F, 0.0F, -1.0F)),
-                graphics::Vertex(Vector3<float>(finalOffset.v[0] + frameRectangle.size.v[0], finalOffset.v[1] + frameRectangle.size.v[1], 0.0F), Color::WHITE,
-                                 textCoords[3], Vector3<float>(0.0F, 0.0F, -1.0F))
+                graphics::Vertex(Vector3F(finalOffset.v[0], finalOffset.v[1], 0.0F), Color::WHITE,
+                                 textCoords[0], Vector3F(0.0F, 0.0F, -1.0F)),
+                graphics::Vertex(Vector3F(finalOffset.v[0] + frameRectangle.size.v[0], finalOffset.v[1], 0.0F), Color::WHITE,
+                                 textCoords[1], Vector3F(0.0F, 0.0F, -1.0F)),
+                graphics::Vertex(Vector3F(finalOffset.v[0], finalOffset.v[1] + frameRectangle.size.v[1], 0.0F), Color::WHITE,
+                                 textCoords[2], Vector3F(0.0F, 0.0F, -1.0F)),
+                graphics::Vertex(Vector3F(finalOffset.v[0] + frameRectangle.size.v[0], finalOffset.v[1] + frameRectangle.size.v[1], 0.0F), Color::WHITE,
+                                 textCoords[3], Vector3F(0.0F, 0.0F, -1.0F))
             };
 
             boundingBox.min = finalOffset;
-            boundingBox.max = finalOffset + Vector2<float>(frameRectangle.size.v[0], frameRectangle.size.v[1]);
+            boundingBox.max = finalOffset + Vector2F(frameRectangle.size.v[0], frameRectangle.size.v[1]);
 
             indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
                                                              graphics::Buffer::Usage::INDEX, 0,
@@ -90,7 +90,7 @@ namespace ouzel
             indexCount = static_cast<uint32_t>(indices.size());
 
             for (const graphics::Vertex& vertex : vertices)
-                boundingBox.insertPoint(Vector2<float>(vertex.position));
+                boundingBox.insertPoint(Vector2F(vertex.position));
 
             indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
                                                              graphics::Buffer::Usage::INDEX, 0,
@@ -106,19 +106,19 @@ namespace ouzel
         SpriteData::Frame::Frame(const std::string& frameName,
                                  const std::vector<uint16_t>& indices,
                                  const std::vector<graphics::Vertex>& vertices,
-                                 const Rect<float>& frameRectangle,
-                                 const Size2<float>& sourceSize,
-                                 const Vector2<float>& sourceOffset,
-                                 const Vector2<float>& pivot):
+                                 const RectF& frameRectangle,
+                                 const Size2F& sourceSize,
+                                 const Vector2F& sourceOffset,
+                                 const Vector2F& pivot):
             name(frameName)
         {
             indexCount = static_cast<uint32_t>(indices.size());
 
             for (const graphics::Vertex& vertex : vertices)
-                boundingBox.insertPoint(Vector2<float>(vertex.position));
+                boundingBox.insertPoint(Vector2F(vertex.position));
 
             // TODO: fix
-            Vector2<float> finalOffset(-sourceSize.v[0] * pivot.v[0] + sourceOffset.v[0],
+            Vector2F finalOffset(-sourceSize.v[0] * pivot.v[0] + sourceOffset.v[0],
                                        -sourceSize.v[1] * pivot.v[1] + (sourceSize.v[1] - frameRectangle.size.v[1] - sourceOffset.v[1]));
 
             indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
@@ -154,7 +154,7 @@ namespace ouzel
 
         Sprite::Sprite(std::shared_ptr<graphics::Texture> texture,
                        uint32_t spritesX, uint32_t spritesY,
-                       const Vector2<float>& pivot):
+                       const Vector2F& pivot):
             Sprite()
         {
             init(texture, spritesX, spritesY, pivot);
@@ -196,12 +196,12 @@ namespace ouzel
 
                 SpriteData::Animation animation;
 
-                Size2<float> size(static_cast<float>(texture->getSize().v[0]),
+                Size2F size(static_cast<float>(texture->getSize().v[0]),
                                   static_cast<float>(texture->getSize().v[1]));
 
-                Rect<float> rectangle(0.0F, 0.0F, size.v[0], size.v[1]);
+                RectF rectangle(0.0F, 0.0F, size.v[0], size.v[1]);
 
-                SpriteData::Frame frame = SpriteData::Frame("", size, rectangle, false, size, Vector2<float>(), Vector2<float>(0.5F, 0.5F));
+                SpriteData::Frame frame = SpriteData::Frame("", size, rectangle, false, size, Vector2F(), Vector2F(0.5F, 0.5F));
                 animation.frames.push_back(frame);
 
                 animations[""] = std::move(animation);
@@ -216,7 +216,7 @@ namespace ouzel
 
         void Sprite::init(std::shared_ptr<graphics::Texture> newTexture,
                           uint32_t spritesX, uint32_t spritesY,
-                          const Vector2<float>& pivot)
+                          const Vector2F& pivot)
         {
             material = std::make_shared<graphics::Material>();
             material->cullMode = graphics::CullMode::NONE;
@@ -225,10 +225,10 @@ namespace ouzel
             material->textures[0] = newTexture;
             animations.clear();
 
-            Size2<float> size(static_cast<float>(newTexture->getSize().v[0]),
+            Size2F size(static_cast<float>(newTexture->getSize().v[0]),
                               static_cast<float>(newTexture->getSize().v[1]));
 
-            Size2<float> spriteSize = Size2<float>(size.v[0] / spritesX,
+            Size2F spriteSize = Size2F(size.v[0] / spritesX,
                                                    size.v[1] / spritesY);
 
             SpriteData::Animation animation;
@@ -238,12 +238,12 @@ namespace ouzel
             {
                 for (uint32_t y = 0; y < spritesY; ++y)
                 {
-                    Rect<float> rectangle(spriteSize.v[0] * x,
+                    RectF rectangle(spriteSize.v[0] * x,
                                           spriteSize.v[1] * y,
                                           spriteSize.v[0],
                                           spriteSize.v[1]);
 
-                    SpriteData::Frame frame = SpriteData::Frame("", size, rectangle, false, spriteSize, Vector2<float>(), pivot);
+                    SpriteData::Frame frame = SpriteData::Frame("", size, rectangle, false, spriteSize, Vector2F(), pivot);
                     animation.frames.push_back(frame);
                 }
             }
@@ -327,9 +327,9 @@ namespace ouzel
             return false;
         }
 
-        void Sprite::draw(const Matrix4<float>& transformMatrix,
+        void Sprite::draw(const Matrix4F& transformMatrix,
                           float opacity,
-                          const Matrix4<float>& renderViewProjection,
+                          const Matrix4F& renderViewProjection,
                           bool wireframe)
         {
             Component::draw(transformMatrix,
@@ -345,7 +345,7 @@ namespace ouzel
                 size_t currentFrame = static_cast<size_t>(currentTime / currentAnimation->animation->frameInterval);
                 if (currentFrame >= currentAnimation->animation->frames.size()) currentFrame = currentAnimation->animation->frames.size() - 1;
 
-                Matrix4<float> modelViewProj = renderViewProjection * transformMatrix * offsetMatrix;
+                Matrix4F modelViewProj = renderViewProjection * transformMatrix * offsetMatrix;
                 float colorVector[] = {material->diffuseColor.normR(), material->diffuseColor.normG(), material->diffuseColor.normB(), material->diffuseColor.normA() * opacity * material->opacity};
 
                 std::vector<std::vector<float>> fragmentShaderConstants(1);
@@ -377,10 +377,10 @@ namespace ouzel
             }
         }
 
-        void Sprite::setOffset(const Vector2<float>& newOffset)
+        void Sprite::setOffset(const Vector2F& newOffset)
         {
             offset = newOffset;
-            Matrix4<float>::createTranslation(Vector3<float>(offset), offsetMatrix);
+            Matrix4F::createTranslation(Vector3F(offset), offsetMatrix);
             updateBoundingBox();
         }
 
@@ -501,7 +501,7 @@ namespace ouzel
 
                 const SpriteData::Frame& frame = currentAnimation->animation->frames[currentFrame];
 
-                boundingBox = Box3<float>(frame.getBoundingBox());
+                boundingBox = Box3F(frame.getBoundingBox());
                 boundingBox.min.v[0] += offset.v[0];
                 boundingBox.min.v[1] += offset.v[1];
 

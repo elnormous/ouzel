@@ -22,36 +22,36 @@ namespace ouzel
 
             ShapeRenderer();
 
-            void draw(const Matrix4<float>& transformMatrix,
+            void draw(const Matrix4F& transformMatrix,
                       float opacity,
-                      const Matrix4<float>& renderViewProjection,
+                      const Matrix4F& renderViewProjection,
                       bool wireframe) override;
 
             void clear();
 
-            void line(const Vector2<float>& start,
-                      const Vector2<float>& finish,
+            void line(const Vector2F& start,
+                      const Vector2F& finish,
                       Color color,
                       float thickness = 0.0F);
 
-            void circle(const Vector2<float>& position,
+            void circle(const Vector2F& position,
                         float radius,
                         Color color,
                         bool fill = false,
                         uint32_t segments = 16,
                         float thickness = 0.0F);
 
-            void rectangle(const Rect<float>& rectangle,
+            void rectangle(const RectF& rectangle,
                            Color color,
                            bool fill = false,
                            float thickness = 0.0F);
 
-            void polygon(const std::vector<Vector2<float>>& edges,
+            void polygon(const std::vector<Vector2F>& edges,
                          Color color,
                          bool fill = false,
                          float thickness = 0.0F);
 
-            void curve(const std::vector<Vector2<float>>& controlPoints,
+            void curve(const std::vector<Vector2F>& controlPoints,
                        Color color,
                        uint32_t segments = 16,
                        float thickness = 0.0F);

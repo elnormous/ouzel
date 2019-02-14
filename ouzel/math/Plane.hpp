@@ -104,6 +104,8 @@ namespace ouzel
             return Plane(a * n, b * n, c * n, d * n);
         }
     };
+
+    using PlaneF = Plane<float>;
 }
 
 #endif // OUZEL_MATH_PLANE_HPP

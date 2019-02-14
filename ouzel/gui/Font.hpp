@@ -30,7 +30,7 @@ namespace ouzel
         virtual void getVertices(const std::string& text,
                                  Color color,
                                  float fontSize,
-                                 const Vector2<float>& anchor,
+                                 const Vector2F& anchor,
                                  std::vector<uint16_t>& indices,
                                  std::vector<graphics::Vertex>& vertices,
                                  std::shared_ptr<graphics::Texture>& texture) = 0;

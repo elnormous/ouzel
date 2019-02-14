@@ -13,7 +13,7 @@ InputSample::InputSample():
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
     cursor(*engine->getInputManager())
 {
-    cursor.init("cursor.png", Vector2<float>(0.0F, 63.0F));
+    cursor.init("cursor.png", Vector2F(0.0F, 63.0F));
 
     handler.keyboardHandler = std::bind(&InputSample::handleKeyboard, this, std::placeholders::_1);
     handler.mouseHandler = std::bind(&InputSample::handleMouse, this, std::placeholders::_1);
@@ -26,7 +26,7 @@ InputSample::InputSample():
     camera.setClearColorBuffer(true);
     camera.setClearColor(ouzel::Color(64, 0, 0));
     camera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    camera.setTargetContentSize(Size2<float>(800.0F, 600.0F));
+    camera.setTargetContentSize(Size2F(800.0F, 600.0F));
     cameraActor.addComponent(&camera);
 
     mover.reset(new Mover());
@@ -42,27 +42,27 @@ InputSample::InputSample():
     layer.addChild(&flame);
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    guiCamera.setTargetContentSize(Size2<float>(800.0F, 600.0F));
+    guiCamera.setTargetContentSize(Size2F(800.0F, 600.0F));
     guiCameraActor.addComponent(&guiCamera);
     guiLayer.addChild(&guiCameraActor);
     addLayer(&guiLayer);
 
     guiLayer.addChild(&menu);
 
-    hideButton.setPosition(Vector2<float>(-200.0F, 200.0F));
+    hideButton.setPosition(Vector2F(-200.0F, 200.0F));
     menu.addWidget(&hideButton);
 
-    discoverButton.setPosition(Vector2<float>(-200.0F, 140.0F));
+    discoverButton.setPosition(Vector2F(-200.0F, 140.0F));
     menu.addWidget(&discoverButton);
 
-    backButton.setPosition(Vector2<float>(-200.0F, -200.0F));
+    backButton.setPosition(Vector2F(-200.0F, -200.0F));
     menu.addWidget(&backButton);
 
     if (Mouse* mouse = engine->getInputManager()->getMouse())
     {
         mouse->setCursor(&cursor);
 
-        Vector2<float> worldLocation = Vector2<float>(camera.convertNormalizedToWorld(mouse->getPosition()));
+        Vector2F worldLocation = Vector2F(camera.convertNormalizedToWorld(mouse->getPosition()));
         flame.setPosition(worldLocation);
     }
 }
@@ -71,7 +71,7 @@ bool InputSample::handleKeyboard(const KeyboardEvent& event)
 {
     if (event.type == Event::Type::KEY_PRESS)
     {
-        Vector2<float> flamePosition = camera.convertWorldToNormalized(flame.getPosition());
+        Vector2F flamePosition = camera.convertWorldToNormalized(flame.getPosition());
 
         switch (event.key)
         {
@@ -104,7 +104,7 @@ bool InputSample::handleKeyboard(const KeyboardEvent& event)
                 break;
         }
 
-        Vector2<float> worldLocation = Vector2<float>(camera.convertNormalizedToWorld(flamePosition));
+        Vector2F worldLocation = Vector2F(camera.convertNormalizedToWorld(flamePosition));
 
         flame.setPosition(worldLocation);
     }
@@ -130,7 +130,7 @@ bool InputSample::handleMouse(const MouseEvent& event)
     {
         case Event::Type::MOUSE_MOVE:
         {
-            Vector2<float> worldLocation = Vector2<float>(camera.convertNormalizedToWorld(event.position));
+            Vector2F worldLocation = Vector2F(camera.convertNormalizedToWorld(event.position));
             flame.setPosition(worldLocation);
             break;
         }
@@ -145,7 +145,7 @@ bool InputSample::handleTouch(const TouchEvent& event)
 {
     if (event.touchpad->isScreen())
     {
-        Vector2<float> worldLocation = Vector2<float>(camera.convertNormalizedToWorld(event.position));
+        Vector2F worldLocation = Vector2F(camera.convertNormalizedToWorld(event.position));
         flame.setPosition(worldLocation);
     }
 
@@ -156,7 +156,7 @@ bool InputSample::handleGamepad(const GamepadEvent& event)
 {
     if (event.type == Event::Type::GAMEPAD_BUTTON_CHANGE)
     {
-        Vector2<float> flamePosition = camera.convertWorldToNormalized(flame.getPosition());
+        Vector2F flamePosition = camera.convertWorldToNormalized(flame.getPosition());
 
         switch (event.button)
         {
@@ -187,7 +187,7 @@ bool InputSample::handleGamepad(const GamepadEvent& event)
                 break;
         }
 
-        Vector2<float> worldLocation = Vector2<float>(camera.convertNormalizedToWorld(flamePosition));
+        Vector2F worldLocation = Vector2F(camera.convertNormalizedToWorld(flamePosition));
         flame.setPosition(worldLocation);
     }
 

@@ -836,6 +836,8 @@ namespace ouzel
         m.transformVector(v, x);
         return x;
     }
+
+    using Matrix4F = Matrix4<float>;
 }
 
 #endif // OUZEL_MATH_MATRIX4_HPP

@@ -111,6 +111,8 @@ namespace ouzel
             return Size2<T>(max.v[0] - min.v[0], max.v[1] - min.v[1]);
         }
     };
+
+    using Box2F = Box2<float>;
 }
 
 #endif // OUZEL_MATH_BOX2_HPP

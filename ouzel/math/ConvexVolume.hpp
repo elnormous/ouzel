@@ -73,6 +73,8 @@ namespace ouzel
 
         std::vector<Plane<T>> planes;
     };
+
+    using ConvexVolumeF = ConvexVolume<float>;
 }
 
 #endif // OUZEL_MATH_CONVEXVOLUME_HPP

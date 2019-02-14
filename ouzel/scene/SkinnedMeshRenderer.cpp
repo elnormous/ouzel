@@ -36,9 +36,9 @@ namespace ouzel
             init(*engine->getCache().getSkinnedMeshData(filename));
         }
 
-        void SkinnedMeshRenderer::draw(const Matrix4<float>& transformMatrix,
+        void SkinnedMeshRenderer::draw(const Matrix4F& transformMatrix,
                                        float opacity,
-                                       const Matrix4<float>& renderViewProjection,
+                                       const Matrix4F& renderViewProjection,
                                        bool wireframe)
         {
             Component::draw(transformMatrix,

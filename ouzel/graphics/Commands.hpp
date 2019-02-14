@@ -229,7 +229,7 @@ namespace ouzel
         {
         public:
             SetScissorTestCommand(bool initEnabled,
-                                  const Rect<float>& initRectangle):
+                                  const RectF& initRectangle):
                 Command(Command::Type::SET_SCISSOR_TEST),
                 enabled(initEnabled),
                 rectangle(initRectangle)
@@ -237,19 +237,19 @@ namespace ouzel
             }
 
             bool enabled;
-            Rect<float> rectangle;
+            RectF rectangle;
         };
 
         class SetViewportCommand final: public Command
         {
         public:
-            explicit SetViewportCommand(const Rect<float>& initViewport):
+            explicit SetViewportCommand(const RectF& initViewport):
                 Command(Command::Type::SET_VIEWPORT),
                 viewport(initViewport)
             {
             }
 
-            Rect<float> viewport;
+            RectF viewport;
         };
 
         class InitDepthStencilStateCommand final: public Command

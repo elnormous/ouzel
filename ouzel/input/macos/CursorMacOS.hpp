@@ -26,9 +26,9 @@ namespace ouzel
         public:
             explicit CursorMacOS(SystemCursor systemCursor);
             CursorMacOS(const std::vector<uint8_t>& newData,
-                              const Size2<float>& size,
+                              const Size2F& size,
                               graphics::PixelFormat pixelFormat,
-                              const Vector2<float>& hotSpot);
+                              const Vector2F& hotSpot);
             ~CursorMacOS();
 
             inline NSCursorPtr getCursor() const { return cursor; }

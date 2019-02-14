@@ -275,6 +275,8 @@ namespace ouzel
     {
         return Vector3<T>(vec.v[0] * scalar, vec.v[1] * scalar, vec.v[2] * scalar);
     }
+
+    using Vector3F = Vector3<float>;
 }
 
 #endif // OUZEL_MATH_VECTOR3_HPP

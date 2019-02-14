@@ -9,7 +9,7 @@ namespace ouzel
 {
     namespace scene
     {
-        StaticMeshData::StaticMeshData(Box3<float> initBoundingBox,
+        StaticMeshData::StaticMeshData(Box3F initBoundingBox,
                                        const std::vector<uint32_t> indices,
                                        const std::vector<graphics::Vertex>& vertices,
                                        const std::shared_ptr<graphics::Material>& initMaterial):
@@ -84,9 +84,9 @@ namespace ouzel
             init(*engine->getCache().getStaticMeshData(filename));
         }
 
-        void StaticMeshRenderer::draw(const Matrix4<float>& transformMatrix,
+        void StaticMeshRenderer::draw(const Matrix4F& transformMatrix,
                                       float opacity,
-                                      const Matrix4<float>& renderViewProjection,
+                                      const Matrix4F& renderViewProjection,
                                       bool wireframe)
         {
             Component::draw(transformMatrix,
@@ -94,7 +94,7 @@ namespace ouzel
                             renderViewProjection,
                             wireframe);
 
-            Matrix4<float> modelViewProj = renderViewProjection * transformMatrix;
+            Matrix4F modelViewProj = renderViewProjection * transformMatrix;
             float colorVector[] = {material->diffuseColor.normR(), material->diffuseColor.normG(), material->diffuseColor.normB(), material->diffuseColor.normA() * opacity * material->opacity};
 
             std::vector<std::vector<float>> fragmentShaderConstants(1);

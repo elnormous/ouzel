@@ -20,7 +20,7 @@ namespace ouzel
                   const std::string& fontFile,
                   float fontSize = 1.0F,
                   Color color = Color::WHITE,
-                  const Vector2<float>& textAnchor = Vector2<float>(0.5F, 0.5F));
+                  const Vector2F& textAnchor = Vector2F(0.5F, 0.5F));
 
             inline const std::string& getText() const { return text; }
             virtual void setText(const std::string& newText);
