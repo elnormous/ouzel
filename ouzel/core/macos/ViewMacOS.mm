@@ -246,7 +246,7 @@ static const std::unordered_map<unsigned short, NSUInteger> maskMap = {
     ouzel::input::InputSystemMacOS* inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::MouseDeviceMacOS* mouseDevice = inputSystemMacOS->getMouseDevice();
     mouseDevice->handleButtonPress(ouzel::input::Mouse::Button::LEFT,
-                                   ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2<float>(static_cast<float>(location.x),
+                                   ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
                                                                                                                 static_cast<float>(location.y))));
 }
 
@@ -257,7 +257,7 @@ static const std::unordered_map<unsigned short, NSUInteger> maskMap = {
     ouzel::input::InputSystemMacOS* inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::MouseDeviceMacOS* mouseDevice = inputSystemMacOS->getMouseDevice();
     mouseDevice->handleButtonRelease(ouzel::input::Mouse::Button::LEFT,
-                                     ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2<float>(static_cast<float>(location.x),
+                                     ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
                                                                                                                   static_cast<float>(location.y))));
 }
 
@@ -268,7 +268,7 @@ static const std::unordered_map<unsigned short, NSUInteger> maskMap = {
     ouzel::input::InputSystemMacOS* inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::MouseDeviceMacOS* mouseDevice = inputSystemMacOS->getMouseDevice();
     mouseDevice->handleButtonPress(ouzel::input::Mouse::Button::RIGHT,
-                                   ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2<float>(static_cast<float>(location.x),
+                                   ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
                                                                                                                 static_cast<float>(location.y))));
 }
 
@@ -279,7 +279,7 @@ static const std::unordered_map<unsigned short, NSUInteger> maskMap = {
     ouzel::input::InputSystemMacOS* inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::MouseDeviceMacOS* mouseDevice = inputSystemMacOS->getMouseDevice();
     mouseDevice->handleButtonRelease(ouzel::input::Mouse::Button::RIGHT,
-                                     ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2<float>(static_cast<float>(location.x),
+                                     ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
                                                                                                                   static_cast<float>(location.y))));
 }
 
@@ -290,7 +290,7 @@ static const std::unordered_map<unsigned short, NSUInteger> maskMap = {
     ouzel::input::InputSystemMacOS* inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::MouseDeviceMacOS* mouseDevice = inputSystemMacOS->getMouseDevice();
     mouseDevice->handleButtonPress(ouzel::input::Mouse::Button::MIDDLE,
-                                   ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2<float>(static_cast<float>(location.x),
+                                   ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
                                                                                                                 static_cast<float>(location.y))));
 }
 
@@ -301,7 +301,7 @@ static const std::unordered_map<unsigned short, NSUInteger> maskMap = {
     ouzel::input::InputSystemMacOS* inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::MouseDeviceMacOS* mouseDevice = inputSystemMacOS->getMouseDevice();
     mouseDevice->handleButtonRelease(ouzel::input::Mouse::Button::MIDDLE,
-                                     ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2<float>(static_cast<float>(location.x),
+                                     ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
                                                                                                                   static_cast<float>(location.y))));
 }
 
@@ -311,7 +311,7 @@ static const std::unordered_map<unsigned short, NSUInteger> maskMap = {
 
     ouzel::input::InputSystemMacOS* inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::MouseDeviceMacOS* mouseDevice = inputSystemMacOS->getMouseDevice();
-    mouseDevice->handleMove(ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2<float>(static_cast<float>(location.x),
+    mouseDevice->handleMove(ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
                                                                                                          static_cast<float>(location.y))));
 }
 
@@ -321,7 +321,7 @@ static const std::unordered_map<unsigned short, NSUInteger> maskMap = {
 
     ouzel::input::InputSystemMacOS* inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::MouseDeviceMacOS* mouseDevice = inputSystemMacOS->getMouseDevice();
-    mouseDevice->handleMove(ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2<float>(static_cast<float>(location.x),
+    mouseDevice->handleMove(ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
                                                                                                          static_cast<float>(location.y))));
 }
 
@@ -331,7 +331,7 @@ static const std::unordered_map<unsigned short, NSUInteger> maskMap = {
 
     ouzel::input::InputSystemMacOS* inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::MouseDeviceMacOS* mouseDevice = inputSystemMacOS->getMouseDevice();
-    mouseDevice->handleMove(ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2<float>(static_cast<float>(location.x),
+    mouseDevice->handleMove(ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
                                                                                                          static_cast<float>(location.y))));
 }
 
@@ -341,7 +341,7 @@ static const std::unordered_map<unsigned short, NSUInteger> maskMap = {
 
     ouzel::input::InputSystemMacOS* inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::MouseDeviceMacOS* mouseDevice = inputSystemMacOS->getMouseDevice();
-    mouseDevice->handleMove(ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2<float>(static_cast<float>(location.x),
+    mouseDevice->handleMove(ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
                                                                                                          static_cast<float>(location.y))));
 }
 
@@ -351,9 +351,9 @@ static const std::unordered_map<unsigned short, NSUInteger> maskMap = {
 
     ouzel::input::InputSystemMacOS* inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::MouseDeviceMacOS* mouseDevice = inputSystemMacOS->getMouseDevice();
-    mouseDevice->handleScroll(ouzel::Vector2<float>(static_cast<float>(event.scrollingDeltaX),
+    mouseDevice->handleScroll(ouzel::Vector2F(static_cast<float>(event.scrollingDeltaX),
                                              static_cast<float>(event.scrollingDeltaY)),
-                              ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2<float>(static_cast<float>(location.x),
+                              ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
                                                                                                            static_cast<float>(location.y))));
 }
 
@@ -368,7 +368,7 @@ static const std::unordered_map<unsigned short, NSUInteger> maskMap = {
         CGPoint location = touch.normalizedPosition;
 
         touchpadDevice->handleTouchBegin(reinterpret_cast<uint64_t>(touch),
-                                         ouzel::Vector2<float>(static_cast<float>(location.x),
+                                         ouzel::Vector2F(static_cast<float>(location.x),
                                                         static_cast<float>(location.y)),
                                          1.0F);
     }
@@ -385,7 +385,7 @@ static const std::unordered_map<unsigned short, NSUInteger> maskMap = {
         CGPoint location = touch.normalizedPosition;
 
         touchpadDevice->handleTouchMove(reinterpret_cast<uint64_t>(touch),
-                                        ouzel::Vector2<float>(static_cast<float>(location.x),
+                                        ouzel::Vector2F(static_cast<float>(location.x),
                                                       static_cast<float>(location.y)),
                                         1.0F);
     }
@@ -402,7 +402,7 @@ static const std::unordered_map<unsigned short, NSUInteger> maskMap = {
         CGPoint location = touch.normalizedPosition;
 
         touchpadDevice->handleTouchEnd(reinterpret_cast<uint64_t>(touch),
-                                       ouzel::Vector2<float>(static_cast<float>(location.x),
+                                       ouzel::Vector2F(static_cast<float>(location.x),
                                                       static_cast<float>(location.y)),
                                        1.0F);
     }
@@ -419,7 +419,7 @@ static const std::unordered_map<unsigned short, NSUInteger> maskMap = {
         CGPoint location = touch.normalizedPosition;
 
         touchpadDevice->handleTouchCancel(reinterpret_cast<uint64_t>(touch),
-                                          ouzel::Vector2<float>(static_cast<float>(location.x),
+                                          ouzel::Vector2F(static_cast<float>(location.x),
                                                          static_cast<float>(location.y)),
                                           1.0F);
     }

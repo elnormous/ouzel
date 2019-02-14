@@ -15,7 +15,7 @@ namespace ouzel
                      const std::string& fontFile,
                      float fontSize,
                      Color color,
-                     const Vector2<float>& textAnchor):
+                     const Vector2F& textAnchor):
             text(initText),
             labelDrawable(std::make_shared<scene::TextRenderer>(fontFile, fontSize, text, color, textAnchor))
         {

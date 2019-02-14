@@ -6,6 +6,7 @@
 #include <memory>
 #include <vector>
 #include "math/Vector2.hpp"
+#include "math/Vector3.hpp"
 
 namespace ouzel
 {
@@ -38,8 +39,8 @@ namespace ouzel
 
             inline Layer* getLayer() const { return layer; }
 
-            std::vector<std::pair<Actor*, Vector3<float>>> findActors(const Vector2<float>& position) const;
-            std::vector<Actor*> findActors(const std::vector<Vector2<float>>& edges) const;
+            std::vector<std::pair<Actor*, Vector3F>> findActors(const Vector2F& position) const;
+            std::vector<Actor*> findActors(const std::vector<Vector2F>& edges) const;
 
         protected:
             virtual void setLayer(Layer* newLayer);

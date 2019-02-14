@@ -230,12 +230,12 @@ namespace ouzel
             addCommand(std::unique_ptr<Command>(new SetFillModeCommad(fillMode)));
         }
 
-        void Renderer::setScissorTest(bool enabled, const Rect<float>& rectangle)
+        void Renderer::setScissorTest(bool enabled, const RectF& rectangle)
         {
             addCommand(std::unique_ptr<Command>(new SetScissorTestCommand(enabled, rectangle)));
         }
 
-        void Renderer::setViewport(const Rect<float>& viewport)
+        void Renderer::setViewport(const RectF& viewport)
         {
             addCommand(std::unique_ptr<Command>(new SetViewportCommand(viewport)));
         }

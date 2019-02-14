@@ -17,12 +17,12 @@ namespace ouzel
         {
         public:
             StaticMeshData() {}
-            StaticMeshData(Box3<float> initBoundingBox,
+            StaticMeshData(Box3F initBoundingBox,
                            const std::vector<uint32_t> indices,
                            const std::vector<graphics::Vertex>& vertices,
                            const std::shared_ptr<graphics::Material>& initMaterial);
 
-            Box3<float> boundingBox;
+            Box3F boundingBox;
             std::shared_ptr<graphics::Material> material;
             uint32_t indexCount = 0;
             uint32_t indexSize = 0;
@@ -42,9 +42,9 @@ namespace ouzel
             void init(const StaticMeshData& meshData);
             void init(const std::string& filename);
 
-            void draw(const Matrix4<float>& transformMatrix,
+            void draw(const Matrix4F& transformMatrix,
                       float opacity,
-                      const Matrix4<float>& renderViewProjection,
+                      const Matrix4F& renderViewProjection,
                       bool wireframe) override;
 
             inline const std::shared_ptr<graphics::Material>& getMaterial() const { return material; }

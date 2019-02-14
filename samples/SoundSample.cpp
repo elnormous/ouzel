@@ -57,7 +57,7 @@ SoundSample::SoundSample():
 
     layer.addChild(&soundActor);
     soundActor.addComponent(&jumpPanner);
-    soundActor.setPosition(Vector3<float>(8.0F, 0.0F, 10.0F));
+    soundActor.setPosition(Vector3F(8.0F, 0.0F, 10.0F));
     jumpVoice.setOutput(&jumpSubmix);
     jumpSubmix.addEffect(&jumpPanner);
     jumpSubmix.addEffect(&jumpReverb);
@@ -70,32 +70,32 @@ SoundSample::SoundSample():
     camera.setClearColorBuffer(true);
     camera.setClearColor(ouzel::Color(64, 0, 0));
     camera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    camera.setTargetContentSize(Size2<float>(800.0F, 600.0F));
+    camera.setTargetContentSize(Size2F(800.0F, 600.0F));
     cameraActor.addComponent(&camera);
     layer.addChild(&cameraActor);
     addLayer(&layer);
 
     layer.addChild(&menu);
 
-    test8BitButton.setPosition(Vector2<float>(0.0F, 80.0F));
+    test8BitButton.setPosition(Vector2F(0.0F, 80.0F));
     menu.addWidget(&test8BitButton);
 
-    test24BitButton.setPosition(Vector2<float>(0.0F, 40.0F));
+    test24BitButton.setPosition(Vector2F(0.0F, 40.0F));
     menu.addWidget(&test24BitButton);
 
-    jumpButton.setPosition(Vector2<float>(0.0F, 0.0F));
+    jumpButton.setPosition(Vector2F(0.0F, 0.0F));
     menu.addWidget(&jumpButton);
 
-    ambientButton.setPosition(Vector2<float>(0.0F, -40.0F));
+    ambientButton.setPosition(Vector2F(0.0F, -40.0F));
     menu.addWidget(&ambientButton);
 
-    musicButton.setPosition(Vector2<float>(0.0F, -80.0F));
+    musicButton.setPosition(Vector2F(0.0F, -80.0F));
     menu.addWidget(&musicButton);
 
-    toneButton.setPosition(Vector2<float>(0.0F, -120.0F));
+    toneButton.setPosition(Vector2F(0.0F, -120.0F));
     menu.addWidget(&toneButton);
 
-    backButton.setPosition(Vector2<float>(-200.0F, -200.0F));
+    backButton.setPosition(Vector2F(-200.0F, -200.0F));
     menu.addWidget(&backButton);
 }
 

@@ -45,9 +45,9 @@ namespace ouzel
         }
 
         CursorLinux::CursorLinux(const std::vector<uint8_t>& data,
-                                             const Size2<float>& size,
+                                             const Size2F& size,
                                              graphics::PixelFormat pixelFormat,
-                                             const Vector2<float>& hotSpot)
+                                             const Vector2F& hotSpot)
         {
 #if OUZEL_SUPPORTS_X11
             EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);

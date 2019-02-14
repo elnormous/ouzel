@@ -334,6 +334,8 @@ namespace ouzel
             return (*this = (q1 * scale) + (q2 * t));
         }
     };
+
+    using QuaternionF = Quaternion<float>;
 }
 
 #endif // OUZEL_MATH_QUATERNION_HPP

@@ -9,9 +9,9 @@ namespace ouzel
 {
     namespace input
     {
-        void MouseDeviceWin::setPosition(const Vector2<float>& position)
+        void MouseDeviceWin::setPosition(const Vector2F& position)
         {
-            Vector2<float> windowLocation = engine->getWindow()->convertNormalizedToWindowLocation(position);
+            Vector2F windowLocation = engine->getWindow()->convertNormalizedToWindowLocation(position);
             HWND nativeWindow = static_cast<NativeWindowWin*>(engine->getWindow()->getNativeWindow())->getNativeWindow();
 
             POINT p;

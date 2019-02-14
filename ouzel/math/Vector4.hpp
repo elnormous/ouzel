@@ -304,6 +304,8 @@ namespace ouzel
     {
         return Vector4<T>(vec.v[0] * scalar, vec.v[1] * scalar, vec.v[2] * scalar, vec.v[3] * scalar);
     }
+
+    using Vector4F = Vector4<float>;
 }
 
 #endif // OUZEL_MATH_VECTOR4_HPP

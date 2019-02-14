@@ -26,7 +26,7 @@ namespace ouzel
         }
 
         void Actor::visit(std::vector<Actor*>& drawQueue,
-                          const Matrix4<float>& newParentTransform,
+                          const Matrix4F& newParentTransform,
                           bool parentTransformDirty,
                           Camera* camera,
                           int32_t parentOrder,
@@ -40,7 +40,7 @@ namespace ouzel
 
             if (!worldHidden)
             {
-                Box3<float> boundingBox = getBoundingBox();
+                Box3F boundingBox = getBoundingBox();
 
                 if (cullDisabled || (!boundingBox.isEmpty() && camera->checkVisibility(getTransform(), boundingBox)))
                 {
@@ -83,7 +83,7 @@ namespace ouzel
             actor->updateTransform(getTransform());
         }
 
-        void Actor::setPosition(const Vector2<float>& newPosition)
+        void Actor::setPosition(const Vector2F& newPosition)
         {
             position.v[0] = newPosition.v[0];
             position.v[1] = newPosition.v[1];
@@ -91,23 +91,23 @@ namespace ouzel
             updateLocalTransform();
         }
 
-        void Actor::setPosition(const Vector3<float>& newPosition)
+        void Actor::setPosition(const Vector3F& newPosition)
         {
             position = newPosition;
 
             updateLocalTransform();
         }
 
-        void Actor::setRotation(const Quaternion<float>& newRotation)
+        void Actor::setRotation(const QuaternionF& newRotation)
         {
             rotation = newRotation;
 
             updateLocalTransform();
         }
 
-        void Actor::setRotation(const Vector3<float>& newRotation)
+        void Actor::setRotation(const Vector3F& newRotation)
         {
-            Quaternion<float> roationQuaternion;
+            QuaternionF roationQuaternion;
             roationQuaternion.setEulerAngles(newRotation);
 
             rotation = roationQuaternion;
@@ -117,15 +117,15 @@ namespace ouzel
 
         void Actor::setRotation(float newRotation)
         {
-            Quaternion<float> roationQuaternion;
-            roationQuaternion.rotate(newRotation, Vector3<float>(0.0F, 0.0F, 1.0F));
+            QuaternionF roationQuaternion;
+            roationQuaternion.rotate(newRotation, Vector3F(0.0F, 0.0F, 1.0F));
 
             rotation = roationQuaternion;
 
             updateLocalTransform();
         }
 
-        void Actor::setScale(const Vector2<float>& newScale)
+        void Actor::setScale(const Vector2F& newScale)
         {
             scale.v[0] = newScale.v[0];
             scale.v[1] = newScale.v[1];
@@ -133,7 +133,7 @@ namespace ouzel
             updateLocalTransform();
         }
 
-        void Actor::setScale(const Vector3<float>& newScale)
+        void Actor::setScale(const Vector3F& newScale)
         {
             scale = newScale;
 
@@ -164,9 +164,9 @@ namespace ouzel
             hidden = newHidden;
         }
 
-        bool Actor::pointOn(const Vector2<float>& worldPosition) const
+        bool Actor::pointOn(const Vector2F& worldPosition) const
         {
-            Vector2<float> localPosition = Vector2<float>(convertWorldToLocal(Vector3<float>(worldPosition)));
+            Vector2F localPosition = Vector2F(convertWorldToLocal(Vector3F(worldPosition)));
 
             for (Component* component : components)
             {
@@ -177,19 +177,19 @@ namespace ouzel
             return false;
         }
 
-        bool Actor::shapeOverlaps(const std::vector<Vector2<float>>& edges) const
+        bool Actor::shapeOverlaps(const std::vector<Vector2F>& edges) const
         {
-            Matrix4<float> inverse = getInverseTransform();
+            Matrix4F inverse = getInverseTransform();
 
-            std::vector<Vector2<float>> transformedEdges;
+            std::vector<Vector2F> transformedEdges;
 
-            for (const Vector2<float>& edge : edges)
+            for (const Vector2F& edge : edges)
             {
-                Vector3<float> transformedEdge = Vector3<float>(edge);
+                Vector3F transformedEdge = Vector3F(edge);
 
                 inverse.transformPoint(transformedEdge);
 
-                transformedEdges.push_back(Vector2<float>(transformedEdge.v[0], transformedEdge.v[1]));
+                transformedEdges.push_back(Vector2F(transformedEdge.v[0], transformedEdge.v[1]));
             }
 
             for (Component* component : components)
@@ -208,7 +208,7 @@ namespace ouzel
                 component->updateTransform();
         }
 
-        void Actor::updateTransform(const Matrix4<float>& newParentTransform)
+        void Actor::updateTransform(const Matrix4F& newParentTransform)
         {
             parentTransform = newParentTransform;
             transformDirty = inverseTransformDirty = true;
@@ -216,29 +216,29 @@ namespace ouzel
                 component->updateTransform();
         }
 
-        Vector3<float> Actor::getWorldPosition() const
+        Vector3F Actor::getWorldPosition() const
         {
-            Vector3<float> result = position;
+            Vector3F result = position;
             getTransform().transformPoint(result);
 
             return position;
         }
 
-        Vector3<float> Actor::convertWorldToLocal(const Vector3<float>& worldPosition) const
+        Vector3F Actor::convertWorldToLocal(const Vector3F& worldPosition) const
         {
-            Vector3<float> localPosition = worldPosition;
+            Vector3F localPosition = worldPosition;
 
-            const Matrix4<float>& currentInverseTransform = getInverseTransform();
+            const Matrix4F& currentInverseTransform = getInverseTransform();
             currentInverseTransform.transformPoint(localPosition);
 
             return localPosition;
         }
 
-        Vector3<float> Actor::convertLocalToWorld(const Vector3<float>& localPosition) const
+        Vector3F Actor::convertLocalToWorld(const Vector3F& localPosition) const
         {
-            Vector3<float> worldPosition = localPosition;
+            Vector3F worldPosition = localPosition;
 
-            const Matrix4<float>& currentTransform = getTransform();
+            const Matrix4F& currentTransform = getTransform();
             currentTransform.transformPoint(worldPosition);
 
             return worldPosition;
@@ -249,12 +249,12 @@ namespace ouzel
             localTransform.setIdentity();
             localTransform.translate(position);
 
-            Matrix4<float> rotationMatrix;
+            Matrix4F rotationMatrix;
             rotationMatrix.setRotation(rotation);
 
             localTransform *= rotationMatrix;
 
-            Vector3<float> finalScale = Vector3<float>(scale.v[0] * (flipX ? -1.0F : 1.0F),
+            Vector3F finalScale = Vector3F(scale.v[0] * (flipX ? -1.0F : 1.0F),
                                                        scale.v[1] * (flipY ? -1.0F : 1.0F),
                                                        scale.v[2]);
 
@@ -352,9 +352,9 @@ namespace ouzel
             return result;
         }
 
-        Box3<float> Actor::getBoundingBox() const
+        Box3F Actor::getBoundingBox() const
         {
-            Box3<float> boundingBox;
+            Box3F boundingBox;
 
             for (Component* component : components)
             {

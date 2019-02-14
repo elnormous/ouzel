@@ -11,9 +11,9 @@ GUISample::GUISample():
     button("button.png", "button_selected.png", "button_down.png", "", "Button", "arial.fnt", 1.0F, Color::RED, Color::RED, Color::BLACK),
     fullscreenButton("button.png", "button_selected.png", "button_down.png", "", "Fullscreen", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
     checkBox("checkbox.png", "", "", "", "tick.png"),
-    label1("checkbox test", "AmosisTechnik.ttf", 24.0F, Color::WHITE, Vector2<float>(0.0F, 0.5F)),
+    label1("checkbox test", "AmosisTechnik.ttf", 24.0F, Color::WHITE, Vector2F(0.0F, 0.5F)),
     label2("", "ArialBlack.fnt"),
-    label3("UTF-8 ĀāČč\nNew line", "ArialBlack.fnt", 1.0F, Color::WHITE, Vector2<float>(0.0F, 0.5F)),
+    label3("UTF-8 ĀāČč\nNew line", "ArialBlack.fnt", 1.0F, Color::WHITE, Vector2F(0.0F, 0.5F)),
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
 {
     handler.gamepadHandler = std::bind(&GUISample::handleGamepad, this, std::placeholders::_1);
@@ -24,24 +24,24 @@ GUISample::GUISample():
     camera.setClearColorBuffer(true);
     camera.setClearColor(ouzel::Color(64, 0, 0));
     camera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    camera.setTargetContentSize(Size2<float>(800.0F, 600.0F));
+    camera.setTargetContentSize(Size2F(800.0F, 600.0F));
     cameraActor.addComponent(&camera);
     layer.addChild(&cameraActor);
     addLayer(&layer);
 
     layer.addChild(&menu);
 
-    button.setPosition(Vector2<float>(-200.0F, 100.0F));
+    button.setPosition(Vector2F(-200.0F, 100.0F));
     menu.addWidget(&button);
 
-    checkBox.setPosition(Vector2<float>(-100.0F, 100.0F));
+    checkBox.setPosition(Vector2F(-100.0F, 100.0F));
     layer.addChild(&checkBox);
 
-    fullscreenButton.setPosition(Vector2<float>(-200.0F, 40.0F));
+    fullscreenButton.setPosition(Vector2F(-200.0F, 40.0F));
     menu.addWidget(&fullscreenButton);
 
     label1.getLabelDrawable()->setColor(Color::CYAN);
-    label1.setPosition(Vector2<float>(-88.0F, 108.0F));
+    label1.setPosition(Vector2F(-88.0F, 108.0F));
     layer.addChild(&label1);
 
     engine->getLocalization().addLanguage("latvian", engine->getFileSystem().readFile("lv.mo"));
@@ -49,15 +49,15 @@ GUISample::GUISample():
 
     label2.setText(engine->getLocalization().getString("Ouzel"));
 
-    label2.setPosition(Vector2<float>(10.0F, 0.0F));
+    label2.setPosition(Vector2F(10.0F, 0.0F));
     layer.addChild(&label2);
 
     label3.getLabelDrawable()->setColor(Color::BLUE);
-    label3.setPosition(Vector2<float>(-100.0F, -100.0F));
-    label3.setScale(Vector3<float>(0.5F, 0.5F, 1.0F));
+    label3.setPosition(Vector2F(-100.0F, -100.0F));
+    label3.setScale(Vector3F(0.5F, 0.5F, 1.0F));
     layer.addChild(&label3);
 
-    backButton.setPosition(Vector2<float>(-200.0F, -200.0F));
+    backButton.setPosition(Vector2F(-200.0F, -200.0F));
     menu.addWidget(&backButton);
 }
 

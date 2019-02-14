@@ -361,7 +361,7 @@ namespace ouzel
                 targetActor->setOpacity(startOpacity + (diff * progress));
         }
 
-        Move::Move(float initLength, const Vector3<float>& initPosition, bool initRelative):
+        Move::Move(float initLength, const Vector3F& initPosition, bool initRelative):
             Animator(initLength), position(initPosition), relative(initRelative)
         {
         }
@@ -480,7 +480,7 @@ namespace ouzel
             }
         }
 
-        Rotate::Rotate(float initLength, const Vector3<float>& initRotation, bool initRelative):
+        Rotate::Rotate(float initLength, const Vector3F& initRotation, bool initRelative):
             Animator(initLength), rotation(initRotation), relative(initRelative)
         {
         }
@@ -507,7 +507,7 @@ namespace ouzel
                 targetActor->setRotation(startRotation + diff * progress);
         }
 
-        Scale::Scale(float initLength, const Vector3<float>& initScale, bool initRelative):
+        Scale::Scale(float initLength, const Vector3F& initScale, bool initRelative):
             Animator(initLength), scale(initScale), relative(initRelative)
         {
         }
@@ -598,7 +598,7 @@ namespace ouzel
             }
         }
 
-        Shake::Shake(float initLength, const Vector3<float>& initDistance, float initTimeScale):
+        Shake::Shake(float initLength, const Vector3F& initDistance, float initTimeScale):
             Animator(initLength), distance(initDistance), timeScale(initTimeScale)
         {
             seedX = std::uniform_int_distribution<uint32_t>{0, std::numeric_limits<uint32_t>::max()}(randomEngine);
@@ -626,8 +626,8 @@ namespace ouzel
                 uint64_t x2 = x1 + 1;
                 float t = x - static_cast<float>(x1);
 
-                Vector3<float> previousPosition;
-                Vector3<float> nextPosition;
+                Vector3F previousPosition;
+                Vector3F nextPosition;
 
                 if (x1 != 0)
                 {
@@ -643,7 +643,7 @@ namespace ouzel
                     nextPosition.v[2] = (2.0F * (static_cast<float>(fnvHash(seedZ | (x2 << 32))) / std::numeric_limits<uint64_t>::max()) - 1.0F) * distance.v[2];
                 }
 
-                Vector3<float> noise(smoothStep(previousPosition.v[0], nextPosition.v[0], t),
+                Vector3F noise(smoothStep(previousPosition.v[0], nextPosition.v[0], t),
                                      smoothStep(previousPosition.v[1], nextPosition.v[1], t),
                                      smoothStep(previousPosition.v[2], nextPosition.v[2], t));
 

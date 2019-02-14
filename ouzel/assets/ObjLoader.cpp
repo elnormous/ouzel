@@ -177,13 +177,13 @@ namespace ouzel
         {
             std::string name = filename;
             std::shared_ptr<graphics::Material> material;
-            std::vector<Vector3<float>> positions;
-            std::vector<Vector2<float>> texCoords;
-            std::vector<Vector3<float>> normals;
+            std::vector<Vector3F> positions;
+            std::vector<Vector2F> texCoords;
+            std::vector<Vector3F> normals;
             std::vector<graphics::Vertex> vertices;
             std::map<std::tuple<uint32_t, uint32_t, uint32_t>, uint32_t> vertexMap;
             std::vector<uint32_t> indices;
-            Box3<float> boundingBox;
+            Box3F boundingBox;
 
             uint32_t objectCount = 0;
 
@@ -252,7 +252,7 @@ namespace ouzel
                     }
                     else if (keyword == "v")
                     {
-                        Vector3<float> position;
+                        Vector3F position;
 
                         skipWhitespaces(data, iterator);
                         position.v[0] = parseFloat(data, iterator);
@@ -267,7 +267,7 @@ namespace ouzel
                     }
                     else if (keyword == "vt")
                     {
-                        Vector2<float> texCoord;
+                        Vector2F texCoord;
 
                         skipWhitespaces(data, iterator);
                         texCoord.v[0] = parseFloat(data, iterator);
@@ -280,7 +280,7 @@ namespace ouzel
                     }
                     else if (keyword == "vn")
                     {
-                        Vector3<float> normal;
+                        Vector3F normal;
 
                         skipWhitespaces(data, iterator);
                         normal.v[0] = parseFloat(data, iterator);
