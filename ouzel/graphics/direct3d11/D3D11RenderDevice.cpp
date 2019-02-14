@@ -859,8 +859,8 @@ namespace ouzel
                                 }
                             }
 
-                            context->PSSetShaderResources(0, static_cast<UINT>(resourceViews.size()), resourceViews);
-                            context->PSSetSamplers(0, static_cast<UINT>(samplerStates.size()), samplerStates);
+                            context->PSSetShaderResources(0, static_cast<UINT>(resourceViews.size()), resourceViews.data());
+                            context->PSSetSamplers(0, static_cast<UINT>(samplerStates.size()), samplerStates.data());
 
                             break;
                         }
