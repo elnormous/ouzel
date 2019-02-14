@@ -12,7 +12,7 @@
 #include "utils/Utils.hpp"
 
 #ifndef XAUDIO2_DEBUG_ENGINE
-#  define XAUDIO2_DEBUG_ENGINE            0x0001        // Used in XAudio2Create on Windows only
+#  define XAUDIO2_DEBUG_ENGINE 0x0001 // Used in XAudio2Create on Windows only
 #endif
 
 static constexpr char* XAUDIO2_DLL_28 = "xaudio2_8.dll";

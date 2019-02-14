@@ -7,7 +7,6 @@
 #if defined(__APPLE__)
 #  include <TargetConditionals.h>
 #endif
-#include <sstream>
 #if TARGET_OS_IOS || TARGET_OS_TV
 #  include <objc/message.h>
 extern "C" id const AVAudioSessionCategoryAmbient;
@@ -128,12 +127,7 @@ namespace ouzel
             if ((error = alGetError()) != AL_NO_ERROR || !extensionsPtr)
                 engine->log(Log::Level::WARN) << "Failed to get OpenGL extensions";
             else
-            {
-                std::istringstream extensionStringStream(reinterpret_cast<const char*>(extensionsPtr));
-
-                for (std::string extension; extensionStringStream >> extension;)
-                    extensions.push_back(extension);
-            }
+                extensions = explodeString(reinterpret_cast<const char*>(extensionsPtr), ' ');
 
             engine->log(Log::Level::ALL) << "Supported OpenAL extensions: " << extensions;
 

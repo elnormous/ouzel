@@ -3,7 +3,6 @@
 #ifndef OUZEL_MATH_VECTOR4_HPP
 #define OUZEL_MATH_VECTOR4_HPP
 
-
 #include <cassert>
 #include <cmath>
 #include <cstddef>
