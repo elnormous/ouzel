@@ -1,6 +1,5 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include <algorithm>
 #include "Box3.hpp"
 #include "Box2.hpp"
 

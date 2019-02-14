@@ -3,7 +3,6 @@
 #ifndef OUZEL_MATH_MATRIX4_HPP
 #define OUZEL_MATH_MATRIX4_HPP
 
-#include <algorithm>
 #include <cassert>
 #include <cmath>
 #include <cstddef>
@@ -68,11 +67,6 @@ namespace ouzel
             m[13] = array[13];
             m[14] = array[14];
             m[15] = array[15];
-        }
-
-        Matrix4(const Matrix4& copy)
-        {
-            std::copy(std::begin(copy.m), std::end(copy.m), m);
         }
 
         T& operator[](size_t index) { return m[index]; }

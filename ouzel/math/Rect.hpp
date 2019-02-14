@@ -3,7 +3,6 @@
 #ifndef OUZEL_MATH_RECT_HPP
 #define OUZEL_MATH_RECT_HPP
 
-#include <algorithm>
 #include "math/Vector2.hpp"
 #include "math/Size2.hpp"
 
