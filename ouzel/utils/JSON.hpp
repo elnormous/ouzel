@@ -10,7 +10,6 @@
 #include <type_traits>
 #include <vector>
 #include "UTF8.hpp"
-#include "Utils.hpp"
 
 namespace ouzel
 {
@@ -423,9 +422,9 @@ namespace ouzel
                     else if (c == '\t') data.insert(data.end(), {'\\', 't'});
                     else if (c <= 0x1F)
                     {
-                        data.insert(data.end(), {'\\', 'u'});
-                        std::string hexValue = hexToString(c, 4);
-                        data.insert(data.end(), hexValue.begin(), hexValue.end());
+                        static constexpr const char* digits = "0123456789ABCDEF";
+                        for (uint32_t p = 0; p < 4; ++p)
+                            data.push_back(static_cast<uint8_t>(digits[(c >> (12 - p * 4)) & 0x0F]));
                     }
                     else
                     {
