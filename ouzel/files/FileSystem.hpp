@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_FILES_FILESYSTEM_HPP
 #define OUZEL_FILES_FILESYSTEM_HPP
