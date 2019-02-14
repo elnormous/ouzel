@@ -780,7 +780,7 @@ namespace ouzel
                                 const std::vector<float>& vertexShaderConstant = setShaderConstantsCommand->vertexShaderConstants[i];
 
                                 if (sizeof(float) * vertexShaderConstant.size() != vertexShaderConstantLocation.size)
-                                    throw std::runtime_error("Invalid pixel shader constant size");
+                                    throw std::runtime_error("Invalid vertex shader constant size");
 
                                 shaderData.insert(shaderData.end(), vertexShaderConstant.begin(), vertexShaderConstant.end());
                             }
