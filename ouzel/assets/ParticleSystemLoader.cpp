@@ -4,7 +4,7 @@
 #include "Bundle.hpp"
 #include "Cache.hpp"
 #include "scene/ParticleSystem.hpp"
-#include "utils/JSON.hpp"
+#include "utils/Json.hpp"
 
 namespace ouzel
 {

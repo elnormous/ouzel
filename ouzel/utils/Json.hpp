@@ -9,7 +9,7 @@
 #include <string>
 #include <type_traits>
 #include <vector>
-#include "utils/UTF8.hpp"
+#include "utils/Utf8.hpp"
 
 namespace ouzel
 {
@@ -555,8 +555,8 @@ namespace ouzel
                 return result;
             }
 
-            inline bool hasBOM() const { return bom; }
-            inline void setBOM(bool newBOM) { bom = newBOM; }
+            inline bool hasBom() const { return bom; }
+            inline void setBom(bool newBom) { bom = newBom; }
 
         private:
             static std::vector<Token> tokenize(const std::vector<uint32_t>& str)

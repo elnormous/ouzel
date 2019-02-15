@@ -8,7 +8,7 @@
 #include "files/FileSystem.hpp"
 #include "gui/BMFont.hpp"
 #include "gui/TTFont.hpp"
-#include "utils/JSON.hpp"
+#include "utils/Json.hpp"
 
 namespace ouzel
 {

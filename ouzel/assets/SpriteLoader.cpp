@@ -5,7 +5,7 @@
 #include "Bundle.hpp"
 #include "Cache.hpp"
 #include "scene/Sprite.hpp"
-#include "utils/JSON.hpp"
+#include "utils/Json.hpp"
 
 namespace ouzel
 {

@@ -113,12 +113,12 @@
 #include "scene/SkinnedMeshRenderer.hpp"
 #include "scene/StaticMeshRenderer.hpp"
 #include "scene/TextRenderer.hpp"
-#include "utils/INI.hpp"
-#include "utils/JSON.hpp"
+#include "utils/Ini.hpp"
+#include "utils/Json.hpp"
 #include "utils/Log.hpp"
-#include "utils/OBF.hpp"
-#include "utils/UTF8.hpp"
+#include "utils/Obf.hpp"
+#include "utils/Utf8.hpp"
 #include "utils/Utils.hpp"
-#include "utils/XML.hpp"
+#include "utils/Xml.hpp"
 
 #endif // OUZEL_HPP

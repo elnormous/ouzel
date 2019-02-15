@@ -1,7 +1,7 @@
 // Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #include <stdexcept>
-#include "OBF.hpp"
+#include "Obf.hpp"
 #include "Utils.hpp"
 
 namespace ouzel

@@ -79,8 +79,8 @@ namespace ouzel
 
             std::vector<uint8_t> encode() const;
 
-            inline bool hasBOM() const { return bom; }
-            inline void setBOM(bool newBOM) { bom = newBOM; }
+            inline bool hasBom() const { return bom; }
+            inline void setBom(bool newBom) { bom = newBom; }
 
             inline const std::vector<Node>& getChildren() const { return children; }
 

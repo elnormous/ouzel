@@ -163,7 +163,7 @@
     <ClCompile Include="..\ouzel\scene\ActorContainer.cpp">
       <Filter>ouzel\scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\utils\OBF.cpp">
+    <ClCompile Include="..\ouzel\utils\Obf.cpp">
       <Filter>ouzel\utils</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\utils\Utils.cpp">
@@ -337,7 +337,7 @@
     <ClCompile Include="..\ouzel\assets\WaveLoader.cpp">
       <Filter>ouzel\assets</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\utils\XML.cpp">
+    <ClCompile Include="..\ouzel\utils\Xml.cpp">
       <Filter>ouzel\utils</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\input\InputDevice.cpp">
@@ -567,7 +567,7 @@
     <ClInclude Include="..\ouzel\graphics\ImageData.hpp">
       <Filter>ouzel\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\utils\INI.hpp">
+    <ClInclude Include="..\ouzel\utils\Ini.hpp">
       <Filter>ouzel\utils</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\input\InputManager.hpp">
@@ -630,10 +630,10 @@
     <ClInclude Include="..\ouzel\scene\ActorContainer.hpp">
       <Filter>ouzel\scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\utils\OBF.hpp">
+    <ClInclude Include="..\ouzel\utils\Obf.hpp">
       <Filter>ouzel\utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\utils\UTF8.hpp">
+    <ClInclude Include="..\ouzel\utils\Utf8.hpp">
       <Filter>ouzel\utils</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\utils\Utils.hpp">
@@ -828,10 +828,10 @@
     <ClInclude Include="..\ouzel\assets\WaveLoader.hpp">
       <Filter>ouzel\assets</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\utils\JSON.hpp">
+    <ClInclude Include="..\ouzel\utils\Json.hpp">
       <Filter>ouzel\utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\utils\XML.hpp">
+    <ClInclude Include="..\ouzel\utils\Xml.hpp">
       <Filter>ouzel\utils</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\ouzel.hpp">

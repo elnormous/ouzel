@@ -164,9 +164,9 @@ SOURCES=$(ROOT_DIR)/../ouzel/assets/BmfLoader.cpp \
 	$(ROOT_DIR)/../ouzel/scene/StaticMeshRenderer.cpp \
 	$(ROOT_DIR)/../ouzel/scene/TextRenderer.cpp \
 	$(ROOT_DIR)/../ouzel/utils/Log.cpp \
-	$(ROOT_DIR)/../ouzel/utils/OBF.cpp \
+	$(ROOT_DIR)/../ouzel/utils/Obf.cpp \
 	$(ROOT_DIR)/../ouzel/utils/Utils.cpp \
-	$(ROOT_DIR)/../ouzel/utils/XML.cpp
+	$(ROOT_DIR)/../ouzel/utils/Xml.cpp
 ifeq ($(platform),windows)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/dsound/DSAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/core/windows/EngineWin.cpp \

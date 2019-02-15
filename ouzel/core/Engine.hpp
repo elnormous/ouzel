@@ -23,7 +23,7 @@
 #include "assets/Cache.hpp"
 #include "localization/Localization.hpp"
 #include "network/Network.hpp"
-#include "utils/INI.hpp"
+#include "utils/Ini.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
