@@ -111,6 +111,13 @@ namespace ouzel
                 return *this;
             }
 
+            inline Value& operator=(const char* value)
+            {
+                type = Type::STRING;
+                stringValue = value;
+                return *this;
+            }
+
             inline Value& operator=(bool value)
             {
                 type = Type::BOOLEAN;
