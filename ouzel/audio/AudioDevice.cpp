@@ -1,6 +1,5 @@
 // Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
-#include <algorithm>
 #include "AudioDevice.hpp"
 
 namespace ouzel
