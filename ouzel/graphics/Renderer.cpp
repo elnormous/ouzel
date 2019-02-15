@@ -220,16 +220,6 @@ namespace ouzel
                                                                              clearStencil)));
         }
 
-        void Renderer::setCullMode(CullMode cullMode)
-        {
-            addCommand(std::unique_ptr<Command>(new SetCullModeCommad(cullMode)));
-        }
-
-        void Renderer::setFillMode(FillMode fillMode)
-        {
-            addCommand(std::unique_ptr<Command>(new SetFillModeCommad(fillMode)));
-        }
-
         void Renderer::setScissorTest(bool enabled, const RectF& rectangle)
         {
             addCommand(std::unique_ptr<Command>(new SetScissorTestCommand(enabled, rectangle)));
@@ -248,9 +238,11 @@ namespace ouzel
         }
 
         void Renderer::setPipelineState(uintptr_t blendState,
-                                        uintptr_t shader)
+                                        uintptr_t shader,
+                                        CullMode cullMode,
+                                        FillMode fillMode)
         {
-            addCommand(std::unique_ptr<Command>(new SetPipelineStateCommand(blendState, shader)));
+            addCommand(std::unique_ptr<Command>(new SetPipelineStateCommand(blendState, shader, cullMode, fillMode)));
         }
 
         void Renderer::draw(uintptr_t indexBuffer,

@@ -359,9 +359,10 @@ namespace ouzel
                 for (const std::shared_ptr<graphics::Texture>& texture : material->textures)
                     textures.push_back(texture ? texture->getResource() : 0);
 
-                engine->getRenderer()->setCullMode(material->cullMode);
                 engine->getRenderer()->setPipelineState(material->blendState->getResource(),
-                                                        material->shader->getResource());
+                                                        material->shader->getResource(),
+                                                        graphics::CullMode::NONE,
+                                                        wireframe ? graphics::FillMode::WIREFRAME : graphics::FillMode::SOLID);
                 engine->getRenderer()->setShaderConstants(fragmentShaderConstants,
                                                           vertexShaderConstants);
                 engine->getRenderer()->setTextures(textures);

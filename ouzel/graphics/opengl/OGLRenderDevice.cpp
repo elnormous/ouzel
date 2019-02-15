@@ -966,27 +966,6 @@ namespace ouzel
                             break;
                         }
 
-                        case Command::Type::SET_CULL_MODE:
-                        {
-                            const SetCullModeCommad* setCullModeCommad = static_cast<const SetCullModeCommad*>(command.get());
-                            const GLenum cullFace = getCullFace(setCullModeCommad->cullMode);
-                            setCullFace(cullFace != GL_NONE, cullFace);
-                            break;
-                        }
-
-                        case Command::Type::SET_FILL_MODE:
-                        {
-                            const SetFillModeCommad* setFillModeCommad = static_cast<const SetFillModeCommad*>(command.get());
-
-#if OUZEL_OPENGLES
-                            if (setFillModeCommad->fillMode != FillMode::SOLID)
-                                engine->log(Log::Level::WARN) << "Unsupported fill mode";
-#else
-                            setPolygonFillMode(getFillMode(setFillModeCommad->fillMode));
-#endif
-                            break;
-                        }
-
                         case Command::Type::SET_SCISSOR_TEST:
                         {
                             auto setScissorTestCommand = static_cast<const SetScissorTestCommand*>(command.get());
@@ -1113,6 +1092,16 @@ namespace ouzel
                             }
                             else
                                 useProgram(0);
+
+                            const GLenum cullFace = getCullFace(setPipelineStateCommand->cullMode);
+                            setCullFace(cullFace != GL_NONE, cullFace);
+
+#if OUZEL_OPENGLES
+                            if (setFillModeCommad->fillMode != FillMode::SOLID)
+                                engine->log(Log::Level::WARN) << "Unsupported fill mode";
+#else
+                            setPolygonFillMode(getFillMode(setPipelineStateCommand->fillMode));
+#endif
 
                             break;
                         }
