@@ -5,7 +5,7 @@
 #define STB_TRUETYPE_IMPLEMENTATION
 #include "TTFont.hpp"
 #include "core/Engine.hpp"
-#include "utils/UTF8.hpp"
+#include "utils/Utf8.hpp"
 
 namespace ouzel
 {

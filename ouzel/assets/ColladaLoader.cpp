@@ -4,7 +4,7 @@
 #include "ColladaLoader.hpp"
 #include "Bundle.hpp"
 #include "scene/SkinnedMeshRenderer.hpp"
-#include "utils/XML.hpp"
+#include "utils/Xml.hpp"
 
 namespace ouzel
 {

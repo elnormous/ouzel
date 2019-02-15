@@ -2,8 +2,8 @@
 
 #include <algorithm>
 #include <stdexcept>
-#include "XML.hpp"
-#include "UTF8.hpp"
+#include "Xml.hpp"
+#include "Utf8.hpp"
 
 namespace ouzel
 {
