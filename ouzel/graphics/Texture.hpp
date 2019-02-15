@@ -26,6 +26,16 @@ namespace ouzel
                 CUBE
             };
 
+            enum class CubeFace
+            {
+                POSITIVE_X,
+                NEGATIVE_X,
+                POSITIVE_Y,
+                NEGATIVE_Y,
+                POSITIVE_Z,
+                NEGATIVE_Z
+            };
+
             enum Flags
             {
                 DYNAMIC = 0x01,
