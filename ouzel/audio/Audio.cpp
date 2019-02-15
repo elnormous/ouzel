@@ -14,7 +14,6 @@
 #include "opensl/OSLAudioDevice.hpp"
 #include "xaudio2/XA2AudioDevice.hpp"
 #include "wasapi/WASAPIAudioDevice.hpp"
-#include "math/MathUtils.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
