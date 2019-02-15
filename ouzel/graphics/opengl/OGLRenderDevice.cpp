@@ -1097,7 +1097,7 @@ namespace ouzel
                             setCullFace(cullFace != GL_NONE, cullFace);
 
 #if OUZEL_OPENGLES
-                            if (setFillModeCommad->fillMode != FillMode::SOLID)
+                            if (setPipelineStateCommand->fillMode != FillMode::SOLID)
                                 engine->log(Log::Level::WARN) << "Unsupported fill mode";
 #else
                             setPolygonFillMode(getFillMode(setPipelineStateCommand->fillMode));
