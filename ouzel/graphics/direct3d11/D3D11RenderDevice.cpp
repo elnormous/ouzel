@@ -486,41 +486,6 @@ namespace ouzel
                             break;
                         }
 
-                        case Command::Type::SET_CULL_MODE:
-                        {
-                            const SetCullModeCommad* setCullModeCommad = static_cast<const SetCullModeCommad*>(command.get());
-
-                            switch (setCullModeCommad->cullMode)
-                            {
-                                case CullMode::NONE: cullModeIndex = 0; break;
-                                case CullMode::FRONT: cullModeIndex = 1; break;
-                                case CullMode::BACK: cullModeIndex = 2; break;
-                                default: throw std::runtime_error("Invalid cull mode");
-                            }
-
-                            uint32_t rasterizerStateIndex = fillModeIndex * 6 + scissorEnableIndex * 3 + cullModeIndex;
-                            context->RSSetState(rasterizerStates[rasterizerStateIndex]);
-
-                            break;
-                        }
-
-                        case Command::Type::SET_FILL_MODE:
-                        {
-                            const SetFillModeCommad* setFillModeCommad = static_cast<const SetFillModeCommad*>(command.get());
-
-                            switch (setFillModeCommad->fillMode)
-                            {
-                                case FillMode::SOLID: fillModeIndex = 0; break;
-                                case FillMode::WIREFRAME: fillModeIndex = 1; break;
-                                default: throw std::runtime_error("Invalid fill mode");
-                            }
-
-                            uint32_t rasterizerStateIndex = fillModeIndex * 6 + scissorEnableIndex * 3 + cullModeIndex;
-                            context->RSSetState(rasterizerStates[rasterizerStateIndex]);
-
-                            break;
-                        }
-
                         case Command::Type::SET_SCISSOR_TEST:
                         {
                             auto setScissorTestCommand = static_cast<const SetScissorTestCommand*>(command.get());
@@ -625,6 +590,23 @@ namespace ouzel
                                 context->IASetInputLayout(nullptr);
                             }
 
+                            switch (setPipelineStateCommand->cullMode)
+                            {
+                                case CullMode::NONE: cullModeIndex = 0; break;
+                                case CullMode::FRONT: cullModeIndex = 1; break;
+                                case CullMode::BACK: cullModeIndex = 2; break;
+                                default: throw std::runtime_error("Invalid cull mode");
+                            }
+
+                            switch (setPipelineStateCommand->fillMode)
+                            {
+                                case FillMode::SOLID: fillModeIndex = 0; break;
+                                case FillMode::WIREFRAME: fillModeIndex = 1; break;
+                                default: throw std::runtime_error("Invalid fill mode");
+                            }
+
+                            uint32_t rasterizerStateIndex = fillModeIndex * 6 + scissorEnableIndex * 3 + cullModeIndex;
+                            context->RSSetState(rasterizerStates[rasterizerStateIndex]);
                             break;
                         }
 

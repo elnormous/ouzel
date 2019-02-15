@@ -458,30 +458,6 @@ namespace ouzel
                             break;
                         }
 
-                        case Command::Type::SET_CULL_MODE:
-                        {
-                            const SetCullModeCommad* setCullModeCommad = static_cast<const SetCullModeCommad*>(command.get());
-
-                            if (!currentRenderCommandEncoder)
-                                throw std::runtime_error("Metal render command encoder not initialized");
-
-                            [currentRenderCommandEncoder setCullMode:getCullMode(setCullModeCommad->cullMode)];
-
-                            break;
-                        }
-
-                        case Command::Type::SET_FILL_MODE:
-                        {
-                            const SetFillModeCommad* setFillModeCommad = static_cast<const SetFillModeCommad*>(command.get());
-
-                            if (!currentRenderCommandEncoder)
-                                throw std::runtime_error("Metal render command encoder not initialized");
-
-                            [currentRenderCommandEncoder setTriangleFillMode:getFillMode(setFillModeCommad->fillMode)];
-
-                            break;
-                        }
-
                         case Command::Type::SET_SCISSOR_TEST:
                         {
                             auto setScissorTestCommand = static_cast<const SetScissorTestCommand*>(command.get());
@@ -581,6 +557,9 @@ namespace ouzel
 
                             MTLRenderPipelineStatePtr pipelineState = getPipelineState(currentPipelineStateDesc);
                             if (pipelineState) [currentRenderCommandEncoder setRenderPipelineState:pipelineState];
+
+                            [currentRenderCommandEncoder setCullMode:getCullMode(setPipelineStateCommand->cullMode)];
+                            [currentRenderCommandEncoder setTriangleFillMode:getFillMode(setPipelineStateCommand->fillMode)];
 
                             break;
                         }

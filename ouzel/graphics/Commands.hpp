@@ -32,8 +32,6 @@ namespace ouzel
                 CLEAR_RENDER_TARGET,
                 BLIT,
                 COMPUTE,
-                SET_CULL_MODE,
-                SET_FILL_MODE,
                 SET_SCISSOR_TEST,
                 SET_VIEWPORT,
                 INIT_DEPTH_STENCIL_STATE,
@@ -201,30 +199,6 @@ namespace ouzel
             uintptr_t shader;
         };
 
-        class SetCullModeCommad final: public Command
-        {
-        public:
-            explicit SetCullModeCommad(CullMode initCullMode):
-                Command(Command::Type::SET_CULL_MODE),
-                cullMode(initCullMode)
-            {
-            }
-
-            CullMode cullMode;
-        };
-
-        class SetFillModeCommad final: public Command
-        {
-        public:
-            explicit SetFillModeCommad(FillMode initFillMode):
-                Command(Command::Type::SET_FILL_MODE),
-                fillMode(initFillMode)
-            {
-            }
-
-            FillMode fillMode;
-        };
-
         class SetScissorTestCommand final: public Command
         {
         public:
@@ -307,15 +281,21 @@ namespace ouzel
         {
         public:
             SetPipelineStateCommand(uintptr_t initBlendState,
-                                    uintptr_t initShader):
+                                    uintptr_t initShader,
+                                    CullMode initCullMode,
+                                    FillMode initFillMode):
                 Command(Command::Type::SET_PIPELINE_STATE),
                 blendState(initBlendState),
-                shader(initShader)
+                shader(initShader),
+                cullMode(initCullMode),
+                fillMode(initFillMode)
             {
             }
 
             uintptr_t blendState;
             uintptr_t shader;
+            CullMode cullMode;
+            FillMode fillMode;
         };
 
         class DrawCommand final: public Command

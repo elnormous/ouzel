@@ -87,8 +87,10 @@ namespace ouzel
             std::vector<std::vector<float>> vertexShaderConstants(1);
             vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
 
-            engine->getRenderer()->setCullMode(graphics::CullMode::NONE);
-            engine->getRenderer()->setPipelineState(blendState->getResource(), shader->getResource());
+            engine->getRenderer()->setPipelineState(blendState->getResource(),
+                                                    shader->getResource(),
+                                                    graphics::CullMode::NONE,
+                                                    wireframe ? graphics::FillMode::WIREFRAME : graphics::FillMode::SOLID);
             engine->getRenderer()->setShaderConstants(fragmentShaderConstants,
                                                       vertexShaderConstants);
             engine->getRenderer()->setTextures({wireframe ? whitePixelTexture->getResource() : texture->getResource()});
