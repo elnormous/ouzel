@@ -151,6 +151,7 @@
     <ClCompile Include="..\ouzel\math\Vector4.cpp" />
     <ClCompile Include="..\ouzel\network\Client.cpp" />
     <ClCompile Include="..\ouzel\network\Network.cpp" />
+    <ClCompile Include="..\ouzel\network\Server.cpp" />
     <ClCompile Include="..\ouzel\network\Socket.cpp" />
     <ClCompile Include="..\ouzel\scene\Actor.cpp" />
     <ClCompile Include="..\ouzel\scene\ActorContainer.cpp" />
@@ -333,6 +334,7 @@
     <ClInclude Include="..\ouzel\math\Vector4.hpp" />
     <ClInclude Include="..\ouzel\network\Client.hpp" />
     <ClInclude Include="..\ouzel\network\Network.hpp" />
+    <ClInclude Include="..\ouzel\network\Server.hpp" />
     <ClInclude Include="..\ouzel\network\Socket.hpp" />
     <ClInclude Include="..\ouzel\ouzel.hpp" />
     <ClInclude Include="..\ouzel\scene\Actor.hpp" />

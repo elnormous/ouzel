@@ -1,27 +1,27 @@
 // Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
-#include "Client.hpp"
+#include "Server.hpp"
 #include "Network.hpp"
 
 namespace ouzel
 {
     namespace network
     {
-        Client::Client(Network& initNetwork):
+        Server::Server(Network& initNetwork):
             network(&initNetwork)
         {
         }
 
-        Client::~Client()
+        Server::~Server()
         {
         }
 
-        Client::Client(Client&& other):
+        Server::Server(Server&& other):
             sock(std::move(other.sock))
         {
         }
 
-        Client& Client::operator=(Client&& other)
+        Server& Server::operator=(Server&& other)
         {
             if (&other != this)
             {
@@ -31,11 +31,11 @@ namespace ouzel
             return *this;
         }
 
-        void Client::connect(const std::string& address, uint16_t port)
+        void Server::listen(const std::string& address, uint16_t port)
         {
         }
 
-        void Client::disconnect()
+        void Server::disconnect()
         {
         }
     } // namespace network

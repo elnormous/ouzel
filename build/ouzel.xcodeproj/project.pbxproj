@@ -85,6 +85,12 @@
 		302261841FDB8C59005279FC /* ColladaLoader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 302261801FDB8C59005279FC /* ColladaLoader.hpp */; };
 		302261851FDB8C59005279FC /* ColladaLoader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 302261801FDB8C59005279FC /* ColladaLoader.hpp */; };
 		302261861FDB8C59005279FC /* ColladaLoader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 302261801FDB8C59005279FC /* ColladaLoader.hpp */; };
+		30231FFF22184518007E0AAD /* Server.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30231FFD22184518007E0AAD /* Server.cpp */; };
+		3023200022184518007E0AAD /* Server.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30231FFD22184518007E0AAD /* Server.cpp */; };
+		3023200122184518007E0AAD /* Server.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30231FFD22184518007E0AAD /* Server.cpp */; };
+		3023200222184518007E0AAD /* Server.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30231FFE22184518007E0AAD /* Server.hpp */; };
+		3023200322184518007E0AAD /* Server.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30231FFE22184518007E0AAD /* Server.hpp */; };
+		3023200422184518007E0AAD /* Server.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30231FFE22184518007E0AAD /* Server.hpp */; };
 		302B728421BDE302006EBC59 /* SilenceSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302B728221BDE301006EBC59 /* SilenceSound.cpp */; };
 		302B728521BDE302006EBC59 /* SilenceSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302B728221BDE301006EBC59 /* SilenceSound.cpp */; };
 		302B728621BDE302006EBC59 /* SilenceSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302B728221BDE301006EBC59 /* SilenceSound.cpp */; };
@@ -934,6 +940,8 @@
 		30216B7F1ED5C3900073E3D5 /* Plane.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Plane.hpp; sourceTree = "<group>"; };
 		3022617F1FDB8C59005279FC /* ColladaLoader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ColladaLoader.cpp; sourceTree = "<group>"; };
 		302261801FDB8C59005279FC /* ColladaLoader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ColladaLoader.hpp; sourceTree = "<group>"; };
+		30231FFD22184518007E0AAD /* Server.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Server.cpp; sourceTree = "<group>"; };
+		30231FFE22184518007E0AAD /* Server.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Server.hpp; sourceTree = "<group>"; };
 		302B728221BDE301006EBC59 /* SilenceSound.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SilenceSound.cpp; sourceTree = "<group>"; };
 		302B728321BDE302006EBC59 /* SilenceSound.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SilenceSound.hpp; sourceTree = "<group>"; };
 		3030D5001DAEF1FA007CC8EB /* Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Log.cpp; sourceTree = "<group>"; };
@@ -1761,6 +1769,8 @@
 				304E76381F7095DE0025C0DB /* Client.hpp */,
 				304F92A31F4D89C50063EEC0 /* Network.cpp */,
 				304F92A41F4D89C50063EEC0 /* Network.hpp */,
+				30231FFD22184518007E0AAD /* Server.cpp */,
+				30231FFE22184518007E0AAD /* Server.hpp */,
 				3085DA1E211A4A5500F4C2D0 /* Socket.cpp */,
 				3085DA1F211A4A5500F4C2D0 /* Socket.hpp */,
 			);
@@ -1996,6 +2006,7 @@
 				306A26B61F5DD17700E2B0B6 /* Listener.hpp in Headers */,
 				30EF364F1CA76ACD00F04F29 /* ScrollArea.hpp in Headers */,
 				30724D831F353A0800D915ED /* ViewIOS.h in Headers */,
+				3023200222184518007E0AAD /* Server.hpp in Headers */,
 				306792F5211F98070006FF79 /* Bundle.hpp in Headers */,
 				30381FDF1D80A40700677CAB /* MetalBlendState.hpp in Headers */,
 				303B75581C2A3CB700FEDE92 /* Vector2.hpp in Headers */,
@@ -2206,6 +2217,7 @@
 				309BA3181F183D6E006F2240 /* CAAudioDevice.hpp in Headers */,
 				3009342F1C88978D00CC50D3 /* NativeWindowTVOS.hpp in Headers */,
 				303696F11E32DE08007F4211 /* Shader.hpp in Headers */,
+				3023200422184518007E0AAD /* Server.hpp in Headers */,
 				30EEADD2216ECEE400D2F525 /* GamepadDevice.hpp in Headers */,
 				30C758C01F4A23BD008499DC /* DisplayLink.hpp in Headers */,
 				303B76681C355A3B00FEDE92 /* InputManager.hpp in Headers */,
@@ -2382,6 +2394,7 @@
 				C6AC8A8D215BD7D500F14D75 /* MouseDeviceMacOS.hpp in Headers */,
 				30575AA11C39CB790009C8A7 /* Scene.hpp in Headers */,
 				302B728821BDE302006EBC59 /* SilenceSound.hpp in Headers */,
+				3023200322184518007E0AAD /* Server.hpp in Headers */,
 				303820101D80A40700677CAB /* MetalTexture.hpp in Headers */,
 				304736DD1E0B4776009BC562 /* Box3.hpp in Headers */,
 				30C56C981CAC3ECE007AEF8F /* SlideBar.hpp in Headers */,
@@ -2636,6 +2649,7 @@
 				305B99921C41F06F008589E1 /* Widget.cpp in Sources */,
 				30EEADCB216A44EC00D2F525 /* InputDevice.cpp in Sources */,
 				30C56C961CAC3ECE007AEF8F /* SlideBar.cpp in Sources */,
+				30231FFF22184518007E0AAD /* Server.cpp in Sources */,
 				305B998A1C41EFFA008589E1 /* Menu.cpp in Sources */,
 				30381FE21D80A40700677CAB /* MetalBlendState.mm in Sources */,
 				30C758B51F4A0309008499DC /* RenderDevice.cpp in Sources */,
@@ -2790,6 +2804,7 @@
 				30EEADCD216A44ED00D2F525 /* InputDevice.cpp in Sources */,
 				305B998B1C41EFFA008589E1 /* Menu.cpp in Sources */,
 				303B76411C355A3B00FEDE92 /* Utils.cpp in Sources */,
+				3023200122184518007E0AAD /* Server.cpp in Sources */,
 				30575AC71C3B17540009C8A7 /* Button.cpp in Sources */,
 				30C758B71F4A0309008499DC /* RenderDevice.cpp in Sources */,
 				30ADCBBB1E9A9550000DC9AC /* MetalRenderDeviceTVOS.mm in Sources */,
@@ -2934,6 +2949,7 @@
 				30A9C1311CAE80570084C4BF /* Localization.cpp in Sources */,
 				303696ED1E32DE08007F4211 /* Shader.cpp in Sources */,
 				30575A8F1C38BD370009C8A7 /* Box2.cpp in Sources */,
+				3023200022184518007E0AAD /* Server.cpp in Sources */,
 				30519CF91F9B54E300AF3DC4 /* VorbisLoader.cpp in Sources */,
 				3038207F1D816C9E00677CAB /* main.cpp in Sources */,
 				30519CE11F9B53E900AF3DC4 /* ParticleSystemLoader.cpp in Sources */,

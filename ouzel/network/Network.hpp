@@ -39,10 +39,6 @@ namespace ouzel
 
             static uint32_t getAddress(const std::string& address);
 
-            void listen(const std::string& address, uint16_t port);
-            void connect(const std::string& address, uint16_t port);
-            void disconnect();
-
         private:
 #ifdef _WIN32
             bool wsaStarted = false;
