@@ -67,17 +67,5 @@ namespace ouzel
 
             return result;
         }
-
-        void Network::listen(const std::string& address, uint16_t port)
-        {
-        }
-
-        void Network::connect(const std::string& address, uint16_t port)
-        {
-        }
-
-        void Network::disconnect()
-        {
-        }
     } // namespace network
 } // namespace ouzel

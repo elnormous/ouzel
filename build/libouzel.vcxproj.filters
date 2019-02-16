@@ -295,6 +295,9 @@
     <ClCompile Include="..\ouzel\network\Client.cpp">
       <Filter>ouzel\network</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\network\Server.cpp">
+      <Filter>ouzel\network</Filter>
+    </ClCompile>
     <ClCompile Include="..\ouzel\core\NativeWindow.cpp">
       <Filter>ouzel\core</Filter>
     </ClCompile>
@@ -775,6 +778,9 @@
       <Filter>ouzel\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\network\Client.hpp">
+      <Filter>ouzel\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\network\Server.hpp">
       <Filter>ouzel\network</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\DefaultConfig.h">

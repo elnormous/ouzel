@@ -131,6 +131,7 @@ LOCAL_SRC_FILES := ../../ouzel/assets/BmfLoader.cpp \
     ../../ouzel/math/Vector4.cpp \
     ../../ouzel/network/Client.cpp \
     ../../ouzel/network/Network.cpp \
+	../../ouzel/network/Server.cpp \
     ../../ouzel/network/Socket.cpp \
     ../../ouzel/scene/Actor.cpp \
     ../../ouzel/scene/ActorContainer.cpp \

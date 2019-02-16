@@ -96,6 +96,7 @@
 #include "math/Vector4.hpp"
 #include "network/Client.hpp"
 #include "network/Network.hpp"
+#include "network/Server.hpp"
 #include "network/Socket.hpp"
 #include "scene/Actor.hpp"
 #include "scene/ActorContainer.hpp"

@@ -3,7 +3,7 @@
 #ifndef OUZEL_NETWORK_CLIENT_HPP
 #define OUZEL_NETWORK_CLIENT_HPP
 
-#include "Socket.hpp"
+#include "network/Socket.hpp"
 
 namespace ouzel
 {
@@ -23,6 +23,7 @@ namespace ouzel
             Client(Client&& other);
             Client& operator=(Client&& other);
 
+            void connect(const std::string& address, uint16_t port);
             void disconnect();
 
         private:
