@@ -101,6 +101,23 @@ namespace ouzel
             return *this;
         }
 
+        Log& operator<<(const std::vector<uint8_t>& val)
+        {
+            bool first = true;
+
+            for (uint8_t b : val)
+            {
+                if (!first) s += ", ";
+                first = false;
+
+                static constexpr const char* digits = "0123456789ABCDEF";
+                s += digits[(b >> 4) & 0x0f];
+                s += digits[b & 0x0f];
+            }
+
+            return *this;
+        }
+
         Log& operator<<(const std::vector<std::string>& val)
         {
             bool first = true;
