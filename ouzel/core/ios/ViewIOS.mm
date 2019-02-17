@@ -81,24 +81,19 @@
     }
 }
 
-static const std::unordered_map<NSInteger, ouzel::input::Keyboard::Key> keyMap = {
-    {UIPressTypeUpArrow, ouzel::input::Keyboard::Key::UP},
-    {UIPressTypeDownArrow, ouzel::input::Keyboard::Key::DOWN},
-    {UIPressTypeLeftArrow, ouzel::input::Keyboard::Key::LEFT},
-    {UIPressTypeRightArrow, ouzel::input::Keyboard::Key::RIGHT},
-    {UIPressTypeSelect, ouzel::input::Keyboard::Key::SELECT},
-    {UIPressTypeMenu, ouzel::input::Keyboard::Key::MENU},
-    {UIPressTypePlayPause, ouzel::input::Keyboard::Key::PAUSE}
-};
-
 static ouzel::input::Keyboard::Key convertKeyCode(NSInteger keyCode)
 {
-    auto i = keyMap.find(keyCode);
-
-    if (i != keyMap.end())
-        return i->second;
-    else
-        return ouzel::input::Keyboard::Key::NONE;
+    switch (keyCode)
+    {
+        case UIPressTypeUpArrow: return ouzel::input::Keyboard::Key::UP;
+        case UIPressTypeDownArrow: return ouzel::input::Keyboard::Key::DOWN;
+        case UIPressTypeLeftArrow: return ouzel::input::Keyboard::Key::LEFT;
+        case UIPressTypeRightArrow: return ouzel::input::Keyboard::Key::RIGHT;
+        case UIPressTypeSelect: return ouzel::input::Keyboard::Key::SELECT;
+        case UIPressTypeMenu: return ouzel::input::Keyboard::Key::MENU;
+        case UIPressTypePlayPause: return ouzel::input::Keyboard::Key::PAUSE;
+        default: return ouzel::input::Keyboard::Key::NONE;
+    }
 }
 
 -(void)pressesBegan:(NSSet<UIPress*>*)presses withEvent:(UIPressesEvent*)event

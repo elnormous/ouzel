@@ -52,144 +52,139 @@ enum
 };
 #endif
 
-static const std::unordered_map<uint16_t, ouzel::input::Keyboard::Key> keyMap = {
-    {kVK_UpArrow, ouzel::input::Keyboard::Key::UP},
-    {kVK_DownArrow, ouzel::input::Keyboard::Key::DOWN},
-    {kVK_LeftArrow, ouzel::input::Keyboard::Key::LEFT},
-    {kVK_RightArrow, ouzel::input::Keyboard::Key::RIGHT},
-    {kVK_F1, ouzel::input::Keyboard::Key::F1},
-    {kVK_F2, ouzel::input::Keyboard::Key::F2},
-    {kVK_F3, ouzel::input::Keyboard::Key::F3},
-    {kVK_F4, ouzel::input::Keyboard::Key::F4},
-    {kVK_F5, ouzel::input::Keyboard::Key::F5},
-    {kVK_F6, ouzel::input::Keyboard::Key::F6},
-    {kVK_F7, ouzel::input::Keyboard::Key::F7},
-    {kVK_F8, ouzel::input::Keyboard::Key::F8},
-    {kVK_F9, ouzel::input::Keyboard::Key::F9},
-    {kVK_F10, ouzel::input::Keyboard::Key::F10},
-    {kVK_F11, ouzel::input::Keyboard::Key::F11},
-    {kVK_F12, ouzel::input::Keyboard::Key::F12},
-    {kVK_F13, ouzel::input::Keyboard::Key::F13},
-    {kVK_F14, ouzel::input::Keyboard::Key::F14},
-    {kVK_F15, ouzel::input::Keyboard::Key::F15},
-    {kVK_F16, ouzel::input::Keyboard::Key::F16},
-    {kVK_F17, ouzel::input::Keyboard::Key::F17},
-    {kVK_F18, ouzel::input::Keyboard::Key::F18},
-    {kVK_F19, ouzel::input::Keyboard::Key::F19},
-    {kVK_F20, ouzel::input::Keyboard::Key::F20},
-    {kVK_Home, ouzel::input::Keyboard::Key::HOME},
-    {kVK_End, ouzel::input::Keyboard::Key::END},
-    {NSInsertFunctionKey, ouzel::input::Keyboard::Key::INSERT},
-    {kVK_ForwardDelete, ouzel::input::Keyboard::Key::DEL},
-    {kVK_Help, ouzel::input::Keyboard::Key::HELP},
-    {NSSelectFunctionKey, ouzel::input::Keyboard::Key::SELECT},
-    {NSPrintFunctionKey, ouzel::input::Keyboard::Key::PRINT},
-    {NSExecuteFunctionKey, ouzel::input::Keyboard::Key::EXECUTE},
-    {NSPrintScreenFunctionKey, ouzel::input::Keyboard::Key::PRINT_SCREEN},
-    {NSPauseFunctionKey, ouzel::input::Keyboard::Key::PAUSE},
-    {NSScrollLockFunctionKey, ouzel::input::Keyboard::Key::SCROLL_LOCK},
-    {kVK_Delete, ouzel::input::Keyboard::Key::BACKSPACE},
-    {kVK_Tab, ouzel::input::Keyboard::Key::TAB},
-    {kVK_Return, ouzel::input::Keyboard::Key::ENTER},
-    {kVK_Escape, ouzel::input::Keyboard::Key::ESCAPE},
-    {kVK_Control, ouzel::input::Keyboard::Key::LEFT_CONTROL},
-    {kVK_RightControl, ouzel::input::Keyboard::Key::RIGHT_CONTROL},
-    {kVK_Command, ouzel::input::Keyboard::Key::LEFT_SUPER},
-    {kVK_RightCommand, ouzel::input::Keyboard::Key::RIGHT_SUPER},
-    {kVK_Shift, ouzel::input::Keyboard::Key::LEFT_SHIFT},
-    {kVK_RightShift, ouzel::input::Keyboard::Key::RIGHT_SHIFT},
-    {kVK_Option, ouzel::input::Keyboard::Key::LEFT_ALT},
-    {kVK_RightOption, ouzel::input::Keyboard::Key::RIGHT_ALT},
-    {kVK_Space, ouzel::input::Keyboard::Key::SPACE},
-
-    {kVK_ANSI_A, ouzel::input::Keyboard::Key::A},
-    {kVK_ANSI_B, ouzel::input::Keyboard::Key::B},
-    {kVK_ANSI_C, ouzel::input::Keyboard::Key::C},
-    {kVK_ANSI_D, ouzel::input::Keyboard::Key::D},
-    {kVK_ANSI_E, ouzel::input::Keyboard::Key::E},
-    {kVK_ANSI_F, ouzel::input::Keyboard::Key::F},
-    {kVK_ANSI_G, ouzel::input::Keyboard::Key::G},
-    {kVK_ANSI_H, ouzel::input::Keyboard::Key::H},
-    {kVK_ANSI_I, ouzel::input::Keyboard::Key::I},
-    {kVK_ANSI_J, ouzel::input::Keyboard::Key::J},
-    {kVK_ANSI_K, ouzel::input::Keyboard::Key::K},
-    {kVK_ANSI_L, ouzel::input::Keyboard::Key::L},
-    {kVK_ANSI_M, ouzel::input::Keyboard::Key::M},
-    {kVK_ANSI_N, ouzel::input::Keyboard::Key::N},
-    {kVK_ANSI_O, ouzel::input::Keyboard::Key::O},
-    {kVK_ANSI_P, ouzel::input::Keyboard::Key::P},
-    {kVK_ANSI_Q, ouzel::input::Keyboard::Key::Q},
-    {kVK_ANSI_R, ouzel::input::Keyboard::Key::R},
-    {kVK_ANSI_S, ouzel::input::Keyboard::Key::S},
-    {kVK_ANSI_T, ouzel::input::Keyboard::Key::T},
-    {kVK_ANSI_U, ouzel::input::Keyboard::Key::U},
-    {kVK_ANSI_V, ouzel::input::Keyboard::Key::V},
-    {kVK_ANSI_W, ouzel::input::Keyboard::Key::W},
-    {kVK_ANSI_X, ouzel::input::Keyboard::Key::X},
-    {kVK_ANSI_Y, ouzel::input::Keyboard::Key::Y},
-    {kVK_ANSI_Z, ouzel::input::Keyboard::Key::Z},
-
-    {kVK_ANSI_0, ouzel::input::Keyboard::Key::NUM_0},
-    {kVK_ANSI_1, ouzel::input::Keyboard::Key::NUM_1},
-    {kVK_ANSI_2, ouzel::input::Keyboard::Key::NUM_2},
-    {kVK_ANSI_3, ouzel::input::Keyboard::Key::NUM_3},
-    {kVK_ANSI_4, ouzel::input::Keyboard::Key::NUM_4},
-    {kVK_ANSI_5, ouzel::input::Keyboard::Key::NUM_5},
-    {kVK_ANSI_6, ouzel::input::Keyboard::Key::NUM_6},
-    {kVK_ANSI_7, ouzel::input::Keyboard::Key::NUM_7},
-    {kVK_ANSI_8, ouzel::input::Keyboard::Key::NUM_8},
-    {kVK_ANSI_9, ouzel::input::Keyboard::Key::NUM_9},
-
-    {kVK_ANSI_Comma, ouzel::input::Keyboard::Key::COMMA},
-    {kVK_ANSI_Period, ouzel::input::Keyboard::Key::PERIOD},
-    {kVK_PageUp, ouzel::input::Keyboard::Key::PAGE_UP},
-    {kVK_PageDown, ouzel::input::Keyboard::Key::PAGE_DOWN},
-
-    {kVK_ANSI_Keypad0, ouzel::input::Keyboard::Key::NUMPAD_0},
-    {kVK_ANSI_Keypad1, ouzel::input::Keyboard::Key::NUMPAD_1},
-    {kVK_ANSI_Keypad2, ouzel::input::Keyboard::Key::NUMPAD_2},
-    {kVK_ANSI_Keypad3, ouzel::input::Keyboard::Key::NUMPAD_3},
-    {kVK_ANSI_Keypad4, ouzel::input::Keyboard::Key::NUMPAD_4},
-    {kVK_ANSI_Keypad5, ouzel::input::Keyboard::Key::NUMPAD_5},
-    {kVK_ANSI_Keypad6, ouzel::input::Keyboard::Key::NUMPAD_6},
-    {kVK_ANSI_Keypad7, ouzel::input::Keyboard::Key::NUMPAD_7},
-    {kVK_ANSI_Keypad8, ouzel::input::Keyboard::Key::NUMPAD_8},
-    {kVK_ANSI_Keypad9, ouzel::input::Keyboard::Key::NUMPAD_9},
-
-    {kVK_ANSI_KeypadDecimal, ouzel::input::Keyboard::Key::NUMPAD_DECIMAL},
-    {kVK_ANSI_KeypadMultiply, ouzel::input::Keyboard::Key::NUMPAD_MULTIPLY},
-    {kVK_ANSI_KeypadPlus, ouzel::input::Keyboard::Key::NUMPAD_PLUS},
-    {kVK_ANSI_KeypadClear, ouzel::input::Keyboard::Key::NUM_LOCK},
-    {kVK_ANSI_KeypadDivide, ouzel::input::Keyboard::Key::NUMPAD_DIVIDE},
-    {kVK_ANSI_KeypadEnter, ouzel::input::Keyboard::Key::NUMPAD_ENTER},
-    {kVK_ANSI_KeypadMinus, ouzel::input::Keyboard::Key::NUMPAD_MINUS},
-
-    {kVK_ANSI_Semicolon, ouzel::input::Keyboard::Key::SEMICOLON},
-    {kVK_ANSI_Slash, ouzel::input::Keyboard::Key::SLASH},
-    {kVK_ANSI_Grave, ouzel::input::Keyboard::Key::GRAVE},
-    {kVK_ANSI_LeftBracket, ouzel::input::Keyboard::Key::LEFT_BRACKET},
-    {kVK_ANSI_Backslash, ouzel::input::Keyboard::Key::BACKSLASH},
-    {kVK_ANSI_RightBracket, ouzel::input::Keyboard::Key::RIGHT_BRACKET},
-    {0x6E, ouzel::input::Keyboard::Key::MENU},
-    {0x7F, ouzel::input::Keyboard::Key::POWER},
-
-    {kVK_JIS_Yen, ouzel::input::Keyboard::Key::YEN},
-    {kVK_JIS_KeypadComma, ouzel::input::Keyboard::Key::NUMPAD_JPCOMMA},
-    {kVK_JIS_Kana, ouzel::input::Keyboard::Key::KANA},
-
-    {kVK_VolumeUp, ouzel::input::Keyboard::Key::VOLUME_UP},
-    {kVK_VolumeDown, ouzel::input::Keyboard::Key::VOLUME_DOWN},
-    {kVK_Mute, ouzel::input::Keyboard::Key::MUTE}
-};
-
 static ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)
 {
-    auto i = keyMap.find(keyCode);
+    switch (keyCode)
+    {
+        case kVK_UpArrow: return ouzel::input::Keyboard::Key::UP;
+        case kVK_DownArrow: return ouzel::input::Keyboard::Key::DOWN;
+        case kVK_LeftArrow: return ouzel::input::Keyboard::Key::LEFT;
+        case kVK_RightArrow: return ouzel::input::Keyboard::Key::RIGHT;
+        case kVK_F1: return ouzel::input::Keyboard::Key::F1;
+        case kVK_F2: return ouzel::input::Keyboard::Key::F2;
+        case kVK_F3: return ouzel::input::Keyboard::Key::F3;
+        case kVK_F4: return ouzel::input::Keyboard::Key::F4;
+        case kVK_F5: return ouzel::input::Keyboard::Key::F5;
+        case kVK_F6: return ouzel::input::Keyboard::Key::F6;
+        case kVK_F7: return ouzel::input::Keyboard::Key::F7;
+        case kVK_F8: return ouzel::input::Keyboard::Key::F8;
+        case kVK_F9: return ouzel::input::Keyboard::Key::F9;
+        case kVK_F10: return ouzel::input::Keyboard::Key::F10;
+        case kVK_F11: return ouzel::input::Keyboard::Key::F11;
+        case kVK_F12: return ouzel::input::Keyboard::Key::F12;
+        case kVK_F13: return ouzel::input::Keyboard::Key::F13;
+        case kVK_F14: return ouzel::input::Keyboard::Key::F14;
+        case kVK_F15: return ouzel::input::Keyboard::Key::F15;
+        case kVK_F16: return ouzel::input::Keyboard::Key::F16;
+        case kVK_F17: return ouzel::input::Keyboard::Key::F17;
+        case kVK_F18: return ouzel::input::Keyboard::Key::F18;
+        case kVK_F19: return ouzel::input::Keyboard::Key::F19;
+        case kVK_F20: return ouzel::input::Keyboard::Key::F20;
+        case kVK_Home: return ouzel::input::Keyboard::Key::HOME;
+        case kVK_End: return ouzel::input::Keyboard::Key::END;
+        case NSInsertFunctionKey: return ouzel::input::Keyboard::Key::INSERT;
+        case kVK_ForwardDelete: return ouzel::input::Keyboard::Key::DEL;
+        case kVK_Help: return ouzel::input::Keyboard::Key::HELP;
+        case NSSelectFunctionKey: return ouzel::input::Keyboard::Key::SELECT;
+        case NSPrintFunctionKey: return ouzel::input::Keyboard::Key::PRINT;
+        case NSExecuteFunctionKey: return ouzel::input::Keyboard::Key::EXECUTE;
+        case NSPrintScreenFunctionKey: return ouzel::input::Keyboard::Key::PRINT_SCREEN;
+        case NSPauseFunctionKey: return ouzel::input::Keyboard::Key::PAUSE;
+        case NSScrollLockFunctionKey: return ouzel::input::Keyboard::Key::SCROLL_LOCK;
+        case kVK_Delete: return ouzel::input::Keyboard::Key::BACKSPACE;
+        case kVK_Tab: return ouzel::input::Keyboard::Key::TAB;
+        case kVK_Return: return ouzel::input::Keyboard::Key::ENTER;
+        case kVK_Escape: return ouzel::input::Keyboard::Key::ESCAPE;
+        case kVK_Control: return ouzel::input::Keyboard::Key::LEFT_CONTROL;
+        case kVK_RightControl: return ouzel::input::Keyboard::Key::RIGHT_CONTROL;
+        case kVK_Command: return ouzel::input::Keyboard::Key::LEFT_SUPER;
+        case kVK_RightCommand: return ouzel::input::Keyboard::Key::RIGHT_SUPER;
+        case kVK_Shift: return ouzel::input::Keyboard::Key::LEFT_SHIFT;
+        case kVK_RightShift: return ouzel::input::Keyboard::Key::RIGHT_SHIFT;
+        case kVK_Option: return ouzel::input::Keyboard::Key::LEFT_ALT;
+        case kVK_RightOption: return ouzel::input::Keyboard::Key::RIGHT_ALT;
+        case kVK_Space: return ouzel::input::Keyboard::Key::SPACE;
 
-    if (i != keyMap.end())
-        return i->second;
-    else
-        return ouzel::input::Keyboard::Key::NONE;
+        case kVK_ANSI_A: return ouzel::input::Keyboard::Key::A;
+        case kVK_ANSI_B: return ouzel::input::Keyboard::Key::B;
+        case kVK_ANSI_C: return ouzel::input::Keyboard::Key::C;
+        case kVK_ANSI_D: return ouzel::input::Keyboard::Key::D;
+        case kVK_ANSI_E: return ouzel::input::Keyboard::Key::E;
+        case kVK_ANSI_F: return ouzel::input::Keyboard::Key::F;
+        case kVK_ANSI_G: return ouzel::input::Keyboard::Key::G;
+        case kVK_ANSI_H: return ouzel::input::Keyboard::Key::H;
+        case kVK_ANSI_I: return ouzel::input::Keyboard::Key::I;
+        case kVK_ANSI_J: return ouzel::input::Keyboard::Key::J;
+        case kVK_ANSI_K: return ouzel::input::Keyboard::Key::K;
+        case kVK_ANSI_L: return ouzel::input::Keyboard::Key::L;
+        case kVK_ANSI_M: return ouzel::input::Keyboard::Key::M;
+        case kVK_ANSI_N: return ouzel::input::Keyboard::Key::N;
+        case kVK_ANSI_O: return ouzel::input::Keyboard::Key::O;
+        case kVK_ANSI_P: return ouzel::input::Keyboard::Key::P;
+        case kVK_ANSI_Q: return ouzel::input::Keyboard::Key::Q;
+        case kVK_ANSI_R: return ouzel::input::Keyboard::Key::R;
+        case kVK_ANSI_S: return ouzel::input::Keyboard::Key::S;
+        case kVK_ANSI_T: return ouzel::input::Keyboard::Key::T;
+        case kVK_ANSI_U: return ouzel::input::Keyboard::Key::U;
+        case kVK_ANSI_V: return ouzel::input::Keyboard::Key::V;
+        case kVK_ANSI_W: return ouzel::input::Keyboard::Key::W;
+        case kVK_ANSI_X: return ouzel::input::Keyboard::Key::X;
+        case kVK_ANSI_Y: return ouzel::input::Keyboard::Key::Y;
+        case kVK_ANSI_Z: return ouzel::input::Keyboard::Key::Z;
+
+        case kVK_ANSI_0: return ouzel::input::Keyboard::Key::NUM_0;
+        case kVK_ANSI_1: return ouzel::input::Keyboard::Key::NUM_1;
+        case kVK_ANSI_2: return ouzel::input::Keyboard::Key::NUM_2;
+        case kVK_ANSI_3: return ouzel::input::Keyboard::Key::NUM_3;
+        case kVK_ANSI_4: return ouzel::input::Keyboard::Key::NUM_4;
+        case kVK_ANSI_5: return ouzel::input::Keyboard::Key::NUM_5;
+        case kVK_ANSI_6: return ouzel::input::Keyboard::Key::NUM_6;
+        case kVK_ANSI_7: return ouzel::input::Keyboard::Key::NUM_7;
+        case kVK_ANSI_8: return ouzel::input::Keyboard::Key::NUM_8;
+        case kVK_ANSI_9: return ouzel::input::Keyboard::Key::NUM_9;
+
+        case kVK_ANSI_Comma: return ouzel::input::Keyboard::Key::COMMA;
+        case kVK_ANSI_Period: return ouzel::input::Keyboard::Key::PERIOD;
+        case kVK_PageUp: return ouzel::input::Keyboard::Key::PAGE_UP;
+        case kVK_PageDown: return ouzel::input::Keyboard::Key::PAGE_DOWN;
+
+        case kVK_ANSI_Keypad0: return ouzel::input::Keyboard::Key::NUMPAD_0;
+        case kVK_ANSI_Keypad1: return ouzel::input::Keyboard::Key::NUMPAD_1;
+        case kVK_ANSI_Keypad2: return ouzel::input::Keyboard::Key::NUMPAD_2;
+        case kVK_ANSI_Keypad3: return ouzel::input::Keyboard::Key::NUMPAD_3;
+        case kVK_ANSI_Keypad4: return ouzel::input::Keyboard::Key::NUMPAD_4;
+        case kVK_ANSI_Keypad5: return ouzel::input::Keyboard::Key::NUMPAD_5;
+        case kVK_ANSI_Keypad6: return ouzel::input::Keyboard::Key::NUMPAD_6;
+        case kVK_ANSI_Keypad7: return ouzel::input::Keyboard::Key::NUMPAD_7;
+        case kVK_ANSI_Keypad8: return ouzel::input::Keyboard::Key::NUMPAD_8;
+        case kVK_ANSI_Keypad9: return ouzel::input::Keyboard::Key::NUMPAD_9;
+
+        case kVK_ANSI_KeypadDecimal: return ouzel::input::Keyboard::Key::NUMPAD_DECIMAL;
+        case kVK_ANSI_KeypadMultiply: return ouzel::input::Keyboard::Key::NUMPAD_MULTIPLY;
+        case kVK_ANSI_KeypadPlus: return ouzel::input::Keyboard::Key::NUMPAD_PLUS;
+        case kVK_ANSI_KeypadClear: return ouzel::input::Keyboard::Key::NUM_LOCK;
+        case kVK_ANSI_KeypadDivide: return ouzel::input::Keyboard::Key::NUMPAD_DIVIDE;
+        case kVK_ANSI_KeypadEnter: return ouzel::input::Keyboard::Key::NUMPAD_ENTER;
+        case kVK_ANSI_KeypadMinus: return ouzel::input::Keyboard::Key::NUMPAD_MINUS;
+
+        case kVK_ANSI_Semicolon: return ouzel::input::Keyboard::Key::SEMICOLON;
+        case kVK_ANSI_Slash: return ouzel::input::Keyboard::Key::SLASH;
+        case kVK_ANSI_Grave: return ouzel::input::Keyboard::Key::GRAVE;
+        case kVK_ANSI_LeftBracket: return ouzel::input::Keyboard::Key::LEFT_BRACKET;
+        case kVK_ANSI_Backslash: return ouzel::input::Keyboard::Key::BACKSLASH;
+        case kVK_ANSI_RightBracket: return ouzel::input::Keyboard::Key::RIGHT_BRACKET;
+        case 0x6E: return ouzel::input::Keyboard::Key::MENU;
+        case 0x7F: return ouzel::input::Keyboard::Key::POWER;
+
+        case kVK_JIS_Yen: return ouzel::input::Keyboard::Key::YEN;
+        case kVK_JIS_KeypadComma: return ouzel::input::Keyboard::Key::NUMPAD_JPCOMMA;
+        case kVK_JIS_Kana: return ouzel::input::Keyboard::Key::KANA;
+
+        case kVK_VolumeUp: return ouzel::input::Keyboard::Key::VOLUME_UP;
+        case kVK_VolumeDown: return ouzel::input::Keyboard::Key::VOLUME_DOWN;
+        case kVK_Mute: return ouzel::input::Keyboard::Key::MUTE;
+        default: return ouzel::input::Keyboard::Key::NONE;
+    }
 }
 
 -(void)keyDown:(NSEvent*)event
@@ -206,27 +201,27 @@ static ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)
     keyboardDevice->handleKeyRelease(convertKeyCode(event.keyCode));
 }
 
-static const std::unordered_map<unsigned short, NSUInteger> maskMap = {
-    {kVK_Control, NX_DEVICELCTLKEYMASK},
-    {kVK_RightControl, NX_DEVICERCTLKEYMASK},
-    {kVK_Command, NX_DEVICELCMDKEYMASK},
-    {kVK_RightCommand, NX_DEVICERCMDKEYMASK},
-    {kVK_Shift, NX_DEVICELSHIFTKEYMASK},
-    {kVK_RightShift, NX_DEVICERSHIFTKEYMASK},
-    {kVK_Option, NX_DEVICELALTKEYMASK},
-    {kVK_RightOption, NX_DEVICERALTKEYMASK}
-};
-
 -(void)flagsChanged:(NSEvent*)event
 {
     ouzel::input::InputSystemMacOS* inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::KeyboardDevice* keyboardDevice = inputSystemMacOS->getKeyboardDevice();
 
-    auto i = maskMap.find(event.keyCode);
-    if (i != maskMap.end())
-    {
-        NSUInteger mask = i->second;
+    NSUInteger mask = 0;
 
+    switch (event.keyCode)
+    {
+        case kVK_Control: mask = NX_DEVICELCTLKEYMASK; break;
+        case kVK_RightControl: mask = NX_DEVICERCTLKEYMASK; break;
+        case kVK_Command: mask = NX_DEVICELCMDKEYMASK; break;
+        case kVK_RightCommand: mask = NX_DEVICERCMDKEYMASK; break;
+        case kVK_Shift: mask = NX_DEVICELSHIFTKEYMASK; break;
+        case kVK_RightShift: mask = NX_DEVICERSHIFTKEYMASK; break;
+        case kVK_Option: mask = NX_DEVICELALTKEYMASK; break;
+        case kVK_RightOption: mask = NX_DEVICERALTKEYMASK; break;
+    }
+
+    if (mask)
+    {
         if (event.modifierFlags & mask)
             keyboardDevice->handleKeyPress(convertKeyCode(event.keyCode));
         else
