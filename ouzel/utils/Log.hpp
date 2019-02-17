@@ -9,6 +9,7 @@
 #include <queue>
 #include <string>
 #include <thread>
+#include <type_traits>
 #include <vector>
 #include "math/Matrix4.hpp"
 #include "math/Quaternion.hpp"
@@ -40,18 +41,18 @@ namespace ouzel
         }
 
         Log(const Log& other):
-            logger(other.logger)
+            logger(other.logger),
+            level(other.level),
+            s(other.s)
         {
-            level = other.level;
-            s = other.s;
         }
 
         Log(Log&& other):
-            logger(other.logger)
+            logger(other.logger),
+            level(other.level),
+            s(std::move(other.s))
         {
-            level = other.level;
             other.level = Level::INFO;
-            s = std::move(other.s);
         }
 
         Log& operator=(const Log& other)
@@ -76,32 +77,36 @@ namespace ouzel
 
         ~Log();
 
-        template<typename T> Log& operator<<(T val)
+        template<typename T, typename std::enable_if<std::is_arithmetic<T>::value && !std::is_same<T, bool>::value>::type* = nullptr>
+        Log& operator<<(T val)
         {
             s += std::to_string(val);
             return *this;
         }
 
-        Log& operator<<(const std::string& val)
+        template<typename T, typename std::enable_if<std::is_same<T, bool>::value>::type* = nullptr>
+        Log& operator<<(T val)
+        {
+            s += val ? "true" : "false";
+            return *this;
+        }
+
+        template<typename T, typename std::enable_if<std::is_same<T, std::string>::value>::type* = nullptr>
+        Log& operator<<(const T& val)
         {
             s += val;
             return *this;
         }
 
-        Log& operator<<(const char* val)
-        {
-            s += val;
-
-            return *this;
-        }
-
-        Log& operator<<(char* val)
+        template<typename T, typename std::enable_if<std::is_same<T, char>::value>::type* = nullptr>
+        Log& operator<<(const T* val)
         {
             s += val;
             return *this;
         }
 
-        Log& operator<<(const std::vector<uint8_t>& val)
+        template<typename T, typename std::enable_if<std::is_same<T, std::vector<uint8_t>>::value>::type* = nullptr>
+        Log& operator<<(const T& val)
         {
             bool first = true;
 
@@ -118,7 +123,8 @@ namespace ouzel
             return *this;
         }
 
-        Log& operator<<(const std::vector<std::string>& val)
+        template<typename T, typename std::enable_if<std::is_same<T, std::vector<std::string>>::value>::type* = nullptr>
+        Log& operator<<(const T& val)
         {
             bool first = true;
 
@@ -148,7 +154,6 @@ namespace ouzel
         {
             s += std::to_string(val.v[0]) + "," + std::to_string(val.v[1]) + "," +
                 std::to_string(val.v[2]) + "," + std::to_string(val.v[3]);
-
             return *this;
         }
 
@@ -164,7 +169,6 @@ namespace ouzel
         {
             s += std::to_string(val.width) + "," + std::to_string(val.height) + "," +
                 std::to_string(val.depth);
-
             return *this;
         }
 
@@ -172,7 +176,6 @@ namespace ouzel
         Log& operator<<(const Vector2<T>& val)
         {
             s += std::to_string(val.v[0]) + "," + std::to_string(val.v[1]);
-
             return *this;
         }
 
@@ -181,7 +184,6 @@ namespace ouzel
         {
             s += std::to_string(val.v[0]) + "," + std::to_string(val.v[1]) + "," +
                 std::to_string(val.v[2]);
-
             return *this;
         }
 
@@ -190,7 +192,6 @@ namespace ouzel
         {
             s += std::to_string(val.v[0]) + "," + std::to_string(val.v[1]) + "," +
                 std::to_string(val.v[2]) + "," + std::to_string(val.v[3]);
-
             return *this;
         }
 
