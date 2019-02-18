@@ -11,7 +11,7 @@ namespace ouzel
     {
         class SilenceData;
 
-        class SilenceSource: public mixer::Stream
+        class SilenceSource final: public mixer::Stream
         {
         public:
             SilenceSource(SilenceData& toneData);
@@ -27,7 +27,7 @@ namespace ouzel
             uint32_t position = 0;
         };
 
-        class SilenceData: public mixer::Source
+        class SilenceData final: public mixer::Source
         {
         public:
             SilenceData(float initLength):
