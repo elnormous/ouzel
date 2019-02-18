@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include "ColladaLoader.hpp"
 #include "Bundle.hpp"
-#include "scene/SkinnedMeshData.hpp"
+#include "scene/SkinnedMeshRenderer.hpp"
 #include "utils/XML.hpp"
 
 namespace ouzel

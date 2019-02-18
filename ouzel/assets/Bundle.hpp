@@ -14,10 +14,10 @@
 #include "graphics/Shader.hpp"
 #include "graphics/Texture.hpp"
 #include "gui/Font.hpp"
-#include "scene/SkinnedMeshData.hpp"
-#include "scene/StaticMeshData.hpp"
-#include "scene/SpriteData.hpp"
-#include "scene/ParticleSystemData.hpp"
+#include "scene/SkinnedMeshRenderer.hpp"
+#include "scene/StaticMeshRenderer.hpp"
+#include "scene/Sprite.hpp"
+#include "scene/ParticleSystem.hpp"
 
 namespace ouzel
 {

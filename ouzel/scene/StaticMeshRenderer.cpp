@@ -2,11 +2,33 @@
 
 #include "StaticMeshRenderer.hpp"
 #include "core/Engine.hpp"
+#include "utils/Utils.hpp"
 
 namespace ouzel
 {
     namespace scene
     {
+        StaticMeshData::StaticMeshData(Box3<float> initBoundingBox,
+                                       const std::vector<uint32_t> indices,
+                                       const std::vector<graphics::Vertex>& vertices,
+                                       graphics::Material* initMaterial):
+            boundingBox(initBoundingBox),
+            material(initMaterial)
+        {
+            indexCount = static_cast<uint32_t>(indices.size());
+            indexSize = sizeof(uint32_t);
+
+            indexBuffer.reset(new graphics::Buffer(*engine->getRenderer(),
+                                                   graphics::Buffer::Usage::INDEX, 0,
+                                                   indices.data(),
+                                                   static_cast<uint32_t>(getVectorSize(indices))));
+
+            vertexBuffer.reset(new graphics::Buffer(*engine->getRenderer(),
+                                                    graphics::Buffer::Usage::VERTEX, 0,
+                                                    vertices.data(),
+                                                    static_cast<uint32_t>(getVectorSize(vertices))));
+        }
+
         StaticMeshRenderer::StaticMeshRenderer():
             Component(CLASS)
         {
@@ -30,8 +52,8 @@ namespace ouzel
             material = meshData.material;
             indexCount = meshData.indexCount;
             indexSize = meshData.indexSize;
-            indexBuffer = meshData.getIndexBuffer();
-            vertexBuffer = meshData.getVertexBuffer();
+            indexBuffer = meshData.indexBuffer.get();
+            vertexBuffer = meshData.vertexBuffer.get();
         }
 
         void StaticMeshRenderer::init(const std::string& filename)
