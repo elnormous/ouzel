@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #include "RTSample.hpp"
 #include "MainMenu.hpp"
@@ -40,13 +39,13 @@ RTSample::RTSample():
 
     camera1.setClearColorBuffer(true);
     camera1.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    camera1.setTargetContentSize(Size2<float>(400.0F, 600.0F));
-    camera1.setViewport(Rect<float>(0.0F, 0.0F, 0.5F, 1.0F));
+    camera1.setTargetContentSize(Size2F(400.0F, 600.0F));
+    camera1.setViewport(RectF(0.0F, 0.0F, 0.5F, 1.0F));
     camera1Actor.addComponent(&camera1);
 
     camera2.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    camera2.setTargetContentSize(Size2<float>(400.0F, 600.0F));
-    camera2.setViewport(Rect<float>(0.5F, 0.0F, 0.5F, 1.0F));
+    camera2.setTargetContentSize(Size2F(400.0F, 600.0F));
+    camera2.setViewport(RectF(0.5F, 0.0F, 0.5F, 1.0F));
     camera2Actor.addComponent(&camera2);
 
     layer.addChild(&camera1Actor);
@@ -64,14 +63,14 @@ RTSample::RTSample():
     layer.addChild(&rtActor);
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    guiCamera.setTargetContentSize(Size2<float>(800.0F, 600.0F));
+    guiCamera.setTargetContentSize(Size2F(800.0F, 600.0F));
     guiCameraActor.addComponent(&guiCamera);
     guiLayer.addChild(&guiCameraActor);
     addLayer(&guiLayer);
 
     guiLayer.addChild(&menu);
 
-    backButton.setPosition(Vector2<float>(-200.0F, -200.0F));
+    backButton.setPosition(Vector2F(-200.0F, -200.0F));
     menu.addWidget(&backButton);
 }
 

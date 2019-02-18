@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_SCENE_PARTICLESYSTEM_HPP
 #define OUZEL_SCENE_PARTICLESYSTEM_HPP
@@ -49,8 +49,8 @@ namespace ouzel
             float speed = 0.0F;
             float speedVariance = 0.0F;
 
-            Vector2<float> sourcePosition;
-            Vector2<float> sourcePositionVariance;
+            Vector2F sourcePosition;
+            Vector2F sourcePositionVariance;
 
             PositionType positionType = PositionType::FREE;
 
@@ -88,7 +88,7 @@ namespace ouzel
             bool yCoordFlipped = false;
             bool rotationIsDir = false;
 
-            Vector2<float> gravity = Vector2<float>(0.0F, 0.0F);
+            Vector2F gravity = Vector2F(0.0F, 0.0F);
 
             float startColorRed = 0.0F;
             float startColorGreen = 0.0F;
@@ -114,7 +114,7 @@ namespace ouzel
 
             graphics::Texture* texture = nullptr;
         };
-        
+
         class ParticleSystem: public Component
         {
         public:
@@ -124,9 +124,9 @@ namespace ouzel
             explicit ParticleSystem(const ParticleSystemData& initParticleSystemData);
             explicit ParticleSystem(const std::string& filename);
 
-            void draw(const Matrix4<float>& transformMatrix,
+            void draw(const Matrix4F& transformMatrix,
                       float opacity,
-                      const Matrix4<float>& renderViewProjection,
+                      const Matrix4F& renderViewProjection,
                       bool wireframe) override;
 
             void init(const ParticleSystemData& newParticleSystemData);
@@ -162,7 +162,7 @@ namespace ouzel
             {
                 float life = 0.0F;
 
-                Vector2<float> position;
+                Vector2F position;
 
                 float colorRed = 0.0F;
                 float colorGreen = 0.0F;
@@ -186,7 +186,7 @@ namespace ouzel
                 float radialAcceleration = 0.0F;
                 float tangentialAcceleration = 0.0F;
 
-                Vector2<float> direction;
+                Vector2F direction;
                 float radius = 0.0F;
                 float degreesPerSecond = 0.0F;
                 float deltaRadius = 0.0F;

@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_AUDIO_VOICE_HPP
 #define OUZEL_AUDIO_VOICE_HPP
@@ -28,8 +28,8 @@ namespace ouzel
 
             inline Sound* getSound() const { return sound; }
 
-            const Vector3<float>& getPosition() const { return position; }
-            void setPosition(const Vector3<float>& newPosition) { position = newPosition; }
+            const Vector3F& getPosition() const { return position; }
+            void setPosition(const Vector3F& newPosition) { position = newPosition; }
 
             void play(bool repeat = false);
             void pause();
@@ -45,7 +45,7 @@ namespace ouzel
             uintptr_t streamId;
 
             Sound* sound = nullptr;
-            Vector3<float> position;
+            Vector3F position;
 
             bool playing = false;
             bool repeating = false;

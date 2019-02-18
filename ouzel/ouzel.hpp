@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_HPP
 #define OUZEL_HPP
@@ -40,9 +40,6 @@
 #include "events/Event.hpp"
 #include "events/EventDispatcher.hpp"
 #include "events/EventHandler.hpp"
-#include "files/Archive.hpp"
-#include "files/File.hpp"
-#include "files/FileSystem.hpp"
 #include "graphics/BlendState.hpp"
 #include "graphics/Buffer.hpp"
 #include "graphics/DataType.hpp"
@@ -96,6 +93,7 @@
 #include "math/Vector4.hpp"
 #include "network/Client.hpp"
 #include "network/Network.hpp"
+#include "network/Server.hpp"
 #include "network/Socket.hpp"
 #include "scene/Actor.hpp"
 #include "scene/ActorContainer.hpp"
@@ -113,12 +111,15 @@
 #include "scene/SkinnedMeshRenderer.hpp"
 #include "scene/StaticMeshRenderer.hpp"
 #include "scene/TextRenderer.hpp"
-#include "utils/INI.hpp"
-#include "utils/JSON.hpp"
+#include "storage/Archive.hpp"
+#include "storage/File.hpp"
+#include "storage/FileSystem.hpp"
+#include "utils/Ini.hpp"
+#include "utils/Json.hpp"
 #include "utils/Log.hpp"
-#include "utils/OBF.hpp"
-#include "utils/UTF8.hpp"
+#include "utils/Obf.hpp"
+#include "utils/Utf8.hpp"
 #include "utils/Utils.hpp"
-#include "utils/XML.hpp"
+#include "utils/Xml.hpp"
 
 #endif // OUZEL_HPP

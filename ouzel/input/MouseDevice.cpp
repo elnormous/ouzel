@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #include "MouseDevice.hpp"
 #include "InputSystem.hpp"
@@ -26,7 +26,7 @@ namespace ouzel
             inputSystem.sendEvent(deviceDisconnectEvent);
         }
 
-        std::future<bool> MouseDevice::handleButtonPress(Mouse::Button button, const Vector2<float>& position)
+        std::future<bool> MouseDevice::handleButtonPress(Mouse::Button button, const Vector2F& position)
         {
             InputSystem::Event event(InputSystem::Event::Type::MOUSE_PRESS);
             event.deviceId = id;
@@ -35,7 +35,7 @@ namespace ouzel
             return inputSystem.sendEvent(event);
         }
 
-        std::future<bool> MouseDevice::handleButtonRelease(Mouse::Button button, const Vector2<float>& position)
+        std::future<bool> MouseDevice::handleButtonRelease(Mouse::Button button, const Vector2F& position)
         {
             InputSystem::Event event(InputSystem::Event::Type::MOUSE_RELEASE);
             event.deviceId = id;
@@ -44,7 +44,7 @@ namespace ouzel
             return inputSystem.sendEvent(event);
         }
 
-        std::future<bool> MouseDevice::handleMove(const Vector2<float>& position)
+        std::future<bool> MouseDevice::handleMove(const Vector2F& position)
         {
             InputSystem::Event event(InputSystem::Event::Type::MOUSE_MOVE);
             event.deviceId = id;
@@ -52,7 +52,7 @@ namespace ouzel
             return inputSystem.sendEvent(event);
         }
 
-        std::future<bool> MouseDevice::handleRelativeMove(const Vector2<float>& position)
+        std::future<bool> MouseDevice::handleRelativeMove(const Vector2F& position)
         {
             InputSystem::Event event(InputSystem::Event::Type::MOUSE_RELATIVE_MOVE);
             event.deviceId = id;
@@ -60,7 +60,7 @@ namespace ouzel
             return inputSystem.sendEvent(event);
         }
 
-        std::future<bool> MouseDevice::handleScroll(const Vector2<float>& scroll, const Vector2<float>& position)
+        std::future<bool> MouseDevice::handleScroll(const Vector2F& scroll, const Vector2F& position)
         {
             InputSystem::Event event(InputSystem::Event::Type::MOUSE_SCROLL);
             event.deviceId = id;

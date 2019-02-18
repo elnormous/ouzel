@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #if defined(__APPLE__)
 #  include <TargetConditionals.h>
@@ -180,7 +180,7 @@ namespace ouzel
                             std::unique_ptr<UIEvent> clickEvent(new UIEvent());
                             clickEvent->type = Event::Type::ACTOR_CLICK;
                             clickEvent->actor = selectedWidget;
-                            clickEvent->position = Vector2<float>(selectedWidget->getPosition());
+                            clickEvent->position = Vector2F(selectedWidget->getPosition());
                             engine->getEventDispatcher().dispatchEvent(std::move(clickEvent));
                         }
                         break;
@@ -227,7 +227,7 @@ namespace ouzel
                         std::unique_ptr<UIEvent> clickEvent(new UIEvent());
                         clickEvent->type = Event::Type::ACTOR_CLICK;
                         clickEvent->actor = selectedWidget;
-                        clickEvent->position = Vector2<float>(selectedWidget->getPosition());
+                        clickEvent->position = Vector2F(selectedWidget->getPosition());
                         engine->getEventDispatcher().dispatchEvent(std::move(clickEvent));
                     }
                 }

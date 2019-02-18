@@ -1,14 +1,14 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_MATH_VECTOR4_HPP
 #define OUZEL_MATH_VECTOR4_HPP
 
-#include <algorithm>
 #include <cassert>
 #include <cmath>
 #include <cstddef>
-#include "Vector2.hpp"
-#include "Vector3.hpp"
+#include <limits>
+#include "math/Vector2.hpp"
+#include "math/Vector3.hpp"
 
 namespace ouzel
 {
@@ -304,6 +304,8 @@ namespace ouzel
     {
         return Vector4<T>(vec.v[0] * scalar, vec.v[1] * scalar, vec.v[2] * scalar, vec.v[3] * scalar);
     }
+
+    using Vector4F = Vector4<float>;
 }
 
 #endif // OUZEL_MATH_VECTOR4_HPP

@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_SCENE_ACTOR_HPP
 #define OUZEL_SCENE_ACTOR_HPP
@@ -29,28 +29,28 @@ namespace ouzel
             virtual ~Actor();
 
             virtual void visit(std::vector<Actor*>& drawQueue,
-                               const Matrix4<float>& newParentTransform,
+                               const Matrix4F& newParentTransform,
                                bool parentTransformDirty,
                                Camera* camera,
                                int32_t parentOrder,
                                bool parentHidden);
             virtual void draw(Camera* camera, bool wireframe);
 
-            virtual const Vector3<float>& getPosition() const { return position; }
-            virtual void setPosition(const Vector2<float>& newPosition);
-            virtual void setPosition(const Vector3<float>& newPosition);
+            virtual const Vector3F& getPosition() const { return position; }
+            virtual void setPosition(const Vector2F& newPosition);
+            virtual void setPosition(const Vector3F& newPosition);
 
             inline int32_t getOrder() const { return order; }
             void setOrder(int32_t newOrder) { order = newOrder; }
 
-            virtual const Quaternion<float>& getRotation() const { return rotation; }
-            virtual void setRotation(const Quaternion<float>& newRotation);
-            virtual void setRotation(const Vector3<float>& newRotation);
+            virtual const QuaternionF& getRotation() const { return rotation; }
+            virtual void setRotation(const QuaternionF& newRotation);
+            virtual void setRotation(const Vector3F& newRotation);
             virtual void setRotation(float newRotation);
 
-            virtual const Vector3<float>& getScale() const { return scale; }
-            virtual void setScale(const Vector2<float>& newScale);
-            virtual void setScale(const Vector3<float>& newScale);
+            virtual const Vector3F& getScale() const { return scale; }
+            virtual void setScale(const Vector2F& newScale);
+            virtual void setScale(const Vector3F& newScale);
 
             virtual float getOpacity() const { return opacity; }
             virtual void setOpacity(float newOpacity);
@@ -71,35 +71,35 @@ namespace ouzel
             virtual void setHidden(bool newHidden);
             bool isWorldHidden() const { return worldHidden; }
 
-            virtual bool pointOn(const Vector2<float>& worldPosition) const;
-            virtual bool shapeOverlaps(const std::vector<Vector2<float>>& edges) const;
+            virtual bool pointOn(const Vector2F& worldPosition) const;
+            virtual bool shapeOverlaps(const std::vector<Vector2F>& edges) const;
 
-            const Matrix4<float>& getLocalTransform() const
+            const Matrix4F& getLocalTransform() const
             {
                 if (localTransformDirty) calculateLocalTransform();
 
                 return localTransform;
             }
 
-            const Matrix4<float>& getTransform() const
+            const Matrix4F& getTransform() const
             {
                 if (transformDirty) calculateTransform();
 
                 return transform;
             }
 
-            const Matrix4<float>& getInverseTransform() const
+            const Matrix4F& getInverseTransform() const
             {
                 if (inverseTransformDirty) calculateInverseTransform();
 
                 return inverseTransform;
             }
 
-            Vector3<float> getWorldPosition() const;
+            Vector3F getWorldPosition() const;
             virtual int32_t getWorldOrder() const { return worldOrder; }
 
-            Vector3<float> convertWorldToLocal(const Vector3<float>& worldPosition) const;
-            Vector3<float> convertLocalToWorld(const Vector3<float>& localPosition) const;
+            Vector3F convertWorldToLocal(const Vector3F& worldPosition) const;
+            Vector3F convertLocalToWorld(const Vector3F& localPosition) const;
 
             inline ActorContainer* getParent() const { return parent; }
             void removeFromParent();
@@ -114,23 +114,23 @@ namespace ouzel
             inline const std::vector<Component*>& getComponents() const { return components; }
             std::vector<Component*> getComponents(uint32_t cls) const;
 
-            Box3<float> getBoundingBox() const;
+            Box3F getBoundingBox() const;
 
         protected:
             void setLayer(Layer* newLayer) override;
 
             void updateLocalTransform();
-            void updateTransform(const Matrix4<float>& newParentTransform);
+            void updateTransform(const Matrix4F& newParentTransform);
 
             virtual void calculateLocalTransform() const;
             virtual void calculateTransform() const;
 
             virtual void calculateInverseTransform() const;
 
-            Matrix4<float> parentTransform;
-            mutable Matrix4<float> transform;
-            mutable Matrix4<float> inverseTransform;
-            mutable Matrix4<float> localTransform;
+            Matrix4F parentTransform;
+            mutable Matrix4F transform;
+            mutable Matrix4F inverseTransform;
+            mutable Matrix4F localTransform;
 
             mutable bool transformDirty = true;
             mutable bool inverseTransformDirty = true;
@@ -145,9 +145,9 @@ namespace ouzel
             bool hidden = false;
             bool worldHidden = false;
 
-            Vector3<float> position;
-            Quaternion<float> rotation = Quaternion<float>::identity();
-            Vector3<float> scale = Vector3<float>(1.0F, 1.0F, 1.0F);
+            Vector3F position;
+            QuaternionF rotation = QuaternionF::identity();
+            Vector3F scale = Vector3F(1.0F, 1.0F, 1.0F);
             float opacity = 1.0F;
             int32_t order = 0;
             int32_t worldOrder = 0;

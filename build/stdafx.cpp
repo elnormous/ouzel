@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef PREFIX_HPP
 #define PREFIX_HPP
@@ -27,7 +27,6 @@
 #include <queue>
 #include <random>
 #include <set>
-#include <sstream>
 #include <stdexcept>
 #include <string>
 #include <system_error>

@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_EVENTS_EVENT_HPP
 #define OUZEL_EVENTS_EVENT_HPP
@@ -102,9 +102,9 @@ namespace ouzel
     {
         input::Mouse* mouse = nullptr;
         input::Mouse::Button button = input::Mouse::Button::NONE;
-        Vector2<float> difference;
-        Vector2<float> position;
-        Vector2<float> scroll;
+        Vector2F difference;
+        Vector2F position;
+        Vector2F scroll;
         bool locked = false;
     };
 
@@ -112,8 +112,8 @@ namespace ouzel
     {
         input::Touchpad* touchpad = nullptr;
         uint64_t touchId = 0;
-        Vector2<float> difference;
-        Vector2<float> position;
+        Vector2F difference;
+        Vector2F position;
         float force = 1.0F;
     };
 
@@ -163,9 +163,9 @@ namespace ouzel
     {
         scene::Actor* actor;
         uint64_t touchId = 0;
-        Vector2<float> difference;
-        Vector2<float> position;
-        Vector3<float> localPosition;
+        Vector2F difference;
+        Vector2F position;
+        Vector3F localPosition;
     };
 
     struct AnimationEvent final: Event

@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_GUI_TTFONT_HPP
 #define OUZEL_GUI_TTFONT_HPP
@@ -17,7 +17,7 @@ namespace ouzel
         RenderData render(const std::string& text,
                           Color color,
                           float fontSize,
-                          const Vector2<float>& anchor) override;
+                          const Vector2F& anchor) override;
 
         float getStringWidth(const std::string& text);
 

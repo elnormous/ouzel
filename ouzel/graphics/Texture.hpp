@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_GRAPHICS_TEXTURE_HPP
 #define OUZEL_GRAPHICS_TEXTURE_HPP
@@ -24,6 +24,16 @@ namespace ouzel
                 TWO,
                 THREE,
                 CUBE
+            };
+
+            enum class CubeFace
+            {
+                POSITIVE_X,
+                NEGATIVE_X,
+                POSITIVE_Y,
+                NEGATIVE_Y,
+                POSITIVE_Z,
+                NEGATIVE_Z
             };
 
             enum Flags
@@ -56,8 +66,6 @@ namespace ouzel
                 uint32_t pitch;
                 std::vector<uint8_t> data;
             };
-
-            static constexpr uint32_t LAYERS = 4;
 
             Texture()
             {

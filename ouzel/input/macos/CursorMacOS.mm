@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #include "CursorMacOS.hpp"
 
@@ -35,9 +35,9 @@ namespace ouzel
         }
 
         CursorMacOS::CursorMacOS(const std::vector<uint8_t>& newData,
-                                             const Size2<float>& size,
+                                             const Size2F& size,
                                              graphics::PixelFormat pixelFormat,
-                                             const Vector2<float>& hotSpot):
+                                             const Vector2F& hotSpot):
             data(newData)
         {
             if (!data.empty())

@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #if defined(__APPLE__)
 #  include <TargetConditionals.h>
@@ -220,22 +220,12 @@ namespace ouzel
                                                                              clearStencil)));
         }
 
-        void Renderer::setCullMode(CullMode cullMode)
-        {
-            addCommand(std::unique_ptr<Command>(new SetCullModeCommad(cullMode)));
-        }
-
-        void Renderer::setFillMode(FillMode fillMode)
-        {
-            addCommand(std::unique_ptr<Command>(new SetFillModeCommad(fillMode)));
-        }
-
-        void Renderer::setScissorTest(bool enabled, const Rect<float>& rectangle)
+        void Renderer::setScissorTest(bool enabled, const RectF& rectangle)
         {
             addCommand(std::unique_ptr<Command>(new SetScissorTestCommand(enabled, rectangle)));
         }
 
-        void Renderer::setViewport(const Rect<float>& viewport)
+        void Renderer::setViewport(const RectF& viewport)
         {
             addCommand(std::unique_ptr<Command>(new SetViewportCommand(viewport)));
         }
@@ -248,9 +238,11 @@ namespace ouzel
         }
 
         void Renderer::setPipelineState(uintptr_t blendState,
-                                        uintptr_t shader)
+                                        uintptr_t shader,
+                                        CullMode cullMode,
+                                        FillMode fillMode)
         {
-            addCommand(std::unique_ptr<Command>(new SetPipelineStateCommand(blendState, shader)));
+            addCommand(std::unique_ptr<Command>(new SetPipelineStateCommand(blendState, shader, cullMode, fillMode)));
         }
 
         void Renderer::draw(uintptr_t indexBuffer,
@@ -290,12 +282,7 @@ namespace ouzel
 
         void Renderer::setTextures(const std::vector<uintptr_t>& textures)
         {
-            uintptr_t newTextures[Texture::LAYERS];
-
-            for (uint32_t i = 0; i < Texture::LAYERS; ++i)
-                newTextures[i] = (i < textures.size()) ? textures[i] : 0;
-
-            addCommand(std::unique_ptr<Command>(new SetTexturesCommand(newTextures)));
+            addCommand(std::unique_ptr<Command>(new SetTexturesCommand(textures)));
         }
 
         void Renderer::present()

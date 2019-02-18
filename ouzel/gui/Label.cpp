@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #include "Label.hpp"
 #include "graphics/Renderer.hpp"
@@ -15,7 +15,7 @@ namespace ouzel
                      const std::string& fontFile,
                      float fontSize,
                      Color color,
-                     const Vector2<float>& textAnchor):
+                     const Vector2F& textAnchor):
             text(initText),
             labelDrawable(new scene::TextRenderer(fontFile, fontSize, text, color, textAnchor))
         {

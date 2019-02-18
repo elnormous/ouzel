@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_AUDIO_FILTERS_HPP
 #define OUZEL_AUDIO_FILTERS_HPP
@@ -68,8 +68,8 @@ namespace ouzel
             Panner(Panner&&) = delete;
             Panner& operator=(Panner&&) = delete;
 
-            inline const Vector3<float>& getPosition() const { return position; }
-            void setPosition(const Vector3<float>& newPosition);
+            inline const Vector3F& getPosition() const { return position; }
+            void setPosition(const Vector3F& newPosition);
 
             inline float getRolloffFactor() const { return rolloffFactor; }
             void setRolloffFactor(float newRolloffFactor);
@@ -83,7 +83,7 @@ namespace ouzel
         private:
             void updateTransform() override;
 
-            Vector3<float> position;
+            Vector3F position;
             float rolloffFactor = 1.0F;
             float minDistance = 1.0F;
             float maxDistance = FLT_MAX;

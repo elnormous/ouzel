@@ -1,11 +1,11 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #include <cassert>
 #include <stdexcept>
 #define STB_TRUETYPE_IMPLEMENTATION
 #include "TTFont.hpp"
 #include "core/Engine.hpp"
-#include "utils/UTF8.hpp"
+#include "utils/Utf8.hpp"
 
 namespace ouzel
 {
@@ -31,7 +31,7 @@ namespace ouzel
     Font::RenderData TTFont::render(const std::string& text,
                                     Color color,
                                     float fontSize,
-                                    const Vector2<float>& anchor)
+                                    const Vector2F& anchor)
     {
         if (!loaded)
             throw std::runtime_error("Font not loaded");
@@ -46,7 +46,7 @@ namespace ouzel
             uint16_t y = 0;
             uint16_t width = 0;
             uint16_t height = 0;
-            Vector2<float> offset;
+            Vector2F offset;
             float advance = 0;
             std::vector<uint8_t> bitmap;
         };
@@ -143,12 +143,12 @@ namespace ouzel
                                                         mipmaps ? 0 : 1));
         result.texture = result.ownedTexture.get();
 
-        Vector2<float> position;
+        Vector2F position;
 
         result.indices.reserve(utf32Text.size() * 6);
         result.vertices.reserve(utf32Text.size() * 4);
 
-        Vector2<float> textCoords[4];
+        Vector2F textCoords[4];
 
         size_t firstChar = 0;
 
@@ -169,25 +169,25 @@ namespace ouzel
                 result.indices.push_back(startIndex + 3);
                 result.indices.push_back(startIndex + 2);
 
-                Vector2<float> leftTop(f.x / static_cast<float>(width),
-                                f.y / static_cast<float>(height));
+                Vector2F leftTop(f.x / static_cast<float>(width),
+                                 f.y / static_cast<float>(height));
 
-                Vector2<float> rightBottom((f.x + f.width) / static_cast<float>(width),
-                                    (f.y + f.height) / static_cast<float>(height));
+                Vector2F rightBottom((f.x + f.width) / static_cast<float>(width),
+                                     (f.y + f.height) / static_cast<float>(height));
 
-                textCoords[0] = Vector2<float>(leftTop.v[0], rightBottom.v[1]);
-                textCoords[1] = Vector2<float>(rightBottom.v[0], rightBottom.v[1]);
-                textCoords[2] = Vector2<float>(leftTop.v[0], leftTop.v[1]);
-                textCoords[3] = Vector2<float>(rightBottom.v[0], leftTop.v[1]);
+                textCoords[0] = Vector2F(leftTop.v[0], rightBottom.v[1]);
+                textCoords[1] = Vector2F(rightBottom.v[0], rightBottom.v[1]);
+                textCoords[2] = Vector2F(leftTop.v[0], leftTop.v[1]);
+                textCoords[3] = Vector2F(rightBottom.v[0], leftTop.v[1]);
 
-                result.vertices.push_back(graphics::Vertex(Vector3<float>(position.v[0] + f.offset.v[0], -position.v[1] - f.offset.v[1] - f.height, 0.0F),
-                                                           color, textCoords[0], Vector3<float>(0.0F, 0.0F, -1.0F)));
-                result.vertices.push_back(graphics::Vertex(Vector3<float>(position.v[0] + f.offset.v[0] + f.width, -position.v[1] - f.offset.v[1] - f.height, 0.0F),
-                                                           color, textCoords[1], Vector3<float>(0.0F, 0.0F, -1.0F)));
-                result.vertices.push_back(graphics::Vertex(Vector3<float>(position.v[0] + f.offset.v[0], -position.v[1] - f.offset.v[1], 0.0F),
-                                                           color, textCoords[2], Vector3<float>(0.0F, 0.0F, -1.0F)));
-                result.vertices.push_back(graphics::Vertex(Vector3<float>(position.v[0] + f.offset.v[0] + f.width, -position.v[1] - f.offset.v[1], 0.0F),
-                                                           color, textCoords[3], Vector3<float>(0.0F, 0.0F, -1.0F)));
+                result.vertices.push_back(graphics::Vertex(Vector3F(position.v[0] + f.offset.v[0], -position.v[1] - f.offset.v[1] - f.height, 0.0F),
+                                                           color, textCoords[0], Vector3F(0.0F, 0.0F, -1.0F)));
+                result.vertices.push_back(graphics::Vertex(Vector3F(position.v[0] + f.offset.v[0] + f.width, -position.v[1] - f.offset.v[1] - f.height, 0.0F),
+                                                           color, textCoords[1], Vector3F(0.0F, 0.0F, -1.0F)));
+                result.vertices.push_back(graphics::Vertex(Vector3F(position.v[0] + f.offset.v[0], -position.v[1] - f.offset.v[1], 0.0F),
+                                                           color, textCoords[2], Vector3F(0.0F, 0.0F, -1.0F)));
+                result.vertices.push_back(graphics::Vertex(Vector3F(position.v[0] + f.offset.v[0] + f.width, -position.v[1] - f.offset.v[1], 0.0F),
+                                                           color, textCoords[3], Vector3F(0.0F, 0.0F, -1.0F)));
 
                 if ((i + 1) != utf32Text.end())
                 {

@@ -1,9 +1,9 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #include <algorithm>
 #include <stdexcept>
-#include "XML.hpp"
-#include "UTF8.hpp"
+#include "Xml.hpp"
+#include "Utf8.hpp"
 
 namespace ouzel
 {

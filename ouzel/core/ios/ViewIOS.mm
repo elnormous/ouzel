@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #include <unordered_map>
 #import <UIKit/UIPress.h>
@@ -21,7 +21,7 @@
             force = (touch.maximumPossibleForce > 0.0F) ? touch.force / touch.maximumPossibleForce : 0.0F;
 
         touchpadDevice->handleTouchBegin(reinterpret_cast<uint64_t>(touch),
-                                         ouzel::Vector2<float>(static_cast<float>(location.x / self.bounds.size.width),
+                                         ouzel::Vector2F(static_cast<float>(location.x / self.bounds.size.width),
                                                         static_cast<float>(location.y / self.bounds.size.height)),
                                          static_cast<float>(force));
     }
@@ -39,7 +39,7 @@
             force = (touch.maximumPossibleForce > 0.0F) ? touch.force / touch.maximumPossibleForce : 0.0F;
 
         touchpadDevice->handleTouchMove(reinterpret_cast<uint64_t>(touch),
-                                        ouzel::Vector2<float>(static_cast<float>(location.x / self.bounds.size.width),
+                                        ouzel::Vector2F(static_cast<float>(location.x / self.bounds.size.width),
                                                        static_cast<float>(location.y / self.bounds.size.height)),
                                         static_cast<float>(force));
     }
@@ -57,7 +57,7 @@
             force = (touch.maximumPossibleForce > 0.0F) ? touch.force / touch.maximumPossibleForce : 0.0F;
 
         touchpadDevice->handleTouchEnd(reinterpret_cast<uint64_t>(touch),
-                                       ouzel::Vector2<float>(static_cast<float>(location.x / self.bounds.size.width),
+                                       ouzel::Vector2F(static_cast<float>(location.x / self.bounds.size.width),
                                                       static_cast<float>(location.y / self.bounds.size.height)),
                                        static_cast<float>(force));
     }
@@ -75,30 +75,25 @@
             force = (touch.maximumPossibleForce > 0.0F) ? touch.force / touch.maximumPossibleForce : 0.0F;
 
         touchpadDevice->handleTouchCancel(reinterpret_cast<uint64_t>(touch),
-                                          ouzel::Vector2<float>(static_cast<float>(location.x / self.bounds.size.width),
+                                          ouzel::Vector2F(static_cast<float>(location.x / self.bounds.size.width),
                                                          static_cast<float>(location.y / self.bounds.size.height)),
                                           static_cast<float>(force));
     }
 }
 
-static const std::unordered_map<NSInteger, ouzel::input::Keyboard::Key> keyMap = {
-    {UIPressTypeUpArrow, ouzel::input::Keyboard::Key::UP},
-    {UIPressTypeDownArrow, ouzel::input::Keyboard::Key::DOWN},
-    {UIPressTypeLeftArrow, ouzel::input::Keyboard::Key::LEFT},
-    {UIPressTypeRightArrow, ouzel::input::Keyboard::Key::RIGHT},
-    {UIPressTypeSelect, ouzel::input::Keyboard::Key::SELECT},
-    {UIPressTypeMenu, ouzel::input::Keyboard::Key::MENU},
-    {UIPressTypePlayPause, ouzel::input::Keyboard::Key::PAUSE}
-};
-
 static ouzel::input::Keyboard::Key convertKeyCode(NSInteger keyCode)
 {
-    auto i = keyMap.find(keyCode);
-
-    if (i != keyMap.end())
-        return i->second;
-    else
-        return ouzel::input::Keyboard::Key::NONE;
+    switch (keyCode)
+    {
+        case UIPressTypeUpArrow: return ouzel::input::Keyboard::Key::UP;
+        case UIPressTypeDownArrow: return ouzel::input::Keyboard::Key::DOWN;
+        case UIPressTypeLeftArrow: return ouzel::input::Keyboard::Key::LEFT;
+        case UIPressTypeRightArrow: return ouzel::input::Keyboard::Key::RIGHT;
+        case UIPressTypeSelect: return ouzel::input::Keyboard::Key::SELECT;
+        case UIPressTypeMenu: return ouzel::input::Keyboard::Key::MENU;
+        case UIPressTypePlayPause: return ouzel::input::Keyboard::Key::PAUSE;
+        default: return ouzel::input::Keyboard::Key::NONE;
+    }
 }
 
 -(void)pressesBegan:(NSSet<UIPress*>*)presses withEvent:(UIPressesEvent*)event

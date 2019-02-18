@@ -1,14 +1,14 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #include <algorithm>
 #include "Cache.hpp"
 #include "Bundle.hpp"
 #include "Loader.hpp"
 #include "graphics/Renderer.hpp"
-#include "files/FileSystem.hpp"
 #include "gui/BMFont.hpp"
 #include "gui/TTFont.hpp"
-#include "utils/JSON.hpp"
+#include "storage/FileSystem.hpp"
+#include "utils/Json.hpp"
 
 namespace ouzel
 {

@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_GRAPHICS_RENDERER_HPP
 #define OUZEL_GRAPHICS_RENDERER_HPP
@@ -60,14 +60,14 @@ namespace ouzel
                                    Color clearColor,
                                    float clearDepth,
                                    uint32_t clearStencil);
-            void setCullMode(CullMode cullMode);
-            void setFillMode(FillMode fillMode);
-            void setScissorTest(bool enabled, const Rect<float>& rectangle);
-            void setViewport(const Rect<float>& viewport);
+            void setScissorTest(bool enabled, const RectF& rectangle);
+            void setViewport(const RectF& viewport);
             void setDepthStencilState(uintptr_t depthStencilState,
                                       uint32_t stencilReferenceValue);
             void setPipelineState(uintptr_t blendState,
-                                  uintptr_t shader);
+                                  uintptr_t shader,
+                                  CullMode cullMode,
+                                  FillMode fillMode);
             void draw(uintptr_t indexBuffer,
                       uint32_t indexCount,
                       uint32_t indexSize,
@@ -99,15 +99,15 @@ namespace ouzel
             void waitForNextFrame();
             inline bool getRefillQueue() const { return refillQueue; }
 
-            Vector2<float> convertScreenToNormalizedLocation(const Vector2<float>& position)
+            Vector2F convertScreenToNormalizedLocation(const Vector2F& position)
             {
-                return Vector2<float>(position.v[0] / size.v[0],
+                return Vector2F(position.v[0] / size.v[0],
                                       1.0F - (position.v[1] / size.v[1]));
             }
 
-            Vector2<float> convertNormalizedToScreenLocation(const Vector2<float>& position)
+            Vector2F convertNormalizedToScreenLocation(const Vector2F& position)
             {
-                return Vector2<float>(position.v[0] * size.v[0],
+                return Vector2F(position.v[0] * size.v[0],
                                       (1.0F - position.v[1]) * size.v[1]);
             }
 

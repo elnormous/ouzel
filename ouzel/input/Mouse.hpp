@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_INPUT_MOUSE_HPP
 #define OUZEL_INPUT_MOUSE_HPP
@@ -30,8 +30,8 @@ namespace ouzel
 
             Mouse(InputManager& initInputManager, uint32_t initDeviceId);
 
-            inline const Vector2<float>& getPosition() const { return position; }
-            void setPosition(const Vector2<float>& newPosition);
+            inline const Vector2F& getPosition() const { return position; }
+            void setPosition(const Vector2F& newPosition);
             inline bool isButtonDown(Button button) const { return buttonStates[static_cast<uint32_t>(button)]; }
             inline bool isCursorVisible() const { return cursorVisible; }
             void setCursorVisible(bool visible);
@@ -41,15 +41,15 @@ namespace ouzel
             void setCursor(const Cursor* newCursor);
 
         protected:
-            bool handleButtonPress(Mouse::Button button, const Vector2<float>& pos);
-            bool handleButtonRelease(Mouse::Button button, const Vector2<float>& pos);
-            bool handleMove(const Vector2<float>& pos);
-            bool handleRelativeMove(const Vector2<float>& pos);
-            bool handleScroll(const Vector2<float>& scroll, const Vector2<float>& pos);
+            bool handleButtonPress(Mouse::Button button, const Vector2F& pos);
+            bool handleButtonRelease(Mouse::Button button, const Vector2F& pos);
+            bool handleMove(const Vector2F& pos);
+            bool handleRelativeMove(const Vector2F& pos);
+            bool handleScroll(const Vector2F& scroll, const Vector2F& pos);
             bool handleCursorLockChange(bool locked);
 
         private:
-            Vector2<float> position;
+            Vector2F position;
             bool buttonStates[static_cast<uint32_t>(Button::COUNT)]{false};
             bool cursorVisible = true;
             bool cursorLocked = false;

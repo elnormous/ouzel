@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_UTILS_INI_HPP
 #define OUZEL_UTILS_INI_HPP
@@ -11,7 +11,7 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
-#include "utils/UTF8.hpp"
+#include "utils/Utf8.hpp"
 
 namespace ouzel
 {
@@ -350,8 +350,8 @@ namespace ouzel
                     sections.erase(sectionIterator);
             }
 
-            inline bool hasBOM() const { return bom; }
-            inline void setBOM(bool newBOM) { bom = newBOM; }
+            inline bool hasBom() const { return bom; }
+            inline void setBom(bool newBom) { bom = newBom; }
 
         private:
             bool bom = false;

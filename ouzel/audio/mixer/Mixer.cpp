@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #include "Mixer.hpp"
 #include "Bus.hpp"
@@ -162,8 +162,8 @@ namespace ouzel
 
                 if (masterBus)
                 {
-                    Vector3<float> listenerPosition;
-                    Quaternion<float> listenerRotation;
+                    Vector3F listenerPosition;
+                    QuaternionF listenerRotation;
 
                     masterBus->getData(frames, channels, sampleRate, listenerPosition, listenerRotation, samples);
                 }

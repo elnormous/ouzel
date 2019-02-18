@@ -1,11 +1,12 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_MATH_PLANE_HPP
 #define OUZEL_MATH_PLANE_HPP
 
 #include <cmath>
 #include <cstddef>
-#include "MathUtils.hpp"
+#include <limits>
+#include "math/MathUtils.hpp"
 
 namespace ouzel
 {
@@ -104,6 +105,8 @@ namespace ouzel
             return Plane(a * n, b * n, c * n, d * n);
         }
     };
+
+    using PlaneF = Plane<float>;
 }
 
 #endif // OUZEL_MATH_PLANE_HPP

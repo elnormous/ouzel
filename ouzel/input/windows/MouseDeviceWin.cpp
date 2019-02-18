@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #include <system_error>
 #include "MouseDeviceWin.hpp"
@@ -9,9 +9,9 @@ namespace ouzel
 {
     namespace input
     {
-        void MouseDeviceWin::setPosition(const Vector2<float>& position)
+        void MouseDeviceWin::setPosition(const Vector2F& position)
         {
-            Vector2<float> windowLocation = engine->getWindow()->convertNormalizedToWindowLocation(position);
+            Vector2F windowLocation = engine->getWindow()->convertNormalizedToWindowLocation(position);
             HWND nativeWindow = static_cast<NativeWindowWin*>(engine->getWindow()->getNativeWindow())->getNativeWindow();
 
             POINT p;

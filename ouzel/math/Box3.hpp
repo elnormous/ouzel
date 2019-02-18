@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_MATH_BOX3_HPP
 #define OUZEL_MATH_BOX3_HPP
@@ -131,6 +131,8 @@ namespace ouzel
             return Size3<T>(max.v[0] - min.v[0], max.v[1] - min.v[1], max.v[2] - min.v[2]);
         }
     };
+
+    using Box3F = Box3<float>;
 }
 
 #endif // OUZEL_MATH_BOX3_HPP

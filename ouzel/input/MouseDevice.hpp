@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_INPUT_MOUSEDEVICE_HPP
 #define OUZEL_INPUT_MOUSEDEVICE_HPP
@@ -17,11 +17,11 @@ namespace ouzel
             MouseDevice(InputSystem& initInputSystem, uint32_t initId);
             ~MouseDevice();
 
-            std::future<bool> handleButtonPress(Mouse::Button button, const Vector2<float>& position);
-            std::future<bool> handleButtonRelease(Mouse::Button button, const Vector2<float>& position);
-            std::future<bool> handleMove(const Vector2<float>& position);
-            std::future<bool> handleRelativeMove(const Vector2<float>& position);
-            std::future<bool> handleScroll(const Vector2<float>& scroll, const Vector2<float>& position);
+            std::future<bool> handleButtonPress(Mouse::Button button, const Vector2F& position);
+            std::future<bool> handleButtonRelease(Mouse::Button button, const Vector2F& position);
+            std::future<bool> handleMove(const Vector2F& position);
+            std::future<bool> handleRelativeMove(const Vector2F& position);
+            std::future<bool> handleScroll(const Vector2F& scroll, const Vector2F& position);
             std::future<bool> handleCursorLockChange(bool locked);
         };
     } // namespace input

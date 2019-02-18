@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #include <limits>
 #include "StaticMeshRenderer.hpp"
@@ -9,7 +9,7 @@ namespace ouzel
 {
     namespace scene
     {
-        StaticMeshData::StaticMeshData(Box3<float> initBoundingBox,
+        StaticMeshData::StaticMeshData(Box3F initBoundingBox,
                                        const std::vector<uint32_t> indices,
                                        const std::vector<graphics::Vertex>& vertices,
                                        graphics::Material* initMaterial):
@@ -83,9 +83,9 @@ namespace ouzel
             init(*engine->getCache().getStaticMeshData(filename));
         }
 
-        void StaticMeshRenderer::draw(const Matrix4<float>& transformMatrix,
+        void StaticMeshRenderer::draw(const Matrix4F& transformMatrix,
                                       float opacity,
-                                      const Matrix4<float>& renderViewProjection,
+                                      const Matrix4F& renderViewProjection,
                                       bool wireframe)
         {
             Component::draw(transformMatrix,
@@ -93,7 +93,7 @@ namespace ouzel
                             renderViewProjection,
                             wireframe);
 
-            Matrix4<float> modelViewProj = renderViewProjection * transformMatrix;
+            Matrix4F modelViewProj = renderViewProjection * transformMatrix;
             float colorVector[] = {material->diffuseColor.normR(), material->diffuseColor.normG(), material->diffuseColor.normB(), material->diffuseColor.normA() * opacity * material->opacity};
 
             std::vector<std::vector<float>> fragmentShaderConstants(1);
@@ -106,9 +106,10 @@ namespace ouzel
             for (graphics::Texture* texture : material->textures)
                 textures.push_back(texture ? texture->getResource() : 0);
 
-            engine->getRenderer()->setCullMode(material->cullMode);
             engine->getRenderer()->setPipelineState(material->blendState->getResource(),
-                                                    material->shader->getResource());
+                                                    material->shader->getResource(),
+                                                    material->cullMode,
+                                                    wireframe ? graphics::FillMode::WIREFRAME : graphics::FillMode::SOLID);
             engine->getRenderer()->setShaderConstants(fragmentShaderConstants,
                                                       vertexShaderConstants);
             engine->getRenderer()->setTextures(textures);

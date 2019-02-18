@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #include <cmath>
 #include "Effects.hpp"
@@ -96,7 +96,7 @@ namespace ouzel
             {
             }
 
-            void setPosition(const Vector3<float>& newPosition)
+            void setPosition(const Vector3F& newPosition)
             {
                 position = newPosition;
             }
@@ -117,7 +117,7 @@ namespace ouzel
             }
 
         private:
-            Vector3<float> position;
+            Vector3F position;
             float rolloffFactor = 1.0F;
             float minDistance = 1.0F;
             float maxDistance = FLT_MAX;
@@ -134,7 +134,7 @@ namespace ouzel
         {
         }
 
-        void Panner::setPosition(const Vector3<float>& newPosition)
+        void Panner::setPosition(const Vector3F& newPosition)
         {
             position = newPosition;
 

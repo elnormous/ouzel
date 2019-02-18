@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #include "core/Setup.h"
 
@@ -9,7 +9,6 @@
 #endif
 
 #include <cassert>
-#include <sstream>
 
 #include "graphics/opengl/OGL.h"
 
@@ -297,12 +296,12 @@ namespace ouzel
         OGLRenderDevice::OGLRenderDevice(const std::function<void(const Event&)>& initCallback):
             RenderDevice(Driver::OPENGL, initCallback)
         {
-            projectionTransform = Matrix4<float>(1.0F, 0.0F, 0.0F, 0.0F,
+            projectionTransform = Matrix4F(1.0F, 0.0F, 0.0F, 0.0F,
                                                  0.0F, 1.0F, 0.0F, 0.0F,
                                                  0.0F, 0.0F, 2.0F, -1.0F,
                                                  0.0F, 0.0F, 0.0F, 1.0F);
 
-            renderTargetProjectionTransform = Matrix4<float>(1.0F, 0.0F, 0.0F, 0.0F,
+            renderTargetProjectionTransform = Matrix4F(1.0F, 0.0F, 0.0F, 0.0F,
                                                              0.0F, -1.0F, 0.0F, 0.0F,
                                                              0.0F, 0.0F, 2.0F, -1.0F,
                                                              0.0F, 0.0F, 0.0F, 1.0F);
@@ -506,12 +505,7 @@ namespace ouzel
                 if ((error = glGetErrorProc()) != GL_NO_ERROR || !extensionsPtr)
                     engine->log(Log::Level::WARN) << "Failed to get OpenGL extensions";
                 else
-                {
-                    std::istringstream extensionStringStream(reinterpret_cast<const char*>(extensionsPtr));
-
-                    for (std::string extension; extensionStringStream >> extension;)
-                        extensions.push_back(extension);
-                }
+                    extensions = explodeString(reinterpret_cast<const char*>(extensionsPtr), ' ');
             }
 
             engine->log(Log::Level::ALL) << "Supported OpenGL extensions: " << extensions;
@@ -891,7 +885,7 @@ namespace ouzel
                             GLbitfield clearMask = (clearCommand->clearColorBuffer ? GL_COLOR_BUFFER_BIT : 0) |
                                 (clearCommand->clearDepthBuffer ? GL_DEPTH_BUFFER_BIT : 0 |
                                 (clearCommand->clearStencilBuffer ? GL_STENCIL_BUFFER_BIT : 0));
-                            std::array<float, 4> clearColor{clearCommand->clearColor.normR(),
+                            std::array<float, 4> clearColor = {clearCommand->clearColor.normR(),
                                 clearCommand->clearColor.normG(),
                                 clearCommand->clearColor.normB(),
                                 clearCommand->clearColor.normA()};
@@ -969,27 +963,6 @@ namespace ouzel
                                                        0);
 #endif
                             // TODO: copy data if glCopyImageSubData is not available
-                            break;
-                        }
-
-                        case Command::Type::SET_CULL_MODE:
-                        {
-                            const SetCullModeCommad* setCullModeCommad = static_cast<const SetCullModeCommad*>(command.get());
-                            const GLenum cullFace = getCullFace(setCullModeCommad->cullMode);
-                            setCullFace(cullFace != GL_NONE, cullFace);
-                            break;
-                        }
-
-                        case Command::Type::SET_FILL_MODE:
-                        {
-                            const SetFillModeCommad* setFillModeCommad = static_cast<const SetFillModeCommad*>(command.get());
-
-#if OUZEL_OPENGLES
-                            if (setFillModeCommad->fillMode != FillMode::SOLID)
-                                engine->log(Log::Level::WARN) << "Unsupported fill mode";
-#else
-                            setPolygonFillMode(getFillMode(setFillModeCommad->fillMode));
-#endif
                             break;
                         }
 
@@ -1119,6 +1092,16 @@ namespace ouzel
                             }
                             else
                                 useProgram(0);
+
+                            const GLenum cullFace = getCullFace(setPipelineStateCommand->cullMode);
+                            setCullFace(cullFace != GL_NONE, cullFace);
+
+#if OUZEL_OPENGLES
+                            if (setPipelineStateCommand->fillMode != FillMode::SOLID)
+                                engine->log(Log::Level::WARN) << "Unsupported fill mode";
+#else
+                            setPolygonFillMode(getFillMode(setPipelineStateCommand->fillMode));
+#endif
 
                             break;
                         }
@@ -1340,13 +1323,10 @@ namespace ouzel
                         {
                             auto setTexturesCommand = static_cast<const SetTexturesCommand*>(command.get());
 
-                            for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
+                            for (uint32_t layer = 0; layer < setTexturesCommand->textures.size(); ++layer)
                             {
-                                if (setTexturesCommand->textures[layer])
-                                {
-                                    OGLTexture* texture = getResource<OGLTexture>(setTexturesCommand->textures[layer]);
+                                if (OGLTexture* texture = getResource<OGLTexture>(setTexturesCommand->textures[layer]))
                                     bindTexture(GL_TEXTURE_2D, layer, texture->getTextureId());
-                                }
                                 else
                                     bindTexture(GL_TEXTURE_2D, layer, 0);
                             }

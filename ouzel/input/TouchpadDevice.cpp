@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #include "TouchpadDevice.hpp"
 #include "InputSystem.hpp"
@@ -27,7 +27,7 @@ namespace ouzel
             inputSystem.sendEvent(deviceDisconnectEvent);
         }
 
-        std::future<bool> TouchpadDevice::handleTouchBegin(uint64_t touchId, const Vector2<float>& position, float force)
+        std::future<bool> TouchpadDevice::handleTouchBegin(uint64_t touchId, const Vector2F& position, float force)
         {
             InputSystem::Event event(InputSystem::Event::Type::TOUCH_BEGIN);
             event.deviceId = id;
@@ -37,7 +37,7 @@ namespace ouzel
             return inputSystem.sendEvent(event);
         }
 
-        std::future<bool> TouchpadDevice::handleTouchEnd(uint64_t touchId, const Vector2<float>& position, float force)
+        std::future<bool> TouchpadDevice::handleTouchEnd(uint64_t touchId, const Vector2F& position, float force)
         {
             InputSystem::Event event(InputSystem::Event::Type::TOUCH_END);
             event.deviceId = id;
@@ -47,7 +47,7 @@ namespace ouzel
             return inputSystem.sendEvent(event);
         }
 
-        std::future<bool> TouchpadDevice::handleTouchMove(uint64_t touchId, const Vector2<float>& position, float force)
+        std::future<bool> TouchpadDevice::handleTouchMove(uint64_t touchId, const Vector2F& position, float force)
         {
             InputSystem::Event event(InputSystem::Event::Type::TOUCH_MOVE);
             event.deviceId = id;
@@ -57,7 +57,7 @@ namespace ouzel
             return inputSystem.sendEvent(event);
         }
 
-        std::future<bool> TouchpadDevice::handleTouchCancel(uint64_t touchId, const Vector2<float>& position, float force)
+        std::future<bool> TouchpadDevice::handleTouchCancel(uint64_t touchId, const Vector2F& position, float force)
         {
             InputSystem::Event event(InputSystem::Event::Type::TOUCH_CANCEL);
             event.deviceId = id;

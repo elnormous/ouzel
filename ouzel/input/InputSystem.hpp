@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_INPUT_INPUTSYSTEM_HPP
 #define OUZEL_INPUT_INPUTSYSTEM_HPP
@@ -65,13 +65,13 @@ namespace ouzel
                 };
 
                 Gamepad::Motor motor;
-                Vector2<float> position;
+                Vector2F position;
                 uintptr_t cursorResource;
                 SystemCursor systemCursor;
                 std::vector<uint8_t> data;
-                Size2<float> size;
+                Size2F size;
                 graphics::PixelFormat pixelFormat;
-                Vector2<float> hotSpot;
+                Vector2F hotSpot;
             };
 
             class Event final
@@ -120,9 +120,9 @@ namespace ouzel
                 bool previousPressed = false;
                 float value = 0.0F; // force for touch events
                 float previousValue = 0.0F;
-                Vector2<float> difference;
-                Vector2<float> position;
-                Vector2<float> scroll;
+                Vector2F difference;
+                Vector2F position;
+                Vector2F scroll;
                 float force = 1.0F;
             };
 

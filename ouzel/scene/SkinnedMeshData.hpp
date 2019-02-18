@@ -16,15 +16,15 @@ namespace ouzel
             struct Bone final
             {
                 Bone* parent = nullptr;
-                Vector3<float> position;
-                Quaternion<float> rotation;
+                Vector3F position;
+                QuaternionF rotation;
             };
 
             SkinnedMeshData() {}
-            SkinnedMeshData(Box3<float> initBoundingBox,
+            SkinnedMeshData(Box3F initBoundingBox,
                             graphics::Material* initMaterial);
 
-            Box3<float> boundingBox;
+            Box3F boundingBox;
             graphics::Material* material = nullptr;
         };
     } // namespace scene

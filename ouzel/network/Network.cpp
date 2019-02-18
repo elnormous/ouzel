@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #include <system_error>
 #ifdef _WIN32
@@ -66,18 +66,6 @@ namespace ouzel
             freeaddrinfo(info);
 
             return result;
-        }
-
-        void Network::listen(const std::string& address, uint16_t port)
-        {
-        }
-
-        void Network::connect(const std::string& address, uint16_t port)
-        {
-        }
-
-        void Network::disconnect()
-        {
         }
     } // namespace network
 } // namespace ouzel

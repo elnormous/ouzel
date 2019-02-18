@@ -1,12 +1,12 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_MATH_VECTOR2_HPP
 #define OUZEL_MATH_VECTOR2_HPP
 
-#include <algorithm>
 #include <cassert>
 #include <cmath>
 #include <cstddef>
+#include <limits>
 
 namespace ouzel
 {
@@ -260,6 +260,8 @@ namespace ouzel
     {
         return Vector2<T>(vec.v[0] * scalar, vec.v[1] * scalar);
     }
+
+    using Vector2F = Vector2<float>;
 }
 
 #endif // OUZEL_MATH_VECTOR2_HPP

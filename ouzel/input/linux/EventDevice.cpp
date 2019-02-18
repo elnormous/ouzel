@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #include <system_error>
 #include <unordered_map>
@@ -29,201 +29,191 @@ static inline bool isBitSet(const unsigned long* array, int bit)
     return (array[bit / BITS_PER_LONG] & (1LL << (bit % BITS_PER_LONG))) != 0;
 }
 
-static const std::unordered_map<uint16_t, ouzel::input::Keyboard::Key> keyMap = {
-    {KEY_ESC, ouzel::input::Keyboard::Key::ESCAPE},
-    {KEY_1, ouzel::input::Keyboard::Key::NUM_1},
-    {KEY_2, ouzel::input::Keyboard::Key::NUM_2},
-    {KEY_3, ouzel::input::Keyboard::Key::NUM_3},
-    {KEY_4, ouzel::input::Keyboard::Key::NUM_4},
-    {KEY_5, ouzel::input::Keyboard::Key::NUM_5},
-    {KEY_6, ouzel::input::Keyboard::Key::NUM_6},
-    {KEY_7, ouzel::input::Keyboard::Key::NUM_7},
-    {KEY_8, ouzel::input::Keyboard::Key::NUM_8},
-    {KEY_9, ouzel::input::Keyboard::Key::NUM_9},
-    {KEY_0, ouzel::input::Keyboard::Key::NUM_0},
-    {KEY_MINUS, ouzel::input::Keyboard::Key::MINUS},
-    {KEY_EQUAL, ouzel::input::Keyboard::Key::EQUAL},
-    {KEY_BACKSPACE, ouzel::input::Keyboard::Key::BACKSPACE},
-    {KEY_TAB, ouzel::input::Keyboard::Key::TAB},
-    {KEY_Q, ouzel::input::Keyboard::Key::Q},
-    {KEY_W, ouzel::input::Keyboard::Key::W},
-    {KEY_E, ouzel::input::Keyboard::Key::E},
-    {KEY_R, ouzel::input::Keyboard::Key::R},
-    {KEY_T, ouzel::input::Keyboard::Key::T},
-    {KEY_Y, ouzel::input::Keyboard::Key::Y},
-    {KEY_U, ouzel::input::Keyboard::Key::U},
-    {KEY_I, ouzel::input::Keyboard::Key::I},
-    {KEY_O, ouzel::input::Keyboard::Key::O},
-    {KEY_P, ouzel::input::Keyboard::Key::P},
-    {KEY_LEFTBRACE, ouzel::input::Keyboard::Key::LEFT_BRACKET},
-    {KEY_RIGHTBRACE, ouzel::input::Keyboard::Key::RIGHT_BRACKET},
-    {KEY_ENTER, ouzel::input::Keyboard::Key::ENTER},
-    {KEY_LEFTCTRL, ouzel::input::Keyboard::Key::LEFT_CONTROL},
-    {KEY_A, ouzel::input::Keyboard::Key::A},
-    {KEY_S, ouzel::input::Keyboard::Key::S},
-    {KEY_D, ouzel::input::Keyboard::Key::D},
-    {KEY_F, ouzel::input::Keyboard::Key::F},
-    {KEY_G, ouzel::input::Keyboard::Key::G},
-    {KEY_H, ouzel::input::Keyboard::Key::H},
-    {KEY_J, ouzel::input::Keyboard::Key::J},
-    {KEY_K, ouzel::input::Keyboard::Key::K},
-    {KEY_L, ouzel::input::Keyboard::Key::L},
-    {KEY_SEMICOLON, ouzel::input::Keyboard::Key::SEMICOLON},
-    {KEY_APOSTROPHE, ouzel::input::Keyboard::Key::QUOTE},
-    {KEY_GRAVE, ouzel::input::Keyboard::Key::GRAVE},
-    {KEY_LEFTSHIFT, ouzel::input::Keyboard::Key::LEFT_SHIFT},
-    {KEY_BACKSLASH, ouzel::input::Keyboard::Key::BACKSLASH},
-    {KEY_Z, ouzel::input::Keyboard::Key::Z},
-    {KEY_X, ouzel::input::Keyboard::Key::X},
-    {KEY_C, ouzel::input::Keyboard::Key::C},
-    {KEY_V, ouzel::input::Keyboard::Key::V},
-    {KEY_B, ouzel::input::Keyboard::Key::B},
-    {KEY_N, ouzel::input::Keyboard::Key::N},
-    {KEY_M, ouzel::input::Keyboard::Key::M},
-    {KEY_COMMA, ouzel::input::Keyboard::Key::COMMA},
-    {KEY_DOT, ouzel::input::Keyboard::Key::PERIOD},
-    {KEY_SLASH, ouzel::input::Keyboard::Key::SLASH},
-    {KEY_RIGHTSHIFT, ouzel::input::Keyboard::Key::RIGHT_SHIFT},
-    {KEY_KPASTERISK, ouzel::input::Keyboard::Key::NUMPAD_MULTIPLY},
-    {KEY_LEFTALT, ouzel::input::Keyboard::Key::LEFT_ALT},
-    {KEY_SPACE, ouzel::input::Keyboard::Key::SPACE},
-    {KEY_CAPSLOCK, ouzel::input::Keyboard::Key::CAPS_LOCK},
-    {KEY_F1, ouzel::input::Keyboard::Key::F1},
-    {KEY_F2, ouzel::input::Keyboard::Key::F2},
-    {KEY_F3, ouzel::input::Keyboard::Key::F3},
-    {KEY_F4, ouzel::input::Keyboard::Key::F4},
-    {KEY_F5, ouzel::input::Keyboard::Key::F5},
-    {KEY_F6, ouzel::input::Keyboard::Key::F6},
-    {KEY_F7, ouzel::input::Keyboard::Key::F7},
-    {KEY_F8, ouzel::input::Keyboard::Key::F8},
-    {KEY_F9, ouzel::input::Keyboard::Key::F9},
-    {KEY_F10, ouzel::input::Keyboard::Key::F10},
-    {KEY_NUMLOCK, ouzel::input::Keyboard::Key::NUM_LOCK},
-    {KEY_SCROLLLOCK, ouzel::input::Keyboard::Key::SCROLL_LOCK},
-    {KEY_KP7, ouzel::input::Keyboard::Key::NUMPAD_7},
-    {KEY_KP8, ouzel::input::Keyboard::Key::NUMPAD_8},
-    {KEY_KP9, ouzel::input::Keyboard::Key::NUMPAD_9},
-    {KEY_KPMINUS, ouzel::input::Keyboard::Key::NUMPAD_MINUS},
-    {KEY_KP4, ouzel::input::Keyboard::Key::NUMPAD_4},
-    {KEY_KP5, ouzel::input::Keyboard::Key::NUMPAD_5},
-    {KEY_KP6, ouzel::input::Keyboard::Key::NUMPAD_6},
-    {KEY_KPPLUS, ouzel::input::Keyboard::Key::NUMPAD_PLUS},
-    {KEY_KP1, ouzel::input::Keyboard::Key::NUMPAD_1},
-    {KEY_KP2, ouzel::input::Keyboard::Key::NUMPAD_2},
-    {KEY_KP3, ouzel::input::Keyboard::Key::NUMPAD_3},
-    {KEY_KP0, ouzel::input::Keyboard::Key::NUMPAD_0},
-    {KEY_KPDOT, ouzel::input::Keyboard::Key::NUMPAD_DECIMAL},
-
-    {KEY_ZENKAKUHANKAKU, ouzel::input::Keyboard::Key::NONE}, // ??
-    {KEY_102ND, ouzel::input::Keyboard::Key::INTL_BACKSLASH},
-    {KEY_F11, ouzel::input::Keyboard::Key::F11},
-    {KEY_F12, ouzel::input::Keyboard::Key::F12},
-    {KEY_RO, ouzel::input::Keyboard::Key::RO},
-    {KEY_KATAKANA, ouzel::input::Keyboard::Key::KATAKANA},
-    {KEY_HIRAGANA, ouzel::input::Keyboard::Key::HIRAGANA},
-    {KEY_HENKAN, ouzel::input::Keyboard::Key::HENKAN},
-    {KEY_KATAKANAHIRAGANA, ouzel::input::Keyboard::Key::KATAKANA_HIRAGANA},
-    {KEY_MUHENKAN, ouzel::input::Keyboard::Key::MUHENKAN},
-    {KEY_KPJPCOMMA, ouzel::input::Keyboard::Key::NUMPAD_JPCOMMA},
-    {KEY_KPENTER, ouzel::input::Keyboard::Key::NUMPAD_ENTER},
-    {KEY_RIGHTCTRL, ouzel::input::Keyboard::Key::RIGHT_CONTROL},
-    {KEY_KPSLASH, ouzel::input::Keyboard::Key::NUMPAD_DIVIDE},
-    {KEY_SYSRQ, ouzel::input::Keyboard::Key::PRINT_SCREEN},
-    {KEY_RIGHTALT, ouzel::input::Keyboard::Key::RIGHT_ALT},
-    {KEY_LINEFEED, ouzel::input::Keyboard::Key::NONE}, // ??
-    {KEY_HOME, ouzel::input::Keyboard::Key::HOME},
-    {KEY_UP, ouzel::input::Keyboard::Key::UP},
-    {KEY_PAGEUP, ouzel::input::Keyboard::Key::PAGE_UP},
-    {KEY_LEFT, ouzel::input::Keyboard::Key::LEFT},
-    {KEY_RIGHT, ouzel::input::Keyboard::Key::RIGHT},
-    {KEY_END, ouzel::input::Keyboard::Key::END},
-    {KEY_DOWN, ouzel::input::Keyboard::Key::DOWN},
-    {KEY_PAGEDOWN, ouzel::input::Keyboard::Key::PAGE_DOWN},
-    {KEY_INSERT, ouzel::input::Keyboard::Key::INSERT},
-    {KEY_DELETE, ouzel::input::Keyboard::Key::DEL},
-    {KEY_MACRO, ouzel::input::Keyboard::Key::NONE}, // ??
-    {KEY_MAIL, ouzel::input::Keyboard::Key::MAIL},
-    {KEY_MUTE, ouzel::input::Keyboard::Key::MUTE},
-    {KEY_VOLUMEDOWN, ouzel::input::Keyboard::Key::VOLUME_DOWN},
-    {KEY_VOLUMEUP, ouzel::input::Keyboard::Key::VOLUME_UP},
-    {KEY_NEXTSONG, ouzel::input::Keyboard::Key::AUDIO_NEXT},
-    {KEY_PLAYPAUSE, ouzel::input::Keyboard::Key::AUDIO_PLAY},
-    {KEY_PREVIOUSSONG, ouzel::input::Keyboard::Key::AUDIO_PREVIOUS},
-    {KEY_STOPCD, ouzel::input::Keyboard::Key::AUDIO_STOP},
-
-    {KEY_POWER, ouzel::input::Keyboard::Key::POWER},
-    {KEY_KPEQUAL, ouzel::input::Keyboard::Key::NUMPAD_EQUAL},
-    {KEY_KPPLUSMINUS, ouzel::input::Keyboard::Key::NUMPAD_PLUSMINUS},
-    {KEY_PAUSE, ouzel::input::Keyboard::Key::PAUSE},
-    {KEY_SCALE, ouzel::input::Keyboard::Key::NONE}, //?
-
-    {KEY_KPCOMMA, ouzel::input::Keyboard::Key::NUMPAD_SEPARATOR},
-    {KEY_HANGEUL, ouzel::input::Keyboard::Key::KANA},
-    {KEY_HANJA, ouzel::input::Keyboard::Key::HANJA},
-    {KEY_YEN, ouzel::input::Keyboard::Key::YEN},
-    {KEY_LEFTMETA, ouzel::input::Keyboard::Key::LEFT_SUPER},
-    {KEY_RIGHTMETA, ouzel::input::Keyboard::Key::RIGHT_SUPER},
-    {KEY_COMPOSE, ouzel::input::Keyboard::Key::NONE}, // ??
-
-    {KEY_F13, ouzel::input::Keyboard::Key::F13},
-    {KEY_F14, ouzel::input::Keyboard::Key::F14},
-    {KEY_F15, ouzel::input::Keyboard::Key::F15},
-    {KEY_F16, ouzel::input::Keyboard::Key::F16},
-    {KEY_F17, ouzel::input::Keyboard::Key::F17},
-    {KEY_F18, ouzel::input::Keyboard::Key::F18},
-    {KEY_F19, ouzel::input::Keyboard::Key::F19},
-    {KEY_F20, ouzel::input::Keyboard::Key::F20},
-    {KEY_F21, ouzel::input::Keyboard::Key::F21},
-    {KEY_F22, ouzel::input::Keyboard::Key::F22},
-    {KEY_F23, ouzel::input::Keyboard::Key::F23},
-    {KEY_F24, ouzel::input::Keyboard::Key::F24},
-
-    {KEY_MENU, ouzel::input::Keyboard::Key::MENU},
-    {KEY_CLEAR, ouzel::input::Keyboard::Key::CLEAR},
-    {KEY_SLEEP, ouzel::input::Keyboard::Key::SLEEP},
-    {KEY_PROG1, ouzel::input::Keyboard::Key::APP1},
-    {KEY_PROG2, ouzel::input::Keyboard::Key::APP2},
-    {KEY_HELP, ouzel::input::Keyboard::Key::HELP},
-
-    {KEY_BACK, ouzel::input::Keyboard::Key::BACK},
-    {KEY_FORWARD, ouzel::input::Keyboard::Key::FORWARD},
-    {KEY_REFRESH, ouzel::input::Keyboard::Key::REFRESH},
-    {KEY_STOP, ouzel::input::Keyboard::Key::STOP},
-    {KEY_FIND, ouzel::input::Keyboard::Key::SEARCH},
-    {KEY_BOOKMARKS, ouzel::input::Keyboard::Key::BOOKMARKS},
-    {KEY_HOMEPAGE, ouzel::input::Keyboard::Key::HOMEPAGE},
-    {KEY_MODE, ouzel::input::Keyboard::Key::MODE_CHANGE}
-};
-
-static const std::unordered_map<uint16_t, ouzel::input::Mouse::Button> buttonMap = {
-    {BTN_LEFT, ouzel::input::Mouse::Button::LEFT},
-    {BTN_RIGHT, ouzel::input::Mouse::Button::RIGHT},
-    {BTN_MIDDLE, ouzel::input::Mouse::Button::MIDDLE},
-    {BTN_SIDE, ouzel::input::Mouse::Button::X1},
-    {BTN_EXTRA, ouzel::input::Mouse::Button::X2},
-    {BTN_FORWARD, ouzel::input::Mouse::Button::NONE}, //?
-    {BTN_BACK, ouzel::input::Mouse::Button::NONE}, //?
-    {BTN_TASK, ouzel::input::Mouse::Button::NONE} //?
-};
-
 static ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)
 {
-    auto i = keyMap.find(keyCode);
+    switch (keyCode)
+    {
+        case KEY_ESC: return ouzel::input::Keyboard::Key::ESCAPE;
+        case KEY_1: return ouzel::input::Keyboard::Key::NUM_1;
+        case KEY_2: return ouzel::input::Keyboard::Key::NUM_2;
+        case KEY_3: return ouzel::input::Keyboard::Key::NUM_3;
+        case KEY_4: return ouzel::input::Keyboard::Key::NUM_4;
+        case KEY_5: return ouzel::input::Keyboard::Key::NUM_5;
+        case KEY_6: return ouzel::input::Keyboard::Key::NUM_6;
+        case KEY_7: return ouzel::input::Keyboard::Key::NUM_7;
+        case KEY_8: return ouzel::input::Keyboard::Key::NUM_8;
+        case KEY_9: return ouzel::input::Keyboard::Key::NUM_9;
+        case KEY_0: return ouzel::input::Keyboard::Key::NUM_0;
+        case KEY_MINUS: return ouzel::input::Keyboard::Key::MINUS;
+        case KEY_EQUAL: return ouzel::input::Keyboard::Key::EQUAL;
+        case KEY_BACKSPACE: return ouzel::input::Keyboard::Key::BACKSPACE;
+        case KEY_TAB: return ouzel::input::Keyboard::Key::TAB;
+        case KEY_Q: return ouzel::input::Keyboard::Key::Q;
+        case KEY_W: return ouzel::input::Keyboard::Key::W;
+        case KEY_E: return ouzel::input::Keyboard::Key::E;
+        case KEY_R: return ouzel::input::Keyboard::Key::R;
+        case KEY_T: return ouzel::input::Keyboard::Key::T;
+        case KEY_Y: return ouzel::input::Keyboard::Key::Y;
+        case KEY_U: return ouzel::input::Keyboard::Key::U;
+        case KEY_I: return ouzel::input::Keyboard::Key::I;
+        case KEY_O: return ouzel::input::Keyboard::Key::O;
+        case KEY_P: return ouzel::input::Keyboard::Key::P;
+        case KEY_LEFTBRACE: return ouzel::input::Keyboard::Key::LEFT_BRACKET;
+        case KEY_RIGHTBRACE: return ouzel::input::Keyboard::Key::RIGHT_BRACKET;
+        case KEY_ENTER: return ouzel::input::Keyboard::Key::ENTER;
+        case KEY_LEFTCTRL: return ouzel::input::Keyboard::Key::LEFT_CONTROL;
+        case KEY_A: return ouzel::input::Keyboard::Key::A;
+        case KEY_S: return ouzel::input::Keyboard::Key::S;
+        case KEY_D: return ouzel::input::Keyboard::Key::D;
+        case KEY_F: return ouzel::input::Keyboard::Key::F;
+        case KEY_G: return ouzel::input::Keyboard::Key::G;
+        case KEY_H: return ouzel::input::Keyboard::Key::H;
+        case KEY_J: return ouzel::input::Keyboard::Key::J;
+        case KEY_K: return ouzel::input::Keyboard::Key::K;
+        case KEY_L: return ouzel::input::Keyboard::Key::L;
+        case KEY_SEMICOLON: return ouzel::input::Keyboard::Key::SEMICOLON;
+        case KEY_APOSTROPHE: return ouzel::input::Keyboard::Key::QUOTE;
+        case KEY_GRAVE: return ouzel::input::Keyboard::Key::GRAVE;
+        case KEY_LEFTSHIFT: return ouzel::input::Keyboard::Key::LEFT_SHIFT;
+        case KEY_BACKSLASH: return ouzel::input::Keyboard::Key::BACKSLASH;
+        case KEY_Z: return ouzel::input::Keyboard::Key::Z;
+        case KEY_X: return ouzel::input::Keyboard::Key::X;
+        case KEY_C: return ouzel::input::Keyboard::Key::C;
+        case KEY_V: return ouzel::input::Keyboard::Key::V;
+        case KEY_B: return ouzel::input::Keyboard::Key::B;
+        case KEY_N: return ouzel::input::Keyboard::Key::N;
+        case KEY_M: return ouzel::input::Keyboard::Key::M;
+        case KEY_COMMA: return ouzel::input::Keyboard::Key::COMMA;
+        case KEY_DOT: return ouzel::input::Keyboard::Key::PERIOD;
+        case KEY_SLASH: return ouzel::input::Keyboard::Key::SLASH;
+        case KEY_RIGHTSHIFT: return ouzel::input::Keyboard::Key::RIGHT_SHIFT;
+        case KEY_KPASTERISK: return ouzel::input::Keyboard::Key::NUMPAD_MULTIPLY;
+        case KEY_LEFTALT: return ouzel::input::Keyboard::Key::LEFT_ALT;
+        case KEY_SPACE: return ouzel::input::Keyboard::Key::SPACE;
+        case KEY_CAPSLOCK: return ouzel::input::Keyboard::Key::CAPS_LOCK;
+        case KEY_F1: return ouzel::input::Keyboard::Key::F1;
+        case KEY_F2: return ouzel::input::Keyboard::Key::F2;
+        case KEY_F3: return ouzel::input::Keyboard::Key::F3;
+        case KEY_F4: return ouzel::input::Keyboard::Key::F4;
+        case KEY_F5: return ouzel::input::Keyboard::Key::F5;
+        case KEY_F6: return ouzel::input::Keyboard::Key::F6;
+        case KEY_F7: return ouzel::input::Keyboard::Key::F7;
+        case KEY_F8: return ouzel::input::Keyboard::Key::F8;
+        case KEY_F9: return ouzel::input::Keyboard::Key::F9;
+        case KEY_F10: return ouzel::input::Keyboard::Key::F10;
+        case KEY_NUMLOCK: return ouzel::input::Keyboard::Key::NUM_LOCK;
+        case KEY_SCROLLLOCK: return ouzel::input::Keyboard::Key::SCROLL_LOCK;
+        case KEY_KP7: return ouzel::input::Keyboard::Key::NUMPAD_7;
+        case KEY_KP8: return ouzel::input::Keyboard::Key::NUMPAD_8;
+        case KEY_KP9: return ouzel::input::Keyboard::Key::NUMPAD_9;
+        case KEY_KPMINUS: return ouzel::input::Keyboard::Key::NUMPAD_MINUS;
+        case KEY_KP4: return ouzel::input::Keyboard::Key::NUMPAD_4;
+        case KEY_KP5: return ouzel::input::Keyboard::Key::NUMPAD_5;
+        case KEY_KP6: return ouzel::input::Keyboard::Key::NUMPAD_6;
+        case KEY_KPPLUS: return ouzel::input::Keyboard::Key::NUMPAD_PLUS;
+        case KEY_KP1: return ouzel::input::Keyboard::Key::NUMPAD_1;
+        case KEY_KP2: return ouzel::input::Keyboard::Key::NUMPAD_2;
+        case KEY_KP3: return ouzel::input::Keyboard::Key::NUMPAD_3;
+        case KEY_KP0: return ouzel::input::Keyboard::Key::NUMPAD_0;
+        case KEY_KPDOT: return ouzel::input::Keyboard::Key::NUMPAD_DECIMAL;
 
-    if (i != keyMap.end())
-        return i->second;
-    else
-        return ouzel::input::Keyboard::Key::NONE;
+        case KEY_ZENKAKUHANKAKU: return ouzel::input::Keyboard::Key::NONE; // ??
+        case KEY_102ND: return ouzel::input::Keyboard::Key::INTL_BACKSLASH;
+        case KEY_F11: return ouzel::input::Keyboard::Key::F11;
+        case KEY_F12: return ouzel::input::Keyboard::Key::F12;
+        case KEY_RO: return ouzel::input::Keyboard::Key::RO;
+        case KEY_KATAKANA: return ouzel::input::Keyboard::Key::KATAKANA;
+        case KEY_HIRAGANA: return ouzel::input::Keyboard::Key::HIRAGANA;
+        case KEY_HENKAN: return ouzel::input::Keyboard::Key::HENKAN;
+        case KEY_KATAKANAHIRAGANA: return ouzel::input::Keyboard::Key::KATAKANA_HIRAGANA;
+        case KEY_MUHENKAN: return ouzel::input::Keyboard::Key::MUHENKAN;
+        case KEY_KPJPCOMMA: return ouzel::input::Keyboard::Key::NUMPAD_JPCOMMA;
+        case KEY_KPENTER: return ouzel::input::Keyboard::Key::NUMPAD_ENTER;
+        case KEY_RIGHTCTRL: return ouzel::input::Keyboard::Key::RIGHT_CONTROL;
+        case KEY_KPSLASH: return ouzel::input::Keyboard::Key::NUMPAD_DIVIDE;
+        case KEY_SYSRQ: return ouzel::input::Keyboard::Key::PRINT_SCREEN;
+        case KEY_RIGHTALT: return ouzel::input::Keyboard::Key::RIGHT_ALT;
+        case KEY_LINEFEED: return ouzel::input::Keyboard::Key::NONE; // ??
+        case KEY_HOME: return ouzel::input::Keyboard::Key::HOME;
+        case KEY_UP: return ouzel::input::Keyboard::Key::UP;
+        case KEY_PAGEUP: return ouzel::input::Keyboard::Key::PAGE_UP;
+        case KEY_LEFT: return ouzel::input::Keyboard::Key::LEFT;
+        case KEY_RIGHT: return ouzel::input::Keyboard::Key::RIGHT;
+        case KEY_END: return ouzel::input::Keyboard::Key::END;
+        case KEY_DOWN: return ouzel::input::Keyboard::Key::DOWN;
+        case KEY_PAGEDOWN: return ouzel::input::Keyboard::Key::PAGE_DOWN;
+        case KEY_INSERT: return ouzel::input::Keyboard::Key::INSERT;
+        case KEY_DELETE: return ouzel::input::Keyboard::Key::DEL;
+        case KEY_MACRO: return ouzel::input::Keyboard::Key::NONE; // ??
+        case KEY_MAIL: return ouzel::input::Keyboard::Key::MAIL;
+        case KEY_MUTE: return ouzel::input::Keyboard::Key::MUTE;
+        case KEY_VOLUMEDOWN: return ouzel::input::Keyboard::Key::VOLUME_DOWN;
+        case KEY_VOLUMEUP: return ouzel::input::Keyboard::Key::VOLUME_UP;
+        case KEY_NEXTSONG: return ouzel::input::Keyboard::Key::AUDIO_NEXT;
+        case KEY_PLAYPAUSE: return ouzel::input::Keyboard::Key::AUDIO_PLAY;
+        case KEY_PREVIOUSSONG: return ouzel::input::Keyboard::Key::AUDIO_PREVIOUS;
+        case KEY_STOPCD: return ouzel::input::Keyboard::Key::AUDIO_STOP;
+
+        case KEY_POWER: return ouzel::input::Keyboard::Key::POWER;
+        case KEY_KPEQUAL: return ouzel::input::Keyboard::Key::NUMPAD_EQUAL;
+        case KEY_KPPLUSMINUS: return ouzel::input::Keyboard::Key::NUMPAD_PLUSMINUS;
+        case KEY_PAUSE: return ouzel::input::Keyboard::Key::PAUSE;
+        case KEY_SCALE: return ouzel::input::Keyboard::Key::NONE; //?
+
+        case KEY_KPCOMMA: return ouzel::input::Keyboard::Key::NUMPAD_SEPARATOR;
+        case KEY_HANGEUL: return ouzel::input::Keyboard::Key::KANA;
+        case KEY_HANJA: return ouzel::input::Keyboard::Key::HANJA;
+        case KEY_YEN: return ouzel::input::Keyboard::Key::YEN;
+        case KEY_LEFTMETA: return ouzel::input::Keyboard::Key::LEFT_SUPER;
+        case KEY_RIGHTMETA: return ouzel::input::Keyboard::Key::RIGHT_SUPER;
+        case KEY_COMPOSE: return ouzel::input::Keyboard::Key::NONE; // ??
+
+        case KEY_F13: return ouzel::input::Keyboard::Key::F13;
+        case KEY_F14: return ouzel::input::Keyboard::Key::F14;
+        case KEY_F15: return ouzel::input::Keyboard::Key::F15;
+        case KEY_F16: return ouzel::input::Keyboard::Key::F16;
+        case KEY_F17: return ouzel::input::Keyboard::Key::F17;
+        case KEY_F18: return ouzel::input::Keyboard::Key::F18;
+        case KEY_F19: return ouzel::input::Keyboard::Key::F19;
+        case KEY_F20: return ouzel::input::Keyboard::Key::F20;
+        case KEY_F21: return ouzel::input::Keyboard::Key::F21;
+        case KEY_F22: return ouzel::input::Keyboard::Key::F22;
+        case KEY_F23: return ouzel::input::Keyboard::Key::F23;
+        case KEY_F24: return ouzel::input::Keyboard::Key::F24;
+
+        case KEY_MENU: return ouzel::input::Keyboard::Key::MENU;
+        case KEY_CLEAR: return ouzel::input::Keyboard::Key::CLEAR;
+        case KEY_SLEEP: return ouzel::input::Keyboard::Key::SLEEP;
+        case KEY_PROG1: return ouzel::input::Keyboard::Key::APP1;
+        case KEY_PROG2: return ouzel::input::Keyboard::Key::APP2;
+        case KEY_HELP: return ouzel::input::Keyboard::Key::HELP;
+
+        case KEY_BACK: return ouzel::input::Keyboard::Key::BACK;
+        case KEY_FORWARD: return ouzel::input::Keyboard::Key::FORWARD;
+        case KEY_REFRESH: return ouzel::input::Keyboard::Key::REFRESH;
+        case KEY_STOP: return ouzel::input::Keyboard::Key::STOP;
+        case KEY_FIND: return ouzel::input::Keyboard::Key::SEARCH;
+        case KEY_BOOKMARKS: return ouzel::input::Keyboard::Key::BOOKMARKS;
+        case KEY_HOMEPAGE: return ouzel::input::Keyboard::Key::HOMEPAGE;
+        case KEY_MODE: return ouzel::input::Keyboard::Key::MODE_CHANGE;
+        default: return ouzel::input::Keyboard::Key::NONE;
+    }
 }
 
 static ouzel::input::Mouse::Button convertButtonCode(uint16_t buttonCode)
 {
-    auto i = buttonMap.find(buttonCode);
-
-    if (i != buttonMap.end())
-        return i->second;
-    else
-        return ouzel::input::Mouse::Button::NONE;
+    switch (buttonCode)
+    {
+        case BTN_LEFT: return ouzel::input::Mouse::Button::LEFT;
+        case BTN_RIGHT: return ouzel::input::Mouse::Button::RIGHT;
+        case BTN_MIDDLE: return ouzel::input::Mouse::Button::MIDDLE;
+        case BTN_SIDE: return ouzel::input::Mouse::Button::X1;
+        case BTN_EXTRA: return ouzel::input::Mouse::Button::X2;
+        case BTN_FORWARD: return ouzel::input::Mouse::Button::NONE; //?
+        case BTN_BACK: return ouzel::input::Mouse::Button::NONE; //?
+        case BTN_TASK: return ouzel::input::Mouse::Button::NONE; //?
+        default: return ouzel::input::Mouse::Button::NONE;
+    }
 }
 
 namespace ouzel
@@ -458,7 +448,7 @@ namespace ouzel
                                     break;
                             }
 
-                            Vector2<float> normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2<float>(static_cast<float>(cursorPosition.x),
+                            Vector2F normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(cursorPosition.x),
                                                                                                                         static_cast<float>(cursorPosition.y)));
                             mouseDevice->handleMove(normalizedPosition);
                             break;
@@ -469,28 +459,28 @@ namespace ouzel
                             {
                                 case REL_X:
                                 {
-                                    Vector2<float> normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2<float>(static_cast<float>(event.value), 0.0F));
+                                    Vector2F normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(event.value), 0.0F));
                                     mouseDevice->handleRelativeMove(normalizedPosition);
                                     break;
                                 }
                                 case REL_Y:
                                 {
-                                    Vector2<float> normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2<float>(0.0F, static_cast<float>(event.value)));
+                                    Vector2F normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(0.0F, static_cast<float>(event.value)));
                                     mouseDevice->handleRelativeMove(normalizedPosition);
                                     break;
                                 }
                                 case REL_WHEEL:
                                 {
-                                    Vector2<float> normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2<float>(static_cast<float>(cursorPosition.x),
+                                    Vector2F normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(cursorPosition.x),
                                                                                                                                 static_cast<float>(cursorPosition.y)));
-                                    mouseDevice->handleScroll(Vector2<float>(0.0F, static_cast<float>(event.value)), normalizedPosition);
+                                    mouseDevice->handleScroll(Vector2F(0.0F, static_cast<float>(event.value)), normalizedPosition);
                                     break;
                                 }
                                 case REL_HWHEEL:
                                 {
-                                    Vector2<float> normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2<float>(static_cast<float>(cursorPosition.x),
+                                    Vector2F normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(cursorPosition.x),
                                                                                                                                 static_cast<float>(cursorPosition.y)));
-                                    mouseDevice->handleScroll(Vector2<float>(static_cast<float>(event.value), 0.0F), normalizedPosition);
+                                    mouseDevice->handleScroll(Vector2F(static_cast<float>(event.value), 0.0F), normalizedPosition);
                                     break;
                                 }
                             }
@@ -498,7 +488,7 @@ namespace ouzel
                         }
                         case EV_KEY:
                         {
-                            Vector2<float> normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2<float>(static_cast<float>(cursorPosition.x),
+                            Vector2F normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(cursorPosition.x),
                                                                                                                         static_cast<float>(cursorPosition.y)));
 
                             if (event.value == 1)
@@ -563,7 +553,7 @@ namespace ouzel
                                     {
                                         if (slot.action != Slot::Action::NONE)
                                         {
-                                            Vector2<float> position(static_cast<float>(slot.positionX - touchMinX) / touchRangeX,
+                                            Vector2F position(static_cast<float>(slot.positionX - touchMinX) / touchRangeX,
                                                              static_cast<float>(slot.positionY - touchMinY) / touchRangeY);
                                             float pressure = static_cast<float>(slot.pressure - touchMinPressure) / touchMaxPressure;
 

@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #import <Carbon/Carbon.h>
 #include "MouseDeviceMacOS.hpp"
@@ -9,9 +9,9 @@ namespace ouzel
 {
     namespace input
     {
-        void MouseDeviceMacOS::setPosition(const Vector2<float>& position)
+        void MouseDeviceMacOS::setPosition(const Vector2F& position)
         {
-            ouzel::Vector2<float> windowLocation = engine->getWindow()->convertNormalizedToWindowLocation(position);
+            ouzel::Vector2F windowLocation = engine->getWindow()->convertNormalizedToWindowLocation(position);
 
             CGPoint screenOrigin = [[NSScreen mainScreen] visibleFrame].origin;
 

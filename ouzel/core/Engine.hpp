@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_CORE_ENGINE_HPP
 #define OUZEL_CORE_ENGINE_HPP
@@ -15,15 +15,15 @@
 #include "core/Window.hpp"
 #include "graphics/Renderer.hpp"
 #include "audio/Audio.hpp"
-#include "files/FileSystem.hpp"
 #include "events/EventDispatcher.hpp"
 #include "input/InputManager.hpp"
 #include "scene/SceneManager.hpp"
+#include "storage/FileSystem.hpp"
 #include "assets/Bundle.hpp"
 #include "assets/Cache.hpp"
 #include "localization/Localization.hpp"
 #include "network/Network.hpp"
-#include "utils/INI.hpp"
+#include "utils/Ini.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
@@ -60,7 +60,7 @@ namespace ouzel
         inline Log log(Log::Level level = Log::Level::INFO) const { return logger.log(level); }
         inline Logger& getLogger() { return logger; }
 
-        inline FileSystem& getFileSystem() { return fileSystem; }
+        inline storage::FileSystem& getFileSystem() { return fileSystem; }
         inline EventDispatcher& getEventDispatcher() { return eventDispatcher; }
         inline assets::Cache& getCache() { return cache; }
         inline Window* getWindow() { return window.get(); }
@@ -114,7 +114,7 @@ namespace ouzel
         virtual void runOnMainThread(const std::function<void()>& func) = 0;
 
         Logger logger;
-        FileSystem fileSystem;
+        storage::FileSystem fileSystem;
         EventDispatcher eventDispatcher;
         std::unique_ptr<Window> window;
         std::unique_ptr<graphics::Renderer> renderer;

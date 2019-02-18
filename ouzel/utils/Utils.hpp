@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_UTILS_UTILS_HPP
 #define OUZEL_UTILS_UTILS_HPP
@@ -78,6 +78,23 @@ namespace ouzel
         for (size_t i = 0, j = (len - 1) * 4 ; i < len; ++i, j -= 4)
             result[i] = digits[(n >> j) & 0x0f];
 
+        return result;
+    }
+
+    inline std::vector<std::string> explodeString(const std::string& str, char delimiter = ' ')
+    {
+        std::string buffer;
+        std::vector<std::string> result;
+
+        for(char c : str)
+            if (c != delimiter) buffer.push_back(c);
+            else if (c == delimiter && !buffer.empty())
+            {
+                result.push_back(buffer);
+                buffer.clear();
+            }
+
+        if (!buffer.empty()) result.push_back(buffer);
         return result;
     }
 

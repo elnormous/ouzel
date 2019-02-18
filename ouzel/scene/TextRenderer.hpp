@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_SCENE_TEXTRENDERER_HPP
 #define OUZEL_SCENE_TEXTRENDERER_HPP
@@ -25,11 +25,11 @@ namespace ouzel
                          float initFontSize = 1.0F,
                          const std::string& initText = std::string(),
                          Color initColor = Color::WHITE,
-                         const Vector2<float>& initTextAnchor = Vector2<float>(0.5F, 0.5F));
+                         const Vector2F& initTextAnchor = Vector2F(0.5F, 0.5F));
 
-            void draw(const Matrix4<float>& transformMatrix,
+            void draw(const Matrix4F& transformMatrix,
                       float opacity,
-                      const Matrix4<float>& renderViewProjection,
+                      const Matrix4F& renderViewProjection,
                       bool wireframe) override;
 
             void setFont(const std::string& fontFile);
@@ -37,8 +37,8 @@ namespace ouzel
             inline float getFontSize() const { return fontSize; }
             void setFontSize(float newFontSize);
 
-            inline const Vector2<float>& getTextAnchor() const { return textAnchor; }
-            void setTextAnchor(const Vector2<float>& newTextAnchor);
+            inline const Vector2F& getTextAnchor() const { return textAnchor; }
+            void setTextAnchor(const Vector2F& newTextAnchor);
 
             inline const std::string& getText() const { return text; }
             void setText(const std::string& newText);
@@ -68,7 +68,7 @@ namespace ouzel
             Font* font = nullptr;
             std::string text;
             float fontSize = 1.0F;
-            Vector2<float> textAnchor;
+            Vector2F textAnchor;
 
             std::vector<uint16_t> indices;
             std::vector<graphics::Vertex> vertices;

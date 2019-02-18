@@ -7,8 +7,8 @@
     <ClCompile Include="..\ouzel\scene\Animators.cpp">
       <Filter>ouzel\scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\files\Archive.cpp">
-      <Filter>ouzel\files</Filter>
+    <ClCompile Include="..\ouzel\storage\Archive.cpp">
+      <Filter>ouzel\storage</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\audio\Audio.cpp">
       <Filter>ouzel\audio</Filter>
@@ -88,11 +88,11 @@
     <ClCompile Include="..\ouzel\events\EventHandler.cpp">
       <Filter>ouzel\events</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\files\File.cpp">
-      <Filter>ouzel\files</Filter>
+    <ClCompile Include="..\ouzel\storage\File.cpp">
+      <Filter>ouzel\storage</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\files\FileSystem.cpp">
-      <Filter>ouzel\files</Filter>
+    <ClCompile Include="..\ouzel\storage\FileSystem.cpp">
+      <Filter>ouzel\storage</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\gui\Font.cpp">
       <Filter>ouzel\gui</Filter>
@@ -163,7 +163,7 @@
     <ClCompile Include="..\ouzel\scene\ActorContainer.cpp">
       <Filter>ouzel\scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\utils\OBF.cpp">
+    <ClCompile Include="..\ouzel\utils\Obf.cpp">
       <Filter>ouzel\utils</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\utils\Utils.cpp">
@@ -295,6 +295,9 @@
     <ClCompile Include="..\ouzel\network\Client.cpp">
       <Filter>ouzel\network</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\network\Server.cpp">
+      <Filter>ouzel\network</Filter>
+    </ClCompile>
     <ClCompile Include="..\ouzel\core\NativeWindow.cpp">
       <Filter>ouzel\core</Filter>
     </ClCompile>
@@ -337,7 +340,7 @@
     <ClCompile Include="..\ouzel\assets\WaveLoader.cpp">
       <Filter>ouzel\assets</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\utils\XML.cpp">
+    <ClCompile Include="..\ouzel\utils\Xml.cpp">
       <Filter>ouzel\utils</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\input\InputDevice.cpp">
@@ -456,8 +459,8 @@
     <ClInclude Include="..\ouzel\scene\Animators.hpp">
       <Filter>ouzel\scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\files\Archive.hpp">
-      <Filter>ouzel\files</Filter>
+    <ClInclude Include="..\ouzel\storage\Archive.hpp">
+      <Filter>ouzel\storage</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\Audio.hpp">
       <Filter>ouzel\audio</Filter>
@@ -555,11 +558,11 @@
     <ClInclude Include="..\ouzel\events\EventHandler.hpp">
       <Filter>ouzel\events</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\files\File.hpp">
-      <Filter>ouzel\files</Filter>
+    <ClInclude Include="..\ouzel\storage\File.hpp">
+      <Filter>ouzel\storage</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\files\FileSystem.hpp">
-      <Filter>ouzel\files</Filter>
+    <ClInclude Include="..\ouzel\storage\FileSystem.hpp">
+      <Filter>ouzel\storage</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\gui\Font.hpp">
       <Filter>ouzel\gui</Filter>
@@ -567,7 +570,7 @@
     <ClInclude Include="..\ouzel\graphics\ImageData.hpp">
       <Filter>ouzel\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\utils\INI.hpp">
+    <ClInclude Include="..\ouzel\utils\Ini.hpp">
       <Filter>ouzel\utils</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\input\InputManager.hpp">
@@ -630,10 +633,10 @@
     <ClInclude Include="..\ouzel\scene\ActorContainer.hpp">
       <Filter>ouzel\scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\utils\OBF.hpp">
+    <ClInclude Include="..\ouzel\utils\Obf.hpp">
       <Filter>ouzel\utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\utils\UTF8.hpp">
+    <ClInclude Include="..\ouzel\utils\Utf8.hpp">
       <Filter>ouzel\utils</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\utils\Utils.hpp">
@@ -777,6 +780,9 @@
     <ClInclude Include="..\ouzel\network\Client.hpp">
       <Filter>ouzel\network</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\network\Server.hpp">
+      <Filter>ouzel\network</Filter>
+    </ClInclude>
     <ClInclude Include="..\ouzel\DefaultConfig.h">
       <Filter>ouzel</Filter>
     </ClInclude>
@@ -828,10 +834,10 @@
     <ClInclude Include="..\ouzel\assets\WaveLoader.hpp">
       <Filter>ouzel\assets</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\utils\JSON.hpp">
+    <ClInclude Include="..\ouzel\utils\Json.hpp">
       <Filter>ouzel\utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\utils\XML.hpp">
+    <ClInclude Include="..\ouzel\utils\Xml.hpp">
       <Filter>ouzel\utils</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\ouzel.hpp">
@@ -1004,7 +1010,7 @@
     <Filter Include="ouzel\graphics">
       <UniqueIdentifier>{7f740e6a-68dd-4776-96f6-06b3b0dd27b5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ouzel\files">
+    <Filter Include="ouzel\storage">
       <UniqueIdentifier>{10c294c8-1814-4941-8dd3-2330844019bc}</UniqueIdentifier>
     </Filter>
     <Filter Include="ouzel\audio\empty">
@@ -1048,9 +1054,6 @@
     </Filter>
     <Filter Include="ouzel\core\windows">
       <UniqueIdentifier>{706c1a82-b2ae-4ae8-820f-06c2798e4405}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ouzel\files\windows">
-      <UniqueIdentifier>{51861535-fd7d-4deb-a1cc-d21aec4d9fec}</UniqueIdentifier>
     </Filter>
     <Filter Include="ouzel\graphics\opengl\windows">
       <UniqueIdentifier>{8e5def8b-22ab-49ae-b846-f048444c20e5}</UniqueIdentifier>

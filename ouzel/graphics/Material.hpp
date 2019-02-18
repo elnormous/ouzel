@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_GRAPHICS_MATERIAL_HPP
 #define OUZEL_GRAPHICS_MATERIAL_HPP
@@ -17,11 +17,19 @@ namespace ouzel
         class Material final
         {
         public:
+            static constexpr uint32_t TEXTURE_LAYERS = 4;
+
             Material() = default;
+
+            Material(const Material&) = delete;
+            Material& operator=(const Material&) = delete;
+
+            Material(Material&&) = delete;
+            Material& operator=(Material&&) = delete;
 
             BlendState* blendState = nullptr;
             Shader* shader = nullptr;
-            Texture* textures[Texture::LAYERS]{nullptr};
+            Texture* textures[TEXTURE_LAYERS]{nullptr};
             graphics::CullMode cullMode = graphics::CullMode::BACK;
             Color diffuseColor = Color::WHITE;
             float opacity = 1.0F;

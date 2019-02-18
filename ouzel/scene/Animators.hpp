@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_SCENE_ANIMATORS_HPP
 #define OUZEL_SCENE_ANIMATORS_HPP
@@ -73,7 +73,7 @@ namespace ouzel
         class Move final: public Animator
         {
         public:
-            Move(float initLength, const Vector3<float>& initPosition, bool initRelative = false);
+            Move(float initLength, const Vector3F& initPosition, bool initRelative = false);
 
             void play() override;
 
@@ -81,10 +81,10 @@ namespace ouzel
             void updateProgress() override;
 
         private:
-            Vector3<float> position;
-            Vector3<float> startPosition;
-            Vector3<float> targetPosition;
-            Vector3<float> diff;
+            Vector3F position;
+            Vector3F startPosition;
+            Vector3F targetPosition;
+            Vector3F diff;
             bool relative;
         };
 
@@ -117,7 +117,7 @@ namespace ouzel
         class Rotate final: public Animator
         {
         public:
-            Rotate(float initLength, const Vector3<float>& initRotation, bool initRelative = false);
+            Rotate(float initLength, const Vector3F& initRotation, bool initRelative = false);
 
             void play() override;
 
@@ -125,17 +125,17 @@ namespace ouzel
             void updateProgress() override;
 
         private:
-            Vector3<float> rotation;
-            Vector3<float> startRotation;
-            Vector3<float> targetRotation;
-            Vector3<float> diff;
+            Vector3F rotation;
+            Vector3F startRotation;
+            Vector3F targetRotation;
+            Vector3F diff;
             bool relative;
         };
 
         class Scale final: public Animator
         {
         public:
-            Scale(float initLength, const Vector3<float>& initScale, bool initRelative = false);
+            Scale(float initLength, const Vector3F& initScale, bool initRelative = false);
 
             void play() override;
 
@@ -143,10 +143,10 @@ namespace ouzel
             void updateProgress() override;
 
         private:
-            Vector3<float> scale;
-            Vector3<float> startScale;
-            Vector3<float> targetScale;
-            Vector3<float> diff;
+            Vector3F scale;
+            Vector3F startScale;
+            Vector3F targetScale;
+            Vector3F diff;
             bool relative;
         };
 
@@ -168,7 +168,7 @@ namespace ouzel
         class Shake final: public Animator
         {
         public:
-            Shake(float initLength, const Vector3<float>& initDistance, float initTimeScale);
+            Shake(float initLength, const Vector3F& initDistance, float initTimeScale);
 
             void play() override;
 
@@ -179,9 +179,9 @@ namespace ouzel
             uint32_t seedX;
             uint32_t seedY;
             uint32_t seedZ;
-            Vector3<float> distance;
+            Vector3F distance;
             float timeScale;
-            Vector3<float> startPosition;
+            Vector3F startPosition;
         };
     } // namespace scene
 } // namespace ouzel

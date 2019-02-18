@@ -1,10 +1,9 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #include "core/Setup.h"
 
 #if defined(__linux__) && !defined(__ANDROID__) && OUZEL_COMPILE_OPENGL
 
-#include <sstream>
 #if OUZEL_SUPPORTS_X11
 #  include <X11/Xlib.h>
 #  include <X11/extensions/xf86vmode.h>
@@ -131,14 +130,9 @@ namespace ouzel
             std::vector<std::string> extensions;
 
             if (const char* extensionsPtr = glXQueryExtensionsString(engineLinux->getDisplay(), screenIndex))
-            {
-                std::istringstream extensionStringStream(reinterpret_cast<const char*>(extensionsPtr));
+                extensions = explodeString(reinterpret_cast<const char*>(extensionsPtr), ' ');
 
-                for (std::string extension; extensionStringStream >> extension;)
-                    extensions.push_back(extension);
-
-                engine->log(Log::Level::ALL) << "Supported GLX extensions: " << extensions;
-            }
+            engine->log(Log::Level::ALL) << "Supported GLX extensions: " << extensions;
 
             glXMakeCurrent(engineLinux->getDisplay(), None, nullptr);
             glXDestroyContext(engineLinux->getDisplay(), tempContext);

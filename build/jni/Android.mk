@@ -64,9 +64,6 @@ LOCAL_SRC_FILES := ../../ouzel/assets/BmfLoader.cpp \
     ../../ouzel/core/Window.cpp \
     ../../ouzel/events/EventDispatcher.cpp \
     ../../ouzel/events/EventHandler.cpp \
-    ../../ouzel/files/Archive.cpp \
-    ../../ouzel/files/File.cpp \
-    ../../ouzel/files/FileSystem.cpp \
     ../../ouzel/graphics/empty/EmptyRenderDevice.cpp \
     ../../ouzel/graphics/opengl/android/OGLRenderDeviceAndroid.cpp \
     ../../ouzel/graphics/opengl/OGLBlendState.cpp \
@@ -131,6 +128,7 @@ LOCAL_SRC_FILES := ../../ouzel/assets/BmfLoader.cpp \
     ../../ouzel/math/Vector4.cpp \
     ../../ouzel/network/Client.cpp \
     ../../ouzel/network/Network.cpp \
+	../../ouzel/network/Server.cpp \
     ../../ouzel/network/Socket.cpp \
     ../../ouzel/scene/Actor.cpp \
     ../../ouzel/scene/ActorContainer.cpp \
@@ -148,10 +146,13 @@ LOCAL_SRC_FILES := ../../ouzel/assets/BmfLoader.cpp \
     ../../ouzel/scene/Sprite.cpp \
     ../../ouzel/scene/StaticMeshRenderer.cpp \
     ../../ouzel/scene/TextRenderer.cpp \
+	../../ouzel/storage/Archive.cpp \
+    ../../ouzel/storage/File.cpp \
+    ../../ouzel/storage/FileSystem.cpp \
     ../../ouzel/utils/Log.cpp \
-    ../../ouzel/utils/OBF.cpp \
+    ../../ouzel/utils/Obf.cpp \
     ../../ouzel/utils/Utils.cpp \
-    ../../ouzel/utils/XML.cpp
+    ../../ouzel/utils/Xml.cpp
 
 include $(BUILD_STATIC_LIBRARY)
 $(call import-module, android/cpufeatures)

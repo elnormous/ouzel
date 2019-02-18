@@ -73,9 +73,9 @@
     <ClCompile Include="..\ouzel\core\windows\SystemWin.cpp" />
     <ClCompile Include="..\ouzel\events\EventDispatcher.cpp" />
     <ClCompile Include="..\ouzel\events\EventHandler.cpp" />
-    <ClCompile Include="..\ouzel\files\Archive.cpp" />
-    <ClCompile Include="..\ouzel\files\File.cpp" />
-    <ClCompile Include="..\ouzel\files\FileSystem.cpp" />
+    <ClCompile Include="..\ouzel\storage\Archive.cpp" />
+    <ClCompile Include="..\ouzel\storage\File.cpp" />
+    <ClCompile Include="..\ouzel\storage\FileSystem.cpp" />
     <ClCompile Include="..\ouzel\graphics\BlendState.cpp" />
     <ClCompile Include="..\ouzel\graphics\Buffer.cpp" />
     <ClCompile Include="..\ouzel\graphics\DepthStencilState.cpp" />
@@ -151,6 +151,7 @@
     <ClCompile Include="..\ouzel\math\Vector4.cpp" />
     <ClCompile Include="..\ouzel\network\Client.cpp" />
     <ClCompile Include="..\ouzel\network\Network.cpp" />
+    <ClCompile Include="..\ouzel\network\Server.cpp" />
     <ClCompile Include="..\ouzel\network\Socket.cpp" />
     <ClCompile Include="..\ouzel\scene\Actor.cpp" />
     <ClCompile Include="..\ouzel\scene\ActorContainer.cpp" />
@@ -169,9 +170,9 @@
     <ClCompile Include="..\ouzel\scene\Sprite.cpp" />
     <ClCompile Include="..\ouzel\scene\TextRenderer.cpp" />
     <ClCompile Include="..\ouzel\utils\Log.cpp" />
-    <ClCompile Include="..\ouzel\utils\OBF.cpp" />
+    <ClCompile Include="..\ouzel\utils\Obf.cpp" />
     <ClCompile Include="..\ouzel\utils\Utils.cpp" />
-    <ClCompile Include="..\ouzel\utils\XML.cpp" />
+    <ClCompile Include="..\ouzel\utils\Xml.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -238,9 +239,9 @@
     <ClInclude Include="..\ouzel\events\Event.hpp" />
     <ClInclude Include="..\ouzel\events\EventDispatcher.hpp" />
     <ClInclude Include="..\ouzel\events\EventHandler.hpp" />
-    <ClInclude Include="..\ouzel\files\Archive.hpp" />
-    <ClInclude Include="..\ouzel\files\File.hpp" />
-    <ClInclude Include="..\ouzel\files\FileSystem.hpp" />
+    <ClInclude Include="..\ouzel\storage\Archive.hpp" />
+    <ClInclude Include="..\ouzel\storage\File.hpp" />
+    <ClInclude Include="..\ouzel\storage\FileSystem.hpp" />
     <ClInclude Include="..\ouzel\graphics\BlendState.hpp" />
     <ClInclude Include="..\ouzel\graphics\Buffer.hpp" />
     <ClInclude Include="..\ouzel\graphics\Commands.hpp" />
@@ -333,6 +334,7 @@
     <ClInclude Include="..\ouzel\math\Vector4.hpp" />
     <ClInclude Include="..\ouzel\network\Client.hpp" />
     <ClInclude Include="..\ouzel\network\Network.hpp" />
+    <ClInclude Include="..\ouzel\network\Server.hpp" />
     <ClInclude Include="..\ouzel\network\Socket.hpp" />
     <ClInclude Include="..\ouzel\ouzel.hpp" />
     <ClInclude Include="..\ouzel\scene\Actor.hpp" />
@@ -351,13 +353,13 @@
     <ClInclude Include="..\ouzel\scene\ShapeRenderer.hpp" />
     <ClInclude Include="..\ouzel\scene\Sprite.hpp" />
     <ClInclude Include="..\ouzel\scene\TextRenderer.hpp" />
-    <ClInclude Include="..\ouzel\utils\INI.hpp" />
-    <ClInclude Include="..\ouzel\utils\JSON.hpp" />
+    <ClInclude Include="..\ouzel\utils\Ini.hpp" />
+    <ClInclude Include="..\ouzel\utils\Json.hpp" />
     <ClInclude Include="..\ouzel\utils\Log.hpp" />
-    <ClInclude Include="..\ouzel\utils\OBF.hpp" />
-    <ClInclude Include="..\ouzel\utils\UTF8.hpp" />
+    <ClInclude Include="..\ouzel\utils\Obf.hpp" />
+    <ClInclude Include="..\ouzel\utils\Utf8.hpp" />
     <ClInclude Include="..\ouzel\utils\Utils.hpp" />
-    <ClInclude Include="..\ouzel\utils\XML.hpp" />
+    <ClInclude Include="..\ouzel\utils\Xml.hpp" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

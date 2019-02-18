@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #include <stdexcept>
 #include "Cursor.hpp"
@@ -22,7 +22,7 @@ namespace ouzel
             init(systemCursor);
         }
 
-        Cursor::Cursor(InputManager& initInputManager, const std::string& filename, const Vector2<float>& hotSpot):
+        Cursor::Cursor(InputManager& initInputManager, const std::string& filename, const Vector2F& hotSpot):
             Cursor(initInputManager)
         {
             init(filename, hotSpot);
@@ -48,7 +48,7 @@ namespace ouzel
             inputManager.getInputSystem()->addCommand(command);
         }
 
-        void Cursor::init(const std::string& filename, const Vector2<float>& hotSpot)
+        void Cursor::init(const std::string& filename, const Vector2F& hotSpot)
         {
             // TODO: load with asset loader
             std::vector<uint8_t> data = engine->getFileSystem().readFile(filename);
@@ -123,15 +123,15 @@ namespace ouzel
             }
 
             init(imageData,
-                 Size2<float>(static_cast<float>(width), static_cast<float>(height)),
+                 Size2F(static_cast<float>(width), static_cast<float>(height)),
                  pixelFormat,
                  hotSpot);
         }
 
         void Cursor::init(const std::vector<uint8_t>& data,
-                          const Size2<float>& size,
+                          const Size2F& size,
                           graphics::PixelFormat pixelFormat,
-                          const Vector2<float>& hotSpot)
+                          const Vector2F& hotSpot)
         {
             InputSystem::Command command(InputSystem::Command::Type::INIT_CURSOR);
             command.cursorResource = cursorResource;

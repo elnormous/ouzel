@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #include "core/Setup.h"
 
@@ -338,6 +338,9 @@ namespace ouzel
             D3D11RenderTarget* currentRenderTarget = nullptr;
             D3D11Shader* currentShader = nullptr;
 
+            std::vector<ID3D11ShaderResourceView*> currentResourceViews;
+            std::vector<ID3D11SamplerState*> currentSamplerStates;
+
             CommandBuffer commandBuffer;
 
             for (;;)
@@ -483,41 +486,6 @@ namespace ouzel
                             break;
                         }
 
-                        case Command::Type::SET_CULL_MODE:
-                        {
-                            const SetCullModeCommad* setCullModeCommad = static_cast<const SetCullModeCommad*>(command.get());
-
-                            switch (setCullModeCommad->cullMode)
-                            {
-                                case CullMode::NONE: cullModeIndex = 0; break;
-                                case CullMode::FRONT: cullModeIndex = 1; break;
-                                case CullMode::BACK: cullModeIndex = 2; break;
-                                default: throw std::runtime_error("Invalid cull mode");
-                            }
-
-                            uint32_t rasterizerStateIndex = fillModeIndex * 6 + scissorEnableIndex * 3 + cullModeIndex;
-                            context->RSSetState(rasterizerStates[rasterizerStateIndex]);
-
-                            break;
-                        }
-
-                        case Command::Type::SET_FILL_MODE:
-                        {
-                            const SetFillModeCommad* setFillModeCommad = static_cast<const SetFillModeCommad*>(command.get());
-
-                            switch (setFillModeCommad->fillMode)
-                            {
-                                case FillMode::SOLID: fillModeIndex = 0; break;
-                                case FillMode::WIREFRAME: fillModeIndex = 1; break;
-                                default: throw std::runtime_error("Invalid fill mode");
-                            }
-
-                            uint32_t rasterizerStateIndex = fillModeIndex * 6 + scissorEnableIndex * 3 + cullModeIndex;
-                            context->RSSetState(rasterizerStates[rasterizerStateIndex]);
-
-                            break;
-                        }
-
                         case Command::Type::SET_SCISSOR_TEST:
                         {
                             auto setScissorTestCommand = static_cast<const SetScissorTestCommand*>(command.get());
@@ -622,6 +590,23 @@ namespace ouzel
                                 context->IASetInputLayout(nullptr);
                             }
 
+                            switch (setPipelineStateCommand->cullMode)
+                            {
+                                case CullMode::NONE: cullModeIndex = 0; break;
+                                case CullMode::FRONT: cullModeIndex = 1; break;
+                                case CullMode::BACK: cullModeIndex = 2; break;
+                                default: throw std::runtime_error("Invalid cull mode");
+                            }
+
+                            switch (setPipelineStateCommand->fillMode)
+                            {
+                                case FillMode::SOLID: fillModeIndex = 0; break;
+                                case FillMode::WIREFRAME: fillModeIndex = 1; break;
+                                default: throw std::runtime_error("Invalid fill mode");
+                            }
+
+                            uint32_t rasterizerStateIndex = fillModeIndex * 6 + scissorEnableIndex * 3 + cullModeIndex;
+                            context->RSSetState(rasterizerStates[rasterizerStateIndex]);
                             break;
                         }
 
@@ -780,7 +765,7 @@ namespace ouzel
                                 const std::vector<float>& vertexShaderConstant = setShaderConstantsCommand->vertexShaderConstants[i];
 
                                 if (sizeof(float) * vertexShaderConstant.size() != vertexShaderConstantLocation.size)
-                                    throw std::runtime_error("Invalid pixel shader constant size");
+                                    throw std::runtime_error("Invalid vertex shader constant size");
 
                                 shaderData.insert(shaderData.end(), vertexShaderConstant.begin(), vertexShaderConstant.end());
                             }
@@ -839,26 +824,25 @@ namespace ouzel
                         {
                             auto setTexturesCommand = static_cast<const SetTexturesCommand*>(command.get());
 
-                            ID3D11ShaderResourceView* resourceViews[Texture::LAYERS];
-                            ID3D11SamplerState* samplers[Texture::LAYERS];
+                            currentResourceViews.clear();
+                            currentSamplerStates.clear();
 
-                            for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
+                            for (uintptr_t resource : setTexturesCommand->textures)
                             {
-                                if (setTexturesCommand->textures[layer])
+                                if (D3D11Texture* texture = getResource<D3D11Texture>(resource))
                                 {
-                                    D3D11Texture* texture = getResource<D3D11Texture>(setTexturesCommand->textures[layer]);
-                                    resourceViews[layer] = texture->getResourceView();
-                                    samplers[layer] = texture->getSamplerState();
+                                    currentResourceViews.push_back(texture->getResourceView());
+                                    currentSamplerStates.push_back(texture->getSamplerState());
                                 }
                                 else
                                 {
-                                    resourceViews[layer] = nullptr;
-                                    samplers[layer] = nullptr;
+                                    currentResourceViews.push_back(nullptr);
+                                    currentSamplerStates.push_back(nullptr);
                                 }
                             }
 
-                            context->PSSetShaderResources(0, Texture::LAYERS, resourceViews);
-                            context->PSSetSamplers(0, Texture::LAYERS, samplers);
+                            context->PSSetShaderResources(0, static_cast<UINT>(currentResourceViews.size()), currentResourceViews.data());
+                            context->PSSetSamplers(0, static_cast<UINT>(currentSamplerStates.size()), currentSamplerStates.data());
 
                             break;
                         }

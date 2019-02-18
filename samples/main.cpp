@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #include "ouzel.hpp"
 #include "MainMenu.hpp"
@@ -46,7 +45,7 @@ public:
         engine->getFileSystem().addResourcePath("Resources");
 
 #if !defined(__ANDROID__)
-        archive.reset(new ouzel::Archive(engine->getFileSystem(), "gui.zip"));
+        archive.reset(new ouzel::storage::Archive(engine->getFileSystem(), "gui.zip"));
 #endif
 
         bundle->loadAssets("assets.json");
@@ -70,7 +69,7 @@ public:
     }
 private:
 #if !defined(__ANDROID__)
-    std::unique_ptr<ouzel::Archive> archive;
+    std::unique_ptr<ouzel::storage::Archive> archive;
 #endif
     std::unique_ptr<assets::Bundle> bundle;
 };

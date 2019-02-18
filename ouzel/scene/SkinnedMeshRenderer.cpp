@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #include "SkinnedMeshRenderer.hpp"
 #include "core/Engine.hpp"
@@ -36,9 +36,9 @@ namespace ouzel
             init(*engine->getCache().getSkinnedMeshData(filename));
         }
 
-        void SkinnedMeshRenderer::draw(const Matrix4<float>& transformMatrix,
+        void SkinnedMeshRenderer::draw(const Matrix4F& transformMatrix,
                                        float opacity,
-                                       const Matrix4<float>& renderViewProjection,
+                                       const Matrix4F& renderViewProjection,
                                        bool wireframe)
         {
             Component::draw(transformMatrix,

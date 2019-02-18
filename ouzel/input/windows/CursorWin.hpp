@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_INPUT_NATIVECURSORWIN_HPP
 #define OUZEL_INPUT_NATIVECURSORWIN_HPP
@@ -23,9 +23,9 @@ namespace ouzel
         public:
             explicit CursorWin(SystemCursor systemCursor);
             CursorWin(const std::vector<uint8_t>& data,
-                            const Size2<float>& size,
+                            const Size2F& size,
                             graphics::PixelFormat pixelFormat,
-                            const Vector2<float>& hotSpot);
+                            const Vector2F& hotSpot);
             ~CursorWin();
 
             HCURSOR getCursor() const { return cursor; }

@@ -1,12 +1,12 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_MATH_MATRIX4_HPP
 #define OUZEL_MATH_MATRIX4_HPP
 
-#include <algorithm>
 #include <cassert>
 #include <cmath>
 #include <cstddef>
+#include <limits>
 #include "math/ConvexVolume.hpp"
 #include "math/Plane.hpp"
 #include "math/Quaternion.hpp"
@@ -68,11 +68,6 @@ namespace ouzel
             m[13] = array[13];
             m[14] = array[14];
             m[15] = array[15];
-        }
-
-        Matrix4(const Matrix4& copy)
-        {
-            std::copy(std::begin(copy.m), std::end(copy.m), m);
         }
 
         T& operator[](size_t index) { return m[index]; }
@@ -836,6 +831,8 @@ namespace ouzel
         m.transformVector(v, x);
         return x;
     }
+
+    using Matrix4F = Matrix4<float>;
 }
 
 #endif // OUZEL_MATH_MATRIX4_HPP

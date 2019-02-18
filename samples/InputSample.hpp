@@ -1,5 +1,4 @@
-// Copyright (C) 2018 Elviss Strazdins
-// This file is part of the Ouzel engine.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef INPUTSAMPLE_HPP
 #define INPUTSAMPLE_HPP
@@ -23,7 +22,7 @@ public:
         {
             if (event.type == ouzel::Event::Type::KEY_PRESS)
             {
-                ouzel::Vector2<float> position = ouzel::Vector2<float>(actor->getPosition());
+                ouzel::Vector2F position = ouzel::Vector2F(actor->getPosition());
 
                 switch (event.key)
                 {

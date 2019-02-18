@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #include "Client.hpp"
 #include "Network.hpp"
@@ -16,9 +16,9 @@ namespace ouzel
         {
         }
 
-        Client::Client(Client&& other)
+        Client::Client(Client&& other):
+            sock(std::move(other.sock))
         {
-            sock = std::move(other.sock);
         }
 
         Client& Client::operator=(Client&& other)
@@ -29,6 +29,10 @@ namespace ouzel
             }
 
             return *this;
+        }
+
+        void Client::connect(const std::string& address, uint16_t port)
+        {
         }
 
         void Client::disconnect()

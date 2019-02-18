@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_MATH_SIZE2_HPP
 #define OUZEL_MATH_SIZE2_HPP
@@ -132,6 +132,8 @@ namespace ouzel
     {
         return Size2<T>(size.v[0] / v.v[0], size.v[1] / v.v[1]);
     }
+
+    using Size2F = Size2<float>;
 }
 
 #endif // OUZEL_MATH_SIZE2_HPP

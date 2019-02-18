@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_GUI_FONT_HPP
 #define OUZEL_GUI_FONT_HPP
@@ -37,7 +37,7 @@ namespace ouzel
         virtual RenderData render(const std::string& text,
                                   Color color,
                                   float fontSize,
-                                  const Vector2<float>& anchor) = 0;
+                                  const Vector2F& anchor) = 0;
     };
 }
 

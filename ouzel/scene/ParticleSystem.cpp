@@ -1,12 +1,12 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #include <cstdlib>
 #include <stdexcept>
 #include "ParticleSystem.hpp"
 #include "core/Engine.hpp"
 #include "SceneManager.hpp"
-#include "files/FileSystem.hpp"
 #include "assets/Cache.hpp"
+#include "storage/FileSystem.hpp"
 #include "Actor.hpp"
 #include "Camera.hpp"
 #include "Layer.hpp"
@@ -41,9 +41,9 @@ namespace ouzel
             init(filename);
         }
 
-        void ParticleSystem::draw(const Matrix4<float>& transformMatrix,
+        void ParticleSystem::draw(const Matrix4F& transformMatrix,
                                   float opacity,
-                                  const Matrix4<float>& renderViewProjection,
+                                  const Matrix4F& renderViewProjection,
                                   bool wireframe)
         {
             Component::draw(transformMatrix,
@@ -59,7 +59,7 @@ namespace ouzel
                     needsMeshUpdate = false;
                 }
 
-                Matrix4<float> transform;
+                Matrix4F transform;
 
                 if (particleSystemData.positionType == ParticleSystemData::PositionType::FREE ||
                     particleSystemData.positionType == ParticleSystemData::PositionType::PARENT)
@@ -75,8 +75,10 @@ namespace ouzel
                 std::vector<std::vector<float>> vertexShaderConstants(1);
                 vertexShaderConstants[0] = {std::begin(transform.m), std::end(transform.m)};
 
-                engine->getRenderer()->setCullMode(graphics::CullMode::NONE);
-                engine->getRenderer()->setPipelineState(blendState->getResource(), shader->getResource());
+                engine->getRenderer()->setPipelineState(blendState->getResource(),
+                                                        shader->getResource(),
+                                                        graphics::CullMode::NONE,
+                                                        wireframe ? graphics::FillMode::WIREFRAME : graphics::FillMode::SOLID);
                 engine->getRenderer()->setShaderConstants(pixelShaderConstants,
                                                           vertexShaderConstants);
                 engine->getRenderer()->setTextures({wireframe ? whitePixelTexture->getResource() : texture->getResource()});
@@ -148,9 +150,9 @@ namespace ouzel
                         {
                             if (particleSystemData.emitterType == ParticleSystemData::EmitterType::GRAVITY)
                             {
-                                Vector2<float> tmp;
-                                Vector2<float> radial;
-                                Vector2<float> tangential;
+                                Vector2F tmp;
+                                Vector2F radial;
+                                Vector2F tangential;
 
                                 // radial acceleration
                                 if (particles[i].position.v[0] == 0.0F || particles[i].position.v[1] == 0.0F)
@@ -222,11 +224,11 @@ namespace ouzel
                 {
                     if (actor)
                     {
-                        const Matrix4<float>& inverseTransform = actor->getInverseTransform();
+                        const Matrix4F& inverseTransform = actor->getInverseTransform();
 
                         for (uint32_t i = 0; i < particleCount; ++i)
                         {
-                            Vector3<float> position = Vector3<float>(particles[i].position);
+                            Vector3F position = Vector3F(particles[i].position);
                             inverseTransform.transformPoint(position);
                             boundingBox.insertPoint(position);
                         }
@@ -323,14 +325,14 @@ namespace ouzel
                 indices.push_back(i * 4 + 3);
                 indices.push_back(i * 4 + 2);
 
-                vertices.push_back(graphics::Vertex(Vector3<float>(-1.0F, -1.0F, 0.0F), Color::WHITE,
-                                                    Vector2<float>(0.0F, 1.0F), Vector3<float>(0.0F, 0.0F, -1.0F)));
-                vertices.push_back(graphics::Vertex(Vector3<float>(1.0F, -1.0F, 0.0F), Color::WHITE,
-                                                    Vector2<float>(1.0F, 1.0F), Vector3<float>(0.0F, 0.0F, -1.0F)));
-                vertices.push_back(graphics::Vertex(Vector3<float>(-1.0F, 1.0F, 0.0F), Color::WHITE,
-                                                    Vector2<float>(0.0F, 0.0F), Vector3<float>(0.0F, 0.0F, -1.0F)));
-                vertices.push_back(graphics::Vertex(Vector3<float>(1.0F, 1.0F, 0.0F), Color::WHITE,
-                                                    Vector2<float>(1.0F, 0.0F), Vector3<float>(0.0F, 0.0F, -1.0F)));
+                vertices.push_back(graphics::Vertex(Vector3F(-1.0F, -1.0F, 0.0F), Color::WHITE,
+                                                    Vector2F(0.0F, 1.0F), Vector3F(0.0F, 0.0F, -1.0F)));
+                vertices.push_back(graphics::Vertex(Vector3F(1.0F, -1.0F, 0.0F), Color::WHITE,
+                                                    Vector2F(1.0F, 1.0F), Vector3F(0.0F, 0.0F, -1.0F)));
+                vertices.push_back(graphics::Vertex(Vector3F(-1.0F, 1.0F, 0.0F), Color::WHITE,
+                                                    Vector2F(0.0F, 0.0F), Vector3F(0.0F, 0.0F, -1.0F)));
+                vertices.push_back(graphics::Vertex(Vector3F(1.0F, 1.0F, 0.0F), Color::WHITE,
+                                                    Vector2F(1.0F, 0.0F), Vector3F(0.0F, 0.0F, -1.0F)));
             }
 
             indexBuffer.reset(new graphics::Buffer(*engine->getRenderer(),
@@ -355,41 +357,41 @@ namespace ouzel
                 {
                     size_t i = counter - 1;
 
-                    Vector2<float> position;
+                    Vector2F position;
 
                     if (particleSystemData.positionType == ParticleSystemData::PositionType::FREE)
                         position = particles[i].position;
                     else if (particleSystemData.positionType == ParticleSystemData::PositionType::PARENT)
-                        position = Vector2<float>(actor->getPosition()) + particles[i].position;
+                        position = Vector2F(actor->getPosition()) + particles[i].position;
 
                     float size_2 = particles[i].size / 2.0F;
-                    Vector2<float> v1(-size_2, -size_2);
-                    Vector2<float> v2(size_2, size_2);
+                    Vector2F v1(-size_2, -size_2);
+                    Vector2F v2(size_2, size_2);
 
                     float r = -degToRad(particles[i].rotation);
                     float cr = cosf(r);
                     float sr = sinf(r);
 
-                    Vector2<float> a(v1.v[0] * cr - v1.v[1] * sr, v1.v[0] * sr + v1.v[1] * cr);
-                    Vector2<float> b(v2.v[0] * cr - v1.v[1] * sr, v2.v[0] * sr + v1.v[1] * cr);
-                    Vector2<float> c(v2.v[0] * cr - v2.v[1] * sr, v2.v[0] * sr + v2.v[1] * cr);
-                    Vector2<float> d(v1.v[0] * cr - v2.v[1] * sr, v1.v[0] * sr + v2.v[1] * cr);
+                    Vector2F a(v1.v[0] * cr - v1.v[1] * sr, v1.v[0] * sr + v1.v[1] * cr);
+                    Vector2F b(v2.v[0] * cr - v1.v[1] * sr, v2.v[0] * sr + v1.v[1] * cr);
+                    Vector2F c(v2.v[0] * cr - v2.v[1] * sr, v2.v[0] * sr + v2.v[1] * cr);
+                    Vector2F d(v1.v[0] * cr - v2.v[1] * sr, v1.v[0] * sr + v2.v[1] * cr);
 
                     Color color(static_cast<uint8_t>(particles[i].colorRed * 255),
                                 static_cast<uint8_t>(particles[i].colorGreen * 255),
                                 static_cast<uint8_t>(particles[i].colorBlue * 255),
                                 static_cast<uint8_t>(particles[i].colorAlpha * 255));
 
-                    vertices[i * 4 + 0].position = Vector3<float>(a + position);
+                    vertices[i * 4 + 0].position = Vector3F(a + position);
                     vertices[i * 4 + 0].color = color;
 
-                    vertices[i * 4 + 1].position = Vector3<float>(b + position);
+                    vertices[i * 4 + 1].position = Vector3F(b + position);
                     vertices[i * 4 + 1].color = color;
 
-                    vertices[i * 4 + 2].position = Vector3<float>(d + position);
+                    vertices[i * 4 + 2].position = Vector3F(d + position);
                     vertices[i * 4 + 2].color = color;
 
-                    vertices[i * 4 + 3].position = Vector3<float>(c + position);
+                    vertices[i * 4 + 3].position = Vector3F(c + position);
                     vertices[i * 4 + 3].color = color;
                 }
 
@@ -404,12 +406,12 @@ namespace ouzel
 
             if (count && actor)
             {
-                Vector2<float> position;
+                Vector2F position;
 
                 if (particleSystemData.positionType == ParticleSystemData::PositionType::FREE)
-                    position = Vector2<float>(actor->convertLocalToWorld(Vector3<float>()));
+                    position = Vector2F(actor->convertLocalToWorld(Vector3F()));
                 else if (particleSystemData.positionType == ParticleSystemData::PositionType::PARENT)
-                    position = Vector2<float>(actor->convertLocalToWorld(Vector3<float>()) - actor->getPosition());
+                    position = Vector2F(actor->convertLocalToWorld(Vector3F()) - actor->getPosition());
 
                 for (uint32_t i = particleCount; i < particleCount + count; ++i)
                 {
@@ -417,7 +419,7 @@ namespace ouzel
                     {
                         particles[i].life = fmaxf(particleSystemData.particleLifespan + particleSystemData.particleLifespanVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine), 0.0F);
 
-                        particles[i].position = particleSystemData.sourcePosition + position + Vector2<float>(particleSystemData.sourcePositionVariance.v[0] * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine),
+                        particles[i].position = particleSystemData.sourcePosition + position + Vector2F(particleSystemData.sourcePositionVariance.v[0] * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine),
                                                                                                        particleSystemData.sourcePositionVariance.v[1] * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine));
 
                         particles[i].size = fmaxf(particleSystemData.startParticleSize + particleSystemData.startParticleSizeVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine), 0.0F);
@@ -451,18 +453,18 @@ namespace ouzel
                         if (particleSystemData.rotationIsDir)
                         {
                             float a = degToRad(particleSystemData.angle + particleSystemData.angleVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine));
-                            Vector2<float> v(cosf(a), sinf(a));
+                            Vector2F v(cosf(a), sinf(a));
                             float s = particleSystemData.speed + particleSystemData.speedVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine);
-                            Vector2<float> dir = v * s;
+                            Vector2F dir = v * s;
                             particles[i].direction = dir;
                             particles[i].rotation = -radToDeg(dir.getAngle());
                         }
                         else
                         {
                             float a = degToRad(particleSystemData.angle + particleSystemData.angleVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine));
-                            Vector2<float> v(cosf(a), sinf(a));
+                            Vector2F v(cosf(a), sinf(a));
                             float s = particleSystemData.speed + particleSystemData.speedVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine);
-                            Vector2<float> dir = v * s;
+                            Vector2F dir = v * s;
                             particles[i].direction = dir;
                         }
                     }

@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_MATH_CONVEXVOLUME_HPP
 #define OUZEL_MATH_CONVEXVOLUME_HPP
@@ -73,6 +73,8 @@ namespace ouzel
 
         std::vector<Plane<T>> planes;
     };
+
+    using ConvexVolumeF = ConvexVolume<float>;
 }
 
 #endif // OUZEL_MATH_CONVEXVOLUME_HPP

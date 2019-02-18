@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_SCENE_COMPONENT_HPP
 #define OUZEL_SCENE_COMPONENT_HPP
@@ -48,16 +48,16 @@ namespace ouzel
 
             inline uint32_t getClass() const { return cls; }
 
-            virtual void draw(const Matrix4<float>& transformMatrix,
+            virtual void draw(const Matrix4F& transformMatrix,
                               float opacity,
-                              const Matrix4<float>& renderViewProjection,
+                              const Matrix4F& renderViewProjection,
                               bool wireframe);
 
-            virtual const Box3<float>& getBoundingBox() const { return boundingBox; }
-            virtual void setBoundingBox(const Box3<float>& newBoundingBox) { boundingBox = newBoundingBox; }
+            virtual const Box3F& getBoundingBox() const { return boundingBox; }
+            virtual void setBoundingBox(const Box3F& newBoundingBox) { boundingBox = newBoundingBox; }
 
-            virtual bool pointOn(const Vector2<float>& position) const;
-            virtual bool shapeOverlaps(const std::vector<Vector2<float>>& edges) const;
+            virtual bool pointOn(const Vector2F& position) const;
+            virtual bool shapeOverlaps(const std::vector<Vector2F>& edges) const;
 
             bool isHidden() const { return hidden; }
             void setHidden(bool newHidden) { hidden = newHidden; }
@@ -72,7 +72,7 @@ namespace ouzel
 
             uint32_t cls;
 
-            Box3<float> boundingBox;
+            Box3F boundingBox;
             bool hidden = false;
 
             Layer* layer = nullptr;

@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #include "core/Setup.h"
 
@@ -458,30 +458,6 @@ namespace ouzel
                             break;
                         }
 
-                        case Command::Type::SET_CULL_MODE:
-                        {
-                            const SetCullModeCommad* setCullModeCommad = static_cast<const SetCullModeCommad*>(command.get());
-
-                            if (!currentRenderCommandEncoder)
-                                throw std::runtime_error("Metal render command encoder not initialized");
-
-                            [currentRenderCommandEncoder setCullMode:getCullMode(setCullModeCommad->cullMode)];
-
-                            break;
-                        }
-
-                        case Command::Type::SET_FILL_MODE:
-                        {
-                            const SetFillModeCommad* setFillModeCommad = static_cast<const SetFillModeCommad*>(command.get());
-
-                            if (!currentRenderCommandEncoder)
-                                throw std::runtime_error("Metal render command encoder not initialized");
-
-                            [currentRenderCommandEncoder setTriangleFillMode:getFillMode(setFillModeCommad->fillMode)];
-
-                            break;
-                        }
-
                         case Command::Type::SET_SCISSOR_TEST:
                         {
                             auto setScissorTestCommand = static_cast<const SetScissorTestCommand*>(command.get());
@@ -581,6 +557,9 @@ namespace ouzel
 
                             MTLRenderPipelineStatePtr pipelineState = getPipelineState(currentPipelineStateDesc);
                             if (pipelineState) [currentRenderCommandEncoder setRenderPipelineState:pipelineState];
+
+                            [currentRenderCommandEncoder setCullMode:getCullMode(setPipelineStateCommand->cullMode)];
+                            [currentRenderCommandEncoder setTriangleFillMode:getFillMode(setPipelineStateCommand->fillMode)];
 
                             break;
                         }
@@ -867,11 +846,10 @@ namespace ouzel
                             if (!currentRenderCommandEncoder)
                                 throw std::runtime_error("Metal render command encoder not initialized");
 
-                            for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
+                            for (uint32_t layer = 0; layer < setTexturesCommand->textures.size(); ++layer)
                             {
-                                if (setTexturesCommand->textures[layer])
+                                if (MetalTexture* texture = getResource<MetalTexture>(setTexturesCommand->textures[layer]))
                                 {
-                                    MetalTexture* texture = getResource<MetalTexture>(setTexturesCommand->textures[layer]);
                                     [currentRenderCommandEncoder setFragmentTexture:texture->getTexture() atIndex:layer];
                                     [currentRenderCommandEncoder setFragmentSamplerState:texture->getSamplerState() atIndex:layer];
                                 }

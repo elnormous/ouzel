@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_GRAPHICS_COMMANDS_HPP
 #define OUZEL_GRAPHICS_COMMANDS_HPP
@@ -32,8 +32,6 @@ namespace ouzel
                 CLEAR_RENDER_TARGET,
                 BLIT,
                 COMPUTE,
-                SET_CULL_MODE,
-                SET_FILL_MODE,
                 SET_SCISSOR_TEST,
                 SET_VIEWPORT,
                 INIT_DEPTH_STENCIL_STATE,
@@ -201,35 +199,11 @@ namespace ouzel
             uintptr_t shader;
         };
 
-        class SetCullModeCommad final: public Command
-        {
-        public:
-            explicit SetCullModeCommad(CullMode initCullMode):
-                Command(Command::Type::SET_CULL_MODE),
-                cullMode(initCullMode)
-            {
-            }
-
-            CullMode cullMode;
-        };
-
-        class SetFillModeCommad final: public Command
-        {
-        public:
-            explicit SetFillModeCommad(FillMode initFillMode):
-                Command(Command::Type::SET_FILL_MODE),
-                fillMode(initFillMode)
-            {
-            }
-
-            FillMode fillMode;
-        };
-
         class SetScissorTestCommand final: public Command
         {
         public:
             SetScissorTestCommand(bool initEnabled,
-                                  const Rect<float>& initRectangle):
+                                  const RectF& initRectangle):
                 Command(Command::Type::SET_SCISSOR_TEST),
                 enabled(initEnabled),
                 rectangle(initRectangle)
@@ -237,19 +211,19 @@ namespace ouzel
             }
 
             bool enabled;
-            Rect<float> rectangle;
+            RectF rectangle;
         };
 
         class SetViewportCommand final: public Command
         {
         public:
-            explicit SetViewportCommand(const Rect<float>& initViewport):
+            explicit SetViewportCommand(const RectF& initViewport):
                 Command(Command::Type::SET_VIEWPORT),
                 viewport(initViewport)
             {
             }
 
-            Rect<float> viewport;
+            RectF viewport;
         };
 
         class InitDepthStencilStateCommand final: public Command
@@ -307,15 +281,21 @@ namespace ouzel
         {
         public:
             SetPipelineStateCommand(uintptr_t initBlendState,
-                                    uintptr_t initShader):
+                                    uintptr_t initShader,
+                                    CullMode initCullMode,
+                                    FillMode initFillMode):
                 Command(Command::Type::SET_PIPELINE_STATE),
                 blendState(initBlendState),
-                shader(initShader)
+                shader(initShader),
+                cullMode(initCullMode),
+                fillMode(initFillMode)
             {
             }
 
             uintptr_t blendState;
             uintptr_t shader;
+            CullMode cullMode;
+            FillMode fillMode;
         };
 
         class DrawCommand final: public Command
@@ -562,14 +542,13 @@ namespace ouzel
         class SetTexturesCommand final: public Command
         {
         public:
-            explicit SetTexturesCommand(uintptr_t initTextures[Texture::LAYERS]):
-                Command(Command::Type::SET_TEXTURES)
+            explicit SetTexturesCommand(const std::vector<uintptr_t>& initTextures):
+                Command(Command::Type::SET_TEXTURES),
+                textures(initTextures)
             {
-                for (uint32_t i = 0; i < Texture::LAYERS; ++i)
-                    textures[i] = initTextures[i];
             }
 
-            uintptr_t textures[Texture::LAYERS];
+            std::vector<uintptr_t> textures;
         };
 
         class CommandBuffer final

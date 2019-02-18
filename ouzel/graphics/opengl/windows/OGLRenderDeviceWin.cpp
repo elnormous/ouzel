@@ -1,10 +1,9 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #include "core/Setup.h"
 
 #if defined(_WIN32) && OUZEL_COMPILE_OPENGL
 
-#include <sstream>
 #include <system_error>
 #include "GL/glcorearb.h"
 #include "GL/glext.h"
@@ -174,14 +173,9 @@ namespace ouzel
             if (PFNWGLGETEXTENSIONSSTRINGARBPROC wglGetExtensionsStringProc = reinterpret_cast<PFNWGLGETEXTENSIONSSTRINGARBPROC>(wglGetProcAddress("wglGetExtensionsStringARB")))
             {
                 if (const char* extensionsPtr = wglGetExtensionsStringProc(deviceContext))
-                {
-                    std::istringstream extensionStringStream(reinterpret_cast<const char*>(extensionsPtr));
+                    extensions = explodeString(reinterpret_cast<const char*>(extensionsPtr), ' ');
 
-                    for (std::string extension; extensionStringStream >> extension;)
-                        extensions.push_back(extension);
-
-                    engine->log(Log::Level::ALL) << "Supported WGL extensions: " << extensions;
-                }
+                engine->log(Log::Level::ALL) << "Supported WGL extensions: " << extensions;
             }
 
             PFNWGLCHOOSEPIXELFORMATARBPROC wglChoosePixelFormatProc = nullptr;

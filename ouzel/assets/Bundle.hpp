@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_ASSETS_BUNDLE_HPP
 #define OUZEL_ASSETS_BUNDLE_HPP
@@ -7,7 +7,6 @@
 #include <memory>
 #include <string>
 #include "audio/Sound.hpp"
-#include "files/FileSystem.hpp"
 #include "graphics/BlendState.hpp"
 #include "graphics/DepthStencilState.hpp"
 #include "graphics/Material.hpp"
@@ -18,6 +17,7 @@
 #include "scene/StaticMeshRenderer.hpp"
 #include "scene/Sprite.hpp"
 #include "scene/ParticleSystem.hpp"
+#include "storage/FileSystem.hpp"
 
 namespace ouzel
 {
@@ -46,7 +46,7 @@ namespace ouzel
         {
             friend Cache;
         public:
-            Bundle(Cache& initCache, FileSystem& initFileSystem);
+            Bundle(Cache& initCache, storage::FileSystem& initFileSystem);
             ~Bundle();
 
             Bundle(const Bundle&) = delete;
@@ -79,7 +79,7 @@ namespace ouzel
 
             void preloadSpriteData(const std::string& filename, bool mipmaps = true,
                                    uint32_t spritesX = 1, uint32_t spritesY = 1,
-                                   const Vector2<float>& pivot = Vector2<float>(0.5F, 0.5F));
+                                   const Vector2F& pivot = Vector2F(0.5F, 0.5F));
             const scene::SpriteData* getSpriteData(const std::string& filename) const;
             void setSpriteData(const std::string& filename, scene::SpriteData&& newSpriteData);
             void releaseSpriteData();
@@ -110,7 +110,7 @@ namespace ouzel
 
         private:
             Cache& cache;
-            FileSystem& fileSystem;
+            storage::FileSystem& fileSystem;
 
             std::map<std::string, std::unique_ptr<graphics::Texture>> textures;
             std::map<std::string, std::unique_ptr<graphics::Shader>> shaders;

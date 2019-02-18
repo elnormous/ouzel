@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #if defined(__APPLE__)
 #  include <TargetConditionals.h>
@@ -7,7 +7,6 @@
 #include <stdexcept>
 #include "Setup.h"
 #include "Engine.hpp"
-#include "utils/INI.hpp"
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"
 #include "graphics/Renderer.hpp"
@@ -133,7 +132,7 @@ namespace ouzel
 
         try
         {
-            userSettings = ini::Data(fileSystem.readFile(fileSystem.getStorageDirectory() + FileSystem::DIRECTORY_SEPARATOR + "settings.ini"));
+            userSettings = ini::Data(fileSystem.readFile(fileSystem.getStorageDirectory() + storage::FileSystem::DIRECTORY_SEPARATOR + "settings.ini"));
         }
         catch (const std::exception&)
         {

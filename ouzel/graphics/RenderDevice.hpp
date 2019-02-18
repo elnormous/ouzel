@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_GRAPHICS_RENDERDEVICE_HPP
 #define OUZEL_GRAPHICS_RENDERDEVICE_HPP
@@ -80,7 +80,7 @@ namespace ouzel
             inline bool isAnisotropicFilteringSupported() const { return anisotropicFilteringSupported; }
             inline bool isRenderTargetsSupported() const { return renderTargetsSupported; }
 
-            const Matrix4<float>& getProjectionTransform(bool renderTarget) const
+            const Matrix4F& getProjectionTransform(bool renderTarget) const
             {
                 return renderTarget ? renderTargetProjectionTransform : projectionTransform;
             }
@@ -145,8 +145,8 @@ namespace ouzel
             bool anisotropicFilteringSupported = true;
             bool renderTargetsSupported = true;
 
-            Matrix4<float> projectionTransform;
-            Matrix4<float> renderTargetProjectionTransform;
+            Matrix4F projectionTransform;
+            Matrix4F renderTargetProjectionTransform;
 
             uint32_t drawCallCount = 0;
 

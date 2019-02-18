@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_UTILS_JSON_HPP
 #define OUZEL_UTILS_JSON_HPP
@@ -9,8 +9,7 @@
 #include <string>
 #include <type_traits>
 #include <vector>
-#include "UTF8.hpp"
-#include "Utils.hpp"
+#include "utils/Utf8.hpp"
 
 namespace ouzel
 {
@@ -21,7 +20,8 @@ namespace ouzel
             enum class Type
             {
                 NONE,
-                LITERAL_NUMBER, // float
+                LITERAL_INTEGER, // integer
+                LITERAL_FLOATING_POINT, // float
                 LITERAL_STRING, // string
                 KEYWORD_TRUE, // true
                 KEYWORD_FALSE, // false
@@ -48,7 +48,8 @@ namespace ouzel
             enum class Type
             {
                 NONE,
-                NUMBER,
+                INTEGER,
+                FLOATING_POINT,
                 STRING,
                 OBJECT,
                 ARRAY,
@@ -56,70 +57,83 @@ namespace ouzel
             };
 
             Value() {}
-            Value(Type initType): type(initType) {}
-            Value(double value): type(Type::NUMBER), doubleValue(value) {}
-            Value(const std::string& value): type(Type::STRING), stringValue(value) {}
-            Value(bool value): type(Type::BOOLEAN), boolValue(value) {}
-            Value(std::nullptr_t): type(Type::OBJECT), nullValue(true) {}
-            Value(const Array& value): type(Type::ARRAY), arrayValue(value) {}
-            Value(const Object& value): type(Type::OBJECT), objectValue(value) {}
 
-            inline Value& operator=(Type newType)
+            template<typename T, typename std::enable_if<std::is_same<T, Type>::value>::type* = nullptr>
+            Value(T initType): type(initType) {}
+
+            template<typename T, typename std::enable_if<std::is_floating_point<T>::value>::type* = nullptr>
+            Value(T value): type(Type::FLOATING_POINT), doubleValue(static_cast<double>(value)) {}
+
+            template<typename T, typename std::enable_if<std::is_integral<T>::value && !std::is_same<T, bool>::value>::type* = nullptr>
+            Value(T value): type(Type::INTEGER), intValue(static_cast<int64_t>(value)) {}
+
+            template<typename T, typename std::enable_if<std::is_same<T, std::string>::value>::type* = nullptr>
+            Value(const T& value): type(Type::STRING), stringValue(value) {}
+
+            template<typename T, typename std::enable_if<std::is_same<T, char>::value>::type* = nullptr>
+            Value(const T* value): type(Type::STRING), stringValue(value) {}
+
+            template<typename T, typename std::enable_if<std::is_same<T, bool>::value>::type* = nullptr>
+            Value(T value): type(Type::BOOLEAN), boolValue(value) {}
+
+            template<typename T, typename std::enable_if<std::is_same<T, std::nullptr_t>::value>::type* = nullptr>
+            Value(T): type(Type::OBJECT), nullValue(true) {}
+
+            template<typename T, typename std::enable_if<std::is_same<T, Array>::value>::type* = nullptr>
+            Value(const T& value): type(Type::ARRAY), arrayValue(value) {}
+
+            template<typename T, typename std::enable_if<std::is_same<T, Object>::value>::type* = nullptr>
+            Value(const T& value): type(Type::OBJECT), objectValue(value) {}
+
+            template<typename T, typename std::enable_if<std::is_same<T, Type>::value>::type* = nullptr>
+            inline Value& operator=(T newType)
             {
                 type = newType;
                 return *this;
             }
 
-            inline Value& operator=(double value)
+            template<typename T, typename std::enable_if<std::is_floating_point<T>::value>::type* = nullptr>
+            inline Value& operator=(T value)
             {
-                type = Type::NUMBER;
-                doubleValue = value;
-                return *this;
-            }
-
-            inline Value& operator=(int32_t value)
-            {
-                type = Type::NUMBER;
+                type = Type::FLOATING_POINT;
                 doubleValue = static_cast<double>(value);
                 return *this;
             }
 
-            inline Value& operator=(uint32_t value)
+            template<typename T, typename std::enable_if<std::is_integral<T>::value && !std::is_same<T, bool>::value>::type* = nullptr>
+            inline Value& operator=(T value)
             {
-                type = Type::NUMBER;
-                doubleValue = static_cast<double>(value);
+                type = Type::INTEGER;
+                intValue = static_cast<int64_t>(value);
                 return *this;
             }
 
-            inline Value& operator=(int64_t value)
-            {
-                type = Type::NUMBER;
-                doubleValue = static_cast<double>(value);
-                return *this;
-            }
-
-            inline Value& operator=(uint64_t value)
-            {
-                type = Type::NUMBER;
-                doubleValue = static_cast<double>(value);
-                return *this;
-            }
-
-            inline Value& operator=(const std::string& value)
+            template<typename T, typename std::enable_if<std::is_same<T, std::string>::value>::type* = nullptr>
+            inline Value& operator=(const T& value)
             {
                 type = Type::STRING;
                 stringValue = value;
                 return *this;
             }
 
-            inline Value& operator=(bool value)
+            template<typename T, typename std::enable_if<std::is_same<T, char>::value>::type* = nullptr>
+            inline Value& operator=(const T* value)
+            {
+                type = Type::STRING;
+                stringValue = value;
+                return *this;
+            }
+
+            template<typename T, typename std::enable_if<std::is_same<T, bool>::value>::type* = nullptr>
+            inline Value& operator=(T value)
             {
                 type = Type::BOOLEAN;
                 boolValue = value;
                 return *this;
             }
 
-            inline Value& operator=(std::nullptr_t)
+            template<typename T, typename std::enable_if<std::is_same<T, std::nullptr_t>::value>::type* = nullptr>
+            inline Value& operator=(T)
             {
                 type = Type::OBJECT;
                 nullValue = true;
@@ -127,14 +141,16 @@ namespace ouzel
                 return *this;
             }
 
-            inline Value& operator=(const Array& value)
+            template<typename T, typename std::enable_if<std::is_same<T, Array>::value>::type* = nullptr>
+            inline Value& operator=(const T& value)
             {
                 type = Type::ARRAY;
                 arrayValue = value;
                 return *this;
             }
 
-            inline Value& operator=(const Object& value)
+            template<typename T, typename std::enable_if<std::is_same<T, Object>::value>::type* = nullptr>
+            inline Value& operator=(const T& value)
             {
                 type = Type::OBJECT;
                 objectValue = value;
@@ -161,16 +177,18 @@ namespace ouzel
             template<typename T, typename std::enable_if<std::is_same<T, bool>::value>::type* = nullptr>
             T as() const
             {
-                assert(type == Type::BOOLEAN || type == Type::NUMBER);
+                assert(type == Type::BOOLEAN || type == Type::INTEGER || type == Type::FLOATING_POINT);
                 if (type == Type::BOOLEAN) return boolValue;
+                else if (type == Type::INTEGER) return intValue != 0;
                 else return doubleValue != 0.0;
             }
 
             template<typename T, typename std::enable_if<std::is_arithmetic<T>::value && !std::is_same<T, bool>::value>::type* = nullptr>
             T as() const
             {
-                assert(type == Type::BOOLEAN || type == Type::NUMBER);
+                assert(type == Type::BOOLEAN || type == Type::INTEGER || type == Type::FLOATING_POINT);
                 if (type == Type::BOOLEAN) return boolValue;
+                else if (type == Type::INTEGER) return static_cast<T>(intValue);
                 else return static_cast<T>(doubleValue);
             }
 
@@ -262,9 +280,15 @@ namespace ouzel
                     return parseObject(tokens, iterator);
                 else if (iterator->type == Token::Type::LEFT_BRACKET)
                     return parseArray(tokens, iterator);
-                else if (iterator->type == Token::Type::LITERAL_NUMBER)
+                else if (iterator->type == Token::Type::LITERAL_INTEGER)
                 {
-                    type = Type::NUMBER;
+                    type = Type::INTEGER;
+                    intValue = std::stoi(utf8::fromUtf32(iterator->value));
+                    ++iterator;
+                }
+                else if (iterator->type == Token::Type::LITERAL_FLOATING_POINT)
+                {
+                    type = Type::FLOATING_POINT;
                     doubleValue = std::stod(utf8::fromUtf32(iterator->value));
                     ++iterator;
                 }
@@ -273,12 +297,20 @@ namespace ouzel
                     if (++iterator == tokens.end())
                         throw std::runtime_error("Unexpected end of data");
 
-                    if (iterator->type != Token::Type::LITERAL_NUMBER)
+                    if (iterator->type == Token::Type::LITERAL_INTEGER)
+                    {
+                        type = Type::INTEGER;
+                        intValue = -std::stoi(utf8::fromUtf32(iterator->value));
+                        ++iterator;
+                    }
+                    else if (iterator->type == Token::Type::LITERAL_FLOATING_POINT)
+                    {
+                        type = Type::FLOATING_POINT;
+                        doubleValue = -std::stod(utf8::fromUtf32(iterator->value));
+                        ++iterator;
+                    }
+                    else
                         throw std::runtime_error("Expected a number");
-
-                    type = Type::NUMBER;
-                    doubleValue = -std::stod(utf8::fromUtf32(iterator->value));
-                    ++iterator;
                 }
                 else if (iterator->type == Token::Type::LITERAL_STRING)
                 {
@@ -424,8 +456,10 @@ namespace ouzel
                     else if (c <= 0x1F)
                     {
                         data.insert(data.end(), {'\\', 'u'});
-                        std::string hexValue = hexToString(c, 4);
-                        data.insert(data.end(), hexValue.begin(), hexValue.end());
+
+                        static constexpr const char* digits = "0123456789ABCDEF";
+                        for (uint32_t p = 0; p < 4; ++p)
+                            data.push_back(static_cast<uint8_t>(digits[(c >> (12 - p * 4)) & 0x0F]));
                     }
                     else
                     {
@@ -439,7 +473,13 @@ namespace ouzel
             {
                 switch (type)
                 {
-                    case Type::NUMBER:
+                    case Type::INTEGER:
+                    {
+                        std::string value = std::to_string(intValue);
+                        data.insert(data.end(), value.begin(), value.end());
+                        break;
+                    }
+                    case Type::FLOATING_POINT:
                     {
                         std::string value = std::to_string(doubleValue);
                         data.insert(data.end(), value.begin(), value.end());
@@ -503,9 +543,13 @@ namespace ouzel
 
         private:
             Type type = Type::NONE;
-            bool boolValue = false;
-            bool nullValue = false;
-            double doubleValue = 0.0;
+            union
+            {
+                bool boolValue = false;
+                bool nullValue;
+                int64_t intValue;
+                double doubleValue;
+            };
             Object objectValue;
             Array arrayValue;
             std::string stringValue;
@@ -514,8 +558,7 @@ namespace ouzel
         class Data final: public Value
         {
         public:
-            Data():
-                Value(Value::Type::OBJECT)
+            Data(): Value(Value::Type::OBJECT)
             {
             }
 
@@ -593,7 +636,7 @@ namespace ouzel
                              (*iterator == '.' && (iterator + 1) != str.end() &&
                               *(iterator + 1) >= '0' && *(iterator + 1) <= '9')) // starts with a dot
                     {
-                        token.type = Token::Type::LITERAL_NUMBER;
+                        token.type = Token::Type::LITERAL_INTEGER;
 
                         while (iterator != str.end() &&
                                (*iterator >= '0' && *iterator <= '9'))
@@ -604,6 +647,8 @@ namespace ouzel
 
                         if (iterator != str.end() && *iterator == '.')
                         {
+                            token.type = Token::Type::LITERAL_FLOATING_POINT;
+
                             token.value.push_back(*iterator);
                             ++iterator;
 
@@ -621,10 +666,11 @@ namespace ouzel
                         {
                             token.value.push_back(*iterator);
 
-                            if (++iterator == str.end() || (*iterator != '+' && *iterator != '-'))
+                            if (++iterator == str.end())
                                 throw std::runtime_error("Invalid exponent");
 
-                            token.value.push_back(*iterator);
+                            if (*iterator == '+' || *iterator == '-')
+                                token.value.push_back(*iterator);
 
                             if (++iterator == str.end() || *iterator < '0' || *iterator > '9')
                                 throw std::runtime_error("Invalid exponent");

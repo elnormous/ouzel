@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_INPUT_MOUSEDEVICEMACOS_HPP
 #define OUZEL_INPUT_MOUSEDEVICEMACOS_HPP
@@ -21,7 +21,7 @@ namespace ouzel
             {
             }
 
-            void setPosition(const Vector2<float>& position);
+            void setPosition(const Vector2F& position);
             bool isCursorVisible() const { return cursorVisible; }
             void setCursorVisible(bool newVisible);
             void setCursorLocked(bool locked);

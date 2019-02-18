@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #include <algorithm>
 #include "core/Setup.h"
@@ -14,7 +14,6 @@
 #include "opensl/OSLAudioDevice.hpp"
 #include "xaudio2/XA2AudioDevice.hpp"
 #include "wasapi/WASAPIAudioDevice.hpp"
-#include "math/MathUtils.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel

@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_NETWORK_NETWORK_HPP
 #define OUZEL_NETWORK_NETWORK_HPP
@@ -38,10 +38,6 @@ namespace ouzel
             Network& operator=(Network&&) = delete;
 
             static uint32_t getAddress(const std::string& address);
-
-            void listen(const std::string& address, uint16_t port);
-            void connect(const std::string& address, uint16_t port);
-            void disconnect();
 
         private:
 #ifdef _WIN32

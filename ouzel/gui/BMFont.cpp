@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #include <string>
 #include <iterator>
@@ -6,7 +6,7 @@
 #include "BMFont.hpp"
 #include "core/Engine.hpp"
 #include "assets/Cache.hpp"
-#include "utils/UTF8.hpp"
+#include "utils/Utf8.hpp"
 
 namespace ouzel
 {
@@ -356,19 +356,19 @@ namespace ouzel
     Font::RenderData BMFont::render(const std::string& text,
                                     Color color,
                                     float fontSize,
-                                    const Vector2<float>& anchor)
+                                    const Vector2F& anchor)
     {
 
         RenderData result;
 
-        Vector2<float> position;
+        Vector2F position;
 
         std::vector<uint32_t> utf32Text = utf8::toUtf32(text);
 
         result.indices.reserve(utf32Text.size() * 6);
         result.vertices.reserve(utf32Text.size() * 4);
 
-        Vector2<float> textCoords[4];
+        Vector2F textCoords[4];
 
         size_t firstChar = 0;
 
@@ -389,25 +389,25 @@ namespace ouzel
                 result.indices.push_back(startIndex + 3);
                 result.indices.push_back(startIndex + 2);
 
-                Vector2<float> leftTop(f.x / static_cast<float>(width),
-                                f.y / static_cast<float>(height));
+                Vector2F leftTop(f.x / static_cast<float>(width),
+                                 f.y / static_cast<float>(height));
 
-                Vector2<float> rightBottom((f.x + f.width) / static_cast<float>(width),
-                                    (f.y + f.height) / static_cast<float>(height));
+                Vector2F rightBottom((f.x + f.width) / static_cast<float>(width),
+                                     (f.y + f.height) / static_cast<float>(height));
 
-                textCoords[0] = Vector2<float>(leftTop.v[0], rightBottom.v[1]);
-                textCoords[1] = Vector2<float>(rightBottom.v[0], rightBottom.v[1]);
-                textCoords[2] = Vector2<float>(leftTop.v[0], leftTop.v[1]);
-                textCoords[3] = Vector2<float>(rightBottom.v[0], leftTop.v[1]);
+                textCoords[0] = Vector2F(leftTop.v[0], rightBottom.v[1]);
+                textCoords[1] = Vector2F(rightBottom.v[0], rightBottom.v[1]);
+                textCoords[2] = Vector2F(leftTop.v[0], leftTop.v[1]);
+                textCoords[3] = Vector2F(rightBottom.v[0], leftTop.v[1]);
 
-                result.vertices.push_back(graphics::Vertex(Vector3<float>(position.v[0] + f.xOffset, -position.v[1] - f.yOffset - f.height, 0.0F),
-                                                           color, textCoords[0], Vector3<float>(0.0F, 0.0F, -1.0F)));
-                result.vertices.push_back(graphics::Vertex(Vector3<float>(position.v[0] + f.xOffset + f.width, -position.v[1] - f.yOffset - f.height, 0.0F),
-                                                           color, textCoords[1], Vector3<float>(0.0F, 0.0F, -1.0F)));
-                result.vertices.push_back(graphics::Vertex(Vector3<float>(position.v[0] + f.xOffset, -position.v[1] - f.yOffset, 0.0F),
-                                                           color, textCoords[2], Vector3<float>(0.0F, 0.0F, -1.0F)));
-                result.vertices.push_back(graphics::Vertex(Vector3<float>(position.v[0] + f.xOffset + f.width, -position.v[1] - f.yOffset, 0.0F),
-                                                           color, textCoords[3], Vector3<float>(0.0F, 0.0F, -1.0F)));
+                result.vertices.push_back(graphics::Vertex(Vector3F(position.v[0] + f.xOffset, -position.v[1] - f.yOffset - f.height, 0.0F),
+                                                           color, textCoords[0], Vector3F(0.0F, 0.0F, -1.0F)));
+                result.vertices.push_back(graphics::Vertex(Vector3F(position.v[0] + f.xOffset + f.width, -position.v[1] - f.yOffset - f.height, 0.0F),
+                                                           color, textCoords[1], Vector3F(0.0F, 0.0F, -1.0F)));
+                result.vertices.push_back(graphics::Vertex(Vector3F(position.v[0] + f.xOffset, -position.v[1] - f.yOffset, 0.0F),
+                                                           color, textCoords[2], Vector3F(0.0F, 0.0F, -1.0F)));
+                result.vertices.push_back(graphics::Vertex(Vector3F(position.v[0] + f.xOffset + f.width, -position.v[1] - f.yOffset, 0.0F),
+                                                           color, textCoords[3], Vector3F(0.0F, 0.0F, -1.0F)));
 
                 if ((i + 1) != utf32Text.end())
                     position.v[0] += static_cast<float>(getKerningPair(*i, *(i + 1)));

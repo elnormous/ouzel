@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_CORE_WINDOW_HPP
 #define OUZEL_CORE_WINDOW_HPP
@@ -51,14 +51,14 @@ namespace ouzel
         inline const std::string& getTitle() const { return title; }
         void setTitle(const std::string& newTitle);
 
-        inline Vector2<float> convertWindowToNormalizedLocation(const Vector2<float>& position) const
+        inline Vector2F convertWindowToNormalizedLocation(const Vector2F& position) const
         {
-            return Vector2<float>(position.v[0] / size.v[0], position.v[1] / size.v[1]);
+            return Vector2F(position.v[0] / size.v[0], position.v[1] / size.v[1]);
         }
 
-        inline Vector2<float> convertNormalizedToWindowLocation(const Vector2<float>& position) const
+        inline Vector2F convertNormalizedToWindowLocation(const Vector2F& position) const
         {
-            return Vector2<float>(position.v[0] * size.v[0], position.v[1] * size.v[1]);
+            return Vector2F(position.v[0] * size.v[0], position.v[1] * size.v[1]);
         }
 
     private:

@@ -1,4 +1,4 @@
-// Copyright 2015-2018 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_AUDIO_LISTENER_HPP
 #define OUZEL_AUDIO_LISTENER_HPP
@@ -36,8 +36,8 @@ namespace ouzel
             Audio& audio;
 
             Mix* mix = nullptr;
-            Vector3<float> position;
-            Quaternion<float> rotation;
+            Vector3F position;
+            QuaternionF rotation;
             bool transformDirty = true;
         };
     } // namespace audio
