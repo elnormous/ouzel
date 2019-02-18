@@ -3,7 +3,7 @@
 #include "core/Setup.h"
 
 #include <stdexcept>
-#if OUZEL_COMPILE_OPENGL && OUZEL_OPENGL_INTERFACE_GLX
+#if OUZEL_COMPILE_OPENGL && OUZEL_SUPPORTS_X11
 #  include <GL/glx.h>
 #endif
 
@@ -159,7 +159,7 @@ namespace ouzel
             if (!XSendEvent(display, DefaultRootWindow(display), 0, SubstructureRedirectMask | SubstructureNotifyMask, &event))
                 throw std::runtime_error("Failed to send X11 fullscreen message");
         }
-#else
+#elif OUZEL_SUPPORTS_DISPMANX
         EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
         DISPMANX_DISPLAY_HANDLE_T display = engineLinux->getDisplay();
 

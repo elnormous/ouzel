@@ -1,5 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <limits>
 #include "StaticMeshRenderer.hpp"
 #include "core/Engine.hpp"
 #include "utils/Utils.hpp"
@@ -16,12 +17,33 @@ namespace ouzel
             material(initMaterial)
         {
             indexCount = static_cast<uint32_t>(indices.size());
-            indexSize = sizeof(uint32_t);
+            indexSize = sizeof(uint16_t);
 
-            indexBuffer.reset(new graphics::Buffer(*engine->getRenderer(),
-                                                   graphics::Buffer::Usage::INDEX, 0,
-                                                   indices.data(),
-                                                   static_cast<uint32_t>(getVectorSize(indices))));
+            for (uint32_t index : indices)
+                if (index > std::numeric_limits<uint16_t>::max())
+                {
+                    indexSize = sizeof(uint32_t);
+                    break;
+                }
+
+            if (indexSize == sizeof(uint16_t))
+            {
+                std::vector<uint16_t> convertedIndices;
+                convertedIndices.reserve(indices.size());
+
+                for (uint32_t index : indices)
+                    convertedIndices.push_back(static_cast<uint16_t>(index));
+
+                indexBuffer.reset(new graphics::Buffer(*engine->getRenderer(),
+                                                       graphics::Buffer::Usage::INDEX, 0,
+                                                       convertedIndices.data(),
+                                                       static_cast<uint32_t>(getVectorSize(convertedIndices))));
+            }
+            else if (indexSize == sizeof(uint32_t))
+                indexBuffer.reset(new graphics::Buffer(*engine->getRenderer(),
+                                                       graphics::Buffer::Usage::INDEX, 0,
+                                                       indices.data(),
+                                                       static_cast<uint32_t>(getVectorSize(indices))));
 
             vertexBuffer.reset(new graphics::Buffer(*engine->getRenderer(),
                                                     graphics::Buffer::Usage::VERTEX, 0,

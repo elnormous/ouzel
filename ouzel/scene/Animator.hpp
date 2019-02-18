@@ -1,10 +1,10 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_ANIMATOR_HPP
-#define OUZEL_ANIMATOR_HPP
+#ifndef OUZEL_SCENE_ANIMATOR_HPP
+#define OUZEL_SCENE_ANIMATOR_HPP
 
-#include <functional>
 #include <memory>
+#include <vector>
 #include "scene/Component.hpp"
 #include "events/EventHandler.hpp"
 
@@ -68,4 +68,4 @@ namespace ouzel
     } // namespace scene
 } // namespace ouzel
 
-#endif // OUZEL_ANIMATOR_HPP
+#endif // OUZEL_SCENE_ANIMATOR_HPP

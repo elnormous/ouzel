@@ -27,7 +27,7 @@ namespace ouzel
 
 #if OUZEL_SUPPORTS_X11
         inline Display* getDisplay() const { return display; }
-#else
+#elif OUZEL_SUPPORTS_DISPMANX
         inline DISPMANX_DISPLAY_HANDLE_T getDisplay() const { return display; }
 #endif
 
@@ -37,11 +37,11 @@ namespace ouzel
 
         std::queue<std::function<void()>> executeQueue;
         std::mutex executeMutex;
-        Atom executeAtom = None;
 
 #if OUZEL_SUPPORTS_X11
         Display* display = nullptr;
-#else
+        Atom executeAtom = None;
+#elif OUZEL_SUPPORTS_DISPMANX
         DISPMANX_DISPLAY_HANDLE_T display = DISPMANX_NO_HANDLE;
 #endif
     };

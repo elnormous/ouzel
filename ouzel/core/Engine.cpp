@@ -14,7 +14,8 @@
 #include "audio/Audio.hpp"
 
 #if OUZEL_COMPILE_OPENGL
-#  if OUZEL_SUPPORTS_OPENGLES
+#  include "graphics/opengl/OGL.h"
+#  if OUZEL_OPENGLES
 #    include "opengl/ColorPSGLES2.h"
 #    include "opengl/ColorVSGLES2.h"
 #    include "opengl/TexturePSGLES2.h"
@@ -238,7 +239,7 @@ namespace ouzel
 
                 switch (renderer->getDevice()->getAPIMajorVersion())
                 {
-#  if OUZEL_SUPPORTS_OPENGLES
+#  if OUZEL_OPENGLES
                     case 2:
                         textureShader.reset(new graphics::Shader(*renderer,
                                                                  std::vector<uint8_t>(std::begin(TexturePSGLES2_glsl), std::end(TexturePSGLES2_glsl)),
@@ -311,7 +312,7 @@ namespace ouzel
 
                 switch (renderer->getDevice()->getAPIMajorVersion())
                 {
-#  if OUZEL_SUPPORTS_OPENGLES
+#  if OUZEL_OPENGLES
                     case 2:
                         colorShader.reset(new graphics::Shader(*renderer,
                                                                std::vector<uint8_t>(std::begin(ColorPSGLES2_glsl), std::end(ColorPSGLES2_glsl)),

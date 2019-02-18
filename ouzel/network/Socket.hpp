@@ -19,6 +19,17 @@ namespace ouzel
         {
         public:
             Socket();
+#ifdef _WIN32
+            Socket(SOCKET s):
+                endpoint(s)
+            {
+            }
+#else
+            Socket(int s):
+                endpoint(s)
+            {
+            }
+#endif
             ~Socket();
 
             Socket(const Socket&) = delete;
@@ -26,6 +37,12 @@ namespace ouzel
 
             Socket(Socket&& other);
             Socket& operator=(Socket&& other);
+
+#ifdef _WIN32
+            operator SOCKET() const { return endpoint; }
+#else
+            operator int() const { return endpoint; }
+#endif
 
         private:
 #ifdef _WIN32

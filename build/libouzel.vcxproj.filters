@@ -1,8 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\ouzel\animators\Animator.cpp">
-      <Filter>ouzel\animators</Filter>
+    <ClCompile Include="..\ouzel\scene\Animator.cpp">
+      <Filter>ouzel\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\scene\Animators.cpp">
+      <Filter>ouzel\scene</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\files\Archive.cpp">
       <Filter>ouzel\files</Filter>
@@ -70,9 +73,6 @@
     <ClCompile Include="..\ouzel\input\windows\CursorWin.cpp">
       <Filter>ouzel\input\windows</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\animators\Ease.cpp">
-      <Filter>ouzel\animators</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\gui\EditBox.cpp">
       <Filter>ouzel\gui</Filter>
     </ClCompile>
@@ -87,9 +87,6 @@
     </ClCompile>
     <ClCompile Include="..\ouzel\events\EventHandler.cpp">
       <Filter>ouzel\events</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\animators\Fade.cpp">
-      <Filter>ouzel\animators</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\files\File.cpp">
       <Filter>ouzel\files</Filter>
@@ -160,9 +157,6 @@
     <ClCompile Include="..\ouzel\scene\StaticMeshRenderer.cpp">
       <Filter>ouzel\scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\animators\Move.cpp">
-      <Filter>ouzel\animators</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\scene\Actor.cpp">
       <Filter>ouzel\scene</Filter>
     </ClCompile>
@@ -175,9 +169,6 @@
     <ClCompile Include="..\ouzel\utils\Utils.cpp">
       <Filter>ouzel\utils</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\animators\Parallel.cpp">
-      <Filter>ouzel\animators</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\scene\ParticleSystem.cpp">
       <Filter>ouzel\scene</Filter>
     </ClCompile>
@@ -186,21 +177,6 @@
     </ClCompile>
     <ClCompile Include="..\ouzel\gui\RadioButtonGroup.cpp">
       <Filter>ouzel\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\animators\Repeat.cpp">
-      <Filter>ouzel\animators</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\animators\Rotate.cpp">
-      <Filter>ouzel\animators</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\animators\Scale.cpp">
-      <Filter>ouzel\animators</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\animators\Sequence.cpp">
-      <Filter>ouzel\animators</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\animators\Shake.cpp">
-      <Filter>ouzel\animators</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\scene\Scene.cpp">
       <Filter>ouzel\scene</Filter>
@@ -474,8 +450,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\ouzel\animators\Animator.hpp">
-      <Filter>ouzel\animators</Filter>
+    <ClInclude Include="..\ouzel\scene\Animator.hpp">
+      <Filter>ouzel\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\scene\Animators.hpp">
+      <Filter>ouzel\scene</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\files\Archive.hpp">
       <Filter>ouzel\files</Filter>
@@ -555,9 +534,6 @@
     <ClInclude Include="..\ouzel\graphics\DataType.hpp">
       <Filter>ouzel\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\animators\Ease.hpp">
-      <Filter>ouzel\animators</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\gui\EditBox.hpp">
       <Filter>ouzel\gui</Filter>
     </ClInclude>
@@ -578,9 +554,6 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\events\EventHandler.hpp">
       <Filter>ouzel\events</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\animators\Fade.hpp">
-      <Filter>ouzel\animators</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\files\File.hpp">
       <Filter>ouzel\files</Filter>
@@ -651,9 +624,6 @@
     <ClInclude Include="..\ouzel\scene\StaticMeshRenderer.hpp">
       <Filter>ouzel\scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\animators\Move.hpp">
-      <Filter>ouzel\animators</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\scene\Actor.hpp">
       <Filter>ouzel\scene</Filter>
     </ClInclude>
@@ -668,9 +638,6 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\utils\Utils.hpp">
       <Filter>ouzel\utils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\animators\Parallel.hpp">
-      <Filter>ouzel\animators</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\scene\ParticleSystem.hpp">
       <Filter>ouzel\scene</Filter>
@@ -689,21 +656,6 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\math\Rect.hpp">
       <Filter>ouzel\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\animators\Repeat.hpp">
-      <Filter>ouzel\animators</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\animators\Rotate.hpp">
-      <Filter>ouzel\animators</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\animators\Scale.hpp">
-      <Filter>ouzel\animators</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\animators\Sequence.hpp">
-      <Filter>ouzel\animators</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\animators\Shake.hpp">
-      <Filter>ouzel\animators</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\scene\Scene.hpp">
       <Filter>ouzel\scene</Filter>
@@ -1032,13 +984,13 @@
     <ClInclude Include="..\ouzel\graphics\GraphicsResource.hpp">
       <Filter>ouzel\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\OGL.h">
+      <Filter>ouzel\graphics\opengl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ouzel">
       <UniqueIdentifier>{609eeaba-c2d7-4b6b-bc79-aec5b84b0595}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ouzel\animators">
-      <UniqueIdentifier>{5332c648-b136-470b-8314-08355caeac58}</UniqueIdentifier>
     </Filter>
     <Filter Include="ouzel\audio">
       <UniqueIdentifier>{ec575031-07a5-4602-a6c6-e9063626a451}</UniqueIdentifier>

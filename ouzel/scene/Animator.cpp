@@ -1,10 +1,10 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include <cassert>
 #include <algorithm>
+#include <cassert>
 #include "Animator.hpp"
+#include "Actor.hpp"
 #include "core/Engine.hpp"
-#include "scene/Actor.hpp"
 
 namespace ouzel
 {

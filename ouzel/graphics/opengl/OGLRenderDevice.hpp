@@ -17,7 +17,9 @@
 #include <utility>
 #include <vector>
 
-#if OUZEL_SUPPORTS_OPENGLES
+#include "graphics/opengl/OGL.h"
+
+#if OUZEL_OPENGLES
 #  include "GLES/gl.h"
 #  include "GLES2/gl2.h"
 #  include "GLES2/gl2ext.h"
@@ -54,7 +56,7 @@ namespace ouzel
                     case GL_STACK_UNDERFLOW: return "GL_STACK_UNDERFLOW";
                     case GL_OUT_OF_MEMORY: return "GL_OUT_OF_MEMORY";
                     case GL_INVALID_FRAMEBUFFER_OPERATION: return "GL_INVALID_FRAMEBUFFER_OPERATION";
-#if !OUZEL_SUPPORTS_OPENGLES
+#if !OUZEL_OPENGLES
                     case GL_CONTEXT_LOST: return "GL_CONTEXT_LOST";
 #endif
                     default: return "Unknown error (" + std::to_string(condition) + ")";
@@ -131,7 +133,7 @@ namespace ouzel
             PFNGLBLITFRAMEBUFFERPROC glBlitFramebufferProc = nullptr;
             PFNGLFRAMEBUFFERTEXTURE2DPROC glFramebufferTexture2DProc = nullptr;
 
-#if OUZEL_SUPPORTS_OPENGLES
+#if OUZEL_OPENGLES
             PFNGLCLEARDEPTHFPROC glClearDepthfProc = nullptr;
             PFNGLMAPBUFFEROESPROC glMapBufferProc = nullptr;
             PFNGLUNMAPBUFFEROESPROC glUnmapBufferProc = nullptr;
@@ -529,7 +531,7 @@ namespace ouzel
             {
                 if (stateCache.clearDepth != clearDepthValue)
                 {
-#if OUZEL_SUPPORTS_OPENGLES
+#if OUZEL_OPENGLES
                     glClearDepthfProc(clearDepthValue);
 #else
                     glClearDepthProc(clearDepthValue);
@@ -593,7 +595,7 @@ namespace ouzel
                 glDeleteTexturesProc(1, &textureId);
             }
 
-#if !OUZEL_SUPPORTS_OPENGLES
+#if !OUZEL_OPENGLES
             inline void setPolygonFillMode(GLenum polygonFillMode)
             {
                 if (stateCache.polygonFillMode != polygonFillMode)
@@ -637,6 +639,7 @@ namespace ouzel
 
             bool textureBaseLevelSupported = false;
             bool textureMaxLevelSupported = false;
+            bool uintElementIndexSupported = false;
 
             struct StateCache
             {
@@ -648,7 +651,7 @@ namespace ouzel
                 };
 
                 std::map<GLenum, Textures> textures{
-#if !OUZEL_SUPPORTS_OPENGLES
+#if !OUZEL_OPENGLES
                     {GL_TEXTURE_1D, Textures{}},
 #endif
                     {GL_TEXTURE_2D, Textures{}},
@@ -675,7 +678,7 @@ namespace ouzel
                 GLboolean blueMask = GL_TRUE;
                 GLboolean alphaMask = GL_TRUE;
 
-#if !OUZEL_SUPPORTS_OPENGLES
+#if !OUZEL_OPENGLES
                 GLenum polygonFillMode = GL_FILL;
 #endif
 

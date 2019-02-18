@@ -1,5 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
+#include <system_error>
 #ifdef _WIN32
 #  define WIN32_LEAN_AND_MEAN
 #  define NOMINMAX
@@ -19,8 +20,16 @@ namespace ouzel
 {
     namespace network
     {
-        Socket::Socket()
+        Socket::Socket():
+            endpoint(socket(PF_INET, SOCK_STREAM, IPPROTO_TCP))
         {
+#ifdef _WIN32
+            if (endpoint == INVALID_SOCKET)
+                throw std::system_error(WSAGetLastError(), std::system_category(), "Failed to create socket");
+#else
+            if (endpoint == -1)
+                throw std::system_error(errno, std::system_category(), "Failed to create socket");
+#endif
         }
 
         Socket::~Socket()
@@ -32,9 +41,9 @@ namespace ouzel
 #endif
         }
 
-        Socket::Socket(Socket&& other)
+        Socket::Socket(Socket&& other):
+            endpoint(other.endpoint)
         {
-            endpoint = other.endpoint;
 
 #ifdef _WIN32
             other.endpoint = INVALID_SOCKET;

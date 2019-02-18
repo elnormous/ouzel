@@ -19,16 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\ouzel\animators\Animator.cpp" />
-    <ClCompile Include="..\ouzel\animators\Ease.cpp" />
-    <ClCompile Include="..\ouzel\animators\Fade.cpp" />
-    <ClCompile Include="..\ouzel\animators\Move.cpp" />
-    <ClCompile Include="..\ouzel\animators\Parallel.cpp" />
-    <ClCompile Include="..\ouzel\animators\Repeat.cpp" />
-    <ClCompile Include="..\ouzel\animators\Rotate.cpp" />
-    <ClCompile Include="..\ouzel\animators\Scale.cpp" />
-    <ClCompile Include="..\ouzel\animators\Sequence.cpp" />
-    <ClCompile Include="..\ouzel\animators\Shake.cpp" />
     <ClCompile Include="..\ouzel\assets\Bundle.cpp" />
     <ClCompile Include="..\ouzel\assets\BmfLoader.cpp" />
     <ClCompile Include="..\ouzel\assets\ColladaLoader.cpp" />
@@ -164,6 +154,8 @@
     <ClCompile Include="..\ouzel\network\Socket.cpp" />
     <ClCompile Include="..\ouzel\scene\Actor.cpp" />
     <ClCompile Include="..\ouzel\scene\ActorContainer.cpp" />
+    <ClCompile Include="..\ouzel\scene\Animator.cpp" />
+    <ClCompile Include="..\ouzel\scene\Animators.cpp" />
     <ClCompile Include="..\ouzel\scene\Camera.cpp" />
     <ClCompile Include="..\ouzel\scene\Component.cpp" />
     <ClCompile Include="..\ouzel\scene\Layer.cpp" />
@@ -188,16 +180,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\ouzel\animators\Animator.hpp" />
-    <ClInclude Include="..\ouzel\animators\Ease.hpp" />
-    <ClInclude Include="..\ouzel\animators\Fade.hpp" />
-    <ClInclude Include="..\ouzel\animators\Move.hpp" />
-    <ClInclude Include="..\ouzel\animators\Parallel.hpp" />
-    <ClInclude Include="..\ouzel\animators\Repeat.hpp" />
-    <ClInclude Include="..\ouzel\animators\Rotate.hpp" />
-    <ClInclude Include="..\ouzel\animators\Scale.hpp" />
-    <ClInclude Include="..\ouzel\animators\Sequence.hpp" />
-    <ClInclude Include="..\ouzel\animators\Shake.hpp" />
     <ClInclude Include="..\ouzel\assets\Bundle.hpp" />
     <ClInclude Include="..\ouzel\assets\BmfLoader.hpp" />
     <ClInclude Include="..\ouzel\assets\ColladaLoader.hpp" />
@@ -278,6 +260,7 @@
     <ClInclude Include="..\ouzel\graphics\GraphicsResource.hpp" />
     <ClInclude Include="..\ouzel\graphics\ImageData.hpp" />
     <ClInclude Include="..\ouzel\graphics\Material.hpp" />
+    <ClInclude Include="..\ouzel\graphics\opengl\OGL.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\OGLBlendState.hpp" />
     <ClInclude Include="..\ouzel\graphics\opengl\OGLBuffer.hpp" />
     <ClInclude Include="..\ouzel\graphics\opengl\OGLDepthStencilState.hpp" />
@@ -354,6 +337,8 @@
     <ClInclude Include="..\ouzel\ouzel.hpp" />
     <ClInclude Include="..\ouzel\scene\Actor.hpp" />
     <ClInclude Include="..\ouzel\scene\ActorContainer.hpp" />
+    <ClInclude Include="..\ouzel\scene\Animator.hpp" />
+    <ClInclude Include="..\ouzel\scene\Animators.hpp" />
     <ClInclude Include="..\ouzel\scene\Camera.hpp" />
     <ClInclude Include="..\ouzel\scene\Component.hpp" />
     <ClInclude Include="..\ouzel\scene\Layer.hpp" />

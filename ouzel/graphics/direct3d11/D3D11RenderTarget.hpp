@@ -30,10 +30,6 @@ namespace ouzel
             void removeColorTexture(D3D11Texture* texture);
             void setDepthTexture(D3D11Texture* texture);
 
-            void setClearColorBuffer(bool clear);
-            void setClearDepthBuffer(bool clear);
-            void setClearColor(Color color);
-            void setClearDepth(float newClearDepth);
             void resolve();
 
             const std::vector<ID3D11RenderTargetView*>& getRenderTargetViews() const { return renderTargetViews; }

@@ -11,7 +11,9 @@
 #include <cassert>
 #include <sstream>
 
-#if OUZEL_SUPPORTS_OPENGLES
+#include "graphics/opengl/OGL.h"
+
+#if OUZEL_OPENGLES
 #  include "GLES/gl.h"
 #  include "GLES2/gl2.h"
 #  include "GLES2/gl2ext.h"
@@ -87,8 +89,9 @@ namespace ouzel
         {
             switch (indexSize)
             {
+                case 1: return GL_UNSIGNED_BYTE;
                 case 2: return GL_UNSIGNED_SHORT;
-                case 4: return GL_UNSIGNED_INT;
+                case 4: return GL_UNSIGNED_INT; // Supported on OpenGL and OpenGL ES 3 and above
                 default: throw std::runtime_error("Invalid index size");
             }
         }
@@ -279,7 +282,7 @@ namespace ouzel
             }
         }
 
-#if !OUZEL_SUPPORTS_OPENGLES
+#if !OUZEL_OPENGLES
         static GLenum getFillMode(FillMode fillMode)
         {
             switch (fillMode)
@@ -417,7 +420,7 @@ namespace ouzel
 
             glActiveTextureProc = getCoreProcAddress<PFNGLACTIVETEXTUREPROC>("glActiveTexture");
 
-#if OUZEL_SUPPORTS_OPENGLES
+#if OUZEL_OPENGLES
             glClearDepthfProc = getCoreProcAddress<PFNGLCLEARDEPTHFPROC>("glClearDepthf");
 #else
             glPolygonModeProc = getCoreProcAddress<PFNGLPOLYGONMODEPROC>("glPolygonMode");
@@ -452,7 +455,7 @@ namespace ouzel
             glDisableVertexAttribArrayProc = getCoreProcAddress<PFNGLDISABLEVERTEXATTRIBARRAYPROC>("glDisableVertexAttribArray");
             glVertexAttribPointerProc = getCoreProcAddress<PFNGLVERTEXATTRIBPOINTERPROC>("glVertexAttribPointer");
 
-#if OUZEL_SUPPORTS_OPENGLES
+#if OUZEL_OPENGLES
             glGenFramebuffersProc = getCoreProcAddress<PFNGLGENFRAMEBUFFERSPROC>("glGenFramebuffers");
             glDeleteFramebuffersProc = getCoreProcAddress<PFNGLDELETEFRAMEBUFFERSPROC>("glDeleteFramebuffers");
             glBindFramebufferProc = getCoreProcAddress<PFNGLBINDFRAMEBUFFERPROC>("glBindFramebuffer");
@@ -519,10 +522,11 @@ namespace ouzel
             textureBaseLevelSupported = false;
             textureMaxLevelSupported = false;
             renderTargetsSupported = false;
+            uintElementIndexSupported = false;
 
             if (apiMajorVersion >= 4)
             {
-#if !OUZEL_SUPPORTS_OPENGLES
+#if !OUZEL_OPENGLES
                 if ((apiMajorVersion == 4 && apiMinorVersion >= 6) || // at least OpenGL 4.6
                     apiMajorVersion > 4)
                     anisotropicFilteringSupported = true;
@@ -538,16 +542,17 @@ namespace ouzel
 
             if (apiMajorVersion >= 3)
             {
-#if OUZEL_SUPPORTS_OPENGLES
+#if OUZEL_OPENGLES
                 if ((apiMajorVersion == 3 && apiMinorVersion >= 1) || // at least OpenGL ES 3.1
                     apiMajorVersion > 3)
                     glTexStorage2DMultisampleProc = getExtProcAddress<PFNGLTEXSTORAGE2DMULTISAMPLEPROC>("glTexStorage2DMultisample");
 #endif
                 npotTexturesSupported = true;
+                renderTargetsSupported = true;
                 multisamplingSupported = true;
                 textureBaseLevelSupported = true;
                 textureMaxLevelSupported = true;
-                renderTargetsSupported = true;
+                uintElementIndexSupported = true;
 
                 glUniform1uivProc = getExtProcAddress<PFNGLUNIFORM1UIVPROC>("glUniform1uiv");
                 glUniform2uivProc = getExtProcAddress<PFNGLUNIFORM2UIVPROC>("glUniform2uiv");
@@ -591,7 +596,7 @@ namespace ouzel
                 glMapBufferRangeProc = getExtProcAddress<PFNGLMAPBUFFERRANGEPROC>("glMapBufferRange");
                 glRenderbufferStorageMultisampleProc = getExtProcAddress<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>("glRenderbufferStorageMultisample");
 
-#  if OUZEL_SUPPORTS_OPENGLES
+#  if OUZEL_OPENGLES
                 glFramebufferTexture2DMultisampleProc = getExtProcAddress<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>("glFramebufferTexture2DMultisample");
 #  endif
 #endif
@@ -599,10 +604,11 @@ namespace ouzel
 
             if (apiMajorVersion >= 2)
             {
-#if !OUZEL_SUPPORTS_OPENGLES
+#if !OUZEL_OPENGLES
+                renderTargetsSupported = true;
                 textureBaseLevelSupported = true;
                 textureMaxLevelSupported = true;
-                renderTargetsSupported = true;
+                uintElementIndexSupported = true;
 #endif
             }
 
@@ -620,13 +626,13 @@ namespace ouzel
                     anisotropicFilteringSupported = true;
                 else if (extension == "GL_EXT_map_buffer_range")
                 {
-#if OUZEL_SUPPORTS_OPENGLES
+#if OUZEL_OPENGLES
                     glMapBufferRangeProc = getExtProcAddress<PFNGLMAPBUFFERRANGEEXTPROC>("glMapBufferRangeEXT");
 #else
                     glMapBufferRangeProc = getExtProcAddress<PFNGLMAPBUFFERRANGEPROC>("glMapBufferRangeEXT");
 #endif
                 }
-#if OUZEL_SUPPORTS_OPENGLES // OpenGL ES
+#if OUZEL_OPENGLES // OpenGL ES
                 else if (extension == "GL_APPLE_framebuffer_multisample")
                 {
                     multisamplingSupported = true;
@@ -645,6 +651,8 @@ namespace ouzel
                     glMapBufferProc = getExtProcAddress<PFNGLMAPBUFFEROESPROC>("glMapBufferOES");
                     glUnmapBufferProc = getExtProcAddress<PFNGLUNMAPBUFFEROESPROC>("glUnmapBufferOES");
                 }
+                else if (extension == "OES_element_index_uint")
+                    uintElementIndexSupported = true;
 #  if !OUZEL_OPENGL_INTERFACE_EAGL
                 else if (extension == "GL_EXT_copy_image")
                     glCopyImageSubDataProc = getExtProcAddress<PFNGLCOPYIMAGESUBDATAEXTPROC>("glCopyImageSubDataEXT");
@@ -707,7 +715,7 @@ namespace ouzel
             if ((error = glGetErrorProc()) != GL_NO_ERROR)
                 throw std::system_error(makeErrorCode(error), "Failed to set depth function");
 
-#if !OUZEL_SUPPORTS_OPENGLES
+#if !OUZEL_OPENGLES
             if (sampleCount > 1)
             {
                 glEnableProc(GL_MULTISAMPLE);
@@ -957,7 +965,7 @@ namespace ouzel
 
                         case Command::Type::BLIT:
                         {
-#if !OUZEL_SUPPORTS_OPENGLES
+#if !OUZEL_OPENGLES
                             auto blitCommand = static_cast<const BlitCommand*>(command.get());
 
                             OGLTexture* sourceOGLTexture = static_cast<OGLTexture*>(resources[blitCommand->sourceTexture - 1].get());
@@ -996,7 +1004,7 @@ namespace ouzel
                         {
                             const SetFillModeCommad* setFillModeCommad = static_cast<const SetFillModeCommad*>(command.get());
 
-#if OUZEL_SUPPORTS_OPENGLES
+#if OUZEL_OPENGLES
                             if (setFillModeCommad->fillMode != FillMode::SOLID)
                                 engine->log(Log::Level::WARN) << "Unsupported fill mode";
 #else
