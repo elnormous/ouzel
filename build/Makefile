@@ -82,9 +82,6 @@ SOURCES=$(ROOT_DIR)/../ouzel/assets/BmfLoader.cpp \
 	$(ROOT_DIR)/../ouzel/core/Window.cpp \
 	$(ROOT_DIR)/../ouzel/events/EventDispatcher.cpp \
 	$(ROOT_DIR)/../ouzel/events/EventHandler.cpp \
-	$(ROOT_DIR)/../ouzel/files/Archive.cpp \
-	$(ROOT_DIR)/../ouzel/files/File.cpp \
-	$(ROOT_DIR)/../ouzel/files/FileSystem.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/empty/EmptyRenderDevice.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/OGLBlendState.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/OGLBuffer.cpp \
@@ -164,6 +161,9 @@ SOURCES=$(ROOT_DIR)/../ouzel/assets/BmfLoader.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Sprite.cpp \
 	$(ROOT_DIR)/../ouzel/scene/StaticMeshRenderer.cpp \
 	$(ROOT_DIR)/../ouzel/scene/TextRenderer.cpp \
+	$(ROOT_DIR)/../ouzel/storage/Archive.cpp \
+	$(ROOT_DIR)/../ouzel/storage/File.cpp \
+	$(ROOT_DIR)/../ouzel/storage/FileSystem.cpp \
 	$(ROOT_DIR)/../ouzel/utils/Log.cpp \
 	$(ROOT_DIR)/../ouzel/utils/Obf.cpp \
 	$(ROOT_DIR)/../ouzel/utils/Utils.cpp \

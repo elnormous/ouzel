@@ -7,7 +7,6 @@
 #include <memory>
 #include <string>
 #include "audio/Sound.hpp"
-#include "files/FileSystem.hpp"
 #include "graphics/BlendState.hpp"
 #include "graphics/DepthStencilState.hpp"
 #include "graphics/Material.hpp"
@@ -18,6 +17,7 @@
 #include "scene/StaticMeshRenderer.hpp"
 #include "scene/Sprite.hpp"
 #include "scene/ParticleSystem.hpp"
+#include "storage/FileSystem.hpp"
 
 namespace ouzel
 {
@@ -46,7 +46,7 @@ namespace ouzel
         {
             friend Cache;
         public:
-            Bundle(Cache& initCache, FileSystem& initFileSystem);
+            Bundle(Cache& initCache, storage::FileSystem& initFileSystem);
             ~Bundle();
 
             Bundle(const Bundle&) = delete;
@@ -110,7 +110,7 @@ namespace ouzel
 
         private:
             Cache& cache;
-            FileSystem& fileSystem;
+            storage::FileSystem& fileSystem;
 
             std::map<std::string, std::shared_ptr<graphics::Texture>> textures;
             std::map<std::string, std::shared_ptr<graphics::Shader>> shaders;
