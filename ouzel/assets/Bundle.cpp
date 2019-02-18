@@ -11,7 +11,7 @@ namespace ouzel
 {
     namespace assets
     {
-        Bundle::Bundle(Cache& initCache, FileSystem& initFileSystem):
+        Bundle::Bundle(Cache& initCache, storage::FileSystem& initFileSystem):
             cache(initCache), fileSystem(initFileSystem)
         {
             cache.addBundle(this);
@@ -140,7 +140,7 @@ namespace ouzel
                                       uint32_t spritesX, uint32_t spritesY,
                                       const Vector2F& pivot)
         {
-            std::string extension = FileSystem::getExtensionPart(filename);
+            std::string extension = storage::FileSystem::getExtensionPart(filename);
             std::transform(extension.begin(), extension.end(), extension.begin(), [](unsigned char c){ return std::tolower(c); });
             std::vector<std::string> imageExtensions = {"jpg", "jpeg", "png", "bmp", "tga"};
 
