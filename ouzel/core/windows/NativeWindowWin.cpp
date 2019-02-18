@@ -114,7 +114,7 @@ static ouzel::input::Keyboard::Key convertKeyCode(LPARAM lParam, WPARAM wParam)
                     case 0x1A: return ouzel::input::Keyboard::Key::LEFT_BRACKET;
                     case 0x1B: return ouzel::input::Keyboard::Key::RIGHT_BRACKET;
                     case 0x1C: return isExtended ? ouzel::input::Keyboard::Key::NUMPAD_ENTER : ouzel::input::Keyboard::Key::ENTER;
-                    case 0x1D: return isExtended ? ouzel::input::Keyboard::Key::RIGHT_CONTROL ouzel::input::Keyboard::Key::LEFT_CONTROL;
+                    case 0x1D: return isExtended ? ouzel::input::Keyboard::Key::RIGHT_CONTROL : ouzel::input::Keyboard::Key::LEFT_CONTROL;
                     case 0x1E: return ouzel::input::Keyboard::Key::A;
                     case 0x1F: return ouzel::input::Keyboard::Key::S;
                     case 0x20: return ouzel::input::Keyboard::Key::D;
