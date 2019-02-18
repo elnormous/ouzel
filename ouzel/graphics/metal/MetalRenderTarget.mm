@@ -13,8 +13,12 @@ namespace ouzel
 {
     namespace graphics
     {
-        MetalRenderTarget::MetalRenderTarget(MetalRenderDevice& renderDeviceMetal):
+        MetalRenderTarget::MetalRenderTarget(MetalRenderDevice& renderDeviceMetal,
+                                             const std::set<MetalTexture*>& initColorTextures,
+                                             MetalTexture* initDepthTexture):
             MetalRenderResource(renderDeviceMetal),
+            colorTextures(initColorTextures),
+            depthTexture(initDepthTexture),
             depthFormat(MTLPixelFormatInvalid),
             stencilFormat(MTLPixelFormatInvalid)
         {
@@ -22,68 +26,37 @@ namespace ouzel
 
             if (!renderPassDescriptor)
                 throw std::runtime_error("Failed to create Metal render pass descriptor");
+
+            for (MetalTexture* colorTexture : colorTextures)
+            {
+                if (colorTexture)
+                {
+                    size_t index = colorTextures.size() - 1;
+                    renderPassDescriptor.colorAttachments[index].storeAction = (colorTexture->getSampleCount() > 1) ? MTLStoreActionMultisampleResolve : MTLStoreActionStore;
+                    renderPassDescriptor.colorAttachments[index].texture = colorTexture->getTexture();
+
+                    colorFormats.push_back(colorTexture->getPixelFormat());
+
+                    sampleCount = colorTexture->getSampleCount();
+                }
+            }
+
+            if (depthTexture)
+            {
+                renderPassDescriptor.depthAttachment.storeAction = (depthTexture->getSampleCount() > 1) ? MTLStoreActionMultisampleResolve : MTLStoreActionStore;
+                renderPassDescriptor.depthAttachment.texture = depthTexture->getTexture();
+                depthFormat = depthTexture->getPixelFormat();
+                stencilFormat = depthTexture->getStencilBuffer() ? depthTexture->getPixelFormat() : MTLPixelFormatInvalid;
+                sampleCount = depthTexture->getSampleCount();
+            }
+            else
+                depthFormat = MTLPixelFormatInvalid;
         }
 
         MetalRenderTarget::~MetalRenderTarget()
         {
             if (renderPassDescriptor)
                 [renderPassDescriptor release];
-        }
-
-        void MetalRenderTarget::addColorTexture(MetalTexture* texture)
-        {
-            if (texture && colorTextures.insert(texture).second)
-            {
-                size_t index = colorTextures.size() - 1;
-                renderPassDescriptor.colorAttachments[index].storeAction = (texture->getSampleCount() > 1) ? MTLStoreActionMultisampleResolve : MTLStoreActionStore;
-                renderPassDescriptor.colorAttachments[index].texture = texture->getTexture();
-
-                colorFormats.push_back(texture->getPixelFormat());
-
-                sampleCount = texture->getSampleCount();
-            }
-        }
-
-        void MetalRenderTarget::removeColorTexture(MetalTexture* texture)
-        {
-            auto i = colorTextures.find(texture);
-
-            if (i != colorTextures.end())
-            {
-                colorTextures.erase(i);
-
-                colorFormats.clear();
-
-                size_t index = 0;
-                for (MetalTexture* colorTexture : colorTextures)
-                {
-                    renderPassDescriptor.colorAttachments[index].storeAction = (colorTexture->getSampleCount() > 1) ? MTLStoreActionMultisampleResolve : MTLStoreActionStore;
-                    renderPassDescriptor.colorAttachments[index].texture = colorTexture->getTexture();
-
-                    colorFormats.push_back(colorTexture->getPixelFormat());
-
-                    ++index;
-                }
-
-                renderPassDescriptor.colorAttachments[index].storeAction = MTLStoreActionDontCare;
-                renderPassDescriptor.colorAttachments[index].texture = nil;
-            }
-        }
-
-        void MetalRenderTarget::setDepthTexture(MetalTexture* texture)
-        {
-            depthTexture = texture;
-
-            if (texture)
-            {
-                renderPassDescriptor.depthAttachment.storeAction = (texture->getSampleCount() > 1) ? MTLStoreActionMultisampleResolve : MTLStoreActionStore;
-                renderPassDescriptor.depthAttachment.texture = texture->getTexture();
-                depthFormat = texture->getPixelFormat();
-                stencilFormat = texture->getStencilBuffer() ? texture->getPixelFormat() : MTLPixelFormatInvalid;
-                sampleCount = texture->getSampleCount();
-            }
-            else
-                depthFormat = MTLPixelFormatInvalid;
         }
     } // namespace graphics
 } // namespace ouzel

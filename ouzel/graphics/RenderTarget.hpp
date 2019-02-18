@@ -22,18 +22,16 @@ namespace ouzel
             {
             }
 
-            explicit RenderTarget(Renderer& initRenderer);
+            explicit RenderTarget(Renderer& initRenderer,
+                                  const std::vector<Texture*>& initColorTextures,
+                                  Texture* initDepthTexture);
 
             RenderTarget(const RenderTarget&) = delete;
             RenderTarget& operator=(const RenderTarget&) = delete;
 
             inline uintptr_t getResource() const { return resource.getId(); }
 
-            void addColorTexture(Texture* texture);
-            void removeColorTexture(Texture* texture);
             inline const std::vector<Texture*>& getColorTextures() const { return colorTextures; }
-
-            void setDepthTexture(Texture* texture);
             inline Texture* getDepthTexture() const { return depthTexture; }
 
         private:

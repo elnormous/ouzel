@@ -37,12 +37,10 @@ namespace ouzel
         class MetalRenderTarget final: public MetalRenderResource
         {
         public:
-            explicit MetalRenderTarget(MetalRenderDevice& renderDeviceMetal);
+            explicit MetalRenderTarget(MetalRenderDevice& renderDeviceMetal,
+                                       const std::set<MetalTexture*>& initColorTextures,
+                                       MetalTexture* initDepthTexture);
             ~MetalRenderTarget();
-
-            void addColorTexture(MetalTexture* texture);
-            void removeColorTexture(MetalTexture* texture);
-            void setDepthTexture(MetalTexture* texture);
 
             const std::set<MetalTexture*>& getColorTextures() const { return colorTextures; }
             MetalTexture* getDepthTexture() const { return depthTexture; }
