@@ -332,8 +332,8 @@ namespace ouzel
                                newStencil,
                                newDebugRenderer);
 
-            frameBufferWidth = static_cast<GLsizei>(size.v[0]);
-            frameBufferHeight = static_cast<GLsizei>(size.v[1]);
+            frameBufferWidth = static_cast<GLsizei>(newSize.v[0]);
+            frameBufferHeight = static_cast<GLsizei>(newSize.v[1]);
 
             glGetStringProc = getCoreProcAddress<PFNGLGETSTRINGPROC>("glGetString");
             glGetIntegervProc = getCoreProcAddress<PFNGLGETINTEGERVPROC>("glGetIntegerv");
@@ -730,12 +730,8 @@ namespace ouzel
             setFrontFace(GL_CW);
         }
 
-        void OGLRenderDevice::setSize(const Size2<uint32_t>& newSize)
+        void OGLRenderDevice::resizeFrameBuffer()
         {
-            RenderDevice::setSize(newSize);
-
-            frameBufferWidth = static_cast<GLsizei>(size.v[0]);
-            frameBufferHeight = static_cast<GLsizei>(size.v[1]);
         }
 
         void OGLRenderDevice::setUniform(GLint location, DataType dataType, const void* data)
@@ -819,6 +815,15 @@ namespace ouzel
 
                     switch (command->type)
                     {
+                        case Command::Type::RESIZE:
+                        {
+                            auto resizeCommand = static_cast<const ResizeCommand*>(command.get());
+                            frameBufferWidth = static_cast<GLsizei>(resizeCommand->size.v[0]);
+                            frameBufferHeight = static_cast<GLsizei>(resizeCommand->size.v[1]);
+                            resizeFrameBuffer();
+                            break;
+                        }
+
                         case Command::Type::PRESENT:
                         {
                             present();
@@ -916,7 +921,7 @@ namespace ouzel
                                     setClearDepthValue(clearCommand->clearDepth);
                                     glDepthMaskProc(GL_TRUE);
                                 }
-                                
+
                                 if (clearCommand->clearStencilBuffer)
                                 {
                                     setClearStencilValue(static_cast<GLint>(clearCommand->clearStencil));

@@ -16,8 +16,10 @@ namespace ouzel
 
         void step();
 
-        void executeOnMainThread(const std::function<void()>& func) override;
         void openURL(const std::string& url) override;
+
+    private:
+        void runOnMainThread(const std::function<void()>& func) override;
     };
 }
 

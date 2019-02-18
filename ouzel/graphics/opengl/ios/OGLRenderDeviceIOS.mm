@@ -89,7 +89,7 @@ namespace ouzel
 
                 if (!context)
                     throw std::runtime_error("Failed to create EAGL context");
-                
+
                 apiMajorVersion = 2;
                 apiMinorVersion = 0;
                 engine->log(Log::Level::INFO) << "EAGL OpenGL ES 2 context created";
@@ -113,10 +113,8 @@ namespace ouzel
             displayLink.start(verticalSync);
         }
 
-        void OGLRenderDeviceIOS::setSize(const Size2<uint32_t>& newSize)
+        void OGLRenderDeviceIOS::resizeFrameBuffer()
         {
-            OGLRenderDevice::setSize(newSize);
-
             createFrameBuffer();
         }
 

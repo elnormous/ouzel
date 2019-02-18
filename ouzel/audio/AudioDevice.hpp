@@ -3,10 +3,10 @@
 #ifndef OUZEL_AUDIO_AUDIODEVICE_HPP
 #define OUZEL_AUDIO_AUDIODEVICE_HPP
 
+#include <functional>
 #include <vector>
 #include "audio/Driver.hpp"
 #include "audio/SampleFormat.hpp"
-#include "audio/mixer/Mixer.hpp"
 
 namespace ouzel
 {
@@ -15,7 +15,8 @@ namespace ouzel
         class AudioDevice
         {
         public:
-            AudioDevice(Driver initDriver, mixer::Mixer& initMixer);
+            AudioDevice(Driver initDriver,
+                        const std::function<void(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)>& initDataGetter);
             virtual ~AudioDevice();
 
             AudioDevice(const AudioDevice&) = delete;
@@ -23,10 +24,10 @@ namespace ouzel
             AudioDevice(AudioDevice&&) = delete;
             AudioDevice& operator=(AudioDevice&&) = delete;
 
+            inline Driver getDriver() const { return driver; }
+
             inline uint16_t getAPIMajorVersion() const { return apiMajorVersion; }
             inline uint16_t getAPIMinorVersion() const { return apiMinorVersion; }
-
-            virtual void process();
 
         protected:
             void getData(uint32_t frames, std::vector<uint8_t>& result);
@@ -40,10 +41,9 @@ namespace ouzel
             uint16_t channels = 2;
 
         private:
-            std::vector<float> buffer;
-
             Driver driver;
-            mixer::Mixer& mixer;
+            std::function<void(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)> dataGetter;
+            std::vector<float> buffer;
         };
     } // namespace audio
 } // namespace ouzel

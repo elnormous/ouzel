@@ -203,14 +203,6 @@ namespace ouzel
             [depthStencilDescriptor release];
         }
 
-        void MetalRenderDevice::setSize(const Size2<uint32_t>& newSize)
-        {
-            RenderDevice::setSize(newSize);
-
-            CGSize drawableSize = CGSizeMake(size.v[0], size.v[1]);
-            metalLayer.drawableSize = drawableSize;
-        }
-
         void MetalRenderDevice::process()
         {
             RenderDevice::process();
@@ -330,6 +322,15 @@ namespace ouzel
 
                     switch (command->type)
                     {
+                        case Command::Type::RESIZE:
+                        {
+                            auto resizeCommand = static_cast<const ResizeCommand*>(command.get());
+                            CGSize drawableSize = CGSizeMake(resizeCommand->size.v[0],
+                                                             resizeCommand->size.v[1]);
+                            metalLayer.drawableSize = drawableSize;
+                            break;
+                        }
+
                         case Command::Type::PRESENT:
                         {
                             if (currentRenderCommandEncoder)

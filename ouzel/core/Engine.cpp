@@ -108,8 +108,6 @@ namespace ouzel
             updateThread.join();
         }
 #endif
-
-        engine = nullptr;
     }
 
     void Engine::init()
@@ -624,6 +622,11 @@ namespace ouzel
             sceneManager.draw();
 
         if (oneUpdatePerFrame) renderer->waitForNextFrame();
+    }
+
+    void Engine::executeOnMainThread(const std::function<void()>& func)
+    {
+        if (active) runOnMainThread(func);
     }
 
     void Engine::main()

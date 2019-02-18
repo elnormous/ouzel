@@ -53,6 +53,7 @@ namespace ouzel
             Mix& getMasterMix() { return masterMix; }
 
         private:
+            void getData(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples);
             void eventCallback(const mixer::Mixer::Event& event);
 
             mixer::Mixer mixer;

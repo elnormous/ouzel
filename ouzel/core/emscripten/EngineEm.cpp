@@ -4,6 +4,7 @@
 #include <emscripten.h>
 #include "EngineEm.hpp"
 #include "audio/AudioDevice.hpp"
+#include "audio/openal/OALAudioDevice.hpp"
 #include "graphics/RenderDevice.hpp"
 #include "input/emscripten/InputSystemEm.hpp"
 #include "utils/Log.hpp"
@@ -63,13 +64,17 @@ namespace ouzel
                 log(Log::Level::ERR) << e.what();
             }
 
-            try
+            if (audio->getDevice()->getDriver() == audio::Driver::OPENAL)
             {
-                audio->getDevice()->process();
-            }
-            catch (const std::exception& e)
-            {
-                log(Log::Level::ERR) << e.what();
+                audio::OALAudioDevice* audioDevice = static_cast<audio::OALAudioDevice*>(audio->getDevice());
+                try
+                {
+                    audioDevice->process();
+                }
+                catch (const std::exception& e)
+                {
+                    log(Log::Level::ERR) << e.what();
+                }
             }
 
             try
@@ -85,7 +90,7 @@ namespace ouzel
             emscripten_cancel_main_loop();
     }
 
-    void EngineEm::executeOnMainThread(const std::function<void()>& func)
+    void EngineEm::runOnMainThread(const std::function<void()>& func)
     {
         if (func) func();
     }

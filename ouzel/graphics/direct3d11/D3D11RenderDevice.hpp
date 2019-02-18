@@ -78,8 +78,6 @@ namespace ouzel
                       bool newStencil,
                       bool newDebugRenderer) override;
 
-            virtual void setSize(const Size2<uint32_t>& newSize);
-
             void process() override;
             void resizeBackBuffer(UINT newWidth, UINT newHeight);
             void uploadBuffer(ID3D11Buffer* buffer, const void* data, uint32_t dataSize);

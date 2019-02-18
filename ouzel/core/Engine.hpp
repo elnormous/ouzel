@@ -84,7 +84,7 @@ namespace ouzel
 
         void update();
 
-        virtual void executeOnMainThread(const std::function<void()>& func) = 0;
+        void executeOnMainThread(const std::function<void()>& func);
 
         virtual void openURL(const std::string& url);
 
@@ -95,7 +95,23 @@ namespace ouzel
         void setOneUpdatePerFrame(bool value) { oneUpdatePerFrame = value; }
 
     protected:
+        class Command
+        {
+        public:
+            enum class Type
+            {
+                EXECUTE,
+                OPEN_URL,
+                SET_SCREENSAVER_ENABLED
+            };
+
+            std::function<void()> func;
+            std::string url;
+            bool enabled = false;
+        };
+
         virtual void main();
+        virtual void runOnMainThread(const std::function<void()>& func) = 0;
 
         Logger logger;
         FileSystem fileSystem;

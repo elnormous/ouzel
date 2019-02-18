@@ -91,19 +91,9 @@ namespace ouzel
         for (int i = 0; i < argc; ++i)
             args.push_back(argv[i]);
 
-        executeHanlder = [[ExecuteHandler alloc] initWithEngine:this];
-    }
+        pool = [[NSAutoreleasePool alloc] init];
 
-    EngineMacOS::~EngineMacOS()
-    {
-        if (executeHanlder) [executeHanlder release];
-    }
-
-    void EngineMacOS::run()
-    {
-        NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-
-        NSApplication* application = [NSApplication sharedApplication];
+        application = [NSApplication sharedApplication];
         [application activateIgnoringOtherApps:YES];
         [application setDelegate:[[[AppDelegate alloc] init] autorelease]];
 
@@ -121,12 +111,21 @@ namespace ouzel
 
         application.mainMenu = mainMenu;
 
-        [application run];
-
-        [pool release];
+        executeHanlder = [[ExecuteHandler alloc] initWithEngine:this];
     }
 
-    void EngineMacOS::executeOnMainThread(const std::function<void()>& func)
+    EngineMacOS::~EngineMacOS()
+    {
+        if (executeHanlder) [executeHanlder release];
+        if (pool) [pool release];
+    }
+
+    void EngineMacOS::run()
+    {
+        [application run];
+    }
+
+    void EngineMacOS::runOnMainThread(const std::function<void()>& func)
     {
         std::unique_lock<std::mutex> lock(executeMutex);
         executeQueue.push(func);

@@ -91,22 +91,22 @@ namespace ouzel
         for (int i = 0; i < initArgc; ++i)
             args.push_back(initArgv[i]);
 
+        pool = [[NSAutoreleasePool alloc] init];
         executeHanlder = [[ExecuteHandler alloc] initWithEngine:this];
     }
 
     EngineTVOS::~EngineTVOS()
     {
         if (executeHanlder) [executeHanlder release];
+        if (pool) [pool release];
     }
 
     void EngineTVOS::run()
     {
-        NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
         UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
-        [pool release];
     }
 
-    void EngineTVOS::executeOnMainThread(const std::function<void()>& func)
+    void EngineTVOS::runOnMainThread(const std::function<void()>& func)
     {
         std::unique_lock<std::mutex> lock(executeMutex);
         executeQueue.push(func);

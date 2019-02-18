@@ -73,8 +73,9 @@ namespace ouzel
 
         const DirectSoundErrorCategory directSoundErrorCategory {};
 
-        DSAudioDevice::DSAudioDevice(mixer::Mixer& initMixer, Window* window):
-            AudioDevice(Driver::DIRECTSOUND, initMixer)
+        DSAudioDevice::DSAudioDevice(const std::function<void(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)>& initDataGetter,
+                                     Window* window):
+            AudioDevice(Driver::DIRECTSOUND, initDataGetter)
         {
             HRESULT hr;
             if (FAILED(hr = DirectSoundEnumerateW(enumCallback, this)))
@@ -222,8 +223,6 @@ namespace ouzel
                     if (result == WAIT_OBJECT_0)
                     {
                         if (!running) break;
-
-                        process();
 
                         uint8_t* bufferPointer;
                         DWORD lockedBufferSize;

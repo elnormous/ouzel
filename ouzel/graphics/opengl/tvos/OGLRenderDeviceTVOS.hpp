@@ -48,7 +48,7 @@ namespace ouzel
                       bool newStencil,
                       bool newDebugRenderer) override;
 
-            void setSize(const Size2<uint32_t>& newSize) override;
+            void resizeFrameBuffer() override;
             void present() override;
 
             void createFrameBuffer();

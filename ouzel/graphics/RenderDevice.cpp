@@ -21,7 +21,7 @@ namespace ouzel
         }
 
         void RenderDevice::init(Window* newWindow,
-                                const Size2<uint32_t>& newSize,
+                                const Size2<uint32_t>&,
                                 uint32_t newSampleCount,
                                 Texture::Filter newTextureFilter,
                                 uint32_t newMaxAnisotropy,
@@ -31,7 +31,6 @@ namespace ouzel
                                 bool newDebugRenderer)
         {
             window = newWindow;
-            size = newSize;
             sampleCount = newSampleCount;
             textureFilter = newTextureFilter;
             maxAnisotropy = newMaxAnisotropy;
@@ -67,11 +66,6 @@ namespace ouzel
                 accumulatedTime = 0.0F;
                 currentAccumulatedFPS = 0.0F;
             }
-        }
-
-        void RenderDevice::setSize(const Size2<uint32_t>& newSize)
-        {
-            size = newSize;
         }
 
         std::vector<Size2<uint32_t>> RenderDevice::getSupportedResolutions() const

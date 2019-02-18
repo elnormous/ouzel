@@ -447,15 +447,16 @@ namespace ouzel
     {
         if (highDpi)
         {
-            HMODULE shcore = LoadLibraryW(L"shcore.dll");
+            HMODULE shcoreModule = LoadLibraryW(L"shcore.dll");
 
-            if (shcore)
+            if (shcoreModule)
             {
                 typedef HRESULT(STDAPICALLTYPE *SetProcessDpiAwarenessProc)(int value);
-                SetProcessDpiAwarenessProc setProcessDpiAwareness = reinterpret_cast<SetProcessDpiAwarenessProc>(GetProcAddress(shcore, "SetProcessDpiAwareness"));
+                SetProcessDpiAwarenessProc setProcessDpiAwarenessProc = reinterpret_cast<SetProcessDpiAwarenessProc>(GetProcAddress(shcoreModule, "SetProcessDpiAwareness"));
 
-                if (setProcessDpiAwareness)
-                    setProcessDpiAwareness(2); // PROCESS_PER_MONITOR_DPI_AWARE
+                static constexpr int PROCESS_PER_MONITOR_DPI_AWARE = 2;
+                if (setProcessDpiAwarenessProc)
+                    setProcessDpiAwarenessProc(PROCESS_PER_MONITOR_DPI_AWARE);
             }
         }
 
@@ -533,7 +534,10 @@ namespace ouzel
         if (!RegisterTouchWindow(window, 0))
             engine->log(Log::Level::WARN) << "Failed to enable touch for window";
 
-        ShowWindow(window, SW_SHOW);
+        if (!ShowWindow(window, SW_SHOW))
+            throw std::runtime_error("Failed to show window");
+
+        SetLastError(ERROR_SUCCESS);
 
         if (!SetWindowLongPtr(window, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this)))
             if (DWORD error = GetLastError())
@@ -653,7 +657,8 @@ namespace ouzel
 
                 MONITORINFO info;
                 info.cbSize = sizeof(MONITORINFO);
-                GetMonitorInfo(monitor, &info);
+                if (!GetMonitorInfo(monitor, &info))
+                    throw std::runtime_error("Failed to get monitor info");
 
                 if (!SetWindowPos(window, nullptr, info.rcMonitor.left, info.rcMonitor.top,
                                   info.rcMonitor.right - info.rcMonitor.left,
@@ -836,22 +841,16 @@ namespace ouzel
             position.v[1] = static_cast<float>(touch.y / 100);
 
             if (touch.dwFlags & TOUCHEVENTF_DOWN)
-            {
                 touchpadDevice->handleTouchBegin(touch.dwID,
                                                  engine->getWindow()->convertWindowToNormalizedLocation(position));
-            }
 
             if (touch.dwFlags & TOUCHEVENTF_UP)
-            {
                 touchpadDevice->handleTouchEnd(touch.dwID,
                                                engine->getWindow()->convertWindowToNormalizedLocation(position));
-            }
 
             if (touch.dwFlags & TOUCHEVENTF_MOVE)
-            {
                 touchpadDevice->handleTouchMove(touch.dwID,
                                                 engine->getWindow()->convertWindowToNormalizedLocation(position));
-            }
         }
 
         if (!CloseTouchInputHandle(reinterpret_cast<HTOUCHINPUT>(lParam)))

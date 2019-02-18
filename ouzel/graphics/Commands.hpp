@@ -24,6 +24,7 @@ namespace ouzel
         public:
             enum Type
             {
+                RESIZE,
                 PRESENT,
                 DELETE_RESOURCE,
                 INIT_RENDER_TARGET,
@@ -63,6 +64,17 @@ namespace ouzel
             virtual ~Command() {}
 
             const Type type;
+        };
+
+        class ResizeCommand: public Command
+        {
+        public:
+            ResizeCommand(const Size2<uint32_t>& initSize):
+                Command(Command::Type::RESIZE),
+                size(initSize)
+            {}
+
+            Size2<uint32_t> size;
         };
 
         class PresentCommand: public Command
