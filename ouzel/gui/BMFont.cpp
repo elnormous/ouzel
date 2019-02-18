@@ -358,9 +358,7 @@ namespace ouzel
                                     float fontSize,
                                     const Vector2F& anchor)
     {
-
         RenderData result;
-
         Vector2F position;
 
         std::vector<uint32_t> utf32Text = utf8::toUtf32(text);
