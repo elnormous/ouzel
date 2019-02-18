@@ -12,7 +12,7 @@ namespace ouzel
     {
         class OscillatorData;
 
-        class OscillatorSource: public mixer::Stream
+        class OscillatorSource final: public mixer::Stream
         {
         public:
             OscillatorSource(OscillatorData& oscillatorData);
@@ -28,7 +28,7 @@ namespace ouzel
             uint32_t position = 0;
         };
 
-        class OscillatorData: public mixer::Source
+        class OscillatorData final: public mixer::Source
         {
         public:
             OscillatorData(float initFrequency, OscillatorSound::Type initType, float initAmplitude, float initLength):

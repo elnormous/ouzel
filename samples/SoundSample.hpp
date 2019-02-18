@@ -31,6 +31,7 @@ private:
     ouzel::audio::Submix jumpSubmix;
     ouzel::audio::Voice jumpVoice;
     ouzel::audio::Panner jumpPanner;
+    ouzel::audio::Reverb jumpReverb;
 
     ouzel::audio::Voice ambientVoice;
     ouzel::audio::Voice music;

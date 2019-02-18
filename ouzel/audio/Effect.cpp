@@ -1,6 +1,6 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
-#include "Filter.hpp"
+#include "Effect.hpp"
 #include "Audio.hpp"
 #include "Submix.hpp"
 
@@ -8,16 +8,16 @@ namespace ouzel
 {
     namespace audio
     {
-        Filter::Filter(Audio& initAudio,
+        Effect::Effect(Audio& initAudio,
                        uintptr_t initProcessorId):
             audio(initAudio),
             processorId(initProcessorId)
         {
         }
 
-        Filter::~Filter()
+        Effect::~Effect()
         {
-            if (mix) mix->removeFilter(this);
+            if (mix) mix->removeEffect(this);
             if (processorId) audio.deleteObject(processorId);
         }
     } // namespace audio

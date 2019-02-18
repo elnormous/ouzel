@@ -12,7 +12,7 @@
 
 namespace ouzel
 {
-    class JNIErrorCategory: public std::error_category
+    class JNIErrorCategory final: public std::error_category
     {
     public:
         const char* name() const noexcept override

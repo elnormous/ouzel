@@ -71,7 +71,7 @@ PerspectiveSample::PerspectiveSample():
 
     jumpSubmix.setOutput(&submix);
     jumpVoice.setOutput(&jumpSubmix);
-    jumpSubmix.addFilter(&jumpPanner);
+    jumpSubmix.addEffect(&jumpPanner);
     jumpPanner.setRolloffFactor(0.01F);
     character.addComponent(&jumpPanner);
 

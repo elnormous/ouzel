@@ -30,7 +30,7 @@ namespace ouzel
 {
     namespace audio
     {
-        class ALCErrorCategory: public std::error_category
+        class ALCErrorCategory final: public std::error_category
         {
         public:
             const char* name() const noexcept override
@@ -54,7 +54,7 @@ namespace ouzel
 
         const ALCErrorCategory alcErrorCategory {};
 
-        class OpenALErrorCategory: public std::error_category
+        class OpenALErrorCategory final: public std::error_category
         {
         public:
             const char* name() const noexcept override

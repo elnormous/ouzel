@@ -16,7 +16,7 @@ namespace ouzel
 #if defined(__ARM_NEON__)
 #  if defined(__ANDROID__) && defined(__arm__)
     // NEON support must be checked at runtime on 32-bit Android
-    class AnrdoidNeonChecker
+    class AnrdoidNeonChecker final
     {
     public:
         AnrdoidNeonChecker()

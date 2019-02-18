@@ -1,7 +1,7 @@
 // Copyright 2015-2018 Elviss Strazdins. All rights reserved.
 
 #include <cmath>
-#include "Filters.hpp"
+#include "Effects.hpp"
 #include "Audio.hpp"
 #include "scene/Actor.hpp"
 #include "math/MathUtils.hpp"
@@ -25,8 +25,8 @@ namespace ouzel
         };
 
         Delay::Delay(Audio& initAudio):
-            Filter(initAudio,
-            initAudio.initProcessor(std::unique_ptr<mixer::Processor>(new DelayProcessor())))
+            Effect(initAudio,
+                   initAudio.initProcessor(std::unique_ptr<mixer::Processor>(new DelayProcessor())))
         {
         }
 
@@ -65,8 +65,8 @@ namespace ouzel
         };
 
         Gain::Gain(Audio& initAudio):
-            Filter(initAudio,
-            initAudio.initProcessor(std::unique_ptr<mixer::Processor>(new GainProcessor())))
+            Effect(initAudio,
+                   initAudio.initProcessor(std::unique_ptr<mixer::Processor>(new GainProcessor())))
         {
         }
 
@@ -124,7 +124,7 @@ namespace ouzel
         };
 
         Panner::Panner(Audio& initAudio):
-            Filter(initAudio,
+            Effect(initAudio,
                    initAudio.initProcessor(std::unique_ptr<mixer::Processor>(new PannerProcessor()))),
             scene::Component(scene::Component::SOUND)
         {
@@ -220,7 +220,7 @@ namespace ouzel
         };
 
         Pitch::Pitch(Audio& initAudio, float initPitch):
-            Filter(initAudio,
+            Effect(initAudio,
                    initAudio.initProcessor(std::unique_ptr<mixer::Processor>(new PitchProcessor(initPitch)))),
             pitch(initPitch)
         {
@@ -243,19 +243,43 @@ namespace ouzel
         class ReverbProcessor final: public mixer::Processor
         {
         public:
-            ReverbProcessor()
+            ReverbProcessor(float initDelay, float initDecay):
+                delay(initDelay), decay(initDecay)
             {
             }
 
             void process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
                          std::vector<float>& samples) override
             {
+                uint32_t delaySamples = static_cast<uint32_t>(delay * sampleRate);
+
+                if (buffer.size() < (frames + delaySamples) * channels)
+                    buffer.resize((frames + delaySamples) * channels);
+
+                for (uint32_t frame = 0; frame < frames; ++frame)
+                    for (uint16_t channel = 0; channel < channels; ++channel)
+                        buffer[frame * channels + channel] += samples[frame * channels + channel];
+
+                for (uint32_t frame = 0; frame < frames; ++frame)
+                    for (uint16_t channel = 0; channel < channels; ++channel)
+                        buffer[(frame + delaySamples) * channels + channel] += buffer[frame * channels + channel] * decay;
+
+                for (uint32_t frame = 0; frame < frames; ++frame)
+                    for (uint16_t channel = 0; channel < channels; ++channel)
+                        samples[frame * channels + channel] = buffer[frame * channels + channel];
+
+                buffer.erase(buffer.begin(), buffer.begin() + frames * channels);
             }
+
+        private:
+            std::vector<float> buffer;
+            float delay = 0.1F;
+            float decay = 0.5F;
         };
 
-        Reverb::Reverb(Audio& initAudio):
-            Filter(initAudio,
-            initAudio.initProcessor(std::unique_ptr<mixer::Processor>(new ReverbProcessor())))
+        Reverb::Reverb(Audio& initAudio, float initDelay, float initDecay):
+            Effect(initAudio,
+                   initAudio.initProcessor(std::unique_ptr<mixer::Processor>(new ReverbProcessor(initDelay, initDecay))))
         {
         }
 

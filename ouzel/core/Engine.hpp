@@ -95,7 +95,7 @@ namespace ouzel
         void setOneUpdatePerFrame(bool value) { oneUpdatePerFrame = value; }
 
     protected:
-        class Command
+        class Command final
         {
         public:
             enum class Type

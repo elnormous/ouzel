@@ -11,7 +11,7 @@ namespace ouzel
     namespace audio
     {
         class Audio;
-        class Filter;
+        class Effect;
         class Listener;
         class Submix;
         class Voice;
@@ -32,8 +32,8 @@ namespace ouzel
 
             uintptr_t getBusId() const { return busId; }
 
-            void addFilter(Filter* filter);
-            void removeFilter(Filter* filter);
+            void addEffect(Effect* effect);
+            void removeEffect(Effect* effect);
 
         protected:
             void addInput(Submix* submix);
@@ -47,7 +47,7 @@ namespace ouzel
             uintptr_t busId;
             std::vector<Submix*> inputSubmixes;
             std::vector<Voice*> inputVoices;
-            std::vector<Filter*> filters;
+            std::vector<Effect*> effects;
             std::vector<Listener*> listeners;
         };
     } // namespace audio

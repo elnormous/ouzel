@@ -21,7 +21,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        class Direct3D11ErrorCategory: public std::error_category
+        class Direct3D11ErrorCategory final: public std::error_category
         {
         public:
             const char* name() const noexcept override

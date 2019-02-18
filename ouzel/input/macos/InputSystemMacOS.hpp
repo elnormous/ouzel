@@ -30,7 +30,7 @@ namespace ouzel
 {
     namespace input
     {
-        class IOKitErrorCategory: public std::error_category
+        class IOKitErrorCategory final: public std::error_category
         {
         public:
             const char* name() const noexcept override

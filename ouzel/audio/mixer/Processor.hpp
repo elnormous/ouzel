@@ -30,8 +30,11 @@ namespace ouzel
                 virtual void process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
                                      std::vector<float>& samples) = 0;
 
+                bool isEnabled() const { return enabled; }
+
             private:
                 Bus* bus = nullptr;
+                bool enabled = true;
             };
         }
     } // namespace audio

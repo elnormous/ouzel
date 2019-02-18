@@ -16,7 +16,7 @@ namespace ouzel
         class Vertex final
         {
         public:
-            class Attribute
+            class Attribute final
             {
             public:
                 enum class Usage

@@ -20,7 +20,7 @@ namespace ouzel
 {
     namespace audio
     {
-        class XAudio2ErrorCategory: public std::error_category
+        class XAudio2ErrorCategory final: public std::error_category
         {
         public:
             const char* name() const noexcept override

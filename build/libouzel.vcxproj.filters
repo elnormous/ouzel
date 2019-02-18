@@ -433,10 +433,10 @@
     <ClCompile Include="..\ouzel\graphics\direct3d11\D3D11DepthStencilState.cpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\Filter.cpp">
+    <ClCompile Include="..\ouzel\audio\Effect.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\Filters.cpp">
+    <ClCompile Include="..\ouzel\audio\Effects.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\core\System.cpp">
@@ -1002,10 +1002,10 @@
     <ClInclude Include="..\ouzel\graphics\Driver.hpp">
       <Filter>ouzel\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\Filter.hpp">
+    <ClInclude Include="..\ouzel\audio\Effect.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\Filters.hpp">
+    <ClInclude Include="..\ouzel\audio\Effects.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\core\System.hpp">

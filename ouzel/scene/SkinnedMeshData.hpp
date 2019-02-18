@@ -10,7 +10,7 @@ namespace ouzel
 {
     namespace scene
     {
-        class SkinnedMeshData
+        class SkinnedMeshData final
         {
         public:
             struct Bone final
