@@ -247,7 +247,6 @@
 		303B04C41E207B7800011CBE /* OpenGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 303B04C01E207B7800011CBE /* OpenGLView.m */; };
 		303B04C51E207B7800011CBE /* OGLRenderDeviceTVOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303B04C11E207B7800011CBE /* OGLRenderDeviceTVOS.hpp */; };
 		303B04C61E207B7800011CBE /* OGLRenderDeviceTVOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303B04C21E207B7800011CBE /* OGLRenderDeviceTVOS.mm */; };
-		303B74E41C277CEE00FEDE92 /* ImageData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B74E11C277A7500FEDE92 /* ImageData.cpp */; };
 		303B75001C28208800FEDE92 /* FileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B74FE1C28208800FEDE92 /* FileSystem.cpp */; };
 		303B75011C28208800FEDE92 /* FileSystem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303B74FF1C28208800FEDE92 /* FileSystem.hpp */; };
 		303B75371C2A3C8200FEDE92 /* Setup.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E871C248204008B1151 /* Setup.h */; };
@@ -255,7 +254,6 @@
 		303B75391C2A3C8200FEDE92 /* Engine.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2E1C237C70008B1151 /* Engine.hpp */; };
 		303B753A1C2A3C8200FEDE92 /* EventHandler.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2F1C237C70008B1151 /* EventHandler.hpp */; };
 		303B753D1C2A3C8E00FEDE92 /* FileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B74FE1C28208800FEDE92 /* FileSystem.cpp */; };
-		303B75401C2A3C9200FEDE92 /* ImageData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B74E11C277A7500FEDE92 /* ImageData.cpp */; };
 		303B75411C2A3C9200FEDE92 /* ImageData.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303B74E21C277A7500FEDE92 /* ImageData.hpp */; };
 		303B75441C2A3C9200FEDE92 /* Renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E3E1C237C70008B1151 /* Renderer.cpp */; };
 		303B75451C2A3C9200FEDE92 /* Renderer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E3F1C237C70008B1151 /* Renderer.hpp */; };
@@ -305,7 +303,6 @@
 		303B76411C355A3B00FEDE92 /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E481C237C70008B1151 /* Utils.cpp */; };
 		303B76441C355A3B00FEDE92 /* FileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B74FE1C28208800FEDE92 /* FileSystem.cpp */; };
 		303B76461C355A3B00FEDE92 /* Vector2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E4A1C237C70008B1151 /* Vector2.cpp */; };
-		303B764B1C355A3B00FEDE92 /* ImageData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B74E11C277A7500FEDE92 /* ImageData.cpp */; };
 		303B764C1C355A3B00FEDE92 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E2B1C237C70008B1151 /* Camera.cpp */; };
 		303B764D1C355A3B00FEDE92 /* Matrix4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E341C237C70008B1151 /* Matrix4.cpp */; };
 		303B76501C355A3B00FEDE92 /* Vector4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E4E1C237C70008B1151 /* Vector4.cpp */; };
@@ -1014,7 +1011,6 @@
 		303B04C01E207B7800011CBE /* OpenGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenGLView.m; sourceTree = "<group>"; };
 		303B04C11E207B7800011CBE /* OGLRenderDeviceTVOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = OGLRenderDeviceTVOS.hpp; sourceTree = "<group>"; };
 		303B04C21E207B7800011CBE /* OGLRenderDeviceTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OGLRenderDeviceTVOS.mm; sourceTree = "<group>"; };
-		303B74E11C277A7500FEDE92 /* ImageData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageData.cpp; sourceTree = "<group>"; };
 		303B74E21C277A7500FEDE92 /* ImageData.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ImageData.hpp; sourceTree = "<group>"; };
 		303B74FE1C28208800FEDE92 /* FileSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileSystem.cpp; sourceTree = "<group>"; };
 		303B74FF1C28208800FEDE92 /* FileSystem.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FileSystem.hpp; sourceTree = "<group>"; };
@@ -1494,7 +1490,6 @@
 				303820881D816EAB00677CAB /* empty */,
 				30EABD7C22028861001C70A6 /* GraphicsResource.cpp */,
 				30EABD7D22028861001C70A6 /* GraphicsResource.hpp */,
-				303B74E11C277A7500FEDE92 /* ImageData.cpp */,
 				303B74E21C277A7500FEDE92 /* ImageData.hpp */,
 				30216B711ED464730073E3D5 /* Material.cpp */,
 				30216B721ED464730073E3D5 /* Material.hpp */,
@@ -2697,7 +2692,6 @@
 				30A9C1321CAE80570084C4BF /* Localization.cpp in Sources */,
 				303820001D80A40700677CAB /* MetalRenderDevice.mm in Sources */,
 				30575ACE1C3B175D0009C8A7 /* Label.cpp in Sources */,
-				303B75401C2A3C9200FEDE92 /* ImageData.cpp in Sources */,
 				303B755F1C2A3CBF00FEDE92 /* Camera.cpp in Sources */,
 				C6C9102A21B54EE000B5FCB7 /* OscillatorSound.cpp in Sources */,
 				304B27561C9384A600BA162D /* Size3.cpp in Sources */,
@@ -2850,7 +2844,6 @@
 				30AEFA0E20C0A90400CDFD33 /* GltfLoader.cpp in Sources */,
 				303820021D80A40700677CAB /* MetalRenderDevice.mm in Sources */,
 				30A9C1331CAE80570084C4BF /* Localization.cpp in Sources */,
-				303B764B1C355A3B00FEDE92 /* ImageData.cpp in Sources */,
 				30575ACF1C3B175D0009C8A7 /* Label.cpp in Sources */,
 				303B764C1C355A3B00FEDE92 /* Camera.cpp in Sources */,
 				304B27571C9384A600BA162D /* Size3.cpp in Sources */,
@@ -2970,7 +2963,6 @@
 				30C758AE1F4A0196008499DC /* AudioDevice.cpp in Sources */,
 				30381FE31D80A40700677CAB /* MetalBlendState.mm in Sources */,
 				30FFBE382158FD8D004B0BD3 /* Keyboard.cpp in Sources */,
-				303B74E41C277CEE00FEDE92 /* ImageData.cpp in Sources */,
 				3009341C1C88698500CC50D3 /* Window.cpp in Sources */,
 				30B8598D1F3D286600A16952 /* TTFont.cpp in Sources */,
 				303B04AA1E207B1D00011CBE /* MetalView.m in Sources */,

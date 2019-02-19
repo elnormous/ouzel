@@ -97,9 +97,6 @@
     <ClCompile Include="..\ouzel\gui\Font.cpp">
       <Filter>ouzel\gui</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\ImageData.cpp">
-      <Filter>ouzel\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\input\InputManager.cpp">
       <Filter>ouzel\input</Filter>
     </ClCompile>

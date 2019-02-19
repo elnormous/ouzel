@@ -15,10 +15,16 @@ namespace ouzel
         class ImageData final
         {
         public:
-            ImageData();
+            ImageData()
+            {
+            }
+
             ImageData(PixelFormat initPixelFormat,
                       const Size2<uint32_t>& initSize,
-                      std::vector<uint8_t>& initData);
+                      std::vector<uint8_t>& initData):
+                pixelFormat(initPixelFormat), size(initSize), data(initData)
+            {
+            }
 
             inline PixelFormat getPixelFormat() const { return pixelFormat; }
             inline const Size2<uint32_t>& getSize() const { return size; }
