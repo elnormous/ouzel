@@ -88,7 +88,6 @@
     <ClCompile Include="..\ouzel\graphics\direct3d11\D3D11Texture.cpp" />
     <ClCompile Include="..\ouzel\graphics\empty\EmptyRenderDevice.cpp" />
     <ClCompile Include="..\ouzel\graphics\GraphicsResource.cpp" />
-    <ClCompile Include="..\ouzel\graphics\Material.cpp" />
     <ClCompile Include="..\ouzel\graphics\opengl\OGLBlendState.cpp" />
     <ClCompile Include="..\ouzel\graphics\opengl\OGLBuffer.cpp" />
     <ClCompile Include="..\ouzel\graphics\opengl\OGLDepthStencilState.cpp" />

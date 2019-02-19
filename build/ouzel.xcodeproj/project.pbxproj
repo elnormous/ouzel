@@ -70,9 +70,6 @@
 		30216B661ED462B80073E3D5 /* StaticMeshRenderer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30216B621ED462B80073E3D5 /* StaticMeshRenderer.hpp */; };
 		30216B671ED462B80073E3D5 /* StaticMeshRenderer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30216B621ED462B80073E3D5 /* StaticMeshRenderer.hpp */; };
 		30216B681ED462B80073E3D5 /* StaticMeshRenderer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30216B621ED462B80073E3D5 /* StaticMeshRenderer.hpp */; };
-		30216B731ED464730073E3D5 /* Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30216B711ED464730073E3D5 /* Material.cpp */; };
-		30216B741ED464730073E3D5 /* Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30216B711ED464730073E3D5 /* Material.cpp */; };
-		30216B751ED464730073E3D5 /* Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30216B711ED464730073E3D5 /* Material.cpp */; };
 		30216B761ED464730073E3D5 /* Material.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30216B721ED464730073E3D5 /* Material.hpp */; };
 		30216B771ED464730073E3D5 /* Material.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30216B721ED464730073E3D5 /* Material.hpp */; };
 		30216B781ED464730073E3D5 /* Material.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30216B721ED464730073E3D5 /* Material.hpp */; };
@@ -932,7 +929,6 @@
 		301EB3A91CCD77F600466E92 /* TextRenderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextRenderer.hpp; sourceTree = "<group>"; };
 		30216B611ED462B80073E3D5 /* StaticMeshRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StaticMeshRenderer.cpp; sourceTree = "<group>"; };
 		30216B621ED462B80073E3D5 /* StaticMeshRenderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = StaticMeshRenderer.hpp; sourceTree = "<group>"; };
-		30216B711ED464730073E3D5 /* Material.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Material.cpp; sourceTree = "<group>"; };
 		30216B721ED464730073E3D5 /* Material.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Material.hpp; sourceTree = "<group>"; };
 		30216B7F1ED5C3900073E3D5 /* Plane.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Plane.hpp; sourceTree = "<group>"; };
 		3022617F1FDB8C59005279FC /* ColladaLoader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ColladaLoader.cpp; sourceTree = "<group>"; };
@@ -1491,7 +1487,6 @@
 				30EABD7C22028861001C70A6 /* GraphicsResource.cpp */,
 				30EABD7D22028861001C70A6 /* GraphicsResource.hpp */,
 				303B74E21C277A7500FEDE92 /* Image.hpp */,
-				30216B711ED464730073E3D5 /* Material.cpp */,
 				30216B721ED464730073E3D5 /* Material.hpp */,
 				30547E351CB3D6570055EE79 /* metal */,
 				303B75131C288CCE00FEDE92 /* opengl */,
@@ -2626,7 +2621,6 @@
 				30519CF81F9B54E300AF3DC4 /* VorbisLoader.cpp in Sources */,
 				303B75591C2A3CB700FEDE92 /* Vector3.cpp in Sources */,
 				30519CE01F9B53E900AF3DC4 /* ParticleSystemLoader.cpp in Sources */,
-				30216B731ED464730073E3D5 /* Material.cpp in Sources */,
 				30EEADBB21618DAF00D2F525 /* GamepadDevice.cpp in Sources */,
 				303B755D1C2A3CB700FEDE92 /* Vertex.cpp in Sources */,
 				3038200C1D80A40700677CAB /* MetalShader.mm in Sources */,
@@ -2779,7 +2773,6 @@
 				30519CE21F9B53E900AF3DC4 /* ParticleSystemLoader.cpp in Sources */,
 				3038200E1D80A40700677CAB /* MetalShader.mm in Sources */,
 				301EB3A41CCD691800466E92 /* Component.cpp in Sources */,
-				30216B751ED464730073E3D5 /* Material.cpp in Sources */,
 				301EB3AC1CCD77F600466E92 /* TextRenderer.cpp in Sources */,
 				3009342E1C88978D00CC50D3 /* NativeWindowTVOS.mm in Sources */,
 				30090300219224B100B00BF4 /* DepthStencilState.cpp in Sources */,
@@ -2947,7 +2940,6 @@
 				3038207F1D816C9E00677CAB /* main.cpp in Sources */,
 				30519CE11F9B53E900AF3DC4 /* ParticleSystemLoader.cpp in Sources */,
 				3038200D1D80A40700677CAB /* MetalShader.mm in Sources */,
-				30216B741ED464730073E3D5 /* Material.cpp in Sources */,
 				30AEFA2D20C0FD6000CDFD33 /* OGLRenderTarget.cpp in Sources */,
 				3098A5581EA01C8A00528A54 /* GamepadDeviceIOKit.cpp in Sources */,
 				301EB3A21CCD691800466E92 /* Component.cpp in Sources */,

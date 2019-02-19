@@ -130,9 +130,6 @@
     <ClCompile Include="..\ouzel\input\windows\MouseDeviceWin.cpp">
       <Filter>ouzel\input\windows</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\Material.cpp">
-      <Filter>ouzel\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\core\Window.cpp">
       <Filter>ouzel\core</Filter>
     </ClCompile>
