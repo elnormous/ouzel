@@ -46,7 +46,7 @@
 #include "graphics/DepthStencilState.hpp"
 #include "graphics/DrawMode.hpp"
 #include "graphics/Driver.hpp"
-#include "graphics/ImageData.hpp"
+#include "graphics/Image.hpp"
 #include "graphics/Material.hpp"
 #include "graphics/PixelFormat.hpp"
 #include "graphics/RasterizerState.hpp"

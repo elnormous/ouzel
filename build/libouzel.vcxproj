@@ -258,7 +258,7 @@
     <ClInclude Include="..\ouzel\graphics\Driver.hpp" />
     <ClInclude Include="..\ouzel\graphics\empty\EmptyRenderDevice.hpp" />
     <ClInclude Include="..\ouzel\graphics\GraphicsResource.hpp" />
-    <ClInclude Include="..\ouzel\graphics\ImageData.hpp" />
+    <ClInclude Include="..\ouzel\graphics\Image.hpp" />
     <ClInclude Include="..\ouzel\graphics\Material.hpp" />
     <ClInclude Include="..\ouzel\graphics\opengl\OGL.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\OGLBlendState.hpp" />

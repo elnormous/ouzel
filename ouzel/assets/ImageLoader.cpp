@@ -6,7 +6,7 @@
 #include "ImageLoader.hpp"
 #include "Bundle.hpp"
 #include "core/Engine.hpp"
-#include "graphics/ImageData.hpp"
+#include "graphics/Image.hpp"
 #include "graphics/Texture.hpp"
 
 #define STBI_NO_PSD
@@ -99,10 +99,10 @@ namespace ouzel
                     throw std::runtime_error("Unsupported pixel format");
             }
 
-            graphics::ImageData image(pixelFormat,
-                                      Size2<uint32_t>(static_cast<uint32_t>(width),
-                                                      static_cast<uint32_t>(height)),
-                                      imageData);
+            graphics::Image image(pixelFormat,
+                                  Size2<uint32_t>(static_cast<uint32_t>(width),
+                                                  static_cast<uint32_t>(height)),
+                                  imageData);
 
             std::shared_ptr<graphics::Texture> texture = std::make_shared<graphics::Texture>(*engine->getRenderer(),
                                                                                              image.getData(),

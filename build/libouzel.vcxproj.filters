@@ -564,7 +564,7 @@
     <ClInclude Include="..\ouzel\gui\Font.hpp">
       <Filter>ouzel\gui</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\ImageData.hpp">
+    <ClInclude Include="..\ouzel\graphics\Image.hpp">
       <Filter>ouzel\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\utils\Ini.hpp">
