@@ -90,9 +90,6 @@ namespace ouzel
                     uint32_t newFlags = 0,
                     PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
 
-            Texture(const Texture&) = delete;
-            Texture& operator=(const Texture&) = delete;
-
             inline uintptr_t getResource() const { return resource.getId(); }
 
             inline const Size2<uint32_t>& getSize() const { return size; }

@@ -23,12 +23,9 @@ namespace ouzel
             {
             }
 
-            explicit RenderTarget(Renderer& initRenderer,
-                                  const std::vector<std::shared_ptr<Texture>>& initColorTextures,
-                                  const std::shared_ptr<Texture>& initDepthTexture);
-
-            RenderTarget(const RenderTarget&) = delete;
-            RenderTarget& operator=(const RenderTarget&) = delete;
+            RenderTarget(Renderer& initRenderer,
+                         const std::vector<std::shared_ptr<Texture>>& initColorTextures,
+                         const std::shared_ptr<Texture>& initDepthTexture);
 
             inline uintptr_t getResource() const { return resource.getId(); }
 

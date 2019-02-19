@@ -36,9 +36,6 @@ namespace ouzel
             Buffer(Renderer& initRenderer, Usage newUsage, uint32_t newFlags, const void* newData, uint32_t newSize);
             Buffer(Renderer& initRenderer, Usage newUsage, uint32_t newFlags, const std::vector<uint8_t>& newData, uint32_t newSize);
 
-            Buffer(const Buffer&) = delete;
-            Buffer& operator=(const Buffer&) = delete;
-
             void setData(const void* newData, uint32_t newSize);
             void setData(const std::vector<uint8_t>& newData);
 

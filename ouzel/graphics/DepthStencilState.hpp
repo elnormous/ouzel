@@ -61,9 +61,6 @@ namespace ouzel
                               const StencilDescriptor& initFrontFaceStencil,
                               const StencilDescriptor& initBackFaceStencil);
 
-            DepthStencilState(const DepthStencilState&) = delete;
-            DepthStencilState& operator=(const DepthStencilState&) = delete;
-
             inline uintptr_t getResource() const { return resource.getId(); }
 
         private:

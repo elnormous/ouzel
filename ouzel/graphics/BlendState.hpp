@@ -62,9 +62,6 @@ namespace ouzel
                        Operation initAlphaOperation,
                        uint8_t initColorMask = COLOR_MASK_ALL);
 
-            BlendState(const BlendState&) = delete;
-            BlendState& operator=(const BlendState&) = delete;
-
             inline uintptr_t getResource() const { return resource.getId(); }
 
             inline bool isBlendingEnabled() const { return enableBlending; }
