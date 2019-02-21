@@ -632,9 +632,7 @@ namespace ouzel
 
                         ++iterator;
                     }
-                    else if ((*iterator >= '0' && *iterator <= '9') || // number
-                             (*iterator == '.' && (iterator + 1) != str.end() &&
-                              *(iterator + 1) >= '0' && *(iterator + 1) <= '9')) // starts with a dot
+                    else if (*iterator >= '0' && *iterator <= '9')
                     {
                         token.type = Token::Type::LITERAL_INTEGER;
 
