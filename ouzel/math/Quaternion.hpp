@@ -232,7 +232,7 @@ namespace ouzel
             v[3] = cosAngle;
         }
 
-        void getRotation(float& angle, Vector3<T>& axis)
+        void getRotation(float& angle, Vector3<T>& axis) const
         {
             angle = 2.0F * acosf(v[3]);
             float s = sqrtf(1.0F - v[3] * v[3]);
