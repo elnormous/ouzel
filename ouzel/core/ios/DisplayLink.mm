@@ -5,13 +5,14 @@
 #include "utils/Utils.hpp"
 
 @interface DisplayLinkHandler: NSObject
+
+@end
+
+@implementation DisplayLinkHandler
 {
     RenderCallback callback;
     void* userInfo;
 }
-@end
-
-@implementation DisplayLinkHandler
 
 -(id)initWithCallback:(RenderCallback)initCallback andUserInfo:(void*)initUserInfo
 {

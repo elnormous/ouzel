@@ -12,9 +12,6 @@ typedef struct CF_BRIDGED_TYPE(id) __IOHIDServiceClient * IOHIDServiceClientRef;
 extern "C" CFTypeRef _Nullable IOHIDServiceClientCopyProperty(IOHIDServiceClientRef service, CFStringRef key);
 
 @interface ConnectDelegate: NSObject
-{
-    ouzel::input::InputSystemMacOS* input;
-}
 
 -(void)handleControllerConnected:(NSNotification*)notification;
 -(void)handleControllerDisconnected:(NSNotification*)notification;
@@ -22,6 +19,9 @@ extern "C" CFTypeRef _Nullable IOHIDServiceClientCopyProperty(IOHIDServiceClient
 @end
 
 @implementation ConnectDelegate
+{
+    ouzel::input::InputSystemMacOS* input;
+}
 
 -(id)initWithInput:(ouzel::input::InputSystemMacOS*)initInput
 {

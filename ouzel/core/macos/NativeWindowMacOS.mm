@@ -8,13 +8,13 @@
 #include "graphics/metal/macos/MetalView.h"
 
 @interface WindowDelegate: NSObject<NSWindowDelegate>
-{
-    ouzel::NativeWindowMacOS* window;
-}
 
 @end
 
 @implementation WindowDelegate
+{
+    ouzel::NativeWindowMacOS* window;
+}
 
 -(id)initWithWindow:(ouzel::NativeWindowMacOS*)initWindow
 {

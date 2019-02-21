@@ -11,9 +11,6 @@
 #import "core/macos/ViewMacOS.h"
 
 @interface OpenGLView: ViewMacOS
-{
-    NSOpenGLContext* openGLContext;
-}
 
 -(void)setOpenGLContext:(NSOpenGLContext*)context;
 

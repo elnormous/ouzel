@@ -8,13 +8,13 @@
 #include "graphics/metal/tvos/MetalView.h"
 
 @interface ViewController: UIViewController
-{
-    ouzel::NativeWindowTVOS* window;
-}
 
 @end
 
 @implementation ViewController
+{
+    ouzel::NativeWindowTVOS* window;
+}
 
 -(id)initWithWindow:(ouzel::NativeWindowTVOS*)initWindow
 {

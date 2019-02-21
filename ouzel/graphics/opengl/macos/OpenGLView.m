@@ -7,6 +7,9 @@
 #include "OpenGLView.h"
 
 @implementation OpenGLView
+{
+    NSOpenGLContext* openGLContext;
+}
 
 -(void)setOpenGLContext:(NSOpenGLContext*)context
 {

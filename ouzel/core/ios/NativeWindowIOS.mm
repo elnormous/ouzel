@@ -10,13 +10,13 @@
 #include "events/EventDispatcher.hpp"
 
 @interface ViewController: UIViewController
-{
-    ouzel::NativeWindowIOS* window;
-}
 
 @end
 
 @implementation ViewController
+{
+    ouzel::NativeWindowIOS* window;
+}
 
 -(id)initWithWindow:(ouzel::NativeWindowIOS*)initWindow
 {

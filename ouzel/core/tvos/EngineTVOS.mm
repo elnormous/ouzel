@@ -61,12 +61,13 @@
 @end
 
 @interface ExecuteHandler: NSObject
-{
-    ouzel::EngineTVOS* engine;
-}
+
 @end
 
 @implementation ExecuteHandler
+{
+    ouzel::EngineTVOS* engine;
+}
 
 -(id)initWithEngine:(ouzel::EngineTVOS*)initEngine
 {

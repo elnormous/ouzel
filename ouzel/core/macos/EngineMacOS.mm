@@ -62,12 +62,13 @@
 @end
 
 @interface ExecuteHandler: NSObject
-{
-    ouzel::EngineMacOS* engine;
-}
+
 @end
 
 @implementation ExecuteHandler
+{
+    ouzel::EngineMacOS* engine;
+}
 
 -(id)initWithEngine:(ouzel::EngineMacOS*)initEngine
 {

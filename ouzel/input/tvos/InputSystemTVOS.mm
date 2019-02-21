@@ -7,9 +7,6 @@
 #include "utils/Log.hpp"
 
 @interface ConnectDelegate: NSObject
-{
-    ouzel::input::InputSystemTVOS* input;
-}
 
 -(void)handleControllerConnected:(NSNotification*)notification;
 -(void)handleControllerDisconnected:(NSNotification*)notification;
@@ -17,6 +14,9 @@
 @end
 
 @implementation ConnectDelegate
+{
+    ouzel::input::InputSystemTVOS* input;
+}
 
 -(id)initWithInput:(ouzel::input::InputSystemTVOS*)initInput
 {
