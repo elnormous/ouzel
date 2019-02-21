@@ -21,7 +21,7 @@ namespace ouzel
             {
                 NONE,
                 LITERAL_INTEGER, // integer
-                LITERAL_FLOATING_POINT, // float
+                LITERAL_FLOAT, // float
                 LITERAL_STRING, // string
                 KEYWORD_TRUE, // true
                 KEYWORD_FALSE, // false
@@ -49,7 +49,7 @@ namespace ouzel
             {
                 NONE,
                 INTEGER,
-                FLOATING_POINT,
+                FLOAT,
                 STRING,
                 OBJECT,
                 ARRAY,
@@ -62,7 +62,7 @@ namespace ouzel
             Value(T initType): type(initType) {}
 
             template<typename T, typename std::enable_if<std::is_floating_point<T>::value>::type* = nullptr>
-            Value(T value): type(Type::FLOATING_POINT), doubleValue(static_cast<double>(value)) {}
+            Value(T value): type(Type::FLOAT), doubleValue(static_cast<double>(value)) {}
 
             template<typename T, typename std::enable_if<std::is_integral<T>::value && !std::is_same<T, bool>::value>::type* = nullptr>
             Value(T value): type(Type::INTEGER), intValue(static_cast<int64_t>(value)) {}
@@ -95,7 +95,7 @@ namespace ouzel
             template<typename T, typename std::enable_if<std::is_floating_point<T>::value>::type* = nullptr>
             inline Value& operator=(T value)
             {
-                type = Type::FLOATING_POINT;
+                type = Type::FLOAT;
                 doubleValue = static_cast<double>(value);
                 return *this;
             }
@@ -177,7 +177,7 @@ namespace ouzel
             template<typename T, typename std::enable_if<std::is_same<T, bool>::value>::type* = nullptr>
             T as() const
             {
-                assert(type == Type::BOOLEAN || type == Type::INTEGER || type == Type::FLOATING_POINT);
+                assert(type == Type::BOOLEAN || type == Type::INTEGER || type == Type::FLOAT);
                 if (type == Type::BOOLEAN) return boolValue;
                 else if (type == Type::INTEGER) return intValue != 0;
                 else return doubleValue != 0.0;
@@ -186,7 +186,7 @@ namespace ouzel
             template<typename T, typename std::enable_if<std::is_arithmetic<T>::value && !std::is_same<T, bool>::value>::type* = nullptr>
             T as() const
             {
-                assert(type == Type::BOOLEAN || type == Type::INTEGER || type == Type::FLOATING_POINT);
+                assert(type == Type::BOOLEAN || type == Type::INTEGER || type == Type::FLOAT);
                 if (type == Type::BOOLEAN) return boolValue;
                 else if (type == Type::INTEGER) return static_cast<T>(intValue);
                 else return static_cast<T>(doubleValue);
@@ -286,9 +286,9 @@ namespace ouzel
                     intValue = std::stoi(utf8::fromUtf32(iterator->value));
                     ++iterator;
                 }
-                else if (iterator->type == Token::Type::LITERAL_FLOATING_POINT)
+                else if (iterator->type == Token::Type::LITERAL_FLOAT)
                 {
-                    type = Type::FLOATING_POINT;
+                    type = Type::FLOAT;
                     doubleValue = std::stod(utf8::fromUtf32(iterator->value));
                     ++iterator;
                 }
@@ -303,9 +303,9 @@ namespace ouzel
                         intValue = -std::stoi(utf8::fromUtf32(iterator->value));
                         ++iterator;
                     }
-                    else if (iterator->type == Token::Type::LITERAL_FLOATING_POINT)
+                    else if (iterator->type == Token::Type::LITERAL_FLOAT)
                     {
-                        type = Type::FLOATING_POINT;
+                        type = Type::FLOAT;
                         doubleValue = -std::stod(utf8::fromUtf32(iterator->value));
                         ++iterator;
                     }
@@ -479,7 +479,7 @@ namespace ouzel
                         data.insert(data.end(), value.begin(), value.end());
                         break;
                     }
-                    case Type::FLOATING_POINT:
+                    case Type::FLOAT:
                     {
                         std::string value = std::to_string(doubleValue);
                         data.insert(data.end(), value.begin(), value.end());
@@ -647,7 +647,7 @@ namespace ouzel
 
                         if (iterator != str.end() && *iterator == '.')
                         {
-                            token.type = Token::Type::LITERAL_FLOATING_POINT;
+                            token.type = Token::Type::LITERAL_FLOAT;
 
                             token.value.push_back(*iterator);
                             ++iterator;

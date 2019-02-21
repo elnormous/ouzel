@@ -464,9 +464,9 @@ namespace ouzel
                     ret = readInt64(buffer, offset, intValue);
                     break;
                 }
-                case Marker::FLOATING_POINT:
+                case Marker::FLOAT:
                 {
-                    type = Type::FLOATING_POINT;
+                    type = Type::FLOAT;
 
                     float floatValue;
                     ret = readFloat(buffer, offset, floatValue);
@@ -574,9 +574,9 @@ namespace ouzel
                     }
                     break;
                 }
-                case Type::FLOATING_POINT:
+                case Type::FLOAT:
                 {
-                    buffer.push_back(static_cast<uint8_t>(Marker::FLOATING_POINT));
+                    buffer.push_back(static_cast<uint8_t>(Marker::FLOAT));
                     size += 1;
                     ret = writeFloat(buffer, static_cast<float>(doubleValue));
                     break;
