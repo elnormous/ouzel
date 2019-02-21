@@ -29,7 +29,7 @@ namespace ouzel
                 INT16,
                 INT32,
                 INT64,
-                FLOAT,
+                FLOATING_POINT,
                 DOUBLE,
                 STRING,
                 LONG_STRING,
@@ -43,7 +43,7 @@ namespace ouzel
             {
                 NONE,
                 INT,
-                FLOAT,
+                FLOATING_POINT,
                 DOUBLE,
                 STRING,
                 BYTE_ARRAY,
@@ -70,7 +70,7 @@ namespace ouzel
                 type(Type::INT), intValue(value)
             {
             }
-            Value(float value): type(Type::FLOAT), doubleValue(value) {}
+            Value(float value): type(Type::FLOATING_POINT), doubleValue(value) {}
             Value(double value): type(Type::DOUBLE), doubleValue(value) {}
             Value(const std::string& value):
                 type(Type::STRING), stringValue(value)
@@ -90,7 +90,7 @@ namespace ouzel
                     case Type::INT:
                         intValue = 0;
                         break;
-                    case Type::FLOAT:
+                    case Type::FLOATING_POINT:
                     case Type::DOUBLE:
                         doubleValue = 0.0;
                         break;
@@ -150,7 +150,7 @@ namespace ouzel
 
             inline Value& operator=(float value)
             {
-                type = Type::FLOAT;
+                type = Type::FLOATING_POINT;
                 doubleValue = value;
 
                 return *this;
@@ -206,7 +206,7 @@ namespace ouzel
 
             inline Type getType() const { return type; }
             inline bool isIntType() const { return type == Type::INT; }
-            inline bool isFloatType() const { return type == Type::FLOAT || type == Type::DOUBLE; }
+            inline bool isFloatType() const { return type == Type::FLOATING_POINT || type == Type::DOUBLE; }
             inline bool isStringType() const { return type == Type::STRING; }
 
             uint32_t decode(const std::vector<uint8_t>& buffer, uint32_t offset = 0);
@@ -218,7 +218,7 @@ namespace ouzel
                 {
                     case Type::INT:
                         return intValue == 0;
-                    case Type::FLOAT:
+                    case Type::FLOATING_POINT:
                     case Type::DOUBLE:
                         return doubleValue == 0.0;
                     case Type::STRING:
@@ -256,7 +256,7 @@ namespace ouzel
             template<typename T, typename std::enable_if<std::is_floating_point<T>::value>::type* = nullptr>
             T as() const
             {
-                assert(type == Type::FLOAT || type == Type::DOUBLE);
+                assert(type == Type::FLOATING_POINT || type == Type::DOUBLE);
                 return static_cast<T>(doubleValue);
             }
 
