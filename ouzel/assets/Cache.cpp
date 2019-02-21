@@ -111,10 +111,10 @@ namespace ouzel
             return nullptr;
         }
 
-        std::shared_ptr<Font> Cache::getFont(const std::string& filename) const
+        std::shared_ptr<gui::Font> Cache::getFont(const std::string& filename) const
         {
             for (Bundle* bundle : bundles)
-                if (std::shared_ptr<Font> font = bundle->getFont(filename))
+                if (std::shared_ptr<gui::Font> font = bundle->getFont(filename))
                     return font;
 
             return nullptr;

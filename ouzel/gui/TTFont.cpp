@@ -9,217 +9,220 @@
 
 namespace ouzel
 {
-    TTFont::TTFont()
+    namespace gui
     {
-    }
-
-    TTFont::TTFont(const std::vector<uint8_t>& initData, bool initMipmaps):
-        data(initData),
-        mipmaps(initMipmaps)
-    {
-        int offset = stbtt_GetFontOffsetForIndex(data.data(), 0);
-
-        if (offset == -1)
-            throw std::runtime_error("Not a font");
-
-        if (!stbtt_InitFont(&font, data.data(), offset))
-            throw std::runtime_error("Failed to load font");
-
-        loaded = true;
-    }
-
-    void TTFont::getVertices(const std::string& text,
-                             Color color,
-                             float fontSize,
-                             const Vector2F& anchor,
-                             std::vector<uint16_t>& indices,
-                             std::vector<graphics::Vertex>& vertices,
-                             std::shared_ptr<graphics::Texture>& texture)
-    {
-        if (!loaded)
-            throw std::runtime_error("Font not loaded");
-
-        static constexpr uint32_t SPACING = 2;
-
-        struct CharDescriptor final
+        TTFont::TTFont()
         {
-            uint16_t x = 0;
-            uint16_t y = 0;
+        }
+
+        TTFont::TTFont(const std::vector<uint8_t>& initData, bool initMipmaps):
+            data(initData),
+            mipmaps(initMipmaps)
+        {
+            int offset = stbtt_GetFontOffsetForIndex(data.data(), 0);
+
+            if (offset == -1)
+                throw std::runtime_error("Not a font");
+
+            if (!stbtt_InitFont(&font, data.data(), offset))
+                throw std::runtime_error("Failed to load font");
+
+            loaded = true;
+        }
+
+        void TTFont::getVertices(const std::string& text,
+                                 Color color,
+                                 float fontSize,
+                                 const Vector2F& anchor,
+                                 std::vector<uint16_t>& indices,
+                                 std::vector<graphics::Vertex>& vertices,
+                                 std::shared_ptr<graphics::Texture>& texture)
+        {
+            if (!loaded)
+                throw std::runtime_error("Font not loaded");
+
+            static constexpr uint32_t SPACING = 2;
+
+            struct CharDescriptor final
+            {
+                uint16_t x = 0;
+                uint16_t y = 0;
+                uint16_t width = 0;
+                uint16_t height = 0;
+                Vector2F offset;
+                float advance = 0;
+                std::vector<uint8_t> bitmap;
+            };
+
+            std::unordered_map<uint32_t, CharDescriptor> chars;
+
+            float s = stbtt_ScaleForPixelHeight(&font, fontSize);
+
+            std::vector<uint32_t> utf32Text = utf8::toUtf32(text);
+
+            std::set<uint32_t> glyphs;
+            for (uint32_t i : utf32Text)
+                glyphs.insert(i);
+
             uint16_t width = 0;
             uint16_t height = 0;
-            Vector2F offset;
-            float advance = 0;
-            std::vector<uint8_t> bitmap;
-        };
 
-        std::unordered_map<uint32_t, CharDescriptor> chars;
+            int ascent;
+            int descent;
+            int lineGap;
+            stbtt_GetFontVMetrics(&font, &ascent, &descent, &lineGap);
 
-        float s = stbtt_ScaleForPixelHeight(&font, fontSize);
-
-        std::vector<uint32_t> utf32Text = utf8::toUtf32(text);
-
-        std::set<uint32_t> glyphs;
-        for (uint32_t i : utf32Text)
-            glyphs.insert(i);
-
-        uint16_t width = 0;
-        uint16_t height = 0;
-
-        int ascent;
-        int descent;
-        int lineGap;
-        stbtt_GetFontVMetrics(&font, &ascent, &descent, &lineGap);
-
-        for (uint32_t c : glyphs)
-        {
-            int w;
-            int h;
-            int xoff;
-            int yoff;
-
-            if (int index = stbtt_FindGlyphIndex(&font, static_cast<int>(c)))
+            for (uint32_t c : glyphs)
             {
-                int advance;
-                int leftBearing;
-                stbtt_GetGlyphHMetrics(&font, index, &advance, &leftBearing);
+                int w;
+                int h;
+                int xoff;
+                int yoff;
 
-                CharDescriptor charDesc;
-
-                if (unsigned char* bitmap = stbtt_GetGlyphBitmapSubpixel(&font, s, s, 0.0F, 0.0F, index, &w, &h, &xoff, &yoff))
+                if (int index = stbtt_FindGlyphIndex(&font, static_cast<int>(c)))
                 {
-                    charDesc.width = static_cast<uint16_t>(w);
-                    charDesc.height = static_cast<uint16_t>(h);
-                    charDesc.offset.v[0] = static_cast<float>(leftBearing * s);
-                    charDesc.offset.v[1] = static_cast<float>(yoff + (ascent - descent) * s);
-                    charDesc.bitmap = std::vector<uint8_t>(bitmap, bitmap + h * w);
-                    charDesc.x = width;
+                    int advance;
+                    int leftBearing;
+                    stbtt_GetGlyphHMetrics(&font, index, &advance, &leftBearing);
 
-                    width += static_cast<uint16_t>(w);
-                    height = height > static_cast<uint16_t>(h) ? height : static_cast<uint16_t>(h);
+                    CharDescriptor charDesc;
 
-                    stbtt_FreeBitmap(bitmap, nullptr);
-                }
+                    if (unsigned char* bitmap = stbtt_GetGlyphBitmapSubpixel(&font, s, s, 0.0F, 0.0F, index, &w, &h, &xoff, &yoff))
+                    {
+                        charDesc.width = static_cast<uint16_t>(w);
+                        charDesc.height = static_cast<uint16_t>(h);
+                        charDesc.offset.v[0] = static_cast<float>(leftBearing * s);
+                        charDesc.offset.v[1] = static_cast<float>(yoff + (ascent - descent) * s);
+                        charDesc.bitmap = std::vector<uint8_t>(bitmap, bitmap + h * w);
+                        charDesc.x = width;
 
-                charDesc.advance = static_cast<float>(advance * s);
+                        width += static_cast<uint16_t>(w);
+                        height = height > static_cast<uint16_t>(h) ? height : static_cast<uint16_t>(h);
 
-                if (!chars.empty())
-                    width += SPACING;
+                        stbtt_FreeBitmap(bitmap, nullptr);
+                    }
 
-                chars[c] = charDesc;
-            }
-        }
+                    charDesc.advance = static_cast<float>(advance * s);
 
-        std::vector<uint8_t> textureData(width * height * 4);
+                    if (!chars.empty())
+                        width += SPACING;
 
-        for (uint16_t posX = 0; posX < width; ++posX)
-        {
-            for (uint16_t posY = 0; posY < height; ++posY)
-            {
-                textureData[(posY * width + posX) * 4 + 0] = 255;
-                textureData[(posY * width + posX) * 4 + 1] = 255;
-                textureData[(posY * width + posX) * 4 + 2] = 255;
-                textureData[(posY * width + posX) * 4 + 3] = 0;
-            }
-        }
-
-        for (auto& c : chars)
-        {
-            CharDescriptor& charDesc = c.second;
-
-            for (uint16_t posX = 0; posX < charDesc.width; ++posX)
-            {
-                for (uint16_t posY = 0; posY < charDesc.height; ++posY)
-                {
-                    textureData[(posY * width + posX + charDesc.x) * 4 + 0] = 255;
-                    textureData[(posY * width + posX + charDesc.x) * 4 + 1] = 255;
-                    textureData[(posY * width + posX + charDesc.x) * 4 + 2] = 255;
-                    textureData[(posY * width + posX + charDesc.x) * 4 + 3] = charDesc.bitmap[posY * charDesc.width + posX];
+                    chars[c] = charDesc;
                 }
             }
-        }
 
-        texture = std::make_shared<graphics::Texture>(*engine->getRenderer(),
-                                                      textureData,
-                                                      Size2<uint32_t>(width, height), 0,
-                                                      mipmaps ? 0 : 1);
+            std::vector<uint8_t> textureData(width * height * 4);
 
-        Vector2F position;
-
-        indices.clear();
-        vertices.clear();
-
-        indices.reserve(utf32Text.size() * 6);
-        vertices.reserve(utf32Text.size() * 4);
-
-        Vector2F textCoords[4];
-
-        size_t firstChar = 0;
-
-        for (auto i = utf32Text.begin(); i != utf32Text.end(); ++i)
-        {
-            auto iter = chars.find(*i);
-
-            if (iter != chars.end())
+            for (uint16_t posX = 0; posX < width; ++posX)
             {
-                const CharDescriptor& f = iter->second;
-
-                uint16_t startIndex = static_cast<uint16_t>(vertices.size());
-                indices.push_back(startIndex + 0);
-                indices.push_back(startIndex + 1);
-                indices.push_back(startIndex + 2);
-
-                indices.push_back(startIndex + 1);
-                indices.push_back(startIndex + 3);
-                indices.push_back(startIndex + 2);
-
-                Vector2F leftTop(f.x / static_cast<float>(width),
-                                f.y / static_cast<float>(height));
-
-                Vector2F rightBottom((f.x + f.width) / static_cast<float>(width),
-                                    (f.y + f.height) / static_cast<float>(height));
-
-                textCoords[0] = Vector2F(leftTop.v[0], rightBottom.v[1]);
-                textCoords[1] = Vector2F(rightBottom.v[0], rightBottom.v[1]);
-                textCoords[2] = Vector2F(leftTop.v[0], leftTop.v[1]);
-                textCoords[3] = Vector2F(rightBottom.v[0], leftTop.v[1]);
-
-                vertices.push_back(graphics::Vertex(Vector3F(position.v[0] + f.offset.v[0], -position.v[1] - f.offset.v[1] - f.height, 0.0F),
-                                                    color, textCoords[0], Vector3F(0.0F, 0.0F, -1.0F)));
-                vertices.push_back(graphics::Vertex(Vector3F(position.v[0] + f.offset.v[0] + f.width, -position.v[1] - f.offset.v[1] - f.height, 0.0F),
-                                                    color, textCoords[1], Vector3F(0.0F, 0.0F, -1.0F)));
-                vertices.push_back(graphics::Vertex(Vector3F(position.v[0] + f.offset.v[0], -position.v[1] - f.offset.v[1], 0.0F),
-                                                    color, textCoords[2], Vector3F(0.0F, 0.0F, -1.0F)));
-                vertices.push_back(graphics::Vertex(Vector3F(position.v[0] + f.offset.v[0] + f.width, -position.v[1] - f.offset.v[1], 0.0F),
-                                                    color, textCoords[3], Vector3F(0.0F, 0.0F, -1.0F)));
-
-                if ((i + 1) != utf32Text.end())
+                for (uint16_t posY = 0; posY < height; ++posY)
                 {
-                    int kernAdvance = stbtt_GetCodepointKernAdvance(&font,
-                                                                    static_cast<int>(*i),
-                                                                    static_cast<int>(*(i + 1)));
-                    position.v[0] += static_cast<float>(kernAdvance) * s;
+                    textureData[(posY * width + posX) * 4 + 0] = 255;
+                    textureData[(posY * width + posX) * 4 + 1] = 255;
+                    textureData[(posY * width + posX) * 4 + 2] = 255;
+                    textureData[(posY * width + posX) * 4 + 3] = 0;
+                }
+            }
+
+            for (auto& c : chars)
+            {
+                CharDescriptor& charDesc = c.second;
+
+                for (uint16_t posX = 0; posX < charDesc.width; ++posX)
+                {
+                    for (uint16_t posY = 0; posY < charDesc.height; ++posY)
+                    {
+                        textureData[(posY * width + posX + charDesc.x) * 4 + 0] = 255;
+                        textureData[(posY * width + posX + charDesc.x) * 4 + 1] = 255;
+                        textureData[(posY * width + posX + charDesc.x) * 4 + 2] = 255;
+                        textureData[(posY * width + posX + charDesc.x) * 4 + 3] = charDesc.bitmap[posY * charDesc.width + posX];
+                    }
+                }
+            }
+
+            texture = std::make_shared<graphics::Texture>(*engine->getRenderer(),
+                                                          textureData,
+                                                          Size2<uint32_t>(width, height), 0,
+                                                          mipmaps ? 0 : 1);
+
+            Vector2F position;
+
+            indices.clear();
+            vertices.clear();
+
+            indices.reserve(utf32Text.size() * 6);
+            vertices.reserve(utf32Text.size() * 4);
+
+            Vector2F textCoords[4];
+
+            size_t firstChar = 0;
+
+            for (auto i = utf32Text.begin(); i != utf32Text.end(); ++i)
+            {
+                auto iter = chars.find(*i);
+
+                if (iter != chars.end())
+                {
+                    const CharDescriptor& f = iter->second;
+
+                    uint16_t startIndex = static_cast<uint16_t>(vertices.size());
+                    indices.push_back(startIndex + 0);
+                    indices.push_back(startIndex + 1);
+                    indices.push_back(startIndex + 2);
+
+                    indices.push_back(startIndex + 1);
+                    indices.push_back(startIndex + 3);
+                    indices.push_back(startIndex + 2);
+
+                    Vector2F leftTop(f.x / static_cast<float>(width),
+                                    f.y / static_cast<float>(height));
+
+                    Vector2F rightBottom((f.x + f.width) / static_cast<float>(width),
+                                        (f.y + f.height) / static_cast<float>(height));
+
+                    textCoords[0] = Vector2F(leftTop.v[0], rightBottom.v[1]);
+                    textCoords[1] = Vector2F(rightBottom.v[0], rightBottom.v[1]);
+                    textCoords[2] = Vector2F(leftTop.v[0], leftTop.v[1]);
+                    textCoords[3] = Vector2F(rightBottom.v[0], leftTop.v[1]);
+
+                    vertices.push_back(graphics::Vertex(Vector3F(position.v[0] + f.offset.v[0], -position.v[1] - f.offset.v[1] - f.height, 0.0F),
+                                                        color, textCoords[0], Vector3F(0.0F, 0.0F, -1.0F)));
+                    vertices.push_back(graphics::Vertex(Vector3F(position.v[0] + f.offset.v[0] + f.width, -position.v[1] - f.offset.v[1] - f.height, 0.0F),
+                                                        color, textCoords[1], Vector3F(0.0F, 0.0F, -1.0F)));
+                    vertices.push_back(graphics::Vertex(Vector3F(position.v[0] + f.offset.v[0], -position.v[1] - f.offset.v[1], 0.0F),
+                                                        color, textCoords[2], Vector3F(0.0F, 0.0F, -1.0F)));
+                    vertices.push_back(graphics::Vertex(Vector3F(position.v[0] + f.offset.v[0] + f.width, -position.v[1] - f.offset.v[1], 0.0F),
+                                                        color, textCoords[3], Vector3F(0.0F, 0.0F, -1.0F)));
+
+                    if ((i + 1) != utf32Text.end())
+                    {
+                        int kernAdvance = stbtt_GetCodepointKernAdvance(&font,
+                                                                        static_cast<int>(*i),
+                                                                        static_cast<int>(*(i + 1)));
+                        position.v[0] += static_cast<float>(kernAdvance) * s;
+                    }
+
+                    position.v[0] += f.advance;
                 }
 
-                position.v[0] += f.advance;
+                if (*i == static_cast<uint32_t>('\n') || // line feed
+                    (i + 1) == utf32Text.end()) // end of string
+                {
+                    float lineWidth = position.v[0];
+                    position.v[0] = 0.0F;
+                    position.v[1] += fontSize + lineGap;
+
+                    for (size_t c = firstChar; c < vertices.size(); ++c)
+                        vertices[c].position.v[0] -= lineWidth * anchor.v[0];
+
+                    firstChar = vertices.size();
+                }
             }
 
-            if (*i == static_cast<uint32_t>('\n') || // line feed
-                (i + 1) == utf32Text.end()) // end of string
-            {
-                float lineWidth = position.v[0];
-                position.v[0] = 0.0F;
-                position.v[1] += fontSize + lineGap;
+            float textHeight = position.v[1];
 
-                for (size_t c = firstChar; c < vertices.size(); ++c)
-                    vertices[c].position.v[0] -= lineWidth * anchor.v[0];
-
-                firstChar = vertices.size();
-            }
+            for (size_t c = 0; c < vertices.size(); ++c)
+                vertices[c].position.v[1] += textHeight * (1.0F - anchor.v[1]);
         }
-
-        float textHeight = position.v[1];
-
-        for (size_t c = 0; c < vertices.size(); ++c)
-            vertices[c].position.v[1] += textHeight * (1.0F - anchor.v[1]);
-    }
-}
+    } // namespace gui
+} // namespace ouzel

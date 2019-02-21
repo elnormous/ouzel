@@ -64,7 +64,7 @@ namespace ouzel
             std::shared_ptr<graphics::Texture> texture;
             std::shared_ptr<graphics::Texture> whitePixelTexture;
 
-            std::shared_ptr<Font> font;
+            std::shared_ptr<gui::Font> font;
             std::string text;
             float fontSize = 1.0F;
             Vector2F textAnchor;

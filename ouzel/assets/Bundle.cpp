@@ -228,7 +228,7 @@ namespace ouzel
             particleSystemData.clear();
         }
 
-        std::shared_ptr<Font> Bundle::getFont(const std::string& filename) const
+        std::shared_ptr<gui::Font> Bundle::getFont(const std::string& filename) const
         {
             auto i = fonts.find(filename);
 
@@ -238,7 +238,7 @@ namespace ouzel
             return nullptr;
         }
 
-        void Bundle::setFont(const std::string& filename, const std::shared_ptr<Font>& font)
+        void Bundle::setFont(const std::string& filename, const std::shared_ptr<gui::Font>& font)
         {
             fonts[filename] = font;
         }

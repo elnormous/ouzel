@@ -4,7 +4,10 @@
 
 namespace ouzel
 {
-    Font::~Font()
+    namespace gui
     {
-    }
-}
+        Font::~Font()
+        {
+        }
+    } // namespace gui
+} // namespace ouzel

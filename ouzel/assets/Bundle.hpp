@@ -88,8 +88,8 @@ namespace ouzel
             void setParticleSystemData(const std::string& filename, const scene::ParticleSystemData& newParticleSystemData);
             void releaseParticleSystemData();
 
-            std::shared_ptr<Font> getFont(const std::string& filename) const;
-            void setFont(const std::string& filename, const std::shared_ptr<Font>& font);
+            std::shared_ptr<gui::Font> getFont(const std::string& filename) const;
+            void setFont(const std::string& filename, const std::shared_ptr<gui::Font>& font);
             void releaseFonts();
 
             std::shared_ptr<audio::Sound> getSound(const std::string& filename) const;
@@ -118,7 +118,7 @@ namespace ouzel
             std::map<std::string, std::shared_ptr<graphics::BlendState>> blendStates;
             std::map<std::string, std::shared_ptr<graphics::DepthStencilState>> depthStencilStates;
             std::map<std::string, scene::SpriteData> spriteData;
-            std::map<std::string, std::shared_ptr<Font>> fonts;
+            std::map<std::string, std::shared_ptr<gui::Font>> fonts;
             std::map<std::string, std::shared_ptr<audio::Sound>> sounds;
             std::map<std::string, std::shared_ptr<graphics::Material>> materials;
             std::map<std::string, scene::SkinnedMeshData> skinnedMeshData;
