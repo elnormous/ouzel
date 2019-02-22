@@ -31,8 +31,7 @@ namespace ouzel
                 LEFT_BRACKET, // [
                 RIGHT_BRACKET, // ]
                 COMMA, // ,
-                COLON, // :
-                OPERATOR_MINUS // -
+                COLON // :
             };
 
             Type type = Type::NONE;
@@ -283,7 +282,7 @@ namespace ouzel
                 else if (iterator->type == Token::Type::LITERAL_INTEGER)
                 {
                     type = Type::INTEGER;
-                    intValue = std::stoi(utf8::fromUtf32(iterator->value));
+                    intValue = std::stoll(utf8::fromUtf32(iterator->value));
                     ++iterator;
                 }
                 else if (iterator->type == Token::Type::LITERAL_FLOAT)
@@ -291,26 +290,6 @@ namespace ouzel
                     type = Type::FLOAT;
                     doubleValue = std::stod(utf8::fromUtf32(iterator->value));
                     ++iterator;
-                }
-                else if (iterator->type == Token::Type::OPERATOR_MINUS)
-                {
-                    if (++iterator == tokens.end())
-                        throw std::runtime_error("Unexpected end of data");
-
-                    if (iterator->type == Token::Type::LITERAL_INTEGER)
-                    {
-                        type = Type::INTEGER;
-                        intValue = -std::stoi(utf8::fromUtf32(iterator->value));
-                        ++iterator;
-                    }
-                    else if (iterator->type == Token::Type::LITERAL_FLOAT)
-                    {
-                        type = Type::FLOAT;
-                        doubleValue = -std::stod(utf8::fromUtf32(iterator->value));
-                        ++iterator;
-                    }
-                    else
-                        throw std::runtime_error("Expected a number");
                 }
                 else if (iterator->type == Token::Type::LITERAL_STRING)
                 {
@@ -631,25 +610,34 @@ namespace ouzel
 
                         ++iterator;
                     }
-                    else if (*iterator >= '0' && *iterator <= '9')
+                    else if (*iterator == '-' ||
+                             (*iterator >= '0' && *iterator <= '9'))
                     {
                         token.type = Token::Type::LITERAL_INTEGER;
 
-                        while (iterator != str.end() &&
+                        if (*iterator == '-')
+                        {
+                            token.value.push_back(*iterator);
+                            if (++iterator == str.cend() ||
+                                *iterator < '0' || *iterator > '9')
+                                throw std::runtime_error("Invalid number");
+                        }
+
+                        while (iterator != str.cend() &&
                                (*iterator >= '0' && *iterator <= '9'))
                         {
                             token.value.push_back(*iterator);
                             ++iterator;
                         }
 
-                        if (iterator != str.end() && *iterator == '.')
+                        if (iterator != str.cend() && *iterator == '.')
                         {
                             token.type = Token::Type::LITERAL_FLOAT;
 
                             token.value.push_back(*iterator);
                             ++iterator;
 
-                            while (iterator != str.end() &&
+                            while (iterator != str.cend() &&
                                    (*iterator >= '0' && *iterator <= '9'))
                             {
                                 token.value.push_back(*iterator);
@@ -658,21 +646,21 @@ namespace ouzel
                         }
 
                         // parse exponent
-                        if (iterator != str.end() &&
+                        if (iterator != str.cend() &&
                             (*iterator == 'e' || *iterator == 'E'))
                         {
                             token.value.push_back(*iterator);
 
-                            if (++iterator == str.end())
+                            if (++iterator == str.cend())
                                 throw std::runtime_error("Invalid exponent");
 
                             if (*iterator == '+' || *iterator == '-')
                                 token.value.push_back(*iterator);
 
-                            if (++iterator == str.end() || *iterator < '0' || *iterator > '9')
+                            if (++iterator == str.cend() || *iterator < '0' || *iterator > '9')
                                 throw std::runtime_error("Invalid exponent");
 
-                            while (iterator != str.end() &&
+                            while (iterator != str.cend() &&
                                    (*iterator >= '0' && *iterator <= '9'))
                             {
                                 token.value.push_back(*iterator);
@@ -686,7 +674,7 @@ namespace ouzel
 
                         for (;;)
                         {
-                            if (++iterator == str.end())
+                            if (++iterator == str.cend())
                                 throw std::runtime_error("Unterminated string literal");
 
                             if (*iterator == '"')
@@ -696,7 +684,7 @@ namespace ouzel
                             }
                             else if (*iterator == '\\')
                             {
-                                if (++iterator == str.end())
+                                if (++iterator == str.cend())
                                     throw std::runtime_error("Unterminated string literal");
 
                                 if (*iterator == '"') token.value.push_back('"');
@@ -709,7 +697,7 @@ namespace ouzel
                                 else if (*iterator == 't') token.value.push_back('\t');
                                 else if (*iterator == 'u')
                                 {
-                                    if (std::distance<std::vector<uint32_t>::const_iterator>(++iterator, str.end()) < 4)
+                                    if (std::distance<std::vector<uint32_t>::const_iterator>(++iterator, str.cend()) < 4)
                                         throw std::runtime_error("Unexpected end of data");
 
                                     uint32_t c = 0;
@@ -742,7 +730,7 @@ namespace ouzel
                              (*iterator >= 'A' && *iterator <= 'Z') ||
                              *iterator == '_')
                     {
-                        while (iterator != str.end() &&
+                        while (iterator != str.cend() &&
                                ((*iterator >= 'a' && *iterator <= 'z') ||
                                 (*iterator >= 'A' && *iterator <= 'Z') ||
                                 *iterator == '_' ||
@@ -758,11 +746,6 @@ namespace ouzel
                             token.type = keywordIterator->second;
                         else
                             throw std::runtime_error("Unknown keyword " + utf8::fromUtf32(token.value));
-                    }
-                    else if (*iterator == '-')
-                    {
-                        token.type = Token::Type::OPERATOR_MINUS;
-                        ++iterator;
                     }
                     else if (*iterator == ' ' ||
                              *iterator == '\t' ||
