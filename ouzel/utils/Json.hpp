@@ -628,7 +628,6 @@ namespace ouzel
                         if (*iterator == ']') token.type = Token::Type::RIGHT_BRACKET;
                         if (*iterator == ',') token.type = Token::Type::COMMA;
                         if (*iterator == ':') token.type = Token::Type::COLON;
-                        token.value.push_back(*iterator);
 
                         ++iterator;
                     }
@@ -763,7 +762,6 @@ namespace ouzel
                     else if (*iterator == '-')
                     {
                         token.type = Token::Type::OPERATOR_MINUS;
-                        token.value.push_back(*iterator);
                         ++iterator;
                     }
                     else if (*iterator == ' ' ||
