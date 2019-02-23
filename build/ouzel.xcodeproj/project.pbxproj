@@ -597,9 +597,6 @@
 		3072370D1FAFDAB8002EA399 /* Json.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 307237091FAFDAB8002EA399 /* Json.hpp */; };
 		3072370E1FAFDAB8002EA399 /* Json.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 307237091FAFDAB8002EA399 /* Json.hpp */; };
 		3072370F1FAFDAB8002EA399 /* Json.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 307237091FAFDAB8002EA399 /* Json.hpp */; };
-		307237121FAFDAC9002EA399 /* Xml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 307237101FAFDAC9002EA399 /* Xml.cpp */; };
-		307237131FAFDAC9002EA399 /* Xml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 307237101FAFDAC9002EA399 /* Xml.cpp */; };
-		307237141FAFDAC9002EA399 /* Xml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 307237101FAFDAC9002EA399 /* Xml.cpp */; };
 		307237151FAFDAC9002EA399 /* Xml.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 307237111FAFDAC9002EA399 /* Xml.hpp */; };
 		307237161FAFDAC9002EA399 /* Xml.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 307237111FAFDAC9002EA399 /* Xml.hpp */; };
 		307237171FAFDAC9002EA399 /* Xml.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 307237111FAFDAC9002EA399 /* Xml.hpp */; };
@@ -1132,7 +1129,6 @@
 		306B0E5D1C567D05005C75C1 /* ShapeRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShapeRenderer.cpp; sourceTree = "<group>"; };
 		306B0E5E1C567D05005C75C1 /* ShapeRenderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShapeRenderer.hpp; sourceTree = "<group>"; };
 		307237091FAFDAB8002EA399 /* Json.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Json.hpp; sourceTree = "<group>"; };
-		307237101FAFDAC9002EA399 /* Xml.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Xml.cpp; sourceTree = "<group>"; };
 		307237111FAFDAC9002EA399 /* Xml.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Xml.hpp; sourceTree = "<group>"; };
 		30724D7D1F35366F00D915ED /* ViewMacOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewMacOS.mm; sourceTree = "<group>"; };
 		30724D7F1F35367C00D915ED /* ViewMacOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewMacOS.h; sourceTree = "<group>"; };
@@ -1926,7 +1922,6 @@
 				C6C9100B21AEB47E00B5FCB7 /* Utf8.hpp */,
 				304A8E481C237C70008B1151 /* Utils.cpp */,
 				304A8E491C237C70008B1151 /* Utils.hpp */,
-				307237101FAFDAC9002EA399 /* Xml.cpp */,
 				307237111FAFDAC9002EA399 /* Xml.hpp */,
 			);
 			path = utils;
@@ -2694,7 +2689,6 @@
 				30DADE9D1C5167BC001A63B4 /* Cache.cpp in Sources */,
 				306A26B31F5DD17700E2B0B6 /* Listener.cpp in Sources */,
 				300862D82154720C00D8CC45 /* InputSystemIOS.mm in Sources */,
-				307237121FAFDAC9002EA399 /* Xml.cpp in Sources */,
 				303696CC1E32DD9C007F4211 /* BlendState.cpp in Sources */,
 				30519CC81F9B53C100AF3DC4 /* TtfLoader.cpp in Sources */,
 				303B75511C2A3CB700FEDE92 /* Matrix4.cpp in Sources */,
@@ -2845,7 +2839,6 @@
 				30B546571D90575B00E45DB6 /* RadioButtonGroup.cpp in Sources */,
 				30DADE9E1C5167BC001A63B4 /* Cache.cpp in Sources */,
 				306A26B51F5DD17700E2B0B6 /* Listener.cpp in Sources */,
-				307237141FAFDAC9002EA399 /* Xml.cpp in Sources */,
 				303696CE1E32DD9C007F4211 /* BlendState.cpp in Sources */,
 				30519CCA1F9B53C100AF3DC4 /* TtfLoader.cpp in Sources */,
 				30EEADBD21618DAF00D2F525 /* GamepadDevice.cpp in Sources */,
@@ -3007,7 +3000,6 @@
 				30CEB37221A6403800525637 /* SystemMacOS.cpp in Sources */,
 				30575A9E1C39CB790009C8A7 /* Scene.cpp in Sources */,
 				306A26B41F5DD17700E2B0B6 /* Listener.cpp in Sources */,
-				307237131FAFDAC9002EA399 /* Xml.cpp in Sources */,
 				30519CC91F9B53C100AF3DC4 /* TtfLoader.cpp in Sources */,
 				30724D7E1F35366F00D915ED /* ViewMacOS.mm in Sources */,
 				30C56C951CAC3ECE007AEF8F /* SlideBar.cpp in Sources */,

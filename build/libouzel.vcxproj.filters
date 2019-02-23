@@ -334,9 +334,6 @@
     <ClCompile Include="..\ouzel\assets\WaveLoader.cpp">
       <Filter>ouzel\assets</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\utils\Xml.cpp">
-      <Filter>ouzel\utils</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\input\InputDevice.cpp">
       <Filter>ouzel\input</Filter>
     </ClCompile>

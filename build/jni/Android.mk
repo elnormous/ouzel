@@ -149,8 +149,7 @@ LOCAL_SRC_FILES := ../../ouzel/assets/BmfLoader.cpp \
     ../../ouzel/storage/FileSystem.cpp \
     ../../ouzel/utils/Log.cpp \
     ../../ouzel/utils/Obf.cpp \
-    ../../ouzel/utils/Utils.cpp \
-    ../../ouzel/utils/Xml.cpp
+    ../../ouzel/utils/Utils.cpp
 
 include $(BUILD_STATIC_LIBRARY)
 $(call import-module, android/cpufeatures)

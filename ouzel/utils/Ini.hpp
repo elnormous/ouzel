@@ -107,21 +107,21 @@ namespace ouzel
             return c == ' ' || c == '\t';
         }
 
-        inline std::vector<uint32_t>& ltrimUtf32(std::vector<uint32_t>& s)
+        static inline std::vector<uint32_t>& ltrimUtf32(std::vector<uint32_t>& s)
         {
             s.erase(s.begin(), std::find_if(s.begin(), s.end(),
                                             std::not1(std::ptr_fun<uint32_t, bool>(isWhitespace))));
             return s;
         }
 
-        inline std::vector<uint32_t>& rtrimUtf32(std::vector<uint32_t>& s)
+        static inline std::vector<uint32_t>& rtrimUtf32(std::vector<uint32_t>& s)
         {
             s.erase(std::find_if(s.rbegin(), s.rend(),
                                  std::not1(std::ptr_fun<uint32_t, bool>(isWhitespace))).base(), s.end());
             return s;
         }
 
-        inline std::vector<uint32_t>& trimUtf32(std::vector<uint32_t>& s)
+        static inline std::vector<uint32_t>& trimUtf32(std::vector<uint32_t>& s)
         {
             return ltrimUtf32(rtrimUtf32(s));
         }
