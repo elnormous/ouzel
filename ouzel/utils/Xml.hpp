@@ -21,25 +21,25 @@ namespace ouzel
         static inline bool isNameStartChar(uint32_t c)
         {
             return (c >= 'a' && c <= 'z') ||
-            (c >= 'A' && c <= 'Z') ||
-            c == ':' || c == '_' ||
-            (c >= 0xC0 && c <= 0xD6) ||
-            (c >= 0xD8 && c <= 0xF6) ||
-            (c >= 0xF8 && c <= 0x2FF) ||
-            (c >= 0x370 && c <= 0x37D) ||
-            (c >= 0x37F && c <= 0x1FFF) ||
-            (c >= 0x200C && c <= 0x200D) ||
-            (c >= 0x2070 && c <= 0x218F);
+                (c >= 'A' && c <= 'Z') ||
+                c == ':' || c == '_' ||
+                (c >= 0xC0 && c <= 0xD6) ||
+                (c >= 0xD8 && c <= 0xF6) ||
+                (c >= 0xF8 && c <= 0x2FF) ||
+                (c >= 0x370 && c <= 0x37D) ||
+                (c >= 0x37F && c <= 0x1FFF) ||
+                (c >= 0x200C && c <= 0x200D) ||
+                (c >= 0x2070 && c <= 0x218F);
         }
 
         static inline bool isNameChar(uint32_t c)
         {
             return isNameStartChar(c) ||
-            c == '-' || c == '.' ||
-            (c >= '0' && c <= '9') ||
-            c == 0xB7 ||
-            (c >= 0x0300 && c <= 0x036F) ||
-            (c >= 0x203F && c <= 0x2040);
+                c == '-' || c == '.' ||
+                (c >= '0' && c <= '9') ||
+                c == 0xB7 ||
+                (c >= 0x0300 && c <= 0x036F) ||
+                (c >= 0x203F && c <= 0x2040);
         }
 
         static void skipWhitespaces(const std::vector<uint32_t>& str,
@@ -219,15 +219,27 @@ namespace ouzel
         {
             for (uint32_t c : str)
             {
-                if (c == '"') data.insert(data.end(), {'&', 'q', 'u', 'o', 't', ';'});
-                else if (c == '&') data.insert(data.end(), {'&', 'a', 'm', 'p', ';'});
-                else if (c == '\'') data.insert(data.end(), {'&', 'a', 'p', 'o', 's', ';'});
-                else if (c == '<') data.insert(data.end(), {'&', 'l', 't', ';'});
-                else if (c == '>') data.insert(data.end(), {'&', 'g', 't', ';'});
-                else
+                switch (c)
                 {
-                    std::string encoded = utf8::fromUtf32(c);
-                    data.insert(data.end(), encoded.begin(), encoded.end());
+                    case '"':
+                        data.insert(data.end(), {'&', 'q', 'u', 'o', 't', ';'});
+                        break;
+                    case '&':
+                        data.insert(data.end(), {'&', 'a', 'm', 'p', ';'});
+                        break;
+                    case '\'':
+                        data.insert(data.end(), {'&', 'a', 'p', 'o', 's', ';'});
+                        break;
+                    case '<':
+                        data.insert(data.end(), {'&', 'l', 't', ';'});
+                        break;
+                    case '>':
+                        data.insert(data.end(), {'&', 'g', 't', ';'});
+                        break;
+                    default:
+                        std::string encoded = utf8::fromUtf32(c);
+                        data.insert(data.end(), encoded.begin(), encoded.end());
+                        break;
                 }
             }
         }
