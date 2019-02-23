@@ -19,6 +19,8 @@ namespace ouzel
 
         Voice::~Voice()
         {
+            if (streamId)
+                audio.deleteObject(streamId);
         }
 
         void Voice::play(bool repeat)

@@ -40,6 +40,7 @@ namespace ouzel
 
             inline AudioDevice* getDevice() const { return device.get(); }
             inline mixer::Mixer& getMixer() { return mixer; }
+            inline Mix& getMasterMix() { return masterMix; }
 
             void update();
 
@@ -49,8 +50,6 @@ namespace ouzel
             uintptr_t initSource(const std::function<std::unique_ptr<mixer::Source>()>& initFunction);
             uintptr_t initProcessor(std::unique_ptr<mixer::Processor>&& processor);
             void updateProcessor(uintptr_t processorId, const std::function<void(mixer::Processor*)>& updateFunction);
-
-            Mix& getMasterMix() { return masterMix; }
 
         private:
             void getData(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples);
