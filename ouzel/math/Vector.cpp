@@ -13,7 +13,7 @@ namespace ouzel
 
     template<class T>
     Vector2<T>::Vector2(const Vector4<T>& vec):
-    v{vec.v[0], vec.v[1]}
+        v{vec.v[0], vec.v[1]}
     {
     }
 

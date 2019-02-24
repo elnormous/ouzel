@@ -7,7 +7,7 @@ namespace ouzel
 {
     template<class T>
     Size2<T>::Size2(const Size3<T>& s):
-    v{s.v[0], s.v[1]}
+        v{s.v[0], s.v[1]}
     {
     }
 

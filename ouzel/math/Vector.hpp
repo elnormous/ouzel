@@ -16,19 +16,20 @@ namespace ouzel
     template<class T> class Vector2 final
     {
     public:
-        T v[2]{0, 0};
+        static constexpr size_t N = 2;
+        T v[N]{0, 0};
 
         Vector2()
         {
         }
 
         Vector2(T x, T y):
-        v{x, y}
+            v{x, y}
         {
         }
 
         Vector2(const Vector2<T>& copy):
-        v{copy.v[0], copy.v[1]}
+            v{copy.v[0], copy.v[1]}
         {
         }
 
@@ -268,24 +269,25 @@ namespace ouzel
     template<class T> class Vector3 final
     {
     public:
-        T v[3]{0, 0, 0};
+        static constexpr size_t N = 3;
+        T v[N]{0, 0, 0};
 
         Vector3()
         {
         }
 
         Vector3(T x, T y):
-        v{x, y, 0}
+            v{x, y, 0}
         {
         }
 
         Vector3(T x, T y, T z):
-        v{x, y, z}
+            v{x, y, z}
         {
         }
 
         Vector3(const Vector3& copy):
-        v{copy.v[0], copy.v[1], copy.v[2]}
+            v{copy.v[0], copy.v[1], copy.v[2]}
         {
         }
 
@@ -298,7 +300,7 @@ namespace ouzel
         }
 
         explicit Vector3(const Vector2<T>& vec):
-        v{vec.v[0], vec.v[1], 0.0F}
+            v{vec.v[0], vec.v[1], 0.0F}
         {
         }
 
@@ -532,10 +534,11 @@ namespace ouzel
     template<class T> class Vector4 final
     {
     public:
+        static constexpr size_t N = 4;
 #if defined(__SSE__)
         alignas(16)
 #endif
-        T v[4]{0, 0, 0, 0};
+        T v[N]{0, 0, 0, 0};
 
         Vector4()
         {

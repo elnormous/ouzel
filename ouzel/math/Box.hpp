@@ -17,18 +17,18 @@ namespace ouzel
         Vector2<T> max;
 
         Box2():
-        min(std::numeric_limits<T>::max(), std::numeric_limits<T>::max()),
-        max(std::numeric_limits<T>::lowest(), std::numeric_limits<T>::lowest())
+            min(std::numeric_limits<T>::max(), std::numeric_limits<T>::max()),
+            max(std::numeric_limits<T>::lowest(), std::numeric_limits<T>::lowest())
         {
         }
 
         Box2(const Vector2<T>& initMin, const Vector2<T>& initMax):
-        min(initMin), max(initMax)
+            min(initMin), max(initMax)
         {
         }
 
         Box2(const Box2& box):
-        min(box.min), max(box.max)
+            min(box.min), max(box.max)
         {
         }
 

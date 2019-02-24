@@ -13,19 +13,20 @@ namespace ouzel
     template<class T> class Size2 final
     {
     public:
-        T v[2]{0, 0};
+        static constexpr size_t N = 2;
+        T v[N]{0, 0};
 
         Size2()
         {
         }
 
         Size2(T width, T height):
-        v{width, height}
+            v{width, height}
         {
         }
 
         explicit Size2(const Vector2<T>& point):
-        v{point.v[0], point.v[1]}
+            v{point.v[0], point.v[1]}
         {
         }
 
@@ -138,7 +139,8 @@ namespace ouzel
     template<class T> class Size3 final
     {
     public:
-        T v[3]{0, 0, 0};
+        static constexpr size_t N = 3;
+        T v[N]{0, 0, 0};
 
         Size3()
         {
