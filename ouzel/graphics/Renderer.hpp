@@ -15,8 +15,8 @@
 #include "graphics/Driver.hpp"
 #include "graphics/RenderDevice.hpp"
 #include "math/Rect.hpp"
-#include "math/Matrix4.hpp"
-#include "math/Size2.hpp"
+#include "math/Matrix.hpp"
+#include "math/Size.hpp"
 #include "math/Color.hpp"
 
 namespace ouzel

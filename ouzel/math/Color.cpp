@@ -1,8 +1,7 @@
 // Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #include "Color.hpp"
-#include "Vector3.hpp"
-#include "Vector4.hpp"
+#include "Vector.hpp"
 
 namespace ouzel
 {

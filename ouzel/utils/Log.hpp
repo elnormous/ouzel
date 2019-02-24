@@ -11,13 +11,10 @@
 #include <thread>
 #include <type_traits>
 #include <vector>
-#include "math/Matrix4.hpp"
+#include "math/Matrix.hpp"
 #include "math/Quaternion.hpp"
-#include "math/Size2.hpp"
-#include "math/Size3.hpp"
-#include "math/Vector2.hpp"
-#include "math/Vector3.hpp"
-#include "math/Vector4.hpp"
+#include "math/Size.hpp"
+#include "math/Vector.hpp"
 
 namespace ouzel
 {

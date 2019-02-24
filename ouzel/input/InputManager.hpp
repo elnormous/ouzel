@@ -9,7 +9,7 @@
 #include <vector>
 #include <unordered_map>
 #include "input/InputSystem.hpp"
-#include "math/Vector2.hpp"
+#include "math/Vector.hpp"
 
 namespace ouzel
 {

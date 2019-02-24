@@ -8,7 +8,7 @@
 #include "graphics/RenderDevice.hpp"
 #include "Actor.hpp"
 #include "Layer.hpp"
-#include "math/Matrix4.hpp"
+#include "math/Matrix.hpp"
 
 namespace ouzel
 {

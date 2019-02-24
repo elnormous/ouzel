@@ -5,8 +5,8 @@
 
 #include <memory>
 #include <vector>
-#include "math/Box3.hpp"
-#include "math/Matrix4.hpp"
+#include "math/Box.hpp"
+#include "math/Matrix.hpp"
 #include "math/Color.hpp"
 #include "math/Rect.hpp"
 #include "graphics/Texture.hpp"

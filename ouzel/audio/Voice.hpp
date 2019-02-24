@@ -4,7 +4,7 @@
 #define OUZEL_AUDIO_VOICE_HPP
 
 #include <memory>
-#include "math/Vector3.hpp"
+#include "math/Vector.hpp"
 
 namespace ouzel
 {

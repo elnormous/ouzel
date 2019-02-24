@@ -5,8 +5,7 @@
 
 #include <vector>
 #include "graphics/DataType.hpp"
-#include "math/Vector2.hpp"
-#include "math/Vector3.hpp"
+#include "math/Vector.hpp"
 #include "math/Color.hpp"
 
 namespace ouzel

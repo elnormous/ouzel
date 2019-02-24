@@ -14,8 +14,8 @@
 #include "input/SystemCursor.hpp"
 #include "input/TouchpadDevice.hpp"
 #include "graphics/PixelFormat.hpp"
-#include "math/Size2.hpp"
-#include "math/Vector2.hpp"
+#include "math/Size.hpp"
+#include "math/Vector.hpp"
 
 namespace ouzel
 {

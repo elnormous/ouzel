@@ -6,7 +6,7 @@
 #include <cmath>
 #include <cstddef>
 #include <limits>
-#include "math/Vector3.hpp"
+#include "math/Vector.hpp"
 
 namespace ouzel
 {

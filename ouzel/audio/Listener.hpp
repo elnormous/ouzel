@@ -7,7 +7,7 @@
 #include "audio/AudioDevice.hpp"
 #include "scene/Component.hpp"
 #include "math/Quaternion.hpp"
-#include "math/Vector3.hpp"
+#include "math/Vector.hpp"
 
 namespace ouzel
 {

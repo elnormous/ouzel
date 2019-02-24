@@ -7,7 +7,7 @@
 #include <string>
 #include "core/NativeWindow.hpp"
 #include "graphics/Renderer.hpp"
-#include "math/Size2.hpp"
+#include "math/Size.hpp"
 
 namespace ouzel
 {

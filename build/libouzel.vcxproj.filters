@@ -139,7 +139,7 @@
     <ClCompile Include="..\ouzel\math\MathUtils.cpp">
       <Filter>ouzel\math</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\math\Matrix4.cpp">
+    <ClCompile Include="..\ouzel\math\Matrix.cpp">
       <Filter>ouzel\math</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\gui\Menu.cpp">
@@ -199,19 +199,10 @@
     <ClCompile Include="..\ouzel\scene\Sprite.cpp">
       <Filter>ouzel\scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\math\Size2.cpp">
+    <ClCompile Include="..\ouzel\math\Size.cpp">
       <Filter>ouzel\math</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\math\Size3.cpp">
-      <Filter>ouzel\math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\math\Vector2.cpp">
-      <Filter>ouzel\math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\math\Vector3.cpp">
-      <Filter>ouzel\math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\math\Vector4.cpp">
+    <ClCompile Include="..\ouzel\math\Vector.cpp">
       <Filter>ouzel\math</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\gui\SlideBar.cpp">
@@ -477,10 +468,7 @@
     <ClInclude Include="..\ouzel\gui\BMFont.hpp">
       <Filter>ouzel\gui</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\math\Box2.hpp">
-      <Filter>ouzel\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\math\Box3.hpp">
+    <ClInclude Include="..\ouzel\math\Box.hpp">
       <Filter>ouzel\math</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\Buffer.hpp">
@@ -606,7 +594,7 @@
     <ClInclude Include="..\ouzel\math\MathUtils.hpp">
       <Filter>ouzel\math</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\math\Matrix4.hpp">
+    <ClInclude Include="..\ouzel\math\Matrix.hpp">
       <Filter>ouzel\math</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\gui\Menu.hpp">
@@ -681,19 +669,10 @@
     <ClInclude Include="..\ouzel\scene\TextRenderer.hpp">
       <Filter>ouzel\scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\math\Size2.hpp">
+    <ClInclude Include="..\ouzel\math\Size.hpp">
       <Filter>ouzel\math</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\math\Size3.hpp">
-      <Filter>ouzel\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\math\Vector2.hpp">
-      <Filter>ouzel\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\math\Vector3.hpp">
-      <Filter>ouzel\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\math\Vector4.hpp">
+    <ClInclude Include="..\ouzel\math\Vector.hpp">
       <Filter>ouzel\math</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\gui\SlideBar.hpp">

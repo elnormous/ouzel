@@ -118,12 +118,9 @@ LOCAL_SRC_FILES := ../../ouzel/assets/BmfLoader.cpp \
     ../../ouzel/math/Box3.cpp \
     ../../ouzel/math/Color.cpp \
     ../../ouzel/math/MathUtils.cpp \
-    ../../ouzel/math/Matrix4.cpp \
-    ../../ouzel/math/Size2.cpp \
-    ../../ouzel/math/Size3.cpp \
-    ../../ouzel/math/Vector2.cpp \
-    ../../ouzel/math/Vector3.cpp \
-    ../../ouzel/math/Vector4.cpp \
+    ../../ouzel/math/Matrix.cpp \
+    ../../ouzel/math/Size.cpp \
+    ../../ouzel/math/Vector.cpp \
     ../../ouzel/network/Client.cpp \
     ../../ouzel/network/Network.cpp \
 	../../ouzel/network/Server.cpp \

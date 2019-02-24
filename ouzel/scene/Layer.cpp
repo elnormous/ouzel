@@ -8,7 +8,7 @@
 #include "Camera.hpp"
 #include "graphics/Renderer.hpp"
 #include "Scene.hpp"
-#include "math/Matrix4.hpp"
+#include "math/Matrix.hpp"
 #include "Component.hpp"
 
 namespace ouzel

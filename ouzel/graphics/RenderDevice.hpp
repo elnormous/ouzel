@@ -12,8 +12,8 @@
 #include "graphics/Driver.hpp"
 #include "graphics/Texture.hpp"
 #include "graphics/Vertex.hpp"
-#include "math/Matrix4.hpp"
-#include "math/Size2.hpp"
+#include "math/Matrix.hpp"
+#include "math/Size.hpp"
 
 namespace ouzel
 {

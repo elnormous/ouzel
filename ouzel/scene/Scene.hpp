@@ -6,7 +6,7 @@
 #include <vector>
 #include <unordered_map>
 #include <cstdint>
-#include "math/Vector2.hpp"
+#include "math/Vector.hpp"
 #include "events/EventHandler.hpp"
 
 namespace ouzel

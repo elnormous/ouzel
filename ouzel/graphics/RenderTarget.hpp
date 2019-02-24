@@ -7,7 +7,7 @@
 #include <vector>
 #include "graphics/GraphicsResource.hpp"
 #include "math/Color.hpp"
-#include "math/Size2.hpp"
+#include "math/Size.hpp"
 
 namespace ouzel
 {

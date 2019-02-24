@@ -5,8 +5,7 @@
 
 #include <memory>
 #include <vector>
-#include "math/Vector2.hpp"
-#include "math/Vector3.hpp"
+#include "math/Vector.hpp"
 
 namespace ouzel
 {

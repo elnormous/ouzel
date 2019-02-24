@@ -4,7 +4,7 @@
 #if defined(__SSE__)
 #  include <xmmintrin.h>
 #endif
-#include "Matrix4.hpp"
+#include "Matrix.hpp"
 #include "MathUtils.hpp"
 
 namespace ouzel

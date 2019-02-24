@@ -10,8 +10,7 @@
 #include "math/ConvexVolume.hpp"
 #include "math/Plane.hpp"
 #include "math/Quaternion.hpp"
-#include "math/Vector3.hpp"
-#include "math/Vector4.hpp"
+#include "math/Vector.hpp"
 
 namespace ouzel
 {

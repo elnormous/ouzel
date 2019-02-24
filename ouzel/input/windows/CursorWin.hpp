@@ -12,7 +12,7 @@
 #undef NOMINMAX
 
 #include "input/Cursor.hpp"
-#include "math/Size2.hpp"
+#include "math/Size.hpp"
 
 namespace ouzel
 {

@@ -8,10 +8,10 @@
 #include <memory>
 #include <vector>
 #include "scene/Component.hpp"
-#include "math/Box2.hpp"
+#include "math/Box.hpp"
 #include "math/Rect.hpp"
-#include "math/Size2.hpp"
-#include "math/Vector2.hpp"
+#include "math/Size.hpp"
+#include "math/Vector.hpp"
 #include "events/EventHandler.hpp"
 #include "graphics/BlendState.hpp"
 #include "graphics/Buffer.hpp"

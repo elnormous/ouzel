@@ -6,7 +6,7 @@
 #include <cfloat>
 #include <utility>
 #include "audio/Effect.hpp"
-#include "math/Vector3.hpp"
+#include "math/Vector.hpp"
 #include "scene/Component.hpp"
 
 namespace ouzel

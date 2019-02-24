@@ -8,8 +8,8 @@
 #include <string>
 #include "audio/Voice.hpp"
 #include "core/Window.hpp"
-#include "math/Vector2.hpp"
-#include "math/Size2.hpp"
+#include "math/Vector.hpp"
+#include "math/Size.hpp"
 #include "input/Gamepad.hpp"
 #include "input/Keyboard.hpp"
 #include "input/Mouse.hpp"

@@ -4,9 +4,9 @@
 #define OUZEL_MATH_CONVEXVOLUME_HPP
 
 #include <vector>
-#include "math/Box3.hpp"
+#include "math/Box.hpp"
 #include "math/Plane.hpp"
-#include "math/Vector4.hpp"
+#include "math/Vector.hpp"
 
 namespace ouzel
 {

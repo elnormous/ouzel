@@ -7,8 +7,8 @@
 #include <vector>
 #include <functional>
 #include "scene/Component.hpp"
-#include "math/Vector2.hpp"
 #include "math/Color.hpp"
+#include "math/Vector.hpp"
 #include "events/EventHandler.hpp"
 #include "graphics/Vertex.hpp"
 #include "graphics/BlendState.hpp"
