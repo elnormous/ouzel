@@ -137,8 +137,7 @@
     <ClCompile Include="..\ouzel\input\windows\MouseDeviceWin.cpp" />
     <ClCompile Include="..\ouzel\localization\Language.cpp" />
     <ClCompile Include="..\ouzel\localization\Localization.cpp" />
-    <ClCompile Include="..\ouzel\math\Box2.cpp" />
-    <ClCompile Include="..\ouzel\math\Box3.cpp" />
+    <ClCompile Include="..\ouzel\math\Box.cpp" />
     <ClCompile Include="..\ouzel\math\Color.cpp" />
     <ClCompile Include="..\ouzel\math\MathUtils.cpp" />
     <ClCompile Include="..\ouzel\math\Matrix.cpp" />

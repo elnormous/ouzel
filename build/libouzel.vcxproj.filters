@@ -34,10 +34,7 @@
     <ClCompile Include="..\ouzel\gui\BMFont.cpp">
       <Filter>ouzel\gui</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\math\Box2.cpp">
-      <Filter>ouzel\math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\math\Box3.cpp">
+    <ClCompile Include="..\ouzel\math\Box.cpp">
       <Filter>ouzel\math</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\graphics\Buffer.cpp">
