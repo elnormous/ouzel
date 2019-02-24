@@ -15,6 +15,8 @@ namespace ouzel
 {
     namespace json
     {
+        static const std::vector<uint8_t> UTF8_BOM = {0xEF, 0xBB, 0xBF};
+
         static void encodeString(std::vector<uint8_t>& data,
                                  const std::vector<uint32_t>& str)
         {
@@ -729,9 +731,9 @@ namespace ouzel
 
                 // BOM
                 if (data.size() >= 3 &&
-                    data[0] == 0xEF &&
-                    data[1] == 0xBB &&
-                    data[2] == 0xBF)
+                    data[0] == UTF8_BOM[0] &&
+                    data[1] == UTF8_BOM[1] &&
+                    data[2] == UTF8_BOM[2])
                 {
                     bom = true;
                     str = utf8::toUtf32(std::vector<uint8_t>(data.begin() + 3, data.end()));
@@ -753,7 +755,7 @@ namespace ouzel
             {
                 std::vector<uint8_t> result;
 
-                if (bom) result = {0xEF, 0xBB, 0xBF};
+                if (bom) result = UTF8_BOM;
 
                 encodeValue(result);
 

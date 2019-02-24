@@ -320,18 +320,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				307F9FF81F1E878D00BA73CB /* GameController.framework in Frameworks */,
-				309BA31E1F1841E8006F2240 /* AudioUnit.framework in Frameworks */,
-				30419E631D1F3DED00A63759 /* AudioToolbox.framework in Frameworks */,
-				309BA31A1F184198006F2240 /* CoreAudio.framework in Frameworks */,
-				3098A5501EA01B4B00528A54 /* IOKit.framework in Frameworks */,
-				304659F11E996AAD00D7FEA0 /* QuartzCore.framework in Frameworks */,
 				30647D931D7D94EC00DC7E61 /* libouzel_macos.a in Frameworks */,
-				305F6DBB1C66C50000B76A03 /* CoreVideo.framework in Frameworks */,
+				30419E631D1F3DED00A63759 /* AudioToolbox.framework in Frameworks */,
+				309BA31E1F1841E8006F2240 /* AudioUnit.framework in Frameworks */,
 				303B74F31C27F6EB00FEDE92 /* Cocoa.framework in Frameworks */,
+				309BA31A1F184198006F2240 /* CoreAudio.framework in Frameworks */,
+				305F6DBB1C66C50000B76A03 /* CoreVideo.framework in Frameworks */,
+				307F9FF81F1E878D00BA73CB /* GameController.framework in Frameworks */,
+				3098A5501EA01B4B00528A54 /* IOKit.framework in Frameworks */,
 				30AFE1321CB5DC2B00478AA2 /* Metal.framework in Frameworks */,
 				30419E861D202DAB00A63759 /* OpenAL.framework in Frameworks */,
 				303B74EE1C27F6A100FEDE92 /* OpenGL.framework in Frameworks */,
+				304659F11E996AAD00D7FEA0 /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -462,6 +462,7 @@
 				30B492A91CDF81700021E170 /* libouzel_ios.a */,
 				30B492A71CDF81700021E170 /* libouzel_macos.a */,
 				30B492AB1CDF81700021E170 /* libouzel_tvos.a */,
+				3023201B22223CDA007E0AAD /* ouzel */,
 			);
 			name = Products;
 			sourceTree = "<group>";
