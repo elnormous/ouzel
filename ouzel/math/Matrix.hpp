@@ -1,7 +1,7 @@
 // Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_MATH_MATRIX4_HPP
-#define OUZEL_MATH_MATRIX4_HPP
+#ifndef OUZEL_MATH_MATRIX_HPP
+#define OUZEL_MATH_MATRIX_HPP
 
 #include <cassert>
 #include <cmath>
@@ -834,4 +834,4 @@ namespace ouzel
     using Matrix4F = Matrix4<float>;
 }
 
-#endif // OUZEL_MATH_MATRIX4_HPP
+#endif // OUZEL_MATH_MATRIX_HPP
