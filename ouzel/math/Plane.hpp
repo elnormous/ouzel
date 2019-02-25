@@ -97,7 +97,7 @@ namespace ouzel
 
         static inline Plane makeFrustumPlane(T a, T b, T c, T d)
         {
-            T n = static_cast<T>(sqrt(a * a + b * b + c * c));
+            T n = sqrt(a * a + b * b + c * c);
             if (n <= std::numeric_limits<T>::min()) // too close to zero
                 return Plane();
 

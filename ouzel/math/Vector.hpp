@@ -60,7 +60,7 @@ namespace ouzel
 
         inline T getAngle() const
         {
-            return static_cast<T>(atan2(v[1], v[0]));
+            return atan2(v[1], v[0]);
         };
 
         void clamp(const Vector2& min, const Vector2& max)
@@ -85,7 +85,7 @@ namespace ouzel
             T dx = vec.v[0] - v[0];
             T dy = vec.v[1] - v[1];
 
-            return static_cast<T>(sqrt(dx * dx + dy * dy));
+            return sqrt(dx * dx + dy * dy);
         }
 
         T distanceSquared(const Vector2& vec) const
@@ -102,7 +102,7 @@ namespace ouzel
 
         T length() const
         {
-            return static_cast<T>(sqrt(v[0] * v[0] + v[1] * v[1]));
+            return sqrt(v[0] * v[0] + v[1] * v[1]);
         }
 
         T lengthSquared() const
@@ -122,7 +122,7 @@ namespace ouzel
             if (n == 1) // already normalized
                 return;
 
-            n = static_cast<T>(sqrt(n));
+            n = sqrt(n);
             if (n <= std::numeric_limits<T>::min()) // too close to zero
                 return;
 
@@ -139,8 +139,8 @@ namespace ouzel
 
         void rotate(T angle)
         {
-            T sinAngle = static_cast<T>(sin(angle));
-            T cosAngle = static_cast<T>(cos(angle));
+            T sinAngle = sin(angle);
+            T cosAngle = cos(angle);
 
             T tempX = v[0] * cosAngle - v[1] * sinAngle;
             v[1] = v[1] * cosAngle + v[0] * sinAngle;
@@ -149,8 +149,8 @@ namespace ouzel
 
         void rotate(const Vector2& point, T angle)
         {
-            T sinAngle = static_cast<T>(sin(angle));
-            T cosAngle = static_cast<T>(cos(angle));
+            T sinAngle = sin(angle);
+            T cosAngle = cos(angle);
 
             if (point.isZero())
             {
@@ -331,7 +331,7 @@ namespace ouzel
             T dy = v[2] * axis.v[0] - v[0] * axis.v[2];
             T dz = v[0] * axis.v[1] - v[1] * axis.v[0];
 
-            return static_cast<T>(atan2(sqrt(dx * dx + dy * dy + dz * dz), dot(axis)));
+            return atan2(sqrt(dx * dx + dy * dy + dz * dz), dot(axis));
         }
 
         void clamp(const Vector3& min, const Vector3& max)
@@ -370,7 +370,7 @@ namespace ouzel
             T dy = vec.v[1] - v[1];
             T dz = vec.v[2] - v[2];
 
-            return static_cast<T>(sqrt(dx * dx + dy * dy + dz * dz));
+            return sqrt(dx * dx + dy * dy + dz * dz);
         }
 
         T distanceSquared(const Vector3& vec) const
@@ -389,7 +389,7 @@ namespace ouzel
 
         T length() const
         {
-            return static_cast<T>(sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]));
+            return sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
         }
 
         T lengthSquared() const
@@ -410,7 +410,7 @@ namespace ouzel
             if (n == 1) // already normalized
                 return;
 
-            n = static_cast<T>(sqrt(n));
+            n = sqrt(n);
             if (n <= std::numeric_limits<T>::min()) // too close to zero
                 return;
 
@@ -611,7 +611,7 @@ namespace ouzel
             T dy = v[3] * axis.v[1] - v[1] * axis.v[3] - v[2] * axis.v[0] + v[0] * axis.v[2];
             T dz = v[3] * axis.v[2] - v[2] * axis.v[3] - v[0] * axis.v[1] + v[1] * axis.v[0];
 
-            return static_cast<T>(atan2(sqrt(dx * dx + dy * dy + dz * dz), dot(axis)));
+            return atan2(sqrt(dx * dx + dy * dy + dz * dz), dot(axis));
         }
 
         void clamp(const Vector4& min, const Vector4& max)
@@ -650,7 +650,7 @@ namespace ouzel
             T dz = vec.v[2] - v[2];
             T dw = vec.v[3] - v[3];
 
-            return static_cast<T>(sqrt(dx * dx + dy * dy + dz * dz + dw * dw));
+            return sqrt(dx * dx + dy * dy + dz * dz + dw * dw);
         }
 
         T distanceSquared(const Vector4& vec) const
@@ -670,7 +670,7 @@ namespace ouzel
 
         inline T length() const
         {
-            return static_cast<T>(sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3]));
+            return sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3]);
         }
 
         inline T lengthSquared() const
@@ -692,7 +692,7 @@ namespace ouzel
             if (n == 1) // already normalized
                 return;
 
-            n = static_cast<T>(sqrt(n));
+            n = sqrt(n);
             if (n <= std::numeric_limits<T>::min()) // too close to zero
                 return;
 

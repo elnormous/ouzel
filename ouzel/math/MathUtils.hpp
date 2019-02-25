@@ -113,7 +113,7 @@ namespace ouzel
     template<class T>
     inline bool isNearlyEqual(T a, T b, T tolerance = std::numeric_limits<T>::min())
     {
-        return static_cast<T>(fabs(a - b)) <= tolerance;
+        return fabs(a - b) <= tolerance;
     }
 }
 

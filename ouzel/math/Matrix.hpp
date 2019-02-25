@@ -136,7 +136,7 @@ namespace ouzel
             if (fabs(fmod(theta, PI / 2)) <= std::numeric_limits<T>::min())
                 return;
 
-            T divisor = static_cast<T>(tan(theta));
+            T divisor = tan(theta);
             assert(divisor);
             T factor = 1 / divisor;
 
@@ -206,7 +206,7 @@ namespace ouzel
             if (n != 1)
             {
                 // Not normalized
-                n = static_cast<T>(sqrt(n));
+                n = sqrt(n);
                 // Prevent divide too close to zero
                 if (n > std::numeric_limits<T>::min())
                 {
@@ -217,8 +217,8 @@ namespace ouzel
                 }
             }
 
-            T c = static_cast<T>(cos(angle));
-            T s = static_cast<T>(sin(angle));
+            T c = cos(angle);
+            T s = sin(angle);
 
             T t = 1 - c;
             T tx = t * x;
@@ -256,8 +256,8 @@ namespace ouzel
         {
             dst.setIdentity();
 
-            T c = static_cast<T>(cos(angle));
-            T s = static_cast<T>(sin(angle));
+            T c = cos(angle);
+            T s = sin(angle);
 
             dst.m[5] = c;
             dst.m[9] = -s;
@@ -269,8 +269,8 @@ namespace ouzel
         {
             dst.setIdentity();
 
-            T c = static_cast<T>(cos(angle));
-            T s = static_cast<T>(sin(angle));
+            T c = cos(angle);
+            T s = sin(angle);
 
             dst.m[0] = c;
             dst.m[8] = s;
@@ -282,8 +282,8 @@ namespace ouzel
         {
             dst.setIdentity();
 
-            T c = static_cast<T>(cos(angle));
-            T s = static_cast<T>(sin(angle));
+            T c = cos(angle);
+            T s = sin(angle);
 
             dst.m[0] = c;
             dst.m[4] = -s;
@@ -664,10 +664,10 @@ namespace ouzel
             T m33 = m[10] / scale.v[2];
 
             Quaternion<T> result;
-            result.v[0] = static_cast<T>(sqrt(std::max(static_cast<T>(0), 1 + m11 - m22 - m33))) / 2;
-            result.v[1] = static_cast<T>(sqrt(std::max(static_cast<T>(0), 1 - m11 + m22 - m33))) / 2;
-            result.v[2] = static_cast<T>(sqrt(std::max(static_cast<T>(0), 1 - m11 - m22 + m33))) / 2;
-            result.v[3] = static_cast<T>(sqrt(std::max(static_cast<T>(0), 1 + m11 + m22 + m33))) / 2;
+            result.v[0] = sqrt(std::max(static_cast<T>(0), 1 + m11 - m22 - m33)) / 2;
+            result.v[1] = sqrt(std::max(static_cast<T>(0), 1 - m11 + m22 - m33)) / 2;
+            result.v[2] = sqrt(std::max(static_cast<T>(0), 1 - m11 - m22 + m33)) / 2;
+            result.v[3] = sqrt(std::max(static_cast<T>(0), 1 + m11 + m22 + m33)) / 2;
 
             result.v[0] *= sgn(result.v[0] * (m32 - m23));
             result.v[1] *= sgn(result.v[1] * (m13 - m31));

@@ -199,7 +199,7 @@ namespace ouzel
             if (n == 1) // already normalized
                 return 1;
 
-            return static_cast<T>(sqrt(n));
+            return sqrt(n);
         }
 
         void normalize()
@@ -208,7 +208,7 @@ namespace ouzel
             if (n == 1) // already normalized
                 return;
 
-            n = static_cast<T>(sqrt(n));
+            n = sqrt(n);
             if (n <= std::numeric_limits<T>::min()) // too close to zero
                 return;
 
@@ -223,8 +223,8 @@ namespace ouzel
         {
             axis.normalize();
 
-            T cosAngle = static_cast<T>(cos(angle / 2));
-            T sinAngle = static_cast<T>(sin(angle / 2));
+            T cosAngle = cos(angle / 2);
+            T sinAngle = sin(angle / 2);
 
             v[0] = axis.v[0] * sinAngle;
             v[1] = axis.v[1] * sinAngle;
@@ -234,8 +234,8 @@ namespace ouzel
 
         void getRotation(T& angle, Vector3<T>& axis) const
         {
-            angle = 2 * static_cast<T>(acos(v[3]));
-            T s = static_cast<T>(sqrt(1 - v[3] * v[3]));
+            angle = 2 * acos(v[3]);
+            T s = sqrt(1 - v[3] * v[3]);
             if (s <= std::numeric_limits<T>::min()) // too close to zero
             {
                 axis.v[0] = v[0];
@@ -253,25 +253,25 @@ namespace ouzel
         Vector3<T> getEulerAngles() const
         {
             Vector3<T> result;
-            result.v[0] = static_cast<T>(atan2(2 * (v[1] * v[2] + v[3] * v[0]), v[3] * v[3] - v[0] * v[0] - v[1] * v[1] + v[2] * v[2]));
-            result.v[1] = static_cast<T>(asin(-2 * (v[0] * v[2] - v[3] * v[1])));
-            result.v[2] = static_cast<T>(atan2(2 * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2]));
+            result.v[0] = atan2(2 * (v[1] * v[2] + v[3] * v[0]), v[3] * v[3] - v[0] * v[0] - v[1] * v[1] + v[2] * v[2]);
+            result.v[1] = asin(-2 * (v[0] * v[2] - v[3] * v[1]));
+            result.v[2] = atan2(2 * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2]);
             return result;
         }
 
         T getEulerAngleX() const
         {
-            return static_cast<T>(atan2(2 * (v[1] * v[2] + v[3] * v[0]), v[3] * v[3] - v[0] * v[0] - v[1] * v[1] + v[2] * v[2]));
+            return atan2(2 * (v[1] * v[2] + v[3] * v[0]), v[3] * v[3] - v[0] * v[0] - v[1] * v[1] + v[2] * v[2]);
         }
 
         T getEulerAngleY() const
         {
-            return static_cast<T>(asin(-2 * (v[0] * v[2] - v[3] * v[1])));
+            return asin(-2 * (v[0] * v[2] - v[3] * v[1]));
         }
 
         T getEulerAngleZ() const
         {
-            return static_cast<T>(atan2(2 * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2]));
+            return atan2(2 * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2]);
         }
 
         void setEulerAngles(const Vector3<T>& angles)
@@ -279,16 +279,16 @@ namespace ouzel
             T angle;
 
             angle = angles.v[0] / 2;
-            const T sr = static_cast<T>(sin(angle));
-            const T cr = static_cast<T>(cos(angle));
+            const T sr = sin(angle);
+            const T cr = cos(angle);
 
             angle = angles.v[1] / 2;
-            const T sp = static_cast<T>(sin(angle));
-            const T cp = static_cast<T>(cos(angle));
+            const T sp = sin(angle);
+            const T cp = cos(angle);
 
             angle = angles.v[2] / 2;
-            const T sy = static_cast<T>(sin(angle));
-            const T cy = static_cast<T>(cos(angle));
+            const T sy = sin(angle);
+            const T cy = cos(angle);
 
             const T cpcy = cp * cy;
             const T spcy = sp * cy;
