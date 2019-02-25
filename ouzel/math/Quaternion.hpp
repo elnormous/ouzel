@@ -184,7 +184,7 @@ namespace ouzel
         {
             T n2 = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3]; // norm squared
 
-            if (n2 == 0.0F) return;
+            if (n2 == 0) return;
 
             // conjugate divided by norm squared
             v[0] = -v[0] / n2;
@@ -193,38 +193,38 @@ namespace ouzel
             v[3] = v[3] / n2;
         }
 
-        float getNorm() const
+        T getNorm() const
         {
-            float n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
-            if (n == 1.0F) // already normalized
-                return 1.0F;
+            T n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
+            if (n == 1) // already normalized
+                return 1;
 
-            return sqrtf(n);
+            return static_cast<T>(sqrt(n));
         }
 
         void normalize()
         {
-            float n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
-            if (n == 1.0F) // already normalized
+            T n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
+            if (n == 1) // already normalized
                 return;
 
-            n = sqrtf(n);
-            if (n < std::numeric_limits<float>::min()) // too close to zero
+            n = static_cast<T>(sqrt(n));
+            if (n <= std::numeric_limits<T>::min()) // too close to zero
                 return;
 
-            n = 1.0F / n;
+            n = 1 / n;
             v[0] *= n;
             v[1] *= n;
             v[2] *= n;
             v[3] *= n;
         }
 
-        void rotate(float angle, Vector3<T> axis)
+        void rotate(T angle, Vector3<T> axis)
         {
             axis.normalize();
 
-            float cosAngle = cosf(angle / 2.0F);
-            float sinAngle = sinf(angle / 2.0F);
+            T cosAngle = static_cast<T>(cos(angle / 2));
+            T sinAngle = static_cast<T>(sin(angle / 2));
 
             v[0] = axis.v[0] * sinAngle;
             v[1] = axis.v[1] * sinAngle;
@@ -232,11 +232,11 @@ namespace ouzel
             v[3] = cosAngle;
         }
 
-        void getRotation(float& angle, Vector3<T>& axis) const
+        void getRotation(T& angle, Vector3<T>& axis) const
         {
-            angle = 2.0F * acosf(v[3]);
-            float s = sqrtf(1.0F - v[3] * v[3]);
-            if (s < std::numeric_limits<float>::min()) // too close to zero
+            angle = 2 * static_cast<T>(acos(v[3]));
+            T s = static_cast<T>(sqrt(1 - v[3] * v[3]));
+            if (s <= std::numeric_limits<T>::min()) // too close to zero
             {
                 axis.v[0] = v[0];
                 axis.v[1] = v[1];
@@ -253,47 +253,47 @@ namespace ouzel
         Vector3<T> getEulerAngles() const
         {
             Vector3<T> result;
-            result.v[0] = atan2f(2.0F * (v[1] * v[2] + v[3] * v[0]), v[3] * v[3] - v[0] * v[0] - v[1] * v[1] + v[2] * v[2]);
-            result.v[1] = asinf(-2.0F * (v[0] * v[2] - v[3] * v[1]));
-            result.v[2] = atan2f(2.0F * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2]);
+            result.v[0] = static_cast<T>(atan2(2 * (v[1] * v[2] + v[3] * v[0]), v[3] * v[3] - v[0] * v[0] - v[1] * v[1] + v[2] * v[2]));
+            result.v[1] = static_cast<T>(asin(-2 * (v[0] * v[2] - v[3] * v[1])));
+            result.v[2] = static_cast<T>(atan2(2 * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2]));
             return result;
         }
 
-        float getEulerAngleX() const
+        T getEulerAngleX() const
         {
-            return atan2f(2.0F * (v[1] * v[2] + v[3] * v[0]), v[3] * v[3] - v[0] * v[0] - v[1] * v[1] + v[2] * v[2]);
+            return static_cast<T>(atan2(2 * (v[1] * v[2] + v[3] * v[0]), v[3] * v[3] - v[0] * v[0] - v[1] * v[1] + v[2] * v[2]));
         }
 
-        float getEulerAngleY() const
+        T getEulerAngleY() const
         {
-            return asinf(-2.0F * (v[0] * v[2] - v[3] * v[1]));
+            return static_cast<T>(asin(-2 * (v[0] * v[2] - v[3] * v[1])));
         }
 
-        float getEulerAngleZ() const
+        T getEulerAngleZ() const
         {
-            return atan2f(2.0F * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2]);
+            return static_cast<T>(atan2(2 * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2]));
         }
 
         void setEulerAngles(const Vector3<T>& angles)
         {
-            float angle;
+            T angle;
 
-            angle = angles.v[0] * 0.5F;
-            const float sr = sinf(angle);
-            const float cr = cosf(angle);
+            angle = angles.v[0] / 2;
+            const T sr = static_cast<T>(sin(angle));
+            const T cr = static_cast<T>(cos(angle));
 
-            angle = angles.v[1] * 0.5F;
-            const float sp = sinf(angle);
-            const float cp = cosf(angle);
+            angle = angles.v[1] / 2;
+            const T sp = static_cast<T>(sin(angle));
+            const T cp = static_cast<T>(cos(angle));
 
-            angle = angles.v[2] * 0.5F;
-            const float sy = sinf(angle);
-            const float cy = cosf(angle);
+            angle = angles.v[2] / 2;
+            const T sy = static_cast<T>(sin(angle));
+            const T cy = static_cast<T>(cos(angle));
 
-            const float cpcy = cp * cy;
-            const float spcy = sp * cy;
-            const float cpsy = cp * sy;
-            const float spsy = sp * sy;
+            const T cpcy = cp * cy;
+            const T spcy = sp * cy;
+            const T cpsy = cp * sy;
+            const T spsy = sp * sy;
 
             v[0] = sr * cpcy - cr * spsy;
             v[1] = cr * spcy + sr * cpsy;
@@ -309,29 +309,30 @@ namespace ouzel
         inline Vector3<T> rotateVector(const Vector3<T>& vector) const
         {
             Vector3<T> q(v[0], v[1], v[2]);
-            Vector3<T> t = 2.0F * q.cross(vector);
+            Vector3<T> t = 2 * q.cross(vector);
             return vector + (v[3] * t) + q.cross(t);
         }
 
         inline Vector3<T> getRightVector() const
         {
-            return rotateVector(Vector3<T>(1.0F, 0.0F, 0.0F));
+            return rotateVector(Vector3<T>(1, 0, 0));
         }
 
         inline Vector3<T> getUpVector() const
         {
-            return rotateVector(Vector3<T>(0.0F, 1.0F, 0.0F));
+            return rotateVector(Vector3<T>(0, 1, 0));
         }
 
         inline Vector3<T> getForwardVector() const
         {
-            return rotateVector(Vector3<T>(0.0F, 0.0F, 1.0F));
+            return rotateVector(Vector3<T>(0, 0, 1));
         }
 
-        inline Quaternion& lerp(const Quaternion& q1, const Quaternion& q2, float t)
+        inline Quaternion& lerp(const Quaternion& q1, const Quaternion& q2, T t)
         {
-            const float scale = 1.0F - t;
-            return (*this = (q1 * scale) + (q2 * t));
+            const T scale = 1 - t;
+            *this = (q1 * scale) + (q2 * t);
+            return *this;
         }
     };
 
