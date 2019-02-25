@@ -110,22 +110,22 @@ namespace ouzel
             dst.m[0] = xaxis.v[0];
             dst.m[1] = yaxis.v[0];
             dst.m[2] = zaxis.v[0];
-            dst.m[3] = 0.0F;
+            dst.m[3] = 0;
 
             dst.m[4] = xaxis.v[1];
             dst.m[5] = yaxis.v[1];
             dst.m[6] = zaxis.v[1];
-            dst.m[7] = 0.0F;
+            dst.m[7] = 0;
 
             dst.m[8] = xaxis.v[2];
             dst.m[9] = yaxis.v[2];
             dst.m[10] = zaxis.v[2];
-            dst.m[11] = 0.0F;
+            dst.m[11] = 0;
 
             dst.m[12] = xaxis.dot(-eye);
             dst.m[13] = yaxis.dot(-eye);
             dst.m[14] = zaxis.dot(-eye);
-            dst.m[15] = 1.0F;
+            dst.m[15] = 1;
         }
 
         static void createPerspective(T fieldOfView, T aspectRatio, T zNearPlane, T zFarPlane, Matrix4& dst)
@@ -133,27 +133,27 @@ namespace ouzel
             assert(zFarPlane != zNearPlane);
 
             float theta = fieldOfView * 0.5F;
-            if (isNearlyEqual(fmodf(theta, PI / 2.0F), 0.0F)) // invalid field of view value
+            if (isNearlyEqual(fmodf(theta, PI / 2), 0)) // invalid field of view value
                 return;
 
             float divisor = tanf(theta);
             assert(divisor);
-            float factor = 1.0F / divisor;
+            float factor = 1 / divisor;
 
             dst.setZero();
 
             assert(aspectRatio);
-            dst.m[0] = (1.0F / aspectRatio) * factor;
+            dst.m[0] = (1 / aspectRatio) * factor;
             dst.m[5] = factor;
             dst.m[10] = zFarPlane / (zFarPlane - zNearPlane);
-            dst.m[11] = 1.0F;
+            dst.m[11] = 1;
             dst.m[14] = -zNearPlane * zFarPlane / (zFarPlane - zNearPlane);
         }
 
         static void createOrthographicFromSize(T width, T height, T zNearPlane, T zFarPlane, Matrix4& dst)
         {
-            float halfWidth = width / 2.0F;
-            float halfHeight = height / 2.0F;
+            float halfWidth = width / 2;
+            float halfHeight = height / 2;
             createOrthographicOffCenter(-halfWidth, halfWidth,
                                         -halfHeight, halfHeight,
                                         zNearPlane, zFarPlane, dst);
@@ -168,13 +168,13 @@ namespace ouzel
 
             dst.setZero();
 
-            dst.m[0] = 2.0F / (right - left);
-            dst.m[5] = 2.0F / (top - bottom);
-            dst.m[10] = 1.0F / (zFarPlane - zNearPlane);
+            dst.m[0] = 2 / (right - left);
+            dst.m[5] = 2 / (top - bottom);
+            dst.m[10] = 1 / (zFarPlane - zNearPlane);
             dst.m[12] = (left + right) / (left - right);
             dst.m[13] = (bottom + top) / (bottom - top);
             dst.m[14] = zNearPlane / (zNearPlane - zFarPlane);
-            dst.m[15] = 1.0F;
+            dst.m[15] = 1;
         }
 
         static void createScale(const Vector3<T>& scale, Matrix4& dst)
@@ -203,14 +203,14 @@ namespace ouzel
 
             // Make sure the input axis is normalized
             float n = x * x + y * y + z * z;
-            if (n != 1.0F)
+            if (n != 1)
             {
                 // Not normalized
                 n = sqrtf(n);
                 // Prevent divide too close to zero
                 if (n >= std::numeric_limits<float>::min())
                 {
-                    n = 1.0F / n;
+                    n = 1 / n;
                     x *= n;
                     y *= n;
                     z *= n;
@@ -220,7 +220,7 @@ namespace ouzel
             float c = cosf(angle);
             float s = sinf(angle);
 
-            float t = 1.0F - c;
+            float t = 1 - c;
             float tx = t * x;
             float ty = t * y;
             float tz = t * z;
@@ -234,22 +234,22 @@ namespace ouzel
             dst.m[0] = c + tx * x;
             dst.m[4] = txy - sz;
             dst.m[8] = txz + sy;
-            dst.m[12] = 0.0F;
+            dst.m[12] = 0;
 
             dst.m[1] = txy + sz;
             dst.m[5] = c + ty * y;
             dst.m[9] = tyz - sx;
-            dst.m[13] = 0.0F;
+            dst.m[13] = 0;
 
             dst.m[2] = txz - sy;
             dst.m[6] = tyz + sx;
             dst.m[10] = c + tz * z;
-            dst.m[14] = 0.0F;
+            dst.m[14] = 0;
 
-            dst.m[3] = 0.0F;
-            dst.m[7] = 0.0F;
-            dst.m[11] = 0.0F;
-            dst.m[15] = 1.0F;
+            dst.m[3] = 0;
+            dst.m[7] = 0;
+            dst.m[11] = 0;
+            dst.m[15] = 1;
         }
 
         static void createRotationX(float angle, Matrix4& dst)
@@ -435,10 +435,10 @@ namespace ouzel
 
         inline bool isIdentity() const
         {
-            return m[0] == 1.0F && m[1] == 0.0F && m[2] == 0.0F && m[3] == 0.0F &&
-                   m[4] == 0.0F && m[5] == 1.0F && m[6] == 0.0F && m[7] == 0.0F &&
-                   m[8] == 0.0F && m[9] == 0.0F && m[10] == 1.0F && m[11] == 0.0F &&
-                   m[12] == 0.0F && m[13] == 0.0F && m[14] == 0.0F && m[15] == 1.0F;
+            return m[0] == 1 && m[1] == 0 && m[2] == 0 && m[3] == 0 &&
+                   m[4] == 0 && m[5] == 1 && m[6] == 0 && m[7] == 0 &&
+                   m[8] == 0 && m[9] == 0 && m[10] == 1 && m[11] == 0 &&
+                   m[12] == 0 && m[13] == 0 && m[14] == 0 && m[15] == 1;
         }
 
         void multiply(T scalar)
@@ -549,10 +549,10 @@ namespace ouzel
 
         inline void setIdentity()
         {
-            m[0] = 1.0F; m[1] = 0.0F; m[2] = 0.0F; m[3] = 0.0F;
-            m[4] = 0.0F; m[5] = 1.0F; m[6] = 0.0F; m[7] = 0.0F;
-            m[8] = 0.0F; m[9] = 0.0F; m[10] = 1.0F; m[11] = 0.0F;
-            m[12] = 0.0F; m[13] = 0.0F; m[14] = 0.0F; m[15] = 1.0F;
+            m[0] = 1; m[1] = 0; m[2] = 0; m[3] = 0;
+            m[4] = 0; m[5] = 1; m[6] = 0; m[7] = 0;
+            m[8] = 0; m[9] = 0; m[10] = 1; m[11] = 0;
+            m[12] = 0; m[13] = 0; m[14] = 0; m[15] = 1;
         }
 
         inline void setZero()
@@ -569,24 +569,24 @@ namespace ouzel
 
         void transformPoint(Vector3<T>& point) const
         {
-            transformVector(point.v[0], point.v[1], point.v[2], 1.0F, point);
+            transformVector(point.v[0], point.v[1], point.v[2], 1, point);
         }
 
         void transformPoint(const Vector3<T>& point, Vector3<T>& dst) const
         {
-            transformVector(point.v[0], point.v[1], point.v[2], 1.0F, dst);
+            transformVector(point.v[0], point.v[1], point.v[2], 1, dst);
         }
 
         void transformVector(Vector3<T>& vector) const
         {
             Vector4<T> t;
-            transformVector(Vector4<T>(vector.v[0], vector.v[1], vector.v[2], 0.0F), t);
+            transformVector(Vector4<T>(vector.v[0], vector.v[1], vector.v[2], 0), t);
             vector = Vector3<T>(t.v[0], t.v[1], t.v[2]);
         }
 
         void transformVector(const Vector3<T>& vector, Vector3<T>& dst) const
         {
-            transformVector(vector.v[0], vector.v[1], vector.v[2], 0.0F, dst);
+            transformVector(vector.v[0], vector.v[1], vector.v[2], 0, dst);
         }
 
         void transformVector(T x, T y, T z, T w, Vector3<T>& dst) const
@@ -664,10 +664,10 @@ namespace ouzel
             float m33 = m[10] / scale.v[2];
 
             Quaternion<T> result;
-            result.v[0] = sqrtf(std::max(0.0F, 1 + m11 - m22 - m33)) / 2.0F;
-            result.v[1] = sqrtf(std::max(0.0F, 1 - m11 + m22 - m33)) / 2.0F;
-            result.v[2] = sqrtf(std::max(0.0F, 1 - m11 - m22 + m33)) / 2.0F;
-            result.v[3] = sqrtf(std::max(0.0F, 1 + m11 + m22 + m33)) / 2.0F;
+            result.v[0] = sqrtf(std::max(static_cast<T>(0), 1 + m11 - m22 - m33)) / 2;
+            result.v[1] = sqrtf(std::max(static_cast<T>(0), 1 - m11 + m22 - m33)) / 2;
+            result.v[2] = sqrtf(std::max(static_cast<T>(0), 1 - m11 - m22 + m33)) / 2;
+            result.v[3] = sqrtf(std::max(static_cast<T>(0), 1 + m11 + m22 + m33)) / 2;
 
             result.v[0] *= sgn(result.v[0] * (m32 - m23));
             result.v[1] *= sgn(result.v[1] * (m13 - m31));
@@ -693,25 +693,25 @@ namespace ouzel
 
             float zz = rotation.v[2] * rotation.v[2];
 
-            m[0] = 1.0F - 2.0F * (yy + zz);
-            m[4] = 2.0F * (xy - wz);
-            m[8] = 2.0F * (xz + wy);
-            m[12] = 0.0F;
+            m[0] = 1 - 2 * (yy + zz);
+            m[4] = 2 * (xy - wz);
+            m[8] = 2 * (xz + wy);
+            m[12] = 0;
 
-            m[1] = 2.0F * (xy + wz);
-            m[5] = 1.0F - 2.0F * (xx + zz);
-            m[9] = 2.0F * (yz - wx);
-            m[13] = 0.0F;
+            m[1] = 2 * (xy + wz);
+            m[5] = 1 - 2 * (xx + zz);
+            m[9] = 2 * (yz - wx);
+            m[13] = 0;
 
-            m[2] = 2.0F * (xz - wy);
-            m[6] = 2.0F * (yz + wx);
-            m[10] = 1.0F - 2.0F * (xx + yy);
-            m[14] = 0.0F;
+            m[2] = 2 * (xz - wy);
+            m[6] = 2 * (yz + wx);
+            m[10] = 1 - 2 * (xx + yy);
+            m[14] = 0;
 
-            m[3] = 0.0F;
-            m[7] = 0.0F;
-            m[11] = 0.0F;
-            m[15] = 1.0F;
+            m[3] = 0;
+            m[7] = 0;
+            m[11] = 0;
+            m[15] = 1;
         }
 
         inline const Matrix4 operator+(const Matrix4& matrix) const

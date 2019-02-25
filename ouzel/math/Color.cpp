@@ -59,17 +59,17 @@ namespace ouzel
 
     Color::Color(const Vector3<float>& vec)
     {
-        v[0] = static_cast<uint8_t>(vec.v[0] * 255.0F);
-        v[1] = static_cast<uint8_t>(vec.v[1] * 255.0F);
-        v[2] = static_cast<uint8_t>(vec.v[2] * 255.0F);
+        v[0] = static_cast<uint8_t>(vec.v[0] * 255);
+        v[1] = static_cast<uint8_t>(vec.v[1] * 255);
+        v[2] = static_cast<uint8_t>(vec.v[2] * 255);
         v[3] = 0;
     }
 
     Color::Color(const Vector4<float>& vec)
     {
-        v[0] = static_cast<uint8_t>(vec.v[0] * 255.0F);
-        v[1] = static_cast<uint8_t>(vec.v[1] * 255.0F);
-        v[2] = static_cast<uint8_t>(vec.v[2] * 255.0F);
-        v[3] = static_cast<uint8_t>(vec.v[3] * 255.0F);
+        v[0] = static_cast<uint8_t>(vec.v[0] * 255);
+        v[1] = static_cast<uint8_t>(vec.v[1] * 255);
+        v[2] = static_cast<uint8_t>(vec.v[2] * 255);
+        v[3] = static_cast<uint8_t>(vec.v[3] * 255);
     }
 } // namespace ouzel

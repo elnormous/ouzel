@@ -70,15 +70,15 @@ namespace ouzel
 
         void normalize()
         {
-            float n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
-            if (n == 1.0F) // already normalized
+            T n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
+            if (n == 1) // already normalized
                 return;
 
             n = sqrtf(n);
-            if (n < std::numeric_limits<float>::min()) // too close to zero
+            if (n <= std::numeric_limits<T>::min()) // too close to zero
                 return;
 
-            n = 1.0F / n;
+            n = 1 / n;
             v[0] *= n;
             v[1] *= n;
             v[2] *= n;
@@ -95,13 +95,13 @@ namespace ouzel
             return v[0] != plane.v[0] || v[1] != plane.v[1] || v[2] != plane.v[2] || v[3] != plane.v[3];
         }
 
-        static inline Plane makeFrustumPlane(float a, float b, float c, float d)
+        static inline Plane makeFrustumPlane(T a, T b, T c, T d)
         {
-            float n = sqrtf(a * a + b * b + c * c);
-            if (n < std::numeric_limits<float>::min()) // too close to zero
+            T n = static_cast<T>(sqrt(a * a + b * b + c * c));
+            if (n <= std::numeric_limits<T>::min()) // too close to zero
                 return Plane();
 
-            n = 1.0F / n;
+            n = 1 / n;
             return Plane(a * n, b * n, c * n, d * n);
         }
     };

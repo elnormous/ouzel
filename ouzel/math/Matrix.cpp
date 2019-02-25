@@ -241,7 +241,7 @@ namespace ouzel
         inverse.m[14] = -m[12] * a3 + m[13] * a1 - m[14] * a0;
         inverse.m[15] = m[8] * a3 - m[9] * a1 + m[10] * a0;
 
-        multiply(inverse, 1.0F / det, dst);
+        multiply(inverse, 1 / det, dst);
     }
 
     template<class T>

@@ -50,10 +50,10 @@ namespace ouzel
 
         explicit Color(float color[4]):
             v{
-                static_cast<uint8_t>(color[0] * 255.0F),
-                static_cast<uint8_t>(color[1] * 255.0F),
-                static_cast<uint8_t>(color[2] * 255.0F),
-                static_cast<uint8_t>(color[3] * 255.0F)
+                static_cast<uint8_t>(color[0] * 255),
+                static_cast<uint8_t>(color[1] * 255),
+                static_cast<uint8_t>(color[2] * 255),
+                static_cast<uint8_t>(color[3] * 255)
             }
         {
         }

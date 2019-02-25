@@ -25,48 +25,42 @@ namespace ouzel
         bool isPointInside(const Vector4<T>& position) const
         {
             for (const Plane<T>& plane : planes)
-            {
-                if (plane.dot(position) < 0.0F)
+                if (plane.dot(position) < 0)
                     return false;
-            }
 
             return true;
         }
 
-        bool isSphereInside(const Vector4<T>& position, float radius) const
+        bool isSphereInside(const Vector4<T>& position, T radius) const
         {
             for (const Plane<T>& plane : planes)
-            {
                 if (plane.dot(position) < -radius)
                     return false;
-            }
 
             return true;
         }
 
         bool isBoxInside(const Box3<T>& box) const
         {
-            Vector4<T> leftBottomBack(box.min.v[0], box.min.v[1], box.min.v[2], 1.0F);
-            Vector4<T> leftBottomFront(box.min.v[0], box.min.v[1], box.max.v[2], 1.0F);
-            Vector4<T> leftTopBack(box.min.v[0], box.max.v[1], box.min.v[2], 1.0F);
-            Vector4<T> leftTopFront(box.min.v[0], box.max.v[1], box.max.v[2], 1.0F);
-            Vector4<T> rightBottomBack(box.max.v[0], box.min.v[1], box.min.v[2], 1.0F);
-            Vector4<T> rightBottomFront(box.max.v[0], box.min.v[1], box.max.v[2], 1.0F);
-            Vector4<T> rightTopBack(box.max.v[0], box.max.v[1], box.min.v[2], 1.0F);
-            Vector4<T> rightTopFront(box.max.v[0], box.max.v[1], box.max.v[2], 1.0F);
+            Vector4<T> leftBottomBack(box.min.v[0], box.min.v[1], box.min.v[2], 1);
+            Vector4<T> leftBottomFront(box.min.v[0], box.min.v[1], box.max.v[2], 1);
+            Vector4<T> leftTopBack(box.min.v[0], box.max.v[1], box.min.v[2], 1);
+            Vector4<T> leftTopFront(box.min.v[0], box.max.v[1], box.max.v[2], 1);
+            Vector4<T> rightBottomBack(box.max.v[0], box.min.v[1], box.min.v[2], 1);
+            Vector4<T> rightBottomFront(box.max.v[0], box.min.v[1], box.max.v[2], 1);
+            Vector4<T> rightTopBack(box.max.v[0], box.max.v[1], box.min.v[2], 1);
+            Vector4<T> rightTopFront(box.max.v[0], box.max.v[1], box.max.v[2], 1);
 
             for (const Plane<T>& plane : planes)
-            {
-                if (plane.dot(leftBottomBack) < 0.0F &&
-                    plane.dot(leftBottomFront) < 0.0F &&
-                    plane.dot(leftTopBack) < 0.0F &&
-                    plane.dot(leftTopFront) < 0.0F &&
-                    plane.dot(rightBottomBack) < 0.0F &&
-                    plane.dot(rightBottomFront) < 0.0F &&
-                    plane.dot(rightTopBack) < 0.0F &&
-                    plane.dot(rightTopFront) < 0.0F)
+                if (plane.dot(leftBottomBack) < 0 &&
+                    plane.dot(leftBottomFront) < 0 &&
+                    plane.dot(leftTopBack) < 0 &&
+                    plane.dot(leftTopFront) < 0 &&
+                    plane.dot(rightBottomBack) < 0 &&
+                    plane.dot(rightBottomFront) < 0 &&
+                    plane.dot(rightTopBack) < 0 &&
+                    plane.dot(rightTopFront) < 0)
                     return false;
-            }
 
             return true;
         }
