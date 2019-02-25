@@ -132,13 +132,13 @@ namespace ouzel
         {
             assert(zFarPlane != zNearPlane);
 
-            float theta = fieldOfView * 0.5F;
-            if (isNearlyEqual(fmodf(theta, PI / 2), 0)) // invalid field of view value
+            T theta = fieldOfView / 2;
+            if (fabs(fmod(theta, PI / 2)) <= std::numeric_limits<T>::min())
                 return;
 
-            float divisor = tanf(theta);
+            T divisor = static_cast<T>(tan(theta));
             assert(divisor);
-            float factor = 1 / divisor;
+            T factor = 1 / divisor;
 
             dst.setZero();
 
@@ -152,8 +152,8 @@ namespace ouzel
 
         static void createOrthographicFromSize(T width, T height, T zNearPlane, T zFarPlane, Matrix4& dst)
         {
-            float halfWidth = width / 2;
-            float halfHeight = height / 2;
+            T halfWidth = width / 2;
+            T halfHeight = height / 2;
             createOrthographicOffCenter(-halfWidth, halfWidth,
                                         -halfHeight, halfHeight,
                                         zNearPlane, zFarPlane, dst);
@@ -195,20 +195,20 @@ namespace ouzel
             dst.m[10] = zScale;
         }
 
-        static void createRotation(const Vector3<T>& axis, float angle, Matrix4& dst)
+        static void createRotation(const Vector3<T>& axis, T angle, Matrix4& dst)
         {
-            float x = axis.v[0];
-            float y = axis.v[1];
-            float z = axis.v[2];
+            T x = axis.v[0];
+            T y = axis.v[1];
+            T z = axis.v[2];
 
             // Make sure the input axis is normalized
-            float n = x * x + y * y + z * z;
+            T n = x * x + y * y + z * z;
             if (n != 1)
             {
                 // Not normalized
-                n = sqrtf(n);
+                n = static_cast<T>(sqrt(n));
                 // Prevent divide too close to zero
-                if (n >= std::numeric_limits<float>::min())
+                if (n > std::numeric_limits<T>::min())
                 {
                     n = 1 / n;
                     x *= n;
@@ -217,19 +217,19 @@ namespace ouzel
                 }
             }
 
-            float c = cosf(angle);
-            float s = sinf(angle);
+            T c = static_cast<T>(cos(angle));
+            T s = static_cast<T>(sin(angle));
 
-            float t = 1 - c;
-            float tx = t * x;
-            float ty = t * y;
-            float tz = t * z;
-            float txy = tx * y;
-            float txz = tx * z;
-            float tyz = ty * z;
-            float sx = s * x;
-            float sy = s * y;
-            float sz = s * z;
+            T t = 1 - c;
+            T tx = t * x;
+            T ty = t * y;
+            T tz = t * z;
+            T txy = tx * y;
+            T txz = tx * z;
+            T tyz = ty * z;
+            T sx = s * x;
+            T sy = s * y;
+            T sz = s * z;
 
             dst.m[0] = c + tx * x;
             dst.m[4] = txy - sz;
@@ -252,12 +252,12 @@ namespace ouzel
             dst.m[15] = 1;
         }
 
-        static void createRotationX(float angle, Matrix4& dst)
+        static void createRotationX(T angle, Matrix4& dst)
         {
             dst.setIdentity();
 
-            float c = cosf(angle);
-            float s = sinf(angle);
+            T c = static_cast<T>(cos(angle));
+            T s = static_cast<T>(sin(angle));
 
             dst.m[5] = c;
             dst.m[9] = -s;
@@ -265,12 +265,12 @@ namespace ouzel
             dst.m[10] = c;
         }
 
-        static void createRotationY(float angle, Matrix4& dst)
+        static void createRotationY(T angle, Matrix4& dst)
         {
             dst.setIdentity();
 
-            float c = cosf(angle);
-            float s = sinf(angle);
+            T c = static_cast<T>(cos(angle));
+            T s = static_cast<T>(sin(angle));
 
             dst.m[0] = c;
             dst.m[8] = s;
@@ -278,12 +278,12 @@ namespace ouzel
             dst.m[10] = c;
         }
 
-        static void createRotationZ(float angle, Matrix4& dst)
+        static void createRotationZ(T angle, Matrix4& dst)
         {
             dst.setIdentity();
 
-            float c = cosf(angle);
-            float s = sinf(angle);
+            T c = static_cast<T>(cos(angle));
+            T s = static_cast<T>(sin(angle));
 
             dst.m[0] = c;
             dst.m[4] = -s;
@@ -365,20 +365,20 @@ namespace ouzel
 
         static void add(const Matrix4& m1, const Matrix4& m2, Matrix4& dst);
 
-        float determinant() const
+        T determinant() const
         {
-            float a0 = m[0] * m[5] - m[1] * m[4];
-            float a1 = m[0] * m[6] - m[2] * m[4];
-            float a2 = m[0] * m[7] - m[3] * m[4];
-            float a3 = m[1] * m[6] - m[2] * m[5];
-            float a4 = m[1] * m[7] - m[3] * m[5];
-            float a5 = m[2] * m[7] - m[3] * m[6];
-            float b0 = m[8] * m[13] - m[9] * m[12];
-            float b1 = m[8] * m[14] - m[10] * m[12];
-            float b2 = m[8] * m[15] - m[11] * m[12];
-            float b3 = m[9] * m[14] - m[10] * m[13];
-            float b4 = m[9] * m[15] - m[11] * m[13];
-            float b5 = m[10] * m[15] - m[11] * m[14];
+            T a0 = m[0] * m[5] - m[1] * m[4];
+            T a1 = m[0] * m[6] - m[2] * m[4];
+            T a2 = m[0] * m[7] - m[3] * m[4];
+            T a3 = m[1] * m[6] - m[2] * m[5];
+            T a4 = m[1] * m[7] - m[3] * m[5];
+            T a5 = m[2] * m[7] - m[3] * m[6];
+            T b0 = m[8] * m[13] - m[9] * m[12];
+            T b1 = m[8] * m[14] - m[10] * m[12];
+            T b2 = m[8] * m[15] - m[11] * m[12];
+            T b3 = m[9] * m[14] - m[10] * m[13];
+            T b4 = m[9] * m[15] - m[11] * m[13];
+            T b5 = m[10] * m[15] - m[11] * m[14];
 
             // Calculate the determinant
             return a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
@@ -467,48 +467,48 @@ namespace ouzel
 
         void negate(Matrix4& dst) const;
 
-        void rotate(const Vector3<T>& axis, float angle)
+        void rotate(const Vector3<T>& axis, T angle)
         {
             rotate(axis, angle, *this);
         }
 
-        void rotate(const Vector3<T>& axis, float angle, Matrix4& dst) const
+        void rotate(const Vector3<T>& axis, T angle, Matrix4& dst) const
         {
             Matrix4 r;
             createRotation(axis, angle, r);
             multiply(*this, r, dst);
         }
 
-        void rotateX(float angle)
+        void rotateX(T angle)
         {
             rotateX(angle, *this);
         }
 
-        void rotateX(float angle, Matrix4& dst) const
+        void rotateX(T angle, Matrix4& dst) const
         {
             Matrix4 r;
             createRotationX(angle, r);
             multiply(*this, r, dst);
         }
 
-        void rotateY(float angle)
+        void rotateY(T angle)
         {
             rotateY(angle, *this);
         }
 
-        void rotateY(float angle, Matrix4& dst) const
+        void rotateY(T angle, Matrix4& dst) const
         {
             Matrix4 r;
             createRotationY(angle, r);
             multiply(*this, r, dst);
         }
 
-        void rotateZ(float angle)
+        void rotateZ(T angle)
         {
             rotateZ(angle, *this);
         }
 
-        void rotateZ(float angle, Matrix4& dst) const
+        void rotateZ(T angle, Matrix4& dst) const
         {
             Matrix4 r;
             createRotationZ(angle, r);
@@ -557,7 +557,7 @@ namespace ouzel
 
         inline void setZero()
         {
-            std::fill(m, m + sizeof(m) / sizeof(float), static_cast<T>(0));
+            std::fill(m, m + sizeof(m) / sizeof(T), static_cast<T>(0));
         }
 
         void subtract(const Matrix4& matrix)
@@ -603,7 +603,7 @@ namespace ouzel
 
         void transformVector(const Vector4<T>& vector, Vector4<T>& dst) const;
 
-        void translate(float x, float y, float z)
+        void translate(T x, T y, T z)
         {
             translate(x, y, z, *this);
         }
@@ -651,23 +651,23 @@ namespace ouzel
         {
             Vector3<T> scale = getScale();
 
-            float m11 = m[0] / scale.v[0];
-            float m21 = m[1] / scale.v[0];
-            float m31 = m[2] / scale.v[0];
+            T m11 = m[0] / scale.v[0];
+            T m21 = m[1] / scale.v[0];
+            T m31 = m[2] / scale.v[0];
 
-            float m12 = m[4] / scale.v[1];
-            float m22 = m[5] / scale.v[1];
-            float m32 = m[6] / scale.v[1];
+            T m12 = m[4] / scale.v[1];
+            T m22 = m[5] / scale.v[1];
+            T m32 = m[6] / scale.v[1];
 
-            float m13 = m[8] / scale.v[2];
-            float m23 = m[9] / scale.v[2];
-            float m33 = m[10] / scale.v[2];
+            T m13 = m[8] / scale.v[2];
+            T m23 = m[9] / scale.v[2];
+            T m33 = m[10] / scale.v[2];
 
             Quaternion<T> result;
-            result.v[0] = sqrtf(std::max(static_cast<T>(0), 1 + m11 - m22 - m33)) / 2;
-            result.v[1] = sqrtf(std::max(static_cast<T>(0), 1 - m11 + m22 - m33)) / 2;
-            result.v[2] = sqrtf(std::max(static_cast<T>(0), 1 - m11 - m22 + m33)) / 2;
-            result.v[3] = sqrtf(std::max(static_cast<T>(0), 1 + m11 + m22 + m33)) / 2;
+            result.v[0] = static_cast<T>(sqrt(std::max(static_cast<T>(0), 1 + m11 - m22 - m33))) / 2;
+            result.v[1] = static_cast<T>(sqrt(std::max(static_cast<T>(0), 1 - m11 + m22 - m33))) / 2;
+            result.v[2] = static_cast<T>(sqrt(std::max(static_cast<T>(0), 1 - m11 - m22 + m33))) / 2;
+            result.v[3] = static_cast<T>(sqrt(std::max(static_cast<T>(0), 1 + m11 + m22 + m33))) / 2;
 
             result.v[0] *= sgn(result.v[0] * (m32 - m23));
             result.v[1] *= sgn(result.v[1] * (m13 - m31));
@@ -680,18 +680,18 @@ namespace ouzel
 
         void setRotation(const Quaternion<T>& rotation)
         {
-            float wx = rotation.v[3] * rotation.v[0];
-            float wy = rotation.v[3] * rotation.v[1];
-            float wz = rotation.v[3] * rotation.v[2];
+            T wx = rotation.v[3] * rotation.v[0];
+            T wy = rotation.v[3] * rotation.v[1];
+            T wz = rotation.v[3] * rotation.v[2];
 
-            float xx = rotation.v[0] * rotation.v[0];
-            float xy = rotation.v[0] * rotation.v[1];
-            float xz = rotation.v[0] * rotation.v[2];
+            T xx = rotation.v[0] * rotation.v[0];
+            T xy = rotation.v[0] * rotation.v[1];
+            T xz = rotation.v[0] * rotation.v[2];
 
-            float yy = rotation.v[1] * rotation.v[1];
-            float yz = rotation.v[1] * rotation.v[2];
+            T yy = rotation.v[1] * rotation.v[1];
+            T yz = rotation.v[1] * rotation.v[2];
 
-            float zz = rotation.v[2] * rotation.v[2];
+            T zz = rotation.v[2] * rotation.v[2];
 
             m[0] = 1 - 2 * (yy + zz);
             m[4] = 2 * (xy - wz);

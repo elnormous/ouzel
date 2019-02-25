@@ -41,9 +41,9 @@ namespace ouzel
     constexpr bool isSimdAvailable = false;
 #endif
 
-    constexpr float TAU = 6.28318530717958647692F;
-    constexpr float PI = 3.14159265358979323846F;
-    constexpr float SQRT2 = 1.4142135623730950488F;
+    constexpr double TAU = 6.28318530717958647692;
+    constexpr double PI = 3.14159265358979323846;
+    constexpr double SQRT2 = 1.4142135623730950488;
 
     template<typename T> inline T lerp(T v0, T v1, T t)
     {
@@ -110,9 +110,10 @@ namespace ouzel
         return hash;
     }
 
-    inline bool isNearlyEqual(float a, float b, float tolerance = std::numeric_limits<float>::min())
+    template<class T>
+    inline bool isNearlyEqual(T a, T b, T tolerance = std::numeric_limits<T>::min())
     {
-        return fabsf(a - b) <= tolerance;
+        return static_cast<T>(fabs(a - b)) <= tolerance;
     }
 }
 
