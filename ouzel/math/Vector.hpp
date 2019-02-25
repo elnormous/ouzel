@@ -58,9 +58,9 @@ namespace ouzel
             return v[0] == 0 && v[1] == 0;
         }
 
-        inline float getAngle() const
+        inline T getAngle() const
         {
-            return atan2f(v[1], v[0]);
+            return static_cast<T>(atan2(v[1], v[0]));
         };
 
         void clamp(const Vector2& min, const Vector2& max)
@@ -80,18 +80,18 @@ namespace ouzel
                 v[1] = max.v[1];
         }
 
-        float distance(const Vector2& vec) const
+        T distance(const Vector2& vec) const
         {
-            float dx = vec.v[0] - v[0];
-            float dy = vec.v[1] - v[1];
+            T dx = vec.v[0] - v[0];
+            T dy = vec.v[1] - v[1];
 
-            return sqrtf(dx * dx + dy * dy);
+            return static_cast<T>(sqrt(dx * dx + dy * dy));
         }
 
-        float distanceSquared(const Vector2& vec) const
+        T distanceSquared(const Vector2& vec) const
         {
-            float dx = vec.v[0] - v[0];
-            float dy = vec.v[1] - v[1];
+            T dx = vec.v[0] - v[0];
+            T dy = vec.v[1] - v[1];
             return dx * dx + dy * dy;
         }
 
@@ -100,12 +100,12 @@ namespace ouzel
             return v[0] * vec.v[0] + v[1] * vec.v[1];
         }
 
-        float length() const
+        T length() const
         {
-            return sqrtf(v[0] * v[0] + v[1] * v[1]);
+            return static_cast<T>(sqrt(v[0] * v[0] + v[1] * v[1]));
         }
 
-        float lengthSquared() const
+        T lengthSquared() const
         {
             return v[0] * v[0] + v[1] * v[1];
         }
@@ -118,15 +118,15 @@ namespace ouzel
 
         void normalize()
         {
-            float n = v[0] * v[0] + v[1] * v[1];
-            if (n == 1.0F) // already normalized
+            T n = v[0] * v[0] + v[1] * v[1];
+            if (n == 1) // already normalized
                 return;
 
-            n = sqrtf(n);
-            if (n < std::numeric_limits<float>::min()) // too close to zero
+            n = static_cast<T>(sqrt(n));
+            if (n <= std::numeric_limits<T>::min()) // too close to zero
                 return;
 
-            n = 1.0F / n;
+            n = 1 / n;
             v[0] *= n;
             v[1] *= n;
         }
@@ -137,38 +137,38 @@ namespace ouzel
             v[1] *= scale.v[1];
         }
 
-        void rotate(float angle)
+        void rotate(T angle)
         {
-            float sinAngle = sinf(angle);
-            float cosAngle = cosf(angle);
+            T sinAngle = static_cast<T>(sin(angle));
+            T cosAngle = static_cast<T>(cos(angle));
 
-            float tempX = v[0] * cosAngle - v[1] * sinAngle;
+            T tempX = v[0] * cosAngle - v[1] * sinAngle;
             v[1] = v[1] * cosAngle + v[0] * sinAngle;
             v[0] = tempX;
         }
 
-        void rotate(const Vector2& point, float angle)
+        void rotate(const Vector2& point, T angle)
         {
-            float sinAngle = sinf(angle);
-            float cosAngle = cosf(angle);
+            T sinAngle = static_cast<T>(sin(angle));
+            T cosAngle = static_cast<T>(cos(angle));
 
             if (point.isZero())
             {
-                float tempX = v[0] * cosAngle - v[1] * sinAngle;
+                T tempX = v[0] * cosAngle - v[1] * sinAngle;
                 v[1] = v[1] * cosAngle + v[0] * sinAngle;
                 v[0] = tempX;
             }
             else
             {
-                float tempX = v[0] - point.v[0];
-                float tempY = v[1] - point.v[1];
+                T tempX = v[0] - point.v[0];
+                T tempY = v[1] - point.v[1];
 
                 v[0] = tempX * cosAngle - tempY * sinAngle + point.v[0];
                 v[1] = tempY * cosAngle + tempX * sinAngle + point.v[1];
             }
         }
 
-        void smooth(const Vector2& target, float elapsedTime, float responseTime)
+        void smooth(const Vector2& target, T elapsedTime, T responseTime)
         {
             if (elapsedTime > 0)
                 *this += (target - *this) * (elapsedTime / (elapsedTime + responseTime));
@@ -300,7 +300,7 @@ namespace ouzel
         }
 
         explicit Vector3(const Vector2<T>& vec):
-            v{vec.v[0], vec.v[1], 0.0F}
+            v{vec.v[0], vec.v[1], 0}
         {
         }
 
@@ -325,13 +325,13 @@ namespace ouzel
             return v[0] == 0 && v[1] == 0 && v[2] == 0;
         }
 
-        float getAngle(const Vector3& axis) const
+        T getAngle(const Vector3& axis) const
         {
-            float dx = v[1] * axis.v[2] - v[2] * axis.v[1];
-            float dy = v[2] * axis.v[0] - v[0] * axis.v[2];
-            float dz = v[0] * axis.v[1] - v[1] * axis.v[0];
+            T dx = v[1] * axis.v[2] - v[2] * axis.v[1];
+            T dy = v[2] * axis.v[0] - v[0] * axis.v[2];
+            T dz = v[0] * axis.v[1] - v[1] * axis.v[0];
 
-            return atan2f(sqrtf(dx * dx + dy * dy + dz * dz), dot(axis));
+            return static_cast<T>(atan2(sqrt(dx * dx + dy * dy + dz * dz), dot(axis)));
         }
 
         void clamp(const Vector3& min, const Vector3& max)
@@ -364,20 +364,20 @@ namespace ouzel
                            (v[0] * vec.v[1]) - (v[1] * vec.v[0]));
         }
 
-        float distance(const Vector3& vec) const
+        T distance(const Vector3& vec) const
         {
-            float dx = vec.v[0] - v[0];
-            float dy = vec.v[1] - v[1];
-            float dz = vec.v[2] - v[2];
+            T dx = vec.v[0] - v[0];
+            T dy = vec.v[1] - v[1];
+            T dz = vec.v[2] - v[2];
 
-            return sqrtf(dx * dx + dy * dy + dz * dz);
+            return static_cast<T>(sqrt(dx * dx + dy * dy + dz * dz));
         }
 
-        float distanceSquared(const Vector3& vec) const
+        T distanceSquared(const Vector3& vec) const
         {
-            float dx = vec.v[0] - v[0];
-            float dy = vec.v[1] - v[1];
-            float dz = vec.v[2] - v[2];
+            T dx = vec.v[0] - v[0];
+            T dy = vec.v[1] - v[1];
+            T dz = vec.v[2] - v[2];
 
             return dx * dx + dy * dy + dz * dz;
         }
@@ -387,12 +387,12 @@ namespace ouzel
             return v[0] * vec.v[0] + v[1] * vec.v[1] + v[2] * vec.v[2];
         }
 
-        float length() const
+        T length() const
         {
-            return sqrtf(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
+            return static_cast<T>(sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]));
         }
 
-        float lengthSquared() const
+        T lengthSquared() const
         {
             return v[0] * v[0] + v[1] * v[1] + v[2] * v[2];
         }
@@ -406,15 +406,15 @@ namespace ouzel
 
         void normalize()
         {
-            float n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2];
-            if (n == 1.0F) // already normalized
+            T n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2];
+            if (n == 1) // already normalized
                 return;
 
-            n = sqrtf(n);
-            if (n < std::numeric_limits<float>::min()) // too close to zero
+            n = static_cast<T>(sqrt(n));
+            if (n <= std::numeric_limits<T>::min()) // too close to zero
                 return;
 
-            n = 1.0F / n;
+            n = 1 / n;
             v[0] *= n;
             v[1] *= n;
             v[2] *= n;
@@ -574,12 +574,12 @@ namespace ouzel
         }
 
         explicit Vector4(const Vector2<T>& vec):
-            v{vec.v[0], vec.v[1], 0.0F, 0.0F}
+            v{vec.v[0], vec.v[1], 0, 0}
         {
         }
 
         explicit Vector4(const Vector3<T>& vec):
-            v{vec.v[0], vec.v[1], vec.v[2], 0.0F}
+            v{vec.v[0], vec.v[1], vec.v[2], 0}
         {
         }
 
@@ -605,13 +605,13 @@ namespace ouzel
             return v[0] == 0 && v[1] == 0 && v[2] == 0 && v[3] == 0;
         }
 
-        float getAngle(const Vector4& axis) const
+        T getAngle(const Vector4& axis) const
         {
-            float dx = v[3] * axis.v[0] - v[0] * axis.v[3] - v[1] * axis.v[2] + v[2] * axis.v[1];
-            float dy = v[3] * axis.v[1] - v[1] * axis.v[3] - v[2] * axis.v[0] + v[0] * axis.v[2];
-            float dz = v[3] * axis.v[2] - v[2] * axis.v[3] - v[0] * axis.v[1] + v[1] * axis.v[0];
+            T dx = v[3] * axis.v[0] - v[0] * axis.v[3] - v[1] * axis.v[2] + v[2] * axis.v[1];
+            T dy = v[3] * axis.v[1] - v[1] * axis.v[3] - v[2] * axis.v[0] + v[0] * axis.v[2];
+            T dz = v[3] * axis.v[2] - v[2] * axis.v[3] - v[0] * axis.v[1] + v[1] * axis.v[0];
 
-            return atan2f(sqrtf(dx * dx + dy * dy + dz * dz), dot(axis));
+            return static_cast<T>(atan2(sqrt(dx * dx + dy * dy + dz * dz), dot(axis)));
         }
 
         void clamp(const Vector4& min, const Vector4& max)
@@ -643,22 +643,22 @@ namespace ouzel
                 v[3] = max.v[3];
         }
 
-        float distance(const Vector4& vec) const
+        T distance(const Vector4& vec) const
         {
-            float dx = vec.v[0] - v[0];
-            float dy = vec.v[1] - v[1];
-            float dz = vec.v[2] - v[2];
-            float dw = vec.v[3] - v[3];
+            T dx = vec.v[0] - v[0];
+            T dy = vec.v[1] - v[1];
+            T dz = vec.v[2] - v[2];
+            T dw = vec.v[3] - v[3];
 
-            return sqrtf(dx * dx + dy * dy + dz * dz + dw * dw);
+            return static_cast<T>(sqrt(dx * dx + dy * dy + dz * dz + dw * dw));
         }
 
-        float distanceSquared(const Vector4& vec) const
+        T distanceSquared(const Vector4& vec) const
         {
-            float dx = vec.v[0] - v[0];
-            float dy = vec.v[1] - v[1];
-            float dz = vec.v[2] - v[2];
-            float dw = vec.v[3] - v[3];
+            T dx = vec.v[0] - v[0];
+            T dy = vec.v[1] - v[1];
+            T dz = vec.v[2] - v[2];
+            T dw = vec.v[3] - v[3];
 
             return dx * dx + dy * dy + dz * dz + dw * dw;
         }
@@ -668,12 +668,12 @@ namespace ouzel
             return v[0] * vec.v[0] + v[1] * vec.v[1] + v[2] * vec.v[2] + v[3] * vec.v[3];
         }
 
-        inline float length() const
+        inline T length() const
         {
-            return sqrtf(v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3]);
+            return static_cast<T>(sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3]));
         }
 
-        inline float lengthSquared() const
+        inline T lengthSquared() const
         {
             return v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
         }
@@ -688,15 +688,15 @@ namespace ouzel
 
         void normalize()
         {
-            float n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
-            if (n == 1.0F) // already normalized
+            T n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
+            if (n == 1) // already normalized
                 return;
 
-            n = sqrtf(n);
-            if (n < std::numeric_limits<float>::min()) // too close to zero
+            n = static_cast<T>(sqrt(n));
+            if (n <= std::numeric_limits<T>::min()) // too close to zero
                 return;
 
-            n = 1.0F / n;
+            n = 1 / n;
             v[0] *= n;
             v[1] *= n;
             v[2] *= n;
@@ -711,7 +711,7 @@ namespace ouzel
             v[3] *= scale.v[3];
         }
 
-        void smooth(const Vector4& target, float elapsedTime, float responseTime)
+        void smooth(const Vector4& target, T elapsedTime, T responseTime)
         {
             if (elapsedTime > 0)
                 *this += (target - *this) * (elapsedTime / (elapsedTime + responseTime));
