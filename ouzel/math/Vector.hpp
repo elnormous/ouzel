@@ -16,7 +16,7 @@ namespace ouzel
     {
     public:
 #if defined(__SSE__)
-        alignas(N == 4 ? 16 : 0)
+        alignas(N == 4 ? 16 : alignof(float))
 #endif
         T v[N]{0};
 
