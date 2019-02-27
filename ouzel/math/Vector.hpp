@@ -7,583 +7,55 @@
 #include <cmath>
 #include <cstddef>
 #include <limits>
+#include "math/Color.hpp"
 
 namespace ouzel
 {
-    template<class T> class Vector3;
-    template<class T> class Vector4;
-
-    template<class T> class Vector2 final
+    template<size_t N, class T> class Vector final
     {
     public:
-        static constexpr size_t N = 2;
-        T v[N]{0, 0};
-
-        Vector2()
-        {
-        }
-
-        Vector2(T x, T y):
-            v{x, y}
-        {
-        }
-
-        Vector2(const Vector2<T>& copy):
-            v{copy.v[0], copy.v[1]}
-        {
-        }
-
-        Vector2& operator=(const Vector2<T>& vec)
-        {
-            v[0] = vec.v[0];
-            v[1] = vec.v[1];
-            return *this;
-        }
-
-        explicit Vector2(const Vector3<T>& vec);
-
-        explicit Vector2(const Vector4<T>& vec);
-
-        inline T& operator[](size_t index) { return v[index]; }
-        inline T operator[](size_t index) const { return v[index]; }
-
-        inline T& x() { return v[0]; }
-        inline T x() const { return v[0]; }
-
-        inline T& y() { return v[1]; }
-        inline T y() const { return v[1]; }
-
-        inline bool isZero() const
-        {
-            return v[0] == 0 && v[1] == 0;
-        }
-
-        inline T getAngle() const
-        {
-            return atan2(v[1], v[0]);
-        };
-
-        void clamp(const Vector2& min, const Vector2& max)
-        {
-            assert(!(min.v[0] > max.v[0] || min.v[1] > max.v[1]));
-
-            // clamp the v[0] value
-            if (v[0] < min.v[0])
-                v[0] = min.v[0];
-            if (v[0] > max.v[0])
-                v[0] = max.v[0];
-
-            // clamp the v[1] value
-            if (v[1] < min.v[1])
-                v[1] = min.v[1];
-            if (v[1] > max.v[1])
-                v[1] = max.v[1];
-        }
-
-        T distance(const Vector2& vec) const
-        {
-            T dx = vec.v[0] - v[0];
-            T dy = vec.v[1] - v[1];
-
-            return sqrt(dx * dx + dy * dy);
-        }
-
-        T distanceSquared(const Vector2& vec) const
-        {
-            T dx = vec.v[0] - v[0];
-            T dy = vec.v[1] - v[1];
-            return dx * dx + dy * dy;
-        }
-
-        T dot(const Vector2& vec) const
-        {
-            return v[0] * vec.v[0] + v[1] * vec.v[1];
-        }
-
-        T length() const
-        {
-            return sqrt(v[0] * v[0] + v[1] * v[1]);
-        }
-
-        T lengthSquared() const
-        {
-            return v[0] * v[0] + v[1] * v[1];
-        }
-
-        void negate()
-        {
-            v[0] = -v[0];
-            v[1] = -v[1];
-        }
-
-        void normalize()
-        {
-            T n = v[0] * v[0] + v[1] * v[1];
-            if (n == 1) // already normalized
-                return;
-
-            n = sqrt(n);
-            if (n <= std::numeric_limits<T>::min()) // too close to zero
-                return;
-
-            n = 1 / n;
-            v[0] *= n;
-            v[1] *= n;
-        }
-
-        void scale(const Vector2& scale)
-        {
-            v[0] *= scale.v[0];
-            v[1] *= scale.v[1];
-        }
-
-        void rotate(T angle)
-        {
-            T sinAngle = sin(angle);
-            T cosAngle = cos(angle);
-
-            T tempX = v[0] * cosAngle - v[1] * sinAngle;
-            v[1] = v[1] * cosAngle + v[0] * sinAngle;
-            v[0] = tempX;
-        }
-
-        void rotate(const Vector2& point, T angle)
-        {
-            T sinAngle = sin(angle);
-            T cosAngle = cos(angle);
-
-            if (point.isZero())
-            {
-                T tempX = v[0] * cosAngle - v[1] * sinAngle;
-                v[1] = v[1] * cosAngle + v[0] * sinAngle;
-                v[0] = tempX;
-            }
-            else
-            {
-                T tempX = v[0] - point.v[0];
-                T tempY = v[1] - point.v[1];
-
-                v[0] = tempX * cosAngle - tempY * sinAngle + point.v[0];
-                v[1] = tempY * cosAngle + tempX * sinAngle + point.v[1];
-            }
-        }
-
-        void smooth(const Vector2& target, T elapsedTime, T responseTime)
-        {
-            if (elapsedTime > 0)
-                *this += (target - *this) * (elapsedTime / (elapsedTime + responseTime));
-        }
-
-        T getMin() const
-        {
-            return std::min(v[0], v[1]);
-        }
-
-        T getMax() const
-        {
-            return std::max(v[0], v[1]);
-        }
-
-        inline const Vector2 operator+(const Vector2& vec) const
-        {
-            return Vector2(v[0] + vec.v[0], v[1] + vec.v[1]);
-        }
-
-        inline Vector2& operator+=(const Vector2& vec)
-        {
-            v[0] += vec.v[0];
-            v[1] += vec.v[1];
-            return *this;
-        }
-
-        inline const Vector2 operator-(const Vector2& vec) const
-        {
-            return Vector2(v[0] - vec.v[0], v[1] - vec.v[1]);
-        }
-
-        inline Vector2& operator-=(const Vector2& vec)
-        {
-            v[0] -= vec.v[0];
-            v[1] -= vec.v[1];
-            return *this;
-        }
-
-        inline const Vector2 operator-() const
-        {
-            return Vector2(-v[0], -v[1]);
-        }
-
-        inline const Vector2 operator*(T scalar) const
-        {
-            return Vector2(v[0] * scalar, v[1] * scalar);
-        }
-
-        inline Vector2& operator*=(T scalar)
-        {
-            v[0] *= scalar;
-            v[1] *= scalar;
-            return *this;
-        }
-
-        inline const Vector2 operator/(T scalar) const
-        {
-            return Vector2(v[0] / scalar, v[1] / scalar);
-        }
-
-        inline Vector2& operator/=(T scalar)
-        {
-            v[0] /= scalar;
-            v[1] /= scalar;
-            return *this;
-        }
-
-        inline bool operator<(const Vector2& vec) const
-        {
-            if (v[0] == vec.v[0])
-                return v[1] < vec.v[1];
-
-            return v[0] < vec.v[0];
-        }
-
-        inline bool operator==(const Vector2& vec) const
-        {
-            return v[0] == vec.v[0] && v[1] == vec.v[1];
-        }
-
-        inline bool operator!=(const Vector2& vec) const
-        {
-            return v[0] != vec.v[0] || v[1] != vec.v[1];
-        }
-    };
-
-    template<class T>
-    inline const Vector2<T> operator*(T scalar, const Vector2<T>& vec)
-    {
-        return Vector2<T>(vec.v[0] * scalar, vec.v[1] * scalar);
-    }
-
-    using Vector2F = Vector2<float>;
-
-    class Color;
-
-    template<class T> class Vector3 final
-    {
-    public:
-        static constexpr size_t N = 3;
-        T v[N]{0, 0, 0};
-
-        Vector3()
-        {
-        }
-
-        Vector3(T x, T y):
-            v{x, y, 0}
-        {
-        }
-
-        Vector3(T x, T y, T z):
-            v{x, y, z}
-        {
-        }
-
-        Vector3(const Vector3& copy):
-            v{copy.v[0], copy.v[1], copy.v[2]}
-        {
-        }
-
-        Vector3& operator=(const Vector3& vec)
-        {
-            v[0] = vec.v[0];
-            v[1] = vec.v[1];
-            v[2] = vec.v[2];
-            return *this;
-        }
-
-        explicit Vector3(const Vector2<T>& vec):
-            v{vec.v[0], vec.v[1], 0}
-        {
-        }
-
-        explicit Vector3(const Vector4<T>& vec);
-
-        explicit Vector3(Color color);
-
-        inline T& operator[](size_t index) { return v[index]; }
-        inline T operator[](size_t index) const { return v[index]; }
-
-        inline T& x() { return v[0]; }
-        inline T x() const { return v[0]; }
-
-        inline T& y() { return v[1]; }
-        inline T y() const { return v[1]; }
-
-        inline T& z() { return v[2]; }
-        inline T z() const { return v[2]; }
-
-        inline bool isZero() const
-        {
-            return v[0] == 0 && v[1] == 0 && v[2] == 0;
-        }
-
-        T getAngle(const Vector3& axis) const
-        {
-            T dx = v[1] * axis.v[2] - v[2] * axis.v[1];
-            T dy = v[2] * axis.v[0] - v[0] * axis.v[2];
-            T dz = v[0] * axis.v[1] - v[1] * axis.v[0];
-
-            return atan2(sqrt(dx * dx + dy * dy + dz * dz), dot(axis));
-        }
-
-        void clamp(const Vector3& min, const Vector3& max)
-        {
-            assert(!(min.v[0] > max.v[0] || min.v[1] > max.v[1] || min.v[2] > max.v[2]));
-
-            // clamp the v[0] value
-            if (v[0] < min.v[0])
-                v[0] = min.v[0];
-            if (v[0] > max.v[0])
-                v[0] = max.v[0];
-
-            // clamp the v[1] value
-            if (v[1] < min.v[1])
-                v[1] = min.v[1];
-            if (v[1] > max.v[1])
-                v[1] = max.v[1];
-
-            // clamp the v[2] value
-            if (v[2] < min.v[2])
-                v[2] = min.v[2];
-            if (v[2] > max.v[2])
-                v[2] = max.v[2];
-        }
-
-        Vector3 cross(const Vector3& vec) const
-        {
-            return Vector3((v[1] * vec.v[2]) - (v[2] * vec.v[1]),
-                           (v[2] * vec.v[0]) - (v[0] * vec.v[2]),
-                           (v[0] * vec.v[1]) - (v[1] * vec.v[0]));
-        }
-
-        T distance(const Vector3& vec) const
-        {
-            T dx = vec.v[0] - v[0];
-            T dy = vec.v[1] - v[1];
-            T dz = vec.v[2] - v[2];
-
-            return sqrt(dx * dx + dy * dy + dz * dz);
-        }
-
-        T distanceSquared(const Vector3& vec) const
-        {
-            T dx = vec.v[0] - v[0];
-            T dy = vec.v[1] - v[1];
-            T dz = vec.v[2] - v[2];
-
-            return dx * dx + dy * dy + dz * dz;
-        }
-
-        T dot(const Vector3& vec) const
-        {
-            return v[0] * vec.v[0] + v[1] * vec.v[1] + v[2] * vec.v[2];
-        }
-
-        T length() const
-        {
-            return sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
-        }
-
-        T lengthSquared() const
-        {
-            return v[0] * v[0] + v[1] * v[1] + v[2] * v[2];
-        }
-
-        void negate()
-        {
-            v[0] = -v[0];
-            v[1] = -v[1];
-            v[2] = -v[2];
-        }
-
-        void normalize()
-        {
-            T n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2];
-            if (n == 1) // already normalized
-                return;
-
-            n = sqrt(n);
-            if (n <= std::numeric_limits<T>::min()) // too close to zero
-                return;
-
-            n = 1 / n;
-            v[0] *= n;
-            v[1] *= n;
-            v[2] *= n;
-        }
-
-        void scale(const Vector3& scale)
-        {
-            v[0] *= scale.v[0];
-            v[1] *= scale.v[1];
-            v[2] *= scale.v[2];
-        }
-
-        void smooth(const Vector3& target, T elapsedTime, T responseTime)
-        {
-            if (elapsedTime > 0)
-                *this += (target - *this) * (elapsedTime / (elapsedTime + responseTime));
-        }
-
-        T getMin() const
-        {
-            return std::min(v[0], std::min(v[1], v[2]));
-        }
-
-        T getMax() const
-        {
-            return std::max(v[0], std::max(v[1], v[2]));
-        }
-
-        inline const Vector3 operator+(const Vector3& vec) const
-        {
-            return Vector3(v[0] + vec.v[0], v[1] + vec.v[1], v[2] + vec.v[2]);
-        }
-
-        inline Vector3& operator+=(const Vector3& vec)
-        {
-            v[0] += vec.v[0];
-            v[1] += vec.v[1];
-            v[2] += vec.v[2];
-            return *this;
-        }
-
-        inline const Vector3 operator-(const Vector3& vec) const
-        {
-            return Vector3(v[0] - vec.v[0], v[1] - vec.v[1], v[2] - vec.v[2]);
-        }
-
-        inline Vector3& operator-=(const Vector3& vec)
-        {
-            v[0] -= vec.v[0];
-            v[1] -= vec.v[1];
-            v[2] -= vec.v[2];
-            return *this;
-        }
-
-        inline const Vector3 operator-() const
-        {
-            return Vector3(-v[0], -v[1], -v[2]);
-        }
-
-        inline const Vector3 operator*(T scalar) const
-        {
-            return Vector3(v[0] * scalar, v[1] * scalar, v[2] * scalar);
-        }
-
-        inline Vector3& operator*=(T scalar)
-        {
-            v[0] *= scalar;
-            v[1] *= scalar;
-            v[2] *= scalar;
-            return *this;
-        }
-
-        inline const Vector3 operator/(T scalar) const
-        {
-            return Vector3(v[0] / scalar, v[1] / scalar, v[2] / scalar);
-        }
-
-        inline Vector3& operator/=(T scalar)
-        {
-            v[0] /= scalar;
-            v[1] /= scalar;
-            v[2] /= scalar;
-            return *this;
-        }
-
-        inline bool operator<(const Vector3& vec) const
-        {
-            if (v[0] == vec.v[0])
-            {
-                if (v[1] == vec.v[1])
-                    return v[2] < vec.v[2];
-
-                return v[1] < vec.v[1];
-            }
-            return v[0] < vec.v[0];
-        }
-
-        inline bool operator==(const Vector3& vec) const
-        {
-            return v[0] == vec.v[0] && v[1] == vec.v[1] && v[2] == vec.v[2];
-        }
-
-        inline bool operator!=(const Vector3& vec) const
-        {
-            return v[0] != vec.v[0] || v[1] != vec.v[1] || v[2] != vec.v[2];
-        }
-    };
-
-    template<class T>
-    inline const Vector3<T> operator*(T scalar, const Vector3<T>& vec)
-    {
-        return Vector3<T>(vec.v[0] * scalar, vec.v[1] * scalar, vec.v[2] * scalar);
-    }
-
-    using Vector3F = Vector3<float>;
-
-    template<class T> class Vector4 final
-    {
-    public:
-        static constexpr size_t N = 4;
 #if defined(__SSE__)
-        alignas(16)
+        alignas(N == 4 ? 16 : 0)
 #endif
-        T v[N]{0, 0, 0, 0};
+        T v[N]{0};
 
-        Vector4()
+        Vector()
         {
         }
 
-        Vector4(T x, T y):
-            v{x, y, 0, 0}
+        template<typename ...A>
+        Vector(A... args):
+            v{static_cast<T>(args)...}
         {
         }
 
-        Vector4(T x, T y, T z):
-            v{x, y, z, 0}
+        Vector(const Vector& vec)
         {
+            for (size_t i = 0; i < N; ++i)
+                v[i] = vec.v[i];
         }
 
-        Vector4(T x, T y, T z, T w):
-            v{x, y, z, w}
+        Vector& operator=(const Vector& vec)
         {
-        }
-
-        Vector4(const Vector4& copy):
-            v{copy.v[0], copy.v[1], copy.v[2], copy.v[3]}
-        {
-        }
-
-        Vector4& operator=(const Vector4& vec)
-        {
-            v[0] = vec.v[0];
-            v[1] = vec.v[1];
-            v[2] = vec.v[2];
-            v[3] = vec.v[3];
+            for (size_t i = 0; i < N; ++i)
+                v[i] = vec.v[i];
             return *this;
         }
 
-        explicit Vector4(const Vector2<T>& vec):
-            v{vec.v[0], vec.v[1], 0, 0}
+        template<size_t N2, bool E = (N != N2), typename std::enable_if<E>::type* = nullptr>
+        explicit Vector(const Vector<N2, T>& vec)
         {
+            for (size_t i = 0; i < N && i < N2; ++i)
+                v[i] = vec.v[i];
         }
 
-        explicit Vector4(const Vector3<T>& vec):
-            v{vec.v[0], vec.v[1], vec.v[2], 0}
+        explicit Vector(Color color)
         {
+            if (N >= 1) v[0] = color.normR();
+            if (N >= 2) v[1] = color.normG();
+            if (N >= 3) v[2] = color.normB();
+            if (N >= 4) v[3] = color.normA();
         }
-
-        explicit Vector4(Color color);
 
         inline T& operator[](size_t index) { return v[index]; }
         inline T operator[](size_t index) const { return v[index]; }
@@ -591,104 +63,125 @@ namespace ouzel
         inline T& x() { return v[0]; }
         inline T x() const { return v[0]; }
 
+        template<bool E = (N >= 2), typename std::enable_if<E>::type* = nullptr>
         inline T& y() { return v[1]; }
+
+        template<bool E = (N >= 2), typename std::enable_if<E>::type* = nullptr>
         inline T y() const { return v[1]; }
 
+        template<bool E = (N >= 3), typename std::enable_if<E>::type* = nullptr>
         inline T& z() { return v[2]; }
+
+        template<bool E = (N >= 3), typename std::enable_if<E>::type* = nullptr>
         inline T z() const { return v[2]; }
 
+        template<bool E = (N >= 4), typename std::enable_if<E>::type* = nullptr>
         inline T& w() { return v[3]; }
+
+        template<bool E = (N >= 4), typename std::enable_if<E>::type* = nullptr>
         inline T w() const { return v[3]; }
 
         bool isZero() const
         {
-            return v[0] == 0 && v[1] == 0 && v[2] == 0 && v[3] == 0;
+            for (const T& c : v)
+                if (c != 0) return false;
+            return true;
         }
 
-        T getAngle(const Vector4& axis) const
+        template<bool E = (N == 2), typename std::enable_if<E>::type* = nullptr>
+        T getAngle() const
         {
-            T dx = v[3] * axis.v[0] - v[0] * axis.v[3] - v[1] * axis.v[2] + v[2] * axis.v[1];
-            T dy = v[3] * axis.v[1] - v[1] * axis.v[3] - v[2] * axis.v[0] + v[0] * axis.v[2];
-            T dz = v[3] * axis.v[2] - v[2] * axis.v[3] - v[0] * axis.v[1] + v[1] * axis.v[0];
-
-            return atan2(sqrt(dx * dx + dy * dy + dz * dz), dot(axis));
+            return atan2(v[1], v[0]);
         }
 
-        void clamp(const Vector4& min, const Vector4& max)
+        template<bool E = (N >= 3), typename std::enable_if<E>::type* = nullptr>
+        T getAngle(const Vector& axis) const
         {
-            assert(!(min.v[0] > max.v[0] || min.v[1] > max.v[1] || min.v[2] > max.v[2] || min.v[3] > max.v[3]));
+            if (N == 3)
+            {
+                T dx = axis.v[0] - v[0] - v[1] * axis.v[2] + v[2] * axis.v[1];
+                T dy = axis.v[1] - v[1] - v[2] * axis.v[0] + v[0] * axis.v[2];
+                T dz = axis.v[2] - v[2] - v[0] * axis.v[1] + v[1] * axis.v[0];
 
-            // clamp the v[0] value
-            if (v[0] < min.v[0])
-                v[0] = min.v[0];
-            if (v[0] > max.v[0])
-                v[0] = max.v[0];
+                return atan2(sqrt(dx * dx + dy * dy + dz * dz), dot(axis));
+            }
+            else
+            {
+                T dx = v[3] * axis.v[0] - v[0] * axis.v[3] - v[1] * axis.v[2] + v[2] * axis.v[1];
+                T dy = v[3] * axis.v[1] - v[1] * axis.v[3] - v[2] * axis.v[0] + v[0] * axis.v[2];
+                T dz = v[3] * axis.v[2] - v[2] * axis.v[3] - v[0] * axis.v[1] + v[1] * axis.v[0];
 
-            // clamp the v[1] value
-            if (v[1] < min.v[1])
-                v[1] = min.v[1];
-            if (v[1] > max.v[1])
-                v[1] = max.v[1];
-
-            // clamp the v[2] value
-            if (v[2] < min.v[2])
-                v[2] = min.v[2];
-            if (v[2] > max.v[2])
-                v[2] = max.v[2];
-
-            // clamp the v[2] value
-            if (v[3] < min.v[3])
-                v[3] = min.v[3];
-            if (v[3] > max.v[3])
-                v[3] = max.v[3];
+                return atan2(sqrt(dx * dx + dy * dy + dz * dz), dot(axis));
+            }
         }
 
-        T distance(const Vector4& vec) const
+        void clamp(const Vector& min, const Vector& max)
         {
-            T dx = vec.v[0] - v[0];
-            T dy = vec.v[1] - v[1];
-            T dz = vec.v[2] - v[2];
-            T dw = vec.v[3] - v[3];
-
-            return sqrt(dx * dx + dy * dy + dz * dz + dw * dw);
+            for (size_t i = 0; i < N; ++i)
+                if (v[i] < min.v[i]) v[i] = min.v[i];
+                else if (v[i] > max.v[i]) v[i] = max.v[i];
         }
 
-        T distanceSquared(const Vector4& vec) const
+        template<bool E = (N == 3), typename std::enable_if<E>::type* = nullptr>
+        Vector cross(const Vector& vec) const
         {
-            T dx = vec.v[0] - v[0];
-            T dy = vec.v[1] - v[1];
-            T dz = vec.v[2] - v[2];
-            T dw = vec.v[3] - v[3];
-
-            return dx * dx + dy * dy + dz * dz + dw * dw;
+            return Vector((v[1] * vec.v[2]) - (v[2] * vec.v[1]),
+                          (v[2] * vec.v[0]) - (v[0] * vec.v[2]),
+                          (v[0] * vec.v[1]) - (v[1] * vec.v[0]));
         }
 
-        T dot(const Vector4& vec) const
+        T distance(const Vector& vec) const
         {
-            return v[0] * vec.v[0] + v[1] * vec.v[1] + v[2] * vec.v[2] + v[3] * vec.v[3];
+            T d = 0;
+            for (size_t i = 0; i < N; ++i)
+                d += (vec.v[i] - v[i]) * (vec.v[i] - v[i]);
+            return sqrt(d);
+        }
+
+        T distanceSquared(const Vector& vec) const
+        {
+            T d = 0;
+            for (size_t i = 0; i < N; ++i)
+                d += (vec.v[i] - v[i]) * (vec.v[i] - v[i]);
+            return d;
+        }
+
+        T dot(const Vector& vec) const
+        {
+            T d = 0;
+            for (size_t i = 0; i < N; ++i)
+                d += v[i] * vec.v[i];
+            return d;
         }
 
         inline T length() const
         {
-            return sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3]);
+            T l = 0;
+            for (const T& c : v)
+                l += c;
+            return sqrt(l);
         }
 
         inline T lengthSquared() const
         {
-            return v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
+            T l = 0;
+            for (const T& c : v)
+                l += c;
+            return l;
         }
 
         inline void negate()
         {
-            v[0] = -v[0];
-            v[1] = -v[1];
-            v[2] = -v[2];
-            v[3] = -v[3];
+            for (T& c : v)
+                c = -c;
         }
 
         void normalize()
         {
-            T n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
+            T n = 0;
+            for (const T& c : v)
+                n += c * c;
+
             if (n == 1) // already normalized
                 return;
 
@@ -696,22 +189,17 @@ namespace ouzel
             if (n <= std::numeric_limits<T>::min()) // too close to zero
                 return;
 
-            n = 1 / n;
-            v[0] *= n;
-            v[1] *= n;
-            v[2] *= n;
-            v[3] *= n;
+            for (T& c : v)
+                c /= n;
         }
 
-        void scale(const Vector4& scale)
+        void scale(const Vector& scale)
         {
-            v[0] *= scale.v[0];
-            v[1] *= scale.v[1];
-            v[2] *= scale.v[2];
-            v[3] *= scale.v[3];
+            for (size_t i = 0; i < N; ++i)
+                v[i] *= scale.v[i];
         }
 
-        void smooth(const Vector4& target, T elapsedTime, T responseTime)
+        void smooth(const Vector& target, T elapsedTime, T responseTime)
         {
             if (elapsedTime > 0)
                 *this += (target - *this) * (elapsedTime / (elapsedTime + responseTime));
@@ -719,111 +207,114 @@ namespace ouzel
 
         T getMin() const
         {
-            return std::min(v[0], std::min(v[1], std::min(v[2], v[3])));
+            return *std::min_element(std::begin(v), std::end(v));
         }
 
         T getMax() const
         {
-            return std::max(v[0], std::max(v[1], std::max(v[2], v[3])));
+            return *std::max_element(std::begin(v), std::end(v));
         }
 
-        inline const Vector4 operator+(const Vector4& vec) const
+        inline const Vector operator+(const Vector& vec) const
         {
-            return Vector4(v[0] + vec.v[0], v[1] + vec.v[1], v[2] + vec.v[2], v[3] + vec.v[3]);
-        }
-
-        inline Vector4& operator+=(const Vector4& vec)
-        {
-            v[0] += vec.v[0];
-            v[1] += vec.v[1];
-            v[2] += vec.v[2];
-            v[3] += vec.v[3];
-            return *this;
-        }
-
-        inline const Vector4 operator-(const Vector4& vec) const
-        {
-            return Vector4(v[0] - vec.v[0], v[1] - vec.v[1], v[2] - vec.v[2], v[3] - vec.v[3]);
-        }
-
-        inline Vector4& operator-=(const Vector4& vec)
-        {
-            v[0] -= vec.v[0];
-            v[1] -= vec.v[1];
-            v[2] -= vec.v[2];
-            v[3] -= vec.v[3];
-            return *this;
-        }
-
-        inline const Vector4 operator-() const
-        {
-            return Vector4(-v[0], -v[1], -v[2], -v[3]);
-        }
-
-        inline const Vector4 operator*(T scalar) const
-        {
-            Vector4 result(*this);
-            result *= scalar;
+            Vector result = *this;
+            for (size_t i = 0; i < N; ++i)
+                result[i] += vec.v[i];
             return result;
         }
 
-        inline Vector4& operator*=(T scalar)
+        inline Vector& operator+=(const Vector& vec)
         {
-            v[0] *= scalar;
-            v[1] *= scalar;
-            v[2] *= scalar;
-            v[3] *= scalar;
+            for (size_t i = 0; i < N; ++i)
+                v[i] += vec.v[i];
             return *this;
         }
 
-        inline const Vector4 operator/(T scalar) const
+        inline const Vector operator-(const Vector& vec) const
         {
-            return Vector4(v[0] / scalar, v[1] / scalar, v[2] / scalar, v[3] / scalar);
+            Vector result = *this;
+            for (size_t i = 0; i < N; ++i)
+                result[i] -= vec.v[i];
+            return result;
         }
 
-        inline Vector4& operator/=(T scalar)
+        inline Vector& operator-=(const Vector& vec)
         {
-            v[0] /= scalar;
-            v[1] /= scalar;
-            v[2] /= scalar;
-            v[3] /= scalar;
+            for (size_t i = 0; i < N; ++i)
+                v[i] -= vec.v[i];
             return *this;
         }
 
-        inline bool operator<(const Vector4& vec) const
+        inline const Vector operator-() const
         {
-            if (v[0] == vec.v[0])
-            {
-                if (v[1] == vec.v[1])
-                {
-                    if (v[2] == vec.v[2])
-                        return v[3] < vec.v[3];
-
-                    return v[2] < vec.v[2];
-                }
-                return v[1] < vec.v[1];
-            }
-            return v[0] < vec.v[0];
+            Vector result = *this;
+            for (T& c : result.v)
+                c = -c;
+            return result;
         }
 
-        inline bool operator==(const Vector4& vec) const
+        inline const Vector operator*(T scalar) const
         {
-            return v[0] == vec.v[0] && v[1] == vec.v[1] && v[2] == vec.v[2] && v[3] == vec.v[3];
+            Vector result(*this);
+            for (T& c : result.v)
+                c *= scalar;
+            return result;
         }
 
-        inline bool operator!=(const Vector4& vec) const
+        inline Vector& operator*=(T scalar)
         {
-            return v[0] != vec.v[0] || v[1] != vec.v[1] || v[2] != vec.v[2] || v[3] != vec.v[3];
+            for (T& c : v)
+                c *= scalar;
+            return *this;
+        }
+
+        inline const Vector operator/(T scalar) const
+        {
+            Vector result(*this);
+            for (T& c : result.v)
+                c /= scalar;
+            return result;
+        }
+
+        inline Vector& operator/=(T scalar)
+        {
+            for (T& c : v)
+                c /= scalar;
+            return *this;
+        }
+
+        inline bool operator<(const Vector& vec) const
+        {
+            return std::lexicographical_compare(std::begin(v), std::end(v),
+                                                std::begin(vec.v), std::end(vec.v));
+        }
+
+        inline bool operator==(const Vector& vec) const
+        {
+            for (size_t i = 0; i < N; ++i)
+                if (v[i] != vec.v[i]) return false;
+            return true;
+        }
+
+        inline bool operator!=(const Vector& vec) const
+        {
+            for (size_t i = 0; i < N; ++i)
+                if (v[i] != vec.v[i]) return true;
+            return false;
         }
     };
 
-    template<class T>
-    inline const Vector4<T> operator*(T scalar, const Vector4<T>& vec)
+    template<size_t N, class T>
+    inline const Vector<N, T> operator*(T scalar, const Vector<N, T>& vec)
     {
-        return Vector4<T>(vec.v[0] * scalar, vec.v[1] * scalar, vec.v[2] * scalar, vec.v[3] * scalar);
+        Vector<N, T> result = vec;
+        result *= scalar;
+        return result;
     }
 
-    using Vector4F = Vector4<float>;
+    using Vector2F = Vector<2, float>;
+    using Vector3F = Vector<3, float>;
+    using Vector4F = Vector<4, float>;
 }
 
 #endif // OUZEL_MATH_VECTOR_HPP

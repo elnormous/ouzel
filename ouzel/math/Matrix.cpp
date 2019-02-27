@@ -736,7 +736,7 @@ namespace ouzel
     }
 
     template<class T>
-    void Matrix4<T>::transformVector(const Vector4<T>& vector, Vector4<T>& dst) const
+    void Matrix4<T>::transformVector(const Vector<4, T>& vector, Vector<4, T>& dst) const
     {
         assert(&vector != &dst);
         dst.v[0] = vector.v[0] * m[0] + vector.v[1] * m[4] + vector.v[2] * m[8] + vector.v[3] * m[12];
@@ -746,7 +746,7 @@ namespace ouzel
     }
 
     template<>
-    void Matrix4<float>::transformVector(const Vector4<float>& vector, Vector4<float>& dst) const
+    void Matrix4<float>::transformVector(const Vector<4, float>& vector, Vector<4, float>& dst) const
     {
         if (isSimdAvailable)
         {

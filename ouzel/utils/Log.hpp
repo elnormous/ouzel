@@ -169,26 +169,17 @@ namespace ouzel
             return *this;
         }
 
-        template<class T>
-        Log& operator<<(const Vector2<T>& val)
+        template<size_t N, class T>
+        Log& operator<<(const Vector<N, T>& val)
         {
-            s += std::to_string(val.v[0]) + "," + std::to_string(val.v[1]);
-            return *this;
-        }
+            bool first = true;
 
-        template<class T>
-        Log& operator<<(const Vector3<T>& val)
-        {
-            s += std::to_string(val.v[0]) + "," + std::to_string(val.v[1]) + "," +
-                std::to_string(val.v[2]);
-            return *this;
-        }
-
-        template<class T>
-        Log& operator<<(const Vector4<T>& val)
-        {
-            s += std::to_string(val.v[0]) + "," + std::to_string(val.v[1]) + "," +
-                std::to_string(val.v[2]) + "," + std::to_string(val.v[3]);
+            for (T c : val.v)
+            {
+                if (!first) s += ",";
+                first = false;
+                s += std::to_string(c);
+            }
             return *this;
         }
 

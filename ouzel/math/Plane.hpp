@@ -10,7 +10,7 @@
 
 namespace ouzel
 {
-    template<class T> class Vector4;
+    template<size_t N, class T> class Vector;
 
     template<class T> class Plane final
     {
@@ -63,7 +63,7 @@ namespace ouzel
             v[3] = -v[3];
         }
 
-        T dot(const Vector4<T>& vec) const
+        T dot(const Vector<4, T>& vec) const
         {
             return v[0] * vec.v[0] + v[1] * vec.v[1] + v[2] * vec.v[2] + v[3];
         }

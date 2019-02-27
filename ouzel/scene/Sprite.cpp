@@ -119,7 +119,7 @@ namespace ouzel
 
             // TODO: fix
             Vector2F finalOffset(-sourceSize.v[0] * pivot.v[0] + sourceOffset.v[0],
-                                       -sourceSize.v[1] * pivot.v[1] + (sourceSize.v[1] - frameRectangle.size.v[1] - sourceOffset.v[1]));
+                                 -sourceSize.v[1] * pivot.v[1] + (sourceSize.v[1] - frameRectangle.size.v[1] - sourceOffset.v[1]));
 
             indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
                                                              graphics::Buffer::Usage::INDEX, 0,

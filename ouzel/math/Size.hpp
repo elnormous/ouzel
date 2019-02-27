@@ -25,7 +25,7 @@ namespace ouzel
         {
         }
 
-        explicit Size2(const Vector2<T>& point):
+        explicit Size2(const Vector<2, T>& point):
             v{point.v[0], point.v[1]}
         {
         }
@@ -115,7 +115,7 @@ namespace ouzel
             v[1] *= scalar;
         }
 
-        inline void scale(const Vector2<T>& scale)
+        inline void scale(const Vector<2, T>& scale)
         {
             v[0] *= scale.v[0];
             v[1] *= scale.v[1];
@@ -123,13 +123,13 @@ namespace ouzel
     };
 
     template<class T>
-    inline const Size2<T> operator*(const Size2<T>& size, const Vector2<T>& v)
+    inline const Size2<T> operator*(const Size2<T>& size, const Vector<2, T>& v)
     {
         return Size2<T>(size.v[0] * v.v[0], size.v[1] * v.v[1]);
     }
 
     template<class T>
-    inline const Size2<T> operator/(const Size2<T>& size, const Vector2<T>& v)
+    inline const Size2<T> operator/(const Size2<T>& size, const Vector<2, T>& v)
     {
         return Size2<T>(size.v[0] / v.v[0], size.v[1] / v.v[1]);
     }
@@ -151,7 +151,7 @@ namespace ouzel
         {
         }
 
-        explicit Size3(const Vector3<T>& point):
+        explicit Size3(const Vector<3, T>& point):
             v{point.v[0], point.v[1], point.v[2]}
         {
         }
@@ -249,7 +249,7 @@ namespace ouzel
             v[2] *= scalar;
         }
 
-        inline void scale(const Vector3<T>& scale)
+        inline void scale(const Vector<3, T>& scale)
         {
             v[0] *= scale.v[0];
             v[1] *= scale.v[1];
@@ -258,13 +258,13 @@ namespace ouzel
     };
 
     template<class T>
-    inline const Size3<T> operator*(const Size3<T>& size, const Vector3<T>& v)
+    inline const Size3<T> operator*(const Size3<T>& size, const Vector<3, T>& v)
     {
         return Size3<T>(size.v[0] * v.v[0], size.v[1] * v.v[1], size.v[2] * v.v[2]);
     }
 
     template<class T>
-    inline const Size3<T> operator/(const Size3<T>& size, const Vector3<T>& v)
+    inline const Size3<T> operator/(const Size3<T>& size, const Vector<3, T>& v)
     {
         return Size3<T>(size.v[0] / v.v[0], size.v[1] / v.v[1], size.v[2] / v.v[2]);
     }

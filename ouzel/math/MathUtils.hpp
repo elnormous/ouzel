@@ -36,7 +36,7 @@ namespace ouzel
     constexpr bool isSimdAvailable = true;
 #  endif
 #elif defined(__SSE__)
-    constexpr bool isSimdAvailable = true;
+    constexpr bool isSimdAvailable = false;
 #else
     constexpr bool isSimdAvailable = false;
 #endif

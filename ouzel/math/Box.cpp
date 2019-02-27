@@ -5,7 +5,7 @@
 namespace ouzel
 {
     template<class T>
-    void Box2<T>::getCorners(Vector2<T>* dst) const
+    void Box2<T>::getCorners(Vector<2, T>* dst) const
     {
         // Near face, specified counter-clockwise looking towards the origin from the positive z-axis
 
@@ -47,7 +47,7 @@ namespace ouzel
     }
 
     template<class T>
-    void Box3<T>::getCorners(Vector3<T>* dst) const
+    void Box3<T>::getCorners(Vector<3, T>* dst) const
     {
         // Near face, specified counter-clockwise looking towards the origin from the positive v[2]-axis
 

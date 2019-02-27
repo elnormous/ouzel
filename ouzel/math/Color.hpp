@@ -9,8 +9,7 @@
 
 namespace ouzel
 {
-    template<class T> class Vector3;
-    template<class T> class Vector4;
+    template<size_t N, class T> class Vector;
 
     class Color final
     {
@@ -41,6 +40,7 @@ namespace ouzel
         {
         }
 
+        Color(const char* color);
         Color(const std::string& color);
 
         Color(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha = 0xFF):
@@ -58,9 +58,9 @@ namespace ouzel
         {
         }
 
-        explicit Color(const Vector3<float>& vec);
+        explicit Color(const Vector<3, float>& vec);
 
-        explicit Color(const Vector4<float>& vec);
+        explicit Color(const Vector<4, float>& vec);
 
         inline uint8_t& operator[](size_t index) { return v[index]; }
         inline uint8_t operator[](size_t index) const { return v[index]; }

@@ -219,7 +219,7 @@ namespace ouzel
             v[3] *= n;
         }
 
-        void rotate(T angle, Vector3<T> axis)
+        void rotate(T angle, Vector<3, T> axis)
         {
             axis.normalize();
 
@@ -232,7 +232,7 @@ namespace ouzel
             v[3] = cosAngle;
         }
 
-        void getRotation(T& angle, Vector3<T>& axis) const
+        void getRotation(T& angle, Vector<3, T>& axis) const
         {
             angle = 2 * acos(v[3]);
             T s = sqrt(1 - v[3] * v[3]);
@@ -250,9 +250,9 @@ namespace ouzel
             }
         }
 
-        Vector3<T> getEulerAngles() const
+        Vector<3, T> getEulerAngles() const
         {
-            Vector3<T> result;
+            Vector<3, T> result;
             result.v[0] = atan2(2 * (v[1] * v[2] + v[3] * v[0]), v[3] * v[3] - v[0] * v[0] - v[1] * v[1] + v[2] * v[2]);
             result.v[1] = asin(-2 * (v[0] * v[2] - v[3] * v[1]));
             result.v[2] = atan2(2 * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2]);
@@ -274,7 +274,7 @@ namespace ouzel
             return atan2(2 * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2]);
         }
 
-        void setEulerAngles(const Vector3<T>& angles)
+        void setEulerAngles(const Vector<3, T>& angles)
         {
             T angle;
 
@@ -301,31 +301,31 @@ namespace ouzel
             v[3] = cr * cpcy + sr * spsy;
         }
 
-        inline const Vector3<T> operator*(const Vector3<T>& vector) const
+        inline const Vector<3, T> operator*(const Vector<3, T>& vector) const
         {
             return rotateVector(vector);
         }
 
-        inline Vector3<T> rotateVector(const Vector3<T>& vector) const
+        inline Vector<3, T> rotateVector(const Vector<3, T>& vector) const
         {
-            Vector3<T> q(v[0], v[1], v[2]);
-            Vector3<T> t = 2 * q.cross(vector);
+            Vector<3, T> q(v[0], v[1], v[2]);
+            Vector<3, T> t = 2 * q.cross(vector);
             return vector + (v[3] * t) + q.cross(t);
         }
 
-        inline Vector3<T> getRightVector() const
+        inline Vector<3, T> getRightVector() const
         {
-            return rotateVector(Vector3<T>(1, 0, 0));
+            return rotateVector(Vector<3, T>(1, 0, 0));
         }
 
-        inline Vector3<T> getUpVector() const
+        inline Vector<3, T> getUpVector() const
         {
-            return rotateVector(Vector3<T>(0, 1, 0));
+            return rotateVector(Vector<3, T>(0, 1, 0));
         }
 
-        inline Vector3<T> getForwardVector() const
+        inline Vector<3, T> getForwardVector() const
         {
-            return rotateVector(Vector3<T>(0, 0, 1));
+            return rotateVector(Vector<3, T>(0, 0, 1));
         }
 
         inline Quaternion& lerp(const Quaternion& q1, const Quaternion& q2, T t)

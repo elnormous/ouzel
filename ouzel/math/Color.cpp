@@ -47,6 +47,16 @@ namespace ouzel
         return result;
     }
 
+    Color::Color(const char* color)
+    {
+        uint32_t intValue = parseColorString(color);
+
+        v[0] = static_cast<uint8_t>((intValue & 0xFF000000) >> 24);
+        v[1] = static_cast<uint8_t>((intValue & 0x00FF0000) >> 16);
+        v[2] = static_cast<uint8_t>((intValue & 0x0000FF00) >> 8);
+        v[3] = static_cast<uint8_t>(intValue & 0x000000FF);
+    }
+
     Color::Color(const std::string& color)
     {
         uint32_t intValue = parseColorString(color);
@@ -57,7 +67,7 @@ namespace ouzel
         v[3] = static_cast<uint8_t>(intValue & 0x000000FF);
     }
 
-    Color::Color(const Vector3<float>& vec)
+    Color::Color(const Vector<3, float>& vec)
     {
         v[0] = static_cast<uint8_t>(vec.v[0] * 255);
         v[1] = static_cast<uint8_t>(vec.v[1] * 255);
@@ -65,7 +75,7 @@ namespace ouzel
         v[3] = 0;
     }
 
-    Color::Color(const Vector4<float>& vec)
+    Color::Color(const Vector<4, float>& vec)
     {
         v[0] = static_cast<uint8_t>(vec.v[0] * 255);
         v[1] = static_cast<uint8_t>(vec.v[1] * 255);

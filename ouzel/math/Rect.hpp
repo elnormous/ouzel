@@ -11,7 +11,7 @@ namespace ouzel
     template<class T> class Rect final
     {
     public:
-        Vector2<T> position;
+        Vector<2, T> position;
         Size2<T> size;
 
         Rect()
@@ -28,12 +28,12 @@ namespace ouzel
         {
         }
 
-        Rect(const Vector2<T>& initPosition, T width, T height):
+        Rect(const Vector<2, T>& initPosition, T width, T height):
             position(initPosition), size(width, height)
         {
         }
 
-        Rect(const Vector2<T>& initPosition, const Size2<T>& initSize):
+        Rect(const Vector<2, T>& initPosition, const Size2<T>& initSize):
             position(initPosition), size(initSize)
         {
         }
@@ -63,7 +63,7 @@ namespace ouzel
             position.v[1] = y;
         }
 
-        void setPosition(const Vector2<T>& newPosition)
+        void setPosition(const Vector<2, T>& newPosition)
         {
             position = newPosition;
         }
@@ -88,14 +88,14 @@ namespace ouzel
             return position.v[1] + size.v[1];
         }
 
-        Vector2<T> bottomLeft() const
+        Vector<2, T> bottomLeft() const
         {
             return position;
         }
 
-        Vector2<T> topRight() const
+        Vector<2, T> topRight() const
         {
-            return Vector2<T>(position.v[0] + size.v[0], position.v[1] + size.v[1]);
+            return Vector<2, T>(position.v[0] + size.v[0], position.v[1] + size.v[1]);
         }
 
         bool containsPoint(T x, T y) const
@@ -104,7 +104,7 @@ namespace ouzel
                 y >= position.v[1] && y <= (position.v[1] + size.v[1]);
         }
 
-        bool containsPoint(const Vector2<T>& point) const
+        bool containsPoint(const Vector<2, T>& point) const
         {
             return point.v[0] >= position.v[0] && point.v[0] <= (position.v[0] + size.v[0]) &&
                 point.v[1] >= position.v[1] && point.v[1] <= (position.v[1] + size.v[1]);
