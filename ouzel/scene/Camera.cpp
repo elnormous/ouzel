@@ -210,7 +210,6 @@ namespace ouzel
 
         bool Camera::checkVisibility(const Matrix4F& boxTransform, const Box3F& box) const
         {
-            return true;
             if (projectionMode == ProjectionMode::ORTHOGRAPHIC)
             {
                 // calculate center point of the box
