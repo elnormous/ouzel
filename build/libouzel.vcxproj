@@ -142,7 +142,6 @@
     <ClCompile Include="..\ouzel\math\MathUtils.cpp" />
     <ClCompile Include="..\ouzel\math\Matrix.cpp" />
     <ClCompile Include="..\ouzel\math\Size.cpp" />
-    <ClCompile Include="..\ouzel\math\Vector.cpp" />
     <ClCompile Include="..\ouzel\network\Client.cpp" />
     <ClCompile Include="..\ouzel\network\Network.cpp" />
     <ClCompile Include="..\ouzel\network\Server.cpp" />

@@ -134,7 +134,6 @@ SOURCES=$(ROOT_DIR)/../ouzel/assets/BmfLoader.cpp \
 	$(ROOT_DIR)/../ouzel/math/MathUtils.cpp \
 	$(ROOT_DIR)/../ouzel/math/Matrix.cpp \
 	$(ROOT_DIR)/../ouzel/math/Size.cpp \
-	$(ROOT_DIR)/../ouzel/math/Vector.cpp \
 	$(ROOT_DIR)/../ouzel/network/Client.cpp \
 	$(ROOT_DIR)/../ouzel/network/Network.cpp \
 	$(ROOT_DIR)/../ouzel/network/Server.cpp \

@@ -6,6 +6,7 @@
 #include <cassert>
 #include <cmath>
 #include <cstddef>
+#include <algorithm>
 #include <limits>
 #include "math/Color.hpp"
 
