@@ -61,7 +61,7 @@ namespace ouzel
             inline Texture::Filter getTextureFilter() const { return textureFilter; }
             inline uint32_t getMaxAnisotropy() const { return maxAnisotropy; }
 
-            virtual std::vector<Size2<uint32_t>> getSupportedResolutions() const;
+            virtual std::vector<Size<2, uint32_t>> getSupportedResolutions() const;
 
             void submitCommandBuffer(CommandBuffer&& commandBuffer)
             {
@@ -111,7 +111,7 @@ namespace ouzel
 
         protected:
             virtual void init(Window* newWindow,
-                              const Size2<uint32_t>& newSize,
+                              const Size<2, uint32_t>& newSize,
                               uint32_t newSampleCount,
                               Texture::Filter newTextureFilter,
                               uint32_t newMaxAnisotropy,

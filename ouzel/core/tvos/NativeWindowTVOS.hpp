@@ -39,7 +39,7 @@ namespace ouzel
         inline UIViewPtr getNativeView() const { return view; }
         inline UITextFieldPtr getTextField() const { return textField; }
 
-        void handleResize(const Size2<uint32_t>& newSize);
+        void handleResize(const Size<2, uint32_t>& newSize);
 
     private:
         UIScreenPtr screen = nil;

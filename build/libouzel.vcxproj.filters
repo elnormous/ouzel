@@ -196,9 +196,6 @@
     <ClCompile Include="..\ouzel\scene\Sprite.cpp">
       <Filter>ouzel\scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\math\Size.cpp">
-      <Filter>ouzel\math</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\gui\SlideBar.cpp">
       <Filter>ouzel\gui</Filter>
     </ClCompile>

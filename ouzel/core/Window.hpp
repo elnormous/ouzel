@@ -17,7 +17,7 @@ namespace ouzel
     {
     public:
         Window(Engine& initEngine,
-               const Size2<uint32_t>& newSize,
+               const Size<2, uint32_t>& newSize,
                bool newResizable,
                bool newFullscreen,
                bool newExclusiveFullscreen,
@@ -36,10 +36,10 @@ namespace ouzel
         void close();
         void update();
 
-        inline const Size2<uint32_t>& getSize() const { return size; }
-        void setSize(const Size2<uint32_t>& newSize);
+        inline const Size<2, uint32_t>& getSize() const { return size; }
+        void setSize(const Size<2, uint32_t>& newSize);
 
-        inline const Size2<uint32_t>& getResolution() const { return resolution; }
+        inline const Size<2, uint32_t>& getResolution() const { return resolution; }
 
         inline bool isResizable() const { return resizable; }
 
@@ -68,8 +68,8 @@ namespace ouzel
         Engine& engine;
         std::unique_ptr<NativeWindow> nativeWindow;
 
-        Size2<uint32_t> size;
-        Size2<uint32_t> resolution;
+        Size<2, uint32_t> size;
+        Size<2, uint32_t> resolution;
         bool resizable = false;
         bool fullscreen = false;
         bool exclusiveFullscreen = false;

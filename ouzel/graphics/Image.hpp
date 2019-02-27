@@ -20,19 +20,19 @@ namespace ouzel
             }
 
             Image(PixelFormat initPixelFormat,
-                  const Size2<uint32_t>& initSize,
+                  const Size<2, uint32_t>& initSize,
                   std::vector<uint8_t>& initData):
                 pixelFormat(initPixelFormat), size(initSize), data(initData)
             {
             }
 
             inline PixelFormat getPixelFormat() const { return pixelFormat; }
-            inline const Size2<uint32_t>& getSize() const { return size; }
+            inline const Size<2, uint32_t>& getSize() const { return size; }
             inline const std::vector<uint8_t>& getData() const { return data; }
 
         private:
             PixelFormat pixelFormat = PixelFormat::DEFAULT;
-            Size2<uint32_t> size;
+            Size<2, uint32_t> size;
             std::vector<uint8_t> data;
         };
     } // namespace graphics

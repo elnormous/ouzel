@@ -28,7 +28,7 @@
 namespace ouzel
 {
     Window::Window(Engine& initEngine,
-                   const Size2<uint32_t>& newSize,
+                   const Size<2, uint32_t>& newSize,
                    bool newResizable,
                    bool newFullscreen,
                    bool newExclusiveFullscreen,
@@ -206,7 +206,7 @@ namespace ouzel
         nativeWindow->addCommand(command);
     }
 
-    void Window::setSize(const Size2<uint32_t>& newSize)
+    void Window::setSize(const Size<2, uint32_t>& newSize)
     {
         if (size != newSize)
         {

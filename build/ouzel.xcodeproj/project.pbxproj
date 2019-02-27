@@ -388,9 +388,6 @@
 		304AA8C11E1190E4006FA70E /* Obf.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304AA8BD1E1190E4006FA70E /* Obf.hpp */; };
 		304AA8C21E1190E4006FA70E /* Obf.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304AA8BD1E1190E4006FA70E /* Obf.hpp */; };
 		304AA8C31E1190E4006FA70E /* Obf.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304AA8BD1E1190E4006FA70E /* Obf.hpp */; };
-		304B27551C9384A600BA162D /* Size.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304B27531C9384A600BA162D /* Size.cpp */; };
-		304B27561C9384A600BA162D /* Size.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304B27531C9384A600BA162D /* Size.cpp */; };
-		304B27571C9384A600BA162D /* Size.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304B27531C9384A600BA162D /* Size.cpp */; };
 		304B27581C9384A600BA162D /* Size.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304B27541C9384A600BA162D /* Size.hpp */; };
 		304B27591C9384A600BA162D /* Size.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304B27541C9384A600BA162D /* Size.hpp */; };
 		304B275A1C9384A600BA162D /* Size.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304B27541C9384A600BA162D /* Size.hpp */; };
@@ -1046,7 +1043,6 @@
 		304A8EA11C270833008B1151 /* Vertex.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Vertex.hpp; sourceTree = "<group>"; };
 		304AA8BC1E1190E4006FA70E /* Obf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Obf.cpp; sourceTree = "<group>"; };
 		304AA8BD1E1190E4006FA70E /* Obf.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Obf.hpp; sourceTree = "<group>"; };
-		304B27531C9384A600BA162D /* Size.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Size.cpp; sourceTree = "<group>"; };
 		304B27541C9384A600BA162D /* Size.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Size.hpp; sourceTree = "<group>"; };
 		304B27771C95C54D00BA162D /* EditBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EditBox.cpp; sourceTree = "<group>"; };
 		304B27781C95C54D00BA162D /* EditBox.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EditBox.hpp; sourceTree = "<group>"; };
@@ -1453,7 +1449,6 @@
 				30216B7F1ED5C3900073E3D5 /* Plane.hpp */,
 				30FE384D1DFDE49E00305B3B /* Quaternion.hpp */,
 				304A8E3C1C237C70008B1151 /* Rect.hpp */,
-				304B27531C9384A600BA162D /* Size.cpp */,
 				304B27541C9384A600BA162D /* Size.hpp */,
 				304A8E4F1C237C70008B1151 /* Vector.hpp */,
 			);
@@ -2695,7 +2690,6 @@
 				30575ACE1C3B175D0009C8A7 /* Label.cpp in Sources */,
 				303B755F1C2A3CBF00FEDE92 /* Camera.cpp in Sources */,
 				C6C9102A21B54EE000B5FCB7 /* OscillatorSound.cpp in Sources */,
-				304B27561C9384A600BA162D /* Size.cpp in Sources */,
 				30B546551D90575B00E45DB6 /* RadioButtonGroup.cpp in Sources */,
 				30C758BC1F4A2227008499DC /* DisplayLink.mm in Sources */,
 				30DADE9D1C5167BC001A63B4 /* Cache.cpp in Sources */,
@@ -2840,7 +2834,6 @@
 				30A9C1331CAE80570084C4BF /* Localization.cpp in Sources */,
 				30575ACF1C3B175D0009C8A7 /* Label.cpp in Sources */,
 				303B764C1C355A3B00FEDE92 /* Camera.cpp in Sources */,
-				304B27571C9384A600BA162D /* Size.cpp in Sources */,
 				C6C9102C21B54EE000B5FCB7 /* OscillatorSound.cpp in Sources */,
 				303B764D1C355A3B00FEDE92 /* Matrix.cpp in Sources */,
 				30B546571D90575B00E45DB6 /* RadioButtonGroup.cpp in Sources */,
@@ -2908,7 +2901,6 @@
 				30419DE91D162BDC00A63759 /* Voice.cpp in Sources */,
 				302B728521BDE302006EBC59 /* SilenceSound.cpp in Sources */,
 				306792F3211F98070006FF79 /* Bundle.cpp in Sources */,
-				304B27551C9384A600BA162D /* Size.cpp in Sources */,
 				303B76081C34A92B00FEDE92 /* InputManager.cpp in Sources */,
 				30519CD11F9B53CB00AF3DC4 /* ImageLoader.cpp in Sources */,
 				30A381FF21B382A20043568A /* Mixer.cpp in Sources */,

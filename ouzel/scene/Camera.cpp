@@ -68,7 +68,7 @@ namespace ouzel
 
         void Camera::recalculateProjection()
         {
-            Size2<uint32_t> renderTargetSize;
+            Size<2, uint32_t> renderTargetSize;
 
             if (renderTarget)
             {

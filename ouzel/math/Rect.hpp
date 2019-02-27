@@ -12,7 +12,7 @@ namespace ouzel
     {
     public:
         Vector<2, T> position;
-        Size2<T> size;
+        Size<2, T> size;
 
         Rect()
         {
@@ -33,7 +33,7 @@ namespace ouzel
         {
         }
 
-        Rect(const Vector<2, T>& initPosition, const Size2<T>& initSize):
+        Rect(const Vector<2, T>& initPosition, const Size<2, T>& initSize):
             position(initPosition), size(initSize)
         {
         }

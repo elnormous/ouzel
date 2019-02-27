@@ -106,9 +106,9 @@ namespace ouzel
             return *this;
         }
 
-        inline Size2<T> getSize() const
+        inline Size<2, T> getSize() const
         {
-            return Size2<T>(max.v[0] - min.v[0], max.v[1] - min.v[1]);
+            return Size<2, T>(max.v[0] - min.v[0], max.v[1] - min.v[1]);
         }
     };
 
@@ -227,9 +227,9 @@ namespace ouzel
             return *this;
         }
 
-        inline Size3<T> getSize() const
+        inline Size<3, T> getSize() const
         {
-            return Size3<T>(max.v[0] - min.v[0], max.v[1] - min.v[1], max.v[2] - min.v[2]);
+            return Size<3, T>(max.v[0] - min.v[0], max.v[1] - min.v[1], max.v[2] - min.v[2]);
         }
     };
 

@@ -11,14 +11,14 @@ namespace ouzel
     {
     public:
         NativeWindowEm(const std::function<void(const Event&)>& initCallback,
-                       const Size2<uint32_t>& newSize,
+                       const Size<2, uint32_t>& newSize,
                        bool newFullscreen,
                        const std::string& newTitle,
                        bool newHighDpi);
 
         void executeCommand(const Command& command) override;
 
-        void setSize(const Size2<uint32_t>& newSize);
+        void setSize(const Size<2, uint32_t>& newSize);
         void setFullscreen(bool newFullscreen);
 
         void handleResize();

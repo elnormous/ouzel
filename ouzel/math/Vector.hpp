@@ -30,19 +30,6 @@ namespace ouzel
         {
         }
 
-        Vector(const Vector& vec)
-        {
-            for (size_t i = 0; i < N; ++i)
-                v[i] = vec.v[i];
-        }
-
-        Vector& operator=(const Vector& vec)
-        {
-            for (size_t i = 0; i < N; ++i)
-                v[i] = vec.v[i];
-            return *this;
-        }
-
         template<size_t N2, bool E = (N != N2), typename std::enable_if<E>::type* = nullptr>
         explicit Vector(const Vector<N2, T>& vec)
         {
@@ -81,13 +68,6 @@ namespace ouzel
 
         template<bool E = (N >= 4), typename std::enable_if<E>::type* = nullptr>
         inline T w() const { return v[3]; }
-
-        bool isZero() const
-        {
-            for (const T& c : v)
-                if (c != 0) return false;
-            return true;
-        }
 
         template<bool E = (N == 2), typename std::enable_if<E>::type* = nullptr>
         T getAngle() const
@@ -220,7 +200,7 @@ namespace ouzel
         {
             Vector result = *this;
             for (size_t i = 0; i < N; ++i)
-                result[i] += vec.v[i];
+                result.v[i] += vec.v[i];
             return result;
         }
 
@@ -235,7 +215,7 @@ namespace ouzel
         {
             Vector result = *this;
             for (size_t i = 0; i < N; ++i)
-                result[i] -= vec.v[i];
+                result.v[i] -= vec.v[i];
             return result;
         }
 
@@ -302,6 +282,13 @@ namespace ouzel
             for (size_t i = 0; i < N; ++i)
                 if (v[i] != vec.v[i]) return true;
             return false;
+        }
+
+        bool isZero() const
+        {
+            for (const T& c : v)
+                if (c != 0) return false;
+            return true;
         }
     };
 

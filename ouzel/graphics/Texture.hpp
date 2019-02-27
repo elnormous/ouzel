@@ -62,7 +62,7 @@ namespace ouzel
 
             struct Level final
             {
-                Size2<uint32_t> size;
+                Size<2, uint32_t> size;
                 uint32_t pitch;
                 std::vector<uint8_t> data;
             };
@@ -73,26 +73,26 @@ namespace ouzel
 
             explicit Texture(Renderer& initRenderer);
             Texture(Renderer& initRenderer,
-                    const Size2<uint32_t>& newSize,
+                    const Size<2, uint32_t>& newSize,
                     uint32_t newFlags = 0,
                     uint32_t newMipmaps = 0,
                     uint32_t newSampleCount = 1,
                     PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
             Texture(Renderer& initRenderer,
                     const std::vector<uint8_t>& newData,
-                    const Size2<uint32_t>& newSize,
+                    const Size<2, uint32_t>& newSize,
                     uint32_t newFlags = 0,
                     uint32_t newMipmaps = 0,
                     PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
             Texture(Renderer& initRenderer,
                     const std::vector<Level>& newLevels,
-                    const Size2<uint32_t>& newSize,
+                    const Size<2, uint32_t>& newSize,
                     uint32_t newFlags = 0,
                     PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
 
             inline uintptr_t getResource() const { return resource.getId(); }
 
-            inline const Size2<uint32_t>& getSize() const { return size; }
+            inline const Size<2, uint32_t>& getSize() const { return size; }
 
             void setData(const std::vector<uint8_t>& newData);
 
@@ -119,7 +119,7 @@ namespace ouzel
             Resource resource;
 
             Dimensions dimensions = Dimensions::TWO;
-            Size2<uint32_t> size;
+            Size<2, uint32_t> size;
             uint32_t flags = 0;
             uint32_t mipmaps = 0;
             uint32_t sampleCount = 1;
