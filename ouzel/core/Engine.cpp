@@ -114,7 +114,7 @@ namespace ouzel
     {
         setCurrentThreadName("Main");
 
-        Size<2, uint32_t> size;
+        Size2U size;
         uint32_t sampleCount = 1; // MSAA sample count
         graphics::Texture::Filter textureFilter = graphics::Texture::Filter::POINT;
         uint32_t maxAnisotropy = 1;
@@ -522,7 +522,7 @@ namespace ouzel
 
         std::shared_ptr<graphics::Texture> whitePixelTexture = std::make_shared<graphics::Texture>(*renderer,
                                                                                                    std::vector<uint8_t>{255, 255, 255, 255},
-                                                                                                   Size<2, uint32_t>(1, 1),
+                                                                                                   Size2U(1, 1),
                                                                                                    0, 1);
         assetBundle.setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
     }

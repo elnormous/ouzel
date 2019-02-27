@@ -30,7 +30,7 @@ namespace ouzel
         friend EngineLinux;
     public:
         NativeWindowLinux(const std::function<void(const Event&)>& initCallback,
-                          const Size<2, uint32_t>& newSize,
+                          const Size2U& newSize,
                           bool newResizable,
                           bool newFullscreen,
                           bool newExclusiveFullscreen,
@@ -43,7 +43,7 @@ namespace ouzel
 
         void close();
 
-        void setSize(const Size<2, uint32_t>& newSize);
+        void setSize(const Size2U& newSize);
         void setFullscreen(bool newFullscreen);
         void setTitle(const std::string& newTitle);
 
@@ -59,7 +59,7 @@ namespace ouzel
     private:
         void handleFocusIn();
         void handleFocusOut();
-        void handleResize(const Size<2, uint32_t>& newSize);
+        void handleResize(const Size2U& newSize);
 
 #if OUZEL_SUPPORTS_X11
         XVisualInfo* visualInfo = nullptr;

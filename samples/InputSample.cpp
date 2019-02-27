@@ -87,7 +87,7 @@ bool InputSample::handleKeyboard(const KeyboardEvent& event)
                 flamePosition.x() += 0.01F;
                 break;
             case Keyboard::Key::R:
-                engine->getWindow()->setSize(Size<2, uint32_t>(640, 480));
+                engine->getWindow()->setSize(Size2U(640, 480));
                 break;
             case Keyboard::Key::TAB:
                 hideButton.setEnabled(!hideButton.isEnabled());

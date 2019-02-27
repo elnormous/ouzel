@@ -142,7 +142,7 @@ namespace ouzel
 
             texture = std::make_shared<graphics::Texture>(*engine->getRenderer(),
                                                           textureData,
-                                                          Size<2, uint32_t>(width, height), 0,
+                                                          Size2U(width, height), 0,
                                                           mipmaps ? 0 : 1);
 
             Vector2F position;

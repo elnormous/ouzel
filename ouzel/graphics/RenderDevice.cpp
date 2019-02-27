@@ -21,7 +21,7 @@ namespace ouzel
         }
 
         void RenderDevice::init(Window* newWindow,
-                                const Size<2, uint32_t>&,
+                                const Size2U&,
                                 uint32_t newSampleCount,
                                 Texture::Filter newTextureFilter,
                                 uint32_t newMaxAnisotropy,
@@ -68,9 +68,9 @@ namespace ouzel
             }
         }
 
-        std::vector<Size<2, uint32_t>> RenderDevice::getSupportedResolutions() const
+        std::vector<Size2U> RenderDevice::getSupportedResolutions() const
         {
-            return std::vector<Size<2, uint32_t>>();
+            return std::vector<Size2U>();
         }
 
         void RenderDevice::generateScreenshot(const std::string&)

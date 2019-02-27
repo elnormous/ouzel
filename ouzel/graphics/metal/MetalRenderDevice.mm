@@ -136,7 +136,7 @@ namespace ouzel
         }
 
         void MetalRenderDevice::init(Window* newWindow,
-                                     const Size<2, uint32_t>& newSize,
+                                     const Size2U& newSize,
                                      uint32_t newSampleCount,
                                      Texture::Filter newTextureFilter,
                                      uint32_t newMaxAnisotropy,

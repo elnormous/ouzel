@@ -119,7 +119,7 @@ namespace ouzel
         }
 
         void D3D11RenderDevice::init(Window* newWindow,
-                                     const Size<2, uint32_t>& newSize,
+                                     const Size2U& newSize,
                                      uint32_t newSampleCount,
                                      Texture::Filter newTextureFilter,
                                      uint32_t newMaxAnisotropy,
@@ -888,9 +888,9 @@ namespace ouzel
             return nullptr;
         }
 
-        std::vector<Size<2, uint32_t>> D3D11RenderDevice::getSupportedResolutions() const
+        std::vector<Size2U> D3D11RenderDevice::getSupportedResolutions() const
         {
-            std::vector<Size<2, uint32_t>> result;
+            std::vector<Size2U> result;
 
             IDXGIOutput* output = getOutput();
 
@@ -911,8 +911,8 @@ namespace ouzel
                 output->GetDisplayModeList(format, 0, &numModes, displayModes.data());
 
                 for (const DXGI_MODE_DESC& displayMode : displayModes)
-                    result.push_back(Size<2, uint32_t>(static_cast<uint32_t>(displayMode.Width),
-                                                       static_cast<uint32_t>(displayMode.Height)));
+                    result.push_back(Size2U(static_cast<uint32_t>(displayMode.Width),
+                                            static_cast<uint32_t>(displayMode.Height)));
             }
 
             output->Release();

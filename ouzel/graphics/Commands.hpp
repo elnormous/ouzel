@@ -64,12 +64,12 @@ namespace ouzel
         class ResizeCommand final: public Command
         {
         public:
-            ResizeCommand(const Size<2, uint32_t>& initSize):
+            ResizeCommand(const Size2U& initSize):
                 Command(Command::Type::RESIZE),
                 size(initSize)
             {}
 
-            Size<2, uint32_t> size;
+            Size2U size;
         };
 
         class PresentCommand final: public Command

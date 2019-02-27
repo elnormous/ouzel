@@ -300,12 +300,12 @@ static LRESULT CALLBACK windowProc(HWND window, UINT message, WPARAM wParam, LPA
                     break;
                 case SIZE_RESTORED:
                     windowWin->handleRestoreEvent();
-                    windowWin->handleResize(ouzel::Size<2, uint32_t>(static_cast<uint32_t>(LOWORD(lParam)),
-                                                                   static_cast<uint32_t>(HIWORD(lParam))));
+                    windowWin->handleResize(ouzel::Size2U(static_cast<uint32_t>(LOWORD(lParam)),
+                                                          static_cast<uint32_t>(HIWORD(lParam))));
                     break;
                 case SIZE_MAXIMIZED:
-                    windowWin->handleResize(ouzel::Size<2, uint32_t>(static_cast<uint32_t>(LOWORD(lParam)),
-                                                                   static_cast<uint32_t>(HIWORD(lParam))));
+                    windowWin->handleResize(ouzel::Size2U(static_cast<uint32_t>(LOWORD(lParam)),
+                                                          static_cast<uint32_t>(HIWORD(lParam))));
                     break;
             }
             return 0;
@@ -360,7 +360,7 @@ static constexpr LPCWSTR WINDOW_CLASS_NAME = L"OuzelWindow";
 namespace ouzel
 {
     NativeWindowWin::NativeWindowWin(const std::function<void(const Event&)>& initCallback,
-                                     const Size<2, uint32_t>& newSize,
+                                     const Size2U& newSize,
                                      bool newResizable,
                                      bool newFullscreen,
                                      bool newExclusiveFullscreen,
@@ -507,7 +507,7 @@ namespace ouzel
         SendMessage(window, WM_CLOSE, 0, 0);
     }
 
-    void NativeWindowWin::setSize(const Size<2, uint32_t>& newSize)
+    void NativeWindowWin::setSize(const Size2U& newSize)
     {
         size = newSize;
 
@@ -603,7 +603,7 @@ namespace ouzel
         }
     }
 
-    void NativeWindowWin::handleResize(const Size<2, uint32_t>& newSize)
+    void NativeWindowWin::handleResize(const Size2U& newSize)
     {
         monitor = MonitorFromWindow(window, MONITOR_DEFAULTTONEAREST);
 

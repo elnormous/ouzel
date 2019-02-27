@@ -18,12 +18,12 @@ RTSample::RTSample():
     addLayer(&rtLayer);
 
     std::shared_ptr<graphics::Texture> renderTexture = std::make_shared<graphics::Texture>(*engine->getRenderer(),
-                                                                                           Size<2, uint32_t>(256, 256),
+                                                                                           Size2U(256, 256),
                                                                                            graphics::Texture::BIND_RENDER_TARGET |
                                                                                            graphics::Texture::BIND_SHADER, 1, 1);
 
     std::shared_ptr<graphics::Texture> depthTexture = std::make_shared<graphics::Texture>(*engine->getRenderer(),
-                                                                                          Size<2, uint32_t>(256, 256),
+                                                                                          Size2U(256, 256),
                                                                                           graphics::Texture::BIND_RENDER_TARGET |
                                                                                           graphics::Texture::BIND_SHADER, 1, 1,
                                                                                           graphics::PixelFormat::DEPTH);

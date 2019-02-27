@@ -29,7 +29,7 @@ namespace ouzel
         public:
             Renderer(Driver driver,
                      Window* newWindow,
-                     const Size<2, uint32_t>& newSize,
+                     const Size2U& newSize,
                      uint32_t newSampleCount,
                      Texture::Filter newTextureFilter,
                      uint32_t newMaxAnisotropy,
@@ -49,7 +49,7 @@ namespace ouzel
 
             inline RenderDevice* getDevice() const { return device.get(); }
 
-            inline const Size<2, uint32_t>& getSize() const { return size; }
+            inline const Size2U& getSize() const { return size; }
 
             void saveScreenshot(const std::string& filename);
 
@@ -113,11 +113,11 @@ namespace ouzel
 
         private:
             void handleEvent(const RenderDevice::Event& event);
-            void setSize(const Size<2, uint32_t>& newSize);
+            void setSize(const Size2U& newSize);
 
             std::unique_ptr<RenderDevice> device;
 
-            Size<2, uint32_t> size;
+            Size2U size;
             CommandBuffer commandBuffer;
 
             bool newFrame = false;

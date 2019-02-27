@@ -389,7 +389,7 @@ namespace ouzel
             }
         }
 
-        static std::vector<Texture::Level> calculateSizes(const Size<2, uint32_t>& size,
+        static std::vector<Texture::Level> calculateSizes(const Size2U& size,
                                                           const std::vector<uint8_t>& data,
                                                           uint32_t mipmaps,
                                                           PixelFormat pixelFormat)
@@ -421,7 +421,7 @@ namespace ouzel
                 if (newWidth < 1) newWidth = 1;
                 if (newHeight < 1) newHeight = 1;
 
-                Size<2, uint32_t> mipMapSize = Size<2, uint32_t>(newWidth, newHeight);
+                Size2U mipMapSize = Size2U(newWidth, newHeight);
                 pitch = newWidth * pixelSize;
                 bufferSize = pitch * newHeight;
 
@@ -476,7 +476,7 @@ namespace ouzel
         }
 
         Texture::Texture(Renderer& initRenderer,
-                         const Size<2, uint32_t>& initSize,
+                         const Size2U& initSize,
                          uint32_t initFlags,
                          uint32_t initMipmaps,
                          uint32_t initSampleCount,
@@ -507,7 +507,7 @@ namespace ouzel
 
         Texture::Texture(Renderer& initRenderer,
                          const std::vector<uint8_t>& initData,
-                         const Size<2, uint32_t>& initSize,
+                         const Size2U& initSize,
                          uint32_t initFlags,
                          uint32_t initMipmaps,
                          PixelFormat initPixelFormat):
@@ -537,7 +537,7 @@ namespace ouzel
 
         Texture::Texture(Renderer& initRenderer,
                          const std::vector<Level>& initLevels,
-                         const Size<2, uint32_t>& initSize,
+                         const Size2U& initSize,
                          uint32_t initFlags,
                          PixelFormat initPixelFormat):
             resource(initRenderer),

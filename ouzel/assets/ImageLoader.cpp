@@ -100,8 +100,8 @@ namespace ouzel
             }
 
             graphics::Image image(pixelFormat,
-                                  Size<2, uint32_t>(static_cast<uint32_t>(width),
-                                                    static_cast<uint32_t>(height)),
+                                  Size2U(static_cast<uint32_t>(width),
+                                         static_cast<uint32_t>(height)),
                                   imageData);
 
             std::shared_ptr<graphics::Texture> texture = std::make_shared<graphics::Texture>(*engine->getRenderer(),

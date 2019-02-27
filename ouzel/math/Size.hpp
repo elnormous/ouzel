@@ -171,6 +171,8 @@ namespace ouzel
         return result;
     }
 
+    using Size2U = Size<2, uint32_t>;
+    using Size3U = Size<3, uint32_t>;
     using Size2F = Size<2, float>;
     using Size3F = Size<3, float>;
 }

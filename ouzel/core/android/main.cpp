@@ -52,8 +52,8 @@ extern "C" JNIEXPORT void JNICALL Java_org_ouzel_OuzelLibJNIWrapper_onSurfaceDes
 extern "C" JNIEXPORT void JNICALL Java_org_ouzel_OuzelLibJNIWrapper_onSurfaceChanged(JNIEnv*, jclass, jobject, jint width, jint height)
 {
     ouzel::NativeWindowAndroid* windowAndroid = static_cast<ouzel::NativeWindowAndroid*>(engine->getWindow()->getNativeWindow());
-    windowAndroid->handleResize(ouzel::Size<2, uint32_t>(static_cast<uint32_t>(width),
-                                                         static_cast<uint32_t>(height)));
+    windowAndroid->handleResize(ouzel::Size2U(static_cast<uint32_t>(width),
+                                              static_cast<uint32_t>(height)));
 }
 
 extern "C" JNIEXPORT void JNICALL Java_org_ouzel_OuzelLibJNIWrapper_onStart(JNIEnv*, jclass)
