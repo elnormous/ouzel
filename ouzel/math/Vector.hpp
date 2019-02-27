@@ -48,7 +48,10 @@ namespace ouzel
         inline T& operator[](size_t index) { return v[index]; }
         inline T operator[](size_t index) const { return v[index]; }
 
+        template<bool E = (N >= 1), typename std::enable_if<E>::type* = nullptr>
         inline T& x() { return v[0]; }
+
+        template<bool E = (N >= 1), typename std::enable_if<E>::type* = nullptr>
         inline T x() const { return v[0]; }
 
         template<bool E = (N >= 2), typename std::enable_if<E>::type* = nullptr>
