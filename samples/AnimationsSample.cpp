@@ -42,7 +42,7 @@ AnimationsSample::AnimationsSample():
                           Color("#ff0000"), false);
 
     drawActor.addComponent(&shapeDrawable);
-    drawActor.setPosition(Vector2F(-300, 0.0F));
+    drawActor.setPosition(Vector2F(-300.0F, 0.0F));
     layer.addChild(&drawActor);
 
     shake.reset(new scene::Shake(10.0F, Vector3F(10.0F, 20.0F, 0.0F), 20.0F));
@@ -51,7 +51,7 @@ AnimationsSample::AnimationsSample():
 
     witchSprite.init("witch.png");
 
-    witch.setPosition(Vector2F(200, 0.0F));
+    witch.setPosition(Vector2F(200.0F, 0.0F));
     witch.addComponent(&witchSprite);
     layer.addChild(&witch);
 

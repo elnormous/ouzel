@@ -242,7 +242,7 @@ static ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)
     ouzel::input::MouseDeviceMacOS* mouseDevice = inputSystemMacOS->getMouseDevice();
     mouseDevice->handleButtonPress(ouzel::input::Mouse::Button::LEFT,
                                    ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
-                                                                                                                static_cast<float>(location.y))));
+                                                                                                                 static_cast<float>(location.y))));
 }
 
 -(void)mouseUp:(NSEvent*)event
@@ -253,7 +253,7 @@ static ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)
     ouzel::input::MouseDeviceMacOS* mouseDevice = inputSystemMacOS->getMouseDevice();
     mouseDevice->handleButtonRelease(ouzel::input::Mouse::Button::LEFT,
                                      ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
-                                                                                                                  static_cast<float>(location.y))));
+                                                                                                                   static_cast<float>(location.y))));
 }
 
 -(void)rightMouseDown:(NSEvent*)event
@@ -264,7 +264,7 @@ static ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)
     ouzel::input::MouseDeviceMacOS* mouseDevice = inputSystemMacOS->getMouseDevice();
     mouseDevice->handleButtonPress(ouzel::input::Mouse::Button::RIGHT,
                                    ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
-                                                                                                                static_cast<float>(location.y))));
+                                                                                                                 static_cast<float>(location.y))));
 }
 
 -(void)rightMouseUp:(NSEvent*)event
@@ -275,7 +275,7 @@ static ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)
     ouzel::input::MouseDeviceMacOS* mouseDevice = inputSystemMacOS->getMouseDevice();
     mouseDevice->handleButtonRelease(ouzel::input::Mouse::Button::RIGHT,
                                      ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
-                                                                                                                  static_cast<float>(location.y))));
+                                                                                                                   static_cast<float>(location.y))));
 }
 
 -(void)otherMouseDown:(NSEvent*)event
@@ -286,7 +286,7 @@ static ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)
     ouzel::input::MouseDeviceMacOS* mouseDevice = inputSystemMacOS->getMouseDevice();
     mouseDevice->handleButtonPress(ouzel::input::Mouse::Button::MIDDLE,
                                    ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
-                                                                                                                static_cast<float>(location.y))));
+                                                                                                                 static_cast<float>(location.y))));
 }
 
 -(void)otherMouseUp:(NSEvent*)event
@@ -297,7 +297,7 @@ static ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)
     ouzel::input::MouseDeviceMacOS* mouseDevice = inputSystemMacOS->getMouseDevice();
     mouseDevice->handleButtonRelease(ouzel::input::Mouse::Button::MIDDLE,
                                      ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
-                                                                                                                  static_cast<float>(location.y))));
+                                                                                                                   static_cast<float>(location.y))));
 }
 
 -(void)mouseMoved:(NSEvent*)event
@@ -307,7 +307,7 @@ static ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)
     ouzel::input::InputSystemMacOS* inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::MouseDeviceMacOS* mouseDevice = inputSystemMacOS->getMouseDevice();
     mouseDevice->handleMove(ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
-                                                                                                         static_cast<float>(location.y))));
+                                                                                                          static_cast<float>(location.y))));
 }
 
 -(void)mouseDragged:(NSEvent*)event
@@ -317,7 +317,7 @@ static ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)
     ouzel::input::InputSystemMacOS* inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::MouseDeviceMacOS* mouseDevice = inputSystemMacOS->getMouseDevice();
     mouseDevice->handleMove(ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
-                                                                                                         static_cast<float>(location.y))));
+                                                                                                          static_cast<float>(location.y))));
 }
 
 -(void)rightMouseDragged:(NSEvent*)event
@@ -327,7 +327,7 @@ static ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)
     ouzel::input::InputSystemMacOS* inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::MouseDeviceMacOS* mouseDevice = inputSystemMacOS->getMouseDevice();
     mouseDevice->handleMove(ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
-                                                                                                         static_cast<float>(location.y))));
+                                                                                                          static_cast<float>(location.y))));
 }
 
 -(void)otherMouseDragged:(NSEvent*)event
@@ -337,7 +337,7 @@ static ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)
     ouzel::input::InputSystemMacOS* inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::MouseDeviceMacOS* mouseDevice = inputSystemMacOS->getMouseDevice();
     mouseDevice->handleMove(ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
-                                                                                                         static_cast<float>(location.y))));
+                                                                                                          static_cast<float>(location.y))));
 }
 
 -(void)scrollWheel:(NSEvent*)event
@@ -347,9 +347,9 @@ static ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)
     ouzel::input::InputSystemMacOS* inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::MouseDeviceMacOS* mouseDevice = inputSystemMacOS->getMouseDevice();
     mouseDevice->handleScroll(ouzel::Vector2F(static_cast<float>(event.scrollingDeltaX),
-                                             static_cast<float>(event.scrollingDeltaY)),
+                                              static_cast<float>(event.scrollingDeltaY)),
                               ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
-                                                                                                           static_cast<float>(location.y))));
+                                                                                                            static_cast<float>(location.y))));
 }
 
 -(void)touchesBeganWithEvent:(NSEvent*)event
@@ -364,7 +364,7 @@ static ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)
 
         touchpadDevice->handleTouchBegin(reinterpret_cast<uint64_t>(touch),
                                          ouzel::Vector2F(static_cast<float>(location.x),
-                                                        static_cast<float>(location.y)),
+                                                         static_cast<float>(location.y)),
                                          1.0F);
     }
 }
@@ -381,7 +381,7 @@ static ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)
 
         touchpadDevice->handleTouchMove(reinterpret_cast<uint64_t>(touch),
                                         ouzel::Vector2F(static_cast<float>(location.x),
-                                                      static_cast<float>(location.y)),
+                                                        static_cast<float>(location.y)),
                                         1.0F);
     }
 }
@@ -398,7 +398,7 @@ static ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)
 
         touchpadDevice->handleTouchEnd(reinterpret_cast<uint64_t>(touch),
                                        ouzel::Vector2F(static_cast<float>(location.x),
-                                                      static_cast<float>(location.y)),
+                                                       static_cast<float>(location.y)),
                                        1.0F);
     }
 }
@@ -415,7 +415,7 @@ static ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)
 
         touchpadDevice->handleTouchCancel(reinterpret_cast<uint64_t>(touch),
                                           ouzel::Vector2F(static_cast<float>(location.x),
-                                                         static_cast<float>(location.y)),
+                                                          static_cast<float>(location.y)),
                                           1.0F);
     }
 }
