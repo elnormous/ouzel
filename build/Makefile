@@ -129,7 +129,6 @@ SOURCES=$(ROOT_DIR)/../ouzel/assets/BmfLoader.cpp \
 	$(ROOT_DIR)/../ouzel/input/TouchpadDevice.cpp \
 	$(ROOT_DIR)/../ouzel/localization/Language.cpp \
 	$(ROOT_DIR)/../ouzel/localization/Localization.cpp \
-	$(ROOT_DIR)/../ouzel/math/Box.cpp \
 	$(ROOT_DIR)/../ouzel/math/Color.cpp \
 	$(ROOT_DIR)/../ouzel/math/MathUtils.cpp \
 	$(ROOT_DIR)/../ouzel/math/Matrix.cpp \

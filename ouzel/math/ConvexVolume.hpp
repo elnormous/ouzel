@@ -40,7 +40,7 @@ namespace ouzel
             return true;
         }
 
-        bool isBoxInside(const Box3<T>& box) const
+        bool isBoxInside(const Box<3, T>& box) const
         {
             Vector<4, T> leftBottomBack(box.min.v[0], box.min.v[1], box.min.v[2], 1);
             Vector<4, T> leftBottomFront(box.min.v[0], box.min.v[1], box.max.v[2], 1);

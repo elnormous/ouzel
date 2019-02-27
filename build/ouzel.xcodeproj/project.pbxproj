@@ -333,9 +333,6 @@
 		30419DF41D162BEF00A63759 /* Sound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30419DF01D162BEF00A63759 /* Sound.hpp */; };
 		30419DF51D162BEF00A63759 /* Sound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30419DF01D162BEF00A63759 /* Sound.hpp */; };
 		30419DF61D162BEF00A63759 /* Sound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30419DF01D162BEF00A63759 /* Sound.hpp */; };
-		304736D91E0B4776009BC562 /* Box.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304736D71E0B4776009BC562 /* Box.cpp */; };
-		304736DA1E0B4776009BC562 /* Box.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304736D71E0B4776009BC562 /* Box.cpp */; };
-		304736DB1E0B4776009BC562 /* Box.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304736D71E0B4776009BC562 /* Box.cpp */; };
 		304736DC1E0B4776009BC562 /* Box.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304736D81E0B4776009BC562 /* Box.hpp */; };
 		304736DD1E0B4776009BC562 /* Box.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304736D81E0B4776009BC562 /* Box.hpp */; };
 		304736DE1E0B4776009BC562 /* Box.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304736D81E0B4776009BC562 /* Box.hpp */; };
@@ -1004,7 +1001,6 @@
 		30419DE81D162BDC00A63759 /* Voice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Voice.hpp; sourceTree = "<group>"; };
 		30419DEF1D162BEF00A63759 /* Sound.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Sound.cpp; sourceTree = "<group>"; };
 		30419DF01D162BEF00A63759 /* Sound.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Sound.hpp; sourceTree = "<group>"; };
-		304736D71E0B4776009BC562 /* Box.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Box.cpp; sourceTree = "<group>"; };
 		304736D81E0B4776009BC562 /* Box.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Box.hpp; sourceTree = "<group>"; };
 		3047F73C1C4C344A00774E3D /* Animator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Animator.cpp; sourceTree = "<group>"; };
 		3047F73D1C4C344A00774E3D /* Animator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Animator.hpp; sourceTree = "<group>"; };
@@ -1437,7 +1433,6 @@
 		303B750F1C2882CA00FEDE92 /* math */ = {
 			isa = PBXGroup;
 			children = (
-				304736D71E0B4776009BC562 /* Box.cpp */,
 				304736D81E0B4776009BC562 /* Box.hpp */,
 				309B48351DEA5EE600A718C5 /* Color.cpp */,
 				309B48361DEA5EE600A718C5 /* Color.hpp */,
@@ -2706,7 +2701,6 @@
 				30575AA71C39D1FF0009C8A7 /* Layer.cpp in Sources */,
 				303B75381C2A3C8200FEDE92 /* Engine.cpp in Sources */,
 				30CEB36921A6385C00525637 /* System.cpp in Sources */,
-				304736D91E0B4776009BC562 /* Box.cpp in Sources */,
 				302261811FDB8C59005279FC /* ColladaLoader.cpp in Sources */,
 				30C758AD1F4A0196008499DC /* AudioDevice.cpp in Sources */,
 				30EABD7E22028861001C70A6 /* GraphicsResource.cpp in Sources */,
@@ -2850,7 +2844,6 @@
 				C6C9101C21B54B5B00B5FCB7 /* Source.cpp in Sources */,
 				303B76521C355A3B00FEDE92 /* Engine.cpp in Sources */,
 				303B76541C355A3B00FEDE92 /* Actor.cpp in Sources */,
-				304736DB1E0B4776009BC562 /* Box.cpp in Sources */,
 				30CEB36B21A6385C00525637 /* System.cpp in Sources */,
 				302261831FDB8C59005279FC /* ColladaLoader.cpp in Sources */,
 				30C758AF1F4A0196008499DC /* AudioDevice.cpp in Sources */,
@@ -3001,7 +2994,6 @@
 				3067D7A6209B450F008DF6AF /* InputSystem.cpp in Sources */,
 				305B99A21C42A97E008589E1 /* BMFont.cpp in Sources */,
 				304A8E961C26EDFB008B1151 /* ParticleSystem.cpp in Sources */,
-				304736DA1E0B4776009BC562 /* Box.cpp in Sources */,
 				303696D51E32DDA9007F4211 /* Buffer.cpp in Sources */,
 				302261821FDB8C59005279FC /* ColladaLoader.cpp in Sources */,
 				30381F7A1D80A3EC00677CAB /* OGLRenderDevice.cpp in Sources */,

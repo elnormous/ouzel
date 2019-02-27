@@ -114,7 +114,6 @@ LOCAL_SRC_FILES := ../../ouzel/assets/BmfLoader.cpp \
 	../../ouzel/input/TouchpadDevice.cpp \
     ../../ouzel/localization/Language.cpp \
     ../../ouzel/localization/Localization.cpp \
-    ../../ouzel/math/Box.cpp \
     ../../ouzel/math/Color.cpp \
     ../../ouzel/math/MathUtils.cpp \
     ../../ouzel/math/Matrix.cpp \

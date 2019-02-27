@@ -237,7 +237,7 @@ namespace ouzel
                 else if (particleSystemData.positionType == ParticleSystemData::PositionType::GROUPED)
                 {
                     for (uint32_t i = 0; i < particleCount; ++i)
-                        boundingBox.insertPoint(particles[i].position);
+                        boundingBox.insertPoint(Vector3F(particles[i].position));
                 }
             }
         }
