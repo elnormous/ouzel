@@ -49,7 +49,7 @@ PerspectiveSample::PerspectiveSample():
     floor.addComponent(&floorSprite);
     layer.addChild(&floor);
     floor.setPosition(Vector2F(0.0F, -50.0F));
-    floor.setRotation(Vector3F(TAU / 4.04F, TAU / 8.0F, 0.0F));
+    floor.setRotation(Vector3F(tau<float>() / 4.04F, tau<float>() / 8.0F, 0.0F));
 
     // character
     characterSprite.init("run.json");
@@ -74,7 +74,7 @@ PerspectiveSample::PerspectiveSample():
     jumpPanner.setRolloffFactor(0.01F);
     character.addComponent(&jumpPanner);
 
-    rotate.reset(new scene::Rotate(10.0F, Vector3F(0.0F, TAU, 0.0F)));
+    rotate.reset(new scene::Rotate(10.0F, Vector3F(0.0F, tau<float>(), 0.0F)));
     character.addComponent(rotate.get());
     rotate->start();
 
@@ -113,16 +113,16 @@ bool PerspectiveSample::handleKeyboard(const ouzel::KeyboardEvent& event)
         switch (event.key)
         {
             case Keyboard::Key::UP:
-                cameraRotation.x() -= TAU / 100.0F;
+                cameraRotation.x() -= tau<float>() / 100.0F;
                 break;
             case Keyboard::Key::DOWN:
-                cameraRotation.x() += TAU / 100.0F;
+                cameraRotation.x() += tau<float>() / 100.0F;
                 break;
             case Keyboard::Key::LEFT:
-                cameraRotation.y() -= TAU / 100.0F;
+                cameraRotation.y() -= tau<float>() / 100.0F;
                 break;
             case Keyboard::Key::RIGHT:
-                cameraRotation.y() += TAU / 100.0F;
+                cameraRotation.y() += tau<float>() / 100.0F;
                 break;
             case Keyboard::Key::ESCAPE:
             case Keyboard::Key::MENU:
@@ -139,8 +139,8 @@ bool PerspectiveSample::handleKeyboard(const ouzel::KeyboardEvent& event)
                 break;
         }
 
-        if (cameraRotation.x() < -TAU / 6.0F) cameraRotation.x() = -TAU / 6.0F;
-        if (cameraRotation.x() > TAU / 6.0F) cameraRotation.x() = TAU / 6.0F;
+        if (cameraRotation.x() < -tau<float>() / 6.0F) cameraRotation.x() = -tau<float>() / 6.0F;
+        if (cameraRotation.x() > tau<float>() / 6.0F) cameraRotation.x() = tau<float>() / 6.0F;
 
         cameraActor.setRotation(Vector3F(cameraRotation.x(), cameraRotation.y(), 0.0F));
     }
@@ -168,8 +168,8 @@ bool PerspectiveSample::handleMouse(const ouzel::MouseEvent& event)
         cameraRotation.x() -= event.difference.y();
         cameraRotation.y() -= event.difference.x();
 
-        if (cameraRotation.x() < -TAU / 6.0F) cameraRotation.x() = -TAU / 6.0F;
-        if (cameraRotation.x() > TAU / 6.0F) cameraRotation.x() = TAU / 6.0F;
+        if (cameraRotation.x() < -tau<float>() / 6.0F) cameraRotation.x() = -tau<float>() / 6.0F;
+        if (cameraRotation.x() > tau<float>() / 6.0F) cameraRotation.x() = tau<float>() / 6.0F;
 
         cameraActor.setRotation(Vector3F(cameraRotation.x(), cameraRotation.y(), 0.0F));
     }
@@ -185,8 +185,8 @@ bool PerspectiveSample::handleTouch(const ouzel::TouchEvent& event)
         cameraRotation.x() -= event.difference.y();
         cameraRotation.y() -= event.difference.x();
 
-        if (cameraRotation.x() < -TAU / 6.0F) cameraRotation.x() = -TAU / 6.0F;
-        if (cameraRotation.x() > TAU / 6.0F) cameraRotation.x() = TAU / 6.0F;
+        if (cameraRotation.x() < -tau<float>() / 6.0F) cameraRotation.x() = -tau<float>() / 6.0F;
+        if (cameraRotation.x() > tau<float>() / 6.0F) cameraRotation.x() = tau<float>() / 6.0F;
 
         cameraActor.setRotation(Vector3F(cameraRotation.x(), cameraRotation.y(), 0.0F));
     }

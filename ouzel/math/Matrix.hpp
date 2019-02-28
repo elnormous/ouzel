@@ -106,7 +106,7 @@ namespace ouzel
             assert(zFarPlane != zNearPlane);
 
             T theta = fieldOfView / 2;
-            if (fabs(fmod(theta, PI / 2)) <= std::numeric_limits<T>::min())
+            if (fabs(fmod(theta, pi<T>() / 2)) <= std::numeric_limits<T>::min())
                 return;
 
             T divisor = tan(theta);

@@ -73,7 +73,7 @@ namespace ouzel
                 switch (type)
                 {
                     case OscillatorSound::Type::SINE:
-                        samples[i] = sinf(t * TAU);
+                        samples[i] = sinf(t * tau<float>());
                         break;
                     case OscillatorSound::Type::SQUARE:
                         samples[i] = fmodf(roundf(t * 2.0F + 0.5F), 2.0F) * 2.0F - 1.0F;

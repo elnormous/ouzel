@@ -41,9 +41,17 @@ namespace ouzel
     constexpr bool isSimdAvailable = false;
 #endif
 
-    constexpr double TAU = 6.28318530717958647692;
-    constexpr double PI = 3.14159265358979323846;
-    constexpr double SQRT2 = 1.4142135623730950488;
+    template<typename T>
+    constexpr T tau()
+    {
+        return static_cast<T>(6.28318530717958647692);
+    }
+
+    template<typename T>
+    constexpr T pi()
+    {
+        return static_cast<T>(3.14159265358979323846);
+    }
 
     template<typename T> inline T lerp(T v0, T v1, T t)
     {

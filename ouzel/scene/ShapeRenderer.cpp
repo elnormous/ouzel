@@ -166,11 +166,9 @@ namespace ouzel
                 vertices.push_back(graphics::Vertex(Vector3F(position), color, Vector2F(), Vector3F(0.0F, 0.0F, -1.0F))); // center
 
                 for (uint32_t i = 0; i <= segments; ++i)
-                {
-                    vertices.push_back(graphics::Vertex(Vector3F((position.v[0] + radius * cosf(i * TAU / static_cast<float>(segments))),
-                                                                (position.v[1] + radius * sinf(i * TAU / static_cast<float>(segments))),
+                    vertices.push_back(graphics::Vertex(Vector3F((position.v[0] + radius * cosf(i * tau<float>() / static_cast<float>(segments))),
+                                                                (position.v[1] + radius * sinf(i * tau<float>() / static_cast<float>(segments))),
                                                                 0.0F), color, Vector2F(), Vector3F(0.0F, 0.0F, -1.0F)));
-                }
 
                 command.indexCount = segments * 2 + 1;
 
@@ -193,8 +191,8 @@ namespace ouzel
 
                     for (uint32_t i = 0; i <= segments; ++i)
                     {
-                        vertices.push_back(graphics::Vertex(Vector3F((position.v[0] + radius * cosf(i * TAU / static_cast<float>(segments))),
-                                                                    (position.v[1] + radius * sinf(i * TAU / static_cast<float>(segments))),
+                        vertices.push_back(graphics::Vertex(Vector3F((position.v[0] + radius * cosf(i * tau<float>() / static_cast<float>(segments))),
+                                                                    (position.v[1] + radius * sinf(i * tau<float>() / static_cast<float>(segments))),
                                                                     0.0F), color, Vector2F(), Vector3F(0.0F, 0.0F, -1.0F)));
                     }
 
@@ -216,12 +214,12 @@ namespace ouzel
 
                     for (uint32_t i = 0; i <= segments; ++i)
                     {
-                        vertices.push_back(graphics::Vertex(Vector3F((position.v[0] + (radius - halfThickness) * cosf(i * TAU / static_cast<float>(segments))),
-                                                                    (position.v[1] + (radius - halfThickness) * sinf(i * TAU / static_cast<float>(segments))),
+                        vertices.push_back(graphics::Vertex(Vector3F((position.v[0] + (radius - halfThickness) * cosf(i * tau<float>() / static_cast<float>(segments))),
+                                                                    (position.v[1] + (radius - halfThickness) * sinf(i * tau<float>() / static_cast<float>(segments))),
                                                                     0.0F), color, Vector2F(), Vector3F(0.0F, 0.0F, -1.0F)));
 
-                        vertices.push_back(graphics::Vertex(Vector3F((position.v[0] + (radius + halfThickness) * cosf(i * TAU / static_cast<float>(segments))),
-                                                                    (position.v[1] + (radius + halfThickness) * sinf(i * TAU / static_cast<float>(segments))),
+                        vertices.push_back(graphics::Vertex(Vector3F((position.v[0] + (radius + halfThickness) * cosf(i * tau<float>() / static_cast<float>(segments))),
+                                                                    (position.v[1] + (radius + halfThickness) * sinf(i * tau<float>() / static_cast<float>(segments))),
                                                                     0.0F), color, Vector2F(), Vector3F(0.0F, 0.0F, -1.0F)));
                     }
 

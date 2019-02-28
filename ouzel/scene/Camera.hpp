@@ -119,7 +119,7 @@ namespace ouzel
             void calculateViewProjection() const;
 
             ProjectionMode projectionMode;
-            float fov = TAU / 6.0F;
+            float fov = tau<float>() / 6.0F;
             float nearPlane = 1.0F;
             float farPlane = 100.0F;
 
