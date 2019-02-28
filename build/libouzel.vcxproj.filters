@@ -208,7 +208,7 @@
     <ClCompile Include="..\ouzel\audio\VorbisSound.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\PCMSound.cpp">
+    <ClCompile Include="..\ouzel\audio\PcmSound.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\graphics\Texture.cpp">
@@ -678,7 +678,7 @@
     <ClInclude Include="..\ouzel\audio\VorbisSound.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\PCMSound.hpp">
+    <ClInclude Include="..\ouzel\audio\PcmSound.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\Texture.hpp">

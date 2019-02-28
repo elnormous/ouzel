@@ -2,7 +2,7 @@
 
 #include "WaveLoader.hpp"
 #include "Bundle.hpp"
-#include "audio/PCMSound.hpp"
+#include "audio/PcmSound.hpp"
 #include "core/Engine.hpp"
 
 enum WaveFormat
@@ -188,7 +188,7 @@ namespace ouzel
                 else
                     throw std::runtime_error("Failed to load sound file, unsupported format");
 
-                std::shared_ptr<audio::Sound> sound = std::make_shared<audio::PCMSound>(*engine->getAudio(), channels, sampleRate, samples);
+                std::shared_ptr<audio::Sound> sound = std::make_shared<audio::PcmSound>(*engine->getAudio(), channels, sampleRate, samples);
                 bundle.setSound(filename, sound);
             }
             catch (const std::exception&)

@@ -26,7 +26,7 @@
 #include "audio/Listener.hpp"
 #include "audio/Mix.hpp"
 #include "audio/OscillatorSound.hpp"
-#include "audio/PCMSound.hpp"
+#include "audio/PcmSound.hpp"
 #include "audio/SampleFormat.hpp"
 #include "audio/SilenceSound.hpp"
 #include "audio/Sound.hpp"
