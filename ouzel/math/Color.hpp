@@ -6,6 +6,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <string>
+#include "Vector.hpp"
 
 namespace ouzel
 {
@@ -24,7 +25,7 @@ namespace ouzel
         static constexpr uint32_t WHITE = 0xffffffff;
         static constexpr uint32_t GRAY = 0x808080ff;
 
-        uint8_t v[4]{0, 0, 0 , 0};
+        uint8_t v[4]{0};
 
         Color()
         {
@@ -58,9 +59,25 @@ namespace ouzel
         {
         }
 
-        explicit Color(const Vector<3, float>& vec);
+        explicit Color(const Vector<3, float>& vec):
+            v{
+                static_cast<uint8_t>(vec.v[0] * 255),
+                static_cast<uint8_t>(vec.v[1] * 255),
+                static_cast<uint8_t>(vec.v[2] * 255),
+                0
+            }
+        {
+        }
 
-        explicit Color(const Vector<4, float>& vec);
+        explicit Color(const Vector<4, float>& vec):
+            v{
+                static_cast<uint8_t>(vec.v[0] * 255),
+                static_cast<uint8_t>(vec.v[1] * 255),
+                static_cast<uint8_t>(vec.v[2] * 255),
+                static_cast<uint8_t>(vec.v[3] * 255)
+            }
+        {
+        }
 
         inline uint8_t& operator[](size_t index) { return v[index]; }
         inline uint8_t operator[](size_t index) const { return v[index]; }

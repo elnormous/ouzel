@@ -21,9 +21,10 @@ namespace ouzel
 #if defined(__SSE__)
         alignas((N == 4 && M == 4) ? 16 : alignof(T))
 #endif
-        T m[N * M]{0};
+        T m[N * M];
 
-        Matrix()
+        Matrix():
+            m{0}
         {
         }
 

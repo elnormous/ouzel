@@ -11,9 +11,10 @@ namespace ouzel
     template<size_t N, class T> class Size final
     {
     public:
-        T v[N]{0};
+        T v[N];
 
-        Size()
+        Size():
+            v{0}
         {
         }
 
@@ -41,14 +42,20 @@ namespace ouzel
 
         template<bool E = (N >= 1), typename std::enable_if<E>::type* = nullptr>
         inline T& width() { return v[0]; }
+
+        template<bool E = (N >= 1), typename std::enable_if<E>::type* = nullptr>
         inline T width() const { return v[0]; }
 
         template<bool E = (N >= 2), typename std::enable_if<E>::type* = nullptr>
         inline T& height() { return v[1]; }
+
+        template<bool E = (N >= 2), typename std::enable_if<E>::type* = nullptr>
         inline T height() const { return v[1]; }
 
         template<bool E = (N >= 3), typename std::enable_if<E>::type* = nullptr>
         inline T& depth() { return v[2]; }
+
+        template<bool E = (N >= 3), typename std::enable_if<E>::type* = nullptr>
         inline T depth() const { return v[2]; }
 
         void scale(const Vector<N, T>& scale)

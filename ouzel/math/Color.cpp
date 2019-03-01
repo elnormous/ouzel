@@ -1,7 +1,6 @@
 // Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #include "Color.hpp"
-#include "Vector.hpp"
 
 namespace ouzel
 {
@@ -65,21 +64,5 @@ namespace ouzel
         v[1] = static_cast<uint8_t>((intValue & 0x00FF0000) >> 16);
         v[2] = static_cast<uint8_t>((intValue & 0x0000FF00) >> 8);
         v[3] = static_cast<uint8_t>(intValue & 0x000000FF);
-    }
-
-    Color::Color(const Vector<3, float>& vec)
-    {
-        v[0] = static_cast<uint8_t>(vec.v[0] * 255);
-        v[1] = static_cast<uint8_t>(vec.v[1] * 255);
-        v[2] = static_cast<uint8_t>(vec.v[2] * 255);
-        v[3] = 0;
-    }
-
-    Color::Color(const Vector<4, float>& vec)
-    {
-        v[0] = static_cast<uint8_t>(vec.v[0] * 255);
-        v[1] = static_cast<uint8_t>(vec.v[1] * 255);
-        v[2] = static_cast<uint8_t>(vec.v[2] * 255);
-        v[3] = static_cast<uint8_t>(vec.v[3] * 255);
     }
 } // namespace ouzel

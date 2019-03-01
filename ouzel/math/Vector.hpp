@@ -8,7 +8,6 @@
 #include <cstddef>
 #include <algorithm>
 #include <limits>
-#include "math/Color.hpp"
 
 namespace ouzel
 {
@@ -18,9 +17,10 @@ namespace ouzel
 #if defined(__SSE__)
         alignas(N == 4 ? 16 : alignof(T))
 #endif
-        T v[N]{0};
+        T v[N];
 
-        Vector()
+        Vector():
+            v{0}
         {
         }
 
@@ -33,16 +33,8 @@ namespace ouzel
         template<size_t N2, bool E = (N != N2), typename std::enable_if<E>::type* = nullptr>
         explicit Vector(const Vector<N2, T>& vec)
         {
-            for (size_t i = 0; i < N && i < N2; ++i)
-                v[i] = vec.v[i];
-        }
-
-        explicit Vector(Color color)
-        {
-            if (N >= 1) v[0] = color.normR();
-            if (N >= 2) v[1] = color.normG();
-            if (N >= 3) v[2] = color.normB();
-            if (N >= 4) v[3] = color.normA();
+            for (size_t i = 0; i < N; ++i)
+                v[i] = (i < N2) ? vec.v[i] : 0;
         }
 
         inline T& operator[](size_t index) { return v[index]; }
