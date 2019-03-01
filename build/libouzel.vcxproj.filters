@@ -52,9 +52,6 @@
     <ClCompile Include="..\ouzel\gui\CheckBox.cpp">
       <Filter>ouzel\gui</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\math\Color.cpp">
-      <Filter>ouzel\math</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\gui\ComboBox.cpp">
       <Filter>ouzel\gui</Filter>
     </ClCompile>

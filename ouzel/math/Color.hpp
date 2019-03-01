@@ -25,9 +25,10 @@ namespace ouzel
         static constexpr uint32_t WHITE = 0xffffffff;
         static constexpr uint32_t GRAY = 0x808080ff;
 
-        uint8_t v[4]{0};
+        uint8_t v[4];
 
-        Color()
+        Color():
+            v{0}
         {
         }
 
@@ -41,8 +42,57 @@ namespace ouzel
         {
         }
 
-        Color(const char* color);
-        Color(const std::string& color);
+        Color(const std::string& color)
+        {
+            if (!color.empty())
+            {
+                if (color.front() == '#')
+                {
+                    std::string newValue(color.begin() + 1, color.end());
+
+                    size_t componentSize = (newValue.length() + 2) / 3; // get the size of component rounded up
+                    size_t newSize = componentSize * 3;
+                    newValue.resize(newSize);
+
+                    for (size_t component = 0; component < 3; ++component)
+                    {
+                        std::string currentValue;
+
+                        for (size_t byte = 0; byte < ((componentSize < 2) ? componentSize : 2); ++byte)
+                        {
+                            char c = newValue[component * componentSize + byte];
+
+                            if ((c >= '0' && c <= '9') ||
+                                (c >= 'a' && c <= 'f') ||
+                                (c >= 'A' && c <= 'F'))
+                                currentValue += c;
+                            else
+                                currentValue += "0";
+                        }
+
+                        v[component] = static_cast<uint8_t>(std::stoul(currentValue, 0, 16));
+                    }
+
+                    v[3] = 0xFF; // alpha
+                }
+                else
+                {
+                    uint32_t intValue = static_cast<uint32_t>(std::stoul(color));
+                    v[0] = static_cast<uint8_t>((intValue & 0xFF000000) >> 24);
+                    v[1] = static_cast<uint8_t>((intValue & 0x00FF0000) >> 16);
+                    v[2] = static_cast<uint8_t>((intValue & 0x0000FF00) >> 8);
+                    v[3] = static_cast<uint8_t>(intValue & 0x000000FF);
+                }
+            }
+            else
+                for (size_t i = 0; i < 4; ++i)
+                    v[i] = 0;
+        }
+
+        Color(const char* color):
+            Color(std::string(color))
+        {
+        }
 
         Color(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha = 0xFF):
             v{red, green, blue, alpha}

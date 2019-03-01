@@ -585,9 +585,6 @@
 		3098A5581EA01C8A00528A54 /* GamepadDeviceIOKit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3098A5541EA01C8A00528A54 /* GamepadDeviceIOKit.cpp */; };
 		3098A55F1EA01CA900528A54 /* GamepadDeviceTVOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3098A55B1EA01CA900528A54 /* GamepadDeviceTVOS.hpp */; };
 		3098A5601EA01CA900528A54 /* GamepadDeviceTVOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3098A55C1EA01CA900528A54 /* GamepadDeviceTVOS.mm */; };
-		309B48371DEA5EE600A718C5 /* Color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 309B48351DEA5EE600A718C5 /* Color.cpp */; };
-		309B48381DEA5EE600A718C5 /* Color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 309B48351DEA5EE600A718C5 /* Color.cpp */; };
-		309B48391DEA5EE600A718C5 /* Color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 309B48351DEA5EE600A718C5 /* Color.cpp */; };
 		309B483A1DEA5EE600A718C5 /* Color.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 309B48361DEA5EE600A718C5 /* Color.hpp */; };
 		309B483B1DEA5EE600A718C5 /* Color.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 309B48361DEA5EE600A718C5 /* Color.hpp */; };
 		309B483C1DEA5EE600A718C5 /* Color.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 309B48361DEA5EE600A718C5 /* Color.hpp */; };
@@ -1118,7 +1115,6 @@
 		3098A5541EA01C8A00528A54 /* GamepadDeviceIOKit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GamepadDeviceIOKit.cpp; sourceTree = "<group>"; };
 		3098A55B1EA01CA900528A54 /* GamepadDeviceTVOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GamepadDeviceTVOS.hpp; sourceTree = "<group>"; };
 		3098A55C1EA01CA900528A54 /* GamepadDeviceTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GamepadDeviceTVOS.mm; sourceTree = "<group>"; };
-		309B48351DEA5EE600A718C5 /* Color.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Color.cpp; sourceTree = "<group>"; };
 		309B48361DEA5EE600A718C5 /* Color.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Color.hpp; sourceTree = "<group>"; };
 		309BA3111F183D6E006F2240 /* CAAudioDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CAAudioDevice.cpp; sourceTree = "<group>"; };
 		309BA3121F183D6E006F2240 /* CAAudioDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CAAudioDevice.hpp; sourceTree = "<group>"; };
@@ -1434,7 +1430,6 @@
 			isa = PBXGroup;
 			children = (
 				304736D81E0B4776009BC562 /* Box.hpp */,
-				309B48351DEA5EE600A718C5 /* Color.cpp */,
 				309B48361DEA5EE600A718C5 /* Color.hpp */,
 				3049DCB31ED8687C0000997A /* ConvexVolume.hpp */,
 				304A8E301C237C70008B1151 /* MathUtils.cpp */,
@@ -2661,7 +2656,6 @@
 				30519CB31F9B506F00AF3DC4 /* Loader.cpp in Sources */,
 				30B859941F3D2F3200A16952 /* Font.cpp in Sources */,
 				30381F8B1D80A3EC00677CAB /* OGLTexture.cpp in Sources */,
-				309B48371DEA5EE600A718C5 /* Color.cpp in Sources */,
 				C6C9103921B572C100B5FCB7 /* Processor.cpp in Sources */,
 				30EF36641CA845DC00F04F29 /* ComboBox.cpp in Sources */,
 				30519CE81F9B53F500AF3DC4 /* MtlLoader.cpp in Sources */,
@@ -2811,7 +2805,6 @@
 				30EF36651CA845DC00F04F29 /* ComboBox.cpp in Sources */,
 				30EF36551CA76AE200F04F29 /* ScrollBar.cpp in Sources */,
 				30519CEA1F9B53F500AF3DC4 /* MtlLoader.cpp in Sources */,
-				309B48391DEA5EE600A718C5 /* Color.cpp in Sources */,
 				302B728621BDE302006EBC59 /* SilenceSound.cpp in Sources */,
 				30381F511D80A3EC00677CAB /* OGLBlendState.cpp in Sources */,
 				30EA71211D52783000AE8C3E /* EngineTVOS.mm in Sources */,
@@ -2948,7 +2941,6 @@
 				30C758B61F4A0309008499DC /* RenderDevice.cpp in Sources */,
 				30CC89FA203C5DFB00E2C8C3 /* File.cpp in Sources */,
 				30519CB41F9B506F00AF3DC4 /* Loader.cpp in Sources */,
-				309B48381DEA5EE600A718C5 /* Color.cpp in Sources */,
 				30519CE91F9B53F500AF3DC4 /* MtlLoader.cpp in Sources */,
 				C6AC8A8C215BD7D500F14D75 /* MouseDeviceMacOS.mm in Sources */,
 				30381F501D80A3EC00677CAB /* OGLBlendState.cpp in Sources */,

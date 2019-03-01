@@ -137,7 +137,6 @@
     <ClCompile Include="..\ouzel\input\windows\MouseDeviceWin.cpp" />
     <ClCompile Include="..\ouzel\localization\Language.cpp" />
     <ClCompile Include="..\ouzel\localization\Localization.cpp" />
-    <ClCompile Include="..\ouzel\math\Color.cpp" />
     <ClCompile Include="..\ouzel\math\MathUtils.cpp" />
     <ClCompile Include="..\ouzel\math\Matrix.cpp" />
     <ClCompile Include="..\ouzel\network\Client.cpp" />
