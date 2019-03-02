@@ -74,7 +74,7 @@ namespace ouzel
                     return nullptr;
             }
 
-        protected:
+        private:
             D3D11RenderDevice(const std::function<void(const Event&)>& initCallback);
 
             void init(Window* newWindow,

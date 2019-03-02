@@ -43,7 +43,7 @@ namespace ouzel
 
             void renderCallback();
 
-        protected:
+        private:
             void init(Window* newWindow,
                       const Size2U& newSize,
                       uint32_t newSampleCount,

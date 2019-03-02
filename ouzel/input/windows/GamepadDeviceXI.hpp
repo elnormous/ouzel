@@ -30,8 +30,7 @@ namespace ouzel
             void setVibration(Gamepad::Motor motor, float speed);
             float getVibration(Gamepad::Motor motor);
 
-        protected:
-
+        private:
             void checkThumbAxis(SHORT oldValue, SHORT newValue, Gamepad::Button negativeButton, Gamepad::Button positiveButton);
             void checkButton(const XINPUT_STATE& newState, WORD mask, Gamepad::Button button);
 

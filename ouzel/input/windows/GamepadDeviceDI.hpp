@@ -32,7 +32,7 @@ namespace ouzel
 
             const DIDEVICEINSTANCEW* getInstance() const { return instance; }
 
-        protected:
+        private:
             void checkInputBuffered();
             void checkInputPolled();
             void handleAxisChange(LONG oldValue, LONG newValue,

@@ -111,7 +111,7 @@ namespace ouzel
             inline uint32_t getClearStencil() const { return clearStencil; }
             void setClearDepth(uint32_t stencil) { clearStencil = stencil; }
 
-        protected:
+        private:
             void setActor(Actor* newActor) override;
             void setLayer(Layer* newLayer) override;
 
