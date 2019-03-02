@@ -246,8 +246,7 @@ namespace ouzel
 
         void Actor::calculateLocalTransform() const
         {
-            localTransform.setIdentity();
-            localTransform.translate(position);
+            localTransform.setTranslation(position);
 
             Matrix4F rotationMatrix;
             rotationMatrix.setRotation(rotation);
@@ -255,10 +254,13 @@ namespace ouzel
             localTransform *= rotationMatrix;
 
             Vector3F finalScale = Vector3F(scale.v[0] * (flipX ? -1.0F : 1.0F),
-                                                       scale.v[1] * (flipY ? -1.0F : 1.0F),
-                                                       scale.v[2]);
+                                           scale.v[1] * (flipY ? -1.0F : 1.0F),
+                                           scale.v[2]);
 
-            localTransform.scale(finalScale);
+            Matrix4F scaleMatrix;
+            scaleMatrix.setScale(finalScale);
+
+            localTransform *= scaleMatrix;
 
             localTransformDirty = false;
         }

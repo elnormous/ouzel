@@ -381,7 +381,7 @@ namespace ouzel
         void Sprite::setOffset(const Vector2F& newOffset)
         {
             offset = newOffset;
-            Matrix4F::createTranslation(Vector3F(offset), offsetMatrix);
+            offsetMatrix.setTranslation(Vector3F(offset));
             updateBoundingBox();
         }
 

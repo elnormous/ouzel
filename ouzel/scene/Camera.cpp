@@ -135,10 +135,10 @@ namespace ouzel
                     // do nothing
                     break;
                 case ProjectionMode::ORTHOGRAPHIC:
-                    Matrix4F::createOrthographicFromSize(contentSize.v[0], contentSize.v[1], -1.0F, 1.0F, projection);
+                    projection.setOrthographicFromSize(contentSize.v[0], contentSize.v[1], -1.0F, 1.0F);
                     break;
                 case ProjectionMode::PERSPECTIVE:
-                    Matrix4F::createPerspective(fov, contentSize.v[0] / contentSize.v[1], nearPlane, farPlane, projection);
+                    projection.setPerspective(fov, contentSize.v[0] / contentSize.v[1], nearPlane, farPlane);
                     break;
                 default:
                     return;

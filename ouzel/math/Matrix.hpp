@@ -53,19 +53,19 @@ namespace ouzel
         }
 
         template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
-        static void createLookAt(const Vector<3, T>& eyePosition,
-                                 const Vector<3, T>& targetPosition,
-                                 const Vector<3, T>& up, Matrix& dst)
+        void setLookAt(const Vector<3, T>& eyePosition,
+                       const Vector<3, T>& targetPosition,
+                       const Vector<3, T>& up)
         {
-            createLookAt(eyePosition.v[0], eyePosition.v[1], eyePosition.v[2],
-                         targetPosition.v[0], targetPosition.v[1], targetPosition.v[2],
-                         up.v[0], up.v[1], up.v[2], dst);
+            setLookAt(eyePosition.v[0], eyePosition.v[1], eyePosition.v[2],
+                      targetPosition.v[0], targetPosition.v[1], targetPosition.v[2],
+                      up.v[0], up.v[1], up.v[2]);
         }
 
         template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
-        static void createLookAt(T eyePositionX, T eyePositionY, T eyePositionZ,
-                                 T targetPositionX, T targetPositionY, T targetPositionZ,
-                                 T upX, T upY, T upZ, Matrix& dst)
+        void setLookAt(T eyePositionX, T eyePositionY, T eyePositionZ,
+                       T targetPositionX, T targetPositionY, T targetPositionZ,
+                       T upX, T upY, T upZ)
         {
             Vector<3, T> eye(eyePositionX, eyePositionY, eyePositionZ);
             Vector<3, T> target(targetPositionX, targetPositionY, targetPositionZ);
@@ -81,29 +81,29 @@ namespace ouzel
             Vector<3, T> yaxis = zaxis.cross(xaxis);
             yaxis.normalize();
 
-            dst.m[0] = xaxis.v[0];
-            dst.m[1] = yaxis.v[0];
-            dst.m[2] = zaxis.v[0];
-            dst.m[3] = 0;
+            m[0] = xaxis.v[0];
+            m[1] = yaxis.v[0];
+            m[2] = zaxis.v[0];
+            m[3] = 0;
 
-            dst.m[4] = xaxis.v[1];
-            dst.m[5] = yaxis.v[1];
-            dst.m[6] = zaxis.v[1];
-            dst.m[7] = 0;
+            m[4] = xaxis.v[1];
+            m[5] = yaxis.v[1];
+            m[6] = zaxis.v[1];
+            m[7] = 0;
 
-            dst.m[8] = xaxis.v[2];
-            dst.m[9] = yaxis.v[2];
-            dst.m[10] = zaxis.v[2];
-            dst.m[11] = 0;
+            m[8] = xaxis.v[2];
+            m[9] = yaxis.v[2];
+            m[10] = zaxis.v[2];
+            m[11] = 0;
 
-            dst.m[12] = xaxis.dot(-eye);
-            dst.m[13] = yaxis.dot(-eye);
-            dst.m[14] = zaxis.dot(-eye);
-            dst.m[15] = 1;
+            m[12] = xaxis.dot(-eye);
+            m[13] = yaxis.dot(-eye);
+            m[14] = zaxis.dot(-eye);
+            m[15] = 1;
         }
 
         template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
-        static void createPerspective(T fieldOfView, T aspectRatio, T zNearPlane, T zFarPlane, Matrix& dst)
+        void setPerspective(T fieldOfView, T aspectRatio, T zNearPlane, T zFarPlane)
         {
             assert(zFarPlane != zNearPlane);
 
@@ -115,67 +115,67 @@ namespace ouzel
             assert(divisor);
             T factor = 1 / divisor;
 
-            dst.setZero();
+            setZero();
 
             assert(aspectRatio);
-            dst.m[0] = (1 / aspectRatio) * factor;
-            dst.m[5] = factor;
-            dst.m[10] = zFarPlane / (zFarPlane - zNearPlane);
-            dst.m[11] = 1;
-            dst.m[14] = -zNearPlane * zFarPlane / (zFarPlane - zNearPlane);
+            m[0] = (1 / aspectRatio) * factor;
+            m[5] = factor;
+            m[10] = zFarPlane / (zFarPlane - zNearPlane);
+            m[11] = 1;
+            m[14] = -zNearPlane * zFarPlane / (zFarPlane - zNearPlane);
         }
 
         template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
-        static void createOrthographicFromSize(T width, T height, T zNearPlane, T zFarPlane, Matrix& dst)
+        void setOrthographicFromSize(T width, T height, T zNearPlane, T zFarPlane)
         {
             T halfWidth = width / 2;
             T halfHeight = height / 2;
-            createOrthographicOffCenter(-halfWidth, halfWidth,
-                                        -halfHeight, halfHeight,
-                                        zNearPlane, zFarPlane, dst);
+            setOrthographicOffCenter(-halfWidth, halfWidth,
+                                     -halfHeight, halfHeight,
+                                     zNearPlane, zFarPlane);
         }
 
         template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
-        static void createOrthographicOffCenter(T left, T right, T bottom, T top,
-                                                T zNearPlane, T zFarPlane, Matrix& dst)
+        void setOrthographicOffCenter(T left, T right, T bottom, T top,
+                                      T zNearPlane, T zFarPlane)
         {
             assert(right != left);
             assert(top != bottom);
             assert(zFarPlane != zNearPlane);
 
-            dst.setZero();
+            setZero();
 
-            dst.m[0] = 2 / (right - left);
-            dst.m[5] = 2 / (top - bottom);
-            dst.m[10] = 1 / (zFarPlane - zNearPlane);
-            dst.m[12] = (left + right) / (left - right);
-            dst.m[13] = (bottom + top) / (bottom - top);
-            dst.m[14] = zNearPlane / (zNearPlane - zFarPlane);
-            dst.m[15] = 1;
+            m[0] = 2 / (right - left);
+            m[5] = 2 / (top - bottom);
+            m[10] = 1 / (zFarPlane - zNearPlane);
+            m[12] = (left + right) / (left - right);
+            m[13] = (bottom + top) / (bottom - top);
+            m[14] = zNearPlane / (zNearPlane - zFarPlane);
+            m[15] = 1;
         }
 
         template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
-        static void createScale(const Vector<3, T>& scale, Matrix& dst)
+        void setScale(const Vector<3, T>& scale)
         {
-            dst.setIdentity();
+            setIdentity();
 
-            dst.m[0] = scale.v[0];
-            dst.m[5] = scale.v[1];
-            dst.m[10] = scale.v[2];
+            m[0] = scale.v[0];
+            m[5] = scale.v[1];
+            m[10] = scale.v[2];
         }
 
         template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
-        static void createScale(T xScale, T yScale, T zScale, Matrix& dst)
+        void setScale(T xScale, T yScale, T zScale)
         {
-            dst.setIdentity();
+            setIdentity();
 
-            dst.m[0] = xScale;
-            dst.m[5] = yScale;
-            dst.m[10] = zScale;
+            m[0] = xScale;
+            m[5] = yScale;
+            m[10] = zScale;
         }
 
         template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
-        static void createRotation(const Vector<3, T>& axis, T angle, Matrix& dst)
+        void setRotation(const Vector<3, T>& axis, T angle)
         {
             T x = axis.v[0];
             T y = axis.v[1];
@@ -211,87 +211,124 @@ namespace ouzel
             T sy = s * y;
             T sz = s * z;
 
-            dst.m[0] = c + tx * x;
-            dst.m[4] = txy - sz;
-            dst.m[8] = txz + sy;
-            dst.m[12] = 0;
+            m[0] = c + tx * x;
+            m[4] = txy - sz;
+            m[8] = txz + sy;
+            m[12] = 0;
 
-            dst.m[1] = txy + sz;
-            dst.m[5] = c + ty * y;
-            dst.m[9] = tyz - sx;
-            dst.m[13] = 0;
+            m[1] = txy + sz;
+            m[5] = c + ty * y;
+            m[9] = tyz - sx;
+            m[13] = 0;
 
-            dst.m[2] = txz - sy;
-            dst.m[6] = tyz + sx;
-            dst.m[10] = c + tz * z;
-            dst.m[14] = 0;
+            m[2] = txz - sy;
+            m[6] = tyz + sx;
+            m[10] = c + tz * z;
+            m[14] = 0;
 
-            dst.m[3] = 0;
-            dst.m[7] = 0;
-            dst.m[11] = 0;
-            dst.m[15] = 1;
+            m[3] = 0;
+            m[7] = 0;
+            m[11] = 0;
+            m[15] = 1;
         }
 
         template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
-        static void createRotationX(T angle, Matrix& dst)
+        void setRotation(const Quaternion<T>& rotation)
         {
-            dst.setIdentity();
+            T wx = rotation.v[3] * rotation.v[0];
+            T wy = rotation.v[3] * rotation.v[1];
+            T wz = rotation.v[3] * rotation.v[2];
+
+            T xx = rotation.v[0] * rotation.v[0];
+            T xy = rotation.v[0] * rotation.v[1];
+            T xz = rotation.v[0] * rotation.v[2];
+
+            T yy = rotation.v[1] * rotation.v[1];
+            T yz = rotation.v[1] * rotation.v[2];
+
+            T zz = rotation.v[2] * rotation.v[2];
+
+            m[0] = 1 - 2 * (yy + zz);
+            m[4] = 2 * (xy - wz);
+            m[8] = 2 * (xz + wy);
+            m[12] = 0;
+
+            m[1] = 2 * (xy + wz);
+            m[5] = 1 - 2 * (xx + zz);
+            m[9] = 2 * (yz - wx);
+            m[13] = 0;
+
+            m[2] = 2 * (xz - wy);
+            m[6] = 2 * (yz + wx);
+            m[10] = 1 - 2 * (xx + yy);
+            m[14] = 0;
+
+            m[3] = 0;
+            m[7] = 0;
+            m[11] = 0;
+            m[15] = 1;
+        }
+
+        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        void setRotationX(T angle)
+        {
+            setIdentity();
 
             T c = cos(angle);
             T s = sin(angle);
 
-            dst.m[5] = c;
-            dst.m[9] = -s;
-            dst.m[6] = s;
-            dst.m[10] = c;
+            m[5] = c;
+            m[9] = -s;
+            m[6] = s;
+            m[10] = c;
         }
 
         template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
-        static void createRotationY(T angle, Matrix& dst)
+        void setRotationY(T angle)
         {
-            dst.setIdentity();
+            setIdentity();
 
             T c = cos(angle);
             T s = sin(angle);
 
-            dst.m[0] = c;
-            dst.m[8] = s;
-            dst.m[2] = -s;
-            dst.m[10] = c;
+            m[0] = c;
+            m[8] = s;
+            m[2] = -s;
+            m[10] = c;
         }
 
         template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
-        static void createRotationZ(T angle, Matrix& dst)
+        void setRotationZ(T angle)
         {
-            dst.setIdentity();
+            setIdentity();
 
             T c = cos(angle);
             T s = sin(angle);
 
-            dst.m[0] = c;
-            dst.m[4] = -s;
-            dst.m[1] = s;
-            dst.m[5] = c;
+            m[0] = c;
+            m[4] = -s;
+            m[1] = s;
+            m[5] = c;
         }
 
         template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
-        static void createTranslation(const Vector<3, T>& translation, Matrix& dst)
+        void setTranslation(const Vector<3, T>& translation)
         {
-            dst.setIdentity();
+            setIdentity();
 
-            dst.m[12] = translation.v[0];
-            dst.m[13] = translation.v[1];
-            dst.m[14] = translation.v[2];
+            m[12] = translation.v[0];
+            m[13] = translation.v[1];
+            m[14] = translation.v[2];
         }
 
         template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
-        static void createTranslation(T xTranslation, T yTranslation, T zTranslation, Matrix& dst)
+        void setTranslation(T xTranslation, T yTranslation, T zTranslation)
         {
-            dst.setIdentity();
+            setIdentity();
 
-            dst.m[12] = xTranslation;
-            dst.m[13] = yTranslation;
-            dst.m[14] = zTranslation;
+            m[12] = xTranslation;
+            m[13] = yTranslation;
+            m[14] = zTranslation;
         }
 
         template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
@@ -468,100 +505,6 @@ namespace ouzel
 
         void negate(Matrix& dst) const;
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
-        void rotate(const Vector<3, T>& axis, T angle)
-        {
-            rotate(axis, angle, *this);
-        }
-
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
-        void rotate(const Vector<3, T>& axis, T angle, Matrix& dst) const
-        {
-            Matrix r;
-            createRotation(axis, angle, r);
-            multiply(*this, r, dst);
-        }
-
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
-        void rotateX(T angle)
-        {
-            rotateX(angle, *this);
-        }
-
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
-        void rotateX(T angle, Matrix& dst) const
-        {
-            Matrix r;
-            createRotationX(angle, r);
-            multiply(*this, r, dst);
-        }
-
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
-        void rotateY(T angle)
-        {
-            rotateY(angle, *this);
-        }
-
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
-        void rotateY(T angle, Matrix& dst) const
-        {
-            Matrix r;
-            createRotationY(angle, r);
-            multiply(*this, r, dst);
-        }
-
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
-        void rotateZ(T angle)
-        {
-            rotateZ(angle, *this);
-        }
-
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
-        void rotateZ(T angle, Matrix& dst) const
-        {
-            Matrix r;
-            createRotationZ(angle, r);
-            multiply(*this, r, dst);
-        }
-
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
-        void scale(T value)
-        {
-            scale(value, *this);
-        }
-
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
-        void scale(T value, Matrix& dst) const
-        {
-            scale(value, value, value, dst);
-        }
-
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
-        void scale(T xScale, T yScale, T zScale)
-        {
-            scale(xScale, yScale, zScale, *this);
-        }
-
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
-        void scale(T xScale, T yScale, T zScale, Matrix& dst) const
-        {
-            Matrix s;
-            createScale(xScale, yScale, zScale, s);
-            multiply(*this, s, dst);
-        }
-
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
-        void scale(const Vector<3, T>& s)
-        {
-            scale(s.v[0], s.v[1], s.v[2], *this);
-        }
-
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
-        void scale(const Vector<3, T>& s, Matrix& dst) const
-        {
-            scale(s.v[0], s.v[1], s.v[2], dst);
-        }
-
         template<bool E = (N == M), typename std::enable_if<E>::type* = nullptr>
         inline void setIdentity()
         {
@@ -625,32 +568,6 @@ namespace ouzel
 
         void transformVector(const Vector<4, T>& vector, Vector<4, T>& dst) const;
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
-        void translate(T x, T y, T z)
-        {
-            translate(x, y, z, *this);
-        }
-
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
-        void translate(T x, T y, T z, Matrix& dst) const
-        {
-            Matrix t;
-            createTranslation(x, y, z, t);
-            multiply(*this, t, dst);
-        }
-
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
-        void translate(const Vector<3, T>& t)
-        {
-            translate(t.v[0], t.v[1], t.v[2], *this);
-        }
-
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
-        void translate(const Vector<3, T>& t, Matrix& dst) const
-        {
-            translate(t.v[0], t.v[1], t.v[2], dst);
-        }
-
         void transpose()
         {
             transpose(*this);
@@ -705,43 +622,6 @@ namespace ouzel
             result.normalize();
 
             return result;
-        }
-
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
-        void setRotation(const Quaternion<T>& rotation)
-        {
-            T wx = rotation.v[3] * rotation.v[0];
-            T wy = rotation.v[3] * rotation.v[1];
-            T wz = rotation.v[3] * rotation.v[2];
-
-            T xx = rotation.v[0] * rotation.v[0];
-            T xy = rotation.v[0] * rotation.v[1];
-            T xz = rotation.v[0] * rotation.v[2];
-
-            T yy = rotation.v[1] * rotation.v[1];
-            T yz = rotation.v[1] * rotation.v[2];
-
-            T zz = rotation.v[2] * rotation.v[2];
-
-            m[0] = 1 - 2 * (yy + zz);
-            m[4] = 2 * (xy - wz);
-            m[8] = 2 * (xz + wy);
-            m[12] = 0;
-
-            m[1] = 2 * (xy + wz);
-            m[5] = 1 - 2 * (xx + zz);
-            m[9] = 2 * (yz - wx);
-            m[13] = 0;
-
-            m[2] = 2 * (xz - wy);
-            m[6] = 2 * (yz + wx);
-            m[10] = 1 - 2 * (xx + yy);
-            m[14] = 0;
-
-            m[3] = 0;
-            m[7] = 0;
-            m[11] = 0;
-            m[15] = 1;
         }
 
         inline const Matrix operator+(const Matrix& matrix) const
