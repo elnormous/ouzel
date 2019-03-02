@@ -43,6 +43,7 @@ namespace ouzel
         T& operator[](size_t index) { return m[index]; }
         T operator[](size_t index) const { return m[index]; }
 
+        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
         static inline constexpr Matrix identity()
         {
             return Matrix(1, 0, 0, 0,
@@ -565,7 +566,7 @@ namespace ouzel
         {
             for (size_t r = 0; r < N; ++r)
                 for (size_t c = 0; c < M; ++c)
-                    m[r * M + c] = static_cast<float>(r == c ? 1 : 0);
+                    m[r * M + c] = static_cast<T>(r == c ? 1 : 0);
         }
 
         inline void setZero()
