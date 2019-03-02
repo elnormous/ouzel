@@ -357,6 +357,7 @@ namespace ouzel
 
         static void add(const Matrix& m1, const Matrix& m2, Matrix& dst);
 
+        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
         T determinant() const
         {
             T a0 = m[0] * m[5] - m[1] * m[4];
