@@ -36,8 +36,9 @@ namespace ouzel
                 {
                     CFIndex stringLength = CFStringGetLength(productName);
                     std::vector<char> temp(static_cast<size_t>(CFStringGetMaximumSizeForEncoding(stringLength, kCFStringEncodingUTF8)) + 1);
-                    CFStringGetCString(productName, temp.data(), static_cast<CFIndex>(temp.size()), kCFStringEncodingUTF8);
-                    name = temp.data();
+                    if (CFStringGetCString(productName, temp.data(), static_cast<CFIndex>(temp.size()), kCFStringEncodingUTF8))
+                        for (auto i = temp.begin(); i != temp.end() && *i; ++i)
+                            name.push_back(*i);
                 }
             }
 
