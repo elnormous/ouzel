@@ -160,10 +160,9 @@ namespace ouzel
                         for (auto i = temp.begin(); i != temp.end() && *i; ++i)
                             name.push_back(*i);
                 }
+                CFRelease(tempStringRef);
 
                 engine->log(Log::Level::INFO) << "Using " << name << " for audio";
-
-                CFRelease(tempStringRef);
             }
 #endif
 
