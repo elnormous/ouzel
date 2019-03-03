@@ -92,25 +92,26 @@ namespace ouzel
             device = alcOpenDevice(deviceName);
 
             if (!device)
-                throw std::runtime_error("Failed to create OpenAL device");
+                throw std::runtime_error("Failed to open ALC device");
 
             ALCenum alcError;
 
             if ((alcError = alcGetError(device)) != ALC_NO_ERROR)
-                throw std::system_error(alcError, alcErrorCategory, "Failed to create OpenAL device");
+                throw std::system_error(alcError, alcErrorCategory, "Failed to create ALC device");
 
             context = alcCreateContext(device, nullptr);
 
             if ((alcError = alcGetError(device)) != ALC_NO_ERROR)
-                throw std::system_error(alcError, alcErrorCategory, "Failed to create OpenAL context");
+                throw std::system_error(alcError, alcErrorCategory, "Failed to create ALC context");
 
             if (!context)
-                throw std::runtime_error("Failed to create OpenAL context");
+                throw std::runtime_error("Failed to create ALC context");
 
-            alcMakeContextCurrent(context);
+            if (!alcMakeContextCurrent(context))
+                throw std::runtime_error("Failed to make ALC context current");
 
             if ((alcError = alcGetError(device)) != ALC_NO_ERROR)
-                throw std::system_error(alcError, alcErrorCategory, "Failed to make OpenAL context current");
+                throw std::system_error(alcError, alcErrorCategory, "Failed to make ALC context current");
 
             const ALchar* audioRenderer = alGetString(AL_RENDERER);
 
@@ -292,12 +293,13 @@ namespace ouzel
 
         void OALAudioDevice::process()
         {
-            alcMakeContextCurrent(context);
+            if (!alcMakeContextCurrent(context))
+                throw std::runtime_error("Failed to make ALC context current");
 
             ALCenum alcError;
 
             if ((alcError = alcGetError(device)) != ALC_NO_ERROR)
-                throw std::system_error(alcError, alcErrorCategory, "Failed to make OpenAL context current");
+                throw std::system_error(alcError, alcErrorCategory, "Failed to make ALC context current");
 
             ALint buffersProcessed;
             alGetSourcei(sourceId, AL_BUFFERS_PROCESSED, &buffersProcessed);
