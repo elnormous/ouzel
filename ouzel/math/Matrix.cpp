@@ -201,24 +201,24 @@ namespace ouzel
     template<size_t N, size_t M, class T>
     void Matrix<N, M, T>::invert(Matrix& dst) const
     {
-        float a0 = m[0] * m[5] - m[1] * m[4];
-        float a1 = m[0] * m[6] - m[2] * m[4];
-        float a2 = m[0] * m[7] - m[3] * m[4];
-        float a3 = m[1] * m[6] - m[2] * m[5];
-        float a4 = m[1] * m[7] - m[3] * m[5];
-        float a5 = m[2] * m[7] - m[3] * m[6];
-        float b0 = m[8] * m[13] - m[9] * m[12];
-        float b1 = m[8] * m[14] - m[10] * m[12];
-        float b2 = m[8] * m[15] - m[11] * m[12];
-        float b3 = m[9] * m[14] - m[10] * m[13];
-        float b4 = m[9] * m[15] - m[11] * m[13];
-        float b5 = m[10] * m[15] - m[11] * m[14];
+        T a0 = m[0] * m[5] - m[1] * m[4];
+        T a1 = m[0] * m[6] - m[2] * m[4];
+        T a2 = m[0] * m[7] - m[3] * m[4];
+        T a3 = m[1] * m[6] - m[2] * m[5];
+        T a4 = m[1] * m[7] - m[3] * m[5];
+        T a5 = m[2] * m[7] - m[3] * m[6];
+        T b0 = m[8] * m[13] - m[9] * m[12];
+        T b1 = m[8] * m[14] - m[10] * m[12];
+        T b2 = m[8] * m[15] - m[11] * m[12];
+        T b3 = m[9] * m[14] - m[10] * m[13];
+        T b4 = m[9] * m[15] - m[11] * m[13];
+        T b5 = m[10] * m[15] - m[11] * m[14];
 
         // Calculate the determinant
-        float det = a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
+        T det = a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
 
         // Close to zero, can't invert
-        if (fabs(det) < std::numeric_limits<float>::min()) return;
+        if (fabs(det) <= std::numeric_limits<T>::min()) return;
 
         Matrix inverse;
         inverse.m[0] = m[5] * b5 - m[6] * b4 + m[7] * b3;
@@ -340,7 +340,7 @@ namespace ouzel
     template<size_t N, size_t M, class T>
     void Matrix<N, M, T>::multiply(const Matrix& m1, const Matrix& m2, Matrix& dst)
     {
-        float product[16];
+        T product[16];
 
         product[0] = m1.m[0] * m2.m[0] + m1.m[4] * m2.m[1] + m1.m[8] * m2.m[2] + m1.m[12] * m2.m[3];
         product[1] = m1.m[1] * m2.m[0] + m1.m[5] * m2.m[1] + m1.m[9] * m2.m[2] + m1.m[13] * m2.m[3];
