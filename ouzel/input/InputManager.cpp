@@ -337,7 +337,6 @@ namespace ouzel
                 }
                 default:
                     throw std::runtime_error("Unhandled event");
-                    break;
             }
 
             return false;
