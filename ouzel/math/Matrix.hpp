@@ -14,14 +14,13 @@
 
 namespace ouzel
 {
-    // N = rows, M = columns
-    template<size_t N, size_t M, class T> class Matrix final
+    template<size_t C, size_t R, class T> class Matrix final
     {
     public:
 #if defined(__SSE__)
-        alignas((N == 4 && M == 4) ? 16 : alignof(T))
+        alignas((C == 4 && R == 4) ? 16 : alignof(T))
 #endif
-        T m[N * M];
+        T m[C * R];
 
         Matrix():
             m{0}
@@ -36,14 +35,14 @@ namespace ouzel
 
         explicit Matrix(const T* array)
         {
-            for (size_t i = 0; i < N * M; ++i)
+            for (size_t i = 0; i < C * R; ++i)
                 m[i] = array[i];
         }
 
         T& operator[](size_t index) { return m[index]; }
         T operator[](size_t index) const { return m[index]; }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         static inline constexpr Matrix identity()
         {
             return Matrix(1, 0, 0, 0,
@@ -52,7 +51,7 @@ namespace ouzel
                           0, 0, 0, 1);
         }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         void setLookAt(const Vector<3, T>& eyePosition,
                        const Vector<3, T>& targetPosition,
                        const Vector<3, T>& up)
@@ -62,7 +61,7 @@ namespace ouzel
                       up.v[0], up.v[1], up.v[2]);
         }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         void setLookAt(T eyePositionX, T eyePositionY, T eyePositionZ,
                        T targetPositionX, T targetPositionY, T targetPositionZ,
                        T upX, T upY, T upZ)
@@ -102,7 +101,7 @@ namespace ouzel
             m[15] = 1;
         }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         void setPerspective(T fieldOfView, T aspectRatio, T zNearPlane, T zFarPlane)
         {
             assert(zFarPlane != zNearPlane);
@@ -125,7 +124,7 @@ namespace ouzel
             m[14] = -zNearPlane * zFarPlane / (zFarPlane - zNearPlane);
         }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         void setOrthographicFromSize(T width, T height, T zNearPlane, T zFarPlane)
         {
             T halfWidth = width / 2;
@@ -135,7 +134,7 @@ namespace ouzel
                                      zNearPlane, zFarPlane);
         }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         void setOrthographicOffCenter(T left, T right, T bottom, T top,
                                       T zNearPlane, T zFarPlane)
         {
@@ -154,7 +153,7 @@ namespace ouzel
             m[15] = 1;
         }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         void setScale(const Vector<3, T>& scale)
         {
             setIdentity();
@@ -164,7 +163,7 @@ namespace ouzel
             m[10] = scale.v[2];
         }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         void setScale(T xScale, T yScale, T zScale)
         {
             setIdentity();
@@ -174,7 +173,7 @@ namespace ouzel
             m[10] = zScale;
         }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         void setRotation(const Vector<3, T>& axis, T angle)
         {
             T x = axis.v[0];
@@ -232,7 +231,7 @@ namespace ouzel
             m[15] = 1;
         }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         void setRotation(const Quaternion<T>& rotation)
         {
             T wx = rotation.v[3] * rotation.v[0];
@@ -269,7 +268,7 @@ namespace ouzel
             m[15] = 1;
         }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         void setRotationX(T angle)
         {
             setIdentity();
@@ -283,7 +282,7 @@ namespace ouzel
             m[10] = c;
         }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         void setRotationY(T angle)
         {
             setIdentity();
@@ -297,7 +296,7 @@ namespace ouzel
             m[10] = c;
         }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         void setRotationZ(T angle)
         {
             setIdentity();
@@ -311,7 +310,7 @@ namespace ouzel
             m[5] = c;
         }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         void setTranslation(const Vector<3, T>& translation)
         {
             setIdentity();
@@ -321,7 +320,7 @@ namespace ouzel
             m[14] = translation.v[2];
         }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         void setTranslation(T xTranslation, T yTranslation, T zTranslation)
         {
             setIdentity();
@@ -331,43 +330,43 @@ namespace ouzel
             m[14] = zTranslation;
         }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         Plane<T> getFrustumLeftPlane() const
         {
             return Plane<T>::makeFrustumPlane(m[3] + m[0], m[7] + m[4], m[11] + m[8], m[15] + m[12]);
         }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         inline Plane<T> getFrustumRightPlane() const
         {
             return Plane<T>::makeFrustumPlane(m[3] - m[0], m[7] - m[4], m[11] - m[8], m[15] - m[12]);
         }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         inline Plane<T> getFrustumBottomPlane() const
         {
             return Plane<T>::makeFrustumPlane(m[3] + m[1], m[7] + m[5], m[11] + m[9], m[15] + m[13]);
         }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         inline Plane<T> getFrustumTopPlane() const
         {
             return Plane<T>::makeFrustumPlane(m[3] - m[1], m[7] - m[5], m[11] - m[9], m[15] - m[13]);
         }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         inline Plane<T> getFrustumNearPlane() const
         {
             return Plane<T>::makeFrustumPlane(m[3] + m[2], m[7] + m[6], m[11] + m[10], m[15] + m[14]);
         }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         inline Plane<T> getFrustumFarPlane() const
         {
             return Plane<T>::makeFrustumPlane(m[3] - m[2], m[7] - m[6], m[11] - m[10], m[15] - m[14]);
         }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         ConvexVolume<T> getFrustum() const
         {
             ConvexVolume<T> frustum;
@@ -394,7 +393,7 @@ namespace ouzel
 
         static void add(const Matrix& m1, const Matrix& m2, Matrix& dst);
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         T determinant() const
         {
             T a0 = m[0] * m[5] - m[1] * m[4];
@@ -414,7 +413,7 @@ namespace ouzel
             return a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
         }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         inline void getUpVector(Vector<3, T>& dst) const
         {
             dst.v[0] = m[4];
@@ -422,7 +421,7 @@ namespace ouzel
             dst.v[2] = m[6];
         }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         inline void getDownVector(Vector<3, T>& dst) const
         {
             dst.v[0] = -m[4];
@@ -430,7 +429,7 @@ namespace ouzel
             dst.v[2] = -m[6];
         }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         inline void getLeftVector(Vector<3, T>& dst) const
         {
             dst.v[0] = -m[0];
@@ -438,7 +437,7 @@ namespace ouzel
             dst.v[2] = -m[2];
         }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         inline void getRightVector(Vector<3, T>& dst) const
         {
             dst.v[0] = m[0];
@@ -446,7 +445,7 @@ namespace ouzel
             dst.v[2] = m[2];
         }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         inline void getForwardVector(Vector<3, T>& dst) const
         {
             dst.v[0] = -m[8];
@@ -454,7 +453,7 @@ namespace ouzel
             dst.v[2] = -m[10];
         }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         inline void getBackVector(Vector<3, T>& dst) const
         {
             dst.v[0] = m[8];
@@ -469,12 +468,12 @@ namespace ouzel
 
         void invert(Matrix& dst) const;
 
-        template<bool E = (N == M), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == R), typename std::enable_if<E>::type* = nullptr>
         inline bool isIdentity() const
         {
-            for (size_t r = 0; r < N; ++r)
-                for (size_t c = 0; c < M; ++c)
-                    if (m[r * M + c] != (r == c ? 1 : 0))
+            for (size_t r = 0; r < R; ++r)
+                for (size_t c = 0; c < C; ++c)
+                    if (m[r * C + c] != (r == c ? 1 : 0))
                         return false;
             return true;
         }
@@ -505,17 +504,17 @@ namespace ouzel
 
         void negate(Matrix& dst) const;
 
-        template<bool E = (N == M), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == R), typename std::enable_if<E>::type* = nullptr>
         inline void setIdentity()
         {
-            for (size_t r = 0; r < N; ++r)
-                for (size_t c = 0; c < M; ++c)
-                    m[r * M + c] = static_cast<T>(r == c ? 1 : 0);
+            for (size_t r = 0; r < R; ++r)
+                for (size_t c = 0; c < C; ++c)
+                    m[r * C + c] = static_cast<T>(r == c ? 1 : 0);
         }
 
         inline void setZero()
         {
-            for (size_t i = 0; i < N * M; ++i)
+            for (size_t i = 0; i < C * R; ++i)
                 m[i] = 0;
         }
 
@@ -526,19 +525,19 @@ namespace ouzel
 
         static void subtract(const Matrix& m1, const Matrix& m2, Matrix& dst);
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         void transformPoint(Vector<3, T>& point) const
         {
             transformVector(point.v[0], point.v[1], point.v[2], 1, point);
         }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         void transformPoint(const Vector<3, T>& point, Vector<3, T>& dst) const
         {
             transformVector(point.v[0], point.v[1], point.v[2], 1, dst);
         }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         void transformVector(Vector<3, T>& vector) const
         {
             Vector<4, T> t;
@@ -546,13 +545,13 @@ namespace ouzel
             vector = Vector<3, T>(t.v[0], t.v[1], t.v[2]);
         }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         void transformVector(const Vector<3, T>& vector, Vector<3, T>& dst) const
         {
             transformVector(vector.v[0], vector.v[1], vector.v[2], 0, dst);
         }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         void transformVector(T x, T y, T z, T w, Vector<3, T>& dst) const
         {
             Vector<4, T> t;
@@ -560,7 +559,7 @@ namespace ouzel
             dst = Vector<3, T>(t.v[0], t.v[1], t.v[2]);
         }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         void transformVector(Vector<4, T>& vector) const
         {
             transformVector(vector, vector);
@@ -575,13 +574,13 @@ namespace ouzel
 
         void transpose(Matrix& dst) const;
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         Vector<3, T> getTranslation() const
         {
             return Vector<3, T>(m[12], m[13], m[14]);
         }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         Vector<3, T> getScale() const
         {
             Vector<3, T> scale;
@@ -592,7 +591,7 @@ namespace ouzel
             return scale;
         }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         Quaternion<T> getRotation() const
         {
             Vector<3, T> scale = getScale();
@@ -672,7 +671,7 @@ namespace ouzel
 
         inline bool operator==(const Matrix& matrix)
         {
-            for (size_t i = 0; i < N * M; ++i)
+            for (size_t i = 0; i < C * R; ++i)
                 if (m[i] != matrix.m[i])
                     return false;
 
@@ -681,14 +680,14 @@ namespace ouzel
 
         inline bool operator!=(const Matrix& matrix)
         {
-            for (size_t i = 0; i < N * M; ++i)
+            for (size_t i = 0; i < C * R; ++i)
                 if (m[i] != matrix.m[i])
                     return true;
 
             return false;
         }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         inline const Vector<3, T> operator*(const Vector<3, T>& v)
         {
             Vector<3, T> x;
@@ -696,7 +695,7 @@ namespace ouzel
             return x;
         }
 
-        template<bool E = (N == 4 && M == 4), typename std::enable_if<E>::type* = nullptr>
+        template<bool E = (C == 4 && R == 4), typename std::enable_if<E>::type* = nullptr>
         inline const Vector<4, T> operator*(const Vector<4, T>& v)
         {
             Vector<4, T> x;
