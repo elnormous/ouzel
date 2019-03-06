@@ -153,6 +153,15 @@ namespace ouzel
             m[15] = 1;
         }
 
+        template<size_t X = C, size_t Y = R, typename std::enable_if<(X == 3 && Y == 3)>::type* = nullptr>
+        void setScale(const Vector<2, T>& scale)
+        {
+            setIdentity();
+
+            m[0] = scale.v[0];
+            m[4] = scale.v[1];
+        }
+
         template<size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
         void setScale(const Vector<3, T>& scale)
         {
@@ -163,14 +172,37 @@ namespace ouzel
             m[10] = scale.v[2];
         }
 
-        template<size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        void setScale(T xScale, T yScale, T zScale)
+        template<size_t X = C, size_t Y = R, typename std::enable_if<(X == 3 && Y == 3)>::type* = nullptr>
+        void setScale(T x, T y)
         {
             setIdentity();
 
-            m[0] = xScale;
-            m[5] = yScale;
-            m[10] = zScale;
+            m[0] = x;
+            m[4] = y;
+        }
+
+        template<size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
+        void setScale(T x, T y, T z)
+        {
+            setIdentity();
+
+            m[0] = x;
+            m[5] = y;
+            m[10] = z;
+        }
+
+        template<size_t X = C, size_t Y = R, typename std::enable_if<(X == 3 && Y == 3)>::type* = nullptr>
+        void setRotation(T angle)
+        {
+            setIdentity();
+
+            T c = cos(angle);
+            T s = sin(angle);
+
+            m[0] = c;
+            m[3] = -s;
+            m[1] = s;
+            m[4] = c;
         }
 
         template<size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
@@ -310,6 +342,15 @@ namespace ouzel
             m[5] = c;
         }
 
+        template<size_t X = C, size_t Y = R, typename std::enable_if<(X == 3 && Y == 3)>::type* = nullptr>
+        void setTranslation(const Vector<3, T>& translation)
+        {
+            setIdentity();
+
+            m[6] = translation.v[0];
+            m[7] = translation.v[1];
+        }
+
         template<size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
         void setTranslation(const Vector<3, T>& translation)
         {
@@ -320,14 +361,23 @@ namespace ouzel
             m[14] = translation.v[2];
         }
 
-        template<size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        void setTranslation(T xTranslation, T yTranslation, T zTranslation)
+        template<size_t X = C, size_t Y = R, typename std::enable_if<(X == 3 && Y == 3)>::type* = nullptr>
+        void setTranslation(T x, T y)
         {
             setIdentity();
 
-            m[12] = xTranslation;
-            m[13] = yTranslation;
-            m[14] = zTranslation;
+            m[6] = x;
+            m[7] = y;
+        }
+
+        template<size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
+        void setTranslation(T x, T y, T z)
+        {
+            setIdentity();
+
+            m[12] = x;
+            m[13] = y;
+            m[14] = z;
         }
 
         template<size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
