@@ -643,10 +643,26 @@ namespace ouzel
 
         void transpose(Matrix& dst) const;
 
+        template<size_t X = C, size_t Y = R, typename std::enable_if<(X == 3 && Y == 3)>::type* = nullptr>
+        Vector<2, T> getTranslation() const
+        {
+            return Vector<2, T>(m[6], m[7]);
+        }
+
         template<size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
         Vector<3, T> getTranslation() const
         {
             return Vector<3, T>(m[12], m[13], m[14]);
+        }
+
+        template<size_t X = C, size_t Y = R, typename std::enable_if<(X == 3 && Y == 3)>::type* = nullptr>
+        Vector<2, T> getScale() const
+        {
+            Vector<2, T> scale;
+            scale.v[0] = Vector<2, T>(m[0], m[1]).length();
+            scale.v[1] = Vector<2, T>(m[3], m[4]).length();
+
+            return scale;
         }
 
         template<size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
