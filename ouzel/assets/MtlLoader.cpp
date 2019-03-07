@@ -129,9 +129,12 @@ namespace ouzel
         {
         }
 
-        bool MtlLoader::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
+        bool MtlLoader::loadAsset(Bundle& bundle,
+                                  const std::string& name,
+                                  const std::vector<uint8_t>& data,
+                                  bool mipmaps)
         {
-            std::string name = filename;
+            std::string materialName = name;
             std::shared_ptr<graphics::Texture> diffuseTexture;
             std::shared_ptr<graphics::Texture> ambientTexture;
             Color diffuseColor = Color::WHITE;
@@ -176,11 +179,11 @@ namespace ouzel
                             material->opacity = opacity;
                             material->cullMode = graphics::CullMode::BACK;
 
-                            bundle.setMaterial(name, material);
+                            bundle.setMaterial(materialName, material);
                         }
 
                         skipWhitespaces(data, iterator);
-                        name = parseString(data, iterator);
+                        materialName = parseString(data, iterator);
 
                         skipLine(data, iterator);
 
@@ -209,7 +212,7 @@ namespace ouzel
 
                         if (!diffuseTexture)
                         {
-                            bundle.loadAsset(Loader::IMAGE, value, mipmaps);
+                            bundle.loadAsset(Loader::IMAGE, value, value, mipmaps);
                             diffuseTexture = cache.getTexture(value);
                         }
                     }
@@ -275,7 +278,7 @@ namespace ouzel
                 material->opacity = opacity;
                 material->cullMode = graphics::CullMode::BACK;
 
-                bundle.setMaterial(name, material);
+                bundle.setMaterial(materialName, material);
             }
 
             return true;

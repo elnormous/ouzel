@@ -40,7 +40,10 @@ namespace ouzel
 
             inline uint32_t getType() const { return type; }
 
-            virtual bool loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps = true) = 0;
+            virtual bool loadAsset(Bundle& bundle,
+                                   const std::string& name,
+                                   const std::vector<uint8_t>& data,
+                                   bool mipmaps = true) = 0;
 
         protected:
             Cache& cache;

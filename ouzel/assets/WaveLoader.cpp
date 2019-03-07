@@ -20,7 +20,10 @@ namespace ouzel
         {
         }
 
-        bool WaveLoader::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool)
+        bool WaveLoader::loadAsset(Bundle& bundle,
+                                   const std::string& name,
+                                   const std::vector<uint8_t>& data,
+                                   bool)
         {
             try
             {
@@ -189,7 +192,7 @@ namespace ouzel
                     throw std::runtime_error("Failed to load sound file, unsupported format");
 
                 std::shared_ptr<audio::Sound> sound = std::make_shared<audio::PcmSound>(*engine->getAudio(), channels, sampleRate, samples);
-                bundle.setSound(filename, sound);
+                bundle.setSound(name, sound);
             }
             catch (const std::exception&)
             {

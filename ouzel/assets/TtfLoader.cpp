@@ -13,13 +13,16 @@ namespace ouzel
         {
         }
 
-        bool TtfLoader::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
+        bool TtfLoader::loadAsset(Bundle& bundle,
+                                  const std::string& name,
+                                  const std::vector<uint8_t>& data,
+                                  bool mipmaps)
         {
             try
             {
                 // TODO: move the loader here
                 std::shared_ptr<gui::TTFont> font = std::make_shared<gui::TTFont>(data, mipmaps);
-                bundle.setFont(filename, font);
+                bundle.setFont(name, font);
             }
             catch (const std::exception&)
             {

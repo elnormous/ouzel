@@ -15,7 +15,10 @@ namespace ouzel
             static constexpr uint32_t TYPE = Loader::SKINNED_MESH;
 
             explicit GltfLoader(Cache& initCache);
-            bool loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps = true) override;
+            bool loadAsset(Bundle& bundle,
+                           const std::string& name,
+                           const std::vector<uint8_t>& data,
+                           bool mipmaps = true) override;
         };
     } // namespace assets
 } // namespace ouzel

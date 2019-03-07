@@ -25,13 +25,13 @@ SoundSample::SoundSample():
     music(*engine->getAudio(), engine->getCache().getSound("music.ogg")),
     tone(std::make_shared<OscillatorSound>(*engine->getAudio(), 200.0F, OscillatorSound::Type::SINE, 0.5F, 1.0F)),
     toneVoice(*engine->getAudio(), tone),
-    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
-    test8BitButton("button.png", "button_selected.png", "button_down.png", "", "8-bit", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
-    test24BitButton("button.png", "button_selected.png", "button_down.png", "", "24-bit", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
-    jumpButton("button.png", "button_selected.png", "button_down.png", "", "Jump", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
-    ambientButton("button.png", "button_selected.png", "button_down.png", "", "Ambient", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
-    musicButton("button.png", "button_selected.png", "button_down.png", "", "Music", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
-    toneButton("button.png", "button_selected.png", "button_down.png", "", "Tone", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
+    test8BitButton("button.png", "button_selected.png", "button_down.png", "", "8-bit", "Arial", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
+    test24BitButton("button.png", "button_selected.png", "button_down.png", "", "24-bit", "Arial", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
+    jumpButton("button.png", "button_selected.png", "button_down.png", "", "Jump", "Arial", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
+    ambientButton("button.png", "button_selected.png", "button_down.png", "", "Ambient", "Arial", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
+    musicButton("button.png", "button_selected.png", "button_down.png", "", "Music", "Arial", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
+    toneButton("button.png", "button_selected.png", "button_down.png", "", "Tone", "Arial", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
 {
     handler.gamepadHandler = std::bind(&SoundSample::handleGamepad, this, std::placeholders::_1);
     handler.uiHandler = std::bind(&SoundSample::handleUI, this, std::placeholders::_1);

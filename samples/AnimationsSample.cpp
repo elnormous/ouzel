@@ -7,7 +7,7 @@ using namespace ouzel;
 using namespace input;
 
 AnimationsSample::AnimationsSample():
-    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
 {
     handler.gamepadHandler = std::bind(&AnimationsSample::handleGamepad, this, std::placeholders::_1);
     handler.uiHandler = std::bind(&AnimationsSample::handleUI, this, std::placeholders::_1);

@@ -22,7 +22,8 @@ namespace ouzel
             cache.removeBundle(this);
         }
 
-        void Bundle::loadAsset(uint32_t loaderType, const std::string& filename, bool mipmaps)
+        void Bundle::loadAsset(uint32_t loaderType, const std::string& name,
+                               const std::string& filename, bool mipmaps)
         {
             std::vector<uint8_t> data = fileSystem.readFile(filename);
 
@@ -32,7 +33,7 @@ namespace ouzel
             {
                 Loader* loader = *i;
                 if (loader->getType() == loaderType &&
-                    loader->loadAsset(*this, filename, data, mipmaps))
+                    loader->loadAsset(*this, name, data, mipmaps))
                     return;
             }
 
@@ -45,20 +46,22 @@ namespace ouzel
 
             for (const json::Value& asset : data["assets"].as<json::Value::Array>())
             {
+                std::string file = asset["filename"].as<std::string>();
+                std::string name = asset.hasMember("name") ? asset["name"].as<std::string>() : file;
                 bool mipmaps = asset.hasMember("mipmaps") ? asset["mipmaps"].as<bool>() : true;
-                loadAsset(asset["type"].as<uint32_t>(), asset["filename"].as<std::string>(), mipmaps);
+                loadAsset(asset["type"].as<uint32_t>(), name, file, mipmaps);
             }
         }
 
         void Bundle::loadAssets(const std::vector<Asset>& assets)
         {
             for (const Asset& asset : assets)
-                loadAsset(asset.type, asset.filename, asset.mipmaps);
+                loadAsset(asset.type, asset.name, asset.filename, asset.mipmaps);
         }
 
-        std::shared_ptr<graphics::Texture> Bundle::getTexture(const std::string& filename) const
+        std::shared_ptr<graphics::Texture> Bundle::getTexture(const std::string& name) const
         {
-            auto i = textures.find(filename);
+            auto i = textures.find(name);
 
             if (i != textures.end())
                 return i->second;
@@ -66,9 +69,9 @@ namespace ouzel
             return nullptr;
         }
 
-        void Bundle::setTexture(const std::string& filename, const std::shared_ptr<graphics::Texture>& texture)
+        void Bundle::setTexture(const std::string& name, const std::shared_ptr<graphics::Texture>& texture)
         {
-            textures[filename] = texture;
+            textures[name] = texture;
         }
 
         void Bundle::releaseTextures()
@@ -76,9 +79,9 @@ namespace ouzel
             textures.clear();
         }
 
-        std::shared_ptr<graphics::Shader> Bundle::getShader(const std::string& shaderName) const
+        std::shared_ptr<graphics::Shader> Bundle::getShader(const std::string& name) const
         {
-            auto i = shaders.find(shaderName);
+            auto i = shaders.find(name);
 
             if (i != shaders.end())
                 return i->second;
@@ -86,9 +89,9 @@ namespace ouzel
             return nullptr;
         }
 
-        void Bundle::setShader(const std::string& shaderName, const std::shared_ptr<graphics::Shader>& shader)
+        void Bundle::setShader(const std::string& name, const std::shared_ptr<graphics::Shader>& shader)
         {
-            shaders[shaderName] = shader;
+            shaders[name] = shader;
         }
 
         void Bundle::releaseShaders()
@@ -96,9 +99,9 @@ namespace ouzel
             shaders.clear();
         }
 
-        std::shared_ptr<graphics::BlendState> Bundle::getBlendState(const std::string& blendStateName) const
+        std::shared_ptr<graphics::BlendState> Bundle::getBlendState(const std::string& name) const
         {
-            auto i = blendStates.find(blendStateName);
+            auto i = blendStates.find(name);
 
             if (i != blendStates.end())
                 return i->second;
@@ -106,9 +109,9 @@ namespace ouzel
             return nullptr;
         }
 
-        void Bundle::setBlendState(const std::string& blendStateName, const std::shared_ptr<graphics::BlendState>& blendState)
+        void Bundle::setBlendState(const std::string& name, const std::shared_ptr<graphics::BlendState>& blendState)
         {
-            blendStates[blendStateName] = blendState;
+            blendStates[name] = blendState;
         }
 
         void Bundle::releaseBlendStates()
@@ -116,9 +119,9 @@ namespace ouzel
             blendStates.clear();
         }
 
-        std::shared_ptr<graphics::DepthStencilState> Bundle::getDepthStencilState(const std::string& depthStencilStateName) const
+        std::shared_ptr<graphics::DepthStencilState> Bundle::getDepthStencilState(const std::string& name) const
         {
-            auto i = depthStencilStates.find(depthStencilStateName);
+            auto i = depthStencilStates.find(name);
 
             if (i != depthStencilStates.end())
                 return i->second;
@@ -126,9 +129,9 @@ namespace ouzel
             return nullptr;
         }
 
-        void Bundle::setDepthStencilState(const std::string& depthStencilStateName, const std::shared_ptr<graphics::DepthStencilState>& depthStencilState)
+        void Bundle::setDepthStencilState(const std::string& name, const std::shared_ptr<graphics::DepthStencilState>& depthStencilState)
         {
-            depthStencilStates[depthStencilStateName] = depthStencilState;
+            depthStencilStates[name] = depthStencilState;
         }
 
         void Bundle::releaseDepthStencilStates()
@@ -185,12 +188,12 @@ namespace ouzel
                 }
             }
             else
-                loadAsset(Loader::SPRITE, filename, mipmaps);
+                loadAsset(Loader::SPRITE, filename, filename, mipmaps);
         }
 
-        const scene::SpriteData* Bundle::getSpriteData(const std::string& filename) const
+        const scene::SpriteData* Bundle::getSpriteData(const std::string& name) const
         {
-            auto i = spriteData.find(filename);
+            auto i = spriteData.find(name);
 
             if (i != spriteData.end())
                 return &i->second;
@@ -198,9 +201,9 @@ namespace ouzel
             return nullptr;
         }
 
-        void Bundle::setSpriteData(const std::string& filename, const scene::SpriteData& newSpriteData)
+        void Bundle::setSpriteData(const std::string& name, const scene::SpriteData& newSpriteData)
         {
-            spriteData[filename] = newSpriteData;
+            spriteData[name] = newSpriteData;
         }
 
         void Bundle::releaseSpriteData()
@@ -208,9 +211,9 @@ namespace ouzel
             spriteData.clear();
         }
 
-        const scene::ParticleSystemData* Bundle::getParticleSystemData(const std::string& filename) const
+        const scene::ParticleSystemData* Bundle::getParticleSystemData(const std::string& name) const
         {
-            auto i = particleSystemData.find(filename);
+            auto i = particleSystemData.find(name);
 
             if (i != particleSystemData.end())
                 return &i->second;
@@ -218,9 +221,9 @@ namespace ouzel
             return nullptr;
         }
 
-        void Bundle::setParticleSystemData(const std::string& filename, const scene::ParticleSystemData& newParticleSystemData)
+        void Bundle::setParticleSystemData(const std::string& name, const scene::ParticleSystemData& newParticleSystemData)
         {
-            particleSystemData[filename] = newParticleSystemData;
+            particleSystemData[name] = newParticleSystemData;
         }
 
         void Bundle::releaseParticleSystemData()
@@ -228,9 +231,9 @@ namespace ouzel
             particleSystemData.clear();
         }
 
-        std::shared_ptr<gui::Font> Bundle::getFont(const std::string& filename) const
+        std::shared_ptr<gui::Font> Bundle::getFont(const std::string& name) const
         {
-            auto i = fonts.find(filename);
+            auto i = fonts.find(name);
 
             if (i != fonts.end())
                 return i->second;
@@ -238,9 +241,9 @@ namespace ouzel
             return nullptr;
         }
 
-        void Bundle::setFont(const std::string& filename, const std::shared_ptr<gui::Font>& font)
+        void Bundle::setFont(const std::string& name, const std::shared_ptr<gui::Font>& font)
         {
-            fonts[filename] = font;
+            fonts[name] = font;
         }
 
         void Bundle::releaseFonts()
@@ -248,9 +251,9 @@ namespace ouzel
             fonts.clear();
         }
 
-        std::shared_ptr<audio::Sound> Bundle::getSound(const std::string& filename) const
+        std::shared_ptr<audio::Sound> Bundle::getSound(const std::string& name) const
         {
-            auto i = sounds.find(filename);
+            auto i = sounds.find(name);
 
             if (i != sounds.end())
                 return i->second;
@@ -258,9 +261,9 @@ namespace ouzel
             return nullptr;
         }
 
-        void Bundle::setSound(const std::string& filename, const std::shared_ptr<audio::Sound>& newSound)
+        void Bundle::setSound(const std::string& name, const std::shared_ptr<audio::Sound>& newSound)
         {
-            sounds[filename] = newSound;
+            sounds[name] = newSound;
         }
 
         void Bundle::releaseSound()
@@ -268,9 +271,9 @@ namespace ouzel
             sounds.clear();
         }
 
-        std::shared_ptr<graphics::Material> Bundle::getMaterial(const std::string& filename) const
+        std::shared_ptr<graphics::Material> Bundle::getMaterial(const std::string& name) const
         {
-            auto i = materials.find(filename);
+            auto i = materials.find(name);
 
             if (i != materials.end())
                 return i->second;
@@ -278,9 +281,9 @@ namespace ouzel
             return nullptr;
         }
 
-        void Bundle::setMaterial(const std::string& filename, const std::shared_ptr<graphics::Material>& material)
+        void Bundle::setMaterial(const std::string& name, const std::shared_ptr<graphics::Material>& material)
         {
-            materials[filename] = material;
+            materials[name] = material;
         }
 
         void Bundle::releaseMaterials()
@@ -288,9 +291,9 @@ namespace ouzel
             materials.clear();
         }
 
-        const scene::SkinnedMeshData* Bundle::getSkinnedMeshData(const std::string& filename) const
+        const scene::SkinnedMeshData* Bundle::getSkinnedMeshData(const std::string& name) const
         {
-            auto i = skinnedMeshData.find(filename);
+            auto i = skinnedMeshData.find(name);
 
             if (i != skinnedMeshData.end())
                 return &i->second;
@@ -298,9 +301,9 @@ namespace ouzel
             return nullptr;
         }
 
-        void Bundle::setSkinnedMeshData(const std::string& filename, const scene::SkinnedMeshData& newSkinnedMeshData)
+        void Bundle::setSkinnedMeshData(const std::string& name, const scene::SkinnedMeshData& newSkinnedMeshData)
         {
-            skinnedMeshData[filename] = newSkinnedMeshData;
+            skinnedMeshData[name] = newSkinnedMeshData;
         }
 
         void Bundle::releaseSkinnedMeshData()
@@ -308,9 +311,9 @@ namespace ouzel
             skinnedMeshData.clear();
         }
 
-        const scene::StaticMeshData* Bundle::getStaticMeshData(const std::string& filename) const
+        const scene::StaticMeshData* Bundle::getStaticMeshData(const std::string& name) const
         {
-            auto i = staticMeshData.find(filename);
+            auto i = staticMeshData.find(name);
 
             if (i != staticMeshData.end())
                 return &i->second;
@@ -318,9 +321,9 @@ namespace ouzel
             return nullptr;
         }
 
-        void Bundle::setStaticMeshData(const std::string& filename, const scene::StaticMeshData& newStaticMeshData)
+        void Bundle::setStaticMeshData(const std::string& name, const scene::StaticMeshData& newStaticMeshData)
         {
-            staticMeshData[filename] = newStaticMeshData;
+            staticMeshData[name] = newStaticMeshData;
         }
 
         void Bundle::releaseStaticMeshData()

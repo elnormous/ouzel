@@ -7,9 +7,9 @@ using namespace ouzel;
 using namespace input;
 
 InputSample::InputSample():
-    hideButton("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
-    discoverButton("button.png", "button_selected.png", "button_down.png", "", "Discover gamepads", "arial.fnt", 0.8F, Color::BLACK, Color::BLACK, Color::BLACK),
-    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
+    hideButton("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "Arial", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
+    discoverButton("button.png", "button_selected.png", "button_down.png", "", "Discover gamepads", "Arial", 0.8F, Color::BLACK, Color::BLACK, Color::BLACK),
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
     cursor(*engine->getInputManager())
 {
     cursor.init("cursor.png", Vector2F(0.0F, 63.0F));

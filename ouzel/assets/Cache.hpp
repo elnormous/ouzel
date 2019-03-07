@@ -42,17 +42,17 @@ namespace ouzel
             const std::vector<Bundle*>& getBundles() const { return bundles; }
             const std::vector<Loader*>& getLoaders() const { return loaders; }
 
-            std::shared_ptr<graphics::Texture> getTexture(const std::string& filename) const;
-            std::shared_ptr<graphics::Shader> getShader(const std::string& shaderName) const;
-            std::shared_ptr<graphics::BlendState> getBlendState(const std::string& blendStateName) const;
-            std::shared_ptr<graphics::DepthStencilState> getDepthStencilState(const std::string& depthStencilStateName) const;
-            const scene::SpriteData* getSpriteData(const std::string& filename) const;
-            const scene::ParticleSystemData* getParticleSystemData(const std::string& filename) const;
-            std::shared_ptr<gui::Font> getFont(const std::string& filename) const;
-            std::shared_ptr<audio::Sound> getSound(const std::string& filename) const;
-            std::shared_ptr<graphics::Material> getMaterial(const std::string& filename) const;
-            const scene::SkinnedMeshData* getSkinnedMeshData(const std::string& filename) const;
-            const scene::StaticMeshData* getStaticMeshData(const std::string& filename) const;
+            std::shared_ptr<graphics::Texture> getTexture(const std::string& name) const;
+            std::shared_ptr<graphics::Shader> getShader(const std::string& name) const;
+            std::shared_ptr<graphics::BlendState> getBlendState(const std::string& name) const;
+            std::shared_ptr<graphics::DepthStencilState> getDepthStencilState(const std::string& name) const;
+            const scene::SpriteData* getSpriteData(const std::string& name) const;
+            const scene::ParticleSystemData* getParticleSystemData(const std::string& name) const;
+            std::shared_ptr<gui::Font> getFont(const std::string& name) const;
+            std::shared_ptr<audio::Sound> getSound(const std::string& name) const;
+            std::shared_ptr<graphics::Material> getMaterial(const std::string& name) const;
+            const scene::SkinnedMeshData* getSkinnedMeshData(const std::string& name) const;
+            const scene::StaticMeshData* getStaticMeshData(const std::string& name) const;
 
         private:
             void addBundle(Bundle* bundle);

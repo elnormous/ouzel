@@ -15,7 +15,10 @@ namespace ouzel
         {
         }
 
-        bool ParticleSystemLoader::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
+        bool ParticleSystemLoader::loadAsset(Bundle& bundle,
+                                             const std::string& name,
+                                             const std::vector<uint8_t>& data,
+                                             bool mipmaps)
         {
             scene::ParticleSystemData particleSystemData;
 
@@ -112,14 +115,14 @@ namespace ouzel
 
                 if (!particleSystemData.texture)
                 {
-                    bundle.loadAsset(Loader::IMAGE, textureFileName, mipmaps);
+                    bundle.loadAsset(Loader::IMAGE, textureFileName, textureFileName, mipmaps);
                     particleSystemData.texture = cache.getTexture(textureFileName);
                 }
             }
 
             particleSystemData.emissionRate = static_cast<float>(particleSystemData.maxParticles) / particleSystemData.particleLifespan;
 
-            bundle.setParticleSystemData(filename, particleSystemData);
+            bundle.setParticleSystemData(name, particleSystemData);
 
             return true;
         }

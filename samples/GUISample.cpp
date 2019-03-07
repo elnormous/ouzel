@@ -7,13 +7,13 @@ using namespace ouzel;
 using namespace input;
 
 GUISample::GUISample():
-    button("button.png", "button_selected.png", "button_down.png", "", "Button", "arial.fnt", 1.0F, Color::RED, Color::RED, Color::BLACK),
-    fullscreenButton("button.png", "button_selected.png", "button_down.png", "", "Fullscreen", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
+    button("button.png", "button_selected.png", "button_down.png", "", "Button", "Arial", 1.0F, Color::RED, Color::RED, Color::BLACK),
+    fullscreenButton("button.png", "button_selected.png", "button_down.png", "", "Fullscreen", "Arial", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
     checkBox("checkbox.png", "", "", "", "tick.png"),
-    label1("checkbox test", "AmosisTechnik.ttf", 24.0F, Color::WHITE, Vector2F(0.0F, 0.5F)),
-    label2("", "ArialBlack.fnt"),
-    label3("UTF-8 ĀāČč\nNew line", "ArialBlack.fnt", 1.0F, Color::WHITE, Vector2F(0.0F, 0.5F)),
-    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
+    label1("checkbox test", "AmosisTechnik", 24.0F, Color::WHITE, Vector2F(0.0F, 0.5F)),
+    label2("", "ArialBlack"),
+    label3("UTF-8 ĀāČč\nNew line", "ArialBlack", 1.0F, Color::WHITE, Vector2F(0.0F, 0.5F)),
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
 {
     handler.gamepadHandler = std::bind(&GUISample::handleGamepad, this, std::placeholders::_1);
     handler.uiHandler = std::bind(&GUISample::handleUI, this, std::placeholders::_1);

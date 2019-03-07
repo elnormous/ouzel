@@ -14,12 +14,15 @@ namespace ouzel
         {
         }
 
-        bool VorbisLoader::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool)
+        bool VorbisLoader::loadAsset(Bundle& bundle,
+                                     const std::string& name,
+                                     const std::vector<uint8_t>& data,
+                                     bool)
         {
             try
             {
                 std::shared_ptr<audio::Sound> sound = std::make_shared<audio::VorbisSound>(*engine->getAudio(), data);
-                bundle.setSound(filename, sound);
+                bundle.setSound(name, sound);
             }
             catch (const std::exception&)
             {

@@ -28,7 +28,10 @@ namespace ouzel
         {
         }
 
-        bool ImageLoader::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
+        bool ImageLoader::loadAsset(Bundle& bundle,
+                                    const std::string& name,
+                                    const std::vector<uint8_t>& data,
+                                    bool mipmaps)
         {
             int width;
             int height;
@@ -110,7 +113,7 @@ namespace ouzel
                                                                                              mipmaps ? 0 : 1,
                                                                                              image.getPixelFormat());
 
-            bundle.setTexture(filename, texture);
+            bundle.setTexture(name, texture);
 
             return true;
         }

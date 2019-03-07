@@ -173,9 +173,12 @@ namespace ouzel
         {
         }
 
-        bool ObjLoader::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
+        bool ObjLoader::loadAsset(Bundle& bundle,
+                                  const std::string& name,
+                                  const std::vector<uint8_t>& data,
+                                  bool mipmaps)
         {
-            std::string name = filename;
+            std::string objectName = name;
             std::shared_ptr<graphics::Material> material;
             std::vector<Vector3F> positions;
             std::vector<Vector2F> texCoords;
@@ -218,8 +221,9 @@ namespace ouzel
 
                         skipLine(data, iterator);
 
-                        if (!cache.getMaterial(filename))
-                            bundle.loadAsset(Loader::MATERIAL, value, mipmaps);
+                        //if (!cache.getMaterial(filename))
+                        // TODO don't load material lib every time
+                        bundle.loadAsset(Loader::MATERIAL, value, value, mipmaps);
                     }
                     else if (keyword == "usemtl")
                     {
@@ -235,11 +239,11 @@ namespace ouzel
                         if (objectCount)
                         {
                             scene::StaticMeshData meshData(boundingBox, indices, vertices, material);
-                            bundle.setStaticMeshData(name, meshData);
+                            bundle.setStaticMeshData(objectName, meshData);
                         }
 
                         skipWhitespaces(data, iterator);
-                        name = parseString(data, iterator);
+                        objectName = parseString(data, iterator);
 
                         skipLine(data, iterator);
 
@@ -401,7 +405,7 @@ namespace ouzel
             if (objectCount)
             {
                 scene::StaticMeshData meshData(boundingBox, indices, vertices, material);
-                bundle.setStaticMeshData(name, meshData);
+                bundle.setStaticMeshData(objectName, meshData);
             }
 
             return true;

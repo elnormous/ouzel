@@ -16,7 +16,10 @@ namespace ouzel
         {
         }
 
-        bool SpriteLoader::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
+        bool SpriteLoader::loadAsset(Bundle& bundle,
+                                     const std::string& name,
+                                     const std::vector<uint8_t>& data,
+                                     bool mipmaps)
         {
             scene::SpriteData spriteData;
 
@@ -32,7 +35,7 @@ namespace ouzel
             spriteData.texture = cache.getTexture(imageFilename);
             if (!spriteData.texture)
             {
-                bundle.loadAsset(Loader::IMAGE, imageFilename, mipmaps);
+                bundle.loadAsset(Loader::IMAGE, imageFilename, imageFilename, mipmaps);
                 spriteData.texture = cache.getTexture(imageFilename);
             }
 
@@ -50,7 +53,7 @@ namespace ouzel
 
             for (const json::Value& frameObject : framesArray.as<json::Value::Array>())
             {
-                std::string name = frameObject["filename"].as<std::string>();
+                std::string filename = frameObject["filename"].as<std::string>();
 
                 const json::Value& frameRectangleObject = frameObject["frame"];
 
@@ -113,19 +116,19 @@ namespace ouzel
                                                             Vector3F(0.0F, 0.0F, -1.0F)));
                     }
 
-                    animation.frames.push_back(scene::SpriteData::Frame(name, indices, vertices, frameRectangle, sourceSize, sourceOffset, pivot));
+                    animation.frames.push_back(scene::SpriteData::Frame(filename, indices, vertices, frameRectangle, sourceSize, sourceOffset, pivot));
                 }
                 else
                 {
                     bool rotated = frameObject["rotated"].as<bool>();
 
-                    animation.frames.push_back(scene::SpriteData::Frame(name, textureSize, frameRectangle, rotated, sourceSize, sourceOffset, pivot));
+                    animation.frames.push_back(scene::SpriteData::Frame(filename, textureSize, frameRectangle, rotated, sourceSize, sourceOffset, pivot));
                 }
             }
 
             spriteData.animations[""] = std::move(animation);
 
-            bundle.setSpriteData(filename, spriteData);
+            bundle.setSpriteData(name, spriteData);
 
             return true;
         }

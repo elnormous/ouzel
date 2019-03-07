@@ -57,100 +57,100 @@ namespace ouzel
                 loaders.erase(i);
         }
 
-        std::shared_ptr<graphics::Texture> Cache::getTexture(const std::string& filename) const
+        std::shared_ptr<graphics::Texture> Cache::getTexture(const std::string& name) const
         {
             for (Bundle* bundle : bundles)
-                if (std::shared_ptr<graphics::Texture> texture = bundle->getTexture(filename))
+                if (std::shared_ptr<graphics::Texture> texture = bundle->getTexture(name))
                     return texture;
 
             return nullptr;
         }
 
-        std::shared_ptr<graphics::Shader> Cache::getShader(const std::string& shaderName) const
+        std::shared_ptr<graphics::Shader> Cache::getShader(const std::string& name) const
         {
             for (Bundle* bundle : bundles)
-                if (std::shared_ptr<graphics::Shader> shader = bundle->getShader(shaderName))
+                if (std::shared_ptr<graphics::Shader> shader = bundle->getShader(name))
                     return shader;
 
             return nullptr;
         }
 
-        std::shared_ptr<graphics::BlendState> Cache::getBlendState(const std::string& blendStateName) const
+        std::shared_ptr<graphics::BlendState> Cache::getBlendState(const std::string& name) const
         {
             for (Bundle* bundle : bundles)
-                if (std::shared_ptr<graphics::BlendState> blendState = bundle->getBlendState(blendStateName))
+                if (std::shared_ptr<graphics::BlendState> blendState = bundle->getBlendState(name))
                     return blendState;
 
             return nullptr;
         }
 
-        std::shared_ptr<graphics::DepthStencilState> Cache::getDepthStencilState(const std::string& depthStencilStateName) const
+        std::shared_ptr<graphics::DepthStencilState> Cache::getDepthStencilState(const std::string& name) const
         {
             for (Bundle* bundle : bundles)
-                if (std::shared_ptr<graphics::DepthStencilState> depthStencilState = bundle->getDepthStencilState(depthStencilStateName))
+                if (std::shared_ptr<graphics::DepthStencilState> depthStencilState = bundle->getDepthStencilState(name))
                     return depthStencilState;
 
             return nullptr;
         }
 
-        const scene::SpriteData* Cache::getSpriteData(const std::string& filename) const
+        const scene::SpriteData* Cache::getSpriteData(const std::string& name) const
         {
             for (Bundle* bundle : bundles)
-                if (const scene::SpriteData* spriteData = bundle->getSpriteData(filename))
+                if (const scene::SpriteData* spriteData = bundle->getSpriteData(name))
                     return spriteData;
 
             return nullptr;
         }
 
-        const scene::ParticleSystemData* Cache::getParticleSystemData(const std::string& filename) const
+        const scene::ParticleSystemData* Cache::getParticleSystemData(const std::string& name) const
         {
             for (Bundle* bundle : bundles)
-                if (const scene::ParticleSystemData* particleSystemData = bundle->getParticleSystemData(filename))
+                if (const scene::ParticleSystemData* particleSystemData = bundle->getParticleSystemData(name))
                     return particleSystemData;
 
             return nullptr;
         }
 
-        std::shared_ptr<gui::Font> Cache::getFont(const std::string& filename) const
+        std::shared_ptr<gui::Font> Cache::getFont(const std::string& name) const
         {
             for (Bundle* bundle : bundles)
-                if (std::shared_ptr<gui::Font> font = bundle->getFont(filename))
+                if (std::shared_ptr<gui::Font> font = bundle->getFont(name))
                     return font;
 
             return nullptr;
         }
 
-        std::shared_ptr<audio::Sound> Cache::getSound(const std::string& filename) const
+        std::shared_ptr<audio::Sound> Cache::getSound(const std::string& name) const
         {
             for (Bundle* bundle : bundles)
-                if (std::shared_ptr<audio::Sound> sound = bundle->getSound(filename))
+                if (std::shared_ptr<audio::Sound> sound = bundle->getSound(name))
                     return sound;
 
             return nullptr;
         }
 
-        std::shared_ptr<graphics::Material> Cache::getMaterial(const std::string& filename) const
+        std::shared_ptr<graphics::Material> Cache::getMaterial(const std::string& name) const
         {
             for (Bundle* bundle : bundles)
-                if (std::shared_ptr<graphics::Material> material = bundle->getMaterial(filename))
+                if (std::shared_ptr<graphics::Material> material = bundle->getMaterial(name))
                     return material;
 
             return nullptr;
         }
 
-        const scene::SkinnedMeshData* Cache::getSkinnedMeshData(const std::string& filename) const
+        const scene::SkinnedMeshData* Cache::getSkinnedMeshData(const std::string& name) const
         {
             for (Bundle* bundle : bundles)
-                if (const scene::SkinnedMeshData* meshData = bundle->getSkinnedMeshData(filename))
+                if (const scene::SkinnedMeshData* meshData = bundle->getSkinnedMeshData(name))
                     return meshData;
 
             return nullptr;
         }
 
-        const scene::StaticMeshData* Cache::getStaticMeshData(const std::string& filename) const
+        const scene::StaticMeshData* Cache::getStaticMeshData(const std::string& name) const
         {
             for (Bundle* bundle : bundles)
-                if (const scene::StaticMeshData* meshData = bundle->getStaticMeshData(filename))
+                if (const scene::StaticMeshData* meshData = bundle->getStaticMeshData(name))
                     return meshData;
 
             return nullptr;

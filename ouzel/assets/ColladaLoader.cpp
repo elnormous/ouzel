@@ -15,7 +15,10 @@ namespace ouzel
         {
         }
 
-        bool ColladaLoader::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool)
+        bool ColladaLoader::loadAsset(Bundle& bundle,
+                                      const std::string& name,
+                                      const std::vector<uint8_t>& data,
+                                      bool)
         {
             xml::Data colladaData(data);
 
@@ -31,7 +34,7 @@ namespace ouzel
 
             // TODO: load the model
 
-            bundle.setSkinnedMeshData(filename, meshData);
+            bundle.setSkinnedMeshData(name, meshData);
 
             return true;
         }

@@ -29,15 +29,18 @@ namespace ouzel
         {
         public:
             Asset(uint32_t initType,
+                  std::string initName,
                   std::string initFilename,
                   bool initMipmaps = true):
                 type(initType),
+                name(initName),
                 filename(initFilename),
                 mipmaps(initMipmaps)
             {
             }
 
             uint32_t type;
+            std::string name;
             std::string filename;
             bool mipmaps;
         };
@@ -55,57 +58,58 @@ namespace ouzel
             Bundle(Bundle&&) = delete;
             Bundle& operator=(Bundle&&) = delete;
 
-            void loadAsset(uint32_t loaderType, const std::string& filename, bool mipmaps = true);
+            void loadAsset(uint32_t loaderType, const std::string& name,
+                           const std::string& filename, bool mipmaps = true);
             void loadAssets(const std::string& filename);
             void loadAssets(const std::vector<Asset>& assets);
 
             void clear();
 
-            std::shared_ptr<graphics::Texture> getTexture(const std::string& filename) const;
-            void setTexture(const std::string& filename, const std::shared_ptr<graphics::Texture>& texture);
+            std::shared_ptr<graphics::Texture> getTexture(const std::string& name) const;
+            void setTexture(const std::string& name, const std::shared_ptr<graphics::Texture>& texture);
             void releaseTextures();
 
             std::shared_ptr<graphics::Shader> getShader(const std::string& shaderName) const;
-            void setShader(const std::string& shaderName, const std::shared_ptr<graphics::Shader>& shader);
+            void setShader(const std::string& name, const std::shared_ptr<graphics::Shader>& shader);
             void releaseShaders();
 
-            std::shared_ptr<graphics::BlendState> getBlendState(const std::string& blendStateName) const;
-            void setBlendState(const std::string& blendStateName, const std::shared_ptr<graphics::BlendState>& blendState);
+            std::shared_ptr<graphics::BlendState> getBlendState(const std::string& name) const;
+            void setBlendState(const std::string& name, const std::shared_ptr<graphics::BlendState>& blendState);
             void releaseBlendStates();
 
-            std::shared_ptr<graphics::DepthStencilState> getDepthStencilState(const std::string& depthStencilStateName) const;
-            void setDepthStencilState(const std::string& depthStencilStateName, const std::shared_ptr<graphics::DepthStencilState>& depthStencilState);
+            std::shared_ptr<graphics::DepthStencilState> getDepthStencilState(const std::string& name) const;
+            void setDepthStencilState(const std::string& name, const std::shared_ptr<graphics::DepthStencilState>& depthStencilState);
             void releaseDepthStencilStates();
 
             void preloadSpriteData(const std::string& filename, bool mipmaps = true,
                                    uint32_t spritesX = 1, uint32_t spritesY = 1,
                                    const Vector2F& pivot = Vector2F(0.5F, 0.5F));
-            const scene::SpriteData* getSpriteData(const std::string& filename) const;
-            void setSpriteData(const std::string& filename, const scene::SpriteData& newSpriteData);
+            const scene::SpriteData* getSpriteData(const std::string& name) const;
+            void setSpriteData(const std::string& name, const scene::SpriteData& newSpriteData);
             void releaseSpriteData();
 
-            const scene::ParticleSystemData* getParticleSystemData(const std::string& filename) const;
-            void setParticleSystemData(const std::string& filename, const scene::ParticleSystemData& newParticleSystemData);
+            const scene::ParticleSystemData* getParticleSystemData(const std::string& name) const;
+            void setParticleSystemData(const std::string& name, const scene::ParticleSystemData& newParticleSystemData);
             void releaseParticleSystemData();
 
-            std::shared_ptr<gui::Font> getFont(const std::string& filename) const;
-            void setFont(const std::string& filename, const std::shared_ptr<gui::Font>& font);
+            std::shared_ptr<gui::Font> getFont(const std::string& name) const;
+            void setFont(const std::string& name, const std::shared_ptr<gui::Font>& font);
             void releaseFonts();
 
-            std::shared_ptr<audio::Sound> getSound(const std::string& filename) const;
-            void setSound(const std::string& filename, const std::shared_ptr<audio::Sound>& newSound);
+            std::shared_ptr<audio::Sound> getSound(const std::string& name) const;
+            void setSound(const std::string& name, const std::shared_ptr<audio::Sound>& newSound);
             void releaseSound();
 
-            std::shared_ptr<graphics::Material> getMaterial(const std::string& filename) const;
-            void setMaterial(const std::string& filename, const std::shared_ptr<graphics::Material>& material);
+            std::shared_ptr<graphics::Material> getMaterial(const std::string& name) const;
+            void setMaterial(const std::string& name, const std::shared_ptr<graphics::Material>& material);
             void releaseMaterials();
 
-            const scene::SkinnedMeshData* getSkinnedMeshData(const std::string& filename) const;
-            void setSkinnedMeshData(const std::string& filename, const scene::SkinnedMeshData& newSkinnedMeshData);
+            const scene::SkinnedMeshData* getSkinnedMeshData(const std::string& name) const;
+            void setSkinnedMeshData(const std::string& name, const scene::SkinnedMeshData& newSkinnedMeshData);
             void releaseSkinnedMeshData();
 
-            const scene::StaticMeshData* getStaticMeshData(const std::string& filename) const;
-            void setStaticMeshData(const std::string& filename, const scene::StaticMeshData& newStaticMeshData);
+            const scene::StaticMeshData* getStaticMeshData(const std::string& name) const;
+            void setStaticMeshData(const std::string& name, const scene::StaticMeshData& newStaticMeshData);
             void releaseStaticMeshData();
 
         private:

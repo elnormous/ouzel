@@ -12,7 +12,10 @@ namespace ouzel
         {
         }
 
-        bool GltfLoader::loadAsset(Bundle& bundle, const std::string& filename, const std::vector<uint8_t>& data, bool)
+        bool GltfLoader::loadAsset(Bundle& bundle,
+                                   const std::string& name,
+                                   const std::vector<uint8_t>& data,
+                                   bool mipmaps)
         {
             return true;
         }

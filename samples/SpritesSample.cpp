@@ -7,9 +7,9 @@ using namespace ouzel;
 using namespace input;
 
 SpritesSample::SpritesSample():
-    hideButton("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
-    wireframeButton("button.png", "button_selected.png", "button_down.png", "", "Wireframe", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
-    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
+    hideButton("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "Arial", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
+    wireframeButton("button.png", "button_selected.png", "button_down.png", "", "Wireframe", "Arial", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
 {
     handler.gamepadHandler = std::bind(&SpritesSample::handleGamepad, this, std::placeholders::_1);
     handler.uiHandler = std::bind(&SpritesSample::handleUI, this, std::placeholders::_1);
