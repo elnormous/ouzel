@@ -24,7 +24,7 @@ namespace ouzel
         {
         }
 
-        template<size_t N2, bool E = (N != N2), typename std::enable_if<E>::type* = nullptr>
+        template<size_t X = N, size_t N2, typename std::enable_if<(X != N2)>::type* = nullptr>
         explicit Size(const Size<N2, T>& size)
         {
             for (size_t i = 0; i < N && i < N2; ++i)
@@ -40,22 +40,22 @@ namespace ouzel
         inline T& operator[](size_t index) { return v[index]; }
         inline T operator[](size_t index) const { return v[index]; }
 
-        template<bool E = (N >= 1), typename std::enable_if<E>::type* = nullptr>
+        template<size_t X = N, typename std::enable_if<(X >= 1)>::type* = nullptr>
         inline T& width() { return v[0]; }
 
-        template<bool E = (N >= 1), typename std::enable_if<E>::type* = nullptr>
+        template<size_t X = N, typename std::enable_if<(X >= 1)>::type* = nullptr>
         inline T width() const { return v[0]; }
 
-        template<bool E = (N >= 2), typename std::enable_if<E>::type* = nullptr>
+        template<size_t X = N, typename std::enable_if<(X >= 2)>::type* = nullptr>
         inline T& height() { return v[1]; }
 
-        template<bool E = (N >= 2), typename std::enable_if<E>::type* = nullptr>
+        template<size_t X = N, typename std::enable_if<(X >= 2)>::type* = nullptr>
         inline T height() const { return v[1]; }
 
-        template<bool E = (N >= 3), typename std::enable_if<E>::type* = nullptr>
+        template<size_t X = N, typename std::enable_if<(X >= 3)>::type* = nullptr>
         inline T& depth() { return v[2]; }
 
-        template<bool E = (N >= 3), typename std::enable_if<E>::type* = nullptr>
+        template<size_t X = N, typename std::enable_if<(X >= 3)>::type* = nullptr>
         inline T depth() const { return v[2]; }
 
         void scale(const Vector<N, T>& scale)

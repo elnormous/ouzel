@@ -30,7 +30,7 @@ namespace ouzel
         {
         }
 
-        template<size_t N2, bool E = (N != N2), typename std::enable_if<E>::type* = nullptr>
+        template<size_t X = N, size_t N2, typename std::enable_if<(X != N2)>::type* = nullptr>
         explicit Vector(const Vector<N2, T>& vec)
         {
             for (size_t i = 0; i < N; ++i)

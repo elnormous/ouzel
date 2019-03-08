@@ -184,7 +184,8 @@ namespace ouzel
         {
             T n2 = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3]; // norm squared
 
-            if (n2 == 0) return;
+            if (n2 <= std::numeric_limits<T>::min())
+                return;
 
             // conjugate divided by norm squared
             v[0] = -v[0] / n2;
@@ -259,17 +260,17 @@ namespace ouzel
             return result;
         }
 
-        T getEulerAngleX() const
+        inline T getEulerAngleX() const
         {
             return atan2(2 * (v[1] * v[2] + v[3] * v[0]), v[3] * v[3] - v[0] * v[0] - v[1] * v[1] + v[2] * v[2]);
         }
 
-        T getEulerAngleY() const
+        inline T getEulerAngleY() const
         {
             return asin(-2 * (v[0] * v[2] - v[3] * v[1]));
         }
 
-        T getEulerAngleZ() const
+        inline T getEulerAngleZ() const
         {
             return atan2(2 * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2]);
         }
