@@ -374,7 +374,7 @@ namespace ouzel
 #  if defined(__arm64__) || defined(__aarch64__) // NEON64
             asm volatile
             (
-                "ld1 {v8.4s, v9.4s, v10.4s, v11.4s}, [%1]\n\t" // m1.m[0-7] m1.m[8-15] m2.m[0-7] m2.m[8-15]
+                "ld1 {v8.4s, v9.4s, v10.4s, v11.4s}, [%1]\n\t" // m1.m[0-7] m1.m[8-15]
                 "ld4 {v0.4s, v1.4s, v2.4s, v3.4s}, [%2]\n\t" // m2.m[0-15]
 
                 "fmul v12.4s, v8.4s, v0.s[0]\n\t" // dst.m[0-3] = m1.m[0-3] * m2.m[0]
