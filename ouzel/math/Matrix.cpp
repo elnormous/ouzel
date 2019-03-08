@@ -1,9 +1,7 @@
 // Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #include <stdexcept>
-#if defined(__ARM_NEON__)
-#  include <arm_neon.h>
-#elif defined(__SSE__)
+#if defined(__SSE__)
 #  include <xmmintrin.h>
 #endif
 #include "Matrix.hpp"
@@ -134,15 +132,42 @@ namespace ouzel
         if (isSimdAvailable)
         {
 #if defined(__ARM_NEON__)
-            float32x4x4_t mat1 = vld1q_f32_x4(m1.m);
-            float32x4x4_t mat2 = vld1q_f32_x4(m2.m);
+#  if defined(__arm64__) || defined(__aarch64__) // NEON64
+            asm volatile
+            (
+                "ld4 {v0.4s, v1.4s, v2.4s, v3.4s}, [%1] \n\t" // M1[m0-m7] M1[m8-m15]
+                "ld4 {v8.4s, v9.4s, v10.4s, v11.4s}, [%2] \n\t" // M2[m0-m7] M2[m8-m15]
 
-            float32x4x4_t matd;
-            matd.val[0] = mat1.val[0] + mat2.val[0];
-            matd.val[1] = mat1.val[1] + mat2.val[1];
-            matd.val[2] = mat1.val[2] + mat2.val[2];
-            matd.val[3] = mat1.val[3] + mat2.val[3];
-            vst1q_f32_x4(dst.m, matd);
+                "fadd v12.4s, v0.4s, v8.4s \n\t" // DST->M[m0-m3] = M1[m0-m3] + M2[m0-m3]
+                "fadd v13.4s, v1.4s, v9.4s \n\t" // DST->M[m4-m7] = M1[m4-m7] + M2[m4-m7]
+                "fadd v14.4s, v2.4s, v10.4s \n\t" // DST->M[m8-m11] = M1[m8-m11] + M2[m8-m11]
+                "fadd v15.4s, v3.4s, v11.4s \n\t" // DST->M[m12-m15] = M1[m12-m15] + M2[m12-m15]
+
+                "st4 {v12.4s, v13.4s, v14.4s, v15.4s}, [%0] \n\t" // DST->M[m0-m7] DST->M[m8-m15]
+                :
+                : "r"(dst.m), "r"(m1.m), "r"(m2.m)
+                : "v0", "v1", "v2", "v3", "v8", "v9", "v10", "v11", "v12", "v13", "v14", "v15", "memory"
+            );
+#  else // NEON
+            asm volatile
+            (
+                "vld1.32 {q0, q1}, [%1]! \n\t" // M1[m0-m7]
+                "vld1.32 {q2, q3}, [%1] \n\t" // M1[m8-m15]
+                "vld1.32 {q8, q9}, [%2]! \n\t" // M2[m0-m7]
+                "vld1.32 {q10, q11}, [%2] \n\t" // M2[m8-m15]
+
+                "vadd.f32 q12, q0, q8 \n\t" // DST->M[m0-m3] = M1[m0-m3] + M2[m0-m3]
+                "vadd.f32 q13, q1, q9 \n\t" // DST->M[m4-m7] = M1[m4-m7] + M2[m4-m7]
+                "vadd.f32 q14, q2, q10 \n\t" // DST->M[m8-m11] = M1[m8-m11] + M2[m8-m11]
+                "vadd.f32 q15, q3, q11 \n\t" // DST->M[m12-m15] = M1[m12-m15] + M2[m12-m15]
+
+                "vst1.32 {q12, q13}, [%0]! \n\t" // DST->M[m0-m7]
+                "vst1.32 {q14, q15}, [%0] \n\t" // DST->M[m8-m15]
+                :
+                : "r"(dst.m), "r"(m1.m), "r"(m2.m)
+                : "q0", "q1", "q2", "q3", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15", "memory"
+            );
+#  endif
 #elif defined(__SSE__)
             _mm_store_ps(&dst.m[0], _mm_add_ps(_mm_load_ps(&m1.m[0]), _mm_load_ps(&m2.m[0])));
             _mm_store_ps(&dst.m[4], _mm_add_ps(_mm_load_ps(&m1.m[4]), _mm_load_ps(&m2.m[4])));
@@ -553,12 +578,39 @@ namespace ouzel
         if (isSimdAvailable)
         {
 #if defined(__ARM_NEON__)
-            float32x4x4_t mat = vld1q_f32_x4(m);
-            mat.val[0] = -mat.val[0];
-            mat.val[1] = -mat.val[1];
-            mat.val[2] = -mat.val[2];
-            mat.val[3] = -mat.val[3];
-            vst1q_f32_x4(dst.m, mat);
+#  if defined(__arm64__) || defined(__aarch64__) // NEON64
+            asm volatile
+            (
+                "ld4 {v0.4s, v1.4s, v2.4s, v3.4s}, [%1] \n\t" // load m0-m7 load m8-m15
+
+                "fneg v4.4s, v0.4s \n\t" // negate m0-m3
+                "fneg v5.4s, v1.4s \n\t" // negate m4-m7
+                "fneg v6.4s, v2.4s \n\t" // negate m8-m15
+                "fneg v7.4s, v3.4s \n\t" // negate m8-m15
+
+                "st4 {v4.4s, v5.4s, v6.4s, v7.4s}, [%0] \n\t" // store m0-m7 store m8-m15
+                :
+                : "r"(dst.m), "r"(m)
+                : "v0", "v1", "v2", "v3", "v4", "v5", "v6", "v7", "memory"
+            );
+#  else // NEON
+            asm volatile
+            (
+                "vld1.32 {q0-q1}, [%1]! \n\t" // load m0-m7
+                "vld1.32 {q2-q3}, [%1] \n\t" // load m8-m15
+
+                "vneg.f32 q4, q0 \n\t" // negate m0-m3
+                "vneg.f32 q5, q1 \n\t" // negate m4-m7
+                "vneg.f32 q6, q2 \n\t" // negate m8-m15
+                "vneg.f32 q7, q3 \n\t" // negate m8-m15
+
+                "vst1.32 {q4-q5}, [%0]! \n\t" // store m0-m7
+                "vst1.32 {q6-q7}, [%0] \n\t" // store m8-m15
+                :
+                : "r"(dst.m), "r"(m)
+                : "q0", "q1", "q2", "q3", "q4", "q5", "q6", "q7", "memory"
+            );
+#  endif
 #elif defined(__SSE__)
             __m128 z = _mm_setzero_ps();
             _mm_store_ps(&dst.m[0], _mm_sub_ps(z, _mm_load_ps(&m[0])));
@@ -617,15 +669,42 @@ namespace ouzel
         if (isSimdAvailable)
         {
 #if defined(__ARM_NEON__)
-            float32x4x4_t mat1 = vld1q_f32_x4(m1.m);
-            float32x4x4_t mat2 = vld1q_f32_x4(m2.m);
+#  if defined(__arm64__) || defined(__aarch64__) // NEON64
+            asm volatile
+            (
+                "ld4 {v0.4s, v1.4s, v2.4s, v3.4s}, [%1] \n\t" // M1[m0-m7] M1[m8-m15]
+                "ld4 {v8.4s, v9.4s, v10.4s, v11.4s}, [%2] \n\t" // M2[m0-m7] M2[m8-m15]
 
-            float32x4x4_t matd;
-            matd.val[0] = mat1.val[0] - mat2.val[0];
-            matd.val[1] = mat1.val[1] - mat2.val[1];
-            matd.val[2] = mat1.val[2] - mat2.val[2];
-            matd.val[3] = mat1.val[3] - mat2.val[3];
-            vst1q_f32_x4(dst.m, matd);
+                "fsub v12.4s, v0.4s, v8.4s \n\t" // DST->M[m0-m3] = M1[m0-m3] - M2[m0-m3]
+                "fsub v13.4s, v1.4s, v9.4s \n\t" // DST->M[m4-m7] = M1[m4-m7] - M2[m4-m7]
+                "fsub v14.4s, v2.4s, v10.4s \n\t" // DST->M[m8-m11] = M1[m8-m11] - M2[m8-m11]
+                "fsub v15.4s, v3.4s, v11.4s \n\t" // DST->M[m12-m15] = M1[m12-m15] - M2[m12-m15]
+
+                "st4 {v12.4s, v13.4s, v14.4s, v15.4s}, [%0] \n\t" // DST->M[m0-m7] DST->M[m8-m15]
+                :
+                : "r"(dst.m), "r"(m1.m), "r"(m2.m)
+                : "v0", "v1", "v2", "v3", "v8", "v9", "v10", "v11", "v12", "v13", "v14", "v15", "memory"
+            );
+#  else // NEON
+            asm volatile
+            (
+                "vld1.32 {q0, q1}, [%1]! \n\t" // M1[m0-m7]
+                "vld1.32 {q2, q3}, [%1] \n\t" // M1[m8-m15]
+                "vld1.32 {q8, q9}, [%2]! \n\t" // M2[m0-m7]
+                "vld1.32 {q10, q11}, [%2] \n\t" // M2[m8-m15]
+
+                "vsub.f32 q12, q0, q8 \n\t" // DST->M[m0-m3] = M1[m0-m3] - M2[m0-m3]
+                "vsub.f32 q13, q1, q9 \n\t" // DST->M[m4-m7] = M1[m4-m7] - M2[m4-m7]
+                "vsub.f32 q14, q2, q10 \n\t" // DST->M[m8-m11] = M1[m8-m11] - M2[m8-m11]
+                "vsub.f32 q15, q3, q11 \n\t" // DST->M[m12-m15] = M1[m12-m15] - M2[m12-m15]
+
+                "vst1.32 {q12, q13}, [%0]! \n\t" // DST->M[m0-m7]
+                "vst1.32 {q14, q15}, [%0] \n\t" // DST->M[m8-m15]
+                :
+                : "r"(dst.m), "r"(m1.m), "r"(m2.m)
+                : "q0", "q1", "q2", "q3", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15", "memory"
+            );
+#  endif
 #elif defined(__SSE__)
             _mm_store_ps(&dst.m[0], _mm_sub_ps(_mm_load_ps(&m1.m[0]), _mm_load_ps(&m2.m[0])));
             _mm_store_ps(&dst.m[4], _mm_sub_ps(_mm_load_ps(&m1.m[4]), _mm_load_ps(&m2.m[4])));
