@@ -607,17 +607,17 @@ namespace ouzel
         }
 
         template<size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        void transformVector(Vector<3, T>& vector) const
+        void transformVector(Vector<3, T>& v) const
         {
             Vector<4, T> t;
-            transformVector(Vector<4, T>(vector.v[0], vector.v[1], vector.v[2], static_cast<T>(0)), t);
-            vector = Vector<3, T>(t.v[0], t.v[1], t.v[2]);
+            transformVector(Vector<4, T>(v.v[0], v.v[1], v.v[2], static_cast<T>(0)), t);
+            v = Vector<3, T>(t.v[0], t.v[1], t.v[2]);
         }
 
         template<size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        void transformVector(const Vector<3, T>& vector, Vector<3, T>& dst) const
+        void transformVector(const Vector<3, T>& v, Vector<3, T>& dst) const
         {
-            transformVector(vector.v[0], vector.v[1], vector.v[2], 0, dst);
+            transformVector(v.v[0], v.v[1], v.v[2], 0, dst);
         }
 
         template<size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
@@ -629,12 +629,12 @@ namespace ouzel
         }
 
         template<size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        void transformVector(Vector<4, T>& vector) const
+        void transformVector(Vector<4, T>& v) const
         {
-            transformVector(vector, vector);
+            transformVector(v, v);
         }
 
-        void transformVector(const Vector<4, T>& vector, Vector<4, T>& dst) const;
+        void transformVector(const Vector<4, T>& v, Vector<4, T>& dst) const;
 
         void transpose()
         {
