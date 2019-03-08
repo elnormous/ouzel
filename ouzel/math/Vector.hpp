@@ -40,55 +40,54 @@ namespace ouzel
         inline T& operator[](size_t index) { return v[index]; }
         inline T operator[](size_t index) const { return v[index]; }
 
-        template<bool E = (N >= 1), typename std::enable_if<E>::type* = nullptr>
+        template<size_t X = N, typename std::enable_if<(X >= 1)>::type* = nullptr>
         inline T& x() { return v[0]; }
 
-        template<bool E = (N >= 1), typename std::enable_if<E>::type* = nullptr>
+        template<size_t X = N, typename std::enable_if<(X >= 1)>::type* = nullptr>
         inline T x() const { return v[0]; }
 
-        template<bool E = (N >= 2), typename std::enable_if<E>::type* = nullptr>
+        template<size_t X = N, typename std::enable_if<(X >= 2)>::type* = nullptr>
         inline T& y() { return v[1]; }
 
-        template<bool E = (N >= 2), typename std::enable_if<E>::type* = nullptr>
+        template<size_t X = N, typename std::enable_if<(X >= 2)>::type* = nullptr>
         inline T y() const { return v[1]; }
 
-        template<bool E = (N >= 3), typename std::enable_if<E>::type* = nullptr>
+        template<size_t X = N, typename std::enable_if<(X >= 3)>::type* = nullptr>
         inline T& z() { return v[2]; }
 
-        template<bool E = (N >= 3), typename std::enable_if<E>::type* = nullptr>
+        template<size_t X = N, typename std::enable_if<(X >= 3)>::type* = nullptr>
         inline T z() const { return v[2]; }
 
-        template<bool E = (N >= 4), typename std::enable_if<E>::type* = nullptr>
+        template<size_t X = N, typename std::enable_if<(X >= 4)>::type* = nullptr>
         inline T& w() { return v[3]; }
 
-        template<bool E = (N >= 4), typename std::enable_if<E>::type* = nullptr>
+        template<size_t X = N, typename std::enable_if<(X >= 4)>::type* = nullptr>
         inline T w() const { return v[3]; }
 
-        template<bool E = (N == 2), typename std::enable_if<E>::type* = nullptr>
-        T getAngle() const
+        template<size_t X = N, typename std::enable_if<(X == 2)>::type* = nullptr>
+        inline T getAngle() const
         {
             return atan2(v[1], v[0]);
         }
 
-        template<bool E = (N >= 3), typename std::enable_if<E>::type* = nullptr>
-        T getAngle(const Vector& axis) const
+        template<size_t X = N, typename std::enable_if<(X == 3)>::type* = nullptr>
+        inline T getAngle(const Vector& axis) const
         {
-            if (N == 3)
-            {
-                T dx = axis.v[0] - v[0] - v[1] * axis.v[2] + v[2] * axis.v[1];
-                T dy = axis.v[1] - v[1] - v[2] * axis.v[0] + v[0] * axis.v[2];
-                T dz = axis.v[2] - v[2] - v[0] * axis.v[1] + v[1] * axis.v[0];
+            T dx = axis.v[0] - v[0] - v[1] * axis.v[2] + v[2] * axis.v[1];
+            T dy = axis.v[1] - v[1] - v[2] * axis.v[0] + v[0] * axis.v[2];
+            T dz = axis.v[2] - v[2] - v[0] * axis.v[1] + v[1] * axis.v[0];
 
-                return atan2(sqrt(dx * dx + dy * dy + dz * dz), dot(axis));
-            }
-            else
-            {
-                T dx = v[3] * axis.v[0] - v[0] * axis.v[3] - v[1] * axis.v[2] + v[2] * axis.v[1];
-                T dy = v[3] * axis.v[1] - v[1] * axis.v[3] - v[2] * axis.v[0] + v[0] * axis.v[2];
-                T dz = v[3] * axis.v[2] - v[2] * axis.v[3] - v[0] * axis.v[1] + v[1] * axis.v[0];
+            return atan2(sqrt(dx * dx + dy * dy + dz * dz), dot(axis));
+        }
 
-                return atan2(sqrt(dx * dx + dy * dy + dz * dz), dot(axis));
-            }
+        template<size_t X = N, typename std::enable_if<(X == 4)>::type* = nullptr>
+        inline T getAngle(const Vector& axis) const
+        {
+            T dx = v[3] * axis.v[0] - v[0] * axis.v[3] - v[1] * axis.v[2] + v[2] * axis.v[1];
+            T dy = v[3] * axis.v[1] - v[1] * axis.v[3] - v[2] * axis.v[0] + v[0] * axis.v[2];
+            T dz = v[3] * axis.v[2] - v[2] * axis.v[3] - v[0] * axis.v[1] + v[1] * axis.v[0];
+
+            return atan2(sqrt(dx * dx + dy * dy + dz * dz), dot(axis));
         }
 
         void clamp(const Vector& min, const Vector& max)
@@ -98,7 +97,7 @@ namespace ouzel
                 else if (v[i] > max.v[i]) v[i] = max.v[i];
         }
 
-        template<bool E = (N == 3), typename std::enable_if<E>::type* = nullptr>
+        template<size_t X = N, typename std::enable_if<(X == 3)>::type* = nullptr>
         Vector cross(const Vector& vec) const
         {
             return Vector((v[1] * vec.v[2]) - (v[2] * vec.v[1]),
