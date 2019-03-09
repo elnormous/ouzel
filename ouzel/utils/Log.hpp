@@ -108,8 +108,8 @@ namespace ouzel
             static constexpr const char* digits = "0123456789ABCDEF";
 
             std::string str(sizeof(val) * 2, '0');
-            for (size_t i = 0; i < (sizeof(val) - 1) * 2; ++i)
-                str[i] = digits[(reinterpret_cast<uintptr_t>(val) >> ((sizeof(val) - 1) * 2 - i) * 4) & 0x0f];
+            for (size_t i = 0; i < sizeof(val) * 2; ++i)
+                str[i] = digits[(reinterpret_cast<uintptr_t>(val) >> (sizeof(val) * 2 - i - 1) * 4) & 0x0f];
 
             s += str;
             return *this;
