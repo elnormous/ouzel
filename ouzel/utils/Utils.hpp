@@ -75,7 +75,7 @@ namespace ouzel
         }
 
         std::string result(len, '0');
-        for (size_t i = 0, j = (len - 1) * 4 ; i < len; ++i, j -= 4)
+        for (size_t i = 0, j = (len - 1) * 4; i < len; ++i, j -= 4)
             result[i] = digits[(n >> j) & 0x0f];
 
         return result;
