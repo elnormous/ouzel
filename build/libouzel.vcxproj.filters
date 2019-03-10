@@ -418,6 +418,9 @@
     <ClCompile Include="..\ouzel\graphics\GraphicsResource.cpp">
       <Filter>ouzel\graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\audio\Cue.cpp">
+      <Filter>ouzel\audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\scene\Animator.hpp">
@@ -947,6 +950,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\opengl\OGL.h">
       <Filter>ouzel\graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\Cue.hpp">
+      <Filter>ouzel\audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
