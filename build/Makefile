@@ -64,6 +64,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/assets/BmfLoader.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Audio.cpp \
 	$(ROOT_DIR)/../ouzel/audio/AudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Containers.cpp \
+	$(ROOT_DIR)/../ouzel/audio/Cue.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Effect.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Effects.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Listener.cpp \

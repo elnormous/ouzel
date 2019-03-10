@@ -20,6 +20,7 @@
 #include "audio/Audio.hpp"
 #include "audio/Channel.hpp"
 #include "audio/Containers.hpp"
+#include "audio/Cue.hpp"
 #include "audio/Driver.hpp"
 #include "audio/Effect.hpp"
 #include "audio/Effects.hpp"
