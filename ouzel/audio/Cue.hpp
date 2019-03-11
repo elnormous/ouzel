@@ -3,13 +3,16 @@
 #ifndef OUZEL_AUDIO_CUE_HPP
 #define OUZEL_AUDIO_CUE_HPP
 
+#include "audio/Sound.hpp"
+
 namespace ouzel
 {
     namespace audio
     {
-        class Cue
+        class Cue: public Sound
         {
         public:
+            Cue(Audio& initAudio);
         };
     } // namespace audio
 } // namespace ouzel
