@@ -17,6 +17,11 @@ namespace ouzel
 
             };
 
+            class Parallel: public Node
+            {
+
+            };
+
             class Random: public Node
             {
 

@@ -815,12 +815,6 @@
 		30FE38511DFDE49E00305B3B /* Quaternion.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30FE384D1DFDE49E00305B3B /* Quaternion.hpp */; };
 		30FE38521DFDE49E00305B3B /* Quaternion.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30FE384D1DFDE49E00305B3B /* Quaternion.hpp */; };
 		30FE38531DFDE49E00305B3B /* Quaternion.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30FE384D1DFDE49E00305B3B /* Quaternion.hpp */; };
-		30FF4D2F21C33B4900153FFF /* Containers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30FF4D2D21C33B4900153FFF /* Containers.cpp */; };
-		30FF4D3021C33B4900153FFF /* Containers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30FF4D2D21C33B4900153FFF /* Containers.cpp */; };
-		30FF4D3121C33B4900153FFF /* Containers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30FF4D2D21C33B4900153FFF /* Containers.cpp */; };
-		30FF4D3221C33B4900153FFF /* Containers.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30FF4D2E21C33B4900153FFF /* Containers.hpp */; };
-		30FF4D3321C33B4900153FFF /* Containers.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30FF4D2E21C33B4900153FFF /* Containers.hpp */; };
-		30FF4D3421C33B4A00153FFF /* Containers.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30FF4D2E21C33B4900153FFF /* Containers.hpp */; };
 		30FF4D4F21C48DB600153FFF /* Effects.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30FF4D4D21C48DB400153FFF /* Effects.hpp */; };
 		30FF4D5021C48DB600153FFF /* Effects.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30FF4D4D21C48DB400153FFF /* Effects.hpp */; };
 		30FF4D5121C48DB600153FFF /* Effects.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30FF4D4D21C48DB400153FFF /* Effects.hpp */; };
@@ -1228,8 +1222,6 @@
 		30EF36621CA845DC00F04F29 /* ComboBox.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ComboBox.hpp; sourceTree = "<group>"; };
 		30F249ED20A7681E0007D417 /* Commands.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Commands.hpp; sourceTree = "<group>"; };
 		30FE384D1DFDE49E00305B3B /* Quaternion.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Quaternion.hpp; sourceTree = "<group>"; };
-		30FF4D2D21C33B4900153FFF /* Containers.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Containers.cpp; sourceTree = "<group>"; };
-		30FF4D2E21C33B4900153FFF /* Containers.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Containers.hpp; sourceTree = "<group>"; };
 		30FF4D4D21C48DB400153FFF /* Effects.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Effects.hpp; sourceTree = "<group>"; };
 		30FF4D4E21C48DB500153FFF /* Effects.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Effects.cpp; sourceTree = "<group>"; };
 		30FFBE312158FB3F004B0BD3 /* Touchpad.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Touchpad.cpp; sourceTree = "<group>"; };
@@ -1650,8 +1642,6 @@
 				30C758AB1F4A0196008499DC /* AudioDevice.cpp */,
 				30C758AC1F4A0196008499DC /* AudioDevice.hpp */,
 				30BA5FB72198E43A0032AC23 /* Channel.hpp */,
-				30FF4D2D21C33B4900153FFF /* Containers.cpp */,
-				30FF4D2E21C33B4900153FFF /* Containers.hpp */,
 				309BA3101F183D3D006F2240 /* coreaudio */,
 				302320202234BB5F007E0AAD /* Cue.cpp */,
 				302320212234BB5F007E0AAD /* Cue.hpp */,
@@ -1997,7 +1987,6 @@
 				302B728721BDE302006EBC59 /* SilenceSound.hpp in Headers */,
 				304AA8C11E1190E4006FA70E /* Obf.hpp in Headers */,
 				30381F521D80A3EC00677CAB /* OGLBlendState.hpp in Headers */,
-				30FF4D3221C33B4900153FFF /* Containers.hpp in Headers */,
 				30A3820121B382A20043568A /* Mixer.hpp in Headers */,
 				30575AAA1C39D1FF0009C8A7 /* Layer.hpp in Headers */,
 				30EABD8122028862001C70A6 /* GraphicsResource.hpp in Headers */,
@@ -2136,7 +2125,6 @@
 				301EB3AF1CCD77F600466E92 /* TextRenderer.hpp in Headers */,
 				30419DF61D162BEF00A63759 /* Sound.hpp in Headers */,
 				303B04C51E207B7800011CBE /* OGLRenderDeviceTVOS.hpp in Headers */,
-				30FF4D3421C33B4A00153FFF /* Containers.hpp in Headers */,
 				30519CED1F9B53F500AF3DC4 /* MtlLoader.hpp in Headers */,
 				30381F541D80A3EC00677CAB /* OGLBlendState.hpp in Headers */,
 				303B04C31E207B7800011CBE /* OpenGLView.h in Headers */,
@@ -2306,7 +2294,6 @@
 				304A8E751C237C70008B1151 /* Vector.hpp in Headers */,
 				30519CEC1F9B53F500AF3DC4 /* MtlLoader.hpp in Headers */,
 				3049DCE81EDCD1FA0000997A /* CursorMacOS.hpp in Headers */,
-				30FF4D3321C33B4900153FFF /* Containers.hpp in Headers */,
 				30EF36561CA76AE200F04F29 /* ScrollBar.hpp in Headers */,
 				30216B671ED462B80073E3D5 /* StaticMeshRenderer.hpp in Headers */,
 				300862D42154712E00D8CC45 /* InputSystemMacOS.hpp in Headers */,
@@ -2655,7 +2642,6 @@
 				30575AC61C3B17540009C8A7 /* Button.cpp in Sources */,
 				30A3821821B4BDC80043568A /* Submix.cpp in Sources */,
 				3009030E21922E1300B00BF4 /* OGLDepthStencilState.cpp in Sources */,
-				30FF4D2F21C33B4900153FFF /* Containers.cpp in Sources */,
 				30C3F286219D0847003FE9ED /* Effect.cpp in Sources */,
 				303821451D81876E00677CAB /* EmptyRenderDevice.cpp in Sources */,
 				303B753D1C2A3C8E00FEDE92 /* FileSystem.cpp in Sources */,
@@ -2800,7 +2786,6 @@
 				3009031021922E1300B00BF4 /* OGLDepthStencilState.cpp in Sources */,
 				30A3821A21B4BDC80043568A /* Submix.cpp in Sources */,
 				30C3F288219D0847003FE9ED /* Effect.cpp in Sources */,
-				30FF4D3121C33B4900153FFF /* Containers.cpp in Sources */,
 				303B76441C355A3B00FEDE92 /* FileSystem.cpp in Sources */,
 				30FFBE392158FD8D004B0BD3 /* Keyboard.cpp in Sources */,
 				303B04C61E207B7800011CBE /* OGLRenderDeviceTVOS.mm in Sources */,
@@ -3006,7 +2991,6 @@
 				302261821FDB8C59005279FC /* ColladaLoader.cpp in Sources */,
 				30381F7A1D80A3EC00677CAB /* OGLRenderDevice.cpp in Sources */,
 				30419DE11D162BCF00A63759 /* Audio.cpp in Sources */,
-				30FF4D3021C33B4900153FFF /* Containers.cpp in Sources */,
 				304A8E661C237C70008B1151 /* SceneManager.cpp in Sources */,
 				30B859951F3D2F3200A16952 /* Font.cpp in Sources */,
 				30381F861D80A3EC00677CAB /* OGLShader.cpp in Sources */,
