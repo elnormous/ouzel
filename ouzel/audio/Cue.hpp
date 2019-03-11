@@ -12,6 +12,31 @@ namespace ouzel
         class Cue: public Sound
         {
         public:
+            class Node
+            {
+
+            };
+
+            class Random: public Node
+            {
+
+            };
+
+            class Repeat: public Node
+            {
+
+            };
+
+            class Sequence: public Node
+            {
+
+            };
+
+            class SoundPlayer: public Node
+            {
+
+            };
+
             Cue(Audio& initAudio);
         };
     } // namespace audio
