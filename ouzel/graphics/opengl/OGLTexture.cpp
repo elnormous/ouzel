@@ -230,6 +230,20 @@ namespace ouzel
             }
         }
 
+        static GLenum getCubeFace(Texture::CubeFace face)
+        {
+            switch (face)
+            {
+                case Texture::CubeFace::POSITIVE_X: return GL_TEXTURE_CUBE_MAP_POSITIVE_X;
+                case Texture::CubeFace::NEGATIVE_X: return GL_TEXTURE_CUBE_MAP_NEGATIVE_X;
+                case Texture::CubeFace::POSITIVE_Y: return GL_TEXTURE_CUBE_MAP_POSITIVE_Y;
+                case Texture::CubeFace::NEGATIVE_Y: return GL_TEXTURE_CUBE_MAP_NEGATIVE_Y;
+                case Texture::CubeFace::POSITIVE_Z: return GL_TEXTURE_CUBE_MAP_POSITIVE_Z;
+                case Texture::CubeFace::NEGATIVE_Z: return GL_TEXTURE_CUBE_MAP_NEGATIVE_Z;
+                default: throw std::runtime_error("Invalid cube face");
+            }
+        }
+
         OGLTexture::OGLTexture(OGLRenderDevice& renderDeviceOGL,
                                const std::vector<Texture::Level>& initLevels,
                                Texture::Dimensions dimensions,

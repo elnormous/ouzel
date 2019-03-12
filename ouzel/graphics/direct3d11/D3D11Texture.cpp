@@ -74,6 +74,20 @@ namespace ouzel
             }
         }
 
+        static D3DCUBEMAP_FACES getCubeFace(Texture::CubeFace face)
+        {
+            switch (face)
+            {
+                case Texture::CubeFace::POSITIVE_X: return D3DCUBEMAP_FACE_POSITIVE_X;
+                case Texture::CubeFace::NEGATIVE_X: return D3DCUBEMAP_FACE_NEGATIVE_X;
+                case Texture::CubeFace::POSITIVE_Y: return D3DCUBEMAP_FACE_POSITIVE_Y;
+                case Texture::CubeFace::NEGATIVE_Y: return D3DCUBEMAP_FACE_NEGATIVE_Y;
+                case Texture::CubeFace::POSITIVE_Z: return D3DCUBEMAP_FACE_POSITIVE_Z;
+                case Texture::CubeFace::NEGATIVE_Z: return D3DCUBEMAP_FACE_NEGATIVE_Z;
+                default: throw std::runtime_error("Invalid cube face");
+            }
+        }
+
         D3D11Texture::D3D11Texture(D3D11RenderDevice& renderDeviceD3D11,
                                    const std::vector<Texture::Level>& levels,
                                    Texture::Dimensions dimensions,

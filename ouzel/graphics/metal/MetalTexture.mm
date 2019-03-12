@@ -75,6 +75,20 @@ namespace ouzel
             }
         }
 
+        static NSUInteger getCubeFace(Texture::CubeFace face)
+        {
+            switch (face)
+            {
+                case Texture::CubeFace::POSITIVE_X: return 0;
+                case Texture::CubeFace::NEGATIVE_X: return 1;
+                case Texture::CubeFace::POSITIVE_Y: return 2;
+                case Texture::CubeFace::NEGATIVE_Y: return 3;
+                case Texture::CubeFace::POSITIVE_Z: return 4;
+                case Texture::CubeFace::NEGATIVE_Z: return 5;
+                default: throw std::runtime_error("Invalid cube face");
+            }
+        }
+
         MetalTexture::MetalTexture(MetalRenderDevice& renderDeviceMetal,
                                    const std::vector<Texture::Level>& levels,
                                    Texture::Dimensions dimensions,
