@@ -511,8 +511,19 @@ namespace ouzel
             {
             }
 
+            SetTextureDataCommand(uintptr_t initTexture,
+                                  const std::vector<Texture::Level>& initLevels,
+                                  Texture::CubeFace initFace):
+                Command(Command::Type::SET_TEXTURE_DATA),
+                texture(initTexture),
+                levels(initLevels),
+                face(initFace)
+            {
+            }
+
             uintptr_t texture;
             std::vector<Texture::Level> levels;
+            Texture::CubeFace face;
         };
 
         class SetTextureParametersCommand final: public Command
