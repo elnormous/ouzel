@@ -45,7 +45,7 @@
     <ClCompile Include="..\ouzel\audio\Voice.cpp" />
     <ClCompile Include="..\ouzel\audio\SilenceSound.cpp" />
     <ClCompile Include="..\ouzel\audio\Sound.cpp" />
-    <ClCompile Include="..\ouzel\audio\OscillatorSound.cpp" />
+    <ClCompile Include="..\ouzel\audio\Oscillator.cpp" />
     <ClCompile Include="..\ouzel\audio\VorbisSound.cpp" />
     <ClCompile Include="..\ouzel\audio\PcmSound.cpp" />
     <ClCompile Include="..\ouzel\audio\Mix.cpp" />
@@ -201,7 +201,7 @@
     <ClInclude Include="..\ouzel\audio\Voice.hpp" />
     <ClInclude Include="..\ouzel\audio\SilenceSound.hpp" />
     <ClInclude Include="..\ouzel\audio\Sound.hpp" />
-    <ClInclude Include="..\ouzel\audio\OscillatorSound.hpp" />
+    <ClInclude Include="..\ouzel\audio\Oscillator.hpp" />
     <ClInclude Include="..\ouzel\audio\VorbisSound.hpp" />
     <ClInclude Include="..\ouzel\audio\PcmSound.hpp" />
     <ClInclude Include="..\ouzel\audio\Mix.hpp" />

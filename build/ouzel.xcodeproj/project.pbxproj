@@ -850,12 +850,12 @@
 		C6C9101D21B54B5B00B5FCB7 /* Source.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9101921B54B5B00B5FCB7 /* Source.hpp */; };
 		C6C9101E21B54B5B00B5FCB7 /* Source.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9101921B54B5B00B5FCB7 /* Source.hpp */; };
 		C6C9101F21B54B5B00B5FCB7 /* Source.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9101921B54B5B00B5FCB7 /* Source.hpp */; };
-		C6C9102A21B54EE000B5FCB7 /* OscillatorSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C9102821B54EE000B5FCB7 /* OscillatorSound.cpp */; };
-		C6C9102B21B54EE000B5FCB7 /* OscillatorSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C9102821B54EE000B5FCB7 /* OscillatorSound.cpp */; };
-		C6C9102C21B54EE000B5FCB7 /* OscillatorSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C9102821B54EE000B5FCB7 /* OscillatorSound.cpp */; };
-		C6C9102D21B54EE000B5FCB7 /* OscillatorSound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9102921B54EE000B5FCB7 /* OscillatorSound.hpp */; };
-		C6C9102E21B54EE000B5FCB7 /* OscillatorSound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9102921B54EE000B5FCB7 /* OscillatorSound.hpp */; };
-		C6C9102F21B54EE000B5FCB7 /* OscillatorSound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9102921B54EE000B5FCB7 /* OscillatorSound.hpp */; };
+		C6C9102A21B54EE000B5FCB7 /* Oscillator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C9102821B54EE000B5FCB7 /* Oscillator.cpp */; };
+		C6C9102B21B54EE000B5FCB7 /* Oscillator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C9102821B54EE000B5FCB7 /* Oscillator.cpp */; };
+		C6C9102C21B54EE000B5FCB7 /* Oscillator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C9102821B54EE000B5FCB7 /* Oscillator.cpp */; };
+		C6C9102D21B54EE000B5FCB7 /* Oscillator.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9102921B54EE000B5FCB7 /* Oscillator.hpp */; };
+		C6C9102E21B54EE000B5FCB7 /* Oscillator.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9102921B54EE000B5FCB7 /* Oscillator.hpp */; };
+		C6C9102F21B54EE000B5FCB7 /* Oscillator.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9102921B54EE000B5FCB7 /* Oscillator.hpp */; };
 		C6C9103921B572C100B5FCB7 /* Processor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C9103821B572C100B5FCB7 /* Processor.cpp */; };
 		C6C9103A21B572C100B5FCB7 /* Processor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C9103821B572C100B5FCB7 /* Processor.cpp */; };
 		C6C9103B21B572C100B5FCB7 /* Processor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C9103821B572C100B5FCB7 /* Processor.cpp */; };
@@ -1238,8 +1238,8 @@
 		C6C9100E21B54A9600B5FCB7 /* Stream.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Stream.hpp; sourceTree = "<group>"; };
 		C6C9101821B54B5B00B5FCB7 /* Source.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Source.cpp; sourceTree = "<group>"; };
 		C6C9101921B54B5B00B5FCB7 /* Source.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Source.hpp; sourceTree = "<group>"; };
-		C6C9102821B54EE000B5FCB7 /* OscillatorSound.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OscillatorSound.cpp; sourceTree = "<group>"; };
-		C6C9102921B54EE000B5FCB7 /* OscillatorSound.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = OscillatorSound.hpp; sourceTree = "<group>"; };
+		C6C9102821B54EE000B5FCB7 /* Oscillator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Oscillator.cpp; sourceTree = "<group>"; };
+		C6C9102921B54EE000B5FCB7 /* Oscillator.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Oscillator.hpp; sourceTree = "<group>"; };
 		C6C9103821B572C100B5FCB7 /* Processor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Processor.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1657,8 +1657,8 @@
 				30A3820F21B4BDBC0043568A /* Mix.hpp */,
 				C6C9101621B54AD600B5FCB7 /* mixer */,
 				30419E6C1D20254100A63759 /* openal */,
-				C6C9102821B54EE000B5FCB7 /* OscillatorSound.cpp */,
-				C6C9102921B54EE000B5FCB7 /* OscillatorSound.hpp */,
+				C6C9102821B54EE000B5FCB7 /* Oscillator.cpp */,
+				C6C9102921B54EE000B5FCB7 /* Oscillator.hpp */,
 				300C39EC1E51355000330E4F /* PcmSound.cpp */,
 				300C39EB1E51355000330E4F /* PcmSound.hpp */,
 				30BA5FB62198E37A0032AC23 /* SampleFormat.hpp */,
@@ -2029,7 +2029,7 @@
 				30A3821B21B4BDC80043568A /* Submix.hpp in Headers */,
 				C6C9101221B54A9600B5FCB7 /* Stream.hpp in Headers */,
 				303696EF1E32DE08007F4211 /* Shader.hpp in Headers */,
-				C6C9102D21B54EE000B5FCB7 /* OscillatorSound.hpp in Headers */,
+				C6C9102D21B54EE000B5FCB7 /* Oscillator.hpp in Headers */,
 				3072370D1FAFDAB8002EA399 /* Json.hpp in Headers */,
 				305B99951C41F06F008589E1 /* Widget.hpp in Headers */,
 				30C758B01F4A0196008499DC /* AudioDevice.hpp in Headers */,
@@ -2162,7 +2162,7 @@
 				30575ACA1C3B17540009C8A7 /* Button.hpp in Headers */,
 				30AEFA3120C0FD6000CDFD33 /* OGLRenderTarget.hpp in Headers */,
 				30090303219224B100B00BF4 /* DepthStencilState.hpp in Headers */,
-				C6C9102F21B54EE000B5FCB7 /* OscillatorSound.hpp in Headers */,
+				C6C9102F21B54EE000B5FCB7 /* Oscillator.hpp in Headers */,
 				303B76641C355A3B00FEDE92 /* SceneManager.hpp in Headers */,
 				3047F7431C4C344A00774E3D /* Animator.hpp in Headers */,
 				30575AC11C39D9850009C8A7 /* ActorContainer.hpp in Headers */,
@@ -2344,7 +2344,7 @@
 				30519CD41F9B53CB00AF3DC4 /* ImageLoader.hpp in Headers */,
 				30419DE41D162BCF00A63759 /* Audio.hpp in Headers */,
 				C6C9101E21B54B5B00B5FCB7 /* Source.hpp in Headers */,
-				C6C9102E21B54EE000B5FCB7 /* OscillatorSound.hpp in Headers */,
+				C6C9102E21B54EE000B5FCB7 /* Oscillator.hpp in Headers */,
 				C6AC8A8D215BD7D500F14D75 /* MouseDeviceMacOS.hpp in Headers */,
 				30575AA11C39CB790009C8A7 /* Scene.hpp in Headers */,
 				302B728821BDE302006EBC59 /* SilenceSound.hpp in Headers */,
@@ -2678,7 +2678,7 @@
 				303820001D80A40700677CAB /* MetalRenderDevice.mm in Sources */,
 				30575ACE1C3B175D0009C8A7 /* Label.cpp in Sources */,
 				303B755F1C2A3CBF00FEDE92 /* Camera.cpp in Sources */,
-				C6C9102A21B54EE000B5FCB7 /* OscillatorSound.cpp in Sources */,
+				C6C9102A21B54EE000B5FCB7 /* Oscillator.cpp in Sources */,
 				30B546551D90575B00E45DB6 /* RadioButtonGroup.cpp in Sources */,
 				30C758BC1F4A2227008499DC /* DisplayLink.mm in Sources */,
 				30DADE9D1C5167BC001A63B4 /* Cache.cpp in Sources */,
@@ -2821,7 +2821,7 @@
 				30A9C1331CAE80570084C4BF /* Localization.cpp in Sources */,
 				30575ACF1C3B175D0009C8A7 /* Label.cpp in Sources */,
 				303B764C1C355A3B00FEDE92 /* Camera.cpp in Sources */,
-				C6C9102C21B54EE000B5FCB7 /* OscillatorSound.cpp in Sources */,
+				C6C9102C21B54EE000B5FCB7 /* Oscillator.cpp in Sources */,
 				303B764D1C355A3B00FEDE92 /* Matrix.cpp in Sources */,
 				30B546571D90575B00E45DB6 /* RadioButtonGroup.cpp in Sources */,
 				30DADE9E1C5167BC001A63B4 /* Cache.cpp in Sources */,
@@ -2882,7 +2882,7 @@
 				30A883651E7432DA004A033F /* Archive.cpp in Sources */,
 				30A9C13A1CAEBA540084C4BF /* Language.cpp in Sources */,
 				C6C9101021B54A9600B5FCB7 /* Stream.cpp in Sources */,
-				C6C9102B21B54EE000B5FCB7 /* OscillatorSound.cpp in Sources */,
+				C6C9102B21B54EE000B5FCB7 /* Oscillator.cpp in Sources */,
 				C6C9101B21B54B5B00B5FCB7 /* Source.cpp in Sources */,
 				30419DE91D162BDC00A63759 /* Voice.cpp in Sources */,
 				302B728521BDE302006EBC59 /* SilenceSound.cpp in Sources */,

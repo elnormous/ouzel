@@ -1,6 +1,6 @@
 // Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
-#include "OscillatorSound.hpp"
+#include "Oscillator.hpp"
 #include "Audio.hpp"
 #include "mixer/Stream.hpp"
 #include "mixer/Source.hpp"
@@ -31,7 +31,7 @@ namespace ouzel
         class OscillatorData final: public mixer::Source
         {
         public:
-            OscillatorData(float initFrequency, OscillatorSound::Type initType, float initAmplitude, float initLength):
+            OscillatorData(float initFrequency, Oscillator::Type initType, float initAmplitude, float initLength):
                 frequency(initFrequency),
                 type(initType),
                 amplitude(initAmplitude),
@@ -42,7 +42,7 @@ namespace ouzel
             }
 
             float getFrequency() const { return frequency; }
-            OscillatorSound::Type getType() const { return type; }
+            Oscillator::Type getType() const { return type; }
             float getAmplitude() const { return amplitude; }
             float getLength() const { return length; }
 
@@ -53,7 +53,7 @@ namespace ouzel
 
         private:
             float frequency;
-            OscillatorSound::Type type;
+            Oscillator::Type type;
             float amplitude;
             float length;
         };
@@ -63,7 +63,7 @@ namespace ouzel
         {
         }
 
-        static void generateWave(OscillatorSound::Type type, uint32_t frames, uint32_t offset,
+        static void generateWave(Oscillator::Type type, uint32_t frames, uint32_t offset,
                                  float frameLength, float amplitude, float* samples)
         {
             for (uint32_t i = 0; i < frames; ++i)
@@ -72,16 +72,16 @@ namespace ouzel
 
                 switch (type)
                 {
-                    case OscillatorSound::Type::SINE:
+                    case Oscillator::Type::SINE:
                         samples[i] = sinf(t * tau<float>());
                         break;
-                    case OscillatorSound::Type::SQUARE:
+                    case Oscillator::Type::SQUARE:
                         samples[i] = fmodf(roundf(t * 2.0F + 0.5F), 2.0F) * 2.0F - 1.0F;
                         break;
-                    case OscillatorSound::Type::SAWTOOTH:
+                    case Oscillator::Type::SAWTOOTH:
                         samples[i] = fmodf(t + 0.5F, 1.0F) * 2.0F - 1.0F;
                         break;
-                    case OscillatorSound::Type::TRIANGLE:
+                    case Oscillator::Type::TRIANGLE:
                         samples[i] = fabsf(fmodf(t + 0.75F, 1.0F) * 2.0F - 1.0F) * 2.0F - 1.0F;
                         break;
                 }
@@ -153,8 +153,8 @@ namespace ouzel
             }
         }
 
-        OscillatorSound::OscillatorSound(Audio& initAudio, float initFrequency,
-                                         Type initType, float initAmplitude, float initLength):
+        Oscillator::Oscillator(Audio& initAudio, float initFrequency,
+                               Type initType, float initAmplitude, float initLength):
             Sound(initAudio, initAudio.initSource([initFrequency, initType, initAmplitude, initLength](){
                 return std::unique_ptr<mixer::Source>(new OscillatorData(initFrequency, initType, initAmplitude, initLength));
             })),
