@@ -30,6 +30,15 @@ namespace ouzel
 
             void setMix(Mix* newMix);
 
+            const Vector3F& getPosition() const { return position; }
+            void setPosition(const Vector3F& newPosition) { position = newPosition; }
+
+            const Vector3F& getVelocity() const { return velocity; }
+            void setVelocity(const Vector3F& newVelocity) { velocity = newVelocity; }
+
+            const QuaternionF& getRotation() const { return rotation; }
+            void setRotation(const QuaternionF& newRotation) { rotation = newRotation; }
+
         private:
             void updateTransform() override;
 
@@ -37,6 +46,7 @@ namespace ouzel
 
             Mix* mix = nullptr;
             Vector3F position;
+            Vector3F velocity;
             QuaternionF rotation;
             bool transformDirty = true;
         };

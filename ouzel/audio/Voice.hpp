@@ -31,6 +31,9 @@ namespace ouzel
             const Vector3F& getPosition() const { return position; }
             void setPosition(const Vector3F& newPosition) { position = newPosition; }
 
+            const Vector3F& getVelocity() const { return velocity; }
+            void setVelocity(const Vector3F& newVelocity) { velocity = newVelocity; }
+
             void play(bool repeat = false);
             void pause();
             void stop();
@@ -46,6 +49,7 @@ namespace ouzel
 
             std::shared_ptr<Sound> sound;
             Vector3F position;
+            Vector3F velocity;
 
             bool playing = false;
             bool repeating = false;
