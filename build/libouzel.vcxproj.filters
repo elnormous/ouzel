@@ -400,7 +400,7 @@
     <ClCompile Include="..\ouzel\audio\mixer\Mixer.cpp">
       <Filter>ouzel\audio\mixer</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\OscillatorSound.cpp">
+    <ClCompile Include="..\ouzel\audio\Oscillator.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\audio\mixer\Bus.cpp">
@@ -927,7 +927,7 @@
     <ClInclude Include="..\ouzel\audio\mixer\Mixer.hpp">
       <Filter>ouzel\audio\mixer</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\OscillatorSound.hpp">
+    <ClInclude Include="..\ouzel\audio\Oscillator.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\mixer\Bus.hpp">

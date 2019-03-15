@@ -579,6 +579,19 @@ namespace ouzel
                                                                                                       levels)));
         }
 
+        void Texture::setData(const std::vector<uint8_t>& newData, CubeFace face)
+        {
+            if (!(flags & Texture::DYNAMIC) || flags & Texture::BIND_RENDER_TARGET)
+                throw std::runtime_error("Texture is not dynamic");
+
+            std::vector<Level> levels = calculateSizes(size, newData, mipmaps, pixelFormat);
+
+            if (resource.getId())
+                resource.getRenderer()->addCommand(std::unique_ptr<Command>(new SetTextureDataCommand(resource.getId(),
+                                                                                                      levels,
+                                                                                                      face)));
+        }
+
         void Texture::setFilter(Filter newFilter)
         {
             filter = newFilter;

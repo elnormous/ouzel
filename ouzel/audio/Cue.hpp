@@ -3,6 +3,7 @@
 #ifndef OUZEL_AUDIO_CUE_HPP
 #define OUZEL_AUDIO_CUE_HPP
 
+#include <vector>
 #include "audio/Sound.hpp"
 
 namespace ouzel
@@ -14,7 +15,7 @@ namespace ouzel
         public:
             class Node
             {
-
+                std::vector<Node*> children;
             };
 
             class Parallel: public Node
@@ -43,6 +44,9 @@ namespace ouzel
             };
 
             Cue(Audio& initAudio);
+
+        private:
+            Node* firstNode = nullptr;
         };
     } // namespace audio
 } // namespace ouzel

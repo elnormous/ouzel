@@ -95,6 +95,7 @@ namespace ouzel
             inline const Size2U& getSize() const { return size; }
 
             void setData(const std::vector<uint8_t>& newData);
+            void setData(const std::vector<uint8_t>& newData, CubeFace face);
 
             inline uint32_t getFlags() const { return flags; }
             inline uint32_t getMipmaps() const { return mipmaps; }

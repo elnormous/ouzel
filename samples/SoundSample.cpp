@@ -23,7 +23,7 @@ SoundSample::SoundSample():
     jumpReverb(*engine->getAudio()),
     ambientVoice(*engine->getAudio(), engine->getCache().getSound("ambient.wav")),
     music(*engine->getAudio(), engine->getCache().getSound("music.ogg")),
-    tone(std::make_shared<OscillatorSound>(*engine->getAudio(), 200.0F, OscillatorSound::Type::SINE, 0.5F, 1.0F)),
+    tone(std::make_shared<Oscillator>(*engine->getAudio(), 200.0F, Oscillator::Type::SINE, 0.5F, 1.0F)),
     toneVoice(*engine->getAudio(), tone),
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
     test8BitButton("button.png", "button_selected.png", "button_down.png", "", "8-bit", "Arial", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
