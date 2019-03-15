@@ -1,17 +1,17 @@
 MAKEFILE_PATH:=$(abspath $(lastword $(MAKEFILE_LIST)))
 ROOT_DIR:=$(realpath $(dir $(MAKEFILE_PATH)))
 ifeq ($(OS),Windows_NT)
-platform=windows
+PLATFORM=windows
 else
 architecture=$(shell uname -m)
 os=$(shell uname -s)
 ifeq ($(os),Linux)
-platform=linux
+PLATFORM=linux
 else ifeq ($(os),Darwin)
-platform=macos
+PLATFORM=macos
 endif
 endif
-ifeq ($(platform),emscripten)
+ifeq ($(PLATFORM),emscripten)
 CC=emcc
 CXX=em++
 AR=emar
@@ -157,7 +157,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/assets/BmfLoader.cpp \
 	$(ROOT_DIR)/../ouzel/utils/Log.cpp \
 	$(ROOT_DIR)/../ouzel/utils/Obf.cpp \
 	$(ROOT_DIR)/../ouzel/utils/Utils.cpp
-ifeq ($(platform),windows)
+ifeq ($(PLATFORM),windows)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/dsound/DSAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/core/windows/EngineWin.cpp \
 	$(ROOT_DIR)/../ouzel/core/windows/main.cpp \
@@ -177,7 +177,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/dsound/DSAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/MouseDeviceWin.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/CursorWin.cpp
 CPPFLAGS+=-DWINVER=0x0601 -D_WIN32_WINNT=0x0601
-else ifeq ($(platform),linux)
+else ifeq ($(PLATFORM),linux)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/alsa/ALSAAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/audio/openal/OALAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/core/linux/EngineLinux.cpp \
@@ -191,10 +191,11 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/alsa/ALSAAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/MouseDeviceLinux.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/CursorLinux.cpp
 ifneq ($(filter arm%,$(architecture)),) # ARM Linux
-CFLAGS+=-I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux
-CXXFLAGS+=-I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux
+VC_DIR=/opt/vc
+CFLAGS+=-I$(VC_DIR)/include -I$(VC_DIR)/include/interface/vcos/pthreads -I$(VC_DIR)/include/interface/vmcs_host/linux
+CXXFLAGS+=-I$(VC_DIR)include -I$(VC_DIR)/include/interface/vcos/pthreads -I$(VC_DIR)/include/interface/vmcs_host/linux
 endif
-else ifeq ($(platform),macos)
+else ifeq ($(PLATFORM),macos)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/CAAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/audio/openal/OALAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/core/macos/EngineMacOS.mm \
@@ -218,7 +219,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/CAAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/input/macos/InputSystemMacOS.mm \
 	$(ROOT_DIR)/../ouzel/input/macos/MouseDeviceMacOS.mm \
 	$(ROOT_DIR)/../ouzel/input/macos/CursorMacOS.cpp
-else ifeq ($(platform),ios)
+else ifeq ($(PLATFORM),ios)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/CAAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/audio/openal/OALAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/core/ios/DisplayLink.mm \
@@ -244,7 +245,7 @@ CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -mip
 CXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
 OBJCFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
 OBJCXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
-else ifeq ($(platform),tvos)
+else ifeq ($(PLATFORM),tvos)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/CAAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/audio/openal/OALAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/core/tvos/DisplayLink.mm \
@@ -270,7 +271,7 @@ CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mt
 CXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
 OBJCFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
 OBJCXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
-else ifeq ($(platform),emscripten)
+else ifeq ($(PLATFORM),emscripten)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/OALAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/EngineEm.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/main.cpp \
@@ -289,7 +290,7 @@ LIBRARY=libouzel.a
 DEPENDENCIES=$(OBJECTS:.o=.d)
 
 .PHONY: all
-ifeq ($(debug),1)
+ifeq ($(DEBUG),1)
 all: CPPFLAGS+=-DDEBUG # C preprocessor flags
 all: CFLAGS+=-g # C flags
 all: CXXFLAGS+=-g # C++ flags
@@ -310,7 +311,7 @@ $(ROOT_DIR)/$(LIBRARY): $(OBJECTS)
 
 # The build config file
 $(ROOT_DIR)/../ouzel/Config.h:
-ifeq ($(platform),windows)
+ifeq ($(PLATFORM),windows)
 	if not exist $(ROOT_DIR)\..\ouzel\Config.h copy $(ROOT_DIR)\..\ouzel\DefaultConfig.h $(ROOT_DIR)\..\ouzel\Config.h
 else
 	if [ ! -f $(ROOT_DIR)/../ouzel/Config.h ]; then \
@@ -320,7 +321,7 @@ endif
 
 # Precompiled headers
 $(ROOT_DIR)/pch/cpp/Prefix.h: $(ROOT_DIR)/Prefix.pch
-ifeq ($(platform),windows)
+ifeq ($(PLATFORM),windows)
 	if not exist $(ROOT_DIR)\pch md $(ROOT_DIR)\pch
 	if not exist $(ROOT_DIR)\pch\cpp md $(ROOT_DIR)\pch\cpp
 	copy $(ROOT_DIR)\Prefix.pch $(ROOT_DIR)\pch\cpp\Prefix.h
@@ -330,7 +331,7 @@ else
 endif
 
 $(ROOT_DIR)/pch/objc/Prefix.h: $(ROOT_DIR)/Prefix.pch
-ifeq ($(platform),windows)
+ifeq ($(PLATFORM),windows)
 	if not exist $(ROOT_DIR)\pch md $(ROOT_DIR)\pch
 	if not exist $(ROOT_DIR)\pch\objc md $(ROOT_DIR)\pch\objc
 	copy $(ROOT_DIR)\Prefix.pch $(ROOT_DIR)\pch\objc\Prefix.h
@@ -340,7 +341,7 @@ else
 endif
 
 $(ROOT_DIR)/pch/objcpp/Prefix.h: $(ROOT_DIR)/Prefix.pch
-ifeq ($(platform),windows)
+ifeq ($(PLATFORM),windows)
 	if not exist $(ROOT_DIR)\pch md $(ROOT_DIR)\pch
 	if not exist $(ROOT_DIR)\pch\objcpp md $(ROOT_DIR)\pch\objcpp
 	copy $(ROOT_DIR)\Prefix.pch $(ROOT_DIR)\pch\objcpp\Prefix.h
@@ -370,7 +371,7 @@ $(ROOT_DIR)/pch/objcpp/Prefix.h.gch: $(ROOT_DIR)/pch/objcpp/Prefix.h
 
 .PHONY: clean
 clean:
-ifeq ($(platform),windows)
+ifeq ($(PLATFORM),windows)
 	-del /f /q "$(ROOT_DIR)\$(LIBRARY)"
 	-rmdir /s $(ROOT_DIR)\pch
 	-del /s "$(ROOT_DIR)\..\*.o"

@@ -1,32 +1,33 @@
 MAKEFILE_PATH:=$(abspath $(lastword $(MAKEFILE_LIST)))
 ROOT_DIR:=$(realpath $(dir $(MAKEFILE_PATH)))
-debug=0
+DEBUG=0
 ifeq ($(OS),Windows_NT)
-	platform=windows
+	PLATFORM=windows
 else
 architecture=$(shell uname -m)
 os=$(shell uname -s)
 ifeq ($(os),Linux)
-platform=linux
+PLATFORM=linux
 else ifeq ($(os),Darwin)
-platform=macos
+PLATFORM=macos
 endif
 endif
-ifeq ($(platform),emscripten)
+ifeq ($(PLATFORM),emscripten)
 CC=emcc
 CXX=em++
 endif
 CXXFLAGS=-c -std=c++11 -Wall -O2 -I$(ROOT_DIR)/../ouzel
 LDFLAGS=-O2 -L$(ROOT_DIR)/../build -louzel
-ifeq ($(platform),windows)
+ifeq ($(PLATFORM),windows)
 LDFLAGS+=-u WinMain -ld3d11 -lopengl32 -ldxguid -lxinput9_1_0 -lshlwapi -ldinput8 -luser32 -lgdi32 -lshell32 -lole32 -loleaut32 -ldsound -luuid -lws2_32
-else ifeq ($(platform),linux)
+else ifeq ($(PLATFORM),linux)
 ifneq ($(filter arm%,$(architecture)),) # ARM Linux
-LDFLAGS+=-L/opt/vc/lib -lbrcmGLESv2 -lbrcmEGL -lbcm_host -lopenal -lpthread -lasound -ldl
+VC_DIR=/opt/vc
+LDFLAGS+=-L$(VC_DIR)/lib -lbrcmGLESv2 -lbrcmEGL -lbcm_host -lopenal -lpthread -lasound -ldl
 else # X86 Linux
 LDFLAGS+=-lGL -lopenal -lpthread -lasound -lX11 -lXcursor -lXss -lXi -lXxf86vm
 endif
-else ifeq ($(platform),macos)
+else ifeq ($(PLATFORM),macos)
 LDFLAGS+=-framework AudioToolbox \
 	-framework AudioUnit \
 	-framework Cocoa \
@@ -38,7 +39,7 @@ LDFLAGS+=-framework AudioToolbox \
 	-framework OpenAL \
 	-framework OpenGL \
 	-framework QuartzCore
-else ifeq ($(platform),ios)
+else ifeq ($(PLATFORM),ios)
 CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
 CXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
 LDFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0 \
@@ -51,7 +52,7 @@ LDFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -mi
 	-framework OpenGLES \
 	-framework QuartzCore \
 	-framework UIKit
-else ifeq ($(platform),tvos)
+else ifeq ($(PLATFORM),tvos)
 CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
 CXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
 LDFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0 \
@@ -64,7 +65,7 @@ LDFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -m
 	-framework OpenGLES \
 	-framework QuartzCore \
 	-framework UIKit
-else ifeq ($(platform),emscripten)
+else ifeq ($(PLATFORM),emscripten)
 LDFLAGS+=-lopenal --embed-file settings.ini --embed-file Resources -s DISABLE_EXCEPTION_CATCHING=0 -s TOTAL_MEMORY=134217728
 endif
 SOURCES=$(ROOT_DIR)/AnimationsSample.cpp \
@@ -80,14 +81,14 @@ SOURCES=$(ROOT_DIR)/AnimationsSample.cpp \
 BASE_NAMES=$(basename $(SOURCES))
 OBJECTS=$(BASE_NAMES:=.o)
 DEPENDENCIES=$(OBJECTS:.o=.d)
-ifeq ($(platform),emscripten)
+ifeq ($(PLATFORM),emscripten)
 EXECUTABLE=samples.js
 else
 EXECUTABLE=samples
 endif
 
 .PHONY: all
-ifeq ($(debug),1)
+ifeq ($(DEBUG),1)
 all: CXXFLAGS+=-DDEBUG -g
 else
 all: CXXFLAGS+=-O3
@@ -96,7 +97,7 @@ all: bundle
 
 .PHONY: bundle
 bundle: $(ROOT_DIR)/$(EXECUTABLE)
-ifeq ($(platform),macos)
+ifeq ($(PLATFORM),macos)
 bundle:
 	mkdir -p $(ROOT_DIR)/$(EXECUTABLE).app
 	mkdir -p $(ROOT_DIR)/$(EXECUTABLE).app/Contents
@@ -117,7 +118,7 @@ bundle:
 		--platform macosx --compile $(ROOT_DIR)/$(EXECUTABLE).app/Contents/Resources $(ROOT_DIR)/macos/Assets.xcassets
 	plutil -replace CFBundleIconFile -string AppIcon $(ROOT_DIR)/$(EXECUTABLE).app/Contents/Info.plist
 	plutil -replace CFBundleIconName -string AppIcon $(ROOT_DIR)/$(EXECUTABLE).app/Contents/Info.plist
-else ifeq ($(platform),ios)
+else ifeq ($(PLATFORM),ios)
 	mkdir -p $(ROOT_DIR)/$(EXECUTABLE).app
 	sed -e s/'$$(EXECUTABLE_NAME)'/samples/ \
 		-e s/'$$(PRODUCT_BUNDLE_IDENTIFIER)'/lv.elviss.ouzel/ \
@@ -133,7 +134,7 @@ else ifeq ($(platform),ios)
 		--platform iphoneos --compile $(ROOT_DIR)/$(EXECUTABLE).app $(ROOT_DIR)/ios/Assets.xcassets
 	plutil -replace CFBundleIconFile -string AppIcon $(ROOT_DIR)/$(EXECUTABLE).app/Info.plist
 	plutil -replace CFBundleIconName -string AppIcon $(ROOT_DIR)/$(EXECUTABLE).app/Info.plist
-else ifeq ($(platform),tvos)
+else ifeq ($(PLATFORM),tvos)
 	mkdir -p $(ROOT_DIR)/$(EXECUTABLE).app
 	sed -e s/'$$(EXECUTABLE_NAME)'/samples/ \
 		-e s/'$$(PRODUCT_BUNDLE_IDENTIFIER)'/lv.elviss.ouzel/ \
@@ -161,12 +162,12 @@ $(ROOT_DIR)/$(EXECUTABLE): ouzel $(OBJECTS)
 
 .PHONY: ouzel
 ouzel:
-	$(MAKE) -f $(ROOT_DIR)/../build/Makefile debug=$(debug) platform=$(platform) $(target)
+	$(MAKE) -f $(ROOT_DIR)/../build/Makefile DEBUG=$(DEBUG) PLATFORM=$(PLATFORM) VC_DIR=$(VC_DIR) $(target)
 
 .PHONY: clean
 clean:
 	$(MAKE) -f $(ROOT_DIR)/../build/Makefile clean
-ifeq ($(platform),windows)
+ifeq ($(PLATFORM),windows)
 	-del /f /q "$(ROOT_DIR)\$(EXECUTABLE).exe" "$(ROOT_DIR)\*.o" "$(ROOT_DIR)\*.d" "$(ROOT_DIR)\*.js.mem" "$(ROOT_DIR)\*.js"
 else
 	$(RM) $(ROOT_DIR)/$(EXECUTABLE) $(ROOT_DIR)/*.o $(ROOT_DIR)/*.d $(ROOT_DIR)/*.js.mem $(ROOT_DIR)/*.js $(ROOT_DIR)/$(EXECUTABLE).exe $(ROOT_DIR)/assetcatalog_generated_info.plist $(ROOT_DIR)/assetcatalog_dependencies
