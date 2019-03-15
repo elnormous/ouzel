@@ -18,7 +18,7 @@ namespace ouzel
             inline const std::string& getValue() const { return value; }
             void setValue(const std::string& newValue);
 
-        protected:
+        private:
             std::string value;
         };
     } // namespace gui

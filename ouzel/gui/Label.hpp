@@ -27,7 +27,7 @@ namespace ouzel
 
             inline const std::shared_ptr<scene::TextRenderer>& getLabelDrawable() const { return labelDrawable; }
 
-        protected:
+        private:
             std::string text;
             std::shared_ptr<scene::TextRenderer> labelDrawable;
         };

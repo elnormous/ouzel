@@ -19,7 +19,7 @@ namespace ouzel
             void setChecked(bool newChecked);
             bool isChecked() const { return checked; }
 
-        protected:
+        private:
             bool pointerOver = false;
             bool pressed = false;
             bool checked = false;

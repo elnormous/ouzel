@@ -39,7 +39,7 @@ namespace ouzel
             inline scene::Sprite* getDisabledSprite() const { return disabledSprite.get(); }
             inline scene::TextRenderer* getLabelDrawable() const { return labelDrawable.get(); }
 
-        protected:
+        private:
             void setSelected(bool newSelected) override;
 
             bool handleUI(const UIEvent& event);
